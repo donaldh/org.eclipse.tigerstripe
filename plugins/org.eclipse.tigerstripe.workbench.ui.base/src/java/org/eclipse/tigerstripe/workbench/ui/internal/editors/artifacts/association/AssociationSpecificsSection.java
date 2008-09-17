@@ -10,7 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.association;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -32,8 +34,19 @@ import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationEnd;
+import org.eclipse.tigerstripe.workbench.internal.core.model.DatatypeArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.PrimitiveTypeArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Type;
+import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
@@ -52,7 +65,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 
 public class AssociationSpecificsSection extends ArtifactSectionPart {
-
+	
 	private boolean silentUpdate = false;
 
 	private class AssociationSpecificsSectionListener implements
@@ -177,6 +190,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		createContent();
 	}
 
+	
 	@Override
 	protected IAbstractArtifact getIArtifact() {
 		ArtifactEditorBase editor = (ArtifactEditorBase) getPage().getEditor();
@@ -860,7 +874,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 	protected String browseButtonPressed() {
 		BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(
 				getIArtifact().getTigerstripeProject(),
-				new IAbstractArtifact[0]);
+				AssociationEnd.getSuitableTypes());
 		dialog.setIncludePrimitiveTypes(false);
 		dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
 				IAssociationArtifactImpl.class.getName()).getLabel(null)

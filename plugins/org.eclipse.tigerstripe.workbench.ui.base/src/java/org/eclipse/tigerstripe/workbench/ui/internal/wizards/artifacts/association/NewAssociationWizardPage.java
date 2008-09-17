@@ -45,6 +45,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationEnd;
 import org.eclipse.tigerstripe.workbench.internal.core.model.DatatypeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
@@ -329,12 +330,7 @@ public class NewAssociationWizardPage extends NewArtifactWizardPage {
 		try {
 			BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(
 					getTSRuntimeContext().getProjectHandle(),
-					new IAbstractArtifact[] { ManagedEntityArtifact.MODEL,
-							DatatypeArtifact.MODEL, QueryArtifact.MODEL,
-							UpdateProcedureArtifact.MODEL,
-							SessionFacadeArtifact.MODEL,
-							ExceptionArtifact.MODEL, EventArtifact.MODEL,
-							EnumArtifact.MODEL, AssociationClassArtifact.MODEL });
+					AssociationEnd.getSuitableTypes());
 			dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
 					IAssociationArtifactImpl.class.getName()).getLabel(null) + " End Type");
 			dialog.setMessage("Select the type of the " + ArtifactMetadataFactory.INSTANCE.getMetadata(

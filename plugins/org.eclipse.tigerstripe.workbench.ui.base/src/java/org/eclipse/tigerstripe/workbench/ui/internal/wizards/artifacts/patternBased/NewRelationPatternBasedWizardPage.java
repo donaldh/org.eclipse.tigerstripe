@@ -43,10 +43,13 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.PackageArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForArtifactDialog;
@@ -316,20 +319,44 @@ public class NewRelationPatternBasedWizardPage extends
 		return type;
 	}
 	
+	private  IAbstractArtifact[]  suitableAssociationEndTypes = new IAbstractArtifact[] { 
+			ManagedEntityArtifact.MODEL,
+			DatatypeArtifact.MODEL, QueryArtifact.MODEL,
+			UpdateProcedureArtifact.MODEL,
+			SessionFacadeArtifact.MODEL,
+			ExceptionArtifact.MODEL,
+			EventArtifact.MODEL,
+			EnumArtifact.MODEL, 
+			AssociationClassArtifact.MODEL };
+	
+	private  IAbstractArtifact[]  suitableDependencyEndTypes = new IAbstractArtifact[] { 
+			PackageArtifact.MODEL,
+			ManagedEntityArtifact.MODEL,
+			DatatypeArtifact.MODEL, QueryArtifact.MODEL,
+			UpdateProcedureArtifact.MODEL,
+			SessionFacadeArtifact.MODEL,
+			ExceptionArtifact.MODEL,
+			EventArtifact.MODEL,
+			EnumArtifact.MODEL, 
+			AssociationClassArtifact.MODEL };
+	
 	/**
 	 * Choose the returned type through a dialog. 
 	 * @return
 	 */
 	private IType chooseReturnedType() {
 		try {
+			IAbstractArtifact[] suitableTypes;
+			if (((ArtifactPattern) pattern).getTargetArtifactType().equals(IAssociationArtifact.class.getName()) ||
+					((ArtifactPattern) pattern).getTargetArtifactType().equals(IAssociationClassArtifact.class.getName()) ){
+				suitableTypes = suitableAssociationEndTypes;
+			} else {
+				suitableTypes = suitableDependencyEndTypes;
+			}
+			
 			BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(
 					getTSRuntimeContext().getProjectHandle(),
-					new IAbstractArtifact[] { ManagedEntityArtifact.MODEL,
-							DatatypeArtifact.MODEL, QueryArtifact.MODEL,
-							UpdateProcedureArtifact.MODEL,
-							SessionFacadeArtifact.MODEL,
-							ExceptionArtifact.MODEL, EventArtifact.MODEL,
-							EnumArtifact.MODEL, AssociationClassArtifact.MODEL });
+					suitableTypes);
 			dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
 					IAssociationClassArtifactImpl.class.getName()).getLabel(
 					null)

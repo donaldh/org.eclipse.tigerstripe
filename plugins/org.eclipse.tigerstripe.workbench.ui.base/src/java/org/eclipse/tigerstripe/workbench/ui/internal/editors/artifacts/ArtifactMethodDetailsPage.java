@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
@@ -56,9 +57,21 @@ import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbe
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactComponent;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ComponentNameProvider;
+import org.eclipse.tigerstripe.workbench.internal.core.model.DatatypeArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.Method;
+import org.eclipse.tigerstripe.workbench.internal.core.model.PrimitiveTypeArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Type;
+import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -97,7 +110,8 @@ import org.eclipse.ui.part.FileEditorInput;
 
 public class ArtifactMethodDetailsPage implements IDetailsPage,
 		IURIBaseProviderPage {
-
+	
+	
 	private TextEditListener nameEditListener;
 
 	private StereotypeSectionManager stereotypeMgr;
@@ -199,7 +213,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 		super();
 		this.isReadOnly = isReadOnly;
 	}
-
+	
 	public void createContents(Composite parent) {
 		TableWrapLayout twLayout = new TableWrapLayout();
 		twLayout.numColumns = 1;
@@ -1202,7 +1216,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 		try {
 			BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(master
 					.getIArtifact().getTigerstripeProject(),
-					new IAbstractArtifact[0]);
+					Method.getSuitableTypes());
 			dialog.setTitle("Artifact Type Selection");
 			dialog.setMessage("Enter a filter (* = any number of characters)"
 					+ " or an empty string for no filtering: ");

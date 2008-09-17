@@ -329,12 +329,7 @@ public class NewDependencyWizardPage extends NewArtifactWizardPage {
 		try {
 			BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(
 					getTSRuntimeContext().getProjectHandle(),
-					new IAbstractArtifact[] { ManagedEntityArtifact.MODEL,
-							DatatypeArtifact.MODEL, QueryArtifact.MODEL,
-							UpdateProcedureArtifact.MODEL,
-							SessionFacadeArtifact.MODEL,
-							ExceptionArtifact.MODEL, EventArtifact.MODEL,
-							EnumArtifact.MODEL, AssociationClassArtifact.MODEL });
+					DependencyArtifact.getSuitableTypes());
 			dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
 					IDependencyArtifactImpl.class.getName()).getLabel(null)
 					+ " End Type");

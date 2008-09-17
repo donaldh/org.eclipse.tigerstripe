@@ -53,7 +53,20 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
+import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.DatatypeArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.Method;
+import org.eclipse.tigerstripe.workbench.internal.core.model.PrimitiveTypeArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Type;
+import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -79,6 +92,7 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
  * Preferences - Java - Code Style - Code Templates
  */
 public class ArgumentEditDialog extends TSMessageDialog {
+	
 	
 	private final static int ORDERED = 0;
 	
@@ -207,6 +221,7 @@ public class ArgumentEditDialog extends TSMessageDialog {
 				modifierNames, 2);
 		modifierButtons.setDialogFieldListener(adapter);
 		modifierButtons.setLabelText("Modifiers"); //$NON-NLS-1$
+		
 	}
 
 	private boolean isRefByEnabled() {
@@ -711,7 +726,7 @@ public class ArgumentEditDialog extends TSMessageDialog {
 
 		try {
 			BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(
-					tsProject, new IAbstractArtifact[0]);
+					tsProject, Method.getSuitableTypes());
 			dialog.setTitle("Artifact Type Selection");
 			dialog.setMessage("Enter a filter (* = any number of characters)"
 					+ " or an empty string for no filtering: ");
@@ -760,6 +775,7 @@ public class ArgumentEditDialog extends TSMessageDialog {
 		return null;
 	}
 
+	
 	public IArgument getIArgument() {
 		return initialArgument;
 	}
