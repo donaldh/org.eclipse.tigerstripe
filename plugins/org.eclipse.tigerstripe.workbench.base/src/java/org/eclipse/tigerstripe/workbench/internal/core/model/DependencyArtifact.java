@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -21,9 +22,14 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.metamodel.impl.IDependencyArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.artifacts.DependencyArtifactPersister;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
@@ -32,13 +38,14 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaField;
 
 public class DependencyArtifact extends AbstractArtifact implements
-		IDependencyArtifact, IRelationship {
+		IDependencyArtifact, IRelationship, IActiveWorkbenchProfileChangeListener {
 
 	private IRelationshipEnd aRelationshipEnd;
 
@@ -54,6 +61,40 @@ public class DependencyArtifact extends AbstractArtifact implements
 	public final static String ZEND_TAG = AbstractArtifactTag.PREFIX
 			+ AbstractArtifactTag.DEPENDENCY + "-zEnd";
 
+private static boolean isRegistered = false;
+	
+	private static IAbstractArtifact[] suitableTypes;
+	
+	public static IAbstractArtifact[] getSuitableTypes(){
+		if (suitableTypes == null)
+			loadSuitableTypes();
+		return suitableTypes;
+	}
+		
+	private static void loadSuitableTypes(){
+		List<IAbstractArtifact> suitableModelsList = new ArrayList<IAbstractArtifact>();
+		//suitableModelsList.add(PrimitiveTypeArtifact.MODEL);
+		suitableModelsList.add(ManagedEntityArtifact.MODEL);
+		suitableModelsList.add(PackageArtifact.MODEL);
+		suitableModelsList.add(DatatypeArtifact.MODEL);
+		suitableModelsList.add(EnumArtifact.MODEL);
+		suitableModelsList.add(ExceptionArtifact.MODEL);
+		//suitableModelsList.add(AssociationArtifact.MODEL);
+		//suitableModelsList.add(DependencyArtifact.MODEL);
+		suitableModelsList.add(AssociationClassArtifact.MODEL);
+		suitableModelsList.add(QueryArtifact.MODEL);
+		suitableModelsList.add(EventArtifact.MODEL);
+		suitableModelsList.add(UpdateProcedureArtifact.MODEL);
+		suitableModelsList.add(SessionFacadeArtifact.MODEL);
+
+		suitableTypes = suitableModelsList.toArray( new IAbstractArtifact[0] );
+	}
+	
+	
+	public void profileChanged(IWorkbenchProfile newActiveProfile) {
+		suitableTypes = null;
+	}
+	
 	/**
 	 * The static MODEL for this type of artifact. This is used by the artifact
 	 * manager when extracting the artifacts.
@@ -63,6 +104,11 @@ public class DependencyArtifact extends AbstractArtifact implements
 	public DependencyArtifact(ArtifactManager artifactMgr) {
 		super(artifactMgr);
 		setIStandardSpecifics(new StandardSpecifics(this));
+		if (! isRegistered){
+			TigerstripeCore
+				.getWorkbenchProfileSession().addActiveProfileListener(this);
+			isRegistered = true;
+		}
 	}
 
 	public DependencyArtifact(JavaClass javaClass, ArtifactManager artifactMgr,
@@ -71,6 +117,11 @@ public class DependencyArtifact extends AbstractArtifact implements
 		StandardSpecifics specifics = new StandardSpecifics(this);
 		specifics.build();
 		setIStandardSpecifics(specifics);
+		if (! isRegistered){
+			TigerstripeCore
+				.getWorkbenchProfileSession().addActiveProfileListener(this);
+			isRegistered = true;
+		}
 	}
 
 	@Override

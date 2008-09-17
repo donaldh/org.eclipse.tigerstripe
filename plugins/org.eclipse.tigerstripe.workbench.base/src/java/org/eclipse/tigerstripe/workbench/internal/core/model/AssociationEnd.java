@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 
 import org.eclipse.core.runtime.IStatus;
@@ -21,8 +22,13 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
@@ -31,14 +37,59 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaField;
 
 public class AssociationEnd extends ArtifactComponent implements
-		IAssociationEnd {
+		IAssociationEnd, IActiveWorkbenchProfileChangeListener {
 
+private static boolean isRegistered = false;
+	
+	private static IAbstractArtifact[] suitableTypes;
+	
+	public static IAbstractArtifact[] getSuitableTypes(){
+		if (suitableTypes == null)
+			loadSuitableTypes();
+		return suitableTypes;
+	}
+		
+	private static void loadSuitableTypes(){
+		List<IAbstractArtifact> suitableModelsList = new ArrayList<IAbstractArtifact>();
+		suitableModelsList.add(PrimitiveTypeArtifact.MODEL);
+		suitableModelsList.add(DatatypeArtifact.MODEL);
+		suitableModelsList.add(EnumArtifact.MODEL);
+		
+		IWorkbenchProfile profile = TigerstripeCore
+			.getWorkbenchProfileSession()
+			.getActiveProfile();
+		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
+			.getWorkbenchProfileSession().getActiveProfile().getProperty(
+				IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
+		boolean displayReference = prop
+			.getPropertyValue(IOssjLegacySettigsProperty.USEATTRIBUTES_ASREFERENCE);
+		if (displayReference){
+			suitableModelsList.add(ExceptionArtifact.MODEL);
+			suitableModelsList.add(AssociationArtifact.MODEL);
+			suitableModelsList.add(DependencyArtifact.MODEL);
+			suitableModelsList.add(AssociationClassArtifact.MODEL);
+			suitableModelsList.add(QueryArtifact.MODEL);
+			suitableModelsList.add(EventArtifact.MODEL);
+			suitableModelsList.add(UpdateProcedureArtifact.MODEL);
+			suitableModelsList.add(SessionFacadeArtifact.MODEL);
+			suitableModelsList.add(ManagedEntityArtifact.MODEL);
+		}
+
+		suitableTypes = suitableModelsList.toArray( new IAbstractArtifact[0] );
+	}
+	
+	
+	public void profileChanged(IWorkbenchProfile newActiveProfile) {
+		suitableTypes = null;
+	}
+	
 	public String getLabel() {
 		return "Association End";
 	}
@@ -67,11 +118,21 @@ public class AssociationEnd extends ArtifactComponent implements
 
 	public AssociationEnd(ArtifactManager artifactMgr) {
 		super(artifactMgr);
+		if (! isRegistered){
+			TigerstripeCore
+				.getWorkbenchProfileSession().addActiveProfileListener(this);
+			isRegistered = true;
+		}
 	}
 
 	public AssociationEnd(JavaField field, ArtifactManager artifactMgr) {
 		this(artifactMgr);
 		buildModel(field);
+		if (! isRegistered){
+			TigerstripeCore
+				.getWorkbenchProfileSession().addActiveProfileListener(this);
+			isRegistered = true;
+		}
 	}
 
 	public void setAggregation(EAggregationEnum aggregation) {
