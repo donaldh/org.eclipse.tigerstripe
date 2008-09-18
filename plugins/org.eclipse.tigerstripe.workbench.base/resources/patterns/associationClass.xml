@@ -14,12 +14,12 @@
                  isAbstract="false">
                  
         <ts:associationSpecifics>
-            <ts:associationEnd name="_aEnd" end="AEnd" type="" multiplicity="1" 
+            <ts:associationEnd name="" end="AEnd" type="" multiplicity="1" 
                                        aggregation="none" changeable="none" navigable="false" 
                                        ordered="false" visibility="PUBLIC"
                                        unique="false">
             </ts:associationEnd>
-            <ts:associationEnd name="_zEnd" end="ZEnd" type="" multiplicity="1" 
+            <ts:associationEnd name="" end="ZEnd" type="" multiplicity="1" 
                                        aggregation="none" changeable="none" navigable="true" 
                                        ordered="false" visibility="PUBLIC"
                                        unique="false">

@@ -154,9 +154,9 @@ public class RelationPattern extends ArtifactPattern implements IRelationPattern
 						targetEnd
 								.setChangeable(EChangeableEnum.parse(newValue));
 					} else if (feature.endsWith("Name")) {
-						if ( !newValue.equals("")){
-						targetEnd.setName(newValue);
-						} else {
+						if (! "".equals(newValue))
+								targetEnd.setName(newValue);
+						else {
 							ComponentNameProvider nameFactory = ComponentNameProvider.getInstance();
 							String name = nameFactory.getNewAssociationEndName(association, endref);
 							targetEnd.setName(name);
