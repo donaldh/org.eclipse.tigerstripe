@@ -606,7 +606,7 @@ public class AssociationInstanceZEndMultiplicityLowerBoEditPart extends
 		 */
 		public AssociationInstanceZEndMultiplicityFigure() {
 
-			this.setText("<...>");
+			//this.setText("<...>");
 			createContents();
 		}
 
