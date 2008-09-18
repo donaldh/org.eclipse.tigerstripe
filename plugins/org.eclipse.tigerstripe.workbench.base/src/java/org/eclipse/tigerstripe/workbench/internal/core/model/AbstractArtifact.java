@@ -44,6 +44,7 @@ import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
+import org.eclipse.tigerstripe.workbench.internal.api.patterns.ArtifactPattern;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
@@ -1481,6 +1482,29 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 					file.create(stream, true, monitor);
 				else
 					file.setContents(stream, true, true, monitor);
+
+				// Check to see if the "parentPackageArtifact" exists
+				// and if not create it
+				if (! "".equals(getPackage())){
+					IWorkbenchProfile profile = TigerstripeCore
+					.getWorkbenchProfileSession()
+					.getActiveProfile();
+					CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
+					.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
+					if (prop.getDetailsForType(IPackageArtifact.class.getName()).isEnabled()) {
+						IAbstractArtifact parent = getProject().getArtifactManagerSession().getArtifactByFullyQualifiedName(getPackage());
+						if (parent == null){
+							// Better make one
+							System.out.println("Making "+getPackage());
+							parent = getProject().getArtifactManagerSession().makeArtifact(IPackageArtifact.class.getName());
+							parent.setFullyQualifiedName(getPackage());
+							parent.doSave(monitor);
+
+						}
+
+					}
+				}
+
 			} catch (CoreException e) {
 				BasePlugin.log(e);
 			}
