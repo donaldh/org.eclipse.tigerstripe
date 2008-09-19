@@ -1474,7 +1474,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 						IAbstractArtifact parent = getProject().getArtifactManagerSession().getArtifactByFullyQualifiedName(getPackage());
 						if (parent == null){
 							// Better make one
-							System.out.println("Making "+getPackage());
+							//System.out.println("Making "+getPackage());
 							parent = getProject().getArtifactManagerSession().makeArtifact(IPackageArtifact.class.getName());
 							parent.setFullyQualifiedName(getPackage());
 							parent.doSave(monitor);
