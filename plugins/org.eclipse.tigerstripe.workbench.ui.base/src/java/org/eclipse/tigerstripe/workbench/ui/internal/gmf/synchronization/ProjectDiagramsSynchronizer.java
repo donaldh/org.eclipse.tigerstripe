@@ -17,6 +17,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.internal.jobs.Queue;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -26,6 +27,8 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
@@ -50,11 +53,129 @@ import org.eclipse.ui.IEditorPart;
  * DiagramSynchronizationManager and is delegated the synchronization of all
  * diagrams in the project.
  * 
- * @author eric
+ * @author erdillon
  * @since Bug 936
  */
 public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 		IResourceChangeListener {
+
+	protected Queue requestQueue = new Queue();
+
+	// Each time a change occurs, this synchronizer gets notified and queues
+	// queues up the corresponding synchronization request to be executed.
+	// The requests are being picked up in a single separate job for this
+	// synchronizer.
+	abstract class SynchronizationRequest {
+		protected DiagramHandle[] affectedDiagrams;
+
+		protected SynchronizationRequest(DiagramHandle[] affectedDiagrams) {
+			this.affectedDiagrams = affectedDiagrams;
+		}
+
+		public abstract IStatus run(IProgressMonitor monitor)
+				throws TigerstripeException;
+	}
+
+	class SynchronizationForArtifactChangedRequest extends
+			SynchronizationRequest {
+		private IAbstractArtifact artifact;
+
+		public SynchronizationForArtifactChangedRequest(
+				IAbstractArtifact artifact, DiagramHandle[] affectedDiagrams) {
+			super(affectedDiagrams);
+			this.artifact = artifact;
+		}
+
+		public IStatus run(IProgressMonitor monitor)
+				throws TigerstripeException {
+			List<IStatus> statuses = new ArrayList<IStatus>();
+			for (DiagramHandle handle : affectedDiagrams) {
+				try {
+					handle.updateForChange(artifact);
+				} catch (TigerstripeException e) {
+					statuses.add(new Status(IStatus.ERROR, EclipsePlugin
+							.getPluginId(), 222, e.getMessage(), e));
+				}
+			}
+			if (statuses.size() == 0)
+				return Status.OK_STATUS;
+			else {
+				MultiStatus mStatus = new MultiStatus(EclipsePlugin
+						.getPluginId(), 222, statuses
+						.toArray(new IStatus[statuses.size()]),
+						"Error occured while synchronizing diagrams", null);
+				return mStatus;
+			}
+		}
+	}
+
+	class SynchronizationForArtifactRemovedRequest extends
+			SynchronizationRequest {
+		protected String removedFQN;
+
+		public SynchronizationForArtifactRemovedRequest(String removedFQN,
+				DiagramHandle[] affectedDiagrams) {
+			super(affectedDiagrams);
+			this.removedFQN = removedFQN;
+		}
+
+		public IStatus run(IProgressMonitor monitor) {
+			List<IStatus> statuses = new ArrayList<IStatus>();
+			for (DiagramHandle handle : affectedDiagrams) {
+				try {
+					handle.updateForRemove(removedFQN);
+				} catch (TigerstripeException e) {
+					statuses.add(new Status(IStatus.ERROR, EclipsePlugin
+							.getPluginId(), 222, e.getMessage(), e));
+				}
+			}
+			if (statuses.size() == 0)
+				return Status.OK_STATUS;
+			else {
+				MultiStatus mStatus = new MultiStatus(EclipsePlugin
+						.getPluginId(), 222, statuses
+						.toArray(new IStatus[statuses.size()]),
+						"Error occured while synchronizing diagrams", null);
+				return mStatus;
+			}
+		}
+
+	}
+
+	class SynchronizationForArtifactRenamedRequest extends
+			SynchronizationRequest {
+		protected String oldFQN;
+		protected String newFQN;
+
+		public SynchronizationForArtifactRenamedRequest(String oldFQN,
+				String newFQN, DiagramHandle[] affectedDiagrams) {
+			super(affectedDiagrams);
+			this.oldFQN = oldFQN;
+			this.newFQN = newFQN;
+		}
+
+		public IStatus run(IProgressMonitor monitor) {
+			List<IStatus> statuses = new ArrayList<IStatus>();
+			for (DiagramHandle handle : affectedDiagrams) {
+				try {
+					handle.updateForRename(oldFQN, newFQN);
+				} catch (TigerstripeException e) {
+					statuses.add(new Status(IStatus.ERROR, EclipsePlugin
+							.getPluginId(), 222, e.getMessage(), e));
+				}
+			}
+			if (statuses.size() == 0)
+				return Status.OK_STATUS;
+			else {
+				MultiStatus mStatus = new MultiStatus(EclipsePlugin
+						.getPluginId(), 222, statuses
+						.toArray(new IStatus[statuses.size()]),
+						"Error occured while synchronizing diagrams", null);
+				return mStatus;
+			}
+		}
+
+	}
 
 	private ITigerstripeModelProject project;
 
@@ -72,11 +193,42 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 			ClassDiagramLogicalNode.MODEL_EXT,
 			InstanceDiagramLogicalNode.MODEL_EXT }; // FIXME: use extension
 
+	private Job batchSyncJob;
+
 	/* package */ProjectDiagramsSynchronizer(ITigerstripeModelProject project) {
 		this.project = project;
 	}
 
 	public void initialize() {
+		// Create batch synchronization job
+		batchSyncJob = new Job("Diagram Synchronization ("
+				+ project.getProjectLabel() + ")") {
+			protected IStatus run(IProgressMonitor monitor) {
+				if (monitor.isCanceled()) {
+					return Status.CANCEL_STATUS;
+				}
+				try {
+					while (!requestQueue.isEmpty()) {
+						try {
+							SynchronizationRequest request = (SynchronizationRequest) requestQueue
+									.dequeue();
+							request.run(new NullProgressMonitor());
+						} catch (TigerstripeException e) {
+							EclipsePlugin.log(e);
+						}
+						if (monitor.isCanceled()) {
+							return Status.CANCEL_STATUS;
+						}
+					}
+					return Status.OK_STATUS;
+				} finally {
+					schedule(300); // start again in 300ms
+				}
+			}
+		};
+		batchSyncJob.setSystem(true);
+		batchSyncJob.schedule(); // start as soon as possible
+
 		registerSelfForChanges();
 		try {
 			Job initialIndexing = new Job("Indexing diagrams in "
@@ -126,6 +278,7 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 	 */
 	public void dispose() throws TigerstripeException {
 		deregisterSelfForChanges();
+		batchSyncJob.cancel();
 	}
 
 	public ITigerstripeModelProject getProject() {
@@ -163,6 +316,10 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 		ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
 	}
 
+	protected void queueUpSynchronizationRequest(SynchronizationRequest request) {
+		requestQueue.enqueue(request);
+	}
+
 	// Artifact Change listener
 	public void artifactAdded(IAbstractArtifact artifact) {
 		// TODO Auto-generated method stub
@@ -170,123 +327,43 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 	}
 
 	public void artifactChanged(IAbstractArtifact artifact) {
-		handleArtifactChanged(artifact);
+		try {
+			DiagramHandle[] affectedDiagrams = getAffectedDiagrams(artifact
+					.getFullyQualifiedName());
+			SynchronizationForArtifactChangedRequest request = new SynchronizationForArtifactChangedRequest(
+					artifact, affectedDiagrams);
+			queueUpSynchronizationRequest(request);
+		} catch (TigerstripeException e) {
+			EclipsePlugin.log(e);
+		}
 	}
 
 	public void artifactRemoved(IAbstractArtifact artifact) {
-		handleArtifactRemoved(artifact.getFullyQualifiedName());
+		try {
+			DiagramHandle[] affectedDiagrams = getAffectedDiagrams(artifact
+					.getFullyQualifiedName());
+			SynchronizationForArtifactRemovedRequest request = new SynchronizationForArtifactRemovedRequest(
+					artifact.getFullyQualifiedName(), affectedDiagrams);
+			queueUpSynchronizationRequest(request);
+		} catch (TigerstripeException e) {
+			EclipsePlugin.log(e);
+		}
 	}
 
 	public void artifactRenamed(IAbstractArtifact artifact, String fromFQN) {
-		handleArtifactRenamed(fromFQN, artifact.getFullyQualifiedName());
+		try {
+			DiagramHandle[] affectedDiagrams = getAffectedDiagrams(fromFQN);
+			SynchronizationForArtifactRenamedRequest request = new SynchronizationForArtifactRenamedRequest(
+					fromFQN, artifact.getFullyQualifiedName(), affectedDiagrams);
+			queueUpSynchronizationRequest(request);
+		} catch (TigerstripeException e) {
+			EclipsePlugin.log(e);
+		}
 	}
 
 	public void managerReloaded() {
 		// TODO Auto-generated method stub
 
-	}
-
-	private void handleArtifactChanged(IAbstractArtifact artifact) {
-		try {
-			// This needs to run in its own thread to avoid slowness on GUI
-			final IAbstractArtifact fArtifact = artifact;
-			final DiagramHandle[] affectedDiagrams = getAffectedDiagrams(fArtifact
-					.getFullyQualifiedName());
-			final Job job = new Job("Diagram synchronization ("
-					+ getProject().getProjectLabel() + ")") {
-				@Override
-				protected IStatus run(IProgressMonitor monitor) {
-					try {
-						for (DiagramHandle handle : affectedDiagrams) {
-							// System.out
-							// .println("Updating for change ("
-							// + fArtifact.getFullyQualifiedName()
-							// + "): "
-							// + handle.getDiagramResource()
-							// .getFullPath());
-							handle.updateForChange(fArtifact);
-						}
-						return Status.OK_STATUS;
-					} catch (TigerstripeException e) {
-						EclipsePlugin.log(e);
-						return new Status(IStatus.ERROR, EclipsePlugin
-								.getPluginId(), 222, e.getMessage(), e);
-					}
-				}
-			};
-
-			job.schedule();
-		} catch (TigerstripeException e) {
-			EclipsePlugin.log(e);
-		}
-	}
-
-	private void handleArtifactRemoved(String targetFQN) {
-		// This needs to run in its own thread to avoid slowness on GUI
-		try {
-			final String fTargetFQN = targetFQN;
-			final DiagramHandle[] affectedDiagrams = getAffectedDiagrams(targetFQN);
-			final Job job = new Job("Diagram synchronization ("
-					+ getProject().getProjectLabel() + ")") {
-				@Override
-				protected IStatus run(IProgressMonitor monitor) {
-					try {
-						for (DiagramHandle handle : affectedDiagrams) {
-							// System.out
-							// .println("Updating for remove ("
-							// + fTargetFQN
-							// + "): "
-							// + handle.getDiagramResource()
-							// .getFullPath());
-							handle.updateForRemove(fTargetFQN);
-						}
-						return Status.OK_STATUS;
-					} catch (TigerstripeException e) {
-						EclipsePlugin.log(e);
-						return new Status(IStatus.ERROR, EclipsePlugin
-								.getPluginId(), 222, e.getMessage(), e);
-					}
-				}
-			};
-
-			job.schedule();
-		} catch (TigerstripeException e) {
-			EclipsePlugin.log(e);
-		}
-	}
-
-	private void handleArtifactRenamed(final String oldFQN, final String newFQN) {
-		// This needs to run in its own thread to avoid slowness on GUI
-		// yet make sure we use the proper scheduling rule (Bug 940)
-		try {
-			final DiagramHandle[] affectedDiagrams = getAffectedDiagrams(oldFQN);
-			final Job job = new Job("Diagram synchronization ("
-					+ getProject().getProjectLabel() + ")") {
-				@Override
-				protected IStatus run(IProgressMonitor monitor) {
-					try {
-						for (DiagramHandle handle : affectedDiagrams) {
-							// System.out
-							// .println("Updating for rename ("
-							// + oldFQN
-							// + "): "
-							// + handle.getDiagramResource()
-							// .getFullPath());
-							handle.updateForRename(oldFQN, newFQN);
-						}
-						return Status.OK_STATUS;
-					} catch (TigerstripeException e) {
-						EclipsePlugin.log(e);
-						return new Status(IStatus.ERROR, EclipsePlugin
-								.getPluginId(), 222, e.getMessage(), e);
-					}
-				}
-			};
-
-			job.schedule();
-		} catch (TigerstripeException e) {
-			EclipsePlugin.log(e);
-		}
 	}
 
 	/**
