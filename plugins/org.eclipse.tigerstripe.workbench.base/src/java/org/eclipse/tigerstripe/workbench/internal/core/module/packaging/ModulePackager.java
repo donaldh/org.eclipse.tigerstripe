@@ -367,9 +367,17 @@ public class ModulePackager implements IModulePackager {
 				.getPath()
 				+ File.separator + ITigerstripeConstants.ANNOTATION_DIR);
 
+		File tgDir = new File(tmpDir.getAbsolutePath() + File.separator
+				+ ITigerstripeConstants.ANNOTATION_DIR);
+		if (!tgDir.exists()) {
+			tgDir.mkdirs();
+		}
+
 		try {
 			FileUtils.copyDir(annDir.getAbsolutePath(), tmpDir
-					.getAbsolutePath(), true);
+					.getAbsolutePath()
+					+ File.separator + ITigerstripeConstants.ANNOTATION_DIR,
+					true);
 		} catch (IOException e) {
 			throw new TigerstripeException(
 					"Error while copying Descriptor to tmp Dir: "
