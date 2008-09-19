@@ -56,9 +56,11 @@ public class TSRenameAction extends RenameAction {
 			IPackageArtifact packageArtifact = null;
 			IJavaElement jElem = (IJavaElement) selection.getFirstElement();
 			IAbstractArtifact artifact = null;
+			String oldfqn = null;
 			artifact = TSExplorerUtils.getArtifactFor(jElem);
 			if (artifact != null && artifact instanceof IPackageArtifact){
 				packageArtifact = (IPackageArtifact) artifact;
+				oldfqn = artifact.getFullyQualifiedName();
 			}
 
 
@@ -69,12 +71,10 @@ public class TSRenameAction extends RenameAction {
 
 			if (packageArtifact != null){
 				try {
-					IResource res = (IResource) packageArtifact.getAdapter(IResource.class);
-					// The resource is the *MOVED* resource so we can derive the new FQN from that
-					IResource parentPackage = res.getParent();
-					IJavaElement myPackageFragment = JavaCore.create(parentPackage);
-					String fqn = myPackageFragment.getElementName();
-					
+					// The FQN has been updated "behind the scenes", but not properly in the
+					// Artifact Manager
+					String fqn = packageArtifact.getFullyQualifiedName();
+								
 					// Make a rename request
 					IArtifactManagerSession mgr = packageArtifact.getProject().getArtifactManagerSession();
 					IModelUpdater updater = mgr.getIModelUpdater();
@@ -82,12 +82,13 @@ public class TSRenameAction extends RenameAction {
 					IArtifactFQRenameRequest request = (IArtifactFQRenameRequest) updater
 					.getRequestFactory().makeRequest(
 							IModelChangeRequestFactory.ARTIFACT_FQRENAME);
-					request.setArtifactFQN(packageArtifact.getFullyQualifiedName());
+					request.setArtifactFQN(oldfqn);
 					
 					request.setNewFQName(fqn);
 					
 					updater.handleChangeRequest(request);
-					
+
+					packageArtifact.doSave(null);
 					
 				} catch (Exception e){
 					

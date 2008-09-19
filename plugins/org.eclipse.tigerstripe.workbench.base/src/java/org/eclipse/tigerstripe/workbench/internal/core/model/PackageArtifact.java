@@ -39,6 +39,7 @@ import com.thoughtworks.qdox.model.JavaClass;
 public class PackageArtifact extends AbstractArtifact implements
 		IPackageArtifact {
 
+	private String _artifactPath = null;
 	
 	/**
 	 * This allows for a create "behind-the-scenes" of any 
@@ -199,33 +200,47 @@ public class PackageArtifact extends AbstractArtifact implements
 		return false;
 	}
 	
+	/**
+	 * Returns the artifact path relative to the project directory
+	 * 
+	 * @return
+	 * @throws TigerstripeException
+	 */
+	public String getArtifactPath() throws TigerstripeException {
+		if (_artifactPath == null)
+			updateArtifactPath();
 
+		return _artifactPath;
+	}
 
-	public String getArtifactPath() throws TigerstripeException{
+	
+	
+	protected void updateArtifactPath() {
+
 		// Determine the path for this artifact
 		// This will be the package  PLUS the extension 
 		String packageName = getPackage().replace('.', File.separatorChar);
 
-		if (getTSProject() == null || getTSProject().getBaseDir() == null)
-			return null; // this is part of a module
+		if (getTSProject() == null || getTSProject().getBaseDir() == null){
+			_artifactPath =  null; // this is part of a module
+			return;
+		}
 
 		String baseDir = getTSProject().getBaseDir().toString();
 
-		String repoLocation = getTSProject().getRepositoryLocation();
-		
-
-		// Make sure the package dir exists
-		File dir = new File(baseDir + File.separator + repoLocation
-				+ File.separator + packageName+ File.separator+getName());
-		if (!dir.exists()) {
-			dir.mkdirs();
+		String repoLocation = "";
+		try {
+			repoLocation = getTSProject().getRepositoryLocation();
+		} catch (Exception e){
+			
 		}
+		
 
 		String artifactPath = repoLocation + File.separator + packageName
 		+ File.separator + getName()+ File.separator
 		+ ".package";
 
-		return artifactPath;
+		_artifactPath = artifactPath;
 	}	
 	
 	@SuppressWarnings("unchecked")

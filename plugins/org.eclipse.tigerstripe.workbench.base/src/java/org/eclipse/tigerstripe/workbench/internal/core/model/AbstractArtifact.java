@@ -1392,30 +1392,9 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			updateArtifactPath();
 
 		return _artifactPath;
-		// // Determine the path for this artifact
-		// // This needs to be overridden for Package Artifacts
-		//
-		// String packageName = getPackage().replace('.', File.separatorChar);
-		// if (getTSProject() == null || getTSProject().getBaseDir() == null)
-		// return null; // this is part of a module
-		//
-		// String baseDir = getTSProject().getBaseDir().toString();
-		// String repoLocation = getTSProject().getRepositoryLocation();
-		//
-		// // Make sure the package dir exists
-		// File dir = new File(baseDir + File.separator + repoLocation
-		// + File.separator + packageName);
-		// if (!dir.exists()) {
-		// dir.mkdirs();
-		// }
-		//
-		// String artifactPath = repoLocation + File.separator + packageName
-		// + File.separator + getName() + ".java";
-		//
-		// return artifactPath;
 	}
 
-	private void updateArtifactPath() {
+	protected void updateArtifactPath() {
 		String packageName = getPackage().replace('.', File.separatorChar);
 		if (getTSProject() == null || getTSProject().getBaseDir() == null) {
 			_artifactPath = null; // this is part of a module
