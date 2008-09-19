@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.emf.ecore.EObject;
+
 /**
  * A local and very temporary cache of annotations from a single <code>AnnotationCapable</code>
  * instance. References to such a cache should not be held.
@@ -18,11 +20,17 @@ import java.util.Set;
  */
 public class AnnotationCache
 {
-	private Map<String,List<Object>> annotations;
+	private Map<String,List<Object>> annotationsByName;
 
+	private Map<Class,List<Object>> annotationsByClass;
+	
 	public AnnotationCache(IAnnotationCapable ac, String prefix)
 	{
-		annotations = new LinkedHashMap<String,List<Object>>();
+		initByName(ac, prefix);
+	}
+
+	private void initByName(IAnnotationCapable ac, String prefix) {
+		annotationsByName = new LinkedHashMap<String,List<Object>>();
 		for(Object o : ac.getAnnotations())
 		{
 			Class<?> c = o.getClass();
@@ -34,11 +42,11 @@ public class AnnotationCache
 					if(name.startsWith(prefix))
 					{
 						String key = name.substring(prefix.length()+1);
-						List<Object> l = annotations.get(key);
+						List<Object> l = annotationsByName.get(key);
 						if(l == null)
 						{
 							l = new LinkedList<Object>();
-							annotations.put(key,l);
+							annotationsByName.put(key,l);
 						}
 						l.add(o);
 					}
@@ -47,13 +55,47 @@ public class AnnotationCache
 		}
 	}
 	
+	void initByClass()
+	{
+		if(annotationsByClass == null)
+		{
+			annotationsByClass = new LinkedHashMap<Class,List<Object>>();
+			for(List<Object> l : annotationsByName.values())
+			{
+				Object o = l.get(0);
+				Class i = o.getClass().getInterfaces()[0];
+				do {
+					annotationsByClass.put(i, l);
+				}
+				while((i = i.getSuperclass()) != EObject.class);					
+			}
+		}
+	}
+	
 	public boolean hasAnnotation(String id)
 	{
-		return annotations.containsKey(id);
+		return annotationsByName.containsKey(id);
 	}
 	
 	public List<Object> getAnnotations(String id)
 	{
-		return annotations.get(id);
+		return annotationsByName.get(id);
+	}
+
+	Map<Class,List<Object>> getAnnotationsByClass()
+	{
+		if(annotationsByClass == null)
+			initByClass();
+		return annotationsByClass;
+	}
+	
+	public boolean hasAnnotation(Class id)
+	{
+		return getAnnotationsByClass().containsKey(id);
+	}
+	
+	public List<Object> getAnnotations(Class id)
+	{
+		return getAnnotationsByClass().get(id);
 	}
 }

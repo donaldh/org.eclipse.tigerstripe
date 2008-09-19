@@ -22,6 +22,7 @@ import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.model.InvalidAnnotationTargetException;
 
 /**
@@ -44,6 +45,17 @@ public class AnnotationHelper
 			instance = new AnnotationHelper();
 		}
 		return instance;
+	}
+	/**
+	 * Returns the value <code>true</code> if the supplied <code>Annotation</code> is 
+	 * a <em>Tigerstripe</em> annotation
+	 * @param a the <code>Annotation</code> to be tested
+	 * @return the value <code>true</code> if the supplied <code>Annotation</code> is 
+	 * a <em>Tigerstripe</em> annotation
+	 */
+	static public boolean isTigerstripeAnnotation(Annotation a)
+	{
+		return TigerstripeURIAdapterFactory.isRelated(a.getUri());
 	}
 	
 	protected AnnotationHelper()
@@ -187,7 +199,7 @@ public class AnnotationHelper
 		List<Annotation> annotations = getAnnotations(target);
 		for (Iterator<Annotation> i = annotations.iterator(); i.hasNext();) {
 			Annotation a = i.next();
-			if (!a.getUri().scheme().equals(IAnnotationCapable.TS_SCHEME) || !type.isInstance(a.getContent())) {
+			if (!TigerstripeURIAdapterFactory.isRelated(a.getUri()) || !type.isInstance(a.getContent())) {
 				i.remove();
 			}
 		}

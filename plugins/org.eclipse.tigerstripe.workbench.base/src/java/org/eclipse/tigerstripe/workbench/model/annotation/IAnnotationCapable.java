@@ -22,9 +22,6 @@ import org.eclipse.emf.ecore.EObject;
  *
  */
 public interface IAnnotationCapable {
-
-	public static final String TS_SCHEME = "tigerstripe";
-
 	/**
 	 * Returns a list of all the annotations for this object
 	 * 

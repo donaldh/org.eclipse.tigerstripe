@@ -379,7 +379,7 @@ public abstract class ArtifactComponent implements IModelComponent,
 		List<Object> annotations = new LinkedList<Object>();
 		Annotation[] all = mgr.getAnnotations(this, false);
 		for (Annotation a : all) {
-			if (a.getUri().scheme().equals(TS_SCHEME)) {
+			if (TigerstripeURIAdapterFactory.isRelated(a.getUri())) {
 				annotations.add(a.getContent());
 			}
 		}
@@ -391,7 +391,7 @@ public abstract class ArtifactComponent implements IModelComponent,
 		List<Object> annotations = new LinkedList<Object>();
 		Annotation[] all = mgr.getAnnotations(this, false);
 		for (Annotation a : all) {
-			if (a.getUri().scheme().equals(TS_SCHEME) && type.isInstance(a.getContent())) {
+			if (TigerstripeURIAdapterFactory.isRelated(a.getUri()) && type.isInstance(a.getContent())) {
 				annotations.add(a.getContent());
 			}
 		}
