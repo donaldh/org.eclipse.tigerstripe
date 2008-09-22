@@ -20,15 +20,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceChangeListener;
-import org.eclipse.core.resources.IResourceDelta;
-import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
@@ -55,7 +51,7 @@ import org.eclipse.tigerstripe.espace.resources.internal.core.ResourceStorage;
  * @author Yuri Strot
  *
  */
-public class EMFDatabase implements IEMFDatabase, IResourceChangeListener {
+public class EMFDatabase implements IEMFDatabase {
 	
 	private static final String ROUTER_EXTPT = "org.eclipse.tigerstripe.annotation.core.router";
 	private static final String ROUTER_ATTR_CLASS = "class";
@@ -74,7 +70,6 @@ public class EMFDatabase implements IEMFDatabase, IResourceChangeListener {
 	
 	private ResourceStorage resourceStorage;
 	private IDatabaseConfiguration idManager;
-	private List<ResourceState> resources = new ArrayList<ResourceState>();
 	
 	private ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
 	
@@ -84,8 +79,6 @@ public class EMFDatabase implements IEMFDatabase, IResourceChangeListener {
 	}
 	
 	protected void init() {
-		resources = new ArrayList<ResourceState>();
-		org.eclipse.core.resources.ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
 		initResources();
 		initRouters();
 	}
@@ -164,35 +157,44 @@ public class EMFDatabase implements IEMFDatabase, IResourceChangeListener {
 	
 	private void unlockChanges(boolean write) {
 		if (write) {
-			if (updateState())
-				doRebuildIndex();
 			rwl.writeLock().unlock();
 		}
 		else rwl.readLock().unlock();
 	}
 	
-	private void lockAndUpdate(boolean write) {
-		rwl.writeLock().lock();
-		try {
-			update();
-		}
-		finally {
+	private boolean lockAndUpdate(boolean write) {
+		boolean resultWriteLock = write;
+		if (write) rwl.writeLock().lock();
+		else rwl.readLock().lock();
+		
+		boolean needUpdate = getResourceStorage().needUpdate();
+		if (needUpdate) {
 			if (!write) {
-				rwl.readLock().lock();
-				rwl.writeLock().unlock();
+				// Must release read lock before acquiring write lock
+				rwl.readLock().unlock();
+				rwl.writeLock().lock();
+				resultWriteLock = true;
+				needUpdate = getResourceStorage().needUpdate();
+			}
+			if (needUpdate) {
+				doRebuildIndex();
+				Status status = new Status(IStatus.WARNING,
+						ResourcesPlugin.PLUGIN_ID, "Index corrupted and was rebuild.");
+				ResourcesPlugin.getDefault().getLog().log(status);
 			}
 		}
+		return resultWriteLock;
 	}
 	
 	public boolean isReadOnly(EObject object) {
+		boolean writeLock = false;
 		try {
-			lockAndUpdate(false);
+			writeLock = lockAndUpdate(writeLock);
 			return doCheckReadOnly(object);
 		}
 		finally {
-			unlockChanges(false);
+			unlockChanges(writeLock);
 		}
-		
 	}
 	
 	/* (non-Javadoc)
@@ -213,12 +215,13 @@ public class EMFDatabase implements IEMFDatabase, IResourceChangeListener {
 	}
 	
 	public EObject[] query(EClassifier classifier) {
+		boolean writeLock = false;
 		try {
-			lockAndUpdate(false);
+			writeLock = lockAndUpdate(writeLock);
 			return copy(getClassifierIndexer().read(classifier));
 		}
 		finally {
-			unlockChanges(false);
+			unlockChanges(writeLock);
 		}
 	}
 
@@ -247,12 +250,13 @@ public class EMFDatabase implements IEMFDatabase, IResourceChangeListener {
 	 * @see org.eclipse.tigerstripe.espace.core.IEMFDatabase#get(org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
 	 */
 	public EObject[] get(EStructuralFeature feature, Object value) {
+		boolean writeLock = false;
 		try {
-			lockAndUpdate(false);
+			writeLock = lockAndUpdate(writeLock);
 			return copy(doGet(feature, value, false));
 		}
 		finally {
-			unlockChanges(false);
+			unlockChanges(writeLock);
 		}
 	}
 	
@@ -260,22 +264,24 @@ public class EMFDatabase implements IEMFDatabase, IResourceChangeListener {
 	 * @see org.eclipse.tigerstripe.espace.core.IEMFDatabase#getPostfixes(org.eclipse.emf.ecore.EStructuralFeature, java.lang.Object)
 	 */
 	public EObject[] getPostfixes(EStructuralFeature feature, Object value) {
+		boolean writeLock = false;
 		try {
-			lockAndUpdate(false);
+			writeLock = lockAndUpdate(writeLock);
 			return copy(doGet(feature, value, true));
 		}
 		finally {
-			unlockChanges(false);
+			unlockChanges(writeLock);
 		}
 	}
 	
 	public EObject[] read() {
+		boolean writeLock = false;
 		try {
-			lockAndUpdate(false);
+			writeLock = lockAndUpdate(writeLock);
 			return doRead();
 		}
 		finally {
-			unlockChanges(false);
+			unlockChanges(writeLock);
 		}
 	}
 	
@@ -396,11 +402,6 @@ public class EMFDatabase implements IEMFDatabase, IResourceChangeListener {
 	protected EObject[] copy(Collection<EObject> collection) {
 		Collection<EObject> copy = EcoreUtil.copyAll(collection);
 		return copy.toArray(new EObject[copy.size()]);
-	}
-	
-	protected void update() {
-		if (updateState() || getResourceStorage().needUpdate())
-			doRebuildIndex();
 	}
 	
 	protected void doWrite(EObject object, Resource resource) {
@@ -561,100 +562,6 @@ public class EMFDatabase implements IEMFDatabase, IResourceChangeListener {
 			contents.addAll(resources[i].getContents());
         }
 	    return contents.toArray(new EObject[contents.size()]);
-	}
-	
-	public void resourceChanged(IResourceChangeEvent event) {
-		try {
-			if (event.getDelta() != null) {
-				event.getDelta().accept(new IResourceDeltaVisitor() {
-					
-					public boolean visit(IResourceDelta delta) throws CoreException {
-						IResource resource = delta.getResource();
-						switch (delta.getKind()) {
-							case IResourceDelta.ADDED:
-								updateResource(resource, true);
-								break;
-							case IResourceDelta.CHANGED:
-								break;
-							case IResourceDelta.REMOVED:
-								updateResource(resource, false);
-								break;
-						}
-						return true;
-					}
-				});
-			}
-		} catch (CoreException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	protected synchronized void updateResource(IResource resource, boolean added) {
-		if (resource instanceof IFile) {
-			IFile file = (IFile)resource;
-			String ext = file.getFileExtension();
-			if (ext != null && ext.toLowerCase().equals(EObjectRouter.ANNOTATION_FILE_EXTENSION)) {
-				resources.add(new ResourceState(resource, added));
-			}
-		}
-	}
-	public boolean updateState() {
-		boolean rebuild = false;
-		for (ResourceState state : resources) {
-			Resource resource = getResourceStorage().getResource(state.getResource());
-			if (state.isAdded())
-				rebuild |= getResourceStorage().addResource(resource, Mode.READ_WRITE);
-			else
-				rebuild |= getResourceStorage().removeResource(resource);
-		}
-		resources = new ArrayList<ResourceState>();
-		return rebuild;
-	}
-	
-	private static class ResourceState {
-		
-		private IResource resource;
-		private boolean added;
-		
-		public ResourceState(IResource resource, boolean added) {
-			this.resource = resource;
-			this.added = added;
-		}
-		
-		/**
-		 * @return the resource
-		 */
-		public IResource getResource() {
-			return resource;
-		}
-		
-		/**
-		 * @return the added
-		 */
-		public boolean isAdded() {
-			return added;
-		}
-		
-		/* (non-Javadoc)
-		 * @see java.lang.Object#equals(java.lang.Object)
-		 */
-		@Override
-		public boolean equals(Object obj) {
-			if (obj instanceof ResourceState) {
-				ResourceState state = (ResourceState)obj;
-				return state.added == added && state.resource.equals(resource);
-			}
-			return false;
-		}
-		
-		/* (non-Javadoc)
-		 * @see java.lang.Object#hashCode()
-		 */
-		@Override
-		public int hashCode() {
-			return resource.hashCode() ^ (added ? 0 : 1);
-		}
-		
 	}
 
 }
