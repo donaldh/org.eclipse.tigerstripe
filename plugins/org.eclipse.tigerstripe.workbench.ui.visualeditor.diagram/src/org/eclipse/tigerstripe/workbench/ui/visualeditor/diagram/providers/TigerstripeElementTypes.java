@@ -26,6 +26,7 @@ import org.eclipse.gmf.runtime.emf.type.core.IHintedType;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.tigerstripe.workbench.patterns.IArtifactPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IRelationPattern;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorPackage;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeDiagramEditorPlugin;
@@ -485,10 +486,18 @@ public class TigerstripeElementTypes {
 		return KNOWN_ELEMENT_TYPES.contains(elementType);
 	}
 	
-	public static IHintedType getCustomType(IHintedType baseType, IRelationPattern pattern){
+	public static IHintedType getCustomType(IHintedType baseType, IArtifactPattern pattern){
 		
 		IHintedType noo = new CustomElementType((IHintedType) baseType,pattern);
+		if (KNOWN_ELEMENT_TYPES == null){
+			// Do this to make sure the next line doesn't prodiuce an NullPE
+			isKnownElementType(baseType);
+		}
 		KNOWN_ELEMENT_TYPES.add(noo);
+		if (elements == null){
+			// Do this to make sure the next line doesn't prodiuce an NullPE
+			getElement((IElementType) baseType);
+		}
 		elements.put(noo, VisualeditorPackage.eINSTANCE
 				.getReference());
 		return noo;

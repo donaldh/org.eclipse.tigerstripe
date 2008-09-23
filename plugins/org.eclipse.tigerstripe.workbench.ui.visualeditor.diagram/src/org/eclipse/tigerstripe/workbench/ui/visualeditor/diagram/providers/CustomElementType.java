@@ -18,6 +18,7 @@ import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.emf.type.core.IHintedType;
 import org.eclipse.gmf.runtime.emf.type.core.edithelper.IEditHelper;
 import org.eclipse.gmf.runtime.emf.type.core.requests.IEditCommandRequest;
+import org.eclipse.tigerstripe.workbench.patterns.IArtifactPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IRelationPattern;
 
@@ -26,9 +27,9 @@ public class CustomElementType implements IHintedType{
 	private IHintedType baseType = null;
 	
 
-	private IRelationPattern pattern;
+	private IArtifactPattern pattern;
 	
-	public CustomElementType(IHintedType baseType, IRelationPattern pattern){
+	public CustomElementType(IHintedType baseType, IArtifactPattern pattern){
 		this.baseType = baseType;
 		this.pattern = pattern;
 	}
@@ -85,7 +86,7 @@ public class CustomElementType implements IHintedType{
 		return pattern.getTargetArtifactType();
 	}
 	
-	public IRelationPattern getPattern(){
+	public IArtifactPattern getPattern(){
 		return this.pattern;
 	}
 	

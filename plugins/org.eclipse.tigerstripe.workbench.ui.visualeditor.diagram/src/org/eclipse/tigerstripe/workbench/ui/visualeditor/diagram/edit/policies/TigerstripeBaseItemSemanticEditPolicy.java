@@ -249,7 +249,7 @@ public class TigerstripeBaseItemSemanticEditPolicy extends SemanticEditPolicy {
 			String newName = nameFactory.getNewRelationshipName(
 					IDependencyArtifact.class, tsProject, defaultPackage, 
 					dep.getAEnd().getFullyQualifiedName(), 
-					dep.getFullyQualifiedName());
+					dep.getZEnd().getFullyQualifiedName());
 			dep.setName(newName);
 			dep.setPackage(defaultPackage);
 			

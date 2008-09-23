@@ -785,7 +785,6 @@ public class SessionFacadeArtifactItemSemanticEditPolicy extends
 		 */
 		@Override
 		protected EObject doDefaultElementCreation() {
-			System.out.println("Executing");
 			Association newElement = (Association) super
 					.doDefaultElementCreation();
 			if (newElement != null) {
