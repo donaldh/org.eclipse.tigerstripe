@@ -20,7 +20,7 @@ public interface IRelationPattern extends IArtifactPattern{
 	
 	public String getZEndType();
 	
-	public IAbstractArtifact createArtifact(ITigerstripeModelProject project,
+	public IArtifactPatternResult createArtifact(ITigerstripeModelProject project,
 			String packageName, String artifactName, String extendedArtifactName,
 			String aEndType, String zEndType)  throws TigerstripeException ;
 	

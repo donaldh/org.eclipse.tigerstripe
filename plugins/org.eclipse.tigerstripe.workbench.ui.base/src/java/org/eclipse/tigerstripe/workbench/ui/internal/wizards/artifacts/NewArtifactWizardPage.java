@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts;
 
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -1426,5 +1427,25 @@ public abstract class NewArtifactWizardPage extends NewContainerWizardPage
 	public void setFieldCounter(int fieldCounter) {
 		this.fieldCounter = fieldCounter;
 	}
+//
+//	protected void updateStatus(IStatus[] status) {
+//		IArtifactWizardValidator v = EclipsePlugin.getArtifactWizardValidator();
+//		if(v != null)
+//		{
+//			IStatus[] additional = getAdditionalStatuses(v);
+//			if(additional != null && additional.length > 0)
+//			{
+//				List<IStatus> asList = Arrays.asList(status);
+//				asList.addAll(Arrays.asList(additional));
+//				status = asList.toArray(new IStatus[status.length+additional.length]);
+//			}
+//		}
+//		super.updateStatus(status);
+//	}
+//	
+//	protected IStatus[] getAdditionalStatuses(IArtifactWizardValidator v)
+//	{
+//		return v.validateArtifactContent(name, pack, superClass);
+//	}
 
 }

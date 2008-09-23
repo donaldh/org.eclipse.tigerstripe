@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.api.patterns;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
@@ -32,6 +33,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EAggr
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EChangeableEnum;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
+import org.eclipse.tigerstripe.workbench.patterns.IArtifactPatternResult;
 import org.eclipse.tigerstripe.workbench.patterns.IRelationPattern;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -81,13 +83,14 @@ public class RelationPattern extends ArtifactPattern implements IRelationPattern
 			IArtifactSetFeatureRequest.AENDType,
 			IArtifactSetFeatureRequest.ZENDType));
 	
-	public IAbstractArtifact createArtifact(ITigerstripeModelProject project,
+	public IArtifactPatternResult createArtifact(ITigerstripeModelProject project,
 			String packageName, String artifactName,
 			String extendedArtifactName, String endType, String endType2)
 			throws TigerstripeException {
-		IAbstractArtifact artifact = super.createArtifact(project, packageName, artifactName, extendedArtifactName);
+		IArtifactPatternResult result = super.createArtifact(project, packageName, artifactName, extendedArtifactName);
 		Map<String,Object> endData = xmlParserUtils.getAssociationEndData(artifactElement);
 		
+		IAbstractArtifact artifact = result.getArtifact();
 		if (artifact instanceof IAssociationArtifact){
 			IAssociationArtifact association = (IAssociationArtifact) artifact;
 			IAssociationEnd end = association.getAEnd();
@@ -123,9 +126,16 @@ public class RelationPattern extends ArtifactPattern implements IRelationPattern
 			for (String feature : endData.keySet()){
 
 				if (feature.equals(IAnnotationAddFeatureRequest.AEND_ANNOTATION_FEATURE)){
-					addAnnotation(end, (EObject) endData.get(feature));
+//					addAnnotation(end, (EObject) endData.get(feature));
+					LinkedHashMap<String,Object> residual = new LinkedHashMap<String,Object>();
+					residual.put(IAnnotationAddFeatureRequest.ANNOTATION_FEATURE, endData.get(feature));
+					result.getResidualRequests().put(end, residual);
 				} else if (feature.equals(IAnnotationAddFeatureRequest.ZEND_ANNOTATION_FEATURE)){
-					addAnnotation(end2, (EObject) endData.get(feature));
+//					addAnnotation(end2, (EObject) endData.get(feature));
+					LinkedHashMap<String,Object> residual = new LinkedHashMap<String,Object>();
+					residual.put(IAnnotationAddFeatureRequest.ANNOTATION_FEATURE, endData.get(feature));
+					result.getResidualRequests().put(end2, residual);
+
 				} else if (feature.equals(IStereotypeAddFeatureRequest.AEND_STEREOTYPE_FEATURE)){
 					end.addStereotypeInstance((IStereotypeInstance) endData.get(feature));
 				} else if (feature.equals(IStereotypeAddFeatureRequest.ZEND_STEREOTYPE_FEATURE)){
@@ -198,7 +208,7 @@ public class RelationPattern extends ArtifactPattern implements IRelationPattern
 			type2.setFullyQualifiedName(endType2);
 		}
 		
-		 return artifact;
+		 return result;
 	}
 	
 	

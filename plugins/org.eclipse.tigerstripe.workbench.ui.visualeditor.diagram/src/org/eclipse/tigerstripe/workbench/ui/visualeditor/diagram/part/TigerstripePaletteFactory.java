@@ -37,6 +37,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.patterns.PatternFactory;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.patterns.IArtifactPattern;
+import org.eclipse.tigerstripe.workbench.patterns.IArtifactPatternResult;
 import org.eclipse.tigerstripe.workbench.patterns.IEnumPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IQueryPattern;
@@ -813,29 +814,29 @@ public class TigerstripePaletteFactory {
 								
 								if (pattern instanceof IEnumPattern){
 									IEnumPattern enumPattern =(IEnumPattern) pattern;
-									IAbstractArtifact artifact = enumPattern.createArtifact(
+									IArtifactPatternResult artifact = enumPattern.createArtifact(
 											project, 
 											createdEArtifact.getPackage(), 
 											createdEArtifact.getName(), enumPattern.getExtendedArtifactName(),
 											enumPattern.getBaseType());
-									enumPattern.addToManager(project, artifact);
+									enumPattern.addToManager(project, artifact.getArtifact());
 									enumPattern.annotateArtifact(project, artifact);
 								} else if (pattern instanceof IQueryPattern){
 									IQueryPattern queryPattern =(IQueryPattern) pattern;
-									IAbstractArtifact artifact = queryPattern.createArtifact(
+									IArtifactPatternResult artifact = queryPattern.createArtifact(
 											project, 
 											createdEArtifact.getPackage(), 
 											createdEArtifact.getName(), queryPattern.getExtendedArtifactName(),
 											queryPattern.getReturnType());
-									queryPattern.addToManager(project, artifact);
+									queryPattern.addToManager(project, artifact.getArtifact());
 									queryPattern.annotateArtifact(project, artifact);
 								} else {
 									IArtifactPattern artifactPattern =(IArtifactPattern) pattern;
-									IAbstractArtifact artifact = artifactPattern.createArtifact(
+									IArtifactPatternResult artifact = artifactPattern.createArtifact(
 											project, 
 											createdEArtifact.getPackage(), 
 											createdEArtifact.getName(), artifactPattern.getExtendedArtifactName());
-									artifactPattern.addToManager(project, artifact);
+									artifactPattern.addToManager(project, artifact.getArtifact());
 									artifactPattern.annotateArtifact(project, artifact);
 								}
 							} catch (TigerstripeException ex) {

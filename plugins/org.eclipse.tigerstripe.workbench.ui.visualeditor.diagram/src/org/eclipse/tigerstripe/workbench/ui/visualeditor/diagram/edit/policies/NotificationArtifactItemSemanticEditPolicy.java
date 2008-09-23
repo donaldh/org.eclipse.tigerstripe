@@ -32,6 +32,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
+import org.eclipse.tigerstripe.workbench.patterns.IArtifactPatternResult;
 import org.eclipse.tigerstripe.workbench.patterns.IRelationPattern;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -715,13 +716,13 @@ public class NotificationArtifactItemSemanticEditPolicy extends
 
 					Map map = (Map) newElement.eContainer();
 					try {
-						IAbstractArtifact artifact = pattern.createArtifact(
+						IArtifactPatternResult artifact = pattern.createArtifact(
 								tsProject, 
 								newElement.getPackage(), 
 								newElement.getName(), pattern.getExtendedArtifactName(),
 								newElement.getAEnd().getFullyQualifiedName(),
 								newElement.getZEnd().getFullyQualifiedName());
-						pattern.addToManager(tsProject, artifact);
+						pattern.addToManager(tsProject, artifact.getArtifact());
 						pattern.annotateArtifact(tsProject, artifact);
 					} catch (TigerstripeException ex) {
 						ex.printStackTrace();
@@ -869,13 +870,13 @@ public class NotificationArtifactItemSemanticEditPolicy extends
 
 					Map map = (Map) newElement.eContainer();
 					try {
-						IAbstractArtifact artifact = pattern.createArtifact(
+						IArtifactPatternResult artifact = pattern.createArtifact(
 								tsProject, 
 								newElement.getPackage(), 
 								newElement.getName(), pattern.getExtendedArtifactName(),
 								newElement.getAEnd().getFullyQualifiedName(),
 								newElement.getZEnd().getFullyQualifiedName());
-						pattern.addToManager(tsProject, artifact);
+						pattern.addToManager(tsProject, artifact.getArtifact());
 						pattern.annotateArtifact(tsProject, artifact);
 					} catch (TigerstripeException ex) {
 						ex.printStackTrace();
@@ -1004,13 +1005,13 @@ public class NotificationArtifactItemSemanticEditPolicy extends
 
 					Map map = (Map) newElement.eContainer();
 					try {
-						IAbstractArtifact artifact = pattern.createArtifact(
+						IArtifactPatternResult artifact = pattern.createArtifact(
 								tsProject, 
 								newElement.getPackage(), 
 								newElement.getName(), pattern.getExtendedArtifactName(),
 								newElement.getAEnd().getFullyQualifiedName(),
 								newElement.getZEnd().getFullyQualifiedName());
-						pattern.addToManager(tsProject, artifact);
+						pattern.addToManager(tsProject, artifact.getArtifact());
 						pattern.annotateArtifact(tsProject, artifact);
 					} catch (TigerstripeException ex) {
 						ex.printStackTrace();

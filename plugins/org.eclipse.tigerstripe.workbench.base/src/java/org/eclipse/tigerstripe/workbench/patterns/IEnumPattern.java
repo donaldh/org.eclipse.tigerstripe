@@ -28,7 +28,7 @@ public interface IEnumPattern extends INodePattern {
 	 * @return
 	 * @throws TigerstripeException
 	 */
-	public IAbstractArtifact createArtifact(ITigerstripeModelProject project,
+	public IArtifactPatternResult createArtifact(ITigerstripeModelProject project,
 			String packageName, String artifactName, String extendedArtifactName, String baseType)  throws TigerstripeException ;
 	
 }

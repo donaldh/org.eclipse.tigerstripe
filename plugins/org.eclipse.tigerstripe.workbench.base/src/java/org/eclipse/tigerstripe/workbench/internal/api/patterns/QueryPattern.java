@@ -14,6 +14,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
+import org.eclipse.tigerstripe.workbench.patterns.IArtifactPatternResult;
 import org.eclipse.tigerstripe.workbench.patterns.IQueryPattern;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.w3c.dom.Element;
@@ -38,13 +39,13 @@ public class QueryPattern extends NodePattern implements IQueryPattern {
 		setReturnType(returnType);
 	}
 
-	public IAbstractArtifact createArtifact(ITigerstripeModelProject project,
+	public IArtifactPatternResult createArtifact(ITigerstripeModelProject project,
 			String packageName, String artifactName,
 			String extendedArtifactName, String returnType)
 			throws TigerstripeException {
-		IAbstractArtifact artifact = super.createArtifact(project, packageName, artifactName, extendedArtifactName);
-		addReturnType(artifact, returnType);
-		return artifact;
+		IArtifactPatternResult result = super.createArtifact(project, packageName, artifactName, extendedArtifactName);
+		addReturnType(result.getArtifact(), returnType);
+		return result;
 	}
 
 	private void addReturnType(IAbstractArtifact artifact,String returnType) throws TigerstripeException {

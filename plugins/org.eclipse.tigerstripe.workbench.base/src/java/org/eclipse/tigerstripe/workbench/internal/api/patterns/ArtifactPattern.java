@@ -14,6 +14,8 @@ package org.eclipse.tigerstripe.workbench.internal.api.patterns;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
@@ -55,6 +57,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
 import org.eclipse.tigerstripe.workbench.patterns.IArtifactPattern;
+import org.eclipse.tigerstripe.workbench.patterns.IArtifactPatternResult;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.w3c.dom.Element;
@@ -115,14 +118,40 @@ public abstract class ArtifactPattern extends Pattern implements IArtifactPatter
 		return this.extendedArtifactName;
 	}
 
-
+	static class ArtifactPatternResult implements IArtifactPatternResult {
+		private IAbstractArtifact artifact;
+		private Map<IModelComponent,Map<String,Object>> residualRequests;
+		/**
+		 * @param artifact
+		 * @param residuals
+		 */
+		public ArtifactPatternResult(IAbstractArtifact artifact,
+				Map<IModelComponent,Map<String, Object>> residuals) {
+			this.artifact = artifact;
+			this.residualRequests = residuals;
+		}
+		/**
+		 * @return the artifact
+		 */
+		public IAbstractArtifact getArtifact() {
+			return artifact;
+		}
+		
+		/**
+		 * @return the residualRequests
+		 */
+		public Map<IModelComponent,Map<String, Object>> getResidualRequests() {
+			return residualRequests;
+		}
+	}
+	
 	/**
 	 * Create the new artifact,
 	 * set the values for names etc
 	 * IT DOES NOT ADD it to the artifactManager.
 	 * 
 	 */
-	public IAbstractArtifact createArtifact(ITigerstripeModelProject project,
+	public IArtifactPatternResult createArtifact(ITigerstripeModelProject project,
 			String packageName, String artifactName, String extendedArtifactName
 			) throws TigerstripeException {
 		
@@ -157,10 +186,10 @@ public abstract class ArtifactPattern extends Pattern implements IArtifactPatter
 		}
 
 		addArtifactBasics();
-		addComponentRequests(artifactElement);
+//		addComponentRequests(artifactElement);
 		
 		
-		return artifact;
+		return new ArtifactPatternResult(artifact, addComponentRequests(artifactElement));
 	}
 	
 	public void addToManager(ITigerstripeModelProject project, IAbstractArtifact newArtifact) throws TigerstripeException {
@@ -169,11 +198,20 @@ public abstract class ArtifactPattern extends Pattern implements IArtifactPatter
 		session.addArtifact(newArtifact);
 	}
 	
-	public void annotateArtifact(ITigerstripeModelProject project, IAbstractArtifact newArtifact) throws TigerstripeException {
+	public void annotateArtifact(ITigerstripeModelProject project, IArtifactPatternResult patternResult) throws TigerstripeException {
 		Collection<EObject> annotationContents = xmlParserUtils.getAnnotations(artifactElement);
 
 		for (EObject content : annotationContents){
-			addAnnotation(artifact, content);
+			addAnnotation(patternResult.getArtifact(), content);
+		}
+		
+		for(Map.Entry<IModelComponent,Map<String,Object>> residualEntry : patternResult.getResidualRequests().entrySet())
+		{
+			for(Map.Entry<String, Object> entry : residualEntry.getValue().entrySet())
+			{
+				if(entry.getKey().equals(IAnnotationAddFeatureRequest.ANNOTATION_FEATURE))
+					addAnnotation(residualEntry.getKey(), (EObject)entry.getValue());
+			}
 		}
 	}
 	
@@ -203,14 +241,16 @@ public abstract class ArtifactPattern extends Pattern implements IArtifactPatter
 	 * @param pattern
 	 * @param artifactElement
 	 */
-	private void addComponentRequests( Element artifactElement)throws TigerstripeException {
-		
+	private Map<IModelComponent,Map<String, Object>> addComponentRequests( Element artifactElement)throws TigerstripeException {
+		Map<IModelComponent,Map<String, Object>> residuals = new LinkedHashMap<IModelComponent,Map<String, Object>>();
 		// Do the fields
 		Collection<Map<String,Object>> allFieldData = xmlParserUtils.getArtifactFieldData(artifactElement);
 		for (Map<String,Object> fieldData : allFieldData){
 			// Create the Field
 			IField field = artifact.makeField();
-			updateField(field, fieldData);
+			Map<String,Object> residualMap = new LinkedHashMap<String,Object>();
+			updateField(field, fieldData, residualMap);
+			if(!residualMap.isEmpty()) residuals.put(field,residualMap);
 			artifact.addField(field);
 		}
 		
@@ -220,7 +260,9 @@ public abstract class ArtifactPattern extends Pattern implements IArtifactPatter
 		for (Map<String,Object> literalData : allLiteralData){
 			// Create the Literal
 			ILiteral literal = artifact.makeLiteral();
-			updateLiteral(literal, literalData);
+			Map<String,Object> residualMap = new LinkedHashMap<String,Object>();
+			updateLiteral(literal, literalData, residualMap);
+			if(!residualMap.isEmpty()) residuals.put(literal,residualMap);
 			artifact.addLiteral(literal);
 
 		}
@@ -230,10 +272,14 @@ public abstract class ArtifactPattern extends Pattern implements IArtifactPatter
 		for (Map<String,Object> methodData : allmethodData){
 			// Create the createRequest
 			IMethod method = artifact.makeMethod();
-			updateMethod(method, methodData);
+			Map<String,Object> residualMap = new LinkedHashMap<String,Object>();
+			updateMethod(method, methodData, residualMap);
+			if(!residualMap.isEmpty()) residuals.put(method,residualMap);
 			artifact.addMethod(method);
 			
 		}
+		
+		return residuals;
 	}
 
 	protected void addAnnotation(IModelComponent component, EObject content) throws TigerstripeException{
@@ -253,7 +299,7 @@ public abstract class ArtifactPattern extends Pattern implements IArtifactPatter
 			IAttributeSetRequest.TYPE_FEATURE,
 			IAttributeSetRequest.MULTIPLICITY_FEATURE));
 	
-	private void updateField(IField field, Map<String,Object> fieldData ) throws TigerstripeException {
+	private void updateField(IField field, Map<String,Object> fieldData, Map<String, Object> residuals) throws TigerstripeException {
 		field.setName((String) fieldData.get(IAttributeSetRequest.NAME_FEATURE));
 		IType type = field.makeType();
 		type.setFullyQualifiedName((String) fieldData.get(IAttributeSetRequest.TYPE_FEATURE));
@@ -262,7 +308,8 @@ public abstract class ArtifactPattern extends Pattern implements IArtifactPatter
 		// iterate over other features
 		for (String feature : fieldData.keySet()){
 			if (feature.equals(IAnnotationAddFeatureRequest.ANNOTATION_FEATURE)){				
-				addAnnotation(field,(EObject) fieldData.get(feature));
+//				addAnnotation(field,(EObject) fieldData.get(feature));
+				residuals.put(feature, fieldData.get(feature));
 			} else if (feature.equals(IStereotypeAddFeatureRequest.STEREOTYPE_FEATURE)){
 				field.addStereotypeInstance((IStereotypeInstance) fieldData.get(feature));
 			} else if (!fieldCreateFeatures.contains(feature)){
@@ -303,7 +350,7 @@ public abstract class ArtifactPattern extends Pattern implements IArtifactPatter
 			ILiteralSetRequest.TYPE_FEATURE,
 			ILiteralSetRequest.VALUE_FEATURE));
 
-	private void updateLiteral(ILiteral literal,Map<String,Object> literalData ) throws TigerstripeException{
+	private void updateLiteral(ILiteral literal,Map<String,Object> literalData, Map<String, Object> residuals ) throws TigerstripeException{
 		literal.setName((String) literalData.get(ILiteralSetRequest.NAME_FEATURE));
 		IType type = literal.makeType();
 		type.setFullyQualifiedName((String) literalData.get(ILiteralSetRequest.TYPE_FEATURE));
@@ -312,7 +359,8 @@ public abstract class ArtifactPattern extends Pattern implements IArtifactPatter
 		// iterate over other features
 		for (String feature : literalData.keySet()){
 			if (feature.equals(IAnnotationAddFeatureRequest.ANNOTATION_FEATURE)){
-				addAnnotation(literal, (EObject) literalData.get(feature));
+//				addAnnotation(literal, (EObject) literalData.get(feature));
+				residuals.put(feature, literalData.get(feature));
 			} else if (feature.equals(IStereotypeAddFeatureRequest.STEREOTYPE_FEATURE)){
 				literal.addStereotypeInstance((IStereotypeInstance) literalData.get(feature));
 			} else	if (!literalCreateFeatures.contains(feature)){
@@ -349,7 +397,7 @@ public abstract class ArtifactPattern extends Pattern implements IArtifactPatter
 			IMethodAddFeatureRequest.ARGUMENT_TYPE_FEATURE,
 			IMethodAddFeatureRequest.ARGUMENT_MULTIPLICITY_FEATURE));
 	
-	private void updateMethod(IMethod method,Map<String,Object> methodData )  throws TigerstripeException{
+	private void updateMethod(IMethod method,Map<String,Object> methodData, Map<String, Object> residuals )  throws TigerstripeException{
 		method.setName((String) methodData.get(IMethodSetRequest.NAME_FEATURE));
 		IType type = method.makeType();
 		type.setFullyQualifiedName((String) methodData.get(IMethodSetRequest.TYPE_FEATURE));
@@ -408,7 +456,8 @@ public abstract class ArtifactPattern extends Pattern implements IArtifactPatter
 		for (String feature : methodData.keySet()){
 
 			if (feature.equals(IAnnotationAddFeatureRequest.ANNOTATION_FEATURE)){
-				addAnnotation(method, (EObject) methodData.get(feature));
+//				addAnnotation(method, (EObject) methodData.get(feature));
+				residuals.put(feature, methodData.get(feature));
 			} else if (feature.equals(IStereotypeAddFeatureRequest.STEREOTYPE_FEATURE)){
 				method.addStereotypeInstance((IStereotypeInstance) methodData.get(feature));
 			} else if (feature.equals(IStereotypeAddFeatureRequest.RETURN_STEREOTYPE_FEATURE)){

@@ -28,6 +28,6 @@ public interface IQueryPattern extends INodePattern {
 	 * @return
 	 * @throws TigerstripeException
 	 */
-	public IAbstractArtifact createArtifact(ITigerstripeModelProject project,
+	public IArtifactPatternResult createArtifact(ITigerstripeModelProject project,
 			String packageName, String artifactName, String extendedArtifactName, String returnType)  throws TigerstripeException ;
 }

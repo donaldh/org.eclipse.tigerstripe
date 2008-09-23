@@ -35,6 +35,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifac
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
+import org.eclipse.tigerstripe.workbench.patterns.IArtifactPatternResult;
 import org.eclipse.tigerstripe.workbench.patterns.IEnumPattern;
 import org.eclipse.tigerstripe.workbench.patterns.INodePattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
@@ -234,8 +235,8 @@ public class PatternTest extends TestCase {
 		INodePattern mePattern = (INodePattern) pattern;
 		//mePattern.executeRequests(project, targetPackage, entityName, "",true);
 		
-		IAbstractArtifact artifact = mePattern.createArtifact(project, targetPackage, entityName, "");
-		mePattern.addToManager(project, artifact);
+		IArtifactPatternResult artifact = mePattern.createArtifact(project, targetPackage, entityName, "");
+		mePattern.addToManager(project, artifact.getArtifact());
 		mePattern.annotateArtifact(project, artifact);
 		
 		IArtifactManagerSession mgrSession = project
@@ -264,10 +265,10 @@ public class PatternTest extends TestCase {
 		assertNotNull("No patterns with name '"+patternname +"' returned", pattern);
 		IEnumPattern mePattern = (IEnumPattern) pattern;
 		
-		IAbstractArtifact artifact = mePattern.createArtifact(project, targetPackage, entityName, "",baseType);
-		mePattern.addToManager(project, artifact);
+		IArtifactPatternResult artifact = mePattern.createArtifact(project, targetPackage, entityName, "",baseType);
+		mePattern.addToManager(project, artifact.getArtifact());
 		mePattern.annotateArtifact(project, artifact);
-		
+
 		IArtifactManagerSession mgrSession = project
 			.getArtifactManagerSession();
 		String fqn = targetPackage+"."+entityName;
@@ -295,10 +296,10 @@ public class PatternTest extends TestCase {
 		assertNotNull("No patterns with name '"+patternname +"' returned", pattern);
 		IRelationPattern mePattern = (IRelationPattern) pattern;
 		//mePattern.executeRequests(project, targetPackage, entityName, "",aEndType,zEndType,true);
-		IAbstractArtifact artifact =  mePattern.createArtifact(project, targetPackage, entityName, "",aEndType,zEndType);
-		mePattern.addToManager(project, artifact);
+		IArtifactPatternResult artifact =  mePattern.createArtifact(project, targetPackage, entityName, "",aEndType,zEndType);
+		mePattern.addToManager(project, artifact.getArtifact());
 		mePattern.annotateArtifact(project, artifact);
-		
+
 		IArtifactManagerSession mgrSession = project
 			.getArtifactManagerSession();
 		String fqn = targetPackage+"."+entityName;
@@ -360,9 +361,8 @@ public class PatternTest extends TestCase {
 		INodePattern mePattern = (INodePattern) pattern;
 		//mePattern.executeRequests(project, targetPackage, entityName, extendedArtifact,true);
 		
-		IAbstractArtifact artifact =  mePattern.createArtifact(project, targetPackage, entityName, "");
-		mePattern.addToManager(project, artifact);
-		mePattern.annotateArtifact(project, artifact);
+		IArtifactPatternResult artifact =  mePattern.createArtifact(project, targetPackage, entityName, "");
+		mePattern.addToManager(project, artifact.getArtifact());
 		mePattern.annotateArtifact(project, artifact);
 		
 		IArtifactManagerSession mgrSession = project
@@ -525,11 +525,11 @@ public class PatternTest extends TestCase {
 		//relPattern.executeRequests(project, targetPackage, entityName, extendedArtifact,
 		//		aEndType,zEndType,true);
 		
-		IAbstractArtifact artifact =  relPattern.createArtifact(project, targetPackage, entityName, extendedArtifact,
+		IArtifactPatternResult artifact =  relPattern.createArtifact(project, targetPackage, entityName, extendedArtifact,
 				aEndType,zEndType);
-		relPattern.addToManager(project, artifact);
-		relPattern.annotateArtifact(project,artifact);
-		
+		relPattern.addToManager(project, artifact.getArtifact());
+		relPattern.annotateArtifact(project, artifact);
+
 		IArtifactManagerSession mgrSession = project
 			.getArtifactManagerSession();
 		ArtifactTestHelper artifactHelper = new ArtifactTestHelper(project);

@@ -14,6 +14,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
+import org.eclipse.tigerstripe.workbench.patterns.IArtifactPatternResult;
 import org.eclipse.tigerstripe.workbench.patterns.IEnumPattern;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.w3c.dom.Element;
@@ -37,13 +38,13 @@ public class EnumPattern extends NodePattern implements IEnumPattern {
 		setBaseType(baseType);
 	}
 	
-	public IAbstractArtifact createArtifact(ITigerstripeModelProject project,
+	public IArtifactPatternResult createArtifact(ITigerstripeModelProject project,
 			String packageName, String artifactName,
 			String extendedArtifactName, String baseType)
 			throws TigerstripeException {
-		IAbstractArtifact artifact = super.createArtifact(project, packageName, artifactName, extendedArtifactName);
-		addBaseType(artifact, baseType);
-		return artifact;
+		IArtifactPatternResult result = super.createArtifact(project, packageName, artifactName, extendedArtifactName);
+		addBaseType(result.getArtifact(), baseType);
+		return result;
 	}
 
 	// Should maybe add a check here ?

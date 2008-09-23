@@ -32,6 +32,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.patterns.IArtifactPattern;
+import org.eclipse.tigerstripe.workbench.patterns.IArtifactPatternResult;
 import org.eclipse.tigerstripe.workbench.patterns.IEnumPattern;
 import org.eclipse.tigerstripe.workbench.patterns.INodePattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
@@ -98,47 +99,47 @@ public abstract class NewPatternBasedArtifactWizard extends NewTSElementWizard {
 		IRunnableWithProgress op = new IRunnableWithProgress() {
 			public void run(IProgressMonitor monitor)
 			throws InvocationTargetException {
-				IAbstractArtifact artifact = null;
+				IArtifactPatternResult result = null;
 				try {
 					IArtifactPattern artifactPattern = (IArtifactPattern) patt;
 					if (patt instanceof IEnumPattern){
-						 artifact = ((IEnumPattern) patt).createArtifact(project, 
+						 result = ((IEnumPattern) patt).createArtifact(project, 
 								packageName, 
 								artifactName, 
 								extendedArtifact, baseType);
-						artifactPattern.addToManager(project,artifact);
-						artifactPattern.annotateArtifact(project,artifact);
+						artifactPattern.addToManager(project,result.getArtifact());
+						artifactPattern.annotateArtifact(project,result);
 						
 					} else if (patt instanceof IQueryPattern){
-						 artifact = ((IQueryPattern) patt).createArtifact(project, 
+						result = ((IQueryPattern) patt).createArtifact(project, 
 								packageName, 
 								artifactName, 
 								extendedArtifact, returnType);
-						artifactPattern.addToManager(project,artifact);
-						artifactPattern.annotateArtifact(project,artifact);
+						artifactPattern.addToManager(project,result.getArtifact());
+						artifactPattern.annotateArtifact(project,result);
 						
 					} else if (patt instanceof INodePattern){
-						 artifact = artifactPattern.createArtifact(project, 
+						result = artifactPattern.createArtifact(project, 
 								packageName, 
 								artifactName, 
 								extendedArtifact);
-						artifactPattern.addToManager(project,artifact);
-						artifactPattern.annotateArtifact(project,artifact);
+						artifactPattern.addToManager(project,result.getArtifact());
+						artifactPattern.annotateArtifact(project,result);
 						
 					} else if (patt instanceof IRelationPattern){
-						 artifact = ((IRelationPattern) patt).createArtifact(project, 
+						result = ((IRelationPattern) patt).createArtifact(project, 
 								packageName, 
 								artifactName, 
 								extendedArtifact,
 								aEndType,
 								zEndType);
-						((IRelationPattern) patt).addToManager(project,artifact);
-						artifactPattern.annotateArtifact(project,artifact);
+						((IRelationPattern) patt).addToManager(project,result.getArtifact());
+						artifactPattern.annotateArtifact(project,result);
 						
 					}
 					project.getArtifactManagerSession().refresh(monitor);
 					
-					IResource resource = (IResource) artifact.getAdapter(IResource.class);
+					IResource resource = (IResource) result.getArtifact().getAdapter(IResource.class);
 					selectAndReveal(resource);
 					if (resource instanceof IFile){
 						openResource((IFile) resource);

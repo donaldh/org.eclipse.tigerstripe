@@ -52,7 +52,7 @@ public interface IArtifactPattern extends IPattern{
 	 * @return
 	 * @throws TigerstripeException
 	 */
-	public IAbstractArtifact createArtifact(ITigerstripeModelProject project,
+	public IArtifactPatternResult createArtifact(ITigerstripeModelProject project,
 			String packageName, String artifactName, String extendedArtifactName)  throws TigerstripeException ;
 	
 	/**
@@ -69,6 +69,6 @@ public interface IArtifactPattern extends IPattern{
 	 * @param newArtifact
 	 * @throws TigerstripeException
 	 */
-	public void annotateArtifact(ITigerstripeModelProject project, IAbstractArtifact newArtifact) throws TigerstripeException;
+	public void annotateArtifact(ITigerstripeModelProject project, IArtifactPatternResult newArtifact) throws TigerstripeException;
 
 }
