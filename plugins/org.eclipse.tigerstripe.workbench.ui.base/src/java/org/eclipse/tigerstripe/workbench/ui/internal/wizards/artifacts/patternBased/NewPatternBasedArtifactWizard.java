@@ -31,6 +31,7 @@ import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.patterns.IArtifactPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IEnumPattern;
 import org.eclipse.tigerstripe.workbench.patterns.INodePattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
@@ -99,30 +100,30 @@ public abstract class NewPatternBasedArtifactWizard extends NewTSElementWizard {
 			throws InvocationTargetException {
 				IAbstractArtifact artifact = null;
 				try {
-					INodePattern nodePattern = (INodePattern) patt;
+					IArtifactPattern artifactPattern = (IArtifactPattern) patt;
 					if (patt instanceof IEnumPattern){
 						 artifact = ((IEnumPattern) patt).createArtifact(project, 
 								packageName, 
 								artifactName, 
 								extendedArtifact, baseType);
-						nodePattern.addToManager(project,artifact);
-						nodePattern.annotateArtifact(project,artifact);
+						artifactPattern.addToManager(project,artifact);
+						artifactPattern.annotateArtifact(project,artifact);
 						
 					} else if (patt instanceof IQueryPattern){
 						 artifact = ((IQueryPattern) patt).createArtifact(project, 
 								packageName, 
 								artifactName, 
 								extendedArtifact, returnType);
-						nodePattern.addToManager(project,artifact);
-						nodePattern.annotateArtifact(project,artifact);
+						artifactPattern.addToManager(project,artifact);
+						artifactPattern.annotateArtifact(project,artifact);
 						
 					} else if (patt instanceof INodePattern){
-						 artifact = nodePattern.createArtifact(project, 
+						 artifact = artifactPattern.createArtifact(project, 
 								packageName, 
 								artifactName, 
 								extendedArtifact);
-						nodePattern.addToManager(project,artifact);
-						nodePattern.annotateArtifact(project,artifact);
+						artifactPattern.addToManager(project,artifact);
+						artifactPattern.annotateArtifact(project,artifact);
 						
 					} else if (patt instanceof IRelationPattern){
 						 artifact = ((IRelationPattern) patt).createArtifact(project, 
@@ -132,7 +133,7 @@ public abstract class NewPatternBasedArtifactWizard extends NewTSElementWizard {
 								aEndType,
 								zEndType);
 						((IRelationPattern) patt).addToManager(project,artifact);
-						nodePattern.annotateArtifact(project,artifact);
+						artifactPattern.annotateArtifact(project,artifact);
 						
 					}
 					project.getArtifactManagerSession().refresh(monitor);
