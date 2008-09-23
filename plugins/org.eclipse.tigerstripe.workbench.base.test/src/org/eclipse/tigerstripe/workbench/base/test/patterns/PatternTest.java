@@ -236,6 +236,7 @@ public class PatternTest extends TestCase {
 		
 		IAbstractArtifact artifact = mePattern.createArtifact(project, targetPackage, entityName, "");
 		mePattern.addToManager(project, artifact);
+		mePattern.annotateArtifact(project, artifact);
 		
 		IArtifactManagerSession mgrSession = project
 			.getArtifactManagerSession();
@@ -265,6 +266,7 @@ public class PatternTest extends TestCase {
 		
 		IAbstractArtifact artifact = mePattern.createArtifact(project, targetPackage, entityName, "",baseType);
 		mePattern.addToManager(project, artifact);
+		mePattern.annotateArtifact(project, artifact);
 		
 		IArtifactManagerSession mgrSession = project
 			.getArtifactManagerSession();
@@ -295,6 +297,7 @@ public class PatternTest extends TestCase {
 		//mePattern.executeRequests(project, targetPackage, entityName, "",aEndType,zEndType,true);
 		IAbstractArtifact artifact =  mePattern.createArtifact(project, targetPackage, entityName, "",aEndType,zEndType);
 		mePattern.addToManager(project, artifact);
+		mePattern.annotateArtifact(project, artifact);
 		
 		IArtifactManagerSession mgrSession = project
 			.getArtifactManagerSession();
@@ -359,6 +362,8 @@ public class PatternTest extends TestCase {
 		
 		IAbstractArtifact artifact =  mePattern.createArtifact(project, targetPackage, entityName, "");
 		mePattern.addToManager(project, artifact);
+		mePattern.annotateArtifact(project, artifact);
+		mePattern.annotateArtifact(project, artifact);
 		
 		IArtifactManagerSession mgrSession = project
 			.getArtifactManagerSession();
@@ -523,6 +528,7 @@ public class PatternTest extends TestCase {
 		IAbstractArtifact artifact =  relPattern.createArtifact(project, targetPackage, entityName, extendedArtifact,
 				aEndType,zEndType);
 		relPattern.addToManager(project, artifact);
+		relPattern.annotateArtifact(project,artifact);
 		
 		IArtifactManagerSession mgrSession = project
 			.getArtifactManagerSession();
