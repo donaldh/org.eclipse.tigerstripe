@@ -39,7 +39,7 @@ public interface IPattern {
 	
 	public String getDescription();
 	
-	public ImageDescriptor getDescriptor();
+	public ImageDescriptor getImageDescriptor();
 	
 	public Collection<IPatternAnnotation> getPatternAnnotations();
 	

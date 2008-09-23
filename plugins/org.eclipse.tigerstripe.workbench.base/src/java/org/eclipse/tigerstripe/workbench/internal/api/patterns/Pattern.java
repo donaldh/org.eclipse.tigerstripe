@@ -101,7 +101,7 @@ public class Pattern implements IPattern {
 		this.disabledIconURL = disabledIconURL;
 	}
 
-	public ImageDescriptor getDescriptor(){
+	public ImageDescriptor getImageDescriptor(){
 		ImageDescriptor descriptor = null;
 		descriptor = ImageDescriptor.createFromURL(this.iconURL);
 		return descriptor;

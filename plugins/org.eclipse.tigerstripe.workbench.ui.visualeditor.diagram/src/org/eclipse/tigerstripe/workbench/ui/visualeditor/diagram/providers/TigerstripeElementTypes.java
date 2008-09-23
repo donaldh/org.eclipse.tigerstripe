@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.Map;
@@ -21,17 +22,21 @@ import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.gmf.runtime.emf.type.core.ElementTypeRegistry;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
+import org.eclipse.gmf.runtime.emf.type.core.IHintedType;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.tigerstripe.workbench.patterns.IRelationPattern;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorPackage;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeDiagramEditorPlugin;
+
+
 
 /**
  * @generated
  */
 public class TigerstripeElementTypes {
-
+	
 	/**
 	 * @generated
 	 */
@@ -105,6 +110,7 @@ public class TigerstripeElementTypes {
 	 * @generated
 	 */
 	public static Image getImage(ENamedElement element) {
+		
 		String key = getImageRegistryKey(element);
 		Image image = getImageRegistry().get(key);
 		if (image == null) {
@@ -118,6 +124,7 @@ public class TigerstripeElementTypes {
 		return image;
 	}
 
+	
 	/**
 	 * @generated
 	 */
@@ -129,9 +136,31 @@ public class TigerstripeElementTypes {
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
+	 */
+	public static Image getImage(CustomElementType custom){
+		String key = custom.getDisplayName();
+		Image image = getImageRegistry().get(key);
+
+		if (image == null) {
+			ImageDescriptor imageDescriptor = custom.getPattern().getImageDescriptor();
+			if (imageDescriptor == null) {
+				imageDescriptor = ImageDescriptor.getMissingImageDescriptor();
+			}
+
+			getImageRegistry().put(key, imageDescriptor.createImage());
+			image = getImageRegistry().get(key);
+		}
+		return image;
+	}
+
+	/**
+	 * @generated NOT
 	 */
 	public static Image getImage(IAdaptable hint) {
+		if (hint instanceof CustomElementType){
+			return getImage((CustomElementType) hint);
+		}
 		ENamedElement element = getElement(hint);
 		if (element == null)
 			return null;
@@ -413,6 +442,7 @@ public class TigerstripeElementTypes {
 	 * @generated
 	 */
 	public static boolean isKnownElementType(IElementType elementType) {
+		//System.out.println("Is Known? "+elementType.getDisplayName());
 		if (KNOWN_ELEMENT_TYPES == null) {
 			KNOWN_ELEMENT_TYPES = new HashSet();
 			KNOWN_ELEMENT_TYPES.add(Map_79);
@@ -453,5 +483,14 @@ public class TigerstripeElementTypes {
 			KNOWN_ELEMENT_TYPES.add(AbstractArtifactImplements_3012);
 		}
 		return KNOWN_ELEMENT_TYPES.contains(elementType);
+	}
+	
+	public static IHintedType getCustomType(IHintedType baseType, IRelationPattern pattern){
+		
+		IHintedType noo = new CustomElementType((IHintedType) baseType,pattern);
+		KNOWN_ELEMENT_TYPES.add(noo);
+		elements.put(noo, VisualeditorPackage.eINSTANCE
+				.getReference());
+		return noo;
 	}
 }

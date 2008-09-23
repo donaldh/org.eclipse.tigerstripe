@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
+import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.emf.type.core.commands.CreateRelationshipCommand;
 import org.eclipse.gmf.runtime.emf.type.core.commands.DestroyElementCommand;
 import org.eclipse.gmf.runtime.emf.type.core.commands.SetValueCommand;
@@ -27,6 +28,11 @@ import org.eclipse.gmf.runtime.emf.type.core.requests.DestroyElementRequest;
 import org.eclipse.gmf.runtime.emf.type.core.requests.SetRequest;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
+import org.eclipse.tigerstripe.workbench.patterns.IRelationPattern;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
@@ -37,6 +43,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.NamedQueryArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Reference;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorPackage;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.CustomElementType;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.TigerstripeElementTypes;
 
 /**
@@ -69,9 +76,23 @@ public class ExceptionArtifactItemSemanticEditPolicy extends
 	 */
 	@Override
 	protected Command getCreateRelationshipCommand(CreateRelationshipRequest req) {
-		if (TigerstripeElementTypes.Association_3001 == req.getElementType())
-			return req.getTarget() == null ? getCreateStartOutgoingAssociation3001Command(req)
-					: getCreateCompleteIncomingAssociation3001Command(req);
+		
+		if (req.getElementType() instanceof CustomElementType){
+
+			if (((CustomElementType) req.getElementType()).getTargetArtifactType().equals(IAssociationArtifact.class.getName())){
+				return req.getTarget() == null ? getCreateStartOutgoingCustomAssociation3001Command(req)
+						: getCreateCompleteIncomingCustomAssociation3001Command(req);
+			} else if (((CustomElementType) req.getElementType()).getTargetArtifactType().equals(IAssociationClassArtifact.class.getName())){
+				return req.getTarget() == null ? getCreateStartOutgoingCustomAssociationClass3010Command(req)
+						: getCreateCompleteIncomingCustomAssociationClass3010Command(req);
+			} else if (((CustomElementType) req.getElementType()).getTargetArtifactType().equals(IDependencyArtifact.class.getName())){
+				return req.getTarget() == null ? getCreateStartOutgoingCustomDependency3008Command(req)
+						: getCreateCompleteIncomingCustomDependency3008Command(req);
+			} 
+
+
+		}
+		
 		if (TigerstripeElementTypes.NamedQueryArtifactReturnedType_3004 == req
 				.getElementType())
 			return req.getTarget() == null ? null
@@ -80,16 +101,9 @@ public class ExceptionArtifactItemSemanticEditPolicy extends
 				.getElementType())
 			return req.getTarget() == null ? getCreateStartOutgoingAbstractArtifact_Extends3007Command(req)
 					: getCreateCompleteIncomingAbstractArtifact_Extends3007Command(req);
-		if (TigerstripeElementTypes.Dependency_3008 == req.getElementType())
-			return req.getTarget() == null ? getCreateStartOutgoingDependency3008Command(req)
-					: getCreateCompleteIncomingDependency3008Command(req);
 		if (TigerstripeElementTypes.Reference_3009 == req.getElementType())
 			return req.getTarget() == null ? getCreateStartOutgoingReference3009Command(req)
 					: getCreateCompleteIncomingReference3009Command(req);
-		if (TigerstripeElementTypes.AssociationClass_3010 == req
-				.getElementType())
-			return req.getTarget() == null ? getCreateStartOutgoingAssociationClass3010Command(req)
-					: getCreateCompleteIncomingAssociationClass3010Command(req);
 		if (TigerstripeElementTypes.AbstractArtifactImplements_3012 == req
 				.getElementType())
 			return req.getTarget() == null ? getCreateStartOutgoingAbstractArtifact_Implements3012Command(req)
@@ -575,4 +589,414 @@ public class ExceptionArtifactItemSemanticEditPolicy extends
 				req.getTarget());
 		return getMSLWrapper(new SetValueCommand(setReq));
 	}
+	//========================
+	protected Command getCreateStartOutgoingCustomAssociation3001Command(CreateRelationshipRequest req){
+		if (!TigerstripeBaseItemSemanticEditPolicy.LinkConstraints.Association_3001
+				.canCreateLink(req, false))
+			return UnexecutableCommand.INSTANCE;
+		return new Command() {
+		};
+	}
+	//========================
+	
+	//========================
+	protected Command getCreateCompleteIncomingCustomAssociation3001Command(
+			CreateRelationshipRequest req) {
+		if (!(req.getSource() instanceof AbstractArtifact)){
+			return UnexecutableCommand.INSTANCE;}
+		final Map element = (Map) getRelationshipContainer(req.getSource(),
+				VisualeditorPackage.eINSTANCE.getMap(), req.getElementType());
+		if (element == null){
+			return UnexecutableCommand.INSTANCE;}
+		if (!TigerstripeBaseItemSemanticEditPolicy.LinkConstraints.Association_3001
+				.canCreateLink(req, false)){
+			return UnexecutableCommand.INSTANCE;}
+		if (req.getContainmentFeature() == null) {
+			req.setContainmentFeature(VisualeditorPackage.eINSTANCE
+					.getMap_Associations());
+		}
+		return getMSLWrapper(new CreateIncomingCustomAssociation3001Command(req) {
+
+			/**
+			 * @generated
+			 */
+			@Override
+			protected EObject getElementToEdit() {
+				return element;
+			}
+		});
+	}
+	//========================
+	
+	//========================
+	/**
+	 * @generated NOT
+	 */
+	private static class CreateIncomingCustomAssociation3001Command extends
+			CreateRelationshipCommand {
+
+		/**
+		 * @generated NOT
+		 */
+		public CreateIncomingCustomAssociation3001Command(CreateRelationshipRequest req) {
+			super(req);
+			
+		}
+	
+
+		@Override
+		// TODO - why is this false?
+		public boolean canExecute() {
+			//System.out.println("canExecute "+super.canExecute()+ " being overridden");
+			return true;
+		}
+
+		
+
+		@Override
+		protected IElementType getElementType() {
+			return TigerstripeElementTypes.Association_3001;
+		}
+
+
+		/**
+		 * @generated NOT
+		 */
+		@Override
+		protected EClass getEClassToEdit() {
+			return VisualeditorPackage.eINSTANCE.getAbstractArtifact();
+		};
+
+		/**
+		 * @generated NOT
+		 */
+		@Override
+		protected void setElementToEdit(EObject element) {
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		protected CommandResult doExecuteWithResult(IProgressMonitor arg0,
+				IAdaptable arg1) throws ExecutionException {
+			CommandResult res = super.doExecuteWithResult(arg0, arg1);
+			try {
+				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+
+				setDefaults(getNewElement(), getCreateRequest(), tsProject);
+				if (getNewElement() instanceof Association){
+					Association newElement = (Association) getNewElement();
+					CustomElementType customType = ((CustomElementType) ((CreateRelationshipRequest) getRequest()).getElementType());
+					IRelationPattern pattern = (IRelationPattern) customType.getPattern();
+
+					Map map = (Map) newElement.eContainer();
+					try {
+						IAbstractArtifact artifact = pattern.createArtifact(
+								tsProject, 
+								newElement.getPackage(), 
+								newElement.getName(), pattern.getExtendedArtifactName(),
+								newElement.getAEnd().getFullyQualifiedName(),
+								newElement.getZEnd().getFullyQualifiedName());
+						pattern.addToManager(tsProject, artifact);
+						pattern.annotateArtifact(tsProject, artifact);
+					} catch (TigerstripeException ex) {
+						ex.printStackTrace();
+					}
+				}
+			} catch (TigerstripeException e) {
+
+			}
+			return res;
+		}
+
+		/**
+		 * @generated NOT
+		 */
+		@Override
+		protected EObject doDefaultElementCreation() {
+			System.out.println("Executing");
+			Association newElement = (Association) super
+					.doDefaultElementCreation();
+			if (newElement != null) {
+				newElement.setZEnd((AbstractArtifact) getTarget());
+				newElement.setAEnd((AbstractArtifact) getSource());
+				newElement.setZEndIsNavigable(true);
+					
+			}
+			return newElement;
+		}
+	}
+	
+	 //============
+	/**
+	 * @generated NOT
+	 */
+	protected Command getCreateStartOutgoingCustomAssociationClass3010Command(
+			CreateRelationshipRequest req) {
+		if (!TigerstripeBaseItemSemanticEditPolicy.LinkConstraints.AssociationClass_3010
+				.canCreateLink(req, false))
+			return UnexecutableCommand.INSTANCE;
+		return new Command() {
+		};
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	protected Command getCreateCompleteIncomingCustomAssociationClass3010Command(
+			CreateRelationshipRequest req) {
+		if (!(req.getSource() instanceof AbstractArtifact))
+			return UnexecutableCommand.INSTANCE;
+		final Map element = (Map) getRelationshipContainer(req.getSource(),
+				VisualeditorPackage.eINSTANCE.getMap(), req.getElementType());
+		if (element == null)
+			return UnexecutableCommand.INSTANCE;
+		if (!TigerstripeBaseItemSemanticEditPolicy.LinkConstraints.AssociationClass_3010
+				.canCreateLink(req, false))
+			return UnexecutableCommand.INSTANCE;
+		if (req.getContainmentFeature() == null) {
+			req.setContainmentFeature(VisualeditorPackage.eINSTANCE
+					.getMap_Associations());
+		}
+		return getMSLWrapper(new CreateIncomingCustomAssociationClass3010Command(req) {
+
+			/**
+			 * @generated NOT
+			 */
+			@Override
+			protected EObject getElementToEdit() {
+				return element;
+			}
+		});
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	private static class CreateIncomingCustomAssociationClass3010Command extends
+			CreateRelationshipCommand {
+
+		/**
+		 * @generated NOT
+		 */
+		public CreateIncomingCustomAssociationClass3010Command(
+				CreateRelationshipRequest req) {
+			super(req);
+		}
+
+		@Override
+		// TODO - why is this false?
+		public boolean canExecute() {
+			//System.out.println("canExecute "+super.canExecute()+ " being overridden");
+			return true;
+		}
+
+		
+
+		@Override
+		protected IElementType getElementType() {
+			return TigerstripeElementTypes.AssociationClass_3010;
+		}
+
+		
+		/**
+		 * @generated NOT
+		 */
+		@Override
+		protected EClass getEClassToEdit() {
+			return VisualeditorPackage.eINSTANCE.getMap();
+		};
+
+		/**
+		 * @generated NOT
+		 */
+		@Override
+		protected void setElementToEdit(EObject element) {
+			throw new UnsupportedOperationException();
+		}
+
+		/**
+		 * @generated NOT
+		 */
+		@Override
+		protected EObject doDefaultElementCreation() {
+			AssociationClass newElement = (AssociationClass) super
+					.doDefaultElementCreation();
+			if (newElement != null) {
+				newElement.setZEnd((AbstractArtifact) getTarget());
+				newElement.setAEnd((AbstractArtifact) getSource());
+				newElement.setZEndIsNavigable(true);
+			}
+			return newElement;
+		}
+
+		@Override
+		protected CommandResult doExecuteWithResult(IProgressMonitor arg0,
+				IAdaptable arg1) throws ExecutionException {
+			CommandResult res = super.doExecuteWithResult(arg0, arg1);
+			try {
+				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+				AssociationClass newElement = (AssociationClass) getNewElement();
+				setDefaults(newElement, getCreateRequest(), tsProject);
+				TigerstripeBaseItemSemanticEditPolicy
+						.addAssociationClassClass(newElement);
+					CustomElementType customType = ((CustomElementType) ((CreateRelationshipRequest) getRequest()).getElementType());
+					IRelationPattern pattern = (IRelationPattern) customType.getPattern();
+
+					Map map = (Map) newElement.eContainer();
+					try {
+						IAbstractArtifact artifact = pattern.createArtifact(
+								tsProject, 
+								newElement.getPackage(), 
+								newElement.getName(), pattern.getExtendedArtifactName(),
+								newElement.getAEnd().getFullyQualifiedName(),
+								newElement.getZEnd().getFullyQualifiedName());
+						pattern.addToManager(tsProject, artifact);
+						pattern.annotateArtifact(tsProject, artifact);
+					} catch (TigerstripeException ex) {
+						ex.printStackTrace();
+					}
+				
+			} catch (TigerstripeException e) {
+
+			}
+			return res;
+		}
+
+	}
+	
+	
+	/**
+	 * @generated NOT
+	 */
+	protected Command getCreateStartOutgoingCustomDependency3008Command(
+			CreateRelationshipRequest req) {
+		if (!TigerstripeBaseItemSemanticEditPolicy.LinkConstraints.Dependency_3008
+				.canCreateLink(req, false))
+			return UnexecutableCommand.INSTANCE;
+		return new Command() {
+		};
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	protected Command getCreateCompleteIncomingCustomDependency3008Command(
+			CreateRelationshipRequest req) {
+		if (!(req.getSource() instanceof AbstractArtifact))
+			return UnexecutableCommand.INSTANCE;
+		final Map element = (Map) getRelationshipContainer(req.getSource(),
+				VisualeditorPackage.eINSTANCE.getMap(), req.getElementType());
+		if (element == null)
+			return UnexecutableCommand.INSTANCE;
+		if (!TigerstripeBaseItemSemanticEditPolicy.LinkConstraints.Dependency_3008
+				.canCreateLink(req, false))
+			return UnexecutableCommand.INSTANCE;
+		if (req.getContainmentFeature() == null) {
+			req.setContainmentFeature(VisualeditorPackage.eINSTANCE
+					.getMap_Dependencies());
+		}
+		return getMSLWrapper(new CreateIncomingCustomDependency3008Command(req) {
+
+			/**
+			 * @generated NOT
+			 */
+			@Override
+			protected EObject getElementToEdit() {
+				return element;
+			}
+		});
+	}
+
+	/**
+	 * @generated NOT
+	 */
+	private static class CreateIncomingCustomDependency3008Command extends
+			CreateRelationshipCommand {
+
+		/**
+		 * @generated NOT
+		 */
+		public CreateIncomingCustomDependency3008Command(CreateRelationshipRequest req) {
+			super(req);
+		}
+
+		@Override
+		// TODO - why is this false?
+		public boolean canExecute() {
+			//System.out.println("canExecute "+super.canExecute()+ " being overridden");
+			return true;
+		}
+
+		
+
+		@Override
+		protected IElementType getElementType() {
+			return TigerstripeElementTypes.Dependency_3008;
+		}
+		
+		/**
+		 * @generated NOT
+		 */
+		@Override
+		protected EClass getEClassToEdit() {
+			return VisualeditorPackage.eINSTANCE.getMap();
+		};
+
+		/**
+		 * @generated NOT
+		 */
+		@Override
+		protected void setElementToEdit(EObject element) {
+			throw new UnsupportedOperationException();
+		}
+
+		/**
+		 * @generated NOT
+		 */
+		@Override
+		protected EObject doDefaultElementCreation() {
+			Dependency newElement = (Dependency) super
+					.doDefaultElementCreation();
+			if (newElement != null) {
+				newElement.setZEnd((AbstractArtifact) getTarget());
+				newElement.setAEnd((AbstractArtifact) getSource());
+			}
+			return newElement;
+		}
+
+		@Override
+		protected CommandResult doExecuteWithResult(IProgressMonitor arg0,
+				IAdaptable arg1) throws ExecutionException {
+			CommandResult res = super.doExecuteWithResult(arg0, arg1);
+			try {
+				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+
+				setDefaults(getNewElement(), getCreateRequest(), tsProject);
+				if (getNewElement() instanceof Dependency){
+					Dependency newElement = (Dependency) getNewElement();
+					CustomElementType customType = ((CustomElementType) ((CreateRelationshipRequest) getRequest()).getElementType());
+					IRelationPattern pattern = (IRelationPattern) customType.getPattern();
+
+					Map map = (Map) newElement.eContainer();
+					try {
+						IAbstractArtifact artifact = pattern.createArtifact(
+								tsProject, 
+								newElement.getPackage(), 
+								newElement.getName(), pattern.getExtendedArtifactName(),
+								newElement.getAEnd().getFullyQualifiedName(),
+								newElement.getZEnd().getFullyQualifiedName());
+						pattern.addToManager(tsProject, artifact);
+						pattern.annotateArtifact(tsProject, artifact);
+					} catch (TigerstripeException ex) {
+						ex.printStackTrace();
+					}
+				}
+			} catch (TigerstripeException e) {
+
+			}
+			return res;
+		}
+
+	}
+	
 }

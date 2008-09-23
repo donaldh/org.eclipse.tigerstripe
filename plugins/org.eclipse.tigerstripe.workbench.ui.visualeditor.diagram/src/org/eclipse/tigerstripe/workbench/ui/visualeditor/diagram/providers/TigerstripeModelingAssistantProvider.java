@@ -23,6 +23,7 @@ import org.eclipse.emf.edit.ui.provider.AdapterFactoryLabelProvider;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.emf.type.core.ElementTypeRegistry;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
+import org.eclipse.gmf.runtime.emf.type.core.IHintedType;
 import org.eclipse.gmf.runtime.emf.ui.services.modelingassistant.ModelingAssistantProvider;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.Node;
@@ -33,23 +34,19 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.patterns.PatternFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IGlobalSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
-import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.GlobalSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
-import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
+import org.eclipse.tigerstripe.workbench.patterns.IPattern;
+import org.eclipse.tigerstripe.workbench.patterns.IRelationPattern;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.gmf.TigerstripeShapeNodeEditPart;
@@ -304,10 +301,10 @@ public class TigerstripeModelingAssistantProvider extends
 				types
 						.add(TigerstripeElementTypes.AbstractArtifactImplements_3012);
 			types.add(TigerstripeElementTypes.Association_3001);
-			if (displayReference)
-				types.add(TigerstripeElementTypes.Reference_3009);
 			types.add(TigerstripeElementTypes.Dependency_3008);
 			types.add(TigerstripeElementTypes.AssociationClass_3010);
+			if (displayReference)
+				types.add(TigerstripeElementTypes.Reference_3009);
 			return types;
 		}
 		if (sourceEditPart instanceof DatatypeArtifactEditPart) {
@@ -422,10 +419,10 @@ public class TigerstripeModelingAssistantProvider extends
 				types
 						.add(TigerstripeElementTypes.SessionFacadeArtifactManagedEntities_3003);
 			types.add(TigerstripeElementTypes.Association_3001);
-			if (displayReference)
-				types.add(TigerstripeElementTypes.Reference_3009);
 			types.add(TigerstripeElementTypes.Dependency_3008);
 			types.add(TigerstripeElementTypes.AssociationClass_3010);
+			if (displayReference)
+				types.add(TigerstripeElementTypes.Reference_3009);
 			return types;
 		}
 		if (targetEditPart instanceof DatatypeArtifactEditPart) {
@@ -541,6 +538,32 @@ public class TigerstripeModelingAssistantProvider extends
 		// first check to see if it's an editPart that has an associated
 		// read-only "QualifiedNamedElement" object in it's model, if so then
 		// we don't want to allow for any changes so return an empty list
+				
+		
+		List<IHintedType> customTypes = new ArrayList<IHintedType>();
+		List<IHintedType> dependencyTypes = new ArrayList<IHintedType>();
+		
+		for (String name : PatternFactory.getInstance().getRegisteredPatterns().keySet()){
+			IPattern pattern = PatternFactory.getInstance().getRegisteredPatterns().get(name);
+			if (pattern instanceof IRelationPattern){
+				IRelationPattern relationPattern = (IRelationPattern) pattern;
+				if (relationPattern.getTargetArtifactType().equals(IAssociationArtifact.class.getName())){
+					IHintedType t = TigerstripeElementTypes.getCustomType((IHintedType)TigerstripeElementTypes.Association_3001, relationPattern);
+					customTypes.add(t);
+					}
+				if (relationPattern.getTargetArtifactType().equals(IAssociationClassArtifact.class.getName())){
+					IHintedType t = TigerstripeElementTypes.getCustomType((IHintedType)TigerstripeElementTypes.AssociationClass_3010, relationPattern);
+					customTypes.add(t);
+				}
+				if (relationPattern.getTargetArtifactType().equals(IDependencyArtifact.class.getName())){
+					IHintedType t = TigerstripeElementTypes.getCustomType((IHintedType)TigerstripeElementTypes.Dependency_3008, relationPattern);
+					dependencyTypes.add(t);
+					customTypes.add(t);
+				}
+			}
+		}
+		
+		
 		if (isReadOnlyEditPart(sourceEditPart))
 			return Collections.EMPTY_LIST;
 		if (sourceEditPart instanceof ManagedEntityArtifactEditPart) {
@@ -558,16 +581,21 @@ public class TigerstripeModelingAssistantProvider extends
 					types
 							.add(TigerstripeElementTypes.AbstractArtifactImplements_3012);
 			}
-			if (!isOutboundReference(sourceEditPart, targetEditPart))
-				addAssociationForTarget(targetEditPart, types);
+			if (!isOutboundReference(sourceEditPart, targetEditPart)){
+				for (IHintedType type : customTypes){
+					addSuitableType(targetEditPart,types,type);
+				}
+			}
+			
 			if (displayReference
 					&& !(targetEditPart instanceof EnumerationEditPart)
 					&& !isOutboundReference(sourceEditPart, targetEditPart))
 				types.add(TigerstripeElementTypes.Reference_3009);
-			if (!isOutboundReference(sourceEditPart, targetEditPart))
-				types.add(TigerstripeElementTypes.Dependency_3008);
+			
+			
 			return types;
 		}
+		
 		if (sourceEditPart instanceof DatatypeArtifactEditPart) {
 			List types = new ArrayList();
 			if ((targetEditPart instanceof DatatypeArtifactEditPart || targetEditPart instanceof EnumerationEditPart)
@@ -577,14 +605,16 @@ public class TigerstripeModelingAssistantProvider extends
 					types
 							.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
 			}
-			if (!isOutboundReference(sourceEditPart, targetEditPart))
-				addAssociationForTarget(targetEditPart, types);
+			if (!isOutboundReference(sourceEditPart, targetEditPart)){
+				for (IHintedType type : customTypes){
+					addSuitableType(targetEditPart,types,type);
+				}
+			}
+			
 			if (displayReference
 					&& !(targetEditPart instanceof EnumerationEditPart)
 					&& !isOutboundReference(sourceEditPart, targetEditPart))
 				types.add(TigerstripeElementTypes.Reference_3009);
-			if (!isOutboundReference(sourceEditPart, targetEditPart))
-				types.add(TigerstripeElementTypes.Dependency_3008);
 			return types;
 		}
 		if (sourceEditPart instanceof EnumerationEditPart) {
@@ -597,9 +627,10 @@ public class TigerstripeModelingAssistantProvider extends
 							.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
 			}
 			if (!isOutboundReference(sourceEditPart, targetEditPart))
-				types.add(TigerstripeElementTypes.Dependency_3008);
+				types.addAll(dependencyTypes);	
 			return types;
 		}
+		
 		if (sourceEditPart instanceof NamedQueryArtifactEditPart) {
 			List types = new ArrayList();
 			if ((targetEditPart instanceof ManagedEntityArtifactEditPart || targetEditPart instanceof DatatypeArtifactEditPart)
@@ -615,14 +646,16 @@ public class TigerstripeModelingAssistantProvider extends
 					types
 							.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
 			}
-			if (!isOutboundReference(sourceEditPart, targetEditPart))
-				addAssociationForTarget(targetEditPart, types);
+			if (!isOutboundReference(sourceEditPart, targetEditPart)){
+				for (IHintedType type : customTypes){
+					addSuitableType(targetEditPart,types,type);
+				}
+		}
+			
 			if (displayReference
 					&& !(targetEditPart instanceof EnumerationEditPart)
 					&& !isOutboundReference(sourceEditPart, targetEditPart))
 				types.add(TigerstripeElementTypes.Reference_3009);
-			if (!isOutboundReference(sourceEditPart, targetEditPart))
-				types.add(TigerstripeElementTypes.Dependency_3008);
 			return types;
 		}
 		if (sourceEditPart instanceof UpdateProcedureArtifactEditPart) {
@@ -634,14 +667,16 @@ public class TigerstripeModelingAssistantProvider extends
 					types
 							.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
 			}
-			if (!isOutboundReference(sourceEditPart, targetEditPart))
-				addAssociationForTarget(targetEditPart, types);
+			if (!isOutboundReference(sourceEditPart, targetEditPart)) {
+				for (IHintedType type : customTypes){
+					addSuitableType(targetEditPart,types,type);
+				}
+			}
+			
 			if (displayReference
 					&& !(targetEditPart instanceof EnumerationEditPart)
 					&& !isOutboundReference(sourceEditPart, targetEditPart))
 				types.add(TigerstripeElementTypes.Reference_3009);
-			if (!isOutboundReference(sourceEditPart, targetEditPart))
-				types.add(TigerstripeElementTypes.Dependency_3008);
 			return types;
 		}
 		if (sourceEditPart instanceof NotificationArtifactEditPart) {
@@ -653,16 +688,19 @@ public class TigerstripeModelingAssistantProvider extends
 					types
 							.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
 			}
-			if (!isOutboundReference(sourceEditPart, targetEditPart))
-				addAssociationForTarget(targetEditPart, types);
+			if (!isOutboundReference(sourceEditPart, targetEditPart)){
+				for (IHintedType type : customTypes){
+					addSuitableType(targetEditPart,types,type);
+				}
+			}
+			
 			if (displayReference
 					&& !(targetEditPart instanceof EnumerationEditPart)
 					&& !isOutboundReference(sourceEditPart, targetEditPart))
 				types.add(TigerstripeElementTypes.Reference_3009);
-			if (!isOutboundReference(sourceEditPart, targetEditPart))
-				types.add(TigerstripeElementTypes.Dependency_3008);
 			return types;
 		}
+		
 		if (sourceEditPart instanceof SessionFacadeArtifactEditPart) {
 			List types = new ArrayList();
 			if (targetEditPart instanceof UpdateProcedureArtifactEditPart
@@ -698,9 +736,11 @@ public class TigerstripeModelingAssistantProvider extends
 					types
 							.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
 			}
+			
 			if (!isOutboundReference(sourceEditPart, targetEditPart)) {
-				addAssociationForTarget(targetEditPart, types);
-				types.add(TigerstripeElementTypes.Dependency_3008);
+				for (IHintedType type : customTypes){
+					addSuitableType(targetEditPart,types,type);
+				}
 			}
 			return types;
 		}
@@ -713,15 +753,19 @@ public class TigerstripeModelingAssistantProvider extends
 					types
 							.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
 			}
+			
+
+			if (!isOutboundReference(sourceEditPart, targetEditPart)) {
+				for (IHintedType type : customTypes){
+					addSuitableType(targetEditPart,types,type);
+				}
+			}
+			
 			if (displayReference
 					&& !(targetEditPart instanceof EnumerationEditPart)
 					&& !isOutboundReference(sourceEditPart, targetEditPart))
 				types.add(TigerstripeElementTypes.Reference_3009);
-
-			if (!isOutboundReference(sourceEditPart, targetEditPart)) {
-				addAssociationForTarget(targetEditPart, types);
-				types.add(TigerstripeElementTypes.Dependency_3008);
-			}
+			
 			return types;
 		}
 		if (sourceEditPart instanceof AssociationClassClassEditPart) {
@@ -734,16 +778,18 @@ public class TigerstripeModelingAssistantProvider extends
 					types
 							.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
 			}
+			
+
+			if (!isOutboundReference(sourceEditPart, targetEditPart)) {
+				for (IHintedType type : customTypes){
+					addSuitableType(targetEditPart,types,type);
+				}
+			}
+			
 			if (displayReference
 					&& !(targetEditPart instanceof EnumerationEditPart)
 					&& !isOutboundReference(sourceEditPart, targetEditPart))
 				types.add(TigerstripeElementTypes.Reference_3009);
-
-			if (!isOutboundReference(sourceEditPart, targetEditPart)) {
-				types.add(TigerstripeElementTypes.Association_3001);
-				types.add(TigerstripeElementTypes.Dependency_3008);
-				types.add(TigerstripeElementTypes.AssociationClass_3010);
-			}
 			return types;
 		}
 		return Collections.EMPTY_LIST;
@@ -1296,7 +1342,7 @@ public class TigerstripeModelingAssistantProvider extends
 	 * list of types if the targetEditPart is of the appropriate type
 	 */
 	private void addAssociationForTarget(IGraphicalEditPart targetEditPart,
-			List types) {
+			List types , List associationTypes ,List associationClassTypes) {
 		if (targetEditPart instanceof ManagedEntityArtifactEditPart
 				|| targetEditPart instanceof DatatypeArtifactEditPart
 				|| targetEditPart instanceof NamedQueryArtifactEditPart
@@ -1307,12 +1353,41 @@ public class TigerstripeModelingAssistantProvider extends
 				|| targetEditPart instanceof AssociationClassClassEditPart) {
 			// association relationship from this artifact to other
 			// artifacts that can be included in an association relationship
-			types.add(TigerstripeElementTypes.Association_3001);
-			types.add(TigerstripeElementTypes.AssociationClass_3010);
+			//types.add(TigerstripeElementTypes.Association_3001);
+			//types.add(TigerstripeElementTypes.AssociationClass_3010);
+			types.addAll(associationTypes);
+			types.addAll(associationClassTypes);
 		}
 
 	}
 
+	
+	private void addSuitableType(IGraphicalEditPart targetEditPart,
+			List types , IHintedType hintedType){
+		
+		// TODO This should take into account the source and target pair types
+		if ( hintedType instanceof CustomElementType){
+			CustomElementType type = (CustomElementType) hintedType;
+
+			if ((type.getBaseType().equals(TigerstripeElementTypes.Association_3001) ||
+				  type.getBaseType().equals(TigerstripeElementTypes.AssociationClass_3010))	&&
+					(targetEditPart instanceof ManagedEntityArtifactEditPart
+							|| targetEditPart instanceof DatatypeArtifactEditPart
+							|| targetEditPart instanceof NamedQueryArtifactEditPart
+							|| targetEditPart instanceof UpdateProcedureArtifactEditPart
+							|| targetEditPart instanceof NotificationArtifactEditPart
+							|| targetEditPart instanceof SessionFacadeArtifactEditPart
+							|| targetEditPart instanceof ExceptionArtifactEditPart
+							|| targetEditPart instanceof AssociationClassClassEditPart)
+					){
+
+				types.add(type);
+			} else if (type.getBaseType().equals(TigerstripeElementTypes.Dependency_3008)){
+				types.add(type);	
+			}
+		}
+	}
+	
 	/**
 	 * This method checks whether creating a relationship between sourcePart and
 	 * target would create an outbound relationship, i.e. creating a

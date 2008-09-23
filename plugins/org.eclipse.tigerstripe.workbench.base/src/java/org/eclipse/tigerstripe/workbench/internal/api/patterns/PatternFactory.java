@@ -372,7 +372,7 @@ public class PatternFactory implements IPatternFactory {
 					    thisOne.parameters = parms;
 						
 						thisOne.label = pattern.getUILabel();
-						thisOne.icon = pattern.getDescriptor();
+						thisOne.icon = pattern.getImageDescriptor();
 						
 						CommandContributionItem newItem = new CommandContributionItem(thisOne);
 						Expression referenceExpression = null;
@@ -418,7 +418,7 @@ public class PatternFactory implements IPatternFactory {
 					    thisOne.parameters = parms;
 						
 						thisOne.label = pattern.getUILabel();
-						thisOne.icon = pattern.getDescriptor();
+						thisOne.icon = pattern.getImageDescriptor();
 						
 						CommandContributionItem newItem = new CommandContributionItem(thisOne);
 						Expression referenceExpression = null;
@@ -474,7 +474,7 @@ public class PatternFactory implements IPatternFactory {
 					    thisOne.parameters = parms;
 						
 						thisOne.label = pattern.getUILabel();
-						thisOne.icon = pattern.getDescriptor();
+						thisOne.icon = pattern.getImageDescriptor();
 						
 						CommandContributionItem newItem = new CommandContributionItem(thisOne);
 						Expression referenceExpression = null;

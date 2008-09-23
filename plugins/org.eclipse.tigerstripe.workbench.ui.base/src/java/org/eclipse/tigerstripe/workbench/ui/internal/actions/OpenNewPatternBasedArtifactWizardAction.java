@@ -63,7 +63,7 @@ public class OpenNewPatternBasedArtifactWizardAction extends
 	 */
 	protected void initAction() {
 		setText(this.pattern.getUILabel());
-		setImageDescriptor(this.pattern.getDescriptor());
+		setImageDescriptor(this.pattern.getImageDescriptor());
 	}
 
 	/**

@@ -174,8 +174,8 @@ public class TigerstripePaletteFactory {
 		ImageDescriptor smallImage;
 		ImageDescriptor largeImage;
 
-		smallImage = pattern.getDescriptor();
-		largeImage = pattern.getDescriptor();
+		smallImage = pattern.getImageDescriptor();
+		largeImage = pattern.getImageDescriptor();
 
 		final List<IElementType> elementTypes = new ArrayList<IElementType>();
 		elementTypes.add(ElementTypeMapper.mapClassStringToElementType(pattern.getTargetArtifactType()));
@@ -819,6 +819,7 @@ public class TigerstripePaletteFactory {
 											createdEArtifact.getName(), enumPattern.getExtendedArtifactName(),
 											enumPattern.getBaseType());
 									enumPattern.addToManager(project, artifact);
+									enumPattern.annotateArtifact(project, artifact);
 								} else if (pattern instanceof IQueryPattern){
 									IQueryPattern queryPattern =(IQueryPattern) pattern;
 									IAbstractArtifact artifact = queryPattern.createArtifact(
@@ -827,6 +828,7 @@ public class TigerstripePaletteFactory {
 											createdEArtifact.getName(), queryPattern.getExtendedArtifactName(),
 											queryPattern.getReturnType());
 									queryPattern.addToManager(project, artifact);
+									queryPattern.annotateArtifact(project, artifact);
 								} else {
 									IArtifactPattern artifactPattern =(IArtifactPattern) pattern;
 									IAbstractArtifact artifact = artifactPattern.createArtifact(
@@ -834,6 +836,7 @@ public class TigerstripePaletteFactory {
 											createdEArtifact.getPackage(), 
 											createdEArtifact.getName(), artifactPattern.getExtendedArtifactName());
 									artifactPattern.addToManager(project, artifact);
+									artifactPattern.annotateArtifact(project, artifact);
 								}
 							} catch (TigerstripeException ex) {
 								ex.printStackTrace();
