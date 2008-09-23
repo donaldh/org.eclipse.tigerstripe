@@ -62,5 +62,13 @@ public interface IArtifactPattern extends IPattern{
 	 * @throws TigerstripeException
 	 */
 	public void addToManager(ITigerstripeModelProject project, IAbstractArtifact artifact) throws TigerstripeException;
-	
+
+	/**
+	 * Add any <em>TS</em> annotations that might need to be added from the pattern.
+	 * @param project
+	 * @param newArtifact
+	 * @throws TigerstripeException
+	 */
+	public void annotateArtifact(ITigerstripeModelProject project, IAbstractArtifact newArtifact) throws TigerstripeException;
+
 }

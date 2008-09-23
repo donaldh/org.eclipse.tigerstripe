@@ -155,6 +155,7 @@ public abstract class ArtifactPattern extends Pattern implements IArtifactPatter
 			}
 			this.artifact.setImplementedArtifacts(implementedArtifacts);
 		}
+
 		addArtifactBasics();
 		addComponentRequests(artifactElement);
 		
@@ -166,7 +167,14 @@ public abstract class ArtifactPattern extends Pattern implements IArtifactPatter
 		IArtifactManagerSession session = project.getArtifactManagerSession();
 		newArtifact.doSave(null);
 		session.addArtifact(newArtifact);
-		
+	}
+	
+	public void annotateArtifact(ITigerstripeModelProject project, IAbstractArtifact newArtifact) throws TigerstripeException {
+		Collection<EObject> annotationContents = xmlParserUtils.getAnnotations(artifactElement);
+
+		for (EObject content : annotationContents){
+			addAnnotation(artifact, content);
+		}
 	}
 	
 	private void addArtifactBasics() throws TigerstripeException {
@@ -186,12 +194,6 @@ public abstract class ArtifactPattern extends Pattern implements IArtifactPatter
 		for (IStereotypeInstance instance : stereotypeInstances){
 			this.artifact.addStereotypeInstance(instance);
 		}
-		Collection<EObject> annotationContents = xmlParserUtils.getAnnotations(artifactElement);
-
-		for (EObject content : annotationContents){
-			addAnnotation(artifact, content);
-		}
-
 	}
 
 

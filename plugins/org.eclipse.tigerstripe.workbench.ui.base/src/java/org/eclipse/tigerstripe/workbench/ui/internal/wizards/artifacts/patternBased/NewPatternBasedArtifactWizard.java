@@ -99,26 +99,30 @@ public abstract class NewPatternBasedArtifactWizard extends NewTSElementWizard {
 			throws InvocationTargetException {
 				IAbstractArtifact artifact = null;
 				try {
+					INodePattern nodePattern = (INodePattern) patt;
 					if (patt instanceof IEnumPattern){
 						 artifact = ((IEnumPattern) patt).createArtifact(project, 
 								packageName, 
 								artifactName, 
 								extendedArtifact, baseType);
-						((INodePattern) patt).addToManager(project,artifact);
+						nodePattern.addToManager(project,artifact);
+						nodePattern.annotateArtifact(project,artifact);
 						
 					} else if (patt instanceof IQueryPattern){
 						 artifact = ((IQueryPattern) patt).createArtifact(project, 
 								packageName, 
 								artifactName, 
 								extendedArtifact, returnType);
-						((INodePattern) patt).addToManager(project,artifact);
+						nodePattern.addToManager(project,artifact);
+						nodePattern.annotateArtifact(project,artifact);
 						
 					} else if (patt instanceof INodePattern){
-						 artifact = ((INodePattern) patt).createArtifact(project, 
+						 artifact = nodePattern.createArtifact(project, 
 								packageName, 
 								artifactName, 
 								extendedArtifact);
-						((INodePattern) patt).addToManager(project,artifact);
+						nodePattern.addToManager(project,artifact);
+						nodePattern.annotateArtifact(project,artifact);
 						
 					} else if (patt instanceof IRelationPattern){
 						 artifact = ((IRelationPattern) patt).createArtifact(project, 
@@ -128,6 +132,7 @@ public abstract class NewPatternBasedArtifactWizard extends NewTSElementWizard {
 								aEndType,
 								zEndType);
 						((IRelationPattern) patt).addToManager(project,artifact);
+						nodePattern.annotateArtifact(project,artifact);
 						
 					}
 					project.getArtifactManagerSession().refresh(monitor);
