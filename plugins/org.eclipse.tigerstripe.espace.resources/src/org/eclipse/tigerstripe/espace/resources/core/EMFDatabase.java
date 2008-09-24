@@ -38,6 +38,8 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.tigerstripe.espace.core.IEMFDatabase;
 import org.eclipse.tigerstripe.espace.core.Mode;
+import org.eclipse.tigerstripe.espace.resources.DeferredResourceSaver;
+import org.eclipse.tigerstripe.espace.resources.IResourceTimestampManager;
 import org.eclipse.tigerstripe.espace.resources.ResourceHelper;
 import org.eclipse.tigerstripe.espace.resources.ResourceLocation;
 import org.eclipse.tigerstripe.espace.resources.ResourcesPlugin;
@@ -51,7 +53,7 @@ import org.eclipse.tigerstripe.espace.resources.internal.core.ResourceStorage;
  * @author Yuri Strot
  *
  */
-public class EMFDatabase implements IEMFDatabase {
+public class EMFDatabase implements IEMFDatabase, IResourceTimestampManager {
 	
 	private static final String ROUTER_EXTPT = "org.eclipse.tigerstripe.annotation.core.router";
 	private static final String ROUTER_ATTR_CLASS = "class";
@@ -75,16 +77,17 @@ public class EMFDatabase implements IEMFDatabase {
 	
 	public EMFDatabase(IDatabaseConfiguration idManager) {
 		this.idManager = idManager;
+		DeferredResourceSaver.getInstance().setTimestampManager(this);
 		init();
 	}
 	
 	protected void init() {
+		resourceSet = new ResourceSetImpl();
 		initResources();
 		initRouters();
 	}
 	
 	protected void initResources() {
-		resourceSet = new ResourceSetImpl();
 		indexStorage = new IndexStorage(resourceSet);
 		fIndexer = new FeatureIndexer(indexStorage);
 		cIndexer = new ClassifierIndexer(indexStorage);
@@ -153,6 +156,22 @@ public class EMFDatabase implements IEMFDatabase {
 	private void lockChanges(boolean write) {
 		if (write) rwl.writeLock().lock();
 		else rwl.readLock().lock();
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.espace.resources.IResourceTimespampManager#updateTimestamps(java.lang.Runnable, org.eclipse.emf.ecore.resource.Resource[])
+	 */
+	public void updateTimestamps(Runnable beforeOperation, Resource[] resources) {
+		try {
+			lockChanges(true);
+			beforeOperation.run();
+			for (Resource resource : resources) {
+				getResourceStorage().addResource(resource, Mode.READ_WRITE);
+			}
+		}
+		finally {
+			unlockChanges(true);
+		}
 	}
 	
 	private void unlockChanges(boolean write) {
@@ -253,7 +272,18 @@ public class EMFDatabase implements IEMFDatabase {
 		boolean writeLock = false;
 		try {
 			writeLock = lockAndUpdate(writeLock);
-			return copy(doGet(feature, value, false));
+			try {
+				return copy(doGet(feature, value, false));
+			}
+			catch (Exception e) {
+				if (!writeLock) {
+					rwl.readLock().unlock();
+					rwl.writeLock().lock();
+					writeLock = true;
+				}
+				doRebuildIndex();
+				return copy(doGet(feature, value, false));
+			}
 		}
 		finally {
 			unlockChanges(writeLock);
@@ -291,9 +321,10 @@ public class EMFDatabase implements IEMFDatabase {
 	public void addResource(Resource resource, Mode option) {
 		try {
 			lockAndUpdate(true);
-			getResourceSet().getResources().add(resource);
-			if (getResourceStorage().addResource(resource, option))
+			//getResourceSet().getResources().add(resource);
+			if (getResourceStorage().addResource(resource, option)) {
 				doRebuildIndex();
+			}
 		}
 		finally {
 			unlockChanges(true);
@@ -470,7 +501,8 @@ public class EMFDatabase implements IEMFDatabase {
 				catch (IOException exc) {
 					doRebuildIndex();
 					try {
-						getResourceStorage().addResource(resource, object, option);
+						//copy-paste bug fixed
+						getResourceStorage().removeAndSave(candidate, resource);
 					} catch (IOException e) {
 						ResourcesPlugin.log(e);
 					}

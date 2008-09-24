@@ -80,7 +80,8 @@ public class ResourcesPlugin extends Plugin {
 		String message = t.getMessage();
 		if (message == null)
 			message = "";
-		plugin.getLog().log(new Status(IStatus.ERROR, PLUGIN_ID,0, message, t));
+		if (plugin != null)
+			plugin.getLog().log(new Status(IStatus.ERROR, PLUGIN_ID,0, message, t));
 	}
 
 }

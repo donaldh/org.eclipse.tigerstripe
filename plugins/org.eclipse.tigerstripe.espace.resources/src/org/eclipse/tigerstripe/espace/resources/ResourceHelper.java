@@ -16,8 +16,6 @@ import java.io.IOException;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -76,12 +74,7 @@ public class ResourceHelper {
 	}
 	
 	public static void save(Resource resource) {
-    	try {
-            resource.save(null);
-        }
-        catch (IOException e) {
-        	ResourcesPlugin.log(e);
-        }
+		DeferredResourceSaver.getInstance().resourceDirty(resource);
 	}
 	
 	/**
@@ -118,26 +111,11 @@ public class ResourceHelper {
 		return IResource.NULL_STAMP;
 	}
 	
-	public static void delete(Resource resource) {
-		URI uri = resource.getURI();
-		String pString = uri.toPlatformString(false);
-		if (pString != null) {
-			Path path = new Path(pString);
-			IFile file = org.eclipse.core.resources.ResourcesPlugin.getWorkspace().getRoot().getFile(path);
-			if (file != null) {
-				try {
-					file.delete(true, new NullProgressMonitor());
-				} catch (CoreException e) {
-					//ignore
-				}
-				return;
-			}
-		}
-		String fString = uri.toFileString();
-		if (fString != null) {
-			File file = new File(fString);
-			file.delete();
-		}
+	/**
+	 * @return the resourceSet
+	 */
+	public ResourceSet getResourceSet() {
+		return resourceSet;
 	}
 	
 	public Resource getResource(URI uri) {

@@ -21,7 +21,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.tigerstripe.espace.resources.ResourcesPlugin;
+import org.eclipse.tigerstripe.espace.resources.DeferredResourceSaver;
+import org.eclipse.tigerstripe.espace.resources.ResourceHelper;
 
 /**
  * @author Yuri Strot
@@ -29,7 +30,6 @@ import org.eclipse.tigerstripe.espace.resources.ResourcesPlugin;
  */
 public class IndexStorage {
 	
-	public static final String INDEX_DIRECTORY = "INDEX/";
 	private ResourceSet resourceSet;
 	
 	private Map<String, Resource> map;
@@ -41,8 +41,7 @@ public class IndexStorage {
 	
 	protected void init() {
 		map = new HashMap<String, Resource>();
-		File indexDirectory = new File(ResourcesPlugin.getDefault(
-				).getStateLocation().toFile(), INDEX_DIRECTORY);
+		File indexDirectory = IndexUtils.getIndexDirectory();
 		if (!indexDirectory.exists())
 			return;
 		File[] files = indexDirectory.listFiles();
@@ -58,9 +57,12 @@ public class IndexStorage {
 	}
 	
 	public void removeIndex() {
+		for (Resource resource : map.values()) {
+			resource.getContents().clear();
+			ResourceHelper.save(resource);
+		}
 		map = new HashMap<String, Resource>();
-		File indexDirectory = new File(ResourcesPlugin.getDefault(
-				).getStateLocation().toFile(), INDEX_DIRECTORY);
+		File indexDirectory = IndexUtils.getIndexDirectory();
 		if (!indexDirectory.exists())
 			return;
 		File[] files = indexDirectory.listFiles();
@@ -120,8 +122,7 @@ public class IndexStorage {
 	public Resource getResource(String featureName, boolean create) {
 		Resource res = map.get(featureName);
 		if (res == null) {
-			File file = new File(ResourcesPlugin.getDefault().getStateLocation().toFile(), 
-					INDEX_DIRECTORY + featureName + ".xml");
+			File file = new File(IndexUtils.getIndexDirectory(), featureName + ".xml");
 			if (!file.exists() && !create)
 				return null;
 			res = loadResource(file);
@@ -136,7 +137,7 @@ public class IndexStorage {
 	
 	public void saveAll() throws IOException {
 		for (Resource resource : getResources()) {
-            resource.save(null);
+			DeferredResourceSaver.getInstance().resourceDirty(resource);
 		}
 	}
 

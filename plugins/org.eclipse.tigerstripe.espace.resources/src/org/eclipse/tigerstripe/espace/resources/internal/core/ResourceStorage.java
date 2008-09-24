@@ -11,13 +11,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.espace.resources.internal.core;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -37,16 +35,12 @@ public class ResourceStorage {
 	
 	private DefaultObjectRouter resourcesStorage;
 	private ResourceList resourceList;
-	protected static final String RESOURCES_STORAGE = "resources.xml";
 	private DefaultObjectRouter defaultRouter;
 	private ResourceHelper helper;
 	
-	protected static final String DEFAULT_STORAGE = "defaultStorage.xml";
-	
 	public ResourceStorage(ResourceHelper helper) {
 		this.helper = helper;
-		IPath path = ResourcesPlugin.getDefault().getStateLocation();
-		defaultRouter = new DefaultObjectRouter(new File(path.toFile(), DEFAULT_STORAGE));
+		defaultRouter = new DefaultObjectRouter(IndexUtils.getDefaultStorage());
 	}
 	
 	private boolean isDefaultUri(URI uri) {
@@ -79,8 +73,7 @@ public class ResourceStorage {
 	
 	public ResourceList getResourceList() {
 		if (resourceList == null) {
-			IPath path = ResourcesPlugin.getDefault().getStateLocation();
-			resourcesStorage = new DefaultObjectRouter(new File(path.toFile(), RESOURCES_STORAGE));
+			resourcesStorage = new DefaultObjectRouter(IndexUtils.getResourceMetaFile());
 			Resource resource = helper.getResource(resourcesStorage.getUri());
 			try {
 				resource.load(null);
@@ -114,14 +107,10 @@ public class ResourceStorage {
 	}
 	
 	public void addResource(Resource resource, EObject object) throws IOException {
-		addResource(resource, object, Mode.READ_WRITE);
-	}
-	
-	public void addResource(Resource resource, EObject object, Mode option) throws IOException {
 		helper.addAndSave(resource, object, true);
 		if (isDefaultUri(resource.getURI()))
 			return;
-		addResource(resource, option);
+		addResource(resource, Mode.READ_WRITE);
 	}
 	
 	public boolean addResource(Resource resource, Mode option) {
@@ -152,6 +141,14 @@ public class ResourceStorage {
 			haveElement = getResourceList().getLocations().remove(location);
 			ResourceHelper.save(helper.getResource(resourcesStorage.getUri()));
 		}
+//		URI uri = resource.getURI();
+//		if (uri != null) {
+//			ResourceSet rs = helper.getResourceSet();
+//			Resource oldResource = rs.getResource(uri, false);
+//			if (oldResource != null)
+//				rs.getResources().remove(rs);
+//				
+//		}
 		return haveElement;
 	}
 	
@@ -160,7 +157,6 @@ public class ResourceStorage {
 			return;
 		if (resource.getContents().size() == 0) {
 			removeResource(resource);
-			ResourceHelper.delete(resource);
 		}
 		else
 			updateResource(resource);
