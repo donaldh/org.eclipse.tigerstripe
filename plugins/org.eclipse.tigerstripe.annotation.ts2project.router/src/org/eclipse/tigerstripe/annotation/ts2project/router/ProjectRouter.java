@@ -105,8 +105,9 @@ public class ProjectRouter implements EObjectRouter {
 				tsProject = (IAbstractTigerstripeProject)annotable;
 			}
 
-			IProject iproject = (IProject)tsProject.getAdapter(IProject.class);
-			IPath path = iproject.getFullPath();
+//			IProject iproject = (IProject)tsProject.getAdapter(IProject.class);
+//			IPath path = iproject.getFullPath();
+			IPath path = new Path(tsProject.getProjectLabel());
 
 			// See if there's an explicit definition
 			IPath explicitPath = explicitRoutersMap.get(eclass);
