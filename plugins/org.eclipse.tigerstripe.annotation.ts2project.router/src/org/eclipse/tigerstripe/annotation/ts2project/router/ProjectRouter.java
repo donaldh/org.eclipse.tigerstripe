@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.annotation.ts2project.router;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -25,6 +26,7 @@ import org.eclipse.tigerstripe.espace.resources.core.EObjectRouter;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 
 /**
  * 
@@ -92,34 +94,43 @@ public class ProjectRouter implements EObjectRouter {
 			Object annotable = AnnotationPlugin.getManager()
 					.getAnnotatedObject(ann);
 
+			
+			IAbstractTigerstripeProject tsProject = null;
 			if (annotable instanceof IModelComponent) {
 				IModelComponent comp = (IModelComponent) annotable;
-				IPath path = new Path(comp.getProject().getProjectLabel());
-
-				// See if there's an explicit definition
-				IPath explicitPath = explicitRoutersMap.get(eclass);
-				if(explicitPath == null)
-					explicitPath = explicitRoutersMap.get(epackage);
-				if(explicitPath == null)
-					explicitPath = explicitRoutersMap.get(nsURIStr);				
-				if (explicitPath != null)
-					return path.append(explicitPath);
-
-				path = path.append(BASE_DIR);
-
-				URI nsURI = URI.createURI(nsURIStr);
-				String name = "";
-				for (int i = 0; i < nsURI.segmentCount() - 1; i++) {
-					String segment = nsURI.segment(i);
-					if (!"".equals(name))
-						name += ".";
-					name += segment;
-				}
-				path = path.append(name);
-				path = path
-						.addFileExtension(EObjectRouter.ANNOTATION_FILE_EXTENSION);
-				return path;
+				tsProject = comp.getProject();
 			}
+			else if(annotable instanceof IAbstractTigerstripeProject)
+			{
+				tsProject = (IAbstractTigerstripeProject)annotable;
+			}
+
+			IProject iproject = (IProject)tsProject.getAdapter(IProject.class);
+			IPath path = iproject.getFullPath();
+
+			// See if there's an explicit definition
+			IPath explicitPath = explicitRoutersMap.get(eclass);
+			if(explicitPath == null)
+				explicitPath = explicitRoutersMap.get(epackage);
+			if(explicitPath == null)
+				explicitPath = explicitRoutersMap.get(nsURIStr);				
+			if (explicitPath != null)
+				return path.append(explicitPath);
+
+			path = path.append(BASE_DIR);
+
+			URI nsURI = URI.createURI(nsURIStr);
+			String name = "";
+			for (int i = 0; i < nsURI.segmentCount() - 1; i++) {
+				String segment = nsURI.segment(i);
+				if (!"".equals(name))
+					name += ".";
+				name += segment;
+			}
+			path = path.append(name);
+			path = path.addFileExtension(EObjectRouter.ANNOTATION_FILE_EXTENSION);
+			return path;
+
 		} catch (TigerstripeException e) {
 			// ignore here
 		}
