@@ -3,8 +3,8 @@
 <pattern:creationPattern patternName="org.eclipse.tigerstripe.workbench.base.Association" 
 						 uiLabel="Association"
 						 patternType="relation"
-						 iconPath="icons/AssociationIcon-small_new.png"
-						 disabledIconPath="AssociationIcon-small_gs.png"
+						 iconPath="icons/association_new.gif"
+						 disabledIconPath="association_gs.gif"
 						 index="1400"
                        xmlns:pattern="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0"
                        xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v2-0">
