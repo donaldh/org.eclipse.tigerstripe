@@ -14,35 +14,33 @@ package org.eclipse.tigerstripe.espace.resources;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.jobs.ISchedulingRule;
-import org.eclipse.core.runtime.jobs.MultiRule;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
-import org.eclipse.tigerstripe.espace.resources.internal.core.IndexUtils;
+import org.eclipse.tigerstripe.espace.resources.internal.core.FileResourceUtils;
 
 /**
  * @author Yuri Strot
  *
  */
-public class DeferredResourceSaver extends Thread {
+public class DeferredResourceSaver extends Thread implements IResourceSaver {
 	
 	private static DeferredResourceSaver instance;
 	private static boolean DEBUG = false;
 	
 	private DeferredResourceSaver() {
-		resources = new ArrayList<Resource>();
+		resources = new HashMap<Resource, Boolean>();
 	}
 	
-	private List<Resource> resources;
+	private Map<Resource, Boolean> resources;
 	private boolean resourceUpdated;
 	private Object MONITOR = new Object();
 	private IResourceTimestampManager manager;
@@ -59,16 +57,35 @@ public class DeferredResourceSaver extends Thread {
 		this.manager = manager;
 	}
 	
-	public void resourceDirty(Resource resource) {
+	public void resourceDirty(Resource resource, boolean updateTimestamp) {
 		synchronized (resources) {
-			if (DEBUG)
+			if (DEBUG && updateTimestamp)
 				System.out.println("DRS: added " + resource);
-			resources.add(resource);
+			resources.put(resource, updateTimestamp);
 			resourceUpdated = true;
 			synchronized (MONITOR) {
 				MONITOR.notifyAll();
 			}
 			return;
+		}
+	}
+	
+	/**
+	 * Remove resource from the list. 
+	 * 
+	 * @param resource resource to save
+	 * @param saveAnyway if true, latest resource changes should be saved anyway.
+	 */
+	public void removeResource(Resource resource, boolean saveAnyway) {
+		synchronized (resources) {
+			if (DEBUG)
+				System.out.println("DRS: removed " + resource);
+			if (saveAnyway) {
+				if (resources.containsKey(resource))
+					resources.put(resource, false);
+			}
+			else
+				resources.remove(resource);
 		}
 	}
 	
@@ -85,20 +102,6 @@ public class DeferredResourceSaver extends Thread {
 	public boolean isDirty() {
 		synchronized (resources) {
 			return resources.size() > 0;
-		}
-	}
-	
-	protected Resource[] getResources() {
-		synchronized (resources) {
-			return resources.toArray(new Resource[resources.size()]);
-		}
-	}
-	
-	protected void removeSaved(Resource[] resources) {
-		synchronized (this.resources) {
-			for (Resource resource : resources) {
-				this.resources.remove(resource);
-			}
 		}
 	}
 	
@@ -124,67 +127,34 @@ public class DeferredResourceSaver extends Thread {
 	}
 	
 	protected boolean isIgnoreTimestamp(Resource resource) {
-		return IndexUtils.isSystemResource(resource);
+		return FileResourceUtils.isSystemResource(resource);
 	}
 	
-	protected void saveFiles() {
-		final Resource[] resources = getResources();
-		List<Resource> timestampResourceList = new ArrayList<Resource>();
-		for (Resource resource : resources) {
-			if (!isIgnoreTimestamp(resource))
-				timestampResourceList.add(resource);
-		}
-		final Resource[] timestampResources = timestampResourceList.toArray(
-				new Resource[timestampResourceList.size()]);
-		
-		try {
-			IWorkspaceRunnable runnable = new IWorkspaceRunnable() {
-			
-				public void run(IProgressMonitor monitor) throws CoreException {
-					manager.updateTimestamps(new Runnable() {
-					
-						public void run() {
-							for (Resource resource : resources) {
-								save(resource);
-								removeEmpty(resource);
-							}
-						}
-					}, timestampResources);
-				}
-			};
-			IProgressMonitor monitor = new NullProgressMonitor();
-			ISchedulingRule rule = createRule(resources);
-			if (true)
-				org.eclipse.core.resources.ResourcesPlugin.getWorkspace().run(runnable, monitor);
-			else
-				org.eclipse.core.resources.ResourcesPlugin.getWorkspace().run(
-						runnable, rule, IWorkspace.AVOID_UPDATE, monitor);
-		} catch (Exception e) {
-        	ResourcesPlugin.log(e);
-		}
-		removeSaved(resources);
-	}
-	
-	protected ISchedulingRule createRule(Resource[] resources) {
-		ISchedulingRule rule = null;
-		for (int i = 0; i < resources.length; i++) {
-			IFile file = WorkspaceSynchronizer.getFile(resources[i]);
-			if (file != null) {
-				IResource resource = file.getParent();
-				if (resource == null)
-					resource = file;
-				if (rule == null) {
-					rule = resource;
-				}
-				else {
-					rule = MultiRule.combine(rule, resource);
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.espace.resources.IResourceSaver#saveResources()
+	 */
+	public Resource[] saveResources() {
+		synchronized (resources) {
+			List<Resource> resourcesToUpdate = new ArrayList<Resource>();
+			for (Resource resource : resources.keySet()) {
+				save(resource);
+				removeEmpty(resource);
+				if (DEBUG)
+					System.out.println("DRS: saved " + resource);
+				if (resources.get(resource)) {
+					resourcesToUpdate.add(resource);
+					if (DEBUG)
+						System.out.println("DRS: added to update " + resource);
 				}
 			}
+			Resource[] result = resourcesToUpdate.toArray(
+					new Resource[resourcesToUpdate.size()]);
+			resources.clear();
+			return result;
 		}
-		return rule;
 	}
 	
-	protected void removeEmpty(Resource resource) {
+	public static void removeEmpty(Resource resource) {
 		try {
 			if (resource.getContents().size() == 0) {
 				IFile file = WorkspaceSynchronizer.getFile(resource);
@@ -192,7 +162,7 @@ public class DeferredResourceSaver extends Thread {
 					file.delete(true, new NullProgressMonitor());
 				}
 				else {
-					File dFile = IndexUtils.getFile(resource);
+					File dFile = FileResourceUtils.getFile(resource);
 					if (dFile != null && dFile.exists())
 						dFile.delete();
 				}
@@ -203,15 +173,27 @@ public class DeferredResourceSaver extends Thread {
 		}
 	}
 	
-	protected static void save(Resource resource) {
-		if (DEBUG)
-			System.out.println("DRS: saved " + resource);
+	public static void save(Resource resource) {
     	try {
             resource.save(null);
         }
         catch (IOException e) {
         	ResourcesPlugin.log(e);
         }
+	}
+	
+	protected void saveFiles() {
+		try {
+			IWorkspaceRunnable runnable = new IWorkspaceRunnable() {
+			
+				public void run(IProgressMonitor monitor) throws CoreException {
+					manager.updateTimestamps(DeferredResourceSaver.this);
+				}
+			};
+			org.eclipse.core.resources.ResourcesPlugin.getWorkspace().run(runnable, null);
+		} catch (Exception e) {
+        	ResourcesPlugin.log(e);
+		}
 	}
 
 }

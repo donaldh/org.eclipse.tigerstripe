@@ -24,10 +24,13 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPackage;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
+import org.eclipse.tigerstripe.annotation.core.IAnnotationListener2;
+import org.eclipse.tigerstripe.espace.core.Mode;
 import org.eclipse.tigerstripe.espace.resources.core.EMFDatabase;
 import org.eclipse.tigerstripe.espace.resources.core.IDatabaseConfiguration;
 
@@ -169,6 +172,30 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 		return getDatabase().isReadOnly(annotation);
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationManager#addResource(org.eclipse.emf.ecore.resource.Resource, org.eclipse.tigerstripe.espace.core.ReadWriteOption)
+	 */
+	public void addAnnotations(Resource resource, Mode option) {
+		getDatabase().addResource(resource, option);
+		fireAnnotationsAdded(resource, option);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationManager#removeResource(org.eclipse.emf.ecore.resource.Resource)
+	 */
+	public void removeAnnotations(Resource resource) {
+		getDatabase().removeResource(resource, true);
+		fireAnnotationsRemoved(resource);
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationManager#unregisterAnnotations(org.eclipse.emf.ecore.resource.Resource)
+	 */
+	public void unregisterAnnotations(Resource resource) {
+		getDatabase().removeResource(resource, false);
+		fireAnnotationsRemoved(resource);
+	}
+	
 	protected Annotation[] doRemove(URI uri) {
 		List<Annotation> list = doGetAnnotations(uri);
 		if (list.size() > 0) {
@@ -220,6 +247,36 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 			try {
 				IAnnotationListener listener = (IAnnotationListener)objects[i];
 				listener.annotationsChanged(annotations);
+			}
+			catch (Exception e) {
+				AnnotationPlugin.log(e);
+			}
+		}
+	}
+	
+	protected void fireAnnotationsAdded(Resource resource, Mode option) {
+		Object[] objects = listeners.getListeners();
+		for (int i = 0; i < objects.length; i++) {
+			try {
+				IAnnotationListener listener = (IAnnotationListener)objects[i];
+				if (listener instanceof IAnnotationListener2) {
+					((IAnnotationListener2)listener).annotationsAdded(resource, option);
+				}
+			}
+			catch (Exception e) {
+				AnnotationPlugin.log(e);
+			}
+		}
+	}
+	
+	protected void fireAnnotationsRemoved(Resource resource) {
+		Object[] objects = listeners.getListeners();
+		for (int i = 0; i < objects.length; i++) {
+			try {
+				IAnnotationListener listener = (IAnnotationListener)objects[i];
+				if (listener instanceof IAnnotationListener2) {
+					((IAnnotationListener2)listener).annotationsRemoved(resource);
+				}
 			}
 			catch (Exception e) {
 				AnnotationPlugin.log(e);

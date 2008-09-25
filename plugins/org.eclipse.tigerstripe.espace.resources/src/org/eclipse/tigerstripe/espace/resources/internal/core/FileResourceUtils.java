@@ -21,7 +21,7 @@ import org.eclipse.tigerstripe.espace.resources.ResourcesPlugin;
  * @author Yuri Strot
  *
  */
-public class IndexUtils {
+public class FileResourceUtils {
 	
 	protected static final String INDEX_DIRECTORY = "INDEX/";
 	protected static final String RESOURCES_STORAGE = "resources.xml";

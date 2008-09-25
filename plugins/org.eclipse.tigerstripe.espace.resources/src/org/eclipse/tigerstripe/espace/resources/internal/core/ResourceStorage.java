@@ -20,6 +20,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.tigerstripe.espace.core.Mode;
+import org.eclipse.tigerstripe.espace.resources.DeferredResourceSaver;
 import org.eclipse.tigerstripe.espace.resources.ResourceHelper;
 import org.eclipse.tigerstripe.espace.resources.ResourceList;
 import org.eclipse.tigerstripe.espace.resources.ResourceLocation;
@@ -40,7 +41,7 @@ public class ResourceStorage {
 	
 	public ResourceStorage(ResourceHelper helper) {
 		this.helper = helper;
-		defaultRouter = new DefaultObjectRouter(IndexUtils.getDefaultStorage());
+		defaultRouter = new DefaultObjectRouter(FileResourceUtils.getDefaultStorage());
 	}
 	
 	private boolean isDefaultUri(URI uri) {
@@ -52,14 +53,16 @@ public class ResourceStorage {
 	}
 	
 	public boolean needUpdate() {
+		boolean needUpdate = false;
 		for (ResourceLocation location : getResourceList().getLocations()) {
 			Resource resource = helper.getResource(location.getUri());
 			if (resource != null && ResourceHelper.getLastModification(
 					resource) != location.getTimeStamp()) {
-				return true;
+				needUpdate = true;
+				resource.unload();
 			}
 		}
-		return false;
+		return needUpdate;
 	}
 	
 	public void updateTimes() {
@@ -73,7 +76,7 @@ public class ResourceStorage {
 	
 	public ResourceList getResourceList() {
 		if (resourceList == null) {
-			resourcesStorage = new DefaultObjectRouter(IndexUtils.getResourceMetaFile());
+			resourcesStorage = new DefaultObjectRouter(FileResourceUtils.getResourceMetaFile());
 			Resource resource = helper.getResource(resourcesStorage.getUri());
 			try {
 				resource.load(null);
@@ -134,21 +137,15 @@ public class ResourceStorage {
 		return newElement;
 	}
 	
-	public boolean removeResource(Resource resource) {
+	public boolean removeResource(Resource resource, boolean removeFromSavingList) {
 		boolean haveElement = false;
 		ResourceLocation location = getLocation(resource);
 		if (location != null) {
 			haveElement = getResourceList().getLocations().remove(location);
+			if (removeFromSavingList)
+				DeferredResourceSaver.getInstance().removeResource(resource, false);
 			ResourceHelper.save(helper.getResource(resourcesStorage.getUri()));
 		}
-//		URI uri = resource.getURI();
-//		if (uri != null) {
-//			ResourceSet rs = helper.getResourceSet();
-//			Resource oldResource = rs.getResource(uri, false);
-//			if (oldResource != null)
-//				rs.getResources().remove(rs);
-//				
-//		}
 		return haveElement;
 	}
 	
@@ -156,7 +153,7 @@ public class ResourceStorage {
 		if (isDefaultUri(resource.getURI()))
 			return;
 		if (resource.getContents().size() == 0) {
-			removeResource(resource);
+			removeResource(resource, false);
 		}
 		else
 			updateResource(resource);

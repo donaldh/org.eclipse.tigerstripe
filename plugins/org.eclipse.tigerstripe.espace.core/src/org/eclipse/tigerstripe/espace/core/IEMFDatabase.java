@@ -96,6 +96,6 @@ public interface IEMFDatabase {
 	 * @param resource
 	 * @param option
 	 */
-	public void removeResource(Resource resource);
+	public void removeResource(Resource resource, boolean removeFromSavingList);
 
 }

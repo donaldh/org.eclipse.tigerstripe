@@ -28,7 +28,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationConstraintException;
 import org.eclipse.tigerstripe.annotation.core.AnnotationException;
@@ -47,7 +46,6 @@ import org.eclipse.tigerstripe.annotation.core.ProviderContext;
 import org.eclipse.tigerstripe.annotation.core.RefactoringChange;
 import org.eclipse.tigerstripe.annotation.core.TargetAnnotationType;
 import org.eclipse.tigerstripe.annotation.core.util.AnnotationUtils;
-import org.eclipse.tigerstripe.espace.core.Mode;
 
 /**
  * This is implementation of the <code>IAnnotationManager</code>. This class
@@ -420,20 +418,6 @@ public class AnnotationManager extends AnnotationStorage implements
 		} catch (ClassNotFoundException e) {
 		}
 		return false;
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationManager#addResource(org.eclipse.emf.ecore.resource.Resource, org.eclipse.tigerstripe.espace.core.ReadWriteOption)
-	 */
-	public void addAnnotations(Resource resource, Mode option) {
-		getDatabase().addResource(resource, option);
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationManager#removeResource(org.eclipse.emf.ecore.resource.Resource)
-	 */
-	public void removeAnnotations(Resource resource) {
-		getDatabase().removeResource(resource);
 	}
 
 	/*

@@ -41,7 +41,7 @@ public class IndexStorage {
 	
 	protected void init() {
 		map = new HashMap<String, Resource>();
-		File indexDirectory = IndexUtils.getIndexDirectory();
+		File indexDirectory = FileResourceUtils.getIndexDirectory();
 		if (!indexDirectory.exists())
 			return;
 		File[] files = indexDirectory.listFiles();
@@ -62,7 +62,7 @@ public class IndexStorage {
 			ResourceHelper.save(resource);
 		}
 		map = new HashMap<String, Resource>();
-		File indexDirectory = IndexUtils.getIndexDirectory();
+		File indexDirectory = FileResourceUtils.getIndexDirectory();
 		if (!indexDirectory.exists())
 			return;
 		File[] files = indexDirectory.listFiles();
@@ -122,7 +122,7 @@ public class IndexStorage {
 	public Resource getResource(String featureName, boolean create) {
 		Resource res = map.get(featureName);
 		if (res == null) {
-			File file = new File(IndexUtils.getIndexDirectory(), featureName + ".xml");
+			File file = new File(FileResourceUtils.getIndexDirectory(), featureName + ".xml");
 			if (!file.exists() && !create)
 				return null;
 			res = loadResource(file);
@@ -137,7 +137,7 @@ public class IndexStorage {
 	
 	public void saveAll() throws IOException {
 		for (Resource resource : getResources()) {
-			DeferredResourceSaver.getInstance().resourceDirty(resource);
+			DeferredResourceSaver.getInstance().resourceDirty(resource, false);
 		}
 	}
 

@@ -39,6 +39,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.tigerstripe.espace.core.IEMFDatabase;
 import org.eclipse.tigerstripe.espace.core.Mode;
 import org.eclipse.tigerstripe.espace.resources.DeferredResourceSaver;
+import org.eclipse.tigerstripe.espace.resources.IResourceSaver;
 import org.eclipse.tigerstripe.espace.resources.IResourceTimestampManager;
 import org.eclipse.tigerstripe.espace.resources.ResourceHelper;
 import org.eclipse.tigerstripe.espace.resources.ResourceLocation;
@@ -161,10 +162,10 @@ public class EMFDatabase implements IEMFDatabase, IResourceTimestampManager {
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.espace.resources.IResourceTimespampManager#updateTimestamps(java.lang.Runnable, org.eclipse.emf.ecore.resource.Resource[])
 	 */
-	public void updateTimestamps(Runnable beforeOperation, Resource[] resources) {
+	public void updateTimestamps(IResourceSaver saver) {
 		try {
 			lockChanges(true);
-			beforeOperation.run();
+			Resource[] resources = saver.saveResources();
 			for (Resource resource : resources) {
 				getResourceStorage().addResource(resource, Mode.READ_WRITE);
 			}
@@ -321,8 +322,8 @@ public class EMFDatabase implements IEMFDatabase, IResourceTimestampManager {
 	public void addResource(Resource resource, Mode option) {
 		try {
 			lockAndUpdate(true);
-			//getResourceSet().getResources().add(resource);
 			if (getResourceStorage().addResource(resource, option)) {
+				resource = preProcessResource(resource);
 				doRebuildIndex();
 			}
 		}
@@ -334,15 +335,25 @@ public class EMFDatabase implements IEMFDatabase, IResourceTimestampManager {
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.espace.core.IEMFDatabase#removeResource(org.eclipse.emf.ecore.resource.Resource)
 	 */
-	public void removeResource(Resource resource) {
+	public void removeResource(Resource resource, boolean removeFromSavingList) {
 		try {
 			lockAndUpdate(true);
-			if (getResourceStorage().removeResource(resource))
+			resource = preProcessResource(resource);
+			if (getResourceStorage().removeResource(resource, removeFromSavingList))
 				doRebuildIndex();
 		}
 		finally {
 			unlockChanges(true);
 		}
+	}
+	
+	protected Resource preProcessResource(Resource resource) {
+		Resource ownResource = getResourceHelper().getResource(resource.getURI(), false);
+		if (ownResource != null) {
+			ownResource.unload();
+			return ownResource;
+		}
+		return resource;
 	}
 	
 	public void rebuildIndex() {

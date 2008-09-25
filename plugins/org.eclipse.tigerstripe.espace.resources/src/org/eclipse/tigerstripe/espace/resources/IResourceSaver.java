@@ -11,12 +11,14 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.espace.resources;
 
+import org.eclipse.emf.ecore.resource.Resource;
+
 /**
  * @author Yuri Strot
  *
  */
-public interface IResourceTimestampManager {
+public interface IResourceSaver {
 	
-	public void updateTimestamps(IResourceSaver saver);
+	public Resource[] saveResources(); 
 
 }

@@ -11,39 +11,36 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.core;
 
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.tigerstripe.espace.core.Mode;
+
 /**
- * Interface for listening to annotation changes.
- * <p>
- * This interface may be implemented by clients.
- * </p>
+ * An annotation listener that gets informed when resources added or removed 
  *
- * @see IAnnotationListener#annotationAdded(Annotation)
- * @see IAnnotationListener#annotationsRemoved(Annotation[])
- * @see IAnnotationListener2
- * 
  * @author Yuri Strot
+ * @since 0.4
  */
-public interface IAnnotationListener {
+public interface IAnnotationListener2 extends IAnnotationListener {
 	
 	/**
-     * Notifies this listener that an annotation was added.
+     * Notifies this listener that a resource was added.
      * 
 	 * @param annotation added annotation
 	 */
-	public void annotationAdded(Annotation annotation);
+	public void annotationsAdded(Resource resource, Mode option);
 	
 	/**
-     * Notifies this listener that annotations was removed.
+     * Notifies this listener that a resource was removed.
      * 
 	 * @param annotations removed annotations
 	 */
-	public void annotationsRemoved(Annotation[] annotations);
+	public void annotationsRemoved(Resource resource);
 	
 	/**
-     * Notifies this listener that annotations was changed.
+     * Notifies this listener that a resource was unregistered.
      * 
-	 * @param annotations changed annotations
+	 * @param annotations removed annotations
 	 */
-	public void annotationsChanged(Annotation[] annotations);
+	public void annotationsUnregistered(Resource resource);
 
 }

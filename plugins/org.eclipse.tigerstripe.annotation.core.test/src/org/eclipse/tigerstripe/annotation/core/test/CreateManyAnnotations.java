@@ -44,15 +44,21 @@ public class CreateManyAnnotations extends AbstractResourceTestCase {
 	public void testManyAnnotationsCreation() throws AnnotationException {
 		int i = 0;
 		try {
-			for (; i < 250; i++) {
-				MimeType type = ModelFactory.eINSTANCE.createMimeType();
-				type.setMimeType(i + "");
-				AnnotationPlugin.getManager().addAnnotation(project1, type);
+			for (; i < 500; i++) {
+				annotateProject(project1, i + "");
+				annotateProject(project2, i + "");
 			}
 		}
 		finally {
 			AnnotationPlugin.getManager().removeAnnotations(project1);
+			AnnotationPlugin.getManager().removeAnnotations(project2);
 		}
+	}
+	
+	protected void annotateProject(IProject project, String text) throws AnnotationException {
+		MimeType type = ModelFactory.eINSTANCE.createMimeType();
+		type.setMimeType(text);
+		AnnotationPlugin.getManager().addAnnotation(project, type);
 	}
 
 }

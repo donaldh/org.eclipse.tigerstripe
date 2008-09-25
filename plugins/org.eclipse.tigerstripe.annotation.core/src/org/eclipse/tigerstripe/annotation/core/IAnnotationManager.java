@@ -212,11 +212,21 @@ public interface IAnnotationManager {
 	public void addAnnotations(Resource resource, Mode option);
 	
 	/**
-	 * Remove resource from the Annotation Framework storage
+	 * Remove resource from the Annotation Framework storage. If this resource
+	 * have some unsaved changes this changes should be CANCELED (for example,
+	 * because resource was deleted). 
 	 * 
 	 * @param resource
 	 */
 	public void removeAnnotations(Resource resource);
+	
+	/**
+	 * Unregister resource from the Annotation Framework storage. If this resource
+	 * have some unsaved changes they should be performed when possible.
+	 * 
+	 * @param resource
+	 */
+	public void unregisterAnnotations(Resource resource);
 	
 	/**
 	 * @return true, if annotation can't be modified and false otherwise

@@ -23,6 +23,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.tigerstripe.espace.resources.internal.core.IIndexer;
+import org.eclipse.tigerstripe.espace.resources.internal.core.FileResourceUtils;
 
 /**
  * @author Yuri Strot
@@ -74,7 +75,8 @@ public class ResourceHelper {
 	}
 	
 	public static void save(Resource resource) {
-		DeferredResourceSaver.getInstance().resourceDirty(resource);
+		DeferredResourceSaver.getInstance().resourceDirty(
+				resource, !FileResourceUtils.isSystemResource(resource));
 	}
 	
 	/**
@@ -119,7 +121,12 @@ public class ResourceHelper {
 	}
 	
 	public Resource getResource(URI uri) {
+		return getResource(uri, true);
+	}
+	
+	public Resource getResource(URI uri, boolean load) {
 		Resource resource = resourceSet.getResource(uri, false);
+		if (!load) return resource;
 		if (resource == null) {
 			resource = resourceSet.createResource(uri);
 		}

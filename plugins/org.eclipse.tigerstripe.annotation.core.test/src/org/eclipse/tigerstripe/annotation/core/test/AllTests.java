@@ -27,7 +27,7 @@ public class AllTests {
 		suite.addTestSuite(DelegatesTest.class);
 		suite.addTestSuite(TargetsTest.class);
 		suite.addTestSuite(URIPrefixReplacingTest.class);
-		suite.addTestSuite(IndexRebuldingTest.class);
+		suite.addTestSuite(IndexRebuildingTest.class);
 		suite.addTestSuite(CreateManyAnnotations.class);
 		suite.addTestSuite(ValidationTest.class);
 		suite.addTestSuite(AnnotationTypeTest.class);

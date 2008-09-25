@@ -17,26 +17,39 @@ import java.io.InputStream;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.AnnotationAdapter2;
 import org.eclipse.tigerstripe.annotation.core.AnnotationException;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.annotation.core.test.model.MimeType;
 import org.eclipse.tigerstripe.annotation.core.test.model.ModelFactory;
+import org.eclipse.tigerstripe.espace.core.Mode;
 import org.eclipse.tigerstripe.espace.resources.DeferredResourceSaver;
 
 /**
+ * This test check Annotation Framework rebuild ability via  
+ * changing annotation files outside framework. In case of deferred
+ * annotation file saving we need 2 operations:<br>
+ * 1. Before annotation file modification wait until annotations
+ * will be persisted (<code>waitForChanges()</code> method)<br>.
+ * 2. After annotation file modification wait until framework
+ * will be notified about changes (<code>waitForNotification()</code> method) 
+ * 
  * @author Yuri Strot
- *
  */
-public class IndexRebuldingTest extends AbstractResourceTestCase {
+public class IndexRebuildingTest extends AbstractResourceTestCase {
 	
 	protected IProject project1;
 	protected IProject project2;
 	
-	private static final boolean DISABLE = true;
+	protected long MAX_TEST_TIME = 10000;
 	
 	@Override
 	protected void setUp() throws Exception {
@@ -54,14 +67,19 @@ public class IndexRebuldingTest extends AbstractResourceTestCase {
 	}
 	
 	public void test1() throws CoreException, AnnotationException {
-		if (DISABLE)
-			return;
 		//Test is INDEX will be rebuilt after annotation file deletion
 		IAnnotationManager manager = AnnotationPlugin.getManager();
 		try {
 			manager.addAnnotation(project1, createMimeType("text/html"));
 			waitForChanges();
-			removeAnnotationFile(project1);
+			waitForNotification(new IWorkspaceRunnable() {
+				/* (non-Javadoc)
+				 * @see org.eclipse.core.resources.IWorkspaceRunnable#run(org.eclipse.core.runtime.IProgressMonitor)
+				 */
+				public void run(IProgressMonitor monitor) throws CoreException {
+					removeAnnotationFile(project1);
+				}
+			});
 			//waitForChanges();
 			Annotation[] annotations = manager.getAnnotations(project1, false);
 			assertEquals(annotations.length, 0);
@@ -72,8 +90,6 @@ public class IndexRebuldingTest extends AbstractResourceTestCase {
 	}
 	
 	public void test2() throws CoreException, AnnotationException {
-		if (DISABLE)
-			return;
 		//Test is annotations would be kept after another annotations
 		//file will be corrupted
 		IAnnotationManager manager = AnnotationPlugin.getManager();
@@ -82,7 +98,14 @@ public class IndexRebuldingTest extends AbstractResourceTestCase {
 			manager.addAnnotation(project2, createMimeType("text/xml"));
 			manager.addAnnotation(project2, createMimeType("text/plain"));
 			waitForChanges();
-			removeAnnotationFile(project1);
+			waitForNotification(new IWorkspaceRunnable() {
+				/* (non-Javadoc)
+				 * @see org.eclipse.core.resources.IWorkspaceRunnable#run(org.eclipse.core.runtime.IProgressMonitor)
+				 */
+				public void run(IProgressMonitor monitor) throws CoreException {
+					removeAnnotationFile(project1);
+				}
+			});
 			//waitForChanges();
 			Annotation[] annotations = manager.getAnnotations(project1, false);
 			assertEquals(0, annotations.length);
@@ -96,8 +119,6 @@ public class IndexRebuldingTest extends AbstractResourceTestCase {
 	}
 	
 	public void test3() throws Exception {
-		if (DISABLE)
-			return;
 		//Test is INDEX will be rebuilt after annotation file modification
 		IAnnotationManager manager = AnnotationPlugin.getManager();
 		try {
@@ -106,11 +127,10 @@ public class IndexRebuldingTest extends AbstractResourceTestCase {
 			manager.addAnnotation(project2, createMimeType("text/plain"));
 			waitForChanges();
 			replaceAnnotationFile(project1, project2);
-			waitForChanges();
 			Annotation[] annotations = manager.getAnnotations(project1, false);
-			assertEquals(annotations.length, 2);
+			assertEquals(2, annotations.length);
 			annotations = manager.getAnnotations(project2, false);
-			assertEquals(annotations.length, 2);
+			assertEquals(2, annotations.length);
 		}
 		finally {
 			manager.removeAnnotations(project1);
@@ -118,15 +138,52 @@ public class IndexRebuldingTest extends AbstractResourceTestCase {
 		}
 	}
 	
+	protected void waitForNotification(IWorkspaceRunnable runnable) throws CoreException {
+		final boolean[] changesOccured = new boolean[] { false };
+		AnnotationPlugin.getManager().addAnnotationListener(new AnnotationAdapter2() {
+			public void annotationsAdded(Resource resource, Mode option) {
+				notifyChanges();
+			}
+			public void annotationsRemoved(Resource resource) {
+				notifyChanges();
+			}
+			
+			protected void notifyChanges() {
+				synchronized (changesOccured) {
+					changesOccured[0] = true;
+					AnnotationPlugin.getManager().removeAnnotationListener(this);
+				}
+			}
+		});
+		runnable.run(new NullProgressMonitor());
+		long startTime = System.currentTimeMillis();
+		while(true) {
+			synchronized (changesOccured) {
+				if (changesOccured[0])
+					break;
+			}
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			if (System.currentTimeMillis() - startTime > MAX_TEST_TIME)
+				throw new IllegalStateException("Some problem with test performance...");			
+		}
+	}
+	
 	public void waitForChanges() {
+		long startTime = System.currentTimeMillis();
 		while(true) {
 			if (!DeferredResourceSaver.getInstance().isDirty())
 				return;
 			try {
-				Thread.sleep(250);
+				Thread.sleep(100);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
+			if (System.currentTimeMillis() - startTime > MAX_TEST_TIME)
+				throw new IllegalStateException("Some problem with test performance...");			
 		}
 	}
 	
@@ -151,14 +208,21 @@ public class IndexRebuldingTest extends AbstractResourceTestCase {
 	 * @param project2
 	 * @throws IOException
 	 */
-	private void replaceAnnotationFile(IProject project1, IProject project2) throws Exception {
-		IFile file1 = getAnnotationFile(project1);
-		IFile file2 = getAnnotationFile(project2);
-		if (file1 == null || file2 == null)
-			return;
-		String content = getContent(file2);
-		content = content.replaceAll("resource:/project2", "resource:/project1");
-		saveContent(content, file1);
+	private void replaceAnnotationFile(IProject project1, IProject project2) throws CoreException {
+		try {
+			IFile file1 = getAnnotationFile(project1);
+			IFile file2 = getAnnotationFile(project2);
+			if (file1 == null || file2 == null)
+				return;
+			String content = getContent(file2);
+			content = content.replaceAll("resource:/project2", "resource:/project1");
+			saveContent(content, file1);
+		}
+		catch (Exception e) {
+			Status status = new Status(Status.ERROR,
+					AnnotationPlugin.PLUGIN_ID, e.getMessage(), e);
+			throw new CoreException(status);
+		}
 	}
 	
 	private IFile getAnnotationFile(IProject project) {
