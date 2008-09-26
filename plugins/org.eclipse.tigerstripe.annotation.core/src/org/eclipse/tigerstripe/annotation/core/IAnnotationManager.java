@@ -122,6 +122,7 @@ public interface IAnnotationManager {
 	/**
 	 * Add annotation listener
 	 * 
+	 * @see IAnnotationListener2
 	 * @param listener
 	 */
 	public void addAnnotationListener(IAnnotationListener listener);
