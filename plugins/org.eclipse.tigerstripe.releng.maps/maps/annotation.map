@@ -10,6 +10,7 @@ plugin@org.eclipse.tigerstripe.annotation.ui=v200809231222,:pserver:anonymous@de
 plugin@org.eclipse.tigerstripe.annotation.ui.diagrams=v200809231222,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.ui.diagrams
 plugin@org.eclipse.tigerstripe.espace.core=v200809231222,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.espace.core
 plugin@org.eclipse.tigerstripe.espace.resources=v200809231222,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.espace.resources
+plugin@org.eclipse.tigerstripe.espace.resources.monitor=v200809231222,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.espace.resources.monitor
 
 !==========================================
 ! Annotation - Resource integration
