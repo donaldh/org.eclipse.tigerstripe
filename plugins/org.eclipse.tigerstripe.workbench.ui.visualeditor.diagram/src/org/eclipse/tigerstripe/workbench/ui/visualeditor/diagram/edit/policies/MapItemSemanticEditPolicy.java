@@ -56,7 +56,6 @@ TigerstripeBaseItemSemanticEditPolicy {
 	 */
 	@Override
 	protected Command getCreateCommand(CreateElementRequest req) {
-		System.out.println(req.getElementType());
 		if (req.getElementType() instanceof CustomElementType){
 			if (TigerstripeElementTypes.NamedQueryArtifact_1001 == ((CustomElementType) req.getElementType())
 					.getBaseType()) {
