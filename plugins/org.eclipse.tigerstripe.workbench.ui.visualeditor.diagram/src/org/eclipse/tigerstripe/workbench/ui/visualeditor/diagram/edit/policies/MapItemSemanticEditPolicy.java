@@ -56,6 +56,7 @@ TigerstripeBaseItemSemanticEditPolicy {
 	 */
 	@Override
 	protected Command getCreateCommand(CreateElementRequest req) {
+		System.out.println(req.getElementType());
 		if (req.getElementType() instanceof CustomElementType){
 			if (TigerstripeElementTypes.NamedQueryArtifact_1001 == ((CustomElementType) req.getElementType())
 					.getBaseType()) {
@@ -133,6 +134,82 @@ TigerstripeBaseItemSemanticEditPolicy {
 							.getMap_Artifacts());
 				}
 				return getMSLWrapper(new CreateCustomAssociationClassClass_1009Command(
+						req));
+			}
+		} else {
+			if (TigerstripeElementTypes.NamedQueryArtifact_1001 == req
+					.getElementType()) {
+				if (req.getContainmentFeature() == null) {
+					req.setContainmentFeature(VisualeditorPackage.eINSTANCE
+							.getMap_Artifacts());
+				}
+				return getMSLWrapper(new CreateNamedQueryArtifact_1001Command(req));
+			}
+			if (TigerstripeElementTypes.ExceptionArtifact_1002 == req
+					.getElementType()) {
+				if (req.getContainmentFeature() == null) {
+					req.setContainmentFeature(VisualeditorPackage.eINSTANCE
+							.getMap_Artifacts());
+				}
+				return getMSLWrapper(new CreateExceptionArtifact_1002Command(req));
+			}
+			if (TigerstripeElementTypes.ManagedEntityArtifact_1003 == req
+					.getElementType()) {
+				if (req.getContainmentFeature() == null) {
+					req.setContainmentFeature(VisualeditorPackage.eINSTANCE
+							.getMap_Artifacts());
+				}
+				return getMSLWrapper(new CreateManagedEntityArtifact_1003Command(
+						req));
+			}
+			if (TigerstripeElementTypes.NotificationArtifact_1004 == req
+					.getElementType()) {
+				if (req.getContainmentFeature() == null) {
+					req.setContainmentFeature(VisualeditorPackage.eINSTANCE
+							.getMap_Artifacts());
+				}
+				return getMSLWrapper(new CreateNotificationArtifact_1004Command(req));
+			}
+			if (TigerstripeElementTypes.DatatypeArtifact_1005 == req
+					.getElementType()) {
+				if (req.getContainmentFeature() == null) {
+					req.setContainmentFeature(VisualeditorPackage.eINSTANCE
+							.getMap_Artifacts());
+				}
+				return getMSLWrapper(new CreateDatatypeArtifact_1005Command(req));
+			}
+			if (TigerstripeElementTypes.Enumeration_1006 == req.getElementType()) {
+				if (req.getContainmentFeature() == null) {
+					req.setContainmentFeature(VisualeditorPackage.eINSTANCE
+							.getMap_Artifacts());
+				}
+				return getMSLWrapper(new CreateEnumeration_1006Command(req));
+			}
+			if (TigerstripeElementTypes.UpdateProcedureArtifact_1007 == req
+					.getElementType()) {
+				if (req.getContainmentFeature() == null) {
+					req.setContainmentFeature(VisualeditorPackage.eINSTANCE
+							.getMap_Artifacts());
+				}
+				return getMSLWrapper(new CreateUpdateProcedureArtifact_1007Command(
+						req));
+			}
+			if (TigerstripeElementTypes.SessionFacadeArtifact_1008 == req
+					.getElementType()) {
+				if (req.getContainmentFeature() == null) {
+					req.setContainmentFeature(VisualeditorPackage.eINSTANCE
+							.getMap_Artifacts());
+				}
+				return getMSLWrapper(new CreateSessionFacadeArtifact_1008Command(
+						req));
+			}
+			if (TigerstripeElementTypes.AssociationClassClass_1009 == req
+					.getElementType()) {
+				if (req.getContainmentFeature() == null) {
+					req.setContainmentFeature(VisualeditorPackage.eINSTANCE
+							.getMap_Artifacts());
+				}
+				return getMSLWrapper(new CreateAssociationClassClass_1009Command(
 						req));
 			}
 		}
