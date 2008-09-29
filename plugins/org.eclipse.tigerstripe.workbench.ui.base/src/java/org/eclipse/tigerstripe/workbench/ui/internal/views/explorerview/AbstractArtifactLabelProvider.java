@@ -37,7 +37,7 @@ public class AbstractArtifactLabelProvider implements ILabelProvider,
 		IColorProvider {
 
 	// This is used to avoid creating images over and over for icons
-	private ImageRegistry iconRegistry = new ImageRegistry();
+	private static ImageRegistry iconRegistry = new ImageRegistry();
 
 	public Image getImage(Object element) {
 		return getImage(element, true);
