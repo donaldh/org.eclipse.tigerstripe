@@ -13,11 +13,14 @@ package org.eclipse.tigerstripe.workbench.internal.contract.segment;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 import org.dom4j.Attribute;
 import org.dom4j.Element;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.annotation.core.AnnotationType;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
@@ -357,6 +360,13 @@ public class ContractSegment extends VersionAwareElement implements
 			patternElement.addText(pattern.annotationID);
 		}
 
+		for (ScopeAnnotationPattern pattern : getISegmentScope()
+				.getAnnotationContextPatterns()) {
+			Element patternElement = scopeElement
+					.addElement("annotationContextPattern");
+			patternElement.addAttribute("type", String.valueOf(pattern.type));
+			patternElement.addText(pattern.annotationID);
+		}
 	}
 
 	private void parseScope(Element rootElement) throws TigerstripeException {
@@ -392,6 +402,12 @@ public class ContractSegment extends VersionAwareElement implements
 					pat.type = type;
 					pat.annotationID = pattern;
 					scope.addAnnotationPattern(pat);
+				} else if ("annotationContextPattern".equals(patternElement
+						.getName())) {
+					ScopeAnnotationPattern pat = new ScopeAnnotationPattern();
+					pat.type = type;
+					pat.annotationID = pattern;
+					scope.addAnnotationContextPattern(pat);
 				}
 			}
 		}
@@ -414,5 +430,51 @@ public class ContractSegment extends VersionAwareElement implements
 		if (facetReferences.contains(facetReference)) {
 			facetReferences.remove(facetReference);
 		}
+	}
+
+	public String[] getAnnotationContext() {
+		ArrayList<String> result = new ArrayList<String>();
+
+		if (getISegmentScope().getAnnotationContextPatterns(
+				ISegmentScope.INCLUDES).length == 0
+				&& getISegmentScope().getAnnotationContextPatterns(
+						ISegmentScope.EXCLUDES).length == 0) {
+			for (AnnotationType type : AnnotationPlugin.getManager().getTypes()) {
+				result.add(type.getId());
+			}
+		} else if (getISegmentScope().getAnnotationContextPatterns(
+				ISegmentScope.INCLUDES).length != 0) {
+			// make sure we only include those that are defined
+			List<ScopeAnnotationPattern> includePatterns = Arrays
+					.asList(getISegmentScope().getAnnotationContextPatterns(
+							ISegmentScope.INCLUDES));
+			ArrayList<String> includeIds = new ArrayList<String>();
+			for (ScopeAnnotationPattern pattern : includePatterns) {
+				includeIds.add(pattern.annotationID);
+			}
+			for (AnnotationType type : AnnotationPlugin.getManager().getTypes()) {
+				String id = type.getId();
+				if (includeIds.contains(id)) {
+					result.add(id);
+				}
+			}
+		} else if (getISegmentScope().getAnnotationContextPatterns(
+				ISegmentScope.EXCLUDES).length != 0) {
+			List<ScopeAnnotationPattern> excludePatterns = Arrays
+					.asList(getISegmentScope().getAnnotationContextPatterns(
+							ISegmentScope.EXCLUDES));
+			ArrayList<String> excludeIds = new ArrayList<String>();
+			for (ScopeAnnotationPattern pattern : excludePatterns) {
+				excludeIds.add(pattern.annotationID);
+			}
+			for (AnnotationType type : AnnotationPlugin.getManager().getTypes()) {
+				String id = type.getId();
+				if (!excludeIds.contains(id)) {
+					result.add(id);
+				}
+			}
+		}
+
+		return result.toArray(new String[result.size()]);
 	}
 }

@@ -261,6 +261,8 @@ public abstract class TemplateBasedRule extends Rule implements
 		// Added this - JKW
 		defaultVContext.put("diagramGenerator", new DiagramGenerator(handle));
 
+		defaultVContext.put("annotationContext", session.getActiveFacet().resolve().getAnnotationContext());
+		
 		return this.defaultVContext;
 	}
 

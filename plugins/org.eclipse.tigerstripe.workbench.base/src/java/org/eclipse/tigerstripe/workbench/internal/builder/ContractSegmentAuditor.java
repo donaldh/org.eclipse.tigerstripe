@@ -124,6 +124,15 @@ public class ContractSegmentAuditor implements IFileExtensionBasedAuditor{
 		} else {
 			checkArtifactScopes(facet, res);
 		}
+		
+		// Check that the annotationContext is valid, i.e.
+		// either include or exclude or nothing, but not both include and exclude
+		if (scope.getAnnotationContextPatterns(ISegmentScope.EXCLUDES).length != 0 
+				&& scope.getAnnotationContextPatterns(ISegmentScope.INCLUDES).length != 0 ) {
+			TigerstripeProjectAuditor.reportError(
+					"Inconsistent Annotation context definition: use 'Inclusion' or 'Exclusion', but not both. (" + facet.getName() + ").",
+					res, 222);
+		}
 	}
 
 	private void checkUseCaseDocs(IContractSegment facet, IResource res) {

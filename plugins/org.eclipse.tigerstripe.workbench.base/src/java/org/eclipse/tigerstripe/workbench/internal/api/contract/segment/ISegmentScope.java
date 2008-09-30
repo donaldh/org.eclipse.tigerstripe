@@ -132,6 +132,8 @@ public interface ISegmentScope {
 
 	public ScopeAnnotationPattern[] getAnnotationPatterns();
 
+	public ScopeAnnotationPattern[] getAnnotationContextPatterns();
+
 	/**
 	 * Returns all the ScopePatterns of the specified type
 	 * 
@@ -155,5 +157,11 @@ public interface ISegmentScope {
 	public void addAnnotationPattern(ScopeAnnotationPattern pattern);
 
 	public void removeAnnotationPattern(ScopeAnnotationPattern pattern);
+
+	public ScopeAnnotationPattern[] getAnnotationContextPatterns(int type);
+
+	public void addAnnotationContextPattern(ScopeAnnotationPattern pattern);
+
+	public void removeAnnotationContextPattern(ScopeAnnotationPattern pattern);
 
 }

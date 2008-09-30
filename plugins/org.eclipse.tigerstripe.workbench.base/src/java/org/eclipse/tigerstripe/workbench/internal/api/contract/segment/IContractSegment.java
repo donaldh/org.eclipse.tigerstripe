@@ -66,6 +66,17 @@ public interface IContractSegment extends IVersionAwareElement {
 			throws TigerstripeException;
 
 	/**
+	 * 	Returns an array containing the IDs of all the annotations to be considered as part
+	 * of the annotation context for this facet.
+	 * 
+	 * If no annotation context include or exclude pattern is specified, all known annotations
+	 * are included
+	 * 
+	 * @return
+	 */
+	public String[] getAnnotationContext();
+	
+	/**
 	 * Returns the project where the facet is stored, if any.
 	 * 
 	 * @return

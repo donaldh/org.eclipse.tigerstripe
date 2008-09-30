@@ -22,6 +22,8 @@ public class SegmentScope implements ISegmentScope {
 	private List<ScopeStereotypePattern> stereotypePatterns = new ArrayList<ScopeStereotypePattern>();
 
 	private List<ScopeAnnotationPattern> annotationPatterns = new ArrayList<ScopeAnnotationPattern>();
+	
+	private List<ScopeAnnotationPattern> annotationContext = new ArrayList<ScopeAnnotationPattern>();
 
 	public void addStereotypePattern(ScopeStereotypePattern pattern) {
 		if (!stereotypePatterns.contains(pattern)) {
@@ -32,6 +34,12 @@ public class SegmentScope implements ISegmentScope {
 	public void addAnnotationPattern(ScopeAnnotationPattern pattern) {
 		if (!annotationPatterns.contains(pattern)) {
 			annotationPatterns.add(pattern);
+		}
+	}
+
+	public void addAnnotationContextPattern(ScopeAnnotationPattern pattern) {
+		if (!annotationContext.contains(pattern)) {
+			annotationContext.add(pattern);
 		}
 	}
 
@@ -51,6 +59,11 @@ public class SegmentScope implements ISegmentScope {
 				.toArray(new ScopeAnnotationPattern[annotationPatterns.size()]);
 	}
 
+	public ScopeAnnotationPattern[] getAnnotationContextPatterns() {
+		return annotationContext
+				.toArray(new ScopeAnnotationPattern[annotationContext.size()]);
+	}
+
 	public ScopePattern[] getPatterns() {
 		return patterns.toArray(new ScopePattern[patterns.size()]);
 	}
@@ -68,6 +81,16 @@ public class SegmentScope implements ISegmentScope {
 	public ScopeAnnotationPattern[] getAnnotationPatterns(int type) {
 		List<ScopeAnnotationPattern> subList = new ArrayList<ScopeAnnotationPattern>();
 		for (ScopeAnnotationPattern pattern : annotationPatterns) {
+			if (pattern.type == type) {
+				subList.add(pattern);
+			}
+		}
+		return subList.toArray(new ScopeAnnotationPattern[subList.size()]);
+	}
+
+	public ScopeAnnotationPattern[] getAnnotationContextPatterns(int type) {
+		List<ScopeAnnotationPattern> subList = new ArrayList<ScopeAnnotationPattern>();
+		for (ScopeAnnotationPattern pattern : annotationContext) {
 			if (pattern.type == type) {
 				subList.add(pattern);
 			}
@@ -110,6 +133,12 @@ public class SegmentScope implements ISegmentScope {
 	public void removeAnnotationPattern(ScopeAnnotationPattern pattern) {
 		if (annotationPatterns.contains(pattern)) {
 			annotationPatterns.remove(pattern);
+		}
+	}
+
+	public void removeAnnotationContextPattern(ScopeAnnotationPattern pattern) {
+		if (annotationContext.contains(pattern)) {
+			annotationContext.remove(pattern);
 		}
 	}
 
