@@ -19,8 +19,11 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.resource.DeviceResourceException;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequest;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.xml.TigerstripeXMLParserUtils;
+import org.eclipse.tigerstripe.workbench.model.annotation.AnnotationHelper;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.osgi.framework.Bundle;
+import org.w3c.dom.Element;
 
 public class Pattern implements IPattern {
 
@@ -35,6 +38,22 @@ public class Pattern implements IPattern {
 	protected URL disabledIconURL;
 	protected Collection<IModelChangeRequest> requests = new ArrayList<IModelChangeRequest>();
 	protected Collection<IPatternAnnotation> patternAnnotations = new ArrayList<IPatternAnnotation>();
+	
+	protected AnnotationHelper helper = AnnotationHelper.getInstance();
+	protected TigerstripeXMLParserUtils xmlParserUtils;
+	protected Element element;
+	
+	public void setParserUtils(TigerstripeXMLParserUtils utils) {
+		this.xmlParserUtils = utils;
+	}
+	
+	public Element getElement() {
+		return element;
+	}
+	
+	public void setElement(Element element) {
+		this.element = element;
+	}
 	
 	public Collection<IPatternAnnotation> getPatternAnnotations() {
 		return patternAnnotations;

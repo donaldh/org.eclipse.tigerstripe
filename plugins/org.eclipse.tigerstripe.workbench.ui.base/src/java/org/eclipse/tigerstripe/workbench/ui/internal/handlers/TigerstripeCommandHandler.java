@@ -23,6 +23,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.patterns.PatternFactory;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenGenerateInterfaceWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewPatternBasedArtifactWizardAction;
+import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewPatternBasedProjectWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewProjectWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.PluginsControlDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.ProfileDetailsDialog;
@@ -39,7 +40,7 @@ public class TigerstripeCommandHandler extends AbstractHandler implements IHandl
 	private final String PROFILES_COMMAND ="org.eclipse.tigerstripe.workbench.ui.base.profile";
 	private final String GENERATE_COMMAND ="org.eclipse.tigerstripe.workbench.ui.base.generate";
 	private final String PATTERN_COMMAND ="org.eclipse.tigerstripe.workbench.ui.base.patternBasedCreate";
-	private final String NEW_PROJECT_COMMAND ="org.eclipse.tigerstripe.workbench.ui.base.newProject";
+	private final String PROJECT_PATTERN_COMMAND ="org.eclipse.tigerstripe.workbench.ui.base.patternBasedProjectCreate";
 	
 	public Object execute(ExecutionEvent event)
 		throws ExecutionException {
@@ -66,8 +67,10 @@ public class TigerstripeCommandHandler extends AbstractHandler implements IHandl
 			IPattern pattern = PatternFactory.getInstance().getPattern(patternName);
 			OpenNewPatternBasedArtifactWizardAction artifactAction = new OpenNewPatternBasedArtifactWizardAction(pattern);
 			artifactAction.run();
-		} else if (id.equals(NEW_PROJECT_COMMAND)){
-			OpenNewProjectWizardAction newProjectAction = new OpenNewProjectWizardAction();
+		} else if (id.equals(PROJECT_PATTERN_COMMAND)){
+			String patternName = event.getParameter("org.eclipse.tigerstripe.workbench.ui.base.patternName");
+			IPattern pattern = PatternFactory.getInstance().getPattern(patternName);
+			OpenNewPatternBasedProjectWizardAction newProjectAction = new OpenNewPatternBasedProjectWizardAction(pattern);
 			newProjectAction.run();
 		}
 

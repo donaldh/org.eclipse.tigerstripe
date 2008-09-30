@@ -28,6 +28,8 @@ import org.eclipse.tigerstripe.workbench.base.test.model.TestFields;
 import org.eclipse.tigerstripe.workbench.base.test.model.TestLiterals;
 import org.eclipse.tigerstripe.workbench.base.test.model.TestMethods;
 import org.eclipse.tigerstripe.workbench.base.test.model.TestTigerstripeWorkspaceNotifications;
+import org.eclipse.tigerstripe.workbench.base.test.patterns.PatternTest;
+import org.eclipse.tigerstripe.workbench.base.test.patterns.ProjectPatternTest;
 import org.eclipse.tigerstripe.workbench.base.test.profile.TestProfileBasics;
 import org.eclipse.tigerstripe.workbench.base.test.project.TestM0ProjectBasics;
 import org.eclipse.tigerstripe.workbench.base.test.project.TestM0ProjectContents;
@@ -92,6 +94,10 @@ public class AllTests {
 		
 		// Annotations
 		suite.addTestSuite(TestAnnotationCreationAPI.class);
+		
+		//Patterns
+		suite.addTestSuite(PatternTest.class);
+		suite.addTestSuite(ProjectPatternTest.class);
 		
 		// $JUnit-END$
 		return suite;

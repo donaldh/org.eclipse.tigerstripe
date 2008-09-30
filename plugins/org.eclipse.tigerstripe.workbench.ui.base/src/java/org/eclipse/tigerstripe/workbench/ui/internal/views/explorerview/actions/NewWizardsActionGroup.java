@@ -36,6 +36,7 @@ import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripePlu
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeProjectNature;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
+import org.eclipse.tigerstripe.workbench.patterns.IArtifactPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -140,7 +141,9 @@ public class NewWizardsActionGroup extends ActionGroup {
 
 							for (String patternName : PatternFactory.getInstance().getRegisteredPatterns().keySet()){
 								IPattern pattern = PatternFactory.getInstance().getPattern(patternName);
-								newMenu.add(new OpenNewPatternBasedArtifactWizardAction(pattern));
+								if (pattern instanceof IArtifactPattern){
+									newMenu.add(new OpenNewPatternBasedArtifactWizardAction(pattern));
+								}
 
 								
 							}

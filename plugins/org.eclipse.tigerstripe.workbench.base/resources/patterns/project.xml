@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<pattern:creationPattern patternName="org.eclipse.tigerstripe.workbench.base.Project" 
+				 		 patternType="project"
+						 uiLabel="Project"
+						 iconPath="icons/project_new.gif"
+						 disabledIconPath=""
+                       xmlns:pattern="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0"
+                       xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v2-0">
+    <pattern:description>Create a new TigerstripeProject</pattern:description>
+    <ts:tigerstripeProject name="" version="">
+    </ts:tigerstripeProject>
+</pattern:creationPattern>

@@ -745,10 +745,14 @@
      <command
            category="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
            categoryId="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
-           defaultHandler="org.eclipse.tigerstripe.workbench.ui.internal.handlers.TigerstripeCommandHandler"
-           description="Create a New Tigerstripe Project"
-           id="org.eclipse.tigerstripe.workbench.ui.base.newProject"
-           name="Create New Project">
+           description="Pattern Based Project Create"
+           id="org.eclipse.tigerstripe.workbench.ui.base.patternBasedProjectCreate"
+           name="Pattern Based Project Create">
+        <commandParameter
+              id="org.eclipse.tigerstripe.workbench.ui.base.patternName"
+              name="patternName"
+              optional="false">
+        </commandParameter>
      </command>
   </extension>
   <extension
@@ -798,14 +802,10 @@
            locationURI="toolbar:org.eclipse.ui.main.toolbar">
         <toolbar
               id="org.eclipse.tigerstripe.workbench.ui.base.toolbar">
-           <command
-                 commandId="org.eclipse.tigerstripe.workbench.ui.base.newProject"
-                 disabledIcon="src/icons/new_project_gs.gif"
-                 icon="src/icons/new_project.gif"
-                 id="org.eclipse.tigerstripe.workbench.ui.base.newProject"
-                 label="New Project"
-                 style="push">
-           </command>
+           <separator
+                 name="org.eclipse.tigerstripe.workbench.ui.base.start"
+                 visible="false">
+           </separator>
            <command
                  commandId="org.eclipse.tigerstripe.workbench.ui.base.generate"
                  disabledIcon="src/icons/run_tigerstripe_gs.gif"
@@ -845,6 +845,10 @@
               </reference>
            </or>
         </enabledWhen>
+     </handler>
+     <handler
+           class="org.eclipse.tigerstripe.workbench.ui.internal.handlers.TigerstripeCommandHandler"
+           commandId="org.eclipse.tigerstripe.workbench.ui.base.patternBasedProjectCreate">
      </handler>
   </extension>
   <extension

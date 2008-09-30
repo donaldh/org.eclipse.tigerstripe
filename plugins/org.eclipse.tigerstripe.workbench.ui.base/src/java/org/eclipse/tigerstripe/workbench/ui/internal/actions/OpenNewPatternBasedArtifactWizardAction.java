@@ -48,15 +48,6 @@ public class OpenNewPatternBasedArtifactWizardAction extends
 		initAction();
 	}
 
-//	public OpenNewPatternBasedArtifactWizardAction(String label, Class[] acceptedTypes) {
-//		super(label, acceptedTypes, false);
-//
-//		// TODO set help context here
-//		// WorkbenchHelp.setHelp(this,
-//		// IJavaHelpContextIds.OPEN_PACKAGE_WIZARD_ACTION);
-//		initAction();
-//	}
-
 
 	/**
 	 * Initialize the action (set text, images, etc...)

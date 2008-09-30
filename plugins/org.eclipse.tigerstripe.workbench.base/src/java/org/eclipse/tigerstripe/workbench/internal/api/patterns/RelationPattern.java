@@ -88,7 +88,7 @@ public class RelationPattern extends ArtifactPattern implements IRelationPattern
 			String extendedArtifactName, String endType, String endType2)
 			throws TigerstripeException {
 		IArtifactPatternResult result = super.createArtifact(project, packageName, artifactName, extendedArtifactName);
-		Map<String,Object> endData = xmlParserUtils.getAssociationEndData(artifactElement);
+		Map<String,Object> endData = xmlParserUtils.getAssociationEndData(element);
 		
 		IAbstractArtifact artifact = result.getArtifact();
 		if (artifact instanceof IAssociationArtifact){

@@ -12,7 +12,6 @@
 			<xs:element ref="tns:annotations" minOccurs="0" maxOccurs="1"/>
 		</xs:sequence>
 	</xs:complexType>
-<!--	<xs:element name="annotated" type="tns:annotatedType"/> -->
 	
 	<xs:element name="tigerstripeProject">
 		<xs:complexType>

@@ -5,7 +5,7 @@
  <copyright>
  </copyright>
 
- $Id: plugin.xml,v 1.4 2008/08/21 10:04:40 jworrell Exp $
+ $Id: plugin.xml,v 1.5 2008/09/30 15:38:40 rcraddock Exp $
 -->
 
 <plugin>
@@ -64,6 +64,9 @@
      <disabledPattern
            patternName="com.test.shouldNotAppear">
      </disabledPattern>
+     <patternDefinition
+           patternFile="resources/patterns/patternProject/irdProject.xml">
+     </patternDefinition>
   </extension>
 
 </plugin>

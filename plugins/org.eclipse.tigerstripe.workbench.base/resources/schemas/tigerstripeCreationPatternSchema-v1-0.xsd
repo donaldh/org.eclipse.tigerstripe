@@ -5,9 +5,8 @@
 				<xs:complexType>
 					<xs:sequence>
 						<xs:element minOccurs="0" name="description" type="xs:string"/>
-<!--						<xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:annotations"/>   -->
-<!--						<xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:annotationsText"/>   -->
 						<xs:element maxOccurs="unbounded" minOccurs="0" ref="tsa:artifact"/>
+						<xs:element maxOccurs="unbounded" minOccurs="0" ref="tsa:tigerstripeProject"/>
 					</xs:sequence>
 					<xs:attribute name="patternName" type="xs:string" use="required"/>
 					<xs:attribute name="patternType" type="xs:string" use="required"/>
@@ -20,29 +19,4 @@
 					<!-- Any item missing an index will be placed at the end of the menu (Starting at 10000) --> 
 				</xs:complexType>
 			</xs:element>
-<!--			<xs:element name="annotationsText">
-				<xs:complexType>
-					<xs:simpleContent>
-                    	<xs:extension base="xs:string">
-                    		<xs:attribute name="target" type="xs:string" use="required"/>
-                    	</xs:extension>
-                    </xs:simpleContent>
-				</xs:complexType>
-			</xs:element>
-			<xs:element name="annotations">
-				<xs:complexType>
-					<xs:sequence>
-						<xs:element maxOccurs="unbounded" minOccurs="0" ref="tns:annotation"/>
-					</xs:sequence>
-				</xs:complexType>
-			</xs:element>
-			<xs:element name="annotation">
-				<xs:complexType>
-					<xs:attribute name="ns_URI" type="xs:string" use="required"/>
-					<xs:attribute name="classname" type="xs:string" use="required"/>
-					<xs:attribute name="target" type="xs:string" use="required"/>
-					<xs:attribute name="filename" type="xs:string" use="required"/>
-				</xs:complexType>
-			</xs:element>
--->
 </xs:schema>

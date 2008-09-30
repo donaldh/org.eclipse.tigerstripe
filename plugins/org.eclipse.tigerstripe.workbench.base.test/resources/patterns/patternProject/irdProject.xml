@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<pattern:creationPattern patternName="com.test.Project" 
+				 		 patternType="project"
+						 uiLabel="IRD Project"
+						 iconPath="icons/project_new.gif"
+						 disabledIconPath=""
+                       xmlns:pattern="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0"
+                       xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v2-0">
+    <pattern:description>Create a new IRD Project</pattern:description>
+    <ts:tigerstripeProject name="" version="1.0">
+    <ts:annotations>
+  		 <![CDATA[
+  		   <!--?xml version="1.0" encoding="ASCII"?-->
+           <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:org.eclipse.tigerstripe.annotation.testAnnots="http://org/eclipse/tigerstripe/annotation/testAnnots.ecore">
+             <org.eclipse.tigerstripe.annotation.testAnnots:TestAnnot1 twine="hemp"/>
+           </xmi:XMI>
+  		 ]]>      
+        </ts:annotations>
+    </ts:tigerstripeProject>
+</pattern:creationPattern>

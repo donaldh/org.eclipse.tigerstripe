@@ -363,6 +363,9 @@
       <patternDefinition
             patternFile="resources/patterns/dependency.xml">
       </patternDefinition>
+      <patternDefinition
+            patternFile="resources/patterns/project.xml">
+      </patternDefinition>
    </extension>
 
 </plugin>

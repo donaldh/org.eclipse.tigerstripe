@@ -64,32 +64,23 @@ import org.w3c.dom.Element;
 
 public abstract class ArtifactPattern extends Pattern implements IArtifactPattern  {
 
-	protected Element artifactElement;
-	protected TigerstripeXMLParserUtils xmlParserUtils;
 	protected String artifactType;
 	protected String artifactName = "";
 	protected String extendedArtifactName = "";
 	
 	private IAbstractArtifact artifact;
-	private AnnotationHelper helper = AnnotationHelper.getInstance();
-	
-	public void setParserUtils(TigerstripeXMLParserUtils utils) {
-		this.xmlParserUtils = utils;
-	}
 
-	public Element getElement() {
-		return artifactElement;
-	}
 
-	public void setElement(Element artifactElement) {
-		this.artifactElement = artifactElement;
+
+	public void setElement(Element element) {
+		super.setElement(element);
 		
 		// We need to do a few extractions for wizard re-use
-		String artifactType = xmlParserUtils.getArtifactType(this.artifactElement);
+		String artifactType = xmlParserUtils.getArtifactType(element);
 		this.setTargetArtifactType(artifactType);
 		
-		if (artifactElement.hasAttribute("extendedArtifact")){
-			this.setExtendedArtifactname(artifactElement.getAttribute("extendedArtifact"));
+		if (element.hasAttribute("extendedArtifact")){
+			this.setExtendedArtifactname(element.getAttribute("extendedArtifact"));
 		}
 		
 	}
@@ -172,7 +163,7 @@ public abstract class ArtifactPattern extends Pattern implements IArtifactPatter
 		}
 		
 		if (this.getTargetArtifactType().equals(ManagedEntityArtifact.class.getName())){
-			Collection<String> implementsData = xmlParserUtils.getArtifactImplementsData(artifactElement);
+			Collection<String> implementsData = xmlParserUtils.getArtifactImplementsData(element);
 			Collection<IAbstractArtifact> implementedArtifacts = new ArrayList<IAbstractArtifact>();
 			for (String implemented : implementsData){
 				IAbstractArtifact implementedArtifact = session.getArtifactByFullyQualifiedName(implemented, true);
@@ -189,7 +180,7 @@ public abstract class ArtifactPattern extends Pattern implements IArtifactPatter
 //		addComponentRequests(artifactElement);
 		
 		
-		return new ArtifactPatternResult(artifact, addComponentRequests(artifactElement));
+		return new ArtifactPatternResult(artifact, addComponentRequests(element));
 	}
 	
 	public void addToManager(ITigerstripeModelProject project, IAbstractArtifact newArtifact) throws TigerstripeException {
@@ -199,7 +190,7 @@ public abstract class ArtifactPattern extends Pattern implements IArtifactPatter
 	}
 	
 	public void annotateArtifact(ITigerstripeModelProject project, IArtifactPatternResult patternResult) throws TigerstripeException {
-		Collection<EObject> annotationContents = xmlParserUtils.getAnnotations(artifactElement);
+		Collection<EObject> annotationContents = xmlParserUtils.getAnnotations(element);
 
 		for (EObject content : annotationContents){
 			addAnnotation(patternResult.getArtifact(), content);
@@ -217,18 +208,18 @@ public abstract class ArtifactPattern extends Pattern implements IArtifactPatter
 	
 	private void addArtifactBasics() throws TigerstripeException {
 
-		String commentText = xmlParserUtils.getComment(artifactElement);
+		String commentText = xmlParserUtils.getComment(element);
 		if (commentText != null){
 			this.artifact.setComment(commentText);
 		}
 		
 		// Optional attributes
-		if (artifactElement.hasAttribute("isAbstract")){
+		if (element.hasAttribute("isAbstract")){
 
-			this.artifact.setAbstract(Boolean.parseBoolean(artifactElement.getAttribute("isAbstract")));
+			this.artifact.setAbstract(Boolean.parseBoolean(element.getAttribute("isAbstract")));
 		}
 		// artifact Stereotypes
-		Collection<IStereotypeInstance> stereotypeInstances = xmlParserUtils.getStereotypes(artifactElement, "stereotypes");
+		Collection<IStereotypeInstance> stereotypeInstances = xmlParserUtils.getStereotypes(element, "stereotypes");
 		for (IStereotypeInstance instance : stereotypeInstances){
 			this.artifact.addStereotypeInstance(instance);
 		}
