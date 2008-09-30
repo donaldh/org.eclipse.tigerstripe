@@ -151,12 +151,10 @@ public abstract class TemplateBasedRule extends Rule implements
 				.filter(artifactMgr.getArtifactsByModel(
 						AssociationClassArtifact.MODEL, false,
 						new NullProgressMonitor()), filter);
-		
-		Collection<IAbstractArtifact> packages = ArtifactFilter
-			.filter(artifactMgr.getArtifactsByModel(
-				PackageArtifact.MODEL, false,
-				new NullProgressMonitor()), filter);
 
+		Collection<IAbstractArtifact> packages = ArtifactFilter.filter(
+				artifactMgr.getArtifactsByModel(PackageArtifact.MODEL, false,
+						new NullProgressMonitor()), filter);
 
 		// Bug 928: removed ArtifactFilter that was used to filter all lists
 		// below
@@ -205,10 +203,10 @@ public abstract class TemplateBasedRule extends Rule implements
 		Collection<IAbstractArtifact> allAssociationClasses = artifactMgr
 				.getArtifactsByModel(AssociationClassArtifact.MODEL, true,
 						false, new NullProgressMonitor());
-		
+
 		Collection<IAbstractArtifact> allPackages = artifactMgr
-				.getArtifactsByModel(PackageArtifact.MODEL, true, 
-						false, new NullProgressMonitor());
+				.getArtifactsByModel(PackageArtifact.MODEL, true, false,
+						new NullProgressMonitor());
 
 		Collection<IAbstractArtifact> artifacts = artifactMgr.getAllArtifacts(
 				false, new NullProgressMonitor());
@@ -257,12 +255,15 @@ public abstract class TemplateBasedRule extends Rule implements
 		defaultVContext.put("managerSession", session);
 		defaultVContext
 				.put("pluginDir", getContainingDescriptor().getBaseDir());
-		
+
 		// Added this - JKW
 		defaultVContext.put("diagramGenerator", new DiagramGenerator(handle));
 
-		defaultVContext.put("annotationContext", session.getActiveFacet().resolve().getAnnotationContext());
-		
+		if (session.getActiveFacet() != null
+				&& session.getActiveFacet().canResolve())
+			defaultVContext.put("annotationContext", session.getActiveFacet()
+					.resolve().getAnnotationContext());
+
 		return this.defaultVContext;
 	}
 
@@ -285,7 +286,7 @@ public abstract class TemplateBasedRule extends Rule implements
 		markDirty();
 		this.outputFile = outputFile;
 	}
-	
+
 	/**
 	 * Initializes the Velocity framework and sets it up with a classpath
 	 * loader.
@@ -293,11 +294,12 @@ public abstract class TemplateBasedRule extends Rule implements
 	 * NOTE: Velocity.init only works the first time - subsequent inits are
 	 * ignored- Therefore can't put any specific behaviour in here!
 	 * 
-	 * @throws Exception,
-	 *             if the class loader cannot be set up
+	 * @throws Exception
+	 *             , if the class loader cannot be set up
 	 */
-	protected VelocityEngine setClasspathLoaderForVelocity(PluggablePluginConfig pluginConfig,
-			IPluginRuleExecutor exec) throws Exception {
+	protected VelocityEngine setClasspathLoaderForVelocity(
+			PluggablePluginConfig pluginConfig, IPluginRuleExecutor exec)
+			throws Exception {
 
 		VelocityEngine result = new VelocityEngine();
 
@@ -325,14 +327,17 @@ public abstract class TemplateBasedRule extends Rule implements
 		properties.put(
 				"velocimacro.permissions.allow.inline.to.replace.global",
 				"true");
-		// properties.put("velocimacro.permissions.allow.inline.local.scope","true");
+		// properties.put("velocimacro.permissions.allow.inline.local.scope",
+		// "true");
 
 		// comment out for runtime !
 		// properties.put("velocimacro.library.autoreload","true");
 		// Comment out for Dev purposes!
 		properties.put("class.resource.loader.cache", "true");
 
-		// properties.put("velocimacro.library","org/eclipse/tigerstripe/workbench/internal/core/plugin/ossj/resources/lib/Velocimacros.vm");
+		// properties.put("velocimacro.library",
+		// "org/eclipse/tigerstripe/workbench/internal/core/plugin/ossj/resources/lib/Velocimacros.vm"
+		// );
 		// The above line would allow for macros - but due the the "once only"
 		// nature of init, this is not much use
 		// the way we have it configured at present.
@@ -346,42 +351,43 @@ public abstract class TemplateBasedRule extends Rule implements
 			}
 			properties.put("velocimacro.library", libraryList);
 		}
-		
-		if (exec.getPlugin().isLogEnabled()){
+
+		if (exec.getPlugin().isLogEnabled()) {
 			String projectDir = pluginConfig.getProjectHandle().getLocation()
-			.toOSString();
-			String outputDir = pluginConfig.getProjectHandle().getProjectDetails()
-			.getOutputDirectory();
+					.toOSString();
+			String outputDir = pluginConfig.getProjectHandle()
+					.getProjectDetails().getOutputDirectory();
 			String logPath = exec.getPlugin().getLogPath();
 			// Find the extension (if any) and insert ".velocity" before it
 			String velocityLogPath;
-			if (logPath.contains(".")){
-				// Pay attention in case of strange formats such as 
-				// path/road.street/avenue - we could easily put the extra word in the middle of the path!
-				
+			if (logPath.contains(".")) {
+				// Pay attention in case of strange formats such as
+				// path/road.street/avenue - we could easily put the extra word
+				// in the middle of the path!
+
 				IPath path = new Path(logPath);
-				
-				if (path.getFileExtension() != null){
+
+				if (path.getFileExtension() != null) {
 					String ext = path.getFileExtension();
 					path = path.removeFileExtension();
 					path = path.addFileExtension("velocity");
 					path = path.addFileExtension(ext);
-					
+
 				} else {
 					path = path.addFileExtension("velocity");
 				}
-				
-				
+
 				velocityLogPath = path.toOSString();
 			} else {
-				velocityLogPath = logPath+".velocity";
+				velocityLogPath = logPath + ".velocity";
 			}
-			
-			properties.put("runtime.log", projectDir+File.separatorChar+outputDir+File.separator+velocityLogPath);
+
+			properties.put("runtime.log", projectDir + File.separatorChar
+					+ outputDir + File.separator + velocityLogPath);
 		} else {
 			properties.put("runtime.log", "tigerstripe/velocity.log");
 		}
-		
+
 		result.init(properties);
 		return result;
 	}

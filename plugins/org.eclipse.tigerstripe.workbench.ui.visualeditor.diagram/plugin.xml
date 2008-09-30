@@ -1187,7 +1187,7 @@
          </action>
       </objectContribution>
    </extension>
- <extension
+<!-- <extension
        point="org.eclipse.tigerstripe.workbench.base.fileExtensionBasedAuditor">
     <fileExtensionBasedRule
           auditorClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.builder.WVDFileAuditor"
@@ -1197,7 +1197,7 @@
           auditorClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.builder.VWMFileAuditor"
           name="VWM Files">
     </fileExtensionBasedRule>
- </extension>
+ </extension> -->
 
 
 </plugin>
