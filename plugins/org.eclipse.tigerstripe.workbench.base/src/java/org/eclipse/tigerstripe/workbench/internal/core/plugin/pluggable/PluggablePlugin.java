@@ -332,4 +332,8 @@ public class PluggablePlugin extends BasePlugin {
 		return descriptor.isLogEnabled();
 	}
 
+	public String getPluginPath() {
+		return path;
+	}
+
 }

@@ -110,4 +110,8 @@ public class PluginHousing {
 		}
 		return false;
 	}
+	
+	public String getPluginPath(){
+		return body.getPluginPath();
+	}
 }

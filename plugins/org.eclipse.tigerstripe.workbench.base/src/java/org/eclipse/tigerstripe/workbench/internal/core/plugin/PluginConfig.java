@@ -526,6 +526,23 @@ public abstract class PluginConfig extends BaseContainerObject implements
 	}
 
 	public abstract IPluginConfig clone();
+	
+	public String getPluginPath(){
+		try {
+			if (!isResolved()) {
+				resolve();
+			}
+
+			if (housing instanceof PluggableHousing) {
+				return housing.getPluginPath();
+			}
+		} catch (UnknownPluginException e) {
+			TigerstripeRuntime.logTraceMessage("While trying to get plugin path",
+					e);
+			return PluginLogger.DEFAULT_PATH;
+		}
+		return PluginLogger.DEFAULT_PATH;
+	}
 
 	
 	// This is NEVER called

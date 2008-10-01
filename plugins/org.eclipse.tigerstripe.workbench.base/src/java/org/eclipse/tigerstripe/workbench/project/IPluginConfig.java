@@ -149,4 +149,9 @@ public interface IPluginConfig {
 	public EPluggablePluginNature getPluginNature();
 	
 	public IPluginConfig clone();
+	
+	/**
+	 * get the runtime plugin directory path
+	 */
+	public String getPluginPath();
 }

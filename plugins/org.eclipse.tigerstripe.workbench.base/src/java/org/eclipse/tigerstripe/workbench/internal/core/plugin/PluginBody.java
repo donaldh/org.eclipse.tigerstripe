@@ -89,4 +89,10 @@ public interface PluginBody {
 	public String getLogPath();
 
 	public EPluggablePluginNature getPluginNature();
+	
+	/**
+	 * returns the path to the deployed plugin directory
+	 * 
+	 */
+	public String getPluginPath(); 
 }
