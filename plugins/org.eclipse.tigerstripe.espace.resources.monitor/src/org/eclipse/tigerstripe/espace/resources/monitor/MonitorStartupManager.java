@@ -11,19 +11,19 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.espace.resources.monitor;
 
-import org.eclipse.ui.IStartup;
+import org.eclipse.tigerstripe.annotation.core.IAnnotationParticipant;
 
 /**
  * @author Yuri Strot
  *
  */
-public class MonitorStartupManager implements IStartup {
-
+public class MonitorStartupManager implements IAnnotationParticipant {
+	
 	/* (non-Javadoc)
-	 * @see org.eclipse.ui.IStartup#earlyStartup()
+	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationParticipant#initialize()
 	 */
-	public void earlyStartup() {
-		ResourcesMonitor.activate();
+	public void initialize() {
+		ResourcesMonitor.getInstance();
 	}
 
 }

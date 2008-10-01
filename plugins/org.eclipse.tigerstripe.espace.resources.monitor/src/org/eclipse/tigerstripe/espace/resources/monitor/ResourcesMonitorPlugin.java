@@ -1,5 +1,8 @@
 package org.eclipse.tigerstripe.espace.resources.monitor;
 
+import org.eclipse.core.resources.ISaveParticipant;
+import org.eclipse.core.resources.ISavedState;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -13,7 +16,7 @@ public class ResourcesMonitorPlugin extends AbstractUIPlugin {
 
 	// The shared instance
 	private static ResourcesMonitorPlugin plugin;
-	
+
 	/**
 	 * The constructor
 	 */
@@ -22,16 +25,30 @@ public class ResourcesMonitorPlugin extends AbstractUIPlugin {
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext)
+	 * 
+	 * @see
+	 * org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext
+	 * )
 	 */
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+
+		ISaveParticipant saveParticipant = new SaveParticipant();
+		ISavedState lastState = ResourcesPlugin.getWorkspace()
+				.addSaveParticipant(this, saveParticipant);
+		if (lastState != null) {
+			lastState.processResourceChangeEvents(ResourcesMonitor
+					.getInstance());
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext)
+	 * 
+	 * @see
+	 * org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext
+	 * )
 	 */
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
@@ -40,7 +57,7 @@ public class ResourcesMonitorPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Returns the shared instance
-	 *
+	 * 
 	 * @return the shared instance
 	 */
 	public static ResourcesMonitorPlugin getDefault() {

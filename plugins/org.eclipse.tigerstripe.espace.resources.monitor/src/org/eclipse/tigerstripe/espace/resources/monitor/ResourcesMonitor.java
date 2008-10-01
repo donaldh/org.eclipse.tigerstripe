@@ -39,13 +39,14 @@ public class ResourcesMonitor implements IResourceChangeListener {
 	private static ResourcesMonitor INSTANCE;
 	
 	private ResourcesMonitor() {
+		org.eclipse.core.resources.ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
 	}
 	
-	public static void activate() {
+	public static ResourcesMonitor getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new ResourcesMonitor();
-			org.eclipse.core.resources.ResourcesPlugin.getWorkspace().addResourceChangeListener(INSTANCE);
 		}
+		return INSTANCE;
 	}
 	
 	public Resource getResource(IResource resource) {
