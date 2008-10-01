@@ -10,6 +10,10 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
@@ -49,6 +53,7 @@ import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
@@ -579,6 +584,10 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 	 * annotations as they change
 	 */
 	public void annotationChanged(IModelAnnotationChangeDelta[] delta) {
+
+		// To avoid SWT invalid thread accesses, build a set of elems
+		// to refresh and do it in one UI thread access.
+		final Set<IJavaElement> elemsToRefresh = new HashSet<IJavaElement>();
 		for (IModelAnnotationChangeDelta d : delta) {
 			URI uri = d.getAffectedModelComponentURI();
 			IModelComponent comp = TigerstripeURIAdapterFactory
@@ -587,9 +596,22 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 				IJavaElement elem = (IJavaElement) comp
 						.getAdapter(IJavaElement.class);
 				if (elem != null) {
-					treeViewer.refresh(elem, true);
+					elemsToRefresh.add(elem);
 				}
 			}
+		}
+		if (!elemsToRefresh.isEmpty()) {
+			Display.getDefault().asyncExec(new Runnable() {
+				public void run() {
+					try {
+						for (IJavaElement elem : elemsToRefresh) {
+							treeViewer.refresh(elem, true);
+						}
+					} catch (Exception e) {
+						EclipsePlugin.log(e);
+					}
+				}
+			});
 		}
 	}
 
