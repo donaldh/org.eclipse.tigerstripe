@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.core.util;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
@@ -54,8 +53,6 @@ public class AnnotationUtils {
 	 * @return
 	 */
 	public static boolean getAllAnnotations(Object object, List<Annotation> annotations) {
-//		if (!AnnotationPlugin.getManager().isAnnotable(object))
-//			return false;
 		boolean haveAdapted = false;
 		IProviderTarget[] targets = AnnotationPlugin.getManager().getProviderTargets();
 		if (targets.length == 0)
@@ -66,7 +63,10 @@ public class AnnotationUtils {
 				Annotation[] array = AnnotationPlugin.getManager().getAnnotations(adapted, false);
 				if (array.length != 0 || AnnotationPlugin.getManager().isAnnotable(adapted))
 					haveAdapted = true;
-				annotations.addAll(Arrays.asList(array));
+				for (Annotation annotation : array) {
+					if (!annotations.contains(annotation))
+						annotations.add(annotation);
+				}
 			}
 		}
 		return haveAdapted;

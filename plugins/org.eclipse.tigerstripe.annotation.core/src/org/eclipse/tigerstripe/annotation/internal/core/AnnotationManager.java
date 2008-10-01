@@ -37,6 +37,7 @@ import org.eclipse.tigerstripe.annotation.core.AnnotationType;
 import org.eclipse.tigerstripe.annotation.core.CompositeRefactorListener;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationConstraint;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
+import org.eclipse.tigerstripe.annotation.core.IAnnotationParticipant;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationProvider;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationTarget;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationValidationContext;
@@ -60,20 +61,28 @@ public class AnnotationManager extends AnnotationStorage implements
 
 	private static final String EXTPT_PREFIX = "org.eclipse.tigerstripe.annotation.core.";
 
-	private static final String ANNOTATION_TYPE_EXTPT = EXTPT_PREFIX + "annotationType";
+	private static final String ANNOTATION_TYPE_EXTPT = EXTPT_PREFIX
+			+ "annotationType";
 
-	private static final String ANNOTATION_ADAPTER_EXTPT = EXTPT_PREFIX + "annotationAdapter";
+	private static final String ANNOTATION_ADAPTER_EXTPT = EXTPT_PREFIX
+			+ "annotationAdapter";
 
-	private static final String ANNOTATION_PROVIDER_EXTPT = EXTPT_PREFIX + "annotationProvider";
+	private static final String ANNOTATION_PROVIDER_EXTPT = EXTPT_PREFIX
+			+ "annotationProvider";
 
-	private static final String ANNOTATION_CONSTRAINT_EXTPT = EXTPT_PREFIX + "constraints";
+	private static final String ANNOTATION_CONSTRAINT_EXTPT = EXTPT_PREFIX
+			+ "constraints";
 
-	private static final String ANNOTATION_PACKAGE_LABEL_EXTPT = EXTPT_PREFIX + "packageLabel";
+	private static final String ANNOTATION_PACKAGE_LABEL_EXTPT = EXTPT_PREFIX
+			+ "packageLabel";
+
+	private static final String ANNOTATION_PARTICIPANT_EXTPT = EXTPT_PREFIX
+			+ "participants";
 
 	private static final String ANNOTATION_ATTR_CLASS = "class";
-	
+
 	private static final String ATTR_URI = "epackage-uri";
-	
+
 	private static final String ATTR_NAME = "name";
 
 	private static AnnotationManager instance;
@@ -92,7 +101,10 @@ public class AnnotationManager extends AnnotationStorage implements
 
 	private CompositeRefactorListener refactorListener = new CompositeRefactorListener();
 
+	private List<IAnnotationParticipant> participants;
+
 	public AnnotationManager() {
+		loadParticipants();
 	}
 
 	public void addRefactoringListener(IRefactoringListener listener) {
@@ -283,8 +295,8 @@ public class AnnotationManager extends AnnotationStorage implements
 	protected void setUri(URI oldUri, URI newUri) {
 		uriChanged(oldUri, newUri);
 		try {
-			refactorListener.refactoringPerformed(
-					new RefactoringChange(oldUri, newUri));
+			refactorListener.refactoringPerformed(new RefactoringChange(oldUri,
+					newUri));
 		} catch (Exception e) {
 			AnnotationPlugin.log(e);
 		}
@@ -324,9 +336,13 @@ public class AnnotationManager extends AnnotationStorage implements
 		if (uri != null)
 			remove(uri);
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationManager#getPackageLabel(org.eclipse.emf.ecore.EPackage)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.tigerstripe.annotation.core.IAnnotationManager#getPackageLabel
+	 * (org.eclipse.emf.ecore.EPackage)
 	 */
 	public String getPackageLabel(EPackage pckg) {
 		return getPackageLables().get(pckg);
@@ -453,6 +469,26 @@ public class AnnotationManager extends AnnotationStorage implements
 			providerManagerLock.unlock();
 		}
 	}
+	
+	public IAnnotationParticipant[] getParticipants() {
+		return participants.toArray(new IAnnotationParticipant[participants.size()]);
+	}
+
+	protected void loadParticipants() {
+		participants = new ArrayList<IAnnotationParticipant>();
+		IConfigurationElement[] configs = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor(ANNOTATION_PARTICIPANT_EXTPT);
+		for (IConfigurationElement config : configs) {
+			try {
+				IAnnotationParticipant participant = (IAnnotationParticipant) config
+						.createExecutableExtension(ANNOTATION_ATTR_CLASS);
+				participant.initialize();
+				participants.add(participant);
+			} catch (Exception e) {
+				AnnotationPlugin.log(e);
+			}
+		}
+	}
 
 	protected void validateAnnotation(Annotation annotation, Object object)
 			throws AnnotationConstraintException {
@@ -505,12 +541,18 @@ public class AnnotationManager extends AnnotationStorage implements
 								ANNOTATION_PACKAGE_LABEL_EXTPT);
 				for (IConfigurationElement config : configs) {
 					try {
-						EPackage pckg = AnnotationUtils.getPackage(config.getAttribute(ATTR_URI));
+						EPackage pckg = AnnotationUtils.getPackage(config
+								.getAttribute(ATTR_URI));
 						String newText = config.getAttribute(ATTR_NAME);
 						String text = lables.get(pckg);
 						if (text != null)
-							throw new AnnotationException("Can't define \"" + newText + "\" label for "
-									+ ATTR_URI + " package, because it's already defined: " + text);
+							throw new AnnotationException(
+									"Can't define \""
+											+ newText
+											+ "\" label for "
+											+ ATTR_URI
+											+ " package, because it's already defined: "
+											+ text);
 						lables.put(pckg, newText);
 					} catch (Exception e) {
 						AnnotationPlugin.log(e);
