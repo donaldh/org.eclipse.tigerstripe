@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <pattern:creationPattern patternName="org.eclipse.tigerstripe.workbench.base.AssociationClass" 
-						 uiLabel="AssociationClass"
+						 uiLabel="Association Class"
 						 patternType="relation"
 						 iconPath="icons/associationClass_new.gif"
 						 disabledIconPath="icons/associationClass_gs.gif"
 						 index="1600"
                        xmlns:pattern="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0"
                        xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v2-0">
-    <pattern:description>Create a new AssociationClass</pattern:description>
+    <pattern:description>Create a new Association Class</pattern:description>
     <ts:artifact name="$user"
                  artifactType="org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact"
                  isAbstract="false">
