@@ -38,6 +38,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.ModelChangeRequestFactory;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.xml.TigerstripeXMLParserUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
@@ -71,11 +72,30 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class PatternFactory implements IPatternFactory {
+public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileChangeListener {
 
 	
+	private static AbstractContributionFactory artifactPatternMenuAddition;
+	private static AbstractContributionFactory artifactPatternToolbarAddition;
+	private static AbstractContributionFactory artifactPatternToolbarDropDownsAddition;
+	private static AbstractContributionFactory projectPatternToolbarAddition;
+	private static AbstractContributionFactory projectPatternToolbarDropDownsAddition;
 	
-	
+	public void profileChanged(IWorkbenchProfile newActiveProfile) {
+		IMenuService menuService = (IMenuService) PlatformUI.getWorkbench()
+			.getService(IMenuService.class);
+		
+		menuService.removeContributionFactory(artifactPatternMenuAddition);
+		menuService.removeContributionFactory(artifactPatternToolbarAddition);
+		menuService.removeContributionFactory(artifactPatternToolbarDropDownsAddition);
+		menuService.removeContributionFactory(projectPatternToolbarAddition);
+		menuService.removeContributionFactory(projectPatternToolbarDropDownsAddition);
+		addPatternMenuContribution();
+	}
+
+
+
+
 	private static PatternFactory instance = null;
 	private static Map<String,IPattern> discoveredPatterns = new HashMap<String,IPattern>();
 	private static Map<String,IPattern> registeredPatterns = new LinkedHashMap<String,IPattern>();
@@ -164,7 +184,8 @@ public class PatternFactory implements IPatternFactory {
 				e.printStackTrace();
 			}
 		}
-		
+		TigerstripeCore
+			.getWorkbenchProfileSession().addActiveProfileListener(instance);
 		return instance;
 	}
 	
@@ -360,6 +381,12 @@ public class PatternFactory implements IPatternFactory {
 		
 		final IServiceLocator locator = (IServiceLocator) PlatformUI.getWorkbench();
 		
+		IWorkbenchProfile profile = TigerstripeCore
+			.getWorkbenchProfileSession()
+			.getActiveProfile();
+		final CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
+			.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
+		
 		
 		/*
 		 * This part is for the PROJECT patterns in the DROPDPOWN
@@ -367,7 +394,7 @@ public class PatternFactory implements IPatternFactory {
 		 */
 		// This section should do whichever one we decide is the "top" level for the drop down
 		
-		AbstractContributionFactory projectPatternToolbarAddition = new AbstractContributionFactory(
+		projectPatternToolbarAddition = new AbstractContributionFactory(
 				"toolbar:org.eclipse.tigerstripe.workbench.ui.base.toolbar?after=org.eclipse.tigerstripe.workbench.ui.base.start", null){
 			
 			@Override
@@ -422,7 +449,7 @@ public class PatternFactory implements IPatternFactory {
 		final String ddProjectItemId = dropDownProjectItemId;
 		//=======================
 
-		AbstractContributionFactory projectPatternToolbarDropDownsAddition = new AbstractContributionFactory(
+		projectPatternToolbarDropDownsAddition = new AbstractContributionFactory(
 				"menu:"+dropDownProjectItemId, null){
 			
 			@Override
@@ -462,7 +489,7 @@ public class PatternFactory implements IPatternFactory {
 		 * This part is for the ARTIFACT patterns in the MENU
 		 * May in future need to add "Composites"
 		 */
-		AbstractContributionFactory artifactPatternMenuAddition = new AbstractContributionFactory(
+		artifactPatternMenuAddition = new AbstractContributionFactory(
 				"menu:org.eclipse.tigerstripe.workbench.ui.base.new", null){
 			
 			
@@ -475,28 +502,31 @@ public class PatternFactory implements IPatternFactory {
 					
 					if (! disabledPatterns.contains(pattern.getName())){
 						if (pattern instanceof IArtifactPattern){
+							String type = ((IArtifactPattern) pattern).getTargetArtifactType();
+							if (prop.getDetailsForType(type).isEnabled()){
 
 
-						CommandContributionItemParameter thisOne  = new CommandContributionItemParameter(locator,
-								"org.eclipse.tigerstripe.workbench.ui.base.new.patterns."+pattern.getName(),
-								"org.eclipse.tigerstripe.workbench.ui.base.patternBasedCreate",
-								CommandContributionItem.STYLE_PUSH
-						);
-						
-						Map parms = new HashMap();
-					    parms.put("org.eclipse.tigerstripe.workbench.ui.base.patternName", pattern.getName());				     
-					    thisOne.parameters = parms;
-						
-						thisOne.label = pattern.getUILabel();
-						thisOne.icon = pattern.getImageDescriptor();
-						
-						CommandContributionItem newItem = new CommandContributionItem(thisOne);
-						Expression referenceExpression = null;
-						if (pattern instanceof IArtifactPattern){
-							String target = ((IArtifactPattern) pattern).getTargetArtifactType();
-							referenceExpression = makeExpression(target);
-						}
-						additions.addContributionItem(newItem,referenceExpression);
+								CommandContributionItemParameter thisOne  = new CommandContributionItemParameter(locator,
+										"org.eclipse.tigerstripe.workbench.ui.base.new.patterns."+pattern.getName(),
+										"org.eclipse.tigerstripe.workbench.ui.base.patternBasedCreate",
+										CommandContributionItem.STYLE_PUSH
+								);
+
+								Map parms = new HashMap();
+								parms.put("org.eclipse.tigerstripe.workbench.ui.base.patternName", pattern.getName());				     
+								thisOne.parameters = parms;
+
+								thisOne.label = pattern.getUILabel();
+								thisOne.icon = pattern.getImageDescriptor();
+
+								CommandContributionItem newItem = new CommandContributionItem(thisOne);
+								Expression referenceExpression = null;
+								//						if (pattern instanceof IArtifactPattern){
+								//							String target = ((IArtifactPattern) pattern).getTargetArtifactType();
+								//							referenceExpression = makeExpression(target);
+								//						}
+								additions.addContributionItem(newItem,referenceExpression);
+							}
 
 						}
 					}
@@ -516,7 +546,7 @@ public class PatternFactory implements IPatternFactory {
 		
 		
 		// TODO - If this top level item gets disabled in your profile you are in trouble! As it disables the whole list!
-		AbstractContributionFactory artifactPatternToolbarAddition = new AbstractContributionFactory(
+		artifactPatternToolbarAddition = new AbstractContributionFactory(
 				"toolbar:org.eclipse.tigerstripe.workbench.ui.base.toolbar?after="+ddProjectItemId, null){
 			
 			@Override
@@ -528,6 +558,8 @@ public class PatternFactory implements IPatternFactory {
 					if (! disabledPatterns.contains(pattern.getName())){
 
 						if (pattern instanceof IArtifactPattern){
+							String type = ((IArtifactPattern) pattern).getTargetArtifactType();
+							if (prop.getDetailsForType(type).isEnabled()){
 							CommandContributionItemParameter thisOne  = new CommandContributionItemParameter(locator,
 									"org.eclipse.tigerstripe.workbench.ui.base.new.patterns.dropdown."+pattern.getName(),
 									"org.eclipse.tigerstripe.workbench.ui.base.patternBasedCreate",
@@ -543,11 +575,12 @@ public class PatternFactory implements IPatternFactory {
 
 							CommandContributionItem newItem = new CommandContributionItem(thisOne);
 							Expression referenceExpression = null;
-							if (pattern instanceof IArtifactPattern){
-								String target = ((IArtifactPattern) pattern).getTargetArtifactType();
-								referenceExpression = makeExpression(target);
-							}
+//							if (pattern instanceof IArtifactPattern){
+//								String target = ((IArtifactPattern) pattern).getTargetArtifactType();
+//								referenceExpression = makeExpression(target);
+//							}
 							additions.addContributionItem(newItem,referenceExpression);
+						}
 						}
 					}
 					// Only do the drop down once
@@ -565,17 +598,22 @@ public class PatternFactory implements IPatternFactory {
 			IPattern pattern = registeredPatterns.get(key);
 			
 			if (! disabledPatterns.contains(pattern.getName())){
-				dropDownItemId = "org.eclipse.tigerstripe.workbench.ui.base.new.patterns.dropdown."+pattern.getName();
-				dropDownItemName = pattern.getName();
-				break;
+				if (pattern instanceof IArtifactPattern){
+					String type = ((IArtifactPattern) pattern).getTargetArtifactType();
+					if (prop.getDetailsForType(type).isEnabled()){
+						dropDownItemId = "org.eclipse.tigerstripe.workbench.ui.base.new.patterns.dropdown."+pattern.getName();
+						dropDownItemName = pattern.getName();
+					}
+					break;
+				}
 			}
 		}
 		final String ddItemName = dropDownItemName;
 		//=======================
 
-		AbstractContributionFactory artifactPatternToolbarDropDownsAddition = new AbstractContributionFactory(
+		artifactPatternToolbarDropDownsAddition = new AbstractContributionFactory(
 				"menu:"+dropDownItemId, null){
-			
+
 			@Override
 			public void createContributionItems(IServiceLocator serviceLocator,
 					IContributionRoot additions) {
@@ -584,27 +622,29 @@ public class PatternFactory implements IPatternFactory {
 
 					if (! disabledPatterns.contains(pattern.getName()) && ! ddItemName.equals(pattern.getName())){
 						if (pattern instanceof IArtifactPattern){
+							String type = ((IArtifactPattern) pattern).getTargetArtifactType();
+							if (prop.getDetailsForType(type).isEnabled()){
+								CommandContributionItemParameter thisOne  = new CommandContributionItemParameter(locator,
+										"org.eclipse.tigerstripe.workbench.ui.base.new.patterns."+pattern.getName(),
+										"org.eclipse.tigerstripe.workbench.ui.base.patternBasedCreate",
+										CommandContributionItem.STYLE_PUSH
+								);
 
-							CommandContributionItemParameter thisOne  = new CommandContributionItemParameter(locator,
-									"org.eclipse.tigerstripe.workbench.ui.base.new.patterns."+pattern.getName(),
-									"org.eclipse.tigerstripe.workbench.ui.base.patternBasedCreate",
-									CommandContributionItem.STYLE_PUSH
-							);
+								Map parms = new HashMap();
+								parms.put("org.eclipse.tigerstripe.workbench.ui.base.patternName", pattern.getName());				     
+								thisOne.parameters = parms;
 
-							Map parms = new HashMap();
-							parms.put("org.eclipse.tigerstripe.workbench.ui.base.patternName", pattern.getName());				     
-							thisOne.parameters = parms;
+								thisOne.label = pattern.getUILabel();
+								thisOne.icon = pattern.getImageDescriptor();
 
-							thisOne.label = pattern.getUILabel();
-							thisOne.icon = pattern.getImageDescriptor();
-
-							CommandContributionItem newItem = new CommandContributionItem(thisOne);
-							Expression referenceExpression = null;
-							if (pattern instanceof IArtifactPattern){
-								String target = ((IArtifactPattern) pattern).getTargetArtifactType();
-								referenceExpression = makeExpression(target);
+								CommandContributionItem newItem = new CommandContributionItem(thisOne);
+								Expression referenceExpression = null;
+								//							if (pattern instanceof IArtifactPattern){
+								//								String target = ((IArtifactPattern) pattern).getTargetArtifactType();
+								//								referenceExpression = makeExpression(target);
+								//							}
+								additions.addContributionItem(newItem,referenceExpression);
 							}
-							additions.addContributionItem(newItem,referenceExpression);
 						}
 					}
 				}
@@ -612,8 +652,8 @@ public class PatternFactory implements IPatternFactory {
 		};
 
 		menuService.addContributionFactory(artifactPatternToolbarDropDownsAddition);
-		
-		
+
+
 	}
 	
 	

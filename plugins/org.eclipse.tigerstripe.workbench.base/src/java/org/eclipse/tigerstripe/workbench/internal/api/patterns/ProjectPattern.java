@@ -31,7 +31,7 @@ public class ProjectPattern extends Pattern implements IProjectPattern {
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
 		projectDetails.setName(projectName);
 		if (defaultArtifactPackage != null){
-			projectDetails.getProperty(
+			projectDetails.getProperties().setProperty(
 					IProjectDetails.DEFAULTARTIFACTPACKAGE_PROP,
 					defaultArtifactPackage);
 		}
