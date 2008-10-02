@@ -43,14 +43,39 @@ public class AnnotationUtils {
 		else
 			return new ClassName(name);
 	}
+	
+	/**
+	 * Copy annotations from one annotable object to another. If some
+	 * of the source annotations can't be copy to target object, this
+	 * annotations will be ignored
+	 * 
+	 * @param from source annotable object
+	 * @param to target annotable object
+	 * @return true, if some source annotations have been copied and false otherwise
+	 */
+	public static boolean copyAnnotations(Object from, Object to) {
+		Annotation[] annotations =  AnnotationPlugin.getManager().getAnnotations(from, false);
+		boolean haveCopied = false;
+		for (Annotation annotation : annotations) {
+			try {
+				AnnotationPlugin.getManager().addAnnotation(to, annotation.getContent());
+				haveCopied = true;
+			}
+			catch (Exception e) {
+				//this exception means that this annotation can't be copied to
+				//target object, so we just ignore it
+			}
+		}
+		return haveCopied;
+	}
 
 	/**
-	 * Return false if object can't be adapted to defined annotation types
-	 * and true otherwise
+	 * Collect all annotations for given object
 	 * 
 	 * @param object
-	 * @param annotations
-	 * @return
+	 * @param annotations list of the result annotations
+	 * @return false if object can't be adapted to defined annotation types
+	 * (so, it's not annotable object) and true otherwise
 	 */
 	public static boolean getAllAnnotations(Object object, List<Annotation> annotations) {
 		boolean haveAdapted = false;
