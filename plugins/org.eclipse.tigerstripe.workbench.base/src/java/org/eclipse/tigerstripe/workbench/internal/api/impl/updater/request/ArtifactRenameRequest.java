@@ -13,6 +13,9 @@ package org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request;
 import java.io.File;
 import java.util.Collection;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -98,11 +101,10 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 
 		// This is using the fact that this is a file. Will need to be removed
 		// to attach to EMF (nokia)
-		String artPath = aArt.getArtifactPath();
-		String projectDir = aArt.getArtifactManager().getTSProject()
-				.getBaseDir().toString();
-		String fullArtPath = projectDir + File.separator + artPath;
-		File f = new File(fullArtPath);
+		IPath path = new Path(aArt.getArtifactManager().getTSProject()
+				.getProjectLabel()
+				+ "/" + aArt.getArtifactPath());
+		IFile f = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 
 		// Bug 939: should be using a rename rather than doing a remove/add
 		// manually
@@ -110,9 +112,12 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 				.renameArtifact(origArt, origArt.getPackage() + "." + newName);
 		origArt.doSave(new NullProgressMonitor());
 
-		if (!f.delete()) {
-			// TigerstripeRuntime.logInfoMessage("Error deleting: " +
-			// f.toURI());
+		if (f != null) {
+			try {
+				f.delete(true, new NullProgressMonitor());
+			} catch (CoreException e) {
+				BasePlugin.log(e);
+			}
 		}
 		// Update references
 		updateReferences(mgrSession, origArt, oldFQN);
@@ -167,25 +172,26 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 					artifact.setImplementedArtifacts(implemented);
 					needSave = true;
 				}
-				
+
 				// take care of containing artifacts same way
 				// This is looking UPWARDS
 				IModelComponent containing = artifact
 						.getContainingModelComponent();
 				boolean containingChanged = false;
-				
+
 				AbstractArtifact aArtifact = (AbstractArtifact) artifact;
-				
-				if (containing instanceof IAbstractArtifact){
+
+				if (containing instanceof IAbstractArtifact) {
 					AbstractArtifact containingArt = (AbstractArtifact) containing;
 					if (containingArt.getFullyQualifiedName().equals(oldFQN)
-							|| containingArt.getFullyQualifiedName().equals(newName)) {
-						aArtifact.setContainingModelComponent(referencedArtifact);
+							|| containingArt.getFullyQualifiedName().equals(
+									newName)) {
+						aArtifact
+								.setContainingModelComponent(referencedArtifact);
 						needSave = true;
 					}
 				}
-				
-				
+
 				// take care of contained artifacts same way
 				// This is looking DOWNWARDS
 				Collection<IModelComponent> contains = artifact
@@ -193,18 +199,19 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 				boolean containsChanged = false;
 				for (IModelComponent cont : contains) {
 
-					if (cont instanceof AbstractArtifact){
+					if (cont instanceof AbstractArtifact) {
 						AbstractArtifact containedArt = (AbstractArtifact) cont;
 						if (containedArt.getFullyQualifiedName().equals(oldFQN)
-								|| containedArt.getFullyQualifiedName().equals(newName)) {
+								|| containedArt.getFullyQualifiedName().equals(
+										newName)) {
 							aArtifact.removeContainedModelComponent(cont);
-							aArtifact.addContainedModelComponent(referencedArtifact);
+							aArtifact
+									.addContainedModelComponent(referencedArtifact);
 							needSave = true;
 						}
 					}
 				}
 
-				
 				for (IField field : artifact.getFields()) {
 					if (field.getType() != null
 							&& field.getType().getFullyQualifiedName().equals(
