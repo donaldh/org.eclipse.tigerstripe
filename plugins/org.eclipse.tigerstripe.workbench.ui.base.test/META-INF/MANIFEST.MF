@@ -7,16 +7,17 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.tigerstripe.workbench.ui.base,
  org.junit,
  org.eclipse.core.resources,
- com.instantiations.common.core,
  org.eclipse.ui,
- com.instantiations.eclipse.debug,
- com.instantiations.eclipse.util,
- com.windowtester.swt.runtime,
  org.eclipse.ui.forms,
- com.windowtester.runtime,
- com.windowtester.swing.runtime,
  org.eclipse.jface,
- org.eclipse.swt
+ org.eclipse.swt,
+ com.windowtester.swing.runtime,
+ com.windowtester.swt.runtime,
+ com.windowtester.swt.runtime.gef,
+ com.windowtester.runtime,
+ com.instantiations.eclipse.debug,
+ com.instantiations.common.core,
+ com.instantiations.eclipse.util
 Bundle-ActivationPolicy: lazy
 Manifest-Version: 1.0
 Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.ui.base.test

@@ -3,7 +3,10 @@ package org.eclipse.tigerstripe.workbench.ui.base.test.project;
 import java.util.ArrayList;
 
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.CoolBar;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
 import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
 
@@ -39,7 +42,9 @@ public class NewArtifacts extends UITestCaseSWT {
 		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Exception", TestingConstants.EXCEPTION_NAMES[0], true, false, false, false));
 		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Event", TestingConstants.EVENT_NAMES[0], true, true, false, false));
 		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Session Facade", TestingConstants.SESSION_NAMES[0], false, false,true, false));
-
+		
+		
+		
 		// Add a second entity, so that the associations etc can be better checked - No need to add any attributes etc
 		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Entity", TestingConstants.ENTITY_NAMES[1], false, false, false, false));
 		
@@ -57,17 +62,26 @@ public class NewArtifacts extends UITestCaseSWT {
 	public String testNewArtifactDefaults(IUIContext ui,String myType, String thisArtifactName, boolean hasAttributes,
 			boolean hasLiterals, boolean hasMethods, boolean hasEnds) throws Exception	{
 		
-		
-		
 		ui.click(new TreeItemLocator(
 				TestingConstants.NEW_MODEL_PROJECT_NAME,
 				new ViewLocator(
 						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
-		ui.click(new PullDownMenuItemLocator(myType,
-				new ContributedToolItemLocator(
-						"org.eclipse.tigerstripe.eclipse.newArtifactAction")));
-		ui.wait(new ShellShowingCondition("New "+myType+" Artifact"));
 		
+		if (myType.equals("Entity")){
+			// If it an entity we need the top item - as its not in the drop down
+			ui.click(new SWTWidgetLocator(ToolItem.class, "", 1,
+					new SWTWidgetLocator(ToolBar.class, 1, new SWTWidgetLocator(
+							CoolBar.class))));
+		} else {
+		ui.click(new PullDownMenuItemLocator(myType,
+				new SWTWidgetLocator(ToolItem.class, "", 1,
+						new SWTWidgetLocator(ToolBar.class, 1,
+								new SWTWidgetLocator(CoolBar.class)))));
+		}
+
+		
+		ui.wait(new ShellShowingCondition("Create a new "+myType));
+		ui.click(new LabeledTextLocator("Name:"));
 		ui.enterText(thisArtifactName);
 		
 		LabeledTextLocator artifactPackage = new LabeledTextLocator("Artifact Package:");
@@ -92,7 +106,7 @@ public class NewArtifacts extends UITestCaseSWT {
 		}
 		
 		ui.click(new ButtonLocator("&Finish"));
-		ui.wait(new ShellDisposedCondition("New "+myType+" Artifact"));
+		ui.wait(new ShellDisposedCondition("Create a new "+myType));
 		
 		CTabItemLocator artifactEditor = new CTabItemLocator(
 				thisArtifactName);

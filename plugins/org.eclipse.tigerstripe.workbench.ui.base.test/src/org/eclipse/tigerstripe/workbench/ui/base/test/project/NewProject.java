@@ -1,6 +1,9 @@
 package org.eclipse.tigerstripe.workbench.ui.base.test.project;
 
+import org.eclipse.swt.widgets.CoolBar;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
 import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
 
@@ -24,9 +27,13 @@ public class NewProject extends UITestCaseSWT {
 	 */
 	public void testNewProject() throws Exception {
 		ui = getUI();
-		ui.click(new ContributedToolItemLocator(
-				"org.eclipse.tigerstripe.ui.eclipse.openNewProjectAction"));
-		ui.wait(new ShellShowingCondition("New Tigerstripe Project"));
+//		ui.click(new ContributedToolItemLocator(
+//				"org.eclipse.tigerstripe.ui.eclipse.openNewProjectAction"));
+		ui.click(new SWTWidgetLocator(ToolItem.class, "", 0,
+				new SWTWidgetLocator(ToolBar.class, 1, new SWTWidgetLocator(
+						CoolBar.class))));
+		
+		ui.wait(new ShellShowingCondition("Create a new Tigerstripe Project"));
 		ui.click(new LabeledTextLocator("&Project Name:"));
 		ui.enterText(TestingConstants.NEW_MODEL_PROJECT_NAME);
 		LabeledTextLocator artifactPackage = new LabeledTextLocator("Artifacts Package:");
@@ -34,7 +41,7 @@ public class NewProject extends UITestCaseSWT {
 		ui.click(artifactPackage);
 		ui.enterText(TestingConstants.DEFAULT_ARTIFACT_PACKAGE);
 		ui.click(new ButtonLocator("&Finish"));
-		ui.wait(new ShellDisposedCondition("New Tigerstripe Project"));
+		ui.wait(new ShellDisposedCondition("Create a new Tigerstripe Project"));
 		
 		// Make sure what we put in the wizard made it to the project 
 		CTabItemLocator descriptorEditor = new CTabItemLocator(

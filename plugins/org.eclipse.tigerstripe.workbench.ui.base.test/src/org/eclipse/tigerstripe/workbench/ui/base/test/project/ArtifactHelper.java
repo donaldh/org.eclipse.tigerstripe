@@ -240,11 +240,14 @@ public class ArtifactHelper extends UITestCaseSWT{
 	public static void checkItemsInExplorer (IUIContext ui,String artifactName, ArrayList<String> items ){
 		for (String item : items){
 
+			String packagePath = TestingConstants.DEFAULT_ARTIFACT_PACKAGE.replaceAll("\\.", "/");
+			
 			String pathToItem = TestingConstants.NEW_MODEL_PROJECT_NAME+
 			"/src/"+
-			TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"/"+
+			packagePath+"/"+
 			artifactName+"/"+
 			item;
+
 
 			try {	
 				TreeItemLocator treeItem = new TreeItemLocator(
@@ -262,9 +265,11 @@ public class ArtifactHelper extends UITestCaseSWT{
 	public static void checkItemsInExplorer (IUIContext ui, String packageName, String artifactName, ArrayList<String> items ){
 		for (String item : items){
 
+			String packagePath = packageName.replaceAll("\\.", "/");
+			
 			String pathToItem = TestingConstants.NEW_MODEL_PROJECT_NAME+
 			"/src/"+
-			packageName+"/"+
+			packagePath+"/"+
 			artifactName+"/"+
 			item;
 
