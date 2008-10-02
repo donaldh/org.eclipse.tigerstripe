@@ -30,10 +30,12 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.diagram.ui.OffscreenEditPartFactory;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.image.ImageFileFormat;
+import org.eclipse.gmf.runtime.diagram.ui.render.clipboard.DiagramImageGenerator;
 import org.eclipse.gmf.runtime.diagram.ui.render.util.CopyToImageUtil;
 import org.eclipse.gmf.runtime.diagram.ui.resources.editor.internal.util.DiagramIOUtil;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderer;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -168,11 +170,12 @@ public class Renderer implements IDiagramRenderer {
 			domain.getCommandStack().execute(cmd);
 			// domain.getCommandStack().flush();
 
-			// Render it now!
-			OffscreenEditPartFactory factory = OffscreenEditPartFactory
-					.getInstance();
-			DiagramEditPart diagramEP = factory.createDiagramEditPart(diagram);
+			// Render it now
+			Shell shell = new Shell();
+			OffscreenEditPartFactory factory = OffscreenEditPartFactory.getInstance();
+			DiagramEditPart diagramEP = factory.createDiagramEditPart(diagram, shell);
 			imageUtil.copyToImage(diagramEP, imagePath, format, monitor);
+			shell.dispose();
 		}
 	}
 
