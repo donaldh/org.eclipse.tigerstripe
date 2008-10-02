@@ -263,8 +263,7 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 		returnedTypeClassDialogField = new StringButtonDialogField(adapter);
 		returnedTypeClassDialogField.setDialogFieldListener(adapter);
 		returnedTypeClassDialogField.setLabelText("Returned Type"); //$NON-NLS-1$
-		returnedTypeClassDialogField.setButtonLabel(NewWizardMessages
-				.getString("NewQueryWizardPage.returnedEntity.button")); //$NON-NLS-1$
+		returnedTypeClassDialogField.setButtonLabel("Browse"); //$NON-NLS-1$
 
 		returnedTypeClassStatus = new StatusInfo();
 		returnedTypeClassCompletionProcessor = new JavaTypeCompletionProcessor(
@@ -375,6 +374,7 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 		}
 		// Queries need return type
 		if (targetType.equals(IQueryArtifact.class.getName())){
+			returnedTypeClassDialogField.setText("");
 			createReturnType = true;
 		}
 

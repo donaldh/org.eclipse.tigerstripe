@@ -357,9 +357,7 @@ public class NewRelationPatternBasedWizardPage extends
 			BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(
 					getTSRuntimeContext().getProjectHandle(),
 					suitableTypes);
-			dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
-					IAssociationClassArtifactImpl.class.getName()).getLabel(
-					null)
+			dialog.setTitle(pattern.getUILabel()
 					+ " End Type");
 			dialog.setMessage("Select the type of the "
 					+ this.pattern.getUILabel() + " End.");
