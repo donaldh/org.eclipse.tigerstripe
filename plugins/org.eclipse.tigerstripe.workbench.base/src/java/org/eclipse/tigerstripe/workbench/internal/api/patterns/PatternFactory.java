@@ -27,13 +27,13 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
 
-import org.apache.tools.ant.taskdefs.MakeUrl;
 import org.eclipse.core.expressions.Expression;
 import org.eclipse.core.expressions.ExpressionConverter;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IContributor;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
@@ -82,15 +82,24 @@ public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileC
 	private static AbstractContributionFactory projectPatternToolbarDropDownsAddition;
 	
 	public void profileChanged(IWorkbenchProfile newActiveProfile) {
-		IMenuService menuService = (IMenuService) PlatformUI.getWorkbench()
+		final IMenuService menuService = (IMenuService) PlatformUI.getWorkbench()
 			.getService(IMenuService.class);
-		
-		menuService.removeContributionFactory(artifactPatternMenuAddition);
-		menuService.removeContributionFactory(artifactPatternToolbarAddition);
-		menuService.removeContributionFactory(artifactPatternToolbarDropDownsAddition);
-		menuService.removeContributionFactory(projectPatternToolbarAddition);
-		menuService.removeContributionFactory(projectPatternToolbarDropDownsAddition);
-		addPatternMenuContribution();
+		if (Display.getDefault() != null) { 
+			Display.getDefault().asyncExec(new Runnable() {                
+				public void run() {                    
+					menuService.removeContributionFactory(artifactPatternMenuAddition);
+					menuService.removeContributionFactory(artifactPatternToolbarAddition);
+					menuService.removeContributionFactory(artifactPatternToolbarDropDownsAddition);
+					menuService.removeContributionFactory(projectPatternToolbarAddition);
+					menuService.removeContributionFactory(projectPatternToolbarDropDownsAddition); 
+					addPatternMenuContribution();
+				}                            
+			});        
+
+		}
+
+
+
 	}
 
 
