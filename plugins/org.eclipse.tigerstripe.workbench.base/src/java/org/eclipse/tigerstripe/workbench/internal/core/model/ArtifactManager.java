@@ -15,7 +15,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -32,6 +31,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -89,28 +89,28 @@ import com.thoughtworks.qdox.parser.ParseException;
 /**
  * @author Eric Dillon
  * 
- * The Artifact Manager provides access to all source artifacts.
+ *         The Artifact Manager provides access to all source artifacts.
  * 
- * The Artifact manager is given the Java source files as input and using QDox
- * is parses all the source files and builds an internal model of the source
- * code including all tigerstripe tags.
+ *         The Artifact manager is given the Java source files as input and
+ *         using QDox is parses all the source files and builds an internal
+ *         model of the source code including all tigerstripe tags.
  * 
- * Out of the Qdox model, Tigerstripe artifacts are "extracted" through the
- * extractArtifact method. The extracted artifacts are based on a list of
- * "discoverable" artifacts, which allows to extend the list of artifact
- * supported by tigerstripe.
+ *         Out of the Qdox model, Tigerstripe artifacts are "extracted" through
+ *         the extractArtifact method. The extracted artifacts are based on a
+ *         list of "discoverable" artifacts, which allows to extend the list of
+ *         artifact supported by tigerstripe.
  * 
- * Currently the following artifacts are discoverable: - EventArtifact,
- * DatatypeArtifact, ManagedEntityArtifact, SessionFacadeArtifact
+ *         Currently the following artifacts are discoverable: - EventArtifact,
+ *         DatatypeArtifact, ManagedEntityArtifact, SessionFacadeArtifact
  * 
- * See the AbstractArtifact class for more details.
+ *         See the AbstractArtifact class for more details.
  * 
- * Any plugin can register additional Artifacts that would be extracted and
- * managed by the ArtifactManager.
+ *         Any plugin can register additional Artifacts that would be extracted
+ *         and managed by the ArtifactManager.
  * 
- * Once all the artifacts have been extracted, a semantic validation is
- * performed by calling the resolveReferences() method on each extracted
- * artifact.
+ *         Once all the artifacts have been extracted, a semantic validation is
+ *         performed by calling the resolveReferences() method on each extracted
+ *         artifact.
  * 
  */
 public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
@@ -283,8 +283,8 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	 * 
 	 */
 	public void reset(IProgressMonitor monitor) {
-		
-		if ( monitor == null ) 
+
+		if (monitor == null)
 			monitor = new NullProgressMonitor();
 
 		clearExtractedMap();
@@ -301,10 +301,9 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	}
 
 	public void updateDependenciesContentCache(IProgressMonitor monitor) {
-		if ( monitor == null ) 
+		if (monitor == null)
 			monitor = new NullProgressMonitor();
 
-		
 		// This is called by the TigerstripeProject each time the list of
 		// dependencies is changed.
 		this.depContentCache.updateCache(monitor);
@@ -369,8 +368,8 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 					IAssociationClassArtifact.class.getName()).isEnabled()) {
 				registerDiscoverableArtifact(AssociationClassArtifact.MODEL);
 			}
-			if (prop.getDetailsForType(
-					IPackageArtifact.class.getName()).isEnabled()) {
+			if (prop.getDetailsForType(IPackageArtifact.class.getName())
+					.isEnabled()) {
 				registerDiscoverableArtifact(PackageArtifact.MODEL);
 			}
 
@@ -391,10 +390,10 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	 * Registers an artifact to be discovered by Tigerstripe when going through
 	 * the list of resources.
 	 * 
-	 * @param artifact -
-	 *            AbstractArtifact the artifact to register
-	 * @throws IllegalArgumentException,
-	 *             if artifact is null or already registered.
+	 * @param artifact
+	 *            - AbstractArtifact the artifact to register
+	 * @throws IllegalArgumentException
+	 *             , if artifact is null or already registered.
 	 */
 	public void registerDiscoverableArtifact(AbstractArtifact artifact)
 			throws IllegalArgumentException {
@@ -420,7 +419,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	private void validateArtifacts(IProgressMonitor monitor)
 			throws TigerstripeException {
 
-		if ( monitor == null ) 
+		if (monitor == null)
 			monitor = new NullProgressMonitor();
 
 		try {
@@ -433,7 +432,6 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 				artifact.resolveReferences(monitor);
 			}
 
-			
 			long endTime = System.currentTimeMillis();
 			TigerstripeRuntime.logTraceMessage(" ["
 					+ getTSProject().getProjectLabel() + "] Validated ("
@@ -488,7 +486,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			boolean includeDependencies, boolean overridePredicate,
 			IProgressMonitor monitor) {
 
-		if ( monitor == null ) 
+		if (monitor == null)
 			monitor = new NullProgressMonitor();
 
 		try {
@@ -534,9 +532,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	/**
 	 * 
 	 * @param name
-	 * @return
-	 * 
-	 * Note: this doesn't go thru the dependencies
+	 * @return Note: this doesn't go thru the dependencies
 	 */
 	public AbstractArtifact getArtifactByFilename(String filename) {
 		try {
@@ -555,7 +551,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	public List<IAbstractArtifact> getAllArtifacts(boolean includeDependencies,
 			boolean isOverridePredicate, IProgressMonitor monitor) {
 
-		if ( monitor == null ) 
+		if (monitor == null)
 			monitor = new NullProgressMonitor();
 
 		try {
@@ -630,7 +626,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	public Collection<IAbstractArtifact> getAllArtifacts(
 			boolean includeDependencies, IProgressMonitor monitor) {
 
-		if ( monitor == null ) 
+		if (monitor == null)
 			monitor = new NullProgressMonitor();
 
 		return getAllArtifacts(includeDependencies, shouldOverridePredicate(),
@@ -639,7 +635,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 	public Collection getModelArtifacts(boolean includeDependencies,
 			IProgressMonitor monitor) {
-		if ( monitor == null ) 
+		if (monitor == null)
 			monitor = new NullProgressMonitor();
 
 		return getModelArtifacts(includeDependencies,
@@ -649,7 +645,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	public Collection getModelArtifacts(boolean includeDependencies,
 			boolean overridePredicate, IProgressMonitor monitor) {
 
-		if ( monitor == null ) 
+		if (monitor == null)
 			monitor = new NullProgressMonitor();
 
 		try {
@@ -713,7 +709,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 	public AbstractArtifact getArtifactByFullyQualifiedName(String name,
 			boolean includeDependencies, IProgressMonitor monitor) {
-		if ( monitor == null ) 
+		if (monitor == null)
 			monitor = new NullProgressMonitor();
 
 		return getArtifactByFullyQualifiedName(name, includeDependencies,
@@ -724,7 +720,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			boolean includeDependencies, boolean isOverridePredicate,
 			IProgressMonitor monitor) {
 
-		if ( monitor == null ) 
+		if (monitor == null)
 			monitor = new NullProgressMonitor();
 
 		try {
@@ -882,15 +878,15 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	/**
 	 * Refreshes the ArtifactManager.
 	 * 
-	 * @param forceReload -
-	 *            if true the ArtifactManager will be fully reloaded from the
+	 * @param forceReload
+	 *            - if true the ArtifactManager will be fully reloaded from the
 	 *            project descriptor. If not, only deltas that have been posted
 	 *            will be applied.
 	 */
 	public synchronized void refresh(boolean forceReload,
 			IProgressMonitor monitor) {
 
-		if ( monitor == null ) 
+		if (monitor == null)
 			monitor = new NullProgressMonitor();
 
 		// The underlying project for this Artifact Manager may have been
@@ -968,7 +964,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 	public synchronized void refreshReferences(IProgressMonitor monitor) {
 
-		if ( monitor == null ) 
+		if (monitor == null)
 			monitor = new NullProgressMonitor();
 
 		for (ITigerstripeModelProject project : getTSProject()
@@ -985,7 +981,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 	public synchronized void updateCaches(IProgressMonitor monitor) {
 
-		if ( monitor == null ) 
+		if (monitor == null)
 			monitor = new NullProgressMonitor();
 
 		updateDependenciesContentCache(monitor);
@@ -1084,7 +1080,9 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		if (rootFile != null && rootFile.isDirectory()) {
 			File[] content = rootFile.listFiles();
 			for (File file : content) {
-				if (file.isFile() && (file.getName().endsWith(".java") || file.getName().equals(".package"))) {
+				if (file.isFile()
+						&& (file.getName().endsWith(".java") || file.getName()
+								.equals(".package"))) {
 					foundResources.add(file.toString());
 				} else if (file.isDirectory()) {
 					listFilesRecursive(file, foundResources);
@@ -1126,7 +1124,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 				try {
 					source = builder.addSource(new FileReader(pojo
 							.getFilename()));
-					URI uri = new File(pojo.getFilename()).toURI();
+					java.net.URI uri = new File(pojo.getFilename()).toURI();
 					source.setURL(uri.toURL());
 					pojo.setJavaSource(source);
 				} catch (ParseException e) {
@@ -1204,8 +1202,8 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 		monitor.beginTask("Extracting POJOs", changedPojos.size());
 		for (PojoState state : changedPojos) {
-			 //System.out.println("Extracting " +
-			 //state.getFilename());
+			// System.out.println("Extracting " +
+			// state.getFilename());
 
 			if (state.javaSource != null) {
 				monitor.subTask(state.javaSource.getURL().toString());
@@ -1251,8 +1249,8 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		pojosMap = new HashMap();
 	}
 
-	// ==========================================================================
-	// ==========================================================================
+	//==========================================================================
+	//==========================================================================
 	private Collection<IArtifactChangeListener> listeners = new ArrayList<IArtifactChangeListener>();
 
 	// A readWrite lock to allow for multiple reads on the listeners but 1 write
@@ -1528,7 +1526,6 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	// ==================================================
 	// Artifact management
 
-	
 	/**
 	 * Adds an artifact to this manager and updates all the internal tables
 	 * 
@@ -1658,7 +1655,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			removeFromNamedArtifactsMap(artifact);
 			removeFromSourceMap(artifact);
 			removeFromFilenameMap((AbstractArtifact) artifact);
-			
+
 			((AbstractArtifact) artifact).removeReferences();
 
 			if (artifact instanceof IRelationship) {
@@ -1974,19 +1971,21 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		return relationshipCache;
 	}
 
-	// This is a backdoor used in the TSDeleteAction to let the Art Mgr know that
-	// an artifact was deleted after the fact. 
+	// This is a backdoor used in the TSDeleteAction to let the Art Mgr know
+	// that
+	// an artifact was deleted after the fact.
 	// Really the Art Mgr should be listenning for Workspace Changes here
 	// and figure it out on its own.
 	public void notifyArtifactDeleted(IAbstractArtifact artifact) {
 		try {
 			URI oldURI = (URI) artifact.getAdapter(URI.class);
 			String simpleName = artifact.getClass().getSimpleName();
-			
+
 			removeArtifact(artifact);
 
 			// push a notif
-			ModelChangeDelta delta = new ModelChangeDelta(IModelChangeDelta.REMOVE);
+			ModelChangeDelta delta = new ModelChangeDelta(
+					IModelChangeDelta.REMOVE);
 			delta.setFeature(simpleName);
 			delta.setOldValue(oldURI);
 			delta.setProject(artifact.getProject());
