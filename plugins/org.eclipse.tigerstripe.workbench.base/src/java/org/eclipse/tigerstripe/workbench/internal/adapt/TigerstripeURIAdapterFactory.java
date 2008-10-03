@@ -257,9 +257,9 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	 */
 	public static URI toURI(IDiagram element) throws TigerstripeException {
 		IPath fullPath = element.getDiagramFile().getFullPath();
-		System.out.println("DiagramFile (location): "
-				+ element.getDiagramFile().getLocation() + " (fullpath): "
-				+ fullPath);
+//		System.out.println("DiagramFile (location): "
+//				+ element.getDiagramFile().getLocation() + " (fullpath): "
+//				+ fullPath);
 
 		String project = fullPath.segment(0);
 		IPath truncated = fullPath.removeFirstSegments(2).removeFileExtension();
@@ -275,7 +275,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		IPath result = new Path(project);
 		result = result.append("diagram").append(fullPath.getFileExtension())
 				.append(sb.toString());
-		System.out.println("Final path: "+result.toString());
+//		System.out.println("Final path: "+result.toString());
 		return toURI(result, null, false);
 	}
 
