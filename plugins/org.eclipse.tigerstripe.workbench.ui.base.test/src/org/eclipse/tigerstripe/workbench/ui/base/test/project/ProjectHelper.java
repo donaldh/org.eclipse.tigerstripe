@@ -19,9 +19,11 @@ public class ProjectHelper  extends UITestCaseSWT {
 	public static void checkArtifactsInExplorer (IUIContext ui, String packageName, ArrayList<String> artifacts ){
 		for (String artifact : artifacts){
 
+			String packagePath = packageName.replaceAll("\\.", "/");
+			
 			String pathToItem = TestingConstants.NEW_MODEL_PROJECT_NAME+
 			"/src/"+
-			packageName+"/"+
+			packagePath+"/"+
 			artifact;
 
 			try {	
@@ -39,9 +41,11 @@ public class ProjectHelper  extends UITestCaseSWT {
 	
 	public static void checkPackageInExplorer (IUIContext ui, String packageName ){
 
+		String packagePath = TestingConstants.DEFAULT_ARTIFACT_PACKAGE.replaceAll("\\.", "/");
+		
 			String pathToItem = TestingConstants.NEW_MODEL_PROJECT_NAME+
 			"/src/"+
-			TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"."+
+			packagePath+"."+
 			packageName;
 
 			try {	
