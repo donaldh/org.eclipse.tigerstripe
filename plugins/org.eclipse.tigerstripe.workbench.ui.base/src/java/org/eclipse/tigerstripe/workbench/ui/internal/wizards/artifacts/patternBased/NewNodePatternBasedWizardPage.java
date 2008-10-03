@@ -10,7 +10,13 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.patternBased;
 
+import java.util.List;
+
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.DialogField;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.IDialogFieldListener;
@@ -21,9 +27,11 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.builder.IFileExtensionBasedAuditor;
+import org.eclipse.tigerstripe.workbench.patterns.INodePattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
+import org.eclipse.tigerstripe.workbench.patterns.IPatternBasedWizardValidator;
 
 /**
 
@@ -31,6 +39,7 @@ import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 public class NewNodePatternBasedWizardPage extends NewPatternBasedArtifactWizardPage {
 
 
+	
 	private final static String PAGE_NAME = "NewNodePatternBasedWizardPage";
 	protected EntityFieldsAdapter adapter;
 
@@ -58,6 +67,11 @@ public class NewNodePatternBasedWizardPage extends NewPatternBasedArtifactWizard
 		updateStatus(status);
 	}
 
+	
+
+
+	
+	
 	// -------- TypeFieldsAdapter --------
 
 	private class EntityFieldsAdapter implements IStringButtonAdapter,
@@ -139,5 +153,33 @@ public class NewNodePatternBasedWizardPage extends NewPatternBasedArtifactWizard
 		super.initFromContext();
 
 	}
+
+	private IStatus[] statuses = new IStatus[0];
+	
+	@Override
+	protected IStatus[] getAdditionalStatuses() {
+		final IPatternBasedWizardValidator validator = pattern.getWizardValidator();
+		final String name = this.getArtifactName();
+		final String packageName = this.getPackageName();
+		final String extendedFQN = this.getExtendedArtifact();
+			
+		if (validator != null){
+			statuses = new IStatus[0];
+			SafeRunner.run(new ISafeRunnable() {
+				public void handleException(Throwable exception) {
+					BasePlugin.log(exception);
+				}
+
+				public void run() throws Exception {
+					statuses = validator.validate((INodePattern) pattern, name, packageName , extendedFQN);
+				}
+
+			});
+			return statuses;
+			
+		}
+		return null;
+	}
+
 
 }

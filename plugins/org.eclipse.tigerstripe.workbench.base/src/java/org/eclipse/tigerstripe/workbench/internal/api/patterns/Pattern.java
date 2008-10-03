@@ -22,12 +22,12 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IM
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.xml.TigerstripeXMLParserUtils;
 import org.eclipse.tigerstripe.workbench.model.annotation.AnnotationHelper;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
+import org.eclipse.tigerstripe.workbench.patterns.IPatternBasedWizardValidator;
 import org.osgi.framework.Bundle;
 import org.w3c.dom.Element;
 
 public class Pattern implements IPattern {
 
-	
 	protected int index;
 	protected String name;
 	protected String description;
@@ -42,6 +42,7 @@ public class Pattern implements IPattern {
 	protected AnnotationHelper helper = AnnotationHelper.getInstance();
 	protected TigerstripeXMLParserUtils xmlParserUtils;
 	protected Element element;
+	protected IPatternBasedWizardValidator validator;
 	
 	public void setParserUtils(TigerstripeXMLParserUtils utils) {
 		this.xmlParserUtils = utils;
@@ -169,4 +170,15 @@ public class Pattern implements IPattern {
 			this.content = content;
 		}
 	}
+
+
+	public IPatternBasedWizardValidator getWizardValidator() {
+		return validator;
+	}
+
+	public void setWizardValidator(IPatternBasedWizardValidator validator) {
+		this.validator = validator;
+	}
+	
+	
 }

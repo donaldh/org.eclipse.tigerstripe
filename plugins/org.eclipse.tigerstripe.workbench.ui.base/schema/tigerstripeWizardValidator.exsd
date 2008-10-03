@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.tigerstripe.workbench.base" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="org.eclipse.tigerstripe.workbench.ui.base" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.eclipse.tigerstripe.workbench.base" id="creationPatterns" name="Tigerstripe Pattens"/>
+         <meta.schema plugin="org.eclipse.tigerstripe.workbench.ui.base" id="tigerstripeWizardValidator" name="tigerstripeWizardValidator"/>
       </appinfo>
       <documentation>
          [Enter description of this extension point.]
@@ -17,14 +17,6 @@
          </appinfo>
       </annotation>
       <complexType>
-         <sequence>
-            <sequence minOccurs="1" maxOccurs="unbounded">
-               <element ref="patternDefinition"/>
-            </sequence>
-            <sequence minOccurs="0" maxOccurs="unbounded">
-               <element ref="disabledPattern"/>
-            </sequence>
-         </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
                <documentation>
@@ -47,43 +39,6 @@
                <appinfo>
                   <meta.attribute translatable="true"/>
                </appinfo>
-            </annotation>
-         </attribute>
-      </complexType>
-   </element>
-
-   <element name="patternDefinition">
-      <complexType>
-         <attribute name="patternFile" type="string" use="required">
-            <annotation>
-               <documentation>
-                  XML file with pattern defintion
-               </documentation>
-               <appinfo>
-                  <meta.attribute kind="resource"/>
-               </appinfo>
-            </annotation>
-         </attribute>
-         <attribute name="validator_class" type="string">
-            <annotation>
-               <documentation>
-                  
-               </documentation>
-               <appinfo>
-                  <meta.attribute kind="java" basedOn=":org.eclipse.tigerstripe.workbench.patterns.IPatternBasedWizardValidator"/>
-               </appinfo>
-            </annotation>
-         </attribute>
-      </complexType>
-   </element>
-
-   <element name="disabledPattern">
-      <complexType>
-         <attribute name="patternName" type="string">
-            <annotation>
-               <documentation>
-                  
-               </documentation>
             </annotation>
          </attribute>
       </complexType>

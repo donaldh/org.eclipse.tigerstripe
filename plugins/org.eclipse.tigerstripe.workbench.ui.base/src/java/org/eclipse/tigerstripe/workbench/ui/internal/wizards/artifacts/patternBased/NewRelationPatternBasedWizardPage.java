@@ -12,7 +12,9 @@ package org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.patternB
 
 import java.util.Arrays;
 
+import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
@@ -34,6 +36,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.metamodel.impl.IAssociationClassArtifactImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.patterns.ArtifactPattern;
 import org.eclipse.tigerstripe.workbench.internal.api.patterns.RelationPattern;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -50,7 +53,10 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArti
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.patterns.INodePattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
+import org.eclipse.tigerstripe.workbench.patterns.IPatternBasedWizardValidator;
+import org.eclipse.tigerstripe.workbench.patterns.IRelationPattern;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForArtifactDialog;
 
@@ -383,5 +389,35 @@ public class NewRelationPatternBasedWizardPage extends
 		return null;
 	}
 	
+private IStatus[] statuses = new IStatus[0];
+	
+	@Override
+	protected IStatus[] getAdditionalStatuses() {
+		final IPatternBasedWizardValidator validator = pattern.getWizardValidator();
+		final String name = this.getArtifactName();
+		final String packageName = this.getPackageName();
+		final String extendedFQN = this.getExtendedArtifact();
+		final String aEndType = this.getAendTypeClass();
+		final String zEndType = this.getZendTypeClass();
+			
+		if (validator != null){
+			statuses = new IStatus[0];
+			SafeRunner.run(new ISafeRunnable() {
+				public void handleException(Throwable exception) {
+					BasePlugin.log(exception);
+				}
+
+				public void run() throws Exception {
+					statuses = validator.validate((IRelationPattern) pattern, name, packageName , extendedFQN,
+							aEndType, zEndType);
+				}
+
+			});
+			return statuses;
+			
+		}
+		return null;
+	}
+
 }
 

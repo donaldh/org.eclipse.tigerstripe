@@ -40,6 +40,7 @@ import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.ModelChangeRequestFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
+import org.eclipse.tigerstripe.workbench.internal.builder.IFileExtensionBasedAuditor;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.xml.TigerstripeXMLParserUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -57,6 +58,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.patterns.IArtifactPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
+import org.eclipse.tigerstripe.workbench.patterns.IPatternBasedWizardValidator;
 import org.eclipse.tigerstripe.workbench.patterns.IPatternFactory;
 import org.eclipse.tigerstripe.workbench.patterns.IProjectPattern;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
@@ -149,6 +151,15 @@ public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileC
 						
 						try {
 							IPattern newPattern = parsePatternFile(bundle,patternFileName);
+							
+							if (element.getAttribute("validator_class") != null){
+								IPatternBasedWizardValidator validator = (IPatternBasedWizardValidator) element
+									.createExecutableExtension("validator_class");
+								if (validator != null){
+									((Pattern) newPattern).setWizardValidator(validator);
+								}
+							}
+							
 							if (!discoveredPatterns.containsKey(newPattern.getName())){
 								discoveredPatterns.put(newPattern.getName(), newPattern);
 								int index = newPattern.getIndex();

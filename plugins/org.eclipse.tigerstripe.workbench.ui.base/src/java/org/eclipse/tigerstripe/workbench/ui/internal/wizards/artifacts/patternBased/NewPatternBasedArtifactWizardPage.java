@@ -11,6 +11,8 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.patternBased;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
@@ -82,8 +84,8 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtif
 import org.eclipse.tigerstripe.workbench.patterns.IArtifactPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IEnumPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
+import org.eclipse.tigerstripe.workbench.patterns.IPatternBasedWizardValidator;
 import org.eclipse.tigerstripe.workbench.patterns.IQueryPattern;
-import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -1121,4 +1123,21 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 		return status;
 	}
 
+	protected void updateStatus(IStatus[] status) {
+
+		IStatus[] additional = getAdditionalStatuses();
+		if(additional != null && additional.length > 0)
+		{
+			List<IStatus> asList = new ArrayList<IStatus>();
+			asList.addAll(Arrays.asList(status));
+			asList.addAll(Arrays.asList(additional));
+			status = asList.toArray(new IStatus[status.length+additional.length]);
+		}
+		super.updateStatus(status);
+	}
+
+
+	protected abstract IStatus[] getAdditionalStatuses();
+
+	
 }
