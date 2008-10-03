@@ -408,15 +408,51 @@ public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileC
 			.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
 		
 		
+		// See how many Project Patterns we have...
+		// If only one then we don't need a drop down!
+		
+		int projectCount = 0;
+
+		String dropDownProjectItemId = "";
+		String dropDownProjectItemName = "";
+		for (String key : registeredPatterns.keySet()){
+			IPattern pattern = registeredPatterns.get(key);
+
+			if (! disabledPatterns.contains(pattern.getName())){
+				if (pattern instanceof IProjectPattern){
+					if (projectCount == 0){
+						// just grab the name of teh first one that will be created
+						// This is need to anchor the artifact stuff
+						dropDownProjectItemId = "org.eclipse.tigerstripe.workbench.ui.base.new.patterns.project.dropdown."+pattern.getName();
+						dropDownProjectItemName = pattern.getName();
+					}
+					projectCount++;
+				}
+			}
+		}
+		// TODO - problem if there are NONE ?
+
+		final String ddProjectItemName = dropDownProjectItemName;
+		final String ddProjectItemId = dropDownProjectItemId;
+		//=======================
+		int style;
+		
+		if (projectCount ==1){
+			style = CommandContributionItem.STYLE_PUSH;
+		} else {
+			style = CommandContributionItem.STYLE_PULLDOWN;
+		}
+
+		final int buttonStyle = style;
 		/*
 		 * This part is for the PROJECT patterns in the DROPDPOWN
 		 * 
 		 */
 		// This section should do whichever one we decide is the "top" level for the drop down
-		
+
 		projectPatternToolbarAddition = new AbstractContributionFactory(
 				"toolbar:org.eclipse.tigerstripe.workbench.ui.base.toolbar?after=org.eclipse.tigerstripe.workbench.ui.base.start", null){
-			
+
 			@Override
 			public void createContributionItems(IServiceLocator serviceLocator,
 					IContributionRoot additions) {
@@ -428,7 +464,7 @@ public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileC
 							CommandContributionItemParameter thisOne  = new CommandContributionItemParameter(locator,
 									"org.eclipse.tigerstripe.workbench.ui.base.new.patterns.project.dropdown."+pattern.getName(),
 									"org.eclipse.tigerstripe.workbench.ui.base.patternBasedProjectCreate",
-									CommandContributionItem.STYLE_PULLDOWN
+									buttonStyle
 							);
 
 							Map parms = new HashMap();
@@ -451,27 +487,10 @@ public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileC
 		};
 
 		menuService.addContributionFactory(projectPatternToolbarAddition);
-		//== Temp
-		String dropDownProjectItemId = "";
-		String dropDownProjectItemName = "";
-		for (String key : registeredPatterns.keySet()){
-			IPattern pattern = registeredPatterns.get(key);
-			
-			if (! disabledPatterns.contains(pattern.getName())){
-				if (pattern instanceof IProjectPattern){
-					dropDownProjectItemId = "org.eclipse.tigerstripe.workbench.ui.base.new.patterns.project.dropdown."+pattern.getName();
-					dropDownProjectItemName = pattern.getName();
-					break;
-				}
-			}
-		}
-		final String ddProjectItemName = dropDownProjectItemName;
-		final String ddProjectItemId = dropDownProjectItemId;
-		//=======================
 
 		projectPatternToolbarDropDownsAddition = new AbstractContributionFactory(
 				"menu:"+dropDownProjectItemId, null){
-			
+
 			@Override
 			public void createContributionItems(IServiceLocator serviceLocator,
 					IContributionRoot additions) {
@@ -502,9 +521,9 @@ public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileC
 		};
 
 		menuService.addContributionFactory(projectPatternToolbarDropDownsAddition);
-		
-		
-		
+
+
+
 		/*
 		 * This part is for the ARTIFACT patterns in the MENU
 		 * May in future need to add "Composites"
