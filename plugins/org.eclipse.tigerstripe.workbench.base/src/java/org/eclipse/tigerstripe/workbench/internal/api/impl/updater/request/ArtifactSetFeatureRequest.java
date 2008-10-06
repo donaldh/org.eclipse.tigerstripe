@@ -111,7 +111,7 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 			IAbstractArtifact artifact = (IAbstractArtifact) art;
 
 			IAbstractArtifact target = null;
-			if (featureValue == null ) {
+			if (featureValue == null || featureValue.equals("") ) {
 				// this is to remove the extends
 				target = null;
 			} else {
