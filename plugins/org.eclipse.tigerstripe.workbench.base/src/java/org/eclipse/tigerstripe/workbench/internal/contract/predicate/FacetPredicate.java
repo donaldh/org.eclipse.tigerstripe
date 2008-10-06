@@ -620,8 +620,13 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 
 		} else if (artifact instanceof IQueryArtifact) {
 			IQueryArtifact query = (IQueryArtifact) artifact;
-			result.add((IAbstractArtifact) query.getReturnedType()
-					.getArtifact());
+			if (query.getReturnedType() != null){
+				if (query.getReturnedType()
+						.getArtifact() != null){
+					result.add((IAbstractArtifact) query.getReturnedType()
+							.getArtifact());
+				}
+			}
 		}
 
 		return result;
