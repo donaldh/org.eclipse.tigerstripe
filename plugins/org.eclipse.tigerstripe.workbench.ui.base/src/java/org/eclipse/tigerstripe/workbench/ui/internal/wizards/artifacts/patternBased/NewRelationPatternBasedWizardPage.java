@@ -41,11 +41,13 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationEnd;
 import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPatternBasedWizardValidator;
 import org.eclipse.tigerstripe.workbench.patterns.IRelationPattern;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForArtifactDialog;
 
@@ -157,12 +159,12 @@ public class NewRelationPatternBasedWizardPage extends
 	protected void artifactPageChangeControlPressed(DialogField field) {
 		super.artifactPageChangeControlPressed(field);
 		if (field == aEndTypeClassDialogField) {
-			IType type = chooseReturnedType();
+			IAbstractArtifact type = chooseReturnedType();
 			if (type != null) {
 				aEndTypeClassDialogField.setText(type.getFullyQualifiedName());
 			}
 		} else if (field == zEndTypeClassDialogField) {
-			IType type = chooseReturnedType();
+			IAbstractArtifact type = chooseReturnedType();
 			if (type != null) {
 				zEndTypeClassDialogField.setText(type.getFullyQualifiedName());
 			}
@@ -230,13 +232,13 @@ public class NewRelationPatternBasedWizardPage extends
 		}
 		if (root != null) {
 			try {
-				IType type = resolveReturnedTypeName(root.getJavaProject(),
-						sclassName);
+				
+				IAbstractArtifact type = resolveReturnedType(sclassName);
 				if (type == null) {
-					status.setWarning("Warning: the aEnd doesn't exist."); //$NON-NLS-1$
+					status.setWarning("Warning: the aEnd doesn't exist or is of an invalid type."); //$NON-NLS-1$
 					return status;
 				}
-			} catch (JavaModelException e) {
+			} catch (TigerstripeException e) {
 				status.setError("Invalid aEnd class."); //$NON-NLS-1$
 				JavaPlugin.log(e);
 			}
@@ -273,13 +275,12 @@ public class NewRelationPatternBasedWizardPage extends
 		}
 		if (root != null) {
 			try {
-				IType type = resolveReturnedTypeName(root.getJavaProject(),
-						sclassName);
+				IAbstractArtifact type = resolveReturnedType(sclassName);
 				if (type == null) {
-					status.setWarning("Warning: the zEnd doesn't exist."); //$NON-NLS-1$
+					status.setWarning("Warning: the zEnd doesn't exist or is of an invalid type."); //$NON-NLS-1$
 					return status;
 				}
-			} catch (JavaModelException e) {
+			} catch (TigerstripeException e) {
 				status.setError("Invalid zEnd class."); //$NON-NLS-1$
 				JavaPlugin.log(e);
 			}
@@ -289,36 +290,37 @@ public class NewRelationPatternBasedWizardPage extends
 		return status;
 
 	}
-
-	private IType resolveReturnedTypeName(IJavaProject jproject,
-			String sclassName) throws JavaModelException {
-		if (!jproject.exists())
-			return null;
-		IType type = null;
-		IPackageFragment currPack = getArtifactPackageFragment();
-		if (type == null && currPack != null) {
-			String packName = currPack.getElementName();
-			// search in own package
-			if (!currPack.isDefaultPackage()) {
-				type = jproject.findType(packName, sclassName);
-			}
-			// search in java.lang
-			if (type == null && !"java.lang".equals(packName)) { //$NON-NLS-1$
-				type = jproject.findType("java.lang", sclassName); //$NON-NLS-1$
+	
+	
+	private IAbstractArtifact resolveReturnedType(String sclassName) throws TigerstripeException {
+		
+		ITigerstripeModelProject project = getTSRuntimeContext().getProjectHandle();
+		IArtifactManagerSession session = project.getArtifactManagerSession();
+		
+		IAbstractArtifact artifact = session.getArtifactByFullyQualifiedName(sclassName, true);
+		IAbstractArtifact[] suitableTypes;
+		if (((ArtifactPattern) pattern).getTargetArtifactType().equals(IAssociationArtifact.class.getName())) {
+			suitableTypes = AssociationEnd.getSuitableTypes();
+		} else if (((ArtifactPattern) pattern).getTargetArtifactType().equals(IAssociationClassArtifact.class.getName())) {
+			suitableTypes = AssociationEnd.getSuitableTypes();
+		} else {
+			suitableTypes = DependencyArtifact.getSuitableTypes();
+		}
+		for (IAbstractArtifact suitable : suitableTypes){
+			if (artifact.getArtifactType().equals(suitable.getArtifactType())){
+				return artifact;
 			}
 		}
-		// search fully qualified
-		if (type == null) {
-			type = jproject.findType(sclassName);
-		}
-		return type;
+		
+		return null;
 	}
+	
 	
 	/**
 	 * Choose the returned type through a dialog. 
 	 * @return
 	 */
-	private IType chooseReturnedType() {
+	private IAbstractArtifact chooseReturnedType() {
 		try {
 			IAbstractArtifact[] suitableTypes;
 			if (((ArtifactPattern) pattern).getTargetArtifactType().equals(IAssociationArtifact.class.getName())) {
@@ -343,14 +345,7 @@ public class NewRelationPatternBasedWizardPage extends
 			if (selectedArtifacts.length == 0)
 				return null;
 			else {
-				String classname = selectedArtifacts[0].getFullyQualifiedName();
-				try {
-					return resolveReturnedTypeName(getInitialElement()
-							.getJavaProject(), classname);
-				} catch (JavaModelException e) {
-					TigerstripeRuntime.logErrorMessage(
-							"JavaModelException detected", e);
-				}
+				return selectedArtifacts[0];
 			}
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
