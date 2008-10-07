@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.packageArtifact;
 
+import org.eclipse.core.resources.IResource;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
@@ -60,4 +62,17 @@ public class PackageArtifactEditor extends ArtifactEditorBase {
 		}
 		setActivePage(index);
 	}
+	
+	// Override this to provide information when starting a wizard
+	
+	public Object getViewPartInput() {
+		// The input does not adapt to IJavaElement because it's a .package,
+		// So we need to trick it!
+		IResource res = (IResource) getEditorInput().getAdapter(IResource.class);
+		if (res != null){
+			return res.getParent().getAdapter(IJavaElement.class);
+		} 
+		return null;
+	}
+	
 }
