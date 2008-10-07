@@ -11,7 +11,6 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.viewers.ISelection;
@@ -37,21 +36,8 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactComponent;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.DatatypeArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Field;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.PrimitiveTypeArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Type;
-import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -61,7 +47,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
-import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;

@@ -10,29 +10,20 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.handlers;
 
-import java.util.Map;
-
 import org.eclipse.core.commands.AbstractHandler;
-import org.eclipse.core.commands.Category;
 import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
-import org.eclipse.jdt.ui.actions.IJavaEditorActionDefinitionIds;
 import org.eclipse.tigerstripe.workbench.internal.api.patterns.PatternFactory;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenGenerateInterfaceWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewPatternBasedArtifactWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewPatternBasedProjectWizardAction;
-import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewProjectWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.PluginsControlDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.ProfileDetailsDialog;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.commands.ICommandService;
-import org.eclipse.ui.commands.IElementUpdater;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.eclipse.ui.menus.UIElement;
 
 public class TigerstripeCommandHandler extends AbstractHandler implements IHandler {
 

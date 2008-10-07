@@ -13,14 +13,11 @@ package org.eclipse.tigerstripe.workbench.ui.internal.actions;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.tigerstripe.workbench.patterns.INodePattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IRelationPattern;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
-import org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.entity.NewEntityWizard;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.patternBased.NewNodePatternBasedWizard;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.patternBased.NewRelationPatternBasedWizard;
 

@@ -13,7 +13,6 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeSectionPart;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.associationClass.AssociationClassArtifactEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.datatype.DatatypeArtifactEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.entity.EntityArtifactEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.enumeration.EnumArtifactEditor;

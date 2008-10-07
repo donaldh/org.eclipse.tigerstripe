@@ -47,7 +47,6 @@ import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewAnnotationWi
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewClassWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewEnumerationWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewInterfaceWizardAction;
-import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewPackageArtifactWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewPackageWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewPatternBasedArtifactWizardAction;
 import org.eclipse.ui.IWorkbenchSite;
@@ -159,8 +158,8 @@ public class NewWizardsActionGroup extends ActionGroup {
 							if (prop.getDetailsForType(
 									IPackageArtifact.class.getName())
 									.isEnabled()) {
-								newMenu
-								.add(new OpenNewPackageArtifactWizardAction());
+								//newMenu
+								//.add(new OpenNewPackageArtifactWizardAction());
 							} else {
 								newMenu.add(new OpenNewPackageWizardAction());
 							}

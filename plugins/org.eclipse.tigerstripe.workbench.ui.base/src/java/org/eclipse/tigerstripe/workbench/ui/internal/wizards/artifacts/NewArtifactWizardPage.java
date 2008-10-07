@@ -12,7 +12,6 @@ package org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts;
 
 import java.io.Writer;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -66,12 +65,11 @@ import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForArtifactDialog;
-import org.eclipse.tigerstripe.workbench.ui.internal.elements.LabelListDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.runtime.messages.NewWizardMessages;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.TSRuntimeContext;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.WizardUtils;
-import org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.MethodDetailsDialog.ParameterRef;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.model.ArtifactAttributeModel;
+import org.eclipse.tigerstripe.workbench.ui.internal.wizards.model.ArtifactMethodModel.ParameterRef;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
 /**
@@ -126,12 +124,6 @@ public abstract class NewArtifactWizardPage extends NewContainerWizardPage
 	protected IStatus artifactPackageStatus;
 
 	protected IStatus artifactNameStatus;
-
-	// the attribute list selection
-	private ListDialogField attributesDialogField;
-
-	// the method list selection
-	private ListDialogField methodsDialogField;
 
 	// The name of the artifact that will be generated
 	private StringDialogField artifactNameDialogField;
@@ -333,22 +325,6 @@ public abstract class NewArtifactWizardPage extends NewContainerWizardPage
 				/* 1 */"edit", /* 2 */"remove" //$NON-NLS-1$
 		};
 
-		attributesDialogField = new ListDialogField(adapter, addButtons,
-				new AttributesListLabelProvider());
-		attributesDialogField.setDialogFieldListener(adapter);
-		String pluginsLabel = "Attributes:";
-
-		attributesDialogField.setLabelText(pluginsLabel);
-		attributesDialogField.setRemoveButtonIndex(2);
-
-		methodsDialogField = new ListDialogField(adapter, addButtons,
-				new MethodsListLabelProvider());
-		methodsDialogField.setDialogFieldListener(adapter);
-		String methodsLabel = "Methods:";
-
-		methodsDialogField.setLabelText(methodsLabel);
-		methodsDialogField.setRemoveButtonIndex(2);
-
 		initTSRuntimeContext(jelem);
 
 		initContainerPage(jelem);
@@ -417,8 +393,6 @@ public abstract class NewArtifactWizardPage extends NewContainerWizardPage
 			}
 		}
 
-		ArrayList attributeList = new ArrayList(5);
-		setAttributeRefs(attributeList, true);
 
 		setArtifactPackageFragment(pack);
 
@@ -462,7 +436,7 @@ public abstract class NewArtifactWizardPage extends NewContainerWizardPage
 
 		// createModifiersButtonsControls(composite, nColumns);
 		if (createAttributeList) {
-			createAttributeListControl(composite, nColumns);
+			//createAttributeListControl(composite, nColumns);
 		}
 		// if (createMethodList) {
 		// createMethodListControl(composite, nColumns);
@@ -557,26 +531,6 @@ public abstract class NewArtifactWizardPage extends NewContainerWizardPage
 				getMaxFieldWidth());
 	}
 
-	protected void createAttributeListControl(Composite composite, int nColumns) {
-		attributesDialogField.doFillIntoGrid(composite, nColumns);
-		GridData gd = (GridData) attributesDialogField.getListControl(null)
-				.getLayoutData();
-		gd.heightHint = convertHeightInCharsToPixels(3);
-		gd.grabExcessVerticalSpace = false;
-		gd.widthHint = getMaxFieldWidth();
-
-	}
-
-	protected void createMethodListControl(Composite composite, int nColumns) {
-		methodsDialogField.doFillIntoGrid(composite, nColumns);
-		GridData gd = (GridData) methodsDialogField.getListControl(null)
-				.getLayoutData();
-		gd.heightHint = convertHeightInCharsToPixels(3);
-		gd.grabExcessVerticalSpace = false;
-		gd.widthHint = getMaxFieldWidth();
-
-	}
-
 	/**
 	 * Creates the controls for the superclass name field. Expects a
 	 * <code>GridLayout</code> with at least 3 columns.
@@ -593,19 +547,6 @@ public abstract class NewArtifactWizardPage extends NewContainerWizardPage
 		LayoutUtil.setWidthHint(text, getMaxFieldWidth());
 		ControlContentAssistHelper.createTextContentAssistant(text,
 				extendedClassCompletionProcessor);
-	}
-
-	public List getAttributeRefs() {
-		return attributesDialogField.getElements();
-	}
-
-	public List getMethodDetailsModels() {
-		return methodsDialogField.getElements();
-	}
-
-	public void setAttributeRefs(List attributeRefs, boolean canBeModified) {
-		attributesDialogField.setElements(attributeRefs);
-		attributesDialogField.setEnabled(canBeModified);
 	}
 
 	/**
@@ -726,63 +667,7 @@ public abstract class NewArtifactWizardPage extends NewContainerWizardPage
 	}
 
 	private void artifactPageCustomButtonPressed(DialogField field, int index) {
-		if (field == attributesDialogField) {
-			if (index == 0) {
-				AttributesSelectionDialog dialog = new AttributesSelectionDialog(
-						getShell(), new ArtifactAttributeModel(), this,
-						this.attributesDialogField.getElements(), false);
-
-				if (dialog.open() == Window.OK) {
-					ArtifactAttributeModel ref = dialog.getAttributeRef();
-					attributesDialogField.addElement(ref);
-				}
-			} else if (index == 1) {
-				List selectedElem = attributesDialogField.getSelectedElements();
-				if (selectedElem.size() == 0)
-					return;
-				ArtifactAttributeModel ref = (ArtifactAttributeModel) selectedElem
-						.get(0);
-
-				AttributesSelectionDialog dialog = new AttributesSelectionDialog(
-						getShell(), (ArtifactAttributeModel) ref.clone(), this,
-						this.attributesDialogField.getElements(), true);
-
-				if (dialog.open() == Window.OK) {
-					ArtifactAttributeModel returnedRef = dialog
-							.getAttributeRef();
-					ref.applyValues(returnedRef);
-					attributesDialogField.refresh();
-				}
-			}
-		} else if (field == methodsDialogField) {
-			if (index == 0) {
-				MethodDetailsDialog dialog = new MethodDetailsDialog(
-						getShell(), new MethodDetailsModel(), this,
-						this.methodsDialogField.getElements(), false);
-				if (dialog.open() == Window.OK) {
-					MethodDetailsModel model = dialog.getMethodDetailsModel();
-					methodsDialogField.addElement(model);
-				}
-			} else if (index == 1) {
-				List selectedElem = methodsDialogField.getSelectedElements();
-				if (selectedElem.size() == 0)
-					return;
-				MethodDetailsModel ref = (MethodDetailsModel) selectedElem
-						.get(0);
-
-				MethodDetailsDialog dialog = new MethodDetailsDialog(
-						getShell(), (MethodDetailsModel) ref.clone(), this,
-						this.methodsDialogField.getElements(), true);
-
-				if (dialog.open() == Window.OK) {
-					MethodDetailsModel returnedRef = dialog
-							.getMethodDetailsModel();
-					ref.applyValues(returnedRef);
-					this.methodsDialogField.refresh();
-				}
-			}
-		}
-
+		
 	}
 
 	/**
@@ -950,23 +835,7 @@ public abstract class NewArtifactWizardPage extends NewContainerWizardPage
 	}
 
 	private void artifactPageDoubleClicked(DialogField field) {
-		if (field == attributesDialogField) {
-			List selectedElem = attributesDialogField.getSelectedElements();
-			if (selectedElem.size() == 0)
-				return;
-			ArtifactAttributeModel ref = (ArtifactAttributeModel) selectedElem
-					.get(0);
-
-			AttributesSelectionDialog dialog = new AttributesSelectionDialog(
-					getShell(), (ArtifactAttributeModel) ref.clone(), this,
-					this.attributesDialogField.getElements(), true);
-
-			if (dialog.open() == Window.OK) {
-				ArtifactAttributeModel returnedRef = dialog.getAttributeRef();
-				ref.applyValues(returnedRef);
-				attributesDialogField.refresh();
-			}
-		}
+		
 	}
 
 	private IPackageFragment choosePackage() {
@@ -1079,16 +948,6 @@ public abstract class NewArtifactWizardPage extends NewContainerWizardPage
 			extendedClassStatus = extendedClassChanged();
 			doStatusUpdate();
 			fieldName = EXTENDED_ARTIFACT;
-		}
-		if (field == labelButton) {
-
-			LabelListDialog dialog = new LabelListDialog(getShell(),
-					this.labelRefsList, this);
-
-			if (dialog.open() == Window.OK) {
-				this.labelRefsList = dialog.getLabelRefsList();
-			}
-			fieldName = LABELSLIST;
 		}
 
 		// tell all others
@@ -1209,8 +1068,6 @@ public abstract class NewArtifactWizardPage extends NewContainerWizardPage
 				.put(INTERFACE_PACKAGE, targetPackageDialogField.getText()
 						.trim());
 		result.put(GENERATE, new Boolean(modifierButtons.isSelected(0)));
-		result.put(ATTRIBUTE_LIST, getAttributeRefs());
-		result.put(METHOD_LIST, getMethodDetailsModels());
 		result.put(CONSTANT_LIST, getConstantList());
 		result
 				.put(EXTENDED_ARTIFACT, extendedClassDialogField.getText()

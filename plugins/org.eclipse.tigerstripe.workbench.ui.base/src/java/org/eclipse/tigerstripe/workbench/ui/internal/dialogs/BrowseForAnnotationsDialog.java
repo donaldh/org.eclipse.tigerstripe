@@ -25,7 +25,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
 import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
-import org.eclipse.tigerstripe.annotation.ui.util.DisplayAnnotationUtil;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 

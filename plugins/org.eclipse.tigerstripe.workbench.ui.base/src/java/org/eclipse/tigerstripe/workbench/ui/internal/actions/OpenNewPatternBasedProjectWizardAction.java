@@ -13,7 +13,6 @@ package org.eclipse.tigerstripe.workbench.ui.internal.actions;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.project.NewPatternBasedProjectWizard;
-import org.eclipse.tigerstripe.workbench.ui.internal.wizards.project.NewProjectWizard;
 
 /**
  * @author Eric Dillon

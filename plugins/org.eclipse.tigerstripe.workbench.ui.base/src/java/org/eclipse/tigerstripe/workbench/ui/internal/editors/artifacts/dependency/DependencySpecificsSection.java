@@ -10,9 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.dependency;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
@@ -31,17 +29,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.metamodel.impl.IDependencyArtifactImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.DatatypeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.PackageArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;

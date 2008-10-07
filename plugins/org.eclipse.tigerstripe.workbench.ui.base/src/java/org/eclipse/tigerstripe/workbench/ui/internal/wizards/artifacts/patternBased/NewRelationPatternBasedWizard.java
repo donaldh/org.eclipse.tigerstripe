@@ -11,7 +11,6 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.patternBased;
 
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * @author Eric Dillon
