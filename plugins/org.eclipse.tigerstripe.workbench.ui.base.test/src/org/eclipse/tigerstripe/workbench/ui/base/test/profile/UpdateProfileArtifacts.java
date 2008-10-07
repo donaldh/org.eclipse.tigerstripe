@@ -138,7 +138,7 @@ public class UpdateProfileArtifacts extends UITestCaseSWT {
 		ui
 		.contextClick(
 				new TreeItemLocator(
-						"New Project/target/tigerstripe.gen",
+						TestingConstants.NEW_MODEL_PROJECT_NAME+"/target/tigerstripe.gen",
 						new ViewLocator(
 						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")),
 		"Delete");

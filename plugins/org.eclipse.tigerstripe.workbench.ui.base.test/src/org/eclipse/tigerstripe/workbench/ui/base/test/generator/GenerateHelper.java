@@ -1,6 +1,9 @@
 package org.eclipse.tigerstripe.workbench.ui.base.test.generator;
 
+import org.eclipse.swt.widgets.CoolBar;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.ProjectRecord;
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
 
@@ -50,8 +53,9 @@ public class GenerateHelper extends UITestCaseSWT {
 				TestingConstants.NEW_MODEL_PROJECT_NAME,
 				new ViewLocator(
 				"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
-		ui.click(new ContributedToolItemLocator(
-		"org.eclipse.tigerstripe.eclipse.generateAction"));
+		ui.click(new SWTWidgetLocator(ToolItem.class, "", 2,
+				new SWTWidgetLocator(ToolBar.class, 1, new SWTWidgetLocator(
+						CoolBar.class))));
 		ui.wait(new ShellShowingCondition("Generate Tigerstripe Project"));
 		ui.click(new ButtonLocator("&Finish"));
 		ui.wait(new ShellShowingCondition("Generate Result"));
