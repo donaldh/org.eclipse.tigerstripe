@@ -54,9 +54,10 @@ public class DependencyArtifact extends AbstractArtifact implements
 
 	public final static String AEND_TAG = AbstractArtifactTag.PREFIX
 			+ AbstractArtifactTag.DEPENDENCY + "-aEnd";
-
+	
 	public final static String ZEND_TAG = AbstractArtifactTag.PREFIX
 			+ AbstractArtifactTag.DEPENDENCY + "-zEnd";
+	
 
 private static boolean isRegistered = false;
 	
@@ -127,18 +128,36 @@ private static boolean isRegistered = false;
 
 		// Now extract the aEnd and zEnd
 		JavaField[] fields = clazz.getFields();
+		
+		// Bug 249926 - allow for packages as types
+		// This requires us to NOT code the type as a field, but to use a tag parameter
+		// Firstly try to extract a TYPE tag
+		// only if they is not present should we look for the "old style" Tags
+
 		for (JavaField field : fields) {
+
 			DocletTag tag = field.getTagByName(AEND_TAG);
 			if (tag != null) {
 				// extracting aEnd
-				String typeStr = field.getType().getValue();
-				IType type = makeType();
-				type.setFullyQualifiedName(typeStr);
-				setAEndType(type);
+				String typeStr;
+				if (tag.getNamedParameter("type") != null){
+					typeStr = tag.getNamedParameter("type");
+				} else {
+					typeStr = field.getType().getValue();
+				}
+					IType type = makeType();
+					type.setFullyQualifiedName(typeStr);
+					setAEndType(type);
+				
 			} else {
 				tag = field.getTagByName(ZEND_TAG);
 				if (tag != null) {
-					String typeStr = field.getType().getValue();
+					String typeStr;
+					if (tag.getNamedParameter("type") != null){
+						typeStr = tag.getNamedParameter("type");
+					} else {
+						typeStr = field.getType().getValue();
+					}
 					IType type = makeType();
 					type.setFullyQualifiedName(typeStr);
 					setZEndType(type);
