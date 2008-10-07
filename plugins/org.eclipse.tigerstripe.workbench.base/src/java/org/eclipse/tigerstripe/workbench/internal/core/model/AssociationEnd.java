@@ -58,9 +58,12 @@ private static boolean isRegistered = false;
 		
 	private static void loadSuitableTypes(){
 		List<IAbstractArtifact> suitableModelsList = new ArrayList<IAbstractArtifact>();
-		suitableModelsList.add(PrimitiveTypeArtifact.MODEL);
+		//suitableModelsList.add(PrimitiveTypeArtifact.MODEL);
 		suitableModelsList.add(DatatypeArtifact.MODEL);
-		suitableModelsList.add(EnumArtifact.MODEL);
+		suitableModelsList.add(AssociationClassArtifact.MODEL);
+		suitableModelsList.add(ManagedEntityArtifact.MODEL);
+		suitableModelsList.add(ExceptionArtifact.MODEL);
+		suitableModelsList.add(SessionFacadeArtifact.MODEL);
 		
 		IWorkbenchProfile profile = TigerstripeCore
 			.getWorkbenchProfileSession()
@@ -71,15 +74,13 @@ private static boolean isRegistered = false;
 		boolean displayReference = prop
 			.getPropertyValue(IOssjLegacySettigsProperty.USEATTRIBUTES_ASREFERENCE);
 		if (displayReference){
-			suitableModelsList.add(ExceptionArtifact.MODEL);
-			suitableModelsList.add(AssociationArtifact.MODEL);
-			suitableModelsList.add(DependencyArtifact.MODEL);
-			suitableModelsList.add(AssociationClassArtifact.MODEL);
+			//suitableModelsList.add(AssociationArtifact.MODEL);
+			//suitableModelsList.add(DependencyArtifact.MODEL);
 			suitableModelsList.add(QueryArtifact.MODEL);
 			suitableModelsList.add(EventArtifact.MODEL);
 			suitableModelsList.add(UpdateProcedureArtifact.MODEL);
-			suitableModelsList.add(SessionFacadeArtifact.MODEL);
-			suitableModelsList.add(ManagedEntityArtifact.MODEL);
+			suitableModelsList.add(EnumArtifact.MODEL);
+			
 		}
 
 		suitableTypes = suitableModelsList.toArray( new IAbstractArtifact[0] );
