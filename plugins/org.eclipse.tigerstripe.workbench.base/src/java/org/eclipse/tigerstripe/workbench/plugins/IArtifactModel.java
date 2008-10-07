@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.plugins;
 
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 
 /**
  * This is the interface that needs to be implemented by model classess attached

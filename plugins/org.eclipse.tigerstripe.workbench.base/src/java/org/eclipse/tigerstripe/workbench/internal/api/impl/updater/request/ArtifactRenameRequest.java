@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request;
 
-import java.io.File;
 import java.util.Collection;
 
 import org.eclipse.core.resources.IFile;

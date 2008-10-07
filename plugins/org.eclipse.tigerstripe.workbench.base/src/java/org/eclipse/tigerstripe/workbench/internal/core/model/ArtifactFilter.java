@@ -13,7 +13,6 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 

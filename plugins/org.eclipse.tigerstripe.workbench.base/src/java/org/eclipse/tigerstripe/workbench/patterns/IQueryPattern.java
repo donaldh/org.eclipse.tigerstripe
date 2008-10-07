@@ -11,7 +11,6 @@
 package org.eclipse.tigerstripe.workbench.patterns;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public interface IQueryPattern extends INodePattern {

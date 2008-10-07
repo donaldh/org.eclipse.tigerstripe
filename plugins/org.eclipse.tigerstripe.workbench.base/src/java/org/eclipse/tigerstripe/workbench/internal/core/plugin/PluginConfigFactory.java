@@ -12,8 +12,6 @@ package org.eclipse.tigerstripe.workbench.internal.core.plugin;
 
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
-import org.apache.tools.ant.filters.BaseParamFilterReader;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;

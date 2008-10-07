@@ -16,8 +16,7 @@ import java.util.Collection;
 import java.util.EnumSet;
 
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
-
-import static org.eclipse.tigerstripe.workbench.plugins.IDiagramDescriptor.DiagramType;
+import org.eclipse.tigerstripe.workbench.plugins.IDiagramDescriptor.DiagramType;
 
 /**
  * This defines the interface presented to a <em>Tigerstripe Generator</em> for the purposes of

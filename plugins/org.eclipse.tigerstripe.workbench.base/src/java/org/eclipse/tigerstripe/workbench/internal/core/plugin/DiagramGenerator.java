@@ -21,14 +21,9 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.eclipse.core.resources.IContainer;
-//import org.eclipse.core.resources.IFolder;
-//import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-//import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
-//import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-//import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
@@ -42,8 +37,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.plugins.IDiagramDescriptor;
 import org.eclipse.tigerstripe.workbench.plugins.IDiagramGenerator;
 import org.eclipse.tigerstripe.workbench.plugins.IDiagramDescriptor.DiagramType;
-
-import static org.eclipse.tigerstripe.workbench.plugins.IDiagramDescriptor.DiagramType;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**

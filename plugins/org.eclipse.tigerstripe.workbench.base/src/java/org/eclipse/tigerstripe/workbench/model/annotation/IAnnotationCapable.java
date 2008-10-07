@@ -12,8 +12,6 @@ package org.eclipse.tigerstripe.workbench.model.annotation;
 
 import java.util.List;
 
-import org.eclipse.emf.ecore.EObject;
-
 /**
  * Interface to be implemented by all components of the model that can be
  * annotated with Annotations.

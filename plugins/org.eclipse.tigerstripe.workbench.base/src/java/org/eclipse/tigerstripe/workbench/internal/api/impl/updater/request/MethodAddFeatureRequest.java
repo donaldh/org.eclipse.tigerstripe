@@ -24,7 +24,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMultiplicity;
 
 public class MethodAddFeatureRequest extends MethodSetRequest
 		implements IMethodAddFeatureRequest {

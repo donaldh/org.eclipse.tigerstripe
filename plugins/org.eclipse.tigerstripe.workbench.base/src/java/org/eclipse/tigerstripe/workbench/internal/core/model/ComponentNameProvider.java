@@ -1,6 +1,5 @@
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;

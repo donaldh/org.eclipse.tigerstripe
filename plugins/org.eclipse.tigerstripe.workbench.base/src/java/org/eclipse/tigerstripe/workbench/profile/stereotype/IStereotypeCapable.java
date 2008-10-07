@@ -12,10 +12,6 @@ package org.eclipse.tigerstripe.workbench.profile.stereotype;
 
 import java.util.Collection;
 
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.tigerstripe.annotation.core.Annotation;
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
-
 
 /**
  * Interface to be implemented by all components of the model that can be
