@@ -298,6 +298,9 @@ public class NewRelationPatternBasedWizardPage extends
 		IArtifactManagerSession session = project.getArtifactManagerSession();
 		
 		IAbstractArtifact artifact = session.getArtifactByFullyQualifiedName(sclassName, true);
+		if (artifact == null){
+			return null;
+		}
 		IAbstractArtifact[] suitableTypes;
 		if (((ArtifactPattern) pattern).getTargetArtifactType().equals(IAssociationArtifact.class.getName())) {
 			suitableTypes = AssociationEnd.getSuitableTypes();
