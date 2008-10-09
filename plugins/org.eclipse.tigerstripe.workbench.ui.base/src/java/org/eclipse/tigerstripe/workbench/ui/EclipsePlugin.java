@@ -381,7 +381,7 @@ public class EclipsePlugin extends AbstractUIPlugin {
 			}
 		}
 
-		if (ssel != null) {
+		if (ssel != null && ssel.getFirstElement() != null) {
 			Object selectedElement = ssel.getFirstElement();
 			if (selectedElement instanceof IField) {
 				IField field = (IField) selectedElement;
