@@ -80,6 +80,8 @@ private static boolean isRegistered = false;
 		suitableModelsList.add(PrimitiveTypeArtifact.MODEL);
 		suitableModelsList.add(DatatypeArtifact.MODEL);
 		suitableModelsList.add(EnumArtifact.MODEL);
+		suitableModelsList.add(ManagedEntityArtifact.MODEL);
+		suitableModelsList.add(AssociationClassArtifact.MODEL);
 		
 		IWorkbenchProfile profile = TigerstripeCore
 			.getWorkbenchProfileSession()
@@ -93,12 +95,10 @@ private static boolean isRegistered = false;
 			suitableModelsList.add(ExceptionArtifact.MODEL);
 			suitableModelsList.add(AssociationArtifact.MODEL);
 			suitableModelsList.add(DependencyArtifact.MODEL);
-			suitableModelsList.add(AssociationClassArtifact.MODEL);
 			suitableModelsList.add(QueryArtifact.MODEL);
 			suitableModelsList.add(EventArtifact.MODEL);
 			suitableModelsList.add(UpdateProcedureArtifact.MODEL);
 			suitableModelsList.add(SessionFacadeArtifact.MODEL);
-			suitableModelsList.add(ManagedEntityArtifact.MODEL);
 		}
 
 		suitableTypes = suitableModelsList.toArray( new IAbstractArtifact[0] );
