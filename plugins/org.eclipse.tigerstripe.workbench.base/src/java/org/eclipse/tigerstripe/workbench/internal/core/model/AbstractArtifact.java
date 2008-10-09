@@ -946,7 +946,9 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * @return Collection of Field - a collection of Fields for this artifact
 	 */
 	public Collection<IField> getInheritedFields() {
-		if (inheritedFields == null) {
+		//Bug 249956
+		// Don't cache this stuff as the parent may have changed!
+		//if (inheritedFields == null) {
 			try {
 				resolveInheritedFields();
 			} catch (TigerstripeException e) {
@@ -955,7 +957,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 								+ getFullyQualifiedName(), e);
 				return Collections.EMPTY_LIST;
 			}
-		}
+		//}
 		return this.inheritedFields;
 	}
 
@@ -966,7 +968,9 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 *         artifact
 	 */
 	public Collection<ILiteral> getInheritedLiterals() {
-		if (inheritedLiterals == null) {
+		//Bug 249956
+		// Don't cache this stuff as the parent may have changed!
+		//if (inheritedLiterals == null) {
 			try {
 				resolveInheritedLiterals();
 			} catch (TigerstripeException e) {
@@ -975,7 +979,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 								+ getFullyQualifiedName(), e);
 				return Collections.EMPTY_LIST;
 			}
-		}
+		//}
 		return this.inheritedLiterals;
 	}
 
@@ -985,7 +989,9 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * @return Collection of Method - a collection of Methods for this artifact
 	 */
 	public Collection<IMethod> getInheritedMethods() {
-		if (inheritedMethods == null) {
+		//Bug 249956
+		// Don't cache this stuff as the parent may have changed!
+		//if (inheritedMethods == null) {
 			try {
 				resolveInheritedMethods();
 			} catch (TigerstripeException e) {
@@ -994,7 +1000,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 								+ getFullyQualifiedName(), e);
 				return Collections.EMPTY_LIST;
 			}
-		}
+		//}
 		return this.inheritedMethods;
 	}
 
