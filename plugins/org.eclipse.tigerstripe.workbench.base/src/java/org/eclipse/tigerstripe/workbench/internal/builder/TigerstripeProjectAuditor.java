@@ -37,13 +37,17 @@ import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SafeRunner;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationFactory;
+import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
 import org.eclipse.tigerstripe.annotation.internal.core.AnnotationManager;
 import org.eclipse.tigerstripe.espace.resources.core.EObjectRouter;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequest;
@@ -52,6 +56,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
@@ -63,7 +68,8 @@ import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
  * 
  */
 public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
-		implements IModelChangeListener, IArtifactChangeListener {
+		implements IModelChangeListener, IArtifactChangeListener,
+		IAnnotationListener {
 
 	private boolean listeningToModelChanges = false;
 
@@ -92,6 +98,36 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	// audited.
 	public void artifactAdded(IAbstractArtifact artifact) {
 		addPendingAudit(artifact);
+	}
+
+	private void postPendingAudit(Annotation annotation) {
+		URI targetURI = annotation.getUri();
+		IModelComponent component = TigerstripeURIAdapterFactory
+				.uriToComponent(targetURI);
+		if (component instanceof IAbstractArtifact) {
+			addPendingAudit((IAbstractArtifact) component);
+		} else {
+			IModelComponent container = component.getContainingModelComponent();
+			if ( container instanceof IAbstractArtifact ) {
+				addPendingAudit((IAbstractArtifact) container);
+			}
+		}
+	}
+	
+	public void annotationAdded(Annotation annotation) {
+		postPendingAudit(annotation);
+	}
+
+	public void annotationsChanged(Annotation[] annotations) {
+		for( Annotation annotation : annotations ) {
+			postPendingAudit(annotation);
+		}
+	}
+
+	public void annotationsRemoved(Annotation[] annotations) {
+		for( Annotation annotation : annotations ) {
+			postPendingAudit(annotation);
+		}
 	}
 
 	// This callback is called whenever an artifact has changed in the
@@ -168,61 +204,65 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	}
 
 	public void notifyModelChanged(final IModelChangeRequest executedRequest) {
-//		try {
-//			ResourcesPlugin.getWorkspace().run(new IWorkspaceRunnable() {
-//				public void run(IProgressMonitor monitor) throws CoreException {
-//					boolean success = false;
-//					if (executedRequest instanceof IArtifactCreateRequest) {
-////						IArtifactCreateRequest req = (IArtifactCreateRequest) executedRequest;
-////
-////						if (req.getArtifactType().equals(
-////								IPackageArtifact.class.getName())) {
-////							success = refreshPackageFor(req
-////									.getArtifactPackage()
-////									+ "." + req.getArtifactName(), monitor);
-////						} else
-////							success = refreshPackageFor(req
-////									.getArtifactPackage(), monitor);
-//					} else if (executedRequest instanceof IArtifactRenameRequest) {
-//						IArtifactRenameRequest req = (IArtifactRenameRequest) executedRequest;
-//						success = refreshPackageFor(Util.packageOf(req
-//								.getArtifactFQN()), monitor);
-//					} else if (executedRequest instanceof IAttributeSetRequest) {
-//						IAttributeSetRequest req = (IAttributeSetRequest) executedRequest;
-//						success = refreshArtifact(req.getArtifactFQN(), monitor);
-//					} else if (executedRequest instanceof IAttributeCreateRequest) {
-//						IAttributeCreateRequest req = (IAttributeCreateRequest) executedRequest;
-//						success = refreshArtifact(req.getArtifactFQN(), monitor);
-//					} else if (executedRequest instanceof IAttributeRemoveRequest) {
-//						IAttributeRemoveRequest req = (IAttributeRemoveRequest) executedRequest;
-//						success = refreshArtifact(req.getArtifactFQN(), monitor);
-//					} else if (executedRequest instanceof IMethodCreateRequest) {
-//						IMethodCreateRequest req = (IMethodCreateRequest) executedRequest;
-//						success = refreshArtifact(req.getArtifactFQN(), monitor);
-//					} else if (executedRequest instanceof IMethodRemoveRequest) {
-//						IMethodRemoveRequest req = (IMethodRemoveRequest) executedRequest;
-//						success = refreshArtifact(req.getArtifactFQN(), monitor);
-//					} else if (executedRequest instanceof IMethodSetRequest) {
-//						IMethodSetRequest req = (IMethodSetRequest) executedRequest;
-//						success = refreshArtifact(req.getArtifactFQN(), monitor);
-//					} else if (executedRequest instanceof ILiteralCreateRequest) {
-//						ILiteralCreateRequest req = (ILiteralCreateRequest) executedRequest;
-//						success = refreshArtifact(req.getArtifactFQN(), monitor);
-//					} else if (executedRequest instanceof ILiteralSetRequest) {
-//						ILiteralSetRequest req = (ILiteralSetRequest) executedRequest;
-//						success = refreshArtifact(req.getArtifactFQN(), monitor);
-//					} else if (executedRequest instanceof ILiteralRemoveRequest) {
-//						ILiteralRemoveRequest req = (ILiteralRemoveRequest) executedRequest;
-//						success = refreshArtifact(req.getArtifactFQN(), monitor);
-//					}
-//					if (!success)
-//						getProject().refreshLocal(IResource.DEPTH_INFINITE,
-//								new SubProgressMonitor(monitor, 1));
-//				}
-//			}, new NullProgressMonitor());
-//		} catch (CoreException e) {
-//			BasePlugin.log(e);
-//		}
+		// try {
+		// ResourcesPlugin.getWorkspace().run(new IWorkspaceRunnable() {
+		// public void run(IProgressMonitor monitor) throws CoreException {
+		// boolean success = false;
+		// if (executedRequest instanceof IArtifactCreateRequest) {
+		// // IArtifactCreateRequest req = (IArtifactCreateRequest)
+		// executedRequest;
+		// //
+		// // if (req.getArtifactType().equals(
+		// // IPackageArtifact.class.getName())) {
+		// // success = refreshPackageFor(req
+		// // .getArtifactPackage()
+		// // + "." + req.getArtifactName(), monitor);
+		// // } else
+		// // success = refreshPackageFor(req
+		// // .getArtifactPackage(), monitor);
+		// } else if (executedRequest instanceof IArtifactRenameRequest) {
+		// IArtifactRenameRequest req = (IArtifactRenameRequest)
+		// executedRequest;
+		// success = refreshPackageFor(Util.packageOf(req
+		// .getArtifactFQN()), monitor);
+		// } else if (executedRequest instanceof IAttributeSetRequest) {
+		// IAttributeSetRequest req = (IAttributeSetRequest) executedRequest;
+		// success = refreshArtifact(req.getArtifactFQN(), monitor);
+		// } else if (executedRequest instanceof IAttributeCreateRequest) {
+		// IAttributeCreateRequest req = (IAttributeCreateRequest)
+		// executedRequest;
+		// success = refreshArtifact(req.getArtifactFQN(), monitor);
+		// } else if (executedRequest instanceof IAttributeRemoveRequest) {
+		// IAttributeRemoveRequest req = (IAttributeRemoveRequest)
+		// executedRequest;
+		// success = refreshArtifact(req.getArtifactFQN(), monitor);
+		// } else if (executedRequest instanceof IMethodCreateRequest) {
+		// IMethodCreateRequest req = (IMethodCreateRequest) executedRequest;
+		// success = refreshArtifact(req.getArtifactFQN(), monitor);
+		// } else if (executedRequest instanceof IMethodRemoveRequest) {
+		// IMethodRemoveRequest req = (IMethodRemoveRequest) executedRequest;
+		// success = refreshArtifact(req.getArtifactFQN(), monitor);
+		// } else if (executedRequest instanceof IMethodSetRequest) {
+		// IMethodSetRequest req = (IMethodSetRequest) executedRequest;
+		// success = refreshArtifact(req.getArtifactFQN(), monitor);
+		// } else if (executedRequest instanceof ILiteralCreateRequest) {
+		// ILiteralCreateRequest req = (ILiteralCreateRequest) executedRequest;
+		// success = refreshArtifact(req.getArtifactFQN(), monitor);
+		// } else if (executedRequest instanceof ILiteralSetRequest) {
+		// ILiteralSetRequest req = (ILiteralSetRequest) executedRequest;
+		// success = refreshArtifact(req.getArtifactFQN(), monitor);
+		// } else if (executedRequest instanceof ILiteralRemoveRequest) {
+		// ILiteralRemoveRequest req = (ILiteralRemoveRequest) executedRequest;
+		// success = refreshArtifact(req.getArtifactFQN(), monitor);
+		// }
+		// if (!success)
+		// getProject().refreshLocal(IResource.DEPTH_INFINITE,
+		// new SubProgressMonitor(monitor, 1));
+		// }
+		// }, new NullProgressMonitor());
+		// } catch (CoreException e) {
+		// BasePlugin.log(e);
+		// }
 	}
 
 	@Override
@@ -241,6 +281,8 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 					.addModelChangeListener(this);
 			proj.getArtifactManagerSession().addArtifactChangeListener(this);
 
+			AnnotationManager.getInstance().addAnnotationListener(this);
+			
 			listeningToModelChanges = true;
 		} catch (TigerstripeException e) {
 			BasePlugin.log(e);
@@ -288,7 +330,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	 */
 	private void runAuditorsByFileExtensions(int kind, IProgressMonitor monitor) {
 
-		 // Run any custom rules that are defined in the extension point.
+		// Run any custom rules that are defined in the extension point.
 		try {
 			IConfigurationElement[] elements = Platform
 					.getExtensionRegistry()
@@ -314,7 +356,8 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 			}
 		} catch (CoreException e) {
 			TigerstripeProjectAuditor.reportError(
-					"Invalid custom audit definitions: " + e.getMessage(), getProject(), 222);
+					"Invalid custom audit definitions: " + e.getMessage(),
+					getProject(), 222);
 		}
 
 	}
@@ -390,16 +433,19 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 			IResourceFilter noClassFileOrFolderFilter = new IResourceFilter() {
 
 				public boolean select(IResource resource) {
-					if ( resource instanceof IFolder )
+					if (resource instanceof IFolder)
 						return false;
-					return !"class".equals(resource.getFileExtension()) &&
-						!EObjectRouter.ANNOTATION_FILE_EXTENSION.equals(resource.getFileExtension());
+					return !"class".equals(resource.getFileExtension())
+							&& !EObjectRouter.ANNOTATION_FILE_EXTENSION
+									.equals(resource.getFileExtension());
 				}
 
 			};
 
-			WorkspaceHelper.buildResourcesLists(delta, removedResources,
-					changedResources, addedResources, noClassFileOrFolderFilter);
+			WorkspaceHelper
+					.buildResourcesLists(delta, removedResources,
+							changedResources, addedResources,
+							noClassFileOrFolderFilter);
 
 			if (removedResources.size() != 0)
 				return true;
@@ -528,7 +574,6 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	}
 
 	private void checkArtifacts(IProgressMonitor monitor) {
-		System.out.println("Auditing all arts" + getDelta(getProject()));
 		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) getProject()
 				.getAdapter(ITigerstripeModelProject.class);
 
