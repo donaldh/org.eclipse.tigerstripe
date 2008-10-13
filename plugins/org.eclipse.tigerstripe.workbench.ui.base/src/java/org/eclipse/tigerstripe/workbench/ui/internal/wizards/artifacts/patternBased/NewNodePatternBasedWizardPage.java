@@ -23,10 +23,12 @@ import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.patterns.INodePattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
-import org.eclipse.tigerstripe.workbench.patterns.IPatternBasedWizardValidator;
+import org.eclipse.tigerstripe.workbench.patterns.IPatternBasedCreationValidator;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
 
@@ -153,25 +155,31 @@ public class NewNodePatternBasedWizardPage extends NewPatternBasedArtifactWizard
 	
 	@Override
 	protected IStatus[] getAdditionalStatuses() {
-		final IPatternBasedWizardValidator validator = pattern.getWizardValidator();
+		final IPatternBasedCreationValidator validator = pattern.getWizardValidator();
 		final String name = this.getArtifactName();
 		final String packageName = this.getPackageName();
 		final String extendedFQN = this.getExtendedArtifact();
-			
-		if (validator != null){
-			statuses = new IStatus[0];
-			SafeRunner.run(new ISafeRunnable() {
-				public void handleException(Throwable exception) {
-					BasePlugin.log(exception);
-				}
+		try {
+			final ITigerstripeModelProject project = this.getProject();
 
-				public void run() throws Exception {
-					statuses = validator.validate((INodePattern) pattern, name, packageName , extendedFQN);
-				}
+			if (validator != null){
+				statuses = new IStatus[0];
+				SafeRunner.run(new ISafeRunnable() {
+					public void handleException(Throwable exception) {
+						BasePlugin.log(exception);
+					}
 
-			});
-			return statuses;
-			
+					public void run() throws Exception {
+						statuses = validator.validateWizardEntry(project, (INodePattern) pattern, name, packageName , extendedFQN);
+					}
+
+				});
+				return statuses;
+
+			}
+		} catch (TigerstripeException t){
+			// This should be caught elsewhere
+			return null;
 		}
 		return null;
 	}

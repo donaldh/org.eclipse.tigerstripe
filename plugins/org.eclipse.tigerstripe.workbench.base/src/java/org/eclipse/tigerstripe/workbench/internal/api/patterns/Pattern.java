@@ -20,7 +20,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IM
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.xml.TigerstripeXMLParserUtils;
 import org.eclipse.tigerstripe.workbench.model.annotation.AnnotationHelper;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
-import org.eclipse.tigerstripe.workbench.patterns.IPatternBasedWizardValidator;
+import org.eclipse.tigerstripe.workbench.patterns.IPatternBasedCreationValidator;
 import org.w3c.dom.Element;
 
 public class Pattern implements IPattern {
@@ -39,7 +39,7 @@ public class Pattern implements IPattern {
 	protected AnnotationHelper helper = AnnotationHelper.getInstance();
 	protected TigerstripeXMLParserUtils xmlParserUtils;
 	protected Element element;
-	protected IPatternBasedWizardValidator validator;
+	protected IPatternBasedCreationValidator validator;
 	
 	public void setParserUtils(TigerstripeXMLParserUtils utils) {
 		this.xmlParserUtils = utils;
@@ -169,11 +169,11 @@ public class Pattern implements IPattern {
 	}
 
 
-	public IPatternBasedWizardValidator getWizardValidator() {
+	public IPatternBasedCreationValidator getWizardValidator() {
 		return validator;
 	}
 
-	public void setWizardValidator(IPatternBasedWizardValidator validator) {
+	public void setWizardValidator(IPatternBasedCreationValidator validator) {
 		this.validator = validator;
 	}
 	

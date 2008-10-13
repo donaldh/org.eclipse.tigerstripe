@@ -11,18 +11,22 @@
 package org.eclipse.tigerstripe.workbench.patterns;
 
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
-public interface IPatternBasedWizardValidator {
+public interface IPatternBasedCreationValidator {
 
 	/**
 	 * Use this version for NODE artifacts
 	 */
-	public IStatus[] validate(INodePattern pattern, String artifactName, String artifactPackage, String extendedArtifactFQN);
+	public IStatus[] validateWizardEntry(ITigerstripeModelProject project, INodePattern pattern, String artifactName, String artifactPackage, String extendedArtifactFQN);
 	
 	/**
 	 * Use this version for RELATION artifacts
 	 */
-	public IStatus[] validate(IRelationPattern pattern, String artifactName, String artifactPackage, String extendedArtifactFQN, 
+	public IStatus[] validateWizardEntry(ITigerstripeModelProject project, IRelationPattern pattern, String artifactName, String artifactPackage, String extendedArtifactFQN, 
 			String aEndFQN, String zEndFQN);
+	
+	
+	
 	
 }

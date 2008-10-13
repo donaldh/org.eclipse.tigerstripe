@@ -70,7 +70,7 @@
                   
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn=":org.eclipse.tigerstripe.workbench.patterns.IPatternBasedWizardValidator"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.tigerstripe.workbench.patterns.IPatternBasedCreationValidator"/>
                </appinfo>
             </annotation>
          </attribute>

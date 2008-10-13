@@ -45,7 +45,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSessi
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
-import org.eclipse.tigerstripe.workbench.patterns.IPatternBasedWizardValidator;
+import org.eclipse.tigerstripe.workbench.patterns.IPatternBasedCreationValidator;
 import org.eclipse.tigerstripe.workbench.patterns.IRelationPattern;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -360,28 +360,34 @@ private IStatus[] statuses = new IStatus[0];
 	
 	@Override
 	protected IStatus[] getAdditionalStatuses() {
-		final IPatternBasedWizardValidator validator = pattern.getWizardValidator();
+		final IPatternBasedCreationValidator validator = pattern.getWizardValidator();
 		final String name = this.getArtifactName();
 		final String packageName = this.getPackageName();
 		final String extendedFQN = this.getExtendedArtifact();
 		final String aEndType = this.getAendTypeClass();
 		final String zEndType = this.getZendTypeClass();
-			
-		if (validator != null){
-			statuses = new IStatus[0];
-			SafeRunner.run(new ISafeRunnable() {
-				public void handleException(Throwable exception) {
-					BasePlugin.log(exception);
-				}
+		try {
+			final ITigerstripeModelProject project = this.getProject();
 
-				public void run() throws Exception {
-					statuses = validator.validate((IRelationPattern) pattern, name, packageName , extendedFQN,
-							aEndType, zEndType);
-				}
+			if (validator != null){
+				statuses = new IStatus[0];
+				SafeRunner.run(new ISafeRunnable() {
+					public void handleException(Throwable exception) {
+						BasePlugin.log(exception);
+					}
 
-			});
-			return statuses;
-			
+					public void run() throws Exception {
+						statuses = validator.validateWizardEntry(project,(IRelationPattern) pattern, name, packageName , extendedFQN,
+								aEndType, zEndType);
+					}
+
+				});
+				return statuses;
+
+			}
+		} catch (TigerstripeException t){
+			// This should be caught elsewhere
+			return null;
 		}
 		return null;
 	}

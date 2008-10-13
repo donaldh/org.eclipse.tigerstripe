@@ -57,7 +57,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.patterns.IArtifactPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
-import org.eclipse.tigerstripe.workbench.patterns.IPatternBasedWizardValidator;
+import org.eclipse.tigerstripe.workbench.patterns.IPatternBasedCreationValidator;
 import org.eclipse.tigerstripe.workbench.patterns.IPatternFactory;
 import org.eclipse.tigerstripe.workbench.patterns.IProjectPattern;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
@@ -152,7 +152,7 @@ public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileC
 							IPattern newPattern = parsePatternFile(bundle,patternFileName);
 							
 							if (element.getAttribute("validator_class") != null){
-								IPatternBasedWizardValidator validator = (IPatternBasedWizardValidator) element
+								IPatternBasedCreationValidator validator = (IPatternBasedCreationValidator) element
 									.createExecutableExtension("validator_class");
 								if (validator != null){
 									((Pattern) newPattern).setWizardValidator(validator);
