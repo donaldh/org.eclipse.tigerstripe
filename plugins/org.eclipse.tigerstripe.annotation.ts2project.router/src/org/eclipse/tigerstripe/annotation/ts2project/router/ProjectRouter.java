@@ -61,16 +61,12 @@ public class ProjectRouter implements EObjectRouter {
 			for (IConfigurationElement element : elements) {
 				String epackage = element.getAttribute("epackage");
 				String key = epackage;
-				if(epackage != null)
-				{
+				if (epackage != null) {
 					String eclass = element.getAttribute("eclass");
-					if(eclass != null)
-					{
-						key += "."+eclass;
+					if (eclass != null) {
+						key += "." + eclass;
 					}
-				}
-				else
-				{
+				} else {
 					String nsURI = element.getAttribute("nsURI");
 					key = nsURI;
 				}
@@ -88,33 +84,31 @@ public class ProjectRouter implements EObjectRouter {
 			EObject content = ann.getContent();
 			String nsURIStr = content.eClass().getEPackage().getNsURI();
 			String epackage = content.eClass().getEPackage().getNsPrefix();
-			String eclass = epackage+"."+content.eClass().getName();
+			String eclass = epackage + "." + content.eClass().getName();
 
 			// Else revert to default algorithm
 			Object annotable = AnnotationPlugin.getManager()
 					.getAnnotatedObject(ann);
 
-			
 			IAbstractTigerstripeProject tsProject = null;
 			if (annotable instanceof IModelComponent) {
 				IModelComponent comp = (IModelComponent) annotable;
 				tsProject = comp.getProject();
-			}
-			else if(annotable instanceof IAbstractTigerstripeProject)
-			{
-				tsProject = (IAbstractTigerstripeProject)annotable;
+			} else if (annotable instanceof IAbstractTigerstripeProject) {
+				tsProject = (IAbstractTigerstripeProject) annotable;
 			}
 
-//			IProject iproject = (IProject)tsProject.getAdapter(IProject.class);
-//			IPath path = iproject.getFullPath();
-			IPath path = new Path(tsProject.getProjectLabel());
+			// IProject iproject =
+			// (IProject)tsProject.getAdapter(IProject.class);
+			// IPath path = iproject.getFullPath();
+			IPath path = new Path(tsProject.getName());
 
 			// See if there's an explicit definition
 			IPath explicitPath = explicitRoutersMap.get(eclass);
-			if(explicitPath == null)
+			if (explicitPath == null)
 				explicitPath = explicitRoutersMap.get(epackage);
-			if(explicitPath == null)
-				explicitPath = explicitRoutersMap.get(nsURIStr);				
+			if (explicitPath == null)
+				explicitPath = explicitRoutersMap.get(nsURIStr);
 			if (explicitPath != null)
 				return path.append(explicitPath);
 
@@ -129,7 +123,8 @@ public class ProjectRouter implements EObjectRouter {
 				name += segment;
 			}
 			path = path.append(name);
-			path = path.addFileExtension(EObjectRouter.ANNOTATION_FILE_EXTENSION);
+			path = path
+					.addFileExtension(EObjectRouter.ANNOTATION_FILE_EXTENSION);
 			return path;
 
 		} catch (TigerstripeException e) {

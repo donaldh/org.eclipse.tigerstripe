@@ -31,13 +31,10 @@ public class ModelProjectHelper {
 	public final static String AS1 = "com.mycompany.AS1";
 
 	/**
-	 * Creates a model project with the following content 
+	 * Creates a model project with the following content
 	 * 
-	 *                   AS1
-	 *           AC1---------->M3
-	 *            |
-	 *      M1-------->M2
-	 *      
+	 * AS1 AC1---------->M3 | M1-------->M2
+	 * 
 	 * 
 	 * @param projectName
 	 * @return
@@ -62,9 +59,8 @@ public class ModelProjectHelper {
 			String projectName, boolean fullContent)
 			throws TigerstripeException {
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
-		projectDetails.setName(projectName);
 		ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
-				.createProject(projectDetails, null,
+				.createProject(projectName, projectDetails, null,
 						ITigerstripeModelProject.class, null, null);
 
 		// Creating 2 Managed entities
@@ -126,7 +122,7 @@ public class ModelProjectHelper {
 			as1.setZEnd(zEnd);
 			as1.doSave(null);
 		}
-		
+
 		return project;
 	}
 

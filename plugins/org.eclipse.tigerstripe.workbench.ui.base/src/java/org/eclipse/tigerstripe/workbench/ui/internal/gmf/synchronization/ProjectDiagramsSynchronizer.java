@@ -201,8 +201,8 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 
 	public void initialize() {
 		// Create batch synchronization job
-		batchSyncJob = new Job("Diagram Synchronization ("
-				+ project.getProjectLabel() + ")") {
+		batchSyncJob = new Job("Diagram Synchronization (" + project.getName()
+				+ ")") {
 			protected IStatus run(IProgressMonitor monitor) {
 				if (monitor.isCanceled()) {
 					return Status.CANCEL_STATUS;
@@ -232,7 +232,7 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 		registerSelfForChanges();
 		try {
 			Job initialIndexing = new Job("Indexing diagrams in "
-					+ getProject().getProjectLabel()) {
+					+ getProject().getName()) {
 				@Override
 				protected IStatus run(IProgressMonitor monitor) {
 					initialize(monitor);
@@ -304,7 +304,7 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 					EclipsePlugin.getPluginId(),
 					222,
 					"An error occured while trying to register ProjectDiagramSynchronizer. Diagrams may not be synchronized properly for project: "
-							+ getProject().getProjectLabel(), e);
+							+ getProject().getName(), e);
 			EclipsePlugin.log(status);
 		}
 	}

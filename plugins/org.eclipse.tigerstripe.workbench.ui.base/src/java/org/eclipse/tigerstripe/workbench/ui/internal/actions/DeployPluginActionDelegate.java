@@ -54,8 +54,7 @@ public class DeployPluginActionDelegate extends BasePluginActionDelegate
 							targetPart.getSite().getShell(),
 							"Deploy new plugin",
 							"You are about to deploy this plugin ('"
-									+ projectHandle.getProjectDetails()
-											.getName()
+									+ projectHandle.getName()
 									+ "'). All open editors will be closed.\nDo you want to continue?.  ")) {
 
 				final GeneratorDeploymentUIHelper helper = new GeneratorDeploymentUIHelper();
@@ -88,21 +87,21 @@ public class DeployPluginActionDelegate extends BasePluginActionDelegate
 
 				if (operationSucceeded) {
 					MessageDialog.openInformation(targetPart.getSite()
-							.getShell(), projectHandle.getProjectDetails()
-							.getName()
-							+ " Plugin", "Plugin '"
-							+ projectHandle.getProjectLabel() + "("
-							+ projectHandle.getProjectDetails().getVersion()
-							+ ") was successfully deployed.\n ("
-							+ deploymentPath + ")");
+							.getShell(), projectHandle.getName() + " Plugin",
+							"Plugin '"
+									+ projectHandle.getName()
+									+ "("
+									+ projectHandle.getProjectDetails()
+											.getVersion()
+									+ ") was successfully deployed.\n ("
+									+ deploymentPath + ")");
 				} else {
 					MessageDialog
 							.openError(
 									targetPart.getSite().getShell(),
-									projectHandle.getProjectLabel() + " Plugin",
+									projectHandle.getName() + " Plugin",
 									"Plugin '"
-											+ projectHandle.getProjectDetails()
-													.getName()
+											+ projectHandle.getName()
 											+ "("
 											+ projectHandle.getProjectDetails()
 													.getVersion()

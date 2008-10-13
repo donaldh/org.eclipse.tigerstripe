@@ -177,9 +177,9 @@ public class DiagramRenderer {
 				TigerstripeRuntime.logInfoMessage("Rendering "
 						+ entry.getLabel());
 				if (entry.projectLabel.length() == 0) {
-					renderer.renderDiagram(project.getProjectDetails()
-							.getName(), entry.diagRelPath, "JPEG", output
-							+ File.separator + entry.getLabel(false));
+					renderer.renderDiagram(project.getName(),
+							entry.diagRelPath, "JPEG", output + File.separator
+									+ entry.getLabel(false));
 				} else {
 					renderer.renderDiagram(entry.projectLabel,
 							entry.diagRelPath, "JPEG", output + File.separator

@@ -335,7 +335,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 				IModuleHeader header = art.getParentModuleHeader();
 				path = new Path(header.getModuleID());
 			} else {
-				path = new Path(art.getProject().getProjectLabel());
+				path = new Path(art.getProject().getName());
 			}
 
 			path = path.append(newName == null ? art.getFullyQualifiedName()

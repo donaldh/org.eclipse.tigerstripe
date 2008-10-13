@@ -65,18 +65,16 @@ public class UnDeployPluginActionDelegate extends BasePluginActionDelegate
 
 			if (operationSucceeded)
 				MessageDialog.openInformation(getShell(), projectHandle
-						.getProjectLabel()
-						+ " Plugin", "Plugin '"
-						+ projectHandle.getProjectLabel() + "("
+						.getName()
+						+ " Plugin", "Plugin '" + projectHandle.getName() + "("
 						+ projectHandle.getProjectDetails().getVersion()
 						+ ") was successfully un-deployed.\n ("
 						+ deploymentPath + ")");
 			else {
-				MessageDialog.openError(getShell(), projectHandle
-						.getProjectLabel()
+				MessageDialog.openError(getShell(), projectHandle.getName()
 						+ " Plugin",
 						"An Error occured while trying to un-deploy plugin '"
-								+ projectHandle.getProjectLabel()
+								+ projectHandle.getName()
 								+ "("
 								+ projectHandle.getProjectDetails()
 										.getVersion() + ")\n from ("

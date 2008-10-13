@@ -63,7 +63,7 @@ public class WizardActionUtils {
 				throw new TigerstripeException("Invalid Tigerstripe Project");
 
 			IPluginConfig[] plugins = handle.getPluginConfigs();
-			String projectName = handle.getProjectLabel();
+			String projectName = handle.getName();
 
 			handle.getArtifactManagerSession().refresh(monitor);
 			((ArtifactManagerSessionImpl) handle.getArtifactManagerSession())
@@ -121,7 +121,8 @@ public class WizardActionUtils {
 				TigerstripeProjectHandle tsHandle = (TigerstripeProjectHandle) handle;
 				ReportModel model = new ReportModel(tsHandle.getTSProject());
 
-				// handle.getAdvancedProperty(IAdvancedProperties.PROP_GENERATION_GenerateReport).toString();
+				// handle.getAdvancedProperty(IAdvancedProperties.
+				// PROP_GENERATION_GenerateReport).toString();
 				//				
 				if ("true"
 						.equalsIgnoreCase(handle

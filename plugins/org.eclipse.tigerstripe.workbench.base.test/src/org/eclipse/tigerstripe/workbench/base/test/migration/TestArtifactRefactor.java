@@ -40,10 +40,10 @@ public class TestArtifactRefactor extends TestCase {
 
 		// Create a Test Project to use for this test
 		IProjectDetails details = TigerstripeCore.makeProjectDetails();
-		details.setName("TestArtifactRefactor");
-		project = (ITigerstripeModelProject) TigerstripeCore.createProject(
-				details, null, ITigerstripeModelProject.class, null,
-				new NullProgressMonitor());
+		project = (ITigerstripeModelProject) TigerstripeCore
+				.createProject("TestArtifactRefactor", details, null,
+						ITigerstripeModelProject.class, null,
+						new NullProgressMonitor());
 	}
 
 	protected void tearDown() throws Exception {

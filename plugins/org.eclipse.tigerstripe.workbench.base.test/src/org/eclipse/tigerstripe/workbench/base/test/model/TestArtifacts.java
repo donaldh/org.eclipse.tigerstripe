@@ -25,10 +25,9 @@ public class TestArtifacts extends TestCase {
 	protected IAbstractTigerstripeProject createModelProject(String projectName)
 			throws TigerstripeException {
 		IProjectDetails details = TigerstripeCore.makeProjectDetails();
-		details.setName(projectName);
 		IAbstractTigerstripeProject aProject = TigerstripeCore.createProject(
-				details, null, ITigerstripeModelProject.class, null,
-				new NullProgressMonitor());
+				projectName, details, null, ITigerstripeModelProject.class,
+				null, new NullProgressMonitor());
 		return aProject;
 	}
 
@@ -327,7 +326,7 @@ public class TestArtifacts extends TestCase {
 		project.delete(true, new NullProgressMonitor());
 	}
 
-	public final void testReferencedArtifacts()throws TigerstripeException{
+	public final void testReferencedArtifacts() throws TigerstripeException {
 		IAbstractTigerstripeProject aProject = createModelProject("testReferencedArtifacts");
 		assertTrue(aProject instanceof ITigerstripeModelProject);
 		ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
@@ -338,56 +337,52 @@ public class TestArtifacts extends TestCase {
 				.createArtifact(IManagedEntityArtifact.class.getName(), "Left",
 						"com.test");
 		IManagedEntityArtifact right = (IManagedEntityArtifact) artHelper
-		.createArtifact(IManagedEntityArtifact.class.getName(), "Left",
-				"com.test");
-		
+				.createArtifact(IManagedEntityArtifact.class.getName(), "Left",
+						"com.test");
+
 		IField reference = left.makeField();
 		reference.setName("refersToRight");
 		IType refType = reference.makeType();
 		refType.setFullyQualifiedName(right.getFullyQualifiedName());
 		reference.setType(refType);
 		left.addField(reference);
-		
-		// Add  a non-reference as well!
+
+		// Add a non-reference as well!
 		IField nonReference = left.makeField();
 		nonReference.setName("refersToRight");
 		IType simpleType = nonReference.makeType();
 		refType.setFullyQualifiedName("primitive.int");
 		nonReference.setType(simpleType);
 		left.addField(nonReference);
-		
+
 		left.doSave(new NullProgressMonitor());
-		
-		Collection<IAbstractArtifact> referencedArtifacts  = left.getReferencedArtifacts();
+
+		Collection<IAbstractArtifact> referencedArtifacts = left
+				.getReferencedArtifacts();
 		assertTrue("Referenced Artifact collection size is incorrect ("
 				+ referencedArtifacts.size() + ") after addition of Fields",
 				referencedArtifacts.size() == 1);
-		
-		Collection<IAbstractArtifact> referencingArtifacts  = right.getReferencingArtifacts();
+
+		Collection<IAbstractArtifact> referencingArtifacts = right
+				.getReferencingArtifacts();
 		assertTrue("Referencing Artifact collection size is incorrect ("
 				+ referencingArtifacts.size() + ") after addition of Fields",
 				referencingArtifacts.size() == 1);
-		
-		
+
 		// Now remove the reference again
 		left.removeFields(left.getFields());
 		left.doSave(new NullProgressMonitor());
-		
-		referencedArtifacts  = left.getReferencedArtifacts();
+
+		referencedArtifacts = left.getReferencedArtifacts();
 		assertTrue("Referenced Artifact collection size is incorrect ("
 				+ referencedArtifacts.size() + ") after removal of Fields",
 				referencedArtifacts.size() == 0);
-		
-		referencingArtifacts  = right.getReferencingArtifacts();
+
+		referencingArtifacts = right.getReferencingArtifacts();
 		assertTrue("Referencing Artifact collection size is incorrect ("
 				+ referencingArtifacts.size() + ") after removal of Fields",
 				referencingArtifacts.size() == 0);
-		
-		
-		
-		
-		
-		
+
 	}
-	
+
 }

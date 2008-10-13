@@ -33,10 +33,9 @@ public class TestModelManager extends TestCase {
 
 		// Create a Test Project to use for this test
 		IProjectDetails details = TigerstripeCore.makeProjectDetails();
-		details.setName("projectA");
 		projectA = (ITigerstripeModelProject) TigerstripeCore.createProject(
-				details, null, ITigerstripeModelProject.class, null,
-				new NullProgressMonitor());
+				"projectA", details, null, ITigerstripeModelProject.class,
+				null, new NullProgressMonitor());
 	}
 
 	protected void tearDown() throws Exception {

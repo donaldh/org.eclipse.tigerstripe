@@ -127,12 +127,12 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 				// content
 				// of the diagram would be deleted.
 				try {
-					monitor.beginTask("Building "
-							+ getTSProject().getProjectLabel(), 10);
+					monitor.beginTask("Building " + getTSProject().getName(),
+							10);
 					for (ITigerstripeModelProject project : getTSProject()
 							.getReferencedProjects()) {
 						monitor.subTask("Building referenced project: "
-								+ project.getProjectLabel());
+								+ project.getName());
 						project.getArtifactManagerSession().refresh(monitor);
 						monitor.worked(1);
 					}

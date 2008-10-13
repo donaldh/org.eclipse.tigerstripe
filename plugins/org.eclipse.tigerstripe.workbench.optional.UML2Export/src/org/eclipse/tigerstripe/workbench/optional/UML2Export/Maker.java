@@ -42,13 +42,12 @@ public class Maker {
 	private Model unknownTypeModel;
 	private Map<String, Type> unknownTypeMap;
 	private Collection<Model> models;
-	
+
 	boolean mapUnknownTypes = true; // This is never changed!
-	
-	
+
 	public Maker(Map<String, Type> typeMap, PrintWriter out,
-			MessageList messages, Model typesModel, Model unknownTypeModel, Map<String, Type> unknownTypeMap,
-			Collection<Model> models) {
+			MessageList messages, Model typesModel, Model unknownTypeModel,
+			Map<String, Type> unknownTypeMap, Collection<Model> models) {
 		super();
 		this.typeMap = typeMap;
 		this.out = out;
@@ -58,7 +57,7 @@ public class Maker {
 		this.unknownTypeMap = unknownTypeMap;
 		this.models = models;
 	}
-	
+
 	/**
 	 * Find an association if it exists, or make one if it doesn't.
 	 */
@@ -86,30 +85,34 @@ public class Maker {
 		}
 
 	}
-	
+
 	/**
 	 * Gets the UML Type of an IType.
+	 * 
 	 * @param iType
 	 * @return
 	 */
 	protected Type getUMLType(IType iType) {
 		// The type here might be a another classifier, or a primitive type
 		// OR Any built-in Type?
-		
-		// We don't know which of the models this could be in - eg Dependency or Reference
+
+		// We don't know which of the models this could be in - eg Dependency or
+		// Reference
 		String modelName = unknownTypeModel.getName();
-		
-		if (iType.isArtifact()){
+
+		if (iType.isArtifact()) {
 			IAbstractArtifact typeArtifact = iType.getArtifact();
 			try {
-				modelName = typeArtifact.getProjectDescriptor().getIProjectDetails().getName();
-			} catch (TigerstripeException e){
+				modelName = typeArtifact.getProject().getName();
+			} catch (TigerstripeException e) {
 				// ignore - already set to unknown
-				out.println("Tigerstripe Excpetion dealing with iType :"+iType.getFullyQualifiedName());
+				out.println("Tigerstripe Excpetion dealing with iType :"
+						+ iType.getFullyQualifiedName());
 			}
 		}
 
-		String iTypeName = Utilities.mapName(iType.getFullyQualifiedName(), modelName);
+		String iTypeName = Utilities.mapName(iType.getFullyQualifiedName(),
+				modelName);
 
 		// Look in project classes
 		if (typeMap.containsKey(iTypeName)) {
@@ -139,28 +142,28 @@ public class Maker {
 			String p = iType.getFullyQualifiedName().substring(0,
 					iType.getFullyQualifiedName().lastIndexOf("."));
 			Package modelPackage = makeOrFindPackage(p, unknownTypeModel);
-			String fqn = Utilities.mapName(iType.getFullyQualifiedName(), unknownTypeModel.getName());
-			
+			String fqn = Utilities.mapName(iType.getFullyQualifiedName(),
+					unknownTypeModel.getName());
+
 			if (unknownTypeMap.containsKey(fqn))
 				return unknownTypeMap.get(fqn);
 			else {
 				// OK - so we got here because the type isn't known , so we'd
 				// better create one
 
-				Class madeClass = modelPackage.createOwnedClass(iType.getName(),
-						true);
+				Class madeClass = modelPackage.createOwnedClass(
+						iType.getName(), true);
 
 				this.out.println(iTypeName + " Added to unknown type Map");
 				unknownTypeMap.put(madeClass.getQualifiedName(), madeClass);
 				return madeClass;
 			}
-			
+
 		}
 
 		return null;
 	}
-		
-	
+
 	/**
 	 * Find a package if it exists, or make one if it doesn't.
 	 * 
@@ -169,7 +172,7 @@ public class Maker {
 	 * @param packageName
 	 * @return
 	 */
-	protected Package makeOrFindPackage(String packageName , Model modelToUse) {
+	protected Package makeOrFindPackage(String packageName, Model modelToUse) {
 
 		Package parent;
 		// out.println ("MoF " + packageName);
@@ -179,7 +182,8 @@ public class Maker {
 		} else {
 			parent = modelToUse;
 		}
-		String umlPackageName = Utilities.mapName(packageName, modelToUse.getName());
+		String umlPackageName = Utilities.mapName(packageName, modelToUse
+				.getName());
 		EList packageList = parent.getNestedPackages();
 		for (Object pack : packageList) {
 			Package aPackage = (Package) pack;
@@ -195,7 +199,7 @@ public class Maker {
 		out.println("Made a new package " + newPackage.getQualifiedName());
 		return newPackage;
 	}
-	
+
 	/**
 	 * Find a package if it exists, or make one if it doesn't.
 	 * 
@@ -206,31 +210,33 @@ public class Maker {
 	 */
 	protected Package makeOrFindPackage(IAbstractArtifact artifact) {
 		String packageName;
-		if (artifact instanceof IPackageArtifact){
+		if (artifact instanceof IPackageArtifact) {
 			packageName = artifact.getFullyQualifiedName();
 		} else {
 			packageName = artifact.getPackage();
 		}
 
 		// Look for a model with the right name!
-		// We don't know which of the models this could be in - eg Dependency or Reference
+		// We don't know which of the models this could be in - eg Dependency or
+		// Reference
 		String modelName = unknownTypeModel.getName();
 		try {
-			modelName = artifact.getProjectDescriptor().getIProjectDetails().getName();
-		} catch (TigerstripeException e){
+			modelName = artifact.getProject().getName();
+		} catch (TigerstripeException e) {
 			// ignore - already set to unknown
-			out.println("Tigerstripe Exception dealing with artifact :"+artifact.getFullyQualifiedName());
+			out.println("Tigerstripe Exception dealing with artifact :"
+					+ artifact.getFullyQualifiedName());
 		}
-		
+
 		Model modelToUse = null;
-		for (Model model : models){
-			if (model.getName().equals(modelName)){
+		for (Model model : models) {
+			if (model.getName().equals(modelName)) {
 				modelToUse = model;
 				break;
 			}
 		}
-		
-		if (modelToUse != null){
+
+		if (modelToUse != null) {
 			Package parent;
 			// out.println ("MoF " + packageName);
 			if (packageName.contains(".")) {
@@ -239,7 +245,8 @@ public class Maker {
 			} else {
 				parent = modelToUse;
 			}
-			String umlPackageName = Utilities.mapName(packageName, modelToUse.getName());
+			String umlPackageName = Utilities.mapName(packageName, modelToUse
+					.getName());
 			EList packageList = parent.getNestedPackages();
 			for (Object pack : packageList) {
 				Package aPackage = (Package) pack;
@@ -258,15 +265,16 @@ public class Maker {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Find a class if it exists, or make one if it doesn't.
 	 */
 	protected Class makeOrFindClass(IAbstractArtifact artifact) {
 		try {
-			
+
 			String className = artifact.getFullyQualifiedName();
-			String umlClassName = Utilities.mapName(className, artifact.getProjectDescriptor().getIProjectDetails().getName());
+			String umlClassName = Utilities.mapName(className, artifact
+					.getProject().getName());
 
 			Package modelPackage = makeOrFindPackage(artifact);
 			EList classList = modelPackage.getOwnedMembers();
@@ -296,7 +304,7 @@ public class Maker {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Find a class if it exists, or make one if it doesn't.
 	 */
@@ -304,7 +312,8 @@ public class Maker {
 		try {
 			String packageName = artifact.getPackage();
 			String className = artifact.getFullyQualifiedName();
-			String umlClassName = Utilities.mapName(className, artifact.getProjectDescriptor().getIProjectDetails().getName());
+			String umlClassName = Utilities.mapName(className, artifact
+					.getProject().getName());
 
 			Package modelPackage = makeOrFindPackage(artifact);
 			EList classList = modelPackage.getOwnedMembers();
@@ -317,7 +326,7 @@ public class Maker {
 			}
 
 			DataType clazz = UMLFactory.eINSTANCE.createDataType();
-			
+
 			clazz.setPackage(modelPackage);
 			clazz.setName(artifact.getName());
 			this.out.println("Made a new DataType " + clazz.getQualifiedName());
@@ -336,13 +345,14 @@ public class Maker {
 			return null;
 		}
 	}
-	
+
 	protected AssociationClass makeOrFindAssociationClass(
 			IAbstractArtifact artifact) {
 		try {
 
 			String className = artifact.getFullyQualifiedName();
-			String umlClassName = Utilities.mapName(className,  artifact.getProjectDescriptor().getIProjectDetails().getName());
+			String umlClassName = Utilities.mapName(className, artifact
+					.getProject().getName());
 
 			Package modelPackage = makeOrFindPackage(artifact);
 			EList classList = modelPackage.getOwnedMembers();
@@ -377,15 +387,19 @@ public class Maker {
 				String end1Name = end1.getName();
 				String end2Name = end2.getName();
 
-				int end1LowerBound = Utilities.getLowerBound(end1.getMultiplicity());
-				int end1UpperBound = Utilities.getUpperBound(end1.getMultiplicity());
+				int end1LowerBound = Utilities.getLowerBound(end1
+						.getMultiplicity());
+				int end1UpperBound = Utilities.getUpperBound(end1
+						.getMultiplicity());
 
 				boolean end2IsNavigable = end2.isNavigable();
 				AggregationKind end2Aggregation = AggregationKind.get(end2
 						.getAggregation().getLabel());
 
-				int end2LowerBound = Utilities.getLowerBound(end1.getMultiplicity());
-				int end2UpperBound = Utilities.getUpperBound(end2.getMultiplicity());
+				int end2LowerBound = Utilities.getLowerBound(end1
+						.getMultiplicity());
+				int end2UpperBound = Utilities.getUpperBound(end2
+						.getMultiplicity());
 
 				/*
 				 * Association assoc = type2.createAssociation(end1IsNavigable,
@@ -475,7 +489,7 @@ public class Maker {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Find an association if it exists, or make one if it doesn't.
 	 */
@@ -485,8 +499,9 @@ public class Maker {
 		try {
 
 			String className = artifact.getFullyQualifiedName();
-			//System.out.println("Look for "+className);
-			String umlClassName = Utilities.mapName(className, artifact.getProjectDescriptor().getIProjectDetails().getName());
+			// System.out.println("Look for "+className);
+			String umlClassName = Utilities.mapName(className, artifact
+					.getProject().getName());
 
 			Package modelPackage = makeOrFindPackage(artifact);
 			EList classList = modelPackage.getOwnedMembers();
@@ -494,7 +509,7 @@ public class Maker {
 				if (as instanceof Association) {
 					Association aAssoc = (Association) as;
 					if (aAssoc.getQualifiedName().equals(umlClassName))
-						//System.out.println("Found UML Assoc "+className);
+						// System.out.println("Found UML Assoc "+className);
 						return aAssoc;
 				}
 			}
@@ -521,15 +536,19 @@ public class Maker {
 				String end1Name = end1.getName();
 				String end2Name = end2.getName();
 
-				int end1LowerBound = Utilities.getLowerBound(end1.getMultiplicity());
-				int end1UpperBound = Utilities.getUpperBound(end1.getMultiplicity());
+				int end1LowerBound = Utilities.getLowerBound(end1
+						.getMultiplicity());
+				int end1UpperBound = Utilities.getUpperBound(end1
+						.getMultiplicity());
 
 				boolean end2IsNavigable = end2.isNavigable();
 				AggregationKind end2Aggregation = AggregationKind.get(end2
 						.getAggregation().getLabel());
 
-				int end2LowerBound = Utilities.getLowerBound(end2.getMultiplicity());
-				int end2UpperBound = Utilities.getUpperBound(end2.getMultiplicity());
+				int end2LowerBound = Utilities.getLowerBound(end2
+						.getMultiplicity());
+				int end2UpperBound = Utilities.getUpperBound(end2
+						.getMultiplicity());
 
 				Association newAssoc = UMLFactory.eINSTANCE.createAssociation();
 				newAssoc.setPackage(modelPackage);
@@ -586,7 +605,7 @@ public class Maker {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Find a class if it exists, or make one if it doesn't.
 	 */
@@ -594,7 +613,8 @@ public class Maker {
 		try {
 			String packageName = artifact.getPackage();
 			String className = artifact.getFullyQualifiedName();
-			String umlClassName = Utilities.mapName(className, artifact.getProjectDescriptor().getIProjectDetails().getName());
+			String umlClassName = Utilities.mapName(className, artifact
+					.getProject().getName());
 
 			Package modelPackage = makeOrFindPackage(artifact);
 			EList classList = modelPackage.getOwnedMembers();
@@ -639,7 +659,7 @@ public class Maker {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Find a class if it exists, or make one if it doesn't.
 	 */
@@ -648,7 +668,8 @@ public class Maker {
 
 			String className = artifact.getFullyQualifiedName();
 
-			String umlClassName = Utilities.mapName(className, artifact.getProjectDescriptor().getIProjectDetails().getName());
+			String umlClassName = Utilities.mapName(className, artifact
+					.getProject().getName());
 			Package modelPackage = makeOrFindPackage(artifact);
 			EList classList = modelPackage.getOwnedMembers();
 			for (Object cl : classList) {

@@ -29,7 +29,6 @@ public class ProjectPattern extends Pattern implements IProjectPattern {
 	// Need methods to create the project
 	public ITigerstripeModelProject createProject(String projectName, IPath path, String defaultArtifactPackage) throws TigerstripeException{
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
-		projectDetails.setName(projectName);
 		if (defaultArtifactPackage != null){
 			projectDetails.getProperties().setProperty(
 					IProjectDetails.DEFAULTARTIFACTPACKAGE_PROP,
@@ -37,7 +36,7 @@ public class ProjectPattern extends Pattern implements IProjectPattern {
 		}
 		
 		ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore.createProject(
-				projectDetails, path, ITigerstripeModelProject.class, null,
+				projectName, projectDetails, path, ITigerstripeModelProject.class, null,
 				null);
 		return project;
 		

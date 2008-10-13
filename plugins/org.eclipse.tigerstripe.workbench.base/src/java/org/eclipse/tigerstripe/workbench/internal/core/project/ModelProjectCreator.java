@@ -40,16 +40,16 @@ public class ModelProjectCreator extends BaseProjectCreator implements
 		IProjectCreator {
 
 	@SuppressWarnings("unchecked")
-	public IWorkspaceRunnable getRunnable(final IProjectDetails projectDetails,
-			final IPath location, final Map properties)
-			throws TigerstripeException {
+	public IWorkspaceRunnable getRunnable(final String projectName,
+			final IProjectDetails projectDetails, final IPath location,
+			final Map properties) throws TigerstripeException {
 
 		IWorkspaceRunnable runnable = new IWorkspaceRunnable() {
 
 			public void run(IProgressMonitor monitor) throws CoreException {
 
 				// Creates a base Eclipse project
-				createBaseProject(projectDetails, location, monitor);
+				createBaseProject(projectName, location, monitor);
 
 				// Add the Appropriate Natures
 				addTSandJavaNature(BuilderConstants.PROJECT_NATURE_ID);
@@ -114,8 +114,8 @@ public class ModelProjectCreator extends BaseProjectCreator implements
 	/**
 	 * We will initialize file contents with a sample text.
 	 * 
-	 * @param pageProperties -
-	 *            the properties gathered through the wizard
+	 * @param pageProperties
+	 *            - the properties gathered through the wizard
 	 */
 	protected InputStream openContentStream(IProjectDetails projectDetails)
 			throws TigerstripeException {

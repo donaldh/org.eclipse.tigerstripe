@@ -37,7 +37,7 @@ import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 public abstract class AbstractTigerstripeProjectHandle extends
 		WorkingCopyManager implements IAbstractTigerstripeProject, IWorkingCopy {
 
-	public String getProjectLabel() {
+	public String getName() {
 		return getLocation().lastSegment();
 	}
 
@@ -79,8 +79,8 @@ public abstract class AbstractTigerstripeProjectHandle extends
 	}
 
 	public IPath getFullPath() {
-		return ResourcesPlugin.getWorkspace().getRoot().findMember(
-				getProjectLabel()).getFullPath();
+		return ResourcesPlugin.getWorkspace().getRoot().findMember(getName())
+				.getFullPath();
 	}
 
 	public URI getURI() {

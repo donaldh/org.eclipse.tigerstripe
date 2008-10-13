@@ -48,7 +48,7 @@ public class GeneratorDeploymentHelper {
 			monitor = new NullProgressMonitor();
 
 		IPath deploymentPath = null;
-		monitor.beginTask("Deploying " + project.getProjectLabel(), 15);
+		monitor.beginTask("Deploying " + project.getName(), 15);
 
 		monitor.subTask("Cleaning plugin repository");
 		deploymentPath = getDefaultPluginFileName(project);
@@ -74,7 +74,7 @@ public class GeneratorDeploymentHelper {
 			monitor = new NullProgressMonitor();
 
 		IPath deploymentPath = null;
-		monitor.beginTask("Un-Deploying " + project.getProjectLabel(), 15);
+		monitor.beginTask("Un-Deploying " + project.getName(), 15);
 
 		monitor.subTask("Cleaning plugin repository");
 		deploymentPath = getDefaultPluginFileName(project);
@@ -142,7 +142,7 @@ public class GeneratorDeploymentHelper {
 	private IPath getDefaultPluginFileName(ITigerstripeGeneratorProject handle)
 			throws TigerstripeException {
 		String path = TigerstripeRuntime.getGeneratorDeployLocation();
-		path = path + handle.getProjectLabel() + "-"
+		path = path + handle.getName() + "-"
 				+ handle.getProjectDetails().getVersion() + "_temp.zip";
 		return new Path(path);
 	}

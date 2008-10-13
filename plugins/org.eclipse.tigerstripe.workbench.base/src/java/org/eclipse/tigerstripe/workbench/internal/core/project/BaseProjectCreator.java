@@ -34,11 +34,9 @@ public abstract class BaseProjectCreator implements IProjectCreator {
 
 	protected IProject projectHandle;
 
-	protected void createBaseProject(IProjectDetails details, IPath location,
+	protected void createBaseProject(String projectName, IPath location,
 			IProgressMonitor monitor) throws OperationCanceledException,
 			CoreException {
-
-		String projectName = details.getName();
 
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		final IProjectDescription description = workspace
@@ -86,7 +84,7 @@ public abstract class BaseProjectCreator implements IProjectCreator {
 		try {
 			projectHandle.setDescription(description, null);
 		} catch (CoreException e) {
-			e.printStackTrace();
+			throw e;
 		}
 	}
 

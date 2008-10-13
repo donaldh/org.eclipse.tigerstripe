@@ -154,13 +154,10 @@ public class PluginPackageSection extends GeneratorDescriptorSectionPart {
 									MessageDialog
 											.openInformation(
 													getBody().getShell(),
-													projectHandle
-															.getProjectDetails()
-															.getName()
+													projectHandle.getName()
 															+ " Plugin",
 													"Plugin '"
 															+ projectHandle
-																	.getProjectDetails()
 																	.getName()
 															+ "("
 															+ projectHandle
@@ -172,13 +169,10 @@ public class PluginPackageSection extends GeneratorDescriptorSectionPart {
 									MessageDialog
 											.openError(
 													getBody().getShell(),
-													projectHandle
-															.getProjectDetails()
-															.getName()
+													projectHandle.getName()
 															+ " Plugin",
 													"Plugin '"
 															+ projectHandle
-																	.getProjectDetails()
 																	.getName()
 															+ "("
 															+ projectHandle

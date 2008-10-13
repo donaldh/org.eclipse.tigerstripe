@@ -36,7 +36,8 @@ public class DescriptorAuditor {
 
 	public void run(IProgressMonitor monitor) {
 
-		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) project.getAdapter(ITigerstripeModelProject.class);
+		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) project
+				.getAdapter(ITigerstripeModelProject.class);
 		projectDescriptor = project
 				.getFile(ITigerstripeConstants.PROJECT_DESCRIPTOR);
 		if (projectDescriptor == null) {
@@ -88,7 +89,7 @@ public class DescriptorAuditor {
 
 			// @see #299
 			if (oldLegacyOSSJ != null) {
-				tsProject.removeDependency(oldLegacyOSSJ,monitor);
+				tsProject.removeDependency(oldLegacyOSSJ, monitor);
 				// doSave();
 				tsProject.commit(monitor);
 			}
@@ -103,8 +104,7 @@ public class DescriptorAuditor {
 				if (!ref.canResolve()) {
 					TigerstripeProjectAuditor.reportError("Facet '"
 							+ ref.getProjectRelativePath()
-							+ "' referenced in project '"
-							+ tsProject.getProjectLabel()
+							+ "' referenced in project '" + tsProject.getName()
 							+ " cannot be found.", projectDescriptor, 222);
 				} else if (ref.getGenerationDir() == null
 						|| ref.getGenerationDir().trim().length() == 0) {
@@ -113,8 +113,7 @@ public class DescriptorAuditor {
 									"Facet '"
 											+ ref.getProjectRelativePath()
 											+ "' referenced in project '"
-											+ tsProject.getProjectDetails()
-													.getName()
+											+ tsProject.getName()
 											+ " does not have a specific generation directory.",
 									projectDescriptor, 222);
 				}
@@ -139,12 +138,6 @@ public class DescriptorAuditor {
 		try {
 			IProjectDetails details = tsProject.getProjectDetails();
 
-			if (details.getName() == null || details.getName().length() == 0) {
-				TigerstripeProjectAuditor.reportWarning("Project "
-						+ project.getName() + " has no 'Project Name'",
-						projectDescriptor, 222);
-			}
-
 			if (details.getVersion() == null
 					|| details.getVersion().length() == 0) {
 				TigerstripeProjectAuditor.reportWarning("Project "
@@ -165,10 +158,12 @@ public class DescriptorAuditor {
 			IStatus packStatus = JavaConventions.validatePackageName(pack);
 			if (!packStatus.isOK()) {
 				if (packStatus.getSeverity() == IStatus.ERROR) {
-					TigerstripeProjectAuditor.reportError(
-							"Invalid Default Artifact Package in project '"
-									+ details.getName() + "' (" + pack + ").",
-							projectDescriptor, 222);
+					TigerstripeProjectAuditor
+							.reportError(
+									"Invalid Default Artifact Package in project '"
+											+ tsProject.getName() + "' ("
+											+ pack + ").", projectDescriptor,
+									222);
 				}
 			}
 
@@ -177,10 +172,11 @@ public class DescriptorAuditor {
 				String prop = details.getProperties().getProperty(
 						IProjectDetails.MANDATORY_PROPERTIES[i]);
 				if (prop == null || "".equals(prop)) {
-					TigerstripeProjectAuditor.reportError("The '"
-							+ IProjectDetails.MANDATORY_PROPERTIES[i]
-							+ "' is not set in project '" + details.getName(),
-							projectDescriptor, 222);
+					TigerstripeProjectAuditor.reportError(
+							"The '" + IProjectDetails.MANDATORY_PROPERTIES[i]
+									+ "' is not set in project '"
+									+ tsProject.getName(), projectDescriptor,
+							222);
 				}
 			}
 

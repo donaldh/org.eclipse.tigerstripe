@@ -77,7 +77,7 @@ public class TigerstripeUILabels {
 			try {
 				if (tsProject.getActiveFacet() != null
 						&& tsProject.getActiveFacet().canResolve()) {
-					String activeName = project.getProjectLabel() + " {"
+					String activeName = project.getName() + " {"
 							+ tsProject.getActiveFacet().resolve().getName()
 							+ "}";
 					return new StyledString(activeName,
@@ -91,7 +91,7 @@ public class TigerstripeUILabels {
 			}
 		}
 
-		return new StyledString(project.getProjectLabel());
+		return new StyledString(project.getName());
 	}
 
 	public static class LabelStyler extends StyledString.Styler {

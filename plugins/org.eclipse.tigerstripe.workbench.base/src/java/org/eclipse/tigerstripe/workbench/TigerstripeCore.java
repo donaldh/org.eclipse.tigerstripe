@@ -138,7 +138,7 @@ public class TigerstripeCore {
 			throws TigerstripeException {
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		IResource tsContainer = root.findMember(new Path(name));
-		if (tsContainer == null){
+		if (tsContainer == null) {
 			return null;
 		}
 		IPath path = tsContainer.getLocation();
@@ -171,7 +171,8 @@ public class TigerstripeCore {
 	 * Creates a project of the given type at the given folder, and returns a
 	 * handle on that project
 	 * 
-	 * @param projectDetails
+	 * @param projectName
+	 * @param projectDetails - if null, default implementation is used.
 	 * @param location
 	 *            - location for the project to create, if null the default
 	 *            location is used
@@ -182,12 +183,16 @@ public class TigerstripeCore {
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public static IAbstractTigerstripeProject createProject(
+	public static IAbstractTigerstripeProject createProject(String projectName,
 			IProjectDetails projectDetails, IPath location, Class projectType,
 			Map<String, Object> properties, IProgressMonitor monitor)
 			throws TigerstripeException {
-		return TigerstripeProjectFactory.INSTANCE.createProject(projectDetails,
-				location, projectType, properties, monitor);
+		
+		if (projectDetails == null)
+			projectDetails = makeProjectDetails();
+		
+		return TigerstripeProjectFactory.INSTANCE.createProject(projectName,
+				projectDetails, location, projectType, properties, monitor);
 	}
 
 	public static IProjectDetails makeProjectDetails() {

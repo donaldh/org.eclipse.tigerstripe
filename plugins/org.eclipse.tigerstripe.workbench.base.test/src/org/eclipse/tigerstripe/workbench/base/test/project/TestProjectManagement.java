@@ -31,12 +31,12 @@ public class TestProjectManagement extends TestCase {
 	public void testCreateModelProject() throws TigerstripeException,
 			CoreException {
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
-		projectDetails.setName("testCreateModelProject");
 
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		IAbstractTigerstripeProject project = TigerstripeCore.createProject(
-				projectDetails, null, ITigerstripeModelProject.class, null,
-				new NullProgressMonitor());
+		IAbstractTigerstripeProject project = TigerstripeCore
+				.createProject("testCreateModelProject", projectDetails, null,
+						ITigerstripeModelProject.class, null,
+						new NullProgressMonitor());
 		assertNotNull(project);
 
 		IResource proj = workspace.getRoot().findMember(
@@ -55,12 +55,12 @@ public class TestProjectManagement extends TestCase {
 	public void testRemoveModelProject() throws TigerstripeException,
 			CoreException {
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
-		projectDetails.setName("testRemoveModelProject");
 
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		IAbstractTigerstripeProject project = TigerstripeCore.createProject(
-				projectDetails, null, ITigerstripeModelProject.class, null,
-				new NullProgressMonitor());
+		IAbstractTigerstripeProject project = TigerstripeCore
+				.createProject("testRemoveModelProject", projectDetails, null,
+						ITigerstripeModelProject.class, null,
+						new NullProgressMonitor());
 		assertNotNull(project);
 
 		IResource proj = workspace.getRoot().findMember(
@@ -88,12 +88,12 @@ public class TestProjectManagement extends TestCase {
 	public void testCreateM1GeneratorProject() throws TigerstripeException,
 			CoreException {
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
-		projectDetails.setName("testCreateM1GeneratorProject");
 
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IAbstractTigerstripeProject project = TigerstripeCore.createProject(
-				projectDetails, null, ITigerstripeM1GeneratorProject.class,
-				null, new NullProgressMonitor());
+				"testCreateM1GeneratorProject", projectDetails, null,
+				ITigerstripeM1GeneratorProject.class, null,
+				new NullProgressMonitor());
 		assertNotNull(project);
 
 		IResource proj = workspace.getRoot().findMember(

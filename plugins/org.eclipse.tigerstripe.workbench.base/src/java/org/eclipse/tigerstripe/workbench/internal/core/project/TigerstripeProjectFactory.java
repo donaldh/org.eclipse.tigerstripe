@@ -74,16 +74,23 @@ public class TigerstripeProjectFactory implements IResourceChangeListener {
 	/**
 	 * Creates a project at the location provided thru the URI.
 	 * 
-	 * @param folder
+	 * @param projectName
+	 *            - name for the project to be created. This corresponds to the
+	 *            dir where the project will be created.
+	 * @param projectDetails
+	 *            - additional details to be used to pre-populate the project
+	 *            descriptor upon creation.
+	 * @param path
+	 *            - the location where the project shall be created
 	 * @param projectType
-	 * @param properties -
-	 *            properties to use for project creation
+	 * @param properties
+	 *            - properties to use for project creation
 	 * @param monitor
 	 * @return
 	 * @throws TigerstripeException
 	 */
 	@SuppressWarnings("unchecked")
-	public IAbstractTigerstripeProject createProject(
+	public IAbstractTigerstripeProject createProject(String projectName,
 			IProjectDetails projectDetails, IPath path, Class projectType,
 			Map<String, Object> properties, IProgressMonitor monitor)
 			throws TigerstripeException {
@@ -92,14 +99,14 @@ public class TigerstripeProjectFactory implements IResourceChangeListener {
 		creator.assertValidProperties(properties);
 
 		try {
-			IWorkspaceRunnable runnable = creator.getRunnable(projectDetails,
-					path, properties);
+			IWorkspaceRunnable runnable = creator.getRunnable(projectName,
+					projectDetails, path, properties);
 
 			IWorkspace workspace = ResourcesPlugin.getWorkspace();
 			workspace.run(runnable, monitor);
 
-			return findProject(workspace.getRoot().findMember(
-					projectDetails.getName()).getLocation());
+			return findProject(workspace.getRoot().findMember(projectName)
+					.getLocation());
 		} catch (CoreException e) {
 			throw new TigerstripeException(
 					"An error occured while trying to create project: "

@@ -98,7 +98,7 @@ public class ActiveFacetDecorationDelegate implements
 		try {
 			ActiveFacetListener listener = new ActiveFacetListener(jProject,
 					explorer);
-			listeners.put(project.getProjectLabel(), listener);
+			listeners.put(project.getName(), listener);
 			project.getArtifactManagerSession()
 					.addActiveFacetListener(listener);
 		} catch (TigerstripeException e) {

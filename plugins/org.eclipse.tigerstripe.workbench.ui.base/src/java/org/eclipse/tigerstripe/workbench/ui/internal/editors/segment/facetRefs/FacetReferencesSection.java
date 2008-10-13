@@ -166,8 +166,7 @@ public class FacetReferencesSection extends TigerstripeSegmentSectionPart
 				try {
 					if (!dep.getContainingProject().equals(
 							getContainingProject())) {
-						path += " ("
-								+ dep.getContainingProject().getProjectLabel()
+						path += " (" + dep.getContainingProject().getName()
 								+ ")";
 					}
 				} catch (TigerstripeException e) {

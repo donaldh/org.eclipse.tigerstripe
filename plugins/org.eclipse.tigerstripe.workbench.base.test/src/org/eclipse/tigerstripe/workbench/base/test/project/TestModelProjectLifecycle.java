@@ -23,11 +23,11 @@ public class TestModelProjectLifecycle extends TestCase {
 
 	public void testGetWorkingCopy() throws TigerstripeException {
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
-		projectDetails.setName("testGetWorkingCopy");
 
 		ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
-				.createProject(projectDetails, null, ITigerstripeModelProject.class,
-						null, new NullProgressMonitor());
+				.createProject("testGetWorkingCopy", projectDetails, null,
+						ITigerstripeModelProject.class, null,
+						new NullProgressMonitor());
 		assertNotNull(project);
 
 		ITigerstripeModelProject workingCopy = (ITigerstripeModelProject) project
@@ -39,31 +39,30 @@ public class TestModelProjectLifecycle extends TestCase {
 
 		IProjectDetails detailsCopy = workingCopy.getProjectDetails();
 		assertTrue(detailsCopy != projectDetails);
-		assertTrue(detailsCopy.getName().equals(projectDetails.getName()));
 
 		project.delete(true, null);
 	}
 
 	public void testSetProjectDetails() throws TigerstripeException {
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
-		projectDetails.setName("testSetOnOriginal");
 
 		ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
-				.createProject(projectDetails, null, ITigerstripeModelProject.class,
-						null, new NullProgressMonitor());
+				.createProject("testSetOnOriginal", projectDetails, null,
+						ITigerstripeModelProject.class, null,
+						new NullProgressMonitor());
 		assertNotNull(project);
 
 		assertTrue(!project.isWorkingCopy());
-		
+
 		try {
-			project.getProjectDetails().setName("changed");
+			project.getProjectDetails().setDescription("changed");
 			fail("Shouldn't allow to set project details on original.");
 		} catch (WorkingCopyException e) {
 			// let's try on a working copy now
 			ITigerstripeModelProject workingCopy = (ITigerstripeModelProject) project
 					.makeWorkingCopy(null);
 			try {
-				workingCopy.getProjectDetails().setName("NowChanged");
+				workingCopy.getProjectDetails().setDescription("NowChanged");
 			} catch (WorkingCopyException ee) {
 				fail("Set on working copy shouldn't fail.");
 			}
@@ -71,7 +70,7 @@ public class TestModelProjectLifecycle extends TestCase {
 			workingCopy.commit(null);
 
 			IProjectDetails finalDetails = project.getProjectDetails();
-			assertTrue(finalDetails.getName().equals("NowChanged"));
+			assertTrue(finalDetails.getDescription().equals("NowChanged"));
 		}
 	}
 

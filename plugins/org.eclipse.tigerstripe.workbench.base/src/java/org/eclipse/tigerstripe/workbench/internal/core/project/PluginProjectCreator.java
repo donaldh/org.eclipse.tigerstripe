@@ -51,15 +51,16 @@ public class PluginProjectCreator extends BaseProjectCreator implements
 					ITigerstripeConstants.EXTERNALAPI_LIB), null, null) };
 
 	@SuppressWarnings("unchecked")
-	public IWorkspaceRunnable getRunnable(final IProjectDetails projectDetails,
-			final IPath path, final Map properties) throws TigerstripeException {
+	public IWorkspaceRunnable getRunnable(final String projectName,
+			final IProjectDetails projectDetails, final IPath path,
+			final Map properties) throws TigerstripeException {
 
 		IWorkspaceRunnable runnable = new IWorkspaceRunnable() {
 
 			public void run(IProgressMonitor monitor) throws CoreException {
 
 				// Creates a base Eclipse project
-				createBaseProject(projectDetails, path, monitor);
+				createBaseProject(projectName, path, monitor);
 				// Add the Appropriate Natures
 				addTSandJavaNature(BuilderConstants.PLUGINPROJECT_NATURE_ID);
 

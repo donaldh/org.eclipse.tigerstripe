@@ -451,10 +451,10 @@ public class FacetReference extends AbstractContainedObject implements
 		} else {
 			refElm.setAttribute("relPath", ref.getProjectRelativePath());
 			if (ref.getContainingProject() != null
-					&& !ref.getContainingProject().getProjectLabel().equals(
+					&& !ref.getContainingProject().getName().equals(
 							project.getProjectLabel())) {
 				refElm.setAttribute("project", ref.getContainingProject()
-						.getProjectLabel());
+						.getName());
 			}
 		}
 		refElm.setAttribute("genDir", ref.getGenerationDir());

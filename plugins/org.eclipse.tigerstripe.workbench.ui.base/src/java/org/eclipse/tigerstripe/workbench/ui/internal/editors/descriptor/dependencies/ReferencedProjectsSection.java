@@ -88,7 +88,7 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 		@Override
 		public String getText(Object obj) {
 			ITigerstripeModelProject ref = (ITigerstripeModelProject) obj;
-			return ref.getProjectLabel();
+			return ref.getName();
 		}
 
 		@Override
@@ -180,7 +180,7 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 		try {
 			for (ITigerstripeModelProject prjRefs : handle
 					.getReferencedProjects()) {
-				filteredOutProjects.add(prjRefs.getProjectLabel());
+				filteredOutProjects.add(prjRefs.getName());
 			}
 		} catch (TigerstripeException e) {
 			// ignore here

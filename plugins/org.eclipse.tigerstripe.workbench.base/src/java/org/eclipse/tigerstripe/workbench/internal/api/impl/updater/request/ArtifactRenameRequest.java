@@ -365,8 +365,7 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 
 			delta.setFeature("name");
 			URI newUri = (URI) comp.getAdapter(URI.class);
-			IPath path = new Path(comp.getProject().getProjectDetails()
-					.getName());
+			IPath path = new Path(comp.getProject().getName());
 			path = path.append(getArtifactFQN());
 			URI oldUri = URI.createHierarchicalURI(
 					TigerstripeURIAdapterFactory.SCHEME_TS, null, null, path

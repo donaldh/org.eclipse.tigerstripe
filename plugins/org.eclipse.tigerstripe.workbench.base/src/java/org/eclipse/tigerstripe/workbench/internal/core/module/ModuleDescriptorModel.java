@@ -75,8 +75,8 @@ public class ModuleDescriptorModel {
 	}
 
 	public ModuleDescriptorModel(TigerstripeProject embeddedProject,
-			Reader reader, boolean parseArtifacts,
-			IProgressMonitor monitor) throws InvalidModuleException {
+			Reader reader, boolean parseArtifacts, IProgressMonitor monitor)
+			throws InvalidModuleException {
 		this.embeddedProject = embeddedProject;
 		details = new ProjectDetails(null);
 		header = new ModuleHeader();
@@ -86,7 +86,7 @@ public class ModuleDescriptorModel {
 	public TigerstripeProject getEmbeddedProject() {
 		return this.embeddedProject;
 	}
-	
+
 	// ============================================================
 	public ProjectDetails getProjectDetails() {
 		return this.details;
@@ -124,6 +124,19 @@ public class ModuleDescriptorModel {
 			Document document = saxReader.read(reader);
 			details = extractProjectDetails(document);
 			header = extractModuleHeader(document);
+
+			// This is for compatibility reasons. If no originalName was set
+			if (header.getOriginalName() == null) {
+				Element root = document.getRootElement();
+				Element details = root.element("details");
+
+				if (details != null) {
+					Node node = details;
+					String name = ((Element) node).attributeValue("name");
+					header.setOriginalName(name);
+				}
+			}
+
 			if (parseArtifacts)
 				extractArtifacts(document, monitor);
 
@@ -169,10 +182,10 @@ public class ModuleDescriptorModel {
 		return document;
 	}
 
-	private void createHeader(Element module,
-			IProgressMonitor monitor) {
+	private void createHeader(Element module, IProgressMonitor monitor) {
 		Element hElem = module.addElement("header");
 
+		hElem.addAttribute("originalName", getTSProject().getName());
 		hElem.addAttribute("moduleID", header.getModuleID());
 		hElem.addAttribute("build", TigerstripeRuntime
 				.getProperty(TigerstripeRuntime.TIGERSTRIPE_FEATURE_VERSION));
@@ -181,12 +194,11 @@ public class ModuleDescriptorModel {
 		hElem.addAttribute("date", dateStr);
 	}
 
-	private void createDetails(Element module,
-			IProgressMonitor monitor) throws TigerstripeException {
+	private void createDetails(Element module, IProgressMonitor monitor)
+			throws TigerstripeException {
 		Element details = module.addElement("details");
 
-		details.addAttribute("name", getTSProject().getProjectDetails()
-				.getName());
+		details.addAttribute("name", getTSProject().getName());
 		details.addAttribute("version", getTSProject().getProjectDetails()
 				.getVersion());
 		Element description = details.addElement("description");
@@ -194,8 +206,8 @@ public class ModuleDescriptorModel {
 				.addText(getTSProject().getProjectDetails().getDescription());
 	}
 
-	private void createArtifacts(Element module,
-			IProgressMonitor monitor) throws TigerstripeException {
+	private void createArtifacts(Element module, IProgressMonitor monitor)
+			throws TigerstripeException {
 		Element artifacts = module.addElement("artifacts");
 
 		IArtifactManagerSession session = getTSProject()
@@ -218,7 +230,8 @@ public class ModuleDescriptorModel {
 			// For performance improvement, let's use what is already on disk if
 			// it exists. If not, revert to processing the artifact the old
 			// fashion "safe but slow" way.
-			String path = getTSProject().getLocation().toFile() + File.separator
+			String path = getTSProject().getLocation().toFile()
+					+ File.separator
 					+ ((AbstractArtifact) artifact).getArtifactPath();
 			File artFile = new File(path);
 			try {
@@ -279,6 +292,9 @@ public class ModuleDescriptorModel {
 		Element headerElm = root.element("header");
 
 		Element node = headerElm;
+		String originalName = node.attributeValue("originalName");
+		header.setOriginalName(originalName);
+
 		String moduleId = node.attributeValue("moduleID");
 		header.setModuleID(moduleId);
 
@@ -295,8 +311,8 @@ public class ModuleDescriptorModel {
 		return header;
 	}
 
-	private void extractArtifacts(Document doc,
-			IProgressMonitor monitor) throws InvalidModuleException {
+	private void extractArtifacts(Document doc, IProgressMonitor monitor)
+			throws InvalidModuleException {
 
 		artifactMgr = new ModuleArtifactManager(this);
 

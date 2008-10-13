@@ -19,14 +19,12 @@ public class TestFields extends junit.framework.TestCase {
 	protected IAbstractTigerstripeProject createModelProject(String projectName)
 			throws TigerstripeException {
 		IProjectDetails details = TigerstripeCore.makeProjectDetails();
-		details.setName(projectName);
 		IAbstractTigerstripeProject aProject = TigerstripeCore.createProject(
-				details, null, ITigerstripeModelProject.class, null,
-				new NullProgressMonitor());
+				projectName, details, null, ITigerstripeModelProject.class,
+				null, new NullProgressMonitor());
 		return aProject;
 	}
 
-	
 	public final void testFields() throws TigerstripeException {
 		IAbstractTigerstripeProject aProject = createModelProject("testFields");
 		assertTrue(aProject instanceof ITigerstripeModelProject);

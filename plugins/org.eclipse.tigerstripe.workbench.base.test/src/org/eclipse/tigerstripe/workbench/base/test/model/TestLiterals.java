@@ -19,14 +19,12 @@ public class TestLiterals extends junit.framework.TestCase {
 	protected IAbstractTigerstripeProject createModelProject(String projectName)
 			throws TigerstripeException {
 		IProjectDetails details = TigerstripeCore.makeProjectDetails();
-		details.setName(projectName);
 		IAbstractTigerstripeProject aProject = TigerstripeCore.createProject(
-				details, null, ITigerstripeModelProject.class, null,
-				new NullProgressMonitor());
+				projectName, details, null, ITigerstripeModelProject.class,
+				null, new NullProgressMonitor());
 		return aProject;
 	}
 
-	
 	public final void testFields() throws TigerstripeException {
 		IAbstractTigerstripeProject aProject = createModelProject("testLierals");
 		assertTrue(aProject instanceof ITigerstripeModelProject);
@@ -44,8 +42,8 @@ public class TestLiterals extends junit.framework.TestCase {
 		top.doSave(new NullProgressMonitor());
 
 		Collection<ILiteral> literals = top.getLiterals();
-		assertTrue("Literal collection  does not include correct literal", literals
-				.iterator().next().getName().equals(literalName));
+		assertTrue("Literal collection  does not include correct literal",
+				literals.iterator().next().getName().equals(literalName));
 
 		String comment = "These are the words";
 		EVisibility vis = EVisibility.PUBLIC;
@@ -65,15 +63,18 @@ public class TestLiterals extends junit.framework.TestCase {
 		// //////////
 		// Make sure we got the right values
 		ILiteral gotLiteral = top.getLiterals().iterator().next();
-		assertTrue("Didn't get the same literal back!", gotLiteral.equals(literal1));
-		assertTrue("Literal name changed on save", gotLiteral.getName().equals(literalName));
+		assertTrue("Didn't get the same literal back!", gotLiteral
+				.equals(literal1));
+		assertTrue("Literal name changed on save", gotLiteral.getName().equals(
+				literalName));
 		assertTrue("Literal comment changed on save", gotLiteral.getComment()
 				.equals(comment));
-		assertTrue("Literal value changed on save", gotLiteral.getValue().equals(value));
-		assertTrue("Literal visibility changed on save", gotLiteral.getVisibility()
-				.equals(vis));
-		assertTrue("Literal type changed on save", gotLiteral.getType().getName()
-				.equals(type.getName()));
+		assertTrue("Literal value changed on save", gotLiteral.getValue()
+				.equals(value));
+		assertTrue("Literal visibility changed on save", gotLiteral
+				.getVisibility().equals(vis));
+		assertTrue("Literal type changed on save", gotLiteral.getType()
+				.getName().equals(type.getName()));
 
 		// /////////
 		// Now change all the values and see of they have been reset!
@@ -100,24 +101,20 @@ public class TestLiterals extends junit.framework.TestCase {
 		ILiteral gotNewLiteral = top.getLiterals().iterator().next();
 		assertTrue("Didn't get the same literal back!", gotNewLiteral
 				.equals(literal1));
-		assertTrue("Literal name changed on save", gotNewLiteral.getName().equals(
-				literalName2));
-		assertTrue("Literal comment changed on save", gotNewLiteral.getComment()
-				.equals(comment));
-		assertTrue("Literal value changed on save", gotNewLiteral.getValue().equals(value));
+		assertTrue("Literal name changed on save", gotNewLiteral.getName()
+				.equals(literalName2));
+		assertTrue("Literal comment changed on save", gotNewLiteral
+				.getComment().equals(comment));
+		assertTrue("Literal value changed on save", gotNewLiteral.getValue()
+				.equals(value));
 		assertTrue("Literal visibility changed on save", gotNewLiteral
 				.getVisibility().equals(vis));
 		assertTrue("Literal type changed on save", gotNewLiteral.getType()
 				.getName().equals(newType.getName()));
 
-		
-		//////////////////
+		// ////////////////
 		// Check that we can't set an invalid type !
-		
-		
-		
-		
-		
+
 		project.delete(true, new NullProgressMonitor());
 	}
 

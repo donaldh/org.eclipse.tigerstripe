@@ -45,104 +45,105 @@ public class ModelImporter {
 	private MessageList messages;
 	private PrintWriter out;
 	private ITigerstripeModelProject tigerstripeProject;
-	
+
 	private String importFilename;
 	private String profilesDir;
-	
+
 	private Model model;
 	private String modelLibrary;
 	private Map<EObject, String> classMap;
-	private Map<String,IAbstractArtifact> extractedArtifacts;
+	private Map<String, IAbstractArtifact> extractedArtifacts;
 	private CoreArtifactSettingsProperty property;
-	
-	public ModelImporter (String importFilename,
-			ITigerstripeModelProject tigerstripeProject, String profilesDir){
+
+	public ModelImporter(String importFilename,
+			ITigerstripeModelProject tigerstripeProject, String profilesDir) {
 		diffList = new ArrayList();
 		this.importFilename = importFilename;
 		this.tigerstripeProject = tigerstripeProject;
 		this.profilesDir = profilesDir;
-		// TODO  Filter for active types in profile.
-		IWorkbenchProfile profile  = TigerstripeCore.getWorkbenchProfileSession().getActiveProfile();
+		// TODO Filter for active types in profile.
+		IWorkbenchProfile profile = TigerstripeCore
+				.getWorkbenchProfileSession().getActiveProfile();
 		this.property = (CoreArtifactSettingsProperty) profile
-			.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
-	
-		
+				.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
+
 	}
-	
+
 	public boolean doInitialLoad() throws CoreException {
-		
+
 		try {
-		messages = new MessageList();
-		
-		File importFile = new File(importFilename);
-		File logFile = new File(importFile.getParent()
-				+ "/UML2ToTigerstripeImport.log");
+			messages = new MessageList();
 
-		out = new PrintWriter(new FileOutputStream(logFile));
+			File importFile = new File(importFilename);
+			File logFile = new File(importFile.getParent()
+					+ "/UML2ToTigerstripeImport.log");
 
-		String importText = "INFO : Import " + importFilename + " into "
-				+ tigerstripeProject.getProjectDetails().getName();
+			out = new PrintWriter(new FileOutputStream(logFile));
 
-		out.println(importText);
+			String importText = "INFO : Import " + importFilename + " into "
+					+ tigerstripeProject.getName();
 
-		Message message = new Message();
-		message.setMessage(importText);
-		message.setSeverity(2);
-		messages.addMessage(message);
+			out.println(importText);
 
-		model = null;
-		// Simply get the model - nothing fancy now!
-		// Set profile stuff
-		Utilities.setupPaths();
-		// Add specifics to point to MODEL_PROFILE.
-		Utilities.addPaths(new File(getProfilesDir()));
-
-		
-		//load Model
-		File modelFile = new File(importFilename);
-		model = Utilities.openModelFile(modelFile);
-		
-		modelLibrary = getLibraryName(new File(
-				getProfilesDir()), messages);
-		
-		
-		// Get any implementations of the ImodelTrimmer from the extension point
-
-		IConfigurationElement[] elements =   Platform.getExtensionRegistry()
-		.getConfigurationElementsFor("org.eclipse.tigerstripe.workbench.ui.UML2Import.umlImportModelTrimmer");
-		for (IConfigurationElement element : elements){
-
-			final IModelTrimmer trimmer  = (IModelTrimmer) element.createExecutableExtension("trimmer_class");
-			String trimmerName = element.getAttribute("name");
-			String trimmerText = "Model trimmed using trimmer "+trimmerName+" extension";
-			out.println("INFO : "+trimmerText);
-			Message trimMessage = new Message();
-			trimMessage.setMessage(trimmerText);
-			trimMessage.setSeverity(2);
+			Message message = new Message();
+			message.setMessage(importText);
+			message.setSeverity(2);
 			messages.addMessage(message);
 
+			model = null;
+			// Simply get the model - nothing fancy now!
+			// Set profile stuff
+			Utilities.setupPaths();
+			// Add specifics to point to MODEL_PROFILE.
+			Utilities.addPaths(new File(getProfilesDir()));
 
-			SafeRunner.run(new ISafeRunnable() {
-				public void handleException(Throwable exception) {
-					EclipsePlugin.log(exception);
-					out.println("ERROR  : TRIMMING MODEL with extension Point threw exception.");
-					exception.printStackTrace(out);
-				}
+			// load Model
+			File modelFile = new File(importFilename);
+			model = Utilities.openModelFile(modelFile);
 
-				public void run() throws Exception {
-					out.println("INFO : TRIMMING MODEL");
-					model = trimmer.trimModel(model);
-				}
+			modelLibrary = getLibraryName(new File(getProfilesDir()), messages);
 
-			});
+			// Get any implementations of the ImodelTrimmer from the extension
+			// point
 
+			IConfigurationElement[] elements = Platform
+					.getExtensionRegistry()
+					.getConfigurationElementsFor(
+							"org.eclipse.tigerstripe.workbench.ui.UML2Import.umlImportModelTrimmer");
+			for (IConfigurationElement element : elements) {
 
-		}
-	      
-	      out.flush();
-	      return true;
-	      
-		} catch (Exception e){
+				final IModelTrimmer trimmer = (IModelTrimmer) element
+						.createExecutableExtension("trimmer_class");
+				String trimmerName = element.getAttribute("name");
+				String trimmerText = "Model trimmed using trimmer "
+						+ trimmerName + " extension";
+				out.println("INFO : " + trimmerText);
+				Message trimMessage = new Message();
+				trimMessage.setMessage(trimmerText);
+				trimMessage.setSeverity(2);
+				messages.addMessage(message);
+
+				SafeRunner.run(new ISafeRunnable() {
+					public void handleException(Throwable exception) {
+						EclipsePlugin.log(exception);
+						out
+								.println("ERROR  : TRIMMING MODEL with extension Point threw exception.");
+						exception.printStackTrace(out);
+					}
+
+					public void run() throws Exception {
+						out.println("INFO : TRIMMING MODEL");
+						model = trimmer.trimModel(model);
+					}
+
+				});
+
+			}
+
+			out.flush();
+			return true;
+
+		} catch (Exception e) {
 			String msgText = "Problem loading UML File " + importFilename;
 			Message newMsg = new Message();
 			newMsg.setMessage(msgText);
@@ -156,77 +157,88 @@ public class ModelImporter {
 		}
 	}
 
-	public boolean doMapping(){
+	public boolean doMapping() {
 
-		// For every class, AssociationClass, Enumeration, etc 
+		// For every class, AssociationClass, Enumeration, etc
 		// in the model, we need to provide a
-		// CLASS name for the target - no need to get into a twist about attributes etc at this stage.
-		
+		// CLASS name for the target - no need to get into a twist about
+		// attributes etc at this stage.
+
 		// A mapper can map to stuff that is not in the current profile.
-		// removinng "unsupported artifacts" is handled by the extract and the UI. 
-		
-		// TODO  Filter for active types in profile.
-		
-		if (model == null){
+		// removinng "unsupported artifacts" is handled by the extract and the
+		// UI.
+
+		// TODO Filter for active types in profile.
+
+		if (model == null) {
 			return false;
 		}
 		try {
-		// Get any implementations of the IModelMapper from the extension point
-			IConfigurationElement[] elements  = Platform.getExtensionRegistry()
-				.getConfigurationElementsFor("org.eclipse.tigerstripe.workbench.ui.UML2Import.umlImportModelMapper");
-	      for (IConfigurationElement element : elements){
-	    		    final IModelMapper mapper  = (IModelMapper) element.createExecutableExtension("mapper_class");
-	    		  	String mapperName = element.getAttribute("name");
-	    		  	String mapperText = "INFO : Model mapped using mapper "+mapperName+" extension";
-	    		  	out.println(mapperText);
-	    		  	this.classMap = mapper.getMapping(model);
-	    		  	SafeRunner.run(new ISafeRunnable() {
-	    				public void handleException(Throwable exception) {
-	    					EclipsePlugin.log(exception);
-	    					out.println("ERROR  : GETTING MAPPING with extension Point threw exception.");
-	    					exception.printStackTrace(out);
-	    				}
+			// Get any implementations of the IModelMapper from the extension
+			// point
+			IConfigurationElement[] elements = Platform
+					.getExtensionRegistry()
+					.getConfigurationElementsFor(
+							"org.eclipse.tigerstripe.workbench.ui.UML2Import.umlImportModelMapper");
+			for (IConfigurationElement element : elements) {
+				final IModelMapper mapper = (IModelMapper) element
+						.createExecutableExtension("mapper_class");
+				String mapperName = element.getAttribute("name");
+				String mapperText = "INFO : Model mapped using mapper "
+						+ mapperName + " extension";
+				out.println(mapperText);
+				this.classMap = mapper.getMapping(model);
+				SafeRunner.run(new ISafeRunnable() {
+					public void handleException(Throwable exception) {
+						EclipsePlugin.log(exception);
+						out
+								.println("ERROR  : GETTING MAPPING with extension Point threw exception.");
+						exception.printStackTrace(out);
+					}
 
-	    				public void run() throws Exception {
-	    					out.println ("INFO : GETTING MAPPINGS");
-	    					classMap = mapper.getMapping(model);
-	    				}
-	    				
-	    			});
-	      }
-	      
-		} catch (Exception e){
+					public void run() throws Exception {
+						out.println("INFO : GETTING MAPPINGS");
+						classMap = mapper.getMapping(model);
+					}
+
+				});
+			}
+
+		} catch (Exception e) {
 			// If we didn't find a good one, we will use a default,
 			// so just carry on
 		}
-		if (this.classMap == null){
+		if (this.classMap == null) {
 			// Use the default
-			IModelMapper mapper  = new DefaultModelMapper();
+			IModelMapper mapper = new DefaultModelMapper();
 			this.classMap = mapper.getMapping(model);
 		}
-		out.println ("INFO : MAPPINGS PASSED TO WIZARD");
-		for (EObject o : classMap.keySet()){
-			if ( o instanceof NamedElement){
-				out.println("INFO : Mapping Element :"+((NamedElement) o).getQualifiedName()+  "    "+classMap.get(o));
+		out.println("INFO : MAPPINGS PASSED TO WIZARD");
+		for (EObject o : classMap.keySet()) {
+			if (o instanceof NamedElement) {
+				out.println("INFO : Mapping Element :"
+						+ ((NamedElement) o).getQualifiedName() + "    "
+						+ classMap.get(o));
 			}
 		}
 		out.flush();
 		return true;
-		
+
 	}
 
 	public boolean doSecondLoad() {
 
-		UML2TS uML2TS = new UML2TS(getClassMap() , out, property);
-		this.extractedArtifacts = uML2TS.extractArtifacts(model, modelLibrary, messages, this.tigerstripeProject);
-		out.println("INFO : Extracted arrifact size :"+this.extractedArtifacts.size());
+		UML2TS uML2TS = new UML2TS(getClassMap(), out, property);
+		this.extractedArtifacts = uML2TS.extractArtifacts(model, modelLibrary,
+				messages, this.tigerstripeProject);
+		out.println("INFO : Extracted arrifact size :"
+				+ this.extractedArtifacts.size());
 		out.println(messages.asText());
 		out.flush();
 		Utilities.tearDown();
 		return false;
 	}
 
-	
 	/** find the name of the library of primitive types */
 	private String getLibraryName(File profilesDir, MessageList list) {
 		try {
@@ -266,7 +278,6 @@ public class ModelImporter {
 
 	}
 
-	
 	public ArrayList getDiffList() {
 		return diffList;
 	}
@@ -303,6 +314,4 @@ public class ModelImporter {
 		return out;
 	}
 
-	
-	
 }

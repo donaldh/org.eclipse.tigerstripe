@@ -190,10 +190,11 @@ public class ModulePackager implements IModulePackager {
 			}
 
 		} catch (TigerstripeException e) {
-			TigerstripeRuntime.logErrorMessage(
-					"Error while compiling artifacts for project '"
-							+ getTSProject().getProjectLabel() + "': "
-							+ e.getMessage(), e);
+			TigerstripeRuntime
+					.logErrorMessage(
+							"Error while compiling artifacts for project '"
+									+ getTSProject().getName() + "': "
+									+ e.getMessage(), e);
 		}
 
 		// Try and compile
@@ -223,38 +224,38 @@ public class ModulePackager implements IModulePackager {
 
 			} catch (InstantiationException e) {
 				TigerstripeRuntime.logErrorMessage("Can't package project '"
-						+ getTSProject().getProjectLabel()
+						+ getTSProject().getName()
 						+ "' into a module without JDK. An error occured: "
 						+ e.getMessage(), e);
 				throw new TigerstripeException("Can't package project '"
-						+ getTSProject().getProjectLabel()
+						+ getTSProject().getName()
 						+ "' into a module without JDK. An error occured: "
 						+ e.getMessage(), e);
 			} catch (InvocationTargetException e) {
 				TigerstripeRuntime.logErrorMessage("Can't package project '"
-						+ getTSProject().getProjectLabel()
+						+ getTSProject().getName()
 						+ "' into a module without JDK. An error occured: "
 						+ e.getMessage(), e);
 				throw new TigerstripeException("Can't package project '"
-						+ getTSProject().getProjectLabel()
+						+ getTSProject().getName()
 						+ "' into a module without JDK. An error occured: "
 						+ e.getMessage(), e);
 			} catch (IllegalAccessException e) {
 				TigerstripeRuntime.logErrorMessage("Can't package project '"
-						+ getTSProject().getProjectLabel()
+						+ getTSProject().getName()
 						+ "' into a module without JDK. An error occured: "
 						+ e.getMessage(), e);
 				throw new TigerstripeException("Can't package project '"
-						+ getTSProject().getProjectLabel()
+						+ getTSProject().getName()
 						+ "' into a module without JDK. An error occured: "
 						+ e.getMessage(), e);
 			} catch (NoSuchMethodException e) {
 				TigerstripeRuntime.logErrorMessage("Can't package project '"
-						+ getTSProject().getProjectLabel()
+						+ getTSProject().getName()
 						+ "' into a module without JDK. An error occured: "
 						+ e.getMessage(), e);
 				throw new TigerstripeException("Can't package project '"
-						+ getTSProject().getProjectLabel()
+						+ getTSProject().getName()
 						+ "' into a module without JDK. An error occured: "
 						+ e.getMessage(), e);
 			} catch (ClassNotFoundException e) {
@@ -264,13 +265,12 @@ public class ModulePackager implements IModulePackager {
 				TigerstripeRuntime
 						.logErrorMessage(
 								"Can't package project '"
-										+ getTSProject().getProjectDetails()
-												.getName()
+										+ getTSProject().getName()
 										+ "' into a module without JDK. Please install Java JDK instead of Java JRE.",
 								e);
 				throw new TigerstripeException(
 						"Can't package project '"
-								+ getTSProject().getProjectLabel()
+								+ getTSProject().getName()
 								+ "' into a module without JDK. Please install Java JDK instead of Java JRE.",
 						e);
 			}
@@ -366,6 +366,9 @@ public class ModulePackager implements IModulePackager {
 		File annDir = new File(getTSProject().getLocation().toFile().toURI()
 				.getPath()
 				+ File.separator + ITigerstripeConstants.ANNOTATION_DIR);
+
+		if (!annDir.exists()) // no annotations?
+			return;
 
 		File tgDir = new File(tmpDir.getAbsolutePath() + File.separator
 				+ ITigerstripeConstants.ANNOTATION_DIR);

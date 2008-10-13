@@ -168,9 +168,8 @@ public class ModelImportSection extends TigerstripeDescriptorSectionPart
 		try {
 			createID(getBody(), getToolkit());
 		} catch (TigerstripeException ee) {
-			Status status = new Status(IStatus.WARNING,
-					EclipsePlugin.getPluginId(), 111,
-					"Unexpected Exception", ee);
+			Status status = new Status(IStatus.WARNING, EclipsePlugin
+					.getPluginId(), 111, "Unexpected Exception", ee);
 			EclipsePlugin.log(status);
 		}
 
@@ -564,7 +563,7 @@ public class ModelImportSection extends TigerstripeDescriptorSectionPart
 				dialog.setText("Upgrade project descriptor");
 				dialog
 						.setMessage("Advanced properties are not properly set (in project '"
-								+ handle.getProjectLabel()
+								+ handle.getName()
 								+ "').\nDefault preferences will be applied.");
 				dialog.open();
 				applyAdvancedPropertiesDefaults();
@@ -635,7 +634,7 @@ public class ModelImportSection extends TigerstripeDescriptorSectionPart
 						"Error while setting "
 								+ IAdvancedProperties.PROP_GENERATION_GenerateReport
 								+ " advanced property on Project "
-								+ handle.getProjectLabel(), ee);
+								+ handle.getName(), ee);
 				EclipsePlugin.log(status);
 			}
 		} else if (e.getSource() == addUMLMappingButton) {
@@ -673,7 +672,7 @@ public class ModelImportSection extends TigerstripeDescriptorSectionPart
 						EclipsePlugin.PLUGIN_ID, 222, "Error while setting "
 								+ IAdvancedProperties.PROP_IMPORT_DB_TABLES
 								+ " advanced property on Project "
-								+ handle.getProjectLabel(), ee);
+								+ handle.getName(), ee);
 				EclipsePlugin.log(status);
 
 			}
@@ -688,7 +687,7 @@ public class ModelImportSection extends TigerstripeDescriptorSectionPart
 						EclipsePlugin.PLUGIN_ID, 222, "Error while setting "
 								+ IAdvancedProperties.PROP_IMPORT_DB_VIEWS
 								+ " advanced property on Project "
-								+ handle.getProjectLabel(), ee);
+								+ handle.getName(), ee);
 				EclipsePlugin.log(status);
 			}
 		}

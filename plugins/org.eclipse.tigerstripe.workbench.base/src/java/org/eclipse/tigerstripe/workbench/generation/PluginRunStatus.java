@@ -40,7 +40,7 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 	private IFacetReference facetRef;
 
 	private String context;
-	
+
 	private String message = "";
 
 	public void setContext(String context) {
@@ -55,12 +55,11 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 		this.project = project;
 		this.facetRef = facetRef;
 	}
-	
+
 	public PluginRunStatus(String message) {
 		super(BasePlugin.getPluginId(), 222, "Plugin Run Status", null);
 		this.message = message;
 	}
-	
 
 	protected ITigerstripeModelProject getProject() {
 		return project;
@@ -96,15 +95,14 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 
 			if (hasError && includeHTML)
 				buf.append("<b>");
-		    buf.append("[" );
-		    buf.append(this.message);
-		    
-			if (project != null) { 
-			    buf.append(projectType + ": " + project.getProjectLabel() );
+			buf.append("[");
+			buf.append(this.message);
+
+			if (project != null) {
+				buf.append(projectType + ": " + project.getName());
 			}
-			if (pluginConfig != null){
-					buf.append(", Plugin: "
-					+ pluginConfig.getPluginId());
+			if (pluginConfig != null) {
+				buf.append(", Plugin: " + pluginConfig.getPluginId());
 			}
 
 			if (facetRef != null && facetRef.canResolve()) {
@@ -151,8 +149,7 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 							buf.append(writer.toString());
 						}
 					} else if (status.getException() != null)
-						buf.append(status.getException()
-								.getLocalizedMessage());
+						buf.append(status.getException().getLocalizedMessage());
 					if (includeHTML)
 						buf.append("<br/>");
 					else

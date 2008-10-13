@@ -78,9 +78,9 @@ public class PacakgePluginActionDelegate extends BasePluginActionDelegate
 			try {
 				if (operationSucceeded) {
 					MessageDialog.openInformation(getShell(), projectHandle
-							.getProjectLabel()
+							.getName()
 							+ " Plugin", "Plugin '"
-							+ projectHandle.getProjectLabel() + "("
+							+ projectHandle.getName() + "("
 							+ projectHandle.getProjectDetails().getVersion()
 							+ ") was successfully packaged up as \n '" + path
 							+ "'.");
@@ -88,10 +88,9 @@ public class PacakgePluginActionDelegate extends BasePluginActionDelegate
 					MessageDialog
 							.openError(
 									getShell(),
-									projectHandle.getProjectLabel() + " Plugin",
+									projectHandle.getName() + " Plugin",
 									"Plugin '"
-											+ projectHandle.getProjectDetails()
-													.getName()
+											+ projectHandle.getName()
 											+ "("
 											+ projectHandle.getProjectDetails()
 													.getVersion()

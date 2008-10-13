@@ -43,9 +43,8 @@ public class M0ProjectHelper {
 			String projectName, boolean populateContents)
 			throws TigerstripeException, IOException, CoreException {
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
-		projectDetails.setName(projectName);
 		ITigerstripeM0GeneratorProject project = (ITigerstripeM0GeneratorProject) TigerstripeCore
-				.createProject(projectDetails, null,
+				.createProject(projectName, projectDetails, null,
 						ITigerstripeM0GeneratorProject.class, null, null);
 
 		if (populateContents) {

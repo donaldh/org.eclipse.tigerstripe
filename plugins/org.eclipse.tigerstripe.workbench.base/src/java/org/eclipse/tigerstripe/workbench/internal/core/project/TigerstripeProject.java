@@ -811,13 +811,13 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			if (ignoreOrder) {
 				// When ignoring order, simply look for it
 				for (ITigerstripeModelProject lRef : getReferencedProjects()) {
-					if (lRef.getProjectLabel().equals(oRef.getProjectLabel())) {
+					if (lRef.getName().equals(oRef.getName())) {
 						matched = true;
 					}
 				}
 			} else {
 				ITigerstripeModelProject lRef = getReferencedProjects()[index];
-				if (lRef.getProjectLabel().equals(oRef.getProjectLabel())) {
+				if (lRef.getName().equals(oRef.getName())) {
 					matched = true;
 				}
 			}

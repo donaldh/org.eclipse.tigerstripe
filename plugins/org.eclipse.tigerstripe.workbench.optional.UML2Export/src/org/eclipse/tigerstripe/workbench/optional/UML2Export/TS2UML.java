@@ -100,7 +100,7 @@ public class TS2UML {
 	private static PrintWriter out;
 	private static MessageList messages;
 	private static ResourceSet resourceSet = new ResourceSetImpl();
-	
+
 	private IProgressMonitor monitor;
 
 	private ITigerstripeModelProject tsProject;
@@ -115,8 +115,7 @@ public class TS2UML {
 	private Profile tsProfile;
 	private Maker maker;
 	private String msgText;
-	
-	
+
 	private boolean useTigerstripeAnnotations = false;
 
 	/** constructor */
@@ -131,15 +130,13 @@ public class TS2UML {
 			String exportFilename, Map<String, Type> primitiveTypeMap,
 			Profile tsProfile, Model typesModel) throws TigerstripeException {
 
-
 		this.tsProfile = tsProfile;
 		this.typesModel = typesModel;
 		typeMap = new HashMap<String, Type>();
 		unknownTypeModel = UMLFactory.eINSTANCE.createModel();
 		unknownTypeModel.setName("UnknownTypes");
 		unknownTypeMap = new HashMap<String, Type>();
-		
-		
+
 		try {
 			this.umlMetamodel = (Model) UMLUtilities
 					.openModelURI(org.eclipse.emf.common.util.URI
@@ -168,47 +165,44 @@ public class TS2UML {
 			e.printStackTrace(this.out);
 		}
 
-		String modelName = tsProject.getProjectLabel();
-		
-		
-		
+		String modelName = tsProject.getName();
+
 		Collection<Model> models = new ArrayList<Model>();
-		
-		for (IDependency dependency : tsProject.getDependencies()){
-			out.println("Creating Dependency model: "+dependency.getIProjectDetails().getName());
+
+		for (IDependency dependency : tsProject.getDependencies()) {
+			out.println("Creating Dependency model: "
+					+ dependency.getIModuleHeader().getOriginalName());
 			Model depModel = UMLFactory.eINSTANCE.createModel();
-			depModel.setName(dependency.getIProjectDetails().getName());
+			depModel.setName(dependency.getIModuleHeader().getOriginalName());
 			depModel.applyProfile(tsProfile);
 			models.add(depModel);
 		}
-		
-		for (ITigerstripeModelProject refProject : tsProject.getReferencedProjects()){
-			out.println("Creating Referenced Project model: "+refProject.getProjectDetails().getName());
+
+		for (ITigerstripeModelProject refProject : tsProject
+				.getReferencedProjects()) {
+			out.println("Creating Referenced Project model: "
+					+ refProject.getName());
 			Model refModel = UMLFactory.eINSTANCE.createModel();
-			refModel.setName(refProject.getProjectDetails().getName());
+			refModel.setName(refProject.getName());
 			refModel.applyProfile(tsProfile);
 			models.add(refModel);
 		}
-		
-		
+
 		projectModel = UMLFactory.eINSTANCE.createModel();
 		projectModel.setName(modelName);
 		projectModel.applyProfile(tsProfile);
 		models.add(projectModel);
-		
-		
-		maker = new Maker(typeMap,this.out, this.messages, typesModel, unknownTypeModel, unknownTypeMap, models);
-		
+
+		maker = new Maker(typeMap, this.out, this.messages, typesModel,
+				unknownTypeModel, unknownTypeMap, models);
+
 		projectToUML();
 		saveUnknowns(exportDir, tSProjectName);
-		saveModels( models, exportDir);
+		saveModels(models, exportDir);
 
-		
-
-		
 	}
-	
-	private void projectToUML() throws TigerstripeException{
+
+	private void projectToUML() throws TigerstripeException {
 
 		// Iterate over the Project, creating classes per artifact.
 		// This will create packages as necessary
@@ -216,45 +210,45 @@ public class TS2UML {
 				.getName());
 		myQuery.setIncludeDependencies(true);
 		Collection<IAbstractArtifact> projectArtifacts = mgrSession
-		.queryArtifact(myQuery);
-		
+				.queryArtifact(myQuery);
 
 		monitor.beginTask("Creating UML Classes :", projectArtifacts.size());
 		String msgText = "Found " + projectArtifacts.size()
 				+ " Project Artifacts ";
 		addMessage(msgText, 2);
 		out.println(msgText);
-		
+
 		// Handle the creation of new packages
-		// This can vary depending on whether PackageArtifacts are enabled or not.
+		// This can vary depending on whether PackageArtifacts are enabled or
+		// not.
 		// There is no guarantee that we get the PackageArtifact BEFORE
 		// any artifacts in it, not that we have the parent before any of
 		// its children.
-		this.out.println("**************************************************\nBuilding Packages :");
+		this.out
+				.println("**************************************************\nBuilding Packages :");
 		for (IAbstractArtifact artifact : projectArtifacts) {
 			try {
-				if (artifact instanceof IPackageArtifact){
-					Package modelPackage = maker.makeOrFindPackage((IPackageArtifact) artifact);
+				if (artifact instanceof IPackageArtifact) {
+					Package modelPackage = maker
+							.makeOrFindPackage((IPackageArtifact) artifact);
 					// set the details of the package based on this artifact.
 					addComponentStereotype(artifact, modelPackage);
 					Comment comment = modelPackage.createOwnedComment();
 					comment.setBody(artifact.getComment());
 				}
-			} catch (Exception t){
-				this.out.println("ERROR : "+artifact.getName()+" "+artifact.getLabel());
+			} catch (Exception t) {
+				this.out.println("ERROR : " + artifact.getName() + " "
+						+ artifact.getLabel());
 				t.printStackTrace(this.out);
 			}
 		}
-		
-		
-		for (IAbstractArtifact artifact : projectArtifacts) {
-			this.out.println("================================================\nProcessing " + artifact.getFullyQualifiedName());
-			monitor.setTaskName("Creating UML Classes : " + artifact.getName());
-			
 
-			
-			
-			
+		for (IAbstractArtifact artifact : projectArtifacts) {
+			this.out
+					.println("================================================\nProcessing "
+							+ artifact.getFullyQualifiedName());
+			monitor.setTaskName("Creating UML Classes : " + artifact.getName());
+
 			Package modelPackage = maker.makeOrFindPackage(artifact);
 
 			// NB Not all artifact types map to classes.
@@ -262,14 +256,14 @@ public class TS2UML {
 			// for example, and Dependencies don't map at all
 
 			if (artifact instanceof IManagedEntityArtifact
-	//				|| artifact instanceof IDatatypeArtifact
+					// || artifact instanceof IDatatypeArtifact
 					|| artifact instanceof IQueryArtifact
 					|| artifact instanceof IEventArtifact
 					|| artifact instanceof IUpdateProcedureArtifact
 					|| artifact instanceof IExceptionArtifact) {
 				Class clazz = maker.makeOrFindClass(artifact);
 				this.out.println("    Class : " + clazz.getQualifiedName());
-			} else if (artifact instanceof IDatatypeArtifact){
+			} else if (artifact instanceof IDatatypeArtifact) {
 				DataType datatype = maker.makeOrFindDatatype(artifact);
 			} else if (artifact instanceof ISessionArtifact) {
 				Interface intf = maker.makeOrFindInterface(artifact);
@@ -279,10 +273,11 @@ public class TS2UML {
 				Enumeration enumer = maker.makeOrFindEnum(artifact);
 				if (enumer != null) {
 					this.out.println("    Enum : " + enumer.getQualifiedName());
-					if (useTigerstripeAnnotations){
-						Stereotype eS = enumer.getApplicableStereotype(tsProfile
-								.getQualifiedName()
-								+ "::tigerstripe_enumeration");
+					if (useTigerstripeAnnotations) {
+						Stereotype eS = enumer
+								.getApplicableStereotype(tsProfile
+										.getQualifiedName()
+										+ "::tigerstripe_enumeration");
 						enumer.applyStereotype(eS);
 					}
 					addComponentStereotype(artifact, enumer);
@@ -294,115 +289,142 @@ public class TS2UML {
 
 		this.out.println();
 		monitor.beginTask("Adding Relationships :", projectArtifacts.size());
-		this.out.println("**************************************************\nAdding Relationships :");
+		this.out
+				.println("**************************************************\nAdding Relationships :");
 		// Need another pass for assocs & dependencies
 		for (IAbstractArtifact artifact : projectArtifacts) {
 			try {
-			if (artifact instanceof IAssociationClassArtifact) {
-				this.out.println("Relationships to AssociationClass "
-						+ artifact.getFullyQualifiedName());
-				AssociationClass associationClass = maker.makeOrFindAssociationClass(artifact);
-				if (associationClass != null) {
-					if (useTigerstripeAnnotations){
-					Stereotype aS = associationClass
-							.getApplicableStereotype(tsProfile
-									.getQualifiedName()
-									+ "::tigerstripe_associationClass");
-					associationClass.applyStereotype(aS);
-					}
-					addComponentStereotype(artifact, associationClass);
+				if (artifact instanceof IAssociationClassArtifact) {
+					this.out.println("Relationships to AssociationClass "
+							+ artifact.getFullyQualifiedName());
+					AssociationClass associationClass = maker
+							.makeOrFindAssociationClass(artifact);
+					if (associationClass != null) {
+						if (useTigerstripeAnnotations) {
+							Stereotype aS = associationClass
+									.getApplicableStereotype(tsProfile
+											.getQualifiedName()
+											+ "::tigerstripe_associationClass");
+							associationClass.applyStereotype(aS);
+						}
+						addComponentStereotype(artifact, associationClass);
 
+						String className = artifact.getFullyQualifiedName();
+						String umlClassName = Utilities.mapName(className,
+								artifact.getProject().getName());
+						addAttributes(artifact, ((Classifier) typeMap
+								.get(umlClassName)));
+						addOperations(artifact, ((Class) typeMap
+								.get(umlClassName)));
+					}
+				} else if (artifact instanceof IAssociationArtifact) {
+					this.out.println("Relationship to Association  "
+							+ artifact.getFullyQualifiedName());
+
+					Association association = maker
+							.makeOrFindAssociation(artifact);
+					if (association != null) {
+						if (useTigerstripeAnnotations) {
+							Stereotype aS = association
+									.getApplicableStereotype(tsProfile
+											.getQualifiedName()
+											+ "::tigerstripe_association");
+							association.applyStereotype(aS);
+						}
+						addComponentStereotype(artifact, association);
+					}
+				} else if (artifact instanceof IDependencyArtifact) {
+					Dependency dep = maker.makeDependency(artifact);
+					if (dep != null) {
+						if (useTigerstripeAnnotations) {
+							Stereotype depS = dep
+									.getApplicableStereotype(tsProfile
+											.getQualifiedName()
+											+ "::tigerstripe_dependency");
+							dep.applyStereotype(depS);
+						}
+						addComponentStereotype(artifact, dep);
+					}
+				} else if (artifact instanceof ISessionArtifact) {
+					this.out.println("Interface Settings  "
+							+ artifact.getFullyQualifiedName());
+					Interface intf = maker.makeOrFindInterface(artifact);
+					if (useTigerstripeAnnotations) {
+						Stereotype iS = intf.getApplicableStereotype(tsProfile
+								.getQualifiedName()
+								+ "::tigerstripe_session");
+						intf.applyStereotype(iS);
+
+						ArrayList emitList = new ArrayList();
+						for (IEmittedEvent emitted : ((ISessionArtifact) artifact)
+								.getEmittedEvents()) {
+							IAbstractArtifact eventArtifact = mgrSession
+									.getArtifactByFullyQualifiedName(emitted
+											.getFullyQualifiedName(), true);
+							if (eventArtifact != null) {
+								emitList.add(Utilities.mapName(emitted
+										.getFullyQualifiedName(), eventArtifact
+										.getProject().getName()));
+							}
+						}
+						intf.setValue(iS, "emits", emitList);
+
+						ArrayList manageList = new ArrayList();
+						for (IManagedEntityDetails details : ((ISessionArtifact) artifact)
+								.getManagedEntityDetails()) {
+							IAbstractArtifact detailsArtifact = mgrSession
+									.getArtifactByFullyQualifiedName(details
+											.getFullyQualifiedName(), true);
+							if (detailsArtifact != null) {
+								manageList
+										.add(Utilities.mapName(details
+												.getFullyQualifiedName(),
+												detailsArtifact.getProject()
+														.getName()));
+							}
+						}
+						intf.setValue(iS, "manages", manageList);
+
+						ArrayList supportList = new ArrayList();
+						for (INamedQuery query : ((ISessionArtifact) artifact)
+								.getNamedQueries()) {
+							IAbstractArtifact queryArtifact = mgrSession
+									.getArtifactByFullyQualifiedName(query
+											.getFullyQualifiedName(), true);
+							if (queryArtifact != null) {
+								supportList.add(Utilities.mapName(query
+										.getFullyQualifiedName(), queryArtifact
+										.getProject().getName()));
+							}
+						}
+						intf.setValue(iS, "supports", supportList);
+
+						ArrayList exposesList = new ArrayList();
+						for (IExposedUpdateProcedure proc : ((ISessionArtifact) artifact)
+								.getExposedUpdateProcedures()) {
+							IAbstractArtifact procArtifact = mgrSession
+									.getArtifactByFullyQualifiedName(proc
+											.getFullyQualifiedName(), true);
+							if (procArtifact != null) {
+								exposesList.add(Utilities.mapName(proc
+										.getFullyQualifiedName(), procArtifact
+										.getProject().getName()));
+							}
+						}
+						intf.setValue(iS, "exposes", exposesList);
+					}
 					String className = artifact.getFullyQualifiedName();
-					String umlClassName = Utilities.mapName(className, artifact.getProjectDescriptor().getIProjectDetails().getName());
-					addAttributes(artifact, ((Classifier) typeMap
+					String umlClassName = Utilities.mapName(className, artifact
+							.getProject().getName());
+					addOperations(artifact, ((Interface) typeMap
 							.get(umlClassName)));
-					addOperations(artifact, ((Class) typeMap.get(umlClassName)));
-				}
-			} else if (artifact instanceof IAssociationArtifact) {
-				this.out.println("Relationship to Association  "
-						+ artifact.getFullyQualifiedName());
 
-				Association association = maker.makeOrFindAssociation(artifact);
-				if (association != null) {
-					if (useTigerstripeAnnotations){
-					Stereotype aS = association
-							.getApplicableStereotype(tsProfile
-									.getQualifiedName()
-									+ "::tigerstripe_association");
-					association.applyStereotype(aS);
-					}
-					addComponentStereotype(artifact, association);
+					addComponentStereotype(artifact, intf);
 				}
-			} else if (artifact instanceof IDependencyArtifact) {
-				Dependency dep = maker.makeDependency(artifact);
-				if (dep != null) {
-					if (useTigerstripeAnnotations){
-					Stereotype depS = dep.getApplicableStereotype(tsProfile
-							.getQualifiedName()
-							+ "::tigerstripe_dependency");
-					dep.applyStereotype(depS);
-					}
-					addComponentStereotype(artifact, dep);
-				}
-			} else if (artifact instanceof ISessionArtifact) {
-				this.out.println("Interface Settings  "
-						+ artifact.getFullyQualifiedName());
-				Interface intf = maker.makeOrFindInterface(artifact);
-				if (useTigerstripeAnnotations){
-				Stereotype iS = intf.getApplicableStereotype(tsProfile
-						.getQualifiedName()
-						+ "::tigerstripe_session");
-				intf.applyStereotype(iS);
-				
-				ArrayList emitList = new ArrayList();
-				for (IEmittedEvent emitted : ((ISessionArtifact) artifact)
-						.getEmittedEvents()) {
-					IAbstractArtifact eventArtifact = mgrSession.getArtifactByFullyQualifiedName(emitted.getFullyQualifiedName(),true);
-					if ( eventArtifact != null){
-						emitList.add(Utilities.mapName(emitted.getFullyQualifiedName(), eventArtifact.getProjectDescriptor().getIProjectDetails().getName()));
-					}
-				}
-				intf.setValue(iS, "emits", emitList);
-
-				ArrayList manageList = new ArrayList();
-				for (IManagedEntityDetails details : ((ISessionArtifact) artifact)
-						.getManagedEntityDetails()) {
-					IAbstractArtifact detailsArtifact = mgrSession.getArtifactByFullyQualifiedName(details.getFullyQualifiedName(),true);
-					if ( detailsArtifact != null){
-						manageList.add(Utilities.mapName(details.getFullyQualifiedName(), detailsArtifact.getProjectDescriptor().getIProjectDetails().getName()));
-					}
-				}
-				intf.setValue(iS, "manages", manageList);
-
-				ArrayList supportList = new ArrayList();
-				for (INamedQuery query : ((ISessionArtifact) artifact)
-						.getNamedQueries()) {
-					IAbstractArtifact queryArtifact = mgrSession.getArtifactByFullyQualifiedName(query.getFullyQualifiedName(),true);
-					if ( queryArtifact != null){
-						supportList.add(Utilities.mapName(query.getFullyQualifiedName(), queryArtifact.getProjectDescriptor().getIProjectDetails().getName()));
-					}
-				}
-				intf.setValue(iS, "supports", supportList);
-
-				ArrayList exposesList = new ArrayList();
-				for (IExposedUpdateProcedure proc : ((ISessionArtifact) artifact)
-						.getExposedUpdateProcedures()) {
-					IAbstractArtifact procArtifact = mgrSession.getArtifactByFullyQualifiedName(proc.getFullyQualifiedName(),true);
-					if ( procArtifact != null){
-					exposesList.add(Utilities.mapName(proc.getFullyQualifiedName(), procArtifact.getProjectDescriptor().getIProjectDetails().getName()));
-					}
-				}
-				intf.setValue(iS, "exposes", exposesList);
-				}
-				String className = artifact.getFullyQualifiedName();
-				String umlClassName = Utilities.mapName(className, artifact.getProjectDescriptor().getIProjectDetails().getName());
-				addOperations(artifact, ((Interface) typeMap.get(umlClassName)));
-
-				addComponentStereotype(artifact, intf);
-			}
-			monitor.worked(1);
-			} catch (Exception t){
-				this.out.println("ERROR : "+artifact.getName()+" "+artifact.getLabel());
+				monitor.worked(1);
+			} catch (Exception t) {
+				this.out.println("ERROR : " + artifact.getName() + " "
+						+ artifact.getLabel());
 				t.printStackTrace(this.out);
 			}
 		}
@@ -410,7 +432,8 @@ public class TS2UML {
 
 		this.out.println();
 		monitor.beginTask("Adding Attributes etc :", projectArtifacts.size());
-		this.out.println("**************************************************\nAdding Attributes etc :");
+		this.out
+				.println("**************************************************\nAdding Attributes etc :");
 		// Re-pass to add Attributes etc Can't do this until we have created all
 		// classes
 		// in case of references
@@ -423,75 +446,81 @@ public class TS2UML {
 
 			Classifier clazz = null;
 			if (artifact instanceof IManagedEntityArtifact
-					//	|| artifact instanceof IDatatypeArtifact
+					// || artifact instanceof IDatatypeArtifact
 					|| artifact instanceof IQueryArtifact
 					|| artifact instanceof IEventArtifact
 					|| artifact instanceof IUpdateProcedureArtifact
 					|| artifact instanceof IExceptionArtifact) {
-				clazz = maker.makeOrFindClass(artifact); 
-			}else if (artifact instanceof IDatatypeArtifact){
+				clazz = maker.makeOrFindClass(artifact);
+			} else if (artifact instanceof IDatatypeArtifact) {
 				clazz = maker.makeOrFindDatatype(artifact);
 			}
-			if (clazz != null){
+			if (clazz != null) {
 
 				out.println("Classifier : " + clazz.getQualifiedName());
 				String className = artifact.getFullyQualifiedName();
-				String umlClassName = Utilities.mapName(className, artifact.getProjectDescriptor().getIProjectDetails().getName() );
-				addAttributes(artifact, ((Classifier) typeMap
-						.get(umlClassName)));
-				addOperations(artifact, ((Classifier) typeMap.get(umlClassName)));
+				String umlClassName = Utilities.mapName(className, artifact
+						.getProject().getName());
+				addAttributes(artifact,
+						((Classifier) typeMap.get(umlClassName)));
+				addOperations(artifact,
+						((Classifier) typeMap.get(umlClassName)));
 				if (artifact instanceof IManagedEntityArtifact) {
-					if (useTigerstripeAnnotations){
-					Stereotype meS = clazz.getApplicableStereotype(tsProfile
-							.getQualifiedName()
-							+ "::tigerstripe_managedEntity");
-					clazz.applyStereotype(meS);
+					if (useTigerstripeAnnotations) {
+						Stereotype meS = clazz
+								.getApplicableStereotype(tsProfile
+										.getQualifiedName()
+										+ "::tigerstripe_managedEntity");
+						clazz.applyStereotype(meS);
 					}
 				} else if (artifact instanceof IDatatypeArtifact) {
-					if (useTigerstripeAnnotations){
-					Stereotype dS = clazz.getApplicableStereotype(tsProfile
-							.getQualifiedName()
-							+ "::tigerstripe_datatype");
-					clazz.applyStereotype(dS);
+					if (useTigerstripeAnnotations) {
+						Stereotype dS = clazz.getApplicableStereotype(tsProfile
+								.getQualifiedName()
+								+ "::tigerstripe_datatype");
+						clazz.applyStereotype(dS);
 					}
 				} else if (artifact instanceof IQueryArtifact) {
-					if (useTigerstripeAnnotations){
-					Stereotype qS = clazz.getApplicableStereotype(tsProfile
-							.getQualifiedName()
-							+ "::tigerstripe_query");
-					clazz.applyStereotype(qS);
-					
-					IType rType = ((IQueryArtifact) artifact).getReturnedType();
-					Type type = maker.getUMLType(rType);
-					if (type != null) {
-						String retTypeString = type.getQualifiedName();
-						clazz.setValue(qS, "returnedtype", retTypeString);
-					} else {
-						out.println(" No return type "
-								+ ((IQueryArtifact) artifact).getReturnedType()
-										.getFullyQualifiedName());
-					}
+					if (useTigerstripeAnnotations) {
+						Stereotype qS = clazz.getApplicableStereotype(tsProfile
+								.getQualifiedName()
+								+ "::tigerstripe_query");
+						clazz.applyStereotype(qS);
+
+						IType rType = ((IQueryArtifact) artifact)
+								.getReturnedType();
+						Type type = maker.getUMLType(rType);
+						if (type != null) {
+							String retTypeString = type.getQualifiedName();
+							clazz.setValue(qS, "returnedtype", retTypeString);
+						} else {
+							out.println(" No return type "
+									+ ((IQueryArtifact) artifact)
+											.getReturnedType()
+											.getFullyQualifiedName());
+						}
 					}
 				} else if (artifact instanceof IEventArtifact) {
-					if (useTigerstripeAnnotations){
-					Stereotype nS = clazz.getApplicableStereotype(tsProfile
-							.getQualifiedName()
-							+ "::tigerstripe_notification");
-					clazz.applyStereotype(nS);
+					if (useTigerstripeAnnotations) {
+						Stereotype nS = clazz.getApplicableStereotype(tsProfile
+								.getQualifiedName()
+								+ "::tigerstripe_notification");
+						clazz.applyStereotype(nS);
 					}
 				} else if (artifact instanceof IUpdateProcedureArtifact) {
-					if (useTigerstripeAnnotations){
-					Stereotype dS = clazz.getApplicableStereotype(tsProfile
-							.getQualifiedName()
-							+ "::tigerstripe_updateProcedure");
-					clazz.applyStereotype(dS);
+					if (useTigerstripeAnnotations) {
+						Stereotype dS = clazz.getApplicableStereotype(tsProfile
+								.getQualifiedName()
+								+ "::tigerstripe_updateProcedure");
+						clazz.applyStereotype(dS);
 					}
 				} else if (artifact instanceof IExceptionArtifact) {
-					if (useTigerstripeAnnotations){
-					Stereotype exS = clazz.getApplicableStereotype(tsProfile
-							.getQualifiedName()
-							+ "::tigerstripe_exception");
-					clazz.applyStereotype(exS);
+					if (useTigerstripeAnnotations) {
+						Stereotype exS = clazz
+								.getApplicableStereotype(tsProfile
+										.getQualifiedName()
+										+ "::tigerstripe_exception");
+						clazz.applyStereotype(exS);
 					}
 
 				}
@@ -566,23 +595,27 @@ public class TS2UML {
 				} else if (artifact instanceof IAssociationClassArtifact) {
 					// this.out.println ("Assoc Class case!");
 					// Note that AssocClass can extend MEntity or AssocClass
-					AssociationClass association = maker.makeOrFindAssociationClass(artifact);
+					AssociationClass association = maker
+							.makeOrFindAssociationClass(artifact);
 					if (artifact.getExtendedArtifact() instanceof IManagedEntityArtifact) {
 						Class extendsClass = maker.makeOrFindClass(artifact
 								.getExtendedArtifact());
 						Generalization gen = association
 								.createGeneralization(extendsClass);
 					} else {
-						AssociationClass extendsAssociation = maker.makeOrFindAssociationClass(artifact
-								.getExtendedArtifact());
+						AssociationClass extendsAssociation = maker
+								.makeOrFindAssociationClass(artifact
+										.getExtendedArtifact());
 						Generalization gen = association
 								.createGeneralization(extendsAssociation);
 					}
 				} else if (artifact instanceof IAssociationArtifact) {
 					// this.out.println ("Assoc case!");
-					Association association = maker.makeOrFindAssociation(artifact);
-					Association extendsAssociation = maker.makeOrFindAssociation(artifact
-							.getExtendedArtifact());
+					Association association = maker
+							.makeOrFindAssociation(artifact);
+					Association extendsAssociation = maker
+							.makeOrFindAssociation(artifact
+									.getExtendedArtifact());
 					Generalization gen = association
 							.createGeneralization(extendsAssociation);
 				} else if (artifact instanceof IDependencyArtifact) {
@@ -602,9 +635,9 @@ public class TS2UML {
 		monitor.done();
 
 	}
-	
-	private void saveUnknowns(File exportDir, String exportFilename){
-		
+
+	private void saveUnknowns(File exportDir, String exportFilename) {
+
 		if (unknownTypeMap.size() > 0) {
 			URI fileUri = URI.createFileURI(exportDir.getAbsolutePath());
 			msgText = "Unknown types output to : " + fileUri.toFileString();
@@ -616,16 +649,18 @@ public class TS2UML {
 		}
 
 	}
-	
-	private void saveModels(Collection<Model> models,File exportDir){
-		for (Model model : models){
+
+	private void saveModels(Collection<Model> models, File exportDir) {
+		for (Model model : models) {
 			URI fileUri = URI.createFileURI(exportDir.getAbsolutePath());
-			msgText = "Model output to : " + (fileUri.appendSegment(model.getName()).appendFileExtension(
-					UMLResource.FILE_EXTENSION)).toFileString();
+			msgText = "Model output to : "
+					+ (fileUri.appendSegment(model.getName())
+							.appendFileExtension(UMLResource.FILE_EXTENSION))
+							.toFileString();
 			addMessage(msgText, 2);
 
-			save(model, fileUri.appendSegment(model.getName()).appendFileExtension(
-					UMLResource.FILE_EXTENSION));
+			save(model, fileUri.appendSegment(model.getName())
+					.appendFileExtension(UMLResource.FILE_EXTENSION));
 		}
 		monitor.done();
 		out.println("UML2 export complete");
@@ -653,33 +688,33 @@ public class TS2UML {
 		}
 		try {
 			resource.save(null);
-			out.println("Resource "+resource.getURI() +" saved");
+			out.println("Resource " + resource.getURI() + " saved");
 		} catch (IOException ioe) {
 			TigerstripeRuntime.logInfoMessage("UML2 export failed to save.");
 			out.println(ioe.getMessage());
 		}
 	}
 
-
 	/**
 	 * Add operations
 	 */
 	private void addOperations(IAbstractArtifact artifact, Classifier clazz) {
 		for (IMethod method : artifact.getMethods()) {
-			//Operation operation = clazz.createOwnedOperation(method.getName(),
-			//		null, null);
+			// Operation operation =
+			// clazz.createOwnedOperation(method.getName(),
+			// null, null);
 			Operation operation = UMLFactory.eINSTANCE.createOperation();
 			operation.setName(method.getName());
-			if (clazz instanceof Class){
+			if (clazz instanceof Class) {
 				operation.setClass_((Class) clazz);
-			} else if (clazz instanceof DataType){
+			} else if (clazz instanceof DataType) {
 				operation.setDatatype((DataType) clazz);
 			}
 			doOperationDetails(artifact, operation, method);
-			
+
 		}
 	}
-	
+
 	/**
 	 * Add operations
 	 */
@@ -687,18 +722,19 @@ public class TS2UML {
 		for (IMethod method : artifact.getMethods()) {
 			Operation operation = clazz.createOwnedOperation(method.getName(),
 					null, null);
-/*			Operation operation = UMLFactory.eINSTANCE.createOperation();
-			operation.setName(method.getName());
-			operation.setClass_(clazz);*/
-			
+			/*
+			 * Operation operation = UMLFactory.eINSTANCE.createOperation();
+			 * operation.setName(method.getName()); operation.setClass_(clazz);
+			 */
+
 			doOperationDetails(artifact, operation, method);
-			
+
 		}
 	}
-	
-	private void doOperationDetails(IAbstractArtifact artifact, Operation operation, IMethod method){
+
+	private void doOperationDetails(IAbstractArtifact artifact,
+			Operation operation, IMethod method) {
 		operation.setIsAbstract(method.isAbstract());
-		
 
 		// TODO method.getStereotypeInstances()
 		// TODO method.getReturnRefBy()
@@ -736,8 +772,8 @@ public class TS2UML {
 			result.setName(method.getReturnName());
 		} else {
 			// No type for this.
-			String msgText = "No type info for :" + artifact.getName()
-					+ ":" + method.getName() + ": Return type "
+			String msgText = "No type info for :" + artifact.getName() + ":"
+					+ method.getName() + ": Return type "
 					+ method.getReturnType().getFullyQualifiedName();
 			this.out.println("ERROR : " + msgText);
 			addMessage(msgText, 1);
@@ -748,8 +784,8 @@ public class TS2UML {
 
 			Type argType = maker.getUMLType(arg.getType());
 			if (argType != null) {
-				Parameter param = operation.createOwnedParameter(arg
-						.getName(), argType);
+				Parameter param = operation.createOwnedParameter(arg.getName(),
+						argType);
 				Comment parameterComment = param.createOwnedComment();
 				parameterComment.setBody(arg.getComment());
 				// TODO arg.getRefBy()
@@ -763,10 +799,9 @@ public class TS2UML {
 				param.setDefault(arg.getDefaultValue());
 			} else {
 				// No type for this.
-				String msgText = "No type info for :"
-					+ artifact.getName() + ":" + method.getName()
-					+ ": Argument "
-					+ arg.getType().getFullyQualifiedName();
+				String msgText = "No type info for :" + artifact.getName()
+						+ ":" + method.getName() + ": Argument "
+						+ arg.getType().getFullyQualifiedName();
 				this.out.println("ERROR : " + msgText);
 				addMessage(msgText, 1);
 				return;
@@ -786,8 +821,7 @@ public class TS2UML {
 	/**
 	 * Add attributes
 	 */
-	private void addAttributes(IAbstractArtifact artifact,
-			Classifier classifier) {
+	private void addAttributes(IAbstractArtifact artifact, Classifier classifier) {
 		for (IField field : artifact.getFields()) {
 			Property attribute = null;
 			Type type = maker.getUMLType(field.getType());
@@ -797,45 +831,52 @@ public class TS2UML {
 				int upperBound = Utilities.getUpperBound(field.getType()
 						.getTypeMultiplicity());
 				this.out.println("Bounds " + lowerBound + " " + upperBound);
-				if (lowerBound == 0 && upperBound == 0){
+				if (lowerBound == 0 && upperBound == 0) {
 					// This is bad
-					String msgText = "Illegal multiplicity :" + artifact.getName()
-					+ ":" + field.getName() + ":"
-					+ lowerBound + "-" + upperBound;
+					String msgText = "Illegal multiplicity :"
+							+ artifact.getName() + ":" + field.getName() + ":"
+							+ lowerBound + "-" + upperBound;
 					this.out.println("ERROR : " + msgText);
 					addMessage(msgText, 1);
 					continue;
 				} else {
-				if (classifier instanceof Class){
-					attribute = ((Class) classifier).createOwnedAttribute(field.getName(),
-							type, lowerBound, upperBound);
-				} else if (classifier instanceof DataType){
-					attribute = ((DataType) classifier).createOwnedAttribute(field.getName(),
-							type, lowerBound, upperBound);
-				}
-				if ( attribute != null){
-					attribute.setIsOrdered(field.isOrdered());
-					attribute.setIsUnique(field.isUnique());
-					if (field.getDefaultValue() != null) {
-						attribute.setDefault(field.getDefaultValue());
+					if (classifier instanceof Class) {
+						attribute = ((Class) classifier).createOwnedAttribute(
+								field.getName(), type, lowerBound, upperBound);
+					} else if (classifier instanceof DataType) {
+						attribute = ((DataType) classifier)
+								.createOwnedAttribute(field.getName(), type,
+										lowerBound, upperBound);
 					}
-					switch (field.getVisibility()) {
-					case PACKAGE:
-						attribute.setVisibility(VisibilityKind.PACKAGE_LITERAL);
-						break;
-					case PRIVATE:
-						attribute.setVisibility(VisibilityKind.PRIVATE_LITERAL);
-						break;
-					case PROTECTED:
-						attribute.setVisibility(VisibilityKind.PROTECTED_LITERAL);
-						break;
-					case PUBLIC:
-						attribute.setVisibility(VisibilityKind.PUBLIC_LITERAL);
-						break;
-					}
+					if (attribute != null) {
+						attribute.setIsOrdered(field.isOrdered());
+						attribute.setIsUnique(field.isUnique());
+						if (field.getDefaultValue() != null) {
+							attribute.setDefault(field.getDefaultValue());
+						}
+						switch (field.getVisibility()) {
+						case PACKAGE:
+							attribute
+									.setVisibility(VisibilityKind.PACKAGE_LITERAL);
+							break;
+						case PRIVATE:
+							attribute
+									.setVisibility(VisibilityKind.PRIVATE_LITERAL);
+							break;
+						case PROTECTED:
+							attribute
+									.setVisibility(VisibilityKind.PROTECTED_LITERAL);
+							break;
+						case PUBLIC:
+							attribute
+									.setVisibility(VisibilityKind.PUBLIC_LITERAL);
+							break;
+						}
 
-					out.println("     Added attribute : " + field.getName());
-				}
+						out
+								.println("     Added attribute : "
+										+ field.getName());
+					}
 				}
 			} else {
 				// No type for this.
@@ -872,17 +913,23 @@ public class TS2UML {
 									Arrays.asList(inst
 											.getAttributeValues(stAttr
 													.getName())));
-							out.println("     Added Stereotype Array attribute : "
+							out
+									.println("     Added Stereotype Array attribute : "
 											+ stAttr.getName());
 						} else {
-							String val = inst.getAttributeValue(stAttr.getName());
-							if (val.length() != 0){
-								attribute.setValue(stereotype, stAttr.getName(),
-										inst.getAttributeValue(stAttr.getName()));
-								out.println("     Added Stereotype attribute : "
-										+ stAttr.getName());
+							String val = inst.getAttributeValue(stAttr
+									.getName());
+							if (val.length() != 0) {
+								attribute.setValue(stereotype,
+										stAttr.getName(), inst
+												.getAttributeValue(stAttr
+														.getName()));
+								out
+										.println("     Added Stereotype attribute : "
+												+ stAttr.getName());
 							} else {
-								out.println("     Added Stereotype attribute : had no value");
+								out
+										.println("     Added Stereotype attribute : had no value");
 							}
 						}
 					} catch (TigerstripeException t) {
@@ -940,8 +987,6 @@ public class TS2UML {
 			}
 		}
 	}
-
-
 
 	protected static void addMessage(String msgText, int severity) {
 		if (severity <= MESSAGE_LEVEL) {

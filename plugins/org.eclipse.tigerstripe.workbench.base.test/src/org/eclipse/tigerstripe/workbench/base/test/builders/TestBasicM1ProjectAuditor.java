@@ -26,10 +26,9 @@ public class TestBasicM1ProjectAuditor extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
-		projectDetails.setName("TestBasicM1ProjectAuditor");
 		project = (ITigerstripeM1GeneratorProject) TigerstripeCore
-				.createProject(projectDetails, null,
-						ITigerstripeM1GeneratorProject.class, null, null);
+				.createProject("TestBasicM1ProjectAuditor", projectDetails,
+						null, ITigerstripeM1GeneratorProject.class, null, null);
 	}
 
 	@Override

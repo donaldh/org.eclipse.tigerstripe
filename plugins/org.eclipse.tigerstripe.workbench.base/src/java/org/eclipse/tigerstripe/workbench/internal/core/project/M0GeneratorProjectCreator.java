@@ -43,15 +43,16 @@ public class M0GeneratorProjectCreator extends BaseProjectCreator implements
 		IProjectCreator {
 
 	@SuppressWarnings("unchecked")
-	public IWorkspaceRunnable getRunnable(final IProjectDetails projectDetails,
-			final IPath path, final Map properties) throws TigerstripeException {
+	public IWorkspaceRunnable getRunnable(final String projectName,
+			final IProjectDetails projectDetails, final IPath path,
+			final Map properties) throws TigerstripeException {
 
 		IWorkspaceRunnable runnable = new IWorkspaceRunnable() {
 
 			public void run(IProgressMonitor monitor) throws CoreException {
 
 				// Creates a base Eclipse project
-				createBaseProject(projectDetails, path, monitor);
+				createBaseProject(projectName, path, monitor);
 				// Add the Appropriate Natures
 				addTSandJavaNature(BuilderConstants.M0Generator_NATURE_ID);
 
@@ -115,8 +116,8 @@ public class M0GeneratorProjectCreator extends BaseProjectCreator implements
 	/**
 	 * We will initialize file contents with a sample text.
 	 * 
-	 * @param pageProperties -
-	 *            the properties gathered through the wizard
+	 * @param pageProperties
+	 *            - the properties gathered through the wizard
 	 */
 	@Override
 	protected InputStream openContentStream(IProjectDetails projectDetails)
@@ -126,8 +127,7 @@ public class M0GeneratorProjectCreator extends BaseProjectCreator implements
 		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
 				buffer));
 
-		M0ProjectDescriptor projectDescriptor = new M0ProjectDescriptor(
-				null);
+		M0ProjectDescriptor projectDescriptor = new M0ProjectDescriptor(null);
 		projectDescriptor.setProjectDetails((ProjectDetails) projectDetails);
 
 		projectDescriptor.write(writer);

@@ -14,6 +14,13 @@ import java.util.Date;
 
 public interface IModuleHeader {
 
+	/**
+	 * The project name as it was when the module was created.
+	 * 
+	 * @return
+	 */
+	public String getOriginalName();
+
 	public String getModuleID();
 
 	public void setModuleID(String moduleID);

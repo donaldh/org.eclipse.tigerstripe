@@ -155,7 +155,7 @@ public class CopyRule extends Rule implements ICopyRule {
 
 		String expandedFromDir = expander.expandVar(getFilesetMatch(),
 				pluginConfig.getProject());
-		
+
 		if (expandedFromDir.indexOf("*") != -1) {
 			// there is a wildcard in there...
 			String newFileset = srcPrefix + File.separator + expandedFromDir;
@@ -175,8 +175,7 @@ public class CopyRule extends Rule implements ICopyRule {
 					+ expandedFromDir);
 			if (!srcFile.exists()) {
 				String src = "project '"
-						+ pluginConfig.getProjectHandle().getProjectDetails()
-								.getName() + "'";
+						+ pluginConfig.getProjectHandle().getName() + "'";
 				if (getCopyFrom() == ICopyRule.FROM_PLUGIN) {
 					src = "deployed plugin.";
 				}

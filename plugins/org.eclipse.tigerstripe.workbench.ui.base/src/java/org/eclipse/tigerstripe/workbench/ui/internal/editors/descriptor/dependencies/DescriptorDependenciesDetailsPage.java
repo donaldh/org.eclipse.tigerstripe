@@ -212,7 +212,7 @@ public class DescriptorDependenciesDetailsPage implements IDetailsPage {
 			}
 			packagedDate.setText(dateStr);
 
-			String name = details.getName();
+			String name = header.getOriginalName();
 			projectName.setText((name != null) ? name : "<unknown>");
 
 			String version = details.getVersion();

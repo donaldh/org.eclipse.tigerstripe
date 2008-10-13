@@ -165,14 +165,10 @@ public class ContractSegment extends VersionAwareElement implements
 
 				if (getContainingProject() != null) {
 					if (ref.getContainingProject() != null
-							&& !ref.getContainingProject().getProjectDetails()
-									.getName().equals(
-											getContainingProject()
-													.getProjectDetails()
-													.getName())) {
+							&& !ref.getContainingProject().getName().equals(
+									getContainingProject().getName())) {
 						refElm.addAttribute("project", ref
-								.getContainingProject().getProjectDetails()
-								.getName());
+								.getContainingProject().getName());
 					}
 				}
 			}
@@ -207,6 +203,7 @@ public class ContractSegment extends VersionAwareElement implements
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void parseFacetReferences(Element rootElement)
 			throws TigerstripeException {
 		facetReferences.clear();
@@ -265,6 +262,7 @@ public class ContractSegment extends VersionAwareElement implements
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void parseUseCases(Element rootElement) throws TigerstripeException {
 		useCaseRefs.clear();
 		Element useCasesElem = rootElement.element("useCaseRefs");
@@ -369,6 +367,7 @@ public class ContractSegment extends VersionAwareElement implements
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void parseScope(Element rootElement) throws TigerstripeException {
 		scope.clear();
 		Element scopeElement = rootElement.element("scope");

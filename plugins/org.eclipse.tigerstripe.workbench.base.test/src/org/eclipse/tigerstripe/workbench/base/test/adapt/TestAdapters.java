@@ -43,10 +43,9 @@ public class TestAdapters extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
-		projectDetails.setName(PROJECTNAME);
 		project = (ITigerstripeModelProject) TigerstripeCore.createProject(
-				projectDetails, null, ITigerstripeModelProject.class, null,
-				null);
+				PROJECTNAME, projectDetails, null,
+				ITigerstripeModelProject.class, null, null);
 	}
 
 	@Override
@@ -88,8 +87,9 @@ public class TestAdapters extends TestCase {
 		IManagedEntityArtifact me2 = (IManagedEntityArtifact) res
 				.getAdapter(IManagedEntityArtifact.class);
 		assertTrue(art == me2);
-		
-		IModelComponent comp = (IModelComponent) res.getAdapter(IModelComponent.class);
+
+		IModelComponent comp = (IModelComponent) res
+				.getAdapter(IModelComponent.class);
 		assertTrue(art == comp);
 	}
 

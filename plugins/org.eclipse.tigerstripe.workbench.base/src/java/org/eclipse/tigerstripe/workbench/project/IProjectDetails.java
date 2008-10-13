@@ -75,7 +75,7 @@ public interface IProjectDetails  {
 	/* Mandatory values are checked for existence by the Auditor */
 	public final static String[] MANDATORY_PROPERTIES = { };
 
-	public void setName(String name);
+//	public void setName(String name);
 
 	public void setVersion(String version);
 
@@ -95,7 +95,7 @@ public interface IProjectDetails  {
 	public String getDescription();
 
 	// ==============================================================
-	public String getName();
+//	public String getName();
 
 	public String getOutputDirectory();
 

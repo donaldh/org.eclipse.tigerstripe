@@ -12,54 +12,44 @@ package org.eclipse.tigerstripe.workbench.internal.builder.generator;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.plugins.ICopyRule;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 
 public class GlobalRuleAuditor extends BasePluggableProjectAuditor {
 
-	public GlobalRuleAuditor(ITigerstripeM1GeneratorProject pProject, IProject project) {
+	public GlobalRuleAuditor(ITigerstripeM1GeneratorProject pProject,
+			IProject project) {
 		super(pProject, project);
 	}
 
 	public void audit(IRule rule, IProgressMonitor monitor) {
 		super.audit(rule, monitor);
-		
+
 		if (!rule.isEnabled())
 			return;
 
-		try {
-			String name = rule.getName();
-			if (rule instanceof ICopyRule) {
-				ICopyRule cRule = (ICopyRule) rule;
-				if (cRule.getFilesetMatch() == null
-						|| cRule.getFilesetMatch().length() == 0) {
-					PluggablePluginProjectAuditor.reportError(
-							"Invalid source for "+rule.getLabel()+" '"
-									+ name
-									+ "' in project '"
-									+ getPProject().getProjectDetails()
-											.getName() + "'",
-							projectDescriptor, 222);
-				}
-
-				if (cRule.getToDirectory() == null
-						|| cRule.getToDirectory().length() == 0) {
-					PluggablePluginProjectAuditor.reportError(
-							"Invalid target directory for "+rule.getLabel()+" '"
-									+ name
-									+ "' in project '"
-									+ getPProject().getProjectDetails()
-											.getName() + "'",
-							projectDescriptor, 222);
-				}
+		String name = rule.getName();
+		if (rule instanceof ICopyRule) {
+			ICopyRule cRule = (ICopyRule) rule;
+			if (cRule.getFilesetMatch() == null
+					|| cRule.getFilesetMatch().length() == 0) {
+				PluggablePluginProjectAuditor
+						.reportError("Invalid source for " + rule.getLabel()
+								+ " '" + name + "' in project '"
+								+ getPProject().getName() + "'",
+								projectDescriptor, 222);
 			}
-		} catch (TigerstripeException e) {
-			BasePlugin.log(e);
+
+			if (cRule.getToDirectory() == null
+					|| cRule.getToDirectory().length() == 0) {
+				PluggablePluginProjectAuditor.reportError(
+						"Invalid target directory for " + rule.getLabel()
+								+ " '" + name + "' in project '"
+								+ getPProject().getName() + "'",
+						projectDescriptor, 222);
+			}
 		}
 	}
-
 
 }

@@ -17,8 +17,6 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.VelocityContextDefinition;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
@@ -50,115 +48,91 @@ public abstract class BasePluggableProjectAuditor {
 			this.projectDescriptor = project;
 		}
 	}
-	
+
 	public void audit(IRule rule, IProgressMonitor monitor) {
 
 		if (!rule.isEnabled())
 			return;
 
-		try {
-			// check name
-			String name = rule.getName();
-			if (name == null || name.trim().length() == 0) {
+		// check name
+		String name = rule.getName();
+		if (name == null || name.trim().length() == 0) {
+			PluggablePluginProjectAuditor.reportError("A " + rule.getLabel()
+					+ " with no name is defined in project '"
+					+ getPProject().getName() + "'", projectDescriptor, 222);
+		}
+
+		// Check description
+		String description = rule.getDescription();
+		if (description == null || description.trim().length() == 0) {
+			PluggablePluginProjectAuditor.reportInfo("No description for "
+					+ rule.getLabel() + " '" + name + "' in project '"
+					+ getPProject().getName() + "'", projectDescriptor, 222);
+		}
+
+		if (rule instanceof ITemplateBasedRule) {
+			// check template is defined and found
+			String template = ((ITemplateBasedRule) rule).getTemplate();
+			if (template == null || template.trim().length() == 0) {
 				PluggablePluginProjectAuditor.reportError(
-						"A "+rule.getLabel()+" with no name is defined in project '"
-								+ getPProject().getProjectLabel()
-								+ "'", projectDescriptor, 222);
-			}
-
-			// Check description
-			String description = rule.getDescription();
-			if (description == null || description.trim().length() == 0) {
-				PluggablePluginProjectAuditor.reportInfo(
-						"No description for "+rule.getLabel()+" '" + name
-								+ "' in project '"
-								+ getPProject().getProjectLabel()
-								+ "'", projectDescriptor, 222);
-			}
-
-			if (rule instanceof ITemplateBasedRule) {
-				// check template is defined and found
-				String template = ((ITemplateBasedRule) rule).getTemplate();
-				if (template == null || template.trim().length() == 0) {
+						"No Template specified for " + rule.getLabel() + " '"
+								+ name + "' in project '"
+								+ getPProject().getName() + "'",
+						projectDescriptor, 222);
+			} else {
+				IProject project = getProject();
+				IResource res = project.findMember(template);
+				if (res == null) {
 					PluggablePluginProjectAuditor.reportError(
-							"No Template specified for "+rule.getLabel()+" '"
-									+ name
-									+ "' in project '"
-									+ getPProject().getProjectDetails()
-											.getName() + "'",
-							projectDescriptor, 222);
-				} else {
-					IProject project = getProject();
-					IResource res = project.findMember(template);
-					if (res == null) {
-						PluggablePluginProjectAuditor.reportError(
-								"Template not found for "+rule.getLabel()+" '"
-										+ name
-										+ "' in project '"
-										+ getPProject().getProjectDetails()
-												.getName() + "'",
-								projectDescriptor, 222);
-					}
-				}
-
-				// Check an output file is defined
-				String output = ((ITemplateBasedRule) rule).getOutputFile();
-				if (output == null || output.trim().length() == 0) {
-					PluggablePluginProjectAuditor.reportError(
-							"No specified output filename for "+rule.getLabel()+" '"
-									+ name
-									+ "' in project '"
-									+ getPProject().getProjectDetails()
-											.getName() + "'",
+							"Template not found for " + rule.getLabel() + " '"
+									+ name + "' in project '"
+									+ getPProject().getName() + "'",
 							projectDescriptor, 222);
 				}
+			}
 
-				checkVelocityContextDefinitions(((ITemplateBasedRule) rule));
-			} 
-		} catch (TigerstripeException e) {
-			BasePlugin.log(e);
+			// Check an output file is defined
+			String output = ((ITemplateBasedRule) rule).getOutputFile();
+			if (output == null || output.trim().length() == 0) {
+				PluggablePluginProjectAuditor.reportError(
+						"No specified output filename for " + rule.getLabel()
+								+ " '" + name + "' in project '"
+								+ getPProject().getName() + "'",
+						projectDescriptor, 222);
+			}
+
+			checkVelocityContextDefinitions(((ITemplateBasedRule) rule));
 		}
 	}
 
-	
 	protected void checkVelocityContextDefinitions(ITemplateBasedRule rule) {
-		try {
-			VelocityContextDefinition[] defs = rule
-					.getVelocityContextDefinitions();
-			for (VelocityContextDefinition def : defs) {
-				String entry = def.getName();
-				if (entry == null || entry.trim().length() == 0) {
+		VelocityContextDefinition[] defs = rule.getVelocityContextDefinitions();
+		for (VelocityContextDefinition def : defs) {
+			String entry = def.getName();
+			if (entry == null || entry.trim().length() == 0) {
+				PluggablePluginProjectAuditor.reportError(
+						"Invalid Velocity Context Entry (no name) in "
+								+ rule.getLabel() + " '" + rule.getName()
+								+ "' in project '" + getPProject().getName()
+								+ "'", projectDescriptor, 222);
+			}
+
+			String clazz = def.getClassname();
+
+			IJavaProject jProject = JavaCore.create(getProject());
+			try {
+				IType type = jProject.findType(clazz);
+				if (type == null) {
 					PluggablePluginProjectAuditor.reportError(
-							"Invalid Velocity Context Entry (no name) in "+rule.getLabel()+" '"
-									+ rule.getName()
-									+ "' in project '"
-									+ getPProject().getProjectDetails()
-											.getName() + "'",
+							"Classname undefined for Velocity Context Entry '"
+									+ entry + "' in " + rule.getLabel() + " '"
+									+ rule.getName() + "' in project '"
+									+ getPProject().getName() + "'",
 							projectDescriptor, 222);
 				}
-
-				String clazz = def.getClassname();
-
-				IJavaProject jProject = JavaCore.create(getProject());
-				try {
-					IType type = jProject.findType(clazz);
-					if (type == null) {
-						PluggablePluginProjectAuditor.reportError(
-								"Classname undefined for Velocity Context Entry '"
-										+ entry
-										+ "' in "+rule.getLabel()+" '"
-										+ rule.getName()
-										+ "' in project '"
-										+ getPProject().getProjectDetails()
-												.getName() + "'",
-								projectDescriptor, 222);
-					}
-				} catch (JavaModelException e) {
-					// ignore?
-				}
+			} catch (JavaModelException e) {
+				// ignore?
 			}
-		} catch (TigerstripeException e) {
-			BasePlugin.log(e);
 		}
 	}
 }

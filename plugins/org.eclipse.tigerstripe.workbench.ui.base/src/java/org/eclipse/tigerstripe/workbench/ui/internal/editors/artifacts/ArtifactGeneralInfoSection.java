@@ -156,7 +156,7 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart {
 		createProjectName(getBody(), getToolkit());
 		createQualifiedName(getBody(), getToolkit());
 		createDescription(getBody(), getToolkit());
-		if (getContentProvider().hasExtends()){
+		if (getContentProvider().hasExtends()) {
 			createExtendName(getBody(), getToolkit());
 		}
 		GlobalSettingsProperty prop = (GlobalSettingsProperty) TigerstripeCore
@@ -169,10 +169,10 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart {
 			createImplementsNames(getBody(), getToolkit());
 		}
 
-		if (getContentProvider().hasAbstract()){
+		if (getContentProvider().hasAbstract()) {
 			createIsAbstractButton(getBody(), getToolkit());
 		}
-		
+
 		createStereotypes(getBody(), getToolkit());
 
 		updateForm();
@@ -239,8 +239,7 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart {
 
 		String projectLabel = "";
 		if (getIArtifact().getTigerstripeProject() != null) {
-			projectLabel = getIArtifact().getTigerstripeProject()
-					.getProjectLabel();
+			projectLabel = getIArtifact().getTigerstripeProject().getName();
 		}
 
 		Label label = toolkit.createLabel(parent, "Project: ", SWT.NULL);
@@ -544,10 +543,10 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart {
 	protected void updateForm() {
 		setSilentUpdate(true);
 		descriptionText.setText(getIArtifact().getComment());
-		if (getContentProvider().hasAbstract()){
+		if (getContentProvider().hasAbstract()) {
 			isAbstractButton.setSelection(getIArtifact().isAbstract());
 		}
-		if (getContentProvider().hasExtends()){ 
+		if (getContentProvider().hasExtends()) {
 			if (getIArtifact().getExtendedArtifact() != null)
 				extendNameText.setText(getIArtifact().getExtendedArtifact()
 						.getFullyQualifiedName());

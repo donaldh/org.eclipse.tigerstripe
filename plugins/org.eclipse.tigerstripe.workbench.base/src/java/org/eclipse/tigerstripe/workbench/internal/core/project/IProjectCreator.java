@@ -26,9 +26,9 @@ import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
  */
 public interface IProjectCreator {
 
-	public IWorkspaceRunnable getRunnable(final IProjectDetails projectDetails,
-			final IPath folder, final Map<String, Object> properties)
-			throws TigerstripeException;
+	public IWorkspaceRunnable getRunnable(final String projectName,
+			final IProjectDetails projectDetails, final IPath folder,
+			final Map<String, Object> properties) throws TigerstripeException;
 
 	public void assertValidProperties(Map<String, Object> properties)
 			throws TigerstripeException;

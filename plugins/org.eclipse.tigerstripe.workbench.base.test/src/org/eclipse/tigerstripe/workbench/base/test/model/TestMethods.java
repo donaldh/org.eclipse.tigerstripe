@@ -22,14 +22,12 @@ public class TestMethods extends junit.framework.TestCase {
 	protected IAbstractTigerstripeProject createModelProject(String projectName)
 			throws TigerstripeException {
 		IProjectDetails details = TigerstripeCore.makeProjectDetails();
-		details.setName(projectName);
 		IAbstractTigerstripeProject aProject = TigerstripeCore.createProject(
-				details, null, ITigerstripeModelProject.class, null,
-				new NullProgressMonitor());
+				projectName, details, null, ITigerstripeModelProject.class,
+				null, new NullProgressMonitor());
 		return aProject;
 	}
 
-	
 	public final void testMethods() throws TigerstripeException {
 		IAbstractTigerstripeProject aProject = createModelProject("testMethods");
 		assertTrue(aProject instanceof ITigerstripeModelProject);
@@ -47,14 +45,14 @@ public class TestMethods extends junit.framework.TestCase {
 		top.doSave(new NullProgressMonitor());
 
 		Collection<IMethod> methods = top.getMethods();
-		assertTrue("Method collection  does not include correct method", methods
-				.iterator().next().getName().equals(methodName));
+		assertTrue("Method collection  does not include correct method",
+				methods.iterator().next().getName().equals(methodName));
 
 		String comment = "These are the words";
 		EVisibility vis = EVisibility.PUBLIC;
 		String defaultReturnValue = "0";
 		String methodReturnName = "return";
-		
+
 		IType type = method1.makeType();
 		type.setFullyQualifiedName("int");
 		type.setTypeMultiplicity(EMultiplicity.ZERO_ONE);
@@ -74,23 +72,25 @@ public class TestMethods extends junit.framework.TestCase {
 
 		// //////////
 		// Make sure we got the right values
-		IMethod gotMethod  = top.getMethods().iterator().next();
-		assertTrue("Didn't get the same method back!", gotMethod.equals(method1));
-		assertTrue("Method name changed on save", gotMethod.getName().equals(methodName));
+		IMethod gotMethod = top.getMethods().iterator().next();
+		assertTrue("Didn't get the same method back!", gotMethod
+				.equals(method1));
+		assertTrue("Method name changed on save", gotMethod.getName().equals(
+				methodName));
 		assertTrue("Method comment changed on save", gotMethod.getComment()
 				.equals(comment));
-		assertTrue("Method default Value changed on save", gotMethod.getDefaultReturnValue()
-				.equals(defaultReturnValue ));
-		assertTrue("Method return name changed on save", gotMethod.getReturnName()
-				.equals(methodReturnName ));
+		assertTrue("Method default Value changed on save", gotMethod
+				.getDefaultReturnValue().equals(defaultReturnValue));
+		assertTrue("Method return name changed on save", gotMethod
+				.getReturnName().equals(methodReturnName));
 		assertTrue("Method abstract changed on save", gotMethod.isAbstract());
-		assertTrue("Method optional changed on save", gotMethod.isOptional());		
+		assertTrue("Method optional changed on save", gotMethod.isOptional());
 		assertTrue("Method unique changed on save", gotMethod.isUnique());
 		assertTrue("Method ordered changed on save", gotMethod.isOrdered());
-		assertTrue("Method visibility changed on save", gotMethod.getVisibility()
-				.equals(vis));
-		assertTrue("Method type changed on save", gotMethod.getReturnType().getName()
-				.equals(type.getName()));
+		assertTrue("Method visibility changed on save", gotMethod
+				.getVisibility().equals(vis));
+		assertTrue("Method type changed on save", gotMethod.getReturnType()
+				.getName().equals(type.getName()));
 
 		// /////////
 		// Now change all the values and see of they have been reset!
@@ -114,48 +114,47 @@ public class TestMethods extends junit.framework.TestCase {
 		method1.setDefaultReturnValue(defaultReturnValue);
 		method1.setReturnName(methodReturnName);
 
-
 		top.doSave(new NullProgressMonitor());
 
 		// //////////
 		// Make sure we got the right values
 		IMethod gotNewMethod = top.getMethods().iterator().next();
-		assertTrue("Didn't get the same method back!", gotNewMethod.equals(method1));
-		assertTrue("Method name changed on save", gotNewMethod.getName().equals(methodName2));
+		assertTrue("Didn't get the same method back!", gotNewMethod
+				.equals(method1));
+		assertTrue("Method name changed on save", gotNewMethod.getName()
+				.equals(methodName2));
 		assertTrue("Method comment changed on save", gotNewMethod.getComment()
 				.equals(comment));
-		assertTrue("Method default Value changed on save", gotNewMethod.getDefaultReturnValue()
-				.equals(defaultReturnValue ));
-		assertTrue("Method return name changed on save", gotNewMethod.getReturnName()
-				.equals(methodReturnName ));
-		assertTrue("Method abstract changed on save", !gotNewMethod.isAbstract());
-		assertTrue("Method optional changed on save", !gotNewMethod.isOptional());		
+		assertTrue("Method default Value changed on save", gotNewMethod
+				.getDefaultReturnValue().equals(defaultReturnValue));
+		assertTrue("Method return name changed on save", gotNewMethod
+				.getReturnName().equals(methodReturnName));
+		assertTrue("Method abstract changed on save", !gotNewMethod
+				.isAbstract());
+		assertTrue("Method optional changed on save", !gotNewMethod
+				.isOptional());
 		assertTrue("Method unique changed on save", !gotNewMethod.isUnique());
 		assertTrue("Method ordered changed on save", !gotNewMethod.isOrdered());
-		assertTrue("Method visibility changed on save", gotNewMethod.getVisibility()
-				.equals(vis));
-		assertTrue("Method type changed on save", gotNewMethod.getReturnType().getName()
-				.equals(newType.getName()));
+		assertTrue("Method visibility changed on save", gotNewMethod
+				.getVisibility().equals(vis));
+		assertTrue("Method type changed on save", gotNewMethod.getReturnType()
+				.getName().equals(newType.getName()));
 
-		
-		
-		/////////// 
+		// /////////
 		// test for a void method setting
 		method1.setVoid(true);
 		top.doSave(new NullProgressMonitor());
 		IMethod gotVoidMethod = top.getMethods().iterator().next();
 		assertTrue("Method void changed on save", gotVoidMethod.isVoid());
-		assertTrue("void Method type not void", gotNewMethod.getReturnType().getName()
-				.equals("void"));
-		
+		assertTrue("void Method type not void", gotNewMethod.getReturnType()
+				.getName().equals("void"));
 
 		// Test Argument list setting and changing
-		String[] argNames = {"one", "two", "three"};
-		String[] defaultValues = {"une", "deux", "trois"};
-		String[] descriptions = {"uno", "due", "tre"};
-		int[] refBys = { 0,1,2 };
-		
-		
+		String[] argNames = { "one", "two", "three" };
+		String[] defaultValues = { "une", "deux", "trois" };
+		String[] descriptions = { "uno", "due", "tre" };
+		int[] refBys = { 0, 1, 2 };
+
 		IArgument arg0 = method1.makeArgument();
 		arg0.setName(argNames[0]);
 		arg0.setDefaultValue(defaultValues[0]);
@@ -164,29 +163,31 @@ public class TestMethods extends junit.framework.TestCase {
 		arg0.setComment(descriptions[0]);
 		arg0.setRefBy(refBys[0]);
 		arg0.setType(type);
-		
+
 		method1.addArgument(arg0);
 		top.doSave(new NullProgressMonitor());
-		
+
 		// //////////
 		// Make sure we got the right list size
 		gotNewMethod = top.getMethods().iterator().next();
-		assertTrue("Wrong number of Arguments ("+gotNewMethod.getArguments().size()+")",gotNewMethod.getArguments().size() == 1);
-		
+		assertTrue("Wrong number of Arguments ("
+				+ gotNewMethod.getArguments().size() + ")", gotNewMethod
+				.getArguments().size() == 1);
+
 		// Make sure we got the right values
 		IArgument firstArg = gotNewMethod.getArguments().iterator().next();
 		assertTrue("Didn't get the same argument back!", firstArg.equals(arg0));
-		assertTrue("Argument name changed on save", firstArg.getName().equals(argNames[0]));
+		assertTrue("Argument name changed on save", firstArg.getName().equals(
+				argNames[0]));
 		assertTrue("Argument comment changed on save", firstArg.getComment()
 				.equals(descriptions[0]));
-		assertTrue("Argument default Value changed on save", firstArg.getDefaultValue()
-				.equals(defaultValues[0] ));	
+		assertTrue("Argument default Value changed on save", firstArg
+				.getDefaultValue().equals(defaultValues[0]));
 		assertTrue("Argument unique changed on save", firstArg.isUnique());
-		assertTrue("Argument ordered changed on save", firstArg.isOrdered());	
-		assertTrue("Argument type changed on save", firstArg.getType().getName()
-				.equals(type.getName()));
-		
-		
+		assertTrue("Argument ordered changed on save", firstArg.isOrdered());
+		assertTrue("Argument type changed on save", firstArg.getType()
+				.getName().equals(type.getName()));
+
 		// Change the values and retest
 		arg0.setName(argNames[2]);
 		arg0.setDefaultValue(defaultValues[2]);
@@ -196,24 +197,26 @@ public class TestMethods extends junit.framework.TestCase {
 		arg0.setRefBy(refBys[2]);
 		arg0.setType(newType);
 		top.doSave(new NullProgressMonitor());
-		
+
 		gotNewMethod = top.getMethods().iterator().next();
-		assertTrue("Wrong number of Arguments ("+gotNewMethod.getArguments().size()+")",gotNewMethod.getArguments().size() == 1);
-		
+		assertTrue("Wrong number of Arguments ("
+				+ gotNewMethod.getArguments().size() + ")", gotNewMethod
+				.getArguments().size() == 1);
+
 		// Make sure we got the right values
 		firstArg = gotNewMethod.getArguments().iterator().next();
 		assertTrue("Didn't get the same argument back!", firstArg.equals(arg0));
-		assertTrue("Argument name changed on save", firstArg.getName().equals(argNames[2]));
+		assertTrue("Argument name changed on save", firstArg.getName().equals(
+				argNames[2]));
 		assertTrue("Argument comment changed on save", firstArg.getComment()
 				.equals(descriptions[2]));
-		assertTrue("Argument default Value changed on save", firstArg.getDefaultValue()
-				.equals(defaultValues[2] ));	
+		assertTrue("Argument default Value changed on save", firstArg
+				.getDefaultValue().equals(defaultValues[2]));
 		assertTrue("Argument unique changed on save", !firstArg.isUnique());
-		assertTrue("Argument ordered changed on save", !firstArg.isOrdered());	
-		assertTrue("Argument type changed on save", firstArg.getType().getName()
-				.equals(newType.getName()));
-		
-		
+		assertTrue("Argument ordered changed on save", !firstArg.isOrdered());
+		assertTrue("Argument type changed on save", firstArg.getType()
+				.getName().equals(newType.getName()));
+
 		// Add a second one and make sure they come back in the "correct" order
 		IArgument arg1 = method1.makeArgument();
 		arg1.setName(argNames[1]);
@@ -223,75 +226,77 @@ public class TestMethods extends junit.framework.TestCase {
 		arg1.setComment(descriptions[1]);
 		arg1.setRefBy(refBys[1]);
 		arg1.setType(newType);
-		
+
 		method1.addArgument(arg1);
 		top.doSave(new NullProgressMonitor());
-		
+
 		// //////////
 		// Make sure we got the right list size
 		gotNewMethod = top.getMethods().iterator().next();
-		assertTrue("Wrong number of Arguments ("+gotNewMethod.getArguments().size()+")",gotNewMethod.getArguments().size() == 2);
+		assertTrue("Wrong number of Arguments ("
+				+ gotNewMethod.getArguments().size() + ")", gotNewMethod
+				.getArguments().size() == 2);
 		// Make sure we got the right values IN THE RIGHT ORDER
-		Iterator<IArgument> argIterator = gotNewMethod.getArguments().iterator();
+		Iterator<IArgument> argIterator = gotNewMethod.getArguments()
+				.iterator();
 		IArgument arg = argIterator.next();
-		assertTrue("Didn't get the same argument back in position 0!", arg.equals(arg0));
+		assertTrue("Didn't get the same argument back in position 0!", arg
+				.equals(arg0));
 		arg = argIterator.next();
-		assertTrue("Didn't get the same argument back in position 1!", arg.equals(arg1));
-		
-		
-		
+		assertTrue("Didn't get the same argument back in position 1!", arg
+				.equals(arg1));
+
 		// Test Exception list setting and changing
-		
-		String[] fqns = {"org.eclipse.one", "org.eclipse.two", "org.eclipse.three"};
+
+		String[] fqns = { "org.eclipse.one", "org.eclipse.two",
+				"org.eclipse.three" };
 		IException exception0 = method1.makeException();
 		exception0.setFullyQualifiedName(fqns[0]);
 		method1.addException(exception0);
 		top.doSave(new NullProgressMonitor());
-		
+
 		// //////////
 		// Make sure we got the right list size
 		gotNewMethod = top.getMethods().iterator().next();
-		assertTrue("Wrong number of Exceptions ("+gotNewMethod.getExceptions().size()+")",gotNewMethod.getExceptions().size() == 1);
-		// Make sure we got the right values 
+		assertTrue("Wrong number of Exceptions ("
+				+ gotNewMethod.getExceptions().size() + ")", gotNewMethod
+				.getExceptions().size() == 1);
+		// Make sure we got the right values
 		IException firstExc = gotNewMethod.getExceptions().iterator().next();
-		assertTrue("Didn't get the same argument back!", firstExc.equals(exception0));
-		assertTrue("Exception fqname changed on save", firstExc.getFullyQualifiedName().equals(fqns[0]));
-		
-		
+		assertTrue("Didn't get the same argument back!", firstExc
+				.equals(exception0));
+		assertTrue("Exception fqname changed on save", firstExc
+				.getFullyQualifiedName().equals(fqns[0]));
+
 		// Change the values
 		exception0.setFullyQualifiedName(fqns[2]);
 		top.doSave(new NullProgressMonitor());
 		// Make sure we got the right list size
 		gotNewMethod = top.getMethods().iterator().next();
-		assertTrue("Wrong number of Exceptions ("+gotNewMethod.getExceptions().size()+")",gotNewMethod.getExceptions().size() == 1);
-		// Make sure we got the right values 
+		assertTrue("Wrong number of Exceptions ("
+				+ gotNewMethod.getExceptions().size() + ")", gotNewMethod
+				.getExceptions().size() == 1);
+		// Make sure we got the right values
 		firstExc = gotNewMethod.getExceptions().iterator().next();
-		assertTrue("Didn't get the same argument back!", firstExc.equals(exception0));
-		assertTrue("Exception fqname changed on save", firstExc.getFullyQualifiedName().equals(fqns[2]));
-		
-		
-		
+		assertTrue("Didn't get the same argument back!", firstExc
+				.equals(exception0));
+		assertTrue("Exception fqname changed on save", firstExc
+				.getFullyQualifiedName().equals(fqns[2]));
+
 		IException exception1 = method1.makeException();
 		exception1.setFullyQualifiedName(fqns[1]);
 		method1.addException(exception1);
 		top.doSave(new NullProgressMonitor());
-		
+
 		// //////////
 		// Make sure we got the right list size
 		gotNewMethod = top.getMethods().iterator().next();
 		Collection<IException> exceptions = gotNewMethod.getExceptions();
-		assertTrue("Wrong number of Exceptions ("+exceptions.size()+")",exceptions.size() == 2);
-		assertTrue ("Missing exception", exceptions.contains(exception0));
-		assertTrue ("Missing exception", exceptions.contains(exception1));
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		assertTrue("Wrong number of Exceptions (" + exceptions.size() + ")",
+				exceptions.size() == 2);
+		assertTrue("Missing exception", exceptions.contains(exception0));
+		assertTrue("Missing exception", exceptions.contains(exception1));
+
 		project.delete(true, new NullProgressMonitor());
 	}
 

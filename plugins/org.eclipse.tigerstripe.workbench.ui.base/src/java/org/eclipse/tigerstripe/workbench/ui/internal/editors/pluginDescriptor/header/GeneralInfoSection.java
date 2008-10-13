@@ -123,8 +123,7 @@ public class GeneralInfoSection extends GeneratorDescriptorSectionPart {
 				.setToolTipText("The name of the plugin as presented to the user once deployed.");
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		nameText.setLayoutData(td);
-		nameText.addModifyListener(new GeneralInfoPageListener());
-		nameText.setEnabled(GeneratorDescriptorEditor.isEditable());
+		nameText.setEnabled(false);
 	}
 
 	private void createVersion(Composite parent, FormToolkit toolkit) {
@@ -240,10 +239,7 @@ public class GeneralInfoSection extends GeneratorDescriptorSectionPart {
 
 			try {
 				IProjectDetails details = handle.getProjectDetails();
-				if (e.getSource() == nameText) {
-					details.setName(nameText.getText().trim());
-					handle.setProjectDetails(details);
-				} else if (e.getSource() == versionText) {
+				if (e.getSource() == versionText) {
 					details.setVersion(versionText.getText().trim());
 					handle.setProjectDetails(details);
 				} else if (e.getSource() == descriptionText) {
@@ -283,7 +279,7 @@ public class GeneralInfoSection extends GeneratorDescriptorSectionPart {
 		try {
 			setSilentUpdate(true);
 
-			nameText.setText(handle.getProjectDetails().getName());
+			nameText.setText(handle.getName());
 			versionText.setText(handle.getProjectDetails().getVersion());
 			descriptionText
 					.setText(handle.getProjectDetails().getDescription());

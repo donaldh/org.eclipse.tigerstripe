@@ -41,10 +41,10 @@ public class TestManagedEntityMigration extends TestCase {
 
 		// Create a Test Project to use for this test
 		IProjectDetails details = TigerstripeCore.makeProjectDetails();
-		details.setName("TestManagedEntityMigration");
-		project = (ITigerstripeModelProject) TigerstripeCore.createProject(
-				details, null, ITigerstripeModelProject.class, null,
-				new NullProgressMonitor());
+		project = (ITigerstripeModelProject) TigerstripeCore
+				.createProject("TestManagedEntityMigration", details, null,
+						ITigerstripeModelProject.class, null,
+						new NullProgressMonitor());
 	}
 
 	protected void tearDown() throws Exception {

@@ -25,8 +25,13 @@ import org.eclipse.tigerstripe.workbench.WorkingCopyException;
  */
 public interface IAbstractTigerstripeProject extends IAdaptable, IWorkingCopy {
 
-	public String getProjectLabel();
-
+	/**
+	 * 	Returns the project name (direct from the underlying IProject)
+	 * 
+	 * @return
+	 */
+	public String getName();
+	
 	public IProjectDetails getProjectDetails() throws TigerstripeException;
 
 	public void setProjectDetails(IProjectDetails projectDetails)

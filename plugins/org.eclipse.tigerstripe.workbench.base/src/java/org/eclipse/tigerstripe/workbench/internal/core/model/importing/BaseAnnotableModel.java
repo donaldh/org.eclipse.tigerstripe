@@ -36,7 +36,7 @@ public abstract class BaseAnnotableModel extends BaseAnnotable implements
 
 	public BaseAnnotableModel(ITigerstripeModelProject targetProject,
 			IModelImportConfiguration config) throws TigerstripeException {
-		super(targetProject.getProjectLabel());
+		super(targetProject.getName());
 		this.targetProject = targetProject;
 		this.config = config;
 	}

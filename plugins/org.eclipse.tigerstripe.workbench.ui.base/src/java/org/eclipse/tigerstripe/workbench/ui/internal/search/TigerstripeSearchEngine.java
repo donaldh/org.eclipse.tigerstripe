@@ -102,15 +102,15 @@ public class TigerstripeSearchEngine {
 	private IStatus internalProjectSearch(SearchPatternData searchData,
 			TigerstripeSearchResultCollector collector, IProgressMonitor monitor) {
 		try {
-			ITigerstripeModelProject[] projects = searchData.getProjectsInScope();
+			ITigerstripeModelProject[] projects = searchData
+					.getProjectsInScope();
 
 			for (ITigerstripeModelProject project : projects) {
 				IArtifactManagerSession session = project
 						.getArtifactManagerSession();
 				Collection<IAbstractArtifact> artifacts = session
 						.queryArtifact(new QueryAllArtifacts());
-				monitor.beginTask("Searching '"
-						+ project.getProjectLabel() + "'",
+				monitor.beginTask("Searching '" + project.getName() + "'",
 						artifacts.size());
 				for (IAbstractArtifact artifact : artifacts) {
 					IStatus s = searchArtifact(artifact, collector, monitor);

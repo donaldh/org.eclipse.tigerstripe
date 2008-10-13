@@ -58,10 +58,6 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 
 	private boolean silentUpdate;
 
-	private Text idText;
-
-	private Label idLabel;
-
 	private Text nameText;
 
 	private Label nameLabel;
@@ -90,32 +86,12 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
 		getSection().setLayoutData(td);
 
-		createID(getBody(), getToolkit());
 		createName(getBody(), getToolkit());
 		createVersion(getBody(), getToolkit());
 		createDescription(getBody(), getToolkit());
 
 		getSection().setClient(getBody());
 		getToolkit().paintBordersFor(getBody());
-	}
-
-	private void createID(Composite parent, FormToolkit toolkit) {
-		TableWrapData td = null;
-
-		idLabel = toolkit.createLabel(parent, "ID: ", SWT.WRAP);
-		String projectLabel = "";
-		projectLabel = getTSProject().getProjectLabel();
-		// on a ReadOnly descriptor (ie. from a module, this will be null)
-		if (projectLabel == null) {
-			projectLabel = "<MODULE>";
-		}
-
-		idText = toolkit.createText(parent, projectLabel);
-		idText.setEnabled(false);
-		idText.setEditable(false);
-		idLabel.setEnabled(false);
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		idText.setLayoutData(td);
 	}
 
 	private void createName(Composite parent, FormToolkit toolkit) {
@@ -125,7 +101,7 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 		nameText = toolkit.createText(parent, "");
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		nameText.setLayoutData(td);
-		nameText.setEnabled(!this.isReadonly());
+		nameText.setEnabled(false);
 		nameLabel.setEnabled(!this.isReadonly());
 		nameText.addModifyListener(new GeneralInfoPageListener());
 	}
@@ -189,10 +165,7 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 			ITigerstripeModelProject handle = getTSProject();
 
 			try {
-				if (e.getSource() == nameText) {
-					handle.getProjectDetails().setName(
-							nameText.getText().trim());
-				} else if (e.getSource() == versionText) {
+				if (e.getSource() == versionText) {
 					IProjectDetails details = handle.getProjectDetails();
 					details.setVersion(versionText.getText().trim());
 					handle.setProjectDetails(details);
@@ -230,7 +203,7 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 		try {
 			setSilentUpdate(true);
 
-			nameText.setText(handle.getProjectDetails().getName());
+			nameText.setText(handle.getName());
 			versionText.setText(handle.getProjectDetails().getVersion());
 			descriptionText
 					.setText(handle.getProjectDetails().getDescription());

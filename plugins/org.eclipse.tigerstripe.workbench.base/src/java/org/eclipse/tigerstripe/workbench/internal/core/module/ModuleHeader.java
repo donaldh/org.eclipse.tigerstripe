@@ -22,6 +22,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
  */
 public class ModuleHeader implements IModuleHeader {
 
+	private String originalName;
 	private String moduleID;
 	private String build;
 	private Date date;
@@ -50,4 +51,11 @@ public class ModuleHeader implements IModuleHeader {
 		this.date = date;
 	}
 
+	public void setOriginalName(String originalName) {
+		this.originalName = originalName;
+	}
+
+	public String getOriginalName() {
+		return this.originalName;
+	}
 }

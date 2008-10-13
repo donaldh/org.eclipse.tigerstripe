@@ -12,7 +12,6 @@ package org.eclipse.tigerstripe.workbench.base.test.generation;
 
 import junit.framework.TestCase;
 
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.generation.IM1RunConfig;
@@ -28,10 +27,9 @@ public class TestProjectGenerationBasics extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
-		projectDetails.setName("TestProjectGenerationBasics");
 		project = (ITigerstripeModelProject) TigerstripeCore.createProject(
-				projectDetails, null, ITigerstripeModelProject.class, null,
-				null);
+				"TestProjectGenerationBasics", projectDetails, null,
+				ITigerstripeModelProject.class, null, null);
 	}
 
 	@Override

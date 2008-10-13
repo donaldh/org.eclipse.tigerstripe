@@ -127,7 +127,7 @@ public class ExternalModules {
 			IDependency dep = TigerstripeProjectFactory.INSTANCE
 					.getProjectSession().makeIDependency(fullPath);
 			StringBuffer detBuff = new StringBuffer();
-			detBuff.append(dep.getIProjectDetails().getName());
+			detBuff.append(dep.getIModuleHeader().getOriginalName());
 			detBuff.append(":");
 			detBuff.append(dep.getIModuleHeader().getModuleID());
 			detBuff.append(":");

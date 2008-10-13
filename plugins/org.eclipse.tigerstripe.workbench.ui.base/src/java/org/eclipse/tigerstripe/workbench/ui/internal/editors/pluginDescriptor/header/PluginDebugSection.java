@@ -116,9 +116,7 @@ public class PluginDebugSection extends GeneratorDescriptorSectionPart {
 											getBody().getShell(),
 											"Deploy new plugin",
 											"You are about to deploy this plugin ('"
-													+ projectHandle
-															.getProjectDetails()
-															.getName()
+													+ projectHandle.getName()
 													+ "'). All open editors will be closed.\nDo you want to continue?.  ")) {
 
 								op = new IRunnableWithProgress() {
@@ -155,13 +153,10 @@ public class PluginDebugSection extends GeneratorDescriptorSectionPart {
 									MessageDialog
 											.openInformation(
 													getBody().getShell(),
-													projectHandle
-															.getProjectDetails()
-															.getName()
+													projectHandle.getName()
 															+ " Plugin",
 													"Plugin '"
 															+ projectHandle
-																	.getProjectDetails()
 																	.getName()
 															+ "("
 															+ projectHandle
@@ -174,13 +169,10 @@ public class PluginDebugSection extends GeneratorDescriptorSectionPart {
 									MessageDialog
 											.openError(
 													getBody().getShell(),
-													projectHandle
-															.getProjectDetails()
-															.getName()
+													projectHandle.getName()
 															+ " Plugin",
 													"Plugin '"
 															+ projectHandle
-																	.getProjectDetails()
 																	.getName()
 															+ "("
 															+ projectHandle
@@ -235,11 +227,9 @@ public class PluginDebugSection extends GeneratorDescriptorSectionPart {
 
 							if (operationSucceeded)
 								MessageDialog.openInformation(getBody()
-										.getShell(), projectHandle
-										.getProjectLabel()
+										.getShell(), projectHandle.getName()
 										+ " Plugin", "Plugin '"
-										+ projectHandle.getProjectDetails()
-												.getName()
+										+ projectHandle.getName()
 										+ "("
 										+ projectHandle.getProjectDetails()
 												.getVersion()
@@ -249,13 +239,10 @@ public class PluginDebugSection extends GeneratorDescriptorSectionPart {
 								MessageDialog
 										.openError(
 												getBody().getShell(),
-												projectHandle
-														.getProjectDetails()
-														.getName()
+												projectHandle.getName()
 														+ " Plugin",
 												"An Error occured while trying to un-deploy plugin '"
 														+ projectHandle
-																.getProjectDetails()
 																.getName()
 														+ "("
 														+ projectHandle

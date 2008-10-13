@@ -96,7 +96,7 @@ public class AuditAction extends BuildAction {
 											.beginTask(
 													"Refreshing project:"
 															+ ((ITigerstripeModelProject) tsProject)
-																	.getProjectLabel(),
+																	.getName(),
 													5);
 
 									((ITigerstripeModelProject) tsProject)
