@@ -360,7 +360,7 @@ private IStatus[] statuses = new IStatus[0];
 	
 	@Override
 	protected IStatus[] getAdditionalStatuses() {
-		final IPatternBasedCreationValidator validator = pattern.getWizardValidator();
+		final IPatternBasedCreationValidator validator = pattern.getValidator();
 		final String name = this.getArtifactName();
 		final String packageName = this.getPackageName();
 		final String extendedFQN = this.getExtendedArtifact();

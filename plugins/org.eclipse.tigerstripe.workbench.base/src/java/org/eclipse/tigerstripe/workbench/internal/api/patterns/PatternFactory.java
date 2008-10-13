@@ -155,7 +155,7 @@ public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileC
 								IPatternBasedCreationValidator validator = (IPatternBasedCreationValidator) element
 									.createExecutableExtension("validator_class");
 								if (validator != null){
-									((Pattern) newPattern).setWizardValidator(validator);
+									((Pattern) newPattern).setValidator(validator);
 								}
 							}
 							

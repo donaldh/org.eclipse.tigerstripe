@@ -43,6 +43,6 @@ public interface IPattern {
 	
 	public Collection<IPatternAnnotation> getPatternAnnotations();
 	
-	public IPatternBasedCreationValidator getWizardValidator();
+	public IPatternBasedCreationValidator getValidator();
 	
 }

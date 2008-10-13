@@ -169,11 +169,11 @@ public class Pattern implements IPattern {
 	}
 
 
-	public IPatternBasedCreationValidator getWizardValidator() {
+	public IPatternBasedCreationValidator getValidator() {
 		return validator;
 	}
 
-	public void setWizardValidator(IPatternBasedCreationValidator validator) {
+	public void setValidator(IPatternBasedCreationValidator validator) {
 		this.validator = validator;
 	}
 	
