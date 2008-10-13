@@ -93,7 +93,17 @@ public class ManagedEntityArtifactItemSemanticEditPolicy extends
 			
 			
 		}
-
+		
+		// We need these three cases to support drag & drop
+		if (TigerstripeElementTypes.Association_3001 == req.getElementType())
+			return req.getTarget() == null ? getCreateStartOutgoingAssociation3001Command(req)
+					: getCreateCompleteIncomingAssociation3001Command(req);
+		if (TigerstripeElementTypes.Dependency_3008 == req.getElementType())
+			return req.getTarget() == null ? getCreateStartOutgoingDependency3008Command(req)
+					: getCreateCompleteIncomingDependency3008Command(req);
+		if (TigerstripeElementTypes.AssociationClass_3010 == req.getElementType())
+			return req.getTarget() == null ? getCreateStartOutgoingAssociationClass3010Command(req)
+					: getCreateCompleteIncomingAssociationClass3010Command(req);
 			
 		if (TigerstripeElementTypes.SessionFacadeArtifactManagedEntities_3003 == req
 				.getElementType())

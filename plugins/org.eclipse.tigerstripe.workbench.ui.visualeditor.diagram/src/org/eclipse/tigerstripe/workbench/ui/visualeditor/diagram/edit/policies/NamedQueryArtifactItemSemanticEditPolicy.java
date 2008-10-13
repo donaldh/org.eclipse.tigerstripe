@@ -74,7 +74,7 @@ public class NamedQueryArtifactItemSemanticEditPolicy extends
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	protected Command getCreateRelationshipCommand(CreateRelationshipRequest req) {
@@ -94,6 +94,19 @@ public class NamedQueryArtifactItemSemanticEditPolicy extends
 
 
 		}
+		
+		// We need these three cases to support drag & drop
+		if (TigerstripeElementTypes.Association_3001 == req.getElementType())
+			return req.getTarget() == null ? getCreateStartOutgoingAssociation3001Command(req)
+					: getCreateCompleteIncomingAssociation3001Command(req);
+		if (TigerstripeElementTypes.Dependency_3008 == req.getElementType())
+			return req.getTarget() == null ? getCreateStartOutgoingDependency3008Command(req)
+					: getCreateCompleteIncomingDependency3008Command(req);
+		if (TigerstripeElementTypes.AssociationClass_3010 == req.getElementType())
+			return req.getTarget() == null ? getCreateStartOutgoingAssociationClass3010Command(req)
+					: getCreateCompleteIncomingAssociationClass3010Command(req);
+			
+
 		
 		if (TigerstripeElementTypes.NamedQueryArtifactReturnedType_3004 == req
 				.getElementType())
