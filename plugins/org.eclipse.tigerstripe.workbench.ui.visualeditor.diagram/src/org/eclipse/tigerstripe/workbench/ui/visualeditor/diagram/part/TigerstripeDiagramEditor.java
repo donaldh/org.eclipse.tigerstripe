@@ -11,30 +11,31 @@
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.draw2d.AutomaticRouter;
 import org.eclipse.draw2d.Connection;
-import org.eclipse.draw2d.ConnectionLayer;
 import org.eclipse.draw2d.ConnectionRouter;
 import org.eclipse.draw2d.DelegatingLayout;
 import org.eclipse.draw2d.FreeformLayer;
-import org.eclipse.draw2d.Layer;
 import org.eclipse.draw2d.LayeredPane;
-import org.eclipse.draw2d.StackLayout;
-import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.PointList;
-import org.eclipse.draw2d.geometry.PrecisionRectangle;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gef.LayerConstants;
-import org.eclipse.gef.editparts.ScalableRootEditPart;
-import org.eclipse.gef.ui.parts.ScrollingGraphicalViewer;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramRootEditPart;
+import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditDomain;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramGraphicalViewer;
+import org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide.document.FileEditorInputProxy;
 import org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide.document.StorageDiagramDocumentProvider;
 import org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide.editor.FileDiagramEditor;
 import org.eclipse.gmf.runtime.draw2d.ui.internal.figures.ConnectionLayerEx;
 import org.eclipse.gmf.runtime.draw2d.ui.internal.routers.FanRouter;
 import org.eclipse.gmf.runtime.draw2d.ui.internal.routers.ObliqueRouter;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.internal.ui.viewsupport.IViewPartInputProvider;
+import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.GMFEditorHandler;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.MapEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.TigerstripeEditPartFactory;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassConnectionEditPart.AssocClassLinkPolylineConnectionEx;
 import org.eclipse.ui.IEditorInput;
@@ -44,7 +45,7 @@ import org.eclipse.ui.ide.IGotoMarker;
  * @generated
  */
 public class TigerstripeDiagramEditor extends FileDiagramEditor implements
-		IGotoMarker {
+	IViewPartInputProvider, IGotoMarker {
 
 	/**
 	 * @generated
@@ -161,4 +162,20 @@ public class TigerstripeDiagramEditor extends FileDiagramEditor implements
 		super.dispose();
 	}
 
+	
+	public Object getViewPartInput() {
+		DiagramGraphicalViewer viewer = (DiagramGraphicalViewer) this.getDiagramGraphicalViewer();
+		DiagramEditDomain domain = (DiagramEditDomain) viewer.getEditDomain();
+		
+		domain.getEditorPart();
+		IResource res = (IResource) domain.getEditorPart().getEditorInput()
+			.getAdapter(IResource.class);
+		
+		//This isn't actually the right way to do this..
+		IResource parent = res.getParent();
+
+		return parent.getAdapter(IJavaElement.class);
+	}
+
+	
 }
