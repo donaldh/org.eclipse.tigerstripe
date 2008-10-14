@@ -80,6 +80,9 @@ public class ClassInstanceEditPart extends TigerstripeShapeNodeEditPart
 			if (model instanceof Node) {
 				Node node = (Node) model;
 				ClassInstance element = (ClassInstance) node.getElement();
+				if ( element == null ) {
+					return null;
+				}
 				try {
 					return element.getArtifact();
 				} catch (TigerstripeException e) {
