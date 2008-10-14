@@ -92,16 +92,15 @@ public abstract class TigerstripeConnectionNodeEditPart extends
 
 	public void annotationChanged(IModelAnnotationChangeDelta[] delta) {
 		if (shouldRefresh(delta)) {
-			EditPart part = getPrimaryChildEditPart();
-			if (part != null) {
-				part.refresh();
-			}
+			if (getPrimaryChildEditPart() != null)
+				getPrimaryChildEditPart().refresh();
 		}
 	}
 
 	public void modelChanged(IModelChangeDelta[] delta) {
 		if (shouldRefresh(delta)) {
-			refreshVisuals();
+			if (getPrimaryChildEditPart() != null)
+				getPrimaryChildEditPart().refresh();
 		}
 	}
 
