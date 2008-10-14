@@ -18,11 +18,6 @@ import org.eclipse.jface.resource.ImageDescriptor;
 
 public interface IPattern {
 	
-	public interface IPatternAnnotation {
-		public String getTarget();
-		public EObject getAnnotationContent();
-	}
-	
 	public int getIndex();
 	
 	public String getName();
@@ -40,8 +35,6 @@ public interface IPattern {
 	public String getDescription();
 	
 	public ImageDescriptor getImageDescriptor();
-	
-	public Collection<IPatternAnnotation> getPatternAnnotations();
 	
 	public IPatternBasedCreationValidator getValidator();
 	

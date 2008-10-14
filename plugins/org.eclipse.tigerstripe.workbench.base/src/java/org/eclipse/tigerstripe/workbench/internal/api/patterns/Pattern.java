@@ -34,7 +34,6 @@ public class Pattern implements IPattern {
 	protected String disabledIconPath;
 	protected URL disabledIconURL;
 	protected Collection<IModelChangeRequest> requests = new ArrayList<IModelChangeRequest>();
-	protected Collection<IPatternAnnotation> patternAnnotations = new ArrayList<IPatternAnnotation>();
 	
 	protected AnnotationHelper helper = AnnotationHelper.getInstance();
 	protected TigerstripeXMLParserUtils xmlParserUtils;
@@ -51,15 +50,6 @@ public class Pattern implements IPattern {
 	
 	public void setElement(Element element) {
 		this.element = element;
-	}
-	
-	public Collection<IPatternAnnotation> getPatternAnnotations() {
-		return patternAnnotations;
-	}
-
-	public void setPatternAnnotations(
-			Collection<IPatternAnnotation> patternAnnotations) {
-		this.patternAnnotations = patternAnnotations;
 	}
 
 	protected void setName(String name){
@@ -132,40 +122,6 @@ public class Pattern implements IPattern {
 
 	public void setIndex(int index) {
 		this.index = index;
-	}
-
-
-	public class PatternAnnotation implements IPatternAnnotation{
-
-		private String target;
-		
-		private EObject content;
-		
-		public PatternAnnotation(){
-			
-		}
-
-		public void setTarget(String target) {
-			this.target = target;
-		}
-
-		public String getTarget() {
-			return this.target;
-		}
-
-		/**
-		 * @return the content
-		 */
-		public EObject getAnnotationContent() {
-			return content;
-		}
-
-		/**
-		 * @param content the content to set
-		 */
-		public void setAnnotationContent(EObject content) {
-			this.content = content;
-		}
 	}
 
 
