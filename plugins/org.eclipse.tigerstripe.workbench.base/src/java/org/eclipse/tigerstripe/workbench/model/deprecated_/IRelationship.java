@@ -12,7 +12,6 @@ package org.eclipse.tigerstripe.workbench.model.deprecated_;
 
 import java.util.Collection;
 
-
 /**
  * An IRelationshipArtifact is an abstraction of an explicit relationship
  * between multiple artifacts
@@ -21,7 +20,7 @@ import java.util.Collection;
  * @author Eric Dillon
  * 
  */
-public interface IRelationship {
+public interface IRelationship extends IModelComponent {
 
 	public Collection<IRelationshipEnd> getRelationshipEnds();
 
