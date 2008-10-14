@@ -20,9 +20,12 @@ import java.util.Set;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -37,7 +40,14 @@ import org.eclipse.swt.dnd.Transfer;
 import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
+import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
+import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
@@ -176,26 +186,62 @@ public class ArtifactComponentTransferDropAdapter extends ViewerDropAdapter
 				for (IModelComponent component : components) {
 					if (component instanceof IField) {
 						IField field = (IField) component;
+						URI oldValue = (URI) component.getAdapter(URI.class);
 						IAbstractArtifact srcArtifact = (IAbstractArtifact) field
 								.getContainingArtifact();
 						srcArtifact.removeFields(Collections.singleton(field));
 						targetArtifact.addField(field);
+						URI newValue = (URI) field.getAdapter(URI.class);
 						srcArtifacts.add(srcArtifact);
+
+						// Create a notification and push down the pipe
+						ModelChangeDelta delta = new ModelChangeDelta(
+								IModelChangeDelta.MOVE);
+						delta.setAffectedModelComponentURI((URI) srcArtifact
+								.getAdapter(URI.class));
+						delta.setOldValue(oldValue);
+						delta.setNewValue(newValue);
+						TigerstripeWorkspaceNotifier.INSTANCE
+								.signalModelChange(delta);
 					} else if (component instanceof IMethod) {
 						IMethod method = (IMethod) component;
+						URI oldValue = (URI) component.getAdapter(URI.class);
 						IAbstractArtifact srcArtifact = (IAbstractArtifact) method
 								.getContainingArtifact();
 						srcArtifact
 								.removeMethods(Collections.singleton(method));
 						targetArtifact.addMethod(method);
+						URI newValue = (URI) method.getAdapter(URI.class);
 						srcArtifacts.add(srcArtifact);
+
+						// Create a notification and push down the pipe
+						ModelChangeDelta delta = new ModelChangeDelta(
+								IModelChangeDelta.MOVE);
+						delta.setAffectedModelComponentURI((URI) srcArtifact
+								.getAdapter(URI.class));
+						delta.setOldValue(oldValue);
+						delta.setNewValue(newValue);
+						TigerstripeWorkspaceNotifier.INSTANCE
+								.signalModelChange(delta);
 					} else if (component instanceof ILiteral) {
 						ILiteral lit = (ILiteral) component;
+						URI oldValue = (URI) component.getAdapter(URI.class);
 						IAbstractArtifact srcArtifact = (IAbstractArtifact) lit
 								.getContainingArtifact();
 						srcArtifact.removeLiterals(Collections.singleton(lit));
 						targetArtifact.addLiteral(lit);
+						URI newValue = (URI) lit.getAdapter(URI.class);
 						srcArtifacts.add(srcArtifact);
+
+						// Create a notification and push down the pipe
+						ModelChangeDelta delta = new ModelChangeDelta(
+								IModelChangeDelta.MOVE);
+						delta.setAffectedModelComponentURI((URI) srcArtifact
+								.getAdapter(URI.class));
+						delta.setOldValue(oldValue);
+						delta.setNewValue(newValue);
+						TigerstripeWorkspaceNotifier.INSTANCE
+								.signalModelChange(delta);
 					}
 				}
 

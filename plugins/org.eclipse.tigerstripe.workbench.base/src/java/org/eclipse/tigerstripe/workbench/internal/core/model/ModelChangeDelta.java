@@ -126,6 +126,9 @@ public class ModelChangeDelta implements IModelChangeDelta {
 		case IModelChangeDelta.REMOVE:
 			result = "REMOVE: {";
 			break;
+		case IModelChangeDelta.COPY:
+			result = "COPY: {";
+			break;
 		case IModelChangeDelta.UNKNOWN:
 			result = "UNKNOWN: {";
 		}

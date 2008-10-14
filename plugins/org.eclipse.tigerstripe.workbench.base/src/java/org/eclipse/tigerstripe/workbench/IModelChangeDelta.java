@@ -18,6 +18,8 @@ public interface IModelChangeDelta {
 	public final int SET = 0;
 	public final int ADD = 1;
 	public final int REMOVE = 2;
+	public final int COPY = 3;
+	public final int MOVE = 4;
 	public final int UNKNOWN = -1;
 
 	public final String ATTRIBUTE = "attribute";
