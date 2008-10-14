@@ -104,6 +104,11 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		URI targetURI = annotation.getUri();
 		IModelComponent component = TigerstripeURIAdapterFactory
 				.uriToComponent(targetURI);
+		
+		if ( component == null ) {
+			return;
+		}
+		
 		if (component instanceof IAbstractArtifact) {
 			addPendingAudit((IAbstractArtifact) component);
 		} else {
