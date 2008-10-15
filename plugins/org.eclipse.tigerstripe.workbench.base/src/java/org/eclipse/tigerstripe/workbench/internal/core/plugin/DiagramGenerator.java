@@ -543,10 +543,7 @@ public class DiagramGenerator implements IDiagramGenerator {
 	 * isDiagramGenerationAvailable()
 	 */
 	public boolean isDiagramGenerationAvailable() {
-		// TODO Need to figure out what the correct test is here - Eric suggests
-		// the next line
-		Display.getDefault();
-		return true;
+		return Display.getDefault() != null;
 	}
 
 	protected IContainer getRoot() {
