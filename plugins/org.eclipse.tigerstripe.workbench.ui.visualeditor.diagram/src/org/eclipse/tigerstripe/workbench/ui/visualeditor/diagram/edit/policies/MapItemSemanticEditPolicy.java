@@ -32,6 +32,7 @@ import org.eclipse.tigerstripe.workbench.patterns.IArtifactPatternResult;
 import org.eclipse.tigerstripe.workbench.patterns.IRelationPattern;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssociationClassClass;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.DatatypeArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Enumeration;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.ExceptionArtifact;
@@ -255,13 +256,13 @@ TigerstripeBaseItemSemanticEditPolicy {
 			CommandResult res = super.doExecuteWithResult(arg0, arg1);
 			try {
 				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+				CustomElementType customType = ((CustomElementType) ((CreateElementRequest) getRequest()).getElementType());
+				IArtifactPattern pattern = (IArtifactPattern) customType.getPattern();
 
-				setDefaults(getNewElement(), getCreateRequest(), tsProject);
+				setDefaults(getNewElement(), pattern, getCreateRequest(), tsProject);
 				if (getNewElement() instanceof NamedQueryArtifact){
 					NamedQueryArtifact newElement = (NamedQueryArtifact) getNewElement();
-					CustomElementType customType = ((CustomElementType) ((CreateElementRequest) getRequest()).getElementType());
-					IArtifactPattern pattern = (IArtifactPattern) customType.getPattern();
-
+					
 					Map map = (Map) newElement.eContainer();
 					try {
 						IArtifactPatternResult artifact = pattern.createArtifact(
@@ -323,7 +324,7 @@ TigerstripeBaseItemSemanticEditPolicy {
 			try {
 				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
 
-				setDefaults(getNewElement(), getCreateRequest(), tsProject);
+				setDefaults(getNewElement(),  null, getCreateRequest(), tsProject);
 			} catch (TigerstripeException e) {
 
 			}
@@ -372,13 +373,13 @@ TigerstripeBaseItemSemanticEditPolicy {
 			CommandResult res = super.doExecuteWithResult(arg0, arg1);
 			try {
 				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+				CustomElementType customType = ((CustomElementType) ((CreateElementRequest) getRequest()).getElementType());
+				IArtifactPattern pattern = (IArtifactPattern) customType.getPattern();
 
-				setDefaults(getNewElement(), getCreateRequest(), tsProject);
+				setDefaults(getNewElement(), pattern, getCreateRequest(), tsProject);
 				if (getNewElement() instanceof ExceptionArtifact){
 					ExceptionArtifact newElement = (ExceptionArtifact) getNewElement();
-					CustomElementType customType = ((CustomElementType) ((CreateElementRequest) getRequest()).getElementType());
-					IArtifactPattern pattern = (IArtifactPattern) customType.getPattern();
-
+					
 					Map map = (Map) newElement.eContainer();
 					try {
 						IArtifactPatternResult artifact = pattern.createArtifact(
@@ -440,7 +441,7 @@ TigerstripeBaseItemSemanticEditPolicy {
 			try {
 				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
 
-				setDefaults(getNewElement(), getCreateRequest(), tsProject);
+				setDefaults(getNewElement(), null,  getCreateRequest(), tsProject);
 			} catch (TigerstripeException e) {
 
 			}
@@ -489,13 +490,13 @@ TigerstripeBaseItemSemanticEditPolicy {
 			CommandResult res = super.doExecuteWithResult(arg0, arg1);
 			try {
 				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+				CustomElementType customType = ((CustomElementType) ((CreateElementRequest) getRequest()).getElementType());
+				IArtifactPattern pattern = (IArtifactPattern) customType.getPattern();
 
-				setDefaults(getNewElement(), getCreateRequest(), tsProject);
+				setDefaults(getNewElement(), pattern,getCreateRequest(), tsProject);
 				if (getNewElement() instanceof ManagedEntityArtifact){
 					ManagedEntityArtifact newElement = (ManagedEntityArtifact) getNewElement();
-					CustomElementType customType = ((CustomElementType) ((CreateElementRequest) getRequest()).getElementType());
-					IArtifactPattern pattern = (IArtifactPattern) customType.getPattern();
-
+					
 					Map map = (Map) newElement.eContainer();
 					try {
 						IArtifactPatternResult artifact = pattern.createArtifact(
@@ -557,7 +558,7 @@ TigerstripeBaseItemSemanticEditPolicy {
 			try {
 				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
 
-				setDefaults(getNewElement(), getCreateRequest(), tsProject);
+				setDefaults(getNewElement(),  null, getCreateRequest(), tsProject);
 			} catch (TigerstripeException e) {
 
 			}
@@ -606,13 +607,13 @@ TigerstripeBaseItemSemanticEditPolicy {
 			CommandResult res = super.doExecuteWithResult(arg0, arg1);
 			try {
 				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+				CustomElementType customType = ((CustomElementType) ((CreateElementRequest) getRequest()).getElementType());
+				IArtifactPattern pattern = (IArtifactPattern) customType.getPattern();
 
-				setDefaults(getNewElement(), getCreateRequest(), tsProject);
+				setDefaults(getNewElement(), pattern, getCreateRequest(), tsProject);
 				if (getNewElement() instanceof NotificationArtifact){
 					NotificationArtifact newElement = (NotificationArtifact) getNewElement();
-					CustomElementType customType = ((CustomElementType) ((CreateElementRequest) getRequest()).getElementType());
-					IArtifactPattern pattern = (IArtifactPattern) customType.getPattern();
-
+					
 					Map map = (Map) newElement.eContainer();
 					try {
 						IArtifactPatternResult artifact = pattern.createArtifact(
@@ -673,7 +674,7 @@ TigerstripeBaseItemSemanticEditPolicy {
 			try {
 				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
 
-				setDefaults(getNewElement(), getCreateRequest(), tsProject);
+				setDefaults(getNewElement(), null,  getCreateRequest(), tsProject);
 			} catch (TigerstripeException e) {
 
 			}
@@ -722,13 +723,13 @@ TigerstripeBaseItemSemanticEditPolicy {
 			CommandResult res = super.doExecuteWithResult(arg0, arg1);
 			try {
 				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+				CustomElementType customType = ((CustomElementType) ((CreateElementRequest) getRequest()).getElementType());
+				IArtifactPattern pattern = (IArtifactPattern) customType.getPattern();
 
-				setDefaults(getNewElement(), getCreateRequest(), tsProject);
+				setDefaults(getNewElement(), pattern, getCreateRequest(), tsProject);
 				if (getNewElement() instanceof DatatypeArtifact){
 					DatatypeArtifact newElement = (DatatypeArtifact) getNewElement();
-					CustomElementType customType = ((CustomElementType) ((CreateElementRequest) getRequest()).getElementType());
-					IArtifactPattern pattern = (IArtifactPattern) customType.getPattern();
-
+					
 					Map map = (Map) newElement.eContainer();
 					try {
 						IArtifactPatternResult artifact = pattern.createArtifact(
@@ -790,7 +791,7 @@ TigerstripeBaseItemSemanticEditPolicy {
 			try {
 				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
 
-				setDefaults(getNewElement(), getCreateRequest(), tsProject);
+				setDefaults(getNewElement(), null,  getCreateRequest(), tsProject);
 			} catch (TigerstripeException e) {
 
 			}
@@ -839,13 +840,13 @@ TigerstripeBaseItemSemanticEditPolicy {
 			CommandResult res = super.doExecuteWithResult(arg0, arg1);
 			try {
 				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+				CustomElementType customType = ((CustomElementType) ((CreateElementRequest) getRequest()).getElementType());
+				IArtifactPattern pattern = (IArtifactPattern) customType.getPattern();
 
-				setDefaults(getNewElement(), getCreateRequest(), tsProject);
+				setDefaults(getNewElement(),pattern, getCreateRequest(), tsProject);
 				if (getNewElement() instanceof Enumeration){
 					Enumeration newElement = (Enumeration) getNewElement();
-					CustomElementType customType = ((CustomElementType) ((CreateElementRequest) getRequest()).getElementType());
-					IArtifactPattern pattern = (IArtifactPattern) customType.getPattern();
-
+					
 					Map map = (Map) newElement.eContainer();
 					try {
 						IArtifactPatternResult artifact = pattern.createArtifact(
@@ -907,7 +908,7 @@ TigerstripeBaseItemSemanticEditPolicy {
 			try {
 				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
 
-				setDefaults(getNewElement(), getCreateRequest(), tsProject);
+				setDefaults(getNewElement(),  null, getCreateRequest(), tsProject);
 			} catch (TigerstripeException e) {
 
 			}
@@ -957,13 +958,13 @@ TigerstripeBaseItemSemanticEditPolicy {
 			CommandResult res = super.doExecuteWithResult(arg0, arg1);
 			try {
 				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+				CustomElementType customType = ((CustomElementType) ((CreateElementRequest) getRequest()).getElementType());
+				IArtifactPattern pattern = (IArtifactPattern) customType.getPattern();
 
-				setDefaults(getNewElement(), getCreateRequest(), tsProject);
+				setDefaults(getNewElement(), pattern, getCreateRequest(), tsProject);
 				if (getNewElement() instanceof UpdateProcedureArtifact){
 					UpdateProcedureArtifact newElement = (UpdateProcedureArtifact) getNewElement();
-					CustomElementType customType = ((CustomElementType) ((CreateElementRequest) getRequest()).getElementType());
-					IArtifactPattern pattern = (IArtifactPattern) customType.getPattern();
-
+					
 					Map map = (Map) newElement.eContainer();
 					try {
 						IArtifactPatternResult artifact = pattern.createArtifact(
@@ -1026,7 +1027,7 @@ TigerstripeBaseItemSemanticEditPolicy {
 			try {
 				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
 
-				setDefaults(getNewElement(), getCreateRequest(), tsProject);
+				setDefaults(getNewElement(),  null, getCreateRequest(), tsProject);
 			} catch (TigerstripeException e) {
 
 			}
@@ -1076,13 +1077,13 @@ TigerstripeBaseItemSemanticEditPolicy {
 			CommandResult res = super.doExecuteWithResult(arg0, arg1);
 			try {
 				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+				CustomElementType customType = ((CustomElementType) ((CreateElementRequest) getRequest()).getElementType());
+				IArtifactPattern pattern = (IArtifactPattern) customType.getPattern();
 
-				setDefaults(getNewElement(), getCreateRequest(), tsProject);
+				setDefaults(getNewElement(), pattern, getCreateRequest(), tsProject);
 				if (getNewElement() instanceof SessionFacadeArtifact){
 					SessionFacadeArtifact newElement = (SessionFacadeArtifact) getNewElement();
-					CustomElementType customType = ((CustomElementType) ((CreateElementRequest) getRequest()).getElementType());
-					IArtifactPattern pattern = (IArtifactPattern) customType.getPattern();
-
+					
 					Map map = (Map) newElement.eContainer();
 					try {
 						IArtifactPatternResult artifact = pattern.createArtifact(
@@ -1144,7 +1145,7 @@ TigerstripeBaseItemSemanticEditPolicy {
 			try {
 				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
 
-				setDefaults(getNewElement(), getCreateRequest(), tsProject);
+				setDefaults(getNewElement(),  null, getCreateRequest(), tsProject);
 			} catch (TigerstripeException e) {
 
 			}
@@ -1186,6 +1187,7 @@ TigerstripeBaseItemSemanticEditPolicy {
 			}
 			return container;
 		}
+		
 	}
 	
 	/**

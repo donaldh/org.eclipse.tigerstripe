@@ -207,7 +207,7 @@ public class NotificationArtifactItemSemanticEditPolicy extends
 			try {
 				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
 
-				setDefaults(getNewElement(), getCreateRequest(), tsProject);
+				setDefaults(getNewElement(),  null, getCreateRequest(), tsProject);
 			} catch (TigerstripeException e) {
 
 			}
@@ -396,7 +396,7 @@ public class NotificationArtifactItemSemanticEditPolicy extends
 			try {
 				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
 
-				setDefaults(getNewElement(), getCreateRequest(), tsProject);
+				setDefaults(getNewElement(),  null, getCreateRequest(), tsProject);
 			} catch (TigerstripeException e) {
 
 			}
@@ -584,7 +584,7 @@ public class NotificationArtifactItemSemanticEditPolicy extends
 			try {
 				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
 				AssociationClass assocClass = (AssociationClass) getNewElement();
-				setDefaults(assocClass, getCreateRequest(), tsProject);
+				setDefaults(assocClass,  null, getCreateRequest(), tsProject);
 				TigerstripeBaseItemSemanticEditPolicy
 						.addAssociationClassClass(assocClass);
 			} catch (TigerstripeException e) {
@@ -718,13 +718,13 @@ public class NotificationArtifactItemSemanticEditPolicy extends
 			CommandResult res = super.doExecuteWithResult(arg0, arg1);
 			try {
 				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+				CustomElementType customType = ((CustomElementType) ((CreateRelationshipRequest) getRequest()).getElementType());
+				IRelationPattern pattern = (IRelationPattern) customType.getPattern();
 
-				setDefaults(getNewElement(), getCreateRequest(), tsProject);
+				setDefaults(getNewElement(), pattern,getCreateRequest(), tsProject);
 				if (getNewElement() instanceof Association){
 					Association newElement = (Association) getNewElement();
-					CustomElementType customType = ((CustomElementType) ((CreateRelationshipRequest) getRequest()).getElementType());
-					IRelationPattern pattern = (IRelationPattern) customType.getPattern();
-
+					
 					Map map = (Map) newElement.eContainer();
 					try {
 						IArtifactPatternResult artifact = pattern.createArtifact(
@@ -750,7 +750,6 @@ public class NotificationArtifactItemSemanticEditPolicy extends
 		 */
 		@Override
 		protected EObject doDefaultElementCreation() {
-			System.out.println("Executing");
 			Association newElement = (Association) super
 					.doDefaultElementCreation();
 			if (newElement != null) {
@@ -872,13 +871,14 @@ public class NotificationArtifactItemSemanticEditPolicy extends
 			CommandResult res = super.doExecuteWithResult(arg0, arg1);
 			try {
 				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+				CustomElementType customType = ((CustomElementType) ((CreateRelationshipRequest) getRequest()).getElementType());
+				IRelationPattern pattern = (IRelationPattern) customType.getPattern();
+
 				AssociationClass newElement = (AssociationClass) getNewElement();
-				setDefaults(newElement, getCreateRequest(), tsProject);
+				setDefaults(newElement, pattern, getCreateRequest(), tsProject);
 				TigerstripeBaseItemSemanticEditPolicy
 						.addAssociationClassClass(newElement);
-					CustomElementType customType = ((CustomElementType) ((CreateRelationshipRequest) getRequest()).getElementType());
-					IRelationPattern pattern = (IRelationPattern) customType.getPattern();
-
+					
 					Map map = (Map) newElement.eContainer();
 					try {
 						IArtifactPatternResult artifact = pattern.createArtifact(
@@ -1007,13 +1007,13 @@ public class NotificationArtifactItemSemanticEditPolicy extends
 			CommandResult res = super.doExecuteWithResult(arg0, arg1);
 			try {
 				ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+				CustomElementType customType = ((CustomElementType) ((CreateRelationshipRequest) getRequest()).getElementType());
+				IRelationPattern pattern = (IRelationPattern) customType.getPattern();
 
-				setDefaults(getNewElement(), getCreateRequest(), tsProject);
+				setDefaults(getNewElement(), pattern, getCreateRequest(), tsProject);
 				if (getNewElement() instanceof Dependency){
 					Dependency newElement = (Dependency) getNewElement();
-					CustomElementType customType = ((CustomElementType) ((CreateRelationshipRequest) getRequest()).getElementType());
-					IRelationPattern pattern = (IRelationPattern) customType.getPattern();
-
+					
 					Map map = (Map) newElement.eContainer();
 					try {
 						IArtifactPatternResult artifact = pattern.createArtifact(
