@@ -49,6 +49,19 @@ public class AssociationEnd extends ArtifactComponent implements
 private static boolean isRegistered = false;
 	
 	private static IAbstractArtifact[] suitableTypes;
+	private static List<Class> suitableTypesList;
+	
+	public static boolean isSuitableType(IType type){
+		if (type.isArtifact()){
+			if (suitableTypes == null)
+				loadSuitableTypes();
+			IAbstractArtifact typeArtifact = type.getArtifact();
+			if (suitableTypesList.contains(typeArtifact.getClass())){
+				return true;
+			}
+		}
+		return false; 
+	}
 	
 	public static IAbstractArtifact[] getSuitableTypes(){
 		if (suitableTypes == null)
@@ -58,12 +71,24 @@ private static boolean isRegistered = false;
 		
 	private static void loadSuitableTypes(){
 		List<IAbstractArtifact> suitableModelsList = new ArrayList<IAbstractArtifact>();
+		suitableTypesList = new ArrayList<Class>();
+		
 		//suitableModelsList.add(PrimitiveTypeArtifact.MODEL);
+		
 		suitableModelsList.add(DatatypeArtifact.MODEL);
+		suitableTypesList.add(DatatypeArtifact.class);
+		
 		suitableModelsList.add(AssociationClassArtifact.MODEL);
+		suitableTypesList.add(AssociationClassArtifact.class);
+		
 		suitableModelsList.add(ManagedEntityArtifact.MODEL);
+		suitableTypesList.add(ManagedEntityArtifact.class);
+		
 		suitableModelsList.add(ExceptionArtifact.MODEL);
+		suitableTypesList.add(ExceptionArtifact.class);
+		
 		suitableModelsList.add(SessionFacadeArtifact.MODEL);
+		suitableTypesList.add(SessionFacadeArtifact.class);
 		
 		IWorkbenchProfile profile = TigerstripeCore
 			.getWorkbenchProfileSession()
@@ -77,9 +102,16 @@ private static boolean isRegistered = false;
 			//suitableModelsList.add(AssociationArtifact.MODEL);
 			//suitableModelsList.add(DependencyArtifact.MODEL);
 			suitableModelsList.add(QueryArtifact.MODEL);
+			suitableTypesList.add(QueryArtifact.class);
+			
 			suitableModelsList.add(EventArtifact.MODEL);
+			suitableTypesList.add(EventArtifact.class);
+			
 			suitableModelsList.add(UpdateProcedureArtifact.MODEL);
+			suitableTypesList.add(UpdateProcedureArtifact.class);
+			
 			suitableModelsList.add(EnumArtifact.MODEL);
+			suitableTypesList.add(EnumArtifact.class);
 			
 		}
 

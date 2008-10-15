@@ -16,6 +16,7 @@ import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationEnd;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.UnresolvedStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
@@ -67,6 +68,7 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 
 		if (aEndDefined && zEndDefined) {
 			checkForOutboundRelationship(); // Bug 925
+			checkSuitableEndTypes(aEndType, zEndType); // Bug 249966
 			checkStereotypes(artifact.getAEnd(), "artifact '"
 					+ getArtifact().getName() + "' endA");
 			checkStereotypes(artifact.getZEnd(), "artifact '"
@@ -77,6 +79,35 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 		}
 	}
 
+	
+	/**
+	 * Check the the end types are defined as "suitable" types for the ends
+	 * Pass in the types as we have already extracted them.
+	 */
+	protected void checkSuitableEndTypes(IType aEndType, IType zEndType){
+		if (! AssociationEnd.isSuitableType(aEndType)){
+			String typeLabel = "";
+			if (aEndType.isArtifact()){
+				typeLabel = aEndType.getArtifact().getLabel();
+			} else {
+				typeLabel = aEndType.getFullyQualifiedName();
+			}
+			
+			TigerstripeProjectAuditor.reportError("The A End must be of a suitable Type. Association Ends may not be of type '"+typeLabel+ "'.", getIResource(),
+					222);
+		}
+		if (! AssociationEnd.isSuitableType(zEndType)){
+			String typeLabel = "";
+			if (zEndType.isArtifact()){
+				typeLabel = zEndType.getArtifact().getLabel();
+			} else {
+				typeLabel = zEndType.getFullyQualifiedName();
+			}
+			TigerstripeProjectAuditor.reportError("The Z End must be of a suitable Type. Association Ends may not be of type '"+typeLabel+ "'.", getIResource(),
+					222);
+		}
+	}
+	
 	/**
 	 * Check that at least one end is navigable
 	 */
