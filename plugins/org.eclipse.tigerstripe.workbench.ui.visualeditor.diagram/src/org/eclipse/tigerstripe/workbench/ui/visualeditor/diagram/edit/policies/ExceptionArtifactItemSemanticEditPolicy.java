@@ -13,6 +13,8 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.ISafeRunnable;
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -28,11 +30,14 @@ import org.eclipse.gmf.runtime.emf.type.core.requests.DestroyElementRequest;
 import org.eclipse.gmf.runtime.emf.type.core.requests.SetRequest;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
+import org.eclipse.tigerstripe.workbench.patterns.IArtifactPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IArtifactPatternResult;
+import org.eclipse.tigerstripe.workbench.patterns.IPatternBasedCreationValidator;
 import org.eclipse.tigerstripe.workbench.patterns.IRelationPattern;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -658,10 +663,41 @@ public class ExceptionArtifactItemSemanticEditPolicy extends
 		}
 	
 
+		boolean ok;
 		@Override
-		// TODO - why is this false?
 		public boolean canExecute() {
+			ok = true;
 			//System.out.println("canExecute "+super.canExecute()+ " being overridden");
+			CustomElementType customType = ((CustomElementType) ((CreateRelationshipRequest) getRequest()).getElementType());
+			final IRelationPattern pattern = (IRelationPattern) customType.getPattern();
+			ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+			
+			final IPatternBasedCreationValidator validator = pattern.getValidator();
+			
+			if (validator != null){
+				CreateRelationshipRequest request = (CreateRelationshipRequest) getRequest();
+				EObject art = request.getContainer();
+				Map map = (Map) art.eContainer();
+				final String packageName = map.getBasePackage();			
+				final ITigerstripeModelProject modelproject = tsProject;
+				final String artifactName = getArtifactName((IArtifactPattern) pattern,((IArtifactPattern) pattern).getTargetArtifactType(),modelproject,packageName);
+				final String extendedArtifactFQN = ((IArtifactPattern) pattern).getExtendedArtifactName();
+				
+				final AbstractArtifact aArt = (AbstractArtifact) request.getSource();
+				final AbstractArtifact zArt = (AbstractArtifact) request.getTarget();
+				
+				SafeRunner.run(new ISafeRunnable() {
+					public void handleException(Throwable exception) {
+						BasePlugin.log(exception);
+					}
+
+					public void run() throws Exception {
+						ok = validator.okToCreate(modelproject,(IRelationPattern) pattern,
+								packageName,artifactName,extendedArtifactFQN, aArt.getFullyQualifiedName(), zArt.getFullyQualifiedName());
+					}
+				});
+				return ok;
+			}
 			return true;
 		}
 
@@ -796,10 +832,41 @@ public class ExceptionArtifactItemSemanticEditPolicy extends
 			super(req);
 		}
 
+		boolean ok;
 		@Override
-		// TODO - why is this false?
 		public boolean canExecute() {
+			ok = true;
 			//System.out.println("canExecute "+super.canExecute()+ " being overridden");
+			CustomElementType customType = ((CustomElementType) ((CreateRelationshipRequest) getRequest()).getElementType());
+			final IRelationPattern pattern = (IRelationPattern) customType.getPattern();
+			ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+			
+			final IPatternBasedCreationValidator validator = pattern.getValidator();
+			
+			if (validator != null){
+				CreateRelationshipRequest request = (CreateRelationshipRequest) getRequest();
+				EObject art = request.getContainer();
+				Map map = (Map) art.eContainer();
+				final String packageName = map.getBasePackage();			
+				final ITigerstripeModelProject modelproject = tsProject;
+				final String artifactName = getArtifactName((IArtifactPattern) pattern,((IArtifactPattern) pattern).getTargetArtifactType(),modelproject,packageName);
+				final String extendedArtifactFQN = ((IArtifactPattern) pattern).getExtendedArtifactName();
+				
+				final AbstractArtifact aArt = (AbstractArtifact) request.getSource();
+				final AbstractArtifact zArt = (AbstractArtifact) request.getTarget();
+				
+				SafeRunner.run(new ISafeRunnable() {
+					public void handleException(Throwable exception) {
+						BasePlugin.log(exception);
+					}
+
+					public void run() throws Exception {
+						ok = validator.okToCreate(modelproject,(IRelationPattern) pattern,
+								packageName,artifactName,extendedArtifactFQN, aArt.getFullyQualifiedName(), zArt.getFullyQualifiedName());
+					}
+				});
+				return ok;
+			}
 			return true;
 		}
 
@@ -934,10 +1001,41 @@ public class ExceptionArtifactItemSemanticEditPolicy extends
 			super(req);
 		}
 
+		boolean ok;
 		@Override
-		// TODO - why is this false?
 		public boolean canExecute() {
+			ok = true;
 			//System.out.println("canExecute "+super.canExecute()+ " being overridden");
+			CustomElementType customType = ((CustomElementType) ((CreateRelationshipRequest) getRequest()).getElementType());
+			final IRelationPattern pattern = (IRelationPattern) customType.getPattern();
+			ITigerstripeModelProject tsProject = getCorrespondingTSProject(getAffectedFiles());
+			
+			final IPatternBasedCreationValidator validator = pattern.getValidator();
+			
+			if (validator != null){
+				CreateRelationshipRequest request = (CreateRelationshipRequest) getRequest();
+				EObject art = request.getContainer();
+				Map map = (Map) art.eContainer();
+				final String packageName = map.getBasePackage();			
+				final ITigerstripeModelProject modelproject = tsProject;
+				final String artifactName = getArtifactName((IArtifactPattern) pattern,((IArtifactPattern) pattern).getTargetArtifactType(),modelproject,packageName);
+				final String extendedArtifactFQN = ((IArtifactPattern) pattern).getExtendedArtifactName();
+				
+				final AbstractArtifact aArt = (AbstractArtifact) request.getSource();
+				final AbstractArtifact zArt = (AbstractArtifact) request.getTarget();
+				
+				SafeRunner.run(new ISafeRunnable() {
+					public void handleException(Throwable exception) {
+						BasePlugin.log(exception);
+					}
+
+					public void run() throws Exception {
+						ok = validator.okToCreate(modelproject,(IRelationPattern) pattern,
+								packageName,artifactName,extendedArtifactFQN, aArt.getFullyQualifiedName(), zArt.getFullyQualifiedName());
+					}
+				});
+				return ok;
+			}
 			return true;
 		}
 

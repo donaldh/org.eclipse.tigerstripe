@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.model;
 
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /** 
@@ -42,7 +43,7 @@ public interface IComponentNameProvider {
 	 * @param packageName
 	 * @return
 	 */
-	public String getNewArtifactName(Class artifactClass, ITigerstripeModelProject project, String packageName);
+	public String getNewArtifactName(IPattern pattern, Class artifactClass,ITigerstripeModelProject project, String packageName);
 	
 	
 	/**
@@ -60,7 +61,7 @@ public interface IComponentNameProvider {
 	 * @param zEndType - the FQN of type of the artifact at the aEnd of the relationship
 	 * @return
 	 */
-	public String getNewRelationshipName(Class artifactClass, ITigerstripeModelProject project, String packageName,
+	public String getNewRelationshipName(IPattern pattern, Class artifactClass, ITigerstripeModelProject project, String packageName,
 			String aEndTypeFQN, String zEndTypeFQN);
 	
 	/**
@@ -117,6 +118,6 @@ public interface IComponentNameProvider {
 	 * @param whichEnd - should be one of AEND or ZEND
 	 * @return
 	 */
-	public String getNewAssociationEndName(IAbstractArtifact artifact, int whichEnd);
+	public String getNewAssociationEndName(IPattern pattern,IAbstractArtifact artifact, int whichEnd);
 	
 }

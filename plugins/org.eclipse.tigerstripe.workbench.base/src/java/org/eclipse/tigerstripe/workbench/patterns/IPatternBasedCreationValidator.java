@@ -27,6 +27,17 @@ public interface IPatternBasedCreationValidator {
 			String aEndFQN, String zEndFQN);
 	
 	
+	/**
+	 * Use this version for NODE artifacts
+	 */
+	public boolean okToCreate(ITigerstripeModelProject project, INodePattern pattern, String artifactName, String artifactPackage, String extendedArtifactFQN);
 	
+	/**
+	 * Use this version for RELATION artifacts
+	 */
+	public boolean okToCreate(ITigerstripeModelProject project, IRelationPattern pattern, String artifactName, String artifactPackage, String extendedArtifactFQN, 
+			String aEndFQN, String zEndFQN);
+			
+	public String getCreateFailureMessage();
 	
 }

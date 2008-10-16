@@ -25,6 +25,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
+import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 import org.eclipse.tigerstripe.workbench.queries.IQueryArtifactsByType;
@@ -74,7 +75,7 @@ public class ComponentNameProvider implements IComponentNameProvider{
 	 * Use the factory if it exists! If not call a local version.
 	 *
 	 */
-	public String getNewArtifactName(Class artifactClass, ITigerstripeModelProject project, String packageName) {
+	public String getNewArtifactName(IPattern pattern, Class artifactClass, ITigerstripeModelProject project, String packageName) {
 		
 		/*
 		 * If there is something provided through the extension point...
@@ -85,6 +86,7 @@ public class ComponentNameProvider implements IComponentNameProvider{
 			final Class aClass = artifactClass;
 			final ITigerstripeModelProject tsProject = project;
 			final String pName = packageName;
+			final IPattern myPattern = pattern;
 			
 			
 			final class RunnableWithResult implements ISafeRunnable {
@@ -94,7 +96,7 @@ public class ComponentNameProvider implements IComponentNameProvider{
 				}
 
 				public void run() throws Exception {
-					  result = extension.getNewArtifactName(aClass,tsProject,pName);
+					  result = extension.getNewArtifactName(myPattern,aClass,tsProject,pName);
 				}
 				
 				public String getResult(){
@@ -123,7 +125,7 @@ public class ComponentNameProvider implements IComponentNameProvider{
 	 * This version calls out to the extension, but of nothing is found, it uses
 	 * the basic artifact name - not anything to do with ends!
 	 */
-	public String getNewRelationshipName(Class artifactClass,
+	public String getNewRelationshipName(IPattern pattern, Class artifactClass,
 			ITigerstripeModelProject project, String packageName,
 			String aEndTypeFQN, String zEndTypeFQN) {
 		/*
@@ -137,6 +139,7 @@ public class ComponentNameProvider implements IComponentNameProvider{
 			final String pName = packageName;
 			final String aFQN = aEndTypeFQN;
 			final String zFQN = zEndTypeFQN;
+			final IPattern myPattern = pattern;
 			
 			final class RunnableWithResult implements ISafeRunnable {
 				private String  result;
@@ -145,7 +148,7 @@ public class ComponentNameProvider implements IComponentNameProvider{
 				}
 
 				public void run() throws Exception {
-					  result = extension.getNewRelationshipName(aClass,tsProject,pName, aFQN, zFQN);
+					  result = extension.getNewRelationshipName(myPattern, aClass,tsProject,pName, aFQN, zFQN);
 				}
 				
 				public String getResult(){
@@ -331,11 +334,12 @@ public class ComponentNameProvider implements IComponentNameProvider{
 	 * Use the factory if it exists! If not call a local version.
 	 *
 	 */
-	public String getNewAssociationEndName(IAbstractArtifact artifact, int whichEnd) {
+	public String getNewAssociationEndName(IPattern pattern,IAbstractArtifact artifact, int whichEnd) {
 		if (extension != null){
 			String extensionName = null;
 			final IAbstractArtifact aArtifact = artifact;
 			final int fWhichEnd = whichEnd;
+			final IPattern myPattern = pattern;
 			
 			final class RunnableWithResult implements ISafeRunnable {
 				private String  result;
@@ -344,7 +348,7 @@ public class ComponentNameProvider implements IComponentNameProvider{
 				}
 
 				public void run() throws Exception {
-					  result = extension.getNewAssociationEndName(aArtifact, fWhichEnd);
+					  result = extension.getNewAssociationEndName(myPattern,aArtifact, fWhichEnd);
 				}
 				
 				public String getResult(){

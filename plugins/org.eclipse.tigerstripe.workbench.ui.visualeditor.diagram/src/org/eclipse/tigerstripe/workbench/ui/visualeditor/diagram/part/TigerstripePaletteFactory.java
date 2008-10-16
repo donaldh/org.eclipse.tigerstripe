@@ -14,17 +14,24 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.core.runtime.ISafeRunnable;
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.gef.Tool;
 import org.eclipse.gef.palette.PaletteContainer;
 import org.eclipse.gef.palette.PaletteDrawer;
 import org.eclipse.gef.palette.PaletteRoot;
 import org.eclipse.gef.palette.ToolEntry;
+import org.eclipse.gmf.runtime.diagram.core.edithelpers.CreateElementRequestAdapter;
+import org.eclipse.gmf.runtime.diagram.ui.requests.CreateUnspecifiedTypeRequest;
+import org.eclipse.gmf.runtime.diagram.ui.requests.CreateViewAndElementRequest;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateViewAndElementRequest.ViewAndElementDescriptor;
 import org.eclipse.gmf.runtime.diagram.ui.tools.UnspecifiedTypeConnectionTool;
 import org.eclipse.gmf.runtime.diagram.ui.tools.UnspecifiedTypeCreationTool;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
+import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.tigerstripe.metamodel.impl.IFieldImpl;
 import org.eclipse.tigerstripe.metamodel.impl.ILiteralImpl;
@@ -32,14 +39,28 @@ import org.eclipse.tigerstripe.metamodel.impl.IMethodImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.repository.internal.IModelComponentMetadata;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.patterns.NodePattern;
 import org.eclipse.tigerstripe.workbench.internal.api.patterns.PatternFactory;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ComponentNameProvider;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.patterns.IArtifactPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IArtifactPatternResult;
 import org.eclipse.tigerstripe.workbench.patterns.IEnumPattern;
+import org.eclipse.tigerstripe.workbench.patterns.INodePattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
+import org.eclipse.tigerstripe.workbench.patterns.IPatternBasedCreationValidator;
 import org.eclipse.tigerstripe.workbench.patterns.IQueryPattern;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
@@ -93,43 +114,7 @@ public class TigerstripePaletteFactory {
 			
 		}
 		
-//		IWorkbenchProfile profile = TigerstripeCore
-//				.getWorkbenchProfileSession().getActiveProfile();
-//		CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
-//				.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
-//		if (prop.getDetailsForType(IManagedEntityArtifact.class.getName())
-//				.isEnabled()) {
-//			paletteContainer.add(createManagedEntity1CreationTool());
-//		}
-//		if (prop.getDetailsForType(IDatatypeArtifact.class.getName())
-//				.isEnabled()) {
-//			paletteContainer.add(createDatatype2CreationTool());
-//		}
-//		if (prop.getDetailsForType(IEnumArtifact.class.getName()).isEnabled()) {
-//			paletteContainer.add(createEnumeration3CreationTool());
-//		}
-//		if (prop.getDetailsForType(IAssociationClassArtifact.class.getName())
-//				.isEnabled()) {
-//			// paletteContainer.add(createAssociationClass8CreationTool());
-//		}
-//		if (prop.getDetailsForType(IQueryArtifact.class.getName()).isEnabled()) {
-//			paletteContainer.add(createQuery5CreationTool());
-//		}
-//		if (prop.getDetailsForType(IUpdateProcedureArtifact.class.getName())
-//				.isEnabled()) {
-//			paletteContainer.add(createUpdateProcedure6CreationTool());
-//		}
-//		if (prop.getDetailsForType(IEventArtifact.class.getName()).isEnabled()) {
-//			paletteContainer.add(createNotification4CreationTool());
-//		}
-//		if (prop.getDetailsForType(ISessionArtifact.class.getName())
-//				.isEnabled()) {
-//			paletteContainer.add(createSessionFacade8CreationTool());
-//		}
-//		if (prop.getDetailsForType(IExceptionArtifact.class.getName())
-//				.isEnabled()) {
-//			paletteContainer.add(createException7CreationTool());
-//		}
+
 		return paletteContainer;
 	}
 
@@ -144,29 +129,7 @@ public class TigerstripePaletteFactory {
 		return paletteContainer;
 	}
 
-//	/**
-//	 * @generated
-//	 */
-//	private PaletteContainer createConnections3Group() {
-//		PaletteContainer paletteContainer = new PaletteDrawer("Connections");
-//		paletteContainer.add(createExtends1CreationTool());
-//		
-//		paletteContainer.add(createAssociation2CreationTool());
-//		paletteContainer.add(createDependency3CreationTool());
-//		paletteContainer.add(createAssociationClass5CreationTool());
-//		paletteContainer.add(createAssociationClassClass6CreationTool());
-//		paletteContainer.add(createAssociationClassConnection7CreationTool());
-//		
-//		
-//		paletteContainer.add(createReference4CreationTool());
-//		paletteContainer.add(createManages8CreationTool());
-//		paletteContainer.add(createEmits9CreationTool());
-//		paletteContainer.add(createSupports10CreationTool());
-//		paletteContainer.add(createExposes11CreationTool());
-//		paletteContainer.add(createReturns12CreationTool());
-//		paletteContainer.add(createImplements13CreationTool());
-//		return paletteContainer;
-//	}
+
 
 	/**
 	 * @generated NOT
@@ -187,181 +150,7 @@ public class TigerstripePaletteFactory {
 		return result;
 	}
 	
-//	/**
-//	 * @generated NOT
-//	 */
-//	private ToolEntry createManagedEntity1CreationTool() {
-//		ImageDescriptor smallImage;
-//		ImageDescriptor largeImage;
-//
-//		smallImage = Images.getDescriptor(Images.ENTITY_ICON);
-//		largeImage = Images.getDescriptor(Images.ENTITY_ICON);
-//
-//		IModelComponentMetadata metadata = ArtifactMetadataFactory.INSTANCE
-//				.getMetadata(IManagedEntityArtifactImpl.class.getName());
-//
-//		final List<IElementType> elementTypes = new ArrayList<IElementType>();
-//		elementTypes.add(TigerstripeElementTypes.ManagedEntityArtifact_1003);
-//		ToolEntry result = new NodeToolEntry(metadata.getLabel(null),
-//				"Create new " + metadata.getLabel(null), smallImage,
-//				largeImage, elementTypes);
-//
-//		return result;
-//	}
-//
-//	/**
-//	 * @generated NOT
-//	 */
-//	private ToolEntry createDatatype2CreationTool() {
-//		ImageDescriptor smallImage;
-//		ImageDescriptor largeImage;
-//
-//		smallImage = Images.getDescriptor(Images.DATATYPE_ICON);
-//		largeImage = Images.getDescriptor(Images.DATATYPE_ICON);
-//
-//		IModelComponentMetadata metadata = ArtifactMetadataFactory.INSTANCE
-//				.getMetadata(IDatatypeArtifactImpl.class.getName());
-//
-//		final List<IElementType> elementTypes = new ArrayList<IElementType>();
-//		elementTypes.add(TigerstripeElementTypes.DatatypeArtifact_1005);
-//		ToolEntry result = new NodeToolEntry(metadata.getLabel(null),
-//				"Create new " + metadata.getLabel(null), smallImage,
-//				largeImage, elementTypes);
-//
-//		return result;
-//	}
-//
-//	/**
-//	 * @generated NOT
-//	 */
-//	private ToolEntry createEnumeration3CreationTool() {
-//		ImageDescriptor smallImage;
-//		ImageDescriptor largeImage;
-//
-//		smallImage = Images.getDescriptor(Images.ENUM_ICON);
-//		largeImage = Images.getDescriptor(Images.ENUM_ICON);
-//
-//		IModelComponentMetadata metadata = ArtifactMetadataFactory.INSTANCE
-//				.getMetadata(IEnumArtifactImpl.class.getName());
-//
-//		final List<IElementType> elementTypes = new ArrayList<IElementType>();
-//		elementTypes.add(TigerstripeElementTypes.Enumeration_1006);
-//		ToolEntry result = new NodeToolEntry(metadata.getLabel(null),
-//				"Create new " + metadata.getLabel(null), smallImage,
-//				largeImage, elementTypes);
-//
-//		return result;
-//	}
-//
-//	/**
-//	 * @generated NOT
-//	 */
-//	private ToolEntry createNotification4CreationTool() {
-//		ImageDescriptor smallImage;
-//		ImageDescriptor largeImage;
-//
-//		smallImage = Images.getDescriptor(Images.NOTIFICATION_ICON);
-//		largeImage = Images.getDescriptor(Images.NOTIFICATION_ICON);
-//
-//		IModelComponentMetadata metadata = ArtifactMetadataFactory.INSTANCE
-//				.getMetadata(IEventArtifactImpl.class.getName());
-//
-//		final List<IElementType> elementTypes = new ArrayList<IElementType>();
-//		elementTypes.add(TigerstripeElementTypes.NotificationArtifact_1004);
-//		ToolEntry result = new NodeToolEntry(metadata.getLabel(null),
-//				"Create new " + metadata.getLabel(null), smallImage,
-//				largeImage, elementTypes);
-//
-//		return result;
-//	}
-//
-//	/**
-//	 * @generated NOT
-//	 */
-//	private ToolEntry createQuery5CreationTool() {
-//		ImageDescriptor smallImage;
-//		ImageDescriptor largeImage;
-//
-//		smallImage = Images.getDescriptor(Images.QUERY_ICON);
-//		largeImage = Images.getDescriptor(Images.QUERY_ICON);
-//
-//		IModelComponentMetadata metadata = ArtifactMetadataFactory.INSTANCE
-//				.getMetadata(IQueryArtifactImpl.class.getName());
-//
-//		final List<IElementType> elementTypes = new ArrayList<IElementType>();
-//		elementTypes.add(TigerstripeElementTypes.NamedQueryArtifact_1001);
-//		ToolEntry result = new NodeToolEntry(metadata.getLabel(null),
-//				"Create new " + metadata.getLabel(null), smallImage,
-//				largeImage, elementTypes);
-//
-//		return result;
-//	}
-//
-//	/**
-//	 * @generated NOT
-//	 */
-//	private ToolEntry createUpdateProcedure6CreationTool() {
-//		ImageDescriptor smallImage;
-//		ImageDescriptor largeImage;
-//
-//		smallImage = Images.getDescriptor(Images.UPDATEPROC_ICON);
-//		largeImage = Images.getDescriptor(Images.UPDATEPROC_ICON);
-//
-//		IModelComponentMetadata metadata = ArtifactMetadataFactory.INSTANCE
-//				.getMetadata(IUpdateProcedureArtifactImpl.class.getName());
-//
-//		final List<IElementType> elementTypes = new ArrayList<IElementType>();
-//		elementTypes.add(TigerstripeElementTypes.UpdateProcedureArtifact_1007);
-//		ToolEntry result = new NodeToolEntry(metadata.getLabel(null),
-//				"Create new " + metadata.getLabel(null), smallImage,
-//				largeImage, elementTypes);
-//
-//		return result;
-//	}
-//
-//	/**
-//	 * @generated NOT
-//	 */
-//	private ToolEntry createException7CreationTool() {
-//		ImageDescriptor smallImage;
-//		ImageDescriptor largeImage;
-//
-//		smallImage = Images.getDescriptor(Images.EXCEPTION_ICON);
-//		largeImage = Images.getDescriptor(Images.EXCEPTION_ICON);
-//
-//		IModelComponentMetadata metadata = ArtifactMetadataFactory.INSTANCE
-//				.getMetadata(IExceptionArtifactImpl.class.getName());
-//
-//		final List<IElementType> elementTypes = new ArrayList<IElementType>();
-//		elementTypes.add(TigerstripeElementTypes.ExceptionArtifact_1002);
-//		ToolEntry result = new NodeToolEntry(metadata.getLabel(null),
-//				"Create new " + metadata.getLabel(null), smallImage,
-//				largeImage, elementTypes);
-//
-//		return result;
-//	}
-//
-//	/**
-//	 * @generated NOT
-//	 */
-//	private ToolEntry createSessionFacade8CreationTool() {
-//		ImageDescriptor smallImage;
-//		ImageDescriptor largeImage;
-//
-//		smallImage = Images.getDescriptor(Images.SESSION_ICON);
-//		largeImage = Images.getDescriptor(Images.SESSION_ICON);
-//
-//		IModelComponentMetadata metadata = ArtifactMetadataFactory.INSTANCE
-//				.getMetadata(ISessionArtifactImpl.class.getName());
-//
-//		final List<IElementType> elementTypes = new ArrayList<IElementType>();
-//		elementTypes.add(TigerstripeElementTypes.SessionFacadeArtifact_1008);
-//		ToolEntry result = new NodeToolEntry(metadata.getLabel(null),
-//				"Create new " + metadata.getLabel(null), smallImage,
-//				largeImage, elementTypes);
-//
-//		return result;
-//	}
+
 
 	/**
 	 * @generated NOT
@@ -438,289 +227,7 @@ public class TigerstripePaletteFactory {
 		return result;
 	}
 
-//	/**
-//	 * @generated NOT
-//	 */
-//	private ToolEntry createExtends1CreationTool() {
-//		ImageDescriptor smallImage;
-//		ImageDescriptor largeImage;
-//
-//		smallImage = Images.getDescriptor(Images.EXTENDSARROW_ICON);
-//		largeImage = Images.getDescriptor(Images.EXTENDSARROW_ICON);
-//
-//		final List<IElementType> relationshipTypes = new ArrayList<IElementType>();
-//		relationshipTypes
-//				.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
-//		ToolEntry result = new LinkToolEntry("Extends",
-//				"Create Extends Relationship", smallImage, largeImage,
-//				relationshipTypes);
-//
-//		return result;
-//	}
-//
-//	/**
-//	 * @generated NOT
-//	 */
-//	private ToolEntry createAssociation2CreationTool() {
-//		ImageDescriptor smallImage;
-//		ImageDescriptor largeImage;
-//
-//		smallImage = Images.getDescriptor(Images.ASSOCIATION_ICON);
-//		largeImage = Images.getDescriptor(Images.ASSOCIATION_ICON);
-//
-//		IModelComponentMetadata metadata = ArtifactMetadataFactory.INSTANCE
-//				.getMetadata(IAssociationArtifactImpl.class.getName());
-//
-//		final List<IElementType> relationshipTypes = new ArrayList<IElementType>();
-//		relationshipTypes.add(TigerstripeElementTypes.Association_3001);
-//		ToolEntry result = new LinkToolEntry(metadata.getLabel(null),
-//				"Create new " + metadata.getLabel(null), smallImage,
-//				largeImage, relationshipTypes);
-//
-//		return result;
-//	}
-//
-//	/**
-//	 * @generated NOT
-//	 */
-//	private ToolEntry createDependency3CreationTool() {
-//		ImageDescriptor smallImage;
-//		ImageDescriptor largeImage;
-//
-//		smallImage = Images.getDescriptor(Images.DEPENDENCY_ICON);
-//		largeImage = Images.getDescriptor(Images.DEPENDENCY_ICON);
-//
-//		IModelComponentMetadata metadata = ArtifactMetadataFactory.INSTANCE
-//				.getMetadata(IDependencyArtifactImpl.class.getName());
-//
-//		final List<IElementType> relationshipTypes = new ArrayList<IElementType>();
-//		relationshipTypes.add(TigerstripeElementTypes.Dependency_3008);
-//		ToolEntry result = new LinkToolEntry(metadata.getLabel(null),
-//				"Create new " + metadata.getLabel(null), smallImage,
-//				largeImage, relationshipTypes);
-//
-//		return result;
-//	}
-//
-//	/**
-//	 * @generated NOT
-//	 */
-//	private ToolEntry createReference4CreationTool() {
-//		ImageDescriptor smallImage;
-//		ImageDescriptor largeImage;
-//
-//		smallImage = Images.getDescriptor(Images.REFERENCEARROW_ICON);
-//		largeImage = Images.getDescriptor(Images.REFERENCEARROW_ICON);
-//
-//		final List<IElementType> relationshipTypes = new ArrayList<IElementType>();
-//		relationshipTypes.add(TigerstripeElementTypes.Reference_3009);
-//		ToolEntry result = new LinkToolEntry("Reference",
-//				"Create a new referency relationship", smallImage, largeImage,
-//				relationshipTypes);
-//
-//		return result;
-//	}
-//
-//	/**
-//	 * @generated NOT
-//	 */
-//	private ToolEntry createAssociationClass5CreationTool() {
-//		ImageDescriptor smallImage;
-//		ImageDescriptor largeImage;
-//
-//		smallImage = Images.getDescriptor(Images.ASSOCIATIONCLASS_ICON);
-//		largeImage = Images.getDescriptor(Images.ASSOCIATIONCLASS_ICON);
-//
-//		IModelComponentMetadata metadata = ArtifactMetadataFactory.INSTANCE
-//				.getMetadata(IAssociationClassArtifactImpl.class.getName());
-//
-//		final List<IElementType> relationshipTypes = new ArrayList<IElementType>();
-//		relationshipTypes.add(TigerstripeElementTypes.AssociationClass_3010);
-//		ToolEntry result = new LinkToolEntry(metadata.getLabel(null),
-//				"Create new " + metadata.getLabel(null), smallImage,
-//				largeImage, relationshipTypes);
-//
-//		return result;
-//	}
-//
-//	/**
-//	 * @generated
-//	 */
-//	private ToolEntry createAssociationClassClass6CreationTool() {
-//		ImageDescriptor smallImage;
-//		ImageDescriptor largeImage;
-//
-//		smallImage = TigerstripeDiagramEditorPlugin
-//				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/AssocClassLinkIcon-small.png");
-//
-//		largeImage = TigerstripeDiagramEditorPlugin
-//				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/AssocClassLinkIcon-large.png");
-//
-//		final List elementTypes = new ArrayList();
-//		elementTypes.add(TigerstripeElementTypes.AssociationClassClass_1009);
-//		ToolEntry result = new NodeToolEntry("Association Class Class",
-//				"Create a new class contained within and AssociationClass",
-//				smallImage, largeImage, elementTypes);
-//
-//		return result;
-//	}
-//
-//	/**
-//	 * @generated
-//	 */
-//	private ToolEntry createAssociationClassConnection7CreationTool() {
-//		ImageDescriptor smallImage;
-//		ImageDescriptor largeImage;
-//
-//		smallImage = TigerstripeElementTypes
-//				.getImageDescriptor(TigerstripeElementTypes.AssociationClassAssociatedClass_3011);
-//
-//		largeImage = smallImage;
-//
-//		final List relationshipTypes = new ArrayList();
-//		relationshipTypes
-//				.add(TigerstripeElementTypes.AssociationClassAssociatedClass_3011);
-//		ToolEntry result = new LinkToolEntry("Association Class Connection",
-//				"Create a new Association Class Connection", smallImage,
-//				largeImage, relationshipTypes);
-//
-//		return result;
-//	}
-//
-//	/**
-//	 * @generated
-//	 */
-//	private ToolEntry createManages8CreationTool() {
-//		ImageDescriptor smallImage;
-//		ImageDescriptor largeImage;
-//
-//		smallImage = TigerstripeDiagramEditorPlugin
-//				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/RelationshipIcon-small.png");
-//
-//		largeImage = TigerstripeDiagramEditorPlugin
-//				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/RelationshipIcon-large.png");
-//
-//		final List relationshipTypes = new ArrayList();
-//		relationshipTypes
-//				.add(TigerstripeElementTypes.SessionFacadeArtifactManagedEntities_3003);
-//		ToolEntry result = new LinkToolEntry("Manages",
-//				"Designate Managed Entities", smallImage, largeImage,
-//				relationshipTypes);
-//
-//		return result;
-//	}
-//
-//	/**
-//	 * @generated
-//	 */
-//	private ToolEntry createEmits9CreationTool() {
-//		ImageDescriptor smallImage;
-//		ImageDescriptor largeImage;
-//
-//		smallImage = TigerstripeDiagramEditorPlugin
-//				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/RelationshipIcon-small.png");
-//
-//		largeImage = TigerstripeDiagramEditorPlugin
-//				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/RelationshipIcon-large.png");
-//
-//		final List relationshipTypes = new ArrayList();
-//		relationshipTypes
-//				.add(TigerstripeElementTypes.SessionFacadeArtifactEmittedNotifications_3002);
-//		ToolEntry result = new LinkToolEntry("Emits",
-//				"Designate Emitted Notifications", smallImage, largeImage,
-//				relationshipTypes);
-//
-//		return result;
-//	}
-//
-//	/**
-//	 * @generated
-//	 */
-//	private ToolEntry createSupports10CreationTool() {
-//		ImageDescriptor smallImage;
-//		ImageDescriptor largeImage;
-//
-//		smallImage = TigerstripeDiagramEditorPlugin
-//				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/RelationshipIcon-small.png");
-//
-//		largeImage = TigerstripeDiagramEditorPlugin
-//				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/RelationshipIcon-large.png");
-//
-//		final List relationshipTypes = new ArrayList();
-//		relationshipTypes
-//				.add(TigerstripeElementTypes.SessionFacadeArtifactNamedQueries_3005);
-//		ToolEntry result = new LinkToolEntry("Supports",
-//				"Designate Supported Queries", smallImage, largeImage,
-//				relationshipTypes);
-//
-//		return result;
-//	}
-//
-//	/**
-//	 * @generated
-//	 */
-//	private ToolEntry createExposes11CreationTool() {
-//		ImageDescriptor smallImage;
-//		ImageDescriptor largeImage;
-//
-//		smallImage = TigerstripeDiagramEditorPlugin
-//				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/RelationshipIcon-small.png");
-//
-//		largeImage = TigerstripeDiagramEditorPlugin
-//				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/RelationshipIcon-large.png");
-//
-//		final List relationshipTypes = new ArrayList();
-//		relationshipTypes
-//				.add(TigerstripeElementTypes.SessionFacadeArtifactExposedProcedures_3006);
-//		ToolEntry result = new LinkToolEntry("Exposes",
-//				"Designate Exposed Procedures", smallImage, largeImage,
-//				relationshipTypes);
-//
-//		return result;
-//	}
-//
-//	/**
-//	 * @generated
-//	 */
-//	private ToolEntry createReturns12CreationTool() {
-//		ImageDescriptor smallImage;
-//		ImageDescriptor largeImage;
-//
-//		smallImage = TigerstripeDiagramEditorPlugin
-//				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/RelationshipIcon-small.png");
-//
-//		largeImage = TigerstripeDiagramEditorPlugin
-//				.findImageDescriptor("/org.eclipse.tigerstripe.workbench.ui.resources/icons/RelationshipIcon-large.png");
-//
-//		final List relationshipTypes = new ArrayList();
-//		relationshipTypes
-//				.add(TigerstripeElementTypes.NamedQueryArtifactReturnedType_3004);
-//		ToolEntry result = new LinkToolEntry("Returns", "Specify Query Return",
-//				smallImage, largeImage, relationshipTypes);
-//
-//		return result;
-//	}
 
-//	/**
-//	 * @generated
-//	 */
-//	private ToolEntry createImplements13CreationTool() {
-//		ImageDescriptor smallImage;
-//		ImageDescriptor largeImage;
-//
-//		smallImage = TigerstripeElementTypes
-//				.getImageDescriptor(TigerstripeElementTypes.Dependency_3008);
-//
-//		largeImage = smallImage;
-//
-//		final List relationshipTypes = new ArrayList();
-//		relationshipTypes.add(TigerstripeElementTypes.Dependency_3008);
-//		ToolEntry result = new LinkToolEntry("Implements",
-//				"Creates an Implements relationship", smallImage, largeImage,
-//				relationshipTypes);
-//
-//		return result;
-//	}
 
 	/**
 	 * @generated
@@ -769,6 +276,7 @@ public class TigerstripePaletteFactory {
 		 * @generated NOT
 		 */
 		private final List elementTypes;
+		private final IElementType elementType;
 		private final IPattern pattern;
 
 		/**
@@ -780,8 +288,13 @@ public class TigerstripePaletteFactory {
 			super(title, description, smallIcon, largeIcon);
 			this.elementTypes = elementTypes;
 			this.pattern = pattern;
+			this.elementType = (IElementType) elementTypes.get(0);
 		}
 
+		
+		private boolean ok = true;
+		private String failureString = "Unspecified Error";
+		
 		/**
 		 * @generated NOT
 		 */
@@ -790,62 +303,96 @@ public class TigerstripePaletteFactory {
 
 				@Override
 				protected void performCreation(int button) {
-					// TODO Auto-generated method stub
-					super.performCreation(button);
-					
 
-					Object o = getCreateRequest().getNewObject();
-					if (o instanceof Collection<?>) {
-						Collection<?> c = (Collection<?>) o;
-						Object e = c.iterator().next();
-						if (e instanceof ViewAndElementDescriptor) {
-							ViewAndElementDescriptor desc = (ViewAndElementDescriptor) e;
-							Node node = (Node) desc.getAdapter(View.class);
-							AbstractArtifact createdEArtifact = (AbstractArtifact) node
-									.getElement();
-							
-							Map map = (Map) createdEArtifact.eContainer();
-							ITigerstripeModelProject project = map.getCorrespondingITigerstripeProject();
-							try {
-								//IAbstractArtifact createdIArtifact = createdEArtifact
-								//		.getCorrespondingIArtifact();
-								//System.out.println("Just created: "
-								//		+ createdIArtifact);
-								
-								if (pattern instanceof IEnumPattern){
-									IEnumPattern enumPattern =(IEnumPattern) pattern;
-									IArtifactPatternResult artifact = enumPattern.createArtifact(
-											project, 
-											createdEArtifact.getPackage(), 
-											createdEArtifact.getName(), enumPattern.getExtendedArtifactName(),
-											enumPattern.getBaseType());
-									enumPattern.addToManager(project, artifact.getArtifact());
-									enumPattern.annotateArtifact(project, artifact);
-								} else if (pattern instanceof IQueryPattern){
-									IQueryPattern queryPattern =(IQueryPattern) pattern;
-									IArtifactPatternResult artifact = queryPattern.createArtifact(
-											project, 
-											createdEArtifact.getPackage(), 
-											createdEArtifact.getName(), queryPattern.getExtendedArtifactName(),
-											queryPattern.getReturnType());
-									queryPattern.addToManager(project, artifact.getArtifact());
-									queryPattern.annotateArtifact(project, artifact);
-								} else {
-									IArtifactPattern artifactPattern =(IArtifactPattern) pattern;
-									IArtifactPatternResult artifact = artifactPattern.createArtifact(
-											project, 
-											createdEArtifact.getPackage(), 
-											createdEArtifact.getName(), artifactPattern.getExtendedArtifactName());
-									artifactPattern.addToManager(project, artifact.getArtifact());
-									artifactPattern.annotateArtifact(project, artifact);
+					final IPatternBasedCreationValidator validator = pattern.getValidator();
+					if (validator != null){
+						// TODO These bits are worked out from the created EObject.
+						CreateUnspecifiedTypeRequest request = (CreateUnspecifiedTypeRequest) getCreateRequest();
+						CreateViewAndElementRequest cver = (CreateViewAndElementRequest) request.getRequestForType(elementType);
+						ViewAndElementDescriptor desc = cver.getViewAndElementDescriptor();
+						CreateElementRequestAdapter adapter = (CreateElementRequestAdapter) desc.getElementAdapter();
+						CreateElementRequest req = (CreateElementRequest) adapter.getAdapter(CreateElementRequest.class);
+
+						Map map = (Map) req.getContainer();
+						final ITigerstripeModelProject modelproject = map.getCorrespondingITigerstripeProject();
+						final String packageName = map.getBasePackage();
+						final String artifactName = getArtifactName((IArtifactPattern) pattern,((IArtifactPattern) pattern).getTargetArtifactType(),modelproject,packageName);
+						
+						final String extendedArtifactFQN = ((IArtifactPattern) pattern).getExtendedArtifactName();
+						SafeRunner.run(new ISafeRunnable() {
+							public void handleException(Throwable exception) {
+								BasePlugin.log(exception);
+							}
+
+							public void run() throws Exception {
+								ok = validator.okToCreate(modelproject,(INodePattern) pattern,
+										packageName,artifactName,extendedArtifactFQN);
+								failureString = validator.getCreateFailureMessage();
+							}
+						});
+					}
+					if (!ok){
+						MessageDialog.openError(null, "Unable to Create Artifact", failureString);
+					} else {
+						super.performCreation(button);
+
+
+						Object o = getCreateRequest().getNewObject();
+						if (o instanceof Collection<?>) {
+							Collection<?> c = (Collection<?>) o;
+							Object e = c.iterator().next();
+							if (e instanceof ViewAndElementDescriptor) {
+								ViewAndElementDescriptor desc = (ViewAndElementDescriptor) e;
+								Node node = (Node) desc.getAdapter(View.class);
+								AbstractArtifact createdEArtifact = (AbstractArtifact) node
+								.getElement();
+
+								Map map = (Map) createdEArtifact.eContainer();
+								ITigerstripeModelProject project = map.getCorrespondingITigerstripeProject();
+
+								try {
+									//IAbstractArtifact createdIArtifact = createdEArtifact
+									//		.getCorrespondingIArtifact();
+									//System.out.println("Just created: "
+									//		+ createdIArtifact);
+
+
+									if (pattern instanceof IEnumPattern){
+										IEnumPattern enumPattern =(IEnumPattern) pattern;
+										IArtifactPatternResult artifact = enumPattern.createArtifact(
+												project, 
+												createdEArtifact.getPackage(), 
+												createdEArtifact.getName(), enumPattern.getExtendedArtifactName(),
+												enumPattern.getBaseType());
+										enumPattern.addToManager(project, artifact.getArtifact());
+										enumPattern.annotateArtifact(project, artifact);
+									} else if (pattern instanceof IQueryPattern){
+										IQueryPattern queryPattern =(IQueryPattern) pattern;
+										IArtifactPatternResult artifact = queryPattern.createArtifact(
+												project, 
+												createdEArtifact.getPackage(), 
+												createdEArtifact.getName(), queryPattern.getExtendedArtifactName(),
+												queryPattern.getReturnType());
+										queryPattern.addToManager(project, artifact.getArtifact());
+										queryPattern.annotateArtifact(project, artifact);
+									} else {
+										IArtifactPattern artifactPattern =(IArtifactPattern) pattern;
+										IArtifactPatternResult artifact = artifactPattern.createArtifact(
+												project, 
+												createdEArtifact.getPackage(), 
+												createdEArtifact.getName(), artifactPattern.getExtendedArtifactName());
+										artifactPattern.addToManager(project, artifact.getArtifact());
+										artifactPattern.annotateArtifact(project, artifact);
+									}
+
+								} catch (TigerstripeException ex) {
+									ex.printStackTrace();
 								}
-							} catch (TigerstripeException ex) {
-								ex.printStackTrace();
 							}
 						}
+						//System.out.println("Created Object="
+						//		+ getCreateRequest().getNewObject());
 					}
-					//System.out.println("Created Object="
-					//		+ getCreateRequest().getNewObject());
 				}
 
 			};
@@ -882,5 +429,59 @@ public class TigerstripePaletteFactory {
 			tool.setProperties(getToolProperties());
 			return tool;
 		}
+	}
+	
+	public static String getArtifactName(IArtifactPattern pattern, Class clazz, ITigerstripeModelProject project,
+			String packageName){
+		String name = "";
+		// If we move the name provider to the pattern then we only need change this line!
+		
+		ComponentNameProvider nameFactory = ComponentNameProvider.getInstance();	
+		return nameFactory.getNewArtifactName(pattern,
+				clazz, project, packageName);
+	}
+	
+	public static String getArtifactName(IArtifactPattern pattern, String  className, ITigerstripeModelProject project,
+			String packageName){
+		String artifactName = "";
+		if (className.equals(IManagedEntityArtifact.class.getName())){
+			artifactName = getArtifactName(pattern,
+					IManagedEntityArtifact.class, project,packageName); 
+		} else if (className.equals(IDatatypeArtifact.class.getName())){
+			artifactName = getArtifactName(pattern,
+					IDatatypeArtifact.class,project,packageName);
+		} else if (className.equals(IEnumArtifact.class.getName())){
+			artifactName = getArtifactName(pattern,
+					IEnumArtifact.class,project,packageName);
+
+		} else if (className.equals(IQueryArtifact.class.getName())){
+			artifactName = getArtifactName(pattern,
+					IQueryArtifact.class,project,packageName);
+		} else if (className.equals(IUpdateProcedureArtifact.class.getName())){
+			artifactName = getArtifactName(pattern,
+					IUpdateProcedureArtifact.class, project,packageName);
+		} else if (className.equals(ISessionArtifact.class.getName())){
+			artifactName = getArtifactName(pattern,
+					ISessionArtifact.class,	project,packageName);
+		} else if (className.equals(IExceptionArtifact.class.getName())){
+			artifactName = getArtifactName(pattern,
+					IExceptionArtifact.class, project,packageName);
+		} else if (className.equals(IEventArtifact.class.getName())){
+			artifactName = getArtifactName(pattern,
+					IEventArtifact.class, project,packageName);
+
+		} else if (className.equals(IDependencyArtifact.class.getName())){
+			artifactName = getArtifactName(pattern,
+					IDependencyArtifact.class, project,packageName);
+		} else if (className.equals(IAssociationClassArtifact.class.getName())){
+			artifactName = getArtifactName(pattern,
+					IAssociationClassArtifact.class, project,packageName);
+		} else if (className.equals(IAssociationArtifact.class.getName())){
+			artifactName = getArtifactName(pattern,
+					IAssociationArtifact.class, project,packageName);
+		}
+			
+		return artifactName;
+		
 	}
 }

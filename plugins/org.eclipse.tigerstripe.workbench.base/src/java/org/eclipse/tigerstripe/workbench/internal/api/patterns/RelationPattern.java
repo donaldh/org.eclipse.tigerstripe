@@ -164,7 +164,7 @@ public class RelationPattern extends ArtifactPattern implements IRelationPattern
 								targetEnd.setName(newValue);
 						else {
 							ComponentNameProvider nameFactory = ComponentNameProvider.getInstance();
-							String name = nameFactory.getNewAssociationEndName(association, endref);
+							String name = nameFactory.getNewAssociationEndName(this,association, endref);
 							targetEnd.setName(name);
 						}
 					} else if (feature.endsWith("Unique")) {
