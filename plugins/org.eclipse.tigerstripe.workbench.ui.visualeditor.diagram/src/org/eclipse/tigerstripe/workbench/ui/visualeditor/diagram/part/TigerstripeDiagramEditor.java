@@ -11,7 +11,10 @@
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.draw2d.AutomaticRouter;
 import org.eclipse.draw2d.Connection;
 import org.eclipse.draw2d.ConnectionRouter;
@@ -24,18 +27,19 @@ import org.eclipse.gef.LayerConstants;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramRootEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditDomain;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramGraphicalViewer;
-import org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide.document.FileEditorInputProxy;
+import org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramWorkbenchPart;
 import org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide.document.StorageDiagramDocumentProvider;
 import org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide.editor.FileDiagramEditor;
 import org.eclipse.gmf.runtime.draw2d.ui.internal.figures.ConnectionLayerEx;
 import org.eclipse.gmf.runtime.draw2d.ui.internal.routers.FanRouter;
 import org.eclipse.gmf.runtime.draw2d.ui.internal.routers.ObliqueRouter;
+import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.internal.ui.viewsupport.IViewPartInputProvider;
-import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.GMFEditorHandler;
-import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.MapEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.TigerstripeEditPartFactory;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassConnectionEditPart.AssocClassLinkPolylineConnectionEx;
 import org.eclipse.ui.IEditorInput;
@@ -167,14 +171,27 @@ public class TigerstripeDiagramEditor extends FileDiagramEditor implements
 		DiagramGraphicalViewer viewer = (DiagramGraphicalViewer) this.getDiagramGraphicalViewer();
 		DiagramEditDomain domain = (DiagramEditDomain) viewer.getEditDomain();
 		
-		domain.getEditorPart();
-		IResource res = (IResource) domain.getEditorPart().getEditorInput()
-			.getAdapter(IResource.class);
+		IDiagramWorkbenchPart pa = domain.getDiagramEditorPart();
+		Diagram diag = pa.getDiagram(); 
+		Map map = (Map) diag.getElement();
+		String pack = map.getBasePackage();
+		ITigerstripeModelProject proj = map.getCorrespondingITigerstripeProject();
 		
-		//This isn't actually the right way to do this..
-		IResource parent = res.getParent();
+		IProject project = (IProject) proj.getAdapter(IProject.class);
+		if ( project == null){
+			return null;
+		}
+		
+		IJavaProject p = (IJavaProject) proj.getAdapter(IJavaProject.class);
+		IPath path  = new Path(pack.replaceAll("\\.", "/"));
+		try {
+			return p.findElement(path);
 
-		return parent.getAdapter(IJavaElement.class);
+		} catch (Exception e){
+			e.printStackTrace();
+			return null;
+		}
+		
 	}
 
 	
