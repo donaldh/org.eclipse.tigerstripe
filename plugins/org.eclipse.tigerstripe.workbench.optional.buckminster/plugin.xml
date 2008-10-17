@@ -4,7 +4,7 @@
    <extension
          point="org.eclipse.buckminster.core.componentTypes">
       <componentType
-            class="org.eclipse.tigerstripe.workbench.optional.buckminster.internal.TigerstripeComponentType"
+            class="org.eclipse.tigerstripe.workbench.optional.buckminster.internal.TigerstripeProjectComponentType"
             id="tigerstripe">
       </componentType>
    </extension>

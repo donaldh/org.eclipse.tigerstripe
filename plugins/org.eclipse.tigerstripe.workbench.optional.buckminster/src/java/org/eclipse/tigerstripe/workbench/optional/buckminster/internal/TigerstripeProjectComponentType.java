@@ -8,10 +8,11 @@
  * Contributors:
  *     J. Strawn (Cisco Systems, Inc.) - Initial implementation
  *******************************************************************************/
+
 package org.eclipse.tigerstripe.workbench.optional.buckminster.internal;
 
 import org.eclipse.buckminster.core.cspec.builder.CSpecBuilder;
-import org.eclipse.buckminster.core.cspec.builder.DependencyBuilder;
+import org.eclipse.buckminster.core.cspec.builder.ComponentRequestBuilder;
 import org.eclipse.buckminster.core.cspec.model.ComponentName;
 import org.eclipse.buckminster.core.cspec.model.DependencyAlreadyDefinedException;
 import org.eclipse.buckminster.core.ctype.AbstractComponentType;
@@ -26,58 +27,53 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-public class TigerstripeComponentType extends AbstractComponentType {
+public class TigerstripeProjectComponentType extends AbstractComponentType {
 
-	private static final TigerstripeCSpecBuilder builder = new TigerstripeCSpecBuilder();
+	public static final String TIGERSTRIPE_XML_FILE = "tigerstripe.xml";
 
-	public IResolutionBuilder getResolutionBuilder(IComponentReader reader, IProgressMonitor monitor)
-			throws CoreException {
+	private static final TigerstripeProjectCSpecBuilder builder = new TigerstripeProjectCSpecBuilder();
+
+	public IResolutionBuilder getResolutionBuilder(IComponentReader reader, IProgressMonitor monitor) throws CoreException {
 
 		MonitorUtils.complete(monitor);
 		return builder;
 	}
 
-	static void addDependencies(IComponentReader reader, CSpecBuilder cspec, Document tsXmlDoc) throws CoreException {
+	public static void addDependencies(IComponentReader reader, CSpecBuilder cspec, Document tsXmlDoc) throws CoreException {
 
 		Node referenceNode = null;
 		Element project = tsXmlDoc.getDocumentElement();
 		for (Node child = project.getFirstChild(); child != null; child = child.getNextSibling()) {
 
-			if(child.getNodeType() != Node.ELEMENT_NODE) {
+			if (child.getNodeType() != Node.ELEMENT_NODE) {
 				continue;
 			}
-			
+
 			// look for "references" element
-			if("references".equals(child.getNodeName())) {
-				if(child.hasChildNodes()) {
+			if ("references".equals(child.getNodeName())) {
+				if (child.hasChildNodes()) {
 					referenceNode = child;
 				}
 				break;
 			}
 		}
-		
-		if(referenceNode != null) {
-			
+
+		if (referenceNode != null) {
+
 			ComponentQuery query = reader.getNodeQuery().getComponentQuery();
-			for(Node ref = referenceNode.getFirstChild(); ref != null; ref = ref.getNextSibling()) {
-				
-				if(ref.getNodeType() == Node.ELEMENT_NODE && "reference".equals(ref.getNodeName())) {
-					
+			for (Node ref = referenceNode.getFirstChild(); ref != null; ref = ref.getNextSibling()) {
+
+				if (ref.getNodeType() == Node.ELEMENT_NODE && "reference".equals(ref.getNodeName())) {
+
 					// add the project references
 					String componentName = getPathAttributeValue(ref);
-					ComponentName adviceKey = new ComponentName(componentName, null); 
-					if(query.skipComponent(adviceKey)) {
-						return;
-					}
-					
-					DependencyBuilder depBldr = cspec.createDependencyBuilder();
+					ComponentRequestBuilder depBldr = cspec.createDependencyBuilder();
 					depBldr.setName(componentName);
 					depBldr.setComponentTypeID("tigerstripe");
-					
+
 					try {
 						cspec.addDependency(depBldr);
-					}
-					catch (DependencyAlreadyDefinedException e) {
+					} catch (DependencyAlreadyDefinedException e) {
 						TigerstripePlugin.getLogger().warning(e.getMessage());
 					}
 				}
@@ -88,8 +84,8 @@ public class TigerstripeComponentType extends AbstractComponentType {
 	private static String getPathAttributeValue(Node ref) {
 
 		String path = ref.getAttributes().getNamedItem("path").getTextContent().trim();
-		
-		if(path != null) {
+
+		if (path != null) {
 			return ref.getAttributes().getNamedItem("path").getTextContent().trim();
 		}
 		throw new IllegalArgumentException("Invalid reference element");
