@@ -13,12 +13,14 @@ package org.eclipse.tigerstripe.workbench.optional.buckminster.internal;
 
 import org.eclipse.buckminster.core.cspec.builder.CSpecBuilder;
 import org.eclipse.buckminster.core.cspec.builder.ComponentRequestBuilder;
+import org.eclipse.buckminster.core.cspec.model.CSpec;
 import org.eclipse.buckminster.core.cspec.model.ComponentName;
 import org.eclipse.buckminster.core.cspec.model.DependencyAlreadyDefinedException;
 import org.eclipse.buckminster.core.ctype.AbstractComponentType;
 import org.eclipse.buckminster.core.ctype.IResolutionBuilder;
 import org.eclipse.buckminster.core.query.model.ComponentQuery;
 import org.eclipse.buckminster.core.reader.IComponentReader;
+import org.eclipse.buckminster.core.version.IVersionDesignator;
 import org.eclipse.buckminster.runtime.MonitorUtils;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -70,7 +72,7 @@ public class TigerstripeProjectComponentType extends AbstractComponentType {
 					ComponentRequestBuilder depBldr = cspec.createDependencyBuilder();
 					depBldr.setName(componentName);
 					depBldr.setComponentTypeID("tigerstripe");
-
+					// CURRENTLY NO VERSION SUPPORT IN THE REFERENCES SECTION OF TS.XML!
 					try {
 						cspec.addDependency(depBldr);
 					} catch (DependencyAlreadyDefinedException e) {
@@ -84,9 +86,8 @@ public class TigerstripeProjectComponentType extends AbstractComponentType {
 	private static String getPathAttributeValue(Node ref) {
 
 		String path = ref.getAttributes().getNamedItem("path").getTextContent().trim();
-
 		if (path != null) {
-			return ref.getAttributes().getNamedItem("path").getTextContent().trim();
+			return path;
 		}
 		throw new IllegalArgumentException("Invalid reference element");
 	}
