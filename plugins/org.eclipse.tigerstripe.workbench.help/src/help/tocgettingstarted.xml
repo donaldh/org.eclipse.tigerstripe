@@ -11,7 +11,7 @@
 -->
 <?NLS TYPE="org.eclipse.help.toc"?>
 
-<toc label="Getting Started" link_to="src/help/toc.xml#gettingstarted"> 
+<toc label="Getting Started" link_to="src/help/toc.xml#gettingstarted" topic="src/help/html/gettingstarted/index.html"> 
 	<topic label="Basic Tutorial"  href="src/help/html/gettingstarted/basictutorial/index.html"> 
 		<topic label="Creating a New Project" href="src/help/html/gettingstarted/basictutorial/firstproject/index.html"/>
 		<topic label="Documenting your Project" href="src/help/html/gettingstarted/basictutorial/firstproject/addingdescriptors.html" />

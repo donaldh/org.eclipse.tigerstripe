@@ -11,7 +11,7 @@
 -->
 <?NLS TYPE="org.eclipse.help.toc"?>
 
-<toc label="Tasks" link_to="src/help/toc.xml#tasks"> 
+<toc label="Tasks" link_to="src/help/toc.xml#tasks" topic="src/help/html/tasks/index.html"> 
 	<topic label="Service Contract Modeling"  href="src/help/html/tasks/interfaceModelingTasks/index.html"> 
 		<topic label="Creating/Editing a new Project" href="src/help/html/tasks/interfaceModelingTasks/newTigerstripeProject.html"/>
 		<topic label="Creating/Editing Artifacts" href="src/help/html/tasks/interfaceModelingTasks/infoModelingTasks/index.html">

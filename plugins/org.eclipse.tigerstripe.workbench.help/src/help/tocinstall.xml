@@ -11,7 +11,5 @@
 -->
 <?NLS TYPE="org.eclipse.help.toc"?>
 
-<toc label="Installation" link_to="src/help/toc.xml#install"> 
-	<topic label="Update Manager Site Installation"  href="src/help/html/install/Optionone/index.html"/> 
-	<topic label="Pre-bundled File Installation" href="src/help/html/install/Optiontwo/index.html"/>
+<toc label="Installation" link_to="src/help/toc.xml#install" topic="src/help/html/install/index.html"> 
 </toc>

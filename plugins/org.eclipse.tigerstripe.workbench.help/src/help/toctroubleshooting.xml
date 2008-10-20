@@ -11,7 +11,7 @@
 -->
 <?NLS TYPE="org.eclipse.help.toc"?>
 
-<toc label="Troubleshooting" link_to="src/help/toc.xml#troubleshooting"> 
+<toc label="Troubleshooting" link_to="src/help/toc.xml#troubleshooting" topic="src/help/html/troubleshooting/index.html"> 
 <!--	<topic label="Installation Troubleshooting"  href="src/help/html/troubleshooting/installTroubleShooting.html"/> -->
 	<topic label="Project Audit Troubleshooting"  href="src/help/html/troubleshooting/projectAuditErrors.html"/> 
 <!--	<topic label="Generation Errors Troubleshooting"  href="src/help/html/troubleshooting/generationErrors.html"/> -->

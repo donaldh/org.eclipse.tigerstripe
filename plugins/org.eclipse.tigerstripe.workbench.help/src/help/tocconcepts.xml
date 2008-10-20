@@ -11,7 +11,7 @@
 -->
 <?NLS TYPE="org.eclipse.help.toc"?>
 
-<toc label="Concepts" link_to="src/help/toc.xml#concepts"> 
+<toc label="Concepts" link_to="src/help/toc.xml#concepts" topic="src/help/html/concepts/index.html"> 
 	<topic label="Tigerstripe Projects"  href="src/help/html/concepts/tigerstripeprojects/index.html"> 
 		<topic label="Tigerstripe Source Model" href="src/help/html/concepts/tigerstripeprojects/sourceartifacts.html" /> 
 		<topic label="Tigerstripe Project Descriptor" href="src/help/html/concepts/tigerstripeprojects/projectdescriptor.html" /> 

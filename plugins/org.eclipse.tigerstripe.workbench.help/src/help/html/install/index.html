@@ -1,113 +1,26 @@
-<!--
-  Copyright (c) 2007 Cisco Systems, Inc.
-  All rights reserved. This program and the accompanying materials
-  are made available under the terms of the Eclipse Public License v1.0
-  which accompanies this distribution, and is available at
-    http://www.eclipse.org/legal/epl-v10.html
-
-   Contributors:
-      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
--->
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
-<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<!-- InstanceBeginEditable name="doctitle" -->
-<title>Installation</title>
-<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
-
-
-
-<style type="text/css">
-<!--
-.style2 {color: #FF0000}
--->
-</style>
-<!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
-<style type="text/css">
-<!--
-.style1 {font-size: xx-small}
-body,td,th {
-	font-family: Geneva, Arial, Helvetica, sans-serif;
-	color: #666666;
-	font-size: small;
-}
-body {
-	margin-left: 2mm;
-}
-
-h2 {
-	color: #000000;
-	position: relative;
-	left: 10px;
-	list-style-position: outside;
-	list-style-image: none;
-	list-style-type: square;
-	font-size: x-large;
-	font-variant: normal;
-	font-family: Arial, Helvetica, sans-serif;
-}
-h1 {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: xx-large;
-	font-weight: bold;
-	text-transform: capitalize;
-	color: #FF6600;
-}
-ul {
-	list-style-position: inside;
-	list-style-type: square;
-}
-ol {
-	list-style-position: inside;
-	list-style-type: number;
-}
-h3 {
-	font-size: medium;
-	color: #000000;
-	position: relative;
-	left: 20px;
-}
--->
-</style>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<link rel="STYLESHEET" href="../book.css" charset="ISO-8859-1" type="text/css">
+	<script language="JavaScript" src="PLUGINS_ROOT/org.eclipse.help/livehelp.js"></script>
+	<title>Installation</title>
 </head>
 
-<body bgcolor="#FFFFFF" alink="#FF9999">
-<table width="100%"  border="0" cellspacing="0" cellpadding="0">
-  <tr>
-    <td width="227" height="107" background="../images/top_left.gif">&nbsp;</td>
-    <td height="107" background="../images/top_middle.gif">&nbsp;</td>
-    <td width="349" height="107" background="../images/top_right.gif">&nbsp;</td>
-  </tr>
-</table>
-<img src="../images/46_58.jpg" width="100%" height="3"></p>
-
-<!-- InstanceBeginEditable name="Body" -->
+<body>
 <h1>Tigerstripe Workbench Installation </h1>
-<p>This section provides insight on the installation and un-installation procedures for <b>Tigerstripe Workbench</b>. The minimal requirements for <b>Tigerstripe Workbench</b> are:</p>
+<p>This section provides insight on the installation and un-installation procedures for <b>Tigerstripe Workbench</b>. The minimal requirements for <b>Tigerstripe Workbench 0.4</b> are:</p>
 <ul>
-   <li>JavaSE 5, which can be downloaded from <a href="http://java.sun.com">http://java.sun.com</a>.</li>
-   <li>Eclipse 3.2.1, which can be download from <a href="http://www.eclipse.org">http://www.eclipse.org</a>.</li>
-   <li>Windows XP or Linux.</li>
+   <li>JavaSE 5 or 6, which can be downloaded from <a href="http://java.sun.com">http://java.sun.com</a>. </li>
+   <li>Eclipse 3.4.1, which can be download from <a href="http://www.eclipse.org/downloads/">http://www.eclipse.org/downloads/</a>. Any of the distributions that include JDT will work. For a minimal installation, we would recommend the 'Eclipse IDE for Java Developers'.</li>
+   <li>Windows XP, Mac or Linux.</li>
 </ul>
-<p><b>Tigerstripe Workbench</b> relies on the Eclipse Graphical Modeling Framework (GMF) and Eclipse Modeling Framework (EMF) therefore, additional plug-ins from various Eclipse projects are required. You must install the following plugins before running <b>Tigerstripe Workbench</b>:
+<p>We recomend that initial installation of Tigerstrip is done using manual installation. This the done as follows:</p>
 <ul>
-   <li>GMF build 1.0.2 (or higher)</li>
-   <li>EMF build 2.2.1 (or higher)</li>
-   <li>GEF Build 3.2.1 (or higher)</li>
-   <li>EMF OCL build 1.0.1 (or higher)</li>
-   <li>EMF Validation build 1.0.1 (or higher)</li>
-   <li>EMF Query build 1.0.1 (or higher)</li>
-   <li>EMF Transaction build 1.0.1 (or higher)</li>
-</ul></p>
-<p>You have two options to install <b>Tigerstripe Workbench</b>:</p>
-<ul>
-   <li>The <a href="Optionone/index.html"><b>Tigerstripe Update Manager Site</b></a>. This option allows you to set up Eclipse to periodically check for updates and notify you when they become available.
-   <li>A <a href="Optiontwo/index.html"><b>pre-bundled .zip file</b></a> that includes all the required plug-ins. This option is faster however, it does not allow you to receive notifications of program updates as they become available.
+<li>Go to <a href="http://www.eclipse.org/tigerstripe/downloads.php">the Tigerstripe downloads page</a>.</li>
+<li>Download the latest release of the Tigerstripe Workbench. Choose the 'bundle-tigerstripe-workbench...zip' file.</li>
+<li>Unzip the file into the Eclipse 'dropins' folder. See <a href="http://wiki.eclipse.org/Equinox_p2_Getting_Started#Dropins">The Eclipse Provisioning Wiki for more information</a>.</li>
 </ul>
-<!-- InstanceEndEditable -->
-<p class="style1"><img src="../images/46_58.jpg" width="100%" height="3"><br>
-&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+<p>Once, initial installation is completed, the same process can be used for updates or the Eclipse Update tool can be used. Please refer to <a href="PLUGINS_ROOT/org.eclipse.platform.doc.user/tasks/tasks-129.htm">the Eclipse User Guide</a> for full/more details</p>
 </body>
-<!-- InstanceEnd --></html>
+</html>
