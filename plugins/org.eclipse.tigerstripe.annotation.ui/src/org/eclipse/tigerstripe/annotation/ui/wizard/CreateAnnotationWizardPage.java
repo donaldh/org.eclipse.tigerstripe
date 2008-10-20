@@ -152,7 +152,11 @@ public class CreateAnnotationWizardPage extends WizardPage {
 		if (combo.getItemCount() > 0) {
 			TreeItem item = combo.getItem(0);
 			item.setExpanded(true);
-			combo.select(item.getItems()[0]);
+			TreeItem[] items = item.getItems();
+			if (items.length > 0)
+				combo.select(items[0]);
+			else
+				combo.select(item);
 		}
 		combo.forceFocus();
 		comboListener.updateDescription();
