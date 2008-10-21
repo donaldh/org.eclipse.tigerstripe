@@ -215,10 +215,16 @@ public class AssociationArtifact extends AbstractArtifact implements
 		return objects;
 	}
 
+	
 	public Collection<IAssociationEnd> getAssociationEnds() {
 		Collection<IAssociationEnd> result = new ArrayList<IAssociationEnd>();
-		result.add(getAEnd());
-		result.add(getZEnd());
+		// Bug 249290 - not adding "null" ends
+		if (getAEnd() != null){
+			result.add(getAEnd());
+		}
+		if (getZEnd() != null){
+			result.add(getZEnd());
+		}
 		return result;
 	}
 
