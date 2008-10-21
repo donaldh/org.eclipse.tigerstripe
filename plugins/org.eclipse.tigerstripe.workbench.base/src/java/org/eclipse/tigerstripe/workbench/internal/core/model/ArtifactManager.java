@@ -522,6 +522,14 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 						result.add(toAdd);
 					}
 				}
+
+				if (phantomArtifactMgrSession != null
+						&& model instanceof IPrimitiveTypeArtifact) {
+					ArtifactManager phantomMgr = ((ArtifactManagerSessionImpl) phantomArtifactMgrSession)
+							.getArtifactManager();
+					result.addAll(phantomMgr.getArtifactsByModel(model, false,
+							monitor));
+				}
 			}
 			return result;
 		} finally {
