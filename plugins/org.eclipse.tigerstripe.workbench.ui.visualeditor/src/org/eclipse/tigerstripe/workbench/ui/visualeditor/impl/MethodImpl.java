@@ -266,7 +266,7 @@ public class MethodImpl extends TypedElementImpl implements Method {
 	}
 
 	public String getLabelString() {
-		String result = getName() + "(" + getParamsString() + ")::";
+		String result = getName() + "(" + getParamsString() + "):";
 		String retType = getType();
 		result = result + retType;
 
