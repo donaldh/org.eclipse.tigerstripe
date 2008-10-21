@@ -680,6 +680,7 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 				}
 
 			}
+			result.add(attrStatus);
 		}
 
 		if (fields.size() != 0) {
