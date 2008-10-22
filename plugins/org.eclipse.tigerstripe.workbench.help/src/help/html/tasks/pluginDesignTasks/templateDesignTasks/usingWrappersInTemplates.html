@@ -8,73 +8,14 @@
    Contributors:
       E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
 -->
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-"http://www.w3.org/TR/html4/loose.dtd">
-<html><!-- InstanceBegin template="/Templates/helppage Template.dwt" codeOutsideHTMLIsLocked="false" -->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
-<!-- InstanceBeginEditable name="doctitle" -->
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<link rel="STYLESHEET" href="book.css" charset="ISO-8859-1" type="text/css">
+	<script language="JavaScript" src="PLUGINS_ROOT/org.eclipse.help/livehelp.js"></script>
 <title>Using Wrappers in Templates</title>
-<!-- InstanceEndEditable --><!-- InstanceBeginEditable name="head" -->
-<style type="text/css">
-<!--
-.style2 {color: #FF0000}
--->
-</style>
-<!-- InstanceEndEditable --><!-- InstanceParam name="OptionalRelatedTo" type="boolean" value="true" -->
-<style type="text/css">
-<!--
-.style1 {font-size: xx-small}
-body,td,th {
-	font-family: Geneva, Arial, Helvetica, sans-serif;
-	color: #666666;
-	font-size: small;
-}
-body {
-	margin-left: 2mm;
-}
-h2 {
-	color: #000000;
-	position: relative;
-	left: 10px;
-	list-style-position: outside;
-	list-style-image: none;
-	list-style-type: square;
-	font-size: x-large;
-	font-variant: normal;
-	font-family: Arial, Helvetica, sans-serif;
-}
-h1 {
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: xx-large;
-	font-weight: bold;
-	text-transform: capitalize;
-	color: #FF6600;
-}
-ul {
-	list-style-position: inside;
-	list-style-type: square;
-}
-ol {
-	list-style-position: inside;
-	list-style-type: number;
-}
-h3 {
-	font-size: medium;
-	color: #000000;
-	position: relative;
-	left: 20px;
-}
-code {
-	font-size: small;
-	color: #000000;
-	position: relative;
-	margin-left: 10mm;
-}
--->
-</style>
-</head>
-
+</head >
 <body bgcolor="#FFFFFF" alink="#FF9999">
 <table width="100%"  border="0" cellspacing="0" cellpadding="0">
   <tr>
@@ -84,7 +25,6 @@ code {
   </tr>
 </table>
 <img src="../../../images/46_58.jpg" width="100%" height="3"></p>
-<!-- InstanceBeginEditable name="Body" -->
 <h1>Using Models in Templates</h1>
 
 <p><b>Note:</b> This section is only applicable for <b>Artifact</b> based rules.</p>
@@ -92,7 +32,6 @@ code {
 <p>You can specify a <b>Wrapper</b> class for use within an <b>Artifact</b> based rule. The <b>Wrapper</b> class and it's <i>name</i> is specified on the <b>Rules</b> section of the <b>Plug-in Project Descriptor</b>.</p>
 
 <p>A wrapper is a Java class that implements the <i>IArtifactWrapper</i> interface specified in the <b>Tigerstripe</b> external API. The <b>Artifact</b> being processed is passed to the class using the <i>setIArtifact</i> method to which <b>Tigerstripe</b> automatically calls, and passes the current <b>Artifact</b> to your <b>Wrapper</b> class.</p>
-<!-- Please verify above paragraph -->
 <p>A sample <b>Model</b> class is as follows:</p>
 
 <p><code>1. public class EntityWrapper implements IArtifactWrapper {</code></p>
@@ -118,8 +57,7 @@ code {
 
 <p><code>$entity.getOutPath()</code> - Returns a <b>String</b> similar to <i>com/mycompany/myPackage</i>.</p>
 
-<!-- InstanceEndEditable -->
 <p class="style1"><img src="../../../images/46_58.jpg" width="100%" height="3"><br>
 &#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
 </body>
-<!-- InstanceEnd --></html>
+</html>
