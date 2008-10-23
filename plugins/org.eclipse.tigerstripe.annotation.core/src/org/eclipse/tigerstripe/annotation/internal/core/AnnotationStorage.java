@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.change.ChangeDescription;
 import org.eclipse.emf.ecore.change.util.ChangeRecorder;
+import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPackage;
@@ -96,6 +97,7 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 	}
 	
 	public void remove(Annotation annotation) {
+		if (isReadOnly(annotation)) return;
 		changes.remove(annotation);
 		getDatabase().remove(annotation);
 		fireAnnotationsRemoved( new Annotation[] { annotation } );
@@ -169,6 +171,7 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 	}
 	
 	public boolean isReadOnly(Annotation annotation) {
+		if (isDynamic(annotation)) return true;
 		return getDatabase().isReadOnly(annotation);
 	}
 	
@@ -196,13 +199,22 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 		fireAnnotationsRemoved(resource);
 	}
 	
+	protected boolean isDynamic(Annotation annotation) {
+		return annotation.getContent() instanceof DynamicEObjectImpl;
+	}
+	
 	protected Annotation[] doRemove(URI uri) {
 		List<Annotation> list = doGetAnnotations(uri);
 		if (list.size() > 0) {
-			Annotation[] array = list.toArray(new Annotation[list.size()]);
-			for (int i = 0; i < array.length; i++)
-				getDatabase().remove(array[i]);
-			return array;
+			for (Iterator<Annotation> it = list.iterator(); it.hasNext();) {
+				Annotation annotation = it.next();
+				if (isReadOnly(annotation)) {
+					it.remove();
+					continue;
+				}
+				getDatabase().remove(annotation);
+			}
+			return list.toArray(new Annotation[list.size()]);
 		}
 		return null;
 	}
@@ -285,6 +297,7 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 	}
 	
 	public void save(Annotation annotation) {
+		if (isReadOnly(annotation)) return;
 		ChangeRecorder recorder = changes.get(annotation);
 		ChangeDescription changes = recorder.summarize();
 		getDatabase().update(annotation, changes);

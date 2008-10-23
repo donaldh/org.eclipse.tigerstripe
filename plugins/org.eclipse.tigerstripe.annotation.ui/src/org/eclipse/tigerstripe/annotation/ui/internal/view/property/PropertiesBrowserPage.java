@@ -259,9 +259,11 @@ public class PropertiesBrowserPage
 	    }
 	    
 	    if (annotation != null) {
-	    	RemoveAnnotationAction action = new RemoveAnnotationAction(annotation);
-		    ActionContributionItem item = new ActionContributionItem(action);
-		    manager.appendToGroup(group, item);
+	    	if (!AnnotationPlugin.getManager().isReadOnly(annotation)) {
+		    	RemoveAnnotationAction action = new RemoveAnnotationAction(annotation);
+			    ActionContributionItem item = new ActionContributionItem(action);
+			    manager.appendToGroup(group, item);
+	    	}
 	    }
 	    
 	    if (annotable != null) {
