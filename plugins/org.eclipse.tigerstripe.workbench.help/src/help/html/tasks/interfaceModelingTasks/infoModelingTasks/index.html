@@ -26,12 +26,12 @@
 </table>
 <img src="../../../images/46_58.jpg" width="100%" height="3"></p>
 <h1>Creating and Editing Tigerstripe Artifacts</h1>
-<p>To model <b>Service Contracts</b>, <b>Tigerstripe</b> relies on a set of <a href="../../../concepts/tigerstripeartifacts/index.html">Artifacts</a> that you can create, edit, and remove in a <b>Tigerstripe</b> project.</p>
+<p>A <b>Tigerstripe</b> project contains a set of <a href="../../../concepts/tigerstripeartifacts/index.html">Artifacts</a> that you can create, edit, and remove.</p>
 <ul>
   <li>Creation of <b>Tigerstripe</b> artifacts is wizard-based; that is, a specific wizard allows you to create the corresponding artifact from the <b>Tigerstripe Perspective</b>.</li>
-  <li>Edition of <b>Tigerstripe</b> artifacts. You can edit all artifacts through a <a href="../../../gettingstarted/tigerstripeperspective/artifacteditors.html">form-based artifact editor</a>, where you can define all the specific details of the artifact.</li>
+  <li>Editing of <b>Tigerstripe</b> artifacts. You can edit all artifacts through a <a href="../../../gettingstarted/tigerstripeperspective/artifacteditors.html">form-based artifact editor</a>, where you can define all the specific details of the artifact.</li>
 </ul>
-<h2>The Tigerstripe Wizards</h2>
+<h2>The Creation Wizards</h2>
 <blockquote><p>All <b>Tigerstripe</b> wizards are accessible from the <a href="../../../gettingstarted/tigerstripeperspective/index.html">Tigerstripe Perspective</a>. 
 <h3>To access a Tigerstripe wizard:</h3>
 <ol>
@@ -40,50 +40,60 @@
    <li>Select the corresponding menu.</li>
 </ol>
 <p align="center"><img src="../../../gettingstarted/basictutorial/firstproject/images/dropDown.gif"></p>
-<p>The icons open an artifact wizard as follows (Please note that this list can vary based on your active <a href="../../profileTasks/index.html">Tigerstripe Profile</a>):</p>
+<p>The icons open an artifact wizard to create a new artifact as follows (Please note that this list can vary based on your active <a href="../../profileTasks/index.html">Tigerstripe Profile</a>, and on any <b>custom creation tools</b> that you have installed):</p>
 <ul>
-  <li><img src="../../../images/icons/new_entity.gif" width="16" height="16" align="absmiddle"> for the <a href="newCreateEntityArtifacts.html">Managed Entity Artifact creation wizard</a>,</li>
-  <li><img src="../../../images/icons/new_datatype.gif" width="16" height="16" align="absmiddle"> for the <a href="newCreateDatatypeArtifacts.html">Datatype Artifact creation wizard</a>,</li>
-  <li><img src="../../../images/icons/new_enum.gif" width="16" height="16" align="absmiddle"> for the <a href="newCreateEnumArtifacts.html">Enumeration Artifact creation wizard</a>,</li>
-  <li><img src="../../../images/icons/new_query.gif" width="16" height="16" align="absmiddle"> for the <a href="newCreateQueryArtifacts.html">Named Query Artifact creation wizard</a>,</li>
-  <li><img src="../../../images/icons/new_updateProc.gif" width="16" height="16" align="absmiddle"> for the <a href="newCreateUpdateProcArtifacts.html">Update Procedure Artifact creation wizard</a>,</li>
-  <li><img src="../../../images/icons/exception.gif" width="16" height="16" align="absmiddle"> for the <a href="newCreateSessionArtifacts.html">Exception Artifact creation wizard</a>,</li>
-  <li><img src="../../../images/icons/new_session.gif" width="16" height="16" align="absmiddle"> for the <a href="newCreateExceptionArtifacts.html">Session Facade Artifact creation wizard</a>,</li>
-  <li><img src="../../../images/icons/new_notification.gif" width="16" height="16" align="absmiddle"> for the <a href="newCreateNotificationArtifacts.html">Notification Artifact creation wizard</a>,</li>
-  <li><img src="../../../images/icons/new_association.gif" width="16" height="16" align="absmiddle"> for the <a href="newEditAssociationArtifacts.html">Association Artifact creation wizard</a>,</li>
-  <li><img src="../../../images/icons/new_notification.gif" width="16" height="16" align="absmiddle"> for the <a href="newEditAssociationClassArtifacts.html">Association Class Artifact creation wizard</a>,</li>
-  <li><img src="../../../images/icons/new_dependency.gif" width="16" height="16" align="absmiddle"> for the <a href="newEditDependencyArtifacts.html">Dependency Artifact creation wizard</a>,</li>
+  <li><img src="../../../images/icons/new_entity.gif" width="16" height="16" align="absmiddle"> to create a new <a href="../../../concepts/ossjspecificartifacts/managedentityartifact.html">Managed Entity Artifact </a>,</li>
+  <li><img src="../../../images/icons/new_datatype.gif" width="16" height="16" align="absmiddle"> to create a new <a href="../../../concepts/ossjspecificartifacts/datatypeartifact.html">Datatype Artifact </a>,</li>
+  <li><img src="../../../images/icons/new_enum.gif" width="16" height="16" align="absmiddle"> to create a new <a href="../../../concepts/ossjspecificartifacts/enumerationartifact.html">Enumeration Artifact</a>,</li>
+  <li><img src="../../../images/icons/new_query.gif" width="16" height="16" align="absmiddle"> to create a new <a href="../../../concepts/ossjspecificartifacts/queryartifact.html">Named Query Artifact</a>,</li>
+  <li><img src="../../../images/icons/new_updateProc.gif" width="16" height="16" align="absmiddle"> to create a new <a href="../../../concepts/ossjspecificartifacts/updateProcedureArtifact.html">Update Procedure Artifact</a>,</li>
+  <li><img src="../../../images/icons/exception.gif" width="16" height="16" align="absmiddle"> to create a new <a href="../../../concepts/ossjspecificartifacts/sessionartifact.html">Exception Artifact</a>,</li>
+  <li><img src="../../../images/icons/new_session.gif" width="16" height="16" align="absmiddle"> to create a new <a href="../../../concepts/ossjspecificartifacts/exceptionartifact.html">Session Facade Artifact</a>,</li>
+  <li><img src="../../../images/icons/new_notification.gif" width="16" height="16" align="absmiddle"> to create a new <a href="../../../concepts/ossjspecificartifacts/notificationartifact.html">Notification Artifact</a>,</li>
+  <li><img src="../../../images/icons/new_association.gif" width="16" height="16" align="absmiddle"> to create a new <a href="../../../concepts/ossjspecificartifacts/associationartifact.html">Association Artifact</a>,</li>
+  <li><img src="../../../images/icons/new_notification.gif" width="16" height="16" align="absmiddle"> to create a new <a href="../../../concepts/ossjspecificartifacts/associationclassartifact.html">Association Class Artifact</a>,</li>
+  <li><img src="../../../images/icons/new_dependency.gif" width="16" height="16" align="absmiddle"> to create a new <a href="../../../concepts/ossjspecificartifacts/dependencyartifact.html">Dependency Artifact</a>,</li>
+  <li><img src="../../../images/icons/new_package.gif" width="16" height="16" align="absmiddle"> to create a new <a href="../../../concepts/ossjspecificartifacts/packageartifact.html">Package Artifact</a>,</li>
+  
 </ul>
 <p>The main purpose of the wizard is to capture the minimal set of required information in order to create a artifact of the selected type. Although additional information may be required for specific artifacts, the following information is required for <strong>all artifacts</strong>:</p>
 <ul>
   <li><strong>Source Project</strong>: the source project in which the artifact is created. In most cases, <b>Tigerstripe</b> is able to pre-populate this field based on the context. If not populated, or if the wrong project was selected, you can use the <b>Browse</b> button to select the correct <b>Tigerstripe</b> project in which the artifact is to be created. </li>
   <li><strong>Artifact Package</strong>: each artifact is created within the scope of a package. This field should contain a valid package name. All non-valid names will be rejected and flagged by the wizard. </li>
   <li><strong>Artifact Name</strong>: a valid name for the artifact. This name uniquely identifies the artifact within the scope of its package. All non-valid artifact names will be rejected and flagged by the wizard. </li>
-</ul>
-<p>Once you enter all the required parameters for a specific artifact type, click <b>Finish</b> to create the corresponding artifact. Upon creation, a corresponding icon appears in the <b>Tigerstripe Explorer</b>, and the main editor page is set to the overview tab of the corresponding artifact editor. From this page, you can further edit and input additional information for the artifact.</p></blockquote>
+  <li><strong>Relationship Artifacts</strong> will require additional information about the artifacts at the end of the relationship</li>
+  <p>Once you enter all the required parameters for a specific artifact type, click <b>Finish</b> to create the corresponding artifact. Upon creation, a corresponding icon appears in the <b>Tigerstripe Explorer</b>, and the main editor page is set to the overview tab of the corresponding artifact editor. From this page, you can further edit and input additional information for the artifact.</p></blockquote>
+  <p>An example creation wizard is shown below:</p> 
+  <p align="center" class="style2"><img src="../../../images/artifactCreationWizard.gif" border="1"></p>
+  
 <h2>Editing Tigerstripe Artifacts</h2>
 <blockquote><p>All <b>Tigerstripe</b> artifacts may be edited through a similar <a href="../../../gettingstarted/tigerstripeperspective/artifacteditors.html">form-based editor</a>. Although each particular type of artifact may have specific required information, the <strong>Overview</strong> tab for all editors will contain the <b>General Information</b> section, where you can enter additional documentation about the artifact.</p>
+
+<a name="GeneralInformation"><p>The <b>General Information</b></a> section contains the following information:</p>
 <p align="center"><img src="../../../images/entityGeneralInfoSection.gif" border="1"></p>
-<p>The <b>General Information</b> section contains the following information:</p>
 <ul>
   <li><strong>Project</strong>: the identifier of the <b>Tigerstripe</b> project where the artifact is defined, as it appears in the <b>Tigerstripe Explorer</b> view. You cannot edit this field. For information on how to move artifacts across projects in the workspace, refer to <a href="refactoringArtifacts.html">Refactoring Artifacts</a>. </li>
-  <li> <strong>Package</strong>: the name of the package where the artifact is defined. You cannot edit this field. For more information on how to move artifacts across packages, refer to <a href="refactoringArtifacts.html">Refactoring Artifacts</a>. </li>
-  <li><strong>Name</strong>: the name of the artifact. You cannot edit this field. For more information on how to rename artifacts, refer to <a href="refactoringArtifacts.html">Refactoring Artifacts</a>. </li>
+  <li><strong>Qualified Name</strong>: the qualified name of the artifact - ie the package where the artifact is defined, followed by the artifact name. You cannot edit this field. For more information on how to move artifacts across packages, refer to <a href="refactoringArtifacts.html">Refactoring Artifacts</a>. </li>
   <li><strong>Description</strong>: a textual description of the artifact. This field can include HTML code and should document the artifact. This information is passed to the corresponding web page when the project is published.</li>
-  <li> <strong>Extends</strong>: the fully qualified name of the super-artifact (that is, the name of the artifact being extended by the current artifact). This is how inheritance is achieved between artifacts. For more information about inheritance within <b>Tigerstripe</b> models, refer to <a href="extendingArtifacts.html">Artifact Inheritence</a>. </li>
+  <li><strong>Extends</strong>: the fully qualified name of the super-artifact (that is, the name of the artifact being extended by the current artifact). This is how inheritance is achieved between artifacts. For more information about inheritance within <b>Tigerstripe</b> models, refer to <a href="extendingArtifacts.html">Artifact Inheritence</a>. Not applicable for all Artifacts</li>
+  <li><strong>Implements</strong>: a comma separated list of all interfaces that the artifact implements.  Not applicable for all Artifacts, and only visible if enabled in the profile./li>
+  <li><strong>Abstract</strong>: determines if the Artifact is abstract. Not applicable for all Artifacts.</li>
+  <li><strong>Stereotypes </strong>: Stereotypes that have a scope which include the corrsponding Artifact Type can be applied to the artifact. For more info see the section on Stereotypes.</li>
+  
 </ul></blockquote>
 <h4>Related Topics</h4>
-<a href="newCreateEntityArtifacts.html">Creating Entity Artifacts</a> 
-<br><a href="newEditDatatypeArtifacts.html">Creating and Editing a Datatype Artifact</a> 
-<br><a href="newEditEnumArtifacts.html">Creating and Editing an Enumeration Artifact</a> 
-<br><a href="newEditQueryArtifacts.html">Creating and Editing a Named Query Artifact</a> 
-<br><a href="newEditUpdateProcArtifacts.html">Creating and Editing an Update Procedure Artifact</a> 
-<br><a href="newEditExceptionArtifacts.html">Creating and Editing an Exception Artifact</a> 
-<br><a href="newEditSessionArtifacts.html">Creating and Editing a Session Facade Artifact</a>
-<br><a href="newEditNotificationArtifacts.html">Creating and Editing Notification Artifacts</a>
-<br><a href="newEditAssociationArtifacts.html">Creating and Editing Association Artifacts</a>
-<br><a href="newEditAssociationClassArtifacts.html">Creating and Editing Association Class Artifacts</a>
-<br><a href="newEditDependencyArtifacts.html">Creating and Editing Dependency Artifacts</a> 
+<br><a href="editEntityArtifacts.html">Editing Entity Artifacts</a> 
+<br><a href="editDatatypeArtifacts.html">Editing Datatype Artifacts</a> 
+<br><a href="editEnumArtifacts.html">Editing Enumeration Artifacts</a> 
+<br><a href="editQueryArtifacts.html">Editing Named Query Artifacts</a> 
+<br><a href="editUpdateProcArtifacts.html">Editing Update Procedure Artifacts</a> 
+<br><a href="editExceptionArtifacts.html">Editing Exception Artifacts</a> 
+<br><a href="editSessionArtifacts.html">Editing Session Facade Artifacts</a>
+<br><a href="editNotificationArtifacts.html">Editing Notification Artifacts</a>
+<br><a href="editAssociationArtifacts.html">Editing Association Artifacts</a>
+<br><a href="editAssociationClassArtifacts.html">Editing Association Class Artifacts</a>
+<br><a href="editDependencyArtifacts.html">Editing Dependency Artifacts</a>
+<br><a href="editPackageArtifacts.html">Editing Package Artifacts</a> 
 
 <p class="style1"><img src="../../../images/46_58.jpg" width="100%" height="3"><br>
 &#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>

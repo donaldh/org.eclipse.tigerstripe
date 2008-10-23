@@ -1,0 +1,68 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<link rel="STYLESHEET" href="book.css" charset="ISO-8859-1" type="text/css">
+	<script language="JavaScript" src="PLUGINS_ROOT/org.eclipse.help/livehelp.js"></script>
+<title>Artifact Literals</title>
+</head >
+<body bgcolor="#FFFFFF" alink="#FF9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img src="../../../images/46_58.jpg" width="100%" height="3"></p>
+<h1></a>Artifact Literals</h1>
+<p>To edit Artifact literals, expand the <b>Literals</b> section in the <b>Tigerstripe</b> Artifact editor. The <b>Literals</b> section is shown below:</p>
+<p align="center" class="style2"><img src="../../../images/artifactLiteralSection.gif" border="1"></p>
+<p><Strong>Note :</Strong>Not all Artifact Types support Literals.</p>
+<h3>To add a literal:</h3>
+<ol>
+	<li>Click <b>Add</b>. a <i>sample</i> literal is created and the detailed information for the literal displays in the Artifact editor.</li>
+</ol>
+<h3>To remove a literal:</h3>
+<ol>
+	<li>Select the literal from the list of defined literal.</li>
+	<li>Click <b>Remove</b>. A confirmation dialog appears to confirm the removal of the selected literal.</li>
+</ol>
+<h3>To edit a literal:</h3>
+<ol>
+	<li>Select the literal from the list of defined literals.</li>
+</ol>
+<p>The detailed view for the selected literal displays. You can edit the following information:</p>
+
+<ul>
+  <li><strong>Name</strong>: This is the name of the literal. This must be a valid identifier and cannot contain spaces or special characters. This identifier must be unique within the context of the Artifact. </li>
+  <li><strong>Description</strong>: a textual description of the literal. This field documents the purpose of the constant. You can use HTML in the field as it will be propagated into the web site where the project is to be published, as well as in the generated code. For more details on Artifact documentation, refer to <a href="documentingArtifacts.html">Tigerstripe Model Documentation</a>. </li>
+  <li><strong>Visibility</strong>: defines the visibility of the literal. </li>
+  <li><strong>Value</strong>: The value for the literal. If the selected type for the literal is <b>String</B>, the given value must be surrounded by quotes (&quot;). </li>
+  <li><strong>Type</strong>: The type of literal. Valid literal types are <b>String</b> and <b>int.</b> <b>Note:</b> In the case of an enumeration artifact, the literal type is determined by the <strong>base type</strong> of the enumeration. The base type can be set through the <b>Details</b> tab of the <b>Tigerstripe</b> Enumeration Artifact editor.</li>
+  <li><strong>Stereotypes</strong>: Stereotypes that have a scope of "Literal" can be applied to the literal. For more info see the section on Stereotypes.</li>
+ </ul>
+ <h3>To reorder literals:</h3>
+<ol> 
+   <li>Select the literal from the list of literals. Use the Up and Down buttons to place the literal in the required position in the list of literals. Clicking on the heading of the table will sort the list alphabetically, clicking it again will sort the list in reverse alphabetical order. Note that not all generators will necessarily use the order in a particular manner.</li>
+</ol>
+<h4>Related Topics</h4>
+<br><a href="newCreateArtifacts.html">Creating Artifacts</a>
+<br><a href="newEditArtifacts.html">Editing Artifacts</a>
+<br><a href="artifactAttributes.html">Artifact Attributes</a>
+<br><a href="artifactMethods.html">Artifact Methods</a>
+
+<p class="style1"><img src="../../../images/46_58.jpg" width="100%" height="3"><br>
+&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+</body>
+</html>

@@ -14,7 +14,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	<link rel="STYLESHEET" href="book.css" charset="ISO-8859-1" type="text/css">
 	<script language="JavaScript" src="PLUGINS_ROOT/org.eclipse.help/livehelp.js"></script>
-<title>Datatype Attributes</title>
+<title>Artifact Attributes</title>
 </head >
 <body bgcolor="#ffffff" alink="#ff9999">
 <table width="100%"  border="0" cellspacing="0" cellpadding="0">
@@ -25,12 +25,13 @@
   </tr>
 </table>
 <img height="3" src="../../../images/46_58.jpg" width="100%">
-<h1>Datatype Attributes</h1>
-<p>To edit this datatype attributes, expand the <b>Attributes</b> section in the <b>Tigerstripe</b> Datatype Artifact editor. The <b>Attributes</b> section is shown below:</p>
-<p align="center" class="style2"><img src="../../../images/datatypeattributesSection.gif" border="1"></p>
+<h1>Artifact Attributes</h1>
+<p>To edit the attributes of an artifact, expand the <b>Attributes</b> section in the <b>Tigerstripe</b> Artifact editor. The <b>Attributes</b> section is shown below:</p>
+<p align="center" class="style2"><img src="../../../images/artifactAttributesSection.gif" border="1"></p>
+<p><Strong>Note :</Strong>Not all Artifact Types support Attributes.</p>
 <h3>To add an attribute:</h3>
 <ol> 
-   <li>Click <b>Add</b>. A blank attribute is created for the datatype attribute, and the detailed view for the attribute displays.</li>
+   <li>Click <b>Add</b>. A blank attribute is created for the artifact attribute, and the detailed view for the attribute displays.</li>
 </ol>
 <h3>To remove an attribute:</h3>
 <ol> 
@@ -42,15 +43,16 @@
 </ol>
 <p>The detailed attribute display contains the following information:</p>
 <ul>
-  <li><strong>Attribute Name</strong>: the name of the attribute. This must be a valid identifier. The identifier cannot use special characters or spaces. This name must be unique within the context of this artifact. </li>
-  <li><strong>Attribute Type</strong>: the fully qualified name of the type for this attribute. To be valid, the Attribute type must be:
+  <li><strong>Name</strong>: the name of the attribute. This must be a valid identifier. The identifier cannot use special characters or spaces. This name must be unique within the context of this artifact. </li>
+  <li><strong>Description</strong>: a textual description of the attribute. This field documents the purpose of the attribute. You can use HTML in to the field as it will be propagated into the web site where the project is to be published, as well as in the generated code. For more details on Artifact documentation, refer to <a href="documentingArtifacts.html">Tigerstripe Model Documentation</a>. </li>
+  <li><strong>Type</strong>: the fully qualified name of the type for this attribute. To be valid, the Attribute type must be:
     <ul>
       <li><b>String</b>: this denotes a String attribute. The attribute will be mapped appropriately in the XML and WSDL integration profile to ensure that there are no references to Java.</li>
-      <li><b>Java primitive types</b>: this type of attribute will be mapped to the corresponding type in the XML and WSDL integration profile to ensure that there are no references to Java.</li>
-      <li><b>Valid Datatype Artifact</b> types</li>
-      <li><b>Valid Entity Artifact</b> types</li>
+      <li><b>Primitive types</b>: A number of Primitive types are included in the default profile, but others may be added in the profile in use for your session.</li>
+      <li><b>Other Artifact types</b>: Some types pf artifact can be used for Attribute types - the list of valid artifacts will depend upon the profile setting for your current session, and the artifacts that already exist in your project or referenced projects.</li>
     </ul>
   </li>
+  <li><strong>Multiplicity</strong>: defines the multiplicity of an Attribute - the way in which these are used is highly generator dependent.</li>
   <li><strong>Visibility</strong>: defines the visibility of the attribute. Visibility markers signify who can access the information contained within a class.</li>
   <ul>
 	    <li><b>Private visibility</b>: Only classes in the same container can see and use the class. A minus sign text symbol (-) represents an attribute with <b>Private visibility</b> in the <b>Class Diagram</b>. For more information about <b>Class Diagrams</b>, refer to <a href="../../DiagramEditor/index.html"><b>The Class Diagram Editor</b></a>. </li>
@@ -59,22 +61,25 @@
         <li><b>Package visibility</b>: Only classes within the same package as the container can see and use the class. A tilda sign text symbol (~) represents an attribute with <b>Package visibility</b> in the <b>Class Diagram</b>. For more information about <b>Class Diagrams</b>, refer to <a href="../../DiagramEditor/index.html"><b>The Class Diagram Editor</b></a>. </li>
 <p>The following image is an example of attribute visibility as displayed in the <b>Diagram Editor</b>:</p></li></ul>
 <p align="center"><img src="../../../images/attributevisibility.gif"></p>
-  <li><strong>Modifiers</strong>: there are two possible modifiers that can be applied to an Attribute:
+  <li><strong>Qualifiers</strong>: there are three possible qualifiers that can be applied to an Attribute:
     <ul>
-      <li><strong>Optional</strong>: an attribute marked as <b>optional</b> means that the attribute may not be implemented, however it is still compliant with the service contract. </li>
       <li><strong>Readonly</strong>: an attribute marked as <b>readonly</b> denotes an attribute that can only be read by consumers of the Service Contract.</li>
+      <li><strong>Ordered</strong></li>
+      <li><strong>Unique</strong></li>
     </ul>
   </li>
-  <li><strong>Description</strong>: a textual description of the attribute. This field documents the purpose of the attribute. You can use HTML in to the field as it will be propagated into the web site where the project is to be published, as well as in the generated code. For more details on Artifact documentation, refer to <a href="documentingArtifacts.html">Tigerstripe Model Documentation</a>. </li>
+  <li><strong>Default Value </strong>: The default value is an optional feature that may be used by some generators. The editor does not check the value specified here against the type of the attribute.</li>
+  <li><strong>Stereotypes </strong>: Stereotypes that have a scope of "Attribute" can be applied to the attribute. For more info see the section on Stereotypes.</li>
 </ul>
+<h3>To reorder attributes:</h3>
+<ol> 
+   <li>Select the attribute from the list of attributes. Use the Up and Down buttons to place the attribute in the required position in the list of attributes. Clicking on the heading of the table will sort the list alphabetically, clicking it again will sort the list in reverse alphabetical order. Note that not all generators will necessarily use the order in a particular manner.</li>
+</ol>
 <h4>Related Topics</h4>
-<a href="newCreateDatatypeArtifacts.html">Creating Datatype Artifacts</a>
-<br><a href="newEditDatatypeArtifacts.html">Editing Datatype Artifacts</a>
-<br><a href="datatypeGeneralInformation.html">Datatype Artifact General Information</a>
-<br><a href="datatypeConstants.html">Datatype Constants</a>
-<br><a href="datatypeMethods.html">Datatype Methods</a>
-<br><a href="datatypeOSSJSpecifics.html">Datatype Implementation Specifics</a>
-<p><a href="datatypeConstants.html"> <img height="19" src="../../../images/finger.gif" width="20" align="absMiddle">&nbsp;Datatype Constants</a></p>
+<a href="newArtifacts.html">Creating Artifacts</a>
+<br><a href="newEditArtifacts.html">Editing Artifacts</a>
+<br><a href="artifactLiterals.html">Artifact Literals</a>
+<br><a href="artifactMethods.html">Artifact Methods</a>
 
 <p class="style1"><img height="3" src="../../../images/46_58.jpg" width="100%"><br>
 © copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>

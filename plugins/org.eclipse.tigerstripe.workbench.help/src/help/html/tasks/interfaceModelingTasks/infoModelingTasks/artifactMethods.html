@@ -1,0 +1,99 @@
+<!--
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+-->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+	<link rel="STYLESHEET" href="book.css" charset="ISO-8859-1" type="text/css">
+	<script language="JavaScript" src="PLUGINS_ROOT/org.eclipse.help/livehelp.js"></script>
+<title>Artifact Methods</title>
+</head >
+<body bgcolor="#ffffff" alink="#ff9999">
+<table width="100%"  border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="227" height="107" background="../../../images/top_left.gif">&nbsp;</td>
+    <td height="107" background="../../../images/top_middle.gif">&nbsp;</td>
+    <td width="349" height="107" background="../../../images/top_right.gif">&nbsp;</td>
+  </tr>
+</table>
+<img height="3" src="../../../images/46_58.jpg" width="100%">
+<h1>Artifact Methods</h1>
+<p>To edit Artifact methods, expand the <b>Methods</b> section in the <b>Tigerstripe</b> Artifact editor. The <b>Methods</b> section is shown below:</p>
+<p align="center" class="style2"><img src="../../../images/artifactMethodSection.gif" border="1"></p>
+<p><Strong>Note :</Strong>Not all Artifact Types support Methods.</p>
+<h3>To add a method:</h3>
+<ol>
+	<li>Click <b>Add</b>. A <i>sample</i> method is created and the detailed information for the newly created method displays in the Artifact editor.</li>
+</ol>
+<h3>To remove a method:</h3>
+<ol>
+	<li>Select a method from the list of defined methods.</li>
+	<li>Click <b>Remove</b>. A confirmation dialog appears to confirm the removal of the selected method.</li>
+</ol>
+<h3>To edit a method:</h3>
+<ol>
+	<li>Select the method from the list of defined methods.</li>
+</ol>
+<p>The detailed view for the selected constant displays. You can edit the following method information:</p>
+<ul>
+  <li><strong>Name</strong>: the name of the method. The method name must be a valid identifier that is unique within the scope of the Artifact. </li>
+  <li><strong>Description</strong>:  a textual description of the method. This field documents the purpose of the method. You can use HTML code in the field as it will be propagated into the web site where the project is to be published, as well as in the generated code. For more details on Artifact documentation, refer to <a href="documentingArtifacts.html"><b>Tigerstripe Model Documentation</b></a>. </li>
+  <li><strong>Visibility</strong>: specifies the visibility of the method. </li>
+  <ul>
+	    <li><b>Private visibility</b>: Only classes in the same container can see and use the class. A minus sign text symbol (-) represents an attribute with <b>Private visibility</b> in the <b>Class Diagram</b>. For more information about <b>Class Diagrams</b>, refer to <a href="../../DiagramEditor/index.html"><b>The Class Diagram Editor</b></a>. </li>
+        <li><b>Public visibility</b>: Any class that can see the container can also see and use the class. A plus sign text symbol (+) represents an attribute with <b>Public visibility</b> in the <b>Class Diagram</b>. For more information about <b>Class Diagrams</b>, refer to <a href="../../DiagramEditor/index.html"><b>The Class Diagram Editor</b></a>.</li> 
+        <li><b>Protected visibility</b>: Only classes in the same container or a descendent of the container can see and use the class. A pound sign text symbol (#) represents an attribute with <b>Protected visibility</b> in the <b>Class Diagram</b>. For more information about <b>Class Diagrams</b>, refer to <a href="../../DiagramEditor/index.html"><b>The Class Diagram Editor</b></a>. </li>
+        <li><b>Package visibility</b>: Only classes within the same package as the container can see and use the class. A tilda sign text symbol (~) represents an attribute with <b>Package visibility</b> in the <b>Class Diagram</b>. For more information about <b>Class Diagrams</b>, refer to <a href="../../DiagramEditor/index.html"><b>The Class Diagram Editor</b></a>. </li>
+<p>The following image is an example of method visibility as displayed in the <b>Diagram Editor</b>:</p></li></ul>
+<p align="center"><img src="../../../images/methodvisibility.gif"></p>
+  <li><strong>Qualifiers</strong>: there are three possible qualifiers that can be applied to a Method:
+    <ul>
+      <li><strong>Abstract</strong></li>
+      <li><strong>Ordered</strong></li>
+      <li><strong>Unique</strong></li>
+    </ul>
+  </li>
+  <li><strong>Method Return</strong></li>
+  <ul>
+      <li><strong>isVoid</strong>: If this is checked, then the method has no return, otherwise the return type is as defined below.</li>
+      <li><strong>Type</strong>: If isVoid is unchecked, then the type returned by the method should be specified here. this can be either a primitive type, or another Artifact type.</li>
+      <li><strong>Multiplicity</strong>: defines the multiplicity of an Attribute - the way in which these are used is highly generator dependent.</li>
+      <li><strong>Return Label</strong>: in some cases a generator will need to apply a name to the return of a method.</li>
+      <li><strong>Default Value </strong>: The default value is an optional feature that may be used by some generators. The editor does not check the value specified here against the return type of the method.</li>
+      <li><strong>Return Stereotypes</strong>: Stereotypes that have a scope of "Argument" can be applied to the return type. For more info see the section on Stereotypes.</li>
+  </ul>
+ <li><strong>Stereotypes</strong>: Stereotypes that have a scope of "Method" can be applied to the method. For more info see the section on Stereotypes.</li>
+  
+   <li><strong>Method Arguments</strong>: to define the list of arguments for the method. The following options are available:
+    <ul>
+      <li><b>Add/Remove</b>: use this option to add or remove arguments</li>
+      <li><b>Edit</b>: use this option to edit the details of an argument. The fields in the dialog that pops up have the same basic use as the fields for an attribute. Stereotypes must have a scope of "Argument".</li>
+      <li><b>Up/Down</b>: use this option to change the order of the arguments </li>
+    </ul>
+  </li>
+  <li><strong>Method Exceptions</strong>: to define the list of exceptions to be thrown by this method. Exceptions must be other artifact in your project. Add or remove exceptions to the list with the corresponding buttons. </li>
+</ul>
+<h3>To reorder methods:</h3>
+<ol> 
+   <li>Select the method from the list of methods. Use the Up and Down buttons to place the method in the required position in the list of methods. Clicking on the heading of the table will sort the list alphabetically, clicking it again will sort the list in reverse alphabetical order. Note that not all generators will necessarily use the order in a particular manner.</li>
+</ol>
+<h4>Related Topics</h4>
+<a href="newCreateArtifacts.html">Creating Artifacts</a>
+<br><a href="newEditArtifacts.html">Editing Artifacts</a>
+<br><a href="artifactAttributes.html">Artifact Attributes</a>
+<br><a href="artifactLiterals.html">Artifact Literals</a>
+
+
+<p class="style1"><img height="3" src="../../../images/46_58.jpg" width="100%"><br>
+© copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
+<blockquote></blockquote>
+</body>
+</html>
