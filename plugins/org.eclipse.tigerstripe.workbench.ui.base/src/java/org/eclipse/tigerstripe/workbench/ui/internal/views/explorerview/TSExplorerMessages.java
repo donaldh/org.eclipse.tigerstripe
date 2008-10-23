@@ -21,6 +21,7 @@ public final class TSExplorerMessages extends NLS {
 		// Do not instantiate
 	}
 
+	public static String PackageExplorerContentProvider_update_job_description;
 	public static String BuildGroup_buildProject;
 	public static String BuildGroup_rebuildProject;
 	public static String DragAdapter_deleting;
@@ -88,9 +89,6 @@ public final class TSExplorerMessages extends NLS {
 	public static String SelectionTransferDropAdapter_dialog_title;
 	public static String SelectionTransferDropAdapter_dialog_preview_label;
 	public static String SelectionTransferDropAdapter_dialog_question;
-	public static String CollapseAllAction_label;
-	public static String CollapseAllAction_tooltip;
-	public static String CollapseAllAction_description;
 	public static String LayoutActionGroup_label;
 	public static String LayoutActionGroup_flatLayoutAction_label;
 	public static String LayoutActionGroup_hierarchicalLayoutAction_label;
@@ -98,6 +96,7 @@ public final class TSExplorerMessages extends NLS {
 	public static String ClassPathContainer_unknown_label;
 	public static String PackageExplorerPart_workspace;
 	public static String PackageExplorerPart_workingSetModel;
+	
 
 	static {
 		NLS.initializeMessages(BUNDLE_NAME, TSExplorerMessages.class);
