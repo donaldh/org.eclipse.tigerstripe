@@ -142,6 +142,10 @@ public class UML2TS {
 		this.messages = messages;
 		this.modelLibrary = modelLibrary;
 		out.println("INFO : EXTRACTING FROM UML MODEL");
+		for (Package p : model.getImportedPackages()){
+			System.out.println(p.getName());
+			
+		}
 		
 		// Walk the model
 		TreeIterator t = model.eAllContents();
@@ -1494,9 +1498,19 @@ public class UML2TS {
 		Collection<IPrimitiveTypeDef> typeDefs = profile.getPrimitiveTypeDefs(true);
 		for (IPrimitiveTypeDef def : typeDefs){
 			
-			// Special handling for Integer -> "int"
+			// Special handling for UML built ins
 			if (name.equals("Integer")){
 				return "int";
+			}
+			if (name.equals("String")){
+				// This is a bit of a dodgy maneovre
+				return "primitive.string";
+			}
+			if (name.equals("Boolean")){
+				return "boolean";
+			}
+			if (name.equals("UnlimitedNatural")){
+				return "double";
 			}
 			
 			String pack = def.getPackageName();
