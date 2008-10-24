@@ -261,7 +261,12 @@ public class UML2ImportDetailsWizardPage extends TSRuntimeBasedWizardPage {
 		// TODO check thats this is really a Tigerstripe Project!
 		// This might not be the best place to do this!
 		IResource tsContainer = ResourcesPlugin.getWorkspace().getRoot()
-	     .findMember(new Path(getTigerstripeName()));
+	     	.findMember(new Path(getTigerstripeName()));
+		if (tsContainer == null){
+			setErrorMessage("A valid Tigerstripe project must be specified");
+			setPageComplete(false);
+			return;
+		}
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		
 		IPath rootpath = root.getLocation();
