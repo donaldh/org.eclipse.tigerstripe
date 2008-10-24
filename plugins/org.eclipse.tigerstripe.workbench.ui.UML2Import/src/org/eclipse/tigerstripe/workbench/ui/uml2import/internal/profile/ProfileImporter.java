@@ -77,9 +77,10 @@ public class ProfileImporter {
 		File logFile = new File(source + "/TSLoadprofile.log");
 
 		try {
+			this.out = new PrintWriter(new FileOutputStream(logFile));
 			loadUMLPrimitives(handle);
 			Utilities.setupPaths();
-			this.out = new PrintWriter(new FileOutputStream(logFile));
+			
 			File[] fList = source.listFiles();
 			monitor.beginTask("Loading Files ", fList.length);
 			for (int i = 0; i < fList.length; i++) {
