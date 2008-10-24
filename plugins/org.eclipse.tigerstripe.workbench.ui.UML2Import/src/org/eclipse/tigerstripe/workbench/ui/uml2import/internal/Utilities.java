@@ -11,11 +11,15 @@
 package org.eclipse.tigerstripe.workbench.ui.uml2import.internal;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -24,17 +28,21 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
+import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.UMLPackage;
 import org.eclipse.uml2.uml.resource.UML22UMLResource;
 import org.eclipse.uml2.uml.resource.UMLResource;
+import org.osgi.framework.Bundle;
 
 public class Utilities {
 
-	public IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession().getActiveProfile();
-	
+	public IWorkbenchProfile profile = TigerstripeCore
+			.getWorkbenchProfileSession().getActiveProfile();
+
 	public static ResourceSet resourceSet = new ResourceSetImpl();
 
 	public static Map options;
@@ -118,19 +126,33 @@ public class Utilities {
 		Map uriMap = resourceSet.getURIConverter().getURIMap();
 		// TODO - shouldn't need to hard code path & version surely?
 
-		IPath eclipseHome = JavaCore.getClasspathVariable("ECLIPSE_HOME");
-		String t = Platform.getBundle("org.eclipse.uml2.uml.resources")
-				.getLocation();
-		String uml2ResourcesRelLocation = t.substring(t.indexOf("@") + 1, t
-				.length());
-		URI uri = URI.createURI("jar:file:/" + eclipseHome + "/"
-				+ uml2ResourcesRelLocation + "!/");
-		uriMap.put(URI.createURI(UMLResource.LIBRARIES_PATHMAP), uri
-				.appendSegment("libraries").appendSegment(""));
-		uriMap.put(URI.createURI(UMLResource.METAMODELS_PATHMAP), uri
-				.appendSegment("metamodels").appendSegment(""));
-		uriMap.put(URI.createURI(UMLResource.PROFILES_PATHMAP), uri
-				.appendSegment("profiles").appendSegment(""));
+		Bundle umlBundle = Platform.getBundle("org.eclipse.uml2.uml.resources");
+		try {
+			File f = FileLocator.getBundleFile(umlBundle);
+			URL url = FileLocator.toFileURL(FileLocator.find(umlBundle, new Path("libraries"), null));
+			uriMap.put(URI.createURI(UMLResource.LIBRARIES_PATHMAP), URI.createURI(url.toString()));
+			url = FileLocator.toFileURL(FileLocator.find(umlBundle, new Path("metamodels"), null));
+			uriMap.put(URI.createURI(UMLResource.METAMODELS_PATHMAP), URI.createURI(url.toString()));
+			url = FileLocator.toFileURL(FileLocator.find(umlBundle, new Path("profiles"), null));
+			uriMap.put(URI.createURI(UMLResource.PROFILES_PATHMAP), URI.createURI(url.toString()));
+		} catch (Exception e) {
+			EclipsePlugin.log(e);
+		}
+
+//		IPath eclipseHome = JavaCore.getClasspathVariable("ECLIPSE_HOME");
+//
+//		String t = Platform.getBundle("org.eclipse.uml2.uml.resources")
+//				.getLocation();
+//		String uml2ResourcesRelLocation = t.substring(t.indexOf("@") + 1, t
+//				.length());
+//		URI uri = URI.createURI("jar:file:/" + eclipseHome + "/"
+//				+ uml2ResourcesRelLocation + "!/");
+//		uriMap.put(URI.createURI(UMLResource.LIBRARIES_PATHMAP), uri
+//				.appendSegment("libraries").appendSegment(""));
+//		uriMap.put(URI.createURI(UMLResource.METAMODELS_PATHMAP), uri
+//				.appendSegment("metamodels").appendSegment(""));
+//		uriMap.put(URI.createURI(UMLResource.PROFILES_PATHMAP), uri
+//				.appendSegment("profiles").appendSegment(""));
 
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(
 				"emx", UMLResource.Factory.INSTANCE);
