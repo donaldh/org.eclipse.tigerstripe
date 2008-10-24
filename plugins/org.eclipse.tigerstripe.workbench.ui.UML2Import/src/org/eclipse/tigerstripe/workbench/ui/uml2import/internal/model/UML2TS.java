@@ -964,12 +964,20 @@ public class UML2TS {
 			MultiplicityElement param, String location, boolean setMulti) {
 		boolean optional = true;
 		try {
-			if ((uType == null) || (uType.getQualifiedName() == null)) {
-				// TODO - Is this an error in the model?
-				String msgText = "Unsure of type : " + location + " Skipping...";
+			if (uType != null && uType.eIsProxy()){
+				String msgText = "Type not loaded: " + location + " Setting to unknown..."+ uType.toString();
 				addMessage(msgText, 0, messages);
 				out.println("ERROR : " + msgText);
-				return false;
+				iType.setFullyQualifiedName("unknown");
+				return true;
+			}
+			if ((uType == null) || (uType.getQualifiedName() == null)) {
+				// TODO - Is this an error in the model?
+				String msgText = "Unsure of type : " + location + " Setting to unknown...";
+				addMessage(msgText, 0, messages);
+				out.println("ERROR : " + msgText);
+				iType.setFullyQualifiedName("unknown");
+				return true;
 			}
 				
 			// Need to determine if this is a primitive type 
@@ -979,10 +987,11 @@ public class UML2TS {
 				if (!prim.equals("")) {
 					iType.setFullyQualifiedName(prim);
 				} else {
-					String msgText = "Neither a model nor a known primitive type : " + location + " Skipping...";
+					String msgText = "Neither a model nor a known primitive type : " + location + " Setting to unknown...";
 					addMessage(msgText, 0, messages);
 					out.println("ERROR : " + msgText);;
-					return false;
+					iType.setFullyQualifiedName("unknown");
+					return true;
 				}
 				
 			} else {
