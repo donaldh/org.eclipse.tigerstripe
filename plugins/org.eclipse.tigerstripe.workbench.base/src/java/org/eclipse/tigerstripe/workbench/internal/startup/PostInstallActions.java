@@ -22,7 +22,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Preferences;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
@@ -35,7 +34,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstripeProjectMgr;
 import org.eclipse.tigerstripe.workbench.internal.core.util.FileUtils;
-import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ZipFilePackager;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -120,33 +118,6 @@ public class PostInstallActions {
 					ITigerstripeConstants.PHANTOMLIB + " couldn't be resolved.",
 					null);
 			BasePlugin.log(status);
-		}
-	}
-
-	/**
-	 * #414 If the version has been upgraded, the lib and bin dirs need to be
-	 * deleted so the new versions can be copied over
-	 * 
-	 */
-	private void checkForUpgrade(String currentFeatureVersion) {
-		Preferences preferences = BasePlugin.getDefault()
-				.getPluginPreferences();
-		String oldVersion = preferences.getString("workbenchFeatureVersion");
-		if (oldVersion == null || !oldVersion.equals(currentFeatureVersion)) {
-			File binDir = new File(tigerstripeRuntimeDir + File.separator
-					+ "bin");
-			binDir.mkdirs();
-			Util.deleteDir(binDir);
-			binDir.mkdirs();
-
-			File libDir = new File(tigerstripeRuntimeDir + File.separator
-					+ "lib");
-			libDir.mkdirs();
-			Util.deleteDir(libDir);
-			libDir.mkdirs();
-
-			preferences.setValue("workbenchFeatureVersion",
-					currentFeatureVersion);
 		}
 	}
 

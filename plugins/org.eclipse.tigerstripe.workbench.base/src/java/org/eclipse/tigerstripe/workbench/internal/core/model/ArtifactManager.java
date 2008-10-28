@@ -274,6 +274,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			// Register for changes of the profile
 
 		} finally {
+			RefactoringChangeListener.getInstance().addArtifactManager(this);
 			writeLock.unlock();
 		}
 	}
@@ -1980,8 +1981,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	}
 
 	// This is a backdoor used in the TSDeleteAction to let the Art Mgr know
-	// that
-	// an artifact was deleted after the fact.
+	// that an artifact was deleted after the fact.
 	// Really the Art Mgr should be listenning for Workspace Changes here
 	// and figure it out on its own.
 	public void notifyArtifactDeleted(IAbstractArtifact artifact) {
@@ -2036,6 +2036,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			shouldNotify = false; // we don't want to trigger del+add
 			// notifications, only a Ren at the end
 			removeArtifact(artifact);
+			((AbstractArtifact) artifact).setProxy(false); // a side effect of the remove is to setIsProxy. don't want that here.
 			artifact.setFullyQualifiedName(toFQN);
 			addArtifact(artifact, monitor);
 		} finally {

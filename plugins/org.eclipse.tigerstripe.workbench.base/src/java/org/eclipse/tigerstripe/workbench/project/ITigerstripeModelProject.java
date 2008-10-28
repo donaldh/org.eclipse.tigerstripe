@@ -164,4 +164,11 @@ public interface ITigerstripeModelProject extends IAbstractTigerstripeProject {
 	public String getAdvancedProperty(String property, String defaultValue)
 			throws TigerstripeException;
 
+	// Listeners for Dependency changes
+	public void addProjectDependencyChangeListener(
+			IProjectDependencyChangeListener listener);
+
+	public void removeProjectDependencyChangeListener(
+			IProjectDependencyChangeListener listener);
+
 }

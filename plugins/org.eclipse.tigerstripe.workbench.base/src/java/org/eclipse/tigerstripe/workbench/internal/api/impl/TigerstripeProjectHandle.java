@@ -12,14 +12,21 @@ package org.eclipse.tigerstripe.workbench.internal.api.impl;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.StringReader;
 import java.net.URI;
 import java.util.Arrays;
 
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.ISafeRunnable;
+import org.eclipse.core.runtime.ListenerList;
+import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.WorkingCopyException;
 import org.eclipse.tigerstripe.workbench.generation.IM1RunConfig;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseReference;
@@ -39,11 +46,15 @@ import org.eclipse.tigerstripe.workbench.internal.modelManager.ProjectModelManag
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
+import org.eclipse.tigerstripe.workbench.project.IProjectDependencyChangeListener;
+import org.eclipse.tigerstripe.workbench.project.IProjectDependencyDelta;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public abstract class TigerstripeProjectHandle extends
 		AbstractTigerstripeProjectHandle implements ITigerstripeModelProject {
+
+	private ListenerList projectChangeListeners = new ListenerList();
 
 	private INameProvider nameProvider;
 
@@ -207,6 +218,10 @@ public abstract class TigerstripeProjectHandle extends
 		assertSet();
 		dependenciesCacheNeedsRefresh = true;
 		getTSProject().addDependency(dependency);
+		IPath path = new Path(dependency.getPath());
+		ProjectDependencyChangeDelta delta = new ProjectDependencyChangeDelta(
+				this, IProjectDependencyDelta.PROJECT_DEPENDENCY_ADDED, path);
+		broadcastProjectDependencyChange(delta);
 	}
 
 	public void addDependencies(IDependency[] dependencies,
@@ -215,6 +230,13 @@ public abstract class TigerstripeProjectHandle extends
 		assertSet();
 		dependenciesCacheNeedsRefresh = true;
 		getTSProject().addDependencies(dependencies);
+		for (IDependency dep : dependencies) {
+			IPath path = new Path(dep.getPath());
+			ProjectDependencyChangeDelta delta = new ProjectDependencyChangeDelta(
+					this, IProjectDependencyDelta.PROJECT_DEPENDENCY_ADDED,
+					path);
+			broadcastProjectDependencyChange(delta);
+		}
 	}
 
 	public void removeDependency(IDependency dependency,
@@ -223,6 +245,10 @@ public abstract class TigerstripeProjectHandle extends
 		assertSet();
 		dependenciesCacheNeedsRefresh = true;
 		getTSProject().removeDependency(dependency);
+		IPath path = new Path(dependency.getPath());
+		ProjectDependencyChangeDelta delta = new ProjectDependencyChangeDelta(
+				this, IProjectDependencyDelta.PROJECT_DEPENDENCY_REMOVED, path);
+		broadcastProjectDependencyChange(delta);
 	}
 
 	public void removeDependencies(IDependency[] dependencies,
@@ -231,6 +257,13 @@ public abstract class TigerstripeProjectHandle extends
 		assertSet();
 		dependenciesCacheNeedsRefresh = true;
 		getTSProject().removeDependencies(dependencies);
+		for (IDependency dep : dependencies) {
+			IPath path = new Path(dep.getPath());
+			ProjectDependencyChangeDelta delta = new ProjectDependencyChangeDelta(
+					this, IProjectDependencyDelta.PROJECT_DEPENDENCY_REMOVED,
+					path);
+			broadcastProjectDependencyChange(delta);
+		}
 	}
 
 	public boolean hasDependency(IDependency dep) throws TigerstripeException {
@@ -259,6 +292,11 @@ public abstract class TigerstripeProjectHandle extends
 		assertSet();
 		dependenciesCacheNeedsRefresh = true;
 		getTSProject().addReferencedProject(project);
+
+		ProjectDependencyChangeDelta delta = new ProjectDependencyChangeDelta(
+				this, IProjectDependencyDelta.PROJECT_REFERENCE_ADDED, project
+						.getFullPath());
+		broadcastProjectDependencyChange(delta);
 	}
 
 	public void addReferencedProjects(ITigerstripeModelProject[] projects)
@@ -266,6 +304,12 @@ public abstract class TigerstripeProjectHandle extends
 		assertSet();
 		dependenciesCacheNeedsRefresh = true;
 		getTSProject().addReferencedProjects(projects);
+		for (ITigerstripeModelProject proj : projects) {
+			ProjectDependencyChangeDelta delta = new ProjectDependencyChangeDelta(
+					this, IProjectDependencyDelta.PROJECT_REFERENCE_ADDED, proj
+							.getFullPath());
+			broadcastProjectDependencyChange(delta);
+		}
 	}
 
 	public ITigerstripeModelProject[] getReferencedProjects()
@@ -278,6 +322,10 @@ public abstract class TigerstripeProjectHandle extends
 		assertSet();
 		dependenciesCacheNeedsRefresh = true;
 		getTSProject().removeReferencedProject(project);
+		ProjectDependencyChangeDelta delta = new ProjectDependencyChangeDelta(
+				this, IProjectDependencyDelta.PROJECT_REFERENCE_REMOVED,
+				project.getFullPath());
+		broadcastProjectDependencyChange(delta);
 	}
 
 	public void removeReferencedProjects(ITigerstripeModelProject[] projects)
@@ -285,6 +333,12 @@ public abstract class TigerstripeProjectHandle extends
 		assertSet();
 		dependenciesCacheNeedsRefresh = true;
 		getTSProject().removeReferencedProjects(projects);
+		for (ITigerstripeModelProject proj : projects) {
+			ProjectDependencyChangeDelta delta = new ProjectDependencyChangeDelta(
+					this, IProjectDependencyDelta.PROJECT_REFERENCE_REMOVED,
+					proj.getFullPath());
+			broadcastProjectDependencyChange(delta);
+		}
 	}
 
 	public boolean hasReference(ITigerstripeModelProject project)
@@ -409,28 +463,96 @@ public abstract class TigerstripeProjectHandle extends
 		return getReferencedProjects();
 	}
 
-	// ==============================================================================
+	//==========================================================================
+	// ====
 	// WorkingCopy stuff
 	@Override
 	public void doCommit(IProgressMonitor monitor) throws TigerstripeException {
-		doSave();
+		// doSave();
+		//
+		// TigerstripeProjectHandle original = (TigerstripeProjectHandle)
+		// getOriginal();
+		// original.getTSProject().reload(true); // this will force a reload.
+		//
+		// // Rebuild the cache if dependencies were added
+		// if (dependenciesCacheNeedsRefresh) {
+		// ((ArtifactManagerSessionImpl) original.getArtifactManagerSession())
+		// .getArtifactManager().updateDependenciesContentCache(
+		// monitor);
+		// dependenciesCacheNeedsRefresh = false;
+		// }
 
 		TigerstripeProjectHandle original = (TigerstripeProjectHandle) getOriginal();
-		original.getTSProject().reload(true); // this will force a reload.
+		original.reloadFrom(getTSProject(), dependenciesCacheNeedsRefresh,
+				monitor);
+		original.doSave();
 
-		// Rebuild the cache if dependencies were added
-		if (dependenciesCacheNeedsRefresh) {
-			((ArtifactManagerSessionImpl) original.getArtifactManagerSession())
-					.getArtifactManager().updateDependenciesContentCache(
-							monitor);
-			dependenciesCacheNeedsRefresh = false;
-		}
+		getTSProject().clearDirty();
+		dependenciesCacheNeedsRefresh = false;
 	}
 
 	public PluginRunStatus[] generate(IM1RunConfig config,
 			IProgressMonitor monitor) throws TigerstripeException {
 		M1Generator generator = new M1Generator(this, (M1RunConfig) config);
 		return generator.run();
+	}
+
+	// ========================================
+	// Project dependency change listeners stuff
+	public void addProjectDependencyChangeListener(
+			IProjectDependencyChangeListener listener) {
+		if (isWorkingCopy()) {
+			TigerstripeProjectHandle original = (TigerstripeProjectHandle) getOriginal();
+			original.addProjectDependencyChangeListener(listener);
+		} else
+			projectChangeListeners.add(listener);
+	}
+
+	public void removeProjectDependencyChangeListener(
+			IProjectDependencyChangeListener listener) {
+		if (isWorkingCopy()) {
+			TigerstripeProjectHandle original = (TigerstripeProjectHandle) getOriginal();
+			original.removeProjectDependencyChangeListener(listener);
+		} else
+			projectChangeListeners.remove(listener);
+	}
+
+	public void broadcastProjectDependencyChange(
+			final IProjectDependencyDelta delta) {
+
+		if (isWorkingCopy()) {
+			TigerstripeProjectHandle original = (TigerstripeProjectHandle) getOriginal();
+			original.broadcastProjectDependencyChange(delta);
+		} else {
+
+			Object[] objects = projectChangeListeners.getListeners();
+			for (Object obj : objects) {
+				final IProjectDependencyChangeListener listener = (IProjectDependencyChangeListener) obj;
+				SafeRunner.run(new ISafeRunnable() {
+					public void handleException(Throwable exception) {
+						BasePlugin.log(exception);
+					}
+
+					public void run() throws Exception {
+						listener.projectDependenciesChanged(delta);
+					}
+				});
+			}
+		}
+	}
+
+	public void reloadFrom(TigerstripeProject descriptor,
+			boolean dependenciesCacheNeedsRefresh, IProgressMonitor monitor)
+			throws TigerstripeException {
+		StringReader reader = new StringReader(descriptor.asText());
+		getTSProject().reloadFrom(reader);
+
+		if (dependenciesCacheNeedsRefresh) {
+			// Rebuild the cache if dependencies were added
+			((ArtifactManagerSessionImpl) getArtifactManagerSession())
+					.getArtifactManager().updateDependenciesContentCache(
+							monitor);
+		}
 	}
 
 }

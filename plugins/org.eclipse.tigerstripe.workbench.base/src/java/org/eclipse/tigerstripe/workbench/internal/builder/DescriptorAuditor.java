@@ -12,9 +12,11 @@ package org.eclipse.tigerstripe.workbench.internal.builder;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.JavaConventions;
+import org.eclipse.jdt.internal.compiler.impl.CompilerOptions;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
@@ -46,6 +48,11 @@ public class DescriptorAuditor {
 					+ ITigerstripeConstants.PROJECT_DESCRIPTOR + ")", project,
 					222);
 		}
+
+		TigerstripeProjectAuditor.deleteAuditMarkers(projectDescriptor,
+				IResource.DEPTH_ZERO);
+		TigerstripeProjectAuditor.deleteAuditMarkers(project,
+				IResource.DEPTH_ZERO);
 
 		if (tsProject != null) {
 			monitor.beginTask("Checking project descriptor", 70);
@@ -155,7 +162,8 @@ public class DescriptorAuditor {
 			// validate default artifact package is legal
 			String pack = details.getProperties().getProperty(
 					IProjectDetails.DEFAULTARTIFACTPACKAGE_PROP);
-			IStatus packStatus = JavaConventions.validatePackageName(pack);
+			IStatus packStatus = JavaConventions.validatePackageName(pack,
+					CompilerOptions.VERSION_1_4, CompilerOptions.VERSION_1_4);
 			if (!packStatus.isOK()) {
 				if (packStatus.getSeverity() == IStatus.ERROR) {
 					TigerstripeProjectAuditor

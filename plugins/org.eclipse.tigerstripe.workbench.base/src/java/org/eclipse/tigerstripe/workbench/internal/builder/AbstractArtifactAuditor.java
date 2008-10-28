@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.UnresolvedStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
@@ -104,6 +105,8 @@ public abstract class AbstractArtifactAuditor {
 
 	public void run(IProgressMonitor monitor) {
 
+//		System.out.println("Auditing: " + getArtifact());
+
 		checkAttributes(monitor);
 		checkLabels(monitor);
 		checkMethods(monitor);
@@ -112,13 +115,16 @@ public abstract class AbstractArtifactAuditor {
 		checkImplementedArtifacts();
 		checkStereotypes(getArtifact(), "artifact '" + getArtifact().getName()
 				+ "'");
-		
+
 		// Run any custom rules that are defined in the extension point.
 		try {
-			IConfigurationElement[] elements  = Platform.getExtensionRegistry()
-			.getConfigurationElementsFor("org.eclipse.tigerstripe.workbench.base.customArtifactAuditor");
-			for (IConfigurationElement element : elements){
-				final IArtifactAuditor customRule  = (IArtifactAuditor) element.createExecutableExtension("auditorClass");
+			IConfigurationElement[] elements = Platform
+					.getExtensionRegistry()
+					.getConfigurationElementsFor(
+							"org.eclipse.tigerstripe.workbench.base.customArtifactAuditor");
+			for (IConfigurationElement element : elements) {
+				final IArtifactAuditor customRule = (IArtifactAuditor) element
+						.createExecutableExtension("auditorClass");
 				final IProgressMonitor finalMonitor = monitor;
 
 				SafeRunner.run(new ISafeRunnable() {
@@ -133,7 +139,7 @@ public abstract class AbstractArtifactAuditor {
 
 				});
 			}
-		}catch (CoreException e ){
+		} catch (CoreException e) {
 			TigerstripeProjectAuditor.reportError(
 					"Invalid custom audit definitions.", getIProject(), 222);
 		}
@@ -243,33 +249,6 @@ public abstract class AbstractArtifactAuditor {
 				getArtifact());
 	}
 
-	/*
-	 * protected void checkInterfacePackage() {
-	 * 
-	 * OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty)
-	 * TigerstripeCore
-	 * .getWorkbenchProfileSession().getActiveProfile().getProperty(
-	 * IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
-	 * 
-	 * if (prop
-	 * .getPropertyValue(IOssjLegacySettigsProperty.DISPLAY_OSSJSPECIFICS) &&
-	 * prop .getPropertyValue(IOssjLegacySettigsProperty.ENABLE_JVT_PLUGIN)) { //
-	 * no need to check on the specifics if they don't appear if
-	 * (getArtifact().getIStandardSpecifics() instanceof IOssjArtifactSpecifics) {
-	 * IOssjArtifactSpecifics spec = (IOssjArtifactSpecifics) getArtifact()
-	 * .getIStandardSpecifics(); String pack =
-	 * spec.getInterfaceProperties().getProperty( "package"); if (pack == null ||
-	 * pack.length() == 0) { TigerstripeProjectAuditor.reportError( "Undefined
-	 * target interface package for '" + getArtifact().getFullyQualifiedName() +
-	 * "'.", TigerstripeProjectAuditor .getIResourceForArtifact(getIProject(),
-	 * getArtifact()), 222); } else { IStatus status =
-	 * JavaConventions.validatePackageName(pack); if (status.getSeverity() ==
-	 * IStatus.ERROR) { TigerstripeProjectAuditor.reportError( "Invalid target
-	 * interface package for '" + getArtifact().getFullyQualifiedName() + "'.",
-	 * TigerstripeProjectAuditor .getIResourceForArtifact(getIProject(),
-	 * getArtifact()), 222); } } } } }
-	 */
-
 	/**
 	 * Checks that the super artifact has the same artifact type. We don't worry
 	 * about the super artifact existence as the Java Builder will take care of
@@ -279,7 +258,8 @@ public abstract class AbstractArtifactAuditor {
 	protected void checkSuperArtifact() {
 		IAbstractArtifact superArtifact = getArtifact().getExtendedArtifact();
 
-		if (superArtifact != null) {
+		if (superArtifact != null
+				&& !((AbstractArtifact) superArtifact).isProxy()) {
 			if (superArtifact.getClass() != getArtifact().getClass()) {
 				TigerstripeProjectAuditor.reportError(
 						"Invalid Type Hierarchy in '"

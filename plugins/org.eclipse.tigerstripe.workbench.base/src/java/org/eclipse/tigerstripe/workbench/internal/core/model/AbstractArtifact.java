@@ -191,7 +191,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		isProxy = bool;
 	}
 
-	protected boolean isProxy() {
+	public boolean isProxy() {
 		return isProxy;
 	}
 
@@ -692,6 +692,11 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 			}
 		}
+
+		// Reference to this could also be thru Extends/Implements
+		// forcing the object to be a proxy suffice as it will force
+		// resolution the relationship is used
+		setProxy(true);
 
 	}
 

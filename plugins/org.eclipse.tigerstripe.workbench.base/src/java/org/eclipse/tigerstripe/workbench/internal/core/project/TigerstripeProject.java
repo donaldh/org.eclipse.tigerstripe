@@ -882,4 +882,9 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 
 		return repoLocation;
 	}
+
+	public void reloadFrom(Reader reader) throws TigerstripeException {
+		parse(reader);
+	}
+
 }

@@ -19,6 +19,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdapterFactory;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -265,6 +266,27 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 		}
 
 		return null;
+	}
+
+	public static String fqnForResource(IResource resource) {
+		if ("java".equals(resource.getFileExtension())) {
+			IPath projectRelPath = resource.getProjectRelativePath();
+			IPath path = projectRelPath.removeFirstSegments(1); // the first
+																// segment is
+																// the "src/"
+																// dir
+			path = path.removeFileExtension();
+			return path.toOSString().replace(IPath.SEPARATOR, '.');
+		} else if ("package".equals(resource.getFileExtension())) {
+			IPath projectRelPath = resource.getProjectRelativePath();
+			IPath path = projectRelPath.removeFirstSegments(1); // the first
+																// segment is
+																// the "src/"
+																// dir
+			path = path.removeFileExtension();
+			return path.toOSString().replace(IPath.SEPARATOR, '.');
+		}
+		throw new IllegalArgumentException(resource.getFullPath().toOSString());
 	}
 
 }

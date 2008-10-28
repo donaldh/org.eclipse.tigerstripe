@@ -314,6 +314,9 @@ public class WorkspaceListener implements IElementChangedListener,
 					IAbstractArtifact artifact = session
 							.getArtifactByFullyQualifiedName(fqn, false);
 					if (artifact != null) {
+						System.out.println(System.currentTimeMillis() + " Detected rename: "
+								+ extractFQN(fromUnit) + " to "
+								+ extractFQN(toUnit));
 						TigerstripeRuntime.logInfoMessage("Detected rename: "
 								+ extractFQN(fromUnit) + " to "
 								+ extractFQN(toUnit));
