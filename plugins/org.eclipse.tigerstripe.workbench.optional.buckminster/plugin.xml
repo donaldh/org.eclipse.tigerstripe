@@ -8,5 +8,19 @@
             id="tigerstripe">
       </componentType>
    </extension>
+   <extension
+         point="org.eclipse.ant.core.antTasks">
+      <antTask
+            class="org.eclipse.tigerstripe.workbench.optional.buckminster.ant.InstallGenerator"
+            library="ant_tasks/tigerstripe-ant.jar"
+            name="tigerstripe.installGenerator">
+      </antTask>
+   </extension>
+   <extension
+         point="org.eclipse.ant.core.extraClasspathEntries">
+      <extraClasspathEntry
+            library="ant_tasks/tigerstripe-ant.jar">
+      </extraClasspathEntry>
+   </extension>
 
 </plugin>
