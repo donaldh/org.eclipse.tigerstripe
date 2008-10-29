@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="org.eclipse.tigerstripe.workbench.optional.buckminster" default="main" basedir="..">
+
+	<target name="main" depends="clean, ant_tasks/tigerstripe-ant.jar">
+	</target>
+
+	<target name="init" depends="properties">
+		<property name="plugin" value="org.eclipse.tigerstripe.workbench.optional.buckminster"/>
+		<property name="temp.folder" value="${basedir}/temp.folder"/>
+		<property name="plugin.destination" value="${basedir}"/>
+		<property name="build.result.folder" value="${basedir}/ant_tasks"/>
+		<property name="version.suffix" value="0.4.0.qualifier"/>
+	</target>
+
+	<target name="properties" if="eclipse.running">
+		<property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+	</target>
+
+	<target name="ant_tasks/tigerstripe-ant.jar" depends="init" unless="ant_tasks/tigerstripe-ant.jar">
+		<property name="destdir" value="${temp.folder}/ant_tasks/tigerstripe-ant.jar.bin"/>
+		<delete dir="${temp.folder}/ant_tasks/tigerstripe-ant.jar.bin"/>
+		<mkdir dir="${temp.folder}/ant_tasks/tigerstripe-ant.jar.bin"/>
+		<!-- compile the source code -->
+		<javac destdir="${temp.folder}/ant_tasks/tigerstripe-ant.jar.bin" failonerror="true" verbose="true" debug="on">
+			<classpath>
+				<dirset dir="${basedir}/..">
+					<include name="org.eclipse.tigerstripe.workbench.optional.buckminster/java/bin"/>
+				</dirset>
+				<fileset dir="${eclipse.home}">
+					<include name="plugins/org.eclipse.ant.core*.jar"/>
+				</fileset>
+			</classpath>
+			<src path="src_ant/"/>
+		</javac>
+		<!-- copy necessary resources -->
+		<copy todir="${temp.folder}/ant_tasks/tigerstripe-ant.jar.bin">
+			<fileset dir="src_ant/" excludes="**/*.java"/>
+		</copy>
+		<mkdir dir="${build.result.folder}"/>
+		<jar jarfile="${build.result.folder}/tigerstripe-ant.jar" basedir="${temp.folder}/ant_tasks/tigerstripe-ant.jar.bin"/>
+		<delete dir="${temp.folder}/ant_tasks/tigerstripe-ant.jar.bin"/>
+		<delete dir="${temp.folder}"/>
+	</target>
+
+	<target name="clean" depends="init">
+		<delete file="${build.result.folder}/tigerstripe-ant.jar"/>
+		<delete dir="${temp.folder}"/>
+	</target>
+</project>
