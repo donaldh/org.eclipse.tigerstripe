@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<null:Map xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:null="null" basePackage="com.mycompany.commonTypes">
+  <artifacts xsi:type="null:Enumeration" name="AvailabilityStatusEnum" package="com.mycompany.commonTypes" baseType="String">
+    <literals name="unknown" type="String" value="&quot;0&quot;"/>
+    <literals name="available" type="String" value="&quot;1&quot;"/>
+    <literals name="underRepair" type="String" value="&quot;2&quot;"/>
+  </artifacts>
+  <artifacts xsi:type="null:DatatypeArtifact" name="IPAddress" package="com.mycompany.commonTypes">
+    <attributes name="addressString" type="String" isUnique="true"/>
+    <attributes name="isIPv6Address" type="boolean" isUnique="true"/>
+  </artifacts>
+  <artifacts xsi:type="null:Enumeration" name="UnitsEnum" package="com.mycompany.commonTypes" baseType="int">
+    <literals name="Bits" type="int" value="0"/>
+    <literals name="Bytes" type="int" value="1"/>
+    <literals name="Seconds" type="int" value="2"/>
+    <literals name="Characters" type="int" value="3"/>
+    <literals name="Bits_Per_Second" type="int" value="4"/>
+    <literals name="Minutes" type="int" value="5"/>
+    <literals name="Degrees" type="int" value="6"/>
+    <literals name="tempCentigrade" type="int" value="7"/>
+    <literals name="tempFahrenheit" type="int" value="8"/>
+    <literals name="Hertz" type="int" value="9"/>
+    <literals name="Meters" type="int" value="10"/>
+    <literals name="MilliMeters" type="int" value="11"/>
+    <literals name="MilliAmps" type="int" value="12"/>
+    <literals name="MilliVolts" type="int" value="13"/>
+    <literals name="Watts" type="int" value="14"/>
+    <literals name="Watt_Hours" type="int" value="15"/>
+    <literals name="Percentage" type="int" value="16"/>
+    <literals name="Cells" type="int" value="17"/>
+    <literals name="Cells_Per_Second" type="int" value="18"/>
+    <literals name="Tenths_Of_MicroSeconds" type="int" value="19"/>
+    <literals name="Inches" type="int" value="20"/>
+    <literals name="Decibels" type="int" value="21"/>
+    <literals name="Parts_Per_Million" type="int" value="22"/>
+    <literals name="Radians" type="int" value="23"/>
+    <literals name="mmHg" type="int" value="24"/>
+    <literals name="Packets" type="int" value="25"/>
+    <literals name="Packets_Per_Second" type="int" value="26"/>
+    <literals name="Percentage_Of_RawBandwidth" type="int" value="27"/>
+    <literals name="Percentage_Of_RemainingBandwidth" type="int" value="28"/>
+    <literals name="Bytes_Per_Second" type="int" value="29"/>
+    <literals name="ElementCount" type="int" value="30"/>
+    <literals name="centimeters" type="int" value="31"/>
+    <literals name="dBm_Per_Hz" type="int" value="32"/>
+    <literals name="kilobits_Per_Second" type="int" value="33"/>
+    <literals name="kiloBytes" type="int" value="34"/>
+    <literals name="megabits_Per_Second" type="int" value="35"/>
+    <literals name="megaBytes" type="int" value="36"/>
+    <literals name="megaHertz" type="int" value="37"/>
+    <literals name="milliseconds" type="int" value="38"/>
+    <literals name="kilograms" type="int" value="39"/>
+    <literals name="pounds" type="int" value="40"/>
+    <literals name="feet" type="int" value="41"/>
+  </artifacts>
+</null:Map>

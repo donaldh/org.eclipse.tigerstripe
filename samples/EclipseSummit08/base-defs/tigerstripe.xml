@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tigerstripe version="1.1">
+<project name="">
+<outputDirectory>target/tigerstripe.gen</outputDirectory>
+<version>1.0</version>
+<description>This Tigerstripe model contains base Enum/Datatype definitions for the EclipseSummit08 demo.&#13;See http://wiki.eclipse.org/TigerstripeAtEclipseSummit08 for more information.</description>
+<provider></provider>
+<property name="defaultArtifactPackage">com.mycompany</property>
+</project>
+<repositories>
+<repository baseDir=".">
+<includes>src/**/*.java</includes>
+</repository>
+</repositories>
+<plugins/>
+<dependencies/>
+<references/>
+<facetReferences/>
+<advanced/>
+</tigerstripe>
