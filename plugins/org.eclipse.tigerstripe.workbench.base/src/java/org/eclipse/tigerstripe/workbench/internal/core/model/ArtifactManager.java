@@ -892,8 +892,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	 *            project descriptor. If not, only deltas that have been posted
 	 *            will be applied.
 	 */
-	public synchronized void refresh(boolean forceReload,
-			IProgressMonitor monitor) {
+	public void refresh(boolean forceReload, IProgressMonitor monitor) {
 
 		if (monitor == null)
 			monitor = new NullProgressMonitor();
@@ -971,31 +970,39 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		notifyReload();
 	}
 
-	public synchronized void refreshReferences(IProgressMonitor monitor) {
+	public void refreshReferences(IProgressMonitor monitor) {
+		try {
+			writeLock.lock();
+			if (monitor == null)
+				monitor = new NullProgressMonitor();
 
-		if (monitor == null)
-			monitor = new NullProgressMonitor();
+			for (ITigerstripeModelProject project : getTSProject()
+					.getReferencedProjects()) {
+				try {
+					IArtifactManagerSession session = project
+							.getArtifactManagerSession();
+					session.refresh(monitor);
+				} catch (TigerstripeException e) {
 
-		for (ITigerstripeModelProject project : getTSProject()
-				.getReferencedProjects()) {
-			try {
-				IArtifactManagerSession session = project
-						.getArtifactManagerSession();
-				session.refresh(monitor);
-			} catch (TigerstripeException e) {
-
+				}
 			}
+		} finally {
+			writeLock.unlock();
 		}
 	}
 
-	public synchronized void updateCaches(IProgressMonitor monitor) {
+	public void updateCaches(IProgressMonitor monitor) {
+		try {
+			writeLock.lock();
+			if (monitor == null)
+				monitor = new NullProgressMonitor();
 
-		if (monitor == null)
-			monitor = new NullProgressMonitor();
-
-		updateDependenciesContentCache(monitor);
-		relationshipCache.updateCache(monitor);
-		updateLocalTimeStamp();
+			updateDependenciesContentCache(monitor);
+			relationshipCache.updateCache(monitor);
+			updateLocalTimeStamp();
+		} finally {
+			writeLock.unlock();
+		}
 	}
 
 	private class PojoState {
@@ -1268,36 +1275,34 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	/**
 	 * Add a listener to this Artifact Manager
 	 */
-	public synchronized void addArtifactManagerListener(
-			IArtifactChangeListener listener) {
-		Lock writeLock = listenersLock.writeLock();
+	public void addArtifactManagerListener(IArtifactChangeListener listener) {
+		Lock lwriteLock = listenersLock.writeLock();
 		try {
-			writeLock.lock();
+			lwriteLock.lock();
 			if (!listeners.contains(listener))
 				listeners.add(listener);
 		} finally {
-			writeLock.unlock();
+			lwriteLock.unlock();
 		}
 	}
 
 	/**
 	 * Add a listener to this Artifact Manager
 	 */
-	public synchronized void removeArtifactManagerListener(
-			IArtifactChangeListener listener) {
-		Lock writeLock = listenersLock.writeLock();
+	public void removeArtifactManagerListener(IArtifactChangeListener listener) {
+		Lock lwriteLock = listenersLock.writeLock();
 		try {
-			writeLock.lock();
+			lwriteLock.lock();
 			listeners.remove(listener);
 		} finally {
-			writeLock.unlock();
+			lwriteLock.unlock();
 		}
 	}
 
 	protected void notifyReload() {
-		Lock readLock = listenersLock.readLock();
+		Lock lreadLock = listenersLock.readLock();
 		try {
-			readLock.lock();
+			lreadLock.lock();
 			if (shouldNotify
 					&& (broadcastMask & IArtifactChangeListener.NOTIFY_RELOADED) == IArtifactChangeListener.NOTIFY_RELOADED) {
 				for (IArtifactChangeListener listener : listeners) {
@@ -1310,14 +1315,14 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 				}
 			}
 		} finally {
-			readLock.unlock();
+			lreadLock.unlock();
 		}
 	}
 
 	protected void notifyArtifactAdded(IAbstractArtifact artifact) {
-		Lock readLock = listenersLock.readLock();
+		Lock lreadLock = listenersLock.readLock();
 		try {
-			readLock.lock();
+			lreadLock.lock();
 			if (shouldNotify
 					&& (broadcastMask & IArtifactChangeListener.NOTIFY_ADDED) == IArtifactChangeListener.NOTIFY_ADDED) {
 				for (IArtifactChangeListener listener : listeners) {
@@ -1331,7 +1336,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			}
 
 		} finally {
-			readLock.unlock();
+			lreadLock.unlock();
 		}
 	}
 
@@ -1382,9 +1387,9 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			IAbstractArtifact oldArtifact) {
 		// FIXME: the notification should really be coming from the refresh
 		// based on what was actually reloaded?
-		Lock readLock = listenersLock.readLock();
+		Lock lreadLock = listenersLock.readLock();
 		try {
-			readLock.lock();
+			lreadLock.lock();
 			if (shouldNotify
 					&& (broadcastMask & IArtifactChangeListener.NOTIFY_CHANGED) == IArtifactChangeListener.NOTIFY_CHANGED) {
 				for (IArtifactChangeListener listener : listeners) {
@@ -1398,14 +1403,14 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			}
 
 		} finally {
-			readLock.unlock();
+			lreadLock.unlock();
 		}
 	}
 
 	protected void notifyArtifactRemoved(IAbstractArtifact artifact) {
-		Lock readLock = listenersLock.readLock();
+		Lock lreadLock = listenersLock.readLock();
 		try {
-			readLock.lock();
+			lreadLock.lock();
 			if (shouldNotify
 					&& (broadcastMask & IArtifactChangeListener.NOTIFY_REMOVED) == IArtifactChangeListener.NOTIFY_REMOVED) {
 				for (IArtifactChangeListener listener : listeners) {
@@ -1419,7 +1424,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			}
 
 		} finally {
-			readLock.unlock();
+			lreadLock.unlock();
 		}
 	}
 
@@ -1554,7 +1559,9 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		AbstractArtifact oldArtifact = null;
 		AbstractArtifact artifact = null;
 		try {
-			// Is there already an entry here for this artifact? If so, we need
+			writeLock.lock();
+			// Is there already an entry here for this artifact? If so, we
+			// need
 			// to replace all the occurences in the caches.
 			// Bug #690: make sure we look in the back store.
 			oldArtifact = (AbstractArtifact) namedArtifactsMap.getBackingMap()
@@ -1617,6 +1624,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			}
 		} finally {
 			mgrChanged = true;
+			writeLock.unlock();
 		}
 
 		// Notify the listeners only if it is a true addition
@@ -1715,110 +1723,132 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 
 	// ==================================================
 	// Logic for Chained ArtifactMgrs
-	protected synchronized Collection getArtifactsByModelInChained(
+	protected Collection<IAbstractArtifact> getArtifactsByModelInChained(
 			AbstractArtifact model, IProgressMonitor monitor) {
-		ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
-		result.addAll(depContentCache.getArtifactsByModelInChained(model,
-				monitor));
-		result.addAll(getArtifactsByModelInReferences(model));
-		return result;
-	}
-
-	protected synchronized Collection<IAbstractArtifact> getAllChainedArtifacts(
-			IProgressMonitor monitor) {
-
-		ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
-		result.addAll(depContentCache.getAllChainedArtifacts(monitor));
-		result.addAll(getAllArtifactsFromReferences());
-		return result;
-	}
-
-	protected synchronized AbstractArtifact getArtifactByFullyQualifiedNameInChained(
-			String name, IProgressMonitor monitor) {
-
-		AbstractArtifact result = depContentCache
-				.getArtifactByFullyQualifiedNameInChained(name, monitor);
-		if (result != null)
+		try {
+			readLock.lock();
+			ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
+			result.addAll(depContentCache.getArtifactsByModelInChained(model,
+					monitor));
+			result.addAll(getArtifactsByModelInReferences(model));
 			return result;
-
-		result = getArtifactByFullyQualifiedNameInReferences(name);
-
-		return result;
+		} finally {
+			readLock.unlock();
+		}
 	}
 
-	public synchronized IDependency[] getProjectDependencies() {
+	protected Collection<IAbstractArtifact> getAllChainedArtifacts(
+			IProgressMonitor monitor) {
+		try {
+			readLock.lock();
+			ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
+			result.addAll(depContentCache.getAllChainedArtifacts(monitor));
+			result.addAll(getAllArtifactsFromReferences());
+			return result;
+		} finally {
+			readLock.unlock();
+		}
+	}
+
+	protected AbstractArtifact getArtifactByFullyQualifiedNameInChained(
+			String name, IProgressMonitor monitor) {
+		try {
+			readLock.lock();
+			AbstractArtifact result = depContentCache
+					.getArtifactByFullyQualifiedNameInChained(name, monitor);
+			if (result != null)
+				return result;
+			result = getArtifactByFullyQualifiedNameInReferences(name);
+			return result;
+		} finally {
+			readLock.unlock();
+		}
+	}
+
+	public IDependency[] getProjectDependencies() {
 		return getTSProject().getDependencies();
 	}
 
 	// Access to artifacts living in the Referenced projects
-	protected synchronized Collection<IAbstractArtifact> getAllArtifactsFromReferences() {
-		ArrayList list = new ArrayList();
-
-		for (ITigerstripeModelProject project : getTSProject()
-				.getReferencedProjects()) {
-			try {
-				IArtifactManagerSession session = project
-						.getArtifactManagerSession();
-				IArtifactQuery query = session
-						.makeQuery(IQueryAllArtifacts.class.getName());
-				query.setIncludeDependencies(true); // DO NOT INCLUDE
-				// DEPENDENCIES
-				list.addAll(project.getArtifactManagerSession().queryArtifact(
-						query));
-			} catch (TigerstripeException e) {
-				TigerstripeRuntime.logErrorMessage(
-						"TigerstripeException detected", e);
+	protected Collection<IAbstractArtifact> getAllArtifactsFromReferences() {
+		try {
+			readLock.lock();
+			ArrayList<IAbstractArtifact> list = new ArrayList<IAbstractArtifact>();
+			for (ITigerstripeModelProject project : getTSProject()
+					.getReferencedProjects()) {
+				try {
+					IArtifactManagerSession session = project
+							.getArtifactManagerSession();
+					IArtifactQuery query = session
+							.makeQuery(IQueryAllArtifacts.class.getName());
+					query.setIncludeDependencies(true); // DO NOT INCLUDE
+					// DEPENDENCIES
+					list.addAll(project.getArtifactManagerSession()
+							.queryArtifact(query));
+				} catch (TigerstripeException e) {
+					TigerstripeRuntime.logErrorMessage(
+							"TigerstripeException detected", e);
+				}
 			}
+			return list;
+		} finally {
+			readLock.unlock();
 		}
-
-		return list;
 	}
 
-	protected synchronized AbstractArtifact getArtifactByFullyQualifiedNameInReferences(
+	protected AbstractArtifact getArtifactByFullyQualifiedNameInReferences(
 			String name) {
-		IAbstractArtifact result = null;
-
-		for (ITigerstripeModelProject project : getTSProject()
-				.getReferencedProjects()) {
-			try {
-				IArtifactManagerSession session = project
-						.getArtifactManagerSession();
-				// do not include dependencies
-				result = session.getArtifactByFullyQualifiedName(name);
-				if (result != null)
-					return (AbstractArtifact) result;
-			} catch (TigerstripeException e) {
-				TigerstripeRuntime.logErrorMessage(
-						"TigerstripeException detected", e);
+		try {
+			readLock.lock();
+			IAbstractArtifact result = null;
+			for (ITigerstripeModelProject project : getTSProject()
+					.getReferencedProjects()) {
+				try {
+					IArtifactManagerSession session = project
+							.getArtifactManagerSession();
+					// do not include dependencies
+					result = session.getArtifactByFullyQualifiedName(name);
+					if (result != null)
+						return (AbstractArtifact) result;
+				} catch (TigerstripeException e) {
+					TigerstripeRuntime.logErrorMessage(
+							"TigerstripeException detected", e);
+				}
 			}
+			return (AbstractArtifact) result;
+		} finally {
+			readLock.unlock();
 		}
-		return (AbstractArtifact) result;
 	}
 
-	protected synchronized Collection<IAbstractArtifact> getArtifactsByModelInReferences(
+	protected Collection<IAbstractArtifact> getArtifactsByModelInReferences(
 			AbstractArtifact model) {
-		ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
+		try {
+			readLock.lock();
+			ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
+			for (ITigerstripeModelProject project : getTSProject()
+					.getReferencedProjects()) {
+				try {
+					IArtifactManagerSession session = project
+							.getArtifactManagerSession();
+					IQueryArtifactsByType query = (IQueryArtifactsByType) session
+							.makeQuery(IQueryArtifactsByType.class.getName());
+					query.setArtifactType(model.getClass().getName());
+					query.setIncludeDependencies(true); // dependencies of
+					// referenced project
+					// shall not be included
 
-		for (ITigerstripeModelProject project : getTSProject()
-				.getReferencedProjects()) {
-			try {
-				IArtifactManagerSession session = project
-						.getArtifactManagerSession();
-				IQueryArtifactsByType query = (IQueryArtifactsByType) session
-						.makeQuery(IQueryArtifactsByType.class.getName());
-				query.setArtifactType(model.getClass().getName());
-				query.setIncludeDependencies(true); // dependencies of
-				// referenced project
-				// shall not be included
-
-				result.addAll(project.getArtifactManagerSession()
-						.queryArtifact(query));
-			} catch (TigerstripeException e) {
-				TigerstripeRuntime.logErrorMessage(
-						"TigerstripeException detected", e);
+					result.addAll(project.getArtifactManagerSession()
+							.queryArtifact(query));
+				} catch (TigerstripeException e) {
+					TigerstripeRuntime.logErrorMessage(
+							"TigerstripeException detected", e);
+				}
 			}
+			return result;
+		} finally {
+			readLock.unlock();
 		}
-		return result;
 	}
 
 	/**
@@ -1829,151 +1859,158 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	 * @param fqn
 	 * @return
 	 */
-	public synchronized Collection<IAbstractArtifact> getAllKnownArtifactsByFullyQualifiedName(
+	public Collection<IAbstractArtifact> getAllKnownArtifactsByFullyQualifiedName(
 			String fqn, IProgressMonitor monitor) {
-		ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
-
-		// Returns any local definition first
-		IAbstractArtifact localArt = getArtifactByFullyQualifiedName(fqn,
-				false, monitor);
-		if (localArt != null) {
-			result.add(localArt);
-		}
-
-		// get modules references then
-		Collection<IAbstractArtifact> moduleArts = getAllKnownArtifactsByFullyQualifiedNameInModules(
-				fqn, monitor);
-		if (moduleArts.size() != 0) {
-			for (IAbstractArtifact art : moduleArts)
-				result.add(art);
-		}
-
-		// get the references projects last
-		Collection<IAbstractArtifact> projectsArts = getAllKnownArtifactsByFullyQualifiedNameInReferencedProjects(fqn);
-		if (projectsArts.size() != 0) {
-			for (IAbstractArtifact art : projectsArts)
-				result.add(art);
-		}
-
-		return result;
-	}
-
-	public synchronized Collection<IAbstractArtifact> getAllKnownArtifactsByFullyQualifiedNameInModules(
-			String fqn, IProgressMonitor monitor) {
-
-		Collection<IAbstractArtifact> list = depContentCache
-				.getAllKnownArtifactsByFullyQualifiedName(fqn, monitor);
-		return list;
-	}
-
-	public synchronized Collection<IAbstractArtifact> getAllKnownArtifactsByFullyQualifiedNameInReferencedProjects(
-			String fqn) {
-		ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
-
-		for (ITigerstripeModelProject project : getTSProject()
-				.getReferencedProjects()) {
-			try {
-				for (IAbstractArtifact art : project
-						.getArtifactManagerSession()
-						.getAllKnownArtifactsByFullyQualifiedName(fqn)) {
-					result.add(art);
-				}
-			} catch (TigerstripeException e) {
-				TigerstripeRuntime.logErrorMessage(
-						"TigerstripeException detected", e);
+		try {
+			readLock.lock();
+			ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
+			// Returns any local definition first
+			IAbstractArtifact localArt = getArtifactByFullyQualifiedName(fqn,
+					false, monitor);
+			if (localArt != null) {
+				result.add(localArt);
 			}
+			// get modules references then
+			Collection<IAbstractArtifact> moduleArts = getAllKnownArtifactsByFullyQualifiedNameInModules(
+					fqn, monitor);
+			if (moduleArts.size() != 0) {
+				for (IAbstractArtifact art : moduleArts)
+					result.add(art);
+			}
+			// get the references projects last
+			Collection<IAbstractArtifact> projectsArts = getAllKnownArtifactsByFullyQualifiedNameInReferencedProjects(fqn);
+			if (projectsArts.size() != 0) {
+				for (IAbstractArtifact art : projectsArts)
+					result.add(art);
+			}
+			return result;
+		} finally {
+			readLock.unlock();
 		}
-
-		return result;
 	}
 
-	public synchronized void profileChanged(IWorkbenchProfile newActiveProfile) {
-		initManager();
-		refresh(true, new NullProgressMonitor()); // FIXME This
-		// should have a
-		// proper
-		// progress
-		// monitor
+	public Collection<IAbstractArtifact> getAllKnownArtifactsByFullyQualifiedNameInModules(
+			String fqn, IProgressMonitor monitor) {
+		try {
+			readLock.lock();
+			Collection<IAbstractArtifact> list = depContentCache
+					.getAllKnownArtifactsByFullyQualifiedName(fqn, monitor);
+			return list;
+		} finally {
+			readLock.unlock();
+		}
+	}
+
+	public Collection<IAbstractArtifact> getAllKnownArtifactsByFullyQualifiedNameInReferencedProjects(
+			String fqn) {
+		try {
+			readLock.lock();
+			ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
+			for (ITigerstripeModelProject project : getTSProject()
+					.getReferencedProjects()) {
+				try {
+					for (IAbstractArtifact art : project
+							.getArtifactManagerSession()
+							.getAllKnownArtifactsByFullyQualifiedName(fqn)) {
+						result.add(art);
+					}
+				} catch (TigerstripeException e) {
+					TigerstripeRuntime.logErrorMessage(
+							"TigerstripeException detected", e);
+				}
+			}
+			return result;
+		} finally {
+			readLock.unlock();
+		}
+	}
+
+	public void profileChanged(IWorkbenchProfile newActiveProfile) {
+		try {
+			writeLock.lock();
+			initManager();
+			refresh(true, new NullProgressMonitor()); // FIXME This
+			// should have a
+			// proper
+			// progress
+			// monitor
+		} finally {
+			writeLock.unlock();
+		}
 	}
 
 	public List<IRelationship> getOriginatingRelationshipForFQN(String fqn,
 			boolean includeProjectDependencies) throws TigerstripeException {
-		return getOriginatingRelationshipForFQN(fqn,
-				includeProjectDependencies, false);
+		try {
+			readLock.lock();
+			return getOriginatingRelationshipForFQN(fqn,
+					includeProjectDependencies, false);
+		} finally {
+			readLock.unlock();
+		}
 	}
 
 	public List<IRelationship> getOriginatingRelationshipForFQN(String fqn,
 			boolean includeProjectDependencies, boolean ignoreFacets)
 			throws TigerstripeException {
 
-		List<IRelationship> result = new ArrayList<IRelationship>();
-		result.addAll(relationshipCache.getRelationshipsOriginatingFromFQN(fqn,
-				ignoreFacets));
+		try {
+			readLock.lock();
+			List<IRelationship> result = new ArrayList<IRelationship>();
+			result.addAll(relationshipCache.getRelationshipsOriginatingFromFQN(
+					fqn, ignoreFacets));
 
-		if (includeProjectDependencies) {
-			for (ITigerstripeModelProject project : getTSProject()
-					.getReferencedProjects()) {
-				ArtifactManager mgr = ((ArtifactManagerSessionImpl) project
-						.getArtifactManagerSession()).getArtifactManager();
-				result.addAll(mgr.getRelationshipCache()
-						.getRelationshipsOriginatingFromFQN(fqn, ignoreFacets));
+			if (includeProjectDependencies) {
+				for (ITigerstripeModelProject project : getTSProject()
+						.getReferencedProjects()) {
+					ArtifactManager mgr = ((ArtifactManagerSessionImpl) project
+							.getArtifactManagerSession()).getArtifactManager();
+					result.addAll(mgr.getRelationshipCache()
+							.getRelationshipsOriginatingFromFQN(fqn,
+									ignoreFacets));
+				}
 			}
+			return result;
+		} finally {
+			readLock.unlock();
 		}
-
-		// Bug 928: no need to filter for Bug 922 since the relationship cache
-		// is now facet-aware
-		// // Bug 922: the facet needs to be taken into account here. Anything
-		// that
-		// // is not in the
-		// // facet should be filtered out.
-		// for (Iterator iter = result.iterator(); iter.hasNext();) {
-		// IAbstractArtifact rel = (IAbstractArtifact) iter.next();
-		// if (!rel.isInActiveFacet()) {
-		// iter.remove();
-		// }
-		// }
-		//
-		return result;
 	}
 
 	public List<IRelationship> getTerminatingRelationshipForFQN(String fqn,
 			boolean includeProjectDependencies) throws TigerstripeException {
-		return getTerminatingRelationshipForFQN(fqn,
-				includeProjectDependencies, false);
+		try {
+			readLock.lock();
+			return getTerminatingRelationshipForFQN(fqn,
+					includeProjectDependencies, false);
+		} finally {
+			readLock.unlock();
+		}
 	}
 
 	public List<IRelationship> getTerminatingRelationshipForFQN(String fqn,
 			boolean includeProjectDependencies, boolean ignoreFacet)
 			throws TigerstripeException {
-		List<IRelationship> result = new ArrayList<IRelationship>();
-		result.addAll(relationshipCache.getRelationshipsTerminatingInFQN(fqn,
-				ignoreFacet));
+		try {
+			readLock.lock();
+			List<IRelationship> result = new ArrayList<IRelationship>();
+			result.addAll(relationshipCache.getRelationshipsTerminatingInFQN(
+					fqn, ignoreFacet));
 
-		if (includeProjectDependencies) {
-
-			for (ITigerstripeModelProject project : getTSProject()
-					.getReferencedProjects()) {
-				ArtifactManager mgr = ((ArtifactManagerSessionImpl) project
-						.getArtifactManagerSession()).getArtifactManager();
-				result.addAll(mgr.getRelationshipCache()
-						.getRelationshipsTerminatingInFQN(fqn, ignoreFacet));
+			if (includeProjectDependencies) {
+				for (ITigerstripeModelProject project : getTSProject()
+						.getReferencedProjects()) {
+					ArtifactManager mgr = ((ArtifactManagerSessionImpl) project
+							.getArtifactManagerSession()).getArtifactManager();
+					result
+							.addAll(mgr.getRelationshipCache()
+									.getRelationshipsTerminatingInFQN(fqn,
+											ignoreFacet));
+				}
 			}
+			return result;
+		} finally {
+			readLock.unlock();
 		}
-
-		// Bug 928: no need to filter for Bug 922 since the relationship cache
-		// is now facet-aware
-		// // Bug 922: the facet needs to be taken into account here. Anything
-		// that
-		// // is not in the
-		// // facet should be filtered out.
-		// for (Iterator iter = result.iterator(); iter.hasNext();) {
-		// IAbstractArtifact rel = (IAbstractArtifact) iter.next();
-		// if (!rel.isInActiveFacet()) {
-		// iter.remove();
-		// }
-		// }
-
-		return result;
 	}
 
 	protected ArtifactRelationshipCache getRelationshipCache() {
@@ -2008,9 +2045,9 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	}
 
 	public void notifyArtifactRenamed(IAbstractArtifact artifact, String fromFQN) {
-		Lock readLock = listenersLock.readLock();
+		Lock lreadLock = listenersLock.readLock();
 		try {
-			readLock.lock();
+			lreadLock.lock();
 			if (shouldNotify
 					&& (broadcastMask & IArtifactChangeListener.NOTIFY_RENAMED) == IArtifactChangeListener.NOTIFY_RENAMED) {
 				for (IArtifactChangeListener listener : listeners) {
@@ -2025,7 +2062,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			}
 
 		} finally {
-			readLock.unlock();
+			lreadLock.unlock();
 		}
 	}
 
@@ -2033,14 +2070,19 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			IProgressMonitor monitor) throws TigerstripeException {
 		String fromFQN = artifact.getFullyQualifiedName();
 		try {
+			writeLock.lock();
 			shouldNotify = false; // we don't want to trigger del+add
 			// notifications, only a Ren at the end
 			removeArtifact(artifact);
-			((AbstractArtifact) artifact).setProxy(false); // a side effect of the remove is to setIsProxy. don't want that here.
+			((AbstractArtifact) artifact).setProxy(false); // a side effect of
+			// the remove is to
+			// setIsProxy. don't
+			// want that here.
 			artifact.setFullyQualifiedName(toFQN);
 			addArtifact(artifact, monitor);
 		} finally {
 			shouldNotify = true;
+			writeLock.unlock();
 		}
 		notifyArtifactRenamed(artifact, fromFQN);
 	}
@@ -2054,29 +2096,27 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	/**
 	 * Add a listener to this Artifact Manager
 	 */
-	public synchronized void addActiveFacetListener(
-			IActiveFacetChangeListener listener) {
-		Lock writeLock = facetListenersLock.writeLock();
+	public void addActiveFacetListener(IActiveFacetChangeListener listener) {
+		Lock lwriteLock = facetListenersLock.writeLock();
 		try {
-			writeLock.lock();
+			lwriteLock.lock();
 			if (!facetListeners.contains(listener))
 				facetListeners.add(listener);
 		} finally {
-			writeLock.unlock();
+			lwriteLock.unlock();
 		}
 	}
 
 	/**
 	 * Add a listener to this Artifact Manager
 	 */
-	public synchronized void removeActiveFacetListener(
-			IActiveFacetChangeListener listener) {
-		Lock writeLock = facetListenersLock.writeLock();
+	public void removeActiveFacetListener(IActiveFacetChangeListener listener) {
+		Lock lwriteLock = facetListenersLock.writeLock();
 		try {
-			writeLock.lock();
+			lwriteLock.lock();
 			facetListeners.remove(listener);
 		} finally {
-			writeLock.unlock();
+			lwriteLock.unlock();
 		}
 	}
 
@@ -2086,9 +2126,9 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		// Mgr
 		clearFacetCacheInArtifacts();
 
-		Lock readLock = facetListenersLock.readLock();
+		Lock freadLock = facetListenersLock.readLock();
 		try {
-			readLock.lock();
+			freadLock.lock();
 			if (shouldNotify && !isLocked) { // no notification on during
 				// generation
 				for (IActiveFacetChangeListener listener : facetListeners) {
@@ -2102,7 +2142,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 				}
 			}
 		} finally {
-			readLock.unlock();
+			freadLock.unlock();
 		}
 	}
 
