@@ -1,0 +1,17 @@
+package $artifact.Package;
+
+public class $artifact.FullyQualifiedName 
+#if ($artifact.hasExtends())
+extends $artifact.Extends.FullyQualifiedName
+#end
+{
+
+#foreach( $field in $artifact.Fields )
+	private $field.Type.FullyQualifiedName $field.getName();
+	
+	public $field.Type.FullyQualifiedName get$helper.capitalize($field.getName())() {
+		return this.$field.getName();
+	}
+#end
+
+}

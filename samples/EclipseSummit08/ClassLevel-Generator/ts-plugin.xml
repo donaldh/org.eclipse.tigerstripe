@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ts_plugin version="1.2">
+<project name="ClassLevel-Generator">
+<outputDirectory>target/tigerstripe.gen</outputDirectory>
+<version>1.0</version>
+<description>Sample generator with 2 simples rules.</description>
+<provider>Cisco Systems, Inc.</provider>
+</project>
+<pluginNature type="Generic"/>
+<logger defautLevel="0" isEnabled="false" logPath="ClassLevel-Generator.log" maxRoll="9"/>
+<globalProperties/>
+<globalRules>
+<rule description="Creates a single file that contains a list of all the artifacts in scope." enabled="true" name="createCatalog" type="org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule">
+<body outputFile="catalog.txt" overwriteFiles="true" suppressFiles="true" template="templates/catalog.vm"/>
+</rule>
+</globalRules>
+<artifactRules>
+<rule description="Creates a simplistic pojo-like definition &#13;for all entities in the project." enabled="true" name="createDummyPojo" type="org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRule">
+<contextEntry classname="org.eclipse.tigerstripe.sample.Helper" entry="helper"/>
+<body artifactFilterClass="" artifactType="org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact" includeDependencies="false" modelClass="" modelClassName="wrapper" outputFile="${artifact.Path}/${artifact.Name}.java" overwriteFiles="true" suppressFiles="true" template="templates/dummyPojo.vm"/>
+</rule>
+</artifactRules>
+<classpathEntries/>
+<additionalFiles/>
+<advanced/>
+<annotationPlugins/>
+</ts_plugin>
