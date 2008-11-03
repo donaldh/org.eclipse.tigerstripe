@@ -15,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
@@ -35,6 +36,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ImportLogUtilities;
 import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.Utilities;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.NamedElement;
@@ -80,6 +82,10 @@ public class ModelImporter {
 
 			out = new PrintWriter(new FileOutputStream(logFile));
 
+			// Bug 252715 - Additional environment information.
+			ImportLogUtilities.printHeaderInfo(out);
+			
+			
 			String importText = "INFO : Import " + importFilename + " into "
 					+ tigerstripeProject.getName();
 
@@ -233,7 +239,7 @@ public class ModelImporter {
 				messages, this.tigerstripeProject);
 		out.println("INFO : Extracted arrifact size :"
 				+ this.extractedArtifacts.size());
-		out.println(messages.asText());
+		//out.println(messages.asText());
 		out.flush();
 		Utilities.tearDown();
 		return false;

@@ -144,8 +144,7 @@ public class UML2TS {
 		this.modelLibrary = modelLibrary;
 		out.println("INFO : EXTRACTING FROM UML MODEL");
 		for (Package p : model.getImportedPackages()){
-			System.out.println(p.getName());
-			
+			out.println("INFO : Imported Package :"+p.getName());	
 		}
 		
 		// Walk the model
@@ -358,7 +357,7 @@ public class UML2TS {
 			e.printStackTrace(out);
 		} finally {
 			out.flush();
-			out.println(extractedArtifacts);
+			//out.println(extractedArtifacts);
 			return extractedArtifacts;
 		}
 	}

@@ -43,6 +43,7 @@ import org.eclipse.tigerstripe.workbench.profile.stereotype.IEntryListStereotype
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeAttribute;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeScopeDetails;
+import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ImportLogUtilities;
 import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.Utilities;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Enumeration;
@@ -78,6 +79,9 @@ public class ProfileImporter {
 
 		try {
 			this.out = new PrintWriter(new FileOutputStream(logFile));
+			// Bug 252715 - Additional environment information.
+			ImportLogUtilities.printHeaderInfo(out);
+			
 			loadUMLPrimitives(handle);
 			Utilities.setupPaths();
 			
