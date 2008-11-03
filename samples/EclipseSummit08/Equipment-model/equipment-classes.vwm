@@ -5,6 +5,8 @@
   </artifacts>
   <artifacts xsi:type="null:ManagedEntityArtifact" name="Equipment" package="com.mycompany.equipment" extends="//@artifacts.0"/>
   <artifacts xsi:type="null:ManagedEntityArtifact" name="Router" package="com.mycompany.equipment" extends="//@artifacts.1"/>
-  <artifacts xsi:type="null:ManagedEntityArtifact" name="Port" package="com.mycompany.equipment" extends="//@artifacts.0"/>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Port" package="com.mycompany.equipment" extends="//@artifacts.0">
+    <attributes name="attribute0" type="com.mycompany.commonTypes.IPAddress" isUnique="true"/>
+  </artifacts>
   <associations name="hasPorts" package="com.mycompany.equipment" aEnd="//@artifacts.2" aEndName="router_0" zEnd="//@artifacts.3" zEndName="port_0" zEndMultiplicity="*" zEndIsNavigable="true"/>
 </null:Map>

@@ -20,14 +20,15 @@ package com.mycompany.equipment;
  *      isSessionFactoryMethods="false"
  *		isAbstract = "false"
  *		implements = ""
- * @tigerstripe.key-interface package = "$artifact.IStandardSpecifics.InterfaceProperties.get("package")"
+ * @tigerstripe.key-interface package = "$artifact.IStandardSpecifics.InterfaceProperties.get("
  *      generate = "true"
- * @tigerstripe.value package = "$artifact.IStandardSpecifics.InterfaceProperties.get("package")"
+ * @tigerstripe.value package = "$artifact.IStandardSpecifics.InterfaceProperties.get("
  *      generate = "true"
  *
  * @tigerstripe.property ts.id="ossj.entity.create"
  *   byAutoNaming = "false"
  *   bulkBestEffort = "false"
+ *   ts.id = "ossj.entity.create"
  *   bulkAtomic = "false"
  *   bulkAtomicByKeys = "false"
  *   bulkBestEffortByKeys = "false"
@@ -35,15 +36,17 @@ package com.mycompany.equipment;
  *
  * @tigerstripe.property ts.id="ossj.entity.get"
  *   byTemplates = "false"
+ *   ts.id = "ossj.entity.get"
  *   byTemplate = "false"
  *   bulkAtomicByKeys = "false"
  *   simpleByKey = "true"
  *
  * @tigerstripe.property ts.id="ossj.entity.set"
+ *   ts.id = "ossj.entity.set"
  *   simple = "true"
  *   byTemplates = "false"
- *   byTemplatesBestEffort = "false"
  *   byTemplate = "false"
+ *   byTemplatesBestEffort = "false"
  *   byTemplateBestEffort = "false"
  *   bulkAtomic = "false"
  *   bulkBestEffort = "false"
@@ -51,8 +54,9 @@ package com.mycompany.equipment;
  *   bulkBestEffortByKeys = "false"
  *
  * @tigerstripe.property ts.id="ossj.entity.remove"
- *   byTemplatesBestEffort = "false"
  *   byTemplates = "false"
+ *   byTemplatesBestEffort = "false"
+ *   ts.id = "ossj.entity.remove"
  *   byTemplate = "false"
  *   bulkAtomicByKeys = "false"
  *   bulkBestEffortByKeys = "false"
@@ -65,6 +69,22 @@ public abstract class Port
   extends com.mycompany.Resource
  {
 
+
+
+    /**
+     * 
+     * @tigerstripe.field 
+     *  isOptional = "false"
+     *  isReadOnly = "false"
+     *  isOrdered = "false"
+     *  isUnique = "true"
+     *  typeMultiplicity = "1"
+     *   ref-by = "value"
+     *
+     *
+     * 
+     */
+	public com.mycompany.commonTypes.IPAddress attribute0;
 
 
 
