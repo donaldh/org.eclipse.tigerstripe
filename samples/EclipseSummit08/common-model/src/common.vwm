@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<null:Map xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:null="null" basePackage="com.mycompany">
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Top" package="com.mycompany" isAbstract="true"/>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Resource" package="com.mycompany" extends="//@artifacts.0">
+    <attributes name="status" type="com.mycompany.commonTypes.AvailabilityStatusEnum" isUnique="true"/>
+  </artifacts>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Location" package="com.mycompany" extends="//@artifacts.0"/>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Party" package="com.mycompany" extends="//@artifacts.0"/>
+  <artifacts xsi:type="null:Enumeration" name="AvailabilityStatusEnum" package="com.mycompany.commonTypes" isReadonly="true" baseType="String">
+    <literals name="unknown" type="String" value="&quot;0&quot;"/>
+    <literals name="available" type="String" value="&quot;1&quot;"/>
+    <literals name="underRepair" type="String" value="&quot;2&quot;"/>
+  </artifacts>
+</null:Map>

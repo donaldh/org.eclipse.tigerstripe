@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tigerstripe version="1.1">
+<project name="">
+<outputDirectory>target/tigerstripe.gen</outputDirectory>
+<version>1.0</version>
+<description>This model is a sample model used for demo purpose of Tigerstripe.&#13;See http://wiki.eclipse.org/TigerstripeAtEclipseSummit08 for more details.</description>
+<provider></provider>
+<property name="defaultArtifactPackage">com.mycompany</property>
+</project>
+<repositories>
+<repository baseDir=".">
+<includes>src/**/*.java</includes>
+</repository>
+</repositories>
+<plugins/>
+<dependencies>
+<dependency path="base-defs.zip"/>
+</dependencies>
+<references/>
+<facetReferences/>
+<advanced/>
+</tigerstripe>
