@@ -99,7 +99,7 @@
     <styles xmi:type="notation:FillStyle" xmi:id="_GjJyw6d8Ed2RvrOL3boyzg" fillColor="13825530"/>
     <styles xmi:type="notation:LineStyle" xmi:id="_GjJyxKd8Ed2RvrOL3boyzg"/>
     <element xmi:type="null:Enumeration" href="common.vwm#//@artifacts.4"/>
-    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_GjJyxad8Ed2RvrOL3boyzg" x="342" y="252"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_GjJyxad8Ed2RvrOL3boyzg" x="279" y="261"/>
   </children>
   <styles xmi:type="notation:PageStyle" xmi:id="_quHF4qd4Ed2DWfIjm5c9-Q"/>
   <styles xmi:type="notation:GuideStyle" xmi:id="_quHF46d4Ed2DWfIjm5c9-Q"/>

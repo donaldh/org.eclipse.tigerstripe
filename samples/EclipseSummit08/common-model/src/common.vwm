@@ -6,7 +6,7 @@
   </artifacts>
   <artifacts xsi:type="null:ManagedEntityArtifact" name="Location" package="com.mycompany" extends="//@artifacts.0"/>
   <artifacts xsi:type="null:ManagedEntityArtifact" name="Party" package="com.mycompany" extends="//@artifacts.0"/>
-  <artifacts xsi:type="null:Enumeration" name="AvailabilityStatusEnum" package="com.mycompany.commonTypes" isReadonly="true" baseType="String">
+  <artifacts xsi:type="null:Enumeration" name="AvailabilityStatusEnum" package="com.mycompany.commonTypes" baseType="String">
     <literals name="unknown" type="String" value="&quot;0&quot;"/>
     <literals name="available" type="String" value="&quot;1&quot;"/>
     <literals name="underRepair" type="String" value="&quot;2&quot;"/>
