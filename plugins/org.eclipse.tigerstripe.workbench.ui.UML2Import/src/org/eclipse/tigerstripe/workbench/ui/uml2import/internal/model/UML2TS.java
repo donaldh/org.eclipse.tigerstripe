@@ -23,6 +23,7 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
@@ -813,148 +814,159 @@ public class UML2TS {
 				Operation operation = (Operation) child;
 
 				out.println("INFO : Operation :" + operation.getName());
-				IMethod method = artifact.makeMethod();
-				method.setName(operation.getName());
-				method.setComment(setComment(((NamedElement) child)));
+				try {
+					IMethod method = artifact.makeMethod();
+					method.setName(operation.getName());
+					method.setComment(setComment(((NamedElement) child)));
 
-				// ============ return type =====================
-				Parameter returnResult = operation.getReturnResult();
-				if (returnResult != null){
-					Type retType = returnResult.getType();
-					
-					if (retType == null){
-						// assume this is a void return - although that might have a "void type" as well
+					// ============ return type =====================
+					Parameter returnResult = operation.getReturnResult();
+					if (returnResult != null){
+						Type retType = returnResult.getType();
+
+						if (retType == null){
+							// assume this is a void return - although that might have a "void type" as well
+							out.println("INFO : Operation is void ");
+							method.setVoid(true);
+							IType iType = method.makeType();
+							iType.setFullyQualifiedName("void");
+							method.setReturnType(iType);
+							method.setReturnName("");
+						} else {
+							IType iType = method.makeType();
+							if (!setTypeDetails(iType, retType, returnResult, artifact
+									.getName()
+									+ " : " + returnResult.getName())) {
+								continue;
+							}
+
+							out.println("INFO : Operation return : "
+									+ operation.getName() + " : "
+									+ iType.getFullyQualifiedName());
+							method.setReturnType(iType);
+							method.setReturnName(returnResult.getName());
+							this.out.println("INFO : Operation return Name : "
+									+ returnResult.getName());
+						}
+						if (returnResult.isSetDefault()){
+							method.setDefaultReturnValue(returnResult.getDefault());
+						}
+
+						ArrayList stInstances = readStereotypes((NamedElement) returnResult);
+						ListIterator stereoIt = stInstances.listIterator();
+						while (stereoIt.hasNext()) {
+							IStereotypeInstance iSI = (IStereotypeInstance) stereoIt
+							.next();
+							method.addReturnStereotypeInstance(iSI);
+						}
+
+
+					} else {
+						// No return type - so make it a void method
+						out.println("INFO : Operation has no return element - make void ");
 						method.setVoid(true);
 						IType iType = method.makeType();
 						iType.setFullyQualifiedName("void");
 						method.setReturnType(iType);
 						method.setReturnName("");
-					} else {
-						IType iType = method.makeType();
-						if (!setTypeDetails(iType, retType, returnResult, artifact
-								.getName()
-								+ " : " + returnResult.getName())) {
+					}
+
+					method.setOrdered(operation.isOrdered());
+					method.setUnique(operation.isUnique());
+					method.setAbstract(operation.isAbstract());
+
+
+
+					// ============ parameters =====================
+					BehavioralFeature bF = (BehavioralFeature) child;
+					List params = bF.getOwnedParameters();
+					ListIterator paramIt = params.listIterator();
+					while (paramIt.hasNext()) {
+						Parameter param = (Parameter) paramIt.next();
+
+						if (param.getDirection().getValue() != ParameterDirectionKind.IN) {
+							// This is the return, so ignore it.
 							continue;
 						}
+						IArgument arg = method.makeArgument();
+						arg.setName(param.getName());
 
-						out.println("INFO : Operation return : "
-								+ operation.getName() + " : "
-								+ iType.getFullyQualifiedName());
-						method.setReturnType(iType);
-						method.setReturnName(returnResult.getName());
-						this.out.println("INFO : Operation return Name : "
-								+ returnResult.getName());
-					}
-					if (returnResult.isSetDefault()){
-						method.setDefaultReturnValue(returnResult.getDefault());
-					}
-					
-					ArrayList stInstances = readStereotypes((NamedElement) returnResult);
-					ListIterator stereoIt = stInstances.listIterator();
-					while (stereoIt.hasNext()) {
-						IStereotypeInstance iSI = (IStereotypeInstance) stereoIt
-								.next();
-						method.addReturnStereotypeInstance(iSI);
-					}
-					
-					
-				} else {
-					// No return type!
-					this.out.println("INFO : Operation return : "
-							+ "unknown Type");
-
-				}
-				
-				method.setOrdered(operation.isOrdered());
-				method.setUnique(operation.isUnique());
-				method.setAbstract(operation.isAbstract());
-
-				
-				
-				// ============ parameters =====================
-				BehavioralFeature bF = (BehavioralFeature) child;
-				List params = bF.getOwnedParameters();
-				ListIterator paramIt = params.listIterator();
-				while (paramIt.hasNext()) {
-					Parameter param = (Parameter) paramIt.next();
-
-					if (param.getDirection().getValue() != ParameterDirectionKind.IN) {
-						// This is the return, so ignore it.
-						continue;
-					}
-					IArgument arg = method.makeArgument();
-					arg.setName(param.getName());
-
-					IType aType = method.makeType();
-					Type pType = param.getType();
-					if (!setTypeDetails(aType, pType, param, artifact.getName()
-							+ " : " + param.getName())) {
-						continue;
-					}
-					out.println("INFO : Operation parameter : "
-							+ operation.getName() + " : " + param.getName()
-							+ " : " + aType.getFullyQualifiedName());
-					arg.setType(aType);
+						IType aType = method.makeType();
+						Type pType = param.getType();
+						if (!setTypeDetails(aType, pType, param, artifact.getName()
+								+ " : " + param.getName())) {
+							continue;
+						}
+						out.println("INFO : Operation parameter : "
+								+ operation.getName() + " : " + param.getName()
+								+ " : " + aType.getFullyQualifiedName());
+						arg.setType(aType);
 
 
-					ArrayList stInstances = readStereotypes((NamedElement) param);
-					ListIterator stereoIt = stInstances.listIterator();
-					while (stereoIt.hasNext()) {
-						IStereotypeInstance iSI = (IStereotypeInstance) stereoIt
-								.next();
-						arg.addStereotypeInstance(iSI);
-					}
-					
-					
-					// ============================
-
-					// Add some comments (now that we can!)
-					arg.setComment(setComment((NamedElement) param));
-					arg.setOrdered(param.isOrdered());
-					arg.setUnique(param.isUnique());
-					if (param.isSetDefault()){
-						arg.setDefaultValue(param.getDefault());
-					}
-					
-					method.addArgument(arg);
-				}
-
-				// Any Exceptions?
-				List exceptions = bF.getRaisedExceptions();
-				ListIterator excepIt = exceptions.listIterator();
-				while (excepIt.hasNext()) {
-					Class excep = (Class) excepIt.next();
-					IException tsExcep = method.makeException();
-					String excepFQN = convertToFQN(((NamedElement) excep)
-							.getQualifiedName(),messages,out);
-					tsExcep.setFullyQualifiedName(excepFQN);
-					method.addException(tsExcep);
-				}
-
-                // Now we support Abstract on Methods
-				artifact.setAbstract(((Classifier) element).isAbstract());
-				
-				VisibilityKind viz = operation.getVisibility();
-				
-				if (viz.getLiteral().equals("private")){
-					method.setVisibility(IModelComponent.EVisibility.PRIVATE);
-				} else if (viz.getLiteral().equals("package")){
-					method.setVisibility(IModelComponent.EVisibility.PACKAGE);
-				} else if (viz.getLiteral().equals("protected")){
-					method.setVisibility(IModelComponent.EVisibility.PROTECTED);
-				} else {
-					method.setVisibility(IModelComponent.EVisibility.PUBLIC);
-				}
-				
-				ArrayList stInstances = readStereotypes((NamedElement) child);
-				ListIterator stereoIt = stInstances.listIterator();
-				while (stereoIt.hasNext()) {
-					IStereotypeInstance iSI = (IStereotypeInstance) stereoIt
+						ArrayList stInstances = readStereotypes((NamedElement) param);
+						ListIterator stereoIt = stInstances.listIterator();
+						while (stereoIt.hasNext()) {
+							IStereotypeInstance iSI = (IStereotypeInstance) stereoIt
 							.next();
-					method.addStereotypeInstance(iSI);
-				}
+							arg.addStereotypeInstance(iSI);
+						}
 
-				artifact.addMethod(method);
+
+						// ============================
+
+						// Add some comments (now that we can!)
+						arg.setComment(setComment((NamedElement) param));
+						arg.setOrdered(param.isOrdered());
+						arg.setUnique(param.isUnique());
+						if (param.isSetDefault()){
+							arg.setDefaultValue(param.getDefault());
+						}
+
+						method.addArgument(arg);
+					}
+
+					// Any Exceptions?
+					List exceptions = bF.getRaisedExceptions();
+					ListIterator excepIt = exceptions.listIterator();
+					while (excepIt.hasNext()) {
+						Class excep = (Class) excepIt.next();
+						IException tsExcep = method.makeException();
+						String excepFQN = convertToFQN(((NamedElement) excep)
+								.getQualifiedName(),messages,out);
+						tsExcep.setFullyQualifiedName(excepFQN);
+						method.addException(tsExcep);
+					}
+
+					// Now we support Abstract on Methods
+					artifact.setAbstract(((Classifier) element).isAbstract());
+
+					VisibilityKind viz = operation.getVisibility();
+
+					if (viz.getLiteral().equals("private")){
+						method.setVisibility(IModelComponent.EVisibility.PRIVATE);
+					} else if (viz.getLiteral().equals("package")){
+						method.setVisibility(IModelComponent.EVisibility.PACKAGE);
+					} else if (viz.getLiteral().equals("protected")){
+						method.setVisibility(IModelComponent.EVisibility.PROTECTED);
+					} else {
+						method.setVisibility(IModelComponent.EVisibility.PUBLIC);
+					}
+
+					ArrayList stInstances = readStereotypes((NamedElement) child);
+					ListIterator stereoIt = stInstances.listIterator();
+					while (stereoIt.hasNext()) {
+						IStereotypeInstance iSI = (IStereotypeInstance) stereoIt
+						.next();
+						method.addStereotypeInstance(iSI);
+					}
+
+					artifact.addMethod(method);
+				} catch (Exception t){
+					String msgText = "Method not fully addded";
+					addMessage(msgText, 0, messages);
+					out.println("ERROR : " + msgText);
+					t.printStackTrace(out);
+				}
 			}
 		}
 	}
@@ -1046,63 +1058,68 @@ public class UML2TS {
 					// This ain't an attribute , but part of an association, so
 					// skip it here
 					this.out
-							.println("INFO : Skipping property ("+property.getName()+")- it's as assoc. thing");
+					.println("INFO : Skipping property ("+property.getName()+")- it's as assoc. thing");
 					continue;
 				}
+				try{
+					IField field = artifact.makeField();
+					field.setName(nameCheck(property.getName(),messages,out));
 
-				IField field = artifact.makeField();
-				field.setName(nameCheck(property.getName(),messages,out));
+					Type propType = property.getType();
+					IType type = field.makeType();
+					if (!setTypeDetails(type, propType,
+							(MultiplicityElement) child, artifact.getName() + " : "
+							+ field.getName())) {
+						continue;
+					}
+					// TODO - Is this valid any more?
+					field.setOptional(getOptional(type,
+							(MultiplicityElement) child));
 
-				Type propType = property.getType();
-				IType type = field.makeType();
-				if (!setTypeDetails(type, propType,
-						(MultiplicityElement) child, artifact.getName() + " : "
-								+ field.getName())) {
-					continue;
+					this.out.println("INFO : Property : " + property.getName() + " : "
+							+ type.getFullyQualifiedName());
+					field.setType(type);
+
+					field.setComment(setComment((NamedElement) child));
+
+					field.setOrdered(property.isOrdered());
+					field.setUnique(property.isUnique());
+
+					if (property.isSetDefault()){
+						field.setDefaultValue(property.getDefault());
+					}
+					if (property.isReadOnly()){
+						field.setReadOnly(property.isReadOnly());
+					}
+
+					// Visibility 
+					VisibilityKind viz = property.getVisibility();
+
+					if (viz.getLiteral().equals("private")){
+						field.setVisibility(IModelComponent.EVisibility.PRIVATE);
+					} else if (viz.getLiteral().equals("package")){
+						field.setVisibility(IModelComponent.EVisibility.PACKAGE);
+					} else if (viz.getLiteral().equals("protected")){
+						field.setVisibility(IModelComponent.EVisibility.PROTECTED);
+					} else {
+						field.setVisibility(IModelComponent.EVisibility.PUBLIC);
+					}
+
+					ArrayList stInstances = readStereotypes((NamedElement) child);
+
+					ListIterator stereoIt = stInstances.listIterator();
+					while (stereoIt.hasNext()) {
+						IStereotypeInstance iSI = (IStereotypeInstance) stereoIt
+						.next();
+						field.addStereotypeInstance(iSI);
+					}
+
+					artifact.addField(field);
+				} catch (Exception t){
+					String msgText = "Attribute not addded";
+					addMessage(msgText, 0, messages);
+					out.println("ERROR : " + msgText);
 				}
-				// TODO - Is this valid any more?
-				field.setOptional(getOptional(type,
-								(MultiplicityElement) child));
-
-				this.out.println("INFO : Property : " + property.getName() + " : "
-						+ type.getFullyQualifiedName());
-				field.setType(type);
-
-				field.setComment(setComment((NamedElement) child));
-
-				field.setOrdered(property.isOrdered());
-				field.setUnique(property.isUnique());
-				
-				if (property.isSetDefault()){
-					field.setDefaultValue(property.getDefault());
-				}
-				if (property.isReadOnly()){
-					field.setReadOnly(property.isReadOnly());
-				}
-				
-				// Visibility 
-				VisibilityKind viz = property.getVisibility();
-				
-				if (viz.getLiteral().equals("private")){
-					field.setVisibility(IModelComponent.EVisibility.PRIVATE);
-				} else if (viz.getLiteral().equals("package")){
-					field.setVisibility(IModelComponent.EVisibility.PACKAGE);
-				} else if (viz.getLiteral().equals("protected")){
-					field.setVisibility(IModelComponent.EVisibility.PROTECTED);
-				} else {
-					field.setVisibility(IModelComponent.EVisibility.PUBLIC);
-				}
-
-				ArrayList stInstances = readStereotypes((NamedElement) child);
-
-				ListIterator stereoIt = stInstances.listIterator();
-				while (stereoIt.hasNext()) {
-					IStereotypeInstance iSI = (IStereotypeInstance) stereoIt
-							.next();
-					field.addStereotypeInstance(iSI);
-				}
-
-				artifact.addField(field);
 			}
 		}
 
