@@ -461,7 +461,7 @@ public class UML2TS {
 				+ artifactFullyQualifiedName);
 		artifact.setFullyQualifiedName(artifactFullyQualifiedName);
 
-		artifact.setComment(setComment(element));
+		artifact.setComment(extractComment(artifact.getComment(),element));
 
 		// Do Constants
 		// shouldn't see any in model - only Enums
@@ -569,7 +569,7 @@ public class UML2TS {
 				
 				end.setAggregation(EAggregationEnum.parse(agg.getName()));
 
-				end.setComment(setComment(mEnd));
+				end.setComment(extractComment(end.getComment(),mEnd));
 				
 				// TODO - I don't know how to find this in the model ........
 				end.setChangeable(EChangeableEnum.parse("none"));
@@ -816,7 +816,7 @@ public class UML2TS {
 				try {
 					IMethod method = artifact.makeMethod();
 					method.setName(operation.getName());
-					method.setComment(setComment(((NamedElement) child)));
+					method.setComment(extractComment(method.getComment(),((NamedElement) child)));
 
 					// ============ return type =====================
 					Parameter returnResult = operation.getReturnResult();
@@ -914,7 +914,7 @@ public class UML2TS {
 						// ============================
 
 						// Add some comments (now that we can!)
-						arg.setComment(setComment((NamedElement) param));
+						arg.setComment(extractComment(arg.getComment(),(NamedElement) param));
 						arg.setOrdered(param.isOrdered());
 						arg.setUnique(param.isUnique());
 						if (param.isSetDefault()){
@@ -1079,7 +1079,7 @@ public class UML2TS {
 							+ type.getFullyQualifiedName());
 					field.setType(type);
 
-					field.setComment(setComment((NamedElement) child));
+					field.setComment(extractComment(field.getComment(),(NamedElement) child));
 
 					field.setOrdered(property.isOrdered());
 					field.setUnique(property.isUnique());
@@ -1390,7 +1390,7 @@ public class UML2TS {
 
 	}
 
-	public String setComment(NamedElement element) {
+	public String extractComment(String startComment,NamedElement element) {
 		String comment = null;
 		List children = element.getOwnedElements();
 		// Look for a child of type comment.
@@ -1404,9 +1404,12 @@ public class UML2TS {
 		}
 		if (comment != null) {
 			this.out.println("INFO : Comment " + comment);
-			return comment;
+			if (startComment != "")
+				return startComment+"\n"+comment;
+			else 
+				return comment;
 		}
-		return null;
+		return startComment;
 	}
 
 	/** Just a play method - for trying stuff out */
