@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <null:Map xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:null="null" basePackage="com.mycompany.equipment">
-  <artifacts xsi:type="null:ManagedEntityArtifact" name="Resource" package="com.mycompany">
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Resource" package="com.mycompany" extends="//@artifacts.4">
+    <properties name="artifact.hide.extends" value="false"/>
     <attributes name="status" type="com.mycompany.commonTypes.AvailabilityStatusEnum" isUnique="true"/>
   </artifacts>
   <artifacts xsi:type="null:ManagedEntityArtifact" name="Equipment" package="com.mycompany.equipment" extends="//@artifacts.0"/>
@@ -8,5 +9,7 @@
   <artifacts xsi:type="null:ManagedEntityArtifact" name="Port" package="com.mycompany.equipment" extends="//@artifacts.0">
     <attributes name="attribute0" type="com.mycompany.commonTypes.IPAddress" isUnique="true"/>
   </artifacts>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Top" package="com.mycompany" isAbstract="true"/>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Location" package="com.mycompany" extends="//@artifacts.4"/>
   <associations name="hasPorts" package="com.mycompany.equipment" aEnd="//@artifacts.2" aEndName="router_0" zEnd="//@artifacts.3" zEndName="port_0" zEndMultiplicity="*" zEndIsNavigable="true"/>
 </null:Map>
