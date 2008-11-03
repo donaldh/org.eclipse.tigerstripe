@@ -253,11 +253,13 @@ public class AnnotationManager extends AnnotationStorage implements
 					uris.add(annotation.getUri());
 			}
 			for (URI uri : uris) {
-				try {
-					URI nUri = URIUtil.replacePrefix(uri, oldUri, newUri);
-					setUri(uri, nUri);
-				} catch (Exception e) {
-					AnnotationPlugin.log(e);
+				if(!uri.equals(newUri)) {
+					try {
+						URI nUri = uri.equals(oldUri) ? newUri : URIUtil.replacePrefix(uri, oldUri, newUri);
+						setUri(uri, nUri);
+					} catch (Exception e) {
+						AnnotationPlugin.log(e);
+					}
 				}
 			}
 		} else {
