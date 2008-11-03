@@ -43,7 +43,7 @@ import org.eclipse.tigerstripe.workbench.profile.stereotype.IEntryListStereotype
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeAttribute;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeScopeDetails;
-import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ImportLogUtilities;
+import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ImportUtilities;
 import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.Utilities;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Enumeration;
@@ -80,7 +80,7 @@ public class ProfileImporter {
 		try {
 			this.out = new PrintWriter(new FileOutputStream(logFile));
 			// Bug 252715 - Additional environment information.
-			ImportLogUtilities.printHeaderInfo(out);
+			ImportUtilities.printHeaderInfo(out);
 			
 			loadUMLPrimitives(handle);
 			Utilities.setupPaths();
@@ -122,7 +122,7 @@ public class ProfileImporter {
 		} catch (Exception e) {
 			String msgText = " Failed to load Profile or model ";
 			e.printStackTrace(this.out);
-			addMessage(msgText, 0);
+			ImportUtilities.addMessage(msgText, 0,messages);
 			this.out.println("ERROR :" + msgText);
 
 			this.out.close();
@@ -156,7 +156,7 @@ public class ProfileImporter {
 			}
 		} catch (Exception e) {
 			String msgText = "Failed to add primitive Type " + "string";
-			addMessage(msgText, 0);
+			ImportUtilities.addMessage(msgText, 0,messages);
 			this.out.println("ERROR : " + msgText);
 			e.printStackTrace(this.out);
 		}
@@ -181,7 +181,7 @@ public class ProfileImporter {
 				PrimitiveType pType = (PrimitiveType) o;
 
 				IPrimitiveTypeDef prim = new PrimitiveTypeDef();
-				primName = pType.getName();
+				primName = ImportUtilities.nameCheck(pType.getName(),messages,out);
 				subMonitor.setTaskName("Processing UML Classes : " + primName);
 				primName = unCapitalize(primName);
 				prim.setName(primName);
@@ -190,12 +190,12 @@ public class ProfileImporter {
 				try {
 					if (!existingDefs.contains(prim.getName())) {
 						handle.addPrimitiveTypeDef(prim);
-						existingDefs.add(prim.getName());
+						existingDefs.add(primName);
 						this.out.println("INFO : Added primitive Type " + primName);
 					}
 				} catch (Exception e) {
 					String msgText = "Failed to add primitive Type " + primName;
-					addMessage(msgText, 0);
+					ImportUtilities.addMessage(msgText, 0,messages);
 					this.out.println("ERROR : " + msgText);
 					e.printStackTrace(this.out);
 				}
@@ -219,9 +219,10 @@ public class ProfileImporter {
 				if (el instanceof Stereotype) {
 
 					Stereotype st = (Stereotype) el;
+					String stereotypeName = ImportUtilities.nameCheck(st.getName(),messages,out);
 
 					if (ignoreList.contains(st.getName())
-							|| st.getName().startsWith("tigerstripe_")) {
+							|| stereotypeName.startsWith("tigerstripe_")) {
 						continue;
 					}
 					ArrayList scopes = new ArrayList();
@@ -244,7 +245,7 @@ public class ProfileImporter {
 					IStereotype newStereo;
 					HashMap existingStereoNames = new HashMap();
 					subMonitor.setTaskName("Processing UML Classes : "
-							+ st.getName());
+							+ stereotypeName);
 					// Before going further see if these's already one of
 					// these...
 					Collection<IStereotype> existingStereos = handle.getStereotypes();
@@ -252,19 +253,19 @@ public class ProfileImporter {
 						String exName = existing.getName();
 						existingStereoNames.put(exName, existing);
 					}
-					if (existingStereoNames.keySet().contains(st.getName())) {
+					if (existingStereoNames.keySet().contains(stereotypeName)) {
 
 						if (replace) {
 							try {
 								handle
 										.removeStereotype((IStereotype) existingStereoNames
-												.get(st.getName()));
+												.get(stereotypeName));
 								newStereo = new org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.Stereotype(
 										handle);
 							} catch (Exception e) {
 								String msgText = "Failed to remove existing stereotype "
-										+ st.getName();
-								addMessage(msgText, 0);
+										+ stereotypeName;
+								ImportUtilities.addMessage(msgText, 0,messages);
 								this.out.println("ERROR : " + msgText);
 								e.printStackTrace(this.out);
 								continue;
@@ -273,35 +274,35 @@ public class ProfileImporter {
 							// Update it
 							try {
 								newStereo = (IStereotype) existingStereoNames
-										.get(st.getName());
+										.get(stereotypeName);
 								handle
 										.removeStereotype((IStereotype) existingStereoNames
-												.get(st.getName()));
+												.get(stereotypeName));
 								this.out.println("INFO : Updating stereotype "
-										+ st.getName());
+										+ stereotypeName);
 
 							} catch (Exception e) {
 								String msgText = "Failed to remove existing stereotype "
-										+ st.getName();
-								addMessage(msgText, 0);
+										+ stereotypeName;
+								ImportUtilities.addMessage(msgText, 0,messages);
 								this.out.println("ERROR : " + msgText);
 								e.printStackTrace(this.out);
 								continue;
 							}
 						}
 					} else {
-						this.out.println("INFO : Creating stereotype " + st.getName());
+						this.out.println("INFO : Creating stereotype " + stereotypeName);
 						newStereo = new org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.Stereotype(
 								handle);
 
 					}
 
 					// Do the name
-					newStereo.setName(st.getName());
+					newStereo.setName(stereotypeName);
 					newStereo.setDescription("Imported from "
 							+ profile.getName());
 					// TigerstripeRuntime.logInfoMessage("Stereotype = "+
-					// st.getName());
+					// stereotypeName);
 
 					// Do the Scope(s)
 
@@ -342,8 +343,8 @@ public class ProfileImporter {
 							thisScope.setArgumentLevel(true);
 						} else {
 							String msgText = "Unhandled Scope type : " + sc
-									+ " for : " + st.getName();
-							addMessage(msgText, 1);
+									+ " for : " + stereotypeName;
+							ImportUtilities.addMessage(msgText, 1,messages);
 							this.out.println("WARN : " + msgText);
 						}
 						String[] strArr = new String[0];
@@ -374,9 +375,11 @@ public class ProfileImporter {
 								attribute = StereotypeAttributeFactory
 										.makeAttribute(kind);
 
+								
+								attribute.setName(ImportUtilities.nameCheck(prop.getName(), messages, out));
+								
 								propTypeName = primProp.getName();
 
-								attribute.setName(prop.getName());
 								if (propTypeName == null) {
 									this.out.println("WARN : No propTypeName for : "
 											+ prop.getName());
@@ -390,11 +393,11 @@ public class ProfileImporter {
 											+ profile.getName()
 											+ "\nThis should be of type "
 											+ propTypeName);
-									String msgText = st.getName() + ":"
+									String msgText = stereotypeName + ":"
 											+ attribute.getName()
 											+ " should be of type "
 											+ propTypeName + " - it has been set to String";
-									addMessage(msgText, 1);
+									ImportUtilities.addMessage(msgText, 1,messages);
 									this.out.println("Warning : " + msgText);
 								}
 
@@ -411,12 +414,12 @@ public class ProfileImporter {
 									// Lets say it's an array...
 										attribute.setArray(true);
 									} else {
-									String msgText = st.getName() + ":"
+									String msgText = stereotypeName + ":"
 											+ attribute.getName()
 											+ " has unhandled multiplicity :"
 											+ prop.getLower() + ".."
 											+ prop.getUpper();
-									addMessage(msgText, 1);
+									ImportUtilities.addMessage(msgText, 1,messages);
 									this.out.println("WARN : " + msgText);
 									}
 								}
@@ -428,7 +431,7 @@ public class ProfileImporter {
 								kind = IStereotypeAttribute.ENTRY_LIST_KIND;
 								attribute = StereotypeAttributeFactory
 										.makeAttribute(kind);
-								attribute.setName(prop.getName());
+								attribute.setName(ImportUtilities.nameCheck(prop.getName(), messages, out));
 								attribute.setDescription("Imported from "
 										+ profile.getName());
 								// get the literals as the valid entries...
@@ -449,7 +452,7 @@ public class ProfileImporter {
 									String msgText = "Failed to add List entries to : "
 											+ attribute.getName();
 									this.out.println("ERROR : " + msgText);
-									addMessage(msgText, 0);
+									ImportUtilities.addMessage(msgText, 0,messages);
 									e.printStackTrace(this.out);
 								}
 							}
@@ -486,7 +489,7 @@ public class ProfileImporter {
 								} catch (Exception e) {
 									String msgText = "Failed to add Attribute : "
 											+ attribute.getName();
-									addMessage(msgText, 0);
+									ImportUtilities.addMessage(msgText, 0,messages);
 									this.out.println("ERROR : " + msgText);
 									e.printStackTrace(this.out);
 
@@ -500,7 +503,7 @@ public class ProfileImporter {
 					} catch (Exception e) {
 						String msgText = "Failed to add sterotype "
 								+ newStereo.getName();
-						addMessage(msgText, 0);
+						ImportUtilities.addMessage(msgText, 0,messages);
 						this.out.println("Error : " + msgText);
 						e.printStackTrace(this.out);
 					}
@@ -519,14 +522,6 @@ public class ProfileImporter {
 			this.out.println("Warning :  primitiveType '"+in+"' mapped to '"+out+"'");
 		}
 		return out;
-	}
-	
-	public void addMessage(String msgText, int severity) {
-			Message newMsg = new Message();
-			newMsg.setMessage(msgText);
-			newMsg.setSeverity(severity);
-			this.messages.addMessage(newMsg);
-
 	}
 	
 }

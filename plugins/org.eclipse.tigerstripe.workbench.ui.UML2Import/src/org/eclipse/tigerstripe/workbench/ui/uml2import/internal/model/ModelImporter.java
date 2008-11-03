@@ -36,7 +36,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ImportLogUtilities;
+import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ImportUtilities;
 import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.Utilities;
 import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.NamedElement;
@@ -83,7 +83,7 @@ public class ModelImporter {
 			out = new PrintWriter(new FileOutputStream(logFile));
 
 			// Bug 252715 - Additional environment information.
-			ImportLogUtilities.printHeaderInfo(out);
+			ImportUtilities.printHeaderInfo(out);
 			
 			
 			String importText = "INFO : Import " + importFilename + " into "
