@@ -11,5 +11,6 @@
   </artifacts>
   <artifacts xsi:type="null:ManagedEntityArtifact" name="Top" package="com.mycompany" isAbstract="true"/>
   <artifacts xsi:type="null:ManagedEntityArtifact" name="Location" package="com.mycompany" extends="//@artifacts.4"/>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Party" package="com.mycompany" extends="//@artifacts.4"/>
   <associations name="hasPorts" package="com.mycompany.equipment" aEnd="//@artifacts.2" aEndName="router_0" zEnd="//@artifacts.3" zEndName="port_0" zEndMultiplicity="*" zEndIsNavigable="true"/>
 </null:Map>
