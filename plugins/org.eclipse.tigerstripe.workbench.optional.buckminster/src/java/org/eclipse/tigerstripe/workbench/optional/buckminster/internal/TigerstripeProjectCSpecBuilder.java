@@ -12,59 +12,21 @@
 package org.eclipse.tigerstripe.workbench.optional.buckminster.internal;
 
 import java.io.IOException;
-import java.io.InputStream;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-
-import org.eclipse.buckminster.core.cspec.AbstractResolutionBuilder;
 import org.eclipse.buckminster.core.cspec.builder.CSpecBuilder;
 import org.eclipse.buckminster.core.metadata.model.BOMNode;
 import org.eclipse.buckminster.core.reader.ICatalogReader;
 import org.eclipse.buckminster.core.reader.IComponentReader;
-import org.eclipse.buckminster.core.reader.IStreamConsumer;
-import org.eclipse.buckminster.core.version.IVersion;
-import org.eclipse.buckminster.core.version.IVersionType;
 import org.eclipse.buckminster.core.version.ProviderMatch;
-import org.eclipse.buckminster.core.version.VersionFactory;
 import org.eclipse.buckminster.runtime.BuckminsterException;
 import org.eclipse.buckminster.runtime.MonitorUtils;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
-public class TigerstripeProjectCSpecBuilder extends AbstractResolutionBuilder implements IStreamConsumer<Document> {
+public class TigerstripeProjectCSpecBuilder extends AbstractTigerstripeResolutionBuilder {
 
-	public Document consumeStream(IComponentReader reader, String streamName, InputStream stream, IProgressMonitor monitor)
-			throws CoreException, IOException {
-
-		monitor.beginTask(streamName, 1);
-		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			InputSource source = new InputSource(stream);
-			source.setSystemId(streamName);
-			return builder.parse(source);
-		} catch (SAXException e) {
-			throw BuckminsterException.wrap(e);
-		} catch (ParserConfigurationException e) {
-			throw BuckminsterException.wrap(e);
-		} finally {
-			MonitorUtils.worked(monitor, 1);
-			monitor.done();
-		}
-	}
-
-	public BOMNode build(IComponentReader[] readerHandle, boolean forResolutionAidOnly, IProgressMonitor monitor)
-			throws CoreException {
+	public BOMNode build(IComponentReader[] readerHandle, boolean forResolutionAidOnly, IProgressMonitor monitor) throws CoreException {
 
 		IComponentReader reader = readerHandle[0];
 		ProviderMatch ri = reader.getProviderMatch();
@@ -77,8 +39,7 @@ public class TigerstripeProjectCSpecBuilder extends AbstractResolutionBuilder im
 		if (reader instanceof ICatalogReader) {
 
 			try {
-				tsxml = ((ICatalogReader) reader).readFile(TigerstripeProjectComponentType.TIGERSTRIPE_XML_FILE, this,
-						subMon);
+				tsxml = ((ICatalogReader) reader).readFile(TigerstripeProjectComponentType.TIGERSTRIPE_XML_FILE, this, subMon);
 			} catch (IOException e) {
 				throw BuckminsterException.wrap(e);
 			}
@@ -88,25 +49,9 @@ public class TigerstripeProjectCSpecBuilder extends AbstractResolutionBuilder im
 		}
 
 		CSpecBuilder cspecBld = ri.createCSpec();
-		cspecBld.setVersion(getOSGiVersionFromDocument(tsxml));
+		cspecBld.setVersion(getOSGiVersionFromDocument(tsxml, VersionQueryEnum.PROJECT));
 		TigerstripeProjectComponentType.addDependencies(reader, cspecBld, tsxml);
 		return createNode(reader, cspecBld, null);
 	}
 
-	private IVersion getOSGiVersionFromDocument(Document tsxml) throws CoreException {
-
-		Node version = null;
-		String expression = "/tigerstripe/project/version";
-		try {
-			XPath xpath = XPathFactory.newInstance().newXPath();
-			version = (Node) xpath.evaluate(expression, tsxml, XPathConstants.NODE);
-		} catch (XPathExpressionException e) {
-			e.printStackTrace();
-		}
-		
-		if(version != null) {
-			return VersionFactory.createVersion(IVersionType.OSGI, version.getTextContent().trim());
-		}
-		throw BuckminsterException.fromMessage("Invalid tigerstripe project file - no version defined.");
-	}
 }
