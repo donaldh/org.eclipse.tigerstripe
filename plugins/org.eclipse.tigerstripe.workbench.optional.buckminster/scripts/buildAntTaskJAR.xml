@@ -24,14 +24,18 @@
 		<javac destdir="${temp.folder}/ant_tasks/tigerstripe-ant.jar.bin" failonerror="true" verbose="true" debug="on">
 			<classpath>
 				<dirset dir="${basedir}/..">
-					<include name="org.eclipse.tigerstripe.workbench.optional.buckminster/java/bin"/>
+					<include name="plugins/org.eclipse.tigerstripe.workbench.base/bin"/>
+					<include name="plugins/org.eclipse.tigerstripe.workbench.ui.base/bin"/>
 				</dirset>
 				<fileset dir="${eclipse.home}">
+					<include name="plugins/org.eclipse.core.*"/>
+					<include name="plugins/org.eclipse.equinox.*"/>
 					<include name="plugins/org.eclipse.ant.core*.jar"/>
 				</fileset>
 			</classpath>
 			<src path="src_ant/"/>
 		</javac>
+		
 		<!-- copy necessary resources -->
 		<copy todir="${temp.folder}/ant_tasks/tigerstripe-ant.jar.bin">
 			<fileset dir="src_ant/" excludes="**/*.java"/>
