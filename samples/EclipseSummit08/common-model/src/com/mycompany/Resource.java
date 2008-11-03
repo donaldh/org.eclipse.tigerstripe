@@ -13,7 +13,7 @@ package com.mycompany;
 
 
 /**
- * 
+ * This artifact represents a generic resource as can be found in a network.
  *
  * @tigerstripe.managedEntity primary-key="$artifact.IStandardSpecifics.PrimaryKey"
  *      extensibilityType="multi"
@@ -54,8 +54,8 @@ package com.mycompany;
  *   bulkBestEffortByKeys = "false"
  *
  * @tigerstripe.property ts.id="ossj.entity.remove"
- *   byTemplatesBestEffort = "false"
  *   byTemplates = "false"
+ *   byTemplatesBestEffort = "false"
  *   ts.id = "ossj.entity.remove"
  *   byTemplate = "false"
  *   bulkAtomicByKeys = "false"
