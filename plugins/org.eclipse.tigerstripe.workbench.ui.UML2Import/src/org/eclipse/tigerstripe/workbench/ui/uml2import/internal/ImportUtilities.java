@@ -10,16 +10,16 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.uml2import.internal;
 
-import java.io.File;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.PatternSyntaxException;
 
-import org.eclipse.core.runtime.FileLocator;
-import org.eclipse.core.runtime.IExtensionRegistry;
-import org.eclipse.core.runtime.IPluginRegistry;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
 import org.osgi.framework.Bundle;
@@ -85,20 +85,56 @@ public class ImportUtilities {
 	 * @return
 	 */
 	public static String nameCheck(String name, MessageList messages,PrintWriter out) {
+		
+		String prefix = "_";
+		Map<String,String> dodgy = new HashMap<String, String>();
+		
+		dodgy.put(" ", "_");
+		dodgy.put("-", "_");
+		dodgy.put(".", "_");
+		
 		if (name != null && name.length()!=0) {
-			String inName = name.trim();
-			if (inName.contains(" ")) {
-				inName = inName.replaceAll(" ", "_");
+			
+			String cleanName = name.trim();
+			// A check for reserved words
+			if (isRservedWord(cleanName)){
+				cleanName = prefix+cleanName;
 			}
-			if (inName.contains("-")) {
-				inName = inName.replaceAll("-", "_");
+			// Check for numerical prefixes
+			if (cleanName.matches("^[0-9].*")){
+				cleanName = prefix+cleanName;
 			}
-			if (inName.contains(".")) {
-				inName = inName.replaceAll("\\.", "_");
+			// Check for dodgy characters.
+			for (String exp : dodgy.keySet()){
+				try{
+					if ( cleanName.contains(exp)){
+						if (exp.equals("."))
+							cleanName = cleanName.replaceAll("\\.", dodgy.get(exp));
+						else		
+							cleanName = cleanName.replaceAll(exp, dodgy.get(exp));
+					}
+				} catch (PatternSyntaxException p){
+					String msgText = "Invalid Pattern defintion '"+exp+"'";
+					if (messages != null){
+						addMessage(msgText, 1, messages);
+					}
+					if (out != null){
+						out.println("WARN:" + msgText);
+					}
+				}
 			}
+//			if (cleanName.contains(" ")) {
+//				cleanName = cleanName.replaceAll(" ", "_");
+//			}
+//			if (cleanName.contains("-")) {
+//				cleanName = cleanName.replaceAll("-", "_");
+//			}
+//			if (cleanName.contains(".")) {
+//				cleanName = cleanName.replaceAll("\\.", "_");
+//			}
 	
-			if (!inName.equals(name) ) {
-				String msgText = " Name mapped : " + name + " -> " + inName;
+			if (!cleanName.equals(name) ) {
+				String msgText = " Name mapped : " + name + " -> " + cleanName;
 				if (messages != null){
 					addMessage(msgText, 1, messages);
 				}
@@ -107,7 +143,7 @@ public class ImportUtilities {
 				}
 			}
 	
-			return inName;
+			return cleanName;
 		} else {
 			return null;
 		}
@@ -154,4 +190,21 @@ public class ImportUtilities {
 			}
 		}
 	
+		private static List<String> reserved = Arrays.asList(
+				"abstract","continue","for","new","switch","assert",
+				"default","goto","package","synchronized",
+				"boolean","do","if","private","this",
+				"break","double","implements","protected","throw",
+				"byte","else","import","public","throws",
+				"case","enum","instanceof","return","transient",
+				"catch","extends","int","short","try",
+				"char","final","interface","static","void",
+				"class","finally","long","strictfp","volatile",
+				"const","float","native","super","while");
+		
+		public static boolean isRservedWord(String word){
+			return reserved.contains(word);
+		}
+		
+		
 }
