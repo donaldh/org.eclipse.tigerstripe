@@ -26,6 +26,7 @@ import org.osgi.framework.Bundle;
 
 public class ImportUtilities {
 
+	private static Map<String,String> mappings = new HashMap<String, String>();
 	
 	public static void printHeaderInfo(PrintWriter out)
 	{
@@ -73,13 +74,16 @@ public class ImportUtilities {
 		return s;
 	}
 
+	public static void setMappings(Map<String,String> inMappings){
+		mappings = inMappings;
+	}
+	
+	private static Map<String,String> getMappings(){
+		return mappings;
+	}
+	
 	/**
 	 * check for invalid constructs
-	 * 
-	 * eg "." in name - map to "_" "-" in name - map to "_" " " in name - map to
-	 * "_"
-	 * 
-	 * 
 	 * 
 	 * @param name
 	 * @return
@@ -87,11 +91,6 @@ public class ImportUtilities {
 	public static String nameCheck(String name, MessageList messages,PrintWriter out) {
 		
 		String prefix = "_";
-		Map<String,String> dodgy = new HashMap<String, String>();
-		
-		dodgy.put(" ", "_");
-		dodgy.put("-", "_");
-		dodgy.put(".", "_");
 		
 		if (name != null && name.length()!=0) {
 			
@@ -105,13 +104,17 @@ public class ImportUtilities {
 				cleanName = prefix+cleanName;
 			}
 			// Check for dodgy characters.
-			for (String exp : dodgy.keySet()){
+			for (String exp : getMappings().keySet()){
 				try{
 					if ( cleanName.contains(exp)){
 						if (exp.equals("."))
-							cleanName = cleanName.replaceAll("\\.", dodgy.get(exp));
+							cleanName = cleanName.replaceAll("\\.", getMappings().get(exp));
+						else if (exp.equals("("))		
+							cleanName = cleanName.replaceAll("\\(", getMappings().get(exp));
+						else if (exp.equals(")"))		
+							cleanName = cleanName.replaceAll("\\)", getMappings().get(exp));
 						else		
-							cleanName = cleanName.replaceAll(exp, dodgy.get(exp));
+							cleanName = cleanName.replaceAll(exp, getMappings().get(exp));
 					}
 				} catch (PatternSyntaxException p){
 					String msgText = "Invalid Pattern defintion '"+exp+"'";
@@ -123,15 +126,6 @@ public class ImportUtilities {
 					}
 				}
 			}
-//			if (cleanName.contains(" ")) {
-//				cleanName = cleanName.replaceAll(" ", "_");
-//			}
-//			if (cleanName.contains("-")) {
-//				cleanName = cleanName.replaceAll("-", "_");
-//			}
-//			if (cleanName.contains(".")) {
-//				cleanName = cleanName.replaceAll("\\.", "_");
-//			}
 	
 			if (!cleanName.equals(name) ) {
 				String msgText = " Name mapped : " + name + " -> " + cleanName;

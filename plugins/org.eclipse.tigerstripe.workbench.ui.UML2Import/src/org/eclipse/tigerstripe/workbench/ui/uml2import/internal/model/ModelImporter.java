@@ -16,6 +16,7 @@ import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
@@ -56,6 +57,7 @@ public class ModelImporter {
 	private Map<EObject, String> classMap;
 	private Map<String, IAbstractArtifact> extractedArtifacts;
 	private CoreArtifactSettingsProperty property;
+	private Map<String,String> mappings = new HashMap<String, String>();
 
 	public ModelImporter(String importFilename,
 			ITigerstripeModelProject tigerstripeProject, String profilesDir) {
@@ -85,6 +87,24 @@ public class ModelImporter {
 			// Bug 252715 - Additional environment information.
 			ImportUtilities.printHeaderInfo(out);
 			
+			// Get any character mappings from the extension
+			// point
+			out.println("Read mapping");
+			
+			IConfigurationElement[] mappingElements = Platform
+					.getExtensionRegistry()
+					.getConfigurationElementsFor(
+							"org.eclipse.tigerstripe.workbench.ui.UML2Import.umlCharacterMapper");
+			for (IConfigurationElement element : mappingElements) {
+				String fromChar = element.getAttribute("from");
+				if(fromChar.equals(""))
+					fromChar = " ";
+				String toChar = element.getAttribute("to");
+				mappings.put(fromChar, toChar);
+				out.println("INFO : Mapping from '"+fromChar+"' to '"+toChar+"'");
+				ImportUtilities.setMappings(mappings);
+				
+			}
 			
 			String importText = "INFO : Import " + importFilename + " into "
 					+ tigerstripeProject.getName();
