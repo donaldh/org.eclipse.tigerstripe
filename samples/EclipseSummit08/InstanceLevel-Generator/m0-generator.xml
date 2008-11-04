@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<m0-generator>
+<project name="">
+<outputDirectory>target/tigerstripe.gen</outputDirectory>
+<version>1.0</version>
+<description></description>
+<provider></provider>
+<property name="defaultArtifactPackage">com.mycompany</property>
+</project>
+<pluginNature type="M0"/>
+<logger defautLevel="0" isEnabled="false" logPath="null.log" maxRoll="9"/>
+<globalProperties/>
+<globalRules>
+<rule description="" enabled="true" name="createXML" type="org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule">
+<body outputFile="instances.xml" overwriteFiles="true" suppressFiles="true" template="templates/xml.vm"/>
+</rule>
+</globalRules>
+<classpathEntries/>
+<additionalFiles/>
+<advanced/>
+</m0-generator>

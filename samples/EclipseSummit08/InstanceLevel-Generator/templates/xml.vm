@@ -1,0 +1,17 @@
+<root>
+#foreach( $cInstance in $classInstances )
+  <instance name="$cInstance.InstanceName" class="$cInstance.Artifact.FullyQualifiedName">
+#foreach( $variable in $cInstance.Variables )
+    <variable name="$variable.Name" value="$variable.Value"/>
+#end
+  </instance> 
+#end 
+
+#foreach( $association in $associationInstances )
+    <association name="$association.Name" class="$association.Artifact.FullyQualifiedName">
+      <aEnd name="$association.AEnd.InstanceName"/>
+      <zEnd name="$association.ZEnd.InstanceName"/>
+    </association>
+#end
+ 
+</root>
