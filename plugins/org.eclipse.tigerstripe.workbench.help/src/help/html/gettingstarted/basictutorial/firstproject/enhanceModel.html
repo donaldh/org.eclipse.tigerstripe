@@ -16,43 +16,4 @@
 	<script language="JavaScript" src="PLUGINS_ROOT/org.eclipse.help/livehelp.js"></script>
 <title>Enhancing your Model</title>
 </head >
-<body bgcolor="#FFFFFF" alink="#FF9999">
-<table width="100%"  border="0" cellspacing="0" cellpadding="0">
-  <tr>
-  </tr>
-</table>
-<H1>Enhancing your Model</H1>
-<P>In this tutorial, you created a very simplistic view of a <b>Service Contract </b>with:</P>
-<UL>
-<LI>a single integration point</LI>
-<LI>a single operation</LI></UL>
-<P><b>Tigerstripe Workbench </b>allows you to enhance your information model and behaviour related to a service through model artifacts called <b>Entity Artifacts</b>. An entity represents a unique item that exists either logically or physically in the context of a Service. That is, the <b>Entity Artifact</b> is stored with a unique key in a database. An <b>Entity Artifact</b> is represented by the <b>Entity</b> icon (<img src="../../../images/icons/entity.gif" width="16" height="16" align="absmiddle">).</P>
-<P>In this procedure, you will define an entity that models orders as they are handled and stored in an <b>Order</b> processing system. You will further define a relationship between your <b>Integration Point</b> (or <b>Service Facade</b>) and your <b>Order </b>entity to define how orders are processed through your service.</P>
-<h3>To create an Order entity:</h3>
-<OL>
-<LI>Click the <b>Entity Artifact</b> icon (<img src="../../../images/icons/entity.gif" width="16" height="16" align="absmiddle">). The <b>New Entity Artifact</b> dialog box appears.<BR><BR><img src="../../../images/entityWizard.gif" width="378" height="432"></LI>
-<LI>Enter a name for your new entity artifact. For this tutorial, name your entity artifact <i>Order</i>.</LI>
-<LI>Add an attribute for your entity artifact in the <b>Attributes</b> text box. Attributes outline the details of an entity. The newly created entity appears in your project.</LI>
-<LI>After you create your entity artifact, you need to create a new <b>Integration Point</b> (or <b>Service Facade</b>). Name your <b>Integration Point</b> <i>OrderFacade</i>.</LI>
-<LI>Navigate to the <b>Details</b> tab and define the specific details about your <b>Integration Point</b>. For this tutorial, add the <b>Order</b> entity you created as a <b>Managed Entity</b>. As a result, the <b>Order</b> entity will be managed through your service and consumers of your <b>Service Facade</b> can act upon orders; such as creating orders or deleting orders.</LI>
-<LI>Click <b>Save</b> to save your changes.</LI>
-<LI>Click the <b>Generate</b> icon (<img src="../../../images/icons/run_tigerstripe.gif" width="16" height="16" align="absbottom">) and review your generated code. You will notice a new .wsdl file for your new <b>Service Facade</b> and this file contains the operations to create, read, updated, and delete order.</LI>
-</OL>
-<P>Making the <b>Order</b> entity as a <b>Managed Entity</b> of the <i>OrderFacade</i> <b>Service Facade</b>, the <b>Tigerstripe</b> plug-ins created create, read, update, and delete operations on the resulting web service. This is by default.</P>
-<h3>To further control the operations for managed entities:</h3>
-<OL>
-<LI>Navigate to the <b>Order</b> entity.</LI>
-<LI>Add a <i>process</i> method on the <b>Details</b> tab of the <b>Entity Artifact</b>. On the <b>Details</b> tab, you can control whether create, read, update, and delete operations are enabled or not, and whether additional operations should be generated on your <b>Service Facade</b>.<BR><BR><IMG class=image-inline alt=managedEntityViewOnSession src="images/managedentityviewonsession.gif"></LI>
-<LI>Click <b>Save </b>to save your changes.</LI>
-<LI>Click the <b>Generate </b>icon and review your generated code.</LI></OL>
-<P><b>Congratulations!</b> You've completed your first <b>Tigerstripe Workbench </b>tutorial!<BR></P>
-<p><a href="index.html">Creating a New Project</a>
-<br><a href="addingdescriptors.html">Documenting your Project</a>
-<br><a href="creatingEndPoint.html">Creating a Service End-point Model</a>
-<br><a href="addingMethod.html">Adding a Method to your Facade Model</a>
-<br><a href="creatingServiceDefinition.html">Creating a Service Definition</a>
-<br><a href="reviewingCode.html">Reviewing the Generated Code</a>
-</p>-->
-&#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
-</body>
 </html>
