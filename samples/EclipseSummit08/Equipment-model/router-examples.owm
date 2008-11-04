@@ -1,8 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <instancediagram:InstanceMap xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:instancediagram="org.eclipse.tigerstripe.workbench.ui.instancediagram" basePackage="com.mycompany">
-  <classInstances name="Port" package="com.mycompany.equipment" artifactName="p1"/>
-  <classInstances name="Router" package="com.mycompany.equipment" artifactName="SOHORouter"/>
-  <classInstances name="Port" package="com.mycompany.equipment" artifactName="p2"/>
+  <classInstances name="Port" package="com.mycompany.equipment" artifactName="p1">
+    <variables name="attribute0" type="IPAddress" value="IP1"/>
+    <variables name="status" type="AvailabilityStatusEnum" value="available"/>
+  </classInstances>
+  <classInstances name="Router" package="com.mycompany.equipment" artifactName="SOHORouter">
+    <variables name="status" type="AvailabilityStatusEnum" value="available"/>
+  </classInstances>
+  <classInstances name="Port" package="com.mycompany.equipment" artifactName="p2">
+    <variables name="attribute0" type="IPAddress" value="IP2"/>
+    <variables name="status" type="AvailabilityStatusEnum" value="available"/>
+  </classInstances>
+  <classInstances name="IPAddress" package="com.mycompany.commonTypes" artifactName="IP1">
+    <variables name="isIPv6Address" type="boolean" value="false"/>
+    <variables name="addressString" type="String" value="192.168.0.1"/>
+  </classInstances>
+  <classInstances name="IPAddress" package="com.mycompany.commonTypes" artifactName="IP2">
+    <variables name="isIPv6Address" type="boolean" value="false"/>
+    <variables name="addressString" type="String" value="192.168.1.1"/>
+  </classInstances>
   <associationInstances name="hasPorts" package="com.mycompany.equipment" aEnd="//@classInstances.1" aEndName="router_0" zEnd="//@classInstances.0" zEndName="port_0" zEndIsNavigable="true"/>
   <associationInstances name="hasPorts" package="com.mycompany.equipment" aEnd="//@classInstances.1" aEndName="router_0" zEnd="//@classInstances.2" zEndName="port_0" zEndIsNavigable="true"/>
 </instancediagram:InstanceMap>

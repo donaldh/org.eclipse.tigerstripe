@@ -42,6 +42,34 @@
     <element xmi:type="instancediagram:ClassInstance" href="router-examples.owm#//@classInstances.2"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ILcRFaqvEd2Px-EYz15bVw" x="333" y="265"/>
   </children>
+  <children xmi:type="notation:Node" xmi:id="_S7UpQKqxEd2Px-EYz15bVw" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_S7VQUKqxEd2Px-EYz15bVw" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_S7VQUaqxEd2Px-EYz15bVw" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_S7VQUqqxEd2Px-EYz15bVw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_S7VQU6qxEd2Px-EYz15bVw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_S7VQVKqxEd2Px-EYz15bVw"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_S7UpQaqxEd2Px-EYz15bVw" fontName="Arial"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_S7UpQqqxEd2Px-EYz15bVw"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_S7UpQ6qxEd2Px-EYz15bVw" fillColor="13825530"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_S7UpRKqxEd2Px-EYz15bVw"/>
+    <element xmi:type="instancediagram:ClassInstance" href="router-examples.owm#//@classInstances.3"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_S7UpRaqxEd2Px-EYz15bVw" x="27" y="306"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_aAcR0KqxEd2Px-EYz15bVw" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_aAc45aqxEd2Px-EYz15bVw" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_aAdf8KqxEd2Px-EYz15bVw" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_aAdf8aqxEd2Px-EYz15bVw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_aAdf8qqxEd2Px-EYz15bVw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_aAdf86qxEd2Px-EYz15bVw"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_aAc44KqxEd2Px-EYz15bVw" fontName="Arial"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_aAc44aqxEd2Px-EYz15bVw"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_aAc44qqxEd2Px-EYz15bVw" fillColor="13825530"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_aAc446qxEd2Px-EYz15bVw"/>
+    <element xmi:type="instancediagram:ClassInstance" href="router-examples.owm#//@classInstances.4"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_aAc45KqxEd2Px-EYz15bVw" x="324" y="333"/>
+  </children>
   <styles xmi:type="notation:PageStyle" xmi:id="_8mzwQqquEd2Px-EYz15bVw"/>
   <styles xmi:type="notation:GuideStyle" xmi:id="_8mzwQ6quEd2Px-EYz15bVw"/>
   <styles xmi:type="notation:DescriptionStyle" xmi:id="_8mzwRKquEd2Px-EYz15bVw"/>
