@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:instancediagram="org.eclipse.tigerstripe.workbench.ui.instancediagram" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.1/notation" xmi:id="_8mzwQaquEd2Px-EYz15bVw" type="Instance" name="router-examples.wod" measurementUnit="Pixel">
+  <children xmi:type="notation:Node" xmi:id="_AHFZEKqvEd2Px-EYz15bVw" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_AHGAIKqvEd2Px-EYz15bVw" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_AHGnMKqvEd2Px-EYz15bVw" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_AHGnMaqvEd2Px-EYz15bVw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_AHGnMqqvEd2Px-EYz15bVw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_AHGnM6qvEd2Px-EYz15bVw"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_AHFZEaqvEd2Px-EYz15bVw" fontName="Arial"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_AHFZEqqvEd2Px-EYz15bVw"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_AHFZE6qvEd2Px-EYz15bVw" fillColor="13825530"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_AHFZFKqvEd2Px-EYz15bVw"/>
+    <element xmi:type="instancediagram:ClassInstance" href="router-examples.owm#//@classInstances.0"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_AHFZFaqvEd2Px-EYz15bVw" x="72" y="243"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_E7KMEKqvEd2Px-EYz15bVw" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_E7KzIKqvEd2Px-EYz15bVw" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_E7KzIaqvEd2Px-EYz15bVw" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_E7KzIqqvEd2Px-EYz15bVw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_E7KzI6qvEd2Px-EYz15bVw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_E7KzJKqvEd2Px-EYz15bVw"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_E7KMEaqvEd2Px-EYz15bVw" fontName="Arial"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_E7KMEqqvEd2Px-EYz15bVw"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_E7KME6qvEd2Px-EYz15bVw" fillColor="13825530"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_E7KMFKqvEd2Px-EYz15bVw"/>
+    <element xmi:type="instancediagram:ClassInstance" href="router-examples.owm#//@classInstances.1"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_E7KMFaqvEd2Px-EYz15bVw" x="174" y="115"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_ILcREKqvEd2Px-EYz15bVw" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_ILcRFqqvEd2Px-EYz15bVw" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_ILc4IKqvEd2Px-EYz15bVw" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_ILc4IaqvEd2Px-EYz15bVw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_ILc4IqqvEd2Px-EYz15bVw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_ILc4I6qvEd2Px-EYz15bVw"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_ILcREaqvEd2Px-EYz15bVw" fontName="Arial"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_ILcREqqvEd2Px-EYz15bVw"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_ILcRE6qvEd2Px-EYz15bVw" fillColor="13825530"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_ILcRFKqvEd2Px-EYz15bVw"/>
+    <element xmi:type="instancediagram:ClassInstance" href="router-examples.owm#//@classInstances.2"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ILcRFaqvEd2Px-EYz15bVw" x="333" y="265"/>
+  </children>
+  <styles xmi:type="notation:PageStyle" xmi:id="_8mzwQqquEd2Px-EYz15bVw"/>
+  <styles xmi:type="notation:GuideStyle" xmi:id="_8mzwQ6quEd2Px-EYz15bVw"/>
+  <styles xmi:type="notation:DescriptionStyle" xmi:id="_8mzwRKquEd2Px-EYz15bVw"/>
+  <element xmi:type="instancediagram:InstanceMap" href="router-examples.owm#/"/>
+  <edges xmi:type="notation:Edge" xmi:id="_FgSSYKqvEd2Px-EYz15bVw" type="3001" source="_E7KMEKqvEd2Px-EYz15bVw" target="_AHFZEKqvEd2Px-EYz15bVw">
+    <children xmi:type="notation:Node" xmi:id="_FgUHkKqvEd2Px-EYz15bVw" type="4002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_FgUHkaqvEd2Px-EYz15bVw" y="-15"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_FgVVsKqvEd2Px-EYz15bVw" type="4003">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_FgVVsaqvEd2Px-EYz15bVw" y="15"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_FgV8wKqvEd2Px-EYz15bVw" type="4004">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_FgV8waqvEd2Px-EYz15bVw" y="-15"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_FgWj0KqvEd2Px-EYz15bVw" type="4005">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_FgWj0aqvEd2Px-EYz15bVw" y="15"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_FgXK4KqvEd2Px-EYz15bVw" type="4006">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_FgXK4aqvEd2Px-EYz15bVw" y="-15"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_FgS5cKqvEd2Px-EYz15bVw"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_FgS5caqvEd2Px-EYz15bVw" fontName="Arial"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_FgS5cqqvEd2Px-EYz15bVw"/>
+    <element xmi:type="instancediagram:AssociationInstance" href="router-examples.owm#//@associationInstances.0"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_FgS5c6qvEd2Px-EYz15bVw" points="[-15, 20, 79, -135]$[-179, 154, -85, -1]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_Ix1isKqvEd2Px-EYz15bVw" type="3001" source="_E7KMEKqvEd2Px-EYz15bVw" target="_ILcREKqvEd2Px-EYz15bVw">
+    <children xmi:type="notation:Node" xmi:id="_Ix2Jw6qvEd2Px-EYz15bVw" type="4002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_Ix2JxKqvEd2Px-EYz15bVw" y="-15"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_Ix2JxaqvEd2Px-EYz15bVw" type="4003">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_Ix2JxqqvEd2Px-EYz15bVw" y="15"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_Ix2w0KqvEd2Px-EYz15bVw" type="4004">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_Ix2w0aqvEd2Px-EYz15bVw" y="-15"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_Ix2w0qqvEd2Px-EYz15bVw" type="4005">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_Ix2w06qvEd2Px-EYz15bVw" y="15"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_Ix2w1KqvEd2Px-EYz15bVw" type="4006">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_Ix2w1aqvEd2Px-EYz15bVw" y="-15"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_Ix1isaqvEd2Px-EYz15bVw"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_Ix2JwKqvEd2Px-EYz15bVw" fontName="Arial"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_Ix2JwaqvEd2Px-EYz15bVw"/>
+    <element xmi:type="instancediagram:AssociationInstance" href="router-examples.owm#//@associationInstances.1"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_Ix2JwqqvEd2Px-EYz15bVw" points="[15, 20, -116, -130]$[84, 130, -47, -20]"/>
+  </edges>
+</notation:Diagram>

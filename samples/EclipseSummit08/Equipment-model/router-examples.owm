@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instancediagram:InstanceMap xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:instancediagram="org.eclipse.tigerstripe.workbench.ui.instancediagram" basePackage="com.mycompany">
+  <classInstances name="Port" package="com.mycompany.equipment" artifactName="p1"/>
+  <classInstances name="Router" package="com.mycompany.equipment" artifactName="SOHORouter"/>
+  <classInstances name="Port" package="com.mycompany.equipment" artifactName="p2"/>
+  <associationInstances name="hasPorts" package="com.mycompany.equipment" aEnd="//@classInstances.1" aEndName="router_0" zEnd="//@classInstances.0" zEndName="port_0" zEndIsNavigable="true"/>
+  <associationInstances name="hasPorts" package="com.mycompany.equipment" aEnd="//@classInstances.1" aEndName="router_0" zEnd="//@classInstances.2" zEndName="port_0" zEndIsNavigable="true"/>
+</instancediagram:InstanceMap>
