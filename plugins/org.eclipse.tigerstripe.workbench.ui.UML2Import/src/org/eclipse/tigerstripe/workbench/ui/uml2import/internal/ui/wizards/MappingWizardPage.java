@@ -125,7 +125,8 @@ public class MappingWizardPage extends TSRuntimeBasedWizardPage {
 
 		if (this.importer == null){
 			this.importer = new ModelImporter( detailsPage.getModelFilename(),
-					detailsPage.getTsProject(), detailsPage.getProfilesFilename());
+					detailsPage.getTsProject(), detailsPage.getProfilesFilename(),
+					detailsPage.getIgnoreUnknown(), detailsPage.getUnknownType());
 
 			try {
 				importer.doInitialLoad();

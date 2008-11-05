@@ -29,6 +29,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DirectoryDialog;
@@ -55,6 +56,8 @@ public class ImportUML2ProfileWizardPage extends TSRuntimeBasedWizardPage {
 	protected SelectionButtonDialogFieldGroup optionButtonGroup;
 
 	private IJavaElement initialElement;
+	
+	private Button createUnknownPrimitive;
 
 	public ImportUML2ProfileWizardPage() {
 		super(PAGE_NAME);
@@ -78,13 +81,14 @@ public class ImportUML2ProfileWizardPage extends TSRuntimeBasedWizardPage {
 		fProfilesDir.setButtonLabel("Browse");
 		fProfilesDir.setDialogFieldListener(adapter);
 
-		String[] buttonName = new String[] { "Overwrite existing profile" };
+		String[] buttonName = new String[] { "Overwrite existing profile",
+				"Create 'unknown' Primitive Type"};
 
 		optionButtonGroup = new SelectionButtonDialogFieldGroup(SWT.CHECK,
 				buttonName, 1);
 		optionButtonGroup.setDialogFieldListener(adapter);
 		optionButtonGroup.setSelection(0, true);
-		// optionButtonGroup.setSelection(1, true);
+		optionButtonGroup.setSelection(1, false);
 
 		IJavaElement jelem = getInitialJavaElement(selection);
 		setInitialElement(jelem);
@@ -124,7 +128,6 @@ public class ImportUML2ProfileWizardPage extends TSRuntimeBasedWizardPage {
 
 		// -------- IDialogFieldListener
 		public void dialogFieldChanged(DialogField field) {
-			importFromEMXPageDialogFieldChanged(field);
 		}
 
 		public void doubleClicked(ListDialogField field) {
@@ -179,13 +182,6 @@ public class ImportUML2ProfileWizardPage extends TSRuntimeBasedWizardPage {
 		updatePageComplete();
 	}
 
-	/*
-	 * A field on the type has changed. The fields' status and all dependent
-	 * status are updated.
-	 */
-	private void importFromEMXPageDialogFieldChanged(DialogField field) {
-
-	}
 
 	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
@@ -263,10 +259,10 @@ public class ImportUML2ProfileWizardPage extends TSRuntimeBasedWizardPage {
 		return this.optionButtonGroup.isSelected(0);
 	}
 
-	// public boolean getMapExistence() {
-	// return this.optionButtonGroup.isSelected(1);
-	// }
-	//
+	public boolean getCreateUnknown() {
+		return this.optionButtonGroup.isSelected(1);
+	}
+	
 	public String getProfileFilename() {
 		return this.profileFile.getText().trim();
 	}

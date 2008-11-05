@@ -66,6 +66,7 @@ public class ProfileImporter {
 	private MessageList messages;
 	private List<String> ignoreList;
 	private boolean replace;
+	private boolean createUnknown;
 	private Map<String,String> mappings = new HashMap<String, String>();
 	
 	public ProfileImporter(MessageList messages){
@@ -74,10 +75,12 @@ public class ProfileImporter {
 	}
 	public void loadProfile(WorkbenchProfile handle, File source, 
 			List<String> ignoreList, boolean replace,
+			boolean createUnknown,
 			IProgressMonitor monitor) {
 		
 		this.ignoreList = ignoreList;
 		this.replace = replace;
+		this.createUnknown = createUnknown;
 		
 		File logFile = new File(source + "/TSLoadprofile.log");
 
@@ -166,14 +169,14 @@ public class ProfileImporter {
 			existingDefs.add(prim.getName());
 		}
 		
-		IPrimitiveTypeDef prim = new PrimitiveTypeDef();
-		prim.setName("string");
-		prim.setPackageName("primitive");
-		prim.setDescription("Autocreated by UML profile import");
+		IPrimitiveTypeDef stringPrim = new PrimitiveTypeDef();
+		stringPrim.setName("string");
+		stringPrim.setPackageName("primitive");
+		stringPrim.setDescription("Autocreated by UML profile import");
 		try {
-			if (!existingDefs.contains(prim.getName())) {
-				handle.addPrimitiveTypeDef(prim);
-				existingDefs.add(prim.getName());
+			if (!existingDefs.contains(stringPrim.getName())) {
+				handle.addPrimitiveTypeDef(stringPrim);
+				existingDefs.add(stringPrim.getName());
 				this.out.println("INFO : Added primitive Type " + "string");
 			}
 		} catch (Exception e) {
@@ -182,8 +185,28 @@ public class ProfileImporter {
 			this.out.println("ERROR : " + msgText);
 			e.printStackTrace(this.out);
 		}
+		
+		IPrimitiveTypeDef prim = new PrimitiveTypeDef();
+		if (createUnknown){
+			prim.setName("unknown");
+			prim.setPackageName("primitive");
+			prim.setDescription("Autocreated by UML profile import");
+			try {
+				if (!existingDefs.contains(prim.getName())) {
+					handle.addPrimitiveTypeDef(prim);
+					existingDefs.add(prim.getName());
+					this.out.println("INFO : Added primitive Type " + "unknown");
+				}
+			} catch (Exception e) {
+				String msgText = "Failed to add primitive Type " + "unknown";
+				ImportUtilities.addMessage(msgText, 0,messages);
+				this.out.println("ERROR : " + msgText);
+				e.printStackTrace(this.out);
+			}
+		}
+
 	}
-	
+
 	private void loadUMLModel(Model model, WorkbenchProfile handle,
 			SubProgressMonitor subMonitor) {
 		ArrayList existingDefs = new ArrayList();

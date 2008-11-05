@@ -112,6 +112,9 @@ public class UML2TS {
 	
 	private CoreArtifactSettingsProperty property;
 	
+	private boolean ignoreUnknown = false;
+	private String unknownType = "primitive.unknown";
+	
 	/** constructor */
 	public UML2TS(Map<EObject, String> classMap, PrintWriter out, CoreArtifactSettingsProperty property) {
 		this.classMap = classMap;
@@ -134,18 +137,24 @@ public class UML2TS {
 	 * 
 	 */ 
 	public Map<String,IAbstractArtifact> extractArtifacts(Model model, String modelLibrary,  MessageList messages,
-			ITigerstripeModelProject tsProject){
+			ITigerstripeModelProject tsProject,boolean ignoreUnknown, String unknownType ){
+		
 		
 		// This is where we store the extracted stuff..
 		Map<String,IAbstractArtifact> extractedArtifacts = new HashMap<String, IAbstractArtifact>();
 		
 		out.flush();
+		this.ignoreUnknown = ignoreUnknown;
+		this.unknownType = unknownType;
 		this.messages = messages;
 		this.modelLibrary = modelLibrary;
 		out.println("INFO : EXTRACTING FROM UML MODEL");
 		for (Package p : model.getImportedPackages()){
 			out.println("INFO : Imported Package :"+p.getName());	
 		}
+		out.println("INFO : ignoreUnknown ->"+ignoreUnknown);
+		out.println("INFO : unknownTypes mapped to ->"+unknownType);
+		
 		
 		// Walk the model
 		TreeIterator t = model.eAllContents();
@@ -981,19 +990,34 @@ public class UML2TS {
 		boolean optional = true;
 		try {
 			if (uType != null && uType.eIsProxy()){
-				String msgText = "Type not loaded: " + location + " Setting to unknown..."+ uType.toString();
-				ImportUtilities.addMessage(msgText, 0, messages);
-				out.println("ERROR : " + msgText);
-				iType.setFullyQualifiedName("unknown");
-				return true;
+				// Type not loaded
+				if (ignoreUnknown){
+					String msgText = "Type not loaded : " + location + " ignoring";
+					ImportUtilities.addMessage(msgText, 0, messages);
+					out.println("WARN : " + msgText);
+					return false;
+				} else {
+					String msgText = "Type not loaded : " + location + " Setting to "+ unknownType +"..."+ uType.toString();
+					ImportUtilities.addMessage(msgText, 0, messages);
+					out.println("ERROR : " + msgText);
+					iType.setFullyQualifiedName(unknownType);
+					return true;
+				}
 			}
 			if ((uType == null) || (uType.getQualifiedName() == null)) {
 				// TODO - Is this an error in the model?
-				String msgText = "Unsure of type : " + location + " Setting to unknown...";
-				ImportUtilities.addMessage(msgText, 0, messages);
-				out.println("ERROR : " + msgText);
-				iType.setFullyQualifiedName("unknown");
-				return true;
+				if (ignoreUnknown){
+					String msgText = "Unsure of type : " + location + " ignoring";
+					ImportUtilities.addMessage(msgText, 0, messages);
+					out.println("WARN : " + msgText);
+					return false;
+				} else {
+					String msgText = "Unsure of type : " + location + " Setting to "+ unknownType;
+					ImportUtilities.addMessage(msgText, 0, messages);
+					out.println("ERROR : " + msgText);
+					iType.setFullyQualifiedName(unknownType);
+					return true;
+				}
 			}
 				
 			// Need to determine if this is a primitive type 
@@ -1003,11 +1027,18 @@ public class UML2TS {
 				if (!prim.equals("")) {
 					iType.setFullyQualifiedName(prim);
 				} else {
-					String msgText = "Neither a model nor a known primitive type : " + location + " Setting to unknown...";
-					ImportUtilities.addMessage(msgText, 0, messages);
-					out.println("ERROR : " + msgText);;
-					iType.setFullyQualifiedName("unknown");
-					return true;
+					if (ignoreUnknown){
+						String msgText = "Neither a model nor a known primitive type : " + location + " ignoring";
+						ImportUtilities.addMessage(msgText, 0, messages);
+						out.println("WARN : " + msgText);
+						return false;
+					} else {
+						String msgText = "Neither a model nor a known primitive type : " + location + " Setting to "+ unknownType +"..."+ uType.toString();
+						ImportUtilities.addMessage(msgText, 0, messages);
+						out.println("ERROR : " + msgText);
+						iType.setFullyQualifiedName(unknownType);
+						return true;
+					}
 				}
 				
 			} else {
@@ -1024,7 +1055,7 @@ public class UML2TS {
 			String msgText = "Exception working out type : " + location + " Skipping...";
 			ImportUtilities.addMessage(msgText, 0, messages);
 			out.println("ERROR : " + msgText);
-			e.printStackTrace();
+			e.printStackTrace(out);
 			return false;
 		}
 	}

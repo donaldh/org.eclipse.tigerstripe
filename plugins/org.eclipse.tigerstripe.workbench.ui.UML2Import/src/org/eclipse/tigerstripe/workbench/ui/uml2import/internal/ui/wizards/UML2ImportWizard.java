@@ -42,6 +42,7 @@ public class UML2ImportWizard extends Wizard implements INewWizard {
 	private MessageList messages;
 	private IDialogSettings wizardSettings;
 	
+	
 	public UML2ImportWizard() {
 		super();
 		setNeedsProgressMonitor(true);
@@ -123,6 +124,8 @@ public class UML2ImportWizard extends Wizard implements INewWizard {
 					wizardSettings.put("TSProject",getFirstPage().getTigerstripeName());
 					wizardSettings.put("ModelFile",getFirstPage().getModelFilename());
 					wizardSettings.put("ProfileDir",getFirstPage().getProfilesFilename());
+					wizardSettings.put("IgnoreUnknown",getFirstPage().getIgnoreUnknown());
+					wizardSettings.put("UnknownType",getFirstPage().getUnknownType());
 					
 					monitor.done();
 				}

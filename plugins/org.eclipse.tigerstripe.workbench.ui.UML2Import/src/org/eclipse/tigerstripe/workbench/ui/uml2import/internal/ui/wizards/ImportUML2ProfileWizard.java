@@ -44,6 +44,7 @@ public class ImportUML2ProfileWizard extends Wizard implements INewWizard {
 	private ImageDescriptor image;
 
 	private boolean replace = true;
+	private boolean createUnknown = false;
 	private List<String> ignoreList = Arrays.asList("TypeDefinition", "Exception",
 			"EnumValue");
 
@@ -124,6 +125,7 @@ public class ImportUML2ProfileWizard extends Wizard implements INewWizard {
 	private boolean extractProfiles(IProgressMonitor monitor)
 			throws CoreException {
 		replace = this.firstPage.getReplace();
+		createUnknown = this.firstPage.getCreateUnknown();
 		
 		try {
 			File pro = new File(this.firstPage.getProfileFilename());
@@ -131,7 +133,7 @@ public class ImportUML2ProfileWizard extends Wizard implements INewWizard {
 					.getWorkbenchProfileFor(pro.getAbsolutePath());
 			ProfileImporter importer = new ProfileImporter(messages);
 			importer.loadProfile(handle, new File(this.firstPage.getFilename()), 
-					ignoreList, replace, monitor);
+					ignoreList, replace, createUnknown, monitor);
 
 			FileWriter writer = new FileWriter(pro.getAbsolutePath());
 			try {

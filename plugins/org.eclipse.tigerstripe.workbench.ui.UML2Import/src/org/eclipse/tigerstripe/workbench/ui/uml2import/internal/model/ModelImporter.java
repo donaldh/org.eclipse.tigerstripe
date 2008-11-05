@@ -58,13 +58,23 @@ public class ModelImporter {
 	private Map<String, IAbstractArtifact> extractedArtifacts;
 	private CoreArtifactSettingsProperty property;
 	private Map<String,String> mappings = new HashMap<String, String>();
+	
+	private boolean ignoreUnknown = false;
+	private String unknownType = "primitive.unknown";
 
 	public ModelImporter(String importFilename,
-			ITigerstripeModelProject tigerstripeProject, String profilesDir) {
+			ITigerstripeModelProject tigerstripeProject, String profilesDir
+			,boolean ignoreUnknown, String unknownType
+			) {
 		diffList = new ArrayList();
 		this.importFilename = importFilename;
 		this.tigerstripeProject = tigerstripeProject;
 		this.profilesDir = profilesDir;
+		
+		this.ignoreUnknown = ignoreUnknown;
+		this.unknownType = unknownType;
+		
+		
 		// TODO Filter for active types in profile.
 		IWorkbenchProfile profile = TigerstripeCore
 				.getWorkbenchProfileSession().getActiveProfile();
@@ -256,7 +266,7 @@ public class ModelImporter {
 
 		UML2TS uML2TS = new UML2TS(getClassMap(), out, property);
 		this.extractedArtifacts = uML2TS.extractArtifacts(model, modelLibrary,
-				messages, this.tigerstripeProject);
+				messages, this.tigerstripeProject, ignoreUnknown, unknownType);
 		out.println("INFO : Extracted arrifact size :"
 				+ this.extractedArtifacts.size());
 		//out.println(messages.asText());

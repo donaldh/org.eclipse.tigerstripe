@@ -11,6 +11,9 @@
 package org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.wizards;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -23,10 +26,12 @@ import org.eclipse.jdt.internal.ui.wizards.dialogfields.IListAdapter;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.IStringButtonAdapter;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.LayoutUtil;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.ListDialogField;
+import org.eclipse.jdt.internal.ui.wizards.dialogfields.SelectionButtonDialogFieldGroup;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.StringButtonDialogField;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -35,12 +40,15 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
+import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.TSRuntimeBasedWizardPage;
@@ -59,6 +67,9 @@ public class UML2ImportDetailsWizardPage extends TSRuntimeBasedWizardPage {
 	public Button tsButton;
 	private Text tsProjectText;
 	private ITigerstripeModelProject tsProject;
+	protected SelectionButtonDialogFieldGroup optionButtonGroup;
+	private boolean ignoreUnknown = false;
+	private CCombo unknownTypeCombo;
 	
 	/**
 	 * Creates a new <code>NewPackageWizardPage</code>
@@ -93,6 +104,8 @@ public class UML2ImportDetailsWizardPage extends TSRuntimeBasedWizardPage {
 
 		createTSControls(composite, nColumns);
 		createFileControls(composite, nColumns);
+		createOptionControls(composite, nColumns);
+		createUnknownTypeCombo(composite, nColumns);
 		
 		setControl(composite);
 		Dialog.applyDialogFont(composite);
@@ -150,7 +163,59 @@ public class UML2ImportDetailsWizardPage extends TSRuntimeBasedWizardPage {
 			
 	}
 	
+	protected void createOptionControls(Composite composite, int nColumns) {
+		UML2ImportFieldsAdapter adapter = new UML2ImportFieldsAdapter();
+		
+		String[] buttonName = new String[] { "Ignore unknown types"};
+
+		optionButtonGroup = new SelectionButtonDialogFieldGroup(SWT.CHECK,
+				buttonName, 1);
+		optionButtonGroup.setDialogFieldListener(adapter);
+		optionButtonGroup.setSelection(0, true);
+		
+		LayoutUtil.setHorizontalSpan(optionButtonGroup
+				.getLabelControl(composite), 1);
+		
+		Control control = optionButtonGroup.getSelectionButtonsGroup(composite);
+		GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
+		gd.horizontalSpan = nColumns-2;
+		control.setLayoutData(gd);
+		
+	}
+	
+	private String[] getSupportedTypes(){
+		
+		IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession().getActiveProfile();
+		Collection<IPrimitiveTypeDef> defs = profile.getPrimitiveTypeDefs(true);
+		List<String> names = new ArrayList<String>();
+
+		for (IPrimitiveTypeDef def : defs){
+			if (def.isReserved())
+				names.add(def.getName());
+			else
+				names.add(def.getPackageName()+"."+def.getName());
+		}
+		
+		return names.toArray( new String[0]);
+		
+	}
+	
+	private void createUnknownTypeCombo(Composite composite, int nColumns) {
+
+		unknownTypeCombo = new CCombo(composite, SWT.READ_ONLY | SWT.BORDER);
+		unknownTypeCombo.setItems(getSupportedTypes());
+		unknownTypeCombo
+				.setToolTipText("Choose a primitive Type to use for unknown types");
+
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = nColumns-2;
+		unknownTypeCombo.setLayoutData(gd);
+	}
+	
+	
+	
 	public void initContents(){
+		
 		if (wizardSettings.get("TSProject") != null){
 			tsProjectText.setText(wizardSettings.get("TSProject"));
 		} 
@@ -160,6 +225,25 @@ public class UML2ImportDetailsWizardPage extends TSRuntimeBasedWizardPage {
 		if (wizardSettings.get("ProfileDir") != null){
 			fProfilesDir.setText(wizardSettings.get("ProfileDir"));
 		}
+		if (wizardSettings.get("IgnoreUnknown") != null){
+			this.optionButtonGroup.setSelection(0,Boolean.parseBoolean(wizardSettings.get("IgnoreUnknown")));
+		}
+		if (wizardSettings.get("UnknownType") != null){
+			String value = wizardSettings.get("UnknownType");
+			int i = getSupportedTypes().length;
+			boolean set = false;
+			for (int j=0; j<i ;j++){
+				if (getSupportedTypes()[j].equals(value)){
+					unknownTypeCombo.select(j);
+					set = true;
+				}
+			}
+			if (!set){
+				unknownTypeCombo.select(0);
+			}
+			
+		}	
+		updatePageComplete();
 		
 	}
 
@@ -183,13 +267,20 @@ public class UML2ImportDetailsWizardPage extends TSRuntimeBasedWizardPage {
 
 		// -------- IDialogFieldListener
 		public void dialogFieldChanged(DialogField field) {
-			uml2ImportPageDialogFieldChanged(field);
+			uml2ImportDialogFieldPressed(field);
 		}
 
 		public void doubleClicked(ListDialogField field) {
 		}
 	}
 
+	private void uml2ImportDialogFieldPressed(DialogField field) {
+		if (field == optionButtonGroup){
+			ignoreUnknown = this.optionButtonGroup.isSelected(0);
+			unknownTypeCombo.setEnabled(!ignoreUnknown);
+		}
+	}
+	
 	private void uml2ImportPageChangeControlPressed(DialogField field) {
 
 		if (field == modelFile) {
@@ -223,16 +314,11 @@ public class UML2ImportDetailsWizardPage extends TSRuntimeBasedWizardPage {
 					fProfilesDir.setText(selectedFile);
 				}
 			}
-		} 		updatePageComplete();
+		}
+		updatePageComplete();
 	}
 
-	/*
-	 * A field on the type has changed. The fields' status and all dependent
-	 * status are updated.
-	 */
-	private void uml2ImportPageDialogFieldChanged(DialogField field) {
 
-	}
 	
 	private void handleBrowse(Button buttonPressed) {
 
@@ -251,6 +337,12 @@ public class UML2ImportDetailsWizardPage extends TSRuntimeBasedWizardPage {
 	
 	protected void updatePageComplete() {
 
+		ignoreUnknown = this.optionButtonGroup.isSelected(0);
+		if (unknownTypeCombo.getSelectionIndex() == -1){
+			unknownTypeCombo.select(0);
+		}
+		
+		unknownTypeCombo.setEnabled(!ignoreUnknown);
 		
 		
 		if (getTigerstripeName().length() == 0) {
@@ -342,4 +434,11 @@ public class UML2ImportDetailsWizardPage extends TSRuntimeBasedWizardPage {
 		return this.tsProject; 
 	}
 	
+	public boolean getIgnoreUnknown() {
+		return ignoreUnknown;
+	}
+	
+	public String  getUnknownType() {
+		return unknownTypeCombo.getText();
+	}
 }
