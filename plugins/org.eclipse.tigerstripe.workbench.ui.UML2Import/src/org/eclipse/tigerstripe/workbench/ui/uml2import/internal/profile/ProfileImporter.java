@@ -19,8 +19,11 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
+import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EObject;
@@ -63,6 +66,7 @@ public class ProfileImporter {
 	private MessageList messages;
 	private List<String> ignoreList;
 	private boolean replace;
+	private Map<String,String> mappings = new HashMap<String, String>();
 	
 	public ProfileImporter(MessageList messages){
 		this.messages = messages;
@@ -81,6 +85,24 @@ public class ProfileImporter {
 			this.out = new PrintWriter(new FileOutputStream(logFile));
 			// Bug 252715 - Additional environment information.
 			ImportUtilities.printHeaderInfo(out);
+			// Get any character mappings from the extension
+			// point
+			out.println("Read mapping");
+			
+			IConfigurationElement[] mappingElements = Platform
+					.getExtensionRegistry()
+					.getConfigurationElementsFor(
+							"org.eclipse.tigerstripe.workbench.ui.UML2Import.umlCharacterMapper");
+			for (IConfigurationElement element : mappingElements) {
+				String fromChar = element.getAttribute("from");
+				if(fromChar.equals(""))
+					fromChar = " ";
+				String toChar = element.getAttribute("to");
+				mappings.put(fromChar, toChar);
+				out.println("INFO : Mapping from '"+fromChar+"' to '"+toChar+"'");
+				ImportUtilities.setMappings(mappings);
+				
+			}
 			
 			loadUMLPrimitives(handle);
 			Utilities.setupPaths();
