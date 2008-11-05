@@ -2,7 +2,7 @@ package org.eclipse.tigerstripe.workbench.optional.buckminster.internal;
 
 public enum VersionQueryEnum {
 
-	PROJECT("/tigerstripe/project/version");
+	PROJECT("/tigerstripe/project/version"), GENERATOR("/ts_plugin/project/version");
 
 	private final String query;
 

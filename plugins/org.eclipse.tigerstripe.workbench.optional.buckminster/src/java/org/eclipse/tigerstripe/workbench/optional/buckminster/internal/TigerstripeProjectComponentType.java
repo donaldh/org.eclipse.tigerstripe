@@ -11,22 +11,24 @@
 
 package org.eclipse.tigerstripe.workbench.optional.buckminster.internal;
 
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
+
 import org.eclipse.buckminster.core.cspec.builder.CSpecBuilder;
 import org.eclipse.buckminster.core.cspec.builder.ComponentRequestBuilder;
-import org.eclipse.buckminster.core.cspec.model.CSpec;
-import org.eclipse.buckminster.core.cspec.model.ComponentName;
 import org.eclipse.buckminster.core.cspec.model.DependencyAlreadyDefinedException;
 import org.eclipse.buckminster.core.ctype.AbstractComponentType;
 import org.eclipse.buckminster.core.ctype.IResolutionBuilder;
-import org.eclipse.buckminster.core.query.model.ComponentQuery;
 import org.eclipse.buckminster.core.reader.IComponentReader;
-import org.eclipse.buckminster.core.version.IVersionDesignator;
+import org.eclipse.buckminster.core.version.IVersionType;
+import org.eclipse.buckminster.runtime.BuckminsterException;
 import org.eclipse.buckminster.runtime.MonitorUtils;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.optional.buckminster.TigerstripePlugin;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 public class TigerstripeProjectComponentType extends AbstractComponentType {
@@ -41,28 +43,18 @@ public class TigerstripeProjectComponentType extends AbstractComponentType {
 		return builder;
 	}
 
-	public static void addDependencies(IComponentReader reader, CSpecBuilder cspec, Document tsXmlDoc) throws CoreException {
+	public static void addDependencies(IComponentReader reader, CSpecBuilder cspec, Document tsxml) throws CoreException {
 
 		Node referenceNode = null;
-		Element project = tsXmlDoc.getDocumentElement();
-		for (Node child = project.getFirstChild(); child != null; child = child.getNextSibling()) {
-
-			if (child.getNodeType() != Node.ELEMENT_NODE) {
-				continue;
-			}
-
-			// look for "references" element
-			if ("references".equals(child.getNodeName())) {
-				if (child.hasChildNodes()) {
-					referenceNode = child;
-				}
-				break;
-			}
+		XPath xpath = XPathFactory.newInstance().newXPath();
+		try {
+			referenceNode = (Node) xpath.evaluate("/tigerstripe/references", tsxml, XPathConstants.NODE);
+		} catch (XPathExpressionException e) {
+			throw BuckminsterException.wrap(e);
 		}
 
 		if (referenceNode != null) {
 
-			ComponentQuery query = reader.getNodeQuery().getComponentQuery();
 			for (Node ref = referenceNode.getFirstChild(); ref != null; ref = ref.getNextSibling()) {
 
 				if (ref.getNodeType() == Node.ELEMENT_NODE && "reference".equals(ref.getNodeName())) {
@@ -72,7 +64,8 @@ public class TigerstripeProjectComponentType extends AbstractComponentType {
 					ComponentRequestBuilder depBldr = cspec.createDependencyBuilder();
 					depBldr.setName(componentName);
 					depBldr.setComponentTypeID("tigerstripe");
-					// CURRENTLY NO VERSION SUPPORT IN THE REFERENCES SECTION OF TS.XML!
+					// CURRENTLY NO VERSION SUPPORT IN THE REFERENCES SECTION OF
+					// TS.XML!
 					try {
 						cspec.addDependency(depBldr);
 					} catch (DependencyAlreadyDefinedException e) {
@@ -81,6 +74,67 @@ public class TigerstripeProjectComponentType extends AbstractComponentType {
 				}
 			}
 		}
+
+		Node pluginsNode = null;
+		xpath = XPathFactory.newInstance().newXPath();
+		try {
+			pluginsNode = (Node) xpath.evaluate("/tigerstripe/plugins", tsxml, XPathConstants.NODE);
+		} catch (XPathExpressionException e) {
+			throw BuckminsterException.wrap(e);
+		}
+
+		if (pluginsNode != null) {
+
+			for (Node ref = pluginsNode.getFirstChild(); ref != null; ref = ref.getNextSibling()) {
+
+				if (ref.getNodeType() == Node.ELEMENT_NODE && "plugin".equals(ref.getNodeName())) {
+
+					if (getPluginEnabled(ref)) {
+
+						// add the project references
+						String componentName = getPluginAttributeValue(ref);
+						componentName = componentName.substring(0, componentName.indexOf('('));
+						ComponentRequestBuilder depBldr = cspec.createDependencyBuilder();
+						depBldr.setName(componentName);
+						depBldr.setComponentTypeID("tigerstripe.generator");
+						depBldr.setVersionDesignator(getVersionAttributeValue(ref), IVersionType.OSGI);
+						try {
+							cspec.addDependency(depBldr);
+						} catch (DependencyAlreadyDefinedException e) {
+							TigerstripePlugin.getLogger().warning(e.getMessage());
+						}
+					}
+				}
+			}
+		}
+
+	}
+
+	private static String getVersionAttributeValue(Node ref) {
+
+		String version = ref.getAttributes().getNamedItem("version").getTextContent().trim();
+		if (version != null) {
+			return version;
+		}
+		throw new IllegalArgumentException("Invalid reference element");
+	}
+
+	private static boolean getPluginEnabled(Node ref) {
+
+		String enabled = ref.getAttributes().getNamedItem("enabled").getTextContent().trim();
+		if (enabled != null) {
+			return Boolean.valueOf(enabled).booleanValue();
+		}
+		throw new IllegalArgumentException("Invalid value defined for \"enabled\" attribute in Tigerstripe.xml file.");
+	}
+
+	private static String getPluginAttributeValue(Node ref) {
+
+		String path = ref.getAttributes().getNamedItem("pluginId").getTextContent().trim();
+		if (path != null) {
+			return path;
+		}
+		throw new IllegalArgumentException("Invalid reference element");
 	}
 
 	private static String getPathAttributeValue(Node ref) {

@@ -7,6 +7,10 @@
             class="org.eclipse.tigerstripe.workbench.optional.buckminster.internal.TigerstripeProjectComponentType"
             id="tigerstripe">
       </componentType>
+      <componentType
+            class="org.eclipse.tigerstripe.workbench.optional.buckminster.internal.TigerstripeGeneratorComponentType"
+            id="tigerstripe.generator">
+      </componentType>
    </extension>
    <extension
          point="org.eclipse.ant.core.antTasks">
@@ -22,5 +26,4 @@
             library="ant_tasks/tigerstripe-ant.jar">
       </extraClasspathEntry>
    </extension>
-
 </plugin>
