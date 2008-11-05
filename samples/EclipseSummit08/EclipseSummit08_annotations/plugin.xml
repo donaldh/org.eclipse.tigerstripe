@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+ <copyright>
+ </copyright>
+
+ $Id: plugin.xml,v 1.1 2008/11/05 19:53:22 edillon Exp $
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http:///org/eclipse/tigerstripe/samples/eclipseSummit08/annotations/designNotes.ecore"
+            class="org.eclipse.tigerstripe.samples.eclipseSummit08.annotations.designNotes.DesignNotesPackage"
+            genModel="model/designNotes.genmodel"/>
+   </extension>
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <package
+            uri="http:///org/eclipse/tigerstripe/samples/eclipseSummit08/annotations/documentation.ecore"
+            class="org.eclipse.tigerstripe.samples.eclipseSummit08.annotations.documentation.DocumentationPackage"
+            genModel="model/documentation.genmodel"/>
+   </extension>
+
+	<extension
+	     point="org.eclipse.tigerstripe.annotation.core.packageLabel">
+	   <label
+	       epackage-uri="http:///org/eclipse/tigerstripe/samples/eclipseSummit08/annotations/documentation.ecore"
+	       name="EclipseSummit08"/>
+	 </extension>
+
+	<extension
+	     point="org.eclipse.tigerstripe.annotation.core.packageLabel">
+	   <label
+	       epackage-uri="http:///org/eclipse/tigerstripe/samples/eclipseSummit08/annotations/designNotes.ecore"
+	       name="EclipseSummit08"/>
+	 </extension>
+
+   <extension
+         point="org.eclipse.tigerstripe.annotation.core.annotationType">
+      <definition
+            description="Documentation content"
+            eclass="Documentation"
+            epackage-uri="http:///org/eclipse/tigerstripe/samples/eclipseSummit08/annotations/documentation.ecore"
+            name="Documentation">
+         <target
+               type="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent"
+               unique="true">
+         </target>
+      </definition>
+   </extension>
+
+   <extension
+         point="org.eclipse.tigerstripe.annotation.core.annotationType">
+      <definition
+            description="Design Notes"
+            eclass="Note"
+            epackage-uri="http:///org/eclipse/tigerstripe/samples/eclipseSummit08/annotations/designNotes.ecore"
+            name="Design Notes">
+         <target
+               type="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent"
+               unique="false">
+         </target>
+      </definition>
+   </extension>
+   
+   <extension
+         point="org.eclipse.tigerstripe.annotation.core.annotationType">
+      <definition
+            description="TODO Notes"
+            eclass="TODO"
+            epackage-uri="http:///org/eclipse/tigerstripe/samples/eclipseSummit08/annotations/designNotes.ecore"
+            name="TODO">
+         <target
+               type="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent"
+               unique="false">
+         </target>
+      </definition>
+   </extension>
+
+	<extension point="org.eclipse.tigerstripe.annotation.ui.annotationLabelProvider">
+	    <provider
+	          class="org.eclipse.tigerstripe.samples.eclipseSummit08.ui.LabelProvider"
+	          epackage-uri="http:///org/eclipse/tigerstripe/samples/eclipseSummit08/annotations/designNotes.ecore"
+	          eclass="TODO"/>
+	</extension>
+	<extension point="org.eclipse.tigerstripe.annotation.ui.annotationLabelProvider">
+	    <provider
+	          class="org.eclipse.tigerstripe.samples.eclipseSummit08.ui.LabelProvider"
+	          epackage-uri="http:///org/eclipse/tigerstripe/samples/eclipseSummit08/annotations/designNotes.ecore"
+	          eclass="Note"/>
+	</extension>
+	<extension point="org.eclipse.tigerstripe.annotation.ui.annotationLabelProvider">
+	    <provider
+	          class="org.eclipse.tigerstripe.samples.eclipseSummit08.ui.LabelProvider"
+	          epackage-uri="http:///org/eclipse/tigerstripe/samples/eclipseSummit08/annotations/documentation.ecore"
+	          eclass="Documentation"/>
+	 </extension>
+
+</plugin>
