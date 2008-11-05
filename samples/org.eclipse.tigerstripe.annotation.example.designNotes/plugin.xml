@@ -39,14 +39,16 @@
          point="org.eclipse.tigerstripe.annotation.ui.annotationLabelProvider">
       <provider
             class="org.eclipse.tigerstripe.annotation.example.designNotes.NoteLabelProvider"
-            typeID="org.eclipse.tigerstripe.annotation.example.designNotes.note">
+            eclass="Note"
+            epackage-uri="http:///org/eclipse/tigerstripe/annotation/example/designNotes.ecore">
       </provider>
    </extension>
    <extension
          point="org.eclipse.tigerstripe.annotation.ui.annotationLabelProvider">
       <provider
             class="org.eclipse.tigerstripe.annotation.example.designNotes.TODOLabelProvider"
-            typeID="org.eclipse.tigerstripe.annotation.example.designNotes.todo">
+            eclass="TODO"
+            epackage-uri="http:///org/eclipse/tigerstripe/annotation/example/designNotes.ecore">
       </provider>
    </extension>
 </plugin>
