@@ -24,6 +24,7 @@ import org.eclipse.jdt.internal.ui.wizards.dialogfields.LayoutUtil;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.ListDialogField;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.StringButtonDialogField;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.jface.wizard.WizardPage;
@@ -51,6 +52,8 @@ public class UML2ExportWizardPage extends WizardPage {
 	// protected StringButtonDialogField exportFile;
 	
 	private Button includeTigerstripeStereotypes;
+	
+	private IDialogSettings wizardSettings;
 
 	/** The source of artifacts */
 	private ITigerstripeModelProject sourceProject;
@@ -58,12 +61,15 @@ public class UML2ExportWizardPage extends WizardPage {
 	protected PrintWriter out;
 	protected MessageList messages;
 
-	public UML2ExportWizardPage() {
+	public UML2ExportWizardPage(IDialogSettings wizardSettings) {
 		super(PAGE_NAME);
 
 		setTitle("Export to UML2 ...");
 		setDescription("Export Tigerstripe Project to UML2.");
 		messages = new MessageList();
+		this.wizardSettings = wizardSettings;
+		
+		
 	}
 
 	public void init(IStructuredSelection selection) {
@@ -193,10 +199,20 @@ public class UML2ExportWizardPage extends WizardPage {
 
 		setControl(composite);
 		Dialog.applyDialogFont(composite);
-
+		initContents();	
 		updatePageComplete();
 	}
 
+	public void initContents(){
+		if (wizardSettings.get("TSProject") != null){
+			project.setText(wizardSettings.get("TSProject"));
+		} 
+		if (wizardSettings.get("ExportDir") != null){
+			exportDir.setText(wizardSettings.get("ExportDir"));
+		}
+
+	}
+	
 	protected void createTSControls(Composite composite, int nColumns) {
 
 		project.doFillIntoGrid(composite, nColumns);

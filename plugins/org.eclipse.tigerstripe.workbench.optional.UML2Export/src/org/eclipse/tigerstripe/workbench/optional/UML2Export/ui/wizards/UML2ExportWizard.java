@@ -18,6 +18,7 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -27,6 +28,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList
 import org.eclipse.tigerstripe.workbench.optional.UML2Export.ProfileAnnotations2UML2;
 import org.eclipse.tigerstripe.workbench.optional.UML2Export.ProfileTypes2UML2;
 import org.eclipse.tigerstripe.workbench.optional.UML2Export.TS2UML;
+import org.eclipse.tigerstripe.workbench.optional.UML2Export.UML2ExportPlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.elements.MessageListDialog;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
@@ -51,6 +53,7 @@ public class UML2ExportWizard extends Wizard implements INewWizard {
 
 	private PrintWriter out;
 	private MessageList messages;
+	private IDialogSettings wizardSettings;
 
 	public IStructuredSelection getSelection() {
 		return this.fSelection;
@@ -65,6 +68,13 @@ public class UML2ExportWizard extends Wizard implements INewWizard {
 
 		setWindowTitle("Export to UML2 ...");
 		messages = new MessageList();
+		
+		IDialogSettings uml2ImportSettings = UML2ExportPlugin.getDefault().getDialogSettings();
+		this.wizardSettings = uml2ImportSettings.getSection("UML2ExportWizard");
+		if (wizardSettings == null){
+			wizardSettings = uml2ImportSettings.addNewSection("UML2ExportWizard");
+		}
+		setDialogSettings(uml2ImportSettings);	
 	}
 
 	/**
@@ -75,7 +85,7 @@ public class UML2ExportWizard extends Wizard implements INewWizard {
 	public void addPages() {
 		super.addPages();
 
-		this.firstPage = new UML2ExportWizardPage();
+		this.firstPage = new UML2ExportWizardPage(wizardSettings);
 
 		addPage(this.firstPage);
 
@@ -120,6 +130,9 @@ public class UML2ExportWizard extends Wizard implements INewWizard {
 			MessageDialog.openError(getShell(), "Error", realException
 					.getMessage());
 			return false;
+		} finally {
+			wizardSettings.put("TSProject",firstPage.getTigerstripeName());
+			wizardSettings.put("ExportDir",firstPage.getExportDir().toString());	
 		}
 		return true;
 	}
