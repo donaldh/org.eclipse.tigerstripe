@@ -24,6 +24,7 @@ import org.eclipse.jdt.internal.ui.wizards.dialogfields.ListDialogField;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.SelectionButtonDialogFieldGroup;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.StringButtonDialogField;
 import org.eclipse.jface.dialogs.Dialog;
+import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
@@ -58,12 +59,16 @@ public class ImportUML2ProfileWizardPage extends TSRuntimeBasedWizardPage {
 	private IJavaElement initialElement;
 	
 	private Button createUnknownPrimitive;
+	
+	private IDialogSettings wizardSettings;
 
-	public ImportUML2ProfileWizardPage() {
+	public ImportUML2ProfileWizardPage(IDialogSettings wizardSettings) {
 		super(PAGE_NAME);
 		setTitle("Import Profile...");
 		setDescription("Import UML2 Profile Information into TS Profile.");
 		setPageComplete(false);
+		this.wizardSettings = wizardSettings;
+		
 	}
 
 	public void init(IStructuredSelection selection) {
@@ -201,6 +206,8 @@ public class ImportUML2ProfileWizardPage extends TSRuntimeBasedWizardPage {
 		Dialog.applyDialogFont(composite);
 		// WorkbenchHelp.setHelp(composite,
 		// IJavaHelpContextIds.NEW_INTERFACE_WIZARD_PAGE);
+		
+		initContents();	
 		updatePageComplete();
 	}
 
@@ -236,6 +243,21 @@ public class ImportUML2ProfileWizardPage extends TSRuntimeBasedWizardPage {
 
 	}
 
+	public void initContents(){
+		if (wizardSettings.get("TSProfileFile") != null){
+			profileFile.setText(wizardSettings.get("TSProfileFile"));
+		} 
+		if (wizardSettings.get("ProfilesDir") != null){
+			fProfilesDir.setText(wizardSettings.get("ProfilesDir"));
+		}
+		if (wizardSettings.get("OverwriteExisting") != null){
+			this.optionButtonGroup.setSelection(0,Boolean.parseBoolean(wizardSettings.get("OverwriteExisting")));
+		}
+		if (wizardSettings.get("CreateUnknown") != null){
+			this.optionButtonGroup.setSelection(1,Boolean.parseBoolean(wizardSettings.get("CreateUnknown")));
+		}
+	}
+	
 	/**
 	 * Perform any required update based on the runtime context
 	 * 
@@ -327,4 +349,14 @@ public class ImportUML2ProfileWizardPage extends TSRuntimeBasedWizardPage {
 		setMessage("Import UML Profile into Tigerstripe Profile.");
 		setPageComplete(true);
 	}
+	
+	protected String getProfileDir(){
+		return fProfilesDir.getText().trim();
+	}
+	
+	protected String getTSProfileFile(){
+		return profileFile.getText().trim();
+	}
+	
+	
 }

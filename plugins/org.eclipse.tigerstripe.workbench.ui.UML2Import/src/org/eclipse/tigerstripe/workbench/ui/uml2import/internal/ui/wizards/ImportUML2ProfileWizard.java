@@ -12,12 +12,14 @@ package org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ui.wizards;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.ObjectInputStream.GetField;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.resource.ImageDescriptor;
@@ -29,6 +31,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
 import org.eclipse.tigerstripe.workbench.ui.internal.elements.MessageListDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
+import org.eclipse.tigerstripe.workbench.ui.uml2import.Activator;
 import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.profile.ProfileImporter;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
@@ -40,7 +43,8 @@ public class ImportUML2ProfileWizard extends Wizard implements INewWizard {
 	private ImportUML2ProfileWizardPage firstPage;
 	private IStructuredSelection fSelection;
 	private MessageList messages;
-
+	private IDialogSettings wizardSettings;
+	
 	private ImageDescriptor image;
 
 	private boolean replace = true;
@@ -61,8 +65,17 @@ public class ImportUML2ProfileWizard extends Wizard implements INewWizard {
 		image = Images.getDescriptor(Images.WIZARD_IMPORT_LOGO);
 		setDefaultPageImageDescriptor(image);
 
+		
+		IDialogSettings uml2ImportSettings = Activator.getDefault().getDialogSettings();
+		this.wizardSettings = uml2ImportSettings.getSection("UML2ProfileImportWizard");
+		if (wizardSettings == null){
+			wizardSettings = uml2ImportSettings.addNewSection("UML2ProfileImportWizard");
+		}
+		setDialogSettings(uml2ImportSettings);	
+		
 		setWindowTitle("Import UML2 Profile...");
 		messages = new MessageList();
+		this.wizardSettings = wizardSettings;
 	}
 
 	/**
@@ -73,7 +86,7 @@ public class ImportUML2ProfileWizard extends Wizard implements INewWizard {
 	public void addPages() {
 		super.addPages();
 
-		this.firstPage = new ImportUML2ProfileWizardPage();
+		this.firstPage = new ImportUML2ProfileWizardPage(wizardSettings);
 
 		addPage(this.firstPage);
 		
@@ -115,6 +128,11 @@ public class ImportUML2ProfileWizard extends Wizard implements INewWizard {
 			MessageDialog.openError(getShell(), "Error", realException
 					.getMessage());
 			return false;
+		} finally {
+			wizardSettings.put("TSProfileFile",firstPage.getTSProfileFile());
+			wizardSettings.put("ProfilesDir",firstPage.getProfileDir());
+			wizardSettings.put("OverwriteExisting", firstPage.getReplace());
+			wizardSettings.put("CreateUnknown", firstPage.getCreateUnknown());
 		}
 
 		// FIXME perform a refresh on created profile
