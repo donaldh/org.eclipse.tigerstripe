@@ -14,8 +14,10 @@ package org.eclipse.tigerstripe.annotation.internal.core;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -246,7 +248,7 @@ public class AnnotationManager extends AnnotationStorage implements
 	 */
 	public void changed(URI oldUri, URI newUri, boolean affectChildren) {
 		if (affectChildren) {
-			List<URI> uris = new ArrayList<URI>();
+			Set<URI> uris = new HashSet<URI>();
 			List<Annotation> annotations = getPostfixAnnotations(oldUri);
 			for (Annotation annotation : annotations) {
 				if (!uris.contains(annotation.getUri()))
