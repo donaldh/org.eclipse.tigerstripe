@@ -291,6 +291,7 @@ public class UML2TS {
 									dependency
 									.setFullyQualifiedName(ImportUtilities.convertToFQN(depQName,messages,out));
 
+									this.out.println();
 									this.out.println("INFO : MAKING ARTIFACT : "
 											+ depArtifact.getLabel()
 											+ " FQN "
