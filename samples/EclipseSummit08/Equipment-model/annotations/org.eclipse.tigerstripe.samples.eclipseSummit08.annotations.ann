@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:d="http:///org/eclipse/tigerstripe/samples/eclipseSummit08/annotations/documentation.ecore" xmlns:dn="http:///org/eclipse/tigerstripe/samples/eclipseSummit08/annotations/designNotes.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.tigerstripe.annotation="http:///org/eclipse/tigerstripe/annotation.ecore">
+  <ecoreDefinition>
+    <ecore:EPackage name="documentation" nsURI="http:///org/eclipse/tigerstripe/samples/eclipseSummit08/annotations/documentation.ecore" nsPrefix="d">
+      <eClassifiers xsi:type="ecore:EClass" name="Documentation">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="author">
+          <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="content">
+          <eAnnotations source="org.eclipse.tigerstripe.annotation">
+            <details key="editor" value="org.eclipse.wst.html.core.htmlsource.source"/>
+          </eAnnotations>
+          <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+    </ecore:EPackage>
+    <ecore:EPackage name="designNotes" nsURI="http:///org/eclipse/tigerstripe/samples/eclipseSummit08/annotations/designNotes.ecore" nsPrefix="dn">
+      <eClassifiers xsi:type="ecore:EClass" name="Note">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="Text">
+          <eAnnotations source="org.eclipse.tigerstripe.annotation">
+            <details key="multiline" value="true"/>
+          </eAnnotations>
+          <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="TODO">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="hack">
+          <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="summary">
+          <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+    </ecore:EPackage>
+  </ecoreDefinition>
+  <org.eclipse.tigerstripe.annotation:Annotation uri="tigerstripe:/Equipment-model/com.mycompany.equipment.Equipment" id="_-cigkatjEd2Fn5wMz1rR3w">
+    <content xsi:type="d:Documentation" author="Eric" content="&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;>&#xA;&lt;html>&#xA;&lt;head>&#xA;&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=UTF-8&quot;>&#xA;&lt;title>Title goes here&lt;/title>&#xA;&lt;/head>&#xA;&lt;body>&#xA;This is the documentation.&#xA;&lt;/body>&#xA;&lt;/html>"/>
+  </org.eclipse.tigerstripe.annotation:Annotation>
+  <org.eclipse.tigerstripe.annotation:Annotation uri="tigerstripe:/Equipment-model/com.mycompany.equipment.Port" id="_V4p50KtxEd2SuOGpYxGrwA">
+    <content xsi:type="dn:Note" Text="This is a simplistic Port model!"/>
+  </org.eclipse.tigerstripe.annotation:Annotation>
+  <org.eclipse.tigerstripe.annotation:Annotation uri="tigerstripe:/Equipment-model/com.mycompany.equipment.Port" id="_eBY7gKtxEd2SuOGpYxGrwA">
+    <content xsi:type="d:Documentation" author="Eric" content="&lt;html>&#xA;&#x9;Content!&#xA;&lt;/html>"/>
+  </org.eclipse.tigerstripe.annotation:Annotation>
+  <org.eclipse.tigerstripe.annotation:Annotation uri="tigerstripe:/Equipment-model/com.mycompany.equipment.Equipment" id="_UaiaIKwuEd2z2tbrb1IElA">
+    <content xsi:type="dn:Note"/>
+  </org.eclipse.tigerstripe.annotation:Annotation>
+  <org.eclipse.tigerstripe.annotation:Annotation uri="tigerstripe:/Equipment-model/com.mycompany.equipment.Router" id="_RUFX0Kw0Ed2uxszr3XQSIA">
+    <content xsi:type="d:Documentation"/>
+  </org.eclipse.tigerstripe.annotation:Annotation>
+</xmi:XMI>

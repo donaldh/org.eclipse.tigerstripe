@@ -81,6 +81,13 @@
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_bVTTZad5Ed2DWfIjm5c9-Q" x="405" y="126"/>
   </children>
   <children xmi:type="org.eclipse.tigerstripe.annotation.ui.diagrams.model:MetaAnnotationNode" xmi:id="_BzB9kKd6Ed2Hdqs9bvwh_w" type="MetaAnnotation">
+    <children xmi:type="org.eclipse.tigerstripe.annotation.ui.diagrams.model:MetaViewAnnotations" xmi:id="_JRxO4KrOEd2qy48STPtzAA" type="MetaViewAnnotation" view="_Z9snQKd5Ed2DWfIjm5c9-Q">
+      <styles xmi:type="notation:ShapeStyle" xmi:id="_JRxO4arOEd2qy48STPtzAA" fontName="Lucida Grande" fillColor="9434110" lineColor="6661313"/>
+      <element xsi:nil="true"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_JRxO4qrOEd2qy48STPtzAA"/>
+      <types>org.eclipse.tigerstripe.annotation.ui.example.entityNote.EntityNote</types>
+      <types>org.eclipse.tigerstripe.annotation.core.test.model.Author</types>
+    </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_BzGPAKd6Ed2Hdqs9bvwh_w" fontName="Lucida Grande" fillColor="9434110" lineColor="6661313"/>
     <element xsi:nil="true"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_BzG2EKd6Ed2Hdqs9bvwh_w"/>
@@ -100,6 +107,21 @@
     <styles xmi:type="notation:LineStyle" xmi:id="_GjJyxKd8Ed2RvrOL3boyzg"/>
     <element xmi:type="null:Enumeration" href="common.vwm#//@artifacts.4"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_GjJyxad8Ed2RvrOL3boyzg" x="279" y="261"/>
+  </children>
+  <children xmi:type="org.eclipse.tigerstripe.annotation.ui.diagrams.model:AnnotationNode" xmi:id="_JRLZAKrOEd2qy48STPtzAA" type="Annotation" annotationId="_HHKYgKrOEd2qy48STPtzAA">
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_JRLZAarOEd2qy48STPtzAA" fontName="Lucida Grande" fillColor="9434110" lineColor="6661313"/>
+    <element xsi:nil="true"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_JRLZAqrOEd2qy48STPtzAA" x="135" y="45"/>
+  </children>
+  <children xmi:type="org.eclipse.tigerstripe.annotation.ui.diagrams.model:ViewLocationNode" xmi:id="_JRapkKrOEd2qy48STPtzAA" type="ViewLocationNode" view="_Z9snQKd5Ed2DWfIjm5c9-Q">
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_JRapkarOEd2qy48STPtzAA" fontName="Lucida Grande" fillColor="9434110" lineColor="6661313"/>
+    <element xsi:nil="true"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_JRapkqrOEd2qy48STPtzAA" x="54" y="108" width="160" height="57"/>
+  </children>
+  <children xmi:type="org.eclipse.tigerstripe.annotation.ui.diagrams.model:AnnotationNode" xmi:id="_vRCbcKrOEd2qy48STPtzAA" type="Annotation" annotationId="_q8s4cKrOEd2qy48STPtzAA">
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_vRCbcarOEd2qy48STPtzAA" fontName="Lucida Grande" fillColor="9434110" lineColor="6661313"/>
+    <element xsi:nil="true"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_vRCbcqrOEd2qy48STPtzAA" x="9" y="189"/>
   </children>
   <styles xmi:type="notation:PageStyle" xmi:id="_quHF4qd4Ed2DWfIjm5c9-Q"/>
   <styles xmi:type="notation:GuideStyle" xmi:id="_quHF46d4Ed2DWfIjm5c9-Q"/>
@@ -129,5 +151,15 @@
     <element xsi:nil="true"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_d6sBRKd5Ed2DWfIjm5c9-Q" points="[0, 0, 175, 47]$[-175, -72, 0, -25]"/>
     <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_d6vEkKd5Ed2DWfIjm5c9-Q" id="(0.1904762,0.34)"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_JRosAKrOEd2qy48STPtzAA" type="AnnotationConnection" source="_JRLZAKrOEd2qy48STPtzAA" target="_JRapkKrOEd2qy48STPtzAA">
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_JRosAarOEd2qy48STPtzAA"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_JRosAqrOEd2qy48STPtzAA" points="[0, 0, -134, -136]$[134, 108, 0, -28]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_vRP20KrOEd2qy48STPtzAA" type="AnnotationConnection" source="_vRCbcKrOEd2qy48STPtzAA" target="_JRapkKrOEd2qy48STPtzAA">
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_vRP20arOEd2qy48STPtzAA"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_vRP20qrOEd2qy48STPtzAA" points="[0, 0, -134, -136]$[134, 108, 0, -28]"/>
   </edges>
 </notation:Diagram>

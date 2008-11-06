@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:instancediagram="org.eclipse.tigerstripe.workbench.ui.instancediagram" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.1/notation" xmi:id="_8mzwQaquEd2Px-EYz15bVw" type="Instance" name="router-examples.wod" measurementUnit="Pixel">
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:instancediagram="org.eclipse.tigerstripe.workbench.ui.instancediagram" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.1/notation" xmlns:org.eclipse.tigerstripe.annotation.ui.diagrams.model="http:///org/eclipse/tigerstripe/annotation/ui/diagrams/model.ecore" xmi:id="_8mzwQaquEd2Px-EYz15bVw" type="Instance" name="router-examples.wod" measurementUnit="Pixel">
   <children xmi:type="notation:Node" xmi:id="_AHFZEKqvEd2Px-EYz15bVw" type="1001">
     <children xmi:type="notation:Node" xmi:id="_AHGAIKqvEd2Px-EYz15bVw" type="4001"/>
     <children xmi:type="notation:Node" xmi:id="_AHGnMKqvEd2Px-EYz15bVw" type="5001">
@@ -69,6 +69,11 @@
     <styles xmi:type="notation:LineStyle" xmi:id="_aAc446qxEd2Px-EYz15bVw"/>
     <element xmi:type="instancediagram:ClassInstance" href="router-examples.owm#//@classInstances.4"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_aAc45KqxEd2Px-EYz15bVw" x="324" y="333"/>
+  </children>
+  <children xmi:type="org.eclipse.tigerstripe.annotation.ui.diagrams.model:MetaAnnotationNode" xmi:id="_WuhkYKrNEd2qy48STPtzAA" type="MetaAnnotation">
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_WuhkYarNEd2qy48STPtzAA" fontName="Lucida Grande" fillColor="9434110" lineColor="6661313"/>
+    <element xsi:nil="true"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_WuhkYqrNEd2qy48STPtzAA"/>
   </children>
   <styles xmi:type="notation:PageStyle" xmi:id="_8mzwQqquEd2Px-EYz15bVw"/>
   <styles xmi:type="notation:GuideStyle" xmi:id="_8mzwQ6quEd2Px-EYz15bVw"/>

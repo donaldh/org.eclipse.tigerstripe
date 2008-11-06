@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dn="http:///org/eclipse/tigerstripe/annotation/example/designNotes.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.tigerstripe.annotation="http:///org/eclipse/tigerstripe/annotation.ecore">
+  <ecoreDefinition>
+    <ecore:EPackage name="designNotes" nsURI="http:///org/eclipse/tigerstripe/annotation/example/designNotes.ecore" nsPrefix="dn">
+      <eClassifiers xsi:type="ecore:EClass" name="Note">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="Text">
+          <eAnnotations source="org.eclipse.tigerstripe.annotation">
+            <details key="multiline" value="true"/>
+          </eAnnotations>
+          <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+      <eClassifiers xsi:type="ecore:EClass" name="TODO">
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="hack">
+          <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+        </eStructuralFeatures>
+        <eStructuralFeatures xsi:type="ecore:EAttribute" name="summary">
+          <eType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+        </eStructuralFeatures>
+      </eClassifiers>
+    </ecore:EPackage>
+  </ecoreDefinition>
+  <org.eclipse.tigerstripe.annotation:Annotation uri="tigerstripe:/common-model/com.mycompany.Location" id="_75yYUKtVEd2Czva3v3Wzmg">
+    <content xsi:type="dn:Note" Text="This is a long note."/>
+  </org.eclipse.tigerstripe.annotation:Annotation>
+  <org.eclipse.tigerstripe.annotation:Annotation uri="tigerstripe:/common-model/com.mycompany.Location" id="_AlDNkKtWEd2Czva3v3Wzmg">
+    <content xsi:type="dn:TODO" summary="This a short summary"/>
+  </org.eclipse.tigerstripe.annotation:Annotation>
+</xmi:XMI>

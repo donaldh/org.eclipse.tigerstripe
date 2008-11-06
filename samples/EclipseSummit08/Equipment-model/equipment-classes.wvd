@@ -121,6 +121,12 @@
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_1siZxanSEd2kAZEtl8jGtg" x="342" y="144"/>
   </children>
   <children xmi:type="org.eclipse.tigerstripe.annotation.ui.diagrams.model:MetaAnnotationNode" xmi:id="_O8X98KnhEd2KtZt5OUSjFg" type="MetaAnnotation">
+    <children xmi:type="org.eclipse.tigerstripe.annotation.ui.diagrams.model:MetaViewAnnotations" xmi:id="_aBiawKtxEd2SuOGpYxGrwA" type="MetaViewAnnotation" view="_ZP4BUKnREd2QWYqA-zqzBg">
+      <styles xmi:type="notation:ShapeStyle" xmi:id="_aBiawatxEd2SuOGpYxGrwA" fontName="Lucida Grande" fillColor="9434110" lineColor="6661313"/>
+      <element xsi:nil="true"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_aBiawqtxEd2SuOGpYxGrwA"/>
+      <types>org.eclipse.tigerstripe.samples.eclipseSummit08.annotations.designNotes.Note</types>
+    </children>
     <styles xmi:type="notation:ShapeStyle" xmi:id="_O8cPYKnhEd2KtZt5OUSjFg" fontName="Lucida Grande" fillColor="9434110" lineColor="6661313"/>
     <element xsi:nil="true"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_O8cPYanhEd2KtZt5OUSjFg"/>
@@ -144,6 +150,16 @@
     <styles xmi:type="notation:LineStyle" xmi:id="_e1Wo1KnhEd2KtZt5OUSjFg"/>
     <element xmi:type="null:ManagedEntityArtifact" href="equipment-classes.vwm#//@artifacts.6"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_e1Wo1anhEd2KtZt5OUSjFg" x="495" y="88"/>
+  </children>
+  <children xmi:type="org.eclipse.tigerstripe.annotation.ui.diagrams.model:AnnotationNode" xmi:id="_aAdcsKtxEd2SuOGpYxGrwA" type="Annotation" annotationId="_V4p50KtxEd2SuOGpYxGrwA">
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_aAdcsatxEd2SuOGpYxGrwA" fontName="Lucida Grande" fillColor="9434110" lineColor="6661313"/>
+    <element xsi:nil="true"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_aAdcsqtxEd2SuOGpYxGrwA" x="414" y="252"/>
+  </children>
+  <children xmi:type="org.eclipse.tigerstripe.annotation.ui.diagrams.model:ViewLocationNode" xmi:id="_aBJZMKtxEd2SuOGpYxGrwA" type="ViewLocationNode" view="_ZP4BUKnREd2QWYqA-zqzBg">
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_aBJZMatxEd2SuOGpYxGrwA" fontName="Lucida Grande" fillColor="9434110" lineColor="6661313"/>
+    <element xsi:nil="true"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_aBJZMqtxEd2SuOGpYxGrwA" x="264" y="317" width="118" height="57"/>
   </children>
   <styles xmi:type="notation:PageStyle" xmi:id="_QjA-4anREd2QWYqA-zqzBg"/>
   <styles xmi:type="notation:GuideStyle" xmi:id="_QjA-4qnREd2QWYqA-zqzBg"/>
@@ -218,5 +234,10 @@
     <styles xmi:type="notation:LineStyle" xmi:id="_e12YE6nhEd2KtZt5OUSjFg"/>
     <element xsi:nil="true"/>
     <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_e12YFKnhEd2KtZt5OUSjFg" points="[-59, -12, 155, 31]$[-161, -33, 53, 10]"/>
+  </edges>
+  <edges xmi:type="notation:Edge" xmi:id="_aBZ34KtxEd2SuOGpYxGrwA" type="AnnotationConnection" source="_aAdcsKtxEd2SuOGpYxGrwA" target="_aBJZMKtxEd2SuOGpYxGrwA">
+    <styles xmi:type="notation:ConnectorStyle" xmi:id="_aBZ34atxEd2SuOGpYxGrwA"/>
+    <element xsi:nil="true"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_aBZ34qtxEd2SuOGpYxGrwA" points="[0, 0, -323, -345]$[323, 317, 0, -28]"/>
   </edges>
 </notation:Diagram>
