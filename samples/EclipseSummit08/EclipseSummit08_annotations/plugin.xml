@@ -5,7 +5,7 @@
  <copyright>
  </copyright>
 
- $Id: plugin.xml,v 1.1 2008/11/05 19:53:22 edillon Exp $
+ $Id: plugin.xml,v 1.2 2008/11/06 19:02:35 edillon Exp $
 -->
 
 <plugin>
@@ -98,4 +98,44 @@
 	          eclass="Documentation"/>
 	 </extension>
 
+   <extension
+         point="org.eclipse.tigerstripe.workbench.ui.base.labelDecorator">
+      <decorator
+            class="org.eclipse.tigerstripe.samples.eclipseSummit08.ui.DocumentedLabelDecorator">
+      </decorator>
+   </extension>
+
+	<extension
+         point="org.eclipse.tigerstripe.metamodel.customArtifactMetadata">
+      <modelComponentIconProvider
+            artifactType="IManagedEntityArtifact"
+            provider="org.eclipse.tigerstripe.samples.eclipseSummit08.ui.IconProvider">
+      </modelComponentIconProvider>
+   </extension>
+	
+   <extension
+         point="org.eclipse.tigerstripe.workbench.base.creationPatterns">
+      <patternDefinition
+            patternFile="patterns/documentedEntity.xml">
+      </patternDefinition>
+      <disabledPattern
+            patternName="org.eclipse.tigerstripe.workbench.base.ManagedEntity">
+      </disabledPattern>
+      <disabledPattern
+            patternName="org.eclipse.tigerstripe.workbench.base.Query">
+      </disabledPattern>
+      <disabledPattern
+            patternName="org.eclipse.tigerstripe.workbench.base.Session">
+      </disabledPattern>
+      <disabledPattern
+            patternName="org.eclipse.tigerstripe.workbench.base.UpdateProcedure">
+      </disabledPattern>
+      <disabledPattern
+            patternName="org.eclipse.tigerstripe.workbench.base.Event">
+      </disabledPattern>
+      <disabledPattern
+            patternName="org.eclipse.tigerstripe.workbench.base.Exception">
+      </disabledPattern>
+	</extension>
+	
 </plugin>

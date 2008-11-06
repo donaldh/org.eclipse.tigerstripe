@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<pattern:creationPattern
+	patternName="org.eclipse.tigerstripe.samples.eclipseSummit08.DocumentedEntity"
+	uiLabel="Documented Entity" iconPath="icons/cube-new.png" disabledIconPath="icons/cube-new-gs.png"
+	patternType="node" index="100"
+	xmlns:pattern="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0"
+	xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v2-0">
+	<pattern:description>Create a new Documented Entity
+	</pattern:description>
+
+	<ts:artifact name="_user1"
+		artifactType="org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact">
+		<ts:comment>New Documented Entity</ts:comment>
+		<!-- Should be creating an empty "Documentation" annotation... here! -->
+	</ts:artifact>
+</pattern:creationPattern>
