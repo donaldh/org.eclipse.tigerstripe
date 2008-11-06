@@ -24,8 +24,7 @@
 		<javac destdir="${temp.folder}/ant_tasks/tigerstripe-ant.jar.bin" failonerror="true" verbose="true" debug="on">
 			<classpath>
 				<dirset dir="${basedir}/..">
-					<include name="plugins/org.eclipse.tigerstripe.workbench.base/bin"/>
-					<include name="plugins/org.eclipse.tigerstripe.workbench.ui.base/bin"/>
+					<include name="org.eclipse.tigerstripe.workbench.base/bin"/>
 				</dirset>
 				<fileset dir="${eclipse.home}">
 					<include name="plugins/org.eclipse.core.*"/>
