@@ -35,7 +35,6 @@ import org.eclipse.tigerstripe.workbench.ui.internal.viewers.TigerstripeDecorato
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.AbstractArtifactLabelProvider;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.dialogs.FilteredList.FilterMatcher;
-import org.eclipse.ui.internal.misc.StringMatcher;
 
 /**
  * @author Eric Dillon
@@ -139,23 +138,21 @@ public class BrowseForArtifactDialog {
 			@Override
 			public void create() {
 				super.create();
-				// set the filter matcher so that it will put a "*" in front of
-				// the
-				// pattern as well as at the end (the default filter matcher
-				// that is
-				// used in a filtered list only puts the "*" at the end of the
-				// pattern)
 				fFilteredList.setFilterMatcher(new FilterMatcher() {
-					private StringMatcher fMatcher;
+					private String pattern;
 
 					public void setFilter(String pattern, boolean ignoreCase,
 							boolean ignoreWildCards) {
-						fMatcher = new StringMatcher('*' + pattern + '*',
-								ignoreCase, ignoreWildCards);
+						this.pattern = pattern;
 					}
 
 					public boolean match(Object element) {
-						return fMatcher.match(labelProvider.getText(element));
+						if (element instanceof IAbstractArtifact) {
+							IAbstractArtifact art = (IAbstractArtifact) element;
+							return art.getFullyQualifiedName()
+									.contains(pattern);
+						}
+						return false;
 					}
 				});
 			}
