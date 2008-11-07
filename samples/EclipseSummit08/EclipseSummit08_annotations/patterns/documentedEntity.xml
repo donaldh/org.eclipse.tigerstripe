@@ -11,7 +11,13 @@
 
 	<ts:artifact name="_user1"
 		artifactType="org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact">
+		<ts:annotations>
+  		 <![CDATA[
+           <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:d="http:///org/eclipse/tigerstripe/samples/eclipseSummit08/annotations/documentation.ecore">
+             <d:Documentation/>
+           </xmi:XMI>
+  		 ]]>   
+        </ts:annotations>
 		<ts:comment>New Documented Entity</ts:comment>
-		<!-- Should be creating an empty "Documentation" annotation... here! -->
 	</ts:artifact>
 </pattern:creationPattern>
