@@ -14,7 +14,7 @@
 		<ts:annotations>
   		 <![CDATA[
            <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:d="http:///org/eclipse/tigerstripe/samples/eclipseSummit08/annotations/documentation.ecore">
-             <d:Documentation/>
+             <d:Documentation author="" content=""/>
            </xmi:XMI>
   		 ]]>   
         </ts:annotations>
