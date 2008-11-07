@@ -108,7 +108,7 @@
             extensions="wfc"
             icon="src/icons/segment.gif"
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.segmentEditor"
-            name="Tigerstripe Contract Facet Editor"/>
+            name="Tigerstripe Facet Editor"/>
       <editor
             class="org.eclipse.tigerstripe.workbench.ui.internal.editors.useCase.UseCaseEditor"
             default="true"
@@ -168,7 +168,7 @@
             finalPerspective="org.eclipse.tigerstripe.community.tigerstripePerspective"
             icon="src/icons/segment.gif"
             id="org.eclipse.tigerstripe.eclipse.wizards.NewSegmentWizard"
-            name="Contract Facet"/>
+            name="Facet"/>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
@@ -270,7 +270,7 @@
          point="org.eclipse.tigerstripe.workbench.ui.base.explorerMenuContribution">
       <contribution
             actionClass="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewContractSegmentWizardAction"
-            name="Open Contract Facet Action"/>
+            name="Open Facet Action"/>
    </extension>
       <extension
             point="org.eclipse.ui.popupMenus">

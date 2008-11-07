@@ -38,7 +38,7 @@ public class OverviewPage extends TigerstripeFormPage {
 
 		ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = managedForm.getToolkit();
-		form.setText("Tigerstripe Workbench Contract Facet");
+		form.setText("Tigerstripe Workbench Facet");
 		fillBody(managedForm, toolkit);
 		managedForm.refresh();
 	}

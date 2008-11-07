@@ -51,7 +51,7 @@ public class ContractSegmentAuditor implements IFileExtensionBasedAuditor{
 			return;
 
 		if (getTSProject() != null) {
-			monitor.beginTask("Checking Contract Facets", resources.size());
+			monitor.beginTask("Checking Facets", resources.size());
 
 			for (IResource res : resources) {
 				try {

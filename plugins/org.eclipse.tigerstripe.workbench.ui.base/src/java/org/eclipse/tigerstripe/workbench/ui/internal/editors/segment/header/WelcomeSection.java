@@ -47,7 +47,7 @@ public class WelcomeSection extends TigerstripeSectionPart {
 	private void createWelcomeMsg(Composite parent, FormToolkit toolkit) {
 		TableWrapData td = null;
 
-		String data = "<form><p><b>Tigerstripe Workbench Contract Facet Editor.</b></p></form>";
+		String data = "<form><p><b>Tigerstripe Workbench Facet Editor.</b></p></form>";
 		FormText rtext = toolkit.createFormText(parent, true);
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		td.colspan = 2;

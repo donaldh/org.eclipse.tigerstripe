@@ -37,7 +37,7 @@
 		<topic label="JMS/XML Profile" href="src/help/html/tasks/generationTasks/ossjXmlProfileDetails.html"/>
 		<topic label="Web Services Profile" href="src/help/html/tasks/generationTasks/ossjWsdlProfileDetails.html"/>
 	</topic>
-	<topic label="Service Contract Facets" href="src/help/html/tasks/facets/index.html">
+	<topic label="Facets" href="src/help/html/tasks/facets/index.html">
 	    <topic label="Defining the Facet Scope" href="scope.html"/>
         <topic label="Defining an Active Facet"  href="active.html"/>
         <topic label="Project Generation with Active Facets"  href="generation.html"/>
@@ -73,7 +73,7 @@
 		<topic label="Deploy and Test a plugin"  href="src/help/html/tasks/pluginDesignTasks/deployAndTestPlugin.html"/>
 		<topic label="Packaging a plugin for distribution to other users"  href="src/help/html/tasks/pluginDesignTasks/packagePlugin.html"/>
 	</topic>
-	<topic label="Service Contract Facets" href="src/help/html/tasks/facets/index.html">
+	<topic label="Facets" href="src/help/html/tasks/facets/index.html">
 		<topic label="Defining Scope" href="src/help/html/tasks/facets/scope.html"/>
 		<topic label="Defining the Active Facet" href="src/help/html/tasks/facets/active.html"/>
 		<topic label="Project Generation with Active Facets" href="src/help/html/tasks/facets/generation.html"/>

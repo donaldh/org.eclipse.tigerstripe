@@ -128,9 +128,9 @@ public class SegmentEditor extends TigerstripeFormEditor {
 			addPage(facetPage);
 			addModelPage(facetPage);
 
-			UseCasesPage useCasesPage = new UseCasesPage(this);
-			addPage(useCasesPage);
-			addModelPage(useCasesPage);
+//			UseCasesPage useCasesPage = new UseCasesPage(this);
+//			addPage(useCasesPage);
+//			addModelPage(useCasesPage);
 
 			// PluginDescriptorRulesPage rulesPage = new
 			// PluginDescriptorRulesPage(

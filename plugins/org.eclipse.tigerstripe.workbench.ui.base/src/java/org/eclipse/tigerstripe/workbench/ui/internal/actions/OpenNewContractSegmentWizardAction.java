@@ -37,7 +37,7 @@ public class OpenNewContractSegmentWizardAction extends
 	}
 
 	protected void initAction() {
-		setText("Contract Facet");
+		setText("Facet");
 		setImageDescriptor(Images.getDescriptor(Images.CONTRACTSEGMENT_ICON));
 	}
 

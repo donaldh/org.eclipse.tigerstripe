@@ -20,7 +20,7 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 public class FacetReferencesPage extends TigerstripeFormPage {
 
-	public static final String PAGE_ID = "descriptor.dependencies"; //$NON-NLS-1$
+	public static final String PAGE_ID = "contractFacet.dependencies"; //$NON-NLS-1$
 
 	public FacetReferencesPage(FormEditor editor) {
 		super(editor, PAGE_ID, "Facets");

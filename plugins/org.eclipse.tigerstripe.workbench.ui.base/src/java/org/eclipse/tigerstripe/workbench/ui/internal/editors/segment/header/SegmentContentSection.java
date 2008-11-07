@@ -14,8 +14,8 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeSectionPart;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.segment.facetRefs.FacetReferencesPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.segment.scope.ScopePage;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.segment.useCases.UseCasesPage;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
@@ -29,7 +29,7 @@ public class SegmentContentSection extends TigerstripeSectionPart {
 	public SegmentContentSection(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit) {
 		super(page, parent, toolkit, ExpandableComposite.TITLE_BAR);
-		setTitle("Contract Facet");
+		setTitle("Facet");
 		createContent();
 	}
 
@@ -65,7 +65,7 @@ public class SegmentContentSection extends TigerstripeSectionPart {
 		buf
 				.append("<li><a href=\"scope\">A Facet Scope</a>: defining the scope of this facet within the context of the project.</li>");
 		buf
-				.append("<li><a href=\"useCases\">A set of UseCases</a>: presenting how this facet is to be used.</li>");
+				.append("<li><a href=\"facets\">References to other facets</a>: allowing to include other facets.</li>");
 		buf.append("</form>");
 		rtext.setText(buf.toString(), true, false);
 		rtext.addHyperlinkListener(new HyperlinkAdapter() {
@@ -73,8 +73,9 @@ public class SegmentContentSection extends TigerstripeSectionPart {
 			public void linkActivated(HyperlinkEvent e) {
 				if ("scope".equals(e.getHref())) {
 					getPage().getEditor().setActivePage(ScopePage.PAGE_ID);
-				} else if ("useCases".equals(e.getHref())) {
-					getPage().getEditor().setActivePage(UseCasesPage.PAGE_ID);
+				} else if ("facets".equals(e.getHref())) {
+					getPage().getEditor().setActivePage(
+							FacetReferencesPage.PAGE_ID);
 					// } else if ( "dependencies".equals( (String) e.getHref()
 					// )) {
 					// getPage().getEditor().setActivePage(
@@ -92,7 +93,7 @@ public class SegmentContentSection extends TigerstripeSectionPart {
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		td.colspan = 2;
 		rtext.setLayoutData(td);
-		String data = "<form><p>A Contract Facet is saved as <b>*."
+		String data = "<form><p>A Facet is saved as <b>*."
 				+ IContractSegment.FILE_EXTENSION + "</b> file.</p></form>";
 		rtext.setText(data, true, false);
 	}
