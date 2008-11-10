@@ -115,21 +115,21 @@ public class BrowseForArtifactDialog {
 					return " " + super.getText(element);
 				}
 
-				if (element instanceof IModelComponent) {
-					return TigerstripeDecoratorManager.getDefault()
-							.decorateText(super.getText(element),
-									(IModelComponent) element);
-				} else
+//				if (element instanceof IModelComponent) {
+//					return TigerstripeDecoratorManager.getDefault()
+//							.decorateText(super.getText(element),
+//									(IModelComponent) element);
+//				} else
 					return super.getText(element);
 			}
 
 			@Override
 			public Image getImage(Object element) {
-				if (element instanceof IModelComponent) {
-					return TigerstripeDecoratorManager.getDefault()
-							.decorateImage(super.getImage(element),
-									(IModelComponent) element);
-				}
+//				if (element instanceof IModelComponent) {
+//					return TigerstripeDecoratorManager.getDefault()
+//							.decorateImage(super.getImage(element),
+//									(IModelComponent) element);
+//				}
 				return super.getImage(element);
 			}
 		};
