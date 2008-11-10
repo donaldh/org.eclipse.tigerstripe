@@ -14,7 +14,6 @@
 </repositories>
 <plugins>
 <plugin disableLogging="false" enabled="true" groupId="Cisco Systems, Inc." logLevel="0" pluginId="ClassLevel-Generator(1.0)" version="1.0"/>
-<plugin disableLogging="false" enabled="true" groupId="" logLevel="0" pluginId="(1.0)" version="1.0"/>
 </plugins>
 <dependencies/>
 <references>
