@@ -27,6 +27,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -40,6 +41,7 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeResourceAdapterFactory;
+import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceHelper.IResourceFilter;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
@@ -85,32 +87,31 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		fullBuildRequired = true;
 	}
 
-
 	// ===================================================================
-		
+
 	public void artifactAdded(IAbstractArtifact artifact) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void artifactChanged(IAbstractArtifact artifact) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void artifactRemoved(IAbstractArtifact artifact) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void artifactRenamed(IAbstractArtifact artifact, String fromFQN) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void managerReloaded() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	// ===================================================================
@@ -505,7 +506,10 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		if (checkCancel(monitor))
 			return;
 
-		checkDescriptor(monitor);
+		if (shouldCheckDescriptor(kind)) {
+			checkDescriptor(monitor);
+		}
+
 		monitor.worked(1);
 		if (checkCancel(monitor))
 			return;
@@ -515,6 +519,48 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 			return;
 
 		monitor.done();
+	}
+
+	class LookForDescriptorVisitor implements IResourceDeltaVisitor {
+
+		private boolean descriptorFound = false;
+		private String descriptorName = "";
+
+		public LookForDescriptorVisitor(String descriptorName) {
+			this.descriptorName = descriptorName;
+		}
+
+		public boolean visit(IResourceDelta delta) throws CoreException {
+			descriptorFound = descriptorName.equals(delta.getResource()
+					.getName())
+					&& delta.getKind() == IResourceDelta.CHANGED;
+			return !descriptorFound;
+		}
+
+		public boolean hasChanged() {
+			return descriptorFound;
+		}
+	}
+
+	/**
+	 * This method determines if a check of the auditor is necessary.
+	 * 
+	 * @return
+	 */
+	private boolean shouldCheckDescriptor(int kind) {
+		if (kind == FULL_BUILD || kind == CLEAN_BUILD) {
+			return true;
+		}
+
+		IResourceDelta delta = getDelta(getProject());
+		LookForDescriptorVisitor vis = new LookForDescriptorVisitor(
+				ITigerstripeConstants.PROJECT_DESCRIPTOR);
+		try {
+			delta.accept(vis);
+		} catch (CoreException e) {
+			BasePlugin.log(e);
+		}
+		return vis.hasChanged();
 	}
 
 	private void checkDescriptor(IProgressMonitor monitor) {

@@ -181,7 +181,7 @@ public class ClasspathUpdater {
 					if (entries[i].getPath().equals(
 							new Path(ITigerstripeConstants.PHANTOMLIB))) {
 						phantomLibFound = true;
-						needUpdate = true; // there seems to be problems if the
+//						needUpdate = true; // there seems to be problems if the
 						// reference is
 						// created before the zip file exists, so a refresh is
 						// necessary so a "clean
@@ -290,7 +290,7 @@ public class ClasspathUpdater {
 	}
 
 	public static IClasspathEntry newLibraryEntry(IPath path) {
-		return JavaCore.newLibraryEntry(path, null, null, false);
+		return JavaCore.newLibraryEntry(path, null, null, true);
 		// return new ClasspathEntry(IPackageFragmentRoot.K_BINARY,
 		// IClasspathEntry.CPE_LIBRARY, JavaProject
 		// .canonicalizedPath(path), ClasspathEntry.INCLUDE_ALL, // inclusion
