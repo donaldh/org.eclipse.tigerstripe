@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cs:cspec xmlns:cs="http://www.eclipse.org/buckminster/CSpec-1.0" name="Equipment-model" componentType="tigerstripe" version="1.0.0" versionType="OSGi">
+    <cs:artifacts>
+        <cs:private name="classlevel-generator" path="ClassLevel-Generator/" type="tigerstripe.generator"/>
+    </cs:artifacts>
+    <cs:actions>
+        <cs:public name="tigerstripe.installGenerator" actor="tigerstripe.installGenerator">
+            <cs:actorProperties>
+                <cs:property key="projectname" value="ClassLevel-Generator"/>
+            </cs:actorProperties>
+            <cs:prerequisites>
+                <cs:attribute name="classlevel-generator"/>
+            </cs:prerequisites>
+        </cs:public>
+    </cs:actions>
+</cs:cspec>
