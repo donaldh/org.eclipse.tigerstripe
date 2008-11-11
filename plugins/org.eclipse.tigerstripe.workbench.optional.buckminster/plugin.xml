@@ -13,17 +13,11 @@
       </componentType>
    </extension>
    <extension
-         point="org.eclipse.ant.core.antTasks">
-      <antTask
-            class="org.eclipse.tigerstripe.workbench.optional.buckminster.ant.InstallGenerator"
-            library="ant_tasks/tigerstripe-ant.jar"
+         point="org.eclipse.buckminster.core.actors">
+      <actor
+            ID="tigerstripe.installGenerator"
+            class="org.eclipse.tigerstripe.workbench.optional.buckminster.internal.actor.InstallGeneratorActor"
             name="tigerstripe.installGenerator">
-      </antTask>
-   </extension>
-   <extension
-         point="org.eclipse.ant.core.extraClasspathEntries">
-      <extraClasspathEntry
-            library="ant_tasks/tigerstripe-ant.jar">
-      </extraClasspathEntry>
+      </actor>
    </extension>
 </plugin>
