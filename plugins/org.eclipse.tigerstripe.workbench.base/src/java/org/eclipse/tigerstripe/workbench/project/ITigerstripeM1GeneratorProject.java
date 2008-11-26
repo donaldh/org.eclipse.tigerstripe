@@ -11,8 +11,8 @@
 package org.eclipse.tigerstripe.workbench.project;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRule;
-import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactRule;
+import org.eclipse.tigerstripe.workbench.plugins.IRule;
 
 /**
  * A M1 (Class-based) Generator Project
@@ -25,21 +25,21 @@ public interface ITigerstripeM1GeneratorProject extends
 
 	// ==================================================
 	// Rules-related definitions
-	public ITemplateBasedRule[] getArtifactRules() throws TigerstripeException;
+	public IArtifactRule[] getArtifactRules() throws TigerstripeException;
 
-	public void addArtifactRule(ITemplateBasedRule rule)
+	public void addArtifactRule(IArtifactRule rule)
 			throws TigerstripeException;
 
-	public void removeArtifactRule(ITemplateBasedRule rule)
+	public void removeArtifactRule(IRule rule)
 			throws TigerstripeException;
 
-	public void removeArtifactRules(ITemplateBasedRule[] rules)
+	public void removeArtifactRules(IRule[] rules)
 			throws TigerstripeException;
 
-	public void addArtifactRules(ITemplateBasedRule[] rules)
+	public void addArtifactRules(IArtifactRule[] rules)
 			throws TigerstripeException;
 
-	public <T extends IArtifactBasedTemplateRule> Class<T>[] getSupportedPluginArtifactRules();
+	public <T extends IArtifactRule> Class<T>[] getSupportedPluginArtifactRules();
 
 	public String[] getSupportedPluginArtifactRuleLabels();
 

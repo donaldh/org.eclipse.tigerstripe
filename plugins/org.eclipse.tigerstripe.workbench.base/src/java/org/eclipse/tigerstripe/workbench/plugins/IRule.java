@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.plugins;
 
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+
 
 /**
  * Top level rule interface for Generators
@@ -19,6 +22,56 @@ package org.eclipse.tigerstripe.workbench.plugins;
  */
 public interface IRule {
 
+	public String  ARTIFACT = "artifact";
+	public Class<?> ARTIFACT_CLASS = IAbstractArtifact.class;
+	
+	public String  PLUGINCONFIG = "pluginConfig";
+	public String  PLUGINDIR = "pluginDir";
+	public String  RUNTIME = "runtime";
+	public String  TSPROJECT = "tsProject";
+	public String  TSPROJECTHANDLE = "tsProjectHandle";
+	public String  MANAGERSESSION = "managerSession";
+	public String  EXP = "exp";
+	public String  MANAGER = "manager";
+	public String  DIAGRAMGENERATOR = "diagramGenerator";
+	public String  ANNOTATIONCONTEXT = "annotationContext";
+	
+	public String  ARTIFACTS = "artifacts";
+	public String  ENTITIES = "entities";
+	public String  DATATYPES = "datatypes";
+	public String  EVENTS = "events";
+	public String  ENUMERATIONS = "enumerations";
+	public String  EXCEPTIONS = "exceptions";
+	public String  QUERIES = "queries";
+	public String  UPDATEPROCEDURES = "updateProcedures";
+	public String  ASSOCIATIONS = "associations";
+	public String  ASSOCIATIONCLASSES = "associationClasses";
+	public String  DEPENDENCIES = "dependencies";
+	public String  SESSIONS = "sessions";
+	public String  PACKAGES = "packages";
+
+	public String  ALLPLUGINCONFIG = "allPluginConfig";
+	public String  ALLARTIFACTS = "allArtifacts";
+	public String  ALLENTITIES = "allEntities";
+	public String  ALLDATATYPES = "allDatatypes";
+	public String  ALLEVENTS = "allEvents";
+	public String  ALLENUMERATIONS = "allEnumerations";
+	public String  ALLEXCEPTIONS = "allExceptions";
+	public String  ALLQUERIES = "allQueries";
+	public String  ALLUPDATEPROCEDURES = "allUpdateProcedures";
+	public String  ALLASSOCIATIONS = "allAssociations";
+	public String  ALLASSOCIATIONCLASSES = "allAssociationClasses";
+	public String  ALLDEPENDENCIES = "allDependencies";
+	public String  ALLSESSIONS = "allSessions";
+	public String  ALLPACKAGES = "allPackages";
+	
+	// The following items are not always in the context.
+	public String  SUPPRESSFILES = "suppressFiles";
+	public String  OVERWRITEFILES = "overwriteFiles";
+	public String  INCLUDEDEPENDENCIES = "includeDependencies";
+	
+	public String REPORT = "report";
+	
 	public String getName();
 
 	public void setName(String name);

@@ -25,6 +25,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.ProjectDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.GeneratorProjectDescriptor;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.runtime.PluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
+import org.eclipse.tigerstripe.workbench.plugins.IGlobalRule;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
@@ -170,18 +171,18 @@ public abstract class GeneratorProjectHandle extends
 
 	// =========================================
 
-	public void addGlobalRule(IRule rule) throws TigerstripeException {
+	public void addGlobalRule(IGlobalRule rule) throws TigerstripeException {
 		assertSet();
 		getDescriptor().addGlobalRule(rule);
 	}
 
-	public void addGlobalRules(IRule[] rules) throws TigerstripeException {
-		for (IRule rule : rules) {
+	public void addGlobalRules(IGlobalRule[] rules) throws TigerstripeException {
+		for (IGlobalRule rule : rules) {
 			addGlobalRule(rule);
 		}
 	}
 
-	public IRule[] getGlobalRules() throws TigerstripeException {
+	public IGlobalRule[] getGlobalRules() throws TigerstripeException {
 		return getDescriptor().getGlobalRules();
 	}
 
@@ -196,7 +197,7 @@ public abstract class GeneratorProjectHandle extends
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends IRule> Class<T>[] getSupportedGlobalRules() {
+	public <T extends IGlobalRule> Class<T>[] getSupportedGlobalRules() {
 		try {
 			return getDescriptor().getSupportedGlobalRules();
 		} catch (TigerstripeException e) {

@@ -40,6 +40,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.builder.BuilderConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.project.PluginProjectCreator;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactRule;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
@@ -171,10 +172,10 @@ public class PluggablePluginProjectAuditor extends IncrementalProjectBuilder {
 				glRulesAuditor.audit(rule, monitor);
 			}
 
-			ITemplateBasedRule[] aRules = pProject.getArtifactRules();
+			IArtifactRule[] aRules = pProject.getArtifactRules();
 			ArtifactBasedRuleAuditor aRulesAuditor = new ArtifactBasedRuleAuditor(
 					pProject, getProject());
-			for (ITemplateBasedRule rule : aRules) {
+			for (IArtifactRule rule : aRules) {
 				aRulesAuditor.audit(rule, monitor);
 			}
 

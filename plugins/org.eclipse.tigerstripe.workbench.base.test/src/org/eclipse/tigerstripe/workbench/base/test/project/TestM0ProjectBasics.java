@@ -15,6 +15,7 @@ import junit.framework.TestCase;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.WorkingCopyException;
+import org.eclipse.tigerstripe.workbench.plugins.IGlobalRule;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
@@ -72,7 +73,7 @@ public class TestM0ProjectBasics extends TestCase {
 		}
 	}
 
-	public <T extends IRule> void testSupportedGlobalRules()
+	public <T extends IGlobalRule> void testSupportedGlobalRules()
 			throws TigerstripeException {
 		Class<T> supported[] = project.getSupportedGlobalRules();
 

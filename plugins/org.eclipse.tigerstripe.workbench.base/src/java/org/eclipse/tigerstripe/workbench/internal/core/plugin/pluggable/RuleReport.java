@@ -16,6 +16,7 @@ import java.util.Collection;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
 import org.eclipse.tigerstripe.workbench.plugins.ICopyRule;
+import org.eclipse.tigerstripe.workbench.plugins.IRuleReport;
 
 /**
  * 
@@ -25,7 +26,7 @@ import org.eclipse.tigerstripe.workbench.plugins.ICopyRule;
  * a Rule report is sub-type of report used in pluggable plugins
  * 
  */
-public class RuleReport extends PluginReport {
+public class RuleReport extends PluginReport implements IRuleReport {
 
 	public RuleReport(PluginConfig pluginConfig) {
 		super(pluginConfig);
@@ -42,6 +43,9 @@ public class RuleReport extends PluginReport {
 	private String filesetMatch;
 	private int copyFrom;
 	private String toDirectory;
+	
+	// Runnable specifics
+	private String runnableClassName;
 
 	private Collection<String> suppressedFiles = new ArrayList<String>();
 	private Collection<String> preservedFiles = new ArrayList<String>();
@@ -111,6 +115,9 @@ public class RuleReport extends PluginReport {
 		this.suppressEmptyFiles = suppressEmptyFiles;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.IRuleReport#getPreservedFiles()
+	 */
 	public Collection<String> getPreservedFiles() {
 		return preservedFiles;
 	}
@@ -153,5 +160,13 @@ public class RuleReport extends PluginReport {
 
 	public String getToDirectory() {
 		return this.toDirectory;
+	}
+	
+	public String getRunnableClassName() {
+		return runnableClassName;
+	}
+
+	public void setRunnableClassName(String runnableClassName) {
+		this.runnableClassName = runnableClassName;
 	}
 }

@@ -34,21 +34,16 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactMetadataSession;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.ArtifactBasedTemplateRule;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.ArtifactRunnableRule;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.PluginDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.ArtifactRulesSection;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
-public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
+public class ArtifactRunnableRuleDetailsPage extends BaseRunnableRuleDetailsPage {
 
 	private CCombo artifactTypeCombo;
-
-	private Text modelClassText;
-
-	private Text modelClassNameText;
-
-	private Button modelClassBrowseButton;
 
 	private Text filterClassText;
 
@@ -79,23 +74,21 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 
 	protected void handleArtifactWidgetSelected(SelectionEvent e) {
 		if (!isSilentUpdate()) {
-			if (e.getSource() == modelClassBrowseButton) {
-				modelClassBrowsePressed(e);
-			} else if (e.getSource() == artifactTypeCombo) {
+			if (e.getSource() == artifactTypeCombo) {
 				artifactTypeComboChanged(e);
 			} else if (e.getSource() == filterClassBrowseButton) {
 				filterClassBrowseButtonPressed(e);
 			} else if (e.getSource() == suppressEmptyFilesButton) {
-				ArtifactBasedTemplateRule rule = (ArtifactBasedTemplateRule) getITemplateRunRule();
+				ArtifactRunnableRule rule = (ArtifactRunnableRule) getIRunnableRule();
 				rule.setSuppressEmptyFiles(suppressEmptyFilesButton
 						.getSelection());
 				pageModified();
 			} else if (e.getSource() == overwriteFilesButton) {
-				ArtifactBasedTemplateRule rule = (ArtifactBasedTemplateRule) getITemplateRunRule();
+				ArtifactRunnableRule rule = (ArtifactRunnableRule) getIRunnableRule();
 				rule.setOverwriteFiles(overwriteFilesButton.getSelection());
 				pageModified();
 			} else if (e.getSource() == triggerOnDependenciesAndReferencesButton) {
-				ArtifactBasedTemplateRule rule = (ArtifactBasedTemplateRule) getITemplateRunRule();
+				ArtifactRunnableRule rule = (ArtifactRunnableRule) getIRunnableRule();
 				rule
 						.setIncludeDependencies(triggerOnDependenciesAndReferencesButton
 								.getSelection());
@@ -106,26 +99,11 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 
 	protected void handleArtifactRuleModifyText(ModifyEvent e) {
 		if (!isSilentUpdate()) {
-			ArtifactBasedTemplateRule rule = (ArtifactBasedTemplateRule) getITemplateRunRule();
-			if (e.getSource() == modelClassText) {
-				rule.setModelClass(modelClassText.getText().trim());
-				pageModified();
-			} else if (e.getSource() == modelClassNameText) {
-				rule.setModelClassName(modelClassNameText.getText().trim());
-				pageModified();
-			} else if (e.getSource() == filterClassText) {
+			ArtifactRunnableRule rule = (ArtifactRunnableRule) getIRunnableRule();
+			if (e.getSource() == filterClassText) {
 				rule.setArtifactFilterClass(filterClassText.getText().trim());
 				pageModified();
 			}
-		}
-	}
-
-	protected void modelClassBrowsePressed(SelectionEvent e) {
-		String modelClass = chooseType("Wrapper Class Selection",
-				"Please select the wrapper class to instantiate for this rule.");
-
-		if (modelClass != null) {
-			modelClassText.setText(modelClass);
 		}
 	}
 
@@ -160,7 +138,7 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 
 	protected void artifactTypeComboChanged(SelectionEvent e) {
 		if (e.getSource() == artifactTypeCombo) {
-			ArtifactBasedTemplateRule rule = (ArtifactBasedTemplateRule) getITemplateRunRule();
+			ArtifactRunnableRule rule = (ArtifactRunnableRule) getIRunnableRule();
 			int index = artifactTypeCombo.getSelectionIndex();
 
 			IArtifactMetadataSession session = InternalTigerstripeCore
@@ -191,15 +169,14 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 	protected void updateForm() {
 		super.updateForm();
 		setSilentUpdate(true);
-		ArtifactBasedTemplateRule rule = (ArtifactBasedTemplateRule) getITemplateRunRule();
-		modelClassText.setText(rule.getModelClass());
-		modelClassNameText.setText(rule.getModelClassName());
+		ArtifactRunnableRule rule = (ArtifactRunnableRule) getIRunnableRule();
 		filterClassText.setText(rule.getArtifactFilterClass());
 		suppressEmptyFilesButton.setSelection(rule.isSuppressEmptyFiles());
 		overwriteFilesButton.setSelection(rule.isOverwriteFiles());
 		triggerOnDependenciesAndReferencesButton.setSelection(rule
 				.isIncludeDependencies());
-
+		
+		
 		IArtifactMetadataSession session = InternalTigerstripeCore
 				.getDefaultArtifactMetadataSession();
 		String[] baseSupportedArtifacts = session.getSupportedArtifactTypes();
@@ -229,9 +206,9 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 		TableWrapData td = new TableWrapData(TableWrapData.FILL);
 		td.heightHint = 200;
 		parent.setLayoutData(td);
-
+		
 		Composite sectionClient = createRuleInfo(parent);
-
+		
 		Label label = form
 				.getToolkit()
 				.createLabel(
@@ -242,11 +219,8 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 		label.setLayoutData(gd);
 
 		createArtifactDefinitions(sectionClient);
-		createModelDefinitions(sectionClient);
 		createFilterDefinitions(sectionClient);
 		createOptionButtons(sectionClient);
-		createContextDefinitions(parent);
-		createMacros(parent);
 		form.getToolkit().paintBordersFor(parent);
 	}
 
@@ -332,38 +306,6 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 		l = form.getToolkit().createLabel(sectionClient, "");
 	}
 
-	protected void createModelDefinitions(Composite parent) {
-		Label label = form.getToolkit().createLabel(parent, "Wrapper Class:");
-
-		ArtifactBasedRuleDetailsPageListener adapter = new ArtifactBasedRuleDetailsPageListener();
-
-		modelClassText = form.getToolkit().createText(parent, "");
-		modelClassText.setEnabled(PluginDescriptorEditor.isEditable());
-		modelClassText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL));
-		modelClassText.addModifyListener(adapter);
-		modelClassText
-				.setToolTipText("An instance of this class will be created per run, and initialized with the current artifact instance.");
-
-		modelClassBrowseButton = form.getToolkit().createButton(parent,
-				"Browse", SWT.PUSH);
-		modelClassBrowseButton.setEnabled(PluginDescriptorEditor.isEditable());
-		if (PluginDescriptorEditor.isEditable())
-			modelClassBrowseButton.addSelectionListener(adapter);
-
-		Label nameLabel = form.getToolkit().createLabel(parent,
-				"Wrapper Class Name:");
-
-		modelClassNameText = form.getToolkit().createText(parent, "");
-		modelClassNameText.setEnabled(PluginDescriptorEditor.isEditable());
-		modelClassNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL));
-		modelClassNameText.addModifyListener(adapter);
-		modelClassNameText
-				.setToolTipText("this name will be used to refrence instances of the model in the templates (eg using $model).");
-
-		nameLabel = form.getToolkit().createLabel(parent, "");
-	}
 
 	protected void createFilterDefinitions(Composite parent) {
 		Label label = form.getToolkit().createLabel(parent, "Artifact Filter:");
@@ -386,7 +328,7 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 
 	}
 
-	public ArtifactBasedRuleDetailsPage(ArtifactRulesSection master) {
+	public ArtifactRunnableRuleDetailsPage(ArtifactRulesSection master) {
 		super(master);
 	}
 }

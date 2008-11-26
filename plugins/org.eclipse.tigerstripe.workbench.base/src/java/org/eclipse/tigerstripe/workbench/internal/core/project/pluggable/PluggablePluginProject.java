@@ -30,15 +30,21 @@ import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.locale.Messages;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.VelocityContextDefinition;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.ArtifactBasedRule;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.ArtifactBasedTemplateRule;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.ArtifactRunnableRule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.CopyRule;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.GlobalRunnableRule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.GlobalTemplateRule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.Rule;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRule;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactRule;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactRunnableRule;
 import org.eclipse.tigerstripe.workbench.plugins.ICopyRule;
+import org.eclipse.tigerstripe.workbench.plugins.IGlobalRunnableRule;
 import org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
+import org.eclipse.tigerstripe.workbench.plugins.IRunnableRule;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -52,22 +58,26 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 
 	@SuppressWarnings("unchecked")
 	private final static Class[] SUPPORTED_RULES = { IGlobalTemplateRule.class,
-			ICopyRule.class };
+		IGlobalRunnableRule.class,ICopyRule.class };
 
 	private final static String[] SUPPORTED_RULES_LABELS = {
-			GlobalTemplateRule.LABEL, CopyRule.LABEL };
+			GlobalTemplateRule.LABEL, GlobalRunnableRule.LABEL, CopyRule.LABEL };
 
 	@SuppressWarnings("unchecked")
 	private final static Class[] RULES_IMPL = { GlobalTemplateRule.class,
+		GlobalRunnableRule.class,
 			CopyRule.class };
 
 	@SuppressWarnings("unchecked")
-	private final static Class[] SUPPORTED_ARTIFACTRULES = { IArtifactBasedTemplateRule.class, };
+	private final static Class[] SUPPORTED_ARTIFACTRULES = { IArtifactBasedTemplateRule.class, 
+			IArtifactRunnableRule.class};
 
-	private final static String[] SUPPORTED_ARTIFACTRULES_LABELS = { ArtifactBasedRule.LABEL };
+	private final static String[] SUPPORTED_ARTIFACTRULES_LABELS = { ArtifactBasedTemplateRule.LABEL,
+		ArtifactRunnableRule.LABEL};
 
 	@SuppressWarnings("unchecked")
-	private final static Class[] ARTIFACTRULES_IMPL = { ArtifactBasedRule.class };
+	private final static Class[] ARTIFACTRULES_IMPL = { ArtifactBasedTemplateRule.class,
+		ArtifactRunnableRule.class};
 
 	public static final String ROOT_TAG = "ts_plugin";
 
@@ -76,30 +86,32 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 
 	public static final String ARTIFACT_RULES = "artifactRules";
 
-	private List<ITemplateBasedRule> artifactRules;
+	private List<IArtifactRule> artifactRules;
 
 	public PluggablePluginProject(File baseDir) {
 		super(baseDir, ITigerstripeConstants.PLUGIN_DESCRIPTOR);
-		artifactRules = new ArrayList<ITemplateBasedRule>();
+		artifactRules = new ArrayList<IArtifactRule>();
 		setPluginNature(EPluggablePluginNature.Generic);
 	}
 
 	protected Element buildArtifactRulesElement(Document document) {
 		Element artifactRules = document.createElement(ARTIFACT_RULES);
 
-		for (ITemplateBasedRule rule : getArtifactRules()) {
+		for (IArtifactRule rule : getArtifactRules()) {
 			Element propElm = document.createElement("rule");
 			propElm.setAttribute("name", rule.getName());
 			propElm.setAttribute("type", rule.getType());
 			propElm.setAttribute("description", rule.getDescription());
 			propElm.setAttribute("enabled", String.valueOf(rule.isEnabled()));
 
-			for (VelocityContextDefinition def : rule
+			if (rule instanceof ITemplateBasedRule){
+			for (VelocityContextDefinition def : ((ITemplateBasedRule) rule)
 					.getVelocityContextDefinitions()) {
 				Element ctx = document.createElement("contextEntry");
 				ctx.setAttribute("entry", def.getName());
 				ctx.setAttribute("classname", def.getClassname());
 				propElm.appendChild(ctx);
+			}
 			}
 
 			propElm.appendChild(((Rule) rule).getBodyAsNode(document));
@@ -205,7 +217,7 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 	@SuppressWarnings("unchecked")
 	protected void loadArtifactRules(Document document) {
 
-		artifactRules = new ArrayList<ITemplateBasedRule>();
+		artifactRules = new ArrayList<IArtifactRule>();
 
 		NodeList globalProps = document.getElementsByTagName(ARTIFACT_RULES);
 		if (globalProps.getLength() != 1)
@@ -227,24 +239,27 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 			try {
 				Class type = Class.forName(typeStr);
 				IRule iRule = makeRule(type);
-				if (iRule instanceof ITemplateBasedRule) {
-					ITemplateBasedRule iTplRule = (ITemplateBasedRule) iRule;
-					iTplRule.setName(name);
-					iTplRule.setDescription(description);
-					iTplRule.setEnabled(Boolean.parseBoolean(enabled));
+				if (iRule instanceof IArtifactRule) {
+					IArtifactRule aRule = (IArtifactRule) iRule;
+					aRule.setName(name);
+					aRule.setDescription(description);
+					aRule.setEnabled(Boolean.parseBoolean(enabled));
 
-					NodeList contextEntries = rule
-							.getElementsByTagName("contextEntry");
-					for (int i = 0; i < contextEntries.getLength(); i++) {
-						Element entry = (Element) contextEntries.item(i);
-						VelocityContextDefinition def = new VelocityContextDefinition();
-						def.setClassname(entry.getAttribute("classname"));
-						def.setName(entry.getAttribute("entry"));
-						iTplRule.addVelocityContextDefinition(def);
+					if (aRule instanceof ITemplateBasedRule) {
+						ITemplateBasedRule iTplRule = (ITemplateBasedRule) aRule;
+						NodeList contextEntries = rule
+						.getElementsByTagName("contextEntry");
+						for (int i = 0; i < contextEntries.getLength(); i++) {
+							Element entry = (Element) contextEntries.item(i);
+							VelocityContextDefinition def = new VelocityContextDefinition();
+							def.setClassname(entry.getAttribute("classname"));
+							def.setName(entry.getAttribute("entry"));
+							iTplRule.addVelocityContextDefinition(def);
+						}
+
 					}
-
-					((Rule) iTplRule).buildBodyFromNode(rule);
-					addArtifactRule(iTplRule);
+					((Rule) aRule).buildBodyFromNode(rule);
+					addArtifactRule(aRule);
 				}
 			} catch (TigerstripeException e) {
 				BasePlugin.log(e);
@@ -284,13 +299,13 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 		return SUPPORTED_RULES_LABELS;
 	}
 
-	public void addArtifactRules(ITemplateBasedRule[] rules) {
-		for (ITemplateBasedRule rule : rules) {
+	public void addArtifactRules(IArtifactRule[] rules) {
+		for (IArtifactRule rule : rules) {
 			addArtifactRule(rule);
 		}
 	}
 
-	public void addArtifactRule(ITemplateBasedRule rule) {
+	public void addArtifactRule(IArtifactRule rule) {
 		if (!artifactRules.contains(rule)) {
 			setDirty();
 			artifactRules.add(rule);
@@ -305,13 +320,13 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 		}
 	}
 
-	public void removeArtifactRules(ITemplateBasedRule[] rules) {
-		for (ITemplateBasedRule rule : rules) {
+	public void removeArtifactRules(IRule[] rules) {
+		for (IRule rule : rules) {
 			removeArtifactRule(rule);
 		}
 	}
 
-	public void removeArtifactRule(ITemplateBasedRule rule) {
+	public void removeArtifactRule(IRule rule) {
 		setDirty();
 		artifactRules.remove(rule);
 		if (rule instanceof IContainedObject) {
@@ -320,13 +335,13 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 		}
 	}
 
-	public ITemplateBasedRule[] getArtifactRules() {
-		return this.artifactRules.toArray(new ITemplateBasedRule[artifactRules
+	public IArtifactRule[] getArtifactRules() {
+		return this.artifactRules.toArray(new IArtifactRule[artifactRules
 				.size()]);
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends IArtifactBasedTemplateRule> Class<T>[] getSupportedPluginArtifactRules() {
+	public <T extends IArtifactRule> Class<T>[] getSupportedPluginArtifactRules() {
 		return SUPPORTED_ARTIFACTRULES;
 	}
 

@@ -63,7 +63,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifac
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
-import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRule;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactWrappedRule;
 import org.eclipse.tigerstripe.workbench.plugins.IBooleanPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.ICopyRule;
 import org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule;
@@ -104,7 +104,7 @@ public class MigrationHelper {
 	private static void assertDefined(String type) {
 		// This is just in place to ensure we are migrating everything
 		try {
-			if (!IArtifactBasedTemplateRule.ANY_ARTIFACT_LABEL.equals(type)) {
+			if (!IArtifactWrappedRule.ANY_ARTIFACT_LABEL.equals(type)) {
 				MigrationHelper.class.forName(type);
 			}
 		} catch (ClassNotFoundException e) {
@@ -236,7 +236,7 @@ public class MigrationHelper {
 		if (ruleType.endsWith("ISimpleTemplateRunRule")) {
 			return IGlobalTemplateRule.class.getName();
 		} else if (ruleType.endsWith("IArtifactBasedTemplateRunRule")) {
-			return IArtifactBasedTemplateRule.class.getName();
+			return IArtifactWrappedRule.class.getName();
 		} else if (ruleType.endsWith("ICopyRule")) {
 			return ICopyRule.class.getName();
 		}

@@ -10,6 +10,17 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.plugins;
 
-public interface IArtifactBasedTemplateRule {
+import java.util.Map;
 
+
+public interface IRunnableRule extends IFileGeneratingRule {
+
+	public void setContext(Map<String, Object> context);
+	
+	public Map<String, Object> getContext();
+	
+	public String getRunnableClassName();
+	
+	public void setRunnableClassName(String className);
+	
 }

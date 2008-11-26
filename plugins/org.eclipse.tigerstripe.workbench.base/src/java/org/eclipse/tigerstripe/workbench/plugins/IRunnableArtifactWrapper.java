@@ -10,6 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.plugins;
 
-public interface IArtifactBasedTemplateRule {
+public interface IRunnableArtifactWrapper extends IArtifactWrapper, IRunnableWrapper {
 
 }

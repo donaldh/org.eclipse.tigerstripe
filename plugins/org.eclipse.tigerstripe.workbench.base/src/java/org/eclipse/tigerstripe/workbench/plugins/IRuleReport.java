@@ -10,6 +10,15 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.plugins;
 
-public interface IArtifactBasedTemplateRule {
+import java.util.Collection;
+
+public interface IRuleReport {
+
+	public Collection<String> getPreservedFiles();
+	
+	public Collection<String> getSuppressedFiles();
+
+	public abstract Collection<String> getGeneratedFiles();
+	
 
 }

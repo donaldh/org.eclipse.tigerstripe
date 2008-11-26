@@ -29,6 +29,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.R
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.runtime.PluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.plugins.IBooleanPluginProperty;
+import org.eclipse.tigerstripe.workbench.plugins.IGlobalRule;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
@@ -86,7 +87,7 @@ public abstract class GeneratorProjectDescriptor extends
 	private List<String> additionalFilesInclude;
 	private List<String> additionalFilesExclude;
 
-	private List<IRule> globalRules;
+	private List<IGlobalRule> globalRules;
 
 	private List<String> requiredAnnotationPlugins;
 
@@ -97,7 +98,7 @@ public abstract class GeneratorProjectDescriptor extends
 		classpathEntries = new ArrayList<IPluginClasspathEntry>();
 		additionalFilesInclude = new ArrayList<String>();
 		additionalFilesExclude = new ArrayList<String>();
-		globalRules = new ArrayList<IRule>();
+		globalRules = new ArrayList<IGlobalRule>();
 		requiredAnnotationPlugins = new ArrayList<String>();
 	}
 
@@ -112,7 +113,7 @@ public abstract class GeneratorProjectDescriptor extends
 		classpathEntries = new ArrayList<IPluginClasspathEntry>();
 		additionalFilesInclude = new ArrayList<String>();
 		additionalFilesExclude = new ArrayList<String>();
-		globalRules = new ArrayList<IRule>();
+		globalRules = new ArrayList<IGlobalRule>();
 		requiredAnnotationPlugins = new ArrayList<String>();
 	}
 
@@ -290,11 +291,11 @@ public abstract class GeneratorProjectDescriptor extends
 				+ propertyType);
 	}
 
-	public void addGlobalRules(IRule[] rules) {
+	public void addGlobalRules(IGlobalRule[] rules) {
 		globalRules.addAll(Arrays.asList(rules));
 	}
 
-	public void addGlobalRule(IRule rule) {
+	public void addGlobalRule(IGlobalRule rule) {
 		if (!globalRules.contains(rule)) {
 			setDirty();
 			globalRules.add(rule);
@@ -324,8 +325,8 @@ public abstract class GeneratorProjectDescriptor extends
 		}
 	}
 
-	public IRule[] getGlobalRules() {
-		return this.globalRules.toArray(new IRule[globalRules.size()]);
+	public IGlobalRule[] getGlobalRules() {
+		return this.globalRules.toArray(new IGlobalRule[globalRules.size()]);
 	}
 
 	protected void clearGlobalRules() {
@@ -743,9 +744,8 @@ public abstract class GeneratorProjectDescriptor extends
 						tRunRule.addVelocityContextDefinition(def);
 					}
 				}
-
 				((Rule) iRule).buildBodyFromNode(rule);
-				addGlobalRule(iRule);
+				addGlobalRule((IGlobalRule) iRule);
 
 			} catch (TigerstripeException e) {
 				BasePlugin.log(e);

@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.M0GlobalTemplateRule;
+import org.eclipse.tigerstripe.workbench.plugins.IGlobalRule;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
@@ -94,7 +95,7 @@ public class M0GlobalRulesSection extends RulesSectionPart implements IFormPart 
 				IRule newRule = dialog.getNewPPluginRule();
 				if (newRule != null) {
 					try {
-						pProject.addGlobalRule(newRule);
+						pProject.addGlobalRule((IGlobalRule) newRule);
 						getViewer().add(newRule);
 						getViewer().setSelection(
 								new StructuredSelection(newRule), true);
@@ -135,7 +136,7 @@ public class M0GlobalRulesSection extends RulesSectionPart implements IFormPart 
 
 		if (msgDialog.open() == 0) {
 			try {
-				getIPluggablePluginProject().removeGlobalRules(selectedFields);
+				getIPluggablePluginProject().removeGlobalRules((IGlobalRule[]) selectedFields);
 				getViewer().remove(selectedFields);
 				markPageModified();
 			} catch (TigerstripeException e) {

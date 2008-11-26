@@ -14,6 +14,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.plugins.ICopyRule;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
+import org.eclipse.tigerstripe.workbench.plugins.IRunnableRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 
 public class GlobalRuleAuditor extends BasePluggableProjectAuditor {
@@ -49,6 +50,9 @@ public class GlobalRuleAuditor extends BasePluggableProjectAuditor {
 								+ getPProject().getName() + "'",
 						projectDescriptor, 222);
 			}
+		}
+		if (rule instanceof IRunnableRule){
+			checkRunnableClass((IRunnableRule) rule);
 		}
 	}
 

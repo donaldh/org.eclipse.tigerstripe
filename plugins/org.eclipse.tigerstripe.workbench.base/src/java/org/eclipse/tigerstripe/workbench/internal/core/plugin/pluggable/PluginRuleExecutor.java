@@ -21,6 +21,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.IPluginRuleExecuto
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.GeneratorProjectDescriptor;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.Rule;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactRule;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 
@@ -91,11 +92,11 @@ public class PluginRuleExecutor implements IPluginRuleExecutor {
 			long startTime2 = System.currentTimeMillis();
 			counter = 0;
 			// Then trigger all artifact-based rules
-			ITemplateBasedRule[] artifactRules = ((PluggablePluginProject) plugin
+			IArtifactRule[] artifactRules = ((PluggablePluginProject) plugin
 					.getPProject()).getArtifactRules();
 
 			monitor.beginTask("Running artifact rules", artifactRules.length);
-			for (ITemplateBasedRule rule : artifactRules) {
+			for (IArtifactRule rule : artifactRules) {
 				monitor.subTask(rule.getName());
 				if (rule.isEnabled()) {
 					counter++;

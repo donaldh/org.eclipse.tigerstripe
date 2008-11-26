@@ -26,8 +26,7 @@ import org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule;
  * @author Eric Dillon
  * @since 1.2
  */
-public class M0GlobalTemplateRule extends GlobalTemplateRule implements
-		IGlobalTemplateRule {
+public class M0GlobalTemplateRule extends GlobalTemplateRule {
 
 	public final static String LABEL = "Global M0 Template Rule";
 

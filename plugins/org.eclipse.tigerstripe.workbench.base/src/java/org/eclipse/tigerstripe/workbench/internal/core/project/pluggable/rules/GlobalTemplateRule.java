@@ -25,7 +25,9 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.IPluginRuleExecutor;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
+import org.eclipse.tigerstripe.workbench.plugins.IGlobalRule;
 import org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule;
+import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -38,7 +40,7 @@ import org.w3c.dom.NodeList;
  * @since 1.2
  */
 public class GlobalTemplateRule extends TemplateBasedRule implements
-		IGlobalTemplateRule {
+		ITemplateBasedRule, IGlobalRule {
 
 	private final static String REPORTTEMPLATE = "ISimpleTemplateRunRule.vm";
 

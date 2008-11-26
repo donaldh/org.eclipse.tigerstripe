@@ -10,20 +10,18 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.builder.generator;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
-import org.eclipse.jdt.core.ITypeHierarchy;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRule;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactRule;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactWrappedRule;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactFilter;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactWrapper;
+import org.eclipse.tigerstripe.workbench.plugins.IRunnableRule;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 
@@ -34,19 +32,24 @@ public class ArtifactBasedRuleAuditor extends BasePluggableProjectAuditor {
 		super(pProject, project);
 	}
 
-	public void audit(ITemplateBasedRule rule, IProgressMonitor monitor) {
+	public void audit(IArtifactRule rule, IProgressMonitor monitor) {
 		super.audit(rule, monitor);
 
-		IArtifactBasedTemplateRule aRule = (IArtifactBasedTemplateRule) rule;
+		IArtifactRule aRule = (IArtifactRule) rule;
 
 		if (aRule.isEnabled()) {
 			checkArtifactType(aRule);
 			checkArtifactFilterClass(aRule);
-			checkArtifactModelClass(aRule);
+			if (aRule instanceof IArtifactWrappedRule){
+				checkArtifactModelClass((IArtifactWrappedRule) aRule);
+			}
+			if (aRule instanceof IRunnableRule){
+				checkRunnableClass((IRunnableRule) aRule);
+			}
 		}
 	}
 
-	protected void checkArtifactType(IArtifactBasedTemplateRule aRule) {
+	protected void checkArtifactType(IArtifactRule aRule) {
 		String artifactType = aRule.getArtifactType();
 		if (artifactType == null || artifactType.length() == 0) {
 			PluggablePluginProjectAuditor.reportError(
@@ -57,7 +60,7 @@ public class ArtifactBasedRuleAuditor extends BasePluggableProjectAuditor {
 		}
 	}
 
-	protected void checkArtifactFilterClass(IArtifactBasedTemplateRule aRule) {
+	protected void checkArtifactFilterClass(IArtifactRule aRule) {
 		String artifactFilterClass = aRule.getArtifactFilterClass();
 		if (artifactFilterClass != null
 				&& artifactFilterClass.trim().length() != 0) {
@@ -118,7 +121,7 @@ public class ArtifactBasedRuleAuditor extends BasePluggableProjectAuditor {
 
 	}
 
-	protected void checkArtifactModelClass(IArtifactBasedTemplateRule aRule) {
+	protected void checkArtifactModelClass(IArtifactWrappedRule aRule) {
 		String artifactModelClass = aRule.getModelClass();
 		if (artifactModelClass != null
 				&& artifactModelClass.trim().length() != 0) {
@@ -179,31 +182,5 @@ public class ArtifactBasedRuleAuditor extends BasePluggableProjectAuditor {
 			}
 		}
 
-	}
-
-	/**
-	 * Builds a list of all implemented interfaces recursively
-	 * 
-	 * @param type
-	 * @return
-	 */
-	protected String[] getImplementatedInterfaces(IType type,
-			IJavaProject jProject) {
-		List<String> result = new ArrayList<String>();
-
-		if (type == null)
-			return result.toArray(new String[result.size()]);
-		try {
-			ITypeHierarchy typeHierarchy = type
-					.newSupertypeHierarchy(new NullProgressMonitor());
-			IType[] superInterfaces = typeHierarchy.getAllInterfaces();
-			for (IType intf : superInterfaces) {
-				result.add(intf.getFullyQualifiedName());
-			}
-		} catch (JavaModelException e) {
-			// ignore
-		}
-
-		return result.toArray(new String[result.size()]);
 	}
 }

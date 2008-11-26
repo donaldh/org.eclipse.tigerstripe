@@ -13,6 +13,8 @@ package org.eclipse.tigerstripe.workbench.internal.core.plugin;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.tigerstripe.workbench.plugins.IPluginReport;
+
 /**
  * 
  * 
@@ -22,7 +24,7 @@ import java.util.Collection;
  * did
  * 
  */
-public class PluginReport {
+public class PluginReport implements IPluginReport {
 
 	private PluginConfig pluginConfig;
 
@@ -36,6 +38,9 @@ public class PluginReport {
 		this.copiedFiles = inFiles;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.plugin.IPluginReport#getCopiedFiles()
+	 */
 	public Collection<String> getCopiedFiles() {
 		return this.copiedFiles;
 	}
@@ -44,6 +49,9 @@ public class PluginReport {
 		this.generatedFiles = inFiles;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.plugin.IPluginReport#getGeneratedFiles()
+	 */
 	public Collection<String> getGeneratedFiles() {
 		return this.generatedFiles;
 	}

@@ -20,12 +20,13 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.Pluggabl
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.util.FileUtils;
 import org.eclipse.tigerstripe.workbench.plugins.ICopyRule;
+import org.eclipse.tigerstripe.workbench.plugins.IGlobalRule;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class CopyRule extends Rule implements ICopyRule {
+public class CopyRule extends Rule implements ICopyRule, IGlobalRule {
 
 	private final static String REPORTTEMPLATE = "ICopyRule.vm";
 

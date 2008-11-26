@@ -18,7 +18,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.Velocity
  * @author Eric Dillon
  * @since 1.2
  */
-public interface ITemplateBasedRule extends IRule {
+public interface ITemplateBasedRule extends IFileGeneratingRule {
 
 	public String getTemplate();
 
@@ -49,13 +49,5 @@ public interface ITemplateBasedRule extends IRule {
 	public void removeMacroLibraries(String[] library);
 
 	public boolean hasMacroLibrary();
-
-	public boolean isSuppressEmptyFiles();
-
-	public void setSuppressEmptyFiles(boolean suppress);
-
-	public boolean isOverwriteFiles();
-
-	public void setOverwriteFiles(boolean overwriteFiles);
 
 }

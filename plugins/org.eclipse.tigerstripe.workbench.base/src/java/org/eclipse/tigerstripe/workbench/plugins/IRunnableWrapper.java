@@ -10,6 +10,25 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.plugins;
 
-public interface IArtifactBasedTemplateRule {
+import java.util.Map;
 
+public interface IRunnableWrapper {
+
+	/**
+	 * Set the context object from which the rule execution "environment"
+	 * can be extracted - this will be the collections etc 
+	 * Equivalent to the velocity context.
+	 *  
+	 *  In the case of an Artifact rule, this should include "artifact" 
+	 *  
+	 * @param context
+	 */
+	public void setContext(Map<String, Object> context);
+	
+	/**
+	 * Implementations should contain the "body" here.
+	 * @throws Exception
+	 */
+	public void run() throws Exception;
+	
 }

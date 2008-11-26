@@ -21,7 +21,9 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.TigerstripePluginProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.CopyRule;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.GlobalRunnableRule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.GlobalTemplateRule;
+import org.eclipse.tigerstripe.workbench.plugins.IGlobalRule;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
@@ -29,6 +31,7 @@ import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.NewPPluginRuleSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.details.CopyRuleDetailsPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.details.GlobalRunnableRuleDetailsPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.details.SimpleRuleDetailsPage;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IFormPart;
@@ -97,7 +100,7 @@ public class GlobalRulesSection extends RulesSectionPart implements IFormPart {
 				IRule newRule = dialog.getNewPPluginRule();
 				if (newRule != null) {
 					try {
-						pProject.addGlobalRule(newRule);
+						pProject.addGlobalRule((IGlobalRule) newRule);
 						getViewer().add(newRule);
 						getViewer().setSelection(
 								new StructuredSelection(newRule), true);
@@ -154,6 +157,7 @@ public class GlobalRulesSection extends RulesSectionPart implements IFormPart {
 		detailsPart.registerPage(GlobalTemplateRule.class,
 				new SimpleRuleDetailsPage(this));
 		detailsPart.registerPage(CopyRule.class, new CopyRuleDetailsPage(this));
+		detailsPart.registerPage(GlobalRunnableRule.class, new GlobalRunnableRuleDetailsPage(this));
 	}
 
 	@Override

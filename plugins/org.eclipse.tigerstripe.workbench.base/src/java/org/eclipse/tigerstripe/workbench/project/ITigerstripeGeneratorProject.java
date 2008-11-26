@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.project;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.WorkingCopyException;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
+import org.eclipse.tigerstripe.workbench.plugins.IGlobalRule;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
@@ -40,17 +41,17 @@ public interface ITigerstripeGeneratorProject extends
 
 	public <T extends IPluginProperty> Class<T>[] getSupportedProperties();
 
-	public IRule[] getGlobalRules() throws TigerstripeException;
+	public IGlobalRule[] getGlobalRules() throws TigerstripeException;
 
-	public void addGlobalRule(IRule rule) throws TigerstripeException;
+	public void addGlobalRule(IGlobalRule rule) throws TigerstripeException;
 
 	public void removeGlobalRule(IRule rule) throws TigerstripeException;
 
 	public void removeGlobalRules(IRule[] rules) throws TigerstripeException;
 
-	public void addGlobalRules(IRule[] rules) throws TigerstripeException;
+	public void addGlobalRules(IGlobalRule[] rules) throws TigerstripeException;
 
-	public <T extends IRule> Class<T>[] getSupportedGlobalRules();
+	public <T extends IGlobalRule> Class<T>[] getSupportedGlobalRules();
 
 	public String[] getSupportedGlobalRuleLabels();
 

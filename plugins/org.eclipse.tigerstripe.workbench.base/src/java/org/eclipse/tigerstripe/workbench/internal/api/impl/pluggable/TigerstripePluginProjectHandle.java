@@ -21,8 +21,8 @@ import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ProjectDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.GeneratorProjectDescriptor;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
-import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRule;
-import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactRule;
+import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 
@@ -68,37 +68,37 @@ public class TigerstripePluginProjectHandle extends GeneratorProjectHandle
 
 	// =========================================
 
-	public void addArtifactRule(ITemplateBasedRule rule)
+	public void addArtifactRule(IArtifactRule rule)
 			throws TigerstripeException {
 		assertSet();
 		((PluggablePluginProject) getDescriptor()).addArtifactRule(rule);
 	}
 
-	public void addArtifactRules(ITemplateBasedRule[] rules)
+	public void addArtifactRules(IArtifactRule[] rules)
 			throws TigerstripeException {
-		for (ITemplateBasedRule rule : rules) {
+		for (IArtifactRule rule : rules) {
 			addArtifactRule(rule);
 		}
 	}
 
-	public ITemplateBasedRule[] getArtifactRules() throws TigerstripeException {
+	public IArtifactRule[] getArtifactRules() throws TigerstripeException {
 		return ((PluggablePluginProject) getDescriptor()).getArtifactRules();
 	}
 
-	public void removeArtifactRule(ITemplateBasedRule rule)
+	public void removeArtifactRule(IRule rule)
 			throws TigerstripeException {
 		assertSet();
 		((PluggablePluginProject) getDescriptor()).removeArtifactRule(rule);
 	}
 
-	public void removeArtifactRules(ITemplateBasedRule[] rules)
+	public void removeArtifactRules(IRule[] rules)
 			throws TigerstripeException {
 		assertSet();
 		((PluggablePluginProject) getDescriptor()).removeArtifactRules(rules);
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T extends IArtifactBasedTemplateRule> Class<T>[] getSupportedPluginArtifactRules() {
+	public <T extends IArtifactRule> Class<T>[] getSupportedPluginArtifactRules() {
 		try {
 			return ((PluggablePluginProject) getDescriptor())
 					.getSupportedPluginArtifactRules();

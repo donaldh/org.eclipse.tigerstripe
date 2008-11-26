@@ -1,0 +1,44 @@
+## Output details about the rule run (not the definition)
+#*
+  Copyright (c) 2007 Cisco Systems, Inc.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the Eclipse Public License v1.0
+  which accompanies this distribution, and is available at
+    http://www.eclipse.org/legal/epl-v10.html
+
+   Contributors:
+      E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
+*#
+## Rule name
+## Actual Artifacts matched - only output if any matches
+## Files produced
+
+		        <childReport
+		            ruleName = "$child.Name"
+		            ruleType = "$child.Type"  		            
+		            isEnabled = "$child.Enabled" 
+		            artifactType = "$child.ArtifactType"
+		            overwrite_Files = "$child.OverwriteFiles"
+		            suppress_Empty_files = "$child.SuppressEmptyFiles" 
+		            includeDependencies = "$child.IncludeDependencies" 
+		            runnableClassName = "$child.RunnableClassName">
+#if ($child.Enabled)
+		            <matchedArtifacts>
+#if ($child.MatchedArtifacts.isEmpty())
+                        <!-- 0 artifacts matched -->
+#else
+#foreach ($matchedArtifact in $child.MatchedArtifacts)
+						<matchedArtifact name = "$matchedArtifact"/>
+#end
+#end
+					</matchedArtifacts>
+#set ($source = $child)
+#parse ("$resourceDir/PluginGenFiles.vm")
+#if (!$child.OverwriteFiles)
+#parse ("$resourceDir/PluginPreservedFiles.vm")
+#end
+#if ($child.SuppressEmptyFiles)
+#parse ("$resourceDir/PluginSuppressedFiles.vm")
+#end
+#end
+		        </childReport>

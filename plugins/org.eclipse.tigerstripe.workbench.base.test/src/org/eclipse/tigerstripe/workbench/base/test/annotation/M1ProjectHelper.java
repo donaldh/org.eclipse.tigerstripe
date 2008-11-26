@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.util.FileUtils;
+import org.eclipse.tigerstripe.workbench.plugins.IGlobalRule;
 import org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
@@ -110,7 +111,7 @@ public class M1ProjectHelper {
 		rule.setEnabled(true);
 		rule.setTemplate("templates/listAll.vm");
 
-		gProject.addGlobalRule(rule);
+		gProject.addGlobalRule((IGlobalRule) rule);
 		gProject.commit(null);
 	}
 }

@@ -830,7 +830,7 @@ public class M1Generator {
 
 		} catch (Exception e) {
 			throw new TigerstripeException(
-					"An error occured will running generation report.", e);
+					"An error occured while running generation report.", e);
 		}
 	}
 

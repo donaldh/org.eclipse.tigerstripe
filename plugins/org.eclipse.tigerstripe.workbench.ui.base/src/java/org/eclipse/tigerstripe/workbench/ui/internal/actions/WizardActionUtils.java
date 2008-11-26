@@ -30,6 +30,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.ReportModel;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.base.ReportRunner;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginReport;
 import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -79,7 +80,7 @@ public class WizardActionUtils {
 						monitor.setTaskName("Running: " + ref.getLabel());
 
 						ref.trigger();
-						PluginReport rep = ref.getReport();
+						IPluginReport rep = ref.getReport();
 						reports.add(ref.getReport());
 
 						monitor.worked(1);

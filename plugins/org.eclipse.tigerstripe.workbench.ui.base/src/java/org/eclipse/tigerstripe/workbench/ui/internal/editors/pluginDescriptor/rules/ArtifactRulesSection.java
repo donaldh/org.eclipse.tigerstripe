@@ -19,7 +19,9 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.ArtifactBasedRule;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.ArtifactBasedTemplateRule;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.ArtifactRunnableRule;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactRule;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
@@ -27,6 +29,7 @@ import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.NewPPluginRuleSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.details.ArtifactBasedRuleDetailsPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.details.ArtifactRunnableRuleDetailsPage;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
@@ -79,8 +82,11 @@ public class ArtifactRulesSection extends RulesSectionPart implements IFormPart 
 
 	@Override
 	protected void registerPages(DetailsPart detailsPart) {
-		detailsPart.registerPage(ArtifactBasedRule.class,
+		detailsPart.registerPage(ArtifactBasedTemplateRule.class,
 				new ArtifactBasedRuleDetailsPage(this));
+		detailsPart.registerPage(ArtifactRunnableRule.class,
+				new ArtifactRunnableRuleDetailsPage(this));
+		
 	}
 
 	@Override
@@ -96,9 +102,9 @@ public class ArtifactRulesSection extends RulesSectionPart implements IFormPart 
 
 			if (dialog.open() == Window.OK) {
 				IRule newRule = dialog.getNewPPluginRule();
-				if (newRule instanceof ITemplateBasedRule) {
+				if (newRule != null) {
 					try {
-						pProject.addArtifactRule((ITemplateBasedRule) newRule);
+						pProject.addArtifactRule((IArtifactRule) newRule);
 						getViewer().add(newRule);
 						getViewer().setSelection(
 								new StructuredSelection(newRule), true);
@@ -120,10 +126,10 @@ public class ArtifactRulesSection extends RulesSectionPart implements IFormPart 
 	@Override
 	protected void removeButtonSelected(SelectionEvent event) {
 		TableItem[] selectedItems = getViewer().getTable().getSelection();
-		ITemplateBasedRule[] selectedFields = new ITemplateBasedRule[selectedItems.length];
+		IArtifactRule[] selectedFields = new IArtifactRule[selectedItems.length];
 
 		for (int i = 0; i < selectedItems.length; i++) {
-			selectedFields[i] = (ITemplateBasedRule) selectedItems[i].getData();
+			selectedFields[i] = (IArtifactRule) selectedItems[i].getData();
 		}
 
 		String message = "Do you really want to remove ";

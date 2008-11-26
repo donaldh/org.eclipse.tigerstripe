@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.base.test.project;
 import junit.framework.TestCase;
 
 import org.eclipse.tigerstripe.workbench.base.test.utils.M0ProjectHelper;
+import org.eclipse.tigerstripe.workbench.plugins.IGlobalRule;
 import org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM0GeneratorProject;
@@ -49,7 +50,7 @@ public class TestM0ProjectContents extends TestCase {
 		rule.setOutputFile("output.txt");
 		rule.setTemplate("templates/listAll.vm");
 
-		gProject.addGlobalRule(rule);
+		gProject.addGlobalRule((IGlobalRule)rule);
 		gProject.commit(null);
 
 		IRule[] rules = generator.getGlobalRules();
@@ -72,7 +73,7 @@ public class TestM0ProjectContents extends TestCase {
 		assertTrue("Another Description".equals(theRule.getDescription()));
 
 		// Remove it
-		gProject.removeGlobalRule(rule);
+		gProject.removeGlobalRule((IGlobalRule) rule);
 		gProject.commit(null);
 
 		rules = generator.getGlobalRules();

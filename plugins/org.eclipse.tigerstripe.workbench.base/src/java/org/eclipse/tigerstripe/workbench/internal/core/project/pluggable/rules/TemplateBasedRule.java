@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.velocity.VelocityContext;
@@ -81,6 +82,21 @@ public abstract class TemplateBasedRule extends Rule implements
 		getReport().setSuppressEmptyFiles(isSuppressEmptyFiles());
 	}
 
+	protected VelocityContext getDefaultContext(
+			PluggablePluginConfig pluginConfig, Map<String, Object> context) 
+		throws TigerstripeException {
+		if (this.defaultVContext == null) {
+			this.defaultVContext = new VelocityContext();
+			VelocityContextUtil util = new VelocityContextUtil();
+			this.defaultVContext.put("util", util);
+		}
+		for (String key : context.keySet()){
+			this.defaultVContext.put(key, context.get(key));
+		}
+		
+		return this.defaultVContext;
+	}
+	
 	/**
 	 * Returns the default velocity context.
 	 * 

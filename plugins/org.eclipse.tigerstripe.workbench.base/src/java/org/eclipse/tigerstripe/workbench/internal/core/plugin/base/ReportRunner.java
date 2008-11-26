@@ -147,7 +147,7 @@ public class ReportRunner {
 
 		} catch (Exception e) {
 			TigerstripeRuntime.logErrorMessage("Exception detected", e);
-			throw new TigerstripeException("Unexpected error");
+			throw new TigerstripeException("Unexpected error", e);
 
 		}
 

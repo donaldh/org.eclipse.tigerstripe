@@ -10,6 +10,16 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.plugins;
 
-public interface IArtifactBasedTemplateRule {
+public interface IArtifactRule extends IRule {
+
+	public final static String ANY_ARTIFACT_LABEL = "Any Artifact";
+
+	public String getArtifactFilterClass();
+
+	public String getArtifactType();
+
+	public void setArtifactFilterClass(String classname);
+
+	public void setArtifactType(String artifactType);
 
 }

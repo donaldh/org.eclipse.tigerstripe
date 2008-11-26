@@ -30,6 +30,7 @@ public class ReportModel {
 	private String destinationDir;
 	private String template;
 
+
 	private Collection content = new ArrayList();
 
 	// private PluginConfig pluginConfig;
@@ -96,4 +97,5 @@ public class ReportModel {
 	public Collection getContent() {
 		return content;
 	}
+
 }

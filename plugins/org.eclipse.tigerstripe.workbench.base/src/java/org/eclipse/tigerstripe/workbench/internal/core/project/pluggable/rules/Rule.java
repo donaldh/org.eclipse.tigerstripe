@@ -10,15 +10,39 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BaseContainerObject;
 import org.eclipse.tigerstripe.workbench.internal.IContainedObject;
 import org.eclipse.tigerstripe.workbench.internal.IContainerObject;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.DatatypeArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.PackageArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.DiagramGenerator;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.IPluginRuleExecutor;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.RuleReport;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.GeneratorProjectDescriptor;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 
@@ -141,4 +165,174 @@ public abstract class Rule extends BaseContainerObject implements
 		return report;
 	}
 
+	public Map<String, Object> getGlobalContext(PluggablePluginConfig pluginConfig )
+			throws TigerstripeException {
+		
+		Map<String, Object> context = new HashMap<String, Object>();
+		ITigerstripeModelProject handle = pluginConfig.getProjectHandle();
+
+		ArtifactManagerSessionImpl session = (ArtifactManagerSessionImpl) handle
+				.getArtifactManagerSession();
+		ArtifactManager artifactMgr = session.getArtifactManager();
+
+		// The collections of things in this project
+		Collection<IAbstractArtifact> artifacts = artifactMgr.getAllArtifacts(
+				false, new NullProgressMonitor());
+		
+		Collection<IAbstractArtifact> entities = 
+				artifactMgr.getArtifactsByModel(ManagedEntityArtifact.MODEL,
+						false, new NullProgressMonitor());
+
+		Collection<IAbstractArtifact> datatypes = 
+				artifactMgr.getArtifactsByModel(DatatypeArtifact.MODEL, false,
+						new NullProgressMonitor());
+
+		Collection<IAbstractArtifact> events = 
+				artifactMgr.getArtifactsByModel(EventArtifact.MODEL, false,
+						new NullProgressMonitor());
+
+		Collection<IAbstractArtifact> enums = 
+			artifactMgr.getArtifactsByModel(EnumArtifact.MODEL, false,
+						new NullProgressMonitor());
+
+		Collection<IAbstractArtifact> exceptions = 
+				artifactMgr.getArtifactsByModel(ExceptionArtifact.MODEL, false,
+						new NullProgressMonitor());
+
+		Collection<IAbstractArtifact> queries = 
+				artifactMgr.getArtifactsByModel(QueryArtifact.MODEL, false,
+						new NullProgressMonitor());
+
+		Collection<IAbstractArtifact> sessions = 
+				artifactMgr.getArtifactsByModel(SessionFacadeArtifact.MODEL,
+						false, new NullProgressMonitor());
+
+		Collection<IAbstractArtifact> updateProcedures = 
+				artifactMgr.getArtifactsByModel(UpdateProcedureArtifact.MODEL,
+						false, new NullProgressMonitor());
+
+		Collection<IAbstractArtifact> associations = 
+				artifactMgr.getArtifactsByModel(AssociationArtifact.MODEL,
+						false, new NullProgressMonitor());
+
+		Collection<IAbstractArtifact> dependencies = 
+				artifactMgr.getArtifactsByModel(DependencyArtifact.MODEL,
+						false, new NullProgressMonitor());
+
+		Collection<IAbstractArtifact> associationClasses = 
+				artifactMgr.getArtifactsByModel(
+						AssociationClassArtifact.MODEL, false,
+						new NullProgressMonitor());
+
+		Collection<IAbstractArtifact> packages = 
+				artifactMgr.getArtifactsByModel(PackageArtifact.MODEL, false,
+						new NullProgressMonitor());
+
+		// Set of collections with included Objects
+		
+		Collection<IAbstractArtifact> allEntities = artifactMgr
+				.getArtifactsByModel(ManagedEntityArtifact.MODEL, true, false,
+						new NullProgressMonitor());
+
+		Collection<IAbstractArtifact> allDatatypes = artifactMgr
+				.getArtifactsByModel(DatatypeArtifact.MODEL, true, false,
+						new NullProgressMonitor());
+
+		Collection<IAbstractArtifact> allEvents = artifactMgr
+				.getArtifactsByModel(EventArtifact.MODEL, true, false,
+						new NullProgressMonitor());
+
+		Collection<IAbstractArtifact> allEnums = artifactMgr
+				.getArtifactsByModel(EnumArtifact.MODEL, true, false,
+						new NullProgressMonitor());
+
+		Collection<IAbstractArtifact> allExceptions = artifactMgr
+				.getArtifactsByModel(ExceptionArtifact.MODEL, true, false,
+						new NullProgressMonitor());
+
+		Collection<IAbstractArtifact> allQueries = artifactMgr
+				.getArtifactsByModel(QueryArtifact.MODEL, true, false,
+						new NullProgressMonitor());
+
+		Collection<IAbstractArtifact> allSessions = artifactMgr
+				.getArtifactsByModel(SessionFacadeArtifact.MODEL, true, false,
+						new NullProgressMonitor());
+
+		Collection<IAbstractArtifact> allUpdateProcedures = artifactMgr
+				.getArtifactsByModel(UpdateProcedureArtifact.MODEL, true,
+						false, new NullProgressMonitor());
+
+		Collection<IAbstractArtifact> allAssociations = artifactMgr
+				.getArtifactsByModel(AssociationArtifact.MODEL, true, false,
+						new NullProgressMonitor());
+
+		Collection<IAbstractArtifact> allDependencies = artifactMgr
+				.getArtifactsByModel(DependencyArtifact.MODEL, true, false,
+						new NullProgressMonitor());
+
+		Collection<IAbstractArtifact> allAssociationClasses = artifactMgr
+				.getArtifactsByModel(AssociationClassArtifact.MODEL, true,
+						false, new NullProgressMonitor());
+
+		Collection<IAbstractArtifact> allPackages = artifactMgr
+				.getArtifactsByModel(PackageArtifact.MODEL, true, false,
+						new NullProgressMonitor());
+
+
+		
+		Collection<IAbstractArtifact> allArtifacts = artifactMgr
+				.getAllArtifacts(true, false, new NullProgressMonitor());
+
+		context.put(ARTIFACTS, artifacts);
+		context.put(ENTITIES, entities);
+		context.put(DATATYPES, datatypes);
+		context.put(EVENTS, events);
+		context.put(ENUMERATIONS, enums);
+		context.put(EXCEPTIONS, exceptions);
+		context.put(QUERIES, queries);
+		context.put(UPDATEPROCEDURES, updateProcedures);
+		context.put(ASSOCIATIONS, associations);
+		context.put(ASSOCIATIONCLASSES, associationClasses);
+		context.put(DEPENDENCIES, dependencies);
+		context.put(SESSIONS, sessions);
+		context.put(PACKAGES, packages);
+
+		context.put(ALLARTIFACTS, allArtifacts);
+		context.put(ALLENTITIES, allEntities);
+		context.put(ALLDATATYPES, allDatatypes);
+		context.put(ALLEVENTS, allEvents);
+		context.put(ALLENUMERATIONS, allEnums);
+		context.put(ALLEXCEPTIONS, allExceptions);
+		context.put(ALLQUERIES, allQueries);
+		context.put(ALLUPDATEPROCEDURES, allUpdateProcedures);
+		context.put(ALLASSOCIATIONS, allAssociations);
+		context.put(ALLASSOCIATIONCLASSES, allAssociationClasses);
+		context.put(ALLDEPENDENCIES, allDependencies);
+		context.put(ALLSESSIONS, allSessions);
+		context.put(ALLPACKAGES, allPackages);
+
+		context.put(PLUGINCONFIG, pluginConfig);
+		context.put(RUNTIME, TigerstripeRuntime.getInstance());
+
+		// This should eventually get removed as TigerstripeProject is not in
+		// the API
+		context.put(TSPROJECT, pluginConfig.getProject());
+		context.put(TSPROJECTHANDLE, handle);
+		context.put(MANAGERSESSION, session);
+		context.put(EXP, new Expander(pluginConfig));
+		context.put(MANAGER, artifactMgr);
+
+
+		context.put(PLUGINDIR, getContainingDescriptor().getBaseDir());
+
+		context.put(DIAGRAMGENERATOR, new DiagramGenerator(handle));
+
+		if (session.getActiveFacet() != null
+				&& session.getActiveFacet().canResolve())
+			context.put(ANNOTATIONCONTEXT, session.getActiveFacet()
+					.resolve().getAnnotationContext());
+
+		return context;
+	}
+	
 }
