@@ -20,6 +20,7 @@ import org.eclipse.jdt.internal.ui.packageview.PackageExplorerLabelProvider;
 import org.eclipse.jdt.internal.ui.viewsupport.ColoringLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeM0GeneratorNature;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripePluginProjectNature;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeProjectNature;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -112,6 +113,10 @@ public class TigerstripeExplorerLabelProvider extends
 					return decorateImage(Images.get(Images.TSPROJECT_FOLDER),
 							element);
 				else if (TigerstripePluginProjectNature.hasNature(iProject)
+						&& iProject.isOpen())
+					return decorateImage(Images
+							.get(Images.PLUGINPROJECT_FOLDER), element);
+				else if (TigerstripeM0GeneratorNature.hasNature(iProject)
 						&& iProject.isOpen())
 					return decorateImage(Images
 							.get(Images.PLUGINPROJECT_FOLDER), element);
