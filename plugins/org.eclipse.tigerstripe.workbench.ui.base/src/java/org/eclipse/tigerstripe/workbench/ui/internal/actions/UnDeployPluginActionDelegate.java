@@ -20,6 +20,7 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.GeneratorDeploymentUIHelper;
@@ -36,7 +37,7 @@ public class UnDeployPluginActionDelegate extends BasePluginActionDelegate
 			return;
 		IRunnableWithProgress op = null;
 		try {
-			final ITigerstripeM1GeneratorProject projectHandle = getPPProject();
+			final ITigerstripeGeneratorProject projectHandle = getPPProject();
 			final GeneratorDeploymentUIHelper helper = new GeneratorDeploymentUIHelper();
 			op = new IRunnableWithProgress() {
 				public void run(IProgressMonitor monitor) {
@@ -91,7 +92,7 @@ public class UnDeployPluginActionDelegate extends BasePluginActionDelegate
 	protected void checkEnabled(IAction action, IStructuredSelection selection) {
 		super.checkEnabled(action, selection);
 		if (action.isEnabled()) {
-			final ITigerstripeM1GeneratorProject ppProject = getPPProject();
+			final ITigerstripeGeneratorProject ppProject = getPPProject();
 			if (ppProject != null) {
 				try {
 					GeneratorDeploymentUIHelper helper = new GeneratorDeploymentUIHelper();

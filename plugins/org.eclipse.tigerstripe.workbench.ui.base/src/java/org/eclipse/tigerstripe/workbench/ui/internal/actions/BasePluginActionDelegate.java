@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAccess;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchPluggablePluginRole;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.ui.IWorkbenchPart;
 
 public class BasePluginActionDelegate {
@@ -43,7 +43,7 @@ public class BasePluginActionDelegate {
 		return targetPart.getSite().getShell();
 	}
 
-	protected ITigerstripeM1GeneratorProject getPPProject() {
+	protected ITigerstripeGeneratorProject getPPProject() {
 		if (selection == null)
 			return null;
 		IAbstractTigerstripeProject tsProject = null;
@@ -53,8 +53,8 @@ public class BasePluginActionDelegate {
 			IProject proj = res.getProject();
 			tsProject = (IAbstractTigerstripeProject) proj
 					.getAdapter(IAbstractTigerstripeProject.class);
-			if (tsProject instanceof ITigerstripeM1GeneratorProject)
-				return (ITigerstripeM1GeneratorProject) tsProject;
+			if (tsProject instanceof ITigerstripeGeneratorProject)
+				return (ITigerstripeGeneratorProject) tsProject;
 		} else if (obj instanceof IAdaptable) {
 			IResource res = (IResource) ((IAdaptable) obj)
 					.getAdapter(IResource.class);
@@ -62,8 +62,8 @@ public class BasePluginActionDelegate {
 				IProject proj = res.getProject();
 				tsProject = (IAbstractTigerstripeProject) proj
 						.getAdapter(IAbstractTigerstripeProject.class);
-				if (tsProject instanceof ITigerstripeM1GeneratorProject)
-					return (ITigerstripeM1GeneratorProject) tsProject;
+				if (tsProject instanceof ITigerstripeGeneratorProject)
+					return (ITigerstripeGeneratorProject) tsProject;
 			}
 		}
 		return null;
@@ -84,7 +84,7 @@ public class BasePluginActionDelegate {
 				&& LicensedAccess.getWorkbenchPluggablePluginRole() != TSWorkbenchPluggablePluginRole.DEPLOY_UNDEPLOY) {
 			action.setEnabled(false);
 		} else {
-			ITigerstripeM1GeneratorProject ppProject = getPPProject();
+			ITigerstripeGeneratorProject ppProject = getPPProject();
 			action.setEnabled(ppProject != null);
 		}
 	}
