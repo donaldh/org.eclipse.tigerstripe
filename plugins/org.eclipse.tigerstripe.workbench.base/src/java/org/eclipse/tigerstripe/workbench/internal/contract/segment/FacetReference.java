@@ -218,7 +218,7 @@ public class FacetReference extends AbstractContainedObject implements
 			if (project == null && projectLabel != null) {
 				IWorkspace workspace = ResourcesPlugin.getWorkspace();
 				IResource res = workspace.getRoot().findMember(projectLabel);
-				TigerstripeCore.findProject(res.getLocation());
+				aProject = TigerstripeCore.findProject(res.getLocation());
 			} else {
 				IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 				File file = project.getBaseDir();
