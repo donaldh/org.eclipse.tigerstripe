@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.annotation.ts2project.router;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IPath;
@@ -24,6 +25,7 @@ import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.espace.resources.core.EObjectRouter;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.diagram.IDiagram;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -90,18 +92,24 @@ public class ProjectRouter implements EObjectRouter {
 			Object annotable = AnnotationPlugin.getManager()
 					.getAnnotatedObject(ann);
 
-			IAbstractTigerstripeProject tsProject = null;
+			String projectName = null;
 			if (annotable instanceof IModelComponent) {
 				IModelComponent comp = (IModelComponent) annotable;
-				tsProject = comp.getProject();
+				projectName = comp.getProject().getName();
 			} else if (annotable instanceof IAbstractTigerstripeProject) {
-				tsProject = (IAbstractTigerstripeProject) annotable;
+				IAbstractTigerstripeProject tsProject = (IAbstractTigerstripeProject) annotable;
+				projectName = tsProject.getName();
+			} else if(annotable instanceof IDiagram) {
+				IDiagram diagram = (IDiagram)annotable;
+				IFile dFile = diagram.getDiagramFile();
+				projectName = dFile.getProject().getName();
 			}
 
 			// IProject iproject =
 			// (IProject)tsProject.getAdapter(IProject.class);
 			// IPath path = iproject.getFullPath();
-			IPath path = new Path(tsProject.getName());
+//			IPath path = new Path(tsProject.getName());
+			IPath path = new Path(projectName);
 
 			// See if there's an explicit definition
 			IPath explicitPath = explicitRoutersMap.get(eclass);
