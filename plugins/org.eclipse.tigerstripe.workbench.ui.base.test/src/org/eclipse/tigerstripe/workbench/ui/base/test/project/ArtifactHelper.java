@@ -22,6 +22,14 @@ import com.windowtester.runtime.swt.locator.eclipse.ContributedToolItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
 
 public class ArtifactHelper extends UITestCaseSWT{
+	
+	public static void openArtifactEditor(IUIContext ui, String artifactName) throws Exception{
+		ui.click(new TreeItemLocator(
+				TestingConstants.NEW_MODEL_PROJECT_NAME,
+				new ViewLocator(
+						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
+		
+	}
 
 	public static String newAttribute(IUIContext ui, String artifactName, String thisAttributeName) throws Exception {
 		

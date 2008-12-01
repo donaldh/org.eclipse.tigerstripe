@@ -59,7 +59,7 @@ public class NewArtifacts extends UITestCaseSWT {
 	 * We need to check the defaults are properly created.
 	 * @throws Exception
 	 */
-	public String testNewArtifactDefaults(IUIContext ui,String myType, String thisArtifactName, boolean hasAttributes,
+	public static String testNewArtifactDefaults(IUIContext ui,String myType, String thisArtifactName, boolean hasAttributes,
 			boolean hasLiterals, boolean hasMethods, boolean hasEnds) throws Exception	{
 		
 		ui.click(new TreeItemLocator(
@@ -70,12 +70,12 @@ public class NewArtifacts extends UITestCaseSWT {
 		if (myType.equals("Entity")){
 			// If it an entity we need the top item - as its not in the drop down
 			ui.click(new SWTWidgetLocator(ToolItem.class, "", 1,
-					new SWTWidgetLocator(ToolBar.class, 1, new SWTWidgetLocator(
+					new SWTWidgetLocator(ToolBar.class, 2, new SWTWidgetLocator(
 							CoolBar.class))));
 		} else {
 		ui.click(new PullDownMenuItemLocator(myType,
 				new SWTWidgetLocator(ToolItem.class, "", 1,
-						new SWTWidgetLocator(ToolBar.class, 1,
+						new SWTWidgetLocator(ToolBar.class, 2,
 								new SWTWidgetLocator(CoolBar.class)))));
 		}
 
