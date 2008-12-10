@@ -75,6 +75,7 @@ import org.w3c.dom.NodeList;
 
 public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileChangeListener {
 
+	private static String NEW_MENU_NAME= "org.eclipse.tigerstripe.workbench.ui.menu.new";
 	
 	private static AbstractContributionFactory artifactPatternMenuAddition;
 	private static AbstractContributionFactory artifactPatternToolbarAddition;
@@ -422,7 +423,7 @@ public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileC
 					if (projectCount == 0){
 						// just grab the name of teh first one that will be created
 						// This is need to anchor the artifact stuff
-						dropDownProjectItemId = "org.eclipse.tigerstripe.workbench.ui.base.new.patterns.project.dropdown."+pattern.getName();
+						dropDownProjectItemId = NEW_MENU_NAME+".patterns.project.dropdown."+pattern.getName();
 						dropDownProjectItemName = pattern.getName();
 					}
 					projectCount++;
@@ -461,7 +462,7 @@ public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileC
 					if (! disabledPatterns.contains(pattern.getName())){
 						if (pattern instanceof IProjectPattern){
 							CommandContributionItemParameter thisOne  = new CommandContributionItemParameter(locator,
-									"org.eclipse.tigerstripe.workbench.ui.base.new.patterns.project.dropdown."+pattern.getName(),
+									NEW_MENU_NAME+".patterns.project.dropdown."+pattern.getName(),
 									"org.eclipse.tigerstripe.workbench.ui.base.patternBasedProjectCreate",
 									buttonStyle
 							);
@@ -498,7 +499,7 @@ public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileC
 					if (! disabledPatterns.contains(pattern.getName()) && ! ddProjectItemName.equals(pattern.getName())){
 						if (pattern instanceof IProjectPattern){
 							CommandContributionItemParameter thisOne  = new CommandContributionItemParameter(locator,
-									"org.eclipse.tigerstripe.workbench.ui.base.new.patterns.project.dropdown"+pattern.getName(),
+									NEW_MENU_NAME+".patterns.project.dropdown"+pattern.getName(),
 									"org.eclipse.tigerstripe.workbench.ui.base.patternBasedProjectCreate",
 									CommandContributionItem.STYLE_PUSH
 							);
@@ -528,7 +529,7 @@ public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileC
 		 * May in future need to add "Composites"
 		 */
 		artifactPatternMenuAddition = new AbstractContributionFactory(
-				"menu:org.eclipse.tigerstripe.workbench.ui.base.new", null){
+				"menu:"+NEW_MENU_NAME, null){
 			
 			
 			@Override
@@ -545,7 +546,7 @@ public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileC
 
 
 								CommandContributionItemParameter thisOne  = new CommandContributionItemParameter(locator,
-										"org.eclipse.tigerstripe.workbench.ui.base.new.patterns."+pattern.getName(),
+										NEW_MENU_NAME+".patterns."+pattern.getName(),
 										"org.eclipse.tigerstripe.workbench.ui.base.patternBasedCreate",
 										CommandContributionItem.STYLE_PUSH
 								);
@@ -599,7 +600,7 @@ public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileC
 							String type = ((IArtifactPattern) pattern).getTargetArtifactType();
 							if (prop.getDetailsForType(type).isEnabled()){
 							CommandContributionItemParameter thisOne  = new CommandContributionItemParameter(locator,
-									"org.eclipse.tigerstripe.workbench.ui.base.new.patterns.dropdown."+pattern.getName(),
+									NEW_MENU_NAME+".patterns.dropdown."+pattern.getName(),
 									"org.eclipse.tigerstripe.workbench.ui.base.patternBasedCreate",
 									CommandContributionItem.STYLE_PULLDOWN
 							);
@@ -639,7 +640,7 @@ public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileC
 				if (pattern instanceof IArtifactPattern){
 					String type = ((IArtifactPattern) pattern).getTargetArtifactType();
 					if (prop.getDetailsForType(type).isEnabled()){
-						dropDownItemId = "org.eclipse.tigerstripe.workbench.ui.base.new.patterns.dropdown."+pattern.getName();
+						dropDownItemId = NEW_MENU_NAME+".patterns.dropdown."+pattern.getName();
 						dropDownItemName = pattern.getName();
 					}
 					break;
@@ -663,7 +664,7 @@ public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileC
 							String type = ((IArtifactPattern) pattern).getTargetArtifactType();
 							if (prop.getDetailsForType(type).isEnabled()){
 								CommandContributionItemParameter thisOne  = new CommandContributionItemParameter(locator,
-										"org.eclipse.tigerstripe.workbench.ui.base.new.patterns."+pattern.getName(),
+										NEW_MENU_NAME+".patterns."+pattern.getName(),
 										"org.eclipse.tigerstripe.workbench.ui.base.patternBasedCreate",
 										CommandContributionItem.STYLE_PUSH
 								);

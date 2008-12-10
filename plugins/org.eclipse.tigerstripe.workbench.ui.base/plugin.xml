@@ -760,17 +760,18 @@
      <menuContribution
            locationURI="menu:org.eclipse.ui.main.menu">
         <menu
+              id="org.eclipse.tigerstripe.workbench.ui.menu.main"
               label="Tigerstripe">
            <menu
-                 id="org.eclipse.tigerstripe.workbench.ui.base.new"
+                 id="org.eclipse.tigerstripe.workbench.ui.menu.new"
                  label="New...">
            </menu>
            <menu
-                 id="org.eclipse.tigerstripe.ui.main.menu.import"
+                 id="org.eclipse.tigerstripe.workbench.ui.menu.import"
                  label="Import...">
            </menu>
            <separator
-                 name="org.eclipse.tigerstripe.workbench.ui.base.separator2"
+                 name="org.eclipse.tigerstripe.workbench.ui.menu.seperator1"
                  visible="true">
            </separator>
            <command
@@ -781,21 +782,27 @@
                  style="push">
            </command>
            <separator
-                 name="org.eclipse.tigerstripe.workbench.ui.base.separator1"
+                 name="org.eclipse.tigerstripe.workbench.ui.menu.separator2"
                  visible="true">
            </separator>
            <command
                  commandId="org.eclipse.tigerstripe.workbench.ui.base.profile"
                  icon="src/icons/profile.gif"
+                 id="org.eclipse.tigerstripe.workbench.ui.menu.profile"
                  label="Active Profile Details..."
                  style="push">
            </command>
            <command
                  commandId="org.eclipse.tigerstripe.workbench.ui.base.plugins"
                  icon="src/icons/plugin.gif"
+                 id="org.eclipse.tigerstripe.workbench.ui.menu.plugins"
                  label="Plugins..."
                  style="push">
            </command>
+           <separator
+                 name="org.eclipse.tigerstripe.workbench.ui.main.additions"
+                 visible="true">
+           </separator>
         </menu>
      </menuContribution>
      <menuContribution
@@ -810,6 +817,7 @@
                  commandId="org.eclipse.tigerstripe.workbench.ui.base.generate"
                  disabledIcon="src/icons/run_tigerstripe_gs.gif"
                  icon="src/icons/run_tigerstripe.gif"
+                 id="org.eclipse.tigerstripe.workbench.ui.toolbar.generate"
                  label="Generate"
                  style="push">
            </command>

@@ -64,7 +64,7 @@
    <extension
          point="org.eclipse.ui.menus">
       <menuContribution
-            locationURI="menu:org.eclipse.tigerstripe.ui.main.menu.import">
+            locationURI="menu:org.eclipse.tigerstripe.workbench.ui.menu.import">
          <menu
                label="UML2...">
             <command
