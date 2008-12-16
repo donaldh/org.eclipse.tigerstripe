@@ -203,9 +203,10 @@ public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileC
 				BasePlugin.logErrorMessage("Failed to instantiate creation Patterns");
 				e.printStackTrace();
 			}
-		}
-		TigerstripeCore
+			TigerstripeCore
 			.getWorkbenchProfileSession().addActiveProfileListener(instance);
+		}
+
 		return instance;
 	}
 	
