@@ -26,6 +26,10 @@ http://www.eclipse.org/legal/epl-v10.html
       <discovery label="Tigerstripe Wiki" url="http://wiki.eclipse.org/Tigerstripe"/>
    </url>
 
+   <includes
+         id="org.eclipse.tigerstripe.base"
+         version="0.0.0"/>
+
    <plugin
          id="org.eclipse.tigerstripe.workbench.ui.base.test"
          download-size="0"
