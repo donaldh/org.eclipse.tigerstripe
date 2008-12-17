@@ -27,7 +27,7 @@ http://www.eclipse.org/legal/epl-v10.html
    </url>
 
    <includes
-         id="org.eclipse.tigerstripe.base"
+         id="org.eclipse.tigerstripe.workbench"
          version="0.0.0"/>
 
    <plugin
