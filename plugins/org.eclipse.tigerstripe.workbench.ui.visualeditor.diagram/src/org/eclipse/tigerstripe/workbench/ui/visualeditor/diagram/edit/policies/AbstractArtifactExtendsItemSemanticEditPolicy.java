@@ -57,13 +57,15 @@ public class AbstractArtifactExtendsItemSemanticEditPolicy extends
 			if (hostPart instanceof AbstractArtifactExtendsEditPart) {
 				AbstractArtifactExtendsEditPart extendsPart = (AbstractArtifactExtendsEditPart) hostPart;
 				Edge edge = (Edge) extendsPart.getModel();
-				AbstractArtifact sourceArtifact = (AbstractArtifact) edge
-						.getSource().getElement();
-				NamedElementPropertiesHelper helper = new NamedElementPropertiesHelper(
-						sourceArtifact);
-				helper.setProperty(
-						NamedElementPropertiesHelper.ARTIFACT_HIDE_EXTENDS,
-						"true");
+				if (edge.getSource() != null) {
+					AbstractArtifact sourceArtifact = (AbstractArtifact) edge
+							.getSource().getElement();
+					NamedElementPropertiesHelper helper = new NamedElementPropertiesHelper(
+							sourceArtifact);
+					helper.setProperty(
+							NamedElementPropertiesHelper.ARTIFACT_HIDE_EXTENDS,
+							"true");
+				}
 			}
 			return super.doExecuteWithResult(monitor, info);
 		}

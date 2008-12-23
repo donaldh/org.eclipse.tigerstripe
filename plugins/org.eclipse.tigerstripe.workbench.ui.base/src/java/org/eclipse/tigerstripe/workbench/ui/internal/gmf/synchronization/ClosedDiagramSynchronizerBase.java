@@ -31,6 +31,7 @@ import org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramEditDomain;
 import org.eclipse.gmf.runtime.diagram.ui.resources.editor.internal.util.DiagramIOUtil;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 
@@ -160,7 +161,9 @@ public abstract class ClosedDiagramSynchronizerBase implements
 				public void run() {
 					OffscreenEditPartFactory factory = OffscreenEditPartFactory
 							.getInstance();
-					diagramEP = factory.createDiagramEditPart(diagram);
+					Shell sh = new Shell();
+					diagramEP = factory.createDiagramEditPart(diagram, sh);
+					sh.dispose();
 				}
 			});
 			assert diagramEP != null;

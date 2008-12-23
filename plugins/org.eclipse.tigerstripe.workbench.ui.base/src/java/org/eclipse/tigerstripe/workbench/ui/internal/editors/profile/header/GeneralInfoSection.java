@@ -216,26 +216,26 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 				}
 
 				// and then reload all projects
-				try {
-					ResourcesPlugin.getWorkspace().run(
-							new IWorkspaceRunnable() {
-								public void run(IProgressMonitor monitor)
-										throws CoreException {
-									IWorkspace workspace = EclipsePlugin
-											.getWorkspace();
-									IProject[] projects = workspace.getRoot()
-											.getProjects();
-									for (IProject project : projects) {
-										project
-												.build(
-														IncrementalProjectBuilder.FULL_BUILD,
-														monitor);
-									}
-								}
-							}, new NullProgressMonitor());
-				} catch (CoreException ex) {
-					EclipsePlugin.log(ex);
-				}
+//				try {
+//					ResourcesPlugin.getWorkspace().run(
+//							new IWorkspaceRunnable() {
+//								public void run(IProgressMonitor monitor)
+//										throws CoreException {
+//									IWorkspace workspace = EclipsePlugin
+//											.getWorkspace();
+//									IProject[] projects = workspace.getRoot()
+//											.getProjects();
+//									for (IProject project : projects) {
+//										project
+//												.build(
+//														IncrementalProjectBuilder.FULL_BUILD,
+//														monitor);
+//									}
+//								}
+//							}, new NullProgressMonitor());
+//				} catch (CoreException ex) {
+//					EclipsePlugin.log(ex);
+//				}
 			}
 		});
 	}

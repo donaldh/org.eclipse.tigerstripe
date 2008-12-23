@@ -149,8 +149,9 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 				Collection<IAbstractArtifact> artifacts = session
 						.queryArtifact(query);
 
-				deleteAuditMarkers(getProject().findMember("src"),
-						IResource.DEPTH_INFINITE);
+				IResource srcRes = getProject().findMember("src");
+				if (srcRes != null)
+					deleteAuditMarkers(srcRes, IResource.DEPTH_INFINITE);
 
 				monitor.beginTask("Auditing Artifacts", artifacts.size());
 				for (IAbstractArtifact artifact : artifacts) {
@@ -453,7 +454,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 						if (jProject != null) {
 							if (jProject.getOutputLocation().equals(
 									root.getFullPath())) {
-								//System.out.println("this is the output folder "
+								// System.out.println("this is the output folder "
 								// +root);
 								return result;
 							}
@@ -655,7 +656,9 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 
 	public static boolean deleteAuditMarkers(IResource resource, int depth) {
 		try {
-			resource.deleteMarkers(BuilderConstants.MARKER_ID, false, depth);
+			if (resource != null)
+				resource
+						.deleteMarkers(BuilderConstants.MARKER_ID, false, depth);
 			return true;
 		} catch (CoreException e) {
 			BasePlugin.log(e);

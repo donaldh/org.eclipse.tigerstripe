@@ -11,7 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation;
 
 import org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide.editor.FileDiagramEditor;
-import org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.dnd.InstanceDiagramDropTarget;
+import org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.dnd.InstanceDiagramDropTargetListener;
 
 /**
  * Base class to handle synchronization and features between Tigerstripe core
@@ -35,8 +35,8 @@ public class GMFInstanceDiagramEditorHandler {
 	public void initialize() {
 		synchronizer.startSynchronizing();
 		editor.getDiagramGraphicalViewer().addDropTargetListener(
-				new InstanceDiagramDropTarget(editor
-						.getDiagramGraphicalViewer(), editor));
+				new InstanceDiagramDropTargetListener(editor
+						.getDiagramGraphicalViewer()));
 	}
 
 	public void dispose() {

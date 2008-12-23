@@ -8,7 +8,7 @@
  * Contributors:
  *    E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.dnd;
+package org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.dnd;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -16,23 +16,23 @@ import java.util.List;
 
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramDropTargetListener;
-import org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide.editor.FileDiagramEditor;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.AbstractArtifactAdapter;
 
-public class ClassDiagramDropTarget extends DiagramDropTargetListener {
+public class InstanceDiagramDropTargetListener extends
+		DiagramDropTargetListener {
 
-	public ClassDiagramDropTarget(EditPartViewer viewer,
-			FileDiagramEditor editor) {
+	public InstanceDiagramDropTargetListener(EditPartViewer viewer) {
 		super(viewer, LocalSelectionTransfer.getTransfer());
 	}
 
 	@Override
-	/**
+	/*
 	 * This method figures out the list of artifacts being dropped and returns
 	 * them
 	 */
@@ -86,6 +86,8 @@ public class ClassDiagramDropTarget extends DiagramDropTargetListener {
 	 */
 	@Override
 	public boolean isEnabled(DropTargetEvent event) {
+		event.detail = DND.DROP_COPY;
+		
 		boolean result = false;
 		TransferData[] data = event.dataTypes;
 
@@ -95,7 +97,7 @@ public class ClassDiagramDropTarget extends DiagramDropTargetListener {
 						data[i]);
 				if (obj instanceof IStructuredSelection) {
 					IStructuredSelection sel = (IStructuredSelection) obj;
-					result = ClassDiagramDragDropEnablePolicy
+					result = InstanceDiagramDragDropEnablePolicy
 							.getInstance()
 							.isEnabled(sel,
 									getViewer().getRootEditPart().getContents());

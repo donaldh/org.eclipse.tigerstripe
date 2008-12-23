@@ -27,6 +27,9 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -950,6 +953,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 				TigerstripeRuntime.logTraceMessage("Refreshed ("
 						+ (endTime - startTime) + " ms)"
 						+ getTSProject().getProjectLabel());
+				
 			} else {
 				long endTime = System.currentTimeMillis();
 				TigerstripeRuntime.logTraceMessage("Skipped a Refresh ("
@@ -958,6 +962,8 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			}
 			// TigerstripeRuntime.logInfoMessage(" -- Done reloading");
 			// }
+
+			
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
 					e);
@@ -1934,6 +1940,13 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			// proper
 			// progress
 			// monitor
+			((IProject) getTSProject().getAdapter(IProject.class))
+				.build(
+					IncrementalProjectBuilder.FULL_BUILD,
+					new NullProgressMonitor());
+		} catch (CoreException e) {
+			TigerstripeRuntime.logErrorMessage("CoreException detected",
+					e);
 		} finally {
 			writeLock.unlock();
 		}

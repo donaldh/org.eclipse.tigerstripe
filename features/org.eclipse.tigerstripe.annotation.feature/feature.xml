@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.tigerstripe.annotation.feature"
       label="%featureName"
-      version="0.4.2.qualifier"
+      version="0.4.5.qualifier"
       provider-name="%providerName">
 
    <description>
@@ -23,7 +23,7 @@ http://www.eclipse.org/legal/epl-v10.html
    </license>
 
    <url>
-      <update label="Tigerstripe Update Site (Incubation)" url="http://download.eclipse.org/technology/tigerstripe/updates/site.xml"/>
+      <update label="Tigerstripe Update Site (Incubation)" url="http://download.eclipse.org/technology/tigerstripe/updates"/>
       <discovery label="Tigerstripe Website" url="http://www.eclipse.org/tigerstripe"/>
       <discovery label="Tigerstripe Wiki" url="http://wiki.eclipse.org/Tigerstripe"/>
    </url>
@@ -65,13 +65,6 @@ http://www.eclipse.org/legal/epl-v10.html
 
    <plugin
          id="org.eclipse.tigerstripe.espace.resources"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.tigerstripe.annotation.ui.diagrams"
          download-size="0"
          install-size="0"
          version="0.0.0"

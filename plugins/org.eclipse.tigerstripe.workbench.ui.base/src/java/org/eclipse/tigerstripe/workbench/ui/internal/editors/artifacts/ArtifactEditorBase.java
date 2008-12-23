@@ -69,13 +69,11 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 	private ArtifactSourcePage sourcePage;
 
 	private Collection<TigerstripeFormPage> modelPages = new ArrayList<TigerstripeFormPage>();
-	
-	
 
 	public ArtifactEditorBase() {
 		TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(
 				this, ITigerstripeChangeListener.ALL);
-		
+
 	}
 
 	public IAbstractArtifact getIArtifact() {
@@ -137,9 +135,10 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 
 			IAbstractArtifact artifact = TSExplorerUtils
 					.getArtifactFor(fileInput.getFile());
-			setIArtifact(artifact);
 
 			try {
+				setIArtifact(((AbstractArtifact) artifact)
+						.makeWorkingCopy(new NullProgressMonitor()));
 				if (artifact != null
 						&& artifact.getTigerstripeProject() != null) {
 					artifact.getTigerstripeProject()
@@ -352,9 +351,14 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 		if (myArtifact != null
 				&& myArtifact.getFullyQualifiedName().equals(
 						artifact.getFullyQualifiedName())) {
-			setIArtifact(artifact);
-			refreshModelPages();
-			updateTextEditorFromArtifact();
+			try {
+				setIArtifact(((AbstractArtifact) artifact)
+						.makeWorkingCopy(null));
+				refreshModelPages();
+				updateTextEditorFromArtifact();
+			} catch (TigerstripeException e) {
+				EclipsePlugin.log(e);
+			}
 		}
 	}
 

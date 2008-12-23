@@ -11,15 +11,19 @@
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.dnd;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
+import org.eclipse.gef.commands.UnexecutableCommand;
 import org.eclipse.gmf.runtime.diagram.core.edithelpers.CreateElementRequestAdapter;
 import org.eclipse.gmf.runtime.diagram.ui.commands.ICommandProxy;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
@@ -40,9 +44,13 @@ import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
 import org.eclipse.gmf.runtime.emf.type.core.requests.CreateRelationshipRequest;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.Node;
+import org.eclipse.swt.dnd.DND;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.AbstractArtifactAdapter;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.QualifiedNamedElement;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.commands.PostCreationModelUpdateCommand;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.helpers.MapHelper;
 
@@ -54,7 +62,8 @@ public class ClassDiagramDragDropEditPolicy extends DiagramDragDropEditPolicy {
 	protected Command createViewsAndArrangeCommand(
 			DropObjectsRequest dropRequest, List viewDescriptors) {
 
-		List allObjects = new ArrayList(); // to contain all final objects
+		List<Object> allObjects = new ArrayList<Object>(); // to contain all
+		// final objects
 
 		// We need to create 1 composite command that includes all the incoming
 		// requests. There might be multiple viewDescriptors if multiple objects
@@ -151,6 +160,7 @@ public class ClassDiagramDragDropEditPolicy extends DiagramDragDropEditPolicy {
 			}
 		}
 
+		dropRequest.setRequiredDetail(DND.DROP_COPY);
 		dropRequest.setResult(allObjects);
 
 		// Update all create objects based on the Artifact Manager content
@@ -190,25 +200,36 @@ public class ClassDiagramDragDropEditPolicy extends DiagramDragDropEditPolicy {
 
 	@Override
 	public Command getDropObjectsCommand(DropObjectsRequest dropRequest) {
-		// Create a view request from the drop request and then forward getting
-		// the command for that.
+		if (dropRequest.getObjects().size() > 0)
+			if (dropRequest.getObjects().get(0) instanceof String) {
+				return getDropFileCommand(dropRequest);
+			} else if (dropRequest.getObjects().get(0) instanceof IAbstractArtifact) {
+				return getDropArtifactsCommand(dropRequest);
+			}
 
+		return super.getDropObjectsCommand(dropRequest);
+	}
+
+	protected Command getDropArtifactsCommand(DropObjectsRequest dropRequest) {
 		List<ViewDescriptor> viewDescriptors = new ArrayList<ViewDescriptor>();
-		Iterator iter = dropRequest.getObjects().iterator();
 
-		if (dropRequest.getObjects().size() > 0
-				&& dropRequest.getObjects().get(0) instanceof String)
-			return getDropFileCommand(dropRequest);
+		EditPart mapEditPart = getHost();
+		Diagram diagram = (Diagram) mapEditPart.getModel();
+		Map map = (Map) diagram.getElement();
+		List<IAbstractArtifact> artifactsToDrop = dropRequest.getObjects();
 
-		while (iter.hasNext()) {
-			Object newObj = iter.next();
-			IElementType type = ElementTypeMapper.mapToElementType(newObj);
+		for (IAbstractArtifact artifact : artifactsToDrop) {
+			
+			if ( !canDrop(artifact, map))
+				return UnexecutableCommand.INSTANCE;
+			
+			IElementType type = ElementTypeMapper.mapToElementType(artifact);
 			if (type != null) {
 				if (type == ElementTypeMapper.Association_3001
 						|| type == ElementTypeMapper.Dependency_3008) {
 					CreateRelationshipRequest crRequest = new CreateRelationshipRequest(
 							type);
-					crRequest.setParameter("IAbstractArtifact", newObj);
+					crRequest.setParameter("IAbstractArtifact", artifact);
 					crRequest.setParameter(DRAGGED_ARTIFACT, new Boolean(true));
 					CreateElementRequestAdapter adapter = new CreateElementRequestAdapter(
 							crRequest);
@@ -223,7 +244,7 @@ public class ClassDiagramDragDropEditPolicy extends DiagramDragDropEditPolicy {
 					// and zEnd
 					CreateRelationshipRequest crRequest = new CreateRelationshipRequest(
 							type);
-					crRequest.setParameter("IAbstractArtifact", newObj);
+					crRequest.setParameter("IAbstractArtifact", artifact);
 					crRequest.setParameter(DRAGGED_ARTIFACT, new Boolean(true));
 					CreateElementRequestAdapter adapter = new CreateElementRequestAdapter(
 							crRequest);
@@ -238,7 +259,7 @@ public class ClassDiagramDragDropEditPolicy extends DiagramDragDropEditPolicy {
 					IElementType elementType = ElementTypeMapper.AssociationClassClass_1009;
 					CreateElementRequest crElemRequest = new CreateElementRequest(
 							elementType);
-					crElemRequest.setParameter("IAbstractArtifact", newObj);
+					crElemRequest.setParameter("IAbstractArtifact", artifact);
 					crElemRequest.setParameter(DRAGGED_ARTIFACT, new Boolean(
 							true));
 					CreateElementRequestAdapter elemAdapter = new CreateElementRequestAdapter(
@@ -252,7 +273,7 @@ public class ClassDiagramDragDropEditPolicy extends DiagramDragDropEditPolicy {
 				} else {
 					CreateElementRequest crRequest = new CreateElementRequest(
 							type);
-					crRequest.setParameter("IAbstractArtifact", newObj);
+					crRequest.setParameter("IAbstractArtifact", artifact);
 					crRequest.setParameter(DRAGGED_ARTIFACT, new Boolean(true));
 
 					CreateElementRequestAdapter adapter = new CreateElementRequestAdapter(
@@ -267,7 +288,95 @@ public class ClassDiagramDragDropEditPolicy extends DiagramDragDropEditPolicy {
 				}
 			}
 		}
+		
 		return createViewsAndArrangeCommand(dropRequest, viewDescriptors);
 	}
 
+	@Override
+	protected Command getDropFileCommand(DropObjectsRequest dropRequest) {
+		List<IAbstractArtifact> artifactsToDrop = new ArrayList<IAbstractArtifact>();
+
+		EditPart mapEditPart = getHost();
+		Diagram diagram = (Diagram) mapEditPart.getModel();
+		Map map = (Map) diagram.getElement();
+		ITigerstripeModelProject tsProject = map
+				.getCorrespondingITigerstripeProject();
+
+		if (tsProject == null)
+			return UnexecutableCommand.INSTANCE;
+
+		// Sort out the artifacts being dropped here
+		for (Object obj : dropRequest.getObjects()) {
+			if (obj instanceof String) {
+				String filePath = (String) obj;
+				IPath fPath = new Path(filePath);
+				IFile[] files = ResourcesPlugin.getWorkspace().getRoot()
+						.findFilesForLocation(fPath);
+				for (IFile file : files) {
+					IAbstractArtifact art = AbstractArtifactAdapter
+							.adaptWithin(file, tsProject);
+					if (art != null && canDrop(art, map)) {
+						artifactsToDrop.add(art);
+					} else {
+						// if one is not adaptable, no point in going further
+						// that means
+						// "something else" is being dragged that is not an
+						// artifact or if it is, it is
+						// not in diagram scope (Following project path).
+						return UnexecutableCommand.INSTANCE;
+					}
+				}
+			}
+		}
+
+		// At this stage, we know for sure that all artifacts in the
+		// artifactsToDrop List
+		// can indeed be safely dropped. We now need to map them to the
+		// corresponding types
+		// and create the final command.
+		dropRequest.setObjects(artifactsToDrop);
+		return getDropArtifactsCommand(dropRequest);
+	}
+
+	/**
+	 * Determines if the given artifact can be dropped on this Map.
+	 * 
+	 * @param artifact
+	 * @return
+	 */
+	private boolean canDrop(IAbstractArtifact artifact, Map map) {
+		boolean result = true;
+		if (artifact != null) {
+			// make sure we don't add the same artifact twice on a diagram
+			MapHelper helper = new MapHelper(map);
+
+			QualifiedNamedElement element = helper.findElementFor(artifact
+					.getFullyQualifiedName());
+
+			if (artifact instanceof IRelationship) {
+				// In the case of IRelationShip we need to check that both
+				// ends are on
+				// the diagram
+				IRelationship rel = (IRelationship) artifact;
+				if (rel.getRelationshipAEnd() != null
+						&& rel.getRelationshipZEnd() != null) {
+					String aEndFQN = rel.getRelationshipAEnd().getType()
+							.getFullyQualifiedName();
+					String zEndFQN = rel.getRelationshipZEnd().getType()
+							.getFullyQualifiedName();
+
+					result = (element == null)
+							&& (helper.findElementFor(aEndFQN) != null)
+							&& (helper.findElementFor(zEndFQN) != null);
+				} else {
+					result = false;
+				}
+			} else {
+				result = element == null;
+			}
+		} else {
+			result = false;
+		}
+		return result;
+	}
 }

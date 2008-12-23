@@ -93,8 +93,8 @@ public class LiteralCreateRequest extends BaseArtifactElementRequest implements
 		} else {
 			literal = this.getLiteral();
 		}
-		literalURI = (URI) literal.getAdapter(URI.class);
 		art.addLiteral(literal);
+		literalURI = (URI) literal.getAdapter(URI.class);
 		art.doSave(new NullProgressMonitor());
 	}
 

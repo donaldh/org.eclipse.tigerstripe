@@ -18,7 +18,6 @@ import org.eclipse.tigerstripe.annotation.setif.SomeTestAnnots.TestAnnot1;
 import org.eclipse.tigerstripe.annotation.setif.SomeTestAnnots.TestAnnot2;
 import org.eclipse.tigerstripe.annotation.setif.SomeTestAnnots.TestAnnot3;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.base.test.model.ArtifactTestHelper;
 import org.eclipse.tigerstripe.workbench.internal.api.patterns.PatternFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
@@ -62,14 +61,15 @@ public class PatternTest extends TestCase {
 	@Override
 	protected void setUp() throws Exception {
 		// Need to protect against previous failures
-		project = (ITigerstripeModelProject) TigerstripeCore.findProject(PROJECTNAME);
+		project = (ITigerstripeModelProject) TigerstripeCore.findProject(
+				PROJECTNAME);
 		if (project != null && project.exists())
 			project.delete(true, null);
-		
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
 		project = (ITigerstripeModelProject) TigerstripeCore.createProject(
 				PROJECTNAME, projectDetails, null,
 				ITigerstripeModelProject.class, null, null);
+
 		IWorkbenchProfileSession session = TigerstripeCore
 				.getWorkbenchProfileSession();
 
@@ -697,6 +697,5 @@ public class PatternTest extends TestCase {
 		}
 
 	}
-	
 
 }

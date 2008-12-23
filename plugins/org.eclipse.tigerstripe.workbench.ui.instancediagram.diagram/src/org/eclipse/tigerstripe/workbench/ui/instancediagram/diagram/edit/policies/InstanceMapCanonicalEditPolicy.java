@@ -542,11 +542,11 @@ public class InstanceMapCanonicalEditPolicy extends
 			// Class instance, so need to remove the other Association from the
 			// model
 			InstanceMap map = (InstanceMap) event.getNotifier();
-			EList assocInstances = map.getAssociationInstances();
+			Object[] assocInstances = map.getAssociationInstances().toArray();
+			List<AssociationInstance> aiToRemove = new ArrayList<AssociationInstance>();
 			for (Object obj : assocInstances) {
 				AssociationInstance newInstance = (AssociationInstance) obj;
 				if (newInstance != assocInstance) {
-					String newInstanceName = newInstance.getArtifactName();
 					if (otherAssocInstanceName.equals(newInstance
 							.getArtifactName())) {
 						// have found the other association instance that is
@@ -554,12 +554,16 @@ public class InstanceMapCanonicalEditPolicy extends
 						// association instance by artifact name (they are both
 						// part of the
 						// same association class artifact)
-						map.getAssociationInstances().remove(newInstance);
+						aiToRemove.add(newInstance);
 						break;
 					}
 				}
 			}
+			if ( !aiToRemove.isEmpty()) 
+				map.getAssociationInstances().removeAll(aiToRemove);
+			
 			EList classInstances = map.getClassInstances();
+			List<ClassInstance> ciToRemove = new ArrayList<ClassInstance>();
 			for (Object obj : classInstances) {
 				ClassInstance classInstance = (ClassInstance) obj;
 				if (classInstance.isAssociationClassInstance()
@@ -569,10 +573,12 @@ public class InstanceMapCanonicalEditPolicy extends
 					// to this association
 					// instance by name (they are both part of the same
 					// artifact)
-					map.getClassInstances().remove(classInstance);
+					ciToRemove.add(classInstance);
 					break;
 				}
 			}
+			if ( !ciToRemove.isEmpty() ) 
+				map.getClassInstances().removeAll(ciToRemove);
 		} else if (event.getEventType() == Notification.REMOVE
 				&& feature instanceof EReferenceImpl
 				&& oldValue instanceof ClassInstance) {

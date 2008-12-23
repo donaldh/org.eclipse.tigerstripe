@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -47,7 +48,7 @@ import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef
  */
 public class WorkbenchProfileSession implements IWorkbenchProfileSession {
 
-	private ArrayList<IActiveWorkbenchProfileChangeListener> activeProfileListeners = new ArrayList<IActiveWorkbenchProfileChangeListener>();
+	private ListenerList activeProfileListeners = new ListenerList();
 
 	private IWorkbenchProfile activeProfile;
 
@@ -100,7 +101,7 @@ public class WorkbenchProfileSession implements IWorkbenchProfileSession {
 
 		Collection<IPrimitiveTypeDef> primitiveTypes = profile
 				.getPrimitiveTypeDefs(false);
-		List badTypesList = new ArrayList();
+		List<String> badTypesList = new ArrayList<String>();
 		for (IPrimitiveTypeDef primitiveType : primitiveTypes) {
 			if (!primitiveType.isValidName()) {
 				badTypesList.add(primitiveType.getName());
@@ -128,8 +129,8 @@ public class WorkbenchProfileSession implements IWorkbenchProfileSession {
 							+ "' -> invalid "
 							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									IPrimitiveTypeImpl.class.getName())
-									.getLabel(IPrimitiveTypeImpl.class) + " names detected: "
-							+ badTypesList.toString());
+									.getLabel(IPrimitiveTypeImpl.class)
+							+ " names detected: " + badTypesList.toString());
 		}
 
 		FileWriter writer = null;
@@ -308,32 +309,26 @@ public class WorkbenchProfileSession implements IWorkbenchProfileSession {
 						"Error while creating rollback file:" + e.getMessage(),
 						e);
 			}
-			boolean deleted = fFile.delete();
+			fFile.delete();
 		}
 		return rollbackCreated;
 	}
 
 	private void activeProfileChanged() {
-		synchronized (activeProfileListeners) {
-			for (IActiveWorkbenchProfileChangeListener listener : activeProfileListeners) {
-				listener.profileChanged(getActiveProfile());
-			}
+		Object[] listeners = activeProfileListeners.getListeners();
+		for (Object listener : listeners) {
+			((IActiveWorkbenchProfileChangeListener) listener)
+					.profileChanged(getActiveProfile());
 		}
 	}
 
 	public void addActiveProfileListener(
 			IActiveWorkbenchProfileChangeListener listener) {
-		synchronized (activeProfileListeners) {
-			activeProfileListeners.add(listener);
-		}
+		activeProfileListeners.add(listener);
 	}
 
 	public void removeActiveProfileListener(
 			IActiveWorkbenchProfileChangeListener listener) {
-		synchronized (activeProfileListeners) {
-			if (activeProfileListeners.contains(listener)) {
-				activeProfileListeners.remove(listener);
-			}
-		}
+		activeProfileListeners.remove(listener);
 	}
 }

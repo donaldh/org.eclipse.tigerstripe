@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.StringBufferInputStream;
+import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.ArrayList;
@@ -951,18 +952,18 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * @return Collection of Field - a collection of Fields for this artifact
 	 */
 	public Collection<IField> getInheritedFields() {
-		//Bug 249956
+		// Bug 249956
 		// Don't cache this stuff as the parent may have changed!
-		//if (inheritedFields == null) {
-			try {
-				resolveInheritedFields();
-			} catch (TigerstripeException e) {
-				TigerstripeRuntime.logErrorMessage(
-						"While trying to resolve inherited fields for "
-								+ getFullyQualifiedName(), e);
-				return Collections.EMPTY_LIST;
-			}
-		//}
+		// if (inheritedFields == null) {
+		try {
+			resolveInheritedFields();
+		} catch (TigerstripeException e) {
+			TigerstripeRuntime.logErrorMessage(
+					"While trying to resolve inherited fields for "
+							+ getFullyQualifiedName(), e);
+			return Collections.EMPTY_LIST;
+		}
+		// }
 		return this.inheritedFields;
 	}
 
@@ -973,18 +974,18 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 *         artifact
 	 */
 	public Collection<ILiteral> getInheritedLiterals() {
-		//Bug 249956
+		// Bug 249956
 		// Don't cache this stuff as the parent may have changed!
-		//if (inheritedLiterals == null) {
-			try {
-				resolveInheritedLiterals();
-			} catch (TigerstripeException e) {
-				TigerstripeRuntime.logErrorMessage(
-						"While trying to resolved inherited Literals for "
-								+ getFullyQualifiedName(), e);
-				return Collections.EMPTY_LIST;
-			}
-		//}
+		// if (inheritedLiterals == null) {
+		try {
+			resolveInheritedLiterals();
+		} catch (TigerstripeException e) {
+			TigerstripeRuntime.logErrorMessage(
+					"While trying to resolved inherited Literals for "
+							+ getFullyQualifiedName(), e);
+			return Collections.EMPTY_LIST;
+		}
+		// }
 		return this.inheritedLiterals;
 	}
 
@@ -994,18 +995,18 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * @return Collection of Method - a collection of Methods for this artifact
 	 */
 	public Collection<IMethod> getInheritedMethods() {
-		//Bug 249956
+		// Bug 249956
 		// Don't cache this stuff as the parent may have changed!
-		//if (inheritedMethods == null) {
-			try {
-				resolveInheritedMethods();
-			} catch (TigerstripeException e) {
-				TigerstripeRuntime.logErrorMessage(
-						"While trying to resolve inherited Methods for "
-								+ getFullyQualifiedName(), e);
-				return Collections.EMPTY_LIST;
-			}
-		//}
+		// if (inheritedMethods == null) {
+		try {
+			resolveInheritedMethods();
+		} catch (TigerstripeException e) {
+			TigerstripeRuntime.logErrorMessage(
+					"While trying to resolve inherited Methods for "
+							+ getFullyQualifiedName(), e);
+			return Collections.EMPTY_LIST;
+		}
+		// }
 		return this.inheritedMethods;
 	}
 
@@ -1474,18 +1475,23 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 				// Check to see if the "parentPackageArtifact" exists
 				// and if not create it
-				if (! "".equals(getPackage())){
+				if (!"".equals(getPackage())) {
 					IWorkbenchProfile profile = TigerstripeCore
-					.getWorkbenchProfileSession()
-					.getActiveProfile();
+							.getWorkbenchProfileSession().getActiveProfile();
 					CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
-					.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
-					if (prop.getDetailsForType(IPackageArtifact.class.getName()).isEnabled()) {
-						IAbstractArtifact parent = getProject().getArtifactManagerSession().getArtifactByFullyQualifiedName(getPackage());
-						if (parent == null){
+							.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
+					if (prop
+							.getDetailsForType(IPackageArtifact.class.getName())
+							.isEnabled()) {
+						IAbstractArtifact parent = getProject()
+								.getArtifactManagerSession()
+								.getArtifactByFullyQualifiedName(getPackage());
+						if (parent == null) {
 							// Better make one
-							//System.out.println("Making "+getPackage());
-							parent = getProject().getArtifactManagerSession().makeArtifact(IPackageArtifact.class.getName());
+							// System.out.println("Making "+getPackage());
+							parent = getProject().getArtifactManagerSession()
+									.makeArtifact(
+											IPackageArtifact.class.getName());
 							parent.setFullyQualifiedName(getPackage());
 							parent.doSave(monitor);
 
@@ -1949,5 +1955,26 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	public void setContainingModelComponent(IModelComponent containingComponent) {
 		this.containingModelComponent = containingComponent;
 		return;
+	}
+
+	/**
+	 * 	Clones this artifact
+	 * 
+	 * TODO: this should be extended to fully support the IWorkingCopy interface at some point...
+	 * 
+	 * @param monitor
+	 * @return
+	 * @throws TigerstripeException
+	 */
+	public IAbstractArtifact makeWorkingCopy(IProgressMonitor monitor)
+			throws TigerstripeException {
+		if ( monitor == null )
+			monitor = new NullProgressMonitor();
+		
+		String textual = this.asText();
+		StringReader reader = new StringReader(textual);
+		IAbstractArtifact cloned = getArtifactManager().extractArtifact(reader,
+				monitor);
+		return cloned;
 	}
 }

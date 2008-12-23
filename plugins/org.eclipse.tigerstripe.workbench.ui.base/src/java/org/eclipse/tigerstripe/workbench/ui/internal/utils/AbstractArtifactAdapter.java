@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.internal.utils;
 import java.io.File;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IClassFile;
@@ -52,6 +53,9 @@ public class AbstractArtifactAdapter {
 		if (tsProject == null)
 			return null;
 
+		if ( obj instanceof IResource ) 
+			obj = ((IResource) obj).getAdapter(IJavaElement.class);
+		
 		if (obj instanceof IJavaElement) {
 			IJavaElement jElement = (IJavaElement) obj;
 			IJavaProject jProject = jElement.getJavaProject();

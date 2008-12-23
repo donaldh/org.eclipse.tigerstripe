@@ -20,6 +20,7 @@ import java.util.Set;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.operations.OperationHistoryFactory;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gef.EditPart;
@@ -129,7 +130,8 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 			// Handle extending Artifacts
 			Set<IAbstractArtifact> extendingArtifacts = new HashSet<IAbstractArtifact>();
 			for (IAbstractArtifact artifact : artifacts) {
-				Collection<IAbstractArtifact> extendingArtArray = artifact.getExtendingArtifacts();
+				Collection<IAbstractArtifact> extendingArtArray = artifact
+						.getExtendingArtifacts();
 				for (IAbstractArtifact extendingArt : extendingArtArray) {
 					if (!namesOfArtifactsInMap.contains(extendingArt
 							.getFullyQualifiedName())) {
@@ -170,7 +172,8 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 					} else if (relationship instanceof IDependencyArtifact) {
 						IRelationshipEnd zEnd = ((IDependencyArtifact) relationship)
 								.getRelationshipZEnd();
-						IAbstractArtifact dependentArt = zEnd.getType().getArtifact();
+						IAbstractArtifact dependentArt = zEnd.getType()
+								.getArtifact();
 						// if an artifact of the same type isn't already in the
 						// diagram, add it to the list
 						// of dependent artifacts that could be added
@@ -215,7 +218,8 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 					} else if (relationship instanceof IDependencyArtifact) {
 						IRelationshipEnd aEnd = ((IDependencyArtifact) relationship)
 								.getRelationshipAEnd();
-						IAbstractArtifact dependingArt = aEnd.getType().getArtifact();
+						IAbstractArtifact dependingArt = aEnd.getType()
+								.getArtifact();
 						// if an artifact of the same type isn't already in the
 						// diagram, add it to the list
 						// of depending artifacts that could be added
@@ -271,25 +275,27 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 			Set<IAbstractArtifact> referencedArtifacts = new HashSet<IAbstractArtifact>();
 			for (IAbstractArtifact artifact : artifacts) {
 
-				for (IAbstractArtifact referencedArt : artifact.getReferencedArtifacts()) {
-						// if an artifact of the same type isn't already in the
-						// diagram,
-						// add it to the list
-						// of implementing artifacts that could be added
-						if (!namesOfArtifactsInMap.contains(referencedArt
-								.getFullyQualifiedName())) {
-							relationshipsExist = true;
-							referencedArtifacts
-							.add((IAbstractArtifact) referencedArt);
-						}
-
+				for (IAbstractArtifact referencedArt : artifact
+						.getReferencedArtifacts()) {
+					// if an artifact of the same type isn't already in the
+					// diagram,
+					// add it to the list
+					// of implementing artifacts that could be added
+					if (!namesOfArtifactsInMap.contains(referencedArt
+							.getFullyQualifiedName())) {
+						relationshipsExist = true;
+						referencedArtifacts
+								.add((IAbstractArtifact) referencedArt);
 					}
+
+				}
 			}
 
 			// Handling referencing artifacts
 			Set<IAbstractArtifact> referencingArtifacts = new HashSet<IAbstractArtifact>();
 			for (IAbstractArtifact artifact : artifacts) {
-				for (IAbstractArtifact referencingArt : artifact.getReferencingArtifacts()) {
+				for (IAbstractArtifact referencingArt : artifact
+						.getReferencingArtifacts()) {
 					// if an artifact of the same type isn't already in the
 					// diagram,
 					// add it to the list
@@ -430,8 +436,14 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 						ClassDiagramDragDropEditPolicy dndEditPolicy = (ClassDiagramDragDropEditPolicy) mapEditPart
 								.getEditPolicy(EditPolicyRoles.DRAG_DROP_ROLE);
 						DropObjectsRequest request = new DropObjectsRequest();
-						List<IAbstractArtifact> artifactsToAddList = new ArrayList<IAbstractArtifact>();
-						artifactsToAddList.addAll(artifactsToAdd);
+						List<String> artifactsToAddList = new ArrayList<String>();
+						for (IAbstractArtifact art : artifactsToAdd) {
+							IResource artResource = (IResource) art
+									.getAdapter(IResource.class);
+							if (artResource != null)
+								artifactsToAddList.add(artResource
+										.getLocation().toOSString());
+						}
 						request.setObjects(artifactsToAddList);
 						request.setAllowedDetail(DND.DROP_COPY);
 						final Command cmd = dndEditPolicy
@@ -539,10 +551,10 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 			if (artifact instanceof AssociationClassArtifact) {
 				AssociationClassArtifact assocClassArt = (AssociationClassArtifact) artifact;
 				IAbstractArtifact[] endArray = new IAbstractArtifact[] {
-						(IAbstractArtifact) assocClassArt.getAEnd()
-								.getType().getArtifact(),
-						(IAbstractArtifact) assocClassArt.getZEnd()
-								.getType().getArtifact() };
+						(IAbstractArtifact) assocClassArt.getAEnd().getType()
+								.getArtifact(),
+						(IAbstractArtifact) assocClassArt.getZEnd().getType()
+								.getArtifact() };
 				associationClassEndsMap.put(assocClassArt, endArray);
 			} else {
 				artifactsToAdd.add(artifact);

@@ -19,6 +19,11 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjec
 
 public class ReadOnlyTigerstripeProjectHandle extends TigerstripeProjectHandle {
 
+	@Override
+	public String getName() {
+		return project.getProjectDetails().getName();
+	}
+
 	private TigerstripeProject project;
 
 	public ReadOnlyTigerstripeProjectHandle(TigerstripeProject project) {
@@ -50,4 +55,6 @@ public class ReadOnlyTigerstripeProjectHandle extends TigerstripeProjectHandle {
 	public boolean isDirty() {
 		return false;
 	}
+	
+	
 }
