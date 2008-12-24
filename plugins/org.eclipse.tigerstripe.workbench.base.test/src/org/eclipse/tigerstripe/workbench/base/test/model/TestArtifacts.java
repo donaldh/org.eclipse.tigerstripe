@@ -93,8 +93,10 @@ public class TestArtifacts extends TestCase {
 						"Other2", "com.test");
 
 		allArtifacts = session.queryArtifact(allArtifactQuery);
+		// This is now 6 , since some packages are added as well
+		int expected = startingArtifacts + 6;
 		assertTrue("Incorrect number of Artifacts (" + allArtifacts.size()
-				+ ")", allArtifacts.size() == startingArtifacts + 4);
+				+ ") instead of "+expected, allArtifacts.size() == expected);
 
 		subTop.setExtendedArtifact(top);
 		subTop.doSave(new NullProgressMonitor());
@@ -153,7 +155,7 @@ public class TestArtifacts extends TestCase {
 
 		allArtifacts = session.queryArtifact(allArtifactQuery);
 		assertTrue("Incorrect number of Artifacts after a remove", allArtifacts
-				.size() == startingArtifacts + 3);
+				.size() == startingArtifacts + 5);
 
 		extendingSubTop = subTop.getExtendingArtifacts();
 		assertTrue("Extending Artifact list is wrong size ("
