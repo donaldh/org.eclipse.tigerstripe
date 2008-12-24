@@ -71,11 +71,11 @@ public class TestM1Generation extends TestCase {
 				break;
 			}
 		}
-		assertTrue(housingFound);
+		assertTrue("Plugin "+ generator.getId()+ " not registered when expected.",housingFound);
 
 		helper.unDeploy(path, null);
 
-		// Check that the plugin is now register
+		// Check that the plugin is now NOT register
 		housingFound = false;
 		housings = PluginManager.getManager().getRegisteredPluggableHousings();
 		for (PluggableHousing housing : housings) {
@@ -85,7 +85,7 @@ public class TestM1Generation extends TestCase {
 				break;
 			}
 		}
-		assertFalse(housingFound);
+		assertFalse("Plugin "+ generator.getId()+ " registered when not expected.",housingFound);
 	}
 
 	public void testGenerate() throws TigerstripeException {

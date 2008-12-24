@@ -22,6 +22,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.util.FileUtils;
 import org.eclipse.tigerstripe.workbench.plugins.IGlobalRule;
 import org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule;
+import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 
@@ -103,7 +104,7 @@ public class M1ProjectHelper {
 		ITigerstripeM1GeneratorProject gProject = (ITigerstripeM1GeneratorProject) project
 				.makeWorkingCopy(null);
 
-		IGlobalTemplateRule rule = (IGlobalTemplateRule) gProject
+		ITemplateBasedRule rule = (ITemplateBasedRule) gProject
 				.makeRule(IGlobalTemplateRule.class);
 
 		rule.setName("Rule1");
