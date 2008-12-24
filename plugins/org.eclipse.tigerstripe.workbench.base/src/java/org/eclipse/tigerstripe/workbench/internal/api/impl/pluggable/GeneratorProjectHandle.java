@@ -41,6 +41,24 @@ public abstract class GeneratorProjectHandle extends
 		super(projectContainerURI);
 	}
 
+	/**
+	 * This might be a deployed generator, in which case
+	 * we can't use the simple case... 
+	 */
+	@Override
+	public String getName() {
+		
+		String lastSeg = getLocation().lastSegment();
+		if (lastSeg.endsWith("-_temp")){
+			lastSeg = lastSeg.substring(0, lastSeg.length()-"-_temp".length() );
+		}
+		if (lastSeg.startsWith(".")){
+			lastSeg = lastSeg.substring(1);
+		}
+		
+		return lastSeg;
+	}
+	
 	@Override
 	public void validate(ITigerstripeVisitor visitor)
 			throws TigerstripeException {

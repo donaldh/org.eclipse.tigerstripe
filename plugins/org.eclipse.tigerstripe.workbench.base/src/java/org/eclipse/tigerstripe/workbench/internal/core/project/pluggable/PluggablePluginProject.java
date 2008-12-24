@@ -282,9 +282,9 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 
 		if (getProjectDetails() == null) {
 			isValid = false;
-		} else if (getProjectDetails().getName() == null
-				|| getProjectDetails().getName().length() == 0) {
-			isValid = false;
+//		} else if (getProjectDetails().getName() == null
+//				|| getProjectDetails().getName().length() == 0) {
+//			isValid = false;
 		}
 
 		return superValid & isValid;

@@ -578,6 +578,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 		}
 	}
 
+	
 	public ITigerstripeModelProject getTSProject() {
 		if (getBaseDir() != null) {
 			try {

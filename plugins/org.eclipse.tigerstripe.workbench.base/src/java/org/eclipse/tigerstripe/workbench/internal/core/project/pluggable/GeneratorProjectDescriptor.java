@@ -16,10 +16,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.IContainedObject;
 import org.eclipse.tigerstripe.workbench.internal.MigrationHelper;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.VelocityContextDefinition;
 import org.eclipse.tigerstripe.workbench.internal.core.project.AbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.properties.BooleanPPluginProperty;
@@ -37,6 +39,7 @@ import org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.ITablePluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -756,7 +759,30 @@ public abstract class GeneratorProjectDescriptor extends
 	}
 
 	public String getId() {
-		return getProjectDetails().getName() + "("
+		return getName() + "("
 				+ getProjectDetails().getVersion() + ")";
 	}
+	
+	private String getName(){
+		ITigerstripeGeneratorProject proj = getGenProject();
+		if (proj != null){
+			return getGenProject().getName();
+		}
+		return null;
+	}
+	
+	public ITigerstripeGeneratorProject getGenProject() {
+		if (getBaseDir() != null) {
+			try {
+				return (ITigerstripeGeneratorProject) TigerstripeCore
+						.findProject(getBaseDir().toURI());
+			} catch (TigerstripeException e) {
+				TigerstripeRuntime.logErrorMessage(
+						"TigerstripeException detected", e);
+
+			}
+		}
+		return null;
+	}
+	
 }
