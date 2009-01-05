@@ -23,6 +23,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.FileUtils;
 import org.eclipse.tigerstripe.workbench.plugins.IGlobalRule;
 import org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginClasspathEntry;
+import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM0GeneratorProject;
 
@@ -111,7 +112,7 @@ public class M0ProjectHelper {
 		ITigerstripeM0GeneratorProject gProject = (ITigerstripeM0GeneratorProject) project
 				.makeWorkingCopy(null);
 
-		IGlobalTemplateRule rule = (IGlobalTemplateRule) gProject
+		ITemplateBasedRule rule = (ITemplateBasedRule) gProject
 				.makeRule(IGlobalTemplateRule.class);
 
 		rule.setName("Rule1");

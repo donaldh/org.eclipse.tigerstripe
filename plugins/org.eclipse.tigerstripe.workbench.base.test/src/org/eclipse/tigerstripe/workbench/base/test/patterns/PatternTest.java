@@ -117,6 +117,9 @@ public class PatternTest extends TestCase {
 	protected void tearDown() throws Exception {
 		if (project != null && project.exists())
 			project.delete(true, null);
+		IWorkbenchProfileSession session = TigerstripeCore
+				.getWorkbenchProfileSession();
+		session.setDefaultActiveProfile();
 	}
 
 	public void testManagedEntityArtifactPattern() throws Exception {

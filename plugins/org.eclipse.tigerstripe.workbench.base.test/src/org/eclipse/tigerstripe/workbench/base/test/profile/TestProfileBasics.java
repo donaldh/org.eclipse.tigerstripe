@@ -25,14 +25,16 @@ public class TestProfileBasics extends TestCase {
 		IWorkbenchProfileSession session = TigerstripeCore
 				.getWorkbenchProfileSession();
 		assertNotNull(session);
+		session.setDefaultActiveProfile();
 		IWorkbenchProfile profile = session.getActiveProfile();
 		assertNotNull(profile);
 		
 		assertNotNull(profile.getStereotypes());
-		assertTrue( profile.getStereotypes().size() == 0);
+		assertTrue( "Stereotypes size is not 0! : "+profile.getStereotypes().size(),profile.getStereotypes().size() == 0);
 		
-		IPrimitiveTypeDef defaultPType = profile.getDefaultPrimitiveType();
-		assertNotNull(defaultPType);
+		// Thgis test is invalid - as there is no default for a "Default profile"
+		//IPrimitiveTypeDef defaultPType = profile.getDefaultPrimitiveType();
+		//assertNotNull(defaultPType);
 	}
 
 	public void createSimpleProfile() throws Exception {
