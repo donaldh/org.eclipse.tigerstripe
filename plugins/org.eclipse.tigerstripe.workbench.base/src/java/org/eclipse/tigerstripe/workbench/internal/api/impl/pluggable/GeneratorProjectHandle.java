@@ -44,13 +44,23 @@ public abstract class GeneratorProjectHandle extends
 	/**
 	 * This might be a deployed generator, in which case
 	 * we can't use the simple case... 
+	 * it will be name - ver _ temp
+	 * 
 	 */
 	@Override
 	public String getName() {
+		String ver = "";
+		try{
+			 ver = getProjectDetails().getVersion();
+		} catch (TigerstripeException t){
+			// Don't care
+		}
+		
+		String tail = "-"+ver+"_temp";
 		
 		String lastSeg = getLocation().lastSegment();
-		if (lastSeg.endsWith("-_temp")){
-			lastSeg = lastSeg.substring(0, lastSeg.length()-"-_temp".length() );
+		if (lastSeg.endsWith(tail)){
+			lastSeg = lastSeg.substring(0, lastSeg.length()-tail.length() );
 		}
 		if (lastSeg.startsWith(".")){
 			lastSeg = lastSeg.substring(1);
