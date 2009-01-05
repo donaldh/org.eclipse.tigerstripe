@@ -16,6 +16,7 @@ import org.eclipse.tigerstripe.workbench.base.test.utils.M1ProjectHelper;
 import org.eclipse.tigerstripe.workbench.plugins.IGlobalRule;
 import org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
+import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 
 public class TestM1ProjectContents extends TestCase {
@@ -40,7 +41,7 @@ public class TestM1ProjectContents extends TestCase {
 				.makeWorkingCopy(null);
 
 		// Create a rule
-		IGlobalTemplateRule rule = (IGlobalTemplateRule) gProject
+		ITemplateBasedRule rule = (ITemplateBasedRule) gProject
 				.makeRule(IGlobalTemplateRule.class);
 		assertNotNull(rule);
 
@@ -56,8 +57,8 @@ public class TestM1ProjectContents extends TestCase {
 		IRule[] rules = generator.getGlobalRules();
 		assertTrue(rules.length == 1);
 
-		assertTrue(rules[0] instanceof IGlobalTemplateRule);
-		IGlobalTemplateRule theRule = (IGlobalTemplateRule) rules[0];
+		assertTrue(rules[0] instanceof ITemplateBasedRule);
+		ITemplateBasedRule theRule = (ITemplateBasedRule) rules[0];
 		assertTrue("Rule1".equals(theRule.getName()));
 		assertTrue("a description".equals(theRule.getDescription()));
 		assertTrue("output.txt".equals(theRule.getOutputFile()));
@@ -69,7 +70,7 @@ public class TestM1ProjectContents extends TestCase {
 		gProject.commit(null);
 
 		rules = generator.getGlobalRules();
-		theRule = (IGlobalTemplateRule) rules[0];
+		theRule = (ITemplateBasedRule) rules[0];
 		assertTrue("Another Description".equals(theRule.getDescription()));
 
 		// Remove it
