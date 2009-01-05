@@ -32,8 +32,9 @@ public class ModelProjectHelper {
 
 	/**
 	 * Creates a model project with the following content
-	 * 
-	 * AS1 AC1---------->M3 | M1-------->M2
+	 *               AS1
+	 *     M3<--------------------AC1
+	 *                       M1--------->M2
 	 * 
 	 * 
 	 * @param projectName
@@ -89,6 +90,7 @@ public class ModelProjectHelper {
 					.makeArtifact(IAssociationClassArtifact.class.getName());
 			ac1.setFullyQualifiedName(AC1);
 			IAssociationEnd aEnd = ac1.makeAssociationEnd();
+			aEnd.setName("_aEnd");
 			aEnd.setNavigable(false);
 			IType aType = aEnd.makeType();
 			aType.setFullyQualifiedName(M1);
@@ -96,6 +98,7 @@ public class ModelProjectHelper {
 			ac1.setAEnd(aEnd);
 
 			IAssociationEnd zEnd = ac1.makeAssociationEnd();
+			zEnd.setName("_zEnd");
 			zEnd.setNavigable(true);
 			IType zType = zEnd.makeType();
 			zType.setFullyQualifiedName(M2);

@@ -83,6 +83,17 @@ public class TestFacetWithAnnotations extends TestCase {
 		IManagedEntityArtifact m2 = (IManagedEntityArtifact) project
 				.getArtifactManagerSession().getArtifactByFullyQualifiedName(
 						ModelProjectHelper.M2);
+		
+		IManagedEntityArtifact m3 = (IManagedEntityArtifact) project
+		.getArtifactManagerSession().getArtifactByFullyQualifiedName(
+				ModelProjectHelper.M3);
+
+		IAbstractArtifact as1 = project.getArtifactManagerSession()
+			.getArtifactByFullyQualifiedName(ModelProjectHelper.AS1);
+		
+		IAbstractArtifact ac1 = project.getArtifactManagerSession()
+			.getArtifactByFullyQualifiedName(ModelProjectHelper.AC1);
+		
 		Assert.assertNotNull(m1);
 		EObject obj = annotationTypes[1].createInstance();
 		Annotation ann = AnnotationPlugin.getManager().addAnnotation(m2, obj);
@@ -96,10 +107,14 @@ public class TestFacetWithAnnotations extends TestCase {
 
 		Assert.assertTrue(!m1.isInActiveFacet());
 		Assert.assertTrue(m2.isInActiveFacet());
+		Assert.assertTrue(!m3.isInActiveFacet());
+		Assert.assertTrue(!as1.isInActiveFacet());
+		Assert.assertTrue(!ac1.isInActiveFacet());
 	}
 
 	/**
 	 * Exclude AS1 by annotation and see that M3 is not in facet anymore
+	 * Needs M1 to be included for this to work!
 	 * 
 	 * @throws Exception
 	 */
@@ -137,20 +152,27 @@ public class TestFacetWithAnnotations extends TestCase {
 		IAbstractArtifact as1 = project.getArtifactManagerSession()
 				.getArtifactByFullyQualifiedName(ModelProjectHelper.AS1);
 
+		IAbstractArtifact ac1 = project.getArtifactManagerSession()
+			.getArtifactByFullyQualifiedName(ModelProjectHelper.AC1);
+		
 		Assert.assertNotNull(as1);
 
 		EObject obj = annotationTypes[1].createInstance();
 		Annotation ann = AnnotationPlugin.getManager().addAnnotation(as1, obj);
-		AnnotationPlugin.getManager().save(ann);
-
+		//AnnotationPlugin.getManager().save(ann);
+		AnnotationHelper.getInstance().saveAnnotation(ann);
 		IFacetReference ref = project.makeFacetReference(facetFile
 				.getProjectRelativePath().toOSString());
 
 		project.setActiveFacet(ref, null);
 
+		
 		Assert.assertTrue(m1.isInActiveFacet());
+		Assert.assertTrue(ac1.isInActiveFacet());
 		Assert.assertTrue(m2.isInActiveFacet());
 		Assert.assertTrue(!m3.isInActiveFacet());
+		Assert.assertTrue(!as1.isInActiveFacet());
+		
 	}
 
 	private void testDefineAnnotationPatterns(String facetName, int type)
