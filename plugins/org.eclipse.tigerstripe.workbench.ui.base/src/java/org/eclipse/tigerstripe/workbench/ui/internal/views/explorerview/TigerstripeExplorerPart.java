@@ -11,7 +11,6 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
@@ -37,6 +36,7 @@ import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -58,6 +58,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -72,6 +73,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.preferences.ExplorerPrefere
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TSElementSorter;
 import org.eclipse.tigerstripe.workbench.ui.internal.viewers.TigerstripeDecoratorManager;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.TigerstripeExplorerActionGroup;
+import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.AnnotationsFilesFilter;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.ClasspathContainerFilter;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.DottedFilesFilter;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.EmptyDefaultPackageFilter;
@@ -99,6 +101,8 @@ import org.eclipse.ui.part.ViewPart;
 public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 		ISetSelectionTarget, IShowInTarget, ITigerstripeChangeListener,
 		IPropertyChangeListener {
+
+	private AnnotationsFilesFilter annFilter = new AnnotationsFilesFilter();
 
 	public boolean show(ShowInContext context) {
 		if (context.getSelection() instanceof IStructuredSelection) {
@@ -382,6 +386,11 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 		treeViewer.addFilter(new ClasspathContainerFilter());
 		treeViewer.addFilter(new EmptyDefaultPackageFilter());
 		treeViewer.addFilter(new LibraryFilter());
+
+		boolean hide = EclipsePlugin.getDefault().getPreferenceStore()
+				.getBoolean(ExplorerPreferencePage.P_LABEL_HIDE_ANNOTATIONS);
+		annFilter.setHide(hide);
+		treeViewer.addFilter(annFilter);
 		setSorter();
 		// if (fMemento != null)
 		// fActionSet.restoreFilterAndSorterState(fMemento);
@@ -639,7 +648,15 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 				|| event.getProperty().equals(
 						ExplorerPreferencePage.P_LABEL_STEREO_LIT)
 				|| event.getProperty().equals(
-						ExplorerPreferencePage.P_LABEL_STEREO_END)) {
+						ExplorerPreferencePage.P_LABEL_STEREO_END)
+				|| event.getProperty().equals(
+						ExplorerPreferencePage.P_LABEL_HIDE_ANNOTATIONS)) {
+			boolean hide = EclipsePlugin
+					.getDefault()
+					.getPreferenceStore()
+					.getBoolean(ExplorerPreferencePage.P_LABEL_HIDE_ANNOTATIONS);
+			annFilter.setHide(hide);
+
 			treeViewer.refresh(true);
 		}
 	}

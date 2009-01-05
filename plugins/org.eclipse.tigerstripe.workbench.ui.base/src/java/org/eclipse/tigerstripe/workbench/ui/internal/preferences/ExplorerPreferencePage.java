@@ -39,6 +39,8 @@ public class ExplorerPreferencePage extends FieldEditorPreferencePage implements
 	public static final String P_LABEL_STEREO_LIT = "p.explorer.label.stereo.lit";
 	public static final String P_LABEL_STEREO_END = "p.explorer.label.stereo.end";
 
+	public static final String P_LABEL_HIDE_ANNOTATIONS = "p.explorer.label.hide.annotations";
+
 	public ExplorerPreferencePage() {
 		super(GRID);
 		setPreferenceStore(EclipsePlugin.getDefault().getPreferenceStore());
@@ -58,6 +60,7 @@ public class ExplorerPreferencePage extends FieldEditorPreferencePage implements
 		store.setDefault(P_LABEL_STEREO_METHARGS, "false");
 		store.setDefault(P_LABEL_STEREO_LIT, "false");
 		store.setDefault(P_LABEL_STEREO_END, "false");
+		store.setDefault(P_LABEL_HIDE_ANNOTATIONS, "false");
 	}
 
 	/**
@@ -89,6 +92,14 @@ public class ExplorerPreferencePage extends FieldEditorPreferencePage implements
 				group));
 		addField(new BooleanFieldEditor(P_LABEL_STEREO_END,
 				"on relationship ends", group));
+
+		Group annGroup = new Group(getFieldEditorParent(), SWT.TITLE);
+		gd = new GridData(GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 2;
+		annGroup.setLayoutData(gd);
+		annGroup.setText("Annotations");
+		addField(new BooleanFieldEditor(P_LABEL_HIDE_ANNOTATIONS,
+				"Hide 'annotations storage' files", annGroup));
 
 	}
 
