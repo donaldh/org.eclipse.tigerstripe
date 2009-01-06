@@ -54,8 +54,11 @@ public class GenerateHelper extends UITestCaseSWT {
 				new ViewLocator(
 				"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
 		ui.click(new SWTWidgetLocator(ToolItem.class, "", 2,
-				new SWTWidgetLocator(ToolBar.class, 1, new SWTWidgetLocator(
+				new SWTWidgetLocator(ToolBar.class, 2, new SWTWidgetLocator(
 						CoolBar.class))));
+		// Add a check for the "Project Contains Errors" dialog
+		
+		
 		ui.wait(new ShellShowingCondition("Generate Tigerstripe Project"));
 		ui.click(new ButtonLocator("&Finish"));
 		ui.wait(new ShellShowingCondition("Generate Result"));
