@@ -25,7 +25,7 @@
 
 	<target name="checkout_pde.build" depends="init" unless="pde.build_present">
 		<echo message="Downloading org.eclipse.pde.build" />
-		<cvs cvsRoot=":pserver:anonymous@dev.eclipse.org:/cvsroot/eclipse" package="${pde.build.package}" dest="pde">
+		<cvs cvsRoot=":pserver:anonymous@dev.eclipse.org:/cvsroot/eclipse" package="${pde.build.package}" dest="pde" tag="R35_M4">
 		</cvs>
 	</target>
 
