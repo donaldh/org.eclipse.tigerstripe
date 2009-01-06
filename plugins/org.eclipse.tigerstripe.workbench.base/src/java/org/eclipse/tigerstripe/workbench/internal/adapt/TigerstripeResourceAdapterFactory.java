@@ -220,19 +220,20 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 		if (adaptableObject instanceof IProject) {
 			IProject project = (IProject) adaptableObject;
 			if (project.exists() && project.isOpen()) {
-				
+
 				// If none of the known natures, no need to try
-				try { 
-					if ( !TigerstripeM0GeneratorNature.hasNature(project) &&
-							!TigerstripeProjectNature.hasNature(project) &&
-							! TigerstripePluginProjectNature.hasNature(project)) {
+				try {
+					if (!TigerstripeM0GeneratorNature.hasNature(project)
+							&& !TigerstripeProjectNature.hasNature(project)
+							&& !TigerstripePluginProjectNature
+									.hasNature(project)) {
 						return null;
 					}
-				} catch ( CoreException e ) {
+				} catch (CoreException e) {
 					BasePlugin.log(e);
 					return null;
 				}
-				
+
 				try {
 					IAbstractTigerstripeProject tsProject = TigerstripeCore
 							.findProject(project.getLocation().toFile().toURI());
@@ -272,21 +273,22 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 		if ("java".equals(resource.getFileExtension())) {
 			IPath projectRelPath = resource.getProjectRelativePath();
 			IPath path = projectRelPath.removeFirstSegments(1); // the first
-																// segment is
-																// the "src/"
-																// dir
+			// segment is
+			// the "src/"
+			// dir
 			path = path.removeFileExtension();
-			return path.toOSString().replace(IPath.SEPARATOR, '.');
+			return path.toPortableString().replace(IPath.SEPARATOR, '.');
 		} else if ("package".equals(resource.getFileExtension())) {
 			IPath projectRelPath = resource.getProjectRelativePath();
 			IPath path = projectRelPath.removeFirstSegments(1); // the first
-																// segment is
-																// the "src/"
-																// dir
+			// segment is
+			// the "src/"
+			// dir
 			path = path.removeFileExtension();
-			return path.toOSString().replace(IPath.SEPARATOR, '.');
+			return path.toPortableString().replace(IPath.SEPARATOR, '.');
 		}
-		throw new IllegalArgumentException(resource.getFullPath().toOSString());
+		throw new IllegalArgumentException(resource.getFullPath()
+				.toPortableString());
 	}
 
 }
