@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -84,6 +83,7 @@ public class ProjectRouter implements EObjectRouter {
 
 		try {
 			EObject content = ann.getContent();
+			
 			String nsURIStr = content.eClass().getEPackage().getNsURI();
 			String epackage = content.eClass().getEPackage().getNsPrefix();
 			String eclass = epackage + "." + content.eClass().getName();
@@ -130,6 +130,10 @@ public class ProjectRouter implements EObjectRouter {
 					name += ".";
 				name += segment;
 			}
+			
+			if ( name.length() == 0 )
+				return null;
+			
 			path = path.append(name);
 			path = path
 					.addFileExtension(EObjectRouter.ANNOTATION_FILE_EXTENSION);
