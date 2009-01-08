@@ -1,7 +1,9 @@
-#Thu Jan 08 11:53:38 PST 2009
+#Thu Jan 08 12:25:55 PST 2009
 eclipse.preferences.version=1
 encoding//src/simple/default.vwm=UTF-8
 encoding//src/simple/default.wvd=UTF-8
+encoding//src/simple/moved/inside-moved.vwm=UTF-8
+encoding//src/simple/moved/inside-moved.wvd=UTF-8
 encoding/outside-class-diagram.vwm=UTF-8
 encoding/outside-class-diagram.wvd=UTF-8
 encoding/outside-instance-diagram.owm=UTF-8
