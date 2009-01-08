@@ -79,11 +79,7 @@ public class NewProject extends UITestCaseSWT {
 		Thread.sleep(500);
 		auditHelper.checkUndefinedProjectVersion(TestingConstants.NEW_MODEL_PROJECT_NAME,false);
 		auditHelper.checkUndefinedProjectDescription(TestingConstants.NEW_MODEL_PROJECT_NAME,false);
-		
-		
-		
-		
-		
+			
 	}
 	
 	

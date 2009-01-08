@@ -11,8 +11,8 @@ public class TestingConstants {
 	
 	// Artifact Names
 	public static String[] PACKAGE_NAMES      = new String[]{"Package0", "Package1", "Package2"};
-	public static String[] ENTITY_NAMES       = new String[]{"Entity0", "Entity1", "Entity2", "Entity3"};
-	public static String[] DATATYPE_NAMES     = new String[]{"Datatype0", "Datatype12", "Datatype2"};
+	public static String[] ENTITY_NAMES       = new String[]{"Entity0", "Entity1", "Entity2", "Entity3","Entity4","Entity5"};
+	public static String[] DATATYPE_NAMES     = new String[]{"Datatype0", "Datatype1", "Datatype2", "Datatype3", "Datatype4", "Datatype5"};
 	public static String[] ENUMERATION_NAMES  = new String[]{"Enumeration0", "Enumeration1", "Enumeration2"};
 	public static String[] QUERY_NAMES        = new String[]{"Query0", "Query1", "Query2"};
 	public static String[] EXCEPTION_NAMES    = new String[]{"Exception0", "Exception1", "Exception2"};
@@ -34,6 +34,8 @@ public class TestingConstants {
 	public static String[] METHOD_NAMES = new String[]{"testMethod0", "testMethod1", "testMethod2"};
 	
 	public static String DIAGRAM_PACKAGE = "diagram";
+	public static String DIAGRAM_2_PACKAGE = "artifactsDiagram";
+	public static String DIAGRAM_3_PACKAGE = "relationsDiagram";
 	public static String NEW_CLASS_DIAGRAM_NAME = "testClassDiagram";
 	
 	// Generator test constants
