@@ -1,0 +1,73 @@
+<h1>Refactor Test Cases</h1>
+<small>$Id: refactor-testcases.html,v 1.1 2009/01/08 20:51:10 edillon Exp $</small>
+<p>This page describes the tests performed on refactoring scenarios with Tigerstripe.</p>
+<p>The tests are using a test model that available as
+<div>
+<tt>:pserver:anonymous@dev.eclipse.org,/cvsroot/technology, org.eclipse.tigerstripe/samples/test-models/model-refactoring</tt>
+</div>
+</p>
+
+<h2>1. Vanilla Refactoring - no diagrams</h2>
+<p>These scenario cover basic refactoring, looking at maintaining references between artifacts.</p>
+<p>The 'model-refactoring' model contains diagrams that need to be deleted before these tests are performed to avoid diagram-sync side effects.</p>
+<table bordercolor="#000000" border="1px">
+	<tr>
+		<th>JUnit test</th>
+		<th>High Level Scenario</th>
+		<th>Comments</th>
+	</tr>
+	<tr>
+		<td>Not implemented</td>
+		<td><strong>Simple Refactor->Rename...</strong>
+			<ul>
+				<li>rename Ent1 to Ent10: check all references are updated. Also check that 'implementing/Implemented' and 'extending/extended' lists are updated.</li>
+				<li>rename Enumeration0 to Enumeration10: check attribute in Ent10 is updated.</li>
+				<li>rename DataMiddle to DataMiddle0: check datatype hierarchy is fine and attributes referecing DataMiddle are updated.</li>
+				<li>rename DataBottom to DataBottom0: check the self reference "recur" is fine</li>
+				<li>rename Association0 to Association00: check in artmgr for getOutgoing and Incoming associations to make sure all indexes have been updated</li>
+				<li>rename AssociationClass0 to AssociationClass00</li>
+				<li>rename 'simple' package to 'complicated'</li>
+			</ul>
+		</td>
+		<td>
+			Basic tests around renaming various types of nodes/edges.
+		</td>
+	</tr>
+	<tr>
+		<td>Not implemented</td>
+		<td><strong>Refactor->Move... in Explorer</strong>
+			<ul>
+				<li>move Ent1 to 'moved' package</li>
+				<li>Select all 3 datatypes, move them to 'moved' package</li>
+				<li>select 'moved' (containing Ent1, and all datatypes), move into 'movedOther'</li>
+			</ul>
+		</td>
+		<td>
+			Dnd moves of single, multiple nodes and packages.
+		</td>
+	</tr>
+	<tr>
+		<td>Not implemented</td>
+		<td><strong>DnD Move in Explorer</strong>
+			<ul>
+				<li>move Ent1 to 'moved' package</li>
+				<li>Select all 3 datatypes, move them to 'moved' package</li>
+				<li>select 'moved' (containing Ent1, and all datatypes), move into 'movedOther'</li>
+			</ul>
+		</td>
+		<td>
+			Dnd moves of single, multiple nodes and packages.
+		</td>
+	</tr>
+</table>
+
+<h2>2. Refactoring with Diagrams</h2>
+<p>This sets repeats the tests from (1.) above with all diagrams present. Then additional tests are done around refactoring diagrams themselves.<p>
+<p>Open and closed diagrams need to be considered, both Class and Instance diagrams.</p>
+<p>It is also important to have diagrams within the packages themselves, as well as outside of all packages</p>
+<p>Finally, renames should be triggered both from the Explorer and from a diagram.</p>
+
+<h2>3. Refactoring with Annotations</h2>
+<p>Everything included in (2.) above, with annotations in the model.</p>
+
+
