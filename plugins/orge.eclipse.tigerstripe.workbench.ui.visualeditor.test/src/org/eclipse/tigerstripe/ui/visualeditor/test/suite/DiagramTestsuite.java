@@ -6,8 +6,6 @@ import junit.framework.TestSuite;
 
 import org.eclipse.tigerstripe.ui.visualeditor.test.diagram.ComponentAdd;
 import org.eclipse.tigerstripe.ui.visualeditor.test.diagram.CreateDiagram;
-import org.eclipse.tigerstripe.ui.visualeditor.test.diagram.EditorBasedUpdates;
-import org.eclipse.tigerstripe.ui.visualeditor.test.project.CreatePackage;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.NewProject;
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.CleanWorkspace;
 
@@ -48,17 +46,17 @@ public class DiagramTestsuite extends TestCase
         // This is closed when we deploy!
         // suite.addTestSuite(CloseProject.class);
         
-        // Add a package to locate the diagram
-        suite.addTestSuite(CreatePackage.class);
         
         // The CreateDiagram is a place for Creating Artifacts!
         suite.addTestSuite(CreateDiagram.class);
         suite.addTestSuite(ComponentAdd.class);
         
         
+//        suite.addTestSuite(DnDArtifactsDiagram.class);
+//        suite.addTestSuite(DropOnArtifacts.class);
         
-//        suite.addTestSuite(DnDDiagram.class);
-//       suite.addTestSuite(DropOn.class);
+//        suite.addTestSuite(DnDAssociationsDiagram.class);
+//        suite.addTestSuite(DropOnAssociations.class);
         
         return suite;
     }

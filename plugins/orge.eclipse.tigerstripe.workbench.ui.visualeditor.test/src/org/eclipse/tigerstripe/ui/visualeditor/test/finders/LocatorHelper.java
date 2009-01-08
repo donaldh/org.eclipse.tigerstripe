@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Viewport;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gmf.runtime.diagram.ui.figures.ResizableCompartmentFigure;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrapLabel;
 import org.eclipse.gmf.runtime.draw2d.ui.internal.figures.AnimatableScrollPane;
@@ -16,9 +17,14 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Data
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DependencyEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DependencyNamePackageEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.EnumerationEditPart;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.EnumerationLiteralCompartmentEditPart;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.EnumerationNamePackageEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ExceptionArtifactEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.LiteralEditPart;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactAttributeCompartmentEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactEditPart;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactMethodCompartmentEditPart;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactNamePackageEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.MethodEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.NamedQueryArtifactEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.NotificationArtifactEditPart;
@@ -33,115 +39,72 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Depe
 import com.windowtester.runtime.IUIContext;
 import com.windowtester.runtime.gef.IFigureReference;
 import com.windowtester.runtime.gef.locator.FigureClassLocator;
-import com.windowtester.runtime.gef.locator.NamedEditPartFigureLocator;
 import com.windowtester.runtime.locator.IWidgetLocator;
+import com.windowtester.runtime.locator.WidgetReference;
 
 public class LocatorHelper {
 
-	private static IUIContext ui;
 
-	public String getFieldString(IUIContext ui, String artifactName, String fieldName) {
+	/**
+	 * Find an attribute within a named ManagedEntity.
+	 * Just look for the attribute Name - ignore the type
+	 * You should be able to derive the type from the returned object if you want 
+	 * 
+	 */
+	public IWidgetLocator getManagedEntityAttributeLocator(IUIContext ui, String artifactName, String attributeName){
+		IWidgetLocator comp = getManagedEntityAttributeCompartmentLocator(ui, artifactName);
 		
-//		IWidgetLocator[] allMatches = ui.findAll(new FigureClassLocator("org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart$1"));
-//		for (IWidgetLocator match : allMatches) {
-//		  new com.windowtester.runtime.gef.internal.helpers.GEFDebugHelper().printFigures(((IFigureReference)match).getFigure());
-//		}
-	
-		IWidgetLocator[] matches = ui.findAll(new FigureClassLocator("org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactEditPart$ManagedEntityArtifactFigure"));
-		for (IWidgetLocator match : matches) {
-			ManagedEntityArtifactEditPart.ManagedEntityArtifactFigure attrib = (ManagedEntityArtifactEditPart.ManagedEntityArtifactFigure) ((IFigureReference) match).getFigure();
-			if (attrib.getFigureManagedEntityNameFigure().getText().equals(artifactName)){
-				List children = attrib.getChildren();
-				for (Object child : children){
-//					System.out.println(child.getClass().getName());
-					if (child instanceof ResizableCompartmentFigure){
-						ResizableCompartmentFigure rcf = (ResizableCompartmentFigure) child;
-						List rcfChildren = rcf.getChildren();
-						for (Object rcfChild : rcfChildren){
-//							System.out.println("    "+rcfChild.getClass().getName());
-							if (rcfChild instanceof AnimatableScrollPane){
-								AnimatableScrollPane asp = (AnimatableScrollPane) rcfChild;
-								List aspChildren = asp.getChildren();
-								for (Object aspChild : aspChildren){
-//									System.out.println("        "+aspChild.getClass().getName());
-									if (aspChild instanceof Viewport){
-										Viewport vp = (Viewport) aspChild;
-										List vpChildren = vp.getChildren();
-										for (Object vpChild : vpChildren){
-//											System.out.println("            "+vpChild.getClass().getName());
-											if (vpChild instanceof Figure){
-												Figure fig = (Figure) vpChild;
-												List figChildren = fig.getChildren();
-												for (Object figChild : figChildren){
-//													System.out.println("                "+figChild.getClass().getName());
-													if (figChild instanceof Attribute3EditPart.AttributeLabelFigure ){
-														Attribute3EditPart.AttributeLabelFigure attribPart  = (Attribute3EditPart.AttributeLabelFigure) figChild;												
-														String matchPattern = "^[+-]"+fieldName+":.*";
-//														System.out.println("                "+attribPart.getText()+" "+matchPattern);
-														if (attribPart.getText().matches(matchPattern)){
-															return attribPart.getText();
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
+		List figChildren = getUsefulChildren(comp);
+		for (Object figChild : figChildren){
+			if (figChild instanceof Attribute3EditPart.AttributeLabelFigure ){
+				Attribute3EditPart.AttributeLabelFigure attribFigure  = (Attribute3EditPart.AttributeLabelFigure) figChild;												
+				String matchPattern = "^[+-]"+attributeName+":.*";
+				if (attribFigure.getText().matches(matchPattern)){
+					return new WidgetReference(attribFigure);
 				}
 			}
 		}
 		return null;
 	}
 	
-	public String getMethodString(IUIContext ui, String artifactName, String methodName) {
+	/**
+	 * Find an method within a named ManagedEntity.
+	 * Just look for the method Name - ignore the type
+	 * You should be able to derive the type from the returned object if you want 
+	 * 
+	 */
+	public IWidgetLocator getManagedEntityMethodLocator(IUIContext ui, String artifactName, String methodName){
+		IWidgetLocator comp = getManagedEntityMethodCompartmentLocator(ui, artifactName);
 		
-//		IWidgetLocator[] allMatches = ui.findAll(new FigureClassLocator("org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart$1"));
-//		for (IWidgetLocator match : allMatches) {
-//		  new com.windowtester.runtime.gef.internal.helpers.GEFDebugHelper().printFigures(((IFigureReference)match).getFigure());
-//		}
-		IWidgetLocator[] matches = ui.findAll(new FigureClassLocator("org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactEditPart$ManagedEntityArtifactFigure"));
-		for (IWidgetLocator match : matches) {
-			ManagedEntityArtifactEditPart.ManagedEntityArtifactFigure attrib = (ManagedEntityArtifactEditPart.ManagedEntityArtifactFigure) ((IFigureReference) match).getFigure();
-			if (attrib.getFigureManagedEntityNameFigure().getText().equals(artifactName)){
-				List children = attrib.getChildren();
-				for (Object child : children){
-//					System.out.println(child.getClass().getName());
-					if (child instanceof ResizableCompartmentFigure){
-						ResizableCompartmentFigure rcf = (ResizableCompartmentFigure) child;
-						List rcfChildren = rcf.getChildren();
-						for (Object rcfChild : rcfChildren){
-//							System.out.println("    "+rcfChild.getClass().getName());
-							if (rcfChild instanceof AnimatableScrollPane){
-								AnimatableScrollPane asp = (AnimatableScrollPane) rcfChild;
-								List aspChildren = asp.getChildren();
-								for (Object aspChild : aspChildren){
-//									System.out.println("        "+aspChild.getClass().getName());
-									if (aspChild instanceof Viewport){
-										Viewport vp = (Viewport) aspChild;
-										List vpChildren = vp.getChildren();
-										for (Object vpChild : vpChildren){
-//											System.out.println("            "+vpChild.getClass().getName());
-											if (vpChild instanceof Figure){
-												Figure fig = (Figure) vpChild;
-												List figChildren = fig.getChildren();
-												for (Object figChild : figChildren){
-//													System.out.println("                "+figChild.getClass().getName());
-													if (figChild instanceof MethodEditPart.MethodLabelFigure ){
-														MethodEditPart.MethodLabelFigure attribPart  = (MethodEditPart.MethodLabelFigure) figChild;												
-														String matchPattern = "^[+-]"+methodName+"\\(\\):.*";
-//														System.out.println("                "+attribPart.getText()+" "+matchPattern);
-														if (attribPart.getText().matches(matchPattern)){
-															return attribPart.getText();
-														}
-													}
-												}
-											}
-										}
-									}
-								}
+		List figChildren = getUsefulChildren(comp);
+		for (Object figChild : figChildren){
+			if (figChild instanceof MethodEditPart.MethodLabelFigure ){
+				MethodEditPart.MethodLabelFigure methodFigure  = (MethodEditPart.MethodLabelFigure) figChild;												
+				String matchPattern = "^[+-]"+methodName+"\\(\\):.*";
+				if (methodFigure.getText().matches(matchPattern)){
+					return new WidgetReference(methodFigure);
+				}
+			}
+		}
+		return null;
+	}
+
+	private List getUsefulChildren(IWidgetLocator comp){
+		ResizableCompartmentFigure rcf = (ResizableCompartmentFigure) ((IFigureReference) comp).getFigure();
+		List rcfChildren = rcf.getChildren();
+		for (Object rcfChild : rcfChildren){
+			if (rcfChild instanceof AnimatableScrollPane){
+				AnimatableScrollPane asp = (AnimatableScrollPane) rcfChild;
+				List aspChildren = asp.getChildren();
+				for (Object aspChild : aspChildren){
+					if (aspChild instanceof Viewport){
+						Viewport vp = (Viewport) aspChild;
+						List vpChildren = vp.getChildren();
+						for (Object vpChild : vpChildren){
+							if (vpChild instanceof Figure){
+								Figure fig = (Figure) vpChild;
+								List figChildren = fig.getChildren();
+								return figChildren;
 							}
 						}
 					}
@@ -151,121 +114,6 @@ public class LocatorHelper {
 		return null;
 	}
 	
-	public MethodEditPart.MethodLabelFigure getMethodLocator(ManagedEntityArtifactEditPart.ManagedEntityArtifactFigure managedEntityFigure){
-		List children = managedEntityFigure.getChildren();
-		for (Object child : children){
-					System.out.println(child.getClass().getName());
-			if (child instanceof ResizableCompartmentFigure){
-				ResizableCompartmentFigure rcf = (ResizableCompartmentFigure) child;
-				List rcfChildren = rcf.getChildren();
-				for (Object rcfChild : rcfChildren){
-									System.out.println("RCF    "+rcfChild.getClass().getName());
-					if (rcfChild instanceof AnimatableScrollPane){
-						AnimatableScrollPane asp = (AnimatableScrollPane) rcfChild;
-						List aspChildren = asp.getChildren();
-						for (Object aspChild : aspChildren){
-													System.out.println("ASP        "+aspChild.getClass().getName());
-							if (aspChild instanceof Viewport){
-								Viewport vp = (Viewport) aspChild;
-								List vpChildren = vp.getChildren();
-								for (Object vpChild : vpChildren){
-																	System.out.println("VP            "+vpChild.getClass().getName());
-									if (vpChild instanceof Figure){
-										Figure fig = (Figure) vpChild;
-										List figChildren = fig.getChildren();
-										for (Object figChild : figChildren){
-																					System.out.println("FIG                "+figChild.getClass().getName());
-											if (figChild instanceof MethodEditPart.MethodLabelFigure ){
-												System.out.println("GOT one");
-												MethodEditPart.MethodLabelFigure methodPart  = (MethodEditPart.MethodLabelFigure) figChild;														
-													return methodPart;
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		return null;
-	}
-	
-	
-	
-	
-	public String getLiteralString(IUIContext ui, String enumerationName, String literalName) {
-		
-//		IWidgetLocator[] allMatches = ui.findAll(new FigureClassLocator("org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart$1"));
-//		for (IWidgetLocator match : allMatches) {
-//		  new com.windowtester.runtime.gef.internal.helpers.GEFDebugHelper().printFigures(((IFigureReference)match).getFigure());
-//		}
-	
-		IWidgetLocator[] matches = ui.findAll(new FigureClassLocator("org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.EnumerationEditPart$EnumerationFigure"));
-		for (IWidgetLocator match : matches) {
-			EnumerationEditPart.EnumerationFigure attrib = (EnumerationEditPart.EnumerationFigure) ((IFigureReference) match).getFigure();
-			if (attrib.getFigureEnumerationNameFigure().getText().equals(enumerationName)){
-				List children = attrib.getChildren();
-				for (Object child : children){
-//					System.out.println(child.getClass().getName());
-					if (child instanceof ResizableCompartmentFigure){
-						ResizableCompartmentFigure rcf = (ResizableCompartmentFigure) child;
-						List rcfChildren = rcf.getChildren();
-						for (Object rcfChild : rcfChildren){
-//							System.out.println("    "+rcfChild.getClass().getName());
-							if (rcfChild instanceof AnimatableScrollPane){
-								AnimatableScrollPane asp = (AnimatableScrollPane) rcfChild;
-								List aspChildren = asp.getChildren();
-								for (Object aspChild : aspChildren){
-//									System.out.println("        "+aspChild.getClass().getName());
-									if (aspChild instanceof Viewport){
-										Viewport vp = (Viewport) aspChild;
-										List vpChildren = vp.getChildren();
-										for (Object vpChild : vpChildren){
-//											System.out.println("            "+vpChild.getClass().getName());
-											if (vpChild instanceof Figure){
-												Figure fig = (Figure) vpChild;
-												List figChildren = fig.getChildren();
-												for (Object figChild : figChildren){
-//													System.out.println("                "+figChild.getClass().getName());
-													if (figChild instanceof LiteralEditPart.LiteralLabelFigure ){
-														LiteralEditPart.LiteralLabelFigure attribPart  = (LiteralEditPart.LiteralLabelFigure) figChild;												
-														String matchPattern = "^[+-]"+literalName+"=.*";
-//														System.out.println("                "+attribPart.getText()+" "+matchPattern);
-														if (attribPart.getText().matches(matchPattern)){
-															return attribPart.getText();
-														}
-													}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-		return null;
-	}
-	
-
-
-
-	public IWidgetLocator getAttributeLocator(IUIContext ui, String attrributeName){
-		IWidgetLocator[] matches = ui.findAll(new FigureClassLocator("org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Attribute3EditPart$AttributeLabelFigure"));
-		for (IWidgetLocator match : matches) {
-			System.out.println(match);
-			Attribute3EditPart.AttributeLabelFigure attrib = (Attribute3EditPart.AttributeLabelFigure) ((IFigureReference) match).getFigure();
-			if (attrib.getText().equals(attrributeName)){
-				return (IWidgetLocator) match;
-			}
-		}
-		return null;
-	}
-
 	
 	public IWidgetLocator getManagedEntityLocator(IUIContext ui, String nameToFind) {
 		IWidgetLocator[] matches = ui.findAll(new FigureClassLocator("org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactEditPart$ManagedEntityArtifactFigure"));
@@ -344,28 +192,6 @@ public class LocatorHelper {
 		return null;
 	}
 	
-	public IWidgetLocator getManagedEntityMethodCompartmentLocator(IUIContext ui, String nameToFind) {
-		
-		IWidgetLocator[] matches = ui.findAll(new NamedEditPartFigureLocator("MethodCompartment"));
-		for (IWidgetLocator match : matches) {
-			org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactMethodCompartmentEditPart artifactFigure = (org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactMethodCompartmentEditPart) ((IFigureReference) match).getEditPart();
-			System.out.println("hello");
-		}
-		System.out.println("Didn't find Method Compartment part");
-		return null;
-	}
-	
-	public IWidgetLocator getManagedEntityAttributeCompartmentLocator(IUIContext ui, String nameToFind) {
-		
-		IWidgetLocator[] matches = ui.findAll(new NamedEditPartFigureLocator("AttributeCompartment"));
-		for (IWidgetLocator match : matches) {
-			org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactMethodCompartmentEditPart artifactFigure = (org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactMethodCompartmentEditPart) ((IFigureReference) match).getEditPart();
-			System.out.println("hello");
-		}
-		System.out.println("Didn't find Method Compartment part");
-		return null;
-	}
-	
 	public IWidgetLocator getEnumerationLocator(IUIContext ui, String nameToFind) {
 		IWidgetLocator[] matches = ui.findAll(new FigureClassLocator("org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.EnumerationEditPart$EnumerationFigure"));
 		for (IWidgetLocator match : matches) {
@@ -376,7 +202,91 @@ public class LocatorHelper {
 		}
 		return null;
 	}
+	
+	
+	public IWidgetLocator getManagedEntityMethodCompartmentLocator(IUIContext ui, String nameToFind) {
+		
+		IWidgetLocator[] matches = ui.findAll(new FigureClassLocator("org.eclipse.gmf.runtime.diagram.ui.figures.ResizableCompartmentFigure"));
+		for (IWidgetLocator match : matches) {
+			EditPart editPart =  ((IFigureReference) match).getEditPart();
+			if (editPart instanceof ManagedEntityArtifactMethodCompartmentEditPart){
+				ManagedEntityArtifactMethodCompartmentEditPart meMethods = (ManagedEntityArtifactMethodCompartmentEditPart) editPart;
+				ManagedEntityArtifactEditPart meA =(ManagedEntityArtifactEditPart) meMethods.getParent();
+				ManagedEntityArtifactNamePackageEditPart nameEP = (ManagedEntityArtifactNamePackageEditPart) meA.getPrimaryChildEditPart();
+				if (((WrapLabel) nameEP.getFigure()).getText().equals(nameToFind)){
+					return (IWidgetLocator) match;
+				}
+			}
+		}
+		System.out.println("Didn't find Method Compartment part");
+		return null;
+	}
+	
+	public IWidgetLocator getManagedEntityAttributeCompartmentLocator(IUIContext ui, String nameToFind) {
+		
+		IWidgetLocator[] matches = ui.findAll(new FigureClassLocator("org.eclipse.gmf.runtime.diagram.ui.figures.ResizableCompartmentFigure"));
+		for (IWidgetLocator match : matches) {
+			EditPart editPart =  ((IFigureReference) match).getEditPart();
+			if (editPart instanceof ManagedEntityArtifactAttributeCompartmentEditPart){
+				ManagedEntityArtifactAttributeCompartmentEditPart meAttributes = (ManagedEntityArtifactAttributeCompartmentEditPart) editPart;
+				ManagedEntityArtifactEditPart meA =(ManagedEntityArtifactEditPart) meAttributes.getParent();
+				ManagedEntityArtifactNamePackageEditPart nameEP = (ManagedEntityArtifactNamePackageEditPart) meA.getPrimaryChildEditPart();
+				if (((WrapLabel) nameEP.getFigure()).getText().equals(nameToFind)){
+					return (IWidgetLocator) match;
+				}
+			}
+		}
+		System.out.println("Didn't find Attribute Compartment part");
+		return null;
+	}
+	
+	
+	
+	
 
+
+	
+	public IWidgetLocator getEnumerationLiteralCompartmentLocator(IUIContext ui, String nameToFind) {
+		IWidgetLocator[] matches = ui.findAll(new FigureClassLocator("org.eclipse.gmf.runtime.diagram.ui.figures.ResizableCompartmentFigure"));
+		for (IWidgetLocator match : matches) {
+			EditPart editPart =  ((IFigureReference) match).getEditPart();
+			if (editPart instanceof EnumerationLiteralCompartmentEditPart){
+				EnumerationLiteralCompartmentEditPart enumLiterals = (EnumerationLiteralCompartmentEditPart) editPart;
+				EnumerationEditPart enumEP =(EnumerationEditPart) enumLiterals.getParent();
+				EnumerationNamePackageEditPart nameEP = (EnumerationNamePackageEditPart) enumEP.getPrimaryChildEditPart();
+				if (((WrapLabel) nameEP.getFigure()).getText().equals(nameToFind)){
+					return (IWidgetLocator) match;
+				}
+			}
+		}
+		System.out.println("Didn't find Literal Compartment part");
+		return null;
+	}
+	
+	
+	/**
+	 * Find an literal within a named Enumeration.
+	 * Just look for the method Name - ignore the type
+	 * You should be able to derive the type from the returned object if you want 
+	 * 
+	 */
+	public IWidgetLocator getEnumerationLiteralLocator(IUIContext ui, String artifactName, String literalName){
+		IWidgetLocator comp = getEnumerationLiteralCompartmentLocator(ui, artifactName);
+		
+		List figChildren = getUsefulChildren(comp);
+		for (Object figChild : figChildren){
+			if (figChild instanceof LiteralEditPart.LiteralLabelFigure ){
+				LiteralEditPart.LiteralLabelFigure literalFigure  = (LiteralEditPart.LiteralLabelFigure) figChild;												
+				String matchPattern = "^[+-]"+literalName+"=.*";
+				if (literalFigure.getText().matches(matchPattern)){
+					return new WidgetReference(literalFigure);
+				}
+			}
+		}
+		return null;
+	}
+	
+	
 	public IWidgetLocator getAssociationFigureLocator(IUIContext ui, String name) {
 			IWidgetLocator[] allAssocs = ui.findAll(new FigureClassLocator("org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationEditPart$AssociationFigure"));
 			for (IWidgetLocator assoc : allAssocs){
