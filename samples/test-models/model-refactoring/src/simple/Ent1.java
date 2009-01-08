@@ -54,8 +54,8 @@ package simple;
  *   bulkBestEffortByKeys = "false"
  *
  * @tigerstripe.property ts.id="ossj.entity.remove"
- *   byTemplatesBestEffort = "false"
  *   byTemplates = "false"
+ *   byTemplatesBestEffort = "false"
  *   ts.id = "ossj.entity.remove"
  *   byTemplate = "false"
  *   bulkAtomicByKeys = "false"
@@ -79,6 +79,7 @@ public abstract class Ent1
      *  isOrdered = "false"
      *  isUnique = "false"
      *  typeMultiplicity = "1"
+     *   ref-by = "value"
      *
      *
      * 
@@ -94,6 +95,7 @@ public abstract class Ent1
      *  isOrdered = "false"
      *  isUnique = "false"
      *  typeMultiplicity = "1"
+     *   ref-by = "value"
      *
      *
      * 

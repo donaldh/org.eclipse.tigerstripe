@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:instancediagram="org.eclipse.tigerstripe.workbench.ui.instancediagram" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.1/notation" xmi:id="_CtS14N2-Ed2_UZN3HYa3Kw" type="Instance" name="outside-instance-diagram.wod" measurementUnit="Pixel">
+  <children xmi:type="notation:Node" xmi:id="_HruewN2-Ed2_UZN3HYa3Kw" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_Hrvs4N2-Ed2_UZN3HYa3Kw" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_Hrvs4d2-Ed2_UZN3HYa3Kw" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_HrwT8N2-Ed2_UZN3HYa3Kw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_HrwT8d2-Ed2_UZN3HYa3Kw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_HrwT8t2-Ed2_UZN3HYa3Kw"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_Hruewd2-Ed2_UZN3HYa3Kw" fontName="Arial"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_Hruewt2-Ed2_UZN3HYa3Kw"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_Hruew92-Ed2_UZN3HYa3Kw" fillColor="13825530"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_HruexN2-Ed2_UZN3HYa3Kw"/>
+    <element xmi:type="instancediagram:ClassInstance" href="outside-instance-diagram.owm#//@classInstances.0"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Hruexd2-Ed2_UZN3HYa3Kw" x="162" y="162"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_HsLKsN2-Ed2_UZN3HYa3Kw" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_HsLxw92-Ed2_UZN3HYa3Kw" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_HsMY0N2-Ed2_UZN3HYa3Kw" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_HsMY0d2-Ed2_UZN3HYa3Kw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_HsMY0t2-Ed2_UZN3HYa3Kw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_HsMY092-Ed2_UZN3HYa3Kw"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_HsLKsd2-Ed2_UZN3HYa3Kw" fontName="Arial"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_HsLKst2-Ed2_UZN3HYa3Kw"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_HsLxwN2-Ed2_UZN3HYa3Kw" fillColor="13825530"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_HsLxwd2-Ed2_UZN3HYa3Kw"/>
+    <element xmi:type="instancediagram:ClassInstance" href="outside-instance-diagram.owm#//@classInstances.1"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_HsLxwt2-Ed2_UZN3HYa3Kw" x="144" y="288"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_J6WScN2-Ed2_UZN3HYa3Kw" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_J6WSdt2-Ed2_UZN3HYa3Kw" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_J6WSd92-Ed2_UZN3HYa3Kw" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_J6W5gN2-Ed2_UZN3HYa3Kw"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_J6W5gd2-Ed2_UZN3HYa3Kw"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_J6W5gt2-Ed2_UZN3HYa3Kw"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_J6WScd2-Ed2_UZN3HYa3Kw" fontName="Arial"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_J6WSct2-Ed2_UZN3HYa3Kw"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_J6WSc92-Ed2_UZN3HYa3Kw" fillColor="13825530"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_J6WSdN2-Ed2_UZN3HYa3Kw"/>
+    <element xmi:type="instancediagram:ClassInstance" href="outside-instance-diagram.owm#//@classInstances.2"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_J6WSdd2-Ed2_UZN3HYa3Kw" x="522" y="162"/>
+  </children>
+  <styles xmi:type="notation:PageStyle" xmi:id="_CtS14d2-Ed2_UZN3HYa3Kw"/>
+  <styles xmi:type="notation:GuideStyle" xmi:id="_CtS14t2-Ed2_UZN3HYa3Kw"/>
+  <styles xmi:type="notation:DescriptionStyle" xmi:id="_CtS1492-Ed2_UZN3HYa3Kw"/>
+  <element xmi:type="instancediagram:InstanceMap" href="outside-instance-diagram.owm#/"/>
+  <edges xmi:type="notation:Edge" xmi:id="_K0UAUN2-Ed2_UZN3HYa3Kw" type="3001" source="_J6WScN2-Ed2_UZN3HYa3Kw" target="_HruewN2-Ed2_UZN3HYa3Kw">
+    <children xmi:type="notation:Node" xmi:id="_K0UnYN2-Ed2_UZN3HYa3Kw" type="4002">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_K0UnYd2-Ed2_UZN3HYa3Kw" y="-15"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_K0UnYt2-Ed2_UZN3HYa3Kw" type="4003">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_K0UnY92-Ed2_UZN3HYa3Kw" y="15"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_K0UnZN2-Ed2_UZN3HYa3Kw" type="4004">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_K0UnZd2-Ed2_UZN3HYa3Kw" y="-15"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_K0UnZt2-Ed2_UZN3HYa3Kw" type="4005">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_K0UnZ92-Ed2_UZN3HYa3Kw" y="15"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_K0UnaN2-Ed2_UZN3HYa3Kw" type="4006">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_K0Unad2-Ed2_UZN3HYa3Kw" y="-15"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_K0UAUd2-Ed2_UZN3HYa3Kw"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_K0UAUt2-Ed2_UZN3HYa3Kw" fontName="Arial"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_K0UAU92-Ed2_UZN3HYa3Kw"/>
+    <element xmi:type="instancediagram:AssociationInstance" href="outside-instance-diagram.owm#//@associationInstances.0"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_K0UAVN2-Ed2_UZN3HYa3Kw" points="[-61, 2, 257, 0]$[-277, 0, 41, -2]"/>
+  </edges>
+</notation:Diagram>

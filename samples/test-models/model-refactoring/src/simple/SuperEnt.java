@@ -54,8 +54,8 @@ package simple;
  *   bulkBestEffortByKeys = "false"
  *
  * @tigerstripe.property ts.id="ossj.entity.remove"
- *   byTemplates = "false"
  *   byTemplatesBestEffort = "false"
+ *   byTemplates = "false"
  *   ts.id = "ossj.entity.remove"
  *   byTemplate = "false"
  *   bulkAtomicByKeys = "false"

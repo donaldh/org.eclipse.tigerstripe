@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instancediagram:InstanceMap xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:instancediagram="org.eclipse.tigerstripe.workbench.ui.instancediagram" basePackage="com.mycompany">
+  <classInstances name="Ent1" package="simple" artifactName="e1">
+    <variables name="attribute1" type="DataMiddle" value="dd"/>
+    <variables name="enumRef" type="Enumeration0" value="literal0"/>
+  </classInstances>
+  <classInstances name="DataMiddle" package="simple" artifactName="dd"/>
+  <classInstances name="AssociatedEnt" package="simple" artifactName="e2"/>
+  <associationInstances name="Association0" package="simple" aEnd="//@classInstances.2" aEndName="associatedEnt_0" zEnd="//@classInstances.0" zEndName="ent1_0" zEndIsNavigable="true"/>
+</instancediagram:InstanceMap>
