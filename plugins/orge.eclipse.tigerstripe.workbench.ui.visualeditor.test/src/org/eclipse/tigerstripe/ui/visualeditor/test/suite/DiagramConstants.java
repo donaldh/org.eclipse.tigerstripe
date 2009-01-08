@@ -3,7 +3,8 @@ package org.eclipse.tigerstripe.ui.visualeditor.test.suite;
 public class DiagramConstants {
 
 	public static String CREATE_DIAGRAM = "PaletteCreate";
-	public static String DND_DIAGRAM    = "DnD";
+	public static String DND_DIAGRAM    = "DnD Associations";
+	public static String DND_2_DIAGRAM    = "DnD Artifacts";
 	public static String COMPONENTS_DIAGRAM    = "Components";
 	
 	public static String[] ATTRIBUTE_NAMES = new String[]{"diag0", "diag1", "diag2"};

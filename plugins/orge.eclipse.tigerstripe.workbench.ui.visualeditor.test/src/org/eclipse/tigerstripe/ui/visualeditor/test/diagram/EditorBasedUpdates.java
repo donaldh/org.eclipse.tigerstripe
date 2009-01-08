@@ -5,7 +5,7 @@ package org.eclipse.tigerstripe.ui.visualeditor.test.diagram;
 import java.util.ArrayList;
 
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.tigerstripe.ui.visualeditor.test.finders.LocatorFactory;
+import org.eclipse.tigerstripe.ui.visualeditor.test.finders.LocatorHelper;
 import org.eclipse.tigerstripe.ui.visualeditor.test.suite.DiagramConstants;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.ArtifactHelper;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.ProjectHelper;
@@ -29,7 +29,15 @@ import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
 
 public class EditorBasedUpdates extends UITestCaseSWT {
 
-
+	private LocatorHelper helper;
+	
+	
+	@Override
+	protected void setUp() throws Exception {
+		this.helper = new LocatorHelper();
+		super.setUp();
+	}
+	
 	/**
 	 * Main test method.
 	 */
@@ -62,8 +70,10 @@ public class EditorBasedUpdates extends UITestCaseSWT {
 
 	private void createAndCheckComponents(IUIContext ui, String entityName)  throws Exception {
 		//Add some components to my Entities.
+		
+		//TEMP
 
-		IWidgetLocator entity = LocatorFactory.getInstance().getManagedEntityLocator(ui,entityName);
+		IWidgetLocator entity = this.helper.getManagedEntityMethodCompartmentLocator(ui,entityName);
 
 		ArrayList<String> items = new ArrayList<String>();
 		ui.click(new PaletteItemLocator("Features/Field"));
@@ -72,8 +82,9 @@ public class EditorBasedUpdates extends UITestCaseSWT {
 
 		ui.click(new PaletteItemLocator("Features/Method"));
 		ui.click(entity);
-
 		items.add("method0():void");
+		
+		
 		ArtifactHelper.checkItemsInExplorer(ui,
 				TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"."+TestingConstants.DIAGRAM_PACKAGE,
 				entityName,items);
@@ -87,7 +98,7 @@ public class EditorBasedUpdates extends UITestCaseSWT {
 	private void createAndCheckLiterals(IUIContext ui, String enumName)  throws Exception {
 		//Add some components to my Entities.
 
-		IWidgetLocator entity = LocatorFactory.getInstance().getEnumerationLocator(ui,enumName);
+		IWidgetLocator entity = this.helper.getEnumerationLocator(ui,enumName);
 
 		ArrayList<String> items = new ArrayList<String>();
 		ui.click(new PaletteItemLocator("Features/Literal"));
@@ -116,7 +127,7 @@ public class EditorBasedUpdates extends UITestCaseSWT {
 	private void editorCreateAttribute(IUIContext ui, String entityName, String attributeName) throws Exception {
 		ArrayList<String> items = new ArrayList<String>();
 		
-		IWidgetLocator entity = LocatorFactory.getInstance().getManagedEntityLocator(ui, entityName);
+		IWidgetLocator entity = this.helper.getManagedEntityLocator(ui, entityName);
 
 		ui.contextClick(entity, "Open in Editor");
 		GuiUtils.maxminTab(ui, entityName);
@@ -127,7 +138,7 @@ public class EditorBasedUpdates extends UITestCaseSWT {
 		
 		ui.click(new CTabItemLocator("*"+DiagramConstants.CREATE_DIAGRAM+".wvd"));
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
-		String attributeText = LocatorFactory.getInstance().getFieldString(ui,entityName,attributeName);
+		String attributeText = this.helper.getFieldString(ui,entityName,attributeName);
 		assertNotNull("Did not find attribute on diagram.", attributeText);
 		GuiUtils.maxminTab(ui, entityName);
 		ui.close(new CTabItemLocator(entityName));
@@ -143,7 +154,7 @@ public class EditorBasedUpdates extends UITestCaseSWT {
 	private void editorCreateLiteral(IUIContext ui, String enumName, String literalName) throws Exception {
 		ArrayList<String> items = new ArrayList<String>();
 		
-		IWidgetLocator entity = LocatorFactory.getInstance().getEnumerationLocator(ui, enumName);
+		IWidgetLocator entity = this.helper.getEnumerationLocator(ui, enumName);
 
 		ui.contextClick(entity, "Open in Editor");
 		GuiUtils.maxminTab(ui, enumName);
@@ -154,7 +165,7 @@ public class EditorBasedUpdates extends UITestCaseSWT {
 		
 		ui.click(new CTabItemLocator("*"+DiagramConstants.CREATE_DIAGRAM+".wvd"));
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
-		String literalText = LocatorFactory.getInstance().getLiteralString(ui,enumName,literalName);
+		String literalText = this.helper.getLiteralString(ui,enumName,literalName);
 		assertNotNull("Did not find literal on diagram.", literalText);
 		GuiUtils.maxminTab(ui, enumName);
 		ui.close(new CTabItemLocator(enumName));
@@ -169,7 +180,7 @@ public class EditorBasedUpdates extends UITestCaseSWT {
 	private void editorCreateMethod(IUIContext ui, String entityName, String methodName) throws Exception {
 		ArrayList<String> items = new ArrayList<String>();
 		
-		IWidgetLocator entity = LocatorFactory.getInstance().getManagedEntityLocator(ui, entityName);
+		IWidgetLocator entity = this.helper.getManagedEntityLocator(ui, entityName);
 
 		ui.contextClick(entity, "Open in Editor");
 		GuiUtils.maxminTab(ui, entityName);
@@ -181,7 +192,7 @@ public class EditorBasedUpdates extends UITestCaseSWT {
 		
 		ui.click(new CTabItemLocator("*"+DiagramConstants.CREATE_DIAGRAM+".wvd"));
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
-		String attributeText = LocatorFactory.getInstance().getMethodString(ui,entityName,methodName);
+		String attributeText = this.helper.getMethodString(ui,entityName,methodName);
 		assertNotNull("Did not find method on diagram.", attributeText);
 		GuiUtils.maxminTab(ui, entityName);
 		ui.close(new CTabItemLocator(entityName));
