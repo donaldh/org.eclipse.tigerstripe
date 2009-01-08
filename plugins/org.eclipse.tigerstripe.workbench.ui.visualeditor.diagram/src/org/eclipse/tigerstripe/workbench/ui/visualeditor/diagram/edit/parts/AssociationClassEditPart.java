@@ -190,7 +190,11 @@ public class AssociationClassEditPart extends ConnectionNodeEditPart implements
 
 			// setTargetDecoration(createTargetDecoration());
 		}
-
+		
+		public AssociationClassEditPart getParentEditPart(){
+			return AssociationClassEditPart.this;
+		}
+		
 		/**
 		 * @generated
 		 */

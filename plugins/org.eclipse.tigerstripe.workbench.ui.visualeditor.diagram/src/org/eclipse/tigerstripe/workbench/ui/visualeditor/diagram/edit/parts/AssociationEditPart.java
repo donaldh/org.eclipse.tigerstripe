@@ -224,7 +224,11 @@ public class AssociationEditPart extends AdaptableTigerstripeConnectionNodeEditP
 
 			// setTargetDecoration(createTargetDecoration());
 		}
-
+		
+		public AssociationEditPart getParentEditPart(){
+			return AssociationEditPart.this;
+		}
+		
 		/**
 		 * @generated
 		 */

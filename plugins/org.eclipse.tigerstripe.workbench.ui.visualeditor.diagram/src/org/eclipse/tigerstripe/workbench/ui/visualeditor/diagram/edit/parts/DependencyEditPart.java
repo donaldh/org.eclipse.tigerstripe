@@ -93,6 +93,10 @@ public class DependencyEditPart extends AdaptableTigerstripeConnectionNodeEditPa
 			setTargetDecoration(createTargetDecoration());
 		}
 
+		public DependencyEditPart getParentEditPart(){
+			return DependencyEditPart.this;
+		}
+		
 		/**
 		 * @generated
 		 */
