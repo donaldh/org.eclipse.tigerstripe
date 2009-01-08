@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<null:Map xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:null="null" basePackage="simple">
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="AssociatedEnt" package="simple">
+    <attributes name="attribute0" type="simple.DataMiddle"/>
+  </artifacts>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Ent1" package="simple" extends="//@artifacts.3" implements="//@artifacts.4">
+    <properties name="artifact.hide.extends" value="false"/>
+    <attributes name="enumRef" type="simple.Enumeration0"/>
+    <attributes name="attribute1" type="simple.DataMiddle"/>
+  </artifacts>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Ent2" package="simple" extends="//@artifacts.1">
+    <properties name="artifact.hide.extends" value="false"/>
+  </artifacts>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="SuperEnt" package="simple"/>
+  <artifacts xsi:type="null:SessionFacadeArtifact" name="SessionFacade0" package="simple"/>
+  <artifacts xsi:type="null:Enumeration" name="Enumeration0" package="simple" baseType="int">
+    <literals name="literal0" type="int" value="0"/>
+  </artifacts>
+  <artifacts xsi:type="null:DatatypeArtifact" name="DataTop" package="simple"/>
+  <artifacts xsi:type="null:DatatypeArtifact" name="DataMiddle" package="simple" extends="//@artifacts.6">
+    <attributes name="attribute0" type="simple.Enumeration0"/>
+  </artifacts>
+  <artifacts xsi:type="null:DatatypeArtifact" name="DataBottom" package="simple" extends="//@artifacts.7">
+    <attributes name="recur" type="simple.DataBottom"/>
+  </artifacts>
+  <artifacts xsi:type="null:NamedQueryArtifact" name="Query0" package="simple" returnedType="//@artifacts.2"/>
+  <artifacts xsi:type="null:AssociationClassClass" name="AssociationClass0" package="simple"/>
+  <associations name="Association0" package="simple" aEnd="//@artifacts.0" aEndName="associatedEnt_0" zEnd="//@artifacts.1" zEndName="ent1_0" zEndIsNavigable="true"/>
+  <associations name="Association1" package="simple" aEnd="//@artifacts.1" aEndName="ent1_1" zEnd="//@artifacts.1" zEndName="ent1_2" zEndIsNavigable="true"/>
+  <associations xsi:type="null:AssociationClass" name="AssociationClass0" package="simple" aEnd="//@artifacts.1" aEndName="ent1_3" zEnd="//@artifacts.1" zEndName="ent1_4" zEndIsNavigable="true" associatedClass="//@artifacts.10"/>
+  <dependencies name="Dependency0" package="simple" aEnd="//@artifacts.1" zEnd="//@artifacts.6"/>
+</null:Map>
