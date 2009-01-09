@@ -223,9 +223,9 @@ public class PluggablePluginProjectPackager {
 			}
 
 			// Finally, add the TS-specific jars at the end
-			String runtimeRoot = TigerstripeRuntime
-					.getProperty(TigerstripeRuntime.EXTERNAL_API_ARCHIVE);
-			classpath += runtimeRoot + File.pathSeparator;
+			String tsApiJar = JavaCore.getClasspathVariable(
+					ITigerstripeConstants.EXTERNALAPI_LIB).toOSString();
+			classpath += tsApiJar + File.pathSeparator;
 			String equinoxJar = JavaCore.getClasspathVariable(
 					ITigerstripeConstants.EQUINOX_COMMON).toOSString();
 			classpath += equinoxJar + File.pathSeparator;
