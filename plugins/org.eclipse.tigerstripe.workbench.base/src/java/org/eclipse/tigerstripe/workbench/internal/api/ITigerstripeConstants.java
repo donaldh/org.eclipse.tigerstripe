@@ -40,8 +40,6 @@ public interface ITigerstripeConstants {
 
 	public final static String EXTERNALAPI_LIB = "Tigerstripe External API";
 
-	public final static String INTERNALAPI_LIB = "Tigerstripe Internal API";
-	
 	public final static String EQUINOX_COMMON = "Equinox Common";
 	
 	public final static String ANNOTATION_DIR = "annotations";
