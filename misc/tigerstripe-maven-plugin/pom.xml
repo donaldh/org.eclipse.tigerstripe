@@ -15,7 +15,7 @@
 	<groupId>tigerstripe</groupId>
 	<artifactId>maven-tigerstripe-plugin</artifactId>
 	<packaging>maven-plugin</packaging>
-	<version>1.2</version>
+	<version>1.3</version>
 	<name>Tigerstripe Maven Plug-in</name>
 	<dependencies>
 		<dependency>
@@ -37,7 +37,7 @@
 	</dependencies>
 	<build>
 		<plugins>
-			<plugin>
+			<plugin> 	
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>

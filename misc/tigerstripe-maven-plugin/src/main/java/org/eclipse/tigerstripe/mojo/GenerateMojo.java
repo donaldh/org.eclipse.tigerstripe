@@ -43,7 +43,13 @@ public class GenerateMojo extends AbstractMojo {
 	 * @required
 	 */
 	public String workspace;
-	
+
+	/**
+	 * @parameter expression="${ECLIPSE_HOME}"
+	 * @required
+	 */
+	public String eclipseHome;
+
 	/**
 	 * @parameter expression="${projects}"
 	 * @required
@@ -58,13 +64,16 @@ public class GenerateMojo extends AbstractMojo {
 	
 	public void execute() throws MojoExecutionException {
 		
+		
+		
 		getLog().debug("Workspace: " + workspace);
 		for (String project : projects) {
 			getLog().info("Projects: " + project);
 		}
+		getLog().debug("Eclipse home: " + eclipseHome);
 		
 		Commandline cl = new Commandline();
-		cl.setExecutable(System.getenv("ECLIPSE_HOME") + File.separator + getExecutableForOs(System.getProperty("os.name")));
+		cl.setExecutable(eclipseHome + File.separator + getExecutableForOs(System.getProperty("os.name")));
 		cl.createArg(true).setValue("-nosplash");
 		cl.createArg().setValue("-data");
 		cl.createArg().setValue(workspace);
