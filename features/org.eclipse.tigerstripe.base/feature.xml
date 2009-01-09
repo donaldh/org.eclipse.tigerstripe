@@ -43,7 +43,8 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.tigerstripe.workbench.base"
          download-size="0"
          install-size="0"
-         version="0.0.0"/>
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.tigerstripe.annotation.ts2project.router"
