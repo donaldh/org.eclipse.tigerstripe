@@ -224,10 +224,10 @@ public class PluggablePluginProjectPackager {
 
 			// Finally, add the TS-specific jars at the end
 			String tsApiJar = JavaCore.getClasspathVariable(
-					ITigerstripeConstants.EXTERNALAPI_LIB).toOSString();
+					ITigerstripeConstants.EXTERNALAPI_LIB).toPortableString();
 			classpath += tsApiJar + File.pathSeparator;
 			String equinoxJar = JavaCore.getClasspathVariable(
-					ITigerstripeConstants.EQUINOX_COMMON).toOSString();
+					ITigerstripeConstants.EQUINOX_COMMON).toPortableString();
 			classpath += equinoxJar + File.pathSeparator;
 
 			if (classpath.length() != 0) {
@@ -242,7 +242,7 @@ public class PluggablePluginProjectPackager {
 				for (ICompilationUnit unit : units) {
 					unitsNumber++;
 					compilerArgs.add(unit.getCorrespondingResource()
-							.getLocation().toOSString());
+							.getLocation().toPortableString());
 				}
 			}
 
@@ -271,7 +271,7 @@ public class PluggablePluginProjectPackager {
 						" Couldn't compile plugin code: " + errStr);
 			} else if (errStr.length() != 0) {
 				IStatus s = new Status(IStatus.WARNING, BasePlugin.PLUGIN_ID,
-						errStr);
+						errStr + "(" + compilerArgs + ")");
 				BasePlugin.log(s);
 			}
 		}
