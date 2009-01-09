@@ -41,6 +41,12 @@ public class SimpleCleanWorkspace extends UITestCaseSWT {
 		ui.close(new CTabItemLocator("Welcome"));
 
 		
+		ui.click(new MenuItemLocator("Window/Open Perspective/Other..."));
+		ui.wait(new ShellShowingCondition("Open Perspective"));
+		ui.click(new TableItemLocator("Tigerstripe"));
+		ui.click(new ButtonLocator("OK"));
+		ui.wait(new ShellDisposedCondition("Open Perspective"));
+		
 	}
 	
 	
