@@ -1,28 +1,28 @@
 !===========================================
 
-feature@org.eclipse.tigerstripe.annotation.feature=v200812181454,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/features/org.eclipse.tigerstripe.annotation.feature
+feature@org.eclipse.tigerstripe.annotation.feature=v200901121210,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/features/org.eclipse.tigerstripe.annotation.feature
 
 
 !==========================================
 ! The base annotation Stuff
-plugin@org.eclipse.tigerstripe.annotation.core=v200812181454,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.core
-plugin@org.eclipse.tigerstripe.annotation.ui=v200812181454,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.ui
-plugin@org.eclipse.tigerstripe.annotation.ui.diagrams=v200812181454,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.ui.diagrams
-plugin@org.eclipse.tigerstripe.espace.core=v200812181454,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.espace.core
-plugin@org.eclipse.tigerstripe.espace.resources=v200812181454,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.espace.resources
-plugin@org.eclipse.tigerstripe.espace.resources.monitor=v200812181454,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.espace.resources.monitor
+plugin@org.eclipse.tigerstripe.annotation.core=v200901121210,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.core
+plugin@org.eclipse.tigerstripe.annotation.ui=v200901121210,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.ui
+plugin@org.eclipse.tigerstripe.annotation.ui.diagrams=v200901121210,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.ui.diagrams
+plugin@org.eclipse.tigerstripe.espace.core=v200901121210,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.espace.core
+plugin@org.eclipse.tigerstripe.espace.resources=v200901121210,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.espace.resources
+plugin@org.eclipse.tigerstripe.espace.resources.monitor=v200901121210,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.espace.resources.monitor
 
 !==========================================
 ! Annotation - Resource integration
-plugin@org.eclipse.tigerstripe.annotation.resource=v200812181454,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.resource
-plugin@org.eclipse.tigerstripe.annotation.resource.ui=v200812181454,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.resource.ui
-plugin@org.eclipse.tigerstripe.annotation.resource.ui.refactoring=v200812181454,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.resource.ui.refactoring
+plugin@org.eclipse.tigerstripe.annotation.resource=v200901121210,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.resource
+plugin@org.eclipse.tigerstripe.annotation.resource.ui=v200901121210,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.resource.ui
+plugin@org.eclipse.tigerstripe.annotation.resource.ui.refactoring=v200901121210,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.resource.ui.refactoring
 
 !==========================================
 ! Annotation - JavaElement Integration
-plugin@org.eclipse.tigerstripe.annotation.java=v200812181454,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.java
-plugin@org.eclipse.tigerstripe.annotation.java.ui=v200812181454,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.java.ui
-plugin@org.eclipse.tigerstripe.annotation.java.ui.refactoring=v200812181454,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.java.ui.refactoring
+plugin@org.eclipse.tigerstripe.annotation.java=v200901121210,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.java
+plugin@org.eclipse.tigerstripe.annotation.java.ui=v200901121210,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.java.ui
+plugin@org.eclipse.tigerstripe.annotation.java.ui.refactoring=v200901121210,:pserver:anonymous@dev.eclipse.org:/cvsroot/technology,,org.eclipse.tigerstripe/plugins/org.eclipse.tigerstripe.annotation.java.ui.refactoring
 
 !==========================================
 ! Annotation - Tigerstripe Integration
