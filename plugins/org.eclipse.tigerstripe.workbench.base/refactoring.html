@@ -1,0 +1,82 @@
+<h1>Tigerstripe Refactoring Support</h1>
+
+<p>Up until 0.4.5, Tigerstripe refactoring was partially relying on the JDT refactor and would often lead to model and/or diagram
+corruption as a result of not treating refactoring as an atomic operation for the workspace.</p>
+<p>This page presents the new design and mechanism for refactoring support in Tigerstripe</p>
+
+<h2>Principles</h2>
+<p>Refactoring means renaming or moving one or multiple artifacts within a workspace and making sure the changes are propagated to all
+related elements, such as associations, methods arguments, diagrams, etc.</p>
+<p>Because this operation can be very complex, it is important to have it performed in an operation that is almost atomic for 
+the workspace, without risking to run into any threading, concurrency or race condition. So, refactor will use 1 single thread to 
+perform model updates and diagram updates. Asynchronous diagram sync shall be turned off by the refactor infrastructure as the refactor
+is initiated.</p>
+
+<p>As a result, we propose to implement Tigerstripe Refactoring support in a 2 step operations:
+	<ul>
+		<li><strong>Step 1 - 'prepare':</strong>This step will first lock the workspace, preventing concurrent changes, and gather a list of changes to perform 
+		to complete the refactor.</li>
+		<li><strong>Step 2 - 'refactor':</strong>This step will apply the list of changes while the workspace is locked, and diagram synchronization is off. 
+		Diagram changes will part of the refactor and performed at this time rather than being a "catch-up" operation performed
+		in a separate thread. Similarly, propagation to annotations will be performed at this time too.</li>
+	</ul>
+	The operation can be canceled until step 2 begins. Step 2 cannot be canceled and should only be launch once it is clear
+	that the operation can be successfully completed (workspace locked, all resource up2date and saved, etc...).
+</p>
+
+<p>Tigerstripe refactor should provide 3 'entry points' for refactor:
+	<ul>
+		<li>at the 'IAbstractArtifact' level (as opposed to IModelComponent): Indeed, in a Tigerstripe model only artifacts are cross-referenced, so
+as opposed to Java refactoring where renaming an attribute means potential changes to other files where this attribute may be
+referenced, an attribute in a Tigerstripe cannot be referenced directly.</li>
+		<li>at the diagram level: since renaming or moving a diagram requires changes on multiple files, it is important to that
+		these changes applied in an atomic fashion.
+		</li>
+		<li>at the project level: renaming a project requires multiple synchronizations with annotations, cross-model references, etc.
+		</li>
+	</ul>
+</p>
+
+<h2>Proposed API</h2>
+<p>We use a singleton to funnel all Tigerstripe refactor operations. No concurrent refactor shall be allowed. Furthermore, as we
+evolve Tigerstripe to use EMF natively, a write transaction for refactor should be used.</p>
+<p>A refactor action will be passed to the Refactor API as one or more RefactorRequests. These requests will be processed by the Refactor
+infrastructure to derive a set of IModelChangeRequests. The set of changes is then to be applied to the workspace to affect the model.</p>
+<p>To compute the list of RefactorChanges - and following the JDT refactor principles - the refactoring infrastructure will pass
+the RefactorRequest to all registered RefactorParticipants which may return refactor model changes.
+<p>Each Refactor Model Change will lead to Diagram updates and Annotation Updates. They will be applied in the same thread at that time
+rather than being delayed.</p>
+
+<p>Note that the current implementation of IModelChangeRequest tries to perform some 'refactor logic' by trying to propagate
+name changes etc... The refactor API will go with the assumption that every single change needs to be explicitly applied, so
+that the IModelChangeRequest will need to be changed to do only the requested change, no propagation</p>
+
+<p>The early proposed API is implemented (in progress) in the org.eclipse.tigerstripe.internal.refactor package. A basic model
+refactor could look like this:</p>
+
+<tt>
+	// build the request
+	ITigerstripeModelProject proj1 = ...
+	ITigerstripeModelProject proj2 = ...
+	ModelRefactorRequest req = new ModelRefactorRequest();
+	req.setOriginal( proj1, "com.mycompany.Art1");
+	req.setDestination( proj1, "com.mycompany.Art2");
+	
+	// get the corresponding command
+	IRefactorCommand cmd = RefactorManager.INSTANCE.getRefactorCommand( req, monitor );
+	
+	// at this point the set of actions to be performed for the refactor
+	// can be presented to the UI.
+	
+	// Execute the refactor
+	cmd.execute(monitor); // workspace is locked.
+	
+	// refactor is done. 
+</tt>
+
+<p>This goes under the assumption that between the cmd was created and the time it is executed, no change
+occurred that would make the cmd invalid. Maybe we need to ensure that?</p>
+
+<h2>UI Refactor Actions</h2>
+<p>All UI Refactor actions should be re-implemented to use the new refactor mechanisms. This is valid for Tigerstripe Explorer right-click
+actions as well as artifact renames from artifacts.</p>
