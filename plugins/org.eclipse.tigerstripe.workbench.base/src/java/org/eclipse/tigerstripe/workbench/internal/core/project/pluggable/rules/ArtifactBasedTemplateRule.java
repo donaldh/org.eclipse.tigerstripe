@@ -21,36 +21,18 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.MigrationHelper;
-import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetPredicate;
-import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.QueryArtifactsByType;
-import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactMetadataSession;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.PluginVelocityLog;
-import org.eclipse.tigerstripe.workbench.internal.contract.predicate.FacetPredicate;
-import org.eclipse.tigerstripe.workbench.internal.contract.predicate.PredicateFilter;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactFilter;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactNoFilter;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.IPluginRuleExecutor;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRule;
-import org.eclipse.tigerstripe.workbench.plugins.IArtifactRule;
-import org.eclipse.tigerstripe.workbench.plugins.IArtifactWrappedRule;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactFilter;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactWrappedRule;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactWrapper;
-import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
-import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
-import org.eclipse.tigerstripe.workbench.queries.IQueryArtifactsByType;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -185,7 +167,7 @@ public class ArtifactBasedTemplateRule extends TemplateBasedRule implements
 
 	public void trigger(PluggablePluginConfig pluginConfig,
 			IPluginRuleExecutor exec) throws TigerstripeException {
-		
+
 		IAbstractArtifact currentArtifact = null;
 		Map<String, Object> context = getGlobalContext(pluginConfig);
 
@@ -193,27 +175,32 @@ public class ArtifactBasedTemplateRule extends TemplateBasedRule implements
 		try {
 			initializeReport(pluginConfig);
 
-			//setContext(context);
+			// setContext(context);
 
 			IProgressMonitor monitor = exec.getConfig().getMonitor();
-			Collection<IAbstractArtifact> resultSet = ArtifactRuleHelper.getResultSet(getArtifactType(), pluginConfig, isIncludeDependencies(), monitor);
-			IArtifactFilter filter = ArtifactRuleHelper.getArtifactFilter(getArtifactFilterClass(), exec);
+			Collection<IAbstractArtifact> resultSet = ArtifactRuleHelper
+					.getResultSet(getArtifactType(), pluginConfig,
+							isIncludeDependencies(), monitor);
+			IArtifactFilter filter = ArtifactRuleHelper.getArtifactFilter(
+					getArtifactFilterClass(), exec);
 			getReport().setArtifactType(getArtifactType());
-			
+
 			// Velocity specifics......
-			VelocityEngine engine = setClasspathLoaderForVelocity(pluginConfig,exec);
+			VelocityEngine engine = setClasspathLoaderForVelocity(pluginConfig,
+					exec);
 			Template template = engine.getTemplate(getTemplate());
 			Expander expander = new Expander(pluginConfig);
 
-			//VelocityContext defaultContext = getDefaultContext(
-			//		pluginConfig, exec);
-			VelocityContext defaultContext = getDefaultContext(pluginConfig, context);
+			// VelocityContext defaultContext = getDefaultContext(
+			// pluginConfig, exec);
+			VelocityContext defaultContext = getDefaultContext(pluginConfig,
+					context);
 
 			// LOOP
 			for (IAbstractArtifact artifact : resultSet) {
 
 				VelocityContext localContext = exec.getPlugin()
-					.getLocalVelocityContext(defaultContext, this);
+						.getLocalVelocityContext(defaultContext, this);
 
 				currentArtifact = artifact;
 				if (filter != null && !filter.select(artifact)) {
@@ -221,8 +208,7 @@ public class ArtifactBasedTemplateRule extends TemplateBasedRule implements
 				}
 
 				// Deal with wrappers
-				if (getModelClass() != null
-						&& getModelClass().length() != 0) {
+				if (getModelClass() != null && getModelClass().length() != 0) {
 					Object modelObj = exec.getPlugin().getInstance(
 							getModelClass());
 					if (modelObj instanceof IArtifactWrapper) {
@@ -233,12 +219,12 @@ public class ArtifactBasedTemplateRule extends TemplateBasedRule implements
 
 						localContext.put(getModelClassName(), wrapper);
 						expander
-						.setCurrentWrapper(wrapper, getModelClassName());
+								.setCurrentWrapper(wrapper, getModelClassName());
 					} else {
 						TigerstripeRuntime
-						.logInfoMessage("Error: "
-								+ getModelClass()
-								+ " doesn't implement IArtifactWrapper, ignoring.");
+								.logInfoMessage("Error: "
+										+ getModelClass()
+										+ " doesn't implement IArtifactWrapper, ignoring.");
 					}
 				}
 
@@ -246,23 +232,23 @@ public class ArtifactBasedTemplateRule extends TemplateBasedRule implements
 				localContext.put("templateName", template.getName());
 
 				// Logging stuff
-				localContext.put("pluginLog", new PluginVelocityLog(
-						template.getName()));
+				localContext.put("pluginLog", new PluginVelocityLog(template
+						.getName()));
 
 				expander.setCurrentArtifact(artifact);
 				String targetFile = expander.expandVar(getOutputFile());
-				File outputFileF = getOutputFile(pluginConfig, targetFile,
-						exec.getConfig());
-				
+				File outputFileF = getOutputFile(pluginConfig, targetFile, exec
+						.getConfig());
+
 				Collection<String> artifacts = getReport()
-					.getMatchedArtifacts();
+						.getMatchedArtifacts();
 				artifacts.add(artifact.getFullyQualifiedName());
 				// Only create the file if we are allowed to overwrite Or
 				// the file doesn't exist
 				if (isOverwriteFiles() || !outputFileF.exists()) {
 
-					writer = getDefaultWriter(pluginConfig, targetFile,
-							exec.getConfig());
+					writer = getDefaultWriter(pluginConfig, targetFile, exec
+							.getConfig());
 					template.merge(localContext, writer);
 					writer.close();
 
@@ -270,21 +256,19 @@ public class ArtifactBasedTemplateRule extends TemplateBasedRule implements
 					if (fred.intValue() == 0 && isSuppressEmptyFiles()) {
 						outputFileF.delete();
 						Collection<String> files = getReport()
-						.getSuppressedFiles();
+								.getSuppressedFiles();
 						files.add(targetFile);
 					} else {
 						Collection<String> files = getReport()
-						.getGeneratedFiles();
+								.getGeneratedFiles();
 						files.add(targetFile);
 					}
-				} else if (outputFileF.exists()){
-					Collection<String> files = getReport()
-						.getPreservedFiles();
+				} else if (outputFileF.exists()) {
+					Collection<String> files = getReport().getPreservedFiles();
 					if (!files.contains(targetFile))
 						files.add(targetFile);
 				}
 			}
-
 
 		} catch (TigerstripeException e) {
 			TigerstripeException newException;
