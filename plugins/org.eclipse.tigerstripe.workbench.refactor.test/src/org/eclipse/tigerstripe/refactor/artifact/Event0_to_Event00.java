@@ -37,7 +37,7 @@ import com.windowtester.runtime.swt.locator.TreeItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ContributedToolItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
 
-public class Association0_to_Association00 extends UITestCaseSWT {
+public class Event0_to_Event00 extends UITestCaseSWT {
 
 	private static String project="model-refactoring";
 
@@ -49,7 +49,7 @@ public class Association0_to_Association00 extends UITestCaseSWT {
 		ui
 		.contextClick(
 				new TreeItemLocator(
-						project+"/src/simple/Association0",
+						project+"/src/simple/Event0",
 						view),
 		"Refactor/Rename...");
 		ui.wait(new ShellDisposedCondition("Progress Information"));
@@ -57,7 +57,7 @@ public class Association0_to_Association00 extends UITestCaseSWT {
 		LabeledTextLocator locator = new LabeledTextLocator("New na&me:");
 		GuiUtils.clearText(ui, locator);
 		ui.click(locator);
-		ui.enterText("Association00");
+		ui.enterText("Event00");
 		ui.click(new ButtonLocator("&Finish"));
 		ui.wait(new ShellDisposedCondition("Rename Compilation Unit"));
 		
@@ -71,7 +71,7 @@ public class Association0_to_Association00 extends UITestCaseSWT {
 			"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
 		
 		// Check for ourself!
-		ArtifactHelper.checkArtifactInExplorer(ui, project, "simple", "Association00");
+		ArtifactHelper.checkArtifactInExplorer(ui, project, "simple", "Event00");
 
 		
 	}
@@ -85,28 +85,14 @@ public class Association0_to_Association00 extends UITestCaseSWT {
 		IArtifactManagerSession mgrSession = modelProject
 			.getArtifactManagerSession();
 		// First check that the old Entity no longer exists!
-		IAbstractArtifact association0 = mgrSession
-			.getArtifactByFullyQualifiedName("simple.Association0");
-		assertNull("Old artifact is still being returned from the Art Mgr", association0);
+		IAbstractArtifact event0 = mgrSession
+			.getArtifactByFullyQualifiedName("simple.Event0");
+		assertNull("Old artifact is still being returned from the Art Mgr", event0);
 		
-		IAbstractArtifact association00 = mgrSession
-			.getArtifactByFullyQualifiedName("simple.Association00");
-		assertNotNull("New artifact is still not being returned from the Art Mgr", association00);
-		
-		// Need to go and look at the end stuff...
-		// Goes from associatedEnt to Ent10
-		
-		IQueryRelationshipsByArtifact query = (IQueryRelationshipsByArtifact) mgrSession.makeQuery(IQueryRelationshipsByArtifact.class.getName());
-		query.setOriginatingFrom("simple.AssociatedEnt");
-		Collection<IAbstractArtifact> assocsFromAssociatedEnt = mgrSession.queryArtifact(query);
-		assertTrue("Updated association not returned from the Origniating Entity",assocsFromAssociatedEnt.contains(association00));
-		assertFalse("Original association returned from the Origniating Entity",assocsFromAssociatedEnt.contains(association0));
-		
-		IQueryRelationshipsByArtifact query2 = (IQueryRelationshipsByArtifact) mgrSession.makeQuery(IQueryRelationshipsByArtifact.class.getName());
-		query2.setTerminatingIn("simple.Ent10");
-		Collection<IAbstractArtifact> assocsToEnt10 = mgrSession.queryArtifact(query2);
-		assertTrue("Updated association not returned from the Terminating Entity",assocsToEnt10.contains(association00));
-		assertFalse("Original association returned from the Terminating Entity",assocsToEnt10.contains(association0));
+		IAbstractArtifact event00 = mgrSession
+			.getArtifactByFullyQualifiedName("simple.Event00");
+		assertNotNull("New artifact is still not being returned from the Art Mgr", event00);
+
 		
 		
 		

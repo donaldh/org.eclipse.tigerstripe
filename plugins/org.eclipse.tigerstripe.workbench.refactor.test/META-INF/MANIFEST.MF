@@ -5,7 +5,16 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.tigerstripe.workbench.ui.base.test,
  com.windowtester.swt.runtime,
  com.windowtester.swing.runtime,
- org.eclipse.tigerstripe.workbench.base;bundle-version="0.4.5"
+ org.eclipse.tigerstripe.workbench.base,
+ org.junit,
+ com.windowtester.runtime,
+ com.instantiations.eclipse.debug,
+ org.eclipse.jface,
+ com.instantiations.common.core,
+ org.eclipse.core.runtime,
+ com.instantiations.eclipse.util,
+ org.eclipse.swt,
+ org.eclipse.ui.forms
 Bundle-Activator: org.eclipse.tigerstripe.refactor.test.Activator
 Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.refactor.test
 Bundle-Name: Refactor Test Plug-in

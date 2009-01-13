@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.refactor.artifact;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -28,13 +29,41 @@ import com.windowtester.runtime.swt.UITestCaseSWT;
 import com.windowtester.runtime.swt.condition.shell.ShellDisposedCondition;
 import com.windowtester.runtime.swt.condition.shell.ShellShowingCondition;
 import com.windowtester.runtime.swt.locator.ButtonLocator;
+import com.windowtester.runtime.swt.locator.CTabItemLocator;
 import com.windowtester.runtime.swt.locator.LabeledTextLocator;
+import com.windowtester.runtime.swt.locator.SWTWidgetLocator;
+import com.windowtester.runtime.swt.locator.TableItemLocator;
 import com.windowtester.runtime.swt.locator.TreeItemLocator;
+import com.windowtester.runtime.swt.locator.eclipse.ContributedToolItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
 
 public class DataBottom_to_DataBottom0 extends UITestCaseSWT {
 
 	private static String project="model-refactoring";
+	
+	/**
+	 * NOTE THAT THIS IS DIFFERNET FROM OTHERS.
+	 * 
+	 * We need to chck the thing we just renamed - which gets closed
+	 * when we do a rename
+	 * 
+	 */
+	public static void checkEditorUpdated(IUIContext ui) throws Exception{
+		ViewLocator view = new ViewLocator(
+		"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
+		
+		ui.click(2,	new TreeItemLocator(project+"/src/simple/DataBottom0",view));
+		// Check for An AttributeRef
+		TableItemLocator attributeNameInTable = new TableItemLocator("recur");
+		ui.click(attributeNameInTable);
+		LabeledTextLocator type = new LabeledTextLocator("Type: ");
+		assertEquals("Referenced type not updated in Editor","simple.DataBottom0",type.getText(ui));
+		
+		ui.click(new CTabItemLocator("DataBottom0"));
+		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
+		ui.close(new CTabItemLocator("DataBottom0"));
+		
+	}
 	
 	public static void doChangeThroughExplorer(IUIContext ui) throws Exception{
 		ViewLocator view = new ViewLocator(

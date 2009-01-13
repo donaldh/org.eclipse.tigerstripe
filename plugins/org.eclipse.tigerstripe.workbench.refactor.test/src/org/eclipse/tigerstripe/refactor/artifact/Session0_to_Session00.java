@@ -13,14 +13,14 @@ package org.eclipse.tigerstripe.refactor.artifact;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
-import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
-import org.eclipse.tigerstripe.workbench.queries.IQueryRelationshipsByArtifact;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.ArtifactHelper;
 import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
 
@@ -32,15 +32,46 @@ import com.windowtester.runtime.swt.condition.shell.ShellShowingCondition;
 import com.windowtester.runtime.swt.locator.ButtonLocator;
 import com.windowtester.runtime.swt.locator.CTabItemLocator;
 import com.windowtester.runtime.swt.locator.LabeledTextLocator;
-import com.windowtester.runtime.swt.locator.TableItemLocator;
+import com.windowtester.runtime.swt.locator.SWTWidgetLocator;
 import com.windowtester.runtime.swt.locator.TreeItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ContributedToolItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
 
-public class Association0_to_Association00 extends UITestCaseSWT {
+public class Session0_to_Session00 extends UITestCaseSWT {
 
 	private static String project="model-refactoring";
+	private static String[] editors = {"Ent10"};
+	
+	public static void openRelatedEditors(IUIContext ui) throws Exception{
+		// Make sure any related editors are open during the change
+		ViewLocator view = new ViewLocator(
+		"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
+		
+		ui.click(2,	new TreeItemLocator(project+"/src/simple/SessionFacade0",view));
+		
+		for (String editor : editors){
+			ui.click(2,	new TreeItemLocator(project+"/src/simple/"+editor,view));
+		}
+	
+	}
+	
+	public static void saveAndCloseRelatedEditors(IUIContext ui) throws Exception{
+		
+		// NOTE: The "own" editor gets closed by the rename action!
+		for (String editor : editors){
+			ui.click(new CTabItemLocator("*"+editor));
+			ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
+			ui.close(new CTabItemLocator(editor));
+		}
 
+	}
+	
+	public static void checkEditorUpdated(IUIContext ui) throws Exception{
+		ui.click(new CTabItemLocator("*Ent10"));
+		// Check for Implements in this one
+		LabeledTextLocator extend = new LabeledTextLocator("Implements: ");
+		assertEquals("Extended type not updated in Editor","simple.SessionFacade00",extend.getText(ui));
+	}
 	
 	public static void doChangeThroughExplorer(IUIContext ui) throws Exception{
 		ViewLocator view = new ViewLocator(
@@ -49,7 +80,7 @@ public class Association0_to_Association00 extends UITestCaseSWT {
 		ui
 		.contextClick(
 				new TreeItemLocator(
-						project+"/src/simple/Association0",
+						project+"/src/simple/SessionFacade0",
 						view),
 		"Refactor/Rename...");
 		ui.wait(new ShellDisposedCondition("Progress Information"));
@@ -57,7 +88,7 @@ public class Association0_to_Association00 extends UITestCaseSWT {
 		LabeledTextLocator locator = new LabeledTextLocator("New na&me:");
 		GuiUtils.clearText(ui, locator);
 		ui.click(locator);
-		ui.enterText("Association00");
+		ui.enterText("SessionFacade00");
 		ui.click(new ButtonLocator("&Finish"));
 		ui.wait(new ShellDisposedCondition("Rename Compilation Unit"));
 		
@@ -71,8 +102,7 @@ public class Association0_to_Association00 extends UITestCaseSWT {
 			"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
 		
 		// Check for ourself!
-		ArtifactHelper.checkArtifactInExplorer(ui, project, "simple", "Association00");
-
+		ArtifactHelper.checkArtifactInExplorer(ui, project, "simple", "SessionFacade00");
 		
 	}
 	
@@ -85,28 +115,26 @@ public class Association0_to_Association00 extends UITestCaseSWT {
 		IArtifactManagerSession mgrSession = modelProject
 			.getArtifactManagerSession();
 		// First check that the old Entity no longer exists!
-		IAbstractArtifact association0 = mgrSession
-			.getArtifactByFullyQualifiedName("simple.Association0");
-		assertNull("Old artifact is still being returned from the Art Mgr", association0);
+		IAbstractArtifact sessionFacade0 = mgrSession
+			.getArtifactByFullyQualifiedName("simple.SessionFacade0");
+		assertNull("Old artifact is still being returned from the Art Mgr", sessionFacade0);
 		
-		IAbstractArtifact association00 = mgrSession
-			.getArtifactByFullyQualifiedName("simple.Association00");
-		assertNotNull("New artifact is still not being returned from the Art Mgr", association00);
+		IAbstractArtifact sessionFacade00 = mgrSession
+			.getArtifactByFullyQualifiedName("simple.SessionFacade00");
+		assertNotNull("New artifact is still not being returned from the Art Mgr", sessionFacade00);
 		
-		// Need to go and look at the end stuff...
-		// Goes from associatedEnt to Ent10
 		
-		IQueryRelationshipsByArtifact query = (IQueryRelationshipsByArtifact) mgrSession.makeQuery(IQueryRelationshipsByArtifact.class.getName());
-		query.setOriginatingFrom("simple.AssociatedEnt");
-		Collection<IAbstractArtifact> assocsFromAssociatedEnt = mgrSession.queryArtifact(query);
-		assertTrue("Updated association not returned from the Origniating Entity",assocsFromAssociatedEnt.contains(association00));
-		assertFalse("Original association returned from the Origniating Entity",assocsFromAssociatedEnt.contains(association0));
+		// Finally check the Implements...
+		IAbstractArtifact ent10 = mgrSession
+			.getArtifactByFullyQualifiedName("simple.Ent10");
 		
-		IQueryRelationshipsByArtifact query2 = (IQueryRelationshipsByArtifact) mgrSession.makeQuery(IQueryRelationshipsByArtifact.class.getName());
-		query2.setTerminatingIn("simple.Ent10");
-		Collection<IAbstractArtifact> assocsToEnt10 = mgrSession.queryArtifact(query2);
-		assertTrue("Updated association not returned from the Terminating Entity",assocsToEnt10.contains(association00));
-		assertFalse("Original association returned from the Terminating Entity",assocsToEnt10.contains(association0));
+//TODO Replace This		
+//		IManagedEntityArtifact ent = (IManagedEntityArtifact) ent10;
+//		Collection<IAbstractArtifact> entImplemented = ent.getImplementedArtifacts();
+//		assertTrue("Entity does not implement the new Artifact "+ent.getImplementedArtifactsAsStr(), entImplemented.contains(sessionFacade00));
+//		assertFalse("Entity still implements the new Artifact "+entImplemented, entImplemented.contains(sessionFacade0));
+		
+		
 		
 		
 		

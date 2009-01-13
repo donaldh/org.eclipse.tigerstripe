@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.refactor.artifact;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -28,13 +29,54 @@ import com.windowtester.runtime.swt.UITestCaseSWT;
 import com.windowtester.runtime.swt.condition.shell.ShellDisposedCondition;
 import com.windowtester.runtime.swt.condition.shell.ShellShowingCondition;
 import com.windowtester.runtime.swt.locator.ButtonLocator;
+import com.windowtester.runtime.swt.locator.CTabItemLocator;
 import com.windowtester.runtime.swt.locator.LabeledTextLocator;
+import com.windowtester.runtime.swt.locator.SWTWidgetLocator;
+import com.windowtester.runtime.swt.locator.SectionLocator;
+import com.windowtester.runtime.swt.locator.TableItemLocator;
 import com.windowtester.runtime.swt.locator.TreeItemLocator;
+import com.windowtester.runtime.swt.locator.eclipse.ContributedToolItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
 
 public class Enumeration0_to_Enumeration00 extends UITestCaseSWT {
 
 	private static String project="model-refactoring";
+	
+	private static String[] editors = {"Ent10"};
+	
+	public static void openRelatedEditors(IUIContext ui) throws Exception{
+		// Make sure any related editors are open during the change
+		ViewLocator view = new ViewLocator(
+		"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
+		
+		ui.click(2,	new TreeItemLocator(project+"/src/simple/Enumeration0",view));
+		
+		for (String editor : editors){
+			ui.click(2,	new TreeItemLocator(project+"/src/simple/"+editor,view));
+		}
+	
+	}
+	
+	public static void saveAndCloseRelatedEditors(IUIContext ui) throws Exception{
+		
+		// NOTE: The "own" editor gets closed by the rename action!
+		for (String editor : editors){
+			ui.click(new CTabItemLocator("*"+editor));
+			ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
+			ui.close(new CTabItemLocator(editor));
+		}
+
+	}
+	
+	public static void checkEditorUpdated(IUIContext ui) throws Exception{
+		ui.click(new CTabItemLocator("*Ent10"));
+		// Check for An AttributeRef
+		TableItemLocator attributeNameInTable = new TableItemLocator("enumRef");
+		ui.click(attributeNameInTable);
+		LabeledTextLocator type = new LabeledTextLocator("Type: ");
+
+		assertEquals("Referenced type not updated in Editor","simple.Enumeration00",type.getText(ui));
+	}
 	
 	public static void doChangeThroughExplorer(IUIContext ui) throws Exception{
 		ViewLocator view = new ViewLocator(

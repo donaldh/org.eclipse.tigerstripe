@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.refactor.artifact;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -30,13 +31,54 @@ import com.windowtester.runtime.swt.UITestCaseSWT;
 import com.windowtester.runtime.swt.condition.shell.ShellDisposedCondition;
 import com.windowtester.runtime.swt.condition.shell.ShellShowingCondition;
 import com.windowtester.runtime.swt.locator.ButtonLocator;
+import com.windowtester.runtime.swt.locator.CTabItemLocator;
 import com.windowtester.runtime.swt.locator.LabeledTextLocator;
+import com.windowtester.runtime.swt.locator.SWTWidgetLocator;
+import com.windowtester.runtime.swt.locator.TableItemLocator;
 import com.windowtester.runtime.swt.locator.TreeItemLocator;
+import com.windowtester.runtime.swt.locator.eclipse.ContributedToolItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
 
 public class AssociationClass0_to_AssociationClass00 extends UITestCaseSWT {
 
 	private static String project="model-refactoring";
+	
+	private static String[] editors = {"Association2"};
+	
+	public static void openRelatedEditors(IUIContext ui) throws Exception{
+		// Make sure any related editors are open during the change
+		ViewLocator view = new ViewLocator(
+		"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
+		
+		ui.click(2,	new TreeItemLocator(project+"/src/simple/AssociationClass0",view));
+		
+		for (String editor : editors){
+			ui.click(2,	new TreeItemLocator(project+"/src/simple/"+editor,view));
+		}
+	
+	}
+	
+	public static void saveAndCloseRelatedEditors(IUIContext ui) throws Exception{
+		
+		// NOTE: The "own" editor gets closed by the rename action!
+		for (String editor : editors){
+			ui.click(new CTabItemLocator("*"+editor));
+			ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
+			ui.close(new CTabItemLocator(editor));
+		}
+
+	}
+	
+	public static void checkEditorUpdated(IUIContext ui) throws Exception{
+		ui.click(new CTabItemLocator("*Association2"));
+		// The helper will click on this...
+		ui.click(new SWTWidgetLocator(Label.class, "End &Details"));
+		// Check the Z end of this one.
+		ArrayList<String> endNames = ArtifactHelper.associationEndNames(ui,"*Association2");
+		String endName = endNames.get(1);
+		assertEquals("Association End type not updated in Editor","associationClass0_0"+":"+"AssociationClass00", endName);
+	}
+	
 	
 	public static void doChangeThroughExplorer(IUIContext ui) throws Exception{
 		ViewLocator view = new ViewLocator(

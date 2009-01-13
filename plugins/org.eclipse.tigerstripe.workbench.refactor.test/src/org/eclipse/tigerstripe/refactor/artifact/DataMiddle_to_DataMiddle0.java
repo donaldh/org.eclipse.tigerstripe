@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.refactor.artifact;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -28,13 +29,65 @@ import com.windowtester.runtime.swt.UITestCaseSWT;
 import com.windowtester.runtime.swt.condition.shell.ShellDisposedCondition;
 import com.windowtester.runtime.swt.condition.shell.ShellShowingCondition;
 import com.windowtester.runtime.swt.locator.ButtonLocator;
+import com.windowtester.runtime.swt.locator.CTabItemLocator;
 import com.windowtester.runtime.swt.locator.LabeledTextLocator;
+import com.windowtester.runtime.swt.locator.SWTWidgetLocator;
+import com.windowtester.runtime.swt.locator.TableItemLocator;
 import com.windowtester.runtime.swt.locator.TreeItemLocator;
+import com.windowtester.runtime.swt.locator.eclipse.ContributedToolItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
 
 public class DataMiddle_to_DataMiddle0 extends UITestCaseSWT {
 
 	private static String project="model-refactoring";
+	private static String[] editors = {"DataBottom","Ent10","AssociatedEnt"};
+	
+	public static void openRelatedEditors(IUIContext ui) throws Exception{
+		// Make sure any related editors are open during the change
+		ViewLocator view = new ViewLocator(
+		"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
+		
+		ui.click(2,	new TreeItemLocator(project+"/src/simple/DataMiddle",view));
+		
+		for (String editor : editors){
+			ui.click(2,	new TreeItemLocator(project+"/src/simple/"+editor,view));
+		}
+	
+	}
+	
+	public static void saveAndCloseRelatedEditors(IUIContext ui) throws Exception{
+		
+		// NOTE: The "own" editor gets closed by the rename action!
+		for (String editor : editors){
+			ui.click(new CTabItemLocator("*"+editor));
+			ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
+			ui.close(new CTabItemLocator(editor));
+		}
+
+	}
+	
+	public static void checkEditorUpdated(IUIContext ui) throws Exception{
+		ui.click(new CTabItemLocator("*DataBottom"));
+		// Check for Extends in this one
+		LabeledTextLocator extend = new LabeledTextLocator("Extends: ");
+		assertEquals("Extended type not updated in Editor","simple.DataMiddle0",extend.getText(ui));
+		
+		ui.click(new CTabItemLocator("*Ent10"));
+		// Check for An AttributeRef
+		TableItemLocator attributeNameInTable = new TableItemLocator("attribute1");
+		ui.click(attributeNameInTable);
+		LabeledTextLocator type = new LabeledTextLocator("Type: ");
+		assertEquals("Referenced type not updated in Editor","simple.DataMiddle0",type.getText(ui));
+		
+		ui.click(new CTabItemLocator("*AssociatedEnt"));
+		// Check for An AttributeRef
+		attributeNameInTable = new TableItemLocator("attribute0");
+		ui.click(attributeNameInTable);
+		type = new LabeledTextLocator("Type: ");
+		assertEquals("Referenced type not updated in Editor","simple.DataMiddle0",type.getText(ui));
+		
+		
+	}
 	
 	public static void doChangeThroughExplorer(IUIContext ui) throws Exception{
 		ViewLocator view = new ViewLocator(

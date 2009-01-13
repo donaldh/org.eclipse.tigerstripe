@@ -8,39 +8,31 @@
  * Contributors:
  *    Cisco Systems, Inc. - rcraddoc
  *******************************************************************************/
-package org.eclipse.tigerstripe.refactor.artifact;
+package org.eclipse.tigerstripe.refactor.pckge;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
-import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
-import org.eclipse.tigerstripe.workbench.queries.IQueryRelationshipsByArtifact;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.ArtifactHelper;
 import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
 
 import com.windowtester.runtime.IUIContext;
-import com.windowtester.runtime.locator.XYLocator;
+import com.windowtester.runtime.WidgetNotFoundException;
 import com.windowtester.runtime.swt.UITestCaseSWT;
 import com.windowtester.runtime.swt.condition.shell.ShellDisposedCondition;
 import com.windowtester.runtime.swt.condition.shell.ShellShowingCondition;
 import com.windowtester.runtime.swt.locator.ButtonLocator;
-import com.windowtester.runtime.swt.locator.CTabItemLocator;
 import com.windowtester.runtime.swt.locator.LabeledTextLocator;
-import com.windowtester.runtime.swt.locator.TableItemLocator;
 import com.windowtester.runtime.swt.locator.TreeItemLocator;
-import com.windowtester.runtime.swt.locator.eclipse.ContributedToolItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
 
-public class Association0_to_Association00 extends UITestCaseSWT {
+public class Simple_to_Complicated extends UITestCaseSWT {
 
 	private static String project="model-refactoring";
-
 	
 	public static void doChangeThroughExplorer(IUIContext ui) throws Exception{
 		ViewLocator view = new ViewLocator(
@@ -49,17 +41,18 @@ public class Association0_to_Association00 extends UITestCaseSWT {
 		ui
 		.contextClick(
 				new TreeItemLocator(
-						project+"/src/simple/Association0",
+						project+"/src/simple",
 						view),
 		"Refactor/Rename...");
 		ui.wait(new ShellDisposedCondition("Progress Information"));
-		ui.wait(new ShellShowingCondition("Rename Compilation Unit"));
+		ui.wait(new ShellShowingCondition("Rename Package"));
 		LabeledTextLocator locator = new LabeledTextLocator("New na&me:");
 		GuiUtils.clearText(ui, locator);
 		ui.click(locator);
-		ui.enterText("Association00");
-		ui.click(new ButtonLocator("&Finish"));
-		ui.wait(new ShellDisposedCondition("Rename Compilation Unit"));
+		ui.enterText("complicated");
+		ui.click(new ButtonLocator("Rename &subpackages"));
+		ui.click(new ButtonLocator("OK"));
+		ui.wait(new ShellDisposedCondition("Rename Package"));
 		
 		// Let the updates happen!
 		Thread.sleep(500);
@@ -71,8 +64,16 @@ public class Association0_to_Association00 extends UITestCaseSWT {
 			"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
 		
 		// Check for ourself!
-		ArtifactHelper.checkArtifactInExplorer(ui, project, "simple", "Association00");
-
+		ArtifactHelper.checkPackageInExplorer(ui, project, "complicated");
+		try {
+			// Check for old self!
+			//TODO This is blocking the rest of my tests!
+			ArtifactHelper.checkPackageInExplorer(ui, project, "simple");
+			fail("Old package still exists after refactoring");
+		} catch (WidgetNotFoundException e){
+			// This is what we want to happen
+		}
+		
 		
 	}
 	
@@ -84,29 +85,7 @@ public class Association0_to_Association00 extends UITestCaseSWT {
 		ITigerstripeModelProject modelProject = (ITigerstripeModelProject) aProject;
 		IArtifactManagerSession mgrSession = modelProject
 			.getArtifactManagerSession();
-		// First check that the old Entity no longer exists!
-		IAbstractArtifact association0 = mgrSession
-			.getArtifactByFullyQualifiedName("simple.Association0");
-		assertNull("Old artifact is still being returned from the Art Mgr", association0);
-		
-		IAbstractArtifact association00 = mgrSession
-			.getArtifactByFullyQualifiedName("simple.Association00");
-		assertNotNull("New artifact is still not being returned from the Art Mgr", association00);
-		
-		// Need to go and look at the end stuff...
-		// Goes from associatedEnt to Ent10
-		
-		IQueryRelationshipsByArtifact query = (IQueryRelationshipsByArtifact) mgrSession.makeQuery(IQueryRelationshipsByArtifact.class.getName());
-		query.setOriginatingFrom("simple.AssociatedEnt");
-		Collection<IAbstractArtifact> assocsFromAssociatedEnt = mgrSession.queryArtifact(query);
-		assertTrue("Updated association not returned from the Origniating Entity",assocsFromAssociatedEnt.contains(association00));
-		assertFalse("Original association returned from the Origniating Entity",assocsFromAssociatedEnt.contains(association0));
-		
-		IQueryRelationshipsByArtifact query2 = (IQueryRelationshipsByArtifact) mgrSession.makeQuery(IQueryRelationshipsByArtifact.class.getName());
-		query2.setTerminatingIn("simple.Ent10");
-		Collection<IAbstractArtifact> assocsToEnt10 = mgrSession.queryArtifact(query2);
-		assertTrue("Updated association not returned from the Terminating Entity",assocsToEnt10.contains(association00));
-		assertFalse("Original association returned from the Terminating Entity",assocsToEnt10.contains(association0));
+
 		
 		
 		
