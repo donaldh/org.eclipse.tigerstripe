@@ -15,18 +15,19 @@ package simple;
 /**
  * 
  *
- * @tigerstripe.query
- *		return = "simple.Ent1"
- *      isSingleExtensionType="false"
- *      isSessionFactoryMethods="false"
+ * @tigerstripe.exception
  *		isAbstract = "false"
  *		implements = ""
- * @tigerstripe.interface package = "$artifact.IStandardSpecifics.InterfaceProperties.get("
+ * @tigerstripe.interface package = "$artifact.IStandardSpecifics.InterfaceProperties.get("package")"
  *      generate = "true"
  * * 
  */
-public class Query0
+public abstract class Exception0
+  extends java.lang.Exception
  {
+	
+	// not important since this class will never be serialized.
+	private static final long serialVersionUID = -1L;
 
 
 

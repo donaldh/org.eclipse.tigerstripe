@@ -20,14 +20,15 @@ package simple;
  *      isSessionFactoryMethods="false"
  *		isAbstract = "false"
  *		implements = ""
- * @tigerstripe.key-interface package = "$artifact.IStandardSpecifics.InterfaceProperties.get("package")"
+ * @tigerstripe.key-interface package = "$artifact.IStandardSpecifics.InterfaceProperties.get("
  *      generate = "true"
- * @tigerstripe.value package = "$artifact.IStandardSpecifics.InterfaceProperties.get("package")"
+ * @tigerstripe.value package = "$artifact.IStandardSpecifics.InterfaceProperties.get("
  *      generate = "true"
  *
  * @tigerstripe.property ts.id="ossj.entity.create"
  *   byAutoNaming = "false"
  *   bulkBestEffort = "false"
+ *   ts.id = "ossj.entity.create"
  *   bulkAtomic = "false"
  *   bulkAtomicByKeys = "false"
  *   bulkBestEffortByKeys = "false"
@@ -35,15 +36,17 @@ package simple;
  *
  * @tigerstripe.property ts.id="ossj.entity.get"
  *   byTemplates = "false"
+ *   ts.id = "ossj.entity.get"
  *   byTemplate = "false"
  *   bulkAtomicByKeys = "false"
  *   simpleByKey = "true"
  *
  * @tigerstripe.property ts.id="ossj.entity.set"
+ *   ts.id = "ossj.entity.set"
  *   simple = "true"
  *   byTemplates = "false"
- *   byTemplatesBestEffort = "false"
  *   byTemplate = "false"
+ *   byTemplatesBestEffort = "false"
  *   byTemplateBestEffort = "false"
  *   bulkAtomic = "false"
  *   bulkBestEffort = "false"
@@ -53,6 +56,7 @@ package simple;
  * @tigerstripe.property ts.id="ossj.entity.remove"
  *   byTemplatesBestEffort = "false"
  *   byTemplates = "false"
+ *   ts.id = "ossj.entity.remove"
  *   byTemplate = "false"
  *   bulkAtomicByKeys = "false"
  *   bulkBestEffortByKeys = "false"
@@ -68,4 +72,46 @@ public abstract class Ent2
 
 
 
+
+    /**
+     * 
+     * @tigerstripe.method 
+     *  iteratorReturn = "false"
+     *  isOptional = "false"
+	     *  isAbstract = "false"
+     *  isOrdered = "false"
+     *  isUnique = "true"
+     *  typeMultiplicity = "0..1"
+     *  returnName = ""
+     *  visibility = "public"
+     *   @tigerstripe.method-arg 
+	     *     name="arg0" 
+     *     isOrdered = "false"
+     *     isUnique = "true"
+     *     typeMultiplicity = "1"
+	 *     ref-by = "" 
+     
+     *
+     * 
+     * @tigerstripe.property ts.id = "ossj.method"
+     *   simple = "true"
+     *   byTemplates = "false"
+     *   byTemplatesBestEffort = "false"
+     *   byTemplate = "false"
+     *   byTemplateBestEffort = "false"
+     *   simpleByKey = "false"
+     *   bulkAtomic = "false"
+     *   bulkBestEffort = "false"
+     *   instanceMethod = "true"
+     *   bulkAtomicByKeys = "false"
+     *   bulkBestEffortByKeys = "false"
+     *
+     */
+	public abstract simple.Ent1 method0(
+						simple.Ent1 arg0
+		
+				)
+		  throws 
+	  	  	    	    simple.Exception0
+	    	  		;
 }

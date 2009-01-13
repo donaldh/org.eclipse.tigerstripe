@@ -15,17 +15,16 @@ package simple;
 /**
  * 
  *
- * @tigerstripe.query
- *		return = "simple.Ent1"
+ * @tigerstripe.updateProcedure
  *      isSingleExtensionType="false"
  *      isSessionFactoryMethods="false"
  *		isAbstract = "false"
  *		implements = ""
- * @tigerstripe.interface package = "$artifact.IStandardSpecifics.InterfaceProperties.get("
+ * @tigerstripe.interface package = "$artifact.IStandardSpecifics.InterfaceProperties.get("package")"
  *      generate = "true"
  * * 
  */
-public class Query0
+public class Update0
  {
 
 

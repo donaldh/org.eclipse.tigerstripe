@@ -10,6 +10,9 @@
   </artifacts>
   <artifacts xsi:type="null:ManagedEntityArtifact" name="Ent2" package="simple" extends="//@artifacts.1">
     <properties name="artifact.hide.extends" value="false"/>
+    <methods name="method0" type="simple.Ent1" isUnique="true" typeMultiplicity="0..1">
+      <parameters name="arg0" type="simple.Ent1" isUnique="true"/>
+    </methods>
   </artifacts>
   <artifacts xsi:type="null:ManagedEntityArtifact" name="SuperEnt" package="simple"/>
   <artifacts xsi:type="null:SessionFacadeArtifact" name="SessionFacade0" package="simple"/>
@@ -23,8 +26,11 @@
   <artifacts xsi:type="null:DatatypeArtifact" name="DataBottom" package="simple" extends="//@artifacts.7">
     <attributes name="recur" type="simple.DataBottom"/>
   </artifacts>
-  <artifacts xsi:type="null:NamedQueryArtifact" name="Query0" package="simple" returnedType="//@artifacts.2"/>
+  <artifacts xsi:type="null:NamedQueryArtifact" name="Query0" package="simple" returnedType="//@artifacts.1"/>
   <artifacts xsi:type="null:AssociationClassClass" name="AssociationClass0" package="simple"/>
+  <artifacts xsi:type="null:NotificationArtifact" name="Event0" package="simple"/>
+  <artifacts xsi:type="null:ExceptionArtifact" name="Exception0" package="simple"/>
+  <artifacts xsi:type="null:UpdateProcedureArtifact" name="Update0" package="simple"/>
   <associations name="Association0" package="simple" aEnd="//@artifacts.0" aEndName="associatedEnt_0" zEnd="//@artifacts.1" zEndName="ent1_0" zEndIsNavigable="true"/>
   <associations name="Association1" package="simple" aEnd="//@artifacts.1" aEndName="ent1_1" zEnd="//@artifacts.1" zEndName="ent1_2" zEndIsNavigable="true"/>
   <associations xsi:type="null:AssociationClass" name="AssociationClass0" package="simple" aEnd="//@artifacts.1" aEndName="ent1_3" zEnd="//@artifacts.1" zEndName="ent1_4" zEndIsNavigable="true" associatedClass="//@artifacts.10"/>
