@@ -54,10 +54,10 @@ public class ProjectSessionImpl {
 
 	/**
 	 * 
-	 * @param projectURI -
-	 *            The URI of the project container
-	 * @param projectType -
-	 *            the project type.
+	 * @param projectURI
+	 *            - The URI of the project container
+	 * @param projectType
+	 *            - the project type.
 	 * 
 	 * @throws UnsupportedOperationException
 	 *             if the projectType is not supported
@@ -105,7 +105,8 @@ public class ProjectSessionImpl {
 		} else if (projectType == null) {
 			IAbstractTigerstripeProject result = null;
 			projectType = findProjectType(projectURI);
-			if (projectType.equals(ITigerstripeM1GeneratorProject.class.getName())) {
+			if (projectType.equals(ITigerstripeM1GeneratorProject.class
+					.getName())) {
 				// TODO select the right type
 				result = new TigerstripePluginProjectHandle(projectURI);
 			} else if (projectType.equals(ITigerstripeM0GeneratorProject.class
@@ -118,7 +119,8 @@ public class ProjectSessionImpl {
 			return result;
 		} else {
 			IAbstractTigerstripeProject result = null;
-			if (ITigerstripeM1GeneratorProject.class.getName().equals(projectType)) {
+			if (ITigerstripeM1GeneratorProject.class.getName().equals(
+					projectType)) {
 				result = new TigerstripePluginProjectHandle(projectURI);
 			} else {
 				result = new TigerstripeOssjProjectHandle(projectURI);
@@ -171,7 +173,7 @@ public class ProjectSessionImpl {
 			for (Iterator<IAbstractTigerstripeProject> iter = projectMappedByURIs
 					.values().iterator(); iter.hasNext();) {
 				IAbstractTigerstripeProject proj = iter.next();
-				if (project.getLocation().equals(proj.getLocation())) {
+				if (project.getName().equals(proj.getName())) {
 					iter.remove();
 				}
 			}
