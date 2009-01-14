@@ -23,7 +23,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.Pluggab
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.Rule;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactRule;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
-import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 
 /**
  * For each run of a PluggablePlugin, a PluginRuleExecutor is instantiated. It
