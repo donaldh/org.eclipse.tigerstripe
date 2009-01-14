@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.tigerstripe.ui.visualeditor.test.finders.LocatorHelper;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -44,6 +45,28 @@ public class Exception0_to_Exception00 extends UITestCaseSWT {
 
 	private static String project="model-refactoring";
 
+	public static void checkDiagrams(IUIContext ui) throws Exception{
+		LocatorHelper helper = new LocatorHelper();
+		ui.click(new CTabItemLocator("default.wvd"));
+		String artifactPrefix = "";
+		internalCheckDiagram(ui, helper, artifactPrefix);
+		artifactPrefix = "simple.";
+		ui.click(new CTabItemLocator("inside-moved.wvd"));
+		internalCheckDiagram(ui, helper, artifactPrefix);
+		ui.click(new CTabItemLocator("outside-class-diagram.wvd"));
+		internalCheckDiagram(ui, helper, artifactPrefix);
+		
+	}
+	
+	public static void internalCheckDiagram(IUIContext ui, LocatorHelper helper, String artifactPrefix){
+		
+		// Basic rename
+		try {
+			ui.click(helper.getExceptionLocator(ui, artifactPrefix+"Exception00"));
+		} catch (Exception e){
+			fail("Refactored Entity not found on diagram");
+		}
+	}
 	
 	private static String[] editors = {"Ent2"};
 	
@@ -79,12 +102,10 @@ public class Exception0_to_Exception00 extends UITestCaseSWT {
 		ui.click(new SWTWidgetLocator(Label.class, "Methods"));
 		TableItemLocator attributeNameInTable = new TableItemLocator("method0(Ent10):Ent10[0..1]");
 		ui.click(attributeNameInTable);
-//TODO - This is a problem with WindowTester - The Exception is scrolled off screen		
-//		try {
-//			ui.click(new TableItemLocator("simple.Exception00"));
-//		} catch (WidgetNotFoundException wnfe){
-//			fail("Referenced type (Method Exception) not updated in Editor");
-//		}
+
+		TableItemLocator exception = new TableItemLocator("simple.Exception00");
+		// This is a dodgy test - it will actually throw an exception rather than fail the assertion!
+		//assertEquals("simple.Exception00", exception.getText(ui));
 		GuiUtils.maxminTab(ui, "*Ent2");
 	}
 	

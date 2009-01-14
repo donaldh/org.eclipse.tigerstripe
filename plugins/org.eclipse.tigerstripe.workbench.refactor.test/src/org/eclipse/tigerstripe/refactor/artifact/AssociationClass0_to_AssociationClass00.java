@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.tigerstripe.ui.visualeditor.test.finders.LocatorHelper;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -44,6 +45,31 @@ public class AssociationClass0_to_AssociationClass00 extends UITestCaseSWT {
 	private static String project="model-refactoring";
 	
 	private static String[] editors = {"Association2"};
+	
+	public static void checkDiagrams(IUIContext ui) throws Exception{
+		LocatorHelper helper = new LocatorHelper();
+		ui.click(new CTabItemLocator("default.wvd"));
+		String artifactPrefix = "";
+		internalCheckDiagram(ui, helper, artifactPrefix);
+		artifactPrefix = "simple.";
+		ui.click(new CTabItemLocator("inside-moved.wvd"));
+		internalCheckDiagram(ui, helper, artifactPrefix);
+		ui.click(new CTabItemLocator("outside-class-diagram.wvd"));
+		internalCheckDiagram(ui, helper, artifactPrefix);
+		
+	}
+	
+	public static void internalCheckDiagram(IUIContext ui, LocatorHelper helper, String artifactPrefix) throws Exception {
+		
+		// Basic rename
+		try {
+			ui.click(helper.getAssociationClassFigureLocator(ui, artifactPrefix+"AssociationClass00"));
+		} catch (Exception e){
+			fail("Refactored Entity not found on diagram");
+		}
+		ui.click(helper.getAssociationFigureLocator(ui, artifactPrefix+"Association2"));
+	}
+
 	
 	public static void openRelatedEditors(IUIContext ui) throws Exception{
 		// Make sure any related editors are open during the change

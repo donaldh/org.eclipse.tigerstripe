@@ -19,9 +19,11 @@ import org.eclipse.tigerstripe.refactor.artifact.Ent1_to_Ent10;
 import org.eclipse.tigerstripe.refactor.artifact.Enumeration0_to_Enumeration00;
 import org.eclipse.tigerstripe.refactor.artifact.Event0_to_Event00;
 import org.eclipse.tigerstripe.refactor.artifact.Exception0_to_Exception00;
+import org.eclipse.tigerstripe.refactor.artifact.Query0_to_Query00;
 import org.eclipse.tigerstripe.refactor.artifact.Session0_to_Session00;
 import org.eclipse.tigerstripe.refactor.artifact.Update0_to_Update00;
 import org.eclipse.tigerstripe.refactor.project.ProjectHelper;
+import org.eclipse.tigerstripe.refactor.project.TestInitialPackageContents;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.ArtifactHelper;
 
 import com.windowtester.runtime.IUIContext;
@@ -48,8 +50,9 @@ public class VanillaTests extends UITestCaseSWT {
 				
 			view = new ViewLocator(
 			"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
-			
+
 		}
+		
 		
 		public void testRenames() throws Exception {
 			
@@ -174,6 +177,16 @@ public class VanillaTests extends UITestCaseSWT {
 			Event0_to_Event00.doChangeThroughExplorer(ui);
 			Event0_to_Event00.checkExplorerUpdates(ui);
 			Event0_to_Event00.checkAPI();
+			
+			
+			/**
+			 * Query0
+			 *  Not used anywhere!
+			 *  No editors impacted
+			 */
+			Query0_to_Query00.doChangeThroughExplorer(ui);
+			Query0_to_Query00.checkExplorerUpdates(ui);
+			Query0_to_Query00.checkAPI();
 			
 			/**
 			 *  SessionFacade0 was implemented

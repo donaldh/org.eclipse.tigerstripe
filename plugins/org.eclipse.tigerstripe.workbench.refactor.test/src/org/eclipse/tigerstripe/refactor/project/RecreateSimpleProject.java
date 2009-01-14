@@ -8,83 +8,61 @@
  * Contributors:
  *    Cisco Systems, Inc. - rcraddoc
  *******************************************************************************/
-package org.eclipse.tigerstripe.refactor.pckge;
+package org.eclipse.tigerstripe.refactor.project;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.swt.widgets.CoolBar;
+import org.eclipse.swt.widgets.ToolBar;
+import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
+import org.eclipse.tigerstripe.workbench.queries.IQueryRelationshipsByArtifact;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.ArtifactHelper;
+import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
 import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
 
 import com.windowtester.runtime.IUIContext;
-import com.windowtester.runtime.WidgetNotFoundException;
+import com.windowtester.runtime.locator.XYLocator;
 import com.windowtester.runtime.swt.UITestCaseSWT;
 import com.windowtester.runtime.swt.condition.shell.ShellDisposedCondition;
 import com.windowtester.runtime.swt.condition.shell.ShellShowingCondition;
 import com.windowtester.runtime.swt.locator.ButtonLocator;
+import com.windowtester.runtime.swt.locator.CTabItemLocator;
 import com.windowtester.runtime.swt.locator.LabeledTextLocator;
+import com.windowtester.runtime.swt.locator.SWTWidgetLocator;
+import com.windowtester.runtime.swt.locator.TableItemLocator;
 import com.windowtester.runtime.swt.locator.TreeItemLocator;
+import com.windowtester.runtime.swt.locator.eclipse.ContributedToolItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
 
-public class Simple_to_Complicated extends UITestCaseSWT {
+public class RecreateSimpleProject extends UITestCaseSWT {
 
 	private static String project="model-refactoring";
-	
-	public static void doChangeThroughExplorer(IUIContext ui) throws Exception{
-		ViewLocator view = new ViewLocator(
-			"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
-		
-		ui
-		.contextClick(
-				new TreeItemLocator(
-						project+"/src/simple",
-						view),
-		"Refactor/Rename...");
-		ui.wait(new ShellDisposedCondition("Progress Information"));
-		ui.wait(new ShellShowingCondition("Rename Package"));
-		LabeledTextLocator locator = new LabeledTextLocator("New na&me:");
-		GuiUtils.clearText(ui, locator);
-		ui.click(locator);
-		ui.enterText("complicated");
-		ButtonLocator renameSub = new ButtonLocator("Rename &subpackages");
 
-		ui.click(renameSub);
-		ui.click(new ButtonLocator("OK"));
-		ui.wait(new ShellDisposedCondition("Rename Package"));
-		
-		// Let the updates happen!
-		Thread.sleep(500);
-	}
 	
-	
-	public static void checkExplorerUpdates(IUIContext ui) throws Exception{
-		ViewLocator view = new ViewLocator(
-			"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
+	public void testCreateThroughExplorer() throws Exception{
+		IUIContext ui = getUI();
+		ui.click(new SWTWidgetLocator(ToolItem.class, "", 0,
+				new SWTWidgetLocator(ToolBar.class, 2, new SWTWidgetLocator(
+						CoolBar.class))));
 		
-		// Check for ourself!
-		ArtifactHelper.checkPackageInExplorer(ui, project, "complicated");
-		try {
-			// Check for old self!
-			//TODO This is blocking the rest of my tests!
-			ArtifactHelper.checkPackageInExplorer(ui, project, "simple");
-			fail("Old package still exists after refactoring");
-		} catch (WidgetNotFoundException e){
-			// This is what we want to happen
-		}
+		ui.wait(new ShellShowingCondition("Create a new Tigerstripe Project"));
+		ui.click(new LabeledTextLocator("&Project Name:"));
+		ui.enterText(project);
+		ui.click(new ButtonLocator("&Finish"));
+		ui.wait(new ShellDisposedCondition("Create a new Tigerstripe Project"));
 		
-		
-	}
-	
-	// In here we look for the changes that don't necessarily appear on the UI!
-	@SuppressWarnings("deprecation")
-	public static void checkAPI() throws Exception{
-		IAbstractTigerstripeProject aProject = TigerstripeCore.findProject(project);
+		// It should be empty!
+		// Just make sure we got what we expected!
+		IAbstractTigerstripeProject aProject = TigerstripeCore.findProject("model-refactoring");
 		ITigerstripeModelProject modelProject = (ITigerstripeModelProject) aProject;
 		IArtifactManagerSession mgrSession = modelProject
 			.getArtifactManagerSession();
@@ -92,7 +70,13 @@ public class Simple_to_Complicated extends UITestCaseSWT {
 		//How Many Artifacts should we have?
 		IArtifactQuery query = mgrSession.makeQuery(IQueryAllArtifacts.class.getName());
 		Collection<IAbstractArtifact> allArtifacts = mgrSession.queryArtifact(query);
-		assertEquals("Incorrect number of artifacts", 21, allArtifacts.size());
+//		for (IAbstractArtifact art: allArtifacts){
+//			System.out.println("On reload : "+art.getFullyQualifiedName());
+//		}
+		assertEquals("Incorrect number of artifacts", 0,allArtifacts.size());
+		
 	}
+	
+	
 	
 }

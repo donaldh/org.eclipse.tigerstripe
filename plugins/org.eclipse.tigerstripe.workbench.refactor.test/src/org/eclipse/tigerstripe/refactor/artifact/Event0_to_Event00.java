@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.refactor.artifact;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.tigerstripe.ui.visualeditor.test.finders.LocatorHelper;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -41,6 +42,28 @@ public class Event0_to_Event00 extends UITestCaseSWT {
 
 	private static String project="model-refactoring";
 
+	public static void checkDiagrams(IUIContext ui) throws Exception{
+		LocatorHelper helper = new LocatorHelper();
+		ui.click(new CTabItemLocator("default.wvd"));
+		String artifactPrefix = "";
+		internalCheckDiagram(ui, helper, artifactPrefix);
+		artifactPrefix = "simple.";
+		ui.click(new CTabItemLocator("inside-moved.wvd"));
+		internalCheckDiagram(ui, helper, artifactPrefix);
+		ui.click(new CTabItemLocator("outside-class-diagram.wvd"));
+		internalCheckDiagram(ui, helper, artifactPrefix);
+		
+	}
+	
+	public static void internalCheckDiagram(IUIContext ui, LocatorHelper helper, String artifactPrefix){
+		
+		// Basic rename
+		try {
+			ui.click(helper.getNotificationLocator(ui, artifactPrefix+"Event00"));
+		} catch (Exception e){
+			fail("Refactored Entity not found on diagram");
+		}
+	}
 	
 	public static void doChangeThroughExplorer(IUIContext ui) throws Exception{
 		ViewLocator view = new ViewLocator(

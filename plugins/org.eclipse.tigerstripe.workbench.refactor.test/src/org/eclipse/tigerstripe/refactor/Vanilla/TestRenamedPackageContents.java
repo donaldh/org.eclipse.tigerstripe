@@ -28,8 +28,8 @@ import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
 public class TestRenamedPackageContents extends UITestCaseSWT {
 
 		
-		private IUIContext ui;
 		private static String project="model-refactoring";
+		
 		
 		public void testForAllRenamedArtifacts() throws Exception {
 			IUIContext ui = getUI();
@@ -49,11 +49,15 @@ public class TestRenamedPackageContents extends UITestCaseSWT {
 			ArtifactHelper.checkArtifactInExplorer(ui, project, "complicated", "DataBottom0");
 			
 			ArtifactHelper.checkArtifactInExplorer(ui, project, "complicated", "Enumeration00");
-			ArtifactHelper.checkArtifactInExplorer(ui, project, "complicated", "Query0");
+			ArtifactHelper.checkArtifactInExplorer(ui, project, "complicated", "Query00");
+			ArtifactHelper.checkArtifactInExplorer(ui, project, "complicated", "Update00");
 			ArtifactHelper.checkArtifactInExplorer(ui, project, "complicated", "Dependency00");
+			ArtifactHelper.checkArtifactInExplorer(ui, project, "complicated", "Exception00");
 			
 			ArtifactHelper.checkArtifactInExplorer(ui, project, "complicated", "SessionFacade00");
 			
+			ArtifactHelper.checkPackageInExplorer(ui, project, "complicated.moved");
+			ArtifactHelper.checkPackageInExplorer(ui, project, "complicated.movedOther");
 			
 		}
 		
