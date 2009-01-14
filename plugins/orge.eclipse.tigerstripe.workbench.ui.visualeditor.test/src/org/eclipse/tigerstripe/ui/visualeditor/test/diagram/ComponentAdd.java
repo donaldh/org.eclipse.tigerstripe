@@ -4,6 +4,7 @@ package org.eclipse.tigerstripe.ui.visualeditor.test.diagram;
 
 import java.util.ArrayList;
 
+import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.tigerstripe.ui.visualeditor.test.finders.LocatorHelper;
@@ -21,6 +22,7 @@ import com.windowtester.runtime.swt.UITestCaseSWT;
 import com.windowtester.runtime.swt.condition.shell.ShellDisposedCondition;
 import com.windowtester.runtime.swt.condition.shell.ShellShowingCondition;
 import com.windowtester.runtime.swt.locator.ButtonLocator;
+import com.windowtester.runtime.swt.locator.CComboItemLocator;
 import com.windowtester.runtime.swt.locator.CTabItemLocator;
 import com.windowtester.runtime.swt.locator.LabeledLocator;
 import com.windowtester.runtime.swt.locator.SWTWidgetLocator;
@@ -188,7 +190,7 @@ public class ComponentAdd extends UITestCaseSWT {
 
 		ui.contextClick(entity, "Open in Editor");
 		GuiUtils.maxminTab(ui, entityName);
-		
+		SWTWidgetLocator attributesSection = new SWTWidgetLocator(Label.class, "&Attributes");
 		// Select this attribute
 		TableItemLocator attributeNameInTable = new TableItemLocator(attributeName);
 		ui.click(attributeNameInTable);
@@ -197,7 +199,7 @@ public class ComponentAdd extends UITestCaseSWT {
 	//	Type:
 		ui.click(new LabeledLocator(Button.class, "Type: "));
 		ui.wait(new ShellShowingCondition("Artifact Type Selection"));
-		ui.click(new TableItemLocator(" boolean"));
+		ui.click(new TableItemLocator(" int"));
 		ui.click(new ButtonLocator("OK"));
 		ui.wait(new ShellDisposedCondition("Artifact Type Selection"));
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
@@ -210,8 +212,8 @@ public class ComponentAdd extends UITestCaseSWT {
 		Attribute3EditPart.AttributeLabelFigure attributeFig = ((Attribute3EditPart.AttributeLabelFigure) ((WidgetReference) attribute).getWidget());
 		String text = attributeFig.getText();
 		// Should now look like name:boolean
-		if (!text.endsWith(":boolean")){
-			fail ("Attribute type not updated to boolean type in diagram");
+		if (!text.endsWith(":int")){
+			fail ("Attribute type not updated to int type in diagram");
 		}
 		ui.click(new CTabItemLocator(entityName));
 		
@@ -229,13 +231,17 @@ public class ComponentAdd extends UITestCaseSWT {
 		attributeFig = ((Attribute3EditPart.AttributeLabelFigure) ((WidgetReference) attribute).getWidget());
 		text = attributeFig.getText();
 		if (!text.startsWith("-")){
-			fail ("Attribute visibility not updated to boolean type in diagram");
+			fail ("Attribute visibility not updated to private type in diagram");
 		}
 		
 		
 	//	DefaultValue:
-			
-			
+		ui.click(new CTabItemLocator(entityName));
+		ui.click(attributeNameInTable);
+//		CComboItemLocator defValueList = new CComboItemLocator("", new SWTWidgetLocator(CCombo.class,
+//				1, attributesSection));
+//		ui.click(defValueList);
+//		ui.enterText("5");
 		
 		ui.click(new CTabItemLocator("*"+DiagramConstants.CREATE_DIAGRAM+".wvd"));
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));

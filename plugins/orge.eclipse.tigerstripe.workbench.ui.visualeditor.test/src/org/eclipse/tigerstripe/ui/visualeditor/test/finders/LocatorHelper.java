@@ -13,7 +13,9 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Asso
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationNamePackageEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Attribute3EditPart;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DatatypeArtifactAttributeCompartmentEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DatatypeArtifactEditPart;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DatatypeArtifactNamePackageEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DependencyEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DependencyNamePackageEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.EnumerationEditPart;
@@ -80,7 +82,7 @@ public class LocatorHelper {
 		for (Object figChild : figChildren){
 			if (figChild instanceof MethodEditPart.MethodLabelFigure ){
 				MethodEditPart.MethodLabelFigure methodFigure  = (MethodEditPart.MethodLabelFigure) figChild;												
-				String matchPattern = "^[+-]"+methodName+"\\(\\):.*";
+				String matchPattern = "^[+-]"+methodName+"\\(.*\\):.*";
 				if (methodFigure.getText().matches(matchPattern)){
 					return new WidgetReference(methodFigure);
 				}
@@ -136,6 +138,49 @@ public class LocatorHelper {
 		}
 		return null;
 	}
+	
+	public IWidgetLocator getDatatypeAttributeCompartmentLocator(IUIContext ui, String nameToFind) {
+		
+		IWidgetLocator[] matches = ui.findAll(new FigureClassLocator("org.eclipse.gmf.runtime.diagram.ui.figures.ResizableCompartmentFigure"));
+		for (IWidgetLocator match : matches) {
+			EditPart editPart =  ((IFigureReference) match).getEditPart();
+			if (editPart instanceof DatatypeArtifactAttributeCompartmentEditPart){
+				DatatypeArtifactAttributeCompartmentEditPart meAttributes = (DatatypeArtifactAttributeCompartmentEditPart) editPart;
+				DatatypeArtifactEditPart meA =(DatatypeArtifactEditPart) meAttributes.getParent();
+				DatatypeArtifactNamePackageEditPart nameEP = (DatatypeArtifactNamePackageEditPart) meA.getPrimaryChildEditPart();
+				if (((WrapLabel) nameEP.getFigure()).getText().equals(nameToFind)){
+					return (IWidgetLocator) match;
+				}
+			}
+		}
+		System.out.println("Didn't find Attribute Compartment part");
+		return null;
+	}
+	
+	
+	/**
+	 * Find an attribute within a named Datatype.
+	 * Just look for the attribute Name - ignore the type
+	 * You should be able to derive the type from the returned object if you want 
+	 * 
+	 */
+	public IWidgetLocator getDatatypeAttributeLocator(IUIContext ui, String artifactName, String attributeName){
+		IWidgetLocator comp = getDatatypeAttributeCompartmentLocator(ui, artifactName);
+		
+		List figChildren = getUsefulChildren(comp);
+		for (Object figChild : figChildren){
+			if (figChild instanceof Attribute3EditPart.AttributeLabelFigure ){
+				Attribute3EditPart.AttributeLabelFigure attribFigure  = (Attribute3EditPart.AttributeLabelFigure) figChild;												
+				String matchPattern = "^[+-]"+attributeName+":.*";
+				if (attribFigure.getText().matches(matchPattern)){
+					return new WidgetReference(attribFigure);
+				}
+			}
+		}
+		return null;
+	}
+	
+	
 	
 	public IWidgetLocator getQueryLocator(IUIContext ui, String nameToFind) {
 		IWidgetLocator[] matches = ui.findAll(new FigureClassLocator("org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.NamedQueryArtifactEditPart$NamedQueryArtifactFigure"));
