@@ -36,5 +36,6 @@
   <associations xsi:type="null:AssociationClass" name="AssociationClass0" package="simple" aEnd="//@artifacts.1" aEndName="ent1_3" zEnd="//@artifacts.1" zEndName="ent1_4" zEndIsNavigable="true" associatedClass="//@artifacts.6"/>
   <associations name="Association1" package="simple" aEnd="//@artifacts.1" aEndName="ent1_1" zEnd="//@artifacts.1" zEndName="ent1_2" zEndIsNavigable="true"/>
   <associations name="Association0" package="simple" aEnd="//@artifacts.7" aEndName="associatedEnt_0" zEnd="//@artifacts.1" zEndName="ent1_0" zEndIsNavigable="true"/>
+  <associations name="Association2" package="simple" aEnd="//@artifacts.1" aEndName="ent1_5" zEnd="//@artifacts.6" zEndName="associationClass0_0" zEndIsNavigable="true"/>
   <dependencies name="Dependency0" package="simple" aEnd="//@artifacts.1" zEnd="//@artifacts.10"/>
 </null:Map>
