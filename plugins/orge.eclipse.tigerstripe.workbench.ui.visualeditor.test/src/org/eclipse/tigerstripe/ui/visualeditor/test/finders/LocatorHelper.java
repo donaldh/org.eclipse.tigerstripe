@@ -13,6 +13,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Asso
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationNamePackageEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Attribute3EditPart;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Attribute5EditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DatatypeArtifactAttributeCompartmentEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DatatypeArtifactEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DatatypeArtifactNamePackageEditPart;
@@ -169,8 +170,8 @@ public class LocatorHelper {
 		
 		List figChildren = getUsefulChildren(comp);
 		for (Object figChild : figChildren){
-			if (figChild instanceof Attribute3EditPart.AttributeLabelFigure ){
-				Attribute3EditPart.AttributeLabelFigure attribFigure  = (Attribute3EditPart.AttributeLabelFigure) figChild;												
+			if (figChild instanceof Attribute5EditPart.AttributeLabelFigure ){
+				Attribute5EditPart.AttributeLabelFigure attribFigure  = (Attribute5EditPart.AttributeLabelFigure) figChild;												
 				String matchPattern = "^[+-]"+attributeName+":.*";
 				if (attribFigure.getText().matches(matchPattern)){
 					return new WidgetReference(attribFigure);
