@@ -245,53 +245,70 @@ public class ArtifactHelper extends UITestCaseSWT{
 		return ends;
 	}
 	
-	public static void checkItemsInExplorer (IUIContext ui,String artifactName, ArrayList<String> items ){
-		for (String item : items){
-
-			String packagePath = TestingConstants.DEFAULT_ARTIFACT_PACKAGE.replaceAll("\\.", "/");
-			
-			String pathToItem = TestingConstants.NEW_MODEL_PROJECT_NAME+
-			"/src/"+
-			packagePath+"/"+
-			artifactName+"/"+
-			item;
+	// This variant just checks for the package
+	public static void checkPackageInExplorer (IUIContext ui, String projectName, String packageName)throws Exception{
+		String packagePath = packageName.replaceAll("\\.", "/");
+		
+		String pathToItem = projectName+
+		"/src/"+
+		packagePath;
 
 
-			try {	
-				TreeItemLocator treeItem = new TreeItemLocator(
-						pathToItem,
-					new ViewLocator(
-							"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew"));
-				ui.click(treeItem);
-			} catch (Exception e){
-				fail("Item '"+ pathToItem+ "' is not in the Explorer view");
-			}
-		}
+		TreeItemLocator treeItem = new TreeItemLocator(
+				pathToItem,
+				new ViewLocator(
+						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew"));
+		ui.click(treeItem);
 		
 	}
 	
-	public static void checkItemsInExplorer (IUIContext ui, String packageName, String artifactName, ArrayList<String> items ){
+	// This variant just checks for the artifact
+	public static void checkArtifactInExplorer (IUIContext ui, String projectName, String packageName, String artifactName)throws Exception{
+		String packagePath = packageName.replaceAll("\\.", "/");
+		
+		String pathToItem = projectName+
+		"/src/"+
+		packagePath+"/"+
+		artifactName;
+
+
+		TreeItemLocator treeItem = new TreeItemLocator(
+				pathToItem,
+				new ViewLocator(
+						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew"));
+		ui.click(treeItem);
+		
+	}
+	
+	public static void checkItemsInExplorer (IUIContext ui,String artifactName, ArrayList<String> items )throws Exception{
+		checkItemsInExplorer ( ui,  TestingConstants.NEW_MODEL_PROJECT_NAME, TestingConstants.DEFAULT_ARTIFACT_PACKAGE,  artifactName,  items );
+		
+	}
+	
+	public static void checkItemsInExplorer (IUIContext ui, String packageName, String artifactName, ArrayList<String> items )throws Exception{
+		checkItemsInExplorer ( ui,  TestingConstants.NEW_MODEL_PROJECT_NAME, packageName,  artifactName,  items );
+	}
+	
+	public static void checkItemsInExplorer (IUIContext ui, String projectName, String packageName, String artifactName, ArrayList<String> items ) throws Exception{
 		for (String item : items){
 
 			String packagePath = packageName.replaceAll("\\.", "/");
 			
-			String pathToItem = TestingConstants.NEW_MODEL_PROJECT_NAME+
+			String pathToItem = projectName+
 			"/src/"+
 			packagePath+"/"+
 			artifactName+"/"+
 			item;
 
-			try {	
-				TreeItemLocator treeItem = new TreeItemLocator(
-						pathToItem,
+
+			TreeItemLocator treeItem = new TreeItemLocator(
+					pathToItem,
 					new ViewLocator(
 							"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew"));
-				ui.click(treeItem);
-			} catch (Exception e){
-				fail("Item '"+ pathToItem+ "' is not in the Explorer view");
-			}
+			ui.click(treeItem);
 		}
-		
 	}
+
+	
 	
 }

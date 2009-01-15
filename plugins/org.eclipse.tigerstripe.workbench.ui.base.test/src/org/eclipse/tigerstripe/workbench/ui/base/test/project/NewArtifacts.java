@@ -178,7 +178,7 @@ public class NewArtifacts extends UITestCaseSWT {
 
 		
 		GuiUtils.maxminTab(ui, thisArtifactName);
-		
+		ArtifactHelper.checkArtifactInExplorer(ui, TestingConstants.NEW_MODEL_PROJECT_NAME, TestingConstants.DEFAULT_ARTIFACT_PACKAGE, thisArtifactName);
 		ArtifactHelper.checkItemsInExplorer(ui,thisArtifactName,items);
 		// Close the editor
 		ui.close(new CTabItemLocator(thisArtifactName));
