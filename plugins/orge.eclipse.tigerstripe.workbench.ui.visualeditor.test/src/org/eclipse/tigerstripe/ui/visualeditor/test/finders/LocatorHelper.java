@@ -5,9 +5,13 @@ import java.util.List;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.Viewport;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gmf.runtime.diagram.ui.editparts.ListCompartmentEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.figures.ResizableCompartmentFigure;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrapLabel;
 import org.eclipse.gmf.runtime.draw2d.ui.internal.figures.AnimatableScrollPane;
+import org.eclipse.gmf.runtime.draw2d.ui.text.TextFlowEx;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AbstractNamePackageEditPart;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AdaptableTigerstripeShapeNodeEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassClassNamePackageEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationEditPart;
@@ -31,6 +35,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Mana
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.MethodEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.NamedQueryArtifactEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.NotificationArtifactEditPart;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.NotificationArtifactNamePackageEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.SessionFacadeArtifactEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.UpdateProcedureArtifactEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassEditPart.AssociationClassFigure;
@@ -47,6 +52,46 @@ import com.windowtester.runtime.locator.WidgetReference;
 
 public class LocatorHelper {
 
+	public IWidgetLocator getManagedEntityNameEditLocator(IUIContext ui, String artifactName){
+		FigureClassLocator t = new FigureClassLocator("org.eclipse.gmf.runtime.draw2d.ui.text.TextFlowEx");
+		IWidgetLocator[] allTfls = t.findAll(ui);
+		for (IWidgetLocator wl : allTfls){
+			EditPart ep = (EditPart) ((IFigureReference) wl).getEditPart();
+			if (ep instanceof ManagedEntityArtifactNamePackageEditPart){
+				if (((WrapLabel) ((ManagedEntityArtifactNamePackageEditPart) ep).getFigure()).getText().equals(artifactName)){
+					return wl;
+				}
+			}
+		}
+		return null;
+	}
+	
+	public IWidgetLocator getNameEditLocator(IUIContext ui, String thingToGet){
+		FigureClassLocator t = new FigureClassLocator("org.eclipse.gmf.runtime.draw2d.ui.text.TextFlowEx");
+		IWidgetLocator[] allTfls = t.findAll(ui);
+		for (IWidgetLocator wl : allTfls){
+			TextFlowEx ep = (TextFlowEx) ((IFigureReference) wl).getFigure();
+			if (ep.getText().equals(thingToGet)){
+				return wl;
+				
+			}
+		}
+		return null;
+	}
+	
+	public IWidgetLocator getNotificationNameEditLocator(IUIContext ui, String artifactName){
+		FigureClassLocator t = new FigureClassLocator("org.eclipse.gmf.runtime.draw2d.ui.text.TextFlowEx");
+		IWidgetLocator[] allTfls = t.findAll(ui);
+		for (IWidgetLocator wl : allTfls){
+			EditPart ep = (EditPart) ((IFigureReference) wl).getEditPart();
+			if (ep instanceof NotificationArtifactNamePackageEditPart){
+				if (((WrapLabel) ((NotificationArtifactNamePackageEditPart) ep).getFigure()).getText().equals(artifactName)){
+					return wl;
+				}
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * Find an attribute within a named ManagedEntity.
@@ -54,7 +99,7 @@ public class LocatorHelper {
 	 * You should be able to derive the type from the returned object if you want 
 	 * 
 	 */
-	public IWidgetLocator getManagedEntityAttributeLocator(IUIContext ui, String artifactName, String attributeName){
+	public IWidgetLocator getManagedEntityAttributeLocator(IUIContext ui, String artifactName, String attributeName) throws Exception{
 		IWidgetLocator comp = getManagedEntityAttributeCompartmentLocator(ui, artifactName);
 		
 		List figChildren = getUsefulChildren(comp);
@@ -140,6 +185,24 @@ public class LocatorHelper {
 		return null;
 	}
 	
+	public IWidgetLocator getArtifactAttributeCompartmentLocator(IUIContext ui, String nameToFind) {
+		
+		IWidgetLocator[] matches = ui.findAll(new FigureClassLocator("org.eclipse.gmf.runtime.diagram.ui.figures.ResizableCompartmentFigure"));
+		for (IWidgetLocator match : matches) {
+			EditPart editPart =  ((IFigureReference) match).getEditPart();
+			if (editPart instanceof ListCompartmentEditPart){
+				ListCompartmentEditPart meAttributes = (ListCompartmentEditPart) editPart;
+				AdaptableTigerstripeShapeNodeEditPart meA =(AdaptableTigerstripeShapeNodeEditPart) meAttributes.getParent();
+				AbstractNamePackageEditPart nameEP = (AbstractNamePackageEditPart) meA.getPrimaryChildEditPart();
+				if (((WrapLabel) nameEP.getFigure()).getText().equals(nameToFind)){
+					return (IWidgetLocator) match;
+				}
+			}
+		}
+		System.out.println("Didn't find Attribute Compartment part");
+		return null;
+	}
+	
 	public IWidgetLocator getDatatypeAttributeCompartmentLocator(IUIContext ui, String nameToFind) {
 		
 		IWidgetLocator[] matches = ui.findAll(new FigureClassLocator("org.eclipse.gmf.runtime.diagram.ui.figures.ResizableCompartmentFigure"));
@@ -180,8 +243,6 @@ public class LocatorHelper {
 		}
 		return null;
 	}
-	
-	
 	
 	public IWidgetLocator getQueryLocator(IUIContext ui, String nameToFind) {
 		IWidgetLocator[] matches = ui.findAll(new FigureClassLocator("org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.NamedQueryArtifactEditPart$NamedQueryArtifactFigure"));
@@ -268,7 +329,7 @@ public class LocatorHelper {
 		return null;
 	}
 	
-	public IWidgetLocator getManagedEntityAttributeCompartmentLocator(IUIContext ui, String nameToFind) {
+	public IWidgetLocator getManagedEntityAttributeCompartmentLocator(IUIContext ui, String nameToFind) throws Exception {
 		
 		IWidgetLocator[] matches = ui.findAll(new FigureClassLocator("org.eclipse.gmf.runtime.diagram.ui.figures.ResizableCompartmentFigure"));
 		for (IWidgetLocator match : matches) {
@@ -282,8 +343,7 @@ public class LocatorHelper {
 				}
 			}
 		}
-		System.out.println("Didn't find Attribute Compartment part");
-		return null;
+		throw new Exception("Didn't find Attribute Compartment part for "+nameToFind);
 	}
 	
 	
