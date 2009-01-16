@@ -34,7 +34,7 @@ import com.windowtester.runtime.swt.locator.TreeItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ContributedToolItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
 
-public class OpenDiagramTests extends UITestCaseSWT {
+public class DiagramRenameTests extends UITestCaseSWT {
 
 
 		private ProjectHelper helper;
@@ -78,12 +78,13 @@ public class OpenDiagramTests extends UITestCaseSWT {
 			 * Ent 2 EXTENDS Ent1
 			 * Ent1 Implements SessionFacade0 - need to check ImplementedBy
 			 */
-//			Ent1_to_Ent10.openRelatedEditors(ui);
-			Ent1_to_Ent10.doChangeThroughExplorer(ui);
-//			Ent1_to_Ent10.checkExplorerUpdates(ui);
-//			Ent1_to_Ent10.checkAPI();
-//			Ent1_to_Ent10.checkEditorUpdated(ui);
-//			Ent1_to_Ent10.saveAndCloseRelatedEditors(ui);
+			Ent1_to_Ent10.openRelatedEditors(ui);
+//			Ent1_to_Ent10.doChangeThroughExplorer(ui);
+			Ent1_to_Ent10.doChangeThroughDiagramInSamePackage(ui);
+			Ent1_to_Ent10.checkExplorerUpdates(ui);
+			Ent1_to_Ent10.checkAPI();
+			Ent1_to_Ent10.checkEditorUpdated(ui);
+			Ent1_to_Ent10.saveAndCloseRelatedEditors(ui);
 			DiagramHelper.saveDiagrams(ui);
 			Ent1_to_Ent10.checkDiagrams(ui);
 
@@ -92,149 +93,151 @@ public class OpenDiagramTests extends UITestCaseSWT {
 			 * Enumeration0 was used by Ent1 - now Ent10
 			 */
 			Enumeration0_to_Enumeration00.openRelatedEditors(ui);
-			Enumeration0_to_Enumeration00.doChangeThroughExplorer(ui);
-//			Enumeration0_to_Enumeration00.checkExplorerUpdates(ui);
-//			Enumeration0_to_Enumeration00.checkAPI();
-//			Enumeration0_to_Enumeration00.checkEditorUpdated(ui);
-//			Enumeration0_to_Enumeration00.saveAndCloseRelatedEditors(ui);
+			Enumeration0_to_Enumeration00.doChangeThroughDiagramInSamePackage(ui);
+			Enumeration0_to_Enumeration00.checkExplorerUpdates(ui);
+			Enumeration0_to_Enumeration00.checkAPI();
+			Enumeration0_to_Enumeration00.checkEditorUpdated(ui);
+			Enumeration0_to_Enumeration00.saveAndCloseRelatedEditors(ui);
 			DiagramHelper.saveDiagrams(ui);
 			Enumeration0_to_Enumeration00.checkDiagrams(ui);
 			
-//			/**
-//			 * DataMiddle was used in 
-//			 * 	DataTop & DataBottom
-//			 *  Ent10 & AssociatedEnt
-//			 */
-//			DataMiddle_to_DataMiddle0.openRelatedEditors(ui);
-			DataMiddle_to_DataMiddle0.doChangeThroughExplorer(ui);
-//			DataMiddle_to_DataMiddle0.checkExplorerUpdates(ui);
-//			DataMiddle_to_DataMiddle0.checkAPI();
-//			DataMiddle_to_DataMiddle0.checkEditorUpdated(ui);
-//			DataMiddle_to_DataMiddle0.saveAndCloseRelatedEditors(ui);
+			/**
+			 * DataMiddle was used in 
+			 * 	DataTop & DataBottom
+			 *  Ent10 & AssociatedEnt
+			 */
+			DataMiddle_to_DataMiddle0.openRelatedEditors(ui);
+			DataMiddle_to_DataMiddle0.doChangeThroughDiagramInSamePackage(ui);
+			DataMiddle_to_DataMiddle0.checkExplorerUpdates(ui);
+			DataMiddle_to_DataMiddle0.checkAPI();
+			DataMiddle_to_DataMiddle0.checkEditorUpdated(ui);
+			DataMiddle_to_DataMiddle0.saveAndCloseRelatedEditors(ui);
 			DiagramHelper.saveDiagrams(ui);
 			DataMiddle_to_DataMiddle0.checkDiagrams(ui);
-//			
-//			
-//			/**
-//			 * DataBottom was used in 
-//			 *  DataBottom (self ref)
-//			 * 
-//			 * Note - only impacted editor is ourself!
-//			 * 
-//			 */
-			DataBottom_to_DataBottom0.doChangeThroughExplorer(ui);
-//			DataBottom_to_DataBottom0.checkExplorerUpdates(ui);
-//			DataBottom_to_DataBottom0.checkAPI();
-//			DataBottom_to_DataBottom0.checkEditorUpdated(ui);
+
+			
+			/**
+			 * DataBottom was used in 
+			 *  DataBottom (self ref)
+			 * 
+			 * Note - only impacted editor is ourself!
+		     * 
+			 */
+			DataBottom_to_DataBottom0.doChangeThroughDiagramInSamePackage(ui);
+			DataBottom_to_DataBottom0.checkExplorerUpdates(ui);
+			DataBottom_to_DataBottom0.checkAPI();
+			DataBottom_to_DataBottom0.checkEditorUpdated(ui);
 			DiagramHelper.saveDiagrams(ui);
 			DataBottom_to_DataBottom0.checkDiagrams(ui);
-//			
-//			
-//			/**
-//			 *  Association0 was going
-//			 *  from AssociatedEnt
-//			 *  to Ent10
-//			 *  No editors impacted
-//			 *  
-//			 */
-			Association0_to_Association00.doChangeThroughExplorer(ui);
-//			Association0_to_Association00.checkExplorerUpdates(ui);
-//			Association0_to_Association00.checkAPI();
+			
+			
+			/**
+			 *  Association0 was going
+			 *  from AssociatedEnt
+			 *  to Ent10
+			 *  No editors impacted
+			 *  
+			 */
+			Association0_to_Association00.doChangeThroughDiagramInSamePackage(ui);
+			Association0_to_Association00.checkExplorerUpdates(ui);
+			Association0_to_Association00.checkAPI();
 			DiagramHelper.saveDiagrams(ui);
 			Association0_to_Association00.checkDiagrams(ui);
-//
-//			/**
-//			 *  AssociationClass0 was going
-//			 *  from Ent
-//			 *  to Ent10
-//			 *  Also at the end of Association2
-//			 */
-//			AssociationClass0_to_AssociationClass00.openRelatedEditors(ui);
-			AssociationClass0_to_AssociationClass00.doChangeThroughExplorer(ui);
-//			AssociationClass0_to_AssociationClass00.checkExplorerUpdates(ui);
-//			AssociationClass0_to_AssociationClass00.checkAPI();
-//			AssociationClass0_to_AssociationClass00.checkEditorUpdated(ui);
-//			AssociationClass0_to_AssociationClass00.saveAndCloseRelatedEditors(ui);
+
+			/**
+			 *  AssociationClass0 was going
+			 *  from Ent
+			 *  to Ent10
+			 *  Also at the end of Association2
+			 */
+			AssociationClass0_to_AssociationClass00.openRelatedEditors(ui);
+			AssociationClass0_to_AssociationClass00.doChangeThroughDiagramInSamePackage(ui);
+			AssociationClass0_to_AssociationClass00.checkExplorerUpdates(ui);
+			AssociationClass0_to_AssociationClass00.checkAPI();
+			AssociationClass0_to_AssociationClass00.checkEditorUpdated(ui);
+			AssociationClass0_to_AssociationClass00.saveAndCloseRelatedEditors(ui);
 			DiagramHelper.saveDiagrams(ui);
 			AssociationClass0_to_AssociationClass00.checkDiagrams(ui);
-//			
-//			
-//			/**
-//			 * Dependency0
-//			 * From Ent10 to DataTop
-//			 *  No editors impacted
-//			 */
+			
+			
+			/**
+			 * Dependency0
+			 * From Ent10 to DataTop
+			 *  No editors impacted
+			 */
 			Dependency0_to_Dependency00.doChangeThroughExplorer(ui);
-//			Dependency0_to_Dependency00.checkExplorerUpdates(ui);
-//			Dependency0_to_Dependency00.checkAPI();
+			//TODO Replace this.
+//			Dependency0_to_Dependency00.doChangeThroughDiagramInSamePackage(ui);
+			Dependency0_to_Dependency00.checkExplorerUpdates(ui);
+			Dependency0_to_Dependency00.checkAPI();
 			DiagramHelper.saveDiagrams(ui);
 			//TODO Replace this
 			//Dependency0_to_Dependency00.checkDiagrams(ui);
-//			
-//			
-//			/**
-//			 * Exception0
-//			 * Used in a method on Ent2
-//			 */
-//			Exception0_to_Exception00.openRelatedEditors(ui);
-			Exception0_to_Exception00.doChangeThroughExplorer(ui);
-//			Exception0_to_Exception00.checkExplorerUpdates(ui);
-//			Exception0_to_Exception00.checkAPI();
-//			Exception0_to_Exception00.checkEditorUpdated(ui);
-//			Exception0_to_Exception00.saveAndCloseRelatedEditors(ui);
+			
+			
+			/**
+			 * Exception0
+			 * Used in a method on Ent2
+			 */
+			Exception0_to_Exception00.openRelatedEditors(ui);
+			Exception0_to_Exception00.doChangeThroughDiagramInSamePackage(ui);
+			Exception0_to_Exception00.checkExplorerUpdates(ui);
+			Exception0_to_Exception00.checkAPI();
+			Exception0_to_Exception00.checkEditorUpdated(ui);
+			Exception0_to_Exception00.saveAndCloseRelatedEditors(ui);
 			DiagramHelper.saveDiagrams(ui);
 			Exception0_to_Exception00.checkDiagrams(ui);
-//			
-//			/**
-//			 * Update0
-//			 * Not used anywhere!
-//			 *  No editors impacted
-//			 */
-			Update0_to_Update00.doChangeThroughExplorer(ui);
-//			Update0_to_Update00.checkExplorerUpdates(ui);
-//			Update0_to_Update00.checkAPI();
+			
+			/**
+			 * Update0
+			 * Not used anywhere!
+			 *  No editors impacted
+			 */
+			Update0_to_Update00.doChangeThroughDiagramInSamePackage(ui);
+			Update0_to_Update00.checkExplorerUpdates(ui);
+			Update0_to_Update00.checkAPI();
 			DiagramHelper.saveDiagrams(ui);
 			Update0_to_Update00.checkDiagrams(ui);
-//			
-//			/**
-//			 * Event0
-//			 *  Not used anywhere!
-//			 *  No editors impacted
-//			 */
-			Event0_to_Event00.doChangeThroughExplorer(ui);
-//			Event0_to_Event00.checkExplorerUpdates(ui);
-//			Event0_to_Event00.checkAPI();
+			
+			/**
+			 * Event0
+			 *  Not used anywhere!
+			 *  No editors impacted
+			 */
+			Event0_to_Event00.doChangeThroughDiagramInSamePackage(ui);
+			Event0_to_Event00.checkExplorerUpdates(ui);
+			Event0_to_Event00.checkAPI();
 			DiagramHelper.saveDiagrams(ui);
 			Event0_to_Event00.checkDiagrams(ui);
-//			
-//			
-//			/**
-//			 * Query0
-//			 *  Not used anywhere!
-//			 *  No editors impacted
-//			 */
-			Query0_to_Query00.doChangeThroughExplorer(ui);
-//			Query0_to_Query00.checkExplorerUpdates(ui);
-//			Query0_to_Query00.checkAPI();
+			
+			
+			/**
+			 * Query0
+			 *  Not used anywhere!
+			 *  No editors impacted
+			 */
+			Query0_to_Query00.doChangeThroughDiagramInSamePackage(ui);
+			Query0_to_Query00.checkExplorerUpdates(ui);
+			Query0_to_Query00.checkAPI();
 			DiagramHelper.saveDiagrams(ui);
 			Query0_to_Query00.checkDiagrams(ui);
-//			
-//			/**
-//			 *  SessionFacade0 was implemented
-//			 *  by Ent10
-//			 */
-//			Session0_to_Session00.openRelatedEditors(ui);
-			Session0_to_Session00.doChangeThroughExplorer(ui);
-//			Session0_to_Session00.checkExplorerUpdates(ui);
-//			Session0_to_Session00.checkAPI();
-//			Session0_to_Session00.checkEditorUpdated(ui);
-//			Session0_to_Session00.saveAndCloseRelatedEditors(ui);
+			
+			/**
+			 *  SessionFacade0 was implemented
+			 *  by Ent10
+			 */
+			Session0_to_Session00.openRelatedEditors(ui);
+			Session0_to_Session00.doChangeThroughDiagramInSamePackage(ui);
+			Session0_to_Session00.checkExplorerUpdates(ui);
+			Session0_to_Session00.checkAPI();
+			Session0_to_Session00.checkEditorUpdated(ui);
+			Session0_to_Session00.saveAndCloseRelatedEditors(ui);
 			DiagramHelper.saveDiagrams(ui);
 			Session0_to_Session00.checkDiagrams(ui);
-//			
-//			
-//			
-//			
+			
+			
+			
+			
 			
 		}
 		

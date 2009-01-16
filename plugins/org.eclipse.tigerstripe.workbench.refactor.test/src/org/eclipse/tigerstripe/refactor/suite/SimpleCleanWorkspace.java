@@ -47,6 +47,8 @@ public class SimpleCleanWorkspace extends UITestCaseSWT {
 		ui.click(new ButtonLocator("OK"));
 		ui.wait(new ShellDisposedCondition("Open Perspective"));
 		
+		ui.click(new MenuItemLocator("Window/Show View/Error Log"));
+		
 	}
 	
 	

@@ -36,6 +36,11 @@ public class Simple_to_Complicated extends UITestCaseSWT {
 
 	private static String project="model-refactoring";
 	
+	public static void doChangeByMove(IUIContext ui) throws Exception{
+		ViewLocator view = new ViewLocator(
+			"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
+	}
+	
 	public static void doChangeThroughExplorer(IUIContext ui) throws Exception{
 		ViewLocator view = new ViewLocator(
 			"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");

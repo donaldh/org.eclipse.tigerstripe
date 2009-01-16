@@ -15,8 +15,11 @@ Require-Bundle: org.eclipse.ui,
  com.instantiations.eclipse.util,
  org.eclipse.swt,
  org.eclipse.ui.forms,
- org.eclipse.tigerstripe.workebnch.ui.visualeditor.test;bundle-version="0.4.0",
- org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram;bundle-version="0.4.5"
+ org.eclipse.tigerstripe.workebnch.ui.visualeditor.test,
+ org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram,
+ com.windowtester.swt.runtime.gef,
+ org.eclipse.draw2d,
+ org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation
 Bundle-Activator: org.eclipse.tigerstripe.refactor.test.Activator
 Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.refactor.test
 Bundle-Name: Refactor Test Plug-in

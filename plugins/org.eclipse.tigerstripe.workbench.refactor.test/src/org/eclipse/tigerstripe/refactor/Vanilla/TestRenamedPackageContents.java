@@ -61,6 +61,9 @@ public class TestRenamedPackageContents extends UITestCaseSWT {
 			
 		}
 		
+		public void testForExtraComponentInExplorer() throws Exception {
+			//TODO Find out what is extra - In ONE simple message!
+		}
 		
 
 }

@@ -13,7 +13,9 @@ package org.eclipse.tigerstripe.refactor.artifact;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.ui.visualeditor.test.finders.LocatorHelper;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -26,6 +28,7 @@ import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Attribute3EditPart;
 
 import com.windowtester.runtime.IUIContext;
+import com.windowtester.runtime.WT;
 import com.windowtester.runtime.locator.IWidgetLocator;
 import com.windowtester.runtime.locator.WidgetReference;
 import com.windowtester.runtime.locator.XYLocator;
@@ -46,34 +49,65 @@ public class DataMiddle_to_DataMiddle0 extends UITestCaseSWT {
 	private static String project="model-refactoring";
 	private static String[] editors = {"DataBottom","Ent10","AssociatedEnt"};
 	
+	public static void doChangeThroughDiagramInSamePackage(IUIContext ui) throws Exception{
+		LocatorHelper helper = new LocatorHelper();
+		ui.click(new CTabItemLocator("default.wvd"));
+		IWidgetLocator tfl = helper.getNameEditLocator(ui,"DataMiddle");
+		ui.click(tfl);
+		ui.click(tfl);
+		Thread.sleep(1000);
+		ui.click(tfl);
+		ui.click(new SWTWidgetLocator(Text.class,
+				new SWTWidgetLocator(FigureCanvas.class)));
+		ui.keyClick(WT.END);
+		ui.enterText("0");
+		ui.keyClick(WT.CR);
+		
+	}
+	
+	
 	public static void checkDiagrams(IUIContext ui) throws Exception{
 		LocatorHelper helper = new LocatorHelper();
 		ui.click(new CTabItemLocator("default.wvd"));
 		String artifactPrefix = "";
-		internalCheckDiagram(ui, helper, artifactPrefix);
+		internalCheckDiagram(ui, helper, artifactPrefix,artifactPrefix,"DataMiddle0","Ent10");
 		artifactPrefix = "simple.";
 		ui.click(new CTabItemLocator("inside-moved.wvd"));
-		internalCheckDiagram(ui, helper, artifactPrefix);
+		internalCheckDiagram(ui, helper, artifactPrefix, artifactPrefix,"DataMiddle0","Ent10");
 		ui.click(new CTabItemLocator("outside-class-diagram.wvd"));
-		internalCheckDiagram(ui, helper, artifactPrefix);
+		internalCheckDiagram(ui, helper, artifactPrefix, artifactPrefix, "DataMiddle0","Ent10");
 		
 	}
 	
-	public static void internalCheckDiagram(IUIContext ui, LocatorHelper helper, String artifactPrefix){
+	public static void checkDiagramsAfterMove(IUIContext ui) throws Exception{
+		LocatorHelper helper = new LocatorHelper();
+		ui.click(new CTabItemLocator("default.wvd"));
+
+		String myArtifactPrefix = "simple.moved.";
+		internalCheckDiagram(ui, helper, "",myArtifactPrefix,"DataMiddle","Ent1");
+
+		ui.click(new CTabItemLocator("inside-moved.wvd"));
+		internalCheckDiagram(ui, helper, "simple.","","DataMiddle","Ent1");
+		ui.click(new CTabItemLocator("outside-class-diagram.wvd"));
+		internalCheckDiagram(ui, helper, "simple.",myArtifactPrefix,"DataMiddle","Ent1");
+		
+	}
+	
+	public static void internalCheckDiagram(IUIContext ui, LocatorHelper helper, String artifactPrefix,  String myArtifactPrefix, String artifactName, String entName) throws Exception{
 		
 		// Basic rename
 		try {
-			ui.click(helper.getDatatypeLocator(ui, artifactPrefix+"DataMiddle0"));
+			ui.click(helper.getDatatypeLocator(ui, myArtifactPrefix+artifactName));
 		} catch (Exception e){
-			fail("Refactored Entity not found on diagram");
+			fail("Refactored Entity '"+ myArtifactPrefix+artifactName +"' not found on diagram");
 		}
-		IWidgetLocator attr = helper.getManagedEntityAttributeLocator(ui, artifactPrefix+"Ent10", "attribute1");
+		IWidgetLocator attr = helper.getManagedEntityAttributeLocator(ui, myArtifactPrefix+entName, "attribute1");
 		WidgetReference attrRef = (WidgetReference) attr;
 		Attribute3EditPart.AttributeLabelFigure fig = (Attribute3EditPart.AttributeLabelFigure) attrRef.getWidget();
 		String figText = fig.getText();
 		// Return type should be our new Ent, as should the arg type - ie
 		// By default, the internal packages are hidden
-		String expectedText = "+attribute1:DataMiddle0";
+		String expectedText = "+attribute1:"+artifactName;
 		assertEquals("Attribute Ref not updated on diagram",expectedText, figText);
 		
 		attr = helper.getManagedEntityAttributeLocator(ui, artifactPrefix+"AssociatedEnt", "attribute0");
@@ -82,7 +116,7 @@ public class DataMiddle_to_DataMiddle0 extends UITestCaseSWT {
 		figText = fig.getText();
 		// Return type should be our new Ent, as should the arg type - ie
 		// By default, the internal packages are hidden
-		expectedText = "+attribute0:DataMiddle0";
+		expectedText = "+attribute0:"+artifactName;
 		assertEquals("Attribute Ref not updated on diagram",expectedText, figText);
 		
 	}
@@ -158,23 +192,26 @@ public class DataMiddle_to_DataMiddle0 extends UITestCaseSWT {
 		Thread.sleep(500);
 	}
 	
-	
 	public static void checkExplorerUpdates(IUIContext ui) throws Exception{
+		checkExplorerUpdates(ui,"simple", "DataMiddle0");
+	}
+	
+	public static void checkExplorerUpdates(IUIContext ui, String myPackage, String name) throws Exception{
 		ViewLocator view = new ViewLocator(
 			"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
 		
 		// Check for ourself!
-		ArtifactHelper.checkArtifactInExplorer(ui, project, "simple", "DataMiddle0");
+		ArtifactHelper.checkArtifactInExplorer(ui, project, myPackage, name);
 		
 		
 		//Referenced Attribute updates should appear in the explorer
 		ArrayList<String> items = new ArrayList<String>();
-		items.add("attribute1"+":"+"DataMiddle0");
+		items.add("attribute1"+":"+name);
 		ArtifactHelper.checkItemsInExplorer(ui,project,
 				"simple","Ent10",items);
 		
 		items = new ArrayList<String>();
-		items.add("attribute0"+":"+"DataMiddle0");
+		items.add("attribute0"+":"+name);
 		ArtifactHelper.checkItemsInExplorer(ui,project,
 				"simple","AssociatedEnt",items);
 		

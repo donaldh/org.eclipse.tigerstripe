@@ -13,7 +13,9 @@ package org.eclipse.tigerstripe.refactor.artifact;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.ui.visualeditor.test.finders.LocatorHelper;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -27,6 +29,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Attr
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.MethodEditPart;
 
 import com.windowtester.runtime.IUIContext;
+import com.windowtester.runtime.WT;
 import com.windowtester.runtime.locator.IWidgetLocator;
 import com.windowtester.runtime.locator.WidgetReference;
 import com.windowtester.runtime.locator.XYLocator;
@@ -49,6 +52,22 @@ public class Enumeration0_to_Enumeration00 extends UITestCaseSWT {
 	
 	private static String[] editors = {"Ent10"};
 	
+	public static void doChangeThroughDiagramInSamePackage(IUIContext ui) throws Exception{
+		LocatorHelper helper = new LocatorHelper();
+		ui.click(new CTabItemLocator("default.wvd"));
+		IWidgetLocator tfl = helper.getNameEditLocator(ui,"Enumeration0");
+		ui.click(tfl);
+		ui.click(tfl);
+		Thread.sleep(1000);
+		ui.click(tfl);
+		ui.click(new SWTWidgetLocator(Text.class,
+				new SWTWidgetLocator(FigureCanvas.class)));
+		ui.keyClick(WT.END);
+		ui.enterText("0");
+		ui.keyClick(WT.CR);
+		
+	}
+	
 	public static void checkDiagrams(IUIContext ui) throws Exception{
 		LocatorHelper helper = new LocatorHelper();
 		ui.click(new CTabItemLocator("default.wvd"));
@@ -62,7 +81,7 @@ public class Enumeration0_to_Enumeration00 extends UITestCaseSWT {
 		
 	}
 	
-	public static void internalCheckDiagram(IUIContext ui, LocatorHelper helper, String artifactPrefix){
+	public static void internalCheckDiagram(IUIContext ui, LocatorHelper helper, String artifactPrefix) throws Exception{
 		
 		// Basic rename
 		try {

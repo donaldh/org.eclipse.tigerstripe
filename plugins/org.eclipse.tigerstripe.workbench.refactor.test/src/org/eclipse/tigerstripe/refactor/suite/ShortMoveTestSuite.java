@@ -11,7 +11,7 @@ import org.eclipse.tigerstripe.refactor.Vanilla.VanillaTests;
 import org.eclipse.tigerstripe.refactor.closed.ClosedDiagramTests;
 import org.eclipse.tigerstripe.refactor.project.RecreateSimpleProject;
 
-public class RefactorTestSuite extends TestCase {
+public class ShortMoveTestSuite extends TestCase {
 	
 	public static Test suite()
     {
@@ -19,12 +19,7 @@ public class RefactorTestSuite extends TestCase {
     suite.addTestSuite(SimpleCleanWorkspace.class);
     
     
-    suite.addTestSuite(VanillaTests.class);
-    suite.addTestSuite(RenamePackage.class);
-    suite.addTestSuite(TestRenamedPackageContents.class);
-
-    suite.addTestSuite(DeleteProject.class);
-    suite.addTestSuite(RecreateSimpleProject.class);
+    suite.addTestSuite(DownloadProject.class);
     suite.addTestSuite(DeleteProject.class);
     
     suite.addTestSuite(MoveTests.class);

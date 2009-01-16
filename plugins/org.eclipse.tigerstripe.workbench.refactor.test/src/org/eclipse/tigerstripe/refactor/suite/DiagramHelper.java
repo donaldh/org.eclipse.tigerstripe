@@ -8,7 +8,7 @@
  * Contributors:
  *    Cisco Systems, Inc. - rcraddoc
  *******************************************************************************/
-package org.eclipse.tigerstripe.refactor.closed;
+package org.eclipse.tigerstripe.refactor.suite;
 
 import com.windowtester.runtime.IUIContext;
 import com.windowtester.runtime.swt.locator.CTabItemLocator;
@@ -22,6 +22,7 @@ public class DiagramHelper {
 	private static String[] diagrams = {"src/simple/default", "src/simple/moved/inside-moved","outside-class-diagram"};
 	
 	public static void openDiagrams(IUIContext ui) throws Exception{
+		Thread.sleep(5000);
 		ViewLocator view = new ViewLocator(
 		"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
 		for (String diagram : diagrams){
@@ -34,8 +35,13 @@ public class DiagramHelper {
 		for (String diagram : diagrams){
 			String diagName[] = diagram.split("/");
 			String dName = diagName[diagName.length-1];
-			ui.click(new CTabItemLocator("*"+dName+".wvd"));
-			ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
+			try {
+				ui.click(new CTabItemLocator("*"+dName+".wvd"));
+				ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
+			} catch (Exception e){
+				// Guess it was not dirty!
+			}
+			
 		}
 	}
 
