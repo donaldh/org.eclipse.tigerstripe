@@ -30,7 +30,6 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ProjectSessionImpl;
-import org.eclipse.tigerstripe.workbench.internal.api.modules.ExternalModules;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -60,8 +59,6 @@ import org.eclipse.ui.part.FileEditorInput;
 public class NewProjectWizard extends Wizard implements INewWizard {
 
 	protected NewProjectWizardPage pageOne;
-
-	protected NewProjectWizardPageTwo pageTwo;
 
 	private IStructuredSelection selection;
 
@@ -97,13 +94,6 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		pageOne = new NewProjectWizardPage(selection,
 				getDefaultImageDescriptor());
 		addPage(pageOne);
-
-		ExternalModules.getInstance().reload();
-
-		if (ExternalModules.modulesExist) {
-			pageTwo = new NewProjectWizardPageTwo(getDefaultImageDescriptor());
-			addPage(pageTwo);
-		}
 	}
 
 	/**
@@ -116,10 +106,6 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 		try {
 			Map reqModules = new HashMap();
 			IRunnableWithProgress moduleCopier = null;
-			if (pageTwo != null) {
-				moduleCopier = pageTwo.getRunnable(pageOne);
-				reqModules = pageTwo.getRequiredModules();
-			}
 			IRunnableWithProgress projectCreator = pageOne
 					.getRunnable(reqModules);
 			runInContainer(new IRunnableWithProgress[] { moduleCopier,
