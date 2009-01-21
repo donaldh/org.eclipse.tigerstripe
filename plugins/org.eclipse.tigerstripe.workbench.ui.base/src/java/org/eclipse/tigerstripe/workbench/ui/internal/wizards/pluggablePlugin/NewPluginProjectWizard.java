@@ -32,9 +32,11 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
@@ -44,11 +46,15 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.builder.BuilderConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAccess;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchPluggablePluginRole;
+import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.perspective.TigerstripePerspectiveFactory;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
@@ -106,7 +112,8 @@ public class NewPluginProjectWizard extends Wizard implements INewWizard {
 		if (LicensedAccess.getWorkbenchPluggablePluginRole() != TSWorkbenchPluggablePluginRole.CREATE_EDIT) {
 			NewPluggablePluginErrorPage errorPage = new NewPluggablePluginErrorPage(
 					"errorPage1");
-			errorPage.setTitle("New Tigerstripe M1-Level Generation Plugin Project");
+			errorPage
+					.setTitle("New Tigerstripe M1-Level Generation Plugin Project");
 			errorPage.setTitle("New Plugin Project Error");
 			addPage(errorPage);
 		} else {
@@ -123,12 +130,41 @@ public class NewPluginProjectWizard extends Wizard implements INewWizard {
 	@Override
 	public boolean performFinish() {
 
-		final NewPluginProjectWizardPage.NewProjectDetails projectDetails = pageOne
+		final NewPluginProjectWizardPage.NewProjectDetails details = pageOne
 				.getProjectNewProjectDetails();
 
-		createNewProject(projectDetails);
+		WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
+			@Override
+			protected void execute(IProgressMonitor monitor)
+					throws CoreException {
+				IProjectDetails projectDetails = TigerstripeCore
+						.makeProjectDetails();
+
+				try {
+					ITigerstripeM1GeneratorProject project = (ITigerstripeM1GeneratorProject) TigerstripeCore
+							.createProject(details.getProjectName(),
+									projectDetails, null,
+									ITigerstripeM1GeneratorProject.class, null,
+									null);
+				} catch (TigerstripeException e) {
+					throw new CoreException(new Status(IStatus.ERROR,
+							EclipsePlugin.getPluginId(),
+							"Couldn't create project: " + e.getMessage(), e));
+				}
+			}
+		};
+
+		// run the new project creation operation
+		try {
+			getContainer().run(false, true, op);
+		} catch (InterruptedException e) {
+			EclipsePlugin.log(e);
+		} catch (InvocationTargetException e) {
+			EclipsePlugin.log(e);
+		}
+
 		openPerspective(TigerstripePerspectiveFactory.ID);
-		openProject(projectDetails);
+		openProject(details.getProjectName());
 		return true;
 	}
 
@@ -148,8 +184,7 @@ public class NewPluginProjectWizard extends Wizard implements INewWizard {
 	/**
 	 * 
 	 */
-	private void openProject(
-			final NewPluginProjectWizardPage.NewProjectDetails projectDetails) {
+	private void openProject(final String projectName) {
 		final IWorkbenchPage activePage = EclipsePlugin.getActivePage();
 		if (activePage != null) {
 			final Display display = getShell().getDisplay();
@@ -160,8 +195,7 @@ public class NewPluginProjectWizard extends Wizard implements INewWizard {
 							IWorkspace workspace = ResourcesPlugin
 									.getWorkspace();
 							IWorkspaceRoot root = workspace.getRoot();
-							IProject iproject = root.getProject(projectDetails
-									.getProjectName());
+							IProject iproject = root.getProject(projectName);
 							IFile ifile = iproject
 									.getFile(ITigerstripeConstants.PLUGIN_DESCRIPTOR);
 
@@ -197,8 +231,8 @@ public class NewPluginProjectWizard extends Wizard implements INewWizard {
 	 * 
 	 * @see org.eclipse.ui.actions.WorkspaceModifyOperation
 	 * 
-	 * @return the created project resource, or <code>null</code> if the
-	 *         project was not created
+	 * @return the created project resource, or <code>null</code> if the project
+	 *         was not created
 	 */
 	public IProject createNewProject(
 			NewPluginProjectWizardPage.NewProjectDetails projectDetails) {
@@ -380,8 +414,8 @@ public class NewPluginProjectWizard extends Wizard implements INewWizard {
 	/**
 	 * We will initialize file contents with a sample text.
 	 * 
-	 * @param pageProperties -
-	 *            the properties gathered through the wizard
+	 * @param pageProperties
+	 *            - the properties gathered through the wizard
 	 */
 	private InputStream openContentStream(
 			NewPluginProjectWizardPage.NewProjectDetails projectDetails) {
