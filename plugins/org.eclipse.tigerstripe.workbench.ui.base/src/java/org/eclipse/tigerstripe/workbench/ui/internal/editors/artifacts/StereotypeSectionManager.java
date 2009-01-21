@@ -195,7 +195,7 @@ public class StereotypeSectionManager {
 		if (viewer.getTable().getSelectionCount() > 0) {
 
 			// Make sure the selected instance have been resolved. Or else can't
-			// change them
+			// change them (JS - except to delete, bugzilla 254406)
 			/** @see UnresolvedStereotypeInstance */
 			boolean hasUnresolvedInstances = false;
 			for (TableItem item : viewer.getTable().getSelection()) {
@@ -207,6 +207,10 @@ public class StereotypeSectionManager {
 			if (!hasUnresolvedInstances) {
 				removeButton.setEnabled(true);
 				editButton.setEnabled(true);
+			}
+			else {
+				removeButton.setEnabled(true);
+				editButton.setEnabled(false);
 			}
 		} else {
 			removeButton.setEnabled(false);
