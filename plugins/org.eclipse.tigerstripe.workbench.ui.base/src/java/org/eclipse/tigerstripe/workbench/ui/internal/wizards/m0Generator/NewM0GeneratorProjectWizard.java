@@ -21,7 +21,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
@@ -48,11 +47,6 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.part.FileEditorInput;
 
 public class NewM0GeneratorProjectWizard extends Wizard implements INewWizard {
-
-	// Newly created project
-	private IProject newProject;
-
-	private IJavaProject newJavaProject;
 
 	private NewM0GeneratorProjectWizardPage pageOne;
 
