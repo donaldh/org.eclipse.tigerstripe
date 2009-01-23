@@ -11,21 +11,14 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.wizards.project;
 
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IProjectDescription;
-import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Preferences;
 import org.eclipse.jface.dialogs.IDialogPage;
-import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -41,7 +34,6 @@ import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.workbench.internal.builder.BuilderConstants;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.preferences.GeneralPreferencePage;
@@ -369,46 +361,4 @@ public class NewPatternBasedProjectWizardPage extends WizardPage {
 		this.externalDirectoryPath = externalDirectoryPath;
 	}
 
-	/**
-	 * A Runnable that will create the content of the new project
-	 * 
-	 * @return
-	 
-	public IRunnableWithProgress getRunnable(final Map requiredModules) {
-		return new IRunnableWithProgress() {
-			public void run(IProgressMonitor monitor)
-					throws InvocationTargetException, InterruptedException {
-
-				// get a project descriptor
-				IPath defaultPath = Platform.getLocation();
-				IPath newPath = getLocationPath();
-				if (defaultPath.equals(newPath)) {
-					newPath = null;
-				}
-				IWorkspace workspace = ResourcesPlugin.getWorkspace();
-				final IProjectDescription description = workspace
-						.newProjectDescription(getProjectName());
-				description.setLocation(newPath);
-
-				try {
-					// create project Handle
-					NewProjectHelper.createProject(description,
-							getProjectHandle(), monitor);
-					// Add the proper natures
-					NewProjectHelper.addTSandJavaNature(getProjectHandle(),
-							BuilderConstants.PROJECT_NATURE_ID);
-					NewProjectDetails details = getProjectNewProjectDetails();
-					details.reqModules = requiredModules;
-					NewProjectHelper.createProjectContent(
-							getProjectNewProjectDetails(), getProjectHandle(),
-							monitor);
-				} catch (CoreException e) {
-					throw new InvocationTargetException(e);
-				}
-			}
-
-		};
-		
-	}
-	*/
 }
