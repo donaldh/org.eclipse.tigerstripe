@@ -46,7 +46,6 @@ import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.preferences.GeneralPreferencePage;
 import org.eclipse.tigerstripe.workbench.ui.internal.preferences.GenerationPreferencePage;
-import org.eclipse.tigerstripe.workbench.ui.internal.wizards.NewProjectHelper;
 
 /**
  * The "New" wizard page allows setting the container for the new file as well
@@ -374,7 +373,7 @@ public class NewPatternBasedProjectWizardPage extends WizardPage {
 	 * A Runnable that will create the content of the new project
 	 * 
 	 * @return
-	 */
+	 
 	public IRunnableWithProgress getRunnable(final Map requiredModules) {
 		return new IRunnableWithProgress() {
 			public void run(IProgressMonitor monitor)
@@ -409,6 +408,7 @@ public class NewPatternBasedProjectWizardPage extends WizardPage {
 			}
 
 		};
+		
 	}
-
+	*/
 }
