@@ -210,7 +210,7 @@ public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileC
 		return instance;
 	}
 	
-	private static IPattern parsePatternFile(Bundle bundle,String patternFileName) throws Exception {
+	public static IPattern parsePatternFile(Bundle bundle,String patternFileName) throws Exception {
 		URL patternURL = bundle.getEntry(patternFileName);
 		DocumentBuilderFactory factory = DocumentBuilderFactory
 			.newInstance();
