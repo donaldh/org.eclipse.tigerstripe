@@ -18,12 +18,9 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.internal.ui.util.ExceptionHandler;
 import org.eclipse.jdt.internal.ui.wizards.NewWizardMessages;
 import org.eclipse.jface.operation.IRunnableWithProgress;
@@ -33,7 +30,6 @@ import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
@@ -42,7 +38,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IProjectPattern;
-import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.perspective.TigerstripePerspectiveFactory;
@@ -55,7 +50,6 @@ import org.eclipse.ui.IWorkbenchWizard;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.WorkbenchException;
-import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.part.FileEditorInput;
 
 /**
@@ -71,12 +65,14 @@ public class NewPatternBasedProjectWizard extends Wizard implements INewWizard {
 
 	protected NewPatternBasedProjectWizardPage pageOne;
 
+//	protected NewProjectWizardPageTwo pageTwo;
+
 	private IStructuredSelection selection;
 
 	private ImageDescriptor image;
 
 	private IPattern pattern;
-
+	
 	public IStructuredSelection getSelection() {
 		return this.selection;
 	}
@@ -104,15 +100,15 @@ public class NewPatternBasedProjectWizard extends Wizard implements INewWizard {
 	public void addPages() {
 
 		TigerstripeRuntime.logInfoMessage("Adding pages");
-		pageOne = new NewPatternBasedProjectWizardPage(pattern, selection);
+		pageOne = new NewPatternBasedProjectWizardPage(pattern,selection);
 		addPage(pageOne);
 
-		// ExternalModules.getInstance().reload();
-		// TODO
-		// if (ExternalModules.modulesExist) {
-		// pageTwo = new NewProjectWizardPageTwo(getDefaultImageDescriptor());
-		// addPage(pageTwo);
-		// }
+//		ExternalModules.getInstance().reload();
+//TODO
+//		if (ExternalModules.modulesExist) {
+//			pageTwo = new NewProjectWizardPageTwo(getDefaultImageDescriptor());
+//			addPage(pageTwo);
+//		}
 	}
 
 	/**
@@ -122,63 +118,85 @@ public class NewPatternBasedProjectWizard extends Wizard implements INewWizard {
 	@Override
 	public boolean performFinish() {
 
-		final NewProjectDetails details = pageOne.getProjectNewProjectDetails();
+		IWizardPage[] pages = getPages();
+		NewPatternBasedProjectWizardPage pageOne = (NewPatternBasedProjectWizardPage) pages[0];
+		IRunnableWithProgress runnable = getRunnable(pageOne);
 
-		WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
-			@Override
-			protected void execute(IProgressMonitor monitor)
-					throws CoreException {
-				IProjectDetails projectDetails = TigerstripeCore
-						.makeProjectDetails();
-
-				projectDetails.getProperties().setProperty(
-						IProjectDetails.DEFAULTARTIFACTPACKAGE_PROP,
-						details.getDefaultArtifactPackage());
-
-				try {
-					ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
-							.createProject(details.getProjectName(),
-									projectDetails, null,
-									ITigerstripeModelProject.class, null, null);
-				} catch (TigerstripeException e) {
-					throw new CoreException(new Status(IStatus.ERROR,
-							EclipsePlugin.getPluginId(),
-							"Couldn't create project: " + e.getMessage(), e));
-				}
-			}
-		};
-
-		// run the new project creation operation
 		try {
-			getContainer().run(false, true, op);
-		} catch (InterruptedException e) {
-			EclipsePlugin.log(e);
+			getContainer().run(false, false, runnable);
+			openPerspective(TigerstripePerspectiveFactory.ID);
+			openProject(pageOne.getProjectNewProjectDetails());
 		} catch (InvocationTargetException e) {
-			EclipsePlugin.log(e);
+			handleFinishException(getShell(), e);
+			return false;
+		} catch (WorkbenchException e) {
+			BasePlugin.log(e);
+			return false;
+		} catch (InterruptedException e) {
+			return false;
 		}
-
-		openPerspective(TigerstripePerspectiveFactory.ID);
-		openProject(details.getProjectName());
 		return true;
+	}
+
+	protected void handleFinishException(Shell shell,
+			InvocationTargetException e) {
+		String title = NewWizardMessages.NewElementWizard_op_error_title;
+		String message = NewWizardMessages.NewElementWizard_op_error_message;
+		ExceptionHandler.handle(e, shell, title, message);
+	}
+	
+	
+	public IRunnableWithProgress getRunnable(NewPatternBasedProjectWizardPage pageOne) {
+		try {
+			
+			final String projectName = pageOne.getProjectName();
+
+			IPath defaultPath = Platform.getLocation();
+			IPath newPath = pageOne.getLocationPath();
+			if (defaultPath.equals(newPath)) {
+				newPath = null;
+			}
+			
+			final String defaultArtifactPackage = pageOne.getDefaultArtifactPackageText();
+			
+			final IPath path = newPath;
+			final IProjectPattern pPattern = (IProjectPattern) pattern; 
+				
+			IRunnableWithProgress op = new IRunnableWithProgress() {
+				public void run(IProgressMonitor monitor)
+				throws InvocationTargetException{
+					try {
+						
+						ITigerstripeModelProject newProject = pPattern.createProject(projectName, path, defaultArtifactPackage);
+						pPattern.annotateProject(newProject);
+
+					} catch (Exception e) {
+						throw new InvocationTargetException(e);
+					} finally {
+						monitor.done();
+					}
+				}
+			};
+
+			return op;
+		} catch (Exception t){
+			return null;
+		}
 	}
 
 	/**
 	 * Implements Open Perspective.
 	 */
-	private void openPerspective(String perspId) {
-		try {
-			IWorkbench workbench = PlatformUI.getWorkbench();
-			workbench.showPerspective(perspId, workbench
-					.getActiveWorkbenchWindow());
-		} catch (WorkbenchException e) {
-			EclipsePlugin.log(e);
-		}
+	private void openPerspective(String perspId) throws WorkbenchException {
+		IWorkbench workbench = PlatformUI.getWorkbench();
+		workbench
+				.showPerspective(perspId, workbench.getActiveWorkbenchWindow());
 	}
 
 	/**
 	 * 
 	 */
-	private void openProject(final String projectName) {
+	private void openProject(final NewProjectDetails projectDetails) {
 		final IWorkbenchPage activePage = EclipsePlugin.getActivePage();
 		if (activePage != null) {
 			final Display display = getShell().getDisplay();
@@ -186,23 +204,38 @@ public class NewPatternBasedProjectWizard extends Wizard implements INewWizard {
 				display.asyncExec(new Runnable() {
 					public void run() {
 						try {
+							ProjectSessionImpl session = TigerstripeProjectFactory.INSTANCE
+									.getProjectSession();
+							String desc = projectDetails.projectDirectory
+									+ File.separator
+									+ projectDetails.projectName;
+							// + File.separator + "tigerstripe.xml";
+							File file = new File(desc);
+							ITigerstripeModelProject project = (ITigerstripeModelProject) session
+									.makeTigerstripeProject(file.toURI(), null);
+
 							IWorkspace workspace = ResourcesPlugin
 									.getWorkspace();
 							IWorkspaceRoot root = workspace.getRoot();
-							IProject iproject = root.getProject(projectName);
+							IProject iproject = root.getProject(projectDetails
+									.getProjectName());
 							IFile ifile = iproject
 									.getFile(ITigerstripeConstants.PROJECT_DESCRIPTOR);
+
 							IWorkbenchPage page = PlatformUI.getWorkbench()
 									.getActiveWorkbenchWindow().getActivePage();
 							page.openEditor(new FileEditorInput(ifile),
 									TSOpenAction.DESCRIPTOR_EDITOR);
 						} catch (PartInitException e) {
 							EclipsePlugin.log(e);
+						} catch (TigerstripeException e) {
+							EclipsePlugin.log(e);
 						}
 					}
 				});
 			}
 		}
+
 	}
 
 	/**
