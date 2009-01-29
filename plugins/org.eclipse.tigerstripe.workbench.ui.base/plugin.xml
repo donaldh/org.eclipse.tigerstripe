@@ -265,6 +265,16 @@
             Export Tigerstripe model project to read-only module.
          </description>
       </wizard>
+      <wizard
+            category="org.eclipse.tigerstripe.exportWizardCategory"
+            class="org.eclipse.tigerstripe.workbench.ui.internal.wizards.export.facetmodel.FacetModelExportWizard"
+            icon="src/icons/archive/importExport.gif.gif"
+            id="org.eclipse.tigerstripe.workbench.ui.base.facetmodelwizard"
+            name="Facet Scoped Model">
+         <description>
+            Export Tigerstripe sub-model as
+         </description>
+      </wizard>
    </extension>
       <extension
          point="org.eclipse.tigerstripe.workbench.ui.base.explorerMenuContribution">
