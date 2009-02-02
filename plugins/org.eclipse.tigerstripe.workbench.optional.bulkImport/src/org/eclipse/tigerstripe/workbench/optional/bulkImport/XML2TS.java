@@ -1078,7 +1078,7 @@ public class XML2TS {
 					.getAttribute("navigable")));
 			thisEnd.setOrdered(Boolean.parseBoolean(endNode
 					.getAttribute("ordered")));
-			thisEnd.setOrdered(Boolean.parseBoolean(endNode
+			thisEnd.setVisibility(EVisibility.parse(endNode
 					.getAttribute("visibility")));
 			if (endNode.hasAttribute("unique")) {
 				thisEnd.setUnique(Boolean.parseBoolean(endNode
