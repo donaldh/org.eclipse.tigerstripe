@@ -6,6 +6,10 @@ import junit.framework.TestSuite;
 
 import org.eclipse.tigerstripe.ui.visualeditor.test.diagram.ComponentAdd;
 import org.eclipse.tigerstripe.ui.visualeditor.test.diagram.CreateDiagram;
+import org.eclipse.tigerstripe.ui.visualeditor.test.diagram.DnDArtifactsDiagram;
+import org.eclipse.tigerstripe.ui.visualeditor.test.diagram.DnDAssociationsDiagram;
+import org.eclipse.tigerstripe.ui.visualeditor.test.diagram.DropOnArtifacts;
+import org.eclipse.tigerstripe.ui.visualeditor.test.diagram.DropOnAssociations;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.NewProject;
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.CleanWorkspace;
 
@@ -52,11 +56,11 @@ public class DiagramTestsuite extends TestCase
         suite.addTestSuite(ComponentAdd.class);
         
         
-//        suite.addTestSuite(DnDArtifactsDiagram.class);
-//        suite.addTestSuite(DropOnArtifacts.class);
+        suite.addTestSuite(DnDArtifactsDiagram.class);
+        suite.addTestSuite(DropOnArtifacts.class);
         
-//        suite.addTestSuite(DnDAssociationsDiagram.class);
-//        suite.addTestSuite(DropOnAssociations.class);
+        suite.addTestSuite(DnDAssociationsDiagram.class);
+        suite.addTestSuite(DropOnAssociations.class);
         
         return suite;
     }
