@@ -543,9 +543,11 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 		String eExtends = null;
 		if (eArtifact.getExtends() != null)
 			eExtends = eArtifact.getExtends().getFullyQualifiedName();
+		
 		String iExtends = null;
 		if (iArtifact.getExtendedArtifact() != null) {
 			iExtends = iArtifact.getExtendedArtifact().getFullyQualifiedName();
+		
 			boolean extendsIsOnDiagram = helper
 					.findAbstractArtifactFor(iExtends) != null;
 			if (!extendsIsOnDiagram) {
@@ -561,12 +563,15 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 				iExtends = null;
 			}
 		}
-
-		if ((eExtends == null && !hideExtends(eArtifact) && iExtends != null)
+		
+		if (!hideExtends(eArtifact)) {
+			if ((eExtends == null && iExtends != null)
+				|| (iExtends == null && eExtends != null)
 				|| (eExtends != null && !eExtends.equals(iExtends))) {
-			IStatus status = getErrorStatus(" In model extends " + iExtends
+				IStatus status = getErrorStatus(" In model extends " + iExtends
 					+ " but not in diagram (" + eExtends + ").");
-			result.add(status);
+				result.add(status);
+			}
 		}
 
 		// check attributes
