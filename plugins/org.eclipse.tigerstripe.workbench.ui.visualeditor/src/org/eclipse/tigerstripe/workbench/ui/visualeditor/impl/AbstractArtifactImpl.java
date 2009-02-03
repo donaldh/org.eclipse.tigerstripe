@@ -289,7 +289,10 @@ public class AbstractArtifactImpl extends QualifiedNamedElementImpl implements
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		if (!isReadonly) {
+		// If this is only allowed on read only, then the initial read
+		// can't create anything, and the diagram will ALWAYS be wrong
+		// when opened.
+		//if (!isReadonly) {
 			switch (featureID) {
 			case VisualeditorPackage.ABSTRACT_ARTIFACT__EXTENDS:
 				setExtends((AbstractArtifact) newValue);
@@ -316,7 +319,7 @@ public class AbstractArtifactImpl extends QualifiedNamedElementImpl implements
 				return;
 			}
 			super.eSet(featureID, newValue);
-		}
+		//}
 	}
 
 	/**
@@ -326,7 +329,10 @@ public class AbstractArtifactImpl extends QualifiedNamedElementImpl implements
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		if (!isReadonly) {
+		// If this is only allowed on read only, then the initial read
+		// can't create anything, and the diagram will ALWAYS be wrong
+		// when opened.
+		//if (!isReadonly) {
 			switch (featureID) {
 			case VisualeditorPackage.ABSTRACT_ARTIFACT__EXTENDS:
 				setExtends((AbstractArtifact) null);
@@ -348,7 +354,7 @@ public class AbstractArtifactImpl extends QualifiedNamedElementImpl implements
 				return;
 			}
 			super.eUnset(featureID);
-		}
+		//}
 	}
 
 	/**
