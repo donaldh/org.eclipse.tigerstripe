@@ -137,6 +137,11 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 			Collection<IAbstractArtifact> artifacts = mgrSession
 					.queryArtifact(query);
 			for (IAbstractArtifact artifact : artifacts) {
+				if (artifact.getFullyQualifiedName().equals(newName)){
+					// This is the one we have just updated, so skip it
+					continue;
+				}
+				
 				boolean needSave = false;
 
 				// The extended artifact case is a bit tricky. Because we
@@ -187,7 +192,7 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 									newName)) {
 						aArtifact
 								.setContainingModelComponent(referencedArtifact);
-						needSave = true;
+						needSave = false;
 					}
 				}
 
@@ -206,7 +211,7 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 							aArtifact.removeContainedModelComponent(cont);
 							aArtifact
 									.addContainedModelComponent(referencedArtifact);
-							needSave = true;
+							needSave = false;
 						}
 					}
 				}
