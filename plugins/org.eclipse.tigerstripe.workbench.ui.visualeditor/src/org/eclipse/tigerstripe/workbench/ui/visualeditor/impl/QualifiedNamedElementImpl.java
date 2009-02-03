@@ -234,7 +234,7 @@ public class QualifiedNamedElementImpl extends NamedElementImpl implements
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		if (!isReadonly) {
+		//if (!isReadonly) {
 			switch (featureID) {
 			case VisualeditorPackage.QUALIFIED_NAMED_ELEMENT__PACKAGE:
 				setPackage((String) newValue);
@@ -242,9 +242,12 @@ public class QualifiedNamedElementImpl extends NamedElementImpl implements
 			case VisualeditorPackage.QUALIFIED_NAMED_ELEMENT__IS_ABSTRACT:
 				setIsAbstract((Boolean) newValue);
 				return;
+			case VisualeditorPackage.QUALIFIED_NAMED_ELEMENT__IS_READONLY:
+				setIsReadonly((Boolean) newValue);
+				return;
 			}
 			super.eSet(featureID, newValue);
-		}
+		//}
 	}
 
 	/**
@@ -254,7 +257,7 @@ public class QualifiedNamedElementImpl extends NamedElementImpl implements
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		if (!isReadonly) {
+		//if (!isReadonly) {
 			switch (featureID) {
 			case VisualeditorPackage.QUALIFIED_NAMED_ELEMENT__PACKAGE:
 				setPackage(PACKAGE_EDEFAULT);
@@ -262,9 +265,12 @@ public class QualifiedNamedElementImpl extends NamedElementImpl implements
 			case VisualeditorPackage.QUALIFIED_NAMED_ELEMENT__IS_ABSTRACT:
 				setIsAbstract(IS_ABSTRACT_EDEFAULT);
 				return;
+			case VisualeditorPackage.QUALIFIED_NAMED_ELEMENT__IS_READONLY:
+				setIsReadonly(IS_READONLY_EDEFAULT);
+				return;
 			}
 			super.eUnset(featureID);
-		}
+		//}
 	}
 
 	/**
