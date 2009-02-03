@@ -162,25 +162,31 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 						eAttribute.setIsOrdered(field.isOrdered());
 						eAttribute.setIsUnique(field.isUnique());
 						eAttribute.setField(field);
-						try {
-							TigerstripeProject project = ((org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact) iArtifact)
-									.getArtifactManager().getTSProject();
-
-							ITigerstripeModelProject tsProject = (ITigerstripeModelProject) TigerstripeCore
-									.findProject(project.getBaseDir().toURI());
-							if (tsProject != null && !isInitialRefresh()) {
-								// FIXME: EXTRA ETADAPTER
-								// FIXME: module project
-								// note: it will be null for a module
-								ETAdapter adapter = ETAdapterFactory
-										.makeETAdapterFor(eAttribute, tsProject
-												.getArtifactManagerSession()
-												.getIModelUpdater(), null);
-							}
-						} catch (TigerstripeException e) {
-							EclipsePlugin.log(e);
-
-						}
+						// Don't understand why this code even exists
+						// It does nothing (except cause an error!)
+						// We are only ever updating the EObject.
+//						try {
+//							TigerstripeProject project = ((org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact) iArtifact)
+//									.getArtifactManager().getTSProject();
+//
+//							ITigerstripeModelProject tsProject = (ITigerstripeModelProject) TigerstripeCore
+//									.findProject(project.getBaseDir().toURI());
+//							// Think we can get the tsProject from the Map for the diagram..
+//							
+//							
+//							if (tsProject != null && !isInitialRefresh()) {
+//								// FIXME: EXTRA ETADAPTER
+//								// FIXME: module project
+//								// note: it will be null for a module
+//								ETAdapter adapter = ETAdapterFactory
+//										.makeETAdapterFor(eAttribute, tsProject
+//												.getArtifactManagerSession()
+//												.getIModelUpdater(), null);
+//							}
+//						} catch (TigerstripeException e) {
+//							EclipsePlugin.log(e);
+//
+//						}
 
 					}
 					// other parameters associated with the attribute
@@ -339,30 +345,30 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 							ref.setTypeMultiplicity(ClassDiagramUtils
 									.mapTypeMultiplicity(field.getType()
 											.getTypeMultiplicity()));
-
-							try {
-								TigerstripeProject project = ((org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact) iArtifact)
-										.getArtifactManager().getTSProject();
-
-								ITigerstripeModelProject tsProject = (ITigerstripeModelProject) TigerstripeCore
-										.findProject(project.getBaseDir()
-												.toURI());
-								if (tsProject != null && !isInitialRefresh()) {
-									// note: it will be null for a module
-									// FIXME: EXTRA ETADAPTER
-									// FIXME: module project
-									ETAdapter adapter = ETAdapterFactory
-											.makeETAdapterFor(
-													ref,
-													tsProject
-															.getArtifactManagerSession()
-															.getIModelUpdater(),
-													null);
-								}
-							} catch (TigerstripeException e) {
-								EclipsePlugin.log(e);
-
-							}
+// Not usre why this was even here
+//							try {
+//								TigerstripeProject project = ((org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact) iArtifact)
+//										.getArtifactManager().getTSProject();
+//
+//								ITigerstripeModelProject tsProject = (ITigerstripeModelProject) TigerstripeCore
+//										.findProject(project.getBaseDir()
+//												.toURI());
+//								if (tsProject != null && !isInitialRefresh()) {
+//									// note: it will be null for a module
+//									// FIXME: EXTRA ETADAPTER
+//									// FIXME: module project
+//									ETAdapter adapter = ETAdapterFactory
+//											.makeETAdapterFor(
+//													ref,
+//													tsProject
+//															.getArtifactManagerSession()
+//															.getIModelUpdater(),
+//													null);
+//								}
+//							} catch (TigerstripeException e) {
+//								EclipsePlugin.log(e);
+//
+//							}
 
 							eArtifact.getReferences().add(ref);
 						}
