@@ -640,7 +640,7 @@ public class AssociationInstanceNamePackageArtifactNameEditPart extends
 		 */
 		public AssociationInstanceNameFigure() {
 
-			this.setText("<...>");
+			//this.setText("<.mo..>");
 			createContents();
 		}
 
