@@ -47,7 +47,9 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		super.canExecute(mgrSession);
+		if (!super.canExecute(mgrSession)) {
+			return false;
+		}
 		try {
 			IAbstractArtifact art = mgrSession
 					.getArtifactByFullyQualifiedName(getArtifactFQN());

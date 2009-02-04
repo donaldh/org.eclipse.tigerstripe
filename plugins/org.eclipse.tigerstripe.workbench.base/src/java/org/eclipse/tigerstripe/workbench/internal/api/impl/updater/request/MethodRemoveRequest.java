@@ -24,7 +24,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 
-public class MethodRemoveRequest extends BaseModelChangeRequest implements
+public class MethodRemoveRequest extends BaseArtifactElementRequest implements
 		IMethodRemoveRequest {
 
 	private String artifactFQN;
@@ -53,7 +53,9 @@ public class MethodRemoveRequest extends BaseModelChangeRequest implements
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		super.canExecute(mgrSession);
+		if (!super.canExecute(mgrSession)) {
+			return false;
+		}
 		try {
 			IAbstractArtifact art = mgrSession
 					.getArtifactByFullyQualifiedName(getArtifactFQN());

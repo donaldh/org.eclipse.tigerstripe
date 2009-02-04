@@ -53,9 +53,16 @@ public class ArtifactDeleteRequest extends BaseModelChangeRequest implements
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		super.canExecute(mgrSession);
+		if (!super.canExecute(mgrSession)) {
+			return false;
+		}
 		IAbstractArtifact art = mgrSession.getArtifactByFullyQualifiedName(
 				getFullyQualifiedName(), false);
+		ITigerstripeModelProject project = art.getTigerstripeProject();
+		if (project != null){
+			// We are NOT in a module so can be updated
+			return true;
+		}
 		return art != null;
 	}
 

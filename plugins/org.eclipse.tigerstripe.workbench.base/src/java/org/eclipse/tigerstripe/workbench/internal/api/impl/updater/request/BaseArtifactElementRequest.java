@@ -16,6 +16,9 @@ import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.BaseModelChangeRequest;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * Base class for any request related to an artifact element (i.e where the
@@ -34,6 +37,27 @@ public abstract class BaseArtifactElementRequest extends BaseModelChangeRequest 
 
 	public void setArtifactFQN(String artifactFQN) {
 		this.artifactFQN = artifactFQN;
+	}
+
+	
+	
+	@Override
+	public boolean canExecute(IArtifactManagerSession mgrSession) {
+		if (!super.canExecute(mgrSession)) {
+			return false;
+		}
+		try {
+			IAbstractArtifact art = mgrSession
+					.getArtifactByFullyQualifiedName(getArtifactFQN());
+			ITigerstripeModelProject project = art.getTigerstripeProject();
+			if (project != null){
+				// We are NOT in a module so can be updated
+				return true;
+			}
+			return false;
+		} catch (TigerstripeException t) {
+			return false;
+		}
 	}
 
 	protected ModelChangeDelta makeDelta(int type) {

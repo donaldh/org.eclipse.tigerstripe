@@ -34,7 +34,9 @@ public class ArtifactFQRenameRequest extends ArtifactRenameRequest implements
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		super.canExecute(mgrSession);
+		if (!super.canExecute(mgrSession)) {
+			return false;
+		}
 		try {
 			String target = newFQName;
 

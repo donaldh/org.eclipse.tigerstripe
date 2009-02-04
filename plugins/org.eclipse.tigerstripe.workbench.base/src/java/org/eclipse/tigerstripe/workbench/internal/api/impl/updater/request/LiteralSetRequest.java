@@ -38,7 +38,9 @@ public class LiteralSetRequest extends BaseArtifactElementRequest implements
 
 	@Override
 	public boolean canExecute(IArtifactManagerSession mgrSession) {
-		super.canExecute(mgrSession);
+		if (!super.canExecute(mgrSession)) {
+			return false;
+		}
 		try {
 			IAbstractArtifact art = mgrSession
 					.getArtifactByFullyQualifiedName(getArtifactFQN());
