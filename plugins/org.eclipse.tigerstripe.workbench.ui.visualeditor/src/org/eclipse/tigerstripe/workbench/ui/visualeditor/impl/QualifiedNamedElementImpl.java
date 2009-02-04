@@ -236,6 +236,10 @@ public class QualifiedNamedElementImpl extends NamedElementImpl implements
 	public void eSet(int featureID, Object newValue) {
 		//if (!isReadonly) {
 			switch (featureID) {
+			case VisualeditorPackage.NAMED_ELEMENT__NAME:
+				if (!isReadonly)
+					setName((String) newValue);
+				return;
 			case VisualeditorPackage.QUALIFIED_NAMED_ELEMENT__PACKAGE:
 				setPackage((String) newValue);
 				return;
@@ -259,6 +263,10 @@ public class QualifiedNamedElementImpl extends NamedElementImpl implements
 	public void eUnset(int featureID) {
 		//if (!isReadonly) {
 			switch (featureID) {
+			case VisualeditorPackage.NAMED_ELEMENT__NAME:
+				if (!isReadonly)
+					setName(NAME_EDEFAULT);
+				return;
 			case VisualeditorPackage.QUALIFIED_NAMED_ELEMENT__PACKAGE:
 				setPackage(PACKAGE_EDEFAULT);
 				return;
