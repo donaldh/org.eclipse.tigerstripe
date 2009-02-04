@@ -49,10 +49,12 @@ public abstract class BaseArtifactElementRequest extends BaseModelChangeRequest 
 		try {
 			IAbstractArtifact art = mgrSession
 					.getArtifactByFullyQualifiedName(getArtifactFQN());
-			ITigerstripeModelProject project = art.getTigerstripeProject();
-			if (project != null){
-				// We are NOT in a module so can be updated
-				return true;
+			if (art != null){
+				ITigerstripeModelProject project = art.getTigerstripeProject();
+				if (project != null){
+					// We are NOT in a module so can be updated
+					return true;
+				}
 			}
 			return false;
 		} catch (TigerstripeException t) {
