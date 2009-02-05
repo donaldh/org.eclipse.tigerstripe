@@ -281,10 +281,10 @@ public class EnumerationNamePackageEditPart extends AbstractNamePackageEditPart
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	protected boolean isEditable() {
-		return getEditText() != null;
+		return getEditText() != null && !isReadonlyArtifact();
 	}
 
 	/**

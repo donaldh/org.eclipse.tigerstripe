@@ -29,6 +29,21 @@ public abstract class AbstractLabelEditPart extends LabelEditPart {
 		super(arg0);
 	}
 
+	protected boolean isReadonlyArtifact() {
+		if (getParent().getModel() instanceof Node) {
+			Node model = (Node) getParent().getModel();
+			if (model.getElement() instanceof QualifiedNamedElement)
+				return ((QualifiedNamedElement) model.getElement())
+						.isIsReadonly();
+		} else if (getParent().getModel() instanceof Edge) {
+			Edge model = (Edge) getParent().getModel();
+			if (model.getElement() instanceof QualifiedNamedElement)
+				return ((QualifiedNamedElement) model.getElement())
+						.isIsReadonly();
+		}
+		return false;
+	}
+
 	protected boolean isAbstractArtifact() {
 		if (getParent().getModel() instanceof Node) {
 			Node model = (Node) getParent().getModel();

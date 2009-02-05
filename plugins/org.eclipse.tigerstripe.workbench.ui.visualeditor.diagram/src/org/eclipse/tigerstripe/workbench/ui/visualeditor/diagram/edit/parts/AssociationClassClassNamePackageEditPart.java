@@ -282,10 +282,10 @@ public class AssociationClassClassNamePackageEditPart extends
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	protected boolean isEditable() {
-		return getEditText() != null;
+		return getEditText() != null && !isReadonlyArtifact();
 	}
 
 	/**

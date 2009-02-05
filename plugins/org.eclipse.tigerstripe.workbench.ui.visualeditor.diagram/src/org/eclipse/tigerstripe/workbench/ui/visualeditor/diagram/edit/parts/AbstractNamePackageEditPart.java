@@ -34,6 +34,13 @@ public abstract class AbstractNamePackageEditPart extends
 
 	}
 
+	protected boolean isReadonlyArtifact() {
+		Node model = (Node) getParent().getModel();
+		if (model.getElement() instanceof QualifiedNamedElement)
+			return ((QualifiedNamedElement) model.getElement()).isIsReadonly();
+		return false;
+	}
+	
 	protected boolean isAbstractArtifact() {
 		Node model = (Node) getParent().getModel();
 		if (model.getElement() instanceof QualifiedNamedElement)
