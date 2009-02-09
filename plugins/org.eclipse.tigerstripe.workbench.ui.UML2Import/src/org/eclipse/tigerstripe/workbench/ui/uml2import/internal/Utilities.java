@@ -72,6 +72,9 @@ public class Utilities {
 					model = (Model) eo;
 					break;
 				}
+			} if (model == null){
+			throw new InvocationTargetException(null, "No uml:Model found in file:"
+					+ fileUri.toFileString());
 			}
 		} else
 			throw new InvocationTargetException(null, "Can't find model :"

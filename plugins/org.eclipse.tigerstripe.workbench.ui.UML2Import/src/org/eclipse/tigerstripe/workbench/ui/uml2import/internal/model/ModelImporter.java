@@ -135,8 +135,13 @@ public class ModelImporter {
 
 			// load Model
 			File modelFile = new File(importFilename);
-			model = Utilities.openModelFile(modelFile);
-
+			try {
+				model = Utilities.openModelFile(modelFile);
+			} catch (InvocationTargetException t){
+				t.printStackTrace(out);
+				out.flush();
+				return false;
+			}
 			modelLibrary = getLibraryName(new File(getProfilesDir()), messages);
 
 			// Get any implementations of the ImodelTrimmer from the extension
@@ -243,11 +248,12 @@ public class ModelImporter {
 		} catch (Exception e) {
 			// If we didn't find a good one, we will use a default,
 			// so just carry on
-		}
-		if (this.classMap == null) {
-			// Use the default
-			IModelMapper mapper = new DefaultModelMapper();
-			this.classMap = mapper.getMapping(model);
+		} finally {
+			if (this.classMap == null) {
+				// Use the default
+				IModelMapper mapper = new DefaultModelMapper();
+				this.classMap = mapper.getMapping(model);
+			}
 		}
 		out.println("INFO : MAPPINGS PASSED TO WIZARD");
 		for (EObject o : classMap.keySet()) {
@@ -263,16 +269,20 @@ public class ModelImporter {
 	}
 
 	public boolean doSecondLoad() {
-
-		UML2TS uML2TS = new UML2TS(getClassMap(), out, property);
-		this.extractedArtifacts = uML2TS.extractArtifacts(model, modelLibrary,
-				messages, this.tigerstripeProject, ignoreUnknown, unknownType);
-		out.println("INFO : Extracted arrifact size :"
-				+ this.extractedArtifacts.size());
-		//out.println(messages.asText());
-		out.flush();
-		Utilities.tearDown();
-		return false;
+		try {
+			UML2TS uML2TS = new UML2TS(getClassMap(), out, property);
+			this.extractedArtifacts = uML2TS.extractArtifacts(model, modelLibrary,
+					messages, this.tigerstripeProject, ignoreUnknown, unknownType);
+			out.println("INFO : Extracted arrifact size :"
+					+ this.extractedArtifacts.size());
+			//out.println(messages.asText());
+			out.flush();
+			Utilities.tearDown();
+			return false;
+		} catch (Exception e) {
+			e.printStackTrace(out);
+			return true;
+		}
 	}
 
 	/** find the name of the library of primitive types */
