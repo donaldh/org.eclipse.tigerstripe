@@ -18,14 +18,17 @@ import org.eclipse.ui.IWorkbench;
 
 public class FacetModelExportWizard extends Wizard implements IExportWizard {
 
+	FacetModelExportWizardMainPage wizardPage;
+
 	public FacetModelExportWizard() {
 
 	}
 
 	@Override
 	public void addPages() {
-		
-		addPage(new FacetModelExportWizardMainPage());
+
+		wizardPage = new FacetModelExportWizardMainPage();
+		addPage(wizardPage);
 	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
@@ -34,7 +37,12 @@ public class FacetModelExportWizard extends Wizard implements IExportWizard {
 
 	@Override
 	public boolean performFinish() {
-		
+
+		System.out.println("Source: " + wizardPage.getSourceProject().getFullPath());
+		System.out.println("Desintation: " + wizardPage.getDestinationProject().getFullPath());
+		System.out.println("Facet: " + wizardPage.getFacet());
+		System.out.println("References: " + wizardPage.isIncludeReferences());
+
 		return true;
 	}
 
