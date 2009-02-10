@@ -241,6 +241,8 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 		annTable.setLayoutData(td);
 
 		addAnno = toolkit.createButton(innerComposite, "Add", SWT.PUSH);
+		// Support for testing
+		removeAnno.setData("name", "Add_Stereotype");
 		addAnno.setEnabled(!isReadOnly);
 		td = new TableWrapData(TableWrapData.FILL);
 		addAnno.setLayoutData(td);
@@ -251,6 +253,8 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 		editAnno.setLayoutData(td);
 
 		removeAnno = toolkit.createButton(innerComposite, "Remove", SWT.PUSH);
+		// Support for testing
+		removeAnno.setData("name", "Remove_Stereotype");
 		removeAnno.setEnabled(!isReadOnly);
 	}
 
@@ -559,6 +563,8 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 		table.setLayoutData(td);
 
 		addArgButton = toolkit.createButton(composite, "Add", SWT.PUSH);
+		// Support for testing
+		addArgButton.setData("name", "Add_Argument");
 		addArgButton.setEnabled(!isReadOnly);
 		addArgButton
 				.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
@@ -582,6 +588,8 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 		downArgButton.addSelectionListener(adapter);
 
 		removeArgButton = toolkit.createButton(composite, "Remove", SWT.PUSH);
+		// Support for testing
+		removeArgButton.setData("name", "Remove_Argument");
 		removeArgButton.setEnabled(false);
 		removeArgButton.setLayoutData(new GridData(
 				GridData.HORIZONTAL_ALIGN_FILL));
@@ -621,12 +629,16 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 		table.setLayoutData(td);
 
 		addExceptionButton = toolkit.createButton(composite, "Add", SWT.PUSH);
+		// Support for testing
+		addExceptionButton.setData("name", "Add_Exception");
 		addExceptionButton.setLayoutData(new GridData(
 				GridData.HORIZONTAL_ALIGN_FILL));
 		addExceptionButton.addSelectionListener(adapter);
 
 		removeExceptionButton = toolkit.createButton(composite, "Remove",
 				SWT.PUSH);
+		// Support for testing
+		removeExceptionButton.setData("name", "Remove_Exception");
 		removeExceptionButton.setLayoutData(new GridData(
 				GridData.HORIZONTAL_ALIGN_FILL));
 		removeExceptionButton.setEnabled(false);

@@ -240,6 +240,8 @@ public class ArtifactAttributesSection extends ArtifactSectionPart implements
 
 		addAttributeButton = toolkit.createButton(sectionClient, "Add",
 				SWT.PUSH);
+		// Support for testing
+		addAttributeButton.setData("name", "Add_Attribute");
 		addAttributeButton.setEnabled(!getIArtifact().isReadonly());
 		fd = new FormData();
 		fd.top = new FormAttachment(0, 5);
@@ -294,6 +296,8 @@ public class ArtifactAttributesSection extends ArtifactSectionPart implements
 		
 		removeAttributeButton = toolkit.createButton(sectionClient, "Remove",
 				SWT.PUSH);
+		// Support for testing
+		removeAttributeButton.setData("name", "Remove_Attribute");
 		removeAttributeButton.setData("name","removeAttributeButton");
 		removeAttributeButton.setEnabled(!getIArtifact().isReadonly());
 		fd = new FormData();

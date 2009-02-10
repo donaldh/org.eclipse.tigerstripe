@@ -158,6 +158,8 @@ public class ArtifactConstantDetailsPage implements IDetailsPage,
 		annTable.setLayoutData(td);
 
 		addAnno = toolkit.createButton(innerComposite, "Add", SWT.PUSH);
+		// Support for testing
+		addAnno.setData("name", "Add_Stereotype");
 		addAnno.setEnabled(!isReadOnly);
 		td = new TableWrapData(TableWrapData.FILL);
 		addAnno.setLayoutData(td);
@@ -168,6 +170,8 @@ public class ArtifactConstantDetailsPage implements IDetailsPage,
 		editAnno.setLayoutData(td);
 
 		removeAnno = toolkit.createButton(innerComposite, "Remove", SWT.PUSH);
+		// Support for testing
+		removeAnno.setData("name", "Remove_Stereotype");
 		removeAnno.setEnabled(!isReadOnly);
 	}
 

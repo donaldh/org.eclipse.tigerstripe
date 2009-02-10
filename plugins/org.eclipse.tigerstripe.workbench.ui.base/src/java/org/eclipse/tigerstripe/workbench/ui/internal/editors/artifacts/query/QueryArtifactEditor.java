@@ -45,6 +45,7 @@ public class QueryArtifactEditor extends ArtifactEditorBase {
 					new QueryArtifactFormContentProvider());
 			addPage(specPage);
 			addModelPage(specPage);
+			setActivePage(index);
 		} catch (PartInitException e) {
 			EclipsePlugin.log(e);
 		}
