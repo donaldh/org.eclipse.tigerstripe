@@ -357,6 +357,9 @@ public class UML2TS {
 							// TS MetaModel only supports one generalization;
 							break;
 						}
+					} else {
+						// TODO 
+						out.println("The artifact is null because we probabaly had to make up a name for it!");
 					}
 				}
 			}
@@ -498,6 +501,7 @@ public class UML2TS {
 							String bEndClassName = assoc.getZEnd().getType().getName();
 
 							String newName = aEndClassName+"To"+bEndClassName;
+							out.println("INFO : Remapped temp "+ eleName + " to "+newName);
 							assoc.setFullyQualifiedName(assoc.getPackage()+"."+newName);
 						} 
 					} else {

@@ -111,6 +111,10 @@ public class ImportUtilities {
 							cleanName = cleanName.replaceAll("\\.", getMappings().get(exp));
 						else if (exp.equals("("))		
 							cleanName = cleanName.replaceAll("\\(", getMappings().get(exp));
+						else if (exp.equals("{"))		
+							cleanName = cleanName.replaceAll("\\{", getMappings().get(exp));
+						else if (exp.equals("["))		
+							cleanName = cleanName.replaceAll("\\[", getMappings().get(exp));
 						else if (exp.equals(")"))		
 							cleanName = cleanName.replaceAll("\\)", getMappings().get(exp));
 						else		
