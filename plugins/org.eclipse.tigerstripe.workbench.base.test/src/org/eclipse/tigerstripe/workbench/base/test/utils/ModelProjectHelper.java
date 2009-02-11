@@ -31,10 +31,8 @@ public class ModelProjectHelper {
 	public final static String AS1 = "com.mycompany.AS1";
 
 	/**
-	 * Creates a model project with the following content
-	 *               AS1
-	 *     M3<--------------------AC1
-	 *                       M1--------->M2
+	 * Creates a model project with the following content AS1
+	 * M3<--------------------AC1 M1--------->M2
 	 * 
 	 * 
 	 * @param projectName
@@ -43,6 +41,23 @@ public class ModelProjectHelper {
 	public static ITigerstripeModelProject createModelProject(String projectName)
 			throws TigerstripeException {
 		return createModelProject(projectName, false);
+	}
+
+	/**
+	 * Creates an empty model project.
+	 * 
+	 * @param projectName
+	 * @return
+	 * @throws TigerstripeException
+	 */
+	public static ITigerstripeModelProject createEmptyModelProject(
+			String projectName) throws TigerstripeException {
+		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
+		ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
+				.createProject(projectName, projectDetails, null,
+						ITigerstripeModelProject.class, null, null);
+
+		return project;
 	}
 
 	/**
