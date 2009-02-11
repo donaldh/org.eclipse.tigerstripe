@@ -9,18 +9,18 @@
  *    Jim Strawn (Cisco Systems, Inc.) - initial implementation
  *******************************************************************************/
 
-package org.eclipse.tigerstripe.workbench.internal.contract.export;
+package org.eclipse.tigerstripe.workbench.internal.core.model.export.facets;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
-import org.eclipse.tigerstripe.workbench.internal.api.contract.export.IExportFacetManager;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
+import org.eclipse.tigerstripe.workbench.internal.core.model.export.IModelExporterFacetManager;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
-public class ExportFacetManager implements IExportFacetManager {
+public class FacetModelExporterFacetManager implements IModelExporterFacetManager {
 
 	/*
 	 * Source project for the export.
@@ -32,7 +32,7 @@ public class ExportFacetManager implements IExportFacetManager {
 	 */
 	private IFacetReference activeFacet;
 
-	public ExportFacetManager(ITigerstripeModelProject sourceProject) {
+	public FacetModelExporterFacetManager(ITigerstripeModelProject sourceProject) {
 
 		super();
 		this.sourceProject = sourceProject;
@@ -42,35 +42,36 @@ public class ExportFacetManager implements IExportFacetManager {
 	 * (non-Javadoc)
 	 * 
 	 * @seeorg.eclipse.tigerstripe.workbench.internal.contract.export.
-	 * IExportFacetManager#applyExportFacet(org.eclipse.core.resources.IFile)
+	 * IModelExporterFacetManager
+	 * #applyExportFacet(org.eclipse.core.resources.IFile)
 	 */
 	public void applyExportFacet(IFile facetFile, IProgressMonitor monitor) throws CoreException, TigerstripeException {
 
-		// store active facet	
-		if(sourceProject.getActiveFacet() != null) {
+		// store active facet
+		if (sourceProject.getActiveFacet() != null) {
 			activeFacet = sourceProject.getActiveFacet();
 		}
-		
+
 		// clean up a bit
 		sourceProject.resetActiveFacet();
-		
+
 		// apply new facet
 		InternalTigerstripeCore.createModelFacet(facetFile, monitor);
 		IFacetReference facetReference = sourceProject.makeFacetReference(facetFile.getProjectRelativePath().toOSString());
 		sourceProject.setActiveFacet(facetReference, monitor);
-		
+
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @seeorg.eclipse.tigerstripe.workbench.internal.contract.export.
-	 * IExportFacetManager#restoreActiveFacet()
+	 * IModelExporterFacetManager#restoreActiveFacet()
 	 */
 	public void restoreActiveFacet(IProgressMonitor monitor) throws CoreException, TigerstripeException {
-	
+
 		sourceProject.resetActiveFacet();
-		if(activeFacet != null) {
+		if (activeFacet != null) {
 			sourceProject.setActiveFacet(activeFacet, monitor);
 		}
 	}

@@ -9,14 +9,14 @@
  *    Jim Strawn (Cisco Systems, Inc.) - initial implementation
  *******************************************************************************/
 
-package org.eclipse.tigerstripe.workbench.internal.api.contract.export;
+package org.eclipse.tigerstripe.workbench.internal.core.model.export;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 
-public interface IExportFacetManager {
+public interface IModelExporterFacetManager {
 
 	/**
 	 * Applies the facet to be used for the export operation. This method will
@@ -24,6 +24,7 @@ public interface IExportFacetManager {
 	 * 
 	 * @param facetFile
 	 * @param monitor
+	 * @throws CoreException, TigerstripeException
 	 */
 	public abstract void applyExportFacet(IFile facetFile, IProgressMonitor monitor) throws CoreException, TigerstripeException;
 
@@ -31,7 +32,9 @@ public interface IExportFacetManager {
 	 * Re-applies the facet that was stored when the export operation was
 	 * invoked. In the case that there is no stored active facet this method will
 	 * clear the "export" facet.
+	 * 
 	 * @param monitor
+	 * @throws CoreException, TigerstripeException
 	 */
 	public abstract void restoreActiveFacet(IProgressMonitor monitor) throws CoreException, TigerstripeException;
 

@@ -1,15 +1,4 @@
-/*******************************************************************************
- * Copyright (c) 2009 Cisco Systems, Inc.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the Eclipse Public License v1.0
- * which accompanies this distribution, and is available at
- * http://www.eclipse.org/legal/epl-v10.html
- *
- * Contributors:
- *    Jim Strawn (Cisco Systems, Inc.) - initial implementation
- *******************************************************************************/
-
-package org.eclipse.tigerstripe.workbench.internal.contract.export;
+package org.eclipse.tigerstripe.workbench.internal.core.model.export.facets;
 
 import junit.framework.TestCase;
 
@@ -19,22 +8,22 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.base.test.utils.ModelProjectHelper;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
-import org.eclipse.tigerstripe.workbench.internal.api.contract.export.IExportFacetManager;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
+import org.eclipse.tigerstripe.workbench.internal.core.model.export.IModelExporterFacetManager;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
-public class ExportFacetManagerTest extends TestCase {
+public class FacetModelExporterFacetManagerTest extends TestCase {
 
 	private static final String ACTIVE_FACET_NAME = "activeFacet.wfc";
 	private static final String EXPORT_FACET_NAME = "exportFacet.wfc";
 
-	private IExportFacetManager facetManager;
+	private IModelExporterFacetManager facetManager;
 
 	private ITigerstripeModelProject project;
 
 	protected void setUp() throws Exception {
 		project = ModelProjectHelper.createModelProject("TestFacetModelExport", false);
-		facetManager = new ExportFacetManager(project);
+		facetManager = new FacetModelExporterFacetManager(project);
 	}
 
 	protected void tearDown() throws Exception {
@@ -96,5 +85,5 @@ public class ExportFacetManagerTest extends TestCase {
 		InternalTigerstripeCore.createModelFacet(facetFile, null);
 		return project.makeFacetReference(facetFile.getProjectRelativePath().toOSString());
 	}
-
+	
 }

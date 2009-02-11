@@ -72,7 +72,6 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
    org.eclipse.tigerstripe.api.contract,
    org.eclipse.tigerstripe.api.project",
  org.eclipse.tigerstripe.workbench.internal.api.contract;uses:="org.eclipse.tigerstripe.api.versioning,org.eclipse.tigerstripe.api.contract.segment,org.eclipse.tigerstripe.api.contract.useCase",
- org.eclipse.tigerstripe.workbench.internal.api.contract.export,
  org.eclipse.tigerstripe.workbench.internal.api.contract.segment;
   uses:="org.eclipse.tigerstripe.api.versioning,
    org.eclipse.tigerstripe.api.utils,
@@ -145,7 +144,6 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
    org.eclipse.tigerstripe.api.contract,
    org.eclipse.tigerstripe.core.util,
    org.eclipse.tigerstripe.core.versioning",
- org.eclipse.tigerstripe.workbench.internal.contract.export,
  org.eclipse.tigerstripe.workbench.internal.contract.segment;
   uses:="org.dom4j,
    org.eclipse.tigerstripe.api.utils,
@@ -189,6 +187,8 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
    org.eclipse.tigerstripe.api.contract.segment,
    org.eclipse.tigerstripe.api.project,
    org.eclipse.tigerstripe.api.artifacts.model.ossj",
+ org.eclipse.tigerstripe.workbench.internal.core.model.export,
+ org.eclipse.tigerstripe.workbench.internal.core.model.export.facets,
  org.eclipse.tigerstripe.workbench.internal.core.model.importing;
   uses:="org.eclipse.tigerstripe.api.external.model.artifacts,
    org.eclipse.tigerstripe.core.util.messages,
