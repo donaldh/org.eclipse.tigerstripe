@@ -126,6 +126,7 @@ public class ModelProjectHelper {
 					.makeArtifact(IAssociationArtifact.class.getName());
 			as1.setFullyQualifiedName(AS1);
 			aEnd = as1.makeAssociationEnd();
+			aEnd.setName("aaEnd");
 			aEnd.setNavigable(false);
 			aType = aEnd.makeType();
 			aType.setFullyQualifiedName(AC1);
@@ -133,6 +134,7 @@ public class ModelProjectHelper {
 			as1.setAEnd(aEnd);
 
 			zEnd = as1.makeAssociationEnd();
+			zEnd.setName("zzEnd");
 			zEnd.setNavigable(true);
 			zType = zEnd.makeType();
 			zType.setFullyQualifiedName(M3);
