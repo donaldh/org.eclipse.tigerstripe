@@ -310,6 +310,7 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
    org.eclipse.tigerstripe.api.plugins.pluggable",
  org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.runtime;uses:="org.eclipse.tigerstripe.api.plugins.pluggable",
  org.eclipse.tigerstripe.workbench.internal.core.util;uses:="org.eclipse.tigerstripe.api.utils,org.eclipse.tigerstripe.api.artifacts.model",
+ org.eclipse.tigerstripe.workbench.internal.core.util.encode,
  org.eclipse.tigerstripe.workbench.internal.core.util.license,
  org.eclipse.tigerstripe.workbench.internal.core.util.messages,
  org.eclipse.tigerstripe.workbench.internal.modelManager,
