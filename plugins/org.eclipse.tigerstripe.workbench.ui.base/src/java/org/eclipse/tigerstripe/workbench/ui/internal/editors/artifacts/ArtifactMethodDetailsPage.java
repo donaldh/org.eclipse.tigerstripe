@@ -242,7 +242,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 
 		addAnno = toolkit.createButton(innerComposite, "Add", SWT.PUSH);
 		// Support for testing
-		removeAnno.setData("name", "Add_Stereotype");
+		addAnno.setData("name", "Add_Stereotype");
 		addAnno.setEnabled(!isReadOnly);
 		td = new TableWrapData(TableWrapData.FILL);
 		addAnno.setLayoutData(td);
