@@ -953,7 +953,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 				TigerstripeRuntime.logTraceMessage("Refreshed ("
 						+ (endTime - startTime) + " ms)"
 						+ getTSProject().getProjectLabel());
-				
+
 			} else {
 				long endTime = System.currentTimeMillis();
 				TigerstripeRuntime.logTraceMessage("Skipped a Refresh ("
@@ -963,7 +963,6 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			// TigerstripeRuntime.logInfoMessage(" -- Done reloading");
 			// }
 
-			
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
 					e);
@@ -1271,8 +1270,8 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		pojosMap = new HashMap();
 	}
 
-	//==========================================================================
-	//==========================================================================
+	// ==========================================================================
+	// ==========================================================================
 	private Collection<IArtifactChangeListener> listeners = new ArrayList<IArtifactChangeListener>();
 
 	// A readWrite lock to allow for multiple reads on the listeners but 1 write
@@ -1574,6 +1573,10 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 					.get(iartifact.getFullyQualifiedName());
 
 			artifact = (AbstractArtifact) iartifact;
+
+			if (artifact.getArtifactManager() != this) {
+				artifact.setArtifactManager(this);
+			}
 
 			artifact.resolveReferences(monitor);
 
@@ -1940,13 +1943,11 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			// proper
 			// progress
 			// monitor
-			((IProject) getTSProject().getAdapter(IProject.class))
-				.build(
+			((IProject) getTSProject().getAdapter(IProject.class)).build(
 					IncrementalProjectBuilder.FULL_BUILD,
 					new NullProgressMonitor());
 		} catch (CoreException e) {
-			TigerstripeRuntime.logErrorMessage("CoreException detected",
-					e);
+			TigerstripeRuntime.logErrorMessage("CoreException detected", e);
 		} finally {
 			writeLock.unlock();
 		}

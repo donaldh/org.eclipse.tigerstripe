@@ -1563,7 +1563,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * Returns a Handle for the project if it exists. Please note that for
 	 * Artifacts living in a module, this will return NULL;
 	 * 
-	 * @deprecated use getProject() instead
+	 * @deprecated use {@link #getProject()} instead
 	 */
 	public ITigerstripeModelProject getTigerstripeProject() {
 		TigerstripeProjectHandle handle = null;
