@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         id="org.eclipse.tigerstripe.sdk"
+         name="Tigerstripe SDK"
+         point="org.eclipse.ui.menus">
+      <menuContribution
+            locationURI="menu:org.eclipse.tigerstripe.workbench.ui.menu.main">
+         <command
+               commandId="org.eclipse.tigerstripe.sdk.openEditor"
+               label="Open Configuration Editor"
+               style="push">
+         </command>
+         <command
+               commandId="org.eclipse.tigerstripe.sdk.createPatternFile"
+               label="Create Pattern File"
+               style="push">
+         </command>
+      </menuContribution>
+   </extension>
+   <extension
+         point="org.eclipse.ui.commands">
+      <command
+            defaultHandler="org.eclipse.tigerstripe.workbench.sdk.internal.ui.handlers.DefaultCommandHandler"
+            id="org.eclipse.tigerstripe.sdk.openEditor"
+            name="Open Configuration Editor">
+      </command>
+      <command
+            id="org.eclipse.tigerstripe.sdk.createPatternFile"
+            name="Create Pattern File">
+      </command>
+   </extension>
+   <extension
+         point="org.eclipse.ui.editors">
+      <editor
+            class="org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.ConfigEditor"
+            default="false"
+            icon="src/icons/ts_logo.gif"
+            id="org.eclipse.tigerstripe.sdk.editor"
+            name="Tigerstripe SDK">
+      </editor>
+   </extension>
+   <extension
+         point="org.eclipse.ui.handlers">
+      <handler
+            class="org.eclipse.tigerstripe.workbench.sdk.internal.ui.handlers.DefaultCommandHandler"
+            commandId="org.eclipse.tigerstripe.sdk.createPatternFile">
+         <enabledWhen>
+            <reference
+                  definitionId="org.eclipse.tigerstripe.workbench.ui.base.TSProjectSelected">
+            </reference>
+         </enabledWhen>
+      </handler>
+   </extension>
+
+</plugin>
