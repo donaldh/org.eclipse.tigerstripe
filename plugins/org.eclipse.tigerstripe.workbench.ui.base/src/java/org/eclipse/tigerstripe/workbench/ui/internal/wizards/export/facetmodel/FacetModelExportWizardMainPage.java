@@ -30,6 +30,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -100,6 +101,18 @@ public class FacetModelExportWizardMainPage extends WizardPage {
 		}
 
 		@Override
+		protected Point getInitialSize() {
+			
+			return new Point(280, 350); 
+		}
+		
+		@Override
+		protected boolean isResizable() {
+			
+			return false;
+		}
+
+		@Override
 		protected Control createDialogArea(Composite parent) {
 
 			GridData gd1 = new GridData(SWT.FILL, SWT.FILL, true, true);
@@ -108,7 +121,7 @@ public class FacetModelExportWizardMainPage extends WizardPage {
 			((GridLayout) parent.getLayout()).marginBottom = 3;
 			((GridLayout) parent.getLayout()).verticalSpacing = 3;
 			((GridLayout) parent.getLayout()).horizontalSpacing = 3;
-
+			
 			Group group = new Group(parent, SWT.SHADOW_NONE);
 
 			final GridLayout gridlayout = new GridLayout();
@@ -292,7 +305,6 @@ public class FacetModelExportWizardMainPage extends WizardPage {
 			public void widgetSelected(SelectionEvent e) {
 
 				DestinationProjectDialog dlg = new DestinationProjectDialog(container.getShell());
-
 				if (dlg.open() == Dialog.OK) {
 					destProjectTxt.setText(destinationProject.getName());
 				} else {
