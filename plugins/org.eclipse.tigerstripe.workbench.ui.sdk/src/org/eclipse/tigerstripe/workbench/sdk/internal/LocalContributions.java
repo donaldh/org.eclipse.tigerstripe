@@ -16,6 +16,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.pde.core.plugin.IPluginAttribute;
 import org.eclipse.pde.core.plugin.IPluginElement;
 import org.eclipse.pde.core.plugin.IPluginExtension;
@@ -186,18 +189,18 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 									embeddedPattern = null;
 								}
 							} else {
-//								// Find a local resource
-//								IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-//								IResource pfile = root.findMember(model.toString());
-//								if (pfile != null){
-//									try {
-//										embeddedPattern = PatternFactory.parsePatternFile(pfile, patternFileName);
-//									} catch (Exception e){
-//										embeddedPattern = null;
-//									}
-//								}else {
+								// Find a local resource
+								IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+								IResource pfile = root.findMember(model.toString());
+								if (pfile != null){
+									try {
+										embeddedPattern = PatternFactory.parsePatternFile(pfile, patternFileName);
+									} catch (Exception e){
+										embeddedPattern = null;
+									}
+								}else {
 									embeddedPattern = null;
-//								}
+								}
 								
 							}
 							embeddedPatterns.put(location, embeddedPattern);
