@@ -169,12 +169,13 @@ public class FacetModelExporterTest extends TestCase {
 		
 	}
 	
-	public void testExportModelAssociationClass() throws Exception {
+	public void testExportModelExcludeAssociation() throws Exception {
 		
 		IProject iProject = (IProject) sourceProject.getAdapter(IProject.class);
 		IFile facetFile = iProject.getFile(PROJECT_FACET);
 		IContractSegment facet = InternalTigerstripeCore.createModelFacet(facetFile, new NullProgressMonitor());
-		addIncludesFacetScopePatterns(Arrays.asList(new String[] { ModelProjectHelper.AC1 }), facet);
+		addIncludesFacetScopePatterns(Arrays.asList(new String[] { ModelProjectHelper.M1 }), facet);
+		addExcludesFacetScopePatterns(Arrays.asList(new String[] { ModelProjectHelper.AS1 }), facet);
 		
 		FacetModelExporter exporter = new FacetModelExporter(sourceProject, destinationProject, facetFile);
 		exporter.export(false);
@@ -182,12 +183,48 @@ public class FacetModelExporterTest extends TestCase {
 		verifyProjectArtifact(destinationProject, ModelProjectHelper.AC1);
 		verifyProjectArtifact(destinationProject, ModelProjectHelper.M1);
 		verifyProjectArtifact(destinationProject, ModelProjectHelper.M2);
+		verifyProjectArtifactNotExported(destinationProject, ModelProjectHelper.AS1);
+		verifyProjectArtifactNotExported(destinationProject, ModelProjectHelper.M3);
 		
+	}
+	
+	public void testExportModelExcludeAssociationTwo() throws Exception {
+		
+		IProject iProject = (IProject) sourceProject.getAdapter(IProject.class);
+		IFile facetFile = iProject.getFile(PROJECT_FACET);
+		IContractSegment facet = InternalTigerstripeCore.createModelFacet(facetFile, new NullProgressMonitor());
+		addIncludesFacetScopePatterns(Arrays.asList(new String[] { ModelProjectHelper.AC1 }), facet);
+		addExcludesFacetScopePatterns(Arrays.asList(new String[] { ModelProjectHelper.AS1 }), facet);
+		
+		FacetModelExporter exporter = new FacetModelExporter(sourceProject, destinationProject, facetFile);
+		exporter.export(false);
+		
+		verifyProjectArtifact(destinationProject, ModelProjectHelper.AC1);
+		verifyProjectArtifact(destinationProject, ModelProjectHelper.M1);
+		verifyProjectArtifact(destinationProject, ModelProjectHelper.M2);
 		verifyProjectArtifactNotExported(destinationProject, ModelProjectHelper.AS1);
 		verifyProjectArtifactNotExported(destinationProject, ModelProjectHelper.M3);
 		
 	}
 
+	public void testExportModelExcludeAssociationClass() throws Exception {
+		
+		IProject iProject = (IProject) sourceProject.getAdapter(IProject.class);
+		IFile facetFile = iProject.getFile(PROJECT_FACET);
+		IContractSegment facet = InternalTigerstripeCore.createModelFacet(facetFile, new NullProgressMonitor());
+		addIncludesFacetScopePatterns(Arrays.asList(new String[] { ModelProjectHelper.M1 }), facet);
+		addExcludesFacetScopePatterns(Arrays.asList(new String[] { ModelProjectHelper.AC1 }), facet);
+		
+		FacetModelExporter exporter = new FacetModelExporter(sourceProject, destinationProject, facetFile);
+		exporter.export(false);
+		
+		verifyProjectArtifact(destinationProject, ModelProjectHelper.M1);
+		verifyProjectArtifactNotExported(destinationProject, ModelProjectHelper.AC1);
+		verifyProjectArtifactNotExported(destinationProject, ModelProjectHelper.M2);
+		verifyProjectArtifactNotExported(destinationProject, ModelProjectHelper.AS1);
+		verifyProjectArtifactNotExported(destinationProject, ModelProjectHelper.M3);
+		
+	}
 	
 //	public void testExportModelWithReferences() {
 //		fail("Not implemented");
@@ -207,8 +244,8 @@ public class FacetModelExporterTest extends TestCase {
 	@SuppressWarnings("deprecation")
 	private void verifyProjectArtifactNotExported(ITigerstripeModelProject project, String fullyQualifiedName) throws Exception {
 		
-		IAbstractArtifact artifactByFullyQualifiedName = project.getArtifactManagerSession().getArtifactByFullyQualifiedName(fullyQualifiedName);
-		assertNull(artifactByFullyQualifiedName);
+		IAbstractArtifact artifact = project.getArtifactManagerSession().getArtifactByFullyQualifiedName(fullyQualifiedName);
+		assertNull(artifact);
 	}
 
 	private void addIncludesFacetScopePatterns(List<String> patterns, IContractSegment facet) throws CoreException, TigerstripeException {
