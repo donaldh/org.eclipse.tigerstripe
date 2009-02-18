@@ -362,7 +362,6 @@ public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileC
 						url = uiBundle.getResource(iconPath);
 					}
 				}
-				System.out.println(iconStr + " "+url);
 				pattern.setIconURL(url);
 				pattern.setIconPath(iconPath);
 				
