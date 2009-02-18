@@ -11,6 +11,8 @@
 package org.eclipse.tigerstripe.workbench.internal.api.patterns;
 
 import java.io.ByteArrayInputStream;
+import java.io.FileNotFoundException;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,9 +31,12 @@ import javax.xml.validation.Validator;
 
 import org.eclipse.core.expressions.Expression;
 import org.eclipse.core.expressions.ExpressionConverter;
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IContributor;
 import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
@@ -210,8 +215,25 @@ public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileC
 		return instance;
 	}
 	
+	public static IPattern parsePatternFile(IResource pluginRoot,String patternFileName) throws Exception {
+		if ( pluginRoot instanceof IContainer){
+			IContainer container = (IContainer) pluginRoot;
+			IResource patternResource = container.findMember(patternFileName);
+			URL patternURL = patternResource.getLocationURI().toURL();
+			URL rootURL = pluginRoot.getLocationURI().toURL();
+			return parsePattern( rootURL, patternURL);
+		}
+		return null;
+	}
+	
 	public static IPattern parsePatternFile(Bundle bundle,String patternFileName) throws Exception {
 		URL patternURL = bundle.getEntry(patternFileName);
+		URL rootURL = bundle.getEntry("/");
+		return parsePattern(rootURL, patternURL);
+	}
+	
+	private static IPattern parsePattern(URL rootURL,URL patternURL) throws Exception {
+		
 		DocumentBuilderFactory factory = DocumentBuilderFactory
 			.newInstance();
 		factory.setIgnoringComments(true);
@@ -322,20 +344,40 @@ public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileC
 				pattern.setUILabel(uiLabel);
 				pattern.setDescription(description);
 				
-				URL url = bundle.getResource(iconPath);
-				if (url == null){
+//				URL url = bundle.getResource(iconPath);
+				String iconStr;
+				if (rootURL.toString().endsWith(((Character)IPath.SEPARATOR).toString())){
+					iconStr = rootURL.toString()+iconPath;
+				} else {
+					iconStr = rootURL.toString()+IPath.SEPARATOR+iconPath;
+				}
+				URL url = new URL(iconStr);
+				try { 
+					url.getContent();
+					
+				} catch (FileNotFoundException fne ){
 					// We may need  to look in the metamodel plugin for this one!
 					Bundle uiBundle = Platform.getBundle("org.eclipse.tigerstripe.metamodel");
 					if (uiBundle != null){
 						url = uiBundle.getResource(iconPath);
 					}
 				}
-				
+				System.out.println(iconStr + " "+url);
 				pattern.setIconURL(url);
 				pattern.setIconPath(iconPath);
 				
-				URL disabledUrl = bundle.getResource(disabledIconPath);
-				if (disabledUrl == null){
+//				URL disabledUrl = bundle.getResource(disabledIconPath);
+
+				String disabledIconStr;
+				if (rootURL.toString().endsWith(((Character)IPath.SEPARATOR).toString())){
+					disabledIconStr = rootURL.toString()+disabledIconPath;
+				} else {
+					disabledIconStr = rootURL.toString()+IPath.SEPARATOR+disabledIconPath;
+				}
+				URL disabledUrl = new URL(disabledIconStr);
+				try {
+					disabledUrl.getContent();
+				} catch (FileNotFoundException fne ){
 					// We may need  to look in the metamodel plugin for this one!
 					Bundle uiBundle = Platform.getBundle("org.eclipse.tigerstripe.metamodel");
 					if (uiBundle != null){
