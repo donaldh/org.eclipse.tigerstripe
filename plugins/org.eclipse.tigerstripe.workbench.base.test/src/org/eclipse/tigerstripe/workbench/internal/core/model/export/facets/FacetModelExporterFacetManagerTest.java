@@ -41,7 +41,7 @@ public class FacetModelExporterFacetManagerTest extends TestCase {
 		assertNotNull(project.getActiveFacet());
 		assertEquals("Unexpected active facet!", project.getActiveFacet().getProjectRelativePath(), ACTIVE_FACET_NAME);
 
-		facetManager.applyExportFacet(iProject.getFile(EXPORT_FACET_NAME), null);
+		facetManager.applyExportFacet(iProject.getFile(EXPORT_FACET_NAME));
 		assertNotNull(project.getActiveFacet());
 		assertEquals("Unexpected active facet!", project.getActiveFacet().getProjectRelativePath(), EXPORT_FACET_NAME);
 
@@ -55,11 +55,11 @@ public class FacetModelExporterFacetManagerTest extends TestCase {
 		assertNotNull(project.getActiveFacet());
 		assertEquals("Unexpected active facet!", project.getActiveFacet().getProjectRelativePath(), ACTIVE_FACET_NAME);
 
-		facetManager.applyExportFacet(iProject.getFile(EXPORT_FACET_NAME), null);
+		facetManager.applyExportFacet(iProject.getFile(EXPORT_FACET_NAME));
 		assertNotNull(project.getActiveFacet());
 		assertEquals("Unexpected active facet!", project.getActiveFacet().getProjectRelativePath(), EXPORT_FACET_NAME);
 		
-		facetManager.restoreActiveFacet(null);
+		facetManager.restoreActiveFacet();
 		assertNotNull(project.getActiveFacet());
 		assertEquals("Unexpected active facet!", project.getActiveFacet().getProjectRelativePath(), ACTIVE_FACET_NAME);
 	}
@@ -70,11 +70,11 @@ public class FacetModelExporterFacetManagerTest extends TestCase {
 
 		assertNull("Unexpected active facet!", project.getActiveFacet());
 
-		facetManager.applyExportFacet(iProject.getFile(EXPORT_FACET_NAME), null);
+		facetManager.applyExportFacet(iProject.getFile(EXPORT_FACET_NAME));
 		assertNotNull(project.getActiveFacet());
 		assertEquals("Unexpected active facet!", project.getActiveFacet().getProjectRelativePath(), EXPORT_FACET_NAME);
 		
-		facetManager.restoreActiveFacet(null);
+		facetManager.restoreActiveFacet();
 		assertNull("Unexpected active facet!", project.getActiveFacet());
 	}
 	

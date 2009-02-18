@@ -130,7 +130,6 @@ public class FacetModelExportWizardMainPage extends WizardPage {
 					destinationProject = (ITigerstripeModelProject) project.getAdapter(ITigerstripeModelProject.class);
 					isPageComplete();
 				}
-
 			});
 
 			return group;
@@ -189,7 +188,6 @@ public class FacetModelExportWizardMainPage extends WizardPage {
 		gridlayout.numColumns = 2;
 		srcGrp.setLayout(gridlayout);
 
-		// source selection
 		GridData gd1 = new GridData(SWT.FILL, SWT.FILL, true, true);
 
 		final TableViewer srcProjectTableViewer = new TableViewer(srcGrp, SWT.SINGLE);
@@ -275,7 +273,6 @@ public class FacetModelExportWizardMainPage extends WizardPage {
 		gridlayout.numColumns = 3;
 		destGrp.setLayout(gridlayout);
 
-		// destination project selection
 		final Label destlbl = new Label(destGrp, SWT.NONE);
 		destlbl.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
 		destlbl.setText("Destination project: ");

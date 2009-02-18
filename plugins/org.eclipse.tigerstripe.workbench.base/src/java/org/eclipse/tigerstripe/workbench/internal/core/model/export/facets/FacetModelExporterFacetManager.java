@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.model.export.facets;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
@@ -45,7 +45,7 @@ public class FacetModelExporterFacetManager implements IModelExporterFacetManage
 	 * IModelExporterFacetManager
 	 * #applyExportFacet(org.eclipse.core.resources.IFile)
 	 */
-	public void applyExportFacet(IFile facetFile, IProgressMonitor monitor) throws CoreException, TigerstripeException {
+	public void applyExportFacet(IFile facetFile) throws CoreException, TigerstripeException {
 
 		// store active facet
 		if (sourceProject.getActiveFacet() != null) {
@@ -56,9 +56,9 @@ public class FacetModelExporterFacetManager implements IModelExporterFacetManage
 		sourceProject.resetActiveFacet();
 
 		// apply new facet
-		InternalTigerstripeCore.createModelFacet(facetFile, monitor);
+		InternalTigerstripeCore.createModelFacet(facetFile, new NullProgressMonitor());
 		IFacetReference facetReference = sourceProject.makeFacetReference(facetFile.getProjectRelativePath().toOSString());
-		sourceProject.setActiveFacet(facetReference, monitor);
+		sourceProject.setActiveFacet(facetReference, new NullProgressMonitor());
 
 	}
 
@@ -68,11 +68,11 @@ public class FacetModelExporterFacetManager implements IModelExporterFacetManage
 	 * @seeorg.eclipse.tigerstripe.workbench.internal.contract.export.
 	 * IModelExporterFacetManager#restoreActiveFacet()
 	 */
-	public void restoreActiveFacet(IProgressMonitor monitor) throws CoreException, TigerstripeException {
+	public void restoreActiveFacet() throws CoreException, TigerstripeException {
 
 		sourceProject.resetActiveFacet();
 		if (activeFacet != null) {
-			sourceProject.setActiveFacet(activeFacet, monitor);
+			sourceProject.setActiveFacet(activeFacet, null);
 		}
 	}
 

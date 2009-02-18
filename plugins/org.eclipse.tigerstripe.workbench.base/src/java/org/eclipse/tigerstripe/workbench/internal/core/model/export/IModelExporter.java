@@ -11,6 +11,7 @@
 
 package org.eclipse.tigerstripe.workbench.internal.core.model.export;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 
 // Do we want to move this to a more generic location (do we think we may want multiple
@@ -25,6 +26,7 @@ public interface IModelExporter {
 	 * 
 	 * @param includeReferences
 	 * @throws TigerstripeException
+	 * @throws CoreException 
 	 */
-	public abstract void export(boolean includeReferences) throws TigerstripeException;
+	public abstract void export(boolean includeReferences) throws TigerstripeException, CoreException;
 }
