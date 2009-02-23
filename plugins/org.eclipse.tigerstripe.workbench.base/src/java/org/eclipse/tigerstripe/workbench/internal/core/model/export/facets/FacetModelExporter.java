@@ -14,7 +14,10 @@ package org.eclipse.tigerstripe.workbench.internal.core.model.export.facets;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.QueryAllArtifacts;
@@ -51,28 +54,51 @@ public class FacetModelExporter implements IModelExporter {
 	 * #export(boolean)
 	 */
 	@SuppressWarnings("deprecation")
-	public void export(boolean includeDependencies) throws TigerstripeException, CoreException {
+	public void export(boolean includeDependencies, IProgressMonitor monitor) throws TigerstripeException, CoreException {
 
-		validateAttributes();
+		try {
 
-		IModelExporterFacetManager facetManager = new FacetModelExporterFacetManager(sourceProject);
-		facetManager.applyExportFacet(facetFile);
+			validateAttributes();
 
-		// query artifacts from source project
-		IArtifactQuery query = new QueryAllArtifacts();
-		query.setIncludeDependencies(includeDependencies);
-		List<IAbstractArtifact> artifacts = (List<IAbstractArtifact>) sourceProject.getArtifactManagerSession().queryArtifact(query);
-		for (IAbstractArtifact artifact : artifacts) {
+			IArtifactQuery query = new QueryAllArtifacts();
+			query.setIncludeDependencies(includeDependencies);
+			List<IAbstractArtifact> artifacts = (List<IAbstractArtifact>) sourceProject.getArtifactManagerSession().queryArtifact(query);
 
-			if (artifact.isInActiveFacet()) {
+			monitor.beginTask("Exporting", artifacts.size());
 
-				IAbstractArtifact cloned = ((AbstractArtifact) artifact).makeWorkingCopy(new NullProgressMonitor());
-				destinationProject.getArtifactManagerSession().addArtifact(cloned);
-				cloned.doSave(new NullProgressMonitor());
+			monitor.subTask("Applying facet for export");
+			IModelExporterFacetManager facetManager = new FacetModelExporterFacetManager(sourceProject);
+			facetManager.applyExportFacet(facetFile);
+
+			for (IAbstractArtifact artifact : artifacts) {
+				if (artifact.isInActiveFacet()) {
+					IAbstractArtifact cloned = ((AbstractArtifact) artifact).makeWorkingCopy(new NullProgressMonitor());
+					destinationProject.getArtifactManagerSession().addArtifact(cloned);
+					cloned.doSave(monitor);
+					monitor.subTask(cloned.getName());
+				}
+				// REMOVE ME! TEST ONLY!!
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				monitor.worked(1);
 			}
-		}
 
-		facetManager.restoreActiveFacet();
+			monitor.subTask("Applying original facet (if applicable)");
+			facetManager.restoreActiveFacet();
+			
+			IProject project = (IProject) destinationProject.getAdapter(IProject.class);
+			project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+			
+		} catch (IllegalArgumentException e) {
+			throw e;
+		} finally {
+			monitor.done();
+		}
 
 	}
 
