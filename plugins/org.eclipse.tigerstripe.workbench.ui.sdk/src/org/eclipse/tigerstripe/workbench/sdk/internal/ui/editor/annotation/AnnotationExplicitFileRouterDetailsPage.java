@@ -258,7 +258,7 @@ public class AnnotationExplicitFileRouterDetailsPage implements IDetailsPage {
 		annotationEFREPackageText.setText(getContribution().getEPackage());
 		annotationEFREPackageText.setEnabled(!getContribution().isReadOnly());
 		
-		annotationEFCContributorText.setText(getContribution().getContributor());
+		annotationEFCContributorText.setText(getContribution().getContributor().toString());
 		
 		setSilentUpdate(false);
 	}

@@ -407,7 +407,7 @@ public class AnnotationDetailsPage implements IDetailsPage {
 		annotationUniqueText.setEnabled(!getContribution().isReadOnly());
 		annotationNamespaceText.setText(getContribution().getNamespace());
 		annotationNamespaceText.setEnabled(!getContribution().isReadOnly());
-		annotationContributorText.setText(getContribution().getContributor());
+		annotationContributorText.setText(getContribution().getContributor().toString());
 		
 		targetViewer.setInput(getContribution()); 
 		targetsTable.setEnabled(!getContribution().isReadOnly());

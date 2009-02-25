@@ -11,6 +11,8 @@
 
 package org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.patterns;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
@@ -41,6 +43,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
 import org.eclipse.tigerstripe.workbench.sdk.internal.LocalContributions;
+import org.eclipse.tigerstripe.workbench.sdk.internal.ModelUpdater;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.PatternFileContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.dialogs.SelectContributerDialog;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.ConfigEditor;
@@ -171,7 +174,7 @@ public class PatternSection extends ExtensionSectionPart implements
 			} else if (index == 5){
 				return field.getValidatorClass();
 			} else if (index == 6){
-				return field.getContributor();
+				return field.getContributor().toString();
 			}else {
 				return field.getFileName();
 			}
@@ -228,6 +231,7 @@ public class PatternSection extends ExtensionSectionPart implements
 
 	private Button addContributionButton;
 	private Button disableContributionButton;
+	private Button enableContributionButton;
 	private Button removeContributionButton;
 
 	public TableViewer getViewer() {
@@ -313,13 +317,33 @@ public class PatternSection extends ExtensionSectionPart implements
 			}
 		});
 
+		enableContributionButton = toolkit.createButton(sectionClient, "Enable",
+				SWT.PUSH);
+		// Support for testing
+		enableContributionButton.setData("name", "Enable_Attribute");
+		enableContributionButton.setEnabled(true);
+		fd = new FormData();
+		fd.top = new FormAttachment(addContributionButton, 5);
+		fd.left = new FormAttachment(patternTable, 5);
+		fd.right = new FormAttachment(100, -5);
+		enableContributionButton.setLayoutData(fd);
+		enableContributionButton.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent event) {
+				enableButtonSelected(event);
+			}
+
+			public void widgetDefaultSelected(SelectionEvent event) {
+				// empty
+			}
+		});
+		
 		disableContributionButton = toolkit.createButton(sectionClient, "Disable",
 				SWT.PUSH);
 		// Support for testing
 		disableContributionButton.setData("name", "Disable_Attribute");
 		disableContributionButton.setEnabled(true);
 		fd = new FormData();
-		fd.top = new FormAttachment(addContributionButton, 5);
+		fd.top = new FormAttachment(enableContributionButton, 5);
 		fd.left = new FormAttachment(patternTable, 5);
 		fd.right = new FormAttachment(100, -5);
 		disableContributionButton.setLayoutData(fd);
@@ -417,12 +441,25 @@ public class PatternSection extends ExtensionSectionPart implements
 	}
 
 	/**
+	 * Triggered when the enable button is pushed
+	 * 
+	 */
+	protected void enableButtonSelected(SelectionEvent event) {
+		
+	}
+	
+	
+	/**
 	 * Triggered when the disable button is pushed
 	 * 
 	 */
 	protected void disableButtonSelected(SelectionEvent event) {
-		// Need to ask which coontributer to put the "disablement" in
+		
 		try {
+			// We know the pattern based on the current selection in the table
+			PatternFileContribution patt = (PatternFileContribution) viewer.getTable().getSelection()[0].getData();
+			
+			// Need to ask which contributer to put the "disablement" in
 			SelectContributerDialog dialog = new SelectContributerDialog(
 					getSection().getShell(),
 					provider);
@@ -432,8 +469,12 @@ public class PatternSection extends ExtensionSectionPart implements
 
 			IPluginModelBase contributerForSaving= dialog.browseAvailableContribuers();
 			
-			// TODO Make the change
-			// Replication of code ?????
+			IResource res = (IResource) contributerForSaving.getAdapter(IResource.class);
+			IProject contProject = (IProject) res.getProject();
+			ModelUpdater mu = new ModelUpdater();
+			if (contProject != null){
+				mu.addDisabledPattern(contProject, provider.getPattern(patt.getContributor(), patt.getFileName()).getName());
+			}
 			
 			updateMaster();
 
@@ -462,6 +503,25 @@ public class PatternSection extends ExtensionSectionPart implements
 	 * 
 	 */
 	public void updateMaster() {
+		// The enable button should be inactive when nothing selected
+		if (viewer.getSelection() != null && !viewer.getSelection().isEmpty()){
+			
+			// Need to check that the thing is disabled in the first place, and the disablement is 
+			// an editable one.
+			
+			enableContributionButton.setEnabled(true);
+		} else {
+			enableContributionButton.setEnabled(false);
+		}
+		
+		
+		// The disable button should be inactive when nothing selected
+		if (viewer.getSelection() != null && !viewer.getSelection().isEmpty()){
+			disableContributionButton.setEnabled(true);
+		} else {
+			disableContributionButton.setEnabled(false);
+		}
+		
 		// The remove button should be inactive for "readOnly" items
 		if (viewer.getSelection() != null && !viewer.getSelection().isEmpty()
 				&& !((PatternFileContribution) viewer.getTable().getSelection()[0].getData()).isReadOnly()) {

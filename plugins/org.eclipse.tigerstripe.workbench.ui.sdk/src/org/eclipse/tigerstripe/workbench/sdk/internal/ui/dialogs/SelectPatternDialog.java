@@ -130,8 +130,8 @@ private class PatternLabelProvider extends LabelProvider implements ILabelProvid
 		for (PatternFileContribution p : patterns){
 			IPattern pattern = provider.getPattern(p.getContributor(), p.getFileName());
 			if (pattern != null && ! pattern.getName().equals("")){
-				// Is it true tha we can only disable those that are not already disabled?
-				// probas not - you can disable the thing in differetn tplugins to cover the
+				// Is it true that we can only disable those that are not already disabled?
+				// probs not - you can disable the thing in different plugins to cover the
 				// case where only same are installed
 				result.add(p);
 			}

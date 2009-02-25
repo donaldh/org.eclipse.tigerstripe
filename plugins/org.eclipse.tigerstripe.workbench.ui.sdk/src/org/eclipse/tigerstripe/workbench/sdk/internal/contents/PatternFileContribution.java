@@ -10,10 +10,12 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 
+import org.eclipse.pde.core.plugin.IPluginModelBase;
+
 
 public class PatternFileContribution {
 
-	public PatternFileContribution(String contributor, String fileName,
+	public PatternFileContribution(IPluginModelBase contributor, String fileName,
 			String validatorClass, boolean readOnly) {
 		super();
 		this.contributor = contributor;
@@ -22,15 +24,15 @@ public class PatternFileContribution {
 		this.readOnly = readOnly;
 	}
 	
-	private String contributor;
+	private IPluginModelBase contributor;
 	private String fileName;
 	private String validatorClass;
 	private boolean readOnly;
 	
-	public String getContributor() {
+	public IPluginModelBase getContributor() {
 		return contributor;
 	}
-	public void setContributor(String contributor) {
+	public void setContributor(IPluginModelBase contributor) {
 		this.contributor = contributor;
 	}
 	public String getFileName() {

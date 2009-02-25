@@ -142,7 +142,7 @@ public class AnnotationPackageLabelSection extends ExtensionSectionPart implemen
 			if (index == 1){
 				return field.getUri();
 			} else if (index == 2){
-				return field.getContributor();
+				return field.getContributor().toString();
 			}else {
 				return field.getName();
 			}

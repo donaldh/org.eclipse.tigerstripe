@@ -285,7 +285,7 @@ public class ArtifactIconDetailsPage implements IDetailsPage {
 		iconGreyText.setText(getContribution().getIcon_gs());
 		iconGreyText.setEnabled(!getContribution().isReadOnly());
 		
-		artifactMetadataContributorText.setText(getContribution().getContributor());
+		artifactMetadataContributorText.setText(getContribution().getContributor().toString());
 		iconBrowseButton.setEnabled(!getContribution().isReadOnly());
 		
 		setSilentUpdate(false);

@@ -216,7 +216,7 @@ public class DecoratorDetailsPage implements IDetailsPage {
 		setSilentUpdate(true);
 		decoratorClassText.setText(getContribution().getDecoratorClass());
 		decoratorClassText.setEnabled(!getContribution().isReadOnly());
-		decoratorContributorText.setText(getContribution().getContributor());
+		decoratorContributorText.setText(getContribution().getContributor().toString());
 		classBrowseButton.setEnabled(!getContribution().isReadOnly());
 		
 		setSilentUpdate(false);

@@ -157,8 +157,10 @@ public class DisablePatternWizardPage extends NewElementWizardPage implements IW
 					+ " or an empty string for no filtering: ");
 
 			PatternFileContribution patternToDisable = dialog.browseAvailablePatterns();
+			if (patternToDisable != null){
 				setSelection(patternToDisable);
 				updatePageComplete();
+			}
 
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);

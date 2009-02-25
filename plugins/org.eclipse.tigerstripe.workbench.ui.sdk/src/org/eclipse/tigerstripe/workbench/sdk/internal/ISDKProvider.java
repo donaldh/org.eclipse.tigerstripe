@@ -59,6 +59,6 @@ public interface ISDKProvider {
 	
 	public Collection<AnnotationPropertyProviderContribution> getAnnotationPropertyProviderContributions();
 	
-	public IPattern getPattern(String contributor,String fileName);
+	public IPattern getPattern(IPluginModelBase contributor,String fileName);
 	
 }

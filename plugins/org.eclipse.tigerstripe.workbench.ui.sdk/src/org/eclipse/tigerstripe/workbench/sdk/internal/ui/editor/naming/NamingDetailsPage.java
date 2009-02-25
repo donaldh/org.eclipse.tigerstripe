@@ -238,7 +238,7 @@ public class NamingDetailsPage implements IDetailsPage {
 		namingNameText.setEnabled(!getContribution().isReadOnly());
 		namingClassText.setText(getContribution().getNamingClass());
 		namingClassText.setEnabled(!getContribution().isReadOnly());
-		namingContributorText.setText(getContribution().getContributor());
+		namingContributorText.setText(getContribution().getContributor().toString());
 		classBrowseButton.setEnabled(!getContribution().isReadOnly());
 		
 		setSilentUpdate(false);

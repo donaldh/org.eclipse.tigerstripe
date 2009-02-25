@@ -61,8 +61,8 @@ public class PatternFileSorter extends ViewerSorter {
     			returnValue = p1.getValidatorClass().compareToIgnoreCase(
     					p2.getValidatorClass());
     		} else if (this.column.equals("Contributor")){
-    			returnValue = p1.getContributor().compareToIgnoreCase(
-    					p2.getContributor());
+    			returnValue = p1.getContributor().toString().compareToIgnoreCase(
+    					p2.getContributor().toString());
     		} else if (provider != null){
     			// Need to get the actual pattern!
     			IPattern pattern1 = provider.getPattern(p1.getContributor(), p1.getFileName());

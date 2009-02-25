@@ -70,8 +70,8 @@ public class ArtifactMetadataSorter extends ViewerSorter {
     			returnValue = p1.getIcon_gs().compareToIgnoreCase(
     					p2.getIcon_gs());
     		} else if (this.column.equals("Contributor")){
-    			returnValue = p1.getContributor().compareToIgnoreCase(
-    					p2.getContributor());
+    			returnValue = p1.getContributor().toString().compareToIgnoreCase(
+    					p2.getContributor().toString());
     		} 
     		if (this.dir == SWT.DOWN) {
     			returnValue = returnValue * -1;

@@ -142,7 +142,7 @@ public class NamingSection extends ExtensionSectionPart implements
 			if (index == 1){
 				return field.getNamingClass();
 			} else if (index == 2){
-				return field.getContributor();
+				return field.getContributor().toString();
 			}else {
 				return field.getName();
 			}

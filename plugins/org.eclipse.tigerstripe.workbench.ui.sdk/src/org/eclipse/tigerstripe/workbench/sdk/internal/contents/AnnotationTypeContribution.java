@@ -12,9 +12,11 @@ package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 
 import java.util.Collection;
 
+import org.eclipse.pde.core.plugin.IPluginModelBase;
+
 public class AnnotationTypeContribution {
 
-	public AnnotationTypeContribution(String contributor,String name, String eClass,
+	public AnnotationTypeContribution(IPluginModelBase contributor,String name, String eClass,
 			String namespace, String uniq, 
 			boolean readOnly) {
 		super();
@@ -52,7 +54,7 @@ public class AnnotationTypeContribution {
 		}
 
 	}
-	private String contributor;
+	private IPluginModelBase contributor;
 
 	private String name;
 	private String eClass;
@@ -97,10 +99,10 @@ public class AnnotationTypeContribution {
 	public void setReadOnly(boolean readOnly) {
 		this.readOnly = readOnly;
 	}
-	public String getContributor() {
+	public IPluginModelBase getContributor() {
 		return contributor;
 	}
-	public void setContributor(String contributor) {
+	public void setContributor(IPluginModelBase contributor) {
 		this.contributor = contributor;
 	}
 	

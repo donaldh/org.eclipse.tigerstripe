@@ -10,9 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 
+import org.eclipse.pde.core.plugin.IPluginModelBase;
+
 
 public class AuditContribution {
-	public AuditContribution(String contributor,String name, String auditorClass, boolean readOnly) {
+	public AuditContribution(IPluginModelBase contributor,String name, String auditorClass, boolean readOnly) {
 		super();
 		this.name = name;					// optional
 		this.auditorClass = auditorClass;
@@ -22,7 +24,7 @@ public class AuditContribution {
 	
 	private String name;
 	private String auditorClass;
-	private String contributor;
+	private IPluginModelBase contributor;
 	private boolean readOnly;
 	
 	public String getName() {
@@ -37,10 +39,10 @@ public class AuditContribution {
 	public void setAuditorClass(String auditorClass) {
 		this.auditorClass = auditorClass;
 	}
-	public String getContributor() {
+	public IPluginModelBase getContributor() {
 		return contributor;
 	}
-	public void setContributor(String contributor) {
+	public void setContributor(IPluginModelBase contributor) {
 		this.contributor = contributor;
 	}
 	public boolean isReadOnly() {

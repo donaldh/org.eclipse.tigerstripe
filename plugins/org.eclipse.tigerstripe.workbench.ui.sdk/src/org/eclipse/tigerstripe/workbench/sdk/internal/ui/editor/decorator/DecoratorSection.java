@@ -142,7 +142,7 @@ public class DecoratorSection extends ExtensionSectionPart implements
 			if (index == 1){
 				return field.getDecoratorClass();
 			} else {
-				return field.getContributor();
+				return field.getContributor().toString();
 			}
 		}
 

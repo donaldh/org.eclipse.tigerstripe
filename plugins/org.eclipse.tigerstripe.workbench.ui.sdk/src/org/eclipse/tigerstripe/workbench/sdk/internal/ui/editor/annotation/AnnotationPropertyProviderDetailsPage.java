@@ -235,7 +235,7 @@ public class AnnotationPropertyProviderDetailsPage implements IDetailsPage {
 		annotationPPClassText.setEnabled(!getContribution().isReadOnly());
 		annotationPPPriorityText.setText(getContribution().getPriority());
 		annotationPPPriorityText.setEnabled(!getContribution().isReadOnly());
-		annotationPPContributorText.setText(getContribution().getContributor());
+		annotationPPContributorText.setText(getContribution().getContributor().toString());
 		
 		setSilentUpdate(false);
 	}

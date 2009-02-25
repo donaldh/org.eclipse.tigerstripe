@@ -218,7 +218,7 @@ public class DisabledPatternDetailsPage implements IDetailsPage {
 		disabledPatternText.setText(getContribution().getDisabledPatternName());
 		disabledPatternText.setEnabled(!getContribution().isReadOnly());
 
-		contributorText.setText(getContribution().getContributor());
+		contributorText.setText(getContribution().getContributor().toString());
 		
 		setSilentUpdate(false);
 	}

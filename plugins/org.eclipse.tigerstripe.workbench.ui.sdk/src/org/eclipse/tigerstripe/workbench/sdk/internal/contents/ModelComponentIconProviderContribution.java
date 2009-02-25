@@ -10,10 +10,12 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 
+import org.eclipse.pde.core.plugin.IPluginModelBase;
+
 
 public class ModelComponentIconProviderContribution {
 
-	public ModelComponentIconProviderContribution(String contributor,
+	public ModelComponentIconProviderContribution(IPluginModelBase contributor,
 			String artifactType, String provider, boolean readOnly) {
 		super();
 		this.contributor = contributor;
@@ -21,16 +23,16 @@ public class ModelComponentIconProviderContribution {
 		this.provider = provider;
 		this.readOnly = readOnly;
 	}
-	private String contributor;
+	private IPluginModelBase contributor;
 	private String artifactType;
 	private String provider;
 	private boolean readOnly;
 	
 	
-	public String getContributor() {
+	public IPluginModelBase getContributor() {
 		return contributor;
 	}
-	public void setContributor(String contributor) {
+	public void setContributor(IPluginModelBase contributor) {
 		this.contributor = contributor;
 	}
 	public String getArtifactType() {

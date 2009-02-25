@@ -238,7 +238,7 @@ public class AuditDetailsPage implements IDetailsPage {
 		auditNameText.setEnabled(!getContribution().isReadOnly());
 		auditClassText.setText(getContribution().getAuditorClass());
 		auditClassText.setEnabled(!getContribution().isReadOnly());
-		auditContributorText.setText(getContribution().getContributor());
+		auditContributorText.setText(getContribution().getContributor().toString());
 		classBrowseButton.setEnabled(!getContribution().isReadOnly());
 		
 		setSilentUpdate(false);

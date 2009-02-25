@@ -146,7 +146,7 @@ public class ArtifactIconSection extends ExtensionSectionPart implements
 			} else if (index == 3){
 				return field.getIcon_gs();
 			} else if (index == 4){
-				return field.getContributor();
+				return field.getContributor().toString();
 			}else {
 				return field.getArtifactType();
 			}

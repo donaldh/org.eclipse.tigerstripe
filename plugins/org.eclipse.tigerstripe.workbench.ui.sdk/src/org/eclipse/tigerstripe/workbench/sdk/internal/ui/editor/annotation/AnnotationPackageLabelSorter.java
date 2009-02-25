@@ -53,8 +53,8 @@ public class AnnotationPackageLabelSorter extends ViewerSorter {
     			returnValue = p1.getUri().compareToIgnoreCase(
     					p2.getUri());
     		} else if (this.column.equals("Contributor")){
-    			returnValue = p1.getContributor().compareToIgnoreCase(
-    					p2.getContributor());
+    			returnValue = p1.getContributor().toString().compareToIgnoreCase(
+    					p2.getContributor().toString());
     		} 
     		if (this.dir == SWT.DOWN) {
     			returnValue = returnValue * -1;

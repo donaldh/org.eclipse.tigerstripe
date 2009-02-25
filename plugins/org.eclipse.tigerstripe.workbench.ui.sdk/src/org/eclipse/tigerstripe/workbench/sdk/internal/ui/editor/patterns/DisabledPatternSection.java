@@ -11,6 +11,9 @@
 
 package org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.patterns;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
@@ -20,6 +23,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.WizardDialog;
+import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionEvent;
@@ -43,7 +47,10 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
 import org.eclipse.tigerstripe.workbench.sdk.internal.LocalContributions;
+import org.eclipse.tigerstripe.workbench.sdk.internal.ModelUpdater;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.DisabledPatternContribution;
+import org.eclipse.tigerstripe.workbench.sdk.internal.contents.PatternFileContribution;
+import org.eclipse.tigerstripe.workbench.sdk.internal.ui.dialogs.SelectContributerDialog;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.ConfigEditor;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.ExtensionSectionPart;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.wizards.DisablePatternWizard;
@@ -144,7 +151,7 @@ public class DisabledPatternSection extends ExtensionSectionPart implements
 			DisabledPatternContribution field = (DisabledPatternContribution) obj;
 		
 			if (index == 1){
-				return field.getContributor();
+				return field.getContributor().toString();
 			}else {
 				return field.getDisabledPatternName();
 			}
@@ -324,7 +331,7 @@ public class DisabledPatternSection extends ExtensionSectionPart implements
 	 * 
 	 */
 	protected void addButtonSelected(SelectionEvent event) {
-		// Show the "DisablePattern wizard
+		// Show the "DisablePattern" wizard
 		Shell shell = EclipsePlugin.getActiveWorkbenchShell();
 		DisablePatternWizard wiz = new DisablePatternWizard(((ConfigEditor) getPage().getEditor())
 				.getIProvider());
@@ -353,54 +360,19 @@ public class DisabledPatternSection extends ExtensionSectionPart implements
 	 * 
 	 */
 	protected void removeButtonSelected(SelectionEvent event) {
-//		TableItem[] selectedItems = viewer.getTable().getSelection();
-//		IField[] selectedFields = new IField[selectedItems.length];
-//
-//		for (int i = 0; i < selectedItems.length; i++) {
-//			selectedFields[i] = (IField) selectedItems[i].getData();
-//		}
-//
-//		String message = "Do you really want to remove ";
-//		if (selectedFields.length > 1) {
-//			message = message + "these " + selectedFields.length
-//					+ " attributes?";
-//		} else {
-//			message = message + "this attribute?";
-//		}
-//
-//		MessageDialog msgDialog = new MessageDialog(getBody().getShell(),
-//				"Remove attribute", null, message, MessageDialog.QUESTION,
-//				new String[] { "Yes", "No" }, 1);
-//
-//		if (msgDialog.open() == 0) {
-//
-//			URI[] fieldURIs = new URI[selectedFields.length];
-//			String[] fieldTypes = new String[selectedFields.length];
-//			int index = 0;
-//			for (IField field : selectedFields) {
-//				fieldURIs[index] = (URI) field.getAdapter(URI.class);
-//				fieldTypes[index] = field.getClass().getSimpleName();
-//				index++;
-//			}
-//
-//			viewer.remove(selectedFields);
-//			getIArtifact().removeFields(Arrays.asList(selectedFields));
-//			markPageModified();
-//
-//			URI artURI = (URI) getIArtifact().getAdapter(URI.class);
-//			for (int i = 0; i < selectedFields.length; i++) {
-//				try {
-////					ModelUndoableEdit edit = new ModelUndoableEdit(artURI,
-////							IModelChangeDelta.REMOVE, fieldTypes[i],
-////							fieldURIs[i], null, getIArtifact().getProject());
-////					((TigerstripeFormEditor) getPage().getEditor())
-////							.getUndoManager().addEdit(edit);
-//				} catch (Exception e) {
-//					EclipsePlugin.log(e);
-//				}
-//			}
-//		}
-//		updateMaster();
+		// We know the pattern based on the current selection in the table
+		DisabledPatternContribution patt = (DisabledPatternContribution) viewer.getTable().getSelection()[0].getData();
+		
+		IResource res = (IResource) patt.getContributor().getAdapter(IResource.class);
+		
+		IProject contProject = (IProject) res.getProject();
+		ModelUpdater mu = new ModelUpdater();
+		if (contProject != null){
+			mu.removeDisabledPattern(contProject,patt.getDisabledPatternName());
+		}
+		
+		updateMaster();
+		
 	}
 
 

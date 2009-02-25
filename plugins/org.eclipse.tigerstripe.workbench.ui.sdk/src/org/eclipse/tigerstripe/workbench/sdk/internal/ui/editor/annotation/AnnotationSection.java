@@ -144,7 +144,7 @@ public class AnnotationSection extends ExtensionSectionPart implements
 			} else if (index == 2){
 				return field.getNamespace();
 			} else if (index == 3){
-				return field.getContributor();
+				return field.getContributor().toString();
 			}else {
 				return field.getName();
 			}

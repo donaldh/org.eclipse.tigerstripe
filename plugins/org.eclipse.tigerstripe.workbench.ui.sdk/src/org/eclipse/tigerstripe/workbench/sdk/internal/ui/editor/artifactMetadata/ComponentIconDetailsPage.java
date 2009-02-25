@@ -238,7 +238,7 @@ public class ComponentIconDetailsPage implements IDetailsPage {
 		artifactTypeText.setEnabled(!getContribution().isReadOnly());
 		providerClassText.setText(getContribution().getProvider());
 		providerClassText.setEnabled(!getContribution().isReadOnly());
-		contributorText.setText(getContribution().getContributor());
+		contributorText.setText(getContribution().getContributor().toString());
 		classBrowseButton.setEnabled(!getContribution().isReadOnly());
 		
 		setSilentUpdate(false);

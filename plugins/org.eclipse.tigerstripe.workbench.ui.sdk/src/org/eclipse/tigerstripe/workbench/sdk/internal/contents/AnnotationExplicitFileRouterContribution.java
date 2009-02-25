@@ -10,9 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 
+import org.eclipse.pde.core.plugin.IPluginModelBase;
+
 public class AnnotationExplicitFileRouterContribution {
 
-	public AnnotationExplicitFileRouterContribution(String contributor,
+	public AnnotationExplicitFileRouterContribution(IPluginModelBase contributor,
 			String nsURI, String path, String eClass, String ePackage,
 			boolean readOnly) {
 		super();
@@ -23,16 +25,16 @@ public class AnnotationExplicitFileRouterContribution {
 		this.ePackage = ePackage;
 		this.readOnly = readOnly;
 	}
-	private String contributor;
+	private IPluginModelBase contributor;
 	private String nsURI;
 	private String path;
 	private String eClass;
 	private String ePackage;
 	private boolean readOnly;
-	public String getContributor() {
+	public IPluginModelBase getContributor() {
 		return contributor;
 	}
-	public void setContributor(String contributor) {
+	public void setContributor(IPluginModelBase contributor) {
 		this.contributor = contributor;
 	}
 	public String getNsURI() {

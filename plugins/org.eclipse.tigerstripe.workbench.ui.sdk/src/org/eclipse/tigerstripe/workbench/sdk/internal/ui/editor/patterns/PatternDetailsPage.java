@@ -290,7 +290,7 @@ public class PatternDetailsPage implements IDetailsPage {
 			Collection<DisabledPatternContribution> disabled = master.getProvider().getDisabledPatternContributions();
 			for (DisabledPatternContribution dpc : disabled){
 				if (dpc.getDisabledPatternName().equals(pattern.getName())){
-					disabledLabel.setText("THIS PATTERN IS DISABLED");
+					disabledLabel.setText("THIS PATTERN IS DISABLED IN '"+dpc.getContributor()+"'");
 					break;
 				}
 			}
@@ -319,7 +319,7 @@ public class PatternDetailsPage implements IDetailsPage {
 		
 		patternValidatorClassText.setText(getContribution().getValidatorClass());
 		patternValidatorClassText.setEnabled(!getContribution().isReadOnly());
-		contributorText.setText(getContribution().getContributor());
+		contributorText.setText(getContribution().getContributor().toString());
 		classBrowseButton.setEnabled(!getContribution().isReadOnly());
 		
 		setSilentUpdate(false);

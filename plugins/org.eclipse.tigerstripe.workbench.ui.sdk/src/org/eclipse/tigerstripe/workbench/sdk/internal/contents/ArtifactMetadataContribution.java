@@ -10,10 +10,12 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 
+import org.eclipse.pde.core.plugin.IPluginModelBase;
+
 
 public class ArtifactMetadataContribution {
 
-	public ArtifactMetadataContribution(String contributor,
+	public ArtifactMetadataContribution(IPluginModelBase contributor,
 			String artifactType, String userLabel, boolean hasFields,
 			boolean hasLiterals, boolean hasMethods, String icon,
 			String icon_new, String icon_gs, boolean readOnly) {
@@ -29,7 +31,7 @@ public class ArtifactMetadataContribution {
 		this.icon_gs = icon_gs;
 		this.readOnly = readOnly;
 	}
-	private String contributor;
+	private IPluginModelBase contributor;
 	private String artifactType;
 	private String userLabel;
 	private boolean hasFields;
@@ -40,10 +42,10 @@ public class ArtifactMetadataContribution {
 	private String icon_gs;
 	private boolean readOnly;
 	
-	public String getContributor() {
+	public IPluginModelBase getContributor() {
 		return contributor;
 	}
-	public void setContributor(String contributor) {
+	public void setContributor(IPluginModelBase contributor) {
 		this.contributor = contributor;
 	}
 	public String getArtifactType() {

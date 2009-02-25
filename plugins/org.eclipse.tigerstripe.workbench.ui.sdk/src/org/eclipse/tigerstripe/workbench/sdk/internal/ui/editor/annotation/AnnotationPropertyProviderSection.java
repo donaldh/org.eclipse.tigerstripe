@@ -142,7 +142,7 @@ public class AnnotationPropertyProviderSection extends ExtensionSectionPart impl
 			if (index == 1){
 				return field.getPriority();
 			} else if (index == 2){
-				return field.getContributor();
+				return field.getContributor().toString();
 			}else {
 				return field.get_class();
 			}

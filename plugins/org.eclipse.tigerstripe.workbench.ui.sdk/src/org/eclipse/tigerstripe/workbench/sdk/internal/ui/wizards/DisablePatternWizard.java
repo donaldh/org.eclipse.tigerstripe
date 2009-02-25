@@ -12,17 +12,16 @@ package org.eclipse.tigerstripe.workbench.sdk.internal.ui.wizards;
 
 import java.lang.reflect.InvocationTargetException;
 
-import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.pde.core.plugin.IExtensionsModelFactory;
-import org.eclipse.pde.core.plugin.IPluginExtension;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
-import org.eclipse.tigerstripe.workbench.sdk.internal.LocalContributions;
+import org.eclipse.tigerstripe.workbench.sdk.internal.ModelUpdater;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.PatternFileContribution;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
@@ -92,19 +91,21 @@ public class DisablePatternWizard extends Wizard implements INewWizard {
 		PatternFileContribution patt = firstPage.getSelection();
 		IPluginModelBase cont = firstPage.getContributerSelection();
 		
-		System.out.println(cont.isEditable());
-		IExtensionsModelFactory factory = cont.getFactory();
-		IPluginExtension ext = factory.createExtension();
+		
 		try {
-			ext.setPoint(LocalContributions.PATTERNS_EXT_PT);
-			ext.setName("disabledPattern");
-		
-		} catch (CoreException ce){
-			ce.printStackTrace();
+			IResource res = (IResource) cont.getAdapter(IResource.class);
+			IProject contProject = (IProject) res.getProject();
+			
+			ModelUpdater mu = new ModelUpdater();
+			if (contProject != null){
+				mu.addDisabledPattern(contProject, provider.getPattern(patt.getContributor(), patt.getFileName()).getName());
+				provider.findAll();
+			}
+
+		} catch (Exception e){
+			e.printStackTrace();
 		}
-		//cont.getExtensions().add(disabledFileExtension);
-		
-		
+	
 		
 	}
 	

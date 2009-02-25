@@ -10,9 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 
+import org.eclipse.pde.core.plugin.IPluginModelBase;
+
 public class AnnotationPropertyProviderContribution {
 
-	public AnnotationPropertyProviderContribution(String contributor,
+	public AnnotationPropertyProviderContribution(IPluginModelBase contributor,
 			String _class, String priority, boolean readOnly) {
 		super();
 		this.contributor = contributor;
@@ -20,14 +22,14 @@ public class AnnotationPropertyProviderContribution {
 		this.priority = priority;
 		this.readOnly = readOnly;
 	}
-	private String contributor;
+	private IPluginModelBase contributor;
 	private String _class;
 	private String priority;
 	private boolean readOnly;
-	public String getContributor() {
+	public IPluginModelBase getContributor() {
 		return contributor;
 	}
-	public void setContributor(String contributor) {
+	public void setContributor(IPluginModelBase contributor) {
 		this.contributor = contributor;
 	}
 	public String get_class() {

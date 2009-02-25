@@ -235,7 +235,7 @@ public class AnnotationPackageLabelDetailsPage implements IDetailsPage {
 		annotationNameText.setEnabled(!getContribution().isReadOnly());
 		annotationNamespaceText.setText(getContribution().getUri());
 		annotationNamespaceText.setEnabled(!getContribution().isReadOnly());
-		annotationContributorText.setText(getContribution().getContributor());
+		annotationContributorText.setText(getContribution().getContributor().toString());
 		
 		setSilentUpdate(false);
 	}

@@ -10,10 +10,12 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 
+import org.eclipse.pde.core.plugin.IPluginModelBase;
+
 public class AnnotationPackageLabelContribution {
 
 	
-	public AnnotationPackageLabelContribution(String contributor, String uri,
+	public AnnotationPackageLabelContribution(IPluginModelBase contributor, String uri,
 			String name, boolean readOnly) {
 		super();
 		this.contributor = contributor;
@@ -21,14 +23,14 @@ public class AnnotationPackageLabelContribution {
 		this.name = name;
 		this.readOnly = readOnly;
 	}
-	private String contributor;
+	private IPluginModelBase contributor;
 	private String uri;
 	private String name;
 	private boolean readOnly;
-	public String getContributor() {
+	public IPluginModelBase getContributor() {
 		return contributor;
 	}
-	public void setContributor(String contributor) {
+	public void setContributor(IPluginModelBase contributor) {
 		this.contributor = contributor;
 	}
 	public String getUri() {

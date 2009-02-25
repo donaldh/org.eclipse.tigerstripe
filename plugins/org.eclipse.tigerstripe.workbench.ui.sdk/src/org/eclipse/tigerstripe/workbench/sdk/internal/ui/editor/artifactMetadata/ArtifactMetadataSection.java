@@ -154,7 +154,7 @@ public class ArtifactMetadataSection extends ExtensionSectionPart implements
 			} else if (index == 7){
 				return field.getIcon_gs();
 			} else if (index == 8){
-				return field.getContributor();
+				return field.getContributor().toString();
 			}else {
 				return field.getArtifactType();
 			}

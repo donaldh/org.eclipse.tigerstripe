@@ -10,9 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 
+import org.eclipse.pde.core.plugin.IPluginModelBase;
+
 
 public class NamingContribution {
-	public NamingContribution(String contributor,String name, String namingClass, boolean readOnly) {
+	public NamingContribution(IPluginModelBase contributor,String name, String namingClass, boolean readOnly) {
 		super();
 		this.name = name;					// optional
 		this.namingClass = namingClass;
@@ -22,7 +24,7 @@ public class NamingContribution {
 	
 	private String name;
 	private String namingClass;
-	private String contributor;
+	private IPluginModelBase contributor;
 	private boolean readOnly;
 	
 	public String getName() {
@@ -37,10 +39,10 @@ public class NamingContribution {
 	public void setNamingClass(String namingClass) {
 		this.namingClass = namingClass;
 	}
-	public String getContributor() {
+	public IPluginModelBase getContributor() {
 		return contributor;
 	}
-	public void setContributor(String contributor) {
+	public void setContributor(IPluginModelBase contributor) {
 		this.contributor = contributor;
 	}
 	public boolean isReadOnly() {

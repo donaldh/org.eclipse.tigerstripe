@@ -25,6 +25,7 @@ import org.eclipse.pde.core.plugin.IPluginExtension;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.core.plugin.IPluginObject;
 import org.eclipse.pde.core.plugin.PluginRegistry;
+import org.eclipse.pde.internal.core.ibundle.IBundlePluginModel;
 import org.eclipse.tigerstripe.workbench.internal.api.patterns.PatternFactory;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationExplicitFileRouterContribution;
@@ -75,14 +76,14 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 	public static String ANNOTATIONS_PROPERTYPROVIDER_PART = "provider";
 	
 	private class PatternLocation {
-		public PatternLocation(String contributor, String fileName) {
+		public PatternLocation(IPluginModelBase contributor, String fileName) {
 			super();
 			this.contributor = contributor;
 			this.fileName = fileName;
 		}
-		private String contributor;
+		private IPluginModelBase contributor;
 		private String fileName;
-		public String getContributor() {
+		public IPluginModelBase getContributor() {
 			return contributor;
 		}
 		public String getFileName() {
@@ -91,8 +92,14 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 		
 	}
 	
+	// TODO This uses an internal PDE class
+	public static boolean isWriteableModel(IPluginModelBase model){
+		return (model instanceof IBundlePluginModel);
+	}
+	
 	private Map<PatternLocation,IPattern> embeddedPatterns = null;
 	
+	@SuppressWarnings("restriction")
 	public void findAll() {
 		
 		
@@ -116,14 +123,22 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 		
 		IPluginModelBase[] allModels = PluginRegistry.getActiveModels();
 		
-		 allContributers = Arrays.asList(allModels);
-		 writeableContributers = new ArrayList<IPluginModelBase>();
-			for (IPluginModelBase model : getAllContributers()){
-				if (model.isEditable()){
+		
+		
+
+		allContributers = Arrays.asList(allModels);
+		writeableContributers = new ArrayList<IPluginModelBase>();
+		for (IPluginModelBase model : getAllContributers()){
+			// This uses an internal PDE class!
+			if (isWriteableModel(model)){
 					writeableContributers.add(model);
-				}
-			}
+			}	
+		}
 		 
+
+
+			
+			
 		readAuditContributions(allModels);
 		readDecoratorContributions(allModels);
 		readArtifactMetadataContributions(models);
@@ -136,9 +151,9 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 	}
 
 
-	
 
-	public IPattern getPattern(String contributor, String fileName) {
+
+	public IPattern getPattern(IPluginModelBase contributor, String fileName) {
 		if (embeddedPatterns == null){
 			findAll();
 		}
@@ -161,7 +176,7 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 
 			for (IPluginExtension ext : model.getExtensions().getExtensions()){
 				if (PATTERNS_EXT_PT.equals(ext.getPoint())){
-					boolean readOnly = !model.isEditable();
+					boolean readOnly = ! isWriteableModel(model);
 					IPluginObject[] children = ext.getChildren();
 					for (IPluginObject child: children){
 						if (child.getName().equals("patternDefinition")){
@@ -174,11 +189,11 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 							if (validatorAttribute != null){
 								validator = validatorAttribute.getValue();
 							}
-							PatternFileContribution pfc = new PatternFileContribution(model.toString(),patternFileName,validator,readOnly);
+							PatternFileContribution pfc = new PatternFileContribution(model,patternFileName,validator,readOnly);
 							patternFileContributions.add(pfc);
 							
 							// put it in the map
-							PatternLocation location = new PatternLocation(model.toString(),patternFileName);
+							PatternLocation location = new PatternLocation(model,patternFileName);
 							IPattern embeddedPattern = null;
 							Bundle bundle = org.eclipse.core.runtime.Platform.getBundle(model.toString());
 							if (bundle != null){
@@ -210,7 +225,7 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 						if (child.getName().equals("disabledPattern")){
 							// Need to get the file from the contributing plugin
 							String disabledPatternName  = ((IPluginElement) child).getAttribute("patternName").getValue();
-							DisabledPatternContribution dpc = new DisabledPatternContribution(model.toString(),disabledPatternName,readOnly);
+							DisabledPatternContribution dpc = new DisabledPatternContribution(model,disabledPatternName,readOnly);
 							disabledPatternContributions.add(dpc);
 						}
 					}
@@ -224,7 +239,7 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 			
 			for (IPluginExtension ext : model.getExtensions().getExtensions()){
 				if (NAMING_EXT_PT.equals(ext.getPoint())){
-					boolean readOnly = !model.isEditable();
+					boolean readOnly = ! isWriteableModel(model);
 					IPluginObject[] children = ext.getChildren();
 					for (IPluginObject child: children){
 						if (child.getName().equals("customNamingRule")){
@@ -235,7 +250,7 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 								 ruleName = ruleNameAttribute.getValue();
 							}
 							String className = ((IPluginElement) child).getAttribute("namingClass").getValue();
-							NamingContribution nc = new NamingContribution(model.toString(),ruleName,className, readOnly);
+							NamingContribution nc = new NamingContribution(model,ruleName,className, readOnly);
 							namingContributions.add(nc);
 						}
 					}
@@ -252,7 +267,7 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 
 			for (IPluginExtension ext : model.getExtensions().getExtensions()){
 				if (METADATA_EXT_PT.equals(ext.getPoint())){
-					boolean readOnly = !model.isEditable();
+					boolean readOnly = ! isWriteableModel(model);
 					IPluginObject[] children = ext.getChildren();
 					for (IPluginObject child: children){
 						if (child.getName().equals(METADATA_MODELICON_PART)){
@@ -260,14 +275,14 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 							String provider = ((IPluginElement) child).getAttribute("provider").getValue();
 							
 							ModelComponentIconProviderContribution mcipc = new ModelComponentIconProviderContribution(
-									model.toString(),aType, provider, readOnly );
+									model,aType, provider, readOnly );
 							modelComponentIconProviderContributions.add(mcipc);
 						} else if (child.getName().equals(METADATA_ARTIFACTICON_PART)){
 							String aType =  ((IPluginElement) child).getAttribute("artifactName").getValue();
 							String icon =  ((IPluginElement) child).getAttribute("icon").getValue();
 							String icon_new =  ((IPluginElement) child).getAttribute("icon_new").getValue();
 							String icon_gs =  ((IPluginElement) child).getAttribute("icon_gs").getValue();
-							ArtifactIconContribution aic = new ArtifactIconContribution(model.toString(),icon,icon_new,icon_gs,aType, readOnly);
+							ArtifactIconContribution aic = new ArtifactIconContribution(model,icon,icon_new,icon_gs,aType, readOnly);
 							artifactIconContributions.add(aic);
 							
 						} else if (child.getName().equals(METADATA_ARTIFACTMETADATA_PART)){
@@ -298,7 +313,7 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 							if (((IPluginElement) child).getAttribute("icon_gs") != null){
 								icon_gs = ((IPluginElement) child).getAttribute("icon_gs").getValue();
 							}
-							ArtifactMetadataContribution amc = new ArtifactMetadataContribution(model.toString(),
+							ArtifactMetadataContribution amc = new ArtifactMetadataContribution(model,
 									aType,  userLabel, hasFields,hasMethods ,hasLiterals,icon, icon_new,icon_gs, readOnly);
 							artifactMetadataContributions.add(amc);
 						}
@@ -315,13 +330,13 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 			
 			for (IPluginExtension ext : model.getExtensions().getExtensions()){
 				if (DECORATOR_EXT_PT.equals(ext.getPoint())){
-					boolean readOnly = !model.isEditable();
+					boolean readOnly = ! isWriteableModel(model);
 					IPluginObject[] children = ext.getChildren();
 					for (IPluginObject child: children){
 						if (child.getName().equals("decorator")){
 							String className = ((IPluginElement) child).getAttribute("class").getValue();
 							
-							DecoratorContribution dc = new DecoratorContribution(model.toString(),className, readOnly);
+							DecoratorContribution dc = new DecoratorContribution(model,className, readOnly);
 							decoratorContributions.add(dc);
 						}
 					}
@@ -337,7 +352,7 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 				
 				for (IPluginExtension ext : model.getExtensions().getExtensions()){
 					if (AUDIT_EXT_PT.equals(ext.getPoint())){
-						boolean readOnly = !model.isEditable();
+						boolean readOnly = ! isWriteableModel(model);
 						IPluginObject[] children = ext.getChildren();
 						for (IPluginObject child: children){
 							if (child.getName().equals("customAuditRule")){
@@ -348,7 +363,7 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 									 ruleName = ruleNameAttribute.getValue();
 								}
 								String className = ((IPluginElement) child).getAttribute("auditorClass").getValue();
-								AuditContribution ac = new AuditContribution(model.toString(),ruleName,className, readOnly);
+								AuditContribution ac = new AuditContribution(model,ruleName,className, readOnly);
 								auditContributions.add(ac);
 							}
 						}
@@ -367,7 +382,7 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 
 			for (IPluginExtension ext : model.getExtensions().getExtensions()){
 				if (ANNOTATIONS_EXT_PT.equals(ext.getPoint())){
-					boolean readOnly = !model.isEditable();
+					boolean readOnly = ! isWriteableModel(model);
 					IPluginObject[] children = ext.getChildren();
 					for (IPluginObject child: children){
 						if (child.getName().equals("definition")){
@@ -386,7 +401,7 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 								uniq = unique.getValue();
 							}
 							AnnotationTypeContribution typeContribution = new AnnotationTypeContribution(
-									model.toString(),
+									model,
 									name, eClass, namespace,uniq, readOnly); 
 							// Then need to add some targets
 							Collection<Target> targets = new ArrayList<Target>();
@@ -422,7 +437,7 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 
 			for (IPluginExtension ext : model.getExtensions().getExtensions()){
 				if (ANNOTATIONS_PACKAGELABEL_EXT_PT.equals(ext.getPoint())){
-					boolean readOnly = !model.isEditable();
+					boolean readOnly = ! isWriteableModel(model);
 					IPluginObject[] children = ext.getChildren();
 					for (IPluginObject child: children){
 						if (child.getName().equals(ANNOTATIONS_PACKAGELABEL_PART)){
@@ -432,7 +447,7 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 							IPluginAttribute namespaceAttribute = ((IPluginElement) child).getAttribute("epackage-uri");
 							String namespace = namespaceAttribute.getValue();
 							AnnotationPackageLabelContribution annotationPackageLabelContribution = new AnnotationPackageLabelContribution(
-									model.toString(), name,namespace, readOnly
+									model, name,namespace, readOnly
 									);
 							annotationPackageLabelContributions.add(annotationPackageLabelContribution);
 						}
@@ -448,7 +463,7 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 
 			for (IPluginExtension ext : model.getExtensions().getExtensions()){
 				if (ANNOTATIONS_EXPLICITROUTER_EXT_PT.equals(ext.getPoint())){
-					boolean readOnly = !model.isEditable();
+					boolean readOnly = ! isWriteableModel(model);
 					IPluginObject[] children = ext.getChildren();
 					for (IPluginObject child: children){
 						if (child.getName().equals(ANNOTATIONS_EXPLICITROUTER_PART)){
@@ -473,7 +488,7 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 								eClass = eClassAttribute.getValue();
 							
 							AnnotationExplicitFileRouterContribution contribution = new AnnotationExplicitFileRouterContribution(
-									model.toString(), nsURI, path, eClass, ePackage, readOnly
+									model, nsURI, path, eClass, ePackage, readOnly
 									);
 							annotationExplicitFileRouterContributions.add(contribution);
 						}
@@ -489,14 +504,14 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 
 			for (IPluginExtension ext : model.getExtensions().getExtensions()){
 				if (ANNOTATIONS_PROPERTYPROVIDER_EXT_PT.equals(ext.getPoint())){
-					boolean readOnly = !model.isEditable();
+					boolean readOnly = ! isWriteableModel(model);
 					IPluginObject[] children = ext.getChildren();
 					for (IPluginObject child: children){
 						if (child.getName().equals(ANNOTATIONS_PROPERTYPROVIDER_PART)){
 							String className = ((IPluginElement) child).getAttribute("class").getValue();
 							String priority = ((IPluginElement) child).getAttribute("priority").getValue();
 
-							AnnotationPropertyProviderContribution dc = new AnnotationPropertyProviderContribution(model.toString(),className, priority, readOnly);
+							AnnotationPropertyProviderContribution dc = new AnnotationPropertyProviderContribution(model,className, priority, readOnly);
 							annotationPropertyProviderContributions.add(dc);
 						}
 					}
