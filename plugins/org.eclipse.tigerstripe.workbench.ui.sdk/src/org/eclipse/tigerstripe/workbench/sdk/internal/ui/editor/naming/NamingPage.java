@@ -25,6 +25,7 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
 public class NamingPage extends TigerstripeFormPage {
 
 	private IManagedForm managedForm;
+	private NamingSection namingSection;
 
 	public static final String PAGE_ID = "org.eclipse.tigerstripe.sdk.extension.naming"; 
 
@@ -53,6 +54,9 @@ public class NamingPage extends TigerstripeFormPage {
 		if (managedForm != null) {
 			managedForm.refresh();
 		}
+		if (namingSection != null){
+			namingSection.refresh();
+		}
 	}
 
 	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {
@@ -67,9 +71,9 @@ public class NamingPage extends TigerstripeFormPage {
 		layout.horizontalSpacing = 10;
 		body.setLayout(layout);
 
-		TigerstripeSectionPart part = new NamingSection(this,
+		namingSection = new NamingSection(this,
 				body, toolkit, ExpandableComposite.EXPANDED);
-		managedForm.addPart(part);
+		managedForm.addPart(namingSection);
 		
 		
 	}

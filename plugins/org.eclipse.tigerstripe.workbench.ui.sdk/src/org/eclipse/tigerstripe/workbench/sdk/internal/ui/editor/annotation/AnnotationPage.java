@@ -24,7 +24,11 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
 public class AnnotationPage extends TigerstripeFormPage {
 
 	private IManagedForm managedForm;
-
+	private AnnotationSection annotationSection;
+	private AnnotationPackageLabelSection annotationPackageLabelSection;
+	private AnnotationExplicitFileRouterSection annotationExplicitFileRouterSection;
+	private AnnotationPropertyProviderSection annotationPropertyProviderSection;
+	
 	public static final String PAGE_ID = "org.eclipse.tigerstripe.sdk.extension.annotation"; 
 
 	public AnnotationPage(FormEditor editor) {
@@ -52,6 +56,18 @@ public class AnnotationPage extends TigerstripeFormPage {
 		if (managedForm != null) {
 			managedForm.refresh();
 		}
+		if (annotationSection != null) {
+			annotationSection.refresh();
+		}
+		if (annotationPackageLabelSection != null) {
+			annotationPackageLabelSection.refresh();
+		}
+		if (annotationExplicitFileRouterSection != null) {
+			annotationExplicitFileRouterSection.refresh();
+		}
+		if (annotationPropertyProviderSection != null) {
+			annotationPropertyProviderSection.refresh();
+		}
 	}
 
 	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {
@@ -66,18 +82,18 @@ public class AnnotationPage extends TigerstripeFormPage {
 		layout.horizontalSpacing = 10;
 		body.setLayout(layout);
 
-		TigerstripeSectionPart part = new AnnotationSection(this,
+		annotationSection = new AnnotationSection(this,
 				body, toolkit, ExpandableComposite.EXPANDED);
-		managedForm.addPart(part);
-		part = new AnnotationPackageLabelSection(this,
+		managedForm.addPart(annotationSection);
+		annotationPackageLabelSection = new AnnotationPackageLabelSection(this,
 				body, toolkit, ExpandableComposite.EXPANDED);
-		managedForm.addPart(part);
-		part = new AnnotationExplicitFileRouterSection(this,
+		managedForm.addPart(annotationPackageLabelSection);
+		annotationExplicitFileRouterSection = new AnnotationExplicitFileRouterSection(this,
 				body, toolkit, ExpandableComposite.EXPANDED);
-		managedForm.addPart(part);
-		part = new AnnotationPropertyProviderSection(this,
+		managedForm.addPart(annotationExplicitFileRouterSection);
+		annotationPropertyProviderSection = new AnnotationPropertyProviderSection(this,
 				body, toolkit, ExpandableComposite.EXPANDED);
-		managedForm.addPart(part);
+		managedForm.addPart(annotationPropertyProviderSection);
 		
 	}
 

@@ -404,8 +404,6 @@ public class AnnotationPackageLabelSection extends ExtensionSectionPart implemen
 	}
 
 	protected void markPageModified() {
-		ConfigEditor editor = (ConfigEditor) getPage().getEditor();
-		editor.pageModified();
 	}
 
 	/**

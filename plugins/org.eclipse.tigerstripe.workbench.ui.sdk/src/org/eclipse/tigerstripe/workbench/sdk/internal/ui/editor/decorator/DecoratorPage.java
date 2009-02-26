@@ -25,7 +25,8 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
 public class DecoratorPage extends TigerstripeFormPage {
 
 	private IManagedForm managedForm;
-
+	private DecoratorSection decoratorSection;
+	
 	public static final String PAGE_ID = "org.eclipse.tigerstripe.sdk.extension.decorator"; 
 
 	public DecoratorPage(FormEditor editor) {
@@ -53,6 +54,9 @@ public class DecoratorPage extends TigerstripeFormPage {
 		if (managedForm != null) {
 			managedForm.refresh();
 		}
+		if (decoratorSection != null) {
+			decoratorSection.refresh();
+		}
 	}
 
 	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {
@@ -67,9 +71,9 @@ public class DecoratorPage extends TigerstripeFormPage {
 		layout.horizontalSpacing = 10;
 		body.setLayout(layout);
 
-		TigerstripeSectionPart part = new DecoratorSection(this,
+		decoratorSection = new DecoratorSection(this,
 				body, toolkit, ExpandableComposite.EXPANDED);
-		managedForm.addPart(part);
+		managedForm.addPart(decoratorSection);
 		
 		
 	}

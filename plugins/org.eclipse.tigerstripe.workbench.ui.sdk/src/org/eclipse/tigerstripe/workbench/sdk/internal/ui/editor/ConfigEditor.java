@@ -12,9 +12,8 @@
 package org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor;
 
 import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.sdk.internal.IContributionListener;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.annotation.AnnotationPage;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.artifactMetadata.ArtifactMetadataPage;
@@ -25,15 +24,20 @@ import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.patterns.Pattern
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.PartInitException;
 
-public class ConfigEditor extends TigerstripeFormEditor {
+public class ConfigEditor extends TigerstripeFormEditor implements IContributionListener{
 
-	private boolean ignoreResourceChange = false;
 
 	private ISDKProvider provider;
 
+	
+	private AuditPage auditPage;
+	private DecoratorPage dPage;
+	private NamingPage nPage;
+	private ArtifactMetadataPage artifactMetadataPage;
+	private PatternPage patternsPage;
+	private AnnotationPage annotationsPage  = new AnnotationPage(this);
 	
 	public ConfigEditor() {
 	}
@@ -46,29 +50,32 @@ public class ConfigEditor extends TigerstripeFormEditor {
 		if (provider == null)
 			System.out.println("arggg Null");
 		this.provider = provider;
+		this.provider.addListener(this);
+		
 	}
+
 
 	@Override
 	public void resourceChanged(IResourceChangeEvent event) {
-
-		if (ignoreResourceChange)
-			return;
-
-		IResourceDelta selfDelta = lookforSelf(event.getDelta());
-
-		if (selfDelta != null) {
-
-			if (event.getType() == IResourceChangeEvent.POST_CHANGE) {
-				try {
-					updateArtifactFromTextEditor();
-				} catch (TigerstripeException e) {
-					EclipsePlugin.log(e);
-				}
-			}
+		if (auditPage != null){
+			auditPage.refresh();
 		}
-		super.resourceChanged(event);
+		if (dPage != null){
+			dPage.refresh();
+		}
+		if (nPage != null){
+			nPage.refresh();
+		}
+		if (artifactMetadataPage != null){
+			artifactMetadataPage.refresh();
+		}
+		if (patternsPage != null){
+			patternsPage.refresh();
+		}
+		if (annotationsPage != null){
+			annotationsPage.refresh();
+		}
 	}
-
 
 	@Override
 	protected void setInput(IEditorInput input) {
@@ -87,17 +94,17 @@ public class ConfigEditor extends TigerstripeFormEditor {
 		try {
 			//ConfigOverviewPage page = new ConfigOverviewPage(this);
 			//addPage(page);
-			AuditPage auditPage = new AuditPage(this);
+			auditPage = new AuditPage(this);
 			index =  addPage(auditPage);
-			DecoratorPage dPage = new DecoratorPage(this);
+			dPage = new DecoratorPage(this);
 			addPage(dPage);
-			NamingPage nPage = new NamingPage(this);
+			nPage = new NamingPage(this);
 			addPage(nPage);
-			ArtifactMetadataPage artifactMetadataPage  = new ArtifactMetadataPage(this);
+			artifactMetadataPage  = new ArtifactMetadataPage(this);
 			addPage(artifactMetadataPage);
-			PatternPage patternsPage  = new PatternPage(this);
+			patternsPage  = new PatternPage(this);
 			addPage(patternsPage);
-			AnnotationPage annotationsPage  = new AnnotationPage(this);
+			annotationsPage  = new AnnotationPage(this);
 			addPage(annotationsPage);
 
 			
@@ -112,124 +119,8 @@ public class ConfigEditor extends TigerstripeFormEditor {
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 
-		getUndoManager().editorSaved();
-
-		//if (getActivePage() != sourcePageIndex) {
-			updateTextEditorFromArtifact();
-//		} else {
-//			try {
-//				updateArtifactFromTextEditor();
-//			} catch (TigerstripeException ee) {
-//				Status status = new Status(IStatus.WARNING, EclipsePlugin
-//						.getPluginId(), 111, "Unexpected Exception", ee);
-//				EclipsePlugin.log(status);
-//			}
-//		}
-//		monitor
-//				.beginTask("Saving " + getIProvider().getFullyQualifiedName(),
-//						1);
-//		// check for errors, if errors are found they will be displayed
-//		IStatus errorList = getIProvider().validate();
-//		if (!errorList.isOK()) {
-//			if (errorList.matches(IStatus.ERROR)) {
-//				// display error list and exit without saving
-//				MessageListDialog dialog = new MessageListDialog(getContainer()
-//						.getShell(), errorList, "Save Failed: Invalid Artifact");
-//				dialog.create();
-//				dialog.disableOKButton();
-//				dialog.open();
-//				return;
-//			}
-//			// display warning/info list and save when user clicks on "OK"
-//			// button
-//			MessageListDialog dialog = new MessageListDialog(getContainer()
-//					.getShell(), errorList,
-//					"Warning: non-fatal errors with Artifact");
-//			int returnCode = dialog.open();
-//			if (returnCode != Window.OK)
-//				return;
-//		}
-
-		// We let Eclipse do the save to the file.
-		setIgnoreResourceChange(true); // ignore the resource change notif here
-		//getEditor(sourcePageIndex).doSave(monitor);
-		setIgnoreResourceChange(false);
-
-		// Bug 1027: At this stage we need to update the content of the Artifact
-		// Mgr
-		// so that the change in the Artifact is broadcast and the POJO state
-		// is up2date to avoid a re-parse in the next refresh() of the Mgr
-		// This is using a back-door ugly mechanism, but it avoids much trouble
-//		AbstractArtifact aArt = (AbstractArtifact) getIArtifact();
-//		ArtifactManager mgr = aArt.getArtifactManager();
-//
-//		mgr.removeArtifactManagerListener(this);
-//		mgr.notifyArtifactSaved(aArt, monitor);
-//		mgr.addArtifactManagerListener(this);
-
-		monitor.done();
 	}
 
 
-
-	private void updateTextEditorFromArtifact() {
-//		FileEditorInput input = (FileEditorInput) sourcePage.getEditorInput();
-//		IAbstractArtifact artifact = getIArtifact();
-//		try {
-//			sourcePage.getDocumentProvider().getDocument(input).set(
-//					artifact.asText());
-//		} catch (TigerstripeException e) {
-//			EclipsePlugin.log(e);
-//		}
-	}
-
-	private void updateArtifactFromTextEditor() throws TigerstripeException {
-//		FileEditorInput input = (FileEditorInput) sourcePage.getEditorInput();
-//		IAbstractArtifact originalArtifact = getIArtifact();
-//
-//		ITigerstripeModelProject project = originalArtifact
-//				.getTigerstripeProject();
-//		IArtifactManagerSession session = project.getArtifactManagerSession();
-//
-//		if (sourcePage.getDocumentProvider().getDocument(input) != null) { // Bug
-//			// 810
-//			String text = sourcePage.getDocumentProvider().getDocument(input)
-//					.get();
-//			StringReader reader = new StringReader(text);
-//			try {
-//				IAbstractArtifact newArtifact = session.extractArtifact(reader,
-//						new NullProgressMonitor());
-//				setIArtifact(newArtifact);
-//				refreshModelPages();
-//			} catch (TigerstripeException e) {
-//				EclipsePlugin.log(e);
-//			}
-//		}
-	}
-
-	private boolean isPageModified;
-
-	public void pageModified() {
-		isPageModified = true;
-		if (!super.isDirty())
-			firePropertyChange(IEditorPart.PROP_DIRTY);
-	}
-
-	@Override
-	protected void handlePropertyChange(int propertyId) {
-		if (propertyId == IEditorPart.PROP_DIRTY)
-			isPageModified = super.isDirty();
-		super.handlePropertyChange(propertyId);
-	}
-
-	@Override
-	public boolean isDirty() {
-		return isPageModified || super.isDirty();
-	}
-
-	
-	private void setIgnoreResourceChange(boolean ignoreResourceChange) {
-		this.ignoreResourceChange = ignoreResourceChange;
-	}
 
 }

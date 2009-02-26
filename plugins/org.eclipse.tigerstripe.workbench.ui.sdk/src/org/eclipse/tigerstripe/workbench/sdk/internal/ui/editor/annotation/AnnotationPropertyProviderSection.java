@@ -404,8 +404,6 @@ public class AnnotationPropertyProviderSection extends ExtensionSectionPart impl
 	}
 
 	protected void markPageModified() {
-		ConfigEditor editor = (ConfigEditor) getPage().getEditor();
-		editor.pageModified();
 	}
 
 	/**

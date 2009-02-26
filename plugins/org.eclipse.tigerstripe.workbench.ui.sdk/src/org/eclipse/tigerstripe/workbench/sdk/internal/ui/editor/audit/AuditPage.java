@@ -25,6 +25,7 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
 public class AuditPage extends TigerstripeFormPage {
 
 	private IManagedForm managedForm;
+	private AuditSection auditSection;
 
 	public static final String PAGE_ID = "org.eclipse.tigerstripe.sdk.extension.audit"; 
 
@@ -53,6 +54,9 @@ public class AuditPage extends TigerstripeFormPage {
 		if (managedForm != null) {
 			managedForm.refresh();
 		}
+		if (auditSection != null) {
+			auditSection.refresh();
+		}
 	}
 
 	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {
@@ -67,9 +71,9 @@ public class AuditPage extends TigerstripeFormPage {
 		layout.horizontalSpacing = 10;
 		body.setLayout(layout);
 
-		TigerstripeSectionPart part = new AuditSection(this,
+		 auditSection = new AuditSection(this,
 				body, toolkit, ExpandableComposite.EXPANDED);
-		managedForm.addPart(part);
+		managedForm.addPart(auditSection);
 		
 		
 	}

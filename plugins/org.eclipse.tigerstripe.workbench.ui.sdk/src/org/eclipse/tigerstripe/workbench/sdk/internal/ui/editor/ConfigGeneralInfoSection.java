@@ -382,8 +382,6 @@ public class ConfigGeneralInfoSection extends ExtensionSectionPart {
 	}
 
 	protected void markPageModified() {
-		ConfigEditor editor = (ConfigEditor) getPage().getEditor();
-		editor.pageModified();
 	}
 
 	@Override

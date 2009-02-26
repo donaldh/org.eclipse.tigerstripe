@@ -61,4 +61,8 @@ public interface ISDKProvider {
 	
 	public IPattern getPattern(IPluginModelBase contributor,String fileName);
 	
+	public void addListener(IContributionListener listener);
+	
+	public void removeListener(IContributionListener listener);
+	
 }

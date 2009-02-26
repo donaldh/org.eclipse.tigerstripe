@@ -25,6 +25,8 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
 public class PatternPage extends TigerstripeFormPage {
 
 	private IManagedForm managedForm;
+	private PatternSection patternSection;
+	private DisabledPatternSection disabledPatternSection;
 
 	public static final String PAGE_ID = "org.eclipse.tigerstripe.sdk.extension.patterns"; 
 
@@ -53,6 +55,8 @@ public class PatternPage extends TigerstripeFormPage {
 		if (managedForm != null) {
 			managedForm.refresh();
 		}
+		patternSection.refresh();
+		disabledPatternSection.refresh();
 	}
 
 	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {
@@ -67,12 +71,12 @@ public class PatternPage extends TigerstripeFormPage {
 		layout.horizontalSpacing = 10;
 		body.setLayout(layout);
 
-		TigerstripeSectionPart part = new PatternSection(this,
+		patternSection = new PatternSection(this,
 				body, toolkit, ExpandableComposite.EXPANDED);
-		managedForm.addPart(part);
-		part = new DisabledPatternSection(this,
+		managedForm.addPart(patternSection);
+		disabledPatternSection = new DisabledPatternSection(this,
 				body, toolkit, ExpandableComposite.EXPANDED);
-		managedForm.addPart(part);
+		managedForm.addPart(disabledPatternSection);
 		
 	}
 

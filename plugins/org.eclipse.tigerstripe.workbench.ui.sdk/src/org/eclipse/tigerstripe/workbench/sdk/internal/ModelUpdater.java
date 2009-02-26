@@ -60,14 +60,14 @@ public class ModelUpdater {
 		};
 		PDEModelUtility.modifyModel(mod, new NullProgressMonitor());
 	}
-	
-public void removeDisabledPattern(IProject project, String patternName){
-		
+
+	public void removeDisabledPattern(IProject project, String patternName){
+
 		final String EXT_PT = LocalContributions.PATTERNS_EXT_PT;
 		final String PATTERN_NAME = patternName;
-		
+
 		final IFile file = project.getFile("plugin.xml");
-		
+
 		ModelModification mod = new ModelModification(file) {
 			protected void modifyModel(IBaseModel model, IProgressMonitor monitor) throws CoreException {
 				if (!(model instanceof IPluginModelBase))
@@ -75,7 +75,7 @@ public void removeDisabledPattern(IProject project, String patternName){
 				IPluginModelBase pluginModel = (IPluginModelBase) model;
 				IExtensions extensions = pluginModel.getExtensions();
 				IExtensionsModelFactory factory = pluginModel.getFactory();
-				
+
 				IPluginExtension extensionToRemoveFrom = null;
 				// Need to get the existing extension to this EXT_PT
 				for (IPluginExtension extension : extensions.getExtensions()){
@@ -89,15 +89,15 @@ public void removeDisabledPattern(IProject project, String patternName){
 									extensionToRemoveFrom.remove(child);
 								}
 							}
-				
+
 						}
-						
+
 					}
 				}				
-								
+
 			}
 		};
 		PDEModelUtility.modifyModel(mod, new NullProgressMonitor());
 	}
-	
+
 }

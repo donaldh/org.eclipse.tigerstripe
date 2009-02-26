@@ -26,6 +26,10 @@ public class ArtifactMetadataPage extends TigerstripeFormPage {
 
 	private IManagedForm managedForm;
 
+	private ArtifactMetadataSection artifactMetadataSection;
+	private ComponentIconSection componentIconSection;
+	private ArtifactIconSection artifactIconSection;
+	
 	public static final String PAGE_ID = "org.eclipse.tigerstripe.sdk.extension.artifactMetadata"; 
 
 	public ArtifactMetadataPage(FormEditor editor) {
@@ -53,6 +57,15 @@ public class ArtifactMetadataPage extends TigerstripeFormPage {
 		if (managedForm != null) {
 			managedForm.refresh();
 		}
+		if (artifactMetadataSection != null) {
+			artifactMetadataSection.refresh();
+		}
+		if (componentIconSection != null) {
+			componentIconSection.refresh();
+		}
+		if (artifactIconSection != null) {
+			artifactIconSection.refresh();
+		}
 	}
 
 	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {
@@ -67,17 +80,17 @@ public class ArtifactMetadataPage extends TigerstripeFormPage {
 		layout.horizontalSpacing = 10;
 		body.setLayout(layout);
 
-		TigerstripeSectionPart part = new ArtifactMetadataSection(this,
+		artifactMetadataSection = new ArtifactMetadataSection(this,
 				body, toolkit, ExpandableComposite.EXPANDED);
-		managedForm.addPart(part);
+		managedForm.addPart(artifactMetadataSection);
 		
-		part = new ComponentIconSection(this,
+		componentIconSection = new ComponentIconSection(this,
 				body, toolkit, ExpandableComposite.EXPANDED);
-		managedForm.addPart(part);
+		managedForm.addPart(componentIconSection);
 		
-		part = new ArtifactIconSection(this,
+		artifactIconSection = new ArtifactIconSection(this,
 				body, toolkit, ExpandableComposite.EXPANDED);
-		managedForm.addPart(part);
+		managedForm.addPart(artifactIconSection);
 	}
 
 }

@@ -17,8 +17,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.pde.core.plugin.IPluginAttribute;
 import org.eclipse.pde.core.plugin.IPluginElement;
 import org.eclipse.pde.core.plugin.IPluginExtension;
@@ -43,8 +46,10 @@ import org.eclipse.tigerstripe.workbench.sdk.internal.contents.PatternFileContri
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationTypeContribution.Target;
 import org.osgi.framework.Bundle;
 
-public class LocalContributions extends AbstractProvider implements ISDKProvider{
+public class LocalContributions extends AbstractProvider implements ISDKProvider, IResourceChangeListener{
 	
+	
+
 	public static String AUDIT_EXT_PT = "org.eclipse.tigerstripe.workbench.base.customArtifactAuditor";
 	public static String AUDIT_PART = "customArtifactAuditor";
 	
@@ -75,6 +80,9 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 	public static String ANNOTATIONS_PROPERTYPROVIDER_EXT_PT = "org.eclipse.tigerstripe.annotation.ui.propertyProvider";
 	public static String ANNOTATIONS_PROPERTYPROVIDER_PART = "provider";
 	
+	
+	private ListenerList listenerList = new ListenerList();
+	
 	private class PatternLocation {
 		public PatternLocation(IPluginModelBase contributor, String fileName) {
 			super();
@@ -98,6 +106,26 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 	}
 	
 	private Map<PatternLocation,IPattern> embeddedPatterns = null;
+	
+	
+	public LocalContributions() {
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
+	}
+	
+	@Override
+	public void resourceChanged(IResourceChangeEvent event) {
+		// TODO This is general - triggered on ALL change in the ws
+		System.out.println(event.getDelta().getResource().getName());
+		findAll();
+		 Object[] listeners = listenerList.getListeners();
+		 for (int i = 0; i < listeners.length; ++i) {
+		 	((IContributionListener) listeners[i]).resourceChanged(event);
+		 }
+		 
+	}
+	
+	
+	
 	
 	@SuppressWarnings("restriction")
 	public void findAll() {
@@ -519,6 +547,16 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 			}
 		}
 
+	}
+
+
+
+	public void addListener(IContributionListener listener){
+		listenerList.add(listener);
+	}
+	
+	public void removeListener(IContributionListener listener){
+		listenerList.remove(listener);
 	}
 
 }

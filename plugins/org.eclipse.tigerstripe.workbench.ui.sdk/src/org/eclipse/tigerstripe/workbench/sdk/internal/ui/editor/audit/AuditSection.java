@@ -404,8 +404,6 @@ public class AuditSection extends ExtensionSectionPart implements
 	}
 
 	protected void markPageModified() {
-		ConfigEditor editor = (ConfigEditor) getPage().getEditor();
-		editor.pageModified();
 	}
 
 	/**
