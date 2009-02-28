@@ -11,52 +11,71 @@
 
 package org.eclipse.tigerstripe.workbench.ui.internal.wizards.export.facetmodel;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.jdt.core.IJavaProject;
+import java.lang.reflect.InvocationTargetException;
+
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.core.model.export.IModelExporter;
+import org.eclipse.tigerstripe.workbench.internal.core.model.export.facets.FacetModelExporter;
+import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLog;
 import org.eclipse.ui.IExportWizard;
 import org.eclipse.ui.IWorkbench;
 
 public class FacetModelExportWizard extends Wizard implements IExportWizard {
 
-	FacetModelExportWizardMainPage wizardPage;
+	private FacetModelExportWizardMainPage wizardPage;
+
+	private IStructuredSelection selection;
 
 	public FacetModelExportWizard() {
-
+		setNeedsProgressMonitor(true);
 	}
 
 	@Override
 	public void addPages() {
 
 		wizardPage = new FacetModelExportWizardMainPage();
+		wizardPage.init(selection);
 		addPage(wizardPage);
 	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 
-		if (selection == null || selection.size() > 1) {
-			return;
-		}
-		
-		if(selection.getFirstElement() instanceof IProject) {
-			System.out.println("IProject");
-		}
-		
-		if(selection.getFirstElement() instanceof IJavaProject) {
-			System.out.println("IJavaProject");
-		}
-
+		this.selection = selection;
 	}
 
 	@Override
 	public boolean performFinish() {
 
-		System.out.println("Source: " + wizardPage.getSourceProject().getFullPath());
-		System.out.println("Desintation: " + wizardPage.getDestinationProject().getFullPath());
-		System.out.println("Facet: " + wizardPage.getFacet());
-		System.out.println("References: " + wizardPage.isIncludeReferences());
+		try {
+			getContainer().run(true, true, new IRunnableWithProgress() {
 
+				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
+
+					IModelExporter exporter = new FacetModelExporter(wizardPage.getSourceProject(), wizardPage.getDestinationProject(), wizardPage
+							.getFacet());
+
+					try {
+						exporter.export(wizardPage.isIncludeReferences(), monitor);
+					} catch (TigerstripeException e) {
+						EclipsePlugin.log(e);
+					} catch (CoreException e) {
+						EclipsePlugin.log(e);
+					}
+				}
+			});
+		} catch (InvocationTargetException e) {
+			TigerstripeLog.logError(e);
+			return false;
+		} catch (InterruptedException e) {
+			TigerstripeLog.logError(e);
+			return false;
+		}
 		return true;
 	}
 

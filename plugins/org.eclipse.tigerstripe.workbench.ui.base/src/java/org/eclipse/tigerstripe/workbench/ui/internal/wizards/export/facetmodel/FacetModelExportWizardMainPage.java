@@ -15,9 +15,11 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -40,12 +42,15 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeProjectNature;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLog;
 import org.eclipse.ui.dialogs.SelectionDialog;
 
 public class FacetModelExportWizardMainPage extends WizardPage {
@@ -57,6 +62,8 @@ public class FacetModelExportWizardMainPage extends WizardPage {
 	private ITigerstripeModelProject sourceProject;
 
 	private ITigerstripeModelProject destinationProject;
+
+	private IStructuredSelection selection;
 
 	private final class TigerstripeProjectLabelProvider extends LabelProvider {
 
@@ -76,13 +83,34 @@ public class FacetModelExportWizardMainPage extends WizardPage {
 		}
 	}
 
-	private final class TigerstripeProjectViewerFilter extends ViewerFilter {
+	private final class TigerstripeSourceProjectViewerFilter extends ViewerFilter {
 		@Override
 		public boolean select(Viewer viewer, Object parentElement, Object element) {
 
 			try {
 				if (element instanceof IProject && TigerstripeProjectNature.hasNature((IProject) element)) {
-					return true;
+					if (TigerstripeProjectAuditor.findAll((IProject) element, "wfc").size() > 0)
+						return true;
+				}
+			} catch (CoreException e) {
+				EclipsePlugin.log(e);
+				return false;
+			}
+			return false;
+		}
+	}
+
+	private final class TigerstripeDestinationProjectViewerFilter extends ViewerFilter {
+		@Override
+		public boolean select(Viewer viewer, Object parentElement, Object element) {
+
+			try {
+				if (element instanceof IProject && TigerstripeProjectNature.hasNature((IProject) element)) {
+					if (!((IProject) element).equals(sourceProject.getAdapter(IProject.class))) {
+						return true;
+					} else {
+						return false;
+					}
 				}
 			} catch (CoreException e) {
 				EclipsePlugin.log(e);
@@ -102,13 +130,13 @@ public class FacetModelExportWizardMainPage extends WizardPage {
 
 		@Override
 		protected Point getInitialSize() {
-			
-			return new Point(280, 350); 
+
+			return new Point(280, 350);
 		}
-		
+
 		@Override
 		protected boolean isResizable() {
-			
+
 			return false;
 		}
 
@@ -121,7 +149,7 @@ public class FacetModelExportWizardMainPage extends WizardPage {
 			((GridLayout) parent.getLayout()).marginBottom = 3;
 			((GridLayout) parent.getLayout()).verticalSpacing = 3;
 			((GridLayout) parent.getLayout()).horizontalSpacing = 3;
-			
+
 			Group group = new Group(parent, SWT.SHADOW_NONE);
 
 			final GridLayout gridlayout = new GridLayout();
@@ -133,8 +161,13 @@ public class FacetModelExportWizardMainPage extends WizardPage {
 			destProjectTableViewer.getTable().setLayoutData(gd1);
 			destProjectTableViewer.setContentProvider(new ArrayContentProvider());
 			destProjectTableViewer.setLabelProvider(new TigerstripeProjectLabelProvider());
-			destProjectTableViewer.setFilters(new ViewerFilter[] { new TigerstripeProjectViewerFilter() });
+			destProjectTableViewer.setFilters(new ViewerFilter[] { new TigerstripeDestinationProjectViewerFilter() });
 			destProjectTableViewer.setInput(ResourcesPlugin.getWorkspace().getRoot().getProjects());
+
+			TableItem item = (TableItem) destProjectTableViewer.getTable().getItem(0);
+			destinationProject = (ITigerstripeModelProject) ((IProject) item.getData()).getAdapter(ITigerstripeModelProject.class);
+			destProjectTableViewer.getTable().select(0);
+
 			destProjectTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
 				public void selectionChanged(SelectionChangedEvent event) {
@@ -156,6 +189,10 @@ public class FacetModelExportWizardMainPage extends WizardPage {
 		setDescription("Enter source project, destination project, facet, and whether or not to include referenced projects.");
 	}
 
+	public void init(IStructuredSelection selection) {
+		this.selection = selection;
+	}
+
 	public IFile getFacet() {
 		return facet;
 	}
@@ -172,7 +209,6 @@ public class FacetModelExportWizardMainPage extends WizardPage {
 		return destinationProject;
 	}
 
-
 	public void createControl(Composite parent) {
 
 		Composite container = new Composite(parent, SWT.NULL);
@@ -182,9 +218,9 @@ public class FacetModelExportWizardMainPage extends WizardPage {
 		createSourceGroupControl(container);
 		createDestinationGroupControl(container);
 	}
-	
+
 	public void checkPageComplete() {
-		
+
 		if (sourceProject != null && destinationProject != null && facet != null) {
 			setPageComplete(true);
 		} else {
@@ -209,7 +245,7 @@ public class FacetModelExportWizardMainPage extends WizardPage {
 		srcProjectTableViewer.getTable().setLayoutData(gd1);
 		srcProjectTableViewer.setContentProvider(new ArrayContentProvider());
 		srcProjectTableViewer.setLabelProvider(new TigerstripeProjectLabelProvider());
-		srcProjectTableViewer.setFilters(new ViewerFilter[] { new TigerstripeProjectViewerFilter() });
+		srcProjectTableViewer.setFilters(new ViewerFilter[] { new TigerstripeSourceProjectViewerFilter() });
 
 		srcProjectTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
@@ -275,6 +311,42 @@ public class FacetModelExportWizardMainPage extends WizardPage {
 				}
 			}
 		});
+
+		// if a project was selected when wizard was invoked use it,
+		// otherwise set the first entry
+		if (selection.size() != 0) {
+
+			try {
+
+				sourceProject = (ITigerstripeModelProject) ((IJavaProject) selection.getFirstElement()).getProject().getAdapter(
+						ITigerstripeModelProject.class);
+				srcProjectTableViewer.getTable().setSelection(getSelectionIndex(selection, srcProjectTableViewer.getTable()));
+				srcFacetTableViewer.setInput(TigerstripeProjectAuditor.findAll(((IJavaProject) selection.getFirstElement()).getProject(), "wfc"));
+
+			} catch (IllegalArgumentException e) {
+				TigerstripeLog.logError(e);
+			}
+		} else {
+
+			TableItem item = (TableItem) srcProjectTableViewer.getTable().getItem(0);
+			sourceProject = (ITigerstripeModelProject) ((IProject) item.getData()).getAdapter(ITigerstripeModelProject.class);
+			srcProjectTableViewer.getTable().setSelection(0);
+			srcFacetTableViewer.setInput(TigerstripeProjectAuditor.findAll((IProject) item.getData(), "wfc"));
+
+		}
+	}
+
+	private int getSelectionIndex(final IStructuredSelection selection, Table table) {
+
+		IJavaProject jProject = (IJavaProject) selection.getFirstElement();
+		TableItem[] items = table.getItems();
+		for (int i = 0; i < items.length; i++) {
+			TableItem item = items[i];
+			if (item.getData().equals(jProject.getProject())) {
+				return i;
+			}
+		}
+		throw new IllegalArgumentException("Invalid Selection argument.");
 	}
 
 	private void createDestinationGroupControl(final Composite container) {
