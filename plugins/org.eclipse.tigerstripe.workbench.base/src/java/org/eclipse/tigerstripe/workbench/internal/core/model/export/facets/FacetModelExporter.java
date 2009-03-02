@@ -11,6 +11,7 @@
 
 package org.eclipse.tigerstripe.workbench.internal.core.model.export.facets;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -36,6 +37,8 @@ public class FacetModelExporter implements IModelExporter {
 
 	private ITigerstripeModelProject destinationProject;
 
+	private List<IAbstractArtifact> exportedArtifacts = new ArrayList<IAbstractArtifact>();
+
 	public FacetModelExporter(ITigerstripeModelProject sourceProject, ITigerstripeModelProject destinationProject, IFile facetFile) {
 
 		super();
@@ -43,7 +46,6 @@ public class FacetModelExporter implements IModelExporter {
 		this.sourceProject = sourceProject;
 		this.destinationProject = destinationProject;
 		this.facetFile = facetFile;
-
 	}
 
 	/*
@@ -55,6 +57,10 @@ public class FacetModelExporter implements IModelExporter {
 	 */
 	@SuppressWarnings("deprecation")
 	public void export(boolean includeDependencies, IProgressMonitor monitor) throws TigerstripeException, CoreException {
+
+		if (monitor == null) {
+			monitor = new NullProgressMonitor();
+		}
 
 		try {
 
@@ -70,33 +76,32 @@ public class FacetModelExporter implements IModelExporter {
 			IModelExporterFacetManager facetManager = new FacetModelExporterFacetManager(sourceProject);
 			facetManager.applyExportFacet(facetFile);
 
+			if (monitor.isCanceled()) {
+				facetManager.restoreActiveFacet();
+				return;
+			}
+
 			for (IAbstractArtifact artifact : artifacts) {
+
 				if (artifact.isInActiveFacet()) {
+
 					IAbstractArtifact cloned = ((AbstractArtifact) artifact).makeWorkingCopy(new NullProgressMonitor());
-					destinationProject.getArtifactManagerSession().addArtifact(cloned);
-					cloned.doSave(monitor);
 					monitor.subTask(cloned.getName());
+					destinationProject.getArtifactManagerSession().addArtifact(cloned);
+					exportedArtifacts.add(cloned);
+					cloned.doSave(monitor);
 				}
-				// REMOVE ME! TEST ONLY!!
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				
-				monitor.worked(1);
+
 			}
 
 			monitor.subTask("Applying original facet (if applicable)");
 			facetManager.restoreActiveFacet();
-			
+
 			IProject project = (IProject) destinationProject.getAdapter(IProject.class);
 			project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
-			
-		} catch (IllegalArgumentException e) {
-			throw e;
+
 		} finally {
+
 			monitor.done();
 		}
 
