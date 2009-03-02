@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 
 
-public class ArtifactMetadataContribution {
+public class ArtifactMetadataContribution implements IContribution{
 
 	public ArtifactMetadataContribution(IPluginModelBase contributor,
 			String artifactType, String userLabel, boolean hasFields,

@@ -80,13 +80,6 @@ public class ArtifactIconDetailsPage implements IDetailsPage {
 	private boolean silentUpdate = false;
 
 	private Text artifactTypeText;
-
-	private Text userLabelText;
-
-	
-	private Button fieldsButton;
-	private Button methodsButton;
-	private Button literalsButton;
 	
 	private Text iconText;
 	private Text iconNewText;
@@ -186,14 +179,7 @@ public class ArtifactIconDetailsPage implements IDetailsPage {
 				SWT.PUSH);
 
 		iconGreyBrowseButton.addSelectionListener(adapter);
-		
-		
-		
-		
-		
 
-		userLabelText.addModifyListener(adapter);
-		userLabelText.addKeyListener(adapter);
 		
 		iconText.addModifyListener(adapter);
 		iconText.addKeyListener(adapter);
@@ -256,7 +242,7 @@ public class ArtifactIconDetailsPage implements IDetailsPage {
 	}
 
 	public void selectionChanged(IFormPart part, ISelection selection) {
-		if (part instanceof ArtifactMetadataSection) {
+		if (part instanceof ArtifactIconSection) {
 			//if (nameEditListener != null)
 			//	nameEditListener.reset();
 
@@ -312,103 +298,13 @@ public class ArtifactIconDetailsPage implements IDetailsPage {
 	}
 
 	public void handleWidgetSelected(SelectionEvent e) {
-//		if (e.getSource() == optionalButton) {
-//			getField().setOptional(optionalButton.getSelection());
-//			pageModified();
-//		} else if (e.getSource() == readonlyButton) {
-//			getField().setReadOnly(readonlyButton.getSelection());
-//			pageModified();
-//		} else if (e.getSource() == orderedButton) {
-//			getField().setOrdered(orderedButton.getSelection());
-//			pageModified();
-//		} else if (e.getSource() == uniqueButton) {
-//			getField().setUnique(uniqueButton.getSelection());
-//			pageModified();
-//		} else if (e.getSource() == publicButton
-//				|| e.getSource() == privateButton
-//				|| e.getSource() == protectedButton
-//				|| e.getSource() == packageButton) {
-//			getField().setVisibility(getVisibility());
-//			pageModified();
-//		} else if (e.getSource() == multiplicityCombo) {
-//			IType type = getField().getType();
-//			IModelComponent.EMultiplicity mult = IModelComponent.EMultiplicity
-//					.values()[multiplicityCombo.getSelectionIndex()];
-//			type.setTypeMultiplicity(mult);
-//			pageModified();
-//		} else if (e.getSource() == typeBrowseButton) {
-//			browseButtonPressed();
-//		} else if (e.getSource() == refByKeyButton
-//				|| e.getSource() == refByKeyResultButton
-//				|| e.getSource() == refByValueButton) {
-//			if (refByKeyButton.getSelection()) {
-//				contribution.setRefBy(IField.REFBY_KEY);
-//				pageModified();
-//			} else if (refByKeyResultButton.getSelection()) {
-//				contribution.setRefBy(IField.REFBY_KEYRESULT);
-//				pageModified();
-//			} else {
-//				contribution.setRefBy(IField.REFBY_VALUE);
-//				pageModified();
-//			}
-//		}
-//		updateButtonsState();
+
 	}
 
 	public void handleModifyText(ModifyEvent e) {
-//		if (!isSilentUpdate()) {
-//			// when updating the form, the changes to all fields should be
-//			// ignored so that the form is not marked as dirty.
-//			if (e.getSource() == nameText) {
-//				getField().setName(nameText.getText().trim());
-//				if (master != null) {
-//					TableViewer viewer = master.getViewer();
-//					viewer.refresh(getField());
-//				}
-//			} else if (e.getSource() == typeText) {
-//				IType type = getField().getType();
-//				type.setFullyQualifiedName(typeText.getText().trim());
-//
-//				updateDefaultValueCombo();
-//			} else if (e.getSource() == commentText) {
-//				getField().setComment(commentText.getText().trim());
-//			} else if (e.getSource() == defaultValueText) {
-//				if (defaultValueText.getText().trim().length() == 0) {
-//					getField().setDefaultValue(null);
-//				} else
-//					getField().setDefaultValue(
-//							defaultValueText.getText().trim());
-//			}
-//			updateButtonsState();
-//			pageModified();
-//		}
+
 	}
 
-	private void updateDefaultValueCombo() {
-//		// Update the default value control based on the field type
-//		if (getField().getType() != null) {
-//			Type type = (Type) getField().getType();
-//			IAbstractArtifact art = type.getArtifact();
-//			if (art instanceof IEnumArtifact) {
-//				IEnumArtifact enumArt = (IEnumArtifact) art;
-//				String[] items = new String[enumArt.getLiterals().size()];
-//				int i = 0;
-//				for (ILiteral literal : enumArt.getLiterals()) {
-//					items[i] = literal.getName();
-//					i++;
-//				}
-//				defaultValueText.setItems(items);
-//				defaultValueText.setEditable(false);
-//			} else if (type.getFullyQualifiedName().equals("boolean")) {
-//				defaultValueText.setItems(new String[] { "true", "false", "" });
-//				defaultValueText.setEditable(false);
-//				defaultValueText.select(2);
-//			} else {
-//				defaultValueText.setItems(new String[0]);
-//				defaultValueText.setEditable(true);
-//			}
-//		}
-	}
 
 	/**
 	 * Opens up a dialog box to browse for Artifacts

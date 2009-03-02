@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 
-public class AnnotationPackageLabelContribution {
+public class AnnotationPackageLabelContribution implements IContribution{
 
 	
 	public AnnotationPackageLabelContribution(IPluginModelBase contributor, String uri,

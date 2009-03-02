@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 
-public class AnnotationExplicitFileRouterContribution {
+public class AnnotationExplicitFileRouterContribution implements IContribution{
 
 	public AnnotationExplicitFileRouterContribution(IPluginModelBase contributor,
 			String nsURI, String path, String eClass, String ePackage,

@@ -98,7 +98,7 @@ public class AnnotationSection extends ExtensionSectionPart implements
 		layout.marginWidth = 5;
 		layout.marginHeight = 5;
 		body.setLayout(layout);
-		sashForm = new SashForm(body, SWT.HORIZONTAL);
+		sashForm = new SashForm(body, SWT.VERTICAL);
 		toolkit.adapt(sashForm, false, false);
 		sashForm.setMenu(body.getMenu());
 		sashForm.setToolTipText("Define/Edit attributes for this Artifact.");

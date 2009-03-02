@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 
 
-public class PatternFileContribution {
+public class PatternFileContribution implements IContribution{
 
 	public PatternFileContribution(IPluginModelBase contributor, String fileName,
 			String validatorClass, boolean readOnly) {

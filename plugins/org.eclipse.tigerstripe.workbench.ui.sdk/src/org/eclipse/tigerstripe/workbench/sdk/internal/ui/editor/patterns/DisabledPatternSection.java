@@ -13,7 +13,6 @@ package org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.patterns;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
@@ -23,7 +22,6 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.wizard.WizardDialog;
-import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionEvent;
@@ -49,11 +47,9 @@ import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
 import org.eclipse.tigerstripe.workbench.sdk.internal.LocalContributions;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ModelUpdater;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.DisabledPatternContribution;
-import org.eclipse.tigerstripe.workbench.sdk.internal.contents.PatternFileContribution;
-import org.eclipse.tigerstripe.workbench.sdk.internal.ui.dialogs.SelectContributerDialog;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.ConfigEditor;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.ExtensionSectionPart;
-import org.eclipse.tigerstripe.workbench.sdk.internal.ui.wizards.DisablePatternWizard;
+import org.eclipse.tigerstripe.workbench.sdk.internal.ui.wizards.AddDisabledPatternWizard;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.ui.forms.DetailsPart;
@@ -109,7 +105,7 @@ public class DisabledPatternSection extends ExtensionSectionPart implements
 		layout.marginWidth = 5;
 		layout.marginHeight = 5;
 		body.setLayout(layout);
-		sashForm = new SashForm(body, SWT.HORIZONTAL);
+		sashForm = new SashForm(body, SWT.VERTICAL);
 		toolkit.adapt(sashForm, false, false);
 		sashForm.setMenu(body.getMenu());
 		sashForm.setToolTipText("Define/Edit contributions for this Extension Point.");
@@ -333,7 +329,7 @@ public class DisabledPatternSection extends ExtensionSectionPart implements
 	protected void addButtonSelected(SelectionEvent event) {
 		// Show the "DisablePattern" wizard
 		Shell shell = EclipsePlugin.getActiveWorkbenchShell();
-		DisablePatternWizard wiz = new DisablePatternWizard(((ConfigEditor) getPage().getEditor())
+		AddDisabledPatternWizard wiz = new AddDisabledPatternWizard(((ConfigEditor) getPage().getEditor())
 				.getIProvider());
 		WizardDialog dialog =
 			new WizardDialog(shell, wiz);

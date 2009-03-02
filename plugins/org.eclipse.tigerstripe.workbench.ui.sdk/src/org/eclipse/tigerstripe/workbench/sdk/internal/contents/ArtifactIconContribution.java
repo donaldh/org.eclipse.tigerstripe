@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 
 
-public class ArtifactIconContribution {
+public class ArtifactIconContribution implements IContribution {
 
 	public ArtifactIconContribution(IPluginModelBase contributor, String icon,
 			String icon_new, String icon_gs, String artifactType, boolean readOnly) {

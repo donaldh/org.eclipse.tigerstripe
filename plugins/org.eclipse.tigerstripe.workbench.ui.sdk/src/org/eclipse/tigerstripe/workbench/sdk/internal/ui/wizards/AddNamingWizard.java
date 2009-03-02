@@ -22,20 +22,19 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ModelUpdater;
-import org.eclipse.tigerstripe.workbench.sdk.internal.contents.PatternFileContribution;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
-public class DisablePatternWizard extends Wizard implements INewWizard {
+public class AddNamingWizard extends Wizard implements INewWizard {
 
-	public DisablePatternWizard( ISDKProvider provider) {
+	public AddNamingWizard( ISDKProvider provider) {
 		super();
 		this.provider = provider;
 	}
 
 	private ISDKProvider provider;
 	private IStructuredSelection fSelection;
-	private DisablePatternWizardPage firstPage;
+	private AddNamingWizardPage firstPage;
 	
 	
 	
@@ -43,10 +42,10 @@ public class DisablePatternWizard extends Wizard implements INewWizard {
 	
 	public void addPages() {
 		super.addPages();
-		setWindowTitle("Disable A Pattern");
-		this.firstPage = new DisablePatternWizardPage("", getShell(), provider);
+		setWindowTitle("Add A New Naming Class");
+		this.firstPage = new AddNamingWizardPage("", getShell(), provider);
 		addPage(this.firstPage);
-		this.firstPage.init(getSelection());
+		//this.firstPage.init(getSelection());
 	}
 	
 	
@@ -88,9 +87,10 @@ public class DisablePatternWizard extends Wizard implements INewWizard {
 		// Actually do the work!
 		// Gather info from the page
 		
-		PatternFileContribution patt = firstPage.getSelection();
-		IPluginModelBase cont = firstPage.getContributerSelection();
 		
+		IPluginModelBase cont = firstPage.getContributerSelection();
+		String namingName = firstPage.getNamingName();
+		String namingClass = firstPage.getNamingClass();
 		
 		try {
 			IResource res = (IResource) cont.getAdapter(IResource.class);
@@ -98,8 +98,7 @@ public class DisablePatternWizard extends Wizard implements INewWizard {
 			
 			ModelUpdater mu = new ModelUpdater();
 			if (contProject != null){
-				mu.addDisabledPattern(contProject, provider.getPattern(patt.getContributor(), patt.getFileName()).getName());
-				provider.findAll();
+				mu.addNaming(contProject, namingName, namingClass);
 			}
 
 		} catch (Exception e){

@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 
-public class AnnotationPropertyProviderContribution {
+public class AnnotationPropertyProviderContribution implements IContribution{
 
 	public AnnotationPropertyProviderContribution(IPluginModelBase contributor,
 			String _class, String priority, boolean readOnly) {

@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 
 
-public class AuditContribution {
+public class AuditContribution implements IContribution{
 	public AuditContribution(IPluginModelBase contributor,String name, String auditorClass, boolean readOnly) {
 		super();
 		this.name = name;					// optional

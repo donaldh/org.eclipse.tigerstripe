@@ -10,16 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.sdk.internal.ui.wizards;
 
-import org.eclipse.jdt.ui.wizards.NewElementWizardPage;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.IWizardPage;
-import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -30,24 +25,20 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.PatternFileContribution;
-import org.eclipse.tigerstripe.workbench.sdk.internal.ui.dialogs.SelectContributerDialog;
+import org.eclipse.tigerstripe.workbench.sdk.internal.ui.dialogs.SelectContributionDialog;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.dialogs.SelectPatternDialog;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 
-public class DisablePatternWizardPage extends NewElementWizardPage implements IWizardPage{
+public class AddDisabledPatternWizardPage extends AbstractWizardPage implements IWizardPage{
 
 
 		
 	private Text patternToDisableText;
 	private Button browsePatternsButton; 
-	private Text contributerText;
 	private Button chooseContributionButton; 
-	private Shell shell;
-	private ISDKProvider provider;
 	private PatternFileContribution selection = null; 
-	private IPluginModelBase contributerSelection = null; 
 	
-	protected DisablePatternWizardPage(String pageName, Shell shell, ISDKProvider provider) {
+	protected AddDisabledPatternWizardPage(String pageName, Shell shell, ISDKProvider provider) {
 		super(pageName);
 		this.shell = shell;
 		this.provider = provider;
@@ -64,34 +55,11 @@ public class DisablePatternWizardPage extends NewElementWizardPage implements IW
 	}
 	
 	
-	private class DisablePatternPageListener implements ModifyListener,
-	 SelectionListener {
-
-		public void widgetDefaultSelected(SelectionEvent e) {
-			// TODO Auto-generated method stub
-
-		}
-
-		public void widgetSelected(SelectionEvent e) {
-			handleWidgetSelected(e);
-		}
-
-
-		public void modifyText(ModifyEvent e) {
-			handleModifyText(e);
-		}
-
-		public void keyReleased(KeyEvent e) {
-		}
-
-	}
-	
-	
 	@Override
 	public void createControl(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
 		
-		DisablePatternPageListener adapter = new DisablePatternPageListener();
+		WizardPageListener adapter = new WizardPageListener();
 		final GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 3;
 		composite.setLayout(gridLayout);
@@ -124,7 +92,7 @@ public class DisablePatternWizardPage extends NewElementWizardPage implements IW
 		chooseContributionButton = new Button(composite, SWT.NONE);
 		chooseContributionButton.addSelectionListener(adapter);
 		chooseContributionButton.setText("Browse");
-		chooseContributionButton.setData("name", "Choose_Artifact");
+		chooseContributionButton.setData("name", "Choose_Contribution");
 		final GridData gd_chooseContributionButton = new GridData(GridData.FILL_HORIZONTAL);
 		chooseContributionButton.setLayoutData(gd_chooseContributionButton);
 
@@ -144,19 +112,19 @@ public class DisablePatternWizardPage extends NewElementWizardPage implements IW
 	
 	public void handleModifyText(ModifyEvent e){
 		// Should not really be called?
-			updatePageComplete();
+		//	updatePageComplete();
 	}
 	
 	private void browsePatternsButtonPressed(){
 		try {
-			SelectPatternDialog dialog = new SelectPatternDialog(
+			SelectContributionDialog dialog = new SelectPatternDialog(
 					this.shell,
 					provider);
 			dialog.setTitle("Pattern Name Selection");
 			dialog.setMessage("Enter a filter (* = any number of characters)"
 					+ " or an empty string for no filtering: ");
 
-			PatternFileContribution patternToDisable = dialog.browseAvailablePatterns();
+			PatternFileContribution patternToDisable = (PatternFileContribution) dialog.browseAvailableContributions();
 			if (patternToDisable != null){
 				setSelection(patternToDisable);
 				updatePageComplete();
@@ -166,27 +134,9 @@ public class DisablePatternWizardPage extends NewElementWizardPage implements IW
 			EclipsePlugin.log(e);
 		}
 	}
-	
-	private void chooseContributerButtonPressed(){
-		try {
-			SelectContributerDialog dialog = new SelectContributerDialog(
-					this.shell,
-					provider);
-			dialog.setTitle("Contributer Selection");
-			dialog.setMessage("Enter a filter (* = any number of characters)"
-					+ " or an empty string for no filtering: ");
-
-			IPluginModelBase contributerForSaving= dialog.browseAvailableContribuers();
-				setContributerSelection(contributerForSaving);
-				updatePageComplete();
-
-		} catch (TigerstripeException e) {
-			EclipsePlugin.log(e);
-		}
-	}
 
 	
-	private void updatePageComplete(){
+	protected void updatePageComplete(){
 		
 		// See if we have specified a valid one
 		if (getSelection() == null){
@@ -234,18 +184,6 @@ public class DisablePatternWizardPage extends NewElementWizardPage implements IW
 		patternToDisableText.setText(provider.getPattern(selection.getContributor(), selection.getFileName()).getName());
 	}
 
-
-	public IPluginModelBase getContributerSelection() {
-		return contributerSelection;
-	}
-
-
-	public void setContributerSelection(IPluginModelBase contributerSelection) {
-		if (contributerSelection != null){
-			this.contributerSelection = contributerSelection;
-			contributerText.setText(contributerSelection.toString());
-		}
-	}
 
 	
 }

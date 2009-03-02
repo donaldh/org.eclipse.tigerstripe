@@ -14,7 +14,7 @@ import java.util.Collection;
 
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 
-public class AnnotationTypeContribution {
+public class AnnotationTypeContribution implements IContribution{
 
 	public AnnotationTypeContribution(IPluginModelBase contributor,String name, String eClass,
 			String namespace, String uniq, 

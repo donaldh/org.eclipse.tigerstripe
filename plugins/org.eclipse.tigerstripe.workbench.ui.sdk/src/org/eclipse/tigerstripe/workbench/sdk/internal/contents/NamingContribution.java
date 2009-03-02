@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 
 
-public class NamingContribution {
+public class NamingContribution implements IContribution{
 	public NamingContribution(IPluginModelBase contributor,String name, String namingClass, boolean readOnly) {
 		super();
 		this.name = name;					// optional

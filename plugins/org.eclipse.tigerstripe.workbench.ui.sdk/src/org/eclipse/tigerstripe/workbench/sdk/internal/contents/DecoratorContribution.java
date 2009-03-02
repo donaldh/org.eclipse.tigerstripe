@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 
 
-public class DecoratorContribution {
+public class DecoratorContribution implements IContribution{
 	
 	public DecoratorContribution(IPluginModelBase contributor,String decoratorClass, boolean readOnly) {
 		super();

@@ -21,6 +21,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
@@ -37,6 +38,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -48,6 +50,7 @@ import org.eclipse.tigerstripe.workbench.sdk.internal.contents.PatternFileContri
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.dialogs.SelectContributerDialog;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.ConfigEditor;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.ExtensionSectionPart;
+import org.eclipse.tigerstripe.workbench.sdk.internal.ui.wizards.AddPatternDefinitionWizard;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.ui.forms.DetailsPart;
@@ -104,7 +107,7 @@ public class PatternSection extends ExtensionSectionPart implements
 		layout.marginWidth = 5;
 		layout.marginHeight = 5;
 		body.setLayout(layout);
-		sashForm = new SashForm(body, SWT.HORIZONTAL);
+		sashForm = new SashForm(body, SWT.VERTICAL);
 		toolkit.adapt(sashForm, false, false);
 		sashForm.setMenu(body.getMenu());
 		sashForm.setToolTipText("Define/Edit attributes for this Artifact.");
@@ -435,7 +438,13 @@ public class PatternSection extends ExtensionSectionPart implements
 	 * 
 	 */
 	protected void addButtonSelected(SelectionEvent event) {
-
+		// Show the "AddPattern" wizard
+		Shell shell = EclipsePlugin.getActiveWorkbenchShell();
+		AddPatternDefinitionWizard wiz = new AddPatternDefinitionWizard(((ConfigEditor) getPage().getEditor())
+				.getIProvider());
+		WizardDialog dialog =
+			new WizardDialog(shell, wiz);
+		dialog.open();
 	}
 
 	/**
@@ -488,7 +497,18 @@ public class PatternSection extends ExtensionSectionPart implements
 	 * 
 	 */
 	protected void removeButtonSelected(SelectionEvent event) {
-
+		// We know the pattern based on the current selection in the table
+		PatternFileContribution patt = (PatternFileContribution) viewer.getTable().getSelection()[0].getData();
+		
+		IResource res = (IResource) patt.getContributor().getAdapter(IResource.class);
+		
+		IProject contProject = (IProject) res.getProject();
+		ModelUpdater mu = new ModelUpdater();
+		if (contProject != null){
+			mu.removePatternDefinition(contProject,patt.getFileName(), patt.getValidatorClass());
+		}
+		
+		updateMaster();
 	}
 
 

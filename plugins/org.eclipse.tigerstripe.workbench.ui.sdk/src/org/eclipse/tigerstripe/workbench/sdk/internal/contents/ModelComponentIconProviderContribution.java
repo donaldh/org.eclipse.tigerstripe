@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 
 
-public class ModelComponentIconProviderContribution {
+public class ModelComponentIconProviderContribution implements IContribution{
 
 	public ModelComponentIconProviderContribution(IPluginModelBase contributor,
 			String artifactType, String provider, boolean readOnly) {

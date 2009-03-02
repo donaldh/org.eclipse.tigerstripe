@@ -14,7 +14,6 @@ package org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.patterns;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.sdk.internal.LocalContributions;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeSectionPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
@@ -55,8 +54,12 @@ public class PatternPage extends TigerstripeFormPage {
 		if (managedForm != null) {
 			managedForm.refresh();
 		}
-		patternSection.refresh();
-		disabledPatternSection.refresh();
+		if (patternSection != null){
+			patternSection.refresh();
+		}
+		if (disabledPatternSection != null){
+			disabledPatternSection.refresh();
+		}
 	}
 
 	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {
