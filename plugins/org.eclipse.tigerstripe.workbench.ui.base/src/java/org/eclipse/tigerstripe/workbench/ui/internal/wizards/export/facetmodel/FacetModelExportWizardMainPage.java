@@ -29,11 +29,11 @@ import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -53,11 +53,27 @@ import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLog;
 import org.eclipse.ui.dialogs.SelectionDialog;
 
-public class FacetModelExportWizardMainPage extends WizardPage {
+public class FacetModelExportWizardMainPage extends WizardPage implements ISelectionChangedListener, SelectionListener {
+
+	private static final int SIZING_SELECTION_WIDGET_WIDTH = 480;
+
+	private static final int SIZING_SELECTION_WIDGET_HEIGHT = 150;
+
+	private TableViewer projectTableViewer;
+
+	private TableViewer facetTableViewer;
+
+	private Button incReferencedBtn;
+
+	private Button overwriteExistingBtn;
+
+	private Text destinationText;
 
 	private IFile facet;
 
 	private boolean includeReferences = false;
+
+	private boolean overwriteDestination = false;
 
 	private ITigerstripeModelProject sourceProject;
 
@@ -78,8 +94,21 @@ public class FacetModelExportWizardMainPage extends WizardPage {
 			if (element instanceof IProject) {
 				return ((IProject) element).getName();
 			} else {
-				return null;
+				return "";
 			}
+		}
+	}
+
+	private final class TigerstripeFacetLabelProvider extends LabelProvider {
+
+		@Override
+		public Image getImage(Object element) {
+			return Images.get(Images.CONTRACTSEGMENT_ICON);
+		}
+
+		@Override
+		public String getText(Object element) {
+			return ((IFile) element).getName();
 		}
 	}
 
@@ -184,7 +213,7 @@ public class FacetModelExportWizardMainPage extends WizardPage {
 
 	public FacetModelExportWizardMainPage() {
 
-		super("model-export-main-page");
+		super("facet-export");
 		setTitle("Facet Scoped Model Export");
 		setDescription("Enter source project, destination project, facet, and whether or not to include referenced projects.");
 	}
@@ -197,8 +226,12 @@ public class FacetModelExportWizardMainPage extends WizardPage {
 		return facet;
 	}
 
-	public boolean isIncludeReferences() {
+	public boolean includeReferences() {
 		return includeReferences;
+	}
+
+	public boolean overwriteDestination() {
+		return overwriteDestination;
 	}
 
 	public ITigerstripeModelProject getSourceProject() {
@@ -211,12 +244,163 @@ public class FacetModelExportWizardMainPage extends WizardPage {
 
 	public void createControl(Composite parent) {
 
-		Composite container = new Composite(parent, SWT.NULL);
-		container.setLayout(new FillLayout(SWT.VERTICAL));
-		setControl(container);
+		initializeDialogUnits(parent);
 
-		createSourceGroupControl(container);
-		createDestinationGroupControl(container);
+		Composite composite = new Composite(parent, SWT.NULL);
+		composite.setLayout(new GridLayout());
+		composite.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_FILL | GridData.HORIZONTAL_ALIGN_FILL));
+
+		createInputLabel(composite);
+		createInputGroup(composite);
+		createDestinationLabel(composite);
+		createDestinationGroup(composite);
+		createOptionsLabel(composite);
+		createOptionsGroup(composite);
+
+		setControl(composite);
+
+	}
+
+	private void createInputLabel(Composite composite) {
+
+		new Label(composite, SWT.LEFT).setText("Select the resources to export:");
+	}
+
+	private void createInputGroup(Composite parent) {
+
+		Composite composite = new Composite(parent, SWT.NONE);
+		GridLayout layout = new GridLayout();
+		layout.numColumns = 2;
+		layout.makeColumnsEqualWidth = true;
+		layout.marginHeight = 0;
+		layout.marginWidth = 0;
+		composite.setLayout(layout);
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
+		createProjectListViewer(composite, SIZING_SELECTION_WIDGET_WIDTH / 2, SIZING_SELECTION_WIDGET_HEIGHT);
+		createFacetListViewer(composite, SIZING_SELECTION_WIDGET_WIDTH / 2, SIZING_SELECTION_WIDGET_HEIGHT);
+
+		initialize();
+
+	}
+
+	private void createProjectListViewer(Composite parent, int width, int height) {
+
+		Table table = new Table(parent, SWT.NONE);
+		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
+		data.widthHint = width;
+		data.heightHint = height;
+		table.setLayoutData(data);
+
+		projectTableViewer = new TableViewer(table);
+		projectTableViewer.setContentProvider(new ArrayContentProvider());
+		projectTableViewer.setLabelProvider(new TigerstripeProjectLabelProvider());
+		projectTableViewer.setFilters(new ViewerFilter[] { new TigerstripeSourceProjectViewerFilter() });
+		projectTableViewer.addSelectionChangedListener(this);
+
+	}
+
+	private void createFacetListViewer(Composite parent, int width, int height) {
+
+		Table table = new Table(parent, SWT.NONE);
+		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
+		data.widthHint = width;
+		data.heightHint = height;
+		table.setLayoutData(data);
+
+		facetTableViewer = new TableViewer(table);
+		facetTableViewer.setContentProvider(new ArrayContentProvider());
+		facetTableViewer.setLabelProvider(new TigerstripeFacetLabelProvider());
+		facetTableViewer.setSorter(new ViewerSorter());
+		facetTableViewer.addSelectionChangedListener(this);
+
+	}
+
+	private void createDestinationLabel(Composite composite) {
+
+		new Label(composite, SWT.LEFT).setText("Select the export destination:");
+	}
+
+	private void createDestinationGroup(Composite parent) {
+
+		final Composite composite = new Composite(parent, SWT.NONE);
+		GridLayout layout = new GridLayout();
+		layout.numColumns = 3;
+		composite.setLayout(layout);
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+
+		new Label(composite, SWT.NONE).setText("Project:");
+
+		destinationText = new Text(composite, SWT.NONE);
+		GridData data = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		destinationText.setLayoutData(data);
+
+		Button destinationButton = new Button(composite, SWT.PUSH);
+		destinationButton.setText("Browse...");
+		destinationButton.setLayoutData(new GridData(SWT.FILL, SWT.NONE, false, false));
+		destinationButton.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				DestinationProjectDialog dlg = new DestinationProjectDialog(composite.getShell());
+				if (dlg.open() == Dialog.OK) {
+					destinationText.setText(destinationProject.getName());
+				} else {
+					destinationText.setText("");
+					destinationProject = null;
+				}
+				checkPageComplete();
+			}
+		});
+
+	}
+
+	private void createOptionsLabel(Composite composite) {
+
+		new Label(composite, SWT.LEFT).setText("Options:");
+	}
+
+	private void createOptionsGroup(Composite parent) {
+
+		Composite composite = new Composite(parent, SWT.NONE);
+		GridLayout layout = new GridLayout();
+		layout.marginHeight = 0;
+		composite.setLayout(layout);
+
+		incReferencedBtn = new Button(composite, SWT.CHECK | SWT.LEFT);
+		incReferencedBtn.setText("Include referenced projects");
+		incReferencedBtn.addSelectionListener(this);
+
+		overwriteExistingBtn = new Button(composite, SWT.CHECK | SWT.LEFT);
+		overwriteExistingBtn.setText("Overwrite existing files without warning");
+		overwriteExistingBtn.addSelectionListener(this);
+
+	}
+
+	private void initialize() {
+
+		projectTableViewer.setInput(ResourcesPlugin.getWorkspace().getRoot().getProjects());
+		if (selection.size() != 0) {
+
+			try {
+
+				sourceProject = (ITigerstripeModelProject) ((IJavaProject) selection.getFirstElement()).getProject().getAdapter(
+						ITigerstripeModelProject.class);
+				projectTableViewer.getTable().setSelection(getSelectionIndex(selection, projectTableViewer.getTable()));
+				facetTableViewer.setInput(TigerstripeProjectAuditor.findAll(((IJavaProject) selection.getFirstElement()).getProject(), "wfc"));
+
+			} catch (IllegalArgumentException e) {
+
+				projectTableViewer.getTable().setSelection(0);
+				TigerstripeLog.logError(e);
+			}
+		} else {
+
+			TableItem item = (TableItem) projectTableViewer.getTable().getItem(0);
+			sourceProject = (ITigerstripeModelProject) ((IProject) item.getData()).getAdapter(ITigerstripeModelProject.class);
+			projectTableViewer.getTable().setSelection(0);
+			facetTableViewer.setInput(TigerstripeProjectAuditor.findAll((IProject) item.getData(), "wfc"));
+		}
+
+		checkPageComplete();
 	}
 
 	public void checkPageComplete() {
@@ -225,114 +409,6 @@ public class FacetModelExportWizardMainPage extends WizardPage {
 			setPageComplete(true);
 		} else {
 			setPageComplete(false);
-		}
-	}
-
-	private void createSourceGroupControl(final Composite container) {
-
-		Group srcGrp = new Group(container, SWT.SHADOW_ETCHED_IN);
-		srcGrp.setText("Source");
-
-		final GridLayout gridlayout = new GridLayout();
-		gridlayout.numColumns = 2;
-		srcGrp.setLayout(gridlayout);
-
-		GridData gd1 = new GridData(SWT.FILL, SWT.FILL, true, true);
-
-		final TableViewer srcProjectTableViewer = new TableViewer(srcGrp, SWT.SINGLE);
-		final TableViewer srcFacetTableViewer = new TableViewer(srcGrp, SWT.SINGLE);
-
-		srcProjectTableViewer.getTable().setLayoutData(gd1);
-		srcProjectTableViewer.setContentProvider(new ArrayContentProvider());
-		srcProjectTableViewer.setLabelProvider(new TigerstripeProjectLabelProvider());
-		srcProjectTableViewer.setFilters(new ViewerFilter[] { new TigerstripeSourceProjectViewerFilter() });
-
-		srcProjectTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-
-			public void selectionChanged(SelectionChangedEvent event) {
-
-				if (((StructuredSelection) event.getSelection()).getFirstElement() instanceof IProject) {
-
-					IProject project = (IProject) ((StructuredSelection) event.getSelection()).getFirstElement();
-					sourceProject = (ITigerstripeModelProject) project.getAdapter(ITigerstripeModelProject.class);
-					srcFacetTableViewer.setInput(TigerstripeProjectAuditor.findAll(project, "wfc"));
-					checkPageComplete();
-				}
-			}
-		});
-
-		srcProjectTableViewer.setInput(ResourcesPlugin.getWorkspace().getRoot().getProjects());
-
-		srcFacetTableViewer.getTable().setLayoutData(gd1);
-		srcFacetTableViewer.setContentProvider(new ArrayContentProvider());
-		srcFacetTableViewer.setLabelProvider(new LabelProvider() {
-
-			@Override
-			public Image getImage(Object element) {
-				return Images.get(Images.CONTRACTSEGMENT_ICON);
-			}
-
-			@Override
-			public String getText(Object element) {
-				return ((IFile) element).getName();
-			}
-		});
-
-		srcFacetTableViewer.setSorter(new ViewerSorter());
-
-		srcFacetTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-
-			public void selectionChanged(SelectionChangedEvent event) {
-
-				facet = (IFile) ((StructuredSelection) event.getSelection()).getFirstElement();
-				checkPageComplete();
-			}
-		});
-
-		/*
-		 * reference inclusion selection
-		 */
-		final Button refChkBtn = new Button(srcGrp, SWT.CHECK);
-		GridData griddata = new GridData();
-		griddata.horizontalSpan = 2;
-		refChkBtn.setLayoutData(griddata);
-		refChkBtn.setText("Include referenced projects");
-		refChkBtn.addSelectionListener(new SelectionListener() {
-
-			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
-			}
-
-			public void widgetSelected(SelectionEvent e) {
-
-				if (e.getSource() == refChkBtn) {
-
-					includeReferences = ((Button) e.getSource()).getEnabled();
-				}
-			}
-		});
-
-		// if a project was selected when wizard was invoked use it,
-		// otherwise set the first entry
-		if (selection.size() != 0) {
-
-			try {
-
-				sourceProject = (ITigerstripeModelProject) ((IJavaProject) selection.getFirstElement()).getProject().getAdapter(
-						ITigerstripeModelProject.class);
-				srcProjectTableViewer.getTable().setSelection(getSelectionIndex(selection, srcProjectTableViewer.getTable()));
-				srcFacetTableViewer.setInput(TigerstripeProjectAuditor.findAll(((IJavaProject) selection.getFirstElement()).getProject(), "wfc"));
-
-			} catch (IllegalArgumentException e) {
-				TigerstripeLog.logError(e);
-			}
-		} else {
-
-			TableItem item = (TableItem) srcProjectTableViewer.getTable().getItem(0);
-			sourceProject = (ITigerstripeModelProject) ((IProject) item.getData()).getAdapter(ITigerstripeModelProject.class);
-			srcProjectTableViewer.getTable().setSelection(0);
-			srcFacetTableViewer.setInput(TigerstripeProjectAuditor.findAll((IProject) item.getData(), "wfc"));
-
 		}
 	}
 
@@ -349,43 +425,40 @@ public class FacetModelExportWizardMainPage extends WizardPage {
 		throw new IllegalArgumentException("Invalid Selection argument.");
 	}
 
-	private void createDestinationGroupControl(final Composite container) {
+	/**************************************************************************
+	 * Event handling implementation *
+	 **************************************************************************/
+	public void selectionChanged(SelectionChangedEvent event) {
 
-		Group destGrp = new Group(container, SWT.SHADOW_ETCHED_IN);
-		destGrp.setText("Destination");
-
-		final GridLayout gridlayout = new GridLayout();
-		gridlayout.numColumns = 3;
-		destGrp.setLayout(gridlayout);
-
-		final Label destlbl = new Label(destGrp, SWT.NONE);
-		destlbl.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, false, false));
-		destlbl.setText("Destination project: ");
-
-		final Text destProjectTxt = new Text(destGrp, SWT.NONE);
-		destProjectTxt.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
-		final Button destBtn = new Button(destGrp, SWT.NONE);
-		destBtn.setLayoutData(new GridData(SWT.CENTER));
-		destBtn.setText("Browse...");
-		destBtn.addSelectionListener(new SelectionListener() {
-
-			public void widgetDefaultSelected(SelectionEvent e) {
-				widgetSelected(e);
-			}
-
-			public void widgetSelected(SelectionEvent e) {
-
-				DestinationProjectDialog dlg = new DestinationProjectDialog(container.getShell());
-				if (dlg.open() == Dialog.OK) {
-					destProjectTxt.setText(destinationProject.getName());
-				} else {
-					destProjectTxt.setText("");
-					destinationProject = null;
-				}
+		if (event.getSource() == projectTableViewer) {
+			if (((StructuredSelection) event.getSelection()).getFirstElement() instanceof IProject) {
+				IProject project = (IProject) ((StructuredSelection) event.getSelection()).getFirstElement();
+				sourceProject = (ITigerstripeModelProject) project.getAdapter(ITigerstripeModelProject.class);
+				facetTableViewer.setInput(TigerstripeProjectAuditor.findAll(project, "wfc"));
+				destinationText.setText("");
+				destinationProject = null;
 				checkPageComplete();
 			}
-		});
+			if (event.getSource() == facetTableViewer) {
+				facet = (IFile) ((StructuredSelection) event.getSelection()).getFirstElement();
+				checkPageComplete();
+			}
+		}
 	}
 
+	public void widgetDefaultSelected(SelectionEvent e) {
+
+		widgetSelected(e);
+	}
+
+	public void widgetSelected(SelectionEvent e) {
+
+		if (e.getSource() == incReferencedBtn) {
+			includeReferences = incReferencedBtn.getSelection();
+		}
+		if (e.getSource() == overwriteExistingBtn) {
+			overwriteDestination = overwriteExistingBtn.getSelection();
+		}
+
+	}
 }

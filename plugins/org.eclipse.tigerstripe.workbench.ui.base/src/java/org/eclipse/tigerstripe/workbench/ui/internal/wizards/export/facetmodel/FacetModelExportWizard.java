@@ -61,7 +61,7 @@ public class FacetModelExportWizard extends Wizard implements IExportWizard {
 							.getFacet());
 
 					try {
-						exporter.export(wizardPage.isIncludeReferences(), monitor);
+						exporter.export(wizardPage.includeReferences(), monitor);
 					} catch (TigerstripeException e) {
 						EclipsePlugin.log(e);
 					} catch (CoreException e) {
