@@ -410,7 +410,7 @@ public class ArtifactMetadataSection extends ExtensionSectionPart implements
 		IProject contProject = (IProject) res.getProject();
 		ModelUpdater mu = new ModelUpdater();
 		if (contProject != null){
-			mu.removeArtifactMetadata(contProject,cont.getArtifactType(),cont.getUserLabel());
+			mu.removeContribution(contProject, LocalContributions.METADATA_EXT_PT, LocalContributions.METADATA_ARTIFACTMETADATA_PART, cont.getPluginElement());
 		}
 		
 		updateMaster();

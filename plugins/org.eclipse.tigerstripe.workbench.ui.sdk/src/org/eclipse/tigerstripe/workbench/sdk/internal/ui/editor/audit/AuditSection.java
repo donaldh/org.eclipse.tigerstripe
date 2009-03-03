@@ -367,7 +367,7 @@ public class AuditSection extends ExtensionSectionPart implements
 		IProject contProject = (IProject) res.getProject();
 		ModelUpdater mu = new ModelUpdater();
 		if (contProject != null){
-			mu.removeAudit(contProject,cont.getName(), cont.getAuditorClass());
+			mu.removeContribution(contProject, LocalContributions.AUDIT_EXT_PT, LocalContributions.AUDIT_PART, cont.getPluginElement());
 		}
 		
 		updateMaster();
@@ -421,6 +421,7 @@ public class AuditSection extends ExtensionSectionPart implements
 
 	@Override
 	public void refresh() {
+		try{
 		viewer.setInput(((ConfigEditor) getPage().getEditor())
 				.getIProvider());
 		viewer.refresh();
@@ -430,6 +431,13 @@ public class AuditSection extends ExtensionSectionPart implements
 			viewer.setSelection(new StructuredSelection(refreshedMethod), true);
 		}
 		updateMaster();
+		} catch (Exception e){
+			System.out.println("Ed "+getPage().getEditor().toString());
+			System.out.println("Pr "+((ConfigEditor) getPage().getEditor())
+					.getIProvider());
+			System.out.println("Vi "+viewer);
+			e.printStackTrace();
+		}
 	}
 
 	public DetailsPart getDetailsPart() {

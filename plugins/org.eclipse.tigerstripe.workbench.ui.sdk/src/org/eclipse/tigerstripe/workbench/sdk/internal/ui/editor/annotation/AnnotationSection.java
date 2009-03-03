@@ -11,6 +11,8 @@
 
 package org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.annotation;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
@@ -19,6 +21,7 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionEvent;
@@ -34,6 +37,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
@@ -41,9 +45,14 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
 import org.eclipse.tigerstripe.workbench.sdk.internal.LocalContributions;
+import org.eclipse.tigerstripe.workbench.sdk.internal.ModelUpdater;
+import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationPropertyProviderContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationTypeContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.ConfigEditor;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.ExtensionSectionPart;
+import org.eclipse.tigerstripe.workbench.sdk.internal.ui.wizards.AddAnnotationTypeWizard;
+import org.eclipse.tigerstripe.workbench.sdk.internal.ui.wizards.AddAuditWizard;
+import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IFormPart;
@@ -334,81 +343,12 @@ public class AnnotationSection extends ExtensionSectionPart implements
 	 * 
 	 */
 	protected void addButtonSelected(SelectionEvent event) {
-//		IAbstractArtifact artifact = getIArtifact();
-//		IField newField = artifact.makeField();
-//
-//		ComponentNameProvider nameFactory = ComponentNameProvider.getInstance();
-//		String newFieldName = nameFactory.getNewFieldName(artifact);
-//		newField.setName(newFieldName);
-//		IType defaultType = newField.makeType();
-//		try {
-//			defaultType.setFullyQualifiedName(getDefaultTypeName());
-//		} catch (TigerstripeException e) {
-//			EclipsePlugin.log(e);
-//			MessageDialog.openWarning(getPage().getPartControl().getShell(),
-//					"Default "
-//							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-//									IPrimitiveTypeImpl.class.getName())
-//									.getLabel(null) + " For Parameter", e
-//							.getMessage());
-//			return;
-//		}
-//
-//		defaultType.setTypeMultiplicity(IModelComponent.EMultiplicity.ONE);
-//		newField.setType(defaultType);
-//		newField.setRefBy(IField.REFBY_VALUE);
-//		newField.setVisibility(EVisibility.PUBLIC);
-//
-//		// getIArtifact().addField(newField);
-//
-//		// Add the item after the current selection (if there is one, and its
-//		// not the last thing in the table.)
-//		if (viewer.getTable().getSelectionCount() == 0
-//				|| viewer.getTable().getSelectionIndex() == viewer.getTable()
-//						.getItemCount()) {
-//			viewer.add(newField);
-//			TableItem[] allItems = this.viewer.getTable().getItems();
-//			IField[] newFields = new IField[allItems.length];
-//			for (int i = 0; i < newFields.length; i++) {
-//				newFields[i] = (IField) allItems[i].getData();
-//			}
-//			getIArtifact().setFields(Arrays.asList(newFields));
-//
-//		} else {
-//			int position = viewer.getTable().getSelectionIndex();
-//			TableItem[] allItems = this.viewer.getTable().getItems();
-//
-//			IField[] allFields = new IField[allItems.length];
-//			IField[] newFields = new IField[allItems.length + 1];
-//			for (int i = 0; i <= position; i++) {
-//				newFields[i] = (IField) allItems[i].getData();
-//			}
-//			newFields[position + 1] = newField;
-//
-//			for (int i = position + 2; i < newFields.length; i++) {
-//				newFields[i] = (IField) allItems[i - 1].getData();
-//			}
-//			getIArtifact().setFields(Arrays.asList(newFields));
-//		}
-//
-//		refresh();
-//
-//		viewer.setSelection(new StructuredSelection(newField), true);
-//		markPageModified();
-//		updateMaster();
-//
-//		// Record Add Edit
-//		try {
-//			URI artURI = (URI) getIArtifact().getAdapter(URI.class);
-//			URI attrURI = artURI.appendFragment(newFieldName);
-////			ModelUndoableEdit edit = new ModelUndoableEdit(artURI,
-////					IModelChangeDelta.ADD, newField.getClass().getSimpleName(),
-////					null, attrURI, getIArtifact().getProject());
-////			((TigerstripeFormEditor) getPage().getEditor()).getUndoManager()
-////					.addEdit(edit);
-//		} catch (Exception e) {
-//			EclipsePlugin.log(e);
-//		}
+		Shell shell = EclipsePlugin.getActiveWorkbenchShell();
+		AddAnnotationTypeWizard wiz = new AddAnnotationTypeWizard(((ConfigEditor) getPage().getEditor())
+				.getIProvider());
+		WizardDialog dialog =
+			new WizardDialog(shell, wiz);
+		dialog.open();
 	}
 
 	protected void markPageModified() {
@@ -428,59 +368,20 @@ public class AnnotationSection extends ExtensionSectionPart implements
 	 * 
 	 */
 	protected void removeButtonSelected(SelectionEvent event) {
-//		TableItem[] selectedItems = viewer.getTable().getSelection();
-//		IField[] selectedFields = new IField[selectedItems.length];
-//
-//		for (int i = 0; i < selectedItems.length; i++) {
-//			selectedFields[i] = (IField) selectedItems[i].getData();
-//		}
-//
-//		String message = "Do you really want to remove ";
-//		if (selectedFields.length > 1) {
-//			message = message + "these " + selectedFields.length
-//					+ " attributes?";
-//		} else {
-//			message = message + "this attribute?";
-//		}
-//
-//		MessageDialog msgDialog = new MessageDialog(getBody().getShell(),
-//				"Remove attribute", null, message, MessageDialog.QUESTION,
-//				new String[] { "Yes", "No" }, 1);
-//
-//		if (msgDialog.open() == 0) {
-//
-//			URI[] fieldURIs = new URI[selectedFields.length];
-//			String[] fieldTypes = new String[selectedFields.length];
-//			int index = 0;
-//			for (IField field : selectedFields) {
-//				fieldURIs[index] = (URI) field.getAdapter(URI.class);
-//				fieldTypes[index] = field.getClass().getSimpleName();
-//				index++;
-//			}
-//
-//			viewer.remove(selectedFields);
-//			getIArtifact().removeFields(Arrays.asList(selectedFields));
-//			markPageModified();
-//
-//			URI artURI = (URI) getIArtifact().getAdapter(URI.class);
-//			for (int i = 0; i < selectedFields.length; i++) {
-//				try {
-////					ModelUndoableEdit edit = new ModelUndoableEdit(artURI,
-////							IModelChangeDelta.REMOVE, fieldTypes[i],
-////							fieldURIs[i], null, getIArtifact().getProject());
-////					((TigerstripeFormEditor) getPage().getEditor())
-////							.getUndoManager().addEdit(edit);
-//				} catch (Exception e) {
-//					EclipsePlugin.log(e);
-//				}
-//			}
-//		}
-//		updateMaster();
+		// We know the pattern based on the current selection in the table
+		AnnotationTypeContribution cont = (AnnotationTypeContribution) viewer.getTable().getSelection()[0].getData();
+		
+		IResource res = (IResource) cont.getContributor().getAdapter(IResource.class);
+		
+		IProject contProject = (IProject) res.getProject();
+		ModelUpdater mu = new ModelUpdater();
+		if (contProject != null){
+			mu.removeContribution(contProject,LocalContributions.ANNOTATIONS_EXT_PT,LocalContributions.ANNOTATIONS_DEFINITION_PART,cont.getPluginElement());
+		}
+		
+		updateMaster();
+		
 	}
-
-
-
-
 
 	/**
 	 * Updates the current state of the master

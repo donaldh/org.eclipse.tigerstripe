@@ -11,6 +11,9 @@
 
 package org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.patterns;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -465,6 +468,9 @@ public class PatternSection extends ExtensionSectionPart implements
 		try {
 			// We know the pattern based on the current selection in the table
 			PatternFileContribution patt = (PatternFileContribution) viewer.getTable().getSelection()[0].getData();
+			Map<String,String> attributes = new HashMap<String, String>();
+			attributes.put("patternName", provider.getPattern(patt.getContributor(), patt.getFileName()).getName());
+			
 			
 			// Need to ask which contributer to put the "disablement" in
 			SelectContributerDialog dialog = new SelectContributerDialog(
@@ -480,7 +486,7 @@ public class PatternSection extends ExtensionSectionPart implements
 			IProject contProject = (IProject) res.getProject();
 			ModelUpdater mu = new ModelUpdater();
 			if (contProject != null){
-				mu.addDisabledPattern(contProject, provider.getPattern(patt.getContributor(), patt.getFileName()).getName());
+				mu.addSimpleExtension(contProject, LocalContributions.PATTERNS_EXT_PT, "disabledPattern", attributes);
 			}
 			
 			updateMaster();
@@ -498,14 +504,14 @@ public class PatternSection extends ExtensionSectionPart implements
 	 */
 	protected void removeButtonSelected(SelectionEvent event) {
 		// We know the pattern based on the current selection in the table
-		PatternFileContribution patt = (PatternFileContribution) viewer.getTable().getSelection()[0].getData();
+		PatternFileContribution cont = (PatternFileContribution) viewer.getTable().getSelection()[0].getData();
 		
-		IResource res = (IResource) patt.getContributor().getAdapter(IResource.class);
+		IResource res = (IResource) cont.getContributor().getAdapter(IResource.class);
 		
 		IProject contProject = (IProject) res.getProject();
 		ModelUpdater mu = new ModelUpdater();
 		if (contProject != null){
-			mu.removePatternDefinition(contProject,patt.getFileName(), patt.getValidatorClass());
+			mu.removeContribution(contProject, LocalContributions.PATTERNS_EXT_PT, LocalContributions.PATTERNS_CREATION_PART, cont.getPluginElement());
 		}
 		
 		updateMaster();

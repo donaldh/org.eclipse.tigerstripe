@@ -11,6 +11,8 @@
 package org.eclipse.tigerstripe.workbench.sdk.internal.ui.wizards;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -21,6 +23,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
+import org.eclipse.tigerstripe.workbench.sdk.internal.LocalContributions;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ModelUpdater;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
@@ -89,8 +92,10 @@ public class AddAuditWizard extends Wizard implements INewWizard {
 		
 		
 		IPluginModelBase cont = firstPage.getContributerSelection();
-		String auditName = firstPage.getAuditName();
-		String auditClass = firstPage.getAuditClass();
+		Map<String,String> attributes = new HashMap<String, String>();
+		attributes.put("name", firstPage.getAuditName());
+		attributes.put("auditorClass", firstPage.getAuditClass());
+
 		
 		try {
 			IResource res = (IResource) cont.getAdapter(IResource.class);
@@ -98,7 +103,8 @@ public class AddAuditWizard extends Wizard implements INewWizard {
 			
 			ModelUpdater mu = new ModelUpdater();
 			if (contProject != null){
-				mu.addAudit(contProject, auditName, auditClass);
+				mu.addSimpleExtension(contProject, LocalContributions.AUDIT_EXT_PT, 
+						LocalContributions.AUDIT_PART, attributes);
 			}
 
 		} catch (Exception e){

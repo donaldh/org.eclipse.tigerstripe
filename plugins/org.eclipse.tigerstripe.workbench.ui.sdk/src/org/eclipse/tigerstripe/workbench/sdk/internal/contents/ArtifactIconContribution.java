@@ -10,13 +10,14 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 
+import org.eclipse.pde.core.plugin.IPluginElement;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 
 
 public class ArtifactIconContribution implements IContribution {
 
 	public ArtifactIconContribution(IPluginModelBase contributor, String icon,
-			String icon_new, String icon_gs, String artifactType, boolean readOnly) {
+			String icon_new, String icon_gs, String artifactType, boolean readOnly, IPluginElement pluginElement) {
 		super();
 		this.contributor = contributor;
 		this.icon = icon;
@@ -24,6 +25,7 @@ public class ArtifactIconContribution implements IContribution {
 		this.icon_gs = icon_gs;
 		this.artifactType = artifactType;
 		this.readOnly = readOnly;
+		this.pluginElement = pluginElement;
 	}
 	public IPluginModelBase getContributor() {
 		return contributor;
@@ -61,6 +63,15 @@ public class ArtifactIconContribution implements IContribution {
 	private String icon_gs;
 	private String artifactType;
 	private boolean readOnly;
+	private IPluginElement pluginElement;
+	
+	public IPluginElement getPluginElement() {
+		return pluginElement;
+	}
+	
+	public void setPluginElement(IPluginElement pluginElement) {
+		this.pluginElement = pluginElement;
+	}
 	
 	public boolean isReadOnly() {
 		return readOnly;

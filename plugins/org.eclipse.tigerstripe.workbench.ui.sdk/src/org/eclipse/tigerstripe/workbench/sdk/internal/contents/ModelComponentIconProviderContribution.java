@@ -10,25 +10,36 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 
+import org.eclipse.pde.core.plugin.IPluginElement;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 
 
 public class ModelComponentIconProviderContribution implements IContribution{
 
 	public ModelComponentIconProviderContribution(IPluginModelBase contributor,
-			String artifactType, String provider, boolean readOnly) {
+			String artifactType, String provider, boolean readOnly, IPluginElement pluginElement) {
 		super();
 		this.contributor = contributor;
 		this.artifactType = artifactType;
 		this.provider = provider;
 		this.readOnly = readOnly;
+		this.pluginElement = pluginElement;
 	}
 	private IPluginModelBase contributor;
 	private String artifactType;
 	private String provider;
 	private boolean readOnly;
 	
+	private IPluginElement pluginElement;
 	
+	public IPluginElement getPluginElement() {
+		return pluginElement;
+	}
+	
+	public void setPluginElement(IPluginElement pluginElement) {
+		this.pluginElement = pluginElement;
+	}
+
 	public IPluginModelBase getContributor() {
 		return contributor;
 	}

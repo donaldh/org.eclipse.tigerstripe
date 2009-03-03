@@ -26,7 +26,7 @@ public class AnnotationPage extends TigerstripeFormPage {
 	private AnnotationSection annotationSection;
 	private AnnotationPackageLabelSection annotationPackageLabelSection;
 	private AnnotationExplicitFileRouterSection annotationExplicitFileRouterSection;
-	private AnnotationPropertyProviderSection annotationPropertyProviderSection;
+//	private AnnotationPropertyProviderSection annotationPropertyProviderSection;
 	
 	public static final String PAGE_ID = "org.eclipse.tigerstripe.sdk.extension.annotation"; 
 
@@ -64,9 +64,9 @@ public class AnnotationPage extends TigerstripeFormPage {
 		if (annotationExplicitFileRouterSection != null) {
 			annotationExplicitFileRouterSection.refresh();
 		}
-		if (annotationPropertyProviderSection != null) {
-			annotationPropertyProviderSection.refresh();
-		}
+//		if (annotationPropertyProviderSection != null) {
+//			annotationPropertyProviderSection.refresh();
+//		}
 	}
 
 	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {
@@ -90,9 +90,9 @@ public class AnnotationPage extends TigerstripeFormPage {
 		annotationExplicitFileRouterSection = new AnnotationExplicitFileRouterSection(this,
 				body, toolkit, ExpandableComposite.EXPANDED);
 		managedForm.addPart(annotationExplicitFileRouterSection);
-		annotationPropertyProviderSection = new AnnotationPropertyProviderSection(this,
-				body, toolkit, ExpandableComposite.EXPANDED);
-		managedForm.addPart(annotationPropertyProviderSection);
+//		annotationPropertyProviderSection = new AnnotationPropertyProviderSection(this,
+//				body, toolkit, ExpandableComposite.EXPANDED);
+//		managedForm.addPart(annotationPropertyProviderSection);
 		
 	}
 

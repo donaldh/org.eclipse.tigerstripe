@@ -379,7 +379,7 @@ public class ArtifactIconSection extends ExtensionSectionPart implements
 		IProject contProject = (IProject) res.getProject();
 		ModelUpdater mu = new ModelUpdater();
 		if (contProject != null){
-			mu.removeArtifactIcon(contProject, cont.getArtifactType());
+			mu.removeContribution(contProject, LocalContributions.METADATA_EXT_PT, LocalContributions.METADATA_ARTIFACTICON_PART, cont.getPluginElement());
 		}
 		
 		updateMaster();

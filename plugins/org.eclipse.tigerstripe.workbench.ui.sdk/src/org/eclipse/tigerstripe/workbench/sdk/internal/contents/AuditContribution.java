@@ -10,23 +10,34 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 
+import org.eclipse.pde.core.plugin.IPluginElement;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 
 
 public class AuditContribution implements IContribution{
-	public AuditContribution(IPluginModelBase contributor,String name, String auditorClass, boolean readOnly) {
+	public AuditContribution(IPluginModelBase contributor,String name, String auditorClass, boolean readOnly, IPluginElement pluginElement) {
 		super();
 		this.name = name;					// optional
 		this.auditorClass = auditorClass;
 		this.contributor = contributor;
 		this.readOnly = readOnly;
+		this.pluginElement = pluginElement;
 	}
 	
 	private String name;
 	private String auditorClass;
 	private IPluginModelBase contributor;
 	private boolean readOnly;
+	private IPluginElement pluginElement;
 	
+	public IPluginElement getPluginElement() {
+		return pluginElement;
+	}
+	
+	public void setPluginElement(IPluginElement pluginElement) {
+		this.pluginElement = pluginElement;
+	}
+
 	public String getName() {
 		return name;
 	}

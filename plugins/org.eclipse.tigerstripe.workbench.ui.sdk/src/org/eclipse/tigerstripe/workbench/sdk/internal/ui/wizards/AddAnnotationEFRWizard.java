@@ -25,20 +25,19 @@ import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
 import org.eclipse.tigerstripe.workbench.sdk.internal.LocalContributions;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ModelUpdater;
-import org.eclipse.tigerstripe.workbench.sdk.internal.contents.PatternFileContribution;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
-public class AddDisabledPatternWizard extends Wizard implements INewWizard {
+public class AddAnnotationEFRWizard extends Wizard implements INewWizard {
 
-	public AddDisabledPatternWizard( ISDKProvider provider) {
+	public AddAnnotationEFRWizard( ISDKProvider provider) {
 		super();
 		this.provider = provider;
 	}
 
 	private ISDKProvider provider;
 	private IStructuredSelection fSelection;
-	private AddDisabledPatternWizardPage firstPage;
+	private AddAnnotationEFRWizardPage firstPage;
 	
 	
 	
@@ -46,10 +45,10 @@ public class AddDisabledPatternWizard extends Wizard implements INewWizard {
 	
 	public void addPages() {
 		super.addPages();
-		setWindowTitle("Disable A Pattern");
-		this.firstPage = new AddDisabledPatternWizardPage("", getShell(), provider);
+		setWindowTitle("Add A New Annotation Type Class");
+		this.firstPage = new AddAnnotationEFRWizardPage("", getShell(), provider);
 		addPage(this.firstPage);
-		this.firstPage.init(getSelection());
+		//this.firstPage.init(getSelection());
 	}
 	
 	
@@ -90,14 +89,17 @@ public class AddDisabledPatternWizard extends Wizard implements INewWizard {
 	public void doFinish(IProgressMonitor monitor){
 		// Actually do the work!
 		// Gather info from the page
-		PatternFileContribution patt = firstPage.getSelection();
-		
-		Map<String,String> attributes = new HashMap<String, String>();
-		attributes.put("patternName", provider.getPattern(patt.getContributor(), patt.getFileName()).getName());
 		
 		
 		IPluginModelBase cont = firstPage.getContributerSelection();
+		Map<String,String> attributes = new HashMap<String, String>();
+		attributes.put("nsURI", firstPage.getNsURI());
+		attributes.put("path", firstPage.getPath());
+		attributes.put("eclass", firstPage.getEclass());
+		attributes.put("epackage", firstPage.getEPackage());
 		
+		// TODO : Description ?
+		// TODO : Targets?
 		
 		try {
 			IResource res = (IResource) cont.getAdapter(IResource.class);
@@ -105,8 +107,8 @@ public class AddDisabledPatternWizard extends Wizard implements INewWizard {
 			
 			ModelUpdater mu = new ModelUpdater();
 			if (contProject != null){
-				mu.addSimpleExtension(contProject, LocalContributions.PATTERNS_EXT_PT, 
-						LocalContributions.PATTERNS_DISABLED_PART, attributes);
+				mu.addSimpleExtension(contProject, LocalContributions.ANNOTATIONS_EXPLICITROUTER_EXT_PT,
+						LocalContributions.ANNOTATIONS_EXPLICITROUTER_PART, attributes, false);
 			}
 
 		} catch (Exception e){

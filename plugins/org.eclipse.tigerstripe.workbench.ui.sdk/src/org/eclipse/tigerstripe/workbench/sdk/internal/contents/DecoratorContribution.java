@@ -10,21 +10,32 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 
+import org.eclipse.pde.core.plugin.IPluginElement;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 
 
 public class DecoratorContribution implements IContribution{
 	
-	public DecoratorContribution(IPluginModelBase contributor,String decoratorClass, boolean readOnly) {
+	public DecoratorContribution(IPluginModelBase contributor,String decoratorClass, boolean readOnly, IPluginElement pluginElement) {
 		super();
 		this.decoratorClass = decoratorClass;
 		this.contributor = contributor;
 		this.readOnly = readOnly;
+		this.pluginElement = pluginElement;
 	}
 	private String decoratorClass;
 	private IPluginModelBase contributor;
 	private boolean readOnly;
+	private IPluginElement pluginElement;
 	
+	public IPluginElement getPluginElement() {
+		return pluginElement;
+	}
+	
+	public void setPluginElement(IPluginElement pluginElement) {
+		this.pluginElement = pluginElement;
+	}
+
 	public String getDecoratorClass() {
 		return decoratorClass;
 	}

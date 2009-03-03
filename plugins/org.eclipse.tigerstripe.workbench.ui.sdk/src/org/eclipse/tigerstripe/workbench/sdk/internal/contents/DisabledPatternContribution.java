@@ -10,21 +10,32 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 
+import org.eclipse.pde.core.plugin.IPluginElement;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 
 
 public class DisabledPatternContribution implements IContribution{
 
 	public DisabledPatternContribution(IPluginModelBase contributor,
-			String disabledPatternName, boolean readOnly) {
+			String disabledPatternName, boolean readOnly, IPluginElement pluginElement) {
 		super();
 		this.contributor = contributor;
 		this.disabledPatternName = disabledPatternName;
 		this.readOnly = readOnly;
+		this.pluginElement = pluginElement;
 	}
 	private IPluginModelBase contributor;
 	private String disabledPatternName;
 	private boolean readOnly;
+	private IPluginElement pluginElement;
+	
+	public IPluginElement getPluginElement() {
+		return pluginElement;
+	}
+	
+	public void setPluginElement(IPluginElement pluginElement) {
+		this.pluginElement = pluginElement;
+	}
 	public IPluginModelBase getContributor() {
 		return contributor;
 	}

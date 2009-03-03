@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
 
@@ -113,6 +114,10 @@ public class AddPatternDefinitionWizardPage extends AbstractWizardPage implement
 		
 
 		setControl(composite);
+		new Label(composite, SWT.NONE);
+
+		new TabFolder(composite, SWT.NONE);
+		new Label(composite, SWT.NONE);
 	}
 
 	public void handleWidgetSelected(SelectionEvent e) {

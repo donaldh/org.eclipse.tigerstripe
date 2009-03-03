@@ -368,7 +368,7 @@ public class ComponentIconSection extends ExtensionSectionPart implements
 		IProject contProject = (IProject) res.getProject();
 		ModelUpdater mu = new ModelUpdater();
 		if (contProject != null){
-			mu.removeComponentIconProvider(contProject,cont.getArtifactType(),cont.getProvider());
+			mu.removeContribution(contProject, LocalContributions.METADATA_EXT_PT, LocalContributions.METADATA_MODELICON_PART, cont.getPluginElement());
 		}
 		
 		updateMaster();

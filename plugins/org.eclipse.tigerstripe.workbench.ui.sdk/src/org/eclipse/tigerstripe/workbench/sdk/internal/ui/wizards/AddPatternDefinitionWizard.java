@@ -11,6 +11,8 @@
 package org.eclipse.tigerstripe.workbench.sdk.internal.ui.wizards;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -21,6 +23,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
+import org.eclipse.tigerstripe.workbench.sdk.internal.LocalContributions;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ModelUpdater;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
@@ -89,8 +92,11 @@ public class AddPatternDefinitionWizard extends Wizard implements INewWizard {
 		
 		
 		IPluginModelBase cont = firstPage.getContributerSelection();
-		String patternFileName = firstPage.getPatternFile();
-		String validatorClass = firstPage.getValidatorClass();
+		
+		Map<String,String> attributes = new HashMap<String, String>();
+		attributes.put("patternFile", firstPage.getPatternFile());
+		attributes.put("validator_class", firstPage.getValidatorClass());
+		
 		
 		try {
 			IResource res = (IResource) cont.getAdapter(IResource.class);
@@ -98,7 +104,8 @@ public class AddPatternDefinitionWizard extends Wizard implements INewWizard {
 			
 			ModelUpdater mu = new ModelUpdater();
 			if (contProject != null){
-				mu.addPatternDefintion(contProject, patternFileName, validatorClass);
+				mu.addSimpleExtension(contProject, LocalContributions.PATTERNS_EXT_PT, 
+						LocalContributions.PATTERNS_CREATION_PART, attributes);
 			}
 
 		} catch (Exception e){

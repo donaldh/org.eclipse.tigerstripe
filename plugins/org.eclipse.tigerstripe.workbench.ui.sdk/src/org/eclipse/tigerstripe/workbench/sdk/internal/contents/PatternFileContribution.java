@@ -10,25 +10,36 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 
+import org.eclipse.pde.core.plugin.IPluginElement;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 
 
 public class PatternFileContribution implements IContribution{
 
 	public PatternFileContribution(IPluginModelBase contributor, String fileName,
-			String validatorClass, boolean readOnly) {
+			String validatorClass, boolean readOnly, IPluginElement pluginElement) {
 		super();
 		this.contributor = contributor;
 		this.fileName = fileName;
 		this.validatorClass = validatorClass;
 		this.readOnly = readOnly;
+		this.pluginElement = pluginElement;
 	}
 	
 	private IPluginModelBase contributor;
 	private String fileName;
 	private String validatorClass;
 	private boolean readOnly;
+	private IPluginElement pluginElement;
 	
+	public IPluginElement getPluginElement() {
+		return pluginElement;
+	}
+	
+	public void setPluginElement(IPluginElement pluginElement) {
+		this.pluginElement = pluginElement;
+	}
+
 	public IPluginModelBase getContributor() {
 		return contributor;
 	}

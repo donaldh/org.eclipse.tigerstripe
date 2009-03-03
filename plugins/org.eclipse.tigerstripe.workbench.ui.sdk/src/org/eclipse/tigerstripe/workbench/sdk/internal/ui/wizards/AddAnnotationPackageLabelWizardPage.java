@@ -24,20 +24,22 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
 
-public class AddComponentIconProviderWizardPage extends AbstractWizardPage implements IWizardPage{
+public class AddAnnotationPackageLabelWizardPage extends AbstractWizardPage implements IWizardPage{
 
 
 		
-	private Text nameText;
+	private Text labelText;
+
+	private Text ePackageURIText;
 	//private Button browsePatternFilesButton;
-	private Text classText;
-	private Button browseClassesButton;
+	//private Text classText;
+	//private Button browseClassesButton;
 	private Button chooseContributionButton; 
 	
 	
 	
 
-	protected AddComponentIconProviderWizardPage(String pageName, Shell shell, ISDKProvider provider) {
+	protected AddAnnotationPackageLabelWizardPage(String pageName, Shell shell, ISDKProvider provider) {
 		super(pageName);
 		this.shell = shell;
 		this.provider = provider;
@@ -76,50 +78,41 @@ public class AddComponentIconProviderWizardPage extends AbstractWizardPage imple
 		chooseContributionButton.setLayoutData(gd_chooseContributionButton);
 		
 		final Label patternLabel = new Label(composite, SWT.NONE);
-		patternLabel.setText("Component Type:");
-		nameText = new Text(composite, SWT.BORDER);
+		patternLabel.setText("Name:");
+		labelText = new Text(composite, SWT.BORDER);
 		final GridData gd_patternToDisableText = new GridData(275, SWT.DEFAULT);
-		nameText.setLayoutData(gd_patternToDisableText);
-		nameText.addModifyListener(adapter);
+		labelText.setLayoutData(gd_patternToDisableText);
+		labelText.addModifyListener(adapter);
 		// MUST do this via browse
-		nameText.setEditable(true);
+		labelText.setEditable(true);
 		
 		new Label(composite, SWT.NONE);
 				
-		final Label validatorLabel = new Label(composite, SWT.NONE);
-		validatorLabel.setText("Provider Class:");
-		classText = new Text(composite, SWT.BORDER);
-		final GridData gd_validatorClassText = new GridData(275, SWT.DEFAULT);
-		classText.setLayoutData(gd_validatorClassText);
-		classText.addModifyListener(adapter);
+		
+		final Label ePackageURILabel = new Label(composite, SWT.NONE);
+		ePackageURILabel.setText("ePackageURI:");
+		ePackageURIText = new Text(composite, SWT.BORDER);
+		//final GridData gd_patternToDisableText = new GridData(275, SWT.DEFAULT);
+		ePackageURIText.setLayoutData(gd_patternToDisableText);
+		ePackageURIText.addModifyListener(adapter);
 		// MUST do this via browse
-		classText.setEditable(false);
+		ePackageURIText.setEditable(true);
 		
-		browseClassesButton = new Button(composite, SWT.NONE);
-		browseClassesButton.addSelectionListener(adapter);
-		browseClassesButton.setText("Browse");
-		browseClassesButton.setData("name", "Browse_Validators");
-		final GridData gd_browseValidatorButton = new GridData(GridData.FILL_HORIZONTAL);
-		browseClassesButton.setLayoutData(gd_browseValidatorButton);
-
+		new Label(composite, SWT.NONE);
 		
-		
-
 		setControl(composite);
 	}
 
 	public void handleWidgetSelected(SelectionEvent e) {
 		if (e.getSource() == chooseContributionButton) {
 			chooseContributerButtonPressed();
-		} else if (e.getSource() == browseClassesButton){
-			browseClassButtonPressed(getContributerSelection(), classText, "Select the Icon Provider Class");
-
 		}
 		updatePageComplete();
 	}
 	
 	public void handleModifyText(ModifyEvent e){
-			updatePageComplete();
+		// Should not really be called?
+		//	updatePageComplete();
 	}
 	
 	
@@ -130,42 +123,15 @@ public class AddComponentIconProviderWizardPage extends AbstractWizardPage imple
 			// Need to check the contents of the Text for a valid entry
 			setErrorMessage("Contributer must be specified");
 			
-			browseClassesButton.setEnabled(false);
+			//browseClassesButton.setEnabled(false);
 			return;
 		}
-		browseClassesButton.setEnabled(true);
+		//browseClassesButton.setEnabled(true);
 		
-		if (getArtifactType().equals("")){
-			setErrorMessage("Artifact Type is not set");
-			return;
-		}
-		
-		// And The class this must be a class that correctly implements the stated interface?
-		String V_CLASS = "IModelComponentIconProvider";
-		if (getProviderClass().equals("")){
-			setErrorMessage("Icon Provider Class is not set");
-			return;
-		} else {
-			try {
-				boolean goodOne = false;
-				String[] interfaces = getClassType().getSuperInterfaceNames();
-				for (String itf : interfaces){
-					if (itf.equals(V_CLASS)){
-						goodOne = true;
-					}
-				}
-			if (! goodOne){
-				setErrorMessage("Icon Provider class may not implement "+V_CLASS);
-				return;
-			}
-			} catch (Exception j){
-				setErrorMessage("Unable to interpret Icon Provider class");
-				return;
-			}
-		}
+	
 		
 		setErrorMessage(null);	
-		setMessage("Press 'Finish' to add the Icon Provider contribution");
+		setMessage("Press 'Finish' to add the Annotation Package Label contribution");
 		setPageComplete(true);
 		
 	}
@@ -173,18 +139,21 @@ public class AddComponentIconProviderWizardPage extends AbstractWizardPage imple
 	@Override
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
-		setMessage("Specify details of the Icon Provider class to be added");
+		setMessage("Specify details of the Annotation Package Label to be added");
 		setPageComplete(false);
 	}
 
 	
-	public String getArtifactType() {
-		return nameText.getText().trim();
+	public String getAnnotationPackageLabel() {
+		return labelText.getText().trim();
 	}
 
-	public String getProviderClass() {
-		return classText.getText().trim();
+
+	public String getEPackageURI() {
+		return ePackageURIText.getText().trim();
 	}
+
+
 
 
 	

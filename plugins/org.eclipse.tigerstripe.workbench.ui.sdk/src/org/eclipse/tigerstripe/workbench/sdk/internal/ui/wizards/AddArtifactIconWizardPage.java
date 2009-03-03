@@ -157,8 +157,7 @@ public class AddArtifactIconWizardPage extends AbstractWizardPage implements IWi
 	}
 	
 	public void handleModifyText(ModifyEvent e){
-		// Should not really be called?
-		//	updatePageComplete();
+			updatePageComplete();
 	}
 	
 	

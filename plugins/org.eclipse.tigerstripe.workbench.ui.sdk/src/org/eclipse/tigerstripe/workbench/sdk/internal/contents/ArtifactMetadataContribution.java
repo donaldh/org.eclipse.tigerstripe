@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 
+import org.eclipse.pde.core.plugin.IPluginElement;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 
 
@@ -18,7 +19,7 @@ public class ArtifactMetadataContribution implements IContribution{
 	public ArtifactMetadataContribution(IPluginModelBase contributor,
 			String artifactType, String userLabel, boolean hasFields,
 			boolean hasLiterals, boolean hasMethods, String icon,
-			String icon_new, String icon_gs, boolean readOnly) {
+			String icon_new, String icon_gs, boolean readOnly, IPluginElement pluginElement) {
 		super();
 		this.contributor = contributor;
 		this.artifactType = artifactType;
@@ -30,6 +31,7 @@ public class ArtifactMetadataContribution implements IContribution{
 		this.icon_new = icon_new;
 		this.icon_gs = icon_gs;
 		this.readOnly = readOnly;
+		this.pluginElement = pluginElement;
 	}
 	private IPluginModelBase contributor;
 	private String artifactType;
@@ -41,7 +43,16 @@ public class ArtifactMetadataContribution implements IContribution{
 	private String icon_new;
 	private String icon_gs;
 	private boolean readOnly;
+	private IPluginElement pluginElement;
 	
+	public IPluginElement getPluginElement() {
+		return pluginElement;
+	}
+	
+	public void setPluginElement(IPluginElement pluginElement) {
+		this.pluginElement = pluginElement;
+	}
+
 	public IPluginModelBase getContributor() {
 		return contributor;
 	}

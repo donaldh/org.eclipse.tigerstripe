@@ -146,7 +146,7 @@ public class DecoratorSection extends ExtensionSectionPart implements
 		public String getColumnText(Object obj, int index) {
 			DecoratorContribution field = (DecoratorContribution) obj;
 		
-			if (index == 1){
+			if (index == 0){
 				return field.getDecoratorClass();
 			} else {
 				return field.getContributor().toString();
@@ -357,7 +357,9 @@ public class DecoratorSection extends ExtensionSectionPart implements
 		IProject contProject = (IProject) res.getProject();
 		ModelUpdater mu = new ModelUpdater();
 		if (contProject != null){
-			mu.removeDecorator(contProject,cont.getDecoratorClass());
+			mu.removeContribution(contProject, LocalContributions.DECORATOR_EXT_PT, 
+					LocalContributions.DECORATOR_PART, 
+					cont.getPluginElement());
 		}
 		
 		updateMaster();

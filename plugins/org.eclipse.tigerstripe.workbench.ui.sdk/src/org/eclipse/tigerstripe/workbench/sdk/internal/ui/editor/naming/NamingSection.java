@@ -368,7 +368,7 @@ public class NamingSection extends ExtensionSectionPart implements
 		IProject contProject = (IProject) res.getProject();
 		ModelUpdater mu = new ModelUpdater();
 		if (contProject != null){
-			mu.removeNaming(contProject,cont.getName(),cont.getNamingClass());
+			mu.removeContribution(contProject, LocalContributions.NAMING_EXT_PT, LocalContributions.NAMING_PART, cont.getPluginElement());
 		}
 		
 		updateMaster();

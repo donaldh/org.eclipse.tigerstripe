@@ -11,6 +11,8 @@
 package org.eclipse.tigerstripe.workbench.sdk.internal.ui.wizards;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -21,6 +23,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
+import org.eclipse.tigerstripe.workbench.sdk.internal.LocalContributions;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ModelUpdater;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
@@ -89,14 +92,20 @@ public class AddArtifactMetadataWizard extends Wizard implements INewWizard {
 		
 		
 		IPluginModelBase cont = firstPage.getContributerSelection();
-		String name = firstPage.getName();
-		String label = firstPage.getUserLabel();
-		boolean hasFields = firstPage.getHasFields();
-		boolean hasLiterals = firstPage.getHasLiterals();
-		boolean hasMethods = firstPage.getHasMethods();
-		String icon = firstPage.getIconFile();
-		String icon_new = firstPage.getIconNewFile();
-		String icon_grey = firstPage.getIconGreyFile();
+		Map<String,String> attributes = new HashMap<String, String>();
+		
+		attributes.put("artifactType",firstPage.getName());
+		attributes.put("userLabel",firstPage.getUserLabel());
+		
+		attributes.put("hasFields",Boolean.toString(firstPage.getHasFields()));
+		attributes.put("hasLiterals",Boolean.toString(firstPage.getHasLiterals()));
+		attributes.put("hasMethods",Boolean.toString(firstPage.getHasMethods()));
+		
+		
+		attributes.put("icon", firstPage.getIconFile());
+		attributes.put("icon_new",firstPage.getIconNewFile());
+		attributes.put("icon_gs",firstPage.getIconGreyFile());
+		
 		
 		try {
 			IResource res = (IResource) cont.getAdapter(IResource.class);
@@ -104,7 +113,8 @@ public class AddArtifactMetadataWizard extends Wizard implements INewWizard {
 			
 			ModelUpdater mu = new ModelUpdater();
 			if (contProject != null){
-				mu.addArtifactMetadata(contProject, name, label, hasFields, hasLiterals, hasMethods, icon, icon_new, icon_grey);
+				mu.addSimpleExtension(contProject, LocalContributions.METADATA_EXT_PT, 
+						LocalContributions.METADATA_ARTIFACTMETADATA_PART, attributes);
 			}
 
 		} catch (Exception e){

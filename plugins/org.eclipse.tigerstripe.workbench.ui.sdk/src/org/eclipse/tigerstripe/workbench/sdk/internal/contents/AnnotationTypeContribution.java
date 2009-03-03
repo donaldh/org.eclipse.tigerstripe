@@ -12,13 +12,15 @@ package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 
 import java.util.Collection;
 
+import org.eclipse.pde.core.plugin.IPluginElement;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
+import org.eclipse.pde.core.plugin.IPluginObject;
 
 public class AnnotationTypeContribution implements IContribution{
 
 	public AnnotationTypeContribution(IPluginModelBase contributor,String name, String eClass,
 			String namespace, String uniq, 
-			boolean readOnly) {
+			boolean readOnly, IPluginElement pluginElement) {
 		super();
 		this.contributor = contributor;
 
@@ -27,6 +29,7 @@ public class AnnotationTypeContribution implements IContribution{
 		this.namespace = namespace;
 		this.uniq = uniq;
 		this.readOnly = readOnly;
+		this.pluginElement = pluginElement;
 	}
 	
 	public class Target{
@@ -62,7 +65,15 @@ public class AnnotationTypeContribution implements IContribution{
 	private String uniq;
 	private Collection<Target> targets;
 	private boolean readOnly;
+	private IPluginElement pluginElement;
 	
+	public IPluginElement getPluginElement() {
+		return pluginElement;
+	}
+	
+	public void setPluginElement(IPluginElement pluginElement) {
+		this.pluginElement = pluginElement;
+	}
 	public String getName() {
 		return name;
 	}

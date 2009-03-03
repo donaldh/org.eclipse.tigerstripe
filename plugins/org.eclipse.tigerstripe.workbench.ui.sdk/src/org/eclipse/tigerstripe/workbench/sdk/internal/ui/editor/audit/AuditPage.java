@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.audit;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.sdk.internal.LocalContributions;
+import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.ConfigEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
@@ -50,12 +51,18 @@ public class AuditPage extends TigerstripeFormPage {
 
 	@Override
 	public void refresh() {
+		try{
 		if (managedForm != null) {
 			managedForm.refresh();
 		}
 		if (auditSection != null) {
 			auditSection.refresh();
 		}
+	} catch (Exception e){
+		System.out.println("Mf "+managedForm.toString());
+		System.out.println("Pr "+auditSection);
+		e.printStackTrace();
+	}
 	}
 
 	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {

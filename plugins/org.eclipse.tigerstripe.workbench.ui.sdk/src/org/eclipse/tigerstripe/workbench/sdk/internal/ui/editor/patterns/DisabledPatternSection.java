@@ -355,14 +355,14 @@ public class DisabledPatternSection extends ExtensionSectionPart implements
 	 */
 	protected void removeButtonSelected(SelectionEvent event) {
 		// We know the pattern based on the current selection in the table
-		DisabledPatternContribution patt = (DisabledPatternContribution) viewer.getTable().getSelection()[0].getData();
+		DisabledPatternContribution cont = (DisabledPatternContribution) viewer.getTable().getSelection()[0].getData();
 		
-		IResource res = (IResource) patt.getContributor().getAdapter(IResource.class);
+		IResource res = (IResource) cont.getContributor().getAdapter(IResource.class);
 		
 		IProject contProject = (IProject) res.getProject();
 		ModelUpdater mu = new ModelUpdater();
 		if (contProject != null){
-			mu.removeDisabledPattern(contProject,patt.getDisabledPatternName());
+			mu.removeContribution(contProject, LocalContributions.PATTERNS_EXT_PT, LocalContributions.PATTERNS_DISABLED_PART, cont.getPluginElement());
 		}
 		
 		updateMaster();

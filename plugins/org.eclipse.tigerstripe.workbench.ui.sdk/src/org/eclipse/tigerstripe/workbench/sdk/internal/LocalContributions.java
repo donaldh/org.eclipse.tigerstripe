@@ -51,10 +51,10 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 	
 
 	public static String AUDIT_EXT_PT = "org.eclipse.tigerstripe.workbench.base.customArtifactAuditor";
-	public static String AUDIT_PART = "customArtifactAuditor";
+	public static String AUDIT_PART = "customAuditRule";
 	
 	public static String DECORATOR_EXT_PT = "org.eclipse.tigerstripe.workbench.ui.base.labelDecorator";
-	public static String DECORATOR_PART = "labelDecorator";
+	public static String DECORATOR_PART = "decorator";
 	
 	public static String PATTERNS_EXT_PT = "org.eclipse.tigerstripe.workbench.base.creationPatterns";
 	public static String PATTERNS_CREATION_PART = "org.eclipse.tigerstripe.workbench.base.creationPatterns";
@@ -66,10 +66,10 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 	public static String METADATA_ARTIFACTMETADATA_PART = "artifactMetadata";
 	
 	public static String NAMING_EXT_PT = "org.eclipse.tigerstripe.workbench.base.customComponentNaming";
-	public static String NAMING_PART = "customComponentNaming";
+	public static String NAMING_PART = "customNamingRule";
 	
 	public static String ANNOTATIONS_EXT_PT = "org.eclipse.tigerstripe.annotation.core.annotationType";
-	public static String ANNOTATIONS_DEFINITION_PART = "defintion";
+	public static String ANNOTATIONS_DEFINITION_PART = "definition";
 	
 	public static String ANNOTATIONS_PACKAGELABEL_EXT_PT = "org.eclipse.tigerstripe.annotation.core.packageLabel";
 	public static String ANNOTATIONS_PACKAGELABEL_PART = "label";
@@ -207,17 +207,23 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 					boolean readOnly = ! isWriteableModel(model);
 					IPluginObject[] children = ext.getChildren();
 					for (IPluginObject child: children){
-						if (child.getName().equals("patternDefinition")){
+						if (child.getName().equals(PATTERNS_CREATION_PART)){
 							// Need to get the file from the contributing plugin
 
 							IPluginAttribute patternFileNameAttribute  = ((IPluginElement) child).getAttribute("patternFile");
-							String patternFileName = patternFileNameAttribute.getValue();
+							String patternFileName = "";
+							if (patternFileNameAttribute != null){
+								patternFileName = patternFileNameAttribute.getValue();
+							}
+							
+							
 							IPluginAttribute validatorAttribute  = ((IPluginElement) child).getAttribute("validator_class");
 							String validator = "";
 							if (validatorAttribute != null){
 								validator = validatorAttribute.getValue();
 							}
-							PatternFileContribution pfc = new PatternFileContribution(model,patternFileName,validator,readOnly);
+							PatternFileContribution pfc = new PatternFileContribution(model,patternFileName,validator,readOnly
+									, (IPluginElement) child);
 							patternFileContributions.add(pfc);
 							
 							// put it in the map
@@ -250,10 +256,10 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 
 						}
 
-						if (child.getName().equals("disabledPattern")){
+						if (child.getName().equals(PATTERNS_DISABLED_PART)){
 							// Need to get the file from the contributing plugin
 							String disabledPatternName  = ((IPluginElement) child).getAttribute("patternName").getValue();
-							DisabledPatternContribution dpc = new DisabledPatternContribution(model,disabledPatternName,readOnly);
+							DisabledPatternContribution dpc = new DisabledPatternContribution(model,disabledPatternName,readOnly, (IPluginElement) child);
 							disabledPatternContributions.add(dpc);
 						}
 					}
@@ -270,15 +276,19 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 					boolean readOnly = ! isWriteableModel(model);
 					IPluginObject[] children = ext.getChildren();
 					for (IPluginObject child: children){
-						if (child.getName().equals("customNamingRule")){
+						if (child.getName().equals(NAMING_PART)){
 							// need to protect against null values - name is an optional field
 							IPluginAttribute ruleNameAttribute = ((IPluginElement) child).getAttribute("name");
 							String ruleName = "";
 							if ( ruleNameAttribute != null){
 								 ruleName = ruleNameAttribute.getValue();
 							}
-							String className = ((IPluginElement) child).getAttribute("namingClass").getValue();
-							NamingContribution nc = new NamingContribution(model,ruleName,className, readOnly);
+							IPluginAttribute classAttribute = ((IPluginElement) child).getAttribute("namingClass");
+							String className = "";
+							if (classAttribute != null){
+								className = classAttribute.getValue();
+							}
+							NamingContribution nc = new NamingContribution(model,ruleName,className, readOnly, (IPluginElement) child);
 							namingContributions.add(nc);
 						}
 					}
@@ -299,23 +309,54 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 					IPluginObject[] children = ext.getChildren();
 					for (IPluginObject child: children){
 						if (child.getName().equals(METADATA_MODELICON_PART)){
-							String aType = ((IPluginElement) child).getAttribute("artifactType").getValue();
-							String provider = ((IPluginElement) child).getAttribute("provider").getValue();
+							
+							IPluginAttribute typeAttribute = ((IPluginElement) child).getAttribute("artifactType");
+							String aType = "";
+							if (typeAttribute != null){
+								aType = typeAttribute.getValue();
+							}
+							IPluginAttribute providerAttribute = ((IPluginElement) child).getAttribute("provider");
+							String provider = "";
+							if (providerAttribute != null){
+								provider = providerAttribute.getValue();
+							}
 							
 							ModelComponentIconProviderContribution mcipc = new ModelComponentIconProviderContribution(
-									model,aType, provider, readOnly );
+									model,aType, provider, readOnly, (IPluginElement) child );
 							modelComponentIconProviderContributions.add(mcipc);
 						} else if (child.getName().equals(METADATA_ARTIFACTICON_PART)){
-							String aType =  ((IPluginElement) child).getAttribute("artifactName").getValue();
-							String icon =  ((IPluginElement) child).getAttribute("icon").getValue();
-							String icon_new =  ((IPluginElement) child).getAttribute("icon_new").getValue();
-							String icon_gs =  ((IPluginElement) child).getAttribute("icon_gs").getValue();
-							ArtifactIconContribution aic = new ArtifactIconContribution(model,icon,icon_new,icon_gs,aType, readOnly);
+							IPluginAttribute typeAttribute = ((IPluginElement) child).getAttribute("artifactName");
+							String aType = "";
+							if (typeAttribute != null){
+								aType = typeAttribute.getValue();
+							}
+							String icon =  "";
+							if (((IPluginElement) child).getAttribute("icon") != null){
+								icon = ((IPluginElement) child).getAttribute("icon").getValue();
+							}
+							String icon_new =  "";
+							if (((IPluginElement) child).getAttribute("icon_new") != null){
+								icon_new = ((IPluginElement) child).getAttribute("icon_new").getValue();
+							}
+							String icon_gs =  "";
+							if (((IPluginElement) child).getAttribute("icon_gs") != null){
+								icon_gs = ((IPluginElement) child).getAttribute("icon_gs").getValue();
+							}
+							
+							ArtifactIconContribution aic = new ArtifactIconContribution(model,icon,icon_new,icon_gs,aType, readOnly, (IPluginElement) child);
 							artifactIconContributions.add(aic);
 							
 						} else if (child.getName().equals(METADATA_ARTIFACTMETADATA_PART)){
-							String aType =  ((IPluginElement) child).getAttribute("artifactType").getValue();
-							String userLabel =  ((IPluginElement) child).getAttribute("userLabel").getValue();
+							IPluginAttribute typeAttribute = ((IPluginElement) child).getAttribute("artifactType");
+							String aType = "";
+							if (typeAttribute != null){
+								aType = typeAttribute.getValue();
+							}
+							IPluginAttribute labelAttribute = ((IPluginElement) child).getAttribute("userLabel");
+							String userLabel = "";
+							if (labelAttribute != null){
+								userLabel = labelAttribute.getValue();
+							}
 							Boolean hasFields =  null;
 							if (((IPluginElement) child).getAttribute("hasFields") != null){
 								hasFields = Boolean.valueOf(((IPluginElement) child).getAttribute("hasFields").getValue());
@@ -342,7 +383,7 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 								icon_gs = ((IPluginElement) child).getAttribute("icon_gs").getValue();
 							}
 							ArtifactMetadataContribution amc = new ArtifactMetadataContribution(model,
-									aType,  userLabel, hasFields,hasMethods ,hasLiterals,icon, icon_new,icon_gs, readOnly);
+									aType,  userLabel, hasFields,hasMethods ,hasLiterals,icon, icon_new,icon_gs, readOnly, (IPluginElement) child);
 							artifactMetadataContributions.add(amc);
 						}
 					}
@@ -361,10 +402,14 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 					boolean readOnly = ! isWriteableModel(model);
 					IPluginObject[] children = ext.getChildren();
 					for (IPluginObject child: children){
-						if (child.getName().equals("decorator")){
-							String className = ((IPluginElement) child).getAttribute("class").getValue();
+						if (child.getName().equals(DECORATOR_PART)){
+							IPluginAttribute classAttribute = ((IPluginElement) child).getAttribute("class");
+							String className = "";
+							if (classAttribute != null){
+								className = classAttribute.getValue();
+							}
 							
-							DecoratorContribution dc = new DecoratorContribution(model,className, readOnly);
+							DecoratorContribution dc = new DecoratorContribution(model,className, readOnly, (IPluginElement) child);
 							decoratorContributions.add(dc);
 						}
 					}
@@ -383,15 +428,19 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 						boolean readOnly = ! isWriteableModel(model);
 						IPluginObject[] children = ext.getChildren();
 						for (IPluginObject child: children){
-							if (child.getName().equals("customAuditRule")){
-								// need to protect against null values - name is an optional field
+							if (child.getName().equals(AUDIT_PART)){
+								// need to protect against null values - stuff can be badly defined
 								IPluginAttribute ruleNameAttribute = ((IPluginElement) child).getAttribute("name");
 								String ruleName = "";
 								if ( ruleNameAttribute != null){
 									 ruleName = ruleNameAttribute.getValue();
 								}
-								String className = ((IPluginElement) child).getAttribute("auditorClass").getValue();
-								AuditContribution ac = new AuditContribution(model,ruleName,className, readOnly);
+								IPluginAttribute auditorClassAttribute = ((IPluginElement) child).getAttribute("auditorClass");
+								String className = "";
+								if (auditorClassAttribute != null){
+									className = auditorClassAttribute.getValue();
+								}
+								AuditContribution ac = new AuditContribution(model,ruleName,className, readOnly, (IPluginElement) child);
 								auditContributions.add(ac);
 							}
 						}
@@ -413,15 +462,24 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 					boolean readOnly = ! isWriteableModel(model);
 					IPluginObject[] children = ext.getChildren();
 					for (IPluginObject child: children){
-						if (child.getName().equals("definition")){
+						if (child.getName().equals(ANNOTATIONS_DEFINITION_PART)){
 							IPluginAttribute nameAttribute = ((IPluginElement) child).getAttribute("name");
-							String name = nameAttribute.getValue();
+							String name = "";
+							if (nameAttribute != null){
+								name = nameAttribute.getValue();
+							}
 							
 							IPluginAttribute eClassAttribute = ((IPluginElement) child).getAttribute("eclass");
-							String eClass = eClassAttribute.getValue();
+							String eClass = "";
+							if (eClassAttribute != null){
+								eClass= eClassAttribute.getValue();
+							}
 							
 							IPluginAttribute namespaceAttribute = ((IPluginElement) child).getAttribute("epackage-uri");
-							String namespace = namespaceAttribute.getValue();
+							String namespace = "";
+							if (namespaceAttribute != null){
+								namespace = namespaceAttribute.getValue();
+							}
 							
 							IPluginAttribute unique = ((IPluginElement) child).getAttribute("unique");
 							String uniq = "";
@@ -430,14 +488,17 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 							}
 							AnnotationTypeContribution typeContribution = new AnnotationTypeContribution(
 									model,
-									name, eClass, namespace,uniq, readOnly); 
+									name, eClass, namespace,uniq, readOnly, (IPluginElement) child); 
 							// Then need to add some targets
 							Collection<Target> targets = new ArrayList<Target>();
 							IPluginObject[] grandChildren = ((IPluginElement) child).getChildren();
 							for (IPluginObject grandChild: grandChildren){
 								if (grandChild.getName().equals("target")){
 									IPluginAttribute typeAttribute = ((IPluginElement) grandChild).getAttribute("type");
-									String type = typeAttribute.getValue();
+									String type = "";
+									if ( typeAttribute != null){
+										type = typeAttribute.getValue();
+									}
 									IPluginAttribute uniqueTarget = ((IPluginElement) grandChild).getAttribute("unique");
 									String uniqTraget = "";
 									if (uniqueTarget != null){
@@ -470,12 +531,17 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 					for (IPluginObject child: children){
 						if (child.getName().equals(ANNOTATIONS_PACKAGELABEL_PART)){
 							IPluginAttribute nameAttribute = ((IPluginElement) child).getAttribute("name");
-							String name = nameAttribute.getValue();
-							
+							String name = "";
+							if (nameAttribute != null){
+								name = nameAttribute.getValue();
+							}
 							IPluginAttribute namespaceAttribute = ((IPluginElement) child).getAttribute("epackage-uri");
-							String namespace = namespaceAttribute.getValue();
+							String namespace = "";
+							if (namespaceAttribute != null){
+								namespace = namespaceAttribute.getValue();
+							}
 							AnnotationPackageLabelContribution annotationPackageLabelContribution = new AnnotationPackageLabelContribution(
-									model, name,namespace, readOnly
+									model, name,namespace, readOnly, (IPluginElement) child
 									);
 							annotationPackageLabelContributions.add(annotationPackageLabelContribution);
 						}
@@ -516,7 +582,7 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 								eClass = eClassAttribute.getValue();
 							
 							AnnotationExplicitFileRouterContribution contribution = new AnnotationExplicitFileRouterContribution(
-									model, nsURI, path, eClass, ePackage, readOnly
+									model, nsURI, path, eClass, ePackage, readOnly, (IPluginElement) child
 									);
 							annotationExplicitFileRouterContributions.add(contribution);
 						}
@@ -536,8 +602,17 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 					IPluginObject[] children = ext.getChildren();
 					for (IPluginObject child: children){
 						if (child.getName().equals(ANNOTATIONS_PROPERTYPROVIDER_PART)){
-							String className = ((IPluginElement) child).getAttribute("class").getValue();
-							String priority = ((IPluginElement) child).getAttribute("priority").getValue();
+							IPluginAttribute classAttribute = ((IPluginElement) child).getAttribute("class");
+							String className = "";
+							if (classAttribute != null){
+								className = classAttribute.getValue();
+							}
+							
+							IPluginAttribute priorityAttribute = ((IPluginElement) child).getAttribute("priority");
+							String priority = "";
+							if (priorityAttribute != null){
+								priority = priorityAttribute.getValue();
+							}
 
 							AnnotationPropertyProviderContribution dc = new AnnotationPropertyProviderContribution(model,className, priority, readOnly);
 							annotationPropertyProviderContributions.add(dc);
