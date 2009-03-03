@@ -107,6 +107,13 @@ public class FacetModelExporter implements IModelExporter {
 
 	}
 
+	@SuppressWarnings("deprecation")
+	public List<IAbstractArtifact> getDestinationProjectArtifacts() throws IllegalArgumentException, TigerstripeException {
+
+		IArtifactQuery query = new QueryAllArtifacts();
+		return (List<IAbstractArtifact>) destinationProject.getArtifactManagerSession().queryArtifact(query);
+	}
+
 	private void validateAttributes() throws TigerstripeException {
 
 		if (facetFile == null || !facetFile.exists()) {

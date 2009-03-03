@@ -73,7 +73,7 @@ public class FacetModelExportWizardMainPage extends WizardPage implements ISelec
 
 	private boolean includeReferences = false;
 
-	private boolean overwriteDestination = false;
+	private boolean overwriteExisting = false;
 
 	private ITigerstripeModelProject sourceProject;
 
@@ -203,7 +203,7 @@ public class FacetModelExportWizardMainPage extends WizardPage implements ISelec
 
 					IProject project = (IProject) ((StructuredSelection) event.getSelection()).getFirstElement();
 					destinationProject = (ITigerstripeModelProject) project.getAdapter(ITigerstripeModelProject.class);
-					isPageComplete();
+					checkPageComplete();
 				}
 			});
 
@@ -211,9 +211,9 @@ public class FacetModelExportWizardMainPage extends WizardPage implements ISelec
 		}
 	}
 
-	public FacetModelExportWizardMainPage() {
+	public FacetModelExportWizardMainPage(String pageName) {
 
-		super("facet-export");
+		super(pageName);
 		setTitle("Facet Scoped Model Export");
 		setDescription("Enter source project, destination project, facet, and whether or not to include referenced projects.");
 	}
@@ -231,7 +231,7 @@ public class FacetModelExportWizardMainPage extends WizardPage implements ISelec
 	}
 
 	public boolean overwriteDestination() {
-		return overwriteDestination;
+		return overwriteExisting;
 	}
 
 	public ITigerstripeModelProject getSourceProject() {
@@ -403,10 +403,12 @@ public class FacetModelExportWizardMainPage extends WizardPage implements ISelec
 		checkPageComplete();
 	}
 
-	public void checkPageComplete() {
+	 public void checkPageComplete() {
 
-		if (sourceProject != null && destinationProject != null && facet != null) {
-			setPageComplete(true);
+		if (overwriteExisting == true) {
+			if (sourceProject != null && destinationProject != null && facet != null) {
+				setPageComplete(true);
+			}
 		} else {
 			setPageComplete(false);
 		}
@@ -425,8 +427,19 @@ public class FacetModelExportWizardMainPage extends WizardPage implements ISelec
 		throw new IllegalArgumentException("Invalid Selection argument.");
 	}
 
+	@Override
+	public boolean canFlipToNextPage() {
+
+		if (overwriteExisting == false) {
+			if (sourceProject != null && destinationProject != null && facet != null) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**************************************************************************
-	 * Event handling implementation *
+	 * Event handling implementation                                          *
 	 **************************************************************************/
 	public void selectionChanged(SelectionChangedEvent event) {
 
@@ -435,14 +448,16 @@ public class FacetModelExportWizardMainPage extends WizardPage implements ISelec
 				IProject project = (IProject) ((StructuredSelection) event.getSelection()).getFirstElement();
 				sourceProject = (ITigerstripeModelProject) project.getAdapter(ITigerstripeModelProject.class);
 				facetTableViewer.setInput(TigerstripeProjectAuditor.findAll(project, "wfc"));
-				destinationText.setText("");
-				destinationProject = null;
+				if (destinationProject != null) {
+					destinationText.setText("");
+					destinationProject = null;
+				}
 				checkPageComplete();
 			}
-			if (event.getSource() == facetTableViewer) {
-				facet = (IFile) ((StructuredSelection) event.getSelection()).getFirstElement();
-				checkPageComplete();
-			}
+		}
+		if (event.getSource() == facetTableViewer) {
+			facet = (IFile) ((StructuredSelection) event.getSelection()).getFirstElement();
+			checkPageComplete();
 		}
 	}
 
@@ -457,7 +472,8 @@ public class FacetModelExportWizardMainPage extends WizardPage implements ISelec
 			includeReferences = incReferencedBtn.getSelection();
 		}
 		if (e.getSource() == overwriteExistingBtn) {
-			overwriteDestination = overwriteExistingBtn.getSelection();
+			overwriteExisting = overwriteExistingBtn.getSelection();
+			checkPageComplete();
 		}
 
 	}

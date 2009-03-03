@@ -28,7 +28,9 @@ import org.eclipse.ui.IWorkbench;
 
 public class FacetModelExportWizard extends Wizard implements IExportWizard {
 
-	private FacetModelExportWizardMainPage wizardPage;
+	private FacetModelExportWizardMainPage mainWizardPage;
+	
+	private FacetModelExportWizardOverwritePage overwriteWizardPage;
 
 	private IStructuredSelection selection;
 
@@ -39,9 +41,13 @@ public class FacetModelExportWizard extends Wizard implements IExportWizard {
 	@Override
 	public void addPages() {
 
-		wizardPage = new FacetModelExportWizardMainPage();
-		wizardPage.init(selection);
-		addPage(wizardPage);
+		mainWizardPage = new FacetModelExportWizardMainPage("facet-export-main");
+		addPage(mainWizardPage);
+		
+		overwriteWizardPage = new FacetModelExportWizardOverwritePage("facet-export-overwrite");
+		addPage(overwriteWizardPage);
+		
+		mainWizardPage.init(selection);
 	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
@@ -57,11 +63,11 @@ public class FacetModelExportWizard extends Wizard implements IExportWizard {
 
 				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 
-					IModelExporter exporter = new FacetModelExporter(wizardPage.getSourceProject(), wizardPage.getDestinationProject(), wizardPage
+					IModelExporter exporter = new FacetModelExporter(mainWizardPage.getSourceProject(), mainWizardPage.getDestinationProject(), mainWizardPage
 							.getFacet());
 
 					try {
-						exporter.export(wizardPage.includeReferences(), monitor);
+						exporter.export(mainWizardPage.includeReferences(), monitor);
 					} catch (TigerstripeException e) {
 						EclipsePlugin.log(e);
 					} catch (CoreException e) {
