@@ -11,10 +11,8 @@
 
 package org.eclipse.tigerstripe.workbench.internal.core.model.export.facets;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -23,30 +21,11 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.QueryAllArtifacts;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.export.IModelExporter;
 import org.eclipse.tigerstripe.workbench.internal.core.model.export.IModelExporterFacetManager;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 
-public class FacetModelExporter implements IModelExporter {
-
-	private IFile facetFile;
-
-	private ITigerstripeModelProject sourceProject;
-
-	private ITigerstripeModelProject destinationProject;
-
-	private List<IAbstractArtifact> exportedArtifacts = new ArrayList<IAbstractArtifact>();
-
-	public FacetModelExporter(ITigerstripeModelProject sourceProject, ITigerstripeModelProject destinationProject, IFile facetFile) {
-
-		super();
-
-		this.sourceProject = sourceProject;
-		this.destinationProject = destinationProject;
-		this.facetFile = facetFile;
-	}
+public class FacetModelExporter {
 
 	/*
 	 * (non-Javadoc)
@@ -56,7 +35,7 @@ public class FacetModelExporter implements IModelExporter {
 	 * #export(boolean)
 	 */
 	@SuppressWarnings("deprecation")
-	public void export(boolean includeDependencies, IProgressMonitor monitor) throws TigerstripeException, CoreException {
+	public static void export(FacetModelExportInputManager inputManager, IProgressMonitor monitor) throws TigerstripeException, CoreException {
 
 		if (monitor == null) {
 			monitor = new NullProgressMonitor();
@@ -64,17 +43,17 @@ public class FacetModelExporter implements IModelExporter {
 
 		try {
 
-			validateAttributes();
-
+			inputManager.validate();
+			
 			IArtifactQuery query = new QueryAllArtifacts();
-			query.setIncludeDependencies(includeDependencies);
-			List<IAbstractArtifact> artifacts = (List<IAbstractArtifact>) sourceProject.getArtifactManagerSession().queryArtifact(query);
+			query.setIncludeDependencies(inputManager.isIncludeReferences());
+			List<IAbstractArtifact> artifacts = (List<IAbstractArtifact>) inputManager.getSource().getArtifactManagerSession().queryArtifact(query);
 
 			monitor.beginTask("Exporting", artifacts.size());
 
 			monitor.subTask("Applying facet for export");
-			IModelExporterFacetManager facetManager = new FacetModelExporterFacetManager(sourceProject);
-			facetManager.applyExportFacet(facetFile);
+			IModelExporterFacetManager facetManager = new FacetModelExporterFacetManager(inputManager.getSource());
+			facetManager.applyExportFacet(inputManager.getFacet());
 
 			if (monitor.isCanceled()) {
 				facetManager.restoreActiveFacet();
@@ -87,8 +66,7 @@ public class FacetModelExporter implements IModelExporter {
 
 					IAbstractArtifact cloned = ((AbstractArtifact) artifact).makeWorkingCopy(new NullProgressMonitor());
 					monitor.subTask(cloned.getName());
-					destinationProject.getArtifactManagerSession().addArtifact(cloned);
-					exportedArtifacts.add(cloned);
+					inputManager.getDestination().getArtifactManagerSession().addArtifact(cloned);
 					cloned.doSave(monitor);
 				}
 
@@ -97,56 +75,12 @@ public class FacetModelExporter implements IModelExporter {
 			monitor.subTask("Applying original facet (if applicable)");
 			facetManager.restoreActiveFacet();
 
-			IProject project = (IProject) destinationProject.getAdapter(IProject.class);
+			IProject project = (IProject) inputManager.getDestination().getAdapter(IProject.class);
 			project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 
 		} finally {
 
 			monitor.done();
-		}
-
-	}
-
-	@SuppressWarnings("deprecation")
-	public List<IAbstractArtifact> getDestinationProjectArtifacts() throws IllegalArgumentException, TigerstripeException {
-
-		IArtifactQuery query = new QueryAllArtifacts();
-		return (List<IAbstractArtifact>) destinationProject.getArtifactManagerSession().queryArtifact(query);
-	}
-
-	private void validateAttributes() throws TigerstripeException {
-
-		if (facetFile == null || !facetFile.exists()) {
-			String facet;
-			if (facetFile == null) {
-				facet = "*null*";
-			} else {
-				facet = facetFile.getFullPath().toOSString();
-			}
-
-			throw new TigerstripeException("The facet file " + facet + " does not exist");
-		}
-
-		if (sourceProject == null || !sourceProject.exists()) {
-			String proj;
-			if (sourceProject == null) {
-				proj = "source";
-			} else {
-				proj = sourceProject.getFullPath().toOSString();
-			}
-
-			throw new TigerstripeException("The " + proj + " project does not exist");
-		}
-
-		if (destinationProject == null || !destinationProject.exists()) {
-			String proj;
-			if (destinationProject == null) {
-				proj = "destination";
-			} else {
-				proj = destinationProject.getFullPath().toOSString();
-			}
-
-			throw new TigerstripeException("The " + proj + " project does not exist");
 		}
 	}
 

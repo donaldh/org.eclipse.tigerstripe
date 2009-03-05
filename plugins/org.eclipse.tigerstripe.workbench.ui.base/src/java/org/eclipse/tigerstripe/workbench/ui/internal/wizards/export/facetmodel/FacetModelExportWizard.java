@@ -19,7 +19,7 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.model.export.IModelExporter;
+import org.eclipse.tigerstripe.workbench.internal.core.model.export.facets.FacetModelExportInputManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.export.facets.FacetModelExporter;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLog;
@@ -28,31 +28,28 @@ import org.eclipse.ui.IWorkbench;
 
 public class FacetModelExportWizard extends Wizard implements IExportWizard {
 
-	private FacetModelExportWizardMainPage mainWizardPage;
-	
-	private FacetModelExportWizardOverwritePage overwriteWizardPage;
-
-	private IStructuredSelection selection;
+	private FacetModelExportInputManager inputManager;
 
 	public FacetModelExportWizard() {
+
 		setNeedsProgressMonitor(true);
+		inputManager = new FacetModelExportInputManager();
+	}
+
+	public FacetModelExportInputManager getInputManager() {
+		return inputManager;
 	}
 
 	@Override
 	public void addPages() {
 
-		mainWizardPage = new FacetModelExportWizardMainPage("facet-export-main");
-		addPage(mainWizardPage);
-		
-		overwriteWizardPage = new FacetModelExportWizardOverwritePage("facet-export-overwrite");
-		addPage(overwriteWizardPage);
-		
-		mainWizardPage.init(selection);
+		addPage(new FacetModelExportWizardMainPage());
+		addPage(new FacetModelExportWizardOverwritePage());
 	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 
-		this.selection = selection;
+		inputManager.setInitialSelection(selection);
 	}
 
 	@Override
@@ -63,11 +60,8 @@ public class FacetModelExportWizard extends Wizard implements IExportWizard {
 
 				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 
-					IModelExporter exporter = new FacetModelExporter(mainWizardPage.getSourceProject(), mainWizardPage.getDestinationProject(), mainWizardPage
-							.getFacet());
-
 					try {
-						exporter.export(mainWizardPage.includeReferences(), monitor);
+						FacetModelExporter.export(inputManager, monitor);
 					} catch (TigerstripeException e) {
 						EclipsePlugin.log(e);
 					} catch (CoreException e) {

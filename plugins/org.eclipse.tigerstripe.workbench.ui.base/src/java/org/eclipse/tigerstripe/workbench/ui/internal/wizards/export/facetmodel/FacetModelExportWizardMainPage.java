@@ -15,11 +15,9 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
@@ -47,6 +45,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeProjectNature;
+import org.eclipse.tigerstripe.workbench.internal.core.model.export.facets.FacetModelExportInputManager;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
@@ -59,6 +58,10 @@ public class FacetModelExportWizardMainPage extends WizardPage implements ISelec
 
 	private static final int SIZING_SELECTION_WIDGET_HEIGHT = 150;
 
+	private static final String WIZARD_PAGE_NAME = "EXPORT_WIZARD_MAIN";
+
+	private FacetModelExportInputManager inputManager;
+
 	private TableViewer projectTableViewer;
 
 	private TableViewer facetTableViewer;
@@ -68,18 +71,6 @@ public class FacetModelExportWizardMainPage extends WizardPage implements ISelec
 	private Button overwriteExistingBtn;
 
 	private Text destinationText;
-
-	private IFile facet;
-
-	private boolean includeReferences = false;
-
-	private boolean overwriteExisting = false;
-
-	private ITigerstripeModelProject sourceProject;
-
-	private ITigerstripeModelProject destinationProject;
-
-	private IStructuredSelection selection;
 
 	private final class TigerstripeProjectLabelProvider extends LabelProvider {
 
@@ -118,8 +109,7 @@ public class FacetModelExportWizardMainPage extends WizardPage implements ISelec
 
 			try {
 				if (element instanceof IProject && TigerstripeProjectNature.hasNature((IProject) element)) {
-					if (TigerstripeProjectAuditor.findAll((IProject) element, "wfc").size() > 0)
-						return true;
+					return true;
 				}
 			} catch (CoreException e) {
 				EclipsePlugin.log(e);
@@ -135,10 +125,14 @@ public class FacetModelExportWizardMainPage extends WizardPage implements ISelec
 
 			try {
 				if (element instanceof IProject && TigerstripeProjectNature.hasNature((IProject) element)) {
-					if (!((IProject) element).equals(sourceProject.getAdapter(IProject.class))) {
-						return true;
+					if (inputManager.getSource() != null) {
+						if (!((IProject) element).equals(inputManager.getSource().getAdapter(IProject.class))) {
+							return true;
+						} else {
+							return false;
+						}
 					} else {
-						return false;
+						return true;
 					}
 				}
 			} catch (CoreException e) {
@@ -193,16 +187,12 @@ public class FacetModelExportWizardMainPage extends WizardPage implements ISelec
 			destProjectTableViewer.setFilters(new ViewerFilter[] { new TigerstripeDestinationProjectViewerFilter() });
 			destProjectTableViewer.setInput(ResourcesPlugin.getWorkspace().getRoot().getProjects());
 
-			TableItem item = (TableItem) destProjectTableViewer.getTable().getItem(0);
-			destinationProject = (ITigerstripeModelProject) ((IProject) item.getData()).getAdapter(ITigerstripeModelProject.class);
-			destProjectTableViewer.getTable().select(0);
-
 			destProjectTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
 				public void selectionChanged(SelectionChangedEvent event) {
 
 					IProject project = (IProject) ((StructuredSelection) event.getSelection()).getFirstElement();
-					destinationProject = (ITigerstripeModelProject) project.getAdapter(ITigerstripeModelProject.class);
+					inputManager.setDestination((ITigerstripeModelProject) project.getAdapter(ITigerstripeModelProject.class));
 					checkPageComplete();
 				}
 			});
@@ -211,40 +201,17 @@ public class FacetModelExportWizardMainPage extends WizardPage implements ISelec
 		}
 	}
 
-	public FacetModelExportWizardMainPage(String pageName) {
+	public FacetModelExportWizardMainPage() {
 
-		super(pageName);
+		super(WIZARD_PAGE_NAME);
 		setTitle("Facet Scoped Model Export");
 		setDescription("Enter source project, destination project, facet, and whether or not to include referenced projects.");
-	}
-
-	public void init(IStructuredSelection selection) {
-		this.selection = selection;
-	}
-
-	public IFile getFacet() {
-		return facet;
-	}
-
-	public boolean includeReferences() {
-		return includeReferences;
-	}
-
-	public boolean overwriteDestination() {
-		return overwriteExisting;
-	}
-
-	public ITigerstripeModelProject getSourceProject() {
-		return sourceProject;
-	}
-
-	public ITigerstripeModelProject getDestinationProject() {
-		return destinationProject;
 	}
 
 	public void createControl(Composite parent) {
 
 		initializeDialogUnits(parent);
+		inputManager = ((FacetModelExportWizard) getWizard()).getInputManager();
 
 		Composite composite = new Composite(parent, SWT.NULL);
 		composite.setLayout(new GridLayout());
@@ -342,10 +309,10 @@ public class FacetModelExportWizardMainPage extends WizardPage implements ISelec
 			public void widgetSelected(SelectionEvent e) {
 				DestinationProjectDialog dlg = new DestinationProjectDialog(composite.getShell());
 				if (dlg.open() == Dialog.OK) {
-					destinationText.setText(destinationProject.getName());
+					destinationText.setText(inputManager.getDestination().getName());
 				} else {
 					destinationText.setText("");
-					destinationProject = null;
+					inputManager.setDestination(null);
 				}
 				checkPageComplete();
 			}
@@ -378,85 +345,75 @@ public class FacetModelExportWizardMainPage extends WizardPage implements ISelec
 	private void initialize() {
 
 		projectTableViewer.setInput(ResourcesPlugin.getWorkspace().getRoot().getProjects());
-		if (selection.size() != 0) {
+		if (inputManager.getSource() != null) {
 
 			try {
 
-				sourceProject = (ITigerstripeModelProject) ((IJavaProject) selection.getFirstElement()).getProject().getAdapter(
-						ITigerstripeModelProject.class);
-				projectTableViewer.getTable().setSelection(getSelectionIndex(selection, projectTableViewer.getTable()));
-				facetTableViewer.setInput(TigerstripeProjectAuditor.findAll(((IJavaProject) selection.getFirstElement()).getProject(), "wfc"));
+				projectTableViewer.getTable().setSelection(getSelectionIndex(inputManager.getSource(), projectTableViewer.getTable()));
+				facetTableViewer.setInput(TigerstripeProjectAuditor.findAll((IProject) inputManager.getSource().getAdapter(IProject.class), "wfc"));
 
 			} catch (IllegalArgumentException e) {
-
 				projectTableViewer.getTable().setSelection(0);
 				TigerstripeLog.logError(e);
 			}
-		} else {
-
-			TableItem item = (TableItem) projectTableViewer.getTable().getItem(0);
-			sourceProject = (ITigerstripeModelProject) ((IProject) item.getData()).getAdapter(ITigerstripeModelProject.class);
-			projectTableViewer.getTable().setSelection(0);
-			facetTableViewer.setInput(TigerstripeProjectAuditor.findAll((IProject) item.getData(), "wfc"));
 		}
 
 		checkPageComplete();
 	}
 
-	 public void checkPageComplete() {
+	private int getSelectionIndex(final ITigerstripeModelProject source, Table table) {
 
-		if (overwriteExisting == true) {
-			if (sourceProject != null && destinationProject != null && facet != null) {
-				setPageComplete(true);
-			}
-		} else {
-			setPageComplete(false);
-		}
-	}
-
-	private int getSelectionIndex(final IStructuredSelection selection, Table table) {
-
-		IJavaProject jProject = (IJavaProject) selection.getFirstElement();
+		IProject iProject = (IProject) source.getAdapter(IProject.class);
 		TableItem[] items = table.getItems();
 		for (int i = 0; i < items.length; i++) {
 			TableItem item = items[i];
-			if (item.getData().equals(jProject.getProject())) {
+			if (item.getData().equals(iProject)) {
 				return i;
 			}
 		}
 		throw new IllegalArgumentException("Invalid Selection argument.");
 	}
 
+	public void checkPageComplete() {
+
+		if (inputManager.verifyComplete() && inputManager.isOverwriteExisting()) {
+			setPageComplete(true);
+		} else {
+			setPageComplete(false);
+		}
+
+	}
+
 	@Override
 	public boolean canFlipToNextPage() {
 
-		if (overwriteExisting == false) {
-			if (sourceProject != null && destinationProject != null && facet != null) {
-				return true;
-			}
+		if (!inputManager.isOverwriteExisting() && inputManager.verifyComplete()) {
+			return true;
+		} else {
+			return false;
 		}
-		return false;
+
 	}
 
 	/**************************************************************************
-	 * Event handling implementation                                          *
+	 * Event handling implementation *
 	 **************************************************************************/
 	public void selectionChanged(SelectionChangedEvent event) {
 
 		if (event.getSource() == projectTableViewer) {
 			if (((StructuredSelection) event.getSelection()).getFirstElement() instanceof IProject) {
 				IProject project = (IProject) ((StructuredSelection) event.getSelection()).getFirstElement();
-				sourceProject = (ITigerstripeModelProject) project.getAdapter(ITigerstripeModelProject.class);
+				inputManager.setSource((ITigerstripeModelProject) project.getAdapter(ITigerstripeModelProject.class));
 				facetTableViewer.setInput(TigerstripeProjectAuditor.findAll(project, "wfc"));
-				if (destinationProject != null) {
+				if (inputManager.getDestination() != null) {
 					destinationText.setText("");
-					destinationProject = null;
+					inputManager.setDestination(null);
 				}
 				checkPageComplete();
 			}
 		}
 		if (event.getSource() == facetTableViewer) {
-			facet = (IFile) ((StructuredSelection) event.getSelection()).getFirstElement();
+			inputManager.setFacet((IFile) ((StructuredSelection) event.getSelection()).getFirstElement());
 			checkPageComplete();
 		}
 	}
@@ -469,12 +426,11 @@ public class FacetModelExportWizardMainPage extends WizardPage implements ISelec
 	public void widgetSelected(SelectionEvent e) {
 
 		if (e.getSource() == incReferencedBtn) {
-			includeReferences = incReferencedBtn.getSelection();
+			inputManager.setIncludeReferences(incReferencedBtn.getSelection());
 		}
 		if (e.getSource() == overwriteExistingBtn) {
-			overwriteExisting = overwriteExistingBtn.getSelection();
+			inputManager.setOverwriteExisting(overwriteExistingBtn.getSelection());
 			checkPageComplete();
 		}
-
 	}
 }
