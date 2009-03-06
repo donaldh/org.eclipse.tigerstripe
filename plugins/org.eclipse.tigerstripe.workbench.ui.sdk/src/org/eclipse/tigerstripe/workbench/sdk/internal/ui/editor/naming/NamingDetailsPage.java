@@ -26,7 +26,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationUsageExtractor;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.NamingContribution;
+import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.common.CommonDetailsPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.ui.forms.IDetailsPage;
@@ -38,7 +40,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
-public class NamingDetailsPage implements IDetailsPage {
+public class NamingDetailsPage extends CommonDetailsPage implements IDetailsPage {
 
 
 	/**
@@ -87,6 +89,9 @@ public class NamingDetailsPage implements IDetailsPage {
 
 	private Text namingContributorText;
 
+	private AnnotationUsageExtractor extractor;
+	
+	
 	public NamingDetailsPage() {
 		super();
 
@@ -102,7 +107,7 @@ public class NamingDetailsPage implements IDetailsPage {
 		parent.setLayoutData(td);
 
 		createContributionInfo(parent);
-
+		createUsageTable(parent, form.getToolkit());
 		form.getToolkit().paintBordersFor(parent);
 	}
 
@@ -222,6 +227,7 @@ public class NamingDetailsPage implements IDetailsPage {
 			//	nameEditListener.reset();
 
 			master = (NamingSection) part;
+			extractor = master.getProvider().getExtractor();
 			Table fieldsTable = master.getViewer().getTable();
 
 			NamingContribution selected = (NamingContribution) fieldsTable.getSelection()[0].getData();
@@ -240,7 +246,7 @@ public class NamingDetailsPage implements IDetailsPage {
 		namingClassText.setEnabled(!getContribution().isReadOnly());
 		namingContributorText.setText(getContribution().getContributor().toString());
 		classBrowseButton.setEnabled(!getContribution().isReadOnly());
-		
+		usageViewer.setInput(extractor.getNamingMap().get(getContribution()));
 		setSilentUpdate(false);
 	}
 

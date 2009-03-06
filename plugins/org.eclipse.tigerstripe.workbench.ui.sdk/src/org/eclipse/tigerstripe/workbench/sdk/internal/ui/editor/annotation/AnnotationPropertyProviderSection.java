@@ -42,7 +42,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
-import org.eclipse.tigerstripe.workbench.sdk.internal.LocalContributions;
+import org.eclipse.tigerstripe.workbench.sdk.internal.SDKConstants;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ModelUpdater;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationPropertyProviderContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AuditContribution;
@@ -68,7 +68,7 @@ public class AnnotationPropertyProviderSection extends ExtensionSectionPart impl
 			int style) {
 		super(page, parent, toolkit,  null,
 				ExpandableComposite.TWISTIE | style);
-		setTitle("Contributions to '"+LocalContributions.ANNOTATIONS_PROPERTYPROVIDER_EXT_PT+"'");
+		setTitle("Contributions to '"+SDKConstants.ANNOTATIONS_PROPERTYPROVIDER_EXT_PT+"'");
 		getSection().marginWidth = 10;
 		getSection().marginHeight = 5;
 		getSection().clientVerticalSpacing = 4;
@@ -351,7 +351,7 @@ public class AnnotationPropertyProviderSection extends ExtensionSectionPart impl
 		IProject contProject = (IProject) res.getProject();
 		ModelUpdater mu = new ModelUpdater();
 		if (contProject != null){
-			mu.removeContribution(contProject, LocalContributions.ANNOTATIONS_PROPERTYPROVIDER_EXT_PT, LocalContributions.ANNOTATIONS_PROPERTYPROVIDER_PART, cont.getPluginElement());
+			mu.removeContribution(contProject, SDKConstants.ANNOTATIONS_PROPERTYPROVIDER_EXT_PT, SDKConstants.ANNOTATIONS_PROPERTYPROVIDER_PART, cont.getPluginElement());
 		}
 		
 		updateMaster();

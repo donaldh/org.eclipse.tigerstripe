@@ -44,7 +44,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
-import org.eclipse.tigerstripe.workbench.sdk.internal.LocalContributions;
+import org.eclipse.tigerstripe.workbench.sdk.internal.SDKConstants;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ModelUpdater;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.ModelComponentIconProviderContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.ConfigEditor;
@@ -66,13 +66,14 @@ public class ComponentIconSection extends ExtensionSectionPart implements
 		IFormPart {
 
 	protected DetailsPart detailsPart;
+	protected ISDKProvider provider;
 
 	public ComponentIconSection(TigerstripeFormPage page,
 			Composite parent, FormToolkit toolkit,
 			int style) {
 		super(page, parent, toolkit,  null,
 				ExpandableComposite.TWISTIE | style);
-		setTitle("Contributions to '"+LocalContributions.METADATA_MODELICON_PART+"'");
+		setTitle("Contributions to '"+SDKConstants.METADATA_MODELICON_PART+"'");
 		getSection().marginWidth = 10;
 		getSection().marginHeight = 5;
 		getSection().clientVerticalSpacing = 4;
@@ -126,7 +127,7 @@ public class ComponentIconSection extends ExtensionSectionPart implements
 
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof ISDKProvider) {
-				ISDKProvider provider = (ISDKProvider) inputElement;
+				provider = (ISDKProvider) inputElement;
 				return provider.getModelComponentIconProviderContributions().toArray();
 			}
 			return new Object[0];
@@ -368,7 +369,7 @@ public class ComponentIconSection extends ExtensionSectionPart implements
 		IProject contProject = (IProject) res.getProject();
 		ModelUpdater mu = new ModelUpdater();
 		if (contProject != null){
-			mu.removeContribution(contProject, LocalContributions.METADATA_EXT_PT, LocalContributions.METADATA_MODELICON_PART, cont.getPluginElement());
+			mu.removeContribution(contProject, SDKConstants.METADATA_EXT_PT, SDKConstants.METADATA_MODELICON_PART, cont.getPluginElement());
 		}
 		
 		updateMaster();
@@ -436,6 +437,10 @@ public class ComponentIconSection extends ExtensionSectionPart implements
 
 	public DetailsPart getDetailsPart() {
 		return detailsPart;
+	}
+
+	public ISDKProvider getProvider() {
+		return provider;
 	}
 
 }

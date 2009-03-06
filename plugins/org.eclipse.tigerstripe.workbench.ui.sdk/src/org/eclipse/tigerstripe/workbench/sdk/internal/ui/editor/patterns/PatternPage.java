@@ -12,7 +12,7 @@
 package org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.patterns;
 
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.tigerstripe.workbench.sdk.internal.LocalContributions;
+import org.eclipse.tigerstripe.workbench.sdk.internal.SDKConstants;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
@@ -44,7 +44,7 @@ public class PatternPage extends TigerstripeFormPage {
 		ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = managedForm.getToolkit();
 
-		form.setText("Contributions to '"+LocalContributions.PATTERNS_EXT_PT+"'");
+		form.setText("Contributions to '"+SDKConstants.PATTERNS_EXT_PT+"'");
 		fillBody(managedForm, toolkit);
 		managedForm.refresh();
 	}

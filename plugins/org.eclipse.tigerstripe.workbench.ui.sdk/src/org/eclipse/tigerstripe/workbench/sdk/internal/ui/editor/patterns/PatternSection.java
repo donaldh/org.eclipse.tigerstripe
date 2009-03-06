@@ -47,7 +47,7 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
-import org.eclipse.tigerstripe.workbench.sdk.internal.LocalContributions;
+import org.eclipse.tigerstripe.workbench.sdk.internal.SDKConstants;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ModelUpdater;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.PatternFileContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.dialogs.SelectContributerDialog;
@@ -76,7 +76,7 @@ public class PatternSection extends ExtensionSectionPart implements
 			int style) {
 		super(page, parent, toolkit,  null,
 				ExpandableComposite.TWISTIE | style);
-		setTitle("Contributions to '"+LocalContributions.PATTERNS_CREATION_PART+"'");
+		setTitle("Contributions to '"+SDKConstants.PATTERNS_CREATION_PART+"'");
 		getSection().marginWidth = 10;
 		getSection().marginHeight = 5;
 		getSection().clientVerticalSpacing = 4;
@@ -486,7 +486,7 @@ public class PatternSection extends ExtensionSectionPart implements
 			IProject contProject = (IProject) res.getProject();
 			ModelUpdater mu = new ModelUpdater();
 			if (contProject != null){
-				mu.addSimpleExtension(contProject, LocalContributions.PATTERNS_EXT_PT, "disabledPattern", attributes);
+				mu.addSimpleExtension(contProject, SDKConstants.PATTERNS_EXT_PT, "disabledPattern", attributes);
 			}
 			
 			updateMaster();
@@ -511,7 +511,7 @@ public class PatternSection extends ExtensionSectionPart implements
 		IProject contProject = (IProject) res.getProject();
 		ModelUpdater mu = new ModelUpdater();
 		if (contProject != null){
-			mu.removeContribution(contProject, LocalContributions.PATTERNS_EXT_PT, LocalContributions.PATTERNS_CREATION_PART, cont.getPluginElement());
+			mu.removeContribution(contProject, SDKConstants.PATTERNS_EXT_PT, SDKConstants.PATTERNS_CREATION_PART, cont.getPluginElement());
 		}
 		
 		updateMaster();

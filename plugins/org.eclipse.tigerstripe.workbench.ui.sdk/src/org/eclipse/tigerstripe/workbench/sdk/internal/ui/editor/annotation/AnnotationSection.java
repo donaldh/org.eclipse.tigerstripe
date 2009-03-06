@@ -44,7 +44,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
-import org.eclipse.tigerstripe.workbench.sdk.internal.LocalContributions;
+import org.eclipse.tigerstripe.workbench.sdk.internal.SDKConstants;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ModelUpdater;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationPropertyProviderContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationTypeContribution;
@@ -67,13 +67,15 @@ public class AnnotationSection extends ExtensionSectionPart implements
 		IFormPart {
 
 	protected DetailsPart detailsPart;
+	protected ISDKProvider provider;
+
 
 	public AnnotationSection(TigerstripeFormPage page,
 			Composite parent, FormToolkit toolkit,
 			int style) {
 		super(page, parent, toolkit,  null,
 				ExpandableComposite.TWISTIE | style);
-		setTitle("Contributions to '"+LocalContributions.ANNOTATIONS_EXT_PT+"'");
+		setTitle("Contributions to '"+SDKConstants.ANNOTATIONS_EXT_PT+"'");
 		getSection().marginWidth = 10;
 		getSection().marginHeight = 5;
 		getSection().clientVerticalSpacing = 4;
@@ -127,7 +129,7 @@ public class AnnotationSection extends ExtensionSectionPart implements
 
 		public Object[] getElements(Object inputElement) {
 			if (inputElement instanceof ISDKProvider) {
-				ISDKProvider provider = (ISDKProvider) inputElement;
+				provider = (ISDKProvider) inputElement;
 				return provider.getAnnotationTypeContributions().toArray();
 			}
 			return new Object[0];
@@ -142,17 +144,23 @@ public class AnnotationSection extends ExtensionSectionPart implements
 		}
 	}
 
+	public ISDKProvider getProvider() {
+		return provider;
+	}
+
 	class MasterLabelProvider extends LabelProvider implements
 			ITableLabelProvider {
 		
 		public String getColumnText(Object obj, int index) {
 			AnnotationTypeContribution field = (AnnotationTypeContribution) obj;
 		
-			if (index == 1){
-				return field.getEClass();
+			 if (index == 1){
+				return Integer.toString(provider.getExtractor().getAnnotationMap().get(field).size());
 			} else if (index == 2){
-				return field.getNamespace();
+				return field.getEClass();
 			} else if (index == 3){
+				return field.getNamespace();
+			} else if (index == 4){
 				return field.getContributor().toString();
 			}else {
 				return field.getName();
@@ -190,10 +198,11 @@ public class AnnotationSection extends ExtensionSectionPart implements
 	// ====================================================================
 	private TableViewer viewer;
 
-	private String[] annotationTypeNames = new String[]{ "Name","eClass","Namespace","Contributor"};
+	private String[] annotationTypeNames = new String[]{ "Name","Usage","eClass","Namespace","Contributor"};
 	
 	TableColumn annotationTypeNameColumn;
 	TableColumn annotationTypeEClassColumn;
+	TableColumn annotationTypeUsageColumn;
 	TableColumn annotationTypeNamepsaceColumn;
 	TableColumn aannotationTypeContributorColumn;
 
@@ -235,22 +244,28 @@ public class AnnotationSection extends ExtensionSectionPart implements
 		annotationTypeNameColumn.setWidth(250);
 		annotationTypeNameColumn.setText(annotationTypeNames[0]);
 
+		
+		annotationTypeUsageColumn = new TableColumn(annotationTable, SWT.NULL);
+		annotationTypeUsageColumn.setWidth(75);
+		annotationTypeUsageColumn.setText(annotationTypeNames[1]);
+		
 		annotationTypeEClassColumn = new TableColumn(annotationTable, SWT.NULL);
 		annotationTypeEClassColumn.setWidth(250);
-		annotationTypeEClassColumn.setText(annotationTypeNames[1]);
+		annotationTypeEClassColumn.setText(annotationTypeNames[2]);
 		
 		annotationTypeNamepsaceColumn= new TableColumn(annotationTable, SWT.NULL);
 		annotationTypeNamepsaceColumn.setWidth(250);
-		annotationTypeNamepsaceColumn.setText(annotationTypeNames[2]);
+		annotationTypeNamepsaceColumn.setText(annotationTypeNames[3]);
 		
 		
 		aannotationTypeContributorColumn = new TableColumn(annotationTable, SWT.NULL);
 		aannotationTypeContributorColumn.setWidth(250);
-		aannotationTypeContributorColumn.setText(annotationTypeNames[3]);
+		aannotationTypeContributorColumn.setText(annotationTypeNames[4]);
 		
 	
 
 		annotationTypeNameColumn.addListener(SWT.Selection, listener);
+		annotationTypeUsageColumn.addListener(SWT.Selection, listener);
 		annotationTypeEClassColumn.addListener(SWT.Selection, listener);
 		annotationTypeNamepsaceColumn.addListener(SWT.Selection, listener);
 		aannotationTypeContributorColumn.addListener(SWT.Selection, listener);
@@ -376,7 +391,7 @@ public class AnnotationSection extends ExtensionSectionPart implements
 		IProject contProject = (IProject) res.getProject();
 		ModelUpdater mu = new ModelUpdater();
 		if (contProject != null){
-			mu.removeContribution(contProject,LocalContributions.ANNOTATIONS_EXT_PT,LocalContributions.ANNOTATIONS_DEFINITION_PART,cont.getPluginElement());
+			mu.removeContribution(contProject,SDKConstants.ANNOTATIONS_EXT_PT,SDKConstants.ANNOTATIONS_DEFINITION_PART,cont.getPluginElement());
 		}
 		
 		updateMaster();

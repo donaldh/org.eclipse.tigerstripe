@@ -23,7 +23,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
-import org.eclipse.tigerstripe.workbench.sdk.internal.LocalContributions;
+import org.eclipse.tigerstripe.workbench.sdk.internal.SDKConstants;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ModelUpdater;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
@@ -104,8 +104,8 @@ public class AddPatternDefinitionWizard extends Wizard implements INewWizard {
 			
 			ModelUpdater mu = new ModelUpdater();
 			if (contProject != null){
-				mu.addSimpleExtension(contProject, LocalContributions.PATTERNS_EXT_PT, 
-						LocalContributions.PATTERNS_CREATION_PART, attributes);
+				mu.addSimpleExtension(contProject, SDKConstants.PATTERNS_EXT_PT, 
+						SDKConstants.PATTERNS_CREATION_PART, attributes);
 			}
 
 		} catch (Exception e){

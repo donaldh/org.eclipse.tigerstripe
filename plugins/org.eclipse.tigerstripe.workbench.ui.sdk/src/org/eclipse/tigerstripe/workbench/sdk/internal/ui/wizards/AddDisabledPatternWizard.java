@@ -23,7 +23,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
-import org.eclipse.tigerstripe.workbench.sdk.internal.LocalContributions;
+import org.eclipse.tigerstripe.workbench.sdk.internal.SDKConstants;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ModelUpdater;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.PatternFileContribution;
 import org.eclipse.ui.INewWizard;
@@ -105,8 +105,8 @@ public class AddDisabledPatternWizard extends Wizard implements INewWizard {
 			
 			ModelUpdater mu = new ModelUpdater();
 			if (contProject != null){
-				mu.addSimpleExtension(contProject, LocalContributions.PATTERNS_EXT_PT, 
-						LocalContributions.PATTERNS_DISABLED_PART, attributes);
+				mu.addSimpleExtension(contProject, SDKConstants.PATTERNS_EXT_PT, 
+						SDKConstants.PATTERNS_DISABLED_PART, attributes);
 			}
 
 		} catch (Exception e){

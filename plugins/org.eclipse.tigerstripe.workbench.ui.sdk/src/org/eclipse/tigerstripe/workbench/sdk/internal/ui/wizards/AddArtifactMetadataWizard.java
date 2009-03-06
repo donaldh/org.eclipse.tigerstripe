@@ -23,7 +23,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
-import org.eclipse.tigerstripe.workbench.sdk.internal.LocalContributions;
+import org.eclipse.tigerstripe.workbench.sdk.internal.SDKConstants;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ModelUpdater;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
@@ -113,8 +113,8 @@ public class AddArtifactMetadataWizard extends Wizard implements INewWizard {
 			
 			ModelUpdater mu = new ModelUpdater();
 			if (contProject != null){
-				mu.addSimpleExtension(contProject, LocalContributions.METADATA_EXT_PT, 
-						LocalContributions.METADATA_ARTIFACTMETADATA_PART, attributes);
+				mu.addSimpleExtension(contProject, SDKConstants.METADATA_EXT_PT, 
+						SDKConstants.METADATA_ARTIFACTMETADATA_PART, attributes);
 			}
 
 		} catch (Exception e){

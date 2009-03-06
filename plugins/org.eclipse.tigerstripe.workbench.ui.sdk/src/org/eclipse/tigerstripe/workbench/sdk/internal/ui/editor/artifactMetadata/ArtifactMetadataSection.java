@@ -44,7 +44,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
-import org.eclipse.tigerstripe.workbench.sdk.internal.LocalContributions;
+import org.eclipse.tigerstripe.workbench.sdk.internal.SDKConstants;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ModelUpdater;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.ArtifactMetadataContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.ConfigEditor;
@@ -72,7 +72,7 @@ public class ArtifactMetadataSection extends ExtensionSectionPart implements
 			int style) {
 		super(page, parent, toolkit,  null,
 				ExpandableComposite.TWISTIE | style);
-		setTitle("Contributions to '"+LocalContributions.METADATA_ARTIFACTMETADATA_PART+"'");
+		setTitle("Contributions to '"+SDKConstants.METADATA_ARTIFACTMETADATA_PART+"'");
 		getSection().marginWidth = 10;
 		getSection().marginHeight = 5;
 		getSection().clientVerticalSpacing = 4;
@@ -410,7 +410,7 @@ public class ArtifactMetadataSection extends ExtensionSectionPart implements
 		IProject contProject = (IProject) res.getProject();
 		ModelUpdater mu = new ModelUpdater();
 		if (contProject != null){
-			mu.removeContribution(contProject, LocalContributions.METADATA_EXT_PT, LocalContributions.METADATA_ARTIFACTMETADATA_PART, cont.getPluginElement());
+			mu.removeContribution(contProject, SDKConstants.METADATA_EXT_PT, SDKConstants.METADATA_ARTIFACTMETADATA_PART, cont.getPluginElement());
 		}
 		
 		updateMaster();

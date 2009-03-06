@@ -23,7 +23,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
-import org.eclipse.tigerstripe.workbench.sdk.internal.LocalContributions;
+import org.eclipse.tigerstripe.workbench.sdk.internal.SDKConstants;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ModelUpdater;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
@@ -103,8 +103,8 @@ public class AddNamingWizard extends Wizard implements INewWizard {
 			
 			ModelUpdater mu = new ModelUpdater();
 			if (contProject != null){
-				mu.addSimpleExtension(contProject, LocalContributions.NAMING_EXT_PT, 
-						LocalContributions.NAMING_PART, attributes, false);
+				mu.addSimpleExtension(contProject, SDKConstants.NAMING_EXT_PT, 
+						SDKConstants.NAMING_PART, attributes, false);
 			}
 
 		} catch (Exception e){

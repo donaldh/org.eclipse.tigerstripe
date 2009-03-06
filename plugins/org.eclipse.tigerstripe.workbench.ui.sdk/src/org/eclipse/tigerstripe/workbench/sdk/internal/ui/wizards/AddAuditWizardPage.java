@@ -34,8 +34,6 @@ public class AddAuditWizardPage extends AbstractWizardPage implements IWizardPag
 	private Button browseClassesButton;
 	private Button chooseContributionButton; 
 	
-	
-	
 
 	protected AddAuditWizardPage(String pageName, Shell shell, ISDKProvider provider) {
 		super(pageName);

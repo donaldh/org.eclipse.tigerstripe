@@ -18,11 +18,13 @@ import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationExplici
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationPackageLabelContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationPropertyProviderContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationTypeContribution;
+import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationUsageExtractor;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.ArtifactIconContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.ArtifactMetadataContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AuditContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.DecoratorContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.DisabledPatternContribution;
+import org.eclipse.tigerstripe.workbench.sdk.internal.contents.GeneratedPackageContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.ModelComponentIconProviderContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.NamingContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.PatternFileContribution;
@@ -59,10 +61,16 @@ public interface ISDKProvider {
 	
 	public Collection<AnnotationPropertyProviderContribution> getAnnotationPropertyProviderContributions();
 	
+	public Collection<GeneratedPackageContribution> getGeneratedPackageContributions();
+	
 	public IPattern getPattern(IPluginModelBase contributor,String fileName);
 	
 	public void addListener(IContributionListener listener);
 	
 	public void removeListener(IContributionListener listener);
+	
+	public AnnotationUsageExtractor getExtractor();
+	
+	public String getPackageForAnnotation(AnnotationTypeContribution annotation);
 	
 }

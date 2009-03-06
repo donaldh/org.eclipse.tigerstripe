@@ -35,11 +35,13 @@ import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationExplici
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationPackageLabelContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationPropertyProviderContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationTypeContribution;
+import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationUsageExtractor;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.ArtifactIconContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.ArtifactMetadataContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AuditContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.DecoratorContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.DisabledPatternContribution;
+import org.eclipse.tigerstripe.workbench.sdk.internal.contents.GeneratedPackageContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.ModelComponentIconProviderContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.NamingContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.PatternFileContribution;
@@ -50,37 +52,6 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 	
 	
 
-	public static String AUDIT_EXT_PT = "org.eclipse.tigerstripe.workbench.base.customArtifactAuditor";
-	public static String AUDIT_PART = "customAuditRule";
-	
-	public static String DECORATOR_EXT_PT = "org.eclipse.tigerstripe.workbench.ui.base.labelDecorator";
-	public static String DECORATOR_PART = "decorator";
-	
-	public static String PATTERNS_EXT_PT = "org.eclipse.tigerstripe.workbench.base.creationPatterns";
-	public static String PATTERNS_CREATION_PART = "org.eclipse.tigerstripe.workbench.base.creationPatterns";
-	public static String PATTERNS_DISABLED_PART = "org.eclipse.tigerstripe.workbench.base.creationPatterns";
-	
-	public static String METADATA_EXT_PT = "org.eclipse.tigerstripe.metamodel.customArtifactMetadata";
-	public static String METADATA_MODELICON_PART = "modelComponentIconProvider";
-	public static String METADATA_ARTIFACTICON_PART = "artifactIcon";
-	public static String METADATA_ARTIFACTMETADATA_PART = "artifactMetadata";
-	
-	public static String NAMING_EXT_PT = "org.eclipse.tigerstripe.workbench.base.customComponentNaming";
-	public static String NAMING_PART = "customNamingRule";
-	
-	public static String ANNOTATIONS_EXT_PT = "org.eclipse.tigerstripe.annotation.core.annotationType";
-	public static String ANNOTATIONS_DEFINITION_PART = "definition";
-	
-	public static String ANNOTATIONS_PACKAGELABEL_EXT_PT = "org.eclipse.tigerstripe.annotation.core.packageLabel";
-	public static String ANNOTATIONS_PACKAGELABEL_PART = "label";
-	
-	public static String ANNOTATIONS_EXPLICITROUTER_EXT_PT = "org.eclipse.tigerstripe.annotation.ts2project.explicitFileRouter";
-	public static String ANNOTATIONS_EXPLICITROUTER_PART = "router";
-	
-	public static String ANNOTATIONS_PROPERTYPROVIDER_EXT_PT = "org.eclipse.tigerstripe.annotation.ui.propertyProvider";
-	public static String ANNOTATIONS_PROPERTYPROVIDER_PART = "provider";
-	
-	
 	private ListenerList listenerList = new ListenerList();
 	
 	private class PatternLocation {
@@ -109,6 +80,7 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 	
 	
 	public LocalContributions() {
+		
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
 	}
 	
@@ -142,6 +114,7 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 		artifactMetadataContributions = new ArrayList<ArtifactMetadataContribution>();
 		artifactIconContributions = new ArrayList<ArtifactIconContribution>();
 		modelComponentIconProviderContributions = new ArrayList<ModelComponentIconProviderContribution>();
+		generatedPackageContributions = new ArrayList<GeneratedPackageContribution>();
 		annotationTypeContributions = new ArrayList<AnnotationTypeContribution>();
 		annotationPackageLabelContributions = new ArrayList<AnnotationPackageLabelContribution>();
 		annotationExplicitFileRouterContributions = new ArrayList<AnnotationExplicitFileRouterContribution>();
@@ -176,6 +149,9 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 		readAnnotationPackageLabelContributions(allModels);
 		readAnnotationExplicitFileRouterContributions(allModels);
 		readAnnotationPropertyProviderContributions(allModels);
+		readGeneratedPackageContributions(allModels);
+		
+		extractor = new AnnotationUsageExtractor(this);
 	}
 
 
@@ -203,11 +179,11 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 		for (IPluginModelBase model : models){
 
 			for (IPluginExtension ext : model.getExtensions().getExtensions()){
-				if (PATTERNS_EXT_PT.equals(ext.getPoint())){
+				if (SDKConstants.PATTERNS_EXT_PT.equals(ext.getPoint())){
 					boolean readOnly = ! isWriteableModel(model);
 					IPluginObject[] children = ext.getChildren();
 					for (IPluginObject child: children){
-						if (child.getName().equals(PATTERNS_CREATION_PART)){
+						if (child.getName().equals(SDKConstants.PATTERNS_CREATION_PART)){
 							// Need to get the file from the contributing plugin
 
 							IPluginAttribute patternFileNameAttribute  = ((IPluginElement) child).getAttribute("patternFile");
@@ -256,7 +232,7 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 
 						}
 
-						if (child.getName().equals(PATTERNS_DISABLED_PART)){
+						if (child.getName().equals(SDKConstants.PATTERNS_DISABLED_PART)){
 							// Need to get the file from the contributing plugin
 							String disabledPatternName  = ((IPluginElement) child).getAttribute("patternName").getValue();
 							DisabledPatternContribution dpc = new DisabledPatternContribution(model,disabledPatternName,readOnly, (IPluginElement) child);
@@ -272,11 +248,11 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 		for (IPluginModelBase model : models){
 			
 			for (IPluginExtension ext : model.getExtensions().getExtensions()){
-				if (NAMING_EXT_PT.equals(ext.getPoint())){
+				if (SDKConstants.NAMING_EXT_PT.equals(ext.getPoint())){
 					boolean readOnly = ! isWriteableModel(model);
 					IPluginObject[] children = ext.getChildren();
 					for (IPluginObject child: children){
-						if (child.getName().equals(NAMING_PART)){
+						if (child.getName().equals(SDKConstants.NAMING_PART)){
 							// need to protect against null values - name is an optional field
 							IPluginAttribute ruleNameAttribute = ((IPluginElement) child).getAttribute("name");
 							String ruleName = "";
@@ -304,11 +280,11 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 		for (IPluginModelBase model : models){
 
 			for (IPluginExtension ext : model.getExtensions().getExtensions()){
-				if (METADATA_EXT_PT.equals(ext.getPoint())){
+				if (SDKConstants.METADATA_EXT_PT.equals(ext.getPoint())){
 					boolean readOnly = ! isWriteableModel(model);
 					IPluginObject[] children = ext.getChildren();
 					for (IPluginObject child: children){
-						if (child.getName().equals(METADATA_MODELICON_PART)){
+						if (child.getName().equals(SDKConstants.METADATA_MODELICON_PART)){
 							
 							IPluginAttribute typeAttribute = ((IPluginElement) child).getAttribute("artifactType");
 							String aType = "";
@@ -324,7 +300,7 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 							ModelComponentIconProviderContribution mcipc = new ModelComponentIconProviderContribution(
 									model,aType, provider, readOnly, (IPluginElement) child );
 							modelComponentIconProviderContributions.add(mcipc);
-						} else if (child.getName().equals(METADATA_ARTIFACTICON_PART)){
+						} else if (child.getName().equals(SDKConstants.METADATA_ARTIFACTICON_PART)){
 							IPluginAttribute typeAttribute = ((IPluginElement) child).getAttribute("artifactName");
 							String aType = "";
 							if (typeAttribute != null){
@@ -346,7 +322,7 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 							ArtifactIconContribution aic = new ArtifactIconContribution(model,icon,icon_new,icon_gs,aType, readOnly, (IPluginElement) child);
 							artifactIconContributions.add(aic);
 							
-						} else if (child.getName().equals(METADATA_ARTIFACTMETADATA_PART)){
+						} else if (child.getName().equals(SDKConstants.METADATA_ARTIFACTMETADATA_PART)){
 							IPluginAttribute typeAttribute = ((IPluginElement) child).getAttribute("artifactType");
 							String aType = "";
 							if (typeAttribute != null){
@@ -398,11 +374,11 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 		for (IPluginModelBase model : models){
 			
 			for (IPluginExtension ext : model.getExtensions().getExtensions()){
-				if (DECORATOR_EXT_PT.equals(ext.getPoint())){
+				if (SDKConstants.DECORATOR_EXT_PT.equals(ext.getPoint())){
 					boolean readOnly = ! isWriteableModel(model);
 					IPluginObject[] children = ext.getChildren();
 					for (IPluginObject child: children){
-						if (child.getName().equals(DECORATOR_PART)){
+						if (child.getName().equals(SDKConstants.DECORATOR_PART)){
 							IPluginAttribute classAttribute = ((IPluginElement) child).getAttribute("class");
 							String className = "";
 							if (classAttribute != null){
@@ -424,11 +400,11 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 		for (IPluginModelBase model : models){
 				
 				for (IPluginExtension ext : model.getExtensions().getExtensions()){
-					if (AUDIT_EXT_PT.equals(ext.getPoint())){
+					if (SDKConstants.AUDIT_EXT_PT.equals(ext.getPoint())){
 						boolean readOnly = ! isWriteableModel(model);
 						IPluginObject[] children = ext.getChildren();
 						for (IPluginObject child: children){
-							if (child.getName().equals(AUDIT_PART)){
+							if (child.getName().equals(SDKConstants.AUDIT_PART)){
 								// need to protect against null values - stuff can be badly defined
 								IPluginAttribute ruleNameAttribute = ((IPluginElement) child).getAttribute("name");
 								String ruleName = "";
@@ -440,6 +416,9 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 								if (auditorClassAttribute != null){
 									className = auditorClassAttribute.getValue();
 								}
+								
+								
+								
 								AuditContribution ac = new AuditContribution(model,ruleName,className, readOnly, (IPluginElement) child);
 								auditContributions.add(ac);
 							}
@@ -453,16 +432,58 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 	}
 
 
+	private void readGeneratedPackageContributions(IPluginModelBase[] models) {
+
+		for (IPluginModelBase model : models){
+
+			for (IPluginExtension ext : model.getExtensions().getExtensions()){
+				if (SDKConstants.EMF_GENERATED_PACKAGE_EXT_PT.equals(ext.getPoint())){
+					boolean readOnly = ! isWriteableModel(model);
+					IPluginObject[] children = ext.getChildren();
+					for (IPluginObject child: children){
+						if (child.getName().equals(SDKConstants.EMF_GENERATED_PACKAGE_PACKAGE_PART)){
+							IPluginAttribute uriAttribute = ((IPluginElement) child).getAttribute("uri");
+							String uri = "";
+							if (uriAttribute != null){
+								uri = uriAttribute.getValue();
+							}
+							
+							IPluginAttribute _ClassAttribute = ((IPluginElement) child).getAttribute("class");
+							String _Class = "";
+							if (_ClassAttribute != null){
+								_Class= _ClassAttribute.getValue();
+							}
+							
+							IPluginAttribute genModelAttribute = ((IPluginElement) child).getAttribute("genModel");
+							String genModel = "";
+							if (genModelAttribute != null){
+								genModel = genModelAttribute.getValue();
+							}
+							
+							GeneratedPackageContribution typeContribution = new GeneratedPackageContribution(
+									model,
+									uri, _Class, genModel, readOnly, (IPluginElement) child); 
+							
+							generatedPackageContributions.add(typeContribution);
+							
+						}
+					}
+				}
+			}
+		}
+	}
+
+	
 	private void readAnnotationTypeContributions(IPluginModelBase[] models) {
 
 		for (IPluginModelBase model : models){
 
 			for (IPluginExtension ext : model.getExtensions().getExtensions()){
-				if (ANNOTATIONS_EXT_PT.equals(ext.getPoint())){
+				if (SDKConstants.ANNOTATIONS_EXT_PT.equals(ext.getPoint())){
 					boolean readOnly = ! isWriteableModel(model);
 					IPluginObject[] children = ext.getChildren();
 					for (IPluginObject child: children){
-						if (child.getName().equals(ANNOTATIONS_DEFINITION_PART)){
+						if (child.getName().equals(SDKConstants.ANNOTATIONS_DEFINITION_PART)){
 							IPluginAttribute nameAttribute = ((IPluginElement) child).getAttribute("name");
 							String name = "";
 							if (nameAttribute != null){
@@ -519,17 +540,17 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 			}
 		}
 	}
-
+	
 	private void readAnnotationPackageLabelContributions(IPluginModelBase[] models) {
 
 		for (IPluginModelBase model : models){
 
 			for (IPluginExtension ext : model.getExtensions().getExtensions()){
-				if (ANNOTATIONS_PACKAGELABEL_EXT_PT.equals(ext.getPoint())){
+				if (SDKConstants.ANNOTATIONS_PACKAGELABEL_EXT_PT.equals(ext.getPoint())){
 					boolean readOnly = ! isWriteableModel(model);
 					IPluginObject[] children = ext.getChildren();
 					for (IPluginObject child: children){
-						if (child.getName().equals(ANNOTATIONS_PACKAGELABEL_PART)){
+						if (child.getName().equals(SDKConstants.ANNOTATIONS_PACKAGELABEL_PART)){
 							IPluginAttribute nameAttribute = ((IPluginElement) child).getAttribute("name");
 							String name = "";
 							if (nameAttribute != null){
@@ -556,11 +577,11 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 		for (IPluginModelBase model : models){
 
 			for (IPluginExtension ext : model.getExtensions().getExtensions()){
-				if (ANNOTATIONS_EXPLICITROUTER_EXT_PT.equals(ext.getPoint())){
+				if (SDKConstants.ANNOTATIONS_EXPLICITROUTER_EXT_PT.equals(ext.getPoint())){
 					boolean readOnly = ! isWriteableModel(model);
 					IPluginObject[] children = ext.getChildren();
 					for (IPluginObject child: children){
-						if (child.getName().equals(ANNOTATIONS_EXPLICITROUTER_PART)){
+						if (child.getName().equals(SDKConstants.ANNOTATIONS_EXPLICITROUTER_PART)){
 							IPluginAttribute nsURIAttribute = ((IPluginElement) child).getAttribute("nsURI");
 							String nsURI = "";
 							if ( nsURIAttribute != null)
@@ -597,11 +618,11 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 		for (IPluginModelBase model : models){
 
 			for (IPluginExtension ext : model.getExtensions().getExtensions()){
-				if (ANNOTATIONS_PROPERTYPROVIDER_EXT_PT.equals(ext.getPoint())){
+				if (SDKConstants.ANNOTATIONS_PROPERTYPROVIDER_EXT_PT.equals(ext.getPoint())){
 					boolean readOnly = ! isWriteableModel(model);
 					IPluginObject[] children = ext.getChildren();
 					for (IPluginObject child: children){
-						if (child.getName().equals(ANNOTATIONS_PROPERTYPROVIDER_PART)){
+						if (child.getName().equals(SDKConstants.ANNOTATIONS_PROPERTYPROVIDER_PART)){
 							IPluginAttribute classAttribute = ((IPluginElement) child).getAttribute("class");
 							String className = "";
 							if (classAttribute != null){
@@ -633,5 +654,23 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 	public void removeListener(IContributionListener listener){
 		listenerList.remove(listener);
 	}
-
+	
+	public String getPackageForAnnotation(AnnotationTypeContribution annotation){
+		String uri = annotation.getNamespace();
+		// Now look for this in the GeneratedPackages
+		if (getGeneratedPackageContributions() != null){
+			for (GeneratedPackageContribution gp : getGeneratedPackageContributions()){
+				if (gp.getUri().equals(uri)){
+					// We have a match!
+					String packageClass = gp.get_class();
+					if (packageClass != null){
+						int indx = packageClass.lastIndexOf(".");
+						return packageClass.substring(0, indx+1);
+					}
+				}
+			}
+		}
+		return "";
+	}
+	
 }

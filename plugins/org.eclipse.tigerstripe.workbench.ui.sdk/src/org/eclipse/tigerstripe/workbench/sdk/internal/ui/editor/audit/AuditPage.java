@@ -12,7 +12,7 @@
 package org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.audit;
 
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.tigerstripe.workbench.sdk.internal.LocalContributions;
+import org.eclipse.tigerstripe.workbench.sdk.internal.SDKConstants;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.ConfigEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.ui.forms.IManagedForm;
@@ -44,7 +44,7 @@ public class AuditPage extends TigerstripeFormPage {
 		ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = managedForm.getToolkit();
 
-		form.setText("Contributions to '"+LocalContributions.AUDIT_EXT_PT+"'");
+		form.setText("Contributions to '"+SDKConstants.AUDIT_EXT_PT+"'");
 		fillBody(managedForm, toolkit);
 		managedForm.refresh();
 	}

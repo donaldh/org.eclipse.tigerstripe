@@ -44,7 +44,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
-import org.eclipse.tigerstripe.workbench.sdk.internal.LocalContributions;
+import org.eclipse.tigerstripe.workbench.sdk.internal.SDKConstants;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ModelUpdater;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.DisabledPatternContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.ConfigEditor;
@@ -71,7 +71,7 @@ public class DisabledPatternSection extends ExtensionSectionPart implements
 			int style) {
 		super(page, parent, toolkit,  null,
 				ExpandableComposite.TWISTIE | style);
-		setTitle("Contributions to '"+LocalContributions.PATTERNS_DISABLED_PART+"'");
+		setTitle("Contributions to '"+SDKConstants.PATTERNS_DISABLED_PART+"'");
 		getSection().marginWidth = 10;
 		getSection().marginHeight = 5;
 		getSection().clientVerticalSpacing = 4;
@@ -362,7 +362,7 @@ public class DisabledPatternSection extends ExtensionSectionPart implements
 		IProject contProject = (IProject) res.getProject();
 		ModelUpdater mu = new ModelUpdater();
 		if (contProject != null){
-			mu.removeContribution(contProject, LocalContributions.PATTERNS_EXT_PT, LocalContributions.PATTERNS_DISABLED_PART, cont.getPluginElement());
+			mu.removeContribution(contProject, SDKConstants.PATTERNS_EXT_PT, SDKConstants.PATTERNS_DISABLED_PART, cont.getPluginElement());
 		}
 		
 		updateMaster();

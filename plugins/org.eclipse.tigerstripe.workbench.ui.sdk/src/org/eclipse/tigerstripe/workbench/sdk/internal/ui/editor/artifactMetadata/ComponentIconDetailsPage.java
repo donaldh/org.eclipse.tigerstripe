@@ -26,7 +26,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationUsageExtractor;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.ModelComponentIconProviderContribution;
+import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.common.CommonDetailsPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.ui.forms.IDetailsPage;
@@ -38,7 +40,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
-public class ComponentIconDetailsPage implements IDetailsPage {
+public class ComponentIconDetailsPage extends CommonDetailsPage implements IDetailsPage {
 
 
 	/**
@@ -87,6 +89,9 @@ public class ComponentIconDetailsPage implements IDetailsPage {
 
 	private Text contributorText;
 
+	private AnnotationUsageExtractor extractor;
+	
+	
 	public ComponentIconDetailsPage() {
 		super();
 
@@ -102,7 +107,7 @@ public class ComponentIconDetailsPage implements IDetailsPage {
 		parent.setLayoutData(td);
 
 		createContributionInfo(parent);
-
+		createUsageTable(parent, form.getToolkit());
 		form.getToolkit().paintBordersFor(parent);
 	}
 
@@ -222,6 +227,7 @@ public class ComponentIconDetailsPage implements IDetailsPage {
 			//	nameEditListener.reset();
 
 			master = (ComponentIconSection) part;
+			extractor = master.getProvider().getExtractor();
 			Table fieldsTable = master.getViewer().getTable();
 
 			ModelComponentIconProviderContribution selected = (ModelComponentIconProviderContribution) fieldsTable.getSelection()[0].getData();
@@ -240,7 +246,7 @@ public class ComponentIconDetailsPage implements IDetailsPage {
 		providerClassText.setEnabled(!getContribution().isReadOnly());
 		contributorText.setText(getContribution().getContributor().toString());
 		classBrowseButton.setEnabled(!getContribution().isReadOnly());
-		
+		usageViewer.setInput(extractor.getIconProviderMap().get(getContribution()));
 		setSilentUpdate(false);
 	}
 

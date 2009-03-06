@@ -26,7 +26,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationUsageExtractor;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.DecoratorContribution;
+import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.common.CommonDetailsPage;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
@@ -36,7 +38,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
-public class DecoratorDetailsPage implements IDetailsPage {
+public class DecoratorDetailsPage extends CommonDetailsPage implements IDetailsPage {
 
 
 	/**
@@ -83,6 +85,8 @@ public class DecoratorDetailsPage implements IDetailsPage {
 
 	private Text decoratorContributorText;
 
+	private AnnotationUsageExtractor extractor;
+	
 	public DecoratorDetailsPage() {
 		super();
 
@@ -98,7 +102,7 @@ public class DecoratorDetailsPage implements IDetailsPage {
 		parent.setLayoutData(td);
 
 		createContributionInfo(parent);
-
+		createUsageTable(parent, form.getToolkit());
 		form.getToolkit().paintBordersFor(parent);
 	}
 
@@ -202,6 +206,7 @@ public class DecoratorDetailsPage implements IDetailsPage {
 			//	nameEditListener.reset();
 
 			master = (DecoratorSection) part;
+			extractor = master.getProvider().getExtractor();
 			Table fieldsTable = master.getViewer().getTable();
 
 			DecoratorContribution selected = (DecoratorContribution) fieldsTable.getSelection()[0].getData();
@@ -218,7 +223,7 @@ public class DecoratorDetailsPage implements IDetailsPage {
 		decoratorClassText.setEnabled(!getContribution().isReadOnly());
 		decoratorContributorText.setText(getContribution().getContributor().toString());
 		classBrowseButton.setEnabled(!getContribution().isReadOnly());
-		
+		usageViewer.setInput(extractor.getDecoratorMap().get(getContribution()));
 		setSilentUpdate(false);
 	}
 

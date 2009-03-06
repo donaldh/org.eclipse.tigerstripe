@@ -17,11 +17,13 @@ import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationExplici
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationPackageLabelContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationPropertyProviderContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationTypeContribution;
+import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationUsageExtractor;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.ArtifactIconContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.ArtifactMetadataContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AuditContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.DecoratorContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.DisabledPatternContribution;
+import org.eclipse.tigerstripe.workbench.sdk.internal.contents.GeneratedPackageContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.ModelComponentIconProviderContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.NamingContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.PatternFileContribution;
@@ -42,7 +44,16 @@ public abstract class AbstractProvider implements ISDKProvider {
 	protected Collection<AnnotationPackageLabelContribution> annotationPackageLabelContributions;
 	protected Collection<AnnotationExplicitFileRouterContribution> annotationExplicitFileRouterContributions;
 	protected Collection<AnnotationPropertyProviderContribution> annotationPropertyProviderContributions;
+	protected Collection<GeneratedPackageContribution> generatedPackageContributions;
 	
+	
+
+	protected AnnotationUsageExtractor extractor;
+	
+	public AnnotationUsageExtractor getExtractor() {
+		return extractor;
+	}
+
 	public Collection<AuditContribution> getAuditContributions() {
 		return auditContributions;
 	}
@@ -99,6 +110,8 @@ public abstract class AbstractProvider implements ISDKProvider {
 		return writeableContributers;
 	}
 	
-	
+	public Collection<GeneratedPackageContribution> getGeneratedPackageContributions() {
+		return generatedPackageContributions;
+	}
 	
 }

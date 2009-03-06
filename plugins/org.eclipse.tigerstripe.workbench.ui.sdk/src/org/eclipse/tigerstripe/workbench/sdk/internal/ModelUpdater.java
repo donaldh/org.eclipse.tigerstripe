@@ -1,8 +1,5 @@
 package org.eclipse.tigerstripe.workbench.sdk.internal;
 
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.io.PrintWriter;
 import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
@@ -19,7 +16,6 @@ import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.core.plugin.IPluginObject;
 import org.eclipse.pde.internal.ui.util.ModelModification;
 import org.eclipse.pde.internal.ui.util.PDEModelUtility;
-import org.w3c.dom.Node;
 
 public class ModelUpdater {
 	

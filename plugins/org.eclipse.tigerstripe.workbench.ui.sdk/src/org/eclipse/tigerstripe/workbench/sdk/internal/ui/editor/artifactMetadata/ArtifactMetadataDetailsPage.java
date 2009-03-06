@@ -27,6 +27,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.ArtifactMetadataContribution;
+import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.common.CommonDetailsPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.ui.forms.IDetailsPage;
@@ -38,7 +39,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
-public class ArtifactMetadataDetailsPage implements IDetailsPage {
+public class ArtifactMetadataDetailsPage extends CommonDetailsPage implements IDetailsPage {
 
 
 	/**
@@ -318,6 +319,7 @@ public class ArtifactMetadataDetailsPage implements IDetailsPage {
 		
 		artifactMetadataContributorText.setText(getContribution().getContributor().toString());
 		iconBrowseButton.setEnabled(!getContribution().isReadOnly());
+		
 		
 		setSilentUpdate(false);
 	}
