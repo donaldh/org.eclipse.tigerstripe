@@ -11,9 +11,13 @@
 
 package org.eclipse.tigerstripe.workbench.internal.core.model.export.facets;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class FacetModelExportInputManager {
@@ -29,6 +33,8 @@ public class FacetModelExportInputManager {
 	private boolean includeReferences = false;
 
 	private boolean overwriteExisting = false;
+	
+	private List<IAbstractArtifact> overwrites = new ArrayList<IAbstractArtifact>();
 
 	public void setInitialSelection(IStructuredSelection selection) {
 
@@ -85,6 +91,14 @@ public class FacetModelExportInputManager {
 		this.overwriteExisting = overwriteExisting;
 	}
 
+	public List<IAbstractArtifact> getOverwrites() {
+		return overwrites;
+	}
+	
+	public void setOverwrites(List<IAbstractArtifact> overwrites) {
+		this.overwrites = overwrites;
+	}
+	
 	public void validate() {
 
 		if (facet == null)

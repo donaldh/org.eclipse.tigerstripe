@@ -14,33 +14,45 @@ package org.eclipse.tigerstripe.workbench.internal.core.model.export;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.QueryAllArtifacts;
+import org.eclipse.tigerstripe.workbench.internal.core.model.export.facets.FacetModelExportInputManager;
+import org.eclipse.tigerstripe.workbench.internal.core.model.export.facets.FacetModelExporterFacetManager;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 
-public class OverwriteArtifactFinder {
+public class ExportArtifactAnalyzer {
 
 	@SuppressWarnings("deprecation")
-	public static List<IAbstractArtifact> getArtifactsList(ITigerstripeModelProject source, ITigerstripeModelProject destination)
-			throws IllegalArgumentException, TigerstripeException {
+	public static List<IAbstractArtifact> getOverwritesList(FacetModelExportInputManager inputManager) throws IllegalArgumentException,
+			TigerstripeException, CoreException {
+
+		IModelExporterFacetManager facetManager = null;
+
+		facetManager = new FacetModelExporterFacetManager(inputManager.getSource());
+		facetManager.applyExportFacet(inputManager.getFacet());
 
 		List<IAbstractArtifact> artifacts = new ArrayList<IAbstractArtifact>();
 
 		IArtifactQuery query = new QueryAllArtifacts();
-		List<IAbstractArtifact> sourceArtifacts = (List<IAbstractArtifact>) source.getArtifactManagerSession().queryArtifact(query);
+		List<IAbstractArtifact> sourceArtifacts = (List<IAbstractArtifact>) inputManager.getSource().getArtifactManagerSession().queryArtifact(query);
 
 		for (IAbstractArtifact artifact : sourceArtifacts) {
 
-			IAbstractArtifact artifactToOverwrite = destination.getArtifactManagerSession().getArtifactByFullyQualifiedName(
-					artifact.getFullyQualifiedName());
-			
-			if(artifactToOverwrite != null) {
-				artifacts.add(artifactToOverwrite);
+			if(artifact.isInActiveFacet()) {
+				
+				IAbstractArtifact artifactToOverwrite = inputManager.getDestination().getArtifactManagerSession().getArtifactByFullyQualifiedName(
+						artifact.getFullyQualifiedName());
+				
+				if (artifactToOverwrite != null) {
+					artifacts.add(artifactToOverwrite);
+				}
 			}
 
 		}
+
+		facetManager.restoreActiveFacet();
 
 		return artifacts;
 	}
