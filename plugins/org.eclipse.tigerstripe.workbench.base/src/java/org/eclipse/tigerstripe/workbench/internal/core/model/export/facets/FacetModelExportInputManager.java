@@ -39,7 +39,9 @@ public class FacetModelExportInputManager {
 	public void setInitialSelection(IStructuredSelection selection) {
 
 		if (selection.size() != 0) {
-			source = (ITigerstripeModelProject) ((IJavaProject) selection.getFirstElement()).getProject().getAdapter(ITigerstripeModelProject.class);
+			if(selection.getFirstElement() instanceof IJavaProject) {
+				source = (ITigerstripeModelProject) ((IJavaProject) selection.getFirstElement()).getProject().getAdapter(ITigerstripeModelProject.class);
+			}
 		}
 	}
 
