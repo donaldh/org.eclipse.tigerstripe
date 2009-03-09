@@ -63,12 +63,12 @@ public class FacetModelExporter {
 			for (IAbstractArtifact artifact : artifacts) {
 
 				if (artifact.isInActiveFacet()) {
-
 					IAbstractArtifact cloned = ((AbstractArtifact) artifact).makeWorkingCopy(new NullProgressMonitor());
 					monitor.subTask(cloned.getName());
 					inputManager.getDestination().getArtifactManagerSession().addArtifact(cloned);
-					cloned.doSave(monitor);
+					cloned.doSave(new NullProgressMonitor());
 				}
+				monitor.worked(1);
 
 			}
 
@@ -76,7 +76,7 @@ public class FacetModelExporter {
 			facetManager.restoreActiveFacet();
 
 			IProject project = (IProject) inputManager.getDestination().getAdapter(IProject.class);
-			project.refreshLocal(IResource.DEPTH_INFINITE, monitor);
+			project.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
 
 		} finally {
 
