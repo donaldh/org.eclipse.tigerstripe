@@ -11,8 +11,6 @@
 
 package org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.audit;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
@@ -30,8 +28,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationUsageExtractor;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AuditContribution;
+import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.ConfigEditor;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.common.CommonDetailsPage;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
@@ -145,7 +143,7 @@ public class AuditDetailsPage extends CommonDetailsPage implements IDetailsPage 
 		auditNameText = toolkit.createText(sectionClient, "");
 		auditNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		auditNameText.addModifyListener(adapter);
-		TigerstripeFormEditor editor = (TigerstripeFormEditor) ((TigerstripeFormPage) getForm()
+		ConfigEditor editor = (ConfigEditor) ((TigerstripeFormPage) getForm()
 				.getContainer()).getEditor();
 		label = toolkit.createLabel(sectionClient, "");
 

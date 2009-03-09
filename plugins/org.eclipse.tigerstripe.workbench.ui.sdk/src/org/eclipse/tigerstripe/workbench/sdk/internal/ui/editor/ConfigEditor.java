@@ -22,11 +22,11 @@ import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.decorator.Decora
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.naming.NamingPage;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.patterns.PatternPage;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.forms.editor.FormEditor;
 
-public class ConfigEditor extends TigerstripeFormEditor implements IContributionListener{
+public class ConfigEditor extends FormEditor implements IContributionListener{
 
 
 	private ISDKProvider provider;
@@ -65,24 +65,28 @@ public class ConfigEditor extends TigerstripeFormEditor implements IContribution
 
 	@Override
 	public void resourceChanged(IResourceChangeEvent event) {
-		if (auditPage != null){
-			auditPage.refresh();
-		}
-		if (dPage != null){
-			dPage.refresh();
-		}
-		if (nPage != null){
-			nPage.refresh();
-		}
-		if (artifactMetadataPage != null){
-			artifactMetadataPage.refresh();
-		}
-		if (patternsPage != null){
-			patternsPage.refresh();
-		}
-		if (annotationsPage != null){
-			annotationsPage.refresh();
-		}
+		//System.out.println("Type "+event.getType());
+		//System.out.println("Kind "+event.getDelta().getKind());
+		//System.out.println("Resource "+ event.getDelta().getResource().getName());
+			if (auditPage != null && auditPage.isActive()){
+				auditPage.refresh();
+			}
+			if (dPage != null && dPage.isActive()){
+				dPage.refresh();
+			}
+			if (nPage != null && nPage.isActive()){
+				nPage.refresh();
+			}
+			if (artifactMetadataPage != null && artifactMetadataPage.isActive()){
+				artifactMetadataPage.refresh();
+			}
+			if (patternsPage != null && patternsPage.isActive()){
+				patternsPage.refresh();
+			}
+			if (annotationsPage != null && annotationsPage.isActive()){
+				annotationsPage.refresh();
+			}
+		
 	}
 
 	@Override
@@ -127,6 +131,18 @@ public class ConfigEditor extends TigerstripeFormEditor implements IContribution
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 
+	}
+
+	@Override
+	public void doSaveAs() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean isSaveAsAllowed() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 

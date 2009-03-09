@@ -81,16 +81,29 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 	
 	public LocalContributions() {
 		
-		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
+	}
+	
+	public void addListener(IContributionListener listener){
+		if (listenerList.isEmpty()){
+			ResourcesPlugin.getWorkspace().addResourceChangeListener(this, IResourceChangeEvent.POST_CHANGE);
+		}
+		listenerList.add(listener);	
+	}
+	
+	public void removeListener(IContributionListener listener){
+		listenerList.remove(listener);
+		if (listenerList.isEmpty()){
+			ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
+		}
 	}
 	
 	@Override
 	public void resourceChanged(IResourceChangeEvent event) {
 		// TODO This is general - triggered on ALL change in the ws
-		System.out.println(event.getDelta().getResource().getName());
 		findAll();
 		 Object[] listeners = listenerList.getListeners();
 		 for (int i = 0; i < listeners.length; ++i) {
+			
 		 	((IContributionListener) listeners[i]).resourceChanged(event);
 		 }
 		 
@@ -643,13 +656,7 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 
 
 
-	public void addListener(IContributionListener listener){
-		listenerList.add(listener);
-	}
 	
-	public void removeListener(IContributionListener listener){
-		listenerList.remove(listener);
-	}
 	
 	public String getPackageForAnnotation(AnnotationTypeContribution annotation){
 		String uri = annotation.getNamespace();

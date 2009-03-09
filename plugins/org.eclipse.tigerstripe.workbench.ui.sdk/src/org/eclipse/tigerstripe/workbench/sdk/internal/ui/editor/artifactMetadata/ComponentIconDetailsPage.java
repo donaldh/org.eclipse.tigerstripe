@@ -28,8 +28,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationUsageExtractor;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.ModelComponentIconProviderContribution;
+import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.ConfigEditor;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.common.CommonDetailsPage;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
@@ -144,7 +144,7 @@ public class ComponentIconDetailsPage extends CommonDetailsPage implements IDeta
 
 		artifactTypeText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		artifactTypeText.addModifyListener(adapter);
-		TigerstripeFormEditor editor = (TigerstripeFormEditor) ((TigerstripeFormPage) getForm()
+		ConfigEditor editor = (ConfigEditor) ((TigerstripeFormPage) getForm()
 				.getContainer()).getEditor();
 //		if (!isReadOnly) {
 			//nameEditListener = new TextEditListener(editor, "name",

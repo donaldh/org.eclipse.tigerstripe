@@ -13,7 +13,6 @@ package org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.annotation;
 
 import java.util.Collection;
 
-import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelection;
@@ -44,7 +43,7 @@ import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationTypeCon
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationUsage;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationUsageExtractor;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.IContribution;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
+import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.ConfigEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
@@ -199,7 +198,7 @@ public class AnnotationDetailsPage implements IDetailsPage {
 
 		annotationNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		annotationNameText.addModifyListener(adapter);
-		TigerstripeFormEditor editor = (TigerstripeFormEditor) ((TigerstripeFormPage) getForm()
+		ConfigEditor editor = (ConfigEditor) ((TigerstripeFormPage) getForm()
 				.getContainer()).getEditor();
 //		if (!isReadOnly) {
 			//nameEditListener = new TextEditListener(editor, "name",

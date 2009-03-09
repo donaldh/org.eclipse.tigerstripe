@@ -51,18 +51,13 @@ public class AuditPage extends TigerstripeFormPage {
 
 	@Override
 	public void refresh() {
-		try{
 		if (managedForm != null) {
 			managedForm.refresh();
 		}
 		if (auditSection != null) {
 			auditSection.refresh();
 		}
-	} catch (Exception e){
-		System.out.println("Mf "+managedForm.toString());
-		System.out.println("Pr "+auditSection);
-		e.printStackTrace();
-	}
+
 	}
 
 	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {

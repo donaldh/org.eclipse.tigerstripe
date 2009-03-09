@@ -84,7 +84,6 @@ public class ModelUpdater {
 		final String elementName = element; //"definition";
 		
 		final IFile file = project.getFile("plugin.xml");
-		System.out.println(pluginElement);
 		final IPluginElement pio = pluginElement;
 
 		ModelModification mod = new ModelModification(file) {
