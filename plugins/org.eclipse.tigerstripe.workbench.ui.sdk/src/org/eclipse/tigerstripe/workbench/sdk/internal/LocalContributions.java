@@ -158,10 +158,6 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 
 
 	public IPattern getPattern(IPluginModelBase contributor, String fileName) {
-		if (embeddedPatterns == null){
-			findAll();
-		}
-
 		for (PatternLocation loc : embeddedPatterns.keySet()){
 			if (loc.getContributor().equals(contributor) &&
 					loc.getFileName().equals(fileName)){
@@ -209,7 +205,7 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 							if (bundle != null){
 								// bundle will be null for plugins that are not yet deployed
 								try {
-									embeddedPattern = PatternFactory.parsePatternFile(bundle, patternFileName);
+									embeddedPattern = PatternFactory.getInstance().parsePatternFile(bundle, patternFileName);
 								} catch (Exception e){
 									embeddedPattern = null;
 								}
@@ -219,7 +215,7 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 								IResource pfile = root.findMember(model.toString());
 								if (pfile != null){
 									try {
-										embeddedPattern = PatternFactory.parsePatternFile(pfile, patternFileName);
+										embeddedPattern = PatternFactory.getInstance().parsePatternFile(pfile, patternFileName);
 									} catch (Exception e){
 										embeddedPattern = null;
 									}

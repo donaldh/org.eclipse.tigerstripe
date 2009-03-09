@@ -41,7 +41,9 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationTypeContribution;
+import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationUsage;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationUsageExtractor;
+import org.eclipse.tigerstripe.workbench.sdk.internal.contents.IContribution;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.ui.forms.IDetailsPage;
@@ -283,11 +285,11 @@ public class AnnotationDetailsPage implements IDetailsPage {
 
 		TableColumn usageTypeColumn = new TableColumn(usageTable, SWT.NULL);
 		usageTypeColumn.setWidth(350);
-		usageTypeColumn.setText("Class Name");
+		usageTypeColumn.setText("Resource");
 		
 		TableColumn usageProjectColumn = new TableColumn(usageTable, SWT.NULL);
 		usageProjectColumn.setWidth(350);
-		usageProjectColumn.setText("Project");
+		usageProjectColumn.setText("Contribution");
 		
 		
 		
@@ -399,7 +401,7 @@ public class AnnotationDetailsPage implements IDetailsPage {
 
 		public Object[] getElements(Object inputElement) {
 			//AnnotationTypeContribution type = (AnnotationTypeContribution) inputElement;
-			Collection inputColl = (Collection<IResource>) inputElement;
+			Collection inputColl = (Collection<AnnotationUsage>) inputElement;
 			return inputColl.toArray();
 		}
 
@@ -417,11 +419,15 @@ public class AnnotationDetailsPage implements IDetailsPage {
 	ITableLabelProvider {
 
 		public String getColumnText(Object obj, int index) {
-			IResource field = (IResource) obj;
+			AnnotationUsage field = (AnnotationUsage) obj;
 			if (index == 1){
-				return field.getProject().getName();
+				IContribution cont = field.getContribution();
+				if ( cont != null)
+					return cont.getContributor().toString();
+				else
+					return field.getResource().getProject().getName()+"(Not directly contributed)";
 			}
-			return field.getName();
+			return field.getResource().getName();
 
 		}
 

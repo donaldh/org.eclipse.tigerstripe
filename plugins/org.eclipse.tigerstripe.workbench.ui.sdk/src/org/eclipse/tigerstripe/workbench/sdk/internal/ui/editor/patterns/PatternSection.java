@@ -119,7 +119,7 @@ public class PatternSection extends ExtensionSectionPart implements
 		createMasterPart(managedForm, sashForm);
 		createDetailsPart(managedForm, sashForm);
 		// createToolBarActions(managedForm);
-		sashForm.setWeights(new int[] { 35, 65 });
+		//sashForm.setWeights(new int[] { 50, 50 });
 		form.updateToolBar();
 
 		getSection().setClient(body);
@@ -389,13 +389,13 @@ public class PatternSection extends ExtensionSectionPart implements
 		// This label keeps the "List" part shorter than the "Details" part to
 		// the RHS
 
-		Label l = toolkit.createLabel(sectionClient, "", SWT.NULL);
-		fd = new FormData();
-		fd.top = new FormAttachment(removeContributionButton, 5);
-		fd.left = new FormAttachment(patternTable, 5);
-		fd.right = new FormAttachment(100, -5);
-		fd.height = 250;
-		l.setLayoutData(fd);
+//		Label l = toolkit.createLabel(sectionClient, "", SWT.NULL);
+//		fd = new FormData();
+//		fd.top = new FormAttachment(removeContributionButton, 5);
+//		fd.left = new FormAttachment(patternTable, 5);
+//		fd.right = new FormAttachment(100, -5);
+//		fd.height = 250;
+//		l.setLayoutData(fd);
 
 		final IFormPart part = this;
 		viewer = new TableViewer(patternTable);

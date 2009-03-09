@@ -35,7 +35,7 @@ public class SDKConstants {
 	public static String NAMING_PART = "customNamingRule";
 	
 	public static String PATTERNS_EXT_PT = "org.eclipse.tigerstripe.workbench.base.creationPatterns";
-	public static String PATTERNS_CREATION_PART = "org.eclipse.tigerstripe.workbench.base.creationPatterns";
-	public static String PATTERNS_DISABLED_PART = "org.eclipse.tigerstripe.workbench.base.creationPatterns";
+	public static String PATTERNS_CREATION_PART = "patternDefinition";
+	public static String PATTERNS_DISABLED_PART = "disabledPattern";
 	
 }

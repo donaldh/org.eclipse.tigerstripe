@@ -1,7 +1,8 @@
 package org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.common;
 
-import java.awt.peer.LabelPeer;
 import java.util.Collection;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -28,7 +29,8 @@ public abstract class CommonDetailsPage {
 	class UsageContentProvider implements IStructuredContentProvider {
 
 		public Object[] getElements(Object inputElement) {
-			Collection inputColl = (Collection<AnnotationTypeContribution>) inputElement;
+			Map<AnnotationTypeContribution,IResource> map = (Map<AnnotationTypeContribution,IResource>) inputElement;
+			Collection inputColl = map.entrySet();
 			return inputColl.toArray();
 		}
 
@@ -46,9 +48,12 @@ public abstract class CommonDetailsPage {
 	ITableLabelProvider {
 
 		public String getColumnText(Object obj, int index) {
-			AnnotationTypeContribution field = (AnnotationTypeContribution) obj;
+			AnnotationTypeContribution field = (AnnotationTypeContribution) ((Entry)obj).getKey();
 			if (index == 0){
 				return field.getName();
+			}
+			if (index == 1){
+				return ((IResource) ((Entry)obj).getValue()).getProjectRelativePath().toString();
 			}
 			return field.getContributor().toString();
 
@@ -69,7 +74,7 @@ public abstract class CommonDetailsPage {
 		//gd.colspan = 2;
 		composite.setLayoutData(gd);
 
-		usageTable = toolkit.createTable(composite, SWT.NULL);
+		usageTable = toolkit.createTable(composite, SWT.FULL_SELECTION);
 		GridData td = new GridData(GridData.FILL_BOTH
 				| GridData.GRAB_HORIZONTAL
 				| GridData.HORIZONTAL_ALIGN_BEGINNING);
@@ -83,11 +88,16 @@ public abstract class CommonDetailsPage {
 		usageTypeColumn.setWidth(350);
 		usageTypeColumn.setText("Annotation Name");
 		
+		TableColumn usageResourceColumn = new TableColumn(usageTable, SWT.NULL);
+		usageResourceColumn.setWidth(350);
+		usageResourceColumn.setText("Resource");
+		
 		TableColumn usageProjectColumn = new TableColumn(usageTable, SWT.NULL);
 		usageProjectColumn.setWidth(350);
 		usageProjectColumn.setText("Contributer");
 		
-
+		
+		
 		usageViewer = new TableViewer(usageTable);
 		usageViewer.setContentProvider(new UsageContentProvider());
 		usageViewer.setLabelProvider(new UsageLabelProvider());

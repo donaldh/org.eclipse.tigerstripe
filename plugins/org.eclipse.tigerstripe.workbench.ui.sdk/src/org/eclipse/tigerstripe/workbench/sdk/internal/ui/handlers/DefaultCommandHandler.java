@@ -15,6 +15,7 @@ import org.eclipse.core.commands.Command;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.IHandler;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.tigerstripe.workbench.sdk.internal.LocalContributions;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.actions.OpenCreatePatternFileWizardAction;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.SDKEditorInput;
@@ -50,6 +51,8 @@ public class DefaultCommandHandler extends AbstractHandler implements IHandler {
 		
 		if (id.equals(EDITOR_OPEN)){
 			LocalContributions locals = new LocalContributions();
+			//MessageDialog.openInformation(window.getShell(), "Tigerstripe Configuration Editor", "Loading Extension Point Configurations");
+			// TODO - Show a Progrees Monirtor Dialog...
 			locals.findAll();
 			IWorkbenchPage page = PlatformUI.getWorkbench()
 			.getActiveWorkbenchWindow().getActivePage();

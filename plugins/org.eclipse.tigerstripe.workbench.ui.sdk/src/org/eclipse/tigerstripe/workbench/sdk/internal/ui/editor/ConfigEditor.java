@@ -53,7 +53,15 @@ public class ConfigEditor extends TigerstripeFormEditor implements IContribution
 		this.provider.addListener(this);
 		
 	}
+	
+	
 
+
+	@Override
+	public void close(boolean save) {
+		this.provider.removeListener(this);
+		super.close(save);
+	}
 
 	@Override
 	public void resourceChanged(IResourceChangeEvent event) {
