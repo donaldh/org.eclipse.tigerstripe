@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.4"?>
 
-<product name="Tigerstripe Headless" id="org.eclipse.tigerstripe.workbench.headless.product" application="org.eclipse.tigerstripe.workbench.headless.tigerstripe" version="0.4.5" useFeatures="false">
+<product name="Tigerstripe Headless" id="org.eclipse.tigerstripe.workbench.headless.product" application="org.eclipse.tigerstripe.workbench.headless.tigerstripe" version="0.4.6" useFeatures="false">
 
 
    <configIni use="default">
@@ -100,7 +100,7 @@
    </plugins>
 
    <features>
-      <feature id="org.eclipse.tigerstripe.base" version="0.4.5.qualifier"/>
+      <feature id="org.eclipse.tigerstripe.base" version="0.4.6.qualifier"/>
    </features>
 
 </product>

@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.tigerstripe.workbench"
       label="%featureName"
-      version="0.4.5.qualifier"
+      version="0.4.6.qualifier"
       provider-name="%providerName"
       plugin="org.eclipse.tigerstripe.workbench.branding"
       image="eclipse_update_120.jpg">

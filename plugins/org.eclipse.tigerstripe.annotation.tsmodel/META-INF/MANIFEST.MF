@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tigerstripe Annotation TS Model Plug-in
 Bundle-SymbolicName: org.eclipse.tigerstripe.annotation.tsmodel;singleton:=true
-Bundle-Version: 0.4.5.qualifier
+Bundle-Version: 0.4.6.qualifier
 Bundle-Activator: org.eclipse.tigerstripe.annotation.tsmodel.TSModelAnnotationPlugin
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.core.runtime,
