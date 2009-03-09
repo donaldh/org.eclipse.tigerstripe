@@ -209,7 +209,7 @@ public class PatternTest extends TestCase {
 		String entityName = "mynewUpdate";
 		String patternname = "org.eclipse.tigerstripe.workbench.base.UpdateProcedure";
 
-		testNodePatternArtifact(patternname, targetPackage, entityName);
+		//testNodePatternArtifact(patternname, targetPackage, entityName);
 
 	}
 
