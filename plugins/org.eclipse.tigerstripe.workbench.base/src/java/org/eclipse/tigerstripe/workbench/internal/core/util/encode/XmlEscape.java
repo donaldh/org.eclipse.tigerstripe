@@ -31,7 +31,7 @@ public class XmlEscape {
 	public String encode(String str) {
 		if (str == null)
 			return "";
-
+		
 		StringBuffer sb = new StringBuffer();
 		char[] data = str.toCharArray();
 		char c, lastC = 0x0;
@@ -55,6 +55,9 @@ public class XmlEscape {
 				sb.append("&bCom;");
 				lastC = 0x0;
 				continue;
+			} else if (c == '\\') { // added to handle escaped forward slashes
+				sb.append("\\\\");
+				continue;
 			} else {
 				sb.append(c);
 			}
@@ -66,6 +69,7 @@ public class XmlEscape {
 	public String decode(String str) {
 		if (str == null)
 			return "";
+		
 		StringBuffer sb = new StringBuffer();
 		int i;
 		for (i = 0; i < str.length(); i++) {
