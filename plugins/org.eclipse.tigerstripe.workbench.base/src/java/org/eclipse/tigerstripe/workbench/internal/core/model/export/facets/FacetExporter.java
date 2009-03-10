@@ -21,11 +21,11 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.QueryAllArtifacts;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.export.IModelExporterFacetManager;
+import org.eclipse.tigerstripe.workbench.internal.core.model.export.ExportFacetManager;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 
-public class FacetModelExporter {
+public class FacetExporter {
 
 	/*
 	 * (non-Javadoc)
@@ -35,7 +35,7 @@ public class FacetModelExporter {
 	 * #export(boolean)
 	 */
 	@SuppressWarnings("deprecation")
-	public static void export(FacetModelExportInputManager inputManager, IProgressMonitor monitor) throws TigerstripeException, CoreException {
+	public static void export(FacetExporterInput inputManager, IProgressMonitor monitor) throws TigerstripeException, CoreException {
 
 		if (monitor == null) {
 			monitor = new NullProgressMonitor();
@@ -52,7 +52,7 @@ public class FacetModelExporter {
 			monitor.beginTask("Exporting", artifacts.size());
 
 			monitor.subTask("Applying facet for export");
-			IModelExporterFacetManager facetManager = new FacetModelExporterFacetManager(inputManager.getSource());
+			ExportFacetManager facetManager = new ExportFacetManager(inputManager.getSource());
 			facetManager.applyExportFacet(inputManager.getFacet());
 
 			if (monitor.isCanceled()) {

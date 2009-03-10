@@ -9,7 +9,7 @@
  *    Jim Strawn (Cisco Systems, Inc.) - initial implementation
  *******************************************************************************/
 
-package org.eclipse.tigerstripe.workbench.ui.internal.wizards.export.facetmodel;
+package org.eclipse.tigerstripe.workbench.ui.internal.wizards.export.model.facet;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -51,23 +51,23 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeProjectNature;
-import org.eclipse.tigerstripe.workbench.internal.core.model.export.ExportArtifactAnalyzer;
-import org.eclipse.tigerstripe.workbench.internal.core.model.export.facets.FacetModelExportInputManager;
+import org.eclipse.tigerstripe.workbench.internal.core.model.export.ExportDiff;
+import org.eclipse.tigerstripe.workbench.internal.core.model.export.facets.FacetExporterInput;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLog;
 import org.eclipse.ui.dialogs.SelectionDialog;
 
-public class FacetModelExportWizardMainPage extends WizardPage implements ISelectionChangedListener, SelectionListener {
+public class FacetExportWizardMainPage extends WizardPage implements ISelectionChangedListener, SelectionListener {
 
+	public final static String PAGE_NAME = "FacetExportMain";
+	
 	private static final int SIZING_SELECTION_WIDGET_WIDTH = 480;
 
 	private static final int SIZING_SELECTION_WIDGET_HEIGHT = 150;
 
-	private static final String WIZARD_PAGE_NAME = "EXPORT_WIZARD_MAIN";
-
-	private FacetModelExportInputManager inputManager;
+	private FacetExporterInput inputManager;
 
 	private TableViewer projectTableViewer;
 
@@ -79,9 +79,9 @@ public class FacetModelExportWizardMainPage extends WizardPage implements ISelec
 
 	private Text destinationText;
 
-	public FacetModelExportWizardMainPage() {
+	public FacetExportWizardMainPage() {
 
-		super(WIZARD_PAGE_NAME);
+		super(PAGE_NAME);
 		setTitle("Facet Scoped Model Export");
 		setDescription("Define which resources should be used for the export.");
 	}
@@ -89,7 +89,7 @@ public class FacetModelExportWizardMainPage extends WizardPage implements ISelec
 	public void createControl(Composite parent) {
 
 		initializeDialogUnits(parent);
-		inputManager = ((FacetModelExportWizard) getWizard()).getInputManager();
+		inputManager = ((FacetExportWizard) getWizard()).getInputManager();
 
 		Composite composite = new Composite(parent, SWT.NULL);
 		composite.setLayout(new GridLayout());
@@ -290,7 +290,7 @@ public class FacetModelExportWizardMainPage extends WizardPage implements ISelec
 					}
 
 					try {
-						inputManager.setOverwrites(ExportArtifactAnalyzer.getOverwritesList(inputManager));
+						inputManager.setOverwrites(ExportDiff.getDuplicates(inputManager));
 					} catch (IllegalArgumentException e) {
 						TigerstripeLog.logError(e);
 					} catch (TigerstripeException e) {
@@ -309,8 +309,8 @@ public class FacetModelExportWizardMainPage extends WizardPage implements ISelec
 		}
 
 		setPageComplete(true); // to enable finish on next page
-		IWizardPage page = getWizard().getPage(FacetModelExportWizardOverwritePage.WIZARD_PAGE_NAME);
-		((FacetModelExportWizardOverwritePage) page).initialize();
+		IWizardPage page = getWizard().getPage(FacetExportWizardPreviewPage.PAGE_NAME);
+		((FacetExportWizardPreviewPage) page).initialize();
 
 		return page;
 	}

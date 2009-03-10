@@ -1,4 +1,15 @@
-package org.eclipse.tigerstripe.workbench.ui.internal.wizards.export.facetmodel;
+/*******************************************************************************
+ * Copyright (c) 2009 Cisco Systems, Inc.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Cisco Systems, Inc. - Jim Strawn
+ *******************************************************************************/
+
+package org.eclipse.tigerstripe.workbench.ui.internal.wizards.export.model.facet;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
@@ -12,28 +23,28 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
-import org.eclipse.tigerstripe.workbench.internal.core.model.export.facets.FacetModelExportInputManager;
+import org.eclipse.tigerstripe.workbench.internal.core.model.export.facets.FacetExporterInput;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.AbstractArtifactLabelProvider;
 
-public class FacetModelExportWizardOverwritePage extends WizardPage {
+public class FacetExportWizardPreviewPage extends WizardPage {
 
-	public static final String WIZARD_PAGE_NAME = "EXPORT_WIZARD_OVERWRITE";
-
-	private FacetModelExportInputManager inputManager;
+	public final static String PAGE_NAME = "FacetExportPreview";
+	
+	private FacetExporterInput inputManager;
 
 	private TableViewer tableViewer;
 
-	protected FacetModelExportWizardOverwritePage() {
+	protected FacetExportWizardPreviewPage() {
 
-		super(WIZARD_PAGE_NAME);
+		super(PAGE_NAME);
 		setTitle("Facet Scoped Model Export");
 		setDescription("Verify changes below and complete the export.");
 	}
 
 	public void createControl(Composite parent) {
 
-		inputManager = ((FacetModelExportWizard) getWizard()).getInputManager();
+		inputManager = ((FacetExportWizard) getWizard()).getInputManager();
 
 		Composite composite = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();

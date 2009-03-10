@@ -9,7 +9,7 @@
  *    Jim Strawn (Cisco Systems, Inc.) - initial implementation
  *******************************************************************************/
 
-package org.eclipse.tigerstripe.workbench.ui.internal.wizards.export.facetmodel;
+package org.eclipse.tigerstripe.workbench.ui.internal.wizards.export.model.facet;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -17,35 +17,34 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.model.export.facets.FacetModelExportInputManager;
-import org.eclipse.tigerstripe.workbench.internal.core.model.export.facets.FacetModelExporter;
+import org.eclipse.tigerstripe.workbench.internal.core.model.export.facets.FacetExporter;
+import org.eclipse.tigerstripe.workbench.internal.core.model.export.facets.FacetExporterInput;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLog;
 import org.eclipse.ui.IExportWizard;
 import org.eclipse.ui.IWorkbench;
 
-public class FacetModelExportWizard extends Wizard implements IExportWizard {
+public class FacetExportWizard extends Wizard implements IExportWizard {
 
-	private FacetModelExportInputManager inputManager;
+	private FacetExporterInput inputManager;
 
-	public FacetModelExportWizard() {
+	public FacetExportWizard() {
 
 		setNeedsProgressMonitor(true);
-		inputManager = new FacetModelExportInputManager();
+		inputManager = new FacetExporterInput();
 	}
 
-	public FacetModelExportInputManager getInputManager() {
+	public FacetExporterInput getInputManager() {
 		return inputManager;
 	}
 
 	@Override
 	public void addPages() {
 
-		addPage(new FacetModelExportWizardMainPage());
-		addPage(new FacetModelExportWizardOverwritePage());
+		addPage(new FacetExportWizardMainPage());
+		addPage(new FacetExportWizardPreviewPage());
 	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
@@ -62,7 +61,7 @@ public class FacetModelExportWizard extends Wizard implements IExportWizard {
 				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 
 					try {
-						FacetModelExporter.export(inputManager, monitor);
+						FacetExporter.export(inputManager, monitor);
 					} catch (TigerstripeException e) {
 						EclipsePlugin.log(e);
 					} catch (CoreException e) {

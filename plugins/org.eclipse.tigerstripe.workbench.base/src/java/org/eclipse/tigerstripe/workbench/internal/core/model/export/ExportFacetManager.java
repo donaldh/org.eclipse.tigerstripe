@@ -9,7 +9,7 @@
  *    Jim Strawn (Cisco Systems, Inc.) - initial implementation
  *******************************************************************************/
 
-package org.eclipse.tigerstripe.workbench.internal.core.model.export.facets;
+package org.eclipse.tigerstripe.workbench.internal.core.model.export;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
@@ -17,10 +17,9 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
-import org.eclipse.tigerstripe.workbench.internal.core.model.export.IModelExporterFacetManager;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
-public class FacetModelExporterFacetManager implements IModelExporterFacetManager {
+public class ExportFacetManager {
 
 	/*
 	 * Source project for the export.
@@ -32,7 +31,7 @@ public class FacetModelExporterFacetManager implements IModelExporterFacetManage
 	 */
 	private IFacetReference activeFacet;
 
-	public FacetModelExporterFacetManager(ITigerstripeModelProject sourceProject) {
+	public ExportFacetManager(ITigerstripeModelProject sourceProject) {
 
 		super();
 		this.sourceProject = sourceProject;
@@ -47,15 +46,12 @@ public class FacetModelExporterFacetManager implements IModelExporterFacetManage
 	 */
 	public void applyExportFacet(IFile facetFile) throws CoreException, TigerstripeException {
 
-		// store active facet
 		if (sourceProject.getActiveFacet() != null) {
 			activeFacet = sourceProject.getActiveFacet();
 		}
 
-		// clean up a bit
 		sourceProject.resetActiveFacet();
 
-		// apply new facet
 		InternalTigerstripeCore.createModelFacet(facetFile, new NullProgressMonitor());
 		IFacetReference facetReference = sourceProject.makeFacetReference(facetFile.getProjectRelativePath().toOSString());
 		sourceProject.setActiveFacet(facetReference, new NullProgressMonitor());

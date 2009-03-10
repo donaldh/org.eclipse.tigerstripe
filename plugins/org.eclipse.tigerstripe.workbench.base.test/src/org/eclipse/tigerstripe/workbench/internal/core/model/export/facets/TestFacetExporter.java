@@ -12,26 +12,17 @@
 package org.eclipse.tigerstripe.workbench.internal.core.model.export.facets;
 
 import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-
-import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.base.test.utils.ModelProjectHelper;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
-import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope;
-import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopePattern;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.export.AbstractExportTestCase;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
-public class FacetModelExporterTest extends TestCase {
+public class TestFacetExporter extends AbstractExportTestCase {
 
 	private static final String PROJECT_FACET = "default.wfc";
 
@@ -61,13 +52,13 @@ public class FacetModelExporterTest extends TestCase {
 		IProject iProject = (IProject) source.getAdapter(IProject.class);
 		IFile facet = iProject.getFile(PROJECT_FACET);
 
-		FacetModelExportInputManager inputManager = new FacetModelExportInputManager();
+		FacetExporterInput inputManager = new FacetExporterInput();
 		inputManager.setSource(source);
 		inputManager.setDestination(destination);
 		inputManager.setFacet(facet);
 		
 		try {
-			FacetModelExporter.export(inputManager, new NullProgressMonitor());
+			FacetExporter.export(inputManager, new NullProgressMonitor());
 		} catch (IllegalArgumentException e) {
 			assertEquals("The facet file must exist in the file system: " + facet.getFullPath(), e.getMessage());
 			return;
@@ -79,12 +70,12 @@ public class FacetModelExporterTest extends TestCase {
 
 	public void testExportNullFacet() throws Exception {
 
-		FacetModelExportInputManager inputManager = new FacetModelExportInputManager();
+		FacetExporterInput inputManager = new FacetExporterInput();
 		inputManager.setSource(source);
 		inputManager.setDestination(destination);
 		
 		try {
-			FacetModelExporter.export(inputManager, new NullProgressMonitor());
+			FacetExporter.export(inputManager, new NullProgressMonitor());
 		} catch (IllegalArgumentException e) {
 			assertEquals("The facet file may not be null.", e.getMessage());
 			return;
@@ -100,12 +91,12 @@ public class FacetModelExporterTest extends TestCase {
 		IFile facet = iProject.getFile(PROJECT_FACET);
 		InternalTigerstripeCore.createModelFacet(facet, new NullProgressMonitor());
 
-		FacetModelExportInputManager inputManager = new FacetModelExportInputManager();
+		FacetExporterInput inputManager = new FacetExporterInput();
 		inputManager.setDestination(destination);
 		inputManager.setFacet(facet);
 		
 		try {
-			FacetModelExporter.export(inputManager, new NullProgressMonitor());
+			FacetExporter.export(inputManager, new NullProgressMonitor());
 		} catch (IllegalArgumentException e) {
 			assertEquals("The source project may not be null.", e.getMessage());
 			return;
@@ -121,12 +112,12 @@ public class FacetModelExporterTest extends TestCase {
 		IFile facet = iProject.getFile(PROJECT_FACET);
 		InternalTigerstripeCore.createModelFacet(facet, new NullProgressMonitor());
 
-		FacetModelExportInputManager inputManager = new FacetModelExportInputManager();
+		FacetExporterInput inputManager = new FacetExporterInput();
 		inputManager.setSource(source);
 		inputManager.setFacet(facet);
 		
 		try {
-			FacetModelExporter.export(inputManager, new NullProgressMonitor());
+			FacetExporter.export(inputManager, new NullProgressMonitor());
 		} catch (IllegalArgumentException e) {
 			assertEquals("The destination project may not be null.", e.getMessage());
 			return;
@@ -144,12 +135,12 @@ public class FacetModelExporterTest extends TestCase {
 		IContractSegment facet = InternalTigerstripeCore.createModelFacet(facetFile, new NullProgressMonitor());
 		addIncludesFacetScopePatterns(Arrays.asList(new String[] { "*" }), facet);
 
-		FacetModelExportInputManager inputManager = new FacetModelExportInputManager();
+		FacetExporterInput inputManager = new FacetExporterInput();
 		inputManager.setSource(source);
 		inputManager.setDestination(destination);
 		inputManager.setFacet(facetFile);
 		
-		FacetModelExporter.export(inputManager, new NullProgressMonitor());
+		FacetExporter.export(inputManager, new NullProgressMonitor());
 		
 		verifyProjectArtifact(destination, ModelProjectHelper.M1);
 		verifyProjectArtifact(destination, ModelProjectHelper.M2);
@@ -166,12 +157,12 @@ public class FacetModelExporterTest extends TestCase {
 		addIncludesFacetScopePatterns(Arrays.asList(new String[] { ModelProjectHelper.M1, ModelProjectHelper.M3 }), facet);
 		addExcludesFacetScopePatterns(Arrays.asList(new String[] { ModelProjectHelper.M2, ModelProjectHelper.AC1, ModelProjectHelper.AS1 }), facet);
 
-		FacetModelExportInputManager inputManager = new FacetModelExportInputManager();
+		FacetExporterInput inputManager = new FacetExporterInput();
 		inputManager.setSource(source);
 		inputManager.setDestination(destination);
 		inputManager.setFacet(facetFile);
 		
-		FacetModelExporter.export(inputManager, new NullProgressMonitor());
+		FacetExporter.export(inputManager, new NullProgressMonitor());
 
 		verifyProjectArtifact(destination, ModelProjectHelper.M1);
 		verifyProjectArtifact(destination, ModelProjectHelper.M3);
@@ -188,12 +179,12 @@ public class FacetModelExporterTest extends TestCase {
 		IContractSegment facet = InternalTigerstripeCore.createModelFacet(facetFile, new NullProgressMonitor());
 		addIncludesFacetScopePatterns(Arrays.asList(new String[] { ModelProjectHelper.AS1 }), facet);
 		
-		FacetModelExportInputManager inputManager = new FacetModelExportInputManager();
+		FacetExporterInput inputManager = new FacetExporterInput();
 		inputManager.setSource(source);
 		inputManager.setDestination(destination);
 		inputManager.setFacet(facetFile);
 		
-		FacetModelExporter.export(inputManager, new NullProgressMonitor());
+		FacetExporter.export(inputManager, new NullProgressMonitor());
 		
 		verifyProjectArtifact(destination, ModelProjectHelper.M1);
 		verifyProjectArtifact(destination, ModelProjectHelper.M2);
@@ -211,12 +202,12 @@ public class FacetModelExporterTest extends TestCase {
 		addIncludesFacetScopePatterns(Arrays.asList(new String[] { ModelProjectHelper.M1 }), facet);
 		addExcludesFacetScopePatterns(Arrays.asList(new String[] { ModelProjectHelper.AS1 }), facet);
 		
-		FacetModelExportInputManager inputManager = new FacetModelExportInputManager();
+		FacetExporterInput inputManager = new FacetExporterInput();
 		inputManager.setSource(source);
 		inputManager.setDestination(destination);
 		inputManager.setFacet(facetFile);
 		
-		FacetModelExporter.export(inputManager, new NullProgressMonitor());
+		FacetExporter.export(inputManager, new NullProgressMonitor());
 		
 		verifyProjectArtifact(destination, ModelProjectHelper.AC1);
 		verifyProjectArtifact(destination, ModelProjectHelper.M1);
@@ -234,63 +225,17 @@ public class FacetModelExporterTest extends TestCase {
 		addIncludesFacetScopePatterns(Arrays.asList(new String[] { ModelProjectHelper.M1 }), facet);
 		addExcludesFacetScopePatterns(Arrays.asList(new String[] { ModelProjectHelper.AC1 }), facet);
 		
-		FacetModelExportInputManager inputManager = new FacetModelExportInputManager();
+		FacetExporterInput inputManager = new FacetExporterInput();
 		inputManager.setSource(source);
 		inputManager.setDestination(destination);
 		inputManager.setFacet(facetFile);
 		
-		FacetModelExporter.export(inputManager, new NullProgressMonitor());
+		FacetExporter.export(inputManager, new NullProgressMonitor());
 		verifyProjectArtifact(destination, ModelProjectHelper.M1);
 		verifyProjectArtifactNotExported(destination, ModelProjectHelper.AC1);
 		verifyProjectArtifactNotExported(destination, ModelProjectHelper.M2);
 		verifyProjectArtifactNotExported(destination, ModelProjectHelper.AS1);
 		verifyProjectArtifactNotExported(destination, ModelProjectHelper.M3);
 		
-	}
-
-	@SuppressWarnings("deprecation")
-	private void verifyProjectArtifact(ITigerstripeModelProject project, String fullyQualifiedName) throws TigerstripeException {
-
-		IAbstractArtifact artifact = project.getArtifactManagerSession().getArtifactByFullyQualifiedName(fullyQualifiedName);
-		IResource res = (IResource) artifact.getAdapter(IResource.class);
-		assertNotNull(res);
-		IProject proj = res.getProject();
-		IProject proj2 = (IProject) project.getAdapter(IProject.class);
-		assertTrue(proj.equals(proj2));
-	}
-
-	@SuppressWarnings("deprecation")
-	private void verifyProjectArtifactNotExported(ITigerstripeModelProject project, String fullyQualifiedName) throws Exception {
-		
-		IAbstractArtifact artifact = project.getArtifactManagerSession().getArtifactByFullyQualifiedName(fullyQualifiedName);
-		assertNull(artifact);
-	}
-
-	private void addIncludesFacetScopePatterns(List<String> patterns, IContractSegment facet) throws CoreException, TigerstripeException {
-
-		ISegmentScope scope = facet.getISegmentScope();
-		for (Iterator<String> iterator = patterns.iterator(); iterator.hasNext();) {
-
-			String patternStr = (String) iterator.next();
-			ScopePattern pattern = new ISegmentScope.ScopePattern();
-			pattern.type = ISegmentScope.INCLUDES;
-			pattern.pattern = patternStr;
-			scope.addPattern(pattern);
-			facet.doSave();
-		}
-	}
-	
-	private void addExcludesFacetScopePatterns(List<String> patterns, IContractSegment facet) throws TigerstripeException {
-
-		ISegmentScope scope = facet.getISegmentScope();
-		for (Iterator<String> iterator = patterns.iterator(); iterator.hasNext();) {
-
-			String patternStr = (String) iterator.next();
-			ScopePattern pattern = new ISegmentScope.ScopePattern();
-			pattern.type = ISegmentScope.EXCLUDES;
-			pattern.pattern = patternStr;
-			scope.addPattern(pattern);
-			facet.doSave();
-		}
 	}
 }

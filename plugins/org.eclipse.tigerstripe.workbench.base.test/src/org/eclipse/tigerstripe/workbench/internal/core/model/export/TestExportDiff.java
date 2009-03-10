@@ -12,26 +12,19 @@
 package org.eclipse.tigerstripe.workbench.internal.core.model.export;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
-
-import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.base.test.utils.ModelProjectHelper;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
-import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope;
-import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopePattern;
-import org.eclipse.tigerstripe.workbench.internal.core.model.export.facets.FacetModelExportInputManager;
+import org.eclipse.tigerstripe.workbench.internal.core.model.export.facets.FacetExporterInput;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
-public class ExportArtifactAnalyzerTest extends TestCase {
+public class TestExportDiff extends AbstractExportTestCase {
 
 	private static final String PROJECT_FACET = "default.wfc";
 	
@@ -66,12 +59,12 @@ public class ExportArtifactAnalyzerTest extends TestCase {
 		IContractSegment facet = InternalTigerstripeCore.createModelFacet(facetFile, new NullProgressMonitor());
 		addIncludesFacetScopePatterns(Arrays.asList(new String[] { "*" }), facet);
 		
-		FacetModelExportInputManager inputManager = new FacetModelExportInputManager();
+		FacetExporterInput inputManager = new FacetExporterInput();
 		inputManager.setSource(source);
 		inputManager.setDestination(destination);
 		inputManager.setFacet(facetFile);
 		
-		List<IAbstractArtifact> artifacts = ExportArtifactAnalyzer.getOverwritesList(inputManager);
+		List<IAbstractArtifact> artifacts = ExportDiff.getDuplicates(inputManager);
 		assertNotNull("Artifacts list is null", artifacts);
 		assertEquals(4, artifacts.size()); // two for pkg, two artifacts
 		
@@ -97,11 +90,11 @@ public class ExportArtifactAnalyzerTest extends TestCase {
 		IContractSegment facet = InternalTigerstripeCore.createModelFacet(facetFile, new NullProgressMonitor());
 		addIncludesFacetScopePatterns(Arrays.asList(new String[] { "*" }), facet);
 		
-		FacetModelExportInputManager inputManager = new FacetModelExportInputManager();
+		FacetExporterInput inputManager = new FacetExporterInput();
 		inputManager.setSource(source);
 		inputManager.setDestination(destination);
 		inputManager.setFacet(facetFile);
-		List<IAbstractArtifact> artifacts = ExportArtifactAnalyzer.getOverwritesList(inputManager);
+		List<IAbstractArtifact> artifacts = ExportDiff.getDuplicates(inputManager);
 		
 		assertNotNull("Artifacts list is null", artifacts);
 		assertEquals(0, artifacts.size());
@@ -120,14 +113,14 @@ public class ExportArtifactAnalyzerTest extends TestCase {
 		addIncludesFacetScopePatterns(Arrays.asList(new String[] { ModelProjectHelper.M1 }), facet);
 		addExcludesFacetScopePatterns(Arrays.asList(new String[] { ModelProjectHelper.AC1 }), facet);
 		
-		FacetModelExportInputManager inputManager = new FacetModelExportInputManager();
+		FacetExporterInput inputManager = new FacetExporterInput();
 		inputManager.setSource(source);
 		inputManager.setDestination(destination);
 		inputManager.setFacet(facetFile);
 		
-		List<IAbstractArtifact> artifacts = ExportArtifactAnalyzer.getOverwritesList(inputManager);
+		List<IAbstractArtifact> artifacts = ExportDiff.getDuplicates(inputManager);
 		assertNotNull("Artifacts list is null", artifacts);
-		assertEquals(4, artifacts.size()); // two for pkg, two artifacts
+		assertEquals(3, artifacts.size()); // two for pkg, one artifact
 		
 		assertTrue(artifactExistsByFqn(artifacts, "com"));
 		assertTrue(artifactExistsByFqn(artifacts, "com.mycompany"));
@@ -137,53 +130,6 @@ public class ExportArtifactAnalyzerTest extends TestCase {
 		assertFalse(artifactExistsByFqn(artifacts, ModelProjectHelper.AC1));
 		assertFalse(artifactExistsByFqn(artifacts, ModelProjectHelper.AS1));
 		
-	}
-	
-	
-	private boolean artifactExistsByFqn(List <IAbstractArtifact> artifacts, String fqn) {
-		
-		for (IAbstractArtifact artifact: artifacts) {
-				
-			if(artifact.getFullyQualifiedName().equals(fqn)) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	@SuppressWarnings("deprecation")
-	private void verifyProjectArtifactNotExported(ITigerstripeModelProject project, String fullyQualifiedName) throws Exception {
-		
-		IAbstractArtifact artifact = project.getArtifactManagerSession().getArtifactByFullyQualifiedName(fullyQualifiedName);
-		assertNull(artifact);
-	}
-
-	private void addIncludesFacetScopePatterns(List<String> patterns, IContractSegment facet) throws CoreException, TigerstripeException {
-
-		ISegmentScope scope = facet.getISegmentScope();
-		for (Iterator<String> iterator = patterns.iterator(); iterator.hasNext();) {
-
-			String patternStr = (String) iterator.next();
-			ScopePattern pattern = new ISegmentScope.ScopePattern();
-			pattern.type = ISegmentScope.INCLUDES;
-			pattern.pattern = patternStr;
-			scope.addPattern(pattern);
-			facet.doSave();
-		}
-	}
-	
-	private void addExcludesFacetScopePatterns(List<String> patterns, IContractSegment facet) throws TigerstripeException {
-
-		ISegmentScope scope = facet.getISegmentScope();
-		for (Iterator<String> iterator = patterns.iterator(); iterator.hasNext();) {
-
-			String patternStr = (String) iterator.next();
-			ScopePattern pattern = new ISegmentScope.ScopePattern();
-			pattern.type = ISegmentScope.EXCLUDES;
-			pattern.pattern = patternStr;
-			scope.addPattern(pattern);
-			facet.doSave();
-		}
 	}
 	
 }

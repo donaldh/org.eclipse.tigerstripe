@@ -1,6 +1,15 @@
-package org.eclipse.tigerstripe.workbench.internal.core.model.export.facets;
+/*******************************************************************************
+ * Copyright (c) 2009 Cisco Systems, Inc.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Cisco Systems, Inc. - Jim Strawn
+ *******************************************************************************/
 
-import junit.framework.TestCase;
+package org.eclipse.tigerstripe.workbench.internal.core.model.export;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -9,21 +18,20 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.base.test.utils.ModelProjectHelper;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
-import org.eclipse.tigerstripe.workbench.internal.core.model.export.IModelExporterFacetManager;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
-public class FacetModelExporterFacetManagerTest extends TestCase {
+public class TestExportFacetManager extends AbstractExportTestCase {
 
 	private static final String ACTIVE_FACET_NAME = "activeFacet.wfc";
 	private static final String EXPORT_FACET_NAME = "exportFacet.wfc";
 
-	private IModelExporterFacetManager facetManager;
+	private ExportFacetManager facetManager;
 
 	private ITigerstripeModelProject project;
 
 	protected void setUp() throws Exception {
 		project = ModelProjectHelper.createModelProject("TestFacetModelExport", false);
-		facetManager = new FacetModelExporterFacetManager(project);
+		facetManager = new ExportFacetManager(project);
 	}
 
 	protected void tearDown() throws Exception {

@@ -17,20 +17,17 @@ import java.util.List;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.QueryAllArtifacts;
-import org.eclipse.tigerstripe.workbench.internal.core.model.export.facets.FacetModelExportInputManager;
-import org.eclipse.tigerstripe.workbench.internal.core.model.export.facets.FacetModelExporterFacetManager;
+import org.eclipse.tigerstripe.workbench.internal.core.model.export.facets.FacetExporterInput;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 
-public class ExportArtifactAnalyzer {
+public class ExportDiff {
 
 	@SuppressWarnings("deprecation")
-	public static List<IAbstractArtifact> getOverwritesList(FacetModelExportInputManager inputManager) throws IllegalArgumentException,
+	public static List<IAbstractArtifact> getDuplicates(FacetExporterInput inputManager) throws IllegalArgumentException,
 			TigerstripeException, CoreException {
 
-		IModelExporterFacetManager facetManager = null;
-
-		facetManager = new FacetModelExporterFacetManager(inputManager.getSource());
+		ExportFacetManager facetManager =  new ExportFacetManager(inputManager.getSource());
 		facetManager.applyExportFacet(inputManager.getFacet());
 
 		List<IAbstractArtifact> artifacts = new ArrayList<IAbstractArtifact>();
@@ -40,11 +37,11 @@ public class ExportArtifactAnalyzer {
 
 		for (IAbstractArtifact artifact : sourceArtifacts) {
 
-			if(artifact.isInActiveFacet()) {
-				
+			if (artifact.isInActiveFacet()) {
+
 				IAbstractArtifact artifactToOverwrite = inputManager.getDestination().getArtifactManagerSession().getArtifactByFullyQualifiedName(
 						artifact.getFullyQualifiedName());
-				
+
 				if (artifactToOverwrite != null) {
 					artifacts.add(artifactToOverwrite);
 				}

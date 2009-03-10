@@ -267,7 +267,7 @@
       </wizard>
       <wizard
             category="org.eclipse.tigerstripe.exportWizardCategory"
-            class="org.eclipse.tigerstripe.workbench.ui.internal.wizards.export.facetmodel.FacetModelExportWizard"
+            class="org.eclipse.tigerstripe.workbench.ui.internal.wizards.export.model.facet.FacetExportWizard"
             icon="src/icons/archive/importExport.gif.gif"
             id="org.eclipse.tigerstripe.workbench.ui.base.facetmodelwizard"
             name="Facet Scoped Model">
