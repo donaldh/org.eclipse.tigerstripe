@@ -737,7 +737,7 @@
            category="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
            categoryId="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
            description="Generate the current project"
-           id="org.eclipse.tigerstripe.workbench.ui.base.generate"
+           id="org.eclipse.tigerstripe.workbench.ui.base.export.model.facet"
            name="Generate">
      </command>
      <command
@@ -764,6 +764,13 @@
               optional="false">
         </commandParameter>
      </command>
+     <command
+           category="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
+           categoryId="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
+           description="Facet Based Model Export"
+           id="org.eclipse.tigerstripe.workbench.ui.menu.export.model.facet"
+           name="Facet Based Export">
+     </command>
   </extension>
   <extension
         point="org.eclipse.ui.menus">
@@ -779,6 +786,18 @@
            <menu
                  id="org.eclipse.tigerstripe.workbench.ui.menu.import"
                  label="Import...">
+           </menu>
+           <menu
+                 id="org.eclipse.tigerstripe.workbench.ui.menu.export"
+                 label="Export...">
+              <menu
+                    id="org.eclipse.tigerstripe.workbench.ui.menu.export.model"
+                    label="Model">
+                 <command
+                       commandId="org.eclipse.tigerstripe.workbench.ui.menu.export.model.facet"
+                       style="push">
+                 </command>
+              </menu>
            </menu>
            <separator
                  name="org.eclipse.tigerstripe.workbench.ui.menu.seperator1"
@@ -867,6 +886,10 @@
      <handler
            class="org.eclipse.tigerstripe.workbench.ui.internal.handlers.TigerstripeCommandHandler"
            commandId="org.eclipse.tigerstripe.workbench.ui.base.patternBasedProjectCreate">
+     </handler>
+     <handler
+           class="org.eclipse.tigerstripe.workbench.ui.internal.handlers.FacetExportHandler"
+           commandId="org.eclipse.tigerstripe.workbench.ui.menu.export.model.facet">
      </handler>
   </extension>
   <extension
