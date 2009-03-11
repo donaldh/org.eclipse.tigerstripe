@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.ui.instancediagram.diagra
 Bundle-Version: 0.4.6.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.part.InstanceDiagramEditorPlugin
-Bundle-Vendor: 
+Bundle-Vendor: Eclipse.org
 Export-Package: org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.parts, 
  org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.part,
  org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.providers

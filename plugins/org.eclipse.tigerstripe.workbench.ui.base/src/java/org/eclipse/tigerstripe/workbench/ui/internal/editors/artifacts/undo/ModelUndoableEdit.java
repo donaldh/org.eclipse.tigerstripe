@@ -10,9 +10,13 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.undo;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.UndoableEdit;
 
@@ -92,4 +96,17 @@ public class ModelUndoableEdit extends UndoableEdit implements
 		return result;
 	}
 
+	public IResource getAffectedResource() {
+		IModelComponent component = TigerstripeURIAdapterFactory
+				.uriToComponent(affectedModelComponentURI);
+		if (component instanceof IAbstractArtifact) {
+			IAbstractArtifact art = (IAbstractArtifact) component;
+			return (IResource) art.getAdapter(IResource.class);
+		} else if (component.getContainingModelComponent() instanceof IAbstractArtifact) {
+			IAbstractArtifact art = (IAbstractArtifact) component
+					.getContainingModelComponent();
+			return (IResource) art.getAdapter(IResource.class);
+		}
+		return null;
+	}
 }

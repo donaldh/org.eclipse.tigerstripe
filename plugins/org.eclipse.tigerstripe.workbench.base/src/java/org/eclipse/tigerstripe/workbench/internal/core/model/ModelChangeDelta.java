@@ -13,9 +13,13 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
@@ -139,4 +143,19 @@ public class ModelChangeDelta implements IModelChangeDelta {
 				+ project + "', " + "source = '" + source + "'}";
 		return result;
 	}
+
+	public IResource getAffectedResource() {
+		IModelComponent component = TigerstripeURIAdapterFactory
+				.uriToComponent(componentURI);
+		if (component instanceof IAbstractArtifact) {
+			IAbstractArtifact art = (IAbstractArtifact) component;
+			return (IResource) art.getAdapter(IResource.class);
+		} else if (component.getContainingModelComponent() instanceof IAbstractArtifact) {
+			IAbstractArtifact art = (IAbstractArtifact) component
+					.getContainingModelComponent();
+			return (IResource) art.getAdapter(IResource.class);
+		}
+		return null;
+	}
+
 }

@@ -10,12 +10,12 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.gmf.synchronization;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.eclipse.tigerstripe.workbench.refactor.diagrams.HeadlessDiagramHandle;
 
 /**
  * A Diagram handle is a shell object to manipulate GMF diagrams without having
@@ -24,41 +24,17 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
  * @author eric
  * @since Bug 936
  */
-public class DiagramHandle {
-
-	private IResource diagramResource;
-
-	private IResource modelResource;
+public class DiagramHandle extends HeadlessDiagramHandle {
 
 	private IClosedDiagramSynchronizer synchronizer;
 
-	private ITigerstripeModelProject tsProject;
-
 	public DiagramHandle(IResource diagramResource, IResource modelResource,
 			ITigerstripeModelProject tsProject) {
-		this.diagramResource = diagramResource;
-		this.modelResource = modelResource;
-		this.tsProject = tsProject;
+		super(diagramResource, modelResource, tsProject);
 	}
 
 	public DiagramHandle(IResource diagramResource) {
-		this.diagramResource = diagramResource;
-		IProject iProject = diagramResource.getProject();
-		this.tsProject = (ITigerstripeModelProject) iProject
-				.getAdapter(ITigerstripeModelProject.class);
-		;
-	}
-
-	public ITigerstripeModelProject getITigerstripeProject() {
-		return this.tsProject;
-	}
-
-	public IResource getModelResource() {
-		return modelResource;
-	}
-
-	public IResource getDiagramResource() {
-		return diagramResource;
+		super(diagramResource);
 	}
 
 	protected IClosedDiagramSynchronizer getSynchronizer()

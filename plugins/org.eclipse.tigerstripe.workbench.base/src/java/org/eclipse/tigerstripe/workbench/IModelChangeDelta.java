@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
@@ -86,4 +87,10 @@ public interface IModelChangeDelta {
 	 */
 	public ITigerstripeModelProject getProject();
 
+	/**
+	 * Return the resource where this delta is taking place
+	 * 
+	 * @return
+	 */
+	public IResource getAffectedResource();
 }

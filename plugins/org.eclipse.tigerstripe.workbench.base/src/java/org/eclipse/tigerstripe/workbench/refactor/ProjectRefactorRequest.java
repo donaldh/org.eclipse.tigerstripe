@@ -8,7 +8,10 @@
  * Contributors:
  *    Cisco Systems, Inc. - erdillon
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.internal.refactor;
+package org.eclipse.tigerstripe.workbench.refactor;
+
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 
 public class ProjectRefactorRequest extends RefactorRequest {
 
@@ -33,7 +36,7 @@ public class ProjectRefactorRequest extends RefactorRequest {
 	}
 
 	@Override
-	public boolean isValid() {
-		throw new UnsupportedOperationException();
+	public IStatus isValid() {
+		return Status.OK_STATUS;
 	}
 }

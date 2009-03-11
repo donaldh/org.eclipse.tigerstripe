@@ -332,7 +332,9 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
  org.eclipse.tigerstripe.workbench.profile.primitiveType,
  org.eclipse.tigerstripe.workbench.profile.stereotype,
  org.eclipse.tigerstripe.workbench.project,
- org.eclipse.tigerstripe.workbench.queries
+ org.eclipse.tigerstripe.workbench.queries,
+ org.eclipse.tigerstripe.workbench.refactor,
+ org.eclipse.tigerstripe.workbench.refactor.diagrams
 Bundle-ClassPath: lib/dom4j-1.6.1.jar,
  lib/qdox-1.6.3.jar,
  .,

@@ -8,12 +8,23 @@
  * Contributors:
  *    Cisco Systems, Inc. - erdillon
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.internal.refactor;
+package org.eclipse.tigerstripe.workbench.refactor;
 
-public class DiagramRefactorRequest extends RefactorRequest {
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 
-	@Override
-	public boolean isValid() {
-		throw new UnsupportedOperationException();
+public abstract class RefactorRequest {
+
+	public abstract IStatus isValid();
+
+	/**
+	 * Returns the command to execute to perform this request
+	 * 
+	 * @return
+	 */
+	public IRefactorCommand getCommand(IProgressMonitor monitor)
+			throws TigerstripeException {
+		return IRefactorCommand.UNEXECUTABLE;
 	}
 }

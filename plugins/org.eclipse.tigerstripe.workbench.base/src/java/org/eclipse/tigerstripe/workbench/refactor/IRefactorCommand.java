@@ -8,22 +8,27 @@
  * Contributors:
  *    Cisco Systems, Inc. - erdillon
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.internal.refactor;
+package org.eclipse.tigerstripe.workbench.refactor;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.refactor.BaseRefactorCommand;
 
 /**
- * A refactor command holds a set of set of IModelChangeRequest that were
- * computed as a result to a set of RefactorRequests.
+ * A refactor command holds a set of set of changes that were computed as a
+ * result to a set of RefactorRequests.
  * 
  * @author erdillon
  * 
  */
 public interface IRefactorCommand {
 
+	public static IRefactorCommand UNEXECUTABLE = new BaseRefactorCommand(
+			new RefactorRequest[0]);
+
 	/**
-	 * The requests that were used to
+	 * All the request to be serviced by this command. Note that this will
+	 * contain the initial request first, and all the derived requests
 	 * 
 	 * @return
 	 */

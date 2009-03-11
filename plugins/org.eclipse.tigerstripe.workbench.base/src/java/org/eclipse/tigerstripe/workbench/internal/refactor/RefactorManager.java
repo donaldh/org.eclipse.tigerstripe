@@ -12,6 +12,10 @@ package org.eclipse.tigerstripe.workbench.internal.refactor;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.refactor.IRefactorCommand;
+import org.eclipse.tigerstripe.workbench.refactor.ModelRefactorRequest;
+import org.eclipse.tigerstripe.workbench.refactor.ProjectRefactorRequest;
+import org.eclipse.tigerstripe.workbench.refactor.diagrams.DiagramRefactorRequest;
 
 /**
  * The refactor manager is the main entry point for all Tigerstripe Refactoring

@@ -13,7 +13,8 @@ package org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.r
 
 public interface IArtifactFQRenameRequest extends IArtifactRenameRequest {
 
-
+	public final static String FQN_FEATURE = "fqn";
+	
 	public void setNewFQName(String value);
 
 	public String getNewFQName();

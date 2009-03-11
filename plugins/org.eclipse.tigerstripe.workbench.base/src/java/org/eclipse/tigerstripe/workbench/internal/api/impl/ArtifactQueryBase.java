@@ -45,6 +45,7 @@ public abstract class ArtifactQueryBase implements IArtifactQuery {
 		// TODO Auto-generated constructor stub
 	}
 
-	public abstract Collection<IAbstractArtifact> run(IArtifactManagerSession managerSession);
+	public abstract Collection<IAbstractArtifact> run(
+			IArtifactManagerSession managerSession);
 
 }
