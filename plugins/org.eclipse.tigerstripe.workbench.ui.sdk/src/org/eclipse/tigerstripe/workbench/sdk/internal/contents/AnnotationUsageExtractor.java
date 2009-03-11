@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2009 Cisco Systems, Inc.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    R. Craddock (Cisco Systems, Inc.)
+ *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.sdk.internal.contents;
 
 import java.util.ArrayList;
@@ -61,9 +71,11 @@ public class AnnotationUsageExtractor {
 		}
 
 		public void acceptSearchMatch(SearchMatch match) {
+			 if (match.getAccuracy() == SearchMatch.A_ACCURATE){
 			if (! usedResources.contains(match.getResource()))
 				if (! match.getResource().getProject().equals(ownProject))
 					usedResources.add(match.getResource());
+			 }
 		}
 		
 	};
@@ -137,7 +149,7 @@ public class AnnotationUsageExtractor {
 					
 					//System.out.println("Reading stuff for "+annotation.getName()+ " in Audit");
 					for (AuditContribution audit : provider.getAuditContributions()){
-						if (audit.getAuditorClass().equals(containedClassName)){
+						if (!audit.getAuditorClass().equals("") && audit.getAuditorClass().equals(containedClassName)){
 							Map<AnnotationTypeContribution,IResource> map = auditMap.get(audit);
 							if ( map == null){
 								map = new HashMap<AnnotationTypeContribution,IResource>();
@@ -152,7 +164,7 @@ public class AnnotationUsageExtractor {
 
 					//System.out.println("Reading stuff for "+annotation.getName()+ " in Naming");
 					for (NamingContribution naming : provider.getNamingContributions()){
-						if (naming.getNamingClass().equals(containedClassName)){
+						if (!naming.getNamingClass().equals("") && naming.getNamingClass().equals(containedClassName)){
 							Map<AnnotationTypeContribution,IResource> map = namingMap.get(naming);
 							if ( map == null){
 								map = new HashMap<AnnotationTypeContribution,IResource>();
@@ -166,7 +178,7 @@ public class AnnotationUsageExtractor {
 					
 					//System.out.println("Reading stuff for "+annotation.getName()+ " in Decorators");
 					for (DecoratorContribution decorator : provider.getDecoratorContributions()){
-						if (decorator.getDecoratorClass().equals(containedClassName)){
+						if (!decorator.getDecoratorClass().equals("") && decorator.getDecoratorClass().equals(containedClassName)){
 							Map<AnnotationTypeContribution,IResource> map = decoratorMap.get(decorator);
 							if ( map == null){
 								map = new HashMap<AnnotationTypeContribution,IResource>();
@@ -180,7 +192,7 @@ public class AnnotationUsageExtractor {
 					
 					//System.out.println("Reading stuff for "+annotation.getName()+ " in Icon Provider");
 					for (ModelComponentIconProviderContribution iconProvider : provider.getModelComponentIconProviderContributions()){
-						if (iconProvider.getProvider().equals(containedClassName)){
+						if (!iconProvider.getProvider().equals("") && iconProvider.getProvider().equals(containedClassName)){
 							Map<AnnotationTypeContribution,IResource> map = iconProviderMap.get(iconProvider);
 							if ( map == null){
 								map = new HashMap<AnnotationTypeContribution,IResource>();
@@ -195,7 +207,7 @@ public class AnnotationUsageExtractor {
 					
 					//System.out.println("Reading stuff for "+annotation.getName()+ " in Pattern Validator");
 					for (PatternFileContribution patternContribution : provider.getPatternFileContributions()){
-						if (patternContribution.getValidatorClass().equals(containedClassName)){
+						if (!patternContribution.getValidatorClass().equals("") && patternContribution.getValidatorClass().equals(containedClassName)){
 							Map<AnnotationTypeContribution,IResource> map = patternMap.get(patternContribution);
 							if ( map == null){
 								map = new HashMap<AnnotationTypeContribution,IResource>();
@@ -243,7 +255,7 @@ public class AnnotationUsageExtractor {
 								
 								Collection<AnnotationUsage> existing = annotationMap.get(annotation);
 								existing.add(new AnnotationUsage(patternResource,patternContribution));
-								annotationMap.put(annotation,existing);
+								//annotationMap.put(annotation,existing);
 							}
 						}
 					}

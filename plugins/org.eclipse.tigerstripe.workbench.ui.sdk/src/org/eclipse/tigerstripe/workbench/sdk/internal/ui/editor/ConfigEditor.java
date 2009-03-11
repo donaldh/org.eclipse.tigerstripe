@@ -16,11 +16,11 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.sdk.internal.IContributionListener;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.annotation.AnnotationPage;
-import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.artifactMetadata.ArtifactMetadataPage;
+import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.artifactMetadata.AppearancePage;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.audit.AuditPage;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.decorator.DecoratorPage;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.naming.NamingPage;
-import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.patterns.PatternPage;
+import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.patterns.CreationPage;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.PartInitException;
@@ -33,10 +33,10 @@ public class ConfigEditor extends FormEditor implements IContributionListener{
 
 	
 	private AuditPage auditPage;
-	private DecoratorPage dPage;
-	private NamingPage nPage;
-	private ArtifactMetadataPage artifactMetadataPage;
-	private PatternPage patternsPage;
+//	private DecoratorPage dPage;
+//	private NamingPage nPage;
+	private AppearancePage artifactMetadataPage;
+	private CreationPage patternsPage;
 	private AnnotationPage annotationsPage  = new AnnotationPage(this);
 	
 	public ConfigEditor() {
@@ -71,12 +71,12 @@ public class ConfigEditor extends FormEditor implements IContributionListener{
 			if (auditPage != null && auditPage.isActive()){
 				auditPage.refresh();
 			}
-			if (dPage != null && dPage.isActive()){
-				dPage.refresh();
-			}
-			if (nPage != null && nPage.isActive()){
-				nPage.refresh();
-			}
+//			if (dPage != null && dPage.isActive()){
+//				dPage.refresh();
+//			}
+//			if (nPage != null && nPage.isActive()){
+//				nPage.refresh();
+//			}
 			if (artifactMetadataPage != null && artifactMetadataPage.isActive()){
 				artifactMetadataPage.refresh();
 			}
@@ -106,19 +106,19 @@ public class ConfigEditor extends FormEditor implements IContributionListener{
 		try {
 			//ConfigOverviewPage page = new ConfigOverviewPage(this);
 			//addPage(page);
-			auditPage = new AuditPage(this);
-			index =  addPage(auditPage);
-			dPage = new DecoratorPage(this);
-			addPage(dPage);
-			nPage = new NamingPage(this);
-			addPage(nPage);
-			artifactMetadataPage  = new ArtifactMetadataPage(this);
-			addPage(artifactMetadataPage);
-			patternsPage  = new PatternPage(this);
-			addPage(patternsPage);
+			
+			//dPage = new DecoratorPage(this);
+			//addPage(dPage);
+			//nPage = new NamingPage(this);
+			//addPage(nPage);
 			annotationsPage  = new AnnotationPage(this);
-			addPage(annotationsPage);
-
+			index = addPage(annotationsPage);
+			artifactMetadataPage  = new AppearancePage(this);
+			addPage(artifactMetadataPage);
+			patternsPage  = new CreationPage(this);
+			addPage(patternsPage);
+			auditPage = new AuditPage(this);
+			 addPage(auditPage);
 			
 		} catch (PartInitException e) {
 			EclipsePlugin.log(e);

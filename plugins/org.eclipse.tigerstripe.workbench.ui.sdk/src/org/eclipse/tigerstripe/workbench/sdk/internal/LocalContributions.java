@@ -571,7 +571,7 @@ public class LocalContributions extends AbstractProvider implements ISDKProvider
 								namespace = namespaceAttribute.getValue();
 							}
 							AnnotationPackageLabelContribution annotationPackageLabelContribution = new AnnotationPackageLabelContribution(
-									model, name,namespace, readOnly, (IPluginElement) child
+									model, namespace, name, readOnly, (IPluginElement) child
 									);
 							annotationPackageLabelContributions.add(annotationPackageLabelContribution);
 						}

@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.artifactMetadat
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.sdk.internal.SDKConstants;
+import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.decorator.DecoratorSection;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
@@ -21,22 +22,23 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
-public class ArtifactMetadataPage extends TigerstripeFormPage {
+public class AppearancePage extends TigerstripeFormPage {
 
 	private IManagedForm managedForm;
 
 	private ArtifactMetadataSection artifactMetadataSection;
 	private ComponentIconSection componentIconSection;
 	private ArtifactIconSection artifactIconSection;
+	private DecoratorSection decoratorSection;
 	
 	public static final String PAGE_ID = "org.eclipse.tigerstripe.sdk.extension.artifactMetadata"; 
 
-	public ArtifactMetadataPage(FormEditor editor) {
-		super(editor, PAGE_ID, "Artifact Metadata");
+	public AppearancePage(FormEditor editor) {
+		super(editor, PAGE_ID, "Appearance");
 	}
 
-	public ArtifactMetadataPage() {
-		super(PAGE_ID, "Artifact Metadata");
+	public AppearancePage() {
+		super(PAGE_ID, "Appearance");
 	}
 
 	@Override
@@ -65,6 +67,9 @@ public class ArtifactMetadataPage extends TigerstripeFormPage {
 		if (artifactIconSection != null) {
 			artifactIconSection.refresh();
 		}
+		if (decoratorSection != null) {
+			decoratorSection.refresh();
+		}
 	}
 
 	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {
@@ -90,6 +95,10 @@ public class ArtifactMetadataPage extends TigerstripeFormPage {
 		artifactIconSection = new ArtifactIconSection(this,
 				body, toolkit, ExpandableComposite.EXPANDED);
 		managedForm.addPart(artifactIconSection);
+		
+		decoratorSection = new DecoratorSection(this,
+				body, toolkit, ExpandableComposite.EXPANDED);
+		managedForm.addPart(decoratorSection);
 	}
 
 }

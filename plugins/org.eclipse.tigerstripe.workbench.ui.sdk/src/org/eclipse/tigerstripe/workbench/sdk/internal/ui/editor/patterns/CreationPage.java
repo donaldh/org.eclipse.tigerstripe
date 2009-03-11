@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.patterns;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.sdk.internal.SDKConstants;
+import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.naming.NamingSection;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
@@ -21,20 +22,21 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
-public class PatternPage extends TigerstripeFormPage {
+public class CreationPage extends TigerstripeFormPage {
 
 	private IManagedForm managedForm;
 	private PatternSection patternSection;
 	private DisabledPatternSection disabledPatternSection;
+	private NamingSection namingSection;
 
 	public static final String PAGE_ID = "org.eclipse.tigerstripe.sdk.extension.patterns"; 
 
-	public PatternPage(FormEditor editor) {
-		super(editor, PAGE_ID, "Patterns");
+	public CreationPage(FormEditor editor) {
+		super(editor, PAGE_ID, "Creation");
 	}
 
-	public PatternPage() {
-		super(PAGE_ID, "Patterns");
+	public CreationPage() {
+		super(PAGE_ID, "Creation");
 	}
 
 	@Override
@@ -60,6 +62,9 @@ public class PatternPage extends TigerstripeFormPage {
 		if (disabledPatternSection != null){
 			disabledPatternSection.refresh();
 		}
+		if (namingSection != null){
+			namingSection.refresh();
+		}
 	}
 
 	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {
@@ -80,6 +85,9 @@ public class PatternPage extends TigerstripeFormPage {
 		disabledPatternSection = new DisabledPatternSection(this,
 				body, toolkit, ExpandableComposite.EXPANDED);
 		managedForm.addPart(disabledPatternSection);
+		namingSection = new NamingSection(this,
+				body, toolkit, ExpandableComposite.EXPANDED);
+		managedForm.addPart(namingSection);
 		
 	}
 

@@ -11,6 +11,8 @@
 
 package org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.annotation;
 
+import java.util.Collection;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -46,6 +48,8 @@ import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
 import org.eclipse.tigerstripe.workbench.sdk.internal.SDKConstants;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ModelUpdater;
+import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationExplicitFileRouterContribution;
+import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationPackageLabelContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationPropertyProviderContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.contents.AnnotationTypeContribution;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.ConfigEditor;
@@ -154,16 +158,41 @@ public class AnnotationSection extends ExtensionSectionPart implements
 		public String getColumnText(Object obj, int index) {
 			AnnotationTypeContribution field = (AnnotationTypeContribution) obj;
 		
-			 if (index == 1){
-				return Integer.toString(provider.getExtractor().getAnnotationMap().get(field).size());
-			} else if (index == 2){
-				return field.getEClass();
-			} else if (index == 3){
-				return field.getNamespace();
-			} else if (index == 4){
-				return field.getContributor().toString();
-			}else {
+			if (index == 1){
 				return field.getName();
+			} else if (index == 2){
+				return Integer.toString(provider.getExtractor().getAnnotationMap().get(field).size());
+			} else if (index == 3){
+				return field.getEClass();
+			} else if (index == 4){
+				return field.getNamespace();
+			} else if (index == 5){
+				return field.getContributor().toString();
+			} else if (index == 6){
+				String annotationName = provider.getPackageForAnnotation(field)+field.getName();
+				Collection<AnnotationExplicitFileRouterContribution> routers = provider.getAnnotationExplicitFileRouterContributions();
+				for (AnnotationExplicitFileRouterContribution router : routers){
+					if ((router.getEPackage()+"."+router.getEClass()).equals(annotationName)){
+						return router.getPath();
+					} 
+					if (router.getEPackage().equals(provider.getPackageForAnnotation(field))){
+						return router.getPath();
+					} 
+					if (router.getNsURI().equals(field.getNamespace())){
+						return router.getPath();
+					}
+				}
+
+				return "";
+			}else {
+				String packageNS = field.getNamespace();
+				Collection<AnnotationPackageLabelContribution> labels = provider.getAnnotationPackageLabelContributions();
+				for (AnnotationPackageLabelContribution label : labels){
+					if (label.getUri().equals(packageNS)){
+						return label.getName();
+					}
+				}
+				return ""; 
 			}
 		}
 
@@ -198,13 +227,15 @@ public class AnnotationSection extends ExtensionSectionPart implements
 	// ====================================================================
 	private TableViewer viewer;
 
-	private String[] annotationTypeNames = new String[]{ "Name","Usage","eClass","Namespace","Contributor"};
+	private String[] annotationTypeNames = new String[]{"Package","Name","Usage","eClass","Namespace","Contributor", "Router"};
 	
+	TableColumn annotationPackageLabelColumn;
 	TableColumn annotationTypeNameColumn;
 	TableColumn annotationTypeEClassColumn;
 	TableColumn annotationTypeUsageColumn;
 	TableColumn annotationTypeNamepsaceColumn;
-	TableColumn aannotationTypeContributorColumn;
+	TableColumn annotationTypeContributorColumn;
+	TableColumn annotationTypeRouterColumn;
 
 	private Button addContributionButton;
 
@@ -240,40 +271,46 @@ public class AnnotationSection extends ExtensionSectionPart implements
 		fd.width = 400;
 		annotationTable.setLayoutData(fd);
 
+		annotationPackageLabelColumn = new TableColumn(annotationTable, SWT.NULL);
+		annotationPackageLabelColumn.setWidth(150);
+		annotationPackageLabelColumn.setText(annotationTypeNames[0]);
+		
 		annotationTypeNameColumn = new TableColumn(annotationTable, SWT.NULL);
 		annotationTypeNameColumn.setWidth(250);
-		annotationTypeNameColumn.setText(annotationTypeNames[0]);
+		annotationTypeNameColumn.setText(annotationTypeNames[1]);
 
 		
 		annotationTypeUsageColumn = new TableColumn(annotationTable, SWT.NULL);
 		annotationTypeUsageColumn.setWidth(75);
-		annotationTypeUsageColumn.setText(annotationTypeNames[1]);
+		annotationTypeUsageColumn.setText(annotationTypeNames[2]);
 		
 		annotationTypeEClassColumn = new TableColumn(annotationTable, SWT.NULL);
 		annotationTypeEClassColumn.setWidth(250);
-		annotationTypeEClassColumn.setText(annotationTypeNames[2]);
+		annotationTypeEClassColumn.setText(annotationTypeNames[3]);
 		
 		annotationTypeNamepsaceColumn= new TableColumn(annotationTable, SWT.NULL);
 		annotationTypeNamepsaceColumn.setWidth(250);
-		annotationTypeNamepsaceColumn.setText(annotationTypeNames[3]);
+		annotationTypeNamepsaceColumn.setText(annotationTypeNames[4]);
 		
 		
-		aannotationTypeContributorColumn = new TableColumn(annotationTable, SWT.NULL);
-		aannotationTypeContributorColumn.setWidth(250);
-		aannotationTypeContributorColumn.setText(annotationTypeNames[4]);
+		annotationTypeContributorColumn = new TableColumn(annotationTable, SWT.NULL);
+		annotationTypeContributorColumn.setWidth(250);
+		annotationTypeContributorColumn.setText(annotationTypeNames[5]);
 		
-	
+		annotationTypeRouterColumn = new TableColumn(annotationTable, SWT.NULL);
+		annotationTypeRouterColumn.setWidth(250);
+		annotationTypeRouterColumn.setText(annotationTypeNames[6]);
 
 		annotationTypeNameColumn.addListener(SWT.Selection, listener);
 		annotationTypeUsageColumn.addListener(SWT.Selection, listener);
 		annotationTypeEClassColumn.addListener(SWT.Selection, listener);
 		annotationTypeNamepsaceColumn.addListener(SWT.Selection, listener);
-		aannotationTypeContributorColumn.addListener(SWT.Selection, listener);
+		annotationTypeContributorColumn.addListener(SWT.Selection, listener);
 
 		addContributionButton = toolkit.createButton(sectionClient, "Add",
 				SWT.PUSH);
 		// Support for testing
-		addContributionButton.setData("name", "Add_Attribute");
+		addContributionButton.setData("name", "Add_Contribution");
 		addContributionButton.setEnabled(true);
 		fd = new FormData();
 		fd.top = new FormAttachment(0, 5);
@@ -296,7 +333,7 @@ public class AnnotationSection extends ExtensionSectionPart implements
 		removeContributionButton = toolkit.createButton(sectionClient, "Remove",
 				SWT.PUSH);
 		// Support for testing
-		removeContributionButton.setData("name", "Remove_Attribute");
+		removeContributionButton.setData("name", "Remove_Contribution");
 		removeContributionButton.setData("name","removeAttributeButton");
 		removeContributionButton.setEnabled(true);
 		fd = new FormData();
