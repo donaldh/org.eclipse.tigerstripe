@@ -15,6 +15,7 @@ import java.util.Collection;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.tigerstripe.annotation.core.Annotation;
 
 public interface IPattern {
 	
@@ -37,5 +38,7 @@ public interface IPattern {
 	public ImageDescriptor getImageDescriptor();
 	
 	public IPatternBasedCreationValidator getValidator();
+	
+	public Collection<Class<?>> getUsedAnnotations();
 	
 }

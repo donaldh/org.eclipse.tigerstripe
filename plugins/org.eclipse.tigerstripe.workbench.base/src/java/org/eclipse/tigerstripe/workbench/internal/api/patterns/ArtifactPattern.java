@@ -45,6 +45,7 @@ import org.eclipse.tigerstripe.workbench.patterns.IArtifactPatternResult;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 public abstract class ArtifactPattern extends Pattern implements IArtifactPattern  {
 
@@ -469,5 +470,38 @@ public abstract class ArtifactPattern extends Pattern implements IArtifactPatter
 				}
 			}
 		}
+	}	
+	
+	
+	/**
+	 * This method is used by the SDK to check for usage of Annotations
+	 */
+	public Collection<Class<?>> getUsedAnnotations() {
+		Collection<Class<?>> usedAnnotations = super.getUsedAnnotations();
+		//Add Methods, Fields, Literals
+		NodeList nodes = xmlParserUtils.getElements(getElement(), "field");
+		for (int fn = 0; fn < nodes.getLength(); fn++) {
+			Element element = (Element) nodes.item(fn);
+			addUniqueAnnotations(usedAnnotations, element);
+		}
+		
+		nodes = xmlParserUtils.getElements(getElement(), "literal");
+		for (int fn = 0; fn < nodes.getLength(); fn++) {
+			Element element = (Element) nodes.item(fn);
+			addUniqueAnnotations(usedAnnotations, element);
+		}
+		
+		nodes = xmlParserUtils.getElements(getElement(), "method");
+		for (int fn = 0; fn < nodes.getLength(); fn++) {
+			Element element = (Element) nodes.item(fn);
+			addUniqueAnnotations(usedAnnotations, element);
+			
+		}
+		return usedAnnotations;
+
 	}
+	
+	
+	
+	
 }

@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.api.patterns;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -34,6 +35,7 @@ import org.eclipse.tigerstripe.workbench.patterns.IRelationPattern;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 public class RelationPattern extends ArtifactPattern implements IRelationPattern {
 
@@ -207,5 +209,19 @@ public class RelationPattern extends ArtifactPattern implements IRelationPattern
 		 return result;
 	}
 	
+	public Collection<Class<?>> getUsedAnnotations() {
+		Collection<Class<?>> usedAnnotations = super.getUsedAnnotations();
+		if ( xmlParserUtils.elementHasAssociationSpecifics(getElement()) ){
+			NodeList nodes = xmlParserUtils.getElements(getElement(), "associationEnd");
+			for (int fn = 0; fn < nodes.getLength(); fn++) {
+				Element element = (Element) nodes.item(fn);
+				addUniqueAnnotations(usedAnnotations, element);
+			}
+		} else if ( xmlParserUtils.elementHasDependencySpecifics(getElement())){
+			// Dependency ends don't support Annotations!
+		}
+
+		return usedAnnotations;
+	}
 	
 }

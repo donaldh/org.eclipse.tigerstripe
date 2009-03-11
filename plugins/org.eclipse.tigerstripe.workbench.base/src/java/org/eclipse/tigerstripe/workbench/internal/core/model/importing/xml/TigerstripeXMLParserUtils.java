@@ -173,6 +173,11 @@ public class TigerstripeXMLParserUtils {
 		return endData;
 	}
 	
+	public NodeList getElements(Element baseElement, String tagName){
+		return baseElement
+			.getElementsByTagNameNS(namespace, tagName);
+	}
+	
 	public Collection<Map<String,Object>> getArtifactFieldData(Element artifactElement ){
 		Collection<Map<String,Object>> allFieldData = new ArrayList<Map<String,Object>>();
 		

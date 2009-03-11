@@ -16,6 +16,7 @@ import java.util.Collection;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequest;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.xml.TigerstripeXMLParserUtils;
 import org.eclipse.tigerstripe.workbench.model.annotation.AnnotationHelper;
@@ -23,7 +24,7 @@ import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPatternBasedCreationValidator;
 import org.w3c.dom.Element;
 
-public class Pattern implements IPattern {
+public abstract class Pattern implements IPattern {
 
 	protected int index;
 	protected String name;
@@ -133,5 +134,36 @@ public class Pattern implements IPattern {
 		this.validator = validator;
 	}
 	
+	protected void addUniqueAnnotations(Collection<Class<?>> usedAnnotations, Element element){
+		try{
+			Collection<EObject> artifactAnnos = xmlParserUtils.getAnnotations(element);
+			for (EObject eObject : artifactAnnos){
+				Class<?> objectClass  = eObject.getClass().getInterfaces()[0];
+
+				if (! usedAnnotations.contains(objectClass)){
+					usedAnnotations.add(objectClass);
+				}
+
+			}
+		} catch (Exception e){
+			System.out.println(e.getMessage());
+		}
+	}
 	
+	
+	/**
+	 * This method is used by the SDK to check for usage of Annotations
+	 */
+	public Collection<Class<?>> getUsedAnnotations(Element element) {
+		Collection<Class<?>> usedAnnotations = new ArrayList<Class<?>>();
+		addUniqueAnnotations(usedAnnotations, element);
+		return usedAnnotations;
+	}
+	
+	/**
+	 * This method is used by the SDK to check for usage of Annotations
+	 */
+	public Collection<Class<?>> getUsedAnnotations() {
+		return getUsedAnnotations(getElement());
+	}
 }
