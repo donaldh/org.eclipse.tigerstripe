@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.undo;
 
+import java.util.Collection;
+
 import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
@@ -109,4 +111,11 @@ public class ModelUndoableEdit extends UndoableEdit implements
 		}
 		return null;
 	}
+
+	public void apply(Collection<Object> toCleanUp) throws TigerstripeException {
+		// this is not supported here.
+		// This method is only relevant in the context of refactoring.
+		throw new UnsupportedOperationException();
+	}
+
 }

@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench;
 
+import java.util.Collection;
+
 import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -93,4 +95,16 @@ public interface IModelChangeDelta {
 	 * @return
 	 */
 	public IResource getAffectedResource();
+
+	/**
+	 * Apply the given delta.
+	 * 
+	 * This method is used in the case of refactors.
+	 * 
+	 * @param toCleanUp
+	 *            - upon return, this collection will contain a list of
+	 *            artifacts to remove.
+	 * @throws TigerstripeException
+	 */
+	public void apply(Collection<Object> toCleanUp) throws TigerstripeException;
 }

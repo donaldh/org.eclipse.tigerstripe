@@ -130,7 +130,9 @@ public class TestBasicModelRefactorRequest extends TestCase {
 
 		IRefactorCommand cmd = req.getCommand(null);
 		cmd.execute(null);
-		System.out.println(cmd); 
+		
+		assertNull(project.getArtifactManagerSession().getArtifactByFullyQualifiedName("simple.Ent2"));
+		assertNotNull(project.getArtifactManagerSession().getArtifactByFullyQualifiedName("simple.Ent22"));
 	}
 
 	public void testTargetsForSimplePackageRename() throws Exception {
@@ -145,6 +147,7 @@ public class TestBasicModelRefactorRequest extends TestCase {
 
 		IRefactorCommand cmd = req.getCommand(null);
 		cmd.execute(null);
-		System.out.println(cmd); 
+		assertNull(project.getArtifactManagerSession().getArtifactByFullyQualifiedName("simple.Ent2"));
+		assertNotNull(project.getArtifactManagerSession().getArtifactByFullyQualifiedName("complex.Ent2"));
 	}
 }
