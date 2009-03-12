@@ -172,6 +172,10 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		return requests;
 	}
 
+	public Collection<IModelChangeDelta> getDeltas() {
+		return deltas;
+	}
+
 	public void addDeltas(Collection<IModelChangeDelta> deltas) {
 		this.deltas.addAll(deltas);
 	}

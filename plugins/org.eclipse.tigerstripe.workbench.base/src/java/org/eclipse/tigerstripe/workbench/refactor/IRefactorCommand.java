@@ -10,7 +10,10 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.refactor;
 
+import java.util.Collection;
+
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.refactor.BaseRefactorCommand;
 
@@ -25,6 +28,8 @@ public interface IRefactorCommand {
 
 	public static IRefactorCommand UNEXECUTABLE = new BaseRefactorCommand(
 			new RefactorRequest[0]);
+
+	public Collection<IModelChangeDelta> getDeltas();
 
 	/**
 	 * All the request to be serviced by this command. Note that this will
