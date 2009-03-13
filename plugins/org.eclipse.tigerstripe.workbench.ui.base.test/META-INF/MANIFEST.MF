@@ -21,5 +21,5 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-ActivationPolicy: lazy
 Manifest-Version: 1.0
 Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.ui.base.test
-Bundle-Version: 0.4.0.qualifier
+Bundle-Version: 0.0.0
 Export-Package: org.eclipse.tigerstripe.workbench.ui.base.test,org.eclipse.tigerstripe.workbench.ui.base.test.generator,org.eclipse.tigerstripe.workbench.ui.base.test.profile,org.eclipse.tigerstripe.workbench.ui.base.test.project,org.eclipse.tigerstripe.workbench.ui.base.test.suite,org.eclipse.tigerstripe.workbench.ui.base.test.utils
