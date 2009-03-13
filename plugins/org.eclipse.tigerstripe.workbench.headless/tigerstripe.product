@@ -100,7 +100,7 @@
    </plugins>
 
    <features>
-      <feature id="org.eclipse.tigerstripe.base" version="0.4.6.qualifier"/>
+      <feature id="org.eclipse.tigerstripe.base" version="0.0.0"/>
    </features>
 
 </product>

@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tigerstripe Annotation Ui Plug-in
 Bundle-SymbolicName: org.eclipse.tigerstripe.annotation.ui;singleton:=true
-Bundle-Version: 0.4.6.qualifier
+Bundle-Version: 0.0.0
 Bundle-Activator: org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.core.runtime,

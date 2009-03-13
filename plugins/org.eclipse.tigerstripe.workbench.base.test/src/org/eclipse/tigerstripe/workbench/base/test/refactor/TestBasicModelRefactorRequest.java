@@ -127,7 +127,7 @@ public class TestBasicModelRefactorRequest extends TestCase {
 		ModelRefactorRequest req = new ModelRefactorRequest();
 		req.setOriginal(project, "simple.Ent2");
 		req.setDestination(project, "simple.Ent22");
-
+		
 		IRefactorCommand cmd = req.getCommand(null);
 		cmd.execute(null);
 		

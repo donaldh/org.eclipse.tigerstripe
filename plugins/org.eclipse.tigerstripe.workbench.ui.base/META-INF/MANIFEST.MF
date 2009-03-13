@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tigerstripe UI Base Plug-in (Incubation)
 Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.ui.base;singleton:=true
-Bundle-Version: 0.4.6.qualifier
+Bundle-Version: 0.0.0
 Bundle-Activator: org.eclipse.tigerstripe.workbench.ui.EclipsePlugin
 Bundle-Vendor: 
 Require-Bundle: org.eclipse.ui,
@@ -36,8 +36,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.search,
  org.eclipse.tigerstripe.workbench.base;visibility:=reexport,
  org.eclipse.osgi.services,
- org.eclipse.tigerstripe.annotation.ui;bundle-version="0.4.0",
- org.eclipse.tigerstripe.annotation.core;bundle-version="0.4.0"
+ org.eclipse.tigerstripe.annotation.ui,
+ org.eclipse.tigerstripe.annotation.core
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.tigerstripe.workbench.ui,
  org.eclipse.tigerstripe.workbench.ui.internal.actions,

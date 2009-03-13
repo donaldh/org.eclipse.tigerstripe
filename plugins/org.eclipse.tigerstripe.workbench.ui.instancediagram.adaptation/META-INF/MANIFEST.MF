@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Instance Diagram Adaption layer Plugin (Incubation)
 Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation;singleton:=true
-Bundle-Version: 0.4.6.qualifier
+Bundle-Version: 0.0.0
 Bundle-Activator: org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.Activator
 Bundle-Vendor: 
 Require-Bundle: org.eclipse.ui,
