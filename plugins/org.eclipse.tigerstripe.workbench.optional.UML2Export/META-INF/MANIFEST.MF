@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tigerstripe workbench UML2 Export (Incubation)
 Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.optional.UML2Export;singleton:=true
-Bundle-Version: 0.0.0
+Bundle-Version: 0.4.6.qualifier
 Bundle-Activator: org.eclipse.tigerstripe.workbench.optional.UML2Export.UML2ExportPlugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,

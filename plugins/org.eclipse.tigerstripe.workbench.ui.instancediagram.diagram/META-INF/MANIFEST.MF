@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Instance Diagram Editor Plugin - Diagram (Incubation)
 Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram; singleton:=true
-Bundle-Version: 0.0.0
+Bundle-Version: 0.4.6.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.part.InstanceDiagramEditorPlugin
 Bundle-Vendor: Eclipse.org
