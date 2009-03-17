@@ -737,7 +737,7 @@
            category="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
            categoryId="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
            description="Generate the current project"
-           id="org.eclipse.tigerstripe.workbench.ui.base.export.model.facet"
+           id="org.eclipse.tigerstripe.workbench.ui.base.generate"
            name="Generate">
      </command>
      <command
