@@ -141,7 +141,7 @@ public class DiffFixer {
 										"Artifact:Extends", "", extName, ""));
 							}
 							// set it to null for now
-							newArt.setExtendedArtifact(null);
+							newArt.setExtendedArtifact((IAbstractArtifact) null);
 
 							newArt.doSave(new NullProgressMonitor());
 							String msgText = "INFO : Added Artifact "

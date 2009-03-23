@@ -379,7 +379,7 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart {
 			} else if (e.getSource() == extendNameText) {
 
 				if (extendNameText.getText().trim().length() == 0) {
-					getIArtifact().setExtendedArtifact(null);
+					getIArtifact().setExtendedArtifact((IAbstractArtifact )null);
 				} else {
 					ITigerstripeModelProject project = getIArtifact()
 							.getTigerstripeProject();
