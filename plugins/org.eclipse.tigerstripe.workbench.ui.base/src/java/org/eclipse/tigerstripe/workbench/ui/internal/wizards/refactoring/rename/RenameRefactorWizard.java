@@ -26,7 +26,7 @@ public class RenameRefactorWizard extends Wizard implements IWorkbenchWizard {
 		try {
 			System.out.println("Performing finish (rename)...");
 			System.out.println("Original Project: " + inputPage.getArtifact().getProject().getName());
-			System.out.println("Original Name: " + inputPage.getArtifact().getName());
+			System.out.println("Original Name: " + inputPage.getArtifact().getFullyQualifiedName());
 			System.out.println("New Name: " + inputPage.getNewFullyQualifiedName());
 
 		} catch (TigerstripeException e) {

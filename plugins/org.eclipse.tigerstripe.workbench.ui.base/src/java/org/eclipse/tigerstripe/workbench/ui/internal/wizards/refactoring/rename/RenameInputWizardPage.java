@@ -29,7 +29,7 @@ public class RenameInputWizardPage extends WizardPage {
 
 	public String getNewFullyQualifiedName() {
 		
-		return artifact.getPackage() + '.' + nameField.getText();
+		return nameField.getText();
 	}
 	
 	public void createControl(Composite parent) {
@@ -44,7 +44,7 @@ public class RenameInputWizardPage extends WizardPage {
 		new Label(composite, SWT.NONE).setText("New name:");
 		nameField = new Text(composite, SWT.BORDER);
 		nameField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		nameField.setText(artifact.getName());
+		nameField.setText(artifact.getFullyQualifiedName());
 		nameField.addModifyListener(new ModifyListener() {
 
 			public void modifyText(ModifyEvent e) {
