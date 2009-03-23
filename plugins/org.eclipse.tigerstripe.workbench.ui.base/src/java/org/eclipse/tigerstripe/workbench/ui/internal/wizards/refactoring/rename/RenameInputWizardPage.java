@@ -29,7 +29,12 @@ public class RenameInputWizardPage extends WizardPage {
 
 	public String getNewFullyQualifiedName() {
 		
-		return nameField.getText();
+		if(nameField.getText().contains(".")) {
+			return nameField.getText();
+		} else {
+			return artifact.getPackage() + '.' + nameField.getText();
+		}
+		
 	}
 	
 	public void createControl(Composite parent) {
