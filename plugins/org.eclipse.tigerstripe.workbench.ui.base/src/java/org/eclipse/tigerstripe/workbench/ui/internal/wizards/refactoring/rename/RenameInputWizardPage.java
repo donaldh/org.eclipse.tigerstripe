@@ -27,8 +27,9 @@ public class RenameInputWizardPage extends WizardPage {
 		return artifact;
 	}
 
-	public String getNewArtifactName() {
-		return nameField.getText();
+	public String getNewFullyQualifiedName() {
+		
+		return artifact.getPackage() + '.' + nameField.getText();
 	}
 	
 	public void createControl(Composite parent) {

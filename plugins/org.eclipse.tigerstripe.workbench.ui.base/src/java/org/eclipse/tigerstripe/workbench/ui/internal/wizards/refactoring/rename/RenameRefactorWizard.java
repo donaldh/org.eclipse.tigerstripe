@@ -27,7 +27,7 @@ public class RenameRefactorWizard extends Wizard implements IWorkbenchWizard {
 			System.out.println("Performing finish (rename)...");
 			System.out.println("Original Project: " + inputPage.getArtifact().getProject().getName());
 			System.out.println("Original Name: " + inputPage.getArtifact().getName());
-			System.out.println("New Name: " + inputPage.getNewArtifactName());
+			System.out.println("New Name: " + inputPage.getNewFullyQualifiedName());
 
 		} catch (TigerstripeException e) {
 
@@ -42,8 +42,8 @@ public class RenameRefactorWizard extends Wizard implements IWorkbenchWizard {
 					try {
 						
 						ModelRefactorRequest req = new ModelRefactorRequest();
-						req.setOriginal(inputPage.getArtifact().getProject(), inputPage.getArtifact().getName());
-						req.setDestination(inputPage.getArtifact().getProject(), inputPage.getNewArtifactName());
+						req.setOriginal(inputPage.getArtifact().getProject(), inputPage.getArtifact().getFullyQualifiedName());
+						req.setDestination(inputPage.getArtifact().getProject(), inputPage.getNewFullyQualifiedName());
 						
 						IRefactorCommand cmd = req.getCommand(monitor);
 						cmd.execute(monitor);
