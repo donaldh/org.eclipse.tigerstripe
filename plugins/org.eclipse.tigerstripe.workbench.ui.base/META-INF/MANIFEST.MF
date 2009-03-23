@@ -37,7 +37,8 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.tigerstripe.workbench.base;visibility:=reexport,
  org.eclipse.osgi.services,
  org.eclipse.tigerstripe.annotation.ui,
- org.eclipse.tigerstripe.annotation.core
+ org.eclipse.tigerstripe.annotation.core,
+ org.eclipse.ltk.ui.refactoring;bundle-version="3.4.1"
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.tigerstripe.workbench.ui,
  org.eclipse.tigerstripe.workbench.ui.internal.actions,

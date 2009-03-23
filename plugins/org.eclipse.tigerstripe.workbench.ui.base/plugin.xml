@@ -771,6 +771,24 @@
            id="org.eclipse.tigerstripe.workbench.ui.menu.export.model.facet"
            name="Facet Based Export">
      </command>
+     <category
+           id="org.eclipse.tigerstripe.workbench.category.refactoring"
+           name="Tigerstripe Refactoring Category">
+     </category>
+     <command
+           categoryId="org.eclipse.tigerstripe.workbench.category.refactoring"
+           defaultHandler="org.eclipse.tigerstripe.workbench.ui.internal.handlers.RefactoringRenameHandler"
+           description="Rename a Tigerstripe model artifact"
+           id="org.eclipse.tigerstripe.workbench.ui.base.refactorRename"
+           name="Rename">
+     </command>
+     <command
+           categoryId="org.eclipse.tigerstripe.workbench.category.refactoring"
+           defaultHandler="org.eclipse.tigerstripe.workbench.ui.internal.handlers.RefactoringMoveHandler"
+           description="Move a Tigerstripe model artifact"
+           id="org.eclipse.tigerstripe.workbench.ui.base.refactorMove"
+           name="Move">
+     </command>
   </extension>
   <extension
         point="org.eclipse.ui.menus">
@@ -852,6 +870,22 @@
            </command>
         </toolbar>
      </menuContribution>
+     <menuContribution
+           locationURI="popup:org.eclipse.ui.popup.any?after=org.eclipse.jdt.ui.refactoring.menu">
+        <menu
+              label="Refactor Model">
+           <command
+                 commandId="org.eclipse.tigerstripe.workbench.ui.base.refactorRename"
+                 label="Rename..."
+                 style="push">
+           </command>
+           <command
+                 commandId="org.eclipse.tigerstripe.workbench.ui.base.refactorMove"
+                 label="Move..."
+                 style="push">
+           </command>
+        </menu>
+     </menuContribution>
   </extension>
   <extension
         point="org.eclipse.ui.handlers">
@@ -890,6 +924,10 @@
      <handler
            class="org.eclipse.tigerstripe.workbench.ui.internal.handlers.FacetExportHandler"
            commandId="org.eclipse.tigerstripe.workbench.ui.menu.export.model.facet">
+     </handler>
+     <handler
+           class="org.eclipse.tigerstripe.workbench.ui.internal.handlers.RefactoringRenameHandler"
+           commandId="org.eclipse.tigerstripe.workbench.ui.base.renameHandler">
      </handler>
   </extension>
   <extension
