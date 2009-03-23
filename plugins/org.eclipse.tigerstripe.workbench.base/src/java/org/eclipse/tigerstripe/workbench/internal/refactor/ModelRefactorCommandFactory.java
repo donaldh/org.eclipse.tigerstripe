@@ -227,6 +227,8 @@ public class ModelRefactorCommandFactory {
 		delta = factory.RETURNS();
 		if (delta != null)
 			deltas.add(delta);
+		
+		deltas.addAll(factory.ASSOC_ENDS());
 
 		deltas.addAll(factory.FIELDS());
 		deltas.addAll(factory.METHODS());

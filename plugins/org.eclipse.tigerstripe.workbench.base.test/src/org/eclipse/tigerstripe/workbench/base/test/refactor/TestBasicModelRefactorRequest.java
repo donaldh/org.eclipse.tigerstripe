@@ -135,6 +135,23 @@ public class TestBasicModelRefactorRequest extends TestCase {
 		assertNotNull(project.getArtifactManagerSession().getArtifactByFullyQualifiedName("simple.Ent22"));
 	}
 
+	public void testComplexEnt1Rename() throws Exception {
+		// This is expected to touch
+		// Ent2, Ent1 (extends from Ent2)
+
+		ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
+				.findProject("model-refactoring");
+		ModelRefactorRequest req = new ModelRefactorRequest();
+		req.setOriginal(project, "simple.Ent1");
+		req.setDestination(project, "simple.Ent11");
+		
+		IRefactorCommand cmd = req.getCommand(null);
+		cmd.execute(null);
+		
+		assertNull(project.getArtifactManagerSession().getArtifactByFullyQualifiedName("simple.Ent1"));
+		assertNotNull(project.getArtifactManagerSession().getArtifactByFullyQualifiedName("simple.Ent11"));
+	}
+
 	public void testTargetsForSimplePackageRename() throws Exception {
 		// This is expected to touch
 		// Ent2, Ent1 (extends from Ent2)

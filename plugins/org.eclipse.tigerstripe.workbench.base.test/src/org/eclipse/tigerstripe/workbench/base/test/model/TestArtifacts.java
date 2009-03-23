@@ -140,7 +140,7 @@ public class TestArtifacts extends TestCase {
 				.contains(subTop));
 		assertTrue("Ancestors is missing an artifact", ancestors.contains(top));
 
-		other1.setExtendedArtifact(null);
+		other1.setExtendedArtifact((IAbstractArtifact) null);
 		other1.doSave(new NullProgressMonitor());
 		assertTrue("hasExtends incorrectly set ", !other1.hasExtends());
 		assertTrue("Extended Artifact still set after set to null", subTop

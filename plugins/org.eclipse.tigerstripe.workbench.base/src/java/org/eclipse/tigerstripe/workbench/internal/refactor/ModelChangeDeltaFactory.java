@@ -23,6 +23,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.re
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
@@ -141,6 +142,45 @@ public class ModelChangeDeltaFactory {
 				deltas.add(delta);
 			}
 		}
+		return deltas;
+	}
+
+	public List<IModelChangeDelta> ASSOC_ENDS() throws TigerstripeException {
+		List<IModelChangeDelta> deltas = new ArrayList<IModelChangeDelta>();
+
+		if (artifact instanceof IAssociationArtifact) {
+			IAssociationArtifact assoc = (IAssociationArtifact) artifact;
+			String aEndType = assoc.getAEnd().getType().getFullyQualifiedName();
+			ModelRefactorRequest req = mappedRequests.get(aEndType);
+			if (req != null) {
+				ModelChangeDelta delta = new ModelChangeDelta(
+						IModelChangeDelta.SET);
+				delta.setAffectedModelComponentURI((URI) artifact
+						.getAdapter(URI.class));
+				delta.setProject(artifact.getProject());
+				delta.setFeature(IArtifactSetFeatureRequest.AEND);
+				delta.setOldValue(aEndType);
+				delta.setNewValue(req.getDestinationFQN());
+				delta.setSource(req);
+				deltas.add(delta);
+			}
+
+			String zEndType = assoc.getZEnd().getType().getFullyQualifiedName();
+			req = mappedRequests.get(zEndType);
+			if (req != null) {
+				ModelChangeDelta delta = new ModelChangeDelta(
+						IModelChangeDelta.SET);
+				delta.setAffectedModelComponentURI((URI) artifact
+						.getAdapter(URI.class));
+				delta.setProject(artifact.getProject());
+				delta.setFeature(IArtifactSetFeatureRequest.ZEND);
+				delta.setOldValue(zEndType);
+				delta.setNewValue(req.getDestinationFQN());
+				delta.setSource(req);
+				deltas.add(delta);
+			}
+		}
+
 		return deltas;
 	}
 

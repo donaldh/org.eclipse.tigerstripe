@@ -55,8 +55,6 @@ public interface IAbstractArtifact extends IModelComponent {
 	 */
 	public String getArtifactType();
 
-
-
 	/**
 	 * Returns true if this Artifact is marked as abstract.
 	 * 
@@ -88,8 +86,8 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * The format of the fqn should be the package name and the name, using '.'
 	 * as the seperator.
 	 * 
-	 * @param fqn -
-	 *            the FullyQualifiedName for this Artifact.
+	 * @param fqn
+	 *            - the FullyQualifiedName for this Artifact.
 	 */
 	public void setFullyQualifiedName(String fqn);
 
@@ -108,8 +106,8 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * The parts of the package name should be separated using '.' as the
 	 * seperator.
 	 * 
-	 * @param fqn -
-	 *            the FullyQualifiedName for this Artifact.
+	 * @param fqn
+	 *            - the FullyQualifiedName for this Artifact.
 	 */
 	public void setPackage(String packageName);
 
@@ -134,8 +132,8 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * 
 	 * @see getInheritedIFields()
 	 * 
-	 * @return Collection<IField> - an unmodifiable collection of all the
-	 *         fields for this artifact
+	 * @return Collection<IField> - an unmodifiable collection of all the fields
+	 *         for this artifact
 	 */
 	public Collection<IField> getFields();
 
@@ -148,13 +146,13 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * an empty collection.
 	 * 
 	 * @see getInheritedIFields()
-	 * @param filterFacetExcludedFields -
-	 *            if set to true, all fields that are excluded by the active
+	 * @param filterFacetExcludedFields
+	 *            - if set to true, all fields that are excluded by the active
 	 *            facet will be filtered out. If no facet is active, all fields
 	 *            are returned.
 	 * 
-	 * @return Collection<IField> - an unmodifiable collection of all the
-	 *         fields for this artifact
+	 * @return Collection<IField> - an unmodifiable collection of all the fields
+	 *         for this artifact
 	 */
 	public Collection<IField> getFields(boolean filterFacetExcludedFields);
 
@@ -181,8 +179,8 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * Note : Some artifact types do not support Fields and will always return
 	 * an empty collection.
 	 * 
-	 * @param filterFacetExcludedFields -
-	 *            if set to true, all fields that are excluded by the active
+	 * @param filterFacetExcludedFields
+	 *            - if set to true, all fields that are excluded by the active
 	 *            facet will be filtered out. If no facet is active, all fields
 	 *            are returned. return Collection<IField> - an unmodifiable
 	 *            collection of all the inherited fields for this artifact
@@ -248,8 +246,8 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * 
 	 * @see getInheritedLietrals()
 	 * 
-	 * @param filterFacetExcludedliterals -
-	 *            if set to true, all literals that are excluded by the active
+	 * @param filterFacetExcludedliterals
+	 *            - if set to true, all literals that are excluded by the active
 	 *            facet will be filtered out. If no facet is active, all
 	 *            literals are returned.
 	 * @return Collection<ILiteral> - an unmodifiable collection of all the
@@ -280,8 +278,8 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * Note : Some artifact types do not support literals and will always return
 	 * an empty collection.
 	 * 
-	 * @param filterFacetExcludedLiterals -
-	 *            if set to true, all literals that are excluded by the active
+	 * @param filterFacetExcludedLiterals
+	 *            - if set to true, all literals that are excluded by the active
 	 *            facet will be filtered out. If no facet is active, all
 	 *            literals are returned.
 	 * @return Collection<ILiteral> - an unmodifiable collection of all the
@@ -348,8 +346,8 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * 
 	 * @see getInheritedIMethods()
 	 * 
-	 * @param filterFacetExcludedMethods -
-	 *            if set to true, all methods that are excluded by the active
+	 * @param filterFacetExcludedMethods
+	 *            - if set to true, all methods that are excluded by the active
 	 *            facet will be filtered out. If no facet is active, all methods
 	 *            are returned.
 	 * @return Collection<IMethod> - an unmodifiable collection of all the
@@ -380,8 +378,8 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * Note : Some artifact types do not support Methods and will always return
 	 * an empty collection.
 	 * 
-	 * @param filterFacetExcludedMethods -
-	 *            if set to true, all methods that are excluded by the active
+	 * @param filterFacetExcludedMethods
+	 *            - if set to true, all methods that are excluded by the active
 	 *            facet will be filtered out. If no facet is active, all methods
 	 *            are returned.
 	 * @return Collection<IMethod> - an unmodifiable collection of all the
@@ -446,11 +444,20 @@ public interface IAbstractArtifact extends IModelComponent {
 	public void setExtendedArtifact(IAbstractArtifact artifact);
 
 	/**
+	 * Sets the extended artifact from its FQN. If a proxy artifact needs to be
+	 * created (because the given FQN doesn't correspond to an existing artifact
+	 * it will)
+	 * 
+	 * @param fqn
+	 */
+	public void setExtendedArtifact(String fqn);
+
+	/**
 	 * Returns the Ancestors of this class if defined. If no ancestor was
 	 * defined return an empty collection.
 	 * 
-	 * @return Collection<IAbstractArtifact> - an unmodifiable collection of
-	 *         all ancestors to this artifact
+	 * @return Collection<IAbstractArtifact> - an unmodifiable collection of all
+	 *         ancestors to this artifact
 	 */
 	public Collection<IAbstractArtifact> getAncestors();
 
@@ -467,8 +474,8 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * Returns a collection containing all the artifacts that are implemented by
 	 * this artifact.
 	 * 
-	 * @return Collection<IAbstractArtifact> - artifacts that are implemented
-	 *         by this artifact
+	 * @return Collection<IAbstractArtifact> - artifacts that are implemented by
+	 *         this artifact
 	 */
 	public Collection<IAbstractArtifact> getImplementedArtifacts();
 

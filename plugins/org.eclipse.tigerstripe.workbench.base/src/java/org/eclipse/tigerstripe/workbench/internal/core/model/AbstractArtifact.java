@@ -489,24 +489,42 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 						.getFullyQualifiedName())) {
 			String parentClass = getJavaClass().getSuperJavaClass()
 					.getFullyQualifiedName();
-			setExtendedArtifact(getArtifactManager()
-					.getArtifactByFullyQualifiedName(parentClass, true, monitor));
-
-			if (getExtendedArtifact() == null) {
-				// #386 Build a temporary dummy artifact, it will be further
-				// resolved once everything has been parsed in the
-				// resolveReferences()
-				// method below
-				AbstractArtifact art = (AbstractArtifact) makeArtifact();
-				art.setFullyQualifiedName(parentClass);
-				art.setProxy(true);
-				setExtendedArtifact(art);
-			}
+			setExtendedArtifact(parentClass);
 		}
 		this.containedComponents = new ArrayList<IModelComponent>();
 		containedComponents.addAll(this.getFields());
 		containedComponents.addAll(this.getMethods());
 		containedComponents.addAll(this.getLiterals());
+	}
+
+	/**
+	 * Sets the extended artifact for this based on FQN
+	 * 
+	 * This will create a proxy artifact as needed.
+	 * 
+	 * @param fqn
+	 */
+	public void setExtendedArtifact(String fqn) {
+		if (fqn == null || fqn.length() == 0) {
+			setExtendedArtifact((IAbstractArtifact) null);
+			return;
+		}
+
+		setExtendedArtifact(getArtifactManager()
+				.getArtifactByFullyQualifiedName(fqn, true,
+						new NullProgressMonitor()));
+
+		if (getExtendedArtifact() == null) {
+			// #386 Build a temporary dummy artifact, it will be further
+			// resolved once everything has been parsed in the
+			// resolveReferences()
+			// method below
+			AbstractArtifact art = (AbstractArtifact) makeArtifact();
+			art.setFullyQualifiedName(fqn);
+			art.setProxy(true);
+			setExtendedArtifact(art);
+		}
+
 	}
 
 	/**
@@ -1958,9 +1976,10 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	}
 
 	/**
-	 * 	Clones this artifact
+	 * Clones this artifact
 	 * 
-	 * TODO: this should be extended to fully support the IWorkingCopy interface at some point...
+	 * TODO: this should be extended to fully support the IWorkingCopy interface
+	 * at some point...
 	 * 
 	 * @param monitor
 	 * @return
@@ -1968,9 +1987,9 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 */
 	public IAbstractArtifact makeWorkingCopy(IProgressMonitor monitor)
 			throws TigerstripeException {
-		if ( monitor == null )
+		if (monitor == null)
 			monitor = new NullProgressMonitor();
-		
+
 		String textual = this.asText();
 		StringReader reader = new StringReader(textual);
 		IAbstractArtifact cloned = getArtifactManager().extractArtifact(reader,

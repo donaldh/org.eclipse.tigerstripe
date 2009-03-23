@@ -17,13 +17,18 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.ArtifactSetFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeSetRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 
 /**
@@ -43,11 +48,13 @@ public class ModelChangeDeltaProcessor {
 				.uriToComponent(componentURI);
 		if (component instanceof IField) {
 			processIFieldChange((IField) component, delta);
+		} else if (component instanceof IMethod) {
+			processIMethodChange((IMethod) component, delta);
 		} else if (component instanceof IAbstractArtifact) {
 			processIAbstractArtifactChange((IAbstractArtifact) component,
 					delta, toCleanUp);
 		} else {
-			System.out.println("Unsupported delta " + delta);
+			System.err.println("Unsupported delta " + delta);
 		}
 	}
 
@@ -68,7 +75,8 @@ public class ModelChangeDeltaProcessor {
 					toCleanUp.add(artifact);
 				} else {
 					// renaming an artifact here
-					IResource res = (IResource) artifact.getAdapter(IResource.class);
+					IResource res = (IResource) artifact
+							.getAdapter(IResource.class);
 					IArtifactManagerSession session = artifact.getProject()
 							.getArtifactManagerSession();
 					session.renameArtifact(artifact, (String) delta
@@ -76,6 +84,29 @@ public class ModelChangeDeltaProcessor {
 					artifact.doSave(null);
 					toCleanUp.add(res);
 				}
+			} else if (ArtifactSetFeatureRequest.EXTENDS_FEATURE.equals(delta
+					.getFeature())) {
+				artifact.setExtendedArtifact((String) delta.getNewValue());
+				artifact.doSave(null);
+			} else if (ArtifactSetFeatureRequest.RETURNED_TYPE.equals(delta
+					.getFeature())) {
+				IQueryArtifact query = (IQueryArtifact) artifact;
+				IType type = query.makeType();
+				type.setFullyQualifiedName((String) delta.getNewValue());
+				query.setReturnedType(type);
+				query.doSave(null);
+			} else if (ArtifactSetFeatureRequest.AEND.equals(delta.getFeature())) {
+				IAssociationArtifact assoc = (IAssociationArtifact) artifact;
+				IType type = assoc.getAEnd().getType();
+				type.setFullyQualifiedName((String) delta.getNewValue());
+				artifact.doSave(null);
+			} else if (ArtifactSetFeatureRequest.ZEND.equals(delta.getFeature())) {
+				IAssociationArtifact assoc = (IAssociationArtifact) artifact;
+				IType type = assoc.getZEnd().getType();
+				type.setFullyQualifiedName((String) delta.getNewValue());
+				artifact.doSave(null);
+			} else {
+				System.err.println("Unsupported Delta:" + delta);
 			}
 		} else if (IModelChangeDelta.ADD == delta.getType()) {
 
@@ -83,6 +114,15 @@ public class ModelChangeDeltaProcessor {
 		} else if (IModelChangeDelta.REMOVE == delta.getType()) {
 
 			artifact.doSave(null);
+		}
+	}
+
+	protected static void processIMethodChange(IMethod method,
+			IModelChangeDelta delta) throws TigerstripeException {
+		if (IMethodSetRequest.TYPE_FEATURE.equals(delta.getFeature())) {
+			IType returnType = method.getReturnType();
+			returnType.setFullyQualifiedName((String) delta.getNewValue());
+			method.getContainingArtifact().doSave(null);
 		}
 	}
 
