@@ -18,6 +18,10 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.ISafeRunnable;
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -30,6 +34,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
@@ -54,6 +59,7 @@ import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeAttribute;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.ImportUtilities;
 import org.eclipse.uml2.uml.AggregationKind;
 import org.eclipse.uml2.uml.Association;
@@ -114,6 +120,7 @@ public class UML2TS {
 	
 	private boolean ignoreUnknown = false;
 	private String unknownType = "primitive.unknown";
+	private ICommentProcessor commentProcessor;
 	
 	/** constructor */
 	public UML2TS(Map<EObject, String> classMap, PrintWriter out, CoreArtifactSettingsProperty property) {
@@ -121,6 +128,7 @@ public class UML2TS {
 		this.out = out;
 		this.property = property;
 		this.profileSession = TigerstripeCore.getWorkbenchProfileSession();
+		getCommentProcessor();
 		
 		out.println ("INFO : MAPPINGS USED FOR EXTRACT");
 		for (EObject o : classMap.keySet()){
@@ -444,8 +452,12 @@ public class UML2TS {
 			if (elementName.length() > 2){
 				if (elementName.substring(2).contains("::")) {
 					// some elements left in name - ie not child of the package
+					
+					
+					
+					
 					String msgText = "Nested Classifier is not supported in TS : "
-						+ eleName;
+						+ eleName + " "+element.getClass().getName();
 					ImportUtilities.addMessage(msgText, 0, messages);
 					this.out.println("Error :" + msgText);
 					return null;
@@ -628,6 +640,26 @@ public class UML2TS {
 			((IAssociationEnd) assocArtifact.getZEnd()).setAggregation(temp);
 
 			}
+		} else {
+			out.println("Not really an Association");
+			if (element instanceof Classifier){
+				AssociationClass parent = null;
+				Classifier c = (Classifier) element;
+				List gens = c.getGenerals();
+				ListIterator genIt = gens.listIterator();
+				while (genIt.hasNext()) {
+					Classifier gen = (Classifier) genIt.next();
+					if (gen instanceof AssociationClass) {
+						parent = (AssociationClass) gen;
+					}
+				}
+				if ( parent != null){
+					setAssociationEnds(assocArtifact, parent);
+					
+				}
+				
+			}
+			
 		}
 
 	}
@@ -1444,6 +1476,18 @@ public class UML2TS {
 			}
 		}
 		if (comment != null) {
+			String processedComment;
+			if (commentProcessor != null){
+				try {
+					processedComment = commentProcessor.processString(comment);
+					this.out.println("INFO : Comment Processed to :" + processedComment);
+				} catch (Exception e){
+					//Mishandled
+					this.out.println("WARNING : Comment Processing failed" + e.getMessage());
+					processedComment = comment;
+				}
+			}
+			
 			this.out.println("INFO : Comment " + comment);
 			if (startComment != "")
 				return startComment+"\n"+comment;
@@ -1615,4 +1659,47 @@ public class UML2TS {
 	public Map<EObject, String> getClassMap() {
 		return classMap;
 	}
+
+	private void getCommentProcessor(){
+
+		try {
+			// Get any implementations of the ICommentProcessor from the extension
+			// point
+			IConfigurationElement[] elements = Platform
+			.getExtensionRegistry()
+			.getConfigurationElementsFor(
+					"org.eclipse.tigerstripe.workbench.ui.UML2Import.umlImportCommentProcessor");
+			for (IConfigurationElement element : elements) {
+				final ICommentProcessor processor = (ICommentProcessor) element
+				.createExecutableExtension("processor_class");
+				String processorName = element.getAttribute("name");
+				String processorText = "INFO : Comments Processed using processor "
+					+ processorName + " extension";
+				out.println(processorText);
+///
+				SafeRunner.run(new ISafeRunnable() {
+					public void handleException(Throwable exception) {
+						EclipsePlugin.log(exception);
+						out
+						.println("ERROR  : GETTING MAPPING with extension Point threw exception.");
+						exception.printStackTrace(out);
+					}
+
+					public void run() throws Exception {
+						out.println("INFO : GETTING MAPPINGS");
+						// just try it out first!
+						processor.processString("Dummy");
+						commentProcessor = processor;
+					}
+
+				});
+			}
+
+		} catch (Exception e) {
+			// If we didn't find a good one, we will use a default,
+			// so just carry on
+			this.commentProcessor = null;
+		}
+	}
+	
 }
