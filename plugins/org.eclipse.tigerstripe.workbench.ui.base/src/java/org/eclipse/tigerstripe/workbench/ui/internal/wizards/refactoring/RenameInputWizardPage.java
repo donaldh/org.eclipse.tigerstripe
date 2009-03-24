@@ -9,7 +9,7 @@
  *    Jim Strawn (Cisco Systems, Inc.) - initial implementation
  *******************************************************************************/
 
-package org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring.rename;
+package org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.IJavaElement;
@@ -58,7 +58,7 @@ public class RenameInputWizardPage extends WizardPage {
 
 				try {
 
-					RenameRefactorWizard wizard = (RenameRefactorWizard) getWizard();
+					AbstractModelRefactorWizard wizard = (AbstractModelRefactorWizard) getWizard();
 					ModelRefactorRequest request = wizard.getRequest();
 					request.setOriginal(artifact.getProject(), artifact.getFullyQualifiedName());
 					request.setDestination(artifact.getProject(), nameField.getText());

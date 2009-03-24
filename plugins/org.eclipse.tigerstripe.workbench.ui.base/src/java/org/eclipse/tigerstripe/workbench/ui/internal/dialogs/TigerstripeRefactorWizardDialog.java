@@ -45,7 +45,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring.RefactorPreviewWizardPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring.PreviewWizardPage;
 
 // Based on RefactoringWizardDialog2
 public class TigerstripeRefactorWizardDialog extends Dialog implements IWizardContainer {
@@ -227,7 +227,7 @@ public class TigerstripeRefactorWizardDialog extends Dialog implements IWizardCo
 	}
 
 	private boolean isPreviewPageActive() {
-		return RefactorPreviewWizardPage.PAGE_NAME.equals(fCurrentPage.getName());
+		return PreviewWizardPage.PAGE_NAME.equals(fCurrentPage.getName());
 	}
 
 	public void updateMessage() {
@@ -422,7 +422,7 @@ public class TigerstripeRefactorWizardDialog extends Dialog implements IWizardCo
 		fCurrentPage = fWizard.getStartingPage();
 		dialogArea = fPageContainer;
 
-		if (fCurrentPage instanceof RefactorPreviewWizardPage) {
+		if (fCurrentPage instanceof PreviewWizardPage) {
 			gd.widthHint = fPreviewWidth;
 			gd.heightHint = fPreviewHeight;
 		}
@@ -462,7 +462,7 @@ public class TigerstripeRefactorWizardDialog extends Dialog implements IWizardCo
 	}
 
 	private void createPreviewButton(Composite parent) {
-		if (!(fCurrentPage instanceof RefactorPreviewWizardPage)) {
+		if (!(fCurrentPage instanceof PreviewWizardPage)) {
 			Button preview = createButton(parent, PREVIEW_ID, "Preview", false);
 			preview.getShell().setDefaultButton(preview);
 			preview.addSelectionListener(new SelectionAdapter() {

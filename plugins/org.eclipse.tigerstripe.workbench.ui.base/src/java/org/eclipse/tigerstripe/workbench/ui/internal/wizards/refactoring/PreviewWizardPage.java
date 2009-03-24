@@ -26,9 +26,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring.rename.RenameRefactorWizard;
 
-public class RefactorPreviewWizardPage extends WizardPage {
+public class PreviewWizardPage extends WizardPage {
 
 	private class ModelChangeDeltaLabelProvider extends LabelProvider {
 
@@ -57,7 +56,7 @@ public class RefactorPreviewWizardPage extends WizardPage {
 
 	private TableViewer tableViewer;
 
-	public RefactorPreviewWizardPage() {
+	public PreviewWizardPage() {
 		super(PAGE_NAME);
 	}
 
@@ -82,7 +81,7 @@ public class RefactorPreviewWizardPage extends WizardPage {
 		tableViewer.setLabelProvider(new ModelChangeDeltaLabelProvider());
 		tableViewer.setSorter(new ViewerSorter());
 
-		RenameRefactorWizard wizard = (RenameRefactorWizard) getWizard();
+		AbstractModelRefactorWizard wizard = (AbstractModelRefactorWizard) getWizard();
 		try {
 			tableViewer.setInput(wizard.getCommand().getDeltas());
 		} catch (TigerstripeException e) {

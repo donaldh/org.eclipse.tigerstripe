@@ -9,12 +9,13 @@
  *    Jim Strawn (Cisco Systems, Inc.) - initial implementation
  *******************************************************************************/
 
-package org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring.move;
+package org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -31,36 +32,23 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.eclipse.tigerstripe.workbench.refactor.ModelRefactorRequest;
+import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.ui.model.BaseWorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ui.model.WorkbenchViewerComparator;
 
 public class MoveInputWizardPage extends WizardPage {
 
-	private IContainer container;
+	public static final String PAGE_NAME = "MoveInputPage";
 
 	private IAbstractArtifact artifact;
 
 	private TreeViewer destinationField;
 
-	protected MoveInputWizardPage() {
-		super("MoveWizardPage1");
-	}
-
-	public IAbstractArtifact getArtifact() {
-		return artifact;
-	}
-
-	public String getNewFullyQualifiedName() throws TigerstripeException {
-
-		IJavaElement element = (IJavaElement) container.getAdapter(IJavaElement.class);
-		if (element instanceof IPackageFragment) {
-			IPackageFragment pkg = (IPackageFragment) element.getAdapter(IPackageFragment.class);
-			return pkg.getElementName() + '.' + artifact.getName();
-		} else {
-			throw new TigerstripeException("The supplied container is must be an instance of IPackageFragment!");
-		}
-		
+	public MoveInputWizardPage() {
+		super(PAGE_NAME);
 	}
 
 	public void createControl(Composite parent) {
@@ -98,7 +86,44 @@ public class MoveInputWizardPage extends WizardPage {
 		});
 		destinationField.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
-				validatePage();
+
+				IStructuredSelection selection = (IStructuredSelection) destinationField.getSelection();
+				if (!(selection.getFirstElement() instanceof IContainer)) {
+					return;
+				}
+
+				try {
+
+					AbstractModelRefactorWizard wizard = (AbstractModelRefactorWizard) getWizard();
+					ModelRefactorRequest request = wizard.getRequest();
+					request.setOriginal(artifact.getProject(), artifact.getFullyQualifiedName());
+
+					ITigerstripeModelProject destinationProject = getContainerProject((IContainer) selection.getFirstElement());
+					String fullyQualifiedName = getContainerFqn((IContainer) selection.getFirstElement());
+					request.setDestination(destinationProject, fullyQualifiedName);
+
+					validatePage(request);
+
+				} catch (TigerstripeException te) {
+					EclipsePlugin.log(te);
+				}
+
+			}
+
+			private String getContainerFqn(IContainer container) throws TigerstripeException {
+
+				IJavaElement element = (IJavaElement) container.getAdapter(IJavaElement.class);
+				if (element instanceof IPackageFragment) {
+					IPackageFragment pkg = (IPackageFragment) element.getAdapter(IPackageFragment.class);
+					return pkg.getElementName() + '.' + artifact.getName();
+				} else {
+					throw new TigerstripeException("The supplied container must be an instance of IPackageFragment!");
+				}
+			}
+
+			private ITigerstripeModelProject getContainerProject(IContainer container) {
+
+				return (ITigerstripeModelProject) container.getProject().getAdapter(ITigerstripeModelProject.class);
 			}
 		});
 
@@ -107,17 +132,13 @@ public class MoveInputWizardPage extends WizardPage {
 
 	}
 
-	private final void validatePage() {
+	private void validatePage(ModelRefactorRequest request) {
 
-		IStructuredSelection selection = (IStructuredSelection) destinationField.getSelection();
-		Object firstElement = selection.getFirstElement();
-		if (firstElement instanceof IContainer) {
-			container = (IContainer) firstElement;
+		if (request.isValid().getSeverity() == IStatus.OK) {
+			setPageComplete(true);
 		} else {
 			setPageComplete(false);
-			return;
 		}
-		setPageComplete(true);
 	}
 
 	public void init(IStructuredSelection selection) {

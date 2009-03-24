@@ -9,7 +9,7 @@
  *    Jim Strawn (Cisco Systems, Inc.) - initial implementation
  *******************************************************************************/
 
-package org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring.rename;
+package org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -23,21 +23,18 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.refactor.IRefactorCommand;
 import org.eclipse.tigerstripe.workbench.refactor.ModelRefactorRequest;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring.RefactorPreviewWizardPage;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWizard;
 
-public class RenameRefactorWizard extends Wizard implements IWorkbenchWizard {
+public abstract class AbstractModelRefactorWizard extends Wizard implements IWorkbenchWizard {
 
-	private IStructuredSelection selection;
-	private RenameInputWizardPage inputPage;
-	private RefactorPreviewWizardPage previewPage;
+	protected ModelRefactorRequest request;
+	
+	protected IStructuredSelection selection;
 
-	private IRefactorCommand command;
-	private ModelRefactorRequest request;
+	public AbstractModelRefactorWizard() {
 
-	public RenameRefactorWizard() {
-
+		super();
 		request = new ModelRefactorRequest();
 		setNeedsProgressMonitor(true);
 	}
@@ -50,23 +47,13 @@ public class RenameRefactorWizard extends Wizard implements IWorkbenchWizard {
 	public IRefactorCommand getCommand() throws TigerstripeException {
 
 		if (request.isValid().getSeverity() == IStatus.OK) {
-			
+
 			return request.getCommand(new NullProgressMonitor());
 		} else {
-			
+
 			throw new TigerstripeException("Invalid refactor request. Status: " + request.isValid().getSeverity());
 		}
 
-	}
-
-	@Override
-	public void addPages() {
-
-		inputPage = new RenameInputWizardPage();
-		addPage(inputPage);
-		previewPage = new RefactorPreviewWizardPage();
-		addPage(previewPage);
-		inputPage.init(selection);
 	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
@@ -75,26 +62,26 @@ public class RenameRefactorWizard extends Wizard implements IWorkbenchWizard {
 
 	@Override
 	public boolean performFinish() {
-
+	
 		try {
 			getContainer().run(true, true, new IRunnableWithProgress() {
-
+	
 				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
-
+	
 					try {
 						getCommand().execute(monitor);
 					} catch (TigerstripeException e) {
 						throw new InvocationTargetException(e);
 					}
 				}
-
+	
 			});
 		} catch (InvocationTargetException e) {
 			EclipsePlugin.log(e);
 		} catch (InterruptedException e) {
 			EclipsePlugin.log(e);
 		}
-
+	
 		return true;
 	}
 
