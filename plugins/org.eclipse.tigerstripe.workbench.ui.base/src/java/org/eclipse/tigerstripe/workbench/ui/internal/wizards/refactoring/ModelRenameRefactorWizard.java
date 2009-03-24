@@ -18,7 +18,7 @@ public class ModelRenameRefactorWizard extends AbstractModelRefactorWizard {
 	@Override
 	public void addPages() {
 
-		RenameInputWizardPage inputPage = new RenameInputWizardPage();
+		AbstractModelRefactorWizardPage inputPage = new RenameInputWizardPage();
 		addPage(inputPage);
 		addPage(new PreviewWizardPage());
 		inputPage.init(selection);

@@ -15,7 +15,6 @@ import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
@@ -24,14 +23,12 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
-import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.refactor.ModelRefactorRequest;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -39,11 +36,9 @@ import org.eclipse.ui.model.BaseWorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ui.model.WorkbenchViewerComparator;
 
-public class MoveInputWizardPage extends WizardPage {
+public class MoveInputWizardPage extends AbstractModelRefactorWizardPage {
 
 	public static final String PAGE_NAME = "MoveInputPage";
-
-	private IAbstractArtifact artifact;
 
 	private TreeViewer destinationField;
 
@@ -130,34 +125,6 @@ public class MoveInputWizardPage extends WizardPage {
 		setPageComplete(false);
 		setControl(composite);
 
-	}
-
-	private void validatePage(ModelRefactorRequest request) {
-
-		if (request.isValid().getSeverity() == IStatus.OK) {
-			setPageComplete(true);
-		} else {
-			setPageComplete(false);
-		}
-	}
-
-	public void init(IStructuredSelection selection) {
-
-		if (selection == null)
-			return;
-
-		if (selection.size() > 0) {
-
-			Object obj = selection.getFirstElement();
-			if (obj instanceof IJavaElement) {
-
-				IJavaElement element = (IJavaElement) obj;
-				IAbstractArtifact artifact = (IAbstractArtifact) element.getAdapter(IAbstractArtifact.class);
-				if (artifact != null) {
-					this.artifact = artifact;
-				}
-			}
-		}
 	}
 
 }
