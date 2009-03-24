@@ -12,18 +12,46 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring;
 
 import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
-import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.AbstractArtifactLabelProvider;
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring.rename.RenameRefactorWizard;
 
 public class RefactorPreviewWizardPage extends WizardPage {
+
+	private class ModelChangeDeltaLabelProvider extends LabelProvider {
+
+		@Override
+		public Image getImage(Object element) {
+
+			return null;
+		}
+
+		@Override
+		public String getText(Object element) {
+
+			if (element instanceof IModelChangeDelta) {
+
+				IModelChangeDelta delta = (IModelChangeDelta) element;
+				return delta.toString();
+				
+			} else {
+				return null;
+			}
+		}
+
+	}
 
 	public static final String PAGE_NAME = "PreviewPage";
 
@@ -51,8 +79,16 @@ public class RefactorPreviewWizardPage extends WizardPage {
 
 		tableViewer = new TableViewer(table);
 		tableViewer.setContentProvider(new ArrayContentProvider());
-		tableViewer.setLabelProvider(new AbstractArtifactLabelProvider());
+		tableViewer.setLabelProvider(new ModelChangeDeltaLabelProvider());
 		tableViewer.setSorter(new ViewerSorter());
+
+		RenameRefactorWizard wizard = (RenameRefactorWizard) getWizard();
+		try {
+			tableViewer.setInput(wizard.getCommand().getDeltas());
+		} catch (TigerstripeException e) {
+
+			EclipsePlugin.log(e);
+		}
 
 		setControl(composite);
 	}

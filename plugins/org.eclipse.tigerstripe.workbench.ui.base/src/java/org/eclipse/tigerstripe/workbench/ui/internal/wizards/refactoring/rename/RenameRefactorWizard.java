@@ -14,11 +14,15 @@ package org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring.rename
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.refactor.IRefactorCommand;
 import org.eclipse.tigerstripe.workbench.refactor.ModelRefactorRequest;
+import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring.RefactorPreviewWizardPage;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWizard;
@@ -26,15 +30,35 @@ import org.eclipse.ui.IWorkbenchWizard;
 public class RenameRefactorWizard extends Wizard implements IWorkbenchWizard {
 
 	private IStructuredSelection selection;
-
 	private RenameInputWizardPage inputPage;
 	private RefactorPreviewWizardPage previewPage;
 
+	private IRefactorCommand command;
+	private ModelRefactorRequest request;
+
 	public RenameRefactorWizard() {
 
+		request = new ModelRefactorRequest();
 		setNeedsProgressMonitor(true);
 	}
-	
+
+	public ModelRefactorRequest getRequest() {
+
+		return request;
+	}
+
+	public IRefactorCommand getCommand() throws TigerstripeException {
+
+		if (request.isValid().getSeverity() == IStatus.OK) {
+			
+			return request.getCommand(new NullProgressMonitor());
+		} else {
+			
+			throw new TigerstripeException("Invalid refactor request. Status: " + request.isValid().getSeverity());
+		}
+
+	}
+
 	@Override
 	public void addPages() {
 
@@ -48,7 +72,7 @@ public class RenameRefactorWizard extends Wizard implements IWorkbenchWizard {
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.selection = selection;
 	}
-	
+
 	@Override
 	public boolean performFinish() {
 
@@ -58,28 +82,17 @@ public class RenameRefactorWizard extends Wizard implements IWorkbenchWizard {
 				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 
 					try {
-						
-						ModelRefactorRequest req = new ModelRefactorRequest();
-						req.setOriginal(inputPage.getArtifact().getProject(), inputPage.getArtifact().getFullyQualifiedName());
-						req.setDestination(inputPage.getArtifact().getProject(), inputPage.getNewFullyQualifiedName());
-						
-						IRefactorCommand cmd = req.getCommand(monitor);
-						cmd.execute(monitor);
-						
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						getCommand().execute(monitor);
+					} catch (TigerstripeException e) {
+						throw new InvocationTargetException(e);
 					}
-				
 				}
-				
+
 			});
 		} catch (InvocationTargetException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			EclipsePlugin.log(e);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			EclipsePlugin.log(e);
 		}
 
 		return true;

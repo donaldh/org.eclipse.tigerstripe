@@ -11,13 +11,9 @@
 
 package org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring.rename;
 
-import java.lang.reflect.InvocationTargetException;
-
-import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -27,29 +23,22 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLog;
-import org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring.RefactorPreviewWizardPage;
+import org.eclipse.tigerstripe.workbench.refactor.ModelRefactorRequest;
+import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 
 public class RenameInputWizardPage extends WizardPage {
 
-	private String newFullyQualifiedName;
+	public static final String PAGE_NAME = "RenameInputPage";
 
 	private IAbstractArtifact artifact;
 
-	protected RenameInputWizardPage() {
-		super("RenameInputWizardPage");
+	public RenameInputWizardPage() {
+
+		super(PAGE_NAME);
 	}
 
-	public IAbstractArtifact getArtifact() {
-		return artifact;
-	}
-
-	public String getNewFullyQualifiedName() {
-		
-		return newFullyQualifiedName;
-	}
-	
 	public void createControl(Composite parent) {
 
 		Composite composite = new Composite(parent, SWT.NONE);
@@ -66,16 +55,22 @@ public class RenameInputWizardPage extends WizardPage {
 		nameField.addModifyListener(new ModifyListener() {
 
 			public void modifyText(ModifyEvent e) {
-				if(nameField.getText().contains(".")) {
-					newFullyQualifiedName = nameField.getText();
-				} else {
-					newFullyQualifiedName = artifact.getPackage() + '.' + nameField.getText();
+
+				try {
+
+					RenameRefactorWizard wizard = (RenameRefactorWizard) getWizard();
+					ModelRefactorRequest request = wizard.getRequest();
+					request.setOriginal(artifact.getProject(), artifact.getFullyQualifiedName());
+					request.setDestination(artifact.getProject(), nameField.getText());
+					validatePage(request);
+
+				} catch (TigerstripeException te) {
+					EclipsePlugin.log(te);
 				}
-				validatePage();
 			}
 
 		});
-		
+
 		setPageComplete(false);
 	}
 
@@ -98,43 +93,13 @@ public class RenameInputWizardPage extends WizardPage {
 		}
 	}
 
-	protected final void validatePage() {
-		
-		setPageComplete(!newFullyQualifiedName.equals(artifact.getFullyQualifiedName()));
-	}
+	private void validatePage(ModelRefactorRequest request) {
 
-	@Override
-	public boolean canFlipToNextPage() {
-		return isPageComplete() && super.getNextPage() != null;
-	}
-
-	@Override
-	public IWizardPage getNextPage() {
-		
-		try {
-			getContainer().run(true, true, new IRunnableWithProgress() {
-
-				public void run(IProgressMonitor monitor) {
-
-					monitor.beginTask("Analyzing destination project...", IProgressMonitor.UNKNOWN);
-
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e1) {
-						TigerstripeLog.logError(e1);
-					} finally {
-						monitor.done();
-					}
-				}
-			});
-		} catch (InvocationTargetException e) {
-			TigerstripeLog.logError(e);
-		} catch (InterruptedException e) {
-			TigerstripeLog.logError(e);
+		if (request.isValid().getSeverity() == IStatus.OK) {
+			setPageComplete(true);
+		} else {
+			setPageComplete(false);
 		}
-
-		IWizardPage page = getWizard().getPage(RefactorPreviewWizardPage.PAGE_NAME);
-		return page;
 	}
 
 }
