@@ -11,8 +11,13 @@
 
 package org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring.rename;
 
+import java.lang.reflect.InvocationTargetException;
+
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -23,12 +28,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLog;
+import org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring.RefactorPreviewWizardPage;
 
 public class RenameInputWizardPage extends WizardPage {
 
-	private String name;
-
-	private Text nameField;
+	private String newFullyQualifiedName;
 
 	private IAbstractArtifact artifact;
 
@@ -42,14 +47,7 @@ public class RenameInputWizardPage extends WizardPage {
 
 	public String getNewFullyQualifiedName() {
 		
-		return name;
-		
-//		if(nameField.getText().contains(".")) {
-//			return nameField.getText();
-//		} else {
-//			return artifact.getPackage() + '.' + nameField.getText();
-//		}
-		
+		return newFullyQualifiedName;
 	}
 	
 	public void createControl(Composite parent) {
@@ -62,16 +60,16 @@ public class RenameInputWizardPage extends WizardPage {
 		setControl(composite);
 
 		new Label(composite, SWT.NONE).setText("New name:");
-		nameField = new Text(composite, SWT.BORDER);
+		final Text nameField = new Text(composite, SWT.BORDER);
 		nameField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		nameField.setText(artifact.getFullyQualifiedName());
 		nameField.addModifyListener(new ModifyListener() {
 
 			public void modifyText(ModifyEvent e) {
 				if(nameField.getText().contains(".")) {
-					name = nameField.getText();
+					newFullyQualifiedName = nameField.getText();
 				} else {
-					name = artifact.getPackage() + '.' + nameField.getText();
+					newFullyQualifiedName = artifact.getPackage() + '.' + nameField.getText();
 				}
 				validatePage();
 			}
@@ -102,7 +100,41 @@ public class RenameInputWizardPage extends WizardPage {
 
 	protected final void validatePage() {
 		
-		setPageComplete(!name.equals(artifact.getFullyQualifiedName()));
+		setPageComplete(!newFullyQualifiedName.equals(artifact.getFullyQualifiedName()));
+	}
+
+	@Override
+	public boolean canFlipToNextPage() {
+		return isPageComplete() && super.getNextPage() != null;
+	}
+
+	@Override
+	public IWizardPage getNextPage() {
+		
+		try {
+			getContainer().run(true, true, new IRunnableWithProgress() {
+
+				public void run(IProgressMonitor monitor) {
+
+					monitor.beginTask("Analyzing destination project...", IProgressMonitor.UNKNOWN);
+
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e1) {
+						TigerstripeLog.logError(e1);
+					} finally {
+						monitor.done();
+					}
+				}
+			});
+		} catch (InvocationTargetException e) {
+			TigerstripeLog.logError(e);
+		} catch (InterruptedException e) {
+			TigerstripeLog.logError(e);
+		}
+
+		IWizardPage page = getWizard().getPage(RefactorPreviewWizardPage.PAGE_NAME);
+		return page;
 	}
 
 }

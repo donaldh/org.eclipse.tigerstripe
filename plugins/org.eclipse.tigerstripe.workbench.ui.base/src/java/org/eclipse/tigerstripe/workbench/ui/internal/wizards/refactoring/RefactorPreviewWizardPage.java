@@ -25,12 +25,12 @@ import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.Abstract
 
 public class RefactorPreviewWizardPage extends WizardPage {
 
-	public static final String PAGE_NAME= "PreviewPage";
-	
+	public static final String PAGE_NAME = "PreviewPage";
+
 	private TableViewer tableViewer;
-	
+
 	public RefactorPreviewWizardPage() {
-		super("PAGE_NAME");
+		super(PAGE_NAME);
 	}
 
 	public void createControl(Composite parent) {
