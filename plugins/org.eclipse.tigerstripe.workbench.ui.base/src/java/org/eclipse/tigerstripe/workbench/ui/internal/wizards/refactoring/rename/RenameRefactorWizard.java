@@ -17,7 +17,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.refactor.IRefactorCommand;
 import org.eclipse.tigerstripe.workbench.refactor.ModelRefactorRequest;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring.RefactorPreviewWizardPage;
@@ -31,6 +30,11 @@ public class RenameRefactorWizard extends Wizard implements IWorkbenchWizard {
 	private RenameInputWizardPage inputPage;
 	private RefactorPreviewWizardPage previewPage;
 
+	public RenameRefactorWizard() {
+
+		setNeedsProgressMonitor(true);
+	}
+	
 	@Override
 	public void addPages() {
 
