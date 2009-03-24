@@ -26,6 +26,8 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 
 public class RenameInputWizardPage extends WizardPage {
 
+	private String name;
+
 	private Text nameField;
 
 	private IAbstractArtifact artifact;
@@ -40,11 +42,13 @@ public class RenameInputWizardPage extends WizardPage {
 
 	public String getNewFullyQualifiedName() {
 		
-		if(nameField.getText().contains(".")) {
-			return nameField.getText();
-		} else {
-			return artifact.getPackage() + '.' + nameField.getText();
-		}
+		return name;
+		
+//		if(nameField.getText().contains(".")) {
+//			return nameField.getText();
+//		} else {
+//			return artifact.getPackage() + '.' + nameField.getText();
+//		}
 		
 	}
 	
@@ -64,6 +68,11 @@ public class RenameInputWizardPage extends WizardPage {
 		nameField.addModifyListener(new ModifyListener() {
 
 			public void modifyText(ModifyEvent e) {
+				if(nameField.getText().contains(".")) {
+					name = nameField.getText();
+				} else {
+					name = artifact.getPackage() + '.' + nameField.getText();
+				}
 				validatePage();
 			}
 
@@ -93,7 +102,7 @@ public class RenameInputWizardPage extends WizardPage {
 
 	protected final void validatePage() {
 		
-		setPageComplete(!nameField.getText().equals(artifact.getName()));
+		setPageComplete(!name.equals(artifact.getFullyQualifiedName()));
 	}
 
 }

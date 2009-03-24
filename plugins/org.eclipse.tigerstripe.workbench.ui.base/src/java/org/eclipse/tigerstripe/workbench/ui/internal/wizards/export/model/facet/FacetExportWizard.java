@@ -56,7 +56,7 @@ public class FacetExportWizard extends Wizard implements IExportWizard {
 	public boolean performFinish() {
 
 		try {
-			getContainer().run(true, true, new IRunnableWithProgress() {
+			getContainer().run(true, false, new IRunnableWithProgress() {
 
 				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 
