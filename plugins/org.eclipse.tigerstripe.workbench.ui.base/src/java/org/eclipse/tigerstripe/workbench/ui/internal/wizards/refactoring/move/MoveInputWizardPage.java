@@ -1,9 +1,22 @@
+/*******************************************************************************
+ * Copyright (c) 2009 Cisco Systems, Inc.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    Jim Strawn (Cisco Systems, Inc.) - initial implementation
+ *******************************************************************************/
+
 package org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring.move;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -16,6 +29,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.ui.model.BaseWorkbenchContentProvider;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
@@ -23,12 +37,30 @@ import org.eclipse.ui.model.WorkbenchViewerComparator;
 
 public class MoveInputWizardPage extends WizardPage {
 
+	private IContainer container;
+
 	private IAbstractArtifact artifact;
 
-	private TreeViewer fDestinationField;
+	private TreeViewer destinationField;
 
 	protected MoveInputWizardPage() {
 		super("MoveWizardPage1");
+	}
+
+	public IAbstractArtifact getArtifact() {
+		return artifact;
+	}
+
+	public String getNewFullyQualifiedName() throws TigerstripeException {
+
+		IJavaElement element = (IJavaElement) container.getAdapter(IJavaElement.class);
+		if (element instanceof IPackageFragment) {
+			IPackageFragment pkg = (IPackageFragment) element.getAdapter(IPackageFragment.class);
+			return pkg.getElementName() + '.' + artifact.getName();
+		} else {
+			throw new TigerstripeException("The supplied container is must be an instance of IPackageFragment!");
+		}
+		
 	}
 
 	public void createControl(Composite parent) {
@@ -44,16 +76,16 @@ public class MoveInputWizardPage extends WizardPage {
 		label.setText("Choose destination for '" + artifact.getName() + ": ");
 		label.setLayoutData(new GridData());
 
-		fDestinationField = new TreeViewer(composite, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
+		destinationField = new TreeViewer(composite, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		GridData gd = new GridData(GridData.FILL, GridData.FILL, true, true, 2, 1);
 		gd.widthHint = convertWidthInCharsToPixels(40);
 		gd.heightHint = convertHeightInCharsToPixels(15);
-		fDestinationField.getTree().setLayoutData(gd);
-		fDestinationField.setLabelProvider(new WorkbenchLabelProvider());
-		fDestinationField.setContentProvider(new BaseWorkbenchContentProvider());
-		fDestinationField.setComparator(new WorkbenchViewerComparator());
-		fDestinationField.setInput(ResourcesPlugin.getWorkspace());
-		fDestinationField.addFilter(new ViewerFilter() {
+		destinationField.getTree().setLayoutData(gd);
+		destinationField.setLabelProvider(new WorkbenchLabelProvider());
+		destinationField.setContentProvider(new BaseWorkbenchContentProvider());
+		destinationField.setComparator(new WorkbenchViewerComparator());
+		destinationField.setInput(ResourcesPlugin.getWorkspace());
+		destinationField.addFilter(new ViewerFilter() {
 			public boolean select(Viewer viewer, Object parentElement, Object element) {
 				if (element instanceof IProject) {
 					IProject project = (IProject) element;
@@ -64,7 +96,7 @@ public class MoveInputWizardPage extends WizardPage {
 				return false;
 			}
 		});
-		fDestinationField.addSelectionChangedListener(new ISelectionChangedListener() {
+		destinationField.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
 				validatePage();
 			}
@@ -75,11 +107,16 @@ public class MoveInputWizardPage extends WizardPage {
 
 	}
 
-	// Need to harden this...
 	private final void validatePage() {
 
-		IStructuredSelection selection = (IStructuredSelection) fDestinationField.getSelection();
-		
+		IStructuredSelection selection = (IStructuredSelection) destinationField.getSelection();
+		Object firstElement = selection.getFirstElement();
+		if (firstElement instanceof IContainer) {
+			container = (IContainer) firstElement;
+		} else {
+			setPageComplete(false);
+			return;
+		}
 		setPageComplete(true);
 	}
 
