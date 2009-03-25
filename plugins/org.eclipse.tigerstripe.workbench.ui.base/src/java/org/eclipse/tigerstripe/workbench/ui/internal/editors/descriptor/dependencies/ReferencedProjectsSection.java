@@ -32,6 +32,8 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.AbstractTigerstripeProjectHandle;
+import org.eclipse.tigerstripe.workbench.internal.core.project.DescriptorReferencedProject;
+import org.eclipse.tigerstripe.workbench.project.IDescriptorReferencedProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.TigerstripeProjectSelectionDialog;
@@ -58,7 +60,7 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 			if (inputElement instanceof ITigerstripeModelProject) {
 				ITigerstripeModelProject project = (ITigerstripeModelProject) inputElement;
 				try {
-					return project.getReferencedProjects();
+					return project.getDescriptorsReferencedProjects();
 				} catch (TigerstripeException e) {
 					return new Object[0];
 				}
@@ -78,7 +80,8 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 	class ReferencedProjectsLabelProvider extends LabelProvider implements
 			ITableLabelProvider {
 		public String getColumnText(Object obj, int index) {
-			return getText(obj);
+			if(((IDescriptorReferencedProject) obj).getProject() != null) return getText(((IDescriptorReferencedProject) obj).getProject());
+			else return ((IDescriptorReferencedProject) obj).getProjectName();
 		}
 
 		public Image getColumnImage(Object obj, int index) {
@@ -178,9 +181,9 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 		// current
 		// project
 		try {
-			for (ITigerstripeModelProject prjRefs : handle
-					.getReferencedProjects()) {
-				filteredOutProjects.add(prjRefs.getName());
+			for (IDescriptorReferencedProject prjRefs : handle
+					.getDescriptorsReferencedProjects()) {
+				filteredOutProjects.add(prjRefs.getProjectName());
 			}
 		} catch (TigerstripeException e) {
 			// ignore here
@@ -199,7 +202,10 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 				if (tsPrj != null) {
 					try {
 						handle.addReferencedProject(tsPrj);
-						viewer.add(tsPrj);
+						DescriptorReferencedProject ref = new DescriptorReferencedProject();
+						ref.setProject(tsPrj);
+						ref.setProjectName(tsPrj.getName());
+						viewer.add(ref);
 						markPageModified();
 					} catch (TigerstripeException e) {
 						EclipsePlugin.log(e);
@@ -212,10 +218,10 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 
 	protected void removeButtonSelected() {
 		TableItem[] selectedItems = viewer.getTable().getSelection();
-		ITigerstripeModelProject[] selectedFields = new ITigerstripeModelProject[selectedItems.length];
+		IDescriptorReferencedProject[] selectedFields = new IDescriptorReferencedProject[selectedItems.length];
 
 		for (int i = 0; i < selectedItems.length; i++) {
-			selectedFields[i] = (ITigerstripeModelProject) selectedItems[i]
+			selectedFields[i] = (IDescriptorReferencedProject) selectedItems[i]
 					.getData();
 		}
 
