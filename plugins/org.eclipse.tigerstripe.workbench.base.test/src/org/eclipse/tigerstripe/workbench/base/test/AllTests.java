@@ -37,6 +37,8 @@ import org.eclipse.tigerstripe.workbench.base.test.project.TestM1ProjectBasics;
 import org.eclipse.tigerstripe.workbench.base.test.project.TestM1ProjectContents;
 import org.eclipse.tigerstripe.workbench.base.test.project.TestModelProjectLifecycle;
 import org.eclipse.tigerstripe.workbench.base.test.project.TestProjectManagement;
+import org.eclipse.tigerstripe.workbench.base.test.references.TestProjectReferences1;
+import org.eclipse.tigerstripe.workbench.base.test.references.TestProjectReferences2;
 import org.eclipse.tigerstripe.workbench.base.test.startup.TestStartup;
 
 public class AllTests {
@@ -98,6 +100,10 @@ public class AllTests {
 		//Patterns
 		suite.addTestSuite(PatternTest.class);
 		suite.addTestSuite(ProjectPatternTest.class);
+		
+		//References
+		suite.addTestSuite(TestProjectReferences1.class);
+		suite.addTestSuite(TestProjectReferences2.class);
 		
 		// $JUnit-END$
 		return suite;
