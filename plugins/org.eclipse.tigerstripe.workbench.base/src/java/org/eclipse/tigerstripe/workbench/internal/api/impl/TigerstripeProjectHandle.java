@@ -49,6 +49,7 @@ import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDependencyChangeListener;
 import org.eclipse.tigerstripe.workbench.project.IProjectDependencyDelta;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
+import org.eclipse.tigerstripe.workbench.project.IDescriptorReferencedProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public abstract class TigerstripeProjectHandle extends
@@ -292,6 +293,7 @@ public abstract class TigerstripeProjectHandle extends
 		assertSet();
 		dependenciesCacheNeedsRefresh = true;
 		getTSProject().addReferencedProject(project);
+		getTSProject().addDescriptorReferencedProject(project, project.getName());
 
 		ProjectDependencyChangeDelta delta = new ProjectDependencyChangeDelta(
 				this, IProjectDependencyDelta.PROJECT_REFERENCE_ADDED, project
@@ -316,7 +318,7 @@ public abstract class TigerstripeProjectHandle extends
 			throws WorkingCopyException, TigerstripeException {
 		return getTSProject().getReferencedProjects();
 	}
-
+	
 	public void removeReferencedProject(ITigerstripeModelProject project)
 			throws WorkingCopyException, TigerstripeException {
 		assertSet();
@@ -327,7 +329,25 @@ public abstract class TigerstripeProjectHandle extends
 				project.getFullPath());
 		broadcastProjectDependencyChange(delta);
 	}
+	
+	// An array of projects referenced in tigerstripe.xml
+	public IDescriptorReferencedProject[] getDescriptorsReferencedProjects() throws TigerstripeException{
+		return getTSProject().getDescriptorsReferencedProjects();
+	}
 
+	public void removeReferencedProjects(IDescriptorReferencedProject[] projects)
+			throws WorkingCopyException, TigerstripeException {
+		assertSet();
+		dependenciesCacheNeedsRefresh = true;
+		getTSProject().removeReferencedProjects(projects);		
+		for (IDescriptorReferencedProject proj : projects) {			
+			ProjectDependencyChangeDelta delta = new ProjectDependencyChangeDelta(
+					this, IProjectDependencyDelta.PROJECT_REFERENCE_REMOVED,
+					null);
+			broadcastProjectDependencyChange(delta);			
+		}
+	}
+	
 	public void removeReferencedProjects(ITigerstripeModelProject[] projects)
 			throws WorkingCopyException, TigerstripeException {
 		assertSet();

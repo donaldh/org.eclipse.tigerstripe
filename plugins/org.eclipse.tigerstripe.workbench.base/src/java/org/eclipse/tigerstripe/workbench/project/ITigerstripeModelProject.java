@@ -123,6 +123,9 @@ public interface ITigerstripeModelProject extends IAbstractTigerstripeProject {
 	public void removeReferencedProjects(ITigerstripeModelProject[] project)
 			throws WorkingCopyException, TigerstripeException;
 
+	public void removeReferencedProjects(IDescriptorReferencedProject[] project)
+			throws WorkingCopyException, TigerstripeException;
+
 	public boolean hasReference(ITigerstripeModelProject project)
 			throws WorkingCopyException, TigerstripeException;
 
@@ -148,6 +151,10 @@ public interface ITigerstripeModelProject extends IAbstractTigerstripeProject {
 	// for the local project to build properly.
 	public ITigerstripeModelProject[] getReferencedProjects()
 			throws TigerstripeException;
+	
+	// For the UI to present all Projects referenced from tigerstripe.xml
+	public IDescriptorReferencedProject[] getDescriptorsReferencedProjects()
+	        throws TigerstripeException;
 
 	public void setActiveFacet(IFacetReference facet, IProgressMonitor monitor)
 			throws TigerstripeException;

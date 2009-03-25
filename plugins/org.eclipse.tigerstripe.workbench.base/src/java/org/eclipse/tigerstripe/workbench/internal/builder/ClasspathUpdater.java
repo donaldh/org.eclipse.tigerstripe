@@ -104,7 +104,12 @@ public class ClasspathUpdater {
 					} catch (TigerstripeException e) {
 						// ignore here
 					}
-					if (prjRef == null) {
+					// Check if project still exists in workspace.
+					// So can allow to delete classpath if it does not.
+					IPath path = entries[i].getPath();
+					boolean prjExist = eclipseProject.getWorkspace().getRoot().exists(path);
+					
+					if (prjRef == null && prjExist) {
 						// This is not a TS project but it's been put in the
 						// path,
 						// we keep it.
