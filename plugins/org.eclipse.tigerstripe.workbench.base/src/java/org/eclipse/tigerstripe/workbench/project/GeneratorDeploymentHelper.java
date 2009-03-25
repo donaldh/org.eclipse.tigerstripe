@@ -41,8 +41,7 @@ public class GeneratorDeploymentHelper {
 	public GeneratorDeploymentHelper() {
 	}
 
-	public IPath deploy(ITigerstripeGeneratorProject project,
-			IProgressMonitor monitor) throws TigerstripeException {
+	public IPath deploy(ITigerstripeGeneratorProject project, IProgressMonitor monitor) throws TigerstripeException {
 
 		if (monitor == null)
 			monitor = new NullProgressMonitor();
@@ -51,12 +50,11 @@ public class GeneratorDeploymentHelper {
 		monitor.beginTask("Deploying " + project.getName(), 15);
 
 		monitor.subTask("Cleaning plugin repository");
-		deploymentPath = getDefaultPluginFileName(project);
+		deploymentPath = getDefaultPluginPathAndFileName(project);
 		cleanPluggable(deploymentPath);
 		monitor.worked(3);
 
-		PluggablePluginProjectPackager packager = new PluggablePluginProjectPackager(
-				((GeneratorProjectHandle) project).getDescriptor());
+		PluggablePluginProjectPackager packager = new PluggablePluginProjectPackager(((GeneratorProjectHandle) project).getDescriptor());
 		monitor.subTask("Packaging plugin...");
 		packager.packageUpProject(monitor, deploymentPath);
 		monitor.worked(5);
@@ -68,8 +66,7 @@ public class GeneratorDeploymentHelper {
 
 	}
 
-	public IPath unDeploy(ITigerstripeGeneratorProject project,
-			IProgressMonitor monitor) throws TigerstripeException {
+	public IPath unDeploy(ITigerstripeGeneratorProject project, IProgressMonitor monitor) throws TigerstripeException {
 		if (monitor == null)
 			monitor = new NullProgressMonitor();
 
@@ -77,13 +74,12 @@ public class GeneratorDeploymentHelper {
 		monitor.beginTask("Un-Deploying " + project.getName(), 15);
 
 		monitor.subTask("Cleaning plugin repository");
-		deploymentPath = getDefaultPluginFileName(project);
+		deploymentPath = getDefaultPluginPathAndFileName(project);
 
 		return deploymentPath;
 	}
 
-	public void unDeploy(IPath zippedPath, IProgressMonitor monitor)
-			throws TigerstripeException {
+	public void unDeploy(IPath zippedPath, IProgressMonitor monitor) throws TigerstripeException {
 		if (monitor == null)
 			monitor = new NullProgressMonitor();
 
@@ -102,8 +98,7 @@ public class GeneratorDeploymentHelper {
 		if (zipFile.exists()) {
 			boolean res = zipFile.delete();
 			if (!res) {
-				IStatus status = new Status(IStatus.WARNING, BasePlugin
-						.getPluginId(), 222, "Couldn't delete " + zipFile, null);
+				IStatus status = new Status(IStatus.WARNING, BasePlugin.getPluginId(), 222, "Couldn't delete " + zipFile, null);
 				BasePlugin.log(status);
 			}
 		}
@@ -112,8 +107,7 @@ public class GeneratorDeploymentHelper {
 		String pluginsRoot = runtimeRoot + File.separator + "plugins";
 
 		// where did the zip file unzip?
-		String unZippedFile = pluginsRoot + File.separator + "."
-				+ zipFile.getName();
+		String unZippedFile = pluginsRoot + File.separator + "." + zipFile.getName();
 
 		if (unZippedFile.endsWith(".zip")) {
 			unZippedFile = unZippedFile.substring(0, unZippedFile.length() - 4);
@@ -123,9 +117,7 @@ public class GeneratorDeploymentHelper {
 		if (unZippedDir.exists()) {
 			boolean res = Util.deleteDir(unZippedDir);
 			if (!res) {
-				IStatus status = new Status(IStatus.WARNING, BasePlugin
-						.getPluginId(), 222, "Couldn't delete " + unZippedFile,
-						null);
+				IStatus status = new Status(IStatus.WARNING, BasePlugin.getPluginId(), 222, "Couldn't delete " + unZippedFile, null);
 				BasePlugin.log(status);
 			}
 		}
@@ -139,12 +131,15 @@ public class GeneratorDeploymentHelper {
 	 * @return
 	 * @throws TigerstripeException
 	 */
-	private IPath getDefaultPluginFileName(ITigerstripeGeneratorProject handle)
-			throws TigerstripeException {
+	private IPath getDefaultPluginPathAndFileName(ITigerstripeGeneratorProject handle) throws TigerstripeException {
+
 		String path = TigerstripeRuntime.getGeneratorDeployLocation();
-		path = path + handle.getName() + "-"
-				+ handle.getProjectDetails().getVersion() + "_temp.zip";
+		path += File.separator + getDefaultPluginFileName(handle);
 		return new Path(path);
+	}
+
+	public String getDefaultPluginFileName(ITigerstripeGeneratorProject handle) throws TigerstripeException {
+		return handle.getName() + "-" + handle.getProjectDetails().getVersion() + "_temp.zip";
 	}
 
 	/**
@@ -153,8 +148,7 @@ public class GeneratorDeploymentHelper {
 	 * @return
 	 * @throws TigerstripeException
 	 */
-	public boolean canDeploy(ITigerstripeGeneratorProject project)
-			throws TigerstripeException {
+	public boolean canDeploy(ITigerstripeGeneratorProject project) throws TigerstripeException {
 		return true;
 	}
 
@@ -166,9 +160,8 @@ public class GeneratorDeploymentHelper {
 	 * @return
 	 * @throws TigerstripeException
 	 */
-	public boolean canUndeploy(ITigerstripeGeneratorProject project)
-			throws TigerstripeException {
-		IPath deploymentPath = getDefaultPluginFileName(project);
+	public boolean canUndeploy(ITigerstripeGeneratorProject project) throws TigerstripeException {
+		IPath deploymentPath = getDefaultPluginPathAndFileName(project);
 		File zipFile = deploymentPath.toFile();
 		return zipFile.exists();
 	}

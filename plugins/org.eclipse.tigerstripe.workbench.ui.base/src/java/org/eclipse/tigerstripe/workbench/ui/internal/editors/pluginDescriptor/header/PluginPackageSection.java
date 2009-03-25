@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.header;
 
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -18,6 +19,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.DirectoryDialog;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -25,6 +27,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.pluggable.GeneratorPr
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProjectPackager;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.LicensedAccess;
 import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchPluggablePluginRole;
+import org.eclipse.tigerstripe.workbench.project.GeneratorDeploymentHelper;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
@@ -42,8 +45,7 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 public class PluginPackageSection extends GeneratorDescriptorSectionPart {
 
-	public PluginPackageSection(TigerstripeFormPage page, Composite parent,
-			FormToolkit toolkit) {
+	public PluginPackageSection(TigerstripeFormPage page, Composite parent, FormToolkit toolkit) {
 		super(page, parent, toolkit, ExpandableComposite.TITLE_BAR);
 		setTitle("Packaging");
 		createContent();
@@ -90,40 +92,35 @@ public class PluginPackageSection extends GeneratorDescriptorSectionPart {
 					if (LicensedAccess.getWorkbenchPluggablePluginRole() != TSWorkbenchPluggablePluginRole.CREATE_EDIT) {
 						String errMessage = "You cannot package a Tigerstripe plugin\n\n"
 								+ "Your Tigerstripe license has insufficient privileges for this operation, "
-								+ "please contact Tigerstripe if you wish to be able to package "
-								+ "plugins";
-						MessageDialog.openError(getBody().getShell(),
-								"Package Plugin Error", errMessage);
+								+ "please contact Tigerstripe if you wish to be able to package " + "plugins";
+						MessageDialog.openError(getBody().getShell(), "Package Plugin Error", errMessage);
 					} else {
 						if (getPage().getEditor().isDirty()) {
-							MessageDialog
-									.openWarning(
-											getBody().getShell(),
-											"Un-saved changes",
-											"This plugin descriptor has un-saved changes.\n\nPlease save this file before trying to package this plugin.");
+							MessageDialog.openWarning(getBody().getShell(), "Un-saved changes",
+									"This plugin descriptor has un-saved changes.\n\nPlease save this file before trying to package this plugin.");
 							return;
 						}
 
-						FileDialog dialog = new FileDialog(getBody().getShell());
-						dialog.setFilterExtensions(new String[] { "*.zip" });
-						final String path = dialog.open();
-						if (path != null) {
+						DirectoryDialog dialog = new DirectoryDialog(getBody().getShell());
+						dialog.setMessage("Select the desitination directory for the plugin package:");
+
+						final String dir = dialog.open();
+						if (dir != null) {
 							final ITigerstripeGeneratorProject projectHandle = getIPluggablePluginProject();
 							IRunnableWithProgress op = new IRunnableWithProgress() {
 								public void run(IProgressMonitor monitor) {
 									try {
-										monitor.beginTask("Packaging plugin",
-												10);
-										String lPath = path;
-										if (!path.endsWith(".zip")) {
+										monitor.beginTask("Packaging plugin", 10);
+										
+										GeneratorDeploymentHelper helper = new GeneratorDeploymentHelper();
+										String lPath = dir + File.separator + helper.getDefaultPluginFileName(projectHandle);
+										if (!lPath.endsWith(".zip")) {
 											lPath += ".zip";
 										}
 
 										PluggablePluginProjectPackager packager = new PluggablePluginProjectPackager(
-												((GeneratorProjectHandle) projectHandle)
-														.getDescriptor());
-										packager.packageUpProject(monitor,
-												new Path(lPath));
+												((GeneratorProjectHandle) projectHandle).getDescriptor());
+										packager.packageUpProject(monitor, new Path(lPath));
 
 										monitor.done();
 										operationSucceeded = true;
@@ -135,13 +132,11 @@ public class PluginPackageSection extends GeneratorDescriptorSectionPart {
 							};
 
 							IWorkbench wb = PlatformUI.getWorkbench();
-							IWorkbenchWindow win = wb
-									.getActiveWorkbenchWindow();
+							IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
 							Shell shell = win != null ? win.getShell() : null;
 
 							try {
-								ProgressMonitorDialog pDialog = new ProgressMonitorDialog(
-										shell);
+								ProgressMonitorDialog pDialog = new ProgressMonitorDialog(shell);
 								pDialog.run(true, false, op);
 							} catch (InterruptedException ee) {
 								EclipsePlugin.log(ee);
@@ -149,40 +144,19 @@ public class PluginPackageSection extends GeneratorDescriptorSectionPart {
 								EclipsePlugin.log(ee);
 							}
 
-							try {
-								if (operationSucceeded) {
-									MessageDialog
-											.openInformation(
-													getBody().getShell(),
-													projectHandle.getName()
-															+ " Plugin",
-													"Plugin '"
-															+ projectHandle
-																	.getName()
-															+ "("
-															+ projectHandle
-																	.getProjectDetails()
-																	.getVersion()
-															+ ") was successfully packaged up as \n '"
-															+ path + "'.");
-								} else {
-									MessageDialog
-											.openError(
-													getBody().getShell(),
-													projectHandle.getName()
-															+ " Plugin",
-													"Plugin '"
-															+ projectHandle
-																	.getName()
-															+ "("
-															+ projectHandle
-																	.getProjectDetails()
-																	.getVersion()
-															+ ") could not be packaged up. See Error log for more details.\n");
-								}
-							} catch (TigerstripeException ee) {
-								EclipsePlugin.log(ee);
-							}
+//							try {
+//								if (operationSucceeded) {
+//									MessageDialog.openInformation(getBody().getShell(), projectHandle.getName() + " Plugin", "Plugin '"
+//											+ projectHandle.getName() + "(" + projectHandle.getProjectDetails().getVersion()
+//											+ ") was successfully packaged up as \n '" + lPath + "'.");
+//								} else {
+//									MessageDialog.openError(getBody().getShell(), projectHandle.getName() + " Plugin", "Plugin '"
+//											+ projectHandle.getName() + "(" + projectHandle.getProjectDetails().getVersion()
+//											+ ") could not be packaged up. See Error log for more details.\n");
+//								}
+//							} catch (TigerstripeException ee) {
+//								EclipsePlugin.log(ee);
+//							}
 						}
 					}
 				}
