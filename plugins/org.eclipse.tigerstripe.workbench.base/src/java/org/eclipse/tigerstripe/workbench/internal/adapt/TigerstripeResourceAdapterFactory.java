@@ -213,7 +213,7 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 				IAbstractTigerstripeProject.class,
 				ITigerstripeM0GeneratorProject.class,
 				ITigerstripeM1GeneratorProject.class, IModelComponent.class,
-				IAbstractArtifact.class };
+				IAbstractArtifact.class};
 	}
 
 	private IAbstractTigerstripeProject adaptToProject(Object adaptableObject) {

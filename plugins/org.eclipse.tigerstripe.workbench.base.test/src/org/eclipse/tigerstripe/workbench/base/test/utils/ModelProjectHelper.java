@@ -22,13 +22,15 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class ModelProjectHelper {
 
-	public final static String M1 = "com.mycompany.M1";
-	public final static String M2 = "com.mycompany.M2";
-	public final static String M3 = "com.mycompany.M3";
+	public final static String DEFAULT_PKG = "com.mycompany";
+	
+	public final static String M1 = DEFAULT_PKG + ".M1";
+	public final static String M2 = DEFAULT_PKG + ".M2";
+	public final static String M3 = DEFAULT_PKG + ".M3";
 
-	public final static String AC1 = "com.mycompany.AC1";
+	public final static String AC1 = DEFAULT_PKG + ".AC1";
 
-	public final static String AS1 = "com.mycompany.AS1";
+	public final static String AS1 = DEFAULT_PKG + ".AS1";
 
 	/**
 	 * Creates a model project with the following content AS1

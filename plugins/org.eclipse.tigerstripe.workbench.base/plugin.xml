@@ -187,6 +187,9 @@
           <adapter
                type="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent">
          </adapter>
+          <adapter
+                type="org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact">
+          </adapter>
       </factory>
       <factory
             adaptableType="org.eclipse.jdt.core.IJavaElement"
