@@ -49,7 +49,8 @@
 				<equals arg1="${pluginbuilder.is.rcpbuild}" arg2="true"/>
 			</not>
 		</condition>
-				
+		<cvspass cvsroot=":pserver:anonymous@dev.eclipse.org:/cvsroot/technology"
+		       password=""/>
 	</target>
 		
 	<target name="-prepare.build.host">
