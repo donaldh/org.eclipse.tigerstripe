@@ -38,7 +38,12 @@ public abstract class AbstractTigerstripeProjectHandle extends
 		WorkingCopyManager implements IAbstractTigerstripeProject, IWorkingCopy {
 
 	public String getName() {
-		return getLocation().lastSegment();
+		
+		try {
+			return getIProject(this).getName();
+		} catch (TigerstripeException e) {
+			return null;
+		}
 	}
 
 	// we keep track of a TStamp on the hanlde when we create it to know

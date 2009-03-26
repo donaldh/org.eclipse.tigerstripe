@@ -32,6 +32,7 @@ public class ProjectDetails extends BaseContainerObject implements
 
 	private String version = "";
 
+	@Deprecated
 	private String name = "";
 
 	private String provider = "";
@@ -79,10 +80,21 @@ public class ProjectDetails extends BaseContainerObject implements
 	// ===========================================================================
 	// ===========================================================================
 
+	
+	/**
+	 * @deprecated  As of release 0.4.6, replaced by
+	 * {@link  org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject#getName getName()}
+	 */
+	@Deprecated
 	public String getName() {
 		return name;
 	}
 
+	
+	/**
+	 * @deprecated  As of release 0.4.6, this method will be removed.
+	 */
+	@Deprecated
 	public void setName(String name) {
 		markDirty();
 		this.name = name;
