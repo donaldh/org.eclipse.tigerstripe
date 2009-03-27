@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.project;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
@@ -138,8 +139,8 @@ public class PluginProjectCreator extends BaseProjectCreator implements
 		BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(
 				buffer));
 
-		PluggablePluginProject projectDescriptor = new PluggablePluginProject(
-				null);
+        File f = new File(projectHandle.getLocationURI());
+        PluggablePluginProject projectDescriptor = new PluggablePluginProject(f);
 		projectDescriptor.setProjectDetails((ProjectDetails) projectDetails);
 
 		projectDescriptor.write(writer);
