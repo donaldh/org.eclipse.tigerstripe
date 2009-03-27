@@ -16,7 +16,8 @@
     		<fileset dir="${UpdateSiteStagingLocation}" includes="**"/>
     	</copy>
     	<delete dir="${UpdateSiteStagingLocation}/../.." includes="tmpUpdateSite/**" includeemptydirs="true"/>
-    	<antcall target="-p2"/>
+    	<!--<antcall target="-p2"/>
+    	-->
     </target>
 	
 	<target name="deleteSiteXml" unless="isNightlyBuild">
