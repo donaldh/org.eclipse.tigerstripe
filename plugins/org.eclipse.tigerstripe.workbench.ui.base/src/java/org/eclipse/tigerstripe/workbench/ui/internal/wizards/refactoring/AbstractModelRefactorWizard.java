@@ -64,7 +64,7 @@ public abstract class AbstractModelRefactorWizard extends Wizard implements IWor
 	public boolean performFinish() {
 	
 		try {
-			getContainer().run(true, true, new IRunnableWithProgress() {
+			getContainer().run(false, true, new IRunnableWithProgress() {
 	
 				public void run(IProgressMonitor monitor) throws InvocationTargetException, InterruptedException {
 	
