@@ -13,23 +13,23 @@ package org.eclipse.tigerstripe.workbench.internal.refactor;
 import java.util.Collection;
 
 import org.eclipse.core.resources.IResource;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.ArtifactSetFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 
 /**
  * This is a helper class that is used to delegate the "apply()" method of
@@ -40,12 +40,10 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
  */
 public class ModelChangeDeltaProcessor {
 
-	public static void processModelChangeDelta(IModelChangeDelta delta,
+	public static void processModelChangeDelta(ModelChangeDelta delta,
 			Collection<Object> toCleanUp) throws TigerstripeException {
 		System.out.println("Processing delta:" + delta);
-		URI componentURI = delta.getAffectedModelComponentURI();
-		IModelComponent component = TigerstripeURIAdapterFactory
-				.uriToComponent(componentURI);
+		Object component = delta.getComponent();
 		if (component instanceof IField) {
 			processIFieldChange((IField) component, delta);
 		} else if (component instanceof IMethod) {
@@ -53,8 +51,20 @@ public class ModelChangeDeltaProcessor {
 		} else if (component instanceof IAbstractArtifact) {
 			processIAbstractArtifactChange((IAbstractArtifact) component,
 					delta, toCleanUp);
-		} else {
-			System.err.println("Unsupported delta " + delta);
+		} else if (component instanceof IArgument) {
+			processIArgumentChange((IArgument) component, delta, toCleanUp);
+		}
+	}
+
+	protected static void processIArgumentChange(IArgument arg,
+			IModelChangeDelta delta, Collection<Object> toCleanUp)
+			throws TigerstripeException {
+		if (IModelChangeDelta.SET == delta.getType()) {
+			if (IMethodSetRequest.ARGTYPE_FEATURE.equals(delta.getFeature())) {
+				arg.getType().setFullyQualifiedName(
+						(String) delta.getNewValue());
+				arg.getContainingMethod().getContainingArtifact().doSave(null);
+			}
 		}
 	}
 
@@ -95,16 +105,32 @@ public class ModelChangeDeltaProcessor {
 				type.setFullyQualifiedName((String) delta.getNewValue());
 				query.setReturnedType(type);
 				query.doSave(null);
-			} else if (ArtifactSetFeatureRequest.AEND.equals(delta.getFeature())) {
-				IAssociationArtifact assoc = (IAssociationArtifact) artifact;
-				IType type = assoc.getAEnd().getType();
-				type.setFullyQualifiedName((String) delta.getNewValue());
-				artifact.doSave(null);
-			} else if (ArtifactSetFeatureRequest.ZEND.equals(delta.getFeature())) {
-				IAssociationArtifact assoc = (IAssociationArtifact) artifact;
-				IType type = assoc.getZEnd().getType();
-				type.setFullyQualifiedName((String) delta.getNewValue());
-				artifact.doSave(null);
+			} else if (ArtifactSetFeatureRequest.AEND
+					.equals(delta.getFeature())) {
+				if (artifact instanceof IAssociationArtifact) {
+					IAssociationArtifact assoc = (IAssociationArtifact) artifact;
+					IType type = assoc.getAEnd().getType();
+					type.setFullyQualifiedName((String) delta.getNewValue());
+					artifact.doSave(null);
+				} else if (artifact instanceof IDependencyArtifact) {
+					IDependencyArtifact assoc = (IDependencyArtifact) artifact;
+					IType type = assoc.getAEndType();
+					type.setFullyQualifiedName((String) delta.getNewValue());
+					artifact.doSave(null);
+				}
+			} else if (ArtifactSetFeatureRequest.ZEND
+					.equals(delta.getFeature())) {
+				if (artifact instanceof IAssociationArtifact) {
+					IAssociationArtifact assoc = (IAssociationArtifact) artifact;
+					IType type = assoc.getZEnd().getType();
+					type.setFullyQualifiedName((String) delta.getNewValue());
+					artifact.doSave(null);
+				} else if (artifact instanceof IDependencyArtifact) {
+					IDependencyArtifact assoc = (IDependencyArtifact) artifact;
+					IType type = assoc.getZEndType();
+					type.setFullyQualifiedName((String) delta.getNewValue());
+					artifact.doSave(null);
+				}
 			} else {
 				System.err.println("Unsupported Delta:" + delta);
 			}

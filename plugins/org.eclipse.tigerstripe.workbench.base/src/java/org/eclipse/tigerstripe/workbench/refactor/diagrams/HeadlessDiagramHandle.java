@@ -55,6 +55,10 @@ public class HeadlessDiagramHandle {
 		return diagramResource;
 	}
 
+	public IResource[] getUnderlyingResources() {
+		return new IResource[] { modelResource, diagramResource };
+	}
+
 	public boolean isValid() {
 		return modelResource.exists() && diagramResource.exists();
 	}

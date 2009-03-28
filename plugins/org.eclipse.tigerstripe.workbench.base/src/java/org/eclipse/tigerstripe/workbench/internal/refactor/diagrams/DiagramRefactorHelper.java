@@ -10,8 +10,26 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.refactor.diagrams;
 
+import java.io.IOException;
+import java.util.HashMap;
+
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.refactor.diagrams.HeadlessDiagramHandle;
 
@@ -84,4 +102,80 @@ public class DiagramRefactorHelper {
 		}
 		return null;
 	}
+
+	public static void applyDelta(DiagramChangeDelta diagramDelta,
+			IProgressMonitor monitor) throws TigerstripeException {
+		try {
+			HeadlessDiagramHandle handle = diagramDelta.getAffDiagramHandle();
+			IPath destPath = diagramDelta.getDestinationPath();
+			IContainer targetContainer = (IContainer) ResourcesPlugin
+					.getWorkspace().getRoot().findMember(destPath);
+			performDiagramMove(targetContainer,
+					handle.getUnderlyingResources(), monitor);
+			updatePackage(handle.getModelResource());
+		} catch (CoreException e) {
+			throw new TigerstripeException("While handling diagram move: "
+					+ diagramDelta.getAffDiagramHandle().getDiagramResource()
+							.getName(), e);
+		}
+	}
+
+	public static void performDiagramMove(IContainer targetContainer,
+			IResource[] underlyingResources, IProgressMonitor monitor)
+			throws CoreException {
+		for (IResource res : underlyingResources) {
+			IPath newPath = targetContainer.getFullPath().append(res.getName());
+			res.move(newPath, true, monitor);
+
+			IResource newRes = targetContainer.findMember(res.getName());
+			updatePackage(newRes);
+
+		}
+
+	}
+
+	/**
+	 * When a diagram is moved and this diagram is inside a package, it is
+	 * expected that the "base package" for that diagram be updated as well.
+	 * 
+	 * This method takes care of that by going through the model file of a
+	 * diagram (class or instance) and updating the corresponding package
+	 * string.
+	 * 
+	 * @param modelFile
+	 */
+	public static void updatePackage(IResource modelFile) {
+		IContainer targetContainer = modelFile.getParent();
+		Object obj = JavaCore.create(targetContainer);
+		if (obj instanceof IPackageFragment) {
+			IPackageFragment frag = (IPackageFragment) obj;
+			if (frag != null) {
+				ResourceSet set = new ResourceSetImpl();
+				Resource model = set.createResource(URI.createURI(modelFile
+						.getLocationURI().toString()));
+				try {
+					model.load(new HashMap<Object, Object>());
+					EObject map = model.getContents().get(0);
+					int basePackageAttributeIndex = -1;
+					String mapType = map.eClass().getName();
+					// "3" can be found in VisualEditorPackageImpl
+					// or 2 in InstanceDiagramPackageImpl
+					if ("Map".equals(mapType))
+						basePackageAttributeIndex = 3;
+					else if ("InstanceMap".equals(mapType))
+						basePackageAttributeIndex = 2;
+					if (basePackageAttributeIndex != -1) {
+						EAttribute attr = (EAttribute) map.eClass()
+								.getEStructuralFeatures().get(
+										basePackageAttributeIndex);
+						map.eSet(attr, frag.getElementName());
+						model.save(new HashMap<Object, Object>());
+					}
+				} catch (IOException e) {
+					BasePlugin.log(e);
+				}
+			}
+		}
+	}
+
 }

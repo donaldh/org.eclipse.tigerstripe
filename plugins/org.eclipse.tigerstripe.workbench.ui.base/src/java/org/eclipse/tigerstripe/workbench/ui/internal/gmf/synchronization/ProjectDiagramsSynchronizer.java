@@ -208,17 +208,11 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 					return Status.CANCEL_STATUS;
 				}
 				try {
-					while (!requestQueue.isEmpty()) {
-						try {
-							SynchronizationRequest request = (SynchronizationRequest) requestQueue
-									.dequeue();
-							request.run(new NullProgressMonitor());
-						} catch (TigerstripeException e) {
-							EclipsePlugin.log(e);
-						}
-						if (monitor.isCanceled()) {
-							return Status.CANCEL_STATUS;
-						}
+					if (!DiagramSynchronizationManager.getInstance()
+							.isSynchronizationHeld())
+						return flushRequestQueue(true, monitor);
+					else {
+						System.out.println("holding off on request");
 					}
 					return Status.OK_STATUS;
 				} finally {
@@ -245,6 +239,24 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}
+	}
+
+	public IStatus flushRequestQueue(boolean applyRequests,
+			IProgressMonitor monitor) {
+		while (!requestQueue.isEmpty()) {
+			System.out.println("flushing on " + getProject().getName());
+			try {
+				SynchronizationRequest request = (SynchronizationRequest) requestQueue
+						.dequeue();
+				request.run(new NullProgressMonitor());
+			} catch (TigerstripeException e) {
+				EclipsePlugin.log(e);
+			}
+			if (monitor.isCanceled()) {
+				return Status.CANCEL_STATUS;
+			}
+		}
+		return Status.OK_STATUS;
 	}
 
 	private ISchedulingRule createInitialRule() throws TigerstripeException {

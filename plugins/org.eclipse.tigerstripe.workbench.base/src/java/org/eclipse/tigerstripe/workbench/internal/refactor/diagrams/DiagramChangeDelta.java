@@ -17,7 +17,7 @@ import org.eclipse.tigerstripe.workbench.refactor.diagrams.IDiagramChangeDelta;
 public class DiagramChangeDelta implements IDiagramChangeDelta {
 
 	private HeadlessDiagramHandle handle = null;
-	private IPath newPath = null;
+	private IPath destinationPath = null;
 	private int type = UNKNOWN;
 
 	public DiagramChangeDelta(int type) {
@@ -28,8 +28,8 @@ public class DiagramChangeDelta implements IDiagramChangeDelta {
 		this.handle = handle;
 	}
 
-	public void setNewPath(IPath path) {
-		this.newPath = path;
+	public void setDestinationPath(IPath path) {
+		this.destinationPath = path;
 	}
 
 	public int getType() {
@@ -40,8 +40,8 @@ public class DiagramChangeDelta implements IDiagramChangeDelta {
 		return this.handle;
 	}
 
-	public IPath getNewPath() {
-		return this.newPath;
+	public IPath getDestinationPath() {
+		return this.destinationPath;
 	}
 
 }

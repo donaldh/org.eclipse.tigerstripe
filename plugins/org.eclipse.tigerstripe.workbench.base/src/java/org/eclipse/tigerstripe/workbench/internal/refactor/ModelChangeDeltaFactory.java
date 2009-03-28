@@ -24,6 +24,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.re
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
@@ -48,7 +49,7 @@ public class ModelChangeDeltaFactory {
 		this.mappedRequests = mappedRequests;
 	}
 
-	public IModelChangeDelta EXTENDS() throws TigerstripeException {
+	public ModelChangeDelta EXTENDS() throws TigerstripeException {
 		if (artifact.hasExtends()) {
 			String fqn = artifact.getExtendedArtifact().getFullyQualifiedName();
 			ModelRefactorRequest request = mappedRequests.get(fqn);
@@ -57,6 +58,7 @@ public class ModelChangeDeltaFactory {
 						IModelChangeDelta.SET);
 				delta.setAffectedModelComponentURI((URI) artifact
 						.getAdapter(URI.class));
+				delta.setComponent(artifact);
 				delta.setProject(artifact.getProject());
 				delta.setFeature(IArtifactSetFeatureRequest.EXTENDS_FEATURE);
 				delta.setOldValue(fqn);
@@ -68,8 +70,8 @@ public class ModelChangeDeltaFactory {
 		return null;
 	}
 
-	public List<IModelChangeDelta> IMPLEMENTS() throws TigerstripeException {
-		List<IModelChangeDelta> deltas = new ArrayList<IModelChangeDelta>();
+	public List<ModelChangeDelta> IMPLEMENTS() throws TigerstripeException {
+		List<ModelChangeDelta> deltas = new ArrayList<ModelChangeDelta>();
 
 		if (artifact.getImplementedArtifacts() != null
 				&& !artifact.getImplementedArtifacts().isEmpty()) {
@@ -83,6 +85,7 @@ public class ModelChangeDeltaFactory {
 							.setFeature(IArtifactRemoveFeatureRequest.IMPLEMENTS_FEATURE);
 					delta.setAffectedModelComponentURI((URI) artifact
 							.getAdapter(URI.class));
+					delta.setComponent(artifact);
 					delta.setOldValue(fqn);
 					delta.setSource(request);
 					deltas.add(delta);
@@ -92,6 +95,7 @@ public class ModelChangeDeltaFactory {
 							.setFeature(IArtifactRemoveFeatureRequest.IMPLEMENTS_FEATURE);
 					delta.setAffectedModelComponentURI((URI) artifact
 							.getAdapter(URI.class));
+					delta.setComponent(artifact);
 					delta.setNewValue(request.getDestinationFQN());
 					delta.setSource(request);
 					deltas.add(delta);
@@ -102,7 +106,7 @@ public class ModelChangeDeltaFactory {
 		return deltas;
 	}
 
-	public IModelChangeDelta RETURNS() throws TigerstripeException {
+	public ModelChangeDelta RETURNS() throws TigerstripeException {
 		if (artifact instanceof IQueryArtifact) {
 			IQueryArtifact art = (IQueryArtifact) artifact;
 			String fqn = art.getReturnedType().getFullyQualifiedName();
@@ -113,6 +117,7 @@ public class ModelChangeDeltaFactory {
 				delta.setFeature(IArtifactSetFeatureRequest.RETURNED_TYPE);
 				delta.setAffectedModelComponentURI((URI) artifact
 						.getAdapter(URI.class));
+				delta.setComponent(artifact);
 				delta.setOldValue(fqn);
 				delta.setNewValue(request.getDestinationFQN());
 				delta.setProject(artifact.getProject());
@@ -123,8 +128,8 @@ public class ModelChangeDeltaFactory {
 		return null;
 	}
 
-	public List<IModelChangeDelta> FIELDS() throws TigerstripeException {
-		List<IModelChangeDelta> deltas = new ArrayList<IModelChangeDelta>();
+	public List<ModelChangeDelta> FIELDS() throws TigerstripeException {
+		List<ModelChangeDelta> deltas = new ArrayList<ModelChangeDelta>();
 
 		for (IField field : artifact.getFields()) {
 			String type = field.getType().getFullyQualifiedName();
@@ -134,6 +139,7 @@ public class ModelChangeDeltaFactory {
 						IModelChangeDelta.SET);
 				delta.setAffectedModelComponentURI((URI) field
 						.getAdapter(URI.class));
+				delta.setComponent(field);
 				delta.setProject(artifact.getProject());
 				delta.setFeature(IAttributeSetRequest.TYPE_FEATURE);
 				delta.setOldValue(type);
@@ -145,8 +151,49 @@ public class ModelChangeDeltaFactory {
 		return deltas;
 	}
 
-	public List<IModelChangeDelta> ASSOC_ENDS() throws TigerstripeException {
-		List<IModelChangeDelta> deltas = new ArrayList<IModelChangeDelta>();
+	public List<ModelChangeDelta> DEP_ENDS() throws TigerstripeException {
+		List<ModelChangeDelta> deltas = new ArrayList<ModelChangeDelta>();
+
+		if (artifact instanceof IDependencyArtifact) {
+			IDependencyArtifact dep = (IDependencyArtifact) artifact;
+			String aEndType = dep.getAEndType().getFullyQualifiedName();
+			ModelRefactorRequest req = mappedRequests.get(aEndType);
+			if (req != null) {
+				ModelChangeDelta delta = new ModelChangeDelta(
+						IModelChangeDelta.SET);
+				delta.setAffectedModelComponentURI((URI) artifact
+						.getAdapter(URI.class));
+				delta.setComponent(artifact);
+				delta.setProject(artifact.getProject());
+				delta.setFeature(IArtifactSetFeatureRequest.AEND);
+				delta.setOldValue(aEndType);
+				delta.setNewValue(req.getDestinationFQN());
+				delta.setSource(req);
+				deltas.add(delta);
+			}
+
+			String zEndType = dep.getZEndType().getFullyQualifiedName();
+			req = mappedRequests.get(zEndType);
+			if (req != null) {
+				ModelChangeDelta delta = new ModelChangeDelta(
+						IModelChangeDelta.SET);
+				delta.setAffectedModelComponentURI((URI) artifact
+						.getAdapter(URI.class));
+				delta.setComponent(artifact);
+				delta.setProject(artifact.getProject());
+				delta.setFeature(IArtifactSetFeatureRequest.ZEND);
+				delta.setOldValue(zEndType);
+				delta.setNewValue(req.getDestinationFQN());
+				delta.setSource(req);
+				deltas.add(delta);
+			}
+		}
+
+		return deltas;
+	}
+
+	public List<ModelChangeDelta> ASSOC_ENDS() throws TigerstripeException {
+		List<ModelChangeDelta> deltas = new ArrayList<ModelChangeDelta>();
 
 		if (artifact instanceof IAssociationArtifact) {
 			IAssociationArtifact assoc = (IAssociationArtifact) artifact;
@@ -157,6 +204,7 @@ public class ModelChangeDeltaFactory {
 						IModelChangeDelta.SET);
 				delta.setAffectedModelComponentURI((URI) artifact
 						.getAdapter(URI.class));
+				delta.setComponent(artifact);
 				delta.setProject(artifact.getProject());
 				delta.setFeature(IArtifactSetFeatureRequest.AEND);
 				delta.setOldValue(aEndType);
@@ -172,6 +220,7 @@ public class ModelChangeDeltaFactory {
 						IModelChangeDelta.SET);
 				delta.setAffectedModelComponentURI((URI) artifact
 						.getAdapter(URI.class));
+				delta.setComponent(artifact);
 				delta.setProject(artifact.getProject());
 				delta.setFeature(IArtifactSetFeatureRequest.ZEND);
 				delta.setOldValue(zEndType);
@@ -184,8 +233,8 @@ public class ModelChangeDeltaFactory {
 		return deltas;
 	}
 
-	public List<IModelChangeDelta> METHODS() throws TigerstripeException {
-		List<IModelChangeDelta> deltas = new ArrayList<IModelChangeDelta>();
+	public List<ModelChangeDelta> METHODS() throws TigerstripeException {
+		List<ModelChangeDelta> deltas = new ArrayList<ModelChangeDelta>();
 
 		for (IMethod method : artifact.getMethods()) {
 			String fqn = method.getReturnType().getFullyQualifiedName();
@@ -196,6 +245,7 @@ public class ModelChangeDeltaFactory {
 				delta.setFeature(IMethodSetRequest.TYPE_FEATURE);
 				delta.setAffectedModelComponentURI((URI) method
 						.getAdapter(URI.class));
+				delta.setComponent(method);
 				delta.setProject(artifact.getProject());
 				delta.setSource(request);
 				delta.setOldValue(fqn);
@@ -209,8 +259,13 @@ public class ModelChangeDeltaFactory {
 				if (argReq != null) {
 					ModelChangeDelta delta = new ModelChangeDelta(
 							IModelChangeDelta.SET);
-					System.err
-							.println("Refactor Delta on method arg, not supported");
+					delta.setFeature(IMethodSetRequest.ARGTYPE_FEATURE);
+					delta.setAffectedModelComponentURI(arg.toURI());
+					delta.setComponent(arg);
+					delta.setSource(request);
+					delta.setOldValue(fqn);
+					delta.setNewValue(request.getDestinationFQN());
+					deltas.add(delta);
 				}
 			}
 		}

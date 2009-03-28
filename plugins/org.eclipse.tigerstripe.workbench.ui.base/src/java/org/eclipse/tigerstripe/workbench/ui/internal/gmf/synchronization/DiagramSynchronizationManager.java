@@ -24,12 +24,16 @@ import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequest;
 import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceHelper;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.eclipse.tigerstripe.workbench.refactor.diagrams.DiagramSynchronizerController;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 
 /**
@@ -56,11 +60,14 @@ import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
  * @Since Bug 936
  * 
  */
-public class DiagramSynchronizationManager implements IResourceChangeListener {
+public class DiagramSynchronizationManager extends
+		DiagramSynchronizerController implements IResourceChangeListener {
 
 	private static DiagramSynchronizationManager instance;
 
 	private HashMap<File, ProjectDiagramsSynchronizer> projectWatchHash = new HashMap<File, ProjectDiagramsSynchronizer>();
+
+	private boolean hold = false;
 
 	private DiagramSynchronizationManager() {
 		// making sure this is a singleton.
@@ -79,6 +86,9 @@ public class DiagramSynchronizationManager implements IResourceChangeListener {
 	 * Upon start make sure we discover all existing projects
 	 */
 	private void initialize() {
+		// register with the base.
+		DiagramSynchronizerController.registerController(this);
+
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IWorkspaceRoot root = workspace.getRoot();
 		try {
@@ -163,5 +173,43 @@ public class DiagramSynchronizationManager implements IResourceChangeListener {
 				EclipsePlugin.log(e);
 			}
 		}
+	}
+
+	// Diagram Synchronization control
+	@Override
+	public void flushSynchronizationRequests(boolean applyRequests,
+			IProgressMonitor monitor) {
+		if (monitor == null)
+			monitor = new NullProgressMonitor();
+		monitor.beginTask("Flushing Diagram updates", projectWatchHash.values()
+				.size());
+		for (ProjectDiagramsSynchronizer syncer : projectWatchHash.values()) {
+			monitor.setTaskName(syncer.getProject().getName());
+			try {
+				syncer.flushRequestQueue(true, monitor);
+			} catch (Exception e) {
+				BasePlugin.log(e);
+			}
+			monitor.worked(1);
+		}
+		monitor.done();
+	}
+
+	@Override
+	public void holdSynchronization() {
+		setHoldSynchronization(true);
+	}
+
+	@Override
+	public void restartSynchronization() {
+		setHoldSynchronization(false);
+	}
+
+	protected void setHoldSynchronization(boolean hold) {
+		this.hold = hold;
+	}
+
+	protected boolean isSynchronizationHeld() {
+		return hold;
 	}
 }

@@ -21,11 +21,13 @@ import java.util.Properties;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.metamodel.impl.IExceptionArtifactImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
@@ -63,35 +65,35 @@ import com.thoughtworks.qdox.model.JavaParameter;
  *         TODO To change the template for this generated type comment go to
  *         Window - Preferences - Java - Code Style - Code Templates
  */
-public class Method extends ArtifactComponent implements IOssjMethod, IActiveWorkbenchProfileChangeListener {
+public class Method extends ArtifactComponent implements IOssjMethod,
+		IActiveWorkbenchProfileChangeListener {
 
-private static boolean isRegistered = false;
-	
+	private static boolean isRegistered = false;
+
 	private static IAbstractArtifact[] suitableTypes;
-	
-	public static IAbstractArtifact[] getSuitableTypes(){
+
+	public static IAbstractArtifact[] getSuitableTypes() {
 		if (suitableTypes == null)
 			loadSuitableTypes();
 		return suitableTypes;
 	}
-		
-	private static void loadSuitableTypes(){
+
+	private static void loadSuitableTypes() {
 		List<IAbstractArtifact> suitableModelsList = new ArrayList<IAbstractArtifact>();
 		suitableModelsList.add(PrimitiveTypeArtifact.MODEL);
 		suitableModelsList.add(DatatypeArtifact.MODEL);
 		suitableModelsList.add(EnumArtifact.MODEL);
 		suitableModelsList.add(ManagedEntityArtifact.MODEL);
 		suitableModelsList.add(AssociationClassArtifact.MODEL);
-		
+
 		IWorkbenchProfile profile = TigerstripeCore
-			.getWorkbenchProfileSession()
-			.getActiveProfile();
+				.getWorkbenchProfileSession().getActiveProfile();
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-			.getWorkbenchProfileSession().getActiveProfile().getProperty(
-				IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
+				.getWorkbenchProfileSession().getActiveProfile().getProperty(
+						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 		boolean displayReference = prop
-			.getPropertyValue(IOssjLegacySettigsProperty.USEATTRIBUTES_ASREFERENCE);
-		if (displayReference){
+				.getPropertyValue(IOssjLegacySettigsProperty.USEATTRIBUTES_ASREFERENCE);
+		if (displayReference) {
 			suitableModelsList.add(ExceptionArtifact.MODEL);
 			suitableModelsList.add(AssociationArtifact.MODEL);
 			suitableModelsList.add(DependencyArtifact.MODEL);
@@ -101,14 +103,13 @@ private static boolean isRegistered = false;
 			suitableModelsList.add(SessionFacadeArtifact.MODEL);
 		}
 
-		suitableTypes = suitableModelsList.toArray( new IAbstractArtifact[0] );
+		suitableTypes = suitableModelsList.toArray(new IAbstractArtifact[0]);
 	}
-	
-	
+
 	public void profileChanged(IWorkbenchProfile newActiveProfile) {
 		suitableTypes = null;
 	}
-	
+
 	public String getLabel() {
 		return "Method";
 	}
@@ -206,13 +207,12 @@ private static boolean isRegistered = false;
 					"Annotations not supported on Method return"));
 			return null;
 		}
-		
+
 		public List<Object> getAnnotations(Class<?> clazz) {
 			BasePlugin.log(new TigerstripeException(
 					"Annotations not supported on Method return"));
 			return null;
 		}
-
 
 		public boolean hasAnnotations() {
 			BasePlugin.log(new TigerstripeException(
@@ -225,7 +225,7 @@ private static boolean isRegistered = false;
 					"Annotations not supported on Method return"));
 			return false;
 		}
-		
+
 		public boolean hasAnnotations(Class<?> clazz) {
 			BasePlugin.log(new TigerstripeException(
 					"Annotations not supported on Method return"));
@@ -290,9 +290,9 @@ private static boolean isRegistered = false;
 
 		setDefaultFlavors();
 		setDefaultProperties();
-		if (! isRegistered){
-			TigerstripeCore
-				.getWorkbenchProfileSession().addActiveProfileListener(this);
+		if (!isRegistered) {
+			TigerstripeCore.getWorkbenchProfileSession()
+					.addActiveProfileListener(this);
 			isRegistered = true;
 		}
 	}
@@ -359,9 +359,9 @@ private static boolean isRegistered = false;
 		this.exceptions = new ArrayList();
 		this.ossjMethodProperties = new Properties();
 		buildModel(method);
-		if (! isRegistered){
-			TigerstripeCore
-				.getWorkbenchProfileSession().addActiveProfileListener(this);
+		if (!isRegistered) {
+			TigerstripeCore.getWorkbenchProfileSession()
+					.addActiveProfileListener(this);
 			isRegistered = true;
 		}
 	}
@@ -386,7 +386,7 @@ private static boolean isRegistered = false;
 		}
 		return null;
 	}
-	
+
 	public boolean hasReturnStereotypeInstance(String name) {
 		IStereotypeInstance inst = getReturnStereotypeInstanceByName(name);
 		if (inst == null)
@@ -394,7 +394,7 @@ private static boolean isRegistered = false;
 		else
 			return true;
 	}
-	
+
 	public void addReturnStereotypeInstance(IStereotypeInstance instance) {
 		if (!methodReturnStereotypes.contains(instance)) {
 			methodReturnStereotypes.add(instance);
@@ -807,7 +807,7 @@ private static boolean isRegistered = false;
 					.getContainingArtifact();
 		}
 
-		//======================================================================
+		// ======================================================================
 		// ===
 		// Stereotype handling
 
@@ -893,7 +893,7 @@ private static boolean isRegistered = false;
 					"Annotations not supported on Method Arguments"));
 			return null;
 		}
-		
+
 		public List<Object> getAnnotations(Class<?> schemeID) {
 			BasePlugin.log(new TigerstripeException(
 					"Annotations not supported on Method Arguments"));
@@ -911,7 +911,7 @@ private static boolean isRegistered = false;
 					"Annotations not supported on Method Arguments"));
 			return false;
 		}
-		
+
 		public boolean hasAnnotations(Class<?> schemeID) {
 			BasePlugin.log(new TigerstripeException(
 					"Annotations not supported on Method Arguments"));
@@ -936,6 +936,11 @@ private static boolean isRegistered = false;
 			result += ">>";
 
 			return result;
+		}
+
+		public URI toURI() throws TigerstripeException {
+			URI u = TigerstripeURIAdapterFactory.toURI(this);
+			return u;
 		}
 	}
 
@@ -1522,13 +1527,13 @@ private static boolean isRegistered = false;
 		return null;
 	}
 
-	public String toString(){
+	public String toString() {
 		String label = this.getLabelString(true);
-		if (hasExceptions()){
+		if (hasExceptions()) {
 			label = label + " throws";
 			String comma = "";
-			for (IException exc : getExceptions()){
-				label = label+" "+comma+exc.getFullyQualifiedName();
+			for (IException exc : getExceptions()) {
+				label = label + " " + comma + exc.getFullyQualifiedName();
 				comma = ",";
 
 			}

@@ -15,6 +15,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.annotation.IAnnotationCapable;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IEntityMethodFlavorDetails;
@@ -25,18 +26,18 @@ public interface IMethod extends IModelComponent {
 
 	public final static List<IMethod> EMPTY_LIST = new ArrayList<IMethod>();
 
-
 	public interface IArgument extends IStereotypeCapable, IAnnotationCapable {
 
 		/**
 		 * Returns the IArtifact that is the "container" for the Argument.
 		 * 
-		 * This will be the same as the IArtifact that is the container for the Method.
+		 * This will be the same as the IArtifact that is the container for the
+		 * Method.
 		 * 
 		 * @return the containing artifact.
 		 */
 		public IAbstractArtifact getContainingArtifact();
-		
+
 		/**
 		 * Returns the IMethod that is the "container" for the argument.
 		 * 
@@ -74,25 +75,29 @@ public interface IMethod extends IModelComponent {
 		public void setName(String name);
 
 		/**
-		 * Returns true if the return of this argument contains ordered values.  
+		 * Returns true if the return of this argument contains ordered values.
+		 * 
 		 * @return
 		 */
 		public boolean isOrdered();
 
 		/**
 		 * Sets the ordered attribute for this argument.
+		 * 
 		 * @param isOrdered
 		 */
 		public void setOrdered(boolean isOrdered);
 
 		/**
 		 * Returns true if the argument contains unique values.
+		 * 
 		 * @return
 		 */
 		public boolean isUnique();
 
 		/**
 		 * Sets the unique attribute for this argument.
+		 * 
 		 * @param isUnique
 		 */
 		public void setUnique(boolean isUnique);
@@ -112,25 +117,25 @@ public interface IMethod extends IModelComponent {
 		public void setType(IType type);
 
 		/**
-		 * Returns an integer value indicating the reference type of the argument.
-		 * Possible values are defined in the static fields of IField.
+		 * Returns an integer value indicating the reference type of the
+		 * argument. Possible values are defined in the static fields of IField.
 		 * 
 		 * @return int - the integer value corresponding to the refBy
 		 */
 		public int getRefBy();
 
 		/**
-		 * Set the reference type of the argument.
-		 * Possible values are defined in the static fields of IField.
+		 * Set the reference type of the argument. Possible values are defined
+		 * in the static fields of IField.
 		 * 
 		 * @param refBy
 		 */
 		public void setRefBy(int refBy);
 
-
 		/**
-		 * Returns an String value indicating the reference type of the argument.
-		 * Possible values are defined in the refByLabels field of IField.
+		 * Returns an String value indicating the reference type of the
+		 * argument. Possible values are defined in the refByLabels field of
+		 * IField.
 		 * 
 		 * @return String - the refBy type
 		 */
@@ -150,13 +155,15 @@ public interface IMethod extends IModelComponent {
 		 * @param defaultValue
 		 */
 		public void setDefaultValue(String defaultValue);
-		
+
 		/**
 		 * Clone this argument.
+		 * 
 		 * @return
 		 */
 		public IArgument clone();
 
+		public URI toURI() throws TigerstripeException;
 
 	}
 
@@ -168,7 +175,7 @@ public interface IMethod extends IModelComponent {
 		 * @return String - the Fully Qualified Name
 		 */
 		public String getFullyQualifiedName();
-		
+
 		/**
 		 * Sets the Fully Qualified Name of an exception.
 		 * 
@@ -182,7 +189,7 @@ public interface IMethod extends IModelComponent {
 		 * @return String - the name of the exception
 		 */
 		public String getName();
-		
+
 		/**
 		 * Returns the package associated with this exception.
 		 * 
@@ -190,7 +197,6 @@ public interface IMethod extends IModelComponent {
 		 */
 		public String getPackage();
 
-		
 		public IStatus validate();
 
 		/**
@@ -199,7 +205,7 @@ public interface IMethod extends IModelComponent {
 		 * @return
 		 */
 		public IException clone();
-		
+
 	}
 
 	// Entity Method Flavor
@@ -252,7 +258,7 @@ public interface IMethod extends IModelComponent {
 			return this.pojoLabel;
 		}
 	}
-	
+
 	/**
 	 * Returns the IArtifact that is the "container" for the Method.
 	 * 
@@ -260,16 +266,15 @@ public interface IMethod extends IModelComponent {
 	 */
 	public IAbstractArtifact getContainingArtifact();
 
-	
 	/**
 	 * Returns a String containing the methodName+profile&returntype. This is
 	 * used for display on class diagrams e.g. but also to uniquely identify a
 	 * method within the context of an artifact.
 	 * 
-	 * The format is:
-	 * 		name(argumentList)::returnTypeName
+	 * The format is: name(argumentList)::returnTypeName
 	 * 
 	 * This is equivalent to getLabelString(true)
+	 * 
 	 * @return formatted String
 	 */
 	public String getLabelString();
@@ -279,10 +284,10 @@ public interface IMethod extends IModelComponent {
 	 * used for display on class diagrams e.g. but also to uniquely identify a
 	 * method within the context of an artifact.
 	 * 
-	 * The format is:
-	 * 		name(argumentList)::returnTypeName
+	 * The format is: name(argumentList)::returnTypeName
 	 * 
-	 * @param includeArgStereotypes - <<xxx>> on args will be included if true
+	 * @param includeArgStereotypes
+	 *            - <<xxx>> on args will be included if true
 	 * @return formatted String
 	 */
 	public String getLabelString(boolean includeArgStereotypes);
@@ -310,7 +315,8 @@ public interface IMethod extends IModelComponent {
 	/**
 	 * Add a single Exception to the method.
 	 * 
-	 * @param exception to add
+	 * @param exception
+	 *            to add
 	 */
 	public void addException(IException exception);
 
@@ -323,6 +329,7 @@ public interface IMethod extends IModelComponent {
 
 	/**
 	 * Remove exceptions from the method.
+	 * 
 	 * @param exception
 	 */
 	public void removeExceptions(Collection<IException> exception);
@@ -340,10 +347,11 @@ public interface IMethod extends IModelComponent {
 	 * Returns a collection of all of the arguments for this Method. Returns an
 	 * empty collection if no arguments are defined.
 	 * 
-	 * @return Collection<IArgument> - unmodifiable collection of arguments for this Method
+	 * @return Collection<IArgument> - unmodifiable collection of arguments for
+	 *         this Method
 	 */
 	public Collection<IArgument> getArguments();
-	
+
 	/**
 	 * Add an argument to the method.
 	 * 
@@ -388,7 +396,6 @@ public interface IMethod extends IModelComponent {
 	 */
 	public void setVoid(boolean isVoid);
 
-	
 	/**
 	 * Returns the name of the return for this method.
 	 * 
@@ -416,11 +423,11 @@ public interface IMethod extends IModelComponent {
 	/**
 	 * Sets the return type for this Method.
 	 * 
-	 * @param returnType -
-	 *            the return type for this method.
+	 * @param returnType
+	 *            - the return type for this method.
 	 */
 	public void setReturnType(IType returnType);
-	
+
 	/**
 	 * Factory method for IType
 	 * 
@@ -432,17 +439,16 @@ public interface IMethod extends IModelComponent {
 	 * Returns the default return value for this method is it has been defined,
 	 * null otherwise.
 	 * 
-	 * The string is not checked for its ability to be parsed into an object of the
-	 * appropriate return type for this method.
+	 * The string is not checked for its ability to be parsed into an object of
+	 * the appropriate return type for this method.
 	 * 
 	 * @return a string representation.
 	 */
 	public String getDefaultReturnValue();
 
-	
-	/** 
+	/**
 	 * Sets the default return Value for this method.
-	 *  
+	 * 
 	 * @param defaultReturnValue
 	 */
 	public void setDefaultReturnValue(String defaultReturnValue);
@@ -461,34 +467,38 @@ public interface IMethod extends IModelComponent {
 	 * @return
 	 */
 	public boolean hasReturnStereotypeInstance(String name);
-	
+
 	/**
 	 * Returns the named stereotype instances for the return type of the method.
 	 * 
 	 * @return the named stereotype applied to the method return
 	 */
 	public IStereotypeInstance getReturnStereotypeInstanceByName(String name);
-	
-	/** 
+
+	/**
 	 * Add a single stereotype to the return type.
 	 * 
-	 * @param instance to add.
+	 * @param instance
+	 *            to add.
 	 */
 	public void addReturnStereotypeInstance(IStereotypeInstance instance);
 
 	/**
 	 * Remove a single Stereotype instance from the method return.
 	 * 
-	 * @param instance to remove
+	 * @param instance
+	 *            to remove
 	 */
 	public void removeReturnStereotypeInstance(IStereotypeInstance instance);
 
 	/**
-	 * Remove  Stereotype instances from the method return.
+	 * Remove Stereotype instances from the method return.
 	 * 
-	 * @param instances to remove
+	 * @param instances
+	 *            to remove
 	 */
-	public void removeReturnStereotypeInstances(Collection<IStereotypeInstance> instances);
+	public void removeReturnStereotypeInstances(
+			Collection<IStereotypeInstance> instances);
 
 	/**
 	 * Returns a boolean indicating if this Method is optional or mandatory.
@@ -504,7 +514,6 @@ public interface IMethod extends IModelComponent {
 	 */
 	public void setOptional(boolean optional);
 
-
 	/**
 	 * Returns true if the return of this method contains unique values
 	 * (multiplicity > 1)
@@ -515,6 +524,7 @@ public interface IMethod extends IModelComponent {
 
 	/**
 	 * Sets the unique attribute for this method.
+	 * 
 	 * @param isUnique
 	 */
 	public void setUnique(boolean isUnique);
@@ -526,7 +536,7 @@ public interface IMethod extends IModelComponent {
 	 * @return
 	 */
 	public boolean isOrdered();
-	
+
 	/**
 	 * Sets the ordered attribute for this method.
 	 * 
@@ -544,8 +554,8 @@ public interface IMethod extends IModelComponent {
 	/**
 	 * sets whether this method is abstract or not
 	 * 
-	 * @param isAbstract -
-	 *            boolean, true to set this method as abstract
+	 * @param isAbstract
+	 *            - boolean, true to set this method as abstract
 	 */
 	public void setAbstract(boolean isAbstract);
 
@@ -565,13 +575,12 @@ public interface IMethod extends IModelComponent {
 	public int getReturnRefBy();
 
 	/**
-	 * Set the reference type of the return.
-	 * Possible values are defined in the static fields of IField.
+	 * Set the reference type of the return. Possible values are defined in the
+	 * static fields of IField.
 	 * 
 	 * @param refBy
 	 */
 	public void setReturnRefBy(int refBy);
-
 
 	/**
 	 * Returns an String value indicating the reference type of the return.
@@ -611,6 +620,7 @@ public interface IMethod extends IModelComponent {
 
 	/**
 	 * Sets the isIterator attribute of the method.
+	 * 
 	 * @param iterate
 	 */
 	public void setIteratorReturn(boolean iterate);
@@ -618,11 +628,11 @@ public interface IMethod extends IModelComponent {
 	/**
 	 * Returns the OSSJ flavor details for this method
 	 * 
-	 * @param flavor -
-	 *            OssjEntityMethodFlavor target flavor
+	 * @param flavor
+	 *            - OssjEntityMethodFlavor target flavor
 	 * @return OSSJ flavor details for this method
-	 * @throws TigerstripeException,
-	 *             if method doesn't belong to Managed Entity
+	 * @throws TigerstripeException
+	 *             , if method doesn't belong to Managed Entity
 	 */
 	public IEntityMethodFlavorDetails getEntityMethodFlavorDetails(
 			OssjEntityMethodFlavor flavor) throws TigerstripeException;
@@ -630,12 +640,12 @@ public interface IMethod extends IModelComponent {
 	/**
 	 * Sets the OSSJ Entity flavor details for this method.
 	 * 
-	 * @param flavor -
-	 *            the target flavor
-	 * @param details -
-	 *            the details for this target flavor
-	 * @throws TigerstripeException -
-	 *             if this method doesn't belong to a ManagedEntity
+	 * @param flavor
+	 *            - the target flavor
+	 * @param details
+	 *            - the details for this target flavor
+	 * @throws TigerstripeException
+	 *             - if this method doesn't belong to a ManagedEntity
 	 */
 	public void setEntityMethodFlavorDetails(OssjEntityMethodFlavor flavor,
 			IEntityMethodFlavorDetails details) throws TigerstripeException;

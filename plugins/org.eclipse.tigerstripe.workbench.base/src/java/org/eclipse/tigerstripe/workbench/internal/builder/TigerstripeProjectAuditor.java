@@ -16,8 +16,11 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
+import org.eclipse.core.internal.events.BuildCommand;
+import org.eclipse.core.internal.events.BuildManager;
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -28,7 +31,9 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -285,8 +290,9 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	@SuppressWarnings("unchecked")
 	protected IProject[] build(int kind, Map args, IProgressMonitor monitor)
 			throws CoreException {
-
-		if (shouldAudit(kind)) {
+		if ("True".equals(args.get("rebuildIndexes"))) {
+			smartModelAudit(kind, monitor);
+		} else if (shouldAudit(kind)) {
 			auditProject(kind, monitor);
 		}
 		return null;
@@ -374,62 +380,8 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	}
 
 	private boolean shouldAudit(int kind) {
-
 		if (isTurnedOffForImport())
 			return false;
-
-		// if (kind == FULL_BUILD)
-		// return true;
-		//
-		// if (kind == AUTO_BUILD) {
-		//
-		// IResourceDelta delta = getDelta(getProject());
-		// // Get the list of removed resources
-		// Collection<IResource> removedResources = new HashSet<IResource>();
-		// Collection<IResource> changedResources = new HashSet<IResource>();
-		// Collection<IResource> addedResources = new HashSet<IResource>();
-		//
-		// // We don't care about .class files as they are being changed by the
-		// // JDT
-		// IResourceFilter noClassFileOrFolderFilter = new IResourceFilter() {
-		//
-		// public boolean select(IResource resource) {
-		// if (resource instanceof IFolder)
-		// return false;
-		// return !"class".equals(resource.getFileExtension());
-		// }
-		//
-		// };
-		//
-		// WorkspaceHelper
-		// .buildResourcesLists(delta, removedResources,
-		// changedResources, addedResources,
-		// noClassFileOrFolderFilter);
-		//
-		// // Only trying to avoid full project build when an artifact
-		// // has changed since it would have been audited anyway through
-		// // the artifactChangeListener
-		// boolean javaOnly = true;
-		// for (IResource res : changedResources) {
-		// // When diagrams are saved no need to rebuild project
-		// if ("vwm".equals(res.getFileExtension())
-		// || "wvd".equals(res.getFileExtension())
-		// || "wod".equals(res.getFileExtension())
-		// || "owm".equals(res.getFileExtension())) {
-		// continue;
-		// } else if (!"java".equals(res.getFileExtension())
-		// && !"class".equals(res.getFileExtension())) {
-		// javaOnly = false;
-		// break;
-		// }
-		// }
-		//
-		// return !javaOnly;
-		// }
-		// if (getDelta(getProject()) == null)
-		// return false;
-		//
-		// // fow now, just build everything no matter what.
 		return true;
 	}
 
@@ -785,4 +737,19 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		}
 	}
 
+	public static void rebuildIndexes(IProgressMonitor monitor) {
+		// look for all relevant builders
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		IProject[] projects = root.getProjects();
+		for (IProject proj : projects) {
+			try {
+				Properties map = new Properties();
+				map.put("rebuildIndexes", "True");
+				proj.build(FULL_BUILD, TigerstripeProjectAuditor.BUILDER_ID,
+						map, monitor);
+			} catch (CoreException e) {
+				BasePlugin.log(e);
+			}
+		}
+	}
 }

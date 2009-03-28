@@ -314,6 +314,8 @@ Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apach
  org.eclipse.tigerstripe.workbench.internal.core.util.license,
  org.eclipse.tigerstripe.workbench.internal.core.util.messages,
  org.eclipse.tigerstripe.workbench.internal.modelManager,
+ org.eclipse.tigerstripe.workbench.internal.refactor;x-friends:="org.eclipse.tigerstripe.workbench.ui.base",
+ org.eclipse.tigerstripe.workbench.internal.refactor.diagrams;x-friends:="org.eclipse.tigerstripe.workbench.ui.base",
  org.eclipse.tigerstripe.workbench.internal.startup,
  org.eclipse.tigerstripe.workbench.internal.tools,
  org.eclipse.tigerstripe.workbench.internal.tools.compare,

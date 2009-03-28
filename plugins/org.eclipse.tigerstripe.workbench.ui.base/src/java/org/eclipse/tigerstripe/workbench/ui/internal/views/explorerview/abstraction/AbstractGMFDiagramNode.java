@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
@@ -26,17 +25,10 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EAttribute;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.jdt.core.IPackageFragment;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.diagram.IDiagram;
+import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramRefactorHelper;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
@@ -118,7 +110,7 @@ public abstract class AbstractGMFDiagramNode extends
 
 			// Now need to potentially update the base package for the new
 			// diagram
-			updatePackage(newModelFile);
+			DiagramRefactorHelper.updatePackage(newModelFile);
 		}
 	}
 
@@ -128,54 +120,12 @@ public abstract class AbstractGMFDiagramNode extends
 	 * 
 	 * @param modelFile
 	 */
-	private void updatePackage(IResource modelFile) {
-		IContainer targetContainer = modelFile.getParent();
-		Object obj = JavaCore.create(targetContainer);
-		if (obj instanceof IPackageFragment) {
-			IPackageFragment frag = (IPackageFragment) obj;
-			if (frag != null) {
-				ResourceSet set = new ResourceSetImpl();
-				Resource model = set.createResource(URI.createURI(modelFile
-						.getLocationURI().toString()));
-				try {
-					model.load(new HashMap<Object, Object>());
-					EObject map = model.getContents().get(0);
-					int basePackageAttributeIndex = -1;
-					String mapType = map.eClass().getName();
-					// "3" can be found in VisualEditorPackageImpl
-					// or 2 in InstanceDiagramPackageImpl
-					if ("Map".equals(mapType))
-						basePackageAttributeIndex = 3;
-					else if ("InstanceMap".equals(mapType))
-						basePackageAttributeIndex = 2;
-					if (basePackageAttributeIndex != -1) {
-						EAttribute attr = (EAttribute) map.eClass()
-								.getEStructuralFeatures().get(
-										basePackageAttributeIndex);
-						map.eSet(attr, frag.getElementName());
-						model.save(new HashMap<Object, Object>());
-					}
-				} catch (IOException e) {
-					EclipsePlugin.log(e);
-				}
-			}
-		}
-	}
-
 	@Override
 	public void performMove(IContainer targetContainer, IProgressMonitor monitor)
 			throws CoreException, TigerstripeException {
 		if (!closeCorrespondingDiagram()) {
-			IResource[] ress = getUnderlyingResources();
-			for (IResource res : ress) {
-				IPath newPath = targetContainer.getFullPath().append(
-						res.getName());
-				res.move(newPath, true, monitor);
-
-				IResource newRes = targetContainer.findMember(res.getName());
-				updatePackage(newRes);
-
-			}
+			DiagramRefactorHelper.performDiagramMove(targetContainer,
+					getUnderlyingResources(), monitor);
 		}
 	}
 
@@ -299,15 +249,23 @@ public abstract class AbstractGMFDiagramNode extends
 		return res.toArray(new IResource[res.size()]);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.IGMFDiagramNode#getModelFile()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction
+	 * .IGMFDiagramNode#getModelFile()
 	 */
 	public IFile getModelFile() {
 		return this.modelFile;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.IGMFDiagramNode#getDiagramFile()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction
+	 * .IGMFDiagramNode#getDiagramFile()
 	 */
 	public IFile getDiagramFile() {
 		return this.diagramFile;

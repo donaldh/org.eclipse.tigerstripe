@@ -30,12 +30,11 @@ public interface IDiagramChangeDelta {
 	public void setAffectedDiagramHandle(HeadlessDiagramHandle handle);
 
 	/**
-	 * The destination path for the diagram without file extensions (since they
-	 * will be based on the handle itself)
+	 * Path for the target destination container
 	 * 
 	 * @param path
 	 */
-	public void setNewPath(IPath path);
+	public void setDestinationPath(IPath path);
 
 	/**
 	 * Returns the type of delta

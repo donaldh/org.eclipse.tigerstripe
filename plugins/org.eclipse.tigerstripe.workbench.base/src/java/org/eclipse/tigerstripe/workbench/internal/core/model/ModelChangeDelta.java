@@ -19,6 +19,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactFQRenameRequest;
 import org.eclipse.tigerstripe.workbench.internal.refactor.ModelChangeDeltaProcessor;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
@@ -37,6 +38,7 @@ public class ModelChangeDelta implements IModelChangeDelta {
 	private Object oldValue;
 	private Object newValue;
 	private String feature;
+	private Object component;
 	private URI componentURI;
 	private int type;
 	private Object source;
@@ -164,4 +166,47 @@ public class ModelChangeDelta implements IModelChangeDelta {
 		ModelChangeDeltaProcessor.processModelChangeDelta(this, toCleanUp);
 	}
 
+	/**
+	 * Clients should not use this.
+	 * 
+	 * The component is generally not set unless it is part of a refactor
+	 * operation. Clients should use {@link #getAffectedModelComponentURI()}
+	 * instead.
+	 * 
+	 * @return the component targeted by this model change. This will be null if
+	 *         not part of a refactor operation.
+	 */
+	public Object getComponent() {
+		return component;
+	}
+
+	/**
+	 * Clients should not use this.
+	 * 
+	 * The component is only set by the refactor framework as part of a refactor
+	 * operation.
+	 * 
+	 * @param component
+	 *            - the component being affected by the refactor operation
+	 */
+	public void setComponent(Object component) {
+		this.component = component;
+	}
+
+	/**
+	 * Clients should not use this.
+	 * 
+	 * This method is used by the refactor framework only to figure out whether
+	 * the model change delta is affecting the "inside" of an artifact (i.e. no
+	 * rename of the artifact).
+	 * 
+	 * @return true if the change delta isn't targeted at renaming an artifact
+	 *         and this change is part of a refactor.
+	 */
+	public boolean isComponentRefactor() {
+		if (component instanceof IAbstractArtifact) {
+			return !IArtifactFQRenameRequest.FQN_FEATURE.equals(getFeature());
+		}
+		return false;
+	}
 }

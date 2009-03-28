@@ -147,7 +147,7 @@ public class TestBasicModelRefactorRequest extends TestCase {
 		
 		IRefactorCommand cmd = req.getCommand(null);
 		cmd.execute(null);
-		
+		 
 		assertNull(project.getArtifactManagerSession().getArtifactByFullyQualifiedName("simple.Ent1"));
 		assertNotNull(project.getArtifactManagerSession().getArtifactByFullyQualifiedName("simple.Ent11"));
 	}

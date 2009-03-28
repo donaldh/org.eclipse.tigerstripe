@@ -25,16 +25,19 @@ import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
+import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramChangeDelta;
+import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramRefactorHelper;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.refactor.IRefactorCommand;
 import org.eclipse.tigerstripe.workbench.refactor.RefactorRequest;
-import org.eclipse.tigerstripe.workbench.refactor.diagrams.IDiagramChangeDelta;
+import org.eclipse.tigerstripe.workbench.refactor.diagrams.DiagramSynchronizerController;
 
 public class BaseRefactorCommand implements IRefactorCommand {
 
 	private RefactorRequest[] requests;
-	private List<IModelChangeDelta> deltas = new ArrayList<IModelChangeDelta>();
-	private List<IDiagramChangeDelta> diagramDeltas = new ArrayList<IDiagramChangeDelta>();
+	private List<ModelChangeDelta> deltas = new ArrayList<ModelChangeDelta>();
+	private List<DiagramChangeDelta> diagramDeltas = new ArrayList<DiagramChangeDelta>();
 
 	public BaseRefactorCommand(RefactorRequest[] requests) {
 		this.requests = requests;
@@ -130,41 +133,82 @@ public class BaseRefactorCommand implements IRefactorCommand {
 
 	protected void rebuildIndexes(IProgressMonitor monitor)
 			throws TigerstripeException {
-		System.out.println("rebuildIndexes not implemented");
+		// Rebuilding indexes is necessary for the Auditor to be in sync with
+		// the model since it
+		// was put to sleep during the refactor process.
+		TigerstripeProjectAuditor.rebuildIndexes(monitor);
 	}
 
 	protected void moveDiagrams(IProgressMonitor monitor)
 			throws TigerstripeException {
-		System.out.println("moveDiagrams not implemented");
+		monitor.beginTask("Moving Diagrams", diagramDeltas.size());
+		for (DiagramChangeDelta diagramDelta : diagramDeltas) {
+			DiagramRefactorHelper.applyDelta(diagramDelta, monitor);
+			monitor.worked(1);
+		}
+		monitor.done();
 	}
 
 	protected void updateDiagrams(IProgressMonitor monitor)
 			throws TigerstripeException {
-		System.out.println("updateDiagrams not implemented");
+		// While we applied all changes in the model, the change requests on the
+		// diagrams have been queued up.
+		// All we need to do here is flush out all the requests so they get
+		// applied.
+		DiagramSynchronizerController.getController()
+				.flushSynchronizationRequests(true, monitor);
 	}
 
 	protected void disableAuditsAndDiagSync() {
-		System.out.println("disableAuditsAndDiagSync not implemented");
+		// avoid any building
 		TigerstripeProjectAuditor.setTurnedOffForImport(true);
 
+		// Hold synchronization and flush anything that was in the quere before
+		// we do anything else.
+		DiagramSynchronizerController.getController().holdSynchronization();
+		DiagramSynchronizerController.getController()
+				.flushSynchronizationRequests(true, null);
 	}
 
 	protected void reEnableAuditsAndDiagSync() {
-		System.out.println("reEnableAuditsAndDiagSync not implemented");
+		// At this stage, all diagram requests will have been flushed and
+		// applied.
+		// We simply need to restart the batch processing
+		DiagramSynchronizerController.getController().restartSynchronization();
+
 		TigerstripeProjectAuditor.setTurnedOffForImport(false);
 	}
 
 	protected void applyAllDeltas(IProgressMonitor monitor,
 			Collection<Object> toCleanUp) {
 		monitor.beginTask("Applying deltas", deltas.size());
-		for (IModelChangeDelta delta : deltas) {
+
+		// We need to apply deltas in 2 passes
+		// First pass for all non-renaming deltas. This ensures we take care of
+		// the
+		// inside of all artifact changes first.
+		for (ModelChangeDelta delta : deltas) {
 			try {
-				delta.apply(toCleanUp);
+				if (delta.isComponentRefactor())
+					delta.apply(toCleanUp);
 			} catch (TigerstripeException e) {
 				BasePlugin.log(e);
 			}
 			monitor.worked(1);
 		}
+
+		// then a second pass that will actually move artifacts that need to
+		// be moved
+		for (ModelChangeDelta delta : deltas) {
+			try {
+				if (!delta.isComponentRefactor())
+					delta.apply(toCleanUp);
+			} catch (TigerstripeException e) {
+				BasePlugin.log(e);
+			}
+			monitor.worked(1);
+		}
+
 		monitor.done();
 	}
 
@@ -172,15 +216,15 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		return requests;
 	}
 
-	public Collection<IModelChangeDelta> getDeltas() {
+	public Collection<ModelChangeDelta> getDeltas() {
 		return deltas;
 	}
 
-	public void addDeltas(Collection<IModelChangeDelta> deltas) {
+	public void addDeltas(Collection<ModelChangeDelta> deltas) {
 		this.deltas.addAll(deltas);
 	}
 
-	public void addDiagramDeltas(Collection<IDiagramChangeDelta> deltas) {
+	public void addDiagramDeltas(Collection<DiagramChangeDelta> deltas) {
 		this.diagramDeltas.addAll(deltas);
 	}
 

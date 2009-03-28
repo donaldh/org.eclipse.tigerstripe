@@ -188,7 +188,7 @@ public abstract class GeneratorProjectDescriptor extends
 
 	public String getLogPath() {
 		if (logPath == null) {
-			logPath = getProjectLabel() + ".log";
+			logPath = getProjectLabel()+ ".log";
 		}
 		return logPath;
 	}

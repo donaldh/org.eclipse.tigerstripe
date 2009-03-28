@@ -11,9 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal.refactor;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,6 +33,7 @@ import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactFQRenameRequest;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
+import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramRefactorHelper;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
@@ -138,7 +137,7 @@ public class ModelRefactorCommandFactory {
 			Collection<IAbstractArtifact> artifacts = originalProject
 					.getArtifactManagerSession().queryArtifact(query);
 			for (IAbstractArtifact artifact : artifacts) {
-				List<IModelChangeDelta> deltas = createDeltas(artifact,
+				List<ModelChangeDelta> deltas = createDeltas(artifact,
 						mappedRequests);
 				cmd.addDeltas(deltas);
 			}
@@ -151,14 +150,16 @@ public class ModelRefactorCommandFactory {
 		return IRefactorCommand.UNEXECUTABLE;
 	}
 
-	protected List<IDiagramChangeDelta> createDiagramDeltas(
+	protected List<DiagramChangeDelta> createDiagramDeltas(
 			List<RefactorRequest> requests) {
-		List<IDiagramChangeDelta> diagramDeltas = new ArrayList<IDiagramChangeDelta>();
+		List<DiagramChangeDelta> diagramDeltas = new ArrayList<DiagramChangeDelta>();
 		for (RefactorRequest request : requests) {
 			if (request instanceof DiagramRefactorRequest) {
 				DiagramRefactorRequest req = (DiagramRefactorRequest) request;
-
-				req.getOriginalDiagramHandle();
+				DiagramChangeDelta delta = new DiagramChangeDelta(IDiagramChangeDelta.MOVE);
+				delta.setAffectedDiagramHandle(req.getOriginalDiagramHandle());
+				delta.setDestinationPath(req.getDestination().getFullPath());
+				diagramDeltas.add(delta);
 			}
 		}
 		return diagramDeltas;
@@ -195,11 +196,11 @@ public class ModelRefactorCommandFactory {
 	 * @param mappedRequests
 	 * @return
 	 */
-	protected List<IModelChangeDelta> createDeltas(IAbstractArtifact artifact,
+	protected List<ModelChangeDelta> createDeltas(IAbstractArtifact artifact,
 			Map<String, ModelRefactorRequest> mappedRequests)
 			throws TigerstripeException {
 
-		List<IModelChangeDelta> deltas = new ArrayList<IModelChangeDelta>();
+		List<ModelChangeDelta> deltas = new ArrayList<ModelChangeDelta>();
 		ModelChangeDeltaFactory factory = new ModelChangeDeltaFactory(artifact,
 				mappedRequests);
 
@@ -211,6 +212,7 @@ public class ModelRefactorCommandFactory {
 			delta.setFeature(IArtifactFQRenameRequest.FQN_FEATURE);
 			delta.setAffectedModelComponentURI((URI) artifact
 					.getAdapter(URI.class));
+			delta.setComponent(artifact);
 			delta.setProject(artifact.getProject());
 			delta.setOldValue(fqn);
 			delta.setNewValue(request.getDestinationFQN());
@@ -219,7 +221,7 @@ public class ModelRefactorCommandFactory {
 		}
 
 		// Extends
-		IModelChangeDelta delta = factory.EXTENDS();
+		ModelChangeDelta delta = factory.EXTENDS();
 		if (delta != null)
 			deltas.add(delta);
 		deltas.addAll(factory.IMPLEMENTS());
@@ -227,8 +229,9 @@ public class ModelRefactorCommandFactory {
 		delta = factory.RETURNS();
 		if (delta != null)
 			deltas.add(delta);
-		
+
 		deltas.addAll(factory.ASSOC_ENDS());
+		deltas.addAll(factory.DEP_ENDS());
 
 		deltas.addAll(factory.FIELDS());
 		deltas.addAll(factory.METHODS());

@@ -30,6 +30,7 @@ public interface IMethodSetRequest extends IMethodChangeRequest {
 	public final static String DEFAULTRETURNVALUE_FEATURE = "defaultReturnValue";
 	public final static String ISVOID_FEATURE = "isVoid";
 	public final static String RETURNNAME_FEATURE = "returnName";
+	public final static String ARGTYPE_FEATURE = "argType";
 
 	public void setArtifactFQN(String artifactFQN);
 

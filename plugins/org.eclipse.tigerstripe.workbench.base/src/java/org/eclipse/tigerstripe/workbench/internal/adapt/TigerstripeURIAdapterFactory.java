@@ -31,6 +31,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -49,7 +50,12 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 				return result;
 
 			// then try to adapt to model component
-			return uriToComponent((URI) adaptableObject);
+			IModelComponent comp = uriToComponent((URI) adaptableObject);
+			if (comp != null)
+				return comp;
+
+			// then special case for IArgument
+			return uriToArgument((URI) adaptableObject);
 		}
 		return null;
 	}
@@ -133,17 +139,8 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		return null;
 	}
 
-	/**
-	 * The URI is expected to be something like:
-	 * 
-	 * tigerstripe:/project/FQN if artifact from project or
-	 * tigerstripe:/project/module-name/FQN if artifact from Module.
-	 * 
-	 * @param uri
-	 * @return
-	 */
-	public static IModelComponent uriToComponent(URI uri) {
-
+	protected static IAbstractArtifact extractArtifact(URI uri)
+			throws TigerstripeException {
 		if (!isRelated(uri))
 			return null;
 
@@ -157,46 +154,102 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		path = path.removeLastSegments(1);
 
 		String project = path.segments()[0];
+
+		IAbstractArtifact artifact = null;
+		if (SCHEME_TS_MODULE.equals(uri.scheme())) {
+			// In this case we don't have a project name, we only have a
+			// ModuleID. Not sure how to proceed.
+			// This logic only works if a module is used ONCE only in the
+			// workspace, or else we'll always return the first occurrence
+			// :-(
+			for (IAbstractTigerstripeProject p : TigerstripeCore.projects()) {
+				if (p instanceof ITigerstripeModelProject) {
+					ITigerstripeModelProject proj = (ITigerstripeModelProject) p;
+					for (IDependency dep : proj.getDependencies()) {
+						if (dep.getIModuleHeader().getModuleID()
+								.equals(project)) {
+							ArtifactManager mgr = ((Dependency) dep)
+									.getArtifactManager(null);
+							artifact = mgr.getArtifactByFullyQualifiedName(fqn,
+									false, null);
+						}
+					}
+				}
+			}
+			return null;
+		} else {
+			IAbstractTigerstripeProject tsp = TigerstripeCore
+					.findProject(project);
+			if (!(tsp instanceof ITigerstripeModelProject))
+				return null;
+
+			IArtifactManagerSession artifactManagerSession = ((ITigerstripeModelProject) tsp)
+					.getArtifactManagerSession();
+			artifact = artifactManagerSession
+					.getArtifactByFullyQualifiedName(fqn);
+		}
+
+		return artifact;
+	}
+
+	public static IArgument uriToArgument(URI uri) {
+
 		try {
 
-			IAbstractArtifact artifact = null;
-			if (SCHEME_TS_MODULE.equals(uri.scheme())) {
-				// In this case we don't have a project name, we only have a
-				// ModuleID. Not sure how to proceed.
-				// This logic only works if a module is used ONCE only in the
-				// workspace, or else we'll always return the first occurrence
-				// :-(
-				for (IAbstractTigerstripeProject p : TigerstripeCore.projects()) {
-					if ( p instanceof ITigerstripeModelProject ) {
-						ITigerstripeModelProject proj = (ITigerstripeModelProject) p;
-						for( IDependency dep : proj.getDependencies() ) {
-							if ( dep.getIModuleHeader().getModuleID().equals(project)) {
-								ArtifactManager mgr = ((Dependency) dep).getArtifactManager(null);
-								artifact = mgr.getArtifactByFullyQualifiedName(fqn, false, null);
+			IAbstractArtifact artifact = extractArtifact(uri);
+			if (artifact == null)
+				return null;
+
+			String fragment = uri.fragment();
+
+			if (fragment != null) {
+
+				// Let's extract the method, and go from there
+				String methodId = fragment.substring(0, fragment.indexOf(";;"));
+				String argName = fragment.substring(fragment.indexOf(";;") + 2);
+				for (IMethod m : artifact.getMethods()) {
+					if (m.getMethodId().equals(methodId)) {
+						for (IArgument arg : m.getArguments()) {
+							if (arg.getName().equals(argName)) {
+								return arg;
 							}
 						}
 					}
 				}
-				return null;
-			} else {
-				IAbstractTigerstripeProject tsp = TigerstripeCore
-						.findProject(project);
-				if (!(tsp instanceof ITigerstripeModelProject))
-					return null;
-
-				IArtifactManagerSession artifactManagerSession = ((ITigerstripeModelProject) tsp)
-						.getArtifactManagerSession();
-				artifact = artifactManagerSession
-						.getArtifactByFullyQualifiedName(fqn);
 			}
+			return null;
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+			return null;
+		}
+	}
 
-			if (artifact == null )
+	/**
+	 * The URI is expected to be something like:
+	 * 
+	 * tigerstripe:/project/FQN if artifact from project or
+	 * tigerstripe:/project/module-name/FQN if artifact from Module.
+	 * 
+	 * @param uri
+	 * @return
+	 */
+	public static IModelComponent uriToComponent(URI uri) {
+
+		try {
+
+			IAbstractArtifact artifact = extractArtifact(uri);
+			if (artifact == null)
 				return null;
-			
+
 			String fragment = uri.fragment();
 
 			if (fragment != null) {
-				if (fragment.contains(";")
+				if (fragment.contains(";;")) {
+					// This means we're dealing with a method argument.
+					// Since IArgument is not a IModelComponent yet so it'll get
+					// picked up later
+					return null;
+				} else if (fragment.contains(";")
 						&& artifact instanceof IAssociationArtifact) {
 					IAssociationArtifact assoc = (IAssociationArtifact) artifact;
 					if (fragment.endsWith(";aEnd"))
@@ -239,6 +292,15 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		return toURI(element, null);
 	}
 
+	public static URI toURI(IArgument argument) throws TigerstripeException {
+		IMethod method = argument.getContainingMethod();
+		IAbstractArtifact art = getArtifact(method);
+		IPath artifactPath = getArtifactPath(art, null);
+
+		String fragment = method.getMethodId() + ";;" + argument.getName();
+		return toURI(artifactPath, fragment, art.isReadonly());
+	}
+
 	public static URI toURI(IAbstractTigerstripeProject project)
 			throws TigerstripeException {
 		IPath path = project.getFullPath();
@@ -257,9 +319,9 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	 */
 	public static URI toURI(IDiagram element) throws TigerstripeException {
 		IPath fullPath = element.getDiagramFile().getFullPath();
-//		System.out.println("DiagramFile (location): "
-//				+ element.getDiagramFile().getLocation() + " (fullpath): "
-//				+ fullPath);
+		// System.out.println("DiagramFile (location): "
+		// + element.getDiagramFile().getLocation() + " (fullpath): "
+		// + fullPath);
 
 		String project = fullPath.segment(0);
 		IPath truncated = fullPath.removeFirstSegments(2).removeFileExtension();
@@ -275,7 +337,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		IPath result = new Path(project);
 		result = result.append("diagram").append(fullPath.getFileExtension())
 				.append(sb.toString());
-//		System.out.println("Final path: "+result.toString());
+		// System.out.println("Final path: "+result.toString());
 		return toURI(result, null, false);
 	}
 
