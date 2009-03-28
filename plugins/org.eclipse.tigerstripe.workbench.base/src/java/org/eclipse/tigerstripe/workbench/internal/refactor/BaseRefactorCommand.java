@@ -20,10 +20,13 @@ import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.annotation.TigerstripeRefactoringSupport;
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramChangeDelta;
@@ -81,6 +84,7 @@ public class BaseRefactorCommand implements IRefactorCommand {
 			monitor = new NullProgressMonitor();
 
 		disableAuditsAndDiagSync();
+		disableAnnotationsSync();
 
 		Set<Object> toCleanUp = new HashSet<Object>();
 
@@ -96,7 +100,16 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		// Set<IResource> affectedResources = getAffectedResources();
 		// System.out.println(affectedResources);
 
+		enableAnnotationsSync();
 		reEnableAuditsAndDiagSync();
+	}
+
+	protected void disableAnnotationsSync() {
+		TigerstripeRefactoringSupport.INSTANCE.stop();
+	}
+
+	protected void enableAnnotationsSync() {
+		TigerstripeRefactoringSupport.INSTANCE.start();
 	}
 
 	protected void cleanUp(Collection<Object> toCleanUp,
@@ -134,8 +147,7 @@ public class BaseRefactorCommand implements IRefactorCommand {
 	protected void rebuildIndexes(IProgressMonitor monitor)
 			throws TigerstripeException {
 		// Rebuilding indexes is necessary for the Auditor to be in sync with
-		// the model since it
-		// was put to sleep during the refactor process.
+		// the model since it was put to sleep during the refactor process.
 		TigerstripeProjectAuditor.rebuildIndexes(monitor);
 	}
 
@@ -143,7 +155,15 @@ public class BaseRefactorCommand implements IRefactorCommand {
 			throws TigerstripeException {
 		monitor.beginTask("Moving Diagrams", diagramDeltas.size());
 		for (DiagramChangeDelta diagramDelta : diagramDeltas) {
-			DiagramRefactorHelper.applyDelta(diagramDelta, monitor);
+			try {
+				DiagramRefactorHelper.applyDelta(diagramDelta, monitor);
+			} catch (Exception e) {
+				Status status = new Status(IStatus.ERROR, BasePlugin.PLUGIN_ID,
+						"Error occured while trying to move Diagram: "
+								+ diagramDelta.getAffDiagramHandle()
+										.getDiagramResource().getName(), e);
+				BasePlugin.log(status);
+			}
 			monitor.worked(1);
 		}
 		monitor.done();

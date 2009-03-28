@@ -124,12 +124,16 @@ public class DiagramRefactorHelper {
 			IResource[] underlyingResources, IProgressMonitor monitor)
 			throws CoreException {
 		for (IResource res : underlyingResources) {
-			IPath newPath = targetContainer.getFullPath().append(res.getName());
-			res.move(newPath, true, monitor);
+			try {
+				IPath newPath = targetContainer.getFullPath().append(
+						res.getName());
+				res.move(newPath, true, monitor);
 
-			IResource newRes = targetContainer.findMember(res.getName());
-			updatePackage(newRes);
-
+				IResource newRes = targetContainer.findMember(res.getName());
+				updatePackage(newRes);
+			} catch (Exception e) {
+				BasePlugin.log(e);
+			}
 		}
 
 	}

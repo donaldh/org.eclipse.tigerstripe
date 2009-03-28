@@ -19,6 +19,17 @@ import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 
+/**
+ * This listener propagates model changes to the annotation framework as needed
+ * to ensure that the annotations "travel" with the artifacts and model
+ * components as needed
+ * 
+ * Note that during a refactor operation, the propagation to the annotation
+ * framework is done directly to avoid any batching/threading issue.
+ * 
+ * @author erdillon
+ * 
+ */
 public class TigerstripeRefactoringSupport implements
 		ITigerstripeChangeListener {
 

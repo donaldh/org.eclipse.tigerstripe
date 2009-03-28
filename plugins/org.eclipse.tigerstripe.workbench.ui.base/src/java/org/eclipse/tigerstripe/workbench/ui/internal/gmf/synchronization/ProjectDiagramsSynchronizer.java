@@ -211,9 +211,6 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 					if (!DiagramSynchronizationManager.getInstance()
 							.isSynchronizationHeld())
 						return flushRequestQueue(true, monitor);
-					else {
-						System.out.println("holding off on request");
-					}
 					return Status.OK_STATUS;
 				} finally {
 					schedule(300); // start again in 300ms
@@ -244,7 +241,6 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 	public IStatus flushRequestQueue(boolean applyRequests,
 			IProgressMonitor monitor) {
 		while (!requestQueue.isEmpty()) {
-			System.out.println("flushing on " + getProject().getName());
 			try {
 				SynchronizationRequest request = (SynchronizationRequest) requestQueue
 						.dequeue();

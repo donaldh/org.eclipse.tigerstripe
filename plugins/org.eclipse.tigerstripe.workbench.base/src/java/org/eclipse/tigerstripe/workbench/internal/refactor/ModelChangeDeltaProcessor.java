@@ -13,8 +13,14 @@ package org.eclipse.tigerstripe.workbench.internal.refactor;
 import java.util.Collection;
 
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.annotation.core.IRefactoringSupport;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.ArtifactSetFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
@@ -35,14 +41,21 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
  * This is a helper class that is used to delegate the "apply()" method of
  * {@link IModelChangeDelta}.
  * 
+ * This will handle all "refactor" model change deltas.
+ * 
+ * Note that for each delta, the change will be propagated directly to the
+ * Annotations framework to ensure the annotations are kept up2date.
+ * 
  * @author erdillon
  * 
  */
 public class ModelChangeDeltaProcessor {
 
+	private static IRefactoringSupport refactor = AnnotationPlugin.getManager()
+			.getRefactoringSupport();
+
 	public static void processModelChangeDelta(ModelChangeDelta delta,
 			Collection<Object> toCleanUp) throws TigerstripeException {
-		System.out.println("Processing delta:" + delta);
 		Object component = delta.getComponent();
 		if (component instanceof IField) {
 			processIFieldChange((IField) component, delta);
@@ -82,9 +95,16 @@ public class ModelChangeDeltaProcessor {
 							.makeWorkingCopy(null);
 					newOne.setFullyQualifiedName((String) delta.getNewValue());
 					newOne.doSave(null);
+
+					// propagate to annotations framework
+					URI oldUri = (URI) artifact.getAdapter(URI.class);
+					URI newUri = (URI) newOne.getAdapter(URI.class);
+					refactor.changed(oldUri, newUri, true);
+
 					toCleanUp.add(artifact);
 				} else {
 					// renaming an artifact here
+					URI oldUri = (URI) artifact.getAdapter(URI.class);
 					IResource res = (IResource) artifact
 							.getAdapter(IResource.class);
 					IArtifactManagerSession session = artifact.getProject()
@@ -92,6 +112,11 @@ public class ModelChangeDeltaProcessor {
 					session.renameArtifact(artifact, (String) delta
 							.getNewValue());
 					artifact.doSave(null);
+
+					// propagate to annotations framework
+					URI newUri = (URI) artifact.getAdapter(URI.class);
+					refactor.changed(oldUri, newUri, true);
+
 					toCleanUp.add(res);
 				}
 			} else if (ArtifactSetFeatureRequest.EXTENDS_FEATURE.equals(delta
@@ -132,7 +157,9 @@ public class ModelChangeDeltaProcessor {
 					artifact.doSave(null);
 				}
 			} else {
-				System.err.println("Unsupported Delta:" + delta);
+				Status status = new Status(IStatus.ERROR, BasePlugin.PLUGIN_ID,
+						"Unsupported refactor delta: " + delta);
+				BasePlugin.log(status);
 			}
 		} else if (IModelChangeDelta.ADD == delta.getType()) {
 
