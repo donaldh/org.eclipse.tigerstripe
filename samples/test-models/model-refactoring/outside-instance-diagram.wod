@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:instancediagram="org.eclipse.tigerstripe.workbench.ui.instancediagram" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.1/notation" xmi:id="_CtS14N2-Ed2_UZN3HYa3Kw" type="Instance" name="outside-instance-diagram.wod" measurementUnit="Pixel">
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:instancediagram="org.eclipse.tigerstripe.workbench.ui.instancediagram" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.1/notation" xmlns:org.eclipse.tigerstripe.annotation.ui.diagrams.model="http:///org/eclipse/tigerstripe/annotation/ui/diagrams/model.ecore" xmi:id="_CtS14N2-Ed2_UZN3HYa3Kw" type="Instance" name="outside-instance-diagram.wod" measurementUnit="Pixel">
   <children xmi:type="notation:Node" xmi:id="_HruewN2-Ed2_UZN3HYa3Kw" type="1001">
     <children xmi:type="notation:Node" xmi:id="_Hrvs4N2-Ed2_UZN3HYa3Kw" type="4001"/>
     <children xmi:type="notation:Node" xmi:id="_Hrvs4d2-Ed2_UZN3HYa3Kw" type="5001">
@@ -41,6 +41,11 @@
     <styles xmi:type="notation:LineStyle" xmi:id="_J6WSdN2-Ed2_UZN3HYa3Kw"/>
     <element xmi:type="instancediagram:ClassInstance" href="outside-instance-diagram.owm#//@classInstances.2"/>
     <layoutConstraint xmi:type="notation:Bounds" xmi:id="_J6WSdd2-Ed2_UZN3HYa3Kw" x="522" y="162"/>
+  </children>
+  <children xmi:type="org.eclipse.tigerstripe.annotation.ui.diagrams.model:MetaAnnotationNode" xmi:id="_F8AvwBvnEd6D0f_yW27Odw" type="MetaAnnotation">
+    <styles xmi:type="notation:ShapeStyle" xmi:id="_F8AvwRvnEd6D0f_yW27Odw" fontName="Lucida Grande" fillColor="9434110" lineColor="6661313"/>
+    <element xsi:nil="true"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_F8AvwhvnEd6D0f_yW27Odw"/>
   </children>
   <styles xmi:type="notation:PageStyle" xmi:id="_CtS14d2-Ed2_UZN3HYa3Kw"/>
   <styles xmi:type="notation:GuideStyle" xmi:id="_CtS14t2-Ed2_UZN3HYa3Kw"/>
