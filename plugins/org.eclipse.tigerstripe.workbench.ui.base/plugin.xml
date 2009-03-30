@@ -878,12 +878,40 @@
                  commandId="org.eclipse.tigerstripe.workbench.ui.base.refactorRename"
                  label="Rename..."
                  style="push">
+              <visibleWhen
+                    checkEnabled="false">
+                 <count
+                       value="1">
+                 </count>
+              </visibleWhen>
            </command>
            <command
                  commandId="org.eclipse.tigerstripe.workbench.ui.base.refactorMove"
                  label="Move..."
                  style="push">
+              <visibleWhen
+                    checkEnabled="false">
+                 <count
+                       value="1">
+                 </count>
+              </visibleWhen>
            </command>
+           <visibleWhen
+                 checkEnabled="false">
+              <with
+                    variable="selection">
+                 <iterate>
+                    <and>
+                       <instanceof
+                             value="org.eclipse.jdt.core.IJavaElement">
+                       </instanceof>
+                       <adapt
+                             type="org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact">
+                       </adapt>
+                    </and>
+                 </iterate>
+              </with>
+           </visibleWhen>
         </menu>
      </menuContribution>
   </extension>
