@@ -44,4 +44,8 @@ public class DiagramChangeDelta implements IDiagramChangeDelta {
 		return this.destinationPath;
 	}
 
+	public String toString() {
+		return "DiagramDelta: renaming " + getAffDiagramHandle().toString()
+				+ " to " + this.destinationPath;
+	}
 }

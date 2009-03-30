@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.refactor.BaseRefactorCommand;
+import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramChangeDelta;
 
 /**
  * A refactor command holds a set of set of changes that were computed as a
@@ -30,6 +31,8 @@ public interface IRefactorCommand {
 			new RefactorRequest[0]);
 
 	public Collection<ModelChangeDelta> getDeltas();
+	
+	public Collection<DiagramChangeDelta> getDiagramDeltas();
 
 	/**
 	 * All the request to be serviced by this command. Note that this will

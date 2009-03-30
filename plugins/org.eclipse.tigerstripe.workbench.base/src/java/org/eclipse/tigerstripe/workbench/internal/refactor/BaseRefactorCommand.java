@@ -236,6 +236,10 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		return requests;
 	}
 
+	public Collection<DiagramChangeDelta> getDiagramDeltas() {
+		return diagramDeltas;
+	}
+
 	public Collection<ModelChangeDelta> getDeltas() {
 		return deltas;
 	}

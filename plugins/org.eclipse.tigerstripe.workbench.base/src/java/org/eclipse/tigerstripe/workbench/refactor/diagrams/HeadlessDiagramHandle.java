@@ -72,4 +72,9 @@ public class HeadlessDiagramHandle {
 			return false;
 		}
 	}
+
+	public String toString() {
+		return getModelResource().getFullPath().removeFileExtension()
+				.toPortableString();
+	}
 }
