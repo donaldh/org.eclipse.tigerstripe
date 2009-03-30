@@ -31,6 +31,7 @@ import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAudi
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramRefactorHelper;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.refactor.IRefactorCommand;
 import org.eclipse.tigerstripe.workbench.refactor.RefactorRequest;
@@ -201,33 +202,60 @@ public class BaseRefactorCommand implements IRefactorCommand {
 
 	protected void applyAllDeltas(IProgressMonitor monitor,
 			Collection<Object> toCleanUp) {
-		monitor.beginTask("Applying deltas", deltas.size());
+		monitor.beginTask("Applying deltas", 2 * deltas.size());
 
-		// We need to apply deltas in 2 passes
+		// We need to apply deltas in 3 passes
 		// First pass for all non-renaming deltas. This ensures we take care of
-		// the
-		// inside of all artifact changes first.
-		for (ModelChangeDelta delta : deltas) {
-			try {
-				if (delta.isComponentRefactor())
-					delta.apply(toCleanUp);
-			} catch (TigerstripeException e) {
-				BasePlugin.log(e);
-			}
-			monitor.worked(1);
-		}
+		// the inside of all artifact changes first.
+		// for (ModelChangeDelta delta : deltas) {
+		// try {
+		// if (delta.isComponentRefactor()
+		// && !delta.isRelationEndRefactor())
+		// delta.apply(toCleanUp);
+		// } catch (TigerstripeException e) {
+		// BasePlugin.log(e);
+		// }
+		// monitor.worked(1);
+		// }
 
 		// then a second pass that will actually move artifacts that need to
 		// be moved
+		Set<IAbstractArtifact> toSave = new HashSet<IAbstractArtifact>();
 		for (ModelChangeDelta delta : deltas) {
 			try {
-				if (!delta.isComponentRefactor())
-					delta.apply(toCleanUp);
+				if (!delta.isComponentRefactor()
+						&& !delta.isRelationEndRefactor())
+					delta.apply(toCleanUp, toSave);
 			} catch (TigerstripeException e) {
 				BasePlugin.log(e);
 			}
 			monitor.worked(1);
 		}
+		for (IAbstractArtifact art : toSave)
+			try {
+				art.doSave(monitor);
+			} catch (TigerstripeException e) {
+				BasePlugin.log(e);
+			}
+
+		// Then update all the relationship ends.
+		toSave.clear();
+		for (ModelChangeDelta delta : deltas) {
+			try {
+				if (delta.isRelationEndRefactor()
+						|| delta.isComponentRefactor())
+					delta.apply(toCleanUp, toSave);
+			} catch (TigerstripeException e) {
+				BasePlugin.log(e);
+			}
+			monitor.worked(1);
+		}
+		for (IAbstractArtifact art : toSave)
+			try {
+				art.doSave(monitor);
+			} catch (TigerstripeException e) {
+				BasePlugin.log(e);
+			}
 
 		monitor.done();
 	}

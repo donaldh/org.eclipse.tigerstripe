@@ -55,35 +55,43 @@ public class ModelChangeDeltaProcessor {
 			.getRefactoringSupport();
 
 	public static void processModelChangeDelta(ModelChangeDelta delta,
-			Collection<Object> toCleanUp) throws TigerstripeException {
+			Collection<Object> toCleanUp, Collection<IAbstractArtifact> toSave)
+			throws TigerstripeException {
 		Object component = delta.getComponent();
 		if (component instanceof IField) {
-			processIFieldChange((IField) component, delta);
+			processIFieldChange((IField) component, delta, toSave);
 		} else if (component instanceof IMethod) {
-			processIMethodChange((IMethod) component, delta);
+			processIMethodChange((IMethod) component, delta, toSave);
 		} else if (component instanceof IAbstractArtifact) {
 			processIAbstractArtifactChange((IAbstractArtifact) component,
-					delta, toCleanUp);
+					delta, toCleanUp, toSave);
 		} else if (component instanceof IArgument) {
-			processIArgumentChange((IArgument) component, delta, toCleanUp);
+			processIArgumentChange((IArgument) component, delta, toCleanUp,
+					toSave);
 		}
 	}
 
 	protected static void processIArgumentChange(IArgument arg,
-			IModelChangeDelta delta, Collection<Object> toCleanUp)
-			throws TigerstripeException {
+			IModelChangeDelta delta, Collection<Object> toCleanUp,
+			Collection<IAbstractArtifact> toSave) throws TigerstripeException {
 		if (IModelChangeDelta.SET == delta.getType()) {
 			if (IMethodSetRequest.ARGTYPE_FEATURE.equals(delta.getFeature())) {
 				arg.getType().setFullyQualifiedName(
 						(String) delta.getNewValue());
-				arg.getContainingMethod().getContainingArtifact().doSave(null);
+				if (toSave == null)
+					arg.getContainingMethod().getContainingArtifact().doSave(
+							null);
+				else
+					toSave.add(arg.getContainingMethod()
+							.getContainingArtifact());
 			}
 		}
 	}
 
 	protected static void processIAbstractArtifactChange(
 			IAbstractArtifact artifact, IModelChangeDelta delta,
-			Collection<Object> toCleanUp) throws TigerstripeException {
+			Collection<Object> toCleanUp, Collection<IAbstractArtifact> toSave)
+			throws TigerstripeException {
 		if (IModelChangeDelta.SET == delta.getType()) {
 			if ("fqn".equals(delta.getFeature())) {
 				if (artifact instanceof IPackageArtifact) {
@@ -94,7 +102,10 @@ public class ModelChangeDeltaProcessor {
 					IAbstractArtifact newOne = ((AbstractArtifact) artifact)
 							.makeWorkingCopy(null);
 					newOne.setFullyQualifiedName((String) delta.getNewValue());
-					newOne.doSave(null);
+					if (toSave == null)
+						newOne.doSave(null);
+					else
+						toSave.add(newOne);
 
 					// propagate to annotations framework
 					URI oldUri = (URI) artifact.getAdapter(URI.class);
@@ -111,7 +122,10 @@ public class ModelChangeDeltaProcessor {
 							.getArtifactManagerSession();
 					session.renameArtifact(artifact, (String) delta
 							.getNewValue());
-					artifact.doSave(null);
+					if (toSave == null)
+						artifact.doSave(null);
+					else
+						toSave.add(artifact);
 
 					// propagate to annotations framework
 					URI newUri = (URI) artifact.getAdapter(URI.class);
@@ -122,26 +136,38 @@ public class ModelChangeDeltaProcessor {
 			} else if (ArtifactSetFeatureRequest.EXTENDS_FEATURE.equals(delta
 					.getFeature())) {
 				artifact.setExtendedArtifact((String) delta.getNewValue());
-				artifact.doSave(null);
+				if (toSave == null)
+					artifact.doSave(null);
+				else
+					toSave.add(artifact);
 			} else if (ArtifactSetFeatureRequest.RETURNED_TYPE.equals(delta
 					.getFeature())) {
 				IQueryArtifact query = (IQueryArtifact) artifact;
 				IType type = query.makeType();
 				type.setFullyQualifiedName((String) delta.getNewValue());
 				query.setReturnedType(type);
-				query.doSave(null);
+				if (toSave == null)
+					query.doSave(null);
+				else
+					toSave.add(query);
 			} else if (ArtifactSetFeatureRequest.AEND
 					.equals(delta.getFeature())) {
 				if (artifact instanceof IAssociationArtifact) {
 					IAssociationArtifact assoc = (IAssociationArtifact) artifact;
 					IType type = assoc.getAEnd().getType();
 					type.setFullyQualifiedName((String) delta.getNewValue());
-					artifact.doSave(null);
+					if (toSave == null)
+						artifact.doSave(null);
+					else
+						toSave.add(artifact);
 				} else if (artifact instanceof IDependencyArtifact) {
 					IDependencyArtifact assoc = (IDependencyArtifact) artifact;
 					IType type = assoc.getAEndType();
 					type.setFullyQualifiedName((String) delta.getNewValue());
-					artifact.doSave(null);
+					if (toSave == null)
+						artifact.doSave(null);
+					else
+						toSave.add(artifact);
 				}
 			} else if (ArtifactSetFeatureRequest.ZEND
 					.equals(delta.getFeature())) {
@@ -149,12 +175,18 @@ public class ModelChangeDeltaProcessor {
 					IAssociationArtifact assoc = (IAssociationArtifact) artifact;
 					IType type = assoc.getZEnd().getType();
 					type.setFullyQualifiedName((String) delta.getNewValue());
-					artifact.doSave(null);
+					if (toSave == null)
+						artifact.doSave(null);
+					else
+						toSave.add(artifact);
 				} else if (artifact instanceof IDependencyArtifact) {
 					IDependencyArtifact assoc = (IDependencyArtifact) artifact;
 					IType type = assoc.getZEndType();
 					type.setFullyQualifiedName((String) delta.getNewValue());
-					artifact.doSave(null);
+					if (toSave == null)
+						artifact.doSave(null);
+					else
+						toSave.add(artifact);
 				}
 			} else {
 				Status status = new Status(IStatus.ERROR, BasePlugin.PLUGIN_ID,
@@ -162,25 +194,34 @@ public class ModelChangeDeltaProcessor {
 				BasePlugin.log(status);
 			}
 		} else if (IModelChangeDelta.ADD == delta.getType()) {
-
-			artifact.doSave(null);
+			if (toSave == null)
+				artifact.doSave(null);
+			else
+				toSave.add(artifact);
 		} else if (IModelChangeDelta.REMOVE == delta.getType()) {
-
-			artifact.doSave(null);
+			if (toSave == null)
+				artifact.doSave(null);
+			else
+				toSave.add(artifact);
 		}
 	}
 
 	protected static void processIMethodChange(IMethod method,
-			IModelChangeDelta delta) throws TigerstripeException {
+			IModelChangeDelta delta, Collection<IAbstractArtifact> toSave)
+			throws TigerstripeException {
 		if (IMethodSetRequest.TYPE_FEATURE.equals(delta.getFeature())) {
 			IType returnType = method.getReturnType();
 			returnType.setFullyQualifiedName((String) delta.getNewValue());
-			method.getContainingArtifact().doSave(null);
+			if (toSave == null)
+				method.getContainingArtifact().doSave(null);
+			else
+				toSave.add(method.getContainingArtifact());
 		}
 	}
 
 	protected static void processIFieldChange(IField field,
-			IModelChangeDelta delta) throws TigerstripeException {
+			IModelChangeDelta delta, Collection<IAbstractArtifact> toSave)
+			throws TigerstripeException {
 		if (IAttributeSetRequest.NAME_FEATURE.equals(delta.getFeature())) {
 			field.setName((String) delta.getNewValue());
 		} else if (IAttributeSetRequest.TYPE_FEATURE.equals(delta.getFeature())) {
@@ -193,6 +234,9 @@ public class ModelChangeDeltaProcessor {
 
 		IAbstractArtifact parent = (IAbstractArtifact) field
 				.getContainingModelComponent();
-		parent.doSave(null);
+		if (toSave == null)
+			parent.doSave(null);
+		else
+			toSave.add(parent);
 	}
 }

@@ -19,10 +19,12 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.ArtifactSetFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactFQRenameRequest;
 import org.eclipse.tigerstripe.workbench.internal.refactor.ModelChangeDeltaProcessor;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
@@ -162,8 +164,9 @@ public class ModelChangeDelta implements IModelChangeDelta {
 		return null;
 	}
 
-	public void apply(Collection<Object> toCleanUp) throws TigerstripeException {
-		ModelChangeDeltaProcessor.processModelChangeDelta(this, toCleanUp);
+	public void apply(Collection<Object> toCleanUp,
+			Collection<IAbstractArtifact> toSave) throws TigerstripeException {
+		ModelChangeDeltaProcessor.processModelChangeDelta(this, toCleanUp, toSave);
 	}
 
 	/**
@@ -206,6 +209,14 @@ public class ModelChangeDelta implements IModelChangeDelta {
 	public boolean isComponentRefactor() {
 		if (component instanceof IAbstractArtifact) {
 			return !IArtifactFQRenameRequest.FQN_FEATURE.equals(getFeature());
+		}
+		return false;
+	}
+
+	public boolean isRelationEndRefactor() {
+		if (component instanceof IRelationship) {
+			return ArtifactSetFeatureRequest.AEND.equals(getFeature())
+					|| ArtifactSetFeatureRequest.ZEND.equals(getFeature());
 		}
 		return false;
 	}

@@ -14,6 +14,7 @@ import java.util.Collection;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public interface IModelChangeDelta {
@@ -104,7 +105,12 @@ public interface IModelChangeDelta {
 	 * @param toCleanUp
 	 *            - upon return, this collection will contain a list of
 	 *            artifacts to remove.
+	 * @param toSave
+	 *            - if not null, this will contain the list of artifacts to save
+	 *            to commit the delta. If null, each delta is followed by a
+	 *            save.
 	 * @throws TigerstripeException
 	 */
-	public void apply(Collection<Object> toCleanUp) throws TigerstripeException;
+	public void apply(Collection<Object> toCleanUp,
+			Collection<IAbstractArtifact> toSave) throws TigerstripeException;
 }

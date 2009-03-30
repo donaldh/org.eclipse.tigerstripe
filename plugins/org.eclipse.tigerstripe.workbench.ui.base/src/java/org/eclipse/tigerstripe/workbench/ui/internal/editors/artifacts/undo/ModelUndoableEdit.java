@@ -112,7 +112,8 @@ public class ModelUndoableEdit extends UndoableEdit implements
 		return null;
 	}
 
-	public void apply(Collection<Object> toCleanUp) throws TigerstripeException {
+	public void apply(Collection<Object> toCleanUp,
+			Collection<IAbstractArtifact> toSave) throws TigerstripeException {
 		// this is not supported here.
 		// This method is only relevant in the context of refactoring.
 		throw new UnsupportedOperationException();
