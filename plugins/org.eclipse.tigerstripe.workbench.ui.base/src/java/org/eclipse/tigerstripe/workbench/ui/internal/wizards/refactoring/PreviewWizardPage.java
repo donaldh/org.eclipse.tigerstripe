@@ -23,10 +23,18 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactFQRenameRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactSetFeatureRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactComponent;
+import org.eclipse.tigerstripe.workbench.internal.core.model.Field;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
+import org.eclipse.tigerstripe.workbench.internal.core.model.Method.Argument;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.AbstractArtifactLabelProvider;
 
@@ -43,7 +51,6 @@ public class PreviewWizardPage extends WizardPage {
 			} else {
 				return null;
 			}
-
 		}
 
 		@Override
@@ -52,53 +59,110 @@ public class PreviewWizardPage extends WizardPage {
 			if (element instanceof ModelChangeDelta) {
 
 				ModelChangeDelta delta = (ModelChangeDelta) element;
-				if (delta.getComponent() instanceof AbstractArtifact) {
+				if (delta.getComponent() instanceof ArtifactComponent) {
 
-					StringBuffer sb = new StringBuffer();
-					if (delta.getFeature().equals(IArtifactFQRenameRequest.FQN_FEATURE)) {
-						sb.append("Move/Rename ");
-						sb.append(delta.getOldValue());
-						sb.append(" to ");
-						sb.append(delta.getNewValue());
+					if (delta.getComponent() instanceof AbstractArtifact) {
+
+						if (delta.getComponent() instanceof IQueryArtifact && delta.getFeature().equals(IArtifactSetFeatureRequest.RETURNED_TYPE)) {
+
+							AbstractArtifact artifact = (AbstractArtifact) delta.getComponent();
+							StringBuffer sb = new StringBuffer();
+							sb.append(artifact.getName());
+							sb.append(" return type moved/renamed from ");
+							sb.append(delta.getOldValue());
+							sb.append(" to ");
+							sb.append(delta.getNewValue());
+							return sb.toString();
+						}
+
+						StringBuffer sb = new StringBuffer();
+						if (delta.getFeature().equals(IArtifactFQRenameRequest.FQN_FEATURE)) {
+							sb.append("Move/Rename ");
+							sb.append(delta.getOldValue());
+							sb.append(" to ");
+							sb.append(delta.getNewValue());
+						} else if (delta.getFeature().equals(IArtifactSetFeatureRequest.EXTENDS_FEATURE)) {
+							AbstractArtifact artifact = (AbstractArtifact) delta.getComponent();
+							sb.append(artifact.getFullyQualifiedName() + " ");
+							sb.append("generalization ");
+							sb.append(delta.getOldValue());
+							sb.append(" moved/renamed to ");
+							sb.append(delta.getNewValue());
+						} else if ((delta.getFeature().equals(IArtifactSetFeatureRequest.ZEND) || (delta.getFeature()
+								.equals(IArtifactSetFeatureRequest.AEND)))) {
+							AbstractArtifact artifact = (AbstractArtifact) delta.getComponent();
+							sb.append(artifact.getFullyQualifiedName() + " ");
+							sb.append(delta.getFeature() + " ");
+							sb.append("moved/renamed to ");
+							sb.append(delta.getNewValue());
+						} else if ((delta.getFeature().equals(IArtifactAddFeatureRequest.IMPLEMENTS_FEATURE))) {
+							AbstractArtifact artifact = (AbstractArtifact) delta.getComponent();
+							sb.append(artifact.getFullyQualifiedName() + " ");
+							sb.append("implemented interface ");
+							sb.append(delta.getOldValue());
+							sb.append(" moved/renamed to ");
+							sb.append(delta.getNewValue());
+						} else {
+							sb.append(delta.toString());
+						}
+
 						return sb.toString();
-					} else if (delta.getFeature().equals(IArtifactSetFeatureRequest.EXTENDS_FEATURE)) {
-						AbstractArtifact artifact = (AbstractArtifact) delta.getComponent();
-						sb.append(artifact.getFullyQualifiedName() + " ");
-						sb.append("generalization ");
-						sb.append(delta.getOldValue());
-						sb.append(" updated to ");
-						sb.append(delta.getNewValue());
-					} else if ((delta.getFeature().equals(IArtifactSetFeatureRequest.ZEND) || (delta.getFeature()
-							.equals(IArtifactSetFeatureRequest.AEND)))) {
-						AbstractArtifact artifact = (AbstractArtifact) delta.getComponent();
-						sb.append(artifact.getFullyQualifiedName() + " ");
-						sb.append(delta.getFeature() + " ");
-						sb.append("moved/renamed to ");
-						sb.append(delta.getNewValue());
+
 					} else {
-						sb.append(delta.toString());
+
+						ArtifactComponent component = (ArtifactComponent) delta.getComponent();
+
+						if (component instanceof Field) {
+
+							StringBuffer sb = new StringBuffer();
+
+							IModelComponent mdlComponent = component.getContainingModelComponent();
+							IAbstractArtifact artifact = (IAbstractArtifact) mdlComponent;
+
+							sb.append("Attribute ");
+							sb.append(artifact.getFullyQualifiedName() + "." + component.getName());
+							sb.append(" type moved/renamed from ");
+							sb.append(delta.getOldValue());
+							sb.append(" to ");
+							sb.append(delta.getNewValue());
+							return sb.toString();
+
+						}
+
+						if (delta.getFeature().equals(IMethodSetRequest.TYPE_FEATURE)) {
+
+							StringBuffer sb = new StringBuffer();
+
+							IModelComponent mdlComponent = component.getContainingModelComponent();
+							IAbstractArtifact artifact = (IAbstractArtifact) mdlComponent;
+
+							sb.append("Method ");
+							sb.append(artifact.getFullyQualifiedName() + "." + component.getName());
+							sb.append(" return type moved/renamed from ");
+							sb.append(delta.getOldValue());
+							sb.append(" to ");
+							sb.append(delta.getNewValue());
+							return sb.toString();
+						}
 					}
+				}
 
+				// Method Argument is a special case
+				if (delta.getComponent() instanceof Argument) {
+
+					Argument arg = (Argument) delta.getComponent();
+					StringBuffer sb = new StringBuffer();
+					sb.append("Method ");
+					sb.append(arg.getContainingArtifact().getFullyQualifiedName());
+					sb.append(" argument type moved/renamed from ");
+					sb.append(delta.getOldValue());
+					sb.append(" to ");
+					sb.append(delta.getNewValue());
 					return sb.toString();
-
-				} else {
-					return "NOT AN ARTIFACT!";
 				}
 
 			}
 			return null;
-		}
-
-		private String getAssociationLabel(ModelChangeDelta delta) {
-
-			AbstractArtifact artifact = (AbstractArtifact) delta.getComponent();
-			StringBuffer sb = new StringBuffer();
-			sb.append(artifact.getFullyQualifiedName() + " ");
-			sb.append(delta.getFeature() + " ");
-			sb.append("moved/renamed to ");
-			sb.append(delta.getNewValue());
-
-			return sb.toString();
 		}
 	}
 
