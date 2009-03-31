@@ -1337,6 +1337,8 @@ public class DiffFixer {
 				addMessage(msgText, 0);
 				t.printStackTrace(out);
 				continue;
+			} finally {
+				out.flush();
 			}
 		}
 		return secondPassDiffs;

@@ -50,6 +50,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EAggr
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EChangeableEnum;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument.EDirection;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjEnumSpecifics;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
@@ -641,7 +642,7 @@ public class UML2TS {
 
 			}
 		} else {
-			out.println("Not really an Association");
+			out.println("Not really an Association - Munging");
 			if (element instanceof Classifier){
 				AssociationClass parent = null;
 				Classifier c = (Classifier) element;
@@ -655,7 +656,15 @@ public class UML2TS {
 				}
 				if ( parent != null){
 					setAssociationEnds(assocArtifact, parent);
-					
+					// need to add a comment that these are copied
+					assocArtifact.getAEnd().setComment(
+							"WARNING : End details copied form parent \n"+
+							assocArtifact.getAEnd().getComment()
+							);
+					assocArtifact.getZEnd().setComment(
+							"WARNING : End details copied form parent \n"+
+							assocArtifact.getZEnd().getComment()
+							);
 				}
 				
 			}
@@ -890,9 +899,13 @@ public class UML2TS {
 									+ operation.getName() + " : "
 									+ iType.getFullyQualifiedName());
 							method.setReturnType(iType);
-							method.setReturnName(returnResult.getName());
-							this.out.println("INFO : Operation return Name : "
-									+ returnResult.getName());
+							if ( returnResult.getName() != null){
+								method.setReturnName(returnResult.getName());
+								this.out.println("INFO : Operation return Name : "
+										+ returnResult.getName());
+							} else {
+								method.setReturnName("");
+							}
 						}
 						if (returnResult.isSetDefault()){
 							method.setDefaultReturnValue(returnResult.getDefault());
@@ -930,12 +943,21 @@ public class UML2TS {
 					while (paramIt.hasNext()) {
 						Parameter param = (Parameter) paramIt.next();
 
-						if (param.getDirection().getValue() != ParameterDirectionKind.IN) {
-							// This is the return, so ignore it.
+						if (param.getDirection().getValue() == ParameterDirectionKind.RETURN) {
+							// In TS, this is the return, so ignore it.
 							continue;
 						}
 						IArgument arg = method.makeArgument();
 						arg.setName(param.getName());
+						
+						EDirection dir = EDirection.INOUT;
+						if (param.getDirection().getValue() == ParameterDirectionKind.IN)
+							dir = EDirection.IN;
+						else if (param.getDirection().getValue() == ParameterDirectionKind.OUT)	
+							dir = EDirection.OUT;
+						else if (param.getDirection().getValue() == ParameterDirectionKind.INOUT)	
+							dir = EDirection.INOUT;
+						arg.setDirection(dir);
 
 						IType aType = method.makeType();
 						Type pType = param.getType();

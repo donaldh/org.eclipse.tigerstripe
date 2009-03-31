@@ -128,6 +128,7 @@ public class UML2ImportWizard extends Wizard implements INewWizard {
 					wizardSettings.put("UnknownType",getFirstPage().getUnknownType());
 					
 					monitor.done();
+					
 				}
 			}
 		};

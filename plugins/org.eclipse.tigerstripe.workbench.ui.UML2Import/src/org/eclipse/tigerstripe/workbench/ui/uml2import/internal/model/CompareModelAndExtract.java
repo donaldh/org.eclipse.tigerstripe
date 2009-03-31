@@ -129,8 +129,11 @@ public class CompareModelAndExtract {
 			messages.addMessage(msg);
 			out.println("ERROR : " + msgText);
 			e.printStackTrace(out);
+			out.flush();
 			return allXMLDiffs;
 
+		} finally {
+			out.flush();
 		}
 
 	}
