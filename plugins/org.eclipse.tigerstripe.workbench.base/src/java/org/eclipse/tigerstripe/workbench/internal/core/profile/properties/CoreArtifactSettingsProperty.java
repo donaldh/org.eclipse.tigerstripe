@@ -127,12 +127,10 @@ public class CoreArtifactSettingsProperty extends BaseWorkbenchProfileProperty
 		document.setRootElement(rootElem);
 
 		for (String artifactName : details.keySet()) {
-			System.out.println("A "+artifactName+ " "+((ArtifactSettingDetails) details.get(artifactName)).isEnabled());
 			ArtifactSettingDetails dets = details.get(artifactName);
 			Element detsElem = rootElem.addElement("details");
 			detsElem.addAttribute("artifactType", artifactName);
 			detsElem.addText(dets.serializeToString());
-			System.out.println(dets.serializeToString());
 		}
 
 		return document.asXML();
