@@ -27,6 +27,7 @@ public interface IMethodAddFeatureRequest extends IModelChangeRequest {
 	public final static String ARGUMENT_MULTIPLICITY_FEATURE = "argument_multiplicity";
 	public final static String ARGUMENT_COMMENT_FEATURE = "argument_comment";
 	public final static String ARGUMENT_DEFAULTVALUE_FEATURE = "argument_defaultValue";
+	public final static String ARGUMENT_DIRECTION_FEATURE = "argument_direction";
 	public final static String ARGUMENT_ISUNIQUE_FEATURE = "argument_isUnique";
 	public final static String ARGUMENT_ISORDERED_FEATURE = "argument_isOrdered";
 

@@ -111,6 +111,7 @@
                                 unique="true"
                                 ordered="true" 
                                 defaultValue="Bonjour"
+                                direction="out"
                                 >
                                <ts:comment>Le debut</ts:comment>
                                <ts:stereotypes>

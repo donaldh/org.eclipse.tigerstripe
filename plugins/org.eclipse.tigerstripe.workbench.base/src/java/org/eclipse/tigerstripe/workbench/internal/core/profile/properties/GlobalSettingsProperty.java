@@ -31,9 +31,12 @@ public class GlobalSettingsProperty extends MultiPropertiesProfileProperty
 
 	// all props propKey, prop Label displayed on GUI, default Legacy OSS/J
 	// value, SectionTitle
+	// Leave SectionTitle "" to group an item with the previous item
 	private static String[][] properties = {
 			{ IMPLEMENTSRELATIONSHIP, "'Implements' Relationship", "true",
 					"Meta-model" },
+			{ ARGUMENTDIRECTION, "Argument 'Direction'", "false",
+					"" },
 			{
 					ENABLE_SESSIONFACADE_ONINSTDIAG,
 					"Enable "

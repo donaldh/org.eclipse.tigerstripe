@@ -62,6 +62,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument.EDirection;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.StereotypeSectionManager;
@@ -99,6 +100,10 @@ public class ArgumentEditDialog extends TSMessageDialog {
 	private StringDialogField attributeNameDialogField;
 
 	private ComboDialogField multiplicityCombo;
+	
+	private ComboDialogField directionCombo;
+	
+	private boolean displayDirection = true;
 
 	// private StringDialogField attributeDimensionDialogField;
 
@@ -146,13 +151,14 @@ public class ArgumentEditDialog extends TSMessageDialog {
 
 	public ArgumentEditDialog(Shell parentShell, IArgument argument,
 			Collection<IArgument> existingArguments, IJavaElement elem,
-			ITigerstripeModelProject tsProject) {
+			ITigerstripeModelProject tsProject, boolean displayDirection) {
 		super(parentShell);
 
 		this.tsProject = tsProject;
 		this.initialArgument = argument;
 		this.existingParameters = existingArguments;
 		this.javaElement = elem;
+		this.displayDirection = displayDirection;
 
 		AttributesFieldsAdapter adapter = new AttributesFieldsAdapter();
 
@@ -180,6 +186,11 @@ public class ArgumentEditDialog extends TSMessageDialog {
 		multiplicityCombo.setLabelText("Multiplicity");
 		multiplicityCombo.setDialogFieldListener(adapter);
 
+		directionCombo = new ComboDialogField(0);
+		directionCombo.setItems(IArgument.EDirection.labels());
+		directionCombo.setLabelText("Direction");
+		directionCombo.setDialogFieldListener(adapter);
+		
 		defaultValueField = new ComboDialogField(SWT.BORDER);
 		defaultValueField.setDialogFieldListener(adapter);
 		defaultValueField.setLabelText("Default Value:");
@@ -389,6 +400,8 @@ public class ArgumentEditDialog extends TSMessageDialog {
 
 		multiplicityCombo.selectItem(IModelComponent.EMultiplicity
 				.indexOf(initialArgument.getType().getTypeMultiplicity()));
+		directionCombo.selectItem(EDirection
+				.indexOf(initialArgument.getDirection()));
 		// attributeDimensionDialogField.setText(String.valueOf(initialArgument
 		// .getIType().getMultiplicity()));
 		getShell().setText("Argument Details");
@@ -435,6 +448,14 @@ public class ArgumentEditDialog extends TSMessageDialog {
 
 		DialogField.createEmptySpace(composite);
 
+		if (displayDirection){
+			directionCombo.doFillIntoGrid(composite, nColumns - 1);
+			directionCombo.getComboControl(composite).setVisibleItemCount(
+					EDirection.values().length);
+
+			DialogField.createEmptySpace(composite);
+		}
+		
 		descriptionField.doFillIntoGrid(composite, nColumns - 1);
 		DialogField.createEmptySpace(composite);
 	}
@@ -575,6 +596,8 @@ public class ArgumentEditDialog extends TSMessageDialog {
 
 		initialArgument.setType(type);
 		initialArgument.setComment(descriptionField.getText());
+		
+		initialArgument.setDirection(EDirection.at(directionCombo.getSelectionIndex()));
 
 		if (defaultValueIsSet && attributeDefaultValue != null
 				&& attributeDefaultValue.length() != 0) {

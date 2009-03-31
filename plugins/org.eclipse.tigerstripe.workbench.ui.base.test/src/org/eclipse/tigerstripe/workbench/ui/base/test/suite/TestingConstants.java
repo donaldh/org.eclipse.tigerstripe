@@ -25,7 +25,7 @@ public class TestingConstants {
 	public static String[] DEPENDENCY_NAMES   = new String[]{"Dependency0", "Dependency1", "Dependency2"};
 	
 	// Attribute Names
-	public static String[] ATTRIBUTE_NAMES = new String[]{"testField0", "testField1", "testField2"};
+	public static String[] ATTRIBUTE_NAMES = new String[]{"testField0", "testField1", "testField2","testField3"};
 	
 	// Literal Names
 	public static String[] LITERAL_NAMES = new String[]{"testLiteral0", "testLiteral1", "testLiteral2"};

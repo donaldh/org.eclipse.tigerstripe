@@ -63,7 +63,7 @@ public class CoreArtifactSettingsProperty extends BaseWorkbenchProfileProperty
 			IPackageArtifact.class.getName()};
 
 	// Note thst this is used to get them in the same order in the UI.
-	// however ythe osring is done by the Full Name, not the label
+	// however the tostring is done by the Full Name, not the label
 	// eg ManageedEntity rather than Entity
 	//    Notification rather than Event
 	private TreeMap<String, ArtifactSettingDetails> details = new TreeMap<String, ArtifactSettingDetails>();
@@ -96,10 +96,10 @@ public class CoreArtifactSettingsProperty extends BaseWorkbenchProfileProperty
 							.attributeValue("artifactType"));
 			String content = detailElem.getText();
 			if (artifactType != null && artifactType.length() != 0) {
-				ArtifactSettingDetails details = new ArtifactSettingDetails();
-				details.parseFromSerializedString(content);
-				details.setArtifactType(artifactType);
-				this.details.put(artifactType, details);
+				ArtifactSettingDetails aSdetails = new ArtifactSettingDetails();
+				aSdetails.parseFromSerializedString(content);
+				aSdetails.setArtifactType(artifactType);
+				this.details.put(artifactType, aSdetails);
 			}
 		}
 
@@ -127,10 +127,12 @@ public class CoreArtifactSettingsProperty extends BaseWorkbenchProfileProperty
 		document.setRootElement(rootElem);
 
 		for (String artifactName : details.keySet()) {
+			System.out.println("A "+artifactName+ " "+((ArtifactSettingDetails) details.get(artifactName)).isEnabled());
 			ArtifactSettingDetails dets = details.get(artifactName);
 			Element detsElem = rootElem.addElement("details");
 			detsElem.addAttribute("artifactType", artifactName);
 			detsElem.addText(dets.serializeToString());
+			System.out.println(dets.serializeToString());
 		}
 
 		return document.asXML();

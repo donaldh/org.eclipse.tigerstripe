@@ -18,15 +18,69 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.annotation.IAnnotationCapable;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IEntityMethodFlavorDetails;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 
 public interface IMethod extends IModelComponent {
 
+	
+
 	public final static List<IMethod> EMPTY_LIST = new ArrayList<IMethod>();
 
 	public interface IArgument extends IStereotypeCapable, IAnnotationCapable {
+
+		public enum EDirection {
+			IN("in"), OUT ("out"), INOUT("inOut");
+			
+			private String label;
+			private static String[] labels;
+			
+			private EDirection(String label){
+				this.label = label;
+			}
+			
+			public String getLabel() {
+				return this.label;
+			}
+			
+			public static EDirection parse(String label) {
+				for (EDirection dir : values()) {
+					if (dir.label.equals(label))
+						return dir;
+				}
+				return null;
+			}
+			
+			public static String[] labels() {
+				if (labels == null) {
+					labels = new String[values().length];
+					int i = 0;
+					for (EDirection mult : values()) {
+						labels[i] = mult.label;
+						i++;
+					}
+				}
+				return labels;
+			}
+			
+			public static int indexOf(EDirection dir) {
+				for (int index = 0; index < values().length; index++) {
+					if (dir == values()[index])
+						return index;
+				}
+				throw new IllegalArgumentException("Illegal direction literal: "
+						+ dir);
+			}
+
+			public static EDirection at(int index) {
+				if (index >= 0 && index < values().length)
+					return values()[index];
+				throw new IllegalArgumentException("Illegal direction index: "
+						+ index);
+			}
+		}
 
 		/**
 		 * Returns the IArtifact that is the "container" for the Argument.
@@ -165,6 +219,18 @@ public interface IMethod extends IModelComponent {
 
 		public URI toURI() throws TigerstripeException;
 
+		/**
+		 * Returns the "Direction" of this IArgument
+		 * @return
+		 */
+		public EDirection getDirection();
+		
+		/**
+		 * Sets the "Direction" of this IArgumnet
+		 * @param direction
+		 */
+		public void setDirection(EDirection direction);
+		
 	}
 
 	public interface IException {

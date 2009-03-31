@@ -139,8 +139,12 @@ public class Maker {
 		// Make a "special" model for the unknown types.....
 		// Note the need to make fully qualified Name
 		if (mapUnknownTypes) {
-			String p = iType.getFullyQualifiedName().substring(0,
-					iType.getFullyQualifiedName().lastIndexOf("."));
+			int index = iType.getFullyQualifiedName().lastIndexOf(".");
+			String p;
+			if (index > 0 )
+				p = iType.getFullyQualifiedName().substring(0,index);
+			else 
+				p = iType.getFullyQualifiedName();
 			Package modelPackage = makeOrFindPackage(p, unknownTypeModel);
 			String fqn = Utilities.mapName(iType.getFullyQualifiedName(),
 					unknownTypeModel.getName());

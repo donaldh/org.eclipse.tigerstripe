@@ -47,6 +47,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifac
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument.EDirection;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IEntityMethodFlavorDetails;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjFlavorDefaults;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjMethod;
@@ -534,6 +535,7 @@ public class Method extends ArtifactComponent implements IOssjMethod,
 					"isUnique", "true"));
 			String argMultiplicity = prop.getProperty("typeMultiplicity", null);
 			String refCommentId = prop.getProperty("refComment");
+			String directionStr = prop.getProperty("direction", "in");
 
 			IArgument arg = getArgumentByName(argName);
 			if (arg != null) {
@@ -551,6 +553,7 @@ public class Method extends ArtifactComponent implements IOssjMethod,
 							IModelComponent.EMultiplicity
 									.parse(argMultiplicity));
 				}
+				arg.setDirection(EDirection.parse(directionStr));
 			}
 		}
 
@@ -654,6 +657,8 @@ public class Method extends ArtifactComponent implements IOssjMethod,
 		private boolean isUnique;
 
 		private boolean isOrdered;
+		
+		private EDirection direction;
 
 		public boolean isUnique() {
 			return this.isUnique;
@@ -867,6 +872,7 @@ public class Method extends ArtifactComponent implements IOssjMethod,
 			result.setOrdered(isOrdered());
 			result.setRefBy(getRefBy());
 			result.setUnique(isUnique());
+			result.setDirection(getDirection());
 
 			Collection<IStereotypeInstance> stereotypeInstances = getStereotypeInstances();
 			for (IStereotypeInstance inst : stereotypeInstances) {
@@ -938,10 +944,22 @@ public class Method extends ArtifactComponent implements IOssjMethod,
 			return result;
 		}
 
+		public EDirection getDirection() {
+			if (direction == null)
+				setDirection(EDirection.INOUT);
+			return direction;
+		}
+
+		public void setDirection(EDirection direction) {
+			this.direction = direction;
+		}
+
+
 		public URI toURI() throws TigerstripeException {
 			URI u = TigerstripeURIAdapterFactory.toURI(this);
 			return u;
 		}
+
 	}
 
 	public class Exception implements IException {

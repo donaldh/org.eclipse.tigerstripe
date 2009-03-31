@@ -11,6 +11,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument.EDirection;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -163,6 +164,7 @@ public class TestMethods extends junit.framework.TestCase {
 		arg0.setComment(descriptions[0]);
 		arg0.setRefBy(refBys[0]);
 		arg0.setType(type);
+		arg0.setDirection(EDirection.OUT);
 
 		method1.addArgument(arg0);
 		top.doSave(new NullProgressMonitor());
@@ -187,6 +189,8 @@ public class TestMethods extends junit.framework.TestCase {
 		assertTrue("Argument ordered changed on save", firstArg.isOrdered());
 		assertTrue("Argument type changed on save", firstArg.getType()
 				.getName().equals(type.getName()));
+		assertTrue("Argument direction changed on save", firstArg.getDirection()
+				.equals(EDirection.OUT));
 
 		// Change the values and retest
 		arg0.setName(argNames[2]);
@@ -196,6 +200,7 @@ public class TestMethods extends junit.framework.TestCase {
 		arg0.setComment(descriptions[2]);
 		arg0.setRefBy(refBys[2]);
 		arg0.setType(newType);
+		arg0.setDirection(EDirection.IN);
 		top.doSave(new NullProgressMonitor());
 
 		gotNewMethod = top.getMethods().iterator().next();
@@ -216,6 +221,8 @@ public class TestMethods extends junit.framework.TestCase {
 		assertTrue("Argument ordered changed on save", !firstArg.isOrdered());
 		assertTrue("Argument type changed on save", firstArg.getType()
 				.getName().equals(newType.getName()));
+		assertTrue("Argument direction changed on save", firstArg.getDirection()
+				.equals(EDirection.IN));
 
 		// Add a second one and make sure they come back in the "correct" order
 		IArgument arg1 = method1.makeArgument();
@@ -226,6 +233,7 @@ public class TestMethods extends junit.framework.TestCase {
 		arg1.setComment(descriptions[1]);
 		arg1.setRefBy(refBys[1]);
 		arg1.setType(newType);
+		arg1.setDirection(EDirection.OUT);
 
 		method1.addArgument(arg1);
 		top.doSave(new NullProgressMonitor());

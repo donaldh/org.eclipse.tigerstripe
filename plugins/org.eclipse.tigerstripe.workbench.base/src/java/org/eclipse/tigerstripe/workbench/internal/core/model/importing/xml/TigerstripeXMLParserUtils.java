@@ -336,6 +336,9 @@ public class TigerstripeXMLParserUtils {
 				if (argument.hasAttribute("defaultValue")){
 					argumentData.put(IMethodAddFeatureRequest.ARGUMENT_DEFAULTVALUE_FEATURE,argument.getAttribute("defaultValue"));
 				}
+				if (argument.hasAttribute("direction")){
+					argumentData.put(IMethodAddFeatureRequest.ARGUMENT_DIRECTION_FEATURE,argument.getAttribute("direction"));
+				}
 				String argumentComment = getComment(argument);
 				if (argumentComment != null){
 					argumentData.put(IMethodAddFeatureRequest.ARGUMENT_COMMENT_FEATURE,argumentComment);

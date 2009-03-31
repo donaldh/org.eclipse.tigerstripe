@@ -7,6 +7,8 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
 import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
 
+import abbot.finder.swt.MultipleWidgetsFoundException;
+
 import com.windowtester.runtime.IUIContext;
 import com.windowtester.runtime.WidgetSearchException;
 import com.windowtester.runtime.locator.IWidgetReference;
@@ -41,8 +43,13 @@ public class ArtifactHelper extends UITestCaseSWT{
 		SectionLocator attributesSection = new SectionLocator("&Attributes");
 		
 		
-		// Make an Attribute
-		ui.click(new ButtonLocator("Add", attributesSection));
+		// Make an Attribute - if the section alreday has an attribute we get an issue
+		// with the "Stereotype 'Add' button
+		
+
+		ui.click(new NamedWidgetLocator("Add_Attribute"));		
+		
+		
 		LabeledTextLocator name = new LabeledTextLocator("Name: ");
 		GuiUtils.clearText(ui, name);
 		ui.click(name);
@@ -93,7 +100,7 @@ public class ArtifactHelper extends UITestCaseSWT{
 		SectionLocator constantsSection = new SectionLocator("Constants");
 		// Make a Literal
 
-		ui.click(new ButtonLocator("Add", constantsSection));
+		ui.click(new NamedWidgetLocator("Add_Literal"));
 		LabeledTextLocator name = new LabeledTextLocator("Name: ");
 		GuiUtils.clearText(ui, name);
 		ui.click(name);

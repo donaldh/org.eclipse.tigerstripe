@@ -56,6 +56,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument.EDirection;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IEmittedEvent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IExposedUpdateProcedure;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IManagedEntityDetails;
@@ -81,6 +82,7 @@ import org.eclipse.uml2.uml.Model;
 import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Parameter;
+import org.eclipse.uml2.uml.ParameterDirectionKind;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Stereotype;
@@ -797,6 +799,12 @@ public class TS2UML {
 				param.setIsOrdered(arg.isOrdered());
 				param.setIsUnique(arg.isUnique());
 				param.setDefault(arg.getDefaultValue());
+				if (arg.getDirection().equals(EDirection.OUT))
+					param.setDirection(ParameterDirectionKind.OUT_LITERAL);
+				else if (arg.getDirection().equals(EDirection.IN))
+					param.setDirection(ParameterDirectionKind.IN_LITERAL);
+				else
+					param.setDirection(ParameterDirectionKind.INOUT_LITERAL);
 			} else {
 				// No type for this.
 				String msgText = "No type info for :" + artifact.getName()

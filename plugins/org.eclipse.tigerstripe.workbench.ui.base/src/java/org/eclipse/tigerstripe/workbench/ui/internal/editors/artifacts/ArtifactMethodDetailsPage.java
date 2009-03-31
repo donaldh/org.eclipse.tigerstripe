@@ -51,6 +51,7 @@ import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IGlobalSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
@@ -60,6 +61,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ComponentNameProvid
 import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Method;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Type;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.GlobalSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -196,10 +198,18 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 	private Label returnLabel;
 
 	private Label returnValueLabel;
+	
+	private boolean displayDirection;
 
 	public ArtifactMethodDetailsPage(boolean isReadOnly) {
 		super();
 		this.isReadOnly = isReadOnly;
+		// See if we should display the argument Direction
+		GlobalSettingsProperty prop = (GlobalSettingsProperty) TigerstripeCore
+			.getWorkbenchProfileSession().getActiveProfile().getProperty(
+			IWorkbenchPropertyLabels.GLOBAL_SETTINGS);
+		displayDirection = prop
+			.getPropertyValue(IGlobalSettingsProperty.ARGUMENTDIRECTION);
 	}
 	
 	public void createContents(Composite parent) {
@@ -700,7 +710,8 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 						fqn = arg.getType().getName();
 					}
 				}
-
+				String directionPrefix = arg.getDirection().getLabel();
+				
 				String stereotypePrefix = "";
 				boolean isFirstInstance = true;
 				for (IStereotypeInstance instance : arg
@@ -718,7 +729,15 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 					stereotypePrefix += ">> ";
 				}
 
-				String label = stereotypePrefix + arg.getName() + ": "
+				String label = "";
+				
+				// If the profile allows it, show the direction prefix 
+				
+				if ( displayDirection){
+					label = directionPrefix+ " ";
+				}
+				
+				label = label + stereotypePrefix + arg.getName() + ": "
 						+ Misc.removeJavaLangString(fqn);
 
 				if (arg.getType().getTypeMultiplicity() != IModelComponent.EMultiplicity.ONE) {
@@ -1460,7 +1479,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 
 		ArgumentEditDialog dialog = new ArgumentEditDialog(master.getSection()
 				.getShell(), selectedArgs[0], getMethod().getArguments(), elem,
-				master.getIArtifact().getTigerstripeProject());
+				master.getIArtifact().getTigerstripeProject(), displayDirection);
 
 		if (dialog.open() == 0) {
 			pageModified();

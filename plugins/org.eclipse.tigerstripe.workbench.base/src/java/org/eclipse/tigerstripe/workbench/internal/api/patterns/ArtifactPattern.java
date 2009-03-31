@@ -38,6 +38,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument.EDirection;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
 import org.eclipse.tigerstripe.workbench.patterns.IArtifactPattern;
@@ -411,6 +412,10 @@ public abstract class ArtifactPattern extends Pattern implements IArtifactPatter
 						if (featureId.endsWith("comment")){
 							argument.setComment(newValue);
 						}
+						if (featureId.endsWith("direction")){
+							argument.setDirection(EDirection.parse(newValue));
+						}
+						
 					}
 
 				} 

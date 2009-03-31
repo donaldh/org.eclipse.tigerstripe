@@ -14,7 +14,7 @@
      * @tigerstripe.method 
      *  iteratorReturn = "$method.isIteratorReturn()"
      *  isOptional = "$method.isOptional()"
-	     *  isAbstract = "$method.isAbstract()"
+	 *  isAbstract = "$method.isAbstract()"
      *  isOrdered = "$method.isOrdered()"
      *  isUnique = "$method.isUnique()"
      *  typeMultiplicity = "$method.ReturnType.TypeMultiplicity.Label"
@@ -24,16 +24,18 @@
 #end
 #foreach( $argument in $method.Arguments )
      *   @tigerstripe.method-arg 
-	     *     name="$argument.Name" 
+	 *     name="$argument.Name" 
      *     isOrdered = "$argument.isOrdered()"
      *     isUnique = "$argument.isUnique()"
      *     typeMultiplicity = "$argument.Type.TypeMultiplicity.Label"
+## Added Direction
+     *     direction = "$argument.Direction.Label"
 #if ($argument.hasDefaultValue())     *       defaultValue = "$xmlEncode.encode($argument.DefaultValue)" 
 #end
 	 *     ref-by = "$argument.RefByString" 
 #if ($argument.RefCommentId != "")	 *   refComment="$argument.RefCommentId" 
 #end
-## Take care of the arguement stereotypes (since 2.2.1)
+## Take care of the argument stereotypes (since 2.2.1)
 #foreach( $stereotype in $argument.getStereotypeInstances() )
      *   @tigerstripe.arg-stereotype st.name = "$stereotype.Name" st.arg.name = "$argument.Name"
 #if ($stereotype.getCharacterizingStereotype())
