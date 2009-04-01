@@ -11,6 +11,9 @@
 
 package org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring;
 
+import java.io.File;
+import java.util.Collection;
+
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.ViewerSorter;
@@ -32,15 +35,19 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactComponent;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Field;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Method.Argument;
+import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramChangeDelta;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
+import org.eclipse.tigerstripe.workbench.refactor.diagrams.HeadlessDiagramHandle;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.AbstractArtifactLabelProvider;
+import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractGMFDiagramNode;
+import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode;
 
 public class PreviewWizardPage extends WizardPage {
 
-	private class ModelChangeDeltaLabelProvider extends AbstractArtifactLabelProvider {
+	private class ModelChangeDeltaLabelProvider extends
+			AbstractArtifactLabelProvider {
 
 		@Override
 		public Image getImage(Object element) {
@@ -48,6 +55,9 @@ public class PreviewWizardPage extends WizardPage {
 			if (element instanceof ModelChangeDelta) {
 				ModelChangeDelta delta = (ModelChangeDelta) element;
 				return super.getImage(delta.getComponent());
+			} else if (element instanceof DiagramChangeDelta) {
+
+				return null;
 			} else {
 				return null;
 			}
@@ -63,9 +73,11 @@ public class PreviewWizardPage extends WizardPage {
 
 					if (delta.getComponent() instanceof AbstractArtifact) {
 
-						if (delta.getComponent() instanceof IQueryArtifact && delta.getFeature().equals(IArtifactSetFeatureRequest.RETURNED_TYPE)) {
+						if (delta.getFeature().equals(
+								IArtifactSetFeatureRequest.RETURNED_TYPE)) {
 
-							AbstractArtifact artifact = (AbstractArtifact) delta.getComponent();
+							AbstractArtifact artifact = (AbstractArtifact) delta
+									.getComponent();
 							StringBuffer sb = new StringBuffer();
 							sb.append(artifact.getName());
 							sb.append(" return type moved/renamed from ");
@@ -76,27 +88,34 @@ public class PreviewWizardPage extends WizardPage {
 						}
 
 						StringBuffer sb = new StringBuffer();
-						if (delta.getFeature().equals(IArtifactFQRenameRequest.FQN_FEATURE)) {
-							sb.append("Move/Rename ");
+						if (delta.getFeature().equals(
+								IArtifactFQRenameRequest.FQN_FEATURE)) {
 							sb.append(delta.getOldValue());
-							sb.append(" to ");
+							sb.append(" moved/renamed to ");
 							sb.append(delta.getNewValue());
-						} else if (delta.getFeature().equals(IArtifactSetFeatureRequest.EXTENDS_FEATURE)) {
-							AbstractArtifact artifact = (AbstractArtifact) delta.getComponent();
+						} else if (delta.getFeature().equals(
+								IArtifactSetFeatureRequest.EXTENDS_FEATURE)) {
+							AbstractArtifact artifact = (AbstractArtifact) delta
+									.getComponent();
 							sb.append(artifact.getFullyQualifiedName() + " ");
 							sb.append("generalization ");
 							sb.append(delta.getOldValue());
 							sb.append(" moved/renamed to ");
 							sb.append(delta.getNewValue());
-						} else if ((delta.getFeature().equals(IArtifactSetFeatureRequest.ZEND) || (delta.getFeature()
+						} else if ((delta.getFeature().equals(
+								IArtifactSetFeatureRequest.ZEND) || (delta
+								.getFeature()
 								.equals(IArtifactSetFeatureRequest.AEND)))) {
-							AbstractArtifact artifact = (AbstractArtifact) delta.getComponent();
+							AbstractArtifact artifact = (AbstractArtifact) delta
+									.getComponent();
 							sb.append(artifact.getFullyQualifiedName() + " ");
 							sb.append(delta.getFeature() + " ");
 							sb.append("moved/renamed to ");
 							sb.append(delta.getNewValue());
-						} else if ((delta.getFeature().equals(IArtifactAddFeatureRequest.IMPLEMENTS_FEATURE))) {
-							AbstractArtifact artifact = (AbstractArtifact) delta.getComponent();
+						} else if ((delta.getFeature()
+								.equals(IArtifactAddFeatureRequest.IMPLEMENTS_FEATURE))) {
+							AbstractArtifact artifact = (AbstractArtifact) delta
+									.getComponent();
 							sb.append(artifact.getFullyQualifiedName() + " ");
 							sb.append("implemented interface ");
 							sb.append(delta.getOldValue());
@@ -110,17 +129,20 @@ public class PreviewWizardPage extends WizardPage {
 
 					} else {
 
-						ArtifactComponent component = (ArtifactComponent) delta.getComponent();
+						ArtifactComponent component = (ArtifactComponent) delta
+								.getComponent();
 
 						if (component instanceof Field) {
 
 							StringBuffer sb = new StringBuffer();
 
-							IModelComponent mdlComponent = component.getContainingModelComponent();
+							IModelComponent mdlComponent = component
+									.getContainingModelComponent();
 							IAbstractArtifact artifact = (IAbstractArtifact) mdlComponent;
 
 							sb.append("Attribute ");
-							sb.append(artifact.getFullyQualifiedName() + "." + component.getName());
+							sb.append(artifact.getFullyQualifiedName() + "."
+									+ component.getName());
 							sb.append(" type moved/renamed from ");
 							sb.append(delta.getOldValue());
 							sb.append(" to ");
@@ -129,15 +151,18 @@ public class PreviewWizardPage extends WizardPage {
 
 						}
 
-						if (delta.getFeature().equals(IMethodSetRequest.TYPE_FEATURE)) {
+						if (delta.getFeature().equals(
+								IMethodSetRequest.TYPE_FEATURE)) {
 
 							StringBuffer sb = new StringBuffer();
 
-							IModelComponent mdlComponent = component.getContainingModelComponent();
+							IModelComponent mdlComponent = component
+									.getContainingModelComponent();
 							IAbstractArtifact artifact = (IAbstractArtifact) mdlComponent;
 
 							sb.append("Method ");
-							sb.append(artifact.getFullyQualifiedName() + "." + component.getName());
+							sb.append(artifact.getFullyQualifiedName() + "."
+									+ component.getName());
 							sb.append(" return type moved/renamed from ");
 							sb.append(delta.getOldValue());
 							sb.append(" to ");
@@ -153,7 +178,8 @@ public class PreviewWizardPage extends WizardPage {
 					Argument arg = (Argument) delta.getComponent();
 					StringBuffer sb = new StringBuffer();
 					sb.append("Method ");
-					sb.append(arg.getContainingArtifact().getFullyQualifiedName());
+					sb.append(arg.getContainingArtifact()
+							.getFullyQualifiedName());
 					sb.append(" argument type moved/renamed from ");
 					sb.append(delta.getOldValue());
 					sb.append(" to ");
@@ -161,6 +187,22 @@ public class PreviewWizardPage extends WizardPage {
 					return sb.toString();
 				}
 
+			} else if (element instanceof DiagramChangeDelta) {
+
+				DiagramChangeDelta delta = (DiagramChangeDelta) element;
+				StringBuffer sb = new StringBuffer();
+				sb.append("Moving ");
+				sb.append(delta.getAffDiagramHandle().getModelResource()
+						.getParent().getFullPath());
+				sb.append(File.separator);
+				sb.append(delta.getAffDiagramHandle().getModelResource()
+						.getName());
+				sb.append(" to ");
+				sb.append(delta.getDestinationPath());
+				sb.append(File.separator);
+				sb.append(delta.getAffDiagramHandle().getModelResource()
+						.getName());
+				return sb.toString();
 			}
 			return null;
 		}
@@ -174,6 +216,7 @@ public class PreviewWizardPage extends WizardPage {
 		super(PAGE_NAME);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void createControl(Composite parent) {
 
 		Composite composite = new Composite(parent, SWT.BORDER);
@@ -197,9 +240,11 @@ public class PreviewWizardPage extends WizardPage {
 
 		AbstractModelRefactorWizard wizard = (AbstractModelRefactorWizard) getWizard();
 		try {
-			tableViewer.setInput(wizard.getCommand().getDeltas());
-		} catch (TigerstripeException e) {
 
+			Collection input = wizard.getCommand().getDeltas();
+			input.addAll(wizard.getCommand().getDiagramDeltas());
+			tableViewer.setInput(input);
+		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}
 
