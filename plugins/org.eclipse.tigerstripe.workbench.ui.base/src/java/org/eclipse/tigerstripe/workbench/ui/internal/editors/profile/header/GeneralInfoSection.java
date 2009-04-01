@@ -573,9 +573,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 					.getEditorInput();
 
 			try {
-				WorkbenchProfile handle = (WorkbenchProfile) TigerstripeCore
-						.getWorkbenchProfileSession().getWorkbenchProfileFor(
-								input.getFile().getLocation().toOSString());
+				WorkbenchProfile handle = (WorkbenchProfile) this.getProfile();
 
 				if (e.getSource() == nameText) {
 					handle.setName(nameText.getText().trim());
