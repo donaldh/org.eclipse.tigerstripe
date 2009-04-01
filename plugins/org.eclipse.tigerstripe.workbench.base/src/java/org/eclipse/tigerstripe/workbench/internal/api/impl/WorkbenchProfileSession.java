@@ -51,8 +51,8 @@ public class WorkbenchProfileSession implements IWorkbenchProfileSession {
 	private ListenerList activeProfileListeners = new ListenerList();
 
 	private IWorkbenchProfile activeProfile;
-
-	private HashMap<String, IWorkbenchProfile> profileCache = new HashMap<String, IWorkbenchProfile>();
+    // Commented out profile cache for https://bugs.eclipse.org/bugs/show_bug.cgi?id=270642
+	//private HashMap<String, IWorkbenchProfile> profileCache = new HashMap<String, IWorkbenchProfile>();
 
 	public IWorkbenchProfile makeWorkbenchProfile() {
 		return new WorkbenchProfile();
@@ -243,19 +243,19 @@ public class WorkbenchProfileSession implements IWorkbenchProfileSession {
 			File profFile = new File(pathname);
 			long lastModified = profFile.lastModified();
 
-			if (profileCache.containsKey(pathname)) {
+	/*		if (profileCache.containsKey(pathname)) {
 				IWorkbenchProfile profile = profileCache.get(pathname);
 				if (lastModified == ((WorkbenchProfile) profile).lastModified())
 					return profile;
 				else {
 					profileCache.remove(pathname);
 				}
-			}
+			}  */
 
 			FileReader reader = new FileReader(pathname);
 			result.parse(reader);
 			((WorkbenchProfile) result).setLastModified(lastModified);
-			profileCache.put(pathname, result);
+			//profileCache.put(pathname, result);
 			return result;
 		} catch (FileNotFoundException e) {
 			throw new TigerstripeException(e.getMessage(), e);
