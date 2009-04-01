@@ -36,6 +36,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
 
 /**
  * This is a helper class that is used to delegate the "apply()" method of
@@ -68,6 +69,9 @@ public class ModelChangeDeltaProcessor {
 		} else if (component instanceof IArgument) {
 			processIArgumentChange((IArgument) component, delta, toCleanUp,
 					toSave);
+		} else if (component instanceof IException) {
+			processIExceptionChange((IException) component, delta, toCleanUp,
+					toSave);
 		}
 	}
 
@@ -83,6 +87,22 @@ public class ModelChangeDeltaProcessor {
 							null);
 				else
 					toSave.add(arg.getContainingMethod()
+							.getContainingArtifact());
+			}
+		}
+	}
+
+	protected static void processIExceptionChange(IException exp,
+			IModelChangeDelta delta, Collection<Object> toCleanUp,
+			Collection<IAbstractArtifact> toSave) throws TigerstripeException {
+		if (IModelChangeDelta.SET == delta.getType()) {
+			if (IMethodSetRequest.EXPTYPE_FEATURE.equals(delta.getFeature())) {
+				exp.setFullyQualifiedName((String) delta.getNewValue());
+				if (toSave == null)
+					exp.getContainingMethod().getContainingArtifact().doSave(
+							null);
+				else
+					toSave.add(exp.getContainingMethod()
 							.getContainingArtifact());
 			}
 		}

@@ -31,6 +31,7 @@ public interface IMethodSetRequest extends IMethodChangeRequest {
 	public final static String ISVOID_FEATURE = "isVoid";
 	public final static String RETURNNAME_FEATURE = "returnName";
 	public final static String ARGTYPE_FEATURE = "argType";
+	public final static String EXPTYPE_FEATURE = "expType";
 
 	public void setArtifactFQN(String artifactFQN);
 

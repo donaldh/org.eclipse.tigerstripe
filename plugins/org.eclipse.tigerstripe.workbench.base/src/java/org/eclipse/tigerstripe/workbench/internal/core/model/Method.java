@@ -561,7 +561,7 @@ public class Method extends ArtifactComponent implements IOssjMethod,
 		com.thoughtworks.qdox.model.Type[] exceptionTypes = method
 				.getExceptions();
 		for (int i = 0; i < exceptionTypes.length; i++) {
-			Method.Exception exception = new Method.Exception(exceptionTypes[i]
+			Method.Exception exception = new Method.Exception(this, exceptionTypes[i]
 					.getValue());
 			this.exceptions.add(exception);
 		}
@@ -964,7 +964,16 @@ public class Method extends ArtifactComponent implements IOssjMethod,
 
 	public class Exception implements IException {
 		private String fullyQualifiedName;
+		private IMethod parentMethod;
 
+		public void setContainingMethod(IMethod parentMethod) {
+			this.parentMethod = parentMethod;
+		}
+		
+		public IMethod getContainingMethod() {
+			return parentMethod;
+		}
+		
 		public String getFullyQualifiedName() {
 			return this.fullyQualifiedName;
 		}
@@ -981,7 +990,8 @@ public class Method extends ArtifactComponent implements IOssjMethod,
 			this.fullyQualifiedName = fullyQualifiedName;
 		}
 
-		public Exception(String fullyQualifiedName) {
+		public Exception(IMethod parentMethod, String fullyQualifiedName) {
+			setContainingMethod(parentMethod);
 			this.fullyQualifiedName = fullyQualifiedName;
 		}
 
@@ -1061,7 +1071,7 @@ public class Method extends ArtifactComponent implements IOssjMethod,
 		}
 
 		public IException clone() {
-			IException result = new Exception(getFullyQualifiedName());
+			IException result = new Exception(getContainingMethod(), getFullyQualifiedName());
 			return result;
 		}
 	}
@@ -1242,19 +1252,26 @@ public class Method extends ArtifactComponent implements IOssjMethod,
 	}
 
 	public IException makeException() {
-		return new Method.Exception("java.lang.Exception");
+		return new Method.Exception(this, "java.lang.Exception");
 	}
 
 	public void setExceptions(Collection<IException> exceptions) {
 		this.exceptions = exceptions;
+		for(IException exp : exceptions) {
+			((Exception) exp).setContainingMethod(this);
+		}
 	}
 
 	public void addException(IException exception) {
 		this.exceptions.add(exception);
+		((Exception) exception).setContainingMethod(this);
 	}
 
 	public void removeExceptions(Collection<IException> exceptions) {
 		this.exceptions.removeAll(exceptions);
+		for(IException exp : exceptions) {
+			((Exception) exp).setContainingMethod(null);
+		}
 	}
 
 	public String getMethodId() {

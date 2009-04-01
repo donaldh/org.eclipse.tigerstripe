@@ -236,6 +236,13 @@ public interface IMethod extends IModelComponent {
 	public interface IException {
 
 		/**
+		 * Returns the IMethod that is the "container" for the argument.
+		 * 
+		 * @return the containing method.
+		 */
+		public IMethod getContainingMethod();
+		
+		/**
 		 * Returns the Fully Qualified Name of an exception.
 		 * 
 		 * @return String - the Fully Qualified Name

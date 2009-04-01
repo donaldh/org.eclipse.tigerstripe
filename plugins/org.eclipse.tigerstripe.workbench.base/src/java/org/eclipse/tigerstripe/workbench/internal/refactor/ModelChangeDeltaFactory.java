@@ -29,6 +29,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
 import org.eclipse.tigerstripe.workbench.refactor.ModelRefactorRequest;
 
 /**
@@ -262,9 +263,24 @@ public class ModelChangeDeltaFactory {
 					delta.setFeature(IMethodSetRequest.ARGTYPE_FEATURE);
 					delta.setAffectedModelComponentURI(arg.toURI());
 					delta.setComponent(arg);
-					delta.setSource(request);
-					delta.setOldValue(fqn);
-					delta.setNewValue(request.getDestinationFQN());
+					delta.setSource(argReq);
+					delta.setOldValue(argFQN);
+					delta.setNewValue(argReq.getDestinationFQN());
+					deltas.add(delta);
+				}
+			}
+
+			for (IException exp : method.getExceptions()) {
+				String expFQN = exp.getFullyQualifiedName();
+				ModelRefactorRequest expReq = mappedRequests.get(expFQN);
+				if (expReq != null) {
+					ModelChangeDelta delta = new ModelChangeDelta(
+							IModelChangeDelta.SET);
+					delta.setFeature(IMethodSetRequest.EXPTYPE_FEATURE);
+					delta.setComponent(exp);
+					delta.setSource(expReq);
+					delta.setOldValue(expFQN);
+					delta.setNewValue(expReq.getDestinationFQN());
 					deltas.add(delta);
 				}
 			}
