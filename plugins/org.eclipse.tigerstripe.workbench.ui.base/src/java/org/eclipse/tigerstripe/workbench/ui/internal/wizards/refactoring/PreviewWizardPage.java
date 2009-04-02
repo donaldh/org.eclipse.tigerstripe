@@ -65,14 +65,13 @@ public class PreviewWizardPage extends WizardPage {
 		AbstractModelRefactorWizard wizard = (AbstractModelRefactorWizard) getWizard();
 		try {
 			
+			Collection input = new ArrayList();
 			List<ModelRefactorRequest> requests = wizard.getRequests();
 			for (ModelRefactorRequest request : requests) {
-				
-				Collection input = new ArrayList();
 				input.addAll(request.getCommand(new NullProgressMonitor()).getDeltas());
 				input.addAll(request.getCommand(new NullProgressMonitor()).getDiagramDeltas());
-				tableViewer.setInput(input);
 			}
+			tableViewer.setInput(input);
 			
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
