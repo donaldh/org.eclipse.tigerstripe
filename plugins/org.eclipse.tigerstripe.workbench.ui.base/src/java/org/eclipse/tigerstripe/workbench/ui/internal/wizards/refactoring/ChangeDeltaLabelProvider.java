@@ -20,8 +20,62 @@ public class ChangeDeltaLabelProvider extends AbstractArtifactLabelProvider {
 	private static final String DELTA_FROM = " will be moved from ";
 
 	private Image classDiagImg;
-
 	private Image instanceDiagImg;
+	private Image methodImg;
+	private Image exceptionImg;
+
+	@Override
+	public Image getImage(Object element) {
+
+		if (element instanceof ModelChangeDelta) {
+
+			ModelChangeDelta delta = (ModelChangeDelta) element;
+			Object component = delta.getComponent();
+
+			if (component instanceof Argument) {
+
+				if (methodImg == null) {
+					ImageDescriptor desc = Images
+							.getDescriptor(Images.METHOD_ICON);
+					methodImg = desc.createImage();
+				}
+				return methodImg;
+			}
+			
+			if (component instanceof Exception) {
+
+				if (exceptionImg == null) {
+					ImageDescriptor desc = Images
+							.getDescriptor(Images.EXCEPTION_ICON);
+					exceptionImg = desc.createImage();
+				}
+				return exceptionImg;
+			}
+
+			return super.getImage(delta.getComponent());
+
+		} else if (element instanceof DiagramChangeDelta) {
+
+			DiagramChangeDelta delta = (DiagramChangeDelta) element;
+			if ((delta.getAffDiagramHandle().getDiagramResource()
+					.getFileExtension()).equals("wvd")) {
+
+				ImageDescriptor desc = Images
+						.getDescriptor(Images.VISUALEDITOR_ICON);
+				classDiagImg = desc.createImage();
+				return classDiagImg;
+
+			} else if ((delta.getAffDiagramHandle().getDiagramResource()
+					.getFileExtension()).equals("wod")) {
+
+				ImageDescriptor desc = Images
+						.getDescriptor(Images.INSTANCEEDITOR_ICON);
+				instanceDiagImg = desc.createImage();
+				return instanceDiagImg;
+			}
+		}
+		return null;
+	}
 
 	@Override
 	public String getText(Object element) {
@@ -122,37 +176,6 @@ public class ChangeDeltaLabelProvider extends AbstractArtifactLabelProvider {
 	}
 
 	@Override
-	public Image getImage(Object element) {
-
-		if (element instanceof ModelChangeDelta) {
-
-			ModelChangeDelta delta = (ModelChangeDelta) element;
-			return super.getImage(delta.getComponent());
-
-		} else if (element instanceof DiagramChangeDelta) {
-
-			DiagramChangeDelta delta = (DiagramChangeDelta) element;
-			if ((delta.getAffDiagramHandle().getDiagramResource()
-					.getFileExtension()).equals("wvd")) {
-
-				ImageDescriptor desc = Images
-						.getDescriptor(Images.VISUALEDITOR_ICON);
-				classDiagImg = desc.createImage();
-				return classDiagImg;
-
-			} else if ((delta.getAffDiagramHandle().getDiagramResource()
-					.getFileExtension()).equals("wod")) {
-
-				ImageDescriptor desc = Images
-						.getDescriptor(Images.INSTANCEEDITOR_ICON);
-				instanceDiagImg = desc.createImage();
-				return instanceDiagImg;
-			}
-		}
-		return null;
-	}
-
-	@Override
 	public void dispose() {
 		super.dispose();
 		if (classDiagImg != null) {
@@ -162,6 +185,14 @@ public class ChangeDeltaLabelProvider extends AbstractArtifactLabelProvider {
 		if (instanceDiagImg != null) {
 			instanceDiagImg.dispose();
 			instanceDiagImg = null;
+		}
+		if (methodImg != null) {
+			methodImg.dispose();
+			methodImg = null;
+		}
+		if (exceptionImg != null) {
+			exceptionImg.dispose();
+			exceptionImg = null;
 		}
 	}
 
