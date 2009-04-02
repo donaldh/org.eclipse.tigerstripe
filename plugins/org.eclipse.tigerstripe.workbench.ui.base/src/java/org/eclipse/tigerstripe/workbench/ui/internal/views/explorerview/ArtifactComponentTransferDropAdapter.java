@@ -17,15 +17,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.ICompilationUnit;
@@ -45,12 +42,8 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
-import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
@@ -62,7 +55,13 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.eclipse.tigerstripe.workbench.refactor.ModelRefactorRequest;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.TigerstripeRefactorWizardDialog;
+import org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring.DragAndDropMoveRefactorWizard;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.navigator.LocalSelectionTransfer;
 
 public class ArtifactComponentTransferDropAdapter extends ViewerDropAdapter
@@ -187,18 +186,61 @@ public class ArtifactComponentTransferDropAdapter extends ViewerDropAdapter
 		Display.getCurrent().asyncExec(new Runnable() {
 
 			public void allArtifactsRun() {
-				// Here 
+				
 				IModelComponent[] allArtifactsToBeMoved = getIModelComponents();
-				IResource targetContainer = (IResource) ((IAdaptable) target).getAdapter(IResource.class);
-				System.out.println("Need to move now!");
+				IResource targetContainer = (IResource) ((IAdaptable) target)
+						.getAdapter(IResource.class);
+
+				IWorkbenchWindow window = PlatformUI.getWorkbench()
+						.getActiveWorkbenchWindow();
+				DragAndDropMoveRefactorWizard wizard = new DragAndDropMoveRefactorWizard();
+
+				for (IModelComponent modelComponent : allArtifactsToBeMoved) {
+
+					try {
+
+						IAbstractArtifact srcArtifact = (IAbstractArtifact) modelComponent;
+						ITigerstripeModelProject srcProject = srcArtifact
+								.getProject();
+						ITigerstripeModelProject destProject = (ITigerstripeModelProject) targetContainer
+								.getProject().getAdapter(
+										ITigerstripeModelProject.class);
+						
+						IPackageArtifact pkg = (IPackageArtifact) targetContainer
+								.getAdapter(IPackageArtifact.class);
+						String destFQN = pkg.getFullyQualifiedName() + '.'
+								+ srcArtifact.getName();
+
+						ModelRefactorRequest request = new ModelRefactorRequest();
+						request.setOriginal(srcProject, srcArtifact
+								.getFullyQualifiedName());
+						request.setDestination(destProject, destFQN);
+						wizard.addRequest(request);
+					} catch (TigerstripeException e) {
+						Status error = new Status(IStatus.ERROR, EclipsePlugin
+								.getPluginId(), 222,
+								"Invalid refactor request: " + e.getMessage(),
+								e);
+						MessageDialog
+								.openError(getShell(), "Refactor Error",
+										"An error occured during move operation.\nPlease check log for more details");
+						EclipsePlugin.log(error);
+					}
+
+				}
+
+				TigerstripeRefactorWizardDialog dialog = new TigerstripeRefactorWizardDialog(
+						window.getShell(), wizard);
+				dialog.open();
+
 			}
-			
+
 			public void run() {
 				IModelComponent[] components = getIModelComponents();
-				
-				if (isAllArtifacts()) 
+
+				if (isAllArtifacts())
 					allArtifactsRun();
-				
+
 				IAbstractArtifact targetArtifact = TSExplorerUtils
 						.getArtifactFor(target);
 
