@@ -90,14 +90,18 @@ public class MoveInputWizardPage extends AbstractModelRefactorWizardPage {
 				try {
 
 					AbstractModelRefactorWizard wizard = (AbstractModelRefactorWizard) getWizard();
-					ModelRefactorRequest request = wizard.getRequest();
-					request.setOriginal(artifact.getProject(), artifact.getFullyQualifiedName());
-
+					wizard.clearRequests();
+					
 					ITigerstripeModelProject destinationProject = getContainerProject((IContainer) selection.getFirstElement());
 					String fullyQualifiedName = getContainerFqn((IContainer) selection.getFirstElement());
+					
+					ModelRefactorRequest request = new ModelRefactorRequest();
+					request.setOriginal(artifact.getProject(), artifact.getFullyQualifiedName());
 					request.setDestination(destinationProject, fullyQualifiedName);
 
-					validatePage(request);
+					if(validatePage(request)) {
+						wizard.addRequest(request);
+					}
 
 				} catch (TigerstripeException te) {
 					EclipsePlugin.log(te);

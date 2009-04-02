@@ -51,10 +51,15 @@ public class RenameInputWizardPage extends AbstractModelRefactorWizardPage {
 				try {
 
 					AbstractModelRefactorWizard wizard = (AbstractModelRefactorWizard) getWizard();
-					ModelRefactorRequest request = wizard.getRequest();
+					wizard.clearRequests();
+					
+					ModelRefactorRequest request = new ModelRefactorRequest();
 					request.setOriginal(artifact.getProject(), artifact.getFullyQualifiedName());
 					request.setDestination(artifact.getProject(), nameField.getText());
-					validatePage(request);
+					
+					if(validatePage(request)) {
+						wizard.addRequest(request);
+					}
 
 				} catch (TigerstripeException te) {
 					EclipsePlugin.log(te);

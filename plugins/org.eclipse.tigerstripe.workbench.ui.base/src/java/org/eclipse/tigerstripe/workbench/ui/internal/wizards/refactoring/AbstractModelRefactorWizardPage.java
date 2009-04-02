@@ -34,12 +34,14 @@ public abstract class AbstractModelRefactorWizardPage extends WizardPage {
 		}
 	}
 
-	protected void validatePage(ModelRefactorRequest request) {
+	protected boolean validatePage(ModelRefactorRequest request) {
 	
 		if (request.isValid().getSeverity() == IStatus.OK) {
 			setPageComplete(true);
+			return true;
 		} else {
 			setPageComplete(false);
+			return false;
 		}
 	}
 

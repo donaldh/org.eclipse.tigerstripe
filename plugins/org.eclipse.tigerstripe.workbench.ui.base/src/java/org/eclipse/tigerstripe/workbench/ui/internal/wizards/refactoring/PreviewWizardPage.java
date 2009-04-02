@@ -11,8 +11,11 @@
 
 package org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.ViewerSorter;
@@ -24,6 +27,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.refactor.ModelRefactorRequest;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 
 public class PreviewWizardPage extends WizardPage {
@@ -60,10 +64,16 @@ public class PreviewWizardPage extends WizardPage {
 
 		AbstractModelRefactorWizard wizard = (AbstractModelRefactorWizard) getWizard();
 		try {
-
-			Collection input = wizard.getCommand().getDeltas();
-			input.addAll(wizard.getCommand().getDiagramDeltas());
-			tableViewer.setInput(input);
+			
+			List<ModelRefactorRequest> requests = wizard.getRequests();
+			for (ModelRefactorRequest request : requests) {
+				
+				Collection input = new ArrayList();
+				input.addAll(request.getCommand(new NullProgressMonitor()).getDeltas());
+				input.addAll(request.getCommand(new NullProgressMonitor()).getDiagramDeltas());
+				tableViewer.setInput(input);
+			}
+			
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}

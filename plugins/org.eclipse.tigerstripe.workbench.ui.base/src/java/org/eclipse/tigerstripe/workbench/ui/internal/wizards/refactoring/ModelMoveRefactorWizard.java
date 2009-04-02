@@ -11,7 +11,6 @@
 
 package org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring;
 
-
 public class ModelMoveRefactorWizard extends AbstractModelRefactorWizard  {
 
 	@Override
@@ -22,5 +21,5 @@ public class ModelMoveRefactorWizard extends AbstractModelRefactorWizard  {
 		addPage(new PreviewWizardPage());
 		inputPage.init(selection);
 	}
-
+	
 }

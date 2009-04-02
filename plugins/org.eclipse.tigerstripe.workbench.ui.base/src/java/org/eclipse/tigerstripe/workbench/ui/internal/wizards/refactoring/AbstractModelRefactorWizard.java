@@ -12,14 +12,16 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
+import org.eclipse.ltk.internal.ui.refactoring.model.RefactoringModelAdapterFactory;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramChangeDelta;
@@ -37,33 +39,34 @@ import org.eclipse.ui.PlatformUI;
 public abstract class AbstractModelRefactorWizard extends Wizard implements
 		IWorkbenchWizard {
 
-	protected ModelRefactorRequest request;
+	protected List<ModelRefactorRequest> requests;
 
 	protected IStructuredSelection selection;
 
 	public AbstractModelRefactorWizard() {
 
 		super();
-		request = new ModelRefactorRequest();
+		requests = new ArrayList<ModelRefactorRequest>();
 		setNeedsProgressMonitor(true);
 	}
 
-	public ModelRefactorRequest getRequest() {
+	public void addRequest(ModelRefactorRequest request) throws TigerstripeException {
 
-		return request;
+		if(request.isValid().getSeverity() == IStatus.OK) {
+			requests.add(request);
+		} else {
+			throw new TigerstripeException(request.isValid().getMessage());
+		}
 	}
 
-	public IRefactorCommand getCommand() throws TigerstripeException {
+	public List<ModelRefactorRequest> getRequests() {
+		
+		return requests;
+	}
+	
+	public void clearRequests() {
 
-		if (request.isValid().getSeverity() == IStatus.OK) {
-
-			return request.getCommand(new NullProgressMonitor());
-		} else {
-
-			throw new TigerstripeException("Invalid refactor request. Status: "
-					+ request.isValid().getSeverity());
-		}
-
+		requests = new ArrayList<ModelRefactorRequest>();
 	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
@@ -79,51 +82,62 @@ public abstract class AbstractModelRefactorWizard extends Wizard implements
 				public void run(IProgressMonitor monitor)
 						throws InvocationTargetException, InterruptedException {
 
-					try {
+					for (ModelRefactorRequest request : requests) {
 
-						for (DiagramChangeDelta delta : getCommand()
-								.getDiagramDeltas()) {
+						try {
 
-							IFile iFile = (IFile) delta.getAffDiagramHandle()
-									.getDiagramResource();
-							System.out.println();
+							IRefactorCommand command = request
+									.getCommand(monitor);
 
-							IWorkbenchWindow windows[] = PlatformUI
-									.getWorkbench().getWorkbenchWindows();
-							for (int i = 0; i < windows.length; i++) {
-								IWorkbenchPage pages[] = windows[i].getPages();
-								for (int j = 0; j < pages.length; j++) {
-									IEditorReference[] refs = pages[j]
-											.getEditorReferences();
-									for (IEditorReference ref : refs) {
-										IEditorPart part = ref.getEditor(false);
-										if (part != null
-												&& part.getTitle().equals(
-														iFile.getName())) {
-											final IEditorPart fPart = part;
-											Display display = Display
-													.getDefault();
-											display.syncExec(new Runnable() {
-												public void run() {
-													PlatformUI
-															.getWorkbench()
-															.getActiveWorkbenchWindow()
-															.getActivePage()
-															.closeEditor(fPart,
-																	true);
-												}
-											});
+							for (DiagramChangeDelta delta : command
+									.getDiagramDeltas()) {
+
+								IFile iFile = (IFile) delta
+										.getAffDiagramHandle()
+										.getDiagramResource();
+
+								IWorkbenchWindow windows[] = PlatformUI
+										.getWorkbench().getWorkbenchWindows();
+								for (int i = 0; i < windows.length; i++) {
+									IWorkbenchPage pages[] = windows[i]
+											.getPages();
+									for (int j = 0; j < pages.length; j++) {
+										IEditorReference[] refs = pages[j]
+												.getEditorReferences();
+										for (IEditorReference ref : refs) {
+											IEditorPart part = ref
+													.getEditor(false);
+											if (part != null
+													&& part.getTitle().equals(
+															iFile.getName())) {
+												final IEditorPart fPart = part;
+												Display display = Display
+														.getDefault();
+												display
+														.syncExec(new Runnable() {
+															public void run() {
+																PlatformUI
+																		.getWorkbench()
+																		.getActiveWorkbenchWindow()
+																		.getActivePage()
+																		.closeEditor(
+																				fPart,
+																				true);
+															}
+														});
+											}
 										}
 									}
 								}
+
 							}
 
+							command.execute(monitor);
+						} catch (TigerstripeException e) {
+							throw new InvocationTargetException(e);
 						}
-
-						getCommand().execute(monitor);
-					} catch (TigerstripeException e) {
-						throw new InvocationTargetException(e);
 					}
+
 				}
 
 			});
