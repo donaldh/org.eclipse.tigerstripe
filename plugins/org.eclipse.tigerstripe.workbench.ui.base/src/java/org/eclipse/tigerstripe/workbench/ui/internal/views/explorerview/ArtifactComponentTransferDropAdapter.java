@@ -17,9 +17,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -27,6 +29,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.util.TransferDropTargetListener;
@@ -57,6 +60,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.ui.views.navigator.LocalSelectionTransfer;
@@ -166,6 +170,12 @@ public class ArtifactComponentTransferDropAdapter extends ViewerDropAdapter
 			if (obj instanceof IField || obj instanceof IMethod
 					|| obj instanceof ILiteral) {
 				result.add((IModelComponent) obj);
+			} else if (obj instanceof IAdaptable) {
+				IAbstractArtifact comp = (IAbstractArtifact) ((IAdaptable) obj)
+						.getAdapter(IAbstractArtifact.class);
+				if (comp != null) {
+					result.add(comp);
+				}
 			}
 		}
 		return result.toArray(new IModelComponent[result.size()]);
@@ -176,8 +186,19 @@ public class ArtifactComponentTransferDropAdapter extends ViewerDropAdapter
 
 		Display.getCurrent().asyncExec(new Runnable() {
 
+			public void allArtifactsRun() {
+				// Here 
+				IModelComponent[] allArtifactsToBeMoved = getIModelComponents();
+				IResource targetContainer = (IResource) ((IAdaptable) target).getAdapter(IResource.class);
+				System.out.println("Need to move now!");
+			}
+			
 			public void run() {
 				IModelComponent[] components = getIModelComponents();
+				
+				if (isAllArtifacts()) 
+					allArtifactsRun();
+				
 				IAbstractArtifact targetArtifact = TSExplorerUtils
 						.getArtifactFor(target);
 
@@ -337,12 +358,41 @@ public class ArtifactComponentTransferDropAdapter extends ViewerDropAdapter
 		if (target == null)
 			return DND.DROP_NONE;
 
-		if (target instanceof ICompilationUnit && validateNoDuplicate(target)
+		if (handleValidateArtifactMove(target) == DND.DROP_MOVE)
+			return DND.DROP_MOVE;
+		else if (target instanceof ICompilationUnit
+				&& validateNoDuplicate(target)
 				&& validateCompatibleTarget(target)
 				&& validateSameProject(target))
 			return DND.DROP_MOVE;
 		else
 			return DND.DROP_NONE;
+	}
+
+	private boolean isAllArtifacts() {
+		IModelComponent[] comps = getIModelComponents();
+		if (comps.length == 0)
+			return false;
+
+		for (IModelComponent comp : comps) {
+			if (!(comp instanceof IAbstractArtifact))
+				return false;
+		}
+		return true;
+	}
+
+	private int handleValidateArtifactMove(Object target) {
+		if (target instanceof IAdaptable) {
+			if (target instanceof IPackageFragment)
+				target = (IResource) ((IPackageFragment) target)
+						.getAdapter(IResource.class);
+			IPackageArtifact packArt = (IPackageArtifact) ((IAdaptable) target)
+					.getAdapter(IPackageArtifact.class);
+			if (packArt != null && isAllArtifacts())
+				return DND.DROP_MOVE;
+		}
+
+		return DND.DROP_NONE;
 	}
 
 	/**
