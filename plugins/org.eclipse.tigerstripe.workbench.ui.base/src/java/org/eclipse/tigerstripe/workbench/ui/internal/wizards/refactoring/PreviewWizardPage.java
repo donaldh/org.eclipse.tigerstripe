@@ -60,6 +60,7 @@ public class PreviewWizardPage extends WizardPage {
 
 		AbstractModelRefactorWizard wizard = (AbstractModelRefactorWizard) getWizard();
 		try {
+
 			Collection input = wizard.getCommand().getDeltas();
 			input.addAll(wizard.getCommand().getDiagramDeltas());
 			tableViewer.setInput(input);

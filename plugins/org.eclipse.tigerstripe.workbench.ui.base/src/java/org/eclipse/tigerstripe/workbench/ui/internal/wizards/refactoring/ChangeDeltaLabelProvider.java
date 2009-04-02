@@ -5,25 +5,121 @@ import java.io.File;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactAddFeatureRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactFQRenameRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactSetFeatureRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactComponent;
-import org.eclipse.tigerstripe.workbench.internal.core.model.Field;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Method.Argument;
+import org.eclipse.tigerstripe.workbench.internal.core.model.Method.Exception;
 import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramChangeDelta;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.AbstractArtifactLabelProvider;
 
 public class ChangeDeltaLabelProvider extends AbstractArtifactLabelProvider {
 
+	private static final String DELTA_TO = " to ";
+	private static final String DELTA_FROM = " will be moved from ";
+
 	private Image classDiagImg;
 
 	private Image instanceDiagImg;
+
+	@Override
+	public String getText(Object element) {
+
+		StringBuffer lblText = new StringBuffer();
+
+		if (element instanceof ModelChangeDelta) {
+
+			ModelChangeDelta delta = (ModelChangeDelta) element;
+			Object component = delta.getComponent();
+
+			if (component instanceof ArtifactComponent) {
+
+				ArtifactComponent artComponent = (ArtifactComponent) component;
+				lblText.append(artComponent.getLabel() + " ");
+				lblText.append(artComponent.getName());
+
+				if (delta.getFeature().equals(
+						IArtifactSetFeatureRequest.EXTENDS_FEATURE)) {
+
+					lblText.append(" will now extend ");
+					lblText.append(delta.getNewValue());
+					return lblText.toString();
+				}
+
+				if (delta.getFeature().equals(
+						IArtifactAddFeatureRequest.IMPLEMENTS_FEATURE)) {
+
+					switch (delta.getType()) {
+					case ModelChangeDelta.ADD:
+						lblText.append(" will implement ");
+						lblText.append(delta.getNewValue());
+						break;
+					case ModelChangeDelta.REMOVE:
+						lblText.append(" will no longer implement ");
+						lblText.append(delta.getOldValue());
+						break;
+					default:
+						break;
+					}
+
+					return lblText.toString();
+				}
+
+				lblText.append(DELTA_FROM);
+				lblText.append(delta.getOldValue());
+				lblText.append(DELTA_TO);
+				lblText.append(delta.getNewValue());
+
+			} else if (component instanceof Argument) {
+
+				// Argument is a special case
+				Argument arg = (Argument) component;
+				lblText.append("Method argument ");
+				lblText.append(arg.getName());
+				lblText.append(DELTA_FROM);
+				lblText.append(delta.getOldValue());
+				lblText.append(DELTA_TO);
+				lblText.append(delta.getNewValue());
+			} else if (component instanceof Exception) {
+
+				// Exception is a special case
+				Exception exp = (Exception) component;
+				lblText.append("Method ");
+				lblText.append(exp.getContainingMethod().getName());
+				lblText.append(" will throw ");
+				lblText.append(delta.getNewValue());
+			}
+
+			else {
+				lblText.append(component.getClass() + " ");
+				lblText.append(delta.toString());
+			}
+
+			return lblText.toString();
+		}
+
+		if (element instanceof DiagramChangeDelta) {
+
+			DiagramChangeDelta delta = (DiagramChangeDelta) element;
+
+			lblText.append("Diagram ");
+			lblText.append(delta.getAffDiagramHandle().getModelResource()
+					.getName());
+			lblText.append(DELTA_FROM);
+			lblText.append(delta.getAffDiagramHandle().getModelResource()
+					.getFullPath());
+			lblText.append(DELTA_TO);
+			lblText.append(delta.getDestinationPath());
+			lblText.append(File.separator);
+			lblText.append(delta.getAffDiagramHandle().getModelResource()
+					.getName());
+
+			return lblText.toString();
+		}
+
+		return null;
+	}
 
 	@Override
 	public Image getImage(Object element) {
@@ -52,147 +148,6 @@ public class ChangeDeltaLabelProvider extends AbstractArtifactLabelProvider {
 				instanceDiagImg = desc.createImage();
 				return instanceDiagImg;
 			}
-		}
-		return null;
-	}
-
-	@Override
-	public String getText(Object element) {
-
-		if (element instanceof ModelChangeDelta) {
-
-			ModelChangeDelta delta = (ModelChangeDelta) element;
-			if (delta.getComponent() instanceof ArtifactComponent) {
-
-				if (delta.getComponent() instanceof AbstractArtifact) {
-
-					if (delta.getFeature().equals(
-							IArtifactSetFeatureRequest.RETURNED_TYPE)) {
-
-						AbstractArtifact artifact = (AbstractArtifact) delta
-								.getComponent();
-						StringBuffer sb = new StringBuffer();
-						sb.append(artifact.getName());
-						sb.append(" return type moved/renamed from ");
-						sb.append(delta.getOldValue());
-						sb.append(" to ");
-						sb.append(delta.getNewValue());
-						return sb.toString();
-					}
-
-					StringBuffer sb = new StringBuffer();
-					if (delta.getFeature().equals(
-							IArtifactFQRenameRequest.FQN_FEATURE)) {
-						sb.append(delta.getOldValue());
-						sb.append(" moved/renamed to ");
-						sb.append(delta.getNewValue());
-					} else if (delta.getFeature().equals(
-							IArtifactSetFeatureRequest.EXTENDS_FEATURE)) {
-						AbstractArtifact artifact = (AbstractArtifact) delta
-								.getComponent();
-						sb.append(artifact.getFullyQualifiedName() + " ");
-						sb.append("generalization ");
-						sb.append(delta.getOldValue());
-						sb.append(" moved/renamed to ");
-						sb.append(delta.getNewValue());
-					} else if ((delta.getFeature().equals(
-							IArtifactSetFeatureRequest.ZEND) || (delta
-							.getFeature()
-							.equals(IArtifactSetFeatureRequest.AEND)))) {
-						AbstractArtifact artifact = (AbstractArtifact) delta
-								.getComponent();
-						sb.append(artifact.getFullyQualifiedName() + " ");
-						sb.append(delta.getFeature() + " ");
-						sb.append("moved/renamed to ");
-						sb.append(delta.getNewValue());
-					} else if ((delta.getFeature()
-							.equals(IArtifactAddFeatureRequest.IMPLEMENTS_FEATURE))) {
-						AbstractArtifact artifact = (AbstractArtifact) delta
-								.getComponent();
-						sb.append(artifact.getFullyQualifiedName() + " ");
-						sb.append("implemented interface ");
-						sb.append(delta.getOldValue());
-						sb.append(" moved/renamed to ");
-						sb.append(delta.getNewValue());
-					} else {
-						sb.append(delta.toString());
-					}
-
-					return sb.toString();
-
-				} else {
-
-					ArtifactComponent component = (ArtifactComponent) delta
-							.getComponent();
-
-					if (component instanceof Field) {
-
-						StringBuffer sb = new StringBuffer();
-
-						IModelComponent mdlComponent = component
-								.getContainingModelComponent();
-						IAbstractArtifact artifact = (IAbstractArtifact) mdlComponent;
-
-						sb.append("Attribute ");
-						sb.append(artifact.getFullyQualifiedName() + "."
-								+ component.getName());
-						sb.append(" type moved/renamed from ");
-						sb.append(delta.getOldValue());
-						sb.append(" to ");
-						sb.append(delta.getNewValue());
-						return sb.toString();
-
-					}
-
-					if (delta.getFeature().equals(
-							IMethodSetRequest.TYPE_FEATURE)) {
-
-						StringBuffer sb = new StringBuffer();
-
-						IModelComponent mdlComponent = component
-								.getContainingModelComponent();
-						IAbstractArtifact artifact = (IAbstractArtifact) mdlComponent;
-
-						sb.append("Method ");
-						sb.append(artifact.getFullyQualifiedName() + "."
-								+ component.getName());
-						sb.append(" return type moved/renamed from ");
-						sb.append(delta.getOldValue());
-						sb.append(" to ");
-						sb.append(delta.getNewValue());
-						return sb.toString();
-					}
-				}
-			}
-
-			// Method Argument is a special case
-			if (delta.getComponent() instanceof Argument) {
-
-				Argument arg = (Argument) delta.getComponent();
-				StringBuffer sb = new StringBuffer();
-				sb.append("Method ");
-				sb.append(arg.getContainingArtifact().getFullyQualifiedName());
-				sb.append(" argument type moved/renamed from ");
-				sb.append(delta.getOldValue());
-				sb.append(" to ");
-				sb.append(delta.getNewValue());
-				return sb.toString();
-			}
-
-		} else if (element instanceof DiagramChangeDelta) {
-
-			DiagramChangeDelta delta = (DiagramChangeDelta) element;
-			StringBuffer sb = new StringBuffer();
-			sb.append("Moving ");
-			sb.append(delta.getAffDiagramHandle().getModelResource()
-					.getParent().getFullPath());
-			sb.append(File.separator);
-			sb.append(delta.getAffDiagramHandle().getModelResource().getName());
-			sb.append(" to ");
-			sb.append(delta.getDestinationPath());
-			sb.append(File.separator);
-			sb.append(delta.getAffDiagramHandle().getModelResource().getName());
-			return sb.toString();
 		}
 		return null;
 	}
