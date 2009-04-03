@@ -1,7 +1,5 @@
 <project name="Shared build targets">
 	
-	<property environment="env"/>
-
 	<!-- the following properties must be set from the calling script 
     <property name="eclipse.installation.dir" value="${buildDirectory}"/>
     <property name="eclipse.local.tar.non.server" value="${test.eclipse.zip}"/>
