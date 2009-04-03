@@ -3,24 +3,26 @@
 <project name="">
 <outputDirectory>target/tigerstripe.gen</outputDirectory>
 <version>1</version>
-<description/>
-<provider/>
+<description>Generates either a single file containing an XML export of all the project (global setting singleFileOnly = true) or an index page and one XML export file per artifact (global setting singleFileOnly = false).&#13;
+Also the XML schema for the generated XML is copied to the output in the model project.&#13;
+In the singleFileOnly  = false mode a processing instruction pointing to XSL is added to each XML file. These XSL files are also copied to the output of the model project. The XSL convert the XML export to HTML pages for model documentation.</description>
+<provider>Cisco Systems</provider>
 <property name="defaultArtifactPackage">com.mycompany</property>
 </project>
 <pluginNature type="Generic"/>
 <logger defautLevel="4" isEnabled="true" logPath="XMLExportV2-0.log" maxRoll="9"/>
 <globalProperties>
-<property name="fileName" tipToolText="" type="org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty">${project.Name}.xml</property>
+<property name="fileName" tipToolText="File Name of the single export file or index file in one file per artifact mode." type="org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty">${project.Name}.xml</property>
 <property name="xmlDir" tipToolText="Directory to which export xml files are generated" type="org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty">xmlExport</property>
 <property name="singleFileOnly" tipToolText="Create single XML file only (true) or one per artifact in addition to the single file (false)." type="org.eclipse.tigerstripe.workbench.plugins.IBooleanPluginProperty">true</property>
 <property name="IndexXSL" tipToolText="XSL file used to generate index page." type="org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty">index.xsl</property>
 <property name="ArtifactXSL" tipToolText="XSL used to generate artifact detail pages." type="org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty">artifact.xsl</property>
 </globalProperties>
 <globalRules>
-<rule description="" enabled="true" name="allArtifactInOneFile" type="org.eclipse.tigerstripe.workbench.plugins.IGlobalRunnableRule">
+<rule description="Will either create a single file containing an XML export of all the project (global setting singleFileOnly = true) or an index page and one XML export file per artifact (global setting singleFileOnly = false)." enabled="true" name="allArtifactInOneFile" type="org.eclipse.tigerstripe.workbench.plugins.IGlobalRunnableRule">
 <body overwriteFiles="true" runnableClassName="org.eclipse.tigerstripe.generators.xml.v2.XMLCreator" suppressFiles="false"/>
 </rule>
-<rule description="Copies the XML export schema and XSLT files." enabled="true" name="copyResources" type="org.eclipse.tigerstripe.workbench.plugins.ICopyRule">
+<rule description="Copies the XML export schema and XSLT files to the model project output." enabled="true" name="copyResources" type="org.eclipse.tigerstripe.workbench.plugins.ICopyRule">
 <body copyFrom="0" filesetMatch="resources\*" toDirectory="\"/>
 </rule>
 </globalRules>

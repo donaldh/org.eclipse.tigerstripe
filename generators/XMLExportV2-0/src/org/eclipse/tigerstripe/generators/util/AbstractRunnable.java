@@ -1,3 +1,13 @@
+/*******************************************************************************
+ * Copyright (c) 2009 Cisco Systems, Inc.
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ *
+ * Contributors:
+ *    R. Craddock (Cisco Systems, Inc.)
+ *******************************************************************************/
 package org.eclipse.tigerstripe.generators.util;
 
 import java.io.File;
@@ -32,6 +42,7 @@ public abstract class AbstractRunnable implements IRunnableWrapper{
 		String base = "";
 		String target = "";
 		String file = "";
+		String dir = "";
 		
 		
 		base = modelProject.getLocation().toString();
@@ -39,8 +50,11 @@ public abstract class AbstractRunnable implements IRunnableWrapper{
 		
 		String f = exp.expandVar(config.getProperty("fileName").toString());
 		file = exp.expandVar(f);
+		String d = exp.expandVar(config.getProperty("xmlDir").toString());
+		dir = exp.expandVar(d);
 		
-		String fullFileName = base+File.separator+
+		String fullFileName = dir + File.separator+
+		                      base+File.separator+
 							  target+File.separator+
 							  file;
 		return fullFileName;
