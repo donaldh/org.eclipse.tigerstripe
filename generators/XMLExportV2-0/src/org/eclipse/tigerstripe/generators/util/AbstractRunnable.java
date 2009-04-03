@@ -52,10 +52,14 @@ public abstract class AbstractRunnable implements IRunnableWrapper{
 		file = exp.expandVar(f);
 		String d = exp.expandVar(config.getProperty("xmlDir").toString());
 		dir = exp.expandVar(d);
+		File dirs = new File(base+File.separator+
+				  target+File.separator+
+				  dir);
+		dirs.mkdirs();
 		
-		String fullFileName = dir + File.separator+
-		                      base+File.separator+
+		String fullFileName = base+File.separator+
 							  target+File.separator+
+							  dir+File.separator+
 							  file;
 		return fullFileName;
 	}
@@ -66,9 +70,13 @@ public abstract class AbstractRunnable implements IRunnableWrapper{
 		String file = "";
 		String extension = ".xml";
 		String path = "";
+		String dir = "";
+		
 		base = modelProject.getLocation().toString();
 		target = modelProject.getProjectDetails().getOutputDirectory();
-		path = base+File.separator+target+File.separator+artifact.getPackage().replace(".", File.separator);
+		String d = exp.expandVar(config.getProperty("xmlDir").toString());
+		dir = exp.expandVar(d);
+		path = base+File.separator+target+File.separator+dir+File.separator+artifact.getPackage().replace(".", File.separator);
 		File dirs = new File(path);
 		dirs.mkdirs();
 		

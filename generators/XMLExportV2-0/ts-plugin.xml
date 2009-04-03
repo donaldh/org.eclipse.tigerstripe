@@ -15,15 +15,15 @@ In the singleFileOnly  = false mode a processing instruction pointing to XSL is 
 <property name="fileName" tipToolText="File Name of the single export file or index file in one file per artifact mode." type="org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty">${project.Name}.xml</property>
 <property name="xmlDir" tipToolText="Directory to which export xml files are generated" type="org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty">xmlExport</property>
 <property name="singleFileOnly" tipToolText="Create single XML file only (true) or one per artifact in addition to the single file (false)." type="org.eclipse.tigerstripe.workbench.plugins.IBooleanPluginProperty">true</property>
-<property name="IndexXSL" tipToolText="XSL file used to generate index page." type="org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty">index.xsl</property>
-<property name="ArtifactXSL" tipToolText="XSL used to generate artifact detail pages." type="org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty">artifact.xsl</property>
+<property name="indexXSL" tipToolText="XSL file used to generate index page." type="org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty">index.xsl</property>
+<property name="artifactXSL" tipToolText="XSL used to generate artifact detail pages." type="org.eclipse.tigerstripe.workbench.plugins.IStringPluginProperty">artifact.xsl</property>
 </globalProperties>
 <globalRules>
 <rule description="Will either create a single file containing an XML export of all the project (global setting singleFileOnly = true) or an index page and one XML export file per artifact (global setting singleFileOnly = false)." enabled="true" name="allArtifactInOneFile" type="org.eclipse.tigerstripe.workbench.plugins.IGlobalRunnableRule">
 <body overwriteFiles="true" runnableClassName="org.eclipse.tigerstripe.generators.xml.v2.XMLCreator" suppressFiles="false"/>
 </rule>
 <rule description="Copies the XML export schema and XSLT files to the model project output." enabled="true" name="copyResources" type="org.eclipse.tigerstripe.workbench.plugins.ICopyRule">
-<body copyFrom="0" filesetMatch="resources\*" toDirectory="\"/>
+<body copyFrom="0" filesetMatch="resources\*" toDirectory="${ppProp.xmlDir}\"/>
 </rule>
 </globalRules>
 <artifactRules/>

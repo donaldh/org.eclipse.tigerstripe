@@ -66,8 +66,10 @@ public class XMLCreator extends AbstractRunnable{
 			
 			
 			if(f.equalsIgnoreCase("false")){
-			/*<?xml-stylesheet version="1.0" type="text/xsl" href="./xsl/$indexXSL"?>*/
-			ProcessingInstruction xslt = document.createProcessingInstruction("xml-stylesheet", "href=\"./index.xsl\" type=\"text/xsl\"");
+			String indexXSLStart = "href=\"./";
+			String ix = exp.expandVar(config.getProperty("indexXSL").toString());
+		    String indexXSL = indexXSLStart.concat(ix).concat("\" type=\"text/xsl\"");
+			ProcessingInstruction xslt = document.createProcessingInstruction("xml-stylesheet", indexXSL);
 			document.insertBefore(xslt, rootElement);
 			for (IAbstractArtifact artifact : artifacts){
 				Element artifactElement = artifactToXML.artifactToIndexElement(artifact);
@@ -98,8 +100,9 @@ public class XMLCreator extends AbstractRunnable{
 					ArtifactToXML aartifactToXML = new ArtifactToXML(artiDocument);
 					
 					String toRoot = pathToRoot(arti.getFullyQualifiedName());
-					String end = "artifact.xsl\" type=\"text/xsl\"";
-					String transform = "href=\"".concat(toRoot).concat(end);
+					String ax = exp.expandVar(config.getProperty("artifactXSL").toString());
+					String end = "\" type=\"text/xsl\"";
+					String transform = "href=\"".concat(toRoot).concat(ax).concat(end);
 					ProcessingInstruction xslt = artiDocument.createProcessingInstruction("xml-stylesheet", transform);
 					
 					Element arootElement = aartifactToXML.getRootElement(modelProject);					
