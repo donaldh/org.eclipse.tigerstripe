@@ -1,40 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xs:schema xmlns:tns="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v2-0" 
-	xmlns:xs="http://www.w3.org/2001/XMLSchema" 
-	targetNamespace="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v2-0" 
-	elementFormDefault="qualified" 
-	version="1.1">
-	
-	<xs:element name="annotations" type="xs:string"/>
-	
-	<xs:complexType  name="annotatedType">
-		<xs:sequence>
-			<xs:element ref="tns:annotations" minOccurs="0" maxOccurs="1"/>
-		</xs:sequence>
-	</xs:complexType>
-	
+<!-- edited with XMLSpy v2005 rel. 3 U (http://www.altova.com) by Steve Jerman (Cisco Systems) -->
+<xs:schema xmlns:tns="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0" elementFormDefault="qualified" version="1.1">
 	<xs:element name="tigerstripeProject">
 		<xs:complexType>
-			<xs:complexContent>
-                <xs:extension base="tns:annotatedType">
-					<xs:sequence>
-						<xs:element name="comment" type="xs:string" minOccurs="0"/>
-						<xs:choice>
-							<xs:element ref="tns:artifact" minOccurs="0" maxOccurs="unbounded"/>
-							<xs:element ref="tns:artifactFile" minOccurs="0" maxOccurs="unbounded"/>
-						</xs:choice>
-					</xs:sequence>
-					<xs:attribute name="name" type="xs:string" use="required"/>
-					<xs:attribute name="version" type="xs:string" use="required"/>
-		        </xs:extension>
-            </xs:complexContent>
+			<xs:sequence>
+				<xs:choice>
+					<xs:element ref="tns:artifact" minOccurs="0" maxOccurs="unbounded"/>
+					<xs:element ref="tns:artifactFile" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:choice>
+			</xs:sequence>
+			<xs:attribute name="name" type="xs:string" use="required"/>
+			<xs:attribute name="version" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="artifact">
 		<xs:complexType>
-			<xs:complexContent>
-                <xs:extension base="tns:annotatedType">
-       			<xs:sequence>
+			<xs:sequence>
 				<xs:element ref="tns:implements" minOccurs="0"/>
 				<xs:element name="comment" type="xs:string" minOccurs="0"/>
 				<xs:element ref="tns:stereotypes" minOccurs="0"/>
@@ -51,10 +32,8 @@
 			</xs:sequence>
 			<xs:attribute name="name" type="xs:string" use="required"/>
 			<xs:attribute name="extendedArtifact" type="xs:string" use="optional"/>
-			<xs:attribute name="artifactType" type="xs:string" use="required"/>
+			<xs:attribute name="artifactType" type="xs:string" use="optional"/>
 			<xs:attribute name="isAbstract" type="xs:boolean" use="optional"/>
-			</xs:extension>
-            </xs:complexContent>
 			<!-- The name and extendedArtifact are the FQNs of the artifacts not the simple name -->
 		</xs:complexType>
 	</xs:element>
@@ -66,7 +45,7 @@
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="fields">
-		<xs:complexType>	             
+		<xs:complexType>
 			<xs:sequence>
 				<xs:element ref="tns:field" minOccurs="0" maxOccurs="unbounded"/>
 			</xs:sequence>
@@ -74,8 +53,6 @@
 	</xs:element>
 	<xs:element name="field">
 		<xs:complexType>
-			<xs:complexContent>
-                <xs:extension base="tns:annotatedType">
 			<xs:sequence>
 				<xs:element ref="tns:stereotypes" minOccurs="0"/>
 				<xs:element name="comment" type="xs:string" minOccurs="0"/>
@@ -88,8 +65,6 @@
 			<xs:attribute name="unique" type="xs:boolean" use="required"/>
 			<xs:attribute name="ordered" type="xs:boolean" use="required"/>
 			<xs:attribute name="defaultValue" type="xs:string" use="optional"/>
-		    </xs:extension>
-            </xs:complexContent>
 			<!-- The value in type is the FQN of the type -->
 		</xs:complexType>
 	</xs:element>
@@ -102,8 +77,6 @@
 	</xs:element>
 	<xs:element name="literal">
 		<xs:complexType>
-			<xs:complexContent>
-                <xs:extension base="tns:annotatedType">
 			<xs:sequence>
 				<xs:element ref="tns:stereotypes" minOccurs="0"/>
 				<xs:element name="comment" type="xs:string" minOccurs="0"/>
@@ -113,8 +86,6 @@
 			<xs:attribute name="type" type="xs:string" use="required"/>
 			<xs:attribute name="visibility" type="xs:string" use="required"/>
 			<!-- The value in type is the FQN of the type -->
-		        </xs:extension>
-            </xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="methods">
@@ -126,8 +97,6 @@
 	</xs:element>
 	<xs:element name="method">
 		<xs:complexType>
-			<xs:complexContent>
-                <xs:extension base="tns:annotatedType">
 			<xs:sequence>
 				<xs:element ref="tns:stereotypes" minOccurs="0"/>
 				<xs:element ref="tns:arguments" minOccurs="0" maxOccurs="unbounded"/>
@@ -146,8 +115,6 @@
 			<xs:attribute name="defaultReturnValue" type="xs:string" use="optional"/>
 			<xs:attribute name="methodReturnName" type="xs:string" use="optional"/>
 			<!-- The value in type is the FQN of the type -->
-		        </xs:extension>
-            </xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="arguments">
@@ -159,22 +126,17 @@
 	</xs:element>
 	<xs:element name="argument">
 		<xs:complexType>
-			<xs:complexContent>
-                <xs:extension base="tns:annotatedType">
 			<xs:sequence>
 				<xs:element name="comment" type="xs:string" minOccurs="0"/>
 				<xs:element ref="tns:stereotypes" minOccurs="0"/>
 			</xs:sequence>
 			<xs:attribute name="name" type="xs:string" use="required"/>
 			<xs:attribute name="typeMultiplicity" type="xs:string" use="required"/>
-			<xs:attribute name="type" type="xs:string" use="required"/>
+			<xs:attribute name="type" type="xs:string" use="optional"/>
 			<xs:attribute name="unique" type="xs:boolean" use="required"/>
 			<xs:attribute name="ordered" type="xs:boolean" use="required"/>
 			<xs:attribute name="defaultValue" type="xs:string" use="optional"/>
-			<xs:attribute name="direction" type="xs:string" use="optional"/>
 			<!-- The value in type is the FQN of the type -->
-		        </xs:extension>
-            </xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="exceptions">
@@ -244,8 +206,6 @@
 	<!-- Note, the two associationEnds are AEnd and ZEnd -->
 	<xs:element name="associationEnd">
 		<xs:complexType>
-			<xs:complexContent>
-                <xs:extension base="tns:annotatedType">
 			<xs:sequence>
 				<xs:element ref="tns:stereotypes" minOccurs="0"/>
 				<xs:element name="comment" type="xs:string" minOccurs="0"/>
@@ -262,8 +222,6 @@
 			<xs:attribute name="unique" type="xs:boolean" use="required"/>
 			<!-- the value for "end" cannot be extracted from the model and so is set in the template -->
 			<!-- The value in type is the FQN of the type -->
-		        </xs:extension>
-            </xs:complexContent>
 		</xs:complexType>
 	</xs:element>
 	<xs:element name="associationClassSpecifics">
