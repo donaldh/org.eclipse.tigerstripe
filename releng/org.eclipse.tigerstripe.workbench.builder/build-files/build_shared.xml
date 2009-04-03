@@ -94,6 +94,7 @@
 	</target>
 	
 	<target name="-unpack.eclipse.windows" if="is.windows" depends="-set.eclipse.local.tar.server,-set.eclipse.local.tar.non.server">
+		<echo message="Lale: ${eclipse.local.tar}"></echo>
 		<unzip src="${eclipse.local.tar}" overwrite="true" dest="${eclipse.installation.dir}/.."/>		
 	</target>
 	
