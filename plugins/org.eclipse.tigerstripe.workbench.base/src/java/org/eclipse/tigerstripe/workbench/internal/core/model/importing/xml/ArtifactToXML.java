@@ -16,6 +16,8 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -23,6 +25,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.XMLResource;
+import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.util.encode.XmlEscape;
 import org.eclipse.tigerstripe.workbench.model.annotation.IAnnotationCapable;
@@ -86,7 +90,17 @@ public class ArtifactToXML {
 		catch (TigerstripeException t ){
 			PluginLog.logError("Error Unable to get Project details for "+modelProject.getName());
 		}
-		// TODO Add Project's annotations.
+		
+		Annotation[] annotations = AnnotationPlugin.getManager().getAnnotations(modelProject, true);
+		if (annotations.length>0){
+			Element annotationsElement = document.createElementNS(TS_NSURI, "annotations");
+			annotationsElement.setPrefix("ts");
+			annotationsElement = getAnnotationElement(annotations);
+			rootElement.appendChild(annotationsElement); 
+		} 
+		
+		
+		
 		
 		Element commentElement = getComment(modelProject);
 		if (commentElement != null){
@@ -540,32 +554,37 @@ public class ArtifactToXML {
 	
 	private Element getAnnotations(IAnnotationCapable capable){
 		if (capable.hasAnnotations()){
-			Element annotationsElement = document.createElementNS(TS_NSURI, "annotations");
-			annotationsElement.setPrefix("ts");
-			for (Object  ann : capable.getAnnotations()){
-				EObject annotation = (EObject) ann;
-				ResourceSet set = new ResourceSetImpl();
-				URI temp = URI.createURI("temp");
-				Resource res = set.createResource(temp);
-				EList contents = res.getContents();
-				contents.add(annotation);
-				OutputStream myOutputStream = new ByteArrayOutputStream();
-				Map options = new HashMap();
-				options.put(XMLResource.OPTION_DECLARE_XML, false);
-				
-				try {
-					res.save(myOutputStream, options);
-					String annoString = myOutputStream.toString();
-					CDATASection section = document.createCDATASection(annoString);
-					annotationsElement.appendChild(section);
-				} catch (Exception e){
-					
-				}
-				
-			}
-			return annotationsElement; 
+			Element annotationsElement;
+			return annotationsElement = getAnnotationElement(capable.getAnnotations().toArray()); 
 		} else {
 			return null;
 		}
+	}
+	
+	private Element getAnnotationElement(Object[] annotations){
+		Element annotationsElement = document.createElementNS(TS_NSURI, "annotations");
+		annotationsElement.setPrefix("ts");
+		for (Object  ann : annotations){
+			EObject annotation = (EObject) ann;
+			ResourceSet set = new ResourceSetImpl();
+			URI temp = URI.createURI("temp");
+			Resource res = set.createResource(temp);
+			EList contents = res.getContents();
+			contents.add(annotation);
+			OutputStream myOutputStream = new ByteArrayOutputStream();
+			Map options = new HashMap();
+			options.put(XMLResource.OPTION_DECLARE_XML, false);
+			
+			try {
+				res.save(myOutputStream, options);
+				String annoString = myOutputStream.toString();
+				CDATASection section = document.createCDATASection(annoString);
+				annotationsElement.appendChild(section);
+			} catch (Exception e){
+				
+			}
+			
+		}
+		return annotationsElement;
 	}
 }
