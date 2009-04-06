@@ -21,7 +21,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.ltk.internal.ui.refactoring.model.RefactoringModelAdapterFactory;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramChangeDelta;
@@ -50,9 +49,10 @@ public abstract class AbstractModelRefactorWizard extends Wizard implements
 		setNeedsProgressMonitor(true);
 	}
 
-	public void addRequest(ModelRefactorRequest request) throws TigerstripeException {
+	public void addRequest(ModelRefactorRequest request)
+			throws TigerstripeException {
 
-		if(request.isValid().getSeverity() == IStatus.OK) {
+		if (request.isValid().getSeverity() == IStatus.OK) {
 			requests.add(request);
 		} else {
 			throw new TigerstripeException(request.isValid().getMessage());
@@ -60,10 +60,10 @@ public abstract class AbstractModelRefactorWizard extends Wizard implements
 	}
 
 	public List<ModelRefactorRequest> getRequests() {
-		
+
 		return requests;
 	}
-	
+
 	public void clearRequests() {
 
 		requests = new ArrayList<ModelRefactorRequest>();
