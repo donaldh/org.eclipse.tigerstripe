@@ -68,6 +68,7 @@ public class XMLCreator extends AbstractRunnable{
 			if(f.equalsIgnoreCase("false")){
 			String indexXSLStart = "href=\"./";
 			String ix = exp.expandVar(config.getProperty("indexXSL").toString());
+			ix = checkValidXSLFileName(ix, "indexXSL");
 		    String indexXSL = indexXSLStart.concat(ix).concat("\" type=\"text/xsl\"");
 			ProcessingInstruction xslt = document.createProcessingInstruction("xml-stylesheet", indexXSL);
 			document.insertBefore(xslt, rootElement);

@@ -15,6 +15,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -49,8 +51,10 @@ public abstract class AbstractRunnable implements IRunnableWrapper{
 		target = modelProject.getProjectDetails().getOutputDirectory();
 		
 		String f = exp.expandVar(config.getProperty("fileName").toString());
+		f= checkValidDirectory(f,"fileName");
 		file = exp.expandVar(f);
 		String d = exp.expandVar(config.getProperty("xmlDir").toString());
+		d = checkValidDirectory(d,"xmlDir");
 		dir = exp.expandVar(d);
 		File dirs = new File(base+File.separator+
 				  target+File.separator+
@@ -64,6 +68,37 @@ public abstract class AbstractRunnable implements IRunnableWrapper{
 		return fullFileName;
 	}
 	
+	private String checkValidDirectory(String d, String source){
+		char[] illegalCharacters = {'/', '?', '\\', ':', '*','>','<','"','|'};		
+	    for(int i = 0; i < d.length(); i++){
+	    	for(char illegal : illegalCharacters){
+	    		if(d.charAt(i) == illegal){
+	    			PluginLog.logWarning("WARNING: Configured "+source+" ("+d+") is illegal default will be used instead.");
+	    			return getDefault(source);
+	    		}
+	    	}
+	    }	    	
+		return d;
+	}
+	
+	protected String checkValidXSLFileName(String d, String source){
+		 Pattern p = Pattern.compile(".*\\.xsl[t]??");
+		 Matcher m = p.matcher(d);
+		 if(!m.matches()){
+			 PluginLog.logWarning("WARNING: Configured "+source+" ("+d+") not valid as not end with .xsl[t]. Default used.");
+			 return getDefault(source);
+		 }
+		return d = checkValidDirectory(d,source);
+	}
+	
+	private String getDefault(String source){
+		if(source.equalsIgnoreCase("xmlDir"))return "xmlExport";
+		else if(source.equalsIgnoreCase("indexXSL")) return "index.xsl";
+		else if(source.equalsIgnoreCase("artifactXSL")) return "artifact.xsl";
+		else if(source.equalsIgnoreCase("fileName")) return "${project.Name}.xml";
+		else return "no default";
+	}
+	
 	public String makeSingleArtiFileName(IAbstractArtifact artifact) throws TigerstripeException{
 		String base = "";
 		String target = "";
@@ -75,6 +110,7 @@ public abstract class AbstractRunnable implements IRunnableWrapper{
 		base = modelProject.getLocation().toString();
 		target = modelProject.getProjectDetails().getOutputDirectory();
 		String d = exp.expandVar(config.getProperty("xmlDir").toString());
+		d = checkValidDirectory(d,"xmlDir");
 		dir = exp.expandVar(d);
 		path = base+File.separator+target+File.separator+dir+File.separator+artifact.getPackage().replace(".", File.separator);
 		File dirs = new File(path);
