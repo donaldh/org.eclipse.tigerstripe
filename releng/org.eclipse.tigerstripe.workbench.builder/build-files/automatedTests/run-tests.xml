@@ -3,6 +3,7 @@
 	<typedef resource="org/pluginbuilder/anttasks/pluginbuildertypes.properties" classpath="../pluginbuilder-anttasks.jar" />
 
 	<GetHostName />
+	<property name="eclipse.installation.dir" value="${eclipseDir}"/>
 	<property file="../../build_${hostname}.properties" />
 	<property file="../../build_local.properties" />
 	<property file="run-tests.properties" />
