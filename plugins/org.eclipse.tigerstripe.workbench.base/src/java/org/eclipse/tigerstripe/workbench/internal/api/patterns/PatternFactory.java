@@ -180,7 +180,7 @@ public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileC
 							}
 						} catch (TigerstripeException t){
 							BasePlugin.logErrorMessage("Failed to instantiate creation Pattern");
-							t.printStackTrace();
+							BasePlugin.log(t);
 						}
 					
 					} else if (element.getName().equals("disabledPattern")){
@@ -206,7 +206,7 @@ public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileC
 				
 			}catch (Exception e ){
 				BasePlugin.logErrorMessage("Failed to instantiate creation Patterns");
-				e.printStackTrace();
+				BasePlugin.log(e);
 			}
 			TigerstripeCore
 			.getWorkbenchProfileSession().addActiveProfileListener(instance);
