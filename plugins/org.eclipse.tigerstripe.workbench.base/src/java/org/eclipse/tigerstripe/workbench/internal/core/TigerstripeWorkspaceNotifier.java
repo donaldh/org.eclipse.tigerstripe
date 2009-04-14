@@ -35,7 +35,7 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 
 	public static TigerstripeWorkspaceNotifier INSTANCE = new TigerstripeWorkspaceNotifier();
 
-	private ListenerList listeners = new ListenerList();
+	private ListenerList listeners = new ListenerList(ListenerList.EQUALITY);
 
 	public class FilteredListener {
 
@@ -59,8 +59,7 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 		public boolean equals(Object obj) {
 			if (obj instanceof FilteredListener) {
 				FilteredListener other = (FilteredListener) obj;
-				return listener == other.getListener()
-						&& filter == other.filter;
+				return listener == other.getListener();
 			}
 			return false;
 		}
