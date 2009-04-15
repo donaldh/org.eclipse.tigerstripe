@@ -84,11 +84,14 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 			IStatus diagStatus = internalAuditDiagram(diagram, monitor);
 			IStatus modelStatus = auditModel(status, map, monitor);
 
-			status.add(diagStatus);
+			if (!diagStatus.isOK())
+				status.add(diagStatus);
 			return status;
 		} catch (TigerstripeException e) {
 			return new Status(IStatus.ERROR, Activator.PLUGIN_ID, 222, e
 					.getMessage(), e);
+		} finally {
+			helper = null;
 		}
 	}
 
@@ -108,11 +111,14 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 			IStatus diagStatus = internalAuditDiagram(diagram, monitor);
 			IStatus modelStatus = auditModel(status, map, monitor);
 
-			status.add(diagStatus);
+			if (!diagStatus.isOK())
+				status.add(diagStatus);
 			return status;
 		} catch (TigerstripeException e) {
 			return new Status(IStatus.ERROR, Activator.PLUGIN_ID, 222, e
 					.getMessage(), e);
+		} finally {
+			helper = null;
 		}
 	}
 
@@ -178,9 +184,11 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 		List<AbstractArtifact> artifacts = map.getArtifacts();
 		for (AbstractArtifact artifact : artifacts) {
 			IStatus status = auditArtifact(artifact, tsProject);
-			artResult.add(status);
+			if (!status.isOK())
+				artResult.add(status);
 		}
-		parentStatus.add(artResult);
+		if (!artResult.isOK())
+			parentStatus.add(artResult);
 
 		MultiStatus assocResult = new MultiStatus(Activator.PLUGIN_ID, 222,
 				ArtifactMetadataFactory.INSTANCE.getMetadata(
@@ -190,9 +198,11 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 		List<Association> associations = map.getAssociations();
 		for (Association association : associations) {
 			IStatus status = auditAssociation(association, tsProject);
-			assocResult.add(status);
+			if (!status.isOK())
+				assocResult.add(status);
 		}
-		parentStatus.add(assocResult);
+		if (!assocResult.isOK())
+			parentStatus.add(assocResult);
 
 		MultiStatus depResult = new MultiStatus(Activator.PLUGIN_ID, 222,
 				ArtifactMetadataFactory.INSTANCE.getMetadata(
@@ -201,9 +211,11 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 		List<Dependency> dependencies = map.getDependencies();
 		for (Dependency dependency : dependencies) {
 			IStatus status = auditDependency(dependency, tsProject);
-			depResult.add(status);
+			if (!status.isOK())
+				depResult.add(status);
 		}
-		parentStatus.add(depResult);
+		if (!depResult.isOK())
+			parentStatus.add(depResult);
 
 		return parentStatus;
 	}
@@ -543,11 +555,11 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 		String eExtends = null;
 		if (eArtifact.getExtends() != null)
 			eExtends = eArtifact.getExtends().getFullyQualifiedName();
-		
+
 		String iExtends = null;
 		if (iArtifact.getExtendedArtifact() != null) {
 			iExtends = iArtifact.getExtendedArtifact().getFullyQualifiedName();
-		
+
 			boolean extendsIsOnDiagram = helper
 					.findAbstractArtifactFor(iExtends) != null;
 			if (!extendsIsOnDiagram) {
@@ -563,28 +575,31 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 				iExtends = null;
 			}
 		}
-		
+
 		if (!hideExtends(eArtifact)) {
 			if ((eExtends == null && iExtends != null)
-				|| (iExtends == null && eExtends != null)
-				|| (eExtends != null && !eExtends.equals(iExtends))) {
+					|| (iExtends == null && eExtends != null)
+					|| (eExtends != null && !eExtends.equals(iExtends))) {
 				IStatus status = getErrorStatus(" In model extends " + iExtends
-					+ " but not in diagram (" + eExtends + ").");
+						+ " but not in diagram (" + eExtends + ").");
 				result.add(status);
 			}
 		}
 
 		// check attributes
 		IStatus status = auditAttributes(eArtifact, iArtifact);
-		result.add(status);
+		if (!status.isOK())
+			result.add(status);
 
 		// check methods
 		status = auditMethods(eArtifact, iArtifact);
-		result.add(status);
+		if (!status.isOK())
+			result.add(status);
 
 		// check methods
 		status = auditLiterals(eArtifact, iArtifact);
-		result.add(status);
+		if (!status.isOK())
+			result.add(status);
 
 		return result;
 	}
@@ -818,7 +833,9 @@ public class ClassDiagramAuditor implements IDiagramAuditor {
 						IArgument theArg = argumentIterator.next();
 						if (!theArg.getName().equals(theParam.getName())) {
 							methResult.add(getErrorStatus("Argument Name of '"
-									+ theParam.getName() + "' doesn't match (Expected '" + theArg.getName() + "'"));
+									+ theParam.getName()
+									+ "' doesn't match (Expected '"
+									+ theArg.getName() + "'"));
 						}
 						String lclTypeName = theArg.getType()
 								.getFullyQualifiedName();

@@ -93,12 +93,12 @@ public class AuditDiagramsActionDelegate implements IObjectActionDelegate {
 				if (status.isOK()) {
 					Display.getDefault().syncExec(new Runnable() {
 						public void run() {
-							MessageDialog
-									.openInformation(targetPart.getSite()
-											.getShell(), fStatus.getMessage(),
-											"No discrepancy was found. (See Error Log for details)");
+							MessageDialog.openInformation(targetPart.getSite()
+									.getShell(), fStatus.getMessage(),
+									"No discrepancy was found.");
 						}
 					});
+					return Status.OK_STATUS;
 				} else if (status.getSeverity() != IStatus.CANCEL) {
 					Display.getDefault().syncExec(new Runnable() {
 						public void run() {
@@ -131,11 +131,6 @@ public class AuditDiagramsActionDelegate implements IObjectActionDelegate {
 		MultiStatus status = new MultiStatus(EclipsePlugin.getPluginId(), 222,
 				"Open Diagram audit result", null);
 		status.add(subStatus);
-
-		if (status.isOK()) {
-			EclipsePlugin.log(status);
-			// or else it only gets logged upon error
-		}
 		return status;
 	}
 
@@ -174,9 +169,10 @@ public class AuditDiagramsActionDelegate implements IObjectActionDelegate {
 				DiagramHandle handle = new DiagramHandle(diagramFile);
 				IDiagramAuditor auditor = DiagramAuditorFactory.make(handle);
 				IStatus subStatus = auditor.auditDiagram(handle, monitor);
-				statuses.add(subStatus);
-				if (!subStatus.isOK())
+				if (!subStatus.isOK()) {
+					statuses.add(subStatus);
 					inError++;
+				}
 			} catch (TigerstripeException e) {
 				EclipsePlugin.log(e);
 			}
@@ -186,17 +182,15 @@ public class AuditDiagramsActionDelegate implements IObjectActionDelegate {
 		}
 		monitor.done();
 
+		if (statuses.size() == 0)
+			return Status.OK_STATUS;
+
 		MultiStatus status = new MultiStatus(EclipsePlugin.getPluginId(), 222,
 				"Diagram audit result (" + targetProject.getName() + ": "
 						+ inError + "/" + allDiagrams.size()
 						+ " diagrams have errors)", null);
 		for (IStatus st : statuses) {
 			status.add(st);
-		}
-
-		if (status.isOK()) {
-			EclipsePlugin.log(status);
-			// or else it only gets logged upon error
 		}
 		return status;
 	}
@@ -226,7 +220,9 @@ public class AuditDiagramsActionDelegate implements IObjectActionDelegate {
 					action.setEnabled(false);
 					return;
 				}
-				if ( targetProject != null && (targetProject.getAdapter(ITigerstripeModelProject.class) instanceof ITigerstripeModelProject)) {
+				if (targetProject != null
+						&& (targetProject
+								.getAdapter(ITigerstripeModelProject.class) instanceof ITigerstripeModelProject)) {
 					auditType = ALL_DIAGRAMS;
 					action.setText("Audit all diagrams");
 				}
