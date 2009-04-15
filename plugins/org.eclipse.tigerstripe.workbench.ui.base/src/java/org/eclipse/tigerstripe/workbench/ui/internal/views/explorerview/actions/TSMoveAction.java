@@ -10,10 +10,12 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor;
 import org.eclipse.jdt.ui.actions.MoveAction;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.action.LogicalNodeMoveAction;
 import org.eclipse.ui.IWorkbenchSite;
@@ -49,6 +51,11 @@ public class TSMoveAction extends MoveAction {
 			if (ssel.getFirstElement() instanceof AbstractLogicalExplorerNode) {
 				setEnabled(((AbstractLogicalExplorerNode) ssel
 						.getFirstElement()).canBeMoved());
+			} else if (ssel.getFirstElement() instanceof IAdaptable) {
+				IAbstractArtifact art = (IAbstractArtifact) ((IAdaptable) ssel
+						.getFirstElement()).getAdapter(IAbstractArtifact.class);
+				if (art != null)
+					setEnabled(false);
 			}
 		}
 	}

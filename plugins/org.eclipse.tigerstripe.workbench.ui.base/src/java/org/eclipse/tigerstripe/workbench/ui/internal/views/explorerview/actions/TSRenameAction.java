@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor;
@@ -110,6 +111,11 @@ public class TSRenameAction extends RenameAction {
 			if (ssel.getFirstElement() instanceof AbstractLogicalExplorerNode) {
 				setEnabled(((AbstractLogicalExplorerNode) ssel
 						.getFirstElement()).canBeRenamed());
+			} else if (ssel.getFirstElement() instanceof IAdaptable) {
+				IAbstractArtifact art = (IAbstractArtifact) ((IAdaptable) ssel
+						.getFirstElement()).getAdapter(IAbstractArtifact.class);
+				if (art != null)
+					setEnabled(false);
 			}
 		}
 	}
