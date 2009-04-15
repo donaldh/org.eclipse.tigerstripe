@@ -15,7 +15,13 @@ import java.util.List;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IGlobalSettingsProperty;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.GlobalSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssocMultiplicity;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Method;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Parameter;
@@ -33,6 +39,12 @@ public class MethodParser extends TigerstripeStructuralFeaturesParser {
 	@Override
 	public String getPrintString(IAdaptable adapter, int flags) {
 		setCurrentMap(adapter);
+
+		GlobalSettingsProperty propG = (GlobalSettingsProperty) TigerstripeCore
+				.getWorkbenchProfileSession().getActiveProfile().getProperty(
+						IWorkbenchPropertyLabels.GLOBAL_SETTINGS);
+		boolean displayDirection = propG
+				.getPropertyValue(IGlobalSettingsProperty.ARGUMENTDIRECTION);
 
 		// first get the print string from the super-class
 		String printString = super.getPrintString(adapter, flags);
@@ -92,7 +104,14 @@ public class MethodParser extends TigerstripeStructuralFeaturesParser {
 		// method signature
 		StringBuffer paramBuffer = new StringBuffer();
 		int paramCount = 0;
+		IMethod iMethod = method.getMethod();
 		for (Parameter param : parameterList) {
+
+			if (displayDirection && iMethod != null) {
+				IArgument arg = getCorrespondingArg(iMethod, param);
+				if (arg != null)
+					paramBuffer.append(arg.getDirection().getLabel() + " ");
+			}
 
 			if (!hideStereotypes()) {
 				StringBuffer argStereoPrefBuf = new StringBuffer();
@@ -189,4 +208,12 @@ public class MethodParser extends TigerstripeStructuralFeaturesParser {
 		return value;
 	}
 
+	protected IArgument getCorrespondingArg(IMethod iMethod, Parameter param) {
+		for (IArgument arg : iMethod.getArguments()) {
+			if (arg.getName().equals(param.getName())) {
+				return arg;
+			}
+		}
+		return null;
+	}
 }

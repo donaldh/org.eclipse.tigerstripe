@@ -29,6 +29,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IGlobalSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -36,6 +37,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.Enti
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjEntitySpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.tags.PropertiesConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.model.tags.StereotypeTags;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.GlobalSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
@@ -92,6 +94,7 @@ public class Method extends ArtifactComponent implements IOssjMethod,
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
 				.getWorkbenchProfileSession().getActiveProfile().getProperty(
 						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
+
 		boolean displayReference = prop
 				.getPropertyValue(IOssjLegacySettigsProperty.USEATTRIBUTES_ASREFERENCE);
 		if (displayReference) {
@@ -561,8 +564,8 @@ public class Method extends ArtifactComponent implements IOssjMethod,
 		com.thoughtworks.qdox.model.Type[] exceptionTypes = method
 				.getExceptions();
 		for (int i = 0; i < exceptionTypes.length; i++) {
-			Method.Exception exception = new Method.Exception(this, exceptionTypes[i]
-					.getValue());
+			Method.Exception exception = new Method.Exception(this,
+					exceptionTypes[i].getValue());
 			this.exceptions.add(exception);
 		}
 
@@ -657,7 +660,7 @@ public class Method extends ArtifactComponent implements IOssjMethod,
 		private boolean isUnique;
 
 		private boolean isOrdered;
-		
+
 		private EDirection direction;
 
 		public boolean isUnique() {
@@ -954,7 +957,6 @@ public class Method extends ArtifactComponent implements IOssjMethod,
 			this.direction = direction;
 		}
 
-
 		public URI toURI() throws TigerstripeException {
 			URI u = TigerstripeURIAdapterFactory.toURI(this);
 			return u;
@@ -969,11 +971,11 @@ public class Method extends ArtifactComponent implements IOssjMethod,
 		public void setContainingMethod(IMethod parentMethod) {
 			this.parentMethod = parentMethod;
 		}
-		
+
 		public IMethod getContainingMethod() {
 			return parentMethod;
 		}
-		
+
 		public String getFullyQualifiedName() {
 			return this.fullyQualifiedName;
 		}
@@ -1071,7 +1073,8 @@ public class Method extends ArtifactComponent implements IOssjMethod,
 		}
 
 		public IException clone() {
-			IException result = new Exception(getContainingMethod(), getFullyQualifiedName());
+			IException result = new Exception(getContainingMethod(),
+					getFullyQualifiedName());
 			return result;
 		}
 	}
@@ -1174,6 +1177,13 @@ public class Method extends ArtifactComponent implements IOssjMethod,
 	}
 
 	private String getParamsString(boolean includeArgStereotypes) {
+
+		GlobalSettingsProperty propG = (GlobalSettingsProperty) TigerstripeCore
+				.getWorkbenchProfileSession().getActiveProfile().getProperty(
+						IWorkbenchPropertyLabels.GLOBAL_SETTINGS);
+		boolean displayDirection = propG
+				.getPropertyValue(IGlobalSettingsProperty.ARGUMENTDIRECTION);
+
 		// get the list of method parameters from method
 		int numParams = getArguments().size();
 		// if the number of arguments is zero, just return an empty string
@@ -1187,6 +1197,10 @@ public class Method extends ArtifactComponent implements IOssjMethod,
 
 			if (includeArgStereotypes) {
 				paramBuffer.append(iarg.getStereotypeString());
+			}
+
+			if (displayDirection) {
+				paramBuffer.append(iarg.getDirection().getLabel() + " ");
 			}
 
 			String paramString = Util.nameOf(iarg.getType()
@@ -1257,7 +1271,7 @@ public class Method extends ArtifactComponent implements IOssjMethod,
 
 	public void setExceptions(Collection<IException> exceptions) {
 		this.exceptions = exceptions;
-		for(IException exp : exceptions) {
+		for (IException exp : exceptions) {
 			((Exception) exp).setContainingMethod(this);
 		}
 	}
@@ -1269,7 +1283,7 @@ public class Method extends ArtifactComponent implements IOssjMethod,
 
 	public void removeExceptions(Collection<IException> exceptions) {
 		this.exceptions.removeAll(exceptions);
-		for(IException exp : exceptions) {
+		for (IException exp : exceptions) {
 			((Exception) exp).setContainingMethod(null);
 		}
 	}
