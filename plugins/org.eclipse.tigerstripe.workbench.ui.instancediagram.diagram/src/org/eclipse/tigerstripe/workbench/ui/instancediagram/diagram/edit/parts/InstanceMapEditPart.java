@@ -67,14 +67,12 @@ public class InstanceMapEditPart extends DiagramEditPart {
 				new InstanceDiagramDragDropEditPolicy());
 	}
 
-	// @Override
-	// public void refresh() {
-	// InstanceMapCanonicalEditPolicy canonicalPolicy =
-	// (InstanceMapCanonicalEditPolicy)
-	// getEditPolicy(EditPolicyRoles.CANONICAL_ROLE);
-	// canonicalPolicy.refresh();
-	// super.refresh();
-	// }
+	 @Override
+	public void refresh() {
+		InstanceMapCanonicalEditPolicy canonicalPolicy = (InstanceMapCanonicalEditPolicy) getEditPolicy(EditPolicyRoles.CANONICAL_ROLE);
+		canonicalPolicy.refresh();
+		super.refresh();
+	}
 
 	public void diagramPropertyChanged(DiagramProperty property) {
 		String name = property.getName();

@@ -39,6 +39,7 @@ import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.emf.type.core.IHintedType;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.Edge;
+import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
@@ -152,6 +153,12 @@ public class MapCanonicalEditPolicy extends CanonicalConnectionEditPolicy {
 	}
 
 	private String[] shouldRefreshLinks = {
+			((IHintedType) TigerstripeElementTypes.Association_3001)
+					.getSemanticHint(),
+			((IHintedType) TigerstripeElementTypes.AssociationClass_3010)
+					.getSemanticHint(),
+			((IHintedType) TigerstripeElementTypes.Dependency_3008)
+					.getSemanticHint(),
 			((IHintedType) TigerstripeElementTypes.AbstractArtifactExtends_3007)
 					.getSemanticHint(),
 			((IHintedType) TigerstripeElementTypes.AbstractArtifactImplements_3012)
@@ -184,9 +191,13 @@ public class MapCanonicalEditPolicy extends CanonicalConnectionEditPolicy {
 			if (semanticHint.equals(view.getType()))
 				return true;
 		}
+		
+		if ( view instanceof Node ) {
+			if ( view.getElement() instanceof Map) 
+				return true;
+		}
 
-		return view.isSetElement() && view.getElement() != null;
-		// && view.getElement().eIsProxy();
+		return super.shouldDeleteView(view);
 	}
 
 	/**
@@ -731,7 +742,8 @@ public class MapCanonicalEditPolicy extends CanonicalConnectionEditPolicy {
 	 * Catch and handle delete of AssociationClass parts or changes in the
 	 * basePackage of the diagram that this map represents
 	 * 
-	 * @see org.eclipse.gmf.runtime.diagram.ui.editpolicies.CanonicalEditPolicy#handleNotificationEvent(org.eclipse.emf.common.notify.Notification)
+	 * @seeorg.eclipse.gmf.runtime.diagram.ui.editpolicies.CanonicalEditPolicy#
+	 * handleNotificationEvent(org.eclipse.emf.common.notify.Notification)
 	 */
 	@Override
 	protected void handleNotificationEvent(Notification event) {

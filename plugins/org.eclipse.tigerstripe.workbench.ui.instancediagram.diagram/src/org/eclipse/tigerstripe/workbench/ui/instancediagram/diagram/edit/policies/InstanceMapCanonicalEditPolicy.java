@@ -97,6 +97,8 @@ public class InstanceMapCanonicalEditPolicy extends
 		// return true;
 		// }
 		// }
+		// System.out.println("Shoulddelete: " + view);
+
 		return view.isSetElement() && view.getElement() != null;
 		// && view.getElement().eIsProxy();
 	}
@@ -559,9 +561,9 @@ public class InstanceMapCanonicalEditPolicy extends
 					}
 				}
 			}
-			if ( !aiToRemove.isEmpty()) 
+			if (!aiToRemove.isEmpty())
 				map.getAssociationInstances().removeAll(aiToRemove);
-			
+
 			EList classInstances = map.getClassInstances();
 			List<ClassInstance> ciToRemove = new ArrayList<ClassInstance>();
 			for (Object obj : classInstances) {
@@ -577,7 +579,7 @@ public class InstanceMapCanonicalEditPolicy extends
 					break;
 				}
 			}
-			if ( !ciToRemove.isEmpty() ) 
+			if (!ciToRemove.isEmpty())
 				map.getClassInstances().removeAll(ciToRemove);
 		} else if (event.getEventType() == Notification.REMOVE
 				&& feature instanceof EReferenceImpl

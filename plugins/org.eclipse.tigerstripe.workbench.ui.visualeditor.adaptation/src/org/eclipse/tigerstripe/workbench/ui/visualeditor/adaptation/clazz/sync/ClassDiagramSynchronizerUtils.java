@@ -82,7 +82,8 @@ public class ClassDiagramSynchronizerUtils {
 		// if associations have either end set to null, ie one of their ends
 		// is not on the diagram, they should be removed from the EMF model
 		// all together
-		removeMarkedAssociations(editingDomain, map, associationsForRemoval);
+		removeMarkedAssociations(editingDomain, diagramEditDomain, map,
+				associationsForRemoval);
 
 		List<Dependency> dependenciesForRemoval = new ArrayList<Dependency>();
 		for (Dependency eDependency : dependencies) {
@@ -100,7 +101,8 @@ public class ClassDiagramSynchronizerUtils {
 		// if dependencies have either end set to null, ie one of their ends
 		// is not on the diagram, they should be removed from the EMF model
 		// all together
-		removeMarkedDependencies(editingDomain, map, dependenciesForRemoval);
+		removeMarkedDependencies(editingDomain, diagramEditDomain, map,
+				dependenciesForRemoval);
 	}
 
 	protected static void updateEArtifact(Diagram diagram,
@@ -246,7 +248,7 @@ public class ClassDiagramSynchronizerUtils {
 				// is not on the diagram, they should be removed from the EMF
 				// model
 				// all together
-				removeMarkedAssociations(editingDomain, map,
+				removeMarkedAssociations(editingDomain, diagramEditDomain, map,
 						associationsForRemoval);
 
 				List<Dependency> dependenciesForRemoval = new ArrayList<Dependency>();
@@ -268,7 +270,7 @@ public class ClassDiagramSynchronizerUtils {
 				// is not on the diagram, they should be removed from the EMF
 				// model
 				// all together
-				removeMarkedDependencies(editingDomain, map,
+				removeMarkedDependencies(editingDomain, diagramEditDomain, map,
 						dependenciesForRemoval);
 			}
 		}
@@ -280,7 +282,8 @@ public class ClassDiagramSynchronizerUtils {
 	 * @param dependenciesForRemoval
 	 */
 	protected static void removeMarkedDependencies(
-			TransactionalEditingDomain editingDomain, final Map map,
+			TransactionalEditingDomain editingDomain,
+			IDiagramEditDomain diagramEditDomain, final Map map,
 			final List<Dependency> dependenciesForRemoval) {
 
 		if (dependenciesForRemoval.isEmpty())
@@ -315,6 +318,7 @@ public class ClassDiagramSynchronizerUtils {
 			BaseETAdapter.setIgnoreNotify(true);
 			editingDomain.getCommandStack().execute(cmd);
 			editingDomain.getCommandStack().flush();
+			diagramEditDomain.getDiagramCommandStack().flush();
 		} finally {
 			BaseETAdapter.setIgnoreNotify(false);
 		}
@@ -325,7 +329,8 @@ public class ClassDiagramSynchronizerUtils {
 	 * @param dependenciesForRemoval
 	 */
 	protected static void removeMarkedAssociations(
-			TransactionalEditingDomain editingDomain, final Map map,
+			TransactionalEditingDomain editingDomain,
+			IDiagramEditDomain diagramEditDomain, final Map map,
 			final List<Association> associationsForRemoval) {
 
 		if (associationsForRemoval.isEmpty())
@@ -368,6 +373,7 @@ public class ClassDiagramSynchronizerUtils {
 			BaseETAdapter.setIgnoreNotify(true);
 			editingDomain.getCommandStack().execute(cmd);
 			editingDomain.getCommandStack().flush();
+			diagramEditDomain.getDiagramCommandStack().flush();
 		} finally {
 			BaseETAdapter.setIgnoreNotify(false);
 		}

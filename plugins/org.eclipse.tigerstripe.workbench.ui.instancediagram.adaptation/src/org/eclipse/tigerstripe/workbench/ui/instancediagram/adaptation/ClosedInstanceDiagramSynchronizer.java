@@ -11,6 +11,10 @@
 package org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation;
 
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPolicy;
+import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
+import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
 import org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramEditDomain;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -67,6 +71,23 @@ public class ClosedInstanceDiagramSynchronizer extends
 		try {
 			InstanceDiagramSynchronizerUtils.handleArtifactRemoved(map,
 					targetFQN, editingDomain, diagramEditDomain);
+
+			diagramEditDomain.getDiagramCommandStack().execute(
+					new org.eclipse.gef.commands.Command() {
+
+						@Override
+						public boolean canExecute() {
+							return true;
+						}
+
+						@Override
+						public void execute() {
+							DiagramEditPart diagPart = getDiagramEP();
+							diagPart.refresh();
+						}
+
+					});
+
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}

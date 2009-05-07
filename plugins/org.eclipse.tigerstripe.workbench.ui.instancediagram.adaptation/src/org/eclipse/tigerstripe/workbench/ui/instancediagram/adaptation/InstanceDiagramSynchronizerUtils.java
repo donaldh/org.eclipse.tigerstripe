@@ -95,7 +95,8 @@ public class InstanceDiagramSynchronizerUtils {
 		// if associations have either end set to null, ie one of their ends
 		// is not on the diagram, they should be removed from the EMF model
 		// all together
-		removeMarkedAssociations(editingDomain, map, associationsForRemoval);
+		removeMarkedAssociations(editingDomain, diagramEditDomain, map,
+				associationsForRemoval);
 	}
 
 	private static boolean instanceIsRelated(IAbstractArtifact eArtifact,
@@ -227,8 +228,8 @@ public class InstanceDiagramSynchronizerUtils {
 							associationsForRemoval.add(eAssociation);
 						}
 					}
-					removeMarkedAssociations(editingDomain, map,
-							associationsForRemoval);
+					removeMarkedAssociations(editingDomain, diagramEditDomain,
+							map, associationsForRemoval);
 				}
 			}
 		}
@@ -241,7 +242,8 @@ public class InstanceDiagramSynchronizerUtils {
 	 * @param associationsForRemoval
 	 */
 	protected static void removeMarkedAssociations(
-			TransactionalEditingDomain editingDomain, final InstanceMap map,
+			TransactionalEditingDomain editingDomain,
+			IDiagramEditDomain diagramEditDomain, final InstanceMap map,
 			final List<AssociationInstance> associationsForRemoval) {
 		if (associationsForRemoval.isEmpty())
 			return;
@@ -270,6 +272,7 @@ public class InstanceDiagramSynchronizerUtils {
 
 		editingDomain.getCommandStack().execute(cmd);
 		editingDomain.getCommandStack().flush();
+		diagramEditDomain.getDiagramCommandStack().flush();
 	}
 
 	public static void handleArtifactRenamed(final InstanceMap map,
