@@ -61,10 +61,11 @@ public class ModelImporter {
 	
 	private boolean ignoreUnknown = false;
 	private String unknownType = "primitive.unknown";
-
+	private String stringType = "primitive.String";
+	
 	public ModelImporter(String importFilename,
 			ITigerstripeModelProject tigerstripeProject, String profilesDir
-			,boolean ignoreUnknown, String unknownType
+			,boolean ignoreUnknown, String unknownType, String stringType
 			) {
 		diffList = new ArrayList();
 		this.importFilename = importFilename;
@@ -73,6 +74,7 @@ public class ModelImporter {
 		
 		this.ignoreUnknown = ignoreUnknown;
 		this.unknownType = unknownType;
+		this.stringType = stringType;
 		
 		
 		// TODO Filter for active types in profile.
@@ -272,7 +274,7 @@ public class ModelImporter {
 		try {
 			UML2TS uML2TS = new UML2TS(getClassMap(), out, property);
 			this.extractedArtifacts = uML2TS.extractArtifacts(model, modelLibrary,
-					messages, this.tigerstripeProject, ignoreUnknown, unknownType);
+					messages, this.tigerstripeProject, ignoreUnknown, unknownType, stringType);
 			out.println("INFO : Extracted arrifact size :"
 					+ this.extractedArtifacts.size());
 			//out.println(messages.asText());

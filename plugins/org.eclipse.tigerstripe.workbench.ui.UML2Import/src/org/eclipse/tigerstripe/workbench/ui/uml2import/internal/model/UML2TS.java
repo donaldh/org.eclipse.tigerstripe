@@ -121,6 +121,7 @@ public class UML2TS {
 	
 	private boolean ignoreUnknown = false;
 	private String unknownType = "primitive.unknown";
+	private String stringType = "primitive.string";
 	private ICommentProcessor commentProcessor;
 	
 	/** constructor */
@@ -147,10 +148,15 @@ public class UML2TS {
 	 */ 
 	public Map<String,IAbstractArtifact> extractArtifacts(Model model, String modelLibrary,  MessageList messages,
 			ITigerstripeModelProject tsProject,boolean ignoreUnknown, String unknownType ){
+		return extractArtifacts(model, modelLibrary, messages, tsProject, ignoreUnknown, unknownType, "primitive.string");
+	}
 		
-		
+	public Map<String,IAbstractArtifact> extractArtifacts(Model model, String modelLibrary,  MessageList messages,
+			ITigerstripeModelProject tsProject,boolean ignoreUnknown, String unknownType, String stringType ){	
 		// This is where we store the extracted stuff..
 		Map<String,IAbstractArtifact> extractedArtifacts = new HashMap<String, IAbstractArtifact>();
+		
+		this.stringType = stringType;
 		
 		out.flush();
 		this.ignoreUnknown = ignoreUnknown;
@@ -1658,8 +1664,7 @@ public class UML2TS {
 				return "int";
 			}
 			if (name.equals("String")){
-				// This is a bit of a dodgy maneovre
-				return "primitive.string";
+				return this.stringType;
 			}
 			if (name.equals("Boolean")){
 				return "boolean";

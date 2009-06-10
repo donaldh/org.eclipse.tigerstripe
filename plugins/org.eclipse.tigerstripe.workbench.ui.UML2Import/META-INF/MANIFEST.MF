@@ -5,10 +5,6 @@ Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.ui.UML2Import;singleton:=
 Bundle-Version: 0.4.6.qualifier
 Bundle-Activator: org.eclipse.tigerstripe.workbench.ui.uml2import.Activator
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- org.eclipse.uml2.uml;visibility:=reexport,
- org.eclipse.jdt.core,
- org.eclipse.core.resources,
  org.eclipse.jdt.ui,
  org.eclipse.tigerstripe.workbench.ui.base;visibility:=reexport,
  org.eclipse.ui.ide

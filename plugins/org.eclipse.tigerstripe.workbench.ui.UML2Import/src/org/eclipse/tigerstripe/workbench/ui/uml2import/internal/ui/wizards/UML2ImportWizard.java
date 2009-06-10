@@ -126,6 +126,7 @@ public class UML2ImportWizard extends Wizard implements INewWizard {
 					wizardSettings.put("ProfileDir",getFirstPage().getProfilesFilename());
 					wizardSettings.put("IgnoreUnknown",getFirstPage().getIgnoreUnknown());
 					wizardSettings.put("UnknownType",getFirstPage().getUnknownType());
+					wizardSettings.put("StringType",getFirstPage().getStringType());
 					
 					monitor.done();
 					

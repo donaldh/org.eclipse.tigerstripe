@@ -70,6 +70,7 @@ public class UML2ImportDetailsWizardPage extends TSRuntimeBasedWizardPage {
 	protected SelectionButtonDialogFieldGroup optionButtonGroup;
 	private boolean ignoreUnknown = false;
 	private CCombo unknownTypeCombo;
+	private CCombo stringTypeCombo;
 	
 	/**
 	 * Creates a new <code>NewPackageWizardPage</code>
@@ -106,6 +107,7 @@ public class UML2ImportDetailsWizardPage extends TSRuntimeBasedWizardPage {
 		createFileControls(composite, nColumns);
 		createOptionControls(composite, nColumns);
 		createUnknownTypeCombo(composite, nColumns);
+		createStringType(composite, nColumns);
 		
 		setControl(composite);
 		Dialog.applyDialogFont(composite);
@@ -201,7 +203,7 @@ public class UML2ImportDetailsWizardPage extends TSRuntimeBasedWizardPage {
 	}
 	
 	private void createUnknownTypeCombo(Composite composite, int nColumns) {
-
+		new Label(composite, SWT.NULL);
 		unknownTypeCombo = new CCombo(composite, SWT.READ_ONLY | SWT.BORDER);
 		unknownTypeCombo.setItems(getSupportedTypes());
 		unknownTypeCombo
@@ -212,6 +214,19 @@ public class UML2ImportDetailsWizardPage extends TSRuntimeBasedWizardPage {
 		unknownTypeCombo.setLayoutData(gd);
 	}
 	
+	private void createStringType(Composite composite, int nColumns) {
+
+		Label label = new Label(composite, SWT.NULL);
+		label.setText("Select type for Strings");
+		stringTypeCombo = new CCombo(composite, SWT.READ_ONLY | SWT.BORDER);
+		stringTypeCombo.setItems(new String[] {"primitive.string", "java.lang.String"});
+		stringTypeCombo
+				.setToolTipText("Choose a Type to use for strings");
+
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		gd.horizontalSpan = nColumns-2;
+		stringTypeCombo.setLayoutData(gd);
+	}
 	
 	
 	public void initContents(){
@@ -242,7 +257,14 @@ public class UML2ImportDetailsWizardPage extends TSRuntimeBasedWizardPage {
 				unknownTypeCombo.select(0);
 			}
 			
-		}	
+		}
+		if (wizardSettings.get("StringType") != null){
+			String value = wizardSettings.get("StringType");
+			if (unknownTypeCombo.getItem(0).equals(value)){
+				unknownTypeCombo.select(1);
+			}
+			
+		} 	
 		updatePageComplete();
 		
 	}
@@ -441,4 +463,9 @@ public class UML2ImportDetailsWizardPage extends TSRuntimeBasedWizardPage {
 	public String  getUnknownType() {
 		return unknownTypeCombo.getText();
 	}
+	
+	public String  getStringType() {
+		return stringTypeCombo.getText();
+	}
+	
 }
