@@ -394,8 +394,9 @@ public class UML2TS {
 		NamedElement element = (NamedElement) o;
 		String eleName;
 		boolean hasTempName = false;
-		if (element.getName() == null){
-			String msText = "UML Class with null name - defaulting";
+		if (element.getName() == null || element.getName().equals("")){
+			String msText = "UML Class with null name - defaulting (found in "+o.eResource().getURI()+" )";
+			
 			ImportUtilities.addMessage(msText, 0, messages);
 			this.out.println("ERROR :" + msText);
 			eleName = "element"+Integer.toString(nullClassCounter);
@@ -510,6 +511,29 @@ public class UML2TS {
 			try {
 				if (artifact instanceof IAssociationArtifact) {
 					IAssociationArtifact assoc = (IAssociationArtifact) artifact;
+					setAssociationEnds(assoc, element);
+					if (assoc.getAEnd() != null && assoc.getZEnd() != null){
+						if (hasTempName){
+							// the make a new name based on the names of the classes on the ends
+
+							String aEndClassName = assoc.getAEnd().getType().getName();
+							String bEndClassName = assoc.getZEnd().getType().getName();
+
+							String newName = aEndClassName+"To"+bEndClassName;
+							out.println("INFO : Remapped temp "+ eleName + " to "+newName);
+							assoc.setFullyQualifiedName(assoc.getPackage()+"."+newName);
+						} 
+					} else {
+						// this was a bad import - drop it now.
+						String msgText = "Failed to extract association to artifact (missing end information) :"
+							+ eleName;
+						ImportUtilities.addMessage(msgText, 0, messages);
+						out.println( "ERROR : "+msgText);
+						return null;
+					}
+				}
+				if (artifact instanceof IAssociationClassArtifact) {
+					IAssociationClassArtifact assoc = (IAssociationClassArtifact) artifact;
 					setAssociationEnds(assoc, element);
 					if (assoc.getAEnd() != null && assoc.getZEnd() != null){
 						if (hasTempName){
