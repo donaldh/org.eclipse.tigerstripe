@@ -191,7 +191,10 @@ public class DiffFixer {
 						String fqn = diff.getLocalVal();
 						IAbstractArtifact extArtifact = mgrSession
 								.getArtifactByFullyQualifiedName(fqn);
-						// if (extArtifact != null){
+						if (extArtifact == null){
+							extArtifact = mgrSession.makeArtifact(artifact);
+							extArtifact.setFullyQualifiedName(fqn);
+						}
 						artifact.setExtendedArtifact(extArtifact);
 						String msgText = "INFO : Updated Extends for "
 								+ diff.getLocal();

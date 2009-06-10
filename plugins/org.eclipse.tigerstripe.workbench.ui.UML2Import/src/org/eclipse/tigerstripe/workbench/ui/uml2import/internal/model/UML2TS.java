@@ -359,8 +359,13 @@ public class UML2TS {
 						for (Classifier gen : element.getGenerals()){
 							String genFQN = gen.getQualifiedName();
 							String genFullyQualifiedName = ImportUtilities.convertToFQN(genFQN,messages,out);
+							out.println("INFO : Generalisation of : "+ baseFullyQualifiedName+ " : " +genFullyQualifiedName);
 							IAbstractArtifact genArtifact = extractedArtifacts.get(genFullyQualifiedName);
-							if (artifact != null) {
+							if (genArtifact != null) {
+								artifact.setExtendedArtifact(genArtifact);
+							} else {
+								genArtifact = this.mgrSession.makeArtifact(artifact);
+								genArtifact.setFullyQualifiedName(genFullyQualifiedName);
 								artifact.setExtendedArtifact(genArtifact);
 							}
 							// TS MetaModel only supports one generalization;
