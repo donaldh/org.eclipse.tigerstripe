@@ -182,7 +182,7 @@ public class UML2ImportDetailsWizardPage extends TSRuntimeBasedWizardPage {
 		GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL);
 		gd.horizontalSpan = nColumns-2;
 		control.setLayoutData(gd);
-		
+		new Label(composite, SWT.NULL);
 	}
 	
 	private String[] getSupportedTypes(){
@@ -203,15 +203,18 @@ public class UML2ImportDetailsWizardPage extends TSRuntimeBasedWizardPage {
 	}
 	
 	private void createUnknownTypeCombo(Composite composite, int nColumns) {
-		new Label(composite, SWT.NULL);
+		Label label = new Label(composite, SWT.NULL);
+		label.setText("Select type for unknowns");
 		unknownTypeCombo = new CCombo(composite, SWT.READ_ONLY | SWT.BORDER);
 		unknownTypeCombo.setItems(getSupportedTypes());
 		unknownTypeCombo
 				.setToolTipText("Choose a primitive Type to use for unknown types");
 
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.horizontalSpan = nColumns-2;
+		//gd.horizontalSpan = 2;
 		unknownTypeCombo.setLayoutData(gd);
+		new Label(composite, SWT.NULL);
+		new Label(composite, SWT.NULL);
 	}
 	
 	private void createStringType(Composite composite, int nColumns) {
@@ -224,7 +227,7 @@ public class UML2ImportDetailsWizardPage extends TSRuntimeBasedWizardPage {
 				.setToolTipText("Choose a Type to use for strings");
 
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.horizontalSpan = nColumns-2;
+		
 		stringTypeCombo.setLayoutData(gd);
 	}
 	
@@ -260,9 +263,10 @@ public class UML2ImportDetailsWizardPage extends TSRuntimeBasedWizardPage {
 		}
 		if (wizardSettings.get("StringType") != null){
 			String value = wizardSettings.get("StringType");
-			if (unknownTypeCombo.getItem(0).equals(value)){
-				unknownTypeCombo.select(1);
-			}
+			if (stringTypeCombo.getItem(0).equals(value)){
+				stringTypeCombo.select(0);
+			} else 
+				stringTypeCombo.select(1);
 			
 		} 	
 		updatePageComplete();
