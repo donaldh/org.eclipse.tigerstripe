@@ -156,6 +156,48 @@ public class ImportUtilities {
 		}
 	}
 
+	
+	/**
+	 * map naming to TS compatible style
+	 * 
+	 */
+	public static String convertToFQN(String modelName, String name, MessageList messages, PrintWriter out) {
+		if (name != null) {
+
+			String dottedName = "";
+			String[] segments = name.split("::");
+			for (int i=0;i<segments.length-1;i++){
+				String segmentName = segments[i];
+                // Make sure the packages all start with a lower case letter
+//				String segmentName =  segments[i].substring(0,1).toLowerCase()+segments[i].substring(1);
+//				if (! segmentName.substring(0,1).equals(segments[i].substring(0,1)) && i!=0){
+//					String msgText = " Package Name Segment mapped : " + segments[i] + " -> " + segmentName;
+//					addMessage(msgText, 1, messages);
+//					out.println("WARN :" + msgText);
+//				}
+				if (i==0){
+					//dottedName = nameCheck(segmentName);
+					dottedName = ImportUtilities.nameCheck(segmentName, messages, out);
+				} else {
+					dottedName = dottedName+"."+ImportUtilities.nameCheck(segmentName, messages, out);
+				}
+			}
+			dottedName = dottedName+"."+ImportUtilities.nameCheck(segments[segments.length-1], messages, out);
+			// This removes the model name if its there
+			// rememberr model name may have had underscores replaced
+			if (dottedName.substring(0,dottedName.indexOf(".")).equals(ImportUtilities.nameCheck(modelName,messages,out))){
+				return dottedName.substring(dottedName.indexOf(".")+1);
+			} else{
+				return dottedName;
+			}
+		} else {
+			return null;
+		}
+	}
+	
+	
+	
+	
 	/**
 		 * map naming to TS compatible style
 		 * 
@@ -176,12 +218,13 @@ public class ImportUtilities {
 	//				}
 					if (i==0){
 						//dottedName = nameCheck(segmentName);
-						dottedName = segmentName;
+						dottedName = ImportUtilities.nameCheck(segmentName, messages, out);
 					} else {
 						dottedName = dottedName+"."+ImportUtilities.nameCheck(segmentName, messages, out);
 					}
 				}
 				dottedName = dottedName+"."+ImportUtilities.nameCheck(segments[segments.length-1], messages, out);
+				// This removes the model name
 				return dottedName.substring(dottedName.indexOf(".")+1);
 			} else {
 				return null;

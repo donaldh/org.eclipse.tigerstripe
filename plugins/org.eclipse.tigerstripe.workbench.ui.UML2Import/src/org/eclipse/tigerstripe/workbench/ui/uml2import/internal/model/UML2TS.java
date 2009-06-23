@@ -364,7 +364,7 @@ public class UML2TS {
 					if (artifact != null ){
 						for (Classifier gen : element.getGenerals()){
 							String genFQN = gen.getQualifiedName();
-							String genFullyQualifiedName = ImportUtilities.convertToFQN(genFQN,messages,out);
+							String genFullyQualifiedName = ImportUtilities.convertToFQN(model.getName(),genFQN,messages,out);
 							out.println("INFO : Generalisation of : "+ baseFullyQualifiedName+ " : " +genFullyQualifiedName);
 							IAbstractArtifact genArtifact = extractedArtifacts.get(genFullyQualifiedName);
 							if (genArtifact != null) {
@@ -710,43 +710,6 @@ public class UML2TS {
 
 	
 	
-	private void setGeneralization(IAbstractArtifact artifact,
-			Classifier element) {
-
-		List gens = element.getGenerals();
-		ListIterator genIt = gens.listIterator();
-		while (genIt.hasNext()) {
-			Classifier gen = (Classifier) genIt.next();
-			try {
-				if (gen.getQualifiedName() != null){
-					String genName = ImportUtilities.convertToFQN(gen.getQualifiedName(),messages,out);
-					this.out.println("INFO : " + artifact.getName() + " Generalization "
-							+ genName);
-
-					IAbstractArtifact genArtifact = this.mgrSession
-					                .getArtifactByFullyQualifiedName(genName);
-					if (genArtifact == null) {
-						String msgText = "Failed to retreive generalization for Artifact : "
-							+ artifact.getName();
-						ImportUtilities.addMessage(msgText, 0, messages);
-						this.out.println("ERROR : " + msgText);
-					} else {
-						artifact.setExtendedArtifact(genArtifact);
-					}
-				}
-			} catch (Exception e) {
-				String msgText = "Failed to retreive generalization for Artifact : "
-					+ artifact.getName();
-				ImportUtilities.addMessage(msgText, 0, messages);
-				this.out.println("ERROR : " + msgText);
-				e.printStackTrace(this.out);
-				return;
-			}
-		}
-
-
-	}
-
 	private void setConstants(IAbstractArtifact artifact, NamedElement element) {
 		if (artifact instanceof IEnumArtifact){
 			// In UML model should only be on Enums ?
