@@ -18,7 +18,7 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.search.IJavaSearchConstants;
 import org.eclipse.jdt.core.search.IJavaSearchScope;
 import org.eclipse.jdt.core.search.SearchEngine;
-import org.eclipse.jdt.internal.ui.dialogs.TypeSelectionDialog2;
+import org.eclipse.jdt.internal.ui.dialogs.FilteredTypesSelectionDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
@@ -41,7 +41,8 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.ru
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
-public class ArtifactRunnableRuleDetailsPage extends BaseRunnableRuleDetailsPage {
+public class ArtifactRunnableRuleDetailsPage extends
+		BaseRunnableRuleDetailsPage {
 
 	private CCombo artifactTypeCombo;
 
@@ -121,8 +122,8 @@ public class ArtifactRunnableRuleDetailsPage extends BaseRunnableRuleDetailsPage
 			IJavaSearchScope scope = SearchEngine
 					.createJavaSearchScope(elements);
 
-			TypeSelectionDialog2 dialog = new TypeSelectionDialog2(getMaster()
-					.getSection().getShell(), false, null, scope,
+			FilteredTypesSelectionDialog dialog = new FilteredTypesSelectionDialog(
+					getMaster().getSection().getShell(), false, null, scope,
 					IJavaSearchConstants.TYPE);
 			dialog.setTitle(dialogTitle);
 			dialog.setMessage(dialogMessage);
@@ -175,8 +176,7 @@ public class ArtifactRunnableRuleDetailsPage extends BaseRunnableRuleDetailsPage
 		overwriteFilesButton.setSelection(rule.isOverwriteFiles());
 		triggerOnDependenciesAndReferencesButton.setSelection(rule
 				.isIncludeDependencies());
-		
-		
+
 		IArtifactMetadataSession session = InternalTigerstripeCore
 				.getDefaultArtifactMetadataSession();
 		String[] baseSupportedArtifacts = session.getSupportedArtifactTypes();
@@ -206,9 +206,9 @@ public class ArtifactRunnableRuleDetailsPage extends BaseRunnableRuleDetailsPage
 		TableWrapData td = new TableWrapData(TableWrapData.FILL);
 		td.heightHint = 200;
 		parent.setLayoutData(td);
-		
+
 		Composite sectionClient = createRuleInfo(parent);
-		
+
 		Label label = form
 				.getToolkit()
 				.createLabel(
@@ -305,7 +305,6 @@ public class ArtifactRunnableRuleDetailsPage extends BaseRunnableRuleDetailsPage
 
 		l = form.getToolkit().createLabel(sectionClient, "");
 	}
-
 
 	protected void createFilterDefinitions(Composite parent) {
 		Label label = form.getToolkit().createLabel(parent, "Artifact Filter:");

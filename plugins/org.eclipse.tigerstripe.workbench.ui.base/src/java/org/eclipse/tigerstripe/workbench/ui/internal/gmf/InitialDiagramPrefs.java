@@ -13,8 +13,10 @@ package org.eclipse.tigerstripe.workbench.ui.internal.gmf;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.FigureUtilities;
 import org.eclipse.gmf.runtime.notation.FillStyle;
 import org.eclipse.gmf.runtime.notation.FontStyle;
+import org.eclipse.gmf.runtime.notation.GradientStyle;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.gmf.runtime.notation.datatype.GradientData;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.RGB;
@@ -46,8 +48,8 @@ public class InitialDiagramPrefs {
 		FontStyle fontStyle = (FontStyle) view
 				.getStyle(NotationPackage.Literals.FONT_STYLE);
 		if (fontStyle != null) {
-			fontStyle.setFontName(DEFAULT_FONTDATA.getName());
-			fontStyle.setFontHeight(DEFAULT_FONTDATA.getHeight());
+//			fontStyle.setFontName(DEFAULT_FONTDATA.getName());
+//			fontStyle.setFontHeight(DEFAULT_FONTDATA.getHeight());
 			fontStyle.setBold((DEFAULT_FONTDATA.getStyle() & SWT.BOLD) != 0);
 			fontStyle
 					.setItalic((DEFAULT_FONTDATA.getStyle() & SWT.ITALIC) != 0);

@@ -22,7 +22,6 @@ import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jdt.internal.ui.actions.ActionMessages;
 import org.eclipse.jdt.internal.ui.actions.ActionUtil;
-import org.eclipse.jdt.internal.ui.actions.JDTQuickMenuAction;
 import org.eclipse.jdt.internal.ui.actions.SelectionConverter;
 import org.eclipse.jdt.internal.ui.javaeditor.CompilationUnitEditor;
 import org.eclipse.jdt.internal.ui.javaeditor.JavaTextSelection;
@@ -139,18 +138,18 @@ public class TSRefactorActionGroup extends ActionGroup {
 
 	private static final String QUICK_MENU_ID = "org.eclipse.jdt.ui.edit.text.java.refactor.quickMenu"; //$NON-NLS-1$
 
-	private class RefactorQuickAccessAction extends JDTQuickMenuAction {
-		public RefactorQuickAccessAction(CompilationUnitEditor editor) {
-			super(editor, QUICK_MENU_ID);
-		}
+//	private class RefactorQuickAccessAction extends org.eclipse.ui.internal.ide.actions.QuickMenuAction {
+//		public RefactorQuickAccessAction(CompilationUnitEditor editor) {
+//			super(editor, QUICK_MENU_ID);
+//		}
+//
+//		@Override
+//		protected void fillMenu(IMenuManager menu) {
+//			fillQuickMenu(menu);
+//		}
+//	}
 
-		@Override
-		protected void fillMenu(IMenuManager menu) {
-			fillQuickMenu(menu);
-		}
-	}
-
-	private RefactorQuickAccessAction fQuickAccessAction;
+//	private RefactorQuickAccessAction fQuickAccessAction;
 	private IKeyBindingService fKeyBindingService;
 
 	private static class NoActionAvailable extends Action {
@@ -365,9 +364,9 @@ public class TSRefactorActionGroup extends ActionGroup {
 		// //$NON-NLS-1$
 		// fEditorActions.add(fSelfEncapsulateField);
 
-		fQuickAccessAction = new RefactorQuickAccessAction(editor);
-		fKeyBindingService = editor.getEditorSite().getKeyBindingService();
-		fKeyBindingService.registerAction(fQuickAccessAction);
+//		fQuickAccessAction = new RefactorQuickAccessAction(editor);
+//		fKeyBindingService = editor.getEditorSite().getKeyBindingService();
+//		fKeyBindingService.registerAction(fQuickAccessAction);
 
 		stats.endRun();
 	}
@@ -462,8 +461,8 @@ public class TSRefactorActionGroup extends ActionGroup {
 
 		fKeyBindingService = keyBindingService;
 		if (fKeyBindingService != null) {
-			fQuickAccessAction = new RefactorQuickAccessAction(null);
-			fKeyBindingService.registerAction(fQuickAccessAction);
+//			fQuickAccessAction = new RefactorQuickAccessAction(null);
+//			fKeyBindingService.registerAction(fQuickAccessAction);
 		}
 
 		stats.endRun();
@@ -582,9 +581,9 @@ public class TSRefactorActionGroup extends ActionGroup {
 		// disposeAction(fInferTypeArgumentsAction, provider);
 		// disposeAction(fConvertLocalToFieldAction, provider);
 		disposeAction(fConvertAnonymousToNestedAction, provider);
-		if (fQuickAccessAction != null && fKeyBindingService != null) {
-			fKeyBindingService.unregisterAction(fQuickAccessAction);
-		}
+//		if (fQuickAccessAction != null && fKeyBindingService != null) {
+//			fKeyBindingService.unregisterAction(fQuickAccessAction);
+//		}
 		if (fUndoRedoActionGroup != null) {
 			fUndoRedoActionGroup.dispose();
 		}
@@ -599,9 +598,9 @@ public class TSRefactorActionGroup extends ActionGroup {
 
 	private void addRefactorSubmenu(IMenuManager menu) {
 		String menuText = ActionMessages.RefactorMenu_label;
-		if (fQuickAccessAction != null) {
-			menuText = fQuickAccessAction.addShortcut(menuText);
-		}
+//		if (fQuickAccessAction != null) {
+//			menuText = fQuickAccessAction.addShortcut(menuText);
+//		}
 		IMenuManager refactorSubmenu = new MenuManager(menuText, MENU_ID);
 		if (fEditor != null) {
 			IJavaElement element = SelectionConverter.getInput(fEditor);

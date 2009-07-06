@@ -1,8 +1,8 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
-Bundle-SymbolicName: org.eclipse.tigerstripe.annotation.example.person; singleton:=true
-Bundle-Version: 0.4.6.qualifier
+Bundle-SymbolicName: org.eclipse.tigerstripe.annotation.example.person;singleton:=true
+Bundle-Version: 0.0.0
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
@@ -17,4 +17,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.tigerstripe.annotation.core,
  org.eclipse.ui.workbench,
  org.eclipse.jface
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

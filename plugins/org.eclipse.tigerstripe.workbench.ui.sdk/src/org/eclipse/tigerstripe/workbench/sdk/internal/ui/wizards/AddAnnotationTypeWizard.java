@@ -30,7 +30,7 @@ import org.eclipse.ui.IWorkbench;
 
 public class AddAnnotationTypeWizard extends Wizard implements INewWizard {
 
-	public AddAnnotationTypeWizard( ISDKProvider provider) {
+	public AddAnnotationTypeWizard(ISDKProvider provider) {
 		super();
 		this.provider = provider;
 	}
@@ -38,24 +38,21 @@ public class AddAnnotationTypeWizard extends Wizard implements INewWizard {
 	private ISDKProvider provider;
 	private IStructuredSelection fSelection;
 	private AddAnnotationTypeWizardPage firstPage;
-	
-	
-	
-	
-	
+
 	public void addPages() {
 		super.addPages();
 		setWindowTitle("Add A New Annotation Type Class");
-		this.firstPage = new AddAnnotationTypeWizardPage("", getShell(), provider);
+		this.firstPage = new AddAnnotationTypeWizardPage("", getShell(),
+				provider);
 		addPage(this.firstPage);
-		//this.firstPage.init(getSelection());
+		// this.firstPage.init(getSelection());
 	}
-	
-	
+
 	@Override
 	public boolean performFinish() {
 		IRunnableWithProgress op = new IRunnableWithProgress() {
-			public void run(IProgressMonitor monitor) throws InvocationTargetException {
+			public void run(IProgressMonitor monitor)
+					throws InvocationTargetException {
 				try {
 					doFinish(monitor);
 				} catch (Exception e) {
@@ -71,13 +68,13 @@ public class AddAnnotationTypeWizard extends Wizard implements INewWizard {
 			return false;
 		} catch (InvocationTargetException e) {
 			Throwable realException = e.getTargetException();
-			MessageDialog.openError(getShell(), "Error", realException.getMessage());
+			MessageDialog.openError(getShell(), "Error", realException
+					.getMessage());
 			return false;
 		}
 		return true;
 	}
 
-	@Override
 	public void init(IWorkbench workbench, IStructuredSelection currentSelection) {
 		fSelection = currentSelection;
 	}
@@ -86,37 +83,36 @@ public class AddAnnotationTypeWizard extends Wizard implements INewWizard {
 		return this.fSelection;
 	}
 
-	public void doFinish(IProgressMonitor monitor){
+	public void doFinish(IProgressMonitor monitor) {
 		// Actually do the work!
 		// Gather info from the page
-		
-		
+
 		IPluginModelBase cont = firstPage.getContributerSelection();
-		Map<String,String> attributes = new HashMap<String, String>();
+		Map<String, String> attributes = new HashMap<String, String>();
 		attributes.put("name", firstPage.getAnnotationName());
 		attributes.put("eclass", firstPage.getEclass());
 		attributes.put("epackage-uri", firstPage.getEPackageURI());
-		attributes.put("unique",Boolean.toString(firstPage.getUnique()));
+		attributes.put("unique", Boolean.toString(firstPage.getUnique()));
 
 		// TODO : Description ?
 		// TODO : Targets?
-		
+
 		try {
 			IResource res = (IResource) cont.getAdapter(IResource.class);
 			IProject contProject = (IProject) res.getProject();
-			
+
 			ModelUpdater mu = new ModelUpdater();
-			if (contProject != null){
-				mu.addSimpleExtension(contProject, SDKConstants.ANNOTATIONS_EXT_PT,
-						SDKConstants.ANNOTATIONS_DEFINITION_PART, attributes, false);
+			if (contProject != null) {
+				mu.addSimpleExtension(contProject,
+						SDKConstants.ANNOTATIONS_EXT_PT,
+						SDKConstants.ANNOTATIONS_DEFINITION_PART, attributes,
+						false);
 			}
 
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	
-		
+
 	}
-	
 
 }

@@ -24,8 +24,8 @@ import org.eclipse.jdt.core.search.IJavaSearchConstants;
 import org.eclipse.jdt.core.search.IJavaSearchScope;
 import org.eclipse.jdt.core.search.SearchEngine;
 import org.eclipse.jdt.internal.ui.JavaPlugin;
+import org.eclipse.jdt.internal.ui.dialogs.FilteredTypesSelectionDialog;
 import org.eclipse.jdt.internal.ui.dialogs.StatusInfo;
-import org.eclipse.jdt.internal.ui.dialogs.TypeSelectionDialog2;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.DialogField;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.IDialogFieldListener;
 import org.eclipse.jdt.internal.ui.wizards.dialogfields.IListAdapter;
@@ -402,7 +402,7 @@ public class VelocityContextDefinitionEditDialog extends TSMessageDialog {
 			IJavaSearchScope scope = SearchEngine
 					.createJavaSearchScope(elements);
 
-			TypeSelectionDialog2 dialog = new TypeSelectionDialog2(getShell(),
+			FilteredTypesSelectionDialog dialog = new FilteredTypesSelectionDialog(getShell(),
 					false, null, scope, IJavaSearchConstants.TYPE);
 			dialog
 					.setTitle(NewWizardMessages
@@ -412,7 +412,7 @@ public class VelocityContextDefinitionEditDialog extends TSMessageDialog {
 					.setMessage(NewWizardMessages
 							.getString("NewArtifactWizardPage.attributes.SuperClassDialog.message"));
 			//$NON-NLS-1$
-			dialog.setFilter(getAttributeClass());
+//			dialog.setFilter(getAttributeClass());
 
 			if (dialog.open() == Window.OK)
 				return ((IType) dialog.getFirstResult())

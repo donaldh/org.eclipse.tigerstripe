@@ -2,31 +2,40 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tigerstripe Workbench Base Plug-in (Incubation)
 Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.base;singleton:=true
-Bundle-Version: 0.4.6.qualifier
-Bundle-Localization: plugin
+Bundle-Version: 0.0.0
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
  org.eclipse.jdt.core;visibility:=reexport,
- org.eclipse.uml2;visibility:=reexport,
  org.eclipse.uml2.uml;visibility:=reexport,
- org.eclipse.uml2.uml.resources;visibility:=reexport,
- org.apache.commons.logging;visibility:=reexport,
  org.apache.ant;visibility:=reexport,
- org.eclipse.update.core;visibility:=reexport,
  org.eclipse.jdt.launching,
- org.eclipse.emf.transaction;visibility:=reexport,
  org.eclipse.tigerstripe.annotation.core;visibility:=reexport,
- org.eclipse.core.resources;visibility:=reexport,
  org.eclipse.tigerstripe.metamodel;visibility:=reexport,
- org.apache.log4j;bundle-version="1.2.13";visibility:=reexport,
  org.eclipse.core.expressions;bundle-version="3.4.0";visibility:=reexport,
  org.eclipse.tigerstripe.espace.resources;visibility:=reexport,
  org.eclipse.tigerstripe.espace.core;visibility:=reexport,
- org.eclipse.core.filesystem;bundle-version="1.2.0",
  org.eclipse.ltk.core.refactoring;bundle-version="3.4.0",
  org.eclipse.jdt.core.manipulation;bundle-version="1.2.0"
 Bundle-ActivationPolicy: lazy
-Export-Package: org.apache.velocity;uses:="org.apache.velocity.context,org.apache.velocity.runtime.resource",
+Export-Package: org.apache.log4j,
+ org.apache.log4j.chainsaw,
+ org.apache.log4j.config,
+ org.apache.log4j.helpers,
+ org.apache.log4j.jdbc,
+ org.apache.log4j.jmx,
+ org.apache.log4j.lf5,
+ org.apache.log4j.lf5.util,
+ org.apache.log4j.lf5.viewer,
+ org.apache.log4j.lf5.viewer.categoryexplorer,
+ org.apache.log4j.lf5.viewer.configure,
+ org.apache.log4j.net,
+ org.apache.log4j.nt,
+ org.apache.log4j.or,
+ org.apache.log4j.or.jms,
+ org.apache.log4j.or.sax,
+ org.apache.log4j.spi,
+ org.apache.log4j.varia,
+ org.apache.log4j.xml,
+ org.apache.velocity;uses:="org.apache.velocity.context,org.apache.velocity.runtime.resource",
  org.apache.velocity.app;
   uses:="org.apache.velocity.runtime.log,
    org.apache.velocity.runtime,
@@ -343,7 +352,8 @@ Bundle-ClassPath: lib/dom4j-1.6.1.jar,
  lib/commons-lang-2.1.jar,
  lib/commons-collections-3.2.jar,
  lib/commons-cli-1.0.jar,
- lib/velocity-1.5.jar
+ lib/velocity-1.5.jar,
+ lib/org.apache.log4j_1.2.13.v200903072027.jar
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-Activator: org.eclipse.tigerstripe.workbench.internal.BasePlugin
 Eclipse-BuddyPolicy: registered

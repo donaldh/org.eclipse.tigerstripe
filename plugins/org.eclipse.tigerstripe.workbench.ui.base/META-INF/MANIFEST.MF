@@ -2,43 +2,18 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tigerstripe UI Base Plug-in (Incubation)
 Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.ui.base;singleton:=true
-Bundle-Version: 0.4.6.qualifier
+Bundle-Version: 0.0.0
 Bundle-Activator: org.eclipse.tigerstripe.workbench.ui.EclipsePlugin
 Bundle-Vendor: 
-Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- org.eclipse.core.resources,
- org.eclipse.ui.workbench.texteditor,
- org.eclipse.ui.editors,
+Require-Bundle: org.eclipse.ui.editors,
  org.eclipse.ui.ide,
- org.eclipse.jface.text,
- org.eclipse.ui.forms,
- org.eclipse.jdt.core,
- org.eclipse.jdt.launching,
  org.eclipse.jdt.ui,
  org.eclipse.update.core,
- org.eclipse.uml2,
- org.eclipse.uml2.uml,
- org.eclipse.uml2.uml.resources,
- org.eclipse.gef,
- org.eclipse.draw2d,
- org.eclipse.gmf.runtime.draw2d.ui,
- org.eclipse.gmf.runtime.draw2d.ui.render,
- org.eclipse.gmf.runtime.draw2d.ui.render.awt,
  org.eclipse.gmf.runtime.diagram.ui,
- org.eclipse.gmf.runtime.notation.edit,
- org.eclipse.gmf.runtime.notation.providers,
- org.eclipse.team.ui,
- org.eclipse.team.cvs.ui,
- org.eclipse.ui.navigator,
- org.eclipse.ui.navigator.resources,
  org.eclipse.gmf.runtime.diagram.ui.resources.editor,
  org.eclipse.search,
  org.eclipse.tigerstripe.workbench.base;visibility:=reexport,
- org.eclipse.osgi.services,
- org.eclipse.tigerstripe.annotation.ui,
- org.eclipse.tigerstripe.annotation.core,
- org.eclipse.ltk.ui.refactoring;bundle-version="3.4.1"
+ org.eclipse.tigerstripe.annotation.ui
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.tigerstripe.workbench.ui,
  org.eclipse.tigerstripe.workbench.ui.internal.actions,

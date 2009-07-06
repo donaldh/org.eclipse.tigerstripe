@@ -1,7 +1,7 @@
 Bundle-ManifestVersion: 2
 Bundle-Name: Class Diagram Test Plug-in
 Bundle-Version: 0.4.0.qualifier
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation,
  org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram,
  com.windowtester.swt.runtime,
@@ -22,3 +22,4 @@ Export-Package: org.eclipse.tigerstripe.ui.visualeditor.test,org.eclipse.tigerst
 Bundle-SymbolicName: org.eclipse.tigerstripe.workebnch.ui.visualeditor.test
 Manifest-Version: 1.0
 Bundle-Activator: org.eclipse.tigerstripe.ui.visualeditor.test.Activator
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

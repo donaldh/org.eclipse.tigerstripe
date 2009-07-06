@@ -28,9 +28,10 @@ import org.eclipse.tigerstripe.workbench.sdk.internal.ModelUpdater;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
-public class AddComponentIconProviderWizard extends Wizard implements INewWizard {
+public class AddComponentIconProviderWizard extends Wizard implements
+		INewWizard {
 
-	public AddComponentIconProviderWizard( ISDKProvider provider) {
+	public AddComponentIconProviderWizard(ISDKProvider provider) {
 		super();
 		this.provider = provider;
 	}
@@ -38,24 +39,21 @@ public class AddComponentIconProviderWizard extends Wizard implements INewWizard
 	private ISDKProvider provider;
 	private IStructuredSelection fSelection;
 	private AddComponentIconProviderWizardPage firstPage;
-	
-	
-	
-	
-	
+
 	public void addPages() {
 		super.addPages();
 		setWindowTitle("Add A New Component Icon Provider Class");
-		this.firstPage = new AddComponentIconProviderWizardPage("", getShell(), provider);
+		this.firstPage = new AddComponentIconProviderWizardPage("", getShell(),
+				provider);
 		addPage(this.firstPage);
-		//this.firstPage.init(getSelection());
+		// this.firstPage.init(getSelection());
 	}
-	
-	
+
 	@Override
 	public boolean performFinish() {
 		IRunnableWithProgress op = new IRunnableWithProgress() {
-			public void run(IProgressMonitor monitor) throws InvocationTargetException {
+			public void run(IProgressMonitor monitor)
+					throws InvocationTargetException {
 				try {
 					doFinish(monitor);
 				} catch (Exception e) {
@@ -71,13 +69,13 @@ public class AddComponentIconProviderWizard extends Wizard implements INewWizard
 			return false;
 		} catch (InvocationTargetException e) {
 			Throwable realException = e.getTargetException();
-			MessageDialog.openError(getShell(), "Error", realException.getMessage());
+			MessageDialog.openError(getShell(), "Error", realException
+					.getMessage());
 			return false;
 		}
 		return true;
 	}
 
-	@Override
 	public void init(IWorkbench workbench, IStructuredSelection currentSelection) {
 		fSelection = currentSelection;
 	}
@@ -86,34 +84,30 @@ public class AddComponentIconProviderWizard extends Wizard implements INewWizard
 		return this.fSelection;
 	}
 
-	public void doFinish(IProgressMonitor monitor){
+	public void doFinish(IProgressMonitor monitor) {
 		// Actually do the work!
 		// Gather info from the page
-		
-		
+
 		IPluginModelBase cont = firstPage.getContributerSelection();
-		Map<String,String> attributes = new HashMap<String, String>();
+		Map<String, String> attributes = new HashMap<String, String>();
 		attributes.put("artifactType", firstPage.getArtifactType());
 		attributes.put("provider", firstPage.getProviderClass());
-		
-		
-		
+
 		try {
 			IResource res = (IResource) cont.getAdapter(IResource.class);
 			IProject contProject = (IProject) res.getProject();
-			
+
 			ModelUpdater mu = new ModelUpdater();
-			if (contProject != null){
-				mu.addSimpleExtension(contProject, SDKConstants.METADATA_EXT_PT, 
+			if (contProject != null) {
+				mu.addSimpleExtension(contProject,
+						SDKConstants.METADATA_EXT_PT,
 						SDKConstants.METADATA_MODELICON_PART, attributes);
 			}
 
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	
-		
+
 	}
-	
 
 }

@@ -31,7 +31,7 @@ import org.eclipse.ui.IWorkbench;
 
 public class AddDisabledPatternWizard extends Wizard implements INewWizard {
 
-	public AddDisabledPatternWizard( ISDKProvider provider) {
+	public AddDisabledPatternWizard(ISDKProvider provider) {
 		super();
 		this.provider = provider;
 	}
@@ -39,24 +39,21 @@ public class AddDisabledPatternWizard extends Wizard implements INewWizard {
 	private ISDKProvider provider;
 	private IStructuredSelection fSelection;
 	private AddDisabledPatternWizardPage firstPage;
-	
-	
-	
-	
-	
+
 	public void addPages() {
 		super.addPages();
 		setWindowTitle("Disable A Pattern");
-		this.firstPage = new AddDisabledPatternWizardPage("", getShell(), provider);
+		this.firstPage = new AddDisabledPatternWizardPage("", getShell(),
+				provider);
 		addPage(this.firstPage);
 		this.firstPage.init(getSelection());
 	}
-	
-	
+
 	@Override
 	public boolean performFinish() {
 		IRunnableWithProgress op = new IRunnableWithProgress() {
-			public void run(IProgressMonitor monitor) throws InvocationTargetException {
+			public void run(IProgressMonitor monitor)
+					throws InvocationTargetException {
 				try {
 					doFinish(monitor);
 				} catch (Exception e) {
@@ -72,13 +69,13 @@ public class AddDisabledPatternWizard extends Wizard implements INewWizard {
 			return false;
 		} catch (InvocationTargetException e) {
 			Throwable realException = e.getTargetException();
-			MessageDialog.openError(getShell(), "Error", realException.getMessage());
+			MessageDialog.openError(getShell(), "Error", realException
+					.getMessage());
 			return false;
 		}
 		return true;
 	}
 
-	@Override
 	public void init(IWorkbench workbench, IStructuredSelection currentSelection) {
 		fSelection = currentSelection;
 	}
@@ -87,34 +84,32 @@ public class AddDisabledPatternWizard extends Wizard implements INewWizard {
 		return this.fSelection;
 	}
 
-	public void doFinish(IProgressMonitor monitor){
+	public void doFinish(IProgressMonitor monitor) {
 		// Actually do the work!
 		// Gather info from the page
 		PatternFileContribution patt = firstPage.getSelection();
-		
-		Map<String,String> attributes = new HashMap<String, String>();
-		attributes.put("patternName", provider.getPattern(patt.getContributor(), patt.getFileName()).getName());
-		
-		
+
+		Map<String, String> attributes = new HashMap<String, String>();
+		attributes.put("patternName", provider.getPattern(
+				patt.getContributor(), patt.getFileName()).getName());
+
 		IPluginModelBase cont = firstPage.getContributerSelection();
-		
-		
+
 		try {
 			IResource res = (IResource) cont.getAdapter(IResource.class);
 			IProject contProject = (IProject) res.getProject();
-			
+
 			ModelUpdater mu = new ModelUpdater();
-			if (contProject != null){
-				mu.addSimpleExtension(contProject, SDKConstants.PATTERNS_EXT_PT, 
+			if (contProject != null) {
+				mu.addSimpleExtension(contProject,
+						SDKConstants.PATTERNS_EXT_PT,
 						SDKConstants.PATTERNS_DISABLED_PART, attributes);
 			}
 
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	
-		
+
 	}
-	
 
 }

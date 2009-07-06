@@ -54,17 +54,18 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForArtifactDialog;
 
-public class PatternCreateWizardPage extends NewElementWizardPage implements IWizardPage{
+public class PatternCreateWizardPage extends NewElementWizardPage implements
+		IWizardPage {
 
 	private static IAbstractArtifact[] suitableTypes;
-	
-	public static IAbstractArtifact[] getSuitableTypes(){
+
+	public static IAbstractArtifact[] getSuitableTypes() {
 		if (suitableTypes == null)
 			loadSuitableTypes();
 		return suitableTypes;
 	}
-		
-	private static void loadSuitableTypes(){
+
+	private static void loadSuitableTypes() {
 		List<IAbstractArtifact> suitableModelsList = new ArrayList<IAbstractArtifact>();
 		suitableModelsList.add(DatatypeArtifact.MODEL);
 		suitableModelsList.add(EnumArtifact.MODEL);
@@ -79,17 +80,16 @@ public class PatternCreateWizardPage extends NewElementWizardPage implements IWi
 		suitableModelsList.add(SessionFacadeArtifact.MODEL);
 		suitableModelsList.add(PackageArtifact.MODEL);
 
-		suitableTypes = suitableModelsList.toArray( new IAbstractArtifact[0] );
+		suitableTypes = suitableModelsList.toArray(new IAbstractArtifact[0]);
 	}
-	
-	
+
 	private ITigerstripeModelProject modelProject = null;
 	private IAbstractArtifact art = null;
 	private Text targetDirectoryText;
 	private Text targetFileNameText;
-	private Button browseDirectoryButton; 
+	private Button browseDirectoryButton;
 	private Text sourceArtifactText;
-	private Button chooseArtifactButton; 
+	private Button chooseArtifactButton;
 	private Text patternNameText;
 	private Text uILabelText;
 	private Text iconPathText;
@@ -97,23 +97,22 @@ public class PatternCreateWizardPage extends NewElementWizardPage implements IWi
 	private Text descriptionText;
 	private File targetFile = null;
 	private Button includeEndNamesButton;
-//	private Button iconPathBrowseButton;
+	// private Button iconPathBrowseButton;
 	private IDialogSettings settings;
-	
-	
+
 	protected PatternCreateWizardPage(String pageName, IDialogSettings settings) {
 		super(pageName);
 		this.settings = settings;
 	}
 
-	
-	protected void init(IStructuredSelection selection){
+	protected void init(IStructuredSelection selection) {
 		IProject selectedProject = EclipsePlugin.getProjectInFocus();
-		modelProject  = (ITigerstripeModelProject) selectedProject.getAdapter(ITigerstripeModelProject.class);
+		modelProject = (ITigerstripeModelProject) selectedProject
+				.getAdapter(ITigerstripeModelProject.class);
 	}
-	
-	protected void initContents(){
-		if (settings.get("targetDirectory") != null){
+
+	protected void initContents() {
+		if (settings.get("targetDirectory") != null) {
 			targetDirectoryText.setText(settings.get("targetDirectory"));
 		} else {
 			targetDirectoryText.setText("Target Directory");
@@ -124,10 +123,9 @@ public class PatternCreateWizardPage extends NewElementWizardPage implements IWi
 		uILabelText.setText("My New Pattern");
 		iconPathText.setText("icons/entity_new.gif");
 	}
-	
-	
+
 	private class PatternCreatePageListener implements ModifyListener,
-	 SelectionListener {
+			SelectionListener {
 
 		public void widgetDefaultSelected(SelectionEvent e) {
 			// TODO Auto-generated method stub
@@ -138,7 +136,6 @@ public class PatternCreateWizardPage extends NewElementWizardPage implements IWi
 			handleWidgetSelected(e);
 		}
 
-
 		public void modifyText(ModifyEvent e) {
 			handleModifyText(e);
 		}
@@ -147,12 +144,10 @@ public class PatternCreateWizardPage extends NewElementWizardPage implements IWi
 		}
 
 	}
-	
-	
-	@Override
+
 	public void createControl(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
-		
+
 		PatternCreatePageListener adapter = new PatternCreatePageListener();
 		final GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 3;
@@ -164,60 +159,63 @@ public class PatternCreateWizardPage extends NewElementWizardPage implements IWi
 		final GridData gd_targetDirectoryText = new GridData(275, SWT.DEFAULT);
 		targetDirectoryText.setLayoutData(gd_targetDirectoryText);
 		targetDirectoryText.addModifyListener(adapter);
-		
-		
+
 		browseDirectoryButton = new Button(composite, SWT.NONE);
 		browseDirectoryButton.addSelectionListener(adapter);
 		browseDirectoryButton.setText("Browse");
 		browseDirectoryButton.setData("name", "Browse_Directory");
-		final GridData gd_browseDirectoryButton = new GridData(SWT.FILL, SWT.FILL, true, true);
+		final GridData gd_browseDirectoryButton = new GridData(SWT.FILL,
+				SWT.FILL, true, true);
 		browseDirectoryButton.setLayoutData(gd_browseDirectoryButton);
-		
+
 		final Label fileNameLabel = new Label(composite, SWT.NONE);
 		fileNameLabel.setText("File Name");
 
 		targetFileNameText = new Text(composite, SWT.BORDER);
-		final GridData gd_targetFileNameText = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		final GridData gd_targetFileNameText = new GridData(SWT.FILL,
+				SWT.CENTER, true, false);
 		targetFileNameText.setLayoutData(gd_targetFileNameText);
 		targetFileNameText.addModifyListener(adapter);
-		
+
 		new Label(composite, SWT.NONE);
-		
-		
+
 		final Label sourceArtifactLabel = new Label(composite, SWT.NONE);
 		sourceArtifactLabel.setText("Source Artifact");
 		sourceArtifactText = new Text(composite, SWT.BORDER);
 		final GridData gd_sourceArtifactText = new GridData(275, SWT.DEFAULT);
 		sourceArtifactText.setLayoutData(gd_sourceArtifactText);
 		sourceArtifactText.addModifyListener(adapter);
-		
+
 		chooseArtifactButton = new Button(composite, SWT.NONE);
 		chooseArtifactButton.addSelectionListener(adapter);
 		chooseArtifactButton.setText("Browse");
 		chooseArtifactButton.setData("name", "Choose_Artifact");
-		final GridData gd_chooseArtifactButton = new GridData(SWT.FILL, SWT.FILL, true, true);
+		final GridData gd_chooseArtifactButton = new GridData(SWT.FILL,
+				SWT.FILL, true, true);
 		chooseArtifactButton.setLayoutData(gd_chooseArtifactButton);
 
 		final Label patternNameLabel = new Label(composite, SWT.NONE);
 		patternNameLabel.setText("Pattern Name");
 
 		patternNameText = new Text(composite, SWT.BORDER);
-		final GridData gd_patternNameText = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		final GridData gd_patternNameText = new GridData(SWT.FILL, SWT.CENTER,
+				true, false);
 		patternNameText.setLayoutData(gd_patternNameText);
 		patternNameText.addModifyListener(adapter);
-		
+
 		new Label(composite, SWT.NONE);
 
 		final Label label = new Label(composite, SWT.NONE);
 		label.setText("UI Label");
 
 		uILabelText = new Text(composite, SWT.BORDER);
-		final GridData gd_uILabelText = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		final GridData gd_uILabelText = new GridData(SWT.FILL, SWT.CENTER,
+				true, false);
 		uILabelText.setLayoutData(gd_uILabelText);
 		uILabelText.addModifyListener(adapter);
-		
+
 		new Label(composite, SWT.NONE);
-		
+
 		new Label(composite, SWT.NONE);
 		includeEndNamesButton = new Button(composite, SWT.CHECK);
 		includeEndNamesButton.setText("Include End Names");
@@ -225,29 +223,32 @@ public class PatternCreateWizardPage extends NewElementWizardPage implements IWi
 		includeEndNamesButton.setEnabled(false);
 		new Label(composite, SWT.NONE);
 		final Label iconPathLabel = new Label(composite, SWT.NONE);
-		final GridData gd_iconPathLabel = new GridData(SWT.FILL, SWT.TOP, false, true);
+		final GridData gd_iconPathLabel = new GridData(SWT.FILL, SWT.TOP,
+				false, true);
 		iconPathLabel.setLayoutData(gd_iconPathLabel);
 		iconPathLabel.setText("Icon Path");
 
 		iconPathText = new Text(composite, SWT.BORDER);
-		final GridData gd_iconPathText = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		final GridData gd_iconPathText = new GridData(SWT.FILL, SWT.CENTER,
+				true, false);
 		iconPathText.setLayoutData(gd_iconPathText);
 		iconPathText.addModifyListener(adapter);
-		
 
 		new Label(composite, SWT.NONE);
-//		iconPathBrowseButton = new Button(composite, SWT.NONE);
-//		final GridData gd_browseButton = new GridData(SWT.FILL, SWT.FILL, true, true);
-//		iconPathBrowseButton.setLayoutData(gd_browseButton);
-//		iconPathBrowseButton.setText("Browse");
-//		chooseArtifactButton.setData("name", "Browse_IconPath");
-//		iconPathBrowseButton.addSelectionListener(adapter);
+		// iconPathBrowseButton = new Button(composite, SWT.NONE);
+		// final GridData gd_browseButton = new GridData(SWT.FILL, SWT.FILL,
+		// true, true);
+		// iconPathBrowseButton.setLayoutData(gd_browseButton);
+		// iconPathBrowseButton.setText("Browse");
+		// chooseArtifactButton.setData("name", "Browse_IconPath");
+		// iconPathBrowseButton.addSelectionListener(adapter);
 
 		final Label indexLabel = new Label(composite, SWT.NONE);
 		indexLabel.setText("Index");
 
 		indexText = new Text(composite, SWT.BORDER);
-		final GridData gd_indexText = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		final GridData gd_indexText = new GridData(SWT.FILL, SWT.CENTER, true,
+				false);
 		indexText.setLayoutData(gd_indexText);
 		indexText.addModifyListener(adapter);
 		new Label(composite, SWT.NONE);
@@ -256,13 +257,13 @@ public class PatternCreateWizardPage extends NewElementWizardPage implements IWi
 		descriptionLabel.setText("Description");
 
 		descriptionText = new Text(composite, SWT.BORDER);
-		final GridData gd_descriptionText = new GridData(SWT.FILL, SWT.CENTER, true, false);
+		final GridData gd_descriptionText = new GridData(SWT.FILL, SWT.CENTER,
+				true, false);
 		gd_descriptionText.heightHint = 84;
 		descriptionText.setLayoutData(gd_descriptionText);
 		descriptionText.addModifyListener(adapter);
 		new Label(composite, SWT.NONE);
-		
-		
+
 		initContents();
 		setControl(composite);
 		updatePageComplete();
@@ -271,17 +272,17 @@ public class PatternCreateWizardPage extends NewElementWizardPage implements IWi
 	public void handleWidgetSelected(SelectionEvent e) {
 		if (e.getSource() == chooseArtifactButton) {
 			artifactBrowseButtonPressed();
-		} else if (e.getSource() == browseDirectoryButton){
+		} else if (e.getSource() == browseDirectoryButton) {
 			directoryBrowseButtonPressed();
 		}
 		updatePageComplete();
 	}
-	
-	public void handleModifyText(ModifyEvent e){
-			updatePageComplete();
+
+	public void handleModifyText(ModifyEvent e) {
+		updatePageComplete();
 	}
-	
-	private void directoryBrowseButtonPressed(){
+
+	private void directoryBrowseButtonPressed() {
 		final DirectoryDialog dialog = new DirectoryDialog(getShell());
 		String fileName = targetDirectoryText.getText().trim();
 
@@ -299,40 +300,40 @@ public class PatternCreateWizardPage extends NewElementWizardPage implements IWi
 			}
 		}
 	}
-	
-	private void artifactBrowseButtonPressed(){
+
+	private void artifactBrowseButtonPressed() {
 		// Get the current Selection and find it's project
-		if (modelProject != null){
-			try{
-				BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(modelProject,
-						getSuitableTypes());
+		if (modelProject != null) {
+			try {
+				BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(
+						modelProject, getSuitableTypes());
 				dialog.setTitle("SourceArtifact");
-				dialog.setMessage("Select the artifact" + " to be used as base for the pattern file.");
+				dialog.setMessage("Select the artifact"
+						+ " to be used as base for the pattern file.");
 				dialog.setIncludePrimitiveTypes(false);
 
 				AbstractArtifact[] artifacts = dialog.browseAvailableArtifacts(
-						getShell(), Arrays
-						.asList(new Object[] { }));
-				if ( artifacts.length > 0){
+						getShell(), Arrays.asList(new Object[] {}));
+				if (artifacts.length > 0) {
 					AbstractArtifact artifactChosen = artifacts[0];
-					sourceArtifactText.setText(artifactChosen.getFullyQualifiedName());
-					
+					sourceArtifactText.setText(artifactChosen
+							.getFullyQualifiedName());
+
 				}
-			} catch (Exception t){
+			} catch (Exception t) {
 				t.printStackTrace();
 			}
 		}
 	}
 
-	
-	private void updatePageComplete(){
-		
-		if (includeEndNamesButton != null){
+	private void updatePageComplete() {
+
+		if (includeEndNamesButton != null) {
 			includeEndNamesButton.setEnabled(false);
 		}
 		// Check all the fields contain valid entries
 		// The artifact must be valid in the context of the project!
-		if (modelProject == null ){
+		if (modelProject == null) {
 			setErrorMessage("Tigerstripe project must be selected");
 			setPageComplete(false);
 
@@ -341,36 +342,37 @@ public class PatternCreateWizardPage extends NewElementWizardPage implements IWi
 		IArtifactManagerSession session = null;
 		try {
 			session = modelProject.getArtifactManagerSession();
-		} catch (TigerstripeException t){
+		} catch (TigerstripeException t) {
 			setErrorMessage("Cannot read Tigerstripe project");
 			setPageComplete(false);
 			return;
 		}
-		
-		if (session == null){
+
+		if (session == null) {
 			setErrorMessage("Cannot read Tigerstripe project");
 			setPageComplete(false);
 			return;
 		}
-		
-		if (sourceArtifactText == null){
+
+		if (sourceArtifactText == null) {
 			// probably means during init!
 			setErrorMessage("Source Artifact is invalid");
 			setPageComplete(false);
 			return;
 		}
-		
-		art = session.getArtifactByFullyQualifiedName(getSourceArtifactText(), false);
-		if (art == null){
+
+		art = session.getArtifactByFullyQualifiedName(getSourceArtifactText(),
+				false);
+		if (art == null) {
 			setErrorMessage("Source Artifact is invalid");
 			setPageComplete(false);
 			return;
 		}
-		
-		if (art instanceof IRelationship){
+
+		if (art instanceof IRelationship) {
 			includeEndNamesButton.setEnabled(true);
 		}
-		
+
 		// Make sure our destination is also valid.
 		if ("".equals(getTargetDirectoryText())) {
 			setErrorMessage("Target Directory is invalid.");
@@ -385,56 +387,53 @@ public class PatternCreateWizardPage extends NewElementWizardPage implements IWi
 			setPageComplete(false);
 			return;
 		}
-		
-		
-		if (getPatternNameText().equals("")){
+
+		if (getPatternNameText().equals("")) {
 			setErrorMessage("Name must be specified");
 			setPageComplete(false);
 			return;
 		}
-		
-		if (getUILabelText().equals("")){
+
+		if (getUILabelText().equals("")) {
 			setErrorMessage("UI Label must be specified");
 			setPageComplete(false);
 			return;
 		}
 
 		// Index is optional
-		if (! getIndexText().equals("")){
+		if (!getIndexText().equals("")) {
 			try {
 				Integer index = Integer.parseInt(getIndexText());
-			} catch (NumberFormatException n){
+			} catch (NumberFormatException n) {
 				setErrorMessage("Index must be an integer");
 				setPageComplete(false);
 				return;
 			}
 		}
-		
-		
+
 		String targetFileName = getTargetFileNameText();
-		if (! targetFileName.endsWith(".xml")){
-			targetFileName = targetFileName+".xml";
+		if (!targetFileName.endsWith(".xml")) {
+			targetFileName = targetFileName + ".xml";
 		}
-		
-		
-		File target = new File(dir+File.separator+targetFileName);
-		
-		if (target.exists() && !target.canWrite()){
+
+		File target = new File(dir + File.separator + targetFileName);
+
+		if (target.exists() && !target.canWrite()) {
 			setErrorMessage("Cannot write to target file");
 			setPageComplete(false);
 			return;
 		}
-		
-		if (target.exists()){
+
+		if (target.exists()) {
 			setErrorMessage(null);
 			setMessage("Target fail already exists", WARNING);
 		}
 		setTargetFile(target);
-		
-		setErrorMessage(null);	
+
+		setErrorMessage(null);
 		setMessage("Press 'Finish' to create the pattern file");
 		setPageComplete(true);
-		
+
 	}
 
 	@Override
@@ -491,10 +490,10 @@ public class PatternCreateWizardPage extends NewElementWizardPage implements IWi
 	public File getTargetFile() {
 		return targetFile;
 	}
-	
-	public boolean getInlcudeEndNames(){
+
+	public boolean getInlcudeEndNames() {
 		// This will be irrelevant for a non-relation artifact
 		return includeEndNamesButton.getSelection();
 	}
-	
+
 }

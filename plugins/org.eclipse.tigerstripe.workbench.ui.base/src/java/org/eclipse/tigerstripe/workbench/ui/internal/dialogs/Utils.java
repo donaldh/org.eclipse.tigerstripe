@@ -15,7 +15,7 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.search.IJavaSearchConstants;
 import org.eclipse.jdt.core.search.IJavaSearchScope;
 import org.eclipse.jdt.core.search.SearchEngine;
-import org.eclipse.jdt.internal.ui.dialogs.TypeSelectionDialog2;
+import org.eclipse.jdt.internal.ui.dialogs.FilteredTypesSelectionDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.ui.internal.runtime.messages.NewWizardMessages;
@@ -29,7 +29,7 @@ public class Utils {
 		IJavaElement[] elements = new IJavaElement[] { root.getJavaProject() };
 		IJavaSearchScope scope = SearchEngine.createJavaSearchScope(elements);
 
-		TypeSelectionDialog2 dialog = new TypeSelectionDialog2(shell, false,
+		FilteredTypesSelectionDialog dialog = new FilteredTypesSelectionDialog(shell, false,
 				null, scope, IJavaSearchConstants.TYPE);
 		dialog
 				.setTitle(NewWizardMessages
@@ -39,7 +39,7 @@ public class Utils {
 				.setMessage(NewWizardMessages
 						.getString("NewArtifactWizardPage.attributes.SuperClassDialog.message"));
 		//$NON-NLS-1$
-		dialog.setFilter(initialType);
+//		dialog.setFilter(initialType);
 
 		if (dialog.open() == Window.OK)
 			return (org.eclipse.jdt.core.IType) dialog.getFirstResult();

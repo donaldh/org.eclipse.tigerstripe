@@ -2,12 +2,14 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Custom View Example Plug-in
 Bundle-SymbolicName: org.eclipse.tigerstripe.annotation.ui.example.customView;singleton:=true
-Bundle-Version: 0.4.6.qualifier
+Bundle-Version: 0.0.0
 Bundle-Activator: org.eclipse.tigerstripe.annotation.ui.example.customview.CustomViewPlugin
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.tigerstripe.annotation.core,
  org.eclipse.tigerstripe.annotation.ui,
- org.eclipse.ui.views.properties.tabbed
+ org.eclipse.ui.views.properties.tabbed,
+ org.eclipse.emf.ecore
 Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

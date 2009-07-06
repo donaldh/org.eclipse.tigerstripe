@@ -18,8 +18,6 @@ import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.annotation.AnnotationPage;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.artifactMetadata.AppearancePage;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.audit.AuditPage;
-import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.decorator.DecoratorPage;
-import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.naming.NamingPage;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.editor.patterns.CreationPage;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.ui.IEditorInput;
@@ -63,7 +61,6 @@ public class ConfigEditor extends FormEditor implements IContributionListener{
 		super.close(save);
 	}
 
-	@Override
 	public void resourceChanged(IResourceChangeEvent event) {
 		//System.out.println("Type "+event.getType());
 		//System.out.println("Kind "+event.getDelta().getKind());

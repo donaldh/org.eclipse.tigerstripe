@@ -2,9 +2,10 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tigerstripe Workbench Headless Plug-in (Incubation)
 Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.headless;singleton:=true
-Bundle-Version: 0.4.6.qualifier
+Bundle-Version: 0.0.0
 Bundle-Activator: org.eclipse.tigerstripe.workbench.headless.Activator
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.tigerstripe.workbench.base,
  org.eclipse.core.resources
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: J2SE-1.5

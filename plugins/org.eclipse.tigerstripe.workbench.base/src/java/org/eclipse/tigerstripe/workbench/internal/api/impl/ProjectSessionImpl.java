@@ -169,7 +169,7 @@ public class ProjectSessionImpl {
 	}
 
 	public void removeFromCache(IAbstractTigerstripeProject project) {
-		if (project != null) {
+		if (project != null && project.getName() != null) {
 			for (Iterator<IAbstractTigerstripeProject> iter = projectMappedByURIs
 					.values().iterator(); iter.hasNext();) {
 				IAbstractTigerstripeProject proj = iter.next();

@@ -2,16 +2,13 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.ui.visualeditor.edit; singleton:=true
-Bundle-Version: 0.4.6.qualifier
+Bundle-Version: 0.0.0
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.tigerstripe.workbench.ui.visualeditor.provider.TigerstripeEditPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Export-Package: org.eclipse.tigerstripe.workbench.ui.visualeditor.provider
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.edit;visibility:=reexport,
- org.eclipse.tigerstripe.workbench.base,
- org.eclipse.tigerstripe.workbench.ui.base,
+Require-Bundle: org.eclipse.tigerstripe.workbench.ui.base,
  org.eclipse.tigerstripe.workbench.ui.visualeditor;visibility:=reexport,
  org.eclipse.ui
 Bundle-ActivationPolicy: lazy

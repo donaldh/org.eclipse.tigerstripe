@@ -2,13 +2,14 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tigerstripe Annotation Java Plug-in
 Bundle-SymbolicName: org.eclipse.tigerstripe.annotation.java;singleton:=true
-Bundle-Version: 0.4.6.qualifier
+Bundle-Version: 0.0.0
 Bundle-Activator: org.eclipse.tigerstripe.annotation.java.JavaAnnotationPlugin
 Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.core.resources,
  org.eclipse.jdt.core,
- org.eclipse.tigerstripe.annotation.core
+ org.eclipse.tigerstripe.annotation.core,
+ org.eclipse.emf.common
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.tigerstripe.annotation.java
 Bundle-RequiredExecutionEnvironment: J2SE-1.5

@@ -27,10 +27,12 @@ public class PatternCreateWizard extends Wizard implements INewWizard {
 
 	public PatternCreateWizard() {
 		super();
-		IDialogSettings defaultSettings = Activator.getDefault().getDialogSettings();
+		IDialogSettings defaultSettings = Activator.getDefault()
+				.getDialogSettings();
 		this.wizardSettings = defaultSettings.getSection("PatternCreateWizard");
-		if (wizardSettings == null){
-			wizardSettings = defaultSettings.addNewSection("PatternCreateWizard");
+		if (wizardSettings == null) {
+			wizardSettings = defaultSettings
+					.addNewSection("PatternCreateWizard");
 		}
 		setDialogSettings(defaultSettings);
 	}
@@ -38,11 +40,7 @@ public class PatternCreateWizard extends Wizard implements INewWizard {
 	private IStructuredSelection fSelection;
 	private PatternCreateWizardPage firstPage;
 	private IDialogSettings wizardSettings;
-	
-	
-	
-	
-	
+
 	public void addPages() {
 		super.addPages();
 		setWindowTitle("Create Artifact Pattern File");
@@ -50,12 +48,12 @@ public class PatternCreateWizard extends Wizard implements INewWizard {
 		addPage(this.firstPage);
 		this.firstPage.init(getSelection());
 	}
-	
-	
+
 	@Override
 	public boolean performFinish() {
 		IRunnableWithProgress op = new IRunnableWithProgress() {
-			public void run(IProgressMonitor monitor) throws InvocationTargetException {
+			public void run(IProgressMonitor monitor)
+					throws InvocationTargetException {
 				try {
 					doFinish(monitor);
 				} catch (Exception e) {
@@ -63,7 +61,8 @@ public class PatternCreateWizard extends Wizard implements INewWizard {
 				} finally {
 					monitor.done();
 					// Save all of the wizard settings
-					wizardSettings.put("targetDirectory",firstPage.getTargetDirectoryText());
+					wizardSettings.put("targetDirectory", firstPage
+							.getTargetDirectoryText());
 				}
 			}
 		};
@@ -73,13 +72,13 @@ public class PatternCreateWizard extends Wizard implements INewWizard {
 			return false;
 		} catch (InvocationTargetException e) {
 			Throwable realException = e.getTargetException();
-			MessageDialog.openError(getShell(), "Error", realException.getMessage());
+			MessageDialog.openError(getShell(), "Error", realException
+					.getMessage());
 			return false;
 		}
 		return true;
 	}
 
-	@Override
 	public void init(IWorkbench workbench, IStructuredSelection currentSelection) {
 		fSelection = currentSelection;
 	}
@@ -88,22 +87,16 @@ public class PatternCreateWizard extends Wizard implements INewWizard {
 		return this.fSelection;
 	}
 
-	public void doFinish(IProgressMonitor monitor){
+	public void doFinish(IProgressMonitor monitor) {
 		// Actually do the work!
 		// Gather info from the page
 		PatternFileCreator creator = new PatternFileCreator();
-		creator.makeArtifactPattern(firstPage.getSourceArtifact(),
-				firstPage.getTargetFile(),
-				firstPage.getPatternNameText(),
-				firstPage.getInlcudeEndNames(),
-				firstPage.getUILabelText(),
-				firstPage.getIconPathText(),
-				firstPage.getIndexText(),
-				firstPage.getDescriptionText());
-		
-		
-		
+		creator.makeArtifactPattern(firstPage.getSourceArtifact(), firstPage
+				.getTargetFile(), firstPage.getPatternNameText(), firstPage
+				.getInlcudeEndNames(), firstPage.getUILabelText(), firstPage
+				.getIconPathText(), firstPage.getIndexText(), firstPage
+				.getDescriptionText());
+
 	}
-	
 
 }

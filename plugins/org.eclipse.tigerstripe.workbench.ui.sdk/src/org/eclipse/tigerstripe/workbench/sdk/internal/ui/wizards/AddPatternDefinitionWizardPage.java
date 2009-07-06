@@ -27,36 +27,29 @@ import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
 
-public class AddPatternDefinitionWizardPage extends AbstractWizardPage implements IWizardPage{
+public class AddPatternDefinitionWizardPage extends AbstractWizardPage
+		implements IWizardPage {
 
-
-		
 	private Text patternFileText;
 	private Button browsePatternFilesButton;
 	private Text validatorClassText;
 	private Button browseValidatorButton;
-	private Button chooseContributionButton; 
-	
-	
-	
+	private Button chooseContributionButton;
 
-	protected AddPatternDefinitionWizardPage(String pageName, Shell shell, ISDKProvider provider) {
+	protected AddPatternDefinitionWizardPage(String pageName, Shell shell,
+			ISDKProvider provider) {
 		super(pageName);
 		this.shell = shell;
 		this.provider = provider;
 	}
 
-	
-	protected void init(IStructuredSelection selection){
+	protected void init(IStructuredSelection selection) {
 
 	}
-	
-	
-	
-	@Override
+
 	public void createControl(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
-		
+
 		WizardPageListener adapter = new WizardPageListener();
 		final GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 3;
@@ -70,14 +63,15 @@ public class AddPatternDefinitionWizardPage extends AbstractWizardPage implement
 		contributerText.addModifyListener(adapter);
 		// MUST do this via browse
 		contributerText.setEditable(false);
-		
+
 		chooseContributionButton = new Button(composite, SWT.NONE);
 		chooseContributionButton.addSelectionListener(adapter);
 		chooseContributionButton.setText("Browse");
 		chooseContributionButton.setData("name", "Choose_Contribution");
-		final GridData gd_chooseContributionButton = new GridData(GridData.FILL_HORIZONTAL);
+		final GridData gd_chooseContributionButton = new GridData(
+				GridData.FILL_HORIZONTAL);
 		chooseContributionButton.setLayoutData(gd_chooseContributionButton);
-		
+
 		final Label patternLabel = new Label(composite, SWT.NONE);
 		patternLabel.setText("Pattern Name:");
 		patternFileText = new Text(composite, SWT.BORDER);
@@ -86,14 +80,15 @@ public class AddPatternDefinitionWizardPage extends AbstractWizardPage implement
 		patternFileText.addModifyListener(adapter);
 		// MUST do this via browse
 		patternFileText.setEditable(false);
-		
+
 		browsePatternFilesButton = new Button(composite, SWT.NONE);
 		browsePatternFilesButton.addSelectionListener(adapter);
 		browsePatternFilesButton.setText("Browse");
 		browsePatternFilesButton.setData("name", "Browse_Pattern_Files");
-		final GridData gd_browsePatternsButton = new GridData(GridData.FILL_HORIZONTAL);
+		final GridData gd_browsePatternsButton = new GridData(
+				GridData.FILL_HORIZONTAL);
 		browsePatternFilesButton.setLayoutData(gd_browsePatternsButton);
-				
+
 		final Label validatorLabel = new Label(composite, SWT.NONE);
 		validatorLabel.setText("Validator Class:");
 		validatorClassText = new Text(composite, SWT.BORDER);
@@ -102,16 +97,14 @@ public class AddPatternDefinitionWizardPage extends AbstractWizardPage implement
 		validatorClassText.addModifyListener(adapter);
 		// MUST do this via browse
 		validatorClassText.setEditable(false);
-		
+
 		browseValidatorButton = new Button(composite, SWT.NONE);
 		browseValidatorButton.addSelectionListener(adapter);
 		browseValidatorButton.setText("Browse");
 		browseValidatorButton.setData("name", "Browse_Validators");
-		final GridData gd_browseValidatorButton = new GridData(GridData.FILL_HORIZONTAL);
+		final GridData gd_browseValidatorButton = new GridData(
+				GridData.FILL_HORIZONTAL);
 		browseValidatorButton.setLayoutData(gd_browseValidatorButton);
-
-		
-		
 
 		setControl(composite);
 		new Label(composite, SWT.NONE);
@@ -123,25 +116,24 @@ public class AddPatternDefinitionWizardPage extends AbstractWizardPage implement
 	public void handleWidgetSelected(SelectionEvent e) {
 		if (e.getSource() == chooseContributionButton) {
 			chooseContributerButtonPressed();
-		} else if (e.getSource() == browseValidatorButton){
-			browseClassButtonPressed(getContributerSelection(), validatorClassText, "Select the Validator Class");
-		} else if (e.getSource() == browsePatternFilesButton){
-			browseFilesButtonPressed(patternFileText,"Select the Pattern File");
+		} else if (e.getSource() == browseValidatorButton) {
+			browseClassButtonPressed(getContributerSelection(),
+					validatorClassText, "Select the Validator Class");
+		} else if (e.getSource() == browsePatternFilesButton) {
+			browseFilesButtonPressed(patternFileText, "Select the Pattern File");
 
 		}
 		updatePageComplete();
 	}
-	
-	public void handleModifyText(ModifyEvent e){
+
+	public void handleModifyText(ModifyEvent e) {
 		// Should not really be called?
-		//	updatePageComplete();
+		// updatePageComplete();
 	}
-	
-	
-	protected void updatePageComplete(){
-		
-		
-		if (getContributerSelection()== null){
+
+	protected void updatePageComplete() {
+
+		if (getContributerSelection() == null) {
 			// Need to check the contents of the Text for a valid entry
 			setErrorMessage("Contributer must be specified");
 			browsePatternFilesButton.setEnabled(false);
@@ -150,56 +142,59 @@ public class AddPatternDefinitionWizardPage extends AbstractWizardPage implement
 		}
 		browsePatternFilesButton.setEnabled(true);
 		browseValidatorButton.setEnabled(true);
-		
+
 		// See if we have specified a valid one
-		if (getPatternFile().equals("")){
+		if (getPatternFile().equals("")) {
 			// Need to check the contents of the Text for a valid entry
 			setErrorMessage("Pattern File must be specified");
 			return;
 		}
 		// And that it exists!
-		IResource res = (IResource) getContributerSelection().getAdapter(IResource.class);
+		IResource res = (IResource) getContributerSelection().getAdapter(
+				IResource.class);
 		IProject contProject = null;
-		if (res != null){
+		if (res != null) {
 			contProject = (IProject) res.getProject();
-			IResource patternResource = contProject.findMember(getPatternFile());
-			if (!patternResource.exists()){
+			IResource patternResource = contProject
+					.findMember(getPatternFile());
+			if (!patternResource.exists()) {
 				setErrorMessage("Pattern File does not exist");
 				return;
 			}
-			
+
 		}
 		// And contains a pattern?
-		
-		
-		// And The validator this must be a class that correctly implements the stated interface?
+
+		// And The validator this must be a class that correctly implements the
+		// stated interface?
 		String V_CLASS = "IPatternBasedCreationValidator";
-		if (getValidatorClass().equals("")){
+		if (getValidatorClass().equals("")) {
 			setErrorMessage(null);
 			setMessage("Validator Class is not set", 3);
 		} else {
 			try {
 				boolean goodOne = false;
 				String[] interfaces = getClassType().getSuperInterfaceNames();
-				for (String itf : interfaces){
-					if (itf.equals(V_CLASS)){
+				for (String itf : interfaces) {
+					if (itf.equals(V_CLASS)) {
 						goodOne = true;
 					}
 				}
-			if (! goodOne){
-				setErrorMessage("Validator class may not implement "+V_CLASS);
-				return;
-			}
-			} catch (Exception j){
+				if (!goodOne) {
+					setErrorMessage("Validator class may not implement "
+							+ V_CLASS);
+					return;
+				}
+			} catch (Exception j) {
 				setErrorMessage("Unable to interpret Validator class");
 				return;
 			}
 		}
-		
-		setErrorMessage(null);	
+
+		setErrorMessage(null);
 		setMessage("Press 'Finish' to add the pattern contribution");
 		setPageComplete(true);
-		
+
 	}
 
 	@Override
@@ -209,7 +204,6 @@ public class AddPatternDefinitionWizardPage extends AbstractWizardPage implement
 		setPageComplete(false);
 	}
 
-	
 	public String getPatternFile() {
 		return patternFileText.getText().trim();
 	}
@@ -218,6 +212,4 @@ public class AddPatternDefinitionWizardPage extends AbstractWizardPage implement
 		return validatorClassText.getText().trim();
 	}
 
-
-	
 }

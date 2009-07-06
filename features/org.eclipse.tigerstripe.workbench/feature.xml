@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.tigerstripe.workbench"
       label="%featureName"
-      version="0.4.6.qualifier"
+      version="0.0.0"
       provider-name="%providerName"
       plugin="org.eclipse.tigerstripe.workbench.branding"
       image="eclipse_update_120.jpg">
@@ -57,25 +57,38 @@ http://www.eclipse.org/legal/epl-v10.html
       <import plugin="org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide"/>
       <import plugin="org.eclipse.gmf.runtime.notation.providers"/>
       <import plugin="org.eclipse.jdt.core"/>
-      <import plugin="org.eclipse.uml2"/>
-      <import plugin="org.eclipse.uml2.uml"/>
-      <import plugin="org.eclipse.uml2.uml.resources"/>
+      <import plugin="org.eclipse.tigerstripe.workbench.base"/>
       <import plugin="org.eclipse.ui.editors"/>
       <import plugin="org.eclipse.jface.text"/>
       <import plugin="org.eclipse.ui.forms"/>
       <import plugin="org.eclipse.jdt.launching"/>
       <import plugin="org.eclipse.jdt.ui"/>
       <import plugin="org.eclipse.update.core"/>
-      <import plugin="org.eclipse.emf.common"/>
-      <import plugin="org.eclipse.emf.query.ocl"/>
-      <import plugin="org.eclipse.emf.ocl"/>
-      <import plugin="org.eclipse.gmf.runtime.draw2d.ui"/>
+      <import plugin="org.eclipse.uml2"/>
+      <import plugin="org.eclipse.uml2.uml"/>
+      <import plugin="org.eclipse.uml2.uml.resources"/>
       <import plugin="org.eclipse.draw2d"/>
+      <import plugin="org.eclipse.gmf.runtime.draw2d.ui"/>
+      <import plugin="org.eclipse.gmf.runtime.draw2d.ui.render"/>
+      <import plugin="org.eclipse.gmf.runtime.draw2d.ui.render.awt"/>
+      <import plugin="org.eclipse.gmf.runtime.notation.edit"/>
+      <import plugin="org.eclipse.team.ui"/>
+      <import plugin="org.eclipse.team.cvs.ui"/>
+      <import plugin="org.eclipse.ui.navigator"/>
+      <import plugin="org.eclipse.ui.navigator.resources"/>
+      <import plugin="org.eclipse.search"/>
+      <import plugin="org.eclipse.osgi.services"/>
+      <import plugin="org.eclipse.tigerstripe.annotation.ui"/>
+      <import plugin="org.eclipse.tigerstripe.annotation.core"/>
+      <import plugin="org.eclipse.ltk.ui.refactoring" version="3.4.1" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.emf.ocl"/>
+      <import plugin="org.eclipse.emf.query.ocl"/>
       <import plugin="org.eclipse.gmf.runtime.diagram.ui.actions"/>
       <import plugin="org.eclipse.emf.edit"/>
-      <import plugin="org.eclipse.jdt"/>
-      <import plugin="org.eclipse.emf"/>
-      <import plugin="org.eclipse.emf.ecore.sdo"/>
+      <import plugin="org.eclipse.emf.common.ui"/>
+      <import plugin="org.eclipse.ltk.core.refactoring"/>
+      <import plugin="org.eclipse.jdt.core.manipulation"/>
+      <import plugin="org.eclipse.tigerstripe.annotation.tsmodel"/>
    </requires>
 
    <plugin

@@ -183,6 +183,7 @@ public class ManagedEntityArtifactNamePackageEditPart extends
 		unregisterVisuals();
 		setFigure(figure);
 		figure.setAlignment(PositionConstants.CENTER);
+		figure.setTextAlignment(PositionConstants.TOP);
 		defaultText = getLabelTextHelper(figure);
 		registerVisuals();
 		refreshVisuals();

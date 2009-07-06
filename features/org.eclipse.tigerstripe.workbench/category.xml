@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.eclipse.tigerstripe.workbench_0.0.0.jar" id="org.eclipse.tigerstripe.workbench" version="0.0.0">
+      <category name="org.eclipse.tigerstripe.category.workbench"/>
+   </feature>
+   <category-def name="org.eclipse.tigerstripe.category.workbench" label="Modeling Environment">
+      <description>
+         End-user Tigerstripe workbench.
+      </description>
+   </category-def>
+</site>

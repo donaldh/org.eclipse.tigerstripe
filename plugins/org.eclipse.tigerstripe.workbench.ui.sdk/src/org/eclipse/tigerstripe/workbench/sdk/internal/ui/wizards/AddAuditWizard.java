@@ -30,7 +30,7 @@ import org.eclipse.ui.IWorkbench;
 
 public class AddAuditWizard extends Wizard implements INewWizard {
 
-	public AddAuditWizard( ISDKProvider provider) {
+	public AddAuditWizard(ISDKProvider provider) {
 		super();
 		this.provider = provider;
 	}
@@ -38,24 +38,20 @@ public class AddAuditWizard extends Wizard implements INewWizard {
 	private ISDKProvider provider;
 	private IStructuredSelection fSelection;
 	private AddAuditWizardPage firstPage;
-	
-	
-	
-	
-	
+
 	public void addPages() {
 		super.addPages();
 		setWindowTitle("Add A New Audit Class");
 		this.firstPage = new AddAuditWizardPage("", getShell(), provider);
 		addPage(this.firstPage);
-		//this.firstPage.init(getSelection());
+		// this.firstPage.init(getSelection());
 	}
-	
-	
+
 	@Override
 	public boolean performFinish() {
 		IRunnableWithProgress op = new IRunnableWithProgress() {
-			public void run(IProgressMonitor monitor) throws InvocationTargetException {
+			public void run(IProgressMonitor monitor)
+					throws InvocationTargetException {
 				try {
 					doFinish(monitor);
 				} catch (Exception e) {
@@ -71,13 +67,13 @@ public class AddAuditWizard extends Wizard implements INewWizard {
 			return false;
 		} catch (InvocationTargetException e) {
 			Throwable realException = e.getTargetException();
-			MessageDialog.openError(getShell(), "Error", realException.getMessage());
+			MessageDialog.openError(getShell(), "Error", realException
+					.getMessage());
 			return false;
 		}
 		return true;
 	}
 
-	@Override
 	public void init(IWorkbench workbench, IStructuredSelection currentSelection) {
 		fSelection = currentSelection;
 	}
@@ -86,33 +82,29 @@ public class AddAuditWizard extends Wizard implements INewWizard {
 		return this.fSelection;
 	}
 
-	public void doFinish(IProgressMonitor monitor){
+	public void doFinish(IProgressMonitor monitor) {
 		// Actually do the work!
 		// Gather info from the page
-		
-		
+
 		IPluginModelBase cont = firstPage.getContributerSelection();
-		Map<String,String> attributes = new HashMap<String, String>();
+		Map<String, String> attributes = new HashMap<String, String>();
 		attributes.put("name", firstPage.getAuditName());
 		attributes.put("auditorClass", firstPage.getAuditClass());
 
-		
 		try {
 			IResource res = (IResource) cont.getAdapter(IResource.class);
 			IProject contProject = (IProject) res.getProject();
-			
+
 			ModelUpdater mu = new ModelUpdater();
-			if (contProject != null){
-				mu.addSimpleExtension(contProject, SDKConstants.AUDIT_EXT_PT, 
+			if (contProject != null) {
+				mu.addSimpleExtension(contProject, SDKConstants.AUDIT_EXT_PT,
 						SDKConstants.AUDIT_PART, attributes);
 			}
 
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	
-		
+
 	}
-	
 
 }

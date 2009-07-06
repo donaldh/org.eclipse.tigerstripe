@@ -18,7 +18,8 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.core.search.IJavaSearchConstants;
 import org.eclipse.jdt.core.search.IJavaSearchScope;
 import org.eclipse.jdt.core.search.SearchEngine;
-import org.eclipse.jdt.internal.ui.dialogs.TypeSelectionDialog2;
+import org.eclipse.jdt.internal.ui.dialogs.FilteredTypesSelectionDialog;
+import org.eclipse.jdt.ui.dialogs.TypeSelectionExtension;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
@@ -50,11 +51,11 @@ public abstract class BaseRunnableRuleDetailsPage extends BaseRuleDetailsPage {
 	protected Text runnableClassText;
 
 	private Button runnableClassBrowseButton;
-	
+
 	public BaseRunnableRuleDetailsPage(RulesSectionPart master) {
 		super(master);
 	}
-	
+
 	public void createContents(Composite parent) {
 		TableWrapLayout twLayout = new TableWrapLayout();
 		twLayout.numColumns = 1;
@@ -66,16 +67,15 @@ public abstract class BaseRunnableRuleDetailsPage extends BaseRuleDetailsPage {
 		form.getToolkit().paintBordersFor(parent);
 	}
 
-	
 	protected IRunnableRule getIRunnableRule() {
 		return (IRunnableRule) getIRunRule();
 	}
-	
+
 	/**
 	 * An adapter that will listen for changes on the form
 	 */
-	private class RunnableDetailsPageListener implements ModifyListener, KeyListener,
-			SelectionListener {
+	private class RunnableDetailsPageListener implements ModifyListener,
+			KeyListener, SelectionListener {
 
 		public void widgetDefaultSelected(SelectionEvent e) {
 		}
@@ -96,7 +96,7 @@ public abstract class BaseRunnableRuleDetailsPage extends BaseRuleDetailsPage {
 		}
 
 	}
-	
+
 	public void handleRunnableModifyText(ModifyEvent e) {
 		if (!isSilentUpdate()) {
 			IRunnableRule rule = (IRunnableRule) getIRunRule();
@@ -106,7 +106,7 @@ public abstract class BaseRunnableRuleDetailsPage extends BaseRuleDetailsPage {
 			}
 		}
 	}
-	
+
 	protected void handleRunnableWidgetSelected(SelectionEvent e) {
 		if (!isSilentUpdate()) {
 			if (e.getSource() == runnableClassBrowseButton) {
@@ -114,8 +114,7 @@ public abstract class BaseRunnableRuleDetailsPage extends BaseRuleDetailsPage {
 			}
 		}
 	}
-	
-	
+
 	// ============================================================
 	protected Composite createRuleInfo(Composite parent) {
 
@@ -143,12 +142,13 @@ public abstract class BaseRunnableRuleDetailsPage extends BaseRuleDetailsPage {
 
 		return sectionClient;
 	}
-	
+
 	protected void createRunnableDefinitions(Composite parent) {
-		Label label = form.getToolkit().createLabel(parent, "Runnable Class Name:");
+		Label label = form.getToolkit().createLabel(parent,
+				"Runnable Class Name:");
 
 		RunnableDetailsPageListener adapter = new RunnableDetailsPageListener();
-		
+
 		runnableClassText = form.getToolkit().createText(parent, "");
 		runnableClassText.setEnabled(PluginDescriptorEditor.isEditable());
 		runnableClassText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
@@ -159,11 +159,13 @@ public abstract class BaseRunnableRuleDetailsPage extends BaseRuleDetailsPage {
 
 		runnableClassBrowseButton = form.getToolkit().createButton(parent,
 				"Browse", SWT.PUSH);
-		runnableClassBrowseButton.setEnabled(PluginDescriptorEditor.isEditable());
+		runnableClassBrowseButton.setEnabled(PluginDescriptorEditor
+				.isEditable());
 		if (PluginDescriptorEditor.isEditable())
 			runnableClassBrowseButton.addSelectionListener(adapter);
 
 	}
+
 	protected void runnableClassBrowsePressed(SelectionEvent e) {
 		String runnableClass = chooseType("Runnable Class Selection",
 				"Please select the runnable class for this rule.");
@@ -188,8 +190,8 @@ public abstract class BaseRunnableRuleDetailsPage extends BaseRuleDetailsPage {
 			IJavaSearchScope scope = SearchEngine
 					.createJavaSearchScope(elements);
 
-			TypeSelectionDialog2 dialog = new TypeSelectionDialog2(getMaster()
-					.getSection().getShell(), false, null, scope,
+			FilteredTypesSelectionDialog dialog = new FilteredTypesSelectionDialog(
+					getMaster().getSection().getShell(), false, null, scope,
 					IJavaSearchConstants.TYPE);
 			dialog.setTitle(dialogTitle);
 			dialog.setMessage(dialogMessage);
@@ -211,8 +213,6 @@ public abstract class BaseRunnableRuleDetailsPage extends BaseRuleDetailsPage {
 		IRunnableRule rule = (IRunnableRule) getIRunnableRule();
 		runnableClassText.setText(rule.getRunnableClassName());
 		setSilentUpdate(false);
-	}	
+	}
 
-	
-	
 }

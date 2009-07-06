@@ -10,8 +10,8 @@ import org.eclipse.gmf.runtime.diagram.ui.view.factories.TextShapeViewFactory;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.FigureUtilities;
 import org.eclipse.gmf.runtime.notation.FillStyle;
 import org.eclipse.gmf.runtime.notation.LineStyle;
-import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
+import org.eclipse.gmf.runtime.notation.Shape;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
@@ -22,11 +22,10 @@ import org.eclipse.tigerstripe.annotation.ui.diagrams.model.ViewLocationNode;
 
 /**
  * @author Yuri Strot
- *
+ * 
  */
-public class AnnotationViewFactory
-	extends TextShapeViewFactory {
-	
+public class AnnotationViewFactory extends TextShapeViewFactory {
+
 	private String semanticHint;
 
 	/**
@@ -39,53 +38,65 @@ public class AnnotationViewFactory
 	 * @param persisted
 	 */
 	public View createView(IAdaptable semanticAdapter, View containerView,
-			String semanticHint, int index, boolean persisted, final PreferencesHint preferencesHint) {
+			String semanticHint, int index, boolean persisted,
+			final PreferencesHint preferencesHint) {
 		this.semanticHint = semanticHint;
-		View view = super.createView(semanticAdapter, containerView, semanticHint,
-			index, persisted, preferencesHint);
+		View view = super.createView(semanticAdapter, containerView,
+				semanticHint, index, persisted, preferencesHint);
 		EObject element = view.getElement();
 		if (element instanceof Annotation && view instanceof AnnotationNode) {
-			AnnotationNode node = (AnnotationNode)view;
-			Annotation annotation = (Annotation)view.getElement();
+			AnnotationNode node = (AnnotationNode) view;
+			Annotation annotation = (Annotation) view.getElement();
 			node.setAnnotationId(annotation.getId());
 			view.setElement(null);
 		}
 		if (view instanceof ViewLocationNode && element instanceof View) {
-			ViewLocationNode node = (ViewLocationNode)view;
+			ViewLocationNode node = (ViewLocationNode) view;
 			node.setView(element);
 			view.setElement(null);
 		}
 		return view;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.gmf.runtime.diagram.ui.view.factories.BasicNodeViewFactory#createNode()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.gmf.runtime.diagram.ui.view.factories.BasicNodeViewFactory
+	 * #createNode()
+	 * 
+	 * NOTE: was returning Node before Eclipse 3.5. Changed it to Shape and 
+	 * casts inside. But no way to test for now.
 	 */
 	@Override
-	protected Node createNode() {
+	protected Shape createNode() {
 		if (semanticHint != null) {
 			if (semanticHint.equals(DiagramAnnotationType.META_ANNOTATION_TYPE))
-				return ModelFactory.eINSTANCE.createMetaAnnotationNode();
-			if (semanticHint.equals(DiagramAnnotationType.META_VIEW_ANNOTATION_TYPE))
-				return ModelFactory.eINSTANCE.createMetaViewAnnotations();
-			if (semanticHint.equals(DiagramAnnotationType.VIEW_LOCATION_NODE_TYPE))
-				return ModelFactory.eINSTANCE.createViewLocationNode();
+				return (Shape) ModelFactory.eINSTANCE
+						.createMetaAnnotationNode();
+			if (semanticHint
+					.equals(DiagramAnnotationType.META_VIEW_ANNOTATION_TYPE))
+				return (Shape) ModelFactory.eINSTANCE
+						.createMetaViewAnnotations();
+			if (semanticHint
+					.equals(DiagramAnnotationType.VIEW_LOCATION_NODE_TYPE))
+				return (Shape) ModelFactory.eINSTANCE.createViewLocationNode();
 		}
-		return ModelFactory.eINSTANCE.createAnnotationNode();
+		return (Shape) ModelFactory.eINSTANCE.createAnnotationNode();
 	}
 
 	protected void initializeFromPreferences(View view) {
 		super.initializeFromPreferences(view);
-		
-		FillStyle fillStyle = (FillStyle) view.getStyle(
-				NotationPackage.Literals.FILL_STYLE);
+
+		FillStyle fillStyle = (FillStyle) view
+				.getStyle(NotationPackage.Literals.FILL_STYLE);
 		if (fillStyle != null) {
 			fillStyle.setFillColor(FigureUtilities.RGBToInteger(
 					new RGB(254, 243, 143)).intValue());
 		}
 
-		LineStyle lineStyle = (LineStyle) view.getStyle(
-				NotationPackage.Literals.LINE_STYLE);
+		LineStyle lineStyle = (LineStyle) view
+				.getStyle(NotationPackage.Literals.LINE_STYLE);
 		if (lineStyle != null) {
 			lineStyle.setLineColor(FigureUtilities.RGBToInteger(
 					new RGB(193, 164, 101)).intValue());

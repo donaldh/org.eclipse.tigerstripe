@@ -30,7 +30,7 @@ import org.eclipse.ui.IWorkbench;
 
 public class AddArtifactIconWizard extends Wizard implements INewWizard {
 
-	public AddArtifactIconWizard( ISDKProvider provider) {
+	public AddArtifactIconWizard(ISDKProvider provider) {
 		super();
 		this.provider = provider;
 	}
@@ -38,24 +38,20 @@ public class AddArtifactIconWizard extends Wizard implements INewWizard {
 	private ISDKProvider provider;
 	private IStructuredSelection fSelection;
 	private AddArtifactIconWizardPage firstPage;
-	
-	
-	
-	
-	
+
 	public void addPages() {
 		super.addPages();
 		setWindowTitle("Add A New Artifact Icon");
 		this.firstPage = new AddArtifactIconWizardPage("", getShell(), provider);
 		addPage(this.firstPage);
-		//this.firstPage.init(getSelection());
+		// this.firstPage.init(getSelection());
 	}
-	
-	
+
 	@Override
 	public boolean performFinish() {
 		IRunnableWithProgress op = new IRunnableWithProgress() {
-			public void run(IProgressMonitor monitor) throws InvocationTargetException {
+			public void run(IProgressMonitor monitor)
+					throws InvocationTargetException {
 				try {
 					doFinish(monitor);
 				} catch (Exception e) {
@@ -71,13 +67,13 @@ public class AddArtifactIconWizard extends Wizard implements INewWizard {
 			return false;
 		} catch (InvocationTargetException e) {
 			Throwable realException = e.getTargetException();
-			MessageDialog.openError(getShell(), "Error", realException.getMessage());
+			MessageDialog.openError(getShell(), "Error", realException
+					.getMessage());
 			return false;
 		}
 		return true;
 	}
 
-	@Override
 	public void init(IWorkbench workbench, IStructuredSelection currentSelection) {
 		fSelection = currentSelection;
 	}
@@ -86,35 +82,33 @@ public class AddArtifactIconWizard extends Wizard implements INewWizard {
 		return this.fSelection;
 	}
 
-	public void doFinish(IProgressMonitor monitor){
+	public void doFinish(IProgressMonitor monitor) {
 		// Actually do the work!
 		// Gather info from the page
-		
-		
+
 		IPluginModelBase cont = firstPage.getContributerSelection();
-		Map<String,String> attributes = new HashMap<String, String>();
-				
-		attributes.put("artifactName",firstPage.getName());
+		Map<String, String> attributes = new HashMap<String, String>();
+
+		attributes.put("artifactName", firstPage.getName());
 		attributes.put("icon", firstPage.getIconFile());
-		attributes.put("icon_new",firstPage.getIconNewFile());
-		attributes.put("icon_gs",firstPage.getIconGreyFile());
-		
+		attributes.put("icon_new", firstPage.getIconNewFile());
+		attributes.put("icon_gs", firstPage.getIconGreyFile());
+
 		try {
 			IResource res = (IResource) cont.getAdapter(IResource.class);
 			IProject contProject = (IProject) res.getProject();
-			
+
 			ModelUpdater mu = new ModelUpdater();
-			if (contProject != null){
-				mu.addSimpleExtension(contProject, SDKConstants.METADATA_EXT_PT, 
+			if (contProject != null) {
+				mu.addSimpleExtension(contProject,
+						SDKConstants.METADATA_EXT_PT,
 						SDKConstants.METADATA_ARTIFACTICON_PART, attributes);
 			}
 
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	
-		
+
 	}
-	
 
 }

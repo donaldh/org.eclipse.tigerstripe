@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %pluginName
 Bundle-SymbolicName: org.eclipse.tigerstripe.metamodel;singleton:=true
-Bundle-Version: 0.4.6.qualifier
+Bundle-Version: 0.0.0
 Bundle-ClassPath: .,
  lib/velocity-1.5.jar,
  lib/qdox-1.6.3.jar,
@@ -10,10 +10,7 @@ Bundle-ClassPath: .,
  lib/commons-lang-2.1.jar
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
-Require-Bundle: org.eclipse.core.runtime,
- org.eclipse.emf.ecore;visibility:=reexport,
- org.eclipse.tigerstripe.repository.core;visibility:=reexport,
- org.eclipse.core.resources,
+Require-Bundle: org.eclipse.tigerstripe.repository.core;visibility:=reexport,
  org.eclipse.jdt.core
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.tigerstripe.metamodel,

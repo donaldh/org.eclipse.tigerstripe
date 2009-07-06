@@ -90,8 +90,8 @@ public class TigerstripeExplorerLabelProvider extends
 
 		String decorated = decorateText(string.getString(), element);
 		if (decorated != null) {
-			return ColoringLabelProvider.decorateStyledString(string,
-					decorated, StyledString.DECORATIONS_STYLER);
+			return ColoringLabelProvider.styleDecoratedString(decorated,
+					StyledString.DECORATIONS_STYLER, string);
 		}
 		return string;
 	}
@@ -132,7 +132,8 @@ public class TigerstripeExplorerLabelProvider extends
 			try {
 				if (TigerstripeProjectNature.hasNature(iProject)) {
 					if (jElem.getElementType() == IJavaElement.COMPILATION_UNIT
-							|| jElem.getElementType() == IJavaElement.CLASS_FILE || jElem.getElementType() == IJavaElement.PACKAGE_FRAGMENT) {
+							|| jElem.getElementType() == IJavaElement.CLASS_FILE
+							|| jElem.getElementType() == IJavaElement.PACKAGE_FRAGMENT) {
 						IAbstractArtifact artifact = TSExplorerUtils
 								.getArtifactFor(element);
 						if (artifact != null)

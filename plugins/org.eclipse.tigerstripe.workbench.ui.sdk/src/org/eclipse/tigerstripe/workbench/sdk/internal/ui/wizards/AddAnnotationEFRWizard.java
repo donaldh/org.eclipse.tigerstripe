@@ -23,8 +23,8 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
-import org.eclipse.tigerstripe.workbench.sdk.internal.SDKConstants;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ModelUpdater;
+import org.eclipse.tigerstripe.workbench.sdk.internal.SDKConstants;
 import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 
@@ -77,7 +77,6 @@ public class AddAnnotationEFRWizard extends Wizard implements INewWizard {
 		return true;
 	}
 
-	@Override
 	public void init(IWorkbench workbench, IStructuredSelection currentSelection) {
 		fSelection = currentSelection;
 	}

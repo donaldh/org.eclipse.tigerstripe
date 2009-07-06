@@ -29,36 +29,33 @@ import org.eclipse.tigerstripe.workbench.sdk.internal.ui.dialogs.SelectContribut
 import org.eclipse.tigerstripe.workbench.sdk.internal.ui.dialogs.SelectPatternDialog;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 
-public class AddDisabledPatternWizardPage extends AbstractWizardPage implements IWizardPage{
+public class AddDisabledPatternWizardPage extends AbstractWizardPage implements
+		IWizardPage {
 
-
-		
 	private Text patternToDisableText;
-	private Button browsePatternsButton; 
-	private Button chooseContributionButton; 
-	private PatternFileContribution selection = null; 
-	
-	protected AddDisabledPatternWizardPage(String pageName, Shell shell, ISDKProvider provider) {
+	private Button browsePatternsButton;
+	private Button chooseContributionButton;
+	private PatternFileContribution selection = null;
+
+	protected AddDisabledPatternWizardPage(String pageName, Shell shell,
+			ISDKProvider provider) {
 		super(pageName);
 		this.shell = shell;
 		this.provider = provider;
 	}
 
-	
-	protected void init(IStructuredSelection selection){
+	protected void init(IStructuredSelection selection) {
 
 	}
-	
-	protected void initContents(){
+
+	protected void initContents() {
 		patternToDisableText.setText("Pattern Name");
 		contributerText.setText("Contributer");
 	}
-	
-	
-	@Override
+
 	public void createControl(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
-		
+
 		WizardPageListener adapter = new WizardPageListener();
 		final GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 3;
@@ -72,14 +69,15 @@ public class AddDisabledPatternWizardPage extends AbstractWizardPage implements 
 		patternToDisableText.addModifyListener(adapter);
 		// MUST do this via browse
 		patternToDisableText.setEditable(false);
-		
+
 		browsePatternsButton = new Button(composite, SWT.NONE);
 		browsePatternsButton.addSelectionListener(adapter);
 		browsePatternsButton.setText("Browse");
 		browsePatternsButton.setData("name", "Browse_Patterns");
-		final GridData gd_browsePatternsButton = new GridData(GridData.FILL_HORIZONTAL);
+		final GridData gd_browsePatternsButton = new GridData(
+				GridData.FILL_HORIZONTAL);
 		browsePatternsButton.setLayoutData(gd_browsePatternsButton);
-				
+
 		final Label contributionLabel = new Label(composite, SWT.NONE);
 		contributionLabel.setText("Contribution");
 		contributerText = new Text(composite, SWT.BORDER);
@@ -88,12 +86,13 @@ public class AddDisabledPatternWizardPage extends AbstractWizardPage implements 
 		contributerText.addModifyListener(adapter);
 		// MUST do this via browse
 		contributerText.setEditable(false);
-		
+
 		chooseContributionButton = new Button(composite, SWT.NONE);
 		chooseContributionButton.addSelectionListener(adapter);
 		chooseContributionButton.setText("Browse");
 		chooseContributionButton.setData("name", "Choose_Contribution");
-		final GridData gd_chooseContributionButton = new GridData(GridData.FILL_HORIZONTAL);
+		final GridData gd_chooseContributionButton = new GridData(
+				GridData.FILL_HORIZONTAL);
 		chooseContributionButton.setLayoutData(gd_chooseContributionButton);
 
 		initContents();
@@ -104,28 +103,28 @@ public class AddDisabledPatternWizardPage extends AbstractWizardPage implements 
 	public void handleWidgetSelected(SelectionEvent e) {
 		if (e.getSource() == chooseContributionButton) {
 			chooseContributerButtonPressed();
-		} else if (e.getSource() == browsePatternsButton){
+		} else if (e.getSource() == browsePatternsButton) {
 			browsePatternsButtonPressed();
 		}
 		updatePageComplete();
 	}
-	
-	public void handleModifyText(ModifyEvent e){
+
+	public void handleModifyText(ModifyEvent e) {
 		// Should not really be called?
-		//	updatePageComplete();
+		// updatePageComplete();
 	}
-	
-	private void browsePatternsButtonPressed(){
+
+	private void browsePatternsButtonPressed() {
 		try {
 			SelectContributionDialog dialog = new SelectPatternDialog(
-					this.shell,
-					provider);
+					this.shell, provider);
 			dialog.setTitle("Pattern Name Selection");
 			dialog.setMessage("Enter a filter (* = any number of characters)"
 					+ " or an empty string for no filtering: ");
 
-			PatternFileContribution patternToDisable = (PatternFileContribution) dialog.browseAvailableContributions();
-			if (patternToDisable != null){
+			PatternFileContribution patternToDisable = (PatternFileContribution) dialog
+					.browseAvailableContributions();
+			if (patternToDisable != null) {
 				setSelection(patternToDisable);
 				updatePageComplete();
 			}
@@ -135,24 +134,23 @@ public class AddDisabledPatternWizardPage extends AbstractWizardPage implements 
 		}
 	}
 
-	
-	protected void updatePageComplete(){
-		
+	protected void updatePageComplete() {
+
 		// See if we have specified a valid one
-		if (getSelection() == null){
+		if (getSelection() == null) {
 			// Need to check the contents of the Text for a valid entry
-			setErrorMessage("Pattern must be specified");	
+			setErrorMessage("Pattern must be specified");
 		}
-		
-		if (getContributerSelection()== null){
+
+		if (getContributerSelection() == null) {
 			// Need to check the contents of the Text for a valid entry
-			setErrorMessage("Contributer must be specified");	
+			setErrorMessage("Contributer must be specified");
 		}
-		
-		setErrorMessage(null);	
+
+		setErrorMessage(null);
 		setMessage("Press 'Finish' to disable the pattern");
 		setPageComplete(true);
-		
+
 	}
 
 	@Override
@@ -162,28 +160,22 @@ public class AddDisabledPatternWizardPage extends AbstractWizardPage implements 
 		setPageComplete(false);
 	}
 
-	
 	public String getPatternToDisable() {
 		return patternToDisableText.getText().trim();
 	}
-
-	
 
 	public String getContribution() {
 		return contributerText.getText().trim();
 	}
 
-
 	public PatternFileContribution getSelection() {
 		return selection;
 	}
 
-
 	public void setSelection(PatternFileContribution selection) {
 		this.selection = selection;
-		patternToDisableText.setText(provider.getPattern(selection.getContributor(), selection.getFileName()).getName());
+		patternToDisableText.setText(provider.getPattern(
+				selection.getContributor(), selection.getFileName()).getName());
 	}
 
-
-	
 }

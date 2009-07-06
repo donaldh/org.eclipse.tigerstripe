@@ -109,6 +109,9 @@ public class ProjectRouter implements EObjectRouter {
 			// (IProject)tsProject.getAdapter(IProject.class);
 			// IPath path = iproject.getFullPath();
 //			IPath path = new Path(tsProject.getName());
+			if ( projectName == null)
+				return null;
+				
 			IPath path = new Path(projectName);
 
 			// See if there's an explicit definition

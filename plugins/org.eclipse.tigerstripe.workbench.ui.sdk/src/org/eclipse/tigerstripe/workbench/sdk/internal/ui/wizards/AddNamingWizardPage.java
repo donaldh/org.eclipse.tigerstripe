@@ -24,36 +24,29 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.sdk.internal.ISDKProvider;
 
-public class AddNamingWizardPage extends AbstractWizardPage implements IWizardPage{
+public class AddNamingWizardPage extends AbstractWizardPage implements
+		IWizardPage {
 
-
-		
 	private Text nameText;
-	//private Button browsePatternFilesButton;
+	// private Button browsePatternFilesButton;
 	private Text classText;
 	private Button browseClassesButton;
-	private Button chooseContributionButton; 
-	
-	
-	
+	private Button chooseContributionButton;
 
-	protected AddNamingWizardPage(String pageName, Shell shell, ISDKProvider provider) {
+	protected AddNamingWizardPage(String pageName, Shell shell,
+			ISDKProvider provider) {
 		super(pageName);
 		this.shell = shell;
 		this.provider = provider;
 	}
 
-	
-	protected void init(IStructuredSelection selection){
+	protected void init(IStructuredSelection selection) {
 
 	}
-	
-	
-	
-	@Override
+
 	public void createControl(Composite parent) {
 		Composite composite = new Composite(parent, SWT.NONE);
-		
+
 		WizardPageListener adapter = new WizardPageListener();
 		final GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 3;
@@ -67,14 +60,15 @@ public class AddNamingWizardPage extends AbstractWizardPage implements IWizardPa
 		contributerText.addModifyListener(adapter);
 		// MUST do this via browse
 		contributerText.setEditable(false);
-		
+
 		chooseContributionButton = new Button(composite, SWT.NONE);
 		chooseContributionButton.addSelectionListener(adapter);
 		chooseContributionButton.setText("Browse");
 		chooseContributionButton.setData("name", "Choose_Contribution");
-		final GridData gd_chooseContributionButton = new GridData(GridData.FILL_HORIZONTAL);
+		final GridData gd_chooseContributionButton = new GridData(
+				GridData.FILL_HORIZONTAL);
 		chooseContributionButton.setLayoutData(gd_chooseContributionButton);
-		
+
 		final Label patternLabel = new Label(composite, SWT.NONE);
 		patternLabel.setText("Name:");
 		nameText = new Text(composite, SWT.BORDER);
@@ -83,9 +77,9 @@ public class AddNamingWizardPage extends AbstractWizardPage implements IWizardPa
 		nameText.addModifyListener(adapter);
 		// MUST do this via browse
 		nameText.setEditable(true);
-		
+
 		new Label(composite, SWT.NONE);
-				
+
 		final Label validatorLabel = new Label(composite, SWT.NONE);
 		validatorLabel.setText("Naming Class:");
 		classText = new Text(composite, SWT.BORDER);
@@ -94,16 +88,14 @@ public class AddNamingWizardPage extends AbstractWizardPage implements IWizardPa
 		classText.addModifyListener(adapter);
 		// MUST do this via browse
 		classText.setEditable(false);
-		
+
 		browseClassesButton = new Button(composite, SWT.NONE);
 		browseClassesButton.addSelectionListener(adapter);
 		browseClassesButton.setText("Browse");
 		browseClassesButton.setData("name", "Browse_Validators");
-		final GridData gd_browseValidatorButton = new GridData(GridData.FILL_HORIZONTAL);
+		final GridData gd_browseValidatorButton = new GridData(
+				GridData.FILL_HORIZONTAL);
 		browseClassesButton.setLayoutData(gd_browseValidatorButton);
-
-		
-		
 
 		setControl(composite);
 	}
@@ -111,61 +103,59 @@ public class AddNamingWizardPage extends AbstractWizardPage implements IWizardPa
 	public void handleWidgetSelected(SelectionEvent e) {
 		if (e.getSource() == chooseContributionButton) {
 			chooseContributerButtonPressed();
-		} else if (e.getSource() == browseClassesButton){
-			browseClassButtonPressed(getContributerSelection(), classText, "Select the Naming Class");
+		} else if (e.getSource() == browseClassesButton) {
+			browseClassButtonPressed(getContributerSelection(), classText,
+					"Select the Naming Class");
 
 		}
 		updatePageComplete();
 	}
-	
-	public void handleModifyText(ModifyEvent e){
+
+	public void handleModifyText(ModifyEvent e) {
 		// Should not really be called?
-		//	updatePageComplete();
+		// updatePageComplete();
 	}
-	
-	
-	protected void updatePageComplete(){
-		
-		
-		if (getContributerSelection()== null){
+
+	protected void updatePageComplete() {
+
+		if (getContributerSelection() == null) {
 			// Need to check the contents of the Text for a valid entry
 			setErrorMessage("Contributer must be specified");
-			
+
 			browseClassesButton.setEnabled(false);
 			return;
 		}
 		browseClassesButton.setEnabled(true);
-		
-	
-		
-		// And The class this must be a class that correctly implements the stated interface?
+
+		// And The class this must be a class that correctly implements the
+		// stated interface?
 		String V_CLASS = "IComponentNameProvider";
-		if (getNamingClass().equals("")){
+		if (getNamingClass().equals("")) {
 			setErrorMessage("Naming Class is not set");
 
 		} else {
 			try {
 				boolean goodOne = false;
 				String[] interfaces = getClassType().getSuperInterfaceNames();
-				for (String itf : interfaces){
-					if (itf.equals(V_CLASS)){
+				for (String itf : interfaces) {
+					if (itf.equals(V_CLASS)) {
 						goodOne = true;
 					}
 				}
-			if (! goodOne){
-				setErrorMessage("Naming class may not implement "+V_CLASS);
-				return;
-			}
-			} catch (Exception j){
+				if (!goodOne) {
+					setErrorMessage("Naming class may not implement " + V_CLASS);
+					return;
+				}
+			} catch (Exception j) {
 				setErrorMessage("Unable to interpret Audit class");
 				return;
 			}
 		}
-		
-		setErrorMessage(null);	
+
+		setErrorMessage(null);
 		setMessage("Press 'Finish' to add the naming contribution");
 		setPageComplete(true);
-		
+
 	}
 
 	@Override
@@ -175,7 +165,6 @@ public class AddNamingWizardPage extends AbstractWizardPage implements IWizardPa
 		setPageComplete(false);
 	}
 
-	
 	public String getNamingName() {
 		return nameText.getText().trim();
 	}
@@ -184,6 +173,4 @@ public class AddNamingWizardPage extends AbstractWizardPage implements IWizardPa
 		return classText.getText().trim();
 	}
 
-
-	
 }

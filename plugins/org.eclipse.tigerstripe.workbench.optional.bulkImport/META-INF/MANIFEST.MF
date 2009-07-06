@@ -2,23 +2,11 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tigerstripe workbench Bulk Import (Incubation)
 Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.optional.bulkImport;singleton:=true
-Bundle-Version: 0.4.6.qualifier
+Bundle-Version: 0.0.0
 Bundle-Activator: org.eclipse.tigerstripe.workbench.optional.bulkImport.BulkImportPlugin
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime,
- org.eclipse.core.resources,
  org.eclipse.ui.ide,
- org.eclipse.jdt,
  org.eclipse.jdt.ui,
- org.eclipse.jdt.core,
- org.eclipse.emf,
- org.eclipse.emf.common,
- org.eclipse.emf.ecore,
- org.eclipse.uml2.uml,
- org.eclipse.emf.ecore.sdo,
- org.eclipse.uml2,
- org.eclipse.uml2.uml.resources,
- org.eclipse.tigerstripe.workbench.base,
  org.eclipse.tigerstripe.workbench.ui.base
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
