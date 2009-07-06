@@ -461,8 +461,11 @@ public class TS2UML {
 
 				out.println("Classifier : " + clazz.getQualifiedName());
 				String className = artifact.getFullyQualifiedName();
-				String umlClassName = Utilities.mapName(className, artifact
-						.getProject().getName());
+				
+				String projectName = artifact.getProject() != null ? artifact
+						.getProject().getName() : artifact.getParentModuleHeader()
+						.getOriginalName();
+				String umlClassName = Utilities.mapName(className, projectName);
 				addAttributes(artifact,
 						((Classifier) typeMap.get(umlClassName)));
 				addOperations(artifact,

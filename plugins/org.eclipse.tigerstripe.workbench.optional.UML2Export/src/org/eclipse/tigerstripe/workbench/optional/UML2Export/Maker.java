@@ -103,7 +103,9 @@ public class Maker {
 		if (iType.isArtifact()) {
 			IAbstractArtifact typeArtifact = iType.getArtifact();
 			try {
-				modelName = typeArtifact.getProject().getName();
+				modelName = typeArtifact.getProject() != null ? typeArtifact
+						.getProject().getName() : typeArtifact
+						.getParentModuleHeader().getOriginalName();
 			} catch (TigerstripeException e) {
 				// ignore - already set to unknown
 				out.println("Tigerstripe Excpetion dealing with iType :"
@@ -141,9 +143,9 @@ public class Maker {
 		if (mapUnknownTypes) {
 			int index = iType.getFullyQualifiedName().lastIndexOf(".");
 			String p;
-			if (index > 0 )
-				p = iType.getFullyQualifiedName().substring(0,index);
-			else 
+			if (index > 0)
+				p = iType.getFullyQualifiedName().substring(0, index);
+			else
 				p = iType.getFullyQualifiedName();
 			Package modelPackage = makeOrFindPackage(p, unknownTypeModel);
 			String fqn = Utilities.mapName(iType.getFullyQualifiedName(),
@@ -225,7 +227,11 @@ public class Maker {
 		// Reference
 		String modelName = unknownTypeModel.getName();
 		try {
-			modelName = artifact.getProject().getName();
+			if (artifact.getProject() == null) {
+				modelName = artifact.getParentModuleHeader().getOriginalName();
+			} else {
+				modelName = artifact.getProject().getName();
+			}
 		} catch (TigerstripeException e) {
 			// ignore - already set to unknown
 			out.println("Tigerstripe Exception dealing with artifact :"
@@ -277,8 +283,10 @@ public class Maker {
 		try {
 
 			String className = artifact.getFullyQualifiedName();
-			String umlClassName = Utilities.mapName(className, artifact
-					.getProject().getName());
+			String projectName = artifact.getProject() != null ? artifact
+					.getProject().getName() : artifact.getParentModuleHeader()
+					.getOriginalName();
+			String umlClassName = Utilities.mapName(className, projectName);
 
 			Package modelPackage = makeOrFindPackage(artifact);
 			EList classList = modelPackage.getOwnedMembers();
