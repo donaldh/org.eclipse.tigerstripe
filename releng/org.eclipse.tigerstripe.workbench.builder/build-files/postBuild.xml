@@ -16,9 +16,26 @@
     		<fileset dir="${UpdateSiteStagingLocation}" includes="**"/>
     	</copy>
     	<delete dir="${UpdateSiteStagingLocation}/../.." includes="tmpUpdateSite/**" includeemptydirs="true"/>
-    	<!--<antcall target="-p2"/>
-    	-->
+    	<antcall target="-p2"/>
+    	
+    	<antcall target="copyBuildBackToHudsonWorkspace"/>
     </target>
+	
+	<target name="copyBuildBackToHudsonWorkspace">
+		<delete dir="${buildHome}/b" quiet="true"/>
+		<copy todir="${buildHome}/b/update-3.5">
+			<fileset dir="${buildResultsDirectory}/../repo" includes="**"/>
+		</copy>
+		<copy todir="${buildHome}/b/results">
+			<fileset dir="${buildResultsDirectory}" includes="**"/>
+		</copy>
+		<copy todir="${buildHome}/b/${buildLabel}">
+			<fileset dir="${buildResultsDirectory}/../${buildLabel}" includes="**"/>
+		</copy>
+		<copy todir="${buildHome}/b/workspace">
+			<fileset dir="${buildResultsDirectory}/../workspace" includes="**"/>
+		</copy>
+	</target>
 	
 	<target name="deleteSiteXml" unless="isNightlyBuild">
 		<!-- in release builds the site.xml should not be overwritten, so older version can survive -->

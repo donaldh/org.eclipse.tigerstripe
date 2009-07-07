@@ -16,10 +16,6 @@
 		</ant>
 		<ant antfile="${genericTargets}" target="${target}">
 			<property name="type" value="feature" />
-			<property name="id" value="org.eclipse.tigerstripe.workbench.ui.test.feature" />
-		</ant>
-		<ant antfile="${genericTargets}" target="${target}">
-			<property name="type" value="feature" />
 			<property name="id" value="org.eclipse.tigerstripe.annotation.feature" />
 		</ant>
 		<ant antfile="${genericTargets}" target="${target}">
@@ -43,11 +39,6 @@
 		</ant>
 	</target>
 	<target name="assemble.org.eclipse.tigerstripe.base.test_feature">
-		<ant antfile="${assembleScriptName}" dir="${buildDirectory}">
-			<property name="zipargs" value="" />
-		</ant>
-	</target>
-	<target name="assemble.org.eclipse.tigerstripe.workbench.ui.test.feature">
 		<ant antfile="${assembleScriptName}" dir="${buildDirectory}">
 			<property name="zipargs" value="" />
 		</ant>
