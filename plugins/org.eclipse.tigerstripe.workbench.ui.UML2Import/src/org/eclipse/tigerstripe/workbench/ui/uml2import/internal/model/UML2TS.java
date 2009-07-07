@@ -658,6 +658,15 @@ public class UML2TS {
 					end.setVisibility(IModelComponent.EVisibility.PUBLIC);
 				}
 				
+				ArrayList stInstances = readStereotypes((NamedElement) mEnd);
+
+				ListIterator stereoIt = stInstances.listIterator();
+				while (stereoIt.hasNext()) {
+					IStereotypeInstance iSI = (IStereotypeInstance) stereoIt
+					.next();
+					end.addStereotypeInstance(iSI);
+				}
+				
 				
 				if (first) {
 					assocArtifact.setAEnd(end);
