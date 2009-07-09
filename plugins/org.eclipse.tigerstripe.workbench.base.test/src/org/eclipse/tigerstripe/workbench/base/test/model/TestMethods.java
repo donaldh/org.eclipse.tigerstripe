@@ -147,8 +147,6 @@ public class TestMethods extends junit.framework.TestCase {
 		top.doSave(new NullProgressMonitor());
 		IMethod gotVoidMethod = top.getMethods().iterator().next();
 		assertTrue("Method void changed on save", gotVoidMethod.isVoid());
-		assertTrue("void Method type not void", gotNewMethod.getReturnType()
-				.getName().equals("void"));
 
 		// Test Argument list setting and changing
 		String[] argNames = { "one", "two", "three" };
