@@ -10,14 +10,13 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.base.test.profile;
 
+import junit.framework.TestCase;
+
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.WorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.primitiveType.PrimitiveTypeDef;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
-import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef;
-
-import junit.framework.TestCase;
 
 public class TestProfileBasics extends TestCase {
 
