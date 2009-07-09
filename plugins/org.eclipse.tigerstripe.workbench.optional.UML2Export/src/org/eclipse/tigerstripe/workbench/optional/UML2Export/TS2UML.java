@@ -76,6 +76,7 @@ import org.eclipse.uml2.uml.DataType;
 import org.eclipse.uml2.uml.Dependency;
 import org.eclipse.uml2.uml.Element;
 import org.eclipse.uml2.uml.Enumeration;
+import org.eclipse.uml2.uml.EnumerationLiteral;
 import org.eclipse.uml2.uml.Generalization;
 import org.eclipse.uml2.uml.Interface;
 import org.eclipse.uml2.uml.Model;
@@ -83,6 +84,7 @@ import org.eclipse.uml2.uml.Operation;
 import org.eclipse.uml2.uml.Package;
 import org.eclipse.uml2.uml.Parameter;
 import org.eclipse.uml2.uml.ParameterDirectionKind;
+import org.eclipse.uml2.uml.PrimitiveType;
 import org.eclipse.uml2.uml.Profile;
 import org.eclipse.uml2.uml.Property;
 import org.eclipse.uml2.uml.Stereotype;
@@ -461,10 +463,10 @@ public class TS2UML {
 
 				out.println("Classifier : " + clazz.getQualifiedName());
 				String className = artifact.getFullyQualifiedName();
-				
+
 				String projectName = artifact.getProject() != null ? artifact
-						.getProject().getName() : artifact.getParentModuleHeader()
-						.getOriginalName();
+						.getProject().getName() : artifact
+						.getParentModuleHeader().getOriginalName();
 				String umlClassName = Utilities.mapName(className, projectName);
 				addAttributes(artifact,
 						((Classifier) typeMap.get(umlClassName)));
@@ -931,10 +933,27 @@ public class TS2UML {
 							String val = inst.getAttributeValue(stAttr
 									.getName());
 							if (val.length() != 0) {
-								attribute.setValue(stereotype,
-										stAttr.getName(), inst
-												.getAttributeValue(stAttr
-														.getName()));
+								if (stAttr.getKind() == IStereotypeAttribute.ENTRY_LIST_KIND) {
+									// in this case we need to get the
+									// corresponding enum
+									// entry to set
+									Enumeration attrType = (Enumeration) getStereotypeAttributeType(
+											stereotype, stAttr.getName());
+									EnumerationLiteral literal = attrType
+											.getOwnedLiteral(val);
+									attribute.setValue(stereotype, stAttr
+											.getName(), literal);
+								} else if (stAttr.getKind() == IStereotypeAttribute.CHECKABLE_KIND) {
+									attribute.setValue(stereotype, stAttr
+											.getName(),
+											inst.getAttributeValue(stAttr
+													.getName()));
+								} else {
+									attribute.setValue(stereotype, stAttr
+											.getName(),
+											inst.getAttributeValue(stAttr
+													.getName()));
+								}
 								out
 										.println("     Added Stereotype attribute : "
 												+ stAttr.getName());
@@ -955,6 +974,16 @@ public class TS2UML {
 				addMessage(msgText, 0);
 			}
 		}
+	}
+
+	private Type getStereotypeAttributeType(Stereotype stereotype,
+			String attrName) {
+		for (Property prop : stereotype.getAllAttributes()) {
+			if (attrName.equals(prop.getName())) {
+				return prop.getType();
+			}
+		}
+		return null;
 	}
 
 	private void addReturnTypeStereotype(IMethod method, Element result) {
