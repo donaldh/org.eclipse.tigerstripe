@@ -10,13 +10,12 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.base.test.utils;
 
-import java.io.File;
+import java.io.IOException;
 
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
-
-import org.eclipse.osgi.service.datalocation.Location;
 
 /**
  * A Singleton class that is initialized at plugin start to provide some
@@ -26,8 +25,6 @@ import org.eclipse.osgi.service.datalocation.Location;
  * 
  */
 public class BundleUtils {
-
-	private Location installLocation = Platform.getInstallLocation();
 
 	private String bundleRoot = "";
 
@@ -41,14 +38,10 @@ public class BundleUtils {
 		// singleton
 	}
 
-	public void setBundleRoot(BundleContext context) {
+	public void setBundleRoot(BundleContext context) throws IOException {
 		this.context = context;
 		Bundle baseBundle = Platform.getBundle(BASETEST_BUNDLE_ID);
-		bundleRoot = installLocation.getURL().getPath()
-				+ File.separator
-				+ baseBundle.getLocation().substring(
-						baseBundle.getLocation().indexOf("@") + 1,
-						baseBundle.getLocation().length());
+		bundleRoot = FileLocator.getBundleFile(baseBundle).getAbsolutePath();
 	}
 
 	public BundleContext getContext() {
