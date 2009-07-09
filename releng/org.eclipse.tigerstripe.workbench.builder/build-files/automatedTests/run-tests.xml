@@ -230,6 +230,7 @@ version=3.1.0</echo>
 				<fileset dir="${buildDirectory}" includes="*.emma"/>
 				<fileset file="${emma.coverage.output}"/>
 			    <html outfile="${test.result.dir}/coverage/coverage.html" />
+				<xml outfile="${test.result.dir}/coverage/coverage.xml" />
 
 				<sourcepath>
 					<dirset dir="${buildDirectory}/plugins">
