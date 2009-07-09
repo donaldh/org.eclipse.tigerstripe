@@ -311,6 +311,10 @@ public class WorkbenchProfileSession implements IWorkbenchProfileSession {
 			}
 			fFile.delete();
 		}
+		
+		// Force it to be reloaded.
+		activeProfile = null;
+		
 		return rollbackCreated;
 	}
 
