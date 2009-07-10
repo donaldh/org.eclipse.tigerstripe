@@ -36,8 +36,8 @@ import org.eclipse.tigerstripe.workbench.internal.builder.natures.ProjectMigrati
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeM0GeneratorNature;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripePluginProjectNature;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeProjectNature;
+import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -76,19 +76,22 @@ public class NewTigerstripeExplorerContentProvider extends
 					// in the explorer.
 					if (showRelationshipAnchors) {
 						try {
-							IArtifactManagerSession session = artifact
-									.getProject().getArtifactManagerSession();
-							List<IRelationship> origs = session
-									.getOriginatingRelationshipForFQN(artifact
-											.getFullyQualifiedName(), true);
+							AbstractArtifact aArt = (AbstractArtifact) artifact;
+							List<IRelationship> origs = aArt
+									.getArtifactManager()
+									.getOriginatingRelationshipForFQN(
+											artifact.getFullyQualifiedName(),
+											true);
 							for (IRelationship rel : origs) {
 								raw.add(new RelationshipAnchor(rel
 										.getRelationshipAEnd()));
 							}
 
-							List<IRelationship> terms = session
-									.getTerminatingRelationshipForFQN(artifact
-											.getFullyQualifiedName(), true);
+							List<IRelationship> terms = aArt
+									.getArtifactManager()
+									.getTerminatingRelationshipForFQN(
+											artifact.getFullyQualifiedName(),
+											true);
 							for (IRelationship rel : terms) {
 								raw.add(new RelationshipAnchor(rel
 										.getRelationshipZEnd()));
