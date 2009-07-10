@@ -59,6 +59,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.associati
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.dependency.DependencySpecificsSection;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.ReadOnlyDescriptorEditorInput;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLog;
+import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.RelationshipAnchor;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TSExplorerUtils;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode;
 import org.eclipse.ui.IEditorPart;
@@ -102,7 +103,6 @@ public class TSOpenAction extends OpenAction {
 
 	public final static String PACKAGE_EDITOR = "org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.packageEditor";
 
-	
 	public TSOpenAction(IWorkbenchSite site) {
 		super(site);
 	}
@@ -240,21 +240,29 @@ public class TSOpenAction extends OpenAction {
 					return page.openEditor(input, PACKAGE_EDITOR);
 				} else {
 					IResource iResource = (IResource) ((IAbstractArtifact) element)
-					.getAdapter(IResource.class);
-					if (iResource == null){
+							.getAdapter(IResource.class);
+					if (iResource == null) {
 						// This was a volatile Package created on the fly!
 						// we need to do a proper create now
 						try {
-							ITigerstripeModelProject project = ((IAbstractArtifact) element).getProject();
-							IPackageArtifact artifact = PackageArtifact.makeArtifactForPackage(project.getArtifactManagerSession(), ((IAbstractArtifact) element).getFullyQualifiedName());
+							ITigerstripeModelProject project = ((IAbstractArtifact) element)
+									.getProject();
+							IPackageArtifact artifact = PackageArtifact
+									.makeArtifactForPackage(project
+											.getArtifactManagerSession(),
+											((IAbstractArtifact) element)
+													.getFullyQualifiedName());
 							iResource = (IResource) artifact
-								.getAdapter(IResource.class);
-						} catch (Exception e){
-							TigerstripeLog.logError("Could not extract or create package artifact", e);
+									.getAdapter(IResource.class);
+						} catch (Exception e) {
+							TigerstripeLog
+									.logError(
+											"Could not extract or create package artifact",
+											e);
 						}
 					}
-				return page.openEditor(new FileEditorInput(
-						(IFile) iResource), PACKAGE_EDITOR);
+					return page.openEditor(new FileEditorInput(
+							(IFile) iResource), PACKAGE_EDITOR);
 				}
 
 			} else if (element instanceof IStorage
@@ -310,7 +318,8 @@ public class TSOpenAction extends OpenAction {
 			} else if (objects[i] instanceof IField
 					|| objects[i] instanceof IMethod
 					|| objects[i] instanceof ILiteral
-					|| objects[i] instanceof IRelationshipEnd) {
+					|| objects[i] instanceof IRelationshipEnd
+					|| objects[i] instanceof RelationshipAnchor) {
 				// if it's a field, a method, or a Label, then open the
 				// appropriate section of
 				// the appropriate multi-page editor and select the field in
@@ -329,6 +338,9 @@ public class TSOpenAction extends OpenAction {
 				else if (objects[i] instanceof DependencyEnd)
 					artifact = (IAbstractArtifact) ((DependencyEnd) objects[i])
 							.getContainingRelationship();
+				else if (objects[i] instanceof RelationshipAnchor)
+					artifact = (IAbstractArtifact) (((RelationshipAnchor) objects[i])
+							.getEnd()).getContainingRelationship();
 				else if (objects[i] instanceof IRelationshipEnd)
 					artifact = (IAbstractArtifact) ((IAssociationEnd) objects[i])
 							.getContainingArtifact();
@@ -456,7 +468,7 @@ public class TSOpenAction extends OpenAction {
 							table.setFocus();
 							constantsSection.updateMaster();
 							break;
-						} else if (objects[i] instanceof IRelationshipEnd
+						} else if ((objects[i] instanceof IRelationshipEnd || objects[i] instanceof RelationshipAnchor)
 								&& formParts[j] instanceof AssociationSpecificsSection) {
 							// else if we are working with a label and we've
 							// found the Constants section, then we are in
@@ -471,7 +483,13 @@ public class TSOpenAction extends OpenAction {
 							ScrolledForm scrolledForm = selectedPage
 									.getManagedForm().getForm();
 							scrolledForm.setOrigin(origin);
-							IRelationshipEnd relationshipEnd = (IRelationshipEnd) objects[i];
+							IRelationshipEnd relationshipEnd = null;
+							if (objects[i] instanceof IRelationshipEnd) {
+								relationshipEnd = (IRelationshipEnd) objects[i];
+							} else if (objects[i] instanceof RelationshipAnchor) {
+								relationshipEnd = ((RelationshipAnchor) objects[i])
+										.getEnd();
+							}
 							specificsSection.selectEndByName(relationshipEnd
 									.getName());
 							break;
@@ -520,7 +538,7 @@ public class TSOpenAction extends OpenAction {
 			return false;
 		for (Iterator iter = selection.iterator(); iter.hasNext();) {
 			Object element = iter.next();
-						
+
 			if (element instanceof IJavaProject)
 				return false;
 			if (element instanceof ISourceReference)
@@ -538,6 +556,8 @@ public class TSOpenAction extends OpenAction {
 			if (element instanceof ILiteral)
 				continue;
 			if (element instanceof IRelationshipEnd)
+				continue;
+			if (element instanceof RelationshipAnchor)
 				continue;
 			if (element instanceof AbstractLogicalExplorerNode)
 				continue;

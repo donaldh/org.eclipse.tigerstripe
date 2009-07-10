@@ -641,7 +641,6 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 				URI uri = d.getAffectedModelComponentURI();
 				IModelComponent comp = TigerstripeURIAdapterFactory
 						.uriToComponent(uri);
-				System.out.println("d=" + d );
 				if (comp instanceof IAbstractArtifact) {
 					IJavaElement elem = (IJavaElement) comp
 							.getAdapter(IJavaElement.class);
