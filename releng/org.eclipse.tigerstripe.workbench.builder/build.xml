@@ -142,7 +142,8 @@
 			<jvmarg value="-DbuildType=${buildType}"/>
 			<jvmarg value="-DfetchTag=${fetchTag}"/>
 			<jvmarg value="-DbuildProperties=${buildHome}/build-files/build.properties"/>
-
+			<jvmarg value="-Djava.library.path=/opt/CollabNet_Subversion/lib"/>
+			
 			<classpath>
 				<pathelement location="${equinoxjar}" />
 			</classpath>
