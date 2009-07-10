@@ -83,6 +83,9 @@ public class TigerstripeExplorerLabelProvider extends
 		} else if (element instanceof AbstractLogicalExplorerNode) {
 			string = TigerstripeUILabels.getStyledString(element,
 					TigerstripeUILabels.COLORIZE);
+		} else if (element instanceof RelationshipAnchor ) {
+			string = TigerstripeUILabels.getStyledString(element,
+					TigerstripeUILabels.COLORIZE);
 		}
 
 		if (string == null || string.length() == 0)
@@ -156,6 +159,8 @@ public class TigerstripeExplorerLabelProvider extends
 			return decorateImage(Images.get(Images.ASSOCIATION_ICON), element);
 		else if (element instanceof IRelationshipEnd)
 			return decorateImage(Images.get(Images.DEPENDENCY_ICON), element);
+		else if (element instanceof RelationshipAnchor)
+			return decorateImage(Images.get(Images.ASSOCIATION_ICON), element);
 		else if (element instanceof AbstractLogicalExplorerNode) {
 			AbstractLogicalExplorerNode node = (AbstractLogicalExplorerNode) element;
 			if (node.getImage() != null)

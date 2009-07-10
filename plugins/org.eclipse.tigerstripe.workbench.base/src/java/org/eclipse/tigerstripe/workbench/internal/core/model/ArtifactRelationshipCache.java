@@ -16,9 +16,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.contract.predicate.RelationshipPredicateFilter;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
@@ -40,11 +44,12 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelati
  * 
  * @see IQueryAllRelationshipsBetween
  * 
- * and is used to implement accessor on AbstractArtifact: -
+ *      and is used to implement accessor on AbstractArtifact: -
  * @see AbstractArtifact#getOriginatingRelationships -
  * @see AbstractArtifact#getTerminatingRelationships
  * 
- * Bug 928: need to be facet-aware. See {@link #setActiveFacet(IFacetReference)}
+ *      Bug 928: need to be facet-aware. See
+ *      {@link #setActiveFacet(IFacetReference)}
  * 
  * @author Eric Dillon
  * 
@@ -206,6 +211,33 @@ public class ArtifactRelationshipCache {
 		return result;
 	}
 
+	private void addRelationshipEndDelta(List<IModelChangeDelta> deltas,
+			IAbstractArtifact artifact, String oldRelationshipFQN,
+			IRelationship newRelationship, int type) {
+		ModelChangeDelta delta = null;
+
+		if (artifact != null) {
+			if (newRelationship == null) {
+				delta = new ModelChangeDelta(IModelChangeDelta.REMOVE);
+			} else {
+				delta = new ModelChangeDelta(IModelChangeDelta.ADD);
+			}
+			delta.setFeature(IModelChangeDelta.RELATIONSHIP_END);
+			delta.setAffectedModelComponentURI((URI) artifact
+					.getAdapter(URI.class));
+			delta.setOldValue(oldRelationshipFQN);
+			delta.setNewValue(newRelationship);
+			delta.setSource(this);
+
+			deltas.add(delta);
+		}
+	}
+
+	private void flushDeltas(List<IModelChangeDelta> deltas) {
+		TigerstripeWorkspaceNotifier.INSTANCE.signalModelChange(deltas
+				.toArray(new IModelChangeDelta[deltas.size()]));
+	}
+
 	/**
 	 * Adds a relationship to the cache. If it is replacing a relationship and
 	 * we known which one is to be replaced, it should passed as oldRelationship
@@ -215,12 +247,13 @@ public class ArtifactRelationshipCache {
 	 */
 	public void addRelationship(IRelationship relationship,
 			IRelationship oldRelationship) {
+		List<IModelChangeDelta> deltas = new ArrayList<IModelChangeDelta>();
 		if (oldRelationship != null) {
 			// Bug 969: with a DnD of an assoc end on a class diagram, the new
-			// endtype
-			// is changed in place. So, the cache needs to be updated
-			// differently
-			// than the case when the oldRel is replaced by a new rel
+			// endtype is changed in place. So, the cache needs to be updated
+			// differently than the case when the oldRel is replaced by a new
+			// rel
+
 			if (oldRelationship != relationship) {
 				// let's remove all entries about this old one
 				String oldAEnd = oldRelationship.getRelationshipAEnd()
@@ -230,12 +263,40 @@ public class ArtifactRelationshipCache {
 
 				removeRelationshipForFQN(oldAEnd, oldRelationship, ORIGINATING);
 				removeRelationshipForFQN(oldZEnd, oldRelationship, TERMINATING);
+
+				addRelationshipEndDelta(deltas, oldRelationship
+						.getRelationshipAEnd().getType().getArtifact(),
+						oldRelationship.getFullyQualifiedName(), null,
+						ORIGINATING);
+				addRelationshipEndDelta(deltas, oldRelationship
+						.getRelationshipZEnd().getType().getArtifact(),
+						oldRelationship.getFullyQualifiedName(), null,
+						TERMINATING);
 			} else {
 				// Bug 969: either end may have been changed in place.
 				// We simply remove it from the cache as it would be improperly
 				// indexed
 				// It will be re-added below with the proper indexes.
+
+				// In order to generate the right "REMOVE" model changes, we
+				// need
+				// to find where the anchors where from the cache before we
+				// change
+				// it
+
+				IAbstractArtifact oldAEndArtifact = findEndForRelationshipInCache(
+						oldRelationship, ORIGINATING);
+				IAbstractArtifact oldZEndArtifact = findEndForRelationshipInCache(
+						oldRelationship, TERMINATING);
+
 				removeRelationshipFromCache(oldRelationship);
+				addRelationshipEndDelta(deltas, oldAEndArtifact,
+						oldRelationship.getFullyQualifiedName(), null,
+						ORIGINATING);
+				addRelationshipEndDelta(deltas, oldZEndArtifact,
+						oldRelationship.getFullyQualifiedName(), null,
+						TERMINATING);
+
 			}
 		}
 
@@ -254,10 +315,18 @@ public class ArtifactRelationshipCache {
 		if (aEndFQN != null && zEndFQN != null) {
 			addRelationshipForFQN(aEndFQN, relationship, ORIGINATING);
 			addRelationshipForFQN(zEndFQN, relationship, TERMINATING);
+			addRelationshipEndDelta(deltas, relationship.getRelationshipAEnd()
+					.getType().getArtifact(), null, relationship, ORIGINATING);
+			addRelationshipEndDelta(deltas, relationship.getRelationshipZEnd()
+					.getType().getArtifact(), null, relationship, TERMINATING);
 		}
+
+		flushDeltas(deltas);
 	}
 
 	public void removeRelationship(IRelationship relationship) {
+		List<IModelChangeDelta> deltas = new ArrayList<IModelChangeDelta>();
+
 		if (relationship != null) {
 			// let's remove all entries about this old one
 			if (relationship.getRelationshipAEnd() != null
@@ -265,14 +334,21 @@ public class ArtifactRelationshipCache {
 				String oldAEnd = relationship.getRelationshipAEnd().getType()
 						.getFullyQualifiedName();
 				removeRelationshipForFQN(oldAEnd, relationship, ORIGINATING);
+				addRelationshipEndDelta(deltas, relationship
+						.getRelationshipAEnd().getType().getArtifact(),
+						relationship.getFullyQualifiedName(), null, ORIGINATING);
 			}
 			if (relationship.getRelationshipZEnd() != null
 					&& relationship.getRelationshipZEnd().getType() != null) {
 				String oldZEnd = relationship.getRelationshipZEnd().getType()
 						.getFullyQualifiedName();
 				removeRelationshipForFQN(oldZEnd, relationship, TERMINATING);
+				addRelationshipEndDelta(deltas, relationship
+						.getRelationshipZEnd().getType().getArtifact(),
+						relationship.getFullyQualifiedName(), null, TERMINATING);
 			}
 		}
+		flushDeltas(deltas);
 	}
 
 	/**
@@ -359,8 +435,9 @@ public class ArtifactRelationshipCache {
 			for (Iterator<IRelationship> iter = origList.iterator(); iter
 					.hasNext();) {
 				IRelationship value = iter.next();
-				if (value == rel)
+				if (value == rel) {
 					iter.remove();
+				}
 			}
 		}
 
@@ -373,5 +450,38 @@ public class ArtifactRelationshipCache {
 					iter.remove();
 			}
 		}
+	}
+
+	private IAbstractArtifact findEndForRelationshipInCache(IRelationship rel,
+			int type) {
+
+		HashMap<String, List<IRelationship>> endingRelationships = null;
+
+		switch (type) {
+		case TERMINATING:
+			endingRelationships = terminatingRelationships;
+			break;
+		case ORIGINATING:
+			endingRelationships = originatingRelationships;
+			break;
+		}
+		String foundKey = null;
+		for (String key : endingRelationships.keySet()) {
+			List<IRelationship> rels = endingRelationships.get(key);
+			if (rels != null && rels.contains(rel)) {
+				foundKey = key;
+			}
+		}
+
+		if (foundKey != null) {
+			// A bit tricky here to look it up
+			if (rel instanceof AbstractArtifact) {
+				AbstractArtifact art = (AbstractArtifact) rel;
+				return art.getArtifactManager()
+						.getArtifactByFullyQualifiedName(foundKey, true,
+								new NullProgressMonitor());
+			}
+		}
+		return null;
 	}
 }

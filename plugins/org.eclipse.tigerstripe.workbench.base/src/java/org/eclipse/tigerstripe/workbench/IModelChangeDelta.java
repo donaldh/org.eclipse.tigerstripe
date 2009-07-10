@@ -29,6 +29,7 @@ public interface IModelChangeDelta {
 	public final String ATTRIBUTE = "attribute";
 	public final String METHOD = "method";
 	public final String LITERAL = "literal";
+	public final String RELATIONSHIP_END = "relationship_end";
 
 	/**
 	 * Returns the type of the model change

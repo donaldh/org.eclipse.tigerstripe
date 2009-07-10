@@ -36,7 +36,6 @@ import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.action.MenuManager;
-import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -58,7 +57,6 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
-import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -103,6 +101,8 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 		IPropertyChangeListener {
 
 	private AnnotationsFilesFilter annFilter = new AnnotationsFilesFilter();
+
+	private boolean showRelationshipAnchors = false;
 
 	public boolean show(ShowInContext context) {
 		if (context.getSelection() instanceof IStructuredSelection) {
@@ -161,6 +161,13 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 
 	public TigerstripeExplorerPart() {
 		this.contentProvider = new NewTigerstripeExplorerContentProvider();
+		boolean show = EclipsePlugin
+				.getDefault()
+				.getPreferenceStore()
+				.getBoolean(
+						ExplorerPreferencePage.P_LABEL_SHOW_RELATIONSHIP_ANCHORS);
+		contentProvider.setShowRelationshipAnchors(show);
+
 		this.labelProvider = new TigerstripeExplorerLabelProvider(
 				contentProvider);
 
@@ -173,7 +180,8 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 				.addPropertyChangeListener(this);
 
 		TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(
-				this, ITigerstripeChangeListener.ANNOTATION);
+				this, ITigerstripeChangeListener.ANNOTATION
+						| ITigerstripeChangeListener.MODEL);
 
 	}
 
@@ -625,7 +633,37 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 	}
 
 	public void modelChanged(IModelChangeDelta[] delta) {
-		// Never called since registration on Annotation changes only
+		// To avoid SWT invalid thread accesses, build a set of elems
+		// to refresh and do it in one UI thread access.
+		final Set<IJavaElement> elemsToRefresh = new HashSet<IJavaElement>();
+		for (IModelChangeDelta d : delta) {
+			if (IModelChangeDelta.RELATIONSHIP_END.equals(d.getFeature())) {
+				URI uri = d.getAffectedModelComponentURI();
+				IModelComponent comp = TigerstripeURIAdapterFactory
+						.uriToComponent(uri);
+				System.out.println("d=" + d );
+				if (comp instanceof IAbstractArtifact) {
+					IJavaElement elem = (IJavaElement) comp
+							.getAdapter(IJavaElement.class);
+					if (elem != null) {
+						elemsToRefresh.add(elem);
+					}
+				}
+			}
+		}
+		if (!elemsToRefresh.isEmpty()) {
+			Display.getDefault().asyncExec(new Runnable() {
+				public void run() {
+					try {
+						for (IJavaElement elem : elemsToRefresh) {
+							treeViewer.refresh(elem, true);
+						}
+					} catch (Exception e) {
+						EclipsePlugin.log(e);
+					}
+				}
+			});
+		}
 	}
 
 	public void projectAdded(IAbstractTigerstripeProject project) {
@@ -657,6 +695,15 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 					.getBoolean(ExplorerPreferencePage.P_LABEL_HIDE_ANNOTATIONS);
 			annFilter.setHide(hide);
 
+			treeViewer.refresh(true);
+		} else if (event.getProperty().equals(
+				ExplorerPreferencePage.P_LABEL_SHOW_RELATIONSHIP_ANCHORS)) {
+			boolean show = EclipsePlugin
+					.getDefault()
+					.getPreferenceStore()
+					.getBoolean(
+							ExplorerPreferencePage.P_LABEL_SHOW_RELATIONSHIP_ANCHORS);
+			contentProvider.setShowRelationshipAnchors(show);
 			treeViewer.refresh(true);
 		}
 	}

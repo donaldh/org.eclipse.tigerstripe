@@ -27,6 +27,7 @@ import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.internal.preferences.ExplorerPreferencePage;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.ColorUtils;
+import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.RelationshipAnchor;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode;
 
 /**
@@ -48,6 +49,8 @@ public class TigerstripeUILabels {
 			return getStyledString((IModelComponent) object, flags);
 		} else if (object instanceof IRelationshipEnd) {
 			return getStyledString((IRelationshipEnd) object, flags);
+		} else if (object instanceof RelationshipAnchor) {
+			return getStyledString((RelationshipAnchor) object, flags);
 		} else if (object instanceof IAbstractTigerstripeProject) {
 			return getStyledString((IAbstractTigerstripeProject) object, flags);
 		} else if (object instanceof AbstractLogicalExplorerNode) {
@@ -57,6 +60,10 @@ public class TigerstripeUILabels {
 		return new StyledString();
 	}
 
+	private static StyledString getStyledString(RelationshipAnchor anchor, long flags) {
+		return new StyledString(anchor.getLabel());
+	}
+	
 	private static StyledString getStyledString(IRelationshipEnd end, long flags) {
 		return new StyledString(end.getType().getName());
 	}

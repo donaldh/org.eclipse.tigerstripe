@@ -22,6 +22,8 @@ import java.util.Collection;
  */
 public interface IRelationship extends IModelComponent {
 
+	public String getFullyQualifiedName();
+	
 	public Collection<IRelationshipEnd> getRelationshipEnds();
 
 	/**

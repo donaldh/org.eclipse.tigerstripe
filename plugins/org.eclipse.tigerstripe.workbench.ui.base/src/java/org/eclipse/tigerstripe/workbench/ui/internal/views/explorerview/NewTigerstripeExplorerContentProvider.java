@@ -22,7 +22,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.ICompilationUnit;
-import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
@@ -31,12 +30,15 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.core.JarEntryFile;
 import org.eclipse.jdt.internal.core.JarPackageFragmentRoot;
 import org.eclipse.jdt.internal.ui.packageview.PackageExplorerContentProvider;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.ProjectMigrationUtils;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeM0GeneratorNature;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripePluginProjectNature;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeProjectNature;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -45,8 +47,14 @@ import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstract
 public class NewTigerstripeExplorerContentProvider extends
 		PackageExplorerContentProvider {
 
+	private boolean showRelationshipAnchors = false;
+
 	public NewTigerstripeExplorerContentProvider() {
 		super(true);
+	}
+
+	public void setShowRelationshipAnchors(boolean show) {
+		this.showRelationshipAnchors = show;
 	}
 
 	@Override
@@ -66,32 +74,30 @@ public class NewTigerstripeExplorerContentProvider extends
 
 					// This code adds the Association Ends below the artifact
 					// in the explorer.
-					// However, for this to function correctly, more refresh
-					// needs to be
-					// implemented so that the Explorer refreshes correctly when
-					// an assoc
-					// is dragged in a diagram.
-					// try {
-					// IArtifactManagerSession session = artifact.getProject()
-					// .getArtifactManagerSession();
-					// List<IRelationship> origs = session
-					// .getOriginatingRelationshipForFQN(artifact
-					// .getFullyQualifiedName(), true);
-					// for (IRelationship rel : origs) {
-					// raw.add(rel.getRelationshipAEnd());
-					// }
-					//
-					// List<IRelationship> terms = session
-					// .getTerminatingRelationshipForFQN(artifact
-					// .getFullyQualifiedName(), true);
-					// for (IRelationship rel : terms) {
-					// raw.add(rel.getRelationshipZEnd());
-					// }
-					//
-					//						
-					// } catch (TigerstripeException e) {
-					// EclipsePlugin.log(e);
-					// }
+					if (showRelationshipAnchors) {
+						try {
+							IArtifactManagerSession session = artifact
+									.getProject().getArtifactManagerSession();
+							List<IRelationship> origs = session
+									.getOriginatingRelationshipForFQN(artifact
+											.getFullyQualifiedName(), true);
+							for (IRelationship rel : origs) {
+								raw.add(new RelationshipAnchor(rel
+										.getRelationshipAEnd()));
+							}
+
+							List<IRelationship> terms = session
+									.getTerminatingRelationshipForFQN(artifact
+											.getFullyQualifiedName(), true);
+							for (IRelationship rel : terms) {
+								raw.add(new RelationshipAnchor(rel
+										.getRelationshipZEnd()));
+							}
+
+						} catch (TigerstripeException e) {
+							EclipsePlugin.log(e);
+						}
+					}
 					rawChildren = raw.toArray();
 				}
 			} else if (parentElement instanceof IJavaModel) {
