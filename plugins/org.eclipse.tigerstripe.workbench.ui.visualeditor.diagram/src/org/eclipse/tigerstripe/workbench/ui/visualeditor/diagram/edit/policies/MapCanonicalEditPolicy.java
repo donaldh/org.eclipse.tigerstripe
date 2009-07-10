@@ -195,6 +195,8 @@ public class MapCanonicalEditPolicy extends CanonicalConnectionEditPolicy {
 		if ( view instanceof Node ) {
 			if ( view.getElement() instanceof Map) 
 				return true;
+			if ( view.getElement() instanceof AssociationClassClass)
+				return true;
 		}
 
 		return super.shouldDeleteView(view);
