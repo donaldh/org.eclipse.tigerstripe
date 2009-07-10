@@ -134,6 +134,8 @@
 	<!-- Steps to do before running the build.xmls for the elements being built. -->
 	<!-- ===================================================================== -->
 	<target name="preProcess">
+		<ant antfile="javadoc.xml" dir="${buildDirectory}/plugins/org.eclipse.tigerstripe.workbench.base/">
+		</ant>
 	</target>
 	<!-- ===================================================================== -->
 	<!-- Steps to do after running the build.xmls for the elements being built. -->
