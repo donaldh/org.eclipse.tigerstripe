@@ -111,6 +111,10 @@
 			<include name="**/plugin.xml"/>
 			<replacefilter token="0.0.0" value="${version.full}" />
 		</replace>
+		<replace dir="${buildDirectory}/features">
+			<include name="**/category.xml"/>
+			<replacefilter token="0.0.0" value="${version.full}" />
+		</replace>
 		<replace dir="${buildDirectory}/plugins">
 			<include name="**/META-INF/MANIFEST.MF"/>
 			<replacefilter token="Bundle-Version: 0.0.0" value="Bundle-Version: ${version.full}" />
