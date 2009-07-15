@@ -15,7 +15,6 @@ import junit.framework.TestCase;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.WorkingCopyException;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
@@ -43,38 +42,39 @@ public class TestModelProjectLifecycle extends TestCase {
 		project.delete(true, null);
 	}
 
-	public void testSetProjectDetails() throws TigerstripeException {
-		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
+	//TODO tests of the lifecycle are useless for now as this is not implemented.
+//	public void testSetProjectDetails() throws TigerstripeException {
+//		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
+//
+//		ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
+//				.createProject("testSetOnOriginal", projectDetails, null,
+//						ITigerstripeModelProject.class, null,
+//						new NullProgressMonitor());
+//		assertNotNull(project);
+//
+//		assertTrue(!project.isWorkingCopy());
+//
+//		try {
+//			project.getProjectDetails().setDescription("changed");
+//			fail("Shouldn't allow to set project details on original.");
+//		} catch (WorkingCopyException e) {
+//			// let's try on a working copy now
+//			ITigerstripeModelProject workingCopy = (ITigerstripeModelProject) project
+//					.makeWorkingCopy(null);
+//			try {
+//				workingCopy.getProjectDetails().setDescription("NowChanged");
+//			} catch (WorkingCopyException ee) {
+//				fail("Set on working copy shouldn't fail.");
+//			}
+//
+//			workingCopy.commit(null);
+//
+//			IProjectDetails finalDetails = project.getProjectDetails();
+//			assertTrue(finalDetails.getDescription().equals("NowChanged"));
+//		}
+//	}
 
-		ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
-				.createProject("testSetOnOriginal", projectDetails, null,
-						ITigerstripeModelProject.class, null,
-						new NullProgressMonitor());
-		assertNotNull(project);
-
-		assertTrue(!project.isWorkingCopy());
-
-		try {
-			project.getProjectDetails().setDescription("changed");
-			fail("Shouldn't allow to set project details on original.");
-		} catch (WorkingCopyException e) {
-			// let's try on a working copy now
-			ITigerstripeModelProject workingCopy = (ITigerstripeModelProject) project
-					.makeWorkingCopy(null);
-			try {
-				workingCopy.getProjectDetails().setDescription("NowChanged");
-			} catch (WorkingCopyException ee) {
-				fail("Set on working copy shouldn't fail.");
-			}
-
-			workingCopy.commit(null);
-
-			IProjectDetails finalDetails = project.getProjectDetails();
-			assertTrue(finalDetails.getDescription().equals("NowChanged"));
-		}
-	}
-
-	public void testOriginalChangedCallback() throws TigerstripeException {
-
-	}
+//	public void testOriginalChangedCallback() throws TigerstripeException {
+//
+//	}
 }

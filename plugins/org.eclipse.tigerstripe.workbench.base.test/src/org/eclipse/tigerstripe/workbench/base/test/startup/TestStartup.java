@@ -68,6 +68,8 @@ public class TestStartup extends TestCase {
 		Thread.sleep(1000);
 		BasePlugin.logErrorMessage("Test log");
 		Thread.sleep(2000); // wait to give log4j some time to flush
+		logFile = new File(tigerstripeDir + File.separator
+				+ "tigerstripe.log");
 		long tstamp2 = logFile.lastModified();
 		assertTrue(tstamp < tstamp2);
 	}
