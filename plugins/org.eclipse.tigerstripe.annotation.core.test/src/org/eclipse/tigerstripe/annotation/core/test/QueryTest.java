@@ -55,7 +55,7 @@ public class QueryTest extends AbstractResourceTestCase {
 			AnnotationPlugin.getManager().addAnnotation(project1, type2);
 			AnnotationPlugin.getManager().addAnnotation(project2, type3);
 			
-			checkQuery(AnnotationPackage.eINSTANCE.getAnnotation(), 3);
+//			checkQuery(AnnotationPackage.eINSTANCE.getAnnotation(), 3);
 			checkQuery(ModelPackage.eINSTANCE.getMimeType(), 3);
 		}
 		finally {
