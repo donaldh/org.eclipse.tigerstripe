@@ -50,6 +50,22 @@ import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 
 public class CompareUtils {
 
+//	public static ArrayList<Difference> compareImplements(
+//			IAbstractArtifact aArtifact, IAbstractArtifact bArtifact) {
+//		ArrayList<Difference> differences = new ArrayList<Difference>();
+//		String aExt = aArtifact.getImplementedArtifactsAsStr() ;
+//		String bExt = bArtifact.getImplementedArtifactsAsStr();
+//		
+//		
+//		if (!aExt.equals(bExt)) {
+//			differences.add(new Difference("value", aArtifact
+//					.getFullyQualifiedName(),
+//					bArtifact.getFullyQualifiedName(), "Artifact:Implements", "",
+//					aExt, bExt));
+//		}
+//		return differences;
+//	}
+	
 	public static ArrayList<Difference> compareExtends(
 			IAbstractArtifact aArtifact, IAbstractArtifact bArtifact) {
 		ArrayList<Difference> differences = new ArrayList<Difference>();

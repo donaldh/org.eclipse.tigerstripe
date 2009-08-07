@@ -11,8 +11,10 @@
 package org.eclipse.tigerstripe.workbench.optional.bulkImport;
 
 import java.io.File;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -28,8 +30,10 @@ import javax.xml.validation.Validator;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
@@ -75,6 +79,7 @@ import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
+import org.osgi.framework.Bundle;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -89,7 +94,17 @@ public class XML2TS {
 	}
 
 	private String namespace = "http://org.eclipse.tigerstripe/xml/tigerstripeExport/v1-0";
+	private String namespaceV2 = "http://org.eclipse.tigerstripe/xml/tigerstripeExport/v2-0";
+	
+	private String namespaceSchema = "resources/schemas/tigerstripeExportSchema-v1-0.xsd";
+	private String namespaceV2Schema = "resources/schemas/tigerstripeExportSchema-v2-0.xsd";
 
+	private String usedNamespace = null;
+	
+	private String[] namespaces = new String[]{namespace, namespaceV2};
+	private String[] schemaFiles = new String[]{namespaceSchema, namespaceV2Schema};
+	
+	private Validator tsValidator;
 	// private MessageList messages;
 	private int MESSAGE_LEVEL = 3;
 
@@ -117,8 +132,7 @@ public class XML2TS {
 		this.messages = messages;
 
 		this.profileSession = TigerstripeCore.getWorkbenchProfileSession();
-		this.xmlParserUtils = new TigerstripeXMLParserUtils(namespace, out,
-				messages);
+		
 	}
 
 	public ImportBundle loadXMLtoTigerstripe(File importFile,
@@ -164,27 +178,46 @@ public class XML2TS {
 			importDoc = parser.parse(importFile);
 			DOMSource importSource = new DOMSource(importDoc);
 
-			// TODO Validate against a schema internally or ine found in the
-			// same location?
-			File tsSchemaFile = new File(importFile.getParentFile()
-					+ File.separator + "tigerstripeExportSchema.xsd");
-			out.println(tsSchemaFile + " " + tsSchemaFile.exists());
 
 			SchemaFactory scFactory = SchemaFactory
 					.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-			Schema tsSchema = scFactory.newSchema(tsSchemaFile);
-			Validator tsValidator = tsSchema.newValidator();
-			try {
-				tsValidator.validate(importSource);
-			} catch (Exception e) {
-				String msgText = "XML file does not validate aginst the schema "
-						+ importFile.getName() + "'" + e.getMessage() + "'";
-				addMessage(messages, msgText, 0);
-				out.println("Error : " + msgText);
+			
+			// Try each schema in turn
+			for (int i=0;i<schemaFiles.length;i++){
+				String schema = schemaFiles[i];
+			
+
+				Bundle baseBundle = Platform.getBundle("org.eclipse.tigerstripe.workbench.base");
+				URL schemaUrl = baseBundle.getEntry(schema);
+				Schema tsSchema = scFactory.newSchema(schemaUrl);
+				tsValidator = tsSchema.newValidator();
+				try {
+					tsValidator.validate(importSource);
+					usedNamespace = namespaces[i];
+					break;
+				} catch (Exception e) {
+					// This one didn't match, so just try the next one.
+					//	String msgText = "XML file does not validate aginst the schema "
+					//	+ importFile.getName() + "'" + e.getMessage() + "'";
+					//	addMessage(messages, msgText, 0);
+					//	out.println("Error : " + msgText);
+					//	return null;
+				}
+
+			}
+			if (usedNamespace == null){
+				String msgText = "XML file does not validate aginst the any available schemas "
+					+ importFile.getName();
+					addMessage(messages, msgText, 0);
+					out.println("Error : " + msgText);
 				return null;
 			}
-
-			String msgText = "XML Validated against schema";
+			
+			this.xmlParserUtils = new TigerstripeXMLParserUtils(usedNamespace, out,
+					messages);
+			
+			
+			String msgText = "XML Validated against schema "+usedNamespace;
 			addMessage(messages, msgText, 2);
 			out.println("info : " + msgText);
 
@@ -199,7 +232,7 @@ public class XML2TS {
 			extractedArtifacts = extractArtifacts(importDoc, out, messages);
 
 			// Get the files with external artifacts in
-			extractedArtifacts.putAll(getIncludedArtifactFiles());
+			extractedArtifacts.putAll(getIncludedArtifactFiles(tsValidator));
 
 			msgText = "Found a total of " + extractedArtifacts.size()
 					+ " artifacts in XML";
@@ -335,11 +368,11 @@ public class XML2TS {
 	/**
 	 * extract the project info from the importDoc Document
 	 * 
-	 * 
+	 * This is not usedas we import in to an existing project.
 	 */
 	private Map<String, String> extractProjectInfo() {
 		Map<String, String> extractedInfo = new HashMap<String, String>();
-		NodeList projectNodes = importDoc.getElementsByTagNameNS(namespace,
+		NodeList projectNodes = importDoc.getElementsByTagNameNS(usedNamespace,
 				"tigerstripeProject");
 
 		// Should only be the one...
@@ -350,12 +383,12 @@ public class XML2TS {
 		return extractedInfo;
 	}
 
-	private Map<String, IAbstractArtifact> getIncludedArtifactFiles() {
+	private Map<String, IAbstractArtifact> getIncludedArtifactFiles(Validator tsValidator) {
 		// TigerstripeRuntime.logInfoMessage("Looking for files");
 
 		Map<String, IAbstractArtifact> extractedArtifacts = new HashMap<String, IAbstractArtifact>();
 		NodeList artifactFileNodes = importDoc.getElementsByTagNameNS(
-				namespace, "artifactFile");
+				usedNamespace, "artifactFile");
 		for (int an = 0; an < artifactFileNodes.getLength(); an++) {
 			Element artifactElement = (Element) artifactFileNodes.item(an);
 			String artifactFileName = artifactElement.getAttribute("fileName");
@@ -366,12 +399,12 @@ public class XML2TS {
 				Document artifactDoc = parser.parse(artifactFile);
 				DOMSource artifactSource = new DOMSource(artifactDoc);
 
-				File tsSchemaFile = new File(importFile.getParentFile()
-						+ File.separator + "tigerstripeArtifactOutput.xsd");
-				SchemaFactory scFactory = SchemaFactory
-						.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-				Schema tsSchema = scFactory.newSchema(tsSchemaFile);
-				Validator tsValidator = tsSchema.newValidator();
+//				File tsSchemaFile = new File(importFile.getParentFile()
+//						+ File.separator + "tigerstripeArtifactOutput.xsd");
+//				SchemaFactory scFactory = SchemaFactory
+//						.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+//				Schema tsSchema = scFactory.newSchema(tsSchemaFile);
+//				Validator tsValidator = tsSchema.newValidator();
 				try {
 					tsValidator.validate(artifactSource);
 				} catch (Exception e) {
@@ -417,10 +450,10 @@ public class XML2TS {
 			PrintWriter out, MessageList messages) {
 		Map<String, IAbstractArtifact> extractedArtifacts = new HashMap<String, IAbstractArtifact>();
 
-		NodeList artifactNodes = doc.getElementsByTagNameNS(namespace,
+		NodeList artifactNodes = doc.getElementsByTagNameNS(usedNamespace,
 				"artifact");
 		String myText = "Found " + artifactNodes.getLength()
-				+ " artifact nodes " + namespace;
+				+ " artifact nodes " + usedNamespace;
 		addMessage(messages, myText, 0);
 		out.println("Error : " + myText);
 
@@ -457,6 +490,23 @@ public class XML2TS {
 			exArtifact.setFullyQualifiedName(extendedArtifact);
 			inArtifact.setExtendedArtifact(exArtifact);
 
+			
+			// implements
+			NodeList implNodes = artifactElement
+				.getElementsByTagNameNS(usedNamespace, "implementedInterface");
+			if (implNodes.getLength()>0){
+
+				Collection<IAbstractArtifact> implArtifacts = new ArrayList<IAbstractArtifact>(); 
+				for (int in = 0; in < implNodes.getLength(); in++) {
+					Element impl = (Element) implNodes.item(in);
+					IAbstractArtifact implArtifact = mgrSession.makeArtifact("org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact");
+					implArtifact.setFullyQualifiedName(impl.getTextContent());
+					implArtifacts.add(implArtifact);
+				}
+				inArtifact.setImplementedArtifacts(implArtifacts);
+			}
+
+			
 			setLiterals(artifactElement, inArtifact, out, messages);
 			setFields(artifactElement, inArtifact, out, messages);
 			setMethods(artifactElement, inArtifact, out, messages);
@@ -786,7 +836,7 @@ public class XML2TS {
 	}
 
 	private void handleSession(Element element, ISessionArtifact session) {
-		NodeList eventNodes = element.getElementsByTagNameNS(namespace,
+		NodeList eventNodes = element.getElementsByTagNameNS(usedNamespace,
 				"emittedEvent");
 		for (int ee = 0; ee < eventNodes.getLength(); ee++) {
 			IEmittedEvent event = session.makeEmittedEvent();
@@ -794,7 +844,7 @@ public class XML2TS {
 					.getAttribute("name"));
 			session.addEmittedEvent(event);
 		}
-		NodeList updateNodes = element.getElementsByTagNameNS(namespace,
+		NodeList updateNodes = element.getElementsByTagNameNS(usedNamespace,
 				"exposedUpdateProcedure");
 		for (int up = 0; up < updateNodes.getLength(); up++) {
 			IExposedUpdateProcedure update = session
@@ -803,7 +853,7 @@ public class XML2TS {
 					.getAttribute("name"));
 			session.addExposedUpdateProcedure(update);
 		}
-		NodeList queryNodes = element.getElementsByTagNameNS(namespace,
+		NodeList queryNodes = element.getElementsByTagNameNS(usedNamespace,
 				"exposedQuery");
 		for (int q = 0; q < queryNodes.getLength(); q++) {
 			INamedQuery query = session.makeNamedQuery();
@@ -811,7 +861,7 @@ public class XML2TS {
 					.getAttribute("name"));
 			session.addNamedQuery(query);
 		}
-		NodeList entityDetailNodes = element.getElementsByTagNameNS(namespace,
+		NodeList entityDetailNodes = element.getElementsByTagNameNS(usedNamespace,
 				"managedEntityDetails");
 		for (int med = 0; med < entityDetailNodes.getLength(); med++) {
 			IManagedEntityDetails details = session.makeManagedEntityDetails();
@@ -840,7 +890,7 @@ public class XML2TS {
 			PrintWriter out, MessageList messages) {
 
 		NodeList fieldNodes = element
-				.getElementsByTagNameNS(namespace, "field");
+				.getElementsByTagNameNS(usedNamespace, "field");
 		for (int fn = 0; fn < fieldNodes.getLength(); fn++) {
 			Element field = (Element) fieldNodes.item(fn);
 
@@ -890,7 +940,7 @@ public class XML2TS {
 
 	private void setLiterals(Element element, IAbstractArtifact artifact,
 			PrintWriter out, MessageList messages) {
-		NodeList literalNodes = element.getElementsByTagNameNS(namespace,
+		NodeList literalNodes = element.getElementsByTagNameNS(usedNamespace,
 				"literal");
 		for (int ln = 0; ln < literalNodes.getLength(); ln++) {
 			Element literal = (Element) literalNodes.item(ln);
@@ -915,7 +965,7 @@ public class XML2TS {
 
 	private void setMethods(Element element, IAbstractArtifact artifact,
 			PrintWriter out, MessageList messages) {
-		NodeList methodNodes = element.getElementsByTagNameNS(namespace,
+		NodeList methodNodes = element.getElementsByTagNameNS(usedNamespace,
 				"method");
 		for (int ln = 0; ln < methodNodes.getLength(); ln++) {
 			Element method = (Element) methodNodes.item(ln);
@@ -998,7 +1048,7 @@ public class XML2TS {
 				newMethod.setReturnType(returnType);
 			}
 
-			NodeList argumentNodes = method.getElementsByTagNameNS(namespace,
+			NodeList argumentNodes = method.getElementsByTagNameNS(usedNamespace,
 					"argument");
 			for (int a = 0; a < argumentNodes.getLength(); a++) {
 				Element argument = (Element) argumentNodes.item(a);
@@ -1038,7 +1088,7 @@ public class XML2TS {
 				newMethod.addArgument(newArgument);
 			}
 
-			NodeList exceptionNodes = method.getElementsByTagNameNS(namespace,
+			NodeList exceptionNodes = method.getElementsByTagNameNS(usedNamespace,
 					"exception");
 			for (int a = 0; a < exceptionNodes.getLength(); a++) {
 				Element exception = (Element) exceptionNodes.item(a);
@@ -1060,7 +1110,7 @@ public class XML2TS {
 
 	public void setAssociationEnds(IAssociationArtifact assArt,
 			IAssociationEnd[] ends, Element element) {
-		NodeList endNodes = element.getElementsByTagNameNS(namespace,
+		NodeList endNodes = element.getElementsByTagNameNS(usedNamespace,
 				"associationEnd");
 
 		for (int e = 0; e < endNodes.getLength(); e++) {
@@ -1141,7 +1191,7 @@ public class XML2TS {
 								IStereotypeInstance tsStereoInstance = tsStereo
 										.makeInstance();
 								NodeList stereotypeAttributeNodes = stereoElement
-										.getElementsByTagNameNS(namespace,
+										.getElementsByTagNameNS(usedNamespace,
 												"stereotypeAttribute");
 								for (int sa = 0; sa < stereotypeAttributeNodes
 										.getLength(); sa++) {
@@ -1155,7 +1205,7 @@ public class XML2TS {
 											// / New stuff
 											NodeList stereotypeAttributeValueNodes = stereoAttributeElement
 													.getElementsByTagNameNS(
-															namespace, "value");
+															usedNamespace, "value");
 
 											if ((Boolean
 													.parseBoolean(stereoAttributeElement
@@ -1253,7 +1303,7 @@ public class XML2TS {
 								IStereotypeInstance tsStereoInstance = tsStereo
 										.makeInstance();
 								NodeList stereotypeAttributeNodes = stereoElement
-										.getElementsByTagNameNS(namespace,
+										.getElementsByTagNameNS(usedNamespace,
 												"stereotypeAttribute");
 								for (int sa = 0; sa < stereotypeAttributeNodes
 										.getLength(); sa++) {
@@ -1267,7 +1317,7 @@ public class XML2TS {
 											// / New stuff
 											NodeList stereotypeAttributeValueNodes = stereoAttributeElement
 													.getElementsByTagNameNS(
-															namespace, "value");
+															usedNamespace, "value");
 
 											if ((Boolean
 													.parseBoolean(stereoAttributeElement
@@ -1326,7 +1376,7 @@ public class XML2TS {
 
 		NodeList artifactType;
 
-		artifactType = artifactElement.getElementsByTagNameNS(namespace,
+		artifactType = artifactElement.getElementsByTagNameNS(usedNamespace,
 				"managedEntitySpecifics");
 		if (artifactType.getLength() > 0) {
 			specifics.artifactType = IManagedEntityArtifact.class.getName();
@@ -1334,7 +1384,7 @@ public class XML2TS {
 			return specifics;
 		}
 
-		artifactType = artifactElement.getElementsByTagNameNS(namespace,
+		artifactType = artifactElement.getElementsByTagNameNS(usedNamespace,
 				"datatypeSpecifics");
 		if (artifactType.getLength() > 0) {
 			specifics.artifactType = IDatatypeArtifact.class.getName();
@@ -1342,7 +1392,7 @@ public class XML2TS {
 			return specifics;
 		}
 
-		artifactType = artifactElement.getElementsByTagNameNS(namespace,
+		artifactType = artifactElement.getElementsByTagNameNS(usedNamespace,
 				"enumerationSpecifics");
 		if (artifactType.getLength() > 0) {
 			specifics.artifactType = IEnumArtifact.class.getName();
@@ -1350,7 +1400,7 @@ public class XML2TS {
 			return specifics;
 		}
 
-		artifactType = artifactElement.getElementsByTagNameNS(namespace,
+		artifactType = artifactElement.getElementsByTagNameNS(usedNamespace,
 				"associationSpecifics");
 		if (artifactType.getLength() > 0) {
 			specifics.artifactType = IAssociationArtifact.class.getName();
@@ -1358,7 +1408,7 @@ public class XML2TS {
 			return specifics;
 		}
 
-		artifactType = artifactElement.getElementsByTagNameNS(namespace,
+		artifactType = artifactElement.getElementsByTagNameNS(usedNamespace,
 				"associationClassSpecifics");
 		if (artifactType.getLength() > 0) {
 			specifics.artifactType = IAssociationClassArtifact.class.getName();
@@ -1366,7 +1416,7 @@ public class XML2TS {
 			return specifics;
 		}
 
-		artifactType = artifactElement.getElementsByTagNameNS(namespace,
+		artifactType = artifactElement.getElementsByTagNameNS(usedNamespace,
 				"dependencySpecifics");
 		if (artifactType.getLength() > 0) {
 			specifics.artifactType = IDependencyArtifact.class.getName();
@@ -1374,7 +1424,7 @@ public class XML2TS {
 			return specifics;
 		}
 
-		artifactType = artifactElement.getElementsByTagNameNS(namespace,
+		artifactType = artifactElement.getElementsByTagNameNS(usedNamespace,
 				"updateProcedureSpecifics");
 		if (artifactType.getLength() > 0) {
 			specifics.artifactType = IUpdateProcedureArtifact.class.getName();
@@ -1382,7 +1432,7 @@ public class XML2TS {
 			return specifics;
 		}
 
-		artifactType = artifactElement.getElementsByTagNameNS(namespace,
+		artifactType = artifactElement.getElementsByTagNameNS(usedNamespace,
 				"querySpecifics");
 		if (artifactType.getLength() > 0) {
 			specifics.artifactType = IQueryArtifact.class.getName();
@@ -1390,7 +1440,7 @@ public class XML2TS {
 			return specifics;
 		}
 
-		artifactType = artifactElement.getElementsByTagNameNS(namespace,
+		artifactType = artifactElement.getElementsByTagNameNS(usedNamespace,
 				"exceptionSpecifics");
 		if (artifactType.getLength() > 0) {
 			specifics.artifactType = IExceptionArtifact.class.getName();
@@ -1398,7 +1448,7 @@ public class XML2TS {
 			return specifics;
 		}
 
-		artifactType = artifactElement.getElementsByTagNameNS(namespace,
+		artifactType = artifactElement.getElementsByTagNameNS(usedNamespace,
 				"notificationSpecifics");
 		if (artifactType.getLength() > 0) {
 			specifics.artifactType = IEventArtifact.class.getName();
@@ -1406,7 +1456,7 @@ public class XML2TS {
 			return specifics;
 		}
 
-		artifactType = artifactElement.getElementsByTagNameNS(namespace,
+		artifactType = artifactElement.getElementsByTagNameNS(usedNamespace,
 				"sessionSpecifics");
 		if (artifactType.getLength() > 0) {
 			specifics.artifactType = ISessionArtifact.class.getName();

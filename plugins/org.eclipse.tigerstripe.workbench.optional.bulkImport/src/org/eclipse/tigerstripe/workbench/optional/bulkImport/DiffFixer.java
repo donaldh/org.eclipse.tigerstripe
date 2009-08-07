@@ -217,7 +217,9 @@ public class DiffFixer {
 						for (int f = 0; f < fqnArray.length; f++) {
 							// They might not exist just yet so make one..
 							// This should have no long term effects...
-							implArray.add((IAbstractArtifact) mgrSession.makeArtifact(fqnArray[f]));
+							IAbstractArtifact implArtifact = mgrSession.makeArtifact("org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact");
+							implArtifact.setFullyQualifiedName(fqnArray[f]);
+							implArray.add(implArtifact);
 						}
 						artifact.setImplementedArtifacts(implArray);
 						String msgText = "INFO : Updated Implements for "

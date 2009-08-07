@@ -26,49 +26,66 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjEntitySpeci
 
 public class CompareEntity {
 
-	/**
-	 * The order is not significant.... but we can only set the whole set in one
-	 * go so when we generate a difference just put the whole set in (and don't
-	 * do more than one of them).
-	 * 
-	 * @param aArtifact
-	 * @param bArtifact
-	 * @return
-	 */
+//	/**
+//	 * The order is not significant.... but we can only set the whole set in one
+//	 * go so when we generate a difference just put the whole set in (and don't
+//	 * do more than one of them).
+//	 * 
+//	 * @param aArtifact
+//	 * @param bArtifact
+//	 * @return
+//	 */
+//	public static ArrayList<Difference> compareImplements(
+//			IAbstractArtifact aArtifact, IAbstractArtifact bArtifact) {
+//		ArrayList<Difference> differences = new ArrayList<Difference>();
+//
+//		ArrayList<String> aImplsNames = new ArrayList<String>();
+//		ArrayList<String> bImplsNames = new ArrayList<String>();
+//		for (IAbstractArtifact imp : aArtifact.getImplementedArtifacts()) {
+//			aImplsNames.add(imp.getFullyQualifiedName());
+//		}
+//		for (IAbstractArtifact imp : bArtifact.getImplementedArtifacts()) {
+//			bImplsNames.add(imp.getFullyQualifiedName());
+//		}
+//		for (String name : aImplsNames) {
+//			if (!bImplsNames.contains(name)) {
+//				differences.add(new Difference("value", aArtifact
+//						.getFullyQualifiedName(), bArtifact
+//						.getFullyQualifiedName(), "Artifact:Implements", name
+//						.toString(), aArtifact.getImplementedArtifactsAsStr(),
+//						bArtifact.getImplementedArtifactsAsStr()));
+//			} else {
+//				bImplsNames.remove(name);
+//			}
+//		}
+//		for (String name : bImplsNames) {
+//			differences.add(new Difference("value", aArtifact
+//					.getFullyQualifiedName(),
+//					bArtifact.getFullyQualifiedName(), "Artifact:Implements",
+//					name, aArtifact.getImplementedArtifactsAsStr(), bArtifact
+//							.getImplementedArtifactsAsStr()));
+//		}
+//
+//		return differences;
+//	}
+
 	public static ArrayList<Difference> compareImplements(
-			IAbstractArtifact aArtifact, IAbstractArtifact bArtifact) {
-		ArrayList<Difference> differences = new ArrayList<Difference>();
+	IAbstractArtifact aArtifact, IAbstractArtifact bArtifact) {
+ArrayList<Difference> differences = new ArrayList<Difference>();
+String aExt = aArtifact.getImplementedArtifactsAsStr() ;
+String bExt = bArtifact.getImplementedArtifactsAsStr();
 
-		ArrayList<String> aImplsNames = new ArrayList<String>();
-		ArrayList<String> bImplsNames = new ArrayList<String>();
-		for (IAbstractArtifact imp : aArtifact.getImplementedArtifacts()) {
-			aImplsNames.add(imp.getFullyQualifiedName());
-		}
-		for (IAbstractArtifact imp : bArtifact.getImplementedArtifacts()) {
-			bImplsNames.add(imp.getFullyQualifiedName());
-		}
-		for (String name : aImplsNames) {
-			if (!bImplsNames.contains(name)) {
-				differences.add(new Difference("value", aArtifact
-						.getFullyQualifiedName(), bArtifact
-						.getFullyQualifiedName(), "Artifact:Implements", name
-						.toString(), aArtifact.getImplementedArtifactsAsStr(),
-						bArtifact.getImplementedArtifactsAsStr()));
-			} else {
-				bImplsNames.remove(name);
-			}
-		}
-		for (String name : bImplsNames) {
-			differences.add(new Difference("value", aArtifact
-					.getFullyQualifiedName(),
-					bArtifact.getFullyQualifiedName(), "Artifact:Implements",
-					name, aArtifact.getImplementedArtifactsAsStr(), bArtifact
-							.getImplementedArtifactsAsStr()));
-		}
 
-		return differences;
-	}
-
+if (!aExt.equals(bExt)) {
+	differences.add(new Difference("value", aArtifact
+			.getFullyQualifiedName(),
+			bArtifact.getFullyQualifiedName(), "Artifact:Implements", "",
+			aExt, bExt));
+}
+return differences;
+}
+	
+	
 	public static ArrayList<Difference> compareEntitySpecifics(
 			IManagedEntityArtifact aArtifact, IManagedEntityArtifact bArtifact) {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
@@ -89,15 +106,17 @@ public class CompareEntity {
 							.getExtensibilityType(), bSpecs
 							.getExtensibilityType()));
 		}
-		if (!aSpecs.getPrimaryKey().equals(bSpecs.getPrimaryKey())) {
-			differences.add(new Difference(
-					// "","Artifact ValueSpecifics",
-					// aArtifact.getFullyQualifiedName(),
-					// "PrimaryKey",aSpecs.getPrimaryKey(),bSpecs.getPrimaryKey()));
-					"value", aArtifact.getFullyQualifiedName(), bArtifact
-							.getFullyQualifiedName(),
-					"ManagedEntity:Specifics", "PrimaryKeyType", aSpecs
-							.getPrimaryKey(), bSpecs.getPrimaryKey()));
+		if (aSpecs.getPrimaryKey()!= null && bSpecs.getPrimaryKey() != null){
+			if (!aSpecs.getPrimaryKey().equals(bSpecs.getPrimaryKey())) {
+				differences.add(new Difference(
+						// "","Artifact ValueSpecifics",
+						// aArtifact.getFullyQualifiedName(),
+						// "PrimaryKey",aSpecs.getPrimaryKey(),bSpecs.getPrimaryKey()));
+						"value", aArtifact.getFullyQualifiedName(), bArtifact
+						.getFullyQualifiedName(),
+						"ManagedEntity:Specifics", "PrimaryKeyType", aSpecs
+						.getPrimaryKey(), bSpecs.getPrimaryKey()));
+			}
 		}
 		// differences.addAll(CompareUtils.compareProps(aArtifact,bArtifact,
 		// "InterfaceKey" ,aSpecs.getInterfaceKeyProperties(),
