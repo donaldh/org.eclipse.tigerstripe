@@ -14,13 +14,13 @@ import javax.xml.xpath.XPathFactory;
 import org.eclipse.buckminster.core.cspec.AbstractResolutionBuilder;
 import org.eclipse.buckminster.core.reader.IComponentReader;
 import org.eclipse.buckminster.core.reader.IStreamConsumer;
-import org.eclipse.buckminster.core.version.IVersion;
-import org.eclipse.buckminster.core.version.IVersionType;
-import org.eclipse.buckminster.core.version.VersionFactory;
+import org.eclipse.buckminster.core.version.VersionType;
+import org.eclipse.buckminster.core.version.VersionHelper;
 import org.eclipse.buckminster.runtime.BuckminsterException;
 import org.eclipse.buckminster.runtime.MonitorUtils;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.equinox.internal.provisional.p2.core.Version;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
@@ -52,7 +52,7 @@ public abstract class AbstractTigerstripeResolutionBuilder extends AbstractResol
 		}
 	}
 
-	protected IVersion getOSGiVersionFromDocument(Document tsxml, VersionQueryEnum query) throws CoreException {
+	protected Version getOSGiVersionFromDocument(Document tsxml, VersionQueryEnum query) throws CoreException {
 
 		Node version = null;
 		try {
@@ -63,7 +63,7 @@ public abstract class AbstractTigerstripeResolutionBuilder extends AbstractResol
 		}
 
 		if (version != null) {
-			return VersionFactory.createVersion(IVersionType.OSGI, version.getTextContent().trim());
+			return VersionHelper.createVersion(VersionType.OSGI, version.getTextContent().trim());
 		}
 		throw BuckminsterException.fromMessage("Invalid tigerstripe project file - no version defined.");
 	}

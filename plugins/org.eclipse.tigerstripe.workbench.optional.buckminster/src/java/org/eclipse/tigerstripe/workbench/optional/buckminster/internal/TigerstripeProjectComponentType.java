@@ -22,7 +22,8 @@ import org.eclipse.buckminster.core.cspec.model.DependencyAlreadyDefinedExceptio
 import org.eclipse.buckminster.core.ctype.AbstractComponentType;
 import org.eclipse.buckminster.core.ctype.IResolutionBuilder;
 import org.eclipse.buckminster.core.reader.IComponentReader;
-import org.eclipse.buckminster.core.version.IVersionType;
+import org.eclipse.buckminster.core.version.VersionHelper;
+import org.eclipse.buckminster.core.version.VersionType;
 import org.eclipse.buckminster.runtime.BuckminsterException;
 import org.eclipse.buckminster.runtime.MonitorUtils;
 import org.eclipse.core.runtime.CoreException;
@@ -97,7 +98,7 @@ public class TigerstripeProjectComponentType extends AbstractComponentType {
 						ComponentRequestBuilder depBldr = cspec.createDependencyBuilder();
 						depBldr.setName(componentName);
 						depBldr.setComponentTypeID("tigerstripe.generator");
-						depBldr.setVersionDesignator(getVersionAttributeValue(ref), IVersionType.OSGI);
+						depBldr.setVersionRange(VersionHelper.createRange(VersionType.OSGI, getVersionAttributeValue(ref)));
 						try {
 							cspec.addDependency(depBldr);
 						} catch (DependencyAlreadyDefinedException e) {
