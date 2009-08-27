@@ -28,6 +28,7 @@ import org.eclipse.buckminster.runtime.BuckminsterException;
 import org.eclipse.buckminster.runtime.MonitorUtils;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.equinox.internal.provisional.p2.core.Version;
 import org.eclipse.tigerstripe.workbench.optional.buckminster.TigerstripePlugin;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -98,7 +99,8 @@ public class TigerstripeProjectComponentType extends AbstractComponentType {
 						ComponentRequestBuilder depBldr = cspec.createDependencyBuilder();
 						depBldr.setName(componentName);
 						depBldr.setComponentTypeID("tigerstripe.generator");
-						depBldr.setVersionRange(VersionHelper.createRange(VersionType.OSGI, getVersionAttributeValue(ref)));
+						Version v = VersionHelper.parseVersion(getVersionAttributeValue(ref));
+						depBldr.setVersionRange(VersionHelper.exactRange(v));
 						try {
 							cspec.addDependency(depBldr);
 						} catch (DependencyAlreadyDefinedException e) {
