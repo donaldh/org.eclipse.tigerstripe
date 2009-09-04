@@ -1505,7 +1505,7 @@ public class UML2TS {
 			}
 		}
 		if (comment != null) {
-			String processedComment;
+			String processedComment = null;
 			if (commentProcessor != null){
 				try {
 					processedComment = commentProcessor.processString(comment);
@@ -1515,13 +1515,15 @@ public class UML2TS {
 					this.out.println("WARNING : Comment Processing failed" + e.getMessage());
 					processedComment = comment;
 				}
+			} else {
+				processedComment = comment;
 			}
 			
-			this.out.println("INFO : Comment " + comment);
+			this.out.println("INFO : Comment " + processedComment);
 			if (startComment != "")
-				return startComment+"\n"+comment;
+				return startComment+"\n"+processedComment;
 			else 
-				return comment;
+				return processedComment;
 		}
 		return startComment;
 	}
