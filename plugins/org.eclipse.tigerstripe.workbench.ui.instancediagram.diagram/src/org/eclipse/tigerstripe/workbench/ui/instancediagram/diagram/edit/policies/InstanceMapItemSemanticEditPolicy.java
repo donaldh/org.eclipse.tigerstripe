@@ -142,18 +142,20 @@ public class InstanceMapItemSemanticEditPolicy extends
 			} catch (TigerstripeException e) {
 				throw new RuntimeException("IArtifactManagerSession not found");
 			}
-			if (artifact.isAbstract()) {
-				String warningStr = "Cannot instantiate an abstract class; "
-						+ "drag-and-drop operation cancelled";
-				String[] buttonLabels = new String[] { "OK" };
-				int defButtonIdx = 0;
-				MessageDialog warningDialog = new MessageDialog(shell,
-						"Abstract class detected", (Image) null, warningStr,
-						MessageDialog.WARNING, buttonLabels, defButtonIdx);
-				int retIdx = warningDialog.open();
-				throw new OperationCanceledException(
-						"Cannot Instantiate Abstract Class");
-			} else if (!sessionFacadeInstancesEnabled()
+			// Bug 288318: now allowing abstract classes to be displayed on instance diagrams.
+//			if (artifact.isAbstract()) {
+//				String warningStr = "Cannot instantiate an abstract class; "
+//						+ "drag-and-drop operation cancelled";
+//				String[] buttonLabels = new String[] { "OK" };
+//				int defButtonIdx = 0;
+//				MessageDialog warningDialog = new MessageDialog(shell,
+//						"Abstract class detected", (Image) null, warningStr,
+//						MessageDialog.WARNING, buttonLabels, defButtonIdx);
+//				int retIdx = warningDialog.open();
+//				throw new OperationCanceledException(
+//						"Cannot Instantiate Abstract Class");
+//			} else 
+				if (!sessionFacadeInstancesEnabled()
 					&& artifact instanceof ISessionArtifact) {
 				String warningStr = "Your profile does not allow for instantiation "
 						+ "of "

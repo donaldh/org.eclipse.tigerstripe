@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.geometry.Point;
@@ -45,6 +47,7 @@ import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.emf.ui.services.parser.ISemanticParser;
 import org.eclipse.gmf.runtime.emf.ui.services.parser.ParserHintAdapter;
 import org.eclipse.gmf.runtime.notation.FontStyle;
+import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.gmf.runtime.notation.impl.NodeImpl;
@@ -56,9 +59,12 @@ import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
+import org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.Activator;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.policies.ClassInstanceOpenEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.policies.InstanceTextSelectionEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.part.InstanceDiagramEditorPlugin;
@@ -103,6 +109,21 @@ public class ClassInstanceNamePackageArtifactNameEditPart extends
 	 */
 	public ClassInstanceNamePackageArtifactNameEditPart(View view) {
 		super(view);
+	}
+
+	protected boolean isAbstractClass() {
+		Node model = (Node) getParent().getModel();
+		ClassInstance instance = (ClassInstance) model.getElement();
+		try {
+			IAbstractArtifact artifact = instance.getArtifact();
+			if (artifact != null)
+				return artifact.isAbstract();
+		} catch (TigerstripeException e) {
+			Activator.getDefault().getLog().log(
+					new Status(IStatus.WARNING, Activator.PLUGIN_ID, e
+							.getLocalizedMessage(), e));
+		}
+		return false;
 	}
 
 	/**
@@ -509,7 +530,7 @@ public class ClassInstanceNamePackageArtifactNameEditPart extends
 		if (style != null) {
 			FontData fontData = new FontData(style.getFontName(), style
 					.getFontHeight(), (style.isBold() ? SWT.BOLD : SWT.NORMAL)
-					| (style.isItalic() ? SWT.ITALIC : SWT.NORMAL));
+					| (isAbstractClass() ? SWT.ITALIC : SWT.NORMAL));
 			setFont(fontData);
 		}
 	}
