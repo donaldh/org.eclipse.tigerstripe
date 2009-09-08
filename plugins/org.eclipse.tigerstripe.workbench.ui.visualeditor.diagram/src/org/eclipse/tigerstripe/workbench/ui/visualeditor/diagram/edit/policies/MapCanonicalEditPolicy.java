@@ -41,6 +41,8 @@ import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.Edge;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssociationClass;
@@ -191,15 +193,27 @@ public class MapCanonicalEditPolicy extends CanonicalConnectionEditPolicy {
 			if (semanticHint.equals(view.getType()))
 				return true;
 		}
-		
-		if ( view instanceof Node ) {
-			if ( view.getElement() instanceof Map) 
+
+		if (view instanceof Node) {
+			if (view.getElement() instanceof Map)
 				return true;
-			if ( view.getElement() instanceof AssociationClassClass)
+			if (view.getElement() instanceof AssociationClassClass)
 				return true;
+
+			Object o = ViewUtil.resolveSemanticElement(view);
+			if (o instanceof QualifiedNamedElement) {
+				QualifiedNamedElement qne = (QualifiedNamedElement) o;
+				try {
+					IAbstractArtifact art = qne.getCorrespondingIArtifact();
+					if ( art == null )
+						return true;
+				} catch (TigerstripeException e) {
+					return true;
+				}
+			}
 		}
 
-		return super.shouldDeleteView(view);
+		return false;
 	}
 
 	/**
