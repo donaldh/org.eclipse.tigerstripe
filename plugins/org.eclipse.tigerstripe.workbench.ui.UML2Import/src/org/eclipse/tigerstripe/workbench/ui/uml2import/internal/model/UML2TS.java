@@ -690,16 +690,26 @@ public class UML2TS {
 			if (element instanceof Classifier){
 				AssociationClass parent = null;
 				Classifier c = (Classifier) element;
-				List gens = c.getGenerals();
-				ListIterator genIt = gens.listIterator();
-				while (genIt.hasNext()) {
-					Classifier gen = (Classifier) genIt.next();
-					if (gen instanceof AssociationClass) {
-						parent = (AssociationClass) gen;
-					}
-				}
+//				List gens = c.getGenerals();
+//				
+//				ListIterator genIt = gens.listIterator();
+//				while (genIt.hasNext()) {
+//					Classifier gen = (Classifier) genIt.next();
+//					if (gen instanceof AssociationClass) {
+//						parent = (AssociationClass) gen;
+//						break;
+//					}
+//				}
+			
+				parent = getParent(c);
+				
+				
 				if ( parent != null){
 					setAssociationEnds(assocArtifact, parent);
+					String msgText = "Copying ends from parent"
+						+ assocArtifact.getName();
+					ImportUtilities.addMessage(msgText, 0, messages);
+					this.out.println("ERROR : " + msgText);
 					// need to add a comment that these are copied
 					assocArtifact.getAEnd().setComment(
 							"WARNING : End details copied form parent \n"+
@@ -709,6 +719,11 @@ public class UML2TS {
 							"WARNING : End details copied form parent \n"+
 							assocArtifact.getZEnd().getComment()
 							);
+				} else {
+					String msgText = "No parent "
+						+ assocArtifact.getName();
+					ImportUtilities.addMessage(msgText, 0, messages);
+					this.out.println("ERROR : " + msgText);
 				}
 				
 			}
@@ -718,6 +733,21 @@ public class UML2TS {
 	}
 
 	
+	private AssociationClass getParent(Classifier c){
+		List gens = c.getGenerals();
+		
+		ListIterator genIt = gens.listIterator();
+		while (genIt.hasNext()) {
+			Classifier gen = (Classifier) genIt.next();
+			if (gen instanceof AssociationClass) {
+				AssociationClass parent = (AssociationClass) gen;
+				return parent;
+			}
+			return getParent(gen);
+		}
+		return null;
+		
+	}
 	
 	private void setConstants(IAbstractArtifact artifact, NamedElement element) {
 		if (artifact instanceof IEnumArtifact){
