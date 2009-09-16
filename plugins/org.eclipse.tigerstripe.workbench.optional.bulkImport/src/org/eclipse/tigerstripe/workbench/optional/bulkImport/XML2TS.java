@@ -30,20 +30,25 @@ import javax.xml.validation.Validator;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.xml.TigerstripeXMLParserUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjEnumSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjQuerySpecifics;
+import org.eclipse.tigerstripe.workbench.internal.core.project.ProjectDetails;
+import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
 import org.eclipse.tigerstripe.workbench.internal.tools.compare.Comparer;
 import org.eclipse.tigerstripe.workbench.internal.tools.compare.Difference;
+import org.eclipse.tigerstripe.workbench.model.annotation.AnnotationHelper;
+import org.eclipse.tigerstripe.workbench.model.annotation.IAnnotationCapable;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
@@ -76,12 +81,15 @@ import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeAttribute;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
+import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 import org.osgi.framework.Bundle;
+import org.w3c.dom.CDATASection;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -110,7 +118,7 @@ public class XML2TS {
 
 	// private PrintWriter out;
 
-	private IArtifactManagerSession mgrSession;
+//	private IArtifactManagerSession projectMgrSession;
 
 	private File importFile;
 
@@ -125,6 +133,7 @@ public class XML2TS {
 	private IWorkbenchProfileSession profileSession;
 
 	private TigerstripeXMLParserUtils xmlParserUtils;
+	protected AnnotationHelper helper = AnnotationHelper.getInstance();
 
 	// default constructor
 	public XML2TS(PrintWriter out, MessageList messages) {
@@ -135,38 +144,58 @@ public class XML2TS {
 		
 	}
 
-	public ImportBundle loadXMLtoTigerstripe(File importFile,
+	public static ITigerstripeModelProject createTempProject() throws TigerstripeException {
+		// Just in case we didn't clean up last time
+		ITigerstripeModelProject tempProject;
+		IAbstractTigerstripeProject findProject = TigerstripeCore.findProject("__Import__Temp__");
+		if ( findProject != null){
+			findProject.delete(true, null);
+		}
+		tempProject =
+			(ITigerstripeModelProject) TigerstripeCore.createProject(
+					"__Import__Temp__",
+					TigerstripeCore.makeProjectDetails(), 
+					null, ITigerstripeModelProject.class, null, null);
+		return tempProject;
+	}
+	
+	public ImportBundle loadXMLtoTigerstripe(ITigerstripeModelProject tempProject, InputStream inputStream,
+			String tSProjectName, IProgressMonitor monitor)
+			throws TigerstripeException {
+
+		this.importFile = null;
+		try {
+
+
+			DocumentBuilderFactory factory = DocumentBuilderFactory
+					.newInstance();
+			factory.setIgnoringComments(true);
+			factory.setCoalescing(true);
+			factory.setNamespaceAware(true);
+
+			parser = factory.newDocumentBuilder();
+			importDoc = parser.parse(inputStream);
+			importDoc.normalizeDocument();
+			DOMSource importSource = new DOMSource(importDoc);
+			return loadFromSource(tempProject, importSource, tSProjectName, monitor);
+		} catch (Exception saxe) {
+			String msgText = "XML Parsing problem reading stream  "
+					+ "'" + saxe.getMessage() + "'";
+			addMessage(messages, msgText, 0);
+			out.println("Error : " + msgText);
+			saxe.printStackTrace(out);
+			return null;
+
+		}
+	}
+	
+	public ImportBundle loadXMLtoTigerstripe(ITigerstripeModelProject tempProject, File importFile,
 			String tSProjectName, IProgressMonitor monitor)
 			throws TigerstripeException {
 
 		this.importFile = importFile;
 
-		Map<String, IAbstractArtifact> extractedArtifacts;
 		try {
-
-			// Make sure the TS project is OK
-			// Have to do this early as we use the mgrSession
-
-			try {
-				IResource tsContainer = ResourcesPlugin.getWorkspace()
-						.getRoot().findMember(new Path(tSProjectName));
-
-				URI projectURI = tsContainer.getLocationURI();
-				ITigerstripeModelProject tsProject = (ITigerstripeModelProject) TigerstripeCore
-						.findProject(projectURI);
-				this.mgrSession = tsProject.getArtifactManagerSession();
-				String msgText = " Target Project : " + tsProject.getName();
-				addMessage(messages, msgText, 2);
-				out.println("info : " + msgText);
-				this.mgrSession.refresh(true, monitor);
-
-			} catch (Exception e) {
-				String msgText = "Problem opening TS Project " + tSProjectName;
-				addMessage(messages, msgText, 0);
-				out.println("Error : " + msgText);
-				// e.printStackTrace(this.out);
-				return null;
-			}
 
 			DocumentBuilderFactory factory = DocumentBuilderFactory
 					.newInstance();
@@ -176,16 +205,34 @@ public class XML2TS {
 
 			parser = factory.newDocumentBuilder();
 			importDoc = parser.parse(importFile);
+			importDoc.normalizeDocument();
 			DOMSource importSource = new DOMSource(importDoc);
 
 
-			SchemaFactory scFactory = SchemaFactory
-					.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-			
+			return loadFromSource(tempProject, importSource, tSProjectName, monitor);
+		} catch (Exception saxe) {
+			String msgText = "XML Parsing problem reading file  "
+					+importFile.getName()+ "'" + saxe.getMessage() + "'";
+			addMessage(messages, msgText, 0);
+			out.println("Error : " + msgText);
+			saxe.printStackTrace(out);
+			return null;
+		}
+
+	}
+	
+	public ImportBundle loadFromSource (ITigerstripeModelProject tempProject, DOMSource importSource,
+			String tSProjectName, IProgressMonitor monitor)
+		throws TigerstripeException {
+		Map<String, IAbstractArtifact> extractedArtifacts;
+		SchemaFactory scFactory = SchemaFactory
+		.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+		try {
 			// Try each schema in turn
+			// TODO - Better to try reading the schema from the XML file!
 			for (int i=0;i<schemaFiles.length;i++){
 				String schema = schemaFiles[i];
-			
+
 
 				Bundle baseBundle = Platform.getBundle("org.eclipse.tigerstripe.workbench.base");
 				URL schemaUrl = baseBundle.getEntry(schema);
@@ -197,26 +244,26 @@ public class XML2TS {
 					break;
 				} catch (Exception e) {
 					// This one didn't match, so just try the next one.
-					//	String msgText = "XML file does not validate aginst the schema "
-					//	+ importFile.getName() + "'" + e.getMessage() + "'";
-					//	addMessage(messages, msgText, 0);
-					//	out.println("Error : " + msgText);
+					String msgText = "XML file does not validate aginst the schema "
+						+ importFile.getName() + "'" + e.getMessage() + "'";
+					addMessage(messages, msgText, 0);
+					out.println("Error : " + msgText);
 					//	return null;
 				}
 
 			}
 			if (usedNamespace == null){
-				String msgText = "XML file does not validate aginst the any available schemas "
+				String msgText = "XML does not validate aginst the any available schemas "
 					+ importFile.getName();
-					addMessage(messages, msgText, 0);
-					out.println("Error : " + msgText);
+				addMessage(messages, msgText, 0);
+				out.println("Error : " + msgText);
 				return null;
 			}
-			
+
 			this.xmlParserUtils = new TigerstripeXMLParserUtils(usedNamespace, out,
 					messages);
-			
-			
+
+
 			String msgText = "XML Validated against schema "+usedNamespace;
 			addMessage(messages, msgText, 2);
 			out.println("info : " + msgText);
@@ -224,58 +271,51 @@ public class XML2TS {
 			// TODO set the proper count in here
 			monitor.beginTask("Processing XML Classes ", 100);
 
-			// TODO We now allow the artifacts to be in child files...
-			// So either do one big pass, or get file by file..
-			// validate each file, and extract the artifact
 
 			// Get any artifacts in the parent
-			extractedArtifacts = extractArtifacts(importDoc, out, messages);
+			extractedArtifacts = extractArtifacts(tempProject,importDoc, out, messages);
 
-			// Get the files with external artifacts in
-			extractedArtifacts.putAll(getIncludedArtifactFiles(tsValidator));
-
+			// Get the files with external artifacts in - ONLY APplicable for File input
+			if (importFile != null){
+				extractedArtifacts.putAll(getIncludedArtifactFiles(tempProject,tsValidator));
+			}
 			msgText = "Found a total of " + extractedArtifacts.size()
-					+ " artifacts in XML";
+			+ " artifacts in XML";
 
 			addMessage(messages, msgText, 2);
 			out.println("info : " + msgText);
 			monitor.done();
 
-		} catch (SAXException saxe) {
-			String msgText = "XML Parsing problem reading file "
-					+ importFile.getName() + "'" + saxe.getMessage() + "'";
-			addMessage(messages, msgText, 0);
-			out.println("Error : " + msgText);
-			saxe.printStackTrace(out);
-			return null;
 
 		} catch (Exception e) {
 			// Could be IOException, or someting unexpected.. Shouldn't get IO
 			// as we've checked that already !
-			String msgText = "Unknown Problem reading XML File "
-					+ importFile.getName() + "'" + e.getMessage() + "'";
+			String msgText = "Unknown Problem reading XML " + e.getMessage() + "'";
 			addMessage(messages, msgText, 0);
 			out.println("Error : " + msgText);
-			e.printStackTrace(out);
+			e.printStackTrace();
 			return null;
 
 		}
 		ImportBundle returnBundle = new ImportBundle();
 		returnBundle.setExtractedArtifacts(extractedArtifacts);
-		returnBundle.setMgrSession(mgrSession);
-
-		// compareExtractAndProject(returnBundle,monitor,out,messages);
+		returnBundle.setMgrSession(tempProject.getArtifactManagerSession());
 
 		return returnBundle;
 
 	}
+	
 
-	public ArrayList<Difference> compareExtractAndProject(ImportBundle bundle,
+
+	public ArrayList<Difference> compareExtractAndProject(ImportBundle bundle, IArtifactManagerSession mgrSession,
 			IProgressMonitor monitor, PrintWriter out, MessageList messages) {
 
+		// TODO - A Hack
+		//bundle.setMgrSession(mgrSession);
+		
 		Map<String, IAbstractArtifact> extractedArtifacts = bundle
 				.getExtractedArtifacts();
-		IArtifactManagerSession mgrSession = bundle.getMgrSession();
+		//IArtifactManagerSession mgrSession = bundle.getMgrSession();
 		ArrayList<Difference> allXMLDiffs = new ArrayList<Difference>();
 		try {
 			Comparer comparer = new Comparer();
@@ -290,7 +330,7 @@ public class XML2TS {
 					.values()) {
 				String artifactName = extractedArtifact.getName();
 				out.print("Comparing " + artifactName);
-				IAbstractArtifact projectArtifact = mgrSession
+				IAbstractArtifact projectArtifact = bundle.getMgrSession()
 						.getArtifactByFullyQualifiedName(extractedArtifact
 								.getFullyQualifiedName());
 				if (projectArtifact == null) {
@@ -383,7 +423,7 @@ public class XML2TS {
 		return extractedInfo;
 	}
 
-	private Map<String, IAbstractArtifact> getIncludedArtifactFiles(Validator tsValidator) {
+	private Map<String, IAbstractArtifact> getIncludedArtifactFiles(ITigerstripeModelProject tempProject, Validator tsValidator) {
 		// TigerstripeRuntime.logInfoMessage("Looking for files");
 
 		Map<String, IAbstractArtifact> extractedArtifacts = new HashMap<String, IAbstractArtifact>();
@@ -414,7 +454,7 @@ public class XML2TS {
 					out.println("Error : " + msgText);
 					continue;
 				}
-				extractedArtifacts.putAll(extractArtifacts(artifactDoc, out,
+				extractedArtifacts.putAll(extractArtifacts(tempProject,artifactDoc, out,
 						messages));
 
 			} catch (SAXException saxe) {
@@ -446,9 +486,16 @@ public class XML2TS {
 	 * with the project concerned
 	 * 
 	 */
-	private Map<String, IAbstractArtifact> extractArtifacts(Document doc,
+	private Map<String, IAbstractArtifact> extractArtifacts(ITigerstripeModelProject tempProject, Document doc,
 			PrintWriter out, MessageList messages) {
+		
 		Map<String, IAbstractArtifact> extractedArtifacts = new HashMap<String, IAbstractArtifact>();
+		try {
+		IArtifactManagerSession tempMgrSession = tempProject.getArtifactManagerSession();
+
+//			ITigerstripeModelProject tempProject =(ITigerstripeModelProject) TigerstripeCore.createProject("__Import__Temp__",TigerstripeCore.makeProjectDetails(), null, ITigerstripeModelProject.class, null, null);
+		
+		
 
 		NodeList artifactNodes = doc.getElementsByTagNameNS(usedNamespace,
 				"artifact");
@@ -460,8 +507,6 @@ public class XML2TS {
 		for (int an = 0; an < artifactNodes.getLength(); an++) {
 			Element artifactElement = (Element) artifactNodes.item(an);
 			String artifactName = artifactElement.getAttribute("name");
-
-			// Need to determine the artifactType before creating one.
 			Specifics specificType = getArtifactSpecifics(artifactElement);
 
 			String typeName = xmlParserUtils.getArtifactType(artifactElement);
@@ -475,7 +520,7 @@ public class XML2TS {
 				continue;
 			}
 
-			IAbstractArtifact inArtifact = mgrSession.makeArtifact(typeName);
+			IAbstractArtifact inArtifact = tempMgrSession.makeArtifact(typeName);
 			inArtifact.setFullyQualifiedName(artifactName);
 			out.println("Found Artifact in XML : "
 					+ inArtifact.getFullyQualifiedName());
@@ -486,7 +531,7 @@ public class XML2TS {
 			// This ony works coz we don't add the exArtifact to any project...
 			String extendedArtifact = artifactElement
 					.getAttribute("extendedArtifact");
-			IAbstractArtifact exArtifact = mgrSession.makeArtifact(typeName);
+			IAbstractArtifact exArtifact = tempMgrSession.makeArtifact(typeName);
 			exArtifact.setFullyQualifiedName(extendedArtifact);
 			inArtifact.setExtendedArtifact(exArtifact);
 
@@ -499,7 +544,7 @@ public class XML2TS {
 				Collection<IAbstractArtifact> implArtifacts = new ArrayList<IAbstractArtifact>(); 
 				for (int in = 0; in < implNodes.getLength(); in++) {
 					Element impl = (Element) implNodes.item(in);
-					IAbstractArtifact implArtifact = mgrSession.makeArtifact("org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact");
+					IAbstractArtifact implArtifact = tempMgrSession.makeArtifact("org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact");
 					implArtifact.setFullyQualifiedName(impl.getTextContent());
 					implArtifacts.add(implArtifact);
 				}
@@ -510,7 +555,9 @@ public class XML2TS {
 			setLiterals(artifactElement, inArtifact, out, messages);
 			setFields(artifactElement, inArtifact, out, messages);
 			setMethods(artifactElement, inArtifact, out, messages);
-
+			setAnnotations(artifactElement, inArtifact, out, messages);
+			//System.out.println("Found " + inArtifact.getFullyQualifiedName()+" "+inArtifact.getAnnotations().size());
+			//System.out.println("Found " + inArtifact.getProject().getArtifactManagerSession());
 			// Must do specifics AFTER methods - as the flavor stuff refers back
 			// to methods.
 			if (specificType != null) {
@@ -529,8 +576,18 @@ public class XML2TS {
 					inArtifact);
 
 		}
+//		if (tempProject != null){
+//			tempProject.delete(true, null);
+//		}
+		
+		} catch (TigerstripeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 
+		}
+		
 		return extractedArtifacts;
+		
 	}
 
 	/**
@@ -542,115 +599,7 @@ public class XML2TS {
 	private void setSpecifics(Element element, IAbstractArtifact artifact) {
 
 		String aType = artifact.getArtifactType();
-		// if (aType.equals(IManagedEntityArtifact.class.getName())) {
-		// // Only need primary Key
-		// IManagedEntityArtifact entity = (IManagedEntityArtifact) artifact;
-		// OssjEntitySpecifics specs = (OssjEntitySpecifics) entity
-		// .getIStandardSpecifics();
-		// specs.setPrimaryKey(element.getAttribute("primaryKeyName"));
-		// Properties props = specs.getInterfaceProperties();
-		// props.setProperty("package", element
-		// .getAttribute("interfacePackage"));
-		// props.setProperty("generate", element
-		// .getAttribute("interfaceGenerate"));
-		// specs.setInterfaceProperties(props);
-		// // Things in the "Ossj section" are all "OPTIONAL", so we need to
-		// // check for their presence
-		// if (element.hasAttribute("singleExtension")) {
-		// specs.setSingleExtensionType(Boolean.parseBoolean(element
-		// .getAttribute("singleExtension")));
-		// }
-		// if (element.hasAttribute("sessionFactoryMethods")) {
-		// specs.setSessionFactoryMethods(Boolean.parseBoolean(element
-		// .getAttribute("sessionFactoryMethods")));
-		// }
-		// // TODO What about the ManagedEntityDetails type of stuff...
-		//
-		// NodeList entityDetailNodes = element.getElementsByTagNameNS(
-		// namespace, "entityMethodDetails");
-		// for (int med = 0; med < entityDetailNodes.getLength(); med++) {
-		// Element detailElement = (Element) entityDetailNodes.item(med);
-		// // get the method name from this element
-		// String detailsMethodName = detailElement.getAttribute("name");
-		//
-		// // Get the Flavor info
-		// NodeList flavorNodes = detailElement.getElementsByTagNameNS(
-		// namespace, "entityMethodFlavorDetails");
-		// for (int flav = 0; flav < flavorNodes.getLength(); flav++) {
-		// Element flavorElement = (Element) flavorNodes.item(flav);
-		// // This name will be something like "simple"...
-		// String flavorName = flavorElement
-		// .getAttribute("flavorName");
-		//
-		// IEntityMethodFlavorDetails flavorDetails = specs
-		// .makeIEntityMethodFlavorDetails();
-		//
-		// flavorDetails.setFlag(flavorElement.getAttribute("flag"));
-		// flavorDetails.setComment(getComment(flavorElement));
-		//
-		// ArrayList<String> flavorExceptions = new ArrayList<String>();
-		// NodeList flavorExceptionNodes = flavorElement
-		// .getElementsByTagNameNS(namespace, "exception");
-		// for (int ex = 0; ex < flavorExceptionNodes.getLength(); ex++) {
-		// Element exception = (Element) flavorExceptionNodes
-		// .item(ex);
-		// flavorDetails.addException(exception
-		// .getAttribute("name"));
-		// }
-		//
-		// OssjEntityMethodFlavor flavEnum = OssjEntityMethodFlavor
-		// .valueFromPojoLabel(flavorName);
-		// // Now add the flav0r to the artifact or method...
-		// if ("create".equals(detailsMethodName)) {
-		// specs.setCRUDFlavorDetails(IOssjEntitySpecifics.CREATE,
-		// flavEnum, flavorDetails);
-		// } else if ("get".equals(detailsMethodName)) {
-		// specs.setCRUDFlavorDetails(IOssjEntitySpecifics.GET,
-		// flavEnum, flavorDetails);
-		// } else if ("set".equals(detailsMethodName)) {
-		// specs.setCRUDFlavorDetails(IOssjEntitySpecifics.SET,
-		// flavEnum, flavorDetails);
-		// } else if ("remove".equals(detailsMethodName)) {
-		// specs.setCRUDFlavorDetails(IOssjEntitySpecifics.DELETE,
-		// flavEnum, flavorDetails);
-		// } else {
-		// // Its on a method - need to find the method
-		// boolean setone = false;
-		// for (IMethod method : artifact.getMethods()) {
-		// if (method.getName().equals(detailsMethodName)) {
-		// try {
-		// method.setEntityMethodFlavorDetails(
-		// flavEnum, flavorDetails);
-		// setone = true;
-		// } catch (TigerstripeException t) {
-		// String msgText = "Failed to set Flavor details for "
-		// + method.getName()
-		// + " on "
-		// + artifact.getFullyQualifiedName();
-		// addMessage(messages, msgText, 0);
-		// out.println("Error : " + msgText);
-		// TigerstripeRuntime.logErrorMessage(
-		// "TigerstripeException detected", t);
-		// continue;
-		// }
-		// }
-		// }
-		// if (!setone) {
-		// String msgText =
-		// "Failed to set Flavor details - could not find method "
-		// + flavorName
-		// + " on "
-		// + artifact.getFullyQualifiedName();
-		// addMessage(messages, msgText, 0);
-		// out.println("Error : " + msgText);
-		// }
-		//
-		// }
-		// }
-		//
-		// }
-		//
-		// } else
+		
 		if (aType.equals(IEnumArtifact.class.getName())) {
 			IEnumArtifact enumArt = (IEnumArtifact) artifact;
 			OssjEnumSpecifics specs = (OssjEnumSpecifics) enumArt
@@ -659,66 +608,7 @@ public class XML2TS {
 			IType type = artifact.makeField().makeType();
 			type.setFullyQualifiedName(baseType);
 			specs.setBaseIType(type);
-			// Properties props = specs.getInterfaceProperties();
-			// props.setProperty("package", element
-			// .getAttribute("interfacePackage"));
-			// props.setProperty("generate", element
-			// .getAttribute("interfaceGenerate"));
-			// specs.setInterfaceProperties(props);
-			// // Things in the "Ossj section" are all "OPTIONAL", so we need to
-			// // check for their presence
-			// if (element.hasAttribute("extensible")) {
-			// specs.setExtensible(Boolean.parseBoolean(element
-			// .getAttribute("extensible")));
-			// }
-			//
-			// } else if (aType.equals(IEventArtifact.class.getName())) {
-			// IEventArtifact eventArt = (IEventArtifact) artifact;
-			// OssjEventSpecifics specs = (OssjEventSpecifics) eventArt
-			// .getIStandardSpecifics();
-			// Properties props = specs.getInterfaceProperties();
-			// props.setProperty("package", element
-			// .getAttribute("interfacePackage"));
-			// props.setProperty("generate", element
-			// .getAttribute("interfaceGenerate"));
-			// specs.setInterfaceProperties(props);
-			// // Things in the "Ossj section" are all "OPTIONAL", so we need to
-			// // check for their presence
-			// if (element.hasAttribute("singleExtension")) {
-			// specs.setSingleExtensionType(Boolean.parseBoolean(element
-			// .getAttribute("singleExtension")));
-			// }
-			// // Get the event descriptor ELEMENTS
-			// NodeList descriptorNodes = element.getElementsByTagNameNS(
-			// namespace, "eventDescriptorEntry");
-			// for (int an = 0; an < descriptorNodes.getLength(); an++) {
-			// Element descriptorElement = (Element) descriptorNodes.item(an);
-			// ArrayList<IEventDescriptorEntry> entries = new
-			// ArrayList<IEventDescriptorEntry>(
-			// Arrays.asList(specs.getEventDescriptorEntries()));
-			// EventDescriptorEntry ede = new EventDescriptorEntry(
-			// descriptorElement.getAttribute("label"),
-			// descriptorElement.getAttribute("primitiveType"));
-			// entries.add(ede);
-			// specs.setEventDescriptorEntries(entries
-			// .toArray(new EventDescriptorEntry[0]));
-			// }
-			// NodeList customDescriptorNodes = element.getElementsByTagNameNS(
-			// namespace, "customEventDescriptorEntry");
-			// for (int an = 0; an < customDescriptorNodes.getLength(); an++) {
-			// Element descriptorElement = (Element) customDescriptorNodes
-			// .item(an);
-			// ArrayList<IEventDescriptorEntry> entries = new
-			// ArrayList<IEventDescriptorEntry>(
-			// Arrays.asList(specs.getCustomEventDescriptorEntries()));
-			// EventDescriptorEntry ede = new EventDescriptorEntry(
-			// descriptorElement.getAttribute("label"),
-			// descriptorElement.getAttribute("primitiveType"));
-			// entries.add(ede);
-			// specs.setCustomEventDescriptorEntries(entries
-			// .toArray(new EventDescriptorEntry[0]));
-			// }
-			//
+			
 		} else if (aType.equals(IAssociationArtifact.class.getName())
 				|| aType.equals(IAssociationClassArtifact.class.getName())) {
 			IAssociationArtifact assArt = (IAssociationArtifact) artifact;
@@ -749,89 +639,10 @@ public class XML2TS {
 			type.setTypeMultiplicity(IModelComponent.EMultiplicity
 					.parse(element.getAttribute("returnedTypeMultiplicity")));
 			queryArt.setReturnedType((IType) type);
-			// Properties props = specs.getInterfaceProperties();
-			// props.setProperty("package", element
-			// .getAttribute("interfacePackage"));
-			// props.setProperty("generate", element
-			// .getAttribute("interfaceGenerate"));
-			// specs.setInterfaceProperties(props);
-			// // Things in the "Ossj section" are all "OPTIONAL", so we need to
-			// // check for their presence
-			// if (element.hasAttribute("singleExtension")) {
-			// specs.setSingleExtensionType(Boolean.parseBoolean(element
-			// .getAttribute("singleExtension")));
-			// }
-			// if (element.hasAttribute("sessionFactoryMethods")) {
-			// specs.setSessionFactoryMethods(Boolean.parseBoolean(element
-			// .getAttribute("sessionFactoryMethods")));
-			// }
+			
 
 		} else if (aType.equals(ISessionArtifact.class.getName())) {
-			// ISessionArtifact sessionArt = (ISessionArtifact) artifact;
-			// IOssjArtifactSpecifics specs = (OssjArtifactSpecifics) sessionArt
-			// .getIStandardSpecifics();
-			// handleSession(element, sessionArt);
-			// Properties props = specs.getInterfaceProperties();
-			// props.setProperty("package", element
-			// .getAttribute("interfacePackage"));
-			// props.setProperty("generate", element
-			// .getAttribute("interfaceGenerate"));
-			// specs.setInterfaceProperties(props);
-
-			// } else if (aType.equals(IExceptionArtifact.class.getName())) {
-			// IAbstractArtifact art = (IAbstractArtifact) artifact;
-			// IOssjArtifactSpecifics specs = (OssjArtifactSpecifics) art
-			// .getIStandardSpecifics();
-			// Properties props = specs.getInterfaceProperties();
-			// props.setProperty("package", element
-			// .getAttribute("interfacePackage"));
-			// props.setProperty("generate", element
-			// .getAttribute("interfaceGenerate"));
-			// specs.setInterfaceProperties(props);
-
-			// } else if (aType.equals(IDatatypeArtifact.class.getName())) {
-			// IAbstractArtifact art = (IAbstractArtifact) artifact;
-			// OssjDatatypeSpecifics specs = (OssjDatatypeSpecifics) art
-			// .getIStandardSpecifics();
-			// Properties props = specs.getInterfaceProperties();
-			// props.setProperty("package", element
-			// .getAttribute("interfacePackage"));
-			// props.setProperty("generate", element
-			// .getAttribute("interfaceGenerate"));
-			// specs.setInterfaceProperties(props);
-			// // Things in the "Ossj section" are all "OPTIONAL", so we need to
-			// // check for their presence
-			// if (element.hasAttribute("singleExtension")) {
-			// specs.setSingleExtensionType(Boolean.parseBoolean(element
-			// .getAttribute("singleExtension")));
-			// }
-			// if (element.hasAttribute("sessionFactoryMethods")) {
-			// specs.setSessionFactoryMethods(Boolean.parseBoolean(element
-			// .getAttribute("sessionFactoryMethods")));
-			// }
-
-			// } else if
-			// (aType.equals(IUpdateProcedureArtifact.class.getName())) {
-			// IAbstractArtifact art = (IAbstractArtifact) artifact;
-			// OssjUpdateProcedureSpecifics specs =
-			// (OssjUpdateProcedureSpecifics) art
-			// .getIStandardSpecifics();
-			// Properties props = specs.getInterfaceProperties();
-			// props.setProperty("package", element
-			// .getAttribute("interfacePackage"));
-			// props.setProperty("generate", element
-			// .getAttribute("interfaceGenerate"));
-			// specs.setInterfaceProperties(props);
-			// // Things in the "Ossj section" are all "OPTIONAL", so we need to
-			// // check for their presence
-			// if (element.hasAttribute("singleExtension")) {
-			// specs.setSingleExtensionType(Boolean.parseBoolean(element
-			// .getAttribute("singleExtension")));
-			// }
-			// if (element.hasAttribute("sessionFactoryMethods")) {
-			// specs.setSessionFactoryMethods(Boolean.parseBoolean(element
-			// .getAttribute("sessionFactoryMethods")));
-			// }
+			
 		}
 	}
 
@@ -933,6 +744,9 @@ public class XML2TS {
 			for (IStereotypeInstance st : getStereotypes(field, out, messages)) {
 				newField.addStereotypeInstance(st);
 			}
+			
+			setAnnotations(field, newField, out, messages);
+			
 			artifact.addField(newField);
 
 		}
@@ -959,10 +773,43 @@ public class XML2TS {
 			for (IStereotypeInstance st : getStereotypes(literal, out, messages)) {
 				newLiteral.addStereotypeInstance(st);
 			}
+			
+			setAnnotations(literal, newLiteral, out, messages);
 			artifact.addLiteral(newLiteral);
 		}
 	}
 
+	
+	private void setAnnotations(Element element, IAnnotationCapable capable,
+			PrintWriter out, MessageList messages) {
+		
+		Collection<EObject> annotationContents =  xmlParserUtils.getAnnotations(element);
+		for (EObject content : annotationContents){
+			try {
+				addAnnotation(capable, content);
+			}catch (TigerstripeException t){
+				String msgText = t.getMessage();
+				addMessage(messages, msgText, 0);
+			}
+		}
+		
+	}
+	
+	protected void addAnnotation(IAnnotationCapable component, EObject content) throws TigerstripeException{
+		try {
+			System.out.println("Add Annotation to "+ component.getClass());
+			String annotationClass = content.getClass().getInterfaces()[0].getName();
+			Annotation anno = helper.addAnnotation(component, Util.packageOf(annotationClass), Util.nameOf(annotationClass));
+			anno.setContent(content);
+			//AnnotationHelper.getInstance().saveAnnotation(anno);
+			
+		} catch (Exception e){
+			e.printStackTrace();
+			throw new TigerstripeException("Exception adding annotation to component",e);
+		}
+	}
+	
+	
 	private void setMethods(Element element, IAbstractArtifact artifact,
 			PrintWriter out, MessageList messages) {
 		NodeList methodNodes = element.getElementsByTagNameNS(usedNamespace,
@@ -1103,7 +950,7 @@ public class XML2TS {
 			}
 
 			newMethod.setComment(getComment(method));
-
+			setAnnotations(method, newMethod, out, messages);
 			artifact.addMethod(newMethod);
 		}
 	}

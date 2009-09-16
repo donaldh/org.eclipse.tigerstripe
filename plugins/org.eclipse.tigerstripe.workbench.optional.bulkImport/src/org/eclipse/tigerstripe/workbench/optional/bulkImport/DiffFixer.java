@@ -16,17 +16,24 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EventDescriptorEntry;
+import org.eclipse.tigerstripe.workbench.internal.core.model.importing.xml.ImportCloningUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjArtifactSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjEventSpecifics;
+import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
 import org.eclipse.tigerstripe.workbench.internal.tools.compare.Difference;
+import org.eclipse.tigerstripe.workbench.model.annotation.AnnotationHelper;
+import org.eclipse.tigerstripe.workbench.model.annotation.IAnnotationCapable;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
@@ -69,6 +76,8 @@ public class DiffFixer {
 	private int MESSAGE_LEVEL = 3;
 
 	private MessageList messages;
+	private PrintWriter out;
+	private AnnotationHelper helper = AnnotationHelper.getInstance();
 
 	/**
 	 * 
@@ -78,7 +87,7 @@ public class DiffFixer {
 	 * @param messages
 	 * @return - those diffs that need a second pass
 	 */
-	public ArrayList<Difference> fixAll(ArrayList<Difference> diffs,
+	public ArrayList<Difference> fixAll(IArtifactManagerSession projectMgrSession, ArrayList<Difference> diffs,
 			ImportBundle bundle, PrintWriter out, MessageList messages) {
 
 		ArrayList<Difference> secondPassDiffs = new ArrayList<Difference>();
@@ -86,6 +95,7 @@ public class DiffFixer {
 		Map<String, IAbstractArtifact> extractedArtifacts = bundle
 				.getExtractedArtifacts();
 		this.messages = messages;
+		this.out = out;
 		/*
 		 * Every diff in the diffs should be applied to the artifacts in the
 		 * project managed by this session
@@ -106,7 +116,7 @@ public class DiffFixer {
 		for (Difference diff : sortedDiffs) {
 			out.println("Handling Difference : " + diff);
 			try {
-				IAbstractArtifact artifact = mgrSession
+				IAbstractArtifact artifact = projectMgrSession
 						.getArtifactByFullyQualifiedName(diff.getLocal());
 				IAbstractArtifact extractedArtifact = extractedArtifacts
 						.get(diff.getLocal());
@@ -124,10 +134,23 @@ public class DiffFixer {
 				 */
 				if (diff.getScope().equals("Artifact")) {
 					if (diff.getLocalVal().equals("present")) {
-						mgrSession.addArtifact(extractedArtifact);
-						IAbstractArtifact newArt = mgrSession
-								.getArtifactByFullyQualifiedName(extractedArtifact
+						// TODO Is this just a bit too "hairy"
+						// Setting to the new mgrSession causes the Annos to be lost.
+						
+						
+						IAbstractArtifact newArt = projectMgrSession.makeArtifact(extractedArtifact);
+						projectMgrSession.addArtifact(newArt);
+						newArt.setFullyQualifiedName(extractedArtifact
 										.getFullyQualifiedName());
+						
+
+						// Now need to copy all Fileds, Methods, Literals,
+						// - including Annotations
+						// and specifics 
+						
+//						newArt = projectMgrSession
+//								.getArtifactByFullyQualifiedName(extractedArtifact
+//										.getFullyQualifiedName());
 						// update a list of diffs that added artifacts,
 						// so that we can re-check their extends in a second
 						// pass
@@ -142,13 +165,59 @@ public class DiffFixer {
 							}
 							// set it to null for now
 							newArt.setExtendedArtifact((IAbstractArtifact) null);
-
-							newArt.doSave(new NullProgressMonitor());
-							String msgText = "INFO : Added Artifact "
-									+ diff.getLocal();
-							out.println(msgText);
-
 						}
+							
+						// Copy Fields, Methods, Literals,
+						for ( IField extractedField : extractedArtifact.getFields()){
+							newArt.addField(ImportCloningUtils.cloneField(extractedField));
+							for ( IField newField :newArt.getFields()){
+								if (newField.getName().equals(extractedField.getName())){
+									copyAnnotations(extractedField, newField);
+									break;
+								}
+							}
+							
+						}
+						
+						for ( IMethod extractedMethod : extractedArtifact.getMethods()){
+							newArt.addMethod(ImportCloningUtils.cloneMethod(extractedMethod));
+							for ( IMethod newMethod :newArt.getMethods()){
+								if (newMethod.getMethodId().equals(extractedMethod.getMethodId())){
+									copyAnnotations(extractedMethod, newMethod);
+									break;
+								}
+							}
+						}
+						for ( ILiteral extractedLiteral : extractedArtifact.getLiterals()){
+							newArt.addLiteral(ImportCloningUtils.cloneLiteral(extractedLiteral));
+							for ( ILiteral newLiteral :newArt.getLiterals()){
+								if (newLiteral.getName().equals(extractedLiteral.getName())){
+									copyAnnotations(extractedLiteral, newLiteral);
+									break;
+								}
+							}
+						}
+						
+						// BIG TODO : Make a cloneArtifact method in the Clone Utils and use that here properly
+						// Do all of the individual difference things for annotations.
+						// The compare also needs updating to compare the Annotations
+						// Delete the temp project
+						
+						
+						// TODO copy specifics
+						
+						
+						// TODO Implements ?
+						
+						// Copy Annotations
+						copyAnnotations(extractedArtifact, newArt);
+
+						newArt.doSave(new NullProgressMonitor());
+						String msgText = "INFO : Added Artifact "
+							+ diff.getLocal();
+						out.println(msgText);
+
+
 
 					} else {
 						String msgText = "New Artifact " + diff.getLocal()
@@ -423,7 +492,7 @@ public class DiffFixer {
 				if (diff.getScope().equals("Artifact:Field")) {
 					if (diff.getLocalVal().equals("present")) {
 						field = getIField(extractedArtifact, diff.getObject());
-						artifact.addField(field);
+						artifact.addField(ImportCloningUtils.cloneField(field));
 						String msgText = "INFO : Added Field "
 								+ diff.getObject() + "on " + diff.getLocal();
 						out.println(msgText);
@@ -477,7 +546,7 @@ public class DiffFixer {
 							 * will not be changed"; out.println(msgText);
 							 */
 						}
-						artifact.addField(diffField);
+						artifact.addField(ImportCloningUtils.cloneField(diffField));
 						artifact.doSave(new NullProgressMonitor());
 						String msgText = "INFO : Replaced Field "
 								+ diff.getObject() + " on " + diff.getLocal();
@@ -565,7 +634,7 @@ public class DiffFixer {
 				if (diff.getScope().equals("Artifact:Literal")) {
 					if (diff.getLocalVal().equals("present")) {
 						literal = getILiteral(extractedArtifact, diff.getObject());
-						artifact.addLiteral(literal);
+						artifact.addLiteral(ImportCloningUtils.cloneLiteral(literal));
 						artifact.doSave(new NullProgressMonitor());
 						String msgText = "INFO : Added Literal "
 								+ diff.getObject() + " on " + diff.getLocal();
@@ -613,7 +682,7 @@ public class DiffFixer {
 							artifact.removeLiterals(Collections.singleton(literal));
 						}
 
-						artifact.addLiteral(diffLiteral);
+						artifact.addLiteral(ImportCloningUtils.cloneLiteral(diffLiteral));
 						for (IStereotypeInstance inst : extraStereos) {
 							diffLiteral
 									.addStereotypeInstance((IStereotypeInstance) inst);
@@ -709,7 +778,7 @@ public class DiffFixer {
 				if (diff.getScope().equals("Artifact:Method")) {
 					if (diff.getLocalVal().equals("present")) {
 						method = getIMethod(extractedArtifact, diff.getObject());
-						artifact.addMethod(method);
+						artifact.addMethod(ImportCloningUtils.cloneMethod(method));
 						artifact.doSave(new NullProgressMonitor());
 						String msgText = "INFO : Added Method "
 								+ diff.getObject() + " on " + diff.getLocal();
@@ -777,14 +846,14 @@ public class DiffFixer {
 							 */
 						}
 						for (IArgument argument : extraArguments) {
-							diffMethod.addArgument(argument);
+							diffMethod.addArgument(ImportCloningUtils.cloneArgument(argument));
 							/*
 							 * String msgText = "INFO : New Argument " +
 							 * argument.getName() + " on " + diff.getLocal() + "
 							 * will not be changed"; out.println(msgText);
 							 */
 						}
-						artifact.addMethod(diffMethod);
+						artifact.addMethod(ImportCloningUtils.cloneMethod(diffMethod));
 						artifact.doSave(new NullProgressMonitor());
 						String msgText = "INFO : Replaced Method " + methodName
 								+ " on " + diff.getLocal();
@@ -1444,6 +1513,29 @@ public class DiffFixer {
 		return null;
 	}
 
+	private void copyAnnotations(IAnnotationCapable from, IAnnotationCapable to){
+		// Copy Annotations
+		
+		List<Annotation> originalAnnos = helper.getAnnotations(from);
+		for (Annotation annotation : originalAnnos){
+
+			EObject content = annotation.getContent(); 
+			String annotationClass = content.getClass().getInterfaces()[0].getName();
+			Annotation newAnnotation;
+			try {
+				newAnnotation = helper.addAnnotation(to, Util.packageOf(annotationClass), Util.nameOf(annotationClass));
+				newAnnotation.setContent(content);
+			} catch (TigerstripeException e) {
+				// TODO Auto-generated catch block
+				String msgText = "ERROR : Failed to migrate Annotations ";	
+				out.println(msgText);
+				e.printStackTrace(out);
+			}
+
+			
+		}
+	}
+	
 	public ArrayList<Difference> sortDiffs(ArrayList<Difference> inDiffs) {
 		ArrayList<Difference> sortedDiffs = new ArrayList<Difference>();
 		ArrayList<Difference> tempDiffs = new ArrayList<Difference>();

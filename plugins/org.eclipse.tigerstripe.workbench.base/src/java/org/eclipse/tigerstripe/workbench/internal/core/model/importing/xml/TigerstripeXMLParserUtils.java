@@ -37,6 +37,7 @@ import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeAttribute;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
+import org.w3c.dom.CDATASection;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
@@ -414,12 +415,22 @@ public class TigerstripeXMLParserUtils {
 				Element annotationsElement = (Element) annotationsNodes.item(an);
 				if (annotationsElement.getLocalName().equals("annotations")){
 				// should really only be one
+					// But it contains a series of Annotations.....
 
+					// For some reason its returning the two or more CDTA sections run together..
+					// And it doesn't even recognise them as CDATA !
+					
+				String content = annotationsElement.getTextContent();
+				
+				annotationsElement.getChildNodes().item(0).getNodeName();
+				element.getOwnerDocument().getImplementation();
+					
 				ResourceSet resourceSet = new ResourceSetImpl();
 
 				URI uri = URI.createURI("http://testAnno.anno");
 				Resource resource = resourceSet.createResource(uri);
 
+				
 				ByteArrayInputStream bis = new ByteArrayInputStream(annotationsElement.getTextContent().getBytes());
 
 				try {

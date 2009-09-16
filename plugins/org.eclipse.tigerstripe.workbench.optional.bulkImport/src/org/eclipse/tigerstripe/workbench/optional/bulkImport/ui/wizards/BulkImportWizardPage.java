@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
 import java.util.ArrayList;
 
 import org.eclipse.core.resources.IResource;
@@ -43,14 +44,17 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.Message;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
 import org.eclipse.tigerstripe.workbench.internal.tools.compare.Difference;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.optional.bulkImport.DiffFixer;
 import org.eclipse.tigerstripe.workbench.optional.bulkImport.ImportBundle;
 import org.eclipse.tigerstripe.workbench.optional.bulkImport.XML2TS;
+import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.internal.elements.MessageListDialog;
 import org.eclipse.ui.dialogs.ContainerSelectionDialog;
@@ -82,6 +86,8 @@ public class BulkImportWizardPage extends WizardPage {
 
 	protected PrintWriter out;
 	protected MessageList messages;
+	
+	private IArtifactManagerSession projectMgrSession;
 
 	public BulkImportWizardPage() {
 		super(PAGE_NAME);
@@ -410,10 +416,10 @@ public class BulkImportWizardPage extends WizardPage {
 			TigerstripeProjectAuditor.setTurnedOffForImport(true);
 			DiffFixer fixer = new DiffFixer();
 
-			ArrayList<Difference> secondPassDiffs = fixer.fixAll(allXMLDiffs,
+			ArrayList<Difference> secondPassDiffs = fixer.fixAll(projectMgrSession,allXMLDiffs,
 					bundle, out, messages);
 			// Bit of a sledgehammer - we'll re-add the artifacts.
-			fixer.fixAll(secondPassDiffs, bundle, out, messages);
+			fixer.fixAll(projectMgrSession,secondPassDiffs, bundle, out, messages);
 			TigerstripeProjectAuditor.setTurnedOffForImport(false);
 
 			out.close();
@@ -464,9 +470,12 @@ public class BulkImportWizardPage extends WizardPage {
 		}
 	}
 
+	
+	//TODO - Some "real" error handling
 	public boolean doLoad(IProgressMonitor monitor) throws CoreException {
 
 		try {
+			
 			// Restart the list in case a new XML has been created.
 			messages = new MessageList();
 			File importFile = new File(getImportFilename());
@@ -479,6 +488,62 @@ public class BulkImportWizardPage extends WizardPage {
 					+ getTigerstripeName();
 
 			out.println(importText);
+			
+			
+			// Make sure the TS project is OK
+			// Have to do this early as we use the mgrSession
+
+			try {
+				
+				IResource tsContainer = ResourcesPlugin.getWorkspace()
+						.getRoot().findMember(new Path(getTigerstripeName()));
+
+				URI projectURI = tsContainer.getLocationURI();
+				ITigerstripeModelProject tsProject = (ITigerstripeModelProject) TigerstripeCore
+						.findProject(projectURI);
+				this.projectMgrSession = tsProject.getArtifactManagerSession();
+				String msgText = " Target Project : " + tsProject.getName();
+				//addMessage(messages, msgText, 2);
+				Message message = new Message();
+				message.setMessage(msgText);
+				message.setSeverity(2);
+				messages.addMessage(message);
+				out.println("info : " + msgText);
+				this.projectMgrSession.refresh(true, monitor);
+
+			} catch (Exception e) {
+				String msgText = "Problem opening TS Project " + getTigerstripeName();
+				//addMessage(messages, msgText, 0);
+				Message message = new Message();
+				message.setMessage(msgText);
+				message.setSeverity(0);
+				messages.addMessage(message);
+				out.println("Error : " + msgText);
+				e.printStackTrace(this.out);
+				return false;
+			}
+			
+			// Create the Temp project (delete any remnants of old ones)
+			ITigerstripeModelProject tempProject;
+			try {
+				
+				tempProject = XML2TS.createTempProject();
+				
+			} catch (TigerstripeException e) {
+				String msgText = "Problem creating Temp Project " + "__Import__Temp__";
+				//addMessage(messages, msgText, 0);
+				Message message = new Message();
+				message.setMessage(msgText);
+				message.setSeverity(0);
+				messages.addMessage(message);
+				out.println("Error : " + msgText);
+				e.printStackTrace(this.out);
+				return false;
+
+			}
+			
+			
+
 
 			Message message = new Message();
 			message.setMessage(importText);
@@ -488,10 +553,12 @@ public class BulkImportWizardPage extends WizardPage {
 			out.println("Loading file " + importFile.getName());
 			// Parse into TS
 			XML2TS xML2TS = new XML2TS(out, messages);
-			bundle = xML2TS.loadXMLtoTigerstripe(importFile,
+			bundle = xML2TS.loadXMLtoTigerstripe(tempProject, importFile,
 					getTigerstripeName(),  monitor);
-
-			allXMLDiffs = xML2TS.compareExtractAndProject(bundle, monitor, out,
+			if (bundle ==  null){
+				throw new TigerstripeException("No import bundle");
+			}
+			allXMLDiffs = xML2TS.compareExtractAndProject(bundle, projectMgrSession, monitor, out,
 					messages);
 			out.close();
 			monitor.done();
