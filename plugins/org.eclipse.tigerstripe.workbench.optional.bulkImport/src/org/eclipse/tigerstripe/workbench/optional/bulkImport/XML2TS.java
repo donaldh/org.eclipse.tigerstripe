@@ -244,8 +244,8 @@ public class XML2TS {
 					break;
 				} catch (Exception e) {
 					// This one didn't match, so just try the next one.
-					String msgText = "XML file does not validate aginst the schema "
-						+ importFile.getName() + "'" + e.getMessage() + "'";
+					String msgText = "XML source does not validate aginst the schema "
+						 + e.getMessage() + "'";
 					addMessage(messages, msgText, 0);
 					out.println("Error : " + msgText);
 					//	return null;
@@ -253,8 +253,7 @@ public class XML2TS {
 
 			}
 			if (usedNamespace == null){
-				String msgText = "XML does not validate aginst the any available schemas "
-					+ importFile.getName();
+				String msgText = "XML does not validate aginst the any available schemas ";
 				addMessage(messages, msgText, 0);
 				out.println("Error : " + msgText);
 				return null;

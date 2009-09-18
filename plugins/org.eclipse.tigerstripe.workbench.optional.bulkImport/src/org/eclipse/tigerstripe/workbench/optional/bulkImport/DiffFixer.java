@@ -261,13 +261,19 @@ public class DiffFixer {
 						String fqn = diff.getLocalVal();
 						IAbstractArtifact extArtifact = mgrSession
 								.getArtifactByFullyQualifiedName(fqn);
-						// if (extArtifact != null){
+						if (extArtifact == null){
+							// Go ahead and make one
+							// This will result in a broken project, but that'w what the
+							// XML says
+							extArtifact = mgrSession.makeArtifact(artifact);
+							extArtifact.setFullyQualifiedName(fqn);
+						}
 						artifact.setExtendedArtifact(extArtifact);
 						String msgText = "INFO : Updated Extends for "
 								+ diff.getLocal();
 						out.println(msgText);
 						artifact.doSave(new NullProgressMonitor());
-						// }
+						
 					} catch (TigerstripeException t) {
 
 					}
