@@ -204,10 +204,15 @@ public class DiffFixer {
 						// Delete the temp project
 						
 						
-						// TODO copy specifics
+						// copy specifics
+						ImportCloningUtils.cloneSpecifics( extractedArtifact, newArt);
+						
+						// TODO Implements, Comments
+						newArt.setComment(extractedArtifact.getComment());
+						newArt.setImplementedArtifacts(extractedArtifact.getImplementedArtifacts());
+						newArt.setAbstract(extractedArtifact.isAbstract());
 						
 						
-						// TODO Implements ?
 						
 						// Copy Annotations
 						copyAnnotations(extractedArtifact, newArt);
