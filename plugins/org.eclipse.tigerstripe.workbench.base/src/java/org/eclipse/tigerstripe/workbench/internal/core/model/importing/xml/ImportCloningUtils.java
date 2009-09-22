@@ -10,11 +10,19 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.model.importing.xml;
 
+
 import org.eclipse.tigerstripe.workbench.model.annotation.AnnotationHelper;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
@@ -103,5 +111,61 @@ public class ImportCloningUtils {
 			outCapable.addStereotypeInstance(instance);
 		}
 	}
+	
+	
+	public static void cloneSpecifics(IAbstractArtifact inArtifact, IAbstractArtifact outArtifact){
+		
+		if (inArtifact instanceof IEnumArtifact && outArtifact instanceof IEnumArtifact){
+			IEnumArtifact in = (IEnumArtifact) inArtifact;
+			IEnumArtifact out = (IEnumArtifact) outArtifact;
+			out.setBaseType(in.getBaseType());
+			
+		}
+		if (inArtifact instanceof IAssociationArtifact && outArtifact instanceof IAssociationArtifact){
+			IAssociationArtifact in = (IAssociationArtifact) inArtifact;
+			IAssociationArtifact out = (IAssociationArtifact) outArtifact;
+			out.setAEnd(cloneAssociationEnd(in.getAEnd()));
+			out.setZEnd(cloneAssociationEnd(in.getZEnd()));
+		}
+		
+		if (inArtifact instanceof IAssociationClassArtifact && outArtifact instanceof IAssociationClassArtifact){
+			// Should be handled as this extends IAssociationArtifact
+		}
+		if (inArtifact instanceof IDependencyArtifact && outArtifact instanceof IDependencyArtifact){
+			IDependencyArtifact in = (IDependencyArtifact) inArtifact;
+			IDependencyArtifact out = (IDependencyArtifact) outArtifact;
+			
+			out.setAEndType(in.getAEndType());
+			out.setZEndType(in.getZEndType());
+			
+		}
+		if (inArtifact instanceof IQueryArtifact && outArtifact instanceof IQueryArtifact){
+			IQueryArtifact in = (IQueryArtifact) inArtifact;
+			IQueryArtifact out = (IQueryArtifact) outArtifact;
+			out.setReturnedType(in.getReturnedType());
+			
+		}
+		
+		
+	}
+	
+	private static IAssociationEnd cloneAssociationEnd(IAssociationEnd inEnd){
+		IAssociationEnd outEnd = inEnd.getContainingAssociation().makeAssociationEnd();
+		
+		outEnd.setAggregation(inEnd.getAggregation());
+		outEnd.setChangeable(inEnd.getChangeable());
+		outEnd.setComment(inEnd.getComment());
+		outEnd.setMultiplicity(inEnd.getMultiplicity());
+		outEnd.setName(inEnd.getName());
+		outEnd.setNavigable(inEnd.isNavigable());
+		outEnd.setOrdered(inEnd.isOrdered());
+		outEnd.setType(inEnd.getType());
+		outEnd.setUnique(inEnd.isUnique());
+		outEnd.setVisibility(inEnd.getVisibility());
+		
+		
+		return outEnd;
+	}
+	
 	
 }
