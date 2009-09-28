@@ -64,6 +64,8 @@ public class TigerstripeXMLParserUtils {
 	
 	public String getArtifactType(Element artifactElement){
 		String artifactTypeName = artifactElement.getAttribute("artifactType");
+		if (artifactTypeName.equals(""))
+			return null;
 		return artifactTypeName;
 	}
 	
