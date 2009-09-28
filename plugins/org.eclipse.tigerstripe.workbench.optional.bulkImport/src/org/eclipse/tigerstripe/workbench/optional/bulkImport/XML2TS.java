@@ -518,8 +518,15 @@ public class XML2TS {
 				addMessage(messages, msgText, 0);
 				continue;
 			}
-
-			IAbstractArtifact inArtifact = tempMgrSession.makeArtifact(typeName);
+			IAbstractArtifact inArtifact;
+			try {
+				inArtifact = tempMgrSession.makeArtifact(typeName);
+			} catch (IllegalArgumentException ile){
+				String msgText = "failed to create Artifact "
+					+ artifactName;
+				addMessage(messages, msgText, 0);
+			continue;
+			}
 			inArtifact.setFullyQualifiedName(artifactName);
 			out.println("Found Artifact in XML : "
 					+ inArtifact.getFullyQualifiedName());
@@ -712,7 +719,7 @@ public class XML2TS {
 			// Need to support new and old versions
 			type.setTypeMultiplicity(IModelComponent.EMultiplicity.parse(field
 					.getAttribute("typeMultiplicity")));
-			this.out.println(type.getTypeMultiplicity().getLabel());
+			//this.out.println(type.getTypeMultiplicity().getLabel());
 			// end
 			newField.setType(type);
 			newField.setVisibility(EVisibility.parse(field
@@ -796,7 +803,7 @@ public class XML2TS {
 	
 	protected void addAnnotation(IAnnotationCapable component, EObject content) throws TigerstripeException{
 		try {
-			System.out.println("Add Annotation to "+ component.getClass());
+			out.println("Add Annotation to "+ component.getClass());
 			String annotationClass = content.getClass().getInterfaces()[0].getName();
 			Annotation anno = helper.addAnnotation(component, Util.packageOf(annotationClass), Util.nameOf(annotationClass));
 			anno.setContent(content);

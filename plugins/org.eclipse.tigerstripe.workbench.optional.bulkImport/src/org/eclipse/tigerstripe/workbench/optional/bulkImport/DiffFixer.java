@@ -64,6 +64,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjEnumSpecifi
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjQuerySpecifics;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeAttribute;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
+import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 
 /**
  * Take in an array of Differences and fix them
@@ -139,11 +140,13 @@ public class DiffFixer {
 						
 						
 						IAbstractArtifact newArt = projectMgrSession.makeArtifact(extractedArtifact);
-						projectMgrSession.addArtifact(newArt);
 						newArt.setFullyQualifiedName(extractedArtifact
 										.getFullyQualifiedName());
+						projectMgrSession.addArtifact(newArt);
+						out.println("make "+ extractedArtifact
+								.getFullyQualifiedName());
 						
-
+						
 						// Now need to copy all Fileds, Methods, Literals,
 						// - including Annotations
 						// and specifics 
