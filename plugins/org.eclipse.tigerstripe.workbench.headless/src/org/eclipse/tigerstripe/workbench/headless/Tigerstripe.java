@@ -65,7 +65,7 @@ public class Tigerstripe implements IApplication {
 		return EXIT_OK;
 	}
 
-	private void printTigerstipeVersionInfo() {
+	public static  void printTigerstipeVersionInfo() {
 		System.out.println(TigerstripeCore.getRuntimeDetails()
 				.getBaseBundleValue(Constants.BUNDLE_NAME)
 				+ " (v"
