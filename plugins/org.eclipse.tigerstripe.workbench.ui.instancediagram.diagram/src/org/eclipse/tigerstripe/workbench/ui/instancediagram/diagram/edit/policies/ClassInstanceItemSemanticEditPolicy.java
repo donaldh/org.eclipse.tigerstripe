@@ -89,8 +89,10 @@ public class ClassInstanceItemSemanticEditPolicy extends
 			 * and the underlying model, but the association instances are only
 			 * removed from the view). (non-Javadoc)
 			 * 
-			 * @see org.eclipse.gmf.runtime.emf.type.core.commands.DestroyElementCommand#doExecuteWithResult(org.eclipse.core.runtime.IProgressMonitor,
-			 *      org.eclipse.core.runtime.IAdaptable)
+			 * @see
+			 * org.eclipse.gmf.runtime.emf.type.core.commands.DestroyElementCommand
+			 * #doExecuteWithResult(org.eclipse.core.runtime.IProgressMonitor,
+			 * org.eclipse.core.runtime.IAdaptable)
 			 */
 			@Override
 			protected CommandResult doExecuteWithResult(
@@ -449,14 +451,14 @@ public class ClassInstanceItemSemanticEditPolicy extends
 					boolean matchingLinkReverseExists = false; // Bug #910
 					String relationshipStr = "";
 					if (aEndIsSingle && zEndIsSingle) {
-						matchingLinkExists = (instance.getAEnd() == (Instance) getSource() || instance
+						matchingLinkExists = (instance.getAEnd() == (Instance) getSource() && instance
 								.getZEnd() == (Instance) getTarget());
 
 						// Bug 910: since instance diags only have one handle,
 						// we must check the other
 						// direction of drawing as well
-						matchingLinkReverseExists = (instance.getZEnd() == (Instance) getSource() || instance
-								.getAEnd() == (Instance) getTarget());
+						matchingLinkReverseExists = instance.getZEnd() == (Instance) getSource()
+								&& (Instance) getTarget() == instance.getAEnd();
 						relationshipStr = "one:one";
 					} else if (aEndIsSingle) {
 						matchingLinkExists = (instance.getAEnd() != (Instance) getSource() && instance
