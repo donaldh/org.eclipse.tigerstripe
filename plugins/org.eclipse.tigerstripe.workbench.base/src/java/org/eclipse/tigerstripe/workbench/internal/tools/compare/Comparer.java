@@ -151,7 +151,7 @@ public class Comparer {
 			ISessionArtifact artB) {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
 
-		differences.addAll(CompareUtils.compareInterface(artA, artB));
+		//differences.addAll(CompareUtils.compareInterface(artA, artB));
 		differences.addAll(CompareUtils.compareMethods(artA, artB));
 
 		differences.addAll(CompareSession.compareEmittedEvents(artA, artB));
@@ -165,7 +165,7 @@ public class Comparer {
 	public ArrayList<Difference> compareUpdate(IUpdateProcedureArtifact artA,
 			IUpdateProcedureArtifact artB) {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
-		differences.addAll(CompareUtils.compareInterface(artA, artB));
+		//differences.addAll(CompareUtils.compareInterface(artA, artB));
 		differences.addAll(CompareUtils.compareLiterals(artA, artB));
 		differences.addAll(CompareUtils.compareFields(artA, artB));
 		differences.addAll(CompareUtils.compareSingleExtension(artA, artB));
@@ -177,7 +177,7 @@ public class Comparer {
 	public ArrayList<Difference> compareEnumeration(IEnumArtifact artA,
 			IEnumArtifact artB) {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
-		differences.addAll(CompareUtils.compareInterface(artA, artB));
+		//differences.addAll(CompareUtils.compareInterface(artA, artB));
 		differences.addAll(CompareUtils.compareLiterals(artA, artB));
 		differences.addAll(CompareEnumeration.compareEnumSpecifics(artA, artB));
 		return differences;
@@ -186,7 +186,7 @@ public class Comparer {
 	public ArrayList<Difference> compareEvent(IEventArtifact artA,
 			IEventArtifact artB) {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
-		differences.addAll(CompareUtils.compareInterface(artA, artB));
+		//differences.addAll(CompareUtils.compareInterface(artA, artB));
 		differences.addAll(CompareUtils.compareLiterals(artA, artB));
 		differences.addAll(CompareUtils.compareFields(artA, artB));
 		differences.addAll(CompareEvent.compareEventSpecifics(artA, artB));
@@ -197,7 +197,7 @@ public class Comparer {
 	public ArrayList<Difference> compareDatatype(IDatatypeArtifact artA,
 			IDatatypeArtifact artB) {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
-		differences.addAll(CompareUtils.compareInterface(artA, artB));
+		//differences.addAll(CompareUtils.compareInterface(artA, artB));
 		differences.addAll(CompareUtils.compareLiterals(artA, artB));
 		differences.addAll(CompareUtils.compareFields(artA, artB));
 		differences.addAll(CompareUtils.compareMethods(artA, artB));
@@ -211,7 +211,7 @@ public class Comparer {
 	public ArrayList<Difference> compareException(IExceptionArtifact artA,
 			IExceptionArtifact artB) {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
-		differences.addAll(CompareUtils.compareInterface(artA, artB));
+		//differences.addAll(CompareUtils.compareInterface(artA, artB));
 		// There are no attribues,constants,methods or specifics for Exceptions
 		// Makes this whole thing a bit pointless!
 		return differences;
@@ -220,7 +220,7 @@ public class Comparer {
 	public ArrayList<Difference> compareQuery(IQueryArtifact artA,
 			IQueryArtifact artB) {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
-		differences.addAll(CompareUtils.compareInterface(artA, artB));
+		//differences.addAll(CompareUtils.compareInterface(artA, artB));
 		differences.addAll(CompareUtils.compareLiterals(artA, artB));
 		differences.addAll(CompareUtils.compareFields(artA, artB));
 		differences.addAll(CompareQuery.compareQuerySpecifics(artA, artB));
@@ -233,7 +233,7 @@ public class Comparer {
 	public ArrayList<Difference> compareEntity(IManagedEntityArtifact artA,
 			IManagedEntityArtifact artB) {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
-		differences.addAll(CompareUtils.compareInterface(artA, artB));
+		//differences.addAll(CompareUtils.compareInterface(artA, artB));
 		differences.addAll(CompareUtils.compareLiterals(artA, artB));
 		differences.addAll(CompareUtils.compareFields(artA, artB));
 		differences.addAll(CompareUtils.compareMethods(artA, artB));

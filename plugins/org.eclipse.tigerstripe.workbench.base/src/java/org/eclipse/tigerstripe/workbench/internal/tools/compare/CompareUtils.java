@@ -832,19 +832,19 @@ public class CompareUtils {
 									.getType().getTypeMultiplicity()
 									.toString()));
 				}
-				if (aField.getRefBy() != bField.getRefBy()) {
-					// Compare RefBy
-					// TODO : Should only check this if it is relevant?
-					differences.add(new Difference(
-							// "","Artifact Field:RefBy",
-							// aArtifact.getFullyQualifiedName(),
-							// fieldName.toString(),aField.getRefBy(),bField.getRefBy()));
-							"value", aArtifact.getFullyQualifiedName(),
-							bArtifact.getFullyQualifiedName(),
-							"Artifact:Field:RefBy", fieldName.toString(),
-							((Integer) aField.getRefBy()).toString(),
-							((Integer) bField.getRefBy()).toString()));
-				}
+//				if (aField.getRefBy() != bField.getRefBy()) {
+//					// Compare RefBy
+//					// TODO : Should only check this if it is relevant?
+//					differences.add(new Difference(
+//							// "","Artifact Field:RefBy",
+//							// aArtifact.getFullyQualifiedName(),
+//							// fieldName.toString(),aField.getRefBy(),bField.getRefBy()));
+//							"value", aArtifact.getFullyQualifiedName(),
+//							bArtifact.getFullyQualifiedName(),
+//							"Artifact:Field:RefBy", fieldName.toString(),
+//							((Integer) aField.getRefBy()).toString(),
+//							((Integer) bField.getRefBy()).toString()));
+//				}
 				if (aField.getVisibility() != bField.getVisibility()) {
 					// Compare Visibility
 					differences.add(new Difference(
