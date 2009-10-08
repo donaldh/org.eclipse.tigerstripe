@@ -159,6 +159,16 @@ public class XML2TS {
 		return tempProject;
 	}
 	
+	public static void deleteTempProject() throws TigerstripeException {
+		// Just in case we didn't clean up last time
+		ITigerstripeModelProject tempProject;
+		IAbstractTigerstripeProject findProject = TigerstripeCore.findProject("__Import__Temp__");
+		if ( findProject != null){
+			findProject.delete(true, null);
+		}
+		
+	}
+	
 	public ImportBundle loadXMLtoTigerstripe(ITigerstripeModelProject tempProject, InputStream inputStream,
 			String tSProjectName, IProgressMonitor monitor)
 			throws TigerstripeException {
@@ -329,7 +339,7 @@ public class XML2TS {
 					.values()) {
 				String artifactName = extractedArtifact.getName();
 				out.print("Comparing " + artifactName);
-				IAbstractArtifact projectArtifact = bundle.getMgrSession()
+				IAbstractArtifact projectArtifact = mgrSession
 						.getArtifactByFullyQualifiedName(extractedArtifact
 								.getFullyQualifiedName());
 				if (projectArtifact == null) {

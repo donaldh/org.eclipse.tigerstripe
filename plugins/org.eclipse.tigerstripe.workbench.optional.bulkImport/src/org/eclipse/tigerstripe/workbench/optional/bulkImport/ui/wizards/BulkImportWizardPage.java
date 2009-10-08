@@ -592,4 +592,18 @@ public class BulkImportWizardPage extends WizardPage {
 		this.out.close();
 	}
 
+	@Override
+	public void dispose() {
+		try {
+			XML2TS.deleteTempProject();
+		} catch (TigerstripeException e) {
+			out.println("Unable to delete Temp Project ");
+			e.printStackTrace(out);
+		}
+		super.dispose();
+	}
+
+
+	
+	
 }
