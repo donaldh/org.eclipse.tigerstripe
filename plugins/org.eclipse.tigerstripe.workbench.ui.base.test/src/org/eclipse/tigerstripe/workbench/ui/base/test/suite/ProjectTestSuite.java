@@ -4,19 +4,15 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.eclipse.tigerstripe.workbench.ui.base.test.generator.Generate;
-import org.eclipse.tigerstripe.workbench.ui.base.test.generator.NewArtifactRule;
-import org.eclipse.tigerstripe.workbench.ui.base.test.generator.NewGlobalRule;
-import org.eclipse.tigerstripe.workbench.ui.base.test.generator.NewPluginProject;
-import org.eclipse.tigerstripe.workbench.ui.base.test.generator.SaveAndDeployPlugin;
-import org.eclipse.tigerstripe.workbench.ui.base.test.profile.CreateProfile;
-import org.eclipse.tigerstripe.workbench.ui.base.test.profile.SaveAndDeployProfile;
-import org.eclipse.tigerstripe.workbench.ui.base.test.profile.TestActiveProfile;
-import org.eclipse.tigerstripe.workbench.ui.base.test.profile.UpdateProfileArtifacts;
+import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.ClearExpectedAuditErrors;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.CloseProject;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.NewArtifacts;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.NewProject;
+import org.eclipse.tigerstripe.workbench.ui.internal.perspective.TigerstripePerspectiveFactory;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.WorkbenchException;
 
 public class ProjectTestSuite extends TestCase
 {
@@ -33,6 +29,9 @@ public class ProjectTestSuite extends TestCase
         TestSuite suite = new TestSuite(); 
         suite.addTestSuite(CleanWorkspace.class);
         
+        // Bring up the Tigerstripe perspective
+		openPerspective(TigerstripePerspectiveFactory.ID);
+        
         // creates a new Project - do this so we are in the TES perspective
         suite.addTestSuite(NewProject.class);
         
@@ -47,4 +46,15 @@ public class ProjectTestSuite extends TestCase
         
         return suite;
     }
+    
+	private static void openPerspective(String perspId) {
+		try {
+			IWorkbench workbench = PlatformUI.getWorkbench();
+			workbench.showPerspective(perspId, workbench
+					.getActiveWorkbenchWindow());
+		} catch (WorkbenchException e) {
+			EclipsePlugin.log(e);
+		}
+	}
+
 }
