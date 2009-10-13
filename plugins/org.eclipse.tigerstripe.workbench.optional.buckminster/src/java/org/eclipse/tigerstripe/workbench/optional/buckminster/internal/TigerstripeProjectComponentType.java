@@ -78,12 +78,14 @@ public class TigerstripeProjectComponentType extends AbstractComponentType {
 		}
 
 		Node pluginsNode = null;
-		xpath = XPathFactory.newInstance().newXPath();
-		try {
-			pluginsNode = (Node) xpath.evaluate("/tigerstripe/plugins", tsxml, XPathConstants.NODE);
-		} catch (XPathExpressionException e) {
-			throw BuckminsterException.wrap(e);
-		}
+		
+		// commenting out intil we can get towork properly
+//		xpath = XPathFactory.newInstance().newXPath();
+//		try {
+//			pluginsNode = (Node) xpath.evaluate("/tigerstripe/plugins", tsxml, XPathConstants.NODE);
+//		} catch (XPathExpressionException e) {
+//			throw BuckminsterException.wrap(e);
+//		}
 
 		if (pluginsNode != null) {
 

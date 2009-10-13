@@ -1,8 +1,8 @@
-package org.eclipse.tigerstripe.workbench.optional.buckminster.internal.actor;
+package org.eclipse.tigerstripe.workbench.optional.buckminster.internal.commands;
 
 import org.apache.tools.ant.BuildException;
-import org.eclipse.buckminster.core.actor.AbstractActor;
-import org.eclipse.buckminster.core.actor.IActionContext;
+import org.eclipse.buckminster.cmdline.AbstractCommand;
+import org.eclipse.buckminster.cmdline.UsageException;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -17,15 +17,16 @@ import org.eclipse.tigerstripe.workbench.project.GeneratorDeploymentHelper;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 
-public class InstallGeneratorActor extends AbstractActor {
-
-	public static final String ID = "tigerstripe.installGenerator";
-
-	public static final String PROJECT_NAME_PROPERTY = "projectname";
+public class InstallGeneratorCommand extends AbstractCommand {
+	
+	private static final int EXIT_OK = 0;
+	private static final int EXIT_ERR = 1;
+	
+	private String generatorProjectName;
 
 	@Override
-	protected IStatus internalPerform(IActionContext ctx, IProgressMonitor monitor) throws CoreException {
-
+	protected int run(IProgressMonitor arg0) throws Exception {
+		
 		final ITigerstripeM1GeneratorProject project = getM1GeneratorProject();
 		final GeneratorDeploymentHelper helper = new GeneratorDeploymentHelper();
 
@@ -66,28 +67,33 @@ public class InstallGeneratorActor extends AbstractActor {
 		};
 
 		try {
-			ResourcesPlugin.getWorkspace().run(op, monitor);
+			ResourcesPlugin.getWorkspace().run(op, arg0);
 		} catch (CoreException e) {
 			throw e;
 		}
 		
-		return Status.OK_STATUS;
+		return EXIT_OK;
 	}
-
+	
 	private ITigerstripeM1GeneratorProject getM1GeneratorProject() {
 
-		String projectname = this.getActorProperty(PROJECT_NAME_PROPERTY);
-
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectname);
+		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(generatorProjectName);
 		if (!project.exists()) {
-			throw new BuildException("The " + projectname + " Tigerstripe generator project does not exist in the workspace.");
+			throw new BuildException("The " + generatorProjectName + " Tigerstripe generator project does not exist in the workspace.");
 		}
 
 		IAbstractTigerstripeProject tsProject = (IAbstractTigerstripeProject) project.getAdapter(IAbstractTigerstripeProject.class);
 		if (!(tsProject instanceof ITigerstripeM1GeneratorProject)) {
-			throw new BuildException("The " + projectname + " project is not a Tigerstripe generator project.");
+			throw new BuildException("The " + generatorProjectName + " project is not a Tigerstripe generator project.");
 		}
 		return (ITigerstripeM1GeneratorProject) tsProject;
 	}
 
+	@Override
+	protected void handleUnparsed(String[] unparsed) throws Exception {
+		if (unparsed.length != 1){
+			throw new UsageException("Need to specify the project to be generated");
+		}
+		generatorProjectName = unparsed[0];
+	}
 }
