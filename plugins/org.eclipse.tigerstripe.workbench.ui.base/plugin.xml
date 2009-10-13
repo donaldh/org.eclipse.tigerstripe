@@ -286,9 +286,27 @@
             point="org.eclipse.ui.popupMenus">
          <objectContribution
                adaptable="false"
+               id="org.eclipse.tigerstripe.workbench.ui.base.packagedPlugin.popupMenu"
+               nameFilter="*.zip"
+               objectClass="org.eclipse.core.resources.IFile">
+            <menu
+                  id="org.eclipse.tigerstripe.workbench.ui.base.zippedPluginPopupMenu"
+                  label="Plugin"
+                  path="group.build">
+               <groupMarker name="content"/>
+               <separator name="group.build"/>
+            </menu>
+            <action
+                  class="org.eclipse.tigerstripe.workbench.ui.internal.actions.DeployZippedPluginActionDelegate"
+                  id="org.eclipse.tigerstripe.workbench.ui.base.deployZip"
+                  label="Deploy"
+                  menubarPath="org.eclipse.tigerstripe.workbench.ui.base.zippedPluginPopupMenu/content"/>
+         </objectContribution>
+         <objectContribution
+               adaptable="false"
                id="org.eclipse.tigerstripe.workbench.ui.base.facet.popupMenu"
                nameFilter="*.wfc"
-               objectClass="org.eclipse.core.resources.IResource">
+               objectClass="org.eclipse.core.resources.IFile">
             <menu
                   id="org.eclipse.tigerstripe.workbench.ui.base.facet.popupSubMenu"
                   label="Facets"
@@ -310,9 +328,9 @@
                   menubarPath="org.eclipse.tigerstripe.workbench.ui.base.facet.popupSubMenu/content"/>
          </objectContribution>
          <objectContribution
-               adaptable="false"
+               adaptable="true"
                id="org.eclipse.tigerstripe.workbench.ui.base.tigerstripePluginPopupMenu"
-               objectClass="java.lang.Object">
+               objectClass="org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject">
             <menu
                   id="org.eclipse.tigerstripe.workbench.ui.base.tigerstripePluginSubMenu"
                   label="Plugin"
@@ -326,7 +344,7 @@
                   label="Undeploy"
                   menubarPath="org.eclipse.tigerstripe.workbench.ui.base.tigerstripePluginSubMenu/content"
                   tooltip="Undeploy this plugin."/>
-            <action
+            <action 	
                   class="org.eclipse.tigerstripe.workbench.ui.internal.actions.PacakgePluginActionDelegate"
                   id="org.eclipse.tigerstripe.workbench.ui.base.pluginDescriptor.packageAction"
                   label="Package..."
@@ -343,7 +361,7 @@
                adaptable="false"
                id="org.eclipse.tigerstripe.workbench.ui.base.profilePopup"
                nameFilter="*.wbp"
-               objectClass="org.eclipse.core.resources.IResource">
+               objectClass="org.eclipse.core.resources.IFile">
             <menu
                   id="org.eclipse.tigerstripe.workbench.ui.base.profileSubMenu"
                   label="Profile"

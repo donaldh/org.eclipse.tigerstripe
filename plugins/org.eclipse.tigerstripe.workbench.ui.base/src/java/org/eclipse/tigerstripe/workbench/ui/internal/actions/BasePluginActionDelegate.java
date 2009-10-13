@@ -44,10 +44,17 @@ public class BasePluginActionDelegate {
 	}
 
 	protected ITigerstripeGeneratorProject getPPProject() {
+		/* Due tothe change in the action definition we should always get here
+		 * with a ITigerstripeGeneratorProject but will leave the previous code as well
+		 * for now...*/
+		
 		if (selection == null)
 			return null;
 		IAbstractTigerstripeProject tsProject = null;
 		Object obj = selection.getFirstElement();
+		if (obj instanceof ITigerstripeGeneratorProject) {
+			return (ITigerstripeGeneratorProject) obj;
+		}
 		if (obj instanceof IResource) {
 			IResource res = (IResource) obj;
 			IProject proj = res.getProject();

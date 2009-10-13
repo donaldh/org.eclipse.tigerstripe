@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.utils;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -41,6 +42,17 @@ public class GeneratorDeploymentUIHelper extends GeneratorDeploymentHelper {
 		monitor.worked(2);
 
 		return super.deploy(project, monitor);
+	}
+
+	@Override
+	public IPath deployZipFromWorkspace(IFile file, IProgressMonitor monitor)
+			throws TigerstripeException {
+		
+		monitor.subTask("Closing all editors");
+		EditorHelper.closeAllEditors(true, true, false, false, false);
+		monitor.worked(2);
+		
+		return super.deployZipFromWorkspace(file, monitor);
 	}
 
 	@Override
