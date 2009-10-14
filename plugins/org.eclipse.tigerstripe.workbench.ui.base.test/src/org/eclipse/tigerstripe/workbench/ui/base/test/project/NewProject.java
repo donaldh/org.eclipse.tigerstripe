@@ -39,8 +39,8 @@ public class NewProject extends UITestCaseSWT {
 		ui.enterText(TestingConstants.NEW_MODEL_PROJECT_NAME);
 		LabeledTextLocator artifactPackage = new LabeledTextLocator(
 				"Artifacts Package:");
-		GuiUtils.clearText(ui, artifactPackage);
 		ui.click(artifactPackage);
+		GuiUtils.clearText(ui, artifactPackage);
 		ui.enterText(TestingConstants.DEFAULT_ARTIFACT_PACKAGE);
 		ui.click(new ButtonLocator("&Finish"));
 		ui.wait(new ShellDisposedCondition("Create a new Tigerstripe Project"));
