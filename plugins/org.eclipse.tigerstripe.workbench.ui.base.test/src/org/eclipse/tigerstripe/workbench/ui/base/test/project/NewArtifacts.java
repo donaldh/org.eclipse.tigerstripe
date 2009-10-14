@@ -21,7 +21,6 @@ import com.windowtester.runtime.swt.locator.LabeledTextLocator;
 import com.windowtester.runtime.swt.locator.SWTWidgetLocator;
 import com.windowtester.runtime.swt.locator.TableItemLocator;
 import com.windowtester.runtime.swt.locator.TreeItemLocator;
-import com.windowtester.runtime.swt.locator.eclipse.ContributedToolItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.PullDownMenuItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
 
@@ -70,12 +69,12 @@ public class NewArtifacts extends UITestCaseSWT {
 		if (myType.equals("Entity")){
 			// If it an entity we need the top item - as its not in the drop down
 			ui.click(new SWTWidgetLocator(ToolItem.class, "", 1,
-					new SWTWidgetLocator(ToolBar.class, 2, new SWTWidgetLocator(
+					new SWTWidgetLocator(ToolBar.class, 1, new SWTWidgetLocator(
 							CoolBar.class))));
 		} else {
 		ui.click(new PullDownMenuItemLocator(myType,
 				new SWTWidgetLocator(ToolItem.class, "", 1,
-						new SWTWidgetLocator(ToolBar.class, 2,
+						new SWTWidgetLocator(ToolBar.class, 1,
 								new SWTWidgetLocator(CoolBar.class)))));
 		}
 
