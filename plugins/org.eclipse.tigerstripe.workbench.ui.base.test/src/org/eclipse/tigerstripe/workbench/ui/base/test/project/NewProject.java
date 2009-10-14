@@ -70,13 +70,13 @@ public class NewProject extends UITestCaseSWT {
 
 		// now set the things
 		LabeledTextLocator version = new LabeledTextLocator("Version: ");
-		GuiUtils.clearText(ui, version);
 		ui.click(version);
+		ui.keyClick(SWT.CTRL, 'a');
 		ui.enterText(TestingConstants.NEW_MODEL_PROJECT_VERSION);
 
 		LabeledTextLocator description = new LabeledTextLocator("Description: ");
-		GuiUtils.clearText(ui, description);
 		ui.click(description);
+		ui.keyClick(SWT.CTRL, 'a');
 		ui.enterText(TestingConstants.NEW_MODEL_PROJECT_DESCRIPTION);
 
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));

@@ -2,6 +2,7 @@ package org.eclipse.tigerstripe.workbench.ui.base.test.project;
 
 import java.util.ArrayList;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
@@ -51,8 +52,8 @@ public class ArtifactHelper extends UITestCaseSWT{
 		
 		
 		LabeledTextLocator name = new LabeledTextLocator("Name: ");
-		GuiUtils.clearText(ui, name);
 		ui.click(name);
+		ui.keyClick(SWT.CTRL, 'a');
 		ui.enterText(thisAttributeName);
 		//Save it
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
@@ -102,8 +103,8 @@ public class ArtifactHelper extends UITestCaseSWT{
 
 		ui.click(new NamedWidgetLocator("Add_Literal"));
 		LabeledTextLocator name = new LabeledTextLocator("Name: ");
-		GuiUtils.clearText(ui, name);
 		ui.click(name);
+		ui.keyClick(SWT.CTRL, 'a');
 		ui.enterText(thisLiteralName);
 		//Save it
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
@@ -134,8 +135,8 @@ public class ArtifactHelper extends UITestCaseSWT{
 
 		ui.click(new ButtonLocator("Add", methodsSection));
 		LabeledTextLocator name = new LabeledTextLocator("Name: ");
-		GuiUtils.clearText(ui, name);
 		ui.click(name);
+		ui.keyClick(SWT.CTRL, 'a');
 		ui.enterText(thisMethodName);
 		//Save it
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));

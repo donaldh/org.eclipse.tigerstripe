@@ -1,5 +1,6 @@
 package org.eclipse.tigerstripe.workbench.ui.base.test.generator;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
 import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
 
@@ -43,13 +44,13 @@ public class NewPluginProject extends UITestCaseSWT {
 		}
 		
 		LabeledTextLocator version = new LabeledTextLocator("Version: ");
-		GuiUtils.clearText(ui, version);
 		ui.click(version);
+		ui.keyClick(SWT.CTRL, 'a');
 		ui.enterText(TestingConstants.NEW_PLUGIN_PROJECT_VERSION);
 		
 		LabeledTextLocator description = new LabeledTextLocator("Description: ");
-		GuiUtils.clearText(ui,description);
 		ui.click(description);
+		ui.keyClick(SWT.CTRL, 'a');
 		ui.enterText(TestingConstants.NEW_PLUGIN_PROJECT_DESCRIPTION);
 		
 		// Save

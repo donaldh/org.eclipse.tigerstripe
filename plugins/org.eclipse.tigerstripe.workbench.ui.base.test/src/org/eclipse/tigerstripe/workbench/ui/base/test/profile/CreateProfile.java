@@ -1,7 +1,7 @@
 package org.eclipse.tigerstripe.workbench.ui.base.test.profile;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
-import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
 
 import com.windowtester.runtime.IUIContext;
 import com.windowtester.runtime.WT;
@@ -45,8 +45,8 @@ public class CreateProfile extends UITestCaseSWT {
 		ui.click(new TreeItemLocator(TestingConstants.NEW_MODEL_PROJECT_NAME));
 		
 		LabeledTextLocator profileName = new LabeledTextLocator("File na&me:");
-		GuiUtils.clearText(ui, profileName);
 		ui.click(profileName);
+		ui.keyClick(SWT.CTRL, 'a');
 		ui.enterText(TestingConstants.NEW_PROFILE_NAME+".wbp");
 		
 		ui.click(new ButtonLocator("&Finish"));
@@ -66,21 +66,21 @@ public class CreateProfile extends UITestCaseSWT {
 		}
 		// Set basic profile information
 		LabeledTextLocator version = new LabeledTextLocator("Version: ");
-		GuiUtils.clearText(ui, version);
 		ui.click(version);
+		ui.keyClick(SWT.CTRL, 'a');
 		ui.enterText(TestingConstants.NEW_PROFILE_VERSION);
 		
 		LabeledTextLocator description = new LabeledTextLocator("Description: ");
-		GuiUtils.clearText(ui,description);
 		ui.click(description);
+		ui.keyClick(SWT.CTRL, 'a');
 		ui.enterText(TestingConstants.NEW_PROFILE_DESCRIPTION);
 		
 		// create primitive type
 		ui.click(new CTabItemLocator("Primitive Types"));
 		ui.click(new ButtonLocator("Add"));
 		LabeledTextLocator typeName = new LabeledTextLocator("Name: ");
-		GuiUtils.clearText(ui, typeName);
 		ui.click(typeName);
+		ui.keyClick(SWT.CTRL, 'a');
 		ui.enterText(TestingConstants.NEW_PRIMITIVE_TYPE_NAME);
 		
 		// create some stereotypes

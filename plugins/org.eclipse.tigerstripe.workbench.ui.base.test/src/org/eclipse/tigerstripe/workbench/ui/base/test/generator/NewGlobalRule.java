@@ -3,6 +3,7 @@ package org.eclipse.tigerstripe.workbench.ui.base.test.generator;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
@@ -38,8 +39,8 @@ public class NewGlobalRule extends UITestCaseSWT {
 		ui.click(new ButtonLocator("Add", new SectionLocator("&Global Rules")));
 		ui.wait(new ShellShowingCondition("New Plugin Rule"));
 		LabeledTextLocator ruleName = new LabeledTextLocator("Rule Name:");
-		GuiUtils.clearText(ui, ruleName);
 		ui.click(ruleName);
+		ui.keyClick(SWT.CTRL, 'a');
 		ui.enterText(TestingConstants.NEW_GLOBAL_RULE_NAME);
 		ui.click(new ButtonLocator("OK"));
 		ui.wait(new ShellDisposedCondition("New Plugin Rule"));
