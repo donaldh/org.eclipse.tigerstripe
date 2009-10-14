@@ -1,5 +1,6 @@
 package org.eclipse.tigerstripe.workbench.ui.base.test.project;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.CoolBar;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.ToolBar;
@@ -40,7 +41,7 @@ public class NewProject extends UITestCaseSWT {
 		LabeledTextLocator artifactPackage = new LabeledTextLocator(
 				"Artifacts Package:");
 		ui.click(artifactPackage);
-		GuiUtils.clearText(ui, artifactPackage);
+		ui.keyClick(SWT.CTRL, 'a');
 		ui.enterText(TestingConstants.DEFAULT_ARTIFACT_PACKAGE);
 		ui.click(new ButtonLocator("&Finish"));
 		ui.wait(new ShellDisposedCondition("Create a new Tigerstripe Project"));
