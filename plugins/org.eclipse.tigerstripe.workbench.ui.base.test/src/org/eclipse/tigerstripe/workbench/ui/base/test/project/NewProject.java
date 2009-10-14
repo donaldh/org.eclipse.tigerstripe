@@ -27,11 +27,11 @@ public class NewProject extends UITestCaseSWT {
 	 */
 	public void testNewProject() throws Exception {
 		ui = getUI();
-//		ui.click(new ContributedToolItemLocator(
-//				"org.eclipse.tigerstripe.ui.eclipse.openNewProjectAction"));
-		ui.click(new SWTWidgetLocator(ToolItem.class, "", 0,
-				new SWTWidgetLocator(ToolBar.class, 2, new SWTWidgetLocator(
-						CoolBar.class))));
+		ui.click(new ContributedToolItemLocator(
+				"org.eclipse.tigerstripe.ui.eclipse.openNewProjectAction"));
+//		ui.click(new SWTWidgetLocator(ToolItem.class, "", 0,
+//				new SWTWidgetLocator(ToolBar.class, 2, new SWTWidgetLocator(
+//						CoolBar.class))));
 		
 		ui.wait(new ShellShowingCondition("Create a new Tigerstripe Project"));
 		ui.click(new LabeledTextLocator("&Project Name:"));
