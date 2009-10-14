@@ -11,7 +11,13 @@
 package org.eclipse.tigerstripe.workbench.project;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -66,6 +72,45 @@ public class GeneratorDeploymentHelper {
 
 	}
 
+	public IPath deployZipFromWorkspace(IFile file, IProgressMonitor monitor) throws TigerstripeException{
+		
+		if (monitor == null)
+			monitor = new NullProgressMonitor();
+
+		monitor.beginTask("Deploying " +file.getName(), 15);
+
+		String path = TigerstripeRuntime.getGeneratorDeployLocation();
+		path += File.separator + file.getName();
+		IPath destPath = new Path(path);
+		IPath srcPath = file.getLocation();
+
+		monitor.subTask("Cleaning plugin repository");
+		cleanPluggable(destPath);
+		monitor.worked(3);
+		
+		
+		File dest= destPath.toFile();
+		try {
+			InputStream in = file.getContents();
+			FileOutputStream out = new FileOutputStream(dest);
+			byte[] buf = new byte[1024];
+			int len;
+			while ((len = in.read(buf)) > 0){
+			    out.write(buf, 0, len);
+			  }
+			  in.close();
+			  out.close();
+		} catch (Exception e) {
+			monitor.done();
+			throw new TigerstripeException("cannot copy zip file to deploymentdirectory.",e);
+		}
+
+		monitor.subTask("Reloading Workbench");
+		PluginManager.getManager().load();
+		monitor.done();
+		return destPath;
+	}
+	
 	public IPath unDeploy(ITigerstripeGeneratorProject project, IProgressMonitor monitor) throws TigerstripeException {
 		if (monitor == null)
 			monitor = new NullProgressMonitor();
