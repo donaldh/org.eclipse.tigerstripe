@@ -22,65 +22,72 @@ public class NewProject extends UITestCaseSWT {
 
 	private IUIContext ui;
 	private ProjectAuditHelper auditHelper;
+
 	/**
 	 * Main test method.
 	 */
 	public void testNewProject() throws Exception {
 		ui = getUI();
-//		ui.click(new ContributedToolItemLocator(
-//				"org.eclipse.tigerstripe.ui.eclipse.openNewProjectAction"));
-		ui.click(new SWTWidgetLocator(ToolItem.class, "", 0,
-				new SWTWidgetLocator(ToolBar.class,"org.eclipse.tigerstripe.workbench.ui.base.toolbar", new SWTWidgetLocator(
-						CoolBar.class))));
-		
+		// ui.click(new ContributedToolItemLocator(
+		// "org.eclipse.tigerstripe.ui.eclipse.openNewProjectAction"));
+		ui.click(new SWTWidgetLocator(ToolItem.class, 0, new SWTWidgetLocator(
+				ToolBar.class,
+				"org.eclipse.tigerstripe.workbench.ui.base.toolbar",
+				new SWTWidgetLocator(CoolBar.class))));
+
 		ui.wait(new ShellShowingCondition("Create a new Tigerstripe Project"));
 		ui.click(new LabeledTextLocator("&Project Name:"));
 		ui.enterText(TestingConstants.NEW_MODEL_PROJECT_NAME);
-		LabeledTextLocator artifactPackage = new LabeledTextLocator("Artifacts Package:");
+		LabeledTextLocator artifactPackage = new LabeledTextLocator(
+				"Artifacts Package:");
 		GuiUtils.clearText(ui, artifactPackage);
 		ui.click(artifactPackage);
 		ui.enterText(TestingConstants.DEFAULT_ARTIFACT_PACKAGE);
 		ui.click(new ButtonLocator("&Finish"));
 		ui.wait(new ShellDisposedCondition("Create a new Tigerstripe Project"));
-		
-		// Make sure what we put in the wizard made it to the project 
+
+		// Make sure what we put in the wizard made it to the project
 		CTabItemLocator descriptorEditor = new CTabItemLocator(
-				TestingConstants.NEW_MODEL_PROJECT_NAME+
-				"/tigerstripe.xml");
+				TestingConstants.NEW_MODEL_PROJECT_NAME + "/tigerstripe.xml");
 		try {
 			ui.click(descriptorEditor);
 		} catch (Exception e) {
 			fail("Descriptor editor did not appear");
 		}
-		
+
 		ui.click(new SWTWidgetLocator(Label.class, "Project Defaults"));
-		LabeledTextLocator defaultPackage = new LabeledTextLocator("Default Artifact Package: ");
-		assertEquals(TestingConstants.DEFAULT_ARTIFACT_PACKAGE, defaultPackage.getText(ui));
-			
+		LabeledTextLocator defaultPackage = new LabeledTextLocator(
+				"Default Artifact Package: ");
+		assertEquals(TestingConstants.DEFAULT_ARTIFACT_PACKAGE, defaultPackage
+				.getText(ui));
+
 		// Now set some other project details
 		auditHelper = new ProjectAuditHelper(ui);
-		auditHelper.checkUndefinedProjectVersion(TestingConstants.NEW_MODEL_PROJECT_NAME,true);
-		auditHelper.checkUndefinedProjectDescription(TestingConstants.NEW_MODEL_PROJECT_NAME,true);
-		
+		auditHelper.checkUndefinedProjectVersion(
+				TestingConstants.NEW_MODEL_PROJECT_NAME, true);
+		auditHelper.checkUndefinedProjectDescription(
+				TestingConstants.NEW_MODEL_PROJECT_NAME, true);
+
 		// now set the things
 		LabeledTextLocator version = new LabeledTextLocator("Version: ");
 		GuiUtils.clearText(ui, version);
 		ui.click(version);
 		ui.enterText(TestingConstants.NEW_MODEL_PROJECT_VERSION);
-		
+
 		LabeledTextLocator description = new LabeledTextLocator("Description: ");
 		GuiUtils.clearText(ui, description);
 		ui.click(description);
 		ui.enterText(TestingConstants.NEW_MODEL_PROJECT_DESCRIPTION);
-		
+
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
-		
+
 		// Let the auditor run
 		Thread.sleep(500);
-		auditHelper.checkUndefinedProjectVersion(TestingConstants.NEW_MODEL_PROJECT_NAME,false);
-		auditHelper.checkUndefinedProjectDescription(TestingConstants.NEW_MODEL_PROJECT_NAME,false);
-			
+		auditHelper.checkUndefinedProjectVersion(
+				TestingConstants.NEW_MODEL_PROJECT_NAME, false);
+		auditHelper.checkUndefinedProjectDescription(
+				TestingConstants.NEW_MODEL_PROJECT_NAME, false);
+
 	}
-	
-	
+
 }
