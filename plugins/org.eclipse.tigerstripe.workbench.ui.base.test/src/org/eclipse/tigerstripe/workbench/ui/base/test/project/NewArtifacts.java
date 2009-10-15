@@ -32,7 +32,7 @@ public class NewArtifacts extends UITestCaseSWT {
 	
 	public void testAllArtifactTypes() throws Exception {
 		IUIContext ui= getUI();
-//		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Package", TestingConstants.PACKAGE_NAMES[0], false, false, false, false));
+		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Package", TestingConstants.PACKAGE_NAMES[0], false, false, false, false));
 		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Entity", TestingConstants.ENTITY_NAMES[0], true, true, true, false));
 		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Datatype", TestingConstants.DATATYPE_NAMES[0], true, true, true, false));
 		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,"Enumeration", TestingConstants.ENUMERATION_NAMES[0], false, true, false, false));
@@ -79,7 +79,7 @@ public class NewArtifacts extends UITestCaseSWT {
 		}
 
 		
-		ui.wait(new ShellShowingCondition("Create a new "+myType));
+		ui.wait(new ShellShowingCondition("Create a new "+myType), 60*1000*2);
 		ui.click(new LabeledTextLocator("Name:"));
 		ui.enterText(thisArtifactName);
 		
