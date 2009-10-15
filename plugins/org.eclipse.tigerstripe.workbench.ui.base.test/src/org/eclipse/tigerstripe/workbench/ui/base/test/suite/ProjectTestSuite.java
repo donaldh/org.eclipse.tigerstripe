@@ -25,6 +25,8 @@ public class ProjectTestSuite extends TestCase {
 		// Bring up the Tigerstripe perspective
 		GuiUtils.openTSPerspective();
 
+		suite.addTestSuite(CleanWorkspace.class);
+
 		// creates a new Project - do this so we are in the TES perspective
 		suite.addTestSuite(NewProject.class);
 
