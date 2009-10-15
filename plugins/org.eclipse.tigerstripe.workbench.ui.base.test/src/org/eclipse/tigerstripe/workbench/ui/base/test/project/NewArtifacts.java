@@ -101,7 +101,7 @@ public class NewArtifacts extends UITestCaseSWT {
 					ToolItem.class, "", 1, new SWTWidgetLocator(ToolBar.class,
 							1, new SWTWidgetLocator(CoolBar.class))));
 			ui.setFocus(p);
-			ui.click(p);
+//			ui.click(p);
 			ui.click(p);
 		}
 
