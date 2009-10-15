@@ -1,5 +1,10 @@
 package org.eclipse.tigerstripe.workbench.ui.base.test.utils;
 
+import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.perspective.TigerstripePerspectiveFactory;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.WorkbenchException;
 import org.eclipse.ui.forms.widgets.Form;
 
 import com.windowtester.runtime.IUIContext;
@@ -31,5 +36,15 @@ public class GuiUtils {
 								new ViewLocator(
 										"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
 
+	}
+
+	public static void openTSPerspective() {
+		try {
+			IWorkbench workbench = PlatformUI.getWorkbench();
+			workbench.showPerspective(TigerstripePerspectiveFactory.ID,
+					workbench.getActiveWorkbenchWindow());
+		} catch (WorkbenchException e) {
+			EclipsePlugin.log(e);
+		}
 	}
 }

@@ -102,6 +102,7 @@ public class NewArtifacts extends UITestCaseSWT {
 							1, new SWTWidgetLocator(CoolBar.class))));
 			ui.setFocus(p);
 			ui.click(p);
+			ui.click(p);
 		}
 
 		ui.wait(new ShellShowingCondition("Create a new " + myType),
