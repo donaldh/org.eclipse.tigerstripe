@@ -21,6 +21,7 @@ import com.windowtester.runtime.swt.locator.LabeledTextLocator;
 import com.windowtester.runtime.swt.locator.SWTWidgetLocator;
 import com.windowtester.runtime.swt.locator.TableItemLocator;
 import com.windowtester.runtime.swt.locator.TreeItemLocator;
+import com.windowtester.runtime.swt.locator.eclipse.ContributedToolItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.PullDownMenuItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
 
@@ -97,11 +98,17 @@ public class NewArtifacts extends UITestCaseSWT {
 					new SWTWidgetLocator(ToolBar.class, 1,
 							new SWTWidgetLocator(CoolBar.class))));
 		} else {
-			PullDownMenuItemLocator p = new PullDownMenuItemLocator(myType, new SWTWidgetLocator(
-					ToolItem.class, "", 1, new SWTWidgetLocator(ToolBar.class,
-							1, new SWTWidgetLocator(CoolBar.class))));
+			// PullDownMenuItemLocator p = new PullDownMenuItemLocator(myType,
+			// new SWTWidgetLocator(
+			// ToolItem.class, "", 1, new SWTWidgetLocator(ToolBar.class,
+			// 1, new SWTWidgetLocator(CoolBar.class))));
+			PullDownMenuItemLocator p = new PullDownMenuItemLocator(
+					myType,
+					new ContributedToolItemLocator(
+							"org.eclipse.tigerstripe.workbench.ui.menu.new.patterns.dropdown"));
+
 			ui.setFocus(p);
-//			ui.click(p);
+			// ui.click(p);
 			ui.click(p);
 		}
 
@@ -236,5 +243,4 @@ public class NewArtifacts extends UITestCaseSWT {
 		ui.close(new CTabItemLocator(thisArtifactName));
 		return thisArtifactName;
 	}
-
 }
