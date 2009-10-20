@@ -10,12 +10,12 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.ui.visualeditor.test.diagram;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.CoolBar;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
-import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
 
 import com.windowtester.runtime.IUIContext;
 import com.windowtester.runtime.swt.condition.shell.ShellDisposedCondition;
@@ -93,7 +93,7 @@ public class DiagramHelper {
 		ui.enterText(thisArtifactName);
 		LabeledTextLocator pack = new LabeledTextLocator("Artifact Package:");
 		ui.click(pack);
-		GuiUtils.clearText(ui, pack);
+		ui.keyClick(SWT.CTRL, 'a');
 		ui.click(pack);
 		ui.enterText(packageName);
 		
