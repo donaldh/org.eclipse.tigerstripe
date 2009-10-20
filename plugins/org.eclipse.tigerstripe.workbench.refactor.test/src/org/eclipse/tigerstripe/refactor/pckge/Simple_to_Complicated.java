@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.refactor.pckge;
 
 import java.util.Collection;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -20,7 +21,6 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.ArtifactHelper;
-import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
 
 import com.windowtester.runtime.IUIContext;
 import com.windowtester.runtime.WidgetNotFoundException;
@@ -34,27 +34,23 @@ import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
 
 public class Simple_to_Complicated extends UITestCaseSWT {
 
-	private static String project="model-refactoring";
-	
-	public static void doChangeByMove(IUIContext ui) throws Exception{
+	private static String project = "model-refactoring";
+
+	public static void doChangeByMove(IUIContext ui) throws Exception {
 		ViewLocator view = new ViewLocator(
-			"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
+				"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
 	}
-	
-	public static void doChangeThroughExplorer(IUIContext ui) throws Exception{
+
+	public static void doChangeThroughExplorer(IUIContext ui) throws Exception {
 		ViewLocator view = new ViewLocator(
-			"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
-		
-		ui
-		.contextClick(
-				new TreeItemLocator(
-						project+"/src/simple",
-						view),
-		"Refactor/Rename...");
+				"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
+
+		ui.contextClick(new TreeItemLocator(project + "/src/simple", view),
+				"Refactor/Rename...");
 		ui.wait(new ShellDisposedCondition("Progress Information"));
 		ui.wait(new ShellShowingCondition("Rename Package"));
 		LabeledTextLocator locator = new LabeledTextLocator("New na&me:");
-		GuiUtils.clearText(ui, locator);
+		ui.keyClick(SWT.CTRL, 'a');
 		ui.click(locator);
 		ui.enterText("complicated");
 		ButtonLocator renameSub = new ButtonLocator("Rename &subpackages");
@@ -62,42 +58,43 @@ public class Simple_to_Complicated extends UITestCaseSWT {
 		ui.click(renameSub);
 		ui.click(new ButtonLocator("OK"));
 		ui.wait(new ShellDisposedCondition("Rename Package"));
-		
+
 		// Let the updates happen!
 		Thread.sleep(500);
 	}
-	
-	
-	public static void checkExplorerUpdates(IUIContext ui) throws Exception{
+
+	public static void checkExplorerUpdates(IUIContext ui) throws Exception {
 		ViewLocator view = new ViewLocator(
-			"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
-		
+				"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
+
 		// Check for ourself!
 		ArtifactHelper.checkPackageInExplorer(ui, project, "complicated");
 		try {
 			// Check for old self!
-			//TODO This is blocking the rest of my tests!
+			// TODO This is blocking the rest of my tests!
 			ArtifactHelper.checkPackageInExplorer(ui, project, "simple");
 			fail("Old package still exists after refactoring");
-		} catch (WidgetNotFoundException e){
+		} catch (WidgetNotFoundException e) {
 			// This is what we want to happen
 		}
-		
-		
+
 	}
-	
+
 	// In here we look for the changes that don't necessarily appear on the UI!
 	@SuppressWarnings("deprecation")
-	public static void checkAPI() throws Exception{
-		IAbstractTigerstripeProject aProject = TigerstripeCore.findProject(project);
+	public static void checkAPI() throws Exception {
+		IAbstractTigerstripeProject aProject = TigerstripeCore
+				.findProject(project);
 		ITigerstripeModelProject modelProject = (ITigerstripeModelProject) aProject;
 		IArtifactManagerSession mgrSession = modelProject
-			.getArtifactManagerSession();
+				.getArtifactManagerSession();
 
-		//How Many Artifacts should we have?
-		IArtifactQuery query = mgrSession.makeQuery(IQueryAllArtifacts.class.getName());
-		Collection<IAbstractArtifact> allArtifacts = mgrSession.queryArtifact(query);
+		// How Many Artifacts should we have?
+		IArtifactQuery query = mgrSession.makeQuery(IQueryAllArtifacts.class
+				.getName());
+		Collection<IAbstractArtifact> allArtifacts = mgrSession
+				.queryArtifact(query);
 		assertEquals("Incorrect number of artifacts", 21, allArtifacts.size());
 	}
-	
+
 }

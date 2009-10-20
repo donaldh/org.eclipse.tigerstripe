@@ -10,27 +10,23 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.refactor.artifact;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.draw2d.FigureCanvas;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.ui.visualeditor.test.finders.LocatorHelper;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
-import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 import org.eclipse.tigerstripe.workbench.queries.IQueryRelationshipsByArtifact;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.ArtifactHelper;
-import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
 
 import com.windowtester.runtime.IUIContext;
 import com.windowtester.runtime.WT;
 import com.windowtester.runtime.locator.IWidgetLocator;
-import com.windowtester.runtime.locator.XYLocator;
 import com.windowtester.runtime.swt.UITestCaseSWT;
 import com.windowtester.runtime.swt.condition.shell.ShellDisposedCondition;
 import com.windowtester.runtime.swt.condition.shell.ShellShowingCondition;
@@ -38,9 +34,7 @@ import com.windowtester.runtime.swt.locator.ButtonLocator;
 import com.windowtester.runtime.swt.locator.CTabItemLocator;
 import com.windowtester.runtime.swt.locator.LabeledTextLocator;
 import com.windowtester.runtime.swt.locator.SWTWidgetLocator;
-import com.windowtester.runtime.swt.locator.TableItemLocator;
 import com.windowtester.runtime.swt.locator.TreeItemLocator;
-import com.windowtester.runtime.swt.locator.eclipse.ContributedToolItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
 
 public class Association0_to_Association00 extends UITestCaseSWT {
@@ -100,7 +94,7 @@ public class Association0_to_Association00 extends UITestCaseSWT {
 		ui.wait(new ShellDisposedCondition("Progress Information"));
 		ui.wait(new ShellShowingCondition("Rename Compilation Unit"));
 		LabeledTextLocator locator = new LabeledTextLocator("New na&me:");
-		GuiUtils.clearText(ui, locator);
+		ui.keyClick(SWT.CTRL, 'a');
 		ui.click(locator);
 		ui.enterText("Association00");
 		ui.click(new ButtonLocator("&Finish"));

@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.draw2d.FigureCanvas;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.ui.visualeditor.test.finders.LocatorHelper;
@@ -139,7 +140,7 @@ public class AssociationClass0_to_AssociationClass00 extends UITestCaseSWT {
 		ui.wait(new ShellDisposedCondition("Progress Information"));
 		ui.wait(new ShellShowingCondition("Rename Compilation Unit"));
 		LabeledTextLocator locator = new LabeledTextLocator("New na&me:");
-		GuiUtils.clearText(ui, locator);
+		ui.keyClick(SWT.CTRL, 'a');
 		ui.click(locator);
 		ui.enterText("AssociationClass00");
 		ui.click(new ButtonLocator("&Finish"));
