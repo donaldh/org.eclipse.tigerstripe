@@ -33,6 +33,10 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.tigerstripe.base"
          version="0.0.0"/>
 
+   <includes
+         id="org.eclipse.tigerstripe.workbench.optional.buckminster.feature"
+         version="0.0.0"/>
+
    <requires>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.core.runtime"/>
@@ -191,6 +195,13 @@ http://www.eclipse.org/legal/epl-v10.html
 
    <plugin
          id="org.eclipse.tigerstripe.annotation.tsmodel.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.tigerstripe.workbench.optional.buckminster"
          download-size="0"
          install-size="0"
          version="0.0.0"
