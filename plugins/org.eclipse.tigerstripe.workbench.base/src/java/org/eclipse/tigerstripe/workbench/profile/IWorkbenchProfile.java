@@ -164,5 +164,7 @@ public interface IWorkbenchProfile {
 	 */
 	/*public void setProperty(String propertyName,
 			IWorkbenchProfileProperty property);*/
+	
+	public boolean equals(IWorkbenchProfile profile);
 
 }

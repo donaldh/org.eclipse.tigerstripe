@@ -8,6 +8,7 @@
    <extension-point id="customComponentNaming" name="Tigerstripe Custom Component Naming" schema="schema/customComponentNaming.exsd"/>
    <extension-point id="creationPatterns" name="Tigerstripe Patterns" schema="schema/creationPatterns.exsd"/>
    <extension-point id="modelRefactorParticipant" name="Tigerstripe Model Refactor Participant" schema="schema/modelRefactorParticipant.exsd"/>
+   <extension-point id="defaultProfile" name="Default Profile" schema="schema/org.eclipse.tigerstripe.defaultProfile.exsd"/>
 <!--   <extension
          point="org.eclipse.emf.ecore.extension_parser">
       <parser

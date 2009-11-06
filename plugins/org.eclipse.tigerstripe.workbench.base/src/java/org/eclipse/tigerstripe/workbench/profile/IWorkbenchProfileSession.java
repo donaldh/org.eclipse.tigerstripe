@@ -61,6 +61,15 @@ public interface IWorkbenchProfileSession {
 	 */
 	public IWorkbenchProfile makeWorkbenchProfile();
 
+	/**
+	 * Get a new instance  of teh "Factory Settings" Profile.
+	 * This may have been contributed through an Extension Point. 
+	 * 
+	 * @return IWorkbenchProfile - 
+	 */
+	public IWorkbenchProfile makeFactoryWorkbenchProfile();
+	
+	
 	public IWorkbenchProfile getWorkbenchProfileFor(String pathname)
 			throws TigerstripeException;
 

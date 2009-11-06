@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import org.apache.log4j.Level;
@@ -17,9 +18,15 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IContributor;
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditDomain;
@@ -27,18 +34,25 @@ import org.eclipse.jdt.internal.ui.viewsupport.IViewPartInputProvider;
 import org.eclipse.jface.dialogs.IDialogSettings;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.patterns.PatternFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationEnd;
 import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact.DependencyEnd;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.WorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
+import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.ProfileDetailsDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.gmf.synchronization.DiagramSynchronizationManager;
 import org.eclipse.tigerstripe.workbench.ui.internal.preferences.PreferencesInitializer;
@@ -56,6 +70,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 /**
@@ -115,6 +130,8 @@ public class EclipsePlugin extends AbstractUIPlugin {
 		// This is necessary to make sure the extension point is read
 		// and menu contributions added
 		PatternFactory.getInstance();
+		
+		checkForFactoryProfile();
 	}
 
 	/**
@@ -536,4 +553,68 @@ public class EclipsePlugin extends AbstractUIPlugin {
 		return section;
 	}
 
+	
+	private void checkForFactoryProfile(){
+
+		try {
+			IConfigurationElement[] elements  = Platform.getExtensionRegistry()
+			.getConfigurationElementsFor("org.eclipse.tigerstripe.workbench.base.defaultProfile");
+
+
+			for (IConfigurationElement element : elements){
+				if (element.getName().equals("profile")){
+					String checkONStartupString   = element.getAttribute("checkOnStartup");
+					String profileFileName  = element.getAttribute("profileFile");
+					IContributor contributor = ((IExtension) element.getParent()).getContributor();
+
+					if (elements.length > 1){
+						BasePlugin.logErrorMessage("More than one contribution to " +
+								"defaultProfile Extension Point : "+
+								"using "+profileFileName+ " from "+contributor.getName());
+					}
+
+					if (checkONStartupString != null){
+						Boolean checkONStartup = Boolean.parseBoolean(checkONStartupString);
+						if (checkONStartup) {
+
+						} else {
+							return;
+						}
+					}
+					// Need to get the file from the contributing plugin
+
+
+					Bundle bundle = org.eclipse.core.runtime.Platform.getBundle(contributor.getName());
+					File bundleFile = FileLocator.getBundleFile(bundle);
+					String bundleRoot = bundleFile.getAbsolutePath();
+					String pathname = bundleRoot+IPath.SEPARATOR+profileFileName;
+					IWorkbenchProfileSession session = TigerstripeCore.getWorkbenchProfileSession();
+					IWorkbenchProfile contributedProfile = session.getWorkbenchProfileFor(pathname);
+					IWorkbenchProfile activeProfile = session.getActiveProfile();
+					
+					if (!contributedProfile.equals(activeProfile)){
+						// Prompt the user 
+						MessageBox box = new MessageBox(getActiveWorkbenchShell(),SWT.YES | SWT.NO);
+						box.setText("Tigerstipe profile not set to default");
+						box.setMessage("The current Tigerstipe profile is not that set in the default for this installation.\n Do you wish to return to defaults?");
+						
+						int selection = box.open();
+						if (selection == SWT.YES){
+							ProfileDetailsDialog.internalDeploy(getActiveWorkbenchShell(), pathname);
+						}
+					}
+					
+					
+					break; // IN case > 1!
+
+
+				}
+			}
+
+		}catch (Exception e ){
+			BasePlugin.logErrorMessage("Failed to correctly load defaultProfile from Extension Point");
+			BasePlugin.log(e);
+
+		}
+	}
 }

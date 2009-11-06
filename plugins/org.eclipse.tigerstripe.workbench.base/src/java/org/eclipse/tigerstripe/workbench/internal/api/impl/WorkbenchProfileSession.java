@@ -15,15 +15,24 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IContributor;
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.ListenerList;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.WorkbenchProfile;
@@ -31,6 +40,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.FileUtils;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
 import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef;
+import org.osgi.framework.Bundle;
 
 /**
  * Singleton class acting as session facade for all operations on
@@ -53,9 +63,60 @@ public class WorkbenchProfileSession implements IWorkbenchProfileSession {
 	private IWorkbenchProfile activeProfile;
     // Commented out profile cache for https://bugs.eclipse.org/bugs/show_bug.cgi?id=270642
 	//private HashMap<String, IWorkbenchProfile> profileCache = new HashMap<String, IWorkbenchProfile>();
-
+	private IWorkbenchProfile factoryProfile = null;
+	
 	public IWorkbenchProfile makeWorkbenchProfile() {
 		return new WorkbenchProfile();
+	}
+	
+	
+	public IWorkbenchProfile makeFactoryWorkbenchProfile() {
+		// Here we look for any "contributed" profiles and 
+		// load that to use as our "Factory Settings"
+		if (factoryProfile == null){
+			try {
+				IConfigurationElement[] elements  = Platform.getExtensionRegistry()
+				.getConfigurationElementsFor("org.eclipse.tigerstripe.workbench.base.defaultProfile");
+				// TODO check for only one contrib
+				
+				if (elements.length == 0){
+					factoryProfile =  new WorkbenchProfile();
+				}
+				
+				if (elements.length > 1){
+					BasePlugin.logErrorMessage("More than one contribution to " +
+							"defaultProfile Extension Point");
+				}
+
+				for (IConfigurationElement element : elements){
+					if (element.getName().equals("profile")){
+						// Need to get the file from the contributing plugin
+						String profileFileName  = element.getAttribute("profileFile");
+						IContributor contributor = ((IExtension) element.getParent()).getContributor();
+						Bundle bundle = org.eclipse.core.runtime.Platform.getBundle(contributor.getName());
+						File bundleFile = FileLocator.getBundleFile(bundle);
+						String bundleRoot = bundleFile.getAbsolutePath();
+						String pathname = bundleRoot+IPath.SEPARATOR+profileFileName;
+						if (elements.length > 1){
+							BasePlugin.logErrorMessage("More than one contribution to " +
+									"defaultProfile Extension Point : "+
+									"using "+profileFileName+ " from "+contributor.getName());
+						}
+						factoryProfile = getWorkbenchProfileFor(pathname);
+						break; // IN case > 1!
+						
+
+					}
+				}
+			}catch (Exception e ){
+				BasePlugin.logErrorMessage("Failed to instantiate defaultProfile from Extension Point");
+				BasePlugin.log(e);
+				factoryProfile =  new WorkbenchProfile();
+
+			}
+		}
+
+		return factoryProfile;
 	}
 
 	/**
@@ -79,7 +140,7 @@ public class WorkbenchProfileSession implements IWorkbenchProfileSession {
 			boolean createRollback) throws TigerstripeException {
 		boolean rollbackCreated = false;
 
-		String filename = getActiveProfileFilename();
+		String filename = getDefaultProfileFilename();
 		File file = new File(filename);
 
 		// create a roll back file if necessary
@@ -169,7 +230,9 @@ public class WorkbenchProfileSession implements IWorkbenchProfileSession {
 		return rollbackCreated;
 	}
 
-	public String getActiveProfileFilename() {
+	// This is the name of the file that is located in /tigerstripe folder.
+	// Nothing to do with any specific profile name
+	public String getDefaultProfileFilename() {
 		String rootInstallDir = TigerstripeRuntime.getTigerstripeRuntimeRoot();
 
 		String defaultFile = rootInstallDir + File.separator
@@ -180,7 +243,7 @@ public class WorkbenchProfileSession implements IWorkbenchProfileSession {
 	public synchronized void reloadActiveProfile() {
 
 		// Get a reader on the default profile file
-		String defaultFile = getActiveProfileFilename();
+		String defaultFile = getDefaultProfileFilename();
 
 		File dFile = new File(defaultFile);
 		if (dFile.exists()) {
@@ -192,7 +255,9 @@ public class WorkbenchProfileSession implements IWorkbenchProfileSession {
 				// FIXME: will need feedback for the GUI!
 			}
 		} else {
-			activeProfile = makeWorkbenchProfile();
+			// This is the case where the default file does not exist
+			// Usually the very first time?
+			activeProfile = makeFactoryWorkbenchProfile();
 		}
 
 		activeProfileChanged();
@@ -215,7 +280,8 @@ public class WorkbenchProfileSession implements IWorkbenchProfileSession {
 	public IWorkbenchProfile getWorkbenchProfileFor(String pathname)
 			throws TigerstripeException {
 
-		IWorkbenchProfile result = makeWorkbenchProfile();
+		// Create a new profile and set the values based on the file passed in.
+		IWorkbenchProfile result = new WorkbenchProfile();
 
 		File file = new File(pathname);
 		FileWriter writer = null;
@@ -268,7 +334,7 @@ public class WorkbenchProfileSession implements IWorkbenchProfileSession {
 			throw new TigerstripeException(
 					"No rollback file was found. Can't rollback");
 
-		String name = getActiveProfileFilename() + ".bak";
+		String name = getDefaultProfileFilename() + ".bak";
 		IWorkbenchProfile profile = getWorkbenchProfileFor(name);
 
 		saveAsActiveProfile(profile, false);
@@ -280,7 +346,7 @@ public class WorkbenchProfileSession implements IWorkbenchProfileSession {
 	}
 
 	public boolean canRollback() {
-		String name = getActiveProfileFilename() + ".bak";
+		String name = getDefaultProfileFilename() + ".bak";
 		File rFile = new File(name);
 		return rFile.exists();
 	}
@@ -292,7 +358,7 @@ public class WorkbenchProfileSession implements IWorkbenchProfileSession {
 	 * 
 	 */
 	public boolean setDefaultActiveProfile() throws TigerstripeException {
-		String fName = getActiveProfileFilename();
+		String fName = getDefaultProfileFilename();
 
 		File fFile = new File(fName);
 		boolean rollbackCreated = false;

@@ -177,7 +177,11 @@ public class ProfileDetailsDialog extends Dialog {
 		versionText.setText(profile.getVersion());
 	}
 
+	private boolean rollbackCreated = false;
+	private boolean operationSucceeded = false;
+	
 	private void resetProfile() {
+		
 		if (LicensedAccess.getWorkbenchProfileRole() != TSWorkbenchProfileRole.CREATE_EDIT
 				&& LicensedAccess.getWorkbenchProfileRole() != TSWorkbenchProfileRole.DEPLOY_UNDEPLOY) {
 			String errMessage = "You cannot reset to the factory default profile\n\n"
@@ -254,9 +258,7 @@ public class ProfileDetailsDialog extends Dialog {
 		}
 	}
 
-	private boolean rollbackCreated = false;
 
-	private boolean operationSucceeded = false;
 
 	private void deployProfile() {
 		if (LicensedAccess.getWorkbenchProfileRole() != TSWorkbenchProfileRole.CREATE_EDIT
@@ -274,10 +276,19 @@ public class ProfileDetailsDialog extends Dialog {
 			dialog.setText("Select profile");
 			String file = dialog.open();
 			if (file != null) {
+				internalDeploy(getShell(), file);
+			}
+		}
+	}
+	 static boolean staticRollbackCreated = false;
+
+	static boolean staticOperationSucceeded = false;
+	public static void internalDeploy(Shell shell, String file){
+
 
 				final File srcFile = new File(file);
 				if (!srcFile.exists() || !srcFile.canRead()) {
-					MessageDialog.openError(getShell(), "Profile Deploy Error",
+					MessageDialog.openError(shell, "Profile Deploy Error",
 							"Can't deploy profile " + file
 									+ ": unable to read file.");
 					return;
@@ -302,7 +313,7 @@ public class ProfileDetailsDialog extends Dialog {
 							}
 
 							MessageListDialog msgDialog = new MessageListDialog(
-									getShell(), msgList, title);
+									shell, msgList, title);
 
 							msgDialog.create();
 							if (!msgList.hasNoError()) {
@@ -315,7 +326,7 @@ public class ProfileDetailsDialog extends Dialog {
 
 						if (MessageDialog
 								.openConfirm(
-										getShell(),
+										shell,
 										"Save as Active Profile",
 										"You are about to set this profile ('"
 												+ handle.getName()
@@ -337,7 +348,7 @@ public class ProfileDetailsDialog extends Dialog {
 												.getWorkbenchProfileSession();
 										monitor.subTask("Creating Profile");
 
-										rollbackCreated = session
+										staticRollbackCreated = session
 												.saveAsActiveProfile(handle);
 										monitor.worked(2);
 
@@ -345,13 +356,13 @@ public class ProfileDetailsDialog extends Dialog {
 										session.reloadActiveProfile();
 										monitor.done();
 
-										operationSucceeded = true;
-										if (rollbackCreated) {
+										staticOperationSucceeded = true;
+										if (staticRollbackCreated) {
 										}
 
 									} catch (TigerstripeException e) {
 										EclipsePlugin.log(e);
-										operationSucceeded = false;
+										staticOperationSucceeded = false;
 									}
 								}
 							};
@@ -359,7 +370,7 @@ public class ProfileDetailsDialog extends Dialog {
 							IWorkbench wb = PlatformUI.getWorkbench();
 							IWorkbenchWindow win = wb
 									.getActiveWorkbenchWindow();
-							Shell shell = win != null ? win.getShell() : null;
+							//Shell shell = win != null ? win.getShell() : null;
 
 							try {
 								ProgressMonitorDialog pDialog = new ProgressMonitorDialog(
@@ -372,14 +383,14 @@ public class ProfileDetailsDialog extends Dialog {
 							}
 
 							String rollbackStr = "";
-							if (rollbackCreated) {
+							if (staticRollbackCreated) {
 								rollbackStr = "\n\n(A rollback file was successfully created)";
 							}
 
-							if (operationSucceeded) {
+							if (staticOperationSucceeded) {
 								MessageDialog
 										.openInformation(
-												getShell(),
+												shell,
 												"Success",
 												"Profile '"
 														+ handle.getName()
@@ -389,7 +400,7 @@ public class ProfileDetailsDialog extends Dialog {
 							} else {
 								MessageDialog
 										.openError(
-												getShell(),
+												shell,
 												"Error while setting active Profile",
 												"An error occured while trying to set the active profile.\n"
 														+ "Please check the Error Log for more details");
@@ -402,8 +413,5 @@ public class ProfileDetailsDialog extends Dialog {
 					}
 
 				}
-			}
-
-		}
 	}
 }

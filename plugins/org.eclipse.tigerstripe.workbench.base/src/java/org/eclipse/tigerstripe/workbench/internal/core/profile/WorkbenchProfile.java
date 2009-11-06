@@ -608,4 +608,14 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 		this.lastModified = lastModified;
 	}
 
+	public boolean equals(IWorkbenchProfile profile) {
+		if (profile.asText().equals(asText())){
+			return true;
+		}
+		return false;
+	}
+
+	
+	
+	
 }
