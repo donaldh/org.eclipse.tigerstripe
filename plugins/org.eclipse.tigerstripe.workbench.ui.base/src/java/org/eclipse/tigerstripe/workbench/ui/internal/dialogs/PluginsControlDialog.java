@@ -164,6 +164,7 @@ public class PluginsControlDialog extends Dialog {
 		menuMgr.add(new RegisterPluggableHousingAction(this));
 
 		if (!isEmpty) {
+			
 			menuMgr.add(new UnRegisterPluggableHousingAction(pluginListTable
 					.getSelectionIndex(), this));
 		}

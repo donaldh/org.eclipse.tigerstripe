@@ -43,10 +43,18 @@ import org.eclipse.tigerstripe.workbench.plugins.PluginLog.LogLevel;
  */
 public class PluggablePlugin extends BasePlugin {
 
+	private boolean canDelete = true;
+	
 	private URLClassLoader classLoader;
 
+	/**
+	 * This is the path to a location where stuff is unzipped
+	 */
 	private String path;
 
+	/**
+	 * This is only passed around so that we can delete it.
+	 */
 	private String zippedFile;
 
 	private GeneratorProjectDescriptor descriptor = null;
@@ -69,7 +77,7 @@ public class PluggablePlugin extends BasePlugin {
 		this.zippedFile = zippedFile;
 		loadProject();
 	}
-
+	
 	public EPluggablePluginNature getPluginNature() {
 		return descriptor.getPluginNature();
 	}
@@ -334,6 +342,14 @@ public class PluggablePlugin extends BasePlugin {
 
 	public String getPluginPath() {
 		return path;
+	}
+
+	public void setCanDelete(boolean canDelete){
+		this.canDelete = canDelete;
+	}
+	
+	public boolean getCanDelete() {
+		return canDelete;
 	}
 
 }

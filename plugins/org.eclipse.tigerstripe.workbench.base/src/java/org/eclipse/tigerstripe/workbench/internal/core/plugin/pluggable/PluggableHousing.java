@@ -35,6 +35,10 @@ public class PluggableHousing extends PluginHousing {
 		return (PluggablePlugin) this.body;
 	}
 
+	public boolean isBodyDeleteable(){
+		return getBody().getCanDelete();
+	}
+	
 	public PluggablePluginConfig makeDefaultPluginConfig(
 			TigerstripeProjectHandle project) throws TigerstripeException {
 

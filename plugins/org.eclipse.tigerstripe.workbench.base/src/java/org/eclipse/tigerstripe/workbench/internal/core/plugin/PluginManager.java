@@ -16,12 +16,20 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipFile;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IContributor;
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -29,6 +37,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.Pluggabl
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ZipFileUnzipper;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
+import org.osgi.framework.Bundle;
 
 /**
  * @author Eric Dillon
@@ -186,9 +195,44 @@ public class PluginManager implements IActiveWorkbenchProfileChangeListener {
 							"TigerstripeException detected", e);
 				}
 			}
-		} else {
-			// TigerstripeRuntime.logInfoMessage("No plugin detected");
 		}
+		
+		
+		// Now see if there any contributed generators.
+
+
+		try {
+			IConfigurationElement[] elements  = Platform.getExtensionRegistry()
+			.getConfigurationElementsFor("org.eclipse.tigerstripe.workbench.base.contributedGenerator");
+			// TODO check for only one contrib
+
+			for (IConfigurationElement element : elements){
+				if (element.getName().equals("generator")){
+					// Need to get the file from the contributing plugin
+					IContributor contributor = ((IExtension) element.getParent()).getContributor();
+					Bundle bundle = org.eclipse.core.runtime.Platform.getBundle(contributor.getName());
+					File f = FileLocator.getBundleFile(bundle);
+
+					PluggablePlugin pluginBody = new PluggablePlugin(
+							f.getAbsolutePath(), null);
+					pluginBody.setCanDelete(false);
+					if (pluginBody.isValid()) {
+						PluggableHousing housing = new PluggableHousing(
+								pluginBody);
+						registerHousing(housing);
+					}
+					
+					
+
+				}
+			}
+		}catch (Exception e ){
+			BasePlugin.logErrorMessage("Failed to instantiate generator from Extension Point");
+			BasePlugin.log(e);
+
+		}
+		
+		
 	}
 
 	private static String readFileAsString(String filePath)

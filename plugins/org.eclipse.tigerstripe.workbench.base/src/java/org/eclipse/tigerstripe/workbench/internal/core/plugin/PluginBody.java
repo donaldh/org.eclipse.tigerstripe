@@ -95,4 +95,13 @@ public interface PluginBody {
 	 * 
 	 */
 	public String getPluginPath(); 
+	
+	/**
+	 * Returns true if the pliugin can be removed.
+	 * 
+	 *  This is false for a "Contributed Plugin".
+	 * @return
+	 */
+	public boolean getCanDelete();
+	
 }

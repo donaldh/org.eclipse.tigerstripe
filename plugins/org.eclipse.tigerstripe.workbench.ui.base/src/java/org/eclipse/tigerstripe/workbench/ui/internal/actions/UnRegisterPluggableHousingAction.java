@@ -45,6 +45,8 @@ public class UnRegisterPluggableHousingAction extends Action {
 		List<PluggableHousing> housings = mgr.getRegisteredPluggableHousings();
 
 		targetHousing = housings.get(index);
+		// Disable this action is the plugin cannot be deleted!
+		this.setEnabled(targetHousing.isBodyDeleteable());
 	}
 
 	public UnRegisterPluggableHousingAction(PluggableHousing targetHousing) {
@@ -72,7 +74,7 @@ public class UnRegisterPluggableHousingAction extends Action {
 					"Do you really want to undeploy the '"
 							+ targetHousing.getLabel() + "' plugin?");
 
-			if (confirm) {
+			if (confirm && targetHousing.isBodyDeleteable()) {
 				IRunnableWithProgress op = new IRunnableWithProgress() {
 					public void run(IProgressMonitor monitor) {
 						try {
