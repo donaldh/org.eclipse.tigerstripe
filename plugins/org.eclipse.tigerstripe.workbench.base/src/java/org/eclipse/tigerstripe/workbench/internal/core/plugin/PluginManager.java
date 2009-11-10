@@ -304,7 +304,6 @@ public class PluginManager implements IActiveWorkbenchProfileChangeListener {
 
 	private void registerHousing(PluginHousing housing)
 			throws TigerstripeException {
-		System.out.println(housing.getPluginId());
 		if (!this.housings.contains(housing))
 			this.housings.add(housing);
 	}
