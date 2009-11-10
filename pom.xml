@@ -1,0 +1,141 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.eclipse.tigerstripe</groupId>
+  <artifactId>org.eclipse.tigerstripe.parent</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>o.e.t/pom.xml</name>
+
+  <modules>
+    <module> plugins/org.eclipse.tigerstripe.espace.core</module>
+    <module> plugins/org.eclipse.tigerstripe.espace.resources</module>
+    <module> plugins/org.eclipse.tigerstripe.espace.resources.monitor</module>
+    <module> plugins/org.eclipse.tigerstripe.annotation.core</module>
+    <module> plugins/org.eclipse.tigerstripe.annotation.resource</module>
+    <module> plugins/org.eclipse.tigerstripe.annotation.ui</module>
+    <module> plugins/org.eclipse.tigerstripe.annotation.resource.ui</module>
+    <module>features/org.eclipse.tigerstripe.annotation.feature</module>
+
+    <module> plugins/org.eclipse.tigerstripe.metamodel</module>
+    <module> plugins/org.eclipse.tigerstripe.workbench.base</module>
+    <module> plugins/org.eclipse.tigerstripe.annotation.ts2project.router</module>
+    <module> plugins/org.eclipse.tigerstripe.annotation.tsmodel</module>
+    <module> plugins/org.eclipse.tigerstripe.workbench.headless</module>
+    <module> plugins/org.eclipse.tigerstripe.workbench.help</module>
+    <module> plugins/org.eclipse.tigerstripe.repository.core</module>
+    <module>features/org.eclipse.tigerstripe.base</module>
+
+    <module> plugins/org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation</module>
+    <module> plugins/org.eclipse.tigerstripe.workbench.ui.base</module>
+    <module> plugins/org.eclipse.tigerstripe.workbench.ui.visualeditor</module>
+    <module> plugins/org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram</module>
+    <module> plugins/org.eclipse.tigerstripe.workbench.ui.visualeditor.edit</module>
+    <module> plugins/org.eclipse.tigerstripe.workbench.branding</module>
+    <module> plugins/org.eclipse.tigerstripe.workbench.optional.bulkImport</module>
+    <module> plugins/org.eclipse.tigerstripe.workbench.optional.UML2Export</module>
+    <module> plugins/org.eclipse.tigerstripe.workbench.ui.instancediagram</module>
+    <module> plugins/org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation</module>
+    <module> plugins/org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram</module>
+    <module> plugins/org.eclipse.tigerstripe.workbench.ui.instancediagram.edit</module>
+    <module> plugins/org.eclipse.tigerstripe.workbench.ui.diagramrendering</module>
+    <module> plugins/org.eclipse.tigerstripe.workbench.ui.UML2Import</module>
+    <module> plugins/org.eclipse.tigerstripe.annotation.tsmodel.ui</module>
+    <module>features/org.eclipse.tigerstripe.workbench</module>
+
+    <module> plugins/org.eclipse.tigerstripe.annotation.core.test</module>
+    <module> plugins/org.eclipse.tigerstripe.annotation.example.person.validators</module>
+    <module> plugins/org.eclipse.tigerstripe.annotation.example.person</module>
+    <module> plugins/org.eclipse.tigerstripe.annotation.example.router</module>
+    <module> plugins/org.eclipse.tigerstripe.annotation.example</module>
+    <module> plugins/org.eclipse.tigerstripe.annotation.java.ui.refactoring</module>
+    <module> plugins/org.eclipse.tigerstripe.annotation.java.ui</module>
+    <module> plugins/org.eclipse.tigerstripe.annotation.java</module>
+    <module> plugins/org.eclipse.tigerstripe.annotation.resource.ui.refactoring</module>
+    <module> plugins/org.eclipse.tigerstripe.annotation.ui.example.customView</module>
+    <module> plugins/org.eclipse.tigerstripe.annotation.validation</module>
+    <module> plugins/org.eclipse.tigerstripe.metamodel.test</module>
+    <module> plugins/org.eclipse.tigerstripe.releng</module>
+    <module> plugins/org.eclipse.tigerstripe.repository.core.test</module>
+    <module> plugins/org.eclipse.tigerstripe.test_common</module>
+    <module> plugins/org.eclipse.tigerstripe.workbench.base.test</module>
+    <module> plugins/org.eclipse.tigerstripe.workbench.optional.buckminster</module>
+    <module> plugins/org.eclipse.tigerstripe.workbench.ui.sdk</module>
+
+    <module> plugins/org.eclipse.tigerstripe.workbench.ui.base.test</module>
+    <module> plugins/org.eclipse.tigerstripe.workbench.refactor.test</module>
+    <module> plugins/orge.eclipse.tigerstripe.workbench.ui.visualeditor.test</module>
+
+    <module>  releng/org.eclipse.tigerstripe.update-site</module>
+
+<!-- not building
+    <module> plugins/org.eclipse.tigerstripe.workbench.ui.resources</module>
+    <module> plugins/org.eclipse.tigerstripe.releng.maps</module>
+    <module> plugins/org.eclipse.tigerstripe.releng.ant</module>
+    <module> plugins/org.eclipse.tigerstripe.espace.core.tests</module>
+    <module> plugins/org.eclipse.tigerstripe.annotations.ui</module>
+    <module> plugins/org.eclipse.tigerstripe.annotations.test</module>
+    <module> plugins/org.eclipse.tigerstripe.annotations.samples</module>
+    <module> plugins/org.eclipse.tigerstripe.annotations</module>
+    <module> plugins/org.eclipse.tigerstripe.annotation.person.validators</module>
+    <module> plugins/org.eclipse.tigerstripe.annotation.example.person.tests</module>
+-->
+
+<!-- Not needed
+    <module> plugins/org.eclipse.tigerstripe.annotation.ui.diagrams</module>
+    <module> plugins/org.eclipse.tigerstripe.annotation.ui.example.editpartProvider</module>
+-->
+  </modules>
+
+  <repositories>
+   <repository>
+     <id>ganymede</id>
+     <layout>p2</layout>
+     <url>http://download.eclipse.org/releases/galileo</url>
+<!--
+     <url>http://repository.sonatype.org/content/groups/public</url>
+-->
+   </repository>
+   <repository>
+     <id>windowtester</id>
+     <layout>p2</layout>
+<!--
+     <url>http://pulse-prd-sj1.cisco.com/update_sites/instantiations/windowtester/3.9.1.200909041406_e35</url>
+-->
+     <url>http://download.instantiations.com/WindowTesterPro/integration/latest/update/3.5/</url>
+   </repository>
+  </repositories>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>${basedir}/src/java</directory>
+        <includes>
+          <include>**/*.vm</include>
+          <include>**/*.properties</include>
+        </includes>
+      </resource>
+    </resources>
+
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.tycho</groupId>
+        <artifactId>target-platform-configuration</artifactId>
+        <configuration>
+          <resolver>p2</resolver>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.tycho</groupId>
+        <artifactId>maven-osgi-test-plugin</artifactId>
+        <configuration>
+          <useUIHarness>true</useUIHarness>
+          <argLine>-Xmx800m -XX:MaxPermSize=256m</argLine>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

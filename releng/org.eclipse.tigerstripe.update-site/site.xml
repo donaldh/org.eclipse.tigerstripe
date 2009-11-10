@@ -4,19 +4,28 @@
    <description url="http://download.eclipse.org/technology/tigerstripe/update-site">
       Tigerstripe Project - Update Site
    </description>
-   <category-def name="Workbench Base" label="Workbench Base">
+   <category-def name="Workbench" label="Tigerstripe Modeling Workbench (Recommended)">
       <description>
-         The base feature for Tigerstripe. It contains the Model Manager, the generation engine and the headless environment, but no UI. This is suitable to install headless Tigerstripe build servers, or to build your own components on top of Tigerstripes.
+         This is the Tigerstripe Modeling Workbench Feature, including the complete MDD environment including support for modeling, diagrams, content generation, import/export, etc.
       </description>
    </category-def>
-   <category-def name="End-User Workbench" label="End-User Workbench">
+   <category-def name="Framework" label="Tigerstripe Framework Components (included in Workbench)">
       <description>
-         This is the End-User Workbench Feature, including the complete MDD environment including support for modeling, diagrams, content generation, import/export, etc.
+         These features are included in the modeling workbench, but can be downloaded separately for custom installs and other needs.
       </description>
    </category-def>
-   <category-def name="Generic Annotations" label="Generic Annotations">
-      <description>
-         The Generic Annotation Feature, including UI and basic integration for workspace Resources and JDT.
-      </description>
-   </category-def>
+   <feature url="features/org.eclipse.tigerstripe.annotation.feature_0.0.0.qualifier.jar" id="org.eclipse.tigerstripe.annotation.feature" version="0.0.0">
+      <category name="Framework"/>
+   </feature>
+<!--
+   <feature url="features/org.eclipse.tigerstripe.base.test_feature_0.0.0.qualifier.jar" id="org.eclipse.tigerstripe.base.test_feature" version="0.0.0">
+      <category name="End-User Workbench"/>
+   </feature>
+-->
+   <feature url="features/org.eclipse.tigerstripe.base_0.0.0.qualifier.jar" id="org.eclipse.tigerstripe.base" version="0.0.0">
+      <category name="Framework"/>
+   </feature>
+   <feature url="features/org.eclipse.tigerstripe.workbench_0.0.0.qualifier.jar" id="org.eclipse.tigerstripe.workbench" version="0.0.0">
+      <category name="Workbench"/>
+   </feature>
 </site>
