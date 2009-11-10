@@ -35,7 +35,12 @@ public class PluggableHousing extends PluginHousing {
 		return (PluggablePlugin) this.body;
 	}
 
-	public boolean isBodyDeleteable(){
+	/*
+	 * Says if the plugin is deployed.
+	 * The inverse is that it is Contributed through an plugin.
+	 * 
+	 */
+	public boolean isDeployed(){
 		return getBody().getCanDelete();
 	}
 	

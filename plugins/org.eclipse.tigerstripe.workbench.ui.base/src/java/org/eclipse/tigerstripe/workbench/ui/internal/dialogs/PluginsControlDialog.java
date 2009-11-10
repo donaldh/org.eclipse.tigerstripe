@@ -96,9 +96,13 @@ public class PluginsControlDialog extends Dialog {
 		nameColumn.setWidth(100);
 
 		TableColumn versionColumn = new TableColumn(pluginListTable, SWT.NULL);
-		versionColumn.setText("Version");
-		versionColumn.setWidth(100);
+		versionColumn.setText("Ver");
+		versionColumn.setWidth(50);
 
+		TableColumn typeColumn = new TableColumn(pluginListTable, SWT.NULL);
+		typeColumn.setText("Type");
+		typeColumn.setWidth(50);
+		
 		TableColumn providerColumn = new TableColumn(pluginListTable, SWT.NULL);
 		providerColumn.setText("Provider");
 		providerColumn.setWidth(150);
@@ -141,7 +145,7 @@ public class PluginsControlDialog extends Dialog {
 		for (PluggableHousing housing : pluggableHousings) {
 			TableItem item = new TableItem(pluginListTable, SWT.NULL);
 			item.setText(new String[] { housing.getPluginId(),
-					housing.getVersion(), housing.getGroupId(), housing.getPluginNature().name() });
+					housing.getVersion(), housing.isDeployed()?"Deploy":"Contrib" ,housing.getGroupId(), housing.getPluginNature().name() });
 		}
 	}
 

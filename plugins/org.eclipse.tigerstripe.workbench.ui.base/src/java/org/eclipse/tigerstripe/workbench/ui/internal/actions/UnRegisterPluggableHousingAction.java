@@ -46,7 +46,7 @@ public class UnRegisterPluggableHousingAction extends Action {
 
 		targetHousing = housings.get(index);
 		// Disable this action is the plugin cannot be deleted!
-		this.setEnabled(targetHousing.isBodyDeleteable());
+		this.setEnabled(targetHousing.isDeployed());
 	}
 
 	public UnRegisterPluggableHousingAction(PluggableHousing targetHousing) {
@@ -74,7 +74,7 @@ public class UnRegisterPluggableHousingAction extends Action {
 					"Do you really want to undeploy the '"
 							+ targetHousing.getLabel() + "' plugin?");
 
-			if (confirm && targetHousing.isBodyDeleteable()) {
+			if (confirm && targetHousing.isDeployed()) {
 				IRunnableWithProgress op = new IRunnableWithProgress() {
 					public void run(IProgressMonitor monitor) {
 						try {
@@ -92,7 +92,14 @@ public class UnRegisterPluggableHousingAction extends Action {
 							PluggablePlugin pPlugin = targetHousing.getBody();
 							pPlugin.dispose();
 
+							// Need to reload in case there is a "contributed" generator
+							// with the same ID as the one we just removed.
+							monitor.subTask("Reloading workbench");
+							mgr.load();
 							monitor.done();
+
+							monitor.done();
+							
 						} catch (TigerstripeException e) {
 							EclipsePlugin.log(e);
 						}
