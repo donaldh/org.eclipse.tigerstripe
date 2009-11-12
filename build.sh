@@ -74,7 +74,7 @@ fi
 
 (cd target/
  find * -type d -name target -exec rm -rf {} \; 2>/dev/null
- ../$MAVEN/bin/mvn \
+ ./$MAVEN/bin/mvn \
     -e -B \
     --fail-at-end \
     -Dtycho.showEclipseLog=true \
