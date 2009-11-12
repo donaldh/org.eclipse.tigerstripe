@@ -28,10 +28,10 @@ rebuildTarget()
 
     (cd target; tar xjf /auto/surf-tp/tools/maven/$MAVEN-bin.tar.bz2; cd ..)
 
-    rsync -a --delete features target/features || exit 1
-    rsync -a --delete plugins target/plugins || exit 1
-    rsync -a --delete releng target/releng || exit 1
-    rsync -a --delete pom.xml target/pom.xml || exit 1
+    rsync -a --delete features target/ || exit 1
+    rsync -a --delete plugins target/ || exit 1
+    rsync -a --delete releng target/ || exit 1
+    rsync -a --delete pom.xml target/ || exit 1
 
 #    SETTINGS=target/$MAVEN/conf/settings.xml
 #    mv $SETTINGS $SETTINGS.org
@@ -61,10 +61,10 @@ else
 fi
 
 # ------------------------------------------------------------------------------
-rsync -av  features target/features || exit 1
-rsync -av  plugins target/plugins || exit 1
-rsync -av  releng target/releng || exit 1
-rsync -av  pom.xml target/pom.xml || exit 1
+rsync -av  features target/ || exit 1
+rsync -av  plugins target/ || exit 1
+rsync -av  releng target/ || exit 1
+rsync -av  pom.xml target/ || exit 1
 
 # ------------------------------------------------------------------------------ 
 if [ ! -z "$BUILD_VERSION" ]; then
