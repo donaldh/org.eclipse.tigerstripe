@@ -17,7 +17,7 @@ VERSION_STRING=$1.qualifier; shift
 DST=$(mkdir -p $DST; cd $DST; pwd)
 
 ( cd $SRC
-  find org.eclipse.tigerstripe -maxdepth 6 -type f -name MANIFEST.MF -o -name feature.xml| while read ofn; do
+  find . -maxdepth 6 -type f -name MANIFEST.MF -o -name feature.xml| while read ofn; do
       if ! echo $ofn | grep -q '/target/' >/dev/null ; then
           nfn=$DST/$ofn
 
