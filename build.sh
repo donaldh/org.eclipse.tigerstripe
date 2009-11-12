@@ -31,6 +31,7 @@ rebuildTarget()
     rsync -a --delete features target/features || exit 1
     rsync -a --delete plugins target/plugins || exit 1
     rsync -a --delete releng target/releng || exit 1
+    rsync -a --delete pom.xml target/pom.xml || exit 1
 
 #    SETTINGS=target/$MAVEN/conf/settings.xml
 #    mv $SETTINGS $SETTINGS.org
@@ -63,6 +64,7 @@ fi
 rsync -av  features target/features || exit 1
 rsync -av  plugins target/plugins || exit 1
 rsync -av  releng target/releng || exit 1
+rsync -av  pom.xml target/pom.xml || exit 1
 
 # ------------------------------------------------------------------------------ 
 if [ ! -z "$BUILD_VERSION" ]; then
