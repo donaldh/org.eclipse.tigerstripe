@@ -101,9 +101,6 @@
    <repository>
      <id>windowtester</id>
      <layout>p2</layout>
-<!--
-     <url>http://pulse-prd-sj1.cisco.com/update_sites/instantiations/windowtester/3.9.1.200909041406_e35</url>
--->
      <url>http://download.instantiations.com/WindowTesterPro/integration/latest/update/3.5/</url>
    </repository>
   </repositories>
