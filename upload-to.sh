@@ -18,7 +18,7 @@ SITE="$TS_DOWNLOAD"/updates-3.5-unstable
 SITE_NAME=updates-3.5-unstable
 
 case "$DST" in
-interim)
+release)
 SITE="$TS_DOWNLOAD"/updates
 SITE_NAME="updates (Release)"
 ;;
@@ -32,4 +32,5 @@ SITE_NAME="updates-3.5-unstable"
 ;;
 esac
  
-scp -rf "$WORKSPACE/target/xmp_sdk/releng/com.cisco.xmp.sdk.site/trunk/target/site"/* edillon@download1.eclipse.org:"$SITE"
+echo "Uploading to $SITE_NAME"
+scp -rvf "$WORKSPACE/target/xmp_sdk/releng/com.cisco.xmp.sdk.site/trunk/target/site"/* edillon@download1.eclipse.org:"$SITE"
