@@ -20,15 +20,15 @@ SITE_NAME=updates-3.5-unstable
 case "$DST" in
 interim)
 SITE="$TS_DOWNLOAD"/updates
-SITE_NAME=updates (Release)
+SITE_NAME="updates (Release)"
 ;;
 interim)
 SITE="$TS_DOWNLOAD"/updates-3.5-interim
-SITE_NAME=updates-3.5-interim
+SITE_NAME="updates-3.5-interim"
 ;;
 *)
 SITE="$TS_DOWNLOAD"/updates-3.5-unstable
-SITE_NAME=updates-3.5-unstable
+SITE_NAME="updates-3.5-unstable"
 ;;
 esac
  
