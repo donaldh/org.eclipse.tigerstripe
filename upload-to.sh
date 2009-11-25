@@ -32,4 +32,4 @@ SITE_NAME=updates-3.5-unstable
 ;;
 esac
  
-scp -Rf "$WORKSPACE/target/xmp_sdk/releng/com.cisco.xmp.sdk.site/trunk/target/site"/* edillon@download1.eclipse.org:"$SITE"
+scp -rf "$WORKSPACE/target/xmp_sdk/releng/com.cisco.xmp.sdk.site/trunk/target/site"/* edillon@download1.eclipse.org:"$SITE"
