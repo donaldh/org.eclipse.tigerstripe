@@ -98,18 +98,11 @@ public class NewArtifacts extends UITestCaseSWT {
 					new SWTWidgetLocator(ToolBar.class, 1,
 							new SWTWidgetLocator(CoolBar.class))));
 		} else {
-			PullDownMenuItemLocator p = new PullDownMenuItemLocator(myType,
-					new SWTWidgetLocator(ToolItem.class, "", 1,
-							new SWTWidgetLocator(ToolBar.class, 1,
-									new SWTWidgetLocator(CoolBar.class))));
-			// PullDownMenuItemLocator p = new PullDownMenuItemLocator(
-			// myType,
-			// new ContributedToolItemLocator(
-			// "org.eclipse.tigerstripe.workbench.ui.menu.new.patterns.dropdown"));
-
-			ui.setFocus(p);
-			// ui.click(p);
-			ui.click(p);
+			ui
+					.click(new PullDownMenuItemLocator(
+							myType,
+							new ContributedToolItemLocator(
+									"org.eclipse.tigerstripe.workbench.ui.menu.new.patterns.dropdown.org.eclipse.tigerstripe.workbench.base.ManagedEntity")));
 		}
 
 		ui.wait(new ShellShowingCondition("Create a new " + myType),
