@@ -41,6 +41,7 @@ public class TestBasicModelProjectAuditor extends TestCase {
 	 * Upon creation a Model project has no version/description which should
 	 * trigger a warning and an info.
 	 * 
+ 	 * Bug 294901 adds a default Version, so this will not be triggered at first pass.
 	 */
 	public void testInitialWarningInfo() throws CoreException,
 			InterruptedException, TigerstripeException {
@@ -50,13 +51,13 @@ public class TestBasicModelProjectAuditor extends TestCase {
 
 		IMarker[] markers = AuditorHelper.getMarkers(project);
 		assertNotNull(markers);
-		assertTrue(markers.length == 2);
+		assertTrue(markers.length == 1);
 
 		int warning = AuditorHelper.getMarkers(IMarker.SEVERITY_WARNING,
 				project).length;
 		int info = AuditorHelper.getMarkers(IMarker.SEVERITY_INFO, project).length;
 		assertTrue(info == 1);
-		assertTrue(warning == 1);
+//		assertTrue(warning == 1);
 
 		// Then add a description
 		ITigerstripeModelProject p = (ITigerstripeModelProject) project
@@ -68,18 +69,18 @@ public class TestBasicModelProjectAuditor extends TestCase {
 		warning = AuditorHelper.getMarkers(IMarker.SEVERITY_WARNING, project).length;
 		info = AuditorHelper.getMarkers(IMarker.SEVERITY_INFO, project).length;
 		assertTrue(info == 0);
-		assertTrue(warning == 1);
+//		assertTrue(warning == 1);
 
 		// and a version
-		p = (ITigerstripeModelProject) project.makeWorkingCopy(null);
-		p.getProjectDetails().setVersion("1.0");
-		p.commit(null);
-
-		AuditorHelper.forceFullBuildNow(project);
-		warning = AuditorHelper.getMarkers(IMarker.SEVERITY_WARNING, project).length;
-		info = AuditorHelper.getMarkers(IMarker.SEVERITY_INFO, project).length;
-		assertTrue(info == 0);
-		assertTrue(warning == 0);
+//		p = (ITigerstripeModelProject) project.makeWorkingCopy(null);
+//		p.getProjectDetails().setVersion("1.0");
+//		p.commit(null);
+//
+//		AuditorHelper.forceFullBuildNow(project);
+//		warning = AuditorHelper.getMarkers(IMarker.SEVERITY_WARNING, project).length;
+//		info = AuditorHelper.getMarkers(IMarker.SEVERITY_INFO, project).length;
+//		assertTrue(info == 0);
+//		assertTrue(warning == 0);
 	}
 
 }
