@@ -63,8 +63,9 @@ public class NewProject extends UITestCaseSWT {
 
 		// Now set some other project details
 		auditHelper = new ProjectAuditHelper(ui);
-		auditHelper.checkUndefinedProjectVersion(
-				TestingConstants.NEW_MODEL_PROJECT_NAME, true);
+		// This has been set automatically on creation of a new project
+//		auditHelper.checkUndefinedProjectVersion(
+//				TestingConstants.NEW_MODEL_PROJECT_NAME, false);
 		auditHelper.checkUndefinedProjectDescription(
 				TestingConstants.NEW_MODEL_PROJECT_NAME, true);
 
