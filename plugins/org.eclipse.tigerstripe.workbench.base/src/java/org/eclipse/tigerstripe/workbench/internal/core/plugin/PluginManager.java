@@ -16,12 +16,11 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.zip.ZipFile;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IContributor;
@@ -31,13 +30,19 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IGlobalSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggableHousing;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.GlobalSettingsProperty;
+import org.eclipse.tigerstripe.workbench.internal.core.util.MatchedConfigHousing;
+import org.eclipse.tigerstripe.workbench.internal.core.util.OSGIRef;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ZipFileUnzipper;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.osgi.framework.Bundle;
+import org.osgi.framework.Version;
 
 /**
  * @author Eric Dillon
@@ -46,6 +51,8 @@ import org.osgi.framework.Bundle;
  * 
  */
 public class PluginManager implements IActiveWorkbenchProfileChangeListener {
+	
+	private static boolean osgiVersioning;
 
 	private static PluginManager instance;
 
@@ -64,6 +71,11 @@ public class PluginManager implements IActiveWorkbenchProfileChangeListener {
 		this.housings = new ArrayList<PluginHousing>();
 		TigerstripeCore.getWorkbenchProfileSession().addActiveProfileListener(
 				this);
+		
+	}
+
+	public static boolean isOsgiVersioning() {
+		return osgiVersioning;
 	}
 
 	/**
@@ -92,6 +104,7 @@ public class PluginManager implements IActiveWorkbenchProfileChangeListener {
 
 		for (PluginHousing housing : housings) {
 			if (housing instanceof PluggableHousing) {
+				//System.out.println(housing.getPluginId());
 				result.add((PluggableHousing) housing);
 			}
 		}
@@ -115,7 +128,12 @@ public class PluginManager implements IActiveWorkbenchProfileChangeListener {
 
 		TigerstripeCore.getWorkbenchProfileSession().getActiveProfile()
 				.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
-
+		
+		GlobalSettingsProperty prop = (GlobalSettingsProperty) TigerstripeCore
+		.getWorkbenchProfileSession().getActiveProfile().getProperty(
+				IWorkbenchPropertyLabels.GLOBAL_SETTINGS);
+		osgiVersioning = prop
+			.getPropertyValue(IGlobalSettingsProperty.OSGIVERSIONING);
 		// This will load the actual pluggable plugins
 		loadPluggableHousings();
 
@@ -316,6 +334,81 @@ public class PluginManager implements IActiveWorkbenchProfileChangeListener {
 
 	public void profileChanged(IWorkbenchProfile newActiveProfile) {
 		load();
+	}
+
+
+	/*
+	 * This should only ever be called if the OSGI versioning is being used.
+	 * The housings should all share the name that you are searching for.
+	 */
+	public MatchedConfigHousing resolve(Collection<PluggableHousing> housings, IPluginConfig[] plugins){
+
+		PluggableHousing potentialHousing = null;
+		IPluginConfig usedPluginConfig = null;		
+		Version currentVersion = null;
+
+		for (PluggableHousing candidateHousing : housings){
+
+			//System.out.println("Housing "+candidateHousing.getPluginName());
+			// pluginRef is the "determinant" - is the one that says what we ant. 
+			OSGIRef pluginRef = null;
+
+			for (int i = 0; i < plugins.length; i++) {
+				//System.out.println("    Plugin "+plugins[i].getPluginName());
+				if (candidateHousing.getPluginName().equals(plugins[i].getPluginName())){
+					try {
+						pluginRef = OSGIRef.parseRef(plugins[i].getVersion());
+						usedPluginConfig = plugins[i];
+					} catch (IllegalArgumentException e){
+						// This ref has a bad version string.. we need to ignore it.
+						BasePlugin.logErrorMessage("Illegal Version format for '"+plugins[i].getPluginName()+"'");
+						BasePlugin.log(e);
+						continue;
+					}
+					break;
+				}
+			}
+			if (pluginRef == null){
+				// We didn't fnd any - so this is not yet used!
+				return new MatchedConfigHousing(null, candidateHousing);
+
+			}
+			//System.out.println("    Selected PluginRef "+pluginRef.toString());
+			Version v = null;
+			try {
+				v = new Version(candidateHousing.getVersion());
+			} catch (IllegalArgumentException e){
+				// This housing has a bad version string.. we need to ignore it.
+				BasePlugin.logErrorMessage("Illegal Version format for '"+candidateHousing.getPluginName()+"'");
+				BasePlugin.log(e);
+				continue;
+			}
+			//System.out.println("    Housing Ver "+v.toString());
+			if (v != null && pluginRef != null){
+				if (pluginRef.isInScope(v)){
+					//System.out.println("    In scope!");
+					if (potentialHousing == null){
+						potentialHousing = candidateHousing;
+						currentVersion = v;
+					} else {
+						//newer than the previous selection
+						if (v.compareTo(currentVersion) > 0){
+							// this is newer
+							//System.out.println("    Newer!");
+							potentialHousing = candidateHousing;
+							currentVersion = v;
+						}
+
+					}
+				}
+			} else {
+				// This is all a bit of a disaster - nothing more we can do here
+				return null;
+			}
+		}
+		return new MatchedConfigHousing(usedPluginConfig, potentialHousing);
+		
+
 	}
 
 }

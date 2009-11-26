@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.plugin;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Properties;
 
@@ -26,6 +28,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggableHousing;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ContainedProperties;
+import org.eclipse.tigerstripe.workbench.internal.core.util.MatchedConfigHousing;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.ITablePluginProperty;
@@ -144,6 +147,7 @@ public abstract class PluginConfig extends BaseContainerObject implements
 	public boolean matches(PluginHousing housing) {
 		boolean result = getGroupId().equals(housing.getGroupId())
 				&& getPluginId().equals(housing.getPluginId())
+				// TODO This is the big place.
 				&& this.version.equals(housing.getVersion());
 		return result;
 	}
@@ -198,9 +202,31 @@ public abstract class PluginConfig extends BaseContainerObject implements
 	 *             if this Plugin Reference cannot be resolved.
 	 */
 	public void resolve() throws UnknownPluginException {
-		this.housing = PluginManager.getManager().resolveReference(this);
+		if (! PluginManager.getManager().isOsgiVersioning()){
+			this.housing = PluginManager.getManager().resolveReference(this);
+		} else {
+			String name = this.getPluginName();
+			Collection<PluggableHousing> matchedNames = new ArrayList<PluggableHousing>();
+			for (PluggableHousing housing : PluginManager.getManager().getRegisteredPluggableHousings()){
+				if (housing.getPluginName().equals(name)){
+					matchedNames.add(housing);
+				}
+			}
+			MatchedConfigHousing mch = PluginManager.getManager().resolve(
+					matchedNames
+					, new PluginConfig[]{this});
+			this.housing = mch.getHousing();
+		}
 	}
 
+	public String isResolvedTo(){
+		if (this.housing != null){
+			return this.housing.getPluginId();
+		} else {
+			return "Not resolved";
+		}
+	}
+	
 	/**
 	 * Returns true if this plugin reference has been resolved.
 	 * 
@@ -272,8 +298,11 @@ public abstract class PluginConfig extends BaseContainerObject implements
 		} catch (UnknownPluginException e) {
 			return new String[0];
 		}
-
-		return this.housing.getDefinedProperties();
+		if (this.housing != null) {
+			return this.housing.getDefinedProperties();
+		} else { 
+			return new String[0];
+		}
 	}
 
 	/**

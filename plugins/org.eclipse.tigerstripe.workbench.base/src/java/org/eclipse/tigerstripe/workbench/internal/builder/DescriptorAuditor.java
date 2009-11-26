@@ -21,6 +21,8 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.M0GenerationUtils;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.M1GenerationUtils;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
@@ -133,9 +135,17 @@ public class DescriptorAuditor {
 	private void checkPluginProperties(ITigerstripeModelProject tsProject) {
 		try {
 			IPluginConfig[] pluginConfigs = tsProject.getPluginConfigs();
-			for (int i = 0; i < pluginConfigs.length; i++) {
-				checkPropertiesOnPluginConfig(pluginConfigs[i]);
-			}
+
+				// Only need to run against pluginConfigs that are likely to be used!
+				for (IPluginConfig config : M1GenerationUtils.m1PluginConfigs(tsProject,
+						false, true)){
+					checkPropertiesOnPluginConfig(config);
+				}
+				for (IPluginConfig config : M0GenerationUtils.m0PluginConfigs(tsProject,
+						false, true)){
+					checkPropertiesOnPluginConfig(config);
+				}
+			
 		} catch (TigerstripeException e) {
 			BasePlugin.log(e);
 		}

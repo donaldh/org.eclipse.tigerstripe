@@ -17,12 +17,17 @@ import java.util.List;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.PluginLogger;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IGlobalSettingsProperty;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginManager;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.GlobalSettingsProperty;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog.LogLevel;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -33,6 +38,8 @@ public class M0Generator {
 
 	public M0Generator(M0RunConfig config) {
 		this.config = config;
+		
+		
 	}
 
 	protected ITigerstripeModelProject getProject() {
@@ -46,7 +53,10 @@ public class M0Generator {
 
 		Collection<PluginReport> reports = new ArrayList<PluginReport>();
 
-		for (IPluginConfig pConfig : config.getPluginConfigs()) {
+		IPluginConfig[] configs = config.getPluginConfigs();
+		
+		
+		for (IPluginConfig pConfig : configs) {
 			monitor.subTask(pConfig.getPluginId());
 			if (pConfig.isEnabled()) {
 				// this is the case where there is no Facet whatsoever

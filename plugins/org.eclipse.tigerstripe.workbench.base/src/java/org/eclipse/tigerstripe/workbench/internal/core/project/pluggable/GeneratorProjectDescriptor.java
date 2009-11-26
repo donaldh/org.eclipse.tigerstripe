@@ -757,13 +757,13 @@ public abstract class GeneratorProjectDescriptor extends
 			}
 		}
 	}
-
+	
 	public String getId() {
 		return getName() + "("
 				+ getProjectDetails().getVersion() + ")";
 	}
 	
-	private String getName(){
+	public String getName(){
 		ITigerstripeGeneratorProject proj = getGenProject();
 		if (proj != null){
 			return getGenProject().getName();

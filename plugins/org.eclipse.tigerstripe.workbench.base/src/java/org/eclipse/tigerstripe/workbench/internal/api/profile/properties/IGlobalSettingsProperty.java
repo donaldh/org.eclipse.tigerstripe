@@ -19,5 +19,7 @@ public interface IGlobalSettingsProperty extends IWorkbenchProfileProperty {
 	public final static String ARGUMENTDIRECTION = "argumentDirection";
 
 	public final static String ENABLE_SESSIONFACADE_ONINSTDIAG = "enableSessionFacadeOnInstDiag";
+	
+	public final static String OSGIVERSIONING = "osgiVersioning";
 
 }

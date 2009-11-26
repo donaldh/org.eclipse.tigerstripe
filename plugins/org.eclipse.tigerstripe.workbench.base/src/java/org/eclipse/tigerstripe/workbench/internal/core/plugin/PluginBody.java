@@ -43,6 +43,8 @@ public interface PluginBody {
 
 	public String getPluginId();
 
+	public String getPluginName();
+	
 	public String getGroupId();
 
 	public String getVersion();

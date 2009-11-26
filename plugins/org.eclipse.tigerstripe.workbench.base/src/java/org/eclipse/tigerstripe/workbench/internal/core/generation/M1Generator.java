@@ -454,6 +454,7 @@ public class M1Generator {
 		try {
 			Collection<PluginReport> reports = new ArrayList<PluginReport>();
 
+			// This is built based on the set of housings and PluginsCofigs (in the case of OSGi Numbering) 
 			IPluginConfig[] plugins = config.getPluginConfigs();
 			boolean isFirstRef = true;
 			boolean validationFailed = false;
@@ -464,22 +465,11 @@ public class M1Generator {
 				pProgress.beginTask("Generating "+iRef.getPluginId(), IProgressMonitor.UNKNOWN);
 
 				PluginConfig ref = (PluginConfig) iRef;
+				
+				// TODO - Do we still need this?
 				try {
 					ref.resolve();
 				} catch (UnknownPluginException e) {
-//					// Bug 219954
-//					// this means the tigerstripe.xml descriptor is referencing
-//					// a plugin that is not deployed.
-//					PluginRunStatus res = new PluginRunStatus(ref, project,
-//							config, project.getActiveFacet());
-//					Status status = new Status(IStatus.WARNING,
-//							BasePlugin.PLUGIN_ID, "While generating project '"
-//									+ config.getTargetProject()
-//											.getProjectLabel()
-//									+ "', couldn't resolve generator plugin '"
-//									+ ref.getPluginId() + "' (not deployed).");
-//					res.add(status);
-//					result.add(res);
 					continue;
 				}
 				// we're using clones of the actual pluginConfigs, so we need to

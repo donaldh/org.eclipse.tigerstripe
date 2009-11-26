@@ -117,6 +117,8 @@ public interface IPluginConfig {
 
 	public String getPluginId();
 
+	public String getPluginName();
+	
 	public ITigerstripeModelProject getProjectHandle();
 
 	/**

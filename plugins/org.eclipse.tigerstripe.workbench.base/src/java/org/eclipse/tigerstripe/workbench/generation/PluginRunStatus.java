@@ -21,6 +21,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetRef
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
@@ -102,7 +103,7 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 				buf.append(projectType + ": " + project.getName());
 			}
 			if (pluginConfig != null) {
-				buf.append(", Plugin: " + pluginConfig.getPluginId());
+				buf.append(", Plugin: " + ((PluginConfig) pluginConfig).isResolvedTo());
 			}
 
 			if (facetRef != null && facetRef.canResolve()) {

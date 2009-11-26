@@ -90,7 +90,7 @@ public class GeneralInfoSection extends GeneratorDescriptorSectionPart {
 		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
 		getSection().setLayoutData(td);
 
-		createID(getBody(), getToolkit());
+//		createID(getBody(), getToolkit());
 		createName(getBody(), getToolkit());
 		createVersion(getBody(), getToolkit());
 		createDescription(getBody(), getToolkit());
@@ -240,6 +240,10 @@ public class GeneralInfoSection extends GeneratorDescriptorSectionPart {
 			try {
 				IProjectDetails details = handle.getProjectDetails();
 				if (e.getSource() == versionText) {
+					
+					// TODO OSGI-ify
+					//Validate the input..
+					
 					details.setVersion(versionText.getText().trim());
 					handle.setProjectDetails(details);
 				} else if (e.getSource() == descriptionText) {

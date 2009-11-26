@@ -48,7 +48,7 @@ public class PluggableHousing extends PluginHousing {
 			TigerstripeProjectHandle project) throws TigerstripeException {
 
 		PluggablePluginConfig result = new PluggablePluginConfig(project
-				.getTSProject(), getPluginId(), getGroupId());
+				.getTSProject(), getPluginId(), getGroupId(), getPluginName());
 		result.setVersion(getVersion());
 		result.setEnabled(true);
 

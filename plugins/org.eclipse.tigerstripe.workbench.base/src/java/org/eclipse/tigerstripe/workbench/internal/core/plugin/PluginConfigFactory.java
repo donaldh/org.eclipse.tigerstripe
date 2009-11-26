@@ -49,7 +49,7 @@ public class PluginConfigFactory {
 	public PluginConfig createPluginConfig(PluginConfig model,
 			TigerstripeProject project) throws UnknownPluginException {
 		return createPluginConfigInternal(model.getPluginId(), model
-				.getGroupId(), model.getVersion(), project);
+				.getGroupId(), model.getVersion(), model.getPluginName(), project);
 	}
 
 	/**
@@ -63,6 +63,7 @@ public class PluginConfigFactory {
 
 		String groupId = null;
 		String pluginId = null;
+		String pluginName = null;
 		String version = null;
 		boolean enabled = false;
 
@@ -82,6 +83,10 @@ public class PluginConfigFactory {
 		}
 
 		pluginId = pluginIdNode.getNodeValue();
+		
+		//TODO - This is a bit "messy"
+		// But is necessary to retain older compatibility 
+		pluginName = pluginIdNode.getNodeValue().substring(0, pluginIdNode.getNodeValue().indexOf('('));
 
 		version = versionNode.getNodeValue();
 		// #118 make dev references go away
@@ -90,7 +95,7 @@ public class PluginConfigFactory {
 		}
 
 		PluginConfig pluginConfig = createPluginConfigInternal(pluginId,
-				groupId, version, project);
+				groupId, version, pluginName, project);
 
 		if (enabledNode == null || enabledNode.getNodeValue().length() == 0) {
 			enabled = true; // by default it's enabled if the attribute is
@@ -137,13 +142,13 @@ public class PluginConfigFactory {
 	}
 
 	private PluginConfig createPluginConfigInternal(String pluginId,
-			String groupId, String version, TigerstripeProject project)
+			String groupId, String version, String name, TigerstripeProject project)
 			throws UnknownPluginException {
 
 		PluginConfig pluginConfig = null;
 
 		PluggablePluginConfig ref = new PluggablePluginConfig(project,
-				pluginId, groupId);
+				pluginId, groupId , name);
 		ref.setVersion(version);
 		pluginConfig = ref;
 

@@ -30,14 +30,20 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Plugin;
 import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IGlobalSettingsProperty;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.builder.BuilderConstants;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginManager;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.GlobalSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.project.PluginProjectCreator;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactRule;
@@ -46,6 +52,7 @@ import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 import org.osgi.framework.Bundle;
+import org.osgi.framework.Version;
 
 /**
  * This is the incremental auditor for a Pluggable Plugin Project.
@@ -160,8 +167,22 @@ public class PluggablePluginProjectAuditor extends IncrementalProjectBuilder {
 				reportInfo("Project has no description", projectDescriptor, 222);
 			}
 			String version = pProject.getProjectDetails().getVersion();
-			if (version == null || version.length() == 0) {
-				reportWarning("Project has no version", projectDescriptor, 222);
+			
+
+			
+			
+			if (PluginManager.getManager().isOsgiVersioning()){
+				// See if the version String in a valid OSGI one.
+				try{
+					Version osgiVersion = new Version(version);
+				} catch (IllegalArgumentException e){
+					reportError("Project Version String does not comply with formatting rules", projectDescriptor, 222);
+				}
+				
+			} else {
+				if (version == null || version.length() == 0) {
+					reportWarning("Project has no version", projectDescriptor, 222);
+				}
 			}
 
 			// audit rules

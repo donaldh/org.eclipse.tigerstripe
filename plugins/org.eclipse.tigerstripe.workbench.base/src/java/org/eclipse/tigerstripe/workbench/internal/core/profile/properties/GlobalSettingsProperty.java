@@ -37,6 +37,8 @@ public class GlobalSettingsProperty extends MultiPropertiesProfileProperty
 					"Meta-model" },
 			{ ARGUMENTDIRECTION, "Argument 'Direction'", "false",
 					"" },
+		    { OSGIVERSIONING, "'OSGI-Style Version numbering'", "false",
+					"" },
 			{
 					ENABLE_SESSIONFACADE_ONINSTDIAG,
 					"Enable "

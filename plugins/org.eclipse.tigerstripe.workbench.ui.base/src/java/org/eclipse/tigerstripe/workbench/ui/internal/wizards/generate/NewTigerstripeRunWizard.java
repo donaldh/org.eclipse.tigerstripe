@@ -73,35 +73,9 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 		fPage = new NewTigerstripeRunWizardPage();
 		addPage(fPage);
 		fPage.init(getSelection());
-		//
-		// IProject project = fPage.getIProject();
-		// List<IContractSegment> segments = getContractSegments(project);
-		// if (segments.size() != 0) {
-		// csPage = new ContractSegmentSelectionWizardPage(segments);
-		// addPage(csPage);
-		// }
+
 	}
 
-	// private List<IContractSegment> getContractSegments(IProject project) {
-	// List<IContractSegment> result = new ArrayList<IContractSegment>();
-	// List<IResource> csResources = TigerstripeProjectAuditor.findAll(
-	// project, IContractSegment.FILE_EXTENSION);
-	// for (IResource res : csResources) {
-	// try {
-	// IContractSegment segment = API.getIContractSession()
-	// .makeIContractSegment(res.getLocationURI());
-	// if ( segment != null && !result.contains(segment)) {
-	// result.add( segment );
-	// }
-	// } catch (TigerstripeException e) {
-	// TigerstripeRuntime.logErrorMessage("TigerstripeException detected", e);
-	// EclipsePlugin.log(e);
-	// }
-	// }
-	//		
-	// return result;
-	// }
-	//
 
 	private ITigerstripeModelProject getTSProject() throws TigerstripeException {
 		IAbstractTigerstripeProject result = (IAbstractTigerstripeProject) fPage

@@ -17,6 +17,7 @@ public class UnknownPluginConfig extends PluginConfig {
 
 	private String pluginId;
 	private String groupId;
+	private String pluginName;
 
 	public UnknownPluginConfig(TigerstripeProject project) {
 		super(project);
@@ -32,10 +33,15 @@ public class UnknownPluginConfig extends PluginConfig {
 		return pluginId;
 	}
 
+	public String getPluginName() {
+		return pluginName;
+	}
+	
 	public IPluginConfig clone() {
 		UnknownPluginConfig result = new UnknownPluginConfig(getProject());
 		result.groupId = groupId;
 		result.pluginId = pluginId;
+		result.pluginName = pluginName;
 		return result;
 	}
 }

@@ -30,7 +30,7 @@ public class ProjectDetails extends BaseContainerObject implements
 
 	private String description = "";
 
-	private String version = "";
+	private String version = "0.0.0";
 
 	@Deprecated
 	private String name = "";
@@ -137,6 +137,7 @@ public class ProjectDetails extends BaseContainerObject implements
 	protected void applyDefaults() {
 		properties.put(IProjectDetails.DEFAULTARTIFACTPACKAGE_PROP,
 				"com.mycompany");
+		setVersion(version);
 		setProjectOutputDirectory("target/tigerstripe.gen");
 	}
 

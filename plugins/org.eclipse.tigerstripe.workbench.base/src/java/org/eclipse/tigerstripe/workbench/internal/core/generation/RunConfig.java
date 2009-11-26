@@ -88,6 +88,7 @@ public abstract class RunConfig {
 		this.outputPath = outputPath;
 	}
 
+	
 	public IPluginConfig[] getPluginConfigs() {
 		return pluginConfigs;
 	}

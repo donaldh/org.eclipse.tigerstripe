@@ -84,6 +84,10 @@ public class PluginHousing {
 		return this.body.getPluginId();
 	}
 
+	public String getPluginName() {
+		return this.body.getPluginName();
+	}
+	
 	public String getGroupId() {
 		return this.body.getGroupId();
 	}
@@ -95,7 +99,8 @@ public class PluginHousing {
 	public String[] getDefinedProperties() {
 		return this.body.getDefinedProperties();
 	}
-
+	
+	// TODO - USe OSGI Version when necessary 
 	public boolean matchRef(PluginConfig ref) {
 		return getPluginId().equals(ref.getPluginId())
 				&& getGroupId().equals(ref.getGroupId())

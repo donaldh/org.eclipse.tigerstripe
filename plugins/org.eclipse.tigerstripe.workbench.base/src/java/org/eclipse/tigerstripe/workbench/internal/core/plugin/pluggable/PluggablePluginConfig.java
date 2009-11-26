@@ -22,12 +22,14 @@ public class PluggablePluginConfig extends PluginConfig {
 	private String pluginId;
 
 	private String groupId;
+	private String pluginName;
 
 	public PluggablePluginConfig(TigerstripeProject project, String pluginId,
-			String groupId) {
+			String groupId, String name) {
 		super(project);
 		this.pluginId = pluginId;
 		this.groupId = groupId;
+		this.pluginName = name;
 	}
 
 	@Override
@@ -38,6 +40,11 @@ public class PluggablePluginConfig extends PluginConfig {
 	@Override
 	public String getGroupId() {
 		return groupId;
+	}
+
+	
+	public String getPluginName() {
+		return pluginName;
 	}
 
 	@Override
@@ -58,7 +65,7 @@ public class PluggablePluginConfig extends PluginConfig {
 
 	public IPluginConfig clone() {
 		PluggablePluginConfig config = new PluggablePluginConfig(getProject(),
-				pluginId, groupId);
+				pluginId, groupId, pluginName);
 
 		config.setEnabled(isEnabled());
 		config.setVersion(getVersion());

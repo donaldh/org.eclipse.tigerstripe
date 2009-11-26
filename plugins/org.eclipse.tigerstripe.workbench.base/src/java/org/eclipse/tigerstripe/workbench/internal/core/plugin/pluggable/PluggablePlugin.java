@@ -179,6 +179,10 @@ public class PluggablePlugin extends BasePlugin {
 		return descriptor.getId();
 	}
 
+	public String getPluginName() {
+		return descriptor.getName();
+	}
+
 	public String getGroupId() {
 		return descriptor.getProjectDetails().getProvider();
 	}

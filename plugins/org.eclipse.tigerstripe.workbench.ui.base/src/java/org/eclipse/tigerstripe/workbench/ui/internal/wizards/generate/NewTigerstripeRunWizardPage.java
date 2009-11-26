@@ -11,8 +11,11 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.wizards.generate;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -46,18 +49,26 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IGlobalSettingsProperty;
+import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginHousing;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginManager;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggableHousing;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.GlobalSettingsProperty;
+import org.eclipse.tigerstripe.workbench.internal.core.util.MatchedConfigHousing;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.plugins.OsgiPluggablePluginSection;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.plugins.PluggablePluginSection;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.ColorUtils;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.TSRuntimeContext;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.TSRuntimeBasedWizardPage;
@@ -72,11 +83,13 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 
 	private final static int INDENT = 20;
 
+	private Map<String, Collection<PluggableHousing>> housingNameMap = new HashMap<String, Collection<PluggableHousing>>();
+
 	private final static String USE_CURRENTFACET_BASE = "Use current facet only";
 
 	private static final String PAGE_NAME = "NewTigerstripeRunWizardPage"; //$NON-NLS-1$
 
-	private Button[] profileSelectionButtons;
+	private Button[] generatorSelectionButtons;
 
 	private boolean controlsCreated = false;
 
@@ -108,6 +121,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 
 		setTitle("Tigerstripe Generation");
 		setDescription("This wizard will generate the Service Contracts for a Tigerstripe project.");
+		
 
 	}
 
@@ -262,27 +276,51 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 		PluginManager manager = PluginManager.getManager();
 		housings = manager.getRegisteredHousings();
 		ArrayList<String> labels = new ArrayList<String>();
-		for (Iterator it = housings.iterator(); it.hasNext();) {
-			PluginHousing housing = (PluginHousing) it.next();
-			if (housing.getCategory() == IPluginConfig.GENERATE_CATEGORY
-					&& housing.getPluginNature() != EPluggablePluginNature.M0) {
-				labels.add(housing.getLabel());
-				// TigerstripeRuntime.logInfoMessage("adding label " +
-				// housing.getLabel());
+		
+		
+		if (! PluginManager.getManager().isOsgiVersioning()){
+			for (Iterator it = housings.iterator(); it.hasNext();) {
+				PluginHousing housing = (PluginHousing) it.next();
+				if (housing.getCategory() == IPluginConfig.GENERATE_CATEGORY
+						&& housing.getPluginNature() != EPluggablePluginNature.M0) {
+					labels.add(housing.getLabel());
+				}
+			}
+		} else {
+			
+			//Map<String, Collection<PluggableHousing>> map = new HashMap<String, Collection<PluggableHousing>>();
+			for (PluggableHousing housing : manager.getRegisteredPluggableHousings()) {
+				String name = housing.getPluginName();
+				if (housingNameMap.containsKey(name)){
+					housingNameMap.get(name).add(housing);
+				} else {
+					Collection<PluggableHousing> phs = new ArrayList<PluggableHousing>();
+					phs.add(housing);
+					housingNameMap.put(name, phs);
+				}
+			}
+			for (String name : housingNameMap.keySet()){
+				labels.add(name);
 			}
 		}
+		
+		
+		
+		
+		
+		
 		buttonNames = labels.toArray(new String[labels.size()]);
 
-		profileSelectionButtons = new Button[buttonNames.length];
-		for (int index = 0; index < profileSelectionButtons.length; index++) {
-			profileSelectionButtons[index] = new Button(content, SWT.CHECK);
-			profileSelectionButtons[index].setEnabled(false);
-			profileSelectionButtons[index].setText(buttonNames[index]);
+		generatorSelectionButtons = new Button[buttonNames.length];
+		for (int index = 0; index < generatorSelectionButtons.length; index++) {
+			generatorSelectionButtons[index] = new Button(content, SWT.CHECK);
+			generatorSelectionButtons[index].setEnabled(false);
+			generatorSelectionButtons[index].setText(buttonNames[index]);
 
 			gd = new GridData(GridData.FILL_HORIZONTAL
 					| GridData.GRAB_HORIZONTAL);
 			gd.horizontalIndent = INDENT * 2;
-			profileSelectionButtons[index].setLayoutData(gd);
+			generatorSelectionButtons[index].setLayoutData(gd);
 		}
 		scC.setMinSize(content.computeSize(SWT.DEFAULT, SWT.DEFAULT));
 
@@ -548,10 +586,10 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 
 		if (context == null || !context.isValidProject()) {
 			message = "Please select a valid Tigerstripe project.";
-			if (profileSelectionButtons != null) {
+			if (generatorSelectionButtons != null) {
 				// Update profile selection checks and check one is selected.
 				for (int i = 0; i < buttonNames.length; i++) {
-					Button button = profileSelectionButtons[i];
+					Button button = generatorSelectionButtons[i];
 					button.setEnabled(false);
 					button.setSelection(false);
 				}
@@ -585,7 +623,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 			String message;
 			// Update profile selection checks and check one is selected.
 			for (int i = 0; i < buttonNames.length; i++) {
-				Button button = profileSelectionButtons[i];
+				Button button = generatorSelectionButtons[i];
 				button.setEnabled(false);
 				button.setSelection(false);
 			}
@@ -595,22 +633,47 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 						.getProjectHandle();
 				if (handle != null) {
 					IPluginConfig[] refs = handle.getPluginConfigs();
+					
+					
 					boolean oneAtleastIsEnabled = false;
-					for (int i = 0; i < refs.length; i++) {
-						// oneAtleastIsEnabled = oneAtleastIsEnabled
-						if (refs[i].isEnabled()
-								&& refs[i].getCategory() == IPluginConfig.GENERATE_CATEGORY
-								&& refs[i].getPluginNature() != EPluggablePluginNature.M0) {
-							for (int j = 0; j < buttonNames.length; j++) {
-								if (buttonNames[j]
-										.equals(((PluginConfig) refs[i])
-												.getLabel())) {
-									profileSelectionButtons[j]
-											.setSelection(refs[i].isEnabled());
-									oneAtleastIsEnabled = true;
+					if (! PluginManager.getManager().isOsgiVersioning()){
+						for (int i = 0; i < refs.length; i++) {
+							// oneAtleastIsEnabled = oneAtleastIsEnabled
+							if (refs[i].isEnabled()
+									&& refs[i].getCategory() == IPluginConfig.GENERATE_CATEGORY
+									&& refs[i].getPluginNature() != EPluggablePluginNature.M0) {
+								for (int j = 0; j < buttonNames.length; j++) {
+									if (buttonNames[j]
+									                .equals(((PluginConfig) refs[i])
+									                		.getPluginName())) {
+										generatorSelectionButtons[j]
+										                          .setSelection(refs[i].isEnabled());
+										oneAtleastIsEnabled = true;
+									}
 								}
 							}
 						}
+					} else {
+						for (String name : housingNameMap.keySet()){
+							MatchedConfigHousing mch = PluginManager.getManager().resolve(housingNameMap.get(name), refs);
+							if (mch.getConfig()!= null && mch.getConfig().isEnabled()
+									&& mch.getConfig().getCategory() == IPluginConfig.GENERATE_CATEGORY
+									&& mch.getConfig().getPluginNature() != EPluggablePluginNature.M0) {
+								for (int j = 0; j < buttonNames.length; j++) {
+									if (buttonNames[j]
+									                .equals(((PluginConfig) mch.getConfig())
+									                		.getPluginName())) {
+										buttonNames[j] = name + " "+ mch.getHousing().getVersion();
+										generatorSelectionButtons[j].setText(buttonNames[j]);
+										generatorSelectionButtons[j]
+										                          .setSelection(((PluginConfig) mch.getConfig()).isEnabled());
+
+										oneAtleastIsEnabled = true;
+									}
+								}
+							}
+						}
+
 					}
 					if (!oneAtleastIsEnabled) {
 						message = "At least one plugin must be selected.";

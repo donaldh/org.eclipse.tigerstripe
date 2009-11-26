@@ -250,7 +250,7 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 		}
 	}
 
-	protected ITigerstripeModelProject getTSProject() {
+	public ITigerstripeModelProject getTSProject() {
 		if (workingHandle == null) {
 			IEditorInput input = getEditorInput();
 			ITigerstripeModelProject handle = null;
