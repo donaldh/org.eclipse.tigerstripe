@@ -82,8 +82,6 @@ fi
     -Dtycho.showEclipseLog=true \
     -Dmaven.test.skip=$MAVEN_TEST_SKIP \
     install
-# cp -Rf "$WORKSPACE/target/xmp_sdk/releng/com.cisco.xmp.sdk.site/trunk/web" /auto/tigerstripe/xmpsdk-updates
-# cp -Rf "$WORKSPACE/target/xmp_sdk/releng/com.cisco.xmp.sdk.site/trunk/index.html" /auto/tigerstripe/xmpsdk-updates
-# cp -Rf "$WORKSPACE/target/xmp_sdk/releng/com.cisco.xmp.sdk.site/trunk/target/site"/* /auto/tigerstripe/xmpsdk-updates
+ cp -rf target/releng/org.eclipse.tigerstripe.update-site/target/site/* /auto/tigerstripe/xmpsdk/tigerstripe-test-p2
 )
 
