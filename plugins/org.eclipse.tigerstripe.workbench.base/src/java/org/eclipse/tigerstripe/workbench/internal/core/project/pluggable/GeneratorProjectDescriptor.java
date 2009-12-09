@@ -760,7 +760,11 @@ public abstract class GeneratorProjectDescriptor extends
 	
 	public String getId() {
 		return getName() + "("
-				+ getProjectDetails().getVersion() + ")";
+				+ getVersion() + ")";
+	}
+	
+	public String getVersion() {
+		return getProjectDetails().getVersion();
 	}
 	
 	public String getName(){

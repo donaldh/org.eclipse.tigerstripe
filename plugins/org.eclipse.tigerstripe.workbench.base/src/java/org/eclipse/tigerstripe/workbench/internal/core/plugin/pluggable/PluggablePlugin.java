@@ -45,7 +45,7 @@ public class PluggablePlugin extends BasePlugin {
 
 	private boolean canDelete = true;
 	
-	private URLClassLoader classLoader;
+	protected URLClassLoader classLoader;
 
 	/**
 	 * This is the path to a location where stuff is unzipped
@@ -57,7 +57,7 @@ public class PluggablePlugin extends BasePlugin {
 	 */
 	private String zippedFile;
 
-	private GeneratorProjectDescriptor descriptor = null;
+	protected GeneratorProjectDescriptor descriptor = null;
 
 	private String[] definedProperties = null;
 
@@ -306,6 +306,7 @@ public class PluggablePlugin extends BasePlugin {
 				File classesDir = new File(getPProject().getBaseDir(),
 						"classes");
 				urls.add(classesDir.toURL());
+				System.out.println(classesDir.toURL().toString());
 
 				// with all packaged up entries
 				for (IPluginClasspathEntry entry : getPProject()
@@ -313,6 +314,7 @@ public class PluggablePlugin extends BasePlugin {
 					File jarFile = new File(getPProject().getBaseDir(), entry
 							.getRelativePath());
 					urls.add(jarFile.toURL());
+					System.out.println(jarFile.toURL().toString());
 				}
 
 				classLoader = new URLClassLoader(urls.toArray(new URL[urls

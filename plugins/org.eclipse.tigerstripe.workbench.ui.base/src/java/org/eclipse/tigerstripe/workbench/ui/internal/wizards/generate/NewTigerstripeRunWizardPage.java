@@ -278,7 +278,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 		ArrayList<String> labels = new ArrayList<String>();
 		
 		
-		if (! PluginManager.getManager().isOsgiVersioning()){
+		if (! PluginManager.isOsgiVersioning()){
 			for (Iterator it = housings.iterator(); it.hasNext();) {
 				PluginHousing housing = (PluginHousing) it.next();
 				if (housing.getCategory() == IPluginConfig.GENERATE_CATEGORY
@@ -636,7 +636,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 					
 					
 					boolean oneAtleastIsEnabled = false;
-					if (! PluginManager.getManager().isOsgiVersioning()){
+					if (! PluginManager.isOsgiVersioning()){
 						for (int i = 0; i < refs.length; i++) {
 							// oneAtleastIsEnabled = oneAtleastIsEnabled
 							if (refs[i].isEnabled()
@@ -645,7 +645,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 								for (int j = 0; j < buttonNames.length; j++) {
 									if (buttonNames[j]
 									                .equals(((PluginConfig) refs[i])
-									                		.getPluginName())) {
+									                		.getLabel())) {
 										generatorSelectionButtons[j]
 										                          .setSelection(refs[i].isEnabled());
 										oneAtleastIsEnabled = true;

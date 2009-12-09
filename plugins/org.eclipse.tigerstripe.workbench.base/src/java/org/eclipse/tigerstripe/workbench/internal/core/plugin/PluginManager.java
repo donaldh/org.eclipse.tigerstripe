@@ -33,6 +33,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchPr
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IGlobalSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.ContributedPlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggableHousing;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.GlobalSettingsProperty;
@@ -232,8 +233,10 @@ public class PluginManager implements IActiveWorkbenchProfileChangeListener {
 					Bundle bundle = org.eclipse.core.runtime.Platform.getBundle(contributor.getName());
 					File f = FileLocator.getBundleFile(bundle);
 
-					PluggablePlugin pluginBody = new PluggablePlugin(
-							f.getAbsolutePath(), null);
+					
+					
+					PluggablePlugin pluginBody = new ContributedPlugin(
+							f.getAbsolutePath(), bundle);
 					pluginBody.setCanDelete(false);
 					if (pluginBody.isValid()) {
 						PluggableHousing housing = new PluggableHousing(
