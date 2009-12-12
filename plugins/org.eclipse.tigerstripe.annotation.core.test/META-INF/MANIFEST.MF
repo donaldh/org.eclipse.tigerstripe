@@ -19,9 +19,21 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.tigerstripe.espace.core,
  org.eclipse.emf.validation,
  org.eclipse.tigerstripe.espace.resources,
- org.eclipse.tigerstripe.annotation.java;bundle-version="0.0.0",
- org.eclipse.tigerstripe.annotation.java.ui;bundle-version="0.0.0",
- org.eclipse.tigerstripe.annotation.java.ui.refactoring;bundle-version="0.0.0"
+ org.eclipse.tigerstripe.annotation.java,
+ org.eclipse.tigerstripe.annotation.java.ui,
+ org.eclipse.tigerstripe.annotation.java.ui.refactoring,
+ org.eclipse.tigerstripe.annotation.example,
+ org.eclipse.tigerstripe.annotation.example.designNotes,
+ org.eclipse.tigerstripe.annotation.example.person,
+ org.eclipse.tigerstripe.annotation.example.person.validators,
+ org.eclipse.tigerstripe.annotation.example.router,
+ org.eclipse.tigerstripe.annotation.resource,
+ org.eclipse.tigerstripe.annotation.resource.ui,
+ org.eclipse.tigerstripe.annotation.ui,
+ org.eclipse.tigerstripe.annotation.ui.diagrams,
+ org.eclipse.tigerstripe.annotation.ui.example.customView,
+ org.eclipse.tigerstripe.annotation.ui.example.editpartProvider,
+ org.eclipse.tigerstripe.annotation.validation
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.tigerstripe.annotation.core.test.Activator
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
