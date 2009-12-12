@@ -17,7 +17,25 @@ Require-Bundle: org.eclipse.core.runtime,
  com.windowtester.runtime,
  com.instantiations.eclipse.debug,
  com.instantiations.common.core,
- com.instantiations.eclipse.util
+ com.instantiations.eclipse.util,
+ org.eclipse.tigerstripe.annotation.core.test;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.annotation.resource;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.annotation.resource.ui;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.annotation.ts2project.router;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.annotation.tsmodel;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.annotation.tsmodel.ui;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.annotation.ui;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.annotation.validation;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.espace.resources.monitor;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.test_common;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.workbench.base.test;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.workbench.branding;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.workbench.headless;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.workbench.help;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.workbench.optional.UML2Export;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.workbench.optional.buckminster;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.workbench.optional.bulkImport;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.workbench.ui.UML2Import;bundle-version="0.0.0"
 Bundle-ActivationPolicy: lazy
 Manifest-Version: 1.0
 Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.ui.base.test

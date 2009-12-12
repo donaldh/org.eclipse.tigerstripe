@@ -7,7 +7,20 @@ Bundle-Activator: org.eclipse.tigerstripe.workbench.base.test.Activator
 Require-Bundle: org.junit,
  org.eclipse.tigerstripe.workbench.base,
  org.eclipse.team.cvs.core,
- org.eclipse.team.core
+ org.eclipse.team.core,
+ org.eclipse.tigerstripe.annotation.resource;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.annotation.resource.ui;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.annotation.ts2project.router;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.annotation.tsmodel;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.annotation.tsmodel.ui;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.annotation.ui;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.annotation.validation;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.espace.resources.monitor;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.test_common;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.workbench.branding;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.workbench.headless;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.workbench.help;bundle-version="0.0.0",
+ org.eclipse.tigerstripe.workbench.optional.buckminster;bundle-version="0.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Export-Package: org.eclipse.tigerstripe.workbench.base.test.annotation
