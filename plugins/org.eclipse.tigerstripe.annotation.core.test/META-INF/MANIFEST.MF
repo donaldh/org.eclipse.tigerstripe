@@ -31,8 +31,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.tigerstripe.annotation.resource.ui,
  org.eclipse.tigerstripe.annotation.ui,
  org.eclipse.tigerstripe.annotation.ui.diagrams,
- org.eclipse.tigerstripe.annotation.ui.example.customView,
- org.eclipse.tigerstripe.annotation.ui.example.editpartProvider,
  org.eclipse.tigerstripe.annotation.validation,
  org.eclipse.tigerstripe.espace.resources.monitor
 Bundle-ActivationPolicy: lazy
