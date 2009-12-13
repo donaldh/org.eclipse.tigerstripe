@@ -4,8 +4,7 @@
 #
 
 DATE=`date`
-ANT=ant
-
+ANT=/auto/tigerstripe/local/ant/bin/ant
 
 # Run javadoc in core plugin so it gets packaged up as part of the documentation
 echo "Running Javadoc in org.eclipse.tigerstripe.workbench.base"
