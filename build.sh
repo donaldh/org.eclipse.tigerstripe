@@ -61,9 +61,9 @@ else
 fi
 
 # ------------------------------------------------------------------------------
-rsync -av  features target/ || exit 1
-rsync -av  plugins target/ || exit 1
-rsync -av  releng target/ || exit 1
+rsync -av --delete features target/ || exit 1
+rsync -av --delete plugins target/ || exit 1
+rsync -av --delete releng target/ || exit 1
 rsync -av  pom.xml target/ || exit 1
 
 # ------------------------------------------------------------------------------ 
