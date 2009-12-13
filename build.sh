@@ -68,9 +68,13 @@ rsync -av  pom.xml target/ || exit 1
 
 # ------------------------------------------------------------------------------ 
 if [ ! -z "$BUILD_VERSION" ]; then
-		chmod +x ./patch_version.sh
+	chmod +x ./patch_version.sh
     ./patch_version.sh . target $BUILD_VERSION
 fi
+
+# Run pre-build script
+chmod +x ./pre-build.sh
+./pre-build.sh
 
 #./$MAVEN/bin/mvn --fail-at-end -Dtycho.showEclipseLog=true  -Dosgi.ws=cocoa -Dmaven.test.skip=$MAVEN_TEST_SKIP install -e -B
 
