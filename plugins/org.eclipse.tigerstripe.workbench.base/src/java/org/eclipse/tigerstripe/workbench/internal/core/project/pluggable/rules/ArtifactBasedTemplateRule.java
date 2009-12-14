@@ -28,6 +28,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.IPluginRuleExecutor;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRule;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactFilter;
@@ -113,7 +114,7 @@ public class ArtifactBasedTemplateRule extends TemplateBasedRule implements
 		NodeList bodies = elm.getElementsByTagName("body");
 		if (bodies.getLength() != 0) {
 			Element body = (Element) bodies.item(0);
-			setTemplate(body.getAttribute("template"));
+			setTemplate(Util.fixWindowsPath(body.getAttribute("template")));
 			setOutputFile(body.getAttribute("outputFile"));
 			setModelClass(body.getAttribute("modelClass"));
 			setModelClassName(body.getAttribute("modelClassName"));
@@ -125,8 +126,8 @@ public class ArtifactBasedTemplateRule extends TemplateBasedRule implements
 			setIncludeDependenciesStr(body.getAttribute("includeDependencies"));
 			NodeList libraries = body.getElementsByTagName("library");
 			for (int i = 0; i < libraries.getLength(); i++) {
-				addMacroLibrary(((Element) libraries.item(i))
-						.getAttribute("name"));
+				addMacroLibrary(Util.fixWindowsPath(((Element) libraries
+						.item(i)).getAttribute("name")));
 			}
 
 		}
@@ -135,7 +136,7 @@ public class ArtifactBasedTemplateRule extends TemplateBasedRule implements
 	@Override
 	public Node getBodyAsNode(Document document) {
 		Element elm = document.createElement("body");
-		elm.setAttribute("template", getTemplate());
+		elm.setAttribute("template", Util.fixWindowsPath(getTemplate()));
 		elm.setAttribute("outputFile", getOutputFile());
 		elm.setAttribute("modelClass", getModelClass());
 		elm.setAttribute("modelClassName", getModelClassName());
@@ -147,7 +148,8 @@ public class ArtifactBasedTemplateRule extends TemplateBasedRule implements
 		if (hasMacroLibrary()) {
 			for (int i = 0; i < getMacroLibraries().length; i++) {
 				Element lib = (document.createElement("library"));
-				lib.setAttribute("name", getMacroLibraries()[i]);
+				lib.setAttribute("name", Util
+						.fixWindowsPath(getMacroLibraries()[i]));
 				elm.appendChild(lib);
 			}
 		}

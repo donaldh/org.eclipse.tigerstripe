@@ -29,6 +29,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.propert
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.properties.TablePPluginProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.Rule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.runtime.PluginClasspathEntry;
+import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
 import org.eclipse.tigerstripe.workbench.plugins.IBooleanPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.IGlobalRule;
@@ -464,7 +465,7 @@ public abstract class GeneratorProjectDescriptor extends
 		logger.setAttribute("isEnabled", Boolean.toString(isLogEnabled()));
 		logger.setAttribute("defautLevel", String.valueOf(getDefaultLogLevel()
 				.toInt()));
-		logger.setAttribute("logPath", getLogPath());
+		logger.setAttribute("logPath", Util.fixWindowsPath(getLogPath()));
 		logger.setAttribute("maxRoll", String.valueOf(maxRoll));
 		return logger;
 	}
@@ -491,7 +492,7 @@ public abstract class GeneratorProjectDescriptor extends
 
 		for (IPluginClasspathEntry entry : getClasspathEntries()) {
 			Element propElm = document.createElement("entry");
-			propElm.setAttribute("relativePath", entry.getRelativePath());
+			propElm.setAttribute("relativePath", Util.fixWindowsPath(entry.getRelativePath()));
 			classpathEntriesProperties.appendChild(propElm);
 		}
 
@@ -504,13 +505,13 @@ public abstract class GeneratorProjectDescriptor extends
 
 		for (String entry : getAdditionalFiles(ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_INCLUDE)) {
 			Element propElm = document.createElement("includeEntry");
-			propElm.setAttribute("relativePath", entry);
+			propElm.setAttribute("relativePath", Util.fixWindowsPath(entry));
 			additionalFilesElement.appendChild(propElm);
 		}
 
 		for (String entry : getAdditionalFiles(ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_EXCLUDE)) {
 			Element propElm = document.createElement("excludeEntry");
-			propElm.setAttribute("relativePath", entry);
+			propElm.setAttribute("relativePath", Util.fixWindowsPath(entry));
 			additionalFilesElement.appendChild(propElm);
 		}
 		return additionalFilesElement;
@@ -578,7 +579,7 @@ public abstract class GeneratorProjectDescriptor extends
 				.equalsIgnoreCase(logger.getAttribute("isEnabled"));
 		defaultLogLevel = PluginLog.LogLevel.fromInt(Integer.valueOf(logger
 				.getAttribute("defautLevel")));
-		logPath = logger.getAttribute("logPath");
+		logPath = Util.fixWindowsPath(logger.getAttribute("logPath"));
 		maxRoll = Integer.valueOf(logger.getAttribute("maxRoll"));
 	}
 
@@ -642,7 +643,7 @@ public abstract class GeneratorProjectDescriptor extends
 		NodeList entries = entriesRoot.getElementsByTagName("entry");
 		for (int index = 0; index < entries.getLength(); index++) {
 			Element entry = (Element) entries.item(index);
-			String relPath = entry.getAttribute("relativePath");
+			String relPath = Util.fixWindowsPath(entry.getAttribute("relativePath"));
 			if (relPath != null && relPath.length() != 0) {
 				IPluginClasspathEntry anEntry = makeClasspathEntry();
 				anEntry.setRelativePath(relPath);
@@ -674,7 +675,7 @@ public abstract class GeneratorProjectDescriptor extends
 		NodeList entries = entriesRoot.getElementsByTagName("includeEntry");
 		for (int index = 0; index < entries.getLength(); index++) {
 			Element entry = (Element) entries.item(index);
-			String relPath = entry.getAttribute("relativePath");
+			String relPath = Util.fixWindowsPath(entry.getAttribute("relativePath"));
 			if (relPath != null && relPath.length() != 0) {
 				additionalFilesInclude.add(relPath);
 			}
@@ -682,7 +683,7 @@ public abstract class GeneratorProjectDescriptor extends
 		entries = entriesRoot.getElementsByTagName("excludeEntry");
 		for (int index = 0; index < entries.getLength(); index++) {
 			Element entry = (Element) entries.item(index);
-			String relPath = entry.getAttribute("relativePath");
+			String relPath = Util.fixWindowsPath(entry.getAttribute("relativePath"));
 			if (relPath != null && relPath.length() != 0) {
 				additionalFilesExclude.add(relPath);
 			}

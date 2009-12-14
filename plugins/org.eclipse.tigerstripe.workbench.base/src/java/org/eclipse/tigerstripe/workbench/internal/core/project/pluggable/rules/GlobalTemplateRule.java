@@ -25,6 +25,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.IPluginRuleExecutor;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.plugins.IGlobalRule;
 import org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
@@ -61,7 +62,7 @@ public class GlobalTemplateRule extends TemplateBasedRule implements
 		NodeList bodies = elm.getElementsByTagName("body");
 		if (bodies.getLength() != 0) {
 			Element body = (Element) bodies.item(0);
-			setTemplate(body.getAttribute("template"));
+			setTemplate(Util.fixWindowsPath(body.getAttribute("template")));
 			setOutputFile(body.getAttribute("outputFile"));
 			setSuppressEmptyFilesStr(body.getAttribute("suppressFiles"));
 			setOverwriteFilesStr(body.getAttribute("overwriteFiles"));
@@ -77,7 +78,7 @@ public class GlobalTemplateRule extends TemplateBasedRule implements
 	@Override
 	public Node getBodyAsNode(Document document) {
 		Element elm = document.createElement("body");
-		elm.setAttribute("template", getTemplate());
+		elm.setAttribute("template", Util.fixWindowsPath(getTemplate()));
 		elm.setAttribute("outputFile", getOutputFile());
 		elm.setAttribute("suppressFiles", isSuppressEmptyFilesStr());
 		elm.setAttribute("overwriteFiles", isOverwriteFilesStr());
@@ -104,7 +105,8 @@ public class GlobalTemplateRule extends TemplateBasedRule implements
 		try {
 			initializeReport(pluginConfig);
 
-			VelocityEngine engine = setClasspathLoaderForVelocity(pluginConfig,exec);
+			VelocityEngine engine = setClasspathLoaderForVelocity(pluginConfig,
+					exec);
 			Template template = engine.getTemplate(getTemplate());
 
 			Expander expander = new Expander(pluginConfig);

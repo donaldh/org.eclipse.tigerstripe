@@ -19,6 +19,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.IPluginRuleExecuto
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.util.FileUtils;
+import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.plugins.ICopyRule;
 import org.eclipse.tigerstripe.workbench.plugins.IGlobalRule;
 import org.w3c.dom.Document;
@@ -71,7 +72,7 @@ public class CopyRule extends Rule implements ICopyRule, IGlobalRule {
 		NodeList bodies = elm.getElementsByTagName("body");
 		if (bodies.getLength() != 0) {
 			Element body = (Element) bodies.item(0);
-			setToDirectory(body.getAttribute("toDirectory"));
+			setToDirectory(Util.fixWindowsPath(body.getAttribute("toDirectory")));
 			setFilesetMatch(body.getAttribute("filesetMatch"));
 			setCopyFrom(Integer.parseInt(body.getAttribute("copyFrom")));
 		}
@@ -80,7 +81,7 @@ public class CopyRule extends Rule implements ICopyRule, IGlobalRule {
 	@Override
 	public Node getBodyAsNode(Document document) {
 		Element elm = document.createElement("body");
-		elm.setAttribute("toDirectory", getToDirectory());
+		elm.setAttribute("toDirectory", Util.fixWindowsPath(getToDirectory()));
 		elm.setAttribute("filesetMatch", getFilesetMatch());
 		elm.setAttribute("copyFrom", String.valueOf(getCopyFrom()));
 		return elm;
