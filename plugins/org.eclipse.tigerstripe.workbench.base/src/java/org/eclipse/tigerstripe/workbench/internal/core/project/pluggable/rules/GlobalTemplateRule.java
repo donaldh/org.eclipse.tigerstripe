@@ -69,8 +69,8 @@ public class GlobalTemplateRule extends TemplateBasedRule implements
 
 			NodeList libraries = body.getElementsByTagName("library");
 			for (int i = 0; i < libraries.getLength(); i++) {
-				addMacroLibrary(((Element) libraries.item(i))
-						.getAttribute("name"));
+				addMacroLibrary(Util.fixWindowsPath(((Element) libraries.item(i))
+						.getAttribute("name")));
 			}
 		}
 	}
@@ -86,7 +86,7 @@ public class GlobalTemplateRule extends TemplateBasedRule implements
 		if (hasMacroLibrary()) {
 			for (int i = 0; i < getMacroLibraries().length; i++) {
 				Element lib = (document.createElement("library"));
-				lib.setAttribute("name", getMacroLibraries()[i]);
+				lib.setAttribute("name", Util.fixWindowsPath(getMacroLibraries()[i]));
 				elm.appendChild(lib);
 			}
 		}

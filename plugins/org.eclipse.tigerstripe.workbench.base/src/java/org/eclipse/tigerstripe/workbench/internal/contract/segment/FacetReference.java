@@ -39,6 +39,7 @@ import org.eclipse.tigerstripe.workbench.internal.contract.predicate.FacetPredic
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
+import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
@@ -399,11 +400,11 @@ public class FacetReference extends AbstractContainedObject implements
 			uriStr = uriNode.getNodeValue();
 
 		if (genDir != null) {
-			genDirStr = genDir.getNodeValue();
+			genDirStr = Util.fixWindowsPath(genDir.getNodeValue());
 		}
 
 		if (relPath != null) {
-			relPathStr = relPath.getNodeValue();
+			relPathStr = Util.fixWindowsPath(relPath.getNodeValue());
 		}
 
 		if (projectLabel != null) {
@@ -449,7 +450,8 @@ public class FacetReference extends AbstractContainedObject implements
 						"TigerstripeException detected", e);
 			}
 		} else {
-			refElm.setAttribute("relPath", ref.getProjectRelativePath());
+			refElm.setAttribute("relPath", Util.fixWindowsPath(ref
+					.getProjectRelativePath()));
 			if (ref.getContainingProject() != null
 					&& !ref.getContainingProject().getName().equals(
 							project.getProjectLabel())) {
@@ -457,7 +459,8 @@ public class FacetReference extends AbstractContainedObject implements
 						.getName());
 			}
 		}
-		refElm.setAttribute("genDir", ref.getGenerationDir());
+		refElm.setAttribute("genDir", Util.fixWindowsPath(ref
+				.getGenerationDir()));
 
 		return refElm;
 	}

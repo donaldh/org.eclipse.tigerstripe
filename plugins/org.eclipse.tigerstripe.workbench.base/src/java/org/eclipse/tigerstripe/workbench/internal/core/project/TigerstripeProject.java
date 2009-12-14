@@ -35,7 +35,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.tools.ant.util.ReaderInputStream;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.tigerstripe.espace.core.Mode;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -53,11 +52,12 @@ import org.eclipse.tigerstripe.workbench.internal.core.locale.Messages;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfigFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.UnknownPluginException;
+import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
+import org.eclipse.tigerstripe.workbench.project.IDescriptorReferencedProject;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDescriptor;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.IDescriptorReferencedProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -421,7 +421,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			if (!dep.getPath().equals(corePath)) {
 				Element depElm = document.createElement(DEPENDENCY_TAG);
 
-				depElm.setAttribute("path", dep.getPath());
+				depElm.setAttribute("path", Util.fixWindowsPath(dep.getPath()));
 				dependenciesElm.appendChild(depElm);
 			}
 		}
@@ -440,7 +440,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 				IProjectLocator loc = (IProjectLocator) InternalTigerstripeCore
 						.getFacility(InternalTigerstripeCore.PROJECT_LOCATOR_FACILITY);
 				String label = loc.getLocalLabel(projectURI);
-				refElm.setAttribute("path", label);
+				refElm.setAttribute("path", Util.fixWindowsPath(label));
 				referencesElm.appendChild(refElm);
 			} catch (TigerstripeException e) {
 				TigerstripeRuntime.logErrorMessage(
@@ -561,7 +561,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			NamedNodeMap namedAttributes = node.getAttributes();
 			Node path = namedAttributes.getNamedItem("path");
 
-			String pathStr = path.getNodeValue();
+			String pathStr = Util.fixWindowsPath(path.getNodeValue());
 			Dependency dep = new Dependency(this, pathStr);
 			addDependency(dep);
 		}

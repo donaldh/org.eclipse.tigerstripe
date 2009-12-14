@@ -18,12 +18,14 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 
 /**
  * @author Eric Dillon
  * 
- * A convenience class with a bunch of useful functions
+ *         A convenience class with a bunch of useful functions
  * 
  */
 public class Util {
@@ -40,8 +42,8 @@ public class Util {
 	 * Returns a boolean value for the passed string for yes/no and true/false.
 	 * (Case insensitive)
 	 * 
-	 * @param strBool -
-	 *            the string
+	 * @param strBool
+	 *            - the string
 	 * @return boolean
 	 */
 	public static boolean strBoolean(String strBool) {
@@ -52,8 +54,8 @@ public class Util {
 	/**
 	 * Returns the package prefix of the given fully qualified name
 	 * 
-	 * @param fullyQualifiedName -
-	 *            String a fully qualified name
+	 * @param fullyQualifiedName
+	 *            - String a fully qualified name
 	 * @return String - the package prefix to the given fully qualified name
 	 */
 	public static String packageOf(String fullyQualifiedName) {
@@ -69,8 +71,8 @@ public class Util {
 	/**
 	 * Returns the name of the given fully qualified name
 	 * 
-	 * @param fullyQualifiedName -
-	 *            String a fully qualified name
+	 * @param fullyQualifiedName
+	 *            - String a fully qualified name
 	 * @return String - the name to the given fully qualified name
 	 */
 	public static String nameOf(String fullyQualifiedName) {
@@ -206,5 +208,24 @@ public class Util {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Fixes a windows-style path to ensure no "\" are used anywhere
+	 * 
+	 * @param path
+	 * @return
+	 */
+	public static String fixWindowsPath(String fullPath) {
+		fullPath = fullPath.indexOf('\\') == -1 ? fullPath : fullPath.replace(
+				'\\', IPath.SEPARATOR);
+		// extract device
+		int i = fullPath.indexOf(IPath.DEVICE_SEPARATOR);
+		if (i != -1) {
+			// remove leading slash from device part to handle output of
+			// URL.getFile()
+			fullPath = fullPath.substring(i + 1, fullPath.length());
+		}
+		return fullPath;
 	}
 }

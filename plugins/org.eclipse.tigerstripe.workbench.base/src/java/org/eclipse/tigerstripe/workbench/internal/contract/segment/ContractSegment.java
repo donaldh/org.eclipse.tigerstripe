@@ -34,6 +34,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHan
 import org.eclipse.tigerstripe.workbench.internal.contract.useCase.UseCaseReference;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
+import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.internal.core.versioning.VersionAwareElement;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
@@ -152,6 +153,7 @@ public class ContractSegment extends VersionAwareElement implements
 		Element useCasesElem = rootElement.addElement("facetRefs");
 
 		for (IFacetReference ref : facetReferences) {
+
 			Element refElm = useCasesElem.addElement(FACET_TAG);
 			if (ref.isAbsolute()) {
 				try {
@@ -161,7 +163,8 @@ public class ContractSegment extends VersionAwareElement implements
 							"TigerstripeException detected", e);
 				}
 			} else {
-				refElm.addAttribute("relPath", ref.getProjectRelativePath());
+				refElm.addAttribute("relPath", Util.fixWindowsPath(ref
+						.getProjectRelativePath()));
 
 				if (getContainingProject() != null) {
 					if (ref.getContainingProject() != null
@@ -190,8 +193,8 @@ public class ContractSegment extends VersionAwareElement implements
 							"TigerstripeException detected", e);
 				}
 			} else {
-				useCaseElem.addAttribute("relPath", ref
-						.getProjectRelativePath());
+				useCaseElem.addAttribute("relPath", Util.fixWindowsPath(ref
+						.getProjectRelativePath()));
 				// if (ref.getContainingProject() != null
 				// && !ref.getContainingProject().getProjectLabel()
 				// .equals(getProjectLabel())) {
@@ -226,7 +229,7 @@ public class ContractSegment extends VersionAwareElement implements
 				uriStr = uriNode.getStringValue();
 
 			if (relPath != null) {
-				relPathStr = relPath.getStringValue();
+				relPathStr = Util.fixWindowsPath(relPath.getStringValue());
 			}
 
 			if (projectLabel != null) {
