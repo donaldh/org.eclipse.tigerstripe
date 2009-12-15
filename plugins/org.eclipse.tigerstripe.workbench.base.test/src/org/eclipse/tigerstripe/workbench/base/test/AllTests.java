@@ -40,6 +40,9 @@ import org.eclipse.tigerstripe.workbench.base.test.project.TestProjectManagement
 import org.eclipse.tigerstripe.workbench.base.test.references.TestModelReferences;
 import org.eclipse.tigerstripe.workbench.base.test.references.TestProjectReferences1;
 import org.eclipse.tigerstripe.workbench.base.test.startup.TestStartup;
+import org.eclipse.tigerstripe.workbench.internal.core.model.export.TestExportDiff;
+import org.eclipse.tigerstripe.workbench.internal.core.model.export.TestExportFacetManager;
+import org.eclipse.tigerstripe.workbench.internal.core.model.export.facets.TestFacetExporter;
 
 public class AllTests {
 
@@ -48,7 +51,7 @@ public class AllTests {
 				"Test for org.eclipse.tigerstripe.workbench.base.test");
 		// $JUnit-BEGIN$
 
-//		// Startup Tests
+		// // Startup Tests
 		suite.addTestSuite(TestStartup.class);
 
 		suite.addTestSuite(TestTigerstripeCore.class);
@@ -61,8 +64,8 @@ public class AllTests {
 		suite.addTestSuite(TestM0ProjectBasics.class);
 		suite.addTestSuite(TestM0ProjectContents.class);
 		suite.addTestSuite(TestAdapters.class);
-//
-//		// Builder tests
+		//
+		// // Builder tests
 		suite.addTestSuite(TestBasicM1ProjectAuditor.class);
 		suite.addTestSuite(TestBasicModelProjectAuditor.class);
 
@@ -72,10 +75,10 @@ public class AllTests {
 		suite.addTestSuite(TestFacetWithAnnotations.class);
 
 		// Metamodel migration test
-//		suite.addTestSuite(TestArtifactRefactor.class);
-//		suite.addTestSuite(TestFieldMigration.class);
-//		suite.addTestSuite(TestManagedEntityMigration.class);
-//		suite.addTestSuite(TestModelManager.class);
+		// suite.addTestSuite(TestArtifactRefactor.class);
+		// suite.addTestSuite(TestFieldMigration.class);
+		// suite.addTestSuite(TestManagedEntityMigration.class);
+		// suite.addTestSuite(TestModelManager.class);
 
 		// Generation Tests
 		suite.addTestSuite(TestProjectGenerationBasics.class);
@@ -93,21 +96,23 @@ public class AllTests {
 
 		// Profiles
 		suite.addTestSuite(TestProfileBasics.class);
-		
+
 		// Annotations
 		suite.addTestSuite(TestAnnotationCreationAPI.class);
-		
-		//Patterns
+
+		// Patterns
 		suite.addTestSuite(PatternTest.class);
 		suite.addTestSuite(ProjectPatternTest.class);
-		
-		//References
+
+		// References
 		suite.addTestSuite(TestProjectReferences1.class);
 		suite.addTestSuite(TestModelReferences.class);
-		
+
 		// Export
-		suite.addTestSuite(org.eclipse.tigerstripe.workbench.internal.core.model.export.AllTests.class);
-		
+		suite.addTestSuite(TestExportDiff.class);
+		suite.addTestSuite(TestExportFacetManager.class);
+		suite.addTestSuite(TestFacetExporter.class);
+
 		// $JUnit-END$
 		return suite;
 	}
