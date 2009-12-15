@@ -11,6 +11,9 @@ Export-Package: org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edi
  org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.providers
 Require-Bundle: org.eclipse.tigerstripe.workbench.ui.instancediagram.edit;visibility:=reexport,
  org.eclipse.tigerstripe.workbench.ui.base,
- org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation
+ org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation,
+ org.eclipse.gmf.runtime.diagram.ui.providers,
+ org.eclipse.gmf.runtime.diagram.ui.providers.ide,
+ org.eclipse.gmf.runtime.diagram.ui.render
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
