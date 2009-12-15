@@ -18,7 +18,7 @@ import java.util.Properties;
  * @author Eric Dillon
  * @since 0.3
  */
-public interface IProjectDetails  {
+public interface IProjectDetails {
 
 	// These are the properties stored within the project details
 
@@ -28,12 +28,14 @@ public interface IProjectDetails  {
 	/* The copyright notice to put as the header of all generated files */
 	public final static String COPYRIGHT_NOTICE = "copyrightNotice";
 
+	/* The Model ID */
+	public final static String MODEL_ID = "modelId";
+
 	/* whether to clear the directory when generating */
 	public final static String CLEAR_DIRECTORY_BEFORE_GENERATE = "clearDirectoryBeforeGenerate";
 	public final static String CLEAR_DIRECTORY_BEFORE_GENERATE_DEFAULT = "false";
-	
+
 	/* whether to ignore the facets if any */
-	
 	public final static String IGNORE_FACETS = "ignoreFacets";
 	public final static String IGNORE_FACETS_DEFAULT = "false";
 
@@ -44,8 +46,11 @@ public interface IProjectDetails  {
 	/* whether to generate referenced projects if any */
 	public final static String GENERATE_REFPROJECTS = "generateRefProjects";
 	public final static String GENERATE_REFPROJECTS_DEFAULT = "false";
-	
-	/* whether to override plugin settings for referenced projects and included modules */
+
+	/*
+	 * whether to override plugin settings for referenced projects and included
+	 * modules
+	 */
 	public final static String OVERRIDE_SUBPROJECT_SETTINGS = "overrideSubProjectSettings";
 	public final static String OVERRIDE_SUBPROJECT_SETTINGS_DEFAULT = "true";
 
@@ -73,7 +78,7 @@ public interface IProjectDetails  {
 
 	// ==============================================================
 	/* Mandatory values are checked for existence by the Auditor */
-	public final static String[] MANDATORY_PROPERTIES = { };
+	public final static String[] MANDATORY_PROPERTIES = {};
 
 	public void setVersion(String version);
 
@@ -103,5 +108,9 @@ public interface IProjectDetails  {
 	public String getProvider();
 
 	public String getVersion();
+
+	public String getModelId();
+
+	public void setModelId(String modelId);
 
 }

@@ -16,7 +16,6 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -40,12 +39,10 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.IContainedObject;
-import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.annotation.ModuleAnnotationManager;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
-import org.eclipse.tigerstripe.workbench.internal.api.utils.IProjectLocator;
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.locale.Messages;
@@ -54,7 +51,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfigFactor
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.UnknownPluginException;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
-import org.eclipse.tigerstripe.workbench.project.IDescriptorReferencedProject;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDescriptor;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
@@ -77,6 +73,42 @@ import org.xml.sax.SAXParseException;
  */
 public class TigerstripeProject extends AbstractTigerstripeProject implements
 		IProjectDescriptor {
+
+	/**
+	 * This is to ensure we don't mess up the way things are saved a maintain
+	 * compatibility with all versions of TS, where no modelId was used, i.e. we
+	 * keep the reference by name
+	 * 
+	 * @author erdillon
+	 * 
+	 */
+	private class LegacyModelReference extends ModelReference {
+
+		private String path = null;
+
+		/**
+		 * @param projectContext
+		 * @param toModelId
+		 */
+		public LegacyModelReference(ITigerstripeModelProject projectContext,
+				String toModelId, String path) {
+			super(projectContext, toModelId);
+			this.path = path;
+		}
+
+		/**
+		 * @param toModelId
+		 */
+		public LegacyModelReference(String toModelId, String path) {
+			super(toModelId);
+			this.path = path;
+		}
+
+		public String getPath() {
+			return this.path;
+		}
+
+	}
 
 	// This defines the compatibility level for the project descriptor;
 	public static final String COMPATIBILITY_LEVEL = "1.1";
@@ -115,15 +147,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	 */
 	private List<IFacetReference> facetReferences = new ArrayList<IFacetReference>();
 
-	/**
-	 * Tigerstripe projects referenced from this one.
-	 */
-	private List<ITigerstripeModelProject> referencedProjects = new ArrayList<ITigerstripeModelProject>();
-	
-	/**
-	 * Tigerstripe project references contained in descriptor
-	 */
-	private List<IDescriptorReferencedProject> descriptorsReferencedProjects = new ArrayList<IDescriptorReferencedProject>();
+	private List<ModelReference> modelReferences = new ArrayList<ModelReference>();
 
 	// ==========================================
 	// ==========================================
@@ -432,20 +456,18 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	private Element buildReferencesElement(Document document) {
 		Element referencesElm = document.createElement("references");
 
-		for (ITigerstripeModelProject ref : getReferencedProjects()) {
+		for (ModelReference mRef : modelReferences) {
 			Element refElm = document.createElement(REFERENCE_TAG);
 
-			try {
-				URI projectURI = ref.getLocation().toFile().toURI();
-				IProjectLocator loc = (IProjectLocator) InternalTigerstripeCore
-						.getFacility(InternalTigerstripeCore.PROJECT_LOCATOR_FACILITY);
-				String label = loc.getLocalLabel(projectURI);
-				refElm.setAttribute("path", Util.fixWindowsPath(label));
-				referencesElm.appendChild(refElm);
-			} catch (TigerstripeException e) {
-				TigerstripeRuntime.logErrorMessage(
-						"TigerstripeException detected", e);
+			if (mRef instanceof LegacyModelReference) {
+				LegacyModelReference mLRef = (LegacyModelReference) mRef;
+				refElm.setAttribute("path", mLRef.getPath());
+			} else {
+				refElm.setAttribute("path", mRef.isResolved() ? mRef
+						.getResolvedModel().getName() : "");
 			}
+			refElm.setAttribute("modelId", mRef.getToModelId());
+			referencesElm.appendChild(refElm);
 		}
 
 		return referencesElm;
@@ -585,7 +607,6 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 		}
 	}
 
-	
 	public ITigerstripeModelProject getTSProject() {
 		if (getBaseDir() != null) {
 			try {
@@ -602,8 +623,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 
 	private void loadReferences(Document document) throws TigerstripeException {
 
-		this.referencedProjects = new ArrayList<ITigerstripeModelProject>();
-		this.descriptorsReferencedProjects = new ArrayList<IDescriptorReferencedProject>();
+		this.modelReferences = new ArrayList<ModelReference>();
 
 		// Bug 259: references should be ignored when within an embedded module
 		// descriptor.
@@ -615,37 +635,21 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 		for (int i = 0; i < dependencyNode.getLength(); i++) {
 			Node node = dependencyNode.item(i);
 			NamedNodeMap namedAttributes = node.getAttributes();
-			Node path = namedAttributes.getNamedItem("path");
+			Node pathNode = namedAttributes.getNamedItem("path");
+			Node modelIdNode = namedAttributes.getNamedItem("modelId");
 
-			String label = path.getNodeValue();
-
-			IProjectLocator loc = (IProjectLocator) InternalTigerstripeCore
-					.getFacility(InternalTigerstripeCore.PROJECT_LOCATOR_FACILITY);
-
-			ITigerstripeModelProject self = (ITigerstripeModelProject) TigerstripeCore
-					.findProject(getBaseDir().toURI());
-			
-			URI uri = null;
-			try {
-			uri = loc.locate(self, label);
-			} catch (TigerstripeException t) {
-				
-			}
-
-			ITigerstripeModelProject prj=null;
-			if(uri!=null){
-			prj = (ITigerstripeModelProject) TigerstripeCore.findProject(uri);
-			}
-
-			if (prj != null){
-				addReferencedProject(prj);
-			    addDescriptorReferencedProject(prj,label);
+			String modelId = "";
+			String path = pathNode.getNodeValue();
+			if (modelIdNode != null) {
+				modelId = modelIdNode.getNodeValue();
 			} else {
-				addDescriptorReferencedProject(prj,label);
+				// default back to path if no modelId saved
+				modelId = path;
 			}
-			
-			    
 
+			// Build a model Reference for that
+			LegacyModelReference mRef = new LegacyModelReference(modelId, path);
+			modelReferences.add(mRef);
 		}
 	}
 
@@ -692,74 +696,56 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 		}
 	}
 
-	public void addReferencedProject(ITigerstripeModelProject project)
+	public void addModelReference(ModelReference mRef)
 			throws TigerstripeException {
 		setDirty();
-		referencedProjects.add(project);
-	}
-	
-	public void addDescriptorReferencedProject(ITigerstripeModelProject project, String label){
-		setDirty();
-		DescriptorReferencedProject ref = new DescriptorReferencedProject();
-		ref.setProject(project);
-		ref.setProjectName(label);
-		descriptorsReferencedProjects.add(ref);
+		modelReferences.add(mRef);
 	}
 
-	public void removeReferencedProject(ITigerstripeModelProject project)
+	public void addModelReferences(ModelReference[] mRefs)
 			throws TigerstripeException {
 		setDirty();
-		referencedProjects.remove(project);
-	}
-	
-	public void removeDescriptorReferencedProject(IDescriptorReferencedProject project)
-	throws TigerstripeException {
-    setDirty();
-    descriptorsReferencedProjects.remove(project);
-    }
-
-	public void addReferencedProjects(ITigerstripeModelProject[] projects)
-			throws TigerstripeException {
-		for (ITigerstripeModelProject project : projects) {
-			addReferencedProject(project);
-		}
+		for (ModelReference mRef : mRefs)
+			modelReferences.add(mRef);
 	}
 
-	public void removeReferencedProjects(IDescriptorReferencedProject[] projects)
+	public void removeModelReference(ModelReference mRef)
 			throws TigerstripeException {
-		for (IDescriptorReferencedProject project : projects) {
-			if(project.getProject()!= null)removeReferencedProject(project.getProject());
-			removeDescriptorReferencedProject(project);
-		}
+		setDirty();
+		modelReferences.remove(mRef);
+		System.out.println("jj");
 	}
-	
-	public void removeReferencedProjects(ITigerstripeModelProject[] projects)
+
+	public void removeModelReferences(ModelReference[] mRefs)
 			throws TigerstripeException {
-		for (ITigerstripeModelProject project : projects) {
-			removeReferencedProject(project);
-		}
+		setDirty();
+		for (ModelReference mRef : mRefs)
+			modelReferences.remove(mRef);
+	}
+
+	public ModelReference[] getModelReferences() {
+		return modelReferences.toArray(new ModelReference[modelReferences
+				.size()]);
 	}
 
 	public ITigerstripeModelProject[] getReferencedProjects() {
-		return referencedProjects
-				.toArray(new ITigerstripeModelProject[referencedProjects.size()]);
-	}
-	
-	public IDescriptorReferencedProject[] getDescriptorsReferencedProjects() {
-		return descriptorsReferencedProjects
-				.toArray(new IDescriptorReferencedProject[descriptorsReferencedProjects.size()]);
+		List<ITigerstripeModelProject> result = new ArrayList<ITigerstripeModelProject>();
+		for (ModelReference mRef : modelReferences) {
+			ITigerstripeModelProject model = mRef.getResolvedModel();
+			if (model != null)
+				result.add(model);
+		}
+		return result.toArray(new ITigerstripeModelProject[result.size()]);
 	}
 
 	public boolean hasReference(ITigerstripeModelProject project) {
-        if(project == null) return false;
-		for (Iterator<ITigerstripeModelProject> iter = referencedProjects
-				.iterator(); iter.hasNext();) {
-			ITigerstripeModelProject prj = (ITigerstripeModelProject) iter
-					.next();
-			if (project.getLocation().equals(prj.getLocation()))
+		if (project == null)
+			return false;
+
+		for (ModelReference mRef : modelReferences) {
+			if (mRef.isReferenceTo(project))
 				return true;
 		}
-
 		return false;
 	}
 
@@ -936,6 +922,14 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 
 	public void reloadFrom(Reader reader) throws TigerstripeException {
 		parse(reader);
+	}
+
+	public final LegacyModelReference makeLegacyModelReferenceFrom(
+			ITigerstripeModelProject project) throws TigerstripeException {
+		ModelReference mRef = ModelReference.referenceFromProject(project);
+		LegacyModelReference mLRef = new LegacyModelReference(mRef
+				.getProjectContext(), mRef.getToModelId(), project.getName());
+		return mLRef;
 	}
 
 }

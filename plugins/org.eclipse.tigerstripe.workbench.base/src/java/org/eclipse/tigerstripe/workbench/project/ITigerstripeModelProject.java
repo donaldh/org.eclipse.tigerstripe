@@ -19,6 +19,7 @@ import org.eclipse.tigerstripe.workbench.generation.IM1RunConfig;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseReference;
+import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.internal.modelManager.ProjectModelManager;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 
@@ -31,6 +32,23 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSessi
 public interface ITigerstripeModelProject extends IAbstractTigerstripeProject {
 
 	public ProjectModelManager getModelManager() throws TigerstripeException;
+
+	/**
+	 * Returns the modelId for this model. Defaults to name if not set
+	 * 
+	 * @since 0.5.0
+	 * @return
+	 */
+	public String getModelId() throws TigerstripeException;
+
+	/**
+	 * The fully qualified name for this model
+	 * 
+	 * @since 0.5.0
+	 * @param modelId
+	 */
+	public void setModelId(String modelId) throws WorkingCopyException,
+			TigerstripeException;
 
 	/**
 	 * Returns the artifact manager session for this Tigerstripe project.
@@ -111,19 +129,16 @@ public interface ITigerstripeModelProject extends IAbstractTigerstripeProject {
 	 */
 	public boolean hasDependency(IDependency dep) throws TigerstripeException;
 
-	public void addReferencedProject(ITigerstripeModelProject project)
+	public void addModelReference(ModelReference modelRef)
 			throws WorkingCopyException, TigerstripeException;
 
-	public void addReferencedProjects(ITigerstripeModelProject[] project)
+	public void addModelReferences(ModelReference[] modelRefs)
 			throws WorkingCopyException, TigerstripeException;
 
-	public void removeReferencedProject(ITigerstripeModelProject project)
+	public void removeModelReference(ModelReference modelRef)
 			throws WorkingCopyException, TigerstripeException;
 
-	public void removeReferencedProjects(ITigerstripeModelProject[] project)
-			throws WorkingCopyException, TigerstripeException;
-
-	public void removeReferencedProjects(IDescriptorReferencedProject[] project)
+	public void removeModelReferences(ModelReference[] modelRefs)
 			throws WorkingCopyException, TigerstripeException;
 
 	public boolean hasReference(ITigerstripeModelProject project)
@@ -151,10 +166,12 @@ public interface ITigerstripeModelProject extends IAbstractTigerstripeProject {
 	// for the local project to build properly.
 	public ITigerstripeModelProject[] getReferencedProjects()
 			throws TigerstripeException;
-	
+
 	// For the UI to present all Projects referenced from tigerstripe.xml
-	public IDescriptorReferencedProject[] getDescriptorsReferencedProjects()
-	        throws TigerstripeException;
+	// public IDescriptorReferencedProject[] getDescriptorsReferencedProjects()
+	// throws TigerstripeException;
+
+	public ModelReference[] getModelReferences() throws TigerstripeException;
 
 	public void setActiveFacet(IFacetReference facet, IProgressMonitor monitor)
 			throws TigerstripeException;

@@ -227,6 +227,9 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 		// The name
 		projectDetails.setAttribute("name", details.getName());
 
+		// the modelId
+		projectDetails.setAttribute("modelId", details.getModelId());
+
 		// Output Directory
 		Element outputDir = document.createElement(OUTPUT_DIRECTORY_TAG);
 		outputDir.appendChild(document.createTextNode(details
@@ -342,6 +345,11 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 			projectDetails.setName(el.getAttribute("name"));
 			if (projectDetails.getName() == null) {
 				projectDetails.setName("");
+			}
+
+			projectDetails.setModelId(el.getAttribute("modelId"));
+			if (projectDetails.getModelId() == null) {
+				projectDetails.setModelId("");
 			}
 
 			projectDetails.setProperties(loadProperties(projects.item(0)));

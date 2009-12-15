@@ -22,7 +22,7 @@ import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 /**
  * @author Eric Dillon
  * 
- * The project details for a Tigerstripe project
+ *         The project details for a Tigerstripe project
  * 
  */
 public class ProjectDetails extends BaseContainerObject implements
@@ -42,6 +42,8 @@ public class ProjectDetails extends BaseContainerObject implements
 	private String outputDirectory = "";
 
 	private AbstractTigerstripeProject parentProject;
+
+	private String modelId = "";
 
 	// ===========================================================================
 	// ===========================================================================
@@ -80,19 +82,18 @@ public class ProjectDetails extends BaseContainerObject implements
 	// ===========================================================================
 	// ===========================================================================
 
-	
 	/**
-	 * @deprecated  As of release 0.4.6, replaced by
-	 * {@link  org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject#getName getName()}
+	 * @deprecated As of release 0.4.6, replaced by
+	 *             {@link org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject#getName
+	 *             getName()}
 	 */
 	@Deprecated
 	public String getName() {
 		return name;
 	}
 
-	
 	/**
-	 * @deprecated  As of release 0.4.6, this method will be removed.
+	 * @deprecated As of release 0.4.6, this method will be removed.
 	 */
 	@Deprecated
 	public void setName(String name) {
@@ -198,6 +199,14 @@ public class ProjectDetails extends BaseContainerObject implements
 		this.provider = provider;
 	}
 
+	public String getModelId() {
+		return this.modelId;
+	}
+
+	public void setModelId(String modelId) {
+		this.modelId = modelId;
+	}
+
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		ProjectDetails clone = new ProjectDetails(parentProject);
@@ -207,6 +216,7 @@ public class ProjectDetails extends BaseContainerObject implements
 		clone.setProperties((Properties) getProperties().clone());
 		clone.setProvider(getProvider());
 		clone.setVersion(getVersion());
+		clone.setModelId(modelId);
 		return clone;
 	}
 }

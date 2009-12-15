@@ -40,6 +40,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AbstractImportCheckpointHelper;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
+import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ProjectDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.modelManager.ProjectModelManager;
@@ -49,7 +50,6 @@ import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDependencyChangeListener;
 import org.eclipse.tigerstripe.workbench.project.IProjectDependencyDelta;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
-import org.eclipse.tigerstripe.workbench.project.IDescriptorReferencedProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public abstract class TigerstripeProjectHandle extends
@@ -274,89 +274,57 @@ public abstract class TigerstripeProjectHandle extends
 		return Arrays.asList(project.getDependencies()).contains(dep);
 	}
 
-	// Shipped core dependencies don't exist anymore @see #299
-	// public void checkDefaultCoreModelDependency() throws
-	// TigerstripeException,
-	// NoCoreModelException, MismatchedCoreModelException {
-	// TigerstripeProject project = getTSProject();
-	// project.checkDefaultCoreModelDependency();
-	// }
-	//
-	// public void attachDefaultCoreModelDependency(boolean forceOverwrite)
-	// throws TigerstripeException {
-	// TigerstripeProject project = getTSProject();
-	// project.attachDefaultCoreModelDependency(forceOverwrite);
-	// }
-	//
-	public void addReferencedProject(ITigerstripeModelProject project)
-			throws WorkingCopyException, TigerstripeException {
-		assertSet();
-		dependenciesCacheNeedsRefresh = true;
-		getTSProject().addReferencedProject(project);
-		getTSProject().addDescriptorReferencedProject(project, project.getName());
-
-		ProjectDependencyChangeDelta delta = new ProjectDependencyChangeDelta(
-				this, IProjectDependencyDelta.PROJECT_REFERENCE_ADDED, project
-						.getFullPath());
-		broadcastProjectDependencyChange(delta);
-	}
-
-	public void addReferencedProjects(ITigerstripeModelProject[] projects)
-			throws WorkingCopyException, TigerstripeException {
-		assertSet();
-		dependenciesCacheNeedsRefresh = true;
-		getTSProject().addReferencedProjects(projects);
-		for (ITigerstripeModelProject proj : projects) {
-			ProjectDependencyChangeDelta delta = new ProjectDependencyChangeDelta(
-					this, IProjectDependencyDelta.PROJECT_REFERENCE_ADDED, proj
-							.getFullPath());
-			broadcastProjectDependencyChange(delta);
-		}
-	}
-
 	public ITigerstripeModelProject[] getReferencedProjects()
 			throws WorkingCopyException, TigerstripeException {
 		return getTSProject().getReferencedProjects();
 	}
-	
-	public void removeReferencedProject(ITigerstripeModelProject project)
+
+	public void removeModelReference(ModelReference modelRef)
 			throws WorkingCopyException, TigerstripeException {
 		assertSet();
 		dependenciesCacheNeedsRefresh = true;
-		getTSProject().removeReferencedProject(project);
+		getTSProject().removeModelReference(modelRef);
 		ProjectDependencyChangeDelta delta = new ProjectDependencyChangeDelta(
 				this, IProjectDependencyDelta.PROJECT_REFERENCE_REMOVED,
-				project.getFullPath());
+				modelRef.isResolved() ? modelRef.getResolvedModel()
+						.getFullPath() : null, modelRef);
 		broadcastProjectDependencyChange(delta);
 	}
-	
-	// An array of projects referenced in tigerstripe.xml
-	public IDescriptorReferencedProject[] getDescriptorsReferencedProjects() throws TigerstripeException{
-		return getTSProject().getDescriptorsReferencedProjects();
-	}
 
-	public void removeReferencedProjects(IDescriptorReferencedProject[] projects)
+	public void removeModelReferences(ModelReference[] modelRefs)
 			throws WorkingCopyException, TigerstripeException {
 		assertSet();
 		dependenciesCacheNeedsRefresh = true;
-		getTSProject().removeReferencedProjects(projects);		
-		for (IDescriptorReferencedProject proj : projects) {			
+		getTSProject().removeModelReferences(modelRefs);
+		for (ModelReference modelRef : modelRefs) {
 			ProjectDependencyChangeDelta delta = new ProjectDependencyChangeDelta(
 					this, IProjectDependencyDelta.PROJECT_REFERENCE_REMOVED,
-					null);
-			broadcastProjectDependencyChange(delta);			
+					modelRef.isResolved() ? modelRef.getResolvedModel()
+							.getFullPath() : null, modelRef);
+			broadcastProjectDependencyChange(delta);
 		}
 	}
-	
-	public void removeReferencedProjects(ITigerstripeModelProject[] projects)
+
+	public void addModelReference(ModelReference modelRef)
 			throws WorkingCopyException, TigerstripeException {
 		assertSet();
 		dependenciesCacheNeedsRefresh = true;
-		getTSProject().removeReferencedProjects(projects);
-		for (ITigerstripeModelProject proj : projects) {
+		getTSProject().addModelReference(modelRef);
+		ProjectDependencyChangeDelta delta = new ProjectDependencyChangeDelta(
+				this, IProjectDependencyDelta.PROJECT_REFERENCE_ADDED, modelRef
+						.getResolvedModel().getFullPath(), modelRef);
+		broadcastProjectDependencyChange(delta);
+	}
+
+	public void addModelReferences(ModelReference[] modelRefs)
+			throws WorkingCopyException, TigerstripeException {
+		assertSet();
+		dependenciesCacheNeedsRefresh = true;
+		getTSProject().addModelReferences(modelRefs);
+		for (ModelReference modelRef : modelRefs) {
 			ProjectDependencyChangeDelta delta = new ProjectDependencyChangeDelta(
-					this, IProjectDependencyDelta.PROJECT_REFERENCE_REMOVED,
-					proj.getFullPath());
+					this, IProjectDependencyDelta.PROJECT_REFERENCE_ADDED,
+					modelRef.getResolvedModel().getFullPath(), modelRef);
 			broadcastProjectDependencyChange(delta);
 		}
 	}
@@ -483,7 +451,7 @@ public abstract class TigerstripeProjectHandle extends
 		return getReferencedProjects();
 	}
 
-	//==========================================================================
+	// ==========================================================================
 	// ====
 	// WorkingCopy stuff
 	@Override
@@ -573,6 +541,35 @@ public abstract class TigerstripeProjectHandle extends
 					.getArtifactManager().updateDependenciesContentCache(
 							monitor);
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject#getModelId
+	 * ()
+	 */
+	public String getModelId() throws TigerstripeException {
+		return getProjectDetails().getModelId();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject#setModelId
+	 * (java.lang.String)
+	 */
+	public void setModelId(String modelId) throws WorkingCopyException,
+			TigerstripeException {
+		IProjectDetails details = getProjectDetails();
+		details.setModelId(modelId);
+		setProjectDetails(details);
+	}
+
+	public ModelReference[] getModelReferences() throws TigerstripeException {
+		return getTSProject().getModelReferences();
 	}
 
 }

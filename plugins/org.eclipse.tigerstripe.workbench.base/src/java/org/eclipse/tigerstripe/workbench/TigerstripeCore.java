@@ -35,6 +35,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjec
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * The entry point for all interactions with the Tigerstripe API This is a
@@ -168,11 +169,34 @@ public class TigerstripeCore {
 	}
 
 	/**
+	 * Returns an array containing all Tigerstripe Projects present in the
+	 * workspace
+	 * 
+	 * @return
+	 * @throws TigerstripeException
+	 */
+	public static ITigerstripeModelProject[] allModelProjects()
+			throws TigerstripeException {
+		List<ITigerstripeModelProject> allProjects = new ArrayList<ITigerstripeModelProject>();
+
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		for (IProject iProject : root.getProjects()) {
+			ITigerstripeModelProject tProject = (ITigerstripeModelProject) iProject
+					.getAdapter(ITigerstripeModelProject.class);
+			if (tProject instanceof ITigerstripeModelProject)
+				allProjects.add(tProject);
+		}
+		return allProjects.toArray(new ITigerstripeModelProject[allProjects
+				.size()]);
+	}
+
+	/**
 	 * Creates a project of the given type at the given folder, and returns a
 	 * handle on that project
 	 * 
 	 * @param projectName
-	 * @param projectDetails - if null, default implementation is used.
+	 * @param projectDetails
+	 *            - if null, default implementation is used.
 	 * @param location
 	 *            - location for the project to create, if null the default
 	 *            location is used
@@ -187,10 +211,10 @@ public class TigerstripeCore {
 			IProjectDetails projectDetails, IPath location, Class projectType,
 			Map<String, Object> properties, IProgressMonitor monitor)
 			throws TigerstripeException {
-		
+
 		if (projectDetails == null)
 			projectDetails = makeProjectDetails();
-		
+
 		return TigerstripeProjectFactory.INSTANCE.createProject(projectName,
 				projectDetails, location, projectType, properties, monitor);
 	}

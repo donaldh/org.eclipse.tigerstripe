@@ -33,7 +33,7 @@ public class TestFacetExporter extends AbstractExportTestCase {
 	protected void setUp() throws Exception {
 
 		source = ModelProjectHelper.createModelProject("SourceModelProject", true);
-		destination = ModelProjectHelper.createEmptyModelProject("DestinationModelProject");
+		destination = ModelProjectHelper.createEmptyModelProject("DestinationModelProject", null);
 	}
 
 	protected void tearDown() throws Exception {

@@ -10,14 +10,13 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.dialogs;
 
-import java.net.URI;
-import java.util.Set;
+import java.util.Collection;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.IJavaModel;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.internal.core.JavaProject;
 import org.eclipse.jdt.internal.ui.dialogs.StatusInfo;
 import org.eclipse.jdt.ui.JavaElementLabelProvider;
 import org.eclipse.jdt.ui.JavaElementSorter;
@@ -37,9 +36,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
+import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.ui.dialogs.SelectionStatusDialog;
 
 /**
@@ -54,7 +52,7 @@ public class TigerstripeProjectSelectionDialog extends SelectionStatusDialog {
 	// the visual selection widget group
 	private TableViewer fTableViewer;
 
-	private Set<String> fFilteredOutProjects;
+	private Collection<ModelReference> fFilteredOutProjects;
 
 	// sizing constants
 	private final static int SIZING_SELECTION_WIDGET_HEIGHT = 250;
@@ -64,7 +62,7 @@ public class TigerstripeProjectSelectionDialog extends SelectionStatusDialog {
 	private ViewerFilter fFilter;
 
 	public TigerstripeProjectSelectionDialog(Shell parentShell,
-			Set filteredOutProjects) {
+			Collection<ModelReference> filteredOutProjects) {
 		super(parentShell);
 		setTitle("Select Tigerstripe Project");
 		setMessage("Select Tigerstripe Project to reference");
@@ -77,19 +75,20 @@ public class TigerstripeProjectSelectionDialog extends SelectionStatusDialog {
 			@Override
 			public boolean select(Viewer viewer, Object parentElement,
 					Object element) {
-				if (element instanceof JavaProject) {
-					JavaProject prj = (JavaProject) element;
-					URI projectURI = prj.getProject().getLocation().toFile()
-							.toURI();
-					IAbstractTigerstripeProject tsProject = null;
-					try {
-						tsProject = TigerstripeCore.findProject(projectURI);
-					} catch (TigerstripeException e) {
+				if (element instanceof IJavaProject) {
+					IJavaProject prj = (IJavaProject) element;
 
+					ITigerstripeModelProject tsProject = (ITigerstripeModelProject) prj
+							.getProject().getAdapter(
+									ITigerstripeModelProject.class);
+
+					if (tsProject != null && tsProject.exists()) {
+						for (ModelReference ref : fFilteredOutProjects) {
+							if (ref.isReferenceTo(tsProject))
+								return false;
+						}
+						return true;
 					}
-					if (tsProject != null && tsProject.exists())
-						return !fFilteredOutProjects.contains(prj
-								.getElementName());
 				}
 				return false;
 			}

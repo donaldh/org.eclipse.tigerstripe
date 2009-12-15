@@ -23,7 +23,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 public class ModelProjectHelper {
 
 	public final static String DEFAULT_PKG = "com.mycompany";
-	
+
 	public final static String M1 = DEFAULT_PKG + ".M1";
 	public final static String M2 = DEFAULT_PKG + ".M2";
 	public final static String M3 = DEFAULT_PKG + ".M3";
@@ -53,8 +53,9 @@ public class ModelProjectHelper {
 	 * @throws TigerstripeException
 	 */
 	public static ITigerstripeModelProject createEmptyModelProject(
-			String projectName) throws TigerstripeException {
+			String projectName, String modelId) throws TigerstripeException {
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
+		projectDetails.setModelId(modelId);
 		ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
 				.createProject(projectName, projectDetails, null,
 						ITigerstripeModelProject.class, null, null);

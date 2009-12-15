@@ -19,7 +19,7 @@ public class AbstractTigerstripeProjectHandleTest extends TestCase {
 	
 	protected void setUp() throws Exception {
 		
-		modelProject = ModelProjectHelper.createEmptyModelProject(TEST_MODEL_PROJECT);
+		modelProject = ModelProjectHelper.createEmptyModelProject(TEST_MODEL_PROJECT, null);
 		m0Project = M0ProjectHelper.createM0Project(TEST_M0_PROJECT, false);
 	}
 

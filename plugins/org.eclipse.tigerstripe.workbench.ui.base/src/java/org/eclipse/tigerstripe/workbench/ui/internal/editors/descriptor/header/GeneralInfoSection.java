@@ -70,6 +70,10 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 
 	private Label descriptionLabel;
 
+	private Label modelIdLabel;
+
+	private Text modelIdText;
+
 	public GeneralInfoSection(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit) {
 		super(page, parent, toolkit, ExpandableComposite.TITLE_BAR);
@@ -87,6 +91,7 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 		getSection().setLayoutData(td);
 
 		createName(getBody(), getToolkit());
+		createId(getBody(), getToolkit());
 		createVersion(getBody(), getToolkit());
 		createDescription(getBody(), getToolkit());
 
@@ -104,6 +109,18 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 		nameText.setEnabled(false);
 		nameLabel.setEnabled(!this.isReadonly());
 		nameText.addModifyListener(new GeneralInfoPageListener());
+	}
+
+	private void createId(Composite parent, FormToolkit toolkit) {
+		TableWrapData td = null;
+
+		modelIdLabel = toolkit.createLabel(parent, "Id: ", SWT.WRAP);
+		modelIdText = toolkit.createText(parent, "");
+		td = new TableWrapData(TableWrapData.FILL_GRAB);
+		modelIdText.setLayoutData(td);
+		modelIdText.addModifyListener(new GeneralInfoPageListener());
+		modelIdText.setEnabled(!this.isReadonly());
+		modelIdLabel.setEnabled(!this.isReadonly());
 	}
 
 	private void createVersion(Composite parent, FormToolkit toolkit) {
@@ -169,6 +186,10 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 					IProjectDetails details = handle.getProjectDetails();
 					details.setVersion(versionText.getText().trim());
 					handle.setProjectDetails(details);
+				} else if (e.getSource() == modelIdText) {
+					IProjectDetails details = handle.getProjectDetails();
+					details.setModelId(modelIdText.getText().trim());
+					handle.setProjectDetails(details);
 				} else if (e.getSource() == descriptionText) {
 					IProjectDetails details = handle.getProjectDetails();
 					details.setDescription(descriptionText.getText().trim());
@@ -204,6 +225,7 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 			setSilentUpdate(true);
 
 			nameText.setText(handle.getName());
+			modelIdText.setText(handle.getProjectDetails().getModelId());
 			versionText.setText(handle.getProjectDetails().getVersion());
 			descriptionText
 					.setText(handle.getProjectDetails().getDescription());
