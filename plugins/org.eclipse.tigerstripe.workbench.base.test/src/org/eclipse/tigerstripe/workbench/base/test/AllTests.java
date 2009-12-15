@@ -37,6 +37,7 @@ import org.eclipse.tigerstripe.workbench.base.test.project.TestM1ProjectBasics;
 import org.eclipse.tigerstripe.workbench.base.test.project.TestM1ProjectContents;
 import org.eclipse.tigerstripe.workbench.base.test.project.TestModelProjectLifecycle;
 import org.eclipse.tigerstripe.workbench.base.test.project.TestProjectManagement;
+import org.eclipse.tigerstripe.workbench.base.test.references.TestModelReferences;
 import org.eclipse.tigerstripe.workbench.base.test.references.TestProjectReferences1;
 import org.eclipse.tigerstripe.workbench.base.test.startup.TestStartup;
 
@@ -102,6 +103,7 @@ public class AllTests {
 		
 		//References
 		suite.addTestSuite(TestProjectReferences1.class);
+		suite.addTestSuite(TestModelReferences.class);
 		
 		// Export
 		suite.addTestSuite(org.eclipse.tigerstripe.workbench.internal.core.model.export.AllTests.class);
