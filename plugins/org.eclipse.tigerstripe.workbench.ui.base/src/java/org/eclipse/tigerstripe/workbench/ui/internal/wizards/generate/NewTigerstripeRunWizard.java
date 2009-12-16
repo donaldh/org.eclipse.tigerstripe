@@ -108,7 +108,7 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 					IStatus.ERROR,
 					EclipsePlugin.getPluginId(),
 					222,
-					"An error was detected while generating a Tigerstripe project. Generation maybe incomplete.",
+					"An error was detected while generating a Tigerstripe project. Generation may be incomplete.",
 					e);
 			EclipsePlugin.logErrorStatus(
 					"Tigerstripe Generation Error Detected.", status);
@@ -120,7 +120,7 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 					IStatus.ERROR,
 					EclipsePlugin.getPluginId(),
 					222,
-					"An error was detected while generating a Tigerstripe project. Generation maybe incomplete.",
+					"An error was detected while generating a Tigerstripe project. Generation may be incomplete.",
 					e);
 			EclipsePlugin.logErrorStatus(
 					"Tigerstripe Generation Error Detected.", status);

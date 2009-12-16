@@ -673,10 +673,10 @@ public class M1Generator {
 			} catch (TigerstripeException e) {
 				String failureMessage = "An error was detected while triggering '"
 						+ ref.getLabel()
-						+ "' plugin. Generation maybe incomplete.";
+						+ "' plugin. Generation may be incomplete.";
 				if (!"".equals(e.getMessage())) {
 					failureMessage = e.getMessage()
-							+ ". Generation maybe incomplete.";
+							+ ". Generation may be incomplete.";
 				}
 
 				IStatus error = new Status(IStatus.ERROR, BasePlugin
@@ -692,7 +692,7 @@ public class M1Generator {
 			} catch (Exception e) {
 				String failureMessage = "An error was detected while triggering '"
 						+ ref.getLabel()
-						+ "' plugin. Generation maybe incomplete.";
+						+ "' plugin. Generation may be incomplete.";
 				IStatus error = new Status(IStatus.ERROR, BasePlugin
 						.getPluginId(), failureMessage, e);
 				pluginResult.add(error);
@@ -786,7 +786,7 @@ public class M1Generator {
 				IStatus error = new Status(IStatus.ERROR, BasePlugin
 						.getPluginId(),
 						"An error was detected while redirecting stdout/stderr."
-								+ " Generation maybe incomplete.", e);
+								+ " Generation may be incomplete.", e);
 				pluginResult.add(error);
 			}
 		}

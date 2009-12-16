@@ -91,7 +91,7 @@ public class WizardActionUtils {
 								222,
 								"An error was detected while triggering '"
 										+ ref.getLabel()
-										+ "' plugin. Generation maybe incomplete.",
+										+ "' plugin. Generation may be incomplete.",
 								e);
 						EclipsePlugin.logErrorStatus(
 								"Tigerstripe Generation Error Detected.",
@@ -104,7 +104,7 @@ public class WizardActionUtils {
 								222,
 								"An unknown error was detected while triggering '"
 										+ ref.getLabel()
-										+ "' plugin. Generation maybe incomplete.",
+										+ "' plugin. Generation may be incomplete.",
 								e);
 						EclipsePlugin
 								.logErrorStatus(
@@ -144,7 +144,7 @@ public class WizardActionUtils {
 					IStatus.ERROR,
 					EclipsePlugin.getPluginId(),
 					222,
-					"An error was detected while generating a Tigerstripe project. Generation maybe incomplete.",
+					"An error was detected while generating a Tigerstripe project. Generation may be incomplete.",
 					e);
 			EclipsePlugin.logErrorStatus(
 					"Tigerstripe Generation Error Detected.", status);
