@@ -363,7 +363,7 @@ public abstract class PluginConfig extends BaseContainerObject implements
 		return plugin;
 	}
 
-	protected IPluginProperty getPropertyDef(String property)
+	public IPluginProperty getPropertyDef(String property)
 			throws UnknownPluginException {
 		if (!isResolved()) {
 			resolve();

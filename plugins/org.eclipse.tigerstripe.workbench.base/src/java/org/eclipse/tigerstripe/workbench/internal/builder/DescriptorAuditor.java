@@ -23,6 +23,9 @@ import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.M0GenerationUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.M1GenerationUtils;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.UnknownPluginException;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
@@ -134,18 +137,17 @@ public class DescriptorAuditor {
 
 	private void checkPluginProperties(ITigerstripeModelProject tsProject) {
 		try {
-			IPluginConfig[] pluginConfigs = tsProject.getPluginConfigs();
+			// Only need to run against pluginConfigs that are likely to be
+			// used!
+			for (IPluginConfig config : M1GenerationUtils.m1PluginConfigs(
+					tsProject, false, true)) {
+				checkPropertiesOnPluginConfig(config);
+			}
+			for (IPluginConfig config : M0GenerationUtils.m0PluginConfigs(
+					tsProject, false, true)) {
+				checkPropertiesOnPluginConfig(config);
+			}
 
-				// Only need to run against pluginConfigs that are likely to be used!
-				for (IPluginConfig config : M1GenerationUtils.m1PluginConfigs(tsProject,
-						false, true)){
-					checkPropertiesOnPluginConfig(config);
-				}
-				for (IPluginConfig config : M0GenerationUtils.m0PluginConfigs(tsProject,
-						false, true)){
-					checkPropertiesOnPluginConfig(config);
-				}
-			
 		} catch (TigerstripeException e) {
 			BasePlugin.log(e);
 		}
@@ -208,10 +210,19 @@ public class DescriptorAuditor {
 			String[] definedProps = ref.getDefinedProperties();
 
 			for (int i = 0; i < definedProps.length; i++) {
-				if (ref.getProperty(definedProps[i]) == null) {
-					TigerstripeProjectAuditor.reportError("Property '"
-							+ definedProps[i] + "' is undefined.",
-							projectDescriptor, 222);
+				try {
+					IPluginProperty propDef = ref
+							.getPropertyDef(definedProps[i]);
+					if (propDef.getDefaultValue() == null) {
+						if (ref.getProperty(definedProps[i]) == null) {
+							TigerstripeProjectAuditor.reportError("Property '"
+									+ definedProps[i] + "' is undefined.",
+									projectDescriptor, 222);
+						}
+					}
+				} catch (UnknownPluginException e) {
+					// SImply ignore here as we don't want to complain if a
+					// plugin is not present
 				}
 			}
 			// TODO : Check the Property TYPE is the same?

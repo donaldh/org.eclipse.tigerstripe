@@ -13,7 +13,9 @@ package org.eclipse.tigerstripe.workbench.project;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.UnknownPluginException;
 import org.eclipse.tigerstripe.workbench.plugins.EPluggablePluginNature;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog;
 
 /**
@@ -41,11 +43,11 @@ public interface IPluginConfig {
 	/**
 	 * Trigger the generation association with this Plugin reference
 	 * 
-	 * @param config -
-	 *            optional additional info for plugin run
+	 * @param config
+	 *            - optional additional info for plugin run
 	 * @throws TigerstripeException
 	 */
-	public void trigger( RunConfig config) throws TigerstripeException;
+	public void trigger(RunConfig config) throws TigerstripeException;
 
 	/**
 	 * Enables/disables this plugin.
@@ -118,7 +120,7 @@ public interface IPluginConfig {
 	public String getPluginId();
 
 	public String getPluginName();
-	
+
 	public ITigerstripeModelProject getProjectHandle();
 
 	/**
@@ -128,6 +130,9 @@ public interface IPluginConfig {
 	 * @return
 	 */
 	public Object getProperty(String propertyName);
+
+	public IPluginProperty getPropertyDef(String propertyName)
+			throws UnknownPluginException;
 
 	public String getVersion();
 
@@ -147,11 +152,11 @@ public interface IPluginConfig {
 	 * @param facetReference
 	 */
 	public void setFacetReference(IFacetReference facetReference);
-	
+
 	public EPluggablePluginNature getPluginNature();
-	
+
 	public IPluginConfig clone();
-	
+
 	/**
 	 * get the runtime plugin directory path
 	 */
