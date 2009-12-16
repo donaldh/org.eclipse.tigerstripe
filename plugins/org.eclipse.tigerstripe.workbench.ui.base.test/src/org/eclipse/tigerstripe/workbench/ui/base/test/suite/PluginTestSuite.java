@@ -15,7 +15,7 @@ public class PluginTestSuite extends TestCase
     public static Test suite()
     {
         TestSuite suite = new TestSuite(); 
-        suite.addTestSuite(CleanWorkspace.class);
+        
         
         
         // create a new Plugin

@@ -6,6 +6,7 @@ import junit.framework.TestSuite;
 
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.ClearExpectedAuditErrors;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.CloseProject;
+import org.eclipse.tigerstripe.workbench.ui.base.test.project.DeleteProject;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.NewProject;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.OneArtifact;
 
@@ -37,6 +38,9 @@ public class ArtifactEditTestSuite extends TestCase
         // close Project
         suite.addTestSuite(CloseProject.class);
         
+      //delete Project
+		suite.addTestSuite(DeleteProject.class);
+
         return suite;
     }
 }

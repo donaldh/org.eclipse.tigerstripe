@@ -33,7 +33,7 @@
     <testSuite>org.eclipse.tigerstripe.workbench.ui.base.test</testSuite>
     
     <!-- name of test suite class -->
-    <testClass>org.eclipse.tigerstripe.workbench.ui.base.test.suite.ProjectTestSuite</testClass>
+    <testClass>org.eclipse.tigerstripe.workbench.ui.base.test.suite.AllTests</testClass>
     
     <!--  vm argument -->
     <testArgLine>-Xmx512m -XX:MaxPermSize=128m</testArgLine>

@@ -94,9 +94,12 @@ public class NewArtifacts extends UITestCaseSWT {
 		if (myType.equals("Entity")) {
 			// If it an entity we need the top item - as its not in the drop
 			// down
-			ui.click(new SWTWidgetLocator(ToolItem.class, "", 1,
-					new SWTWidgetLocator(ToolBar.class, 1,
-							new SWTWidgetLocator(CoolBar.class))));
+//			ui.click(new SWTWidgetLocator(ToolItem.class, "", 1,
+//					new SWTWidgetLocator(ToolBar.class, 1,
+//							new SWTWidgetLocator(CoolBar.class))));
+			ui
+			.click(new ContributedToolItemLocator(
+					"org.eclipse.tigerstripe.workbench.ui.menu.new.patterns.dropdown.org.eclipse.tigerstripe.workbench.base.ManagedEntity"));
 		} else {
 			ui
 					.click(new PullDownMenuItemLocator(

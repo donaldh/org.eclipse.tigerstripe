@@ -134,18 +134,23 @@ public class UpdateProfileArtifacts extends UITestCaseSWT {
 	}
 	
 	private void clearOutput (IUIContext ui) throws Exception{
-		ui
-		.contextClick(
-				new TreeItemLocator(
-						TestingConstants.NEW_MODEL_PROJECT_NAME+"/target/tigerstripe.gen",
-						new ViewLocator(
-						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")),
-		"Delete");
-		ui.wait(new ShellDisposedCondition("Progress Information"));
-		ui.wait(new ShellShowingCondition("Confirm Delete"));
-		ui.click(new ButtonLocator("OK"));
-		ui.wait(new ShellDisposedCondition("Confirm Delete"));
 		
+		try {
+			ui
+			.contextClick(
+					new TreeItemLocator(
+							TestingConstants.NEW_MODEL_PROJECT_NAME+"/target/tigerstripe.gen",
+							new ViewLocator(
+							"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")),
+			"Delete");
+			ui.wait(new ShellDisposedCondition("Progress Information"));
+			ui.wait(new ShellShowingCondition("Confirm Delete"));
+			ui.click(new ButtonLocator("OK"));
+			ui.wait(new ShellDisposedCondition("Confirm Delete"));
+		} catch (Exception e){
+			// DON'T CARE - probably the first generate that has been run
+			e.printStackTrace();
+		}
 		
 	}
 	

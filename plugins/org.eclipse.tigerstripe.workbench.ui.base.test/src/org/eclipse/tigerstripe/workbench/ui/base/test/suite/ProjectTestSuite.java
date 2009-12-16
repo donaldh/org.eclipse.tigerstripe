@@ -6,11 +6,14 @@ import junit.framework.TestSuite;
 
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.ClearExpectedAuditErrors;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.CloseProject;
+import org.eclipse.tigerstripe.workbench.ui.base.test.project.DeleteProject;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.NewArtifacts;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.NewProject;
 import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
 
 public class ProjectTestSuite extends TestCase {
+	
+	private static TestSuite suite = new TestSuite();
 	/**
 	 * 
 	 * f) create a project. g) add artifacts & components - use stereotypes &
@@ -19,13 +22,7 @@ public class ProjectTestSuite extends TestCase {
 	 * 
 	 * 
 	 */
-	public static Test suite() {
-		TestSuite suite = new TestSuite();
-
-		// Bring up the Tigerstripe perspective
-		GuiUtils.openTSPerspective();
-
-		suite.addTestSuite(CleanWorkspace.class);
+	public static Test suite() {	
 
 		// creates a new Project - do this so we are in the TES perspective
 		suite.addTestSuite(NewProject.class);
@@ -37,8 +34,12 @@ public class ProjectTestSuite extends TestCase {
 
 		// close Project
 		suite.addTestSuite(CloseProject.class);
-
+		
 		return suite;
 	}
 
+	
+	
+	
+	
 }

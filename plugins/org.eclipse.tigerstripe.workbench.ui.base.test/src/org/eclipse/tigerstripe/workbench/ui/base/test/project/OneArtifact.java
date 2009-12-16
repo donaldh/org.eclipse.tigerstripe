@@ -78,14 +78,18 @@ public class OneArtifact extends UITestCaseSWT {
 					TestingConstants.ENTITY_NAMES[0]));
 			fail("Attribute should NOT have been removed but is NOT in table on repen");
 		}
-		closeNoSave(ui);
+		IWidgetLocator loc = new CTabItemLocator(
+				TestingConstants.ENTITY_NAMES[0]);
+		ui.close(loc);
 		
 	}
 	
 	private void closeNoSave(IUIContext ui) throws Exception{
 		// Close the editor WITHOUT Saving
-		ui.close(new CTabItemLocator(
-				"*"+TestingConstants.ENTITY_NAMES[0]));
+		
+		IWidgetLocator loc = new CTabItemLocator(
+				"*"+TestingConstants.ENTITY_NAMES[0]);
+		ui.close(loc);
 		ui.wait(new ShellDisposedCondition("Progress Information"));
 		ui.wait(new ShellShowingCondition("Save Resource"));
 		ui.click(new ButtonLocator("&No"));

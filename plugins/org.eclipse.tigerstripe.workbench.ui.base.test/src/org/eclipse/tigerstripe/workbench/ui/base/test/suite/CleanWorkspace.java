@@ -15,20 +15,18 @@ import com.windowtester.runtime.swt.locator.CTabItemLocator;
 import com.windowtester.runtime.swt.locator.LabeledTextLocator;
 import com.windowtester.runtime.swt.locator.MenuItemLocator;
 import com.windowtester.runtime.swt.locator.TableItemLocator;
+import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
+import com.windowtester.runtime.swt.locator.eclipse.WorkbenchLocator;
 
 public class CleanWorkspace extends UITestCaseSWT {
 
-	static void maximizeWorkbench() {
-        Display.getDefault().syncExec(new Runnable()
-        {
-            public void run()
-            {
-                IWorkbench workbench = PlatformUI.getWorkbench();
-                IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
-                window.getShell().setMaximized(true);
-            }
-        });
-}
+	protected void setUp() throws Exception {
+		super.setUp();
+		IUIContext ui = getUI();
+		ui.ensureThat(new WorkbenchLocator().hasFocus());
+		ui.ensureThat(ViewLocator.forName("Welcome").isClosed());
+		ui.ensureThat(new WorkbenchLocator().isMaximized());
+	}
 
 	
 	
@@ -36,10 +34,8 @@ public class CleanWorkspace extends UITestCaseSWT {
 	 * Main test method.
 	 */
 	public void testCleanWorkspace() throws Exception {
-		maximizeWorkbench();
+		
 		IUIContext ui = getUI();
-//		ui.close(new CTabItemLocator("Welcome"));
-
 
 	/* 
 	 * This is required to set the profile to defaults before we start.

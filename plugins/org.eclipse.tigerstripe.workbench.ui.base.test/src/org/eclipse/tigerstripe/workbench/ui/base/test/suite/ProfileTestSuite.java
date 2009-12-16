@@ -28,10 +28,6 @@ public class ProfileTestSuite extends TestCase
     public static Test suite()
     {
         TestSuite suite = new TestSuite(); 
-        suite.addTestSuite(CleanWorkspace.class);
-        
-        // creates a new Project - do this so we are in the TES perspective
-        suite.addTestSuite(NewProject.class);
         
         // Create a profile
        suite.addTestSuite(CreateProfile.class);

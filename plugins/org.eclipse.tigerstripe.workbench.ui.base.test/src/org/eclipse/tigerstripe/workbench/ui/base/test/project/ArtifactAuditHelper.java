@@ -2,6 +2,7 @@ package org.eclipse.tigerstripe.workbench.ui.base.test.project;
 
 import com.windowtester.runtime.IUIContext;
 import com.windowtester.runtime.swt.UITestCaseSWT;
+import com.windowtester.runtime.swt.locator.CTabItemLocator;
 import com.windowtester.runtime.swt.locator.TreeItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
 
@@ -39,6 +40,7 @@ public class ArtifactAuditHelper extends UITestCaseSWT {
 				type+message,
 				new ViewLocator("org.eclipse.ui.views.ProblemView"));
 		try {
+			ui.click(new CTabItemLocator("Problems"));
 			ui.click(auditRule);
 			if (! expected && auditRule != null)
 				fail("Rule with text "+message+"  is being fired unexpectedly");

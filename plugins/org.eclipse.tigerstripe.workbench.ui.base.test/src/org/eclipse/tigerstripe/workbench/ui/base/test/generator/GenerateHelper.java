@@ -53,9 +53,8 @@ public class GenerateHelper extends UITestCaseSWT {
 				TestingConstants.NEW_MODEL_PROJECT_NAME,
 				new ViewLocator(
 				"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
-		ui.click(new SWTWidgetLocator(ToolItem.class, "", 2,
-				new SWTWidgetLocator(ToolBar.class, 1, new SWTWidgetLocator(
-						CoolBar.class))));
+		ui.click(new ContributedToolItemLocator(
+		"org.eclipse.tigerstripe.workbench.ui.toolbar.generate"));
 		// Add a check for the "Project Contains Errors" dialog
 		
 		
