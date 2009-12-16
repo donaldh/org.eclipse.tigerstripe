@@ -27,6 +27,7 @@ import com.windowtester.runtime.swt.locator.LabeledTextLocator;
 import com.windowtester.runtime.swt.locator.SWTWidgetLocator;
 import com.windowtester.runtime.swt.locator.TableItemLocator;
 import com.windowtester.runtime.swt.locator.TreeItemLocator;
+import com.windowtester.runtime.swt.locator.eclipse.ContributedToolItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.PullDownMenuItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
 
@@ -39,10 +40,11 @@ public class DiagramHelper {
 				new ViewLocator(
 						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
 		
-		ui.click(new PullDownMenuItemLocator("Package",
-				new SWTWidgetLocator(ToolItem.class, "", 1,
-						new SWTWidgetLocator(ToolBar.class, 2,
-								new SWTWidgetLocator(CoolBar.class)))));
+		ui
+		.click(new PullDownMenuItemLocator(
+				"Package",
+				new ContributedToolItemLocator(
+						"org.eclipse.tigerstripe.workbench.ui.menu.new.patterns.dropdown.org.eclipse.tigerstripe.workbench.base.ManagedEntity")));
 		ui.wait(new ShellShowingCondition("Create a new Package"));
 		ui.click(new LabeledTextLocator("Name:"));
 		ui.enterText(packageName);
@@ -77,17 +79,20 @@ public class DiagramHelper {
 				TestingConstants.NEW_MODEL_PROJECT_NAME,
 				new ViewLocator(
 						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
-		if (myType.equals("Entity")){
-			// If it an entity we need the top item - as its not in the drop down
-			ui.click(new SWTWidgetLocator(ToolItem.class, "", 1,
-					new SWTWidgetLocator(ToolBar.class, 2, new SWTWidgetLocator(
-							CoolBar.class))));
+		if (myType.equals("Entity")) {
+			// If it an entity we need the top item - as its not in the drop
+			// down
+			ui
+			.click(new ContributedToolItemLocator(
+					"org.eclipse.tigerstripe.workbench.ui.menu.new.patterns.dropdown.org.eclipse.tigerstripe.workbench.base.ManagedEntity"));
 		} else {
-		ui.click(new PullDownMenuItemLocator(myType,
-				new SWTWidgetLocator(ToolItem.class, "", 1,
-						new SWTWidgetLocator(ToolBar.class, 2,
-								new SWTWidgetLocator(CoolBar.class)))));
+			ui
+					.click(new PullDownMenuItemLocator(
+							myType,
+							new ContributedToolItemLocator(
+									"org.eclipse.tigerstripe.workbench.ui.menu.new.patterns.dropdown.org.eclipse.tigerstripe.workbench.base.ManagedEntity")));
 		}
+		
 		ui.wait(new ShellShowingCondition("Create a new "+myType));
 		
 		ui.enterText(thisArtifactName);
