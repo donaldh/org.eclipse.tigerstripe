@@ -16,6 +16,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.IExtensionPoint;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
@@ -30,6 +32,7 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.patterns.PatternFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripePluginProjectNature;
@@ -206,22 +209,30 @@ public class NewWizardsActionGroup extends ActionGroup {
 	}
 
 	private void addContributedActions(IMenuManager newMenu) {
-		IExtension[] extensions = EclipsePlugin.getDefault().getDescriptor()
-				.getExtensionPoint("explorerMenuContribution").getExtensions();
+		//		IExtension[] extensions = EclipsePlugin.getDefault().getDescriptor()
+		//				.getExtensionPoint("explorerMenuContribution").getExtensions();
 
-		for (IExtension extension : extensions) {
-			IConfigurationElement[] configElements = extension
-					.getConfigurationElements();
-			for (IConfigurationElement configElement : configElements) {
-				String actionClass = configElement.getAttribute("actionClass");
-				try {
-					IAction action = (IAction) configElement
-							.createExecutableExtension("actionClass");
-					newMenu.add(action);
-				} catch (CoreException e) {
-					EclipsePlugin.log(e);
+		IExtensionPoint point = Platform.getExtensionRegistry().getExtensionPoint(EclipsePlugin.getPluginId(), "explorerMenuContribution");
+		if (point != null){
+			IExtension[] extensions = point.getExtensions();
+
+
+			for (IExtension extension : extensions) {
+				IConfigurationElement[] configElements = extension
+				.getConfigurationElements();
+				for (IConfigurationElement configElement : configElements) {
+					String actionClass = configElement.getAttribute("actionClass");
+					try {
+						IAction action = (IAction) configElement
+						.createExecutableExtension("actionClass");
+						newMenu.add(action);
+					} catch (CoreException e) {
+						EclipsePlugin.log(e);
+					}
 				}
 			}
+		} else {
+			EclipsePlugin.log(new TigerstripeException("Did not find 'explorerMenuContribution' extension point!"));
 		}
 	}
 
