@@ -23,6 +23,7 @@ import com.windowtester.runtime.swt.locator.CComboItemLocator;
 import com.windowtester.runtime.swt.locator.CTabItemLocator;
 import com.windowtester.runtime.swt.locator.LabeledLocator;
 import com.windowtester.runtime.swt.locator.LabeledTextLocator;
+import com.windowtester.runtime.swt.locator.NamedWidgetLocator;
 import com.windowtester.runtime.swt.locator.SWTWidgetLocator;
 import com.windowtester.runtime.swt.locator.SectionLocator;
 import com.windowtester.runtime.swt.locator.TreeItemLocator;
@@ -108,7 +109,7 @@ public class NewArtifactRule extends UITestCaseSWT {
 		helper.checkArtifactTypeUndefinedRule(TestingConstants.NEW_ARTIFACT_RULE_NAME, TestingConstants.NEW_PLUGIN_PROJECT_NAME,false);
 		
 		// Set the template
-		ui.click(new LabeledLocator(Button.class, "Template:"));
+		ui.click(new NamedWidgetLocator("Browse_Template"));
 		ui.wait(new ShellShowingCondition("Select Velocity Template"));
 		ui.click(new TreeItemLocator(TestingConstants.ARTIFACT_RULE_TEMPLATE_NAME));
 		ui.click(new ButtonLocator("OK"));

@@ -19,6 +19,7 @@ import com.windowtester.runtime.swt.locator.ButtonLocator;
 import com.windowtester.runtime.swt.locator.CTabItemLocator;
 import com.windowtester.runtime.swt.locator.LabeledLocator;
 import com.windowtester.runtime.swt.locator.LabeledTextLocator;
+import com.windowtester.runtime.swt.locator.NamedWidgetLocator;
 import com.windowtester.runtime.swt.locator.SWTWidgetLocator;
 import com.windowtester.runtime.swt.locator.SectionLocator;
 import com.windowtester.runtime.swt.locator.TreeItemLocator;
@@ -95,7 +96,7 @@ public class NewGlobalRule extends UITestCaseSWT {
 				104, 12));
 		
 		// Set the template
-		ui.click(new LabeledLocator(Button.class, "Template:"));
+		ui.click(new NamedWidgetLocator("Browse_Template"));
 		ui.wait(new ShellShowingCondition("Select Velocity Template"));
 		ui.click(new TreeItemLocator(TestingConstants.GLOBAL_RULE_TEMPLATE_NAME));
 		ui.click(new ButtonLocator("OK"));

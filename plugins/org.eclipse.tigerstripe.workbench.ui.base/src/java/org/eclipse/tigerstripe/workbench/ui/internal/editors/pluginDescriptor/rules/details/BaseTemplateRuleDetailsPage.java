@@ -276,6 +276,8 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 
 		templateBrowseButton = form.getToolkit().createButton(sectionClient,
 				"Browse", SWT.PUSH);
+		// Support for testing
+		templateBrowseButton.setData("name", "Browse_Template");
 		templateBrowseButton.setEnabled(PluginDescriptorEditor.isEditable());
 		if (PluginDescriptorEditor.isEditable())
 			templateBrowseButton.addSelectionListener(adapter);
