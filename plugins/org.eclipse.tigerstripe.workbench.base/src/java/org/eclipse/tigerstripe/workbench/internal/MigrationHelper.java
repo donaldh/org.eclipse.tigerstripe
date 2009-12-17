@@ -104,7 +104,8 @@ public class MigrationHelper {
 	private static void assertDefined(String type) {
 		// This is just in place to ensure we are migrating everything
 		try {
-			if (!IArtifactWrappedRule.ANY_ARTIFACT_LABEL.equals(type)) {
+			if (!"".equals(type)
+					&& !IArtifactWrappedRule.ANY_ARTIFACT_LABEL.equals(type)) {
 				MigrationHelper.class.forName(type);
 			}
 		} catch (ClassNotFoundException e) {
@@ -172,7 +173,7 @@ public class MigrationHelper {
 			return IPackageArtifact.class.getName();
 		else if ("Any Artifact".equals(scope))
 			return scope;
-		
+
 		assertDefined(scope);
 		return scope;
 	}
