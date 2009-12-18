@@ -357,6 +357,7 @@ public class ProfileDetailsDialog extends Dialog {
 										monitor.worked(2);
 
 										monitor.subTask("Reloading workbench");
+										TigerstripeProjectAuditor.setTurnedOffForImport(true);
 										session.reloadActiveProfile();
 										monitor.done();
 
@@ -367,6 +368,8 @@ public class ProfileDetailsDialog extends Dialog {
 									} catch (TigerstripeException e) {
 										EclipsePlugin.log(e);
 										staticOperationSucceeded = false;
+									} finally {
+										TigerstripeProjectAuditor.setTurnedOffForImport(false);
 									}
 								}
 							};
