@@ -48,11 +48,12 @@ public class RuleAuditHelper extends UITestCaseSWT {
 				String rule,
 				String project,
 				boolean expected){
-		TreeItemLocator auditRule = new TreeItemLocator(
-				type+message+rule+"' in project '"+project+"'",
-				new ViewLocator("org.eclipse.ui.views.ProblemView"));
+		
 		try {
 			ui.click(new CTabItemLocator("Problems"));
+			TreeItemLocator auditRule = new TreeItemLocator(
+					type+message+rule+"' in project '"+project+"'",
+					new ViewLocator("org.eclipse.ui.views.ProblemView"));
 			ui.click(auditRule);
 			if (! expected && auditRule != null)
 				fail("Rule with text "+message+"  is being fired unexpectedly");
