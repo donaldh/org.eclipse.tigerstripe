@@ -91,9 +91,7 @@ public class NewGlobalRule extends UITestCaseSWT {
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		root.refreshLocal(0, new NullProgressMonitor());
 		
-		ui.click(
-				new XYLocator(new CTabItemLocator(TestingConstants.GLOBAL_RULE_TEMPLATE_NAME),
-				104, 12));
+		ui.click(new CTabItemLocator(TestingConstants.NEW_PLUGIN_PROJECT_NAME+"/ts-plugin.xml"));
 		
 		// Set the template
 		ui.click(new NamedWidgetLocator("Browse_Template"));
