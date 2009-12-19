@@ -1938,18 +1938,16 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		try {
 			writeLock.lock();
 			initManager();
-			refresh(true, new NullProgressMonitor()); // FIXME This
-			// should have a
-			// proper
-			// progress
-			// monitor
-			((IProject) getTSProject().getAdapter(IProject.class)).build(
-					IncrementalProjectBuilder.FULL_BUILD,
-					new NullProgressMonitor());
-		} catch (CoreException e) {
-			TigerstripeRuntime.logErrorMessage("CoreException detected", e);
+			refresh(true, new NullProgressMonitor());
 		} finally {
 			writeLock.unlock();
+			try {
+				((IProject) getTSProject().getAdapter(IProject.class)).build(
+						IncrementalProjectBuilder.FULL_BUILD,
+						new NullProgressMonitor());
+			} catch (CoreException e) {
+				TigerstripeRuntime.logErrorMessage("CoreException detected", e);
+			}
 		}
 	}
 
