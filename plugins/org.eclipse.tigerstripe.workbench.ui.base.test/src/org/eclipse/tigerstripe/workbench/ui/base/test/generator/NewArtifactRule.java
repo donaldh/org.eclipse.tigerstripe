@@ -89,11 +89,8 @@ public class NewArtifactRule extends UITestCaseSWT {
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		root.refreshLocal(0, new NullProgressMonitor());
 		
-		ui.click(
-				new XYLocator(new CTabItemLocator(TestingConstants.ARTIFACT_RULE_TEMPLATE_NAME),
-				93, 12));
 		
-		ui.click(new CTabItemLocator(".*"+TestingConstants.NEW_PLUGIN_PROJECT_NAME+"/ts-plugin.xml"));
+		ui.click(new CTabItemLocator(TestingConstants.NEW_PLUGIN_PROJECT_NAME+"/ts-plugin.xml"));
 		
 		// Set Artifact Type
 		ui.click(new CComboItemLocator("Any Artifact"));
