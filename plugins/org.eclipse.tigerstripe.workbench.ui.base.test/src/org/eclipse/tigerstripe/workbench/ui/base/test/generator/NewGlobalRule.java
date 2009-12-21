@@ -101,7 +101,7 @@ public class NewGlobalRule extends UITestCaseSWT {
 		ui.wait(new ShellDisposedCondition("Select Velocity Template"));
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 		// Make sure rule has been cleared
-		Thread.sleep(500);
+		Thread.sleep(1000);
 		helper.checkNoTemplateRule(TestingConstants.NEW_GLOBAL_RULE_NAME, TestingConstants.NEW_PLUGIN_PROJECT_NAME,false);
 		
 		
@@ -110,7 +110,7 @@ public class NewGlobalRule extends UITestCaseSWT {
 		ui.enterText(TestingConstants.GLOBAL_RULE_OUTPUT_FILE_NAME);
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 		// Make sure rule has been cleared
-		Thread.sleep(500);
+		Thread.sleep(5001000);
 		helper.checkNoOutputFileRule(TestingConstants.NEW_GLOBAL_RULE_NAME, TestingConstants.NEW_PLUGIN_PROJECT_NAME,false);
 		
 		
@@ -119,7 +119,7 @@ public class NewGlobalRule extends UITestCaseSWT {
 		ui.enterText(TestingConstants.GLOBAL_RULE_DESCRIPTION);
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 		// Make sure rule has been cleared
-		Thread.sleep(500);
+		Thread.sleep(1000);
 		helper.checkNoDescriptionRule(TestingConstants.NEW_GLOBAL_RULE_NAME, TestingConstants.NEW_PLUGIN_PROJECT_NAME,false);
 		
 		// Close this section
