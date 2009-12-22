@@ -1,12 +1,11 @@
 package org.eclipse.tigerstripe.workbench.ui.base.test.suite;
 
-import org.eclipse.tigerstripe.workbench.ui.base.test.DemoTest;
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 import org.eclipse.tigerstripe.workbench.ui.base.test.generator.Generate;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.DeleteProject;
 import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 public class AllTests {
 
@@ -18,7 +17,6 @@ public class AllTests {
 		// Bring up the Tigerstripe perspective
 		GuiUtils.openTSPerspective();
 		
-		suite.addTestSuite(DemoTest.class);
 
 		suite.addTestSuite(CleanWorkspace.class);
 		
