@@ -238,6 +238,12 @@ public class NewArtifacts extends UITestCaseSWT {
 				TestingConstants.NEW_MODEL_PROJECT_NAME,
 				TestingConstants.DEFAULT_ARTIFACT_PACKAGE, thisArtifactName);
 		ArtifactHelper.checkItemsInExplorer(ui, thisArtifactName, items);
+//		// shrink the tree
+//		TreeItemLocator treeItem = new TreeItemLocator(
+//				TestingConstants.NEW_MODEL_PROJECT_NAME+"/src/"+TestingConstants.DEFAULT_ARTIFACT_PACKAGE_AS_PATH+"/"+thisArtifactName,
+//				new ViewLocator(
+//						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew"));
+//		ui.click(2,treeItem);
 		// Close the editor
 		ui.close(new CTabItemLocator(thisArtifactName));
 		return thisArtifactName;

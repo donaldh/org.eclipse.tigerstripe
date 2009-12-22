@@ -95,17 +95,17 @@ public class UpdateProfileArtifacts extends UITestCaseSWT {
 			"/src/"+TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"/"+
 			name;
 
-			TreeItemLocator treeItem = new TreeItemLocator(
-					pathToEntity,
-					new ViewLocator(
-					"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew"));
-			// This should not be valid any more!
-			try {
-				// TODO This is a known BUG 219575
-				ui.click(treeItem);
-			} catch (Exception noWidget){
-				// This is what we want to happen!
-			}
+//			TreeItemLocator treeItem = new TreeItemLocator(
+//					pathToEntity,
+//					new ViewLocator(
+//					"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew"));
+//			// This should not be valid any more!
+//			try {
+//				// TODO This is a known BUG 219575
+//				ui.click(treeItem);
+//			} catch (Exception noWidget){
+//				// This is what we want to happen!
+//			}
 			
 			GenerateHelper helper = new GenerateHelper(ui);
 		
