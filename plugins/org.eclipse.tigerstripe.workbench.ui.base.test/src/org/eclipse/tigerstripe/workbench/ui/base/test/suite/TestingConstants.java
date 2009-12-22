@@ -8,6 +8,7 @@ public class TestingConstants {
 	public static String NEW_MODEL_PROJECT_DESCRIPTION = "A model project for testing";
 	
 	public static String DEFAULT_ARTIFACT_PACKAGE = "org.eclipse";
+	public static String DEFAULT_ARTIFACT_PACKAGE_AS_PATH = "org/eclipse";
 	
 	// Artifact Names
 	public static String[] PACKAGE_NAMES      = new String[]{"Package0", "Package1", "Package2"};

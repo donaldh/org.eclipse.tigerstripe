@@ -90,19 +90,27 @@ public class NewArtifacts extends UITestCaseSWT {
 						TestingConstants.NEW_MODEL_PROJECT_NAME,
 						new ViewLocator(
 								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
+//// TODO - This has been removed so that we can run  on Linux...
+//		if (myType.equals("Entity")) {
+//			// If it an entity we need the top item - as its not in the drop
+//			// down
+//			ui.click(new ContributedToolItemLocator(
+//					"org.eclipse.tigerstripe.workbench.ui.menu.new.patterns.dropdown.org.eclipse.tigerstripe.workbench.base.ManagedEntity"));
+//		} else {
+//			ui.click(new PullDownMenuItemLocator(
+//							myType,
+//							new ContributedToolItemLocator(
+//									"org.eclipse.tigerstripe.workbench.ui.menu.new.patterns.dropdown.org.eclipse.tigerstripe.workbench.base.ManagedEntity")));
+//		}
 
-		if (myType.equals("Entity")) {
-			// If it an entity we need the top item - as its not in the drop
-			// down
-			ui.click(new ContributedToolItemLocator(
-					"org.eclipse.tigerstripe.workbench.ui.menu.new.patterns.dropdown.org.eclipse.tigerstripe.workbench.base.ManagedEntity"));
-		} else {
-			ui.click(new PullDownMenuItemLocator(
-							myType,
-							new ContributedToolItemLocator(
-									"org.eclipse.tigerstripe.workbench.ui.menu.new.patterns.dropdown.org.eclipse.tigerstripe.workbench.base.ManagedEntity")));
-		}
-
+		ui.contextClick(
+				new TreeItemLocator(
+						TestingConstants.NEW_MODEL_PROJECT_NAME+"/src",
+						new ViewLocator(
+								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")),
+				"New/"+myType);
+		
+		
 		ui.wait(new ShellShowingCondition("Create a new " + myType),
 				60 * 1000 * 2);
 		ui.click(new LabeledTextLocator("Name:"));
