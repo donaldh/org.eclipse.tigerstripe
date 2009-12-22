@@ -13,11 +13,16 @@ public class CloseProject extends UITestCaseSWT {
 
 	public void testCloseProject() throws Exception {
 		IUIContext ui = getUI();
-		ui.click(2,
-				new TreeItemLocator(
-						TestingConstants.NEW_MODEL_PROJECT_NAME+"/src",
-						new ViewLocator(
-								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
+		TreeItemLocator treeItem = new TreeItemLocator(
+				TestingConstants.NEW_MODEL_PROJECT_NAME+"/src",
+				new ViewLocator(
+						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew"));
+		ui.click(2,treeItem);
+//		ui.click(2,
+//				new TreeItemLocator(
+//						TestingConstants.NEW_MODEL_PROJECT_NAME+"/src",
+//						new ViewLocator(
+//								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
 		ui.close(new CTabItemLocator(
 			TestingConstants.NEW_MODEL_PROJECT_NAME+"/tigerstripe.xml"));
 	}
