@@ -32,12 +32,13 @@ public class NewArtifacts extends UITestCaseSWT {
 
 	public void testAllArtifactTypes() throws Exception {
 		IUIContext ui = getUI();
+		ProjectRecord.addArtifact(testNewArtifactDefaults(ui, "Entity",
+				TestingConstants.ENTITY_NAMES[0], true, true, true, false));
 		ProjectRecord.addArtifact(testNewArtifactDefaults(ui, "Datatype",
 				TestingConstants.DATATYPE_NAMES[0], true, true, true, false));
 		ProjectRecord.addArtifact(testNewArtifactDefaults(ui, "Package",
 				TestingConstants.PACKAGE_NAMES[0], false, false, false, false));
-		ProjectRecord.addArtifact(testNewArtifactDefaults(ui, "Entity",
-				TestingConstants.ENTITY_NAMES[0], true, true, true, false));
+		
 		ProjectRecord.addArtifact(testNewArtifactDefaults(ui, "Enumeration",
 				TestingConstants.ENUMERATION_NAMES[0], false, true, false,
 				false));
@@ -85,8 +86,7 @@ public class NewArtifacts extends UITestCaseSWT {
 			boolean hasLiterals, boolean hasMethods, boolean hasEnds)
 			throws Exception {
 
-		ui
-				.click(new TreeItemLocator(
+		ui.click(new TreeItemLocator(
 						TestingConstants.NEW_MODEL_PROJECT_NAME,
 						new ViewLocator(
 								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
@@ -94,15 +94,10 @@ public class NewArtifacts extends UITestCaseSWT {
 		if (myType.equals("Entity")) {
 			// If it an entity we need the top item - as its not in the drop
 			// down
-//			ui.click(new SWTWidgetLocator(ToolItem.class, "", 1,
-//					new SWTWidgetLocator(ToolBar.class, 1,
-//							new SWTWidgetLocator(CoolBar.class))));
-			ui
-			.click(new ContributedToolItemLocator(
+			ui.click(new ContributedToolItemLocator(
 					"org.eclipse.tigerstripe.workbench.ui.menu.new.patterns.dropdown.org.eclipse.tigerstripe.workbench.base.ManagedEntity"));
 		} else {
-			ui
-					.click(new PullDownMenuItemLocator(
+			ui.click(new PullDownMenuItemLocator(
 							myType,
 							new ContributedToolItemLocator(
 									"org.eclipse.tigerstripe.workbench.ui.menu.new.patterns.dropdown.org.eclipse.tigerstripe.workbench.base.ManagedEntity")));

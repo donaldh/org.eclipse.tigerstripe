@@ -68,6 +68,7 @@ public class UpdateProfileArtifacts extends UITestCaseSWT {
 								TestingConstants.NEW_PROFILE_NAME+".wbp",
 								new ViewLocator(
 										"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
+		Thread.sleep(500);
 		ui.click(new CTabItemLocator("Artifacts"));
 		// Select the type
 		ui.click(new TableItemLocator("", index, new SWTWidgetLocator(
@@ -124,6 +125,7 @@ public class UpdateProfileArtifacts extends UITestCaseSWT {
 								TestingConstants.NEW_PROFILE_NAME+".wbp",
 								new ViewLocator(
 										"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
+		Thread.sleep(500);
 		ui.click(new CTabItemLocator("Artifacts"));
 		// Select the type
 		ui.click(new TableItemLocator("", index, new SWTWidgetLocator(
