@@ -33,7 +33,7 @@ public class ProjectTestSuite extends TestCase {
 		suite.addTestSuite(ClearExpectedAuditErrors.class);
 
 		// close Project
-		suite.addTestSuite(CloseProject.class);
+		//suite.addTestSuite(CloseProject.class);
 		
 		return suite;
 	}
