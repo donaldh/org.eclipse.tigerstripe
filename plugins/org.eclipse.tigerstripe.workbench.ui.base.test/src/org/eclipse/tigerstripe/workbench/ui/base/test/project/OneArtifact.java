@@ -23,7 +23,7 @@ public class OneArtifact extends UITestCaseSWT {
 	public void testArtifactComponents() throws Exception {
 		IUIContext ui= getUI();
 //		ProjectRecord.addArtifact(NewArtifacts.testNewArtifactDefaults(ui,"Package", TestingConstants.PACKAGE_NAMES[0], false, false, false, false));
-//		ProjectRecord.addArtifact(NewArtifacts.testNewArtifactDefaults(ui,"Entity", TestingConstants.ENTITY_NAMES[0], true, true, true, false));
+		ProjectRecord.addArtifact(NewArtifacts.testNewArtifactDefaults(ui,"Entity", TestingConstants.ENTITY_NAMES[2], true, true, true, false));
 		
 		
 		// So now I have an Entity with "bits" on..
@@ -33,11 +33,11 @@ public class OneArtifact extends UITestCaseSWT {
 		// The item should still be in the explorer and in the reopened editor
 		
 		
-		TreeItemLocator treeItem = ProjectHelper.checkArtifactInExplorer(ui,TestingConstants.ENTITY_NAMES[0]);
+		TreeItemLocator treeItem = ProjectHelper.checkArtifactInExplorer(ui,TestingConstants.ENTITY_NAMES[2]);
 		ui.click(2, treeItem);
 		// We know the Attributes sectiomn opens by default
 		// so find our attribute
-		String prefix = TestingConstants.ENTITY_NAMES[0].toLowerCase()+"_";
+		String prefix = TestingConstants.ENTITY_NAMES[2].toLowerCase()+"_";
 		String thisAttributeName = prefix+TestingConstants.ATTRIBUTE_NAMES[0];
 		
 		TableItemLocator attributeNameInTable = new TableItemLocator(thisAttributeName);
@@ -75,11 +75,11 @@ public class OneArtifact extends UITestCaseSWT {
 			
 		} catch (Exception noWidget){
 			ui.close(new CTabItemLocator(
-					TestingConstants.ENTITY_NAMES[0]));
+					TestingConstants.ENTITY_NAMES[2]));
 			fail("Attribute should NOT have been removed but is NOT in table on repen");
 		}
 		IWidgetLocator loc = new CTabItemLocator(
-				TestingConstants.ENTITY_NAMES[0]);
+				TestingConstants.ENTITY_NAMES[2]);
 		ui.close(loc);
 		
 	}
@@ -88,7 +88,7 @@ public class OneArtifact extends UITestCaseSWT {
 		// Close the editor WITHOUT Saving
 		
 		IWidgetLocator loc = new CTabItemLocator(
-				"*"+TestingConstants.ENTITY_NAMES[0]);
+				"*"+TestingConstants.ENTITY_NAMES[2]);
 		ui.close(loc);
 		ui.wait(new ShellDisposedCondition("Progress Information"));
 		ui.wait(new ShellShowingCondition("Save Resource"));

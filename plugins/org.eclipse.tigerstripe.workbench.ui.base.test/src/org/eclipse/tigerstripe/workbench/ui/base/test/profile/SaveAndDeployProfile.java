@@ -34,8 +34,8 @@ public class SaveAndDeployProfile extends UITestCaseSWT {
 		ui.wait(new ShellDisposedCondition("Success"));
 		
 		// Close the editor
-		ui.close(new CTabItemLocator(TestingConstants.NEW_MODEL_PROJECT_NAME+"/"+
-				TestingConstants.NEW_PROFILE_NAME+".wbp"));
+//		ui.close(new CTabItemLocator(TestingConstants.NEW_MODEL_PROJECT_NAME+"/"+
+//				TestingConstants.NEW_PROFILE_NAME+".wbp"));
 	}
 	
 }
