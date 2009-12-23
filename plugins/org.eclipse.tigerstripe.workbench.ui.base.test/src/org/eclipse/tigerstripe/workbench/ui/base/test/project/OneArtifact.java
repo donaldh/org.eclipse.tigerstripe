@@ -65,7 +65,7 @@ public class OneArtifact extends UITestCaseSWT {
 		} catch (Exception noWidget){
 			// This is what we want ie no Attribute
 		}
-		
+		ui.click(2, treeItem);
 		closeNoSave(ui);
 		
 		//So if we reopen - it should still be there!
@@ -82,6 +82,7 @@ public class OneArtifact extends UITestCaseSWT {
 					TestingConstants.ENTITY_NAMES[2]));
 			fail("Attribute should NOT have been removed but is NOT in table on re-open");
 		}
+		ui.click(2, treeItem);
 		IWidgetLocator loc = new CTabItemLocator(
 				TestingConstants.ENTITY_NAMES[2]);
 		ui.close(loc);
