@@ -13,4 +13,32 @@
   <packaging>eclipse-test-plugin</packaging>
   <name>plugins/orge.e.t.workbench.ui.visualeditor.test</name>
 
+<properties>
+
+	<!-- Not clear how to handle this ${eclipse-home} -->
+	<!-- The property ${eclipse-home} should be passed into this script -->
+	<!-- Set a meaningful default value for when it is not. -->
+
+    <!-- Trying out this one: -->
+    <eclipse-home>${project.build.directory}/work/tigerstripe</eclipse-home>
+    
+	<plugin-name>org.eclipse.tigerstripe.workbench.ui.visualeditor.test</plugin-name>
+	<library-file>${eclipse-home}/plugins/org.eclipse.test_3.2.0/library.xml</library-file>
+    
+	<org.eclipse.tigerstripe.workbench.ui.base-folder>${eclipse-home}/org.eclipse.tigerstripe.workbench.ui.base</org.eclipse.tigerstripe.workbench.ui.base-folder>
+    
+    <data-dir>${org.eclipse.tigerstripe.workbench.ui.base-folder}</data-dir>
+    
+    <!-- Bundle-SymbolicName -->
+    <testSuite>org.eclipse.tigerstripe.workbench.ui.visualeditor.test</testSuite>
+    
+    <!-- name of test suite class -->
+    <testClass>org.eclipse.tigerstripe.workbench.ui.visualeditor.test.suite.DiagramTestSuite</testClass>
+    
+    <!--  vm argument -->
+    <testArgLine>-Xmx512m -XX:MaxPermSize=128m</testArgLine>
+    
+  </properties>
+
+
 </project>
