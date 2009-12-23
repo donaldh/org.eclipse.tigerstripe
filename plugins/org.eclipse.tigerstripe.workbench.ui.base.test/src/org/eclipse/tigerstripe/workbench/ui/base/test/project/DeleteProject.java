@@ -21,8 +21,7 @@ public class DeleteProject extends UITestCaseSWT {
 	public void testDeleteProject() throws Exception {
 		IUIContext ui = getUI();
 	
-		ui
-				.contextClick(
+		ui.contextClick(
 						new TreeItemLocator(
 								TestingConstants.NEW_MODEL_PROJECT_NAME,
 								new ViewLocator(

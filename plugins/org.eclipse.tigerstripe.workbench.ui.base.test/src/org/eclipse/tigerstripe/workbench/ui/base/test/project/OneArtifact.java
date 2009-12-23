@@ -22,8 +22,8 @@ public class OneArtifact extends UITestCaseSWT {
 	
 	public void testArtifactComponents() throws Exception {
 		IUIContext ui= getUI();
-		ProjectRecord.addArtifact(NewArtifacts.testNewArtifactDefaults(ui,"Package", TestingConstants.PACKAGE_NAMES[0], false, false, false, false));
-		ProjectRecord.addArtifact(NewArtifacts.testNewArtifactDefaults(ui,"Entity", TestingConstants.ENTITY_NAMES[0], true, true, true, false));
+//		ProjectRecord.addArtifact(NewArtifacts.testNewArtifactDefaults(ui,"Package", TestingConstants.PACKAGE_NAMES[0], false, false, false, false));
+//		ProjectRecord.addArtifact(NewArtifacts.testNewArtifactDefaults(ui,"Entity", TestingConstants.ENTITY_NAMES[0], true, true, true, false));
 		
 		
 		// So now I have an Entity with "bits" on..

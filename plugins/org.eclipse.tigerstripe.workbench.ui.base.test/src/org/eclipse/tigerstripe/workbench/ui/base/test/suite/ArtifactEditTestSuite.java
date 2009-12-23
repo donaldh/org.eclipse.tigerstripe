@@ -23,10 +23,10 @@ public class ArtifactEditTestSuite extends TestCase
     public static Test suite()
     {
         TestSuite suite = new TestSuite(); 
-        suite.addTestSuite(CleanWorkspace.class);
+        //suite.addTestSuite(CleanWorkspace.class);
         
         // creates a new Project - do this so we are in the TES perspective
-        suite.addTestSuite(NewProject.class);
+        //suite.addTestSuite(NewProject.class);
         
         
         //  add artifact to our project

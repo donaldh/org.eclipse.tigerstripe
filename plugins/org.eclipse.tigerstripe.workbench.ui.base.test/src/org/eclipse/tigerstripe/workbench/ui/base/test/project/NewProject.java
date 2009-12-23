@@ -5,6 +5,7 @@ import org.eclipse.swt.widgets.CoolBar;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.ToolBar;
 import org.eclipse.swt.widgets.ToolItem;
+import org.eclipse.tigerstripe.workbench.ui.base.test.generator.GenerateHelper;
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
 import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
 
@@ -92,6 +93,10 @@ public class NewProject extends UITestCaseSWT {
 		auditHelper.checkUndefinedProjectDescription(
 				TestingConstants.NEW_MODEL_PROJECT_NAME, false);
 
+		GenerateHelper helper = new GenerateHelper(ui);
+		
+		helper.enablePlugin();
+		
 	}
 
 }

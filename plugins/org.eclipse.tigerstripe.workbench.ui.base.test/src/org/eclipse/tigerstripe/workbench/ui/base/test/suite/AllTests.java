@@ -28,7 +28,7 @@ public class AllTests {
 		suite.addTest(ProfileTestSuite.suite());
 		
 		//delete Project
-		suite.addTestSuite(DeleteProject.class);
+		//suite.addTestSuite(DeleteProject.class);
 
 		suite.addTest(ArtifactEditTestSuite.suite());
 		

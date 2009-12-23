@@ -29,10 +29,10 @@ public class GenerateHelper extends UITestCaseSWT {
 	}
 
 	public void enablePlugin() throws Exception {
-		ui.click(2, new TreeItemLocator(
-				TestingConstants.NEW_MODEL_PROJECT_NAME+"/tigerstripe.xml",
-				new ViewLocator(
-				"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
+//		ui.click(2, new TreeItemLocator(
+//				TestingConstants.NEW_MODEL_PROJECT_NAME+"/tigerstripe.xml",
+//				new ViewLocator(
+//				"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
 		ui.click(new CTabItemLocator("Plugin Settings"));
 
 		SWTWidgetLocator pluginLocator = new SWTWidgetLocator(Label.class,
