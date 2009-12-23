@@ -35,6 +35,7 @@ public class OneArtifact extends UITestCaseSWT {
 		
 		TreeItemLocator treeItem = ProjectHelper.checkArtifactInExplorer(ui,TestingConstants.ENTITY_NAMES[2]);
 		ui.click(2, treeItem);
+		ui.click(new CTabItemLocator("Overview"));
 		// We know the Attributes sectiomn opens by default
 		// so find our attribute
 		String prefix = TestingConstants.ENTITY_NAMES[2].toLowerCase()+"_";
@@ -68,6 +69,7 @@ public class OneArtifact extends UITestCaseSWT {
 		
 		//So if we reopen - it should still be there!
 		ui.click(2, treeItem);
+		ui.click(new CTabItemLocator("Overview"));
 		//See if it' gone from the table
 		TableItemLocator attributeNameInTable3 = new TableItemLocator(thisAttributeName);
 		try {
@@ -76,7 +78,7 @@ public class OneArtifact extends UITestCaseSWT {
 		} catch (Exception noWidget){
 			ui.close(new CTabItemLocator(
 					TestingConstants.ENTITY_NAMES[2]));
-			fail("Attribute should NOT have been removed but is NOT in table on repen");
+			fail("Attribute should NOT have been removed but is NOT in table on re-open");
 		}
 		IWidgetLocator loc = new CTabItemLocator(
 				TestingConstants.ENTITY_NAMES[2]);
