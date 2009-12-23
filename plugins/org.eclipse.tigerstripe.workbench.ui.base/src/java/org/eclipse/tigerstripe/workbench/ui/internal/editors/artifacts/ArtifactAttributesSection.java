@@ -298,7 +298,7 @@ public class ArtifactAttributesSection extends ArtifactSectionPart implements
 				SWT.PUSH);
 		// Support for testing
 		removeAttributeButton.setData("name", "Remove_Attribute");
-		removeAttributeButton.setData("name","removeAttributeButton");
+		
 		removeAttributeButton.setEnabled(!getIArtifact().isReadonly());
 		fd = new FormData();
 		fd.top = new FormAttachment(downAttributeButton, 5);

@@ -47,7 +47,7 @@ public class OneArtifact extends UITestCaseSWT {
 		SectionLocator attributesSection = new SectionLocator("&Attributes");
 		
 		
-		IWidgetLocator removeButtonLocator =ui.find(new NamedWidgetLocator("removeAttributeButton"));
+		IWidgetLocator removeButtonLocator =ui.find(new NamedWidgetLocator("Remove_Attribute"));
 		
 		ui.click(removeButtonLocator);
 		ui.wait(new ShellShowingCondition("Remove attribute"));
