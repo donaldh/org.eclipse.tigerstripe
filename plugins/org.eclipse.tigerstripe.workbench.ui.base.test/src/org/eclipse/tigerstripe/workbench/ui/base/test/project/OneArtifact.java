@@ -60,17 +60,20 @@ public class OneArtifact extends UITestCaseSWT {
 		TableItemLocator attributeNameInTable2 = new TableItemLocator(thisAttributeName);
 		try {
 			ui.click(attributeNameInTable2);
+			GuiUtils.maxminTab(ui, "*"+TestingConstants.ENTITY_NAMES[2]);
 			closeNoSave(ui);
 			fail("Attribute is still in table after a Remove");	
 		} catch (Exception noWidget){
 			// This is what we want ie no Attribute
 		}
+		GuiUtils.maxminTab(ui, "*"+TestingConstants.ENTITY_NAMES[2]);
 		ui.click(2, treeItem);
 		closeNoSave(ui);
 		
 		//So if we reopen - it should still be there!
 		treeItem = ProjectHelper.checkArtifactInExplorer(ui,TestingConstants.ENTITY_NAMES[2]);
 		ui.click(2, treeItem);
+		//Maximise.
 		GuiUtils.maxminTab(ui, TestingConstants.ENTITY_NAMES[2]);
 		//See if it' gone from the table
 		TableItemLocator attributeNameInTable3 = new TableItemLocator(thisAttributeName);
@@ -78,11 +81,14 @@ public class OneArtifact extends UITestCaseSWT {
 			ui.click(attributeNameInTable3);
 			
 		} catch (Exception noWidget){
+			//Minimise
+			GuiUtils.maxminTab(ui, TestingConstants.ENTITY_NAMES[2]);
 			ui.close(new CTabItemLocator(
 					TestingConstants.ENTITY_NAMES[2]));
 			fail("Attribute should NOT have been removed but is NOT in table on re-open");
 		}
-		ui.click(2, treeItem);
+		//Minimise
+		GuiUtils.maxminTab(ui, TestingConstants.ENTITY_NAMES[2]);
 		IWidgetLocator loc = new CTabItemLocator(
 				TestingConstants.ENTITY_NAMES[2]);
 		ui.close(loc);
