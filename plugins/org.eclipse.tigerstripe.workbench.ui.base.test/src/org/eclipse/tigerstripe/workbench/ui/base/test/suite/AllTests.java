@@ -4,7 +4,7 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.tigerstripe.workbench.ui.base.test.generator.Generate;
-import org.eclipse.tigerstripe.workbench.ui.base.test.project.DeleteProject;
+import org.eclipse.tigerstripe.workbench.ui.base.test.project.OneArtifact;
 import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
 
 public class AllTests {
@@ -24,13 +24,14 @@ public class AllTests {
 		suite.addTest(ProjectTestSuite.suite());
 		suite.addTestSuite(Generate.class);
 		
+		 suite.addTestSuite(OneArtifact.class);
 
 		suite.addTest(ProfileTestSuite.suite());
 		
 		//delete Project
 		//suite.addTestSuite(DeleteProject.class);
 
-		suite.addTest(ArtifactEditTestSuite.suite());
+		
 		
 		
 		//$JUnit-END$

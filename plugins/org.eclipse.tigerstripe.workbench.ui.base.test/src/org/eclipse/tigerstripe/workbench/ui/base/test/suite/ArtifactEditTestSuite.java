@@ -36,10 +36,10 @@ public class ArtifactEditTestSuite extends TestCase
         // choose NO when closing an editor.
         
         // close Project
-        suite.addTestSuite(CloseProject.class);
+        //suite.addTestSuite(CloseProject.class);
         
       //delete Project
-		suite.addTestSuite(DeleteProject.class);
+		//suite.addTestSuite(DeleteProject.class);
 
         return suite;
     }
