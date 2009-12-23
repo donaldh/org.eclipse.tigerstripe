@@ -1,6 +1,7 @@
 package org.eclipse.tigerstripe.workbench.ui.base.test.project;
 
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
+import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
 
 import com.windowtester.runtime.IUIContext;
 import com.windowtester.runtime.locator.IWidgetLocator;
@@ -35,9 +36,9 @@ public class OneArtifact extends UITestCaseSWT {
 		
 		TreeItemLocator treeItem = ProjectHelper.checkArtifactInExplorer(ui,TestingConstants.ENTITY_NAMES[2]);
 		ui.click(2, treeItem);
-		ui.click(new CTabItemLocator("Overview"));
 		// We know the Attributes sectiomn opens by default
 		// so find our attribute
+		GuiUtils.maxminTab(ui, TestingConstants.ENTITY_NAMES[2]);
 		String prefix = TestingConstants.ENTITY_NAMES[2].toLowerCase()+"_";
 		String thisAttributeName = prefix+TestingConstants.ATTRIBUTE_NAMES[0];
 		
@@ -69,7 +70,7 @@ public class OneArtifact extends UITestCaseSWT {
 		
 		//So if we reopen - it should still be there!
 		ui.click(2, treeItem);
-		ui.click(new CTabItemLocator("Overview"));
+		GuiUtils.maxminTab(ui, TestingConstants.ENTITY_NAMES[2]);
 		//See if it' gone from the table
 		TableItemLocator attributeNameInTable3 = new TableItemLocator(thisAttributeName);
 		try {

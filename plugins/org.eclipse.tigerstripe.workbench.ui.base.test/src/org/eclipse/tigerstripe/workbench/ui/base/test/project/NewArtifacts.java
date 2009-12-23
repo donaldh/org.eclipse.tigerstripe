@@ -34,44 +34,44 @@ public class NewArtifacts extends UITestCaseSWT {
 		IUIContext ui = getUI();
 		ProjectRecord.addArtifact(testNewArtifactDefaults(ui, "Entity",
 				TestingConstants.ENTITY_NAMES[0], true, true, true, false));
-//		ProjectRecord.addArtifact(testNewArtifactDefaults(ui, "Datatype",
-//				TestingConstants.DATATYPE_NAMES[0], true, true, true, false));
-//		ProjectRecord.addArtifact(testNewArtifactDefaults(ui, "Package",
-//				TestingConstants.PACKAGE_NAMES[0], false, false, false, false));
-//		
-//		ProjectRecord.addArtifact(testNewArtifactDefaults(ui, "Enumeration",
-//				TestingConstants.ENUMERATION_NAMES[0], false, true, false,
-//				false));
-//		ProjectRecord.addArtifact(testNewArtifactDefaults(ui, "Query",
-//				TestingConstants.QUERY_NAMES[0], true, true, false, false));
-//		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,
-//				"Update Procedure", TestingConstants.UPDATE_NAMES[0], true,
-//				true, false, false));
-//		ProjectRecord
-//				.addArtifact(testNewArtifactDefaults(ui, "Exception",
-//						TestingConstants.EXCEPTION_NAMES[0], true, false,
-//						false, false));
-//		ProjectRecord.addArtifact(testNewArtifactDefaults(ui, "Event",
-//				TestingConstants.EVENT_NAMES[0], true, true, false, false));
-//		ProjectRecord.addArtifact(testNewArtifactDefaults(ui, "Session Facade",
-//				TestingConstants.SESSION_NAMES[0], false, false, true, false));
-//
-//		// Add a second entity, so that the associations etc can be better
-//		// checked - No need to add any attributes etc
-//		ProjectRecord.addArtifact(testNewArtifactDefaults(ui, "Entity",
-//				TestingConstants.ENTITY_NAMES[1], false, false, false, false));
-//
-//		ProjectRecord.addArtifact(testNewArtifactDefaults(ui, "Association",
-//				TestingConstants.ASSOCIATION_NAMES[0], false, false, false,
-//				true));
-//		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,
-//				"Association Class",
-//				TestingConstants.ASSOCIATION_CLASS_NAMES[0], true, false, true,
-//				true));
-//		ProjectRecord
-//				.addArtifact(testNewArtifactDefaults(ui, "Dependency",
-//						TestingConstants.DEPENDENCY_NAMES[0], false, false,
-//						false, true));
+		ProjectRecord.addArtifact(testNewArtifactDefaults(ui, "Datatype",
+				TestingConstants.DATATYPE_NAMES[0], true, true, true, false));
+		ProjectRecord.addArtifact(testNewArtifactDefaults(ui, "Package",
+				TestingConstants.PACKAGE_NAMES[0], false, false, false, false));
+		
+		ProjectRecord.addArtifact(testNewArtifactDefaults(ui, "Enumeration",
+				TestingConstants.ENUMERATION_NAMES[0], false, true, false,
+				false));
+		ProjectRecord.addArtifact(testNewArtifactDefaults(ui, "Query",
+				TestingConstants.QUERY_NAMES[0], true, true, false, false));
+		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,
+				"Update Procedure", TestingConstants.UPDATE_NAMES[0], true,
+				true, false, false));
+		ProjectRecord
+				.addArtifact(testNewArtifactDefaults(ui, "Exception",
+						TestingConstants.EXCEPTION_NAMES[0], true, false,
+						false, false));
+		ProjectRecord.addArtifact(testNewArtifactDefaults(ui, "Event",
+				TestingConstants.EVENT_NAMES[0], true, true, false, false));
+		ProjectRecord.addArtifact(testNewArtifactDefaults(ui, "Session Facade",
+				TestingConstants.SESSION_NAMES[0], false, false, true, false));
+
+		// Add a second entity, so that the associations etc can be better
+		// checked - No need to add any attributes etc
+		ProjectRecord.addArtifact(testNewArtifactDefaults(ui, "Entity",
+				TestingConstants.ENTITY_NAMES[1], false, false, false, false));
+
+		ProjectRecord.addArtifact(testNewArtifactDefaults(ui, "Association",
+				TestingConstants.ASSOCIATION_NAMES[0], false, false, false,
+				true));
+		ProjectRecord.addArtifact(testNewArtifactDefaults(ui,
+				"Association Class",
+				TestingConstants.ASSOCIATION_CLASS_NAMES[0], true, false, true,
+				true));
+		ProjectRecord
+				.addArtifact(testNewArtifactDefaults(ui, "Dependency",
+						TestingConstants.DEPENDENCY_NAMES[0], false, false,
+						false, true));
 
 	}
 
