@@ -69,6 +69,7 @@ public class OneArtifact extends UITestCaseSWT {
 		closeNoSave(ui);
 		
 		//So if we reopen - it should still be there!
+		treeItem = ProjectHelper.checkArtifactInExplorer(ui,TestingConstants.ENTITY_NAMES[2]);
 		ui.click(2, treeItem);
 		GuiUtils.maxminTab(ui, TestingConstants.ENTITY_NAMES[2]);
 		//See if it' gone from the table
