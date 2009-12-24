@@ -25,9 +25,9 @@
 	<plugin-name>orge.eclipse.tigerstripe.workbench.ui.visualeditor.test</plugin-name>
 	<library-file>${eclipse-home}/plugins/org.eclipse.test_3.2.0/library.xml</library-file>
     
-	<org.eclipse.tigerstripe.workbench.ui.visualeditor.base-folder>${eclipse-home}/org.eclipse.tigerstripe.workbench.ui.visualeditor</org.eclipse.tigerstripe.workbench.ui.visualeditor.base-folder>
+	<org.eclipse.tigerstripe.workbench.ui.base-folder>${eclipse-home}/org.eclipse.tigerstripe.workbench.ui.base</org.eclipse.tigerstripe.workbench.ui.base-folder>
     
-    <data-dir>${org.eclipse.tigerstripe.workbench.ui.visualeditor.base-folder}</data-dir>
+    <data-dir>${org.eclipse.tigerstripe.workbench.ui.base-folder}</data-dir>
     
     <!-- Bundle-SymbolicName -->
     <testSuite>orge.eclipse.tigerstripe.workbench.ui.visualeditor.test</testSuite>
