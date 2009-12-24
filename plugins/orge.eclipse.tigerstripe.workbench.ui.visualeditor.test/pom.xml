@@ -30,7 +30,7 @@
     <data-dir>${org.eclipse.tigerstripe.workbench.ui.base-folder}</data-dir>
     
     <!-- Bundle-SymbolicName -->
-    <testSuite>org.eclipse.tigerstripe.workbench.ui.visualeditor.test</testSuite>
+    <testSuite>orge.eclipse.tigerstripe.workbench.ui.visualeditor.test</testSuite>
     
     <!-- name of test suite class -->
     <testClass>org.eclipse.tigerstripe.workbench.ui.visualeditor.test.suite.DiagramTestsuite</testClass>
