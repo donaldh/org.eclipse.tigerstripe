@@ -22,7 +22,7 @@
     <!-- Trying out this one: -->
     <eclipse-home>${project.build.directory}/work/tigerstripe</eclipse-home>
     
-	<plugin-name>org.eclipse.tigerstripe.workbench.ui.visualeditor.test</plugin-name>
+	<plugin-name>orge.eclipse.tigerstripe.workbench.ui.visualeditor.test</plugin-name>
 	<library-file>${eclipse-home}/plugins/org.eclipse.test_3.2.0/library.xml</library-file>
     
 	<org.eclipse.tigerstripe.workbench.ui.visualeditor.base-folder>${eclipse-home}/org.eclipse.tigerstripe.workbench.ui.visualeditor</org.eclipse.tigerstripe.workbench.ui.visualeditor.base-folder>
@@ -30,10 +30,10 @@
     <data-dir>${org.eclipse.tigerstripe.workbench.ui.visualeditor.base-folder}</data-dir>
     
     <!-- Bundle-SymbolicName -->
-    <testSuite>org.eclipse.tigerstripe.workbench.ui.visualeditor.test</testSuite>
+    <testSuite>orge.eclipse.tigerstripe.workbench.ui.visualeditor.test</testSuite>
     
     <!-- name of test suite class -->
-    <testClass>org.eclipse.tigerstripe.workbench.ui.visualeditor.test.suite.DiagramTestsuite</testClass>
+    <testClass>orge.eclipse.tigerstripe.workbench.ui.visualeditor.test.suite.DiagramTestsuite</testClass>
     
     <!--  vm argument -->
     <testArgLine>-Xmx512m -XX:MaxPermSize=128m</testArgLine>
