@@ -9,7 +9,7 @@
     <version>1.0.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>orge.eclipse.tigerstripe.workbench.ui.visualeditor.test</artifactId>
+  <artifactId>org.eclipse.tigerstripe.workbench.ui.visualeditor.test</artifactId>
   <packaging>eclipse-test-plugin</packaging>
   <name>plugins/orge.e.t.workbench.ui.visualeditor.test</name>
 
@@ -22,15 +22,15 @@
     <!-- Trying out this one: -->
     <eclipse-home>${project.build.directory}/work/tigerstripe</eclipse-home>
     
-	<plugin-name>orge.eclipse.tigerstripe.workbench.ui.visualeditor.test</plugin-name>
-	<library-file>${eclipse-home}/plugins/org.eclipse.test_3.2.0/library.xml</library-file>
+    <plugin-name>org.eclipse.tigerstripe.workbench.ui.visualeditor.test</plugin-name>
+    <library-file>${eclipse-home}/plugins/org.eclipse.test_3.2.0/library.xml</library-file>
     
 	<org.eclipse.tigerstripe.workbench.ui.base-folder>${eclipse-home}/org.eclipse.tigerstripe.workbench.ui.base</org.eclipse.tigerstripe.workbench.ui.base-folder>
     
     <data-dir>${org.eclipse.tigerstripe.workbench.ui.base-folder}</data-dir>
     
     <!-- Bundle-SymbolicName -->
-    <testSuite>orge.eclipse.tigerstripe.workbench.ui.visualeditor.test</testSuite>
+    <testSuite>org.eclipse.tigerstripe.workbench.ui.visualeditor.test</testSuite>
     
     <!-- name of test suite class -->
     <testClass>org.eclipse.tigerstripe.workbench.ui.visualeditor.test.suite.DiagramTestsuite</testClass>
