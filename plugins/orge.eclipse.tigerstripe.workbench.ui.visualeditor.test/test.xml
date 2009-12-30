@@ -22,14 +22,14 @@
 
 	<!-- This target defines the tests that need to be run. -->
 	<target name="suite">
-		<property name="org.eclipse.tigerstripe.workbench.ui.base-folder"
-			value="${eclipse-home}/org.eclipse.tigerstripe.workbench.ui.base" />
-		<delete dir="${org.eclipse.tigerstripe.workbench.ui.base-folder}"
+		<property name="org.eclipse.tigerstripe.workbench.ui.visualeditor.base-folder"
+			value="${eclipse-home}/org.eclipse.tigerstripe.workbench.ui.visualeditor.base" />
+		<delete dir="${org.eclipse.tigerstripe.workbench.ui.visualeditor.base-folder}"
 			quiet="true" />
 		<ant target="core-test" antfile="${library-file}"
 			dir="${eclipse-home}">
 			<property name="data-dir"
-				value="${org.eclipse.tigerstripe.workbench.ui.base-folder}" />
+				value="${org.eclipse.tigerstripe.workbench.ui.visualeditor.base-folder}" />
 			<property name="plugin-name" value="${plugin-name}" />
 			<property name="classname"
 				value="org.eclipse.tigerstripe.workbench.ui.visualeditor.test.suite.DiagramTestsuite" />
