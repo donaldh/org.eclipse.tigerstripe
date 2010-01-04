@@ -42,15 +42,12 @@ public class CreatePackage extends UITestCaseSWT {
 //		ui.click(new ButtonLocator("&Finish"));
 //		ui.wait(new ShellDisposedCondition("New Java Package"));
 		
-		ui.click(new TreeItemLocator(
-				TestingConstants.NEW_MODEL_PROJECT_NAME,
-				new ViewLocator(
-						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
-		
-		ui.click(new PullDownMenuItemLocator("Package",
-				new SWTWidgetLocator(ToolItem.class, "", 1,
-						new SWTWidgetLocator(ToolBar.class, 2,
-								new SWTWidgetLocator(CoolBar.class)))));
+		ui.contextClick(
+				new TreeItemLocator(
+						TestingConstants.NEW_MODEL_PROJECT_NAME+"/src",
+						new ViewLocator(
+								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")),
+				"New/"+"Package");
 		ui.wait(new ShellShowingCondition("Create a new Package"));
 		ui.click(new LabeledTextLocator("Name:"));
 		ui.enterText(TestingConstants.DIAGRAM_PACKAGE);

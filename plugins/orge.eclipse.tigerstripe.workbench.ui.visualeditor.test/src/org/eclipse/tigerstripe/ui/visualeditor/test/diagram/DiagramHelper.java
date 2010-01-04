@@ -51,7 +51,7 @@ public class DiagramHelper {
 						TestingConstants.NEW_MODEL_PROJECT_NAME+"/src",
 						new ViewLocator(
 								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")),
-				"New/"+"Entity");
+				"New/"+"Package");
 		ui.wait(new ShellShowingCondition("Create a new Package"));
 		ui.click(new LabeledTextLocator("Name:"));
 		ui.enterText(packageName);
