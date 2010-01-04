@@ -113,7 +113,6 @@ public class DiagramHelper {
 		LabeledTextLocator pack = new LabeledTextLocator("Artifact Package:");
 		ui.click(pack);
 		ui.keyClick(SWT.CTRL, 'a');
-		ui.click(pack);
 		ui.enterText(packageName);
 		
 		
