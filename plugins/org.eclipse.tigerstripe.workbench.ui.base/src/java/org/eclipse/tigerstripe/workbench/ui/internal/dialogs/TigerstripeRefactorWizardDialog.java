@@ -45,10 +45,12 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring.AbstractModelRefactorWizard;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring.PreviewWizardPage;
 
 // Based on RefactoringWizardDialog2
-public class TigerstripeRefactorWizardDialog extends Dialog implements IWizardContainer {
+public class TigerstripeRefactorWizardDialog extends Dialog implements
+		IWizardContainer {
 
 	private static final String WIDTH = "width";
 	private static final String HEIGHT = "height";
@@ -56,7 +58,7 @@ public class TigerstripeRefactorWizardDialog extends Dialog implements IWizardCo
 
 	private static final int PREVIEW_ID = IDialogConstants.CLIENT_ID + 1;
 
-	private Wizard fWizard;
+	private AbstractModelRefactorWizard fWizard;
 	private IWizardPage fCurrentPage;
 	private IWizardPage fVisiblePage;
 
@@ -69,7 +71,7 @@ public class TigerstripeRefactorWizardDialog extends Dialog implements IWizardCo
 	private PageBook fStatusContainer;
 	private MessageBox fMessageBox;
 	private ProgressMonitorPart fProgressMonitorPart;
-	
+
 	private int fActiveRunningOperations;
 	private Cursor fWaitCursor;
 	private Cursor fArrowCursor;
@@ -148,7 +150,8 @@ public class TigerstripeRefactorWizardDialog extends Dialog implements IWizardCo
 		}
 	}
 
-	public TigerstripeRefactorWizardDialog(Shell shell, Wizard wizard) {
+	public TigerstripeRefactorWizardDialog(Shell shell,
+			AbstractModelRefactorWizard wizard) {
 
 		super(shell);
 		Assert.isNotNull(wizard);
@@ -239,15 +242,23 @@ public class TigerstripeRefactorWizardDialog extends Dialog implements IWizardCo
 		// we don't have a title bar.
 	}
 
+	/*
+	 * (non-Javadoc) Method declared on IWizardContainer.
+	 */
 	public void updateWindowTitle() {
-		// TODO Auto-generated method stub
-
+		String title = fWizard.getWindowTitle();
+		if (title == null)
+			title = ""; //$NON-NLS-1$
+		getShell().setText(title);
 	}
 
-	public void run(boolean fork, boolean cancelable, IRunnableWithProgress runnable) throws InvocationTargetException, InterruptedException {
+	public void run(boolean fork, boolean cancelable,
+			IRunnableWithProgress runnable) throws InvocationTargetException,
+			InterruptedException {
 
 		if (fProgressMonitorPart == null) {
-			ModalContext.run(runnable, false, new NullProgressMonitor(), getShell().getDisplay());
+			ModalContext.run(runnable, false, new NullProgressMonitor(),
+					getShell().getDisplay());
 		} else {
 			Object state = null;
 			if (fActiveRunningOperations == 0)
@@ -255,7 +266,8 @@ public class TigerstripeRefactorWizardDialog extends Dialog implements IWizardCo
 
 			fActiveRunningOperations++;
 			try {
-				ModalContext.run(runnable, fork, fProgressMonitorPart, getShell().getDisplay());
+				ModalContext.run(runnable, fork, fProgressMonitorPart,
+						getShell().getDisplay());
 			} finally {
 				fActiveRunningOperations--;
 				// Stop if this is the last one
@@ -265,106 +277,115 @@ public class TigerstripeRefactorWizardDialog extends Dialog implements IWizardCo
 		}
 
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private Object aboutToStart(boolean cancelable) {
 		Map savedState = null;
-		Shell shell= getShell();
+		Shell shell = getShell();
 		if (shell != null) {
 			// Save focus control
 			Control focusControl = getShell().getDisplay().getFocusControl();
 			if (focusControl != null && focusControl.getShell() != getShell())
 				focusControl = null;
-				
-			Button cancelButton= getButton(IDialogConstants.CANCEL_ID);	
+
+			Button cancelButton = getButton(IDialogConstants.CANCEL_ID);
 			// Set the busy cursor to all shells.
 			Display d = getShell().getDisplay();
 			fWaitCursor = new Cursor(d, SWT.CURSOR_WAIT);
 			setDisplayCursor(d, fWaitCursor);
-					
+
 			// Set the arrow cursor to the cancel component.
-			fArrowCursor= new Cursor(d, SWT.CURSOR_ARROW);
+			fArrowCursor = new Cursor(d, SWT.CURSOR_ARROW);
 			cancelButton.setCursor(fArrowCursor);
-	
-			boolean hasProgressMonitor= fProgressMonitorPart != null;
-	
+
+			boolean hasProgressMonitor = fProgressMonitorPart != null;
+
 			// Deactivate shell
-			savedState= saveUIState(hasProgressMonitor && cancelable);
+			savedState = saveUIState(hasProgressMonitor && cancelable);
 			if (focusControl != null)
 				savedState.put("focus", focusControl); //$NON-NLS-1$
-			
-			if (hasProgressMonitor) {	
+
+			if (hasProgressMonitor) {
 				fProgressMonitorPart.attachToCancelComponent(cancelButton);
 				fStatusContainer.showPage(fProgressMonitorPart);
 			}
-			// Update the status container since we are blocking the event loop right now.
+			// Update the status container since we are blocking the event loop
+			// right now.
 			fStatusContainer.update();
 		}
 		return savedState;
 	}
-	
+
 	private void setDisplayCursor(Display d, Cursor c) {
-		Shell[] shells= d.getShells();
-		for (int i= 0; i < shells.length; i++)
+		Shell[] shells = d.getShells();
+		for (int i = 0; i < shells.length; i++)
 			shells[i].setCursor(c);
-	}	
+	}
 
 	@SuppressWarnings("unchecked")
 	private Map saveUIState(boolean keepCancelEnabled) {
-		Map savedState= new HashMap(10);
-		saveEnableStateAndSet(getButton(PREVIEW_ID), savedState, "preview", false); //$NON-NLS-1$
-		saveEnableStateAndSet(getButton(IDialogConstants.OK_ID), savedState, "ok", false); //$NON-NLS-1$
-		saveEnableStateAndSet(getButton(IDialogConstants.BACK_ID), savedState, "back", false); //$NON-NLS-1$
-		saveEnableStateAndSet(getButton(IDialogConstants.NEXT_ID), savedState, "next", false); //$NON-NLS-1$
-		saveEnableStateAndSet(getButton(IDialogConstants.CANCEL_ID), savedState, "cancel", keepCancelEnabled); //$NON-NLS-1$
-		savedState.put("page", ControlEnableState.disable(fVisiblePage.getControl())); //$NON-NLS-1$
+		Map savedState = new HashMap(10);
+		saveEnableStateAndSet(getButton(PREVIEW_ID), savedState,
+				"preview", false); //$NON-NLS-1$
+		saveEnableStateAndSet(getButton(IDialogConstants.OK_ID), savedState,
+				"ok", false); //$NON-NLS-1$
+		saveEnableStateAndSet(getButton(IDialogConstants.BACK_ID), savedState,
+				"back", false); //$NON-NLS-1$
+		saveEnableStateAndSet(getButton(IDialogConstants.NEXT_ID), savedState,
+				"next", false); //$NON-NLS-1$
+		saveEnableStateAndSet(getButton(IDialogConstants.CANCEL_ID),
+				savedState, "cancel", keepCancelEnabled); //$NON-NLS-1$
+		savedState.put(
+				"page", ControlEnableState.disable(fVisiblePage.getControl())); //$NON-NLS-1$
 		return savedState;
 	}
-	
+
 	@SuppressWarnings("unchecked")
-	private void saveEnableStateAndSet(Control w, Map h, String key, boolean enabled) {
+	private void saveEnableStateAndSet(Control w, Map h, String key,
+			boolean enabled) {
 		if (w != null) {
 			h.put(key, Boolean.valueOf(w.getEnabled()));
 			w.setEnabled(enabled);
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private void stopped(Object savedState) {
-		Shell shell= getShell();
+		Shell shell = getShell();
 		if (shell != null) {
-			Button cancelButton= getButton(IDialogConstants.CANCEL_ID);
-			
+			Button cancelButton = getButton(IDialogConstants.CANCEL_ID);
+
 			if (fProgressMonitorPart != null)
 				fProgressMonitorPart.removeFromCancelComponent(cancelButton);
-				
+
 			fStatusContainer.showPage(fMessageBox);
-			Map state = (Map)savedState;
+			Map state = (Map) savedState;
 			restoreUIState(state);
-	
-			setDisplayCursor(shell.getDisplay(), null);	
+
+			setDisplayCursor(shell.getDisplay(), null);
 			cancelButton.setCursor(null);
 			fWaitCursor.dispose();
 			fWaitCursor = null;
 			fArrowCursor.dispose();
 			fArrowCursor = null;
-			Control focusControl = (Control)state.get("focus"); //$NON-NLS-1$
+			Control focusControl = (Control) state.get("focus"); //$NON-NLS-1$
 			if (focusControl != null)
 				focusControl.setFocus();
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private void restoreUIState(Map state) {
 		restoreEnableState(getButton(PREVIEW_ID), state, "preview");//$NON-NLS-1$
 		restoreEnableState(getButton(IDialogConstants.OK_ID), state, "ok");//$NON-NLS-1$
 		restoreEnableState(getButton(IDialogConstants.BACK_ID), state, "back"); //$NON-NLS-1$
 		restoreEnableState(getButton(IDialogConstants.NEXT_ID), state, "next"); //$NON-NLS-1$
-		restoreEnableState(getButton(IDialogConstants.CANCEL_ID), state, "cancel");//$NON-NLS-1$
+		restoreEnableState(getButton(IDialogConstants.CANCEL_ID), state,
+				"cancel");//$NON-NLS-1$
 		ControlEnableState pageState = (ControlEnableState) state.get("page");//$NON-NLS-1$
 		pageState.restore();
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private void restoreEnableState(Control w, Map h, String key) {
 		if (w != null) {
@@ -402,6 +423,16 @@ public class TigerstripeRefactorWizardDialog extends Dialog implements IWizardCo
 	}
 
 	// ---- UI construction ---------------------------------------------------
+
+	protected void configureShell(Shell newShell) {
+		super.configureShell(newShell);
+		String title = fWizard.getDefaultPageTitle();
+		if (title == null)
+			title = fWizard.getWindowTitle();
+		if (title == null)
+			title = ""; //$NON-NLS-1$
+		newShell.setText(title);
+	}
 
 	protected Control createContents(Composite parent) {
 		Composite result = new Composite(parent, SWT.NONE);
@@ -541,7 +572,8 @@ public class TigerstripeRefactorWizardDialog extends Dialog implements IWizardCo
 		GridLayout pmlayout = new GridLayout();
 		pmlayout.numColumns = 1;
 		pmlayout.marginHeight = 0;
-		fProgressMonitorPart = new ProgressMonitorPart(fStatusContainer, pmlayout);
+		fProgressMonitorPart = new ProgressMonitorPart(fStatusContainer,
+				pmlayout);
 	}
 
 	private void createMessageBox() {

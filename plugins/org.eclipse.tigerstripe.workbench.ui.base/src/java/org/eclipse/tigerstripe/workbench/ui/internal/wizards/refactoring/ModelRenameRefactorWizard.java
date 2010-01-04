@@ -12,16 +12,29 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring;
 
 
-
 public class ModelRenameRefactorWizard extends AbstractModelRefactorWizard {
 
+	private RenameInputWizardPage inputPage;
+	
 	@Override
 	public void addPages() {
 
-		AbstractModelRefactorWizardPage inputPage = new RenameInputWizardPage();
+		inputPage = new RenameInputWizardPage();
 		addPage(inputPage);
 		addPage(new PreviewWizardPage());
 		inputPage.init(selection);
+	}
+	
+	/**
+	 * Returns the default page title used for pages that don't provide their
+	 * own page title.
+	 *
+	 * @return the default page title or <code>null</code> if non has been set
+	 *
+	 * @see #setDefaultPageTitle(String)
+	 */
+	public String getDefaultPageTitle() {
+		return "Rename Model Artifact";
 	}
 
 }

@@ -17,4 +17,16 @@ public class DragAndDropMoveRefactorWizard extends AbstractModelRefactorWizard {
 
 		addPage(new PreviewWizardPage());
 	}
+	
+	/**
+	 * Returns the default page title used for pages that don't provide their
+	 * own page title.
+	 *
+	 * @return the default page title or <code>null</code> if non has been set
+	 *
+	 * @see #setDefaultPageTitle(String)
+	 */
+	public String getDefaultPageTitle() {
+		return "Move";
+	}
 }

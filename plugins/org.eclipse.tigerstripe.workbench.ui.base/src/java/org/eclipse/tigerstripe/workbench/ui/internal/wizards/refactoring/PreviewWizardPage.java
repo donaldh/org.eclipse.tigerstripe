@@ -40,7 +40,6 @@ public class PreviewWizardPage extends WizardPage {
 		super(PAGE_NAME);
 	}
 
-	@SuppressWarnings("unchecked")
 	public void createControl(Composite parent) {
 
 		Composite composite = new Composite(parent, SWT.BORDER);
@@ -51,7 +50,7 @@ public class PreviewWizardPage extends WizardPage {
 		composite.setLayout(layout);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
-		new Label(composite, SWT.LEFT).setText(" Changes to be performed");
+		new Label(composite, SWT.LEFT).setText("Changes to be performed");
 
 		Table table = new Table(composite, SWT.NONE);
 		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
@@ -61,7 +60,22 @@ public class PreviewWizardPage extends WizardPage {
 		tableViewer.setContentProvider(new ArrayContentProvider());
 		tableViewer.setLabelProvider(new ChangeDeltaLabelProvider());
 		tableViewer.setSorter(new ViewerSorter());
+		
+		setControl(composite);
+	}
+	
+	public void setVisible(boolean visible) {
+		
+		if(visible) {
+			initPage();
+		}
+		
+		super.setVisible(visible);
+	}
 
+	@SuppressWarnings("unchecked")
+	private void initPage(){
+		
 		AbstractModelRefactorWizard wizard = (AbstractModelRefactorWizard) getWizard();
 		try {
 			
@@ -77,7 +91,6 @@ public class PreviewWizardPage extends WizardPage {
 			EclipsePlugin.log(e);
 		}
 
-		setControl(composite);
 	}
 
 }

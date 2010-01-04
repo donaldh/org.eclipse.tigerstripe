@@ -21,6 +21,7 @@ public class RefactoringMoveHandler extends AbstractHandler {
 		AbstractModelRefactorWizard wizard = new ModelMoveRefactorWizard();
 		wizard.init(window.getWorkbench(), selection instanceof IStructuredSelection ? (IStructuredSelection) selection : StructuredSelection.EMPTY);
 		TigerstripeRefactorWizardDialog dialog = new TigerstripeRefactorWizardDialog(window.getShell(), wizard);
+		dialog.create();
 		dialog.open();
 		return null;
 	}

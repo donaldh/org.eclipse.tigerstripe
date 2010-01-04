@@ -72,6 +72,18 @@ public abstract class AbstractModelRefactorWizard extends Wizard implements
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.selection = selection;
 	}
+	
+	/**
+	 * Returns the default page title used for pages that don't provide their
+	 * own page title.
+	 *
+	 * @return the default page title or <code>null</code> if non has been set
+	 *
+	 * @see #setDefaultPageTitle(String)
+	 */
+	public String getDefaultPageTitle() {
+		return "Refactor Model Artifact";
+	}
 
 	@Override
 	public boolean performFinish() {
