@@ -46,7 +46,7 @@ public class Simple_to_Complicated extends UITestCaseSWT {
 				"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
 
 		ui.contextClick(new TreeItemLocator(project + "/src/simple", view),
-				"Refactor/Rename...");
+				"Refactor Model/Rename...");
 		ui.wait(new ShellDisposedCondition("Progress Information"));
 		ui.wait(new ShellShowingCondition("Rename Package"));
 		LabeledTextLocator locator = new LabeledTextLocator("New na&me:");

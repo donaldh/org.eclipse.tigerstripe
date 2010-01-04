@@ -120,7 +120,7 @@ public class MoveTests extends UITestCaseSWT {
 					new TreeItemLocator(
 							project+"/src/simple/DataBottom",
 							view),
-				"Refactor/Move...");
+				"Refactor Model/Move...");
 			ui.wait(new ShellDisposedCondition("Progress Information"));
 			ui.wait(new ShellShowingCondition("Move"));
 			ui.click(new TreeItemLocator("model-refactoring/src/simple.moved"));

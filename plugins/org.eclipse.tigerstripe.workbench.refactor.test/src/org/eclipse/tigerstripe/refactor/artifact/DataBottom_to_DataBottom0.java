@@ -144,7 +144,7 @@ public class DataBottom_to_DataBottom0 extends UITestCaseSWT {
 				"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
 
 		ui.contextClick(new TreeItemLocator(project + "/src/simple/DataBottom",
-				view), "Refactor/Rename...");
+				view), "Refactor Model/Rename...");
 		ui.wait(new ShellDisposedCondition("Progress Information"));
 		ui.wait(new ShellShowingCondition("Rename Compilation Unit"));
 		LabeledTextLocator locator = new LabeledTextLocator("New na&me:");

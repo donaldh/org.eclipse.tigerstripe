@@ -187,9 +187,9 @@ public class Ent1_to_Ent10 extends UITestCaseSWT {
 
 		ui.contextClick(
 				new TreeItemLocator(project + "/src/simple/Ent1", view),
-				"Refactor/Rename...");
+				"Refactor Model/Rename...");
 		ui.wait(new ShellDisposedCondition("Progress Information"));
-		ui.wait(new ShellShowingCondition("Rename Compilation Unit"));
+		ui.wait(new ShellShowingCondition("Rename Element"));
 		LabeledTextLocator locator = new LabeledTextLocator("New na&me:");
 		ui.keyClick(SWT.CTRL, 'a');
 		ui.click(locator);
@@ -221,7 +221,7 @@ public class Ent1_to_Ent10 extends UITestCaseSWT {
 				"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
 		ui.contextClick(
 				new TreeItemLocator(project + "/src/simple/Ent1", view),
-				"Refactor/Move...");
+				"Refactor Model/Move...");
 		ui.wait(new ShellDisposedCondition("Progress Information"));
 		ui.wait(new ShellShowingCondition("Move"));
 		ui.click(new TreeItemLocator("model-refactoring/src/simple.moved"));

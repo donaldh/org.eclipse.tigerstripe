@@ -144,7 +144,7 @@ public class Enumeration0_to_Enumeration00 extends UITestCaseSWT {
 				"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
 
 		ui.contextClick(new TreeItemLocator(project
-				+ "/src/simple/Enumeration0", view), "Refactor/Rename...");
+				+ "/src/simple/Enumeration0", view), "Refactor Model/Rename...");
 		ui.wait(new ShellDisposedCondition("Progress Information"));
 		ui.wait(new ShellShowingCondition("Rename Compilation Unit"));
 		LabeledTextLocator locator = new LabeledTextLocator("New na&me:");

@@ -193,7 +193,7 @@ public class DataMiddle_to_DataMiddle0 extends UITestCaseSWT {
 				"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
 
 		ui.contextClick(new TreeItemLocator(project + "/src/simple/DataMiddle",
-				view), "Refactor/Rename...");
+				view), "Refactor Model/Rename...");
 		ui.wait(new ShellDisposedCondition("Progress Information"));
 		ui.wait(new ShellShowingCondition("Rename Compilation Unit"));
 		LabeledTextLocator locator = new LabeledTextLocator("New na&me:");

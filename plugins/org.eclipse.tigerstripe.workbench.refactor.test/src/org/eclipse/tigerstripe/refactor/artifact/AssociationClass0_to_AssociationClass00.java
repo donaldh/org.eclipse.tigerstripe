@@ -136,7 +136,7 @@ public class AssociationClass0_to_AssociationClass00 extends UITestCaseSWT {
 				new TreeItemLocator(
 						project+"/src/simple/AssociationClass0",
 						view),
-		"Refactor/Rename...");
+		"Refactor Model/Rename...");
 		ui.wait(new ShellDisposedCondition("Progress Information"));
 		ui.wait(new ShellShowingCondition("Rename Compilation Unit"));
 		LabeledTextLocator locator = new LabeledTextLocator("New na&me:");

@@ -96,7 +96,7 @@ public class Dependency0_to_Dependency00 extends UITestCaseSWT {
 
 		ui.contextClick(new TreeItemLocator(
 				project + "/src/simple/Dependency0", view),
-				"Refactor/Rename...");
+				"Refactor Model/Rename...");
 		ui.wait(new ShellDisposedCondition("Progress Information"));
 		ui.wait(new ShellShowingCondition("Rename Compilation Unit"));
 		LabeledTextLocator locator = new LabeledTextLocator("New na&me:");

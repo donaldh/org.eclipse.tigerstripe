@@ -129,7 +129,7 @@ public class Session0_to_Session00 extends UITestCaseSWT {
 				"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
 
 		ui.contextClick(new TreeItemLocator(project
-				+ "/src/simple/SessionFacade0", view), "Refactor/Rename...");
+				+ "/src/simple/SessionFacade0", view), "Refactor Model/Rename...");
 		ui.wait(new ShellDisposedCondition("Progress Information"));
 		ui.wait(new ShellShowingCondition("Rename Compilation Unit"));
 		LabeledTextLocator locator = new LabeledTextLocator("New na&me:");
