@@ -191,12 +191,12 @@ public class PrimitiveTypeDefsSection extends BaseStereotypeSectionPart
 		td.heightHint = 150;
 		t.setLayoutData(td);
 
-		addAttributeButton = toolkit.createButton(sectionClient, "Add",
+		addStereotypeButton = toolkit.createButton(sectionClient, "Add",
 				SWT.PUSH);
-		addAttributeButton.setEnabled(ProfileEditor.isEditable());
-		addAttributeButton.setLayoutData(new TableWrapData(TableWrapData.FILL));
+		addStereotypeButton.setEnabled(ProfileEditor.isEditable());
+		addStereotypeButton.setLayoutData(new TableWrapData(TableWrapData.FILL));
 		if (ProfileEditor.isEditable()) {
-			addAttributeButton.addSelectionListener(new SelectionListener() {
+			addStereotypeButton.addSelectionListener(new SelectionListener() {
 				public void widgetSelected(SelectionEvent event) {
 					addButtonSelected(event);
 				}

@@ -165,7 +165,7 @@ public abstract class BaseStereotypeSectionPart extends TigerstripeSectionPart {
 	// ====================================================================
 	protected TableViewer viewer;
 
-	protected Button addAttributeButton;
+	protected Button addStereotypeButton;
 
 	protected Button removeAttributeButton;
 
@@ -196,12 +196,14 @@ public abstract class BaseStereotypeSectionPart extends TigerstripeSectionPart {
 		td.heightHint = 150;
 		t.setLayoutData(td);
 
-		addAttributeButton = toolkit.createButton(sectionClient, "Add",
+		addStereotypeButton = toolkit.createButton(sectionClient, "Add",
 				SWT.PUSH);
-		addAttributeButton.setEnabled(ProfileEditor.isEditable());
-		addAttributeButton.setLayoutData(new TableWrapData(TableWrapData.FILL));
+		// support for testing
+		addStereotypeButton.setData("name", "Add_Stereotype");
+		addStereotypeButton.setEnabled(ProfileEditor.isEditable());
+		addStereotypeButton.setLayoutData(new TableWrapData(TableWrapData.FILL));
 		if (ProfileEditor.isEditable()) {
-			addAttributeButton.addSelectionListener(new SelectionListener() {
+			addStereotypeButton.addSelectionListener(new SelectionListener() {
 				public void widgetSelected(SelectionEvent event) {
 					addButtonSelected(event);
 				}

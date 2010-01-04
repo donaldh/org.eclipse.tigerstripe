@@ -522,6 +522,8 @@ public class StereotypeDetailsPage implements IDetailsPage {
 		}
 
 		addAttrButton = toolkit.createButton(sectionClient, "Add", SWT.PUSH);
+		// support for testing
+		addAttrButton.setData("name", "Add_Attribute");
 		addAttrButton.setEnabled(ProfileEditor.isEditable());
 		addAttrButton.setLayoutData(new TableWrapData(TableWrapData.FILL));
 		if (ProfileEditor.isEditable()) {
