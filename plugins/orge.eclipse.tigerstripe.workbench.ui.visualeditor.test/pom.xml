@@ -22,15 +22,15 @@
     <!-- Trying out this one: -->
     <eclipse-home>${project.build.directory}/work/tigerstripe</eclipse-home>
     
-	<plugin-name>org.eclipse.tigerstripe.workbench.ui.base.test</plugin-name>
-	<library-file>${eclipse-home}/plugins/org.eclipse.test_3.2.0/library.xml</library-file>
+    <plugin-name>org.eclipse.tigerstripe.workbench.ui.visualeditor.test</plugin-name>
+    <library-file>${eclipse-home}/plugins/org.eclipse.test_3.2.0/library.xml</library-file>
     
 	<org.eclipse.tigerstripe.workbench.ui.base-folder>${eclipse-home}/org.eclipse.tigerstripe.workbench.ui.base</org.eclipse.tigerstripe.workbench.ui.base-folder>
     
     <data-dir>${org.eclipse.tigerstripe.workbench.ui.base-folder}</data-dir>
     
     <!-- Bundle-SymbolicName -->
-    <testSuite>org.eclipse.tigerstripe.ui.visualeditor.test</testSuite>
+    <testSuite>org.eclipse.tigerstripe.workbench.ui.visualeditor.test</testSuite>
     
     <!-- name of test suite class -->
     <testClass>org.eclipse.tigerstripe.ui.visualeditor.test.suite.DiagramTestsuite</testClass>
