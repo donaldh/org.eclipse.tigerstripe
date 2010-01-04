@@ -12,6 +12,7 @@ import org.eclipse.tigerstripe.ui.visualeditor.test.diagram.DropOnArtifacts;
 import org.eclipse.tigerstripe.ui.visualeditor.test.diagram.DropOnAssociations;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.NewProject;
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.CleanWorkspace;
+import org.eclipse.tigerstripe.workbench.ui.base.test.suite.PluginTestSuite;
 
 public class DiagramTestsuite extends TestCase
 {
@@ -33,7 +34,7 @@ public class DiagramTestsuite extends TestCase
     {
         TestSuite suite = new TestSuite(); 
         suite.addTestSuite(CleanWorkspace.class);
-        
+        suite.addTest(PluginTestSuite.suite());	
         // creates a new Project - do this so we are in the TS perspective
         suite.addTestSuite(NewProject.class);
         

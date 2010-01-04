@@ -35,16 +35,23 @@ public class DiagramHelper {
 
 	
 	public void createPackage(IUIContext ui, String packageName) throws Exception {	
-		ui.click(new TreeItemLocator(
-				TestingConstants.NEW_MODEL_PROJECT_NAME,
-				new ViewLocator(
-						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
+//		ui.click(new TreeItemLocator(
+//				TestingConstants.NEW_MODEL_PROJECT_NAME,
+//				new ViewLocator(
+//						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
+//		
+//		ui
+//		.click(new PullDownMenuItemLocator(
+//				"Package",
+//				new ContributedToolItemLocator(
+//						"org.eclipse.tigerstripe.workbench.ui.menu.new.patterns.dropdown.org.eclipse.tigerstripe.workbench.base.ManagedEntity")));
 		
-		ui
-		.click(new PullDownMenuItemLocator(
-				"Package",
-				new ContributedToolItemLocator(
-						"org.eclipse.tigerstripe.workbench.ui.menu.new.patterns.dropdown.org.eclipse.tigerstripe.workbench.base.ManagedEntity")));
+		ui.contextClick(
+				new TreeItemLocator(
+						TestingConstants.NEW_MODEL_PROJECT_NAME+"/src",
+						new ViewLocator(
+								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")),
+				"New/"+"Entity");
 		ui.wait(new ShellShowingCondition("Create a new Package"));
 		ui.click(new LabeledTextLocator("Name:"));
 		ui.enterText(packageName);
@@ -75,23 +82,30 @@ public class DiagramHelper {
 		
 		
 		
-		ui.click(new TreeItemLocator(
-				TestingConstants.NEW_MODEL_PROJECT_NAME,
-				new ViewLocator(
-						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
-		if (myType.equals("Entity")) {
-			// If it an entity we need the top item - as its not in the drop
-			// down
-			ui
-			.click(new ContributedToolItemLocator(
-					"org.eclipse.tigerstripe.workbench.ui.menu.new.patterns.dropdown.org.eclipse.tigerstripe.workbench.base.ManagedEntity"));
-		} else {
-			ui
-					.click(new PullDownMenuItemLocator(
-							myType,
-							new ContributedToolItemLocator(
-									"org.eclipse.tigerstripe.workbench.ui.menu.new.patterns.dropdown.org.eclipse.tigerstripe.workbench.base.ManagedEntity")));
-		}
+//		ui.click(new TreeItemLocator(
+//				TestingConstants.NEW_MODEL_PROJECT_NAME,
+//				new ViewLocator(
+//						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
+//		if (myType.equals("Entity")) {
+//			// If it an entity we need the top item - as its not in the drop
+//			// down
+//			ui
+//			.click(new ContributedToolItemLocator(
+//					"org.eclipse.tigerstripe.workbench.ui.menu.new.patterns.dropdown.org.eclipse.tigerstripe.workbench.base.ManagedEntity"));
+//		} else {
+//			ui
+//					.click(new PullDownMenuItemLocator(
+//							myType,
+//							new ContributedToolItemLocator(
+//									"org.eclipse.tigerstripe.workbench.ui.menu.new.patterns.dropdown.org.eclipse.tigerstripe.workbench.base.ManagedEntity")));
+//		}
+		
+		ui.contextClick(
+				new TreeItemLocator(
+						TestingConstants.NEW_MODEL_PROJECT_NAME+"/src",
+						new ViewLocator(
+								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")),
+				"New/"+myType);
 		
 		ui.wait(new ShellShowingCondition("Create a new "+myType));
 		
