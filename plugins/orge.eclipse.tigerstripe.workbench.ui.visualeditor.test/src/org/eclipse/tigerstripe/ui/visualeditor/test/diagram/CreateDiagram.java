@@ -70,8 +70,8 @@ private DiagramHelper helper;
 		// And check it made it to the Explorer
 		ArrayList<String> artifacts = new ArrayList<String>();
 		
-		int center = 500;
-		int step = 50;
+		int center = 300;
+		int step = 30;
 		
 		ui.click(new PaletteItemLocator("Artifacts/Entity"));
 		ui.click(new XYLocator(new DiagramEditPart$1Locator(),center,center));
