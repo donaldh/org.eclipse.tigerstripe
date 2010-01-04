@@ -54,7 +54,7 @@ private DiagramHelper helper;
 		
 		helper.createPackage(ui, TestingConstants.DIAGRAM_PACKAGE);
 		
-		String pckge = TestingConstants.DEFAULT_ARTIFACT_PACKAGE.replaceAll("\\.", "/");
+		String pckge = TestingConstants.DEFAULT_ARTIFACT_PACKAGE_AS_PATH;
 		ui.contextClick(
 						new TreeItemLocator(
 								TestingConstants.NEW_MODEL_PROJECT_NAME+"/src/"+pckge+"/"+TestingConstants.DIAGRAM_PACKAGE,

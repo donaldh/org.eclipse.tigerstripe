@@ -50,7 +50,7 @@ public class DropOnArtifacts extends UITestCaseSWT {
 	public void testDropOnAssociations() throws Exception {
 		ui = getUI();
 		
-		String packagePath = (TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"."+TestingConstants.DIAGRAM_2_PACKAGE).replaceAll("\\.", "/");
+		String packagePath = (TestingConstants.DEFAULT_ARTIFACT_PACKAGE_AS_PATH+"/"+TestingConstants.DIAGRAM_2_PACKAGE);
 		
 		String pathBase = TestingConstants.NEW_MODEL_PROJECT_NAME+"/src/"+packagePath+"/";
 		ViewLocator view = new ViewLocator("org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
