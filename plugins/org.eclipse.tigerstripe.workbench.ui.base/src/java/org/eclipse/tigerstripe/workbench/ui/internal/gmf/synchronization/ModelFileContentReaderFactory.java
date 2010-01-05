@@ -14,7 +14,7 @@ import java.util.HashMap;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 
@@ -58,22 +58,28 @@ public class ModelFileContentReaderFactory {
 
 	private static void getRegisteredReaders() {
 		readerHash = new HashMap<String, IConfigurationElement>();
-		IExtension[] extensions = EclipsePlugin.getDefault().getDescriptor()
-				.getExtensionPoint("modelFileContentReader").getExtensions();
+		//		IExtension[] extensions = EclipsePlugin.getDefault().getDescriptor()
+		//				.getExtensionPoint("modelFileContentReader").getExtensions();
+		//
+		//		
+		//		
+		//		for (IExtension extension : extensions) {
+		//			IConfigurationElement[] configElements = extension
+		//					.getConfigurationElements();
+		//			
+		for (IConfigurationElement configElement : Platform.getExtensionRegistry().
+				getConfigurationElementsFor("org.eclipse.tigerstripe.workbench.ui.base.modelFileContentReader")){
 
-		for (IExtension extension : extensions) {
-			IConfigurationElement[] configElements = extension
-					.getConfigurationElements();
-			for (IConfigurationElement configElement : configElements) {
-				try {
-					IModelFileContentReader reader = (IModelFileContentReader) configElement
-							.createExecutableExtension("readerClass");
-					readerHash.put(reader.getSupportedModelFileExtension(),
-							configElement);
-				} catch (CoreException e) {
-					EclipsePlugin.log(e);
-				}
+			//			for (IConfigurationElement configElement : configElements) {
+			try {
+				IModelFileContentReader reader = (IModelFileContentReader) configElement
+				.createExecutableExtension("readerClass");
+				readerHash.put(reader.getSupportedModelFileExtension(),
+						configElement);
+			} catch (CoreException e) {
+				EclipsePlugin.log(e);
 			}
+			//			}
 		}
 	}
 
