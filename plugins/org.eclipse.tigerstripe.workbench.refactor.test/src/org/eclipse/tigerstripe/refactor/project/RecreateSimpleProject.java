@@ -50,9 +50,12 @@ public class RecreateSimpleProject extends UITestCaseSWT {
 	
 	public void testCreateThroughExplorer() throws Exception{
 		IUIContext ui = getUI();
-		ui.click(new SWTWidgetLocator(ToolItem.class, "", 0,
-				new SWTWidgetLocator(ToolBar.class, 2, new SWTWidgetLocator(
-						CoolBar.class))));
+		//ui.click(new SWTWidgetLocator(ToolItem.class, "", 0,
+		//		new SWTWidgetLocator(ToolBar.class, 2, new SWTWidgetLocator(
+		//				CoolBar.class))));
+		ui
+		  .click(new ContributedToolItemLocator(
+		    "org.eclipse.tigerstripe.workbench.ui.menu.new.patterns.project.dropdown.org.eclipse.tigerstripe.workbench.base.Project"));
 		
 		ui.wait(new ShellShowingCondition("Create a new Tigerstripe Project"));
 		ui.click(new LabeledTextLocator("&Project Name:"));
