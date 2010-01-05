@@ -146,13 +146,13 @@ public class DataBottom_to_DataBottom0 extends UITestCaseSWT {
 		ui.contextClick(new TreeItemLocator(project + "/src/simple/DataBottom",
 				view), "Refactor Model/Rename...");
 		ui.wait(new ShellDisposedCondition("Progress Information"));
-		ui.wait(new ShellShowingCondition("Rename Compilation Unit"));
-		LabeledTextLocator locator = new LabeledTextLocator("New na&me:");
+		ui.wait(new ShellShowingCondition("Rename Model Artifact"));
+		//LabeledTextLocator locator = new LabeledTextLocator("New na&me:");
 		ui.keyClick(SWT.CTRL, 'a');
-		ui.click(locator);
-		ui.enterText("DataBottom0");
+		//ui.click(locator);
+		ui.enterText("simple.DataBottom0");
 		ui.click(new ButtonLocator("&Finish"));
-		ui.wait(new ShellDisposedCondition("Rename Compilation Unit"));
+		ui.wait(new ShellDisposedCondition("Rename Model Artifact"));
 
 		// Let the updates happen!
 		Thread.sleep(500);

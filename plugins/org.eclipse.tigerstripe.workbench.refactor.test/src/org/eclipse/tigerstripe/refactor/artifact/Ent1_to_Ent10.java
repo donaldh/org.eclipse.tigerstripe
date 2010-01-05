@@ -189,13 +189,13 @@ public class Ent1_to_Ent10 extends UITestCaseSWT {
 				new TreeItemLocator(project + "/src/simple/Ent1", view),
 				"Refactor Model/Rename...");
 		ui.wait(new ShellDisposedCondition("Progress Information"));
-		ui.wait(new ShellShowingCondition("Rename Element"));
-		LabeledTextLocator locator = new LabeledTextLocator("New na&me:");
+		ui.wait(new ShellShowingCondition("Rename Model Artifact"));
+		//LabeledTextLocator locator = new LabeledTextLocator("New name:");
 		ui.keyClick(SWT.CTRL, 'a');
-		ui.click(locator);
-		ui.enterText("Ent10");
+		//ui.click(locator);
+		ui.enterText("simple.Ent10");
 		ui.click(new ButtonLocator("&Finish"));
-		ui.wait(new ShellDisposedCondition("Rename Compilation Unit"));
+		ui.wait(new ShellDisposedCondition("Rename Model Artifact"));
 
 		// Let the updates happen!
 		Thread.sleep(500);

@@ -45,7 +45,7 @@ public class ProjectHelper extends UITestCaseSWT {
 		ui.click(new ButtonLocator("&Finish"));
 		ui.wait(new ShellDisposedCondition("Checkout from CVS"));
 		
-		Thread.sleep(15000); // Let the workspace build
+		Thread.sleep(25000); // Let the workspace build
 		
 		// Disconnect from CVS so we don't have to deal with all of the decorations!
 		

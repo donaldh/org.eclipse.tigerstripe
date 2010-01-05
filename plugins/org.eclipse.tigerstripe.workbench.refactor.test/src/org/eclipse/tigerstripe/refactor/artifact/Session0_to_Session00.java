@@ -131,13 +131,13 @@ public class Session0_to_Session00 extends UITestCaseSWT {
 		ui.contextClick(new TreeItemLocator(project
 				+ "/src/simple/SessionFacade0", view), "Refactor Model/Rename...");
 		ui.wait(new ShellDisposedCondition("Progress Information"));
-		ui.wait(new ShellShowingCondition("Rename Compilation Unit"));
-		LabeledTextLocator locator = new LabeledTextLocator("New na&me:");
+		ui.wait(new ShellShowingCondition("Rename Model Artifact"));
+		//LabeledTextLocator locator = new LabeledTextLocator("New na&me:");
 		ui.keyClick(SWT.CTRL, 'a');
-		ui.click(locator);
-		ui.enterText("SessionFacade00");
+		//ui.click(locator);
+		ui.enterText("simple.SessionFacade00");
 		ui.click(new ButtonLocator("&Finish"));
-		ui.wait(new ShellDisposedCondition("Rename Compilation Unit"));
+		ui.wait(new ShellDisposedCondition("Rename Model Artifact"));
 
 		// Let the updates happen!
 		Thread.sleep(500);
