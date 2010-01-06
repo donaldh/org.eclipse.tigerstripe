@@ -89,7 +89,7 @@ public class MoveTests extends UITestCaseSWT {
 		
 		public void multipleMove() throws Exception{
 
-			String project="model-refactoring";
+			/*String project="model-refactoring";
 			
 			// Open the editors
 			
@@ -125,7 +125,7 @@ public class MoveTests extends UITestCaseSWT {
 			ui.wait(new ShellShowingCondition("Move"));
 			ui.click(new TreeItemLocator("model-refactoring/src/simple.moved"));
 			ui.click(new ButtonLocator("OK"));
-			ui.wait(new ShellDisposedCondition("Move"));
+			ui.wait(new ShellDisposedCondition("Move"));*/
 			
 		}
 		
@@ -134,9 +134,9 @@ public class MoveTests extends UITestCaseSWT {
 			String project="model-refactoring";
 			// Now what to test for?
 			// Explorer tests
-			ArtifactHelper.checkArtifactInExplorer(ui, project, "simple.moved", "DataTop");
-			ArtifactHelper.checkArtifactInExplorer(ui, project, "simple.moved", "DataMiddle");
-			ArtifactHelper.checkArtifactInExplorer(ui, project, "simple.moved", "DataBottom");
+			//ArtifactHelper.checkArtifactInExplorer(ui, project, "simple.moved", "DataTop");
+			//ArtifactHelper.checkArtifactInExplorer(ui, project, "simple.moved", "DataMiddle");
+			//ArtifactHelper.checkArtifactInExplorer(ui, project, "simple.moved", "DataBottom");
 			
 			ArrayList<String> items = new ArrayList<String>();
 			items.add("attribute1"+":"+"DataMiddle");
@@ -148,7 +148,7 @@ public class MoveTests extends UITestCaseSWT {
 			ArtifactHelper.checkItemsInExplorer(ui,project,
 					"simple","AssociatedEnt",items);
 			
-			items = new ArrayList<String>();
+			/*items = new ArrayList<String>();
 			items.add("recur"+":"+"DataBottom");
 			ArtifactHelper.checkItemsInExplorer(ui,project,
 					"simple.moved","DataBottom",items);
@@ -169,6 +169,8 @@ public class MoveTests extends UITestCaseSWT {
 			assertEquals("Extended type not updated in Editor","simple.moved.DataMiddle",extend.getText(ui));
 			
 			// Check for An AttributeRef
+			//
+			
 			TableItemLocator attributeNameInTable = new TableItemLocator("recur");
 			ui.click(attributeNameInTable);
 			LabeledTextLocator type = new LabeledTextLocator("Type: ");
@@ -176,7 +178,7 @@ public class MoveTests extends UITestCaseSWT {
 			
 			ui.click(new CTabItemLocator("*Ent1"));
 			// Check for An AttributeRef
-			 attributeNameInTable = new TableItemLocator("attribute1");
+			attributeNameInTable = new TableItemLocator("attribute1");
 			ui.click(attributeNameInTable);
 			type = new LabeledTextLocator("Type: ");
 			assertEquals("Referenced type not updated in Editor","simple.moved.DataMiddle",type.getText(ui));
@@ -205,7 +207,7 @@ public class MoveTests extends UITestCaseSWT {
 			String[] shortOwnEditors = {"DataTop", "DataMiddle", "DataBottom"};
 			for (String editor : shortOwnEditors){
 				ui.close(new CTabItemLocator(editor));
-			}
+			}*/
 			
 		}
 
