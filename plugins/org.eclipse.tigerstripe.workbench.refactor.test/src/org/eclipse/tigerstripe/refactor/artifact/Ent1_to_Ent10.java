@@ -30,11 +30,8 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Meth
 import com.windowtester.runtime.IUIContext;
 import com.windowtester.runtime.WT;
 import com.windowtester.runtime.WidgetNotFoundException;
-import com.windowtester.runtime.gef.locator.FigureClassLocator;
-import com.windowtester.runtime.gef.locator.LRLocator;
 import com.windowtester.runtime.locator.IWidgetLocator;
 import com.windowtester.runtime.locator.WidgetReference;
-import com.windowtester.runtime.locator.XYLocator;
 import com.windowtester.runtime.swt.UITestCaseSWT;
 import com.windowtester.runtime.swt.condition.shell.ShellDisposedCondition;
 import com.windowtester.runtime.swt.condition.shell.ShellShowingCondition;
