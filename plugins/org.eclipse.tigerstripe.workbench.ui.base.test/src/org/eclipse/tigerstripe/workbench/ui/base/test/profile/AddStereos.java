@@ -21,19 +21,8 @@ public class AddStereos extends UITestCaseSWT {
 	 */
 	public void testAddStereos() throws Exception {
 		IUIContext ui = getUI();
-		ui
-				.click(
-						2,
-						new TreeItemLocator(
-								"New Project/src/org/eclipse/Datatype0",
-								new ViewLocator(
-										"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
-		ui.click(new NamedWidgetLocator("Add_Stereo_Artifact"));
-		ui.wait(new ShellShowingCondition("Stereotype Selection"));
-		ui.click(2, new TableItemLocator("datatype_stereo"));
-		ui.wait(new ShellDisposedCondition("Stereotype Selection"));
-		ui
-				.click(
+		
+		ui.click(
 						2,
 						new TreeItemLocator(
 								"New Project/src/org/eclipse/Datatype0/datatype0_testField0:String",
@@ -43,6 +32,15 @@ public class AddStereos extends UITestCaseSWT {
 		ui.wait(new ShellShowingCondition("Stereotype Selection"));
 		ui.click(2, new TableItemLocator("attribute_stereo"));
 		ui.wait(new ShellDisposedCondition("Stereotype Selection"));
+		
+		ui.click(2,	new TreeItemLocator(
+				"New Project/src/org/eclipse/Datatype0",
+				new ViewLocator(
+					"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
+			ui.click(new NamedWidgetLocator("Add_Stereo_Artifact"));
+			ui.wait(new ShellShowingCondition("Stereotype Selection"));
+			ui.click(2, new TableItemLocator("datatype_stereo"));
+			ui.wait(new ShellDisposedCondition("Stereotype Selection"));
 		
 		ui
 				.click(2,
