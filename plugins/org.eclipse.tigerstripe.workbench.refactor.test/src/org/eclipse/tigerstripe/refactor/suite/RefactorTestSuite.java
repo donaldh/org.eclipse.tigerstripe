@@ -8,7 +8,6 @@ import org.eclipse.tigerstripe.refactor.Vanilla.MoveTests;
 import org.eclipse.tigerstripe.refactor.Vanilla.RenamePackage;
 import org.eclipse.tigerstripe.refactor.Vanilla.TestRenamedPackageContents;
 import org.eclipse.tigerstripe.refactor.Vanilla.VanillaTests;
-import org.eclipse.tigerstripe.refactor.closed.ClosedDiagramTests;
 import org.eclipse.tigerstripe.refactor.project.RecreateSimpleProject;
 
 public class RefactorTestSuite extends TestCase {
