@@ -4,13 +4,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.eclipse.tigerstripe.refactor.Vanilla.RenamePackage;
-import org.eclipse.tigerstripe.refactor.Vanilla.TestRenamedPackageContents;
-import org.eclipse.tigerstripe.refactor.Vanilla.VanillaTests;
-import org.eclipse.tigerstripe.refactor.closed.ClosedDiagramTests;
 import org.eclipse.tigerstripe.refactor.open.DiagramRenameTests;
-import org.eclipse.tigerstripe.refactor.open.OpenDiagramTests;
-import org.eclipse.tigerstripe.refactor.project.RecreateSimpleProject;
 
 public class ShortDRenameTestSuite extends TestCase {
 	
