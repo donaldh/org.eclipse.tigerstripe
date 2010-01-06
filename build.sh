@@ -86,5 +86,9 @@ chmod +x ./pre-build.sh
     -Dtycho.showEclipseLog=true \
     -Dmaven.test.skip=$MAVEN_TEST_SKIP \
     install
+ cd ..
+ cp -rf target/releng/org.eclipse.tigerstripe.update-site/target/site target
+ rm -rf /auto/tigerstripe/xmpsdk/tigerstripe-test-p2/*
+ cp -rf target/releng/org.eclipse.tigerstripe.update-site/target/site/* /auto/tigerstripe/xmpsdk/tigerstripe-test-p2
 )
 
