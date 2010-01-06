@@ -224,8 +224,8 @@ public class Ent1_to_Ent10 extends UITestCaseSWT {
 				"Refactor Model/Move...");
 		ui.wait(new ShellDisposedCondition("Progress Information"));
 		ui.wait(new ShellShowingCondition("Move"));
-		ui.click(new TreeItemLocator("model-refactoring/src/simple.moved"));
-		ui.click(new ButtonLocator("OK"));
+		ui.click(new TreeItemLocator("model-refactoring/src/simple/moved"));
+		ui.click(new ButtonLocator("Finish"));
 		ui.wait(new ShellDisposedCondition("Move"));
 
 	}
