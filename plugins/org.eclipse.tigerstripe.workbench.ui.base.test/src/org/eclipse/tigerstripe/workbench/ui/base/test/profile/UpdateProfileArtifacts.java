@@ -34,9 +34,12 @@ public class UpdateProfileArtifacts extends UITestCaseSWT {
 		disableArtifactType(ui, 2, TestingConstants.DATATYPE_NAMES[0]);
 		disableArtifactType(ui, 3, TestingConstants.DEPENDENCY_NAMES[0]);
 		disableArtifactType(ui, 4, TestingConstants.ENUMERATION_NAMES[0]);
-		disableArtifactType(ui, 5, TestingConstants.EXCEPTION_NAMES[0]);
-		disableArtifactType(ui, 6, TestingConstants.ENTITY_NAMES[0]);
-		disableArtifactType(ui, 7, TestingConstants.EVENT_NAMES[0]);
+		
+		disableArtifactType(ui, 5, TestingConstants.EVENT_NAMES[0]);
+		disableArtifactType(ui, 6, TestingConstants.EXCEPTION_NAMES[0]);
+		
+		// Don't try to generate becase the project will have all sorts of erros on it
+		disableArtifactType(ui, 7, TestingConstants.ENTITY_NAMES[0], false);
 		disableArtifactType(ui, 8, TestingConstants.PACKAGE_NAMES[0]);
 		// Don't do for Primitive Types
 		disableArtifactType(ui, 10, TestingConstants.QUERY_NAMES[0]);
@@ -61,7 +64,11 @@ public class UpdateProfileArtifacts extends UITestCaseSWT {
 
 	}
 
-	public void disableArtifactType(IUIContext ui, int index, String name) throws Exception {	
+	public void disableArtifactType(IUIContext ui, int index, String name) throws Exception {
+		disableArtifactType(ui,index,name,true);
+	}
+	
+	public void disableArtifactType(IUIContext ui, int index, String name, boolean generate) throws Exception {	
 		ui.click(2,
 				new TreeItemLocator(
 						TestingConstants.NEW_MODEL_PROJECT_NAME+"/"+
@@ -95,18 +102,19 @@ public class UpdateProfileArtifacts extends UITestCaseSWT {
 			"/src/"+TestingConstants.DEFAULT_ARTIFACT_PACKAGE+"/"+
 			name;
 
-//			TreeItemLocator treeItem = new TreeItemLocator(
-//					pathToEntity,
-//					new ViewLocator(
-//					"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew"));
-//			// This should not be valid any more!
-//			try {
-//				// TODO This is a known BUG 219575
-//				ui.click(treeItem);
-//			} catch (Exception noWidget){
-//				// This is what we want to happen!
-//			}
+			TreeItemLocator treeItem = new TreeItemLocator(
+					pathToEntity,
+					new ViewLocator(
+					"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew"));
+			// This should not be valid any more!
+			try {
+				
+				ui.click(treeItem);
+			} catch (Exception noWidget){
+				// This is what we want to happen!
+			}
 			
+			if (generate){
 			GenerateHelper helper = new GenerateHelper(ui);
 		
 			// Make sure we aren't still generating it
@@ -116,7 +124,7 @@ public class UpdateProfileArtifacts extends UITestCaseSWT {
 			helper.checkGlobal();
 			helper.checkArtifact();
 			helper.checkExtras();
-			
+			}
 		}
 		// re-enable the type in the profile.
 		ui.click(2,
@@ -151,7 +159,7 @@ public class UpdateProfileArtifacts extends UITestCaseSWT {
 			ui.wait(new ShellDisposedCondition("Confirm Delete"));
 		} catch (Exception e){
 			// DON'T CARE - probably the first generate that has been run
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		
 	}

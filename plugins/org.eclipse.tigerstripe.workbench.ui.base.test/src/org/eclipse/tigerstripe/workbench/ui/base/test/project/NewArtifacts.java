@@ -86,10 +86,7 @@ public class NewArtifacts extends UITestCaseSWT {
 			boolean hasLiterals, boolean hasMethods, boolean hasEnds)
 			throws Exception {
 
-		ui.click(new TreeItemLocator(
-						TestingConstants.NEW_MODEL_PROJECT_NAME,
-						new ViewLocator(
-								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
+		
 //// TODO - This has been removed so that we can run  on Linux...
 //		if (myType.equals("Entity")) {
 //			// If it an entity we need the top item - as its not in the drop
@@ -102,7 +99,10 @@ public class NewArtifacts extends UITestCaseSWT {
 //							new ContributedToolItemLocator(
 //									"org.eclipse.tigerstripe.workbench.ui.menu.new.patterns.dropdown.org.eclipse.tigerstripe.workbench.base.ManagedEntity")));
 //		}
-
+		ui.click(new TreeItemLocator(
+				TestingConstants.NEW_MODEL_PROJECT_NAME,
+				new ViewLocator(
+						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
 		ui.contextClick(
 				new TreeItemLocator(
 						TestingConstants.NEW_MODEL_PROJECT_NAME+"/src",

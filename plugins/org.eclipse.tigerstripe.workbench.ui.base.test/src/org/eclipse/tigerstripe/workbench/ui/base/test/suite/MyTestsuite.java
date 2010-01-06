@@ -17,6 +17,8 @@ import org.eclipse.tigerstripe.workbench.ui.base.test.project.ClearExpectedAudit
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.CloseProject;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.NewArtifacts;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.NewProject;
+import org.eclipse.tigerstripe.workbench.ui.base.test.project.OneArtifact;
+import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
 
 public class MyTestsuite extends TestCase
 {
@@ -44,45 +46,26 @@ public class MyTestsuite extends TestCase
 	 * 
 	 * 
 	 */
-    public static Test suite()
-    {
-        TestSuite suite = new TestSuite(); 
-        suite.addTestSuite(CleanWorkspace.class);
-        
-        // creates a new Project - do this so we are in the TES perspective
-        suite.addTestSuite(NewProject.class);
-        
-        // Create a profile
-       suite.addTestSuite(CreateProfile.class);
-        // Save/Deploy it
-        suite.addTestSuite(SaveAndDeployProfile.class);
-        // Make sure it appears correctly in the menu
-        suite.addTestSuite(TestActiveProfile.class);
-        
-        // create a new Plugin
-       suite.addTestSuite(NewPluginProject.class);
-        
-        // Check what happens with rules - audit checks etc
-        suite.addTestSuite(NewGlobalRule.class);
-        
-        suite.addTestSuite(NewArtifactRule.class);
-        
-        
-        // Save/Deploy it
-        suite.addTestSuite(SaveAndDeployPlugin.class);
+	public static Test suite()
+	{
+		TestSuite suite = new TestSuite(
+		"Test for org.eclipse.tigerstripe.workbench.ui.base.test.suite");
+		//$JUnit-BEGIN$
 
-        
-        //  add artifacts to our project
-        suite.addTestSuite(NewArtifacts.class);
-        suite.addTestSuite(ClearExpectedAuditErrors.class);
-        // turn on plugin in Project and generate
-        suite.addTestSuite(Generate.class);
+		// Bring up the Tigerstripe perspective
+		GuiUtils.openTSPerspective();
 
-        suite.addTestSuite(UpdateProfileArtifacts.class);
-        
-        // close Project
-       // suite.addTestSuite(CloseProject.class);
-        
-        return suite;
-    }
+
+		suite.addTestSuite(CleanWorkspace.class);
+		suite.addTest(PluginTestSuite.suite());	
+		suite.addTest(ProjectTestSuite.suite());
+//		suite.addTestSuite(Generate.class);
+//
+//		suite.addTestSuite(OneArtifact.class);
+
+		suite.addTest(ProfileTestSuite.suite());
+
+		//$JUnit-END$
+		return suite;
+	}
 }

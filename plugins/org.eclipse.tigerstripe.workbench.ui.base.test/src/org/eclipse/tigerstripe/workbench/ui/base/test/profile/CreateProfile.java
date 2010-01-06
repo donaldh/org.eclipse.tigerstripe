@@ -82,56 +82,6 @@ public class CreateProfile extends UITestCaseSWT {
 		ui.click(typeName);
 		ui.keyClick(SWT.CTRL, 'a');
 		ui.enterText(TestingConstants.NEW_PRIMITIVE_TYPE_NAME);
-		
-		// create some stereotypes
-		// ui.click(new CTabItemLocator("Stereotypes"));
-		// com.windowtester.runtime.locator.IWidgetLocator[] allAdds = ui.findAll(new ButtonLocator("Add"));
-		// ui.click(allAdds[0]);
-		
-		// There's another one now!
-        // allAdds = ui.findAll(new ButtonLocator("Add"));
-		// ui.click(allAdds[0]); // This one works
-		// ui.click(allAdds[1]); // This one seems to be out of view!
-		
-		/*ButtonLocator addAnnotationButton = new ButtonLocator("Add");
-		ui.click(addAnnotationButton);
-		// Artifact level Annotation
-		// TODO Making this apply to everything!
-		LabeledTextLocator annotationName = new LabeledTextLocator("Name: ");
-		GuiUtils.clearText(ui, annotationName);
-		ui.click(annotationName);
-		ui.enterText("method");
-		
-		ui.click(new TableItemLocator("", 0, new SWTWidgetLocator(
-				Table.class)));
-		// TODO These are out of scrollable view!
-		ui.click(new TableItemLocator("", 1, new SWTWidgetLocator(
-				Table.class)));
-		ui.click(new TableItemLocator("", 2, new SWTWidgetLocator(
-				Table.class)));
-		ui.click(new TableItemLocator("", 3, new SWTWidgetLocator(
-				Table.class)));
-		ui.click(new TableItemLocator("", 4, new SWTWidgetLocator(
-				Table.class)));
-		ui.click(new TableItemLocator("", 5, new SWTWidgetLocator(
-				Table.class)));
-		ui.click(new TableItemLocator("", 6, new SWTWidgetLocator(
-				Table.class)));
-		ui.click(new TableItemLocator("", 7, new SWTWidgetLocator(
-				Table.class)));
-		ui.click(new TableItemLocator("", 8, new SWTWidgetLocator(
-				Table.class)));
-		ui.click(new TableItemLocator("", 9, new SWTWidgetLocator(
-				Table.class)));
-		ui.click(new TableItemLocator("", 10, new SWTWidgetLocator(
-				Table.class)));
-		ui.click(new TableItemLocator("", 11, new SWTWidgetLocator(
-				Table.class)));
-		
-		ui.click(new ButtonLocator("Method"));
-		ui.click(new ButtonLocator("Attribute"));
-		ui.click(new ButtonLocator("Literal"));
-		ui.click(new ButtonLocator("Argument"));*/
 	    
 		
 	}

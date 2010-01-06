@@ -8,6 +8,7 @@ import org.eclipse.tigerstripe.workbench.ui.base.test.project.ProjectRecord;
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
 
 import com.windowtester.runtime.IUIContext;
+import com.windowtester.runtime.WaitTimedOutException;
 import com.windowtester.runtime.swt.UITestCaseSWT;
 import com.windowtester.runtime.swt.condition.shell.ShellDisposedCondition;
 import com.windowtester.runtime.swt.condition.shell.ShellShowingCondition;
@@ -55,8 +56,19 @@ public class GenerateHelper extends UITestCaseSWT {
 				"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
 		ui.click(new ContributedToolItemLocator(
 		"org.eclipse.tigerstripe.workbench.ui.toolbar.generate"));
-		// Add a check for the "Project Contains Errors" dialog
 		
+		// Add a check for the "Project Contains Errors" dialog
+//		try {
+//			ui.wait(new ShellShowingCondition("Generate Tigerstripe Project - Errors"));
+//			// This might not show up..
+//			// If it does proceed anyway
+//			ui.click(new ButtonLocator("Yes"));
+//			ui.wait(new ShellDisposedCondition("Generate Tigerstripe Project - Errors"));
+//			
+//		} catch (WaitTimedOutException e){
+//			// The project was good, so go ahead!
+//		}
+//		
 		
 		ui.wait(new ShellShowingCondition("Generate Tigerstripe Project"));
 		ui.click(new ButtonLocator("&Finish"));

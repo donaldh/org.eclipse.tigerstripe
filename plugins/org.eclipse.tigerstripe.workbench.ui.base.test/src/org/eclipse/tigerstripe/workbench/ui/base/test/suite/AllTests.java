@@ -24,7 +24,7 @@ public class AllTests {
 		suite.addTest(ProjectTestSuite.suite());
 		suite.addTestSuite(Generate.class);
 		
-		 suite.addTestSuite(OneArtifact.class);
+		suite.addTestSuite(OneArtifact.class);
 
 		suite.addTest(ProfileTestSuite.suite());
 		
