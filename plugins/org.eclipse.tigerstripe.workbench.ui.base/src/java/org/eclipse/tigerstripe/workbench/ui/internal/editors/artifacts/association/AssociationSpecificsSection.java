@@ -370,6 +370,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		aAnnTable.setLayoutData(aGd1);
 
 		aAddAnno = toolkit.createButton(body, "Add", SWT.PUSH);
+		aAddAnno.setData("name","Add_Stereo_Assoc_A");
 		aAddAnno.setEnabled(!getIArtifact().isReadonly());
 		toolkit.createLabel(body, "    ");
 		toolkit.createLabel(body, "    ");
@@ -378,6 +379,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		toolkit.createLabel(body, "    ");
 
 		aEditAnno = toolkit.createButton(body, "Edit", SWT.PUSH);
+		aEditAnno.setData("name","Edit_Stereo_Assoc_A");
 		aEditAnno.setEnabled(!getIArtifact().isReadonly());
 		toolkit.createLabel(body, "    ");
 		toolkit.createLabel(body, "    ");
@@ -386,6 +388,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		toolkit.createLabel(body, "    ");
 
 		aRemoveAnno = toolkit.createButton(body, "Remove", SWT.PUSH);
+		aRemoveAnno.setData("name","Remove_Stereo_Assoc_A");
 		aRemoveAnno.setEnabled(!getIArtifact().isReadonly());
 
 		aStereotypeManager = new StereotypeSectionManager(aAddAnno, aEditAnno,
@@ -537,6 +540,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		zAnnTable.setLayoutData(aGd1);
 
 		zAddAnno = toolkit.createButton(body, "Add", SWT.PUSH);
+		zAddAnno.setData("name","Add_Stereo_Assoc_A");
 		zAddAnno.setEnabled(!getIArtifact().isReadonly());
 		toolkit.createLabel(body, "    ");
 		toolkit.createLabel(body, "    ");
@@ -545,6 +549,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		toolkit.createLabel(body, "    ");
 
 		zEditAnno = toolkit.createButton(body, "Edit", SWT.PUSH);
+		zEditAnno.setData("name","Edit_Stereo_Assoc_A");
 		zEditAnno.setEnabled(!getIArtifact().isReadonly());
 		toolkit.createLabel(body, "    ");
 		toolkit.createLabel(body, "    ");
@@ -553,6 +558,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		toolkit.createLabel(body, "    ");
 
 		zRemoveAnno = toolkit.createButton(body, "Remove", SWT.PUSH);
+		zRemoveAnno.setData("name","Remove_Stereo_Assoc_Z");
 		zRemoveAnno.setEnabled(!getIArtifact().isReadonly());
 
 		zStereotypeManager = new StereotypeSectionManager(zAddAnno, zEditAnno,

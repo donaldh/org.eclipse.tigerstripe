@@ -252,19 +252,20 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 
 		addAnno = toolkit.createButton(innerComposite, "Add", SWT.PUSH);
 		// Support for testing
-		addAnno.setData("name", "Add_Stereotype");
+		addAnno.setData("name", "Add_Stereotype_Method");
 		addAnno.setEnabled(!isReadOnly);
 		td = new TableWrapData(TableWrapData.FILL);
 		addAnno.setLayoutData(td);
 
 		editAnno = toolkit.createButton(innerComposite, "Edit", SWT.PUSH);
+		editAnno.setData("name", "Edit_Stereotype_Method");
 		editAnno.setEnabled(!isReadOnly);
 		td = new TableWrapData(TableWrapData.FILL);
 		editAnno.setLayoutData(td);
 
 		removeAnno = toolkit.createButton(innerComposite, "Remove", SWT.PUSH);
 		// Support for testing
-		removeAnno.setData("name", "Remove_Stereotype");
+		removeAnno.setData("name", "Remove_Stereotype_Method");
 		removeAnno.setEnabled(!isReadOnly);
 	}
 

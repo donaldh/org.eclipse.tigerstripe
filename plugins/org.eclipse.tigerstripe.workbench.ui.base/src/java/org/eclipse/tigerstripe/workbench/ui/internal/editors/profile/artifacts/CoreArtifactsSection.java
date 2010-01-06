@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.profile.artifacts;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxCellEditor;
@@ -59,7 +60,7 @@ public class CoreArtifactsSection extends TigerstripeSectionPart {
 		createContent();
 	}
 
-	public java.util.List getColumnNames() {
+	public List<String> getColumnNames() {
 		return Arrays.asList(columnNames);
 	}
 
@@ -161,7 +162,6 @@ public class CoreArtifactsSection extends TigerstripeSectionPart {
 
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			// TODO Auto-generated method stub
-
 		}
 
 	}

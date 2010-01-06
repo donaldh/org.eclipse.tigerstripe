@@ -192,8 +192,9 @@ public class ProfileEditor extends TigerstripeFormEditor {
 				EclipsePlugin.log(status);
 			}
 		}
-		profile = null; // make sure the profile is re-read
+		
 		getEditor(sourcePageIndex).doSave(monitor);
+//		profile = null; // make sure the profile is re-read
 	}
 
 	@Override

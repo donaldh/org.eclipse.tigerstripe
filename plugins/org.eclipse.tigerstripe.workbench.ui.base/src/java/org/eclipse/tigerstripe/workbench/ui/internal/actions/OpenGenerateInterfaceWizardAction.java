@@ -118,7 +118,7 @@ public class OpenGenerateInterfaceWizardAction extends AbstractOpenWizardAction
 								SWT.ICON_QUESTION | SWT.YES | SWT.NO);
 						dialog
 								.setMessage("This project contains errors: generation may only be partial. Do you want to continue?");
-						dialog.setText("Generate Tigerstripe Project");
+						dialog.setText("Generate Tigerstripe Project - Errors");
 						if (dialog.open() == SWT.YES)
 							return true;
 						return false;

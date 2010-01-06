@@ -110,16 +110,19 @@ public class MethodReturnDetailsEditDialog extends TSMessageDialog {
 		annTable.setLayoutData(td);
 
 		Button addAnno = new Button(innerComposite, SWT.PUSH);
+		addAnno.setData("name","Add_Stereo_Return");
 		addAnno.setText("Add");
 		td = new TableWrapData(TableWrapData.FILL);
 		addAnno.setLayoutData(td);
 
 		Button editAnno = new Button(innerComposite, SWT.PUSH);
+		editAnno.setData("name","Edit_Stereo_Return");
 		editAnno.setText("Edit");
 		td = new TableWrapData(TableWrapData.FILL);
 		editAnno.setLayoutData(td);
 
 		Button removeAnno = new Button(innerComposite, SWT.PUSH);
+		removeAnno.setData("name","Remove_Stereo_Return");
 		removeAnno.setText("Remove");
 
 		StereotypeSectionManager stereomgr = new StereotypeSectionManager(

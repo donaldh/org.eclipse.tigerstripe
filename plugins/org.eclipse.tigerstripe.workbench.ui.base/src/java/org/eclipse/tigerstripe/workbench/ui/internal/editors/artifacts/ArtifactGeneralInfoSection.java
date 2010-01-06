@@ -213,18 +213,21 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart {
 		annTable.setLayoutData(td);
 
 		Button addAnno = toolkit.createButton(innerComposite, "Add", SWT.PUSH);
+		addAnno.setData("name","Add_Stereo_Artifact");
 		td = new TableWrapData(TableWrapData.FILL);
 		addAnno.setEnabled(!this.isReadonly());
 		addAnno.setLayoutData(td);
 
 		Button editAnno = toolkit
 				.createButton(innerComposite, "Edit", SWT.PUSH);
+		editAnno.setData("name","Edit_Stereo_Artifact");
 		td = new TableWrapData(TableWrapData.FILL);
 		editAnno.setEnabled(!this.isReadonly());
 		editAnno.setLayoutData(td);
 
 		Button removeAnno = toolkit.createButton(innerComposite, "Remove",
 				SWT.PUSH);
+		removeAnno.setData("name","Remove_Stereo_Artifact");
 		removeAnno.setEnabled(!this.isReadonly());
 
 		ArtifactEditorBase editor = (ArtifactEditorBase) getPage().getEditor();
