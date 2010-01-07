@@ -103,6 +103,7 @@ public class AddStereos extends UITestCaseSWT {
 		// collapse the Methods sections
 		ui.click(sectionLabel);
 		
+		ui.click(new CTabItemLocator(TestingConstants.DATATYPE_NAMES[1]));
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 	}
 
