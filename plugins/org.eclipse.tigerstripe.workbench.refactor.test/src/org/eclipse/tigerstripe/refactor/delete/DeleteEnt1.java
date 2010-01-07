@@ -27,6 +27,7 @@ public class DeleteEnt1 extends UITestCaseSWT {
 	private static String project = "model-refactoring";
 	private static String[] diagrams = {"default.wvd","outside-class-diagram.wvd","inside-moved.wvd"};
 	private static String errors    = "Errors \\([0-9]* item[s]?\\)/";
+	private static String instanceDiagram = "outside-instance-diagram.wod";
 	
 	public void setUp() throws Exception{
 		ui = getUI();
@@ -39,8 +40,10 @@ public class DeleteEnt1 extends UITestCaseSWT {
 		"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
 		
 		// Open all of the diagrams
-		//TODO extend to include instance diagrams
+		
 		DiagramHelper.openDiagrams(ui);
+		DiagramHelper.openInstanceDiagram(ui);
+		
 	}
 	
 	public void testDelete() throws Exception{
@@ -84,6 +87,9 @@ public class DeleteEnt1 extends UITestCaseSWT {
 		ui.click(new CTabItemLocator("*outside-class-diagram.wvd"));
 		internalCheckDeletedFromDiagram(ui, helper, artifactPrefix, artifactPrefix,
 				"Ent1");
+		ui.click(new CTabItemLocator('*'+instanceDiagram));
+		internalCheckDeletedFromInstanceDiagram(ui, helper, "ent1:simple.Ent1");
+		internalCheckDeletedFromInstanceDiagram(ui, helper, "ent11:simple.Ent1");
 	}
 	
 	public static void checkPresentInDiagrams(IUIContext ui) throws Exception {
@@ -99,6 +105,17 @@ public class DeleteEnt1 extends UITestCaseSWT {
 		ui.click(new CTabItemLocator("outside-class-diagram.wvd"));
 		internalCheckPresentInDiagram(ui, helper, artifactPrefix, artifactPrefix,
 				"Ent1");
+		ui.click(new CTabItemLocator(instanceDiagram));
+		internalCheckPresentInInstanceDiagram(ui,helper,"ent1:simple.Ent1");
+		internalCheckPresentInInstanceDiagram(ui,helper,"ent11:simple.Ent1");
+	}
+	
+	public static void internalCheckPresentInInstanceDiagram(IUIContext ui, LocatorHelper helper, String artifactName){
+		try{
+			ui.click(helper.getManagedEntityInstanceLocator(ui, artifactName));
+		} catch (Exception e){
+			fail("Entity instance '"+artifactName+"' not found on instance diagram.");
+		}
 	}
 	
 	public static void internalCheckPresentInDiagram(IUIContext ui,
@@ -129,6 +146,19 @@ public class DeleteEnt1 extends UITestCaseSWT {
 		}
 	}
 	
+	public static void internalCheckDeletedFromInstanceDiagram(IUIContext ui,
+			LocatorHelper helper, String artifactName) throws Exception {
+		boolean found = true;
+		try {
+			ui.click(helper.getManagedEntityInstanceLocator(ui, artifactName));
+		} catch (Exception e) {
+			found = false;
+		} finally {
+			if(found)
+			fail("Entity '" + artifactName + "' found on diagram");
+		}
+	}
+	
 	public static void saveAndCloseDiagrams(IUIContext ui)
 	throws Exception {
 
@@ -137,6 +167,9 @@ public class DeleteEnt1 extends UITestCaseSWT {
 	   ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 	   ui.close(new CTabItemLocator(diagram));
      }
+       ui.click(new CTabItemLocator("*" + instanceDiagram));
+	   ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
+	   ui.close(new CTabItemLocator(instanceDiagram));
    }
 	
 	private static void checkProblemsView(IUIContext ui) throws Exception{

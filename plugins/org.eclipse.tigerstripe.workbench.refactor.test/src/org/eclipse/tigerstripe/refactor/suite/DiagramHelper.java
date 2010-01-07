@@ -20,6 +20,7 @@ public class DiagramHelper {
 
 	private static String project="model-refactoring";
 	private static String[] diagrams = {"src/simple/default", "src/simple/moved/inside-moved","outside-class-diagram"};
+	private static String instanceDiagram = "outside-instance-diagram";
 	
 	public static void openDiagrams(IUIContext ui) throws Exception{
 		Thread.sleep(5000);
@@ -28,6 +29,12 @@ public class DiagramHelper {
 		for (String diagram : diagrams){
 			ui.click(2,	new TreeItemLocator(project+"/"+diagram,view));
 		}
+	}
+	
+	public static void openInstanceDiagram(IUIContext ui) throws Exception{
+		Thread.sleep(5000);
+		ViewLocator view = new ViewLocator("org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
+		ui.click(2, new TreeItemLocator(project+"/"+instanceDiagram,view));
 	}
 	
 	public static void saveDiagrams(IUIContext ui) throws Exception{
