@@ -10,6 +10,7 @@ import org.eclipse.gmf.runtime.diagram.ui.figures.ResizableCompartmentFigure;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrapLabel;
 import org.eclipse.gmf.runtime.draw2d.ui.internal.figures.AnimatableScrollPane;
 import org.eclipse.gmf.runtime.draw2d.ui.text.TextFlowEx;
+import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.parts.ClassInstanceEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AbstractNamePackageEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AdaptableTigerstripeShapeNodeEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassClassNamePackageEditPart;
@@ -168,6 +169,17 @@ public class LocatorHelper {
 		for (IWidgetLocator match : matches) {
 			ManagedEntityArtifactEditPart.ManagedEntityArtifactFigure attrib = (ManagedEntityArtifactEditPart.ManagedEntityArtifactFigure) ((IFigureReference) match).getFigure();
 			if (attrib.getFigureManagedEntityNameFigure().getText().equals(nameToFind)){
+				return (IWidgetLocator) match;
+			}
+		}
+		return null;
+	}
+	
+	public IWidgetLocator getManagedEntityInstanceLocator(IUIContext ui, String nameToFind){
+		IWidgetLocator[] matches = ui.findAll(new FigureClassLocator("org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.parts.ClassInstanceEditPart$ClassInstanceFigure"));
+		for(IWidgetLocator match:matches){
+			ClassInstanceEditPart .ClassInstanceFigure attrib = (ClassInstanceEditPart.ClassInstanceFigure) ((IFigureReference) match).getFigure();
+			if(attrib.getFigureClassInstanceNameFigure().getText().equals(nameToFind)){
 				return (IWidgetLocator) match;
 			}
 		}
