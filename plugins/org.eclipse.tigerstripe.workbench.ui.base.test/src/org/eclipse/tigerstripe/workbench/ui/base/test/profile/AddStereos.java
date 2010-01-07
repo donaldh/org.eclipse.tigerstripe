@@ -10,6 +10,7 @@ import com.windowtester.runtime.swt.UITestCaseSWT;
 import com.windowtester.runtime.swt.condition.shell.ShellDisposedCondition;
 import com.windowtester.runtime.swt.condition.shell.ShellShowingCondition;
 import com.windowtester.runtime.swt.locator.ButtonLocator;
+import com.windowtester.runtime.swt.locator.CTabItemLocator;
 import com.windowtester.runtime.swt.locator.NamedWidgetLocator;
 import com.windowtester.runtime.swt.locator.SWTWidgetLocator;
 import com.windowtester.runtime.swt.locator.TableItemLocator;
@@ -27,6 +28,9 @@ public class AddStereos extends UITestCaseSWT {
 		ArtifactUtils.createArtifact(ui, TestingConstants.DATATYPE_NAMES[1], "Datatype");
 		String prefix = TestingConstants.DATATYPE_NAMES[1].toLowerCase() + "_";
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
+		
+		
+		ui.click(new CTabItemLocator(TestingConstants.DATATYPE_NAMES[1]));
 		
 		ui.click(2,	new TreeItemLocator(
 				TestingConstants.NEW_MODEL_PROJECT_NAME+
