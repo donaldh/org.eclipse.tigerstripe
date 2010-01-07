@@ -1,6 +1,6 @@
 package org.eclipse.tigerstripe.refactor.suite;
 
-import org.eclipse.tigerstripe.refactor.delete.DeleteEnt1;
+import org.eclipse.tigerstripe.refactor.delete.DeleteTests;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -13,7 +13,7 @@ public class ShortDeleteTestSuite extends TestCase {
 		
 		suite.addTestSuite(SimpleCleanWorkspace.class);
 		
-		suite.addTestSuite(DeleteEnt1.class);
+		suite.addTestSuite(DeleteTests.class);
 		
 		suite.addTestSuite(DeleteProject.class);
 		
