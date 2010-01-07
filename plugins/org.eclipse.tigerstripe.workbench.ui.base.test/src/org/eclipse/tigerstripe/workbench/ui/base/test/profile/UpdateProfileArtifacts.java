@@ -124,6 +124,9 @@ public class UpdateProfileArtifacts extends UITestCaseSWT {
 			helper.checkGlobal();
 			helper.checkArtifact();
 			helper.checkExtras();
+			//put it back! for future checks!
+			ProjectRecord.addArtifact(name);
+			
 			}
 		}
 		// re-enable the type in the profile.
