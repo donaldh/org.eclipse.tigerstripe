@@ -91,7 +91,7 @@ public class AddStereos extends UITestCaseSWT {
 						new TreeItemLocator(
 								TestingConstants.NEW_MODEL_PROJECT_NAME+
 								"/src/"+TestingConstants.DEFAULT_ARTIFACT_PACKAGE_AS_PATH+"/"+
-								TestingConstants.DATATYPE_NAMES[1]+prefix+TestingConstants.METHOD_NAMES[0]+"():void",
+								TestingConstants.DATATYPE_NAMES[1]+"/"+prefix+TestingConstants.METHOD_NAMES[0]+"():void",
 								new ViewLocator(
 										"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
 		ui.click(new NamedWidgetLocator("Add_Stereotype_Method"));
