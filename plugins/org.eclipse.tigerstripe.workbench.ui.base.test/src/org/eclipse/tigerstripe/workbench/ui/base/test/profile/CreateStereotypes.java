@@ -63,31 +63,31 @@ public class CreateStereotypes extends UITestCaseSWT {
 			ui.click(new NamedWidgetLocator("Add_Stereotype"));
 			ui.click(new LabeledTextLocator("Name: "));
 			ui.keyClick(SWT.CTRL, 'a');
-			ui.enterText("method_stereo");
+			ui.enterText(TestingConstants.METHOD_STEREO);
 			ui.click(new ButtonLocator("Method"));
 			
 			ui.click(new NamedWidgetLocator("Add_Stereotype"));
 			ui.click(new LabeledTextLocator("Name: "));
 			ui.keyClick(SWT.CTRL, 'a');
-			ui.enterText("attribute_stereo");
+			ui.enterText(TestingConstants.ATTRIBUTE_STEREO);
 			ui.click(new ButtonLocator("Attribute"));
 		
 			ui.click(new NamedWidgetLocator("Add_Stereotype"));
 			ui.click(new LabeledTextLocator("Name: "));
 			ui.keyClick(SWT.CTRL, 'a');
-			ui.enterText("literal_stereo");
+			ui.enterText(TestingConstants.LITERAL_STEREO);
 			ui.click(new ButtonLocator("Literal"));
 			
 			ui.click(new NamedWidgetLocator("Add_Stereotype"));
 			ui.click(new LabeledTextLocator("Name: "));
 			ui.keyClick(SWT.CTRL, 'a');
-			ui.enterText("argument_stereo");
+			ui.enterText(TestingConstants.ARGUMENT_STEREO);
 			ui.click(new ButtonLocator("Argument"));
 			
 			ui.click(new NamedWidgetLocator("Add_Stereotype"));
 			ui.click(new LabeledTextLocator("Name: "));
 			ui.keyClick(SWT.CTRL, 'a');
-			ui.enterText("end_stereo");
+			ui.enterText(TestingConstants.END_STEREO);
 			ui.click(new ButtonLocator("Assoc. End"));
 			
 			// now the Artifact based ones.
@@ -95,21 +95,21 @@ public class CreateStereotypes extends UITestCaseSWT {
 			ui.click(new NamedWidgetLocator("Add_Stereotype"));
 			ui.click(new LabeledTextLocator("Name: "));
 			ui.keyClick(SWT.CTRL, 'a');
-			ui.enterText("association_stereo");
+			ui.enterText(TestingConstants.ASSOCIATION_STEREO);
 			ui.click(new TableItemLocator("", 0, new SWTWidgetLocator(
 							Table.class)));
 			
 			ui.click(new NamedWidgetLocator("Add_Stereotype"));
 			ui.click(new LabeledTextLocator("Name: "));
 			ui.keyClick(SWT.CTRL, 'a');
-			ui.enterText("associationClass_stereo");
+			ui.enterText(TestingConstants.ASSOCIATION_CLASS_STEREO);
 			ui.click(new TableItemLocator("", 1, new SWTWidgetLocator(
 							Table.class)));
 			
 			ui.click(new NamedWidgetLocator("Add_Stereotype"));
 			ui.click(new LabeledTextLocator("Name: "));
 			ui.keyClick(SWT.CTRL, 'a');
-			ui.enterText("datatype_stereo");
+			ui.enterText(TestingConstants.DATATYPE_STEREO);
 			ui.click(new TableItemLocator("", 2, new SWTWidgetLocator(
 							Table.class)));
 //TODOD re-activate when WT is fixed		

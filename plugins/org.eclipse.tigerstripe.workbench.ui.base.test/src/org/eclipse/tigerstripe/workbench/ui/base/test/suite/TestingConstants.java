@@ -62,4 +62,21 @@ public class TestingConstants {
 	public static String NEW_PROFILE_DESCRIPTION = "A profile for testing";
 	public static String NEW_PRIMITIVE_TYPE_NAME = "string";
 	
+	// sterotypes
+	public static String METHOD_STEREO = "method_stereo";
+	public static String ATTRIBUTE_STEREO = "attribute_stereo";
+	public static String LITERAL_STEREO = "literal_stereo";
+	public static String ARGUMENT_STEREO = "argument_stereo";
+	public static String END_STEREO = "end_stereo";
+	public static String ASSOCIATION_STEREO = "association_stereo";
+	public static String ASSOCIATION_CLASS_STEREO = "associationClass_stereo";
+	public static String DATATYPE_STEREO = "datatype_stereo";
+	
+	
+	
+	
+	
+	
+	
+	
 }
