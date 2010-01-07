@@ -31,6 +31,8 @@ public class CreateStereotypes extends UITestCaseSWT {
 	
 	public void tearDown() throws Exception{
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
+		ui.close(new CTabItemLocator(TestingConstants.NEW_MODEL_PROJECT_NAME+
+				"/"+TestingConstants.NEW_PROFILE_NAME+".wbp"));
 		
 		ui.contextClick(
 				new TreeItemLocator(
