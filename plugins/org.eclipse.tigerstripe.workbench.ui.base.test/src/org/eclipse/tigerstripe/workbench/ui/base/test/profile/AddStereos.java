@@ -4,6 +4,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
 import org.eclipse.tigerstripe.workbench.ui.base.test.utils.ArtifactUtils;
+import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
 
 import com.windowtester.runtime.IUIContext;
 import com.windowtester.runtime.swt.UITestCaseSWT;
@@ -31,7 +32,7 @@ public class AddStereos extends UITestCaseSWT {
 		
 		
 		ui.click(new CTabItemLocator(TestingConstants.DATATYPE_NAMES[1]));
-		
+		GuiUtils.maxminTab(ui, TestingConstants.DATATYPE_NAMES[1]);
 		ui.click(2,	new TreeItemLocator(
 				TestingConstants.NEW_MODEL_PROJECT_NAME+
 				"/src/"+TestingConstants.DEFAULT_ARTIFACT_PACKAGE_AS_PATH+"/"+
@@ -104,6 +105,7 @@ public class AddStereos extends UITestCaseSWT {
 		ui.click(sectionLabel);
 		
 		ui.click(new CTabItemLocator(TestingConstants.DATATYPE_NAMES[1]));
+		GuiUtils.maxminTab(ui, TestingConstants.DATATYPE_NAMES[1]);
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 	}
 
