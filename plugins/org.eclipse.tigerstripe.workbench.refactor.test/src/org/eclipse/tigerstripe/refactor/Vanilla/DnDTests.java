@@ -48,12 +48,14 @@ public class DnDTests extends UITestCaseSWT {
 		private IUIContext ui;
 		private ViewLocator view;
 		
+		private static String project = "model-refactoring";
+		
 		public void setUp() throws Exception{
 			ui = getUI();
 			helper = new ProjectHelper();
 			artifactHelper = new ArtifactHelper();
 			
-			helper.reloadProjectFromCVS(ui);
+			helper.reloadProjectFromCVS(ui,project);
 			
 			// In this test case we don't want any diagrams.....
 			// There are 4 diagrams

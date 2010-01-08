@@ -42,12 +42,14 @@ public class DiagramRenameTests extends UITestCaseSWT {
 		private IUIContext ui;
 		private ViewLocator view;
 		
+		private static String project = "model-refactoring";
+		
 		public void setUp() throws Exception{
 			ui = getUI();
 			helper = new ProjectHelper();
 			artifactHelper = new ArtifactHelper();
 			
-			helper.reloadProjectFromCVS(ui);
+			helper.reloadProjectFromCVS(ui,project);
 			
 			view = new ViewLocator(
 			"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");

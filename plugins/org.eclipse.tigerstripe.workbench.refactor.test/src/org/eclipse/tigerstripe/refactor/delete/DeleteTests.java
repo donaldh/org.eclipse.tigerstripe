@@ -35,7 +35,7 @@ public class DeleteTests extends UITestCaseSWT {
 		helper = new ProjectHelper();
 		artifactHelper = new ArtifactHelper();
 		
-		helper.reloadProjectFromCVS(ui);
+		helper.reloadProjectFromCVS(ui,project);
 		
 		view = new ViewLocator(
 		"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");

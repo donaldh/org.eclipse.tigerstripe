@@ -78,7 +78,7 @@ public class ProjectHelper extends UITestCaseSWT {
 		
 	}
 
-	public void reloadProjectFromCVS(IUIContext ui) throws Exception {
+	public void reloadProjectFromCVS(IUIContext ui, String projectName) throws Exception {
 		ui
 		.contextClick(
 				new SWTWidgetLocator(
@@ -92,7 +92,7 @@ public class ProjectHelper extends UITestCaseSWT {
 		ui.click(new TableItemLocator(
 		":pserver:anonymous@dev.eclipse.org:/cvsroot/technology"));
 		ui.click(new ButtonLocator("&Next >"));
-		ui.enterText("org.eclipse.tigerstripe/samples/test-models/model-refactoring");
+		ui.enterText("org.eclipse.tigerstripe/samples/test-models/" + projectName);
 		ui.click(new ButtonLocator("&Finish"));
 		ui.wait(new ShellDisposedCondition("Checkout from CVS"));
 		

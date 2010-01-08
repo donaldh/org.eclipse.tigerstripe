@@ -26,13 +26,14 @@ import com.windowtester.runtime.swt.locator.TreeItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
 
 public class MoveTestsClosed extends MoveTests {
+	private static String project = "model-refactoring";
 
 	public void setUp() throws Exception{
 		ui = getUI();
 		helper = new ProjectHelper();
 		artifactHelper = new ArtifactHelper();
 		
-		helper.reloadProjectFromCVS(ui);
+		helper.reloadProjectFromCVS(ui,project);
 		
 			
 		view = new ViewLocator(
