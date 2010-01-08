@@ -1,13 +1,11 @@
 package org.eclipse.tigerstripe.refactor.delete;
 
-import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
 import org.eclipse.tigerstripe.refactor.project.ProjectHelper;
 import org.eclipse.tigerstripe.refactor.suite.DiagramHelper;
 import org.eclipse.tigerstripe.ui.visualeditor.test.finders.LocatorHelper;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.ArtifactHelper;
 
 import com.windowtester.runtime.IUIContext;
-import com.windowtester.runtime.WidgetSearchException;
 import com.windowtester.runtime.gef.locator.FigureClassLocator;
 import com.windowtester.runtime.swt.UITestCaseSWT;
 import com.windowtester.runtime.swt.condition.shell.ShellDisposedCondition;
