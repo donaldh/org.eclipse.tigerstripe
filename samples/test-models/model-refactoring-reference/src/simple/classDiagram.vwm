@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<null:Map xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:null="null" basePackage="simple">
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Ent1" package="simple" implements="//@artifacts.5">
+    <attributes name="enumRef" type="simple.Enumeration0"/>
+    <attributes name="attribute1" type="simple.DataMiddle"/>
+  </artifacts>
+  <artifacts xsi:type="null:AssociationClassClass" name="AssociationClass0" package="simple"/>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Ent3" package="simple" extends="//@artifacts.0" implements="//@artifacts.5">
+    <attributes name="attribute0" type="simple.Ent1" isUnique="true"/>
+    <methods name="method0" type="simple.Ent1" isUnique="true" typeMultiplicity="0..1">
+      <parameters name="arg0" type="simple.Ent1" isUnique="true"/>
+    </methods>
+  </artifacts>
+  <artifacts xsi:type="null:AssociationClassClass" name="AssociationClass1" package="simple"/>
+  <artifacts xsi:type="null:NamedQueryArtifact" name="Query1" package="simple" returnedType="//@artifacts.0"/>
+  <artifacts xsi:type="null:SessionFacadeArtifact" name="SessionFacade0" package="simple"/>
+  <associations name="Association1" package="simple" aEnd="//@artifacts.0" aEndName="ent1_1" zEnd="//@artifacts.0" zEndName="ent1_2" zEndIsNavigable="true"/>
+  <associations xsi:type="null:AssociationClass" name="AssociationClass0" package="simple" aEnd="//@artifacts.0" aEndName="ent1_3" zEnd="//@artifacts.0" zEndName="ent1_4" zEndIsNavigable="true" associatedClass="//@artifacts.1"/>
+  <associations xsi:type="null:AssociationClass" name="AssociationClass1" package="simple" aEnd="//@artifacts.2" aEndName="ent3_0" zEnd="//@artifacts.0" zEndName="ent1_1" zEndIsNavigable="true" associatedClass="//@artifacts.3"/>
+  <associations name="Association3" package="simple" aEnd="//@artifacts.2" aEndName="ent3" zEnd="//@artifacts.0" zEndName="ent1" zEndIsNavigable="true"/>
+  <dependencies name="Dependency1" package="simple" aEnd="//@artifacts.2" zEnd="//@artifacts.0"/>
+</null:Map>
