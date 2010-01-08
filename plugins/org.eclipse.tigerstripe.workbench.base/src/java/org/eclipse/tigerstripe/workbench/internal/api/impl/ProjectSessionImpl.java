@@ -14,9 +14,9 @@ import java.io.File;
 import java.io.StringReader;
 import java.net.URI;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
@@ -168,15 +168,16 @@ public class ProjectSessionImpl {
 		return phantomHandle;
 	}
 
-	public void removeFromCache(IAbstractTigerstripeProject project) {
-		if (project != null && project.getName() != null) {
-			for (Iterator<IAbstractTigerstripeProject> iter = projectMappedByURIs
-					.values().iterator(); iter.hasNext();) {
-				IAbstractTigerstripeProject proj = iter.next();
-				if (project.getName().equals(proj.getName())) {
-					iter.remove();
-				}
-			}
+	/**
+	 * This removes a project from the cache. It is called upon deletion of the
+	 * project from the workspace.
+	 * 
+	 * @param projectPath
+	 */
+	public void removeFromCache(IPath projectPath) {
+		URI uri = projectPath.toFile().toURI();
+		if (projectMappedByURIs.containsKey(uri)) {
+			projectMappedByURIs.remove(uri);
 		}
 	}
 

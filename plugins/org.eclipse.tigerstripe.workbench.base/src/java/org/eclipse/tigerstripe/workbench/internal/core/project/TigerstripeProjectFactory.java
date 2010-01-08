@@ -26,7 +26,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ProjectSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IPhantomTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -155,12 +154,7 @@ public class TigerstripeProjectFactory implements IResourceChangeListener {
 	 * @param projectPath
 	 */
 	private void projectDeleted(IPath projectPath) {
-		try {
-			IAbstractTigerstripeProject proj = findProject(projectPath);
-			session.removeFromCache(proj);
-		} catch (TigerstripeException e) {
-			BasePlugin.log(e);
-		}
+		session.removeFromCache(projectPath);
 	}
 
 	public IPhantomTigerstripeProject getPhantomProject()
@@ -173,7 +167,7 @@ public class TigerstripeProjectFactory implements IResourceChangeListener {
 	public void resourceChanged(IResourceChangeEvent event) {
 		IResource res = event.getResource();
 		if (res instanceof IProject) {
-			projectDeleted(res.getFullPath());
+			projectDeleted(res.getLocation());
 		}
 	}
 

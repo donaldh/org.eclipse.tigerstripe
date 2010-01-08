@@ -19,8 +19,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import org.eclipse.core.internal.events.BuildCommand;
-import org.eclipse.core.internal.events.BuildManager;
 import org.eclipse.core.resources.ICommand;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -65,7 +63,7 @@ import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
  * 
  */
 public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
-		implements IProjectDependencyChangeListener, IArtifactChangeListener {
+		implements IProjectDependencyChangeListener {
 
 	private ModelAuditorHelper modelAuditorHelper = null;
 
@@ -90,33 +88,6 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	// force a full build the next build around...
 	public void projectDependenciesChanged(IProjectDependencyDelta delta) {
 		fullBuildRequired = true;
-	}
-
-	// ===================================================================
-
-	public void artifactAdded(IAbstractArtifact artifact) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void artifactChanged(IAbstractArtifact artifact) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void artifactRemoved(IAbstractArtifact artifact) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void artifactRenamed(IAbstractArtifact artifact, String fromFQN) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void managerReloaded() {
-		// TODO Auto-generated method stub
-
 	}
 
 	// ===================================================================
