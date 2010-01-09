@@ -94,7 +94,7 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 
 		IResourceDelta selfDelta = lookforSelf(event.getDelta());
 
-		if (selfDelta != null) {
+		if (selfDelta != null && selfDelta.getKind() != IResourceDelta.REMOVED) {
 
 			if (event.getType() == IResourceChangeEvent.POST_CHANGE) {
 				try {
@@ -117,7 +117,7 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 						.removeArtifactChangeListener(this);
 			}
 		} catch (TigerstripeException e) {
-			EclipsePlugin.log(e);
+//			EclipsePlugin.log(e);
 		}
 		super.closeMyself();
 	}
@@ -373,7 +373,7 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 			TigerstripeWorkspaceNotifier.INSTANCE
 					.removeTigerstripeChangeListener(this);
 		} catch (TigerstripeException e) {
-			EclipsePlugin.log(e);
+			// Simply ignore... we're cleaning up anyway.
 		}
 		super.dispose();
 	}

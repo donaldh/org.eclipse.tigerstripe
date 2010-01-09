@@ -43,6 +43,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.preferences.ITigerstripePreferences;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.ClassDiagramLogicalNode;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.InstanceDiagramLogicalNode;
 import org.eclipse.ui.IEditorPart;
@@ -305,6 +306,12 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 			IArtifactManagerSession session = getProject()
 					.getArtifactManagerSession();
 			session.addArtifactChangeListener(this);
+			
+			// register for changes in all parent projects
+			for( ITigerstripeModelProject proj : getProject().getReferencedProjects()) {
+				proj.getArtifactManagerSession().addArtifactChangeListener(this);
+			}
+			
 			ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
 		} catch (TigerstripeException e) {
 			IStatus status = new Status(
