@@ -31,7 +31,10 @@ import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactFQRenameRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
+import org.eclipse.tigerstripe.workbench.internal.api.project.IPhantomTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
+import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramRefactorHelper;
@@ -142,6 +145,30 @@ public class ModelRefactorCommandFactory {
 				cmd.addDeltas(deltas);
 			}
 
+			// At this point we still need to assess impact on projects that
+			// depend on this originalProject
+			ModelReference[] referencingModels = originalProject
+					.getReferencingModels(ModelReference.INFINITE_LEVEL);
+			for (ModelReference referencingModel : referencingModels) {
+				ITigerstripeModelProject project = referencingModel
+						.getResolvedModel();
+				if (project != null
+						&& !(project instanceof ITigerstripeModuleProject)
+						&& !(project instanceof IPhantomTigerstripeProject)) {
+					query = (IQueryAllArtifacts) project
+							.getArtifactManagerSession().makeQuery(
+									IQueryAllArtifacts.class.getName());
+					query.setIncludeDependencies(false);
+					artifacts = project.getArtifactManagerSession()
+							.queryArtifact(query);
+					for (IAbstractArtifact artifact : artifacts) {
+						List<ModelChangeDelta> deltas = createDeltas(artifact,
+								mappedRequests);
+						cmd.addDeltas(deltas);
+					}
+				}
+			}
+
 			// Then assess any action to be taken on Diagrams after that
 			cmd.addDiagramDeltas(createDiagramDeltas(derivedRequests));
 
@@ -156,7 +183,8 @@ public class ModelRefactorCommandFactory {
 		for (RefactorRequest request : requests) {
 			if (request instanceof DiagramRefactorRequest) {
 				DiagramRefactorRequest req = (DiagramRefactorRequest) request;
-				DiagramChangeDelta delta = new DiagramChangeDelta(IDiagramChangeDelta.MOVE);
+				DiagramChangeDelta delta = new DiagramChangeDelta(
+						IDiagramChangeDelta.MOVE);
 				delta.setAffectedDiagramHandle(req.getOriginalDiagramHandle());
 				delta.setDestinationPath(req.getDestination().getFullPath());
 				diagramDeltas.add(delta);

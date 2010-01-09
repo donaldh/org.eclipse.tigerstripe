@@ -172,6 +172,7 @@ public interface ITigerstripeModelProject extends IAbstractTigerstripeProject {
 	// throws TigerstripeException;
 
 	public ModelReference[] getModelReferences() throws TigerstripeException;
+	public ModelReference[] getReferencingModels(int level) throws TigerstripeException;
 
 	public void setActiveFacet(IFacetReference facet, IProgressMonitor monitor)
 			throws TigerstripeException;

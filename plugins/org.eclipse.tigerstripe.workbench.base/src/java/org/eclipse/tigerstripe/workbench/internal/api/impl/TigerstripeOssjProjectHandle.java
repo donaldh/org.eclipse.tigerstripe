@@ -11,13 +11,19 @@
 package org.eclipse.tigerstripe.workbench.internal.api.impl;
 
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.WorkingCopyManager;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.workbench.internal.core.module.packaging.ModulePackager;
+import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class TigerstripeOssjProjectHandle extends TigerstripeProjectHandle {
 
@@ -26,8 +32,8 @@ public class TigerstripeOssjProjectHandle extends TigerstripeProjectHandle {
 
 	/**
 	 * 
-	 * @param projectURI -
-	 *            URI of the project directory
+	 * @param projectURI
+	 *            - URI of the project directory
 	 */
 	public TigerstripeOssjProjectHandle(URI projectURI)
 			throws TigerstripeException {
@@ -54,5 +60,47 @@ public class TigerstripeOssjProjectHandle extends TigerstripeProjectHandle {
 			BasePlugin.log(e);
 		}
 		return false;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject#
+	 * getReferencingModels()
+	 */
+	public ModelReference[] getReferencingModels(int level)
+			throws TigerstripeException {
+		// This is an expensive method?
+		List<ModelReference> result = new ArrayList<ModelReference>();
+
+		if (level == 0)
+			return result.toArray(new ModelReference[result.size()]);
+
+		try {
+			ModelReference selfRef = ModelReference.referenceFromProject(this);
+			ITigerstripeModelProject[] projects = TigerstripeCore
+					.allModelProjects();
+			for (ITigerstripeModelProject project : projects) {
+				for (ModelReference ref : project.getModelReferences()) {
+					if (ref.equals(selfRef)) {
+						result
+								.add(ModelReference
+										.referenceFromProject(project));
+						if (level == ModelReference.INFINITE_LEVEL) {
+							result
+									.addAll(Arrays
+											.asList(project
+													.getReferencingModels(ModelReference.INFINITE_LEVEL)));
+						} else if (level > 1) {
+							result.addAll(Arrays.asList(project
+									.getReferencingModels(level - 1)));
+						}
+					}
+				}
+			}
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+		}
+		return result.toArray(new ModelReference[result.size()]);
 	}
 }

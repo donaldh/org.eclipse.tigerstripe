@@ -20,6 +20,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModule
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleRef;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
+import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
@@ -31,16 +32,27 @@ public class ModuleProjectHandle extends TigerstripeProjectHandle implements
 
 	/**
 	 * 
-	 * @param projectContainerURI,
-	 *            The URI of the containing project (where the module is)
-	 * @param dependency,
-	 *            the dependency to create the module project for.
+	 * @param projectContainerURI
+	 *            , The URI of the containing project (where the module is)
+	 * @param dependency
+	 *            , the dependency to create the module project for.
 	 */
 	public ModuleProjectHandle(URI projectContainerURI, Dependency dependency) {
 		super(projectContainerURI);
 		if (dependency.isValid()) {
 			this.moduleRef = dependency.getModuleRef();
 		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject#
+	 * getReferencingModels()
+	 */
+	public ModelReference[] getReferencingModels(int level) throws TigerstripeException {
+		//TODO should return the containing projects?
+		return new ModelReference[0];
 	}
 
 	@Override

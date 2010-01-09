@@ -36,6 +36,8 @@ public class ModelReference {
 	private String toModelId = null;
 	private ITigerstripeModelProject projectContext = null;
 
+	public final static int INFINITE_LEVEL = -1;
+	
 	public ModelReference(ITigerstripeModelProject projectContext,
 			String toModelId) {
 		assert (toModelId != null && toModelId.length() != 0);

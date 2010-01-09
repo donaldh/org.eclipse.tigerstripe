@@ -21,6 +21,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.project.IPhantomTigerstrip
 import org.eclipse.tigerstripe.workbench.internal.core.module.packaging.ModulePackager;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstripeProjectMgr;
+import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 
@@ -44,6 +45,17 @@ public class TigerstripePhantomProjectHandle extends TigerstripeProjectHandle
 	@Override
 	public TigerstripeProject getTSProject() throws TigerstripeException {
 		return getPhantomProject();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject#
+	 * getReferencingModels()
+	 */
+	public ModelReference[] getReferencingModels(int level) throws TigerstripeException {
+		//TODO should return all projects?
+		return new ModelReference[0];
 	}
 
 	public PhantomTigerstripeProject getPhantomProject()
