@@ -80,6 +80,8 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		super.startupOnInitialize();
 		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) getProject()
 				.getAdapter(ITigerstripeModelProject.class);
+		Object o = getProject();
+		Object foo = getProject();
 		tsProject.addProjectDependencyChangeListener(this);
 	}
 
@@ -716,8 +718,9 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 			try {
 				Properties map = new Properties();
 				map.put("rebuildIndexes", "True");
-				proj.build(FULL_BUILD, TigerstripeProjectAuditor.BUILDER_ID,
-						map, monitor);
+				if (proj.getAdapter(ITigerstripeModelProject.class) != null)
+					proj.build(FULL_BUILD,
+							TigerstripeProjectAuditor.BUILDER_ID, map, monitor);
 			} catch (CoreException e) {
 				BasePlugin.log(e);
 			}

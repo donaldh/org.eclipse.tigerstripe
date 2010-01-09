@@ -15,6 +15,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.WorkingCopyManager;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
+import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 
 public class ReadOnlyTigerstripeProjectHandle extends TigerstripeProjectHandle {
@@ -29,6 +30,17 @@ public class ReadOnlyTigerstripeProjectHandle extends TigerstripeProjectHandle {
 	public ReadOnlyTigerstripeProjectHandle(TigerstripeProject project) {
 		super(null);
 		setTSProject(project);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject#
+	 * getReferencingModels()
+	 */
+	public ModelReference[] getReferencingModels(int level) throws TigerstripeException {
+		//TODO should return the containing projects?
+		return new ModelReference[0];
 	}
 
 	@Override
