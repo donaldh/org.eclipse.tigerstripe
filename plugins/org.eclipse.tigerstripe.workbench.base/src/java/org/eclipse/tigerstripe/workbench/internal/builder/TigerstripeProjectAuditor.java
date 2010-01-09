@@ -80,8 +80,6 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		super.startupOnInitialize();
 		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) getProject()
 				.getAdapter(ITigerstripeModelProject.class);
-		Object o = getProject();
-		Object foo = getProject();
 		tsProject.addProjectDependencyChangeListener(this);
 	}
 
