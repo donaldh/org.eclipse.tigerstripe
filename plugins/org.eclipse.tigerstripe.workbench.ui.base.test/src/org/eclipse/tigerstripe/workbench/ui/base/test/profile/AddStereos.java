@@ -68,55 +68,59 @@ public class AddStereos extends UITestCaseSWT {
 		SWTWidgetLocator sectionLabel = new SWTWidgetLocator(Label.class, "&Attributes");
 		// collapse the Attributes sections
 		ui.click(sectionLabel);
-		sectionLabel = new SWTWidgetLocator(Label.class, "Constants");
-		// expand the Constants sections
-		ui.click(sectionLabel);
 		
-		ui
-				.click(2,
-						new TreeItemLocator(
-								TestingConstants.NEW_MODEL_PROJECT_NAME+
-								"/src/"+TestingConstants.DEFAULT_ARTIFACT_PACKAGE_AS_PATH+"/"+
-								TestingConstants.DATATYPE_NAMES[1]+"/"+prefix+TestingConstants.LITERAL_NAMES[0]+"=\"0\"",
-						new ViewLocator(
-								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
-		GuiUtils.maxminTab(ui, TestingConstants.DATATYPE_NAMES[1]);
+		//TODO - When WT is fixed!
 		
-		ui.click(new NamedWidgetLocator("Add_Stereotype_Literal"));
-		ui.wait(new ShellShowingCondition("Stereotype Selection"));
-		ui.click(2, new TableItemLocator(TestingConstants.LITERAL_STEREO));
-		ui.wait(new ShellDisposedCondition("Stereotype Selection"));
-		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
-		GuiUtils.maxminTab(ui, TestingConstants.DATATYPE_NAMES[1]);
 		
-		sectionLabel = new SWTWidgetLocator(Label.class, "Constants");
-		// collapse the Constants sections
-		ui.click(sectionLabel);
-		
-		sectionLabel = new SWTWidgetLocator(Label.class, "Methods");
-		// expand the Methods sections
-		ui.click(sectionLabel);
-		
-		ui
-				.click(
-						2,
-						new TreeItemLocator(
-								TestingConstants.NEW_MODEL_PROJECT_NAME+
-								"/src/"+TestingConstants.DEFAULT_ARTIFACT_PACKAGE_AS_PATH+"/"+
-								TestingConstants.DATATYPE_NAMES[1]+"/"+prefix+TestingConstants.METHOD_NAMES[0]+"():void",
-								new ViewLocator(
-										"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
-		GuiUtils.maxminTab(ui, TestingConstants.DATATYPE_NAMES[1]);
-		ui.click(new NamedWidgetLocator("Add_Stereotype_Method"));
-		ui.wait(new ShellShowingCondition("Stereotype Selection"));
-		ui.click(2, new TableItemLocator(TestingConstants.METHOD_STEREO));
-		ui.wait(new ShellDisposedCondition("Stereotype Selection"));
-		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
-		GuiUtils.maxminTab(ui, TestingConstants.DATATYPE_NAMES[1]);
-		
-		sectionLabel = new SWTWidgetLocator(Label.class, "Methods");
-		// collapse the Methods sections
-		ui.click(sectionLabel);
+//		sectionLabel = new SWTWidgetLocator(Label.class, "Constants");
+//		// expand the Constants sections
+//		ui.click(sectionLabel);
+//		
+//		ui
+//				.click(2,
+//						new TreeItemLocator(
+//								TestingConstants.NEW_MODEL_PROJECT_NAME+
+//								"/src/"+TestingConstants.DEFAULT_ARTIFACT_PACKAGE_AS_PATH+"/"+
+//								TestingConstants.DATATYPE_NAMES[1]+"/"+prefix+TestingConstants.LITERAL_NAMES[0]+"=\"0\"",
+//						new ViewLocator(
+//								"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
+//		GuiUtils.maxminTab(ui, TestingConstants.DATATYPE_NAMES[1]);
+//		
+//		ui.click(new NamedWidgetLocator("Add_Stereotype_Literal"));
+//		ui.wait(new ShellShowingCondition("Stereotype Selection"));
+//		ui.click(2, new TableItemLocator(TestingConstants.LITERAL_STEREO));
+//		ui.wait(new ShellDisposedCondition("Stereotype Selection"));
+//		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
+//		GuiUtils.maxminTab(ui, TestingConstants.DATATYPE_NAMES[1]);
+//		
+//		sectionLabel = new SWTWidgetLocator(Label.class, "Constants");
+//		// collapse the Constants sections
+//		ui.click(sectionLabel);
+//		
+//		sectionLabel = new SWTWidgetLocator(Label.class, "Methods");
+//		// expand the Methods sections
+//		ui.click(sectionLabel);
+//		
+//		ui
+//				.click(
+//						2,
+//						new TreeItemLocator(
+//								TestingConstants.NEW_MODEL_PROJECT_NAME+
+//								"/src/"+TestingConstants.DEFAULT_ARTIFACT_PACKAGE_AS_PATH+"/"+
+//								TestingConstants.DATATYPE_NAMES[1]+"/"+prefix+TestingConstants.METHOD_NAMES[0]+"():void",
+//								new ViewLocator(
+//										"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
+//		GuiUtils.maxminTab(ui, TestingConstants.DATATYPE_NAMES[1]);
+//		ui.click(new NamedWidgetLocator("Add_Stereotype_Method"));
+//		ui.wait(new ShellShowingCondition("Stereotype Selection"));
+//		ui.click(2, new TableItemLocator(TestingConstants.METHOD_STEREO));
+//		ui.wait(new ShellDisposedCondition("Stereotype Selection"));
+//		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
+//		GuiUtils.maxminTab(ui, TestingConstants.DATATYPE_NAMES[1]);
+//		
+//		sectionLabel = new SWTWidgetLocator(Label.class, "Methods");
+//		// collapse the Methods sections
+//		ui.click(sectionLabel);
 		
 		
 		
