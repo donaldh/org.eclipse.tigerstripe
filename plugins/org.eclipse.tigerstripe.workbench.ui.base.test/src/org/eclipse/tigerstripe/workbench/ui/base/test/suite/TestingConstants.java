@@ -71,7 +71,7 @@ public class TestingConstants {
 	public static String ASSOCIATION_STEREO = "association_stereo";
 	public static String ASSOCIATION_CLASS_STEREO = "associationClass_stereo";
 	public static String DATATYPE_STEREO = "datatype_stereo";
-	
+	public static String DATATYPE_STEREO_TWO = "another_datatype_stereo";
 	
 	
 	

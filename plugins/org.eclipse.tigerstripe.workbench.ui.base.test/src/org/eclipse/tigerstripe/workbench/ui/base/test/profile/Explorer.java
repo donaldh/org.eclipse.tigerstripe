@@ -67,7 +67,7 @@ public class Explorer extends UITestCaseSWT {
 		ui.click(new ButtonLocator("on Method Arguments"));
 		ui.click(new ButtonLocator("on Literals"));
 		ui.click(new ButtonLocator("on Methods"));
-		ui.click(new ButtonLocator("on relationship ends"));
+		ui.click(new ButtonLocator("on Relationship ends"));
 		ui.click(new ButtonLocator("&Apply"));
 		ui.click(new ButtonLocator("OK"));
 		ui.wait(new ShellDisposedCondition("Preferences"));

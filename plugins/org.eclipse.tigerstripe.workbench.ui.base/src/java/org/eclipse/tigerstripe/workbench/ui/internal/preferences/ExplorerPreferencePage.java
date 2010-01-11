@@ -94,7 +94,7 @@ public class ExplorerPreferencePage extends FieldEditorPreferencePage implements
 		addField(new BooleanFieldEditor(P_LABEL_STEREO_LIT, "on Literals",
 				group));
 		addField(new BooleanFieldEditor(P_LABEL_STEREO_END,
-				"on relationship ends", group));
+				"on Relationship ends", group));
 
 		Group annGroup = new Group(getFieldEditorParent(), SWT.TITLE);
 		gd = new GridData(GridData.FILL_HORIZONTAL);
