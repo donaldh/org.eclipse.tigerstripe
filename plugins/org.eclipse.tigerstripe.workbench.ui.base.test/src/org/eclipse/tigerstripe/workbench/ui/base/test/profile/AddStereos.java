@@ -45,9 +45,12 @@ public class AddStereos extends UITestCaseSWT {
 		ui.wait(new ShellShowingCondition("Stereotype Selection"));
 		ui.click(2, new TableItemLocator(TestingConstants.DATATYPE_STEREO));
 		ui.wait(new ShellDisposedCondition("Stereotype Selection"));
+		//See if its there!
+		ui.click(new TableItemLocator(TestingConstants.DATATYPE_STEREO));	
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 		GuiUtils.maxminTab(ui, TestingConstants.DATATYPE_NAMES[1]);
-			
+		
+		
 		ui.click(
 						2,
 						new TreeItemLocator(
@@ -62,6 +65,8 @@ public class AddStereos extends UITestCaseSWT {
 		ui.wait(new ShellShowingCondition("Stereotype Selection"));
 		ui.click(2, new TableItemLocator(TestingConstants.ATTRIBUTE_STEREO));
 		ui.wait(new ShellDisposedCondition("Stereotype Selection"));
+		//See if its there!
+		ui.click(new TableItemLocator(TestingConstants.ATTRIBUTE_STEREO));	
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 		GuiUtils.maxminTab(ui, TestingConstants.DATATYPE_NAMES[1]);
 		
@@ -90,6 +95,8 @@ public class AddStereos extends UITestCaseSWT {
 //		ui.wait(new ShellShowingCondition("Stereotype Selection"));
 //		ui.click(2, new TableItemLocator(TestingConstants.LITERAL_STEREO));
 //		ui.wait(new ShellDisposedCondition("Stereotype Selection"));
+//		//See if its there!
+//		ui.click(new TableItemLocator(TestingConstants.LITERAL_STEREO));	
 //		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 //		GuiUtils.maxminTab(ui, TestingConstants.DATATYPE_NAMES[1]);
 //		
@@ -115,6 +122,8 @@ public class AddStereos extends UITestCaseSWT {
 //		ui.wait(new ShellShowingCondition("Stereotype Selection"));
 //		ui.click(2, new TableItemLocator(TestingConstants.METHOD_STEREO));
 //		ui.wait(new ShellDisposedCondition("Stereotype Selection"));
+//		//See if its there!
+//		ui.click(new TableItemLocator(TestingConstants.METHOD_STEREO));	
 //		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 //		GuiUtils.maxminTab(ui, TestingConstants.DATATYPE_NAMES[1]);
 //		

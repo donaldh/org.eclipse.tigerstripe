@@ -112,6 +112,14 @@ public class CreateStereotypes extends UITestCaseSWT {
 			ui.enterText(TestingConstants.DATATYPE_STEREO);
 			ui.click(new TableItemLocator("", 2, new SWTWidgetLocator(
 							Table.class)));
+			
+			ui.click(new NamedWidgetLocator("Add_Stereotype"));
+			ui.click(new LabeledTextLocator("Name: "));
+			ui.keyClick(SWT.CTRL, 'a');
+			ui.enterText(TestingConstants.DATATYPE_STEREO_TWO);
+			ui.click(new TableItemLocator("", 2, new SWTWidgetLocator(
+							Table.class)));
+			
 //TODOD re-activate when WT is fixed		
 //			ui.click(new NamedWidgetLocator("Add_Stereotype"));
 //			ui.click(new LabeledTextLocator("Name: "));
