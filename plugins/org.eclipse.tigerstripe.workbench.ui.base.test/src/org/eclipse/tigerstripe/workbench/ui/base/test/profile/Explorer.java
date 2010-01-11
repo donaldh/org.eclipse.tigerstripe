@@ -79,7 +79,7 @@ public class Explorer extends UITestCaseSWT {
 		ui.click(2,	new TreeItemLocator(
 				TestingConstants.NEW_MODEL_PROJECT_NAME+
 				"/src/"+TestingConstants.DEFAULT_ARTIFACT_PACKAGE_AS_PATH+"/"+
-				TestingConstants.DATATYPE_NAMES[1],
+				"/<<"+TestingConstants.DATATYPE_STEREO+">>"+TestingConstants.DATATYPE_NAMES[1],
 				new ViewLocator(
 					"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
 		GuiUtils.maxminTab(ui, TestingConstants.DATATYPE_NAMES[1]);
