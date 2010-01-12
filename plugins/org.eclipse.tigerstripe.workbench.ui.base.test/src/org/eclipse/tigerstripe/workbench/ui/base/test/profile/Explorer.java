@@ -105,12 +105,17 @@ public class Explorer extends UITestCaseSWT {
 
 		ui.click(new TableItemLocator(TestingConstants.DATATYPE_STEREO_TWO));
 		ui.click(new NamedWidgetLocator("Remove_Stereo_Artifact"));
+		
+		ui.wait(new ShellShowingCondition("Remove Stereotype"));
+		ui.click(new ButtonLocator("Yes"));
+		ui.wait(new ShellDisposedCondition("Remove Stereotype"));
+		
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 		GuiUtils.maxminTab(ui, TestingConstants.DATATYPE_NAMES[1]);
 	}
 	
 	private void checkOneAdded(IUIContext ui) throws Exception{
-		// Note order is alphabetical!
+
 		ui
 		.click(new TreeItemLocator(
 				TestingConstants.NEW_MODEL_PROJECT_NAME+"/src/"+TestingConstants.DEFAULT_ARTIFACT_PACKAGE_AS_PATH+
