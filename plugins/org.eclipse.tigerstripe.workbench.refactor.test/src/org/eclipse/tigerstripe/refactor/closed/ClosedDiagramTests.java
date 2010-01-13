@@ -83,9 +83,9 @@ public class ClosedDiagramTests extends UITestCaseSWT {
 //			Ent1_to_Ent10.checkAPI();
 //			Ent1_to_Ent10.checkEditorUpdated(ui);
 //			Ent1_to_Ent10.saveAndCloseRelatedEditors(ui);
-			DiagramHelper.openDiagrams(ui);
+			DiagramHelper.openDiagrams(ui, project);
 			Ent1_to_Ent10.checkDiagrams(ui);
-			DiagramHelper.closeDiagrams(ui);
+			DiagramHelper.closeClassDiagrams(ui,project);
 //				
 //			/**
 //			 * Enumeration0 was used by Ent1 - now Ent10

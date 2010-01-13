@@ -55,17 +55,17 @@ public class MoveTestsClosed extends MoveTests {
 		Ent1_to_Ent10.checkEditorUpdated(ui,"simple.moved","Ent1");
 		Ent1_to_Ent10.saveAndCloseRelatedEditors(ui);
 		
-		DiagramHelper.openDiagrams(ui);
+		DiagramHelper.openDiagrams(ui, project);
 		Ent1_to_Ent10.checkDiagramsAfterMove(ui);
-		DiagramHelper.closeDiagrams(ui);
+		DiagramHelper.closeClassDiagrams(ui,project);
 		
 		
 		multipleMove();
 		
 		doChecks();
-		DiagramHelper.openDiagrams(ui);
+		DiagramHelper.openDiagrams(ui, project);
 		doDiagramChecks();
-		DiagramHelper.closeDiagrams(ui);
+		DiagramHelper.closeClassDiagrams(ui,project);
 		
 	}
 

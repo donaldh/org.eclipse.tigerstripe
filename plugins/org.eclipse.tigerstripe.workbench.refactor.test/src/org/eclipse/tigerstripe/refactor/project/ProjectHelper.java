@@ -103,7 +103,7 @@ public class ProjectHelper extends UITestCaseSWT {
 		ui
 		.contextClick(
 				new TreeItemLocator(
-						"model-refactoring   [dev.eclipse.org]",
+						projectName+"   [dev.eclipse.org]",
 						new ViewLocator(
 						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")),
 		"Team/Disconnect...");
@@ -115,13 +115,13 @@ public class ProjectHelper extends UITestCaseSWT {
 		//TODO - This is a massive cop out!
 		ui
 		.click(new TreeItemLocator(
-				"model-refactoring",
+				projectName,
 				new ViewLocator(
 				"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
 		ui
 		.contextClick(
 				new TreeItemLocator(
-						"model-refactoring",
+						projectName,
 						new ViewLocator(
 						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")),
 		"Clean Audit Now");
@@ -130,11 +130,12 @@ public class ProjectHelper extends UITestCaseSWT {
 
 
 		// Just make sure we got what we expected!
-			IAbstractTigerstripeProject aProject = TigerstripeCore.findProject("model-refactoring");
+			IAbstractTigerstripeProject aProject = TigerstripeCore.findProject(projectName);
 			ITigerstripeModelProject modelProject = (ITigerstripeModelProject) aProject;
 			IArtifactManagerSession mgrSession = modelProject
 				.getArtifactManagerSession();
-
+            
+			if(projectName.equals("model-refactoring"))
 			TestInitialPackageContents.testArtifacts(ui);
 			
 			//How Many Artifacts should we have?
@@ -143,16 +144,20 @@ public class ProjectHelper extends UITestCaseSWT {
 			for (IAbstractArtifact art: allArtifacts){
 				System.out.println("On reload : "+art.getFullyQualifiedName());
 			}
-			assertEquals("Incorrect number of artifacts", 21, allArtifacts.size());
+			if(projectName.equals("model-refactoring"))
+			    assertEquals("Incorrect number of artifacts", 21, allArtifacts.size());
+			else if(projectName.equals("model-refactoring-reference"))
+				assertEquals("Incorrect number of artifacts", 26, allArtifacts.size());
+				
 			
 	}
 
 
-	public void deleteProject(IUIContext ui)throws Exception {
+	public void deleteProject(IUIContext ui,String projectName)throws Exception {
 		ui
 		.contextClick(
 				new TreeItemLocator(
-						"model-refactoring",
+						projectName,
 						new ViewLocator(
 						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")),
 		"Delete");

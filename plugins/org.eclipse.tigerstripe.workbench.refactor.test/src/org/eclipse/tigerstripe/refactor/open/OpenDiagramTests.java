@@ -55,7 +55,7 @@ public class OpenDiagramTests extends UITestCaseSWT {
 			"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
 			
 			// Open all of the diagrams
-			DiagramHelper.openDiagrams(ui);
+			DiagramHelper.openDiagrams(ui,project);
 		}
 		
 

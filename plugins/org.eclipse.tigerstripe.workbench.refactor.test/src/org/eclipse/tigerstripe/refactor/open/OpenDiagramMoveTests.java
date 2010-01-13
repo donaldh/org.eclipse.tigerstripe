@@ -15,10 +15,11 @@ import org.eclipse.tigerstripe.refactor.closed.MoveTestsClosed;
 import org.eclipse.tigerstripe.refactor.suite.DiagramHelper;
 
 public class OpenDiagramMoveTests extends MoveTestsClosed {
+	private static String project = "model-refactoring";
 
 	public void testRenames() throws Exception {
 		
-		DiagramHelper.openDiagrams(ui);
+		DiagramHelper.openDiagrams(ui,project);
 		
 		// This is a single move
 
@@ -42,7 +43,7 @@ public class OpenDiagramMoveTests extends MoveTestsClosed {
 		DiagramHelper.saveDiagrams(ui);
 		doDiagramChecks();
 		
-		DiagramHelper.closeDiagrams(ui);
+		DiagramHelper.closeClassDiagrams(ui,project);
 		
 	}
 	

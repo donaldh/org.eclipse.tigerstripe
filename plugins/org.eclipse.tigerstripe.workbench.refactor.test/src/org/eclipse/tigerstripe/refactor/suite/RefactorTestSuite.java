@@ -10,6 +10,7 @@ import org.eclipse.tigerstripe.refactor.Vanilla.TestRenamedPackageContents;
 import org.eclipse.tigerstripe.refactor.Vanilla.VanillaTests;
 import org.eclipse.tigerstripe.refactor.delete.DeleteTests;
 import org.eclipse.tigerstripe.refactor.project.RecreateSimpleProject;
+import org.eclipse.tigerstripe.refactor.references.ProjectReferences;
 
 public class RefactorTestSuite extends TestCase {
 	
@@ -22,17 +23,18 @@ public class RefactorTestSuite extends TestCase {
     suite.addTestSuite(VanillaTests.class);
     suite.addTestSuite(RenamePackage.class);
     suite.addTestSuite(TestRenamedPackageContents.class);
-
     suite.addTestSuite(DeleteProject.class);
+    
     suite.addTestSuite(RecreateSimpleProject.class);
     suite.addTestSuite(DeleteProject.class);
     
-    suite.addTestSuite(MoveTests.class);
-    
+    suite.addTestSuite(MoveTests.class);    
     suite.addTestSuite(DeleteProject.class);
     
-    suite.addTestSuite(DeleteTests.class);
+    suite.addTestSuite(DeleteTests.class);	
+	suite.addTestSuite(DeleteProject.class);
 	
+	suite.addTestSuite(ProjectReferences.class);	
 	suite.addTestSuite(DeleteProject.class);
     
     return suite;

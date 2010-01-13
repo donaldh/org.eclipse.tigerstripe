@@ -35,6 +35,7 @@ public class DeleteProject extends UITestCaseSWT {
 
 		private ProjectHelper helper;
 		private static String project="model-refactoring";
+		private static String referenceProject = "model-refactoring-reference";
 		
 		private IUIContext ui;
 		
@@ -46,11 +47,20 @@ public class DeleteProject extends UITestCaseSWT {
 		}
 		
 		public void testDeleteIt() throws Exception {
-			helper.deleteProject(ui);
+			helper.deleteProject(ui,project);
 			
 			// Make sure it no longer exists
 			IAbstractTigerstripeProject aProject = TigerstripeCore.findProject(project);
 			assertNull("Project still exists after Delete",aProject);
+			
+			IAbstractTigerstripeProject bProject = TigerstripeCore.findProject(referenceProject);
+			if(bProject != null && bProject.exists()){
+				helper.deleteProject(ui,referenceProject);
+				
+				// Make sure it no longer exists
+				bProject = TigerstripeCore.findProject(referenceProject);
+				assertNull("Project still exists after Delete",bProject);
+			}
 			
 		}
 		

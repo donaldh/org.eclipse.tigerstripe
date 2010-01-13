@@ -42,7 +42,7 @@ public class DeleteTests extends UITestCaseSWT {
 		
 		// Open all of the diagrams
 		
-		DiagramHelper.openDiagrams(ui);
+		DiagramHelper.openDiagrams(ui, project);
 		DiagramHelper.openInstanceDiagram(ui);
 		
 	}
