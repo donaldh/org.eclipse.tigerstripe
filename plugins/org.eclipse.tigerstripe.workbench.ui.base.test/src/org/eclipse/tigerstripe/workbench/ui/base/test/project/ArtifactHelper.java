@@ -7,6 +7,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.TestingConstants;
 import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
+import org.eclipse.ui.forms.widgets.Section;
+import org.eclipse.ui.internal.forms.widgets.WrappedPageBook;
 
 import abbot.finder.swt.MultipleWidgetsFoundException;
 
@@ -14,6 +16,8 @@ import com.windowtester.runtime.IUIContext;
 import com.windowtester.runtime.WidgetSearchException;
 import com.windowtester.runtime.locator.IWidgetReference;
 import com.windowtester.runtime.swt.UITestCaseSWT;
+import com.windowtester.runtime.swt.condition.shell.ShellDisposedCondition;
+import com.windowtester.runtime.swt.condition.shell.ShellShowingCondition;
 import com.windowtester.runtime.swt.locator.ButtonLocator;
 import com.windowtester.runtime.swt.locator.LabeledTextLocator;
 import com.windowtester.runtime.swt.locator.NamedWidgetLocator;
@@ -33,8 +37,11 @@ public class ArtifactHelper extends UITestCaseSWT{
 						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")));
 		
 	}
-
 	public static String newAttribute(IUIContext ui, String artifactName, String thisAttributeName) throws Exception {
+	 return newAttribute(ui, artifactName, thisAttributeName, null);	
+	}
+	
+	public static String newAttribute(IUIContext ui, String artifactName, String thisAttributeName, String primitiveToUse) throws Exception {
 		
 		
 		SWTWidgetLocator sectionLabel = new SWTWidgetLocator(Label.class, "&Attributes");
@@ -44,7 +51,7 @@ public class ArtifactHelper extends UITestCaseSWT{
 		SectionLocator attributesSection = new SectionLocator("&Attributes");
 		
 		
-		// Make an Attribute - if the section alreday has an attribute we get an issue
+		// Make an Attribute - if the section already has an attribute we get an issue
 		// with the "Stereotype 'Add' button
 		
 
@@ -55,6 +62,18 @@ public class ArtifactHelper extends UITestCaseSWT{
 		ui.click(name);
 		ui.keyClick(SWT.CTRL, 'a');
 		ui.enterText(thisAttributeName);
+		
+		
+		if (primitiveToUse != null){
+			ui.click(new ButtonLocator("Browse", attributesSection));
+			ui.wait(new ShellShowingCondition("Artifact Type Selection"));
+			ui.click(new TableItemLocator(" "+primitiveToUse));
+			ui.click(new ButtonLocator("OK"));
+			ui.wait(new ShellDisposedCondition("Artifact Type Selection"));
+		}
+
+		
+		
 		//Save it
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 		
@@ -66,8 +85,20 @@ public class ArtifactHelper extends UITestCaseSWT{
 		//TODO - Extract these into a a generic attribute handling class
 		LabeledTextLocator type  = new LabeledTextLocator("Type: ");
 		String typeValue = type.getText(ui);
-		assertEquals("Default Type of Attribute not respected", "String", typeValue);
-	
+		
+		String expectedType = "String";
+		String explorerTypeName = "String";
+		String message = "Default Type of Attribute not respected";
+		
+		if (primitiveToUse != null){
+			expectedType= "primitive."+primitiveToUse;
+			explorerTypeName = primitiveToUse;
+			message = "Primitive Type of Attribute not respected";
+		}
+		
+		assertEquals(message, expectedType, typeValue);
+
+		
 		/*
 		 * 
 		 * How do I test the value of the current selection of the the ComboBox.?

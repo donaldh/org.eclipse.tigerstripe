@@ -85,7 +85,19 @@ public class NewArtifacts extends UITestCaseSWT {
 			String thisArtifactName, boolean hasAttributes,
 			boolean hasLiterals, boolean hasMethods, boolean hasEnds)
 			throws Exception {
-
+		return testNewArtifactDefaults(ui, myType, thisArtifactName, hasAttributes, hasLiterals, hasMethods, hasEnds, null);
+	}
+	
+	/**
+	 * This is a simple create using just the name. We need to check the
+	 * defaults are properly created.
+	 * 
+	 * @throws Exception
+	 */
+	public static String testNewArtifactDefaults(IUIContext ui, String myType,
+			String thisArtifactName, boolean hasAttributes,
+			boolean hasLiterals, boolean hasMethods, boolean hasEnds , String primitiveToUse)
+			throws Exception {
 		
 //// TODO - This has been removed so that we can run  on Linux...
 //		if (myType.equals("Entity")) {
@@ -225,7 +237,7 @@ public class NewArtifacts extends UITestCaseSWT {
 					.dependencyEndNames(ui, thisArtifactName));
 		if (hasAttributes)
 			items.add(ArtifactHelper.newAttribute(ui, thisArtifactName, prefix
-					+ TestingConstants.ATTRIBUTE_NAMES[0]));
+					+ TestingConstants.ATTRIBUTE_NAMES[0], primitiveToUse));
 		if (hasLiterals)
 			items.add(ArtifactHelper.newLiteral(ui, thisArtifactName, prefix
 					+ TestingConstants.LITERAL_NAMES[0]));

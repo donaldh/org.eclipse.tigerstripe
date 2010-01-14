@@ -10,6 +10,7 @@ import org.eclipse.tigerstripe.workbench.ui.base.test.generator.NewGlobalRule;
 import org.eclipse.tigerstripe.workbench.ui.base.test.generator.NewPluginProject;
 import org.eclipse.tigerstripe.workbench.ui.base.test.generator.SaveAndDeployPlugin;
 import org.eclipse.tigerstripe.workbench.ui.base.test.profile.AddStereos;
+import org.eclipse.tigerstripe.workbench.ui.base.test.profile.CheckPrimitives;
 import org.eclipse.tigerstripe.workbench.ui.base.test.profile.CreateProfile;
 import org.eclipse.tigerstripe.workbench.ui.base.test.profile.Explorer;
 import org.eclipse.tigerstripe.workbench.ui.base.test.profile.SaveAndDeployProfile;
@@ -49,16 +50,8 @@ public class ProfileTestSuite extends TestCase
         suite.addTestSuite(AddStereos.class);
         
         suite.addTestSuite(Explorer.class);
-			// Check it appears in the correct place
-			// check it *doesn't* appear in the wrong place?
-		
-		// Remove it again
-			// see if its gone!
-		
-		// remove from profile
-			// make sure they are no longer allowed
-        
-        
+			
+        suite.addTestSuite(CheckPrimitives.class);
         
         // close Project
        // suite.addTestSuite(CloseProject.class);
