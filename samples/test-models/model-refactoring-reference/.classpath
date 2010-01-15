@@ -3,6 +3,5 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="PROFILE_ARTIFACTS_LIB"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/model-refactoring"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
