@@ -1,15 +1,10 @@
 package org.eclipse.tigerstripe.refactor.references;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileReader;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.Plugin;
+import org.eclipse.draw2d.FigureCanvas;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.refactor.artifact.Ent1_to_Ent10;
 import org.eclipse.tigerstripe.refactor.delete.DeleteTests;
 import org.eclipse.tigerstripe.refactor.project.ProjectHelper;
@@ -20,28 +15,26 @@ import org.eclipse.tigerstripe.workbench.ui.base.test.project.ArtifactHelper;
 import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
 
 import com.windowtester.runtime.IUIContext;
+import com.windowtester.runtime.WT;
 import com.windowtester.runtime.WidgetNotFoundException;
-import com.windowtester.runtime.WidgetSearchException;
+import com.windowtester.runtime.locator.IWidgetLocator;
 import com.windowtester.runtime.swt.UITestCaseSWT;
 import com.windowtester.runtime.swt.condition.shell.ShellDisposedCondition;
 import com.windowtester.runtime.swt.condition.shell.ShellShowingCondition;
 import com.windowtester.runtime.swt.locator.ButtonLocator;
 import com.windowtester.runtime.swt.locator.CTabItemLocator;
-import com.windowtester.runtime.swt.locator.FilteredTreeItemLocator;
-import com.windowtester.runtime.swt.locator.FilteredTreeLocator;
 import com.windowtester.runtime.swt.locator.LabeledTextLocator;
 import com.windowtester.runtime.swt.locator.SWTWidgetLocator;
 import com.windowtester.runtime.swt.locator.TableItemLocator;
 import com.windowtester.runtime.swt.locator.TreeItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ContributedToolItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ViewLocator;
-import com.windowtester.swt.WidgetLocator;
 
 public class ProjectReferences extends UITestCaseSWT{
 	
 	private static IUIContext ui;
 	private ProjectHelper helper;
-	private ArtifactHelper artifactHelper;
+	//private ArtifactHelper artifactHelper;
 	
 	private static String referenceProjectName ="model-refactoring-reference"; 
 	private static String projectName = "model-refactoring";
@@ -52,13 +45,16 @@ public class ProjectReferences extends UITestCaseSWT{
 	public void setUp() throws Exception{
 		ui = getUI();
 		helper = new ProjectHelper();
-		artifactHelper = new ArtifactHelper();
+		//artifactHelper = new ArtifactHelper();
 		
 		helper.reloadProjectFromCVS(ui,projectName);
+		//helper.loadProjectFromCVS(ui);
+		Thread.sleep(30000);
 		helper.reloadProjectFromCVS(ui, referenceProjectName);
 		
 		//open all diagrams
 		DiagramHelper.openDiagrams(ui, referenceProjectName);
+		DiagramHelper.openNamedDiagram(ui, projectName,"src/simple/default");
 		//open all editors
 		openRelatedEditors(ui);
 	}
@@ -68,6 +64,7 @@ public class ProjectReferences extends UITestCaseSWT{
 		saveAndCloseRelatedEditors(ui);
 		
 		//close all diagrams
+		saveAndCloseDiagram(ui,"default.wvd");
 		saveAndCloseDiagram(ui,"instanceDiagram.wod");		
 		saveAndCloseDiagram(ui,"classDiagram.wvd");
 	}
@@ -92,7 +89,10 @@ public class ProjectReferences extends UITestCaseSWT{
 		checkPresentInDiagrams(ui,"Ent10",true);
 		
 		//check artifacts for references to ent10 to see updated
-		checkEditorUpdates(ui,  "simple", "Ent10",false);	
+		checkEditorUpdates(ui,  "simple", "Ent10",false);
+		
+		//check explorer updates
+		checkExplorerUpdates(ui,"simple","Ent10");
 		
 		//move Ent10 to different package
 		doChangeByMove(ui);
@@ -107,6 +107,7 @@ public class ProjectReferences extends UITestCaseSWT{
 
 		
 		//rename Ent10 in its local project in class diagram to Ent100
+		//doChangeThroughDiagramInSamePackage(ui);
 		
         //check diagrams and artifact references are updated to new location
 		
@@ -125,6 +126,46 @@ public class ProjectReferences extends UITestCaseSWT{
 		//check Error log and clear it
 		
 		
+	}
+	
+	public static void doChangeThroughDiagramInSamePackage(IUIContext ui)
+	throws Exception {
+		LocatorHelper helper = new LocatorHelper();
+		ui.click(new CTabItemLocator("*default.wvd"));
+		//IWidgetLocator tfl = helper.getNameEditLocator(ui, "simple.moved.Ent10");
+		IWidgetLocator tfl = helper.getNameEditLocator(ui, "Ent10");
+		ui.click(tfl);
+		ui.click(tfl);
+		Thread.sleep(1000);
+		ui.click(tfl);
+		ui.click(new SWTWidgetLocator(Text.class, new SWTWidgetLocator(
+				FigureCanvas.class)));
+		ui.keyClick(WT.END);
+		ui.enterText("0");
+		ui.keyClick(WT.CR);
+
+}
+	
+	public static void checkExplorerUpdates(IUIContext ui, String myPackage, String name) throws Exception{
+		ViewLocator view = new ViewLocator(
+		"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
+		
+		// Check for ourself!
+		ArtifactHelper.checkArtifactInExplorer(ui, projectName, myPackage, name);
+		
+		ArrayList<String> items = new ArrayList<String>();
+		items.add("ent1:" + name);
+		ArtifactHelper.checkItemsInExplorer(ui, referenceProjectName, "simple", "Association3", items);
+		items = new ArrayList<String>();
+		items.add("ent1_1:"+name);
+		ArtifactHelper.checkItemsInExplorer(ui, referenceProjectName, "simple", "AssociationClass1", items);
+		items = new ArrayList<String>();
+		items.add(name);
+		ArtifactHelper.checkItemsInExplorer(ui, referenceProjectName, "simple", "Dependency1", items);
+		items = new ArrayList<String>();
+		items.add("attribute0:"+name);
+		items.add("method0("+name+"):"+name+"[0..1]");
+		ArtifactHelper.checkItemsInExplorer(ui, referenceProjectName, "simple", "Ent3", items);
 	}
 	
 	public static void saveAndCloseDiagram(IUIContext ui,String name) throws Exception{

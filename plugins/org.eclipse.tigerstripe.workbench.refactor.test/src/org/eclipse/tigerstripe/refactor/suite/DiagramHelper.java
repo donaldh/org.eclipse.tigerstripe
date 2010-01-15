@@ -45,6 +45,13 @@ public class DiagramHelper {
 		}
 	}
 	
+	public static void openNamedDiagram(IUIContext ui, String projectName, String diagramName) throws Exception{
+		Thread.sleep(5000);
+		ViewLocator view = new ViewLocator(
+		"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
+		ui.click(2,	new TreeItemLocator(projectName+"/"+diagramName,view));
+	}
+	
 	public static void openInstanceDiagram(IUIContext ui) throws Exception{
 		Thread.sleep(5000);
 		ViewLocator view = new ViewLocator("org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew");
