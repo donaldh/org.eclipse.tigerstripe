@@ -27,7 +27,7 @@ public class CheckPrimitives extends UITestCaseSWT {
 	/**
 	 * Main test method.
 	 */
-	public void testAddStereos() throws Exception {
+	public void testAddPrims() throws Exception {
 		IUIContext ui = getUI();
 		
 		ProjectRecord.addArtifact(NewArtifacts.testNewArtifactDefaults(ui, "Datatype",

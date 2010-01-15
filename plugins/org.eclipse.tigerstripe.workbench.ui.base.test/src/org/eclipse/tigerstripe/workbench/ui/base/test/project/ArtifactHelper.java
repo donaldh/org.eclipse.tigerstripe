@@ -119,7 +119,7 @@ public class ArtifactHelper extends UITestCaseSWT{
 				
 		// collapse the Attributes sections
 		ui.click(sectionLabel);
-		return thisAttributeName+":"+typeValue;
+		return thisAttributeName+":"+explorerTypeName;
 	}
 
 	public static String newLiteral(IUIContext ui, String artifactName, String thisLiteralName) throws Exception {
