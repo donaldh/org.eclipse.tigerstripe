@@ -33,7 +33,7 @@ public class CheckPrimitives extends UITestCaseSWT {
 		ProjectRecord.addArtifact(NewArtifacts.testNewArtifactDefaults(ui, "Datatype",
 				TestingConstants.DATATYPE_NAMES[2], true, true, true, false, "string"));
 		
-		ui.close( new CTabItemLocator(TestingConstants.DATATYPE_NAMES[2]));
+
 	}
 
 }
