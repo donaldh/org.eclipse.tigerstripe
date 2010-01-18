@@ -25,6 +25,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -36,12 +37,12 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactAttributeDetailsPage;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactConstantDetailsPage;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactMethodDetailsPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactAttributesSection;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactConstantDetailsPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactConstantsSection;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactGeneralInfoSection;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactMethodDetailsPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactMethodsSection;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactOverviewPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.TSOpenAction;
@@ -140,12 +141,12 @@ public class OpenArtifactAnnotationsInEditorAction extends
 											.getCurrentPage();
 									Table annotTable = detailsPage
 											.getAnnTable();
-									ExpandableComposite tableComposite = (ExpandableComposite) annotTable
+									Composite tableComposite = (Composite) annotTable
 											.getParent().getParent();
-									tableComposite.setExpanded(true);
+									//tableComposite.setExpanded(true);
 									ScrolledPageBook spb = (ScrolledPageBook) tableComposite
 											.getParent().getParent()
-											.getParent();
+											.getParent().getParent();
 									ScrolledForm detailsPageScrolledForm = detailsPage
 											.getForm().getForm();
 									detailsPageScrolledForm.setFocus();
@@ -202,12 +203,13 @@ public class OpenArtifactAnnotationsInEditorAction extends
 											.getCurrentPage();
 									Table annotTable = detailsPage
 											.getAnnTable();
-									ExpandableComposite tableComposite = (ExpandableComposite) annotTable
+									
+									Composite tableComposite = (Composite) annotTable
 											.getParent().getParent();
-									tableComposite.setExpanded(true);
+									//tableComposite.setExpanded(true);
 									ScrolledPageBook spb = (ScrolledPageBook) tableComposite
 											.getParent().getParent()
-											.getParent().getParent()
+											.getParent()
 											.getParent();
 									ScrolledForm detailsPageScrolledForm = detailsPage
 											.getForm().getForm();
@@ -264,11 +266,11 @@ public class OpenArtifactAnnotationsInEditorAction extends
 											.getCurrentPage();
 									Table annotTable = detailsPage
 											.getAnnTable();
-									ExpandableComposite tableComposite = (ExpandableComposite) annotTable
+									Composite tableComposite = (Composite) annotTable
 											.getParent().getParent();
-									tableComposite.setExpanded(true);
+									//tableComposite.setExpanded(true);
 									ScrolledPageBook spb = (ScrolledPageBook) tableComposite
-											.getParent().getParent()
+											.getParent()
 											.getParent();
 									ScrolledForm detailsPageScrolledForm = detailsPage
 											.getForm().getForm();
