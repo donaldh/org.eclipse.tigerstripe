@@ -35,9 +35,9 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactAttributesSection;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactConstantsSection;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactMethodsSection;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactOverviewPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.TSOpenAction;
@@ -46,6 +46,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.Literal;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Method;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.QualifiedNamedElement;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.TigerstripeAttributeEditPart;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.TigerstripeEditableEntityEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.TigerstripeEditableLabelEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.TigerstripeLiteralEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.TigerstripeMethodEditPart;
@@ -57,148 +58,160 @@ import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
 public class OpenArtifactPartInEditorAction extends BaseDiagramPartAction
-		implements IObjectActionDelegate {
+implements IObjectActionDelegate {
 
 	public void run(IAction action) {
-		IAbstractArtifact artifact = getContainingArtifact();
 
-		if (artifact != null) {
-			IWorkbenchPage page = PlatformUI.getWorkbench()
-					.getActiveWorkbenchWindow().getActivePage();
+		IWorkbenchPage page = PlatformUI.getWorkbench()
+		 .getActiveWorkbenchWindow().getActivePage();
 
-			IEditorPart editorPart = TSOpenAction.openEditor(artifact, page);
+
+
 
 			EditPart mySelectedElement = mySelectedElements[0];
 			if (mySelectedElement instanceof TigerstripeAttributeEditPart
 					|| mySelectedElement instanceof TigerstripeMethodEditPart
 					|| mySelectedElement instanceof TigerstripeLiteralEditPart) {
-				if (editorPart != null) {
-					ArtifactEditorBase artEditor = (ArtifactEditorBase) editorPart;
-					artEditor.setActivePage("ossj.entity.overview", artEditor);
-					// now, get the active page and loop through the parts of
-					// that page
-					ArtifactOverviewPage selectedPage = (ArtifactOverviewPage) artEditor
-							.getSelectedPage();
-					IFormPart[] formParts = selectedPage.getManagedForm()
-							.getParts();
-					for (int j = 0; j < formParts.length; j++) {
-						if (mySelectedElement instanceof TigerstripeAttributeEditPart
-								&& formParts[j] instanceof ArtifactAttributesSection) {
-							Attribute thisAttribute = (Attribute) ((View) mySelectedElement
-									.getModel()).getElement();
-							// if we are working with a field and we've found
-							// the Attributes section, then we are in
-							// the right place
-							ArtifactAttributesSection attributesSection = (ArtifactAttributesSection) formParts[j];
-							// set the section so that it is expanded
-							attributesSection.getSection().setExpanded(true);
-							// determine where the section is and scroll so that
-							// it is visible
-							Point origin = attributesSection.getSection()
-									.getLocation();
-							ScrolledForm scrolledForm = selectedPage
-									.getManagedForm().getForm();
-							scrolledForm.setOrigin(origin);
-							// then select the appropriate row in the table (and
-							// make the details visible?)
-							TableViewer viewer = attributesSection.getViewer();
-							Table table = viewer.getTable();
-							table.deselectAll();
-							for (int row = 0; row < table.getItemCount(); row++) {
-								TableItem tableItem = table.getItem(row);
-								IField rowField = (IField) tableItem.getData();
-								if (thisAttribute.getName().equals(
-										rowField.getName())) {
-									table.select(row);
-									selectedPage.getManagedForm()
-											.fireSelectionChanged(formParts[j],
-													viewer.getSelection());
-									break;
+				IAbstractArtifact artifact = getContainingArtifact();
+
+				if (artifact != null) {
+					IEditorPart editorPart = TSOpenAction.openEditor(artifact, page);
+					if (editorPart != null) {
+						ArtifactEditorBase artEditor = (ArtifactEditorBase) editorPart;
+						artEditor.setActivePage("ossj.entity.overview", artEditor);
+						// now, get the active page and loop through the parts of
+						// that page
+						ArtifactOverviewPage selectedPage = (ArtifactOverviewPage) artEditor
+						.getSelectedPage();
+						IFormPart[] formParts = selectedPage.getManagedForm()
+						.getParts();
+						for (int j = 0; j < formParts.length; j++) {
+							if (mySelectedElement instanceof TigerstripeAttributeEditPart
+									&& formParts[j] instanceof ArtifactAttributesSection) {
+								Attribute thisAttribute = (Attribute) ((View) mySelectedElement
+										.getModel()).getElement();
+								// if we are working with a field and we've found
+								// the Attributes section, then we are in
+								// the right place
+								ArtifactAttributesSection attributesSection = (ArtifactAttributesSection) formParts[j];
+								// set the section so that it is expanded
+								attributesSection.getSection().setExpanded(true);
+								// determine where the section is and scroll so that
+								// it is visible
+								Point origin = attributesSection.getSection()
+								.getLocation();
+								ScrolledForm scrolledForm = selectedPage
+								.getManagedForm().getForm();
+								scrolledForm.setOrigin(origin);
+								// then select the appropriate row in the table (and
+								// make the details visible?)
+								TableViewer viewer = attributesSection.getViewer();
+								Table table = viewer.getTable();
+								table.deselectAll();
+								for (int row = 0; row < table.getItemCount(); row++) {
+									TableItem tableItem = table.getItem(row);
+									IField rowField = (IField) tableItem.getData();
+									if (thisAttribute.getName().equals(
+											rowField.getName())) {
+										table.select(row);
+										selectedPage.getManagedForm()
+										.fireSelectionChanged(formParts[j],
+												viewer.getSelection());
+										break;
+									}
 								}
-							}
-							table.setFocus();
-							attributesSection.updateMaster();
-							break;
-						} else if (mySelectedElement instanceof TigerstripeMethodEditPart
-								&& formParts[j] instanceof ArtifactMethodsSection) {
-							Method thisMethod = (Method) ((View) mySelectedElement
-									.getModel()).getElement();
-							// else if we are working with a method and we've
-							// found the Methods section, then we are in
-							// the right place
-							ArtifactMethodsSection methodsSection = (ArtifactMethodsSection) formParts[j];
-							// set the section so that it is expanded
-							methodsSection.getSection().setExpanded(true);
-							// determine where the section is and scroll so that
-							// it is visible
-							Point origin = methodsSection.getSection()
-									.getLocation();
-							ScrolledForm scrolledForm = selectedPage
-									.getManagedForm().getForm();
-							scrolledForm.setOrigin(origin);
-							// then select the appropriate row in the table (and
-							// make the details visible?)
-							TableViewer viewer = methodsSection.getViewer();
-							Table table = viewer.getTable();
-							table.deselectAll();
-							for (int row = 0; row < table.getItemCount(); row++) {
-								TableItem tableItem = table.getItem(row);
-								IMethod rowMethod = (IMethod) tableItem
-										.getData();
-								if (thisMethod.getName().equals(
-										rowMethod.getName())) {
-									table.select(row);
-									selectedPage.getManagedForm()
-											.fireSelectionChanged(formParts[j],
-													viewer.getSelection());
-									break;
+								table.setFocus();
+								attributesSection.updateMaster();
+								break;
+							} else if (mySelectedElement instanceof TigerstripeMethodEditPart
+									&& formParts[j] instanceof ArtifactMethodsSection) {
+								Method thisMethod = (Method) ((View) mySelectedElement
+										.getModel()).getElement();
+								// else if we are working with a method and we've
+								// found the Methods section, then we are in
+								// the right place
+								ArtifactMethodsSection methodsSection = (ArtifactMethodsSection) formParts[j];
+								// set the section so that it is expanded
+								methodsSection.getSection().setExpanded(true);
+								// determine where the section is and scroll so that
+								// it is visible
+								Point origin = methodsSection.getSection()
+								.getLocation();
+								ScrolledForm scrolledForm = selectedPage
+								.getManagedForm().getForm();
+								scrolledForm.setOrigin(origin);
+								// then select the appropriate row in the table (and
+								// make the details visible?)
+								TableViewer viewer = methodsSection.getViewer();
+								Table table = viewer.getTable();
+								table.deselectAll();
+								for (int row = 0; row < table.getItemCount(); row++) {
+									TableItem tableItem = table.getItem(row);
+									IMethod rowMethod = (IMethod) tableItem
+									.getData();
+									if (thisMethod.getName().equals(
+											rowMethod.getName())) {
+										table.select(row);
+										selectedPage.getManagedForm()
+										.fireSelectionChanged(formParts[j],
+												viewer.getSelection());
+										break;
+									}
 								}
-							}
-							table.setFocus();
-							methodsSection.updateMaster();
-							break;
-						} else if (mySelectedElement instanceof TigerstripeLiteralEditPart
-								&& formParts[j] instanceof ArtifactConstantsSection) {
-							Literal thisLiteral = (Literal) ((View) mySelectedElement
-									.getModel()).getElement();
-							// else if we are working with a label and we've
-							// found the Constants section, then we are in
-							// the right place
-							ArtifactConstantsSection constantsSection = (ArtifactConstantsSection) formParts[j];
-							// set the section so that it is expanded
-							constantsSection.getSection().setExpanded(true);
-							// determine where the section is and scroll so that
-							// it is visible
-							Point origin = constantsSection.getSection()
-									.getLocation();
-							ScrolledForm scrolledForm = selectedPage
-									.getManagedForm().getForm();
-							scrolledForm.setOrigin(origin);
-							// then select the appropriate row in the table (and
-							// make the details visible?)
-							TableViewer viewer = constantsSection.getViewer();
-							Table table = viewer.getTable();
-							table.deselectAll();
-							for (int row = 0; row < table.getItemCount(); row++) {
-								TableItem tableItem = table.getItem(row);
-								ILiteral rowLabel = (ILiteral) tableItem.getData();
-								if (thisLiteral.getName().equals(
-										rowLabel.getName())) {
-									table.select(row);
-									selectedPage.getManagedForm()
-											.fireSelectionChanged(formParts[j],
-													viewer.getSelection());
-									break;
+								table.setFocus();
+								methodsSection.updateMaster();
+								break;
+							} else if (mySelectedElement instanceof TigerstripeLiteralEditPart
+									&& formParts[j] instanceof ArtifactConstantsSection) {
+								Literal thisLiteral = (Literal) ((View) mySelectedElement
+										.getModel()).getElement();
+								// else if we are working with a label and we've
+								// found the Constants section, then we are in
+								// the right place
+								ArtifactConstantsSection constantsSection = (ArtifactConstantsSection) formParts[j];
+								// set the section so that it is expanded
+								constantsSection.getSection().setExpanded(true);
+								// determine where the section is and scroll so that
+								// it is visible
+								Point origin = constantsSection.getSection()
+								.getLocation();
+								ScrolledForm scrolledForm = selectedPage
+								.getManagedForm().getForm();
+								scrolledForm.setOrigin(origin);
+								// then select the appropriate row in the table (and
+								// make the details visible?)
+								TableViewer viewer = constantsSection.getViewer();
+								Table table = viewer.getTable();
+								table.deselectAll();
+								for (int row = 0; row < table.getItemCount(); row++) {
+									TableItem tableItem = table.getItem(row);
+									ILiteral rowLabel = (ILiteral) tableItem.getData();
+									if (thisLiteral.getName().equals(
+											rowLabel.getName())) {
+										table.select(row);
+										selectedPage.getManagedForm()
+										.fireSelectionChanged(formParts[j],
+												viewer.getSelection());
+										break;
+									}
 								}
+								table.setFocus();
+								constantsSection.updateMaster();
+								break;
 							}
-							table.setFocus();
-							constantsSection.updateMaster();
-							break;
 						}
 					}
 				}
+			
+			} else {
+				IAbstractArtifact[] artifacts = getCorrespondingArtifacts();
+				for (IAbstractArtifact artifact : artifacts) {
+					if (artifact != null) {
+						TSOpenAction.openEditor(artifact, page);
+					}
+				}
 			}
-		}
+
 	}
 
 	@Override
@@ -208,21 +221,22 @@ public class OpenArtifactPartInEditorAction extends BaseDiagramPartAction
 			IStructuredSelection structuredSelection = (IStructuredSelection) selection;
 			for (Iterator iter = structuredSelection.iterator(); iter.hasNext();) {
 				Object obj = iter.next();
-				if (obj instanceof TigerstripeEditableLabelEditPart) {
+				if (obj instanceof TigerstripeEditableLabelEditPart
+						|| obj instanceof TigerstripeEditableEntityEditPart) {
 					selecteds.add((EditPart) obj);
 				}
 			}
 		}
 		mySelectedElements = selecteds.toArray(new EditPart[selecteds.size()]);
-		action.setEnabled(isEnabled());
+		
 	}
 
-	/**
-	 * 
-	 */
-	private boolean isEnabled() {
-		return mySelectedElements.length != 0;
-	}
+//	/**
+//	 * 
+//	 */
+//	private boolean isEnabled() {
+//		return mySelectedElements.length != 0;
+//	}
 
 	protected IAbstractArtifact getContainingArtifact() {
 		try {

@@ -70,25 +70,10 @@
          	   label="Edit Stereotypes"
 		 />
          <action
-               class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.OpenArtifactInEditorAction"
+               class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.OpenArtifactPartInEditorAction"
                id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action3"
                label="Open in Editor"
                />
-      </objectContribution>
-      <objectContribution
-            adaptable="false"
-            id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.objectContribution3b"
-            objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.TigerstripeEditableLabelEditPart">
-         	<action
-            	class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.OpenArtifactAnnotationsInEditorAction"
-            	id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action3b1"
-            	label="Edit Stereotypes"
-      		/>
-         	<action
-            	class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.OpenArtifactPartInEditorAction"
-            	id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action3b2"
-            	label="Show Value in Editor"
-      		/>
       </objectContribution>
       <objectContribution
             adaptable="false"
