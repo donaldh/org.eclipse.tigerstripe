@@ -223,6 +223,24 @@ public class ModelChangeDeltaProcessor {
 				artifact.doSave(null);
 			else
 				toSave.add(artifact);
+		} else if (IModelChangeDelta.MOVE == delta.getType()) {
+			IAbstractArtifact newOne = ((AbstractArtifact) artifact)
+					.makeWorkingCopy(null);
+			newOne.setFullyQualifiedName((String) delta.getNewValue());
+			delta.getProject().getArtifactManagerSession().addArtifact(newOne);
+			
+			if (toSave == null)
+				newOne.doSave(null);
+			else
+				toSave.add(newOne);
+
+			// propagate to annotations framework
+			URI oldUri = (URI) artifact.getAdapter(URI.class);
+			URI newUri = (URI) newOne.getAdapter(URI.class);
+			refactor.changed(oldUri, newUri, true);
+
+			artifact.getProject().getArtifactManagerSession().removeArtifact(artifact);
+			toCleanUp.add(artifact);
 		}
 	}
 

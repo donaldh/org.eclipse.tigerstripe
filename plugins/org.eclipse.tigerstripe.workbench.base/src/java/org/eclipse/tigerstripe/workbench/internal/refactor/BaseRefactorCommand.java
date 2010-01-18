@@ -34,6 +34,7 @@ import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramRefac
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.refactor.IRefactorCommand;
+import org.eclipse.tigerstripe.workbench.refactor.ModelRefactorRequest;
 import org.eclipse.tigerstripe.workbench.refactor.RefactorRequest;
 import org.eclipse.tigerstripe.workbench.refactor.diagrams.DiagramSynchronizerController;
 
@@ -133,6 +134,15 @@ public class BaseRefactorCommand implements IRefactorCommand {
 				} catch (CoreException e) {
 					BasePlugin.log(e);
 				}
+			} else if (obj instanceof IAbstractArtifact) {
+				IResource res = (IResource) ((IAbstractArtifact) obj)
+						.getAdapter(IResource.class);
+				try {
+					if (res != null)
+						res.delete(true, monitor);
+				} catch (CoreException e) {
+					BasePlugin.log(e);
+				}
 			} else if (obj instanceof IResource) {
 				try {
 					((IResource) obj).delete(true, null);
@@ -204,22 +214,7 @@ public class BaseRefactorCommand implements IRefactorCommand {
 			Collection<Object> toCleanUp) {
 		monitor.beginTask("Applying deltas", 2 * deltas.size());
 
-		// We need to apply deltas in 3 passes
-		// First pass for all non-renaming deltas. This ensures we take care of
-		// the inside of all artifact changes first.
-		// for (ModelChangeDelta delta : deltas) {
-		// try {
-		// if (delta.isComponentRefactor()
-		// && !delta.isRelationEndRefactor())
-		// delta.apply(toCleanUp);
-		// } catch (TigerstripeException e) {
-		// BasePlugin.log(e);
-		// }
-		// monitor.worked(1);
-		// }
-
-		// then a second pass that will actually move artifacts that need to
-		// be moved
+		// move artifacts that need to be moved
 		Set<IAbstractArtifact> toSave = new HashSet<IAbstractArtifact>();
 		for (ModelChangeDelta delta : deltas) {
 			try {
@@ -294,5 +289,22 @@ public class BaseRefactorCommand implements IRefactorCommand {
 				resources.add(res);
 		}
 		return resources;
+	}
+
+	/**
+	 * Returns true if the command implies moving artifacts from one project to
+	 * another.
+	 * 
+	 * @return
+	 */
+	public boolean isCrossProjectCmd() {
+		for (RefactorRequest req : requests) {
+			if (req instanceof ModelRefactorRequest) {
+				ModelRefactorRequest mRReq = (ModelRefactorRequest) req;
+				if (mRReq.isCrossProjectCmd())
+					return true;
+			}
+		}
+		return false;
 	}
 }

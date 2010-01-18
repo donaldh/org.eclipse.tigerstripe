@@ -123,6 +123,12 @@ public class ModelRefactorCommandFactory {
 			BaseRefactorCommand cmd = new BaseRefactorCommand(derivedRequests
 					.toArray(new RefactorRequest[derivedRequests.size()]));
 
+			// in the case of a cross project cmd, we handle that differently
+			// and delegate
+			if (cmd.isCrossProjectCmd()) {
+				return getCrossProjectCommand(cmd, monitor);
+			}
+
 			// Create a map of requests indexed by the FQN that will change as a
 			// result of the request
 			Map<String, ModelRefactorRequest> mappedRequests = mapRequests(derivedRequests);
@@ -173,6 +179,52 @@ public class ModelRefactorCommandFactory {
 			cmd.addDiagramDeltas(createDiagramDeltas(derivedRequests));
 
 			return cmd;
+		}
+		return IRefactorCommand.UNEXECUTABLE;
+	}
+
+	/**
+	 * This method is used to delegate the creation of deltas in the case where
+	 * artifacts are moved across project boundaries.
+	 * 
+	 * This is handled by creating new artifacts and removing the original ones
+	 * 
+	 * @param command
+	 * @param monitor
+	 * @return
+	 */
+	protected IRefactorCommand getCrossProjectCommand(
+			BaseRefactorCommand command, IProgressMonitor monitor)
+			throws TigerstripeException {
+
+		// At this stage all derived requests are in already (i.e. if moving a
+		// package all reqs to moving contained artifacts are in)
+		List<ModelChangeDelta> deltas = new ArrayList<ModelChangeDelta>();
+		for (RefactorRequest req : command.getRequests()) {
+			// note that all reqs are expected to be cross-project at this stage
+			if (req instanceof ModelRefactorRequest) {
+				ModelRefactorRequest mRReq = (ModelRefactorRequest) req;
+				if (!mRReq.isCrossProjectCmd())
+					return IRefactorCommand.UNEXECUTABLE;
+
+				// move artifact in destination project
+				ModelChangeDelta moveDelta = new ModelChangeDelta(
+						ModelChangeDelta.MOVE);
+				moveDelta.setFeature(IArtifactFQRenameRequest.FQN_FEATURE);
+				moveDelta.setAffectedModelComponentURI((URI) mRReq
+						.getOriginalArtifact().getAdapter(URI.class));
+				moveDelta.setOldValue(mRReq.getOriginalFQN());
+				moveDelta.setNewValue(mRReq.getDestinationFQN());
+				moveDelta.setComponent(mRReq.getOriginalArtifact());
+				moveDelta.setProject(mRReq.getDestinationProject());
+				moveDelta.setSource(mRReq);
+				deltas.add(moveDelta);
+			}
+		}
+
+		if (deltas.size() != 0) {
+			command.addDeltas(deltas);
+			return command;
 		}
 		return IRefactorCommand.UNEXECUTABLE;
 	}

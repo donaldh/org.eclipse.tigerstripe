@@ -101,7 +101,8 @@ public class ModelRefactorRequest extends RefactorRequest {
 			}
 
 			// checks that it is not a change of case
-			if (originalFQN.toUpperCase().equals(destinationFQN.toUpperCase())) {
+			if (originalFQN.toUpperCase().equals(destinationFQN.toUpperCase())
+					&& originalProject.equals(destinationProject)) {
 				IStatus status = new Status(IStatus.ERROR, BasePlugin
 						.getPluginId(), "Refactor is case-insensitive");
 				return status;
@@ -137,6 +138,16 @@ public class ModelRefactorRequest extends RefactorRequest {
 		return "ModelRefactorRequest: from" + originalFQN + " ("
 				+ originalProject.getName() + ") to " + destinationFQN + " ("
 				+ destinationProject.getName() + ").";
+	}
+
+	/**
+	 * Returns true is request implies moving artifact from one project to
+	 * another.
+	 * 
+	 * @return
+	 */
+	public boolean isCrossProjectCmd() {
+		return !originalProject.equals(destinationProject);
 	}
 
 }

@@ -31,7 +31,7 @@ public interface IRefactorCommand {
 			new RefactorRequest[0]);
 
 	public Collection<ModelChangeDelta> getDeltas();
-	
+
 	public Collection<DiagramChangeDelta> getDiagramDeltas();
 
 	/**
@@ -49,4 +49,11 @@ public interface IRefactorCommand {
 	 * @throws TigerstripeException
 	 */
 	public void execute(IProgressMonitor monitor) throws TigerstripeException;
+
+	/**
+	 * Returns true if cmd implies moving artifacts from one project to another.
+	 * 
+	 * @return
+	 */
+	public boolean isCrossProjectCmd();
 }
