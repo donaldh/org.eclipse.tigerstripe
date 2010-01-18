@@ -28,7 +28,6 @@ import org.eclipse.jface.operation.ModalContext;
 import org.eclipse.jface.wizard.IWizardContainer;
 import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.ProgressMonitorPart;
-import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -54,7 +53,7 @@ public class TigerstripeRefactorWizardDialog extends Dialog implements
 
 	private static final String WIDTH = "width";
 	private static final String HEIGHT = "height";
-	private static final String DIALOG_SETTINGS = "MyWizardDialog";
+	private static final String DIALOG_SETTINGS = "org.eclipse.tigerstripe.workbench.ui.internal.dialogs.TigerstripeRefactorWizardDialog";
 
 	private static final int PREVIEW_ID = IDialogConstants.CLIENT_ID + 1;
 

@@ -52,7 +52,7 @@ public class MoveInputWizardPage extends AbstractModelRefactorWizardPage {
 	public static final String PAGE_NAME = "MoveInputPage";
 
 	private TreeViewer destinationField;
-
+	
 	private Image projectImg;
 
 	private Image srcImg;
@@ -85,6 +85,7 @@ public class MoveInputWizardPage extends AbstractModelRefactorWizardPage {
 		destinationField.getTree().setLayoutData(gd);
 		destinationField.setLabelProvider(new LabelProvider() {
 
+			
 			@Override
 			public Image getImage(Object element) {
 
@@ -149,23 +150,7 @@ public class MoveInputWizardPage extends AbstractModelRefactorWizardPage {
 				return null;
 			}
 
-			@Override
-			public void dispose() {
 
-				super.dispose();
-				if (projectImg != null) {
-					projectImg.dispose();
-					projectImg = null;
-				}
-				if (srcImg != null) {
-					srcImg.dispose();
-					srcImg = null;
-				}
-				if (packageImg != null) {
-					packageImg.dispose();
-					packageImg = null;
-				}
-			}
 		});
 		destinationField.setContentProvider(new BaseWorkbenchContentProvider());
 		destinationField.addFilter(new ViewerFilter() {
@@ -241,8 +226,8 @@ public class MoveInputWizardPage extends AbstractModelRefactorWizardPage {
 							return;
 						}
 
-						try {
 
+						try {
 							AbstractModelRefactorWizard wizard = (AbstractModelRefactorWizard) getWizard();
 							wizard.clearRequests();
 
@@ -250,7 +235,6 @@ public class MoveInputWizardPage extends AbstractModelRefactorWizardPage {
 									.getFirstElement());
 							String fullyQualifiedName = getContainerFqn((IContainer) selection
 									.getFirstElement());
-
 							ModelRefactorRequest request = new ModelRefactorRequest();
 							request.setOriginal(artifact.getProject(), artifact
 									.getFullyQualifiedName());
@@ -260,10 +244,11 @@ public class MoveInputWizardPage extends AbstractModelRefactorWizardPage {
 							if (validatePage(request)) {
 								wizard.addRequest(request);
 							}
-
-						} catch (TigerstripeException te) {
-							EclipsePlugin.log(te);
+						} catch (TigerstripeException t){
+							setMessage(t.getMessage());
+							setPageComplete(false);
 						}
+
 
 					}
 
@@ -279,7 +264,7 @@ public class MoveInputWizardPage extends AbstractModelRefactorWizardPage {
 									+ artifact.getName();
 						} else {
 							throw new TigerstripeException(
-									"The supplied container must be an instance of IPackageFragment!");
+									"The supplied container must be an instance of IPackageFragment");
 						}
 					}
 
@@ -327,5 +312,23 @@ public class MoveInputWizardPage extends AbstractModelRefactorWizardPage {
 
 		IResource srcResource = project.findMember(srcRepo);
 		return srcResource.getProjectRelativePath();
+	}
+	
+	@Override
+	public void dispose() {
+
+		super.dispose();
+		if (projectImg != null) {
+			projectImg.dispose();
+			projectImg = null;
+		}
+		if (srcImg != null) {
+			srcImg.dispose();
+			srcImg = null;
+		}
+		if (packageImg != null) {
+			packageImg.dispose();
+			packageImg = null;
+		}
 	}
 }
