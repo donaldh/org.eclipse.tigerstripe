@@ -33,6 +33,7 @@ import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramChang
 import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramRefactorHelper;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.refactor.IRefactorCommand;
 import org.eclipse.tigerstripe.workbench.refactor.ModelRefactorRequest;
 import org.eclipse.tigerstripe.workbench.refactor.RefactorRequest;
@@ -121,6 +122,13 @@ public class BaseRefactorCommand implements IRefactorCommand {
 			if (obj instanceof IPackageArtifact) {
 				IResource res = (IResource) ((IPackageArtifact) obj)
 						.getAdapter(IResource.class);
+
+				// Also removing from Art Mgr
+				IPackageArtifact art = (IPackageArtifact) obj;
+				ITigerstripeModelProject proj = art.getProject();
+				if (proj != null)
+					proj.getArtifactManagerSession().removeArtifact(art);
+
 				IFolder f = null;
 				if (res instanceof IFolder) {
 					f = (IFolder) res;
