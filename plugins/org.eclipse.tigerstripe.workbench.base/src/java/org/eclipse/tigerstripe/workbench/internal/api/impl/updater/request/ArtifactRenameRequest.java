@@ -109,7 +109,11 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 
 		// Bug 939: should be using a rename rather than doing a remove/add
 		// manually
-		mgrSession
+		// bug 299124: the artifact may be coming from a parent project, so 
+		// we need to get the right session mgr for that very artifact, not
+		// the one attached here which is the leaf.
+		IArtifactManagerSession session = aArt.getProject().getArtifactManagerSession();
+		session
 				.renameArtifact(origArt, origArt.getPackage() + "." + newName);
 		origArt.doSave(new NullProgressMonitor());
 
