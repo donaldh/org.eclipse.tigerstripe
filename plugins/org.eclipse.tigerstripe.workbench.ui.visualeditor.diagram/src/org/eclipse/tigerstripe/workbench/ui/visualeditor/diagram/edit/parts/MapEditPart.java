@@ -232,7 +232,8 @@ public class MapEditPart extends DiagramEditPart {
 				// part's children
 				List<AbstractEditPart> childEditParts = editPart.getChildren();
 				for (AbstractEditPart childEditPart : childEditParts) {
-					if (childEditPart instanceof AssociationNamePackageEditPart) {
+					if (childEditPart instanceof TigerstripeStereotypeEditPart || 
+							childEditPart instanceof AssociationNamePackageEditPart) {
 						childEditPart.refresh();
 					}
 				}
@@ -317,7 +318,8 @@ public class MapEditPart extends DiagramEditPart {
 						for (EditPart child : (List<EditPart>) list
 								.getChildren()) {
 							if (child instanceof TigerstripeAttributeEditPart
-									|| child instanceof TigerstripeMethodEditPart) {
+									|| child instanceof TigerstripeMethodEditPart 
+									|| child instanceof TigerstripeLiteralEditPart) {
 								child.refresh();
 							}
 						}

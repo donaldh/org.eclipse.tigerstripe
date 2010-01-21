@@ -66,7 +66,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.util.NamedElementProper
  * @generated
  */
 public class AssociationAEndNameEditPart extends LabelEditPart implements
-		ITextAwareEditPart {
+		ITextAwareEditPart, TigerstripeStereotypeEditPart{
 
 	/**
 	 * @generated
@@ -239,10 +239,9 @@ public class AssociationAEndNameEditPart extends LabelEditPart implements
 						.equals(detailsProp))
 			return "";
 
-		String prefix = ClassDiagramPartsUtils.visibilityPrefix(attr
-				.getAEndVisibility());
+		
 
-		return prefix + text;
+		return text;
 	}
 
 	/**

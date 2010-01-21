@@ -1125,7 +1125,7 @@ public class TigerstripeParserProvider extends AbstractProvider implements
 	 * @generated NOT
 	 */
 	protected IParser createAssociationAssociationAEndName_4024Parser() {
-		TigerstripeStructuralFeatureParser parser = new TigerstripeFieldnameConstrainedFeatureParser(
+		AssociationAEndParser parser = new AssociationAEndParser(
 				VisualeditorPackage.eINSTANCE.getAssociation()
 						.getEStructuralFeature("aEndName")); //$NON-NLS-1$
 		return parser;
@@ -1150,7 +1150,7 @@ public class TigerstripeParserProvider extends AbstractProvider implements
 	 * @generated NOT
 	 */
 	protected IParser createAssociationAssociationZEndName_4025Parser() {
-		TigerstripeStructuralFeatureParser parser = new TigerstripeFieldnameConstrainedFeatureParser(
+		AssociationZEndParser parser = new AssociationZEndParser(
 				VisualeditorPackage.eINSTANCE.getAssociation()
 						.getEStructuralFeature("zEndName")); //$NON-NLS-1$
 		return parser;
@@ -1333,7 +1333,7 @@ public class TigerstripeParserProvider extends AbstractProvider implements
 	 * @generated NOT
 	 */
 	protected IParser createAssociationClassAssociationClassAEndName_4036Parser() {
-		TigerstripeStructuralFeatureParser parser = new TigerstripeFieldnameConstrainedFeatureParser(
+		AssociationAEndParser parser = new AssociationAEndParser(
 				VisualeditorPackage.eINSTANCE.getAssociation()
 						.getEStructuralFeature("aEndName")); //$NON-NLS-1$
 		return parser;
@@ -1358,7 +1358,7 @@ public class TigerstripeParserProvider extends AbstractProvider implements
 	 * @generated NOT
 	 */
 	protected IParser createAssociationClassAssociationClassZEndName_4037Parser() {
-		TigerstripeStructuralFeatureParser parser = new TigerstripeFieldnameConstrainedFeatureParser(
+		AssociationZEndParser parser = new AssociationZEndParser(
 				VisualeditorPackage.eINSTANCE.getAssociation()
 						.getEStructuralFeature("zEndName")); //$NON-NLS-1$
 		return parser;

@@ -52,14 +52,15 @@ public class PostCreationAssociationArtifactUpdater extends
 			updateStereotype(association);
 
 			IAssociationEnd aEnd = iAssoc.getAEnd();
-			AbstractArtifact target = helper.findAbstractArtifactFor(aEnd
-					.getType().getFullyQualifiedName());
+//			AbstractArtifact target = helper.findAbstractArtifactFor(aEnd
+//					.getType().getFullyQualifiedName());
 			// association.setAEnd(target); // Already done upon creation thru
 			// drop
 			association.setAEndIsNavigable(aEnd.isNavigable());
 			association.setAEndIsOrdered(aEnd.isOrdered());
 			association.setAEndIsUnique(aEnd.isUnique());
 			association.setAEndName(aEnd.getName());
+			association.setAEndStereotypeNames(aEnd.getStereotypeString());
 			association.setAEndVisibility(ClassDiagramUtils.toVisibility(aEnd
 					.getVisibility()));
 			if (aEnd.getMultiplicity() == IModelComponent.EMultiplicity.ONE) {
@@ -96,14 +97,15 @@ public class PostCreationAssociationArtifactUpdater extends
 			}
 
 			IAssociationEnd zEnd = iAssoc.getZEnd();
-			target = helper.findAbstractArtifactFor(aEnd.getType()
-					.getFullyQualifiedName());
+//			target = helper.findAbstractArtifactFor(aEnd.getType()
+//					.getFullyQualifiedName());
 			// association.setZEnd(target);// Already done upon creation thru
 			// drop
 			association.setZEndIsNavigable(zEnd.isNavigable());
 			association.setZEndIsUnique(zEnd.isUnique());
 			association.setZEndIsOrdered(zEnd.isOrdered());
 			association.setZEndName(zEnd.getName());
+			association.setZEndStereotypeNames(zEnd.getStereotypeString());
 			association.setZEndVisibility(ClassDiagramUtils.toVisibility(zEnd
 					.getVisibility()));
 			if (zEnd.getMultiplicity() == IModelComponent.EMultiplicity.ONE) {

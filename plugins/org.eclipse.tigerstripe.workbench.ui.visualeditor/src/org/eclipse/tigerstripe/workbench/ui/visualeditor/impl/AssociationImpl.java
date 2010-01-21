@@ -483,6 +483,24 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 					aEndName));
 	}
 
+	private String aEndStereotypeNames  = "";
+	
+	/**
+	 * 
+	 * @generated NOT
+	 */
+	public String getAEndStereotypeNames() {
+		return aEndStereotypeNames;
+	}
+
+	/**
+	 * 
+	 * @generated NOT
+	 */
+	public void setAEndStereotypeNames(String stereotypeNames) {
+		aEndStereotypeNames = stereotypeNames;
+	}
+
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -695,6 +713,25 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 					zEndName));
 	}
 
+private String zEndStereotypeNames  = "";
+	
+	/**
+	 * 
+	 * @generated NOT
+	 */
+	public String getZEndStereotypeNames() {
+		return zEndStereotypeNames;
+	}
+
+	/**
+	 * 
+	 * @generated NOT
+	 */
+	public void setZEndStereotypeNames(String stereotypeNames) {
+		zEndStereotypeNames = stereotypeNames;
+	}
+	
+	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 

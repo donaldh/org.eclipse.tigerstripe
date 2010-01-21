@@ -63,10 +63,10 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.Tiger
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.util.NamedElementPropertiesHelper;
 
 /**
- * @generated
+ * @generated NOT
  */
 public class AssociationZEndNameEditPart extends LabelEditPart implements
-		ITextAwareEditPart {
+		ITextAwareEditPart, TigerstripeStereotypeEditPart {
 
 	/**
 	 * @generated
@@ -240,10 +240,8 @@ public class AssociationZEndNameEditPart extends LabelEditPart implements
 						.equals(detailsProp))
 			return "";
 
-		String prefix = ClassDiagramPartsUtils.visibilityPrefix(attr
-				.getZEndVisibility());
 
-		return prefix + text;
+		return  text;
 	}
 
 	/**

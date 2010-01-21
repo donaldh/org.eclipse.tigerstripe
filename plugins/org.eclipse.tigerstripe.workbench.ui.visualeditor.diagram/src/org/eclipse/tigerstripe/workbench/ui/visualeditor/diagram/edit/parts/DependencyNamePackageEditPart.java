@@ -53,9 +53,12 @@ import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.ui.internal.gmf.InitialDiagramPrefs;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
@@ -258,21 +261,25 @@ public class DependencyNamePackageEditPart extends
 			StringBuffer stereotypeBuffer = new StringBuffer();
 			if (!Boolean.parseBoolean(helper
 					.getPropertyValue(DiagramPropertiesHelper.HIDESTEREOTYPES))) {
-
+				IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession().getActiveProfile();
 				if (iArtifact != null) {
 					Collection<IStereotypeInstance> stereotypes = iArtifact
 							.getStereotypeInstances();
-					if (stereotypes.size() != 0)
-						stereotypeBuffer.append("<<");
-					int count = 0;
+					
 					for (IStereotypeInstance stereotype : stereotypes) {
-						stereotypeBuffer.append(stereotype.getName());
-						if (++count < stereotypes.size())
-							stereotypeBuffer.append(", ");
+						IStereotype stereo = profile.getStereotypeByName(stereotype.getName());
+						if (stereo != null){
+							if (stereotypeBuffer.length() == 0)
+								stereotypeBuffer.append("<<");
+							else
+								stereotypeBuffer.append(", ");
+							stereotypeBuffer.append(stereotype.getName());
+						}
 					}
-					if (stereotypes.size() != 0)
-						stereotypeBuffer.append(">>\n");
 				}
+				if (stereotypeBuffer.length() != 0)
+					stereotypeBuffer.append(">>\n");
+				
 			}
 			// get the length of the first line (the bufferLen); remember the
 			// extra newline character

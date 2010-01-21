@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor;
 
+import org.eclipse.emf.common.util.EList;
+
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>Association</b></em>'.
  * <!-- end-user-doc -->
@@ -99,6 +101,16 @@ public interface Association extends QualifiedNamedElement {
 	 */
 	void setAEndName(String value);
 
+	/*
+	 * @generated NOT
+	 */
+	String getAEndStereotypeNames();
+	
+	/*
+	 * @generated NOT
+	 */
+	void setAEndStereotypeNames(String stereotypeNames);
+	
 	/**
 	 * Returns the value of the '<em><b>AEnd Multiplicity</b></em>'
 	 * attribute. The literals are from the enumeration
@@ -339,6 +351,16 @@ public interface Association extends QualifiedNamedElement {
 	 */
 	void setZEndName(String value);
 
+	/*
+	 * @generated NOT
+	 */
+	String getZEndStereotypeNames();
+	
+	/*
+	 * @generated NOT
+	 */
+	void setZEndStereotypeNames(String stereotypeNames);
+	
 	/**
 	 * Returns the value of the '<em><b>ZEnd Multiplicity</b></em>'
 	 * attribute. The literals are from the enumeration

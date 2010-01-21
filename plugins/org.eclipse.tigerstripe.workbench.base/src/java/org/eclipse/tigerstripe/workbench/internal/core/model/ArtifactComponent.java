@@ -24,6 +24,7 @@ import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.repository.internal.IModelComponentMetadata;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.MigrationHelper;
@@ -35,6 +36,8 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.tags.StereotypeTags
 import org.eclipse.tigerstripe.workbench.internal.core.util.encode.XmlEscape;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -463,17 +466,23 @@ public abstract class ArtifactComponent implements IModelComponent,
 		String result = "";
 		if (getStereotypeInstances().size() == 0)
 			return result;
-
+		
+		IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession().getActiveProfile();
 		for (IStereotypeInstance instance : getStereotypeInstances()) {
-			if (result.length() == 0) {
-				result += "<<";
-			} else {
-				result += ",";
+			// Check that the stereotype is enabled in the profile
+			IStereotype stereo = profile.getStereotypeByName(instance.getName());
+			if (stereo != null) {
+				if (result.length() == 0) {
+					result += "<<";
+				} else {
+					result += ",";
+				}
+				result += instance.getName();
 			}
-			result += instance.getName();
 		}
-
-		result += ">>";
+		if (result.length() > 0) {
+			result += ">>";
+		}
 
 		return result;
 	}

@@ -85,6 +85,16 @@ public class AssociationEndUpdateCommand extends
 		if (!aEnd.getName().equals(eAssociation.getAEndName())) {
 			eAssociation.setAEndName(aEnd.getName());
 		}
+		
+		if (!aEnd.getStereotypeString().equals(eAssociation.getAEndStereotypeNames())){
+			eAssociation.setAEndStereotypeNames(aEnd.getStereotypeString());
+			// Need to make diagram dirty
+			// This is Eric's suggestion
+			eAssociation.setAEndName(aEnd.getName()+"_");
+			eAssociation.setAEndName(aEnd.getName());
+		}
+		
+		
 		if (aEnd.isNavigable() != eAssociation.isAEndIsNavigable()) {
 			eAssociation.setAEndIsNavigable(aEnd.isNavigable());
 		}
@@ -105,6 +115,15 @@ public class AssociationEndUpdateCommand extends
 		if (!zEnd.getName().equals(eAssociation.getZEndName())) {
 			eAssociation.setZEndName(zEnd.getName());
 		}
+		
+		if (!zEnd.getStereotypeString().equals(eAssociation.getZEndStereotypeNames())){
+			eAssociation.setZEndStereotypeNames(zEnd.getStereotypeString());
+			// Need to make diagram dirty
+			// This is Eric's suggestion
+			eAssociation.setZEndName(zEnd.getName()+"_");
+			eAssociation.setZEndName(zEnd.getName());
+		}
+		
 		if (zEnd.isNavigable() != eAssociation.isZEndIsNavigable()) {
 			eAssociation.setZEndIsNavigable(zEnd.isNavigable());
 		}

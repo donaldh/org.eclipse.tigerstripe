@@ -15,6 +15,9 @@ import java.util.List;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssocMultiplicity;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Attribute;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.TypeMultiplicity;
@@ -45,17 +48,20 @@ public class AttributeParser extends TigerstripeStructuralFeaturesParser {
 		// prefix string for the attribute
 		String stereotypePref = "";
 		if (!hideStereotypes()) {
+			IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession().getActiveProfile();
 			StringBuffer stereoPrefBuf = new StringBuffer();
 			EList stereotypes = attribute.getStereotypes();
-			int stereotypeCount = 0;
 			for (Object obj : stereotypes) {
 				String val = (String) obj;
-				if (stereotypeCount == 0)
-					stereoPrefBuf.append("<<");
-				stereoPrefBuf.append(val);
-				if (++stereotypeCount < stereotypes.size())
-					stereoPrefBuf.append(", ");
-				else
+				IStereotype stereo = profile.getStereotypeByName(val);
+				if (stereo != null){
+					if (stereoPrefBuf.length() == 0)
+						stereoPrefBuf.append("<<");
+					else 
+						stereoPrefBuf.append(", ");
+					stereoPrefBuf.append(val);
+				}
+				if (stereoPrefBuf.length() > 0)
 					stereoPrefBuf.append(">>");
 			}
 			stereotypePref = stereoPrefBuf.toString();

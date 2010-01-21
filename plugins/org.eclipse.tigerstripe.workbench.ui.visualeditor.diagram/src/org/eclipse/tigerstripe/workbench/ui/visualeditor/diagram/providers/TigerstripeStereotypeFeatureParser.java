@@ -18,6 +18,9 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EDataTypeUniqueEList;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 
 public class TigerstripeStereotypeFeatureParser extends
 		TigerstripeStructuralFeatureParser {
@@ -42,6 +45,11 @@ public class TigerstripeStereotypeFeatureParser extends
 	@Override
 	protected String getStringByPattern(IAdaptable adapter, int flags,
 			String pattern, MessageFormat processor) {
+		
+		setCurrentMap(adapter);
+		if (hideStereotypes())
+			return "";
+		
 		EObject element = (EObject) adapter.getAdapter(EObject.class);
 		Object value = element.eGet(feature);
 		value = getValidValue(feature, value);
@@ -57,22 +65,31 @@ public class TigerstripeStereotypeFeatureParser extends
 		// that
 		// contains those values and pass that string off to the processor for
 		// formatting
+		
 		if (value instanceof EDataTypeUniqueEList) {
+			IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession().getActiveProfile();
+			
 			StringBuffer buff = new StringBuffer();
-			EDataTypeUniqueEList values = (EDataTypeUniqueEList) value;
-			int count = 0;
-			int numValues = values.size();
-			for (Object obj : values) {
-				buff.append(obj.toString());
-				if (count++ < (numValues - 1))
-					buff.append(", ");
+			EDataTypeUniqueEList stereotypes = (EDataTypeUniqueEList) value;
+			
+			for (Object obj : stereotypes) {
+				String val = (String) obj;
+				IStereotype stereo = profile.getStereotypeByName(val);
+				if (stereo != null){
+					if (buff.length() > 0)
+						buff.append(", ");
+					buff.append(val);
+				}
+
+			}
+			if (buff.toString().equals("")){
+				return "";
 			}
 			return processor.format(new Object[] { buff.toString() },
 					new StringBuffer(), new FieldPosition(0)).toString();
 		}
-		// just in case...shouldn't end up here but you never know...
-		return processor.format(new Object[] { value }, new StringBuffer(),
-				new FieldPosition(0)).toString();
+		return "";
+		
 	}
 
 }

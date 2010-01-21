@@ -22,6 +22,8 @@ import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.Global
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssocMultiplicity;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Method;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Parameter;
@@ -73,17 +75,20 @@ public class MethodParser extends TigerstripeStructuralFeaturesParser {
 		// prefix string for the method
 		String stereotypePref = "";
 		if (!hideStereotypes()) {
+			IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession().getActiveProfile();
 			StringBuffer stereoPrefBuf = new StringBuffer();
 			EList stereotypes = method.getStereotypes();
-			int stereotypeCount = 0;
 			for (Object obj : stereotypes) {
 				String val = (String) obj;
-				if (stereotypeCount == 0)
-					stereoPrefBuf.append("<<");
-				stereoPrefBuf.append(val);
-				if (++stereotypeCount < stereotypes.size())
-					stereoPrefBuf.append(", ");
-				else
+				IStereotype stereo = profile.getStereotypeByName(val);
+				if (stereo != null){
+					if (stereoPrefBuf.length() == 0)
+						stereoPrefBuf.append("<<");
+					else 
+						stereoPrefBuf.append(", ");
+					stereoPrefBuf.append(val);
+				}
+				if (stereoPrefBuf.length() > 0)
 					stereoPrefBuf.append(">>");
 			}
 			stereotypePref = stereoPrefBuf.toString();
