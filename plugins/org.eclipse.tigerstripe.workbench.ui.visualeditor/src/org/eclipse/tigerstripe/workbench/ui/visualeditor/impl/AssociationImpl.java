@@ -14,6 +14,9 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AggregationEnum;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssocMultiplicity;
@@ -23,29 +26,65 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.Visibility;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorPackage;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>Association</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '
+ * <em><b>Association</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- * <li>{@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#getAEnd <em>AEnd</em>}</li>
- * <li>{@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#getAEndName <em>AEnd Name</em>}</li>
- * <li>{@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#getAEndMultiplicity <em>AEnd Multiplicity</em>}</li>
- * <li>{@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#isAEndIsNavigable <em>AEnd Is Navigable</em>}</li>
- * <li>{@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#isAEndIsOrdered <em>AEnd Is Ordered</em>}</li>
- * <li>{@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#isAEndIsUnique <em>AEnd Is Unique</em>}</li>
- * <li>{@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#getAEndIsChangeable <em>AEnd Is Changeable</em>}</li>
- * <li>{@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#getAEndAggregation <em>AEnd Aggregation</em>}</li>
- * <li>{@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#getZEnd <em>ZEnd</em>}</li>
- * <li>{@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#getZEndName <em>ZEnd Name</em>}</li>
- * <li>{@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#getZEndMultiplicity <em>ZEnd Multiplicity</em>}</li>
- * <li>{@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#isZEndIsNavigable <em>ZEnd Is Navigable</em>}</li>
- * <li>{@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#isZEndIsOrdered <em>ZEnd Is Ordered</em>}</li>
- * <li>{@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#isZEndIsUnique <em>ZEnd Is Unique</em>}</li>
- * <li>{@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#getZEndIsChangeable <em>ZEnd Is Changeable</em>}</li>
- * <li>{@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#getZEndAggregation <em>ZEnd Aggregation</em>}</li>
- * <li>{@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#getAEndVisibility <em>AEnd Visibility</em>}</li>
- * <li>{@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#getZEndVisibility <em>ZEnd Visibility</em>}</li>
+ * <li>
+ * {@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#getAEnd
+ * <em>AEnd</em>}</li>
+ * <li>
+ * {@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#getAEndName
+ * <em>AEnd Name</em>}</li>
+ * <li>
+ * {@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#getAEndMultiplicity
+ * <em>AEnd Multiplicity</em>}</li>
+ * <li>
+ * {@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#isAEndIsNavigable
+ * <em>AEnd Is Navigable</em>}</li>
+ * <li>
+ * {@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#isAEndIsOrdered
+ * <em>AEnd Is Ordered</em>}</li>
+ * <li>
+ * {@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#isAEndIsUnique
+ * <em>AEnd Is Unique</em>}</li>
+ * <li>
+ * {@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#getAEndIsChangeable
+ * <em>AEnd Is Changeable</em>}</li>
+ * <li>
+ * {@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#getAEndAggregation
+ * <em>AEnd Aggregation</em>}</li>
+ * <li>
+ * {@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#getZEnd
+ * <em>ZEnd</em>}</li>
+ * <li>
+ * {@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#getZEndName
+ * <em>ZEnd Name</em>}</li>
+ * <li>
+ * {@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#getZEndMultiplicity
+ * <em>ZEnd Multiplicity</em>}</li>
+ * <li>
+ * {@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#isZEndIsNavigable
+ * <em>ZEnd Is Navigable</em>}</li>
+ * <li>
+ * {@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#isZEndIsOrdered
+ * <em>ZEnd Is Ordered</em>}</li>
+ * <li>
+ * {@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#isZEndIsUnique
+ * <em>ZEnd Is Unique</em>}</li>
+ * <li>
+ * {@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#getZEndIsChangeable
+ * <em>ZEnd Is Changeable</em>}</li>
+ * <li>
+ * {@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#getZEndAggregation
+ * <em>ZEnd Aggregation</em>}</li>
+ * <li>
+ * {@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#getAEndVisibility
+ * <em>AEnd Visibility</em>}</li>
+ * <li>
+ * {@link org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl#getZEndVisibility
+ * <em>ZEnd Visibility</em>}</li>
  * </ul>
  * </p>
  * 
@@ -84,8 +123,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected String aEndName = AEND_NAME_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getAEndMultiplicity() <em>AEnd Multiplicity</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getAEndMultiplicity()
+	 * <em>AEnd Multiplicity</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #getAEndMultiplicity()
 	 * @generated
@@ -94,8 +134,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected static final AssocMultiplicity AEND_MULTIPLICITY_EDEFAULT = AssocMultiplicity.ONE_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getAEndMultiplicity() <em>AEnd Multiplicity</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getAEndMultiplicity()
+	 * <em>AEnd Multiplicity</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #getAEndMultiplicity()
 	 * @generated
@@ -104,8 +145,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected AssocMultiplicity aEndMultiplicity = AEND_MULTIPLICITY_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isAEndIsNavigable() <em>AEnd Is Navigable</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #isAEndIsNavigable()
+	 * <em>AEnd Is Navigable</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #isAEndIsNavigable()
 	 * @generated
@@ -114,8 +156,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected static final boolean AEND_IS_NAVIGABLE_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isAEndIsNavigable() <em>AEnd Is Navigable</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #isAEndIsNavigable()
+	 * <em>AEnd Is Navigable</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #isAEndIsNavigable()
 	 * @generated
@@ -124,8 +167,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected boolean aEndIsNavigable = AEND_IS_NAVIGABLE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isAEndIsOrdered() <em>AEnd Is Ordered</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #isAEndIsOrdered()
+	 * <em>AEnd Is Ordered</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #isAEndIsOrdered()
 	 * @generated
@@ -134,8 +178,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected static final boolean AEND_IS_ORDERED_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isAEndIsOrdered() <em>AEnd Is Ordered</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #isAEndIsOrdered()
+	 * <em>AEnd Is Ordered</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #isAEndIsOrdered()
 	 * @generated
@@ -144,8 +189,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected boolean aEndIsOrdered = AEND_IS_ORDERED_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isAEndIsUnique() <em>AEnd Is Unique</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #isAEndIsUnique()
+	 * <em>AEnd Is Unique</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #isAEndIsUnique()
 	 * @generated
@@ -154,8 +200,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected static final boolean AEND_IS_UNIQUE_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isAEndIsUnique() <em>AEnd Is Unique</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #isAEndIsUnique()
+	 * <em>AEnd Is Unique</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #isAEndIsUnique()
 	 * @generated
@@ -164,8 +211,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected boolean aEndIsUnique = AEND_IS_UNIQUE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getAEndIsChangeable() <em>AEnd Is Changeable</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getAEndIsChangeable()
+	 * <em>AEnd Is Changeable</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #getAEndIsChangeable()
 	 * @generated
@@ -174,8 +222,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected static final ChangeableEnum AEND_IS_CHANGEABLE_EDEFAULT = ChangeableEnum.NONE_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getAEndIsChangeable() <em>AEnd Is Changeable</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getAEndIsChangeable()
+	 * <em>AEnd Is Changeable</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #getAEndIsChangeable()
 	 * @generated
@@ -184,8 +233,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected ChangeableEnum aEndIsChangeable = AEND_IS_CHANGEABLE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getAEndAggregation() <em>AEnd Aggregation</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getAEndAggregation()
+	 * <em>AEnd Aggregation</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #getAEndAggregation()
 	 * @generated
@@ -194,8 +244,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected static final AggregationEnum AEND_AGGREGATION_EDEFAULT = AggregationEnum.NONE_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getAEndAggregation() <em>AEnd Aggregation</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getAEndAggregation()
+	 * <em>AEnd Aggregation</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #getAEndAggregation()
 	 * @generated
@@ -234,8 +285,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected String zEndName = ZEND_NAME_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getZEndMultiplicity() <em>ZEnd Multiplicity</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getZEndMultiplicity()
+	 * <em>ZEnd Multiplicity</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #getZEndMultiplicity()
 	 * @generated
@@ -244,8 +296,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected static final AssocMultiplicity ZEND_MULTIPLICITY_EDEFAULT = AssocMultiplicity.ONE_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getZEndMultiplicity() <em>ZEnd Multiplicity</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getZEndMultiplicity()
+	 * <em>ZEnd Multiplicity</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #getZEndMultiplicity()
 	 * @generated
@@ -254,8 +307,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected AssocMultiplicity zEndMultiplicity = ZEND_MULTIPLICITY_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isZEndIsNavigable() <em>ZEnd Is Navigable</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #isZEndIsNavigable()
+	 * <em>ZEnd Is Navigable</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #isZEndIsNavigable()
 	 * @generated
@@ -264,8 +318,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected static final boolean ZEND_IS_NAVIGABLE_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isZEndIsNavigable() <em>ZEnd Is Navigable</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #isZEndIsNavigable()
+	 * <em>ZEnd Is Navigable</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #isZEndIsNavigable()
 	 * @generated
@@ -274,8 +329,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected boolean zEndIsNavigable = ZEND_IS_NAVIGABLE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isZEndIsOrdered() <em>ZEnd Is Ordered</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #isZEndIsOrdered()
+	 * <em>ZEnd Is Ordered</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #isZEndIsOrdered()
 	 * @generated
@@ -284,8 +340,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected static final boolean ZEND_IS_ORDERED_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isZEndIsOrdered() <em>ZEnd Is Ordered</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #isZEndIsOrdered()
+	 * <em>ZEnd Is Ordered</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #isZEndIsOrdered()
 	 * @generated
@@ -294,8 +351,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected boolean zEndIsOrdered = ZEND_IS_ORDERED_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #isZEndIsUnique() <em>ZEnd Is Unique</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #isZEndIsUnique()
+	 * <em>ZEnd Is Unique</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #isZEndIsUnique()
 	 * @generated
@@ -304,8 +362,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected static final boolean ZEND_IS_UNIQUE_EDEFAULT = false;
 
 	/**
-	 * The cached value of the '{@link #isZEndIsUnique() <em>ZEnd Is Unique</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #isZEndIsUnique()
+	 * <em>ZEnd Is Unique</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #isZEndIsUnique()
 	 * @generated
@@ -314,8 +373,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected boolean zEndIsUnique = ZEND_IS_UNIQUE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getZEndIsChangeable() <em>ZEnd Is Changeable</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getZEndIsChangeable()
+	 * <em>ZEnd Is Changeable</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #getZEndIsChangeable()
 	 * @generated
@@ -324,8 +384,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected static final ChangeableEnum ZEND_IS_CHANGEABLE_EDEFAULT = ChangeableEnum.NONE_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getZEndIsChangeable() <em>ZEnd Is Changeable</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getZEndIsChangeable()
+	 * <em>ZEnd Is Changeable</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #getZEndIsChangeable()
 	 * @generated
@@ -334,8 +395,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected ChangeableEnum zEndIsChangeable = ZEND_IS_CHANGEABLE_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getZEndAggregation() <em>ZEnd Aggregation</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getZEndAggregation()
+	 * <em>ZEnd Aggregation</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #getZEndAggregation()
 	 * @generated
@@ -344,8 +406,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected static final AggregationEnum ZEND_AGGREGATION_EDEFAULT = AggregationEnum.NONE_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getZEndAggregation() <em>ZEnd Aggregation</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getZEndAggregation()
+	 * <em>ZEnd Aggregation</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #getZEndAggregation()
 	 * @generated
@@ -354,8 +417,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected AggregationEnum zEndAggregation = ZEND_AGGREGATION_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getAEndVisibility() <em>AEnd Visibility</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getAEndVisibility()
+	 * <em>AEnd Visibility</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #getAEndVisibility()
 	 * @generated
@@ -364,8 +428,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected static final Visibility AEND_VISIBILITY_EDEFAULT = Visibility.PUBLIC_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getAEndVisibility() <em>AEnd Visibility</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getAEndVisibility()
+	 * <em>AEnd Visibility</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #getAEndVisibility()
 	 * @generated
@@ -374,8 +439,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected Visibility aEndVisibility = AEND_VISIBILITY_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getZEndVisibility() <em>ZEnd Visibility</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getZEndVisibility()
+	 * <em>ZEnd Visibility</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #getZEndVisibility()
 	 * @generated
@@ -384,8 +450,9 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	protected static final Visibility ZEND_VISIBILITY_EDEFAULT = Visibility.PUBLIC_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getZEndVisibility() <em>ZEnd Visibility</em>}'
-	 * attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getZEndVisibility()
+	 * <em>ZEnd Visibility</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
 	 * 
 	 * @see #getZEndVisibility()
 	 * @generated
@@ -483,8 +550,8 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 					aEndName));
 	}
 
-	private String aEndStereotypeNames  = "";
-	
+	private String aEndStereotypeNames = "";
+
 	/**
 	 * 
 	 * @generated NOT
@@ -713,8 +780,8 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 					zEndName));
 	}
 
-private String zEndStereotypeNames  = "";
-	
+	private String zEndStereotypeNames = "";
+
 	/**
 	 * 
 	 * @generated NOT
@@ -730,8 +797,22 @@ private String zEndStereotypeNames  = "";
 	public void setZEndStereotypeNames(String stereotypeNames) {
 		zEndStereotypeNames = stereotypeNames;
 	}
-	
-	
+
+	/**
+	 * Populates the stereotype strings o
+	 */
+	public void populateEndStereotypeNames() {
+		try {
+			IAssociationArtifact assoc = (IAssociationArtifact) getCorrespondingIArtifact();
+			if (assoc != null) {
+				setAEndStereotypeNames(assoc.getAEnd().getStereotypeString());
+				setZEndStereotypeNames(assoc.getZEnd().getStereotypeString());
+			}
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+		}
+	}
+
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 

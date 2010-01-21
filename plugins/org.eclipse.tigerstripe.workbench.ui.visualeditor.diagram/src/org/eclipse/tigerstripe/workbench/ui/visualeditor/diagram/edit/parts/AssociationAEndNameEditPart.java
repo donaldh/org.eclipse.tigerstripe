@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.tools.ant.types.Assertions.EnabledAssertion;
 import org.eclipse.draw2d.ConnectionLocator;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
@@ -60,13 +61,14 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.T
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.utils.ClassDiagramPartsUtils;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeVisualIDRegistry;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.TigerstripeElementTypes;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.util.NamedElementPropertiesHelper;
 
 /**
  * @generated
  */
 public class AssociationAEndNameEditPart extends LabelEditPart implements
-		ITextAwareEditPart, TigerstripeStereotypeEditPart{
+		ITextAwareEditPart, TigerstripeStereotypeEditPart {
 
 	/**
 	 * @generated
@@ -196,6 +198,20 @@ public class AssociationAEndNameEditPart extends LabelEditPart implements
 		return null;
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.gmf.runtime.diagram.ui.editparts.GraphicalEditPart#
+	 * resolveSemanticElement()
+	 */
+	@Override
+	public EObject resolveSemanticElement() {
+		AssociationImpl assoc = (AssociationImpl) super
+				.resolveSemanticElement();
+		assoc.populateEndStereotypeNames();
+		return assoc;
+	}
+
 	/**
 	 * @generated
 	 */
@@ -238,8 +254,6 @@ public class AssociationAEndNameEditPart extends LabelEditPart implements
 				|| NamedElementPropertiesHelper.ASSOC_SHOW_NONE
 						.equals(detailsProp))
 			return "";
-
-		
 
 		return text;
 	}
