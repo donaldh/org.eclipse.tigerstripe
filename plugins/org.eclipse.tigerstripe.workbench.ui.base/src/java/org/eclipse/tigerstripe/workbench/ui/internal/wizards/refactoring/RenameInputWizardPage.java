@@ -43,7 +43,7 @@ public class RenameInputWizardPage extends AbstractModelRefactorWizardPage {
 		new Label(composite, SWT.NONE).setText("New name:");
 		final Text nameField = new Text(composite, SWT.BORDER);
 		nameField.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		nameField.setText(artifact.getFullyQualifiedName());
+		nameField.setText(artifact.getName());
 		nameField.addModifyListener(new ModifyListener() {
 
 			public void modifyText(ModifyEvent e) {
@@ -54,8 +54,8 @@ public class RenameInputWizardPage extends AbstractModelRefactorWizardPage {
 					wizard.clearRequests();
 					
 					ModelRefactorRequest request = new ModelRefactorRequest();
-					request.setOriginal(artifact.getProject(), artifact.getFullyQualifiedName());
-					request.setDestination(artifact.getProject(), nameField.getText());
+					request.setOriginal(artifact.getProject(), artifact.getPackage() + '.' + artifact.getName());
+					request.setDestination(artifact.getProject(), artifact.getPackage() + '.' + nameField.getText());
 					
 					if(validatePage(request)) {
 						wizard.addRequest(request);

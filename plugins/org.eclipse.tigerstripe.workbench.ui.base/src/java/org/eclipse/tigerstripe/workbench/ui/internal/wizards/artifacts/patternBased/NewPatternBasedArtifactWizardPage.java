@@ -90,6 +90,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForArtifactDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.runtime.messages.NewWizardMessages;
+import org.eclipse.tigerstripe.workbench.ui.internal.wizards.ArtifactNameValidator;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.TSRuntimeContext;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.WizardUtils;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.ArtifactSelectionDialog;
@@ -98,13 +99,14 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 /**
  * @author Eric Dillon
  * 
- * TODO To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Style - Code Templates
+ *         TODO To change the template for this generated type comment go to
+ *         Window - Preferences - Java - Code Style - Code Templates
  */
-public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWizardPage{
+public abstract class NewPatternBasedArtifactWizardPage extends
+		NewContainerWizardPage {
 
 	protected IPattern pattern;
-	
+
 	private final static String PAGE_NAME = "NewPatternBasedArtifactWizardPage"; //$NON-NLS-1$
 
 	/** Field ID of the package input field. */
@@ -119,7 +121,6 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 	/** Field ID of the super interfaces input field. */
 	protected final static String INTERFACES = PAGE_NAME + ".interfaces"; //$NON-NLS-1$
 
-	
 	// The extended class
 	private StringButtonDialogField extendedClassDialogField;
 
@@ -162,8 +163,7 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 	private StringButtonDialogField returnedTypeClassDialogField;
 	private IStatus returnedTypeClassStatus;
 	private JavaTypeCompletionProcessor returnedTypeClassCompletionProcessor;
-	
-	
+
 	public NewPatternBasedArtifactWizardPage(String pageName) {
 		super(pageName);
 
@@ -240,7 +240,6 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 		packageDialogField.setStatusWidthHint(NewWizardMessages
 				.getString("NewArtifactWizardPage.default")); //$NON-NLS-1$
 
-		
 		extendedClassDialogField = new StringButtonDialogField(adapter);
 		extendedClassDialogField.setDialogFieldListener(adapter);
 		extendedClassDialogField.setLabelText("Super-artifact"); //$NON-NLS-1$
@@ -260,7 +259,7 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 		baseEnumType.setLabelText("Base Type:");
 		baseEnumType.setItems(supportedEnumTypes);
 		baseEnumType.selectItem(0);
-		
+
 		returnedTypeClassDialogField = new StringButtonDialogField(adapter);
 		returnedTypeClassDialogField.setDialogFieldListener(adapter);
 		returnedTypeClassDialogField.setLabelText("Returned Type"); //$NON-NLS-1$
@@ -269,7 +268,7 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 		returnedTypeClassStatus = new StatusInfo();
 		returnedTypeClassCompletionProcessor = new JavaTypeCompletionProcessor(
 				false, false);
-		
+
 		initTSRuntimeContext(jelem);
 
 		initContainerPage(jelem);
@@ -344,8 +343,8 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 	}
 
 	/**
-	 * Creates a separator line. Expects a <code>GridLayout</code> with at
-	 * least 1 column.
+	 * Creates a separator line. Expects a <code>GridLayout</code> with at least
+	 * 1 column.
 	 * 
 	 * @param composite
 	 *            the parent composite
@@ -359,52 +358,55 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 
 	protected void createArtifactControls(Composite composite, int nColumns) {
 		String targetType = ((ArtifactPattern) pattern).getTargetArtifactType();
-		
+
 		// TODO - Should these specifics actually be in the "nodePattern"
 		boolean createExtends = true;
 		boolean createBaseType = false;
 		boolean createReturnType = false;
 		// Don't support extends for Package
-		if (targetType.equals(IPackageArtifact.class.getName())){
-			createExtends = false; 
-		} 
+		if (targetType.equals(IPackageArtifact.class.getName())) {
+			createExtends = false;
+		}
 		// Enums need base type, but should not be extendable!
-		if (targetType.equals(IEnumArtifact.class.getName())){
+		if (targetType.equals(IEnumArtifact.class.getName())) {
 			createBaseType = true;
-			createExtends = false; 
+			createExtends = false;
 		}
 		// Queries need return type
-		if (targetType.equals(IQueryArtifact.class.getName())){
+		if (targetType.equals(IQueryArtifact.class.getName())) {
 			returnedTypeClassDialogField.setText("");
 			createReturnType = true;
 		}
 
-		createArtifactControls(composite, nColumns, createExtends, createBaseType, createReturnType);
-		//createArtifactControls(composite, nColumns, createExtends, false, false);
+		createArtifactControls(composite, nColumns, createExtends,
+				createBaseType, createReturnType);
+		// createArtifactControls(composite, nColumns, createExtends, false,
+		// false);
 	}
 
 	protected void createArtifactControls(Composite composite, int nColumns,
-			boolean createExtendsControl, boolean createBaseTypeControl, boolean createReturnType) {
+			boolean createExtendsControl, boolean createBaseTypeControl,
+			boolean createReturnType) {
 		createContainerControls(composite, nColumns);
 
 		createPackageControls(composite, nColumns);
 		createArtifactNameControls(composite, nColumns);
 
-		if (createExtendsControl){
+		if (createExtendsControl) {
 			createSeparator(composite, nColumns);
 			createExtendedArtifactControls(composite, nColumns);
 		}
 
-		if (createBaseTypeControl){
+		if (createBaseTypeControl) {
 			createSeparator(composite, nColumns);
 			createBaseEnumTypeControls(composite, nColumns);
 		}
-		
-		if (createReturnType){
+
+		if (createReturnType) {
 			createSeparator(composite, nColumns);
 			createReturnedTypeControls(composite, nColumns);
 		}
-		
+
 		createEditMessage(composite, nColumns);
 	}
 
@@ -441,10 +443,6 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 				packageCompletionProcessor);
 	}
 
-	
-
-	
-
 	/**
 	 * Creates the controls for the type name field. Expects a
 	 * <code>GridLayout</code> with at least 2 columns.
@@ -462,7 +460,6 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 				getMaxFieldWidth());
 	}
 
-	
 	/**
 	 * Creates the controls for the superclass name field. Expects a
 	 * <code>GridLayout</code> with at least 3 columns.
@@ -496,7 +493,7 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 		LayoutUtil.setWidthHint(combo, getMaxFieldWidth());
 		LayoutUtil.setHorizontalGrabbing(combo);
 	}
-	
+
 	/**
 	 * Creates the controls for the superclass name field. Expects a
 	 * <code>GridLayout</code> with at least 3 columns.
@@ -513,12 +510,12 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 		ControlContentAssistHelper.createTextContentAssistant(text,
 				returnedTypeClassCompletionProcessor);
 	}
-	
+
 	/**
 	 * Returns the package fragment corresponding to the current input.
 	 * 
-	 * @return a package fragment or <code>null</code> if the input could not
-	 *         be resolved.
+	 * @return a package fragment or <code>null</code> if the input could not be
+	 *         resolved.
 	 */
 	public IPackageFragment getArtifactPackageFragment() {
 		return artifactPackage;
@@ -574,7 +571,9 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 	}
 
 	/*
-	 * @see org.eclipse.jdt.ui.wizards.NewContainerWizardPage#handleFieldChanged(String)
+	 * @see
+	 * org.eclipse.jdt.ui.wizards.NewContainerWizardPage#handleFieldChanged(
+	 * String)
 	 */
 	@Override
 	protected void handleFieldChanged(String fieldName) {
@@ -587,7 +586,7 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 			artifactPackageStatus = packageChanged();
 		} else if (fieldName == EXTENDED_ARTIFACT) {
 			extendedClassStatus = extendedClassChanged();
-			
+
 		}
 		doStatusUpdate();
 	}
@@ -610,13 +609,13 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 	public ITigerstripeModelProject getProject() throws TigerstripeException {
 		if (getTSRuntimeContext() != null
 				&& getTSRuntimeContext().isValidProject()) {
-			return   getTSRuntimeContext().getProjectHandle();
-		
-		} 
+			return getTSRuntimeContext().getProjectHandle();
+
+		}
 		return null;
-		
+
 	}
-	
+
 	/**
 	 * Sets the focus on the type name input field.
 	 */
@@ -640,15 +639,13 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 		} else if (field == returnedTypeClassDialogField) {
 			org.eclipse.jdt.core.IType type = chooseReturnedType();
 			if (type != null) {
-				returnedTypeClassDialogField.setText(type.getFullyQualifiedName());
+				returnedTypeClassDialogField.setText(type
+						.getFullyQualifiedName());
 			}
 		}
 
 	}
 
-
-
-	
 	private IPackageFragment choosePackage() {
 		IPackageFragmentRoot froot = getPackageFragmentRoot();
 		IJavaElement[] packages = null;
@@ -695,36 +692,14 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 	 * @return the status of the validation
 	 */
 	protected IStatus artifactNameChanged() {
-		StatusInfo status = new StatusInfo();
-		String typeName = getArtifactName();
-		// must not be empty
-		if (typeName == null || typeName.length() == 0) {
-			status
-					.setError(NewWizardMessages
-							.getString("NewArtifactWizardPage.error.EnterArtifactName")); //$NON-NLS-1$
+
+		IStatus status = ArtifactNameValidator.validateArtifactName(getArtifactName());
+		if (!status.isOK()) {
 			return status;
-		}
-		if (typeName.indexOf('.') != -1) {
-			status.setError(NewWizardMessages
-					.getString("NewArtifactWizardPage.error.QualifiedName")); //$NON-NLS-1$
-			return status;
-		}
-		IStatus val = JavaConventions.validateJavaTypeName(typeName);
-		if (val.getSeverity() == IStatus.ERROR) {
-			status
-					.setError(NewWizardMessages
-							.getFormattedString(
-									"NewArtifactWizardPage.error.InvalidArtifactName", val.getMessage())); //$NON-NLS-1$
-			return status;
-		} else if (val.getSeverity() == IStatus.WARNING) {
-			status
-					.setWarning(NewWizardMessages
-							.getFormattedString(
-									"NewArtifactWizardPage.warning.TypeNameDiscouraged", val.getMessage())); //$NON-NLS-1$
-			// continue checking
 		}
 
-		return checkArtifactDonotExist(typeName);
+		return ArtifactNameValidator.validateArtifactDoesNotExist(getArtifactPackageFragment(), getArtifactName());
+
 	}
 
 	/*
@@ -832,7 +807,6 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 		return status;
 	}
 
-
 	/**
 	 * Choose the returned type through a dialog. The dialog only shows Entity
 	 * Artifact
@@ -847,7 +821,7 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 		dialog.setTitle("Returned Entity Type");
 		dialog
 				.setMessage("Please selected the returned entity type for this query.");
-	
+
 		AbstractArtifact[] selectedArtifacts = dialog.browseAvailableArtifacts(
 				getShell(), new ArrayList(), getTSRuntimeContext());
 
@@ -866,9 +840,9 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 		return null;
 
 	}
-	
-	private org.eclipse.jdt.core.IType resolveReturnedTypeName(IJavaProject jproject,
-			String sclassName) throws JavaModelException {
+
+	private org.eclipse.jdt.core.IType resolveReturnedTypeName(
+			IJavaProject jproject, String sclassName) throws JavaModelException {
 		if (!jproject.exists())
 			return null;
 		org.eclipse.jdt.core.IType type = null;
@@ -890,48 +864,46 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 		}
 		return type;
 	}
-	
+
 	public final static String PACKAGE_NAME = "packageName";
 
 	public final static String ARTIFACT_NAME = "artifactName";
 
-
 	public final static String INTERFACE_PACKAGE = "interfacePackage";
 
 	public final static String EXTENDED_ARTIFACT = "extendedArtifact";
-	
 
 	// TODO
 	public IAbstractArtifact[] getArtifactModelForExtend() {
-		String targetType = ((IArtifactPattern)pattern).getTargetArtifactType();
-		if (targetType.equals(IManagedEntityArtifact.class.getName())){
+		String targetType = ((IArtifactPattern) pattern)
+				.getTargetArtifactType();
+		if (targetType.equals(IManagedEntityArtifact.class.getName())) {
 			return new IAbstractArtifact[] { ManagedEntityArtifact.MODEL };
-		} else 	if (targetType.equals(IDatatypeArtifact.class.getName())){
+		} else if (targetType.equals(IDatatypeArtifact.class.getName())) {
 			return new IAbstractArtifact[] { DatatypeArtifact.MODEL };
-		} else 	if (targetType.equals(IEnumArtifact.class.getName())){
+		} else if (targetType.equals(IEnumArtifact.class.getName())) {
 			return new IAbstractArtifact[] { EnumArtifact.MODEL };
-		} else 	if (targetType.equals(IExceptionArtifact.class.getName())){
+		} else if (targetType.equals(IExceptionArtifact.class.getName())) {
 			return new IAbstractArtifact[] { ExceptionArtifact.MODEL };
-		} else 	if (targetType.equals(IEventArtifact.class.getName())){
+		} else if (targetType.equals(IEventArtifact.class.getName())) {
 			return new IAbstractArtifact[] { EventArtifact.MODEL };
-		} else 	if (targetType.equals(IQueryArtifact.class.getName())){
+		} else if (targetType.equals(IQueryArtifact.class.getName())) {
 			return new IAbstractArtifact[] { QueryArtifact.MODEL };
-		} else 	if (targetType.equals(IUpdateProcedureArtifact.class.getName())){
+		} else if (targetType.equals(IUpdateProcedureArtifact.class.getName())) {
 			return new IAbstractArtifact[] { UpdateProcedureArtifact.MODEL };
-		} else 	if (targetType.equals(ISessionArtifact.class.getName())){
+		} else if (targetType.equals(ISessionArtifact.class.getName())) {
 			return new IAbstractArtifact[] { SessionFacadeArtifact.MODEL };
-		} else 	if (targetType.equals(IAssociationArtifact.class.getName())){
+		} else if (targetType.equals(IAssociationArtifact.class.getName())) {
 			return new IAbstractArtifact[] { AssociationArtifact.MODEL };
-		} else 	if (targetType.equals(IAssociationClassArtifact.class.getName())){
+		} else if (targetType.equals(IAssociationClassArtifact.class.getName())) {
 			return new IAbstractArtifact[] { AssociationClassArtifact.MODEL };
-		} else 	if (targetType.equals(IDependencyArtifact.class.getName())){
+		} else if (targetType.equals(IDependencyArtifact.class.getName())) {
 			return new IAbstractArtifact[] { DependencyArtifact.MODEL };
 		}
-		
+
 		// Default
 		return new IAbstractArtifact[] { ManagedEntityArtifact.MODEL };
 	}
-
 
 	protected IJavaElement getInitialElement() {
 		return initialElement;
@@ -946,26 +918,27 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 	 * 
 	 */
 	protected void initFromContext() {
-		String extended = ((ArtifactPattern) this.pattern).getExtendedArtifactName();
-		if (! "".equals(extended)){
+		String extended = ((ArtifactPattern) this.pattern)
+				.getExtendedArtifactName();
+		if (!"".equals(extended)) {
 			this.extendedClassDialogField.setText(extended);
 		}
-		
-		if (this.pattern instanceof IEnumPattern){
+
+		if (this.pattern instanceof IEnumPattern) {
 			String baseType = ((IEnumPattern) this.pattern).getBaseType();
 			this.baseEnumType.selectItem(baseType);
 		}
-		
-		if (this.pattern instanceof IQueryPattern){
-			String returnedType = ((IQueryPattern) this.pattern).getReturnType();
+
+		if (this.pattern instanceof IQueryPattern) {
+			String returnedType = ((IQueryPattern) this.pattern)
+					.getReturnType();
 			this.returnedTypeClassDialogField.setText(returnedType);
 		}
-		
+
 		try {
 			TSRuntimeContext context = getTSRuntimeContext();
 			ITigerstripeModelProject project = context.getProjectHandle();
 
-			
 			if ("".equals(this.packageDialogField.getText())) {
 				this.packageDialogField
 						.setText(project
@@ -975,8 +948,6 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 										""));
 			}
 
-			
-
 		} catch (TigerstripeException e) {
 			// The wizard is currently not pointing at a valid TS project
 			// We ignore
@@ -985,14 +956,14 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 		}
 	}
 
-	public String getBaseType(){
+	public String getBaseType() {
 		return baseEnumType.getText();
 	}
-	
-	public String getReturnType(){
+
+	public String getReturnType() {
 		return returnedTypeClassDialogField.getText();
 	}
-	
+
 	/**
 	 * Returns the content of the superclass input field.
 	 * 
@@ -1099,44 +1070,19 @@ public abstract class NewPatternBasedArtifactWizardPage extends NewContainerWiza
 
 	}
 
-	protected IStatus checkArtifactDonotExist(String typeName) {
-		StatusInfo status = new StatusInfo();
-
-		IPackageFragment pack = getArtifactPackageFragment();
-		if (pack != null) {
-			ICompilationUnit cu = pack.getCompilationUnit(typeName + ".java"); //$NON-NLS-1$
-			IResource resource = cu.getResource();
-
-			if (resource.exists()) {
-				status
-						.setError(org.eclipse.jdt.internal.ui.wizards.NewWizardMessages.NewTypeWizardPage_error_TypeNameExists);
-				return status;
-			}
-			IPath location = resource.getLocation();
-			if (location != null && location.toFile().exists()) {
-				status
-						.setError(org.eclipse.jdt.internal.ui.wizards.NewWizardMessages.NewTypeWizardPage_error_TypeNameExistsDifferentCase);
-				return status;
-			}
-		}
-		return status;
-	}
-
 	protected void updateStatus(IStatus[] status) {
 
 		IStatus[] additional = getAdditionalStatuses();
-		if(additional != null && additional.length > 0)
-		{
+		if (additional != null && additional.length > 0) {
 			List<IStatus> asList = new ArrayList<IStatus>();
 			asList.addAll(Arrays.asList(status));
 			asList.addAll(Arrays.asList(additional));
-			status = asList.toArray(new IStatus[status.length+additional.length]);
+			status = asList.toArray(new IStatus[status.length
+					+ additional.length]);
 		}
 		super.updateStatus(status);
 	}
 
-
 	protected abstract IStatus[] getAdditionalStatuses();
 
-	
 }
