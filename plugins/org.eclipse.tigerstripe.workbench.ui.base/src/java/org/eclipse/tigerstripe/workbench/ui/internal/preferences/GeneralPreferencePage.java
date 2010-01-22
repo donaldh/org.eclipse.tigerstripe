@@ -44,7 +44,9 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements
 
 	public static final String P_LOGGINGLEVEL = "p.general.logging.level";
 
-	public static final String P_CASCADEDELETE_RELATIONSHIPS = "p.general.cascade.delete.relationships";
+	
+	// See bug 298971
+//	public static final String P_CASCADEDELETE_RELATIONSHIPS = "p.general.cascade.delete.relationships";
 
 	public GeneralPreferencePage() {
 		super(GRID);
@@ -61,7 +63,8 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements
 				.getPreferenceStore();
 		store.setDefault(P_DEFAULTPACKAGE, "com.mycompany");
 		store.setDefault(P_LOGGINGLEVEL, PluginLog.LogLevel.ERROR.toString());
-		store.setDefault(P_CASCADEDELETE_RELATIONSHIPS, "true");
+		// See bug 298971
+//		store.setDefault(P_CASCADEDELETE_RELATIONSHIPS, "true");
 	}
 
 	/**
@@ -80,13 +83,14 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements
 		addField(new StringFieldEditor(P_DEFAULTPACKAGE,
 				"&Default Artifact Package:", group));
 
-		Group modelGroup = new Group(getFieldEditorParent(), SWT.TITLE);
-		gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.horizontalSpan = 2;
-		modelGroup.setLayoutData(gd);
-		modelGroup.setText("Modelling Preferences");
-		addField(new BooleanFieldEditor(P_CASCADEDELETE_RELATIONSHIPS,
-				"&Cascade Delete Relationships:", modelGroup));
+		// See bug 298971
+//		Group modelGroup = new Group(getFieldEditorParent(), SWT.TITLE);
+//		gd = new GridData(GridData.FILL_HORIZONTAL);
+//		gd.horizontalSpan = 2;
+//		modelGroup.setLayoutData(gd);
+//		modelGroup.setText("Modelling Preferences");
+//		addField(new BooleanFieldEditor(P_CASCADEDELETE_RELATIONSHIPS,
+//				"&Cascade Delete Relationships:", modelGroup));
 
 		Group loggingGroup = new Group(getFieldEditorParent(), SWT.TITLE);
 		GridLayout gl1 = new GridLayout();
