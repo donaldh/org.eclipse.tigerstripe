@@ -98,8 +98,7 @@ public class ClassInstanceUpdateCommand extends AbstractInstanceUpdateCommand {
 				for (AssociationInstance assoc : assocs) {
 					String assocFQN = assoc.getFullyQualifiedName();
 					AssociationInstanceUpdateCommand assocUpdateCmd = new AssociationInstanceUpdateCommand(
-							assoc, iArtifact, iArtifact.getTigerstripeProject()
-									.getArtifactManagerSession());
+							assoc, iArtifact, artMgrSession);
 					assocUpdateCmd.updateInstance(assoc, iArtifact);
 				}
 			}
