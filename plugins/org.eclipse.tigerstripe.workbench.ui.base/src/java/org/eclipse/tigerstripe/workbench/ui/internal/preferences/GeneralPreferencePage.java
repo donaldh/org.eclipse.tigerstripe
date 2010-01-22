@@ -90,7 +90,7 @@ public class GeneralPreferencePage extends FieldEditorPreferencePage implements
 //		modelGroup.setLayoutData(gd);
 //		modelGroup.setText("Modelling Preferences");
 //		addField(new BooleanFieldEditor(P_CASCADEDELETE_RELATIONSHIPS,
-//				"&Cascade Delete Relationships:", modelGroup));
+//				"&Cascade Delete Relationships", modelGroup));
 
 		Group loggingGroup = new Group(getFieldEditorParent(), SWT.TITLE);
 		GridLayout gl1 = new GridLayout();
