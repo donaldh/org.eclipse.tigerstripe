@@ -631,12 +631,6 @@
                  commandId="org.eclipse.tigerstripe.workbench.ui.base.refactorMove"
                  label="Move..."
                  style="push">
-              <visibleWhen
-                    checkEnabled="false">
-                 <count
-                       value="1">
-                 </count>
-              </visibleWhen>
            </command>
            <visibleWhen
                  checkEnabled="false">

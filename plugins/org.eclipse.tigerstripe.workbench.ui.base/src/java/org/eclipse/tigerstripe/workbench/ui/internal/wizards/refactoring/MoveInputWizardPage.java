@@ -20,7 +20,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.LabelProvider;
@@ -36,6 +35,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeOssjProjectHandle;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.refactor.ModelRefactorRequest;
@@ -73,7 +73,13 @@ public class MoveInputWizardPage extends AbstractModelRefactorWizardPage {
 		composite.setFont(parent.getFont());
 
 		Label label = new Label(composite, SWT.NONE);
-		label.setText("Choose destination for '" + artifact.getName() + ": ");
+		
+		if(artifacts.size() == 1) {
+			label.setText("Choose destination for '" + artifacts.get(0).getName() + ":");
+		} else {
+			label.setText("Choose destination for " + artifacts.size() + ' ' + "selected elements" + ":");
+		}
+		
 		label.setLayoutData(new GridData());
 
 		destinationField = new TreeViewer(composite, SWT.SINGLE | SWT.H_SCROLL
@@ -220,60 +226,51 @@ public class MoveInputWizardPage extends AbstractModelRefactorWizardPage {
 				.addSelectionChangedListener(new ISelectionChangedListener() {
 					public void selectionChanged(SelectionChangedEvent event) {
 
-						IStructuredSelection selection = (IStructuredSelection) destinationField
-								.getSelection();
-						if (!(selection.getFirstElement() instanceof IContainer)) {
+						IStructuredSelection destination = (IStructuredSelection) destinationField.getSelection();
+						if (!(destination.getFirstElement() instanceof IContainer)) {
 							return;
 						}
 
-
 						try {
+							
 							AbstractModelRefactorWizard wizard = (AbstractModelRefactorWizard) getWizard();
 							wizard.clearRequests();
 
-							ITigerstripeModelProject destinationProject = getContainerProject((IContainer) selection
-									.getFirstElement());
-							String fullyQualifiedName = getContainerFqn((IContainer) selection
-									.getFirstElement());
-							ModelRefactorRequest request = new ModelRefactorRequest();
-							request.setOriginal(artifact.getProject(), artifact
-									.getFullyQualifiedName());
-							request.setDestination(destinationProject,
-									fullyQualifiedName);
+							ITigerstripeModelProject destinationProject = getContainerProject((IContainer) destination.getFirstElement());
+							String containerFQN = getContainerFqn((IContainer) destination.getFirstElement());
+							
+							for(IAbstractArtifact artifact: artifacts) {
+								
+								ModelRefactorRequest request = new ModelRefactorRequest();
+								request.setOriginal(artifact.getProject(), artifact.getFullyQualifiedName());
+								request.setDestination(destinationProject, containerFQN + '.' + artifact.getName());
 
-							if (validatePage(request)) {
-								wizard.addRequest(request);
+								if (validatePage(request)) {
+									wizard.addRequest(request);
+								}
 							}
+							
 						} catch (TigerstripeException t){
 							setMessage(t.getMessage());
 							setPageComplete(false);
 						}
 
-
 					}
 
-					private String getContainerFqn(IContainer container)
-							throws TigerstripeException {
+					private String getContainerFqn(IContainer container) throws TigerstripeException {
 
-						IJavaElement element = (IJavaElement) container
-								.getAdapter(IJavaElement.class);
+						IJavaElement element = (IJavaElement) container.getAdapter(IJavaElement.class);
 						if (element instanceof IPackageFragment) {
-							IPackageFragment pkg = (IPackageFragment) element
-									.getAdapter(IPackageFragment.class);
-							return pkg.getElementName() + '.'
-									+ artifact.getName();
+							IPackageFragment pkg = (IPackageFragment) element.getAdapter(IPackageFragment.class);
+							return pkg.getElementName();
 						} else {
-							throw new TigerstripeException(
-									"The supplied container must be an instance of IPackageFragment");
+							throw new TigerstripeException("The supplied container must be an instance of IPackageFragment");
 						}
 					}
 
-					private ITigerstripeModelProject getContainerProject(
-							IContainer container) {
-
-						return (ITigerstripeModelProject) container
-								.getProject().getAdapter(
-										ITigerstripeModelProject.class);
+					private ITigerstripeModelProject getContainerProject(IContainer container) {
+						return (ITigerstripeModelProject) container.getProject().getAdapter(ITigerstripeModelProject.class);
+						
 					}
 				});
 

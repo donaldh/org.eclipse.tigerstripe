@@ -11,6 +11,10 @@
 
 package org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -20,26 +24,32 @@ import org.eclipse.tigerstripe.workbench.refactor.ModelRefactorRequest;
 
 public abstract class AbstractModelRefactorWizardPage extends WizardPage {
 
-	protected IAbstractArtifact artifact;
+	protected List<IAbstractArtifact> artifacts;
 	
 	protected AbstractModelRefactorWizardPage(String pageName) {
 		super(pageName);
+		artifacts = new ArrayList<IAbstractArtifact>();
 	}
 
+	@SuppressWarnings("unchecked")
 	public void init(IStructuredSelection selection) {
 	
 		if (selection == null)
 			return;
 	
 		if (selection.size() > 0) {
-	
-			Object obj = selection.getFirstElement();
-			if (obj instanceof IJavaElement) {
-	
-				IJavaElement element = (IJavaElement) obj;
-				IAbstractArtifact artifact = (IAbstractArtifact) element.getAdapter(IAbstractArtifact.class);
-				if (artifact != null) {
-					this.artifact = artifact;
+			
+			Iterator<IJavaElement> iter = selection.iterator();
+			while(iter.hasNext()) {
+				
+				Object obj = iter.next();
+				if (obj instanceof IJavaElement) {
+		
+					IJavaElement element = (IJavaElement) obj;
+					IAbstractArtifact artifact = (IAbstractArtifact) element.getAdapter(IAbstractArtifact.class);
+					if (artifact != null) {
+						artifacts.add(artifact);
+					}
 				}
 			}
 		}
