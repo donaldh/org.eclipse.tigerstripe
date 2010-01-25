@@ -33,4 +33,5 @@ SITE_NAME="updates-3.5-unstable"
 esac
  
 echo "Uploading to $SITE_NAME"
-scp -rvf "${WORKSPACE}/../builds/${BUILD_NUMBER}/archive/target/site"/* edillon@download1.eclipse.org:"$SITE"
+cd ${WORKSPACE}/../builds/${BUILD_NUMBER}/archive/target/site
+scp -rv * edillon@download1.eclipse.org:"$SITE"
