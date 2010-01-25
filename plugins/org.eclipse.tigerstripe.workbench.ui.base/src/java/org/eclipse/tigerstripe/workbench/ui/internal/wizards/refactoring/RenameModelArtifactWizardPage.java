@@ -14,6 +14,7 @@ package org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IPackageFragment;
+import org.eclipse.jdt.internal.ui.dialogs.StatusInfo;
 import org.eclipse.jdt.internal.ui.dialogs.StatusUtil;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.WizardPage;
@@ -106,6 +107,9 @@ public class RenameModelArtifactWizardPage extends WizardPage {
 
 		setPageComplete(false);
 		
+		StatusInfo defaultStatus = new StatusInfo(StatusInfo.INFO, "Specify new name for " + modelArtifact.getName() + '.');
+		StatusUtil.applyToStatusLine(this, defaultStatus);
+		
 		if(javaElement.getElementType() == IJavaElement.PACKAGE_FRAGMENT) {
 			
 			if(modelArtifact.getFullyQualifiedName().equals(nameText.getText().trim())) {
@@ -113,32 +117,33 @@ public class RenameModelArtifactWizardPage extends WizardPage {
 			}
 			
 			IStatus status = ArtifactNameValidator.validatePackageArtifactName(nameText.getText().trim());
-			StatusUtil.applyToStatusLine(this, status);
 			if (!status.isOK()) {
+				StatusUtil.applyToStatusLine(this, status);
 				return;
 			}
 			
 			status = ArtifactNameValidator.validatePackageArtifactDoesNotExist(javaElement.getJavaProject(), nameText.getText().trim());
-			StatusUtil.applyToStatusLine(this, status);
 			if (!status.isOK()) {
+				StatusUtil.applyToStatusLine(this, status);
 				return;
 			}
 			
 		} else {
 			
+			StatusUtil.applyToStatusLine(this, defaultStatus);
 			if(modelArtifact.getName().equals(nameText.getText().trim())) {
 				return;
 			}
 			
 			IStatus status = ArtifactNameValidator.validateArtifactName(nameText.getText().trim());
-			StatusUtil.applyToStatusLine(this, status);
 			if (!status.isOK()) {
+				StatusUtil.applyToStatusLine(this, status);
 				return;
 			}
 
 			status = ArtifactNameValidator.validateArtifactDoesNotExist(packageFragment, nameText.getText().trim());
-			StatusUtil.applyToStatusLine(this, status);
 			if (!status.isOK()) {
+				StatusUtil.applyToStatusLine(this, status);
 				return;
 			}
 
