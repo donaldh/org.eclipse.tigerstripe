@@ -33,4 +33,4 @@ SITE_NAME="updates-3.5-unstable"
 esac
  
 echo "Uploading to $SITE_NAME"
-scp -rvf "$WORKSPACE/target/xmp_sdk/releng/com.cisco.xmp.sdk.site/trunk/target/site"/* edillon@download1.eclipse.org:"$SITE"
+scp -rvf "${WORKSPACE}/../builds/${BUILD_NUMBER}/archive/target/site"/* edillon@download1.eclipse.org:"$SITE"
