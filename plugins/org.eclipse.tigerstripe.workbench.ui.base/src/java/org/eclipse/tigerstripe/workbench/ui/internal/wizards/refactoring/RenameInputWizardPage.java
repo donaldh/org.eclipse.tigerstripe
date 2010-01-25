@@ -25,7 +25,7 @@ import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 
 public class RenameInputWizardPage extends AbstractModelRefactorWizardPage {
 
-	public static final String PAGE_NAME = "RenameInputPage";
+	public static final String PAGE_NAME = "RenameInputPage"; //$NON-NLS-1$
 
 	public RenameInputWizardPage() {
 		super(PAGE_NAME);
