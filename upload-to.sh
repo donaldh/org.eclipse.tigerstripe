@@ -16,6 +16,7 @@ DST=$1; shift
 TS_DOWNLOAD=/home/data/users/edillon/downloads/technology/tigerstripe
 SITE="$TS_DOWNLOAD"/updates-3.5-unstable
 SITE_NAME=updates-3.5-unstable
+PROMOTED_BUILD=`echo $PROMOTED_URL | awk '{split($0, a, "/");print a[6]}'`
 
 case "$DST" in
 release)
@@ -32,6 +33,6 @@ SITE_NAME="updates-3.5-unstable"
 ;;
 esac
  
-echo "Uploading to $SITE_NAME"
-cd ${WORKSPACE}/../builds/${BUILD_NUMBER}/archive/target/site
+echo "Uploading build ${PROMOTED_BUILD} to $SITE_NAME"
+cd ${WORKSPACE}/../builds/${PROMOTED_BUILD}/archive/target/site
 scp -rv * edillon@download1.eclipse.org:"$SITE"
