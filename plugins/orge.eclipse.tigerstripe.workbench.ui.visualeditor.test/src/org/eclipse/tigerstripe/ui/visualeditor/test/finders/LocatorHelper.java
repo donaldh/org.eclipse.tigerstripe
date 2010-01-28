@@ -22,6 +22,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Attr
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DatatypeArtifactAttributeCompartmentEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DatatypeArtifactEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DatatypeArtifactNamePackageEditPart;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DatatypeArtifactStereotypesEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DependencyEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DependencyNamePackageEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.EnumerationEditPart;
@@ -101,14 +102,34 @@ public class LocatorHelper {
 	 * 
 	 */
 	public IWidgetLocator getManagedEntityAttributeLocator(IUIContext ui, String artifactName, String attributeName) throws Exception{
+		return getManagedEntityAttributeLocator(ui, artifactName, attributeName, null);
+	}
+	/**
+	 * Find an attribute within a named ManagedEntity.
+	 * Just look for the attribute Name - ignore the type
+	 * You should be able to derive the type from the returned object if you want 
+	 * 
+	 */
+	public IWidgetLocator getManagedEntityAttributeLocator(IUIContext ui, String artifactName, String attributeName, String stereotypeName) throws Exception{
+
 		IWidgetLocator comp = getManagedEntityAttributeCompartmentLocator(ui, artifactName);
 		
+		String matchPattern = "^[+-]"+attributeName+":.*";
+		if (stereotypeName != null){
+			matchPattern = "^<<"+stereotypeName+">> [+-]"+attributeName+":.*";
+		}
+		System.out.println(matchPattern);
+
 		List figChildren = getUsefulChildren(comp);
 		for (Object figChild : figChildren){
 			if (figChild instanceof Attribute3EditPart.AttributeLabelFigure ){
-				Attribute3EditPart.AttributeLabelFigure attribFigure  = (Attribute3EditPart.AttributeLabelFigure) figChild;												
-				String matchPattern = "^[+-]"+attributeName+":.*";
+				Attribute3EditPart.AttributeLabelFigure attribFigure  = (Attribute3EditPart.AttributeLabelFigure) figChild;	
+				
+				System.out.println(attribFigure.getText());
+				
 				if (attribFigure.getText().matches(matchPattern)){
+					System.out.println("Matched "+attribFigure);
+					System.out.println(new WidgetReference(attribFigure));
 					return new WidgetReference(attribFigure);
 				}
 			}
@@ -123,6 +144,16 @@ public class LocatorHelper {
 	 * 
 	 */
 	public IWidgetLocator getManagedEntityMethodLocator(IUIContext ui, String artifactName, String methodName){
+		return getManagedEntityMethodLocator(ui, artifactName, methodName, null);
+	}
+	
+	/**
+	 * Find an method within a named ManagedEntity.
+	 * Just look for the method Name - ignore the type
+	 * You should be able to derive the type from the returned object if you want 
+	 * 
+	 */
+	public IWidgetLocator getManagedEntityMethodLocator(IUIContext ui, String artifactName, String methodName, String stereotypeName){
 		IWidgetLocator comp = getManagedEntityMethodCompartmentLocator(ui, artifactName);
 		
 		List figChildren = getUsefulChildren(comp);
@@ -130,6 +161,9 @@ public class LocatorHelper {
 			if (figChild instanceof MethodEditPart.MethodLabelFigure ){
 				MethodEditPart.MethodLabelFigure methodFigure  = (MethodEditPart.MethodLabelFigure) figChild;												
 				String matchPattern = "^[+-]"+methodName+"\\(.*\\):.*";
+				if (stereotypeName != null){
+					matchPattern = "^<<"+stereotypeName+">> [+-]"+methodName+"\\(.*\\):.*";
+				}
 				if (methodFigure.getText().matches(matchPattern)){
 					return new WidgetReference(methodFigure);
 				}
@@ -255,6 +289,32 @@ public class LocatorHelper {
 		}
 		return null;
 	}
+	
+	public IWidgetLocator getDatatypeStereoEditLocator(IUIContext ui, String artifactName, String stereotypeName){
+		FigureClassLocator t = new FigureClassLocator("org.eclipse.gmf.runtime.draw2d.ui.text.TextFlowEx");
+		IWidgetLocator[] allTfls = t.findAll(ui);
+		for (IWidgetLocator wl : allTfls){
+			EditPart ep = (EditPart) ((IFigureReference) wl).getEditPart();
+			if (ep instanceof DatatypeArtifactStereotypesEditPart){
+				
+				DatatypeArtifactEditPart parentEditPart = (DatatypeArtifactEditPart) ep.getParent();
+				
+				DatatypeArtifactNamePackageEditPart danpep = (DatatypeArtifactNamePackageEditPart) parentEditPart.getPrimaryChildEditPart();
+				if (((WrapLabel) danpep.getFigure()).getText().equals(artifactName)){
+					
+					String matchPattern = "<<"+stereotypeName+">>";
+					if (((WrapLabel) ((DatatypeArtifactStereotypesEditPart) ep).getFigure()).getText().equals(
+							matchPattern
+							)){
+						
+						return wl;
+					}
+				}
+			}
+		} 
+		return null;
+	}
+	
 	
 	public IWidgetLocator getQueryLocator(IUIContext ui, String nameToFind) {
 		IWidgetLocator[] matches = ui.findAll(new FigureClassLocator("org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.NamedQueryArtifactEditPart$NamedQueryArtifactFigure"));
@@ -389,14 +449,32 @@ public class LocatorHelper {
 	 * 
 	 */
 	public IWidgetLocator getEnumerationLiteralLocator(IUIContext ui, String artifactName, String literalName){
+		return getEnumerationLiteralLocator(ui, artifactName, literalName, null);
+	}
+	
+	/**
+	 * Find an literal within a named Enumeration.
+	 * 
+	 */
+	public IWidgetLocator getEnumerationLiteralLocator(IUIContext ui, String artifactName, String literalName, String stereotypeName){
 		IWidgetLocator comp = getEnumerationLiteralCompartmentLocator(ui, artifactName);
+		
+		String matchPattern = "^[+-]"+literalName+"=.*";
+		if (stereotypeName != null){
+			matchPattern = "^<<"+stereotypeName+">> [+-]"+literalName+"=.*";
+		}
+		System.out.println(matchPattern);
 		
 		List figChildren = getUsefulChildren(comp);
 		for (Object figChild : figChildren){
 			if (figChild instanceof LiteralEditPart.LiteralLabelFigure ){
 				LiteralEditPart.LiteralLabelFigure literalFigure  = (LiteralEditPart.LiteralLabelFigure) figChild;												
-				String matchPattern = "^[+-]"+literalName+"=.*";
+				
+				System.out.println(literalFigure.getText());
+				
 				if (literalFigure.getText().matches(matchPattern)){
+					System.out.println("Matched "+literalFigure);
+					System.out.println(new WidgetReference(literalFigure));
 					return new WidgetReference(literalFigure);
 				}
 			}
