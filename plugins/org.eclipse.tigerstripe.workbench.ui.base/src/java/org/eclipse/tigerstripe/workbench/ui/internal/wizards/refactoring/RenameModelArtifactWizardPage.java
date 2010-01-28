@@ -105,9 +105,10 @@ public class RenameModelArtifactWizardPage extends WizardPage {
 
 	private void updatePageComplete() {
 
+		setTitle("Refactor \"" + modelArtifact.getFullyQualifiedName() + "\"");
 		setPageComplete(false);
 		
-		StatusInfo defaultStatus = new StatusInfo(StatusInfo.INFO, "Specify new name for " + modelArtifact.getName() + '.');
+		StatusInfo defaultStatus = new StatusInfo(StatusInfo.INFO, "Specify new name for " + modelArtifact.getFullyQualifiedName() + '.');
 		StatusUtil.applyToStatusLine(this, defaultStatus);
 		
 		if(javaElement.getElementType() == IJavaElement.PACKAGE_FRAGMENT) {
