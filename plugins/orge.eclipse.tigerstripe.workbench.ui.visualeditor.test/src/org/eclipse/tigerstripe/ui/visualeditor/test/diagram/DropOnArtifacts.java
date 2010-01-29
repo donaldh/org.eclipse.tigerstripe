@@ -47,7 +47,7 @@ public class DropOnArtifacts extends UITestCaseSWT {
 	/**
 	 * Main test method.
 	 */
-	public void testDropOnAssociations() throws Exception {
+	public void testDropOnArtifacts() throws Exception {
 		ui = getUI();
 		
 		String packagePath = (TestingConstants.DEFAULT_ARTIFACT_PACKAGE_AS_PATH+"/"+TestingConstants.DIAGRAM_2_PACKAGE);
