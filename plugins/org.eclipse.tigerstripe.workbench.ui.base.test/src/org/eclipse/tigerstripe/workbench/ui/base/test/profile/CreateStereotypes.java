@@ -29,27 +29,7 @@ public class CreateStereotypes extends UITestCaseSWT {
 		
 	}
 	
-	public void tearDown() throws Exception{
-		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
-		ui.close(new CTabItemLocator(TestingConstants.NEW_MODEL_PROJECT_NAME+
-				"/"+TestingConstants.NEW_PROFILE_NAME+".wbp"));
-		
-		ui.contextClick(
-				new TreeItemLocator(
-						TestingConstants.NEW_MODEL_PROJECT_NAME+"/"+
-						TestingConstants.NEW_PROFILE_NAME+".wbp",
-						new ViewLocator(
-						"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")),
-		"Profile/Set as active profile.");
-		ui.wait(new ShellShowingCondition("Save as Active Profile"));
-		ui.click(new ButtonLocator("OK"));
-		ui.wait(new ShellDisposedCondition("Save as Active Profile"));
-		ui.wait(new ShellShowingCondition("Success"));
-		ui.click(new ButtonLocator("OK"));
-		ui.wait(new ShellDisposedCondition("Success"));
-	}
-	
-	public void createStereotypes(IUIContext ui) throws Exception {	
+	public static void createStereotypes(IUIContext ui) throws Exception {	
 			ui.click(2,
 					new TreeItemLocator(
 							TestingConstants.NEW_MODEL_PROJECT_NAME+"/"+
@@ -208,6 +188,24 @@ public class CreateStereotypes extends UITestCaseSWT {
 //			ui.wait(new ShellDisposedCondition("Stereotype Attribute Edit"));
 //			
 			
+			
+			ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
+			ui.close(new CTabItemLocator(TestingConstants.NEW_MODEL_PROJECT_NAME+
+					"/"+TestingConstants.NEW_PROFILE_NAME+".wbp"));
+			
+			ui.contextClick(
+					new TreeItemLocator(
+							TestingConstants.NEW_MODEL_PROJECT_NAME+"/"+
+							TestingConstants.NEW_PROFILE_NAME+".wbp",
+							new ViewLocator(
+							"org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew")),
+			"Profile/Set as active profile.");
+			ui.wait(new ShellShowingCondition("Save as Active Profile"));
+			ui.click(new ButtonLocator("OK"));
+			ui.wait(new ShellDisposedCondition("Save as Active Profile"));
+			ui.wait(new ShellShowingCondition("Success"));
+			ui.click(new ButtonLocator("OK"));
+			ui.wait(new ShellDisposedCondition("Success"));
 			
 			
 	}

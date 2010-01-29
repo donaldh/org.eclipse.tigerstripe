@@ -39,7 +39,7 @@ public class Explorer extends UITestCaseSWT {
 		checkExplorerOff(ui);
 	}
 
-	private void enable(IUIContext ui) throws Exception{
+	public static void enable(IUIContext ui) throws Exception{
 
 		ui.click(new MenuItemLocator("Window/Preferences"));
 		ui.wait(new ShellShowingCondition("Preferences"));
@@ -56,7 +56,7 @@ public class Explorer extends UITestCaseSWT {
 	}
 
 
-	private void disable(IUIContext ui) throws Exception{
+	public static void disable(IUIContext ui) throws Exception{
 
 		ui.click(new MenuItemLocator("Window/Preferences"));
 		ui.wait(new ShellShowingCondition("Preferences"));
