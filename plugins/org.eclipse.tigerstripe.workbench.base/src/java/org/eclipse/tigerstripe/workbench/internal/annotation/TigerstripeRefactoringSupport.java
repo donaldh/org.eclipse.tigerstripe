@@ -47,8 +47,7 @@ public class TigerstripeRefactoringSupport implements
 	}
 
 	public void stop() {
-		TigerstripeCore.addTigerstripeChangeListener(this,
-				ITigerstripeChangeListener.ALL);
+		TigerstripeCore.removeTigerstripeChangeListener(this);
 	}
 
 	public void modelChanged(IModelChangeDelta[] deltas) {
