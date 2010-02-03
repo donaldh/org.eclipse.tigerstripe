@@ -347,6 +347,7 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 
 		modelClassBrowseButton = form.getToolkit().createButton(parent,
 				"Browse", SWT.PUSH);
+		modelClassBrowseButton.setData("name","Browse_Classes");
 		modelClassBrowseButton.setEnabled(PluginDescriptorEditor.isEditable());
 		if (PluginDescriptorEditor.isEditable())
 			modelClassBrowseButton.addSelectionListener(adapter);
