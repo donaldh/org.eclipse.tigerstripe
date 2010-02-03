@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SIDMapping Plug-in
+Bundle-SymbolicName: org.eclipse.tigerstripe.SIDMapping;singleton:=true
+Bundle-Version: 1.0.8
+Bundle-Activator: org.eclipse.tigerstripe.sidmapping.Activator
+Require-Bundle: org.eclipse.ui,
+ org.eclipse.core.runtime,
+ org.eclipse.tigerstripe.workbench.ui.UML2Import;bundle-version="0.4.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
