@@ -7,12 +7,12 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.refactor.artifact.Ent1_to_Ent10;
 import org.eclipse.tigerstripe.refactor.delete.DeleteTests;
-import org.eclipse.tigerstripe.refactor.project.ProjectHelper;
 import org.eclipse.tigerstripe.refactor.suite.DiagramHelper;
 import org.eclipse.tigerstripe.ui.visualeditor.test.finders.LocatorHelper;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.ArtifactHelper;
 import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
+import org.eclipse.tigerstripe.workbench.ui.base.test.utils.ProjectHelper;
 
 import com.windowtester.runtime.IUIContext;
 import com.windowtester.runtime.WT;

@@ -14,9 +14,9 @@ import org.eclipse.tigerstripe.refactor.Vanilla.MoveTests;
 import org.eclipse.tigerstripe.refactor.artifact.DataBottom_to_DataBottom0;
 import org.eclipse.tigerstripe.refactor.artifact.DataMiddle_to_DataMiddle0;
 import org.eclipse.tigerstripe.refactor.artifact.Ent1_to_Ent10;
-import org.eclipse.tigerstripe.refactor.project.ProjectHelper;
 import org.eclipse.tigerstripe.refactor.suite.DiagramHelper;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.ArtifactHelper;
+import org.eclipse.tigerstripe.workbench.ui.base.test.utils.ProjectHelper;
 
 import com.windowtester.runtime.WT;
 import com.windowtester.runtime.swt.condition.shell.ShellDisposedCondition;

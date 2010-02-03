@@ -1,4 +1,4 @@
-package org.eclipse.tigerstripe.refactor.project;
+package org.eclipse.tigerstripe.workbench.ui.base.test.utils;
 
 import java.util.Collection;
 

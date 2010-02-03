@@ -1,9 +1,9 @@
 package org.eclipse.tigerstripe.refactor.delete;
 
-import org.eclipse.tigerstripe.refactor.project.ProjectHelper;
 import org.eclipse.tigerstripe.refactor.suite.DiagramHelper;
 import org.eclipse.tigerstripe.ui.visualeditor.test.finders.LocatorHelper;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.ArtifactHelper;
+import org.eclipse.tigerstripe.workbench.ui.base.test.utils.ProjectHelper;
 
 import com.windowtester.runtime.IUIContext;
 import com.windowtester.runtime.gef.locator.FigureClassLocator;

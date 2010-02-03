@@ -22,10 +22,10 @@ import org.eclipse.tigerstripe.refactor.artifact.Exception0_to_Exception00;
 import org.eclipse.tigerstripe.refactor.artifact.Query0_to_Query00;
 import org.eclipse.tigerstripe.refactor.artifact.Session0_to_Session00;
 import org.eclipse.tigerstripe.refactor.artifact.Update0_to_Update00;
-import org.eclipse.tigerstripe.refactor.project.ProjectHelper;
-import org.eclipse.tigerstripe.refactor.project.TestInitialPackageContents;
 import org.eclipse.tigerstripe.refactor.suite.DiagramHelper;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.ArtifactHelper;
+import org.eclipse.tigerstripe.workbench.ui.base.test.utils.ProjectHelper;
+import org.eclipse.tigerstripe.workbench.ui.base.test.utils.TestInitialPackageContents;
 
 import com.windowtester.runtime.IUIContext;
 import com.windowtester.runtime.swt.UITestCaseSWT;

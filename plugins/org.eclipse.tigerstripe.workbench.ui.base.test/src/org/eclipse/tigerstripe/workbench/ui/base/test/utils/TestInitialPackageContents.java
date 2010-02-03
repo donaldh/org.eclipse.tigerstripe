@@ -8,7 +8,7 @@
  * Contributors:
  *    Cisco Systems, Inc. - rcraddoc
  *******************************************************************************/
-package org.eclipse.tigerstripe.refactor.project;
+package org.eclipse.tigerstripe.workbench.ui.base.test.utils;
 
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.ArtifactHelper;
 

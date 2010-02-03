@@ -18,8 +18,8 @@ import org.eclipse.tigerstripe.refactor.artifact.Ent1_to_Ent10;
 import org.eclipse.tigerstripe.refactor.artifact.Enumeration0_to_Enumeration00;
 import org.eclipse.tigerstripe.refactor.artifact.Session0_to_Session00;
 import org.eclipse.tigerstripe.refactor.pckge.Simple_to_Complicated;
-import org.eclipse.tigerstripe.refactor.project.ProjectHelper;
 import org.eclipse.tigerstripe.workbench.ui.base.test.project.ArtifactHelper;
+import org.eclipse.tigerstripe.workbench.ui.base.test.utils.ProjectHelper;
 
 import com.windowtester.runtime.IUIContext;
 import com.windowtester.runtime.swt.UITestCaseSWT;
