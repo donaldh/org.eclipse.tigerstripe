@@ -6,6 +6,7 @@ import junit.framework.TestSuite;
 import org.eclipse.tigerstripe.workbench.ui.base.test.suite.CleanWorkspace;
 import org.eclipse.tigerstripe.workbench.ui.base.test.utils.GuiUtils;
 import org.eclipse.tigerstripe.workbench.ui.generator.test.generator.Clicks;
+import org.eclipse.tigerstripe.workbench.ui.generator.test.generator.SetUp;
 
 public class AllTests {
 
@@ -20,7 +21,7 @@ public class AllTests {
 		
 		// Now we need to set lots of options.
 		// and generate as we go along
-		
+		suite.addTestSuite(SetUp.class);
 		suite.addTestSuite(Clicks.class);		
 		
 		return suite;

@@ -21,6 +21,7 @@ import com.windowtester.runtime.swt.locator.NamedWidgetLocator;
 import com.windowtester.runtime.swt.locator.SWTWidgetLocator;
 import com.windowtester.runtime.swt.locator.SectionLocator;
 import com.windowtester.runtime.swt.locator.TableItemLocator;
+import com.windowtester.runtime.swt.locator.TreeItemLocator;
 import com.windowtester.runtime.swt.locator.eclipse.ContributedToolItemLocator;
 
 public class SelectionUtils {
@@ -32,6 +33,7 @@ public class SelectionUtils {
 		ui.click(new ButtonLocator("Add"));
 		ui.wait(new ShellShowingCondition("New Plugin Property"));
 		ui.click(new LabeledTextLocator("Property Name:"));
+		ui.keyClick(SWT.CTRL, 'a');
 		ui.enterText(propertyName);
 		ui.click(new ButtonLocator("OK"));
 		ui.wait(new ShellDisposedCondition("New Plugin Property"));
@@ -45,7 +47,7 @@ public class SelectionUtils {
 	}
 
 	
-	public static void globalRule(IUIContext ui, String ruleName, String defaultValue) throws Exception {
+	public static void globalRule(IUIContext ui, String ruleName, String dirName) throws Exception {
 	
 		ui.click(new CTabItemLocator("Rules"));
 		//open section
@@ -58,6 +60,17 @@ public class SelectionUtils {
 		ui.enterText(ruleName);
 		ui.click(new ButtonLocator("OK"));
 		ui.wait(new ShellDisposedCondition("New Plugin Rule"));
+		
+		/// Need to set template 
+		ui.click(new NamedWidgetLocator("Browse_Template"));
+		ui.wait(new ShellShowingCondition("Select Velocity Template"));
+		ui.click(new TreeItemLocator(TestingConstants.GLOBAL_RULE_TEMPLATE_NAME));
+		ui.click(new ButtonLocator("OK"));
+		ui.wait(new ShellDisposedCondition("Select Velocity Template"));
+
+		// and output dir
+		ui.click(new LabeledTextLocator("Output File:"));
+		ui.enterText(dirName+"/"+TestingConstants.GLOBAL_RULE_OUTPUT_FILE_NAME);
 		
 		//collapse again
 		ui.click(new SWTWidgetLocator(Label.class, "&Global Rules"));
