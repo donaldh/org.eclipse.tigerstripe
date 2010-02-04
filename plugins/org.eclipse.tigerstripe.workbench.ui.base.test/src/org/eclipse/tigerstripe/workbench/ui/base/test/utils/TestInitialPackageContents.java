@@ -20,31 +20,36 @@ public class TestInitialPackageContents extends UITestCaseSWT {
 		
 		private static String project="model-refactoring";
 		
+		public static String[] artifacts = new String[]{
+				"Ent1",
+				"Ent2",
+				"SuperEnt",
+				"AssociatedEnt",
+				"Association0",
+				"Association1",
+				"Association2",
+				"AssociationClass0",
+				
+				"DataTop",
+				"DataMiddle",
+				"DataBottom",
+				
+				"Enumeration0",
+				"Query0",
+				"Update0",
+				"Dependency0",
+				"Exception0",
+				"Event0",
+				"SessionFacade0"
+				};
+		
 		
 		public static void testArtifacts(IUIContext ui) throws Exception {
 			// Check we still have all of our artifacts?
-			ArtifactHelper.checkArtifactInExplorer(ui, project, "simple", "Ent1");
-			ArtifactHelper.checkArtifactInExplorer(ui, project, "simple", "Ent2");
-			ArtifactHelper.checkArtifactInExplorer(ui, project, "simple", "SuperEnt");
-			ArtifactHelper.checkArtifactInExplorer(ui, project, "simple", "AssociatedEnt");
-			
-			ArtifactHelper.checkArtifactInExplorer(ui, project, "simple", "Association0");
-			ArtifactHelper.checkArtifactInExplorer(ui, project, "simple", "Association1");
-			ArtifactHelper.checkArtifactInExplorer(ui, project, "simple", "Association2");
-			ArtifactHelper.checkArtifactInExplorer(ui, project, "simple", "AssociationClass0");
-			
-			ArtifactHelper.checkArtifactInExplorer(ui, project, "simple", "DataTop");
-			ArtifactHelper.checkArtifactInExplorer(ui, project, "simple", "DataMiddle");
-			ArtifactHelper.checkArtifactInExplorer(ui, project, "simple", "DataBottom");
-			
-			ArtifactHelper.checkArtifactInExplorer(ui, project, "simple", "Enumeration0");
-			ArtifactHelper.checkArtifactInExplorer(ui, project, "simple", "Query0");
-			ArtifactHelper.checkArtifactInExplorer(ui, project, "simple", "Update0");
-			ArtifactHelper.checkArtifactInExplorer(ui, project, "simple", "Dependency0");
-			ArtifactHelper.checkArtifactInExplorer(ui, project, "simple", "Exception0");
-			
-			ArtifactHelper.checkArtifactInExplorer(ui, project, "simple", "SessionFacade0");
-			
+			for (String artifact : artifacts){
+				ArtifactHelper.checkArtifactInExplorer(ui, project, "simple", artifact);
+			}
+			ArtifactHelper.checkPackageInExplorer(ui, project, "simple");
 			ArtifactHelper.checkPackageInExplorer(ui, project, "simple.moved");
 			ArtifactHelper.checkPackageInExplorer(ui, project, "simple.movedOther");
 			
