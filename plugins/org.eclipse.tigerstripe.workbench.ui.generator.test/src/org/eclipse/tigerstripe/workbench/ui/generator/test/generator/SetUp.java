@@ -51,7 +51,7 @@ public class SetUp extends UITestCaseSWT {
 		// close project editor
 		ui.close(new CTabItemLocator(projectName+"/tigerstripe.xml"));
 		// select plugin editor
-		ui.click(new CTabItemLocator(TestingConstants.NEW_PLUGIN_PROJECT_NAME));
+		ui.click(new CTabItemLocator(TestingConstants.NEW_PLUGIN_PROJECT_NAME+"/ts-plugin.xml"));
 	}
 
 	public void setGlobalPropertyGlobal() throws Exception{

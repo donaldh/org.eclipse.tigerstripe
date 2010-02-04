@@ -78,7 +78,7 @@ public class SelectionUtils {
 		ui.click(new ContributedToolItemLocator("org.eclipse.ui.file.save"));
 	}
 	
-	public static void artifactRule(IUIContext ui, String ruleName, String defaultValue) throws Exception {
+	public static void artifactRule(IUIContext ui, String ruleName, String dirName) throws Exception {
 
 		ui.click(new CTabItemLocator("Rules"));
 		//open section
@@ -93,6 +93,20 @@ public class SelectionUtils {
 		ui.click(new ButtonLocator("OK"));
 		ui.wait(new ShellDisposedCondition("New Plugin Rule"));
 
+		/// Need to set template 
+		ui.click(new NamedWidgetLocator("Browse_Template"));
+		ui.wait(new ShellShowingCondition("Select Velocity Template"));
+		ui.click(new TreeItemLocator(TestingConstants.GLOBAL_RULE_TEMPLATE_NAME));
+		ui.click(new ButtonLocator("OK"));
+		ui.wait(new ShellDisposedCondition("Select Velocity Template"));
+
+		// and output dir
+		ui.click(new LabeledTextLocator("Output File:"));
+		ui.enterText(dirName+"/"+TestingConstants.ARTIFACT_RULE_OUTPUT_FILE_NAME);
+		
+		// and default ArtifactType
+		ui.click(new CComboItemLocator("Any Artifact"));
+		
 		//collapse again
 		ui.click(new SWTWidgetLocator(Label.class, "&Artifact Rules"));
 
