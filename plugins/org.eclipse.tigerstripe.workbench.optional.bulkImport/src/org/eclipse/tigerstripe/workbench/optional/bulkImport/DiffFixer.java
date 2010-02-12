@@ -143,6 +143,11 @@ public class DiffFixer {
 						newArt.setFullyQualifiedName(extractedArtifact
 										.getFullyQualifiedName());
 						projectMgrSession.addArtifact(newArt);
+						//bug 302761						
+							for(IStereotypeInstance s: extractedArtifact.getStereotypeInstances()){
+								newArt.addStereotypeInstance(s);
+							}						
+						
 						out.println("make "+ extractedArtifact
 								.getFullyQualifiedName());
 						
