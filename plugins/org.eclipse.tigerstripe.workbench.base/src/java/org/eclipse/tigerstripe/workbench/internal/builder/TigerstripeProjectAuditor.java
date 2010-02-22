@@ -708,15 +708,16 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		}
 	}
 
-	public static void rebuildIndexes(IProgressMonitor monitor) {
+	public static void rebuildIndexes(
+			ITigerstripeModelProject[] projectsToRebuild,
+			IProgressMonitor monitor) {
 		// look for all relevant builders
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		IProject[] projects = root.getProjects();
-		for (IProject proj : projects) {
+		for (ITigerstripeModelProject mProj : projectsToRebuild) {
 			try {
 				Properties map = new Properties();
 				map.put("rebuildIndexes", "True");
-				if (proj.getAdapter(ITigerstripeModelProject.class) != null)
+				IProject proj = (IProject) mProj.getAdapter(IProject.class);
+				if (proj != null)
 					proj.build(FULL_BUILD,
 							TigerstripeProjectAuditor.BUILDER_ID, map, monitor);
 			} catch (CoreException e) {

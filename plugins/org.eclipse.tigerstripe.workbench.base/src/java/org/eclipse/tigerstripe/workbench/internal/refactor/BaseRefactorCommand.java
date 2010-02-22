@@ -91,13 +91,15 @@ public class BaseRefactorCommand implements IRefactorCommand {
 
 		Set<Object> toCleanUp = new HashSet<Object>();
 
-		applyAllDeltas(monitor, toCleanUp);
+		ITigerstripeModelProject[] affectedProjects = applyAllDeltas(monitor,
+				toCleanUp);
+
 		updateDiagrams(monitor);
 		moveDiagrams(monitor);
 
 		cleanUp(toCleanUp, monitor);
 
-		rebuildIndexes(monitor);
+		rebuildIndexes(affectedProjects, monitor);
 
 		// Gets the list of all resources that will be impacted.
 		// Set<IResource> affectedResources = getAffectedResources();
@@ -163,11 +165,11 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		monitor.done();
 	}
 
-	protected void rebuildIndexes(IProgressMonitor monitor)
-			throws TigerstripeException {
+	protected void rebuildIndexes(ITigerstripeModelProject[] projectsToRebuild,
+			IProgressMonitor monitor) throws TigerstripeException {
 		// Rebuilding indexes is necessary for the Auditor to be in sync with
 		// the model since it was put to sleep during the refactor process.
-		TigerstripeProjectAuditor.rebuildIndexes(monitor);
+		TigerstripeProjectAuditor.rebuildIndexes(projectsToRebuild, monitor);
 	}
 
 	protected void moveDiagrams(IProgressMonitor monitor)
@@ -218,9 +220,11 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		TigerstripeProjectAuditor.setTurnedOffForImport(false);
 	}
 
-	protected void applyAllDeltas(IProgressMonitor monitor,
-			Collection<Object> toCleanUp) {
+	protected ITigerstripeModelProject[] applyAllDeltas(
+			IProgressMonitor monitor, Collection<Object> toCleanUp) {
 		monitor.beginTask("Applying deltas", 2 * deltas.size());
+
+		Set<ITigerstripeModelProject> affectedProjects = new HashSet<ITigerstripeModelProject>();
 
 		// move artifacts that need to be moved
 		Set<IAbstractArtifact> toSave = new HashSet<IAbstractArtifact>();
@@ -237,6 +241,9 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		for (IAbstractArtifact art : toSave)
 			try {
 				art.doSave(monitor);
+
+				if (art.getProject() != null)
+					affectedProjects.add(art.getProject());
 			} catch (TigerstripeException e) {
 				BasePlugin.log(e);
 			}
@@ -256,11 +263,16 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		for (IAbstractArtifact art : toSave)
 			try {
 				art.doSave(monitor);
+				if (art.getProject() != null)
+					affectedProjects.add(art.getProject());
 			} catch (TigerstripeException e) {
 				BasePlugin.log(e);
 			}
 
 		monitor.done();
+
+		return affectedProjects
+				.toArray(new ITigerstripeModelProject[affectedProjects.size()]);
 	}
 
 	public RefactorRequest[] getRequests() {
