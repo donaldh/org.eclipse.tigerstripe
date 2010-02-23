@@ -125,7 +125,7 @@ public class PluginManager implements IActiveWorkbenchProfileChangeListener {
 	 * @return 
 	 * 
 	 */
-	public synchronized void load() {
+	public void load() {
 		housings = new ArrayList<PluginHousing>();
 
 		TigerstripeCore.getWorkbenchProfileSession().getActiveProfile()
