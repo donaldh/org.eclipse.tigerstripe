@@ -84,41 +84,6 @@ public abstract class BasePlugin implements PluginBody {
 		return this.defaultWriter;
 	}
 
-	/**
-	 * Initializes the Velocity framework and sets it up with a classpath
-	 * loader.
-	 * 
-	 * NOTE: Velocity.init only works the first time - subsequen inits are
-	 * ignored- Therefore can't out any specific behaviour in here!
-	 * 
-	 * @throws Exception,
-	 *             if the class loader cannot be set up
-	 */
-	protected void setClasspathLoaderForVelocity() throws Exception {
-		Properties properties = new Properties();
-		properties.put("resource.loader", "class");
-		properties
-				.put("class.resource.loader.class",
-						"org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-
-		properties.put("velocimacro.permissions.allow.inline", "true");
-		properties.put(
-				"velocimacro.permissions.allow.inline.to.replace.global",
-				"true");
-		// properties.put("velocimacro.permissions.allow.inline.local.scope","true");
-
-		// comment out for runtime !
-		// properties.put("velocimacro.library.autoreload","true");
-		// Comment out for Dev purposes!
-		properties.put("class.resource.loader.cache", "true");
-
-		// properties.put("velocimacro.library","org/eclipse/tigerstripe/workbench/internal/core/plugin/ossj/resources/lib/Velocimacros.vm");
-		// The above line would allow for macros - but due the the "once only"
-		// nature of init, this is not much use
-		// the way we have it configured at present.
-
-		Velocity.init(properties);
-	}
 
 	/**
 	 * Returns the default velocity context.

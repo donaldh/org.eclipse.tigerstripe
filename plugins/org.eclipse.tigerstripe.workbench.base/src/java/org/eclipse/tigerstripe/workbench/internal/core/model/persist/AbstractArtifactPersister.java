@@ -17,6 +17,8 @@ import java.util.Properties;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeInstance;
+import org.apache.velocity.runtime.resource.ResourceManagerImpl;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
@@ -99,7 +101,16 @@ public abstract class AbstractArtifactPersister {
 				.put("class.resource.loader.class",
 						"org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
 		properties.put("runtime.log", "tigerstripe/velocity.log");
-		engine.init(properties);
+		
+		ClassLoader startingLoader = Thread.currentThread().getContextClassLoader();
+		try {
+			if( engine.getClass().getClassLoader() != Thread.currentThread().getContextClassLoader()) {
+				Thread.currentThread().setContextClassLoader(engine.getClass().getClassLoader());
+			}
+			engine.init(properties);
+		} finally {
+			Thread.currentThread().setContextClassLoader(startingLoader);
+		}
 		return engine;
 	}
 

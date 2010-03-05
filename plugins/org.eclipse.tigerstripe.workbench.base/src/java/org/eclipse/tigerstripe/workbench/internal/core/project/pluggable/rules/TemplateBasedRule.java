@@ -307,8 +307,6 @@ public abstract class TemplateBasedRule extends Rule implements
 	 * Initializes the Velocity framework and sets it up with a classpath
 	 * loader.
 	 * 
-	 * NOTE: Velocity.init only works the first time - subsequent inits are
-	 * ignored- Therefore can't put any specific behaviour in here!
 	 * 
 	 * @throws Exception
 	 *             , if the class loader cannot be set up
@@ -404,7 +402,15 @@ public abstract class TemplateBasedRule extends Rule implements
 			properties.put("runtime.log", "tigerstripe/velocity.log");
 		}
 
-		result.init(properties);
+		ClassLoader startingLoader = Thread.currentThread().getContextClassLoader();
+		try {
+			if( result.getClass().getClassLoader() != Thread.currentThread().getContextClassLoader()) {
+				Thread.currentThread().setContextClassLoader(result.getClass().getClassLoader());
+			}
+			result.init(properties);
+		} finally {
+			Thread.currentThread().setContextClassLoader(startingLoader);
+		}
 		return result;
 	}
 

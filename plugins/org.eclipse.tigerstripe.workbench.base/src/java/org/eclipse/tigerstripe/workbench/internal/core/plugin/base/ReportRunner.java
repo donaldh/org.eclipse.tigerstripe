@@ -18,7 +18,7 @@ import java.util.Properties;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
-import org.apache.velocity.app.Velocity;
+import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.exception.MethodInvocationException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -99,15 +99,25 @@ public class ReportRunner {
 		localContext.put("reports", reports);
 		localContext.put("comparer", (new Comparer()));
 		try {
-			// setClasspathLoaderForVelocity();
+			VelocityEngine engine = new VelocityEngine();
 			Properties properties = new Properties();
 			properties.put("resource.loader", "class");
 			properties
 					.put("class.resource.loader.class",
 							"org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-			Velocity.init(properties);
+			
+			
+			ClassLoader startingLoader = Thread.currentThread().getContextClassLoader();
+			try {
+				if( engine.getClass().getClassLoader() != Thread.currentThread().getContextClassLoader()) {
+					Thread.currentThread().setContextClassLoader(engine.getClass().getClassLoader());
+				}
+				engine.init(properties);
+			} finally {
+				Thread.currentThread().setContextClassLoader(startingLoader);
+			}
 
-			Template template = Velocity.getTemplate(model.getTemplate());
+			Template template = engine.getTemplate(model.getTemplate());
 
 			String filename = model.getDestinationDir() + File.separator
 					+ model.getName();
