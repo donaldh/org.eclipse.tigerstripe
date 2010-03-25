@@ -12,6 +12,7 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring;
 
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.internal.ui.dialogs.StatusInfo;
@@ -28,6 +29,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.refactor.ModelRefactorRequest;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.ArtifactNameValidator;
@@ -36,14 +39,16 @@ import org.eclipse.tigerstripe.workbench.ui.internal.wizards.WizardUtils;
 @SuppressWarnings("restriction")
 public class RenameModelArtifactWizardPage extends WizardPage {
 
-	private static final String NAME = "modelRename";  //$NON-NLS-1$
+	private static final String NAME = "modelRename"; //$NON-NLS-1$
 
 	private Text nameText;
 
 	IJavaElement javaElement;
-	
+
+	ITigerstripeModelProject modelProject;
+
 	private IPackageFragment packageFragment;
-	
+
 	private IAbstractArtifact modelArtifact;
 
 	protected RenameModelArtifactWizardPage() {
@@ -53,10 +58,14 @@ public class RenameModelArtifactWizardPage extends WizardPage {
 	public void init(IStructuredSelection selection) {
 
 		javaElement = getSelectionJavaElement(selection);
-		if(javaElement != null) {
-			
-			packageFragment = (IPackageFragment) javaElement.getAncestor(IJavaElement.PACKAGE_FRAGMENT);
-			modelArtifact = (IAbstractArtifact) javaElement.getAdapter(IAbstractArtifact.class);
+		if (javaElement != null) {
+			modelProject = (ITigerstripeModelProject) javaElement
+					.getJavaProject().getProject().getAdapter(
+							ITigerstripeModelProject.class);
+			packageFragment = (IPackageFragment) javaElement
+					.getAncestor(IJavaElement.PACKAGE_FRAGMENT);
+			modelArtifact = (IAbstractArtifact) javaElement
+					.getAdapter(IAbstractArtifact.class);
 		}
 
 	}
@@ -85,7 +94,7 @@ public class RenameModelArtifactWizardPage extends WizardPage {
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.grabExcessHorizontalSpace = true;
 		nameText.setLayoutData(gridData);
-		if(javaElement.getElementType() == IJavaElement.PACKAGE_FRAGMENT) {
+		if (javaElement.getElementType() == IJavaElement.PACKAGE_FRAGMENT) {
 			nameText.setText(modelArtifact.getFullyQualifiedName());
 		} else {
 			nameText.setText(modelArtifact.getName());
@@ -94,7 +103,7 @@ public class RenameModelArtifactWizardPage extends WizardPage {
 
 			public void modifyText(ModifyEvent e) {
 				updatePageComplete();
-				if(isPageComplete()) {
+				if (isPageComplete()) {
 					addRefactorRequest();
 				}
 			}
@@ -107,86 +116,94 @@ public class RenameModelArtifactWizardPage extends WizardPage {
 
 		setTitle("Refactor \"" + modelArtifact.getFullyQualifiedName() + "\"");
 		setPageComplete(false);
-		
-		StatusInfo defaultStatus = new StatusInfo(StatusInfo.INFO, "Specify new name for " + modelArtifact.getFullyQualifiedName() + '.');
+
+		StatusInfo defaultStatus = new StatusInfo(StatusInfo.INFO,
+				"Specify new name for " + modelArtifact.getFullyQualifiedName()
+						+ '.');
 		StatusUtil.applyToStatusLine(this, defaultStatus);
-		
-		if(javaElement.getElementType() == IJavaElement.PACKAGE_FRAGMENT) {
-			
-			if(modelArtifact.getFullyQualifiedName().equals(nameText.getText().trim())) {
+
+		if (modelArtifact instanceof IPackageArtifact) {
+			if (modelArtifact.getFullyQualifiedName().equals(
+					nameText.getText().trim())) {
 				return;
 			}
-			
-			IStatus status = ArtifactNameValidator.validatePackageArtifactName(nameText.getText().trim());
+
+			IStatus status = ArtifactNameValidator
+					.validatePackageArtifactName(nameText.getText().trim());
 			if (!status.isOK()) {
 				StatusUtil.applyToStatusLine(this, status);
 				return;
 			}
-			
-			status = ArtifactNameValidator.validatePackageArtifactDoesNotExist(javaElement.getJavaProject(), nameText.getText().trim());
-			if (!status.isOK()) {
-				StatusUtil.applyToStatusLine(this, status);
-				return;
-			}
-			
 		} else {
-			
-			StatusUtil.applyToStatusLine(this, defaultStatus);
-			if(modelArtifact.getName().equals(nameText.getText().trim())) {
+			if (modelArtifact.getName().equals(nameText.getText().trim())) {
 				return;
 			}
-			
-			IStatus status = ArtifactNameValidator.validateArtifactName(nameText.getText().trim());
+
+			IStatus status = ArtifactNameValidator
+					.validateArtifactName(nameText.getText().trim());
 			if (!status.isOK()) {
 				StatusUtil.applyToStatusLine(this, status);
 				return;
 			}
+		}
 
-			status = ArtifactNameValidator.validateArtifactDoesNotExist(packageFragment, nameText.getText().trim());
+		try {
+			IStatus status = ArtifactNameValidator
+					.validateArtifactDoesNotExist(modelProject, nameText
+							.getText().trim());
 			if (!status.isOK()) {
 				StatusUtil.applyToStatusLine(this, status);
 				return;
 			}
-
+		} catch (TigerstripeException e) {
+			EclipsePlugin.log(e);
+			StatusUtil.applyToStatusLine(this, Status.CANCEL_STATUS);
 		}
 
 		setPageComplete(true);
 	}
-	
+
 	private void addRefactorRequest() {
-		
-		RenameModelArtifactWizard wizard = (RenameModelArtifactWizard) this.getWizard();
+
+		RenameModelArtifactWizard wizard = (RenameModelArtifactWizard) this
+				.getWizard();
 		wizard.clearRequests();
-		
+
 		try {
-			
+
 			ModelRefactorRequest request = new ModelRefactorRequest();
-			request.setOriginal(modelArtifact.getProject(), modelArtifact.getPackage() + '.' + modelArtifact.getName());
-			
-			if(javaElement.getElementType() == IJavaElement.PACKAGE_FRAGMENT) {
-				request.setDestination(modelArtifact.getProject(), nameText.getText().trim());
+			request.setOriginal(modelArtifact.getProject(), modelArtifact
+					.getPackage()
+					+ '.' + modelArtifact.getName());
+
+			if (javaElement.getElementType() == IJavaElement.PACKAGE_FRAGMENT) {
+				request.setDestination(modelArtifact.getProject(), nameText
+						.getText().trim());
 			} else {
-				request.setDestination(modelArtifact.getProject(), modelArtifact.getPackage() + '.' + nameText.getText().trim());
+				request.setDestination(modelArtifact.getProject(),
+						modelArtifact.getPackage() + '.'
+								+ nameText.getText().trim());
 			}
-			
-			if(validateRequest(request)) {
+
+			if (validateRequest(request)) {
 				wizard.addRequest(request);
 			}
-			
+
 		} catch (TigerstripeException e) {
-			
+
 			EclipsePlugin.log(e);
-			setErrorMessage(e.getMessage() + "For more information please see error log.");
+			setErrorMessage(e.getMessage()
+					+ "For more information please see error log.");
 			setPageComplete(false);
 		}
 	}
 
-	private boolean validateRequest(ModelRefactorRequest request) throws TigerstripeException {
-		
-		if(request.isValid().isOK()) {
+	private boolean validateRequest(ModelRefactorRequest request)
+			throws TigerstripeException {
+
+		if (request.isValid().isOK()) {
 			return true;
-		}
-		else {
+		} else {
 			throw new TigerstripeException(request.isValid().getMessage());
 		}
 	}
