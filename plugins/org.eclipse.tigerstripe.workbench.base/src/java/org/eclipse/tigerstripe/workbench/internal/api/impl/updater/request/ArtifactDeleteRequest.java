@@ -57,7 +57,10 @@ public class ArtifactDeleteRequest extends BaseModelChangeRequest implements
 			return false;
 		}
 		IAbstractArtifact art = mgrSession.getArtifactByFullyQualifiedName(
-				getFullyQualifiedName(), false);
+				getFullyQualifiedName(), true);
+		if (art == null)
+			return false;
+		
 		ITigerstripeModelProject project = art.getTigerstripeProject();
 		if (project != null){
 			// We are NOT in a module so can be updated
