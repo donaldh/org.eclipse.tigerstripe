@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -108,16 +109,35 @@ public class DiagramRefactorHelper {
 		try {
 			HeadlessDiagramHandle handle = diagramDelta.getAffDiagramHandle();
 			IPath destPath = diagramDelta.getDestinationPath();
-			IContainer targetContainer = (IContainer) ResourcesPlugin
-					.getWorkspace().getRoot().findMember(destPath);
-			performDiagramMove(targetContainer,
-					handle.getUnderlyingResources(), monitor);
-			updatePackage(handle.getModelResource());
+			IFolder f = ResourcesPlugin.getWorkspace().getRoot().getFolder(
+					destPath);
+			if (!f.exists()) {
+				// this may happen when dragging diagrams across projects.
+				// The recipient container may not have been created yet at this
+				// stage
+				createRecursive(f, monitor);
+			}
+			performDiagramMove(f, handle.getUnderlyingResources(), monitor);
+			IResource movedModelResoource = f.findMember(handle
+					.getModelResource().getName());
+			updatePackage(movedModelResoource);
 		} catch (CoreException e) {
 			throw new TigerstripeException("While handling diagram move: "
 					+ diagramDelta.getAffDiagramHandle().getDiagramResource()
 							.getName(), e);
 		}
+	}
+
+	protected static void createRecursive(IFolder f, IProgressMonitor monitor)
+			throws CoreException {
+		IContainer parent = f.getParent();
+		if (!parent.exists()) {
+			if (parent instanceof IFolder) {
+				IFolder pf = (IFolder) parent;
+				createRecursive(pf, monitor);
+			}
+		}
+		f.create(true, true, monitor);
 	}
 
 	public static void performDiagramMove(IContainer targetContainer,
@@ -128,9 +148,6 @@ public class DiagramRefactorHelper {
 				IPath newPath = targetContainer.getFullPath().append(
 						res.getName());
 				res.move(newPath, true, monitor);
-
-				IResource newRes = targetContainer.findMember(res.getName());
-				updatePackage(newRes);
 			} catch (Exception e) {
 				BasePlugin.log(e);
 			}

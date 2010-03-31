@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal.refactor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -18,16 +19,23 @@ import java.util.Set;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.annotation.core.IRefactoringSupport;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.annotation.TigerstripeRefactoringSupport;
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
+import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramRefactorHelper;
@@ -97,6 +105,21 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		updateDiagrams(monitor);
 		moveDiagrams(monitor);
 
+		if (isCrossProjectCmd()) {
+			// At this stage the artifacts have been refactored inside the
+			// source project the refactored artifacts need to be moved over to
+			// the new project now.
+			Set<ITigerstripeModelProject> affectedProjects2 = new HashSet<ITigerstripeModelProject>();
+			affectedProjects2.addAll(Arrays.asList(affectedProjects));
+			affectedProjects2.addAll(Arrays
+					.asList(moveAllArtifactsAcross(toCleanUp)));
+
+			// Make sure the tgt project's index is rebuilt
+			affectedProjects = affectedProjects2
+					.toArray(new ITigerstripeModelProject[affectedProjects2
+							.size()]);
+		}
+
 		cleanUp(toCleanUp, monitor);
 
 		rebuildIndexes(affectedProjects, monitor);
@@ -109,6 +132,46 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		reEnableAuditsAndDiagSync();
 	}
 
+	@SuppressWarnings("deprecation")
+	protected ITigerstripeModelProject[] moveAllArtifactsAcross(
+			Set<Object> toCleanUp) {
+		IRefactoringSupport refactor = AnnotationPlugin.getManager()
+				.getRefactoringSupport();
+
+		Set<ITigerstripeModelProject> destProjects = new HashSet<ITigerstripeModelProject>();
+		for (RefactorRequest req : requests) {
+			if (req instanceof ModelRefactorRequest) {
+				ModelRefactorRequest mRReq = (ModelRefactorRequest) req;
+				if (mRReq.isCrossProjectCmd()) {
+					try {
+						IAbstractArtifact art = mRReq.getOriginalProject()
+								.getArtifactManagerSession()
+								.getArtifactByFullyQualifiedName(
+										mRReq.getDestinationFQN());
+
+						IAbstractArtifact dest = ((AbstractArtifact) art)
+								.makeWorkingCopy(null);
+						mRReq.getDestinationProject()
+								.getArtifactManagerSession().addArtifact(dest);
+						dest.doSave(null);
+
+						// propagate to annotations framework
+						URI oldUri = (URI) art.getAdapter(URI.class);
+						URI newUri = (URI) dest.getAdapter(URI.class);
+						refactor.changed(oldUri, newUri, true);
+
+						toCleanUp.add(art);
+						destProjects.add(mRReq.getDestinationProject());
+					} catch (TigerstripeException e) {
+						BasePlugin.log(e);
+					}
+				}
+			}
+		}
+		return destProjects.toArray(new ITigerstripeModelProject[destProjects
+				.size()]);
+	}
+
 	protected void disableAnnotationsSync() {
 		TigerstripeRefactoringSupport.INSTANCE.stop();
 	}
@@ -117,6 +180,7 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		TigerstripeRefactoringSupport.INSTANCE.start();
 	}
 
+	@SuppressWarnings("deprecation")
 	protected void cleanUp(Collection<Object> toCleanUp,
 			IProgressMonitor monitor) throws TigerstripeException {
 		monitor.beginTask("Cleaning up", toCleanUp.size());
@@ -145,8 +209,14 @@ public class BaseRefactorCommand implements IRefactorCommand {
 					BasePlugin.log(e);
 				}
 			} else if (obj instanceof IAbstractArtifact) {
+				IAbstractArtifact art = (IAbstractArtifact) obj;
+				ITigerstripeModelProject proj = art.getProject();
+				if (proj != null)
+					proj.getArtifactManagerSession().removeArtifact(art);
+
 				IResource res = (IResource) ((IAbstractArtifact) obj)
 						.getAdapter(IResource.class);
+
 				try {
 					if (res != null)
 						res.delete(true, monitor);
@@ -159,6 +229,15 @@ public class BaseRefactorCommand implements IRefactorCommand {
 				} catch (CoreException e) {
 					BasePlugin.log(e);
 				}
+			} else if (obj instanceof IPath) {
+				IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+				IResource file = root.findMember((IPath) obj);
+				try {
+					file.delete(true, null);
+				} catch (CoreException e) {
+					BasePlugin.log(e);
+				}
+
 			}
 			monitor.worked(1);
 		}
@@ -190,6 +269,15 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		monitor.done();
 	}
 
+	/**
+	 * Update the diagrams as part of a refactor operation
+	 * 
+	 * @param monitor
+	 * @param isCrossProject
+	 *            - whether the refactor is a cross-project move. special
+	 *            handling on diagrams is required in this case
+	 * @throws TigerstripeException
+	 */
 	protected void updateDiagrams(IProgressMonitor monitor)
 			throws TigerstripeException {
 		// While we applied all changes in the model, the change requests on the

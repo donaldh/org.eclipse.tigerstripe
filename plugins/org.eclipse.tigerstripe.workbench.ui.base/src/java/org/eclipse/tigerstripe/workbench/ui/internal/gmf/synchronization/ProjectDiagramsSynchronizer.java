@@ -306,12 +306,14 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 			IArtifactManagerSession session = getProject()
 					.getArtifactManagerSession();
 			session.addArtifactChangeListener(this);
-			
+
 			// register for changes in all parent projects
-			for( ITigerstripeModelProject proj : getProject().getReferencedProjects()) {
-				proj.getArtifactManagerSession().addArtifactChangeListener(this);
+			for (ITigerstripeModelProject proj : getProject()
+					.getReferencedProjects()) {
+				proj.getArtifactManagerSession()
+						.addArtifactChangeListener(this);
 			}
-			
+
 			ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
 		} catch (TigerstripeException e) {
 			IStatus status = new Status(

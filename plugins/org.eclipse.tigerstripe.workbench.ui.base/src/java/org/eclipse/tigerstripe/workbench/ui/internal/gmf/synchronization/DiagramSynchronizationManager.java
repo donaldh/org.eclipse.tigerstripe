@@ -183,6 +183,7 @@ public class DiagramSynchronizationManager extends
 			monitor = new NullProgressMonitor();
 		monitor.beginTask("Flushing Diagram updates", projectWatchHash.values()
 				.size());
+
 		for (ProjectDiagramsSynchronizer syncer : projectWatchHash.values()) {
 			monitor.setTaskName(syncer.getProject().getName());
 			try {

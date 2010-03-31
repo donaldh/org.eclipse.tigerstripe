@@ -170,17 +170,20 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 							return artifact;
 						else {
 							try {
-								IResource[] resources = folder.members();
-								for (IResource res : resources) {
-									if (res instanceof IFile) {
-										IFile f = (IFile) res;
-										if (f.getName().equals(".package")) {
-											InputStreamReader reader = new InputStreamReader(
-													f.getContents());
-											artifact = mgr.extractArtifact(
-													reader,
-													new NullProgressMonitor());
-											return artifact;
+								if (folder.exists()) {
+									IResource[] resources = folder.members();
+									for (IResource res : resources) {
+										if (res instanceof IFile) {
+											IFile f = (IFile) res;
+											if (f.getName().equals(".package")) {
+												InputStreamReader reader = new InputStreamReader(
+														f.getContents());
+												artifact = mgr
+														.extractArtifact(
+																reader,
+																new NullProgressMonitor());
+												return artifact;
+											}
 										}
 									}
 								}
@@ -213,7 +216,7 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 				IAbstractTigerstripeProject.class,
 				ITigerstripeM0GeneratorProject.class,
 				ITigerstripeM1GeneratorProject.class, IModelComponent.class,
-				IAbstractArtifact.class};
+				IAbstractArtifact.class };
 	}
 
 	private IAbstractTigerstripeProject adaptToProject(Object adaptableObject) {

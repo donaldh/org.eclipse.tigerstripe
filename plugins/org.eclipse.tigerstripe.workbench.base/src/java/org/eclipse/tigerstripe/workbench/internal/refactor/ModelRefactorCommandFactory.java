@@ -25,6 +25,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
@@ -111,6 +112,7 @@ public class ModelRefactorCommandFactory {
 	 * @return
 	 * @throws TigerstripeException
 	 */
+	@SuppressWarnings("deprecation")
 	public IRefactorCommand getCommand(ModelRefactorRequest request,
 			IProgressMonitor monitor) throws TigerstripeException {
 		if (request.isValid().getSeverity() == IStatus.OK) {
@@ -122,12 +124,6 @@ public class ModelRefactorCommandFactory {
 
 			BaseRefactorCommand cmd = new BaseRefactorCommand(derivedRequests
 					.toArray(new RefactorRequest[derivedRequests.size()]));
-
-			// in the case of a cross project cmd, we handle that differently
-			// and delegate
-			if (cmd.isCrossProjectCmd()) {
-				return getCrossProjectCommand(cmd, monitor);
-			}
 
 			// Create a map of requests indexed by the FQN that will change as a
 			// result of the request
@@ -179,52 +175,6 @@ public class ModelRefactorCommandFactory {
 			cmd.addDiagramDeltas(createDiagramDeltas(derivedRequests));
 
 			return cmd;
-		}
-		return IRefactorCommand.UNEXECUTABLE;
-	}
-
-	/**
-	 * This method is used to delegate the creation of deltas in the case where
-	 * artifacts are moved across project boundaries.
-	 * 
-	 * This is handled by creating new artifacts and removing the original ones
-	 * 
-	 * @param command
-	 * @param monitor
-	 * @return
-	 */
-	protected IRefactorCommand getCrossProjectCommand(
-			BaseRefactorCommand command, IProgressMonitor monitor)
-			throws TigerstripeException {
-
-		// At this stage all derived requests are in already (i.e. if moving a
-		// package all reqs to moving contained artifacts are in)
-		List<ModelChangeDelta> deltas = new ArrayList<ModelChangeDelta>();
-		for (RefactorRequest req : command.getRequests()) {
-			// note that all reqs are expected to be cross-project at this stage
-			if (req instanceof ModelRefactorRequest) {
-				ModelRefactorRequest mRReq = (ModelRefactorRequest) req;
-				if (!mRReq.isCrossProjectCmd())
-					return IRefactorCommand.UNEXECUTABLE;
-
-				// move artifact in destination project
-				ModelChangeDelta moveDelta = new ModelChangeDelta(
-						ModelChangeDelta.MOVE);
-				moveDelta.setFeature(IArtifactFQRenameRequest.FQN_FEATURE);
-				moveDelta.setAffectedModelComponentURI((URI) mRReq
-						.getOriginalArtifact().getAdapter(URI.class));
-				moveDelta.setOldValue(mRReq.getOriginalFQN());
-				moveDelta.setNewValue(mRReq.getDestinationFQN());
-				moveDelta.setComponent(mRReq.getOriginalArtifact());
-				moveDelta.setProject(mRReq.getDestinationProject());
-				moveDelta.setSource(mRReq);
-				deltas.add(moveDelta);
-			}
-		}
-
-		if (deltas.size() != 0) {
-			command.addDeltas(deltas);
-			return command;
 		}
 		return IRefactorCommand.UNEXECUTABLE;
 	}
@@ -333,9 +283,21 @@ public class ModelRefactorCommandFactory {
 
 		// Is there any diagram that need to be moved at this level?
 		try {
-			IResource packageFolder = (IResource) original
+			IResource packageMarker = (IResource) original
 					.getAdapter(IResource.class);
-			IFolder folder = (IFolder) packageFolder.getParent();
+			IFolder folder = null;
+			if (packageMarker == null) {
+				// this means the .package file in the folder doesn't exist
+				// let's try something else
+				IPath path = new Path(original.getArtifactPath());
+				path = path.removeLastSegments(1);
+				IProject proj = (IProject) original.getProject().getAdapter(
+						IProject.class);
+				folder = (IFolder) proj.findMember(path);
+			} else {
+				folder = (IFolder) packageMarker.getParent();
+			}
+
 			ITigerstripeModelProject destProj = request.getDestinationProject();
 			IProject destIProj = (IProject) destProj.getAdapter(IProject.class);
 			String destPackage = Util.packageOf(request.getDestinationFQN()

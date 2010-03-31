@@ -12,7 +12,9 @@ package org.eclipse.tigerstripe.workbench.internal.refactor;
 
 import java.util.Collection;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
@@ -50,6 +52,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
  * @author erdillon
  * 
  */
+@SuppressWarnings("deprecation")
 public class ModelChangeDeltaProcessor {
 
 	private static IRefactoringSupport refactor = AnnotationPlugin.getManager()
@@ -224,11 +227,57 @@ public class ModelChangeDeltaProcessor {
 			else
 				toSave.add(artifact);
 		} else if (IModelChangeDelta.MOVE == delta.getType()) {
+			// In order for the diagrams to be updated properly before the move
+			// we need to rename the artifact to the target location in the
+			// source
+			// project to its target name in the target project, and then
+			// create the artifact in the target project.
+			// the renamed ones shall then be cleaned up.
+
+			// When a package gets moved, it first gets move within the local
+			// project
+			// to maintain coherent diagrams. The side effect is that all
+			// packages need to be
+			// deleted after the fact.
+			String topPackageToDelete = null;
+			if (artifact instanceof IPackageArtifact) {
+				String newValue = (String) delta.getNewValue();
+				String[] segments = newValue.split("\\.");
+				for (int i = 0; i < segments.length; i++) {
+					String fqn = "";
+					for (int j = 0; j <= i; j++) {
+						if (fqn.length() != 0)
+							fqn = fqn + ".";
+						fqn = fqn + segments[j];
+					}
+					try {
+						IAbstractArtifact pack = artifact.getProject()
+								.getArtifactManagerSession()
+								.getArtifactByFullyQualifiedName(fqn);
+						if (pack == null) {
+							topPackageToDelete = fqn;
+							break;
+						}
+					} catch (TigerstripeException e) {
+						// ignore
+					}
+				}
+			}
+
+			// That way diagrams are updated with the new names before they are
+			// moved
+			IResource res = (IResource) artifact.getAdapter(IResource.class);
+			artifact.getProject().getArtifactManagerSession().renameArtifact(
+					artifact, (String) delta.getNewValue());
+			if (toSave == null)
+				artifact.doSave(null);
+			else
+				toSave.add(artifact);
+
 			IAbstractArtifact newOne = ((AbstractArtifact) artifact)
 					.makeWorkingCopy(null);
-			newOne.setFullyQualifiedName((String) delta.getNewValue());
 			delta.getProject().getArtifactManagerSession().addArtifact(newOne);
-			
+
 			if (toSave == null)
 				newOne.doSave(null);
 			else
@@ -239,8 +288,15 @@ public class ModelChangeDeltaProcessor {
 			URI newUri = (URI) newOne.getAdapter(URI.class);
 			refactor.changed(oldUri, newUri, true);
 
-			artifact.getProject().getArtifactManagerSession().removeArtifact(artifact);
+			toCleanUp.add(res);
 			toCleanUp.add(artifact);
+			if (topPackageToDelete != null) {
+				IProject proj = (IProject) artifact.getTigerstripeProject()
+						.getAdapter(IProject.class);
+				String ff = "src/" + topPackageToDelete.replace(".", "/");
+				IPath path = proj.getFullPath().append(ff);
+				toCleanUp.add(path);
+			}
 		}
 	}
 

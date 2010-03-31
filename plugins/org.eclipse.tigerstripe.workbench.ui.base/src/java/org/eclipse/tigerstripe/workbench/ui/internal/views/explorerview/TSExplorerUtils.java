@@ -124,7 +124,7 @@ public class TSExplorerUtils {
 
 			try {
 
-				if (res.getCorrespondingResource() == null) {
+				if (!res.exists() || res.getCorrespondingResource() == null) {
 					// We are in a module
 					return null;
 				}

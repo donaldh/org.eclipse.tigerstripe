@@ -55,6 +55,10 @@ public class DiagramSynchronizerController {
 	 * 
 	 * @param applyRequests
 	 *            - whether the request should be applied or simply "dropped"!
+	 * @param isCrossProject
+	 *            - when true, the queue of requests is modified on the fly so
+	 *            that the content of moved diagram is updated properly
+	 * 
 	 */
 	public void flushSynchronizationRequests(boolean applyRequests,
 			IProgressMonitor monitor) {
