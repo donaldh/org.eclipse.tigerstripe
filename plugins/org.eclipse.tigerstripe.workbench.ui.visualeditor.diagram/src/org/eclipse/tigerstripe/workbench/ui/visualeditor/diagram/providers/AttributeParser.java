@@ -61,9 +61,10 @@ public class AttributeParser extends TigerstripeStructuralFeaturesParser {
 						stereoPrefBuf.append(", ");
 					stereoPrefBuf.append(val);
 				}
-				if (stereoPrefBuf.length() > 0)
-					stereoPrefBuf.append(">>");
 			}
+			if (stereoPrefBuf.length() > 0)
+				stereoPrefBuf.append(">>");
+
 			stereotypePref = stereoPrefBuf.toString();
 		}
 
