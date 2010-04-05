@@ -90,6 +90,8 @@ public class ModuleExportWizard extends Wizard implements IWorkbenchWizard {
 		final String jarFile = fPage.getJarFile();
 		final boolean includeDiagrams = fPage.getIncludeDiagrams();
 		final boolean includeAnnotations = fPage.getIncludeAnnotations();
+		final boolean exportAsInstallable = fPage
+				.getExportAsInstallableModule();
 
 		if (project == null) {
 			TigerstripeException e = new TigerstripeException(
@@ -106,7 +108,7 @@ public class ModuleExportWizard extends Wizard implements IWorkbenchWizard {
 					try {
 						internalPerformFinish(monitor, tsProject, project,
 								moduleID, jarFile, includeDiagrams,
-								includeAnnotations);
+								includeAnnotations, exportAsInstallable);
 					} catch (InterruptedException e) {
 						throw new OperationCanceledException(e.getMessage());
 					}
@@ -144,8 +146,8 @@ public class ModuleExportWizard extends Wizard implements IWorkbenchWizard {
 	private void internalPerformFinish(IProgressMonitor monitor,
 			ITigerstripeModelProject tsProject, IProject project,
 			String moduleID, String jarFile, boolean includeDiagrams,
-			boolean includeAnnotations) throws InterruptedException,
-			CoreException {
+			boolean includeAnnotations, boolean asInstallable)
+			throws InterruptedException, CoreException {
 
 		try {
 			monitor.beginTask("Packaging project", 10);
@@ -168,8 +170,10 @@ public class ModuleExportWizard extends Wizard implements IWorkbenchWizard {
 					.getPath()
 					+ File.separator + "/bin";
 			File classesDir = new File(classesDirStr);
-			packager.packageUp(file.toURI(), classesDir, header,
-					includeDiagrams, includeAnnotations, monitor);
+			packager
+					.packageUp(file.toURI(), classesDir, header,
+							includeDiagrams, includeAnnotations, asInstallable,
+							monitor);
 
 			// Now refresh project
 			// Fixed automatic refresh which was missing - bug # 110

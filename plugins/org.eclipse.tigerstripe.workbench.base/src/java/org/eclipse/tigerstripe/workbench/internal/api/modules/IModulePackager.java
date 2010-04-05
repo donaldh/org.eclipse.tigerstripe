@@ -23,6 +23,6 @@ public interface IModulePackager {
 
 	public void packageUp(URI jarURI, File classesDir, IModuleHeader header,
 			boolean includeDiagrams, boolean includeAnnotations,
-			IProgressMonitor monitor) throws TigerstripeException,
-			InvalidModuleException;
+			boolean asInstallable, IProgressMonitor monitor)
+			throws TigerstripeException, InvalidModuleException;
 }

@@ -90,8 +90,8 @@ public class ModulePackager implements IModulePackager {
 	 */
 	public void packageUp(URI jarURI, File classesDir, IModuleHeader header,
 			boolean includeDiagrams, boolean includeAnnotations,
-			IProgressMonitor monitor) throws TigerstripeException,
-			InvalidModuleException {
+			boolean asInstallable, IProgressMonitor monitor)
+			throws TigerstripeException, InvalidModuleException {
 
 		TigerstripeRuntime.logTraceMessage("Packaging "
 				+ jarURI.toASCIIString() + " from " + classesDir.toString()
@@ -123,8 +123,10 @@ public class ModulePackager implements IModulePackager {
 			}
 
 			createModuleDescriptor(tmpJarDir, (ModuleHeader) header, monitor);
-			createModuleExtension(tmpJarDir, monitor);
-			Manifest manifest = createManifest(header);
+			if (asInstallable) {
+				createModuleExtension(tmpJarDir, monitor);
+			}
+			Manifest manifest = createManifest(header, asInstallable);
 			createJarFile(tmpJarDir, jarURI, manifest);
 			removeTmpJarDirectory(tmpJarDir);
 		} catch (IOException e) {
@@ -479,26 +481,29 @@ public class ModulePackager implements IModulePackager {
 	 * 
 	 * @param header
 	 *            module header
+	 * @param asInstallable
 	 * @return new manifest
 	 * @throws TigerstripeException
 	 *             if project details not available
 	 */
-	protected Manifest createManifest(IModuleHeader header)
-			throws TigerstripeException {
+	protected Manifest createManifest(IModuleHeader header,
+			boolean asInstallable) throws TigerstripeException {
 
 		IProjectDetails details = getTSProject().getProjectDetails();
 
 		Manifest manifest = new Manifest();
 		Attributes manifestAttr = manifest.getMainAttributes();
 		manifestAttr.putValue("Manifest-Version", "1.0");
-		manifestAttr.putValue("Bundle-ManifestVersion", "2");
-		String name = header.getOriginalName();
-		if (name != null && name.length() > 0) {
-			manifestAttr.putValue("Bundle-Name", header.getOriginalName());
+		if (asInstallable) {
+			manifestAttr.putValue("Bundle-ManifestVersion", "2");
+			String name = header.getOriginalName();
+			if (name != null && name.length() > 0) {
+				manifestAttr.putValue("Bundle-Name", header.getOriginalName());
+			}
+			manifestAttr.putValue("Bundle-SymbolicName", header.getModuleID()
+					+ ";singleton:=true");
+			manifestAttr.putValue("Bundle-Version", details.getVersion());
 		}
-		manifestAttr.putValue("Bundle-SymbolicName", header.getModuleID()
-				+ ";singleton:=true");
-		manifestAttr.putValue("Bundle-Version", details.getVersion());
 
 		return manifest;
 	}

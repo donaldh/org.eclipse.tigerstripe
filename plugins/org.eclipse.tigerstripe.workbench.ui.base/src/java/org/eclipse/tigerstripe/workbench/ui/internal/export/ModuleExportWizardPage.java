@@ -42,10 +42,12 @@ public class ModuleExportWizardPage extends TSRuntimeBasedWizardPage {
 
 	// The path for the jar file to be created.
 	private StringButtonDialogField jarFileDialogField;
-	
+
 	private SelectionButtonDialogField includeDiagramsButton;
-	
+
 	private SelectionButtonDialogField includeAnnotationsButton;
+
+	private SelectionButtonDialogField exportAsInstallableModuleButton;
 
 	public ModuleExportWizardPage() {
 		super(PAGE_NAME);
@@ -79,14 +81,21 @@ public class ModuleExportWizardPage extends TSRuntimeBasedWizardPage {
 			}
 		});
 		jarFileDialogField.setButtonLabel("Browse");
-		
+
 		includeDiagramsButton = new SelectionButtonDialogField(SWT.CHECK);
 		includeDiagramsButton.setLabelText("Include Diagrams");
 		includeDiagramsButton.setSelection(true);
-		
+
 		includeAnnotationsButton = new SelectionButtonDialogField(SWT.CHECK);
-		includeAnnotationsButton.setLabelText("Include Annotations (.ann files)");
+		includeAnnotationsButton
+				.setLabelText("Include Annotations (.ann files)");
 		includeAnnotationsButton.setSelection(true);
+
+		exportAsInstallableModuleButton = new SelectionButtonDialogField(
+				SWT.CHECK);
+		exportAsInstallableModuleButton
+				.setLabelText("Export as installable module");
+		exportAsInstallableModuleButton.setSelection(true);
 	}
 
 	private void openFileSelectionDialog() {
@@ -119,7 +128,7 @@ public class ModuleExportWizardPage extends TSRuntimeBasedWizardPage {
 		createContainerControls(composite, nColumns);
 		createModuleIDControl(composite, nColumns);
 		createJarFileControl(composite, nColumns);
-		
+
 		createOptionalControls(composite, nColumns);
 
 		setControl(composite);
@@ -130,11 +139,12 @@ public class ModuleExportWizardPage extends TSRuntimeBasedWizardPage {
 
 	}
 
-	protected void createOptionalControls( Composite composite, int nColumns ) {
-//		includeDiagramsButton.doFillIntoGrid(composite, nColumns);
+	protected void createOptionalControls(Composite composite, int nColumns) {
+		// includeDiagramsButton.doFillIntoGrid(composite, nColumns);
 		includeAnnotationsButton.doFillIntoGrid(composite, nColumns);
+		exportAsInstallableModuleButton.doFillIntoGrid(composite, nColumns);
 	}
-	
+
 	private void createModuleIDControl(Composite composite, int nColumns) {
 		moduleIDDialogField.doFillIntoGrid(composite, nColumns);
 		Text text = moduleIDDialogField.getTextControl(null);
@@ -213,13 +223,17 @@ public class ModuleExportWizardPage extends TSRuntimeBasedWizardPage {
 	public String getJarFile() {
 		return jarFileDialogField.getText().trim();
 	}
-	
+
 	public boolean getIncludeDiagrams() {
 		return includeDiagramsButton.isSelected();
 	}
 
 	public boolean getIncludeAnnotations() {
 		return includeAnnotationsButton.isSelected();
+	}
+
+	public boolean getExportAsInstallableModule() {
+		return exportAsInstallableModuleButton.isSelected();
 	}
 
 	public ITigerstripeModelProject getITigerstripeProject() {
