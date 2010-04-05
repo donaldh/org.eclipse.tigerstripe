@@ -10,6 +10,7 @@
    <extension-point id="modelRefactorParticipant" name="Tigerstripe Model Refactor Participant" schema="schema/modelRefactorParticipant.exsd"/>
    <extension-point id="defaultProfile" name="Default Profile" schema="schema/org.eclipse.tigerstripe.defaultProfile.exsd"/>
    <extension-point id="contributedGenerator" name="Tigerstripe Contributed Generator" schema="schema/contributedGenerator.exsd"/>
+   <extension-point id="module" name="Tigerstripe Module" schema="schema/module.exsd"/>
 <!--   <extension
          point="org.eclipse.emf.ecore.extension_parser">
       <parser
@@ -372,6 +373,12 @@
       <patternDefinition
             patternFile="resources/patterns/project.xml">
       </patternDefinition>
+   </extension>
+
+   <extension point="org.eclipse.jdt.core.classpathContainerInitializer">
+      <classpathContainerInitializer
+            class="org.eclipse.tigerstripe.workbench.internal.core.classpath.ReferencesInitializer"
+            id="org.eclipse.tigerstripe.workbench.base.modelReferences"/>
    </extension>
 
 </plugin>

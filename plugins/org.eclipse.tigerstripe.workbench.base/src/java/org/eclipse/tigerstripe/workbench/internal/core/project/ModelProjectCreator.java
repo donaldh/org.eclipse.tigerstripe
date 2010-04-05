@@ -34,6 +34,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.builder.BuilderConstants;
+import org.eclipse.tigerstripe.workbench.internal.core.classpath.IReferencesConstants;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 
 public class ModelProjectCreator extends BaseProjectCreator implements
@@ -102,7 +103,9 @@ public class ModelProjectCreator extends BaseProjectCreator implements
 						.getFullPath()),
 				JavaRuntime.getDefaultJREContainerEntry(),
 				JavaCore.newVariableEntry(new Path(
-						ITigerstripeConstants.PHANTOMLIB), null, null) };
+						ITigerstripeConstants.PHANTOMLIB), null, null),
+				JavaCore
+						.newContainerEntry(IReferencesConstants.REFERENCES_CONTAINER_PATH) };
 
 		newJavaProject.setRawClasspath(buildPath, projectHandle.getFullPath()
 				.append("bin"), null);

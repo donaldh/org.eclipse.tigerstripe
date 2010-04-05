@@ -182,14 +182,19 @@ public class FileUtils {
 
 	public final static void createJar(String jarPath, String baseDirPath)
 			throws IOException {
+		Manifest manifest = new Manifest();
+		Attributes manifestAttr = manifest.getMainAttributes();
+		manifestAttr.putValue("Manifest-Version", "1.0");
+		createJar(jarPath, baseDirPath, manifest);
+	}
+
+	public final static void createJar(String jarPath, String baseDirPath,
+			Manifest manifest) throws IOException {
 		if (!baseDirPath.endsWith(File.separator)) {
 			baseDirPath = baseDirPath + File.separator;
 		}
 
 		FileOutputStream fos = new FileOutputStream(jarPath);
-		Manifest manifest = new Manifest();
-		Attributes manifestAttr = manifest.getMainAttributes();
-		manifestAttr.putValue("Manifest-Version", "1.0");
 		JarOutputStream jos = new JarOutputStream(fos, manifest);
 
 		walkDirectory(baseDirPath, baseDirPath, jos);

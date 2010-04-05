@@ -21,8 +21,17 @@ import java.lang.reflect.Method;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.jar.Attributes;
+import java.util.jar.Manifest;
 
+import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
+import org.dom4j.Element;
+import org.dom4j.io.OutputFormat;
+import org.dom4j.io.XMLWriter;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
@@ -30,11 +39,13 @@ import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.module.InstalledModuleManager;
 import org.eclipse.tigerstripe.workbench.internal.core.module.InvalidModuleException;
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleDescriptorModel;
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.core.util.FileUtils;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
+import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 
@@ -112,7 +123,9 @@ public class ModulePackager implements IModulePackager {
 			}
 
 			createModuleDescriptor(tmpJarDir, (ModuleHeader) header, monitor);
-			createJarFile(tmpJarDir, jarURI);
+			createModuleExtension(tmpJarDir, monitor);
+			Manifest manifest = createManifest(header);
+			createJarFile(tmpJarDir, jarURI, manifest);
 			removeTmpJarDirectory(tmpJarDir);
 		} catch (IOException e) {
 			throw new TigerstripeException("Error while packaging Module: "
@@ -389,6 +402,55 @@ public class ModulePackager implements IModulePackager {
 	}
 
 	/**
+	 * Creates plugin.xml file with
+	 * org.eclipse.tigerstripe.workbench.base.module extension to tag this
+	 * module as installable plugin.
+	 * 
+	 * @param tmpDir
+	 *            directory where plugin.xml should be created
+	 * @param monitor
+	 * @throws TigerstripeException
+	 *             if plugin.xml can't be created
+	 */
+	protected void createModuleExtension(File tmpDir, IProgressMonitor monitor)
+			throws TigerstripeException {
+		String filename = tmpDir.getAbsolutePath() + File.separator
+				+ "plugin.xml";
+
+		try {
+			File plugin = new File(filename);
+			FileWriter writer = new FileWriter(plugin);
+			Document document = createPluginDocument(monitor);
+			OutputFormat outformat = new OutputFormat("  ", true);
+			XMLWriter xmlWriter = new XMLWriter(writer, outformat);
+			xmlWriter.write(document);
+			xmlWriter.close();
+		} catch (IOException e) {
+			throw new TigerstripeException("Error creating plugin.xml", e);
+		}
+	}
+
+	/**
+	 * Create plugin document which contain one extension to mark plugin as
+	 * installable module
+	 * 
+	 * @param monitor
+	 * @return plugin document
+	 */
+	protected Document createPluginDocument(IProgressMonitor monitor) {
+		Document document = DocumentHelper.createDocument();
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("version", "3.2");
+		document.addProcessingInstruction("eclipse", params);
+		Element plugin = document.addElement("plugin");
+		Element extension = plugin.addElement("extension");
+		extension.addAttribute("point",
+				InstalledModuleManager.MODULE_EXTENSION_POINT);
+		extension.addElement("module");
+		return document;
+	}
+
+	/**
 	 * Creates the module descriptor for this module and stores it in the tmpDir
 	 * ready for packaging.
 	 * 
@@ -413,12 +475,44 @@ public class ModulePackager implements IModulePackager {
 	}
 
 	/**
+	 * Creates the module manifest based on the project and module header
+	 * 
+	 * @param header
+	 *            module header
+	 * @return new manifest
+	 * @throws TigerstripeException
+	 *             if project details not available
+	 */
+	protected Manifest createManifest(IModuleHeader header)
+			throws TigerstripeException {
+
+		IProjectDetails details = getTSProject().getProjectDetails();
+
+		Manifest manifest = new Manifest();
+		Attributes manifestAttr = manifest.getMainAttributes();
+		manifestAttr.putValue("Manifest-Version", "1.0");
+		manifestAttr.putValue("Bundle-ManifestVersion", "2");
+		String name = header.getOriginalName();
+		if (name != null && name.length() > 0) {
+			manifestAttr.putValue("Bundle-Name", header.getOriginalName());
+		}
+		manifestAttr.putValue("Bundle-SymbolicName", header.getModuleID()
+				+ ";singleton:=true");
+		manifestAttr.putValue("Bundle-Version", details.getVersion());
+
+		return manifest;
+	}
+
+	/**
 	 * Creates the final jar file for this module, based on the given tmpDir
 	 * 
 	 * @param tmpDir
 	 */
-	protected void createJarFile(File tmpDir, URI jarURI) throws IOException {
+	protected void createJarFile(File tmpDir, URI jarURI, Manifest manifest)
+			throws IOException {
 		File f = new File(jarURI);
-		FileUtils.createJar(f.getAbsolutePath(), tmpDir.getAbsolutePath());
+		FileUtils.createJar(f.getAbsolutePath(), tmpDir.getAbsolutePath(),
+				manifest);
 	}
+
 }
