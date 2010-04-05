@@ -13,16 +13,19 @@ package org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramChangeDelta;
 import org.eclipse.tigerstripe.workbench.refactor.IRefactorCommand;
 import org.eclipse.tigerstripe.workbench.refactor.ModelRefactorRequest;
@@ -41,6 +44,16 @@ public abstract class AbstractModelRefactorWizard extends Wizard implements
 	protected List<ModelRefactorRequest> requests;
 
 	protected IStructuredSelection selection;
+
+	private IRefactorCommand[] commands = null;
+
+	public void setRefactorCommands(IRefactorCommand[] commands) {
+		this.commands = commands;
+	}
+
+	public IRefactorCommand[] getRefactorCommands() {
+		return commands;
+	}
 
 	public AbstractModelRefactorWizard() {
 
@@ -67,18 +80,19 @@ public abstract class AbstractModelRefactorWizard extends Wizard implements
 	public void clearRequests() {
 
 		requests = new ArrayList<ModelRefactorRequest>();
+		commands = new IRefactorCommand[0];
 	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		this.selection = selection;
 	}
-	
+
 	/**
 	 * Returns the default page title used for pages that don't provide their
 	 * own page title.
-	 *
+	 * 
 	 * @return the default page title or <code>null</code> if non has been set
-	 *
+	 * 
 	 * @see #setDefaultPageTitle(String)
 	 */
 	public String getDefaultPageTitle() {
@@ -94,12 +108,25 @@ public abstract class AbstractModelRefactorWizard extends Wizard implements
 				public void run(IProgressMonitor monitor)
 						throws InvocationTargetException, InterruptedException {
 
-					for (ModelRefactorRequest request : requests) {
+					if (getRefactorCommands().length == 0) {
+						List<IRefactorCommand> cmds = new ArrayList<IRefactorCommand>();
+						List<ModelRefactorRequest> requests = getRequests();
+						for (ModelRefactorRequest request : requests) {
+							try {
+								IRefactorCommand command = request
+										.getCommand(new NullProgressMonitor());
+								cmds.add(command);
+							} catch (Exception e) {
+								BasePlugin.log(e);
+							}
+						}
+						setRefactorCommands(cmds
+								.toArray(new IRefactorCommand[cmds.size()]));
+					}
+
+					for (IRefactorCommand command : getRefactorCommands()) {
 
 						try {
-
-							IRefactorCommand command = request
-									.getCommand(monitor);
 
 							for (DiagramChangeDelta delta : command
 									.getDiagramDeltas()) {

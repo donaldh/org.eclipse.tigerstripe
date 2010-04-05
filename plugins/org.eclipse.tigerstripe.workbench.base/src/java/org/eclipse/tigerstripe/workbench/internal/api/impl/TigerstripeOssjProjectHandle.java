@@ -13,7 +13,9 @@ package org.eclipse.tigerstripe.workbench.internal.api.impl;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
@@ -24,6 +26,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.workbench.internal.core.module.packaging.ModulePackager;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.eclipse.uml2.uml.Model;
 
 public class TigerstripeOssjProjectHandle extends TigerstripeProjectHandle {
 
@@ -81,19 +84,34 @@ public class TigerstripeOssjProjectHandle extends TigerstripeProjectHandle {
 			ITigerstripeModelProject[] projects = TigerstripeCore
 					.allModelProjects();
 			for (ITigerstripeModelProject project : projects) {
+				boolean referencesThis = false;
 				for (ModelReference ref : project.getModelReferences()) {
 					if (ref.equals(selfRef)) {
-						result
-								.add(ModelReference
-										.referenceFromProject(project));
+						referencesThis = true;
+						break;
+					}
+				}
+
+				if (referencesThis) {
+					// this means "project" references this
+					ModelReference ref = ModelReference
+							.referenceFromProject(project);
+					if (!result.contains(ref)) {
+						result.add(ref);
 						if (level == ModelReference.INFINITE_LEVEL) {
-							result
-									.addAll(Arrays
-											.asList(project
-													.getReferencingModels(ModelReference.INFINITE_LEVEL)));
-						} else if (level > 1) {
-							result.addAll(Arrays.asList(project
-									.getReferencingModels(level - 1)));
+							// We need to add the projects that reference
+							// "project"
+							for (ModelReference insideRef : project
+									.getReferencingModels(ModelReference.INFINITE_LEVEL)) {
+								if (!result.contains(insideRef))
+									result.add(insideRef);
+							}
+						} else if ( level > 1) {
+							for (ModelReference insideRef : project
+									.getReferencingModels(level-1)) {
+								if (!result.contains(insideRef))
+									result.add(insideRef);
+							}
 						}
 					}
 				}

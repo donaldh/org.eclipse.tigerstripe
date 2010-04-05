@@ -27,6 +27,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.refactor.IRefactorCommand;
 import org.eclipse.tigerstripe.workbench.refactor.ModelRefactorRequest;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 
@@ -60,33 +61,40 @@ public class PreviewWizardPage extends WizardPage {
 		tableViewer.setContentProvider(new ArrayContentProvider());
 		tableViewer.setLabelProvider(new ChangeDeltaLabelProvider());
 		tableViewer.setSorter(new ViewerSorter());
-		
+
 		setControl(composite);
 	}
-	
+
 	public void setVisible(boolean visible) {
-		
-		if(visible) {
+
+		if (visible) {
 			initPage();
 		}
-		
+
 		super.setVisible(visible);
 	}
 
 	@SuppressWarnings("unchecked")
-	private void initPage(){
-		
+	private void initPage() {
+
 		AbstractModelRefactorWizard wizard = (AbstractModelRefactorWizard) getWizard();
 		try {
-			
+
+			wizard.setRefactorCommands(new IRefactorCommand[0]);
+			List<IRefactorCommand> cmds = new ArrayList<IRefactorCommand>();
 			Collection input = new ArrayList();
 			List<ModelRefactorRequest> requests = wizard.getRequests();
 			for (ModelRefactorRequest request : requests) {
-				input.addAll(request.getCommand(new NullProgressMonitor()).getDeltas());
-				input.addAll(request.getCommand(new NullProgressMonitor()).getDiagramDeltas());
+				IRefactorCommand command = request
+						.getCommand(new NullProgressMonitor());
+				input.addAll(command.getDeltas());
+				input.addAll(command.getDiagramDeltas());
+				cmds.add(command);
 			}
+			wizard.setRefactorCommands(cmds.toArray(new IRefactorCommand[cmds
+					.size()]));
 			tableViewer.setInput(input);
-			
+
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}
