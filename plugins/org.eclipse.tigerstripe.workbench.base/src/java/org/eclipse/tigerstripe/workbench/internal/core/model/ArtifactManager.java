@@ -53,6 +53,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstrip
 import org.eclipse.tigerstripe.workbench.internal.core.profile.WorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ArtifactRepository;
+import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Predicate;
@@ -1740,6 +1741,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			result.addAll(depContentCache.getArtifactsByModelInChained(model,
 					monitor));
 			result.addAll(getArtifactsByModelInReferences(model));
+			result.addAll(getArtifactsByModelInInstalledModules(model));
 			return result;
 		} finally {
 			readLock.unlock();
@@ -1753,6 +1755,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
 			result.addAll(depContentCache.getAllChainedArtifacts(monitor));
 			result.addAll(getAllArtifactsFromReferences());
+			result.addAll(getAllArtifactsFromInstalledModules());
 			return result;
 		} finally {
 			readLock.unlock();
@@ -1768,6 +1771,9 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			if (result != null)
 				return result;
 			result = getArtifactByFullyQualifiedNameInReferences(name);
+			if (result != null)
+				return result;
+			result = getArtifactByFullyQualifiedNameInInstalledModules(name);
 			return result;
 		} finally {
 			readLock.unlock();
@@ -1805,6 +1811,34 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		}
 	}
 
+	protected Collection<IAbstractArtifact> getAllArtifactsFromInstalledModules() {
+		try {
+			readLock.lock();
+			ArrayList<IAbstractArtifact> list = new ArrayList<IAbstractArtifact>();
+			for (ModelReference ref : getTSProject()
+					.getModelReferences()) {
+				try {
+					if (!ref.isInstalledModuleReference()) continue;
+					ITigerstripeModelProject project = ref.getResolvedModel();
+					IArtifactManagerSession session = project
+							.getArtifactManagerSession();
+					IArtifactQuery query = session
+							.makeQuery(IQueryAllArtifacts.class.getName());
+					query.setIncludeDependencies(true); // DO NOT INCLUDE
+					// DEPENDENCIES
+					list.addAll(project.getArtifactManagerSession()
+							.queryArtifact(query));
+				} catch (TigerstripeException e) {
+					TigerstripeRuntime.logErrorMessage(
+							"TigerstripeException detected", e);
+				}
+			}
+			return list;
+		} finally {
+			readLock.unlock();
+		}
+	}
+	
 	protected AbstractArtifact getArtifactByFullyQualifiedNameInReferences(
 			String name) {
 		try {
@@ -1847,6 +1881,65 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 					// referenced project
 					// shall not be included
 
+					result.addAll(project.getArtifactManagerSession()
+							.queryArtifact(query));
+				} catch (TigerstripeException e) {
+					TigerstripeRuntime.logErrorMessage(
+							"TigerstripeException detected", e);
+				}
+			}
+			return result;
+		} finally {
+			readLock.unlock();
+		}
+	}
+	
+	protected AbstractArtifact getArtifactByFullyQualifiedNameInInstalledModules(
+			String name) {
+		try {
+			readLock.lock();
+			IAbstractArtifact result = null;
+			for (ModelReference ref : getTSProject()
+					.getModelReferences()) {
+				try {
+					if (!ref.isInstalledModuleReference()) continue;
+					ITigerstripeModelProject project = ref.getResolvedModel();
+					IArtifactManagerSession session = project
+							.getArtifactManagerSession();
+					// do not include dependencies
+					result = session.getArtifactByFullyQualifiedName(name);
+					if (result != null)
+						return (AbstractArtifact) result;
+				} catch (TigerstripeException e) {
+					TigerstripeRuntime.logErrorMessage(
+							"TigerstripeException detected", e);
+				}
+			}
+			return (AbstractArtifact) result;
+		} finally {
+			readLock.unlock();
+		}
+	}
+	
+	protected Collection<IAbstractArtifact> getArtifactsByModelInInstalledModules(
+			AbstractArtifact model) {
+		try {
+			readLock.lock();
+			ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
+			for (ModelReference ref : getTSProject()
+					.getModelReferences()) {
+				try {
+					if (!ref.isInstalledModuleReference()) continue;
+					ITigerstripeModelProject project = ref.getResolvedModel();
+					IArtifactManagerSession session = project
+							.getArtifactManagerSession();
+					IQueryArtifactsByType query = (IQueryArtifactsByType) session
+							.makeQuery(IQueryArtifactsByType.class.getName());
+					query.setArtifactType(model.getClass().getName());
+					query.setIncludeDependencies(true); // dependencies of
+					// referenced project
+					// shall not be included
+		
 					result.addAll(project.getArtifactManagerSession()
 							.queryArtifact(query));
 				} catch (TigerstripeException e) {

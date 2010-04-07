@@ -7,6 +7,8 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.InstalledModuleProjectHandle;
+import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
 
 /**
  * This class represent installed module
@@ -16,12 +18,9 @@ public class InstalledModule {
 	private ModuleRef module;
 
 	public InstalledModule(String location) throws TigerstripeException {
-		String ref = "reference:", file = "file:";
+		String ref = "reference:";
 		if (location.startsWith(ref)) {
 			location = location.substring(ref.length());
-		}
-		if (location.startsWith(file)) {
-			location = location.substring(file.length());
 		}
 		URI uri;
 		try {
@@ -57,4 +56,10 @@ public class InstalledModule {
 		return getModule().getModuleHeader().getModuleID();
 	}
 
+	public ITigerstripeModuleProject makeModuleProject()
+			throws TigerstripeException {
+		ITigerstripeModuleProject result = new InstalledModuleProjectHandle(
+				this);
+		return result;
+	}
 }

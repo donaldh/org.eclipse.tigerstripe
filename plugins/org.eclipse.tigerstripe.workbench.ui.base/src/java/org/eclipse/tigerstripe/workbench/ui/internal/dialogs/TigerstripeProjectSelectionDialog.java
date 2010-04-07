@@ -17,6 +17,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.internal.ui.JavaPluginImages;
 import org.eclipse.jdt.internal.ui.dialogs.StatusInfo;
 import org.eclipse.jdt.ui.JavaElementLabelProvider;
 import org.eclipse.jdt.ui.JavaElementSorter;
@@ -32,10 +33,13 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.tigerstripe.workbench.internal.core.module.InstalledModule;
+import org.eclipse.tigerstripe.workbench.internal.core.module.InstalledModuleManager;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.ui.dialogs.SelectionStatusDialog;
@@ -48,7 +52,40 @@ import org.eclipse.ui.dialogs.SelectionStatusDialog;
  * 
  */
 public class TigerstripeProjectSelectionDialog extends SelectionStatusDialog {
-
+	
+	class TigerstripeProjectReferencesProvider extends StandardJavaElementContentProvider{
+			@Override
+			public Object[] getElements(Object parent) {
+				InstalledModule[] modules = InstalledModuleManager.getInstance().getModules();
+				Object[] javaResult = super.getElements(parent);
+				Object[] result = new Object[javaResult.length + modules.length];
+				System.arraycopy(javaResult, 0, result, 0, javaResult.length);
+				System.arraycopy(modules, 0, result, javaResult.length, modules.length);
+				return result;
+			}	
+	}
+	
+	class TigerstripeProjectReferencesLabelProvider extends JavaElementLabelProvider{
+		@Override
+		public String getText(Object element) {
+			if (element instanceof InstalledModule)
+			{
+				InstalledModule module = (InstalledModule)element;
+				return module.getModuleID();
+			}
+			return super.getText(element);
+		}
+		
+		@SuppressWarnings("restriction")
+		@Override
+		public Image getImage(Object element) {
+			if (element instanceof InstalledModule) {
+				return JavaPluginImages.get(JavaPluginImages.IMG_OBJS_JAR);
+			}
+			return super.getImage(element);
+		}
+	}
+	
 	// the visual selection widget group
 	private TableViewer fTableViewer;
 
@@ -90,6 +127,14 @@ public class TigerstripeProjectSelectionDialog extends SelectionStatusDialog {
 						return true;
 					}
 				}
+				else if (element instanceof InstalledModule) {
+					InstalledModule module = (InstalledModule)element;
+					for (ModelReference ref : fFilteredOutProjects) {
+						if (ref.getToModelId().equals(module.getModuleID()))
+							return false;
+					}
+					return true;
+				}
 				return false;
 			}
 		};
@@ -130,9 +175,9 @@ public class TigerstripeProjectSelectionDialog extends SelectionStatusDialog {
 		data.widthHint = SIZING_SELECTION_WIDGET_WIDTH;
 		fTableViewer.getTable().setLayoutData(data);
 
-		fTableViewer.setLabelProvider(new JavaElementLabelProvider());
+		fTableViewer.setLabelProvider(new TigerstripeProjectReferencesLabelProvider());
 		fTableViewer
-				.setContentProvider(new StandardJavaElementContentProvider());
+				.setContentProvider(new TigerstripeProjectReferencesProvider());
 		fTableViewer.setSorter(new JavaElementSorter());
 		fTableViewer.getControl().setFont(font);
 

@@ -30,7 +30,8 @@ public class InstalledModuleManager {
 	}
 
 	/**
-	 * @param id module identifier
+	 * @param id
+	 *            module identifier
 	 * @return installed module by ID or null if no such module
 	 */
 	public InstalledModule getModule(String id) {
@@ -63,13 +64,26 @@ public class InstalledModuleManager {
 				try {
 					String location = bundle.getLocation();
 					InstalledModule module = new InstalledModule(location);
-					modules.add(module);
-					idToModule.put(module.getModuleID(), module);
+					boolean add = true;
+					if (idToModule.containsKey(module.getModuleID())) {
+						add = false;
+						InstalledModule old = idToModule.get(module
+								.getModuleID());
+						String oldVersion = old.getModule().getProjectDetails()
+								.getVersion();
+						String version = module.getModule().getProjectDetails()
+								.getVersion();
+						add = version.compareTo(oldVersion) > 0;
+					}
+					if (add) {
+						idToModule.put(module.getModuleID(), module);
+					}
 				} catch (Exception e) {
 					BasePlugin.log(e);
 				}
 			}
 		}
+		modules.addAll(idToModule.values());
 	}
 
 	private Map<String, InstalledModule> idToModule;

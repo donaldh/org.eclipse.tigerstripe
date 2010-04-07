@@ -83,7 +83,7 @@ public class ClasspathUpdater {
 					try {
 						// IPath path = entries[i].getPath();
 						// String uriStr =
-						//eclipseProject.getWorkspace().getRoot().getLocation().
+						// eclipseProject.getWorkspace().getRoot().getLocation().
 						// toString()
 						// + path.toFile().getPath();
 						// TigerstripeRuntime.logInfoMessage(ClasspathUpdater.
@@ -107,8 +107,9 @@ public class ClasspathUpdater {
 					// Check if project still exists in workspace.
 					// So can allow to delete classpath if it does not.
 					IPath path = entries[i].getPath();
-					boolean prjExist = eclipseProject.getWorkspace().getRoot().exists(path);
-					
+					boolean prjExist = eclipseProject.getWorkspace().getRoot()
+							.exists(path);
+
 					if (prjRef == null && prjExist) {
 						// This is not a TS project but it's been put in the
 						// path,
@@ -186,7 +187,8 @@ public class ClasspathUpdater {
 					if (entries[i].getPath().equals(
 							new Path(ITigerstripeConstants.PHANTOMLIB))) {
 						phantomLibFound = true;
-//						needUpdate = true; // there seems to be problems if the
+						// needUpdate = true; // there seems to be problems if
+						// the
 						// reference is
 						// created before the zip file exists, so a refresh is
 						// necessary so a "clean
@@ -232,24 +234,6 @@ public class ClasspathUpdater {
 				// invalid project
 			}
 
-			// We need to add all the project references mentioned in the
-			// descriptor that are not yet in the classpath
-			try {
-				ITigerstripeModelProject[] projects = tsProject
-						.getReferencedProjects();
-				for (ITigerstripeModelProject project : projects) {
-					IClasspathEntry newEntry = newProjectEntry(project);
-
-					if (!contains(newEntryList, newEntry)) {
-						newEntryList.add(newEntry);
-						needUpdate = true;
-					}
-				}
-
-			} catch (TigerstripeException e) {
-
-			}
-
 			if (!phantomLibFound) {
 				IClasspathEntry entry = JavaCore.newVariableEntry(new Path(
 						ITigerstripeConstants.PHANTOMLIB), null, null);
@@ -276,8 +260,8 @@ public class ClasspathUpdater {
 	// are not double registered
 	private static void registerAnnotationsIfNeeded(IDependency dep) {
 		try {
-			ModuleAnnotationManager.INSTANCE.registerAnnotationsFor(dep.getURI(),
-					dep.getIModuleHeader().getModuleID(),
+			ModuleAnnotationManager.INSTANCE.registerAnnotationsFor(dep
+					.getURI(), dep.getIModuleHeader().getModuleID(),
 					Mode.READ_ONLY);
 		} catch (IOException e) {
 			BasePlugin.log(e);
@@ -288,7 +272,8 @@ public class ClasspathUpdater {
 	// dependency.
 	private static void unRegisteredAnnotationsIfNeeded(IDependency dep) {
 		try {
-			ModuleAnnotationManager.INSTANCE.unRegisterAnnotationsFor(dep.getURI());
+			ModuleAnnotationManager.INSTANCE.unRegisterAnnotationsFor(dep
+					.getURI());
 		} catch (IOException e) {
 			BasePlugin.log(e);
 		}

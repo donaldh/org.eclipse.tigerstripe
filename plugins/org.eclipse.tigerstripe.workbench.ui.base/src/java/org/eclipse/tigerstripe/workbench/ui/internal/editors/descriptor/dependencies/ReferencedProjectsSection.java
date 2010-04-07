@@ -34,6 +34,7 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.AbstractTigerstripeProjectHandle;
+import org.eclipse.tigerstripe.workbench.internal.core.module.InstalledModule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -111,10 +112,13 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 		@Override
 		public Image getImage(Object obj) {
 			ModelReference ref = (ModelReference) obj;
-			if (ref.isResolved())
-				return Images.get(Images.TSPROJECT_FOLDER);
-			else
-				return JavaPluginImages.get(JavaPluginImages.IMG_OBJS_UNKNOWN);
+			if (ref.isResolved()) {
+				if (ref.isWorkspaceReference())
+					return Images.get(Images.TSPROJECT_FOLDER);
+				else if (ref.isInstalledModuleReference())
+					return JavaPluginImages.get(JavaPluginImages.IMG_OBJS_JAR);
+			}
+			return JavaPluginImages.get(JavaPluginImages.IMG_OBJS_UNKNOWN);
 		}
 	}
 
@@ -212,15 +216,28 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 		if (dialog.open() == Window.OK) {
 			Object[] results = dialog.getResult();
 			for (Object res : results) {
-				IJavaProject prj = (IJavaProject) res;
+				ModelReference ref = null;
+				if (res instanceof IJavaProject) {
+					IJavaProject prj = (IJavaProject) res;
 
-				ITigerstripeModelProject tsPrj = (ITigerstripeModelProject) prj
-						.getProject()
-						.getAdapter(ITigerstripeModelProject.class);
-				if (tsPrj != null) {
+					ITigerstripeModelProject tsPrj = (ITigerstripeModelProject) prj
+							.getProject().getAdapter(
+									ITigerstripeModelProject.class);
+					if (tsPrj != null) {
+						try {
+							ref = ModelReference.referenceFromProject(tsPrj);
+						} catch (TigerstripeException e) {
+							EclipsePlugin.log(e);
+						}
+					}
+				} else if (res instanceof InstalledModule) {
+					InstalledModule module = (InstalledModule) res;
+					ref = new ModelReference(getTSProject(), module
+							.getModuleID());
+				}
+				if (ref != null) {
 					try {
-						handle.addModelReference(ModelReference
-								.referenceFromProject(tsPrj));
+						handle.addModelReference(ref);
 						viewer.refresh(true);
 						markPageModified();
 					} catch (TigerstripeException e) {

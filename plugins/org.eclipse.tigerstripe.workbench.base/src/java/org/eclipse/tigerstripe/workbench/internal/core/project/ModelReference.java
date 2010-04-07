@@ -13,8 +13,12 @@ package org.eclipse.tigerstripe.workbench.internal.core.project;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.InstalledModuleProjectHandle;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.ModuleProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IPhantomTigerstripeProject;
+import org.eclipse.tigerstripe.workbench.internal.core.module.InstalledModule;
+import org.eclipse.tigerstripe.workbench.internal.core.module.InstalledModuleManager;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
@@ -58,11 +62,15 @@ public class ModelReference {
 	}
 
 	public boolean isWorkspaceReference() {
-		return this.projectContext == null;
+		return !isProjectContextReference() && !isInstalledModuleReference();
 	}
 
 	public boolean isProjectContextReference() {
-		return this.projectContext != null;
+		return getResolvedModel() instanceof ModuleProjectHandle;
+	}
+
+	public boolean isInstalledModuleReference() {
+		return getResolvedModel() instanceof InstalledModuleProjectHandle;
 	}
 
 	public boolean isResolved() {
@@ -96,7 +104,7 @@ public class ModelReference {
 	}
 
 	public ITigerstripeModelProject getResolvedModel() {
-		if (isProjectContextReference()) {
+		if (projectContext != null) {
 			// look in the project context first
 			try {
 				IDependency[] dependencies = projectContext.getDependencies();
@@ -119,7 +127,8 @@ public class ModelReference {
 			ITigerstripeModelProject[] allProjects = TigerstripeCore
 					.allModelProjects();
 			for (ITigerstripeModelProject project : allProjects) {
-				// note that for compatibility reasons, if no modelId is set, we
+				// note that for compatibility reasons, if no modelId is
+				// set, we
 				// compare against mere name.
 				String modelId = "".equals(project.getModelId()) ? project
 						.getName() : project.getModelId();
@@ -130,11 +139,20 @@ public class ModelReference {
 		} catch (TigerstripeException e) {
 			BasePlugin.log(e);
 		}
-
 		// finally look for "Installed models"
-		// TODO: handle installed models here
-
+		InstalledModule module = getInstalledModule();
+		if (module != null) {
+			try {
+				return module.makeModuleProject();
+			} catch (TigerstripeException e) {
+				BasePlugin.log(e);
+			}
+		}
 		return null;
+	}
+
+	public InstalledModule getInstalledModule() {
+		return InstalledModuleManager.getInstance().getModule(toModelId);
 	}
 
 	@Override
