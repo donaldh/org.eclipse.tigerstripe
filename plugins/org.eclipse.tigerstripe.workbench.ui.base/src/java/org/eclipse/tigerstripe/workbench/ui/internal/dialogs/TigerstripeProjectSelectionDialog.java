@@ -11,6 +11,8 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.dialogs;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IStatus;
@@ -38,6 +40,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.module.InstalledModule;
 import org.eclipse.tigerstripe.workbench.internal.core.module.InstalledModuleManager;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
@@ -52,30 +56,57 @@ import org.eclipse.ui.dialogs.SelectionStatusDialog;
  * 
  */
 public class TigerstripeProjectSelectionDialog extends SelectionStatusDialog {
-	
-	class TigerstripeProjectReferencesProvider extends StandardJavaElementContentProvider{
-			@Override
-			public Object[] getElements(Object parent) {
-				InstalledModule[] modules = InstalledModuleManager.getInstance().getModules();
-				Object[] javaResult = super.getElements(parent);
-				Object[] result = new Object[javaResult.length + modules.length];
-				System.arraycopy(javaResult, 0, result, 0, javaResult.length);
-				System.arraycopy(modules, 0, result, javaResult.length, modules.length);
-				return result;
-			}	
+
+	class TigerstripeProjectReferencesProvider extends
+			StandardJavaElementContentProvider {
+		@Override
+		public Object[] getElements(Object parent) {
+			Map<String, Object> elements = new HashMap<String, Object>();
+			InstalledModule[] modules = InstalledModuleManager.getInstance()
+					.getModules();
+			Object[] javaResult = super.getElements(parent);
+			Object[] all = new Object[javaResult.length + modules.length];
+			System.arraycopy(javaResult, 0, all, 0, javaResult.length);
+			System
+					.arraycopy(modules, 0, all, javaResult.length,
+							modules.length);
+			for (Object o : all) {
+				String id = null;
+				if (o instanceof IJavaProject) {
+					IJavaProject javaProject = (IJavaProject) o;
+					ITigerstripeModelProject tsp = (ITigerstripeModelProject) javaProject
+							.getAdapter(ITigerstripeModelProject.class);
+					if (tsp != null) {
+						try {
+							id = tsp.getModelId();
+						} catch (TigerstripeException e) {
+							BasePlugin.log(e);
+						}
+					}
+				} else if (o instanceof InstalledModule) {
+					InstalledModule module = (InstalledModule) o;
+					id = module.getModuleID();
+				}
+				if (id != null && !elements.containsKey(id)) {
+					elements.put(id, o);
+				}
+			}
+
+			return elements.values().toArray(new Object[0]);
+		}
 	}
-	
-	class TigerstripeProjectReferencesLabelProvider extends JavaElementLabelProvider{
+
+	class TigerstripeProjectReferencesLabelProvider extends
+			JavaElementLabelProvider {
 		@Override
 		public String getText(Object element) {
-			if (element instanceof InstalledModule)
-			{
-				InstalledModule module = (InstalledModule)element;
+			if (element instanceof InstalledModule) {
+				InstalledModule module = (InstalledModule) element;
 				return module.getModuleID();
 			}
 			return super.getText(element);
 		}
-		
+
 		@SuppressWarnings("restriction")
 		@Override
 		public Image getImage(Object element) {
@@ -85,7 +116,7 @@ public class TigerstripeProjectSelectionDialog extends SelectionStatusDialog {
 			return super.getImage(element);
 		}
 	}
-	
+
 	// the visual selection widget group
 	private TableViewer fTableViewer;
 
@@ -126,9 +157,8 @@ public class TigerstripeProjectSelectionDialog extends SelectionStatusDialog {
 						}
 						return true;
 					}
-				}
-				else if (element instanceof InstalledModule) {
-					InstalledModule module = (InstalledModule)element;
+				} else if (element instanceof InstalledModule) {
+					InstalledModule module = (InstalledModule) element;
 					for (ModelReference ref : fFilteredOutProjects) {
 						if (ref.getToModelId().equals(module.getModuleID()))
 							return false;
@@ -175,7 +205,8 @@ public class TigerstripeProjectSelectionDialog extends SelectionStatusDialog {
 		data.widthHint = SIZING_SELECTION_WIDGET_WIDTH;
 		fTableViewer.getTable().setLayoutData(data);
 
-		fTableViewer.setLabelProvider(new TigerstripeProjectReferencesLabelProvider());
+		fTableViewer
+				.setLabelProvider(new TigerstripeProjectReferencesLabelProvider());
 		fTableViewer
 				.setContentProvider(new TigerstripeProjectReferencesProvider());
 		fTableViewer.setSorter(new JavaElementSorter());
