@@ -88,6 +88,8 @@ public class WorkspaceListener implements IElementChangedListener,
 		public IJavaElement toElement;
 	}
 
+	private ReferencesListener referencesListener = new ReferencesListener();
+
 	public void resourceChanged(IResourceChangeEvent event) {
 		// Get the list of removed resources
 		Collection<IResource> removedResources = new HashSet<IResource>();
@@ -100,6 +102,8 @@ public class WorkspaceListener implements IElementChangedListener,
 		checkProjectRemoved(removedResources);
 		checkRemovedFacet(removedResources);
 		checkActiveFacetChanged(changedResources);
+
+		referencesListener.changed(removedResources, addedResources, changedResources);
 	}
 
 	/**
@@ -314,9 +318,9 @@ public class WorkspaceListener implements IElementChangedListener,
 					IAbstractArtifact artifact = session
 							.getArtifactByFullyQualifiedName(fqn, false);
 					if (artifact != null) {
-						System.out.println(System.currentTimeMillis() + " Detected rename: "
-								+ extractFQN(fromUnit) + " to "
-								+ extractFQN(toUnit));
+						System.out.println(System.currentTimeMillis()
+								+ " Detected rename: " + extractFQN(fromUnit)
+								+ " to " + extractFQN(toUnit));
 						TigerstripeRuntime.logInfoMessage("Detected rename: "
 								+ extractFQN(fromUnit) + " to "
 								+ extractFQN(toUnit));

@@ -971,5 +971,13 @@
            type="org.eclipse.core.resources.IResource">
      </propertyTester>
   </extension>
+  <extension
+        point="org.eclipse.jdt.ui.classpathContainerPage">
+     <classpathContainerPage
+           class="org.eclipse.tigerstripe.workbench.ui.internal.wizards.classpath.ReferencesContainerPage"
+           id="org.eclipse.tigerstripe.workbench.base.modelReferences"
+           name="Model Project References">
+     </classpathContainerPage>
+  </extension>
 
 </plugin>

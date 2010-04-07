@@ -44,7 +44,7 @@ public class InstalledModuleManager {
 	 * @return all installed modules
 	 */
 	public InstalledModule[] getModules() {
-		if (modules == null || modules != null) {
+		if (modules == null) {
 			init();
 		}
 		return modules.toArray(new InstalledModule[modules.size()]);
