@@ -62,8 +62,7 @@ public class InstalledModuleManager {
 			Bundle bundle = Platform.getBundle(id);
 			if (bundle != null) {
 				try {
-					String location = bundle.getLocation();
-					InstalledModule module = new InstalledModule(location);
+					InstalledModule module = new InstalledModule(bundle);
 					boolean add = true;
 					if (idToModule.containsKey(module.getModuleID())) {
 						add = false;

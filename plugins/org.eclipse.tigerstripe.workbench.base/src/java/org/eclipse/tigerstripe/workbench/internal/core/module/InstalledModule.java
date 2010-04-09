@@ -1,14 +1,16 @@
 package org.eclipse.tigerstripe.workbench.internal.core.module;
 
+import java.io.File;
 import java.net.URI;
-import java.net.URISyntaxException;
 
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.InstalledModuleProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
+import org.osgi.framework.Bundle;
 
 /**
  * This class represent installed module
@@ -17,17 +19,14 @@ public class InstalledModule {
 
 	private ModuleRef module;
 
-	public InstalledModule(String location) throws TigerstripeException {
-		String ref = "reference:";
-		if (location.startsWith(ref)) {
-			location = location.substring(ref.length());
-		}
-		URI uri;
+	public InstalledModule(Bundle bundle) throws TigerstripeException {
+		URI uri = null;
 		try {
-			uri = new URI(location);
-		} catch (URISyntaxException e) {
-			throw new InvalidModuleException("Invalid model uri: " + location,
-					e);
+			File file = FileLocator.getBundleFile(bundle);
+			uri = file.toURI();
+		} catch (Exception e) {
+			throw new InvalidModuleException("Invalid model uri: "
+					+ bundle.getLocation(), e);
 		}
 
 		ModuleRefFactory factory = ModuleRefFactory.getInstance();
