@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.export;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.internal.ui.dialogs.StatusInfo;
@@ -100,7 +103,32 @@ public class ModuleExportWizardPage extends TSRuntimeBasedWizardPage {
 
 	private void openFileSelectionDialog() {
 		FileDialog dialog = new FileDialog(getShell(), SWT.SAVE);
-		dialog.setFilterExtensions(new String[] { "*.zip", "*.jar" });
+		List<String> extensions = new ArrayList<String>();
+		extensions.add("*.jar");
+		if (!exportAsInstallableModuleButton.isSelected()) {
+			extensions.add("*.zip");
+		} else {
+			ITigerstripeModelProject project = getITigerstripeProject();
+			try {
+				String id = project.getModelId();
+				//do not provide any name if no model id
+				if (id != null && id.length() > 0) {
+					StringBuffer buffer = new StringBuffer();
+					buffer.append(id);
+					String version = project.getProjectDetails().getVersion();
+					if (version != null && version.length() > 0) {
+						buffer.append("_");
+						buffer.append(version);
+					}
+					buffer.append(".jar");
+					dialog.setFileName(buffer.toString());
+				}
+			} catch (Exception e) {
+				// ignore any exception
+			}
+		}
+		dialog.setFilterExtensions(extensions.toArray(new String[extensions
+				.size()]));
 		dialog.setFilterPath(getIProject().getLocation().toOSString());
 		dialog.setText("Select target module file (zip)");
 		String result = dialog.open();
@@ -187,6 +215,11 @@ public class ModuleExportWizardPage extends TSRuntimeBasedWizardPage {
 		initContainerPage(jelem);
 		initTSRuntimeContext(jelem);
 		initFromContext();
+		try {
+			ITigerstripeModelProject project = getITigerstripeProject();
+			moduleIDDialogField.setText(project.getModelId());
+		} catch (Exception e) {
+		}
 	}
 
 	@Override
