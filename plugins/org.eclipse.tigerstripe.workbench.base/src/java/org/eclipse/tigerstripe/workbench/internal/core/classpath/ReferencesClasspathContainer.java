@@ -37,7 +37,7 @@ public class ReferencesClasspathContainer implements IClasspathContainer {
 			ModelReference[] references = project.getModelReferences();
 			for (ModelReference reference : references) {
 				ITigerstripeModelProject model = reference.getResolvedModel();
-				if (reference.isWorkspaceReference()) {
+				if (model != null && reference.isWorkspaceReference()) {
 					// workspace project
 					IClasspathEntry entry = JavaCore.newProjectEntry(model
 							.getFullPath());
