@@ -85,19 +85,30 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 			ModelReference ref = (ModelReference) obj;
 
 			String modelId = ref.getToModelId();
-			String projectName = null;
+			String projectName = null, version = null;
 			if (ref.isResolved()) {
-				projectName = ref.getResolvedModel().getName();
+				ITigerstripeModelProject project = ref.getResolvedModel();
+				projectName = project.getName();
+				try {
+					version = project.getProjectDetails().getVersion();
+				} catch (Exception e) {
+				}
 			}
 
-			if (modelId.equals(projectName)) {
-				return modelId;
+			StringBuffer buffer = new StringBuffer();
+			if (modelId != null && modelId.length() > 0) {
+				buffer.append(modelId);
 			} else {
-				if (projectName != null && projectName.length() > 0)
-					return modelId + " (" + projectName + ")";
-				else
-					return modelId;
+				buffer.append(projectName);
 			}
+
+			if (version != null && version.length() > 0) {
+				buffer.append(" (");
+				buffer.append(version);
+				buffer.append(")");
+			}
+
+			return buffer.toString();
 		}
 
 		public Image getColumnImage(Object obj, int index) {

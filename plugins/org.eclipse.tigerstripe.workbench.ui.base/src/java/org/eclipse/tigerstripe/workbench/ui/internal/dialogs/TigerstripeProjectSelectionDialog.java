@@ -102,7 +102,16 @@ public class TigerstripeProjectSelectionDialog extends SelectionStatusDialog {
 		public String getText(Object element) {
 			if (element instanceof InstalledModule) {
 				InstalledModule module = (InstalledModule) element;
-				return module.getModuleID();
+				StringBuffer buffer = new StringBuffer();
+				buffer.append(module.getModuleID());
+				String version = module.getModule().getProjectDetails()
+						.getVersion();
+				if (version != null && version.length() > 0) {
+					buffer.append(" (");
+					buffer.append(version);
+					buffer.append(")");
+				}
+				return buffer.toString();
 			}
 			return super.getText(element);
 		}
