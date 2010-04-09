@@ -72,7 +72,7 @@ public class AllTests {
 		// Facet Tests
 		suite.addTestSuite(BasicFacetTest.class);
 		suite.addTestSuite(TestFacetResolution.class);
-		suite.addTestSuite(TestFacetWithAnnotations.class);
+//		suite.addTestSuite(TestFacetWithAnnotations.class);
 
 		// Metamodel migration test
 		// suite.addTestSuite(TestArtifactRefactor.class);
