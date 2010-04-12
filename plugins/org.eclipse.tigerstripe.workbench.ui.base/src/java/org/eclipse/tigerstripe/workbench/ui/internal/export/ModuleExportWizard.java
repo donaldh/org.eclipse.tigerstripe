@@ -65,6 +65,7 @@ public class ModuleExportWizard extends Wizard implements IWorkbenchWizard {
 
 	public ModuleExportWizard() {
 		setNeedsProgressMonitor(true);
+		setWindowTitle("Export to Tigerstripe module");
 		setDefaultPageImageDescriptor(Images.getDescriptor(Images.TS_LOGO));
 		setDialogSettings(JavaPlugin.getDefault().getDialogSettings());
 	}
