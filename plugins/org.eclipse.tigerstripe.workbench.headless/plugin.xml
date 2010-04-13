@@ -26,5 +26,18 @@
          </property>
       </product>
    </extension>
+   <extension
+         id="moduleGeneration"
+         name="Installable Module Generation"
+         point="org.eclipse.core.runtime.applications">
+      <application
+            cardinality="singleton-global"
+            thread="main"
+            visible="true">
+         <run
+               class="org.eclipse.tigerstripe.workbench.headless.ModuleGeneration">
+         </run>
+      </application>
+   </extension>
 
 </plugin>
