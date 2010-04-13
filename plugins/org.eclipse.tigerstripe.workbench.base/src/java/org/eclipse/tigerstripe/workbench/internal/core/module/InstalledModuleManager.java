@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.osgi.framework.Bundle;
@@ -42,6 +43,20 @@ public class InstalledModuleManager {
 	}
 
 	/**
+	 * Return installed module by jar path or null if no such module
+	 * 
+	 * @param path
+	 *            module path
+	 * @return installed module by jar path of null if none
+	 */
+	public InstalledModule getModule(IPath path) {
+		if (pathToModule == null) {
+			init();
+		}
+		return pathToModule.get(path);
+	}
+
+	/**
 	 * @return all installed modules
 	 */
 	public InstalledModule[] getModules() {
@@ -54,6 +69,7 @@ public class InstalledModuleManager {
 	private void init() {
 		modules = new ArrayList<InstalledModule>();
 		idToModule = new HashMap<String, InstalledModule>();
+		pathToModule = new HashMap<IPath, InstalledModule>();
 		IConfigurationElement[] elements = Platform.getExtensionRegistry()
 				.getConfigurationElementsFor(MODULE_EXTENSION_POINT);
 		for (IConfigurationElement element : elements) {
@@ -76,6 +92,7 @@ public class InstalledModuleManager {
 					}
 					if (add) {
 						idToModule.put(module.getModuleID(), module);
+						pathToModule.put(module.getPath(), module);
 					}
 				} catch (Exception e) {
 					BasePlugin.log(e);
@@ -86,6 +103,7 @@ public class InstalledModuleManager {
 	}
 
 	private Map<String, InstalledModule> idToModule;
+	private Map<IPath, InstalledModule> pathToModule;
 	private List<InstalledModule> modules;
 
 }

@@ -10,9 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters;
 
+import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.internal.ui.packageview.ClassPathContainer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
+import org.eclipse.tigerstripe.workbench.internal.core.classpath.IReferencesConstants;
 
 /**
  * Filters out all the .* files from a view
@@ -29,8 +31,17 @@ public class ClasspathContainerFilter extends ViewerFilter {
 
 	@Override
 	public boolean select(Viewer viewer, Object parentElement, Object element) {
-		if (element instanceof ClassPathContainer)
+		if (element instanceof ClassPathContainer) {
+			// Filter all classpath containers except model references
+			ClassPathContainer container = (ClassPathContainer) element;
+			IClasspathEntry entry = container.getClasspathEntry();
+			if (entry != null
+					&& IReferencesConstants.REFERENCES_CONTAINER_PATH
+							.equals(entry.getPath())) {
+				return container.getChildren().length > 0;
+			}
 			return false;
+		}
 		return true;
 	}
 

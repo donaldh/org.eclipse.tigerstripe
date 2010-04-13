@@ -27,12 +27,9 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeJavaAdapterFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
-import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 
@@ -108,17 +105,7 @@ public class TSExplorerUtils {
 
 		} else if (element instanceof IClassFile) {
 			IClassFile classFile = (IClassFile) element;
-			IDependency dep = TigerstripeJavaAdapterFactory
-					.getDependencyFor(classFile);
-			if (dep != null) {
-				ArtifactManager mgr = ((Dependency) dep)
-						.getArtifactManager(new NullProgressMonitor()); // FIXME
-				String fqn = TigerstripeJavaAdapterFactory.getFQNfor(classFile);
-				return mgr.getArtifactByFullyQualifiedName(fqn, false,
-						new NullProgressMonitor());
-			} else
-				return null;
-
+			return TigerstripeJavaAdapterFactory.getArtifactFor(classFile);
 		} else if (element instanceof IPackageFragment) {
 			IPackageFragment res = (IPackageFragment) element;
 
@@ -177,7 +164,7 @@ public class TSExplorerUtils {
 			//
 			//					
 			// artifact = ((ArtifactManagerSessionImpl) mgr)
-			//.getArtifactManager().getArtifactByFilename(file.getAbsolutePath()
+			// .getArtifactManager().getArtifactByFilename(file.getAbsolutePath()
 			// );
 			// }
 			// }

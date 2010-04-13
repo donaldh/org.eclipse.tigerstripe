@@ -22,7 +22,9 @@ import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.module.InstalledModule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
+import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -47,17 +49,9 @@ public class TigerstripeJavaAdapterFactory implements IAdapterFactory {
 			try {
 				if (cFile.getCorrespondingResource() == null) {
 					// This means we're looking at a IClassFile inside a module
-					IDependency dep = getDependencyFor(cFile);
-					if (dep != null) {
-						ArtifactManager mgr = ((Dependency) dep)
-								.getArtifactManager(new NullProgressMonitor()); // FIXME
-						String fqn = getFQNfor(cFile);
-						IAbstractArtifact art = mgr
-								.getArtifactByFullyQualifiedName(fqn, false,
-										new NullProgressMonitor());
-						if (art != null)
-							return art.getAdapter(adapterType);
-					}
+					IAbstractArtifact art = getArtifactFor(cFile);
+					if (art != null)
+						return art.getAdapter(adapterType);
 					return null;
 				}
 			} catch (JavaModelException e) {
@@ -88,24 +82,70 @@ public class TigerstripeJavaAdapterFactory implements IAdapterFactory {
 
 	public static IDependency getDependencyFor(IClassFile classFile) {
 		IPackageFragmentRoot rootJar = getIPackageFragmentRootFor(classFile);
-		if (rootJar != null) {
-			IJavaProject jProject = rootJar.getJavaProject();
-			if (jProject != null) {
-				IProject project = jProject.getProject();
-				IAbstractTigerstripeProject atsProject = (IAbstractTigerstripeProject) project
-						.getAdapter(IAbstractTigerstripeProject.class);
-				if (atsProject instanceof ITigerstripeModelProject) {
-					ITigerstripeModelProject tsProject = (ITigerstripeModelProject) atsProject;
-					try {
-						for (IDependency dep : tsProject.getDependencies()) {
-							if (dep.getPath().equals(
-									rootJar.getPath().lastSegment()))
-								return dep;
-						}
-					} catch (TigerstripeException e) {
-						BasePlugin.log(e);
+		ITigerstripeModelProject tsProject = getProjectFor(rootJar);
+		if (tsProject != null) {
+			try {
+				for (IDependency dep : tsProject.getDependencies()) {
+					if (dep.getPath().equals(rootJar.getPath().lastSegment()))
+						return dep;
+				}
+			} catch (TigerstripeException e) {
+				BasePlugin.log(e);
+			}
+		}
+		return null;
+	}
+
+	public static IAbstractArtifact getArtifactFor(IClassFile cFile) {
+		ArtifactManager manager = getArtifactManagerFor(cFile);
+		if (manager != null) {
+			String fqn = getFQNfor(cFile);
+			return manager.getArtifactByFullyQualifiedName(fqn, false,
+					new NullProgressMonitor());
+		}
+		return null;
+	}
+
+	public static ArtifactManager getArtifactManagerFor(IClassFile classFile) {
+		IPackageFragmentRoot rootJar = getIPackageFragmentRootFor(classFile);
+		ITigerstripeModelProject tsProject = getProjectFor(rootJar);
+		if (tsProject != null) {
+			try {
+				for (IDependency dep : tsProject.getDependencies()) {
+					if (dep.getPath().equals(rootJar.getPath().lastSegment())) {
+						return ((Dependency) dep)
+								.getArtifactManager(new NullProgressMonitor()); // FIXME
 					}
 				}
+			} catch (TigerstripeException e) {
+				BasePlugin.log(e);
+			}
+			try {
+				for (ModelReference reference : tsProject.getModelReferences()) {
+					if (reference.isInstalledModuleReference()) {
+						InstalledModule module = reference.getInstalledModule();
+						if (module != null
+								&& module.getPath().equals(rootJar.getPath())) {
+							return module.getArtifactManager();
+						}
+					}
+				}
+			} catch (TigerstripeException e) {
+				BasePlugin.log(e);
+			}
+		}
+		return null;
+	}
+
+	private static ITigerstripeModelProject getProjectFor(
+			IPackageFragmentRoot rootJar) {
+		IJavaProject jProject = rootJar.getJavaProject();
+		if (jProject != null) {
+			IProject project = jProject.getProject();
+			IAbstractTigerstripeProject atsProject = (IAbstractTigerstripeProject) project
+					.getAdapter(IAbstractTigerstripeProject.class);
+			if (atsProject instanceof ITigerstripeModelProject) {
+				return (ITigerstripeModelProject) atsProject;
 			}
 		}
 		return null;

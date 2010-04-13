@@ -24,7 +24,6 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.internal.ui.JavaPlugin;
-import org.eclipse.jdt.internal.ui.filters.LibraryFilter;
 import org.eclipse.jdt.internal.ui.filters.OutputFolderFilter;
 import org.eclipse.jdt.internal.ui.viewsupport.AppearanceAwareLabelProvider;
 import org.eclipse.jdt.internal.ui.viewsupport.DecoratingJavaLabelProvider;
@@ -75,6 +74,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.ClasspathContainerFilter;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.DottedFilesFilter;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.EmptyDefaultPackageFilter;
+import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.TSLibraryFilter;
 import org.eclipse.tigerstripe.workbench.ui.viewers.ITigerstripeLabelDecorator;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IMemento;
@@ -393,7 +393,7 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 		treeViewer.addFilter(new DottedFilesFilter());
 		treeViewer.addFilter(new ClasspathContainerFilter());
 		treeViewer.addFilter(new EmptyDefaultPackageFilter());
-		treeViewer.addFilter(new LibraryFilter());
+		treeViewer.addFilter(new TSLibraryFilter());
 
 		boolean hide = EclipsePlugin.getDefault().getPreferenceStore()
 				.getBoolean(ExplorerPreferencePage.P_LABEL_HIDE_ANNOTATIONS);

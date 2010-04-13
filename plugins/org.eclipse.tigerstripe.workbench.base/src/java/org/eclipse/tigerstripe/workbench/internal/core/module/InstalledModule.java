@@ -10,6 +10,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.InstalledModuleProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.osgi.framework.Bundle;
 
 /**
@@ -38,6 +39,10 @@ public class InstalledModule {
 	 */
 	public ModuleRef getModule() {
 		return module;
+	}
+
+	public ArtifactManager getArtifactManager() {
+		return module.getArtifactManager();
 	}
 
 	/**
