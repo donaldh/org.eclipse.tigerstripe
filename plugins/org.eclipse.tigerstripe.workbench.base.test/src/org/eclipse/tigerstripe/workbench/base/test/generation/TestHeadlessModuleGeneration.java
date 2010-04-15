@@ -6,6 +6,7 @@ import java.net.URL;
 import junit.framework.TestCase;
 
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.osgi.service.datalocation.Location;
@@ -78,7 +79,6 @@ public class TestHeadlessModuleGeneration extends TestCase {
 			throw new IllegalArgumentException("Unknown OS: "
 					+ Platform.getOS());
 		}
-		String path = url.getPath();
-		return path.substring(1) + eclipseExe;
+		return new Path(url.getPath()).append(eclipseExe).toOSString();
 	}
 }
