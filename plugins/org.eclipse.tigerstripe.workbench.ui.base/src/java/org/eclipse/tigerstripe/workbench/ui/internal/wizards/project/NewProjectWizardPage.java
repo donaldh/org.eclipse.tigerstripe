@@ -73,7 +73,7 @@ public class NewProjectWizardPage extends WizardPage {
 		return projectNameText.getText().trim();
 	}
 
-	protected NewProjectDetails getProjectNewProjectDetails() {
+	public NewProjectDetails getProjectNewProjectDetails() {
 
 		Preferences store = EclipsePlugin.getDefault().getPluginPreferences();
 
