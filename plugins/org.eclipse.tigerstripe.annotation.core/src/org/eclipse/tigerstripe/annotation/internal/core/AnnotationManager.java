@@ -255,9 +255,10 @@ public class AnnotationManager extends AnnotationStorage implements
 					uris.add(annotation.getUri());
 			}
 			for (URI uri : uris) {
-				if(!uri.equals(newUri)) {
+				if (!uri.equals(newUri) && URIUtil.isPrefix(uri, oldUri)) {
 					try {
-						URI nUri = uri.equals(oldUri) ? newUri : URIUtil.replacePrefix(uri, oldUri, newUri);
+						URI nUri = uri.equals(oldUri) ? newUri : URIUtil
+								.replacePrefix(uri, oldUri, newUri);
 						setUri(uri, nUri);
 					} catch (Exception e) {
 						AnnotationPlugin.log(e);
@@ -473,9 +474,10 @@ public class AnnotationManager extends AnnotationStorage implements
 			providerManagerLock.unlock();
 		}
 	}
-	
+
 	public IAnnotationParticipant[] getParticipants() {
-		return participants.toArray(new IAnnotationParticipant[participants.size()]);
+		return participants.toArray(new IAnnotationParticipant[participants
+				.size()]);
 	}
 
 	protected void loadParticipants() {

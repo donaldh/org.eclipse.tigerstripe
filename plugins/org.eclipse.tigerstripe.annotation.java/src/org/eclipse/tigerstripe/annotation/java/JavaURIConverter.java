@@ -29,6 +29,7 @@ import org.eclipse.jdt.core.IInitializer;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMethod;
+import org.eclipse.jdt.core.IParent;
 import org.eclipse.jdt.core.IType;
 import org.eclipse.jdt.core.ITypeRoot;
 import org.eclipse.jdt.core.JavaCore;
@@ -36,36 +37,36 @@ import org.eclipse.jdt.core.JavaModelException;
 
 /**
  * @author Yuri Strot
- *
+ * 
  */
 public class JavaURIConverter {
-	
+
 	private static final String SCHEME_JAVA = "java";
-	
+
 	public static boolean isRelated(URI uri) {
 		return SCHEME_JAVA.equals(uri.scheme());
 	}
-	
+
 	public static URI toURI(IPath path) {
 		try {
-			return URI.createHierarchicalURI(SCHEME_JAVA, null, null, path.segments(), null, null);
-        }
-        catch (IllegalArgumentException e) {
-	        e.printStackTrace();
-        }
-        return null;
+			return URI.createHierarchicalURI(SCHEME_JAVA, null, null, path
+					.segments(), null, null);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
-	
+
 	public static IPath toPath(URI uri) {
 		if (isRelated(uri))
 			return new Path(uri.path());
 		return null;
 	}
-	
+
 	public static URI toURI(IJavaElement element) {
 		return toURI(element, null);
 	}
-	
+
 	public static IPath toPath(IJavaElement element, String newName) {
 		IPath path = element.getPath();
 		IType jType = null;
@@ -73,78 +74,99 @@ public class JavaURIConverter {
 		String name = null;
 		try {
 			switch (element.getElementType()) {
-				case IJavaElement.LOCAL_VARIABLE:
-				case IJavaElement.IMPORT_CONTAINER:
-				case IJavaElement.IMPORT_DECLARATION:
-				case IJavaElement.PACKAGE_DECLARATION:
-				case IJavaElement.TYPE_PARAMETER:
-					//do not support URI for this type
-					return null;
-				case IJavaElement.JAVA_MODEL:
-				case IJavaElement.JAVA_PROJECT:
-				case IJavaElement.PACKAGE_FRAGMENT:
-				case IJavaElement.PACKAGE_FRAGMENT_ROOT:
-					//URI for this type equals with element path
-					if (newName != null) {
+			case IJavaElement.LOCAL_VARIABLE:
+			case IJavaElement.IMPORT_CONTAINER:
+			case IJavaElement.IMPORT_DECLARATION:
+			case IJavaElement.PACKAGE_DECLARATION:
+			case IJavaElement.TYPE_PARAMETER:
+				// do not support URI for this type
+				return null;
+			case IJavaElement.JAVA_MODEL:
+			case IJavaElement.JAVA_PROJECT:
+			case IJavaElement.PACKAGE_FRAGMENT:
+			case IJavaElement.PACKAGE_FRAGMENT_ROOT:
+				// URI for this type equals with element path
+				if (newName != null) {
+					boolean haveRealPath = false;
+					IJavaElement parent = element.getParent();
+					if (parent instanceof IParent) {
+						try {
+							IJavaElement[] elements = ((IParent) parent)
+									.getChildren();
+							for (IJavaElement iJavaElement : elements) {
+								if (newName.equals(iJavaElement
+										.getElementName())) {
+									path = iJavaElement.getPath();
+									haveRealPath = true;
+									break;
+								}
+							}
+						} catch (Exception e) {
+							// ignore exceptions
+						}
+					}
+					if (!haveRealPath) {
 						String pathName = element.getElementName();
 						IPath oldPath = convertToPath(pathName);
 						IPath newPath = convertToPath(newName);
 						path = path.removeLastSegments(oldPath.segmentCount());
 						path = path.append(newPath);
 					}
-					break;
-				case IJavaElement.TYPE:
-					type = ((IType)element).getFullyQualifiedName();
-					if (newName != null) {
-						type = type.substring(0, type.length() - 
-						                      element.getElementName().length()) + newName;
-						String last = path.lastSegment();
-						int index = last.indexOf('.');
-						String postfix = index >= 0 ? last.substring(index) : "";
-						path = path.removeLastSegments(1);
-						path = path.append(newName + postfix);
-					}
-					break;
-				case IJavaElement.CLASS_FILE:
-					jType = ((IClassFile)element).getType();
-					if (jType != null)
-						type = jType.getFullyQualifiedName();
-					break;
-				case IJavaElement.COMPILATION_UNIT:
-					jType = ((ICompilationUnit)element).findPrimaryType();
-					if (jType != null)
-						type = jType.getFullyQualifiedName();
-					break;
-				case IJavaElement.METHOD:
-					IMethod method =(IMethod)element;
-					jType = method.getDeclaringType();
-					if (jType != null)
-						type = jType.getFullyQualifiedName();
-					if (newName != null) {
-						name = newName + jType.getMethod(newName, method.getParameterTypes()).getSignature();
-					}
-					else
-						name = method.getElementName() + method.getSignature();
-					break;
-				case IJavaElement.FIELD:
-					IField field =(IField)element;
-					jType = field.getDeclaringType();
-					if (jType != null)
-						type = jType.getFullyQualifiedName();
-					name = newName == null ? field.getElementName() : newName;
-					break;
-				case IJavaElement.INITIALIZER:
-					IInitializer initializer =(IInitializer)element;
-					jType = initializer.getDeclaringType();
-					if (jType != null)
-						type = jType.getFullyQualifiedName();
-					name = initializer.getElementName();
-					break;
-				default:
-					break;
+				}
+				break;
+			case IJavaElement.TYPE:
+				type = ((IType) element).getFullyQualifiedName();
+				if (newName != null) {
+					type = type.substring(0, type.length()
+							- element.getElementName().length())
+							+ newName;
+					String last = path.lastSegment();
+					int index = last.indexOf('.');
+					String postfix = index >= 0 ? last.substring(index) : "";
+					path = path.removeLastSegments(1);
+					path = path.append(newName + postfix);
+				}
+				break;
+			case IJavaElement.CLASS_FILE:
+				jType = ((IClassFile) element).getType();
+				if (jType != null)
+					type = jType.getFullyQualifiedName();
+				break;
+			case IJavaElement.COMPILATION_UNIT:
+				jType = ((ICompilationUnit) element).findPrimaryType();
+				if (jType != null)
+					type = jType.getFullyQualifiedName();
+				break;
+			case IJavaElement.METHOD:
+				IMethod method = (IMethod) element;
+				jType = method.getDeclaringType();
+				if (jType != null)
+					type = jType.getFullyQualifiedName();
+				if (newName != null) {
+					name = newName
+							+ jType.getMethod(newName,
+									method.getParameterTypes()).getSignature();
+				} else
+					name = method.getElementName() + method.getSignature();
+				break;
+			case IJavaElement.FIELD:
+				IField field = (IField) element;
+				jType = field.getDeclaringType();
+				if (jType != null)
+					type = jType.getFullyQualifiedName();
+				name = newName == null ? field.getElementName() : newName;
+				break;
+			case IJavaElement.INITIALIZER:
+				IInitializer initializer = (IInitializer) element;
+				jType = initializer.getDeclaringType();
+				if (jType != null)
+					type = jType.getFullyQualifiedName();
+				name = initializer.getElementName();
+				break;
+			default:
+				break;
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		if (type != null) {
@@ -154,51 +176,51 @@ public class JavaURIConverter {
 		}
 		return path;
 	}
-	
+
 	public static URI toURI(IJavaElement element, String newName) {
 		IPath path = toPath(element, newName);
 		if (path == null)
 			return null;
 		return toURI(path);
 	}
-	
+
 	private static IPath convertToPath(String path) {
 		return new Path(path);
 	}
-	
-	private static IType getType(ITypeRoot root, String className) throws JavaModelException {
+
+	private static IType getType(ITypeRoot root, String className)
+			throws JavaModelException {
 		String[] parts = className.split("\\$");
 		if (parts.length == 0)
 			return root.findPrimaryType();
 
 		IType type = root.findPrimaryType();
-		//IType[] types = type.getTypes();
+		// IType[] types = type.getTypes();
 		for (int j = 1; type != null && j < parts.length; j++) {
 			try {
 				int number = Integer.parseInt(parts[j]);
 				type = type.getType("", number);
-			}
-			catch (NumberFormatException e) {
+			} catch (NumberFormatException e) {
 				type = type.getType(parts[j]);
 			}
-        }
+		}
 		return type;
 	}
-	
+
 	private static IType getType(String path, String name) {
-		IResource res = ResourcesPlugin.getWorkspace().getRoot().findMember(new Path(path));
+		IResource res = ResourcesPlugin.getWorkspace().getRoot().findMember(
+				new Path(path));
 		if (res != null) {
-			IJavaElement element = (IJavaElement)Platform.getAdapterManager().getAdapter(res, IJavaElement.class);
+			IJavaElement element = (IJavaElement) Platform.getAdapterManager()
+					.getAdapter(res, IJavaElement.class);
 			if (element instanceof ITypeRoot) {
 				try {
-					return getType((ITypeRoot)element, name);
-				}
-				catch (Exception e) {
-					//ignore
+					return getType((ITypeRoot) element, name);
+				} catch (Exception e) {
+					// ignore
 				}
 			}
-		}
-		else {
+		} else {
 			return findType(name, new NullProgressMonitor());
 		}
 		return null;
@@ -211,26 +233,26 @@ public class JavaURIConverter {
 		try {
 			for (int i = 0; i < projects.length; i++) {
 				IProject project = projects[i];
-				if (!project.isAccessible() || !project.hasNature(JavaCore.NATURE_ID))
+				if (!project.isAccessible()
+						|| !project.hasNature(JavaCore.NATURE_ID))
 					continue;
 
 				IJavaProject javaProject = JavaCore.create(project);
-				
+
 				String[] parts = className.split("\\$");
 				if (parts.length == 0)
 					return javaProject.findType(className, monitor);
 
 				IType type = javaProject.findType(parts[0], monitor);
-				//IType[] types = type.getTypes();
+				// IType[] types = type.getTypes();
 				for (int j = 1; type != null && j < parts.length; j++) {
 					try {
 						int number = Integer.parseInt(parts[j]);
 						type = type.getType("", number);
-					}
-					catch (NumberFormatException e) {
+					} catch (NumberFormatException e) {
 						type = type.getType(parts[j]);
 					}
-                }
+				}
 
 				return type;
 			}
@@ -239,7 +261,7 @@ public class JavaURIConverter {
 		}
 		return null;
 	}
-	
+
 	public static IJavaElement toJava(URI uri) {
 		String path = uri.toString();
 		int sourceIndex = path.indexOf(".java");
@@ -254,48 +276,49 @@ public class JavaURIConverter {
 				String allPath = path.substring(first + 1, next);
 				int b = newPath.indexOf('/');
 				if (b < 0) {
-					//this is type
+					// this is type
 					return getType(allPath, newPath);
-				}
-				else {
+				} else {
 					String type = newPath.substring(0, b);
 					String name = newPath.substring(b + 1);
 					IType classType = getType(allPath, type);
-					if (classType == null) return null;
+					if (classType == null)
+						return null;
 					int bc = name.indexOf("(");
 					if (bc >= 0) {
-						//this is method
+						// this is method
 						String methodName = name.substring(0, bc);
 						String methodSignature = name.substring(bc);
 						try {
-	                        IMethod[] methods = classType.getMethods();
-	                        for (int i = 0; i < methods.length; i++) {
-	                        	IMethod method = methods[i];
-	                        	if (method.getElementName().equals(methodName) &&
-	                        					method.getSignature().equals(methodSignature)) {
-	                        		return method;
-	                        	}
-                            }
-                        }
-                        catch (Exception e) {
-	                        e.printStackTrace();
-                        }
-						
-					}
-					else {
-						//this is field
+							IMethod[] methods = classType.getMethods();
+							for (int i = 0; i < methods.length; i++) {
+								IMethod method = methods[i];
+								if (method.getElementName().equals(methodName)
+										&& method.getSignature().equals(
+												methodSignature)) {
+									return method;
+								}
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+					} else {
+						// this is field
 						return classType.getField(name);
 					}
 				}
 				return null;
 			}
 		}
-		//java resource
+		// java resource
 		IPath resourcePath = toPath(uri);
 		if (resourcePath != null) {
-			IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(resourcePath);
-			if (resource != null) 
-				return (IJavaElement)Platform.getAdapterManager().getAdapter(resource, IJavaElement.class);
+			IResource resource = ResourcesPlugin.getWorkspace().getRoot()
+					.findMember(resourcePath);
+			if (resource != null)
+				return (IJavaElement) Platform.getAdapterManager().getAdapter(
+						resource, IJavaElement.class);
 		}
 		return null;
 	}

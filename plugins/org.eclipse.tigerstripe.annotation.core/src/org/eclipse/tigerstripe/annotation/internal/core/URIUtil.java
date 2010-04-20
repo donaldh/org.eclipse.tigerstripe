@@ -21,41 +21,43 @@ import org.eclipse.emf.common.util.URI;
  * 
  */
 public class URIUtil {
-	
+
 	private static final boolean USE_OLD_VERSION = false;
-	
+
 	private static final int SCHEME = 0;
 	private static final int AUTHORITY = 1;
 	private static final int DEVICE = 2;
 	private static final int SEGMENT = 3;
 	private static final int QUERY = 4;
 	private static final int FRAGMENT = 5;
-	
+
 	private static class Part {
-		
+
 		private String content;
 		private int kind;
-		
+
 		public Part(String content, int kind) {
 			this.content = content;
 			this.kind = kind;
 		}
-		
+
 		/**
 		 * @return the kind
 		 */
 		public int getKind() {
 			return kind;
 		}
-		
+
 		/**
 		 * @return the content
 		 */
 		public String getContent() {
 			return content;
 		}
-		
-		/* (non-Javadoc)
+
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see java.lang.Object#toString()
 		 */
 		@Override
@@ -63,15 +65,15 @@ public class URIUtil {
 			return content;
 		}
 	}
-	
+
 	private static class PartedURI {
-		
+
 		private Part[] parts;
-		
+
 		private PartedURI(Part[] parts) {
 			this.parts = parts;
 		}
-		
+
 		/**
 		 * NOTE: return null only when URI not hierarchical
 		 * 
@@ -97,15 +99,14 @@ public class URIUtil {
 				parts.add(new Part(uri.fragment(), FRAGMENT));
 			return new PartedURI(parts.toArray(new Part[parts.size()]));
 		}
-		
+
 		public PartedURI cut(PartedURI prefix) {
 			Part[] prefixParts = prefix.parts;
 			if (parts.length < prefixParts.length)
 				return null;
 			int i = 0;
 			for (; i < prefixParts.length; i++) {
-				if (!prefixParts[i].getContent().equals(
-						parts[i].getContent()))
+				if (!prefixParts[i].getContent().equals(parts[i].getContent()))
 					return null;
 			}
 			Part[] result = new Part[parts.length - i];
@@ -114,7 +115,7 @@ public class URIUtil {
 			}
 			return new PartedURI(result);
 		}
-		
+
 		public PartedURI concat(PartedURI postfix) {
 			Part[] postfixParts = postfix.parts;
 			if (postfixParts.length == 0)
@@ -123,12 +124,12 @@ public class URIUtil {
 				return postfix;
 			Part[] result = new Part[parts.length + postfixParts.length];
 			System.arraycopy(parts, 0, result, 0, parts.length);
-			System.arraycopy(postfixParts, 0, result,
-					parts.length, postfixParts.length);
+			System.arraycopy(postfixParts, 0, result, parts.length,
+					postfixParts.length);
 			PartedURI newPURI = new PartedURI(result);
 			return newPURI.validate() ? newPURI : null;
 		}
-		
+
 		private boolean validate() {
 			int waitingFor = SCHEME;
 			for (int i = 0; i < parts.length; i++) {
@@ -140,7 +141,7 @@ public class URIUtil {
 			}
 			return true;
 		}
-		
+
 		public URI toURI() throws InvalidReplaceException {
 			String scheme = null;
 			String authority = null;
@@ -151,43 +152,51 @@ public class URIUtil {
 			for (int i = 0; i < parts.length; i++) {
 				Part part = parts[i];
 				switch (part.getKind()) {
-					case SCHEME:
-						if (scheme != null)
-							throw new InvalidReplaceException("URI scheme should be only one");
-						scheme = part.getContent();
-						break;
-					case AUTHORITY:
-						if (authority != null)
-							throw new InvalidReplaceException("URI authority should be only one");
-						authority = part.getContent();
-						break;
-					case DEVICE:
-						if (device != null)
-							throw new InvalidReplaceException("URI device should be only one");
-						device = part.getContent();
-						break;
-					case SEGMENT:
-						segments.add(part.getContent());
-						break;
-					case QUERY:
-						if (query != null)
-							throw new InvalidReplaceException("URI query should be only one");
-						query = part.getContent();
-						break;
-					case FRAGMENT:
-						if (fragment != null)
-							throw new InvalidReplaceException("URI fragment should be only one");
-						fragment = part.getContent();
-						break;
-					default:
-						throw new InvalidReplaceException("Invalid part kind");
+				case SCHEME:
+					if (scheme != null)
+						throw new InvalidReplaceException(
+								"URI scheme should be only one");
+					scheme = part.getContent();
+					break;
+				case AUTHORITY:
+					if (authority != null)
+						throw new InvalidReplaceException(
+								"URI authority should be only one");
+					authority = part.getContent();
+					break;
+				case DEVICE:
+					if (device != null)
+						throw new InvalidReplaceException(
+								"URI device should be only one");
+					device = part.getContent();
+					break;
+				case SEGMENT:
+					segments.add(part.getContent());
+					break;
+				case QUERY:
+					if (query != null)
+						throw new InvalidReplaceException(
+								"URI query should be only one");
+					query = part.getContent();
+					break;
+				case FRAGMENT:
+					if (fragment != null)
+						throw new InvalidReplaceException(
+								"URI fragment should be only one");
+					fragment = part.getContent();
+					break;
+				default:
+					throw new InvalidReplaceException("Invalid part kind");
 				}
 			}
 			return URI.createHierarchicalURI(scheme, authority, device,
-					segments.toArray(new String[segments.size()]), query, fragment);
+					segments.toArray(new String[segments.size()]), query,
+					fragment);
 		}
-		
-		/* (non-Javadoc)
+
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see java.lang.Object#toString()
 		 */
 		@Override
@@ -203,9 +212,9 @@ public class URIUtil {
 				buffer.append(parts[parts.length - 1]);
 			return buffer.toString();
 		}
-		
+
 	}
-	
+
 	private static URI oldReplace(URI uri, URI oldPrefix, URI newPrefix) {
 
 		// Get what's left of the segments after trimming the prefix.
@@ -234,31 +243,46 @@ public class URIUtil {
 				.authority(), newPrefix.device(), mergedSegments, uri.query(),
 				uri.fragment());
 	}
-	
-	private static URI newReplace(URI uri, URI oldPrefix, URI newPrefix) throws InvalidReplaceException {
+
+	public static boolean isPrefix(URI uri, URI prefix) {
+		PartedURI pUri = PartedURI.fromURI(uri);
+		PartedURI pPrefix = PartedURI.fromURI(prefix);
+		if (pUri != null && pPrefix != null) {
+			return pUri.cut(pPrefix) != null;
+		}
+		return false;
+	}
+
+	private static URI newReplace(URI uri, URI oldPrefix, URI newPrefix)
+			throws InvalidReplaceException {
 		PartedURI pUri = PartedURI.fromURI(uri);
 		if (pUri == null)
-			throw new InvalidReplaceException(uri.toString() + " should be hierarchical");
+			throw new InvalidReplaceException(uri.toString()
+					+ " should be hierarchical");
 		PartedURI pOldPrefix = PartedURI.fromURI(oldPrefix);
 		if (pOldPrefix == null)
-			throw new InvalidReplaceException(oldPrefix.toString() + " should be hierarchical");
+			throw new InvalidReplaceException(oldPrefix.toString()
+					+ " should be hierarchical");
 		PartedURI pNewPrefix = PartedURI.fromURI(newPrefix);
 		if (pNewPrefix == null)
-			throw new InvalidReplaceException(newPrefix.toString() + " should be hierarchical");
+			throw new InvalidReplaceException(newPrefix.toString()
+					+ " should be hierarchical");
 		PartedURI postfix = pUri.cut(pOldPrefix);
 		if (postfix == null)
-			throw new InvalidReplaceException(oldPrefix.toString() + " is not a prefix of the " + 
-					uri.toString());
+			throw new InvalidReplaceException(oldPrefix.toString()
+					+ " is not a prefix of the " + uri.toString());
 		PartedURI result = pNewPrefix.concat(postfix);
 		if (result == null)
-			throw new InvalidReplaceException("Replacing [" + oldPrefix + "] to the [" +
-					newPrefix + "] in the [" + uri + "] is invalid");
+			throw new InvalidReplaceException("Replacing [" + oldPrefix
+					+ "] to the [" + newPrefix + "] in the [" + uri
+					+ "] is invalid");
 		return result.toURI();
 	}
 
-	public static URI replacePrefix(URI uri, URI oldPrefix, URI newPrefix) throws InvalidReplaceException {
-		return USE_OLD_VERSION ? oldReplace(uri, oldPrefix, newPrefix) :
-			newReplace(uri, oldPrefix, newPrefix);
+	public static URI replacePrefix(URI uri, URI oldPrefix, URI newPrefix)
+			throws InvalidReplaceException {
+		return USE_OLD_VERSION ? oldReplace(uri, oldPrefix, newPrefix)
+				: newReplace(uri, oldPrefix, newPrefix);
 	}
 
 	private static String[] getTailSegments(URI uri, URI prefix) {
