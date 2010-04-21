@@ -11,8 +11,6 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.wizards.project;
 
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -111,6 +109,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 					throws CoreException {
 				IProjectDetails projectDetails = TigerstripeCore
 						.makeProjectDetails();
+				projectDetails.setModelId(details.getProjectName());
 
 				projectDetails.getProperties().setProperty(
 						IProjectDetails.DEFAULTARTIFACTPACKAGE_PROP,
