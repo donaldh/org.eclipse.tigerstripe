@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.adapt;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdapterFactory;
@@ -80,16 +81,16 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	}
 
 	/**
-	 * The URI for a Tigerstripe project is expected to be something like
+	 * The URI for a Tigerstripe model project is expected to be something like
 	 * 
-	 * tigerstripe:/project
+	 * tigerstripe:/modelId
 	 * 
-	 * where "project" is the label of the project.
+	 * where "modelId" is a tigerstripe project model id.
 	 * 
 	 * @param uri
 	 * @return
 	 */
-	public static IAbstractTigerstripeProject uriToProject(URI uri) {
+	public static ITigerstripeModelProject uriToProject(URI uri) {
 		if (!isRelated(uri))
 			return null;
 
@@ -97,13 +98,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		if (path.segmentCount() != 1)
 			return null;
 
-		IResource res = ResourcesPlugin.getWorkspace().getRoot().findMember(
-				path);
-		if (res != null)
-			return (IAbstractTigerstripeProject) res
-					.getAdapter(IAbstractTigerstripeProject.class);
-
-		return null;
+		return TigerstripeCore.findModelProjectByID(path.segment(0));
 	}
 
 	/**
@@ -121,12 +116,17 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 			return null;
 
 		IPath path = new Path(uri.path());
-		// if (path.segmentCount() != 1)
-		// return null;
-		if (!path.segment(1).equals("diagram"))
+		if (path.segmentCount() < 2 && !path.segment(1).equals("diagram"))
 			return null;
 
-		IPath resPath = new Path(path.segment(0));
+		ITigerstripeModelProject project = TigerstripeCore
+				.findModelProjectByID(path.segment(0));
+		if (project == null)
+			return null;
+
+		IPath resPath = project.getFullPath();
+		if (resPath == null || resPath.isEmpty())
+			return null;
 		resPath = resPath.append("src").append(
 				path.segment(3).replace('.', IPath.SEPARATOR))
 				.addFileExtension(path.segment(2));
@@ -178,12 +178,12 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 			}
 			return null;
 		} else {
-			IAbstractTigerstripeProject tsp = TigerstripeCore
-					.findProject(project);
-			if (!(tsp instanceof ITigerstripeModelProject))
+			ITigerstripeModelProject modelProject = TigerstripeCore
+					.findModelProjectByID(project);
+			if (modelProject == null)
 				return null;
 
-			IArtifactManagerSession artifactManagerSession = ((ITigerstripeModelProject) tsp)
+			IArtifactManagerSession artifactManagerSession = modelProject
 					.getArtifactManagerSession();
 			artifact = artifactManagerSession
 					.getArtifactByFullyQualifiedName(fqn);
@@ -301,9 +301,9 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		return toURI(artifactPath, fragment, art.isReadonly());
 	}
 
-	public static URI toURI(IAbstractTigerstripeProject project)
+	public static URI toURI(ITigerstripeModelProject project)
 			throws TigerstripeException {
-		IPath path = project.getFullPath();
+		IPath path = new Path(project.getModelId());
 		return toURI(path, null, false);
 	}
 
@@ -318,12 +318,18 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	 * @throws TigerstripeException
 	 */
 	public static URI toURI(IDiagram element) throws TigerstripeException {
-		IPath fullPath = element.getDiagramFile().getFullPath();
+		IFile file = element.getDiagramFile();
+		IPath fullPath = file.getFullPath();
 		// System.out.println("DiagramFile (location): "
 		// + element.getDiagramFile().getLocation() + " (fullpath): "
 		// + fullPath);
 
-		String project = fullPath.segment(0);
+		ITigerstripeModelProject project = (ITigerstripeModelProject) file
+				.getProject().getAdapter(ITigerstripeModelProject.class);
+		if (project == null) {
+			return null;
+		}
+
 		IPath truncated = fullPath.removeFirstSegments(2).removeFileExtension();
 		StringBuilder sb = new StringBuilder();
 		char delim = 0;
@@ -334,7 +340,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 				sb.append(delim);
 			sb.append(segment);
 		}
-		IPath result = new Path(project);
+		IPath result = new Path(project.getModelId());
 		result = result.append("diagram").append(fullPath.getFileExtension())
 				.append(sb.toString());
 		// System.out.println("Final path: "+result.toString());
@@ -391,13 +397,12 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 
 	private static IPath getArtifactPath(IAbstractArtifact art, String newName) {
 		try {
-
 			IPath path = null;
 			if (art.getProject() == null) {
 				IModuleHeader header = art.getParentModuleHeader();
 				path = new Path(header.getModuleID());
 			} else {
-				path = new Path(art.getProject().getName());
+				path = new Path(art.getProject().getModelId());
 			}
 
 			path = path.append(newName == null ? art.getFullyQualifiedName()

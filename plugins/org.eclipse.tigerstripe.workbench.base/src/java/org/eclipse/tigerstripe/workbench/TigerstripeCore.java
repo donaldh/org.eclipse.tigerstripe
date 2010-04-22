@@ -191,6 +191,31 @@ public class TigerstripeCore {
 	}
 
 	/**
+	 * Returns Tigerstripe Model Project by model ID
+	 * 
+	 * @param modelId project model ID
+	 * @return
+	 */
+	public static ITigerstripeModelProject findModelProjectByID(String modelId) {
+		if (modelId == null)
+			return null;
+
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		for (IProject iProject : root.getProjects()) {
+			ITigerstripeModelProject tProject = (ITigerstripeModelProject) iProject
+					.getAdapter(ITigerstripeModelProject.class);
+			try {
+				if (modelId.equals(tProject.getModelId())) {
+					return tProject;
+				}
+			} catch (Exception e) {
+				// ignore exception
+			}
+		}
+		return null;
+	}
+
+	/**
 	 * Creates a project of the given type at the given folder, and returns a
 	 * handle on that project
 	 * 

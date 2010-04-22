@@ -979,5 +979,12 @@
            name="Model Project References">
      </classpathContainerPage>
   </extension>
+  <extension
+        point="org.eclipse.ui.ide.markerResolution">
+     <markerResolutionGenerator
+           class="org.eclipse.tigerstripe.workbench.ui.internal.markers.AnnotationResolutionGenerator"
+           markerType="org.eclipse.tigerstripe.workbench.base.annotationmarker">
+     </markerResolutionGenerator>
+  </extension>
 
 </plugin>

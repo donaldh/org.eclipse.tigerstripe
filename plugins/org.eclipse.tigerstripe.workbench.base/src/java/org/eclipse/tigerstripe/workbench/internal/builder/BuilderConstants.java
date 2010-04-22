@@ -64,4 +64,9 @@ public interface BuilderConstants {
 			"org.eclipse.tigerstripe.workbench.ui.base.pluggablePluginProjectAuditor", //$NON-NLS-1$
 	};
 
+	public static final String ANNOTATION_MARKER_ID = PREFIX
+			+ ".annotationmarker"; //$NON-NLS-1$
+
+	public static final String ANNOTATION_ID = PREFIX + ".annotationId"; //$NON-NLS-1$
+
 }

@@ -10,12 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.builder;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -41,9 +38,12 @@ import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SafeRunner;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeResourceAdapterFactory;
@@ -73,12 +73,11 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	private boolean fullBuildRequired = false;
 
 	public static final String BUILDER_ID = BuilderConstants.PROJECT_BUILDER_ID;
-	
+
 	private IPath javaOutputPath = null;
 
 	public TigerstripeProjectAuditor() {
 		super();
-		
 	}
 
 	@Override
@@ -87,7 +86,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) getProject()
 				.getAdapter(ITigerstripeModelProject.class);
 		tsProject.addProjectDependencyChangeListener(this);
-		// See if its a java project, and that the start of the resource path is 
+		// See if its a java project, and that the start of the resource path is
 		// equal to the output directory
 		IProject project = getProject();
 		try {
@@ -95,8 +94,8 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 			if (jProject != null) {
 				javaOutputPath = jProject.getOutputLocation();
 			}
-		} catch (JavaModelException j){
-			//ignore
+		} catch (JavaModelException j) {
+			// ignore
 		}
 	}
 
@@ -116,9 +115,10 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	 * @param monitor
 	 */
 	protected void smartModelAudit(int kind, IProgressMonitor monitor) {
-//		DateFormat format = new SimpleDateFormat("yyyy.MM.dd-hh.mm.ss");
-//		String dateStr = format.format(new Date())+ " : ";
-//		System.out.println( dateStr+"Smart Audit Project "+getProject().getName() );
+		// DateFormat format = new SimpleDateFormat("yyyy.MM.dd-hh.mm.ss");
+		// String dateStr = format.format(new Date())+ " : ";
+		// System.out.println(
+		// dateStr+"Smart Audit Project "+getProject().getName() );
 		if (modelAuditorHelper == null) {
 			modelAuditorHelper = new ModelAuditorHelper(
 					(ITigerstripeModelProject) getProject().getAdapter(
@@ -128,8 +128,10 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		Set<String> artifactsToAudit = new HashSet<String>();
 
 		if (fullBuildRequired || kind == FULL_BUILD || kind == CLEAN_BUILD) {
-//			dateStr = format.format(new Date())+ " : ";
-//			System.out.println( dateStr+"Smart Audit FULL "+getProject().getName() + fullBuildRequired+ " "+kind);
+			// dateStr = format.format(new Date())+ " : ";
+			// System.out.println(
+			// dateStr+"Smart Audit FULL "+getProject().getName() +
+			// fullBuildRequired+ " "+kind);
 			fullBuildRequired = false;
 			ITigerstripeModelProject tsProject = (ITigerstripeModelProject) getProject()
 					.getAdapter(ITigerstripeModelProject.class);
@@ -142,12 +144,16 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 						.makeQuery(IQueryAllArtifacts.class.getName());
 				query.setIncludeDependencies(false); // check only local
 				// artifacts!
-//				dateStr = format.format(new Date())+ " : ";
-//				System.out.println( dateStr+"Smart Audit Project getting Artifacts "+getProject().getName() );
+				// dateStr = format.format(new Date())+ " : ";
+				// System.out.println(
+				// dateStr+"Smart Audit Project getting Artifacts "+getProject().getName()
+				// );
 				Collection<IAbstractArtifact> artifacts = session
 						.queryArtifact(query);
-//				dateStr = format.format(new Date())+ " : ";
-//				System.out.println( dateStr+"Smart Audit Project got Artifacts "+artifacts.size() );
+				// dateStr = format.format(new Date())+ " : ";
+				// System.out.println(
+				// dateStr+"Smart Audit Project got Artifacts "+artifacts.size()
+				// );
 				IResource srcRes = getProject().findMember("src");
 				if (srcRes != null)
 					deleteAuditMarkers(srcRes, IResource.DEPTH_INFINITE);
@@ -155,12 +161,14 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 				monitor.beginTask("Auditing Artifacts", artifacts.size());
 				for (IAbstractArtifact artifact : artifacts) {
 					monitor.subTask(artifact.getFullyQualifiedName());
-//					System.out.println( dateStr+"Smart Audit Project starting audit for Artifact "+artifact.getName());
+					// System.out.println(
+					// dateStr+"Smart Audit Project starting audit for Artifact "+artifact.getName());
 					IArtifactAuditor auditor = ArtifactAuditorFactory
 							.getInstance().newArtifactAuditor(getProject(),
 									artifact);
 					auditor.run(monitor);
-//					System.out.println( dateStr+"Smart Audit Project starting audit for Artifact done"+artifact.getName());
+					// System.out.println(
+					// dateStr+"Smart Audit Project starting audit for Artifact done"+artifact.getName());
 					monitor.worked(1);
 				}
 				monitor.done();
@@ -168,11 +176,13 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 				BasePlugin.log(e);
 			}
 
-//			dateStr = format.format(new Date())+ " : ";
-//			System.out.println( dateStr+"Smart Audit FULL done"+getProject().getName() );
+			// dateStr = format.format(new Date())+ " : ";
+			// System.out.println(
+			// dateStr+"Smart Audit FULL done"+getProject().getName() );
 		} else {
-//			dateStr = format.format(new Date())+ " : ";
-//			System.out.println( dateStr+"Smart Audit INCREMENTAL "+getProject().getName() );
+			// dateStr = format.format(new Date())+ " : ";
+			// System.out.println(
+			// dateStr+"Smart Audit INCREMENTAL "+getProject().getName() );
 			List<String> changedArtifacts = new ArrayList<String>();
 			List<String> addedArtifacts = new ArrayList<String>();
 			List<String> removedArtifacts = new ArrayList<String>();
@@ -223,9 +233,10 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 			for (String fqn : removedArtifacts)
 				modelAuditorHelper.artifactRemoved(fqn);
 		}
-//		dateStr = format.format(new Date())+ " : ";
-//		System.out.println( dateStr+"Smart Audit Project starting audit done "
-//				+getProject().getName());
+		// dateStr = format.format(new Date())+ " : ";
+		// System.out.println(
+		// dateStr+"Smart Audit Project starting audit done "
+		// +getProject().getName());
 
 	}
 
@@ -246,7 +257,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		Collection<IResource> changedResources = new HashSet<IResource>();
 		Collection<IResource> addedResources = new HashSet<IResource>();
 
-		// We only care about .java and .package files 
+		// We only care about .java and .package files
 		// However - we need to avoid .packages in the bin directory!
 		// Which may not be called "bin" !
 		IResourceFilter noClassFileOrFolderFilter = new IResourceFilter() {
@@ -254,26 +265,29 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 			public boolean select(IResource resource) {
 				if (resource instanceof IFolder)
 					return false;
-				if (javaOutputPath != null){
-					if (resource.getFullPath().toString().startsWith(javaOutputPath.toString()))
+				if (javaOutputPath != null) {
+					if (resource.getFullPath().toString().startsWith(
+							javaOutputPath.toString()))
 						return false;
 				}
 				if ("java".equals(resource.getFileExtension())
 						|| ".package".equals(resource.getName()))
 					return true;
-				
+
 				return false;
 			}
 
 		};
-//		DateFormat format = new SimpleDateFormat("yyyy.MM.dd-hh.mm.ss");
-//		String dateStr = format.format(new Date())+ " : ";
-//		System.out.println( dateStr+"Project Auditor extracting");
+		// DateFormat format = new SimpleDateFormat("yyyy.MM.dd-hh.mm.ss");
+		// String dateStr = format.format(new Date())+ " : ";
+		// System.out.println( dateStr+"Project Auditor extracting");
 		WorkspaceHelper.buildResourcesLists(delta, removedResources,
 				changedResources, addedResources, noClassFileOrFolderFilter);
-		
-//		dateStr = format.format(new Date())+ " : ";
-//		System.out.println( dateStr+"Project Auditor "+getProject().getName()+" Built changes for "+addedResources.size()+" "+changedResources.size()+ " "+removedResources.size());
+
+		// dateStr = format.format(new Date())+ " : ";
+		// System.out.println(
+		// dateStr+"Project Auditor "+getProject().getName()+" Built changes for "+addedResources.size()+" "+changedResources.size()+
+		// " "+removedResources.size());
 
 		for (IResource res : changedResources) {
 			if ("java".equals(res.getFileExtension())
@@ -304,31 +318,35 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 
 	}
 
-//	private void doDelta(IResourceDelta delta){
-//		if (!(delta.getResource() instanceof IContainer)){
-//			System.out.println("TS Audit started due to change of Resource = "+delta.getResource().getFullPath()+ " "+delta.getKind());
-//		}
-//		for (IResourceDelta deltaChild : delta.getAffectedChildren()){
-//			doDelta(deltaChild);
-//		}
-//	}
-	
+	// private void doDelta(IResourceDelta delta){
+	// if (!(delta.getResource() instanceof IContainer)){
+	// System.out.println("TS Audit started due to change of Resource = "+delta.getResource().getFullPath()+
+	// " "+delta.getKind());
+	// }
+	// for (IResourceDelta deltaChild : delta.getAffectedChildren()){
+	// doDelta(deltaChild);
+	// }
+	// }
+
 	@Override
 	@SuppressWarnings("unchecked")
 	protected IProject[] build(int kind, Map args, IProgressMonitor monitor)
 			throws CoreException {
-//		DateFormat format = new SimpleDateFormat("yyyy.MM.dd-hh.mm.ss");
-//		String dateStr = format.format(new Date())+ " : ";
-//		System.out.println( dateStr+"Audit Start "+getProject().getName()+" "+kind+ " "+args.get("rebuildIndexes") );
-//		IResourceDelta delta = getDelta(getProject());
-//		doDelta(delta);
+		// DateFormat format = new SimpleDateFormat("yyyy.MM.dd-hh.mm.ss");
+		// String dateStr = format.format(new Date())+ " : ";
+		// System.out.println(
+		// dateStr+"Audit Start "+getProject().getName()+" "+kind+
+		// " "+args.get("rebuildIndexes") );
+		// IResourceDelta delta = getDelta(getProject());
+		// doDelta(delta);
+		checkUnresolvedAnnotations();
 		if ("True".equals(args.get("rebuildIndexes"))) {
 			smartModelAudit(kind, monitor);
 		} else if (shouldAudit(kind)) {
 			auditProject(kind, monitor);
 		}
-//		dateStr = format.format(new Date())+ " : ";
-//		System.out.println( dateStr+"Audit Done "+getProject().getName() );
+		// dateStr = format.format(new Date())+ " : ";
+		// System.out.println( dateStr+"Audit Done "+getProject().getName() );
 		return null;
 	}
 
@@ -414,8 +432,8 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	}
 
 	private boolean shouldAudit(int kind) {
-		if (isTurnedOffForImport()){
-//			System.out.println("Turned off");
+		if (isTurnedOffForImport()) {
+			// System.out.println("Turned off");
 			return false;
 		}
 		return true;
@@ -448,7 +466,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 									return result;
 								}
 							}
-						} catch (JavaModelException j){
+						} catch (JavaModelException j) {
 							// ignore
 						}
 					}
@@ -466,9 +484,10 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	}
 
 	private void auditProject(int kind, IProgressMonitor monitor) {
-//		DateFormat format = new SimpleDateFormat("yyyy.MM.dd-hh.mm.ss");
-//		String dateStr = format.format(new Date())+ " : ";
-//		System.out.println( dateStr+"Audit Project "+getProject().getName() );
+		// DateFormat format = new SimpleDateFormat("yyyy.MM.dd-hh.mm.ss");
+		// String dateStr = format.format(new Date())+ " : ";
+		// System.out.println( dateStr+"Audit Project "+getProject().getName()
+		// );
 		monitor.beginTask("Audit Tigerstripe Project", 9);
 
 		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) getProject()
@@ -482,13 +501,15 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 			// artifact as they are parsed by the Art. Mgr. This is not
 			// necessary since all artifacts will be audited below.
 			session.setBroadcastMask(IArtifactChangeListener.NOTIFY_NONE);
-			
-//			dateStr = format.format(new Date())+ " : ";
-//			System.out.println( dateStr+"refreshAll "+getProject().getName() );
+
+			// dateStr = format.format(new Date())+ " : ";
+			// System.out.println( dateStr+"refreshAll "+getProject().getName()
+			// );
 			session.refreshAll(monitor);
-			
-//			dateStr = format.format(new Date())+ " : ";
-//			System.out.println( dateStr+"refreshAll done "+getProject().getName() );
+
+			// dateStr = format.format(new Date())+ " : ";
+			// System.out.println(
+			// dateStr+"refreshAll done "+getProject().getName() );
 		} catch (TigerstripeException e) {
 			BasePlugin.log(e);
 		} finally {
@@ -501,8 +522,9 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 				}
 			}
 		}
-//		dateStr = format.format(new Date())+ " : ";
-//		System.out.println( dateStr+"runAuditorsByFileExtensions "+getProject().getName() );
+		// dateStr = format.format(new Date())+ " : ";
+		// System.out.println(
+		// dateStr+"runAuditorsByFileExtensions "+getProject().getName() );
 		runAuditorsByFileExtensions(kind, monitor);
 
 		if (checkCancel(monitor))
@@ -515,15 +537,19 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		monitor.worked(1);
 		if (checkCancel(monitor))
 			return;
-//		dateStr = format.format(new Date())+ " : ";
-//		System.out.println( dateStr+"Audit Project Smart Audit "+getProject().getName() );
+		// dateStr = format.format(new Date())+ " : ";
+		// System.out.println(
+		// dateStr+"Audit Project Smart Audit "+getProject().getName() );
 		smartModelAudit(kind, monitor);
-//		dateStr = format.format(new Date())+ " : ";
-//		System.out.println( dateStr+"Audit Project Smart Audit Returned "+getProject().getName() );
+		// dateStr = format.format(new Date())+ " : ";
+		// System.out.println(
+		// dateStr+"Audit Project Smart Audit Returned "+getProject().getName()
+		// );
 		if (checkCancel(monitor))
 			return;
-//		dateStr = format.format(new Date())+ " : ";
-//		System.out.println( dateStr+"Audit Project done "+getProject().getName() );
+		// dateStr = format.format(new Date())+ " : ";
+		// System.out.println(
+		// dateStr+"Audit Project done "+getProject().getName() );
 		monitor.done();
 	}
 
@@ -781,4 +807,59 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 			}
 		}
 	}
+
+	protected void checkUnresolvedAnnotations() {
+		IProject project = getProject();
+		try {
+			project.deleteMarkers(BuilderConstants.ANNOTATION_MARKER_ID, false,
+					IProject.DEPTH_ZERO);
+		} catch (CoreException e) {
+			BasePlugin.log(e);
+		}
+		if (isProjectAmbiguous()) {
+			String projectName = getProject().getName();
+			URI uri = URI.createHierarchicalURI("tigerstripe", null, null,
+					new String[] { projectName }, null, null);
+			List<Annotation> annotations = AnnotationPlugin.getManager()
+					.getPostfixAnnotations(uri);
+			for (Annotation annotation : annotations) {
+				Object object = AnnotationPlugin.getManager()
+						.getAnnotatedObject(annotation);
+				if (object == null) {
+					addAnnotationMarker(annotation);
+				}
+			}
+		}
+	}
+
+	private boolean isProjectAmbiguous() {
+		IProject project = getProject();
+		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) project
+				.getAdapter(ITigerstripeModelProject.class);
+		try {
+			String modelId = tsProject.getModelId();
+			return !project.getName().equals(modelId);
+		} catch (Exception e) {
+			return true;
+		}
+	}
+
+	private void addAnnotationMarker(Annotation annotation) {
+		try {
+			IMarker marker = getProject().createMarker(
+					BuilderConstants.ANNOTATION_MARKER_ID);
+			marker.setAttribute(IMarker.MESSAGE,
+					"Project contains unresolved annotation");
+			URI aUri = annotation.getUri();
+			aUri = URI.createHierarchicalURI(aUri.segments(), aUri.query(),
+					aUri.fragment());
+			marker.setAttribute(IMarker.LOCATION, aUri.toString());
+			marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
+			marker.setAttribute(BuilderConstants.ANNOTATION_ID, annotation
+					.getId());
+		} catch (Exception e) {
+			BasePlugin.log(e);
+		}
+	}
+
 }

@@ -380,5 +380,16 @@
             class="org.eclipse.tigerstripe.workbench.internal.core.classpath.ReferencesInitializer"
             id="org.eclipse.tigerstripe.workbench.base.modelReferences"/>
    </extension>
+   <extension
+         id="annotationmarker"
+         name="Unresolved Annotation"
+         point="org.eclipse.core.resources.markers">
+      <super
+            type="org.eclipse.core.resources.problemmarker">
+      </super>
+      <persistent
+            value="true">
+      </persistent>
+   </extension>
 
 </plugin>
