@@ -14,12 +14,19 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.IClasspathContainer;
+import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
-import org.eclipse.tigerstripe.workbench.internal.core.classpath.ReferencesClasspathContainer;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.classpath.IReferencesConstants;
+import org.eclipse.tigerstripe.workbench.internal.core.classpath.ReferencesClasspathContainer;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -136,17 +143,20 @@ public class ReferencesListener {
 			}
 			if (!changedProjects.contains(details)) {
 				String[] references = details.getReferences();
+				boolean addProject = false;
 				if (references != null) {
-					boolean addProject = false;
 					for (String ref : references) {
 						if (changedReferences.contains(ref)) {
 							addProject = true;
 							break;
 						}
 					}
-					if (addProject) {
-						changedProjects.add(details);
-					}
+				}
+				if (!addProject && details.needReferenceContainer()) {
+					addProject = true;
+				}
+				if (addProject) {
+					changedProjects.add(details);
 				}
 			}
 		}
@@ -206,6 +216,9 @@ public class ReferencesListener {
 				// operation
 				IJavaProject[] jProjects = (IJavaProject[]) map.keySet()
 						.toArray(new IJavaProject[map.size()]);
+
+				updateReferenceContainer(jProjects);
+
 				IClasspathContainer[] containers = (IClasspathContainer[]) map
 						.values().toArray(new IClasspathContainer[map.size()]);
 				JavaCore.setClasspathContainer(
@@ -215,6 +228,37 @@ public class ReferencesListener {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private void updateReferenceContainer(IJavaProject[] projectsToCheck) {
+		final List<IJavaProject> toUpdate = new ArrayList<IJavaProject>();
+		for (IJavaProject project : projectsToCheck) {
+			if (needReferenceContainer(project)) {
+				toUpdate.add(project);
+			}
+		}
+		if (toUpdate.size() > 0) {
+			Job job = new UpdateContainerJob(toUpdate);
+			job.schedule();
+		}
+	}
+
+	private static boolean needReferenceContainer(IJavaProject project) {
+		try {
+			return !haveReferenceContainer(project.getRawClasspath());
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
+	private static boolean haveReferenceContainer(IClasspathEntry[] entries) {
+		for (IClasspathEntry entry : entries) {
+			if (IReferencesConstants.REFERENCES_CONTAINER_PATH.equals(entry
+					.getPath())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private Map<IProject, ProjectDetails> nameToDetails = new HashMap<IProject, ProjectDetails>();
@@ -252,6 +296,15 @@ public class ReferencesListener {
 					// ignore any exceptions
 				}
 			}
+		}
+
+		public boolean needReferenceContainer() {
+			if (project == null || iProject == null)
+				return false;
+			IJavaProject jProject = JavaCore.create(iProject);
+			if (jProject == null)
+				return false;
+			return ReferencesListener.needReferenceContainer(jProject);
 		}
 
 		public boolean isNoAccess() {
@@ -305,6 +358,39 @@ public class ReferencesListener {
 
 		private ReferencesListener getOuterType() {
 			return ReferencesListener.this;
+		}
+
+	}
+
+	private class UpdateContainerJob extends Job {
+
+		private List<IJavaProject> jProjects;
+
+		public UpdateContainerJob(List<IJavaProject> jProjects) {
+			super("Update model references...");
+			this.jProjects = jProjects;
+			setRule(ResourcesPlugin.getWorkspace().getRoot());
+		}
+
+		@Override
+		protected IStatus run(IProgressMonitor monitor) {
+			for (IJavaProject project : jProjects) {
+				try {
+					IClasspathEntry[] entries = project.getRawClasspath();
+					if (!haveReferenceContainer(entries)) {
+						IClasspathEntry[] newEntries = new IClasspathEntry[entries.length + 1];
+						System.arraycopy(entries, 0, newEntries, 0,
+								entries.length);
+						newEntries[entries.length] = JavaCore
+								.newContainerEntry(IReferencesConstants.REFERENCES_CONTAINER_PATH);
+						project.setRawClasspath(newEntries,
+								new NullProgressMonitor());
+					}
+				} catch (Exception e) {
+					BasePlugin.log(e);
+				}
+			}
+			return Status.OK_STATUS;
 		}
 
 	}
