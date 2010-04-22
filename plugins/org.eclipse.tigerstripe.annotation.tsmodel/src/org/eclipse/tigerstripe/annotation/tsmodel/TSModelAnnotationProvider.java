@@ -18,6 +18,7 @@ import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * @author John Worrell
@@ -33,8 +34,9 @@ public class TSModelAnnotationProvider implements IAnnotationProvider {
 				.uriToProject(uri);
 		if (project != null)
 			return project;
-		IModelComponent component = TigerstripeURIAdapterFactory.uriToComponent(uri);
-		if(component != null)
+		IModelComponent component = TigerstripeURIAdapterFactory
+				.uriToComponent(uri);
+		if (component != null)
 			return component;
 		IDiagram diagram = TigerstripeURIAdapterFactory.uriToDiagram(uri);
 		return diagram;
@@ -45,14 +47,11 @@ public class TSModelAnnotationProvider implements IAnnotationProvider {
 			if (object instanceof IModelComponent)
 				return TigerstripeURIAdapterFactory
 						.toURI((IModelComponent) object);
-			else if (object instanceof IAbstractTigerstripeProject) {
+			else if (object instanceof ITigerstripeModelProject) {
 				return TigerstripeURIAdapterFactory
-						.toURI((IAbstractTigerstripeProject) object);
-			}
-			else if (object instanceof IDiagram)
-			{
-				return TigerstripeURIAdapterFactory
-				.toURI((IDiagram) object);				
+						.toURI((ITigerstripeModelProject) object);
+			} else if (object instanceof IDiagram) {
+				return TigerstripeURIAdapterFactory.toURI((IDiagram) object);
 			}
 		} catch (TigerstripeException e) {
 			BasePlugin.log(e);

@@ -11,6 +11,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.core;
 
+import java.util.List;
+
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
@@ -19,9 +22,10 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.tigerstripe.espace.core.Mode;
 
 /**
- * An annotation manager provide operations for annotation creation, removing, changing and others.
- * This class also providing access to annotation types, providers, refactoring support, etc.
- * Annotation manager works with adaptable objects which should be adapted to the <code>IAnnotable</code> class.
+ * An annotation manager provide operations for annotation creation, removing,
+ * changing and others. This class also providing access to annotation types,
+ * providers, refactoring support, etc. Annotation manager works with adaptable
+ * objects which should be adapted to the <code>IAnnotable</code> class.
  * 
  * @see AnnotationType
  * @see IAnnotationProvider
@@ -29,96 +33,121 @@ import org.eclipse.tigerstripe.espace.core.Mode;
  * @author Yuri Strot
  */
 public interface IAnnotationManager {
-	
+
 	/**
 	 * Add annotation to the annotable object with the following content
 	 * 
-	 * @param object annotable object
-	 * @param content annotation content
+	 * @param object
+	 *            annotable object
+	 * @param content
+	 *            annotation content
 	 * @return created annotation or null, if passed object do not annotable
-	 * @throws AnnotationException if there is no annotation type for the 
-	 * specified content or if there is illegal content for the specified object
+	 * @throws AnnotationException
+	 *             if there is no annotation type for the specified content or
+	 *             if there is illegal content for the specified object
 	 */
-	public Annotation addAnnotation(Object object, EObject content) throws AnnotationException;
-	
+	public Annotation addAnnotation(Object object, EObject content)
+			throws AnnotationException;
+
 	/**
-	 * Check is it possible to add annotation to the annotable object
-	 * with the following <code>EClass</code>
+	 * Check is it possible to add annotation to the annotable object with the
+	 * following <code>EClass</code>
 	 * 
-	 * @param object annotable object
-	 * @param eclass content <code>EClass</code>
+	 * @param object
+	 *            annotable object
+	 * @param eclass
+	 *            content <code>EClass</code>
 	 * @return true, if it's possible and false if not
 	 */
 	public boolean isPossibleToAdd(Object object, EClass eclass);
-	
+
 	/**
-	 * Check is it annotable object or not. Object annotable if and only if 
-	 * registered <code>IAnnotationProvider</code> which map this object to <code>URI</code>
+	 * Check is it annotable object or not. Object annotable if and only if
+	 * registered <code>IAnnotationProvider</code> which map this object to
+	 * <code>URI</code>
 	 * 
-	 * @param object candidate for annotable object
+	 * @param object
+	 *            candidate for annotable object
 	 * @return true, if it's annotable object and false otherwise
 	 */
 	public boolean isAnnotable(Object object);
-	
+
 	/**
 	 * Remove annotation
 	 * 
 	 * @param annotation
 	 */
 	public void removeAnnotation(Annotation annotation);
-	
+
 	/**
 	 * Remove all annotations for annotable object
 	 * 
-	 * @param object annotable object
+	 * @param object
+	 *            annotable object
 	 */
 	public void removeAnnotations(Object object);
-	
+
 	/**
 	 * Return all annotations of the annotable object
 	 * 
-	 * @param object annotated object
-	 * @param deepest if false, this method return annotations only for passed object.
-	 * If true, this method return annotations for passed object and for all delegated
-	 * objects. For example, <code>IJavaElement</code> delegate to <code>IResource</code>,
-	 * so <code>getAnnotations(IJavaElement, false)</code> return annotations only for
-	 * <code>IJavaElement</code> and <code>getAnnotations(IJavaElement, true)</code>
-	 * return annotations for <code>IJavaElement</code> and for corresponding
-	 * <code>IResource</code>.
-	 * @return all annotations of the annotable object or empty array, if there are no one annotation
+	 * @param object
+	 *            annotated object
+	 * @param deepest
+	 *            if false, this method return annotations only for passed
+	 *            object. If true, this method return annotations for passed
+	 *            object and for all delegated objects. For example,
+	 *            <code>IJavaElement</code> delegate to <code>IResource</code>,
+	 *            so <code>getAnnotations(IJavaElement, false)</code> return
+	 *            annotations only for <code>IJavaElement</code> and
+	 *            <code>getAnnotations(IJavaElement, true)</code> return
+	 *            annotations for <code>IJavaElement</code> and for
+	 *            corresponding <code>IResource</code>.
+	 * @return all annotations of the annotable object or empty array, if there
+	 *         are no one annotation
 	 */
 	public Annotation[] getAnnotations(Object object, boolean deepest);
-	
+
 	/**
 	 * Return annotable object annotated with the passed annotation
-	 *  
+	 * 
 	 * @param annotation
 	 * @return annotated object
 	 */
 	public Object getAnnotatedObject(Annotation annotation);
-	
+
+	/**
+	 * Return annotable object annotated with the specified uri
+	 * 
+	 * @param uri
+	 * @return annotated object
+	 */
+	public Object getAnnotatedObject(URI uri);
+
 	/**
 	 * Return all stored objects of the passed classifier
 	 * 
-	 * @param classifier classifier of the objects should be found
+	 * @param classifier
+	 *            classifier of the objects should be found
 	 * @return Return all stored objects of the passed classifier
 	 */
 	public EObject[] query(EClassifier classifier);
-	
+
 	/**
 	 * Save annotation to the corresponding storage
 	 * 
-	 * @param annotation annotation to save
+	 * @param annotation
+	 *            annotation to save
 	 */
 	public void save(Annotation annotation);
-	
+
 	/**
 	 * Revert annotation changes to the last state when it was saved
 	 * 
-	 * @param annotation annotation to revert
+	 * @param annotation
+	 *            annotation to revert
 	 */
 	public void revert(Annotation annotation);
-	
+
 	/**
 	 * Add annotation listener
 	 * 
@@ -126,21 +155,21 @@ public interface IAnnotationManager {
 	 * @param listener
 	 */
 	public void addAnnotationListener(IAnnotationListener listener);
-	
+
 	/**
 	 * Remove annotation listener
 	 * 
 	 * @param listener
 	 */
 	public void removeAnnotationListener(IAnnotationListener listener);
-	
+
 	/**
 	 * Return all annotation type that can be create
 	 * 
 	 * @return
 	 */
 	public AnnotationType[] getTypes();
-	
+
 	/**
 	 * Return type of the specific annotation
 	 * 
@@ -148,96 +177,110 @@ public interface IAnnotationManager {
 	 * @return type of the passed annotation
 	 */
 	public AnnotationType getType(Annotation annotation);
-	
+
 	/**
-	 * Return type by EMF package name and class name. To get package by EPackage and EClass
-	 * you need to call:<br>
+	 * Return type by EMF package name and class name. To get package by
+	 * EPackage and EClass you need to call:<br>
 	 * <code>
 	 *   getType(EPackage.getNsPrefix(), EClass.getName()); 
-	 * </code> 
+	 * </code>
 	 * 
-	 * @param epackage EPackage namespace
-	 * @param eclazz EClass name
+	 * @param epackage
+	 *            EPackage namespace
+	 * @param eclazz
+	 *            EClass name
 	 * @return
 	 */
 	public AnnotationType getType(String epackage, String eclazz);
-	
+
 	/**
 	 * Return annotation by id
 	 * 
-	 * @param id annotation id
-	 * @return annotation by specified id or null, if there is no annotations with this id
+	 * @param id
+	 *            annotation id
+	 * @return annotation by specified id or null, if there is no annotations
+	 *         with this id
 	 */
 	public Annotation getAnnotationById(String id);
-	
+
+	/**
+	 * Return annotations which start with the specified URI
+	 * 
+	 * @param uri
+	 * @return list of the annotations started from the uri
+	 */
+	public List<Annotation> getPostfixAnnotations(URI uri);
+
 	/**
 	 * Add refactoring listener
 	 * 
 	 * @param listener
 	 */
 	public void addRefactoringListener(IRefactoringListener listener);
-	
+
 	/**
 	 * Remove refactoring listener
 	 * 
 	 * @param listener
 	 */
 	public void removeRefactoringListener(IRefactoringListener listener);
-	
+
 	/**
 	 * Return list of the provided targets
 	 * 
 	 * @return list of the provided targets
 	 */
 	public IProviderTarget[] getProviderTargets();
-	
+
 	/**
 	 * @param object
 	 * @return
 	 */
-	public TargetAnnotationType[] getAnnotationTargets(Object object); 
-	
+	public TargetAnnotationType[] getAnnotationTargets(Object object);
+
 	/**
 	 * Return interface for refactoring support
 	 * 
 	 * @return
 	 */
 	public IRefactoringSupport getRefactoringSupport();
-	
+
 	/**
-	 * Add resource to the Annotation Framework storage 
+	 * Add resource to the Annotation Framework storage
 	 * 
 	 * @param resource
 	 * @param option
 	 */
 	public void addAnnotations(Resource resource, Mode option);
-	
+
 	/**
 	 * Remove resource from the Annotation Framework storage. If this resource
 	 * have some unsaved changes this changes should be CANCELED (for example,
-	 * because resource was deleted). 
+	 * because resource was deleted).
 	 * 
 	 * @param resource
 	 */
 	public void removeAnnotations(Resource resource);
-	
+
 	/**
-	 * Unregister resource from the Annotation Framework storage. If this resource
-	 * have some unsaved changes they should be performed when possible.
+	 * Unregister resource from the Annotation Framework storage. If this
+	 * resource have some unsaved changes they should be performed when
+	 * possible.
 	 * 
 	 * @param resource
 	 */
 	public void unregisterAnnotations(Resource resource);
-	
+
 	/**
 	 * @return true, if annotation can't be modified and false otherwise
 	 */
 	public boolean isReadOnly(Annotation annotation);
-	
+
 	/**
 	 * Return EMF package label or null if none
 	 * 
-	 * @param pckg package
+	 * @param pckg
+	 *            package
 	 * @return package label
 	 */
 	public String getPackageLabel(EPackage pckg);

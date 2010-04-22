@@ -449,7 +449,7 @@ public class AnnotationManager extends AnnotationStorage implements
 	 * (org.eclipse.tigerstripe.annotation.core.Annotation)
 	 */
 	public Object getAnnotatedObject(Annotation annotation) {
-		return getObject(annotation.getUri());
+		return getAnnotatedObject(annotation.getUri());
 	}
 
 	protected ProviderManager getProviderManager() {
@@ -629,7 +629,7 @@ public class AnnotationManager extends AnnotationStorage implements
 		}
 	}
 
-	public Object getObject(URI uri) {
+	public Object getAnnotatedObject(URI uri) {
 		ProviderContext[] providers = getProviderManager().getProviders();
 		for (ProviderContext providerContext : providers) {
 			IAnnotationProvider provider = providerContext.getProvider();
