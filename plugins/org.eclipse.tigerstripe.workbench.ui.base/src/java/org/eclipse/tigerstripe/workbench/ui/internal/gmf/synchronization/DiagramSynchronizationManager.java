@@ -30,11 +30,13 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequest;
 import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceHelper;
+import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceHelper.IResourceFilter;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.refactor.diagrams.DiagramSynchronizerController;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+
 
 /**
  * The Diagram Synchronization Manager is the heart of diagram synchronization.
@@ -103,8 +105,18 @@ public class DiagramSynchronizationManager extends
 		Collection<IResource> removedResources = new HashSet<IResource>();
 		Collection<IResource> changedResources = new HashSet<IResource>();
 		Collection<IResource> addedResources = new HashSet<IResource>();
+		IResourceFilter projectOnly = new IResourceFilter() {
+
+			public boolean select(IResource resource) {
+				if (!(resource instanceof IProject))
+					return false;
+				return true;
+			}
+
+		};
+
 		WorkspaceHelper.buildResourcesLists(event.getDelta(), removedResources,
-				changedResources, addedResources, null);
+				changedResources, addedResources, projectOnly);
 
 		checkProjectAdded(addedResources);
 		checkProjectRemoved(removedResources);

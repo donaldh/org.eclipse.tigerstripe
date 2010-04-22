@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.gmf.synchronization;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -39,11 +40,11 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListe
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceHelper;
+import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceHelper.IResourceFilter;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.preferences.ITigerstripePreferences;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.ClassDiagramLogicalNode;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.InstanceDiagramLogicalNode;
 import org.eclipse.ui.IEditorPart;
@@ -490,8 +491,21 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 		Collection<IResource> removedResources = new HashSet<IResource>();
 		Collection<IResource> changedResources = new HashSet<IResource>();
 		Collection<IResource> addedResources = new HashSet<IResource>();
+		// We only care about diagram  files 
+		IResourceFilter diagramFilesFilter = new IResourceFilter() {
+
+			public boolean select(IResource resource) {
+				if (!resource.getProject().equals(getProject()))
+					return false;
+				if (Arrays.asList(diagramFileExtensions).contains(resource.getFileExtension()))
+					return true;
+				return false;
+			}
+
+		};
+		
 		WorkspaceHelper.buildResourcesLists(event.getDelta(), removedResources,
-				changedResources, addedResources, null);
+				changedResources, addedResources, diagramFilesFilter);
 
 		try {
 			checkForAddedDiagrams(addedResources);

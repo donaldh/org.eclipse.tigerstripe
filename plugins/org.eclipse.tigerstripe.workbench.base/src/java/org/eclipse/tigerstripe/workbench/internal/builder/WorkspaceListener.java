@@ -46,6 +46,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetRef
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactDeleteRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
+import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceHelper.IResourceFilter;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.ProjectMigrationUtils;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeM0GeneratorNature;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripePluginProjectNature;
@@ -95,8 +96,19 @@ public class WorkspaceListener implements IElementChangedListener,
 		Collection<IResource> removedResources = new HashSet<IResource>();
 		Collection<IResource> changedResources = new HashSet<IResource>();
 		Collection<IResource> addedResources = new HashSet<IResource>();
+		
+		// Only Project and facets are of interest
+		IResourceFilter foldersOrFacetsOnly = new IResourceFilter() {
+
+			public boolean select(IResource resource) {
+				if (resource instanceof IProject)
+					return true;
+				return IContractSegment.FILE_EXTENSION.equals(resource.getFileExtension());
+			}
+
+		};
 		WorkspaceHelper.buildResourcesLists(event.getDelta(), removedResources,
-				changedResources, addedResources, null);
+				changedResources, addedResources, foldersOrFacetsOnly);
 
 		checkProjectAdded(addedResources);
 		checkProjectRemoved(removedResources);
@@ -318,9 +330,9 @@ public class WorkspaceListener implements IElementChangedListener,
 					IAbstractArtifact artifact = session
 							.getArtifactByFullyQualifiedName(fqn, false);
 					if (artifact != null) {
-						System.out.println(System.currentTimeMillis()
-								+ " Detected rename: " + extractFQN(fromUnit)
-								+ " to " + extractFQN(toUnit));
+//						System.out.println(System.currentTimeMillis()
+//								+ " Detected rename: " + extractFQN(fromUnit)
+//								+ " to " + extractFQN(toUnit));
 						TigerstripeRuntime.logInfoMessage("Detected rename: "
 								+ extractFQN(fromUnit) + " to "
 								+ extractFQN(toUnit));
