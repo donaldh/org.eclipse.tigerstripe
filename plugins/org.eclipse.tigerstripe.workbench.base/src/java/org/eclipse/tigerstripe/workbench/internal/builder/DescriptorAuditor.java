@@ -171,6 +171,12 @@ public class DescriptorAuditor {
 						projectDescriptor, 222);
 			}
 
+			if (details.getModelId() == null || "".equals(details.getModelId())) {
+				TigerstripeProjectAuditor.reportWarning("Project "
+						+ project.getName() + " has no 'modelID'",
+						projectDescriptor, 222);
+			}
+
 			// validate default artifact package is legal
 			String pack = details.getProperties().getProperty(
 					IProjectDetails.DEFAULTARTIFACTPACKAGE_PROP);
