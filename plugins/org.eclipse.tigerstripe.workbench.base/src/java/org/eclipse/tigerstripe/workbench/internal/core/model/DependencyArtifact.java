@@ -22,9 +22,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.metamodel.impl.IDependencyArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.artifacts.DependencyArtifactPersister;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -35,14 +33,13 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
-import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaField;
 
 public class DependencyArtifact extends AbstractArtifact implements
-		IDependencyArtifact, IRelationship, IActiveWorkbenchProfileChangeListener {
+		IDependencyArtifact, IRelationship {
 
 	private IRelationshipEnd aRelationshipEnd;
 
@@ -59,7 +56,6 @@ public class DependencyArtifact extends AbstractArtifact implements
 			+ AbstractArtifactTag.DEPENDENCY + "-zEnd";
 	
 
-private static boolean isRegistered = false;
 	
 	private static IAbstractArtifact[] suitableTypes;
 	private static List<Class> suitableTypesList;
@@ -123,10 +119,6 @@ private static boolean isRegistered = false;
 	}
 	
 	
-	public void profileChanged(IWorkbenchProfile newActiveProfile) {
-		suitableTypes = null;
-	}
-	
 	/**
 	 * The static MODEL for this type of artifact. This is used by the artifact
 	 * manager when extracting the artifacts.
@@ -136,11 +128,6 @@ private static boolean isRegistered = false;
 	public DependencyArtifact(ArtifactManager artifactMgr) {
 		super(artifactMgr);
 		setIStandardSpecifics(new StandardSpecifics(this));
-		if (! isRegistered){
-			TigerstripeCore
-				.getWorkbenchProfileSession().addActiveProfileListener(this);
-			isRegistered = true;
-		}
 	}
 
 	public DependencyArtifact(JavaClass javaClass, ArtifactManager artifactMgr,
@@ -149,11 +136,6 @@ private static boolean isRegistered = false;
 		StandardSpecifics specifics = new StandardSpecifics(this);
 		specifics.build();
 		setIStandardSpecifics(specifics);
-		if (! isRegistered){
-			TigerstripeCore
-				.getWorkbenchProfileSession().addActiveProfileListener(this);
-			isRegistered = true;
-		}
 	}
 
 	@Override

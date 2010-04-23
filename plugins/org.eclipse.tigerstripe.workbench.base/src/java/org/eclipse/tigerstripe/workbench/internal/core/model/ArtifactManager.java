@@ -27,9 +27,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -44,7 +41,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessio
 import org.eclipse.tigerstripe.workbench.internal.api.impl.QueryAllArtifacts;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IActiveFacetChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
-import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IPhantomTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -117,7 +113,7 @@ import com.thoughtworks.qdox.parser.ParseException;
  *         artifact.
  * 
  */
-public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
+public class ArtifactManager  {
 
 	private final static int DEFAULT_BROADCASTMASK = IArtifactChangeListener.NOTIFY_ALL;
 
@@ -221,13 +217,6 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 	public ArtifactManager(TigerstripeProject tsProject) {
 		this.tsProject = tsProject;
 		initManager();
-
-		// Register for changes in the profile... except for the Phantom project
-		// artifact mgr!
-		if (!(tsProject instanceof PhantomTigerstripeProject)) {
-			TigerstripeCore.getWorkbenchProfileSession()
-					.addActiveProfileListener(this);
-		}
 	}
 
 	private void clearExtractedMap() {
@@ -1393,6 +1382,7 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 			IAbstractArtifact oldArtifact) {
 		// FIXME: the notification should really be coming from the refresh
 		// based on what was actually reloaded?
+System.out.println("Notify Artifact Changed "+artifact.getFullyQualifiedName() );
 		Lock lreadLock = listenersLock.readLock();
 		try {
 			lreadLock.lock();
@@ -2027,22 +2017,6 @@ public class ArtifactManager implements IActiveWorkbenchProfileChangeListener {
 		}
 	}
 
-	public void profileChanged(IWorkbenchProfile newActiveProfile) {
-		try {
-			writeLock.lock();
-			initManager();
-			refresh(true, new NullProgressMonitor());
-		} finally {
-			writeLock.unlock();
-			try {
-				((IProject) getTSProject().getAdapter(IProject.class)).build(
-						IncrementalProjectBuilder.FULL_BUILD,
-						new NullProgressMonitor());
-			} catch (CoreException e) {
-				TigerstripeRuntime.logErrorMessage("CoreException detected", e);
-			}
-		}
-	}
 
 	public List<IRelationship> getOriginatingRelationshipForFQN(String fqn,
 			boolean includeProjectDependencies) throws TigerstripeException {

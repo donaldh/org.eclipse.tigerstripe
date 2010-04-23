@@ -25,7 +25,6 @@ import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
@@ -44,9 +43,9 @@ import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaField;
 
 public class AssociationEnd extends ArtifactComponent implements
-		IAssociationEnd, IActiveWorkbenchProfileChangeListener {
+		IAssociationEnd {
 
-private static boolean isRegistered = false;
+
 	
 	private static IAbstractArtifact[] suitableTypes;
 	private static List<Class> suitableTypesList;
@@ -119,9 +118,6 @@ private static boolean isRegistered = false;
 	}
 	
 	
-	public void profileChanged(IWorkbenchProfile newActiveProfile) {
-		suitableTypes = null;
-	}
 	
 	public String getLabel() {
 		return "Association End";
@@ -151,21 +147,13 @@ private static boolean isRegistered = false;
 
 	public AssociationEnd(ArtifactManager artifactMgr) {
 		super(artifactMgr);
-		if (! isRegistered){
-			TigerstripeCore
-				.getWorkbenchProfileSession().addActiveProfileListener(this);
-			isRegistered = true;
-		}
+		
 	}
 
 	public AssociationEnd(JavaField field, ArtifactManager artifactMgr) {
 		this(artifactMgr);
 		buildModel(field);
-		if (! isRegistered){
-			TigerstripeCore
-				.getWorkbenchProfileSession().addActiveProfileListener(this);
-			isRegistered = true;
-		}
+		
 	}
 
 	public void setAggregation(EAggregationEnum aggregation) {

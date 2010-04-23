@@ -53,11 +53,6 @@ public class ModuleArtifactManager extends ArtifactManager {
 		return this.moduleModel;
 	}
 
-	@Override
-	public synchronized void profileChanged(IWorkbenchProfile newActiveProfile) {
-		// IGNORE for modules
-	}
-
 	public void addTemporaryDependency(IDependency dependency)
 			throws TigerstripeException {
 		temporaryDependencies.add(dependency);

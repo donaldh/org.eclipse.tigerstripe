@@ -29,7 +29,6 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IGlobalSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -40,7 +39,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.Global
 import org.eclipse.tigerstripe.workbench.internal.core.util.MatchedConfigHousing;
 import org.eclipse.tigerstripe.workbench.internal.core.util.OSGIRef;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ZipFileUnzipper;
-import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.Version;
@@ -51,7 +49,7 @@ import org.osgi.framework.Version;
  * The plugin manager (singleton) manages all plugin housings
  * 
  */
-public class PluginManager implements IActiveWorkbenchProfileChangeListener {
+public class PluginManager  {
 	
 	private static boolean osgiVersioning;
 
@@ -70,9 +68,6 @@ public class PluginManager implements IActiveWorkbenchProfileChangeListener {
 
 	private PluginManager() {
 		this.housings = new ArrayList<PluginHousing>();
-		TigerstripeCore.getWorkbenchProfileSession().addActiveProfileListener(
-				this);
-		
 	}
 
 	public static boolean isOsgiVersioning() {
@@ -336,9 +331,6 @@ public class PluginManager implements IActiveWorkbenchProfileChangeListener {
 			this.housings.remove(housing);
 	}
 
-	public void profileChanged(IWorkbenchProfile newActiveProfile) {
-		load();
-	}
 
 
 	/*

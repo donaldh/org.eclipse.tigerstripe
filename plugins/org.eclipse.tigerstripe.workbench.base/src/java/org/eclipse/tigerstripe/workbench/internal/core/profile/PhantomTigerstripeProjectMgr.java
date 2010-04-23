@@ -29,7 +29,6 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
-import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
@@ -45,8 +44,7 @@ import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef
  * @author Eric Dillon
  * @since 1.2
  */
-public class PhantomTigerstripeProjectMgr implements
-		IActiveWorkbenchProfileChangeListener {
+public class PhantomTigerstripeProjectMgr {
 
 	private static PhantomTigerstripeProjectMgr instance;
 
@@ -55,10 +53,6 @@ public class PhantomTigerstripeProjectMgr implements
 	private boolean needACompile = false;
 
 	private PhantomTigerstripeProjectMgr() {
-		// register self as a listener for Active profile changes so we can
-		// update the phantom project accordingly
-		TigerstripeCore.getWorkbenchProfileSession().addActiveProfileListener(
-				this);
 	}
 
 	public static PhantomTigerstripeProjectMgr getInstance() {
@@ -78,18 +72,6 @@ public class PhantomTigerstripeProjectMgr implements
 		return phantomProject;
 	}
 
-	public synchronized void profileChanged(IWorkbenchProfile newActiveProfile) {
-		try {
-			// invalidate current phantom project and rebuild
-			// NOTE: the project itself doesn't change, it's content does.
-			createPhantomProject();
-			populateFromProfile(new NullProgressMonitor()); // FIXME
-			createJarForEclipsePath();
-		} catch (TigerstripeException e) {
-			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
-					e);
-		}
-	}
 
 	/**
 	 * Creates and populate the phantom project based on the current active

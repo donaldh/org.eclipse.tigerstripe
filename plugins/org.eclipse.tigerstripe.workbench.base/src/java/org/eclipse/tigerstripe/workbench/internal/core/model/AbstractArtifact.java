@@ -625,17 +625,17 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 			} else {
 
-				if (this.getProject() != null
-						&& !getPackage().equals("primitive")) {
-					IArtifactManagerSession mgr = this.getProject()
-							.getArtifactManagerSession();
-					PackageArtifact newPackageArtifact = PackageArtifact
-							.makeVolatileArtifactForPackage(mgr, getPackage());
-					mgr.addArtifact(newPackageArtifact);
-					this.setContainingModelComponent(newPackageArtifact);
-					newPackageArtifact.addContainedModelComponent(this);
-
-				}
+//				if (this.getProject() != null
+//						&& !getPackage().equals("primitive")) {
+//					IArtifactManagerSession mgr = this.getProject()
+//							.getArtifactManagerSession();
+//					PackageArtifact newPackageArtifact = PackageArtifact
+//							.makeVolatileArtifactForPackage(mgr, getPackage());
+//					mgr.addArtifact(newPackageArtifact);
+//					this.setContainingModelComponent(newPackageArtifact);
+//					newPackageArtifact.addContainedModelComponent(this);
+//
+//				}
 
 			}
 		}

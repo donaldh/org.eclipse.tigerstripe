@@ -12,7 +12,6 @@ package org.eclipse.tigerstripe.workbench.internal.api.patterns;
 
 import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
-import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -38,12 +37,10 @@ import org.eclipse.core.runtime.IContributor;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.ModelChangeRequestFactory;
-import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.xml.TigerstripeXMLParserUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
@@ -78,7 +75,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileChangeListener {
+public class PatternFactory implements IPatternFactory {
 
 	private static String NEW_MENU_NAME= "org.eclipse.tigerstripe.workbench.ui.menu.new";
 	
@@ -87,31 +84,6 @@ public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileC
 	private static AbstractContributionFactory artifactPatternToolbarDropDownsAddition;
 	private static AbstractContributionFactory projectPatternToolbarAddition;
 	private static AbstractContributionFactory projectPatternToolbarDropDownsAddition;
-	
-	public void profileChanged(IWorkbenchProfile newActiveProfile) {
-		final IMenuService menuService = (IMenuService) PlatformUI.getWorkbench()
-			.getService(IMenuService.class);
-		if (Display.getDefault() != null) { 
-			Display.getDefault().asyncExec(new Runnable() {                
-				public void run() {                    
-					menuService.removeContributionFactory(artifactPatternMenuAddition);
-					menuService.removeContributionFactory(artifactPatternToolbarAddition);
-					menuService.removeContributionFactory(artifactPatternToolbarDropDownsAddition);
-					menuService.removeContributionFactory(projectPatternToolbarAddition);
-					menuService.removeContributionFactory(projectPatternToolbarDropDownsAddition); 
-					addPatternMenuContribution();
-				}                            
-			});        
-
-		}
-
-
-
-	}
-
-
-
-
 	private static PatternFactory instance = null;
 	private static Map<String,IPattern> discoveredPatterns = new HashMap<String,IPattern>();
 	private static Map<String,IPattern> registeredPatterns = new LinkedHashMap<String,IPattern>();
@@ -208,8 +180,7 @@ public class PatternFactory implements IPatternFactory, IActiveWorkbenchProfileC
 				BasePlugin.logErrorMessage("Failed to instantiate creation Patterns");
 				BasePlugin.log(e);
 			}
-			TigerstripeCore
-			.getWorkbenchProfileSession().addActiveProfileListener(instance);
+
 		}
 
 		return instance;

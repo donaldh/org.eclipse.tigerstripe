@@ -12,7 +12,6 @@ package org.eclipse.tigerstripe.workbench.ui.internal.handlers;
 
 import org.eclipse.core.expressions.PropertyTester;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
-import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
@@ -29,7 +28,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 
-public class EnabledArtifactType extends PropertyTester implements IActiveWorkbenchProfileChangeListener {
+public class EnabledArtifactType extends PropertyTester  {
 
 	private static final String ENTITY_ENABLED   = "entityEnabled";
 	private static final String EVENT_ENABLED = "eventEnabled";
@@ -69,15 +68,7 @@ public class EnabledArtifactType extends PropertyTester implements IActiveWorkbe
 		prop = (CoreArtifactSettingsProperty) profile
 			.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
 		setFlags();
-		TigerstripeCore
-		.getWorkbenchProfileSession().addActiveProfileListener(this);
-	}
-
-	public void profileChanged(IWorkbenchProfile newActiveProfile) {
-		prop = (CoreArtifactSettingsProperty) newActiveProfile
-		.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
-		setFlags();
-
+		
 	}
 
 	private void setFlags(){

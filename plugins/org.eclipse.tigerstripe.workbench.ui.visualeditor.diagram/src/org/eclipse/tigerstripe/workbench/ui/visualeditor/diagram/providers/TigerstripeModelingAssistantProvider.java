@@ -35,7 +35,6 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.patterns.PatternFactory;
-import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IGlobalSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
@@ -55,10 +54,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.patterns.IArtifactPattern;
-import org.eclipse.tigerstripe.workbench.patterns.INodePattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
-import org.eclipse.tigerstripe.workbench.patterns.IRelationPattern;
-import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.gmf.TigerstripeShapeNodeEditPart;
@@ -83,7 +79,7 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
  * @generated
  */
 public class TigerstripeModelingAssistantProvider extends
-		ModelingAssistantProvider implements IActiveWorkbenchProfileChangeListener{
+		ModelingAssistantProvider {
 
 	private static List<IHintedType> customAssociationNodeTypes = null;
 	public static List<IHintedType> getCustomAssociationNodeTypes() {
@@ -116,7 +112,6 @@ public class TigerstripeModelingAssistantProvider extends
 		return dependencyTypes;
 	}
 
-	private boolean isRegistered = false;
 	
 	private static void setTypes(){
 		customRelationTypes = new ArrayList<IHintedType>();
@@ -188,24 +183,11 @@ public class TigerstripeModelingAssistantProvider extends
 		}
 	}
 	
-	
-	
-	
-	public void profileChanged(IWorkbenchProfile newActiveProfile) {
-		customRelationTypes = null;
-		customAssociationNodeTypes = null;
-		customDependencyNodeTypes = null;
-	}
 
 
 
 	public TigerstripeModelingAssistantProvider() {
 		super();
-		if (! isRegistered){
-			TigerstripeCore
-				.getWorkbenchProfileSession().addActiveProfileListener(this);
-			isRegistered = true;
-		}
 	}
 
 

@@ -15,13 +15,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IContributor;
@@ -33,7 +30,6 @@ import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.WorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.internal.core.util.FileUtils;
@@ -385,20 +381,8 @@ public class WorkbenchProfileSession implements IWorkbenchProfileSession {
 	}
 
 	private void activeProfileChanged() {
-		Object[] listeners = activeProfileListeners.getListeners();
-		for (Object listener : listeners) {
-			((IActiveWorkbenchProfileChangeListener) listener)
-					.profileChanged(getActiveProfile());
-		}
+		// Don't do anything anymore - no listeners!
 	}
 
-	public void addActiveProfileListener(
-			IActiveWorkbenchProfileChangeListener listener) {
-		activeProfileListeners.add(listener);
-	}
 
-	public void removeActiveProfileListener(
-			IActiveWorkbenchProfileChangeListener listener) {
-		activeProfileListeners.remove(listener);
-	}
 }

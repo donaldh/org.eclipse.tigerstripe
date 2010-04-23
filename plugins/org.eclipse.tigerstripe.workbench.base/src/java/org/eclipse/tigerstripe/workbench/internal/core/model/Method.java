@@ -28,7 +28,6 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
-import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IGlobalSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
@@ -68,10 +67,7 @@ import com.thoughtworks.qdox.model.JavaParameter;
  *         TODO To change the template for this generated type comment go to
  *         Window - Preferences - Java - Code Style - Code Templates
  */
-public class Method extends ArtifactComponent implements IOssjMethod,
-		IActiveWorkbenchProfileChangeListener {
-
-	private static boolean isRegistered = false;
+public class Method extends ArtifactComponent implements IOssjMethod {
 
 	private static IAbstractArtifact[] suitableTypes;
 
@@ -108,10 +104,6 @@ public class Method extends ArtifactComponent implements IOssjMethod,
 		}
 
 		suitableTypes = suitableModelsList.toArray(new IAbstractArtifact[0]);
-	}
-
-	public void profileChanged(IWorkbenchProfile newActiveProfile) {
-		suitableTypes = null;
 	}
 
 	public String getLabel() {
@@ -294,11 +286,6 @@ public class Method extends ArtifactComponent implements IOssjMethod,
 
 		setDefaultFlavors();
 		setDefaultProperties();
-		if (!isRegistered) {
-			TigerstripeCore.getWorkbenchProfileSession()
-					.addActiveProfileListener(this);
-			isRegistered = true;
-		}
 	}
 
 	public int getReturnRefBy() {
@@ -363,11 +350,6 @@ public class Method extends ArtifactComponent implements IOssjMethod,
 		this.exceptions = new ArrayList();
 		this.ossjMethodProperties = new Properties();
 		buildModel(method);
-		if (!isRegistered) {
-			TigerstripeCore.getWorkbenchProfileSession()
-					.addActiveProfileListener(this);
-			isRegistered = true;
-		}
 	}
 
 	public void setReturnName(String methodReturnName) {

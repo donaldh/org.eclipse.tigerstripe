@@ -17,13 +17,10 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.project.IProjectDependencyChangeListener;
 import org.eclipse.tigerstripe.workbench.project.IProjectDependencyDelta;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -44,8 +41,7 @@ import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
  * @author erdillon
  * 
  */
-public class ModelAuditorHelper implements
-		IActiveWorkbenchProfileChangeListener, IProjectDependencyChangeListener {
+public class ModelAuditorHelper implements IProjectDependencyChangeListener {
 
 	private boolean isInitialized = false;
 
@@ -67,8 +63,7 @@ public class ModelAuditorHelper implements
 
 	public ModelAuditorHelper(ITigerstripeModelProject project) {
 		this.project = project;
-		TigerstripeCore.getWorkbenchProfileSession().addActiveProfileListener(
-				this);
+
 		project.addProjectDependencyChangeListener(this);
 	}
 
@@ -76,10 +71,6 @@ public class ModelAuditorHelper implements
 		return this.project;
 	}
 
-	public void profileChanged(IWorkbenchProfile newActiveProfile) {
-		// upon profile change
-		reset();
-	}
 
 	public void reset() {
 		isInitialized = false;

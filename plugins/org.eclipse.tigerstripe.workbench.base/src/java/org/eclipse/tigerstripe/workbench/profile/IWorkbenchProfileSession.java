@@ -11,7 +11,6 @@
 package org.eclipse.tigerstripe.workbench.profile;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
 
 /**
  * Session facade to access IWorkbenchProfiles, edit and create them
@@ -110,22 +109,5 @@ public interface IWorkbenchProfileSession {
 	 * @return true if it is possible to rollback to the previous active profile
 	 */
 	public boolean canRollback();
-
-	/**
-	 * Registers a listener that will be called back each time the active
-	 * profile changes
-	 * 
-	 * @param listener
-	 */
-	public void addActiveProfileListener(
-			IActiveWorkbenchProfileChangeListener listener);
-
-	/**
-	 * Un-registers the given listener from the list of active profile listeners
-	 * 
-	 * @param listener
-	 */
-	public void removeActiveProfileListener(
-			IActiveWorkbenchProfileChangeListener listener);
 
 }

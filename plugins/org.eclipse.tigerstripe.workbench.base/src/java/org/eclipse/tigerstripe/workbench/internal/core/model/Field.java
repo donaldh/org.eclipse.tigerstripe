@@ -23,7 +23,6 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.profile.IActiveWorkbenchProfileChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -45,9 +44,8 @@ import com.thoughtworks.qdox.model.JavaField;
  * 
  * @author Eric Dillon
  */
-public class Field extends ArtifactComponent implements IField, IActiveWorkbenchProfileChangeListener {
+public class Field extends ArtifactComponent implements IField{
 
-	private static boolean isRegistered = false;
 	
 	private static IAbstractArtifact[] suitableTypes;
 	
@@ -88,9 +86,6 @@ public class Field extends ArtifactComponent implements IField, IActiveWorkbench
 	}
 	
 	
-	public void profileChanged(IWorkbenchProfile newActiveProfile) {
-		suitableTypes = null;
-	}
 
 	public String getLabel() {
 		return "Field";
@@ -161,21 +156,12 @@ public class Field extends ArtifactComponent implements IField, IActiveWorkbench
 
 	public Field(ArtifactManager artifactMgr) {
 		super(artifactMgr);
-		if (! isRegistered){
-			TigerstripeCore
-				.getWorkbenchProfileSession().addActiveProfileListener(this);
-			isRegistered = true;
-		}
 	}
 
 	public Field(JavaField field, ArtifactManager artifactMgr) {
 		this(artifactMgr);
 		buildModel(field);
-		if (! isRegistered){
-			TigerstripeCore
-			.getWorkbenchProfileSession().addActiveProfileListener(this);
-			isRegistered = true;
-		}
+
 	}
 
 	private void buildModel(JavaField field) {
