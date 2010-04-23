@@ -17,6 +17,11 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -25,6 +30,7 @@ import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.ChangeModelIDDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.DescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.TigerstripeDescriptorSectionPart;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
@@ -112,15 +118,37 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 	}
 
 	private void createId(Composite parent, FormToolkit toolkit) {
-		TableWrapData td = null;
-
 		modelIdLabel = toolkit.createLabel(parent, "Id: ", SWT.WRAP);
-		modelIdText = toolkit.createText(parent, "");
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		modelIdText.setLayoutData(td);
-		modelIdText.addModifyListener(new GeneralInfoPageListener());
-		modelIdText.setEnabled(!this.isReadonly());
 		modelIdLabel.setEnabled(!this.isReadonly());
+
+		boolean changeAbility = !this.isReadonly();
+		Composite panel = new Composite(parent, SWT.NONE);
+		GridLayout layout = new GridLayout();
+		layout.horizontalSpacing = 0;
+		layout.verticalSpacing = 0;
+		layout.marginHeight = 0;
+		layout.marginWidth = 0;
+		layout.numColumns = changeAbility ? 2 : 1;
+		panel.setLayout(layout);
+		panel.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+
+		modelIdText = toolkit.createText(panel, "");
+		modelIdText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		modelIdText.setEnabled(false);
+
+		if (changeAbility) {
+			final Button button = toolkit.createButton(panel, "Change...",
+					SWT.PUSH);
+			button.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					ChangeModelIDDialog dialog = new ChangeModelIDDialog(button
+							.getShell(), getTSProject());
+					dialog.open();
+					refresh();
+				}
+			});
+		}
 	}
 
 	private void createVersion(Composite parent, FormToolkit toolkit) {
@@ -185,10 +213,6 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 				if (e.getSource() == versionText) {
 					IProjectDetails details = handle.getProjectDetails();
 					details.setVersion(versionText.getText().trim());
-					handle.setProjectDetails(details);
-				} else if (e.getSource() == modelIdText) {
-					IProjectDetails details = handle.getProjectDetails();
-					details.setModelId(modelIdText.getText().trim());
 					handle.setProjectDetails(details);
 				} else if (e.getSource() == descriptionText) {
 					IProjectDetails details = handle.getProjectDetails();

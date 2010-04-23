@@ -23,7 +23,6 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IContributor;
 import org.eclipse.core.runtime.IExtension;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Platform;
@@ -44,7 +43,6 @@ import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.patterns.PatternFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationEnd;
 import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact.DependencyEnd;
-import org.eclipse.tigerstripe.workbench.internal.core.profile.WorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
@@ -97,8 +95,6 @@ public class EclipsePlugin extends AbstractUIPlugin {
 		plugin = this;
 	}
 
-
-	
 	public static Shell getActiveWorkbenchShell() {
 		IWorkbenchWindow window = getActiveWorkbenchWindow();
 		if (window != null)
@@ -130,7 +126,7 @@ public class EclipsePlugin extends AbstractUIPlugin {
 		// This is necessary to make sure the extension point is read
 		// and menu contributions added
 		PatternFactory.getInstance();
-		
+
 		checkForFactoryProfile();
 	}
 
@@ -253,14 +249,15 @@ public class EclipsePlugin extends AbstractUIPlugin {
 	}
 
 	public static void log(Throwable e) {
+		log(getStatus(e));
+	}
 
+	public static IStatus getStatus(Throwable e) {
 		if (e instanceof TigerstripeException) {
 			TigerstripeException tse = (TigerstripeException) e;
 			if (tse.getException() == null) {
-				IStatus status = new Status(IStatus.ERROR, getPluginId(), 222,
+				return new Status(IStatus.ERROR, getPluginId(), 222,
 						"Internal Error", tse); //$NON-NLS-1$
-				log(status);
-				return;
 			} else {
 				MultiStatus mStatus = new MultiStatus(getPluginId(), 222,
 						"Internal Error", e);
@@ -278,15 +275,12 @@ public class EclipsePlugin extends AbstractUIPlugin {
 						break;
 					}
 				}
-				log(mStatus);
-				return;
+				return mStatus;
 			}
 		} else {
 			if (e.getCause() == null) {
-				IStatus status = new Status(IStatus.ERROR, getPluginId(), 222,
+				return new Status(IStatus.ERROR, getPluginId(), 222,
 						"Internal Error", e); //$NON-NLS-1$
-				log(status);
-				return;
 			} else {
 				MultiStatus mStatus = new MultiStatus(getPluginId(), 222,
 						"Internal Error", e);
@@ -304,8 +298,7 @@ public class EclipsePlugin extends AbstractUIPlugin {
 						break;
 					}
 				}
-				log(mStatus);
-				return;
+				return mStatus;
 			}
 		}
 	}
@@ -553,28 +546,36 @@ public class EclipsePlugin extends AbstractUIPlugin {
 		return section;
 	}
 
-	
-	private void checkForFactoryProfile(){
+	private void checkForFactoryProfile() {
 
 		try {
-			IConfigurationElement[] elements  = Platform.getExtensionRegistry()
-			.getConfigurationElementsFor("org.eclipse.tigerstripe.workbench.base.defaultProfile");
+			IConfigurationElement[] elements = Platform
+					.getExtensionRegistry()
+					.getConfigurationElementsFor(
+							"org.eclipse.tigerstripe.workbench.base.defaultProfile");
 
+			for (IConfigurationElement element : elements) {
+				if (element.getName().equals("profile")) {
+					String checkONStartupString = element
+							.getAttribute("checkOnStartup");
+					String profileFileName = element
+							.getAttribute("profileFile");
+					IContributor contributor = ((IExtension) element
+							.getParent()).getContributor();
 
-			for (IConfigurationElement element : elements){
-				if (element.getName().equals("profile")){
-					String checkONStartupString   = element.getAttribute("checkOnStartup");
-					String profileFileName  = element.getAttribute("profileFile");
-					IContributor contributor = ((IExtension) element.getParent()).getContributor();
-
-					if (elements.length > 1){
-						BasePlugin.logErrorMessage("More than one contribution to " +
-								"defaultProfile Extension Point : "+
-								"using "+profileFileName+ " from "+contributor.getName());
+					if (elements.length > 1) {
+						BasePlugin
+								.logErrorMessage("More than one contribution to "
+										+ "defaultProfile Extension Point : "
+										+ "using "
+										+ profileFileName
+										+ " from "
+										+ contributor.getName());
 					}
 
-					if (checkONStartupString != null){
-						Boolean checkONStartup = Boolean.parseBoolean(checkONStartupString);
+					if (checkONStartupString != null) {
+						Boolean checkONStartup = Boolean
+								.parseBoolean(checkONStartupString);
 						if (checkONStartup) {
 
 						} else {
@@ -583,37 +584,43 @@ public class EclipsePlugin extends AbstractUIPlugin {
 					}
 					// Need to get the file from the contributing plugin
 
-
-					Bundle bundle = org.eclipse.core.runtime.Platform.getBundle(contributor.getName());
+					Bundle bundle = org.eclipse.core.runtime.Platform
+							.getBundle(contributor.getName());
 					File bundleFile = FileLocator.getBundleFile(bundle);
 					String bundleRoot = bundleFile.getAbsolutePath();
-					String pathname = bundleRoot+File.separator+profileFileName;
+					String pathname = bundleRoot + File.separator
+							+ profileFileName;
 					System.out.println(pathname);
-					IWorkbenchProfileSession session = TigerstripeCore.getWorkbenchProfileSession();
-					IWorkbenchProfile contributedProfile = session.getWorkbenchProfileFor(pathname);
-					IWorkbenchProfile activeProfile = session.getActiveProfile();
-					
-					if (!contributedProfile.equals(activeProfile)){
-						// Prompt the user 
-						MessageBox box = new MessageBox(getActiveWorkbenchShell(),SWT.YES | SWT.NO);
+					IWorkbenchProfileSession session = TigerstripeCore
+							.getWorkbenchProfileSession();
+					IWorkbenchProfile contributedProfile = session
+							.getWorkbenchProfileFor(pathname);
+					IWorkbenchProfile activeProfile = session
+							.getActiveProfile();
+
+					if (!contributedProfile.equals(activeProfile)) {
+						// Prompt the user
+						MessageBox box = new MessageBox(
+								getActiveWorkbenchShell(), SWT.YES | SWT.NO);
 						box.setText("Tigerstipe profile not set to default");
-						box.setMessage("The current Tigerstipe profile is not that set in the default for this installation.\n Do you wish to return to defaults?");
-						
+						box
+								.setMessage("The current Tigerstipe profile is not that set in the default for this installation.\n Do you wish to return to defaults?");
+
 						int selection = box.open();
-						if (selection == SWT.YES){
-							ProfileDetailsDialog.internalDeploy(getActiveWorkbenchShell(), pathname);
+						if (selection == SWT.YES) {
+							ProfileDetailsDialog.internalDeploy(
+									getActiveWorkbenchShell(), pathname);
 						}
 					}
-					
-					
-					break; // IN case > 1!
 
+					break; // IN case > 1!
 
 				}
 			}
 
-		}catch (Exception e ){
-			BasePlugin.logErrorMessage("Failed to correctly load defaultProfile from Extension Point");
+		} catch (Exception e) {
+			BasePlugin
+					.logErrorMessage("Failed to correctly load defaultProfile from Extension Point");
 			BasePlugin.log(e);
 
 		}

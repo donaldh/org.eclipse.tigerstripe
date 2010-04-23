@@ -204,6 +204,7 @@ public class ProjectDetails extends BaseContainerObject implements
 	}
 
 	public void setModelId(String modelId) {
+		markDirty();
 		this.modelId = modelId;
 	}
 

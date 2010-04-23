@@ -116,7 +116,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 			return null;
 
 		IPath path = new Path(uri.path());
-		if (path.segmentCount() < 2 && !path.segment(1).equals("diagram"))
+		if (path.segmentCount() < 2 || !path.segment(1).equals("diagram"))
 			return null;
 
 		ITigerstripeModelProject project = TigerstripeCore
