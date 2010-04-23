@@ -271,19 +271,15 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 								"Save as Active Profile",
 								"You are about to set this profile ('"
 										+ handle.getName()
-										+ "') as the active profile. All open editors will be closed.\n\nDo you want to continue?\n\n(You will be able to rollback to the current active profile).  ")) {
-
+										+ "') as the active profile. \n\nThis will restart the workbench.\n\nDo you want to continue?\n\n(You will be able to rollback to the current active profile).  ")) {
+					
 					IRunnableWithProgress op = new IRunnableWithProgress() {
 						public void run(IProgressMonitor monitor) {
 							try {
 								monitor.beginTask(
-										"Deploying new Active Profile", 10);
+										"Deploying new Active Profile", 2);
 
-								monitor.subTask("Closing all editors");
-								EditorHelper.closeAllEditors(true, true, false,
-										false, true);
-								monitor.worked(2);
-
+								
 								IWorkbenchProfileSession session = TigerstripeCore
 										.getWorkbenchProfileSession();
 								monitor.subTask("Creating Profile");
@@ -311,35 +307,14 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 						ProgressMonitorDialog dialog = new ProgressMonitorDialog(
 								shell);
 						dialog.run(true, false, op);
+						IWorkbench workbench = PlatformUI.getWorkbench();
+						workbench.restart();
 					} catch (InterruptedException e) {
 						EclipsePlugin.log(e);
 					} catch (InvocationTargetException e) {
 						EclipsePlugin.log(e);
 					}
 
-					String rollbackStr = "";
-					if (rollbackCreated) {
-						rollbackStr = "\n\n(A rollback file was successfully created)";
-					}
-
-					if (operationSucceeded) {
-						MessageDialog
-								.openInformation(
-										getBody().getShell(),
-										"Success",
-										"Profile '"
-												+ handle.getName()
-												+ "' is now the active profile for this instance of Tigerstripe Workbench.\n\nWorkbench is now ready to be used with this new active profile."
-												+ rollbackStr);
-
-					} else {
-						MessageDialog
-								.openError(
-										getBody().getShell(),
-										"Error while setting active Profile",
-										"An error occured while trying to set the active profile:\n"
-												+ "Please check the Error Log for more details");
-					}
 				}
 
 			} catch (TigerstripeException e) {
@@ -404,18 +379,14 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 					.openConfirm(
 							getBody().getShell(),
 							"Rollback to previous Active Profile",
-							"You are about to rollback to the previous active profile.\nAll open editors will be closed.\n\nDo you want to continue?\n\n(You will be able to rollback to the current active profile).  ")) {
-
+							"You are about to rollback to the previous active profile.\n\nThis will restart the workbench.\n\nDo you want to continue?\n\n(You will be able to rollback to the current active profile).  ")) {
+				
 				IRunnableWithProgress op = new IRunnableWithProgress() {
 					public void run(IProgressMonitor monitor) {
 						try {
-							monitor.beginTask("Rolling back...", 10);
+							monitor.beginTask("Rolling back...", 2);
 
-							monitor.subTask("Closing all editors");
-							EditorHelper.closeAllEditors(true, true, false,
-									false, true);
-							monitor.worked(2);
-
+							
 							monitor
 									.subTask("Rolling back to previous active profile");
 							rProfile = null;
@@ -441,25 +412,14 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 					ProgressMonitorDialog dialog = new ProgressMonitorDialog(
 							shell);
 					dialog.run(true, false, op);
+					IWorkbench workbench = PlatformUI.getWorkbench();
+					workbench.restart();
 				} catch (InterruptedException e) {
 					EclipsePlugin.log(e);
 				} catch (InvocationTargetException e) {
 					EclipsePlugin.log(e);
 				}
 
-				if (operationSucceeded) {
-					MessageDialog.openInformation(getBody().getShell(),
-							"Active Profile Rollback",
-							"The active profile was successfully rolled-back to '"
-									+ rProfile.getName() + "'.");
-				} else {
-					MessageDialog
-							.openError(
-									getBody().getShell(),
-									"Error while rolling back active Profile",
-									"An error occured while trying to rollback the active profile.\n"
-											+ "Please check the Error Log for more details");
-				}
 			}
 		}
 	}
@@ -478,17 +438,12 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 					.openConfirm(
 							getBody().getShell(),
 							"Reset Active profile to Factory Defaults?",
-							"You are about to reset the active profile to factory defaults.\nAll open editors will be closed.\n\nDo you want to continue?\n\n(You will be able to rollback to the current active profile).  ")) {
+							"You are about to reset the active profile to factory defaults.\n\nThis will restart the workbench.\n\nDo you want to continue?\n\n(You will be able to rollback to the current active profile).  ")) {
 
 				IRunnableWithProgress op = new IRunnableWithProgress() {
 					public void run(IProgressMonitor monitor) {
 						try {
-							monitor.beginTask("Resetting profile...", 10);
-
-							monitor.subTask("Closing all editors");
-							EditorHelper.closeAllEditors(true, true, false,
-									false, true);
-							monitor.worked(2);
+							monitor.beginTask("Resetting profile...", 2);
 
 							monitor
 									.subTask("Resetting profile to factory defaults");
@@ -516,27 +471,14 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 					ProgressMonitorDialog dialog = new ProgressMonitorDialog(
 							shell);
 					dialog.run(true, false, op);
+					IWorkbench workbench = PlatformUI.getWorkbench();
+					workbench.restart();
 				} catch (InterruptedException e) {
 					EclipsePlugin.log(e);
 				} catch (InvocationTargetException e) {
 					EclipsePlugin.log(e);
 				}
 
-				if (operationSucceeded) {
-					if (rollbackCreated) {
-					}
-					MessageDialog
-							.openInformation(getBody().getShell(),
-									"Active Profile Rollback",
-									"The active profile was successfully reset to factory defaults");
-				} else {
-					MessageDialog
-							.openError(
-									getBody().getShell(),
-									"Error while reseting active Profile",
-									"An error occured while trying to reset the active profile to factory defaults:\n"
-											+ "Please check the Error Log for more details");
-				}
 			}
 		}
 	}

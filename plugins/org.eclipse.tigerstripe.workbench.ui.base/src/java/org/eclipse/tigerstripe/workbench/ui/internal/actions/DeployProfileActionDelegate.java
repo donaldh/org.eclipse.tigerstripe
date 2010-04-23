@@ -43,26 +43,17 @@ public class DeployProfileActionDelegate extends BaseProfileActionDelegate
 						"Save as Active Profile",
 						"You are about to set this profile ('"
 								+ handle.getName()
-								+ "') as the active profile. All open editors will be closed.\n\nDo you want to continue?\n\n(You will be able to rollback to the current active profile).  ")) {
-
+								+ "') as the active profile.\n\nThis will restart the workbench.\n\nDo you want to continue?\n\n(You will be able to rollback to the current active profile).  ")) {
+			
 			IRunnableWithProgress op = new IRunnableWithProgress() {
 				public void run(IProgressMonitor monitor) {
 					try {
-						monitor.beginTask("Deploying new Active Profile", 10);
-
-						monitor.subTask("Closing all editors");
-						EditorHelper.closeAllEditors(true, true, false, false,
-								true);
-						monitor.worked(2);
+						monitor.beginTask("Deploying new Active Profile", 2);
 
 						IWorkbenchProfileSession session = TigerstripeCore
 								.getWorkbenchProfileSession();
-						monitor.subTask("Creating Profile");
-
 						rollbackCreated = session.saveAsActiveProfile(handle);
 						monitor.worked(2);
-
-						monitor.subTask("Reloading workbench");
 						session.reloadActiveProfile();
 						monitor.done();
 						operationSucceeded = true;
@@ -79,36 +70,16 @@ public class DeployProfileActionDelegate extends BaseProfileActionDelegate
 
 			try {
 				ProgressMonitorDialog dialog = new ProgressMonitorDialog(shell);
+				// We still need to do this as it replaces the profile that will be used on start up
 				dialog.run(true, false, op);
+				IWorkbench workbench = PlatformUI.getWorkbench();
+				workbench.restart();
 			} catch (InterruptedException e) {
 				EclipsePlugin.log(e);
 			} catch (InvocationTargetException e) {
 				EclipsePlugin.log(e);
 			}
 
-			String rollbackStr = "";
-			if (rollbackCreated) {
-				rollbackStr = "\n\n(A rollback file was successfully created)";
-			}
-
-			if (operationSucceeded) {
-				MessageDialog
-						.openInformation(
-								getShell(),
-								"Success",
-								"Profile '"
-										+ handle.getName()
-										+ "' is now the active profile for this instance of Tigerstripe Workbench.\n\nWorkbench is now ready to be used with this new active profile."
-										+ rollbackStr);
-
-			} else {
-				MessageDialog
-						.openError(
-								getShell(),
-								"Error while setting active Profile",
-								"An error occured while trying to set the active profile:\n"
-										+ "Please check the Error Log for more details");
-			}
 		}
 
 	}

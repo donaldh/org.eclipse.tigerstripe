@@ -182,7 +182,7 @@ public class ProfileDetailsDialog extends Dialog {
 	private boolean operationSucceeded = false;
 	
 	private void resetProfile() {
-		
+
 		if (LicensedAccess.getWorkbenchProfileRole() != TSWorkbenchProfileRole.CREATE_EDIT
 				&& LicensedAccess.getWorkbenchProfileRole() != TSWorkbenchProfileRole.DEPLOY_UNDEPLOY) {
 			String errMessage = "You cannot reset to the factory default profile\n\n"
@@ -196,17 +196,15 @@ public class ProfileDetailsDialog extends Dialog {
 					.openConfirm(
 							getShell(),
 							"Reset Active profile to Factory Defaults?",
-							"You are about to reset the active profile to factory defaults.\nAll open editors will be closed.\n\nDo you want to continue?\n\n(You will be able to rollback to the current active profile).  ")) {
+							"You are about to reset the active profile to factory defaults.\n\nThis will restart the workbench.\n\nDo you want to continue?\n\n(You will be able to rollback to the current active profile).  ")) {
 
+				
+				
 				IRunnableWithProgress op = new IRunnableWithProgress() {
 					public void run(IProgressMonitor monitor) {
 						try {
 							monitor.beginTask("Resetting profile...", 10);
 
-							monitor.subTask("Closing all editors");
-							EditorHelper.closeAllEditors(true, true, false,
-									false, true);
-							monitor.worked(2);
 
 							monitor
 									.subTask("Resetting profile to factory defaults");
@@ -216,7 +214,6 @@ public class ProfileDetailsDialog extends Dialog {
 							monitor.worked(2);
 
 							monitor.subTask("Reloading Workbench");
-							TigerstripeProjectAuditor.setTurnedOffForImport(true);
 							session.reloadActiveProfile();
 							monitor.done();
 							operationSucceeded = true;
@@ -237,27 +234,16 @@ public class ProfileDetailsDialog extends Dialog {
 					ProgressMonitorDialog dialog = new ProgressMonitorDialog(
 							shell);
 					dialog.run(true, false, op);
+
+					IWorkbench workbench = PlatformUI.getWorkbench();
+					workbench.restart();
+					TigerstripeProjectAuditor.setTurnedOffForImport(true);
 				} catch (InterruptedException e) {
 					EclipsePlugin.log(e);
 				} catch (InvocationTargetException e) {
 					EclipsePlugin.log(e);
 				}
 
-				if (operationSucceeded) {
-					if (rollbackCreated) {
-					}
-					MessageDialog
-							.openInformation(getShell(),
-									"Active Profile Rollback",
-									"The active profile was successfully reset to factory defaults");
-				} else {
-					MessageDialog
-							.openError(
-									getShell(),
-									"Error while reseting active Profile",
-									"An error occured while trying to reset the active profile to factory defaults:\n"
-											+ "Please check the Error Log for more details");
-				}
 			}
 		}
 	}
@@ -334,19 +320,15 @@ public class ProfileDetailsDialog extends Dialog {
 										"Save as Active Profile",
 										"You are about to set this profile ('"
 												+ handle.getName()
-												+ "') as the active profile. All open editors will be closed.\n\nDo you want to continue?\n\n(You will be able to rollback to the current active profile).  ")) {
+												+ "') as the active profile. \n\nThis will restart the workbench.\n\nDo you want to continue?\n\n(You will be able to rollback to the current active profile).  ")) {
+							
 
 							IRunnableWithProgress op = new IRunnableWithProgress() {
 								public void run(IProgressMonitor monitor) {
 									try {
 										monitor.beginTask(
 												"Deploying new Active Profile",
-												10);
-
-										monitor.subTask("Closing all editors");
-										EditorHelper.closeAllEditors(true,
-												true, false, false, true);
-										monitor.worked(2);
+												2);
 
 										IWorkbenchProfileSession session = TigerstripeCore
 												.getWorkbenchProfileSession();
@@ -362,8 +344,7 @@ public class ProfileDetailsDialog extends Dialog {
 										monitor.done();
 
 										staticOperationSucceeded = true;
-										if (staticRollbackCreated) {
-										}
+										
 
 									} catch (TigerstripeException e) {
 										EclipsePlugin.log(e);
@@ -375,43 +356,21 @@ public class ProfileDetailsDialog extends Dialog {
 							};
 
 							IWorkbench wb = PlatformUI.getWorkbench();
-							IWorkbenchWindow win = wb
-									.getActiveWorkbenchWindow();
+							IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
 							//Shell shell = win != null ? win.getShell() : null;
 
 							try {
 								ProgressMonitorDialog pDialog = new ProgressMonitorDialog(
 										shell);
 								pDialog.run(true, false, op);
+								IWorkbench workbench = PlatformUI.getWorkbench();
+								workbench.restart();
 							} catch (InterruptedException e) {
 								EclipsePlugin.log(e);
 							} catch (InvocationTargetException e) {
 								EclipsePlugin.log(e);
 							}
 
-							String rollbackStr = "";
-							if (staticRollbackCreated) {
-								rollbackStr = "\n\n(A rollback file was successfully created)";
-							}
-
-							if (staticOperationSucceeded) {
-								MessageDialog
-										.openInformation(
-												shell,
-												"Success",
-												"Profile '"
-														+ handle.getName()
-														+ "' is now the active profile for this instance of Tigerstripe Workbench.\n\nWorkbench is now ready to be used with this new active profile."
-														+ rollbackStr);
-
-							} else {
-								MessageDialog
-										.openError(
-												shell,
-												"Error while setting active Profile",
-												"An error occured while trying to set the active profile.\n"
-														+ "Please check the Error Log for more details");
-							}
 
 						}
 
