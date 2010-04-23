@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.header;
 
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
@@ -24,6 +25,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
@@ -142,8 +145,22 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 			button.addSelectionListener(new SelectionAdapter() {
 				@Override
 				public void widgetSelected(SelectionEvent e) {
-					ChangeModelIDDialog dialog = new ChangeModelIDDialog(button
-							.getShell(), getTSProject());
+					Shell shell = button.getShell();
+					if (getPage().getEditor().isDirty()) {
+						MessageBox box = new MessageBox(shell,
+								SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL);
+						box.setText("Save Modified Project");
+						box
+								.setMessage("tigerstripe.xml must be saved before this operation");
+						if (box.open() != SWT.OK) {
+							return;
+						} else {
+							getPage().getEditor().doSave(
+									new NullProgressMonitor());
+						}
+					}
+					ChangeModelIDDialog dialog = new ChangeModelIDDialog(shell,
+							getTSProject());
 					dialog.open();
 					refresh();
 				}
