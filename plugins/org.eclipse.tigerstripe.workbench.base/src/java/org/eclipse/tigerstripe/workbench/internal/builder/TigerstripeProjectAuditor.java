@@ -47,6 +47,7 @@ import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeResourceAdapterFactory;
+import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceHelper.IResourceFilter;
@@ -818,7 +819,8 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		}
 		if (isProjectAmbiguous()) {
 			String projectName = getProject().getName();
-			URI uri = URI.createHierarchicalURI("tigerstripe", null, null,
+			URI uri = URI.createHierarchicalURI(
+					TigerstripeURIAdapterFactory.SCHEME_TS, null, null,
 					new String[] { projectName }, null, null);
 			List<Annotation> annotations = AnnotationPlugin.getManager()
 					.getPostfixAnnotations(uri);

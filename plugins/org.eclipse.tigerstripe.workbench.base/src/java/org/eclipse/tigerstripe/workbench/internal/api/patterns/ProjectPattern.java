@@ -25,41 +25,48 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class ProjectPattern extends Pattern implements IProjectPattern {
 
-	
 	// Need methods to create the project
-	public ITigerstripeModelProject createProject(String projectName, IPath path, String defaultArtifactPackage) throws TigerstripeException{
+	public ITigerstripeModelProject createProject(String projectName,
+			IPath path, String defaultArtifactPackage)
+			throws TigerstripeException {
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
-		if (defaultArtifactPackage != null){
+		if (defaultArtifactPackage != null) {
 			projectDetails.getProperties().setProperty(
 					IProjectDetails.DEFAULTARTIFACTPACKAGE_PROP,
 					defaultArtifactPackage);
 		}
-		
-		ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore.createProject(
-				projectName, projectDetails, path, ITigerstripeModelProject.class, null,
-				null);
+		projectDetails.setModelId(projectName);
+		ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
+				.createProject(projectName, projectDetails, path,
+						ITigerstripeModelProject.class, null, null);
 		return project;
-		
-	}
-	
-	public void annotateProject(ITigerstripeModelProject project) throws TigerstripeException {
-		Collection<EObject> annotationContents = xmlParserUtils.getAnnotations(element);
 
-		for (EObject content : annotationContents){
+	}
+
+	public void annotateProject(ITigerstripeModelProject project)
+			throws TigerstripeException {
+		Collection<EObject> annotationContents = xmlParserUtils
+				.getAnnotations(element);
+
+		for (EObject content : annotationContents) {
 			addAnnotation(project, content);
 		}
 	}
-	
-	protected void addAnnotation(ITigerstripeModelProject project, EObject content) throws TigerstripeException{
+
+	protected void addAnnotation(ITigerstripeModelProject project,
+			EObject content) throws TigerstripeException {
 		try {
-			String annotationClass = content.getClass().getInterfaces()[0].getName();
-			Annotation anno = helper.addAnnotation(project, Util.packageOf(annotationClass), Util.nameOf(annotationClass));
+			String annotationClass = content.getClass().getInterfaces()[0]
+					.getName();
+			Annotation anno = helper.addAnnotation(project, Util
+					.packageOf(annotationClass), Util.nameOf(annotationClass));
 			anno.setContent(content);
 			AnnotationHelper.getInstance().saveAnnotation(anno);
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
-			throw new TigerstripeException("Exception adding annotation to project",e);
+			throw new TigerstripeException(
+					"Exception adding annotation to project", e);
 		}
 	}
-	
+
 }

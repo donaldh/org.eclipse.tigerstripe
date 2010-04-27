@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -48,7 +49,7 @@ public class ChangeModelIDDialog extends Dialog {
 		Composite composite = (Composite) super.createDialogArea(parent);
 		((GridLayout) composite.getLayout()).numColumns = 2;
 		Label label = new Label(composite, SWT.LEFT);
-		label.setText("New na&me:");
+		label.setText("New &model ID:");
 		modelIdText = new Text(composite, SWT.BORDER);
 		oldModelId = getModelId();
 		if (oldModelId == null) {
@@ -65,7 +66,7 @@ public class ChangeModelIDDialog extends Dialog {
 		GridData data = new GridData(GridData.FILL_HORIZONTAL);
 		modelIdText.setLayoutData(data);
 		updateAnnotationsButton = new Button(composite, SWT.CHECK);
-		updateAnnotationsButton.setText("Update annotations");
+		updateAnnotationsButton.setText("Update &annotations");
 		updateAnnotationsButton.setSelection(true);
 		data = new GridData(GridData.FILL_HORIZONTAL);
 		data.horizontalSpan = 2;
@@ -146,10 +147,11 @@ public class ChangeModelIDDialog extends Dialog {
 				details.setModelId(newModelId);
 				project.commit(new SubProgressMonitor(monitor, 1));
 				if (updateAnnotations) {
-					URI oldUri = URI.createHierarchicalURI("tigerstripe", null,
-							null, new String[] { oldModelId }, null, null);
-					URI newUri = URI.createHierarchicalURI("tigerstripe", null,
-							null, new String[] { newModelId }, null, null);
+					String scheme = TigerstripeURIAdapterFactory.SCHEME_TS;
+					URI oldUri = URI.createHierarchicalURI(scheme, null, null,
+							new String[] { oldModelId }, null, null);
+					URI newUri = URI.createHierarchicalURI(scheme, null, null,
+							new String[] { newModelId }, null, null);
 					AnnotationPlugin.getManager().getRefactoringSupport()
 							.changed(oldUri, newUri, true);
 					monitor.worked(1);
