@@ -40,7 +40,7 @@ public abstract class AbstractTigerstripeProjectHandle extends
 	public String getName() {
 		
 		try {
-			return getIProject(this).getName();
+			return getIProject().getName();
 		} catch (TigerstripeException e) {
 			return null;
 		}
@@ -128,13 +128,13 @@ public abstract class AbstractTigerstripeProjectHandle extends
 	public Object getAdapter(Class adapter) {
 		if (adapter == IProject.class) {
 			try {
-				return getIProject(this);
+				return getIProject();
 			} catch (TigerstripeException e) {
 				return null;
 			}
 		} else if (adapter == IJavaProject.class) {
 			try {
-				IProject project = getIProject(this);
+				IProject project = getIProject();
 
 				// Note that this will be null for the PhantomProject
 				if (project != null) {
@@ -147,16 +147,16 @@ public abstract class AbstractTigerstripeProjectHandle extends
 		return null;
 	}
 
-	private IProject getIProject(IAbstractTigerstripeProject tsProject)
+	private IProject getIProject()
 			throws TigerstripeException {
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		File file = new File(tsProject.getLocation().toOSString());
+		File file = new File(this.getLocation().toOSString());
 		IPath path = new Path(file.getAbsolutePath());
 		IContainer container = root.getContainerForLocation(path);
 		if (container instanceof IProject)
 			return (IProject) container;
 		throw new TigerstripeException("Can't resolve "
-				+ tsProject.getLocation() + " as Eclipse IProject");
+				+ this.getLocation() + " as Eclipse IProject");
 	}
 
 	public void delete(final boolean force, IProgressMonitor monitor)

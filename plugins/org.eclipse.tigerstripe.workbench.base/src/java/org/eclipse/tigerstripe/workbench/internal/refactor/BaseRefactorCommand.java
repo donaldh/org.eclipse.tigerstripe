@@ -94,6 +94,8 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		if (monitor == null)
 			monitor = new NullProgressMonitor();
 
+		long time = System.currentTimeMillis();
+		System.out.println("Starting refactor");
 		disableAuditsAndDiagSync();
 		disableAnnotationsSync();
 
@@ -101,9 +103,15 @@ public class BaseRefactorCommand implements IRefactorCommand {
 
 		ITigerstripeModelProject[] affectedProjects = applyAllDeltas(monitor,
 				toCleanUp);
-
+		long time1 = System.currentTimeMillis();
+		System.out.println("Done with Deltas: " + (time1 - time));
+ 
 		updateDiagrams(monitor);
+		time1 = System.currentTimeMillis();
+		System.out.println("Done diagram updates: " + (time1 - time));
 		moveDiagrams(monitor);
+		time1 = System.currentTimeMillis();
+		System.out.println("Done diagram moves: " + (time1 - time));
 
 		if (isCrossProjectCmd()) {
 			// At this stage the artifacts have been refactored inside the
@@ -121,8 +129,12 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		}
 
 		cleanUp(toCleanUp, monitor);
+		time1 = System.currentTimeMillis();
+		System.out.println("Done clean up: " + (time1 - time));
 
 		rebuildIndexes(affectedProjects, monitor);
+		time1 = System.currentTimeMillis();
+		System.out.println("Done index rebuild: " + (time1 - time));
 
 		// Gets the list of all resources that will be impacted.
 		// Set<IResource> affectedResources = getAffectedResources();
@@ -130,6 +142,7 @@ public class BaseRefactorCommand implements IRefactorCommand {
 
 		enableAnnotationsSync();
 		reEnableAuditsAndDiagSync();
+		System.out.println("Refactor Time: " + (System.currentTimeMillis() - time));
 	}
 
 	@SuppressWarnings("deprecation")
@@ -248,7 +261,7 @@ public class BaseRefactorCommand implements IRefactorCommand {
 			IProgressMonitor monitor) throws TigerstripeException {
 		// Rebuilding indexes is necessary for the Auditor to be in sync with
 		// the model since it was put to sleep during the refactor process.
-		TigerstripeProjectAuditor.rebuildIndexes(projectsToRebuild, monitor);
+//		TigerstripeProjectAuditor.rebuildIndexes(projectsToRebuild, monitor);
 	}
 
 	protected void moveDiagrams(IProgressMonitor monitor)

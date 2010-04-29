@@ -89,6 +89,8 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 	protected String descriptorVersion;
 
 	private File baseDir;
+	
+	private File fullpath;
 
 	private String filename;
 
@@ -117,6 +119,9 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 	protected AbstractTigerstripeProject(File baseDir, String filename) {
 		this.filename = filename;
 		this.baseDir = baseDir;
+		this.fullpath = new File(this.baseDir.getAbsolutePath() + File.separator
+				+ this.filename);
+		
 		advancedProperties = new ContainedProperties();
 		advancedProperties.setContainer(this);
 		this.projectDetails = new ProjectDetails(this);
@@ -162,8 +167,7 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 	}
 
 	public File getFullPath() {
-		return new File(this.baseDir.getAbsolutePath() + File.separator
-				+ this.filename);
+		return this.fullpath;
 	}
 
 	// =============================================

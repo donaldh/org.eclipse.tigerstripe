@@ -45,41 +45,41 @@ public class ContractSegmentAuditor implements IFileExtensionBasedAuditor{
 	
 	public void run(IProject project, List<IResource> resources, IProgressMonitor monitor) {
 
-		this.project = project;
-		
-		if (resources == null || resources.size() == 0)
-			return;
-
-		if (getTSProject() != null) {
-			monitor.beginTask("Checking Facets", resources.size());
-
-			for (IResource res : resources) {
-				try {
-					IContractSegment facet = InternalTigerstripeCore
-							.getIContractSession().makeIContractSegment(
-									res.getLocationURI());
-
-					// Start checks here
-					if (facet == null) {
-						TigerstripeProjectAuditor.reportError("Facet '"
-								+ res.getProjectRelativePath()
-								+ "' is not a valid facet file.", res, 222);
-					} else {
-						checkScope(facet, res);
-						checkUseCaseDocs(facet, res);
-						checkFacetRefs(facet, res);
-					}
-
-				} catch (Exception e) {
-					BasePlugin.log(e);
-				}
-				monitor.worked(1);
-			}
-			monitor.done();
-		} else {
-			TigerstripeProjectAuditor.reportError("Project '"
-					+ project.getName() + "' is invalid", project, 222);
-		}
+//		this.project = project;
+//		
+//		if (resources == null || resources.size() == 0)
+//			return;
+//
+//		if (getTSProject() != null) {
+//			monitor.beginTask("Checking Facets", resources.size());
+//
+//			for (IResource res : resources) {
+//				try {
+//					IContractSegment facet = InternalTigerstripeCore
+//							.getIContractSession().makeIContractSegment(
+//									res.getLocationURI());
+//
+//					// Start checks here
+//					if (facet == null) {
+//						TigerstripeProjectAuditor.reportError("Facet '"
+//								+ res.getProjectRelativePath()
+//								+ "' is not a valid facet file.", res, 222);
+//					} else {
+//						checkScope(facet, res);
+//						checkUseCaseDocs(facet, res);
+//						checkFacetRefs(facet, res);
+//					}
+//
+//				} catch (Exception e) {
+//					BasePlugin.log(e);
+//				}
+//				monitor.worked(1);
+//			}
+//			monitor.done();
+//		} else {
+//			TigerstripeProjectAuditor.reportError("Project '"
+//					+ project.getName() + "' is invalid", project, 222);
+//		}
 	}
 
 	private ITigerstripeModelProject getTSProject() {

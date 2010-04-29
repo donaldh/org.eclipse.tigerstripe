@@ -32,6 +32,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.WorkbenchProfileSessi
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ProjectDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
+import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectsSession;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
@@ -155,17 +156,21 @@ public class TigerstripeCore {
 	 */
 	public static IAbstractTigerstripeProject[] allProjects()
 			throws TigerstripeException {
-		List<IAbstractTigerstripeProject> allProjects = new ArrayList<IAbstractTigerstripeProject>();
-
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		for (IProject iProject : root.getProjects()) {
-			IAbstractTigerstripeProject tProject = (IAbstractTigerstripeProject) iProject
-					.getAdapter(IAbstractTigerstripeProject.class);
-			if (tProject instanceof IAbstractTigerstripeProject)
-				allProjects.add(tProject);
-		}
-		return allProjects.toArray(new IAbstractTigerstripeProject[allProjects
-				.size()]);
+		return TigerstripeProjectsSession.INSTANCE.allProjects();
+//		 List<IAbstractTigerstripeProject> allProjects = new
+//		 ArrayList<IAbstractTigerstripeProject>();
+//		
+//		 IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+//		 for (IProject iProject : root.getProjects()) {
+//		 IAbstractTigerstripeProject tProject = (IAbstractTigerstripeProject)
+//		 iProject
+//		 .getAdapter(IAbstractTigerstripeProject.class);
+//		 if (tProject instanceof IAbstractTigerstripeProject)
+//		 allProjects.add(tProject);
+//		 }
+//		 return allProjects.toArray(new
+//		 IAbstractTigerstripeProject[allProjects
+//		 .size()]);
 	}
 
 	/**
@@ -177,17 +182,20 @@ public class TigerstripeCore {
 	 */
 	public static ITigerstripeModelProject[] allModelProjects()
 			throws TigerstripeException {
-		List<ITigerstripeModelProject> allProjects = new ArrayList<ITigerstripeModelProject>();
-
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		for (IProject iProject : root.getProjects()) {
-			ITigerstripeModelProject tProject = (ITigerstripeModelProject) iProject
-					.getAdapter(ITigerstripeModelProject.class);
-			if (tProject instanceof ITigerstripeModelProject)
-				allProjects.add(tProject);
-		}
-		return allProjects.toArray(new ITigerstripeModelProject[allProjects
-				.size()]);
+		return TigerstripeProjectsSession.INSTANCE.allModelProjects();
+//		 List<ITigerstripeModelProject> allProjects = new
+//		 ArrayList<ITigerstripeModelProject>();
+//		
+//		 IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+//		 for (IProject iProject : root.getProjects()) {
+//		 ITigerstripeModelProject tProject = (ITigerstripeModelProject)
+//		 iProject
+//		 .getAdapter(ITigerstripeModelProject.class);
+//		 if (tProject instanceof ITigerstripeModelProject)
+//		 allProjects.add(tProject);
+//		 }
+//		 return allProjects.toArray(new ITigerstripeModelProject[allProjects
+//		 .size()]);
 	}
 
 	/**
