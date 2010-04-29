@@ -141,11 +141,11 @@ public class PropertyTree {
 					while (it.hasNext()) {
 						Object object = it.next();
 						if (object instanceof EProperty) {
-							PropertiesSelectionManager
-									.getInstance()
+							PropertiesSelectionManager.getInstance()
 									.setSelection(
 											new PropertySelection(
-													(EProperty) object, viewer));
+													(EProperty) object, viewer,
+													readOnly));
 							return;
 						}
 					}

@@ -22,24 +22,27 @@ import org.eclipse.tigerstripe.annotation.ui.core.properties.IEditableValue;
 
 /**
  * @author Yuri Strot
- *
+ * 
  */
 public class PropertySelection {
-	
+
 	public static final int SINGLE_SELECTION = 0;
-	
+
 	public static final int PARENT_SELECTION = 1;
-	
+
 	public static final int CHILD_SELECTION = 2;
-	
+
 	private EProperty property;
 	private TreeViewer viewer;
-	
-	public PropertySelection(EProperty property, TreeViewer viewer) {
+	private boolean readOnly;
+
+	public PropertySelection(EProperty property, TreeViewer viewer,
+			boolean readOnly) {
 		this.property = property;
 		this.viewer = viewer;
+		this.readOnly = readOnly;
 	}
-	
+
 	public int getStatus() {
 		IEditableValue value = property.getEditableValue();
 		if (value instanceof EditableListValue)
@@ -48,38 +51,41 @@ public class PropertySelection {
 			return PARENT_SELECTION;
 		return SINGLE_SELECTION;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public void remove() {
 		IEditableValue value = property.getEditableValue();
 		if (value instanceof EditableListValue) {
-			EditableListValue editableValue = (EditableListValue)value;
+			EditableListValue editableValue = (EditableListValue) value;
 			editableValue.remove();
 			viewer.refresh();
-		}
-		else if (value.getValue() instanceof List<?>) {
-			List<Object> list = (List<Object>)value.getValue();
+		} else if (value.getValue() instanceof List<?>) {
+			List<Object> list = (List<Object>) value.getValue();
 			list.clear();
 			viewer.refresh();
 		}
 	}
-	
+
+	public boolean isReadOnly() {
+		return readOnly;
+	}
+
 	@SuppressWarnings("unchecked")
 	public void addDefaultValue() {
 		IEditableValue value = property.getEditableValue();
 		Object defaultValue = value.getDefaultValue();
 		EClassifier classifier = value.getClassifier();
 		if (classifier instanceof EClass) {
-			EClass clazz = (EClass)classifier;
-			defaultValue = clazz.getEPackage().getEFactoryInstance().create(clazz);
+			EClass clazz = (EClass) classifier;
+			defaultValue = clazz.getEPackage().getEFactoryInstance().create(
+					clazz);
 		}
 		if (value instanceof EditableListValue) {
-			EditableListValue editableValue = (EditableListValue)value;
+			EditableListValue editableValue = (EditableListValue) value;
 			editableValue.insert(defaultValue);
 			viewer.refresh();
-		}
-		else if (value.getValue() instanceof List<?>) {
-			List<Object> list = (List<Object>)value.getValue();
+		} else if (value.getValue() instanceof List<?>) {
+			List<Object> list = (List<Object>) value.getValue();
 			list.add(defaultValue);
 			viewer.refresh();
 		}
