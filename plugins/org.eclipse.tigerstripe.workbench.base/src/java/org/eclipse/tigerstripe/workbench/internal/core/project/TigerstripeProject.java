@@ -713,7 +713,6 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			throws TigerstripeException {
 		setDirty();
 		modelReferences.remove(mRef);
-		System.out.println("jj");
 	}
 
 	public void removeModelReferences(ModelReference[] mRefs)
