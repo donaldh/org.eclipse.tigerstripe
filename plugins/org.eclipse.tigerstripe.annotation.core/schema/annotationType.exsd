@@ -2,9 +2,9 @@
 <!-- Schema file written by PDE -->
 <schema targetNamespace="org.eclipse.tigerstripe.annotation.ui" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
-      <appinfo>
+      <appInfo>
          <meta.schema plugin="org.eclipse.tigerstripe.annotation.ui" id="annotationType" name="annotationType"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          This extension point allows clients to contribute new annotation types class, i.e. define which EMF objects can be used as annotation content. It can be any EMF class, it need not implement any interface or something else.
       </documentation>
@@ -12,13 +12,13 @@
 
    <element name="extension">
       <annotation>
-         <appinfo>
+         <appInfo>
             <meta.element />
-         </appinfo>
+         </appInfo>
       </annotation>
       <complexType>
          <sequence>
-            <element ref="definition"/>
+            <element ref="definition" minOccurs="1" maxOccurs="unbounded"/>
          </sequence>
          <attribute name="point" type="string" use="required">
             <annotation>
@@ -39,9 +39,9 @@
                <documentation>
                   an optional name of the extension instance
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute translatable="true"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
       </complexType>
@@ -104,9 +104,9 @@ In the absence of this attribute and of target elements, it is assumed that the 
                <documentation>
                   target type
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute kind="java"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
          <attribute name="unique" type="boolean" use="default" value="true">
@@ -120,18 +120,18 @@ In the absence of this attribute and of target elements, it is assumed that the 
    </element>
 
    <annotation>
-      <appinfo>
+      <appInfo>
          <meta.section type="since"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          0.3
       </documentation>
    </annotation>
 
    <annotation>
-      <appinfo>
+      <appInfo>
          <meta.section type="examples"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          Example of the Person annotation type declaration:
 &lt;pre&gt;
@@ -153,9 +153,9 @@ In the absence of this attribute and of target elements, it is assumed that the 
 
 
    <annotation>
-      <appinfo>
+      <appInfo>
          <meta.section type="copyright"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          Copyright (c) 2008 xored software, Inc.&lt;br&gt;
 
