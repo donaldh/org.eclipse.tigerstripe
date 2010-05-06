@@ -6,12 +6,12 @@ package org.eclipse.tigerstripe.annotation.ui.internal.diagrams.factories;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmf.runtime.diagram.core.preferences.PreferencesHint;
-import org.eclipse.gmf.runtime.diagram.ui.view.factories.TextShapeViewFactory;
+import org.eclipse.gmf.runtime.diagram.ui.view.factories.AbstractShapeViewFactory;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.FigureUtilities;
 import org.eclipse.gmf.runtime.notation.FillStyle;
 import org.eclipse.gmf.runtime.notation.LineStyle;
+import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
-import org.eclipse.gmf.runtime.notation.Shape;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
@@ -24,7 +24,7 @@ import org.eclipse.tigerstripe.annotation.ui.diagrams.model.ViewLocationNode;
  * @author Yuri Strot
  * 
  */
-public class AnnotationViewFactory extends TextShapeViewFactory {
+public class AnnotationViewFactory extends AbstractShapeViewFactory {
 
 	private String semanticHint;
 
@@ -64,25 +64,20 @@ public class AnnotationViewFactory extends TextShapeViewFactory {
 	 * @see
 	 * org.eclipse.gmf.runtime.diagram.ui.view.factories.BasicNodeViewFactory
 	 * #createNode()
-	 * 
-	 * NOTE: was returning Node before Eclipse 3.5. Changed it to Shape and 
-	 * casts inside. But no way to test for now.
 	 */
 	@Override
-	protected Shape createNode() {
+	protected Node createNode() {
 		if (semanticHint != null) {
 			if (semanticHint.equals(DiagramAnnotationType.META_ANNOTATION_TYPE))
-				return (Shape) ModelFactory.eINSTANCE
-						.createMetaAnnotationNode();
+				return ModelFactory.eINSTANCE.createMetaAnnotationNode();
 			if (semanticHint
 					.equals(DiagramAnnotationType.META_VIEW_ANNOTATION_TYPE))
-				return (Shape) ModelFactory.eINSTANCE
-						.createMetaViewAnnotations();
+				return ModelFactory.eINSTANCE.createMetaViewAnnotations();
 			if (semanticHint
 					.equals(DiagramAnnotationType.VIEW_LOCATION_NODE_TYPE))
-				return (Shape) ModelFactory.eINSTANCE.createViewLocationNode();
+				return ModelFactory.eINSTANCE.createViewLocationNode();
 		}
-		return (Shape) ModelFactory.eINSTANCE.createAnnotationNode();
+		return ModelFactory.eINSTANCE.createAnnotationNode();
 	}
 
 	protected void initializeFromPreferences(View view) {
