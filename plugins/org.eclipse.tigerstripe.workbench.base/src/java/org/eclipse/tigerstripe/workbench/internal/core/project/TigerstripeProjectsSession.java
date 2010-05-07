@@ -64,6 +64,8 @@ public class TigerstripeProjectsSession implements ITigerstripeChangeListener {
 		}
 		updateAllModelProjects();
 		updateAllProjects();
+		
+		TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(this, PROJECT);
 	}
 
 	public void annotationChanged(IModelAnnotationChangeDelta[] delta) {
