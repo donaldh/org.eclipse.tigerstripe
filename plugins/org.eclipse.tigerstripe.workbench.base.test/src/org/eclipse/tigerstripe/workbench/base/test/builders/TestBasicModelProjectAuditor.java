@@ -51,13 +51,13 @@ public class TestBasicModelProjectAuditor extends TestCase {
 
 		IMarker[] markers = AuditorHelper.getMarkers(project);
 		assertNotNull(markers);
-		assertTrue(markers.length == 1);
+		assertTrue(markers.length == 2);
 
 		int warning = AuditorHelper.getMarkers(IMarker.SEVERITY_WARNING,
 				project).length;
 		int info = AuditorHelper.getMarkers(IMarker.SEVERITY_INFO, project).length;
 		assertTrue(info == 1);
-//		assertTrue(warning == 1);
+		assertTrue(warning == 1);
 
 		// Then add a description
 		ITigerstripeModelProject p = (ITigerstripeModelProject) project
