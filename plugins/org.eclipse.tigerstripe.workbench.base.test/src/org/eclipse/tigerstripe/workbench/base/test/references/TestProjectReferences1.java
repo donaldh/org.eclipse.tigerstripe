@@ -25,6 +25,9 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class TestProjectReferences1 extends TestCase {
 
+	private final static String APROJECT = "aProject1";
+	private final static String BPROJECT = "bProject1";
+	
 	public void clearErrorLog() {
 		Platform.getLogFileLocation().toFile().delete();
 	}
@@ -32,9 +35,9 @@ public class TestProjectReferences1 extends TestCase {
 	public final void testProjectReferences1() throws TigerstripeException,
 			CoreException, IOException, InterruptedException {
 		clearErrorLog();
-		ITigerstripeModelProject aProject = createTigerstripeModelProject("aProject");
+		ITigerstripeModelProject aProject = createTigerstripeModelProject(APROJECT);
 		assertTrue(aProject instanceof ITigerstripeModelProject);
-		ITigerstripeModelProject bProject = createTigerstripeModelProject("bProject");
+		ITigerstripeModelProject bProject = createTigerstripeModelProject(BPROJECT);
 		assertTrue(bProject instanceof ITigerstripeModelProject);
 
 		ITigerstripeModelProject wc = (ITigerstripeModelProject) aProject
@@ -44,19 +47,19 @@ public class TestProjectReferences1 extends TestCase {
 		assertTrue(aProject.getReferencedProjects().length == 1);
 
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		IResource projb = workspace.getRoot().findMember("bProject");
+		IResource projb = workspace.getRoot().findMember(BPROJECT);
 		assertNotNull(projb);
 
 		ModelReference mRefB = ModelReference.referenceFromProject(bProject);
 
 		projb.delete(true, new NullProgressMonitor());
-		projb = workspace.getRoot().findMember("bProject");
+		projb = workspace.getRoot().findMember(BPROJECT);
 		assertNull(projb);
 
 		// / PART 2
 		clearErrorLog();
 		workspace = ResourcesPlugin.getWorkspace();
-		IResource proja = workspace.getRoot().findMember("aProject");
+		IResource proja = workspace.getRoot().findMember(APROJECT);
 		assertNotNull(proja);
 
 		IPath fp = workspace.getRoot().getLocation()
@@ -65,7 +68,7 @@ public class TestProjectReferences1 extends TestCase {
 
 		ModelReference[] refs = aProject.getModelReferences();
 		assertTrue(refs.length == 1);
-		assertTrue(refs[0].getToModelId().endsWith("bProject"));
+		assertTrue(refs[0].getToModelId().endsWith(BPROJECT));
 
 		IJavaProject jProject = (IJavaProject) JavaCore.create(proja);
 		IClasspathEntry[] entries = jProject.getRawClasspath();
@@ -75,7 +78,7 @@ public class TestProjectReferences1 extends TestCase {
 						proja.getFullPath());
 				String relPath = entries[i].getPath().removeFirstSegments(
 						matching).toString();
-				assertTrue(relPath.endsWith("bProject"));
+				assertTrue(relPath.endsWith(BPROJECT));
 			}
 		}
 
@@ -96,7 +99,7 @@ public class TestProjectReferences1 extends TestCase {
 		assertFalse(found);
 
 		proja.delete(true, new NullProgressMonitor());
-		proja = workspace.getRoot().findMember("bProject");
+		proja = workspace.getRoot().findMember(BPROJECT);
 		assertNull(proja);
 
 //		checkErrorLog();
