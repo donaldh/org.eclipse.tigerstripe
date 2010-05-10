@@ -71,8 +71,9 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 	private Collection<TigerstripeFormPage> modelPages = new ArrayList<TigerstripeFormPage>();
 
 	public ArtifactEditorBase() {
+		// Performance improvements - only register for the right sort of changes.
 		TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(
-				this, ITigerstripeChangeListener.ALL);
+				this, ITigerstripeChangeListener.ANNOTATION);
 
 	}
 
@@ -424,17 +425,17 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 	}
 
 	public void modelChanged(IModelChangeDelta[] delta) {
-		// TODO Auto-generated method stub
+		// Not registered for these
 
 	}
 
 	public void projectAdded(IAbstractTigerstripeProject project) {
-		// TODO Auto-generated method stub
+		// Not registered for these
 
 	}
 
 	public void projectDeleted(String projectName) {
-		// TODO Auto-generated method stub
+		// Not registered for these
 
 	}
 

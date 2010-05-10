@@ -39,8 +39,9 @@ public abstract class TigerstripeShapeNodeEditPart extends ShapeNodeEditPart
 
 	@Override
 	public void activate() {
+		// Performance improvements - only register for the right sort of changes.
 		TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(
-				this, ITigerstripeChangeListener.ALL);
+				this, ITigerstripeChangeListener.MODEL | ITigerstripeChangeListener.ANNOTATION);
 		super.activate();
 	}
 

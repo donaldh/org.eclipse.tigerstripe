@@ -42,8 +42,9 @@ public class TigerstripeRefactoringSupport implements
 	}
 
 	public void start() {
+		// Performance improvements - only register for the right sort of changes.
 		TigerstripeCore.addTigerstripeChangeListener(this,
-				ITigerstripeChangeListener.ALL);
+				ITigerstripeChangeListener.MODEL);
 	}
 
 	public void stop() {
@@ -70,14 +71,14 @@ public class TigerstripeRefactoringSupport implements
 	}
 
 	public void projectAdded(IAbstractTigerstripeProject project) {
-		// do nothing
+		// Not registered for these
 	}
 
 	public void projectDeleted(String projectName) {
-		// do nothing
+		// Not registered for these
 	}
 
 	public void annotationChanged(IModelAnnotationChangeDelta[] delta) {
-		// do nothing
+		// Not registered for these
 	}
 }
