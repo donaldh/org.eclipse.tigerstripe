@@ -19,19 +19,23 @@ import java.util.HashSet;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
+import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequest;
 import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceHelper;
+import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceListener;
 import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceHelper.IResourceFilter;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.refactor.diagrams.DiagramSynchronizerController;
@@ -63,11 +67,11 @@ import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
  * 
  */
 public class DiagramSynchronizationManager extends
-		DiagramSynchronizerController implements IResourceChangeListener {
+		DiagramSynchronizerController implements ITigerstripeChangeListener {
 
 	private static DiagramSynchronizationManager instance;
 
-	private HashMap<File, ProjectDiagramsSynchronizer> projectWatchHash = new HashMap<File, ProjectDiagramsSynchronizer>();
+	private HashMap<String, ProjectDiagramsSynchronizer> projectWatchHash = new HashMap<String, ProjectDiagramsSynchronizer>();
 
 	private boolean hold = false;
 
@@ -94,35 +98,35 @@ public class DiagramSynchronizationManager extends
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IWorkspaceRoot root = workspace.getRoot();
 		try {
-			checkProjectAdded(Arrays.asList(root.members()));
+			addProjects(Arrays.asList(root.members()));
 		} catch (CoreException e) {
 			EclipsePlugin.log(e);
 		}
 	}
 
-	public void resourceChanged(IResourceChangeEvent event) {
-		// Get the list of removed resources
-		Collection<IResource> removedResources = new HashSet<IResource>();
-		Collection<IResource> changedResources = new HashSet<IResource>();
-		Collection<IResource> addedResources = new HashSet<IResource>();
-		IResourceFilter projectOnly = new IResourceFilter() {
+//	public void resourceChanged(IResourceChangeEvent event) {
+//		// Get the list of removed resources
+//		Collection<IResource> removedResources = new HashSet<IResource>();
+//		Collection<IResource> changedResources = new HashSet<IResource>();
+//		Collection<IResource> addedResources = new HashSet<IResource>();
+//		IResourceFilter projectOnly = new IResourceFilter() {
+//
+//			public boolean select(IResource resource) {
+//				if (!(resource instanceof IProject))
+//					return false;
+//				return true;
+//			}
+//
+//		};
+//
+//		WorkspaceHelper.buildResourcesLists(event.getDelta(), removedResources,
+//				changedResources, addedResources, projectOnly);
+//
+//		checkProjectAdded(addedResources);
+//		checkProjectRemoved(removedResources);
+//	}
 
-			public boolean select(IResource resource) {
-				if (!(resource instanceof IProject))
-					return false;
-				return true;
-			}
-
-		};
-
-		WorkspaceHelper.buildResourcesLists(event.getDelta(), removedResources,
-				changedResources, addedResources, projectOnly);
-
-		checkProjectAdded(addedResources);
-		checkProjectRemoved(removedResources);
-	}
-
-	private void checkProjectAdded(Collection<IResource> addedResources) {
+	private void addProjects(Collection<IResource> addedResources) {
 		for (IResource res : addedResources) {
 			if (res instanceof IProject) {
 				IAbstractTigerstripeProject tsProject = (IAbstractTigerstripeProject) res
@@ -130,42 +134,46 @@ public class DiagramSynchronizationManager extends
 								IAbstractTigerstripeProject.class);
 				if (tsProject instanceof ITigerstripeModelProject
 						&& tsProject.exists()) {
-					addTSProjectToWatch((ITigerstripeModelProject) tsProject);
+					projectAdded((ITigerstripeModelProject) tsProject);
 				}
 			}
 		}
 	}
 
-	private void checkProjectRemoved(Collection<IResource> removedResources) {
-		for (IResource res : removedResources) {
-			if (res instanceof IProject) {
-				IAbstractTigerstripeProject tsProject = (IAbstractTigerstripeProject) res
-						.getAdapter(IAbstractTigerstripeProject.class);
+//	private void checkProjectRemoved(Collection<IResource> removedResources) {
+//		for (IResource res : removedResources) {
+//			if (res instanceof IProject) {
+//				IAbstractTigerstripeProject tsProject = (IAbstractTigerstripeProject) res
+//						.getAdapter(IAbstractTigerstripeProject.class);
+//
+//				// Bug 936: remove from watch list of
+//				// DiagramSynchronizationManager
+//				if (tsProject instanceof ITigerstripeModelProject)
+//					DiagramSynchronizationManager.getInstance()
+//							.removeTSProjectToWatch(
+//									(ITigerstripeModelProject) tsProject);
+//			}
+//		}
+//	}
 
-				// Bug 936: remove from watch list of
-				// DiagramSynchronizationManager
-				if (tsProject instanceof ITigerstripeModelProject)
-					DiagramSynchronizationManager.getInstance()
-							.removeTSProjectToWatch(
-									(ITigerstripeModelProject) tsProject);
-			}
-		}
-	}
-
+	
+	
 	/**
 	 * Adding a project to the list of projects to watch. This effectively means
 	 * we are setting this up as a listener for various changes on the model.
 	 * 
 	 * @param project
 	 */
-	public void addTSProjectToWatch(ITigerstripeModelProject project) {
-		if (!projectWatchHash.containsKey(project.getLocation().toFile())) {
-			TigerstripeRuntime.logDebugMessage("Adding project to watch: "
-					+ project.getLocation().toFile());
-			final ProjectDiagramsSynchronizer synchronizer = new ProjectDiagramsSynchronizer(
-					project);
-			projectWatchHash.put(project.getLocation().toFile(), synchronizer);
-			synchronizer.initialize(); // this will run in its own thread.
+	public void projectAdded(IAbstractTigerstripeProject project) {
+		if (project instanceof ITigerstripeModelProject){
+			if (!projectWatchHash.containsKey(project.getLocation().toFile())) {
+				TigerstripeRuntime.logDebugMessage("Adding project to watch: "
+						+ project.getLocation().toFile());
+				final ProjectDiagramsSynchronizer synchronizer = new ProjectDiagramsSynchronizer(
+						(ITigerstripeModelProject)project);
+				projectWatchHash.put(project.getName(), synchronizer);
+				synchronizer.initialize(); // this will run in its own thread.
+			}
 		}
 	}
 
@@ -173,12 +181,12 @@ public class DiagramSynchronizationManager extends
 	 * Removing a project from the watchlist, ie. de-registering as listener...
 	 * 
 	 */
-	public void removeTSProjectToWatch(ITigerstripeModelProject project) {
-		if (projectWatchHash.containsKey(project.getLocation().toFile())) {
+	public void projectDeleted(String projectName) {
+		if (projectWatchHash.containsKey(projectName)) {
 			TigerstripeRuntime.logDebugMessage("Removing project to watch: "
-					+ project.getLocation().toFile());
+					+ projectName);
 			ProjectDiagramsSynchronizer synchronizer = projectWatchHash
-					.remove(project.getLocation().toFile());
+					.remove(projectName);
 			try {
 				synchronizer.dispose();
 			} catch (TigerstripeException e) {
@@ -225,4 +233,16 @@ public class DiagramSynchronizationManager extends
 	protected boolean isSynchronizationHeld() {
 		return hold;
 	}
+
+	public void annotationChanged(IModelAnnotationChangeDelta[] delta) {
+		// not registered for these
+		
+	}
+
+	public void modelChanged(IModelChangeDelta[] delta) {
+		// not registered for these		
+	}
+
+	
+
 }

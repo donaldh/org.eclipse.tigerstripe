@@ -36,11 +36,13 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.patterns.PatternFactory;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationEnd;
 import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact.DependencyEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -145,12 +147,12 @@ public class EclipsePlugin extends AbstractUIPlugin {
 	 * 
 	 */
 	private void startDiagramSynchronizerManager() {
-		ResourcesPlugin.getWorkspace().addResourceChangeListener(
-				DiagramSynchronizationManager.getInstance());
+		TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(
+				DiagramSynchronizationManager.getInstance(), ITigerstripeChangeListener.PROJECT);
 	}
 
 	private void stopDiagramSynchronizerManager() {
-		ResourcesPlugin.getWorkspace().removeResourceChangeListener(
+		TigerstripeWorkspaceNotifier.INSTANCE.removeTigerstripeChangeListener(
 				DiagramSynchronizationManager.getInstance());
 	}
 
