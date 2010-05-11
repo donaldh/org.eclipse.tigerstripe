@@ -25,6 +25,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.classpath.IReferencesConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.classpath.ReferencesClasspathContainer;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
@@ -90,7 +91,7 @@ public class ReferencesListener {
 			Collection<String> changedReferences) {
 		Set<IProject> projectsToCheck = new HashSet<IProject>();
 		for (IResource res : changedResources) {
-			if ("tigerstripe.xml".equals(res.getName())) {
+			if (ITigerstripeConstants.PROJECT_DESCRIPTOR.equals(res.getName())) {
 				projectsToCheck.add(res.getProject());
 			}
 		}
