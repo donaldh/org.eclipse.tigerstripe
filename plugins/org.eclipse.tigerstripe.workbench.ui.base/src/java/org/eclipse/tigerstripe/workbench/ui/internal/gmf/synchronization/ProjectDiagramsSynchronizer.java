@@ -222,6 +222,8 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 		batchSyncJob.setSystem(true);
 		batchSyncJob.schedule(); // start as soon as possible
 
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
+		
 		registerSelfForChanges();
 		try {
 			Job initialIndexing = new Job("Indexing diagrams in "
@@ -298,6 +300,12 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 	// ==============================
 
 	/**
+	 * Ideally we should only register if we have any diagrams.
+	 * ie If my project has no diagrams then I don't really care about changes!
+	 * 
+	 * Not clear how this would ever get updated for changes in ProjectReferences.
+	 * Should we be implement ProjectDependencyChangeListener?
+	 * 
 	 * Register self as a listener for model changes both as a
 	 * {@link IModelChangeListener} and an {@link IArtifactChangeListener}.
 	 * 
@@ -315,7 +323,7 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 						.addArtifactChangeListener(this);
 			}
 
-			ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
+			
 		} catch (TigerstripeException e) {
 			IStatus status = new Status(
 					IStatus.ERROR,
@@ -340,7 +348,7 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 
 	// Artifact Change listener
 	public void artifactAdded(IAbstractArtifact artifact) {
-		// TODO Auto-generated method stub
+		// Artifacts can't be on any diagrams if they never existed before!
 
 	}
 
@@ -348,9 +356,11 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 		try {
 			DiagramHandle[] affectedDiagrams = getAffectedDiagrams(artifact
 					.getFullyQualifiedName());
-			SynchronizationForArtifactChangedRequest request = new SynchronizationForArtifactChangedRequest(
-					artifact, affectedDiagrams);
-			queueUpSynchronizationRequest(request);
+			if (affectedDiagrams.length >0){
+				SynchronizationForArtifactChangedRequest request = new SynchronizationForArtifactChangedRequest(
+						artifact, affectedDiagrams);
+				queueUpSynchronizationRequest(request);
+			}
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}
@@ -360,9 +370,11 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 		try {
 			DiagramHandle[] affectedDiagrams = getAffectedDiagrams(artifact
 					.getFullyQualifiedName());
-			SynchronizationForArtifactRemovedRequest request = new SynchronizationForArtifactRemovedRequest(
-					artifact.getFullyQualifiedName(), affectedDiagrams);
-			queueUpSynchronizationRequest(request);
+			if (affectedDiagrams.length >0){
+				SynchronizationForArtifactRemovedRequest request = new SynchronizationForArtifactRemovedRequest(
+						artifact.getFullyQualifiedName(), affectedDiagrams);
+				queueUpSynchronizationRequest(request);
+			}
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}
@@ -371,9 +383,11 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 	public void artifactRenamed(IAbstractArtifact artifact, String fromFQN) {
 		try {
 			DiagramHandle[] affectedDiagrams = getAffectedDiagrams(fromFQN);
-			SynchronizationForArtifactRenamedRequest request = new SynchronizationForArtifactRenamedRequest(
-					fromFQN, artifact.getFullyQualifiedName(), affectedDiagrams);
-			queueUpSynchronizationRequest(request);
+			if (affectedDiagrams.length >0){
+				SynchronizationForArtifactRenamedRequest request = new SynchronizationForArtifactRenamedRequest(
+						fromFQN, artifact.getFullyQualifiedName(), affectedDiagrams);
+				queueUpSynchronizationRequest(request);
+			}
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}
@@ -437,13 +451,14 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 
 		monitor.beginTask("Indexing", allResources.size());
 		for (IResource diagramResource : allResources) {
-			// Ignore the diagrams that are in the "/bin" dir. These are simply
-			// being copied by Eclipse by the Java builder. No need to track
-			if (diagramResource.getProjectRelativePath().matchingFirstSegments(
-					new Path("bin")) == 1) {
-				// ignore whatever is in "bin"
-				continue;
-			} else {
+			// The findAll method above is already filtering these out.
+//			// Ignore the diagrams that are in the "/bin" dir. These are simply
+//			// being copied by Eclipse by the Java builder. No need to track
+//			if (diagramResource.getProjectRelativePath().matchingFirstSegments(
+//					new Path("bin")) == 1) {
+//				// ignore whatever is in "bin"
+//				continue;
+//			} else {
 				monitor.subTask(diagramResource.getName());
 				IResource modelResource = getModelResource(diagramResource);
 				DiagramHandle handle = new DiagramHandle(diagramResource,
@@ -455,7 +470,7 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 				} catch (TigerstripeException e) {
 					EclipsePlugin.log(e);// log and keep going
 				}
-			}
+//			}
 			monitor.worked(1);
 		}
 		monitor.done();
@@ -524,6 +539,7 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 				if (ext.equals(resource.getFileExtension())
 						&& resource.getProject().equals(proj)
 						&& !(resource.getProjectRelativePath()
+								// TODO - This is not a fixed path - should be more intelligent! 
 								.matchingFirstSegments(new Path("bin")) == 1)) {
 					IResource modelResource = getModelResource(resource);
 					DiagramHandle handle = new DiagramHandle(resource,
