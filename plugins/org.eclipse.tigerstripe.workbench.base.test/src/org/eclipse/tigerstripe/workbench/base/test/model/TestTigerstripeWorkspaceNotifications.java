@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.base.test.model;
 
 import junit.framework.TestCase;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
@@ -22,6 +23,11 @@ import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 
 public class TestTigerstripeWorkspaceNotifications extends TestCase implements
 		ITigerstripeChangeListener {
+
+	public void descriptorChanged(IResource changedDescriptor) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	private final static int SLEEPTIME = 500;
 
