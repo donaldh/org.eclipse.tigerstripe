@@ -223,7 +223,7 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 		batchSyncJob.schedule(); // start as soon as possible
 
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
-		
+
 		registerSelfForChanges();
 		try {
 			Job initialIndexing = new Job("Indexing diagrams in "
@@ -244,17 +244,33 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 
 	public IStatus flushRequestQueue(boolean applyRequests,
 			IProgressMonitor monitor) {
+
+		Set<DiagramHandle> affectedDiagrams = new HashSet<DiagramHandle>();
 		while (!requestQueue.isEmpty()) {
 			try {
 				SynchronizationRequest request = (SynchronizationRequest) requestQueue
 						.dequeue();
 				request.run(new NullProgressMonitor());
+				if (request.affectedDiagrams.length != 0) {
+					affectedDiagrams.addAll(Arrays
+							.asList(request.affectedDiagrams));
+				}
 			} catch (TigerstripeException e) {
 				EclipsePlugin.log(e);
 			}
 			if (monitor.isCanceled()) {
 				return Status.CANCEL_STATUS;
 			}
+		}
+
+		if (affectedDiagrams.size() != 0) {
+			for (DiagramHandle handle : affectedDiagrams)
+				try {
+					diagramIndex.diagramSaved(handle);
+//					System.out.println("Handling " + handle.getDiagramResource());
+				} catch (TigerstripeException e) {
+					EclipsePlugin.log(e);
+				}
 		}
 		return Status.OK_STATUS;
 	}
@@ -300,11 +316,12 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 	// ==============================
 
 	/**
-	 * Ideally we should only register if we have any diagrams.
-	 * ie If my project has no diagrams then I don't really care about changes!
+	 * Ideally we should only register if we have any diagrams. ie If my project
+	 * has no diagrams then I don't really care about changes!
 	 * 
-	 * Not clear how this would ever get updated for changes in ProjectReferences.
-	 * Should we be implement ProjectDependencyChangeListener?
+	 * Not clear how this would ever get updated for changes in
+	 * ProjectReferences. Should we be implement
+	 * ProjectDependencyChangeListener?
 	 * 
 	 * Register self as a listener for model changes both as a
 	 * {@link IModelChangeListener} and an {@link IArtifactChangeListener}.
@@ -323,7 +340,6 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 						.addArtifactChangeListener(this);
 			}
 
-			
 		} catch (TigerstripeException e) {
 			IStatus status = new Status(
 					IStatus.ERROR,
@@ -356,7 +372,7 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 		try {
 			DiagramHandle[] affectedDiagrams = getAffectedDiagrams(artifact
 					.getFullyQualifiedName());
-			if (affectedDiagrams.length >0){
+			if (affectedDiagrams.length > 0) {
 				SynchronizationForArtifactChangedRequest request = new SynchronizationForArtifactChangedRequest(
 						artifact, affectedDiagrams);
 				queueUpSynchronizationRequest(request);
@@ -370,7 +386,7 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 		try {
 			DiagramHandle[] affectedDiagrams = getAffectedDiagrams(artifact
 					.getFullyQualifiedName());
-			if (affectedDiagrams.length >0){
+			if (affectedDiagrams.length > 0) {
 				SynchronizationForArtifactRemovedRequest request = new SynchronizationForArtifactRemovedRequest(
 						artifact.getFullyQualifiedName(), affectedDiagrams);
 				queueUpSynchronizationRequest(request);
@@ -383,9 +399,10 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 	public void artifactRenamed(IAbstractArtifact artifact, String fromFQN) {
 		try {
 			DiagramHandle[] affectedDiagrams = getAffectedDiagrams(fromFQN);
-			if (affectedDiagrams.length >0){
+			if (affectedDiagrams.length > 0) {
 				SynchronizationForArtifactRenamedRequest request = new SynchronizationForArtifactRenamedRequest(
-						fromFQN, artifact.getFullyQualifiedName(), affectedDiagrams);
+						fromFQN, artifact.getFullyQualifiedName(),
+						affectedDiagrams);
 				queueUpSynchronizationRequest(request);
 			}
 		} catch (TigerstripeException e) {
@@ -452,25 +469,27 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 		monitor.beginTask("Indexing", allResources.size());
 		for (IResource diagramResource : allResources) {
 			// The findAll method above is already filtering these out.
-//			// Ignore the diagrams that are in the "/bin" dir. These are simply
-//			// being copied by Eclipse by the Java builder. No need to track
-//			if (diagramResource.getProjectRelativePath().matchingFirstSegments(
-//					new Path("bin")) == 1) {
-//				// ignore whatever is in "bin"
-//				continue;
-//			} else {
-				monitor.subTask(diagramResource.getName());
-				IResource modelResource = getModelResource(diagramResource);
-				DiagramHandle handle = new DiagramHandle(diagramResource,
-						modelResource, project);
-				handlesByDiagram.put(diagramResource, handle);
-				handlesByModel.put(modelResource, handle);
-				try {
-					diagramIndex.diagramSaved(handle);
-				} catch (TigerstripeException e) {
-					EclipsePlugin.log(e);// log and keep going
-				}
-//			}
+			// // Ignore the diagrams that are in the "/bin" dir. These are
+			// simply
+			// // being copied by Eclipse by the Java builder. No need to track
+			// if
+			// (diagramResource.getProjectRelativePath().matchingFirstSegments(
+			// new Path("bin")) == 1) {
+			// // ignore whatever is in "bin"
+			// continue;
+			// } else {
+			monitor.subTask(diagramResource.getName());
+			IResource modelResource = getModelResource(diagramResource);
+			DiagramHandle handle = new DiagramHandle(diagramResource,
+					modelResource, project);
+			handlesByDiagram.put(diagramResource, handle);
+			handlesByModel.put(modelResource, handle);
+			try {
+				diagramIndex.diagramSaved(handle);
+			} catch (TigerstripeException e) {
+				EclipsePlugin.log(e);// log and keep going
+			}
+			// }
 			monitor.worked(1);
 		}
 		monitor.done();
@@ -506,19 +525,20 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 		Collection<IResource> removedResources = new HashSet<IResource>();
 		Collection<IResource> changedResources = new HashSet<IResource>();
 		Collection<IResource> addedResources = new HashSet<IResource>();
-		// We only care about diagram  files 
+		// We only care about diagram files
 		IResourceFilter diagramFilesFilter = new IResourceFilter() {
 
 			public boolean select(IResource resource) {
 				if (!resource.getProject().equals(getProject()))
 					return false;
-				if (Arrays.asList(diagramFileExtensions).contains(resource.getFileExtension()))
+				if (Arrays.asList(diagramFileExtensions).contains(
+						resource.getFileExtension()))
 					return true;
 				return false;
 			}
 
 		};
-		
+
 		WorkspaceHelper.buildResourcesLists(event.getDelta(), removedResources,
 				changedResources, addedResources, diagramFilesFilter);
 
@@ -539,7 +559,8 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 				if (ext.equals(resource.getFileExtension())
 						&& resource.getProject().equals(proj)
 						&& !(resource.getProjectRelativePath()
-								// TODO - This is not a fixed path - should be more intelligent! 
+						// TODO - This is not a fixed path - should be more
+						// intelligent!
 								.matchingFirstSegments(new Path("bin")) == 1)) {
 					IResource modelResource = getModelResource(resource);
 					DiagramHandle handle = new DiagramHandle(resource,

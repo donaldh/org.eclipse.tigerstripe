@@ -78,4 +78,19 @@ public class DiagramHandle extends HeadlessDiagramHandle {
 			// won't be called anymore
 		}
 	}
+
+	@Override
+	public int hashCode() {
+		return getDiagramResource().hashCode();
+	}
+
+	@Override
+	public boolean equals(Object other) {
+		if (other instanceof DiagramHandle) {
+			DiagramHandle otherDiag = (DiagramHandle) other;
+			return getDiagramResource().equals(otherDiag.getDiagramResource());
+		}
+		return false;
+	}
+
 }
