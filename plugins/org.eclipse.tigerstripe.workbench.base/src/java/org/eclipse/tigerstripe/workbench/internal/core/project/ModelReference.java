@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.project;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
@@ -130,10 +133,18 @@ public class ModelReference {
 				// note that for compatibility reasons, if no modelId is
 				// set, we
 				// compare against mere name.
-				String modelId = "".equals(project.getModelId()) ? project
-						.getName() : project.getModelId();
-				if (this.toModelId.equals(modelId)) {
-					return project;
+				IPath path = project.getFullPath();
+				if (path != null && path.segmentCount() == 1) {
+					IProject iProject = ResourcesPlugin.getWorkspace()
+							.getRoot().getProject(path.segment(0));
+					if (iProject.exists() && iProject.isOpen()) {
+						String modelId = "".equals(project.getModelId()) ? project
+								.getName()
+								: project.getModelId();
+						if (this.toModelId.equals(modelId)) {
+							return project;
+						}
+					}
 				}
 			}
 		} catch (TigerstripeException e) {
