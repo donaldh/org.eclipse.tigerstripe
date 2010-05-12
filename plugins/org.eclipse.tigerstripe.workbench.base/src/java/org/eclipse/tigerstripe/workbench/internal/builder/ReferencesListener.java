@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
@@ -51,9 +52,8 @@ public class ReferencesListener {
 			return;
 		}
 		checkAddedProjects(addedResources, changedReferences);
-		checkAccess(changedReferences);
 		checkReferencesProjects(changedProjects, changedReferences);
-		updateReferences(changedProjects);
+		updateChangedProjects(changedProjects);
 	}
 
 	/**
@@ -71,8 +71,8 @@ public class ReferencesListener {
 			Collection<IResource> removedResources,
 			Collection<String> changedReferences) {
 		for (IResource res : removedResources) {
-			if (res instanceof IProject) {
-				IProject iProject = (IProject) res;
+			IProject iProject = getProject(res);
+			if (iProject != null) {
 				ProjectDetails details = nameToDetails.get(iProject);
 				if (details == null) {
 					return true;
@@ -83,6 +83,15 @@ public class ReferencesListener {
 			}
 		}
 		return false;
+	}
+
+	private IProject getProject(IResource res) {
+		if (res instanceof IProject)
+			return (IProject) res;
+		if (res instanceof IFile && "tigerstripe.xml".equals(res.getName())) {
+			return res.getProject();
+		}
+		return null;
 	}
 
 	private boolean checkChangedProjects(
@@ -116,22 +125,6 @@ public class ReferencesListener {
 		return false;
 	}
 
-	private void checkAccess(Collection<String> changedReferences) {
-		for (ProjectDetails details : nameToDetails.values()) {
-			IProject iProject = details.getIProject();
-			if (iProject.isOpen() == details.isNoAccess()) {
-				ProjectDetails newDetails = new ProjectDetails(iProject);
-				nameToDetails.put(iProject, newDetails);
-				if (details.getModelId() != null) {
-					changedReferences.add(details.getModelId());
-				}
-				if (newDetails.getModelId() != null) {
-					changedReferences.add(newDetails.getModelId());
-				}
-			}
-		}
-	}
-
 	private void checkReferencesProjects(
 			Collection<ProjectDetails> changedProjects,
 			Collection<String> changedReferences) {
@@ -143,13 +136,18 @@ public class ReferencesListener {
 				nameToDetails.put(project, details);
 			}
 			if (!changedProjects.contains(details)) {
-				String[] references = details.getReferences();
 				boolean addProject = false;
-				if (references != null) {
-					for (String ref : references) {
-						if (changedReferences.contains(ref)) {
-							addProject = true;
-							break;
+				String id = details.getModelId();
+				if (id != null && changedReferences.contains(id)) {
+					addProject = true;
+				} else {
+					String[] references = details.getReferences();
+					if (references != null) {
+						for (String ref : references) {
+							if (changedReferences.contains(ref)) {
+								addProject = true;
+								break;
+							}
 						}
 					}
 				}
@@ -173,8 +171,8 @@ public class ReferencesListener {
 	private void checkAddedProjects(Collection<IResource> addedResources,
 			Collection<String> changedReferences) {
 		for (IResource res : addedResources) {
-			if (res instanceof IProject) {
-				IProject iProject = (IProject) res;
+			IProject iProject = getProject(res);
+			if (iProject != null) {
 				ProjectDetails details = new ProjectDetails(iProject);
 				nameToDetails.put(iProject, details);
 				if (details.getModelId() != null) {
@@ -194,10 +192,17 @@ public class ReferencesListener {
 			nameToDetails.put(project, details);
 			changedProjects.add(details);
 		}
-		updateReferences(changedProjects);
+		updateChangedProjects(changedProjects);
 	}
 
-	private void updateReferences(Collection<ProjectDetails> changedProjects) {
+	private void updateChangedProjects(
+			Collection<ProjectDetails> changedProjects) {
+		updateClasspathReferences(changedProjects);
+		// TODO need to clear model reference cache
+	}
+
+	private void updateClasspathReferences(
+			Collection<ProjectDetails> changedProjects) {
 		Map<IJavaProject, ReferencesClasspathContainer> map = new HashMap<IJavaProject, ReferencesClasspathContainer>();
 		for (ProjectDetails details : changedProjects) {
 			IProject project = details.getIProject();
@@ -309,10 +314,6 @@ public class ReferencesListener {
 			if (jProject == null)
 				return false;
 			return ReferencesListener.needReferenceContainer(jProject);
-		}
-
-		public boolean isNoAccess() {
-			return noAccess;
 		}
 
 		@Override
