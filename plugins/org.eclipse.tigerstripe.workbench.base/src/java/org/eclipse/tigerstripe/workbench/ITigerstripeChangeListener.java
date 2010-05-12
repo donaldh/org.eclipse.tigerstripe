@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 
 /**
@@ -49,6 +50,16 @@ public interface ITigerstripeChangeListener {
 	 * @param project
 	 */
 	public void projectDeleted(String projectName);
+	
+	/**
+	 * Notification that a Tigerstripe descriptor was changed in the workspace. 
+	 * 
+	 * Note: this listener needs to be registered with {@link #PROJECT} level to
+	 * get notified
+	 * 
+	 * @param project
+	 */
+	public void descriptorChanged(IResource changedDescriptor);
 
 	/**
 	 * Notification that model changes occurred.

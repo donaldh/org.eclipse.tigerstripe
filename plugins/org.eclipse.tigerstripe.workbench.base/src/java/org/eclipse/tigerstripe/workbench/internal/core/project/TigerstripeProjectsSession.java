@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
@@ -73,6 +74,10 @@ public class TigerstripeProjectsSession implements ITigerstripeChangeListener {
 	}
 
 	public void modelChanged(IModelChangeDelta[] delta) {
+		// NOT USED HERE
+	}
+	
+	public void descriptorChanged(IResource changedDescriptor) {
 		// NOT USED HERE
 	}
 

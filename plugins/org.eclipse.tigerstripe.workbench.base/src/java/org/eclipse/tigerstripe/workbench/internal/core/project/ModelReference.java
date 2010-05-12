@@ -106,7 +106,16 @@ public class ModelReference {
 		return isResolved() && getResolvedModel().equals(project);
 	}
 
+	private ITigerstripeModelProject resolvedModel = null;
+	
 	public ITigerstripeModelProject getResolvedModel() {
+		if (resolvedModel == null){
+			resolveModel();
+		}
+		return resolvedModel;
+	}
+	
+	public void resolveModel() {
 		if (projectContext != null) {
 			// look in the project context first
 			try {
@@ -117,7 +126,8 @@ public class ModelReference {
 							.getOriginalName() : dependency
 							.getIProjectDetails().getModelId();
 					if (this.toModelId.equals(modelId)) {
-						return dependency.makeModuleProject(projectContext);
+						resolvedModel = dependency.makeModuleProject(projectContext);
+						return;
 					}
 				}
 			} catch (TigerstripeException e) {
@@ -136,14 +146,14 @@ public class ModelReference {
 				IPath path = project.getFullPath();
 				if (path != null && path.segmentCount() == 1) {
 					IProject iProject = ResourcesPlugin.getWorkspace()
-							.getRoot().getProject(path.segment(0));
+					.getRoot().getProject(path.segment(0));
 					if (iProject.exists() && iProject.isOpen()) {
 						String modelId = "".equals(project.getModelId()) ? project
-								.getName()
-								: project.getModelId();
-						if (this.toModelId.equals(modelId)) {
-							return project;
-						}
+								.getName() : project.getModelId();
+								if (this.toModelId.equals(modelId)) {
+									resolvedModel = project;
+									return;
+								}
 					}
 				}
 			}
@@ -154,12 +164,14 @@ public class ModelReference {
 		InstalledModule module = getInstalledModule();
 		if (module != null) {
 			try {
-				return module.makeModuleProject();
+				resolvedModel = module.makeModuleProject();
+				return;
 			} catch (TigerstripeException e) {
 				BasePlugin.log(e);
 			}
 		}
-		return null;
+		resolvedModel = null;
+		return;
 	}
 
 	public InstalledModule getInstalledModule() {

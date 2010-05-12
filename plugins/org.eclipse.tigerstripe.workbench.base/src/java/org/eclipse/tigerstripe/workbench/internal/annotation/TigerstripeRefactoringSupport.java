@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.annotation;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IRefactoringSupport;
@@ -78,6 +79,10 @@ public class TigerstripeRefactoringSupport implements
 		// Not registered for these
 	}
 
+	public void descriptorChanged(IResource changedDescriptor) {
+		// NOT USED HERE
+	}
+	
 	public void annotationChanged(IModelAnnotationChangeDelta[] delta) {
 		// Not registered for these
 	}

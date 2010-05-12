@@ -25,6 +25,7 @@ import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.classpath.IReferencesConstants;
@@ -199,6 +200,20 @@ public class ReferencesListener {
 			Collection<ProjectDetails> changedProjects) {
 		updateClasspathReferences(changedProjects);
 		// TODO need to clear model reference cache
+		for (ProjectDetails details : changedProjects){
+			ITigerstripeModelProject tsProject = details.getProject();
+			if (tsProject != null){
+				try {
+					System.out.println("Proj "+tsProject.getModelId());
+					for (ModelReference ref : tsProject.getModelReferences()){
+						System.out.println("   Ref "+ref+ " "+ref.getResolvedModel());
+						ref.resolveModel();
+					}
+				} catch (TigerstripeException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 
 	private void updateClasspathReferences(

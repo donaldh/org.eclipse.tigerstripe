@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
@@ -106,6 +107,41 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 		listeners.remove(new FilteredListener(listener, 0));
 	}
 
+	public void signalDescriptorChanged(final IResource changedDescriptor){
+		Job notifyDescriptorChanged = new Job("Handle Tigerstripe Descriptor Change") {
+
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				broadcastDescriptorChanged(changedDescriptor);
+				return Status.OK_STATUS;
+			}
+		};
+
+		notifyDescriptorChanged.schedule();
+	}
+	
+	private void broadcastDescriptorChanged(
+			final IResource changedDescriptor) {
+
+		Object[] listenersArray = listeners.getListeners();
+		for (Object l : listenersArray) {
+			final FilteredListener listener = (FilteredListener) l;
+			if (listener.select(ITigerstripeChangeListener.PROJECT))
+				SafeRunner.run(new ISafeRunnable() {
+
+					public void handleException(Throwable exception) {
+						BasePlugin.log(exception);
+					}
+
+					public void run() throws Exception {
+						listener.getListener().descriptorChanged(changedDescriptor);
+					}
+
+				});
+		}
+	}
+	
+	
 	public void signalProjectAdded(final IAbstractTigerstripeProject newProject) {
 		Job notifyProjectAdded = new Job("Handle Tigerstripe Project Added") {
 

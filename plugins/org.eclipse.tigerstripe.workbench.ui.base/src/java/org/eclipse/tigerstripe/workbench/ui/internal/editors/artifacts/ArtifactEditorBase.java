@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -439,4 +440,8 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 
 	}
 
+	public void descriptorChanged(IResource changedDescriptor) {
+		// NOT USED HERE
+	}
+	
 }

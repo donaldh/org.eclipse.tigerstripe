@@ -114,6 +114,10 @@ public class ActiveFacetDecorationDelegate implements
 		// never called
 	}
 
+	public void descriptorChanged(IResource changedDescriptor) {
+		// NOT USED HERE
+	}
+	
 	public void projectAdded(IAbstractTigerstripeProject project) {
 		if (project instanceof ITigerstripeModelProject)
 			watchProject((ITigerstripeModelProject) project,

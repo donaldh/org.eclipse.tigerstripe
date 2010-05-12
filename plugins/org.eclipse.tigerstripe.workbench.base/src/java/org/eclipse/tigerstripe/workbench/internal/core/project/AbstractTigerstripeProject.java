@@ -42,12 +42,16 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
+import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BaseContainerObject;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.IContainerObject;
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.internal.core.locale.Messages;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ContainedProperties;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -66,7 +70,7 @@ import org.w3c.dom.NodeList;
  *         This conditions a run of Tigerstripe.
  */
 public abstract class AbstractTigerstripeProject extends BaseContainerObject
-		implements IContainerObject, IAdaptable {
+		implements IContainerObject, IAdaptable, ITigerstripeChangeListener {
 
 	public static final String OUTPUT_DIRECTORY_TAG = "outputDirectory";
 
@@ -124,6 +128,7 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 		advancedProperties.setContainer(this);
 		this.projectDetails = new ProjectDetails(this);
 		this.projectDetails.setContainer(this);
+		TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(this, ITigerstripeChangeListener.MODEL);
 	}
 
 	protected void setDirty() {
@@ -456,10 +461,10 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 
 		if (notLoaded || forceReload) {
 			needReload = true;
-		} else {
-			// determine if the file has changed on disk
-			long currentTStamp = theFile.lastModified();
-			needReload = currentTStamp != loadTStamp;
+//		} else {
+//			// determine if the file has changed on disk
+//			long currentTStamp = theFile.lastModified();
+//			needReload = currentTStamp != loadTStamp;
 		}
 
 		if (needReload) {
@@ -538,4 +543,43 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 		return null;
 	}
 
+	public void annotationChanged(IModelAnnotationChangeDelta[] delta) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void descriptorChanged(IResource changedDescriptor) {
+		// If the descriptor has changed, then we need to relaod for sure!
+		IProject project = (IProject) this.getAdapter(IProject.class);
+		if (project != null && 
+				changedDescriptor.getProject().equals(project)
+				){
+			// Its our descriptor!
+			try {
+				reload(true);
+			} catch (TigerstripeException e) {
+				
+				e.printStackTrace();
+			}
+		}
+		
+	}
+
+	public void modelChanged(IModelChangeDelta[] delta) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void projectAdded(IAbstractTigerstripeProject project) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void projectDeleted(String projectName) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	
+	
 }

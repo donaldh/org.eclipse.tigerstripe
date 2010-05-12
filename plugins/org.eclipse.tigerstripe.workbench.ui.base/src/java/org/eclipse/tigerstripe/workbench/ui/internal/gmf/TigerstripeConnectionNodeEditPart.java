@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.gmf;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ConnectionNodeEditPart;
@@ -111,6 +112,10 @@ public abstract class TigerstripeConnectionNodeEditPart extends
 
 	public void projectDeleted(String projectName) {
 		// Ignoring here
+	}
+	
+	public void descriptorChanged(IResource changedDescriptor) {
+		// NOT USED HERE
 	}
 
 }

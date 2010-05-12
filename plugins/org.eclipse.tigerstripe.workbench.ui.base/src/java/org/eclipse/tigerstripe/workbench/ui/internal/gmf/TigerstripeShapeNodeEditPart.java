@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.gmf;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeNodeEditPart;
@@ -113,6 +114,10 @@ public abstract class TigerstripeShapeNodeEditPart extends ShapeNodeEditPart
 		// Ignoring here
 	}
 
+	
+	public void descriptorChanged(IResource changedDescriptor) {
+		// NOT USED HERE
+	}
 	/**
 	 * A property for this artifact has been changed thru an action of the user
 	 * 

@@ -243,6 +243,8 @@ public class DiagramSynchronizationManager extends
 		// not registered for these		
 	}
 
-	
+	public void descriptorChanged(IResource changedDescriptor) {
+		// NOT USED HERE
+	}
 
 }

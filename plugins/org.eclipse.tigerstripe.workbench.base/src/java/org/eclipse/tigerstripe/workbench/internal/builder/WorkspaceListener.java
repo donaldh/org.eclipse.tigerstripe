@@ -119,11 +119,22 @@ public class WorkspaceListener implements IElementChangedListener,
 		checkProjectRemoved(removedResources);
 		checkRemovedFacet(removedResources);
 		checkActiveFacetChanged(changedResources);
+		checkTSDescriptorChanged(changedResources);
 
 		referencesListener.changed(removedResources, addedResources,
 				changedResources);
 	}
 
+	
+	private void checkTSDescriptorChanged(Collection<IResource> changedResources) {
+		for (IResource res : changedResources) {
+			if (ITigerstripeConstants.PROJECT_DESCRIPTOR.equals(res.getName())) {
+				TigerstripeWorkspaceNotifier.INSTANCE
+					.signalDescriptorChanged(res);
+			}
+		}
+	}
+	
 	/**
 	 * 
 	 * @param addedResources

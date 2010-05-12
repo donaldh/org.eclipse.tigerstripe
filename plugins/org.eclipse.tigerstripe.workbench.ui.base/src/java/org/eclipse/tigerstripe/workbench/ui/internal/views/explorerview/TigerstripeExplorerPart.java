@@ -673,6 +673,10 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 		// Never called since registration on Annotation changes only
 	}
 
+	public void descriptorChanged(IResource changedDescriptor) {
+		// NOT USED HERE
+	}
+	
 	public void propertyChange(PropertyChangeEvent event) {
 		if (event.getProperty().equals(
 				ExplorerPreferencePage.P_LABEL_STEREO_ARTIFACT)
