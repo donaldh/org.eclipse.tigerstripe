@@ -202,10 +202,13 @@ public class ReferencesListener {
 		for (ProjectDetails details : changedProjects) {
 			IProject project = details.getIProject();
 			try {
-				if (project.hasNature(JavaCore.NATURE_ID)) {
-					map.put(JavaCore.create(project),
-							new ReferencesClasspathContainer(details
-									.getProject()));
+				if (project.exists() && project.isOpen()
+						&& project.hasNature(JavaCore.NATURE_ID)) {
+					ITigerstripeModelProject tsProject = details.getProject();
+					if (tsProject != null) {
+						map.put(JavaCore.create(project),
+								new ReferencesClasspathContainer(tsProject));
+					}
 				}
 			} catch (CoreException e) {
 				e.printStackTrace();
