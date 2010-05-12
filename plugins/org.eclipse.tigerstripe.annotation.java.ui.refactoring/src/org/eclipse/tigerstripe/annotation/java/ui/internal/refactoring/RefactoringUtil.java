@@ -173,6 +173,15 @@ public class RefactoringUtil {
 	/** The move package fragment roots policy */
 	private static final String POLICY_MOVE_ROOTS= "org.eclipse.jdt.ui.moveRoots"; //$NON-NLS-1$
 
+	/** The move packages policy */
+	private static final String POLICY_COPY_PACKAGES= "org.eclipse.jdt.ui.copyPackages"; //$NON-NLS-1$
+
+	/** The move resources policy */
+	private static final String POLICY_COPY_RESOURCES= "org.eclipse.jdt.ui.copyResources"; //$NON-NLS-1$
+
+	/** The move package fragment roots policy */
+	private static final String POLICY_COPY_ROOTS= "org.eclipse.jdt.ui.copyRoots"; //$NON-NLS-1$
+
 	/** The policy attribute */
 	private static final String ATTRIBUTE_POLICY= "policy"; //$NON-NLS-1$
 	
@@ -204,8 +213,8 @@ public class RefactoringUtil {
 			fDestination= JavaRefactoringDescriptorUtil.getResourcePath(fArguments, ATTRIBUTE_TARGET, project);
 		
 		List<ILazyObject> changes = new ArrayList<ILazyObject>();
-		
-		if (POLICY_MOVE_RESOURCES.equals(fMovePolicy)) {
+
+		if (POLICY_MOVE_RESOURCES.equals(fMovePolicy) || POLICY_COPY_RESOURCES.equals(fMovePolicy)) {
 			int offset= 1;
 			IPath[] fFiles= JavaRefactoringDescriptorUtil.getResourcePathArray(fArguments, ATTRIBUTE_FILES, ATTRIBUTE_ELEMENT, offset, project);
 			changes.addAll(toChanges(fFiles));
@@ -215,10 +224,10 @@ public class RefactoringUtil {
 			offset+= fFolders.length;
 			ILazyObject[] units = JavaRefactoringDescriptorUtil.getJavaElementArray(fArguments, ATTRIBUTE_UNITS, ATTRIBUTE_ELEMENT, offset, project);
 			changes.addAll(Arrays.asList(units));
-		} else if (POLICY_MOVE_ROOTS.equals(fMovePolicy)) {
+		} else if (POLICY_MOVE_ROOTS.equals(fMovePolicy) || POLICY_COPY_ROOTS.equals(fMovePolicy)) {
 			ILazyObject[] roots = (ILazyObject[]) JavaRefactoringDescriptorUtil.getJavaElementArray(fArguments, ATTRIBUTE_ROOTS, ATTRIBUTE_ELEMENT, 1, project);
 			changes.addAll(Arrays.asList(roots));
-		} else if (POLICY_MOVE_PACKAGES.equals(fMovePolicy)) {
+		} else if (POLICY_MOVE_PACKAGES.equals(fMovePolicy) || POLICY_COPY_PACKAGES.equals(fMovePolicy)) {
 			ILazyObject[] fragments = (ILazyObject[]) JavaRefactoringDescriptorUtil.getJavaElementArray(fArguments, ATTRIBUTE_FRAGMENTS, ATTRIBUTE_ELEMENT, 1, project);
 			changes.addAll(Arrays.asList(fragments));
 		}

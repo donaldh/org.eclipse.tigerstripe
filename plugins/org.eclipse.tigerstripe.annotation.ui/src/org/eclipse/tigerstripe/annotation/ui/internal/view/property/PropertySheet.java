@@ -14,10 +14,6 @@ package org.eclipse.tigerstripe.annotation.ui.internal.view.property;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.runtime.Assert;
-import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.core.runtime.PlatformObject;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.widgets.Composite;
@@ -286,68 +282,6 @@ public class PropertySheet extends PageBookView implements ISelectionListener,
 	 */
 	protected boolean isImportant(IWorkbenchPart part) {
 		return part != this;
-	}
-
-	/**
-	 * If it is possible to adapt the given object to the given type, this
-	 * returns the adapter. Performs the following checks:
-	 * 
-	 * <ol>
-	 * <li>Returns <code>sourceObject</code> if it is an instance of the adapter
-	 * type.</li>
-	 * <li>If sourceObject implements IAdaptable, it is queried for adapters.</li>
-	 * <li>If sourceObject is not an instance of PlatformObject (which would
-	 * have already done so), the adapter manager is queried for adapters</li>
-	 * </ol>
-	 * 
-	 * Otherwise returns null.
-	 * 
-	 * @param sourceObject
-	 *            object to adapt, or null
-	 * @param adapter
-	 *            type to adapt to
-	 * @param activatePlugins
-	 *            true if IAdapterManager.loadAdapter should be used (may
-	 *            trigger plugin activation)
-	 * @return a representation of sourceObject that is assignable to the
-	 *         adapter type, or null if no such representation exists
-	 */
-	public static Object getAdapter(Object sourceObject, Class<?> adapter,
-			boolean activatePlugins) {
-		Assert.isNotNull(adapter);
-		if (sourceObject == null) {
-			return null;
-		}
-		if (adapter.isInstance(sourceObject)) {
-			return sourceObject;
-		}
-
-		if (sourceObject instanceof IAdaptable) {
-			IAdaptable adaptable = (IAdaptable) sourceObject;
-
-			Object result = adaptable.getAdapter(adapter);
-			if (result != null) {
-				// Sanity-check
-				Assert.isTrue(adapter.isInstance(result));
-				return result;
-			}
-		}
-
-		if (!(sourceObject instanceof PlatformObject)) {
-			Object result;
-			if (activatePlugins) {
-				result = Platform.getAdapterManager().loadAdapter(sourceObject,
-						adapter.getName());
-			} else {
-				result = Platform.getAdapterManager().getAdapter(sourceObject,
-						adapter);
-			}
-			if (result != null) {
-				return result;
-			}
-		}
-
-		return null;
 	}
 
 	/**

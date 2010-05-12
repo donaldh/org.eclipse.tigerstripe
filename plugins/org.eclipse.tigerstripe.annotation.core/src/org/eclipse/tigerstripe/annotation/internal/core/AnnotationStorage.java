@@ -36,91 +36,100 @@ import org.eclipse.tigerstripe.espace.resources.core.EMFDatabase;
 import org.eclipse.tigerstripe.espace.resources.core.IDatabaseConfiguration;
 
 /**
- * This class provide mechanism for loading, saving and caching <code>Annotation</code> objects.
+ * This class provide mechanism for loading, saving and caching
+ * <code>Annotation</code> objects.
  * 
  * @author Yuri Strot
  */
 public class AnnotationStorage implements IDatabaseConfiguration {
-	
+
 	protected static Annotation[] EMPTY_ARRAY = new Annotation[0];
-	
+
 	private EMFDatabase database;
 	private ReentrantLock databaseLock = new ReentrantLock();
 	protected ListenerList listeners = new ListenerList();
-	
-	protected Map<Annotation, ChangeRecorder> changes =
-		new ConcurrentHashMap<Annotation, ChangeRecorder>();
-	
+
+	protected Map<Annotation, ChangeRecorder> changes = new ConcurrentHashMap<Annotation, ChangeRecorder>();
+
 	public AnnotationStorage() {
 	}
-	
+
 	protected EMFDatabase getDatabase() {
 		databaseLock.lock();
 		try {
 			if (database == null)
 				database = new EMFDatabase(this);
 			return database;
-		}
-		finally {
+		} finally {
 			databaseLock.unlock();
 		}
 	}
-	
+
 	public void add(Annotation annotation) {
 		getDatabase().write(annotation);
 		trackChanges(annotation);
 		fireAnnotationAdded(annotation);
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.espace.resources.core.IIdentifyManager#getId(org.eclipse.emf.ecore.EObject)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.tigerstripe.espace.resources.core.IIdentifyManager#getId(
+	 * org.eclipse.emf.ecore.EObject)
 	 */
 	public String getId(EObject object) {
 		if (object instanceof Annotation) {
-			return ((Annotation)object).getId();
+			return ((Annotation) object).getId();
 		}
 		return null;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.espace.resources.core.IIdentifyManager#setId(org.eclipse.emf.ecore.EObject, int)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.tigerstripe.espace.resources.core.IIdentifyManager#setId(
+	 * org.eclipse.emf.ecore.EObject, int)
 	 */
 	public void setId(EObject object, String id) {
 		if (object instanceof Annotation) {
-			((Annotation)object).setId(id);
+			((Annotation) object).setId(id);
 		}
 	}
-	
+
 	protected void trackChanges(Annotation annotation) {
 		ChangeRecorder recorder = new ChangeRecorder(annotation);
 		changes.put(annotation, recorder);
 	}
-	
+
 	public void remove(Annotation annotation) {
-		if (isReadOnly(annotation)) return;
+		if (isReadOnly(annotation))
+			return;
 		changes.remove(annotation);
 		getDatabase().remove(annotation);
-		fireAnnotationsRemoved( new Annotation[] { annotation } );
+		fireAnnotationsRemoved(new Annotation[] { annotation });
 	}
-	
+
 	public EObject[] query(EClassifier classifier) {
 		return getDatabase().query(classifier);
 	}
-	
+
 	public void rebuildIndex() {
 		getDatabase().rebuildIndex();
 	}
-	
+
 	public List<Annotation> getAnnotations(URI uri) {
 		return doGetAnnotations(uri);
 	}
-	
+
 	public Annotation getAnnotationById(String id) {
-		EObject[] objects = getDatabase().get(AnnotationPackage.eINSTANCE.getAnnotation_Id(), id);
+		EObject[] objects = getDatabase().get(
+				AnnotationPackage.eINSTANCE.getAnnotation_Id(), id);
 		List<Annotation> list = new ArrayList<Annotation>();
 		for (int i = 0; i < objects.length; i++) {
 			if (objects[i] instanceof Annotation) {
-				Annotation annotation = (Annotation)objects[i];
+				Annotation annotation = (Annotation) objects[i];
 				list.add(annotation);
 				trackChanges(annotation);
 				return annotation;
@@ -128,81 +137,96 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 		}
 		return null;
 	}
-	
+
 	protected List<Annotation> doGetAnnotations(URI uri) {
-		EObject[] objects = getDatabase().get(AnnotationPackage.eINSTANCE.getAnnotation_Uri(), uri);
+		EObject[] objects = getDatabase().get(
+				AnnotationPackage.eINSTANCE.getAnnotation_Uri(), uri);
 		List<Annotation> list = new ArrayList<Annotation>();
 		for (int i = 0; i < objects.length; i++) {
 			if (objects[i] instanceof Annotation) {
-				Annotation annotation = (Annotation)objects[i];
+				Annotation annotation = (Annotation) objects[i];
 				list.add(annotation);
 				trackChanges(annotation);
 			}
 		}
 		return list;
 	}
-	
+
 	public List<Annotation> getPostfixAnnotations(URI uri) {
-		EObject[] objects = getDatabase().getPostfixes(AnnotationPackage.eINSTANCE.getAnnotation_Uri(), uri);
+		EObject[] objects = getDatabase().getPostfixes(
+				AnnotationPackage.eINSTANCE.getAnnotation_Uri(), uri);
 		List<Annotation> list = new ArrayList<Annotation>();
 		for (EObject object : objects)
 			if (object instanceof Annotation)
-				list.add((Annotation)object);
+				list.add((Annotation) object);
 		return list;
 	}
-	
+
 	public void uriChanged(URI oldUri, URI newUri) {
 		List<Annotation> oldList = doGetAnnotations(oldUri);
 		if (oldList.size() == 0)
 			return;
 		Iterator<Annotation> it = oldList.iterator();
 		while (it.hasNext()) {
-	        Annotation annotation = (Annotation) it.next();
-	        annotation.setUri(newUri);
-	        save(annotation);
-        }
+			Annotation annotation = (Annotation) it.next();
+			annotation.setUri(newUri);
+			save(annotation);
+		}
 		fireAnnotationsChanged(oldList.toArray(new Annotation[oldList.size()]));
 	}
-	
+
 	public void remove(URI uri) {
 		Annotation[] annotations = doRemove(uri);
 		if (annotations != null && annotations.length > 0)
 			fireAnnotationsRemoved(annotations);
 	}
-	
+
 	public boolean isReadOnly(Annotation annotation) {
-		if (isDynamic(annotation)) return true;
+		if (isDynamic(annotation))
+			return true;
 		return getDatabase().isReadOnly(annotation);
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationManager#addResource(org.eclipse.emf.ecore.resource.Resource, org.eclipse.tigerstripe.espace.core.ReadWriteOption)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.tigerstripe.annotation.core.IAnnotationManager#addResource
+	 * (org.eclipse.emf.ecore.resource.Resource,
+	 * org.eclipse.tigerstripe.espace.core.ReadWriteOption)
 	 */
 	public void addAnnotations(Resource resource, Mode option) {
 		getDatabase().addResource(resource, option);
 		fireAnnotationsAdded(resource, option);
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationManager#removeResource(org.eclipse.emf.ecore.resource.Resource)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.tigerstripe.annotation.core.IAnnotationManager#removeResource
+	 * (org.eclipse.emf.ecore.resource.Resource)
 	 */
 	public void removeAnnotations(Resource resource) {
 		getDatabase().removeResource(resource, true);
 		fireAnnotationsRemoved(resource);
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationManager#unregisterAnnotations(org.eclipse.emf.ecore.resource.Resource)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.tigerstripe.annotation.core.IAnnotationManager#
+	 * unregisterAnnotations(org.eclipse.emf.ecore.resource.Resource)
 	 */
 	public void unregisterAnnotations(Resource resource) {
 		getDatabase().removeResource(resource, false);
 		fireAnnotationsRemoved(resource);
 	}
-	
+
 	protected boolean isDynamic(Annotation annotation) {
 		return annotation.getContent() instanceof DynamicEObjectImpl;
 	}
-	
+
 	protected Annotation[] doRemove(URI uri) {
 		List<Annotation> list = doGetAnnotations(uri);
 		if (list.size() > 0) {
@@ -218,92 +242,90 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 		}
 		return null;
 	}
-	
+
 	public void addAnnotationListener(IAnnotationListener listener) {
 		listeners.add(listener);
 	}
-	
+
 	public void removeAnnotationListener(IAnnotationListener listener) {
 		listeners.remove(listener);
 	}
-	
+
 	protected void fireAnnotationAdded(Annotation annotation) {
 		Object[] objects = listeners.getListeners();
 		for (int i = 0; i < objects.length; i++) {
 			try {
-				IAnnotationListener listener = (IAnnotationListener)objects[i];
+				IAnnotationListener listener = (IAnnotationListener) objects[i];
 				listener.annotationAdded(annotation);
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				AnnotationPlugin.log(e);
 			}
 		}
 	}
-	
+
 	protected void fireAnnotationsRemoved(Annotation[] annotations) {
 		Object[] objects = listeners.getListeners();
 		for (int i = 0; i < objects.length; i++) {
 			try {
-				IAnnotationListener listener = (IAnnotationListener)objects[i];
+				IAnnotationListener listener = (IAnnotationListener) objects[i];
 				listener.annotationsRemoved(annotations);
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				AnnotationPlugin.log(e);
 			}
 		}
 	}
-	
+
 	protected void fireAnnotationsChanged(Annotation[] annotations) {
 		Object[] objects = listeners.getListeners();
 		for (int i = 0; i < objects.length; i++) {
 			try {
-				IAnnotationListener listener = (IAnnotationListener)objects[i];
+				IAnnotationListener listener = (IAnnotationListener) objects[i];
 				listener.annotationsChanged(annotations);
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				AnnotationPlugin.log(e);
 			}
 		}
 	}
-	
+
 	protected void fireAnnotationsAdded(Resource resource, Mode option) {
 		Object[] objects = listeners.getListeners();
 		for (int i = 0; i < objects.length; i++) {
 			try {
-				IAnnotationListener listener = (IAnnotationListener)objects[i];
+				IAnnotationListener listener = (IAnnotationListener) objects[i];
 				if (listener instanceof IAnnotationListener2) {
-					((IAnnotationListener2)listener).annotationsAdded(resource, option);
+					((IAnnotationListener2) listener).annotationsAdded(
+							resource, option);
 				}
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				AnnotationPlugin.log(e);
 			}
 		}
 	}
-	
+
 	protected void fireAnnotationsRemoved(Resource resource) {
 		Object[] objects = listeners.getListeners();
 		for (int i = 0; i < objects.length; i++) {
 			try {
-				IAnnotationListener listener = (IAnnotationListener)objects[i];
+				IAnnotationListener listener = (IAnnotationListener) objects[i];
 				if (listener instanceof IAnnotationListener2) {
-					((IAnnotationListener2)listener).annotationsRemoved(resource);
+					((IAnnotationListener2) listener)
+							.annotationsRemoved(resource);
 				}
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				AnnotationPlugin.log(e);
 			}
 		}
 	}
-	
+
 	public void save(Annotation annotation) {
-		if (isReadOnly(annotation)) return;
+		if (isReadOnly(annotation))
+			return;
 		ChangeRecorder recorder = changes.get(annotation);
 		ChangeDescription changes = recorder.summarize();
 		getDatabase().update(annotation, changes);
 		fireAnnotationsChanged(new Annotation[] { annotation });
 	}
-	
+
 	public void revert(Annotation annotation) {
 		ChangeRecorder recorder = changes.get(annotation);
 		ChangeDescription changes = recorder.summarize();

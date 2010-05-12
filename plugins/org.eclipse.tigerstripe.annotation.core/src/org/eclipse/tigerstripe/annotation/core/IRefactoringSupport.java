@@ -14,27 +14,39 @@ package org.eclipse.tigerstripe.annotation.core;
 import org.eclipse.emf.common.util.URI;
 
 /**
- * An refactoring support class provide a way to notify framework about URI changes.
- * IRefactoringSupport instance can be retrieved from Annotation Manager
+ * An refactoring support class provide a way to notify framework about URI
+ * changes. IRefactoringSupport instance can be retrieved from Annotation
+ * Manager
  * 
  * @see IAnnotationManager
  * @author Yuri Strot
  */
 public interface IRefactoringSupport {
-	
+
 	/**
 	 * Notify framework about object with specified URI has been deleted
 	 * 
-	 * @param uri URI of the deleted object
+	 * @param uri
+	 *            URI of the deleted object
 	 */
 	public void deleted(URI uri, boolean affectChildren);
-	
+
 	/**
 	 * Notify framework about object's URI change
 	 * 
-	 * @param oldUri old object URI
-	 * @param newUri new object URI
+	 * @param oldUri
+	 *            old object URI
+	 * @param newUri
+	 *            new object URI
 	 */
 	public void changed(URI oldUri, URI newUri, boolean affectChildren);
+
+	/**
+	 * Notify framework about object with fromUri was copied to object with toUri
+	 * 
+	 * @param fromUri
+	 * @param toUri
+	 */
+	public void copied(URI fromUri, URI toUri, boolean affectChildren);
 
 }

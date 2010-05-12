@@ -31,7 +31,16 @@
 			<enablement/>
 		</deleteParticipant>
 	</extension>
-	
+
+	<extension point="org.eclipse.ltk.core.refactoring.copyParticipants">
+		<copyParticipant
+				class="org.eclipse.tigerstripe.annotation.java.ui.internal.refactoring.CopyParticipant"
+				id="org.eclipse.tigerstripe.annotation.java.ui.refactoring.CopyParticipant"
+				name="TAF JDT Copy Participant">
+			<enablement/>
+		</copyParticipant>
+	</extension>
+
 	<extension
 	      point="org.eclipse.ui.startup">
     	<startup class="org.eclipse.tigerstripe.annotation.java.ui.internal.refactoring.Startup"/>

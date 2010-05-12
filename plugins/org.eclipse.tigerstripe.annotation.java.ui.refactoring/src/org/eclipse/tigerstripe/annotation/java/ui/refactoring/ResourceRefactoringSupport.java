@@ -13,7 +13,9 @@ package org.eclipse.tigerstripe.annotation.java.ui.refactoring;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
@@ -24,14 +26,18 @@ import org.eclipse.tigerstripe.annotation.resource.ResourceURIConverter;
 
 /**
  * @author Yuri Strot
- *
+ * 
  */
 public class ResourceRefactoringSupport implements IRefactoringChangesListener {
-	
+
 	private Map<ILazyObject, ResourceChanges> changes = new HashMap<ILazyObject, ResourceChanges>();
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.jdt.refactoring.IRefactoringChangesListener#changed(org.eclipse.core.runtime.IPath, org.eclipse.core.runtime.IPath, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.tigerstripe.annotation.jdt.refactoring.
+	 * IRefactoringChangesListener#changed(org.eclipse.core.runtime.IPath,
+	 * org.eclipse.core.runtime.IPath, int)
 	 */
 	public void changed(ILazyObject oldObject, ILazyObject newObject, int kind) {
 		if (kind == ABOUT_TO_CHANGE) {
@@ -40,15 +46,15 @@ public class ResourceRefactoringSupport implements IRefactoringChangesListener {
 				ResourceChanges change = new ResourceChanges(resource);
 				changes.put(oldObject, change);
 			}
-		}
-		else if (kind == CHANGED) {
+		} else if (kind == CHANGED) {
 			IResource newResource = getResource(newObject);
 			ResourceChanges change = changes.get(oldObject);
 			if (newResource != null && change != null) {
-				changed( change.getChanges(newResource));
+				changed(change.getChanges(newResource));
 			}
 		}
 	}
+
 	public void moved(ILazyObject[] objects, ILazyObject destination, int kind) {
 		if (kind == ABOUT_TO_CHANGE) {
 			for (int i = 0; i < objects.length; i++) {
@@ -58,36 +64,94 @@ public class ResourceRefactoringSupport implements IRefactoringChangesListener {
 					changes.put(objects[i], change);
 				}
 			}
-		}
-		else if (kind == CHANGED) {
+		} else if (kind == CHANGED) {
 			Map<URI, URI> allChanges = new HashMap<URI, URI>();
 			for (int i = 0; i < objects.length; i++) {
 				ResourceChanges change = changes.remove(objects[i]);
 				IResource element = getResource(destination);
 				if (element != null && change != null) {
 					IPath oldPath = change.getPath();
-					IPath newPath = element.getFullPath().append(oldPath.lastSegment());
-					IResource newResource = ResourcesPlugin.getWorkspace().getRoot().findMember(newPath);
+					IPath newPath = element.getFullPath().append(
+							oldPath.lastSegment());
+					IResource newResource = ResourcesPlugin.getWorkspace()
+							.getRoot().findMember(newPath);
 					allChanges.putAll(change.getChanges(newResource));
 				}
 			}
 			changed(allChanges);
 		}
 	}
-	
-	protected void changed(final Map<URI, URI> uris) {
-		//inform annotation framework about changes
+
+	public void copied(ILazyObject[] objects, ILazyObject destination,
+			Map<ILazyObject, String> newNames, int kind) {
+		if (kind == ABOUT_TO_CHANGE) {
+			for (int i = 0; i < objects.length; i++) {
+				IResource element = getResource(objects[i]);
+				if (element != null) {
+					ResourceChanges change = new ResourceChanges(element);
+					changes.put(objects[i], change);
+				}
+			}
+		} else if (kind == CHANGED) {
+			Map<URI, URI> allChanges = new HashMap<URI, URI>();
+			for (int i = 0; i < objects.length; i++) {
+				ResourceChanges change = changes.remove(objects[i]);
+				String newName = newNames.get(objects[i]);
+				IResource element = getResource(destination);
+				if (element != null && change != null) {
+					if (!(element instanceof IContainer)) {
+						element = element.getParent();
+					}
+					IPath oldPath = change.getPath();
+					String name = oldPath.lastSegment();
+					if (newName != null && newName.length() > 0) {
+						name = newName;
+					}
+					IPath newPath = element.getFullPath().append(name);
+					IResource newResource = ResourcesPlugin.getWorkspace()
+							.getRoot().findMember(newPath);
+					if (newResource != null) {
+						allChanges.putAll(change.getChanges(newResource));
+					}
+				}
+			}
+			copied(allChanges);
+		}
+	}
+
+	private void changed(final Map<URI, URI> uris) {
+		// inform annotation framework about changes
+		if (uris.size() == 0)
+			return;
 		new Thread() {
 			public void run() {
 				for (URI uri : uris.keySet())
-					AnnotationPlugin.getManager().getRefactoringSupport(
-							).changed(uri, uris.get(uri), true);
+					AnnotationPlugin.getManager().getRefactoringSupport()
+							.changed(uri, uris.get(uri), true);
 			}
 		}.start();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.jdt.refactoring.IRefactoringChangesListener#deleted(org.eclipse.core.runtime.IPath)
+	private void copied(final Map<URI, URI> uris) {
+		if (uris.size() == 0)
+			return;
+		new Thread() {
+			public void run() {
+				for (Entry<URI, URI> entry : uris.entrySet()) {
+					URI fromUri = entry.getKey();
+					URI toUri = entry.getValue();
+					AnnotationPlugin.getManager().getRefactoringSupport()
+							.copied(fromUri, toUri, true);
+				}
+			}
+		}.start();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.tigerstripe.annotation.jdt.refactoring.
+	 * IRefactoringChangesListener#deleted(org.eclipse.core.runtime.IPath)
 	 */
 	public void deleted(ILazyObject object) {
 		IResource resource = getResource(object);
@@ -96,18 +160,20 @@ public class ResourceRefactoringSupport implements IRefactoringChangesListener {
 			if (uri != null) {
 				new Thread() {
 					public void run() {
-						AnnotationPlugin.getManager().getRefactoringSupport().deleted(uri, true);
+						AnnotationPlugin.getManager().getRefactoringSupport()
+								.deleted(uri, true);
 					}
 				}.start();
 			}
 		}
 	}
-	
+
 	protected IResource getResource(ILazyObject object) {
 		Object obj = object.getObject();
 		if (obj == null)
 			return null;
-		return (IResource)Platform.getAdapterManager().getAdapter(obj, IResource.class);
+		return (IResource) Platform.getAdapterManager().getAdapter(obj,
+				IResource.class);
 	}
 
 }

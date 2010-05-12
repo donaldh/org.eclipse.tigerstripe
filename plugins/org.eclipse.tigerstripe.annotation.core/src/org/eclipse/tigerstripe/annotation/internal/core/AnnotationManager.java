@@ -270,6 +270,34 @@ public class AnnotationManager extends AnnotationStorage implements
 		}
 	}
 
+	public void copied(URI fromUri, URI toUri, boolean affectChildren) {
+		if (affectChildren) {
+			Set<URI> uris = new HashSet<URI>();
+			List<Annotation> annotations = getPostfixAnnotations(fromUri);
+			for (Annotation annotation : annotations) {
+				if (!uris.contains(annotation.getUri()))
+					uris.add(annotation.getUri());
+			}
+			for (URI uri : uris) {
+				if (!uri.equals(toUri) && URIUtil.isPrefix(uri, fromUri)) {
+					try {
+						URI nUri = uri.equals(fromUri) ? toUri : URIUtil
+								.replacePrefix(uri, fromUri, toUri);
+						doCopyAnnotations(uri, nUri);
+					} catch (Exception e) {
+						AnnotationPlugin.log(e);
+					}
+				}
+			}
+		} else {
+			try {
+				doCopyAnnotations(fromUri, toUri);
+			} catch (Exception e) {
+				AnnotationPlugin.log(e);
+			}
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -304,6 +332,20 @@ public class AnnotationManager extends AnnotationStorage implements
 					newUri));
 		} catch (Exception e) {
 			AnnotationPlugin.log(e);
+		}
+	}
+
+	private void doCopyAnnotations(URI fromUri, URI toUri)
+			throws AnnotationException {
+		Object to = AnnotationPlugin.getManager().getAnnotatedObject(toUri);
+		if (to == null)
+			return;
+		List<Annotation> annotations = doGetAnnotations(fromUri);
+		if (annotations.size() == 0)
+			return;
+		for (Annotation annotation : annotations) {
+			AnnotationPlugin.getManager().addAnnotation(to,
+					annotation.getContent());
 		}
 	}
 
