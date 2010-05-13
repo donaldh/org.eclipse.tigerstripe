@@ -11,6 +11,8 @@
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation;
 
 import org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide.editor.FileDiagramEditor;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.dnd.ClassDiagramDropTargetListener;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.ClassDiagramSynchronizer;
 
@@ -35,8 +37,10 @@ public class GMFEditorHandler {
 
 	public void initialize() {
 		synchronizer.startSynchronizing();
+		Map map = (Map) editor.getDiagram().getElement();
+		ITigerstripeModelProject tsProject = map.getCorrespondingITigerstripeProject();
 		editor.getDiagramGraphicalViewer().addDropTargetListener(
-				new ClassDiagramDropTargetListener(editor.getDiagramGraphicalViewer()));
+				new ClassDiagramDropTargetListener(editor.getDiagramGraphicalViewer(), tsProject));
 	}
 
 	public void dispose() {

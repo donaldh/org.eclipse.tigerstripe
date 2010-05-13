@@ -14,18 +14,25 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
+import org.eclipse.gef.RootEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramDropTargetListener;
+import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramGraphicalViewer;
 import org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide.editor.FileDiagramEditor;
 import org.eclipse.jface.util.LocalSelectionTransfer;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.TransferData;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.AbstractArtifactAdapter;
 
 public class ClassDiagramDropTargetListener extends DiagramDropTargetListener {
+
+	private ITigerstripeModelProject tsProject = null;
 
 	@Override
 	protected void handleDragEnter() {
@@ -33,8 +40,10 @@ public class ClassDiagramDropTargetListener extends DiagramDropTargetListener {
 		super.handleDragEnter();
 	}
 
-	public ClassDiagramDropTargetListener(EditPartViewer viewer) {
+	public ClassDiagramDropTargetListener(EditPartViewer viewer,
+			ITigerstripeModelProject tsProject) {
 		super(viewer, LocalSelectionTransfer.getTransfer());
+		this.tsProject = tsProject;
 	}
 
 	@Override
@@ -84,6 +93,32 @@ public class ClassDiagramDropTargetListener extends DiagramDropTargetListener {
 		return result;
 	}
 
+	protected List<IAbstractArtifact> internalGetObjectsBeingDropped(
+			TransferData[] data) {
+
+		List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
+
+		for (int i = 0; i < data.length; i++) {
+			if (LocalSelectionTransfer.getTransfer().isSupportedType(data[i])) {
+				Object obj = LocalSelectionTransfer.getTransfer().nativeToJava(
+						data[i]);
+				if (obj instanceof IStructuredSelection) {
+					IStructuredSelection sel = (IStructuredSelection) obj;
+					for (Iterator iter = sel.iterator(); iter.hasNext();) {
+						Object item = iter.next();
+						IAbstractArtifact artifact = AbstractArtifactAdapter
+								.adapt(item);
+						if (artifact != null) {
+							result.add(artifact);
+						}
+					}
+				}
+			}
+		}
+
+		return result;
+	}
+
 	/**
 	 * Checks whether the Drag-n-drop operation should be enabled
 	 * 
@@ -94,19 +129,23 @@ public class ClassDiagramDropTargetListener extends DiagramDropTargetListener {
 	public boolean isEnabled(DropTargetEvent event) {
 
 		event.detail = DND.DROP_COPY;
-		
-        boolean result = false;
-		TransferData[] data = event.dataTypes;
 
-		for (int i = 0; i < data.length; i++) {
-			if (LocalSelectionTransfer.getTransfer().isSupportedType(data[i])) {
-				Object obj = LocalSelectionTransfer.getTransfer().nativeToJava(
-						data[i]);
-				result = true;
+		boolean result = true;
+		TransferData[] data = event.dataTypes;
+		List<IAbstractArtifact> arts = internalGetObjectsBeingDropped(data);
+		for (IAbstractArtifact art : arts) {
+			try {
+				if (tsProject.getArtifactManagerSession()
+						.getArtifactByFullyQualifiedName(
+								art.getFullyQualifiedName()) == null) {
+					event.detail = DND.DROP_NONE;
+					return false;
+				}
+			} catch (TigerstripeException e) {
+				return false;
 			}
 		}
 		return result;
 	}
-	
-	
+
 }
