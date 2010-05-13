@@ -166,20 +166,9 @@ public abstract class TigerstripeAbstractParser implements IParser {
 	 */
 	public ICommand getParseCommand(IAdaptable adapter, String newString,
 			int flags) {
-		// added a call to "trim()" to ensure that any leading or trailing
-		// whitespace from the newString value is removed
 		MessageFormat messageFormat = getEditProcessor();
-		Object[] values = getEditProcessor().parse(newString.trim(),
+		Object[] values = getEditProcessor().parse(newString,
 				new ParsePosition(0));
-		// added this loop over the returned values to remove any white space
-		// found at
-		// the beginning and/or end of the strings after parsing and to ensure
-		// that the
-		// labels for packages are updated correctly
-		for (int i = 0; i < values.length; i++) {
-			if (values[i] != null)
-				values[i] = ((String) values[i]).trim();
-		}
 		if (values == null
 				|| validateNewValues(values).getCode() != IParserEditStatus.EDITABLE)
 			return UnexecutableCommand.INSTANCE;
