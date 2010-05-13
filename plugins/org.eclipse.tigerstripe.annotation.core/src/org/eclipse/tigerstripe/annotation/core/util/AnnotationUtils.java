@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.AnnotationException;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.IProviderTarget;
 
@@ -41,6 +42,32 @@ public class AnnotationUtils {
 					.getName());
 		else
 			return new ClassName(name);
+	}
+
+	/**
+	 * Copy annotations from one annotable object to another. If some of the
+	 * source annotations can't be copy to target object, this annotations will
+	 * be ignored
+	 * 
+	 * @param from
+	 *            source annotable object
+	 * @param to
+	 *            target annotable object
+	 * @return true, if some source annotations have been copied and false
+	 *         otherwise
+	 * @throws AnnotationException
+	 */
+	public static boolean copyAnnotations(Object from, Object to)
+			throws AnnotationException {
+		Annotation[] annotations = AnnotationPlugin.getManager()
+				.getAnnotations(from, false);
+		boolean haveCopied = false;
+		for (Annotation annotation : annotations) {
+			AnnotationPlugin.getManager().addAnnotation(to,
+					annotation.getContent());
+			haveCopied = true;
+		}
+		return haveCopied;
 	}
 
 	/**
