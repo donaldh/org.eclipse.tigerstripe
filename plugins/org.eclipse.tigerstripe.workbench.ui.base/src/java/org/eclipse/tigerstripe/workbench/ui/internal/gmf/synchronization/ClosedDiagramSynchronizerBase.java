@@ -57,8 +57,7 @@ public abstract class ClosedDiagramSynchronizerBase implements
 	private TransactionalEditingDomain editingDomain;
 
 	// We need to lock access to components of the diagram until it has been
-	// properly
-	// initialized
+	// properly initialized
 	private ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
 	private ReadLock readLock = lock.readLock();
@@ -146,7 +145,7 @@ public abstract class ClosedDiagramSynchronizerBase implements
 			}
 			updateTStamps();
 		} finally {
-			readLock.lock();
+			readLock.unlock();
 		}
 	}
 
