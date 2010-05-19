@@ -203,6 +203,7 @@ public class Images {
 	public static final String INSTANCEEDITOR_ICON = "InstancediagramDiagramFile.gif";
 	public static final String CONTRACTSEGMENT_ICON = "segment.gif";
 	public static final String CONTRACTUSECASE_ICON = "useCase.gif";
+	public static final String STEREOTYPE_ICON = "stereotype.gif";
 	public static final String SPLASH = "splash.gif";
 
 	public static final String EXTENDSARROW_ICON = "ExtendsIcon-small.png";
@@ -226,6 +227,7 @@ public class Images {
 		createManaged(SPLASH, localIcon(SPLASH));
 		createManaged(EXTENDSARROW_ICON, localIcon(EXTENDSARROW_ICON));
 		createManaged(REFERENCEARROW_ICON, localIcon(REFERENCEARROW_ICON));
+		createManaged(STEREOTYPE_ICON, localIcon(STEREOTYPE_ICON));
 
 		// Managed Entity
 		createManaged(ENTITY_ICON, ArtifactMetadataFactory.INSTANCE

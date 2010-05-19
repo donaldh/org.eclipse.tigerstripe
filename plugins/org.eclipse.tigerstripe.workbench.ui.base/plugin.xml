@@ -986,5 +986,11 @@
            markerType="org.eclipse.tigerstripe.workbench.base.annotationmarker">
      </markerResolutionGenerator>
   </extension>
+  <extension
+        point="org.eclipse.tigerstripe.annotation.ui.noteProviders">
+     <provider
+           class="org.eclipse.tigerstripe.workbench.ui.internal.views.stereotypes.StereotypeNoteProvider">
+     </provider>
+  </extension>
 
 </plugin>
