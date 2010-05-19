@@ -4,6 +4,7 @@
 	<extension-point id="workbenchAnnotationProvider" name="workbenchAnnotationProvider" schema="schema/workbenchAnnotationProvider.exsd"/>
  <extension-point id="annotationLabelProvider" name="annotationLabelProvider" schema="schema/annotationLabelProvider.exsd"/>
  <extension-point id="propertyProvider" name="propertyProvider" schema="schema/propertyProvider.exsd"/>
+ <extension-point id="noteProviders" name="noteProviders" schema="schema/noteProviders.exsd"/>
 	
    <extension
          point="org.eclipse.ui.views">
@@ -85,7 +86,7 @@
 		<propertySections contributorId="org.eclipse.tigerstripe.annotation.ui.properties">
 			<propertySection
 				class="org.eclipse.tigerstripe.annotation.ui.internal.view.property.PropertiesSection"
-				filter="org.eclipse.tigerstripe.annotation.ui.internal.view.property.DefaultAnnotationFilter"
+				filter="org.eclipse.tigerstripe.annotation.ui.core.properties.AnnotationFilter"
 				id="property.section.PropertiesPropertySection"
 				tab="property.tab.PropertiesPropertySection">
 			</propertySection>
@@ -136,6 +137,12 @@
     <provider
         class="org.eclipse.tigerstripe.annotation.ui.internal.properties.DatePropertyProvider"
         priority="2"/>
+  </extension>
+  <extension
+        point="org.eclipse.tigerstripe.annotation.ui.noteProviders">
+     <provider
+           class="org.eclipse.tigerstripe.annotation.ui.core.view.AnnotationNoteProvider">
+     </provider>
   </extension>
 
 </plugin>

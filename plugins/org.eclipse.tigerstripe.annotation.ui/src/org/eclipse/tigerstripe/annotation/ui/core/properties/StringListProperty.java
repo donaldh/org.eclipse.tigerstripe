@@ -42,7 +42,7 @@ public class StringListProperty extends EPropertyImpl {
 	 */
 	@Override
 	public void setValue(Object value) {
-		if (value instanceof EDataTypeUniqueEList)
+		if (value instanceof EDataTypeUniqueEList<?>)
 			return;
 		super.setValue(value);
 	}

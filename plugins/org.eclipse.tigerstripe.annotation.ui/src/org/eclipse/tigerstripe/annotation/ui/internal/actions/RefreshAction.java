@@ -13,19 +13,18 @@ package org.eclipse.tigerstripe.annotation.ui.internal.actions;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
-
+import org.eclipse.tigerstripe.annotation.ui.Images;
 
 /**
  * @author Yuri Strot
- *
+ * 
  */
 public class RefreshAction extends Action {
-	
+
 	private Viewer viewer;
-	
+
 	public RefreshAction(Viewer viewer) {
-		super("Refresh", AnnotationUIPlugin.createImageDescriptor("icons/refresh.gif"));
+		super("Refresh", Images.getDescriptor(Images.REFRESH));
 		this.viewer = viewer;
 	}
 

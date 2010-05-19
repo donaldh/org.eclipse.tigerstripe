@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2008 xored software, Inc.  
+ * Copyright (c) 2010 xored software, Inc.  
  * 
  * All rights reserved. This program and the accompanying materials 
  * are made available under the terms of the Eclipse Public License v1.0 
@@ -9,11 +9,12 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
+
 package org.eclipse.tigerstripe.annotation.ui.core.properties;
 
-import org.eclipse.jface.viewers.IFilter;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
-import org.eclipse.tigerstripe.annotation.ui.internal.view.property.TabDescriptionManipulator;
+import org.eclipse.tigerstripe.annotation.ui.core.view.AnnotationNote;
+import org.eclipse.tigerstripe.annotation.ui.core.view.INote;
 
 /**
  * Class determines if annotation section should be displayed
@@ -21,8 +22,8 @@ import org.eclipse.tigerstripe.annotation.ui.internal.view.property.TabDescripti
  * @author Yuri Strot
  * @see AnnotationPropertiesSection
  */
-public abstract class AnnotationFilter implements IFilter {
-	
+public class AnnotationFilter extends NoteFilter {
+
 	/**
 	 * Determines if the given annotation passes this filter
 	 * 
@@ -30,14 +31,25 @@ public abstract class AnnotationFilter implements IFilter {
 	 * @return true if annotation section should be displayed for the specified annotation
 	 * and false otherwise
 	 */
-	public abstract boolean select(Annotation annotation);
+	protected boolean select(Annotation annotation) {
+		return true;
+	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.viewers.IFilter#select(java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.tigerstripe.annotation.ui.core.properties.NoteFilter#select
+	 * (org.eclipse.tigerstripe.annotation.ui.core.view.INote)
 	 */
-	public final boolean select(Object toTest) {
-		if (toTest instanceof Annotation) {
-			return TabDescriptionManipulator.getInstance().isEnabled(this);
+	@Override
+	public boolean select(INote note) {
+		if (note instanceof AnnotationNote) {
+			AnnotationNote aNote = (AnnotationNote) note;
+			Annotation annotation = aNote.getAnnotation();
+			if (annotation != null) {
+				return select(annotation);
+			}
 		}
 		return false;
 	}

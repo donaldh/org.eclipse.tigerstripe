@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.example.customview;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.ui.core.properties.AnnotationFilter;
@@ -18,17 +19,24 @@ import org.eclipse.tigerstripe.annotation.ui.example.customview.styles.StylesPac
 
 /**
  * @author Yuri Strot
- *
+ * 
  */
 public class ColorAnnotationFilter extends AnnotationFilter {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.ui.core.properties.AnnotationFilter#select(org.eclipse.tigerstripe.annotation.core.Annotation)
+	private static final EClass COLOR_CLASS = StylesPackage.eINSTANCE
+			.getColor();
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.tigerstripe.annotation.ui.core.properties.AnnotationFilter
+	 * #select(org.eclipse.tigerstripe.annotation.core.Annotation)
 	 */
 	@Override
-	public boolean select(Annotation annotation) {
+	protected boolean select(Annotation annotation) {
 		EObject content = annotation.getContent();
-		if (content != null && content.eClass().equals(StylesPackage.eINSTANCE.getColor()))
+		if (content != null && content.eClass().equals(COLOR_CLASS))
 			return true;
 		return false;
 	}

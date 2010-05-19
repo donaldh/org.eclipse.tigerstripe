@@ -28,45 +28,45 @@ import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
 import org.eclipse.tigerstripe.annotation.core.TargetAnnotationType;
 import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
+import org.eclipse.tigerstripe.annotation.ui.Images;
 import org.eclipse.tigerstripe.annotation.ui.internal.util.AnnotationGroup;
-
 
 /**
  * @author Yuri Strot
- *
+ * 
  */
 public class CreateAnnotationWizardPage extends WizardPage {
-	
+
 	private static final String TITLE = "Select Annotation Type";
 	private TargetAnnotationType type;
 	private TargetAnnotationType[] types;
 	private Tree combo;
 	private Object object;
-	
+
 	private ComboListener comboListener;
 	private Image defaultImage;
 	private Image groupImage;
 
 	public CreateAnnotationWizardPage(Object object) {
-	    super(TITLE);
-	    setTitle(TITLE);
-	    this.object = object;
-    }
-	
+		super(TITLE);
+		setTitle(TITLE);
+		this.object = object;
+	}
+
 	public TargetAnnotationType getType() {
 		return type;
 	}
-	
+
 	public Image getDefaultImage() {
 		if (defaultImage == null) {
-			defaultImage = AnnotationUIPlugin.createImage("icons/annotation.gif");
+			defaultImage = Images.getImage(Images.ANNOTATION);
 		}
 		return defaultImage;
 	}
-	
+
 	public Image getGroupImage() {
 		if (groupImage == null) {
-			groupImage = AnnotationUIPlugin.createImage("icons/annotations.gif");
+			groupImage = Images.getImage(Images.ANNOTATIONS);
 		}
 		return groupImage;
 	}
@@ -74,42 +74,41 @@ public class CreateAnnotationWizardPage extends WizardPage {
 	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
 		setMessage("No possible types");
-		
-		Composite composite= new Composite(parent, SWT.NONE);
+
+		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setFont(parent.getFont());
-		
+
 		GridLayout layout = new GridLayout();
-		layout.numColumns = 2;		
+		layout.numColumns = 2;
 		composite.setLayout(layout);
-		
+
 		createTypeControls(composite);
-		
+
 		setControl(composite);
 		Dialog.applyDialogFont(composite);
-    }
-	
+	}
+
 	public boolean canFinish() {
 		return type != null;
 	}
-	
+
 	protected void createType(TargetAnnotationType type) {
 		createType(null, type);
 	}
-	
+
 	protected void createType(TreeItem parent, TargetAnnotationType targetType) {
-		TreeItem item = parent == null ? new TreeItem(combo, SWT.NONE) : 
-			new TreeItem(parent, SWT.NONE);
+		TreeItem item = parent == null ? new TreeItem(combo, SWT.NONE)
+				: new TreeItem(parent, SWT.NONE);
 		AnnotationType type = targetType.getType();
 		item.setText(type.getName());
 		item.setData(targetType);
 		Image image = null;
-		ILabelProvider provider = AnnotationUIPlugin.getManager(
-			).getLabelProvider(type);
+		ILabelProvider provider = AnnotationUIPlugin.getManager()
+				.getLabelProvider(type);
 		if (provider != null) {
 			try {
 				image = provider.getImage(type.createInstance());
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				AnnotationUIPlugin.log(e);
 			}
 		}
@@ -117,14 +116,14 @@ public class CreateAnnotationWizardPage extends WizardPage {
 			image = getDefaultImage();
 		item.setImage(image);
 	}
-	
+
 	protected void createTypeControls(Composite parent) {
 		Label label = new Label(parent, SWT.TOP);
 		label.setText("Type: ");
 		label.setLayoutData(new GridData(GridData.FILL_VERTICAL));
-		
+
 		types = AnnotationPlugin.getManager().getAnnotationTargets(object);
-		
+
 		combo = new Tree(parent, SWT.BORDER);
 		combo.setHeaderVisible(false);
 		combo.setLinesVisible(false);
@@ -138,15 +137,14 @@ public class CreateAnnotationWizardPage extends WizardPage {
 				for (TargetAnnotationType type : group.getTypes()) {
 					createType(item, type);
 				}
-			}
-			else {
+			} else {
 				for (TargetAnnotationType type : group.getTypes()) {
 					createType(type);
 				}
 			}
 		}
 		combo.setLayoutData(new GridData(GridData.FILL_BOTH));
-		
+
 		comboListener = new ComboListener();
 		combo.addSelectionListener(comboListener);
 		if (combo.getItemCount() > 0) {
@@ -161,36 +159,35 @@ public class CreateAnnotationWizardPage extends WizardPage {
 		combo.forceFocus();
 		comboListener.updateDescription();
 	}
-	
-	private class ComboListener implements SelectionListener  {
-		
+
+	private class ComboListener implements SelectionListener {
+
 		public void widgetSelected(SelectionEvent e) {
 			updateDescription();
 		}
-	
+
 		public void widgetDefaultSelected(SelectionEvent e) {
 			updateDescription();
 		}
-		
+
 		public void updateDescription() {
 			TreeItem[] selection = combo.getSelection();
 			if (selection.length > 0) {
-				type = (TargetAnnotationType)selection[0].getData();
+				type = (TargetAnnotationType) selection[0].getData();
 				if (type != null) {
-					String d = type.getType().getDesciption();
-					if (d == null) d = "";
+					String d = type.getType().getDescription();
+					if (d == null)
+						d = "";
 					setMessage(d);
-				}
-				else {
+				} else {
 					setMessage("");
 				}
-			}
-			else {
+			} else {
 				type = null;
 			}
 			getWizard().getContainer().updateButtons();
 		}
-	
+
 	}
 
 }

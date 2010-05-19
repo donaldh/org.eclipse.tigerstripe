@@ -23,29 +23,29 @@ import org.eclipse.ui.IWorkbenchPart;
 
 /**
  * @author Yuri Strot
- *
+ * 
  */
 public class AnnotationSelectionListener implements ISelectionListener {
-	
+
 	private List<ISelectionListener> listeners = new ArrayList<ISelectionListener>();
 	private ISelectionConverter[] converters;
 	private ISelection selection;
-	
+
 	private CompositeSelectionFilter filter;
-	
+
 	public AnnotationSelectionListener(ISelectionConverter[] converters) {
 		this.converters = converters;
 		filter = new CompositeSelectionFilter();
 	}
-	
+
 	public CompositeSelectionFilter getFilter() {
-	    return filter;
-    }
-	
+		return filter;
+	}
+
 	public void addListener(ISelectionListener listener) {
 		listeners.add(listener);
 	}
-	
+
 	public void removeListener(ISelectionListener listener) {
 		listeners.remove(listener);
 	}
@@ -56,25 +56,25 @@ public class AnnotationSelectionListener implements ISelectionListener {
 		this.selection = convertSelection(part, selection);
 		for (ISelectionListener listener : listeners) {
 			listener.selectionChanged(part, this.selection);
-        }
-    }
-	
+		}
+	}
+
 	public ISelection getSelection() {
 		return selection;
 	}
-	
-	protected ISelection convertSelection(IWorkbenchPart part, ISelection selection) {
+
+	public ISelection convertSelection(IWorkbenchPart part, ISelection selection) {
 		for (int i = 0; i < converters.length; i++) {
 			try {
-		        ISelection newSelection = converters[i].convert(part, selection);
+				ISelection newSelection = converters[i]
+						.convert(part, selection);
 				if (newSelection != null)
 					selection = newSelection;
-			}
-			catch (Exception e) {
+			} catch (Exception e) {
 				AnnotationUIPlugin.log(e);
 			}
-        }
+		}
 		return selection;
 	}
-	
+
 }

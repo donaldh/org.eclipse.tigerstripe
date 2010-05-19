@@ -170,13 +170,10 @@ public class PropertyTree {
 				// only activate if there is a cell editor
 				Point pt = new Point(event.x, event.y);
 				TreeItem item = tree.getItem(pt);
-				if (item != null) {
-					int x = item.getBounds().x;
-					if (tree.getColumnCount() > 0) {
-						int width = tree.getColumn(0).getWidth();
-						if (width + x > event.x)
-							return;
-					}
+				if (item != null && tree.getColumnCount() > 0) {
+					int width = tree.getColumn(0).getWidth();
+					if (width > event.x)
+						return;
 					handleSelect(item);
 				}
 			}

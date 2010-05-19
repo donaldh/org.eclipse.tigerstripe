@@ -17,21 +17,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceChangeListener;
-import org.eclipse.core.resources.IResourceDelta;
-import org.eclipse.core.resources.IResourceDeltaVisitor;
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.core.commands.AbstractHandler;
+import org.eclipse.core.commands.ExecutionEvent;
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.GroupMarker;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
@@ -56,26 +50,21 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationFactory;
-import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
-import org.eclipse.tigerstripe.annotation.core.AnnotationType;
-import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
-import org.eclipse.tigerstripe.annotation.core.IRefactoringListener;
-import org.eclipse.tigerstripe.annotation.core.RefactoringChange;
-import org.eclipse.tigerstripe.annotation.core.util.AnnotationUtils;
-import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
+import org.eclipse.tigerstripe.annotation.ui.Images;
 import org.eclipse.tigerstripe.annotation.ui.core.IAnnotationActionConstants;
-import org.eclipse.tigerstripe.annotation.ui.internal.actions.OpenAnnotationWizardAction;
-import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveAnnotationAction;
-import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveURIAnnotationAction;
-import org.eclipse.tigerstripe.annotation.ui.internal.util.AnnotationSelectionUtils;
+import org.eclipse.tigerstripe.annotation.ui.core.view.AnnotationNote;
+import org.eclipse.tigerstripe.annotation.ui.core.view.INote;
+import org.eclipse.tigerstripe.annotation.ui.core.view.INoteProvider;
+import org.eclipse.tigerstripe.annotation.ui.core.view.NoteLabelProvider;
+import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveAllNoteAction;
+import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveNoteAction;
 import org.eclipse.tigerstripe.annotation.ui.util.AsyncExecUtil;
 import org.eclipse.tigerstripe.annotation.ui.util.WorkbenchUtil;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.views.properties.tabbed.ISectionDescriptor;
-import org.eclipse.ui.views.properties.tabbed.ITabDescriptor;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
@@ -86,8 +75,11 @@ import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
  * @author Yuri Strot
  */
 public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
-		IPropertyChangeListener, IAnnotationListener, IRefactoringListener,
-		IResourceChangeListener {
+		IPropertyChangeListener, IPropertiesSelectionListener {
+
+	private static final int NO_CHANGES = 0;
+	private static final int NON_SELECTION_CHANGES = 1;
+	private static final int SELECTION_CHANGES = 2;
 
 	/**
 	 * the contributor for this property sheet page
@@ -96,8 +88,6 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 
 	private IStructuredSelection selectedElements;
 
-	private List<IResource> selectedResources;
-
 	private IWorkbenchPart part;
 
 	private Composite composite;
@@ -105,16 +95,15 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 
 	private TableViewer viewer;
 
-	private Annotation[] currentSelection;
+	private INote[] currentSelection;
 
-	private static Annotation NULL_ANNOTATION = AnnotationFactory.eINSTANCE
-			.createAnnotation();
+	private static INote NULL_NOTE = new AnnotationNote(
+			AnnotationFactory.eINSTANCE.createAnnotation());
 
 	private StructuredSelection EMPTY_SELECTION = new StructuredSelection();
 
-	private Map<Annotation, DirtyAdapter> adapters = new HashMap<Annotation, DirtyAdapter>();
+	private Map<INote, DirtyListener> adapters = new HashMap<INote, DirtyListener>();
 
-	private IAnnotationEditorListener listener;
 	private boolean block = false;
 
 	/**
@@ -126,10 +115,10 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 	 */
 	public PropertiesBrowserPage(
 			ITabbedPropertySheetPageContributor contributor,
-			IAnnotationEditorListener listener) {
+			INoteProvider[] providers) {
 		super(contributor);
 		this.contributor = contributor;
-		this.listener = listener;
+		this.providers = providers;
 	}
 
 	/*
@@ -152,7 +141,82 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 	 * 
 	 * @see org.eclipse.ui.part.IPage#setActionBars(org.eclipse.ui.IActionBars)
 	 */
-	public void setActionBars(IActionBars actionBars) {
+	public void setActionBars(IActionBars bars) {
+		IToolBarManager manager = bars.getToolBarManager();
+
+		addAction = new Action("Add") {
+			public void run() {
+				PropertiesSelectionManager.getInstance().getSelection()
+						.addDefaultValue();
+			}
+		};
+		addAction.setImageDescriptor(Images.getDescriptor(Images.ADD));
+		manager.add(addAction);
+
+		removeAction = new Action("Remove") {
+			public void run() {
+				PropertiesSelectionManager.getInstance().getSelection()
+						.remove();
+			}
+		};
+		removeAction.setImageDescriptor(Images.getDescriptor(Images.REMOVE));
+		manager.add(removeAction);
+
+		saveAction = new Action("Save") {
+			public void run() {
+				saveAnnotation();
+			}
+		};
+		saveAction.setImageDescriptor(Images.getDescriptor(Images.SAVE));
+		manager.add(saveAction);
+
+		saveAllAction = new Action("Save All") {
+			public void run() {
+				saveAllAnnotations();
+			}
+		};
+		saveAllAction.setImageDescriptor(Images.getDescriptor(Images.SAVE_ALL));
+		manager.add(saveAllAction);
+
+		revertAction = new Action("Revert") {
+			public void run() {
+				revertAnnotation();
+			}
+		};
+		revertAction.setImageDescriptor(Images.getDescriptor(Images.REVERT));
+		manager.add(revertAction);
+
+		revertAllAction = new Action("Revert All") {
+			public void run() {
+				revertAllAnnotations();
+			}
+		};
+		revertAllAction.setImageDescriptor(Images
+				.getDescriptor(Images.REVERT_ALL));
+		manager.add(revertAllAction);
+
+		bars.clearGlobalActionHandlers();
+		IHandlerService service = (IHandlerService) getSite().getService(
+				IHandlerService.class);
+		service.activateHandler("org.eclipse.ui.file.save",
+				new AbstractHandler() {
+					public Object execute(ExecutionEvent arg0)
+							throws ExecutionException {
+						if (saveAction.isEnabled())
+							saveAction.run();
+						return null;
+					}
+				});
+		service.activateHandler("org.eclipse.ui.file.saveAll",
+				new AbstractHandler() {
+					public Object execute(ExecutionEvent arg0)
+							throws ExecutionException {
+						if (saveAllAction.isEnabled())
+							saveAllAction.run();
+						return null;
+					}
+				});
+		bars.updateActionBars();
 	}
 
 	/*
@@ -175,39 +239,12 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 		getControl().setFocus();
 	}
 
-	protected void addListeners() {
-		AnnotationPlugin.getManager().addRefactoringListener(this);
-		AnnotationPlugin.getManager().addAnnotationListener(this);
-		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
+	private void addListeners() {
+		PropertiesSelectionManager.getInstance().addListener(this);
 	}
 
-	protected void removeListeners() {
-		ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
-		AnnotationPlugin.getManager().removeAnnotationListener(this);
-		AnnotationPlugin.getManager().removeRefactoringListener(this);
-	}
-
-	public void annotationAdded(Annotation annotation) {
-		updateSelection();
-	}
-
-	public void annotationsRemoved(Annotation[] annotations) {
-		updateSelection();
-	}
-
-	public void annotationsChanged(Annotation[] annotations) {
-		updateSelection();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.eclipse.tigerstripe.annotation.core.IRefactoringListener#
-	 * refactoringPerformed
-	 * (org.eclipse.tigerstripe.annotation.core.RefactoringChange)
-	 */
-	public void refactoringPerformed(RefactoringChange change) {
-		updateSelection();
+	private void removeListeners() {
+		PropertiesSelectionManager.getInstance().removeListener(this);
 	}
 
 	/*
@@ -248,19 +285,44 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 		menuMgr.addMenuListener(menuListener);
 		Menu menu = menuMgr.createContextMenu(control);
 		control.setMenu(menu);
-		listener.getSite().registerContextMenu(menuMgr, viewer);
+		getSite().registerContextMenu(contributor.getContributorId(), menuMgr,
+				viewer);
 	}
+
+	private Action addAction;
+	private Action removeAction;
+	private Action saveAction;
+	private Action saveAllAction;
+	private Action revertAction;
+	private Action revertAllAction;
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage#updateTabs
-	 * (org.eclipse.ui.views.properties.tabbed.ITabDescriptor[])
+	 * @seeorg.eclipse.tigerstripe.annotation.ui.internal.view.property.
+	 * IPropertiesSelectionListener#selectionChanged(java.util.List, int)
 	 */
-	@Override
-	protected void updateTabs(ITabDescriptor[] descriptors) {
-		super.updateTabs(descriptors);
+	public void selectionChanged(PropertySelection selection) {
+		int status = PropertySelection.SINGLE_SELECTION;
+		if (selection != null && !selection.isReadOnly()) {
+			status = selection.getStatus();
+		}
+		switch (status) {
+		case PropertySelection.SINGLE_SELECTION:
+			addAction.setToolTipText("Add to the list");
+			removeAction.setToolTipText("Remove element");
+			break;
+		case PropertySelection.CHILD_SELECTION:
+			addAction.setToolTipText("Insert element before selection");
+			removeAction.setToolTipText("Remove selected element");
+			break;
+		default:
+			addAction.setToolTipText("Append element to the end of the list");
+			removeAction.setToolTipText("Clear list");
+			break;
+		}
+		addAction.setEnabled(status > 0);
+		removeAction.setEnabled(status > 0);
 	}
 
 	protected List<ISectionDescriptor> getDescriptors(
@@ -274,26 +336,20 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 		String group = IAnnotationActionConstants.ANNOTATION_PROPERTIES_GROUP;
 		manager.add(new GroupMarker(group));
 
-		Annotation annotation = getSelectedAnnotation();
-		Object annotable = getAnnotableElement();
-		if (annotable != null) {
-			IAction action = new OpenAnnotationWizardAction(annotable, "Add");
+		INote note = getSelectedNote();
+		for (INoteProvider provider : providers) {
+			provider.fillMenu(manager, group, note);
+		}
+
+		if (note != null && !note.isReadOnly()) {
+			RemoveNoteAction action = new RemoveNoteAction(note);
 			ActionContributionItem item = new ActionContributionItem(action);
 			manager.appendToGroup(group, item);
 		}
 
-		if (annotation != null) {
-			if (!AnnotationPlugin.getManager().isReadOnly(annotation)) {
-				RemoveAnnotationAction action = new RemoveAnnotationAction(
-						annotation);
-				ActionContributionItem item = new ActionContributionItem(action);
-				manager.appendToGroup(group, item);
-			}
-		}
-
-		if (annotable != null) {
-			RemoveURIAnnotationAction removeAll = new RemoveURIAnnotationAction(
-					annotable);
+		if (currentSelection != null) {
+			RemoveAllNoteAction removeAll = new RemoveAllNoteAction(
+					currentSelection);
 			if (removeAll.isEnabled()) {
 				ActionContributionItem item = new ActionContributionItem(
 						removeAll);
@@ -337,7 +393,7 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 		return composite;
 	}
 
-	private Annotation getSelectedAnnotation() {
+	private INote getSelectedNote() {
 		int index = viewer.getTable().getSelectionIndex();
 		if (currentSelection != null) {
 			if (index >= 0 && index < currentSelection.length)
@@ -346,30 +402,30 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 		return null;
 	}
 
-	private void save(Annotation annotation) {
-		DirtyAdapter adapter = adapters.get(annotation);
-		if (adapter == null || adapter.isDirty()) {
+	private void save(INote note) {
+		DirtyListener listener = adapters.get(note);
+		if (listener == null || listener.isDirty()) {
 			block = true;
-			AnnotationPlugin.getManager().save(annotation);
-			if (adapter != null)
-				adapter.clear();
+			note.save();
+			if (listener != null)
+				listener.clear();
 			block = false;
 		}
 	}
 
-	private void revert(Annotation annotation) {
-		DirtyAdapter adapter = adapters.get(annotation);
+	private void revert(INote note) {
+		DirtyListener listener = adapters.get(note);
 		block = true;
-		AnnotationPlugin.getManager().revert(annotation);
+		note.revert();
 		block = false;
-		if (adapter != null)
-			adapter.clear();
+		if (listener != null)
+			listener.clear();
 	}
 
 	public void saveAnnotation() {
-		Annotation annotation = getSelectedAnnotation();
-		if (annotation != null) {
-			save(annotation);
+		INote note = getSelectedNote();
+		if (note != null) {
+			save(note);
 		}
 	}
 
@@ -382,17 +438,17 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 	}
 
 	public void revertAnnotation() {
-		Annotation annotation = getSelectedAnnotation();
-		if (annotation != null) {
-			revert(annotation);
+		INote note = getSelectedNote();
+		if (note != null) {
+			revert(note);
 		}
 		updatePageSelection();
 	}
 
 	private void updatePageSelection() {
-		Annotation annotation = getSelectedAnnotation();
-		if (annotation != null) {
-			superSelectionChanged(part, new StructuredSelection(annotation) {
+		INote note = getSelectedNote();
+		if (note != null) {
+			superSelectionChanged(part, new StructuredSelection(note) {
 				public boolean equals(Object o) {
 					return false;
 				}
@@ -431,13 +487,9 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 		new TableTooltip(table) {
 			@Override
 			protected String getTooltip(TableItem item) {
-				if (item.getData() instanceof Annotation) {
-					Annotation annotation = (Annotation) item.getData();
-					AnnotationType type = AnnotationPlugin.getManager()
-							.getType(annotation);
-					if (type != null) {
-						return type.getDesciption();
-					}
+				if (item.getData() instanceof INote) {
+					INote note = (INote) item.getData();
+					return note.getDescription();
 				}
 				return null;
 			}
@@ -447,15 +499,15 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
 			public void selectionChanged(SelectionChangedEvent event) {
-				Annotation annotation = getSelectedAnnotation();
-				if (annotation != null) {
-					setPageSelection(annotation);
+				INote note = getSelectedNote();
+				if (note != null) {
+					setPageSelection(note);
 					updateStatus();
 				}
 			}
 		});
 		viewer.setContentProvider(new ArrayContentProvider());
-		viewer.setLabelProvider(new AnnotationDisplayLabelProvider());
+		viewer.setLabelProvider(new NoteLabelProvider());
 
 		initMenu(table, new IMenuListener() {
 			public void menuAboutToShow(IMenuManager manager) {
@@ -464,26 +516,24 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 		});
 	}
 
-	protected void setPageSelection(Annotation annotation) {
-		superSelectionChanged(part, new StructuredSelection(annotation));
+	protected void setPageSelection(INote note) {
+		superSelectionChanged(part, new StructuredSelection(note));
 	}
 
 	protected void setPageEmpty() {
-		superSelectionChanged(part, new StructuredSelection(NULL_ANNOTATION));
+		superSelectionChanged(part, new StructuredSelection(NULL_NOTE));
 	}
 
 	protected void adapt(int index) {
-		EObject content = currentSelection[index].getContent();
-		if (content != null) {
-			UIDirtyAdapter adapter = new UIDirtyAdapter(currentSelection[index]);
-			adapters.put(currentSelection[index], adapter);
-		}
+		INote note = currentSelection[index];
+		UIDirtyAdapter adapter = new UIDirtyAdapter(note);
+		adapters.put(note, adapter);
 	}
 
 	protected void updatePage() {
 		if (viewer != null && !viewer.getTable().isDisposed()) {
-			listener.dirtyChanged(IAnnotationEditorListener.NO_CHANGES);
-			currentSelection = getAnnotation(selectedElements);
+			dirtyChanged(NO_CHANGES);
+			currentSelection = getNotes();
 			int newSelection = viewer.getTable().getSelectionIndex();
 			boolean showPage = currentSelection != null;
 			if (showPage) {
@@ -491,11 +541,8 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 				for (int i = 0; i < currentSelection.length; i++) {
 					adapt(i);
 				}
-				int index = getAnnotationIndex();
 				int itemCount = viewer.getTable().getItemCount();
-				if (index >= 0) {
-					newSelection = index;
-				} else if (newSelection < 0 || newSelection >= itemCount) {
+				if (newSelection < 0 || newSelection >= itemCount) {
 					newSelection = 0;
 				}
 				if (newSelection >= 0 && itemCount > newSelection) {
@@ -512,84 +559,66 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 		}
 	}
 
+	private void dirtyChanged(int status) {
+		switch (status) {
+		case NO_CHANGES:
+			saveAction.setEnabled(false);
+			saveAllAction.setEnabled(false);
+			revertAction.setEnabled(false);
+			revertAllAction.setEnabled(false);
+			break;
+		case NON_SELECTION_CHANGES:
+			saveAction.setEnabled(false);
+			saveAllAction.setEnabled(true);
+			revertAction.setEnabled(false);
+			revertAllAction.setEnabled(true);
+			break;
+		case SELECTION_CHANGES:
+			saveAction.setEnabled(true);
+			saveAllAction.setEnabled(true);
+			revertAction.setEnabled(true);
+			revertAllAction.setEnabled(true);
+			break;
+		}
+	}
+
 	private void superSelectionChanged(IWorkbenchPart part, ISelection selection) {
-		Annotation annotation = getSelectedAnnotation();
-		if (annotation != null)
-			TabDescriptionManipulator.getInstance().update(annotation);
+		INote note = getSelectedNote();
+		if (note != null)
+			TabDescriptionManipulator.getInstance().update(note);
 		super.selectionChanged(part, selection);
 	}
 
 	private void updateStatus() {
-		int status = IAnnotationEditorListener.NO_CHANGES;
+		int status = NO_CHANGES;
 		if (currentSelection != null) {
-			Annotation selected = getSelectedAnnotation();
+			INote selected = getSelectedNote();
 			for (int i = 0; i < currentSelection.length; i++) {
-				DirtyAdapter adapter = adapters.get(currentSelection[i]);
-				if (adapter != null && adapter.isDirty()) {
+				DirtyListener listener = adapters.get(currentSelection[i]);
+				if (listener != null && listener.isDirty()) {
 					if (selected == currentSelection[i]) {
-						status = IAnnotationEditorListener.SELECTION_CHANGES;
+						status = SELECTION_CHANGES;
 						break;
 					}
-					status = IAnnotationEditorListener.NON_SELECTION_CHANGES;
+					status = NON_SELECTION_CHANGES;
 				}
 			}
 		}
-		listener.dirtyChanged(status);
+		dirtyChanged(status);
 	}
 
-	private class UIDirtyAdapter extends DirtyAdapter {
+	private class UIDirtyAdapter extends DirtyListener {
 
-		private Annotation annotation;
-
-		public UIDirtyAdapter(Annotation annotation) {
-			super(annotation.getContent());
-			this.annotation = annotation;
+		public UIDirtyAdapter(INote note) {
+			super(note);
 		}
 
 		@Override
 		protected void update() {
-			viewer.refresh(annotation);
+			viewer.refresh(getNote());
 			updateStatus();
 		}
 
-	}
-
-	private int getAnnotationIndex() {
-		Annotation annotation = AnnotationSelectionUtils
-				.getAnnotation(selectedElements);
-		for (int i = 0; i < currentSelection.length; i++) {
-			if (currentSelection[i].equals(annotation))
-				return i;
-		}
-		return -1;
-	}
-
-	private Object getAnnotableElement() {
-		Object annotable = null;
-		if (selectedElements != null) {
-			annotable = AnnotationSelectionUtils
-					.getAnnotableElement(selectedElements);
-			Annotation annotation = AnnotationSelectionUtils
-					.getAnnotation(annotable);
-			if (annotation != null) {
-				annotable = AnnotationPlugin.getManager().getAnnotatedObject(
-						annotation);
-			}
-		}
-		return annotable;
-	}
-
-	private Annotation[] getAnnotation(ISelection selection) {
-		Object object = AnnotationSelectionUtils.getAnnotableElement(selection);
-		if (object == null)
-			return null;
-		Annotation annotation = AnnotationSelectionUtils.getAnnotation(object);
-		if (annotation != null)
-			return new Annotation[] { annotation };
-		List<Annotation> annotations = new ArrayList<Annotation>();
-		if (!AnnotationUtils.getAllAnnotations(object, annotations))
-			return null;
-		return annotations.toArray(new Annotation[annotations.size()]);
 	}
 
 	@Override
@@ -598,81 +627,40 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 	}
 
 	protected void disposeSelection() {
-		List<Annotation> dirties = new ArrayList<Annotation>();
+		List<INote> dirties = new ArrayList<INote>();
 		if (currentSelection != null) {
-			for (Annotation annotation : currentSelection) {
-				EObject content = annotation.getContent();
-				DirtyAdapter adapter = adapters.get(annotation);
-				if (content != null && adapter != null) {
-					if (adapter.isDirty())
-						dirties.add(annotation);
-					content.eAdapters().remove(adapter);
+			for (INote node : currentSelection) {
+				DirtyListener listener = adapters.get(node);
+				if (listener != null) {
+					if (listener.isDirty())
+						dirties.add(node);
+					listener.dispose();
 				}
 			}
 		}
-		adapters = new HashMap<Annotation, DirtyAdapter>();
+		adapters = new HashMap<INote, DirtyListener>();
 		if (dirties.size() > 0) {
 			block = true;
 			Shell shell = WorkbenchUtil.getShell();
 			if (shell != null) {
-				Annotation[] annotations = dirties
-						.toArray(new Annotation[dirties.size()]);
+				INote[] nodes = dirties.toArray(new INote[dirties.size()]);
 				MessageBox message = new MessageBox(shell, SWT.ICON_QUESTION
 						| SWT.YES | SWT.NO);
 				message
 						.setMessage("Annotations have been modified. Save changes?");
 				message.setText("Save Annotations");
 				if (message.open() == SWT.YES)
-					for (Annotation annotation : annotations)
-						AnnotationPlugin.getManager().save(annotation);
+					for (INote node : nodes) {
+						node.save();
+					}
 			}
 			block = false;
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.eclipse.ui.ISelectionListener#selectionChanged(org.eclipse.ui.
-	 * IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
-	 */
-	protected void updateSelection() {
-		if (block)
-			return;
-		disposeSelection();
-		AsyncExecUtil.run(composite, new Runnable() {
-
-			public void run() {
-				setSelected(AnnotationUIPlugin.getManager().getSelection());
-				updatePage();
-			}
-
-		});
-	}
-
 	private void setSelected(ISelection selection) {
 		if (selection instanceof IStructuredSelection)
 			selectedElements = (IStructuredSelection) selection;
-		selectedResources = null;
-	}
-
-	private List<IResource> getResources() {
-		if (selectedResources == null) {
-			if (selectedElements != null) {
-				selectedResources = new ArrayList<IResource>();
-				Iterator<?> it = selectedElements.iterator();
-				while (it.hasNext()) {
-					Object object = it.next();
-					IResource res = (IResource) Platform.getAdapterManager()
-							.getAdapter(object, IResource.class);
-					if (res != null)
-						selectedResources.add(res);
-				}
-			} else {
-				selectedResources = new ArrayList<IResource>();
-			}
-		}
-		return selectedResources;
 	}
 
 	/*
@@ -682,10 +670,18 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 	 * IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
 	 */
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+		if (block)
+			return;
 		disposeSelection();
 		setSelected(selection);
 		this.part = part;
-		updatePage();
+		AsyncExecUtil.run(composite, new Runnable() {
+
+			public void run() {
+				updatePage();
+			}
+
+		});
 	}
 
 	/*
@@ -701,93 +697,68 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 			return;
 		}
 
-		IStructuredSelection structuredSelection = getSelectedElements();
-		if (structuredSelection == null) {
-			return;
-		}
+		// TODO Need to understand why is it for?
+		// IStructuredSelection structuredSelection = getSelectedElements();
+		// if (structuredSelection == null) {
+		// return;
+		// }
+		//
+		// List<EObject> selection = new ArrayList<EObject>();
+		// for (Iterator<?> e = structuredSelection.iterator(); e.hasNext();) {
+		// Object next = e.next();
+		// if (next instanceof IAdaptable) {
+		// EObject object = (EObject) ((IAdaptable) next)
+		// .getAdapter(EObject.class);
+		// if (object != null)
+		// selection.add(object);
+		// } else if (next instanceof EObject) {
+		// selection.add((EObject) next);
+		// }
+		// }
+		//
+		// if (selection.isEmpty())
+		// return;
+		//
+		// List<EObject> elementsAffected = new ArrayList<EObject>();
+		// for (int i = 0; i < event.getElements().length; i++) {
+		// Object next = event.getElements()[i];
+		// if (next instanceof IAdaptable) {
+		// EObject object = (EObject) ((IAdaptable) next)
+		// .getAdapter(EObject.class);
+		// if (object != null)
+		// elementsAffected.add(object);
+		// } else if (next instanceof EObject) {
+		// elementsAffected.add((EObject) next);
+		// }
+		// }
+		//
+		// selection.retainAll(elementsAffected);
+		// if (!selection.isEmpty())
+		super.labelProviderChanged(event);
 
-		List<EObject> selection = new ArrayList<EObject>();
-		for (Iterator<?> e = structuredSelection.iterator(); e.hasNext();) {
-			Object next = e.next();
-			if (next instanceof IAdaptable) {
-				EObject object = (EObject) ((IAdaptable) next)
-						.getAdapter(EObject.class);
-				if (object != null)
-					selection.add(object);
-			} else if (next instanceof EObject) {
-				selection.add((EObject) next);
+	}
+
+	private INote[] getNotes() {
+		boolean notable = false;
+		for (INoteProvider provider : providers) {
+			if (provider.isNotable()) {
+				notable = true;
+				break;
 			}
 		}
-
-		if (selection.isEmpty())
-			return;
-
-		List<EObject> elementsAffected = new ArrayList<EObject>();
-		for (int i = 0; i < event.getElements().length; i++) {
-			Object next = event.getElements()[i];
-			if (next instanceof IAdaptable) {
-				EObject object = (EObject) ((IAdaptable) next)
-						.getAdapter(EObject.class);
-				if (object != null)
-					elementsAffected.add(object);
-			} else if (next instanceof EObject) {
-				elementsAffected.add((EObject) next);
+		if (!notable)
+			return null;
+		List<INote> notes = new ArrayList<INote>();
+		Iterator<?> it = selectedElements.iterator();
+		while (it.hasNext()) {
+			Object object = (Object) it.next();
+			if (object instanceof INote) {
+				notes.add((INote) object);
 			}
 		}
-
-		selection.retainAll(elementsAffected);
-		if (!selection.isEmpty())
-			super.labelProviderChanged(event);
-
+		return notes.toArray(new INote[notes.size()]);
 	}
 
-	/**
-	 * Get the property sheet page contributor.
-	 * 
-	 * @return the property sheet page contributor.
-	 */
-	public ITabbedPropertySheetPageContributor getContributor() {
-		return contributor;
-	}
-
-	/**
-	 * @return Returns the selectedElements.
-	 */
-	protected IStructuredSelection getSelectedElements() {
-		return selectedElements;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.core.resources.IResourceChangeListener#resourceChanged(org
-	 * .eclipse.core.resources.IResourceChangeEvent)
-	 */
-	public void resourceChanged(IResourceChangeEvent event) {
-		IResourceDelta delta = event.getDelta();
-		final List<IResource> resources = getResources();
-		final boolean[] updateSelection = new boolean[1];
-		if (delta != null && resources.size() > 0) {
-			try {
-				delta.accept(new IResourceDeltaVisitor() {
-					public boolean visit(IResourceDelta delta)
-							throws CoreException {
-						if ((delta.getFlags() & IResourceDelta.OPEN) > 0) {
-							IResource res = delta.getResource();
-							if (res != null && resources.contains(res)) {
-								updateSelection[0] = true;
-							}
-						}
-						return !updateSelection[0];
-					}
-				});
-			} catch (CoreException e) {
-				AnnotationUIPlugin.log(e);
-			}
-		}
-		if (updateSelection[0])
-			updateSelection();
-	}
+	private INoteProvider[] providers;
 
 }

@@ -11,44 +11,31 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.internal.view.property;
 
-import org.eclipse.core.commands.AbstractHandler;
-import org.eclipse.core.commands.ExecutionEvent;
-import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.jface.action.Action;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
-import org.eclipse.tigerstripe.annotation.core.IRefactoringListener;
-import org.eclipse.tigerstripe.annotation.core.RefactoringChange;
-import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
-import org.eclipse.tigerstripe.annotation.ui.core.ISelectionFilter;
-import org.eclipse.tigerstripe.annotation.ui.util.AsyncExecUtil;
-import org.eclipse.ui.IActionBars;
+import org.eclipse.tigerstripe.annotation.ui.core.view.INote;
+import org.eclipse.tigerstripe.annotation.ui.core.view.INoteListener;
+import org.eclipse.tigerstripe.annotation.ui.core.view.INoteProvider;
+import org.eclipse.tigerstripe.annotation.ui.core.view.NoteProviderManager;
+import org.eclipse.tigerstripe.annotation.ui.util.WorkbenchUtil;
 import org.eclipse.ui.ISaveablePart;
 import org.eclipse.ui.ISelectionListener;
-import org.eclipse.ui.IViewSite;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchPart;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.IPage;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.part.PageBookView;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 
-public class PropertySheet extends PageBookView implements ISelectionListener,
-		IRefactoringListener, ISelectionFilter, IAnnotationEditorListener,
-		IPropertiesSelectionListener {
+public class PropertySheet extends PageBookView implements INoteListener,
+		ISelectionListener {
 
 	public static final String ID = "org.eclipse.tigerstripe.annotation.view.property";
-
-	private Action addAction;
-	private Action removeAction;
-	private Action saveAction;
-	private Action saveAllAction;
-	private Action revertAction;
-	private Action revertAllAction;
 
 	/**
 	 * Creates a property sheet view.
@@ -73,7 +60,7 @@ public class PropertySheet extends PageBookView implements ISelectionListener,
 						return "org.eclipse.tigerstripe.annotation.ui.properties";
 					}
 
-				}, this);
+				}, getProviders());
 		initPage(page);
 		page.createControl(book);
 		return page;
@@ -89,18 +76,24 @@ public class PropertySheet extends PageBookView implements ISelectionListener,
 		addListeners();
 	}
 
-	protected void addListeners() {
-		AnnotationPlugin.getManager().addRefactoringListener(this);
-		AnnotationUIPlugin.getManager().addSelectionListener(this);
-		AnnotationUIPlugin.getManager().addSelectionFilter(this);
-		PropertiesSelectionManager.getInstance().addListener(this);
+	public void notesChanged(INote[] notes) {
+		updateSelection();
 	}
 
-	protected void removeListeners() {
-		PropertiesSelectionManager.getInstance().removeListener(this);
-		AnnotationUIPlugin.getManager().removeSelectionFilter(this);
-		AnnotationUIPlugin.getManager().removeSelectionListener(this);
-		AnnotationPlugin.getManager().removeRefactoringListener(this);
+	private void addListeners() {
+		for (INoteProvider provider : getProviders()) {
+			provider.addListener(this);
+		}
+		WorkbenchUtil.getWindow().getSelectionService()
+				.addPostSelectionListener(this);
+	}
+
+	private void removeListeners() {
+		WorkbenchUtil.getWindow().getSelectionService()
+				.removePostSelectionListener(this);
+		for (INoteProvider provider : getProviders()) {
+			provider.removeListener(this);
+		}
 	}
 
 	/*
@@ -148,134 +141,6 @@ public class PropertySheet extends PageBookView implements ISelectionListener,
 		return null;
 	}
 
-	private void hookGlobalActions(final Action save, final Action saveAll) {
-		IActionBars bars = getViewSite().getActionBars();
-		bars.clearGlobalActionHandlers();
-		IHandlerService service = (IHandlerService) getSite().getService(
-				IHandlerService.class);
-		service.activateHandler("org.eclipse.ui.file.save",
-				new AbstractHandler() {
-					public Object execute(ExecutionEvent arg0)
-							throws ExecutionException {
-						if (save.isEnabled())
-							save.run();
-						return null;
-					}
-				});
-		service.activateHandler("org.eclipse.ui.file.saveAll",
-				new AbstractHandler() {
-					public Object execute(ExecutionEvent arg0)
-							throws ExecutionException {
-						if (saveAll.isEnabled())
-							saveAll.run();
-						return null;
-					}
-				});
-	}
-
-	/*
-	 * (non-Javadoc) Method declared on IViewPart.
-	 */
-	public void init(IViewSite site) throws PartInitException {
-		super.init(site);
-
-		addAction = new Action("Add") {
-			public void run() {
-				PropertiesSelectionManager.getInstance().getSelection()
-						.addDefaultValue();
-			}
-		};
-		addAction.setImageDescriptor(AnnotationUIPlugin
-				.createImageDescriptor("icons/add.gif"));
-		getViewSite().getActionBars().getToolBarManager().add(addAction);
-
-		removeAction = new Action("Remove") {
-			public void run() {
-				PropertiesSelectionManager.getInstance().getSelection()
-						.remove();
-			}
-		};
-		removeAction.setImageDescriptor(AnnotationUIPlugin
-				.createImageDescriptor("icons/remove.gif"));
-		getViewSite().getActionBars().getToolBarManager().add(removeAction);
-
-		saveAction = new Action("Save") {
-			public void run() {
-				PropertiesBrowserPage page = getPage();
-				if (page != null)
-					page.saveAnnotation();
-			}
-		};
-		saveAction.setImageDescriptor(AnnotationUIPlugin
-				.createImageDescriptor("icons/save.gif"));
-		getViewSite().getActionBars().getToolBarManager().add(saveAction);
-
-		saveAllAction = new Action("Save All") {
-			public void run() {
-				PropertiesBrowserPage page = getPage();
-				if (page != null)
-					page.saveAllAnnotations();
-			}
-		};
-		saveAllAction.setImageDescriptor(AnnotationUIPlugin
-				.createImageDescriptor("icons/save_all.gif"));
-		getViewSite().getActionBars().getToolBarManager().add(saveAllAction);
-
-		hookGlobalActions(saveAction, saveAllAction);
-
-		revertAction = new Action("Revert") {
-			public void run() {
-				PropertiesBrowserPage page = getPage();
-				if (page != null)
-					page.revertAnnotation();
-			}
-		};
-		revertAction.setImageDescriptor(AnnotationUIPlugin
-				.createImageDescriptor("icons/revert.gif"));
-		getViewSite().getActionBars().getToolBarManager().add(revertAction);
-
-		revertAllAction = new Action("Revert All") {
-			public void run() {
-				PropertiesBrowserPage page = getPage();
-				if (page != null)
-					page.revertAllAnnotations();
-			}
-		};
-		revertAllAction.setImageDescriptor(AnnotationUIPlugin
-				.createImageDescriptor("icons/revert_all.gif"));
-		getViewSite().getActionBars().getToolBarManager().add(revertAllAction);
-		getViewSite().getActionBars().updateActionBars();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.eclipse.tigerstripe.annotation.ui.internal.view.property.
-	 * IAnnotationEditorListener#dirtyChanged(int)
-	 */
-	public void dirtyChanged(int status) {
-		switch (status) {
-		case NO_CHANGES:
-			saveAction.setEnabled(false);
-			saveAllAction.setEnabled(false);
-			revertAction.setEnabled(false);
-			revertAllAction.setEnabled(false);
-			break;
-		case NON_SELECTION_CHANGES:
-			saveAction.setEnabled(false);
-			saveAllAction.setEnabled(true);
-			revertAction.setEnabled(false);
-			revertAllAction.setEnabled(true);
-			break;
-		case SELECTION_CHANGES:
-			saveAction.setEnabled(true);
-			saveAllAction.setEnabled(true);
-			revertAction.setEnabled(true);
-			revertAllAction.setEnabled(true);
-			break;
-		}
-	}
-
 	/*
 	 * (non-Javadoc) Method declared on PageBookView. The property sheet may
 	 * show properties for any view other than this view.
@@ -297,10 +162,30 @@ public class PropertySheet extends PageBookView implements ISelectionListener,
 	 * (non-Javadoc) Method declared on ISelectionListener. Notify the current
 	 * page that the selection has changed.
 	 */
-	public void selectionChanged(IWorkbenchPart part, ISelection sel) {
-		// we ignore our own selection or null selection
+	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+		// we ignore our own selection
 		if (part == this)
 			return;
+		if (selection == null) {
+			selection = new StructuredSelection();
+		}
+		this.part = part;
+		for (INoteProvider provider : getProviders()) {
+			provider.setSelection(part, selection);
+		}
+		updateSelection();
+	}
+
+	private void updateSelection() {
+		List<INote> allNotes = new ArrayList<INote>();
+		for (INoteProvider provider : getProviders()) {
+			INote[] notes = provider.getNotes();
+			for (INote iNote : notes) {
+				allNotes.add(iNote);
+			}
+		}
+
+		ISelection sel = new StructuredSelection(allNotes);
 
 		// pass the selection to the page
 		IPropertySheetPage page = (IPropertySheetPage) getCurrentPage();
@@ -342,54 +227,14 @@ public class PropertySheet extends PageBookView implements ISelectionListener,
 		return null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.eclipse.tigerstripe.annotation.core.IRefactoringListener#
-	 * refactoringPerformed
-	 * (org.eclipse.tigerstripe.annotation.core.RefactoringChange)
-	 */
-	public void refactoringPerformed(RefactoringChange change) {
-		AsyncExecUtil.run(getPageBook(), new Runnable() {
-
-			public void run() {
-				selectionChanged(null, AnnotationUIPlugin.getManager()
-						.getSelection());
-			}
-
-		});
-	}
-
-	public boolean select(IWorkbenchPart part, ISelection selection) {
-		return part != this;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.eclipse.tigerstripe.annotation.ui.internal.view.property.
-	 * IPropertiesSelectionListener#selectionChanged(java.util.List, int)
-	 */
-	public void selectionChanged(PropertySelection selection) {
-		int status = PropertySelection.SINGLE_SELECTION;
-		if (selection != null && !selection.isReadOnly()) {
-			status = selection.getStatus();
+	private INoteProvider[] getProviders() {
+		if (providers == null) {
+			providers = NoteProviderManager.createProviders();
 		}
-		switch (status) {
-		case PropertySelection.SINGLE_SELECTION:
-			addAction.setToolTipText("Add to the list");
-			removeAction.setToolTipText("Remove element");
-			break;
-		case PropertySelection.CHILD_SELECTION:
-			addAction.setToolTipText("Insert element before selection");
-			removeAction.setToolTipText("Remove selected element");
-			break;
-		default:
-			addAction.setToolTipText("Append element to the end of the list");
-			removeAction.setToolTipText("Clear list");
-			break;
-		}
-		addAction.setEnabled(status > 0);
-		removeAction.setEnabled(status > 0);
+		return providers;
 	}
+
+	private IWorkbenchPart part;
+	private INoteProvider[] providers;
+
 }

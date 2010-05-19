@@ -14,6 +14,8 @@ package org.eclipse.tigerstripe.annotation.ui.core.properties;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.AnnotationFactory;
+import org.eclipse.tigerstripe.annotation.ui.core.view.AnnotationNote;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
 
@@ -23,35 +25,42 @@ import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
  * @author Yuri Strot
  */
 public class AnnotationPropertiesSection extends AbstractPropertySection {
-    
-    /**
-     * Update section specified annotation selected
-     * 
-     * @param annotation
-     */
-    protected void updateSection(Annotation annotation) {
-    }
-    
-    @Override
-    public boolean shouldUseExtraSpace() {
-        return true;
-    }
-    
-    @Override
-    public void setInput(IWorkbenchPart part, ISelection selection) {
-        super.setInput(part, selection);
-        updateSection(selection);
-    }
-	
+
+	/**
+	 * Update section specified annotation selected
+	 * 
+	 * @param annotation
+	 */
+	protected void updateSection(Annotation annotation) {
+	}
+
+	@Override
+	public boolean shouldUseExtraSpace() {
+		return true;
+	}
+
+	@Override
+	public void setInput(IWorkbenchPart part, ISelection selection) {
+		super.setInput(part, selection);
+		updateSection(selection);
+	}
+
 	protected void updateSection(final ISelection selection) {
 		Annotation annotation = getAnnotation(selection);
 		if (annotation != null)
 			updateSection(annotation);
 	}
-	
+
 	private Annotation getAnnotation(ISelection selection) {
 		if (selection instanceof IStructuredSelection) {
-			return (Annotation )((IStructuredSelection)selection).getFirstElement();
+			Object element = ((IStructuredSelection) selection)
+					.getFirstElement();
+			if (element instanceof AnnotationNote) {
+				return ((AnnotationNote) element).getAnnotation();
+			} else {
+				// return fake annotation
+				return AnnotationFactory.eINSTANCE.createAnnotation();
+			}
 		}
 		return null;
 	}

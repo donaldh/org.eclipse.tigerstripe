@@ -23,44 +23,43 @@ import org.eclipse.tigerstripe.annotation.core.util.AnnotationUtils;
 import org.eclipse.tigerstripe.annotation.internal.core.AnnotationTarget;
 import org.eclipse.tigerstripe.annotation.internal.core.ProviderTarget;
 
-
 /**
  * Annotation type provide <code>EObject</code> objects, that can be used as
  * annotation content. Annotation type should be registered with the
- * <code>org.eclipse.tigerstripe.annotation.core.annotationType</code>
- * extension point.
+ * <code>org.eclipse.tigerstripe.annotation.core.annotationType</code> extension
+ * point.
  * 
  * @author Yuri Strot
  */
 public class AnnotationType {
-	
+
 	private static final String ATTR_NAME = "name";
 	private static final String ATTR_DESCRIPTION = "description";
 	private static final String ATTR_URI = "epackage-uri";
 	private static final String ATTR_TYPE = "eclass";
 	private static final String ATTR_UNIQUE = "unique";
-	
+
 	private static final String ELEMENT_TARGET = "target";
 	private static final String ATTR_TARGET_TYPE = "type";
 	private static final String ATTR_TARGET_UNIQUE = "unique";
-	
+
 	private String name;
-	private String desciption;
+	private String description;
 	private EClass clazz;
 	private boolean unique;
-	
+
 	private String[] targets;
-	
+
 	private Map<String, Boolean> uniques = new HashMap<String, Boolean>();
-	
+
 	public AnnotationType(IConfigurationElement definition) {
 		name = definition.getAttribute(ATTR_NAME);
-		desciption = definition.getAttribute(ATTR_DESCRIPTION);
+		description = definition.getAttribute(ATTR_DESCRIPTION);
 		unique = Boolean.valueOf(definition.getAttribute(ATTR_UNIQUE));
 		clazz = getClass(definition);
 		initTargets(definition);
 	}
-	
+
 	protected void initTargets(IConfigurationElement definition) {
 		List<String> targets = new ArrayList<String>();
 		IConfigurationElement[] children = definition.getChildren();
@@ -69,8 +68,8 @@ public class AnnotationType {
 			if (ELEMENT_TARGET.equals(target.getName())) {
 				String type = target.getAttribute(ATTR_TARGET_TYPE);
 				String unique = target.getAttribute(ATTR_TARGET_UNIQUE);
-				Boolean value = unique == null ?
-						Boolean.TRUE : Boolean.valueOf(unique);
+				Boolean value = unique == null ? Boolean.TRUE : Boolean
+						.valueOf(unique);
 				uniques.put(type, value);
 				if (type != null)
 					targets.add(type);
@@ -84,96 +83,107 @@ public class AnnotationType {
 		String name = type.getAttribute(ATTR_TYPE);
 		return AnnotationUtils.getClass(uri, name);
 	}
-	
+
 	/**
 	 * Create annotation content instance
 	 * 
 	 * @return annotation content
 	 */
 	public EObject createInstance() {
-		EObject object = clazz.getEPackage().getEFactoryInstance().create(clazz);
+		EObject object = clazz.getEPackage().getEFactoryInstance()
+				.create(clazz);
 		return object;
-    }
-	
+	}
+
 	/**
 	 * @return annotation content <code>EClass</code>
 	 */
 	public EClass getClazz() {
 		return clazz;
 	}
-	
+
 	public boolean isTargetUnique(String type) {
 		return uniques.get(type).booleanValue();
 	}
-	
+
 	/**
-	 * Return anotation type description
+	 * Return annotation type description
 	 * 
 	 * @return
 	 */
-	public String getDesciption() {
-	    return desciption;
-    }
-	
+	public String getDescription() {
+		return description;
+	}
+
 	/**
 	 * Return annotation type name
 	 * 
 	 * @return
 	 */
 	public String getName() {
-	    return name;
-    }
-	
+		return name;
+	}
+
 	/**
 	 * @return the targets
 	 */
 	public String[] getTargets() {
 		return targets;
 	}
-	
+
 	public String getId() {
-		return AnnotationUtils.getInstanceClassName(getClazz()).getFullClassName();
+		return AnnotationUtils.getInstanceClassName(getClazz())
+				.getFullClassName();
 	}
-	
+
 	/**
-	 * Returns <code>false</code> if in the absence of 'targets' the annotation may beattached multiply,
-	 * or returns <code>true</code> otherwise (the default)
-	 * @return <code>false</code> if in the absence of 'targets' the annotation may beattached multiply,
-	 * or returns <code>true</code> otherwise
+	 * Returns <code>false</code> if in the absence of 'targets' the annotation
+	 * may beattached multiply, or returns <code>true</code> otherwise (the
+	 * default)
+	 * 
+	 * @return <code>false</code> if in the absence of 'targets' the annotation
+	 *         may beattached multiply, or returns <code>true</code> otherwise
 	 */
 	public boolean isUnique() {
 		return unique;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
 	public String toString() {
 		return getName();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof AnnotationType) {
-			AnnotationType type = (AnnotationType)obj;
+			AnnotationType type = (AnnotationType) obj;
 			return type.getClazz().equals(type.getClazz());
 		}
 		return false;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
 		return getClazz().hashCode();
 	}
-	
-	public IAnnotationTarget[] getTargets(Object object, ProviderTarget[] targets) {
+
+	public IAnnotationTarget[] getTargets(Object object,
+			ProviderTarget[] targets) {
 		Map<ProviderTarget, Object> map = new HashMap<ProviderTarget, Object>();
 		for (int i = 0; i < targets.length; i++) {
 			ProviderTarget target = targets[i];
@@ -182,26 +192,26 @@ public class AnnotationType {
 				map.put(target, adapted);
 			}
 		}
-		List<IAnnotationTarget> annotationTargets =
-			new ArrayList<IAnnotationTarget>();
-		
+		List<IAnnotationTarget> annotationTargets = new ArrayList<IAnnotationTarget>();
+
 		if (this.targets.length == 0) {
 			for (ProviderTarget target : map.keySet()) {
 				Object adapted = map.get(target);
-				if (AnnotationPlugin.getManager().isPossibleToAdd(adapted, getClazz())) {
+				if (AnnotationPlugin.getManager().isPossibleToAdd(adapted,
+						getClazz())) {
 					AnnotationTarget annotationTarget = new AnnotationTarget(
 							adapted, target.getDescription(), this);
 					annotationTargets.add(annotationTarget);
 				}
 			}
-		}
-		else {
+		} else {
 			for (int i = 0; i < this.targets.length; i++) {
 				String className = this.targets[i];
 				for (ProviderTarget target : map.keySet()) {
 					Object adapted = map.get(target);
-					if (AnnotationPlugin.getManager().isPossibleToAdd(adapted, getClazz()) &&
-							isSuperClass(className, adapted)) {
+					if (AnnotationPlugin.getManager().isPossibleToAdd(adapted,
+							getClazz())
+							&& isSuperClass(className, adapted)) {
 						AnnotationTarget annotationTarget = new AnnotationTarget(
 								adapted, target.getDescription(), this);
 						annotationTargets.add(annotationTarget);
@@ -209,17 +219,17 @@ public class AnnotationType {
 				}
 			}
 		}
-		return annotationTargets.toArray(
-				new IAnnotationTarget[annotationTargets.size()]);
+		return annotationTargets
+				.toArray(new IAnnotationTarget[annotationTargets.size()]);
 	}
-	
+
 	private static boolean isSuperClass(String className, Object object) {
 		try {
 			Class<?> clazz = object.getClass();
-			Class<?> parentClass = Class.forName(className, true, clazz.getClassLoader());
+			Class<?> parentClass = Class.forName(className, true, clazz
+					.getClassLoader());
 			return parentClass.isAssignableFrom(clazz);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 		}
 		return false;
 	}

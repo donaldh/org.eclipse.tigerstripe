@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2008 xored software, Inc.  
+ * Copyright (c) 2010 xored software, Inc.  
  * 
  * All rights reserved. This program and the accompanying materials 
  * are made available under the terms of the Eclipse Public License v1.0 
@@ -9,19 +9,13 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.ui.internal.view.property;
+package org.eclipse.tigerstripe.annotation.ui.core.view;
 
-import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.LabelProvider;
-import org.eclipse.tigerstripe.annotation.core.Annotation;
-import org.eclipse.tigerstripe.annotation.ui.util.DisplayAnnotationUtil;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.tigerstripe.annotation.ui.internal.view.property.DirtyListener;
 
-/**
- * @author Yuri Strot
- * 
- */
-public class AnnotationDisplayLabelProvider extends LabelProvider {
+public class NoteLabelProvider extends LabelProvider {
 
 	/*
 	 * (non-Javadoc)
@@ -30,24 +24,33 @@ public class AnnotationDisplayLabelProvider extends LabelProvider {
 	 */
 	@Override
 	public String getText(Object element) {
-		if (element instanceof Annotation) {
-			Annotation annotation = (Annotation) element;
+		if (element instanceof INote) {
+			INote note = (INote) element;
 			StringBuilder builder = new StringBuilder();
-			if (isDirty(annotation)) {
+			if (isDirty(note)) {
 				builder.append('*');
 			}
-			builder.append(DisplayAnnotationUtil.getText(annotation));
+			builder.append(note.getLabel());
 			return builder.toString();
 		}
 		return super.getText(element);
 	}
 
-	private boolean isDirty(Annotation annotation) {
-		EObject eObject = annotation.getContent();
-		if (eObject != null) {
-			for (Adapter adapter : eObject.eAdapters()) {
-				if (adapter instanceof DirtyAdapter) {
-					return ((DirtyAdapter) adapter).isDirty();
+	@Override
+	public Image getImage(Object element) {
+		if (element instanceof INote) {
+			INote note = (INote) element;
+			return note.getImage();
+		}
+		return super.getImage(element);
+	}
+
+	private boolean isDirty(INote note) {
+		INoteChangeListener[] listeners = note.getListeners();
+		if (listeners != null) {
+			for (INoteChangeListener listener : listeners) {
+				if (listener instanceof DirtyListener) {
+					return ((DirtyListener) listener).isDirty();
 				}
 			}
 		}
