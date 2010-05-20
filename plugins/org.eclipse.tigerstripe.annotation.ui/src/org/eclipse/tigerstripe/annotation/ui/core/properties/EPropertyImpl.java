@@ -27,31 +27,37 @@ import org.eclipse.tigerstripe.annotation.ui.util.DisplayAnnotationUtil;
  * @author Yuri Strot
  */
 public class EPropertyImpl implements EProperty {
-	
+
 	protected CellEditor cellEditor;
 	protected IEditableValue value;
-	
+
 	public EPropertyImpl(IEditableValue value) {
 		this.value = value;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.ui.core.properties.EProperty#getEditableValue()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @seeorg.eclipse.tigerstripe.annotation.ui.core.properties.EProperty#
+	 * getEditableValue()
 	 */
 	public IEditableValue getEditableValue() {
 		return value;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.ui.core.EProperty#getDisplayName()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.tigerstripe.annotation.ui.core.EProperty#getDisplayName()
 	 */
 	public String getDisplayName() {
 		return getValueDisplayName(getValue());
 	}
-	
+
 	protected String getValueDisplayName(Object value) {
 		if (value instanceof List<?>) {
-			List<?> list = (List<?>)value;
+			List<?> list = (List<?>) value;
 			Iterator<?> it = list.iterator();
 			StringBuffer buffer = new StringBuffer();
 			if (it.hasNext())
@@ -65,75 +71,94 @@ public class EPropertyImpl implements EProperty {
 		if (value == null)
 			return "";
 		if (value instanceof EObject) {
-			return DisplayAnnotationUtil.getText((EObject)value);
+			return DisplayAnnotationUtil.getText((EObject) value);
 		}
 		String text = value.toString();
-		if (text == null) text = "";
-		if (text.length() > 35)
-			text = text.substring(0, 33) + "...";
+		if (text == null)
+			text = "";
 		return text;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.tigerstripe.annotation.ui.core.EProperty#getEType()
 	 */
 	public EClassifier getEType() {
 		return value.getClassifier();
 	}
-	
+
 	protected CellEditor createEditor(Composite parent) {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.ui.core.EProperty#getEditor(org.eclipse.swt.widgets.Composite)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.tigerstripe.annotation.ui.core.EProperty#getEditor(org.eclipse
+	 * .swt.widgets.Composite)
 	 */
 	public final CellEditor getEditor(Composite parent) {
 		cellEditor = createEditor(parent);
 		return cellEditor;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.tigerstripe.annotation.ui.core.EProperty#getName()
 	 */
 	public String getName() {
-	    return value.getName();
+		return value.getName();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.tigerstripe.annotation.ui.core.EProperty#getValue()
 	 */
 	public Object getValue() {
 		return value.getValue();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.tigerstripe.annotation.ui.core.EProperty#save()
 	 */
 	public void save() {
 		value.save();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.ui.core.EProperty#setValue(java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.tigerstripe.annotation.ui.core.EProperty#setValue(java.lang
+	 * .Object)
 	 */
 	public void setValue(Object value) {
 		this.value.setValue(value);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof EPropertyImpl) {
-			EPropertyImpl property = (EPropertyImpl)obj;
+			EPropertyImpl property = (EPropertyImpl) obj;
 			return ObjectUtil.equals(value, property.value);
 		}
 		return false;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
