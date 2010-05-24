@@ -40,6 +40,7 @@ import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeListener;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
@@ -52,6 +53,9 @@ public abstract class ArtifactComponent implements IModelComponent,
 
 	/** the stereotypes attached to this component */
 	private ArrayList<IStereotypeInstance> stereotypeInstances = new ArrayList<IStereotypeInstance>();
+
+	/** the stereotypes listeners attached to this component */
+	private ArrayList<IStereotypeListener> stereotypeListeners = new ArrayList<IStereotypeListener>();
 
 	/** the custom properties defined for this ArtifactComponent */
 	// TODO: this looks obsolete - 082906
@@ -140,13 +144,33 @@ public abstract class ArtifactComponent implements IModelComponent,
 	public void addStereotypeInstance(IStereotypeInstance instance) {
 		if (!stereotypeInstances.contains(instance)) {
 			this.stereotypeInstances.add(instance);
+			for (IStereotypeListener listener : getListeners()) {
+				listener.stereotypeAdded(instance);
+			}
 		}
 	}
 
 	public void removeStereotypeInstance(IStereotypeInstance instance) {
 		if (stereotypeInstances.contains(instance)) {
 			this.stereotypeInstances.remove(instance);
+			for (IStereotypeListener listener : getListeners()) {
+				listener.stereotypeRemove(instance);
+			}
 		}
+	}
+
+	public void addStereotypeListener(IStereotypeListener listener) {
+		if (!stereotypeListeners.contains(listener))
+			stereotypeListeners.add(listener);
+	}
+
+	public void removeStereotypeListener(IStereotypeListener listener) {
+		stereotypeListeners.remove(listener);
+	}
+
+	private IStereotypeListener[] getListeners() {
+		return stereotypeListeners
+				.toArray(new IStereotypeListener[stereotypeListeners.size()]);
 	}
 
 	public void removeStereotypeInstances(
@@ -361,9 +385,7 @@ public abstract class ArtifactComponent implements IModelComponent,
 			} catch (TigerstripeException e) {
 				BasePlugin.log(e);
 			}
-		}
-		else if(adapter.isInstance(this))
-		{
+		} else if (adapter.isInstance(this)) {
 			return this;
 		}
 		return null;
@@ -385,13 +407,14 @@ public abstract class ArtifactComponent implements IModelComponent,
 		}
 		return Collections.unmodifiableList(annotations);
 	}
-	
+
 	public List<Object> getAnnotations(Class<?> type) {
 		IAnnotationManager mgr = AnnotationPlugin.getManager();
 		List<Object> annotations = new LinkedList<Object>();
 		Annotation[] all = mgr.getAnnotations(this, false);
 		for (Annotation a : all) {
-			if (TigerstripeURIAdapterFactory.isRelated(a.getUri()) && type.isInstance(a.getContent())) {
+			if (TigerstripeURIAdapterFactory.isRelated(a.getUri())
+					&& type.isInstance(a.getContent())) {
 				annotations.add(a.getContent());
 			}
 		}
@@ -424,8 +447,7 @@ public abstract class ArtifactComponent implements IModelComponent,
 	}
 
 	public List<Object> getAnnotations(String annotationSpecificationID) {
-		List<Object> annotations = new LinkedList<Object>(
-				getAnnotations());
+		List<Object> annotations = new LinkedList<Object>(getAnnotations());
 		for (Iterator<Object> i = annotations.iterator(); i.hasNext();) {
 			if (!isAnnotationMatch(annotationSpecificationID, i.next()))
 				i.remove();
@@ -446,11 +468,11 @@ public abstract class ArtifactComponent implements IModelComponent,
 		}
 		return false;
 	}
-	
+
 	public boolean hasAnnotations(Class<?> annotationType) {
 		return !getAnnotations(annotationType).isEmpty();
 	}
-	
+
 	public ITigerstripeModelProject getProject() throws TigerstripeException {
 		if (getParentArtifact() != null)
 			return getParentArtifact().getProject();
@@ -466,11 +488,13 @@ public abstract class ArtifactComponent implements IModelComponent,
 		String result = "";
 		if (getStereotypeInstances().size() == 0)
 			return result;
-		
-		IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession().getActiveProfile();
+
+		IWorkbenchProfile profile = TigerstripeCore
+				.getWorkbenchProfileSession().getActiveProfile();
 		for (IStereotypeInstance instance : getStereotypeInstances()) {
 			// Check that the stereotype is enabled in the profile
-			IStereotype stereo = profile.getStereotypeByName(instance.getName());
+			IStereotype stereo = profile
+					.getStereotypeByName(instance.getName());
 			if (stereo != null) {
 				if (result.length() == 0) {
 					result += "<<";

@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.views.stereotypes;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.tigerstripe.annotation.ui.core.view.INote;
 import org.eclipse.tigerstripe.annotation.ui.core.view.INoteChangeListener;
@@ -64,5 +65,15 @@ public class StereotypeNote implements INote {
 	public INoteChangeListener[] getListeners() {
 		return null;
 	}
+
+	public EObject getContent() {
+		if (eObject == null) {
+			StereotypeConverter converter = new StereotypeConverter();
+			eObject = converter.createObject(stereotype);
+		}
+		return eObject;
+	}
+
+	private EObject eObject;
 
 }

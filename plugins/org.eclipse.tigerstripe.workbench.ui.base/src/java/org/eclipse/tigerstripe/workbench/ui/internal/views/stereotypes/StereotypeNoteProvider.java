@@ -16,56 +16,113 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.action.ActionContributionItem;
+import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.annotation.ui.core.view.INote;
 import org.eclipse.tigerstripe.annotation.ui.core.view.INoteListener;
 import org.eclipse.tigerstripe.annotation.ui.core.view.INoteProvider;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeListener;
 import org.eclipse.ui.IWorkbenchPart;
+import org.eclipse.ui.PlatformUI;
 
-public class StereotypeNoteProvider implements INoteProvider {
+public class StereotypeNoteProvider implements INoteProvider,
+		IStereotypeListener {
 
 	public StereotypeNoteProvider() {
 	}
 
 	public void addListener(INoteListener listener) {
+		listeners.add(listener);
+		if (listeners.size() > 0) {
+			addListeners();
+		}
 	}
 
 	public void removeListener(INoteListener listener) {
+		listeners.remove(listener);
+		if (listeners.size() == 0) {
+			removeListeners();
+		}
+	}
+
+	public void stereotypeAdded(IStereotypeInstance instance) {
+		fireUpdate();
+	}
+
+	public void stereotypeRemove(IStereotypeInstance instance) {
+		fireUpdate();
 	}
 
 	public void fillMenu(IMenuManager manager, String groupName, INote note) {
+		if (component != null) {
+			Shell shell = PlatformUI.getWorkbench().getDisplay()
+					.getActiveShell();
+			IAction action = new AddStereotypeAction(component, shell);
+			ActionContributionItem item = new ActionContributionItem(action);
+			manager.appendToGroup(groupName, item);
+		}
 	}
 
 	public INote[] getNotes() {
-		if (capable != null) {
-			Collection<IStereotypeInstance> instances = capable
+		if (component != null) {
+			Collection<IStereotypeInstance> instances = component
 					.getStereotypeInstances();
 			List<StereotypeNote> notes = new ArrayList<StereotypeNote>(
 					instances.size());
 			for (IStereotypeInstance instance : instances) {
-				notes.add(new StereotypeNote(capable, instance));
+				notes.add(new StereotypeNote(component, instance));
 			}
 			return notes.toArray(new INote[notes.size()]);
 		}
-		return new INote[0];
+		return INote.EMPTY;
 	}
 
 	public boolean isNotable() {
-		return capable != null;
+		return component != null;
 	}
 
 	public void setSelection(IWorkbenchPart part, ISelection selection) {
-		capable = null;
+		removeListeners();
+		component = null;
 		if (selection instanceof IStructuredSelection) {
 			Object element = ((IStructuredSelection) selection)
 					.getFirstElement();
-			capable = getCapable(element);
+			component = getCapable(element);
+			if (listeners.size() > 0) {
+				addListeners();
+			}
+		}
+	}
+
+	private void addListeners() {
+		if (component != null) {
+			component.addStereotypeListener(this);
+		}
+	}
+
+	private void removeListeners() {
+		if (component != null) {
+			component.removeStereotypeListener(this);
+		}
+	}
+
+	private void fireUpdate() {
+		Object[] objects = listeners.getListeners();
+		if (objects.length > 0) {
+			INote[] notes = getNotes();
+			for (Object object : objects) {
+				INoteListener listener = (INoteListener) object;
+				listener.notesChanged(notes);
+			}
 		}
 	}
 
@@ -98,6 +155,7 @@ public class StereotypeNoteProvider implements INoteProvider {
 		return result == null ? null : clazz.cast(result);
 	}
 
-	private IStereotypeCapable capable;
+	private IStereotypeCapable component;
+	private ListenerList listeners = new ListenerList();
 
 }

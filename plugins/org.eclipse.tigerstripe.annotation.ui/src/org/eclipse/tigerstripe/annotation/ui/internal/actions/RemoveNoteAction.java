@@ -16,6 +16,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.annotation.ui.core.view.INote;
+import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
 /**
@@ -28,6 +29,11 @@ public class RemoveNoteAction extends Action {
 
 	public RemoveNoteAction(INote note) {
 		setText("Remove");
+		ISharedImages images = PlatformUI.getWorkbench().getSharedImages();
+		setImageDescriptor(images
+				.getImageDescriptor(ISharedImages.IMG_ELCL_REMOVE));
+		setDisabledImageDescriptor(images
+				.getImageDescriptor(ISharedImages.IMG_ELCL_REMOVE_DISABLED));
 		this.note = note;
 	}
 

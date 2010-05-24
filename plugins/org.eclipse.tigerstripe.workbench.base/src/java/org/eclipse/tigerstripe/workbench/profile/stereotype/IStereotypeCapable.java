@@ -12,7 +12,6 @@ package org.eclipse.tigerstripe.workbench.profile.stereotype;
 
 import java.util.Collection;
 
-
 /**
  * Interface to be implemented by all components of the model that can be
  * annotated with Stereotypes.
@@ -25,25 +24,27 @@ public interface IStereotypeCapable {
 	/**
 	 * Returns an array of stereotype instances. These are the stereotypes (also
 	 * referred to as annotations) that are applied to this model component. If
-	 * there are no stereotypes applied to this component, the method returns
-	 * an empty array.
+	 * there are no stereotypes applied to this component, the method returns an
+	 * empty array.
 	 * 
 	 * @return array of IStereotypeInstance.
 	 */
 	public Collection<IStereotypeInstance> getStereotypeInstances();
+
 	/**
-	 * Returns a StereotypeInstance with the name supplied.
-	 * If there is no instance with that name, null is returned.
+	 * Returns a StereotypeInstance with the name supplied. If there is no
+	 * instance with that name, null is returned.
+	 * 
 	 * @param name
 	 * @return IStereotypeInstance
 	 */
 	public IStereotypeInstance getStereotypeInstanceByName(String name);
-	
+
 	/**
 	 * Checks for the presence of the named stereotype.
-	 *  
+	 * 
 	 * @param name
-	 * @return 
+	 * @return
 	 */
 	public boolean hasStereotypeInstance(String name);
 
@@ -51,10 +52,25 @@ public interface IStereotypeCapable {
 
 	public void removeStereotypeInstance(IStereotypeInstance instance);
 
-	public void removeStereotypeInstances(Collection<IStereotypeInstance> instances);
+	public void removeStereotypeInstances(
+			Collection<IStereotypeInstance> instances);
 
 	/**
-	 * 	Returns a String with the Stereotype lavel a-la-UML
+	 * Add stereotype listener
+	 * 
+	 * @param listener
+	 */
+	public void addStereotypeListener(IStereotypeListener listener);
+
+	/**
+	 * Remove stereotype listener
+	 * 
+	 * @param listener
+	 */
+	public void removeStereotypeListener(IStereotypeListener listener);
+
+	/**
+	 * Returns a String with the Stereotype lavel a-la-UML
 	 * 
 	 * <<steo, st2>>
 	 * 
@@ -63,5 +79,5 @@ public interface IStereotypeCapable {
 	 * @return
 	 */
 	public String getStereotypeString();
-	
+
 }

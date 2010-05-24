@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.swt.widgets.Composite;
@@ -70,6 +71,10 @@ public class EPropertyImpl implements EProperty {
 		}
 		if (value == null)
 			return "";
+		if (value instanceof EEnumLiteral) {
+			EEnumLiteral lit = (EEnumLiteral)value;
+			return lit.getLiteral();
+		}
 		if (value instanceof EObject) {
 			return DisplayAnnotationUtil.getText((EObject) value);
 		}

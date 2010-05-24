@@ -20,7 +20,7 @@ import org.eclipse.tigerstripe.annotation.ui.core.view.INote;
  * Class determines if annotation section should be displayed
  * 
  * @author Yuri Strot
- * @see AnnotationPropertiesSection
+ * @see EPropertiesSection
  */
 public class AnnotationFilter extends NoteFilter {
 

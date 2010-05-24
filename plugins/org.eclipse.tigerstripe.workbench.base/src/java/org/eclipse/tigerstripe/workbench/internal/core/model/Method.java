@@ -55,6 +55,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjMethod;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeListener;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 import com.thoughtworks.qdox.model.DocletTag;
@@ -158,6 +159,14 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 
 		public Collection<IStereotypeInstance> getStereotypeInstances() {
 			return ((Method) theMethod).getReturnStereotypeInstances();
+		}
+
+		public void addStereotypeListener(IStereotypeListener listener) {
+			((Method) theMethod).addStereotypeListener(listener);
+		}
+
+		public void removeStereotypeListener(IStereotypeListener listener) {
+			((Method) theMethod).removeStereotypeListener(listener);
 		}
 
 		public IStereotypeInstance getStereotypeInstanceByName(String name) {
@@ -627,6 +636,9 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		/** the stereotypes attached to this component */
 		private ArrayList<IStereotypeInstance> stereotypeInstances = new ArrayList<IStereotypeInstance>();
 
+		/** the stereotype listeners attached to this component */
+		private ArrayList<IStereotypeListener> stereotypeListeners = new ArrayList<IStereotypeListener>();
+
 		private String name;
 
 		private String defaultValue;
@@ -825,6 +837,9 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		public void addStereotypeInstance(IStereotypeInstance instance) {
 			if (!stereotypeInstances.contains(instance)) {
 				this.stereotypeInstances.add(instance);
+				for (IStereotypeListener listener : getListeners()) {
+					listener.stereotypeAdded(instance);
+				}
 			}
 		}
 
@@ -838,6 +853,9 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		public void removeStereotypeInstance(IStereotypeInstance instance) {
 			if (stereotypeInstances.contains(instance)) {
 				this.stereotypeInstances.remove(instance);
+				for (IStereotypeListener listener : getListeners()) {
+					listener.stereotypeRemove(instance);
+				}
 			}
 		}
 
@@ -846,6 +864,20 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			for (IStereotypeInstance instance : instances) {
 				removeStereotypeInstance(instance);
 			}
+		}
+
+		public void addStereotypeListener(IStereotypeListener listener) {
+			if (!stereotypeListeners.contains(listener))
+				stereotypeListeners.add(listener);
+		}
+
+		public void removeStereotypeListener(IStereotypeListener listener) {
+			stereotypeListeners.remove(listener);
+		}
+
+		private IStereotypeListener[] getListeners() {
+			return stereotypeListeners
+					.toArray(new IStereotypeListener[stereotypeListeners.size()]);
 		}
 
 		public IArgument clone() {

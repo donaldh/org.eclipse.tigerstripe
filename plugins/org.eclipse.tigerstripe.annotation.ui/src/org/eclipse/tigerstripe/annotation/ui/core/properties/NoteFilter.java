@@ -20,18 +20,23 @@ import org.eclipse.tigerstripe.annotation.ui.internal.view.property.TabDescripti
  * 
  * @author Yuri Strot
  */
-public abstract class NoteFilter implements IFilter {
-	
+public class NoteFilter implements IFilter {
+
 	/**
 	 * Determines if the given note passes this filter
 	 * 
-	 * @param note specified note
+	 * @param note
+	 *            specified note
 	 * @return true if note section should be displayed for the specified note
-	 * and false otherwise
+	 *         and false otherwise
 	 */
-	public abstract boolean select(INote note);
+	public boolean select(INote note) {
+		return note.getContent() != null;
+	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.viewers.IFilter#select(java.lang.Object)
 	 */
 	public final boolean select(Object toTest) {

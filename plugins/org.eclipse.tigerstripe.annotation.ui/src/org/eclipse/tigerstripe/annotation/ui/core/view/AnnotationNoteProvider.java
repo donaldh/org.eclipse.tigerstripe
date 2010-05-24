@@ -36,6 +36,7 @@ import org.eclipse.tigerstripe.annotation.core.IRefactoringListener;
 import org.eclipse.tigerstripe.annotation.core.RefactoringChange;
 import org.eclipse.tigerstripe.annotation.core.util.AnnotationUtils;
 import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
+import org.eclipse.tigerstripe.annotation.ui.Images;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.OpenAnnotationWizardAction;
 import org.eclipse.tigerstripe.annotation.ui.internal.core.AnnotationUIManager;
 import org.eclipse.tigerstripe.annotation.ui.internal.util.AnnotationSelectionUtils;
@@ -99,7 +100,8 @@ public class AnnotationNoteProvider implements INoteProvider,
 
 	public void fillMenu(IMenuManager manager, String groupName, INote note) {
 		if (annotable != null) {
-			IAction action = new OpenAnnotationWizardAction(annotable, "Add");
+			IAction action = new OpenAnnotationWizardAction(annotable,
+					"Add Annotation", Images.getDescriptor(Images.ANNOTATION));
 			ActionContributionItem item = new ActionContributionItem(action);
 			manager.appendToGroup(groupName, item);
 		}

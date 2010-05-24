@@ -11,27 +11,27 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.core.properties;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.tigerstripe.annotation.core.Annotation;
-import org.eclipse.tigerstripe.annotation.core.AnnotationFactory;
-import org.eclipse.tigerstripe.annotation.ui.core.view.AnnotationNote;
+import org.eclipse.tigerstripe.annotation.ui.core.view.INote;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.views.properties.tabbed.AbstractPropertySection;
 
 /**
- * Base class for annotation properties section
+ * Base class for EMF properties section
  * 
  * @author Yuri Strot
  */
-public class AnnotationPropertiesSection extends AbstractPropertySection {
+public class EPropertiesSection extends AbstractPropertySection {
 
 	/**
-	 * Update section specified annotation selected
+	 * Update section
 	 * 
-	 * @param annotation
+	 * @param content
+	 * @param readOnly
 	 */
-	protected void updateSection(Annotation annotation) {
+	protected void updateSection(EObject content, boolean readOnly) {
 	}
 
 	@Override
@@ -46,20 +46,18 @@ public class AnnotationPropertiesSection extends AbstractPropertySection {
 	}
 
 	protected void updateSection(final ISelection selection) {
-		Annotation annotation = getAnnotation(selection);
-		if (annotation != null)
-			updateSection(annotation);
+		INote note = getNote(selection);
+		if (note != null) {
+			updateSection(note.getContent(), note.isReadOnly());
+		}
 	}
 
-	private Annotation getAnnotation(ISelection selection) {
+	private INote getNote(ISelection selection) {
 		if (selection instanceof IStructuredSelection) {
 			Object element = ((IStructuredSelection) selection)
 					.getFirstElement();
-			if (element instanceof AnnotationNote) {
-				return ((AnnotationNote) element).getAnnotation();
-			} else {
-				// return fake annotation
-				return AnnotationFactory.eINSTANCE.createAnnotation();
+			if (element instanceof INote) {
+				return (INote) element;
 			}
 		}
 		return null;

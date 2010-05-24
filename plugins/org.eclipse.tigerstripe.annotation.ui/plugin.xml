@@ -86,7 +86,7 @@
 		<propertySections contributorId="org.eclipse.tigerstripe.annotation.ui.properties">
 			<propertySection
 				class="org.eclipse.tigerstripe.annotation.ui.internal.view.property.PropertiesSection"
-				filter="org.eclipse.tigerstripe.annotation.ui.core.properties.AnnotationFilter"
+				filter="org.eclipse.tigerstripe.annotation.ui.core.properties.NoteFilter"
 				id="property.section.PropertiesPropertySection"
 				tab="property.tab.PropertiesPropertySection">
 			</propertySection>

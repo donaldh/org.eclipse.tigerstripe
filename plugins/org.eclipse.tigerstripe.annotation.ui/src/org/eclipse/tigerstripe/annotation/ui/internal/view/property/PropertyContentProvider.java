@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnumLiteral;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.jface.viewers.ITreeContentProvider;
@@ -93,7 +94,8 @@ public class PropertyContentProvider implements ITreeContentProvider {
 		}
 		if (element instanceof EProperty) {
 			EProperty property = (EProperty)element;
-			if (property.getValue() instanceof EObject) {
+			Object val = property.getValue();
+			if (val instanceof EObject && !(val instanceof EEnumLiteral)) {
 				object = (EObject)property.getValue();
 			}
 		}

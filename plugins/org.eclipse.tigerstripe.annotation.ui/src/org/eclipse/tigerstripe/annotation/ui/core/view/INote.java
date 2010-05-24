@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.core.view;
 
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.graphics.Image;
 
 public interface INote {
@@ -28,6 +29,8 @@ public interface INote {
 	public void revert();
 
 	public void remove();
+
+	public EObject getContent();
 
 	public String getLabel();
 

@@ -12,6 +12,7 @@
 package org.eclipse.tigerstripe.annotation.ui.internal.actions;
 
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.annotation.ui.util.WorkbenchUtil;
@@ -19,17 +20,22 @@ import org.eclipse.tigerstripe.annotation.ui.wizard.CreateAnnotationWizard;
 
 /**
  * @author Yuri Strot
- *
+ * 
  */
 public class OpenAnnotationWizardAction extends Action {
-	
+
 	private Object object;
-	
+
 	public OpenAnnotationWizardAction() {
 	}
-	
+
 	public OpenAnnotationWizardAction(Object object, String name) {
-		super(name);
+		this(object, name, null);
+	}
+
+	public OpenAnnotationWizardAction(Object object, String name,
+			ImageDescriptor image) {
+		super(name, image);
 		this.object = object;
 	}
 
@@ -38,10 +44,10 @@ public class OpenAnnotationWizardAction extends Action {
 		if (shell == null)
 			return;
 		CreateAnnotationWizard wizard = new CreateAnnotationWizard(object);
-		WizardDialog dialog= new WizardDialog(shell, wizard);
+		WizardDialog dialog = new WizardDialog(shell, wizard);
 		dialog.create();
 		dialog.getShell().setSize(500, 500);
 		dialog.open();
-    }
+	}
 
 }
