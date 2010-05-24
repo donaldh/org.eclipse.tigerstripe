@@ -267,6 +267,9 @@ public class ProfileDetailsDialog extends Dialog {
 			String file = dialog.open();
 			if (file != null) {
 				internalDeploy(getShell(), file);
+				IWorkbench workbench = PlatformUI.getWorkbench();
+				workbench.restart();
+
 			}
 		}
 	}
@@ -320,7 +323,7 @@ public class ProfileDetailsDialog extends Dialog {
 										"Save as Active Profile",
 										"You are about to set this profile ('"
 												+ handle.getName()
-												+ "') as the active profile. \n\nThis will restart the workbench.\n\nDo you want to continue?\n\n(You will be able to rollback to the current active profile).  ")) {
+												+ "') as the active profile. \n\nThis may restart the workbench.\n\nDo you want to continue?\n\n(You will be able to rollback to the current active profile).  ")) {
 							
 
 							IRunnableWithProgress op = new IRunnableWithProgress() {
@@ -355,21 +358,25 @@ public class ProfileDetailsDialog extends Dialog {
 								}
 							};
 
-							IWorkbench wb = PlatformUI.getWorkbench();
-							IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
+							
+							//Removed the progress dialog completely - this makes no sense if you do a restart!
+							
+							// moved the actual restart to the caller, as in one case this being called on start up...
+							// so start up was calling restart - and throwing an exception in the log
+							
+//							IWorkbench wb = PlatformUI.getWorkbench();
+//							IWorkbenchWindow win = wb.getActiveWorkbenchWindow();
 							//Shell shell = win != null ? win.getShell() : null;
 
-							try {
-								ProgressMonitorDialog pDialog = new ProgressMonitorDialog(
-										shell);
-								pDialog.run(true, false, op);
-								IWorkbench workbench = PlatformUI.getWorkbench();
-								workbench.restart();
-							} catch (InterruptedException e) {
-								EclipsePlugin.log(e);
-							} catch (InvocationTargetException e) {
-								EclipsePlugin.log(e);
-							}
+//							try {
+//								ProgressMonitorDialog pDialog = new ProgressMonitorDialog(
+//										shell);
+//								pDialog.run(true, false, op);
+//							} catch (InterruptedException e) {
+//								EclipsePlugin.log(e);
+//							} catch (InvocationTargetException e) {
+//								EclipsePlugin.log(e);
+//							}
 
 
 						}
