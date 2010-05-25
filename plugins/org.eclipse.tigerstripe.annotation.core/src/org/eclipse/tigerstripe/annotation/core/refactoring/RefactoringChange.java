@@ -9,7 +9,7 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.core;
+package org.eclipse.tigerstripe.annotation.core.refactoring;
 
 import org.eclipse.emf.common.util.URI;
 

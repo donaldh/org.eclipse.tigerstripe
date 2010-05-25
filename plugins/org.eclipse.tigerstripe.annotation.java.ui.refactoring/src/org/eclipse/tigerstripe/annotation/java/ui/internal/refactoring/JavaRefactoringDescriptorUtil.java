@@ -24,7 +24,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IMethod;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.WorkingCopyOwner;
-import org.eclipse.tigerstripe.annotation.java.ui.refactoring.ILazyObject;
+import org.eclipse.tigerstripe.annotation.core.refactoring.ILazyObject;
 
 /**
  * @author Yuri Strot

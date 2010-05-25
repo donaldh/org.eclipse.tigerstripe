@@ -32,7 +32,7 @@ import org.eclipse.ltk.core.refactoring.RefactoringCore;
 import org.eclipse.ltk.core.refactoring.RefactoringDescriptor;
 import org.eclipse.ltk.core.refactoring.resource.MoveResourcesDescriptor;
 import org.eclipse.ltk.core.refactoring.resource.RenameResourceDescriptor;
-import org.eclipse.tigerstripe.annotation.java.ui.refactoring.ILazyObject;
+import org.eclipse.tigerstripe.annotation.core.refactoring.ILazyObject;
 
 /**
  * @author Yuri Strot

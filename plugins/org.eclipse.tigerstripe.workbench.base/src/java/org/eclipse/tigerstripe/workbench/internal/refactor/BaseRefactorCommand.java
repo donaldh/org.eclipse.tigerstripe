@@ -27,13 +27,13 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
-import org.eclipse.tigerstripe.annotation.core.IRefactoringSupport;
+import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringChangesListener;
+import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringNotifier;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.tigerstripe.workbench.internal.annotation.TigerstripeRefactoringSupport;
+import org.eclipse.tigerstripe.workbench.internal.annotation.TigerstripeLazyObject;
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
@@ -97,7 +97,6 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		long time = System.currentTimeMillis();
 		System.out.println("Starting refactor");
 		disableAuditsAndDiagSync();
-		disableAnnotationsSync();
 
 		Set<Object> toCleanUp = new HashSet<Object>();
 
@@ -105,7 +104,7 @@ public class BaseRefactorCommand implements IRefactorCommand {
 				toCleanUp);
 		long time1 = System.currentTimeMillis();
 		System.out.println("Done with Deltas: " + (time1 - time));
- 
+
 		updateDiagrams(monitor);
 		time1 = System.currentTimeMillis();
 		System.out.println("Done diagram updates: " + (time1 - time));
@@ -140,16 +139,16 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		// Set<IResource> affectedResources = getAffectedResources();
 		// System.out.println(affectedResources);
 
-		enableAnnotationsSync();
 		reEnableAuditsAndDiagSync();
-		System.out.println("Refactor Time: " + (System.currentTimeMillis() - time));
+		System.out.println("Refactor Time: "
+				+ (System.currentTimeMillis() - time));
 	}
 
 	@SuppressWarnings("deprecation")
 	protected ITigerstripeModelProject[] moveAllArtifactsAcross(
 			Set<Object> toCleanUp) {
-		IRefactoringSupport refactor = AnnotationPlugin.getManager()
-				.getRefactoringSupport();
+		IRefactoringNotifier refactor = AnnotationPlugin
+				.getRefactoringNotifier();
 
 		Set<ITigerstripeModelProject> destProjects = new HashSet<ITigerstripeModelProject>();
 		for (RefactorRequest req : requests) {
@@ -162,6 +161,15 @@ public class BaseRefactorCommand implements IRefactorCommand {
 								.getArtifactByFullyQualifiedName(
 										mRReq.getDestinationFQN());
 
+						// propagate to annotations framework
+						TigerstripeLazyObject oldPath = new TigerstripeLazyObject(
+								art);
+						refactor.fireChanged(oldPath,
+								new TigerstripeLazyObject(mRReq
+										.getDestinationProject(), art
+										.getFullyQualifiedName()),
+								IRefactoringChangesListener.ABOUT_TO_CHANGE);
+
 						IAbstractArtifact dest = ((AbstractArtifact) art)
 								.makeWorkingCopy(null);
 						mRReq.getDestinationProject()
@@ -169,9 +177,9 @@ public class BaseRefactorCommand implements IRefactorCommand {
 						dest.doSave(null);
 
 						// propagate to annotations framework
-						URI oldUri = (URI) art.getAdapter(URI.class);
-						URI newUri = (URI) dest.getAdapter(URI.class);
-						refactor.changed(oldUri, newUri, true);
+						refactor.fireChanged(oldPath,
+								new TigerstripeLazyObject(dest),
+								IRefactoringChangesListener.CHANGED);
 
 						toCleanUp.add(art);
 						destProjects.add(mRReq.getDestinationProject());
@@ -183,14 +191,6 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		}
 		return destProjects.toArray(new ITigerstripeModelProject[destProjects
 				.size()]);
-	}
-
-	protected void disableAnnotationsSync() {
-		TigerstripeRefactoringSupport.INSTANCE.stop();
-	}
-
-	protected void enableAnnotationsSync() {
-		TigerstripeRefactoringSupport.INSTANCE.start();
 	}
 
 	@SuppressWarnings("deprecation")
@@ -261,7 +261,7 @@ public class BaseRefactorCommand implements IRefactorCommand {
 			IProgressMonitor monitor) throws TigerstripeException {
 		// Rebuilding indexes is necessary for the Auditor to be in sync with
 		// the model since it was put to sleep during the refactor process.
-//		TigerstripeProjectAuditor.rebuildIndexes(projectsToRebuild, monitor);
+		// TigerstripeProjectAuditor.rebuildIndexes(projectsToRebuild, monitor);
 	}
 
 	protected void moveDiagrams(IProgressMonitor monitor)

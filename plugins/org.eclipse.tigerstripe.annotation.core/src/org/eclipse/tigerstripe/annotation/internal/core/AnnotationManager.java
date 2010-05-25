@@ -24,6 +24,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.URI;
@@ -36,18 +37,22 @@ import org.eclipse.tigerstripe.annotation.core.AnnotationException;
 import org.eclipse.tigerstripe.annotation.core.AnnotationFactory;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
-import org.eclipse.tigerstripe.annotation.core.CompositeRefactorListener;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationConstraint;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationParticipant;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationProvider;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationTarget;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationValidationContext;
-import org.eclipse.tigerstripe.annotation.core.IRefactoringListener;
-import org.eclipse.tigerstripe.annotation.core.IRefactoringSupport;
 import org.eclipse.tigerstripe.annotation.core.ProviderContext;
-import org.eclipse.tigerstripe.annotation.core.RefactoringChange;
 import org.eclipse.tigerstripe.annotation.core.TargetAnnotationType;
+import org.eclipse.tigerstripe.annotation.core.refactoring.CompositeRefactorListener;
+import org.eclipse.tigerstripe.annotation.core.refactoring.ILazyObject;
+import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringChangesListener;
+import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringDelegate;
+import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringListener;
+import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringNotifier;
+import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringSupport;
+import org.eclipse.tigerstripe.annotation.core.refactoring.RefactoringChange;
 import org.eclipse.tigerstripe.annotation.core.util.AnnotationUtils;
 
 /**
@@ -59,7 +64,8 @@ import org.eclipse.tigerstripe.annotation.core.util.AnnotationUtils;
  * @author Yuri Strot
  */
 public class AnnotationManager extends AnnotationStorage implements
-		IAnnotationManager, IRefactoringSupport {
+		IAnnotationManager, IRefactoringNotifier, IRefactoringSupport,
+		IRefactoringDelegate {
 
 	private static final String EXTPT_PREFIX = "org.eclipse.tigerstripe.annotation.core.";
 
@@ -80,6 +86,9 @@ public class AnnotationManager extends AnnotationStorage implements
 
 	private static final String ANNOTATION_PARTICIPANT_EXTPT = EXTPT_PREFIX
 			+ "participants";
+
+	private static final String REFACTORING_CHANGES_LISTENER_EXTPT = EXTPT_PREFIX
+			+ "refactoringListeners";
 
 	private static final String ANNOTATION_ATTR_CLASS = "class";
 
@@ -105,8 +114,13 @@ public class AnnotationManager extends AnnotationStorage implements
 
 	private List<IAnnotationParticipant> participants;
 
+	private ListenerList refactoringListeners = new ListenerList();
+
+	private boolean ignoreDeletion = false;
+
 	public AnnotationManager() {
 		loadParticipants();
+		loadRefactoringListeners();
 	}
 
 	public void addRefactoringListener(IRefactoringListener listener) {
@@ -699,4 +713,62 @@ public class AnnotationManager extends AnnotationStorage implements
 		return null;
 	}
 
+	protected void loadRefactoringListeners() {
+		IConfigurationElement[] configs = Platform
+				.getExtensionRegistry()
+				.getConfigurationElementsFor(REFACTORING_CHANGES_LISTENER_EXTPT);
+		for (IConfigurationElement config : configs) {
+			try {
+				IRefactoringChangesListener listener = (IRefactoringChangesListener) config
+						.createExecutableExtension(ANNOTATION_ATTR_CLASS);
+				refactoringListeners.add(listener);
+			} catch (Exception e) {
+				AnnotationPlugin.log(e);
+			}
+		}
+	}
+
+	public void fireDeleted(ILazyObject path) {
+		if (!ignoreDeletion) {
+			for (Object object : refactoringListeners.getListeners()) {
+				IRefactoringChangesListener listener = (IRefactoringChangesListener) object;
+				listener.deleted(this, path);
+			}
+		}
+	}
+
+	public void fireChanged(ILazyObject oldPath, ILazyObject newPath, int kind) {
+		if (kind == IRefactoringChangesListener.ABOUT_TO_CHANGE)
+			ignoreDeletion = true;
+		for (Object object : refactoringListeners.getListeners()) {
+			IRefactoringChangesListener listener = (IRefactoringChangesListener) object;
+			listener.changed(this, oldPath, newPath, kind);
+		}
+		if (kind == IRefactoringChangesListener.CHANGED)
+			ignoreDeletion = false;
+	}
+
+	public void fireMoved(ILazyObject[] objects, ILazyObject destination,
+			int kind) {
+		if (kind == IRefactoringChangesListener.ABOUT_TO_CHANGE)
+			ignoreDeletion = true;
+		for (Object object : refactoringListeners.getListeners()) {
+			IRefactoringChangesListener listener = (IRefactoringChangesListener) object;
+			listener.moved(this, objects, destination, kind);
+		}
+		if (kind == IRefactoringChangesListener.CHANGED)
+			ignoreDeletion = false;
+	}
+
+	public void fireCopy(ILazyObject[] objects, ILazyObject destination,
+			Map<ILazyObject, String> newNames, int kind) {
+		if (kind == IRefactoringChangesListener.ABOUT_TO_CHANGE)
+			ignoreDeletion = true;
+		for (Object object : refactoringListeners.getListeners()) {
+			IRefactoringChangesListener listener = (IRefactoringChangesListener) object;
+			listener.copied(this, objects, destination, newNames, kind);
+		}
+		if (kind == IRefactoringChangesListener.CHANGED)
+			ignoreDeletion = false;
+	}
 }

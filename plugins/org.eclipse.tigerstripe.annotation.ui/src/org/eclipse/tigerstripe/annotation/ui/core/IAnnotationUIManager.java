@@ -14,14 +14,12 @@ package org.eclipse.tigerstripe.annotation.ui.core;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
-import org.eclipse.tigerstripe.annotation.core.IRefactoringSupport;
 import org.eclipse.ui.ISelectionListener;
 
 /**
  * An annotation UI manager provide operations for annotation creation, removing and changing
  * from the UI. Also it allow to change and listen annotation selection.
  * 
- * @see IRefactoringSupport
  * @see ISelectionConverter
  * @author Yuri Strot
  */

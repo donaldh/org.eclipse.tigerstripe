@@ -17,12 +17,13 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
-import org.eclipse.tigerstripe.annotation.core.IRefactoringSupport;
+import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringChangesListener;
+import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringNotifier;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.annotation.TigerstripeLazyObject;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.ArtifactSetFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
@@ -39,6 +40,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * This is a helper class that is used to delegate the "apply()" method of
@@ -55,8 +57,8 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
 @SuppressWarnings("deprecation")
 public class ModelChangeDeltaProcessor {
 
-	private static IRefactoringSupport refactor = AnnotationPlugin.getManager()
-			.getRefactoringSupport();
+	private static IRefactoringNotifier refactor = AnnotationPlugin
+			.getRefactoringNotifier();
 
 	public static void processModelChangeDelta(ModelChangeDelta delta,
 			Collection<Object> toCleanUp, Collection<IAbstractArtifact> toSave)
@@ -115,6 +117,11 @@ public class ModelChangeDeltaProcessor {
 			IAbstractArtifact artifact, IModelChangeDelta delta,
 			Collection<Object> toCleanUp, Collection<IAbstractArtifact> toSave)
 			throws TigerstripeException {
+		ITigerstripeModelProject project = artifact.getProject();
+		TigerstripeLazyObject oldObj = new TigerstripeLazyObject(project,
+				artifact.getFullyQualifiedName());
+		TigerstripeLazyObject newObj = new TigerstripeLazyObject(project,
+				(String) delta.getNewValue());
 		if (IModelChangeDelta.SET == delta.getType()) {
 			if ("fqn".equals(delta.getFeature())) {
 				if (artifact instanceof IPackageArtifact) {
@@ -122,37 +129,41 @@ public class ModelChangeDeltaProcessor {
 					// Let's create the new package, but leave the old one to be
 					// cleaned up later to avoid deleting anything we don't want
 					// to.
+
+					// propagate to annotations framework
+					refactor.fireChanged(oldObj, newObj,
+							IRefactoringChangesListener.ABOUT_TO_CHANGE);
+
 					IAbstractArtifact newOne = ((AbstractArtifact) artifact)
 							.makeWorkingCopy(null);
 					newOne.setFullyQualifiedName((String) delta.getNewValue());
-					if (toSave == null)
-						newOne.doSave(null);
-					else
-						toSave.add(newOne);
+
+					newOne.doSave(null);
 
 					// propagate to annotations framework
-					URI oldUri = (URI) artifact.getAdapter(URI.class);
-					URI newUri = (URI) newOne.getAdapter(URI.class);
-					refactor.changed(oldUri, newUri, true);
+					refactor.fireChanged(oldObj, new TigerstripeLazyObject(
+							newOne), IRefactoringChangesListener.CHANGED);
 
 					toCleanUp.add(artifact);
 				} else {
 					// renaming an artifact here
-					URI oldUri = (URI) artifact.getAdapter(URI.class);
 					IResource res = (IResource) artifact
 							.getAdapter(IResource.class);
 					IArtifactManagerSession session = artifact.getProject()
 							.getArtifactManagerSession();
-					session.renameArtifact(artifact, (String) delta
-							.getNewValue());
-					if (toSave == null)
-						artifact.doSave(null);
-					else
-						toSave.add(artifact);
+					String newFqn = (String) delta.getNewValue();
 
 					// propagate to annotations framework
-					URI newUri = (URI) artifact.getAdapter(URI.class);
-					refactor.changed(oldUri, newUri, true);
+					refactor.fireChanged(oldObj, newObj,
+							IRefactoringChangesListener.ABOUT_TO_CHANGE);
+
+					session.renameArtifact(artifact, newFqn);
+
+					artifact.doSave(null);
+
+					// propagate to annotations framework
+					refactor.fireChanged(oldObj, new TigerstripeLazyObject(
+							artifact), IRefactoringChangesListener.CHANGED);
 
 					toCleanUp.add(res);
 				}
@@ -266,6 +277,11 @@ public class ModelChangeDeltaProcessor {
 
 			// That way diagrams are updated with the new names before they are
 			// moved
+
+			// propagate to annotations framework
+			refactor.fireChanged(oldObj, newObj,
+					IRefactoringChangesListener.ABOUT_TO_CHANGE);
+
 			IResource res = (IResource) artifact.getAdapter(IResource.class);
 			artifact.getProject().getArtifactManagerSession().renameArtifact(
 					artifact, (String) delta.getNewValue());
@@ -284,9 +300,8 @@ public class ModelChangeDeltaProcessor {
 				toSave.add(newOne);
 
 			// propagate to annotations framework
-			URI oldUri = (URI) artifact.getAdapter(URI.class);
-			URI newUri = (URI) newOne.getAdapter(URI.class);
-			refactor.changed(oldUri, newUri, true);
+			refactor.fireChanged(oldObj, newObj,
+					IRefactoringChangesListener.CHANGED);
 
 			toCleanUp.add(res);
 			toCleanUp.add(artifact);

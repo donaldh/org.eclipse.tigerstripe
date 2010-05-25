@@ -152,6 +152,7 @@ public class ChangeModelIDDialog extends Dialog {
 							new String[] { oldModelId }, null, null);
 					URI newUri = URI.createHierarchicalURI(scheme, null, null,
 							new String[] { newModelId }, null, null);
+					//TODO need to use IRefactoringNotifier
 					AnnotationPlugin.getManager().getRefactoringSupport()
 							.changed(oldUri, newUri, true);
 					monitor.worked(1);

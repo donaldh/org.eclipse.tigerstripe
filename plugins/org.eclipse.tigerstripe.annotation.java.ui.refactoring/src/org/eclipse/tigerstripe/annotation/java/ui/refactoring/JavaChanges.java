@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IParent;
+import org.eclipse.tigerstripe.annotation.core.refactoring.IElementChanges;
 import org.eclipse.tigerstripe.annotation.java.JavaURIConverter;
 
 /**

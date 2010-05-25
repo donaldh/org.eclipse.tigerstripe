@@ -120,7 +120,7 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 								.getArtifactManager().getArtifactByFilename(
 										res.getLocation().toOSString());
 
-						if (artifact == null) {
+						if (artifact == null && res.exists()) {
 							try {
 								InputStreamReader reader = new InputStreamReader(
 										res.getContents());

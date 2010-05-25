@@ -8,6 +8,7 @@
 	<extension-point id="constraints" name="constraints" schema="schema/constraints.exsd"/>
 	<extension-point id="packageLabel" name="packageLabel" schema="schema/packageLabel.exsd"/>
  <extension-point id="participants" name="participants" schema="schema/participants.exsd"/>
+ <extension-point id="refactoringListeners" name="Refactoring Changes Listeners" schema="schema/refactoringListeners.exsd"/>
 
 	<extension point="org.eclipse.emf.ecore.generated_package">
 		<package 

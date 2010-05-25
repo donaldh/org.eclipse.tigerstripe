@@ -11,8 +11,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.java.ui.internal.refactoring;
 
+import org.eclipse.tigerstripe.annotation.core.refactoring.ILazyObject;
 import org.eclipse.tigerstripe.annotation.core.util.ObjectUtil;
-import org.eclipse.tigerstripe.annotation.java.ui.refactoring.ILazyObject;
 
 /**
  * @author Yuri Strot

@@ -11,16 +11,20 @@
 package org.eclipse.tigerstripe.workbench.internal.adapt;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.diagram.IDiagram;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
@@ -187,6 +191,35 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 					.getArtifactManagerSession();
 			artifact = artifactManagerSession
 					.getArtifactByFullyQualifiedName(fqn);
+			//FIXME hack to get artifact by resource while it is not accessible by FQN
+			if (artifact == null) {
+				// try to find the according resource
+				if (modelProject instanceof TigerstripeProjectHandle) {
+					TigerstripeProjectHandle handle = (TigerstripeProjectHandle) modelProject;
+					String sourceFolder = handle.getBaseRepository();
+					IWorkspaceRoot root = ResourcesPlugin.getWorkspace()
+							.getRoot();
+					IProject iproject = root.getProject(project);
+					if (iproject != null && iproject.exists()) {
+						IPath resourcePath = new Path(uri.path().replace('.',
+								IPath.SEPARATOR).replace(project, sourceFolder));
+						// try to find source
+						IResource resource = iproject.findMember(resourcePath);
+						if (resource == null) {
+							// try to find source
+							resourcePath = resourcePath
+									.addFileExtension("java");
+							resource = iproject.findMember(resourcePath);
+						}
+						if (resource != null) {
+							// try to resolve artifact by resource
+							artifact = (IAbstractArtifact) Platform
+									.getAdapterManager().getAdapter(resource,
+											IAbstractArtifact.class);
+						}
+					}
+				}
+			}
 		}
 
 		return artifact;

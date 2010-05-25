@@ -391,5 +391,11 @@
             value="true">
       </persistent>
    </extension>
+ <extension
+       point="org.eclipse.tigerstripe.annotation.core.refactoringListeners">
+    <listener
+          class="org.eclipse.tigerstripe.workbench.internal.annotation.TigerstripeRefactoringSupport">
+    </listener>
+ </extension>
 
 </plugin>

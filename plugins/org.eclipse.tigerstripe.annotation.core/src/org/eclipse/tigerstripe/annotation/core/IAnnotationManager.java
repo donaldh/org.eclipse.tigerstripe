@@ -19,6 +19,8 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringListener;
+import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringSupport;
 import org.eclipse.tigerstripe.espace.core.Mode;
 
 /**
@@ -241,7 +243,9 @@ public interface IAnnotationManager {
 	/**
 	 * Return interface for refactoring support
 	 * 
-	 * @return
+	 * @return refactoring support
+	 * @deprecated The method {@link AnnotationPlugin.getRefactoringNotifier()}
+	 *             should be used instead
 	 */
 	public IRefactoringSupport getRefactoringSupport();
 

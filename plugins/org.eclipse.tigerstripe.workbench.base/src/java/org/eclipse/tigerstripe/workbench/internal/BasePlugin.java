@@ -21,7 +21,6 @@ import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.annotation.TigerstripeRefactoringSupport;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderer;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderingSession;
 import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceListener;
@@ -59,7 +58,6 @@ public class BasePlugin extends Plugin {
 
 		extensionPointRegistered();
 
-		startAnnotationRefactoringSupport();
 		startWorkspaceListener();
 	}
 
@@ -70,16 +68,13 @@ public class BasePlugin extends Plugin {
 		stopWorkspaceListener();
 	}
 
-	private void startAnnotationRefactoringSupport() {
-		TigerstripeRefactoringSupport.INSTANCE.start();
-	}
-
 	private void extensionPointRegistered() {
 
 		IDiagramRenderingSession session = InternalTigerstripeCore
 				.getIDiagramRenderingSession();
 		IConfigurationElement[] configElements = Platform
-				.getExtensionRegistry().getConfigurationElementsFor(
+				.getExtensionRegistry()
+				.getConfigurationElementsFor(
 						"org.eclipse.tigerstripe.workbench.base.diagramRendering");
 		for (IConfigurationElement configElement : configElements) {
 			try {

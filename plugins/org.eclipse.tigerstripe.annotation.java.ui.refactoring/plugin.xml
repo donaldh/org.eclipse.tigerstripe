@@ -45,5 +45,14 @@
 	      point="org.eclipse.ui.startup">
     	<startup class="org.eclipse.tigerstripe.annotation.java.ui.internal.refactoring.Startup"/>
 	</extension>
+ <extension
+       point="org.eclipse.tigerstripe.annotation.core.refactoringListeners">
+    <listener
+          class="org.eclipse.tigerstripe.annotation.java.ui.refactoring.ResourceRefactoringSupport">
+    </listener>
+    <listener
+          class="org.eclipse.tigerstripe.annotation.java.ui.refactoring.JavaRefactoringSupport">
+    </listener>
+ </extension>
 
 </plugin>

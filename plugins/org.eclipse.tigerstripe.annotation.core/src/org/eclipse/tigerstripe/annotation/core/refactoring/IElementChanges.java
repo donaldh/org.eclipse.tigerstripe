@@ -9,20 +9,21 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.core;
+package org.eclipse.tigerstripe.annotation.core.refactoring;
 
+import java.util.Map;
+
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.emf.common.util.URI;
 
 /**
- * Interface for listening to refactoring changes.
- * 
  * @author Yuri Strot
+ *
  */
-public interface IRefactoringListener {
+public interface IElementChanges {
 	
-	/**
-	 * Notify that some refactoring change performed
-	 * @param change
-	 */
-	public void refactoringPerformed(RefactoringChange change);
+	public IPath getPath();
+	
+	public Map<URI, URI> getChanges(Object newElement);
 
 }

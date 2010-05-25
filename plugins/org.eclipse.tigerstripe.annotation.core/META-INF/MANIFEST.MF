@@ -8,6 +8,7 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Export-Package: org.eclipse.tigerstripe.annotation.core,
  org.eclipse.tigerstripe.annotation.core.impl,
+ org.eclipse.tigerstripe.annotation.core.refactoring,
  org.eclipse.tigerstripe.annotation.core.util,
  org.eclipse.tigerstripe.annotation.internal.core;x-friends:="org.eclipse.tigerstripe.annotation.core.test"
 Require-Bundle: org.eclipse.core.runtime,

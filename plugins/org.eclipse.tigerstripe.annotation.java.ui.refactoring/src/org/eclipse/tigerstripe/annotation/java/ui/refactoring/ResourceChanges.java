@@ -18,6 +18,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.tigerstripe.annotation.core.refactoring.IElementChanges;
 import org.eclipse.tigerstripe.annotation.resource.ResourceURIConverter;
 
 /**
