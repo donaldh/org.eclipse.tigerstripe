@@ -13,25 +13,27 @@ package org.eclipse.tigerstripe.workbench.ui.internal.views.stereotypes;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.tigerstripe.annotation.ui.core.view.EObjectBasedNote;
 import org.eclipse.tigerstripe.annotation.ui.core.view.INote;
-import org.eclipse.tigerstripe.annotation.ui.core.view.INoteChangeListener;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
-public class StereotypeNote implements INote {
+public class StereotypeNote extends EObjectBasedNote implements INote {
 
 	private IStereotypeInstance stereotype;
 	private IStereotypeCapable capable;
+	private EObject eObject;
 
 	public StereotypeNote(IStereotypeCapable capable,
 			IStereotypeInstance stereotype) {
+		super();
 		this.stereotype = stereotype;
 		this.capable = capable;
 	}
 
 	public String getDescription() {
-		return null;
+		return stereotype.getCharacterizingStereotype().getDescription();
 	}
 
 	public Image getImage() {
@@ -51,29 +53,23 @@ public class StereotypeNote implements INote {
 	}
 
 	public void revert() {
+		initEObject();
 	}
 
 	public void save() {
-	}
-
-	public void addChangeListener(INoteChangeListener listener) {
-	}
-
-	public void removeChangeListener(INoteChangeListener listener) {
-	}
-
-	public INoteChangeListener[] getListeners() {
-		return null;
+		StereotypeConverter.copyEObjectAttributes(eObject, stereotype);
 	}
 
 	public EObject getContent() {
 		if (eObject == null) {
-			StereotypeConverter converter = new StereotypeConverter();
-			eObject = converter.createObject(stereotype);
+			initEObject();
 		}
 		return eObject;
 	}
 
-	private EObject eObject;
+	private void initEObject() {
+		StereotypeConverter converter = new StereotypeConverter();
+		eObject = converter.createObject(stereotype);
+	}
 
 }
