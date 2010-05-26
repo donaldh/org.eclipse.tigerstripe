@@ -142,27 +142,19 @@ public class JavaRefactoringSupport implements IRefactoringChangesListener {
 			final Map<URI, URI> uris) {
 		if (uris.size() == 0)
 			return;
-		new Thread() {
-			public void run() {
-				for (URI uri : uris.keySet())
-					delegate.changed(uri, uris.get(uri), false);
-			}
-		}.start();
+		for (URI uri : uris.keySet())
+			delegate.changed(uri, uris.get(uri), false);
 	}
 
 	private void copied(final IRefactoringDelegate delegate,
 			final Map<URI, URI> uris) {
 		if (uris.size() == 0)
 			return;
-		new Thread() {
-			public void run() {
-				for (Entry<URI, URI> entry : uris.entrySet()) {
-					URI fromUri = entry.getKey();
-					URI toUri = entry.getValue();
-					delegate.copied(fromUri, toUri, false);
-				}
-			}
-		}.start();
+		for (Entry<URI, URI> entry : uris.entrySet()) {
+			URI fromUri = entry.getKey();
+			URI toUri = entry.getValue();
+			delegate.copied(fromUri, toUri, false);
+		}
 	}
 
 	/*
@@ -176,11 +168,7 @@ public class JavaRefactoringSupport implements IRefactoringChangesListener {
 		if (element != null) {
 			final URI uri = JavaURIConverter.toURI(element);
 			if (uri != null) {
-				new Thread() {
-					public void run() {
-						delegate.deleted(uri, true);
-					}
-				}.start();
+				delegate.deleted(uri, true);
 			}
 		}
 	}

@@ -59,7 +59,8 @@ public class ResourceRefactoringSupport implements IRefactoringChangesListener {
 		}
 	}
 
-	public void moved(IRefactoringDelegate delegate, ILazyObject[] objects, ILazyObject destination, int kind) {
+	public void moved(IRefactoringDelegate delegate, ILazyObject[] objects,
+			ILazyObject destination, int kind) {
 		if (kind == ABOUT_TO_CHANGE) {
 			for (int i = 0; i < objects.length; i++) {
 				IResource element = getResource(objects[i]);
@@ -86,8 +87,8 @@ public class ResourceRefactoringSupport implements IRefactoringChangesListener {
 		}
 	}
 
-	public void copied(IRefactoringDelegate delegate, ILazyObject[] objects, ILazyObject destination,
-			Map<ILazyObject, String> newNames, int kind) {
+	public void copied(IRefactoringDelegate delegate, ILazyObject[] objects,
+			ILazyObject destination, Map<ILazyObject, String> newNames, int kind) {
 		if (kind == ABOUT_TO_CHANGE) {
 			for (int i = 0; i < objects.length; i++) {
 				IResource element = getResource(objects[i]);
@@ -128,27 +129,19 @@ public class ResourceRefactoringSupport implements IRefactoringChangesListener {
 		// inform annotation framework about changes
 		if (uris.size() == 0)
 			return;
-		new Thread() {
-			public void run() {
-				for (URI uri : uris.keySet())
-					delegate.changed(uri, uris.get(uri), true);
-			}
-		}.start();
+		for (URI uri : uris.keySet())
+			delegate.changed(uri, uris.get(uri), true);
 	}
 
 	private void copied(final IRefactoringDelegate delegate,
 			final Map<URI, URI> uris) {
 		if (uris.size() == 0)
 			return;
-		new Thread() {
-			public void run() {
-				for (Entry<URI, URI> entry : uris.entrySet()) {
-					URI fromUri = entry.getKey();
-					URI toUri = entry.getValue();
-					delegate.copied(fromUri, toUri, true);
-				}
-			}
-		}.start();
+		for (Entry<URI, URI> entry : uris.entrySet()) {
+			URI fromUri = entry.getKey();
+			URI toUri = entry.getValue();
+			delegate.copied(fromUri, toUri, true);
+		}
 	}
 
 	/*
@@ -162,11 +155,7 @@ public class ResourceRefactoringSupport implements IRefactoringChangesListener {
 		if (resource != null) {
 			final URI uri = ResourceURIConverter.toURI(resource);
 			if (uri != null) {
-				new Thread() {
-					public void run() {
-						delegate.deleted(uri, true);
-					}
-				}.start();
+				delegate.deleted(uri, true);
 			}
 		}
 	}

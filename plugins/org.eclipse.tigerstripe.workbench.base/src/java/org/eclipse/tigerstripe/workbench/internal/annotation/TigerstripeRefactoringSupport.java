@@ -34,9 +34,6 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
  * to ensure that the annotations "travel" with the artifacts and model
  * components as needed
  * 
- * Note that during a refactor operation, the propagation to the annotation
- * framework is done directly to avoid any batching/threading issue.
- * 
  * @author erdillon
  * 
  */
@@ -161,32 +158,22 @@ public class TigerstripeRefactoringSupport implements
 		}
 	}
 
-	private void changed(final IRefactoringDelegate delegate,
-			final Map<URI, URI> uris) {
+	private void changed(IRefactoringDelegate delegate, Map<URI, URI> uris) {
 		// inform annotation framework about changes
 		if (uris.size() == 0)
 			return;
-		new Thread() {
-			public void run() {
-				for (URI uri : uris.keySet())
-					delegate.changed(uri, uris.get(uri), true);
-			}
-		}.start();
+		for (URI uri : uris.keySet())
+			delegate.changed(uri, uris.get(uri), true);
 	}
 
-	private void copied(final IRefactoringDelegate delegate,
-			final Map<URI, URI> uris) {
+	private void copied(IRefactoringDelegate delegate, Map<URI, URI> uris) {
 		if (uris.size() == 0)
 			return;
-		new Thread() {
-			public void run() {
-				for (Entry<URI, URI> entry : uris.entrySet()) {
-					URI fromUri = entry.getKey();
-					URI toUri = entry.getValue();
-					delegate.copied(fromUri, toUri, true);
-				}
-			}
-		}.start();
+		for (Entry<URI, URI> entry : uris.entrySet()) {
+			URI fromUri = entry.getKey();
+			URI toUri = entry.getValue();
+			delegate.copied(fromUri, toUri, true);
+		}
 	}
 
 	/*
@@ -195,23 +182,18 @@ public class TigerstripeRefactoringSupport implements
 	 * @seeorg.eclipse.tigerstripe.annotation.jdt.refactoring.
 	 * IRefactoringChangesListener#deleted(org.eclipse.core.runtime.IPath)
 	 */
-	public void deleted(final IRefactoringDelegate delegate, ILazyObject object) {
+	public void deleted(IRefactoringDelegate delegate, ILazyObject object) {
 		IModelComponent element = getModelComponent(object);
 		if (element != null) {
 			IResource resource = getResource(object);
-			IResource resource2 = (IResource) element
-					.getAdapter(IResource.class);
-			if (resource != null && resource.equals(resource2)
-					|| resource2 != null) {
-				final Set<URI> set = new HashSet<URI>();
+			if (resource != null
+					&& resource.equals((IResource) element
+							.getAdapter(IResource.class))) {
+				Set<URI> set = new HashSet<URI>();
 				RefactoringUtil.collectAllUris(element, set);
-				new Thread() {
-					public void run() {
-						for (URI uri : set) {
-							delegate.deleted(uri, true);
-						}
-					}
-				}.start();
+				for (URI uri : set) {
+					delegate.deleted(uri, true);
+				}
 			}
 		}
 	}

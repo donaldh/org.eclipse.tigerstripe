@@ -53,13 +53,6 @@ public class TigerstripeChanges {
 		for (URI oldUri : allAffectedUris) {
 			URI newUri = URI.createURI(oldUri.toString().replace(oldPrefix,
 					newPrefix));
-			// String[] segments = oldUri.segments();
-			// String last = segments[segments.length - 1];
-			// segments[segments.length - 1] = last.replace(oldPrefix,
-			// newPrefix);
-			// URI newUri = URI.createHierarchicalURI(oldUri.scheme(), null,
-			// null,
-			// segments, null, oldUri.fragment());
 			changes.put(oldUri, newUri);
 		}
 	}
