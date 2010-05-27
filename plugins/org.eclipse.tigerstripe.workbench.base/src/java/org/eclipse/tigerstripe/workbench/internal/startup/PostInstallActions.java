@@ -18,10 +18,12 @@ import java.util.Properties;
 
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.osgi.service.datalocation.Location;
@@ -56,7 +58,7 @@ public class PostInstallActions {
 
 	private String baseBundleRoot = null;
 
-	public void run(BundleContext context) throws TigerstripeException {
+	public void run(final BundleContext context) throws TigerstripeException {
 
 		synchronized (hasRun) {
 			if (!hasRun) {
@@ -84,16 +86,29 @@ public class PostInstallActions {
 
 				// checkForUpgrade(workbenchFeatureVersion);
 
-				setupTigerstripeVariables(context);
-				createPropertiesFileForHeadlessRun(context);
+				Job setUpPhantom = new Job("Set up TS Phantom"){
 
-				createDirectoriesForHeadlessRun(context);
+					public IStatus run(IProgressMonitor monitor){
+						try {
+							setupTigerstripeVariables(context);
+							createPropertiesFileForHeadlessRun(context);
 
-				createTigerstripeEclipseLibrary(context);
+							// This does nothing
+							//				createTigerstripeEclipseLibrary(context);
 
-				// Bug 634: we need to make sure the Phantom Project path exists
-				// before we create the variable for it.
-				forceCreationOfPhantomProject(context);
+							// Bug 634: we need to make sure the Phantom Project path exists
+							// before we create the variable for it.
+							forceCreationOfPhantomProject(context);
+							
+						} catch (TigerstripeException e){
+							e.printStackTrace();
+						}
+						return Status.OK_STATUS;
+					}
+				};
+
+				setUpPhantom.schedule();
+
 				hasRun = true;
 			}
 		}
@@ -127,108 +142,6 @@ public class PostInstallActions {
 	private void createDirectoriesForHeadlessRun(BundleContext context)
 			throws TigerstripeException {
 
-		// File binDir = new File(tigerstripeRuntimeDir + File.separator +
-		// "bin");
-		// binDir.mkdirs();
-		// if (!binDir.exists()) {
-		// BasePlugin.logErrorMessage("Couldn't create "
-		// + binDir.getAbsolutePath());
-		// }
-		//
-		// File libDir = new File(tigerstripeRuntimeDir + File.separator +
-		// "lib");
-		// libDir.mkdirs();
-		// if (!libDir.exists()) {
-		// BasePlugin.logErrorMessage("Couldn't create "
-		// + libDir.getAbsolutePath());
-		// }
-		//
-		// // Copy files from install root (bin)
-		// File srcBin = new File(this.baseBundleRoot + "/src/bin");
-		// File[] srcBinFiles = srcBin.listFiles();
-		// if (srcBinFiles == null) {
-		// srcBinFiles = new File[0];
-		// }
-		// for (File srcBinFile : srcBinFiles) {
-		//
-		// String binDirPath = binDir.getAbsolutePath();
-		// if (!(new File(binDirPath + "/" + srcBinFile.getName())).exists()) {
-		// try {
-		// if (srcBinFile.isDirectory())
-		// FileUtils.copyDir(srcBinFile.getAbsolutePath(), binDir
-		// .getAbsolutePath(), true);
-		// else {
-		// FileUtils.copy(srcBinFile.getAbsolutePath(), binDir
-		// .getAbsolutePath(), true);
-		// }
-		// } catch (IOException e) {
-		// throw new TigerstripeException(
-		// "Error while copying bin dir for headless run: "
-		// + e.getMessage(), e);
-		// }
-		// }
-		// }
-		//
-		// // Copy files from install root (Lib)
-		// File srcLib = new File(this.baseBundleRoot + "/lib");
-		// File[] srcLibFiles = srcLib.listFiles();
-		// if (srcLibFiles == null)
-		// srcLibFiles = new File[0];
-		// for (File srcLibFile : srcLibFiles) {
-		// String libDirPath = libDir.getAbsolutePath();
-		// if (!(new File(libDirPath + "/" + srcLibFile.getName())).exists()) {
-		// try {
-		// if (srcLibFile.isFile())
-		// FileUtils.copy(srcLibFile.getAbsolutePath(), libDir
-		// .getAbsolutePath(), true);
-		// else {
-		// FileUtils.copyDir(srcLibFile.getAbsolutePath(), libDir
-		// .getAbsolutePath(), true);
-		// }
-		// } catch (IOException e) {
-		// throw new TigerstripeException(
-		// "Error while copying lib dir for headless run: "
-		// + e.getMessage(), e);
-		// }
-		// }
-		// }
-		//
-		// // The Core .jar
-		// File rootDir = new File(this.baseBundleRoot);
-		// File[] rootFiles = rootDir.listFiles();
-		// if (rootFiles == null)
-		// rootFiles = new File[0];
-		// for (File rootFile : rootFiles) {
-		// if (rootFile.getName().startsWith("ts-headless")) {
-		// String libDirPath = libDir.getAbsolutePath();
-		// if (!(new File(libDirPath + "/" + rootFile.getName())).exists()) {
-		// try {
-		// FileUtils.copy(rootFile.getAbsolutePath(), libDir
-		// .getAbsolutePath(), true);
-		// } catch (IOException e) {
-		// throw new TigerstripeException(
-		// "Error while copying core .jar for headless run: "
-		// + e.getMessage(), e);
-		// }
-		// }
-		// }
-		// }
-		//
-		// // finally the External API jar
-		// String externalAPIJarPath = JavaCore.getClasspathVariable(
-		// ITigerstripeConstants.EXTERNALAPI_LIB).toOSString();
-		// File externalAPIJar = new File(externalAPIJarPath);
-		// if (!(new File(libDir + "/" + externalAPIJar.getName())).exists()) {
-		// try {
-		// FileUtils.copy(externalAPIJar.getAbsolutePath(), libDir
-		// .getAbsolutePath(), true);
-		// } catch (IOException e) {
-		// throw new TigerstripeException(
-		// "Error while copying external API .jar for headless run: "
-		// + e.getMessage(), e);
-		// }
-		// }
-		//
 	}
 
 	/**
@@ -333,77 +246,7 @@ public class PostInstallActions {
 			BasePlugin.log(e);
 		}
 
-		// // Set up the External API lib to be referenced from Tigerstripe
-		// // Pluggable Plugin Projects
-		// // This references directly the org.eclipse.tigerstripe.workbench.api
-		// // bundle
-		// try {
-		// Bundle baseBundle = Platform
-		// .getBundle(TigerstripeRuntime.BASEBUNDLE_ID);
-		// File bundleDir = FileLocator.getBundleFile(baseBundle);
-		// String pathStr = bundleDir.getAbsolutePath();
-		//
-		// ZipFilePackager packager = null;
-		// try {
-		// packager = new ZipFilePackager(pathStr + File.separator
-		// + "ts-external-api.zip", true);
-		// // the dir with all compiled artifact
-		// String binDir = pathStr + File.separator + "bin";
-		// File binDirFile = new File(binDir);
-		//
-		// // In the built version there is no bin dir, but everything is
-		// // off the root
-		// if (!binDirFile.exists()) {
-		// binDir = pathStr;
-		// binDirFile = new File(binDir);
-		// }
-		//
-		// FileFilter fileFilter = new FileFilter() {
-		//
-		// public boolean accept(File pathname) {
-		// boolean result = pathname.toString().contains(
-		// "org" + File.separator + "eclipse"
-		// + File.separator + "tigerstripe")
-		// && !pathname.toString().contains("internal");
-		// return result;
-		// }
-		//
-		// };
-		// File[] binFiles = binDirFile.listFiles();
-		//
-		// if (binFiles != null && binFiles.length != 0)
-		// packager.write(binFiles, "", fileFilter);
-		//
-		// packager.finished();
-		//
-		// } catch (IOException e) {
-		// BasePlugin.log(e);
-		// } catch (TigerstripeException e) {
-		// BasePlugin.log(e);
-		// } finally {
-		// if (packager != null) {
-		// try {
-		// packager.finished();
-		// } catch (IOException e) {
-		// // just ignore it
-		// }
-		// }
-		// }
-		//
-		// String externalPathStr = pathStr + "/ts-external-api.zip";
-		// // }
-		//
-		// Path externalPath = new Path(externalPathStr);
-		// JavaCore.setClasspathVariable(
-		// ITigerstripeConstants.EXTERNALAPI_LIB, externalPath, null);
-		// // }
-		//
-		// Bug 1035
-		// Now create a classpathVariable for the core as well.
-		// String internalPathStr = pathStr + "/ts-headless.jar";
-		// Path internalPath = new Path(internalPathStr);
-		// JavaCore.setClasspathVariable(
-		// ITigerstripeConstants.INTERNALAPI_LIB, internalPath, null);
+		
 
 		try {
 			// Add org.eclipse.equinox.common as a variable that can be
