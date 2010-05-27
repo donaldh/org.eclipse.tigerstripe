@@ -397,5 +397,12 @@
           class="org.eclipse.tigerstripe.workbench.internal.annotation.TigerstripeRefactoringSupport">
     </listener>
  </extension>
+ <extension
+       point="org.eclipse.jdt.core.classpathVariableInitializer">
+    <classpathVariableInitializer
+          class="org.eclipse.tigerstripe.workbench.internal.startup.PhantomClassPathInitializer"
+          variable="PROFILE_ARTIFACTS_LIB">
+    </classpathVariableInitializer>
+ </extension>
 
 </plugin>

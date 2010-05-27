@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Properties;
 
 import org.eclipse.core.runtime.FileLocator;
@@ -85,78 +86,84 @@ public class PostInstallActions {
 				workbenchFeatureVersion = findWorkbenchFeatureVersion(context);
 
 				// checkForUpgrade(workbenchFeatureVersion);
+				
+				// create the phatom project
+				// references are set up through an Ext pt
+				PhantomTigerstripeProjectMgr.getInstance().getPhantomProject();
+			
+//				Job setUpPhantom = new Job("Set up TS Phantom"){
+//
+//					public IStatus run(IProgressMonitor monitor){
+//						try {
+//							System.out.println("setUpV begin: " + new Date());
+//							setupTigerstripeVariables(context);
+//							System.out.println("createProps begin: " + new Date());
+//							createPropertiesFileForHeadlessRun(context);
+//							System.out.println("forceCreate begin: " + new Date());
+//							// This does nothing
+//							//				createTigerstripeEclipseLibrary(context);
+//
+//							// Bug 634: we need to make sure the Phantom Project path exists
+//							// before we create the variable for it.
+//							forceCreationOfPhantomProject(context);
+//							System.out.println("Alll done: " + new Date());
+//						} catch (TigerstripeException e){
+//							e.printStackTrace();
+//						}
+//						return Status.OK_STATUS;
+//					}
+//				};
 
-				Job setUpPhantom = new Job("Set up TS Phantom"){
-
-					public IStatus run(IProgressMonitor monitor){
-						try {
-							setupTigerstripeVariables(context);
-							createPropertiesFileForHeadlessRun(context);
-
-							// This does nothing
-							//				createTigerstripeEclipseLibrary(context);
-
-							// Bug 634: we need to make sure the Phantom Project path exists
-							// before we create the variable for it.
-							forceCreationOfPhantomProject(context);
-							
-						} catch (TigerstripeException e){
-							e.printStackTrace();
-						}
-						return Status.OK_STATUS;
-					}
-				};
-
-				setUpPhantom.schedule();
+//				setUpPhantom.schedule();
 
 				hasRun = true;
 			}
 		}
 	}
 
-	protected void forceCreationOfPhantomProject(BundleContext context)
-			throws TigerstripeException {
-		// Make sure the dir exists on the install dir
-		// this will force creation is doesn't exist
-		PhantomTigerstripeProjectMgr.getInstance().getPhantomProject();
-
-		IPath path = JavaCore
-				.getClasspathVariable(ITigerstripeConstants.PHANTOMLIB);
-		if (path == null || !path.toFile().exists()) {
-			IStatus status = new Status(
-					IStatus.ERROR,
-					BasePlugin.getPluginId(),
-					222,
-					ITigerstripeConstants.PHANTOMLIB + " couldn't be resolved.",
-					null);
-			BasePlugin.log(status);
-		}
-	}
-
-	/**
-	 * Copies the bin/ and lib/ directories into the runtime root to be
-	 * referenced during headless runs
-	 * 
-	 * @param context
-	 */
-	private void createDirectoriesForHeadlessRun(BundleContext context)
-			throws TigerstripeException {
-
-	}
-
-	/**
-	 * Assemble all the jars contained in the /lib dir into an Eclipse Library
-	 * to be used when people want to use the Tigerstripe API
-	 * 
-	 * @param context
-	 */
-	private void createTigerstripeEclipseLibrary(BundleContext context) {
-		File libDir = new File(tigerstripeRuntimeDir + File.separator + "lib");
-
-		if (libDir.exists()) {
-			// TODO NOT IMPLEMENTED
-		}
-	}
+//	protected void forceCreationOfPhantomProject(BundleContext context)
+//			throws TigerstripeException {
+//		// Make sure the dir exists on the install dir
+//		// this will force creation is doesn't exist
+//		PhantomTigerstripeProjectMgr.getInstance().getPhantomProject();
+//
+//		IPath path = JavaCore
+//				.getClasspathVariable(ITigerstripeConstants.PHANTOMLIB);
+//		if (path == null || !path.toFile().exists()) {
+//			IStatus status = new Status(
+//					IStatus.ERROR,
+//					BasePlugin.getPluginId(),
+//					222,
+//					ITigerstripeConstants.PHANTOMLIB + " couldn't be resolved.",
+//					null);
+//			BasePlugin.log(status);
+//		}
+//	}
+//
+//	/**
+//	 * Copies the bin/ and lib/ directories into the runtime root to be
+//	 * referenced during headless runs
+//	 * 
+//	 * @param context
+//	 */
+//	private void createDirectoriesForHeadlessRun(BundleContext context)
+//			throws TigerstripeException {
+//
+//	}
+//
+//	/**
+//	 * Assemble all the jars contained in the /lib dir into an Eclipse Library
+//	 * to be used when people want to use the Tigerstripe API
+//	 * 
+//	 * @param context
+//	 */
+//	private void createTigerstripeEclipseLibrary(BundleContext context) {
+//		File libDir = new File(tigerstripeRuntimeDir + File.separator + "lib");
+//
+//		if (libDir.exists()) {
+//			// TODO NOT IMPLEMENTED
+//		}
+//	}
 
 	private boolean tigerstripeRuntimeExists(BundleContext context)
 			throws TigerstripeException {
