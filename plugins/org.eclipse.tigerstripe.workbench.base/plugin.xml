@@ -400,8 +400,22 @@
  <extension
        point="org.eclipse.jdt.core.classpathVariableInitializer">
     <classpathVariableInitializer
-          class="org.eclipse.tigerstripe.workbench.internal.startup.PhantomClassPathInitializer"
+          class="org.eclipse.tigerstripe.workbench.internal.startup.TigerstripeClassPathInitializer"
           variable="PROFILE_ARTIFACTS_LIB">
+    </classpathVariableInitializer>
+ </extension>
+ <extension
+       point="org.eclipse.jdt.core.classpathVariableInitializer">
+    <classpathVariableInitializer
+          class="org.eclipse.tigerstripe.workbench.internal.startup.TigerstripeClassPathInitializer"
+          variable="Equinox Common">
+    </classpathVariableInitializer>
+ </extension>
+ <extension
+       point="org.eclipse.jdt.core.classpathVariableInitializer">
+    <classpathVariableInitializer
+          class="org.eclipse.tigerstripe.workbench.internal.startup.TigerstripeClassPathInitializer"
+          variable="Tigerstripe External API">
     </classpathVariableInitializer>
  </extension>
 

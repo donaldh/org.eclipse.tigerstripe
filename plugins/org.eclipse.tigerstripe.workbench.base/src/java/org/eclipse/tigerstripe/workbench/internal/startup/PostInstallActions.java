@@ -87,34 +87,34 @@ public class PostInstallActions {
 
 				// checkForUpgrade(workbenchFeatureVersion);
 				
-				// create the phatom project
+				// create the phantom project
 				// references are set up through an Ext pt
 				PhantomTigerstripeProjectMgr.getInstance().getPhantomProject();
 			
-//				Job setUpPhantom = new Job("Set up TS Phantom"){
+				// Make sure the AnnotationUtils class is loaded!
+				// Otherwise it causes issues when the job is run
+//				AnnotationUtils.getAnnotationPluginIds();
+//				
+//				Job setUpAnnotation = new Job("Set up Annotation Variables"){
 //
 //					public IStatus run(IProgressMonitor monitor){
 //						try {
 //							System.out.println("setUpV begin: " + new Date());
-//							setupTigerstripeVariables(context);
-//							System.out.println("createProps begin: " + new Date());
-//							createPropertiesFileForHeadlessRun(context);
-//							System.out.println("forceCreate begin: " + new Date());
-//							// This does nothing
-//							//				createTigerstripeEclipseLibrary(context);
-//
-//							// Bug 634: we need to make sure the Phantom Project path exists
-//							// before we create the variable for it.
-//							forceCreationOfPhantomProject(context);
+//							// Create lib entries for each Annotation plugin so we can reference
+//							// them directly
+//							for (String pluginId : AnnotationUtils.getAnnotationPluginIds()) {
+//								IPath pPath = AnnotationUtils.getAnnotationPluginPath(pluginId);
+//								JavaCore.setClasspathVariable(pluginId, pPath, null);
+//							}
 //							System.out.println("Alll done: " + new Date());
-//						} catch (TigerstripeException e){
+//						} catch (JavaModelException e){
 //							e.printStackTrace();
 //						}
 //						return Status.OK_STATUS;
 //					}
 //				};
-
-//				setUpPhantom.schedule();
+//
+//				setUpAnnotation.schedule();
 
 				hasRun = true;
 			}
