@@ -27,6 +27,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
@@ -101,7 +102,7 @@ public class AnnotationNoteProvider implements INoteProvider,
 	public void fillMenu(IMenuManager manager, String groupName, INote note) {
 		if (annotable != null) {
 			IAction action = new OpenAnnotationWizardAction(annotable,
-					"Add Annotation", Images.getDescriptor(Images.ANNOTATION));
+					"Add Annotation", getImageDescriptor());
 			ActionContributionItem item = new ActionContributionItem(action);
 			manager.appendToGroup(groupName, item);
 		}
@@ -221,9 +222,28 @@ public class AnnotationNoteProvider implements INoteProvider,
 		AnnotationPlugin.getManager().removeRefactoringListener(this);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.tigerstripe.annotation.ui.core.view.INoteProvider#getImage()
+	 */
+	public ImageDescriptor getImageDescriptor() {
+		return Images.getDescriptor(Images.ANNOTATION);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.tigerstripe.annotation.ui.core.view.INoteProvider#getLabel()
+	 */
+	public String getLabel() {
+		return "Annotations"; 
+	}
+
 	private ISelection selection;
 	private List<IResource> resources = new ArrayList<IResource>();
 	private Object annotable;
 	private INote[] notes = INote.EMPTY;
-
 }

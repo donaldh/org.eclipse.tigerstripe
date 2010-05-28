@@ -13,6 +13,7 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.views.stereotypes;
 
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -20,7 +21,6 @@ import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForStereotypeDialog;
-import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 /**
  * @author Yuri Strot
@@ -31,8 +31,9 @@ public class AddStereotypeAction extends Action {
 	private Shell shell;
 	private IStereotypeCapable component;
 
-	public AddStereotypeAction(IStereotypeCapable component, Shell shell) {
-		super("Add Stereotype", Images.getDescriptor(Images.STEREOTYPE_ICON));
+	public AddStereotypeAction(IStereotypeCapable component, Shell shell,
+			ImageDescriptor image) {
+		super("Add Stereotype", image);
 		this.component = component;
 		this.shell = shell;
 	}

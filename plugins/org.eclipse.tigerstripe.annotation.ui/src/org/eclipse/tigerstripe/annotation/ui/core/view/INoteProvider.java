@@ -12,6 +12,7 @@
 package org.eclipse.tigerstripe.annotation.ui.core.view;
 
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchPart;
 
@@ -29,4 +30,7 @@ public interface INoteProvider {
 
 	public void fillMenu(IMenuManager manager, String groupName, INote note);
 
+	public ImageDescriptor getImageDescriptor();
+
+	public String getLabel();
 }

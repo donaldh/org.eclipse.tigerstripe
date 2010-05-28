@@ -51,10 +51,12 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.annotation.core.AnnotationFactory;
+import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
 import org.eclipse.tigerstripe.annotation.ui.Images;
 import org.eclipse.tigerstripe.annotation.ui.core.IAnnotationActionConstants;
 import org.eclipse.tigerstripe.annotation.ui.core.view.AnnotationNote;
 import org.eclipse.tigerstripe.annotation.ui.core.view.INote;
+import org.eclipse.tigerstripe.annotation.ui.core.view.INoteListener;
 import org.eclipse.tigerstripe.annotation.ui.core.view.INoteProvider;
 import org.eclipse.tigerstripe.annotation.ui.core.view.NoteLabelProvider;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveAllNoteAction;
@@ -65,7 +67,6 @@ import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.views.properties.tabbed.ISectionDescriptor;
-import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetPage;
 import org.eclipse.ui.views.properties.tabbed.TabbedPropertySheetWidgetFactory;
 
@@ -84,7 +85,7 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 	/**
 	 * the contributor for this property sheet page
 	 */
-	private ITabbedPropertySheetPageContributor contributor;
+	private INotePropertySheetContributor contributor;
 
 	private IStructuredSelection selectedElements;
 
@@ -113,8 +114,7 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 	 *            the <code>ITabbedPropertySheetPageContributor</code> for this
 	 *            property sheet page
 	 */
-	public PropertiesBrowserPage(
-			ITabbedPropertySheetPageContributor contributor,
+	public PropertiesBrowserPage(INotePropertySheetContributor contributor,
 			INoteProvider[] providers) {
 		super(contributor);
 		this.contributor = contributor;
@@ -143,6 +143,15 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 	 */
 	public void setActionBars(IActionBars bars) {
 		IToolBarManager manager = bars.getToolBarManager();
+
+		int providersSize = providers.length;
+
+		filters = new Action[providersSize];
+
+		for (int i = 0; i < providersSize; i++) {
+			filters[i] = new NoteFilterAction(providers[i]);
+			manager.add(filters[i]);
+		}
 
 		addAction = new Action("Add") {
 			public void run() {
@@ -289,6 +298,7 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 				viewer);
 	}
 
+	private Action[] filters;
 	private Action addAction;
 	private Action removeAction;
 	private Action saveAction;
@@ -757,6 +767,50 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 			}
 		}
 		return notes.toArray(new INote[notes.size()]);
+	}
+
+	class NoteFilterAction extends Action implements INoteListener {
+		private INoteProvider provider;
+
+		public NoteFilterAction(INoteProvider provider) {
+			super();
+			this.provider = provider;
+			provider.addListener(this);
+			String label = provider.getLabel();
+			setText("Show " + label);
+			setImageDescriptor(provider.getImageDescriptor());
+			setToolTipText(getText());
+			setChecked(!isHideNotes(provider));
+		}
+
+		public void run() {
+			valueChanged(isChecked());
+		}
+
+		private void valueChanged(boolean checked) {
+			setChecked(checked);
+			setHideNotes(provider, !checked);
+			contributor.updateNotes();
+		}
+
+		public void notesChanged(INote[] notes) {
+			valueChanged(true);
+		}
+	}
+
+	private String getHideNotesPropertyName(INoteProvider provider) {
+		return "AnnotationPropertyView.NotesFilter." + provider.getLabel()
+						+ ".isChecked";
+	}
+
+	boolean isHideNotes(INoteProvider provider) {
+		return AnnotationUIPlugin.getDefault().getPreferenceStore().getBoolean(
+				getHideNotesPropertyName(provider));				
+	}
+
+	void setHideNotes(INoteProvider provider, boolean value) {
+		AnnotationUIPlugin.getDefault().getPreferenceStore().setValue(
+				getHideNotesPropertyName(provider), value);
 	}
 
 	private INoteProvider[] providers;

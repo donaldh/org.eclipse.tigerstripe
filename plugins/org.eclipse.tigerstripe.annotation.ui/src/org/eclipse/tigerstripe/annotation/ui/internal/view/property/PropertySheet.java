@@ -30,7 +30,6 @@ import org.eclipse.ui.part.IPage;
 import org.eclipse.ui.part.PageBook;
 import org.eclipse.ui.part.PageBookView;
 import org.eclipse.ui.views.properties.IPropertySheetPage;
-import org.eclipse.ui.views.properties.tabbed.ITabbedPropertySheetPageContributor;
 
 public class PropertySheet extends PageBookView implements INoteListener,
 		ISelectionListener {
@@ -54,10 +53,14 @@ public class PropertySheet extends PageBookView implements INoteListener,
 
 	protected PropertiesBrowserPage doCreatePage(PageBook book) {
 		PropertiesBrowserPage page = new PropertiesBrowserPage(
-				new ITabbedPropertySheetPageContributor() {
+				new INotePropertySheetContributor() {
 
 					public String getContributorId() {
 						return "org.eclipse.tigerstripe.annotation.ui.properties";
+					}
+
+					public void updateNotes() {
+						updateSelection();
 					}
 
 				}, getProviders());
@@ -179,9 +182,12 @@ public class PropertySheet extends PageBookView implements INoteListener,
 	private void updateSelection() {
 		List<INote> allNotes = new ArrayList<INote>();
 		for (INoteProvider provider : getProviders()) {
-			INote[] notes = provider.getNotes();
-			for (INote iNote : notes) {
-				allNotes.add(iNote);
+			boolean hide = getCurrentPage().isHideNotes(provider);
+			if (!hide) {
+				INote[] notes = provider.getNotes();
+				for (INote iNote : notes) {
+					allNotes.add(iNote);
+				}
 			}
 		}
 
@@ -237,4 +243,13 @@ public class PropertySheet extends PageBookView implements INoteListener,
 	private IWorkbenchPart part;
 	private INoteProvider[] providers;
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.part.PageBookView#getCurrentPage()
+	 */
+	@Override
+	public PropertiesBrowserPage getCurrentPage() {
+		return (PropertiesBrowserPage) super.getCurrentPage();
+	}
 }

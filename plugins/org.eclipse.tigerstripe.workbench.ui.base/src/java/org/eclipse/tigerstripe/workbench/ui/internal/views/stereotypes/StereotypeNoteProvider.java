@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Shell;
@@ -31,6 +32,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeListener;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 
@@ -66,7 +68,8 @@ public class StereotypeNoteProvider implements INoteProvider,
 		if (component != null) {
 			Shell shell = PlatformUI.getWorkbench().getDisplay()
 					.getActiveShell();
-			IAction action = new AddStereotypeAction(component, shell);
+			IAction action = new AddStereotypeAction(component, shell,
+					getImageDescriptor());
 			ActionContributionItem item = new ActionContributionItem(action);
 			manager.appendToGroup(groupName, item);
 		}
@@ -153,6 +156,26 @@ public class StereotypeNoteProvider implements INoteProvider,
 			result = Platform.getAdapterManager().getAdapter(element, clazz);
 		}
 		return result == null ? null : clazz.cast(result);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.tigerstripe.annotation.ui.core.view.INoteProvider#getImage()
+	 */
+	public ImageDescriptor getImageDescriptor() {
+		return Images.getDescriptor(Images.STEREOTYPE_ICON);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.tigerstripe.annotation.ui.core.view.INoteProvider#getLabel()
+	 */
+	public String getLabel() {
+		return "Stereotypes";
 	}
 
 	private IStereotypeCapable component;
