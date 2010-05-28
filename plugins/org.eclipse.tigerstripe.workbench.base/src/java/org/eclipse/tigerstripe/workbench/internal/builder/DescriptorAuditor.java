@@ -24,7 +24,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetRef
 import org.eclipse.tigerstripe.workbench.internal.core.generation.M0GenerationUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.M1GenerationUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.UnknownPluginException;
-import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginProperty;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
@@ -59,8 +58,6 @@ public class DescriptorAuditor {
 		TigerstripeProjectAuditor.deleteAuditMarkers(project,
 				IResource.DEPTH_ZERO);
 
-		checkModelReferences();
-
 		if (tsProject != null) {
 			monitor.beginTask("Checking project descriptor", 70);
 			checkProjectDetails(tsProject);
@@ -77,25 +74,6 @@ public class DescriptorAuditor {
 		} else {
 			TigerstripeProjectAuditor.reportError("Project '"
 					+ project.getName() + "' is invalid", project, 222);
-		}
-	}
-
-	private void checkModelReferences() {
-		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) project
-				.getAdapter(ITigerstripeModelProject.class);
-		try {
-			ModelReference[] references = tsProject.getModelReferences();
-			for (ModelReference reference : references) {
-				ITigerstripeModelProject model = reference.getResolvedModel();
-				if (model == null) {
-					TigerstripeProjectAuditor.reportError(
-							"Unresolved model reference with id '"
-									+ reference.getToModelId() + "'",
-							projectDescriptor, 222);
-				}
-			}
-		} catch (TigerstripeException e) {
-			BasePlugin.log(e);
 		}
 	}
 

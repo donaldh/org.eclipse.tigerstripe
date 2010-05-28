@@ -644,4 +644,8 @@ public class WorkspaceListener implements IElementChangedListener,
 		}
 	}
 
+	public ProjectInfo getProjectDetails(IProject project) {
+		return referencesListener.getProjectDetails(project);
+	}
+
 }

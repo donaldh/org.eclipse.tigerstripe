@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal;
 
 import org.apache.log4j.Level;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -23,6 +24,7 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderer;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderingSession;
+import org.eclipse.tigerstripe.workbench.internal.builder.ProjectInfo;
 import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceListener;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.startup.PostInstallActions;
@@ -97,6 +99,10 @@ public class BasePlugin extends Plugin {
 		listener = new WorkspaceListener();
 		JavaCore.addElementChangedListener(listener);
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(listener);
+	}
+
+	public ProjectInfo getProjectDetails(IProject project) {
+		return listener.getProjectDetails(project);
 	}
 
 	private void stopWorkspaceListener() {

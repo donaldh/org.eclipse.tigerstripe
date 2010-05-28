@@ -29,7 +29,9 @@ import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
+import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IPath;
@@ -52,6 +54,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceHelper.IResourceFilter;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.IProjectDependencyChangeListener;
@@ -340,7 +343,11 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		// " "+args.get("rebuildIndexes") );
 		// IResourceDelta delta = getDelta(getProject());
 		// doDelta(delta);
+
+		deleteAuditMarkers(getProject(), IResource.DEPTH_INFINITE);
 		checkUnresolvedAnnotations();
+		checkUnresolvedModelReferences();
+
 		if ("True".equals(args.get("rebuildIndexes"))) {
 			smartModelAudit(kind, monitor);
 		} else if (shouldAudit(kind)) {
@@ -348,7 +355,42 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		}
 		// dateStr = format.format(new Date())+ " : ";
 		// System.out.println( dateStr+"Audit Done "+getProject().getName() );
-		return null;
+		return getRequiredProjects();
+	}
+
+	private IProject[] getRequiredProjects() {
+		List<IProject> required = new ArrayList<IProject>();
+		IProject self = getProject();
+
+		try {
+			Set<String> modelIds = new HashSet<String>();
+
+			ITigerstripeModelProject model = (ITigerstripeModelProject) self
+					.getAdapter(ITigerstripeModelProject.class);
+			for (ModelReference ref : model.getModelReferences()) {
+				modelIds.add(ref.getToModelId());
+			}
+
+			if (!modelIds.isEmpty()) {
+
+				IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+				for (IProject project : root.getProjects()) {
+					if (project.equals(self))
+						continue;
+					ProjectInfo details = BasePlugin.getDefault()
+							.getProjectDetails(project);
+					if (details != null) {
+						String modelId = details.getModelId();
+						if (modelId != null && modelIds.contains(modelId))
+							required.add(project);
+					}
+				}
+			}
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+		}
+
+		return required.toArray(new IProject[0]);
 	}
 
 	/**
@@ -806,6 +848,28 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 			} catch (CoreException e) {
 				BasePlugin.log(e);
 			}
+		}
+	}
+
+	private void checkUnresolvedModelReferences() {
+		IProject project = getProject();
+		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) project
+				.getAdapter(ITigerstripeModelProject.class);
+		IFile projectDescriptor = project
+				.getFile(ITigerstripeConstants.PROJECT_DESCRIPTOR);
+		try {
+			ModelReference[] references = tsProject.getModelReferences();
+			for (ModelReference reference : references) {
+				ITigerstripeModelProject model = reference.getResolvedModel();
+				if (model == null) {
+					TigerstripeProjectAuditor.reportError(
+							"Unresolved model reference with id '"
+									+ reference.getToModelId() + "'",
+							projectDescriptor, 222);
+				}
+			}
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
 		}
 	}
 

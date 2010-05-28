@@ -31,7 +31,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.classpath.IReferencesConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.classpath.ReferencesClasspathContainer;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
-import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class ReferencesListener {
@@ -39,7 +38,7 @@ public class ReferencesListener {
 	public void changed(Collection<IResource> removedResources,
 			Collection<IResource> addedResources,
 			Collection<IResource> changedResources) {
-		Set<ProjectDetails> changedProjects = new HashSet<ProjectDetails>();
+		Set<ProjectInfo> changedProjects = new HashSet<ProjectInfo>();
 		Set<String> changedReferences = new HashSet<String>();
 		if (checkDeletedProjects(removedResources, changedReferences)) {
 			// We doesn't know which project deleted, so need to
@@ -74,7 +73,7 @@ public class ReferencesListener {
 		for (IResource res : removedResources) {
 			IProject iProject = getProject(res);
 			if (iProject != null) {
-				ProjectDetails details = nameToDetails.get(iProject);
+				ProjectInfo details = nameToDetails.get(iProject);
 				if (details == null) {
 					return true;
 				}
@@ -97,7 +96,7 @@ public class ReferencesListener {
 
 	private boolean checkChangedProjects(
 			Collection<IResource> changedResources,
-			Collection<ProjectDetails> changedProjects,
+			Collection<ProjectInfo> changedProjects,
 			Collection<String> changedReferences) {
 		Set<IProject> projectsToCheck = new HashSet<IProject>();
 		for (IResource res : changedResources) {
@@ -106,12 +105,12 @@ public class ReferencesListener {
 			}
 		}
 		for (IProject iProject : projectsToCheck) {
-			ProjectDetails details = nameToDetails.get(iProject);
+			ProjectInfo details = nameToDetails.get(iProject);
 			if (details == null) {
 				return true;
 			}
 			if (details.getProject() != null) {
-				ProjectDetails newDetails = new ProjectDetails(iProject);
+				ProjectInfo newDetails = new ProjectInfo(iProject);
 				if (!equals(newDetails.getModelId(), details.getModelId())) {
 					changedReferences.add(newDetails.getModelId());
 					changedReferences.add(details.getModelId());
@@ -127,13 +126,13 @@ public class ReferencesListener {
 	}
 
 	private void checkReferencesProjects(
-			Collection<ProjectDetails> changedProjects,
+			Collection<ProjectInfo> changedProjects,
 			Collection<String> changedReferences) {
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		for (IProject project : root.getProjects()) {
-			ProjectDetails details = nameToDetails.get(project);
+			ProjectInfo details = nameToDetails.get(project);
 			if (details == null) {
-				details = new ProjectDetails(project);
+				details = new ProjectInfo(project);
 				nameToDetails.put(project, details);
 			}
 			if (!changedProjects.contains(details)) {
@@ -174,7 +173,7 @@ public class ReferencesListener {
 		for (IResource res : addedResources) {
 			IProject iProject = getProject(res);
 			if (iProject != null) {
-				ProjectDetails details = new ProjectDetails(iProject);
+				ProjectInfo details = new ProjectInfo(iProject);
 				nameToDetails.put(iProject, details);
 				if (details.getModelId() != null) {
 					changedReferences.add(details.getModelId());
@@ -184,29 +183,25 @@ public class ReferencesListener {
 	}
 
 	private void updateAllReferences() {
-		nameToDetails = new HashMap<IProject, ProjectDetails>();
+		nameToDetails = new HashMap<IProject, ProjectInfo>();
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		List<ProjectDetails> changedProjects = new ArrayList<ProjectDetails>(
-				root.getProjects().length);
+		List<ProjectInfo> changedProjects = new ArrayList<ProjectInfo>(root
+				.getProjects().length);
 		for (IProject project : root.getProjects()) {
-			ProjectDetails details = new ProjectDetails(project);
+			ProjectInfo details = new ProjectInfo(project);
 			nameToDetails.put(project, details);
 			changedProjects.add(details);
 		}
 		updateChangedProjects(changedProjects);
 	}
 
-	private void updateChangedProjects(
-			Collection<ProjectDetails> changedProjects) {
+	private void updateChangedProjects(Collection<ProjectInfo> changedProjects) {
 		updateClasspathReferences(changedProjects);
-		// TODO need to clear model reference cache
-		for (ProjectDetails details : changedProjects){
+		for (ProjectInfo details : changedProjects) {
 			ITigerstripeModelProject tsProject = details.getProject();
-			if (tsProject != null){
+			if (tsProject != null) {
 				try {
-					System.out.println("Proj "+tsProject.getModelId());
-					for (ModelReference ref : tsProject.getModelReferences()){
-						System.out.println("   Ref "+ref+ " "+ref.getResolvedModel());
+					for (ModelReference ref : tsProject.getModelReferences()) {
 						ref.resolveModel();
 					}
 				} catch (TigerstripeException e) {
@@ -217,9 +212,9 @@ public class ReferencesListener {
 	}
 
 	private void updateClasspathReferences(
-			Collection<ProjectDetails> changedProjects) {
+			Collection<ProjectInfo> changedProjects) {
 		Map<IJavaProject, ReferencesClasspathContainer> map = new HashMap<IJavaProject, ReferencesClasspathContainer>();
-		for (ProjectDetails details : changedProjects) {
+		for (ProjectInfo details : changedProjects) {
 			IProject project = details.getIProject();
 			try {
 				if (project.exists() && project.isOpen()
@@ -267,7 +262,11 @@ public class ReferencesListener {
 		}
 	}
 
-	private static boolean needReferenceContainer(IJavaProject project) {
+	public ProjectInfo getProjectDetails(IProject project) {
+		return nameToDetails.get(project);
+	}
+
+	static boolean needReferenceContainer(IJavaProject project) {
 		try {
 			return !haveReferenceContainer(project.getRawClasspath());
 		} catch (Exception e) {
@@ -285,102 +284,7 @@ public class ReferencesListener {
 		return false;
 	}
 
-	private Map<IProject, ProjectDetails> nameToDetails = new HashMap<IProject, ProjectDetails>();
-
-	private class ProjectDetails {
-
-		private String modelId;
-		private String[] references;
-		private ITigerstripeModelProject project;
-		private IProject iProject;
-		private boolean noAccess;
-
-		public ProjectDetails(IProject project) {
-			this.iProject = project;
-			noAccess = !project.isOpen();
-			if (noAccess)
-				return;
-			IAbstractTigerstripeProject aProject = (IAbstractTigerstripeProject) project
-					.getAdapter(IAbstractTigerstripeProject.class);
-			if (aProject instanceof ITigerstripeModelProject) {
-				this.project = (ITigerstripeModelProject) aProject;
-				try {
-					modelId = this.project.getModelId();
-				} catch (Exception e) {
-					// ignore any exceptions
-				}
-				try {
-					ModelReference[] modelReferences = this.project
-							.getModelReferences();
-					references = new String[modelReferences.length];
-					for (int i = 0; i < modelReferences.length; i++) {
-						references[i] = modelReferences[i].getToModelId();
-					}
-				} catch (Exception e) {
-					// ignore any exceptions
-				}
-			}
-		}
-
-		public boolean needReferenceContainer() {
-			if (project == null || iProject == null)
-				return false;
-			IJavaProject jProject = JavaCore.create(iProject);
-			if (jProject == null)
-				return false;
-			return ReferencesListener.needReferenceContainer(jProject);
-		}
-
-		@Override
-		public int hashCode() {
-			final int prime = 31;
-			int result = 1;
-			result = prime * result + getOuterType().hashCode();
-			result = prime * result
-					+ ((iProject == null) ? 0 : iProject.hashCode());
-			return result;
-		}
-
-		@Override
-		public boolean equals(Object obj) {
-			if (this == obj)
-				return true;
-			if (obj == null)
-				return false;
-			if (getClass() != obj.getClass())
-				return false;
-			ProjectDetails other = (ProjectDetails) obj;
-			if (!getOuterType().equals(other.getOuterType()))
-				return false;
-			if (iProject == null) {
-				if (other.iProject != null)
-					return false;
-			} else if (!iProject.equals(other.iProject))
-				return false;
-			return true;
-		}
-
-		public String getModelId() {
-			return modelId;
-		}
-
-		public String[] getReferences() {
-			return references;
-		}
-
-		public IProject getIProject() {
-			return iProject;
-		}
-
-		public ITigerstripeModelProject getProject() {
-			return project;
-		}
-
-		private ReferencesListener getOuterType() {
-			return ReferencesListener.this;
-		}
-
-	}
+	private Map<IProject, ProjectInfo> nameToDetails = new HashMap<IProject, ProjectInfo>();
 
 	private class UpdateContainerJob extends Job {
 
