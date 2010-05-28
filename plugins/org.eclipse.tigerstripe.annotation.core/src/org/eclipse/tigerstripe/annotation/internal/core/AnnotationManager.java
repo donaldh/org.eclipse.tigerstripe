@@ -24,7 +24,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.URI;
@@ -114,13 +113,12 @@ public class AnnotationManager extends AnnotationStorage implements
 
 	private List<IAnnotationParticipant> participants;
 
-	private ListenerList refactoringListeners = new ListenerList();
+	private IRefactoringChangesListener[] refactoringListeners;
 
 	private boolean ignoreDeletion = false;
 
 	public AnnotationManager() {
 		loadParticipants();
-		loadRefactoringListeners();
 	}
 
 	public void addRefactoringListener(IRefactoringListener listener) {
@@ -713,25 +711,9 @@ public class AnnotationManager extends AnnotationStorage implements
 		return null;
 	}
 
-	protected void loadRefactoringListeners() {
-		IConfigurationElement[] configs = Platform
-				.getExtensionRegistry()
-				.getConfigurationElementsFor(REFACTORING_CHANGES_LISTENER_EXTPT);
-		for (IConfigurationElement config : configs) {
-			try {
-				IRefactoringChangesListener listener = (IRefactoringChangesListener) config
-						.createExecutableExtension(ANNOTATION_ATTR_CLASS);
-				refactoringListeners.add(listener);
-			} catch (Exception e) {
-				AnnotationPlugin.log(e);
-			}
-		}
-	}
-
 	public void fireDeleted(ILazyObject path) {
 		if (!ignoreDeletion) {
-			for (Object object : refactoringListeners.getListeners()) {
-				IRefactoringChangesListener listener = (IRefactoringChangesListener) object;
+			for (IRefactoringChangesListener listener : getRefactoringListeners()) {
 				listener.deleted(this, path);
 			}
 		}
@@ -740,8 +722,7 @@ public class AnnotationManager extends AnnotationStorage implements
 	public void fireChanged(ILazyObject oldPath, ILazyObject newPath, int kind) {
 		if (kind == IRefactoringChangesListener.ABOUT_TO_CHANGE)
 			ignoreDeletion = true;
-		for (Object object : refactoringListeners.getListeners()) {
-			IRefactoringChangesListener listener = (IRefactoringChangesListener) object;
+		for (IRefactoringChangesListener listener : getRefactoringListeners()) {
 			listener.changed(this, oldPath, newPath, kind);
 		}
 		if (kind == IRefactoringChangesListener.CHANGED)
@@ -752,8 +733,7 @@ public class AnnotationManager extends AnnotationStorage implements
 			int kind) {
 		if (kind == IRefactoringChangesListener.ABOUT_TO_CHANGE)
 			ignoreDeletion = true;
-		for (Object object : refactoringListeners.getListeners()) {
-			IRefactoringChangesListener listener = (IRefactoringChangesListener) object;
+		for (IRefactoringChangesListener listener : getRefactoringListeners()) {
 			listener.moved(this, objects, destination, kind);
 		}
 		if (kind == IRefactoringChangesListener.CHANGED)
@@ -764,11 +744,31 @@ public class AnnotationManager extends AnnotationStorage implements
 			Map<ILazyObject, String> newNames, int kind) {
 		if (kind == IRefactoringChangesListener.ABOUT_TO_CHANGE)
 			ignoreDeletion = true;
-		for (Object object : refactoringListeners.getListeners()) {
-			IRefactoringChangesListener listener = (IRefactoringChangesListener) object;
+		for (IRefactoringChangesListener listener : getRefactoringListeners()) {
 			listener.copied(this, objects, destination, newNames, kind);
 		}
 		if (kind == IRefactoringChangesListener.CHANGED)
 			ignoreDeletion = false;
+	}
+
+	private IRefactoringChangesListener[] getRefactoringListeners() {
+		if (refactoringListeners == null) {
+			List<IRefactoringChangesListener> list = new ArrayList<IRefactoringChangesListener>();
+			IConfigurationElement[] configs = Platform.getExtensionRegistry()
+					.getConfigurationElementsFor(
+							REFACTORING_CHANGES_LISTENER_EXTPT);
+			for (IConfigurationElement config : configs) {
+				try {
+					IRefactoringChangesListener listener = (IRefactoringChangesListener) config
+							.createExecutableExtension(ANNOTATION_ATTR_CLASS);
+					list.add(listener);
+				} catch (Exception e) {
+					AnnotationPlugin.log(e);
+				}
+			}
+			refactoringListeners = list
+					.toArray(new IRefactoringChangesListener[list.size()]);
+		}
+		return refactoringListeners;
 	}
 }
