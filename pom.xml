@@ -147,6 +147,20 @@
 							<goal>instrument</goal>
 						</goals>
 					</execution>
+					<execution>
+						<id>report</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<sourceSets>
+								<sourceSet>
+									<directory>${project.build.sourceDirectory}</directory>
+								</sourceSet>
+							</sourceSets>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 			<plugin>
