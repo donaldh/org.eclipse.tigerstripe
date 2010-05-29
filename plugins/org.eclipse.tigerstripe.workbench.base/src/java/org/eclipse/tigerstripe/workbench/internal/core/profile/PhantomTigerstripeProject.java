@@ -52,6 +52,7 @@ public class PhantomTigerstripeProject extends TigerstripeProject {
 				"Tigerstripe Internal Phantom Project");
 		getProjectDetails().setName("Phantom Project");
 		getProjectDetails().setModelId("Phantom Project");
+		getProjectDetails().setVersion("42");
 		getProjectDetails()
 				.setVersion(
 						TigerstripeRuntime
