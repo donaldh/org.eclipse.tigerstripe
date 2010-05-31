@@ -27,6 +27,7 @@ public abstract class EObjectBasedNote implements INote {
 		adapter = new EContentAdapter() {
 			@Override
 			public void notifyChanged(Notification msg) {
+				super.notifyChanged(msg);
 				if (msg.getEventType() == Notification.RESOLVE
 						|| msg.getEventType() == Notification.REMOVING_ADAPTER)
 					return;
