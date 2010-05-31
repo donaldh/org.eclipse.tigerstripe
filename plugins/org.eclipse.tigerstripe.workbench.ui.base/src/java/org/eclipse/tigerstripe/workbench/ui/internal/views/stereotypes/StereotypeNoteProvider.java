@@ -32,6 +32,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeListener;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
@@ -96,10 +97,15 @@ public class StereotypeNoteProvider implements INoteProvider,
 	public void setSelection(IWorkbenchPart part, ISelection selection) {
 		removeListeners();
 		component = null;
-		if (selection instanceof IStructuredSelection) {
+		if (part instanceof ArtifactEditorBase) {
+			ArtifactEditorBase artifactEditor = (ArtifactEditorBase) part;
+			component = artifactEditor.getIArtifact();
+		} else if (selection instanceof IStructuredSelection) {
 			Object element = ((IStructuredSelection) selection)
 					.getFirstElement();
 			component = getCapable(element);
+		}
+		if (component != null) {
 			if (listeners.size() > 0) {
 				addListeners();
 			}
