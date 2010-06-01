@@ -40,6 +40,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IAssociationClassArtifactImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
@@ -436,108 +437,44 @@ public class ClassInstanceItemSemanticEditPolicy extends
 					}
 				}
 			} else if (aEndIsSingle || zEndIsSingle) {
+				
+				// Fix for 288718
 				IAssociationArtifact artifact = (IAssociationArtifact) rel;
 				// loop through associations in the map and look for an existing
-				// association
-				// that matches this one
+				// association that matches this one
 				List<AssociationInstance> assocsInMap = instanceMap
 						.getAssociationInstances();
-				for (AssociationInstance instance : assocsInMap) {
-					// check to see if this assoc would need to be replaced by
-					// the new association
-					// instance (based on the rules for multiplicity for both
-					// the aEnd and zEnd)
-					boolean matchingLinkExists = false;
-					boolean matchingLinkReverseExists = false; // Bug #910
-					String relationshipStr = "";
-					if (aEndIsSingle && zEndIsSingle) {
-						matchingLinkExists = (instance.getAEnd() == (Instance) getSource() && instance
-								.getZEnd() == (Instance) getTarget());
 
-						// Bug 910: since instance diags only have one handle,
-						// we must check the other
-						// direction of drawing as well
-						matchingLinkReverseExists = instance.getZEnd() == (Instance) getSource()
-								&& (Instance) getTarget() == instance.getAEnd();
-						relationshipStr = "one:one";
-					} else if (aEndIsSingle) {
-						matchingLinkExists = (instance.getAEnd() != (Instance) getSource() && instance
-								.getZEnd() == (Instance) getTarget());
-						relationshipStr = "one:many";
-						matchingLinkReverseExists = (instance.getZEnd() == (Instance) getSource() && instance
-								.getAEnd() != (Instance) getTarget());
-					} else if (zEndIsSingle) {
-						matchingLinkExists = (instance.getAEnd() == (Instance) getSource() && instance
-								.getZEnd() != (Instance) getTarget());
-						matchingLinkReverseExists = (instance.getZEnd() != (Instance) getSource() && instance
-								.getAEnd() == (Instance) getTarget());
-						relationshipStr = "many:one";
-					}
-					// if a matching link exists, check to make sure that is has
-					// a matching
-					// fully qualified name; if so, then have a matching
-					// association that will
-					// have to be replace to maintain the multiplicity
-					// constraints defined for
-					// this association
-					if ((matchingLinkExists || matchingLinkReverseExists)
-							&& instance.getName() != null
-							&& instance.getFullyQualifiedName().equals(
-									artifact.getFullyQualifiedName())) {
-						// warn the user that this new association will replace
-						// the existing one
-						String warningStr = "An "
-								+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-										IAssociationArtifactImpl.class
-												.getName()).getLabel(instance)
-								+ " with '" + relationshipStr
-								+ "' multiplicity already exists between ";
-						if (matchingLinkExists) {
-							warningStr += "the class instance "
-									+ instance.getAEnd().getArtifactName()
-									+ " and the class instance "
-									+ instance.getZEnd().getArtifactName();
-						} else if (matchingLinkReverseExists) {
-							warningStr += "the class instance "
-									+ instance.getZEnd().getArtifactName()
-									+ " and the class instance "
-									+ instance.getAEnd().getArtifactName();
+				boolean matchingLinkExists = false;
+				for (AssociationInstance instance : assocsInMap) {
+					try {
+						if (instance.getArtifact().getFullyQualifiedName()
+								.equals(artifact.getFullyQualifiedName())) {
+							if ( aEndIsSingle ) {
+								if (getTarget() == instance.getZEnd()) {
+									matchingLinkExists = true;
+									break;
+								}
+							} 
+							
+							if (zEndIsSingle) {
+								if ( getSource() == instance.getAEnd()) {
+									matchingLinkExists = true;
+									break;
+								}
+							}
 						}
-						warningStr += "; do you want to replace that "
-								+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-										IAssociationArtifactImpl.class
-												.getName()).getLabel(instance)
-								+ " with this one?";
-						String[] buttonLabels = new String[] { "OK", "Cancel" };
-						int defButtonIdx = 1;
-						MessageDialog warningDialog = new MessageDialog(shell,
-								ArtifactMetadataFactory.INSTANCE.getMetadata(
-										IAssociationArtifactImpl.class
-												.getName()).getLabel(instance)
-										+ " replacement warning", (Image) null,
-								warningStr, MessageDialog.WARNING,
-								buttonLabels, defButtonIdx);
-						int retIdx = warningDialog.open();
-						// if they cancel the replacement, throw an
-						// OperationCanceledException to abort adding
-						// the new association
-						if (retIdx == defButtonIdx)
-							throw new OperationCanceledException(
-									ArtifactMetadataFactory.INSTANCE
-											.getMetadata(
-													IAssociationArtifactImpl.class
-															.getName())
-											.getLabel(instance)
-											+ " Instance Replacement Cancelled");
-						// if here, then need to delete the existing association
-						// instance from the
-						// instance map (so that it can be replaced with the new
-						// one
-						instanceMap.getAssociationInstances().remove(instance);
-						break;
+					} catch (TigerstripeException e) {
+						EclipsePlugin.log(e);
 					}
 				}
+
+				
+				if (matchingLinkExists) {
+					throw new OperationCanceledException();
+				}
 			}
+
 			// as was the case above, the order of this test is important, since
 			// an
 			// IAssociationClassArtifact is also an instance of an
