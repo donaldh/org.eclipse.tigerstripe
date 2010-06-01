@@ -292,7 +292,8 @@ public class AssociationInstanceEditDialog extends TSMessageDialog {
 					if (!associationClass.isAbstract()) {
 						associationClassMap.put(associationClass.getName(),
 								associationClass);
-						if (relationshipSet == targetRelationshipSet)
+						if (relationshipSet == targetRelationshipSet
+								&& !associationClass.getAEnd().getType().getFullyQualifiedName().equals(associationClass.getZEnd().getType().getFullyQualifiedName())) // bug 288718)
 							reversedRelationships.put(associationClass
 									.getName(), associationClass);
 					}
@@ -301,7 +302,8 @@ public class AssociationInstanceEditDialog extends TSMessageDialog {
 					IAssociationArtifact association = (IAssociationArtifact) rel;
 					if (!association.isAbstract()) {
 						associationMap.put(association.getName(), association);
-						if (relationshipSet == targetRelationshipSet)
+						if (relationshipSet == targetRelationshipSet 
+								&& !association.getAEnd().getType().getFullyQualifiedName().equals(association.getZEnd().getType().getFullyQualifiedName())) // bug 288718
 							reversedRelationships.put(association.getName(),
 									association);
 					}
