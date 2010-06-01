@@ -1,3 +1,14 @@
+/******************************************************************************* 
+ * Copyright (c) 2010 xored software, Inc.  
+ * 
+ * All rights reserved. This program and the accompanying materials 
+ * are made available under the terms of the Eclipse Public License v1.0 
+ * which accompanies this distribution, and is available at 
+ * http://www.eclipse.org/legal/epl-v10.html  
+ * 
+ * Contributors: 
+ *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
+ *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor;
 
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -6,7 +17,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
@@ -22,7 +32,8 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
-import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
+import org.eclipse.tigerstripe.annotation.core.refactoring.ILazyObject;
+import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringChangesListener;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -143,18 +154,20 @@ public class ChangeModelIDDialog extends Dialog {
 				monitor.beginTask("Change model id to '" + newModelId + "'",
 						totalWork);
 				IProjectDetails details = project.getProjectDetails();
-				String oldModelId = details.getModelId();
+				ChangeIdLazyObject oldObject = new ChangeIdLazyObject(project);
+				if (updateAnnotations) {
+					AnnotationPlugin.getRefactoringNotifier().fireChanged(
+							oldObject, null,
+							IRefactoringChangesListener.ABOUT_TO_CHANGE);
+					monitor.worked(1);
+				}
 				details.setModelId(newModelId);
 				project.commit(new SubProgressMonitor(monitor, 1));
+				ChangeIdLazyObject newObject = new ChangeIdLazyObject(project);
 				if (updateAnnotations) {
-					String scheme = TigerstripeURIAdapterFactory.SCHEME_TS;
-					URI oldUri = URI.createHierarchicalURI(scheme, null, null,
-							new String[] { oldModelId }, null, null);
-					URI newUri = URI.createHierarchicalURI(scheme, null, null,
-							new String[] { newModelId }, null, null);
-					//TODO need to use IRefactoringNotifier
-					AnnotationPlugin.getManager().getRefactoringSupport()
-							.changed(oldUri, newUri, true);
+					AnnotationPlugin.getRefactoringNotifier().fireChanged(
+							oldObject, newObject,
+							IRefactoringChangesListener.CHANGED);
 					monitor.worked(1);
 				}
 				monitor.done();
@@ -164,6 +177,25 @@ public class ChangeModelIDDialog extends Dialog {
 			return Status.OK_STATUS;
 		}
 
+	}
+
+	static class ChangeIdLazyObject implements ILazyObject {
+		private ITigerstripeModelProject project;
+
+		public ChangeIdLazyObject(ITigerstripeModelProject project) {
+			this.project = project;
+		}
+
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * org.eclipse.tigerstripe.annotation.core.refactoring.ILazyObject#getObject
+		 * ()
+		 */
+		public Object getObject() {
+			return project;
+		}
 	}
 
 }
