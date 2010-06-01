@@ -536,6 +536,10 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 
 	protected void adapt(int index) {
 		INote note = currentSelection[index];
+		DirtyListener listener = adapters.remove(note);
+		if (listener != null) {
+			listener.dispose();
+		}
 		UIDirtyAdapter adapter = new UIDirtyAdapter(note);
 		adapters.put(note, adapter);
 	}
@@ -640,13 +644,16 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 		List<INote> dirties = new ArrayList<INote>();
 		if (currentSelection != null) {
 			for (INote node : currentSelection) {
-				DirtyListener listener = adapters.get(node);
+				DirtyListener listener = adapters.remove(node);
 				if (listener != null) {
 					if (listener.isDirty())
 						dirties.add(node);
 					listener.dispose();
 				}
 			}
+		}
+		for (DirtyListener listener : adapters.values()) {
+			listener.dispose();
 		}
 		adapters = new HashMap<INote, DirtyListener>();
 		if (dirties.size() > 0) {
@@ -800,12 +807,12 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 
 	private String getHideNotesPropertyName(INoteProvider provider) {
 		return "AnnotationPropertyView.NotesFilter." + provider.getLabel()
-						+ ".isChecked";
+				+ ".isChecked";
 	}
 
 	boolean isHideNotes(INoteProvider provider) {
 		return AnnotationUIPlugin.getDefault().getPreferenceStore().getBoolean(
-				getHideNotesPropertyName(provider));				
+				getHideNotesPropertyName(provider));
 	}
 
 	void setHideNotes(INoteProvider provider, boolean value) {
