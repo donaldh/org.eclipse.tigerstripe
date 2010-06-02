@@ -28,7 +28,6 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.gef.handles.NonResizableHandleKit;
-import org.eclipse.gef.requests.DirectEditRequest;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParser;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParserEditStatus;
@@ -38,7 +37,6 @@ import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ITextAwareEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.LabelDirectEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.l10n.DiagramColorRegistry;
-import org.eclipse.gmf.runtime.diagram.ui.requests.RequestConstants;
 import org.eclipse.gmf.runtime.diagram.ui.tools.TextDirectEditManager;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrapLabel;
 import org.eclipse.gmf.runtime.emf.core.util.EObjectAdapter;
@@ -49,15 +47,24 @@ import org.eclipse.gmf.runtime.notation.FontStyle;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.gmf.runtime.notation.impl.NodeImpl;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.jface.viewers.ICellEditorValidator;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring.RenameModelArtifactWizard;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.QualifiedNamedElement;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.TigerstripeTextSelectionEditPolicy;
@@ -109,8 +116,13 @@ public class ManagedEntityArtifactNamePackageEditPart extends
 	@Override
 	protected void createDefaultEditPolicies() {
 		super.createDefaultEditPolicies();
-		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
-				new LabelDirectEditPolicy());
+		
+				installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
+						new LabelDirectEditPolicy());
+//		removeEditPolicy(EditPolicy.DIRECT_EDIT_ROLE);
+//		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
+//				new ArtifactNameEditPolicy());
+
 		installEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE,
 				new NonResizableEditPolicy() {
 
@@ -410,39 +422,32 @@ public class ManagedEntityArtifactNamePackageEditPart extends
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
+	 * This now calls out to the refactor logic
 	 */
 	@Override
 	protected void performDirectEditRequest(Request request) {
-		final Request theRequest = request;
-		try {
-			getEditingDomain().runExclusive(new Runnable() {
+		
+		Shell shell = EclipsePlugin.getActiveWorkbenchShell();
+		RenameModelArtifactWizard wizard = new RenameModelArtifactWizard();
+		QualifiedNamedElement qualNamedElem = (QualifiedNamedElement) ((NodeImpl) this
+				.getModel()).getElement();
 
-				public void run() {
-					if (isActive() && isEditable()) {
-						if (theRequest
-								.getExtendedData()
-								.get(
-										RequestConstants.REQ_DIRECTEDIT_EXTENDEDDATA_INITIAL_CHAR) instanceof Character) {
-							Character initialChar = (Character) theRequest
-									.getExtendedData()
-									.get(
-											RequestConstants.REQ_DIRECTEDIT_EXTENDEDDATA_INITIAL_CHAR);
-							performDirectEdit(initialChar.charValue());
-						} else if ((theRequest instanceof DirectEditRequest)
-								&& (getEditText().equals(getLabelText()))) {
-							DirectEditRequest editRequest = (DirectEditRequest) theRequest;
-							performDirectEdit(editRequest.getLocation());
-						} else {
-							performDirectEdit();
-						}
-					}
-				}
-			});
-		} catch (InterruptedException e) {
-			TigerstripeRuntime.logErrorMessage("InterruptedException detected",
+		try {
+			IAbstractArtifact artifact = qualNamedElem.getCorrespondingIArtifact();
+
+
+			if (artifact != null){
+				wizard.init((IStructuredSelection) new StructuredSelection(artifact));
+				WizardDialog dialog = new WizardDialog(shell, wizard);
+				dialog.open();
+			}
+		} catch (TigerstripeException e) {
+			TigerstripeRuntime.logErrorMessage("Failed to determine Artifact for refactoring",
 					e);
 		}
+		
+		
 	}
 
 	/**

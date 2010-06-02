@@ -48,11 +48,15 @@ import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.gmf.runtime.notation.impl.NodeImpl;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.jface.viewers.ICellEditorValidator;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -60,7 +64,9 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
+import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.gmf.InitialDiagramPrefs;
+import org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring.RenameModelArtifactWizard;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.QualifiedNamedElement;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorPackage;
@@ -475,39 +481,32 @@ public class DependencyNamePackageEditPart extends
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
+	 * This now calls out to the refactor logic
 	 */
 	@Override
 	protected void performDirectEditRequest(Request request) {
-		final Request theRequest = request;
-		try {
-			getEditingDomain().runExclusive(new Runnable() {
+		
+		Shell shell = EclipsePlugin.getActiveWorkbenchShell();
+		RenameModelArtifactWizard wizard = new RenameModelArtifactWizard();
+		QualifiedNamedElement qualNamedElem = (QualifiedNamedElement) ((NodeImpl) this
+				.getModel()).getElement();
 
-				public void run() {
-					if (isActive() && isEditable()) {
-						if (theRequest
-								.getExtendedData()
-								.get(
-										RequestConstants.REQ_DIRECTEDIT_EXTENDEDDATA_INITIAL_CHAR) instanceof Character) {
-							Character initialChar = (Character) theRequest
-									.getExtendedData()
-									.get(
-											RequestConstants.REQ_DIRECTEDIT_EXTENDEDDATA_INITIAL_CHAR);
-							performDirectEdit(initialChar.charValue());
-						} else if ((theRequest instanceof DirectEditRequest)
-								&& (getEditText().equals(getLabelText()))) {
-							DirectEditRequest editRequest = (DirectEditRequest) theRequest;
-							performDirectEdit(editRequest.getLocation());
-						} else {
-							performDirectEdit();
-						}
-					}
-				}
-			});
-		} catch (InterruptedException e) {
-			TigerstripeRuntime.logErrorMessage("InterruptedException detected",
+		try {
+			IAbstractArtifact artifact = qualNamedElem.getCorrespondingIArtifact();
+
+
+			if (artifact != null){
+				wizard.init((IStructuredSelection) new StructuredSelection(artifact));
+				WizardDialog dialog = new WizardDialog(shell, wizard);
+				dialog.open();
+			}
+		} catch (TigerstripeException e) {
+			TigerstripeRuntime.logErrorMessage("Failed to determine Artifact for refactoring",
 					e);
 		}
+		
+		
 	}
 
 	/**
