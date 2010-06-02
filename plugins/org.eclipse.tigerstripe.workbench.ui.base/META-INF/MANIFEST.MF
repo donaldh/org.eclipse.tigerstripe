@@ -47,6 +47,7 @@ Export-Package: org.eclipse.tigerstripe.workbench.ui,
  org.eclipse.tigerstripe.workbench.ui.internal.wizards.pluggablePlugin;x-friends:="org.eclipse.tigerstripe.workbench.ui.base.test",
  org.eclipse.tigerstripe.workbench.ui.internal.wizards.profile;x-friends:="org.eclipse.tigerstripe.workbench.ui.base.test",
  org.eclipse.tigerstripe.workbench.ui.internal.wizards.project;x-friends:="org.eclipse.tigerstripe.workbench.ui.base.test",
+ org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring,
  org.eclipse.tigerstripe.workbench.ui.internal.wizards.segment;x-friends:="org.eclipse.tigerstripe.workbench.ui.base.test",
  org.eclipse.tigerstripe.workbench.ui.internal.wizards.useCase;x-friends:="org.eclipse.tigerstripe.workbench.ui.base.test",
  org.eclipse.tigerstripe.workbench.ui.viewers
