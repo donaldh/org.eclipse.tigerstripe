@@ -1382,7 +1382,7 @@ public class ArtifactManager  {
 			IAbstractArtifact oldArtifact) {
 		// FIXME: the notification should really be coming from the refresh
 		// based on what was actually reloaded?
-System.out.println("Notify Artifact Changed "+artifact.getFullyQualifiedName() );
+//System.out.println("Notify Artifact Changed "+artifact.getFullyQualifiedName() );
 		Lock lreadLock = listenersLock.readLock();
 		try {
 			lreadLock.lock();

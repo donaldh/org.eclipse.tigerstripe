@@ -94,23 +94,23 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		if (monitor == null)
 			monitor = new NullProgressMonitor();
 
-		long time = System.currentTimeMillis();
-		System.out.println("Starting refactor");
+//		long time = System.currentTimeMillis();
+//		System.out.println("Starting refactor");
 		disableAuditsAndDiagSync();
 
 		Set<Object> toCleanUp = new HashSet<Object>();
 
 		ITigerstripeModelProject[] affectedProjects = applyAllDeltas(monitor,
 				toCleanUp);
-		long time1 = System.currentTimeMillis();
-		System.out.println("Done with Deltas: " + (time1 - time));
+//		long time1 = System.currentTimeMillis();
+//		System.out.println("Done with Deltas: " + (time1 - time));
 
 		updateDiagrams(monitor);
-		time1 = System.currentTimeMillis();
-		System.out.println("Done diagram updates: " + (time1 - time));
+//		time1 = System.currentTimeMillis();
+//		System.out.println("Done diagram updates: " + (time1 - time));
 		moveDiagrams(monitor);
-		time1 = System.currentTimeMillis();
-		System.out.println("Done diagram moves: " + (time1 - time));
+//		time1 = System.currentTimeMillis();
+//		System.out.println("Done diagram moves: " + (time1 - time));
 
 		if (isCrossProjectCmd()) {
 			// At this stage the artifacts have been refactored inside the
@@ -128,20 +128,20 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		}
 
 		cleanUp(toCleanUp, monitor);
-		time1 = System.currentTimeMillis();
-		System.out.println("Done clean up: " + (time1 - time));
+//		time1 = System.currentTimeMillis();
+//		System.out.println("Done clean up: " + (time1 - time));
 
 		rebuildIndexes(affectedProjects, monitor);
-		time1 = System.currentTimeMillis();
-		System.out.println("Done index rebuild: " + (time1 - time));
+//		time1 = System.currentTimeMillis();
+//		System.out.println("Done index rebuild: " + (time1 - time));
 
 		// Gets the list of all resources that will be impacted.
 		// Set<IResource> affectedResources = getAffectedResources();
 		// System.out.println(affectedResources);
 
 		reEnableAuditsAndDiagSync();
-		System.out.println("Refactor Time: "
-				+ (System.currentTimeMillis() - time));
+//		System.out.println("Refactor Time: "
+//				+ (System.currentTimeMillis() - time));
 	}
 
 	@SuppressWarnings("deprecation")
