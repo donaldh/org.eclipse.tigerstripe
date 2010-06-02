@@ -191,9 +191,9 @@ public class RenameModelArtifactWizardPage extends WizardPage {
 
 		} catch (TigerstripeException e) {
 
-			EclipsePlugin.log(e);
-			setErrorMessage(e.getMessage()
-					+ "For more information please see error log.");
+			// No need to log this...
+//			EclipsePlugin.log(e);
+			setErrorMessage(e.getMessage());
 			setPageComplete(false);
 		}
 	}
