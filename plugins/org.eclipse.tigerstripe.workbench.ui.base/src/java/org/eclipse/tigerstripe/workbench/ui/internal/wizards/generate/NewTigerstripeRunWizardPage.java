@@ -663,8 +663,9 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 									if (buttonNames[j]
 									                .equals(((PluginConfig) mch.getConfig())
 									                		.getPluginName())) {
-										buttonNames[j] = name + " "+ mch.getHousing().getVersion();
-										generatorSelectionButtons[j].setText(buttonNames[j]);
+										String newButtonName = name + " "+ mch.getHousing().getVersion();
+										
+										generatorSelectionButtons[j].setText(newButtonName);
 										generatorSelectionButtons[j]
 										                          .setSelection(((PluginConfig) mch.getConfig()).isEnabled());
 
