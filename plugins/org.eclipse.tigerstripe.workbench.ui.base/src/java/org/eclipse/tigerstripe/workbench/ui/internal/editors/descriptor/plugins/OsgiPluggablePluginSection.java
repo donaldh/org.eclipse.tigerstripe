@@ -151,6 +151,7 @@ public class OsgiPluggablePluginSection extends PluggablePluginSection
 
 	@Override
 	protected IPluginConfig getPluginConfig() {
+		getHousing(true);
 		return usedConfig;
 	}
 
