@@ -223,9 +223,9 @@ public class FacetReference extends AbstractContainedObject implements
 			} else {
 				IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 				File file = project.getBaseDir();
-				IPath path = new Path(file.getAbsolutePath());
-				IContainer container = root.getContainerForLocation(path);
-				aProject = TigerstripeCore.findProject(container.getLocation());
+//				IPath path = new Path(file.getAbsolutePath());
+//				IContainer container = root.getContainerForLocation(path);
+				aProject = TigerstripeCore.findProject(file.toURI());
 			}
 			if (aProject instanceof ITigerstripeModelProject)
 				return (ITigerstripeModelProject) aProject;
