@@ -130,4 +130,9 @@ public abstract class TigerstripeShapeNodeEditPart extends ShapeNodeEditPart
 
 	protected abstract void handleArtifactPropertyChanged(String propertyKey,
 			String oldValue, String newValue);
+
+	public void artifactResourceChanged(IResource changedArtifactResource) {
+		// TODO Auto-generated method stub
+		
+	}
 }

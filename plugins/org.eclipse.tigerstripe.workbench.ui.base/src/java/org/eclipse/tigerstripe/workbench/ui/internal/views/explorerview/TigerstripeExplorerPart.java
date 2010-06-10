@@ -710,4 +710,9 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 			treeViewer.refresh(true);
 		}
 	}
+
+	public void artifactResourceChanged(IResource changedArtifactResource) {
+		// TODO Auto-generated method stub
+		
+	}
 }

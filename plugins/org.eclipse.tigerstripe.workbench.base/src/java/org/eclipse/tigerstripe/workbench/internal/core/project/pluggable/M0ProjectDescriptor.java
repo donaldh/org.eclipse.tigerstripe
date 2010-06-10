@@ -20,6 +20,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.tools.ant.util.ReaderInputStream;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -164,6 +165,11 @@ public class M0ProjectDescriptor extends GeneratorProjectDescriptor {
 			// I/O error
 			throw new TigerstripeException(Messages.UNKNOWN_ERROR, ioe);
 		}
+	}
+
+	public void artifactResourceChanged(IResource changedArtifactResource) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

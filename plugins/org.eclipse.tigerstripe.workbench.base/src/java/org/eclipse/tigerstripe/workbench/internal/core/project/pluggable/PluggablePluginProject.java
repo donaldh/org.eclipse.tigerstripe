@@ -22,6 +22,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.tools.ant.util.ReaderInputStream;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.IContainedObject;
@@ -383,6 +384,11 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 			}
 		}
 		throw new TigerstripeException("Un-supported rule type " + ruleType);
+	}
+
+	public void artifactResourceChanged(IResource changedArtifactResource) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

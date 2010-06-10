@@ -26,6 +26,7 @@ public interface ITigerstripeChangeListener {
 	public final static int PROJECT = 0x1;
 	public final static int MODEL = 0x2;
 	public final static int ANNOTATION = 0x4;
+	public final static int ARTIFACT_RESOURCES = 0x8;
 
 	public final static int ALL = PROJECT | MODEL | ANNOTATION;
 
@@ -72,4 +73,7 @@ public interface ITigerstripeChangeListener {
 	public void modelChanged(IModelChangeDelta[] delta);
 
 	public void annotationChanged(IModelAnnotationChangeDelta[] delta);
+	
+	public void artifactResourceChanged(IResource changedArtifactResource);
+	
 }

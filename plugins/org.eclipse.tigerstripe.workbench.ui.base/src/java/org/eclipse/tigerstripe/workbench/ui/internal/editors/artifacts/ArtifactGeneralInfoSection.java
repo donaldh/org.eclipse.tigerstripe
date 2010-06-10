@@ -175,7 +175,7 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart {
 
 		createStereotypes(getBody(), getToolkit());
 
-		updateForm();
+		//updateForm();
 		getSection().setClient(getBody());
 		getToolkit().paintBordersFor(getBody());
 	}

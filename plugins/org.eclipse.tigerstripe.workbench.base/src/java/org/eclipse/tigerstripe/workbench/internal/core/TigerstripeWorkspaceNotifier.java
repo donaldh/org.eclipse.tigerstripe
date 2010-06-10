@@ -107,6 +107,41 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 		listeners.remove(new FilteredListener(listener, 0));
 	}
 
+	public void signalArtifactResourceChanged(final IResource changedArtifactResource){
+		Job notifyArtifactResourceChanged = new Job("Handle Artifact Resource Change") {
+
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				broadcastArtifactResourceChanged(changedArtifactResource);
+				return Status.OK_STATUS;
+			}
+		};
+
+		notifyArtifactResourceChanged.schedule();
+	}
+	
+	private void broadcastArtifactResourceChanged(
+			final IResource changedArtifactResource) {
+
+		Object[] listenersArray = listeners.getListeners();
+		for (Object l : listenersArray) {
+			final FilteredListener listener = (FilteredListener) l;
+			if (listener.select(ITigerstripeChangeListener.ARTIFACT_RESOURCES))
+				SafeRunner.run(new ISafeRunnable() {
+
+					public void handleException(Throwable exception) {
+						BasePlugin.log(exception);
+					}
+
+					public void run() throws Exception {
+						listener.getListener().artifactResourceChanged(changedArtifactResource);
+					}
+
+				});
+		}
+	}
+	
+	
 	public void signalDescriptorChanged(final IResource changedDescriptor){
 		Job notifyDescriptorChanged = new Job("Handle Tigerstripe Descriptor Change") {
 

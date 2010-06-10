@@ -54,8 +54,8 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.FileEditorInput;
 
 public abstract class ArtifactEditorBase extends TigerstripeFormEditor
-		implements IArtifactChangeListener, IActiveFacetChangeListener,
-		ITigerstripeChangeListener {
+		implements  IActiveFacetChangeListener,
+		ITigerstripeChangeListener, IArtifactChangeListener {
 
 	private AbstractArtifactLabelProvider prov = new AbstractArtifactLabelProvider();
 
@@ -74,7 +74,7 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 	public ArtifactEditorBase() {
 		// Performance improvements - only register for the right sort of changes.
 		TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(
-				this, ITigerstripeChangeListener.ANNOTATION);
+				this, ITigerstripeChangeListener.ANNOTATION );
 
 	}
 
@@ -88,26 +88,40 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 		this.artifact = artifact;
 	}
 
-	@Override
-	public void resourceChanged(IResourceChangeEvent event) {
-
-		if (ignoreResourceChange)
-			return;
-
-		IResourceDelta selfDelta = lookforSelf(event.getDelta());
-
-		if (selfDelta != null && selfDelta.getKind() != IResourceDelta.REMOVED) {
-
-			if (event.getType() == IResourceChangeEvent.POST_CHANGE) {
-				try {
-					updateArtifactFromTextEditor();
-				} catch (TigerstripeException e) {
-					EclipsePlugin.log(e);
-				}
-			}
-		}
-		super.resourceChanged(event);
-	}
+//	@Override
+//	public void resourceChanged(IResourceChangeEvent event) {
+//		if (ignoreResourceChange)
+//			return;
+//
+//		IResourceDelta selfDelta = lookforSelf(event.getDelta());
+//
+//		if (selfDelta != null && selfDelta.getKind() != IResourceDelta.REMOVED) {
+//
+//			if (event.getType() == IResourceChangeEvent.POST_CHANGE) {
+//
+//				// make sure we're in the UI thread
+//				Display.getDefault().asyncExec(new Runnable() {
+//
+//					public void run() {
+//						try {
+//							System.out.println("Editor u[dating in respnose to a resource change event");
+//							FileEditorInput fileInput = (FileEditorInput) sourcePage.getEditorInput();
+//							IAbstractArtifact artifact = TSExplorerUtils
+//							.getArtifactFor(fileInput.getFile());
+//
+//							setIArtifact(((AbstractArtifact) artifact)
+//									.makeWorkingCopy(null));
+//							updateTextEditorFromArtifact();
+//
+//						} catch (TigerstripeException e) {
+//							EclipsePlugin.log(e);
+//						}
+//					}
+//				});
+//			}
+//		}
+//		super.resourceChanged(event);
+//	}
 
 	@Override
 	protected void closeMyself() {
@@ -116,7 +130,7 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 				artifact.getTigerstripeProject().getArtifactManagerSession()
 						.removeArtifactChangeListener(this);
 				artifact.getTigerstripeProject().getArtifactManagerSession()
-						.removeArtifactChangeListener(this);
+						.removeActiveFacetListener(this);
 			}
 		} catch (TigerstripeException e) {
 //			EclipsePlugin.log(e);
@@ -246,12 +260,14 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 		// so that the change in the Artifact is broadcast and the POJO state
 		// is up2date to avoid a re-parse in the next refresh() of the Mgr
 		// This is using a back-door ugly mechanism, but it avoids much trouble
-		AbstractArtifact aArt = (AbstractArtifact) getIArtifact();
-		ArtifactManager mgr = aArt.getArtifactManager();
-
-		mgr.removeArtifactManagerListener(this);
-		mgr.notifyArtifactSaved(aArt, monitor);
-		mgr.addArtifactManagerListener(this);
+		
+		// No longer neede as the Artifact MAnager is listening for these changes
+//		AbstractArtifact aArt = (AbstractArtifact) getIArtifact();
+//		ArtifactManager mgr = aArt.getArtifactManager();
+//
+//		mgr.removeArtifactManagerListener(this);
+//		mgr.notifyArtifactSaved(aArt, monitor);
+//		mgr.addArtifactManagerListener(this);
 
 		monitor.done();
 	}
@@ -348,7 +364,7 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 		// Nothing to do here.
 	}
 
-	public void artifactChanged(IAbstractArtifact artifact) {
+	public void artifactChanged(final IAbstractArtifact artifact) {
 		IAbstractArtifact myArtifact = getIArtifact();
 		if (myArtifact != null
 				&& myArtifact.getFullyQualifiedName().equals(
@@ -357,7 +373,6 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 				setIArtifact(((AbstractArtifact) artifact)
 						.makeWorkingCopy(null));
 				refreshModelPages();
-				updateTextEditorFromArtifact();
 			} catch (TigerstripeException e) {
 				EclipsePlugin.log(e);
 			}
@@ -370,6 +385,8 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 			if (artifact != null && artifact.getTigerstripeProject() != null) {
 				artifact.getTigerstripeProject().getArtifactManagerSession()
 						.removeArtifactChangeListener(this);
+				artifact.getTigerstripeProject().getArtifactManagerSession()
+				.removeActiveFacetListener(this);
 			}
 
 			TigerstripeWorkspaceNotifier.INSTANCE
@@ -382,7 +399,7 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 
 	public void artifactRemoved(IAbstractArtifact artifact) {
 		// TODO Auto-generated method stub
-
+		// Shouldn't this close the editor?
 	}
 
 	public void managerReloaded() {
@@ -442,6 +459,11 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 
 	public void descriptorChanged(IResource changedDescriptor) {
 		// NOT USED HERE
+	}
+
+	public void artifactResourceChanged(IResource changedArtifactResource) {
+		// NOT USED HERE
+		
 	}
 	
 }

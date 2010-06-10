@@ -127,4 +127,9 @@ public class ActiveFacetDecorationDelegate implements
 	public void projectDeleted(String projectName) {
 		listeners.remove(projectName);
 	}
+
+	public void artifactResourceChanged(IResource changedArtifactResource) {
+		// TODO Auto-generated method stub
+		
+	}
 }

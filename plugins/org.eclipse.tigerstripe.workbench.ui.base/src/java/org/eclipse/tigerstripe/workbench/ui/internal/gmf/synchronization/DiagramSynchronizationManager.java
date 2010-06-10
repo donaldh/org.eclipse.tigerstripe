@@ -247,4 +247,9 @@ public class DiagramSynchronizationManager extends
 		// NOT USED HERE
 	}
 
+	public void artifactResourceChanged(IResource changedArtifactResource) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

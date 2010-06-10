@@ -17,10 +17,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.resources.IMarkerDelta;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -93,12 +95,45 @@ public class WorkspaceListener implements IElementChangedListener,
 	private ReferencesListener referencesListener = new ReferencesListener();
 
 	public void resourceChanged(IResourceChangeEvent event) {
+//		System.out.println(event);
+//		System.out.println(event.getType()+" "+event.getBuildKind()+" "+event.getDelta()+" "+event.getResource()+" "+event.getDelta().getKind()+" "+event.getDelta().getFlags());
+//		int flags = event.getDelta().getFlags();
+//	      if ((flags & IResourceDelta.CONTENT) != 0) {
+//	            System.out.println("--> Content Change");
+//	      }
+//
+//	      if ((flags & IResourceDelta.REPLACED) != 0) {
+//	            System.out.println("--> Content Replaced");
+//	      }
+//	      if ((flags & IResourceDelta.MARKERS) != 0) {
+//	            System.out.println("--> Marker Change");
+//	            IMarkerDelta[] markers = event.getDelta().getMarkerDeltas();
+//	            // if interested in markers, check these deltas
+//	      }
 		// Get the list of removed resources
 		Collection<IResource> removedResources = new HashSet<IResource>();
 		Collection<IResource> changedResources = new HashSet<IResource>();
 		Collection<IResource> addedResources = new HashSet<IResource>();
 
-		// Only Project and facets are of interest
+		IResourceFilter all = new IResourceFilter() {
+
+			public boolean select(IResource resource) {
+				return true;
+			}
+
+		};
+		WorkspaceHelper.buildResourcesLists(event.getDelta(), removedResources,
+				changedResources, addedResources, all);
+		for (IResource res : changedResources) {
+			
+
+		}
+		
+		removedResources = new HashSet<IResource>();
+		changedResources = new HashSet<IResource>();
+		addedResources = new HashSet<IResource>();
+		
+		// Only Project and facets and descriptors are of interest
 		IResourceFilter foldersOrFacetsOnly = new IResourceFilter() {
 
 			public boolean select(IResource resource) {
@@ -123,8 +158,51 @@ public class WorkspaceListener implements IElementChangedListener,
 
 		referencesListener.changed(removedResources, addedResources,
 				changedResources);
+		
+		// Only Project and facets and descriptors are of interest
+		IResourceFilter modelElements = new IResourceFilter() {
+
+			public boolean select(IResource resource) {
+				if ( "java".equals(
+						resource.getFileExtension()) ||
+						".package".equals(
+								resource.getName()))
+					return true;
+				return false;
+				
+			}
+
+		};
+		removedResources = new HashSet<IResource>();
+		changedResources = new HashSet<IResource>();
+		addedResources = new HashSet<IResource>();
+		WorkspaceHelper.buildResourcesLists(event.getDelta(), removedResources,
+				changedResources, addedResources, modelElements);
+		
+//		for (IResource res : changedResources) {
+//			System.out.println("Changed "+res.getName());
+//		}
+//		
+//		for (IResource res : addedResources) {
+////			System.out.println("Added   "+res.getName());
+//		}
+//		
+//		for (IResource res : removedResources) {
+////			System.out.println("Removed "+res.getName());
+//		}
+		
+		// This ALWAYS seems to get called twice?
+		checkArtifactResourceChanged(changedResources);
+		
 	}
 
+	
+	private void checkArtifactResourceChanged(Collection<IResource> changedResources) {
+		for (IResource res : changedResources) {			
+				TigerstripeWorkspaceNotifier.INSTANCE
+					.signalArtifactResourceChanged(res);
+		}
+	}
 	
 	private void checkTSDescriptorChanged(Collection<IResource> changedResources) {
 		for (IResource res : changedResources) {

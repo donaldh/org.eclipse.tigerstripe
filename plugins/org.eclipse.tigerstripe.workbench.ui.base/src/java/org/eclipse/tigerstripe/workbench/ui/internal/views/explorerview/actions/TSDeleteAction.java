@@ -305,7 +305,7 @@ public class TSDeleteAction extends DeleteAction {
 						// Since we did a silentSave we need to manually notify
 						// of the saves
 						// now
-						mgr.notifyArtifactSaved(art, new NullProgressMonitor());
+//						mgr.notifyArtifactSaved(art, new NullProgressMonitor());
 
 						// for the explorer to be refreshed, the corresponding
 						// resource needs to be refreshed

@@ -21,6 +21,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.exception
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.query.QueryArtifactEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.session.SessionArtifactEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.updateProcedure.UpdateProcedureArtifactEditor;
+import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
@@ -60,7 +61,7 @@ public class ArtifactOverviewPage extends TigerstripeFormPage {
 		form.setText(contentProvider
 				.getText(IArtifactFormContentProvider.ARTIFACT_OVERVIEW_TITLE));
 		fillBody(managedForm, toolkit);
-		managedForm.refresh();
+//		managedForm.refresh();
 	}
 
 	@Override

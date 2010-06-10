@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -27,12 +28,18 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
+import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
@@ -74,6 +81,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtif
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef;
+import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
@@ -113,7 +121,7 @@ import com.thoughtworks.qdox.parser.ParseException;
  *         artifact.
  * 
  */
-public class ArtifactManager  {
+public class ArtifactManager  implements ITigerstripeChangeListener{
 
 	private final static int DEFAULT_BROADCASTMASK = IArtifactChangeListener.NOTIFY_ALL;
 
@@ -264,9 +272,12 @@ public class ArtifactManager  {
 				}
 			}
 
-			// Register for changes of the profile
+			// Register for changes of the profile or model
 
 		} finally {
+			//TODO Is this sufficent changes.. NO not yet!
+			TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(this, 
+					ITigerstripeChangeListener.ARTIFACT_RESOURCES);
 			RefactoringChangeListener.getInstance().addArtifactManager(this);
 			writeLock.unlock();
 		}
@@ -1335,24 +1346,24 @@ public class ArtifactManager  {
 		}
 	}
 
-	public void notifyArtifactSaved(IAbstractArtifact artifact,
-			IProgressMonitor monitor) {
-
-		try {
-			writeLock.lock();
-			addArtifact(artifact, monitor); // replace the current value with
-			// this new one
-
-			// At this point we need to update the PojoState for this artifact
-			// or else it will parsed again upon next refresh
-			ojoState(artifact);
-		} catch (TigerstripeException e) {
-			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
-					e);
-		} finally {
-			writeLock.unlock();
-		}
-	}
+//	public void notifyArtifactSaved(IAbstractArtifact artifact,
+//			IProgressMonitor monitor) {
+//
+//		try {
+//			writeLock.lock();
+//			addArtifact(artifact, monitor); // replace the current value with
+//			// this new one
+//
+//			// At this point we need to update the PojoState for this artifact
+//			// or else it will parsed again upon next refresh
+//			ojoState(artifact);
+//		} catch (TigerstripeException e) {
+//			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
+//					e);
+//		} finally {
+//			writeLock.unlock();
+//		}
+//	}
 
 	/**
 	 * Updates the pojo state for this artifact, i.e. updates the lastModified
@@ -1382,7 +1393,6 @@ public class ArtifactManager  {
 			IAbstractArtifact oldArtifact) {
 		// FIXME: the notification should really be coming from the refresh
 		// based on what was actually reloaded?
-//System.out.println("Notify Artifact Changed "+artifact.getFullyQualifiedName() );
 		Lock lreadLock = listenersLock.readLock();
 		try {
 			lreadLock.lock();
@@ -1390,6 +1400,7 @@ public class ArtifactManager  {
 					&& (broadcastMask & IArtifactChangeListener.NOTIFY_CHANGED) == IArtifactChangeListener.NOTIFY_CHANGED) {
 				for (IArtifactChangeListener listener : listeners) {
 					try {
+//						System.out.println("Notify Artifact Changed "+listener);
 						listener.artifactChanged(artifact);
 					} catch (Exception e) {
 						// finish the loop even if exception raised in handler
@@ -2375,6 +2386,59 @@ public class ArtifactManager  {
 
 	public long getLocalTimeStamp() {
 		return this.localTimeStamp;
+	}
+
+	/**
+	 * Set of methods for TSChangeListener interface
+	 */
+	
+	public void annotationChanged(IModelAnnotationChangeDelta[] delta) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void descriptorChanged(IResource changedDescriptor) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void modelChanged(IModelChangeDelta[] delta) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void projectAdded(IAbstractTigerstripeProject project) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void projectDeleted(String projectName) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	// This will be proviked by changes to .java or .project file changes 
+	// in the underlying fle system  
+	public void artifactResourceChanged(IResource changedArtifactResource) {
+		try {
+			IProject p = (IProject) getTSProject().getAdapter(IProject.class);
+			if (changedArtifactResource.getProject().equals(p)){
+				if (changedArtifactResource instanceof IFile){
+					Reader reader;
+
+					reader = new InputStreamReader(((IFile) changedArtifactResource).getContents());
+					AbstractArtifact aArtifact = extractArtifact(reader, null);
+					// An Add replaces the existing
+					addArtifact(aArtifact,null);
+
+				}
+			}
+		} catch (Exception e) {
+			TigerstripeRuntime.logErrorMessage(
+					"Failed to update ArtifactManager from changed Resource "+
+					changedArtifactResource.getFullPath(), e);
+		}
+
 	}
 
 }

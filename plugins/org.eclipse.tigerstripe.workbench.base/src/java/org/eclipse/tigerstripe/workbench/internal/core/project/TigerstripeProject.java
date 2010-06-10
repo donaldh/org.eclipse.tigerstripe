@@ -34,6 +34,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.tools.ant.util.ReaderInputStream;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.tigerstripe.espace.core.Mode;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -953,6 +954,11 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 					e);
 		}
 		return handle;
+	}
+
+	public void artifactResourceChanged(IResource changedArtifactResource) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

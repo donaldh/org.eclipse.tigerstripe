@@ -1541,7 +1541,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		if (notify) {
 			// This is what will actually update the content of the Artifact Mgr
 			// and notify listeners.
-			getArtifactManager().notifyArtifactSaved(this, monitor);
+//			getArtifactManager().notifyArtifactSaved(this, monitor);
 		}
 	}
 

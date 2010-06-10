@@ -123,4 +123,9 @@ public class TigerstripeProjectsSession implements ITigerstripeChangeListener {
 		return allModelProjects;
 	}
 
+	public void artifactResourceChanged(IResource changedArtifactResource) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
