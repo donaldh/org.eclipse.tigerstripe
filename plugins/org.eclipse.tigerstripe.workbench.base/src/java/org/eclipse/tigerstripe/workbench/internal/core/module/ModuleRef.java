@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleRef;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeModuleProject;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ProjectDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 
@@ -126,7 +127,7 @@ public class ModuleRef implements IModuleRef {
 
 		InputStream stream = file.getInputStream(tsDescriptorEntry);
 		Reader reader = new InputStreamReader(stream);
-		TigerstripeProject embeddedProject = new TigerstripeProject(null);
+		TigerstripeModuleProject embeddedProject = new TigerstripeModuleProject();
 		try {
 			embeddedProject.parse(reader);
 			// ((ModuleArtifactManager) getArtifactManager())

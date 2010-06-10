@@ -1875,19 +1875,10 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	}
 
 	public ITigerstripeModelProject getProject() throws TigerstripeException {
-		TigerstripeProjectHandle handle = null;
-
-		if (getTSProject() == null || getTSProject().getBaseDir() == null)
+		TigerstripeProject tsProject = getTSProject();
+		if (tsProject == null)
 			return null;
-
-		try {
-			handle = (TigerstripeProjectHandle) TigerstripeCore
-					.findProject(getTSProject().getBaseDir().toURI());
-		} catch (TigerstripeException e) {
-			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
-					e);
-		}
-		return handle;
+		return tsProject.getProjectHandle();
 	}
 
 	@SuppressWarnings("unchecked")

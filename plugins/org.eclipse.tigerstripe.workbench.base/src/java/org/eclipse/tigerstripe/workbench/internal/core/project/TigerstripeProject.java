@@ -42,6 +42,7 @@ import org.eclipse.tigerstripe.workbench.internal.IContainedObject;
 import org.eclipse.tigerstripe.workbench.internal.annotation.ModuleAnnotationManager;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -151,6 +152,10 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 
 	// ==========================================
 	// ==========================================
+
+	protected TigerstripeProject() {
+		super(null, DEFAULT_FILENAME);
+	}
 
 	public TigerstripeProject(File baseDir) {
 		super(baseDir, DEFAULT_FILENAME);
@@ -929,6 +934,25 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 		LegacyModelReference mLRef = new LegacyModelReference(mRef
 				.getProjectContext(), mRef.getToModelId(), project.getName());
 		return mLRef;
+	}
+
+	/**
+	 * 
+	 */
+	public TigerstripeProjectHandle getProjectHandle() {
+		TigerstripeProjectHandle handle = null;
+
+		if (getBaseDir() == null)
+			return null;
+
+		try {
+			handle = (TigerstripeProjectHandle) TigerstripeCore
+					.findProject(getBaseDir().toURI());
+		} catch (TigerstripeException e) {
+			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
+					e);
+		}
+		return handle;
 	}
 
 }
