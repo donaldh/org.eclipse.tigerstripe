@@ -178,4 +178,19 @@ public class TestTigerstripeWorkspaceNotifications extends TestCase implements
 
 	}
 
+	public void artifactResourceAdded(IResource addedArtifactResource) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void artifactResourceChanged(IResource changedArtifactResource) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void artifactResourceRemoved(IResource removedArtifactResource) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
