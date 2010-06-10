@@ -196,7 +196,6 @@ public class ReferencesListener {
 	}
 
 	private void updateChangedProjects(Collection<ProjectInfo> changedProjects) {
-		updateClasspathReferences(changedProjects);
 		for (ProjectInfo details : changedProjects) {
 			ITigerstripeModelProject tsProject = details.getProject();
 			if (tsProject != null) {
@@ -209,6 +208,7 @@ public class ReferencesListener {
 				}
 			}
 		}
+		updateClasspathReferences(changedProjects);
 	}
 
 	private void updateClasspathReferences(
