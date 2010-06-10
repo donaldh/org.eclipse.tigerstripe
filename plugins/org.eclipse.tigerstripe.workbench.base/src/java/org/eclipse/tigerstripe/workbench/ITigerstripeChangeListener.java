@@ -28,7 +28,7 @@ public interface ITigerstripeChangeListener {
 	public final static int ANNOTATION = 0x4;
 	public final static int ARTIFACT_RESOURCES = 0x8;
 
-	public final static int ALL = PROJECT | MODEL | ANNOTATION;
+	public final static int ALL = PROJECT | MODEL | ANNOTATION| ARTIFACT_RESOURCES;
 
 	/**
 	 * Notification that a Tigerstripe project was added to the workspace
@@ -75,5 +75,9 @@ public interface ITigerstripeChangeListener {
 	public void annotationChanged(IModelAnnotationChangeDelta[] delta);
 	
 	public void artifactResourceChanged(IResource changedArtifactResource);
+	
+	public void artifactResourceAdded(IResource addedArtifactResource);
+	
+	public void artifactResourceRemoved(IResource removedArtifactResource);
 	
 }

@@ -252,4 +252,14 @@ public class DiagramSynchronizationManager extends
 		
 	}
 
+	public void artifactResourceAdded(IResource addedArtifactResource) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void artifactResourceRemoved(IResource removedArtifactResource) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

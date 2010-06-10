@@ -173,6 +173,8 @@ public class WorkspaceListener implements IElementChangedListener,
 			}
 
 		};
+		
+		// Now only care about artifacts
 		removedResources = new HashSet<IResource>();
 		changedResources = new HashSet<IResource>();
 		addedResources = new HashSet<IResource>();
@@ -184,15 +186,17 @@ public class WorkspaceListener implements IElementChangedListener,
 //		}
 //		
 //		for (IResource res : addedResources) {
-////			System.out.println("Added   "+res.getName());
+//			System.out.println("Added   "+res.getName());
 //		}
 //		
 //		for (IResource res : removedResources) {
-////			System.out.println("Removed "+res.getName());
+//			System.out.println("Removed "+res.getName());
 //		}
 		
 		// This ALWAYS seems to get called twice?
 		checkArtifactResourceChanged(changedResources);
+		checkArtifactResourceAdded(addedResources);
+		checkArtifactResourceRemoved(removedResources);
 		
 	}
 
@@ -201,6 +205,20 @@ public class WorkspaceListener implements IElementChangedListener,
 		for (IResource res : changedResources) {			
 				TigerstripeWorkspaceNotifier.INSTANCE
 					.signalArtifactResourceChanged(res);
+		}
+	}
+	
+	private void checkArtifactResourceAdded(Collection<IResource> addedResources) {
+		for (IResource res : addedResources) {			
+				TigerstripeWorkspaceNotifier.INSTANCE
+					.signalArtifactResourceAdded(res);
+		}
+	}
+	
+	private void checkArtifactResourceRemoved(Collection<IResource> removedResources) {
+		for (IResource res : removedResources) {			
+				TigerstripeWorkspaceNotifier.INSTANCE
+					.signalArtifactResourceRemoved(res);
 		}
 	}
 	

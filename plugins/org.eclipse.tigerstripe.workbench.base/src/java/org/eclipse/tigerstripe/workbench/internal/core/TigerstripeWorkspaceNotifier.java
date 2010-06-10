@@ -120,6 +120,34 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 		notifyArtifactResourceChanged.schedule();
 	}
 	
+	
+	public void signalArtifactResourceAdded(final IResource addedArtifactResource){
+		Job notifyArtifactResourceAdded = new Job("Handle Artifact Resource Add") {
+
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				broadcastArtifactResourceAdded(addedArtifactResource);
+				return Status.OK_STATUS;
+			}
+		};
+
+		notifyArtifactResourceAdded.schedule();
+	}
+	
+	
+	public void signalArtifactResourceRemoved(final IResource removedArtifactResource){
+		Job notifyArtifactResourceRemoved = new Job("Handle Artifact Resource Remove") {
+
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				broadcastArtifactResourceRemoved(removedArtifactResource);
+				return Status.OK_STATUS;
+			}
+		};
+
+		notifyArtifactResourceRemoved.schedule();
+	}
+	
 	private void broadcastArtifactResourceChanged(
 			final IResource changedArtifactResource) {
 
@@ -140,6 +168,49 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 				});
 		}
 	}
+	
+	private void broadcastArtifactResourceAdded(
+			final IResource addedArtifactResource) {
+
+		Object[] listenersArray = listeners.getListeners();
+		for (Object l : listenersArray) {
+			final FilteredListener listener = (FilteredListener) l;
+			if (listener.select(ITigerstripeChangeListener.ARTIFACT_RESOURCES))
+				SafeRunner.run(new ISafeRunnable() {
+
+					public void handleException(Throwable exception) {
+						BasePlugin.log(exception);
+					}
+
+					public void run() throws Exception {
+						listener.getListener().artifactResourceAdded(addedArtifactResource);
+					}
+
+				});
+		}
+	}
+	
+	private void broadcastArtifactResourceRemoved(
+			final IResource removedArtifactResource) {
+
+		Object[] listenersArray = listeners.getListeners();
+		for (Object l : listenersArray) {
+			final FilteredListener listener = (FilteredListener) l;
+			if (listener.select(ITigerstripeChangeListener.ARTIFACT_RESOURCES))
+				SafeRunner.run(new ISafeRunnable() {
+
+					public void handleException(Throwable exception) {
+						BasePlugin.log(exception);
+					}
+
+					public void run() throws Exception {
+						listener.getListener().artifactResourceRemoved(removedArtifactResource);
+					}
+
+				});
+		}
+	}
+	
 	
 	
 	public void signalDescriptorChanged(final IResource changedDescriptor){

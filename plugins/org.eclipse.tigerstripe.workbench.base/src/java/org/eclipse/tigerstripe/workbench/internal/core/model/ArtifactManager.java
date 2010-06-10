@@ -2441,4 +2441,48 @@ public class ArtifactManager  implements ITigerstripeChangeListener{
 
 	}
 
+	public void artifactResourceAdded(IResource addedArtifactResource) {
+		try {
+			IProject p = (IProject) getTSProject().getAdapter(IProject.class);
+			if (addedArtifactResource.getProject().equals(p)){
+				if (addedArtifactResource instanceof IFile){
+					Reader reader;
+
+					reader = new InputStreamReader(((IFile) addedArtifactResource).getContents());
+					AbstractArtifact aArtifact = extractArtifact(reader, null);
+					// An Add replaces the existing
+					addArtifact(aArtifact,null);
+
+				}
+			}
+		} catch (Exception e) {
+			TigerstripeRuntime.logErrorMessage(
+					"Failed to update ArtifactManager from added Resource "+
+					addedArtifactResource.getFullPath(), e);
+		}
+		
+	}
+
+	public void artifactResourceRemoved(IResource removedArtifactResource) {
+		try {
+			IProject p = (IProject) getTSProject().getAdapter(IProject.class);
+			if (removedArtifactResource.getProject().equals(p)){
+				if (removedArtifactResource instanceof IFile){
+					Reader reader;
+
+					reader = new InputStreamReader(((IFile) removedArtifactResource).getContents());
+					AbstractArtifact aArtifact = extractArtifact(reader, null);
+					
+					removeArtifact(aArtifact);
+
+				}
+			}
+		} catch (Exception e) {
+			TigerstripeRuntime.logErrorMessage(
+					"Failed to update ArtifactManager from removed Resource "+
+					removedArtifactResource.getFullPath(), e);
+		}
+		
+	}
+
 }

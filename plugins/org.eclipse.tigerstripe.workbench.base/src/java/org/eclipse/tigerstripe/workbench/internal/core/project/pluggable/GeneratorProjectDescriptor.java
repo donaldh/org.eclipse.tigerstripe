@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
@@ -788,6 +789,21 @@ public abstract class GeneratorProjectDescriptor extends
 			}
 		}
 		return null;
+	}
+
+	public void artifactResourceAdded(IResource addedArtifactResource) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void artifactResourceChanged(IResource changedArtifactResource) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void artifactResourceRemoved(IResource removedArtifactResource) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

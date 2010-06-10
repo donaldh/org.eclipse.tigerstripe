@@ -386,9 +386,4 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 		throw new TigerstripeException("Un-supported rule type " + ruleType);
 	}
 
-	public void artifactResourceChanged(IResource changedArtifactResource) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

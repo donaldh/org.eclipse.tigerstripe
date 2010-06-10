@@ -167,9 +167,4 @@ public class M0ProjectDescriptor extends GeneratorProjectDescriptor {
 		}
 	}
 
-	public void artifactResourceChanged(IResource changedArtifactResource) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

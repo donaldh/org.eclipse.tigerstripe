@@ -956,9 +956,5 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 		return handle;
 	}
 
-	public void artifactResourceChanged(IResource changedArtifactResource) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }
