@@ -21,6 +21,7 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
 public class AdvancedConfigurationPage extends TigerstripeFormPage {
 
 	private boolean shownDescriptorUpgrade = false;
+	private IManagedForm managedForm;
 	private GenerationPrefSection generationPrefSection;
 	public static final String PAGE_ID = "projectDescriptor.advanced"; //$NON-NLS-1$
 
@@ -45,6 +46,7 @@ public class AdvancedConfigurationPage extends TigerstripeFormPage {
 	@Override
 	protected void createFormContent(IManagedForm managedForm) {
 		super.createFormContent(managedForm);
+		this.managedForm = managedForm;
 		ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = managedForm.getToolkit();
 		form.setText("Advanced Settings");
@@ -54,7 +56,9 @@ public class AdvancedConfigurationPage extends TigerstripeFormPage {
 
 	@Override
 	public void refresh() {
-		// TODO
+		if (managedForm != null) {
+			managedForm.refresh();
+		}
 	}
 
 	public void openGenerationPrefSection() {

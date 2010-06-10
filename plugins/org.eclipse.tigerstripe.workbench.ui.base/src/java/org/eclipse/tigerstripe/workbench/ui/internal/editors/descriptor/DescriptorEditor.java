@@ -16,6 +16,7 @@ import java.util.Collection;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -276,4 +277,14 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 		}
 		return workingHandle;
 	}
+
+	@Override
+	public void resourceChanged(IResourceChangeEvent event) {
+		super.resourceChanged(event);
+		workingHandle = null;
+		refreshModelPages();
+		
+	}
+	
+	
 }

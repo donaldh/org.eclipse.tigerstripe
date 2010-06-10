@@ -34,6 +34,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.tools.ant.util.ReaderInputStream;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.tigerstripe.espace.core.Mode;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
@@ -956,5 +957,20 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 		return handle;
 	}
 
-
+	public void descriptorChanged(IResource changedDescriptor) {
+		// If the descriptor has changed, then we need to reload for sure!
+		IProject project = (IProject) this.getAdapter(IProject.class);
+		if (project != null && 
+				changedDescriptor.getProject().equals(project)
+				){
+			// Its our descriptor!
+			try {
+				reload(true);
+			} catch (TigerstripeException e) {
+				
+				TigerstripeRuntime.logErrorMessage("Error on Descriptor change", e);
+			}
+		}
+		
+	}
 }

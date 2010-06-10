@@ -15,6 +15,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Arrays;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -94,4 +95,11 @@ public class PhantomTigerstripeProject extends TigerstripeProject {
 		}
 		return true;
 	}
+
+	@Override
+	public void descriptorChanged(IResource changedDescriptor) {
+		//Ignore this - it shouldn't really happen!
+	}
+	
+	
 }

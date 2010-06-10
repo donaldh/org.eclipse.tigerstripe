@@ -37,6 +37,7 @@ public class PluginConfigurationPage extends TigerstripeFormPage {
 
 	public static final String PAGE_ID = "descriptor.pluginInformation"; //$NON-NLS-1$
 
+	private IManagedForm managedForm;
 	private FormEditor editor;
 		
 	
@@ -54,6 +55,7 @@ public class PluginConfigurationPage extends TigerstripeFormPage {
 	@Override
 	protected void createFormContent(IManagedForm managedForm) {
 		super.createFormContent(managedForm);
+		this.managedForm = managedForm;
 		ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = managedForm.getToolkit();
 		form.setText("Plugin Settings");
@@ -63,7 +65,9 @@ public class PluginConfigurationPage extends TigerstripeFormPage {
 
 	@Override
 	public void refresh() {
-		// TODO
+		if (managedForm != null) {
+			managedForm.refresh();
+		}
 	}
 
 	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {

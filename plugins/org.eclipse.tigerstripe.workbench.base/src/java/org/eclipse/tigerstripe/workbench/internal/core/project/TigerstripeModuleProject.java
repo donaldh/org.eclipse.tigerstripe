@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.project;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
@@ -51,5 +52,10 @@ public class TigerstripeModuleProject extends TigerstripeProject {
 					e);
 		}
 		return null;
+	}
+	
+	@Override
+	public void descriptorChanged(IResource changedDescriptor) {
+		//Ignore this - it shouldn't really happen!
 	}
 }

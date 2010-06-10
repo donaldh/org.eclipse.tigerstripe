@@ -22,6 +22,8 @@ public class DescriptorDependenciesPage extends TigerstripeFormPage {
 
 	public static final String PAGE_ID = "descriptor.dependencies"; //$NON-NLS-1$
 
+	private IManagedForm managedForm;
+	
 	public DescriptorDependenciesPage(FormEditor editor) {
 		super(editor, PAGE_ID, "Dependencies");
 	}
@@ -33,6 +35,7 @@ public class DescriptorDependenciesPage extends TigerstripeFormPage {
 	@Override
 	protected void createFormContent(IManagedForm managedForm) {
 		super.createFormContent(managedForm);
+		this.managedForm = managedForm;
 		ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = managedForm.getToolkit();
 		form.setText("Project Dependencies");
@@ -42,7 +45,9 @@ public class DescriptorDependenciesPage extends TigerstripeFormPage {
 
 	@Override
 	public void refresh() {
-		// TODO
+		if (managedForm != null) {
+			managedForm.refresh();
+		}
 	}
 
 	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {

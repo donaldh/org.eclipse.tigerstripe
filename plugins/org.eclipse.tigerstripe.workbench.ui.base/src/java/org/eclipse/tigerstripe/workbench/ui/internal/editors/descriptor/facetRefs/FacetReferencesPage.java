@@ -22,6 +22,7 @@ public class FacetReferencesPage extends TigerstripeFormPage {
 
 	public static final String PAGE_ID = "descriptor.dependencies"; //$NON-NLS-1$
 
+	private IManagedForm managedForm;
 	public FacetReferencesPage(FormEditor editor) {
 		super(editor, PAGE_ID, "Facets");
 	}
@@ -33,6 +34,7 @@ public class FacetReferencesPage extends TigerstripeFormPage {
 	@Override
 	protected void createFormContent(IManagedForm managedForm) {
 		super.createFormContent(managedForm);
+		this.managedForm = managedForm;
 		ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = managedForm.getToolkit();
 		form.setText("Facets References");
@@ -42,7 +44,9 @@ public class FacetReferencesPage extends TigerstripeFormPage {
 
 	@Override
 	public void refresh() {
-		// TODO
+		if (managedForm != null) {
+			managedForm.refresh();
+		}
 	}
 
 	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {

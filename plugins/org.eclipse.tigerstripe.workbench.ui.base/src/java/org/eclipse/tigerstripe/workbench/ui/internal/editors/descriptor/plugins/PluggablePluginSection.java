@@ -590,14 +590,20 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 		setSilentUpdate(true);
 
 		IPluginConfig ref = getPluginConfig();
-
-		boolean isEnabled = generate.getSelection();
+		 if (ref == null){
+			 ref = createInitialPluginConfig();
+			 ref.setEnabled(false);
+		 }
+		 
+		
+		boolean isEnabled = ref.isEnabled();
+		generate.setSelection(ref.isEnabled());
 		applyDefaultButton.setEnabled(isEnabled && !this.isReadonly());
 
 		facetOutputDirText.setEnabled(isEnabled
-				&& getPluginConfig().getFacetReference() != null);
+				&& ref.getFacetReference() != null);
 		facetOutputDirLabel.setEnabled(isEnabled
-				&& getPluginConfig().getFacetReference() != null);
+				&& ref.getFacetReference() != null);
 
 		facetReferenceLabel.setEnabled(isEnabled);
 		facetReferenceText.setEnabled(isEnabled);
