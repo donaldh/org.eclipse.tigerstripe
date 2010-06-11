@@ -530,7 +530,7 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 		IResourceFilter diagramFilesFilter = new IResourceFilter() {
 
 			public boolean select(IResource resource) {
-				System.out.println(resource.getName());
+				
 				if (!resource.getProject().equals(project))
 					return false;
 				if (Arrays.asList(diagramFileExtensions).contains(
