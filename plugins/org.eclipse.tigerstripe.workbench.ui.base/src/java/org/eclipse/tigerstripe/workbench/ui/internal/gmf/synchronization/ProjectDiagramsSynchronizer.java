@@ -513,7 +513,8 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 	}
 
 	public void resourceChanged(IResourceChangeEvent event) {
-		if (getProject().getAdapter(IProject.class) == null) {
+		final IProject project = (IProject) getProject().getAdapter(IProject.class);
+		if (project == null) {
 			return;
 			// this means the project has been deleted and the hash is being
 			// updated. This avoids problem with the race condition between
@@ -529,7 +530,8 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 		IResourceFilter diagramFilesFilter = new IResourceFilter() {
 
 			public boolean select(IResource resource) {
-				if (!resource.getProject().equals(getProject()))
+				System.out.println(resource.getName());
+				if (!resource.getProject().equals(project))
 					return false;
 				if (Arrays.asList(diagramFileExtensions).contains(
 						resource.getFileExtension()))
@@ -555,6 +557,7 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 			throws TigerstripeException {
 		IProject proj = (IProject) getProject().getAdapter(IProject.class);
 		for (IResource resource : addedResources) {
+//			System.out.println("Ad "+resource.getName());
 			for (String ext : diagramFileExtensions) {
 				if (ext.equals(resource.getFileExtension())
 						&& resource.getProject().equals(proj)
@@ -576,6 +579,7 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 	private void checkForRemovedDiagrams(Collection<IResource> removedResources)
 			throws TigerstripeException {
 		for (IResource resource : removedResources) {
+//			System.out.println("Re "+resource.getName());
 			if (handlesByDiagram.get(resource) != null) {
 				handlesByDiagram.remove(resource);
 			} else if (handlesByModel.get(resource) != null) {
@@ -588,6 +592,7 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 	private void checkForChangedDiagrams(Collection<IResource> changedResources)
 			throws TigerstripeException {
 		for (IResource resource : changedResources) {
+//			System.out.println("Ch "+resource.getName());
 			if (handlesByModel.get(resource) != null) {
 				DiagramHandle handle = handlesByModel.get(resource);
 				diagramIndex.diagramSaved(handle);
