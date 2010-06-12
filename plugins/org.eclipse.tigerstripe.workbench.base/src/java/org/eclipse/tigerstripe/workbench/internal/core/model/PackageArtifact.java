@@ -16,6 +16,8 @@ import java.io.Writer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.tigerstripe.metamodel.impl.IPackageImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -40,39 +42,42 @@ public class PackageArtifact extends AbstractArtifact implements
 		IPackageArtifact {
 
 	private String _artifactPath = null;
-	
+
 	/**
-	 * This allows for a create "behind-the-scenes" of any 
-	 * packageArtifact that is missing when we try to open or
-	 * access a package.
+	 * This allows for a create "behind-the-scenes" of any packageArtifact that
+	 * is missing when we try to open or access a package.
+	 * 
 	 * @param packageName
 	 */
-	public static PackageArtifact makeArtifactForPackage(IArtifactManagerSession mgr,String packageName) throws TigerstripeException {
-		// Split the "proper" package name up into 
+	public static PackageArtifact makeArtifactForPackage(
+			IArtifactManagerSession mgr, String packageName)
+			throws TigerstripeException {
+		// Split the "proper" package name up into
 		// a package and name
 		String name = "";
 		String falsePackageName = "";
-		if (packageName.contains(".")){
-			name = packageName.substring(packageName.lastIndexOf(".")+1);
-			falsePackageName = packageName.substring(0, packageName.lastIndexOf("."));
+		if (packageName.contains(".")) {
+			name = packageName.substring(packageName.lastIndexOf(".") + 1);
+			falsePackageName = packageName.substring(0, packageName
+					.lastIndexOf("."));
 		} else {
 			name = packageName;
 			falsePackageName = "";
 		}
-		
+
 		IModelUpdater updater = mgr.getIModelUpdater();
-		
+
 		IArtifactDeleteRequest deleteRequest = null;
 		IArtifactCreateRequest createRequest = null;
 		try {
 			deleteRequest = (IArtifactDeleteRequest) updater
-			.getRequestFactory().makeRequest(
-					IModelChangeRequestFactory.ARTIFACT_DELETE);
+					.getRequestFactory().makeRequest(
+							IModelChangeRequestFactory.ARTIFACT_DELETE);
 			deleteRequest.setArtifactName(name);
 			deleteRequest.setArtifactPackage(falsePackageName);
 
 			updater.handleChangeRequest(deleteRequest);
-			
+
 			createRequest = (IArtifactCreateRequest) updater
 					.getRequestFactory().makeRequest(
 							IModelChangeRequestFactory.ARTIFACT_CREATE);
@@ -81,49 +86,51 @@ public class PackageArtifact extends AbstractArtifact implements
 			createRequest.setArtifactPackage(falsePackageName);
 
 			updater.handleChangeRequest(createRequest);
-			
-			
-			return (PackageArtifact) mgr.getArtifactByFullyQualifiedName(packageName);
-			
+
+			return (PackageArtifact) mgr
+					.getArtifactByFullyQualifiedName(packageName);
+
 		} catch (TigerstripeException e) {
 			BasePlugin.log(e);
 			return null;
 		}
-		
-		
+
 	}
-	
-	
+
 	/**
-	 * This just makes one without creating the .package file
-	 * It is NOT added to the ArtifactManager - WHY NOT?
+	 * This just makes one without creating the .package file It is NOT added to
+	 * the ArtifactManager - WHY NOT?
 	 * 
 	 * @param mgr
 	 * @param packageName
 	 * @return
 	 * @throws TigerstripeException
 	 */
-	public static PackageArtifact makeVolatileArtifactForPackage(IArtifactManagerSession mgr,String packageName) throws TigerstripeException {
-		// Split the "proper" package name up into 
+	public static PackageArtifact makeVolatileArtifactForPackage(
+			IArtifactManagerSession mgr, String packageName)
+			throws TigerstripeException {
+		// Split the "proper" package name up into
 		// a package and name
 		String name = "";
 		String falsePackageName = "";
-		if (packageName.contains(".")){
-			name = packageName.substring(packageName.lastIndexOf(".")+1);
-			falsePackageName = packageName.substring(0, packageName.lastIndexOf("."));
+		if (packageName.contains(".")) {
+			name = packageName.substring(packageName.lastIndexOf(".") + 1);
+			falsePackageName = packageName.substring(0, packageName
+					.lastIndexOf("."));
 		} else {
 			name = packageName;
 			falsePackageName = "";
 		}
-		
-		PackageArtifact newArtifact = (PackageArtifact) mgr.makeArtifact(IPackageArtifact.class.getName());
-		
+
+		PackageArtifact newArtifact = (PackageArtifact) mgr
+				.makeArtifact(IPackageArtifact.class.getName());
+
 		newArtifact.setName(name);
 		newArtifact.setPackage(falsePackageName);
-		
+
 		return newArtifact;
 	}
-	
+
 	public final static String MARKING_TAG = AbstractArtifactTag.PREFIX
 			+ AbstractArtifactTag.PACKAGE;
 
@@ -153,15 +160,15 @@ public class PackageArtifact extends AbstractArtifact implements
 
 	public String getLabel() {
 		return ArtifactMetadataFactory.INSTANCE.getMetadata(
-				//TODO - is this correct in the metamodel ?
+		// TODO - is this correct in the metamodel ?
 				IPackageImpl.class.getName()).getLabel(this);
 	}
 
 	@Override
 	public AbstractArtifact extractFromClass(JavaClass javaClass,
 			ArtifactManager artifactMgr, IProgressMonitor monitor) {
-		PackageArtifact result = new PackageArtifact(javaClass,
-				artifactMgr, monitor);
+		PackageArtifact result = new PackageArtifact(javaClass, artifactMgr,
+				monitor);
 
 		return result;
 	}
@@ -199,7 +206,7 @@ public class PackageArtifact extends AbstractArtifact implements
 	public boolean hasExtends() {
 		return false;
 	}
-	
+
 	/**
 	 * Returns the artifact path relative to the project directory
 	 * 
@@ -213,16 +220,14 @@ public class PackageArtifact extends AbstractArtifact implements
 		return _artifactPath;
 	}
 
-	
-	
 	protected void updateArtifactPath() {
 
 		// Determine the path for this artifact
-		// This will be the package  PLUS the extension 
+		// This will be the package PLUS the extension
 		String packageName = getPackage().replace('.', File.separatorChar);
 
-		if (getTSProject() == null || getTSProject().getBaseDir() == null){
-			_artifactPath =  null; // this is part of a module
+		if (getTSProject() == null || getTSProject().getBaseDir() == null) {
+			_artifactPath = null; // this is part of a module
 			return;
 		}
 
@@ -231,32 +236,39 @@ public class PackageArtifact extends AbstractArtifact implements
 		String repoLocation = "";
 		try {
 			repoLocation = getTSProject().getRepositoryLocation();
-		} catch (Exception e){
-			
+		} catch (Exception e) {
+
 		}
-		
 
 		String artifactPath = repoLocation + File.separator + packageName
-		+ File.separator + getName()+ File.separator
-		+ ".package";
+				+ File.separator + getName() + File.separator + ".package";
 
 		_artifactPath = artifactPath;
-	}	
-	
+	}
+
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(Class adapter) {
 		if (adapter == IResource.class) {
 			try {
-				return getIResource();
+				IResource res = getIResource();
+				res = res.getParent();
+				return res;
 			} catch (TigerstripeException e) {
-//				BasePlugin.log(e);
+				// Do nothing
+			}
+		} else if (adapter == IJavaElement.class) {
+			try {
+				IResource res = getIResource();
+				res = res.getParent();
+				return JavaCore.create(res);
+			} catch (TigerstripeException e) {
+				// Do nothing
 			}
 		}
 
 		return super.getAdapter(adapter);
 	}
-	
-	
+
 	/**
 	 * Returns the IResource that this Artifact is saved in
 	 * 
@@ -280,5 +292,5 @@ public class PackageArtifact extends AbstractArtifact implements
 					+ getFullyQualifiedName());
 		return iProject.findMember(artifactPath);
 	}
-	
+
 }

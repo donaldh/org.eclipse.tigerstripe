@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.core.view;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.swt.graphics.Image;
 
@@ -24,9 +25,9 @@ public interface INote {
 
 	public INoteChangeListener[] getListeners();
 
-	public void save();
+	public void save() throws CoreException;
 
-	public void revert();
+	public void revert() throws CoreException;
 
 	public void remove();
 

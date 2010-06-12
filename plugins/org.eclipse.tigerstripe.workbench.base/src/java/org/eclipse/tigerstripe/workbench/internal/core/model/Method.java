@@ -41,7 +41,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLe
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
-import org.eclipse.tigerstripe.workbench.model.annotation.IAnnotationCapable;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
@@ -53,7 +52,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IEnt
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjFlavorDefaults;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjMethod;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
-import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeListener;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -144,13 +142,19 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 	// Supported flavors for this method if any
 	private OssjEntityMethodFlavor[] supportedFlavors;
 
-	public class ReturnTypeWrapper implements IStereotypeCapable,
-			IAnnotationCapable {
+	public class ReturnTypeWrapper implements IReturnedType {
 
 		private IMethod theMethod;
 
 		public ReturnTypeWrapper(IMethod method) {
 			theMethod = method;
+		}
+
+		/**
+		 * @return the theMethod
+		 */
+		public IMethod getContainingMethod() {
+			return theMethod;
 		}
 
 		public void addStereotypeInstance(IStereotypeInstance instance) {

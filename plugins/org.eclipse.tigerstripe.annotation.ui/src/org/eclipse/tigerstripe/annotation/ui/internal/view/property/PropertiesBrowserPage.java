@@ -20,6 +20,7 @@ import java.util.Map;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.GroupMarker;
@@ -27,6 +28,7 @@ import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.ArrayContentProvider;
@@ -62,7 +64,6 @@ import org.eclipse.tigerstripe.annotation.ui.core.view.NoteLabelProvider;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveAllNoteAction;
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveNoteAction;
 import org.eclipse.tigerstripe.annotation.ui.util.AsyncExecUtil;
-import org.eclipse.tigerstripe.annotation.ui.util.WorkbenchUtil;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.handlers.IHandlerService;
@@ -416,20 +417,34 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 		DirtyListener listener = adapters.get(note);
 		if (listener == null || listener.isDirty()) {
 			block = true;
-			note.save();
-			if (listener != null)
-				listener.clear();
-			block = false;
+			try {
+				note.save();
+				if (listener != null)
+					listener.clear();
+			} catch (CoreException e) {
+				ErrorDialog.openError(this.getSite().getShell(),
+						"Save is failed", e.getMessage(), e.getStatus());
+				AnnotationUIPlugin.log(e);
+			} finally {
+				block = false;
+			}
 		}
 	}
 
 	private void revert(INote note) {
 		DirtyListener listener = adapters.get(note);
 		block = true;
-		note.revert();
-		block = false;
-		if (listener != null)
-			listener.clear();
+		try {
+			note.revert();
+			if (listener != null)
+				listener.clear();
+		} catch (CoreException e) {
+			ErrorDialog.openError(this.getSite().getShell(), "Save is failed",
+					e.getMessage(), e.getStatus());
+			AnnotationUIPlugin.log(e);
+		} finally {
+			block = false;
+		}
 	}
 
 	public void saveAnnotation() {
@@ -658,7 +673,7 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 		adapters = new HashMap<INote, DirtyListener>();
 		if (dirties.size() > 0) {
 			block = true;
-			Shell shell = WorkbenchUtil.getShell();
+			Shell shell = this.getSite().getShell();
 			if (shell != null) {
 				INote[] nodes = dirties.toArray(new INote[dirties.size()]);
 				MessageBox message = new MessageBox(shell, SWT.ICON_QUESTION
@@ -668,7 +683,13 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 				message.setText("Save Annotations");
 				if (message.open() == SWT.YES)
 					for (INote node : nodes) {
-						node.save();
+						try {
+							node.save();
+						} catch (CoreException e) {
+							ErrorDialog.openError(shell, "Save is failed", e
+									.getMessage(), e.getStatus());
+							AnnotationUIPlugin.log(e);
+						}
 					}
 			}
 			block = false;

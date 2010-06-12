@@ -12,7 +12,9 @@
 
 package org.eclipse.tigerstripe.workbench.ui.internal.views.stereotypes;
 
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.dialogs.ErrorDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -20,6 +22,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
+import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForStereotypeDialog;
 
 /**
@@ -54,6 +57,13 @@ public class AddStereotypeAction extends Action {
 				for (IStereotype st : selected) {
 					IStereotypeInstance instance = st.makeInstance();
 					component.addStereotypeInstance(instance);
+					try {
+						StereotypeCapableSaveHelper.save(component);
+					} catch (CoreException e) {
+						ErrorDialog.openError(shell, "Save is failed", e
+								.getMessage(), e.getStatus());
+						EclipsePlugin.log(e);
+					}
 				}
 			}
 		} catch (TigerstripeException ee) {
