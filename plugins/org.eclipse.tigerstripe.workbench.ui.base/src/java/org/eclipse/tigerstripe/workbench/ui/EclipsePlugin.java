@@ -592,7 +592,6 @@ public class EclipsePlugin extends AbstractUIPlugin {
 					String bundleRoot = bundleFile.getAbsolutePath();
 					String pathname = bundleRoot + File.separator
 							+ profileFileName;
-					System.out.println(pathname);
 					IWorkbenchProfileSession session = TigerstripeCore
 							.getWorkbenchProfileSession();
 					IWorkbenchProfile contributedProfile = session

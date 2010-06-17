@@ -326,37 +326,41 @@ public class ProfileDetailsDialog extends Dialog {
 												+ "') as the active profile. \n\nThis may restart the workbench.\n\nDo you want to continue?\n\n(You will be able to rollback to the current active profile).  ")) {
 							
 
-							IRunnableWithProgress op = new IRunnableWithProgress() {
-								public void run(IProgressMonitor monitor) {
-									try {
-										monitor.beginTask(
-												"Deploying new Active Profile",
-												2);
+//							IRunnableWithProgress op = new IRunnableWithProgress() {
+//								public void run(IProgressMonitor monitor) {
+//									try {
+//										monitor.beginTask(
+//												"Deploying new Active Profile",
+//												2);
+//
+//										IWorkbenchProfileSession session = TigerstripeCore
+//												.getWorkbenchProfileSession();
+//										monitor.subTask("Creating Profile");
+//
+//										staticRollbackCreated = session
+//												.saveAsActiveProfile(handle);
+//										monitor.worked(2);
+//
+//										monitor.subTask("Reloading workbench");
+//										TigerstripeProjectAuditor.setTurnedOffForImport(true);
+//										session.reloadActiveProfile();
+//										monitor.done();
+//
+//										staticOperationSucceeded = true;
+//										
+//
+//									} catch (TigerstripeException e) {
+//										EclipsePlugin.log(e);
+//										staticOperationSucceeded = false;
+//									} finally {
+//										TigerstripeProjectAuditor.setTurnedOffForImport(false);
+//									}
+//								}
+//							};
 
-										IWorkbenchProfileSession session = TigerstripeCore
-												.getWorkbenchProfileSession();
-										monitor.subTask("Creating Profile");
-
-										staticRollbackCreated = session
-												.saveAsActiveProfile(handle);
-										monitor.worked(2);
-
-										monitor.subTask("Reloading workbench");
-										TigerstripeProjectAuditor.setTurnedOffForImport(true);
-										session.reloadActiveProfile();
-										monitor.done();
-
-										staticOperationSucceeded = true;
-										
-
-									} catch (TigerstripeException e) {
-										EclipsePlugin.log(e);
-										staticOperationSucceeded = false;
-									} finally {
-										TigerstripeProjectAuditor.setTurnedOffForImport(false);
-									}
-								}
-							};
+							IWorkbenchProfileSession session = TigerstripeCore.getWorkbenchProfileSession();
+							staticRollbackCreated = session.saveAsActiveProfile(handle);
+							session.reloadActiveProfile();
 
 							
 							//Removed the progress dialog completely - this makes no sense if you do a restart!
