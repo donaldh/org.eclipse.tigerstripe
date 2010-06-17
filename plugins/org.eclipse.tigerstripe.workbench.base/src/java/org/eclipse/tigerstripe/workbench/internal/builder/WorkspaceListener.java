@@ -17,13 +17,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.core.resources.IMarkerDelta;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
-import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -115,23 +114,23 @@ public class WorkspaceListener implements IElementChangedListener,
 		Collection<IResource> changedResources = new HashSet<IResource>();
 		Collection<IResource> addedResources = new HashSet<IResource>();
 
-		IResourceFilter all = new IResourceFilter() {
-
-			public boolean select(IResource resource) {
-				return true;
-			}
-
-		};
-		WorkspaceHelper.buildResourcesLists(event.getDelta(), removedResources,
-				changedResources, addedResources, all);
-		for (IResource res : changedResources) {
-			
-
-		}
-		
-		removedResources = new HashSet<IResource>();
-		changedResources = new HashSet<IResource>();
-		addedResources = new HashSet<IResource>();
+//		IResourceFilter all = new IResourceFilter() {
+//
+//			public boolean select(IResource resource) {
+//				return true;
+//			}
+//
+//		};
+//		WorkspaceHelper.buildResourcesLists(event.getDelta(), removedResources,
+//				changedResources, addedResources, all);
+//		for (IResource res : changedResources) {
+//			
+//
+//		}
+//		
+//		removedResources = new HashSet<IResource>();
+//		changedResources = new HashSet<IResource>();
+//		addedResources = new HashSet<IResource>();
 		
 		// Only Project and facets and descriptors are of interest
 		IResourceFilter foldersOrFacetsOnly = new IResourceFilter() {
@@ -166,8 +165,26 @@ public class WorkspaceListener implements IElementChangedListener,
 				if ( "java".equals(
 						resource.getFileExtension()) ||
 						".package".equals(
-								resource.getName()))
-					return true;
+								resource.getName())){
+					// Need to filter out any "output folders" so 
+					// that we can ignore any .java files created  there
+					ITigerstripeModelProject tsModel = (ITigerstripeModelProject) resource.getProject().getAdapter(ITigerstripeModelProject.class);
+					if (tsModel != null){
+						// Note that if this is null, then this resource is not even in a ts project!
+						
+						try {
+							String outputDir = tsModel.getProjectDetails().getOutputDirectory();
+							IPath basePath = tsModel.getFullPath();
+							basePath = basePath.append(outputDir);
+							if (resource.getFullPath().toString().startsWith(basePath.toString())){
+								return false;
+							}
+						} catch (TigerstripeException e) {
+							return false;
+						}
+						return true;
+					}
+				}
 				return false;
 				
 			}
