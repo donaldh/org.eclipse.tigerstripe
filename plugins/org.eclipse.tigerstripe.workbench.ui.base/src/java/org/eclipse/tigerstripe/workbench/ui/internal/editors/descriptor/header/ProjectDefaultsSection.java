@@ -227,11 +227,13 @@ public class ProjectDefaultsSection extends TigerstripeDescriptorSectionPart {
 
 		try {
 			setSilentUpdate(true);
-			idText.setText(handle.getProjectDetails().getProperty(
-					IProjectDetails.DEFAULTARTIFACTPACKAGE_PROP, ""));
-			idText2.setText(handle.getProjectDetails().getProperty(
-					IProjectDetails.COPYRIGHT_NOTICE, ""));
-
+			if ( handle != null){
+				idText.setText(handle.getProjectDetails().getProperty(
+						IProjectDetails.DEFAULTARTIFACTPACKAGE_PROP, ""));
+				idText2.setText(handle.getProjectDetails().getProperty(
+						IProjectDetails.COPYRIGHT_NOTICE, ""));
+			}
+			
 			setSilentUpdate(false);
 
 		} catch (TigerstripeException e) {

@@ -264,13 +264,13 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 
 		try {
 			setSilentUpdate(true);
-
-			nameText.setText(handle.getName());
-			modelIdText.setText(handle.getProjectDetails().getModelId());
-			versionText.setText(handle.getProjectDetails().getVersion());
-			descriptionText
-					.setText(handle.getProjectDetails().getDescription());
-
+			if ( handle != null){
+				nameText.setText(handle.getName());
+				modelIdText.setText(handle.getProjectDetails().getModelId());
+				versionText.setText(handle.getProjectDetails().getVersion());
+				descriptionText
+				.setText(handle.getProjectDetails().getDescription());
+			}
 			setSilentUpdate(false);
 		} catch (TigerstripeException e) {
 			Status status = new Status(

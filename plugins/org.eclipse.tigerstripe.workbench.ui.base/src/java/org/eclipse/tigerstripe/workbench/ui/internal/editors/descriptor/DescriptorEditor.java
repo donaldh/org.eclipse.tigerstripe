@@ -17,6 +17,7 @@ import java.util.Collection;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -282,7 +283,22 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 	public void resourceChanged(IResourceChangeEvent event) {
 		super.resourceChanged(event);
 		workingHandle = null;
-		refreshModelPages();
+			IResourceDelta delta = event.getDelta();
+
+			if (getEditorInput() instanceof IFileEditorInput) {
+				FileEditorInput input = (FileEditorInput) getEditorInput();
+				IResourceDelta selfDelta = lookforSelf(delta);
+
+				if (selfDelta != null) {
+					switch (selfDelta.getKind()) {
+					case IResourceDelta.REMOVED:
+						break;
+					default:
+						refreshModelPages();
+						break;
+					}
+				}
+			}
 		
 	}
 	
