@@ -251,7 +251,7 @@ public class PackageArtifact extends AbstractArtifact implements
 		if (adapter == IResource.class) {
 			try {
 				IResource res = getIResource();
-				res = res.getParent();
+//				res = res.getParent();
 				return res;
 			} catch (TigerstripeException e) {
 				// Do nothing
