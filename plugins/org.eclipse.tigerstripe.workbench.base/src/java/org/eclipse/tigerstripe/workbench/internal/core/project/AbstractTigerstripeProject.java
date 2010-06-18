@@ -526,20 +526,24 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 	}
 
 	public Object getAdapter(Class adapter) {
-		if (IAbstractTigerstripeProject.class == adapter) {
-			try {
-				return TigerstripeCore.findProject(getBaseDir().toURI());
-			} catch (TigerstripeException e) {
-				return null;
+		try {
+			if (IAbstractTigerstripeProject.class == adapter) {
+				try {
+					return TigerstripeCore.findProject(getBaseDir().toURI());
+				} catch (TigerstripeException e) {
+					return null;
+				}
+			} else if (IProject.class == adapter) {
+				return ResourcesPlugin.getWorkspace().getRoot().getProject(
+						getProjectLabel());
+			} else if (IJavaProject.class == adapter) {
+				IProject iProj = ResourcesPlugin.getWorkspace().getRoot()
+				.getProject(getProjectLabel());
+				if (iProj != null)
+					return JavaCore.create(iProj);
 			}
-		} else if (IProject.class == adapter) {
-			return ResourcesPlugin.getWorkspace().getRoot().getProject(
-					getProjectLabel());
-		} else if (IJavaProject.class == adapter) {
-			IProject iProj = ResourcesPlugin.getWorkspace().getRoot()
-					.getProject(getProjectLabel());
-			if (iProj != null)
-				return JavaCore.create(iProj);
+		} catch (Exception e){
+			return null;
 		}
 		return null;
 	}
