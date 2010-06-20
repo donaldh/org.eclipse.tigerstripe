@@ -629,13 +629,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	}
 
 	private void loadReferences(Document document) throws TigerstripeException {
-
 		this.modelReferences = new ArrayList<ModelReference>();
-
-		// Bug 259: references should be ignored when within an embedded module
-		// descriptor.
-		if (getBaseDir() == null)
-			return;
 
 		NodeList dependencyNode = document.getElementsByTagName(REFERENCE_TAG);
 
@@ -960,17 +954,16 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	public void descriptorChanged(IResource changedDescriptor) {
 		// If the descriptor has changed, then we need to reload for sure!
 		IProject project = (IProject) this.getAdapter(IProject.class);
-		if (project != null && 
-				changedDescriptor.getProject().equals(project)
-				){
+		if (project != null && changedDescriptor.getProject().equals(project)) {
 			// Its our descriptor!
 			try {
 				reload(true);
 			} catch (TigerstripeException e) {
-				
-				TigerstripeRuntime.logErrorMessage("Error on Descriptor change", e);
+
+				TigerstripeRuntime.logErrorMessage(
+						"Error on Descriptor change", e);
 			}
 		}
-		
+
 	}
 }
