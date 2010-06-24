@@ -26,37 +26,43 @@ import org.eclipse.tigerstripe.annotation.java.JavaURIConverter;
 
 /**
  * @author Yuri Strot
- *
+ * 
  */
 public class JavaElementTree {
-	
+
 	private List<JavaElementTree> children = new ArrayList<JavaElementTree>();
 	private JavaElementTree parent;
 	private URI uri;
-	
+
 	public JavaElementTree(JavaElementTree parent, URI uri) {
 		this.parent = parent;
 		this.uri = uri;
 	}
-	
+
 	public List<JavaElementTree> getChildren() {
-	    return children;
-    }
-	
+		return children;
+	}
+
 	public JavaElementTree getParent() {
-	    return parent;
-    }
-	
+		return parent;
+	}
+
 	public URI getElement() {
-	    return uri;
-    }
-	
+		return uri;
+	}
+
+	@Override
+	public String toString() {
+		return uri != null ? uri.toString() : "null";
+	}
+
 	public static JavaElementTree build(IJavaElement element) {
-		JavaElementTree root = new JavaElementTree(null, JavaURIConverter.toURI(element));
+		JavaElementTree root = new JavaElementTree(null, JavaURIConverter
+				.toURI(element));
 		addChildren(root, element);
 		return root;
 	}
-	
+
 	public static void show(JavaElementTree tree, int level) {
 		for (int i = 0; i < level; i++)
 			System.out.print(" ");
@@ -67,56 +73,56 @@ public class JavaElementTree {
 			show(child, level + 1);
 		}
 	}
-	
+
 	protected static boolean isJar(IJavaElement element) {
 		try {
 			if (element instanceof IClassFile) {
 				return true;
 			}
 			if (element instanceof IPackageFragment) {
-				IPackageFragment fragment = (IPackageFragment)element;
+				IPackageFragment fragment = (IPackageFragment) element;
 				return fragment.getKind() == IPackageFragmentRoot.K_BINARY;
 			}
 			if (element instanceof IPackageFragmentRoot) {
-				IPackageFragmentRoot root = (IPackageFragmentRoot)element;
+				IPackageFragmentRoot root = (IPackageFragmentRoot) element;
 				return root.getKind() == IPackageFragmentRoot.K_BINARY;
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 		}
 		return false;
 	}
-	
-	public static IJavaElement[] getChildren(IJavaElement parent) throws JavaModelException {
+
+	public static IJavaElement[] getChildren(IJavaElement parent)
+			throws JavaModelException {
 		List<IJavaElement> elements = new ArrayList<IJavaElement>();
 		if (parent instanceof IParent) {
-			IParent par = (IParent)parent;
-            IJavaElement[] children = par.getChildren();
-            for (int i = 0; i < children.length; i++) {
-            	if (children[i] instanceof IPackageFragmentRoot) {
-            		IPackageFragmentRoot root = (IPackageFragmentRoot)children[i];
-            		if (root.isArchive())
-            			continue;
-            	}
-            	elements.add(children[i]);
-            }
+			IParent par = (IParent) parent;
+			IJavaElement[] children = par.getChildren();
+			for (int i = 0; i < children.length; i++) {
+				if (children[i] instanceof IPackageFragmentRoot) {
+					IPackageFragmentRoot root = (IPackageFragmentRoot) children[i];
+					if (root.isArchive())
+						continue;
+				}
+				elements.add(children[i]);
+			}
 		}
 		return elements.toArray(new IJavaElement[elements.size()]);
 	}
-	
-	private static void addChildren(JavaElementTree element, IJavaElement javaElement) {
+
+	private static void addChildren(JavaElementTree element,
+			IJavaElement javaElement) {
 		try {
 			IJavaElement[] children = getChildren(javaElement);
-	        for (int i = 0; i < children.length; i++) {
-            	URI uri = JavaURIConverter.toURI(children[i]);
-            	JavaElementTree child = new JavaElementTree(element, uri);
-            	element.getChildren().add(child);
-            	addChildren(child, children[i]);
-	        }
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+			for (int i = 0; i < children.length; i++) {
+				URI uri = JavaURIConverter.toURI(children[i]);
+				JavaElementTree child = new JavaElementTree(element, uri);
+				element.getChildren().add(child);
+				addChildren(child, children[i]);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }

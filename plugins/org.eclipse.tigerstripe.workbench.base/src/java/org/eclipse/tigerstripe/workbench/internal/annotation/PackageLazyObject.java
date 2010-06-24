@@ -1,5 +1,5 @@
 /******************************************************************************* 
- * Copyright (c) 2008 xored software, Inc.  
+ * Copyright (c) 2010 xored software, Inc.  
  * 
  * All rights reserved. This program and the accompanying materials 
  * are made available under the terms of the Eclipse Public License v1.0 
@@ -11,40 +11,50 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.annotation;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
-public class TigerstripeLazyObject implements ITigerstripeLazyObject {
+public class PackageLazyObject implements ITigerstripeLazyObject {
+
 	private IModelComponent element;
 	private ITigerstripeModelProject project;
 	private String fqn;
 
-	public TigerstripeLazyObject(IModelComponent element) {
+	public PackageLazyObject(IModelComponent element) {
 		this.element = element;
 	}
 
-	public TigerstripeLazyObject(ITigerstripeModelProject project, String fqn) {
+	public PackageLazyObject(ITigerstripeModelProject project, String fqn) {
 		this.project = project;
 		this.fqn = fqn;
 	}
 
 	@SuppressWarnings("deprecation")
-	public IModelComponent getObject() {
+	public IResource getObject() {
+		IModelComponent c = null;
 		if (element != null) {
-			return element;
+			c = element;
+		} else {
+			try {
+				c = project.getArtifactManagerSession()
+						.getArtifactByFullyQualifiedName(fqn, true);
+			} catch (TigerstripeException e) {
+				// Do nothing
+			}
 		}
-		try {
-			IAbstractArtifact artifact = project.getArtifactManagerSession()
-					.getArtifactByFullyQualifiedName(fqn, true);
-			return artifact;
-		} catch (TigerstripeException e) {
+		if (c == null) {
 			return null;
 		}
+		IResource r = (IResource) c.getAdapter(IResource.class);
+		if (r == null) {
+			return null;
+		}
+		return r.getParent();
 	}
 
 	public boolean isPackage() {
-		return false;
+		return true;
 	}
 }

@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IParent;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.refactoring.IElementChanges;
 import org.eclipse.tigerstripe.annotation.java.JavaURIConverter;
 
@@ -102,7 +103,10 @@ public class JavaChanges implements IElementChanges {
 				});
 				if (elements.length != children.length) {
 					throw new IllegalArgumentException(
-							"Old and New structure should be the same!");
+							"Unexpected java changes. Old elements: "
+									+ Arrays.toString(elements)
+									+ ". New elements: "
+									+ Arrays.toString(children));
 				}
 				for (int i = 0; i < children.length; i++) {
 					IJavaElement child = children[i];
@@ -112,7 +116,7 @@ public class JavaChanges implements IElementChanges {
 					collectChanges(child, elements[i], changes);
 				}
 			} catch (Exception e) {
-				e.printStackTrace();
+				AnnotationPlugin.log(e);
 			}
 		}
 	}

@@ -23,12 +23,15 @@ import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringNotifier;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.annotation.ITigerstripeLazyObject;
+import org.eclipse.tigerstripe.workbench.internal.annotation.PackageLazyObject;
 import org.eclipse.tigerstripe.workbench.internal.annotation.TigerstripeLazyObject;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.ArtifactSetFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
+import org.eclipse.tigerstripe.workbench.internal.core.model.PackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
@@ -118,10 +121,9 @@ public class ModelChangeDeltaProcessor {
 			Collection<Object> toCleanUp, Collection<IAbstractArtifact> toSave)
 			throws TigerstripeException {
 		ITigerstripeModelProject project = artifact.getProject();
-		TigerstripeLazyObject oldObj = new TigerstripeLazyObject(project,
-				artifact.getFullyQualifiedName());
-		TigerstripeLazyObject newObj = new TigerstripeLazyObject(project,
-				(String) delta.getNewValue());
+		ITigerstripeLazyObject oldObj = createLazyObject(artifact);
+		ITigerstripeLazyObject newObj = createLazyObject(project,
+				(String) delta.getNewValue(), oldObj.isPackage());
 		if (IModelChangeDelta.SET == delta.getType()) {
 			if ("fqn".equals(delta.getFeature())) {
 				if (artifact instanceof IPackageArtifact) {
@@ -141,8 +143,8 @@ public class ModelChangeDeltaProcessor {
 					newOne.doSave(null);
 
 					// propagate to annotations framework
-					refactor.fireChanged(oldObj, new TigerstripeLazyObject(
-							newOne), IRefactoringChangesListener.CHANGED);
+					refactor.fireChanged(oldObj, createLazyObject(newOne),
+							IRefactoringChangesListener.CHANGED);
 
 					toCleanUp.add(artifact);
 				} else {
@@ -162,8 +164,8 @@ public class ModelChangeDeltaProcessor {
 					artifact.doSave(null);
 
 					// propagate to annotations framework
-					refactor.fireChanged(oldObj, new TigerstripeLazyObject(
-							artifact), IRefactoringChangesListener.CHANGED);
+					refactor.fireChanged(oldObj, createLazyObject(artifact),
+							IRefactoringChangesListener.CHANGED);
 
 					toCleanUp.add(res);
 				}
@@ -313,6 +315,25 @@ public class ModelChangeDeltaProcessor {
 				toCleanUp.add(path);
 			}
 		}
+	}
+
+	private static ITigerstripeLazyObject createLazyObject(
+			IAbstractArtifact artifact) throws TigerstripeException {
+		ITigerstripeModelProject project = artifact.getProject();
+		if (artifact instanceof PackageArtifact) {
+			return new PackageLazyObject(project, artifact
+					.getFullyQualifiedName());
+		}
+		return new TigerstripeLazyObject(project, artifact
+				.getFullyQualifiedName());
+	}
+
+	private static ITigerstripeLazyObject createLazyObject(
+			ITigerstripeModelProject project, String newValue, boolean isPackage) {
+		if (isPackage) {
+			return new PackageLazyObject(project, newValue);
+		}
+		return new TigerstripeLazyObject(project, newValue);
 	}
 
 	protected static void processIMethodChange(IMethod method,
