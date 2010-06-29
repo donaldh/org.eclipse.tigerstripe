@@ -310,10 +310,12 @@ public abstract class TigerstripeProjectHandle extends
 		assertSet();
 		dependenciesCacheNeedsRefresh = true;
 		getTSProject().addModelReference(modelRef);
-		ProjectDependencyChangeDelta delta = new ProjectDependencyChangeDelta(
-				this, IProjectDependencyDelta.PROJECT_REFERENCE_ADDED, modelRef
-						.getResolvedModel().getFullPath(), modelRef);
-		broadcastProjectDependencyChange(delta);
+		if (modelRef.isResolved()) {
+			ProjectDependencyChangeDelta delta = new ProjectDependencyChangeDelta(
+					this, IProjectDependencyDelta.PROJECT_REFERENCE_ADDED,
+					modelRef.getResolvedModel().getFullPath(), modelRef);
+			broadcastProjectDependencyChange(delta);
+		}
 	}
 
 	public void addModelReferences(ModelReference[] modelRefs)
@@ -322,10 +324,12 @@ public abstract class TigerstripeProjectHandle extends
 		dependenciesCacheNeedsRefresh = true;
 		getTSProject().addModelReferences(modelRefs);
 		for (ModelReference modelRef : modelRefs) {
-			ProjectDependencyChangeDelta delta = new ProjectDependencyChangeDelta(
-					this, IProjectDependencyDelta.PROJECT_REFERENCE_ADDED,
-					modelRef.getResolvedModel().getFullPath(), modelRef);
-			broadcastProjectDependencyChange(delta);
+			if (modelRef.isResolved()) {
+				ProjectDependencyChangeDelta delta = new ProjectDependencyChangeDelta(
+						this, IProjectDependencyDelta.PROJECT_REFERENCE_ADDED,
+						modelRef.getResolvedModel().getFullPath(), modelRef);
+				broadcastProjectDependencyChange(delta);
+			}
 		}
 	}
 
