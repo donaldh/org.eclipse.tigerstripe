@@ -26,10 +26,8 @@ import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.internal.corext.util.Messages;
-import org.eclipse.jdt.internal.ui.JavaPlugin;
-import org.eclipse.jdt.internal.ui.actions.ActionMessages;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.osgi.util.NLS;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.GenerationCanceledException;
@@ -44,10 +42,9 @@ import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.NewTSElementWizard;
 
 /**
- * @author Eric Dillon
- * 
  * This wizard start Tigerstripe.
  * 
+ * @author Eric Dillon
  */
 public class NewTigerstripeRunWizard extends NewTSElementWizard {
 
@@ -59,8 +56,7 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 	public NewTigerstripeRunWizard() {
 		super();
 		setDefaultPageImageDescriptor(Images.getDescriptor(Images.TS_LOGO));
-
-		setDialogSettings(JavaPlugin.getDefault().getDialogSettings());
+		setDialogSettings(EclipsePlugin.getDefault().getDialogSettings());
 		setWindowTitle("Generate Tigerstripe Project");
 	}
 
@@ -76,7 +72,6 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 
 	}
 
-
 	private ITigerstripeModelProject getTSProject() throws TigerstripeException {
 		IAbstractTigerstripeProject result = (IAbstractTigerstripeProject) fPage
 				.getIProject().getAdapter(IAbstractTigerstripeProject.class);
@@ -90,7 +85,9 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jdt.internal.ui.wizards.NewElementWizard#finishPage(org.eclipse.core.runtime.IProgressMonitor)
+	 * @see
+	 * org.eclipse.jdt.internal.ui.wizards.NewElementWizard#finishPage(org.eclipse
+	 * .core.runtime.IProgressMonitor)
 	 */
 	@Override
 	protected void finishPage(IProgressMonitor monitor)
@@ -133,9 +130,9 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 
 		// refresh project so Eclipse picks up the generated files
 		// Fix for Bug #185 to refresh in both cases - success and failure
-		monitor.beginTask(ActionMessages.RefreshAction_progressMessage, 2);
+		monitor.beginTask("Refreshing...", 2);
 		monitor.subTask(""); //$NON-NLS-1$
-		List javaElements = new ArrayList(5);
+		List<IJavaElement> javaElements = new ArrayList<IJavaElement>(5);
 		IResource resource = fPage.getIProject();
 		if (resource.getType() == IResource.PROJECT) {
 			checkLocationDeleted((IProject) resource);
@@ -169,18 +166,16 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 			return;
 		File location = project.getLocation().toFile();
 		if (!location.exists()) {
-			final String message = Messages.format(
-					ActionMessages.RefreshAction_locationDeleted_message,
-					new Object[] { project.getName(),
-							location.getAbsolutePath() });
+			final String message = NLS
+					.bind("The location for project {0} ({1}) has been deleted.\n Delete {0} from the workspace?",
+							project.getName(), location.getAbsolutePath());
 			final boolean[] result = new boolean[1];
 			// Must prompt user in UI thread (we're in the operation thread
 			// here).
 			getShell().getDisplay().syncExec(new Runnable() {
 				public void run() {
 					result[0] = MessageDialog.openQuestion(getShell(),
-							ActionMessages.RefreshAction_locationDeleted_title,
-							message);
+							"Project location has been deleted", message);
 				}
 			});
 			if (result[0]) {
