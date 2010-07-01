@@ -545,20 +545,28 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart {
 
 	protected void updateForm() {
 		setSilentUpdate(true);
-		descriptionText.setText(getIArtifact().getComment());
-		if (getContentProvider().hasAbstract()) {
-			isAbstractButton.setSelection(getIArtifact().isAbstract());
+		if (descriptionText != null){
+			descriptionText.setText(getIArtifact().getComment());
 		}
-		if (getContentProvider().hasExtends()) {
-			if (getIArtifact().getExtendedArtifact() != null)
-				extendNameText.setText(getIArtifact().getExtendedArtifact()
-						.getFullyQualifiedName());
-			else
-				extendNameText.setText("");
+		if (isAbstractButton != null){
+			if (getContentProvider().hasAbstract()) {
+				isAbstractButton.setSelection(getIArtifact().isAbstract());
+			}
 		}
-		if (getContentProvider().hasImplements() && implementsText != null) {
-			implementsText.setText(getIArtifact()
-					.getImplementedArtifactsAsStr());
+		if (extendNameText != null){
+			if (getContentProvider().hasExtends()) {
+				if (getIArtifact().getExtendedArtifact() != null)
+					extendNameText.setText(getIArtifact().getExtendedArtifact()
+							.getFullyQualifiedName());
+				else
+					extendNameText.setText("");
+			}
+		}
+		if (implementsText != null){
+			if (getContentProvider().hasImplements() && implementsText != null) {
+				implementsText.setText(getIArtifact()
+						.getImplementedArtifactsAsStr());
+			}
 		}
 
 		if (stereotypeMgr != null) {
