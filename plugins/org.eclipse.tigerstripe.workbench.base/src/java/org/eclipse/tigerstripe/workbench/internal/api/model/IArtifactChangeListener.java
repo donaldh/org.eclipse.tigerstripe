@@ -53,7 +53,7 @@ public interface IArtifactChangeListener {
 	 */
 	public void artifactAdded(IAbstractArtifact artifact);
 
-	public void artifactChanged(IAbstractArtifact artifact);
+	public void artifactChanged(IAbstractArtifact artifact, IAbstractArtifact oldArtifact);
 
 	public void artifactRenamed(IAbstractArtifact artifact, String fromFQN);
 

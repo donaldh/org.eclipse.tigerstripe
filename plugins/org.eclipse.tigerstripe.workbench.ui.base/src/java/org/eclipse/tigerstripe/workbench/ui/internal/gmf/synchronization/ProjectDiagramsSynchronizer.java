@@ -41,6 +41,8 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IM
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceHelper;
 import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceHelper.IResourceFilter;
+import org.eclipse.tigerstripe.workbench.internal.tools.compare.Comparer;
+import org.eclipse.tigerstripe.workbench.internal.tools.compare.Difference;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -62,6 +64,7 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 		IResourceChangeListener {
 
 	protected Queue requestQueue = new Queue();
+	private Comparer comp = new Comparer();
 
 	// Each time a change occurs, this synchronizer gets notified and queues
 	// queues up the corresponding synchronization request to be executed.
@@ -368,17 +371,25 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 
 	}
 
-	public void artifactChanged(IAbstractArtifact artifact) {
-		try {
-			DiagramHandle[] affectedDiagrams = getAffectedDiagrams(artifact
-					.getFullyQualifiedName());
-			if (affectedDiagrams.length > 0) {
-				SynchronizationForArtifactChangedRequest request = new SynchronizationForArtifactChangedRequest(
-						artifact, affectedDiagrams);
-				queueUpSynchronizationRequest(request);
+	public void artifactChanged(IAbstractArtifact artifact, IAbstractArtifact oldArtifact) {
+		// compare the old and new first
+		// This moight be better done in the client, so that they will only bother with
+		//changes that interest them
+		
+		
+		ArrayList<Difference> diffs = comp.compareArtifacts(oldArtifact,artifact , true);
+		if (diffs.size()>0){
+			try {
+				DiagramHandle[] affectedDiagrams = getAffectedDiagrams(artifact
+						.getFullyQualifiedName());
+				if (affectedDiagrams.length > 0) {
+					SynchronizationForArtifactChangedRequest request = new SynchronizationForArtifactChangedRequest(
+							artifact, affectedDiagrams);
+					queueUpSynchronizationRequest(request);
+				}
+			} catch (TigerstripeException e) {
+				EclipsePlugin.log(e);
 			}
-		} catch (TigerstripeException e) {
-			EclipsePlugin.log(e);
 		}
 	}
 

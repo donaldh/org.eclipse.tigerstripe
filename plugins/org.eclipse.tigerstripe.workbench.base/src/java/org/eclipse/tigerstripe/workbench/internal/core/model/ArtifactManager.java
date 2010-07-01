@@ -31,7 +31,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -62,6 +61,8 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjec
 import org.eclipse.tigerstripe.workbench.internal.core.util.Predicate;
 import org.eclipse.tigerstripe.workbench.internal.core.util.PredicatedList;
 import org.eclipse.tigerstripe.workbench.internal.core.util.PredicatedMap;
+import org.eclipse.tigerstripe.workbench.internal.tools.compare.Comparer;
+import org.eclipse.tigerstripe.workbench.internal.tools.compare.Difference;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
@@ -1393,6 +1394,9 @@ public class ArtifactManager  implements ITigerstripeChangeListener{
 			IAbstractArtifact oldArtifact) {
 		// FIXME: the notification should really be coming from the refresh
 		// based on what was actually reloaded?
+		
+		
+		
 		Lock lreadLock = listenersLock.readLock();
 		try {
 			lreadLock.lock();
@@ -1401,7 +1405,7 @@ public class ArtifactManager  implements ITigerstripeChangeListener{
 				for (IArtifactChangeListener listener : listeners) {
 					try {
 //						System.out.println("Notify Artifact Changed "+listener);
-						listener.artifactChanged(artifact);
+						listener.artifactChanged(artifact, oldArtifact);
 					} catch (Exception e) {
 						// finish the loop even if exception raised in handler
 						BasePlugin.log(e);
@@ -1642,8 +1646,9 @@ public class ArtifactManager  implements ITigerstripeChangeListener{
 		if (artifact != null)
 			if (oldArtifact == null)
 				notifyArtifactAdded(artifact);
-			else
-				notifyArtifactChanged(artifact, oldArtifact);
+			else {
+					notifyArtifactChanged(artifact, oldArtifact);
+			}
 	}
 
 	private void addToFilenameMap(String filename, IAbstractArtifact artifact) {

@@ -304,7 +304,7 @@ public class FacetReference extends AbstractContainedObject implements
 		handleNeedToReevaluate();
 	}
 
-	public void artifactChanged(IAbstractArtifact artifact) {
+	public void artifactChanged(IAbstractArtifact artifact, IAbstractArtifact oldArtifact) {
 		handleNeedToReevaluate();
 	}
 

@@ -364,7 +364,7 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 		// Nothing to do here.
 	}
 
-	public void artifactChanged(final IAbstractArtifact artifact) {
+	public void artifactChanged(final IAbstractArtifact artifact, IAbstractArtifact oldArtifact) {
 		IAbstractArtifact myArtifact = getIArtifact();
 		if (myArtifact != null
 				&& myArtifact.getFullyQualifiedName().equals(

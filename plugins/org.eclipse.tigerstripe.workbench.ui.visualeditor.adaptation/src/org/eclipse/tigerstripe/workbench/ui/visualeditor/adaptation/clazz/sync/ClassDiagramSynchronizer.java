@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -32,6 +33,8 @@ import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.BaseETAdapter;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IActiveFacetChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
+import org.eclipse.tigerstripe.workbench.internal.tools.compare.Comparer;
+import org.eclipse.tigerstripe.workbench.internal.tools.compare.Difference;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -63,6 +66,7 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 		IActiveFacetChangeListener {
 
 	private FileDiagramEditor editor;
+	private Comparer comp = new Comparer();
 
 	public ClassDiagramSynchronizer(FileDiagramEditor editor) {
 		this.editor = editor;
@@ -289,17 +293,24 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 	public void artifactAdded(IAbstractArtifact artifact) {
 	}
 
-	public void artifactChanged(IAbstractArtifact artifact) {
-		TransactionalEditingDomain editingDomain = editor.getEditingDomain();
-		IDiagramEditDomain diagramEditDomain = editor.getDiagramEditDomain();
-		final Map map = (Map) editor.getDiagram().getElement();
-		final IAbstractArtifact fArtifact = artifact;
-		try {
-			ClassDiagramSynchronizerUtils.handleQualifiedNamedElementChanged(
-					editor.getDiagram(), editor.getDiagramEditPart(), map,
-					fArtifact, editingDomain, diagramEditDomain);
-		} catch (TigerstripeException e) {
-			EclipsePlugin.log(e);
+	public void artifactChanged(IAbstractArtifact artifact, IAbstractArtifact oldArtifact) {
+		// compare the old and new first
+		// This moight be better done in the client, so that they will only bother with
+		//changes that interest them
+		
+		ArrayList<Difference> diffs = comp.compareArtifacts(oldArtifact,artifact , true);
+		if (diffs.size()>0){
+			TransactionalEditingDomain editingDomain = editor.getEditingDomain();
+			IDiagramEditDomain diagramEditDomain = editor.getDiagramEditDomain();
+			final Map map = (Map) editor.getDiagram().getElement();
+			final IAbstractArtifact fArtifact = artifact;
+			try {
+				ClassDiagramSynchronizerUtils.handleQualifiedNamedElementChanged(
+						editor.getDiagram(), editor.getDiagramEditPart(), map,
+						fArtifact, editingDomain, diagramEditDomain);
+			} catch (TigerstripeException e) {
+				EclipsePlugin.log(e);
+			}
 		}
 	}
 

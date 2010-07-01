@@ -26,6 +26,8 @@ import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
+import org.eclipse.tigerstripe.workbench.internal.tools.compare.Comparer;
+import org.eclipse.tigerstripe.workbench.internal.tools.compare.Difference;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -58,6 +60,7 @@ import org.eclipse.ui.progress.IProgressService;
 public class InstanceDiagramSynchronizer implements IArtifactChangeListener {
 
 	private FileDiagramEditor editor;
+	private Comparer comp = new Comparer();
 
 	public InstanceDiagramSynchronizer(FileDiagramEditor editor) {
 		this.editor = editor;
@@ -222,16 +225,23 @@ public class InstanceDiagramSynchronizer implements IArtifactChangeListener {
 	public void artifactAdded(IAbstractArtifact artifact) {
 	}
 
-	public void artifactChanged(IAbstractArtifact artifact) {
-		TransactionalEditingDomain editingDomain = editor.getEditingDomain();
-		IDiagramEditDomain diagramEditDomain = editor.getDiagramEditDomain();
-		final InstanceMap map = (InstanceMap) editor.getDiagram().getElement();
-		try {
-			InstanceDiagramSynchronizerUtils.handleArtifactChanged(editor
-					.getDiagram(), editor.getDiagramEditPart(), map, artifact,
-					editingDomain, diagramEditDomain);
-		} catch (TigerstripeException e) {
-			EclipsePlugin.log(e);
+	public void artifactChanged(IAbstractArtifact artifact, IAbstractArtifact oldArtifact) {
+		// compare the old and new first
+		// This moight be better done in the client, so that they will only bother with
+		//changes that interest them
+
+		ArrayList<Difference> diffs = comp.compareArtifacts(oldArtifact,artifact , true);
+		if (diffs.size()>0){
+			TransactionalEditingDomain editingDomain = editor.getEditingDomain();
+			IDiagramEditDomain diagramEditDomain = editor.getDiagramEditDomain();
+			final InstanceMap map = (InstanceMap) editor.getDiagram().getElement();
+			try {
+				InstanceDiagramSynchronizerUtils.handleArtifactChanged(editor
+						.getDiagram(), editor.getDiagramEditPart(), map, artifact,
+						editingDomain, diagramEditDomain);
+			} catch (TigerstripeException e) {
+				EclipsePlugin.log(e);
+			}
 		}
 		// handleArtifactChanged(artifact);
 	}
