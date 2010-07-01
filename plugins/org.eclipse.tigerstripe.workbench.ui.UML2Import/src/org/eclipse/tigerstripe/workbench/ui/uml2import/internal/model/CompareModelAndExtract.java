@@ -21,6 +21,7 @@ import org.eclipse.tigerstripe.workbench.internal.tools.compare.Comparer;
 import org.eclipse.tigerstripe.workbench.internal.tools.compare.Difference;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
@@ -55,9 +56,12 @@ public class CompareModelAndExtract {
 					.values()) {
 				String artifactName = extractedArtifact.getName();
 				out.print("INFO: Comparing " + artifactName);
+				
+				// Don't look for things in modules etc!
+				// We can't update them
 				IAbstractArtifact projectArtifact = mgrSession
 				.getArtifactByFullyQualifiedName(extractedArtifact
-						.getFullyQualifiedName());
+						.getFullyQualifiedName(), false);
 				if (projectArtifact == null) {
 					out.println("INFO : "+extractedArtifact.getFullyQualifiedName()
 							+ " not found in project");
@@ -66,8 +70,9 @@ public class CompareModelAndExtract {
 							extractedArtifact.getFullyQualifiedName(), "",
 							"Artifact", "", "present", "absent");
 					allXMLDiffs.add(artifactDiff);
-
 				} else {
+
+
 					ArrayList<Difference> artifactDiffs = comparer
 					.compareArtifacts(extractedArtifact,
 							projectArtifact, true, false);
