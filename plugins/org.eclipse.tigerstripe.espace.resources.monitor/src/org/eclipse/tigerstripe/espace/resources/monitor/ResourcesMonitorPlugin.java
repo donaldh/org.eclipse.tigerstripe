@@ -3,6 +3,7 @@ package org.eclipse.tigerstripe.espace.resources.monitor;
 import org.eclipse.core.resources.ISaveParticipant;
 import org.eclipse.core.resources.ISavedState;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -35,11 +36,15 @@ public class ResourcesMonitorPlugin extends AbstractUIPlugin {
 		plugin = this;
 
 		ISaveParticipant saveParticipant = new SaveParticipant();
-		ISavedState lastState = ResourcesPlugin.getWorkspace()
-				.addSaveParticipant(this, saveParticipant);
-		if (lastState != null) {
-			lastState.processResourceChangeEvents(ResourcesMonitor
-					.getInstance());
+		try {
+			ISavedState lastState = ResourcesPlugin.getWorkspace()
+					.addSaveParticipant(this, saveParticipant);
+			if (lastState != null) {
+				lastState.processResourceChangeEvents(ResourcesMonitor
+						.getInstance());
+			}
+		} catch (CoreException e) {
+			getLog().log(e.getStatus());
 		}
 	}
 
