@@ -586,39 +586,43 @@ public class ComponentNameProvider implements IComponentNameProvider{
 			tsProject = artifact.getTigerstripeProject();
 			IArtifactManagerSession session = tsProject
 			.getArtifactManagerSession();
+			String fqn = association.getFullyQualifiedName();
 
 			Set<IRelationshipEnd> ends = new HashSet<IRelationshipEnd>();
 			for (IRelationship rel : session.getOriginatingRelationshipForFQN(
 					sourceType.getFullyQualifiedName(), true)){
-				if (rel.getRelationshipZEnd().getType().equals(targetType) && !rel.equals(association)){
+				boolean isSame = rel.equals(association)
+						|| rel.getFullyQualifiedName().equals(fqn);
+				if (rel.getRelationshipZEnd().getType().equals(targetType)
+						&& !isSame) {
 					hasExistingReference = true;
 				}
 				// Now build a list of End Names
 				// Consider those that are from this to that! Or Self Refs
 				if (selfReference){
 					// Check everything - except myself!
-					if (! rel.equals(association)){
+					if (!isSame) {
 						ends.add(rel.getRelationshipAEnd());
 											}
 				} else if ((rel.getRelationshipZEnd().getType().equals(targetType) ||
-						rel.getRelationshipAEnd().getType().equals(sourceType)) &&
-						! rel.equals(association)){
+						rel.getRelationshipAEnd().getType().equals(sourceType)) && !isSame) {
 					ends.add(rel.getRelationshipAEnd());
 				} 
 			
 			}
 			for (IRelationship rel : session.getTerminatingRelationshipForFQN(
 					sourceType.getFullyQualifiedName(), true)){
-				if (rel.getRelationshipAEnd().getType().equals(targetType) && !rel.equals(association)){
+				boolean isSame = rel.equals(association)
+						|| rel.getFullyQualifiedName().equals(fqn);
+				if (rel.getRelationshipAEnd().getType().equals(targetType) && !isSame) {
 					hasExistingReference = true;
 				}
 				
 				// Check everything - except myself!
-				if (! rel.equals(association)){
+				if (!isSame){
 					ends.add(rel.getRelationshipZEnd());
 				} else if ((rel.getRelationshipAEnd().getType().equals(targetType) ||
-						    rel.getRelationshipZEnd().getType().equals(targetType))&&
-						    ! rel.equals(association)){
+						    rel.getRelationshipZEnd().getType().equals(targetType)) && !isSame){
 					ends.add(rel.getRelationshipZEnd());
 					
 				} 			
@@ -657,30 +661,36 @@ public class ComponentNameProvider implements IComponentNameProvider{
 				ends.clear();
 				for (IRelationship rel : session.getOriginatingRelationshipForFQN(
 						targetType.getFullyQualifiedName(), true)){
-					if (rel.getRelationshipZEnd().getType().equals(sourceType) && !rel.equals(association)){
+					boolean isSame = rel.equals(association)
+							|| rel.getFullyQualifiedName().equals(fqn);
+					if (rel.getRelationshipZEnd().getType().equals(sourceType)
+							&& !isSame) {
 						hasExistingReference = true;
 					}
 					if (selfReference){
 						// Check everything - except myself!
-						if (! rel.equals(association)){
+						if (!isSame){
 							ends.add(rel.getRelationshipAEnd());
 						}
 					} else if (rel.getRelationshipZEnd().getType().equals(sourceType) &&
-							! rel.equals(association)){
+							!isSame){
 						ends.add(rel.getRelationshipAEnd());
 
 					}
 				}
 				for (IRelationship rel : session.getTerminatingRelationshipForFQN(
 						targetType.getFullyQualifiedName(), true)){
-					if (rel.getRelationshipAEnd().getType().equals(sourceType) && !rel.equals(association)){
+					boolean isSame = rel.equals(association)
+							|| rel.getFullyQualifiedName().equals(fqn);
+					if (rel.getRelationshipAEnd().getType().equals(sourceType)
+							&& !isSame) {
 						hasExistingReference = true;
 					}
 					// Check everything - except myself!
-					if (! rel.equals(association)){
+					if (!isSame){
 						ends.add(rel.getRelationshipZEnd());
 					} else if (rel.getRelationshipAEnd().getType().equals(sourceType) &&
-							! rel.equals(association)){
+							!isSame){
 						ends.add(rel.getRelationshipZEnd());
 					}
 
