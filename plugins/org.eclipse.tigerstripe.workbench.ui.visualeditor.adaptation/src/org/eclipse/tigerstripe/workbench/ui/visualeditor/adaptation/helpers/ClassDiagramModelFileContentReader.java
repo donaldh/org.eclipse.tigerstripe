@@ -29,9 +29,15 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Dependency;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorFactory;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorPackage;
 
 public class ClassDiagramModelFileContentReader implements
 		IModelFileContentReader {
+
+	public ClassDiagramModelFileContentReader() {
+		VisualeditorPackage vep = VisualeditorPackage.eINSTANCE;
+	}
 
 	public Set<String> getFQNs(DiagramHandle handle)
 			throws TigerstripeException {

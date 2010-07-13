@@ -25,12 +25,17 @@ import org.eclipse.gmf.runtime.emf.core.resources.GMFResourceFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.Instance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
+import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstancediagramPackage;
 import org.eclipse.tigerstripe.workbench.ui.internal.gmf.synchronization.DiagramHandle;
 import org.eclipse.tigerstripe.workbench.ui.internal.gmf.synchronization.IModelFileContentReader;
 
 public class InstanceDiagramModelFileContentReader implements
 		IModelFileContentReader {
 
+	public InstanceDiagramModelFileContentReader() {
+		InstancediagramPackage vep = InstancediagramPackage.eINSTANCE;
+	}
+	
 	public Set<String> getFQNs(DiagramHandle handle)
 			throws TigerstripeException {
 		Set<String> result = new HashSet<String>();
