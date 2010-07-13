@@ -463,8 +463,16 @@
            category="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
            categoryId="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
            defaultHandler="org.eclipse.tigerstripe.workbench.ui.internal.handlers.TigerstripeCommandHandler"
-           description="Open the Tigerstripe plugins dialog"
+           description="Open the Tigerstripe deployed generator dialog"
            id="org.eclipse.tigerstripe.workbench.ui.base.plugins"
+           name="Plugins">
+     </command>
+     <command
+           category="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
+           categoryId="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
+           defaultHandler="org.eclipse.tigerstripe.workbench.ui.internal.handlers.TigerstripeCommandHandler"
+           description="Open the Tigerstripe modules dialog"
+           id="org.eclipse.tigerstripe.workbench.ui.base.modules"
            name="Plugins">
      </command>
      <command
@@ -585,7 +593,14 @@
                  commandId="org.eclipse.tigerstripe.workbench.ui.base.plugins"
                  icon="src/icons/plugin.gif"
                  id="org.eclipse.tigerstripe.workbench.ui.menu.plugins"
-                 label="Plugins..."
+                 label="Deployed Generators..."
+                 style="push">
+           </command>
+           <command
+                 commandId="org.eclipse.tigerstripe.workbench.ui.base.modules"
+                 icon="src/icons/ts_logo.gif"
+                 id="org.eclipse.tigerstripe.workbench.ui.menu.modules"
+                 label="Installed Modules..."
                  style="push">
            </command>
            <separator

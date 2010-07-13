@@ -20,6 +20,7 @@ import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenGenerateInterfaceWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewPatternBasedArtifactWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewPatternBasedProjectWizardAction;
+import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.ModuleDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.PluginsControlDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.ProfileDetailsDialog;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -32,6 +33,7 @@ public class TigerstripeCommandHandler extends AbstractHandler implements IHandl
 	private final String GENERATE_COMMAND ="org.eclipse.tigerstripe.workbench.ui.base.generate";
 	private final String PATTERN_COMMAND ="org.eclipse.tigerstripe.workbench.ui.base.patternBasedCreate";
 	private final String PROJECT_PATTERN_COMMAND ="org.eclipse.tigerstripe.workbench.ui.base.patternBasedProjectCreate";
+	private final String MODULE_COMMAND = "org.eclipse.tigerstripe.workbench.ui.base.modules";
 	
 	public Object execute(ExecutionEvent event)
 		throws ExecutionException {
@@ -44,6 +46,10 @@ public class TigerstripeCommandHandler extends AbstractHandler implements IHandl
 
 		if (id.equals(PLUGIN_COMMAND)){
 			PluginsControlDialog dialog = new PluginsControlDialog(window
+					.getShell());
+			dialog.open();
+		} else if (id.equals(MODULE_COMMAND)){
+			ModuleDialog dialog = new ModuleDialog(window
 					.getShell());
 			dialog.open();
 		} else if (id.equals(PROFILES_COMMAND)){
