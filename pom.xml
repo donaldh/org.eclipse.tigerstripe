@@ -96,7 +96,7 @@
 		<repository>
 			<id>ganymede</id>
 			<layout>p2</layout>
-      <url>http://tigerstripe.cisco.com/drops/build/sites/new-site</url>
+      <url>http://pulse-prd-sj1/update_sites/eclipse/eclipse35_2</url>
       <!--  <url>http://download.eclipse.org/releases/galileo</url>-->
 			<!--
 				<url>http://repository.sonatype.org/content/groups/public</url>
