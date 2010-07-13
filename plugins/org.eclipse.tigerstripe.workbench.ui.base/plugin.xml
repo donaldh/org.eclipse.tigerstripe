@@ -598,7 +598,7 @@
            </command>
            <command
                  commandId="org.eclipse.tigerstripe.workbench.ui.base.modules"
-                 icon="src/icons/ts_logo.gif"
+                 icon="src/icons/ts_logo.gif.gif"
                  id="org.eclipse.tigerstripe.workbench.ui.menu.modules"
                  label="Installed Modules..."
                  style="push">
