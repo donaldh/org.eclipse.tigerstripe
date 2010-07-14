@@ -32,7 +32,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.WorkbenchProfileSessi
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ProjectDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
-import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectsSession;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
@@ -212,12 +211,15 @@ public class TigerstripeCore {
 		for (IProject iProject : root.getProjects()) {
 			ITigerstripeModelProject tProject = (ITigerstripeModelProject) iProject
 					.getAdapter(ITigerstripeModelProject.class);
-			try {
-				if (modelId.equals(tProject.getModelId())) {
-					return tProject;
+			
+			if (tProject != null) {
+				try {
+					if (modelId.equals(tProject.getModelId())) {
+						return tProject;
+					}
+				} catch (Exception e) {
+					// ignore exception
 				}
-			} catch (Exception e) {
-				// ignore exception
 			}
 		}
 		return null;
