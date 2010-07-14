@@ -103,11 +103,15 @@ public class InstanceDiagramSynchronizerUtils {
 			IAbstractArtifact iArtifact) {
 		IAbstractArtifact localArtifact = eArtifact;
 		String iArtifactType = iArtifact.getFullyQualifiedName();
-		do {
+		
+		// Changed due to Bugzilla 319758: NPE during project import
+		while (localArtifact != null) {
 			if (localArtifact.getFullyQualifiedName().equals(iArtifactType))
 				return true;
-		} while ((localArtifact = localArtifact.getExtendedArtifact()) != null);
-
+			
+			localArtifact = localArtifact.getExtendedArtifact();
+		}
+		
 		return false;
 	}
 

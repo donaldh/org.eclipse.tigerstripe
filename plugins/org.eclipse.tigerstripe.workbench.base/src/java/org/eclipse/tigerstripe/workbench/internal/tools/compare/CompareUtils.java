@@ -407,8 +407,10 @@ public class CompareUtils {
 					.iterator();
 			while (bIt.hasNext()) {
 				IStereotypeInstance bInst = bIt.next();
-				if (aInst.getCharacterizingStereotype().equals(
-						bInst.getCharacterizingStereotype())) {
+				
+				// Bugzilla 319758: NPE during project import
+				if ((aInst.getCharacterizingStereotype() != null) && 
+						(aInst.getCharacterizingStereotype().equals(bInst.getCharacterizingStereotype()))) {
 					// compare the values
 					foundit = true;
 					for (IStereotypeAttribute attr : aInst
@@ -466,8 +468,10 @@ public class CompareUtils {
 			aIt = aInstances.iterator();
 			while (aIt.hasNext()) {
 				IStereotypeInstance aInst = aIt.next();
-				if (aInst.getCharacterizingStereotype().equals(
-						bInst.getCharacterizingStereotype())) {
+				
+				// Bugzilla 319758: NPE during project import
+				if ((aInst.getCharacterizingStereotype() != null) && 
+					(aInst.getCharacterizingStereotype().equals(bInst.getCharacterizingStereotype()))) {
 					foundit = true;
 				}
 			}
