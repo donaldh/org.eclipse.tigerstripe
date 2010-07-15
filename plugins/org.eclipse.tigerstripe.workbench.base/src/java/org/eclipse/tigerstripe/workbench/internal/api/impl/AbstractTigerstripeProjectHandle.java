@@ -39,11 +39,7 @@ public abstract class AbstractTigerstripeProjectHandle extends
 
 	public String getName() {
 		
-		try {
-			return getIProject().getName();
-		} catch (TigerstripeException e) {
-			return null;
-		}
+		return getIContainer().getName();  // Modified from getIProject().getName() due to Bugzilla 319896
 	}
 
 	// we keep track of a TStamp on the hanlde when we create it to know
@@ -149,14 +145,22 @@ public abstract class AbstractTigerstripeProjectHandle extends
 
 	private IProject getIProject()
 			throws TigerstripeException {
+		
+		IContainer container = getIContainer();
+		
+		if (container instanceof IProject)
+			return (IProject) container;
+		
+		throw new TigerstripeException("Can't resolve "
+				+ this.getLocation() + " as Eclipse IProject");
+	}
+	
+	// Introduced as a result of Bugzilla 319896
+	private IContainer getIContainer() {
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		File file = new File(this.getLocation().toOSString());
 		IPath path = new Path(file.getAbsolutePath());
-		IContainer container = root.getContainerForLocation(path);
-		if (container instanceof IProject)
-			return (IProject) container;
-		throw new TigerstripeException("Can't resolve "
-				+ this.getLocation() + " as Eclipse IProject");
+		return root.getContainerForLocation(path);
 	}
 
 	public void delete(final boolean force, IProgressMonitor monitor)

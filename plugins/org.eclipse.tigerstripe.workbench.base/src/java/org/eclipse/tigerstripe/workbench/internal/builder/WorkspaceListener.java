@@ -296,7 +296,7 @@ public class WorkspaceListener implements IElementChangedListener,
 			if (IContractSegment.FILE_EXTENSION.equals(res.getFileExtension())) {
 				final ITigerstripeModelProject tsProject = getCorrespondingTSProject(res);
 				try {
-					if (tsProject.getActiveFacet() != null) {
+					if ((tsProject!=null) && (tsProject.getActiveFacet() != null)) {
 						final IFacetReference ref = tsProject.getActiveFacet();
 						if (res.getLocationURI().equals(ref.getURI())) {
 							// Reloading active facet
