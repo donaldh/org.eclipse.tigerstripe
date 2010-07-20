@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.tools.compare;
 import java.util.ArrayList;
 
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjQuerySpecifics;
 
 public class CompareQuery {
@@ -25,17 +26,25 @@ public class CompareQuery {
 				.getIStandardSpecifics();
 		IOssjQuerySpecifics bSpecs = (IOssjQuerySpecifics) bArtifact
 				.getIStandardSpecifics();
-		if (!aSpecs.getReturnedEntityIType().getFullyQualifiedName().equals(
-				bSpecs.getReturnedEntityIType().getFullyQualifiedName())) {
+		IType aType = aSpecs.getReturnedEntityIType();
+		String aName = "";
+		if (aType != null)
+			aName = aType.getFullyQualifiedName();
+		
+		IType bType = bSpecs.getReturnedEntityIType();
+		String bName = "";
+		if (bType != null)
+			bName = bType.getFullyQualifiedName();
+		
+		
+		if (!aName.equals(bName)) {
 			differences.add(new Difference(
 					// "","Artifact QuerySpecifics",
 					// aArtifact.getFullyQualifiedName(),
 					// "ReturnedEntityType",aSpecs.getReturnedEntityIType().getFullyQualifiedName(),bSpecs.getReturnedEntityIType().getFullyQualifiedName()));
 					"value", aArtifact.getFullyQualifiedName(), bArtifact
 							.getFullyQualifiedName(), "Query:Specifics",
-					"ReturnedEntityType", aSpecs.getReturnedEntityIType()
-							.getFullyQualifiedName(), bSpecs
-							.getReturnedEntityIType().getFullyQualifiedName()));
+					"ReturnedEntityType", aName, bName));
 		}
 		return differences;
 	}
