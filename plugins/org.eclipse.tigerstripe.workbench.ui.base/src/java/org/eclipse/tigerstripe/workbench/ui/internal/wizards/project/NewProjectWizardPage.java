@@ -47,27 +47,27 @@ import org.eclipse.tigerstripe.workbench.ui.internal.preferences.GenerationPrefe
 
 public class NewProjectWizardPage extends WizardPage {
 
-	private Label defaultArtifactPackageLabel;
+	protected Label defaultArtifactPackageLabel;
 
-	private Text defaultArtifactPackageText;
+	protected Text defaultArtifactPackageText;
 
-	private Text projectNameText;
+	protected Text projectNameText;
 
-	private Text projectDirectoryText;
+	protected Text projectDirectoryText;
 
-	private String projectDirectory;
+	protected String projectDirectory;
 
-	private Button inWorkspaceButton;
+	protected Button inWorkspaceButton;
 
-	private Button externalLocationButton;
+	protected Button externalLocationButton;
 
-	private Button directoryBrowseButton;
+	protected Button directoryBrowseButton;
 
-	private Label directoryLabel;
+	protected Label directoryLabel;
 
-	private String externalDirectoryPath = "";
+	protected String externalDirectoryPath = "";
 
-	private IPath defaultDirectoryPath;
+	protected IPath defaultDirectoryPath;
 
 	protected String getProjectName() {
 		return projectNameText.getText().trim();
@@ -274,7 +274,7 @@ public class NewProjectWizardPage extends WizardPage {
 	 * the container field.
 	 */
 
-	private void handleBrowse() {
+	public void handleBrowse() {
 
 		DirectoryDialog dd = new DirectoryDialog(getShell());
 		dd.setMessage("Select New File Container");
@@ -310,7 +310,7 @@ public class NewProjectWizardPage extends WizardPage {
 	 * Ensures that both text fields are set.
 	 */
 
-	private void updatePage() {
+	public void updatePage() {
 
 		String message = null;
 
