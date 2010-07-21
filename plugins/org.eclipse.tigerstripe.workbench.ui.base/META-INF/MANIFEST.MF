@@ -13,7 +13,8 @@ Require-Bundle: org.eclipse.ui.editors,
  org.eclipse.gmf.runtime.diagram.ui.resources.editor,
  org.eclipse.search,
  org.eclipse.tigerstripe.workbench.base;visibility:=reexport,
- org.eclipse.tigerstripe.annotation.ui
+ org.eclipse.tigerstripe.annotation.ui,
+ org.eclipse.ui.navigator
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.tigerstripe.workbench.ui,
  org.eclipse.tigerstripe.workbench.ui.internal.actions,

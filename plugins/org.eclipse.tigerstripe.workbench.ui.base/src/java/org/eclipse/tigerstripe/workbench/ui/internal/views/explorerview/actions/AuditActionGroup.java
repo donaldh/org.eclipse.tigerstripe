@@ -18,12 +18,11 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenGenerateInterfaceWizardAction;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.IWorkbenchSite;
+import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.actions.ActionFactory;
-import org.eclipse.ui.actions.ActionGroup;
 import org.eclipse.ui.actions.BuildAction;
 import org.eclipse.ui.ide.IDEActionFactory;
+import org.eclipse.ui.navigator.ICommonActionExtensionSite;
 
 /**
  * Contributes all build related actions to the context menu and installs
@@ -35,27 +34,15 @@ import org.eclipse.ui.ide.IDEActionFactory;
  * 
  * @since 2.0
  */
-public class AuditActionGroup extends ActionGroup {
-
-	private IWorkbenchSite fSite;
+public class AuditActionGroup extends BaseActionProvider {
 
 	private BuildAction fBuildAction;
 	private OpenGenerateInterfaceWizardAction fGenerateAction;
 	private RefreshAction fRefreshAction;
 
-	/**
-	 * Creates a new <code>BuildActionGroup</code>. The group requires that the
-	 * selection provided by the view part's selection provider is of type
-	 * <code>org.eclipse.jface.viewers.IStructuredSelection</code>.
-	 * 
-	 * @param part
-	 *            the view part that owns this action group
-	 */
-	public AuditActionGroup(IViewPart part) {
-		fSite = part.getSite();
-		ISelectionProvider provider = fSite.getSelectionProvider();
-
-		fBuildAction = new AuditAction(fSite,
+	@Override
+	protected void doInit(IWorkbenchPartSite site) {
+		fBuildAction = new AuditAction(site,
 				IncrementalProjectBuilder.CLEAN_BUILD);
 		fBuildAction.setText("Clean Audit Now");
 		fBuildAction
@@ -64,8 +51,10 @@ public class AuditActionGroup extends ActionGroup {
 		fGenerateAction = new OpenGenerateInterfaceWizardAction();
 		fGenerateAction.setText("Generate...");
 
-		fRefreshAction = new RefreshAction(fSite);
+		fRefreshAction = new RefreshAction(site);
 		fRefreshAction.setActionDefinitionId("org.eclipse.ui.file.refresh"); //$NON-NLS-1$
+
+		ISelectionProvider provider = site.getSelectionProvider();
 
 		provider.addSelectionChangedListener(fBuildAction);
 		provider.addSelectionChangedListener(fRefreshAction);
@@ -107,7 +96,7 @@ public class AuditActionGroup extends ActionGroup {
 	 */
 	@Override
 	public void dispose() {
-		ISelectionProvider provider = fSite.getSelectionProvider();
+		ISelectionProvider provider = getSelectionProvider();
 		provider.removeSelectionChangedListener(fBuildAction);
 		provider.removeSelectionChangedListener(fRefreshAction);
 		super.dispose();

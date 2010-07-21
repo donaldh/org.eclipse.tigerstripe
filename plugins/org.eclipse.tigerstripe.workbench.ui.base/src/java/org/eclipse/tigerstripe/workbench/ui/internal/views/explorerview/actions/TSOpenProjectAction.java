@@ -1,4 +1,4 @@
-package org.eclipse.tigerstripe.workbench.ui.internal.actions;
+package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ public class TSOpenProjectAction extends OpenProjectAction {
 	}
 	
 	public void run(IStructuredSelection selection) {
-		ArrayList allClosedProjects= new ArrayList();
+		ArrayList<Object> allClosedProjects= new ArrayList<Object>();
 		if (evaluateSelection(selection, allClosedProjects)) {
 			fWorkbenchAction.selectionChanged(new StructuredSelection(allClosedProjects));
 			fWorkbenchAction.run();
@@ -49,9 +49,8 @@ public class TSOpenProjectAction extends OpenProjectAction {
 		}
 	}
 	
-	private boolean evaluateSelection(IStructuredSelection selection, List allClosedProjects) {
+	private boolean evaluateSelection(IStructuredSelection selection, List<Object> allClosedProjects) {
 		Object[] array= selection.toArray();
-		int selectionStatus = 0;
 		boolean result = false;
 		for (int i= 0; i < array.length; i++) {
 			Object curr= array[i];

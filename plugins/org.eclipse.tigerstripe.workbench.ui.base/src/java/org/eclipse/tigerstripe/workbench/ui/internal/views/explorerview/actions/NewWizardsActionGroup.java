@@ -52,8 +52,6 @@ import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewEnumerationW
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewInterfaceWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewPackageWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewPatternBasedArtifactWizardAction;
-import org.eclipse.ui.IWorkbenchSite;
-import org.eclipse.ui.actions.ActionGroup;
 import org.eclipse.ui.actions.NewProjectAction;
 import org.eclipse.ui.actions.NewWizardAction;
 
@@ -63,19 +61,7 @@ import org.eclipse.ui.actions.NewWizardAction;
  * @author Eric Dillon
  * @since 1.2
  */
-public class NewWizardsActionGroup extends ActionGroup {
-
-	/**
-	 * Creates a new <code>NewWizardsActionGroup</code>. The group requires
-	 * that the selection provided by the part's selection provider is of type
-	 * <code>
-	 * org.eclipse.jface.viewers.IStructuredSelection</code>.
-	 * 
-	 * @param site
-	 *            the view part that owns this action group
-	 */
-	public NewWizardsActionGroup(IWorkbenchSite site) {
-	}
+public class NewWizardsActionGroup extends BaseActionProvider {
 
 	/*
 	 * (non-Javadoc) Method declared in ActionGroup
@@ -128,7 +114,8 @@ public class NewWizardsActionGroup extends ActionGroup {
 					// If Tigerstripe project then offer all artifacts
 					try {
 						if (TigerstripeProjectNature.hasNature(iProject)) {
-							ITigerstripeModelProject modelProject = (ITigerstripeModelProject) iProject.getAdapter(ITigerstripeModelProject.class);
+							ITigerstripeModelProject modelProject = (ITigerstripeModelProject) iProject
+									.getAdapter(ITigerstripeModelProject.class);
 							// @since 1.2
 							// All core artifacts are conditioned by the active
 							// profile
@@ -141,28 +128,35 @@ public class NewWizardsActionGroup extends ActionGroup {
 							newMenu.add(new NewProjectAction());
 							newMenu.add(new Separator());
 
-							for (String patternName : PatternFactory.getInstance().getRegisteredPatterns().keySet()){
-								IPattern pattern = PatternFactory.getInstance().getPattern(patternName);
-								if (pattern instanceof IArtifactPattern){
-									newMenu.add(new OpenNewPatternBasedArtifactWizardAction(pattern));
+							for (String patternName : PatternFactory
+									.getInstance().getRegisteredPatterns()
+									.keySet()) {
+								IPattern pattern = PatternFactory.getInstance()
+										.getPattern(patternName);
+								if (pattern instanceof IArtifactPattern) {
+									newMenu
+											.add(new OpenNewPatternBasedArtifactWizardAction(
+													pattern));
 								}
 
-								
 							}
 
 							newMenu.add(new Separator());
 							addContributedActions(newMenu);
 
 							newMenu.add(new Separator());
-							// If Package Artifacts are enabled - we call the new Package Artifact 
+							// If Package Artifacts are enabled - we call the
+							// new Package Artifact
 							// dialog instead of the standard add package!
-							// Leave it here for consistency (even though it will be in the menu twice).
+							// Leave it here for consistency (even though it
+							// will be in the menu twice).
 							// TODO Review in light of custom artifacts...
 							if (prop.getDetailsForType(
 									IPackageArtifact.class.getName())
 									.isEnabled()) {
-								//newMenu
-								//.add(new OpenNewPackageArtifactWizardAction());
+								// newMenu
+								// .add(new
+								// OpenNewPackageArtifactWizardAction());
 							} else {
 								newMenu.add(new OpenNewPackageWizardAction());
 							}
@@ -209,22 +203,24 @@ public class NewWizardsActionGroup extends ActionGroup {
 	}
 
 	private void addContributedActions(IMenuManager newMenu) {
-		//		IExtension[] extensions = EclipsePlugin.getDefault().getDescriptor()
-		//				.getExtensionPoint("explorerMenuContribution").getExtensions();
+		// IExtension[] extensions = EclipsePlugin.getDefault().getDescriptor()
+		// .getExtensionPoint("explorerMenuContribution").getExtensions();
 
-		IExtensionPoint point = Platform.getExtensionRegistry().getExtensionPoint(EclipsePlugin.getPluginId(), "explorerMenuContribution");
-		if (point != null){
+		IExtensionPoint point = Platform.getExtensionRegistry()
+				.getExtensionPoint(EclipsePlugin.getPluginId(),
+						"explorerMenuContribution");
+		if (point != null) {
 			IExtension[] extensions = point.getExtensions();
-
 
 			for (IExtension extension : extensions) {
 				IConfigurationElement[] configElements = extension
-				.getConfigurationElements();
+						.getConfigurationElements();
 				for (IConfigurationElement configElement : configElements) {
-					String actionClass = configElement.getAttribute("actionClass");
+					String actionClass = configElement
+							.getAttribute("actionClass");
 					try {
 						IAction action = (IAction) configElement
-						.createExecutableExtension("actionClass");
+								.createExecutableExtension("actionClass");
 						newMenu.add(action);
 					} catch (CoreException e) {
 						EclipsePlugin.log(e);
@@ -232,7 +228,9 @@ public class NewWizardsActionGroup extends ActionGroup {
 				}
 			}
 		} else {
-			EclipsePlugin.log(new TigerstripeException("Did not find 'explorerMenuContribution' extension point!"));
+			EclipsePlugin
+					.log(new TigerstripeException(
+							"Did not find 'explorerMenuContribution' extension point!"));
 		}
 	}
 

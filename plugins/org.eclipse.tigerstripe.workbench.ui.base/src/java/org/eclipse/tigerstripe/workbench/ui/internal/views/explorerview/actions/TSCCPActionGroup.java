@@ -19,11 +19,8 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.IWorkbenchSite;
+import org.eclipse.ui.IWorkbenchPartSite;
 import org.eclipse.ui.actions.ActionFactory;
-import org.eclipse.ui.actions.ActionGroup;
-import org.eclipse.ui.part.Page;
 import org.eclipse.ui.texteditor.IWorkbenchActionDefinitionIds;
 
 /**
@@ -36,9 +33,8 @@ import org.eclipse.ui.texteditor.IWorkbenchActionDefinitionIds;
  * 
  * @since 2.0
  */
-public class TSCCPActionGroup extends ActionGroup {
+public class TSCCPActionGroup extends BaseActionProvider {
 
-	private IWorkbenchSite fSite;
 	private Clipboard fClipboard;
 
 	private SelectionDispatchAction[] fActions;
@@ -48,45 +44,20 @@ public class TSCCPActionGroup extends ActionGroup {
 	private SelectionDispatchAction fPasteAction;
 	private SelectionDispatchAction fCutAction;
 
-	/**
-	 * Creates a new <code>CCPActionGroup</code>. The group requires that the
-	 * selection provided by the view part's selection provider is of type
-	 * <code>org.eclipse.jface.viewers.IStructuredSelection</code>.
-	 * 
-	 * @param part
-	 *            the view part that owns this action group
-	 */
-	public TSCCPActionGroup(IViewPart part) {
-		this(part.getSite());
-	}
-
-	/**
-	 * Creates a new <code>CCPActionGroup</code>. The group requires that the
-	 * selection provided by the page's selection provider is of type
-	 * <code>org.eclipse.jface.viewers.IStructuredSelection</code>.
-	 * 
-	 * @param page
-	 *            the page that owns this action group
-	 */
-	public TSCCPActionGroup(Page page) {
-		this(page.getSite());
-	}
-
-	private TSCCPActionGroup(IWorkbenchSite site) {
-		fSite = site;
+	@Override
+	protected void doInit(IWorkbenchPartSite site) {
 		fClipboard = new Clipboard(site.getShell().getDisplay());
 
-		fPasteAction = new PasteAction(fSite, fClipboard);
+		fPasteAction = new PasteAction(site, fClipboard);
 		fPasteAction.setActionDefinitionId(IWorkbenchActionDefinitionIds.PASTE);
 
-		fCopyAction = new TSCopyToClipboadAction(fSite, fClipboard,
-				fPasteAction);
+		fCopyAction = new TSCopyToClipboadAction(site, fClipboard, fPasteAction);
 		fCopyAction.setActionDefinitionId(IWorkbenchActionDefinitionIds.COPY);
 
 		fCutAction = getCutActionInstance();
 		fCutAction.setActionDefinitionId(IWorkbenchActionDefinitionIds.CUT);
 
-		fDeleteAction = new TSDeleteAction(fSite);
+		fDeleteAction = new TSDeleteAction(site);
 		fDeleteAction
 				.setActionDefinitionId(IWorkbenchActionDefinitionIds.DELETE);
 
@@ -96,19 +67,19 @@ public class TSCCPActionGroup extends ActionGroup {
 	}
 
 	private SelectionDispatchAction getCutActionInstance() {
-		CutAction action = new CutAction(fSite);
+		CutAction action = new CutAction(getSite());
 		return action;
 	}
 
 	private void registerActionsAsSelectionChangeListeners() {
-		ISelectionProvider provider = fSite.getSelectionProvider();
+		ISelectionProvider provider = getSelectionProvider();
 		for (int i = 0; i < fActions.length; i++) {
 			provider.addSelectionChangedListener(fActions[i]);
 		}
 	}
 
 	private void deregisterActionsAsSelectionChangeListeners() {
-		ISelectionProvider provider = fSite.getSelectionProvider();
+		ISelectionProvider provider = getSelectionProvider();
 		for (int i = 0; i < fActions.length; i++) {
 			provider.removeSelectionChangedListener(fActions[i]);
 		}

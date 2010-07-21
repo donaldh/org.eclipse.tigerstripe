@@ -23,8 +23,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbe
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
-import org.eclipse.ui.IWorkbenchSite;
-import org.eclipse.ui.actions.ActionGroup;
 
 /**
  * Action group for all new wizards within the Tigerstripe Explorer.
@@ -32,22 +30,7 @@ import org.eclipse.ui.actions.ActionGroup;
  * @author Richard Craddock
  * @since 1.2
  */
-public class PackageActionGroup extends ActionGroup {
-
-	private IWorkbenchSite site ;
-	
-	/**
-	 * Creates a new <code>NewWizardsActionGroup</code>. The group requires
-	 * that the selection provided by the part's selection provider is of type
-	 * <code>
-	 * org.eclipse.jface.viewers.IStructuredSelection</code>.
-	 * 
-	 * @param site
-	 *            the view part that owns this action group
-	 */
-	public PackageActionGroup(IWorkbenchSite site) {
-		this.site = site;
-	}
+public class PackageActionGroup extends BaseActionProvider {
 
 	/*
 	 * (non-Javadoc) Method declared in ActionGroup
@@ -56,19 +39,17 @@ public class PackageActionGroup extends ActionGroup {
 	public void fillContextMenu(IMenuManager menu) {
 		super.fillContextMenu(menu);
 		IStructuredSelection selection = (IStructuredSelection) getContext()
-		.getSelection();
+				.getSelection();
 		Object element = selection.getFirstElement();
 		if (selection instanceof IStructuredSelection) {
-			
+
 			// Check if this is a package, then if packages are enabled..
-			if (element instanceof IPackageFragment){
+			if (element instanceof IPackageFragment) {
 				IWorkbenchProfile profile = TigerstripeCore
-					.getWorkbenchProfileSession()
-					.getActiveProfile();
+						.getWorkbenchProfileSession().getActiveProfile();
 				CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
-					.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
-				if (prop.getDetailsForType(
-						IPackageArtifact.class.getName())
+						.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
+				if (prop.getDetailsForType(IPackageArtifact.class.getName())
 						.isEnabled()) {
 
 					addOpenEditorAction(menu, element);
@@ -89,9 +70,8 @@ public class PackageActionGroup extends ActionGroup {
 
 		if (!(element instanceof IContainer))
 			return;
-		Action newAction = new OpenPackageArtifactEditorAction(site);
+		Action newAction = new OpenPackageArtifactEditorAction(getSite());
 		newAction.setText("Open Package Artifact in Editor");
-		menu.prependToGroup(IContextMenuConstants.GROUP_NEW,
-				newAction);
+		menu.prependToGroup(IContextMenuConstants.GROUP_NEW, newAction);
 	}
 }
