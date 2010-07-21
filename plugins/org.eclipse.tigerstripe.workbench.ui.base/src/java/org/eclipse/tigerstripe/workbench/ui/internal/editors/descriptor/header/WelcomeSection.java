@@ -18,7 +18,6 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 public class WelcomeSection extends TigerstripeDescriptorSectionPart {
 
@@ -30,10 +29,6 @@ public class WelcomeSection extends TigerstripeDescriptorSectionPart {
 
 	@Override
 	protected void createContent() {
-		TableWrapLayout layout = new TableWrapLayout();
-		layout.numColumns = 2;
-		getSection().setLayout(layout);
-
 		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
 		td.colspan = 2;
 		getSection().setLayoutData(td);
@@ -50,7 +45,6 @@ public class WelcomeSection extends TigerstripeDescriptorSectionPart {
 		String data = "<form><p><b>Welcome to Tigerstripe Workbench.</b></p></form>";
 		FormText rtext = toolkit.createFormText(parent, true);
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		// td.colspan = 2;
 		rtext.setLayoutData(td);
 		rtext.setText(data, true, false);
 		rtext.addHyperlinkListener(new HyperlinkAdapter() {

@@ -28,6 +28,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
@@ -40,13 +41,12 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.TigerstripeProjectSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutUtil;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.DescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.TigerstripeDescriptorSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.TableWrapData;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.eclipse.ui.part.FileEditorInput;
 
 public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart {
@@ -136,42 +136,35 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 	public ReferencedProjectsSection(TigerstripeFormPage page,
 			Composite parent, FormToolkit toolkit) {
 		super(page, parent, toolkit, ExpandableComposite.TITLE_BAR);
-
 		setTitle("Referenced Tigerstripe Projects");
-		getSection().marginWidth = 10;
-		getSection().marginHeight = 5;
-		getSection().clientVerticalSpacing = 4;
 		createContent();
 	}
 
 	@Override
 	protected void createContent() {
-		TableWrapLayout layout = new TableWrapLayout();
-		layout.numColumns = 2;
-		getSection().setLayout(layout);
-
-		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
+		GridData td = new GridData(GridData.FILL_BOTH);
 		getSection().setLayoutData(td);
 
-		getSection().clientVerticalSpacing = 5;
+		Composite client = TigerstripeLayoutUtil.createSectionBodyGridLayout(
+				getSection(), getToolkit(), 2);
 
-		Composite body = getBody();
-		body.setLayout(layout);
-		createTable(getBody(), getToolkit());
+		createTable(client, getToolkit());
 
-		getSection().setClient(getBody());
-		getToolkit().paintBordersFor(getBody());
+		getSection().setClient(client);
+		getToolkit().paintBordersFor(client);
 	}
 
 	private void createTable(Composite parent, FormToolkit toolkit) {
-
 		Table t = toolkit.createTable(parent, SWT.NULL);
-		TableWrapData twd = new TableWrapData(TableWrapData.FILL_GRAB);
-		twd.rowspan = 2;
-		twd.heightHint = 150;
+		GridData twd = new GridData(GridData.FILL_BOTH);
+		twd.verticalSpan = 2;
+		// twd.heightHint = 150;
 		t.setLayoutData(twd);
 
-		Button addButton = toolkit.createButton(parent, "Add", SWT.PUSH);
+		Composite buttonsClient = TigerstripeLayoutUtil.createButtonsClient(
+				parent, toolkit);
+
+		Button addButton = toolkit.createButton(buttonsClient, "Add", SWT.PUSH);
 		addButton.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
@@ -180,8 +173,8 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 				addButtonSelected();
 			}
 		});
-		addButton.setLayoutData(new TableWrapData(TableWrapData.FILL));
-		removeButton = toolkit.createButton(parent, "Remove", SWT.PUSH);
+		addButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		removeButton = toolkit.createButton(buttonsClient, "Remove", SWT.PUSH);
 		removeButton.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}

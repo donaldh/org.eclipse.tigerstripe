@@ -39,7 +39,6 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.Tigerstr
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 
@@ -92,10 +91,6 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 
 	@Override
 	protected void createContent() {
-		TableWrapLayout layout = new TableWrapLayout();
-		layout.numColumns = 2;
-		getSection().setLayout(layout);
-
 		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
 		getSection().setLayoutData(td);
 
@@ -127,7 +122,7 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 		boolean changeAbility = !this.isReadonly();
 		Composite panel = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
-		layout.horizontalSpacing = 0;
+		layout.horizontalSpacing = 5;
 		layout.verticalSpacing = 0;
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;

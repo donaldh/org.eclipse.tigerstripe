@@ -27,6 +27,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.module.InvalidModuleExcep
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutUtil;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
@@ -49,15 +50,13 @@ public class DescriptorDependenciesDetailsPage implements IDetailsPage {
 	}
 
 	public void createContents(Composite parent) {
-		TableWrapLayout twLayout = new TableWrapLayout();
-		twLayout.numColumns = 1;
-		parent.setLayout(twLayout);
-		TableWrapData td = new TableWrapData(TableWrapData.FILL);
-		td.heightHint = 200;
-		parent.setLayoutData(td);
-
+		TableWrapLayout layout = new TableWrapLayout();
+		layout.bottomMargin = layout.topMargin = 0;
+		layout.leftMargin = 5;
+		layout.rightMargin = 0;
+		parent.setLayout(layout);
+		parent.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		createFieldInfo(parent);
-
 		form.getToolkit().paintBordersFor(parent);
 	}
 
@@ -86,8 +85,8 @@ public class DescriptorDependenciesDetailsPage implements IDetailsPage {
 	private void createFieldInfo(Composite parent) {
 		FormToolkit toolkit = form.getToolkit();
 
-		Section section = toolkit.createSection(parent,
-				ExpandableComposite.NO_TITLE);
+		Section section = TigerstripeLayoutUtil.createSection(parent, toolkit,
+				ExpandableComposite.TITLE_BAR, "Dependency Details", null);
 		section.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		Composite sectionClient = toolkit.createComposite(section);
@@ -95,7 +94,7 @@ public class DescriptorDependenciesDetailsPage implements IDetailsPage {
 		GridLayout gLayout = new GridLayout();
 		gLayout.numColumns = 2;
 		sectionClient.setLayout(gLayout);
-		sectionClient.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		sectionClient.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		Label label = toolkit.createLabel(sectionClient, "Module ID: ");
 		moduleId = toolkit.createText(sectionClient, "");
@@ -128,14 +127,14 @@ public class DescriptorDependenciesDetailsPage implements IDetailsPage {
 		projectVersion.setEnabled(false);
 
 		label = toolkit.createLabel(sectionClient, "Description: ");
+		label.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
 		projectDescription = toolkit.createText(sectionClient, "", SWT.WRAP
 				| SWT.MULTI);
-		projectDescription
-				.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		projectDescription.setEditable(false);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.heightHint = 70;
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		gd.minimumHeight = 20;
+		gd.grabExcessVerticalSpace = true;
 		projectDescription.setLayoutData(gd);
+		projectDescription.setEditable(false);
 		projectDescription.setEnabled(false);
 
 		section.setClient(sectionClient);

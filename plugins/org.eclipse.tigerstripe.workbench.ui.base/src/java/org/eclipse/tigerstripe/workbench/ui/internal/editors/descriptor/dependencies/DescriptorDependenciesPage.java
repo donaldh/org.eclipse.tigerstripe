@@ -12,18 +12,18 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.depende
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutUtil;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 public class DescriptorDependenciesPage extends TigerstripeFormPage {
 
 	public static final String PAGE_ID = "descriptor.dependencies"; //$NON-NLS-1$
 
 	private IManagedForm managedForm;
-	
+
 	public DescriptorDependenciesPage(FormEditor editor) {
 		super(editor, PAGE_ID, "Dependencies");
 	}
@@ -52,15 +52,7 @@ public class DescriptorDependenciesPage extends TigerstripeFormPage {
 
 	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {
 		Composite body = managedForm.getForm().getBody();
-		TableWrapLayout layout = new TableWrapLayout();
-		layout.bottomMargin = 10;
-		layout.topMargin = 5;
-		layout.leftMargin = 10;
-		layout.rightMargin = 10;
-		layout.numColumns = 2;
-		layout.verticalSpacing = 30;
-		layout.horizontalSpacing = 10;
-		body.setLayout(layout);
+		body.setLayout(TigerstripeLayoutUtil.createPageGridLayout(2, true));
 
 		// sections
 		managedForm.addPart(new DescriptorDependenciesSection(this, body,

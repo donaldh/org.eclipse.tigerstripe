@@ -24,6 +24,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutUtil;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
@@ -46,15 +47,13 @@ public class FacetReferencesDetailsPage implements IDetailsPage {
 	}
 
 	public void createContents(Composite parent) {
-		TableWrapLayout twLayout = new TableWrapLayout();
-		twLayout.numColumns = 1;
-		parent.setLayout(twLayout);
-		TableWrapData td = new TableWrapData(TableWrapData.FILL);
-		td.heightHint = 200;
-		parent.setLayoutData(td);
-
+		TableWrapLayout layout = new TableWrapLayout();
+		layout.bottomMargin = layout.topMargin = 0;
+		layout.leftMargin = 5;
+		layout.rightMargin = 0;
+		parent.setLayout(layout);
+		parent.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		createFieldInfo(parent);
-
 		form.getToolkit().paintBordersFor(parent);
 	}
 
@@ -79,8 +78,8 @@ public class FacetReferencesDetailsPage implements IDetailsPage {
 	private void createFieldInfo(Composite parent) {
 		FormToolkit toolkit = form.getToolkit();
 
-		Section section = toolkit.createSection(parent,
-				ExpandableComposite.NO_TITLE);
+		Section section = TigerstripeLayoutUtil.createSection(parent, toolkit,
+				ExpandableComposite.TITLE_BAR, "Facet Reference Details", null);
 		section.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		Composite sectionClient = toolkit.createComposite(section);
@@ -88,7 +87,7 @@ public class FacetReferencesDetailsPage implements IDetailsPage {
 		GridLayout gLayout = new GridLayout();
 		gLayout.numColumns = 2;
 		sectionClient.setLayout(gLayout);
-		sectionClient.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		sectionClient.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		Label label = toolkit.createLabel(sectionClient, "Name: ");
 		facetName = toolkit.createText(sectionClient, "");

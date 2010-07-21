@@ -10,21 +10,34 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors;
 
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.ColorUtils;
+import org.eclipse.ui.forms.IFormColors;
+import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.editor.FormPage;
+import org.eclipse.ui.forms.widgets.Form;
 
 public abstract class TigerstripeFormPage extends FormPage {
 
 	public TigerstripeFormPage(FormEditor editor, String id, String title) {
 		super(editor, id, title);
-		// TODO Auto-generated constructor stub
 	}
 
 	public TigerstripeFormPage(String id, String title) {
 		super(id, title);
-		// TODO Auto-generated constructor stub
+	}
+	
+	@Override
+	protected void createFormContent(IManagedForm managedForm) {
+		super.createFormContent(managedForm);
+		Form form = managedForm.getForm().getForm();
+		setTSLooknfeel(managedForm, form);
+	}
+
+	protected void setTSLooknfeel(IManagedForm managedForm, Form form) {
+		managedForm.getToolkit().decorateFormHeading(form);
+		form.setHeadColor(IFormColors.H_BOTTOM_KEYLINE2, ColorUtils.TS_ORANGE);
 	}
 
 	public abstract void refresh();
-
 }

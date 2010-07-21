@@ -34,7 +34,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -48,6 +47,7 @@ import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForFacetsDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.FacetSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutUtil;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.DescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.TigerstripeDescriptorSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
@@ -59,8 +59,6 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.ui.forms.widgets.TableWrapData;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 		implements IFormPart {
@@ -71,12 +69,7 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 
 	public FacetReferencesSection(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit) {
-		super(page, parent, toolkit, ExpandableComposite.TITLE_BAR);
-		setTitle("&Facet References");
-		getSection().marginWidth = 10;
-		getSection().marginHeight = 5;
-		getSection().clientVerticalSpacing = 4;
-
+		super(page, parent, toolkit, ExpandableComposite.NO_TITLE);
 		createContent();
 		updateMaster();
 	}
@@ -96,25 +89,22 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 		final ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = getToolkit();
 
-		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.colspan = 2;
+		GridData td = new GridData(GridData.FILL_BOTH);
+		td.horizontalSpan = 2;
 		getSection().setLayoutData(td);
 
 		Composite body = getToolkit().createComposite(getSection());
 		GridLayout layout = new GridLayout();
-		layout.marginWidth = 5;
-		layout.marginHeight = 5;
+		layout.marginHeight = layout.marginWidth = 0;
+		layout.verticalSpacing = layout.horizontalSpacing = 0;
 		body.setLayout(layout);
 		sashForm = new SashForm(body, SWT.HORIZONTAL);
 		toolkit.adapt(sashForm, false, false);
 		sashForm.setMenu(body.getMenu());
 		sashForm.setToolTipText("Define/Edit attributes for this Artifact.");
-		sashForm.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		sashForm.setLayoutData(new GridData(GridData.FILL_BOTH));
 		createMasterPart(managedForm, sashForm);
 		createDetailsPart(managedForm, sashForm);
-		createToolBarActions(managedForm);
-		sashForm.setWeights(new int[] { 30, 70 });
-		form.updateToolBar();
 
 		getSection().setClient(body);
 		getToolkit().paintBordersFor(body);
@@ -199,23 +189,26 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 
 		FormToolkit toolkit = getToolkit();
 
-		Section section = toolkit.createSection(parent,
-				ExpandableComposite.NO_TITLE);
+		Section section = TigerstripeLayoutUtil.createSection(parent, toolkit,
+				ExpandableComposite.TITLE_BAR, "&Facet References", null);
 
 		Composite sectionClient = toolkit.createComposite(section);
-		TableWrapLayout twlayout = new TableWrapLayout();
+		GridLayout twlayout = new GridLayout();
 		twlayout.numColumns = 2;
 		sectionClient.setLayout(twlayout);
 
 		Table t = toolkit.createTable(sectionClient, SWT.NULL);
-		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.rowspan = 3;
-		td.heightHint = 150;
+		GridData td = new GridData(GridData.FILL_BOTH);
+		td.heightHint = 185;
 		t.setLayoutData(td);
 
-		addAttributeButton = toolkit.createButton(sectionClient, "Add",
+		Composite buttonsClient = TigerstripeLayoutUtil.createButtonsClient(
+				sectionClient, toolkit);
+
+		addAttributeButton = toolkit.createButton(buttonsClient, "Add",
 				SWT.PUSH);
-		addAttributeButton.setLayoutData(new TableWrapData(TableWrapData.FILL));
+		addAttributeButton
+				.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		addAttributeButton.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent event) {
 				addButtonSelected(event);
@@ -226,12 +219,12 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 			}
 		});
 
-		addFromDependencies = toolkit.createButton(sectionClient,
+		addFromDependencies = toolkit.createButton(buttonsClient,
 				"Add From...", SWT.PUSH);
 		addFromDependencies
 				.setToolTipText("Select facets from Referenced Projects");
 		addFromDependencies
-				.setLayoutData(new TableWrapData(TableWrapData.FILL));
+				.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		addFromDependencies.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent event) {
 				addFromDependenciesButtonSelected(event);
@@ -242,10 +235,10 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 			}
 		});
 
-		removeAttributeButton = toolkit.createButton(sectionClient, "Remove",
+		removeAttributeButton = toolkit.createButton(buttonsClient, "Remove",
 				SWT.PUSH);
-		TableWrapData td1 = new TableWrapData(TableWrapData.FILL);
-		removeAttributeButton.setLayoutData(td1);
+		removeAttributeButton.setLayoutData(new GridData(
+				GridData.FILL_HORIZONTAL));
 		removeAttributeButton.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent event) {
 				removeButtonSelected(event);
@@ -255,11 +248,6 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 				// empty
 			}
 		});
-
-		Label l = toolkit.createLabel(sectionClient, "", SWT.NULL);
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		// td.heightHint = 100;
-		l.setLayoutData(td);
 
 		final IFormPart part = this;
 		viewer = new TableViewer(t);
@@ -275,11 +263,10 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 		AbstractTigerstripeProjectHandle handle = (AbstractTigerstripeProjectHandle) getTSProject();
 		viewer.setInput(handle);
 
-		toolkit.createLabel(sectionClient, "");
 		mergeFacets = toolkit.createButton(sectionClient,
 				"Merge all facets for generation", SWT.CHECK);
-		td = new TableWrapData();
-		td.colspan = 2;
+		td = new GridData();
+		td.horizontalSpan = 2;
 		mergeFacets.setLayoutData(td);
 		mergeFacets.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent event) {

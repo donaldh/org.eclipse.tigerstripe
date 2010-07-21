@@ -27,7 +27,6 @@ import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 public class ProjectDefaultsSection extends TigerstripeDescriptorSectionPart {
 
@@ -81,10 +80,6 @@ public class ProjectDefaultsSection extends TigerstripeDescriptorSectionPart {
 	}
 
 	protected void createContent() {
-		TableWrapLayout layout = new TableWrapLayout();
-		layout.numColumns = 2;
-		getSection().setLayout(layout);
-
 		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
 		td.colspan = 2;
 		getSection().setLayoutData(td);
@@ -123,12 +118,11 @@ public class ProjectDefaultsSection extends TigerstripeDescriptorSectionPart {
 		idLabel.setEnabled(!this.isReadonly());
 
 		idLabel2 = toolkit.createLabel(parent,
-				"Copyright Notice for all files: ", SWT.WRAP);
+				"Copyright Notice for all files: ", SWT.NONE);
 		idText2 = toolkit.createText(parent, handle.getProjectDetails()
 				.getProperty("copyrightNotice", ""), SWT.WRAP | SWT.MULTI
 				| SWT.V_SCROLL);
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.grabVertical = true;
 		td.heightHint = 70;
 		idText2.setLayoutData(td);
 		idText2.addModifyListener(listener);
@@ -140,7 +134,7 @@ public class ProjectDefaultsSection extends TigerstripeDescriptorSectionPart {
 	private void createPreferenceMsg(Composite parent, FormToolkit toolkit) {
 		TableWrapData td = null;
 
-		String data = "<form><p></p><p>To set default values to be reused across multiple Tigerstripe Projects, please use the Tigerstripe <a href=\"http://www.tigerstripedev.net/	\">preferences</a> page.</p></form>";
+		String data = "<form><p>To set default values to be reused across multiple Tigerstripe Projects, please use the Tigerstripe <a href=\"http://www.tigerstripedev.net/	\">preferences</a> page.</p></form>";
 		FormText rtext = toolkit.createFormText(parent, true);
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		td.colspan = 2;
@@ -227,13 +221,13 @@ public class ProjectDefaultsSection extends TigerstripeDescriptorSectionPart {
 
 		try {
 			setSilentUpdate(true);
-			if ( handle != null){
+			if (handle != null) {
 				idText.setText(handle.getProjectDetails().getProperty(
 						IProjectDetails.DEFAULTARTIFACTPACKAGE_PROP, ""));
 				idText2.setText(handle.getProjectDetails().getProperty(
 						IProjectDetails.COPYRIGHT_NOTICE, ""));
 			}
-			
+
 			setSilentUpdate(false);
 
 		} catch (TigerstripeException e) {
