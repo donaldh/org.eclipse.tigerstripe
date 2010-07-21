@@ -20,7 +20,6 @@ import org.eclipse.jdt.ui.IContextMenuConstants;
 import org.eclipse.jdt.ui.PreferenceConstants;
 import org.eclipse.jdt.ui.actions.CustomFiltersActionGroup;
 import org.eclipse.jdt.ui.actions.ImportActionGroup;
-import org.eclipse.jdt.ui.actions.ProjectActionGroup;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -32,6 +31,7 @@ import org.eclipse.jface.viewers.OpenEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.tigerstripe.workbench.ui.internal.actions.TSProjectActionGroup;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TigerstripeExplorerPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TigerstripeFrameSource;
 import org.eclipse.ui.IActionBars;
@@ -83,7 +83,7 @@ public class TigerstripeExplorerActionGroup extends CompositeActionGroup {
 				fRefactorActionGroup = new TSRefactorActionGroup(fPart),
 				new ImportActionGroup(fPart), 
 				new AuditActionGroup(fPart),
-				new ProjectActionGroup(fPart),
+				new TSProjectActionGroup(fPart),
 				new LayoutActionGroup(fPart),
 
 		});
