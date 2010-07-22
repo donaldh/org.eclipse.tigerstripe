@@ -445,97 +445,99 @@ public class PatternFactory implements IPatternFactory {
 		}
 		// TODO - problem if there are NONE ?
 
+
 		final String ddProjectItemName = dropDownProjectItemName;
 		final String ddProjectItemId = dropDownProjectItemId;
-		//=======================
-		int style;
-		
-		if (projectCount ==1){
-			style = CommandContributionItem.STYLE_PUSH;
-		} else {
-			style = CommandContributionItem.STYLE_PULLDOWN;
-		}
+		if (projectCount != 0){
+			//=======================
+			int style;
 
-		final int buttonStyle = style;
-		/*
-		 * This part is for the PROJECT patterns in the DROPDPOWN
-		 * 
-		 */
-		// This section should do whichever one we decide is the "top" level for the drop down
+			if (projectCount ==1){
+				style = CommandContributionItem.STYLE_PUSH;
+			} else {
+				style = CommandContributionItem.STYLE_PULLDOWN;
+			}
 
-		projectPatternToolbarAddition = new AbstractContributionFactory(
-				"toolbar:org.eclipse.tigerstripe.workbench.ui.base.toolbar?after=org.eclipse.tigerstripe.workbench.ui.base.start", null){
+			final int buttonStyle = style;
+			/*
+			 * This part is for the PROJECT patterns in the DROPDPOWN
+			 * 
+			 */
+			// This section should do whichever one we decide is the "top" level for the drop down
 
-			@Override
-			public void createContributionItems(IServiceLocator serviceLocator,
-					IContributionRoot additions) {
-				for (String key : registeredPatterns.keySet()){
-					IPattern pattern = registeredPatterns.get(key);
+			projectPatternToolbarAddition = new AbstractContributionFactory(
+					"toolbar:org.eclipse.tigerstripe.workbench.ui.base.toolbar?after=org.eclipse.tigerstripe.workbench.ui.base.start", null){
 
-					if (! disabledPatterns.contains(pattern.getName())){
-						if (pattern instanceof IProjectPattern){
-							CommandContributionItemParameter thisOne  = new CommandContributionItemParameter(locator,
-									NEW_MENU_NAME+".patterns.project.dropdown."+pattern.getName(),
-									"org.eclipse.tigerstripe.workbench.ui.base.patternBasedProjectCreate",
-									buttonStyle
-							);
+				@Override
+				public void createContributionItems(IServiceLocator serviceLocator,
+						IContributionRoot additions) {
+					for (String key : registeredPatterns.keySet()){
+						IPattern pattern = registeredPatterns.get(key);
 
-							Map parms = new HashMap();
-							parms.put("org.eclipse.tigerstripe.workbench.ui.base.patternName", pattern.getName());				     
-							thisOne.parameters = parms;
+						if (! disabledPatterns.contains(pattern.getName())){
+							if (pattern instanceof IProjectPattern){
+								CommandContributionItemParameter thisOne  = new CommandContributionItemParameter(locator,
+										NEW_MENU_NAME+".patterns.project.dropdown."+pattern.getName(),
+										"org.eclipse.tigerstripe.workbench.ui.base.patternBasedProjectCreate",
+										buttonStyle
+								);
 
-							thisOne.label = pattern.getUILabel();
-							thisOne.icon = pattern.getImageDescriptor();
+								Map parms = new HashMap();
+								parms.put("org.eclipse.tigerstripe.workbench.ui.base.patternName", pattern.getName());				     
+								thisOne.parameters = parms;
 
-							CommandContributionItem newItem = new CommandContributionItem(thisOne);
-							Expression referenceExpression = null;
-							additions.addContributionItem(newItem,referenceExpression);
-							// Only do the drop down once
-							break;
+								thisOne.label = pattern.getUILabel();
+								thisOne.icon = pattern.getImageDescriptor();
+
+								CommandContributionItem newItem = new CommandContributionItem(thisOne);
+								Expression referenceExpression = null;
+								additions.addContributionItem(newItem,referenceExpression);
+								// Only do the drop down once
+								break;
+							}
+						}
+					}
+
+				}
+			};
+
+			menuService.addContributionFactory(projectPatternToolbarAddition);
+
+			projectPatternToolbarDropDownsAddition = new AbstractContributionFactory(
+					"menu:"+dropDownProjectItemId, null){
+
+				@Override
+				public void createContributionItems(IServiceLocator serviceLocator,
+						IContributionRoot additions) {
+					for (String key : registeredPatterns.keySet()){
+						IPattern pattern = registeredPatterns.get(key);
+						if (! disabledPatterns.contains(pattern.getName()) && ! ddProjectItemName.equals(pattern.getName())){
+							if (pattern instanceof IProjectPattern){
+								CommandContributionItemParameter thisOne  = new CommandContributionItemParameter(locator,
+										NEW_MENU_NAME+".patterns.project.dropdown"+pattern.getName(),
+										"org.eclipse.tigerstripe.workbench.ui.base.patternBasedProjectCreate",
+										CommandContributionItem.STYLE_PUSH
+								);
+
+								Map parms = new HashMap();
+								parms.put("org.eclipse.tigerstripe.workbench.ui.base.patternName", pattern.getName());				     
+								thisOne.parameters = parms;
+
+								thisOne.label = pattern.getUILabel();
+								thisOne.icon = pattern.getImageDescriptor();
+
+								CommandContributionItem newItem = new CommandContributionItem(thisOne);
+								Expression referenceExpression = null;
+								additions.addContributionItem(newItem,referenceExpression);
+							}
 						}
 					}
 				}
+			};
 
-			}
-		};
+			menuService.addContributionFactory(projectPatternToolbarDropDownsAddition);
 
-		menuService.addContributionFactory(projectPatternToolbarAddition);
-
-		projectPatternToolbarDropDownsAddition = new AbstractContributionFactory(
-				"menu:"+dropDownProjectItemId, null){
-
-			@Override
-			public void createContributionItems(IServiceLocator serviceLocator,
-					IContributionRoot additions) {
-				for (String key : registeredPatterns.keySet()){
-					IPattern pattern = registeredPatterns.get(key);
-					if (! disabledPatterns.contains(pattern.getName()) && ! ddProjectItemName.equals(pattern.getName())){
-						if (pattern instanceof IProjectPattern){
-							CommandContributionItemParameter thisOne  = new CommandContributionItemParameter(locator,
-									NEW_MENU_NAME+".patterns.project.dropdown"+pattern.getName(),
-									"org.eclipse.tigerstripe.workbench.ui.base.patternBasedProjectCreate",
-									CommandContributionItem.STYLE_PUSH
-							);
-
-							Map parms = new HashMap();
-							parms.put("org.eclipse.tigerstripe.workbench.ui.base.patternName", pattern.getName());				     
-							thisOne.parameters = parms;
-
-							thisOne.label = pattern.getUILabel();
-							thisOne.icon = pattern.getImageDescriptor();
-
-							CommandContributionItem newItem = new CommandContributionItem(thisOne);
-							Expression referenceExpression = null;
-							additions.addContributionItem(newItem,referenceExpression);
-						}
-					}
-				}
-			}
-		};
-
-		menuService.addContributionFactory(projectPatternToolbarDropDownsAddition);
-
-
+		} // If no projects
 
 		/*
 		 * This part is for the ARTIFACT patterns in the MENU
@@ -598,8 +600,16 @@ public class PatternFactory implements IPatternFactory {
 		
 		
 		// TODO - If this top level item gets disabled in your profile you are in trouble! As it disables the whole list!
+		
+		
+		final String location;
+		if ( projectCount >0 )
+			location = "toolbar:org.eclipse.tigerstripe.workbench.ui.base.toolbar?after="+ddProjectItemId;
+		else
+			location = "toolbar:org.eclipse.tigerstripe.workbench.ui.base.toolbar?after=org.eclipse.tigerstripe.workbench.ui.base.start";
+		
 		artifactPatternToolbarAddition = new AbstractContributionFactory(
-				"toolbar:org.eclipse.tigerstripe.workbench.ui.base.toolbar?after="+ddProjectItemId, null){
+				location, null){
 			
 			@Override
 			public void createContributionItems(IServiceLocator serviceLocator,
