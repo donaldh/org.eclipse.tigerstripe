@@ -10,6 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -18,6 +23,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.dynamichelpers.IExtensionTracker;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
@@ -25,6 +31,7 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.internal.core.JarPackageFragmentRoot;
 import org.eclipse.jdt.internal.ui.actions.ActionMessages;
 import org.eclipse.jdt.ui.IContextMenuConstants;
+import org.eclipse.jface.action.ActionContributionItem;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
@@ -42,7 +49,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.patterns.IArtifactPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenBasicNewFileWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenBasicNewFolderWizardAction;
@@ -52,8 +58,15 @@ import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewEnumerationW
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewInterfaceWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewPackageWizardAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewPatternBasedArtifactWizardAction;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.NewProjectAction;
 import org.eclipse.ui.actions.NewWizardAction;
+import org.eclipse.ui.activities.WorkbenchActivityHelper;
+import org.eclipse.ui.internal.actions.NewWizardShortcutAction;
+import org.eclipse.ui.internal.util.Util;
+import org.eclipse.ui.wizards.IWizardDescriptor;
 
 /**
  * Action group for all new wizards within the Tigerstripe Explorer.
@@ -61,6 +74,7 @@ import org.eclipse.ui.actions.NewWizardAction;
  * @author Eric Dillon
  * @since 1.2
  */
+@SuppressWarnings("restriction")
 public class NewWizardsActionGroup extends BaseActionProvider {
 
 	/*
@@ -73,19 +87,18 @@ public class NewWizardsActionGroup extends BaseActionProvider {
 		ISelection selection = getContext().getSelection();
 		if (selection instanceof IStructuredSelection) {
 			IStructuredSelection sel = (IStructuredSelection) selection;
-			if (sel.size() <= 1 && isNewTarget(sel.getFirstElement())) {
+			if (canEnable(sel)) {
+				IWorkbenchWindow window = getSite().getWorkbenchWindow();
+				IMenuManager newMenu = new MenuManager(
+						ActionMessages.NewWizardsActionGroup_new);
+				menu.appendToGroup(IContextMenuConstants.GROUP_NEW, newMenu);
+
+				addNewWizards(window, newMenu);
+				newMenu.add(new NewProjectAction());
 
 				Object selObj = sel.getFirstElement();
-
 				if (selObj instanceof IJavaProject) {
 					// top level project element is selected for New
-					IMenuManager newMenu = new MenuManager(
-							ActionMessages.NewWizardsActionGroup_new);
-					menu
-							.appendToGroup(IContextMenuConstants.GROUP_NEW,
-									newMenu);
-					newMenu.add(new NewProjectAction());
-					newMenu.add(new Separator());
 
 					IJavaProject jProject = (IJavaProject) selObj;
 					try {
@@ -96,26 +109,16 @@ public class NewWizardsActionGroup extends BaseActionProvider {
 					} catch (CoreException e) {
 						EclipsePlugin.log(e);
 					}
-					newMenu.add(new Separator());
-					newMenu.add(new NewWizardAction());
 				} else if (selObj instanceof IPackageFragmentRoot
 						|| selObj instanceof IPackageFragment) {
 
 					IProject iProject = ((IJavaElement) selObj)
 							.getJavaProject().getProject();
-					IMenuManager newMenu = new MenuManager(
-							ActionMessages.NewWizardsActionGroup_new);
-
-					menu
-							.appendToGroup(IContextMenuConstants.GROUP_NEW,
-									newMenu);
 
 					// Top level package fragment root selected for new
 					// If Tigerstripe project then offer all artifacts
 					try {
 						if (TigerstripeProjectNature.hasNature(iProject)) {
-							ITigerstripeModelProject modelProject = (ITigerstripeModelProject) iProject
-									.getAdapter(ITigerstripeModelProject.class);
 							// @since 1.2
 							// All core artifacts are conditioned by the active
 							// profile
@@ -125,9 +128,7 @@ public class NewWizardsActionGroup extends BaseActionProvider {
 							CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
 									.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
 
-							newMenu.add(new NewProjectAction());
 							newMenu.add(new Separator());
-
 							for (String patternName : PatternFactory
 									.getInstance().getRegisteredPatterns()
 									.keySet()) {
@@ -141,7 +142,6 @@ public class NewWizardsActionGroup extends BaseActionProvider {
 
 							}
 
-							newMenu.add(new Separator());
 							addContributedActions(newMenu);
 
 							newMenu.add(new Separator());
@@ -162,11 +162,8 @@ public class NewWizardsActionGroup extends BaseActionProvider {
 							}
 							newMenu.add(new OpenBasicNewFolderWizardAction());
 							newMenu.add(new OpenBasicNewFileWizardAction());
-							newMenu.add(new Separator());
-							newMenu.add(new NewWizardAction());
 						} else if (TigerstripePluginProjectNature
 								.hasNature(iProject)) {
-							newMenu.add(new NewProjectAction());
 							newMenu.add(new Separator());
 							newMenu.add(new OpenNewPackageWizardAction());
 							newMenu.add(new OpenNewClassWizardAction());
@@ -175,36 +172,64 @@ public class NewWizardsActionGroup extends BaseActionProvider {
 							newMenu.add(new OpenNewAnnotationWizardAction());
 							newMenu.add(new OpenBasicNewFolderWizardAction());
 							newMenu.add(new OpenBasicNewFileWizardAction());
-							newMenu.add(new Separator());
-							newMenu.add(new NewWizardAction());
 						}
 					} catch (CoreException e) {
 						EclipsePlugin.log(e);
 					}
 				} else if (selObj instanceof IFolder) {
-					IMenuManager newMenu = new MenuManager(
-							ActionMessages.NewWizardsActionGroup_new);
-					menu
-							.appendToGroup(IContextMenuConstants.GROUP_NEW,
-									newMenu);
-
-					newMenu.add(new NewProjectAction());
 					newMenu.add(new Separator());
 					newMenu.add(new OpenBasicNewFolderWizardAction());
 					newMenu.add(new OpenBasicNewFileWizardAction());
-					newMenu.add(new Separator());
 					addContributedActions(newMenu);
-					newMenu.add(new Separator());
-					newMenu.add(new NewWizardAction());
+				}
+				newMenu.add(new Separator());
+				newMenu.add(new NewWizardAction(window));
+			}
+		}
+	}
+
+	private void addNewWizards(IWorkbenchWindow window, IMenuManager newMenu) {
+		IWorkbenchPage page = window.getActivePage();
+		if (page != null) {
+			String[] wizardIds = page.getNewWizardShortcuts();
+			for (int i = 0; i < wizardIds.length; i++) {
+				IAction action = getAction(window, wizardIds[i]);
+				if (action != null) {
+					if (!WorkbenchActivityHelper.filterItem(action)) {
+						newMenu.add(new ActionContributionItem(action));
+					}
 				}
 			}
 		}
+	}
 
+	/*
+	 * Returns the action for the given wizard id, or null if not found.
+	 */
+	private IAction getAction(IWorkbenchWindow window, String id) {
+		// Keep a cache, rather than creating a new action each time,
+		// so that image caching in ActionContributionItem works.
+		IAction action = (IAction) actions.get(id);
+		if (action == null) {
+			IWizardDescriptor wizardDesc = PlatformUI.getWorkbench()
+					.getNewWizardRegistry().findWizard(id);
+			if (wizardDesc != null) {
+				action = new NewWizardShortcutAction(window, wizardDesc);
+				actions.put(id, action);
+				IConfigurationElement element = (IConfigurationElement) Util
+						.getAdapter(wizardDesc, IConfigurationElement.class);
+				if (element != null) {
+					window.getExtensionTracker().registerObject(
+							element.getDeclaringExtension(), action,
+							IExtensionTracker.REF_WEAK);
+				}
+			}
+		}
+		return action;
 	}
 
 	private void addContributedActions(IMenuManager newMenu) {
-		// IExtension[] extensions = EclipsePlugin.getDefault().getDescriptor()
-		// .getExtensionPoint("explorerMenuContribution").getExtensions();
+		newMenu.add(new Separator());
 
 		IExtensionPoint point = Platform.getExtensionRegistry()
 				.getExtensionPoint(EclipsePlugin.getPluginId(),
@@ -216,8 +241,6 @@ public class NewWizardsActionGroup extends BaseActionProvider {
 				IConfigurationElement[] configElements = extension
 						.getConfigurationElements();
 				for (IConfigurationElement configElement : configElements) {
-					String actionClass = configElement
-							.getAttribute("actionClass");
 					try {
 						IAction action = (IAction) configElement
 								.createExecutableExtension("actionClass");
@@ -241,6 +264,19 @@ public class NewWizardsActionGroup extends BaseActionProvider {
 			return findRoot((IPackageFragment) frg.getParent());
 		else
 			return null;
+	}
+
+	private boolean canEnable(IStructuredSelection sel) {
+		if (sel.size() == 0)
+			return true;
+
+		List<?> list = sel.toList();
+		for (Iterator<?> iterator = list.iterator(); iterator.hasNext();) {
+			if (!isNewTarget(iterator.next()))
+				return false;
+		}
+
+		return true;
 	}
 
 	private boolean isNewTarget(Object element) {
@@ -269,5 +305,8 @@ public class NewWizardsActionGroup extends BaseActionProvider {
 		}
 		return false;
 	}
+
+	private final Map<String, IAction> actions = new HashMap<String, IAction>(
+			21);
 
 }

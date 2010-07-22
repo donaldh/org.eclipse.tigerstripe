@@ -135,7 +135,7 @@
             class="org.eclipse.tigerstripe.workbench.ui.internal.wizards.project.NewProjectWizard"
             finalPerspective="org.eclipse.tigerstripe.community.tigerstripePerspective"
             icon="src/icons/new_project.gif"
-            id="org.eclipse.tigerstripe.eclipse.wizards.NewProjectWizard"
+            id="org.eclipse.tigerstripe.workbench.ui.wizards.newProjectWizard"
             name="Tigerstripe Project"
             project="true">
       </wizard>
@@ -144,7 +144,7 @@
             class="org.eclipse.tigerstripe.workbench.ui.internal.wizards.pluggablePlugin.NewPluginProjectWizard"
             finalPerspective="org.eclipse.tigerstripe.community.tigerstripePerspective"
             icon="src/icons/plugin.gif"
-            id="org.eclipse.tigerstripe.community.wizard1"
+            id="org.eclipse.tigerstripe.workbench.ui.wizards.newPluginWizard"
             name="Tigerstripe Plugin Project"
             project="true"/>
       <wizard
@@ -1200,6 +1200,10 @@
                         </instanceof>
                      </or>
                   </and>
+                  <adapt type="org.eclipse.core.resources.IWorkspaceRoot"/>
+                  <adapt type="java.util.Collection"> 
+                     <count value="0" />
+                  </adapt>
                </or>
             </enablement>
          </actionProvider>

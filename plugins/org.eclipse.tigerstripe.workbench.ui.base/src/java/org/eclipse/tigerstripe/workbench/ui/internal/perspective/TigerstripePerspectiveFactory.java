@@ -19,6 +19,12 @@ public class TigerstripePerspectiveFactory implements IPerspectiveFactory {
 
 	public final static String ID = "org.eclipse.tigerstripe.community.tigerstripePerspective";
 
+	private static final String WIZARDS = "org.eclipse.tigerstripe.workbench.ui.wizards.";
+	private static final String WIZARDS_PROJECT = WIZARDS + "newProjectWizard";
+	private static final String WIZARDS_PLUGIN = WIZARDS + "newPluginWizard";
+	private static final String WIZARDS_GENERATOR = WIZARDS
+			+ "newM0GeneratorWizard";
+
 	public TigerstripePerspectiveFactory() {
 		super();
 
@@ -42,5 +48,9 @@ public class TigerstripePerspectiveFactory implements IPerspectiveFactory {
 		layout.addShowViewShortcut(IPageLayout.ID_TASK_LIST);
 
 		layout.addShowViewShortcut(TigerstripeExplorerPart.AEXPLORER_ID);
+
+		layout.addNewWizardShortcut(WIZARDS_PROJECT);
+		layout.addNewWizardShortcut(WIZARDS_PLUGIN);
+		layout.addNewWizardShortcut(WIZARDS_GENERATOR);
 	}
 }
