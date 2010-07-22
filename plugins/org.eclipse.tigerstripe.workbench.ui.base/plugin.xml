@@ -213,7 +213,7 @@
             name="Tigerstripe"/>
       <view
             category="org.eclipse.tigerstripe.workbench.views.category"
-            class="org.eclipse.ui.navigator.CommonNavigator"
+            class="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TSExplorer"
             icon="src/icons/ts_logo.gif.gif"
             id="org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew"
             name="Tigerstripe Explorer"/>
