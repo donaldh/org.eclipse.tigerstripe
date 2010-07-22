@@ -51,8 +51,6 @@ import org.eclipse.ui.PlatformUI;
 public class TSRemoveFromDiagramAction extends AbstractDeleteFromAction
 		implements IObjectActionDelegate {
 
-	protected boolean isEnabled;
-
 	/**
 	 * Returns true if the given part can be delete from the diagram without
 	 * causing inconsistencies with the model
@@ -83,13 +81,8 @@ public class TSRemoveFromDiagramAction extends AbstractDeleteFromAction
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {
-		isEnabled = calculateEnabled();
-		action.setEnabled(isEnabled);
-	}
-
-	@Override
-	public boolean isEnabled() {
-		return isEnabled;
+		refresh();
+		action.setEnabled(isEnabled());
 	}
 
 	public void run(IAction action) {
