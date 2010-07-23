@@ -28,10 +28,9 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
 public class ArtifactContentSection extends ArtifactSectionPart {
 
 	private TigerstripeFormPage page;
-	
-	public ArtifactContentSection(TigerstripeFormPage page,
-			Composite parent, FormToolkit toolkit,
-			IArtifactFormLabelProvider labelProvider,
+
+	public ArtifactContentSection(TigerstripeFormPage page, Composite parent,
+			FormToolkit toolkit, IArtifactFormLabelProvider labelProvider,
 			IOssjArtifactFormContentProvider contentProvider) {
 		super(page, parent, toolkit, labelProvider, contentProvider, SWT.NONE);
 		setTitle("Details");
@@ -41,14 +40,13 @@ public class ArtifactContentSection extends ArtifactSectionPart {
 
 	@Override
 	protected void createContent() {
-		TableWrapLayout layout = new TableWrapLayout();
-		layout.numColumns = 2;
-		getSection().setLayout(layout);
-
+		getSection().setLayout(new TableWrapLayout());
 		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
 		td.maxWidth = MAX_RIGHT_COLUMN_WIDTH;
 		getSection().setLayoutData(td);
 
+		getBody().setLayout(new TableWrapLayout());
+		getBody().setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		createArtifactComponents(getBody(), getToolkit());
 		createDescription(getBody(), getToolkit());
 
@@ -57,21 +55,17 @@ public class ArtifactContentSection extends ArtifactSectionPart {
 	}
 
 	private void createArtifactComponents(Composite parent, FormToolkit toolkit) {
-		TableWrapData td = null;
-
 		FormText rtext = toolkit.createFormText(parent, true);
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.colspan = 2;
-		rtext.setLayoutData(td);
-		rtext.setText(getContentProvider().getText(
-				IArtifactFormContentProvider.ARTIFACT_CONTENT_COMPONENTS),
-				true, false);
+		rtext.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		String text = getContentProvider().getText(
+				IArtifactFormContentProvider.ARTIFACT_CONTENT_COMPONENTS);
+		rtext.setText(text, true, false);
 
 		// Fix for bug # 79 - Detail pane headings Hyperlinked
 		rtext.addHyperlinkListener(new HyperlinkAdapter() {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
-				
+
 				if ("attributes".equals(e.getHref())) {
 					IFormPart[] ifp = getManagedForm().getParts();
 					for (IFormPart i : ifp) {
@@ -81,10 +75,9 @@ public class ArtifactContentSection extends ArtifactSectionPart {
 							oaas.getSection().forceFocus();
 							// determine where the section is and scroll so that
 							// it is visible
-							Point origin = oaas.getSection()
-									.getLocation();
-							ScrolledForm scrolledForm = page
-									.getManagedForm().getForm();
+							Point origin = oaas.getSection().getLocation();
+							ScrolledForm scrolledForm = page.getManagedForm()
+									.getForm();
 							scrolledForm.setOrigin(origin);
 						}
 					}
@@ -97,10 +90,9 @@ public class ArtifactContentSection extends ArtifactSectionPart {
 							oamd.getSection().forceFocus();
 							// determine where the section is and scroll so that
 							// it is visible
-							Point origin = oamd.getSection()
-									.getLocation();
-							ScrolledForm scrolledForm = page
-									.getManagedForm().getForm();
+							Point origin = oamd.getSection().getLocation();
+							ScrolledForm scrolledForm = page.getManagedForm()
+									.getForm();
 							scrolledForm.setOrigin(origin);
 						}
 					}
@@ -113,10 +105,9 @@ public class ArtifactContentSection extends ArtifactSectionPart {
 							oacd.getSection().forceFocus();
 							// determine where the section is and scroll so that
 							// it is visible
-							Point origin = oacd.getSection()
-									.getLocation();
-							ScrolledForm scrolledForm = page
-									.getManagedForm().getForm();
+							Point origin = oacd.getSection().getLocation();
+							ScrolledForm scrolledForm = page.getManagedForm()
+									.getForm();
 							scrolledForm.setOrigin(origin);
 						}
 					}
@@ -130,10 +121,9 @@ public class ArtifactContentSection extends ArtifactSectionPart {
 							oacd.getSection().forceFocus();
 							// determine where the section is and scroll so that
 							// it is visible
-							Point origin = oacd.getSection()
-									.getLocation();
-							ScrolledForm scrolledForm = page
-									.getManagedForm().getForm();
+							Point origin = oacd.getSection().getLocation();
+							ScrolledForm scrolledForm = page.getManagedForm()
+									.getForm();
 							scrolledForm.setOrigin(origin);
 							// Then select the appropriate end.
 							oacd.selectEndByEnd(e.getHref().toString());
@@ -142,10 +132,10 @@ public class ArtifactContentSection extends ArtifactSectionPart {
 								DependencySpecificsSection oadd = (DependencySpecificsSection) i;
 								oadd.getSection().setExpanded(true);
 								oadd.getSection().forceFocus();
-								// determine where the section is and scroll so that
+								// determine where the section is and scroll so
+								// that
 								// it is visible
-								Point origin = oadd.getSection()
-										.getLocation();
+								Point origin = oadd.getSection().getLocation();
 								ScrolledForm scrolledForm = page
 										.getManagedForm().getForm();
 								scrolledForm.setOrigin(origin);
@@ -156,17 +146,13 @@ public class ArtifactContentSection extends ArtifactSectionPart {
 					}
 				}
 			}
-			});
+		});
 
 	}
 
 	private void createDescription(Composite parent, FormToolkit toolkit) {
-		TableWrapData td = null;
-
 		FormText rtext = toolkit.createFormText(parent, true);
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.colspan = 2;
-		rtext.setLayoutData(td);
+		rtext.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		String data = getContentProvider().getText(
 				IArtifactFormContentProvider.ARTIFACT_CONTENT_DESCRIPTION);
 		rtext.setText(data, true, false);

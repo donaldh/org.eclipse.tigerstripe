@@ -37,8 +37,7 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -88,6 +87,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.undo.TextEditListener;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.undo.TextEditListener.IURIBaseProviderPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutUtil;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
@@ -100,8 +100,7 @@ import org.eclipse.ui.part.FileEditorInput;
 
 public class ArtifactMethodDetailsPage implements IDetailsPage,
 		IURIBaseProviderPage {
-	
-	
+
 	private TextEditListener nameEditListener;
 
 	private StereotypeSectionManager stereotypeMgr;
@@ -198,75 +197,80 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 	private Label returnLabel;
 
 	private Label returnValueLabel;
-	
+
 	private boolean displayDirection;
 
-	public ArtifactMethodDetailsPage(boolean isReadOnly) {
+	public ArtifactMethodDetailsPage(ArtifactMethodsSection master,
+			boolean isReadOnly) {
 		super();
+		this.master = master;
 		this.isReadOnly = isReadOnly;
 		// See if we should display the argument Direction
 		GlobalSettingsProperty prop = (GlobalSettingsProperty) TigerstripeCore
-			.getWorkbenchProfileSession().getActiveProfile().getProperty(
-			IWorkbenchPropertyLabels.GLOBAL_SETTINGS);
+				.getWorkbenchProfileSession().getActiveProfile().getProperty(
+						IWorkbenchPropertyLabels.GLOBAL_SETTINGS);
 		displayDirection = prop
-			.getPropertyValue(IGlobalSettingsProperty.ARGUMENTDIRECTION);
+				.getPropertyValue(IGlobalSettingsProperty.ARGUMENTDIRECTION);
 	}
-	
+
 	public void createContents(Composite parent) {
 		TableWrapLayout twLayout = new TableWrapLayout();
 		twLayout.numColumns = 1;
 		parent.setLayout(twLayout);
-		TableWrapData td = new TableWrapData(TableWrapData.FILL);
+		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
 		td.heightHint = 300;
 		parent.setLayoutData(td);
 
-		createMethodInfo(parent);
+		int height = createMethodInfo(parent);
+		/*
+		 * FIXME Just workaround to avoid appearing scrolls on details part.
+		 */
+		master.setMinimumHeight(height);
 
 		form.getToolkit().paintBordersFor(parent);
 	}
 
 	private void createStereotypes(Composite parent, FormToolkit toolkit) {
-
-		Label label = toolkit.createLabel(parent, "Stereotypes");
-		label.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL
-				| GridData.VERTICAL_ALIGN_BEGINNING));
+		toolkit.createLabel(parent, "Stereotypes:");
 
 		Composite innerComposite = toolkit.createComposite(parent);
-		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-		innerComposite.setLayoutData(td);
-		TableWrapLayout layout = new TableWrapLayout();
-		layout.numColumns = 2;
-		innerComposite.setLayout(layout);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL
-				| GridData.HORIZONTAL_ALIGN_BEGINNING);
-		gd.horizontalSpan = 2;
+		TableWrapData gd = new TableWrapData(TableWrapData.FILL_GRAB);
 		innerComposite.setLayoutData(gd);
+		TableWrapLayout layout = TigerstripeLayoutUtil
+				.createZeroTableWrapLayout(2, false);
+		innerComposite.setLayout(layout);
 
 		annTable = toolkit.createTable(innerComposite, SWT.BORDER);
 		annTable.setEnabled(!isReadOnly);
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.rowspan = 3;
-		td.heightHint = 70;
-		annTable.setLayoutData(td);
 
-		addAnno = toolkit.createButton(innerComposite, "Add", SWT.PUSH);
+		Composite buttonsClient = toolkit.createComposite(innerComposite);
+		buttonsClient.setLayoutData(new TableWrapData(TableWrapData.FILL));
+		layout = new TableWrapLayout();
+		layout.topMargin = layout.bottomMargin = 0;
+		buttonsClient.setLayout(layout);
+
+		addAnno = toolkit.createButton(buttonsClient, "Add", SWT.PUSH);
 		// Support for testing
-		addAnno.setData("name", "Add_Stereotype_Method");
+		addAnno.setData("name", "Add_Stereotype_Attribute");
 		addAnno.setEnabled(!isReadOnly);
-		td = new TableWrapData(TableWrapData.FILL);
-		addAnno.setLayoutData(td);
+		addAnno.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
-		editAnno = toolkit.createButton(innerComposite, "Edit", SWT.PUSH);
-		editAnno.setData("name", "Edit_Stereotype_Method");
+		editAnno = toolkit.createButton(buttonsClient, "Edit", SWT.PUSH);
+		editAnno.setData("name", "Edit_Stereotype_Attribute");
 		editAnno.setEnabled(!isReadOnly);
-		td = new TableWrapData(TableWrapData.FILL);
-		editAnno.setLayoutData(td);
+		editAnno.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
-		removeAnno = toolkit.createButton(innerComposite, "Remove", SWT.PUSH);
+		removeAnno = toolkit.createButton(buttonsClient, "Remove", SWT.PUSH);
 		// Support for testing
-		removeAnno.setData("name", "Remove_Stereotype_Method");
+		removeAnno.setData("name", "Remove_Stereotype_Attribute");
 		removeAnno.setEnabled(!isReadOnly);
+		removeAnno.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+
+		Point p = buttonsClient.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+
+		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
+		td.heightHint = p.y;
+		annTable.setLayoutData(td);
 	}
 
 	// ============================================================
@@ -301,7 +305,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 
 	private Text commentText;
 
-	private void createMethodInfo(Composite parent) {
+	private int createMethodInfo(Composite parent) {
 		FormToolkit toolkit = form.getToolkit();
 		MethodDetailsPageListener adapter = new MethodDetailsPageListener();
 
@@ -313,18 +317,18 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 		section.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		Composite sectionClient = toolkit.createComposite(section);
-
-		GridLayout gLayout = new GridLayout();
-		gLayout.numColumns = 3;
-		sectionClient.setLayout(gLayout);
-		sectionClient.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		TableWrapLayout layout = new TableWrapLayout();
+		layout.numColumns = 2;
+		layout.bottomMargin = layout.topMargin = 0;
+		sectionClient.setLayout(layout);
+		sectionClient.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		Label label = toolkit.createLabel(sectionClient, "Name: ");
+		label.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		label.setEnabled(!isReadOnly);
 		nameText = toolkit.createText(sectionClient, "");
 		nameText.setEnabled(!isReadOnly);
-		nameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
-				| GridData.BEGINNING));
+		nameText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		nameText.addModifyListener(adapter);
 		nameText.addKeyListener(adapter);
 		TigerstripeFormEditor editor = (TigerstripeFormEditor) ((TigerstripeFormPage) getForm()
@@ -335,31 +339,29 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 			nameText.addModifyListener(nameEditListener);
 		}
 
-		label = toolkit.createLabel(sectionClient, "");
-
 		label = toolkit.createLabel(sectionClient, "Description: ");
+		label.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		label.setEnabled(!isReadOnly);
 		commentText = toolkit.createText(sectionClient, "", SWT.WRAP
 				| SWT.MULTI | SWT.V_SCROLL);
 		commentText.setEnabled(!isReadOnly);
-		commentText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
-				| GridData.HORIZONTAL_ALIGN_BEGINNING));
+		commentText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		commentText.addModifyListener(adapter);
 		commentText.addKeyListener(adapter);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		TableWrapData gd = new TableWrapData(TableWrapData.FILL_GRAB);
 		gd.heightHint = 70;
-		gd.widthHint = 300;
+		gd.maxHeight = 70;
 		commentText.setLayoutData(gd);
 
-		label = toolkit.createLabel(sectionClient, ""); // padding
 		label = toolkit.createLabel(sectionClient, "Visibility: ");
 		label.setEnabled(!isReadOnly);
 		Composite visiComposite = toolkit.createComposite(sectionClient);
-		gLayout = new GridLayout();
-		gLayout.numColumns = 4;
-		visiComposite.setLayout(gLayout);
-		visiComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
-				| GridData.HORIZONTAL_ALIGN_BEGINNING));
+		layout = new TableWrapLayout();
+		layout.leftMargin = 0;
+		layout.rightMargin = 0;
+		layout.numColumns = 4;
+		visiComposite.setLayout(layout);
+		visiComposite.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		publicButton = toolkit.createButton(visiComposite, "Public", SWT.RADIO);
 		publicButton.setEnabled(!isReadOnly);
 		publicButton.addSelectionListener(adapter);
@@ -375,15 +377,17 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 				SWT.RADIO);
 		packageButton.setEnabled(!isReadOnly);
 		packageButton.addSelectionListener(adapter);
-		label = toolkit.createLabel(sectionClient, "");
 
 		label = toolkit.createLabel(sectionClient, "Qualifiers: "); // padding
+		label.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		Composite optComposite = toolkit.createComposite(sectionClient);
-		gLayout = new GridLayout();
-		gLayout.numColumns = 5;
-		optComposite.setLayout(gLayout);
-		optComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
-				| GridData.HORIZONTAL_ALIGN_BEGINNING));
+		layout = new TableWrapLayout();
+		layout.leftMargin = 0;
+		layout.rightMargin = 0;
+		layout.numColumns = 5;
+		optComposite.setLayout(layout);
+		optComposite.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+
 		abstractButton = toolkit.createButton(optComposite, "Abstract",
 				SWT.CHECK);
 		abstractButton.setEnabled(!isReadOnly);
@@ -413,10 +417,8 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 			isInstanceMethodButton.addSelectionListener(adapter);
 		}
 
-		label = toolkit.createLabel(sectionClient, "");
-
 		Composite sepC = toolkit.createComposite(section);
-		gd = new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL);
+		gd = new TableWrapData(TableWrapData.FILL_GRAB);
 		gd.heightHint = 3;
 		sepC.setLayoutData(gd);
 
@@ -426,16 +428,20 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 		isVoid.setEnabled(!isReadOnly);
 		isVoid.addSelectionListener(adapter);
 
-		label = toolkit.createLabel(sectionClient, "");
-
 		typeLabel = toolkit.createLabel(sectionClient, "Type: ");
+		typeLabel.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		typeLabel.setEnabled(!isReadOnly);
-		typeText = toolkit.createText(sectionClient, "");
+
+		Composite c = toolkit.createComposite(sectionClient);
+		layout = TigerstripeLayoutUtil.createZeroTableWrapLayout(2, false);
+		layout.horizontalSpacing = 5;
+		c.setLayout(layout);
+		c.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+
+		typeText = toolkit.createText(c, "");
 		typeText.setEnabled(!isReadOnly);
-		typeText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
-				| GridData.HORIZONTAL_ALIGN_BEGINNING));
-		typeBrowseButton = toolkit.createButton(sectionClient, "Browse",
-				SWT.PUSH);
+		typeText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		typeBrowseButton = toolkit.createButton(c, "Browse", SWT.PUSH);
 		typeBrowseButton.setEnabled(!isReadOnly);
 		typeBrowseButton.addSelectionListener(adapter);
 		typeText.addModifyListener(adapter);
@@ -443,26 +449,29 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 
 		multiplicityLabel = toolkit
 				.createLabel(sectionClient, "Multiplicity: ");
+		multiplicityLabel.setLayoutData(new TableWrapData(
+				TableWrapData.FILL_GRAB));
 		multiplicityLabel.setEnabled(!isReadOnly);
 		multiplicityCombo = new CCombo(sectionClient, SWT.SINGLE
 				| SWT.READ_ONLY | SWT.BORDER);
 		multiplicityCombo.setEnabled(!isReadOnly);
+		multiplicityCombo.setLayoutData(new TableWrapData(
+				TableWrapData.FILL_GRAB));
 		toolkit.adapt(this.multiplicityCombo, true, true);
 		multiplicityCombo.setItems(IModelComponent.EMultiplicity.labels());
 		multiplicityCombo.addSelectionListener(adapter);
 		multiplicityCombo.setVisibleItemCount(IModelComponent.EMultiplicity
 				.values().length);
-		label = toolkit.createLabel(sectionClient, "");
 
 		if (prop
 				.getPropertyValue(IOssjLegacySettigsProperty.USEREFBY_MODIFIERS)) {
 			toolkit.createLabel(sectionClient, "");
 			Composite refComposite = toolkit.createComposite(sectionClient);
-			gLayout = new GridLayout();
-			gLayout.numColumns = 3;
-			refComposite.setLayout(gLayout);
-			refComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
-					| GridData.HORIZONTAL_ALIGN_BEGINNING));
+			layout = new TableWrapLayout();
+			layout.numColumns = 3;
+			refComposite.setLayout(layout);
+			refComposite.setLayoutData(new TableWrapData(
+					TableWrapData.FILL_GRAB));
 			refByValueButton = toolkit.createButton(refComposite,
 					IField.refByLabels[IField.REFBY_VALUE], SWT.RADIO);
 			refByValueButton.addSelectionListener(adapter);
@@ -485,11 +494,9 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 		returnLabel = toolkit.createLabel(sectionClient, "Return label:");
 		returnLabel.setEnabled(!isReadOnly);
 		methodReturnNameText = toolkit.createText(sectionClient, "");
-		methodReturnNameText
-				.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
-						| GridData.HORIZONTAL_ALIGN_BEGINNING));
+		methodReturnNameText.setLayoutData(new TableWrapData(
+				TableWrapData.FILL_GRAB));
 		methodReturnNameText.addModifyListener(adapter);
-		toolkit.createLabel(sectionClient, "");
 
 		returnValueLabel = toolkit
 				.createLabel(sectionClient, "Default Value: ");
@@ -498,12 +505,10 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 		defaultReturnValue = new CCombo(sectionClient, SWT.SINGLE | SWT.BORDER);
 		toolkit.adapt(this.defaultReturnValue, true, true);
 		defaultReturnValue.setEnabled(!isReadOnly);
-		defaultReturnValue.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
-				| GridData.HORIZONTAL_ALIGN_BEGINNING));
+		defaultReturnValue.setLayoutData(new TableWrapData(
+				TableWrapData.FILL_GRAB));
 		defaultReturnValue.addModifyListener(adapter);
 		defaultReturnValue.addKeyListener(adapter);
-
-		label = toolkit.createLabel(sectionClient, "");
 
 		toolkit.createLabel(sectionClient, "");
 		editReturnStereotypes = new Button(sectionClient, SWT.PUSH);
@@ -519,7 +524,6 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 				dialog.open();
 			}
 		});
-		toolkit.createLabel(sectionClient, "");
 
 		createStereotypes(sectionClient, toolkit);
 
@@ -529,6 +533,8 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 		section.setClient(sectionClient);
 		toolkit.paintBordersFor(sectionClient);
 		toolkit.paintBordersFor(parent);
+
+		return sectionClient.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
 	}
 
 	private Button addArgButton;
@@ -553,57 +559,56 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 		FormToolkit toolkit = form.getToolkit();
 
 		toolkit.createLabel(parent, "Arguments").setLayoutData(
-				new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
+				new TableWrapData(TableWrapData.FILL_GRAB));
+
 		Composite composite = toolkit.createComposite(parent);
-		GridLayout tw = new GridLayout();
-		tw.numColumns = 2;
-		composite.setLayout(tw);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.horizontalSpan = 2;
+		TableWrapData gd = new TableWrapData(TableWrapData.FILL_GRAB);
 		composite.setLayoutData(gd);
+		TableWrapLayout layout = TigerstripeLayoutUtil
+				.createZeroTableWrapLayout(2, false);
+		composite.setLayout(layout);
 
 		MethodDetailsPageListener adapter = new MethodDetailsPageListener();
-		Table table = toolkit.createTable(composite, SWT.NULL);
+		Table table = toolkit.createTable(composite, SWT.NULL | SWT.H_SCROLL
+				| SWT.V_SCROLL);
 		table.setEnabled(!isReadOnly);
 		table.addSelectionListener(adapter);
-		GridData td = new GridData(GridData.FILL_BOTH
-				| GridData.GRAB_HORIZONTAL
-				| GridData.HORIZONTAL_ALIGN_BEGINNING);
-		td.verticalSpan = 5;
-		td.heightHint = 140;
-		table.setLayoutData(td);
 
-		addArgButton = toolkit.createButton(composite, "Add", SWT.PUSH);
+		Composite buttonsClient = toolkit.createComposite(composite);
+		buttonsClient.setLayoutData(new TableWrapData(TableWrapData.FILL));
+		layout = new TableWrapLayout();
+		layout.topMargin = layout.bottomMargin = 0;
+		buttonsClient.setLayout(layout);
+
+		addArgButton = toolkit.createButton(buttonsClient, "Add", SWT.PUSH);
 		// Support for testing
 		addArgButton.setData("name", "Add_Argument");
 		addArgButton.setEnabled(!isReadOnly);
-		addArgButton
-				.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
+		addArgButton.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		addArgButton.addSelectionListener(adapter);
 
-		editArgButton = toolkit.createButton(composite, "Edit", SWT.PUSH);
+		editArgButton = toolkit.createButton(buttonsClient, "Edit", SWT.PUSH);
 		editArgButton.setEnabled(false);
-		editArgButton
-				.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
+		editArgButton.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		editArgButton.addSelectionListener(adapter);
 
-		upArgButton = toolkit.createButton(composite, "Up", SWT.PUSH);
+		upArgButton = toolkit.createButton(buttonsClient, "Up", SWT.PUSH);
 		upArgButton.setEnabled(false);
-		upArgButton.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
+		upArgButton.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		upArgButton.addSelectionListener(adapter);
 
-		downArgButton = toolkit.createButton(composite, "Down", SWT.PUSH);
+		downArgButton = toolkit.createButton(buttonsClient, "Down", SWT.PUSH);
 		downArgButton.setEnabled(false);
-		downArgButton
-				.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL));
+		downArgButton.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		downArgButton.addSelectionListener(adapter);
 
-		removeArgButton = toolkit.createButton(composite, "Remove", SWT.PUSH);
+		removeArgButton = toolkit.createButton(buttonsClient, "Remove",
+				SWT.PUSH);
 		// Support for testing
 		removeArgButton.setData("name", "Remove_Argument");
 		removeArgButton.setEnabled(false);
-		removeArgButton.setLayoutData(new GridData(
-				GridData.HORIZONTAL_ALIGN_FILL));
+		removeArgButton
+				.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		removeArgButton.addSelectionListener(adapter);
 
 		argViewer = new TableViewer(table);
@@ -612,46 +617,50 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 		argViewer.setInput("ccc"); // input is ignored
 		argViewer.addDoubleClickListener(adapter);
 
-		toolkit.paintBordersFor(composite);
+		Point p = buttonsClient.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+
+		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
+		td.heightHint = p.y;
+		table.setLayoutData(td);
 	}
 
 	private void createExceptionTable(Composite parent) {
 		FormToolkit toolkit = form.getToolkit();
 
 		toolkit.createLabel(parent, "Exceptions").setLayoutData(
-				new GridData(GridData.VERTICAL_ALIGN_BEGINNING));
+				new TableWrapData(TableWrapData.FILL_GRAB));
 
 		Composite composite = toolkit.createComposite(parent);
-		GridLayout tw = new GridLayout();
-		tw.numColumns = 2;
-		composite.setLayout(tw);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.horizontalSpan = 2;
+		TableWrapData gd = new TableWrapData(TableWrapData.FILL_GRAB);
 		composite.setLayoutData(gd);
+		TableWrapLayout layout = TigerstripeLayoutUtil
+				.createZeroTableWrapLayout(2, false);
+		composite.setLayout(layout);
 
 		MethodDetailsPageListener adapter = new MethodDetailsPageListener();
 		Table table = toolkit.createTable(composite, SWT.NULL);
 		table.addSelectionListener(adapter);
-		GridData td = new GridData(GridData.FILL_BOTH
-				| GridData.GRAB_HORIZONTAL
-				| GridData.HORIZONTAL_ALIGN_BEGINNING);
-		td.verticalSpan = 5;
-		td.heightHint = 140;
-		table.setLayoutData(td);
 
-		addExceptionButton = toolkit.createButton(composite, "Add", SWT.PUSH);
+		Composite buttonsClient = toolkit.createComposite(composite);
+		buttonsClient.setLayoutData(new TableWrapData(TableWrapData.FILL));
+		layout = new TableWrapLayout();
+		layout.topMargin = layout.bottomMargin = 0;
+		buttonsClient.setLayout(layout);
+
+		addExceptionButton = toolkit.createButton(buttonsClient, "Add",
+				SWT.PUSH);
 		// Support for testing
 		addExceptionButton.setData("name", "Add_Exception");
-		addExceptionButton.setLayoutData(new GridData(
-				GridData.HORIZONTAL_ALIGN_FILL));
+		addExceptionButton.setLayoutData(new TableWrapData(
+				TableWrapData.FILL_GRAB));
 		addExceptionButton.addSelectionListener(adapter);
 
-		removeExceptionButton = toolkit.createButton(composite, "Remove",
+		removeExceptionButton = toolkit.createButton(buttonsClient, "Remove",
 				SWT.PUSH);
 		// Support for testing
 		removeExceptionButton.setData("name", "Remove_Exception");
-		removeExceptionButton.setLayoutData(new GridData(
-				GridData.HORIZONTAL_ALIGN_FILL));
+		removeExceptionButton.setLayoutData(new TableWrapData(
+				TableWrapData.FILL_GRAB));
 		removeExceptionButton.setEnabled(false);
 		removeExceptionButton.addSelectionListener(adapter);
 
@@ -660,7 +669,11 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 		exceptionViewer.setLabelProvider(new ExceptionLabelProvider());
 		exceptionViewer.setInput("ccc"); // input is ignored
 
-		toolkit.paintBordersFor(composite);
+		Point p = buttonsClient.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+
+		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
+		td.heightHint = p.y;
+		table.setLayoutData(td);
 	}
 
 	public class ArgumentContentProvider implements IStructuredContentProvider {
@@ -712,7 +725,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 					}
 				}
 				String directionPrefix = arg.getDirection().getLabel();
-				
+
 				String stereotypePrefix = "";
 				boolean isFirstInstance = true;
 				for (IStereotypeInstance instance : arg
@@ -731,13 +744,13 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 				}
 
 				String label = "";
-				
-				// If the profile allows it, show the direction prefix 
-				
-				if ( displayDirection){
-					label = directionPrefix+ " ";
+
+				// If the profile allows it, show the direction prefix
+
+				if (displayDirection) {
+					label = directionPrefix + " ";
 				}
-				
+
 				label = label + stereotypePrefix + arg.getName() + ": "
 						+ Misc.removeJavaLangString(fqn);
 
@@ -895,7 +908,6 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 			if (nameEditListener != null)
 				nameEditListener.reset();
 
-			master = (ArtifactMethodsSection) part;
 			Table methodsTable = master.getViewer().getTable();
 
 			IMethod selected = (IMethod) methodsTable.getSelection()[0]
@@ -1235,8 +1247,8 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 
 		try {
 			BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(master
-					.getIArtifact().getTigerstripeProject(),
-					Method.getSuitableTypes());
+					.getIArtifact().getTigerstripeProject(), Method
+					.getSuitableTypes());
 			dialog.setTitle("Artifact Type Selection");
 			dialog.setMessage("Enter a filter (* = any number of characters)"
 					+ " or an empty string for no filtering: ");

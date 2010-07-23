@@ -41,10 +41,10 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactA
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactConstantDetailsPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactConstantsSection;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactGeneralInfoSection;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactMethodDetailsPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactMethodsSection;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactOverviewPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactStereotypesSection;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.TSOpenAction;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Attribute;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Literal;
@@ -143,7 +143,7 @@ public class OpenArtifactAnnotationsInEditorAction extends
 											.getAnnTable();
 									Composite tableComposite = (Composite) annotTable
 											.getParent().getParent();
-									//tableComposite.setExpanded(true);
+									// tableComposite.setExpanded(true);
 									ScrolledPageBook spb = (ScrolledPageBook) tableComposite
 											.getParent().getParent()
 											.getParent().getParent();
@@ -203,14 +203,13 @@ public class OpenArtifactAnnotationsInEditorAction extends
 											.getCurrentPage();
 									Table annotTable = detailsPage
 											.getAnnTable();
-									
+
 									Composite tableComposite = (Composite) annotTable
 											.getParent().getParent();
-									//tableComposite.setExpanded(true);
+									// tableComposite.setExpanded(true);
 									ScrolledPageBook spb = (ScrolledPageBook) tableComposite
 											.getParent().getParent()
-											.getParent()
-											.getParent();
+											.getParent().getParent();
 									ScrolledForm detailsPageScrolledForm = detailsPage
 											.getForm().getForm();
 									detailsPageScrolledForm.setFocus();
@@ -240,7 +239,8 @@ public class OpenArtifactAnnotationsInEditorAction extends
 							table.deselectAll();
 							for (int row = 0; row < table.getItemCount(); row++) {
 								TableItem tableItem = table.getItem(row);
-								ILiteral rowLabel = (ILiteral) tableItem.getData();
+								ILiteral rowLabel = (ILiteral) tableItem
+										.getData();
 								if (thisLiteral.getName().equals(
 										rowLabel.getName())) {
 									table.select(row);
@@ -268,10 +268,9 @@ public class OpenArtifactAnnotationsInEditorAction extends
 											.getAnnTable();
 									Composite tableComposite = (Composite) annotTable
 											.getParent().getParent();
-									//tableComposite.setExpanded(true);
+									// tableComposite.setExpanded(true);
 									ScrolledPageBook spb = (ScrolledPageBook) tableComposite
-											.getParent()
-											.getParent();
+											.getParent().getParent();
 									ScrolledForm detailsPageScrolledForm = detailsPage
 											.getForm().getForm();
 									detailsPageScrolledForm.setFocus();
@@ -298,8 +297,8 @@ public class OpenArtifactAnnotationsInEditorAction extends
 					IFormPart[] formParts = selectedPage.getManagedForm()
 							.getParts();
 					for (IFormPart formPart : formParts) {
-						if (formPart instanceof ArtifactGeneralInfoSection) {
-							ArtifactGeneralInfoSection genInfoSection = (ArtifactGeneralInfoSection) formPart;
+						if (formPart instanceof ArtifactStereotypesSection) {
+							ArtifactStereotypesSection genInfoSection = (ArtifactStereotypesSection) formPart;
 							Table annTable = genInfoSection.getAnnTable();
 							ExpandableComposite expComp = (ExpandableComposite) annTable
 									.getParent().getParent();

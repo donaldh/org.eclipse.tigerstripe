@@ -21,8 +21,7 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -43,6 +42,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEdit
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.undo.TextEditListener;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.undo.TextEditListener.IURIBaseProviderPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutUtil;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
@@ -120,8 +120,10 @@ public class ArtifactConstantDetailsPage implements IDetailsPage,
 
 	private boolean isReadOnly = false;
 
-	public ArtifactConstantDetailsPage(boolean isReadOnly) {
+	public ArtifactConstantDetailsPage(ArtifactConstantsSection master,
+			boolean isReadOnly) {
 		super();
+		this.master = master;
 		this.isReadOnly = isReadOnly;
 	}
 
@@ -129,51 +131,58 @@ public class ArtifactConstantDetailsPage implements IDetailsPage,
 		TableWrapLayout twLayout = new TableWrapLayout();
 		twLayout.numColumns = 1;
 		parent.setLayout(twLayout);
-		TableWrapData td = new TableWrapData(TableWrapData.FILL);
-		td.heightHint = 200;
+		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
 		parent.setLayoutData(td);
+		int height = createFieldInfo(parent);
+		/*
+		 * FIXME Just workaround to avoid appearing scrolls on details part.
+		 */
+		master.setMinimumHeight(height);
 
-		createFieldInfo(parent);
-		createStereotypes(parent, form.getToolkit());
 		form.getToolkit().paintBordersFor(parent);
 	}
 
 	private void createStereotypes(Composite parent, FormToolkit toolkit) {
-
-		Label label = toolkit.createLabel(parent, "Stereotypes");
-		label.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		toolkit.createLabel(parent, "Stereotypes:");
 
 		Composite innerComposite = toolkit.createComposite(parent);
-		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-		innerComposite.setLayoutData(td);
-		TableWrapLayout layout = new TableWrapLayout();
-		layout.numColumns = 2;
+		TableWrapData gd = new TableWrapData(TableWrapData.FILL_GRAB);
+		innerComposite.setLayoutData(gd);
+		TableWrapLayout layout = TigerstripeLayoutUtil
+				.createZeroTableWrapLayout(2, false);
 		innerComposite.setLayout(layout);
 
 		annTable = toolkit.createTable(innerComposite, SWT.BORDER);
 		annTable.setEnabled(!isReadOnly);
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.rowspan = 3;
-		td.heightHint = 70;
-		annTable.setLayoutData(td);
 
-		addAnno = toolkit.createButton(innerComposite, "Add", SWT.PUSH);
+		Composite buttonsClient = toolkit.createComposite(innerComposite);
+		buttonsClient.setLayoutData(new TableWrapData(TableWrapData.FILL));
+		layout = new TableWrapLayout();
+		layout.topMargin = layout.bottomMargin = 0;
+		buttonsClient.setLayout(layout);
+
+		addAnno = toolkit.createButton(buttonsClient, "Add", SWT.PUSH);
 		// Support for testing
-		addAnno.setData("name", "Add_Stereotype_Literal");
+		addAnno.setData("name", "Add_Stereotype_Attribute");
 		addAnno.setEnabled(!isReadOnly);
-		td = new TableWrapData(TableWrapData.FILL);
-		addAnno.setLayoutData(td);
+		addAnno.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
-		editAnno = toolkit.createButton(innerComposite, "Edit", SWT.PUSH);
-		editAnno.setData("name", "Edit_Stereotype_Literal");
+		editAnno = toolkit.createButton(buttonsClient, "Edit", SWT.PUSH);
+		editAnno.setData("name", "Edit_Stereotype_Attribute");
 		editAnno.setEnabled(!isReadOnly);
-		td = new TableWrapData(TableWrapData.FILL);
-		editAnno.setLayoutData(td);
+		editAnno.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
-		removeAnno = toolkit.createButton(innerComposite, "Remove", SWT.PUSH);
+		removeAnno = toolkit.createButton(buttonsClient, "Remove", SWT.PUSH);
 		// Support for testing
-		removeAnno.setData("name", "Remove_Stereotype_Literal");
+		removeAnno.setData("name", "Remove_Stereotype_Attribute");
 		removeAnno.setEnabled(!isReadOnly);
+		removeAnno.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+
+		Point p = buttonsClient.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+
+		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
+		td.heightHint = p.y;
+		annTable.setLayoutData(td);
 	}
 
 	// ============================================================
@@ -200,7 +209,7 @@ public class ArtifactConstantDetailsPage implements IDetailsPage,
 
 	private Text commentText;
 
-	private void createFieldInfo(Composite parent) {
+	private int createFieldInfo(Composite parent) {
 		FormToolkit toolkit = form.getToolkit();
 		ConstantDetailsPageListener adapter = new ConstantDetailsPageListener();
 
@@ -209,17 +218,18 @@ public class ArtifactConstantDetailsPage implements IDetailsPage,
 		section.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		Composite sectionClient = toolkit.createComposite(section);
-
-		GridLayout gLayout = new GridLayout();
-		gLayout.numColumns = 3;
-		sectionClient.setLayout(gLayout);
-		sectionClient.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		TableWrapLayout layout = new TableWrapLayout();
+		layout.numColumns = 2;
+		layout.bottomMargin = layout.topMargin = 0;
+		sectionClient.setLayout(layout);
+		sectionClient.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		Label label = toolkit.createLabel(sectionClient, "Name: ");
+		label.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		label.setEnabled(!isReadOnly);
 		nameText = toolkit.createText(sectionClient, "");
 		nameText.setEnabled(!isReadOnly);
-		nameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		nameText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		nameText.addModifyListener(adapter);
 		TigerstripeFormEditor editor = (TigerstripeFormEditor) ((TigerstripeFormPage) getForm()
 				.getContainer()).getEditor();
@@ -229,29 +239,31 @@ public class ArtifactConstantDetailsPage implements IDetailsPage,
 			nameText.addModifyListener(nameEditListener);
 		}
 
-		label = toolkit.createLabel(sectionClient, "");
-
 		label = toolkit.createLabel(sectionClient, "Description: ");
+		label.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		label.setEnabled(!isReadOnly);
 		commentText = toolkit.createText(sectionClient, "", SWT.WRAP
 				| SWT.MULTI | SWT.V_SCROLL);
 		commentText.setEnabled(!isReadOnly);
-		commentText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		commentText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		commentText.addModifyListener(adapter);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		TableWrapData gd = new TableWrapData(TableWrapData.FILL_GRAB);
 		gd.heightHint = 70;
-		gd.widthHint = 300;
+		gd.maxHeight = 70;
 		commentText.setLayoutData(gd);
-		label = toolkit.createLabel(sectionClient, "");
 
 		label = toolkit.createLabel(sectionClient, "Visibility: ");
+		label.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		label.setEnabled(!isReadOnly);
+
 		Composite visiComposite = toolkit.createComposite(sectionClient);
+		layout = new TableWrapLayout();
+		layout.leftMargin = 0;
+		layout.rightMargin = 0;
+		layout.numColumns = 4;
 		visiComposite.setEnabled(!isReadOnly);
-		gLayout = new GridLayout();
-		gLayout.numColumns = 3;
-		visiComposite.setLayout(gLayout);
-		visiComposite.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		visiComposite.setLayout(layout);
+		visiComposite.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		publicButton = toolkit.createButton(visiComposite, "Public", SWT.RADIO);
 		publicButton.setEnabled(!isReadOnly);
 		publicButton.addSelectionListener(adapter);
@@ -263,19 +275,15 @@ public class ArtifactConstantDetailsPage implements IDetailsPage,
 				SWT.RADIO);
 		privateButton.setEnabled(!isReadOnly);
 		privateButton.addSelectionListener(adapter);
-		label = toolkit.createLabel(sectionClient, "");
-		label.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 		label = toolkit.createLabel(sectionClient, "Value: ");
 		label.setEnabled(!isReadOnly);
 		valueText = toolkit.createText(sectionClient, "");
 		valueText.setEnabled(!isReadOnly);
-		valueText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		valueText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		valueText.addModifyListener(adapter);
 
-		label = toolkit.createLabel(sectionClient, "");
-
-		label = toolkit.createLabel(sectionClient, "Type: ", SWT.WRAP);
+		label = toolkit.createLabel(sectionClient, "Type: ");
 		label.setEnabled(!isReadOnly);
 		baseTypeCombo = new CCombo(sectionClient, SWT.SINGLE | SWT.READ_ONLY
 				| SWT.BORDER);
@@ -286,10 +294,14 @@ public class ArtifactConstantDetailsPage implements IDetailsPage,
 			baseTypeCombo.add(supportedPrimitiveTypes[i]);
 		}
 		baseTypeCombo.addSelectionListener(adapter);
-		label = toolkit.createLabel(sectionClient, "", SWT.WRAP);
+		baseTypeCombo.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+
+		createStereotypes(sectionClient, form.getToolkit());
 
 		section.setClient(sectionClient);
 		toolkit.paintBordersFor(sectionClient);
+
+		return sectionClient.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
 	}
 
 	// ===================================================================
@@ -341,7 +353,6 @@ public class ArtifactConstantDetailsPage implements IDetailsPage,
 		if (part instanceof ArtifactConstantsSection) {
 			if (nameEditListener != null)
 				nameEditListener.reset();
-			master = (ArtifactConstantsSection) part;
 
 			Table labelsTable = master.getViewer().getTable();
 

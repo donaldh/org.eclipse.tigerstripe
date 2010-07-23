@@ -21,13 +21,13 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.exception
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.query.QueryArtifactEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.session.SessionArtifactEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.updateProcedure.UpdateProcedureArtifactEditor;
-import org.eclipse.ui.forms.IFormPart;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutUtil;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
+import org.eclipse.ui.forms.widgets.TableWrapData;
 
 public class ArtifactOverviewPage extends TigerstripeFormPage {
 
@@ -61,7 +61,7 @@ public class ArtifactOverviewPage extends TigerstripeFormPage {
 		form.setText(contentProvider
 				.getText(IArtifactFormContentProvider.ARTIFACT_OVERVIEW_TITLE));
 		fillBody(managedForm, toolkit);
-//		managedForm.refresh();
+		// managedForm.refresh();
 	}
 
 	@Override
@@ -73,37 +73,45 @@ public class ArtifactOverviewPage extends TigerstripeFormPage {
 
 	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {
 		Composite body = managedForm.getForm().getBody();
-		TableWrapLayout layout = new TableWrapLayout();
-		layout.bottomMargin = 10;
-		layout.topMargin = 5;
-		layout.leftMargin = 10;
-		layout.rightMargin = 10;
-		layout.numColumns = 2;
-		layout.verticalSpacing = 30;
-		layout.horizontalSpacing = 10;
-		body.setLayout(layout);
+		body.setLayout(TigerstripeLayoutUtil
+				.createZeroTableWrapLayout(1, false));
+		body.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+
+		Composite composite = toolkit.createComposite(body);
+		composite.setLayout(TigerstripeLayoutUtil.createPageTableWrapLayout(2,
+				true));
+		composite.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		TigerstripeSectionPart part = new ArtifactGeneralInfoSection(this,
-				body, toolkit, labelProvider, contentProvider);
+				composite, toolkit, labelProvider, contentProvider);
 		managedForm.addPart(part);
 
-		part = new ArtifactContentSection(this, body, toolkit,
+		part = new ArtifactContentSection(this, composite, toolkit,
 				labelProvider, contentProvider);
 		managedForm.addPart(part);
 
+		part = new ArtifactStereotypesSection(this, composite, toolkit,
+				labelProvider, contentProvider);
+		managedForm.addPart(part);
+
+		composite = toolkit.createComposite(body);
+		composite.setLayout(TigerstripeLayoutUtil.createPageTableWrapLayout(2,
+				false));
+		composite.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+
 		if (contentProvider.hasSpecifics()) {
-			part = contentProvider.getSpecifics(this, body, toolkit);
+			part = contentProvider.getSpecifics(this, composite, toolkit);
 			managedForm.addPart(part);
 		}
 
 		if (contentProvider.hasAttributes()) {
-			part = new ArtifactAttributesSection(this, body, toolkit,
+			part = new ArtifactAttributesSection(this, composite, toolkit,
 					labelProvider, contentProvider, getAttributesStyle());
 			managedForm.addPart(part);
 		}
 
 		if (contentProvider.hasConstants()) {
-			part = new ArtifactConstantsSection(this, body, toolkit,
+			part = new ArtifactConstantsSection(this, composite, toolkit,
 					labelProvider, contentProvider, getConstantsStyle());
 
 			// see bug #77
@@ -114,7 +122,7 @@ public class ArtifactOverviewPage extends TigerstripeFormPage {
 		}
 
 		if (contentProvider.hasMethods()) {
-			part = new ArtifactMethodsSection(this, body, toolkit,
+			part = new ArtifactMethodsSection(this, composite, toolkit,
 					labelProvider, contentProvider, getMethodsStyle());
 			managedForm.addPart(part);
 		}
@@ -131,7 +139,7 @@ public class ArtifactOverviewPage extends TigerstripeFormPage {
 		}
 		return ExpandableComposite.COMPACT;
 	}
-	
+
 	private int getMethodsStyle() {
 
 		if (getEditor() instanceof SessionArtifactEditor) {
@@ -139,7 +147,7 @@ public class ArtifactOverviewPage extends TigerstripeFormPage {
 		}
 		return ExpandableComposite.COMPACT;
 	}
-	
+
 	private int getConstantsStyle() {
 		if (getEditor() instanceof EnumArtifactEditor) {
 			return ExpandableComposite.EXPANDED;

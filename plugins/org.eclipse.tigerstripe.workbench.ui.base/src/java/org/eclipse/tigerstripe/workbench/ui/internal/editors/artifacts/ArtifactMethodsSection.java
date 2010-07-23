@@ -13,8 +13,6 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts;
 import java.util.Arrays;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -29,15 +27,11 @@ import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.FormAttachment;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -55,12 +49,12 @@ import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.undo.ModelUndoableEdit;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutUtil;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 
@@ -75,10 +69,6 @@ public class ArtifactMethodsSection extends ArtifactSectionPart implements
 		super(page, parent, toolkit, labelProvider, contentProvider,
 				ExpandableComposite.TWISTIE | style);
 		setTitle("Methods");
-		getSection().marginWidth = 10;
-		getSection().marginHeight = 5;
-		getSection().clientVerticalSpacing = 4;
-
 		createContent();
 		updateMaster();
 	}
@@ -95,7 +85,6 @@ public class ArtifactMethodsSection extends ArtifactSectionPart implements
 	@Override
 	public void createContent() {
 		IManagedForm managedForm = getPage().getManagedForm();
-		final ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = getToolkit();
 
 		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
@@ -103,20 +92,15 @@ public class ArtifactMethodsSection extends ArtifactSectionPart implements
 		getSection().setLayoutData(td);
 
 		Composite body = getToolkit().createComposite(getSection());
-		GridLayout layout = new GridLayout();
-		layout.marginWidth = 5;
-		layout.marginHeight = 5;
-		body.setLayout(layout);
+		body.setLayout(TigerstripeLayoutUtil.createZeroGridLayout(1, false));
 		sashForm = new SashForm(body, SWT.HORIZONTAL);
 		toolkit.adapt(sashForm, false, false);
 		sashForm.setMenu(body.getMenu());
-		sashForm.setToolTipText("Define/Edit methods for this Artifact.");
-		sashForm.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		sashForm.setToolTipText("Define/Edit attributes for this Artifact.");
+		sashForm.setLayoutData(new GridData(GridData.FILL_BOTH));
+
 		createMasterPart(managedForm, sashForm);
 		createDetailsPart(managedForm, sashForm);
-		// createToolBarActions(managedForm);
-		sashForm.setWeights(new int[] { 35, 65 });
-		form.updateToolBar();
 
 		getSection().setClient(body);
 		getToolkit().paintBordersFor(body);
@@ -174,23 +158,18 @@ public class ArtifactMethodsSection extends ArtifactSectionPart implements
 				ExpandableComposite.NO_TITLE);
 
 		Composite sectionClient = toolkit.createComposite(section);
-		FormLayout layout = new FormLayout();
+		GridLayout layout = new GridLayout(2, false);
 		sectionClient.setLayout(layout);
 
-		Table t = toolkit.createTable(sectionClient, SWT.NULL);
-		FormData fd = new FormData();
-		fd.top = new FormAttachment(0, 5);
-		fd.bottom = new FormAttachment(100, -150);
-		fd.left = new FormAttachment(0, 10);
-		fd.right = new FormAttachment(80);
-		fd.width = 100;
-		t.setLayoutData(fd);
-
-		t.setHeaderVisible(true);
-		t.setLinesVisible(true);
+		table = toolkit.createTable(sectionClient, SWT.NULL);
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		gd.verticalSpan = 4;
+		table.setLayoutData(gd);
+		table.setHeaderVisible(true);
+		table.setLinesVisible(true);
 
 		// Make a header for the table
-		nameColumn = new TableColumn(t, SWT.NULL);
+		nameColumn = new TableColumn(table, SWT.NULL);
 		nameColumn.setText("Name");
 		nameColumn.setWidth(250);
 
@@ -227,11 +206,10 @@ public class ArtifactMethodsSection extends ArtifactSectionPart implements
 		// Support for testing
 		addAttributeButton.setData("name", "Add_Method");
 		addAttributeButton.setEnabled(!isReadonly());
-		fd = new FormData();
-		fd.top = new FormAttachment(0, 5);
-		fd.left = new FormAttachment(t, 5);
-		fd.right = new FormAttachment(100, -5);
-		addAttributeButton.setLayoutData(fd);
+		addAttributeButton.setLayoutData(new GridData(
+				GridData.HORIZONTAL_ALIGN_FILL
+						| GridData.VERTICAL_ALIGN_BEGINNING));
+		;
 		addAttributeButton.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent event) {
 				addButtonSelected(event);
@@ -243,11 +221,9 @@ public class ArtifactMethodsSection extends ArtifactSectionPart implements
 		});
 		upAttributeButton = toolkit.createButton(sectionClient, "Up", SWT.PUSH);
 		upAttributeButton.setEnabled(!getIArtifact().isReadonly());
-		fd = new FormData();
-		fd.top = new FormAttachment(addAttributeButton, 5);
-		fd.left = new FormAttachment(t, 5);
-		fd.right = new FormAttachment(100, -5);
-		upAttributeButton.setLayoutData(fd);
+		upAttributeButton.setLayoutData(new GridData(
+				GridData.HORIZONTAL_ALIGN_FILL
+						| GridData.VERTICAL_ALIGN_BEGINNING));
 		upAttributeButton.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent event) {
 				upButtonSelected(event);
@@ -260,12 +236,9 @@ public class ArtifactMethodsSection extends ArtifactSectionPart implements
 
 		downAttributeButton = toolkit.createButton(sectionClient, "Down",
 				SWT.PUSH);
-		downAttributeButton.setEnabled(!getIArtifact().isReadonly());
-		fd = new FormData();
-		fd.top = new FormAttachment(upAttributeButton, 5);
-		fd.left = new FormAttachment(t, 5);
-		fd.right = new FormAttachment(100, -5);
-		downAttributeButton.setLayoutData(fd);
+		downAttributeButton.setLayoutData(new GridData(
+				GridData.HORIZONTAL_ALIGN_FILL
+						| GridData.VERTICAL_ALIGN_BEGINNING));
 		downAttributeButton.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent event) {
 				downButtonSelected(event);
@@ -281,11 +254,9 @@ public class ArtifactMethodsSection extends ArtifactSectionPart implements
 		// Support for testing
 		removeAttributeButton.setData("name", "Remove_Method");
 		removeAttributeButton.setEnabled(!getIArtifact().isReadonly());
-		fd = new FormData();
-		fd.top = new FormAttachment(downAttributeButton, 5);
-		fd.left = new FormAttachment(t, 5);
-		fd.right = new FormAttachment(100, -5);
-		removeAttributeButton.setLayoutData(fd);
+		removeAttributeButton.setLayoutData(new GridData(
+				GridData.HORIZONTAL_ALIGN_FILL
+						| GridData.VERTICAL_ALIGN_BEGINNING));
 
 		removeAttributeButton.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent event) {
@@ -297,16 +268,8 @@ public class ArtifactMethodsSection extends ArtifactSectionPart implements
 			}
 		});
 
-		Label l = toolkit.createLabel(sectionClient, "", SWT.NULL);
-		fd = new FormData();
-		fd.top = new FormAttachment(removeAttributeButton, 5);
-		fd.left = new FormAttachment(t, 5);
-		fd.right = new FormAttachment(100, -5);
-		fd.height = 250;
-		l.setLayoutData(fd);
-
 		final IFormPart part = this;
-		viewer = new TableViewer(t);
+		viewer = new TableViewer(table);
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
 				selIndex = viewer.getTable().getSelectionIndex();
@@ -321,6 +284,18 @@ public class ArtifactMethodsSection extends ArtifactSectionPart implements
 
 		toolkit.paintBordersFor(sectionClient);
 		section.setClient(sectionClient);
+	}
+
+	/**
+	 * FIXME Used only by ArtifactMethodDetailsPage. Just workaround to avoid
+	 * appearing scrolls on details part.
+	 */
+	void setMinimumHeight(int value) {
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		gd.verticalSpan = 4;
+		gd.minimumHeight = value;
+		table.setLayoutData(gd);
+		getManagedForm().reflow(true);
 	}
 
 	/**
@@ -554,37 +529,11 @@ public class ArtifactMethodsSection extends ArtifactSectionPart implements
 	}
 
 	protected void registerPages(DetailsPart detailsPart) {
-		detailsPart.registerPage(Method.class, // TODO remove the dependency on
-				// Core and use API instead
-				new ArtifactMethodDetailsPage(getIArtifact().isReadonly()));
-	}
-
-	protected void createToolBarActions(IManagedForm managedForm) {
-		final ScrolledForm form = managedForm.getForm();
-
-		Action haction = new Action("hor", IAction.AS_RADIO_BUTTON) {
-			@Override
-			public void run() {
-				sashForm.setOrientation(SWT.HORIZONTAL);
-				form.reflow(true);
-			}
-		};
-
-		haction.setChecked(true);
-		haction.setToolTipText("Horizontal Orientation");
-
-		Action vaction = new Action("ver", IAction.AS_RADIO_BUTTON) {
-			@Override
-			public void run() {
-				sashForm.setOrientation(SWT.VERTICAL);
-				form.reflow(true);
-			}
-		};
-		vaction.setChecked(false);
-		vaction.setToolTipText("Vertical Orientation");
-
-		form.getToolBarManager().add(haction);
-		form.getToolBarManager().add(vaction);
+		detailsPart
+				.registerPage(Method.class, // TODO remove the dependency on
+						// Core and use API instead
+						new ArtifactMethodDetailsPage(this, getIArtifact()
+								.isReadonly()));
 	}
 
 	private void createDetailsPart(final IManagedForm mform, Composite parent) {
@@ -607,6 +556,7 @@ public class ArtifactMethodsSection extends ArtifactSectionPart implements
 	}
 
 	private int selIndex = -1;
+	private Table table;
 
 	@Override
 	public void refresh() {
