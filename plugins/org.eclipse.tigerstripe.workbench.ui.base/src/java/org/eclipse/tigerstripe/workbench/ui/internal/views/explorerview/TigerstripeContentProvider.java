@@ -104,7 +104,11 @@ public class TigerstripeContentProvider extends
 
 	@Override
 	public void dispose() {
-		super.dispose();
+		try {
+			super.dispose();
+		} catch (Exception e) {
+			//ignore any disposing errors
+		}
 		fStateModel.removePropertyChangeListener(fLayoutPropertyListener);
 		EclipsePlugin.getDefault().getPreferenceStore()
 				.removePropertyChangeListener(this);

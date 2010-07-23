@@ -29,7 +29,7 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.core.JarEntryFile;
 import org.eclipse.jdt.internal.core.JarPackageFragmentRoot;
-import org.eclipse.jdt.internal.ui.packageview.PackageExplorerContentProvider;
+import org.eclipse.jdt.internal.ui.navigator.JavaNavigatorContentProvider;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.ProjectMigrationUtils;
@@ -45,7 +45,7 @@ import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.LogicalExplorerNodeFactory;
 
 public class NewTigerstripeExplorerContentProvider extends
-		PackageExplorerContentProvider {
+		JavaNavigatorContentProvider {
 
 	private boolean showRelationshipAnchors = false;
 

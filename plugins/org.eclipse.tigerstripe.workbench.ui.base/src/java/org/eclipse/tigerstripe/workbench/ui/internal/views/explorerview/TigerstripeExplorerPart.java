@@ -72,7 +72,6 @@ import org.eclipse.tigerstripe.workbench.ui.internal.viewers.TigerstripeDecorato
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.TigerstripeExplorerActionGroup;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.AnnotationsFilesFilter;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.ClasspathContainerFilter;
-import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.DottedFilesFilter;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.EmptyDefaultPackageFilter;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.TSLibraryFilter;
 import org.eclipse.tigerstripe.workbench.ui.viewers.ITigerstripeLabelDecorator;
@@ -390,7 +389,7 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 
 	private void restoreFilterAndSorter() {
 		treeViewer.addFilter(new OutputFolderFilter());
-		treeViewer.addFilter(new DottedFilesFilter());
+		//treeViewer.addFilter(new DottedFilesFilter());
 		treeViewer.addFilter(new ClasspathContainerFilter());
 		treeViewer.addFilter(new EmptyDefaultPackageFilter());
 		treeViewer.addFilter(new TSLibraryFilter());

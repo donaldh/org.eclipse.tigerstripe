@@ -1447,39 +1447,37 @@
       </navigatorContent>
       <commonFilter
             activeByDefault="true"
-            class="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.DottedFilesFilter"
-            id="org.eclipse.tigerstripe.workbench.ui.explorer.filters.DottedFilesFilter"
-            name="DottedFilesFilter">
-      </commonFilter>
-      <commonFilter
-            activeByDefault="true"
-            class="org.eclipse.jdt.internal.ui.filters.OutputFolderFilter"
-            id="org.eclipse.tigerstripe.workbench.ui.explorer.filters.OutputFolderFilter"
-            name="OutputFolderFilter">
-      </commonFilter>
-      <commonFilter
-            activeByDefault="true"
             class="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.ClasspathContainerFilter"
             id="org.eclipse.tigerstripe.workbench.ui.explorer.filters.ClasspathContainerFilter"
-            name="ClasspathContainerFilter">
+            name="Classpath containers"
+            description="Hides all classpath containers except referenced projects">
       </commonFilter>
       <commonFilter
             activeByDefault="true"
             class="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.EmptyDefaultPackageFilter"
             id="org.eclipse.tigerstripe.workbench.ui.explorer.filters.EmptyDefaultPackageFilter"
-            name="EmptyDefaultPackageFilter">
+            name="Empty default packages"
+            description="Hides empty default packages">
       </commonFilter>
       <commonFilter
             activeByDefault="true"
             class="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.TSLibraryFilter"
             id="org.eclipse.tigerstripe.workbench.ui.explorer.filters.LibraryFilter"
-            name="LibraryFilter">
+            name="External libraries"
+            description="Hides external libraries (except modules) i.e. those not contained inside the project itself">
       </commonFilter>
       <commonFilter
             activeByDefault="true"
             class="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.AnnotationsFilesFilter"
             id="org.eclipse.tigerstripe.workbench.ui.explorer.filters.AnnotationsFilesFilter"
             name="AnnotationsFilesFilter">
+      </commonFilter>
+      <commonFilter
+            activeByDefault="true"
+            class="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.EmptyParentPackageFilter"
+            id="org.eclipse.tigerstripe.workbench.ui.explorer.filters.EmptyParentPackageFilter"
+            name="Empty parent packages"
+            description="Hides empty packages which do not contain components but other sub-folders. E.g. given a package 'org.junit' where 'org' does not contain any Java files, this filter will hide the package 'org' but not the package 'org.junit'">
       </commonFilter>
    </extension>
    <extension
@@ -1489,7 +1487,11 @@
          <includes>
             <contentExtension pattern="org.eclipse.ui.navigator.resources.*"/>
             <contentExtension pattern="org.eclipse.ui.navigator.resourceContent"/>
-            <contentExtension pattern="org.eclipse.jdt.java.ui.*"/>
+            <contentExtension pattern="org.eclipse.jdt.java.ui.javaContent"/>
+            <contentExtension pattern="org.eclipse.jdt.java.ui.navigator.actions.*"/>
+            <!-- add all java filters except HideEmptyInnerPackages and HideReferencedLibraries -->
+            <contentExtension pattern="org.eclipse.jdt.java.ui.filters.Hide[^ER].*"/>
+            <contentExtension pattern="org.eclipse.jdt.java.ui.filters.HideEmptyPackages"/>
             <contentExtension pattern="org.eclipse.gmf.ecore.editor.*"/>
             <contentExtension pattern="org.eclipse.tigerstripe.workbench.ui.explorer.*"/>
          </includes>

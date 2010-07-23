@@ -26,7 +26,6 @@ public class ClasspathContainerFilter extends ViewerFilter {
 
 	public ClasspathContainerFilter() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override
