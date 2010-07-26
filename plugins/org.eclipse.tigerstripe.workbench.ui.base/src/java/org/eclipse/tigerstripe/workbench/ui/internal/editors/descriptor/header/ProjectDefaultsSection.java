@@ -74,7 +74,7 @@ public class ProjectDefaultsSection extends TigerstripeDescriptorSectionPart {
 	public ProjectDefaultsSection(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit) {
 		super(page, parent, toolkit, Section.TITLE_BAR | Section.TWISTIE
-				| Section.COMPACT);
+				| Section.EXPANDED);
 		setTitle("Project Defaults");
 		createContent();
 	}

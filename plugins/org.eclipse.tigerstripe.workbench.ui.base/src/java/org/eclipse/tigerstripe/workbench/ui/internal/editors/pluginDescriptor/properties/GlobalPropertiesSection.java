@@ -73,7 +73,7 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 
 	public GlobalPropertiesSection(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit) {
-		super(page, parent, toolkit, ExpandableComposite.TWISTIE);
+		super(page, parent, toolkit, Section.TWISTIE | Section.EXPANDED);
 		setTitle("&Global Properties");
 		setDescription("Define global properties within the context of this plugin.");
 		getSection().marginWidth = 10;

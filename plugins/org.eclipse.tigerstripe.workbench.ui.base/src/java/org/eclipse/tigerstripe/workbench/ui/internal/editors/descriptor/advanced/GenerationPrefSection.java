@@ -101,7 +101,7 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 	public GenerationPrefSection(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit) {
 		super(page, parent, toolkit, ExpandableComposite.TITLE_BAR
-				| ExpandableComposite.TWISTIE | ExpandableComposite.COMPACT);
+				| Section.TWISTIE | Section.EXPANDED);
 		setTitle("Generation");
 		createContent();
 	}

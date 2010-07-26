@@ -35,8 +35,8 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.ru
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.details.SimpleRuleDetailsPage;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IFormPart;
-import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.Section;
 
 /**
  * 
@@ -47,7 +47,7 @@ public class GlobalRulesSection extends RulesSectionPart implements IFormPart {
 
 	public GlobalRulesSection(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit) {
-		super(page, parent, toolkit, ExpandableComposite.TWISTIE);
+		super(page, parent, toolkit, Section.TWISTIE | Section.EXPANDED);
 		setTitle("&Global Rules");
 		setDescription("Define the rules to be run once only per generation with this plugin.");
 		getSection().marginWidth = 10;

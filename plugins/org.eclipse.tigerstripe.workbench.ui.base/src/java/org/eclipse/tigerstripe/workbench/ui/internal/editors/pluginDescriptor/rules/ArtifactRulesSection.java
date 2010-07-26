@@ -32,8 +32,8 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.ru
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.details.ArtifactRunnableRuleDetailsPage;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IFormPart;
-import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.Section;
 
 /**
  * 
@@ -69,7 +69,7 @@ public class ArtifactRulesSection extends RulesSectionPart implements IFormPart 
 
 	public ArtifactRulesSection(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit) {
-		super(page, parent, toolkit, ExpandableComposite.TWISTIE);
+		super(page, parent, toolkit, Section.TWISTIE | Section.EXPANDED);
 		setTitle("&Artifact Rules");
 		setDescription("Define the rules to be run while iterating over instances of a specific Artifact type.");
 		getSection().marginWidth = 10;
