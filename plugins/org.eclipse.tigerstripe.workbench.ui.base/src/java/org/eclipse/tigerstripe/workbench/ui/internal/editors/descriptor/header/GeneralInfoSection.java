@@ -106,7 +106,7 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 	private void createName(Composite parent, FormToolkit toolkit) {
 		TableWrapData td = null;
 
-		nameLabel = toolkit.createLabel(parent, "Name: ", SWT.WRAP);
+		nameLabel = toolkit.createLabel(parent, "Name: ");
 		nameText = toolkit.createText(parent, "");
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		nameText.setLayoutData(td);
@@ -116,7 +116,7 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 	}
 
 	private void createId(Composite parent, FormToolkit toolkit) {
-		modelIdLabel = toolkit.createLabel(parent, "Id: ", SWT.WRAP);
+		modelIdLabel = toolkit.createLabel(parent, "Id: ");
 		modelIdLabel.setEnabled(!this.isReadonly());
 
 		boolean changeAbility = !this.isReadonly();
@@ -166,7 +166,7 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 	private void createVersion(Composite parent, FormToolkit toolkit) {
 		TableWrapData td = null;
 
-		versionLabel = toolkit.createLabel(parent, "Version: ", SWT.WRAP);
+		versionLabel = toolkit.createLabel(parent, "Version: ");
 		versionText = toolkit.createText(parent, "");
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		versionText.setLayoutData(td);
@@ -178,8 +178,7 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 	private void createDescription(Composite parent, FormToolkit toolkit) {
 		TableWrapData td = null;
 
-		descriptionLabel = toolkit.createLabel(parent, "Description: ",
-				SWT.WRAP);
+		descriptionLabel = toolkit.createLabel(parent, "Description: ");
 		descriptionText = toolkit.createText(parent, "", SWT.WRAP | SWT.MULTI
 				| SWT.V_SCROLL);
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
