@@ -56,7 +56,7 @@ public class ProjectContentSection extends TigerstripeDescriptorSectionPart {
 
 		buf.append("<form>");
 		buf
-				.append("<li><b>General Informations</b>: containing high level information about the project.</li>");
+				.append("<li><b>General Information</b>: contains high level information about the project.</li>");
 		// buf.append("<li><a href=\"repositories\">Artifact Repositories</a>:
 		// containing all artifacts used to model the OSS/J Interface.</li>");
 		buf

@@ -39,6 +39,8 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 public class GeneralPreferencePage extends FieldEditorPreferencePage implements
 		IWorkbenchPreferencePage {
 
+	public final static String PAGE_ID = "org.eclipse.tigerstripe.ui.eclipse.preferences.GeneralPreferencePage";
+
 	// The target generation path
 	public static final String P_DEFAULTPACKAGE = "p.general.default.artifact.package";
 

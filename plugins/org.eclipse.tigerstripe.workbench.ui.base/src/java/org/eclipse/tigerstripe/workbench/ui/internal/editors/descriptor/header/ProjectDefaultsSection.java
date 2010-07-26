@@ -20,7 +20,7 @@ import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.DescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.TigerstripeDescriptorSectionPart;
-import org.eclipse.tigerstripe.workbench.ui.internal.preferences.TopLevelPreferencePage;
+import org.eclipse.tigerstripe.workbench.ui.internal.preferences.GeneralPreferencePage;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.FormText;
@@ -145,7 +145,7 @@ public class ProjectDefaultsSection extends TigerstripeDescriptorSectionPart {
 				PreferenceDialog dialog = new PreferenceDialog(getBody()
 						.getShell(), EclipsePlugin.getDefault().getWorkbench()
 						.getPreferenceManager());
-				dialog.setSelectedNode(TopLevelPreferencePage.PAGE_ID);
+				dialog.setSelectedNode(GeneralPreferencePage.PAGE_ID);
 				dialog.open();
 			}
 		});

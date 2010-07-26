@@ -29,7 +29,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 public class GenerationPreferencePage extends FieldEditorPreferencePage
 		implements IWorkbenchPreferencePage {
 
-	public final static String PAGE_ID = "org.eclipse.tigerstripe.workbench.ui.eclipse.preferences.GenerationPreferencePage";
+	public final static String PAGE_ID = "org.eclipse.tigerstripe.ui.eclipse.preferences.GenerationPreferencePage";
 
 	// The target generation path
 	public static final String P_TARGETPATH = "p.general.target.path";
