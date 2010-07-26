@@ -1470,7 +1470,8 @@
             activeByDefault="true"
             class="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.AnnotationsFilesFilter"
             id="org.eclipse.tigerstripe.workbench.ui.explorer.filters.AnnotationsFilesFilter"
-            name="AnnotationsFilesFilter">
+            name="Tigerstripe Annotations Files"
+            description="Hides tigerstripe annotations files">
       </commonFilter>
       <commonFilter
             activeByDefault="true"
