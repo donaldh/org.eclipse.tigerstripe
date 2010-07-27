@@ -10,13 +10,16 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.header;
 
+import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
+import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.TigerstripeDescriptorSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.dependencies.DescriptorDependenciesPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.plugins.PluginConfigurationPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.repositories.DescriptorRepositoriesPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.preferences.GeneralPreferencePage;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
@@ -40,6 +43,9 @@ public class ProjectContentSection extends TigerstripeDescriptorSectionPart {
 
 		createProjectComponents(getBody(), getToolkit());
 		createDescription(getBody(), getToolkit());
+
+		if (!this.isReadonly())
+			createPreferenceMsg(getBody(), getToolkit());
 
 		getSection().setClient(getBody());
 		getToolkit().paintBordersFor(getBody());
@@ -95,6 +101,26 @@ public class ProjectContentSection extends TigerstripeDescriptorSectionPart {
 				+ ITigerstripeConstants.PROJECT_DESCRIPTOR
 				+ "</b> in the top level directory of the project.</p></form>";
 		rtext.setText(data, true, false);
+	}
+
+	private void createPreferenceMsg(Composite parent, FormToolkit toolkit) {
+		TableWrapData td = null;
+
+		String data = "<form><p>To set default values to be reused across multiple Tigerstripe Projects, please use the Tigerstripe <a href=\"http://www.tigerstripedev.net/	\">preferences</a> page.</p></form>";
+		FormText rtext = toolkit.createFormText(parent, true);
+		td = new TableWrapData(TableWrapData.FILL_GRAB);
+		td.colspan = 2;
+		rtext.setLayoutData(td);
+		rtext.setText(data, true, false);
+		rtext.addHyperlinkListener(new HyperlinkAdapter() {
+			public void linkActivated(HyperlinkEvent e) {
+				PreferenceDialog dialog = new PreferenceDialog(getBody()
+						.getShell(), EclipsePlugin.getDefault().getWorkbench()
+						.getPreferenceManager());
+				dialog.setSelectedNode(GeneralPreferencePage.PAGE_ID);
+				dialog.open();
+			}
+		});
 	}
 
 }

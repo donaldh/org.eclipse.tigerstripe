@@ -2,7 +2,6 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.header;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
@@ -20,10 +19,6 @@ import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.DescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.TigerstripeDescriptorSectionPart;
-import org.eclipse.tigerstripe.workbench.ui.internal.preferences.GeneralPreferencePage;
-import org.eclipse.ui.forms.events.HyperlinkAdapter;
-import org.eclipse.ui.forms.events.HyperlinkEvent;
-import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
@@ -92,9 +87,6 @@ public class ProjectDefaultsSection extends TigerstripeDescriptorSectionPart {
 			EclipsePlugin.log(status);
 		}
 
-		if (!this.isReadonly())
-			createPreferenceMsg(getBody(), getToolkit());
-
 		getSection().setClient(getBody());
 		getToolkit().paintBordersFor(getBody());
 	}
@@ -129,26 +121,6 @@ public class ProjectDefaultsSection extends TigerstripeDescriptorSectionPart {
 		idText2.setEnabled(!this.isReadonly());
 		idLabel2.setEnabled(!this.isReadonly());
 
-	}
-
-	private void createPreferenceMsg(Composite parent, FormToolkit toolkit) {
-		TableWrapData td = null;
-
-		String data = "<form><p>To set default values to be reused across multiple Tigerstripe Projects, please use the Tigerstripe <a href=\"http://www.tigerstripedev.net/	\">preferences</a> page.</p></form>";
-		FormText rtext = toolkit.createFormText(parent, true);
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.colspan = 2;
-		rtext.setLayoutData(td);
-		rtext.setText(data, true, false);
-		rtext.addHyperlinkListener(new HyperlinkAdapter() {
-			public void linkActivated(HyperlinkEvent e) {
-				PreferenceDialog dialog = new PreferenceDialog(getBody()
-						.getShell(), EclipsePlugin.getDefault().getWorkbench()
-						.getPreferenceManager());
-				dialog.setSelectedNode(GeneralPreferencePage.PAGE_ID);
-				dialog.open();
-			}
-		});
 	}
 
 	/**
