@@ -15,11 +15,11 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.segment.SegmentEditor;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 public class ScopePage extends TigerstripeFormPage {
 
@@ -55,22 +55,15 @@ public class ScopePage extends TigerstripeFormPage {
 
 	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {
 		Composite body = managedForm.getForm().getBody();
-		TableWrapLayout layout = new TableWrapLayout();
-		layout.bottomMargin = 10;
-		layout.topMargin = 5;
-		layout.leftMargin = 10;
-		layout.rightMargin = 10;
-		layout.numColumns = 2;
-		layout.verticalSpacing = 30;
-		layout.horizontalSpacing = 10;
-		body.setLayout(layout);
+		body.setLayout(TigerstripeLayoutFactory.createPageTableWrapLayout(2,
+				true));
 
 		managedForm.addPart(new IncludeExcludeSection(this, body, toolkit));
 		managedForm.addPart(new AnnotationIncludeExcludeSection(this, body,
 				toolkit));
-		managedForm.addPart(new AnnotationContextIncludeExcludeSection(this, body,
-				toolkit));
-		
+		managedForm.addPart(new AnnotationContextIncludeExcludeSection(this,
+				body, toolkit));
+
 	}
 
 	public ISegmentScope getScope() throws TigerstripeException {

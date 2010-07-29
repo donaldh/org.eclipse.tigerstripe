@@ -14,9 +14,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -88,35 +86,34 @@ public class FacetReferencesDetailsPage implements IDetailsPage {
 
 		Composite sectionClient = toolkit.createComposite(section);
 
-		sectionClient.setLayout(TigerstripeLayoutFactory.createFormGridLayout(
-				2, false));
-		sectionClient.setLayoutData(new GridData(GridData.FILL_BOTH));
+		sectionClient.setLayout(TigerstripeLayoutFactory
+				.createFormTableWrapLayout(2, false));
+		sectionClient.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
-		Label label = toolkit.createLabel(sectionClient, "Name: ");
+		toolkit.createLabel(sectionClient, "Name: ");
 		facetName = toolkit.createText(sectionClient, "");
-		facetName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		facetName.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		facetName.setEditable(false);
 		facetName.setEnabled(false);
 
-		label = toolkit.createLabel(sectionClient, "Version: ");
+		toolkit.createLabel(sectionClient, "Version: ");
 		facetVersion = toolkit.createText(sectionClient, "");
-		facetVersion.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		facetVersion.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		facetVersion.setEditable(false);
 		facetVersion.setEnabled(false);
 
-		label = toolkit.createLabel(sectionClient, "Description: ");
+		toolkit.createLabel(sectionClient, "Description: ");
 		facetDescription = toolkit.createText(sectionClient, "", SWT.WRAP
-				| SWT.MULTI);
-		facetDescription.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+				| SWT.MULTI | SWT.V_SCROLL);
 		facetDescription.setEditable(false);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		TableWrapData gd = new TableWrapData(TableWrapData.FILL_GRAB);
 		gd.heightHint = 70;
 		facetDescription.setLayoutData(gd);
 		facetDescription.setEnabled(false);
 
-		label = toolkit.createLabel(sectionClient, "Output Directory: ");
+		toolkit.createLabel(sectionClient, "Output Directory: ");
 		generationDir = toolkit.createText(sectionClient, "");
-		generationDir.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		generationDir.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		generationDir.setEditable(true);
 		generationDir.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {

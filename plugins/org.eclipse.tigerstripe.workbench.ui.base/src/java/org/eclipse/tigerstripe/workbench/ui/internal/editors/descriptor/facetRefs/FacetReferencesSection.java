@@ -14,8 +14,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -94,10 +92,9 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 		getSection().setLayoutData(td);
 
 		Composite body = getToolkit().createComposite(getSection());
-		GridLayout layout = new GridLayout();
-		layout.marginHeight = layout.marginWidth = 0;
-		layout.verticalSpacing = layout.horizontalSpacing = 0;
-		body.setLayout(layout);
+		body
+				.setLayout(TigerstripeLayoutFactory.createClearGridLayout(1,
+						false));
 		sashForm = new SashForm(body, SWT.HORIZONTAL);
 		toolkit.adapt(sashForm, false, false);
 		sashForm.setMenu(body.getMenu());
@@ -493,34 +490,6 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 				// dependency on
 				// Core and use API instead
 				new FacetReferencesDetailsPage(this));
-	}
-
-	protected void createToolBarActions(IManagedForm managedForm) {
-		final ScrolledForm form = managedForm.getForm();
-
-		Action haction = new Action("hor", IAction.AS_RADIO_BUTTON) {
-			@Override
-			public void run() {
-				sashForm.setOrientation(SWT.HORIZONTAL);
-				form.reflow(true);
-			}
-		};
-
-		haction.setChecked(true);
-		haction.setToolTipText("Horizontal Orientation");
-
-		Action vaction = new Action("ver", IAction.AS_RADIO_BUTTON) {
-			@Override
-			public void run() {
-				sashForm.setOrientation(SWT.VERTICAL);
-				form.reflow(true);
-			}
-		};
-		vaction.setChecked(false);
-		vaction.setToolTipText("Vertical Orientation");
-
-		form.getToolBarManager().add(haction);
-		form.getToolBarManager().add(vaction);
 	}
 
 	private void createDetailsPart(final IManagedForm mform, Composite parent) {

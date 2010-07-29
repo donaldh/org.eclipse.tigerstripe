@@ -27,9 +27,9 @@ import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
@@ -47,11 +47,11 @@ import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForStereotypeDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.segment.SegmentEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.segment.TigerstripeSegmentSectionPart;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 
@@ -258,31 +258,35 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 
 	@Override
 	protected void createContent() {
-
 		PatternLabelProvider labelProvider = new PatternLabelProvider();
+		getSection().setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		getBody().setLayout(
+				TigerstripeLayoutFactory.createFormTableWrapLayout(1, false));
+		getBody().setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
-		TableWrapLayout layout = new TableWrapLayout();
-		layout.numColumns = 2;
-		getSection().setLayout(layout);
+		createIncludeTable(getToolkit(), getBody(), labelProvider);
+		createExcludeTable(getToolkit(), getBody(), labelProvider);
+		createStereotypeExcludeTable(getToolkit(), getBody(), labelProvider);
 
-		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.heightHint = 550;
-		getSection().setLayoutData(td);
+		updateSection();
 
-		// Includes table
-		Label l = getToolkit().createLabel(getBody(), "Included patterns");
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.colspan = 2;
-		l.setLayoutData(td);
+		getSection().setClient(getBody());
+		getToolkit().paintBordersFor(getBody());
+	}
 
-		includesTable = getToolkit().createTable(getBody(),
-				SWT.BORDER | SWT.FLAT | SWT.FULL_SELECTION);
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.rowspan = 3;
-		td.heightHint = 100;
-		td.grabHorizontal = true;
+	private void createIncludeTable(FormToolkit toolkit, Composite parent,
+			PatternLabelProvider labelProvider) {
+		toolkit.createLabel(parent, "Included patterns:").setLayoutData(
+				new TableWrapData(TableWrapData.FILL_GRAB));
+
+		Composite tableClient = toolkit.createComposite(parent);
+		tableClient.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		tableClient.setLayout(TigerstripeLayoutFactory
+				.createFormPaneTableWrapLayout(2, false));
+
+		includesTable = toolkit.createTable(tableClient, SWT.BORDER | SWT.FLAT
+				| SWT.FULL_SELECTION);
 		includesTable.setEnabled(!this.isReadonly());
-		includesTable.setLayoutData(td);
 		includesTable.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
@@ -311,12 +315,13 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 			EclipsePlugin.log(e);
 		}
 
-		addIncludesButton = getToolkit().createButton(getBody(), "Add",
-				SWT.PUSH);
-		td = new TableWrapData(TableWrapData.LEFT);
-		td.maxWidth = 75;
+		Composite buttonClient = toolkit.createComposite(tableClient);
+		buttonClient.setLayout(TigerstripeLayoutFactory
+				.createButtonsTableWrapLayout());
+
+		addIncludesButton = toolkit.createButton(buttonClient, "Add", SWT.PUSH);
 		addIncludesButton.setEnabled(!this.isReadonly());
-		addIncludesButton.setLayoutData(td);
+		addIncludesButton.setLayoutData(new TableWrapData(TableWrapData.FILL));
 		addIncludesButton.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 				// empty
@@ -327,12 +332,10 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 			}
 		});
 
-		sortIncludesButton = getToolkit().createButton(getBody(), "Sort",
+		sortIncludesButton = toolkit.createButton(buttonClient, "Sort",
 				SWT.PUSH);
-		td = new TableWrapData(TableWrapData.LEFT);
-		td.maxWidth = 75;
 		sortIncludesButton.setEnabled(!this.isReadonly());
-		sortIncludesButton.setLayoutData(td);
+		sortIncludesButton.setLayoutData(new TableWrapData(TableWrapData.FILL));
 		sortIncludesButton.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 				// empty
@@ -344,11 +347,10 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 
 		});
 
-		removeIncludesButton = getToolkit().createButton(getBody(), "Remove",
+		removeIncludesButton = toolkit.createButton(buttonClient, "Remove",
 				SWT.PUSH);
-		td = new TableWrapData(TableWrapData.LEFT);
-		td.maxWidth = 75;
-		removeIncludesButton.setLayoutData(td);
+		removeIncludesButton
+				.setLayoutData(new TableWrapData(TableWrapData.FILL));
 		removeIncludesButton.setEnabled(!this.isReadonly());
 		removeIncludesButton.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -360,25 +362,25 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 			}
 		});
 
-		// Spacer
-		l = getToolkit().createLabel(getBody(), "");
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.colspan = 2;
-		td.heightHint = 15;
-		l.setLayoutData(td);
+		Point p = buttonClient.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 
-		// excludes table
-		l = getToolkit().createLabel(getBody(), "Excluded patterns");
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.colspan = 2;
-		l.setLayoutData(td);
-		excludesTable = getToolkit().createTable(getBody(),
-				SWT.BORDER | SWT.FLAT);
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.rowspan = 3;
-		td.heightHint = 100;
+		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
+		td.heightHint = p.y;
+		includesTable.setLayoutData(td);
+	}
+
+	private void createExcludeTable(FormToolkit toolkit, Composite parent,
+			PatternLabelProvider labelProvider) {
+		toolkit.createLabel(parent, "Excluded patterns:").setLayoutData(
+				new TableWrapData(TableWrapData.FILL_GRAB));
+
+		Composite tableClient = toolkit.createComposite(parent);
+		tableClient.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		tableClient.setLayout(TigerstripeLayoutFactory
+				.createFormPaneTableWrapLayout(2, false));
+
+		excludesTable = toolkit.createTable(tableClient, SWT.BORDER | SWT.FLAT);
 		excludesTable.setEnabled(!this.isReadonly());
-		excludesTable.setLayoutData(td);
 		excludesTable.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
@@ -406,12 +408,13 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 			EclipsePlugin.log(e);
 		}
 
-		addExcludesButton = getToolkit().createButton(getBody(), "Add",
-				SWT.PUSH);
-		td = new TableWrapData(TableWrapData.LEFT);
-		// td.maxWidth = 75;
+		Composite buttonClient = toolkit.createComposite(tableClient);
+		buttonClient.setLayout(TigerstripeLayoutFactory
+				.createButtonsTableWrapLayout());
+
+		addExcludesButton = toolkit.createButton(buttonClient, "Add", SWT.PUSH);
 		addExcludesButton.setEnabled(!this.isReadonly());
-		addExcludesButton.setLayoutData(td);
+		addExcludesButton.setLayoutData(new TableWrapData(TableWrapData.FILL));
 		addExcludesButton.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 				// empty
@@ -422,12 +425,10 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 			}
 		});
 
-		sortExcludesButton = getToolkit().createButton(getBody(), "Sort",
+		sortExcludesButton = toolkit.createButton(buttonClient, "Sort",
 				SWT.PUSH);
-		td = new TableWrapData(TableWrapData.LEFT);
-		td.maxWidth = 75;
 		sortExcludesButton.setEnabled(!this.isReadonly());
-		sortExcludesButton.setLayoutData(td);
+		sortExcludesButton.setLayoutData(new TableWrapData(TableWrapData.FILL));
 		sortExcludesButton.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 				// empty
@@ -438,11 +439,10 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 			}
 		});
 
-		removeExcludesButton = getToolkit().createButton(getBody(), "Remove",
+		removeExcludesButton = toolkit.createButton(buttonClient, "Remove",
 				SWT.PUSH);
-		td = new TableWrapData(TableWrapData.LEFT);
-		td.maxWidth = 75;
-		removeExcludesButton.setLayoutData(td);
+		removeExcludesButton
+				.setLayoutData(new TableWrapData(TableWrapData.FILL));
 		removeExcludesButton.setEnabled(!this.isReadonly());
 		removeExcludesButton.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -454,24 +454,28 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 			}
 		});
 
-		l = getToolkit().createLabel(getBody(), " ");
-		td = new TableWrapData(TableWrapData.LEFT);
-		td.heightHint = 55;
-		td.colspan = 2;
-		l.setLayoutData(td);
+		Point p = buttonClient.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 
-		// Stereotype excludes table
-		l = getToolkit().createLabel(getBody(), "Stereotype-based Exclusions");
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.colspan = 2;
-		l.setLayoutData(td);
-		stereotypeExcludesTable = getToolkit().createTable(getBody(),
-				SWT.BORDER | SWT.FLAT);
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.rowspan = 3;
-		td.heightHint = 100;
+		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
+		td.heightHint = p.y;
+		excludesTable.setLayoutData(td);
+	}
+
+	private void createStereotypeExcludeTable(FormToolkit toolkit,
+			Composite parent, PatternLabelProvider labelProvider) {
+		toolkit.createLabel(parent, "Stereotype-based Exclusions:")
+				.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+
+		Composite tableClient = toolkit.createComposite(parent);
+		tableClient.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		tableClient.setLayout(TigerstripeLayoutFactory
+				.createFormPaneTableWrapLayout(2, false));
+
+		stereotypeExcludesTable = toolkit.createTable(tableClient, SWT.BORDER
+				| SWT.FLAT);
 		stereotypeExcludesTable.setEnabled(!this.isReadonly());
-		stereotypeExcludesTable.setLayoutData(td);
+		stereotypeExcludesTable.setLayoutData(new TableWrapData(
+				TableWrapData.FILL_GRAB));
 		stereotypeExcludesTable.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
 			}
@@ -493,12 +497,15 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 			EclipsePlugin.log(e);
 		}
 
-		addStereotypeExcludesButton = getToolkit().createButton(getBody(),
-				"Add", SWT.PUSH);
-		td = new TableWrapData(TableWrapData.LEFT);
-		// td.maxWidth = 75;
+		Composite buttonClient = toolkit.createComposite(tableClient);
+		buttonClient.setLayout(TigerstripeLayoutFactory
+				.createButtonsTableWrapLayout());
+
+		addStereotypeExcludesButton = toolkit.createButton(buttonClient, "Add",
+				SWT.PUSH);
 		addStereotypeExcludesButton.setEnabled(!this.isReadonly());
-		addStereotypeExcludesButton.setLayoutData(td);
+		addStereotypeExcludesButton.setLayoutData(new TableWrapData(
+				TableWrapData.FILL));
 		addStereotypeExcludesButton
 				.addSelectionListener(new SelectionListener() {
 					public void widgetDefaultSelected(SelectionEvent e) {
@@ -510,12 +517,11 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 					}
 				});
 
-		sortStereotypeExcludesButton = getToolkit().createButton(getBody(),
+		sortStereotypeExcludesButton = toolkit.createButton(buttonClient,
 				"Sort", SWT.PUSH);
-		td = new TableWrapData(TableWrapData.LEFT);
-		// td.maxWidth = 75;
 		sortStereotypeExcludesButton.setEnabled(!this.isReadonly());
-		sortStereotypeExcludesButton.setLayoutData(td);
+		sortStereotypeExcludesButton.setLayoutData(new TableWrapData(
+				TableWrapData.FILL));
 		sortStereotypeExcludesButton
 				.addSelectionListener(new SelectionListener() {
 					public void widgetDefaultSelected(SelectionEvent e) {
@@ -528,11 +534,10 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 
 				});
 
-		removeStereotypeExcludesButton = getToolkit().createButton(getBody(),
+		removeStereotypeExcludesButton = toolkit.createButton(buttonClient,
 				"Remove", SWT.PUSH);
-		td = new TableWrapData(TableWrapData.LEFT);
-		td.maxWidth = 75;
-		removeStereotypeExcludesButton.setLayoutData(td);
+		removeStereotypeExcludesButton.setLayoutData(new TableWrapData(
+				TableWrapData.FILL));
 		removeStereotypeExcludesButton.setEnabled(!this.isReadonly());
 		removeStereotypeExcludesButton
 				.addSelectionListener(new SelectionListener() {
@@ -545,10 +550,11 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 					}
 				});
 
-		updateSection();
+		Point p = buttonClient.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 
-		getSection().setClient(getBody());
-		getToolkit().paintBordersFor(getBody());
+		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
+		td.heightHint = p.y;
+		stereotypeExcludesTable.setLayoutData(td);
 	}
 
 	private ITigerstripeModelProject getTSProject() throws TigerstripeException {

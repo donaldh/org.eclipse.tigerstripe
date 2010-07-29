@@ -18,7 +18,6 @@ import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
@@ -29,7 +28,6 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.segment.SegmentEdit
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.eclipse.ui.part.FileEditorInput;
 
 public class GeneralInfoSection extends TigerstripeSectionPart {
@@ -75,12 +73,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 
 	@Override
 	protected void createContent() {
-		TableWrapLayout layout = new TableWrapLayout();
-		layout.numColumns = 2;
-		getSection().setLayout(layout);
-
-		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-		getSection().setLayoutData(td);
+		getSection().setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		createID(getBody(), getToolkit());
 		createName(getBody(), getToolkit());
@@ -92,47 +85,35 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 	}
 
 	private void createID(Composite parent, FormToolkit toolkit) {
-		TableWrapData td = null;
-
-		Label label = toolkit.createLabel(parent, "ID: ", SWT.WRAP);
+		toolkit.createLabel(parent, "ID: ");
 		FileEditorInput input = (FileEditorInput) getPage().getEditorInput();
 		idText = toolkit.createText(parent, input.getFile().getName());
 		idText.setEnabled(false);
 		idText.setEditable(false);
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		idText.setLayoutData(td);
+		idText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 	}
 
 	private void createName(Composite parent, FormToolkit toolkit) {
-		TableWrapData td = null;
-
-		Label label = toolkit.createLabel(parent, "Name: ", SWT.WRAP);
+		toolkit.createLabel(parent, "Name: ");
 		nameText = toolkit.createText(parent, "");
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		nameText.setLayoutData(td);
+		nameText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		nameText.addModifyListener(new GeneralInfoPageListener());
 		nameText.setEnabled(SegmentEditor.isEditable());
 	}
 
 	private void createVersion(Composite parent, FormToolkit toolkit) {
-		TableWrapData td = null;
-
-		Label label = toolkit.createLabel(parent, "Version: ", SWT.WRAP);
+		toolkit.createLabel(parent, "Version: ");
 		versionText = toolkit.createText(parent, "");
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		versionText.setLayoutData(td);
+		versionText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		versionText.addModifyListener(new GeneralInfoPageListener());
 		versionText.setEnabled(SegmentEditor.isEditable());
 	}
 
 	private void createDescription(Composite parent, FormToolkit toolkit) {
-		TableWrapData td = null;
-
-		Label label = toolkit.createLabel(parent, "Description: ", SWT.WRAP);
+		toolkit.createLabel(parent, "Description: ");
 		descriptionText = toolkit.createText(parent, "", SWT.WRAP | SWT.MULTI
 				| SWT.V_SCROLL);
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.grabVertical = true;
+		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
 		td.heightHint = 70;
 		descriptionText.setLayoutData(td);
 		if (SegmentEditor.isEditable())

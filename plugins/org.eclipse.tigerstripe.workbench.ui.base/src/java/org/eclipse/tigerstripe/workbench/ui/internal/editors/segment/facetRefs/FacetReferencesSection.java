@@ -17,8 +17,6 @@ import java.util.Arrays;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -37,7 +35,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -53,6 +50,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.segment.SegmentEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.segment.TigerstripeSegmentSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IFormPart;
@@ -61,8 +59,6 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.ui.forms.widgets.TableWrapData;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 public class FacetReferencesSection extends TigerstripeSegmentSectionPart
 		implements IFormPart {
@@ -71,12 +67,7 @@ public class FacetReferencesSection extends TigerstripeSegmentSectionPart
 
 	public FacetReferencesSection(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit) {
-		super(page, parent, toolkit, ExpandableComposite.TITLE_BAR);
-		setTitle("&Facet References");
-		getSection().marginWidth = 10;
-		getSection().marginHeight = 5;
-		getSection().clientVerticalSpacing = 4;
-
+		super(page, parent, toolkit, ExpandableComposite.NO_TITLE);
 		createContent();
 		updateMaster();
 	}
@@ -96,25 +87,21 @@ public class FacetReferencesSection extends TigerstripeSegmentSectionPart
 		final ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = getToolkit();
 
-		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.colspan = 2;
+		GridData td = new GridData(GridData.FILL_BOTH);
+		td.horizontalSpan = 2;
 		getSection().setLayoutData(td);
 
 		Composite body = getToolkit().createComposite(getSection());
-		GridLayout layout = new GridLayout();
-		layout.marginWidth = 5;
-		layout.marginHeight = 5;
-		body.setLayout(layout);
+		body
+				.setLayout(TigerstripeLayoutFactory.createClearGridLayout(1,
+						false));
 		sashForm = new SashForm(body, SWT.HORIZONTAL);
 		toolkit.adapt(sashForm, false, false);
 		sashForm.setMenu(body.getMenu());
 		sashForm.setToolTipText("Define/Edit attributes for this Artifact.");
-		sashForm.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		sashForm.setLayoutData(new GridData(GridData.FILL_BOTH));
 		createMasterPart(managedForm, sashForm);
 		createDetailsPart(managedForm, sashForm);
-		createToolBarActions(managedForm);
-		sashForm.setWeights(new int[] { 30, 70 });
-		form.updateToolBar();
 
 		getSection().setClient(body);
 		getToolkit().paintBordersFor(body);
@@ -190,6 +177,8 @@ public class FacetReferencesSection extends TigerstripeSegmentSectionPart
 
 	private Button removeAttributeButton;
 
+	private Table table;
+
 	public TableViewer getViewer() {
 		return this.viewer;
 	}
@@ -199,23 +188,29 @@ public class FacetReferencesSection extends TigerstripeSegmentSectionPart
 
 		FormToolkit toolkit = getToolkit();
 
-		Section section = toolkit.createSection(parent,
-				ExpandableComposite.NO_TITLE);
+		Section section = TigerstripeLayoutFactory.createSection(parent,
+				toolkit, ExpandableComposite.TITLE_BAR, "&Facet References",
+				null);
 
 		Composite sectionClient = toolkit.createComposite(section);
-		TableWrapLayout twlayout = new TableWrapLayout();
+		GridLayout twlayout = new GridLayout();
 		twlayout.numColumns = 2;
 		sectionClient.setLayout(twlayout);
 
-		Table t = toolkit.createTable(sectionClient, SWT.NULL);
-		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.rowspan = 3;
-		td.heightHint = 150;
-		t.setLayoutData(td);
+		table = toolkit.createTable(sectionClient, SWT.NULL);
+		GridData td = new GridData(GridData.FILL_BOTH);
+		table.setLayoutData(td);
 
-		addAttributeButton = toolkit.createButton(sectionClient, "Add",
+		Composite buttonsClient = toolkit.createComposite(sectionClient);
+		buttonsClient.setLayout(TigerstripeLayoutFactory
+				.createButtonsGridLayout());
+		buttonsClient.setLayoutData(new GridData(
+				GridData.VERTICAL_ALIGN_BEGINNING));
+
+		addAttributeButton = toolkit.createButton(buttonsClient, "Add",
 				SWT.PUSH);
-		addAttributeButton.setLayoutData(new TableWrapData(TableWrapData.FILL));
+		addAttributeButton
+				.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		addAttributeButton.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent event) {
 				addButtonSelected(event);
@@ -242,9 +237,10 @@ public class FacetReferencesSection extends TigerstripeSegmentSectionPart
 		// }
 		// });
 		//
-		removeAttributeButton = toolkit.createButton(sectionClient, "Remove",
+		removeAttributeButton = toolkit.createButton(buttonsClient, "Remove",
 				SWT.PUSH);
-		removeAttributeButton.setLayoutData(new TableWrapData());
+		removeAttributeButton.setLayoutData(new GridData(
+				GridData.FILL_HORIZONTAL));
 		removeAttributeButton.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent event) {
 				removeButtonSelected(event);
@@ -255,13 +251,8 @@ public class FacetReferencesSection extends TigerstripeSegmentSectionPart
 			}
 		});
 
-		Label l = toolkit.createLabel(sectionClient, "", SWT.NULL);
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		// td.heightHint = 100;
-		l.setLayoutData(td);
-
 		final IFormPart part = this;
-		viewer = new TableViewer(t);
+		viewer = new TableViewer(table);
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
 				managedForm.fireSelectionChanged(part, event.getSelection());
@@ -280,6 +271,18 @@ public class FacetReferencesSection extends TigerstripeSegmentSectionPart
 
 		toolkit.paintBordersFor(sectionClient);
 		section.setClient(sectionClient);
+	}
+
+	/**
+	 * FIXME Used only by FacetReferencesDetailsPage. Just workaround to avoid
+	 * appearing scrolls on details part.
+	 */
+	void setMinimumHeight(int value) {
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		gd.verticalSpan = 4;
+		gd.minimumHeight = value;
+		table.setLayoutData(gd);
+		getManagedForm().reflow(true);
 	}
 
 	// Core dependencies don't exist anymore @see #299
@@ -461,35 +464,7 @@ public class FacetReferencesSection extends TigerstripeSegmentSectionPart
 		detailsPart.registerPage(FacetReference.class, // TODO remove the
 				// dependency on
 				// Core and use API instead
-				new FacetReferencesDetailsPage());
-	}
-
-	protected void createToolBarActions(IManagedForm managedForm) {
-		final ScrolledForm form = managedForm.getForm();
-
-		Action haction = new Action("hor", IAction.AS_RADIO_BUTTON) {
-			@Override
-			public void run() {
-				sashForm.setOrientation(SWT.HORIZONTAL);
-				form.reflow(true);
-			}
-		};
-
-		haction.setChecked(true);
-		haction.setToolTipText("Horizontal Orientation");
-
-		Action vaction = new Action("ver", IAction.AS_RADIO_BUTTON) {
-			@Override
-			public void run() {
-				sashForm.setOrientation(SWT.VERTICAL);
-				form.reflow(true);
-			}
-		};
-		vaction.setChecked(false);
-		vaction.setToolTipText("Vertical Orientation");
-
-		form.getToolBarManager().add(haction);
-		form.getToolBarManager().add(vaction);
+				new FacetReferencesDetailsPage(this));
 	}
 
 	private void createDetailsPart(final IManagedForm mform, Composite parent) {
