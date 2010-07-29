@@ -16,26 +16,21 @@ import java.util.Collection;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IColorProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
-import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef;
@@ -46,23 +41,17 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeSectionP
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.profile.ProfileEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.ColorUtils;
 import org.eclipse.ui.forms.DetailsPart;
-import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
-import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 public abstract class BaseStereotypeSectionPart extends TigerstripeSectionPart {
 
 	public BaseStereotypeSectionPart(TigerstripeFormPage page,
-			Composite parent, FormToolkit toolkit, int style) {
-		super(page, parent, toolkit,
-				style != ExpandableComposite.NO_TITLE ? style
-						| ExpandableComposite.TITLE_BAR
-						: ExpandableComposite.NO_TITLE);
+			Composite parent, FormToolkit toolkit) {
+		super(page, parent, toolkit, ExpandableComposite.NO_TITLE);
 	}
 
 	protected DetailsPart detailsPart;
@@ -118,20 +107,16 @@ public abstract class BaseStereotypeSectionPart extends TigerstripeSectionPart {
 
 		Composite body = getToolkit().createComposite(getSection());
 		GridLayout layout = new GridLayout();
-		layout.marginWidth = 5;
-		layout.marginHeight = 5;
+		layout.marginHeight = layout.marginWidth = 0;
+		layout.verticalSpacing = layout.horizontalSpacing = 0;
 		body.setLayout(layout);
 		sashForm = new SashForm(body, SWT.HORIZONTAL);
 		toolkit.adapt(sashForm, false, false);
 		sashForm.setMenu(body.getMenu());
-		sashForm.setToolTipText(getTooltipText());
-		sashForm.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
+		sashForm.setToolTipText("Define/Edit attributes for this Artifact.");
+		sashForm.setLayoutData(new GridData(GridData.FILL_BOTH));
 		createMasterPart(managedForm, sashForm);
 		createDetailsPart(managedForm, sashForm);
-		// createToolBarActions(managedForm);
-		sashForm.setWeights(new int[] { 30, 70 });
-		form.updateToolBar();
 
 		getSection().setClient(body);
 		getToolkit().paintBordersFor(body);
@@ -177,85 +162,8 @@ public abstract class BaseStereotypeSectionPart extends TigerstripeSectionPart {
 
 	protected abstract IStructuredContentProvider getRulesListContentProvider();
 
-	protected void createMasterPart(final IManagedForm managedForm,
-			Composite parent) {
-
-		FormToolkit toolkit = getToolkit();
-
-		Section section = toolkit.createSection(parent,
-				ExpandableComposite.NO_TITLE);
-
-		Composite sectionClient = toolkit.createComposite(section);
-		TableWrapLayout twlayout = new TableWrapLayout();
-		twlayout.numColumns = 2;
-		sectionClient.setLayout(twlayout);
-
-		Table t = toolkit.createTable(sectionClient, SWT.NULL);
-		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.rowspan = 2;
-		td.heightHint = 150;
-		t.setLayoutData(td);
-
-		addStereotypeButton = toolkit.createButton(sectionClient, "Add",
-				SWT.PUSH);
-		// support for testing
-		addStereotypeButton.setData("name", "Add_Stereotype");
-		addStereotypeButton.setEnabled(ProfileEditor.isEditable());
-		addStereotypeButton.setLayoutData(new TableWrapData(TableWrapData.FILL));
-		if (ProfileEditor.isEditable()) {
-			addStereotypeButton.addSelectionListener(new SelectionListener() {
-				public void widgetSelected(SelectionEvent event) {
-					addButtonSelected(event);
-				}
-
-				public void widgetDefaultSelected(SelectionEvent event) {
-					// empty
-				}
-			});
-		}
-		removeAttributeButton = toolkit.createButton(sectionClient, "Remove",
-				SWT.PUSH);
-		removeAttributeButton.setEnabled(ProfileEditor.isEditable());
-		removeAttributeButton.setLayoutData(new TableWrapData());
-		removeAttributeButton.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent event) {
-				removeButtonSelected(event);
-			}
-
-			public void widgetDefaultSelected(SelectionEvent event) {
-				// empty
-			}
-		});
-
-		Label l = toolkit.createLabel(sectionClient, "", SWT.NULL);
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.heightHint = 100;
-		l.setLayoutData(td);
-
-		final IFormPart part = this;
-		viewer = new TableViewer(t);
-		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
-			public void selectionChanged(SelectionChangedEvent event) {
-				viewerSel = viewer.getTable().getSelectionIndex();
-				managedForm.fireSelectionChanged(part, event.getSelection());
-				viewerSelectionChanged(event);
-			}
-		});
-		viewer.setContentProvider(getRulesListContentProvider());
-		viewer.setLabelProvider(new MasterLabelProvider());
-		viewer.setComparator(new ViewerComparator() {
-
-		});
-
-		try {
-			viewer.setInput(((ProfileEditor) getPage().getEditor())
-					.getProfile());
-		} catch (TigerstripeException e) {
-			EclipsePlugin.log(e);
-		}
-		toolkit.paintBordersFor(sectionClient);
-		section.setClient(sectionClient);
-	}
+	protected abstract void createMasterPart(final IManagedForm managedForm,
+			Composite parent);
 
 	/**
 	 * Updates the master's side based on the selection on the list of

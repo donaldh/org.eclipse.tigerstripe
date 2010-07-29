@@ -54,9 +54,9 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.FileExtensionBasedSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
-import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutUtil;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.DescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.TigerstripeDescriptorSectionPart;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IFormPart;
@@ -66,7 +66,6 @@ import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
 public class DescriptorDependenciesSection extends
@@ -93,7 +92,6 @@ public class DescriptorDependenciesSection extends
 	@Override
 	public void createContent() {
 		IManagedForm managedForm = getPage().getManagedForm();
-		final ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = getToolkit();
 
 		GridData td = new GridData(GridData.FILL_BOTH);
@@ -101,10 +99,9 @@ public class DescriptorDependenciesSection extends
 		getSection().setLayoutData(td);
 
 		Composite body = getToolkit().createComposite(getSection());
-		GridLayout layout = new GridLayout();
-		layout.marginHeight = layout.marginWidth = 0;
-		layout.verticalSpacing = layout.horizontalSpacing = 0;
-		body.setLayout(layout);
+		body
+				.setLayout(TigerstripeLayoutFactory.createClearGridLayout(1,
+						false));
 		sashForm = new SashForm(body, SWT.HORIZONTAL);
 		toolkit.adapt(sashForm, false, false);
 		sashForm.setMenu(body.getMenu());
@@ -175,6 +172,8 @@ public class DescriptorDependenciesSection extends
 
 	private Button removeAttributeButton;
 
+	private Table table;
+
 	public TableViewer getViewer() {
 		return this.viewer;
 	}
@@ -184,22 +183,23 @@ public class DescriptorDependenciesSection extends
 
 		FormToolkit toolkit = getToolkit();
 
-		Section section = TigerstripeLayoutUtil.createSection(parent, toolkit,
-				ExpandableComposite.TITLE_BAR, "&Dependencies", null);
+		Section section = TigerstripeLayoutFactory.createSection(parent,
+				toolkit, ExpandableComposite.TITLE_BAR, "&Dependencies", null);
 
 		Composite sectionClient = toolkit.createComposite(section);
 		GridLayout twlayout = new GridLayout();
 		twlayout.numColumns = 2;
 		sectionClient.setLayout(twlayout);
 
-		Table t = toolkit.createTable(sectionClient, SWT.NULL);
+		table = toolkit.createTable(sectionClient, SWT.NULL);
 		GridData td = new GridData(GridData.FILL_BOTH);
-		td.minimumHeight = 165;
-		td.grabExcessVerticalSpace = true;
-		t.setLayoutData(td);
+		table.setLayoutData(td);
 
-		Composite buttonsClient = TigerstripeLayoutUtil.createButtonsClient(
-				sectionClient, toolkit);
+		Composite buttonsClient = toolkit.createComposite(sectionClient);
+		buttonsClient.setLayout(TigerstripeLayoutFactory
+				.createButtonsGridLayout());
+		buttonsClient.setLayoutData(new GridData(
+				GridData.VERTICAL_ALIGN_BEGINNING));
 
 		addAttributeButton = toolkit.createButton(buttonsClient, "Add",
 				SWT.PUSH);
@@ -259,7 +259,7 @@ public class DescriptorDependenciesSection extends
 		});
 
 		final IFormPart part = this;
-		viewer = new TableViewer(t);
+		viewer = new TableViewer(table);
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
 				managedForm.fireSelectionChanged(part, event.getSelection());
@@ -274,6 +274,18 @@ public class DescriptorDependenciesSection extends
 
 		toolkit.paintBordersFor(sectionClient);
 		section.setClient(sectionClient);
+	}
+
+	/**
+	 * FIXME Used only by ArtifactAttributeDetailsPage. Just workaround to avoid
+	 * appearing scrolls on details part.
+	 */
+	void setMinimumHeight(int value) {
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		gd.verticalSpan = 4;
+		gd.minimumHeight = value;
+		table.setLayoutData(gd);
+		getManagedForm().reflow(true);
 	}
 
 	// Core dependencies don't exist anymore @see #299
@@ -463,7 +475,8 @@ public class DescriptorDependenciesSection extends
 	}
 
 	protected void registerPages(DetailsPart detailsPart) {
-		DescriptorDependenciesDetailsPage page = new DescriptorDependenciesDetailsPage();
+		DescriptorDependenciesDetailsPage page = new DescriptorDependenciesDetailsPage(
+				this);
 		detailsPart.registerPage(Dependency.class, // TODO remove the
 				// dependency on
 				// Core and use API instead

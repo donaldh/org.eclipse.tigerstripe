@@ -37,7 +37,6 @@ public class EntityArtifactEditor extends ArtifactEditorBase {
 
 	@Override
 	protected void addPages() {
-		super.addPages();
 		int index = -1;
 		try {
 			ArtifactOverviewPage page = new ArtifactOverviewPage(this,
@@ -47,8 +46,8 @@ public class EntityArtifactEditor extends ArtifactEditorBase {
 			addModelPage(page);
 
 			OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-			.getWorkbenchProfileSession().getActiveProfile().getProperty(
-					IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
+					.getWorkbenchProfileSession().getActiveProfile()
+					.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 
 			if (prop
 					.getPropertyValue(IOssjLegacySettigsProperty.DISPLAY_OSSJSPECIFICS)) {
@@ -61,6 +60,7 @@ public class EntityArtifactEditor extends ArtifactEditorBase {
 		} catch (PartInitException e) {
 			EclipsePlugin.log(e);
 		}
+		super.addPages();
 		setActivePage(index);
 	}
 }

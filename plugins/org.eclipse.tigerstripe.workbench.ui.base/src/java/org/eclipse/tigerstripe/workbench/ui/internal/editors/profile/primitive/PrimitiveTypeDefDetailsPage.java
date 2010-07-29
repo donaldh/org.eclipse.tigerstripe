@@ -19,24 +19,20 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.profile.ProfileEditor;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
-import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 public class PrimitiveTypeDefDetailsPage implements IDetailsPage {
 
@@ -94,16 +90,37 @@ public class PrimitiveTypeDefDetailsPage implements IDetailsPage {
 	}
 
 	public void createContents(Composite parent) {
-		TableWrapLayout twLayout = new TableWrapLayout();
-		twLayout.numColumns = 1;
-		parent.setLayout(twLayout);
-		TableWrapData td = new TableWrapData(TableWrapData.FILL);
-		td.heightHint = 200;
+		parent.setLayout(TigerstripeLayoutFactory
+				.createDetailsTableWrapLayout());
+		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
 		parent.setLayoutData(td);
 
-		Composite sectionClient = createStereotypeInfo(parent);
+		FormToolkit toolkit = form.getToolkit();
 
-		form.getToolkit().paintBordersFor(parent);
+		Section section = TigerstripeLayoutFactory.createSection(parent,
+				toolkit, Section.TITLE_BAR, "Primitive Type Details", null);
+		section.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+
+		Composite body = toolkit.createComposite(section);
+		body.setLayout(TigerstripeLayoutFactory.createFormTableWrapLayout(1,
+				false));
+		body.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+
+		Composite client = toolkit.createComposite(body);
+		client.setLayout(TigerstripeLayoutFactory
+				.createFormPaneTableWrapLayout(2, false));
+		client.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+
+		createStereotypeInfo(toolkit, client);
+
+		/*
+		 * FIXME Just workaround to avoid appearing scrolls on details part.
+		 */
+		int height = client.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
+		master.setMinimumHeight(height);
+
+		section.setClient(body);
+		toolkit.paintBordersFor(parent);
 	}
 
 	protected void handleWidgetSelected(SelectionEvent e) {
@@ -119,52 +136,36 @@ public class PrimitiveTypeDefDetailsPage implements IDetailsPage {
 	}
 
 	// ============================================================
-	protected Composite createStereotypeInfo(Composite parent) {
-		FormToolkit toolkit = form.getToolkit();
+	protected void createStereotypeInfo(FormToolkit toolkit, Composite parent) {
 		StereotypeDetailsPageListener adapter = new StereotypeDetailsPageListener();
 
-		Section section = toolkit.createSection(parent,
-				ExpandableComposite.NO_TITLE);
-		section.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-
-		Composite sectionClient = toolkit.createComposite(section);
-
-		GridLayout gLayout = new GridLayout();
-		gLayout.numColumns = 2;
-		sectionClient.setLayout(gLayout);
-		sectionClient.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-
-		Label label = toolkit.createLabel(sectionClient, "Name: ");
-		nameText = toolkit.createText(sectionClient, "");
+		toolkit.createLabel(parent, "Name: ");
+		nameText = toolkit.createText(parent, "");
 		nameText.setEnabled(ProfileEditor.isEditable());
-		nameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		nameText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		nameText.addModifyListener(adapter);
 		nameText
 				.setToolTipText("Name of the primitive type, as seen by end-user.");
 
-		label = toolkit.createLabel(sectionClient, "Package: ");
-		packageNameText = toolkit.createText(sectionClient, "");
-		packageNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		toolkit.createLabel(parent, "Package: ");
+		packageNameText = toolkit.createText(parent, "");
+		packageNameText
+				.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		packageNameText.addModifyListener(adapter);
 		packageNameText
 				.setToolTipText("Package of the primitive type, as seen by end-user.");
 		packageNameText.setEnabled(false);
 
-		label = toolkit.createLabel(sectionClient, "Description: ");
-		descriptionText = toolkit.createText(sectionClient, "", SWT.WRAP
-				| SWT.MULTI | SWT.V_SCROLL);
+		toolkit.createLabel(parent, "Description: ");
+		descriptionText = toolkit.createText(parent, "", SWT.WRAP | SWT.MULTI
+				| SWT.V_SCROLL);
 		descriptionText.setEnabled(ProfileEditor.isEditable());
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		TableWrapData gd = new TableWrapData(TableWrapData.FILL_GRAB);
 		gd.heightHint = 60;
 		descriptionText.setLayoutData(gd);
 		descriptionText.addModifyListener(adapter);
 		descriptionText
 				.setToolTipText("Meaning for this primitive type, presented as tooltip to the end-user.");
-
-		section.setClient(sectionClient);
-		toolkit.paintBordersFor(sectionClient);
-
-		return sectionClient;
 	}
 
 	// ===================================================================

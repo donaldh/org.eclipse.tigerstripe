@@ -39,7 +39,6 @@ public class EventArtifactEditor extends ArtifactEditorBase {
 
 	@Override
 	protected void addPages() {
-		super.addPages();
 		int index = -1;
 		try {
 			ArtifactOverviewPage page = new ArtifactOverviewPage(this,
@@ -63,6 +62,7 @@ public class EventArtifactEditor extends ArtifactEditorBase {
 		} catch (PartInitException e) {
 			EclipsePlugin.log(e);
 		}
+		super.addPages();
 		setActivePage(index);
 	}
 

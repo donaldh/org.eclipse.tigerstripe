@@ -12,13 +12,12 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactComponent;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
@@ -50,35 +49,33 @@ public class ArtifactStereotypesSection extends ArtifactSectionPart {
 		section.setLayoutData(td);
 
 		Composite body = getBody();
-		GridData gd = new GridData(GridData.FILL_BOTH);
-		body.setLayoutData(gd);
-		GridLayout layout = new GridLayout();
-		layout.numColumns = 2;
-		body.setLayout(layout);
-		section.setClient(body);
+		body.setLayoutData(TigerstripeLayoutFactory.createFormTableWrapLayout(2,
+				false));
 
 		annTable = toolkit.createTable(body, SWT.BORDER | SWT.FLAT);
-		gd = new GridData(GridData.FILL_BOTH);
-		gd.verticalSpan = 3;
 		annTable.setEnabled(!this.isReadonly());
-		annTable.setLayoutData(gd);
+		annTable.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
-		gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL
-				| GridData.VERTICAL_ALIGN_BEGINNING);
-		Button addAnno = toolkit.createButton(body, "Add", SWT.PUSH);
+		Composite buttonClient = toolkit.createComposite(body);
+		buttonClient.setLayoutData(new TableWrapData(TableWrapData.FILL));
+		buttonClient.setLayout(TigerstripeLayoutFactory
+				.createButtonsTableWrapLayout());
+
+		Button addAnno = toolkit.createButton(buttonClient, "Add", SWT.PUSH);
 		addAnno.setData("name", "Add_Stereo_Artifact");
 		addAnno.setEnabled(!this.isReadonly());
-		addAnno.setLayoutData(gd);
+		addAnno.setLayoutData(new TableWrapData(TableWrapData.FILL));
 
-		Button editAnno = toolkit.createButton(body, "Edit", SWT.PUSH);
+		Button editAnno = toolkit.createButton(buttonClient, "Edit", SWT.PUSH);
 		editAnno.setData("name", "Edit_Stereo_Artifact");
 		editAnno.setEnabled(!this.isReadonly());
-		editAnno.setLayoutData(gd);
+		editAnno.setLayoutData(new TableWrapData(TableWrapData.FILL));
 
-		Button removeAnno = toolkit.createButton(body, "Remove", SWT.PUSH);
+		Button removeAnno = toolkit.createButton(buttonClient, "Remove",
+				SWT.PUSH);
 		removeAnno.setData("name", "Remove_Stereo_Artifact");
 		removeAnno.setEnabled(!this.isReadonly());
-		removeAnno.setLayoutData(gd);
+		removeAnno.setLayoutData(new TableWrapData(TableWrapData.FILL));
 
 		ArtifactEditorBase editor = (ArtifactEditorBase) getPage().getEditor();
 		stereotypeMgr = new StereotypeSectionManager(addAnno, editAnno,

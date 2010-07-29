@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.depende
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
-import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutUtil;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -52,7 +52,7 @@ public class DescriptorDependenciesPage extends TigerstripeFormPage {
 
 	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {
 		Composite body = managedForm.getForm().getBody();
-		body.setLayout(TigerstripeLayoutUtil.createPageGridLayout(2, true));
+		body.setLayout(TigerstripeLayoutFactory.createPageGridLayout(2, true));
 
 		// sections
 		managedForm.addPart(new DescriptorDependenciesSection(this, body,

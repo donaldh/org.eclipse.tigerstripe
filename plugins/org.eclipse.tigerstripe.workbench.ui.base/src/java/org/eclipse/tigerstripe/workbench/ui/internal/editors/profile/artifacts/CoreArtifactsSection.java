@@ -33,7 +33,6 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.profile.ProfileEdit
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 public class CoreArtifactsSection extends TigerstripeSectionPart {
 
@@ -53,10 +52,6 @@ public class CoreArtifactsSection extends TigerstripeSectionPart {
 		super(page, parent, toolkit, ExpandableComposite.TITLE_BAR
 				| ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
 		setTitle("&Core Artifact Settings");
-		getSection().marginWidth = 10;
-		getSection().marginHeight = 5;
-		getSection().clientVerticalSpacing = 4;
-
 		createContent();
 	}
 
@@ -71,11 +66,7 @@ public class CoreArtifactsSection extends TigerstripeSectionPart {
 
 	@Override
 	protected void createContent() {
-		TableWrapLayout layout = new TableWrapLayout();
-		layout.numColumns = 2;
-		getSection().setLayout(layout);
-
-		TableWrapData td = new TableWrapData();
+		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
 		getSection().setLayoutData(td);
 
 		// createComment(getBody(), getToolkit());

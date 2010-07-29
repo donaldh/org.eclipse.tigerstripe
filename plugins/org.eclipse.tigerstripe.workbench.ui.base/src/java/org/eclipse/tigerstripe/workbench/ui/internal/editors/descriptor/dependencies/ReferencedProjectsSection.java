@@ -41,10 +41,10 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.TigerstripeProjectSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
-import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutUtil;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.DescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.TigerstripeDescriptorSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.part.FileEditorInput;
@@ -145,13 +145,12 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 		GridData td = new GridData(GridData.FILL_BOTH);
 		getSection().setLayoutData(td);
 
-		Composite client = TigerstripeLayoutUtil.createSectionBodyGridLayout(
-				getSection(), getToolkit(), 2);
+		getBody().setLayout(
+				TigerstripeLayoutFactory.createFormGridLayout(2, false));
+		createTable(getBody(), getToolkit());
 
-		createTable(client, getToolkit());
-
-		getSection().setClient(client);
-		getToolkit().paintBordersFor(client);
+		getSection().setClient(getBody());
+		getToolkit().paintBordersFor(getBody());
 	}
 
 	private void createTable(Composite parent, FormToolkit toolkit) {
@@ -161,8 +160,11 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 		// twd.heightHint = 150;
 		t.setLayoutData(twd);
 
-		Composite buttonsClient = TigerstripeLayoutUtil.createButtonsClient(
-				parent, toolkit);
+		Composite buttonsClient = toolkit.createComposite(parent);
+		buttonsClient.setLayout(TigerstripeLayoutFactory
+				.createButtonsGridLayout());
+		buttonsClient.setLayoutData(new GridData(
+				GridData.VERTICAL_ALIGN_BEGINNING));
 
 		Button addButton = toolkit.createButton(buttonsClient, "Add", SWT.PUSH);
 		addButton.addSelectionListener(new SelectionListener() {

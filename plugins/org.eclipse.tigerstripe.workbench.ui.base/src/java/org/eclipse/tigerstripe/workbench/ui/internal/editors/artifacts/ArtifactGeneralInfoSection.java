@@ -54,7 +54,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForArtifactDi
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.undo.CheckButtonEditListener;
-import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutUtil;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.AbstractArtifactLabelProvider;
 import org.eclipse.ui.dialogs.ListSelectionDialog;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -218,8 +218,8 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart {
 		label.setEnabled(!this.isReadonly());
 
 		Composite composite = toolkit.createComposite(parent);
-		GridLayout layout = TigerstripeLayoutUtil
-				.createZeroGridLayout(2, false);
+		GridLayout layout = TigerstripeLayoutFactory.createClearGridLayout(2,
+				false);
 		layout.horizontalSpacing = 5;
 		composite.setLayout(layout);
 		composite.setLayoutData(new TableWrapData(TableWrapData.FILL));
@@ -251,8 +251,8 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart {
 		label.setEnabled(!this.isReadonly());
 
 		Composite composite = toolkit.createComposite(parent);
-		GridLayout layout = TigerstripeLayoutUtil
-				.createZeroGridLayout(2, false);
+		GridLayout layout = TigerstripeLayoutFactory.createClearGridLayout(2,
+				false);
 		layout.horizontalSpacing = 5;
 		composite.setLayout(layout);
 		composite.setLayoutData(new TableWrapData(TableWrapData.FILL));

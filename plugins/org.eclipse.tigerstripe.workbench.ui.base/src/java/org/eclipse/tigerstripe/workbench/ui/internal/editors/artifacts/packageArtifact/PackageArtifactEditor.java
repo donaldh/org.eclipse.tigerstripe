@@ -37,7 +37,6 @@ public class PackageArtifactEditor extends ArtifactEditorBase {
 
 	@Override
 	protected void addPages() {
-		super.addPages();
 		int index = -1;
 		try {
 			ArtifactOverviewPage page = new ArtifactOverviewPage(this,
@@ -46,13 +45,13 @@ public class PackageArtifactEditor extends ArtifactEditorBase {
 			index = addPage(page);
 			addModelPage(page);
 			OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-			.getWorkbenchProfileSession().getActiveProfile().getProperty(
-					IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
+					.getWorkbenchProfileSession().getActiveProfile()
+					.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 
 			if (prop
 					.getPropertyValue(IOssjLegacySettigsProperty.DISPLAY_OSSJSPECIFICS)) {
-				PackageSpecificsPage specPage = new PackageSpecificsPage(
-						this, new PackageArtifactLabelProvider(),
+				PackageSpecificsPage specPage = new PackageSpecificsPage(this,
+						new PackageArtifactLabelProvider(),
 						new PackageArtifactFormContentProvider());
 				addPage(specPage);
 				addModelPage(specPage);
@@ -60,19 +59,21 @@ public class PackageArtifactEditor extends ArtifactEditorBase {
 		} catch (PartInitException e) {
 			EclipsePlugin.log(e);
 		}
+		super.addPages();
 		setActivePage(index);
 	}
-	
+
 	// Override this to provide information when starting a wizard
-	
+
 	public Object getViewPartInput() {
 		// The input does not adapt to IJavaElement because it's a .package,
 		// So we need to trick it!
-		IResource res = (IResource) getEditorInput().getAdapter(IResource.class);
-		if (res != null){
+		IResource res = (IResource) getEditorInput()
+				.getAdapter(IResource.class);
+		if (res != null) {
 			return res.getParent().getAdapter(IJavaElement.class);
-		} 
+		}
 		return null;
 	}
-	
+
 }

@@ -14,16 +14,10 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRunnable;
-import org.eclipse.core.resources.IncrementalProjectBuilder;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
@@ -45,7 +39,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchP
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.EditorHelper;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.profile.ProfileEditor;
@@ -58,7 +51,6 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.eclipse.ui.part.FileEditorInput;
 
 public class GeneralInfoSection extends TigerstripeSectionPart {
@@ -104,10 +96,6 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 
 	@Override
 	protected void createContent() {
-		TableWrapLayout layout = new TableWrapLayout();
-		layout.numColumns = 2;
-		getSection().setLayout(layout);
-
 		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
 		getSection().setLayoutData(td);
 
@@ -125,7 +113,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 	private void createID(Composite parent, FormToolkit toolkit) {
 		TableWrapData td = null;
 
-		toolkit.createLabel(parent, "ID: ", SWT.WRAP);
+		toolkit.createLabel(parent, "ID: ");
 		FileEditorInput input = (FileEditorInput) getPage().getEditorInput();
 		idText = toolkit.createText(parent, input.getFile().getName());
 		idText.setEnabled(false);
@@ -137,7 +125,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 	private void createName(Composite parent, FormToolkit toolkit) {
 		TableWrapData td = null;
 
-		toolkit.createLabel(parent, "Name: ", SWT.WRAP);
+		toolkit.createLabel(parent, "Name: ");
 		nameText = toolkit.createText(parent, "");
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		nameText.setLayoutData(td);
@@ -148,7 +136,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 	private void createVersion(Composite parent, FormToolkit toolkit) {
 		TableWrapData td = null;
 
-		toolkit.createLabel(parent, "Version: ", SWT.WRAP);
+		toolkit.createLabel(parent, "Version: ");
 		versionText = toolkit.createText(parent, "");
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		versionText.setLayoutData(td);
@@ -159,7 +147,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 	private void createDescription(Composite parent, FormToolkit toolkit) {
 		TableWrapData td = null;
 
-		toolkit.createLabel(parent, "Description: ", SWT.WRAP);
+		toolkit.createLabel(parent, "Description: ");
 		descriptionText = toolkit.createText(parent, "", SWT.WRAP | SWT.MULTI
 				| SWT.V_SCROLL);
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
@@ -216,26 +204,26 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 				}
 
 				// and then reload all projects
-//				try {
-//					ResourcesPlugin.getWorkspace().run(
-//							new IWorkspaceRunnable() {
-//								public void run(IProgressMonitor monitor)
-//										throws CoreException {
-//									IWorkspace workspace = EclipsePlugin
-//											.getWorkspace();
-//									IProject[] projects = workspace.getRoot()
-//											.getProjects();
-//									for (IProject project : projects) {
-//										project
-//												.build(
-//														IncrementalProjectBuilder.FULL_BUILD,
-//														monitor);
-//									}
-//								}
-//							}, new NullProgressMonitor());
-//				} catch (CoreException ex) {
-//					EclipsePlugin.log(ex);
-//				}
+				// try {
+				// ResourcesPlugin.getWorkspace().run(
+				// new IWorkspaceRunnable() {
+				// public void run(IProgressMonitor monitor)
+				// throws CoreException {
+				// IWorkspace workspace = EclipsePlugin
+				// .getWorkspace();
+				// IProject[] projects = workspace.getRoot()
+				// .getProjects();
+				// for (IProject project : projects) {
+				// project
+				// .build(
+				// IncrementalProjectBuilder.FULL_BUILD,
+				// monitor);
+				// }
+				// }
+				// }, new NullProgressMonitor());
+				// } catch (CoreException ex) {
+				// EclipsePlugin.log(ex);
+				// }
 			}
 		});
 	}
@@ -272,14 +260,13 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 								"You are about to set this profile ('"
 										+ handle.getName()
 										+ "') as the active profile. \n\nThis will restart the workbench.\n\nDo you want to continue?\n\n(You will be able to rollback to the current active profile).  ")) {
-					
+
 					IRunnableWithProgress op = new IRunnableWithProgress() {
 						public void run(IProgressMonitor monitor) {
 							try {
 								monitor.beginTask(
 										"Deploying new Active Profile", 2);
 
-								
 								IWorkbenchProfileSession session = TigerstripeCore
 										.getWorkbenchProfileSession();
 								monitor.subTask("Creating Profile");
@@ -380,13 +367,12 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 							getBody().getShell(),
 							"Rollback to previous Active Profile",
 							"You are about to rollback to the previous active profile.\n\nThis will restart the workbench.\n\nDo you want to continue?\n\n(You will be able to rollback to the current active profile).  ")) {
-				
+
 				IRunnableWithProgress op = new IRunnableWithProgress() {
 					public void run(IProgressMonitor monitor) {
 						try {
 							monitor.beginTask("Rolling back...", 2);
 
-							
 							monitor
 									.subTask("Rolling back to previous active profile");
 							rProfile = null;

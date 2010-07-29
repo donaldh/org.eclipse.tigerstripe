@@ -52,7 +52,7 @@ import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.undo.ModelUndoableEdit;
-import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutUtil;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
@@ -98,7 +98,9 @@ public class ArtifactConstantsSection extends ArtifactSectionPart implements
 		getSection().setLayoutData(td);
 
 		Composite body = getToolkit().createComposite(getSection());
-		body.setLayout(TigerstripeLayoutUtil.createZeroGridLayout(1, false));
+		body
+				.setLayout(TigerstripeLayoutFactory.createClearGridLayout(1,
+						false));
 		sashForm = new SashForm(body, SWT.HORIZONTAL);
 		toolkit.adapt(sashForm, false, false);
 		sashForm.setMenu(body.getMenu());

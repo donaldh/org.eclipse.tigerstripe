@@ -47,10 +47,10 @@ import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForFacetsDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.FacetSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
-import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutUtil;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.DescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.TigerstripeDescriptorSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IFormPart;
@@ -180,6 +180,8 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 
 	private Button removeAttributeButton;
 
+	private Table table;
+
 	public TableViewer getViewer() {
 		return this.viewer;
 	}
@@ -189,21 +191,24 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 
 		FormToolkit toolkit = getToolkit();
 
-		Section section = TigerstripeLayoutUtil.createSection(parent, toolkit,
-				ExpandableComposite.TITLE_BAR, "&Facet References", null);
+		Section section = TigerstripeLayoutFactory.createSection(parent,
+				toolkit, ExpandableComposite.TITLE_BAR, "&Facet References",
+				null);
 
 		Composite sectionClient = toolkit.createComposite(section);
 		GridLayout twlayout = new GridLayout();
 		twlayout.numColumns = 2;
 		sectionClient.setLayout(twlayout);
 
-		Table t = toolkit.createTable(sectionClient, SWT.NULL);
+		table = toolkit.createTable(sectionClient, SWT.NULL);
 		GridData td = new GridData(GridData.FILL_BOTH);
-		td.heightHint = 185;
-		t.setLayoutData(td);
+		table.setLayoutData(td);
 
-		Composite buttonsClient = TigerstripeLayoutUtil.createButtonsClient(
-				sectionClient, toolkit);
+		Composite buttonsClient = toolkit.createComposite(sectionClient);
+		buttonsClient.setLayout(TigerstripeLayoutFactory
+				.createButtonsGridLayout());
+		buttonsClient.setLayoutData(new GridData(
+				GridData.VERTICAL_ALIGN_BEGINNING));
 
 		addAttributeButton = toolkit.createButton(buttonsClient, "Add",
 				SWT.PUSH);
@@ -250,7 +255,7 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 		});
 
 		final IFormPart part = this;
-		viewer = new TableViewer(t);
+		viewer = new TableViewer(table);
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
 				managedForm.fireSelectionChanged(part, event.getSelection());
@@ -279,6 +284,18 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 		});
 		toolkit.paintBordersFor(sectionClient);
 		section.setClient(sectionClient);
+	}
+
+	/**
+	 * FIXME Used only by FacetReferencesDetailsPage. Just workaround to avoid
+	 * appearing scrolls on details part.
+	 */
+	void setMinimumHeight(int value) {
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		gd.verticalSpan = 4;
+		gd.minimumHeight = value;
+		table.setLayoutData(gd);
+		getManagedForm().reflow(true);
 	}
 
 	// Core dependencies don't exist anymore @see #299
@@ -475,7 +492,7 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 		detailsPart.registerPage(FacetReference.class, // TODO remove the
 				// dependency on
 				// Core and use API instead
-				new FacetReferencesDetailsPage());
+				new FacetReferencesDetailsPage(this));
 	}
 
 	protected void createToolBarActions(IManagedForm managedForm) {

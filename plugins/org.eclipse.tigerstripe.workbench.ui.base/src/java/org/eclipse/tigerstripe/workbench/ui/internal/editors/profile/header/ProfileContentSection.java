@@ -22,7 +22,6 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 public class ProfileContentSection extends TigerstripeSectionPart {
 
@@ -35,10 +34,6 @@ public class ProfileContentSection extends TigerstripeSectionPart {
 
 	@Override
 	protected void createContent() {
-		TableWrapLayout layout = new TableWrapLayout();
-		layout.numColumns = 2;
-		getSection().setLayout(layout);
-
 		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
 		td.maxWidth = MAX_RIGHT_COLUMN_WIDTH;
 		getSection().setLayoutData(td);

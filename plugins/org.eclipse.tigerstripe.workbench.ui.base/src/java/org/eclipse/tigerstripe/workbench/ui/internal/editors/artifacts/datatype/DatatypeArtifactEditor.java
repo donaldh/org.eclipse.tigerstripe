@@ -27,7 +27,7 @@ import org.eclipse.ui.PartInitException;
  * 
  */
 public class DatatypeArtifactEditor extends ArtifactEditorBase {
-	
+
 	public DatatypeArtifactEditor() {
 		super();
 		setTitleImage(Images.get(Images.DATATYPE_ICON));
@@ -35,7 +35,6 @@ public class DatatypeArtifactEditor extends ArtifactEditorBase {
 
 	@Override
 	protected void addPages() {
-		super.addPages();
 		int index = -1;
 		try {
 			ArtifactOverviewPage page = new ArtifactOverviewPage(this,
@@ -59,6 +58,7 @@ public class DatatypeArtifactEditor extends ArtifactEditorBase {
 		} catch (PartInitException e) {
 			EclipsePlugin.log(e);
 		}
+		super.addPages();
 		setActivePage(index);
 	}
 }

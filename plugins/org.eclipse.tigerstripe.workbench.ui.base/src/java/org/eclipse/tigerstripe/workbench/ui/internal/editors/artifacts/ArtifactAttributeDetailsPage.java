@@ -54,7 +54,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEdit
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.undo.TextEditListener;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.undo.TextEditListener.IURIBaseProviderPage;
-import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutUtil;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
@@ -154,8 +154,8 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage,
 		Composite innerComposite = toolkit.createComposite(parent);
 		TableWrapData gd = new TableWrapData(TableWrapData.FILL_GRAB);
 		innerComposite.setLayoutData(gd);
-		TableWrapLayout layout = TigerstripeLayoutUtil
-				.createZeroTableWrapLayout(2, false);
+		TableWrapLayout layout = TigerstripeLayoutFactory
+				.createClearTableWrapLayout(2, false);
 		innerComposite.setLayout(layout);
 
 		annTable = toolkit.createTable(innerComposite, SWT.BORDER);
@@ -283,7 +283,7 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage,
 		label.setEnabled(!isReadOnly);
 
 		Composite c = toolkit.createComposite(sectionClient);
-		layout = TigerstripeLayoutUtil.createZeroTableWrapLayout(2, false);
+		layout = TigerstripeLayoutFactory.createClearTableWrapLayout(2, false);
 		layout.horizontalSpacing = 5;
 		c.setLayout(layout);
 		c.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));

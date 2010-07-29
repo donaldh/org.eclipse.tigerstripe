@@ -19,12 +19,8 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.metamodel.impl.IDependencyArtifactImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
@@ -37,9 +33,11 @@ import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForArtifactDi
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactSectionPart;
-import org.eclipse.ui.forms.widgets.ExpandableComposite;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
+import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 public class DependencySpecificsSection extends ArtifactSectionPart {
 
@@ -82,16 +80,10 @@ public class DependencySpecificsSection extends ArtifactSectionPart {
 
 	public DependencySpecificsSection(TigerstripeFormPage page,
 			Composite parent, FormToolkit toolkit) {
-		super(page, parent, toolkit, null, null, ExpandableComposite.TITLE_BAR
-				| ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
-		setTitle("End &Details");
-		getSection().marginWidth = 10;
-		getSection().marginHeight = 5;
-		getSection().clientVerticalSpacing = 4;
-
+		super(page, parent, toolkit, null, null, Section.NO_TITLE);
 		createContent();
 	}
-	
+
 	@Override
 	protected IAbstractArtifact getIArtifact() {
 		ArtifactEditorBase editor = (ArtifactEditorBase) getPage().getEditor();
@@ -109,64 +101,80 @@ public class DependencySpecificsSection extends ArtifactSectionPart {
 		td.colspan = 2;
 		getSection().setLayoutData(td);
 
-		Composite body = getBody();
-		GridLayout layout = new GridLayout();
-		layout.numColumns = 3;
-		layout.marginWidth = 5;
-		layout.marginHeight = 5;
-		body.setLayout(layout);
+		TableWrapLayout layout = TigerstripeLayoutFactory
+				.createClearTableWrapLayout(2, true);
+		layout.horizontalSpacing = 10;
+		getBody().setLayout(layout);
 
-		GridData sgd = new GridData(GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL);
-		sgd.horizontalSpan = 3;
-		sgd.heightHint = 5;
+		createAEndSection(toolkit, listener);
+		createZEndSection(toolkit, listener);
 
-		GridData gd = new GridData();
-		gd.horizontalSpan = 3;
-		Label l = toolkit.createLabel(body, "aEnd", SWT.BOLD);
-		l.setFont(new Font(null, "arial", 8, SWT.BOLD));
-		l.setLayoutData(gd);
-		GridData tgd = new GridData(GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL);
-
-		l = toolkit.createLabel(body, "Type");
-		l.setEnabled(!getIArtifact().isReadonly());
-		aEndTypeText = toolkit.createText(body, "");
-		aEndTypeText.setEnabled(!getIArtifact().isReadonly());
-		aEndTypeText.setLayoutData(tgd);
-		aEndTypeText.addModifyListener(listener);
-		aEndTypeText.addKeyListener(listener);
-		aEndTypeBrowseButton = toolkit.createButton(body, "Browse", SWT.PUSH);
-		aEndTypeBrowseButton.setEnabled(!getIArtifact().isReadonly());
-		aEndTypeBrowseButton.addSelectionListener(listener);
-		toolkit.createLabel(body, "    ");
-
-		Composite separator = toolkit.createComposite(body);
-		separator.setLayoutData(sgd);
-
-		l = toolkit.createLabel(body, "zEnd", SWT.BOLD);
-		l.setFont(new Font(null, "arial", 8, SWT.BOLD));
-		l.setLayoutData(gd);
-
-		l = toolkit.createLabel(body, "Type");
-		l.setEnabled(!getIArtifact().isReadonly());
-		zEndTypeText = toolkit.createText(body, "");
-		zEndTypeText.setEnabled(!getIArtifact().isReadonly());
-		zEndTypeText.setLayoutData(tgd);
-		zEndTypeText.addModifyListener(listener);
-		zEndTypeText.addKeyListener(listener);
-		zEndTypeBrowseButton = toolkit.createButton(body, "Browse", SWT.PUSH);
-		zEndTypeBrowseButton.setEnabled(!getIArtifact().isReadonly());
-		zEndTypeBrowseButton.addSelectionListener(listener);
-		toolkit.createLabel(body, "    ");
-
-		aEndTypeText.setData("name", "aEndTypeText");
-		zEndTypeText.setData("name", "zEndTypeText");
-		
 		updateForm();
 
-		getSection().setClient(body);
-		getToolkit().paintBordersFor(body);
+		getSection().setClient(getBody());
+		getToolkit().paintBordersFor(getBody());
+	}
+
+	private void createAEndSection(FormToolkit toolkit,
+			DependencySpecificsSectionListener listener) {
+		TableWrapLayout layout;
+
+		Section aEndSection = TigerstripeLayoutFactory.createSection(getBody(),
+				toolkit, Section.TITLE_BAR, "aEnd Details", null);
+		aEndSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+
+		Composite aEndClient = toolkit.createComposite(aEndSection);
+		layout = TigerstripeLayoutFactory.createFormTableWrapLayout(3, false);
+		aEndClient.setLayout(layout);
+		aEndClient.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+
+		toolkit.createLabel(aEndClient, "Type:").setEnabled(
+				!getIArtifact().isReadonly());
+		aEndTypeText = toolkit.createText(aEndClient, "");
+		aEndTypeText.setEnabled(!getIArtifact().isReadonly());
+		aEndTypeText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		aEndTypeText.addModifyListener(listener);
+		aEndTypeText.addKeyListener(listener);
+		aEndTypeBrowseButton = toolkit.createButton(aEndClient, "Browse",
+				SWT.PUSH);
+		aEndTypeBrowseButton.setEnabled(!getIArtifact().isReadonly());
+		aEndTypeBrowseButton.addSelectionListener(listener);
+
+		aEndTypeText.setData("name", "aEndTypeText");
+
+		aEndSection.setClient(aEndClient);
+		getToolkit().paintBordersFor(aEndClient);
+	}
+
+	private void createZEndSection(FormToolkit toolkit,
+			DependencySpecificsSectionListener listener) {
+		TableWrapLayout layout;
+
+		Section zEndSection = TigerstripeLayoutFactory.createSection(getBody(),
+				toolkit, Section.TITLE_BAR, "zEnd Details", null);
+		zEndSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+
+		Composite zEndClient = toolkit.createComposite(zEndSection);
+		layout = TigerstripeLayoutFactory.createFormTableWrapLayout(3, false);
+		zEndClient.setLayout(layout);
+		zEndClient.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+
+		toolkit.createLabel(zEndClient, "Type:").setEnabled(
+				!getIArtifact().isReadonly());
+		zEndTypeText = toolkit.createText(zEndClient, "");
+		zEndTypeText.setEnabled(!getIArtifact().isReadonly());
+		zEndTypeText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		zEndTypeText.addModifyListener(listener);
+		zEndTypeText.addKeyListener(listener);
+		zEndTypeBrowseButton = toolkit.createButton(zEndClient, "Browse",
+				SWT.PUSH);
+		zEndTypeBrowseButton.setEnabled(!getIArtifact().isReadonly());
+		zEndTypeBrowseButton.addSelectionListener(listener);
+
+		zEndTypeText.setData("name", "zEndTypeText");
+
+		zEndSection.setClient(zEndClient);
+		getToolkit().paintBordersFor(zEndClient);
 	}
 
 	@Override
@@ -190,8 +198,8 @@ public class DependencySpecificsSection extends ArtifactSectionPart {
 	}
 
 	/*
-	 * used to select the text in the "end type" widgets based on a match in
-	 * the end - A or Z - used by the details hyperlinks ...
+	 * used to select the text in the "end type" widgets based on a match in the
+	 * end - A or Z - used by the details hyperlinks ...
 	 */
 	public void selectEndByEnd(String end) {
 		if (end.equals("aEnd")) {
@@ -202,7 +210,7 @@ public class DependencySpecificsSection extends ArtifactSectionPart {
 			zEndTypeText.setFocus();
 		}
 	}
-	
+
 	/**
 	 * Set the silent update flag
 	 * 
@@ -282,8 +290,8 @@ public class DependencySpecificsSection extends ArtifactSectionPart {
 
 	protected String browseButtonPressed() {
 		BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(
-				getIArtifact().getTigerstripeProject(),
-				DependencyArtifact.getSuitableTypes());
+				getIArtifact().getTigerstripeProject(), DependencyArtifact
+						.getSuitableTypes());
 		dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
 				IDependencyArtifactImpl.class.getName()).getLabel(null)
 				+ " End Type");

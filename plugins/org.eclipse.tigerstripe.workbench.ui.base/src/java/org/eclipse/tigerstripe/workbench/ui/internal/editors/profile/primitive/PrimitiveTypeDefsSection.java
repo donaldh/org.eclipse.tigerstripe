@@ -31,9 +31,9 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
@@ -48,6 +48,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.profile.ProfileEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.profile.stereotypes.BaseStereotypeSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.ColorUtils;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
@@ -55,7 +56,6 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 /**
  * 
@@ -67,19 +67,7 @@ public class PrimitiveTypeDefsSection extends BaseStereotypeSectionPart
 
 	public PrimitiveTypeDefsSection(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit) {
-		super(page, parent, toolkit, ExpandableComposite.EXPANDED);
-		setTitle("&"
-				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IPrimitiveTypeImpl.class.getName()).getLabel(null)
-				+ " Definitions");
-		setDescription("Define the "
-				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IPrimitiveTypeImpl.class.getName()).getLabel(null)
-				+ " available within this profile.");
-		getSection().marginWidth = 10;
-		getSection().marginHeight = 5;
-		getSection().clientVerticalSpacing = 4;
-
+		super(page, parent, toolkit);
 		createContent();
 		updateMaster();
 	}
@@ -170,6 +158,7 @@ public class PrimitiveTypeDefsSection extends BaseStereotypeSectionPart
 	}
 
 	protected Button defaultAttributeButton;
+	private Table table;
 
 	@Override
 	protected void createMasterPart(final IManagedForm managedForm,
@@ -177,24 +166,38 @@ public class PrimitiveTypeDefsSection extends BaseStereotypeSectionPart
 
 		FormToolkit toolkit = getToolkit();
 
-		Section section = toolkit.createSection(parent,
-				ExpandableComposite.NO_TITLE);
+		String name = "&"
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IPrimitiveTypeImpl.class.getName()).getLabel(null)
+				+ " Definitions";
+		String desc = "Define the "
+				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+						IPrimitiveTypeImpl.class.getName()).getLabel(null)
+				+ " available within this profile.";
+
+		Section section = TigerstripeLayoutFactory.createSection(parent,
+				toolkit, ExpandableComposite.TITLE_BAR, name, desc);
 
 		Composite sectionClient = toolkit.createComposite(section);
-		TableWrapLayout twlayout = new TableWrapLayout();
-		twlayout.numColumns = 2;
-		sectionClient.setLayout(twlayout);
+		sectionClient.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		sectionClient.setLayout(TigerstripeLayoutFactory.createFormGridLayout(
+				2, false));
 
-		Table t = toolkit.createTable(sectionClient, SWT.NULL);
-		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.rowspan = 2;
-		td.heightHint = 150;
-		t.setLayoutData(td);
+		table = toolkit.createTable(sectionClient, SWT.NULL);
+		table.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		addStereotypeButton = toolkit.createButton(sectionClient, "Add",
+		Composite buttonClient = toolkit.createComposite(sectionClient);
+		buttonClient.setLayoutData(new GridData(
+				GridData.VERTICAL_ALIGN_BEGINNING));
+		buttonClient.setLayout(TigerstripeLayoutFactory
+				.createButtonsGridLayout());
+
+		addStereotypeButton = toolkit.createButton(buttonClient, "Add",
 				SWT.PUSH);
 		addStereotypeButton.setEnabled(ProfileEditor.isEditable());
-		addStereotypeButton.setLayoutData(new TableWrapData(TableWrapData.FILL));
+		addStereotypeButton.setLayoutData(new GridData(
+				GridData.HORIZONTAL_ALIGN_FILL
+						| GridData.VERTICAL_ALIGN_BEGINNING));
 		if (ProfileEditor.isEditable()) {
 			addStereotypeButton.addSelectionListener(new SelectionListener() {
 				public void widgetSelected(SelectionEvent event) {
@@ -207,10 +210,12 @@ public class PrimitiveTypeDefsSection extends BaseStereotypeSectionPart
 			});
 		}
 
-		removeAttributeButton = toolkit.createButton(sectionClient, "Remove",
+		removeAttributeButton = toolkit.createButton(buttonClient, "Remove",
 				SWT.PUSH);
 		removeAttributeButton.setEnabled(ProfileEditor.isEditable());
-		removeAttributeButton.setLayoutData(new TableWrapData());
+		removeAttributeButton.setLayoutData(new GridData(
+				GridData.HORIZONTAL_ALIGN_FILL
+						| GridData.VERTICAL_ALIGN_BEGINNING));
 		removeAttributeButton.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent event) {
 				removeButtonSelected(event);
@@ -221,37 +226,28 @@ public class PrimitiveTypeDefsSection extends BaseStereotypeSectionPart
 			}
 		});
 
-		if (this.getClass().getName().endsWith("PrimitiveTypeDefsSection")) {
-
-			td.rowspan = 3;
-			defaultAttributeButton = toolkit.createButton(sectionClient,
-					"Set Default", SWT.PUSH);
-			if (getDefaultAttributeButtonIsActive()) {
-				defaultAttributeButton.setEnabled(true);
-			} else {
-				defaultAttributeButton.setEnabled(false);
-			}
-			defaultAttributeButton.setLayoutData(new TableWrapData());
-			defaultAttributeButton
-					.addSelectionListener(new SelectionListener() {
-						public void widgetSelected(SelectionEvent event) {
-							defaultButtonSelected(event);
-						}
-
-						public void widgetDefaultSelected(SelectionEvent event) {
-							// empty
-						}
-					});
-
+		defaultAttributeButton = toolkit.createButton(buttonClient,
+				"Set Default", SWT.PUSH);
+		if (getDefaultAttributeButtonIsActive()) {
+			defaultAttributeButton.setEnabled(true);
+		} else {
+			defaultAttributeButton.setEnabled(false);
 		}
+		defaultAttributeButton.setLayoutData(new GridData(
+				GridData.HORIZONTAL_ALIGN_FILL
+						| GridData.VERTICAL_ALIGN_BEGINNING));
+		defaultAttributeButton.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent event) {
+				defaultButtonSelected(event);
+			}
 
-		Label l = toolkit.createLabel(sectionClient, "", SWT.NULL);
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.heightHint = 100;
-		l.setLayoutData(td);
+			public void widgetDefaultSelected(SelectionEvent event) {
+				// empty
+			}
+		});
 
 		final IFormPart part = this;
-		viewer = new TableViewer(t);
+		viewer = new TableViewer(table);
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
 				managedForm.fireSelectionChanged(part, event.getSelection());
@@ -271,8 +267,20 @@ public class PrimitiveTypeDefsSection extends BaseStereotypeSectionPart
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}
+
 		toolkit.paintBordersFor(sectionClient);
 		section.setClient(sectionClient);
+	}
+
+	/**
+	 * FIXME Used only by ArtifactAttributeDetailsPage. Just workaround to avoid
+	 * appearing scrolls on details part.
+	 */
+	void setMinimumHeight(int value) {
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		gd.minimumHeight = value;
+		table.setLayoutData(gd);
+		getManagedForm().reflow(true);
 	}
 
 	protected boolean getDefaultAttributeButtonIsActive() {

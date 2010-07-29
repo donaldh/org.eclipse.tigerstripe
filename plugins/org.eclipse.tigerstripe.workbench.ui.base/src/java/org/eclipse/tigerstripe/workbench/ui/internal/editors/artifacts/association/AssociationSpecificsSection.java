@@ -20,12 +20,8 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
@@ -47,12 +43,14 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.StereotypeSectionManager;
-import org.eclipse.ui.forms.widgets.ExpandableComposite;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
+import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 public class AssociationSpecificsSection extends ArtifactSectionPart {
-	
+
 	private boolean silentUpdate = false;
 
 	private class AssociationSpecificsSectionListener implements
@@ -166,18 +164,10 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 
 	public AssociationSpecificsSection(TigerstripeFormPage page,
 			Composite parent, FormToolkit toolkit) {
-		super(page, parent, toolkit, null, null, ExpandableComposite.TITLE_BAR
-				| ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
-		//Bug 236219 - Changed the name to "End Details" to avoid clash with existing "Details" section 
-		setTitle("End &Details");
-		getSection().marginWidth = 10;
-		getSection().marginHeight = 5;
-		getSection().clientVerticalSpacing = 4;
-
+		super(page, parent, toolkit, null, null, Section.NO_TITLE);
 		createContent();
 	}
 
-	
 	@Override
 	protected IAbstractArtifact getIArtifact() {
 		ArtifactEditorBase editor = (ArtifactEditorBase) getPage().getEditor();
@@ -186,7 +176,6 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 
 	@Override
 	protected void createContent() {
-
 		aggrStrs = new String[EAggregationEnum.values().length];
 		int i = 0;
 		for (EAggregationEnum val : EAggregationEnum.values()) {
@@ -214,182 +203,174 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		td.colspan = 2;
 		getSection().setLayoutData(td);
 
-		Composite body = getBody();
-		GridLayout layout = new GridLayout();
-		layout.numColumns = 7;
-		layout.marginWidth = 5;
-		layout.marginHeight = 5;
-		body.setLayout(layout);
+		TableWrapLayout layout = TigerstripeLayoutFactory
+				.createClearTableWrapLayout(2, true);
+		layout.horizontalSpacing = 10;
+		getBody().setLayout(layout);
 
-		GridData sgd = new GridData(GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL);
-		sgd.horizontalSpan = 7;
-		sgd.heightHint = 8;
+		createAEndSection(toolkit, listener);
+		createZEndSection(toolkit, listener);
 
-		GridData gd = new GridData();
-		gd.horizontalSpan = 7;
-		Label l = toolkit.createLabel(body, "aEnd", SWT.BOLD);
-		l.setFont(new Font(null, "arial", 8, SWT.BOLD));
-		l.setLayoutData(gd);
-		l = toolkit.createLabel(body, "Name:");
-		l.setEnabled(!getIArtifact().isReadonly());
-		aEndNameText = toolkit.createText(body, "");
-		GridData tgd = new GridData(GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL);
-		aEndNameText.setLayoutData(tgd);
+		updateForm();
+
+		getSection().setClient(getBody());
+		getToolkit().paintBordersFor(getBody());
+	}
+
+	private void createAEndSection(FormToolkit toolkit,
+			AssociationSpecificsSectionListener listener) {
+		TableWrapLayout layout;
+		TableWrapData td;
+
+		Section aEndSection = TigerstripeLayoutFactory.createSection(getBody(),
+				toolkit, Section.TITLE_BAR, "aEnd Details", null);
+		aEndSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+
+		Composite aEndClient = toolkit.createComposite(aEndSection);
+		layout = TigerstripeLayoutFactory.createFormTableWrapLayout(2, false);
+		aEndClient.setLayout(layout);
+		aEndClient.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+
+		toolkit.createLabel(aEndClient, "Name:").setEnabled(
+				!getIArtifact().isReadonly());
+		aEndNameText = toolkit.createText(aEndClient, "");
+		aEndNameText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		aEndNameText.setEnabled(!getIArtifact().isReadonly());
 		aEndNameText.addModifyListener(listener);
 
-		toolkit.createLabel(body, "");
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "");
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "    ");
-
-		l = toolkit.createLabel(body, "Description:");
-		aEndCommentText = toolkit.createText(body, "", SWT.WRAP | SWT.MULTI
-				| SWT.V_SCROLL);
-		tgd = new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL);
-		tgd.heightHint = 40;
-		aEndCommentText.setLayoutData(tgd);
+		toolkit.createLabel(aEndClient, "Description:").setEnabled(
+				!getIArtifact().isReadonly());
+		aEndCommentText = toolkit.createText(aEndClient, "", SWT.WRAP
+				| SWT.MULTI | SWT.V_SCROLL);
+		td = new TableWrapData(TableWrapData.FILL_GRAB);
+		td.heightHint = 70;
+		aEndCommentText.setLayoutData(td);
 		aEndCommentText.setEnabled(!getIArtifact().isReadonly());
 		aEndCommentText.addModifyListener(listener);
 
-		toolkit.createLabel(body, "");
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "    ");
-
-		l = toolkit.createLabel(body, "Type");
-		l.setEnabled(!getIArtifact().isReadonly());
-		aEndTypeText = toolkit.createText(body, "");
+		toolkit.createLabel(aEndClient, "Type:").setEnabled(
+				!getIArtifact().isReadonly());
+		Composite c = toolkit.createComposite(aEndClient);
+		c.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		layout = TigerstripeLayoutFactory.createFormPaneTableWrapLayout(2,
+				false);
+		c.setLayout(layout);
+		aEndTypeText = toolkit.createText(c, "");
 		aEndTypeText.setEnabled(!getIArtifact().isReadonly());
-		tgd = new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL);
-		aEndTypeText.setLayoutData(tgd);
+		aEndTypeText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		aEndTypeText.addModifyListener(listener);
 		aEndTypeText.addKeyListener(listener);
-		aEndTypeBrowseButton = toolkit.createButton(body, "Browse", SWT.PUSH);
+		aEndTypeBrowseButton = toolkit.createButton(c, "Browse", SWT.PUSH);
 		aEndTypeBrowseButton.setEnabled(!getIArtifact().isReadonly());
 		aEndTypeBrowseButton.addSelectionListener(listener);
-		toolkit.createLabel(body, "    ");
 
-		l = toolkit.createLabel(body, "Multiplicity");
-		l.setEnabled(!getIArtifact().isReadonly());
-		aEndMultiplicityCombo = new CCombo(body, SWT.SINGLE | SWT.READ_ONLY
-				| SWT.FLAT | SWT.BORDER);
+		toolkit.createLabel(aEndClient, "Multiplicity").setEnabled(
+				!getIArtifact().isReadonly());
+		aEndMultiplicityCombo = new CCombo(aEndClient, SWT.SINGLE
+				| SWT.READ_ONLY | SWT.FLAT | SWT.BORDER);
 		aEndMultiplicityCombo.setItems(mulStrs);
 		aEndMultiplicityCombo.setEnabled(!getIArtifact().isReadonly());
 		aEndMultiplicityCombo.addSelectionListener(listener);
 		aEndMultiplicityCombo.setVisibleItemCount(IModelComponent.EMultiplicity
 				.values().length);
+		aEndMultiplicityCombo.setLayoutData(new TableWrapData(
+				TableWrapData.FILL_GRAB));
 		toolkit.adapt(this.aEndMultiplicityCombo, true, true);
-		toolkit.createLabel(body, "    ");
 
-		toolkit.createLabel(body, "Visibility: ");
-
-		Composite visiComposite = toolkit.createComposite(body);
-		GridLayout gLayout = new GridLayout();
-		gLayout.numColumns = 4;
-		visiComposite.setEnabled(!getIArtifact().isReadonly());
-		visiComposite.setLayout(gLayout);
-		GridData gd1 = new GridData(GridData.FILL_HORIZONTAL);
-		gd1.horizontalSpan = 2;
-		visiComposite.setLayoutData(gd1);
-		aEndPublicButton = toolkit.createButton(visiComposite, "Public",
-				SWT.RADIO);
+		toolkit.createLabel(aEndClient, "Visibility: ").setEnabled(
+				!getIArtifact().isReadonly());
+		c = toolkit.createComposite(aEndClient);
+		c.setEnabled(!getIArtifact().isReadonly());
+		layout = TigerstripeLayoutFactory.createFormPaneTableWrapLayout(4,
+				false);
+		c.setLayout(layout);
+		c.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		aEndPublicButton = toolkit.createButton(c, "Public", SWT.RADIO);
 		aEndPublicButton.setEnabled(!getIArtifact().isReadonly());
 		aEndPublicButton.addSelectionListener(listener);
-		aEndProtectedButton = toolkit.createButton(visiComposite, "Protected",
-				SWT.RADIO);
+		aEndProtectedButton = toolkit.createButton(c, "Protected", SWT.RADIO);
 		aEndProtectedButton.setEnabled(!getIArtifact().isReadonly());
 		aEndProtectedButton.addSelectionListener(listener);
-		aEndPrivateButton = toolkit.createButton(visiComposite, "Private",
-				SWT.RADIO);
+		aEndPrivateButton = toolkit.createButton(c, "Private", SWT.RADIO);
 		aEndPrivateButton.setEnabled(!getIArtifact().isReadonly());
 		aEndPrivateButton.addSelectionListener(listener);
-		aEndPackageButton = toolkit.createButton(visiComposite, "Package",
-				SWT.RADIO);
+		aEndPackageButton = toolkit.createButton(c, "Package", SWT.RADIO);
 		aEndPackageButton.setEnabled(!getIArtifact().isReadonly());
 		aEndPackageButton.addSelectionListener(listener);
-		toolkit.createLabel(body, "    ");
 
-		l = toolkit.createLabel(body, "Changeable");
-		l.setEnabled(!getIArtifact().isReadonly());
-		aEndChangeableCombo = new CCombo(body, SWT.SINGLE | SWT.READ_ONLY
+		toolkit.createLabel(aEndClient, "Changeable:").setEnabled(
+				!getIArtifact().isReadonly());
+		aEndChangeableCombo = new CCombo(aEndClient, SWT.SINGLE | SWT.READ_ONLY
 				| SWT.FLAT | SWT.BORDER);
 		aEndChangeableCombo.addSelectionListener(listener);
 		aEndChangeableCombo.setItems(chanStrs);
 		aEndChangeableCombo.setEnabled(!getIArtifact().isReadonly());
+		aEndChangeableCombo.setLayoutData(new TableWrapData(
+				TableWrapData.FILL_GRAB));
 		toolkit.adapt(this.aEndChangeableCombo, true, true);
-		toolkit.createLabel(body, "    ");
 
-		toolkit.createLabel(body, "Qualifiers: ");
-
-		Composite modifCompositeA = toolkit.createComposite(body);
-		GridLayout gLayoutA = new GridLayout();
-		gLayoutA.numColumns = 3;
-		modifCompositeA.setEnabled(!getIArtifact().isReadonly());
-		modifCompositeA.setLayout(gLayoutA);
-		GridData gdA = new GridData(GridData.FILL_HORIZONTAL);
-		gdA.horizontalSpan = 2;
-		modifCompositeA.setLayoutData(gdA);
-
-		aEndIsNavigableButton = toolkit.createButton(modifCompositeA,
-				"isNavigable", SWT.CHECK);
+		toolkit.createLabel(aEndClient, "Qualifiers:");
+		c = toolkit.createComposite(aEndClient);
+		c.setEnabled(!getIArtifact().isReadonly());
+		layout = TigerstripeLayoutFactory.createFormPaneTableWrapLayout(3,
+				false);
+		c.setLayout(layout);
+		c.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		aEndIsNavigableButton = toolkit.createButton(c, "isNavigable",
+				SWT.CHECK);
 		aEndIsNavigableButton.setEnabled(!getIArtifact().isReadonly());
 		aEndIsNavigableButton.addSelectionListener(listener);
-		aEndIsOrderedButton = toolkit.createButton(modifCompositeA,
-				"isOrdered", SWT.CHECK);
+		aEndIsOrderedButton = toolkit.createButton(c, "isOrdered", SWT.CHECK);
 		aEndIsOrderedButton.setEnabled(!getIArtifact().isReadonly());
 		aEndIsOrderedButton.addSelectionListener(listener);
-		aEndIsUniqueButton = toolkit.createButton(modifCompositeA, "isUnique",
-				SWT.CHECK);
+		aEndIsUniqueButton = toolkit.createButton(c, "isUnique", SWT.CHECK);
 		aEndIsUniqueButton.setEnabled(!getIArtifact().isReadonly());
 		aEndIsUniqueButton.addSelectionListener(listener);
 
-		toolkit.createLabel(body, "    ");
-		l = toolkit.createLabel(body, "Aggregation");
-		l.setEnabled(!getIArtifact().isReadonly());
-		aEndAggregationCombo = new CCombo(body, SWT.SINGLE | SWT.READ_ONLY
-				| SWT.FLAT | SWT.BORDER);
+		toolkit.createLabel(aEndClient, "Aggregation:").setEnabled(
+				!getIArtifact().isReadonly());
+		aEndAggregationCombo = new CCombo(aEndClient, SWT.SINGLE
+				| SWT.READ_ONLY | SWT.FLAT | SWT.BORDER);
 		aEndAggregationCombo.setEnabled(!getIArtifact().isReadonly());
 		aEndAggregationCombo.addSelectionListener(listener);
 		aEndAggregationCombo.setItems(aggrStrs);
+		aEndAggregationCombo.setLayoutData(new TableWrapData(
+				TableWrapData.FILL_GRAB));
 		toolkit.adapt(this.aEndAggregationCombo, true, true);
 		toolkit.paintBordersFor(aEndAggregationCombo);
 
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "Stereotypes:");
+		toolkit.createLabel(aEndClient, "Stereotypes:");
 
-		aAnnTable = toolkit.createTable(body, SWT.BORDER);
-		GridData aGd1 = new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL);
-		aGd1.verticalSpan = 3;
-		aGd1.widthHint = 200;
-		aGd1.heightHint = 40;
-		aAnnTable.setLayoutData(aGd1);
+		c = toolkit.createComposite(aEndClient);
+		c.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		layout = TigerstripeLayoutFactory.createFormPaneTableWrapLayout(2,
+				false);
+		c.setLayout(layout);
 
-		aAddAnno = toolkit.createButton(body, "Add", SWT.PUSH);
-		aAddAnno.setData("name","Add_Stereo_Assoc_A");
+		aAnnTable = toolkit.createTable(c, SWT.BORDER);
+		td = new TableWrapData(TableWrapData.FILL_GRAB);
+		td.rowspan = 3;
+		aAnnTable.setLayoutData(td);
+
+		c = toolkit.createComposite(c);
+		c.setLayoutData(new TableWrapData(TableWrapData.FILL));
+		layout = TigerstripeLayoutFactory.createButtonsTableWrapLayout();
+		c.setLayout(layout);
+
+		aAddAnno = toolkit.createButton(c, "Add", SWT.PUSH);
+		aAddAnno.setData("name", "Add_Stereo_Assoc_A");
 		aAddAnno.setEnabled(!getIArtifact().isReadonly());
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "    ");
+		aAddAnno.setLayoutData(new TableWrapData(TableWrapData.FILL));
 
-		aEditAnno = toolkit.createButton(body, "Edit", SWT.PUSH);
-		aEditAnno.setData("name","Edit_Stereo_Assoc_A");
+		aEditAnno = toolkit.createButton(c, "Edit", SWT.PUSH);
+		aEditAnno.setData("name", "Edit_Stereo_Assoc_A");
 		aEditAnno.setEnabled(!getIArtifact().isReadonly());
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "    ");
+		aEditAnno.setLayoutData(new TableWrapData(TableWrapData.FILL));
 
-		aRemoveAnno = toolkit.createButton(body, "Remove", SWT.PUSH);
-		aRemoveAnno.setData("name","Remove_Stereo_Assoc_A");
+		aRemoveAnno = toolkit.createButton(c, "Remove", SWT.PUSH);
+		aRemoveAnno.setData("name", "Remove_Stereo_Assoc_A");
 		aRemoveAnno.setEnabled(!getIArtifact().isReadonly());
+		aRemoveAnno.setLayoutData(new TableWrapData(TableWrapData.FILL));
 
 		aStereotypeManager = new StereotypeSectionManager(aAddAnno, aEditAnno,
 				aRemoveAnno, aAnnTable, ((IAssociationArtifact) getIArtifact())
@@ -397,169 +378,165 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 				(ArtifactEditorBase) getPage().getEditor());
 		aStereotypeManager.delegate();
 
-		Composite separator = toolkit.createComposite(body);
-		separator.setLayoutData(sgd);
+		aEndTypeText.setData("name", "aEndTypeText");
+		aEndNameText.setData("name", "aEndNameText");
 
-		l = toolkit.createLabel(body, "zEnd", SWT.BOLD);
-		l.setFont(new Font(null, "arial", 8, SWT.BOLD));
-		l.setLayoutData(gd);
-		l = toolkit.createLabel(body, "Name:");
-		l.setEnabled(!getIArtifact().isReadonly());
-		
-		zEndNameText = toolkit.createText(body, "");
-		tgd = new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL);
+		aEndSection.setClient(aEndClient);
+		getToolkit().paintBordersFor(aEndClient);
+	}
+
+	private void createZEndSection(FormToolkit toolkit,
+			AssociationSpecificsSectionListener listener) {
+		TableWrapLayout layout;
+		TableWrapData td;
+
+		Section zEndSection = TigerstripeLayoutFactory.createSection(getBody(),
+				toolkit, Section.TITLE_BAR, "zEnd Details", null);
+		zEndSection.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+
+		Composite zEndClient = toolkit.createComposite(zEndSection);
+		layout = TigerstripeLayoutFactory.createFormTableWrapLayout(2, false);
+		zEndClient.setLayout(layout);
+		zEndClient.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+
+		toolkit.createLabel(zEndClient, "Name:").setEnabled(
+				!getIArtifact().isReadonly());
+		zEndNameText = toolkit.createText(zEndClient, "");
 		zEndNameText.setEnabled(!getIArtifact().isReadonly());
-		zEndNameText.setLayoutData(tgd);
+		zEndNameText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		zEndNameText.addModifyListener(listener);
 
-		toolkit.createLabel(body, "");
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "");
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "    ");
-
-		l = toolkit.createLabel(body, "Description:");
-		zEndCommentText = toolkit.createText(body, "", SWT.WRAP | SWT.MULTI
-				| SWT.V_SCROLL);
-		tgd = new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL);
-		tgd.heightHint = 40;
-		zEndCommentText.setLayoutData(tgd);
+		toolkit.createLabel(zEndClient, "Description:").setEnabled(
+				!getIArtifact().isReadonly());
+		zEndCommentText = toolkit.createText(zEndClient, "", SWT.WRAP
+				| SWT.MULTI | SWT.V_SCROLL);
+		td = new TableWrapData(TableWrapData.FILL_GRAB);
+		td.heightHint = 70;
+		zEndCommentText.setLayoutData(td);
 		zEndCommentText.setEnabled(!getIArtifact().isReadonly());
 		zEndCommentText.addModifyListener(listener);
 
-		toolkit.createLabel(body, "");
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "    ");
-
-		l = toolkit.createLabel(body, "Type");
-		l.setEnabled(!getIArtifact().isReadonly());
-		zEndTypeText = toolkit.createText(body, "");
+		toolkit.createLabel(zEndClient, "Type").setEnabled(
+				!getIArtifact().isReadonly());
+		Composite c = toolkit.createComposite(zEndClient);
+		c.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		layout = TigerstripeLayoutFactory.createFormPaneTableWrapLayout(2,
+				false);
+		c.setLayout(layout);
+		zEndTypeText = toolkit.createText(c, "");
 		zEndTypeText.setEnabled(!getIArtifact().isReadonly());
-		tgd = new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL);
-		zEndTypeText.setLayoutData(tgd);
+		zEndTypeText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		zEndTypeText.addModifyListener(listener);
 		zEndTypeText.addKeyListener(listener);
-		zEndTypeBrowseButton = toolkit.createButton(body, "Browse", SWT.PUSH);
+		zEndTypeBrowseButton = toolkit.createButton(c, "Browse", SWT.PUSH);
 		zEndTypeBrowseButton.setEnabled(!getIArtifact().isReadonly());
 		zEndTypeBrowseButton.addSelectionListener(listener);
-		toolkit.createLabel(body, "    ");
 
-		l = toolkit.createLabel(body, "Multiplicity");
-		l.setEnabled(!getIArtifact().isReadonly());
-		zEndMultiplicityCombo = new CCombo(body, SWT.SINGLE | SWT.READ_ONLY
-				| SWT.FLAT | SWT.BORDER);
+		toolkit.createLabel(zEndClient, "Multiplicity").setEnabled(
+				!getIArtifact().isReadonly());
+		zEndMultiplicityCombo = new CCombo(zEndClient, SWT.SINGLE
+				| SWT.READ_ONLY | SWT.FLAT | SWT.BORDER);
 		zEndMultiplicityCombo.setEnabled(!getIArtifact().isReadonly());
 		zEndMultiplicityCombo.addSelectionListener(listener);
 		zEndMultiplicityCombo.setItems(mulStrs);
 		zEndMultiplicityCombo.setVisibleItemCount(IModelComponent.EMultiplicity
 				.values().length);
+		zEndMultiplicityCombo.setLayoutData(new TableWrapData(
+				TableWrapData.FILL_GRAB));
 		toolkit.adapt(this.zEndMultiplicityCombo, true, true);
-		toolkit.createLabel(body, "    ");
 
-		toolkit.createLabel(body, "Visibility: ");
-
-		Composite visiCompositeZ = toolkit.createComposite(body);
-		GridLayout gLayoutZ = new GridLayout();
-		gLayoutZ.numColumns = 4;
-		visiCompositeZ.setEnabled(!getIArtifact().isReadonly());
-		visiCompositeZ.setLayout(gLayoutZ);
-		GridData gdZ = new GridData(GridData.FILL_HORIZONTAL);
-		gdZ.horizontalSpan = 2;
-		visiCompositeZ.setLayoutData(gdZ);
-		zEndPublicButton = toolkit.createButton(visiCompositeZ, "Public",
-				SWT.RADIO);
+		toolkit.createLabel(zEndClient, "Visibility: ").setEnabled(
+				!getIArtifact().isReadonly());
+		c = toolkit.createComposite(zEndClient);
+		c.setEnabled(!getIArtifact().isReadonly());
+		layout = TigerstripeLayoutFactory.createFormPaneTableWrapLayout(4,
+				false);
+		c.setLayout(layout);
+		c.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		zEndPublicButton = toolkit.createButton(c, "Public", SWT.RADIO);
 		zEndPublicButton.setEnabled(!getIArtifact().isReadonly());
 		zEndPublicButton.addSelectionListener(listener);
-		zEndProtectedButton = toolkit.createButton(visiCompositeZ, "Protected",
-				SWT.RADIO);
+		zEndProtectedButton = toolkit.createButton(c, "Protected", SWT.RADIO);
 		zEndProtectedButton.setEnabled(!getIArtifact().isReadonly());
 		zEndProtectedButton.addSelectionListener(listener);
-		zEndPrivateButton = toolkit.createButton(visiCompositeZ, "Private",
-				SWT.RADIO);
+		zEndPrivateButton = toolkit.createButton(c, "Private", SWT.RADIO);
 		zEndPrivateButton.setEnabled(!getIArtifact().isReadonly());
 		zEndPrivateButton.addSelectionListener(listener);
-		zEndPackageButton = toolkit.createButton(visiCompositeZ, "Package",
-				SWT.RADIO);
+		zEndPackageButton = toolkit.createButton(c, "Package", SWT.RADIO);
 		zEndPackageButton.setEnabled(!getIArtifact().isReadonly());
 		zEndPackageButton.addSelectionListener(listener);
-		toolkit.createLabel(body, "    ");
 
-		l = toolkit.createLabel(body, "Changeable");
-		l.setEnabled(!getIArtifact().isReadonly());
-		zEndChangeableCombo = new CCombo(body, SWT.SINGLE | SWT.READ_ONLY
+		toolkit.createLabel(zEndClient, "Changeable").setEnabled(
+				!getIArtifact().isReadonly());
+		zEndChangeableCombo = new CCombo(zEndClient, SWT.SINGLE | SWT.READ_ONLY
 				| SWT.FLAT | SWT.BORDER);
 		zEndChangeableCombo.setEnabled(!getIArtifact().isReadonly());
 		zEndChangeableCombo.addSelectionListener(listener);
 		zEndChangeableCombo.setItems(chanStrs);
+		zEndChangeableCombo.setLayoutData(new TableWrapData(
+				TableWrapData.FILL_GRAB));
 		toolkit.adapt(this.zEndChangeableCombo, true, true);
-		toolkit.createLabel(body, "    ");
 
-		toolkit.createLabel(body, "Qualifiers: ");
-		Composite modifCompositeZ = toolkit.createComposite(body);
-		gLayoutZ = new GridLayout();
-		gLayoutZ.numColumns = 3;
-		modifCompositeZ.setEnabled(!getIArtifact().isReadonly());
-		modifCompositeZ.setLayout(gLayoutZ);
-		gdZ = new GridData(GridData.FILL_HORIZONTAL);
-		gdZ.horizontalSpan = 2;
-		modifCompositeZ.setLayoutData(gdZ);
-
-		zEndIsNavigableButton = toolkit.createButton(modifCompositeZ,
-				"isNavigable", SWT.CHECK);
+		toolkit.createLabel(zEndClient, "Qualifiers: ");
+		c = toolkit.createComposite(zEndClient);
+		c.setEnabled(!getIArtifact().isReadonly());
+		layout = TigerstripeLayoutFactory.createFormPaneTableWrapLayout(3,
+				false);
+		c.setLayout(layout);
+		c.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		zEndIsNavigableButton = toolkit.createButton(c, "isNavigable",
+				SWT.CHECK);
 		zEndIsNavigableButton.setEnabled(!getIArtifact().isReadonly());
 		zEndIsNavigableButton.addSelectionListener(listener);
-		zEndIsOrderedButton = toolkit.createButton(modifCompositeZ,
-				"isOrdered", SWT.CHECK);
+		zEndIsOrderedButton = toolkit.createButton(c, "isOrdered", SWT.CHECK);
 		zEndIsOrderedButton.setEnabled(!getIArtifact().isReadonly());
 		zEndIsOrderedButton.addSelectionListener(listener);
-		zEndIsUniqueButton = toolkit.createButton(modifCompositeZ, "isUnique",
-				SWT.CHECK);
+		zEndIsUniqueButton = toolkit.createButton(c, "isUnique", SWT.CHECK);
 		zEndIsUniqueButton.setEnabled(!getIArtifact().isReadonly());
 		zEndIsUniqueButton.addSelectionListener(listener);
 
-		toolkit.createLabel(body, "    ");
-		l = toolkit.createLabel(body, "Aggregation");
-		l.setEnabled(!getIArtifact().isReadonly());
-		zEndAggregationCombo = new CCombo(body, SWT.SINGLE | SWT.READ_ONLY
-				| SWT.FLAT | SWT.BORDER);
+		toolkit.createLabel(zEndClient, "Aggregation").setEnabled(
+				!getIArtifact().isReadonly());
+		zEndAggregationCombo = new CCombo(zEndClient, SWT.SINGLE
+				| SWT.READ_ONLY | SWT.FLAT | SWT.BORDER);
 		zEndAggregationCombo.setEnabled(!getIArtifact().isReadonly());
 		zEndAggregationCombo.addSelectionListener(listener);
 		zEndAggregationCombo.setItems(aggrStrs);
+		zEndAggregationCombo.setLayoutData(new TableWrapData(
+				TableWrapData.FILL_GRAB));
 		toolkit.adapt(this.zEndAggregationCombo, true, true);
 
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "Stereotypes:");
+		toolkit.createLabel(zEndClient, "Stereotypes:");
+		c = toolkit.createComposite(zEndClient);
+		c.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		layout = TigerstripeLayoutFactory.createFormPaneTableWrapLayout(2,
+				false);
+		c.setLayout(layout);
 
-		zAnnTable = toolkit.createTable(body, SWT.BORDER);
-		aGd1 = new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL);
-		aGd1.verticalSpan = 3;
-		aGd1.widthHint = 200;
-		aGd1.heightHint = 40;
-		zAnnTable.setLayoutData(aGd1);
+		zAnnTable = toolkit.createTable(c, SWT.BORDER);
+		td = new TableWrapData(TableWrapData.FILL_GRAB);
+		td.rowspan = 3;
+		zAnnTable.setLayoutData(td);
 
-		zAddAnno = toolkit.createButton(body, "Add", SWT.PUSH);
-		zAddAnno.setData("name","Add_Stereo_Assoc_A");
+		c = toolkit.createComposite(c);
+		c.setLayoutData(new TableWrapData(TableWrapData.FILL));
+		layout = TigerstripeLayoutFactory.createButtonsTableWrapLayout();
+		c.setLayout(layout);
+
+		zAddAnno = toolkit.createButton(c, "Add", SWT.PUSH);
+		zAddAnno.setData("name", "Add_Stereo_Assoc_A");
 		zAddAnno.setEnabled(!getIArtifact().isReadonly());
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "    ");
+		zAddAnno.setLayoutData(new TableWrapData(TableWrapData.FILL));
 
-		zEditAnno = toolkit.createButton(body, "Edit", SWT.PUSH);
-		zEditAnno.setData("name","Edit_Stereo_Assoc_A");
+		zEditAnno = toolkit.createButton(c, "Edit", SWT.PUSH);
+		zEditAnno.setData("name", "Edit_Stereo_Assoc_A");
 		zEditAnno.setEnabled(!getIArtifact().isReadonly());
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "    ");
-		toolkit.createLabel(body, "    ");
+		zEditAnno.setLayoutData(new TableWrapData(TableWrapData.FILL));
 
-		zRemoveAnno = toolkit.createButton(body, "Remove", SWT.PUSH);
-		zRemoveAnno.setData("name","Remove_Stereo_Assoc_Z");
+		zRemoveAnno = toolkit.createButton(c, "Remove", SWT.PUSH);
+		zRemoveAnno.setData("name", "Remove_Stereo_Assoc_Z");
 		zRemoveAnno.setEnabled(!getIArtifact().isReadonly());
+		zRemoveAnno.setLayoutData(new TableWrapData(TableWrapData.FILL));
 
 		zStereotypeManager = new StereotypeSectionManager(zAddAnno, zEditAnno,
 				zRemoveAnno, zAnnTable, ((IAssociationArtifact) getIArtifact())
@@ -567,15 +544,11 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 				(ArtifactEditorBase) getPage().getEditor());
 		zStereotypeManager.delegate();
 
-		aEndTypeText.setData("name", "aEndTypeText");
-		aEndNameText.setData("name", "aEndNameText");
 		zEndTypeText.setData("name", "zEndTypeText");
 		zEndNameText.setData("name", "zEndNameText");
-		
-		updateForm();
 
-		getSection().setClient(body);
-		getToolkit().paintBordersFor(body);
+		zEndSection.setClient(zEndClient);
+		getToolkit().paintBordersFor(zEndClient);
 	}
 
 	@Override
@@ -599,8 +572,8 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 	}
 
 	/*
-	 * used to select the text in the "end type" widgets based on a match in
-	 * the end - A or Z - used by the details hyperlinks ...
+	 * used to select the text in the "end type" widgets based on a match in the
+	 * end - A or Z - used by the details hyperlinks ...
 	 */
 	public void selectEndByEnd(String end) {
 		if (end.equals("aEnd")) {
@@ -611,7 +584,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 			zEndTypeText.setFocus();
 		}
 	}
-	
+
 	/**
 	 * Set the silent update flag
 	 * 
@@ -647,7 +620,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		aEndMultiplicityCombo.select(indexIn(mulStrs, aEnd.getMultiplicity()
 				.getLabel()));
 		aEndIsNavigableButton.setSelection(aEnd.isNavigable());
-		
+
 		if (aEnd.getMultiplicity().isArray()) {
 			aEndIsOrderedButton.setEnabled(true);
 			aEndIsOrderedButton.setSelection(aEnd.isOrdered());
@@ -661,7 +634,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 			aEndIsUniqueButton.setSelection(true);
 			aEnd.setUnique(true);
 		}
-		
+
 		setAEndVisibility(aEnd.getVisibility());
 
 		// Update zEnd
@@ -676,7 +649,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		zEndMultiplicityCombo.select(indexIn(mulStrs, zEnd.getMultiplicity()
 				.getLabel()));
 		zEndIsNavigableButton.setSelection(zEnd.isNavigable());
-		
+
 		if (zEnd.getMultiplicity().isArray()) {
 			zEndIsOrderedButton.setEnabled(true);
 			zEndIsOrderedButton.setSelection(zEnd.isOrdered());
@@ -866,16 +839,16 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 
 	protected String browseButtonPressed() {
 		BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(
-				getIArtifact().getTigerstripeProject(),
-				AssociationEnd.getSuitableTypes());
+				getIArtifact().getTigerstripeProject(), AssociationEnd
+						.getSuitableTypes());
 		dialog.setIncludePrimitiveTypes(false);
 		dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
 				IAssociationArtifactImpl.class.getName()).getLabel(null)
 				+ " End Type");
 		dialog.setMessage("Select the type of the "
 				+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-						IAssociationArtifactImpl.class.getName()).getLabel(null)
-				+ " End.");
+						IAssociationArtifactImpl.class.getName())
+						.getLabel(null) + " End.");
 
 		try {
 			IAbstractArtifact[] artifacts = dialog.browseAvailableArtifacts(

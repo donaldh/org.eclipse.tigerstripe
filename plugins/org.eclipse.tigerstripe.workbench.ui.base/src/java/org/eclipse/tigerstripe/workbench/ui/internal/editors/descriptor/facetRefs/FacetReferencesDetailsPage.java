@@ -15,7 +15,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
@@ -24,7 +23,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutUtil;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
@@ -32,7 +31,6 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 public class FacetReferencesDetailsPage implements IDetailsPage {
 
@@ -42,18 +40,23 @@ public class FacetReferencesDetailsPage implements IDetailsPage {
 
 	private IFacetReference facet;
 
-	public FacetReferencesDetailsPage() {
+	public FacetReferencesDetailsPage(FacetReferencesSection master) {
 		super();
+		this.master = master;
 	}
 
 	public void createContents(Composite parent) {
-		TableWrapLayout layout = new TableWrapLayout();
-		layout.bottomMargin = layout.topMargin = 0;
-		layout.leftMargin = 5;
-		layout.rightMargin = 0;
-		parent.setLayout(layout);
-		parent.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-		createFieldInfo(parent);
+		parent.setLayout(TigerstripeLayoutFactory
+				.createDetailsTableWrapLayout());
+		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
+		parent.setLayoutData(td);
+
+		int height = createFieldInfo(parent);
+		/*
+		 * FIXME Just workaround to avoid appearing scrolls on details part.
+		 */
+		master.setMinimumHeight(height);
+
 		form.getToolkit().paintBordersFor(parent);
 	}
 
@@ -75,18 +78,18 @@ public class FacetReferencesDetailsPage implements IDetailsPage {
 
 	private Text facetName;
 
-	private void createFieldInfo(Composite parent) {
+	private int createFieldInfo(Composite parent) {
 		FormToolkit toolkit = form.getToolkit();
 
-		Section section = TigerstripeLayoutUtil.createSection(parent, toolkit,
-				ExpandableComposite.TITLE_BAR, "Facet Reference Details", null);
+		Section section = TigerstripeLayoutFactory.createSection(parent,
+				toolkit, ExpandableComposite.TITLE_BAR,
+				"Facet Reference Details", null);
 		section.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		Composite sectionClient = toolkit.createComposite(section);
 
-		GridLayout gLayout = new GridLayout();
-		gLayout.numColumns = 2;
-		sectionClient.setLayout(gLayout);
+		sectionClient.setLayout(TigerstripeLayoutFactory.createFormGridLayout(
+				2, false));
 		sectionClient.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		Label label = toolkit.createLabel(sectionClient, "Name: ");
@@ -127,6 +130,8 @@ public class FacetReferencesDetailsPage implements IDetailsPage {
 
 		section.setClient(sectionClient);
 		toolkit.paintBordersFor(sectionClient);
+
+		return sectionClient.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
 	}
 
 	// ===================================================================
@@ -169,7 +174,6 @@ public class FacetReferencesDetailsPage implements IDetailsPage {
 
 	public void selectionChanged(IFormPart part, ISelection selection) {
 		if (part instanceof FacetReferencesSection) {
-			master = (FacetReferencesSection) part;
 			Table fieldsTable = master.getViewer().getTable();
 
 			IFacetReference selected = (IFacetReference) fieldsTable

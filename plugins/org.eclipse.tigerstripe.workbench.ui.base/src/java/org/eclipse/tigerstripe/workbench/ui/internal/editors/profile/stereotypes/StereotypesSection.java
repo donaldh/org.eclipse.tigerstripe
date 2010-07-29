@@ -10,11 +10,19 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.profile.stereotypes;
 
+import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerComparator;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Table;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.WorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.Stereotype;
@@ -22,10 +30,13 @@ import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.profile.ProfileEditor;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IFormPart;
+import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.Section;
 
 /**
  * 
@@ -35,15 +46,11 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 public class StereotypesSection extends BaseStereotypeSectionPart implements
 		IFormPart {
 
+	private Table table;
+
 	public StereotypesSection(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit) {
-		super(page, parent, toolkit, ExpandableComposite.EXPANDED);
-		setTitle("&Stereotype Definitions");
-		setDescription("Define the stereotypes available within this profile.");
-		getSection().marginWidth = 10;
-		getSection().marginHeight = 5;
-		getSection().clientVerticalSpacing = 4;
-
+		super(page, parent, toolkit);
 		createContent();
 		updateMaster();
 	}
@@ -69,9 +76,101 @@ public class StereotypesSection extends BaseStereotypeSectionPart implements
 		return new MasterContentProvider();
 	}
 
+	protected void createMasterPart(final IManagedForm managedForm,
+			Composite parent) {
+		FormToolkit toolkit = getToolkit();
+
+		Section section = TigerstripeLayoutFactory.createSection(parent,
+				toolkit, ExpandableComposite.TITLE_BAR,
+				"&Stereotype Definitions",
+				"Define the stereotypes available within this profile.");
+
+		Composite sectionClient = toolkit.createComposite(section);
+		sectionClient.setLayout(TigerstripeLayoutFactory.createFormGridLayout(
+				2, false));
+
+		table = toolkit.createTable(sectionClient, SWT.NULL);
+		table.setLayoutData(new GridData(GridData.FILL_BOTH));
+
+		Composite buttonClient = toolkit.createComposite(sectionClient);
+		buttonClient.setLayoutData(new GridData(
+				GridData.VERTICAL_ALIGN_BEGINNING));
+		buttonClient.setLayout(TigerstripeLayoutFactory
+				.createButtonsGridLayout());
+
+		addStereotypeButton = toolkit.createButton(buttonClient, "Add",
+				SWT.PUSH);
+		// support for testing
+		addStereotypeButton.setData("name", "Add_Stereotype");
+		addStereotypeButton.setEnabled(ProfileEditor.isEditable());
+		addStereotypeButton.setLayoutData(new GridData(
+				GridData.HORIZONTAL_ALIGN_FILL
+						| GridData.VERTICAL_ALIGN_BEGINNING));
+		if (ProfileEditor.isEditable()) {
+			addStereotypeButton.addSelectionListener(new SelectionListener() {
+				public void widgetSelected(SelectionEvent event) {
+					addButtonSelected(event);
+				}
+
+				public void widgetDefaultSelected(SelectionEvent event) {
+					// empty
+				}
+			});
+		}
+		removeAttributeButton = toolkit.createButton(buttonClient, "Remove",
+				SWT.PUSH);
+		removeAttributeButton.setEnabled(ProfileEditor.isEditable());
+		removeAttributeButton.setLayoutData(new GridData(
+				GridData.HORIZONTAL_ALIGN_FILL
+						| GridData.VERTICAL_ALIGN_BEGINNING));
+		removeAttributeButton.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent event) {
+				removeButtonSelected(event);
+			}
+
+			public void widgetDefaultSelected(SelectionEvent event) {
+				// empty
+			}
+		});
+
+		final IFormPart part = this;
+		viewer = new TableViewer(table);
+		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			public void selectionChanged(SelectionChangedEvent event) {
+				viewerSel = viewer.getTable().getSelectionIndex();
+				managedForm.fireSelectionChanged(part, event.getSelection());
+				viewerSelectionChanged(event);
+			}
+		});
+		viewer.setContentProvider(getRulesListContentProvider());
+		viewer.setLabelProvider(new MasterLabelProvider());
+		viewer.setComparator(new ViewerComparator() {
+
+		});
+
+		try {
+			viewer.setInput(((ProfileEditor) getPage().getEditor())
+					.getProfile());
+		} catch (TigerstripeException e) {
+			EclipsePlugin.log(e);
+		}
+		toolkit.paintBordersFor(sectionClient);
+		section.setClient(sectionClient);
+	}
+
+	/**
+	 * FIXME Used only by ArtifactAttributeDetailsPage. Just workaround to avoid
+	 * appearing scrolls on details part.
+	 */
+	void setMinimumHeight(int value) {
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		gd.minimumHeight = value;
+		table.setLayoutData(gd);
+		getManagedForm().reflow(true);
+	}
+
 	@Override
 	protected void addButtonSelected(SelectionEvent event) {
-
 		try {
 			ProfileEditor editor = (ProfileEditor) getPage().getEditor();
 			WorkbenchProfile profile = editor.getProfile();

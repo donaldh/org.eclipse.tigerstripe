@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.profile.stereotype
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -52,14 +53,8 @@ public class StereotypesPage extends TigerstripeFormPage {
 
 	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {
 		Composite body = managedForm.getForm().getBody();
-		TableWrapLayout layout = new TableWrapLayout();
-		layout.bottomMargin = 10;
-		layout.topMargin = 5;
-		layout.leftMargin = 10;
-		layout.rightMargin = 10;
-		layout.numColumns = 2;
-		layout.verticalSpacing = 30;
-		layout.horizontalSpacing = 10;
+		TableWrapLayout layout = TigerstripeLayoutFactory
+				.createPageTableWrapLayout(2, false);
 		body.setLayout(layout);
 
 		managedForm.addPart(new StereotypesSection(this, body, toolkit));

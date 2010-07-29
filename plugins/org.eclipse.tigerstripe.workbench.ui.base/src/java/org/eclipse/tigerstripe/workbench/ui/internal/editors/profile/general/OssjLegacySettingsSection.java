@@ -30,7 +30,6 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.profile.ProfileEdit
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 public class OssjLegacySettingsSection extends TigerstripeSectionPart {
 
@@ -42,20 +41,13 @@ public class OssjLegacySettingsSection extends TigerstripeSectionPart {
 		super(page, parent, toolkit, ExpandableComposite.TITLE_BAR
 				| ExpandableComposite.TWISTIE | ExpandableComposite.EXPANDED);
 		setTitle("&OSS/J Legacy Settings");
-		getSection().marginWidth = 10;
-		getSection().marginHeight = 5;
-		getSection().clientVerticalSpacing = 4;
 
 		createContent();
 	}
 
 	@Override
 	protected void createContent() {
-		TableWrapLayout layout = new TableWrapLayout();
-		layout.numColumns = 1;
-		getSection().setLayout(layout);
-
-		TableWrapData td = new TableWrapData();
+		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
 		getSection().setLayoutData(td);
 
 		createSelectionControls(getBody(), getToolkit());

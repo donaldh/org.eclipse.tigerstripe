@@ -16,6 +16,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.association.AssociationSpecificsSection;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.dependency.DependencySpecificsSection;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
@@ -42,11 +43,11 @@ public class ArtifactContentSection extends ArtifactSectionPart {
 	protected void createContent() {
 		getSection().setLayout(new TableWrapLayout());
 		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.maxWidth = MAX_RIGHT_COLUMN_WIDTH;
 		getSection().setLayoutData(td);
 
 		getBody().setLayout(new TableWrapLayout());
-		getBody().setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		getBody().setLayoutData(
+				TigerstripeLayoutFactory.createFormTableWrapLayout(2, false));
 		createArtifactComponents(getBody(), getToolkit());
 		createDescription(getBody(), getToolkit());
 

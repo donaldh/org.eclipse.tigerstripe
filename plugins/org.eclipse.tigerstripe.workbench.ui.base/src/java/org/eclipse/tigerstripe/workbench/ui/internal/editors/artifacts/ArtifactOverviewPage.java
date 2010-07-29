@@ -21,7 +21,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.exception
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.query.QueryArtifactEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.session.SessionArtifactEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.updateProcedure.UpdateProcedureArtifactEditor;
-import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutUtil;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
@@ -73,13 +73,13 @@ public class ArtifactOverviewPage extends TigerstripeFormPage {
 
 	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {
 		Composite body = managedForm.getForm().getBody();
-		body.setLayout(TigerstripeLayoutUtil
-				.createZeroTableWrapLayout(1, false));
+		body.setLayout(TigerstripeLayoutFactory.createClearTableWrapLayout(1,
+				false));
 		body.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		Composite composite = toolkit.createComposite(body);
-		composite.setLayout(TigerstripeLayoutUtil.createPageTableWrapLayout(2,
-				true));
+		composite.setLayout(TigerstripeLayoutFactory.createPageTableWrapLayout(
+				2, true));
 		composite.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		TigerstripeSectionPart part = new ArtifactGeneralInfoSection(this,
@@ -95,8 +95,8 @@ public class ArtifactOverviewPage extends TigerstripeFormPage {
 		managedForm.addPart(part);
 
 		composite = toolkit.createComposite(body);
-		composite.setLayout(TigerstripeLayoutUtil.createPageTableWrapLayout(2,
-				false));
+		composite.setLayout(TigerstripeLayoutFactory.createPageTableWrapLayout(
+				2, false));
 		composite.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		if (contentProvider.hasSpecifics()) {

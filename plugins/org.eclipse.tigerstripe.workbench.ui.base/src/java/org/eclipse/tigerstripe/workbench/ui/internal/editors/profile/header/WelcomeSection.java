@@ -13,12 +13,10 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.profile.header;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeSectionPart;
-import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 public class WelcomeSection extends TigerstripeSectionPart {
 
@@ -30,10 +28,6 @@ public class WelcomeSection extends TigerstripeSectionPart {
 
 	@Override
 	protected void createContent() {
-		TableWrapLayout layout = new TableWrapLayout();
-		layout.numColumns = 2;
-		getSection().setLayout(layout);
-
 		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
 		td.colspan = 2;
 		getSection().setLayoutData(td);
@@ -45,15 +39,11 @@ public class WelcomeSection extends TigerstripeSectionPart {
 	}
 
 	private void createWelcomeMsg(Composite parent, FormToolkit toolkit) {
-		TableWrapData td = null;
-
 		String data = "<form><p><b>Tigerstripe Workbench Profile Editor.</b></p></form>";
 		FormText rtext = toolkit.createFormText(parent, true);
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
+		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
 		td.colspan = 2;
 		rtext.setLayoutData(td);
 		rtext.setText(data, true, false);
-		rtext.addHyperlinkListener(new HyperlinkAdapter() {
-		});
 	}
 }
