@@ -422,6 +422,12 @@ public class AssociationClassClassNamePackageEditPart extends
 	@Override
 	protected void performDirectEditRequest(Request request) {
 		
+		// Bugzilla 319500: Refactor wizard should not pop up when element is initially created		
+		if (manager == null) {
+			performDirectEdit();
+			return;
+		}
+		
 		Shell shell = EclipsePlugin.getActiveWorkbenchShell();
 		RenameModelArtifactWizard wizard = new RenameModelArtifactWizard();
 		QualifiedNamedElement qualNamedElem = (QualifiedNamedElement) ((NodeImpl) this
