@@ -110,20 +110,22 @@ public class ModelChangeDeltaFactory {
 	public ModelChangeDelta RETURNS() throws TigerstripeException {
 		if (artifact instanceof IQueryArtifact) {
 			IQueryArtifact art = (IQueryArtifact) artifact;
-			String fqn = art.getReturnedType().getFullyQualifiedName();
-			ModelRefactorRequest request = mappedRequests.get(fqn);
-			if (request != null) {
-				ModelChangeDelta delta = new ModelChangeDelta(
-						IModelChangeDelta.SET);
-				delta.setFeature(IArtifactSetFeatureRequest.RETURNED_TYPE);
-				delta.setAffectedModelComponentURI((URI) artifact
-						.getAdapter(URI.class));
-				delta.setComponent(artifact);
-				delta.setOldValue(fqn);
-				delta.setNewValue(request.getDestinationFQN());
-				delta.setProject(artifact.getProject());
-				delta.setSource(request);
-				return delta;
+			if ((art != null) && (art.getReturnedType() != null)) {
+				String fqn = art.getReturnedType().getFullyQualifiedName();
+				ModelRefactorRequest request = mappedRequests.get(fqn);
+				if (request != null) {
+					ModelChangeDelta delta = new ModelChangeDelta(
+							IModelChangeDelta.SET);
+					delta.setFeature(IArtifactSetFeatureRequest.RETURNED_TYPE);
+					delta.setAffectedModelComponentURI((URI) artifact
+							.getAdapter(URI.class));
+					delta.setComponent(artifact);
+					delta.setOldValue(fqn);
+					delta.setNewValue(request.getDestinationFQN());
+					delta.setProject(artifact.getProject());
+					delta.setSource(request);
+					return delta;
+				}
 			}
 		}
 		return null;
