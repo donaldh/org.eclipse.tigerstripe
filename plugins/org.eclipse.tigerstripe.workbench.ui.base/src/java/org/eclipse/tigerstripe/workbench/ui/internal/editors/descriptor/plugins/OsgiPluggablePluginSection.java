@@ -249,24 +249,40 @@ public class OsgiPluggablePluginSection extends PluggablePluginSection
 
 
 				if (e.getSource() == minVersionText){
-					try {
-						Version v = new Version(minVersionText.getText().trim());
-						ref.setMinVersion(v);
-						if (!ref.toString().equals(((PluginConfig) getPluginConfig()).getVersion()))
-							((PluginConfig) getPluginConfig()).setVersion(ref.toString());
-					} catch (IllegalArgumentException iae){
-						// TODO Don't set this for now?
+					if (minVersionText.getText().trim().equals("") ){
+						// But we MUST have a min version ?
+						ref.setMinVersion(new Version("0.0.0"));
+						
+					} else {
+						try {
+							Version v = new Version(minVersionText.getText().trim());
+							ref.setMinVersion(v);
+							
+						} catch (IllegalArgumentException iae){
+							// TODO Don't set this for now?
+							minVersionText.setText(ref.getMinVersion().toString());
+						}
 					}
+					if (!ref.toString().equals(((PluginConfig) getPluginConfig()).getVersion()))
+						((PluginConfig) getPluginConfig()).setVersion(ref.toString());
 				} else if (e.getSource() == maxVersionText){
-					try {
-						Version v = new Version(maxVersionText.getText().trim());
-						ref.setMaxVersion(v);
-						if (!ref.toString().equals(((PluginConfig) getPluginConfig()).getVersion()))
-							((PluginConfig) getPluginConfig()).setVersion(ref.toString());
-					} catch (IllegalArgumentException iae){
-						// TODO Don't set this for now?
+					if (maxVersionText.getText().trim().equals("") ){
+						ref.setMaxVersion(null);
+					} else {
+						try {
+							Version v = new Version(maxVersionText.getText().trim());
+							ref.setMaxVersion(v);
+							
+						} catch (IllegalArgumentException iae){
+							// TODO Don't set this for now?
+							maxVersionText.setText(ref.getMaxVersion().toString());
+							
+						}
 					}
+					if (!ref.toString().equals(((PluginConfig) getPluginConfig()).getVersion()))
+						((PluginConfig) getPluginConfig()).setVersion(ref.toString());
 				}
+				System.out.println("");
 			} 
 			markPageModified();
 		}
