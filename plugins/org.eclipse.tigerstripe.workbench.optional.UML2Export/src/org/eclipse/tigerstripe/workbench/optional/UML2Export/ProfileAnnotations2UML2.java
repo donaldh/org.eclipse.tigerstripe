@@ -180,7 +180,7 @@ public class ProfileAnnotations2UML2 {
 		for (IStereotype stereo : stereos) {
 			
 			for (IStereotypeAttribute attr : stereo.getAttributes()) {
-				if (attr.getKind() == IStereotypeAttribute.ENTRY_LIST_KIND) {
+				if (attr.getKind() == IStereotypeAttribute.SINGLE_ENTRY_LIST_KIND) {
 					// Need an enum for these.
 					Enumeration entries = profile.createOwnedEnumeration(stereo
 							.getName()
@@ -210,7 +210,7 @@ public class ProfileAnnotations2UML2 {
 				case IStereotypeAttribute.CHECKABLE_KIND:
 					attrType = primitiveTypeMap.get("boolean");
 					break;
-				case IStereotypeAttribute.ENTRY_LIST_KIND:
+				case IStereotypeAttribute.SINGLE_ENTRY_LIST_KIND:
 					attrType = enumMap.get(stereo.getName() + "_"
 							+ attr.getName() + "Types");
 					break;
