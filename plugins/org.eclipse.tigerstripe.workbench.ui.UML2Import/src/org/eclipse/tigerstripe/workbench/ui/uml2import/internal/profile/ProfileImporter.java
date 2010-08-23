@@ -473,7 +473,7 @@ public class ProfileImporter {
 								Enumeration enumProp = (Enumeration) propType;
 								// These cannot be Arrays...
 								// TigerstripeRuntime.logInfoMessage("An enum");
-								kind = IStereotypeAttribute.SINGLE_ENTRY_LIST_KIND;
+								kind = IStereotypeAttribute.ENTRY_LIST_KIND;
 								attribute = StereotypeAttributeFactory
 										.makeAttribute(kind);
 								attribute.setName(ImportUtilities.nameCheck(prop.getName(), messages, out));

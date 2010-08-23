@@ -25,13 +25,13 @@ import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeAttribute
  * @author Eric Dillon
  * 
  */
-public class SingleEntryListStereotypeAttribute extends BaseStereotypeAttribute
+public class EntryListStereotypeAttribute extends BaseStereotypeAttribute
 		implements IEntryListStereotypeAttribute {
 
 	private SortedSet<String> entries = new TreeSet<String>();
 
-	public SingleEntryListStereotypeAttribute() {
-		super(IStereotypeAttribute.SINGLE_ENTRY_LIST_KIND);
+	public EntryListStereotypeAttribute() {
+		super(IStereotypeAttribute.ENTRY_LIST_KIND);
 	}
 
 	public String[] getSelectableValues() {

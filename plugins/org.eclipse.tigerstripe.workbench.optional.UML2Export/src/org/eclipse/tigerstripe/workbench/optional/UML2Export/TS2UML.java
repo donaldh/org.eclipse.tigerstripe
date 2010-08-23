@@ -933,7 +933,7 @@ public class TS2UML {
 							String val = inst.getAttributeValue(stAttr
 									.getName());
 							if (val.length() != 0) {
-								if (stAttr.getKind() == IStereotypeAttribute.SINGLE_ENTRY_LIST_KIND) {
+								if (stAttr.getKind() == IStereotypeAttribute.ENTRY_LIST_KIND) {
 									// in this case we need to get the
 									// corresponding enum
 									// entry to set

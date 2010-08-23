@@ -28,11 +28,7 @@ public interface IStereotypeAttribute  {
 	/**
 	 * Static integer value for a Entry List kind of attribute. Entry List attributes can take one value from a defined list.
 	 */
-	public final static int SINGLE_ENTRY_LIST_KIND = 2;
-	/**
-	 * Static integer value for a Multiple Entry List kind of attribute. Entry List attributes can take more than one value from a defined list.
-	 */
-	public final static int MULTIPLE_ENTRY_LIST_KIND = 3;
+	public final static int ENTRY_LIST_KIND = 2;
 	/**
 	 * Static integer value for a String kind of attribute.
 	 */

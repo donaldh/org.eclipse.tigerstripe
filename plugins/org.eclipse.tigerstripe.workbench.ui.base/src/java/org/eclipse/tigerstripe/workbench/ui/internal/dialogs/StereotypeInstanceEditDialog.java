@@ -134,7 +134,7 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 			case IStereotypeAttribute.CHECKABLE_KIND:
 				renderCheckableAttribute(border, attr);
 				break;
-			case IStereotypeAttribute.SINGLE_ENTRY_LIST_KIND:
+			case IStereotypeAttribute.ENTRY_LIST_KIND:
 				renderEntryListAttribute(border, attr);
 				break;
 			}

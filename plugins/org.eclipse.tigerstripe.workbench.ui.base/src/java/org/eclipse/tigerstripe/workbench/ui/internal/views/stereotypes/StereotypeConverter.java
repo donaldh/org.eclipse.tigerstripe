@@ -176,8 +176,7 @@ public class StereotypeConverter {
 			return PACKAGE.getEString();
 		case IStereotypeAttribute.CHECKABLE_KIND:
 			return PACKAGE.getEBoolean();
-		case IStereotypeAttribute.SINGLE_ENTRY_LIST_KIND:
-		case IStereotypeAttribute.MULTIPLE_ENTRY_LIST_KIND:
+		case IStereotypeAttribute.ENTRY_LIST_KIND:
 			return createEnum((IEntryListStereotypeAttribute) attribute);
 		default:
 			throw new UnsupportedOperationException("Unknown attribute kind: "

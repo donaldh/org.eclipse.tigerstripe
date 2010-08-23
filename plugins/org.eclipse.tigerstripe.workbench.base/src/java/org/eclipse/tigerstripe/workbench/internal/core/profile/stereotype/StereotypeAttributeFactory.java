@@ -23,12 +23,8 @@ public class StereotypeAttributeFactory {
 			result = new CheckableStereotypeAttribute();
 			break;
 
-		case IStereotypeAttribute.SINGLE_ENTRY_LIST_KIND:
-			result = new SingleEntryListStereotypeAttribute();
-			break;
-			
-		case IStereotypeAttribute.MULTIPLE_ENTRY_LIST_KIND:
-			result = new MultipleEntryListStereotypeAttribute();
+		case IStereotypeAttribute.ENTRY_LIST_KIND:
+			result = new EntryListStereotypeAttribute();
 			break;
 
 		case IStereotypeAttribute.STRING_ENTRY_KIND:
