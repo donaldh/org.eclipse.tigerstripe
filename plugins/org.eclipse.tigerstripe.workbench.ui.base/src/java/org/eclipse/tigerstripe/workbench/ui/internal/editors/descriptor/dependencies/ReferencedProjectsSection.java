@@ -55,10 +55,10 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 
 	private Button removeButton;
 
-	class ReferencedProjectsContentProvider implements
-			IStructuredContentProvider {
-
+	class ReferencedProjectsContentProvider implements IStructuredContentProvider {
 		public Object[] getElements(Object inputElement) {
+			updateViewerInput();  // Bugzilla 322566: Update the viewer's input when necessary.
+			
 			if (inputElement instanceof ITigerstripeModelProject) {
 				ITigerstripeModelProject project = (ITigerstripeModelProject) inputElement;
 				try {
@@ -75,12 +75,10 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 		}
 
 		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-
 		}
 	}
 
-	class ReferencedProjectsLabelProvider extends LabelProvider implements
-			ITableLabelProvider {
+	class ReferencedProjectsLabelProvider extends LabelProvider implements ITableLabelProvider {
 		public String getColumnText(Object obj, int index) {
 			ModelReference ref = (ModelReference) obj;
 
@@ -189,7 +187,7 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 		viewer = new TableViewer(t);
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
-				viewerSelectionChanged(event);
+				updateForm();
 			}
 		});
 		viewer.setContentProvider(new ReferencedProjectsContentProvider());
@@ -206,8 +204,7 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 		List<ModelReference> filteredOutProjects = new ArrayList<ModelReference>();
 
 		try {
-			filteredOutProjects
-					.add(ModelReference.referenceFromProject(handle)); // the
+			filteredOutProjects.add(ModelReference.referenceFromProject(handle)); // the
 			// current
 			// project
 			for (ModelReference prjRefs : handle.getModelReferences()) {
@@ -217,8 +214,7 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 			// ignore here
 		}
 
-		TigerstripeProjectSelectionDialog dialog = new TigerstripeProjectSelectionDialog(
-				getSection().getShell(), filteredOutProjects);
+		TigerstripeProjectSelectionDialog dialog = new TigerstripeProjectSelectionDialog(getSection().getShell(), filteredOutProjects);
 		if (dialog.open() == Window.OK) {
 			Object[] results = dialog.getResult();
 			for (Object res : results) {
@@ -226,9 +222,7 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 				if (res instanceof IJavaProject) {
 					IJavaProject prj = (IJavaProject) res;
 
-					ITigerstripeModelProject tsPrj = (ITigerstripeModelProject) prj
-							.getProject().getAdapter(
-									ITigerstripeModelProject.class);
+					ITigerstripeModelProject tsPrj = (ITigerstripeModelProject) prj.getProject().getAdapter(ITigerstripeModelProject.class);
 					if (tsPrj != null) {
 						try {
 							ref = ModelReference.referenceFromProject(tsPrj);
@@ -238,8 +232,7 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 					}
 				} else if (res instanceof InstalledModule) {
 					InstalledModule module = (InstalledModule) res;
-					ref = new ModelReference(getTSProject(), module
-							.getModuleID());
+					ref = new ModelReference(getTSProject(), module.getModuleID());
 				}
 				if (ref != null) {
 					try {
@@ -287,10 +280,6 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 		}
 	}
 
-	protected void viewerSelectionChanged(SelectionChangedEvent event) {
-		updateForm();
-	}
-
 	protected void markPageModified() {
 		DescriptorEditor editor = (DescriptorEditor) getPage().getEditor();
 		editor.pageModified();
@@ -302,12 +291,26 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 	}
 
 	protected void updateForm() {
+		
+		updateViewerInput();  // Bugzilla 322566: Update the viewer's input when necessary.
+		
 		TableItem[] selectedItems = viewer.getTable().getSelection();
 		if (selectedItems != null && selectedItems.length > 0) {
 			removeButton.setEnabled(true);
 		} else {
 			removeButton.setEnabled(false);
 		}
+		
 		viewer.refresh(true);
+	}
+	
+	// [nmehrega] Bugzilla 322566: Update the viewer's input if our working copy of TS Project has changed.  
+	// This, for example, happens when the project descriptor is modified and saved.  
+	private void updateViewerInput() {
+		Object tsProjectWorkingCopy = getTSProject();
+		Object input = viewer.getInput();
+		if (tsProjectWorkingCopy!=null && tsProjectWorkingCopy!=input) {
+			viewer.setInput(tsProjectWorkingCopy);
+		}		
 	}
 }
