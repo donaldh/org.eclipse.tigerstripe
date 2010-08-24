@@ -39,6 +39,8 @@ public class AssociationArtifact extends AbstractArtifact implements
 	private IAssociationEnd aEnd;
 
 	private IAssociationEnd zEnd;
+	
+	private boolean isDirty = false;
 
 	/** The marking tag for this Artifact */
 	public final static String MARKING_TAG = AbstractArtifactTag.PREFIX
@@ -234,6 +236,14 @@ public class AssociationArtifact extends AbstractArtifact implements
 		ownedComponents.addAll(super.getContainedModelComponents());
 		ownedComponents.addAll(this.getAssociationEnds());
 		return ownedComponents;
+	}
+
+	public boolean isDirty() {
+		return isDirty;
+	}
+
+	public void setDirty(boolean dirty) {
+		isDirty = dirty;
 	}
 
 	
