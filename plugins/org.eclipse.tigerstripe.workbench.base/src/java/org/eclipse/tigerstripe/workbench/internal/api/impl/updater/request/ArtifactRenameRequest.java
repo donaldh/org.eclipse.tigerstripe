@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.core.resources.IFile;
@@ -129,19 +130,15 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 	}
 
 	/**
-	 * Tries to find all references to renamed artifact and make sure they are
-	 * updated accordingly.
+	 * Tries to find all references to renamed artifact and make sure they are updated accordingly.
 	 * 
 	 * @param mgrSession
 	 */
-	protected void updateReferences(IArtifactManagerSession mgrSession,
-			IAbstractArtifact referencedArtifact, String oldFQN) {
-		IQueryAllArtifacts query = (IQueryAllArtifacts) mgrSession
-				.makeQuery(IQueryAllArtifacts.class.getName());
+	protected void updateReferences(IArtifactManagerSession mgrSession, IAbstractArtifact referencedArtifact, String oldFQN) {
+		IQueryAllArtifacts query = (IQueryAllArtifacts) mgrSession.makeQuery(IQueryAllArtifacts.class.getName());
 		String newName = referencedArtifact.getFullyQualifiedName();
 		try {
-			Collection<IAbstractArtifact> artifacts = mgrSession
-					.queryArtifact(query);
+			Collection<IAbstractArtifact> artifacts = mgrSession.queryArtifact(query);
 			for (IAbstractArtifact artifact : artifacts) {
 				if (artifact.getFullyQualifiedName().equals(newName)){
 					// This is the one we have just updated, so skip it
@@ -183,45 +180,41 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 					needSave = true;
 				}
 
-				// take care of containing artifacts same way
-				// This is looking UPWARDS
-				IModelComponent containing = artifact
-						.getContainingModelComponent();
-				boolean containingChanged = false;
-
+				// take care of containing artifacts same way.  This is looking UPWARDS
+				IModelComponent containing = artifact.getContainingModelComponent();
+				
 				AbstractArtifact aArtifact = (AbstractArtifact) artifact;
 
 				if (containing instanceof IAbstractArtifact) {
 					AbstractArtifact containingArt = (AbstractArtifact) containing;
-					if (containingArt.getFullyQualifiedName().equals(oldFQN)
-							|| containingArt.getFullyQualifiedName().equals(
-									newName)) {
-						aArtifact
-								.setContainingModelComponent(referencedArtifact);
+					if (containingArt.getFullyQualifiedName().equals(oldFQN) || containingArt.getFullyQualifiedName().equals(newName)) {
+						aArtifact.setContainingModelComponent(referencedArtifact);
 						needSave = false;
 					}
 				}
 
-				// take care of contained artifacts same way
-				// This is looking DOWNWARDS
-				Collection<IModelComponent> contains = artifact
-						.getContainedModelComponents();
-				boolean containsChanged = false;
+				// take care of contained artifacts same way.  This is looking DOWNWARDS
+				Collection<IModelComponent> contains = artifact.getContainedModelComponents();
+				ArrayList<IModelComponent> componentsToRemove = new ArrayList<IModelComponent>();
+				ArrayList<IModelComponent> componentsToAdd = new ArrayList<IModelComponent>();
+				
 				for (IModelComponent cont : contains) {
-
 					if (cont instanceof AbstractArtifact) {
 						AbstractArtifact containedArt = (AbstractArtifact) cont;
-						if (containedArt.getFullyQualifiedName().equals(oldFQN)
-								|| containedArt.getFullyQualifiedName().equals(
-										newName)) {
-							aArtifact.removeContainedModelComponent(cont);
-							aArtifact
-									.addContainedModelComponent(referencedArtifact);
+						if (containedArt.getFullyQualifiedName().equals(oldFQN)	|| containedArt.getFullyQualifiedName().equals(newName)) {
+							componentsToRemove.add(cont);
+							componentsToAdd.add(referencedArtifact);
 							needSave = false;
 						}
 					}
 				}
-
+				
+				// Bugzilla 320571: "ConcurrentModificationException when modifying artifact names" (and bugzilla 321023)
+				for (int i=0; i < componentsToRemove.size(); i++) {
+					aArtifact.removeContainedModelComponent(componentsToRemove.get(i));
+					aArtifact.addContainedModelComponent(componentsToAdd.get(i));
+				}
+				
 				for (IField field : artifact.getFields()) {
 					if (field.getType() != null
 							&& field.getType().getFullyQualifiedName().equals(
