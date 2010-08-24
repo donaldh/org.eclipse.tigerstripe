@@ -206,7 +206,10 @@ public class StereotypeSectionManager {
 			}
 			if (!hasUnresolvedInstances) {
 				removeButton.setEnabled(true);
-				editButton.setEnabled(true);
+				if (((IStereotypeInstance)viewer.getTable().getSelection()[0].getData()).getCharacterizingStereotype().getAttributes().length <= 0)
+				    editButton.setEnabled(false);
+				else
+				    editButton.setEnabled(true);
 			}
 			else {
 				removeButton.setEnabled(true);
@@ -324,6 +327,8 @@ public class StereotypeSectionManager {
 									+ "' is not defined in the active profile.\n\nPlease active the correct profile to edit its details.");
 			return;
 		}
+        if (instance.getCharacterizingStereotype().getAttributes().length <= 0)
+            return;
 
 		try {
 			IStereotypeInstance workingInstance = (IStereotypeInstance) instance
