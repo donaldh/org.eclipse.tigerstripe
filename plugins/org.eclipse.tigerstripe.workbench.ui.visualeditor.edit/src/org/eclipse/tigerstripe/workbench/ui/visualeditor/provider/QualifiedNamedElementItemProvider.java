@@ -72,19 +72,16 @@ public class QualifiedNamedElementItemProvider extends NamedElementItemProvider
 	 * This adds a property descriptor for the Package feature. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	protected void addPackagePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(), getResourceLocator(),
+		
+		// [nmehrega]: Bugzilla 321023: Fields should not be settable in property view.  Refactor framework should be used instead
+		itemPropertyDescriptors.add(createItemPropertyDescriptor( ((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(),
 				getString("_UI_QualifiedNamedElement_package_feature"),
-				getString("_UI_PropertyDescriptor_description",
-						"_UI_QualifiedNamedElement_package_feature",
-						"_UI_QualifiedNamedElement_type"),
+				getString("_UI_PropertyDescriptor_description",	"_UI_QualifiedNamedElement_package_feature", "_UI_QualifiedNamedElement_type"),
 				VisualeditorPackage.Literals.QUALIFIED_NAMED_ELEMENT__PACKAGE,
-				true, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				null, null));
+				false, false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
 	}
 
 	/**
@@ -112,21 +109,15 @@ public class QualifiedNamedElementItemProvider extends NamedElementItemProvider
 	 * This adds a property descriptor for the Is Abstract feature. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	protected void addIsAbstractPropertyDescriptor(Object object) {
-		itemPropertyDescriptors
-				.add(createItemPropertyDescriptor(
-						((ComposeableAdapterFactory) adapterFactory)
-								.getRootAdapterFactory(),
-						getResourceLocator(),
-						getString("_UI_QualifiedNamedElement_isAbstract_feature"),
-						getString("_UI_PropertyDescriptor_description",
-								"_UI_QualifiedNamedElement_isAbstract_feature",
-								"_UI_QualifiedNamedElement_type"),
-						VisualeditorPackage.Literals.QUALIFIED_NAMED_ELEMENT__IS_ABSTRACT,
-						true, false, false,
-						ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE, null, null));
+		
+		// [nmehrega]: Bugzilla 321023: Fields should not be settable in property view.  Refactor framework should be used instead
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+						getResourceLocator(), getString("_UI_QualifiedNamedElement_isAbstract_feature"),
+						getString("_UI_PropertyDescriptor_description",	"_UI_QualifiedNamedElement_isAbstract_feature",	"_UI_QualifiedNamedElement_type"),
+						VisualeditorPackage.Literals.QUALIFIED_NAMED_ELEMENT__IS_ABSTRACT, false, false, false, ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE, null, null));
 	}
 
 	/**

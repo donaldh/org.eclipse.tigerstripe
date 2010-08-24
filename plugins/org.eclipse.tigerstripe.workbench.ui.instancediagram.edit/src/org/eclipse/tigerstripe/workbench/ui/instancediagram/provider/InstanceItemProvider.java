@@ -73,16 +73,14 @@ public class InstanceItemProvider extends NamedElementItemProvider implements
 	 * This adds a property descriptor for the Package feature. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	protected void addPackagePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(), getResourceLocator(),
-				getString("_UI_Instance_package_feature"), getString(
-						"_UI_PropertyDescriptor_description",
-						"_UI_Instance_package_feature", "_UI_Instance_type"),
-				InstancediagramPackage.Literals.INSTANCE__PACKAGE, true, false,
+		
+		// [nmehrega]: Bugzilla 321023: Fields should not be settable in property view.  Refactor framework should be used instead
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(),
+				getString("_UI_Instance_package_feature"), getString("_UI_PropertyDescriptor_description","_UI_Instance_package_feature", "_UI_Instance_type"),
+				InstancediagramPackage.Literals.INSTANCE__PACKAGE, false, false,
 				false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null, null));
 	}
 
@@ -90,19 +88,15 @@ public class InstanceItemProvider extends NamedElementItemProvider implements
 	 * This adds a property descriptor for the Artifact Name feature. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated
+	 * @generated NOT
 	 */
 	protected void addArtifactNamePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add(createItemPropertyDescriptor(
-				((ComposeableAdapterFactory) adapterFactory)
-						.getRootAdapterFactory(), getResourceLocator(),
-				getString("_UI_Instance_artifactName_feature"), getString(
-						"_UI_PropertyDescriptor_description",
-						"_UI_Instance_artifactName_feature",
-						"_UI_Instance_type"),
-				InstancediagramPackage.Literals.INSTANCE__ARTIFACT_NAME, true,
-				false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null,
-				null));
+		
+		// [nmehrega]: Bugzilla 321023: Fields should not be settable in property view.  Refactor framework should be used instead
+		itemPropertyDescriptors.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(), getResourceLocator(),
+				getString("_UI_Instance_artifactName_feature"), getString("_UI_PropertyDescriptor_description","_UI_Instance_artifactName_feature","_UI_Instance_type"),
+				InstancediagramPackage.Literals.INSTANCE__ARTIFACT_NAME, false,
+				false, false, ItemPropertyDescriptor.GENERIC_VALUE_IMAGE, null,	null));
 	}
 
 	/**
