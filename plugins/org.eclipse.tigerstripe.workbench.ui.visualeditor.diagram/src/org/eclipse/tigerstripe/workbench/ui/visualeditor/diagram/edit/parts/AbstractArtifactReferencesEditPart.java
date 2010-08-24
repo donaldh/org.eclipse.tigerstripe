@@ -21,7 +21,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.T
 /**
  * @generated
  */
-public class AbstractArtifactReferencesEditPart extends ConnectionNodeEditPart {
+public class AbstractArtifactReferencesEditPart extends ConnectionNodeEditPart implements TigerstripeEditableEntityEditPart {
 
 	/**
 	 * @generated

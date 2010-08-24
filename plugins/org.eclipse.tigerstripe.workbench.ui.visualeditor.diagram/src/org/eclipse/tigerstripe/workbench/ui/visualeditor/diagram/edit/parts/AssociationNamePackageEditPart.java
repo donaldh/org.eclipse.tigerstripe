@@ -81,7 +81,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.util.NamedElementProper
  */
 public class AssociationNamePackageEditPart extends
 		StereotypeNamePackageEditPart implements ITextAwareEditPart,
-		NamePackageInterface {
+		NamePackageInterface, TigerstripeEditableEntityEditPart{
 
 	/**
 	 * @generated

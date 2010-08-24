@@ -32,7 +32,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.QualifiedNamedElement;
  * 
  */
 public abstract class AdaptableTigerstripeConnectionNodeEditPart extends
-		TigerstripeConnectionNodeEditPart implements IAdaptable {
+		TigerstripeConnectionNodeEditPart implements IAdaptable, TigerstripeEditableEntityEditPart {
 
 	public AdaptableTigerstripeConnectionNodeEditPart(View arg0) {
 		super(arg0);

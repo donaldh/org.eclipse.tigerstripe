@@ -28,7 +28,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.T
  * @generated
  */
 public class AssociationClassClassAttributeCompartmentEditPart extends
-		ListCompartmentEditPart {
+		ListCompartmentEditPart implements TigerstripeEditableEntityEditPart {
 
 	/**
 	 * @generated

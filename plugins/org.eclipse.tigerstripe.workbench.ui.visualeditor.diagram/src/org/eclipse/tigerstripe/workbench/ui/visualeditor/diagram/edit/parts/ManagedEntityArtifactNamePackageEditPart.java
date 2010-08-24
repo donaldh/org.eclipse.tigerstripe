@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.PositionConstants;
@@ -47,7 +48,6 @@ import org.eclipse.gmf.runtime.notation.FontStyle;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.gmf.runtime.notation.impl.NodeImpl;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.jface.viewers.ICellEditorValidator;
@@ -64,6 +64,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.gmf.IconCachingCompartmentEditPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring.RenameModelArtifactWizard;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.QualifiedNamedElement;
@@ -76,7 +77,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.Tiger
  */
 public class ManagedEntityArtifactNamePackageEditPart extends
 		AbstractNamePackageEditPart implements ITextAwareEditPart,
-		NamePackageInterface {
+		NamePackageInterface, IAdaptable {
 
 	/**
 	 * @generated
@@ -442,8 +443,7 @@ public class ManagedEntityArtifactNamePackageEditPart extends
 
 		try {
 			IAbstractArtifact artifact = qualNamedElem.getCorrespondingIArtifact();
-
-
+			
 			if (artifact != null){
 				wizard.init((IStructuredSelection) new StructuredSelection(artifact));
 				WizardDialog dialog = new WizardDialog(shell, wizard);
@@ -654,5 +654,12 @@ public class ManagedEntityArtifactNamePackageEditPart extends
 	protected IFigure createFigure() {
 		// Parent should assign one using setLabel method
 		return null;
+	}
+	
+	public Object getAdapter(Class adapter) {
+		if (adapter.equals(IconCachingCompartmentEditPart.class))
+			return this;
+		
+		return super.getAdapter(adapter);
 	}
 }

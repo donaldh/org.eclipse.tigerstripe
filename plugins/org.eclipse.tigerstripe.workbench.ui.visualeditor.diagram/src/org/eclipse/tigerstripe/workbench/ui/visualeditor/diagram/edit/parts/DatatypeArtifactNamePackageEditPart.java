@@ -77,7 +77,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.Tiger
  */
 public class DatatypeArtifactNamePackageEditPart extends
 		AbstractNamePackageEditPart implements ITextAwareEditPart,
-		NamePackageInterface {
+		NamePackageInterface, TigerstripeEditableEntityEditPart {
 
 	/**
 	 * @generated

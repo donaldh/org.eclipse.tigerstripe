@@ -19,7 +19,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.A
 /**
  * @generated
  */
-public class AssociationClass2EditPart extends ConnectionNodeEditPart {
+public class AssociationClass2EditPart extends ConnectionNodeEditPart implements TigerstripeEditableEntityEditPart {
 
 	/**
 	 * @generated

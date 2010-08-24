@@ -44,7 +44,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssociationClass;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssociationClassClass;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.MapCanonicalEditPolicy;
 
-public class AssociationClassConnectionEditPart extends ConnectionNodeEditPart {
+public class AssociationClassConnectionEditPart extends ConnectionNodeEditPart implements TigerstripeEditableEntityEditPart{
 
 	private PolylineConnectionEx assocClassConnection = null;
 	private AssociationClassEditPart assocClassEditPart = null;

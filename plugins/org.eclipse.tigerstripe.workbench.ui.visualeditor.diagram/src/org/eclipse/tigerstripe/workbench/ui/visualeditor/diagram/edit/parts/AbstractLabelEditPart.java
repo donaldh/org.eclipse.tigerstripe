@@ -23,7 +23,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.QualifiedNamedElement;
  * @author Eric Dillon
  * @since 2.1
  */
-public abstract class AbstractLabelEditPart extends LabelEditPart {
+public abstract class AbstractLabelEditPart extends LabelEditPart implements TigerstripeEditableEntityEditPart {
 
 	public AbstractLabelEditPart(View arg0) {
 		super(arg0);

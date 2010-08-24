@@ -61,7 +61,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.Tiger
  * @generated
  */
 public class AssociationZEndMultiplicityEditPart extends LabelEditPart
-		implements ITextAwareEditPart {
+		implements ITextAwareEditPart, TigerstripeEditableEntityEditPart {
 
 	/**
 	 * @generated

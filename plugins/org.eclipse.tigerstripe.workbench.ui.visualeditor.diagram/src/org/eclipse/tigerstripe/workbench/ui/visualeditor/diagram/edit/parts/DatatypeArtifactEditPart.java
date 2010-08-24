@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.StackLayout;
 import org.eclipse.gef.EditPart;
@@ -31,6 +32,7 @@ import org.eclipse.gmf.runtime.gef.ui.figures.NodeFigure;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.gmf.IconCachingCompartmentEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.DatatypeArtifactCanonicalEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.DatatypeArtifactGraphicalNodeEditPolicy;
@@ -44,7 +46,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.Tiger
  */
 public class DatatypeArtifactEditPart extends AdaptableTigerstripeShapeNodeEditPart
 		implements ClassDiagramShapeNodeEditPart,
-		TigerstripeEditableEntityEditPart {
+		TigerstripeEditableEntityEditPart, IAdaptable {
 
 	private ArtifactPropertyChangeHandler artifactPropertyChangeHandler;
 
@@ -380,6 +382,13 @@ public class DatatypeArtifactEditPart extends AdaptableTigerstripeShapeNodeEditP
 		}
 		artifactPropertyChangeHandler.handleArtifactPropertyChange(propertyKey,
 				oldValue, newValue);
+	}
+	
+	public Object getAdapter(Class adapter) {
+		if (adapter.equals(IconCachingCompartmentEditPart.class))
+			return this;
+		
+		return super.getAdapter(adapter);
 	}
 
 }

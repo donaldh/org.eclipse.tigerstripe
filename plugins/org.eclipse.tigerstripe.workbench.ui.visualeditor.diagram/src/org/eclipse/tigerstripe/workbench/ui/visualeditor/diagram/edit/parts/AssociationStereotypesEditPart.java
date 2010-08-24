@@ -61,7 +61,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.Tiger
  * @generated NOT
  */
 public class AssociationStereotypesEditPart extends LabelEditPart implements
-		ITextAwareEditPart, TigerstripeStereotypeEditPart {
+		ITextAwareEditPart, TigerstripeStereotypeEditPart, TigerstripeEditableEntityEditPart {
 
 	/**
 	 * @generated

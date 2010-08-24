@@ -65,7 +65,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.Tiger
  * @generated
  */
 public class AttributeNameTypeEditPart extends IconCachingCompartmentEditPart
-		implements ITextAwareEditPart {
+		implements ITextAwareEditPart, TigerstripeEditableEntityEditPart {
 
 	/**
 	 * @generated

@@ -66,7 +66,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.util.NamedElementProper
  * @generated NOT
  */
 public class AssociationClassAEndNameEditPart extends LabelEditPart implements
-		ITextAwareEditPart, TigerstripeStereotypeEditPart{
+		ITextAwareEditPart, TigerstripeStereotypeEditPart, TigerstripeEditableEntityEditPart{
 
 	/**
 	 * @generated

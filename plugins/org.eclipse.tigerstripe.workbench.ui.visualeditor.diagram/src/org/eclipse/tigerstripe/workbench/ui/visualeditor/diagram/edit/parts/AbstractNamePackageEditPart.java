@@ -27,7 +27,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.util.DiagramPropertiesH
  * @since 2.1
  */
 public abstract class AbstractNamePackageEditPart extends
-		IconCachingCompartmentEditPart {
+		IconCachingCompartmentEditPart implements TigerstripeEditableEntityEditPart {
 
 	public AbstractNamePackageEditPart(EObject arg0) {
 		super(arg0);
