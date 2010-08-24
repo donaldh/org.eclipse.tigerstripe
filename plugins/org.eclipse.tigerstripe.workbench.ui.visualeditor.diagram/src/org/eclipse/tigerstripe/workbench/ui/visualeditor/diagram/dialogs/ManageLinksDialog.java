@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxCellEditor;
@@ -48,6 +49,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
 import org.eclipse.tigerstripe.workbench.ui.internal.elements.TSMessageDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeDiagramEditorPlugin;
 
 public class ManageLinksDialog extends TSMessageDialog {
 
@@ -56,18 +58,20 @@ public class ManageLinksDialog extends TSMessageDialog {
 	private Set<String> dependenciesInMap;
 	private HashMap<String, IRelationship> selectionMap = new HashMap<String, IRelationship>();
 	private List<Entry> entries = new ArrayList<Entry>();
+    private static boolean showFullyQualifiedName = true;
 
 	// Set the table column property names
 	private final String SET_COLUMN = "";
-	private final String RELATIONSHIP_NAME_COLUMN = "Relationship Name";
-	private final String RELATIONSHIP_AEND_COLUMN = "Source";
-	private final String RELATIONSHIP_ZEND_COLUMN = "Target";
+	private final String RELATIONSHIP_NAME_COLUMN = "Association Name";
+	private final String RELATIONSHIP_AEND_COLUMN = "A End";
+	private final String RELATIONSHIP_ZEND_COLUMN = "Z End";
 	// Set column names
 	private final String[] columnNames = new String[] { SET_COLUMN,
 			RELATIONSHIP_NAME_COLUMN, RELATIONSHIP_AEND_COLUMN,
 			RELATIONSHIP_ZEND_COLUMN };
 	private final String[] columnLabels = new String[] { "SELECTED", "NAME",
 			"AEND", "ZEND" };
+	private final String SHOW_QUALIFIED_NAMES_PREF = "ShowFullyQualifiedNamesInManageAssocationsView";
 	private final List columnNamesAsList = Arrays.asList(columnNames);
 	public static final Object ASSOCIATION_TYPE = new Object();
 	public static final Object ASSOCIATION_CLASS_TYPE = new Object();
@@ -109,8 +113,10 @@ public class ManageLinksDialog extends TSMessageDialog {
 	}
 
 	protected void initDialog() {
-		getShell().setText("Manage Links");
-		getShell().setMinimumSize(250, 200);
+		getShell().setText("Manage Associations");
+		getShell().setMinimumSize(450, 225);
+
+        showFullyQualifiedName = TigerstripeDiagramEditorPlugin.getInstance().getPreferenceStore().getBoolean(SHOW_QUALIFIED_NAMES_PREF);
 	}
 
 	private void createInstanceDefinitionControl(Composite composite,
@@ -124,23 +130,24 @@ public class ManageLinksDialog extends TSMessageDialog {
 			// if there is already an association or dependency in the map
 			// with this name, check the selection box for that association
 			// or dependency and add it to the selection map
-			if (associationsInMap.contains(entry.getRelationshipName())
-					|| dependenciesInMap.contains(entry.getRelationshipName())) {
+			if (associationsInMap.contains(entry.getFullyQualifiedRelationshipName())
+					|| dependenciesInMap.contains(entry.getFullyQualifiedRelationshipName())) {
 				entry.setEnabled(true);
-				selectionMap.put(entry.getRelationshipName(), entry
+				selectionMap.put(entry.getFullyQualifiedRelationshipName(), entry
 						.getRelationship());
 			}
 			entries.add(entry);
 		}
 		Group box = new Group(composite, SWT.NULL);
-		box.setText("Links");
+		box.setText("Associations");
 		GridData bgd = new GridData(GridData.FILL_BOTH
 				| GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL);
 		bgd.horizontalSpan = 8;
 		box.setLayoutData(bgd);
-		GridLayout bLayout = new GridLayout();
-		bLayout.numColumns = 2;
-		box.setLayout(bLayout);
+		//GridLayout bLayout = new GridLayout();
+		//bLayout.numColumns = 2;
+		//box.setLayout(bLayout);
+		box.setLayout(new FillLayout());
 		// create a TableViewer in this box (along with the
 		// associated table)
 		tableViewer = createTableViewer(box);
@@ -161,6 +168,20 @@ public class ManageLinksDialog extends TSMessageDialog {
 		}
 		table.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 		table.pack();
+		// create a 'Show fully qualified names' checkbox
+		Button showFullyQualifiedNamesButton = new Button(composite, SWT.CHECK);
+		showFullyQualifiedNamesButton.setText("Show fully qualified names");
+		showFullyQualifiedNamesButton.setSelection(showFullyQualifiedName);
+		SelectionListener listener = new SelectionAdapter() {
+		    @Override
+		    public void widgetSelected(SelectionEvent e) {
+                showFullyQualifiedName = !showFullyQualifiedName;
+		        IPreferenceStore prefs = TigerstripeDiagramEditorPlugin.getInstance().getPreferenceStore();
+		        prefs.setValue(SHOW_QUALIFIED_NAMES_PREF, showFullyQualifiedName);
+		        tableViewer.refresh();
+		    }
+		};
+		showFullyQualifiedNamesButton.addSelectionListener(listener);
 	}
 
 	private class Entry {
@@ -168,10 +189,13 @@ public class ManageLinksDialog extends TSMessageDialog {
 		private boolean enabled = false;
 		private IRelationship relationship;
 		private String relationshipName = "";
+		private String fullyQualifiedRelationshipName = "";
 		private IRelationshipEnd aEnd;
 		private String aEndName = "";
+		private String fullyQualifiedAEndName = "";
 		private IRelationshipEnd zEnd;
 		private String zEndName = "";
+		private String fullyQualifiedZEndName = "";
 		private Object relationshipType;
 
 		@Override
@@ -225,23 +249,33 @@ public class ManageLinksDialog extends TSMessageDialog {
 			this.relationship = relationship;
 			if (relationship instanceof IAssociationArtifact) {
 				IAssociationArtifact association = (IAssociationArtifact) relationship;
-				relationshipName = association.getFullyQualifiedName();
+				relationshipName = association.getName();
+				fullyQualifiedRelationshipName = association.getFullyQualifiedName();
 				aEnd = association.getRelationshipAEnd();
-				aEndName = aEnd.getType().getFullyQualifiedName();
+				aEndName = aEnd.getType().getName();
+				fullyQualifiedAEndName = aEnd.getType().getFullyQualifiedName();
 				zEnd = association.getRelationshipZEnd();
-				zEndName = zEnd.getType().getFullyQualifiedName();
+				zEndName = zEnd.getType().getName();
+				fullyQualifiedZEndName = zEnd.getType().getFullyQualifiedName();
 			} else {
 				IDependencyArtifact dependency = (IDependencyArtifact) relationship;
-				relationshipName = dependency.getFullyQualifiedName();
+				relationshipName = dependency.getName();
+				fullyQualifiedRelationshipName = dependency.getFullyQualifiedName();
 				aEnd = dependency.getRelationshipAEnd();
-				aEndName = aEnd.getType().getFullyQualifiedName();
+				aEndName = aEnd.getType().getName();
+				fullyQualifiedAEndName = aEnd.getType().getFullyQualifiedName();
 				zEnd = dependency.getRelationshipZEnd();
-				zEndName = zEnd.getType().getFullyQualifiedName();
+				zEndName = zEnd.getType().getName();
+				fullyQualifiedZEndName = zEnd.getType().getFullyQualifiedName();
 			}
 		}
-
+		
 		public String getRelationshipName() {
-			return relationshipName;
+		    return relationshipName;
+		}
+
+		public String getFullyQualifiedRelationshipName() {
+			return fullyQualifiedRelationshipName;
 		}
 
 		public Object getRelationshipType() {
@@ -251,17 +285,25 @@ public class ManageLinksDialog extends TSMessageDialog {
 		public IRelationshipEnd getAEnd() {
 			return aEnd;
 		}
-
+		
 		public String getAEndName() {
-			return aEndName;
+		    return aEndName;
+		}
+
+		public String getFullyQualifiedAEndName() {
+			return fullyQualifiedAEndName;
 		}
 
 		public IRelationshipEnd getZEnd() {
 			return zEnd;
 		}
-
+		
 		public String getZEndName() {
-			return zEndName;
+		    return zEndName;
+		}
+
+		public String getFullyQualifiedZEndName() {
+			return fullyQualifiedZEndName;
 		}
 
 	}
@@ -309,10 +351,10 @@ public class ManageLinksDialog extends TSMessageDialog {
 				entry.setEnabled(includeVal);
 				if (includeVal) {
 					selectionMap
-							.put(entry.relationshipName, entry.relationship);
+							.put(entry.fullyQualifiedRelationshipName, entry.relationship);
 				} else {
-					if (selectionMap.keySet().contains(entry.relationshipName))
-						selectionMap.remove(entry.relationshipName);
+					if (selectionMap.keySet().contains(entry.fullyQualifiedRelationshipName))
+						selectionMap.remove(entry.fullyQualifiedRelationshipName);
 				}
 				break;
 			default:
@@ -373,11 +415,17 @@ public class ManageLinksDialog extends TSMessageDialog {
 			case 0:
 				return "";
 			case 1:
-				return entry.getRelationshipName();
+			    if (showFullyQualifiedName)
+			        return entry.getFullyQualifiedRelationshipName();
+			    return entry.getRelationshipName();
 			case 2:
-				return entry.getAEndName();
+                if (showFullyQualifiedName)
+                    return entry.getFullyQualifiedAEndName();
+                return entry.getAEndName();
 			case 3:
-				return entry.getZEndName();
+                if (showFullyQualifiedName)
+                    return entry.getFullyQualifiedZEndName();
+                return entry.getZEndName();
 			default:
 				return "";
 			}
@@ -397,7 +445,7 @@ public class ManageLinksDialog extends TSMessageDialog {
 			public void widgetSelected(SelectionEvent e) {
 				for (Entry entry : entries) {
 					entry.setEnabled(true);
-					selectionMap.put(entry.getRelationshipName(), entry
+					selectionMap.put(entry.getFullyQualifiedRelationshipName(), entry
 							.getRelationship());
 				}
 				tableViewer.refresh();
@@ -412,7 +460,7 @@ public class ManageLinksDialog extends TSMessageDialog {
 			public void widgetSelected(SelectionEvent e) {
 				for (Entry entry : entries) {
 					entry.setEnabled(false);
-					selectionMap.remove(entry.getRelationshipName());
+					selectionMap.remove(entry.getFullyQualifiedRelationshipName());
 				}
 				tableViewer.refresh();
 			}
