@@ -39,6 +39,9 @@ public abstract class AbstractTigerstripeProjectHandle extends
 
 	public String getName() {
 		
+		if (getIContainer()==null)
+			return null;
+		
 		return getIContainer().getName();  // Modified from getIProject().getName() due to Bugzilla 319896
 	}
 
