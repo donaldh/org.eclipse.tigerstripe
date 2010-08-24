@@ -108,44 +108,70 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 	}
 
 	public void signalArtifactResourceChanged(final IResource changedArtifactResource){
-		Job notifyArtifactResourceChanged = new Job("Handle Artifact Resource Change") {
-
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				broadcastArtifactResourceChanged(changedArtifactResource);
-				return Status.OK_STATUS;
-			}
-		};
-
-		notifyArtifactResourceChanged.schedule();
+		
+		Object[] listenersArray = listeners.getListeners();
+		for (Object l : listenersArray) {
+			final FilteredListener listener = (FilteredListener) l;
+			if (listener.select(ITigerstripeChangeListener.ARTIFACT_RESOURCES))
+				listener.getListener().artifactResourceChanged(changedArtifactResource);
+		}
+		
+//		Job notifyArtifactResourceChanged = new Job("Handle Artifact Resource Change") {
+//
+//			@Override
+//			protected IStatus run(IProgressMonitor monitor) {
+//				broadcastArtifactResourceChanged(changedArtifactResource);
+//				return Status.OK_STATUS;
+//			}
+//		};
+//
+//		notifyArtifactResourceChanged.schedule();
 	}
 	
 	
 	public void signalArtifactResourceAdded(final IResource addedArtifactResource){
-		Job notifyArtifactResourceAdded = new Job("Handle Artifact Resource Add") {
+		
+		Object[] listenersArray = listeners.getListeners();
+		for (Object l : listenersArray) {
+			final FilteredListener listener = (FilteredListener) l;
+			if (listener.select(ITigerstripeChangeListener.ARTIFACT_RESOURCES))
+				listener.getListener().artifactResourceAdded(addedArtifactResource);
+		}
+		
 
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				broadcastArtifactResourceAdded(addedArtifactResource);
-				return Status.OK_STATUS;
-			}
-		};
-
-		notifyArtifactResourceAdded.schedule();
+//		Job notifyArtifactResourceAdded = new Job("Handle Artifact Resource Add") {
+//
+//			@Override
+//			protected IStatus run(IProgressMonitor monitor) {	
+//				broadcastArtifactResourceAdded(addedArtifactResource);
+//				return Status.OK_STATUS;
+//			}
+//		};
+//
+//		notifyArtifactResourceAdded.schedule();
 	}
 	
 	
 	public void signalArtifactResourceRemoved(final IResource removedArtifactResource){
-		Job notifyArtifactResourceRemoved = new Job("Handle Artifact Resource Remove") {
+		
 
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				broadcastArtifactResourceRemoved(removedArtifactResource);
-				return Status.OK_STATUS;
-			}
-		};
-
-		notifyArtifactResourceRemoved.schedule();
+		Object[] listenersArray = listeners.getListeners();
+		for (Object l : listenersArray) {
+			final FilteredListener listener = (FilteredListener) l;
+			if (listener.select(ITigerstripeChangeListener.ARTIFACT_RESOURCES))
+				listener.getListener().artifactResourceRemoved(removedArtifactResource);
+		}
+		
+//		Job notifyArtifactResourceRemoved = new Job("Handle Artifact Resource Remove") {
+//
+//			@Override
+//			protected IStatus run(IProgressMonitor monitor) {
+//				broadcastArtifactResourceRemoved(removedArtifactResource);
+//				return Status.OK_STATUS;
+//			}
+//		};
+//
+//		notifyArtifactResourceRemoved.schedule();
 	}
 	
 	private void broadcastArtifactResourceChanged(
@@ -182,7 +208,7 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 						BasePlugin.log(exception);
 					}
 
-					public void run() throws Exception {
+					public void run() throws Exception {						
 						listener.getListener().artifactResourceAdded(addedArtifactResource);
 					}
 
@@ -315,29 +341,50 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 	}
 
 	public void signalModelChange(final IModelChangeDelta delta) {
-		Job notifyModelChanged = new Job("Handle Tigerstripe Model Change") {
-
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				broadcastModelChange(new IModelChangeDelta[] { delta });
-				return Status.OK_STATUS;
+		
+		Object[] listenersArray = listeners.getListeners();
+		for (Object l : listenersArray) {
+			final FilteredListener listener = (FilteredListener) l;
+			if (listener.select(ITigerstripeChangeListener.MODEL)) {
+				IModelChangeDelta[] deltas = new IModelChangeDelta[] { delta };
+				listener.getListener().modelChanged(deltas);
 			}
-		};
-
-		notifyModelChanged.schedule();
+				
+		}
+		
+//		Job notifyModelChanged = new Job("Handle Tigerstripe Model Change") {
+//
+//			@Override
+//			protected IStatus run(IProgressMonitor monitor) {
+//				broadcastModelChange(new IModelChangeDelta[] { delta });
+//				return Status.OK_STATUS;
+//			}
+//		};
+//
+//		notifyModelChanged.schedule();
 	}
 
 	public void signalModelChange(final IModelChangeDelta[] deltas) {
-		Job notifyModelChanged = new Job("Handle Tigerstripe Model Change") {
-
-			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				broadcastModelChange(deltas);
-				return Status.OK_STATUS;
+		
+		Object[] listenersArray = listeners.getListeners();
+		for (Object l : listenersArray) {
+			final FilteredListener listener = (FilteredListener) l;
+			if (listener.select(ITigerstripeChangeListener.MODEL)) {
+				listener.getListener().modelChanged(deltas);
 			}
-		};
-
-		notifyModelChanged.schedule();
+				
+		}
+		
+//		Job notifyModelChanged = new Job("Handle Tigerstripe Model Change") {
+//
+//			@Override
+//			protected IStatus run(IProgressMonitor monitor) {
+//				broadcastModelChange(deltas);
+//				return Status.OK_STATUS;
+//			}
+//		};
+//
+//		notifyModelChanged.schedule();
 	}
 
 	private void broadcastModelChange(final IModelChangeDelta[] deltas) {

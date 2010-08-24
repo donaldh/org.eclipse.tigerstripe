@@ -218,7 +218,7 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 						return flushRequestQueue(true, monitor);
 					return Status.OK_STATUS;
 				} finally {
-					schedule(300); // start again in 300ms
+					schedule(1000); // start again...
 				}
 			}
 		};

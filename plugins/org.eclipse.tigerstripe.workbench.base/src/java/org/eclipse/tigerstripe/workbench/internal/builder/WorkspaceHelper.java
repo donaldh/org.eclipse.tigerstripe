@@ -15,6 +15,7 @@ import java.util.Collection;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.resources.IWorkspaceRoot;
 
 /**
  * A convenience class to handle Tigerstripe related content from workspace
@@ -28,7 +29,7 @@ public class WorkspaceHelper {
 	public interface IResourceFilter {
 		public boolean select(IResource resource);
 	}
-
+	
 	public static IResourceFilter NO_FILTER = new IResourceFilter() {
 		public boolean select(IResource resource) {
 			return true;
@@ -42,8 +43,9 @@ public class WorkspaceHelper {
 	 * @param itemsToRemove
 	 * @param itemsChanged
 	 * @param itemsAdded
+	 * @return true if anything of interest is found; false otherwise
 	 */
-	public static void buildResourcesLists(IResourceDelta delta,
+	public static boolean buildResourcesLists(IResourceDelta delta,
 			Collection<IResource> itemsRemoved,
 			Collection<IResource> itemsChanged,
 			Collection<IResource> itemsAdded, IResourceFilter filter) {
@@ -52,29 +54,61 @@ public class WorkspaceHelper {
 			filter = NO_FILTER;
 
 		if (delta == null) // occurs when deleting project
-			return;
-
-		if (delta.getKind() == IResourceDelta.REMOVED) {
-			if (filter.select(delta.getResource()))
-				itemsRemoved.add(delta.getResource());
-		} else if (delta.getKind() == IResourceDelta.CHANGED
-				&& delta.getAffectedChildren().length == 0) {
-			if (filter.select(delta.getResource()))
-				itemsChanged.add(delta.getResource());
-		} else if (delta.getKind() == IResourceDelta.ADDED
-				&& delta.getAffectedChildren().length == 0) {
-			if (filter.select(delta.getResource()))
-				itemsAdded.add(delta.getResource());
-		} else if (delta.getKind() == IResourceDelta.ADDED
-				&& delta.getResource() instanceof IProject) {
-			if (filter.select(delta.getResource()))
-				itemsAdded.add(delta.getResource());
+			return false;
+		
+		int kind = delta.getKind();
+		IResource changedResource = delta.getResource();
+		IResourceDelta[] affectedChildren = delta.getAffectedChildren();
+		boolean areChildrenAffected = affectedChildren.length > 0;
+		
+		if ((!(changedResource instanceof IWorkspaceRoot)) && (filter.select(changedResource))) {
+			switch(kind) {
+				case IResourceDelta.REMOVED:
+					itemsRemoved.add(delta.getResource());
+					break;
+				case IResourceDelta.CHANGED:
+					if (!areChildrenAffected)
+						itemsChanged.add(delta.getResource());
+					break;
+				case IResourceDelta.ADDED:
+					if ((!areChildrenAffected) || (delta.getResource() instanceof IProject))
+						itemsAdded.add(delta.getResource());
+					break;
+			}
 		}
-		IResourceDelta[] children = delta.getAffectedChildren();
-		for (int i = 0; i < children.length; i++) {
-			buildResourcesLists(children[i], itemsRemoved, itemsChanged,
-					itemsAdded, filter);
+		
+		for (int i = 0; i < affectedChildren.length; i++) {
+			buildResourcesLists(affectedChildren[i], itemsRemoved, itemsChanged, itemsAdded, filter);
 		}
+		
+		return (!(itemsRemoved.isEmpty() && itemsChanged.isEmpty() && itemsAdded.isEmpty()));
+		
+		// N.M: Old code changed after bugzilla 319793
+//		if (delta.getKind() == IResourceDelta.REMOVED) {
+//			if (filter.select(delta.getResource()))
+//				itemsRemoved.add(delta.getResource());
+//		} else if (delta.getKind() == IResourceDelta.CHANGED
+//				&& delta.getAffectedChildren().length == 0) {
+//			if (filter.select(delta.getResource()))
+//				itemsChanged.add(delta.getResource());
+//		} else if (delta.getKind() == IResourceDelta.ADDED
+//				
+//				&& delta.getAffectedChildren().length == 0) 
+//			{
+//			if (filter.select(delta.getResource()))
+//				itemsAdded.add(delta.getResource());
+//		} else if (delta.getKind() == IResourceDelta.ADDED
+//			
+//				&& delta.getResource() instanceof IProject) 
+//			{
+//			if (filter.select(delta.getResource()))
+//				itemsAdded.add(delta.getResource());
+//		}
+//		IResourceDelta[] children = delta.getAffectedChildren();
+//		for (int i = 0; i < children.length; i++) {
+//			buildResourcesLists(children[i], itemsRemoved, itemsChanged,
+//					itemsAdded, filter);
+//		}
 	}
 
 }

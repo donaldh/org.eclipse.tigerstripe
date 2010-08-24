@@ -132,6 +132,7 @@ public class WorkspaceListener implements IElementChangedListener,
 //		changedResources = new HashSet<IResource>();
 //		addedResources = new HashSet<IResource>();
 		
+		
 		// Only Project and facets and descriptors are of interest
 		IResourceFilter foldersOrFacetsOnly = new IResourceFilter() {
 
@@ -146,17 +147,18 @@ public class WorkspaceListener implements IElementChangedListener,
 			}
 
 		};
-		WorkspaceHelper.buildResourcesLists(event.getDelta(), removedResources,
+		boolean somethingChanged = WorkspaceHelper.buildResourcesLists(event.getDelta(), removedResources,
 				changedResources, addedResources, foldersOrFacetsOnly);
 
-		checkProjectAdded(addedResources);
-		checkProjectRemoved(removedResources);
-		checkRemovedFacet(removedResources);
-		checkActiveFacetChanged(changedResources);
-		checkTSDescriptorChanged(changedResources);
+		if (somethingChanged) {
+			checkProjectAdded(addedResources);
+			checkProjectRemoved(removedResources);
+			checkRemovedFacet(removedResources);
+			checkActiveFacetChanged(changedResources);
+			checkTSDescriptorChanged(changedResources);
 
-		referencesListener.changed(removedResources, addedResources,
-				changedResources);
+			referencesListener.changed(removedResources, addedResources, changedResources);
+		}
 		
 		// Only Project and facets and descriptors are of interest
 		IResourceFilter modelElements = new IResourceFilter() {
@@ -195,7 +197,8 @@ public class WorkspaceListener implements IElementChangedListener,
 		removedResources = new HashSet<IResource>();
 		changedResources = new HashSet<IResource>();
 		addedResources = new HashSet<IResource>();
-		WorkspaceHelper.buildResourcesLists(event.getDelta(), removedResources,
+		
+		somethingChanged = WorkspaceHelper.buildResourcesLists(event.getDelta(), removedResources,
 				changedResources, addedResources, modelElements);
 		
 //		for (IResource res : changedResources) {
@@ -211,9 +214,12 @@ public class WorkspaceListener implements IElementChangedListener,
 //		}
 		
 		// This ALWAYS seems to get called twice?
-		checkArtifactResourceChanged(changedResources);
-		checkArtifactResourceAdded(addedResources);
-		checkArtifactResourceRemoved(removedResources);
+		
+		if (somethingChanged) {
+			checkArtifactResourceChanged(changedResources);
+			checkArtifactResourceAdded(addedResources);
+			checkArtifactResourceRemoved(removedResources);
+		}
 		
 	}
 
