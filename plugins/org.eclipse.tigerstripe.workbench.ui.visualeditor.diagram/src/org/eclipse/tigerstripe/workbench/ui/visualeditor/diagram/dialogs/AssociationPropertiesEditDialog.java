@@ -96,8 +96,6 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 
 	private String origAssociationStereotypesStringVal;
 
-	private String associationName;
-
 	private String aEndRoleName;
 
 	private String zEndRoleName;
@@ -133,10 +131,6 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 	private Button zEndIsUniqueButton;
 
 	private Button zEndIsOrderedButton;
-
-	private Set<String> elementNames = new HashSet<String>();
-
-	private Map<String, IAbstractArtifact> elementNameMap = new HashMap<String, IAbstractArtifact>();
 
 	private Map<String, Object> changedValuesMap = new HashMap<String, Object>();
 
@@ -205,27 +199,14 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 							+ " Property Editor");
 		}
 		getShell().setMinimumSize(250, 200);
-		elementNames.clear();
-		elementNameMap.clear();
-		ArtifactManager artMgr = ((ArtifactManagerSessionImpl) artifactMgrSession)
-				.getArtifactManager();
-		Collection artifacts = artMgr.getAllArtifacts(false,
-				new NullProgressMonitor());
-		for (Object artifact : artifacts) {
-			if (artifact instanceof IAbstractArtifact) {
-				IAbstractArtifact iAbstractArtifact = (IAbstractArtifact) artifact;
-				elementNames.add(iAbstractArtifact.getFullyQualifiedName());
-				elementNameMap.put(iAbstractArtifact.getFullyQualifiedName(),
-						iAbstractArtifact);
-			}
-		}
+		
 	}
 
 	protected void updateOkButton() {
 		Button okButton = this.getButton(IDialogConstants.OK_ID);
 		if (okButton == null)
 			return;
-		associationName = associationNameField.getText();
+		
 		aEndRoleName = aEndRoleNameField.getText();
 		zEndRoleName = zEndRoleNameField.getText();
 		IStatus status = validate();
@@ -248,22 +229,7 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 	}
 
 	protected IStatus validate() {
-		String associationFQN = association.getPackage() + "."
-				+ associationName;
-		Matcher classNameMatcher = TigerstripeValidationUtils.classNamePattern
-				.matcher(associationName);
-		Matcher elementNameMatcher = TigerstripeValidationUtils.elementNamePattern
-				.matcher(associationName);
-		if (associationName == null || "".equals(associationName)) {
-			return createStatus(IStatus.INFO, "Enter an association name");
-		} else if (!classNameMatcher.matches() && !elementNameMatcher.matches()) {
-			return createStatus(IStatus.ERROR, "'" + associationName
-					+ "' is not a legal association name");
-		} else if (elementNames.contains(associationFQN)
-				&& elementNameMap.get(associationFQN) != iAssociation) {
-			return createStatus(IStatus.ERROR, "Artifact named '"
-					+ associationName + "' already exists in the project");
-		} else if (aEndRoleName == null || "".equals(aEndRoleName)) {
+		if (aEndRoleName == null || "".equals(aEndRoleName)) {
 			return createStatus(IStatus.INFO, "Enter aEnd role name");
 		} else if (zEndRoleName == null || "".equals(zEndRoleName)) {
 			return createStatus(IStatus.INFO, "Enter zEnd role name");
@@ -372,11 +338,11 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		associationNameField = new Text(composite, SWT.BORDER);
 		associationNameField.setText(association.getName());
 		associationNameField.setToolTipText("The name of the association.");
-		associationNameField.addModifyListener(new ModifyListener() {
-			public void modifyText(ModifyEvent e) {
-				updateOkButton();
-			}
-		});
+		
+		// Bugzilla 320052: Names should only be modified using the refactor framework
+		associationNameField.setEditable(false);	
+		associationNameField.setEnabled(false);
+		
 		setFillLayout(associationNameField, nameValueCols, 1);
 		// now, define the controls for defining the aEnd properties...to do
 		// this, first add a
@@ -658,15 +624,12 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		control.setLayoutData(bgd);
 	}
 
-	// public String getAssociationName() {
-	// return associationName;
-	// }
 
 	@Override
 	protected void okPressed() {
+		
 		changedValuesMap.clear();
-		if (!associationName.equals(association.getName()))
-			changedValuesMap.put("associationName", associationName);
+		
 		String newAssociationStereotypes = associationStereotypesField
 				.getText();
 		if (!origAssociationStereotypesStringVal
@@ -676,7 +639,7 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 			changedValuesMap.put("assocStereotypes", newAssocStereotypeVals);
 		}
 		// add any changed aEnd properites to the changedValuesMap
-		if (!aEndRoleName.equals(association.getAEndName()))
+		if ((aEndRoleName!=null) && (!aEndRoleName.equals(association.getAEndName())))
 			changedValuesMap.put("aEndName", aEndRoleName);
 		String newAEndMultiplicity = IModelComponent.EMultiplicity.at(
 				aEndMultiplicityCombo.getSelectionIndex()).getLabel();
@@ -705,7 +668,7 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 			changedValuesMap.put("aEndIsOrdered", Boolean
 					.valueOf(aEndIsOrdered));
 		// and do the same for any changed zEnd properties...
-		if (!zEndRoleName.equals(association.getZEndName()))
+		if ((zEndRoleName!=null) && (!zEndRoleName.equals(association.getZEndName())))
 			changedValuesMap.put("zEndName", zEndRoleName);
 		String newZEndMultiplicity = IModelComponent.EMultiplicity.at(
 				zEndMultiplicityCombo.getSelectionIndex()).getLabel();
