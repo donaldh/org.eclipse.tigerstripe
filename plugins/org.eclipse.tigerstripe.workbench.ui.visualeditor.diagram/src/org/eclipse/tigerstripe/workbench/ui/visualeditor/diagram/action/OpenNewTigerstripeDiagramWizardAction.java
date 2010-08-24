@@ -26,7 +26,7 @@ public class OpenNewTigerstripeDiagramWizardAction extends
 
 	@Override
 	protected void initAction() {
-		setText("new Class Diagram...");
+		setText("Class Diagram...");
 		setImageDescriptor(Images.getDescriptor(Images.VISUALEDITOR_ICON));
 	}
 

@@ -275,7 +275,7 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart {
 
 	private void createIsAbstractButton(Composite parent, FormToolkit toolkit) {
 		isAbstractButton = toolkit.createButton(parent,
-				"This actifact is abstract", SWT.CHECK);
+				"This artifact is abstract", SWT.CHECK);
 		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
 		td.colspan = 2;
 		isAbstractButton.setLayoutData(td);
