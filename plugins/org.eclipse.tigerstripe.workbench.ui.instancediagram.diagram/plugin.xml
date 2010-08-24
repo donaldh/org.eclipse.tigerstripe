@@ -91,6 +91,12 @@
             class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContributionItemProvider"
             checkPluginLoaded="false">
          <Priority name="Low"/>
+         <!--<popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.parts.TigerstripeEditableEntityEditPart"/>
+            <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
+            <popupPredefinedItem id="deleteFromModelAction" remove="true"/>
+  			<popupPredefinedItem id="editGroup" remove="true"/>
+         </popupContribution>-->
          <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
             <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.parts.VariableEditPart"/>
             <popupPredefinedItem id="deleteFromDiagramAction" remove="true"/>
