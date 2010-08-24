@@ -35,6 +35,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.IActiveFacetChangeLi
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.tools.compare.Comparer;
 import org.eclipse.tigerstripe.workbench.internal.tools.compare.Difference;
+import org.eclipse.tigerstripe.workbench.model.IMarkDirty;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -294,23 +295,34 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 	}
 
 	public void artifactChanged(IAbstractArtifact artifact, IAbstractArtifact oldArtifact) {
-		// compare the old and new first
-		// This moight be better done in the client, so that they will only bother with
-		//changes that interest them
 		
-		ArrayList<Difference> diffs = comp.compareArtifacts(oldArtifact,artifact , true);
-		if (diffs.size()>0){
-			TransactionalEditingDomain editingDomain = editor.getEditingDomain();
-			IDiagramEditDomain diagramEditDomain = editor.getDiagramEditDomain();
-			final Map map = (Map) editor.getDiagram().getElement();
-			final IAbstractArtifact fArtifact = artifact;
-			try {
-				ClassDiagramSynchronizerUtils.handleQualifiedNamedElementChanged(
-						editor.getDiagram(), editor.getDiagramEditPart(), map,
-						fArtifact, editingDomain, diagramEditDomain);
-			} catch (TigerstripeException e) {
-				EclipsePlugin.log(e);
-			}
+		// Bugzilla 320052: We can't simply rely on the compare because when model is modified within
+		// the diagram (e.g. AssociationUpdateCommand), the artifact==oldArtifact.  Hence handleArtifactChange
+		// doesn't get called and as a result the diagram is never refreshed. 
+		if ((oldArtifact instanceof IMarkDirty) && (((IMarkDirty)oldArtifact).isDirty())) {
+			handleArtifactChanged(artifact);
+			((IMarkDirty)oldArtifact).setDirty(false);
+		} else {
+			ArrayList<Difference> diffs = comp.compareArtifacts(oldArtifact,artifact , true);
+			if (diffs.size()>0){
+				handleArtifactChanged(artifact);
+			}	
+		}
+		
+		
+	}
+	
+	private void handleArtifactChanged(IAbstractArtifact artifact) {
+		TransactionalEditingDomain editingDomain = editor.getEditingDomain();
+		IDiagramEditDomain diagramEditDomain = editor.getDiagramEditDomain();
+		final Map map = (Map) editor.getDiagram().getElement();
+		final IAbstractArtifact fArtifact = artifact;
+		try {
+			ClassDiagramSynchronizerUtils.handleQualifiedNamedElementChanged(
+					editor.getDiagram(), editor.getDiagramEditPart(), map,
+					fArtifact, editingDomain, diagramEditDomain);
+		} catch (TigerstripeException e) {
+			EclipsePlugin.log(e);
 		}
 	}
 

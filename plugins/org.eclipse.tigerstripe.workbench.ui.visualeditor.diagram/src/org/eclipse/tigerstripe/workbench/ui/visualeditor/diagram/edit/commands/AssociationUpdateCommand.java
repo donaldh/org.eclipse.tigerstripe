@@ -29,6 +29,7 @@ import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.BaseETAdapter;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationEnd;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.Stereotype;
+import org.eclipse.tigerstripe.workbench.model.IMarkDirty;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
@@ -37,7 +38,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisi
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
-import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AggregationEnum;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssocMultiplicity;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
@@ -94,6 +94,11 @@ public class AssociationUpdateCommand extends AbstractTransactionalCommand {
 						.getAEnd();
 				AssociationEnd iAssociationZEnd = (AssociationEnd) iAssociation
 						.getZEnd();
+				
+				// Bugzilla 320052: Mark this association as dirty to ensure a refresh on the diagram
+				((IMarkDirty)iAssociation).setDirty(true);
+				
+				
 				// check to see if the stereotypes for the association have
 				// changed
 				if (changedValuesMap.containsKey("assocStereotypes")) {
@@ -296,6 +301,7 @@ public class AssociationUpdateCommand extends AbstractTransactionalCommand {
 						}
 					}
 				}
+				
 			} catch (TigerstripeException t) {
 				return CommandResult.newErrorCommandResult(t);
 			}

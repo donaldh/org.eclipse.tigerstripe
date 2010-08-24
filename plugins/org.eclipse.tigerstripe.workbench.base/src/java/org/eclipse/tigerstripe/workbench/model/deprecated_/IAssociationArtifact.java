@@ -12,6 +12,8 @@ package org.eclipse.tigerstripe.workbench.model.deprecated_;
 
 import java.util.Collection;
 
+import org.eclipse.tigerstripe.workbench.model.IMarkDirty;
+
 
 /**
  * Internal Interface for IAssociationArtifact
@@ -20,7 +22,7 @@ import java.util.Collection;
  * @since 1.2
  */
 public interface IAssociationArtifact extends IModelComponent,
-		IAbstractArtifact , IRelationship{
+		IAbstractArtifact , IRelationship, IMarkDirty {
 
 	/**
 	 * Get the 'A' end of this association.
