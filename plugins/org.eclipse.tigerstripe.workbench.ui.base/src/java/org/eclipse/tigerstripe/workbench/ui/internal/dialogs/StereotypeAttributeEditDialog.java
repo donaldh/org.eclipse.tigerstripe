@@ -209,6 +209,7 @@ public class StereotypeAttributeEditDialog extends TSMessageDialog {
 	}
 
 	protected void handleWidgetSelected(SelectionEvent e) {
+		
 		if (e.getSource() == stringEntryTypeButton) {
 			setKind(IStereotypeAttribute.STRING_ENTRY_KIND);
 		} else if (e.getSource() == checkableTypeButton) {
@@ -231,12 +232,8 @@ public class StereotypeAttributeEditDialog extends TSMessageDialog {
 		attribute.setArray(isArray.getSelection());
 
 		if (isArray.getSelection()) {
-			// Attribute of type boolean and selection list are not allowed for
-			// arrays
-			setKind(IStereotypeAttribute.STRING_ENTRY_KIND);
-
 			checkableTypeButton.setEnabled(false);
-			entryListTypeButton.setEnabled(false);
+			entryListTypeButton.setEnabled(true);
 		} else {
 			checkableTypeButton.setEnabled(true);
 			entryListTypeButton.setEnabled(true);

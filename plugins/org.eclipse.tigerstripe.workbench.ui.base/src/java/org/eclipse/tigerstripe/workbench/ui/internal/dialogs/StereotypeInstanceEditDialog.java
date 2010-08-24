@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.internal.dialogs;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.CellEditor;
@@ -36,7 +37,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
@@ -62,8 +65,7 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 
 	private IStereotypeInstance instance;
 
-	public StereotypeInstanceEditDialog(Shell parentShell,
-			IStereotypeInstance instance) {
+	public StereotypeInstanceEditDialog(Shell parentShell, IStereotypeInstance instance) {
 		super(parentShell);
 
 		this.instance = instance;
@@ -109,17 +111,15 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		border.setLayout(layout);
-		gd = new GridData(GridData.FILL_BOTH | GridData.GRAB_HORIZONTAL
-				| GridData.GRAB_VERTICAL);
+		gd = new GridData(GridData.FILL_BOTH | GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL);
 		gd.widthHint = 400;
 		border.setLayoutData(gd);
 
-		// we need to go thru the list of defined attributes for the stereotype
-		// and render them
-		// There are 3 types: String, checkbox or drop-downs
-		// We need to keep track of the attribute/widget to handle changes and
-		// updates
-		// appropriately.
+		// We need to go thru the list of defined attributes for the stereotype
+		// and render them. There are 4 types: String, checkbox or drop-downs,
+		// or tables. We need to keep track of the attribute/widget to handle
+		// changes and
+		// updates appropriately.
 		IStereotype stereotype = instance.getCharacterizingStereotype();
 		for (IStereotypeAttribute attr : stereotype.getAttributes()) {
 			int attrKind = attr.getKind();
@@ -135,7 +135,11 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 				renderCheckableAttribute(border, attr);
 				break;
 			case IStereotypeAttribute.ENTRY_LIST_KIND:
-				renderEntryListAttribute(border, attr);
+				if (!attr.isArray()) {
+					renderEntryListAttribute(border, attr);
+				} else {
+					renderEntryArrayListAttribute(border, attr);
+				}
 				break;
 			}
 		}
@@ -163,8 +167,7 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 		}
 	}
 
-	class AttributeArrayLabelProvider extends LabelProvider implements
-			ITableLabelProvider {
+	class AttributeArrayLabelProvider extends LabelProvider implements ITableLabelProvider {
 		public String getColumnText(Object obj, int index) {
 			String attrValue = (String) obj;
 			switch (index) {
@@ -180,8 +183,7 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 		}
 	}
 
-	protected void renderStringArrayEntryAttribute(Composite composite,
-			final IStereotypeAttribute attribute) {
+	protected void renderStringArrayEntryAttribute(Composite composite, final IStereotypeAttribute attribute) {
 
 		Label l = new Label(composite, SWT.NULL);
 		l.setText(attribute.getName());
@@ -190,8 +192,7 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 		GridLayout gdLayout = new GridLayout();
 		gdLayout.numColumns = 2;
 		subComposite.setLayout(gdLayout);
-		GridData gd = new GridData(GridData.FILL_BOTH
-				| GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL);
+		GridData gd = new GridData(GridData.FILL_BOTH | GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL);
 		subComposite.setLayoutData(gd);
 
 		Table m = new Table(subComposite, SWT.SINGLE | SWT.FULL_SELECTION);
@@ -208,10 +209,8 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 		m.setLinesVisible(true);
 
 		final TableViewer attributeArrayViewer = new TableViewer(m);
-		attributeArrayViewer
-				.setContentProvider(new AttributeArrayContentProvider());
-		attributeArrayViewer
-				.setLabelProvider(new AttributeArrayLabelProvider());
+		attributeArrayViewer.setContentProvider(new AttributeArrayContentProvider());
+		attributeArrayViewer.setLabelProvider(new AttributeArrayLabelProvider());
 
 		attributeArrayViewer.setInput(attribute);
 
@@ -219,12 +218,10 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 
 		Button attributeArrayAddButton = new Button(subComposite, SWT.PUSH);
 		attributeArrayAddButton.setText("Add");
-		attributeArrayAddButton.setLayoutData(new GridData(
-				GridData.FILL_HORIZONTAL));
+		attributeArrayAddButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		attributeArrayAddButton.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent event) {
-				attributeArrayAddButtonSelected(event, attributeArrayViewer,
-						attribute);
+				attributeArrayAddButtonSelected(event, attributeArrayViewer, attribute);
 			}
 
 			public void widgetDefaultSelected(SelectionEvent event) {
@@ -234,26 +231,21 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 
 		Button attributeArrayRemoveButton = new Button(subComposite, SWT.PUSH);
 		attributeArrayRemoveButton.setText("Remove");
-		attributeArrayRemoveButton
-				.addSelectionListener(new SelectionListener() {
-					public void widgetSelected(SelectionEvent event) {
-						attributeArrayRemoveButtonSelected(event,
-								attributeArrayViewer, attribute);
-					}
+		attributeArrayRemoveButton.addSelectionListener(new SelectionListener() {
+			public void widgetSelected(SelectionEvent event) {
+				attributeArrayRemoveButtonSelected(event, attributeArrayViewer, attribute);
+			}
 
-					public void widgetDefaultSelected(SelectionEvent event) {
-						// empty
-					}
-				});
+			public void widgetDefaultSelected(SelectionEvent event) {
+				// empty
+			}
+		});
 
 		// Create the corresponding cell editors
 		attributeArrayViewer.setColumnProperties(new String[] { "STEREOTYPE" });
-		final TextCellEditor stereotypeEditor = new TextCellEditor(
-				attributeArrayViewer.getTable());
-		attributeArrayViewer
-				.setCellEditors(new CellEditor[] { stereotypeEditor });
-		attributeArrayViewer.setCellModifier(new StereotypeEditorCellModifier(
-				attributeArrayViewer, attribute));
+		final TextCellEditor stereotypeEditor = new TextCellEditor(attributeArrayViewer.getTable());
+		attributeArrayViewer.setCellEditors(new CellEditor[] { stereotypeEditor });
+		attributeArrayViewer.setCellModifier(new StereotypeEditorCellModifier(attributeArrayViewer, attribute));
 
 		attributeArrayViewer.refresh(true);
 	}
@@ -264,8 +256,7 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 
 		private IStereotypeAttribute attribute;
 
-		public StereotypeEditorCellModifier(TableViewer viewer,
-				IStereotypeAttribute attribute) {
+		public StereotypeEditorCellModifier(TableViewer viewer, IStereotypeAttribute attribute) {
 			this.viewer = viewer;
 			this.attribute = attribute;
 		}
@@ -302,10 +293,9 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 		}
 	}
 
-	protected void attributeArrayRemoveButtonSelected(SelectionEvent event,
-			TableViewer attributeArrayViewer, IStereotypeAttribute attribute) {
-		TableItem[] selectedItems = attributeArrayViewer.getTable()
-				.getSelection();
+	protected void attributeArrayRemoveButtonSelected(SelectionEvent event, TableViewer attributeArrayViewer,
+			IStereotypeAttribute attribute) {
+		TableItem[] selectedItems = attributeArrayViewer.getTable().getSelection();
 		String[] selectedLabels = new String[selectedItems.length];
 
 		for (int i = 0; i < selectedItems.length; i++) {
@@ -319,8 +309,7 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 			message = message + "this value?";
 		}
 
-		MessageDialog msgDialog = new MessageDialog(getShell(),
-				"Remove Attribute values", null, message,
+		MessageDialog msgDialog = new MessageDialog(getShell(), "Remove Attribute values", null, message,
 				MessageDialog.QUESTION, new String[] { "Yes", "No" }, 1);
 
 		if (msgDialog.open() == 0) {
@@ -341,13 +330,12 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 		}
 	}
 
-	protected void attributeArrayAddButtonSelected(SelectionEvent event,
-			TableViewer attributeArrayViewer, IStereotypeAttribute attribute) {
+	protected void attributeArrayAddButtonSelected(SelectionEvent event, TableViewer attributeArrayViewer,
+			IStereotypeAttribute attribute) {
 
 		try {
 			String[] values = instance.getAttributeValues(attribute);
-			ArrayList<String> result = new ArrayList<String>(Arrays
-					.asList(values));
+			ArrayList<String> result = new ArrayList<String>(Arrays.asList(values));
 			String defaultValue = attribute.getDefaultValue();
 			if (defaultValue == null) {
 				defaultValue = "";
@@ -361,14 +349,12 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 		}
 	}
 
-	protected void renderStringEntryAttribute(Composite composite,
-			final IStereotypeAttribute attribute) {
+	protected void renderStringEntryAttribute(Composite composite, final IStereotypeAttribute attribute) {
 		Label l = new Label(composite, SWT.NULL);
 		l.setText(attribute.getName());
 
 		final Text text = new Text(composite, SWT.BORDER);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL);
 		text.setLayoutData(gd);
 
 		try {
@@ -388,8 +374,7 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 		});
 	}
 
-	protected void renderCheckableAttribute(Composite composite,
-			final IStereotypeAttribute attribute) {
+	protected void renderCheckableAttribute(Composite composite, final IStereotypeAttribute attribute) {
 
 		Label l = new Label(composite, SWT.NULL);
 		final Button button = new Button(composite, SWT.CHECK);
@@ -398,12 +383,13 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 
 		try {
 			String value = instance.getAttributeValue(attribute);
-			button.setSelection("true".equalsIgnoreCase(value)
-					|| "0".equalsIgnoreCase(value)); // "0" used to represent
+			button.setSelection("true".equalsIgnoreCase(value) || "0".equalsIgnoreCase(value)); // "0"
+			// used
+			// to
+			// represent
 			// 'checked'
 		} catch (TigerstripeException e) {
-			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
-					e);
+			TigerstripeRuntime.logErrorMessage("TigerstripeException detected", e);
 		}
 		button.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -412,8 +398,7 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 			public void widgetSelected(SelectionEvent e) {
 				boolean sel = button.getSelection();
 				try {
-					instance.setAttributeValue(attribute, (sel ? "true"
-							: "false"));
+					instance.setAttributeValue(attribute, (sel ? "true" : "false"));
 				} catch (TigerstripeException ee) {
 					// ignore here
 				}
@@ -421,8 +406,7 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 		});
 	}
 
-	protected void renderEntryListAttribute(Composite composite,
-			final IStereotypeAttribute attribute) {
+	protected void renderEntryListAttribute(Composite composite, final IStereotypeAttribute attribute) {
 
 		Label l = new Label(composite, SWT.NULL);
 		l.setText(attribute.getName());
@@ -458,14 +442,75 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 				if (index != -1) {
 					try {
 						IEntryListStereotypeAttribute attr = (IEntryListStereotypeAttribute) attribute;
-						instance.setAttributeValue(attribute, attr
-								.getSelectableValues()[index]);
-					} catch (TigerstripeException ee) {
-						// ignore here
+						instance.setAttributeValue(attribute, attr.getSelectableValues()[index]);
+					} catch (TigerstripeException te) {
+						EclipsePlugin.log(te);
 					}
 				}
 			}
 		});
+	}
+
+	protected void renderEntryArrayListAttribute(Composite composite, final IStereotypeAttribute attribute) {
+
+		Label l = new Label(composite, SWT.NULL);
+		l.setText(attribute.getName());
+
+		IEntryListStereotypeAttribute attr = (IEntryListStereotypeAttribute) attribute;
+
+		int style = SWT.CHECK | SWT.SINGLE | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL;
+		Table table = new Table(composite, style);
+
+		table.addListener(SWT.Selection, new Listener() {
+
+			public void handleEvent(Event event) {
+
+				if (event.detail == SWT.CHECK) {
+
+					if (event.item instanceof TableItem) {
+						try {
+
+							TableItem tableItem = (TableItem) event.item;
+							String[] attrValues = instance.getAttributeValues(attribute);
+							ArrayList<String> attrValueList = new ArrayList<String>(Arrays.asList(attrValues));
+							if (tableItem.getChecked() == true) {
+								attrValueList.add(tableItem.getText());
+							} else {
+								attrValueList.remove(tableItem.getText());
+							}
+							instance.setAttributeValues(attribute, attrValueList.toArray(new String[0]));
+						} catch (TigerstripeException e) {
+							EclipsePlugin.log(e);
+						}
+					}
+				}
+			}
+		});
+
+		table.setLinesVisible(false);
+		table.setHeaderVisible(false);
+
+		TableColumn column = new TableColumn(table, SWT.NONE, 0);
+		column.setWidth(300);
+
+		try {
+
+			String[] selectedValues = instance.getAttributeValues(attribute);
+			for (String selectableValue : attr.getSelectableValues()) {
+				TableItem item = new TableItem(table, SWT.NONE);
+				item.setText(selectableValue);
+				for (String selectedValue : selectedValues) {
+					if (selectableValue.equals(selectedValue)) {
+						item.setChecked(true);
+						break;
+					}
+				}
+			}
+
+		} catch (TigerstripeException e) {
+			EclipsePlugin.log(e);
+		}
+
 	}
 
 }
