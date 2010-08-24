@@ -66,7 +66,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.gmf.IconCachingCompartmentE
  * @generated
  */
 public class VariableNameValueEditPart extends IconCachingCompartmentEditPart
-		implements ITextAwareEditPart {
+		implements ITextAwareEditPart, TigerstripeEditableEntityEditPart {
 
 	/**
 	 * @generated

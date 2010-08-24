@@ -64,7 +64,7 @@ import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.utils.Diagra
  * @generated
  */
 public class AssociationInstanceNamePackageArtifactNameEditPart extends
-		LabelEditPart implements ITextAwareEditPart, NamePackageInterface {
+		LabelEditPart implements ITextAwareEditPart, NamePackageInterface, TigerstripeEditableEntityEditPart {
 
 	/**
 	 * @generated

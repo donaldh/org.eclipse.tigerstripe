@@ -81,7 +81,7 @@ import org.eclipse.tigerstripe.workbench.ui.instancediagram.util.InstanceDiagram
  * @generated
  */
 public class VariableEditPart extends CompartmentEditPart implements
-		ITextAwareEditPart {
+		ITextAwareEditPart, TigerstripeEditableEntityEditPart {
 
 	/**
 	 * @generated

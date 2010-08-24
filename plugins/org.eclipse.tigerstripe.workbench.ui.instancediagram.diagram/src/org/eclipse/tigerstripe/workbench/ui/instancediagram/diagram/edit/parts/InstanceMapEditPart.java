@@ -34,7 +34,7 @@ import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.utils.Diagra
 /**
  * @generated
  */
-public class InstanceMapEditPart extends DiagramEditPart {
+public class InstanceMapEditPart extends DiagramEditPart implements TigerstripeEditableEntityEditPart{
 
 	/**
 	 * @generated

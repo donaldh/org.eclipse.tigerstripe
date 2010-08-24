@@ -33,7 +33,7 @@ import org.eclipse.tigerstripe.workbench.ui.instancediagram.NamedElement;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.util.InstanceDiagramUtils;
 
 public class SortedClassInstanceVariableCompartmentEditPart extends
-		ListCompartmentEditPart {
+		ListCompartmentEditPart implements TigerstripeEditableEntityEditPart {
 
 	ClassInstance instance;
 	IAbstractArtifact artifact;

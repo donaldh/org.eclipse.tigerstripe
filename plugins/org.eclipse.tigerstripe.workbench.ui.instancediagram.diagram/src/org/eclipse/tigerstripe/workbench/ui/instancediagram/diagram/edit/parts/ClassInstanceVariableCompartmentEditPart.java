@@ -28,7 +28,7 @@ import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.policie
  * @generated
  */
 public class ClassInstanceVariableCompartmentEditPart extends
-		SortedClassInstanceVariableCompartmentEditPart {
+		SortedClassInstanceVariableCompartmentEditPart implements TigerstripeEditableEntityEditPart {
 
 	/**
 	 * @generated

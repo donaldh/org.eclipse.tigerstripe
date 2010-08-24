@@ -59,7 +59,7 @@ import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.providers.In
  * @generated
  */
 public class AssociationInstanceZEndNameEditPart extends LabelEditPart
-		implements ITextAwareEditPart {
+		implements ITextAwareEditPart, TigerstripeEditableEntityEditPart{
 
 	/**
 	 * @generated

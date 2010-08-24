@@ -29,7 +29,7 @@ import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.part.Instanc
 /**
  * @generated
  */
-public class InstanceEditPartFactory implements EditPartFactory {
+public class InstanceEditPartFactory implements EditPartFactory, TigerstripeEditableEntityEditPart{
 
 	/**
 	 * @generated

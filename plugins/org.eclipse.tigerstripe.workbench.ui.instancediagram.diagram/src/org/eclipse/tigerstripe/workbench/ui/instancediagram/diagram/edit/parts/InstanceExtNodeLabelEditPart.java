@@ -22,7 +22,7 @@ import org.eclipse.gmf.runtime.notation.View;
 /**
  * @generated
  */
-public class InstanceExtNodeLabelEditPart extends LabelEditPart {
+public class InstanceExtNodeLabelEditPart extends LabelEditPart implements TigerstripeEditableEntityEditPart {
 
 	/**
 	 * @generated

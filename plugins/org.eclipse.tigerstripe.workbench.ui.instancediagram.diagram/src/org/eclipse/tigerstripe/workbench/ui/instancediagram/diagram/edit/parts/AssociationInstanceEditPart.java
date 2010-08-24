@@ -35,7 +35,7 @@ import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.policie
 /**
  * @generated
  */
-public class AssociationInstanceEditPart extends ConnectionNodeEditPart {
+public class AssociationInstanceEditPart extends ConnectionNodeEditPart implements TigerstripeEditableEntityEditPart{
 
 	/**
 	 * @generated

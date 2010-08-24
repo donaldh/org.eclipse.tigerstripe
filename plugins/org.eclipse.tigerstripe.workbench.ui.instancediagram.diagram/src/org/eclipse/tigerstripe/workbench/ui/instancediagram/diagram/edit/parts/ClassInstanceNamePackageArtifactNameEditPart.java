@@ -77,7 +77,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.gmf.IconCachingCompartmentE
  */
 public class ClassInstanceNamePackageArtifactNameEditPart extends
 		IconCachingCompartmentEditPart implements ITextAwareEditPart,
-		NamePackageInterface {
+		NamePackageInterface, TigerstripeEditableEntityEditPart {
 
 	/**
 	 * @generated
