@@ -692,11 +692,19 @@ public abstract class NewPatternBasedArtifactWizardPage extends
 	 * @return the status of the validation
 	 */
 	protected IStatus artifactNameChanged() {
-
-		IStatus status = ArtifactNameValidator.validateArtifactName(getArtifactName());
-		if (!status.isOK()) {
-			return status;
-		}
+        if (((IArtifactPattern) pattern).getTargetArtifactType().equals(IPackageArtifact.class.getName())) {
+	       IStatus status = ArtifactNameValidator.validatePackageArtifactName(getArtifactName());
+	       if (!status.isOK()) {
+               return status;
+           }
+	    }
+	    else
+	    {
+            IStatus status = ArtifactNameValidator.validateArtifactName(getArtifactName());
+        	if (!status.isOK()) {
+        		return status;
+        	}
+	    }
 
 		return ArtifactNameValidator.validateArtifactDoesNotExist(getArtifactPackageFragment(), getArtifactName());
 

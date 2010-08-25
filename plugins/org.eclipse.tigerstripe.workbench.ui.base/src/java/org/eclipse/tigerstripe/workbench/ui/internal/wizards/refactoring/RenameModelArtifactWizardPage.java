@@ -132,7 +132,8 @@ public class RenameModelArtifactWizardPage extends WizardPage {
 					.validatePackageArtifactName(nameText.getText().trim());
 			if (!status.isOK()) {
 				StatusUtil.applyToStatusLine(this, status);
-				return;
+				if (status.getSeverity() == IStatus.ERROR)
+				    return;
 			}
 		} else {
 			if (modelArtifact.getName().equals(nameText.getText().trim())) {
@@ -143,7 +144,8 @@ public class RenameModelArtifactWizardPage extends WizardPage {
 					.validateArtifactName(nameText.getText().trim());
 			if (!status.isOK()) {
 				StatusUtil.applyToStatusLine(this, status);
-				return;
+				if (status.getSeverity() == IStatus.ERROR)
+				    return;
 			}
 		}
 
