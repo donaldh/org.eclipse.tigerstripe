@@ -19,7 +19,6 @@ import org.eclipse.jdt.core.search.IJavaSearchConstants;
 import org.eclipse.jdt.core.search.IJavaSearchScope;
 import org.eclipse.jdt.core.search.SearchEngine;
 import org.eclipse.jdt.internal.ui.dialogs.FilteredTypesSelectionDialog;
-import org.eclipse.jdt.ui.dialogs.TypeSelectionExtension;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
@@ -28,18 +27,14 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.ArtifactRunnableRule;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.RunnableRule;
 import org.eclipse.tigerstripe.workbench.plugins.IRunnableRule;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.PluginDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.RulesSectionPart;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
@@ -60,9 +55,7 @@ public abstract class BaseRunnableRuleDetailsPage extends BaseRuleDetailsPage {
 		TableWrapLayout twLayout = new TableWrapLayout();
 		twLayout.numColumns = 1;
 		parent.setLayout(twLayout);
-		TableWrapData td = new TableWrapData(TableWrapData.FILL);
-		td.heightHint = 200;
-		parent.setLayoutData(td);
+		parent.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		form.getToolkit().paintBordersFor(parent);
 	}
@@ -128,10 +121,11 @@ public abstract class BaseRunnableRuleDetailsPage extends BaseRuleDetailsPage {
 
 		Composite sectionClient = toolkit.createComposite(section);
 
-		GridLayout gLayout = new GridLayout();
-		gLayout.numColumns = 3;
-		sectionClient.setLayout(gLayout);
-		sectionClient.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		TableWrapLayout layout = new TableWrapLayout();
+		layout.numColumns = 2;
+		layout.bottomMargin = layout.topMargin = 0;
+		sectionClient.setLayout(layout);
+		sectionClient.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		// Add the common details for a rule
 		createRuleCommonInfo(sectionClient, toolkit);
@@ -144,20 +138,25 @@ public abstract class BaseRunnableRuleDetailsPage extends BaseRuleDetailsPage {
 	}
 
 	protected void createRunnableDefinitions(Composite parent) {
-		Label label = form.getToolkit().createLabel(parent,
-				"Runnable Class Name:");
+		form.getToolkit().createLabel(parent, "Runnable Class Name:");
 
 		RunnableDetailsPageListener adapter = new RunnableDetailsPageListener();
 
-		runnableClassText = form.getToolkit().createText(parent, "");
+		Composite rcComposite = form.getToolkit().createComposite(parent);
+		TableWrapLayout twLayout = TigerstripeLayoutFactory
+				.createClearTableWrapLayout(2, false);
+		twLayout.horizontalSpacing = 5;
+		rcComposite.setLayout(twLayout);
+		rcComposite.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		runnableClassText = form.getToolkit().createText(rcComposite, "");
 		runnableClassText.setEnabled(PluginDescriptorEditor.isEditable());
-		runnableClassText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL));
+		runnableClassText.setLayoutData(new TableWrapData(
+				TableWrapData.FILL_GRAB));
 		runnableClassText.addModifyListener(adapter);
 		runnableClassText
 				.setToolTipText("An instance of this class will be created per run, and initialized with the current artifact instance.");
 
-		runnableClassBrowseButton = form.getToolkit().createButton(parent,
+		runnableClassBrowseButton = form.getToolkit().createButton(rcComposite,
 				"Browse", SWT.PUSH);
 		runnableClassBrowseButton.setEnabled(PluginDescriptorEditor
 				.isEditable());
@@ -210,7 +209,7 @@ public abstract class BaseRunnableRuleDetailsPage extends BaseRuleDetailsPage {
 
 		super.updateForm();
 		setSilentUpdate(true);
-		IRunnableRule rule = (IRunnableRule) getIRunnableRule();
+		IRunnableRule rule = getIRunnableRule();
 		runnableClassText.setText(rule.getRunnableClassName());
 		setSilentUpdate(false);
 	}

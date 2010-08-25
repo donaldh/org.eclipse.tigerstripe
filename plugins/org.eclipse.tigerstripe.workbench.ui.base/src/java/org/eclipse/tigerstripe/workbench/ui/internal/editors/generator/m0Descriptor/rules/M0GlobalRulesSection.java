@@ -46,9 +46,6 @@ public class M0GlobalRulesSection extends RulesSectionPart implements IFormPart 
 		super(page, parent, toolkit, ExpandableComposite.TWISTIE);
 		setTitle("&Global Rules");
 		setDescription("Define the rules to be run once only per generation with this plugin.");
-		getSection().marginWidth = 10;
-		getSection().marginHeight = 5;
-		getSection().clientVerticalSpacing = 4;
 
 		createContent();
 		updateMaster();
@@ -136,7 +133,7 @@ public class M0GlobalRulesSection extends RulesSectionPart implements IFormPart 
 
 		if (msgDialog.open() == 0) {
 			try {
-				getIPluggablePluginProject().removeGlobalRules((IGlobalRule[]) selectedFields);
+				getIPluggablePluginProject().removeGlobalRules(selectedFields);
 				getViewer().remove(selectedFields);
 				markPageModified();
 			} catch (TigerstripeException e) {
@@ -148,7 +145,7 @@ public class M0GlobalRulesSection extends RulesSectionPart implements IFormPart 
 
 	@Override
 	protected void registerPages(DetailsPart detailsPart) {
-		 detailsPart.registerPage(M0GlobalTemplateRule.class,
+		detailsPart.registerPage(M0GlobalTemplateRule.class,
 				new SimpleRuleDetailsPage(this));
 	}
 

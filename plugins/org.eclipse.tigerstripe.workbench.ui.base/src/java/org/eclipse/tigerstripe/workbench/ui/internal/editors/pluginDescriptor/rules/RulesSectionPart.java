@@ -25,22 +25,20 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.generator.GeneratorDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.generator.GeneratorDescriptorSectionPart;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 public abstract class RulesSectionPart extends GeneratorDescriptorSectionPart {
 
@@ -54,6 +52,7 @@ public abstract class RulesSectionPart extends GeneratorDescriptorSectionPart {
 
 	protected DetailsPart detailsPart;
 	protected SashForm sashForm;
+	private Table table;
 
 	/**
 	 * Creates the content of the master/details block inside the managed form.
@@ -65,7 +64,6 @@ public abstract class RulesSectionPart extends GeneratorDescriptorSectionPart {
 	@Override
 	public void createContent() {
 		IManagedForm managedForm = getPage().getManagedForm();
-		final ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = getToolkit();
 
 		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
@@ -73,21 +71,17 @@ public abstract class RulesSectionPart extends GeneratorDescriptorSectionPart {
 		getSection().setLayoutData(td);
 
 		Composite body = getToolkit().createComposite(getSection());
-		GridLayout layout = new GridLayout();
-		layout.marginWidth = 5;
-		layout.marginHeight = 5;
-		body.setLayout(layout);
+		body
+				.setLayout(TigerstripeLayoutFactory.createClearGridLayout(1,
+						false));
 		sashForm = new SashForm(body, SWT.HORIZONTAL);
 		toolkit.adapt(sashForm, false, false);
 		sashForm.setMenu(body.getMenu());
 		sashForm.setToolTipText(getTooltipText());
-		sashForm.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		sashForm.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		createMasterPart(managedForm, sashForm);
 		createDetailsPart(managedForm, sashForm);
-		// createToolBarActions(managedForm);
-		sashForm.setWeights(new int[] { 30, 70 });
-		form.updateToolBar();
 
 		getSection().setClient(body);
 		getToolkit().paintBordersFor(body);
@@ -155,20 +149,20 @@ public abstract class RulesSectionPart extends GeneratorDescriptorSectionPart {
 				ExpandableComposite.NO_TITLE);
 
 		Composite sectionClient = toolkit.createComposite(section);
-		TableWrapLayout twlayout = new TableWrapLayout();
-		twlayout.numColumns = 2;
-		sectionClient.setLayout(twlayout);
+		GridLayout layout = new GridLayout(2, false);
+		sectionClient.setLayout(layout);
 
-		Table t = toolkit.createTable(sectionClient, SWT.NULL);
-		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.rowspan = 2;
-		td.heightHint = 150;
-		t.setLayoutData(td);
+		table = toolkit.createTable(sectionClient, SWT.NULL);
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		gd.verticalSpan = 4;
+		table.setLayoutData(gd);
 
 		addAttributeButton = toolkit.createButton(sectionClient, "Add",
 				SWT.PUSH);
 		addAttributeButton.setEnabled(GeneratorDescriptorEditor.isEditable());
-		addAttributeButton.setLayoutData(new TableWrapData(TableWrapData.FILL));
+		addAttributeButton.setLayoutData(new GridData(
+				GridData.HORIZONTAL_ALIGN_FILL
+						| GridData.VERTICAL_ALIGN_BEGINNING));
 		if (GeneratorDescriptorEditor.isEditable()) {
 			addAttributeButton.addSelectionListener(new SelectionListener() {
 				public void widgetSelected(SelectionEvent event) {
@@ -184,7 +178,9 @@ public abstract class RulesSectionPart extends GeneratorDescriptorSectionPart {
 				SWT.PUSH);
 		removeAttributeButton
 				.setEnabled(GeneratorDescriptorEditor.isEditable());
-		removeAttributeButton.setLayoutData(new TableWrapData());
+		removeAttributeButton.setLayoutData(new GridData(
+				GridData.HORIZONTAL_ALIGN_FILL
+						| GridData.VERTICAL_ALIGN_BEGINNING));
 		if (GeneratorDescriptorEditor.isEditable()) {
 			removeAttributeButton.addSelectionListener(new SelectionListener() {
 				public void widgetSelected(SelectionEvent event) {
@@ -197,13 +193,8 @@ public abstract class RulesSectionPart extends GeneratorDescriptorSectionPart {
 			});
 		}
 
-		Label l = toolkit.createLabel(sectionClient, "", SWT.NULL);
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.heightHint = 100;
-		l.setLayoutData(td);
-
 		final IFormPart part = this;
-		viewer = new TableViewer(t);
+		viewer = new TableViewer(table);
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
 				managedForm.fireSelectionChanged(part, event.getSelection());
@@ -216,6 +207,21 @@ public abstract class RulesSectionPart extends GeneratorDescriptorSectionPart {
 
 		toolkit.paintBordersFor(sectionClient);
 		section.setClient(sectionClient);
+	}
+
+	/**
+	 * Used only by details pages. Just workaround to avoid appearing scrolls on
+	 * details part.
+	 */
+	public void setMinimumHeight(int value) {
+		GridData gd = (GridData) table.getLayoutData();
+		if (gd.minimumHeight < value) {
+			gd = new GridData(GridData.FILL_BOTH);
+			gd.verticalSpan = 4;
+			gd.minimumHeight = value;
+			table.setLayoutData(gd);
+			getManagedForm().reflow(true);
+		}
 	}
 
 	/**

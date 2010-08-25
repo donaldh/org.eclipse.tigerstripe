@@ -12,11 +12,11 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.generator.m0Descri
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 public class M0DescriptorRulesPage extends TigerstripeFormPage {
 
@@ -47,18 +47,11 @@ public class M0DescriptorRulesPage extends TigerstripeFormPage {
 
 	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {
 		Composite body = managedForm.getForm().getBody();
-		TableWrapLayout layout = new TableWrapLayout();
-		layout.bottomMargin = 10;
-		layout.topMargin = 5;
-		layout.leftMargin = 10;
-		layout.rightMargin = 10;
-		layout.numColumns = 2;
-		layout.verticalSpacing = 30;
-		layout.horizontalSpacing = 10;
-		body.setLayout(layout);
+		body.setLayout(TigerstripeLayoutFactory.createPageTableWrapLayout(2,
+				true));
 
 		// sections
 		managedForm.addPart(new M0GlobalRulesSection(this, body, toolkit));
-//		managedForm.addPart(new ArtifactRulesSection(this, body, toolkit));
+		// managedForm.addPart(new ArtifactRulesSection(this, body, toolkit));
 	}
 }

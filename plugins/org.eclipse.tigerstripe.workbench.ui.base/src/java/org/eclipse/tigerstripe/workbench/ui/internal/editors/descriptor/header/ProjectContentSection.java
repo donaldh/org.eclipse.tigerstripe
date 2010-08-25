@@ -39,6 +39,7 @@ public class ProjectContentSection extends TigerstripeDescriptorSectionPart {
 	@Override
 	protected void createContent() {
 		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
+		td.maxWidth = MAX_RIGHT_COLUMN_WIDTH;
 		getSection().setLayoutData(td);
 
 		createProjectComponents(getBody(), getToolkit());
@@ -113,6 +114,7 @@ public class ProjectContentSection extends TigerstripeDescriptorSectionPart {
 		rtext.setLayoutData(td);
 		rtext.setText(data, true, false);
 		rtext.addHyperlinkListener(new HyperlinkAdapter() {
+			@Override
 			public void linkActivated(HyperlinkEvent e) {
 				PreferenceDialog dialog = new PreferenceDialog(getBody()
 						.getShell(), EclipsePlugin.getDefault().getWorkbench()

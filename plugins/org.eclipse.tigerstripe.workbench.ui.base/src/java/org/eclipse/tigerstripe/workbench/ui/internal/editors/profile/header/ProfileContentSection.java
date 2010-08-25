@@ -34,9 +34,7 @@ public class ProfileContentSection extends TigerstripeSectionPart {
 
 	@Override
 	protected void createContent() {
-		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.maxWidth = MAX_RIGHT_COLUMN_WIDTH;
-		getSection().setLayoutData(td);
+		getSection().setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		createProjectComponents(getBody(), getToolkit());
 		createDescription(getBody(), getToolkit());

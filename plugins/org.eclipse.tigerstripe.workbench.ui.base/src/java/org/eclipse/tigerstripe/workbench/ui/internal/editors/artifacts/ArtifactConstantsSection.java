@@ -353,7 +353,6 @@ public class ArtifactConstantsSection extends ArtifactSectionPart implements
 	 * 
 	 */
 	protected void viewerSelectionChanged(SelectionChangedEvent event) {
-		selIndex = viewer.getTable().getSelectionIndex();
 		updateMaster();
 	}
 
@@ -643,9 +642,11 @@ public class ArtifactConstantsSection extends ArtifactSectionPart implements
 
 	@Override
 	public void refresh() {
+		int si = selIndex;
 		viewer.setInput(((ArtifactEditorBase) getPage().getEditor())
 				.getIArtifact());
-		viewer.refresh();
+		selIndex = si;
+		viewer.refresh(true);
 		if (selIndex != -1) {
 			Object refreshedMethod = viewer.getTable().getItem(selIndex)
 					.getData();

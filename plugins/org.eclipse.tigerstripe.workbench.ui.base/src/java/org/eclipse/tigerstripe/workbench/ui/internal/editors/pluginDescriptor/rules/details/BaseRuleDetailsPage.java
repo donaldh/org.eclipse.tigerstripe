@@ -19,7 +19,6 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -35,6 +34,7 @@ import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.TableWrapData;
 
 public abstract class BaseRuleDetailsPage implements IDetailsPage {
 
@@ -99,37 +99,28 @@ public abstract class BaseRuleDetailsPage implements IDetailsPage {
 		toolkit.createLabel(sectionClient, "");
 		enabledButton = toolkit.createButton(sectionClient, "Enabled",
 				SWT.CHECK);
-		enabledButton.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL));
+		enabledButton.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		enabledButton.setEnabled(PluginDescriptorEditor.isEditable());
 		if (PluginDescriptorEditor.isEditable())
 			enabledButton.addSelectionListener(adapter);
 
-		// Pad out the section
-		toolkit.createLabel(sectionClient, "");
-
 		Label label = toolkit.createLabel(sectionClient, "Name: ");
 		nameText = toolkit.createText(sectionClient, "");
 		nameText.setEnabled(PluginDescriptorEditor.isEditable());
-		nameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		nameText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		nameText.addModifyListener(adapter);
 		nameText.setToolTipText("Name of the rule");
 
-		label = toolkit.createLabel(sectionClient, "");
-		label.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL));
-
 		label = toolkit.createLabel(sectionClient, "Description: ");
+
 		descriptionText = toolkit.createText(sectionClient, "", SWT.WRAP
 				| SWT.MULTI | SWT.V_SCROLL);
 		descriptionText.setEnabled(PluginDescriptorEditor.isEditable());
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.heightHint = 60;
-		descriptionText.setLayoutData(gd);
+		TableWrapData wrapData = new TableWrapData(TableWrapData.FILL_GRAB);
+		wrapData.heightHint = 60;
+		descriptionText.setLayoutData(wrapData);
 		descriptionText.addModifyListener(adapter);
 		descriptionText.setToolTipText("Document this rule.");
-
-		label = toolkit.createLabel(sectionClient, "");
-		label.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL));
 	}
 
 	public void initialize(IManagedForm form) {
@@ -221,8 +212,7 @@ public abstract class BaseRuleDetailsPage implements IDetailsPage {
 			master = (RulesSectionPart) part;
 			Table fieldsTable = master.getViewer().getTable();
 
-			IRule selected = (IRule) fieldsTable.getSelection()[0]
-					.getData();
+			IRule selected = (IRule) fieldsTable.getSelection()[0].getData();
 			setIRunRule(selected);
 			updateForm();
 		}

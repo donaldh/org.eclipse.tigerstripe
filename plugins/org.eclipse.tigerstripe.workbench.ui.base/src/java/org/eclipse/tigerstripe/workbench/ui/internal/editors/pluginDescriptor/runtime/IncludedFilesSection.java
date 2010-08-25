@@ -55,8 +55,8 @@ import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.model.WorkbenchLabelProvider;
 import org.eclipse.ui.part.FileEditorInput;
 
-public class IncludedFilesSection extends GeneratorDescriptorSectionPart implements
-		IResourceChangeListener, IResourceDeltaVisitor {
+public class IncludedFilesSection extends GeneratorDescriptorSectionPart
+		implements IResourceChangeListener, IResourceDeltaVisitor {
 
 	protected CheckboxTreeViewer fTreeViewer;
 
@@ -147,19 +147,14 @@ public class IncludedFilesSection extends GeneratorDescriptorSectionPart impleme
 
 	@Override
 	protected void createContent() {
-
 		final Section section = getSection();
 		FormToolkit toolkit = getToolkit();
 
-		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.colspan = 2;
-		getSection().setLayoutData(td);
+		getSection().setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
-		Composite container = createClientContainer(section, 2, toolkit);
+		Composite container = getToolkit().createComposite(getSection());
+		container.setLayout(new GridLayout());
 
-		GridLayout layout = new GridLayout();
-		layout.marginHeight = layout.marginWidth = 2;
-		container.setLayout(layout);
 		fTreeViewer = new CheckboxTreeViewer(toolkit.createTree(container,
 				SWT.CHECK));
 		fTreeViewer.setContentProvider(new TreeContentProvider());
@@ -183,10 +178,7 @@ public class IncludedFilesSection extends GeneratorDescriptorSectionPart impleme
 				});
 			}
 		});
-		GridData gd = new GridData(GridData.FILL_BOTH);
-		gd.heightHint = 150;
-		gd.widthHint = 100;
-		fTreeViewer.getTree().setLayoutData(gd);
+		fTreeViewer.getTree().setLayoutData(new GridData(GridData.FILL_BOTH));
 		initialize();
 		try {
 			initializeCheckState();
@@ -248,16 +240,6 @@ public class IncludedFilesSection extends GeneratorDescriptorSectionPart impleme
 			fTreeViewer.setChecked(resource.getParent(), true);
 			setParentsChecked(resource.getParent());
 		}
-	}
-
-	protected Composite createClientContainer(Composite parent, int span,
-			FormToolkit toolkit) {
-		Composite container = toolkit.createComposite(parent);
-		org.eclipse.swt.layout.GridLayout layout = new org.eclipse.swt.layout.GridLayout();
-		layout.marginWidth = layout.marginHeight = 2;
-		layout.numColumns = span;
-		container.setLayout(layout);
-		return container;
 	}
 
 	protected void initializeCheckState() throws TigerstripeException {
@@ -420,8 +402,10 @@ public class IncludedFilesSection extends GeneratorDescriptorSectionPart impleme
 				if (!excludes.contains(resourceName)
 						&& (includes != null ? !includes.contains(resourceName)
 								: true)) {
-					project.addAdditionalFile(resourceName,
-							ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_EXCLUDE);
+					project
+							.addAdditionalFile(
+									resourceName,
+									ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_EXCLUDE);
 					refreshUponStateChange(
 							ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_EXCLUDE,
 							null, resourceName);
@@ -430,8 +414,10 @@ public class IncludedFilesSection extends GeneratorDescriptorSectionPart impleme
 			}
 			if (includes != null) {
 				if (includes.contains(resourceName)) {
-					project.removeAdditionalFile(resourceName,
-							ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_INCLUDE);
+					project
+							.removeAdditionalFile(
+									resourceName,
+									ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_INCLUDE);
 					refreshUponStateChange(
 							ITigerstripeM1GeneratorProject.ADDITIONAL_FILE_INCLUDE,
 							resourceName, null);
@@ -487,10 +473,10 @@ public class IncludedFilesSection extends GeneratorDescriptorSectionPart impleme
 	}
 
 	/**
-	 * @param resource -
-	 *            file/folder being modified in tree
-	 * @param resourceName -
-	 *            name file/folder
+	 * @param resource
+	 *            - file/folder being modified in tree
+	 * @param resourceName
+	 *            - name file/folder
 	 * @return relative path of folder if resource is folder, otherwise, return
 	 *         resourceName
 	 */

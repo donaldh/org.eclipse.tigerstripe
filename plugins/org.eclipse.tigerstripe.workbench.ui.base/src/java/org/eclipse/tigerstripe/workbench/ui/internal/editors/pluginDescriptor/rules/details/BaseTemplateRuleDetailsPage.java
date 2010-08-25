@@ -37,11 +37,8 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -56,6 +53,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.VMFileSelectionDial
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.VelocityContextDefinitionEditDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.PluginDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.RulesSectionPart;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -193,7 +191,7 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 		TableWrapLayout twLayout = new TableWrapLayout();
 		twLayout.numColumns = 1;
 		parent.setLayout(twLayout);
-		TableWrapData td = new TableWrapData(TableWrapData.FILL);
+		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
 		td.heightHint = 200;
 		parent.setLayoutData(td);
 
@@ -256,25 +254,32 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 		section.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		Composite sectionClient = toolkit.createComposite(section);
-
-		GridLayout gLayout = new GridLayout();
-		gLayout.numColumns = 3;
-		sectionClient.setLayout(gLayout);
-		sectionClient.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		TableWrapLayout layout = new TableWrapLayout();
+		layout.numColumns = 2;
+		layout.bottomMargin = layout.topMargin = 0;
+		sectionClient.setLayout(layout);
+		sectionClient.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		// Add the common details for a rule
 		createRuleCommonInfo(sectionClient, toolkit);
 
 		toolkit.createLabel(sectionClient, "Template:");
 
-		templateText = toolkit.createText(sectionClient, "");
+		Composite templComposite = toolkit.createComposite(sectionClient);
+		TableWrapLayout twLayout = TigerstripeLayoutFactory
+				.createClearTableWrapLayout(2, false);
+		twLayout.horizontalSpacing = 5;
+		templComposite.setLayout(twLayout);
+		templComposite
+				.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		templateText = toolkit.createText(templComposite, "");
 		templateText.setEnabled(PluginDescriptorEditor.isEditable());
-		templateText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		templateText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		templateText.addModifyListener(adapter);
 		templateText
 				.setToolTipText("This template will be used when running this rule.");
 
-		templateBrowseButton = form.getToolkit().createButton(sectionClient,
+		templateBrowseButton = form.getToolkit().createButton(templComposite,
 				"Browse", SWT.PUSH);
 		// Support for testing
 		templateBrowseButton.setData("name", "Browse_Template");
@@ -286,7 +291,7 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 
 		outputFile = form.getToolkit().createText(sectionClient, "");
 		outputFile.setEnabled(PluginDescriptorEditor.isEditable());
-		outputFile.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		outputFile.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		outputFile.addModifyListener(adapter);
 		outputFile.setToolTipText("This name of the generated file.");
 
@@ -305,10 +310,10 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 		twlayout.numColumns = 2;
 		sectionClient.setLayout(twlayout);
 		TableWrapData twd = new TableWrapData(TableWrapData.FILL_GRAB);
+		twd.colspan = 2;
 		sectionClient.setLayoutData(twd);
 
-		Label l = toolkit.createLabel(sectionClient,
-				"Velocity Context Definitions:");
+		toolkit.createLabel(sectionClient, "Velocity Context Definitions:");
 		toolkit.createLabel(sectionClient, "");
 
 		Table t = toolkit.createTable(sectionClient, SWT.SINGLE
@@ -316,7 +321,7 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 		t.setEnabled(PluginDescriptorEditor.isEditable());
 		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
 		td.rowspan = 2;
-		td.heightHint = 140;
+		td.heightHint = 100;
 		t.setLayoutData(td);
 
 		TableColumn nameColumn = new TableColumn(t, SWT.NULL);
@@ -389,11 +394,6 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 			});
 		}
 
-		l = toolkit.createLabel(sectionClient, "", SWT.NULL);
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.heightHint = 40;
-		l.setLayoutData(td);
-
 		toolkit.paintBordersFor(sectionClient);
 	}
 
@@ -405,9 +405,10 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 		twlayout.numColumns = 2;
 		sectionClient.setLayout(twlayout);
 		TableWrapData twd = new TableWrapData(TableWrapData.FILL_GRAB);
+		twd.colspan = 2;
 		sectionClient.setLayoutData(twd);
 
-		Label l = toolkit.createLabel(sectionClient, "Velocity Macros :");
+		toolkit.createLabel(sectionClient, "Velocity Macros :");
 		toolkit.createLabel(sectionClient, "");
 
 		Table m = toolkit.createTable(sectionClient, SWT.SINGLE
@@ -415,7 +416,7 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 		m.setEnabled(PluginDescriptorEditor.isEditable());
 		TableWrapData tdm = new TableWrapData(TableWrapData.FILL_GRAB);
 		tdm.rowspan = 2;
-		tdm.heightHint = 140;
+		tdm.heightHint = 100;
 		m.setLayoutData(tdm);
 
 		TableColumn macroNameColumn = new TableColumn(m, SWT.NULL);
@@ -473,11 +474,6 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 				// empty
 			}
 		});
-
-		l = toolkit.createLabel(sectionClient, "", SWT.NULL);
-		tdm = new TableWrapData(TableWrapData.FILL_GRAB);
-		tdm.heightHint = 40;
-		l.setLayoutData(tdm);
 
 		toolkit.paintBordersFor(sectionClient);
 	}

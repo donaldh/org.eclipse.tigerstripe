@@ -15,7 +15,6 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
@@ -73,21 +72,23 @@ public class SimpleRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 		twLayout.numColumns = 1;
 		parent.setLayout(twLayout);
 		TableWrapData td = new TableWrapData(TableWrapData.FILL);
-		td.heightHint = 200;
 		parent.setLayoutData(td);
 
 		Composite sectionClient = createRuleInfo(parent);
-
 		Label label = form
 				.getToolkit()
 				.createLabel(sectionClient,
 						"This template will be run once per generation with this plugin.");
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.horizontalSpan = 3;
-		label.setLayoutData(gd);
+		TableWrapData twData = new TableWrapData(TableWrapData.FILL_GRAB);
+		twData.colspan = 2;
+		label.setLayoutData(twData);
 		createOptionButtons(sectionClient);
-		createContextDefinitions(parent);
-		createMacros(parent);
+		createContextDefinitions(sectionClient);
+		createMacros(sectionClient);
+
+		int height = sectionClient.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
+		master.setMinimumHeight(height);
+
 		form.getToolkit().paintBordersFor(parent);
 	}
 
@@ -98,28 +99,22 @@ public class SimpleRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 		SimpleRuleDetailsPageListener adapter = new SimpleRuleDetailsPageListener();
 		suppressEmptyFilesButton = form.getToolkit().createButton(parent,
 				"Suppress Empty Files", SWT.CHECK);
-		suppressEmptyFilesButton.setLayoutData(new GridData(
-				GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
+		suppressEmptyFilesButton.setLayoutData(new TableWrapData(
+				TableWrapData.FILL_GRAB));
 		suppressEmptyFilesButton
 				.setEnabled(PluginDescriptorEditor.isEditable());
 		if (PluginDescriptorEditor.isEditable())
 			suppressEmptyFilesButton.addSelectionListener(adapter);
 
-		// Pad out the section
-		form.getToolkit().createLabel(parent, "");
-
 		// Put an empty label first to "Centre" the control
 		form.getToolkit().createLabel(parent, "");
 		overwriteFilesButton = form.getToolkit().createButton(parent,
 				"Overwrite Files", SWT.CHECK);
-		overwriteFilesButton.setLayoutData(new GridData(
-				GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
+		overwriteFilesButton.setLayoutData(new TableWrapData(
+				TableWrapData.FILL_GRAB));
 		overwriteFilesButton.setEnabled(PluginDescriptorEditor.isEditable());
 		if (PluginDescriptorEditor.isEditable())
 			overwriteFilesButton.addSelectionListener(adapter);
-
-		// Pad out the section
-		form.getToolkit().createLabel(parent, "");
 
 	}
 

@@ -15,7 +15,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactComponent;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -45,18 +44,13 @@ public class ArtifactStereotypesSection extends ArtifactSectionPart {
 		Section section = getSection();
 		FormToolkit toolkit = getToolkit();
 
-		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-		section.setLayoutData(td);
+		section.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
-		Composite body = getBody();
-		body.setLayoutData(TigerstripeLayoutFactory.createFormTableWrapLayout(2,
-				false));
-
-		annTable = toolkit.createTable(body, SWT.BORDER | SWT.FLAT);
+		annTable = toolkit.createTable(getBody(), SWT.BORDER | SWT.FLAT);
 		annTable.setEnabled(!this.isReadonly());
 		annTable.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
-		Composite buttonClient = toolkit.createComposite(body);
+		Composite buttonClient = toolkit.createComposite(getBody());
 		buttonClient.setLayoutData(new TableWrapData(TableWrapData.FILL));
 		buttonClient.setLayout(TigerstripeLayoutFactory
 				.createButtonsTableWrapLayout());
@@ -79,8 +73,8 @@ public class ArtifactStereotypesSection extends ArtifactSectionPart {
 
 		ArtifactEditorBase editor = (ArtifactEditorBase) getPage().getEditor();
 		stereotypeMgr = new StereotypeSectionManager(addAnno, editAnno,
-				removeAnno, annTable, (ArtifactComponent) getIArtifact(),
-				getBody().getShell(), editor);
+				removeAnno, annTable, getIArtifact(), getBody().getShell(),
+				editor);
 		stereotypeMgr.delegate();
 
 		// updateForm();

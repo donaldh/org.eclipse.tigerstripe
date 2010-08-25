@@ -15,12 +15,10 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.GlobalRunnableRule;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.GlobalTemplateRule;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.PluginDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.RulesSectionPart;
 import org.eclipse.ui.forms.widgets.TableWrapData;
@@ -39,8 +37,8 @@ public class GlobalRunnableRuleDetailsPage extends BaseRunnableRuleDetailsPage {
 	/**
 	 * An adapter that will listen for changes on the form
 	 */
-	private class GlobalRunnableRuleDetailsPageListener implements ModifyListener,
-			SelectionListener {
+	private class GlobalRunnableRuleDetailsPageListener implements
+			ModifyListener, SelectionListener {
 		public void modifyText(ModifyEvent e) {
 
 		}
@@ -74,19 +72,20 @@ public class GlobalRunnableRuleDetailsPage extends BaseRunnableRuleDetailsPage {
 		twLayout.numColumns = 1;
 		parent.setLayout(twLayout);
 		TableWrapData td = new TableWrapData(TableWrapData.FILL);
-		td.heightHint = 200;
 		parent.setLayoutData(td);
 
 		Composite sectionClient = createRuleInfo(parent);
 
-		Label label = form
-				.getToolkit()
-				.createLabel(sectionClient,
-						"This rule will be run once per generation with this plugin.");
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
-		gd.horizontalSpan = 3;
-		label.setLayoutData(gd);
+		Label label = form.getToolkit().createLabel(sectionClient,
+				"This rule will be run once per generation with this plugin.");
+		TableWrapData twData = new TableWrapData(TableWrapData.FILL_GRAB);
+		twData.colspan = 2;
+		label.setLayoutData(twData);
 		createOptionButtons(sectionClient);
+
+		int height = sectionClient.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
+		master.setMinimumHeight(height);
+
 		form.getToolkit().paintBordersFor(parent);
 	}
 
@@ -97,28 +96,22 @@ public class GlobalRunnableRuleDetailsPage extends BaseRunnableRuleDetailsPage {
 		GlobalRunnableRuleDetailsPageListener adapter = new GlobalRunnableRuleDetailsPageListener();
 		suppressEmptyFilesButton = form.getToolkit().createButton(parent,
 				"Suppress Empty Files", SWT.CHECK);
-		suppressEmptyFilesButton.setLayoutData(new GridData(
-				GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
+		suppressEmptyFilesButton.setLayoutData(new TableWrapData(
+				TableWrapData.FILL_GRAB));
 		suppressEmptyFilesButton
 				.setEnabled(PluginDescriptorEditor.isEditable());
 		if (PluginDescriptorEditor.isEditable())
 			suppressEmptyFilesButton.addSelectionListener(adapter);
 
-		// Pad out the section
-		form.getToolkit().createLabel(parent, "");
-
 		// Put an empty label first to "Centre" the control
 		form.getToolkit().createLabel(parent, "");
 		overwriteFilesButton = form.getToolkit().createButton(parent,
 				"Overwrite Files", SWT.CHECK);
-		overwriteFilesButton.setLayoutData(new GridData(
-				GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
+		overwriteFilesButton.setLayoutData(new TableWrapData(
+				TableWrapData.FILL_GRAB));
 		overwriteFilesButton.setEnabled(PluginDescriptorEditor.isEditable());
 		if (PluginDescriptorEditor.isEditable())
 			overwriteFilesButton.addSelectionListener(adapter);
-
-		// Pad out the section
-		form.getToolkit().createLabel(parent, "");
 
 	}
 
@@ -130,7 +123,7 @@ public class GlobalRunnableRuleDetailsPage extends BaseRunnableRuleDetailsPage {
 		suppressEmptyFilesButton.setSelection(rule.isSuppressEmptyFiles());
 		overwriteFilesButton.setSelection(rule.isOverwriteFiles());
 		runnableClassText.setText(rule.getRunnableClassName());
-		
+
 		setSilentUpdate(false);
 	}
 }

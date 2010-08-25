@@ -16,8 +16,6 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
@@ -81,10 +79,12 @@ public class CopyRuleDetailsPage extends BaseRuleDetailsPage {
 		twLayout.numColumns = 1;
 		parent.setLayout(twLayout);
 		TableWrapData td = new TableWrapData(TableWrapData.FILL);
-		td.heightHint = 200;
 		parent.setLayoutData(td);
 
-		createRuleInfo(parent);
+		Composite sectionClient = createRuleInfo(parent);
+
+		int height = sectionClient.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
+		master.setMinimumHeight(height);
 
 		form.getToolkit().paintBordersFor(parent);
 	}
@@ -99,10 +99,11 @@ public class CopyRuleDetailsPage extends BaseRuleDetailsPage {
 
 		Composite sectionClient = toolkit.createComposite(section);
 
-		GridLayout gLayout = new GridLayout();
-		gLayout.numColumns = 3;
-		sectionClient.setLayout(gLayout);
-		sectionClient.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		TableWrapLayout layout = new TableWrapLayout();
+		layout.numColumns = 2;
+		layout.bottomMargin = layout.topMargin = 0;
+		sectionClient.setLayout(layout);
+		sectionClient.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		// Add the common details for a rule
 		createRuleCommonInfo(sectionClient, toolkit);
@@ -121,28 +122,26 @@ public class CopyRuleDetailsPage extends BaseRuleDetailsPage {
 
 		toolkit.createLabel(sectionClient, "Source");
 		filematchText = toolkit.createText(sectionClient, "", SWT.BORDER);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL
-				| GridData.GRAB_HORIZONTAL);
-		filematchText.setLayoutData(gd);
+		filematchText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		filematchText.addModifyListener(adapter);
-
-		toolkit.createLabel(sectionClient, ""); // padding
 
 		toolkit.createLabel(sectionClient, "To Directory");
 		toDirectoryText = toolkit.createText(sectionClient, "", SWT.BORDER);
-		gd = new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL);
-		toDirectoryText.setLayoutData(gd);
+		toDirectoryText
+				.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		toDirectoryText.addModifyListener(adapter);
 
-		toolkit.createLabel(sectionClient, ""); // padding
-		toolkit.createLabel(sectionClient, ""); // padding
+		toolkit.createLabel(sectionClient, "");
+		Composite fromComposite = toolkit.createComposite(sectionClient);
+		TableWrapLayout twLayout = new TableWrapLayout();
+		twLayout.numColumns = 2;
+		fromComposite.setLayout(twLayout);
 
-		fromPluginButton = toolkit.createButton(sectionClient, "From Plugin",
+		fromPluginButton = toolkit.createButton(fromComposite, "From Plugin",
 				SWT.RADIO);
 		fromPluginButton.addSelectionListener(adapter);
-		toolkit.createLabel(sectionClient, ""); // padding
-		toolkit.createLabel(sectionClient, ""); // padding
-		fromProjectButton = toolkit.createButton(sectionClient, "From Project",
+
+		fromProjectButton = toolkit.createButton(fromComposite, "From Project",
 				SWT.RADIO);
 		fromProjectButton.addSelectionListener(adapter);
 	}

@@ -17,7 +17,6 @@ import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 public class OverviewPage extends TigerstripeFormPage {
 
@@ -53,9 +52,8 @@ public class OverviewPage extends TigerstripeFormPage {
 
 	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {
 		Composite body = managedForm.getForm().getBody();
-		TableWrapLayout layout = TigerstripeLayoutFactory
-				.createPageTableWrapLayout(2, true);
-		body.setLayout(layout);
+		body.setLayout(TigerstripeLayoutFactory.createPageTableWrapLayout(2,
+				true));
 
 		managedForm.addPart(new WelcomeSection(this, body, toolkit));
 		managedForm.addPart(new GeneralInfoSection(this, body, toolkit));

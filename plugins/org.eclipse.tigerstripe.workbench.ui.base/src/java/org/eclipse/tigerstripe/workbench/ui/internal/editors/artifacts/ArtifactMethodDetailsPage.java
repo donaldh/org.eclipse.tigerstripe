@@ -54,7 +54,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IGlobal
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactComponent;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ComponentNameProvider;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
@@ -160,7 +159,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 
 	private IManagedForm form;
 
-	private ArtifactMethodsSection master;
+	private final ArtifactMethodsSection master;
 
 	private IMethod method;
 
@@ -198,7 +197,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 
 	private Label returnValueLabel;
 
-	private boolean displayDirection;
+	private final boolean displayDirection;
 
 	public ArtifactMethodDetailsPage(ArtifactMethodsSection master,
 			boolean isReadOnly) {
@@ -324,7 +323,6 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 		sectionClient.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		Label label = toolkit.createLabel(sectionClient, "Name: ");
-		label.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		label.setEnabled(!isReadOnly);
 		nameText = toolkit.createText(sectionClient, "");
 		nameText.setEnabled(!isReadOnly);
@@ -340,7 +338,6 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 		}
 
 		label = toolkit.createLabel(sectionClient, "Description: ");
-		label.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		label.setEnabled(!isReadOnly);
 		commentText = toolkit.createText(sectionClient, "", SWT.WRAP
 				| SWT.MULTI | SWT.V_SCROLL);
@@ -379,7 +376,6 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 		packageButton.addSelectionListener(adapter);
 
 		label = toolkit.createLabel(sectionClient, "Qualifiers: "); // padding
-		label.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		Composite optComposite = toolkit.createComposite(sectionClient);
 		layout = new TableWrapLayout();
 		layout.leftMargin = 0;
@@ -429,7 +425,6 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 		isVoid.addSelectionListener(adapter);
 
 		typeLabel = toolkit.createLabel(sectionClient, "Type: ");
-		typeLabel.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		typeLabel.setEnabled(!isReadOnly);
 
 		Composite c = toolkit.createComposite(sectionClient);
@@ -449,8 +444,6 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 
 		multiplicityLabel = toolkit
 				.createLabel(sectionClient, "Multiplicity: ");
-		multiplicityLabel.setLayoutData(new TableWrapData(
-				TableWrapData.FILL_GRAB));
 		multiplicityLabel.setEnabled(!isReadOnly);
 		multiplicityCombo = new CCombo(sectionClient, SWT.SINGLE
 				| SWT.READ_ONLY | SWT.BORDER);
@@ -558,8 +551,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 	private void createArgumentsTable(Composite parent) {
 		FormToolkit toolkit = form.getToolkit();
 
-		toolkit.createLabel(parent, "Arguments").setLayoutData(
-				new TableWrapData(TableWrapData.FILL_GRAB));
+		toolkit.createLabel(parent, "Arguments");
 
 		Composite composite = toolkit.createComposite(parent);
 		TableWrapData gd = new TableWrapData(TableWrapData.FILL_GRAB);
@@ -627,8 +619,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 	private void createExceptionTable(Composite parent) {
 		FormToolkit toolkit = form.getToolkit();
 
-		toolkit.createLabel(parent, "Exceptions").setLayoutData(
-				new TableWrapData(TableWrapData.FILL_GRAB));
+		toolkit.createLabel(parent, "Exceptions");
 
 		Composite composite = toolkit.createComposite(parent);
 		TableWrapData gd = new TableWrapData(TableWrapData.FILL_GRAB);
@@ -679,7 +670,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 	public class ArgumentContentProvider implements IStructuredContentProvider {
 
 		public Object[] getElements(Object inputElement) {
-			IMethod mtd = (IMethod) getMethod();
+			IMethod mtd = getMethod();
 			if (mtd != null) {
 				Object[] args = new Object[mtd.getArguments().size()];
 				Iterator<IArgument> argIterator = mtd.getArguments().iterator();
@@ -797,7 +788,7 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 	public class ExceptionContentProvider implements IStructuredContentProvider {
 
 		public Object[] getElements(Object inputElement) {
-			IMethod mtd = (IMethod) getMethod();
+			IMethod mtd = getMethod();
 			if (mtd != null)
 				if (mtd != null) {
 					Object[] excs = new Object[mtd.getExceptions().size()];
@@ -919,12 +910,11 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 
 			if (stereotypeMgr == null) {
 				stereotypeMgr = new StereotypeSectionManager(addAnno, editAnno,
-						removeAnno, annTable, (ArtifactComponent) getMethod(),
-						master.getSection().getShell(), editor);
+						removeAnno, annTable, getMethod(), master.getSection()
+								.getShell(), editor);
 				stereotypeMgr.delegate();
 			} else {
-				stereotypeMgr
-						.setArtifactComponent((ArtifactComponent) getMethod());
+				stereotypeMgr.setArtifactComponent(getMethod());
 			}
 
 			updateForm();

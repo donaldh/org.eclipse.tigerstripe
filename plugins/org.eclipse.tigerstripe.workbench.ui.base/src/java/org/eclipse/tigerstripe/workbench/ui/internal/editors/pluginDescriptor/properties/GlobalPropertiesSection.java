@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.properties;
 
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -399,34 +397,6 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 				new BooleanPropertyDetailsPage());
 		detailsPart.registerPage(TablePPluginProperty.class,
 				new TablePropertyDetailsPage());
-	}
-
-	protected void createToolBarActions(IManagedForm managedForm) {
-		final ScrolledForm form = managedForm.getForm();
-
-		Action haction = new Action("hor", IAction.AS_RADIO_BUTTON) {
-			@Override
-			public void run() {
-				sashForm.setOrientation(SWT.HORIZONTAL);
-				form.reflow(true);
-			}
-		};
-
-		haction.setChecked(true);
-		haction.setToolTipText("Horizontal Orientation");
-
-		Action vaction = new Action("ver", IAction.AS_RADIO_BUTTON) {
-			@Override
-			public void run() {
-				sashForm.setOrientation(SWT.VERTICAL);
-				form.reflow(true);
-			}
-		};
-		vaction.setChecked(false);
-		vaction.setToolTipText("Vertical Orientation");
-
-		form.getToolBarManager().add(haction);
-		form.getToolBarManager().add(vaction);
 	}
 
 	private void createDetailsPart(final IManagedForm mform, Composite parent) {

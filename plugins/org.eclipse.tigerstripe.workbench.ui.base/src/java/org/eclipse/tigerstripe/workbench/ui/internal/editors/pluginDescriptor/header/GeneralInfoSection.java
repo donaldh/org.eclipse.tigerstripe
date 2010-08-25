@@ -90,7 +90,7 @@ public class GeneralInfoSection extends GeneratorDescriptorSectionPart {
 		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
 		getSection().setLayoutData(td);
 
-//		createID(getBody(), getToolkit());
+		// createID(getBody(), getToolkit());
 		createName(getBody(), getToolkit());
 		createVersion(getBody(), getToolkit());
 		createDescription(getBody(), getToolkit());
@@ -141,7 +141,7 @@ public class GeneralInfoSection extends GeneratorDescriptorSectionPart {
 	private void createDescription(Composite parent, FormToolkit toolkit) {
 		TableWrapData td = null;
 
-		toolkit.createLabel(parent, "Description: ", SWT.WRAP);
+		toolkit.createLabel(parent, "Description: ");
 		descriptionText = toolkit.createText(parent, "", SWT.WRAP | SWT.MULTI
 				| SWT.V_SCROLL);
 		descriptionText
@@ -240,10 +240,10 @@ public class GeneralInfoSection extends GeneratorDescriptorSectionPart {
 			try {
 				IProjectDetails details = handle.getProjectDetails();
 				if (e.getSource() == versionText) {
-					
+
 					// TODO OSGI-ify
-					//Validate the input..
-					
+					// Validate the input..
+
 					details.setVersion(versionText.getText().trim());
 					handle.setProjectDetails(details);
 				} else if (e.getSource() == descriptionText) {

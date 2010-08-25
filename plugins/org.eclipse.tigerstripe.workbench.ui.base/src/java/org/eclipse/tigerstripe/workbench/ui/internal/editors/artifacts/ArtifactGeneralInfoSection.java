@@ -137,15 +137,8 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart {
 
 	@Override
 	protected void createContent() {
-		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-		getSection().setLayoutData(td);
+		getSection().setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
-		TableWrapLayout layout = new TableWrapLayout();
-		layout.numColumns = 2;
-		getSection().setLayout(layout);
-
-		Composite body = getBody();
-		body.setLayout(layout);
 		createProjectName(getBody(), getToolkit());
 		createQualifiedName(getBody(), getToolkit());
 		createDescription(getBody(), getToolkit());
@@ -203,8 +196,7 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart {
 		// the size to 100 from 70 - bug # 162
 		descriptionText = toolkit.createText(parent, getIArtifact()
 				.getComment(), SWT.WRAP | SWT.MULTI | SWT.V_SCROLL);
-		TableWrapData gd = new TableWrapData();
-		gd.grabVertical = true;
+		TableWrapData gd = new TableWrapData(TableWrapData.FILL_GRAB);
 		gd.heightHint = 100;
 		gd.maxHeight = 100;
 		descriptionText.setLayoutData(gd);
@@ -218,11 +210,11 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart {
 		label.setEnabled(!this.isReadonly());
 
 		Composite composite = toolkit.createComposite(parent);
-		GridLayout layout = TigerstripeLayoutFactory.createClearGridLayout(2,
-				false);
+		TableWrapLayout layout = TigerstripeLayoutFactory
+				.createClearTableWrapLayout(2, false);
 		layout.horizontalSpacing = 5;
 		composite.setLayout(layout);
-		composite.setLayoutData(new TableWrapData(TableWrapData.FILL));
+		composite.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		IAbstractArtifact extend = getIArtifact().getExtendedArtifact();
 		if (extend == null) {
@@ -231,13 +223,13 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart {
 			extendNameText = toolkit.createText(composite, extend
 					.getFullyQualifiedName());
 		}
-		extendNameText.setLayoutData(new GridData(GridData.FILL_BOTH));
+		extendNameText
+				.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		extendNameText.setEnabled(!this.isReadonly());
 		extendNameText.addModifyListener(new GeneralInfoPageListener());
 		extendNameText.addKeyListener(new GeneralInfoPageListener());
 
 		typeBrowseButton = toolkit.createButton(composite, "Browse", SWT.PUSH);
-		typeBrowseButton.setLayoutData(new GridData());
 		typeBrowseButton.setEnabled(!this.isReadonly());
 		typeBrowseButton.addSelectionListener(new GeneralInfoPageListener());
 
@@ -255,7 +247,7 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart {
 				false);
 		layout.horizontalSpacing = 5;
 		composite.setLayout(layout);
-		composite.setLayoutData(new TableWrapData(TableWrapData.FILL));
+		composite.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		String implStr = getIArtifact().getImplementedArtifactsAsStr();
 		implementsText = toolkit.createText(composite, implStr);

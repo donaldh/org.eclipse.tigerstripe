@@ -50,9 +50,6 @@ public class GlobalRulesSection extends RulesSectionPart implements IFormPart {
 		super(page, parent, toolkit, Section.TWISTIE | Section.EXPANDED);
 		setTitle("&Global Rules");
 		setDescription("Define the rules to be run once only per generation with this plugin.");
-		getSection().marginWidth = 10;
-		getSection().marginHeight = 5;
-		getSection().clientVerticalSpacing = 4;
 
 		createContent();
 		updateMaster();
@@ -157,7 +154,8 @@ public class GlobalRulesSection extends RulesSectionPart implements IFormPart {
 		detailsPart.registerPage(GlobalTemplateRule.class,
 				new SimpleRuleDetailsPage(this));
 		detailsPart.registerPage(CopyRule.class, new CopyRuleDetailsPage(this));
-		detailsPart.registerPage(GlobalRunnableRule.class, new GlobalRunnableRuleDetailsPage(this));
+		detailsPart.registerPage(GlobalRunnableRule.class,
+				new GlobalRunnableRuleDetailsPage(this));
 	}
 
 	@Override

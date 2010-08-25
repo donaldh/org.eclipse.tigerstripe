@@ -34,7 +34,6 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactComponent;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Field;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Type;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
@@ -46,7 +45,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
-import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForArtifactDialog;
@@ -101,7 +99,7 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage,
 
 	private IManagedForm form;
 
-	private ArtifactAttributesSection master;
+	private final ArtifactAttributesSection master;
 
 	private IField field;
 
@@ -251,7 +249,6 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage,
 		sectionClient.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		Label label = toolkit.createLabel(sectionClient, "Name: ");
-		label.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		label.setEnabled(!isReadOnly);
 		nameText = toolkit.createText(sectionClient, "");
 		nameText.setEnabled(!isReadOnly);
@@ -266,7 +263,6 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage,
 		}
 
 		label = toolkit.createLabel(sectionClient, "Description: ");
-		label.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		label.setEnabled(!isReadOnly);
 		commentText = toolkit.createText(sectionClient, "", SWT.WRAP
 				| SWT.MULTI | SWT.V_SCROLL);
@@ -279,7 +275,6 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage,
 		commentText.setLayoutData(gd);
 
 		label = toolkit.createLabel(sectionClient, "Type: ");
-		label.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		label.setEnabled(!isReadOnly);
 
 		Composite c = toolkit.createComposite(sectionClient);
@@ -298,7 +293,6 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage,
 		typeText.addKeyListener(adapter);
 
 		label = toolkit.createLabel(sectionClient, "Multiplicity: ");
-		label.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		label.setEnabled(!isReadOnly);
 		multiplicityCombo = new CCombo(sectionClient, SWT.SINGLE
 				| SWT.READ_ONLY | SWT.BORDER);
@@ -317,7 +311,6 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage,
 				.values().length);
 
 		label = toolkit.createLabel(sectionClient, "Visibility: ");
-		label.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		label.setEnabled(!isReadOnly);
 		Composite visiComposite = toolkit.createComposite(sectionClient);
 		layout = new TableWrapLayout();
@@ -344,7 +337,6 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage,
 		packageButton.addSelectionListener(adapter);
 
 		label = toolkit.createLabel(sectionClient, "Qualifiers: ");
-		label.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		label.setEnabled(!isReadOnly);
 		Composite opComposite = toolkit.createComposite(sectionClient);
 		layout = new TableWrapLayout();
@@ -397,7 +389,6 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage,
 		}
 
 		label = toolkit.createLabel(sectionClient, "Default Value: ");
-		label.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		label.setEnabled(!isReadOnly);
 
 		defaultValueText = new CCombo(sectionClient, SWT.SINGLE | SWT.BORDER);
@@ -475,12 +466,11 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage,
 
 			if (stereotypeMgr == null) {
 				stereotypeMgr = new StereotypeSectionManager(addAnno, editAnno,
-						removeAnno, annTable, (IStereotypeCapable) getField(),
-						master.getSection().getShell(), editor);
+						removeAnno, annTable, getField(), master.getSection()
+								.getShell(), editor);
 				stereotypeMgr.delegate();
 			} else {
-				stereotypeMgr
-						.setArtifactComponent((ArtifactComponent) getField());
+				stereotypeMgr.setArtifactComponent(getField());
 			}
 			updateForm();
 		}

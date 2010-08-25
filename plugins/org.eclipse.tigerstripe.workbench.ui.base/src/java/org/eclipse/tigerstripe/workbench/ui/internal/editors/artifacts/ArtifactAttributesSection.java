@@ -608,8 +608,10 @@ public class ArtifactAttributesSection extends ArtifactSectionPart implements
 
 	@Override
 	public void refresh() {
+		int si = selIndex;
 		viewer.setInput(((ArtifactEditorBase) getPage().getEditor())
 				.getIArtifact());
+		selIndex = si;
 		viewer.refresh();
 		if (selIndex != -1) {
 			Object refreshedMethod = viewer.getTable().getItem(selIndex)

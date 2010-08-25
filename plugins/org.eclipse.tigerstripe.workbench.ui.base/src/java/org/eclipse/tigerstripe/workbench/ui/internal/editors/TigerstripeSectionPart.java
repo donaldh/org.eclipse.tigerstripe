@@ -81,8 +81,7 @@ public abstract class TigerstripeSectionPart extends SectionPart {
 			body = getToolkit().createComposite(getSection());
 			TableWrapLayout layout = new TableWrapLayout();
 			layout.numColumns = 2;
-			TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-			body.setLayoutData(td);
+			body.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 			body.setLayout(layout);
 		}
 		return body;

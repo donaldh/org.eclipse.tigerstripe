@@ -15,8 +15,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.eclipse.jface.action.Action;
-import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -46,27 +44,21 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.generator.GeneratorDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.generator.GeneratorDescriptorSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.PluginDescriptorEditor;
-import org.eclipse.ui.forms.DetailsPart;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
-import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
 public class AnnotationPluginsSection extends GeneratorDescriptorSectionPart
 		implements IFormPart {
-
-	protected DetailsPart detailsPart;
 
 	public AnnotationPluginsSection(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit) {
 		super(page, parent, toolkit, ExpandableComposite.TITLE_BAR);
 		setTitle("&Required Annotation Plugins");
-		getSection().marginHeight = 5;
-		getSection().clientVerticalSpacing = 4;
 
 		createContent();
 		updateMaster();
@@ -84,29 +76,23 @@ public class AnnotationPluginsSection extends GeneratorDescriptorSectionPart
 	@Override
 	public void createContent() {
 		IManagedForm managedForm = getPage().getManagedForm();
-		final ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = getToolkit();
 
-		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.colspan = 2;
-		getSection().setLayoutData(td);
+		getSection().setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		Composite body = getToolkit().createComposite(getSection());
-		GridLayout layout = new GridLayout();
-		layout.marginWidth = 5;
-		layout.marginHeight = 5;
-		body.setLayout(layout);
+		body
+				.setLayout(TigerstripeLayoutFactory.createClearGridLayout(1,
+						false));
+
 		sashForm = new SashForm(body, SWT.HORIZONTAL);
 		toolkit.adapt(sashForm, false, false);
 		sashForm.setMenu(body.getMenu());
 		sashForm
 				.setToolTipText("Add/Remove required Annotation Plugins for this generator.");
-		sashForm.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		sashForm.setLayoutData(new GridData(GridData.FILL_BOTH));
+
 		createMasterPart(managedForm, sashForm);
-		createDetailsPart(managedForm, sashForm);
-		createToolBarActions(managedForm);
-		sashForm.setWeights(new int[] { 30, 70 });
-		form.updateToolBar();
 
 		getSection().setClient(body);
 		getToolkit().paintBordersFor(body);
@@ -169,20 +155,19 @@ public class AnnotationPluginsSection extends GeneratorDescriptorSectionPart
 				ExpandableComposite.NO_TITLE);
 
 		Composite sectionClient = toolkit.createComposite(section);
-		TableWrapLayout twlayout = new TableWrapLayout();
-		twlayout.numColumns = 2;
-		sectionClient.setLayout(twlayout);
+		sectionClient.setLayout(new GridLayout(2, false));
 
-		Table t = toolkit.createTable(sectionClient, SWT.NULL);
-		t.setEnabled(PluginDescriptorEditor.isEditable());
-		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.rowspan = 2;
-		td.heightHint = 150;
-		t.setLayoutData(td);
+		Table table = toolkit.createTable(sectionClient, SWT.NULL);
+		table.setEnabled(PluginDescriptorEditor.isEditable());
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		gd.verticalSpan = 4;
+		table.setLayoutData(gd);
 
 		addPluginButton = toolkit.createButton(sectionClient, "Add", SWT.PUSH);
 		addPluginButton.setEnabled(PluginDescriptorEditor.isEditable());
-		addPluginButton.setLayoutData(new TableWrapData(TableWrapData.FILL));
+		addPluginButton.setLayoutData(new GridData(
+				GridData.HORIZONTAL_ALIGN_FILL
+						| GridData.VERTICAL_ALIGN_BEGINNING));
 		if (PluginDescriptorEditor.isEditable()) {
 			addPluginButton.addSelectionListener(new SelectionListener() {
 				public void widgetSelected(SelectionEvent event) {
@@ -197,7 +182,9 @@ public class AnnotationPluginsSection extends GeneratorDescriptorSectionPart
 
 		removePluginButton = toolkit.createButton(sectionClient, "Remove",
 				SWT.PUSH);
-		removePluginButton.setLayoutData(new TableWrapData());
+		removePluginButton.setLayoutData(new GridData(
+				GridData.HORIZONTAL_ALIGN_FILL
+						| GridData.VERTICAL_ALIGN_BEGINNING));
 		removePluginButton.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent event) {
 				removeButtonSelected(event);
@@ -209,7 +196,7 @@ public class AnnotationPluginsSection extends GeneratorDescriptorSectionPart
 		});
 
 		final IFormPart part = this;
-		viewer = new TableViewer(t);
+		viewer = new TableViewer(table);
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
 				managedForm.fireSelectionChanged(part, event.getSelection());
@@ -342,47 +329,6 @@ public class AnnotationPluginsSection extends GeneratorDescriptorSectionPart
 		}
 	}
 
-	protected void registerPages(DetailsPart detailsPart) {
-		// detailsPart.registerPage(Dependency.class, // TODO remove the
-		// // dependency on
-		// // Core and use API instead
-		// new DescriptorDependenciesDetailsPage());
-	}
-
-	protected void createToolBarActions(IManagedForm managedForm) {
-		final ScrolledForm form = managedForm.getForm();
-
-		Action haction = new Action("hor", IAction.AS_RADIO_BUTTON) {
-			@Override
-			public void run() {
-				sashForm.setOrientation(SWT.HORIZONTAL);
-				form.reflow(true);
-			}
-		};
-
-		haction.setChecked(true);
-		haction.setToolTipText("Horizontal Orientation");
-
-		Action vaction = new Action("ver", IAction.AS_RADIO_BUTTON) {
-			@Override
-			public void run() {
-				sashForm.setOrientation(SWT.VERTICAL);
-				form.reflow(true);
-			}
-		};
-		vaction.setChecked(false);
-		vaction.setToolTipText("Vertical Orientation");
-
-		form.getToolBarManager().add(haction);
-		form.getToolBarManager().add(vaction);
-	}
-
-	private void createDetailsPart(final IManagedForm mform, Composite parent) {
-		detailsPart = new DetailsPart(mform, parent, SWT.NULL);
-		mform.addPart(detailsPart);
-		registerPages(detailsPart);
-	}
-
 	/**
 	 * Commits the part. Subclasses should call 'super' when overriding.
 	 * 
@@ -393,7 +339,6 @@ public class AnnotationPluginsSection extends GeneratorDescriptorSectionPart
 	@Override
 	public void commit(boolean onSave) {
 		super.commit(onSave);
-		detailsPart.commit(onSave);
 	}
 
 	@Override

@@ -56,9 +56,7 @@ public class PluginLogSection extends GeneratorDescriptorSectionPart {
 	protected void createContent() {
 		FormToolkit toolkit = getToolkit();
 
-		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.colspan = 2;
-		getSection().setLayoutData(td);
+		getSection().setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		Composite body = getToolkit().createComposite(getSection());
 		GridLayout gLayout = new GridLayout();

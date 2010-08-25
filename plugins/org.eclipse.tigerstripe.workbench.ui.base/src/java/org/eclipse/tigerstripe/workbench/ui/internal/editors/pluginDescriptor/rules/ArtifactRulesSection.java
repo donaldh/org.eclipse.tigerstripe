@@ -72,9 +72,6 @@ public class ArtifactRulesSection extends RulesSectionPart implements IFormPart 
 		super(page, parent, toolkit, Section.TWISTIE | Section.EXPANDED);
 		setTitle("&Artifact Rules");
 		setDescription("Define the rules to be run while iterating over instances of a specific Artifact type.");
-		getSection().marginWidth = 10;
-		getSection().marginHeight = 5;
-		getSection().clientVerticalSpacing = 4;
 
 		createContent();
 		updateMaster();
@@ -86,7 +83,7 @@ public class ArtifactRulesSection extends RulesSectionPart implements IFormPart 
 				new ArtifactBasedRuleDetailsPage(this));
 		detailsPart.registerPage(ArtifactRunnableRule.class,
 				new ArtifactRunnableRuleDetailsPage(this));
-		
+
 	}
 
 	@Override
@@ -165,6 +162,5 @@ public class ArtifactRulesSection extends RulesSectionPart implements IFormPart 
 	protected String getDescription() {
 		return "Artifact template rules:";
 	}
-	
-	
+
 }

@@ -29,7 +29,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactComponent;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
@@ -104,7 +103,7 @@ public class ArtifactConstantDetailsPage implements IDetailsPage,
 
 	private IManagedForm form;
 
-	private ArtifactConstantsSection master;
+	private final ArtifactConstantsSection master;
 
 	private ILiteral literal;
 
@@ -225,7 +224,6 @@ public class ArtifactConstantDetailsPage implements IDetailsPage,
 		sectionClient.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		Label label = toolkit.createLabel(sectionClient, "Name: ");
-		label.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		label.setEnabled(!isReadOnly);
 		nameText = toolkit.createText(sectionClient, "");
 		nameText.setEnabled(!isReadOnly);
@@ -240,7 +238,6 @@ public class ArtifactConstantDetailsPage implements IDetailsPage,
 		}
 
 		label = toolkit.createLabel(sectionClient, "Description: ");
-		label.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		label.setEnabled(!isReadOnly);
 		commentText = toolkit.createText(sectionClient, "", SWT.WRAP
 				| SWT.MULTI | SWT.V_SCROLL);
@@ -253,7 +250,6 @@ public class ArtifactConstantDetailsPage implements IDetailsPage,
 		commentText.setLayoutData(gd);
 
 		label = toolkit.createLabel(sectionClient, "Visibility: ");
-		label.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		label.setEnabled(!isReadOnly);
 
 		Composite visiComposite = toolkit.createComposite(sectionClient);
@@ -364,12 +360,11 @@ public class ArtifactConstantDetailsPage implements IDetailsPage,
 
 			if (stereotypeMgr == null) {
 				stereotypeMgr = new StereotypeSectionManager(addAnno, editAnno,
-						removeAnno, annTable, (ArtifactComponent) getLiteral(),
-						master.getSection().getShell(), editor);
+						removeAnno, annTable, getLiteral(), master.getSection()
+								.getShell(), editor);
 				stereotypeMgr.delegate();
 			} else {
-				stereotypeMgr
-						.setArtifactComponent((ArtifactComponent) getLiteral());
+				stereotypeMgr.setArtifactComponent(getLiteral());
 			}
 
 			updateForm();
