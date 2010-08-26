@@ -539,17 +539,13 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 		Collection<IResource> addedResources = new HashSet<IResource>();
 		// We only care about diagram files
 		IResourceFilter diagramFilesFilter = new IResourceFilter() {
-
 			public boolean select(IResource resource) {
-				
-				if (!resource.getProject().equals(project))
+				if (!project.equals(resource.getProject())) {
 					return false;
-				if (Arrays.asList(diagramFileExtensions).contains(
-						resource.getFileExtension()))
-					return true;
-				return false;
+				} 
+				return Arrays.asList(diagramFileExtensions).contains(
+						resource.getFileExtension());
 			}
-
 		};
 
 		WorkspaceHelper.buildResourcesLists(event.getDelta(), removedResources,
