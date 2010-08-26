@@ -37,9 +37,7 @@ public class ExceptionArtifactEditor extends ArtifactEditorBase {
 	protected void addPages() {
 		int index = -1;
 		try {
-			ArtifactOverviewPage page = new ArtifactOverviewPage(this,
-					new ExceptionArtifactLabelProvider(),
-					new ExceptionArtifactFormContentProvider());
+			ArtifactOverviewPage page = createOverviewPage();
 			index = addPage(page);
 			addModelPage(page);
 			OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore

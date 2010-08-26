@@ -59,9 +59,8 @@ public class ResetActiveFacetActionDelegate implements IObjectActionDelegate {
 		if (selection.getFirstElement() instanceof IResource) {
 			IResource res = (IResource) selection.getFirstElement();
 			project = res.getProject();
-		} else if (selection.getFirstElement() instanceof IJavaProject) {
-			IJavaProject jProject = (IJavaProject) selection.getFirstElement();
-			project = jProject.getProject();
+		} else if (selection.getFirstElement() instanceof IProject) {
+			project = (IProject) selection.getFirstElement();
 		}
 		return project;
 	}

@@ -71,10 +71,9 @@ public class ArtifactStereotypesSection extends ArtifactSectionPart {
 		removeAnno.setEnabled(!this.isReadonly());
 		removeAnno.setLayoutData(new TableWrapData(TableWrapData.FILL));
 
-		ArtifactEditorBase editor = (ArtifactEditorBase) getPage().getEditor();
 		stereotypeMgr = new StereotypeSectionManager(addAnno, editAnno,
 				removeAnno, annTable, getIArtifact(), getBody().getShell(),
-				editor);
+				new PageModifyCallback(getPage()));
 		stereotypeMgr.delegate();
 
 		// updateForm();

@@ -39,9 +39,7 @@ public class EntityArtifactEditor extends ArtifactEditorBase {
 	protected void addPages() {
 		int index = -1;
 		try {
-			ArtifactOverviewPage page = new ArtifactOverviewPage(this,
-					new EntityArtifactLabelProvider(),
-					new EntityArtifactFormContentProvider());
+			ArtifactOverviewPage page = createOverviewPage();
 			index = addPage(page);
 			addModelPage(page);
 

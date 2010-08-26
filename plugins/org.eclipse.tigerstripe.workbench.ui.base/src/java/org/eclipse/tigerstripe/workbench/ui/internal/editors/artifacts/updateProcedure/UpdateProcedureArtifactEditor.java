@@ -38,9 +38,7 @@ public class UpdateProcedureArtifactEditor extends ArtifactEditorBase {
 		super.addPages();
 		int index = -1;
 		try {
-			ArtifactOverviewPage page = new ArtifactOverviewPage(this,
-					new UpdateProcedureArtifactLabelProvider(),
-					new UpdateProcedureArtifactFormContentProvider());
+			ArtifactOverviewPage page = createOverviewPage();
 			index = addPage(page);
 			addModelPage(page);
 

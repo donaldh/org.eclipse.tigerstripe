@@ -33,9 +33,8 @@ public class AssociationClassArtifactEditor extends ArtifactEditorBase {
 	protected void addPages() {
 		int index = -1;
 		try {
-			ArtifactOverviewPage page = new ArtifactOverviewPage(this,
-					new AssociationClassArtifactLabelProvider(),
-					new AssociationClassArtifactFormContentProvider());
+			
+			ArtifactOverviewPage page = createOverviewPage();
 			index = addPage(page);
 			addModelPage(page);
 

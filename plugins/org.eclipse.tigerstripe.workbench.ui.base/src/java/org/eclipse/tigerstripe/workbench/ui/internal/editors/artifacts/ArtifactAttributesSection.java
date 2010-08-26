@@ -63,7 +63,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 
-public class ArtifactAttributesSection extends ArtifactSectionPart implements
+public class ArtifactAttributesSection extends ModelComponentSectionPart implements
 		IFormPart {
 
 	protected DetailsPart detailsPart;
@@ -160,6 +160,7 @@ public class ArtifactAttributesSection extends ArtifactSectionPart implements
 
 	private Button downAttributeButton;
 
+	@Override
 	public TableViewer getViewer() {
 		return this.viewer;
 	}
@@ -553,6 +554,7 @@ public class ArtifactAttributesSection extends ArtifactSectionPart implements
 	 * Updates the current state of the master
 	 * 
 	 */
+	@Override
 	public void updateMaster() {
 
 		// Updates the state of the Up/Down/Remove Buttons

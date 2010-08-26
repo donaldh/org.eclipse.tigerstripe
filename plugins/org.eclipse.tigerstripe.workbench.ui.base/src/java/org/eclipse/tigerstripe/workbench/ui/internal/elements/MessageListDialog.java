@@ -10,6 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.elements;
 
+import static org.eclipse.tigerstripe.workbench.ui.internal.utils.StatusUtils.flat;
+
+import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.core.runtime.IStatus;
@@ -44,10 +47,10 @@ public class MessageListDialog extends TSMessageDialog {
 
 	private int[] tableColumnWidth = { 65, 400 };
 
-	public MessageListDialog(Shell parent, IStatus errorList, String title) {
+	public MessageListDialog(Shell parent, Collection<IStatus> errorList, String title) {
 		super(parent);
 		MessageList list = new MessageList();
-		for (IStatus error : errorList.getChildren()) {
+		for (IStatus error : errorList) {
 			Message msg = new Message();
 			msg.setMessage(error.getMessage());
 			if (error.getSeverity() == IStatus.ERROR)
@@ -62,6 +65,10 @@ public class MessageListDialog extends TSMessageDialog {
 		int shellStyle = getShellStyle();
 		setShellStyle(shellStyle | SWT.MAX | SWT.RESIZE);
 		this.title = title;
+	}
+	
+	public MessageListDialog(Shell parent, IStatus errorList, String title) {
+		this(parent, flat(errorList), title);
 	}
 
 	public MessageListDialog(Shell parent, MessageList list) {
@@ -155,9 +162,9 @@ public class MessageListDialog extends TSMessageDialog {
 	}
 
 	private void createTableRows(Table table) {
-		for (Iterator iter = messageList.getAllMessages().iterator(); iter
+		for (Iterator<Message> iter = messageList.getAllMessages().iterator(); iter
 				.hasNext();) {
-			Message msg = (Message) iter.next();
+			Message msg = iter.next();
 			TableItem item = new TableItem(table, SWT.NULL);
 			item.setText(0, Message.severityToString(msg.getSeverity()));
 			item.setText(1, msg.getMessage());

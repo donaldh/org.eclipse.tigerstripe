@@ -10,22 +10,24 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions;
 
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtension;
-import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.dynamichelpers.IExtensionTracker;
+import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.internal.core.JarPackageFragmentRoot;
@@ -39,7 +41,6 @@ import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.patterns.PatternFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripePluginProjectNature;
@@ -65,7 +66,11 @@ import org.eclipse.ui.actions.NewProjectAction;
 import org.eclipse.ui.actions.NewWizardAction;
 import org.eclipse.ui.activities.WorkbenchActivityHelper;
 import org.eclipse.ui.internal.actions.NewWizardShortcutAction;
+import org.eclipse.ui.internal.navigator.wizards.CommonWizardDescriptor;
+import org.eclipse.ui.internal.navigator.wizards.CommonWizardDescriptorManager;
 import org.eclipse.ui.internal.util.Util;
+import org.eclipse.ui.navigator.ICommonActionExtensionSite;
+import org.eclipse.ui.navigator.INavigatorContentService;
 import org.eclipse.ui.wizards.IWizardDescriptor;
 
 /**
@@ -76,6 +81,14 @@ import org.eclipse.ui.wizards.IWizardDescriptor;
  */
 @SuppressWarnings("restriction")
 public class NewWizardsActionGroup extends BaseActionProvider {
+
+	private INavigatorContentService contentService;
+
+	@Override
+	public void init(ICommonActionExtensionSite aSite) {
+		super.init(aSite);
+		contentService = aSite.getContentService();
+	}
 
 	/*
 	 * (non-Javadoc) Method declared in ActionGroup
@@ -97,28 +110,27 @@ public class NewWizardsActionGroup extends BaseActionProvider {
 				newMenu.add(new NewProjectAction());
 
 				Object selObj = sel.getFirstElement();
-				if (selObj instanceof IJavaProject) {
-					// top level project element is selected for New
 
-					IJavaProject jProject = (IJavaProject) selObj;
-					try {
-						if (TigerstripeProjectNature.hasNature(jProject
-								.getProject())) {
-							addContributedActions(newMenu);
-						}
-					} catch (CoreException e) {
-						EclipsePlugin.log(e);
+				try {
+					IResource resource = (IResource) Platform
+							.getAdapterManager().getAdapter(selObj,
+									IResource.class);
+					IProject project = resource.getProject();
+
+					if (TigerstripeProjectNature.hasNature(project)) {
+						addArtifacts(newMenu);
 					}
-				} else if (selObj instanceof IPackageFragmentRoot
-						|| selObj instanceof IPackageFragment) {
 
-					IProject iProject = ((IJavaElement) selObj)
-							.getJavaProject().getProject();
+					addContributedActions(newMenu, window, selObj);
 
-					// Top level package fragment root selected for new
-					// If Tigerstripe project then offer all artifacts
-					try {
-						if (TigerstripeProjectNature.hasNature(iProject)) {
+					if (selObj instanceof IPackageFragmentRoot
+							|| selObj instanceof IPackageFragment
+							|| selObj instanceof ICompilationUnit) {
+
+						// Top level package fragment root selected for new
+						// If Tigerstripe project then offer all artifacts
+						if (TigerstripeProjectNature.hasNature(project)) {
+
 							// @since 1.2
 							// All core artifacts are conditioned by the active
 							// profile
@@ -127,22 +139,6 @@ public class NewWizardsActionGroup extends BaseActionProvider {
 									.getActiveProfile();
 							CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
 									.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
-
-							newMenu.add(new Separator());
-							for (String patternName : PatternFactory
-									.getInstance().getRegisteredPatterns()
-									.keySet()) {
-								IPattern pattern = PatternFactory.getInstance()
-										.getPattern(patternName);
-								if (pattern instanceof IArtifactPattern) {
-									newMenu
-											.add(new OpenNewPatternBasedArtifactWizardAction(
-													pattern));
-								}
-
-							}
-
-							addContributedActions(newMenu);
 
 							newMenu.add(new Separator());
 							// If Package Artifacts are enabled - we call the
@@ -163,7 +159,7 @@ public class NewWizardsActionGroup extends BaseActionProvider {
 							newMenu.add(new OpenBasicNewFolderWizardAction());
 							newMenu.add(new OpenBasicNewFileWizardAction());
 						} else if (TigerstripePluginProjectNature
-								.hasNature(iProject)) {
+								.hasNature(project)) {
 							newMenu.add(new Separator());
 							newMenu.add(new OpenNewPackageWizardAction());
 							newMenu.add(new OpenNewClassWizardAction());
@@ -173,17 +169,34 @@ public class NewWizardsActionGroup extends BaseActionProvider {
 							newMenu.add(new OpenBasicNewFolderWizardAction());
 							newMenu.add(new OpenBasicNewFileWizardAction());
 						}
-					} catch (CoreException e) {
-						EclipsePlugin.log(e);
+					} else if (selObj instanceof IFolder) {
+						newMenu.add(new Separator());
+						newMenu.add(new OpenBasicNewFolderWizardAction());
+						newMenu.add(new OpenBasicNewFileWizardAction());
+						addContributedActions(newMenu, window, selObj);
 					}
-				} else if (selObj instanceof IFolder) {
 					newMenu.add(new Separator());
-					newMenu.add(new OpenBasicNewFolderWizardAction());
-					newMenu.add(new OpenBasicNewFileWizardAction());
-					addContributedActions(newMenu);
+					newMenu.add(new NewWizardAction(window));
+				} catch (CoreException e) {
+					EclipsePlugin.log(e);
 				}
-				newMenu.add(new Separator());
-				newMenu.add(new NewWizardAction(window));
+
+			}
+
+		}
+
+	}
+
+	private void addArtifacts(IMenuManager newMenu) {
+		newMenu.add(new Separator());
+		for (String patternName : PatternFactory.getInstance()
+				.getRegisteredPatterns().keySet()) {
+			IPattern pattern = PatternFactory.getInstance().getPattern(
+					patternName);
+			if (pattern instanceof IArtifactPattern) {
+				newMenu
+						.add(new OpenNewPatternBasedArtifactWizardAction(
+								pattern));
 			}
 		}
 	}
@@ -228,33 +241,47 @@ public class NewWizardsActionGroup extends BaseActionProvider {
 		return action;
 	}
 
-	private void addContributedActions(IMenuManager newMenu) {
-		newMenu.add(new Separator());
-
-		IExtensionPoint point = Platform.getExtensionRegistry()
-				.getExtensionPoint(EclipsePlugin.getPluginId(),
-						"explorerMenuContribution");
-		if (point != null) {
-			IExtension[] extensions = point.getExtensions();
-
-			for (IExtension extension : extensions) {
-				IConfigurationElement[] configElements = extension
-						.getConfigurationElements();
-				for (IConfigurationElement configElement : configElements) {
-					try {
-						IAction action = (IAction) configElement
-								.createExecutableExtension("actionClass");
-						newMenu.add(action);
-					} catch (CoreException e) {
-						EclipsePlugin.log(e);
-					}
-				}
+	private void addContributedActions(IMenuManager newMenu,
+			IWorkbenchWindow window, Object element) {
+		Map<String, SortedSet<IAction>> groups = findGroups(window, element);
+		for (Map.Entry<String, SortedSet<IAction>> entry : groups.entrySet()) {
+			newMenu.add(new Separator(entry.getKey()));
+			for (IAction action : entry.getValue()) {
+				newMenu.add(action);
 			}
-		} else {
-			EclipsePlugin
-					.log(new TigerstripeException(
-							"Did not find 'explorerMenuContribution' extension point!"));
 		}
+	}
+
+	private Map<String, SortedSet<IAction>> findGroups(IWorkbenchWindow window,
+			Object element) {
+		CommonWizardDescriptor[] descriptors = CommonWizardDescriptorManager
+				.getInstance().getEnabledCommonWizardDescriptors(element,
+						"new", contentService);
+
+		Map<String, SortedSet<IAction>> groups = new TreeMap<String, SortedSet<IAction>>();
+		for (CommonWizardDescriptor descriptor : descriptors) {
+
+			String menuGroupId = descriptor.getMenuGroupId();
+
+			if (menuGroupId == null) {
+				menuGroupId = CommonWizardDescriptor.DEFAULT_MENU_GROUP_ID;
+			}
+
+			if (!menuGroupId.startsWith("tigerstripe.")) {
+				continue;
+			}
+
+			SortedSet<IAction> sortedWizards = groups.get(menuGroupId);
+			if (sortedWizards == null) {
+				groups.put(menuGroupId, sortedWizards = new TreeSet<IAction>(
+						new ActionComparator()));
+			}
+			IAction action = getAction(window, descriptor.getWizardId());
+			if (action != null) {
+				sortedWizards.add(action);
+			}
+		}
+		return groups;
 	}
 
 	private Object findRoot(IPackageFragment frg) {
@@ -307,6 +334,11 @@ public class NewWizardsActionGroup extends BaseActionProvider {
 	}
 
 	private final Map<String, IAction> actions = new HashMap<String, IAction>(
-			21);
+			32);
 
+	private final class ActionComparator implements Comparator<IAction> {
+		public int compare(IAction o1, IAction o2) {
+			return ((IAction) o1).getText().compareTo(((IAction) o2).getText());
+		}
+	}
 }

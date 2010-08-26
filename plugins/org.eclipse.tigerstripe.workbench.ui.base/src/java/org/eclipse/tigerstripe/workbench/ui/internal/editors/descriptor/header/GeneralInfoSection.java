@@ -24,6 +24,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
@@ -32,6 +33,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.IFocusedControlProvider;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.ChangeModelIDDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.DescriptorEditor;
@@ -40,7 +42,8 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 
-public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
+public class GeneralInfoSection extends TigerstripeDescriptorSectionPart
+		implements IFocusedControlProvider {
 
 	/**
 	 * An adapter that will listen for changes on the form
@@ -275,5 +278,9 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart {
 					e);
 			EclipsePlugin.log(status);
 		}
+	}
+
+	public Control getFocusedControl() {
+		return descriptionText;
 	}
 }

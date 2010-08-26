@@ -18,11 +18,12 @@ import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCase;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.IFocusedControlProvider;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.useCase.UseCaseEditor;
@@ -32,7 +33,7 @@ import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.eclipse.ui.part.FileEditorInput;
 
-public class GeneralInfoSection extends TigerstripeSectionPart {
+public class GeneralInfoSection extends TigerstripeSectionPart implements IFocusedControlProvider {
 
 	/**
 	 * An adapter that will listen for changes on the form
@@ -94,7 +95,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 	private void createID(Composite parent, FormToolkit toolkit) {
 		TableWrapData td = null;
 
-		Label label = toolkit.createLabel(parent, "ID: ", SWT.WRAP);
+		toolkit.createLabel(parent, "ID: ", SWT.WRAP);
 		FileEditorInput input = (FileEditorInput) getPage().getEditorInput();
 		idText = toolkit.createText(parent, input.getFile().getName());
 		idText.setEnabled(false);
@@ -106,7 +107,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 	private void createName(Composite parent, FormToolkit toolkit) {
 		TableWrapData td = null;
 
-		Label label = toolkit.createLabel(parent, "Name: ", SWT.WRAP);
+		toolkit.createLabel(parent, "Name: ", SWT.WRAP);
 		nameText = toolkit.createText(parent, "");
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		nameText.setLayoutData(td);
@@ -117,7 +118,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 	private void createVersion(Composite parent, FormToolkit toolkit) {
 		TableWrapData td = null;
 
-		Label label = toolkit.createLabel(parent, "Version: ", SWT.WRAP);
+		toolkit.createLabel(parent, "Version: ", SWT.WRAP);
 		versionText = toolkit.createText(parent, "");
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		versionText.setLayoutData(td);
@@ -128,7 +129,7 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 	private void createDescription(Composite parent, FormToolkit toolkit) {
 		TableWrapData td = null;
 
-		Label label = toolkit.createLabel(parent, "Description: ", SWT.WRAP);
+		toolkit.createLabel(parent, "Description: ", SWT.WRAP);
 		descriptionText = toolkit.createText(parent, "", SWT.WRAP | SWT.MULTI
 				| SWT.V_SCROLL);
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
@@ -224,5 +225,9 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 					e);
 			EclipsePlugin.log(status);
 		}
+	}
+
+	public Control getFocusedControl() {
+		return descriptionText;
 	}
 }

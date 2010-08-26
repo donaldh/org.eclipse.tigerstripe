@@ -33,9 +33,7 @@ public class EnumArtifactEditor extends ArtifactEditorBase {
 	protected void addPages() {
 		int index = -1;
 		try {
-			ArtifactOverviewPage page = new ArtifactOverviewPage(this,
-					new EnumArtifactLabelProvider(),
-					new EnumArtifactFormContentProvider());
+			ArtifactOverviewPage page = createOverviewPage();
 			index = addPage(page);
 			addModelPage(page);
 

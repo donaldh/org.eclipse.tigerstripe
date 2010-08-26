@@ -13,11 +13,11 @@ package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions
 import java.util.Iterator;
 
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.ISourceReference;
 import org.eclipse.jdt.internal.core.JarEntryFile;
 import org.eclipse.jdt.ui.actions.OpenAction;
@@ -539,7 +539,7 @@ public class TSOpenAction extends OpenAction {
 		for (Iterator iter = selection.iterator(); iter.hasNext();) {
 			Object element = iter.next();
 
-			if (element instanceof IJavaProject)
+			if (element instanceof IProject)
 				return false;
 			if (element instanceof ISourceReference)
 				continue;

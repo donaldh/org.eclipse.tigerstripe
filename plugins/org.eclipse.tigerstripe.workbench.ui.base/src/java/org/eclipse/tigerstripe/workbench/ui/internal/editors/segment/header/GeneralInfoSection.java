@@ -18,10 +18,12 @@ import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.IFocusedControlProvider;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.segment.SegmentEditor;
@@ -30,7 +32,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.part.FileEditorInput;
 
-public class GeneralInfoSection extends TigerstripeSectionPart {
+public class GeneralInfoSection extends TigerstripeSectionPart implements IFocusedControlProvider {
 
 	/**
 	 * An adapter that will listen for changes on the form
@@ -205,5 +207,9 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 					e);
 			EclipsePlugin.log(status);
 		}
+	}
+
+	public Control getFocusedControl() {
+		return descriptionText;
 	}
 }

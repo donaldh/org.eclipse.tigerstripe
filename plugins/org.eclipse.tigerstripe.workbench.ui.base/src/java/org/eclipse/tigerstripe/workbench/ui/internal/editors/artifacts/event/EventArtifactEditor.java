@@ -41,9 +41,7 @@ public class EventArtifactEditor extends ArtifactEditorBase {
 	protected void addPages() {
 		int index = -1;
 		try {
-			ArtifactOverviewPage page = new ArtifactOverviewPage(this,
-					new EventArtifactLabelProvider(),
-					new EventArtifactFormContentProvider());
+			ArtifactOverviewPage page = createOverviewPage();
 			index = addPage(page);
 			addModelPage(page);
 

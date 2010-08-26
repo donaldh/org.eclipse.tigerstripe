@@ -728,12 +728,21 @@
          <advice ref="org.eclipse.gmf.runtime.diagram.core.advice.notationDepdendents"/>
       </binding>
    </extension>
-   <extension
-         point="org.eclipse.tigerstripe.workbench.ui.base.explorerMenuContribution">
-      <contribution
-            actionClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action.OpenNewTigerstripeDiagramWizardAction"
-            name="Open Class Diagram Action"/>
-   </extension>
+
+   	<extension point="org.eclipse.ui.navigator.navigatorContent">
+		<commonWizard
+		    type="new"
+		    menuGroupId="tigerstripe.commons"
+		    wizardId="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeCreationWizardID">
+			<enablement>
+		    	<adapt type="org.eclipse.core.resources.IResource">
+		          <test
+		                property="org.eclipse.core.resources.projectNature"
+		                value="org.eclipse.tigerstripe.workbench.base.tigerstripeProject" />
+		       </adapt>
+		     </enablement>
+		</commonWizard>
+	</extension>
 
 	<extension
          id="ShowInExamplePopupMenu"

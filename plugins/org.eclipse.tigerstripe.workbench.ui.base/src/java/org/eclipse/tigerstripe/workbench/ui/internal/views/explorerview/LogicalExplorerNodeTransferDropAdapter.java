@@ -19,7 +19,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaModelException;
@@ -217,7 +216,7 @@ public class LogicalExplorerNodeTransferDropAdapter extends ViewerDropAdapter
 		if (target == null)
 			return DND.DROP_NONE;
 
-		if ((target instanceof IContainer || target instanceof IJavaProject
+		if ((target instanceof IContainer || target instanceof IProject
 				|| target instanceof IPackageFragment || target instanceof IPackageFragmentRoot)
 				&& validateProjectReference(target))
 			return DND.DROP_COPY;
@@ -272,7 +271,7 @@ public class LogicalExplorerNodeTransferDropAdapter extends ViewerDropAdapter
 		if (target == null)
 			return DND.DROP_NONE;
 
-		if ((target instanceof IContainer || target instanceof IJavaProject
+		if ((target instanceof IContainer || target instanceof IProject
 				|| target instanceof IPackageFragment || target instanceof IPackageFragmentRoot)
 				&& validateProjectReference(target))
 			return DND.DROP_MOVE;

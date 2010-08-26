@@ -14,13 +14,14 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.runtime.IAdapterManager;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Image;
@@ -35,7 +36,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListe
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -45,6 +45,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.EditorUndoManager;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.elements.MessageListDialog;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.StatusUtils;
 import org.eclipse.tigerstripe.workbench.ui.internal.viewers.TigerstripeDecoratorManager;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.AbstractArtifactLabelProvider;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TSExplorerUtils;
@@ -231,19 +232,23 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 		// check for errors, if errors are found they will be displayed
 		IStatus errorList = getIArtifact().validate();
 		if (!errorList.isOK()) {
-			if (errorList.matches(IStatus.ERROR)) {
-				// display error list and exit without saving
+			
+			List<IStatus> statuses = StatusUtils.flat(errorList);
+			
+			if (StatusUtils.findMaxSeverity(statuses) == IStatus.ERROR) {
 				MessageListDialog dialog = new MessageListDialog(getContainer()
-						.getShell(), errorList, "Save Failed: Invalid Artifact");
+						.getShell(), statuses, "Save Failed: Invalid Artifact");
 				dialog.create();
 				dialog.disableOKButton();
 				dialog.open();
 				return;
 			}
+
+			
 			// display warning/info list and save when user clicks on "OK"
 			// button
 			MessageListDialog dialog = new MessageListDialog(getContainer()
-					.getShell(), errorList,
+					.getShell(), statuses,
 					"Warning: non-fatal errors with Artifact");
 			int returnCode = dialog.open();
 			if (returnCode != Window.OK)
@@ -474,6 +479,24 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 	public void artifactResourceRemoved(IResource removedArtifactResource) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	protected ArtifactOverviewPage createOverviewPage() {
+		
+		IAdapterManager adapterManager = Platform.getAdapterManager();
+		
+		IOssjArtifactFormContentProvider contentProvider = (IOssjArtifactFormContentProvider) adapterManager
+				.getAdapter(artifact, IOssjArtifactFormContentProvider.class);
+
+		IArtifactFormLabelProvider labelProvider = (IArtifactFormLabelProvider) adapterManager
+				.getAdapter(artifact, IArtifactFormLabelProvider.class);
+
+		if (contentProvider == null || labelProvider == null) {
+			throw new IllegalStateException(String.format(
+					"Not found adapters for artifact type '%s'", artifact.getClass().getName()));
+		}
+		
+		return new ArtifactOverviewPage(this, labelProvider, contentProvider);
 	}
 	
 }

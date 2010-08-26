@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.jdt.core.IJavaProject;
 
 public class TigerstripeProjectPropertyTester extends
@@ -22,9 +23,21 @@ public class TigerstripeProjectPropertyTester extends
 
 	public boolean test(Object receiver, String property, Object[] args,
 			Object expectedValue) {
-		if ((receiver instanceof IJavaProject) && property.equals(OPEN))
-			return ((IJavaProject) receiver).getProject().isOpen() == toBoolean(expectedValue);
-		return false;
+		
+		if (!OPEN.equals(property)) {
+			return false;
+		}
+		
+		IProject project;
+		
+		if (receiver instanceof IJavaProject) {
+			project = ((IJavaProject)receiver).getJavaProject().getProject(); 
+		} else if (receiver instanceof IProject) {
+			project = (IProject)receiver;
+		} else {
+			return false;
+		}
+		return toBoolean(expectedValue) ==  project.isOpen();
 	}
 
 	private boolean toBoolean(Object expectedValue) {

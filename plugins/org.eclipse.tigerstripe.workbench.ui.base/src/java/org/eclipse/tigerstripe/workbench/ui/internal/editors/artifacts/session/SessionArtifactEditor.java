@@ -38,9 +38,7 @@ public class SessionArtifactEditor extends ArtifactEditorBase {
 		super.addPages();
 		int index = -1;
 		try {
-			ArtifactOverviewPage page = new ArtifactOverviewPage(this,
-					new SessionArtifactLabelProvider(),
-					new SessionArtifactFormContentProvider());
+			ArtifactOverviewPage page = createOverviewPage();
 			index = addPage(page);
 			addModelPage(page);
 

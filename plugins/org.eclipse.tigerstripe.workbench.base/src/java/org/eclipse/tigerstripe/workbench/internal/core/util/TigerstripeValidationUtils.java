@@ -10,8 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.util;
 
-import java.util.Arrays;
-import java.util.List;
+import static java.util.Arrays.asList;
+import static java.util.Collections.unmodifiableSet;
+
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 public final class TigerstripeValidationUtils {
@@ -22,7 +25,7 @@ public final class TigerstripeValidationUtils {
 	public static final Pattern allUppercase = compilePattern("^[A-Z_][A-Z0-9_]*$");
 	public static final Pattern literalNamePattern = compilePattern("^[A-Za-z_][A-Za-z0-9_]*$");
 	public static final Pattern packageNamePattern = compilePattern("^[A-Za-z_][a-zA-Z0-9_]*(\\.[a-zA-Z_][a-zA-Z0-9_]*)*$");
-	public static final List<String> keywordList = buildKeywordList();
+	public static final Set<String> keywordList = buildKeywords();
 
 	private TigerstripeValidationUtils() {
 	}
@@ -31,8 +34,8 @@ public final class TigerstripeValidationUtils {
 		return Pattern.compile(pattern);
 	}
 
-	private static List<String> buildKeywordList() {
-		String[] strArray = new String[] { "abstract", "continue", "for",
+	private static Set<String> buildKeywords() {
+		String[] strArray = { "abstract", "continue", "for",
 				"new", "switch", "assert", "default", "goto", "package",
 				"synchronized", "boolean", "do", "if", "private", "this",
 				"break", "double", "implements", "protected", "throw", "byte",
@@ -41,8 +44,8 @@ public final class TigerstripeValidationUtils {
 				"short", "try", "char", "final", "interface", "static", "void",
 				"class", "finally", "long", "strictfp", "volatile", "const",
 				"float", "native", "super", "while", "true", "false", "null" };
-		// convert to list of keywords
-		return Arrays.asList(strArray);
+		// convert to set of keywords
+		return unmodifiableSet( new HashSet<String>(asList(strArray)) );
 	}
 
 }

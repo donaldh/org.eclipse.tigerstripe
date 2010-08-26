@@ -18,15 +18,11 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaModel;
-import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.ui.navigator.IExtensionStateConstants.Values;
 import org.eclipse.jdt.ui.PreferenceConstants;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -109,25 +105,20 @@ public class TigerstripeContentProvider extends
 		} catch (Exception e) {
 			//ignore any disposing errors
 		}
-		fStateModel.removePropertyChangeListener(fLayoutPropertyListener);
+		if (fStateModel != null) {
+			fStateModel.removePropertyChangeListener(fLayoutPropertyListener);
+		}
 		EclipsePlugin.getDefault().getPreferenceStore()
 				.removePropertyChangeListener(this);
 	}
 
 	@Override
 	public Object[] getElements(Object inputElement) {
-		Object element = inputElement;
-		Object[] rawChildren = null;
-		if (element instanceof IWorkspaceRoot) {
-			IJavaElement jElement = JavaCore.create((IContainer) element);
-			try {
-				rawChildren = getTigerstripeProjects((IJavaModel) jElement);
-			} catch (JavaModelException e) {
-				EclipsePlugin.log(e);
-			}
-			return rawChildren;
+		if (inputElement instanceof IWorkspaceRoot) {
+			return getTigerstripeProjects();
+		} else {
+			return super.getElements(inputElement);
 		}
-		return super.getElements(inputElement);
 	}
 
 	private void clearCompilationUnit(Set<Object> proposedChildren) {
@@ -150,9 +141,8 @@ public class TigerstripeContentProvider extends
 		}
 		for (int i = 0; i < elements.length; i++) {
 			Object element = elements[i];
-			if (element instanceof IJavaProject) {
-				boolean isRemoved = proposedChildren
-						.remove(((IJavaProject) element).getProject());
+			if (element instanceof IProject) {
+				boolean isRemoved = proposedChildren.remove(element);
 				if (isRemoved) {
 					proposedChildren.add(element);
 				}
@@ -181,8 +171,8 @@ public class TigerstripeContentProvider extends
 			PipelinedShapeModification anAddModification) {
 		Object parent = anAddModification.getParent();
 
-		if (parent instanceof IJavaProject) {
-			anAddModification.setParent(((IJavaProject) parent).getProject());
+		if (parent instanceof IProject) {
+			anAddModification.setParent(parent);
 		}
 
 		if (parent instanceof IWorkspaceRoot) {
@@ -221,9 +211,9 @@ public class TigerstripeContentProvider extends
 		for (Iterator iterator = modification.getChildren().iterator(); iterator
 				.hasNext();) {
 			Object added = iterator.next();
-			if (added instanceof IJavaProject) {
+			if (added instanceof IProject) {
 				iterator.remove();
-				convertedChildren.add(((IJavaProject) added).getProject());
+				convertedChildren.add(added);
 			}
 		}
 		modification.getChildren().addAll(convertedChildren);
@@ -244,9 +234,8 @@ public class TigerstripeContentProvider extends
 				}
 				modification.getChildren().add(element);
 			}
-			if (element instanceof IJavaProject) {
-				boolean isRemoved = modification.getChildren().remove(
-						((IJavaProject) element).getProject());
+			if (element instanceof IProject) {
+				boolean isRemoved = modification.getChildren().remove(element);
 				if (isRemoved) {
 					modification.getChildren().add(element);
 				}
@@ -262,9 +251,8 @@ public class TigerstripeContentProvider extends
 			Object[] tsProjects = getElements(((IProject) modification
 					.getParent()).getParent());
 			for (Object prj : tsProjects) {
-				if (prj instanceof IJavaProject) {
-					if (modification.getParent().equals(
-							((IJavaProject) prj).getProject())) {
+				if (prj instanceof IProject) {
+					if (modification.getParent().equals(prj)) {
 						modification.setParent(prj);
 					}
 				}
@@ -280,9 +268,8 @@ public class TigerstripeContentProvider extends
 		if (parent instanceof IJavaModel)
 			super.postAdd(((IJavaModel) parent).getWorkspace().getRoot(),
 					element, runnables);
-		else if (parent instanceof IJavaProject)
-			super.postAdd(((IJavaProject) parent).getProject(), element,
-					runnables);
+		else if (parent instanceof IProject)
+			super.postAdd(parent, element, runnables);
 		else
 			super.postAdd(parent, element, runnables);
 		update();
@@ -309,9 +296,8 @@ public class TigerstripeContentProvider extends
 	protected void postRemove(final Object element, Collection runnables) {
 		super.postRemove(element, runnables);
 
-		if (element instanceof IJavaProject) {
-			super.postProjectStateChanged(((IJavaProject) element).getProject()
-					.getParent(), runnables);
+		if (element instanceof IProject) {
+			super.postProjectStateChanged(((IProject)element).getParent(), runnables);
 		}
 	}
 
@@ -336,24 +322,4 @@ public class TigerstripeContentProvider extends
 			contentService.update();
 		}
 	}
-
-	@Override
-	public Object getParent(Object element) {
-		// if (element instanceof IProject) {
-		// return ((IProject) element).getParent();
-		// }
-		if (element instanceof IJavaProject) {
-			return asResource(element).getParent();
-		}
-		Object parent = super.getParent(element);
-		// if (parent instanceof IJavaProject) {
-		// return asResource(parent);
-		// }
-		return parent;
-	}
-
-	private IProject asResource(Object object) {
-		return ((IJavaProject) object).getProject();
-	}
-
 }

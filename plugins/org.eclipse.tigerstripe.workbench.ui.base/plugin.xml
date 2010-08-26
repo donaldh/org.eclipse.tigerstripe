@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.2"?>
 <plugin>
-   <extension-point id="explorerMenuContribution" name="Tigerstripe Explorer Menu Contribution" schema="schema/explorerMenuContribution.exsd"/>
    <extension-point id="closedDiagramSynchronizer" name="Closed Diagram Synchronizer" schema="schema/closedDiagramSynchronizer.exsd"/>
    <extension-point id="modelFileContentReader" name="Model Specific Content Reader" schema="schema/modelFileContentReader.exsd"/>
    <extension-point id="diagramAuditor" name="Diagram Auditor" schema="schema/diagramAuditor.exsd"/>
@@ -169,6 +168,28 @@
             icon="src/icons/segment.gif"
             id="org.eclipse.tigerstripe.eclipse.wizards.NewSegmentWizard"
             name="Facet"/>
+      <wizard
+            category="org.eclipse.tigerstripe.eclipse"
+            class="org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.components.NewMethodWizard"
+            finalPerspective="org.eclipse.tigerstripe.community.tigerstripePerspective"
+            icon="src/icons/method.gif"
+            id="org.eclipse.tigerstripe.eclipse.wizards.NewMethodWizard"
+            name="Method">
+      </wizard>
+      <wizard
+            category="org.eclipse.tigerstripe.eclipse"
+            class="org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.components.NewAttributeWizard"
+            finalPerspective="org.eclipse.tigerstripe.community.tigerstripePerspective"
+            icon="src/icons/field.gif"
+            id="org.eclipse.tigerstripe.eclipse.wizards.NewAttributeWizard"
+            name="Attribute"/>
+      <wizard
+            category="org.eclipse.tigerstripe.eclipse"
+            class="org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.components.NewConstantWizard"
+            finalPerspective="org.eclipse.tigerstripe.community.tigerstripePerspective"
+            icon="src/icons/literal.gif"
+            id="org.eclipse.tigerstripe.eclipse.wizards.NewConstantWizard"
+            name="Constant"/>
    </extension>
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
@@ -275,13 +296,7 @@
          </description>
       </wizard>
    </extension>
-      <extension
-         point="org.eclipse.tigerstripe.workbench.ui.base.explorerMenuContribution">
-      <contribution
-            actionClass="org.eclipse.tigerstripe.workbench.ui.internal.actions.OpenNewContractSegmentWizardAction"
-            name="Open Facet Action"/>
-   </extension>
-      <extension
+  <extension
             point="org.eclipse.ui.popupMenus">
          <objectContribution
                adaptable="false"
@@ -449,8 +464,15 @@
          <adapter
                type="org.eclipse.tigerstripe.workbench.diagram.IDiagram">
          </adapter>
-         </factory>
-         </extension>
+      </factory>
+      <factory
+            adaptableType="org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact"
+            class="org.eclipse.tigerstripe.workbench.ui.internal.utils.ArtifactAdapterFactory">
+         <adapter type="org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IOssjArtifactFormContentProvider" />
+         <adapter type="org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IArtifactFormContentProvider" />
+         <adapter type="org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IArtifactFormLabelProvider" />
+      </factory>
+  </extension>
   <extension
         point="org.eclipse.ui.commands">
      <category
@@ -1480,6 +1502,84 @@
             name="Empty parent packages"
             description="Hides empty packages which do not contain components but other sub-folders. E.g. given a package 'org.junit' where 'org' does not contain any Java files, this filter will hide the package 'org' but not the package 'org.junit'">
       </commonFilter>
+      <commonWizard
+            type="new"
+            menuGroupId="tigerstripe.componentModel"
+            wizardId="org.eclipse.tigerstripe.eclipse.wizards.NewMethodWizard">
+     		<enablement>
+				<instanceof
+                        value="org.eclipse.jdt.core.ICompilationUnit" />					
+               <adapt
+                     type="org.eclipse.core.resources.IResource">
+                  <test
+                        property="org.eclipse.core.resources.projectNature"
+                        value="org.eclipse.tigerstripe.workbench.base.tigerstripeProject" />
+               </adapt>
+               <test property="tigerstripe.artifact.hasMethods" />
+	    	</enablement>
+      	</commonWizard>
+         <commonWizard
+            type="new"
+            menuGroupId="tigerstripe.componentModel"
+            wizardId="org.eclipse.tigerstripe.eclipse.wizards.NewAttributeWizard">
+     		<enablement>
+				<instanceof
+                        value="org.eclipse.jdt.core.ICompilationUnit" />					
+               <adapt
+                     type="org.eclipse.core.resources.IResource">
+                  <test
+                        property="org.eclipse.core.resources.projectNature"
+                        value="org.eclipse.tigerstripe.workbench.base.tigerstripeProject" />
+               </adapt>
+               <test property="tigerstripe.artifact.hasAttributes" />
+	         </enablement>
+      	</commonWizard>
+		<commonWizard
+		    type="new"
+		    menuGroupId="tigerstripe.componentModel"
+		    wizardId="org.eclipse.tigerstripe.eclipse.wizards.NewConstantWizard">
+			<enablement>
+				<instanceof
+		                value="org.eclipse.jdt.core.ICompilationUnit" />					
+		    	<adapt
+		             type="org.eclipse.core.resources.IResource">
+		          <test
+		                property="org.eclipse.core.resources.projectNature"
+		                value="org.eclipse.tigerstripe.workbench.base.tigerstripeProject" />
+		       </adapt>
+               <test property="tigerstripe.artifact.hasConstants" />
+		     </enablement>
+		</commonWizard>
+		<commonWizard
+		    type="new"
+		    menuGroupId="tigerstripe.commons"
+		    wizardId="org.eclipse.tigerstripe.eclipse.wizards.NewProfileWizard">
+			<enablement>
+		    	<adapt type="org.eclipse.core.resources.IResource">
+		          <test
+		                property="org.eclipse.core.resources.projectNature"
+		                value="org.eclipse.tigerstripe.workbench.base.tigerstripeProject" />
+		       </adapt>
+		     </enablement>
+		</commonWizard>
+		<commonWizard
+		    type="new"
+		    menuGroupId="tigerstripe.commons"
+		    wizardId="org.eclipse.tigerstripe.eclipse.wizards.NewSegmentWizard">
+			<enablement>
+		        <adapt type="org.eclipse.core.resources.IResource">
+		          <test
+		                property="org.eclipse.core.resources.projectNature"
+		                value="org.eclipse.tigerstripe.workbench.base.tigerstripeProject" />
+		       </adapt>
+		       <adapt type="org.eclipse.jdt.core.IJavaElement">
+			      <test property="tigerstripe.javaElement.onBuildPath" />
+		          <not>
+		          	<test property="tigerstripe.javaElement.inArchive" />
+		          </not>
+		       </adapt>
+		     </enablement>
+		</commonWizard>
    </extension>
    <extension
          point="org.eclipse.ui.navigator.viewer">
@@ -1508,12 +1608,23 @@
    </extension>
 
    <extension point="org.eclipse.core.expressions.propertyTesters">
-      <propertyTester
-         class="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TigerstripeProjectPropertyTester"
-         id="org.eclipse.tigerstripe.workbench.ui.explorer.tigerstripeProjectPropertyTester"
-         namespace="org.eclipse.core.resources"
-         properties="open"
-         type="org.eclipse.jdt.core.IJavaProject"/>
+     <propertyTester
+			class="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TigerstripeProjectPropertyTester"
+			id="org.eclipse.tigerstripe.workbench.ui.explorer.tigerstripeProjectPropertyTester"
+			namespace="org.eclipse.core.resources"
+			properties="open"
+			type="org.eclipse.jdt.core.IJavaProject"/>
+	 <propertyTester
+			id="org.eclipse.tigerstripe.ui.javaElementTester"
+			namespace="tigerstripe.javaElement"
+			properties="onBuildPath,inArchive"
+			type="org.eclipse.jdt.core.IJavaElement"
+			class="org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeJavaElementTester" />
+	<propertyTester
+			id="org.eclipse.tigerstripe.ui.artifactTester"
+			namespace="tigerstripe.artifact"
+			properties="hasMethods,hasAttributes,hasConstants"
+			type="org.eclipse.jdt.core.ICompilationUnit"
+			class="org.eclipse.tigerstripe.workbench.ui.internal.utils.ArtifactTester" />
    </extension>
-
 </plugin>

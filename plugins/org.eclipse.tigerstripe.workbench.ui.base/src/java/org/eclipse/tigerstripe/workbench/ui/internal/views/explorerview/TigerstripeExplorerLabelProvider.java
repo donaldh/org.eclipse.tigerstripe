@@ -11,10 +11,13 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.internal.ui.packageview.PackageExplorerContentProvider;
 import org.eclipse.jdt.internal.ui.packageview.PackageExplorerLabelProvider;
 import org.eclipse.jdt.internal.ui.viewsupport.ColoringLabelProvider;
@@ -41,17 +44,18 @@ public class TigerstripeExplorerLabelProvider extends
 		PackageExplorerLabelProvider {
 
 	private AbstractArtifactLabelProvider artifactLabelProvider = new AbstractArtifactLabelProvider();
+	private final IJavaModel javaModel;
 
 	public TigerstripeExplorerLabelProvider(PackageExplorerContentProvider cp) {
 		super(cp);
+		javaModel = JavaCore.create(ResourcesPlugin.getWorkspace().getRoot());
 	}
 
 	@Override
 	public StyledString getStyledText(Object element) {
 		StyledString string = null;
-		if (element instanceof IJavaProject) {
-			IJavaProject jProject = (IJavaProject) element;
-			IAbstractTigerstripeProject tsProj = (IAbstractTigerstripeProject) jProject
+		if (element instanceof IProject) {
+			IAbstractTigerstripeProject tsProj = (IAbstractTigerstripeProject) toJavaProject((IProject) element)
 					.getAdapter(IAbstractTigerstripeProject.class);
 			string = TigerstripeUILabels.getStyledString(tsProj,
 					TigerstripeUILabels.COLORIZE);
@@ -99,6 +103,10 @@ public class TigerstripeExplorerLabelProvider extends
 		return string;
 	}
 
+	private IJavaProject toJavaProject(IProject project) {
+		return javaModel.getJavaProject(project.getName());
+	}
+
 	@Override
 	public String getText(Object element) {
 		return getStyledText(element).getString();
@@ -106,10 +114,8 @@ public class TigerstripeExplorerLabelProvider extends
 
 	@Override
 	public Image getImage(Object element) {
-		if (element instanceof IJavaProject) {
-			IJavaProject jProject = (IJavaProject) element;
-			IProject iProject = jProject.getProject();
-
+		if (element instanceof IProject) {
+			IProject iProject = (IProject) element;
 			try {
 				if (TigerstripeProjectNature.hasNature(iProject)
 						&& iProject.isOpen())

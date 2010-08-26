@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.internal.ui.IJavaHelpContextIds;
 import org.eclipse.jdt.ui.actions.OpenProjectAction;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -73,6 +72,6 @@ public class TSOpenProjectAction extends OpenProjectAction {
 	}
 	
 	private static boolean isClosedProject(Object element) {
-		return element instanceof IJavaProject && !((IJavaProject) element).isOpen();
+		return element instanceof IProject && !((IProject) element).isOpen();
 	}	
 }

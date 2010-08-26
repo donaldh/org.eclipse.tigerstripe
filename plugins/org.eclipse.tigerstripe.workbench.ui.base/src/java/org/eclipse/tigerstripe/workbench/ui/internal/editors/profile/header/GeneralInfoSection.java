@@ -28,6 +28,7 @@ import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
@@ -39,6 +40,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.license.TSWorkbenchP
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.IFocusedControlProvider;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.profile.ProfileEditor;
@@ -53,7 +55,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.part.FileEditorInput;
 
-public class GeneralInfoSection extends TigerstripeSectionPart {
+public class GeneralInfoSection extends TigerstripeSectionPart implements IFocusedControlProvider {
 
 	/**
 	 * An adapter that will listen for changes on the form
@@ -558,5 +560,9 @@ public class GeneralInfoSection extends TigerstripeSectionPart {
 					e);
 			EclipsePlugin.log(status);
 		}
+	}
+
+	public Control getFocusedControl() {
+		return descriptionText;
 	}
 }

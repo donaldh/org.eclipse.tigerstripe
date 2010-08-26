@@ -23,7 +23,6 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.internal.ui.refactoring.reorg.DeleteAction;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -111,10 +110,10 @@ public class TSDeleteAction extends DeleteAction {
 							}
 						}
 					}
-				} else if (obj instanceof IJavaProject) {
-					IJavaProject jProj = (IJavaProject) obj;
+				} else if (obj instanceof IProject) {
+					IProject proj = (IProject) obj;
 					iResourceSelected = true;
-					if (!jProj.getProject().isOpen()) {
+					if (!proj.isOpen()) {
 						setEnabled(false);
 						return;
 					}

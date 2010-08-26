@@ -23,10 +23,8 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaModel;
-import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
-import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.core.JarEntryFile;
 import org.eclipse.jdt.internal.core.JarPackageFragmentRoot;
 import org.eclipse.jdt.internal.ui.navigator.JavaNavigatorContentProvider;
@@ -62,67 +60,63 @@ public class NewTigerstripeExplorerContentProvider extends
 
 		Object[] rawChildren = NO_CHILDREN;
 
-		try {
-			if (parentElement instanceof ICompilationUnit
-					|| parentElement instanceof IClassFile) {
-				IAbstractArtifact artifact = TSExplorerUtils
-						.getArtifactFor(parentElement);
-				if (artifact != null) {
-					List<Object> raw = new ArrayList<Object>();
+		if (parentElement instanceof ICompilationUnit
+				|| parentElement instanceof IClassFile) {
+			IAbstractArtifact artifact = TSExplorerUtils
+					.getArtifactFor(parentElement);
+			if (artifact != null) {
+				List<Object> raw = new ArrayList<Object>();
 
-					raw.addAll(artifact.getChildren());
+				raw.addAll(artifact.getChildren());
 
-					// This code adds the Association Ends below the artifact
-					// in the explorer.
-					if (showRelationshipAnchors) {
-						try {
-							AbstractArtifact aArt = (AbstractArtifact) artifact;
-							List<IRelationship> origs = aArt
-									.getArtifactManager()
-									.getOriginatingRelationshipForFQN(
-											artifact.getFullyQualifiedName(),
-											true);
-							for (IRelationship rel : origs) {
-								raw.add(new RelationshipAnchor(rel
-										.getRelationshipAEnd()));
-							}
-
-							List<IRelationship> terms = aArt
-									.getArtifactManager()
-									.getTerminatingRelationshipForFQN(
-											artifact.getFullyQualifiedName(),
-											true);
-							for (IRelationship rel : terms) {
-								raw.add(new RelationshipAnchor(rel
-										.getRelationshipZEnd()));
-							}
-
-						} catch (TigerstripeException e) {
-							EclipsePlugin.log(e);
+				// This code adds the Association Ends below the artifact
+				// in the explorer.
+				if (showRelationshipAnchors) {
+					try {
+						AbstractArtifact aArt = (AbstractArtifact) artifact;
+						List<IRelationship> origs = aArt
+								.getArtifactManager()
+								.getOriginatingRelationshipForFQN(
+										artifact.getFullyQualifiedName(),
+										true);
+						for (IRelationship rel : origs) {
+							raw.add(new RelationshipAnchor(rel
+									.getRelationshipAEnd()));
 						}
+
+						List<IRelationship> terms = aArt
+								.getArtifactManager()
+								.getTerminatingRelationshipForFQN(
+										artifact.getFullyQualifiedName(),
+										true);
+						for (IRelationship rel : terms) {
+							raw.add(new RelationshipAnchor(rel
+									.getRelationshipZEnd()));
+						}
+
+					} catch (TigerstripeException e) {
+						EclipsePlugin.log(e);
 					}
-					rawChildren = raw.toArray();
 				}
-			} else if (parentElement instanceof IJavaModel) {
-				rawChildren = getTigerstripeProjects((IJavaModel) parentElement);
-				// } else if (parentElement instanceof
-				// org.eclipse.jdt.internal.ui.packageview.ClassPathContainer) {
-				// rawChildren = NO_CHILDREN; // don't show the classpath jars.
-				// // return
-				// getContainerPackageFragmentRoots((ClassPathContainer)
-				// // parentElement);
-			} else if (parentElement instanceof JarPackageFragmentRoot) {
-				// To enable proper rendering of Module components are
-				// artifacts,
-				// we need to post-process the result here
-				Object[] tmpChildren = super.getChildren(parentElement);
-				rawChildren = postProcessPackageFragmentRoot(
-						(JarPackageFragmentRoot) parentElement, tmpChildren);
-			} else {
-				// delegate
-				rawChildren = super.getChildren(parentElement);
+				rawChildren = raw.toArray();
 			}
-		} catch (JavaModelException jme) {
+		} else if (parentElement instanceof IJavaModel) {
+			rawChildren = getTigerstripeProjects();
+			// } else if (parentElement instanceof
+			// org.eclipse.jdt.internal.ui.packageview.ClassPathContainer) {
+			// rawChildren = NO_CHILDREN; // don't show the classpath jars.
+			// // return
+			// getContainerPackageFragmentRoots((ClassPathContainer)
+			// // parentElement);
+		} else if (parentElement instanceof JarPackageFragmentRoot) {
+			// To enable proper rendering of Module components are
+			// artifacts,
+			// we need to post-process the result here
+			Object[] tmpChildren = super.getChildren(parentElement);
+			rawChildren = postProcessPackageFragmentRoot(
+					(JarPackageFragmentRoot) parentElement, tmpChildren);
+		} else {
+			// delegate
 			rawChildren = super.getChildren(parentElement);
 		}
 
@@ -199,9 +193,8 @@ public class NewTigerstripeExplorerContentProvider extends
 	 * Note: This method is for internal use only. Clients should not call this
 	 * method.
 	 */
-	protected Object[] getTigerstripeProjects(IJavaModel jm)
-			throws JavaModelException {
-		List<IJavaProject> result = new ArrayList<IJavaProject>();
+	protected Object[] getTigerstripeProjects() {
+		List<IProject> result = new ArrayList<IProject>();
 		IProject[] projects = EclipsePlugin.getWorkspace().getRoot()
 				.getProjects();
 		for (int i = 0; i < projects.length; i++) {
@@ -211,7 +204,7 @@ public class NewTigerstripeExplorerContentProvider extends
 				ProjectMigrationUtils.handleProjectMigration(projects[i]);
 
 				if (TigerstripePluginProjectNature.hasNature(projects[i])) {
-					result.add(jm.getJavaProject(projects[i].getName()));
+					result.add(projects[i]);
 
 					ProjectMigrationUtils
 							.handlePluginProjectMigration(projects[i]);
@@ -221,10 +214,10 @@ public class NewTigerstripeExplorerContentProvider extends
 
 					}
 				} else if (TigerstripeM0GeneratorNature.hasNature(projects[i])) {
-					result.add(jm.getJavaProject(projects[i].getName()));
+					result.add(projects[i]);
 
 				} else if (TigerstripeProjectNature.hasNature(projects[i])) {
-					result.add(jm.getJavaProject(projects[i].getName()));
+					result.add(projects[i]);
 
 					// At this point we build up the Artifact Manager
 					// from the snapshot we have

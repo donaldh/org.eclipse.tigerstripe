@@ -23,10 +23,9 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Method;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.StereotypeSectionManager;
 import org.eclipse.tigerstripe.workbench.ui.internal.elements.TSMessageDialog;
-import org.eclipse.ui.forms.editor.FormEditor;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.IModifyCallback;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
@@ -38,16 +37,15 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
  */
 public class MethodReturnDetailsEditDialog extends TSMessageDialog {
 
-	private IMethod initialMethod;
-
-	private FormEditor editor;
+	private final IMethod initialMethod;
+	private final IModifyCallback callback;
 
 	public MethodReturnDetailsEditDialog(Shell parentShell, IMethod method,
-			FormEditor editor) {
+			IModifyCallback callback) {
 		super(parentShell);
 
 		this.initialMethod = method;
-		this.editor = editor;
+		this.callback = callback;
 
 		setShellStyle(getShellStyle() | SWT.RESIZE | SWT.MAX);
 	}
@@ -128,7 +126,7 @@ public class MethodReturnDetailsEditDialog extends TSMessageDialog {
 		StereotypeSectionManager stereomgr = new StereotypeSectionManager(
 				addAnno, editAnno, removeAnno, annTable,
 				((Method) initialMethod).new ReturnTypeWrapper(initialMethod),
-				getShell(), (ArtifactEditorBase) editor);
+				getShell(), callback);
 		stereomgr.delegate();
 
 	}
@@ -136,8 +134,7 @@ public class MethodReturnDetailsEditDialog extends TSMessageDialog {
 	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		// create OK and Cancel buttons by default
-		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL,
-				true);
+		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
 	}
 
 	public IMethod getIMethod() {

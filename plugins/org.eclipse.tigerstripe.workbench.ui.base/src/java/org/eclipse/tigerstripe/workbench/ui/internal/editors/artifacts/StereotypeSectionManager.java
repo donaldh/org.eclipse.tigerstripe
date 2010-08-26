@@ -41,6 +41,7 @@ import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForStereotypeDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.StereotypeInstanceEditDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.ColorUtils;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.IModifyCallback;
 
 /**
  * Helper class that manages the table and buttons associated with attaching
@@ -117,17 +118,17 @@ public class StereotypeSectionManager {
 
 	private Shell shell;
 
-	private ArtifactEditorBase editor;
+	private final IModifyCallback callback;
 
 	public StereotypeSectionManager(Button addButton, Button editButton,
 			Button removeButton, Table stTable, IStereotypeCapable component,
-			Shell shell, ArtifactEditorBase editor) {
+			Shell shell, IModifyCallback callback) {
 		this.addButton = addButton;
 		this.editButton = editButton;
 		this.removeButton = removeButton;
 		this.stTable = stTable;
 		this.component = component;
-		this.editor = editor;
+		this.callback = callback == null ? IModifyCallback.EMPTY : callback;
 	}
 
 	/**
@@ -233,8 +234,7 @@ public class StereotypeSectionManager {
 					(component).addStereotypeInstance(instance);
 					viewer.setInput(component);
 					viewer.refresh(true);
-					if (editor != null)
-						editor.pageModified();
+					callback.modify();
 				}
 			}
 		} catch (TigerstripeException ee) {
@@ -273,8 +273,7 @@ public class StereotypeSectionManager {
 						// ignore
 					}
 				}
-				if (editor != null)
-					editor.pageModified();
+				callback.modify();
 			}
 		} catch (CloneNotSupportedException ee) {
 			// ignore
@@ -306,8 +305,7 @@ public class StereotypeSectionManager {
 			viewer.remove(selectedLabels);
 			(this.component).removeStereotypeInstances(selectedLabels);
 			viewer.refresh(true);
-			if (this.editor != null)
-				this.editor.pageModified();
+			callback.modify();
 		}
 		update();
 	}
@@ -354,8 +352,7 @@ public class StereotypeSectionManager {
 						// ignore
 					}
 				}
-				if (editor != null)
-					editor.pageModified();
+				callback.modify();
 			}
 		} catch (CloneNotSupportedException ee) {
 			// ignore

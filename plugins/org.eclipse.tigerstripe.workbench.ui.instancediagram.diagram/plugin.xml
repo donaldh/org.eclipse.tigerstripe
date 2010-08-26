@@ -303,11 +303,18 @@
       </binding>
    </extension>
 
-   <extension
-         point="org.eclipse.tigerstripe.workbench.ui.base.explorerMenuContribution">
-      <contribution
-            actionClass="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.action.OpenNewTigerstripeInstanceDiagramWizardAction"
-            name="Open Instance Diagram Action"/>
-   </extension>
-
+	<extension point="org.eclipse.ui.navigator.navigatorContent">
+		<commonWizard
+		    type="new"
+		    menuGroupId="tigerstripe.commons"
+		    wizardId="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.part.InstanceCreationWizardID">
+			<enablement>
+		    	<adapt type="org.eclipse.core.resources.IResource">
+		          <test
+		                property="org.eclipse.core.resources.projectNature"
+		                value="org.eclipse.tigerstripe.workbench.base.tigerstripeProject" />
+		       </adapt>
+		     </enablement>
+		</commonWizard>
+	</extension>
 </plugin>

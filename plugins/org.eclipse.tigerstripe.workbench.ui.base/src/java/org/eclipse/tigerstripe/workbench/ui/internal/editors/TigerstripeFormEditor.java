@@ -17,12 +17,14 @@ import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.internal.ui.viewsupport.IViewPartInputProvider;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
 import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.forms.editor.FormEditor;
+import org.eclipse.ui.forms.editor.IFormPage;
 import org.eclipse.ui.part.FileEditorInput;
 
 public abstract class TigerstripeFormEditor extends FormEditor implements
@@ -147,5 +149,17 @@ public abstract class TigerstripeFormEditor extends FormEditor implements
 	 */
 	private void unRegisterForResourceChanges() {
 		ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
+	}
+
+	@Override
+	public void setFocus() {
+		IFormPage activePage = getActivePageInstance();
+		if (activePage instanceof IFocusedControlProvider) {
+			IFocusedControlProvider fcProvider = (IFocusedControlProvider) activePage;
+			Control focusedControl = fcProvider.getFocusedControl();
+			if (focusedControl != null) {
+				focusedControl.setFocus();
+			}
+		}
 	}
 }

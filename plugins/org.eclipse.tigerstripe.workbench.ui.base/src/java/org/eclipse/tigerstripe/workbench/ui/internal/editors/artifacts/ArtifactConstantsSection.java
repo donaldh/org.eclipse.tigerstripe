@@ -61,7 +61,7 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 
-public class ArtifactConstantsSection extends ArtifactSectionPart implements
+public class ArtifactConstantsSection extends ModelComponentSectionPart implements
 		IFormPart {
 
 	private static final int INT_TYPE = 0;
@@ -158,6 +158,7 @@ public class ArtifactConstantsSection extends ArtifactSectionPart implements
 	private Button downAttributeButton;
 	private Button removeAttributeButton;
 
+	@Override
 	public TableViewer getViewer() {
 		return this.viewer;
 	}
@@ -601,6 +602,7 @@ public class ArtifactConstantsSection extends ArtifactSectionPart implements
 	 * Updates the current state of the master
 	 * 
 	 */
+	@Override
 	public void updateMaster() {
 
 		// Updates the state of the Remove Button

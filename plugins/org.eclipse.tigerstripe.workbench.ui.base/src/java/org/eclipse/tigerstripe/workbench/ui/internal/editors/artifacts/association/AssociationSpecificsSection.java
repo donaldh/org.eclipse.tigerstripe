@@ -42,6 +42,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForArtifactDi
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactSectionPart;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.PageModifyCallback;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.StereotypeSectionManager;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -375,7 +376,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		aStereotypeManager = new StereotypeSectionManager(aAddAnno, aEditAnno,
 				aRemoveAnno, aAnnTable, ((IAssociationArtifact) getIArtifact())
 						.getAEnd(), getSection().getShell(),
-				(ArtifactEditorBase) getPage().getEditor());
+						new PageModifyCallback(getPage()));
 		aStereotypeManager.delegate();
 
 		aEndTypeText.setData("name", "aEndTypeText");
@@ -541,7 +542,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		zStereotypeManager = new StereotypeSectionManager(zAddAnno, zEditAnno,
 				zRemoveAnno, zAnnTable, ((IAssociationArtifact) getIArtifact())
 						.getZEnd(), getSection().getShell(),
-				(ArtifactEditorBase) getPage().getEditor());
+						new PageModifyCallback(getPage()));
 		zStereotypeManager.delegate();
 
 		zEndTypeText.setData("name", "zEndTypeText");

@@ -33,10 +33,8 @@ public class AssociationArtifactEditor extends ArtifactEditorBase {
 	protected void addPages() {
 		int index = -1;
 		try {
-			ArtifactOverviewPage page = new ArtifactOverviewPage(this,
-					new AssociationArtifactLabelProvider(),
-					new AssociationArtifactFormContentProvider());
-			index = addPage(page);
+			ArtifactOverviewPage page = createOverviewPage();
+			index = addPage(page );
 			addModelPage(page);
 
 			// OssjDatatypeSpecificsPage specPage = new
