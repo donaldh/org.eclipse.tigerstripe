@@ -55,21 +55,21 @@ public class ArtifactAdapterFactory implements IAdapterFactory {
 
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(Object artifact, Class adapterType) {
-		if (artifact instanceof IAssociationArtifact) {
-			if (IArtifactFormContentProvider.class
-					.isAssignableFrom(adapterType)) {
-				return new AssociationArtifactFormContentProvider();
-			} else if (IArtifactFormLabelProvider.class
-					.isAssignableFrom(adapterType)) {
-				return new AssociationArtifactLabelProvider();
-			}
-		} else if (artifact instanceof IAssociationClassArtifact) {
+		if (artifact instanceof IAssociationClassArtifact) {
 			if (IArtifactFormContentProvider.class
 					.isAssignableFrom(adapterType)) {
 				return new AssociationClassArtifactFormContentProvider();
 			} else if (IArtifactFormLabelProvider.class
 					.isAssignableFrom(adapterType)) {
 				return new AssociationClassArtifactLabelProvider();
+			}
+		} else if (artifact instanceof IAssociationArtifact) {
+			if (IArtifactFormContentProvider.class
+					.isAssignableFrom(adapterType)) {
+				return new AssociationArtifactFormContentProvider();
+			} else if (IArtifactFormLabelProvider.class
+					.isAssignableFrom(adapterType)) {
+				return new AssociationArtifactLabelProvider();
 			}
 		} else if (artifact instanceof IDatatypeArtifact) {
 			if (IArtifactFormContentProvider.class
