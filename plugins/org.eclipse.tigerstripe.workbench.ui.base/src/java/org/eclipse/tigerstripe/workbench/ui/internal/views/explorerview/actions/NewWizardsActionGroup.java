@@ -110,6 +110,9 @@ public class NewWizardsActionGroup extends BaseActionProvider {
 				newMenu.add(new NewProjectAction());
 
 				Object selObj = sel.getFirstElement();
+				
+				if (selObj==null)
+					return;
 
 				try {
 					IResource resource = (IResource) Platform
