@@ -58,7 +58,7 @@ import org.eclipse.ui.progress.IProgressService;
  * propagated into the tigerstripe model. This is handled by creating EMF
  * Adapters on every EObject living in the EModel of a Diagram, and having them
  * issue IModelChangeRequests accordingly. - making sure any change in the
- * Tigerstripe model is propagated into the diagram. TODO
+ * Tigerstripe model is propagated into the diagram.
  * 
  * @author Eric Dillon
  * @since 1.2
@@ -315,6 +315,10 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 	private void handleArtifactChanged(IAbstractArtifact artifact) {
 		TransactionalEditingDomain editingDomain = editor.getEditingDomain();
 		IDiagramEditDomain diagramEditDomain = editor.getDiagramEditDomain();
+		
+		if (editor==null || editor.getDiagram()==null)
+			return;
+		
 		final Map map = (Map) editor.getDiagram().getElement();
 		final IAbstractArtifact fArtifact = artifact;
 		try {
