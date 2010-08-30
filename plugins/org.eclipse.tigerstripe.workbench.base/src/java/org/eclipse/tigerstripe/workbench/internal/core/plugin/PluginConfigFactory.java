@@ -85,9 +85,12 @@ public class PluginConfigFactory {
 		pluginId = pluginIdNode.getNodeValue();
 		
 		//TODO - This is a bit "messy"
-		// But is necessary to retain older compatibility 
-		pluginName = pluginIdNode.getNodeValue().substring(0, pluginIdNode.getNodeValue().indexOf('('));
-
+		// But is necessary to retain older compatibility 		
+		pluginName = pluginId;
+		int indexOfBracket = pluginId.indexOf('(');		
+		if (indexOfBracket != -1)
+			pluginName = pluginId.substring(0, indexOfBracket);
+	
 		version = versionNode.getNodeValue();
 		// #118 make dev references go away
 		if (VERSION_DEV.equals(version)) {
