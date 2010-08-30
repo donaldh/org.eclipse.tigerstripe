@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.utils;
 
+import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 
@@ -21,8 +23,18 @@ public class ComponentUtils {
 			child.setEnabled(value);
 			if (child instanceof Composite) {
 				setEnabledAll((Composite) child, value);
-			} 
+			}
 		}
 	}
 
+	public static void scrollToComponent(ScrolledComposite scrolled,
+			Control toComponent) {
+
+		Point origin = new Point(0, scrolled.getOrigin().y);
+		while (toComponent != null && !toComponent.equals(scrolled)) {
+			origin.y += toComponent.getLocation().y;
+			toComponent = toComponent.getParent();
+		}
+		scrolled.setOrigin(origin);
+	}
 }

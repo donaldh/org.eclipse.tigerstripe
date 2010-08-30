@@ -198,4 +198,23 @@ public abstract class AbstractLogicalExplorerNode extends ResourceMapping {
 		}
 		return mostRecentlyTouched;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof AbstractLogicalExplorerNode) {
+			IResource keyResource = ((AbstractLogicalExplorerNode) obj)
+					.getKeyResource();
+			if (keyResource != null) {
+				return keyResource.equals(getKeyResource());
+			}
+		}
+		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		IResource keyResource = getKeyResource();
+		return keyResource == null ? super.hashCode() : keyResource.hashCode();
+
+	}
 }

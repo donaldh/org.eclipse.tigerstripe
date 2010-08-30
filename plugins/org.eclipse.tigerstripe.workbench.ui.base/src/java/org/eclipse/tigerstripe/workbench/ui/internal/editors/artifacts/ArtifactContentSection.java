@@ -10,18 +10,20 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.association.AssociationSpecificsSection;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.dependency.DependencySpecificsSection;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.ComponentUtils;
 import org.eclipse.ui.forms.IFormPart;
+import org.eclipse.ui.forms.SectionPart;
 import org.eclipse.ui.forms.events.HyperlinkAdapter;
 import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.ScrolledForm;
+import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
@@ -55,6 +57,16 @@ public class ArtifactContentSection extends ArtifactSectionPart {
 		getToolkit().paintBordersFor(getBody());
 	}
 
+	private static final Map<String, Class<?>> HREFS_CLASSES = new HashMap<String, Class<?>>(8);
+
+	static {
+		HREFS_CLASSES.put("attributes", ArtifactAttributesSection.class);
+		HREFS_CLASSES.put("methods", ArtifactMethodsSection.class);
+		HREFS_CLASSES.put("constants", ArtifactConstantsSection.class);
+		HREFS_CLASSES.put("aEnd", EndSection.class);
+		HREFS_CLASSES.put("zEnd", EndSection.class);
+	}
+
 	private void createArtifactComponents(Composite parent, FormToolkit toolkit) {
 		FormText rtext = toolkit.createFormText(parent, true);
 		TableWrapData twd = new TableWrapData(TableWrapData.FILL_GRAB);
@@ -68,89 +80,30 @@ public class ArtifactContentSection extends ArtifactSectionPart {
 		rtext.addHyperlinkListener(new HyperlinkAdapter() {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
-
-				if ("attributes".equals(e.getHref())) {
-					IFormPart[] ifp = getManagedForm().getParts();
-					for (IFormPart i : ifp) {
-						if (i instanceof ArtifactAttributesSection) {
-							ArtifactAttributesSection oaas = (ArtifactAttributesSection) i;
-							oaas.getSection().setExpanded(true);
-							oaas.getSection().forceFocus();
-							// determine where the section is and scroll so that
-							// it is visible
-							Point origin = oaas.getSection().getLocation();
-							ScrolledForm scrolledForm = page.getManagedForm()
-									.getForm();
-							scrolledForm.setOrigin(origin);
+				Class<?> sectionClass = HREFS_CLASSES.get(e.getHref());
+				if (sectionClass != null) {
+					for (IFormPart formPart : getManagedForm().getParts()) {
+						if (sectionClass.isInstance(formPart)) {
+							expandSetFocusAndScroll(((SectionPart) formPart)
+									.getSection());
 						}
-					}
-				} else if ("methods".equals(e.getHref())) {
-					IFormPart[] ifp = getManagedForm().getParts();
-					for (IFormPart i : ifp) {
-						if (i instanceof ArtifactMethodsSection) {
-							ArtifactMethodsSection oamd = (ArtifactMethodsSection) i;
-							oamd.getSection().setExpanded(true);
-							oamd.getSection().forceFocus();
-							// determine where the section is and scroll so that
-							// it is visible
-							Point origin = oamd.getSection().getLocation();
-							ScrolledForm scrolledForm = page.getManagedForm()
-									.getForm();
-							scrolledForm.setOrigin(origin);
-						}
-					}
-				} else if ("constants".equals(e.getHref())) {
-					IFormPart[] ifp = getManagedForm().getParts();
-					for (IFormPart i : ifp) {
-						if (i instanceof ArtifactConstantsSection) {
-							ArtifactConstantsSection oacd = (ArtifactConstantsSection) i;
-							oacd.getSection().setExpanded(true);
-							oacd.getSection().forceFocus();
-							// determine where the section is and scroll so that
-							// it is visible
-							Point origin = oacd.getSection().getLocation();
-							ScrolledForm scrolledForm = page.getManagedForm()
-									.getForm();
-							scrolledForm.setOrigin(origin);
-						}
-					}
-				} else if ("aEnd".equals(e.getHref())
-						|| "zEnd".equals(e.getHref())) {
-					IFormPart[] ifp = getManagedForm().getParts();
-					for (IFormPart i : ifp) {
-						if (i instanceof AssociationSpecificsSection) {
-							AssociationSpecificsSection oacd = (AssociationSpecificsSection) i;
-							oacd.getSection().setExpanded(true);
-							oacd.getSection().forceFocus();
-							// determine where the section is and scroll so that
-							// it is visible
-							Point origin = oacd.getSection().getLocation();
-							ScrolledForm scrolledForm = page.getManagedForm()
-									.getForm();
-							scrolledForm.setOrigin(origin);
-							// Then select the appropriate end.
-							oacd.selectEndByEnd(e.getHref().toString());
-						} else {
-							if (i instanceof DependencySpecificsSection) {
-								DependencySpecificsSection oadd = (DependencySpecificsSection) i;
-								oadd.getSection().setExpanded(true);
-								oadd.getSection().forceFocus();
-								// determine where the section is and scroll so
-								// that
-								// it is visible
-								Point origin = oadd.getSection().getLocation();
-								ScrolledForm scrolledForm = page
-										.getManagedForm().getForm();
-								scrolledForm.setOrigin(origin);
-								// Then select the appropriate end.
-								oadd.selectEndByEnd(e.getHref().toString());
-							}
+						if (formPart instanceof EndSection) {
+							((EndSection) formPart).selectEndByEnd(e.getHref()
+									.toString());
 						}
 					}
 				}
 			}
 		});
 
+	}
+
+	private void expandSetFocusAndScroll(Section section) {
+		section.setExpanded(true);
+		section.forceFocus();
+		// determine where the section is and scroll so that
+		// it is visible
+		ComponentUtils.scrollToComponent(page.getManagedForm().getForm(), section);
 	}
 
 	private void createDescription(Composite parent, FormToolkit toolkit) {
@@ -162,5 +115,4 @@ public class ArtifactContentSection extends ArtifactSectionPart {
 				IArtifactFormContentProvider.ARTIFACT_CONTENT_DESCRIPTION);
 		rtext.setText(data, true, false);
 	}
-
 }

@@ -228,11 +228,12 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart implements
 		}
 		extendNameText
 				.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
+		extendNameText.setEditable(false);
 		extendNameText.setEnabled(!this.isReadonly());
 		extendNameText.addModifyListener(new GeneralInfoPageListener());
 		extendNameText.addKeyListener(new GeneralInfoPageListener());
 
-		typeBrowseButton = toolkit.createButton(composite, "Browse", SWT.PUSH);
+		typeBrowseButton = toolkit.createButton(composite, "Select", SWT.PUSH);
 		typeBrowseButton.setEnabled(!this.isReadonly());
 		typeBrowseButton.addSelectionListener(new GeneralInfoPageListener());
 

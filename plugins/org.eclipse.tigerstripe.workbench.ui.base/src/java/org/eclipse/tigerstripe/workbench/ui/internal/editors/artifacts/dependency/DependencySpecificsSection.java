@@ -32,14 +32,14 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForArtifactDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactSectionPart;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.EndSection;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
-public class DependencySpecificsSection extends ArtifactSectionPart {
+public class DependencySpecificsSection extends EndSection {
 
 	private boolean silentUpdate = false;
 
@@ -201,6 +201,7 @@ public class DependencySpecificsSection extends ArtifactSectionPart {
 	 * used to select the text in the "end type" widgets based on a match in the
 	 * end - A or Z - used by the details hyperlinks ...
 	 */
+	@Override
 	public void selectEndByEnd(String end) {
 		if (end.equals("aEnd")) {
 			aEndTypeText.selectAll();

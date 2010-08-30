@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.components;
 
+import static org.eclipse.tigerstripe.workbench.ui.internal.utils.ComponentUtils.scrollToComponent;
+
 import java.util.List;
 
 import org.apache.tools.ant.filters.StringInputStream;
@@ -23,7 +25,6 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.wizard.Wizard;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
@@ -43,7 +44,6 @@ import org.eclipse.ui.INewWizard;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.IFormPart;
-import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
 public abstract class NewModelComponentWizard extends Wizard implements
@@ -134,11 +134,8 @@ public abstract class NewModelComponentWizard extends Wizard implements
 
 					Section section = part.getSection();
 					section.setExpanded(true);
-					Point origin = section.getLocation();
-
-					ScrolledForm scrolledForm = selectedPage.getManagedForm()
-							.getForm();
-					scrolledForm.setOrigin(origin);
+					scrollToComponent(selectedPage.getManagedForm().getForm(),
+							section);
 					TableViewer viewer = part.getViewer();
 					Table table = viewer.getTable();
 					table.deselectAll();

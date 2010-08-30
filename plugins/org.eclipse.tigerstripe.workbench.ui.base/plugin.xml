@@ -1037,6 +1037,21 @@
 
 	<!-- Navigator Content -->
 
+	<extension
+	      point="org.eclipse.ui.navigator.linkHelper">
+	    <linkHelper
+	          class="org.eclipse.tigerstripe.workbench.ui.explorer.TigerstripeLinkHelper"
+	          id="org.eclipse.tigerstripe.workbench.ui.explorer.linkHelper">
+          <selectionEnablement>
+	       <instanceof
+              value="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode">
+	       </instanceof>
+          </selectionEnablement>
+	       <editorInputEnablement>
+	       </editorInputEnablement>
+	    </linkHelper>
+	</extension>
+
 	<extension point="org.eclipse.ui.navigator.navigatorContent">
 		<navigatorContent
 			activeByDefault="true"
@@ -1054,6 +1069,8 @@
                <instanceof
                      value="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent">
                </instanceof>
+               <instanceof
+                     value="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.ClassDiagramLogicalNode" />
                <and>
                   <or>
                      <instanceof

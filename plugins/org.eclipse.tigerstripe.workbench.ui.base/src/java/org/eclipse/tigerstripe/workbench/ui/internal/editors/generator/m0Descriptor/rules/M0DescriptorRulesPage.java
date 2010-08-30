@@ -51,7 +51,10 @@ public class M0DescriptorRulesPage extends TigerstripeFormPage {
 				true));
 
 		// sections
-		managedForm.addPart(new M0GlobalRulesSection(this, body, toolkit));
+		M0GlobalRulesSection rulesSection = new M0GlobalRulesSection(this,
+				body, toolkit);
+		rulesSection.getSection().setExpanded(true);
+		managedForm.addPart(rulesSection);
 		// managedForm.addPart(new ArtifactRulesSection(this, body, toolkit));
 	}
 }

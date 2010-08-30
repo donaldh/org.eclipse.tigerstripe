@@ -41,7 +41,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisi
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForArtifactDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactSectionPart;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.EndSection;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.PageModifyCallback;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.StereotypeSectionManager;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
@@ -50,7 +50,7 @@ import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
-public class AssociationSpecificsSection extends ArtifactSectionPart {
+public class AssociationSpecificsSection extends EndSection {
 
 	private boolean silentUpdate = false;
 
@@ -376,7 +376,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		aStereotypeManager = new StereotypeSectionManager(aAddAnno, aEditAnno,
 				aRemoveAnno, aAnnTable, ((IAssociationArtifact) getIArtifact())
 						.getAEnd(), getSection().getShell(),
-						new PageModifyCallback(getPage()));
+				new PageModifyCallback(getPage()));
 		aStereotypeManager.delegate();
 
 		aEndTypeText.setData("name", "aEndTypeText");
@@ -542,7 +542,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 		zStereotypeManager = new StereotypeSectionManager(zAddAnno, zEditAnno,
 				zRemoveAnno, zAnnTable, ((IAssociationArtifact) getIArtifact())
 						.getZEnd(), getSection().getShell(),
-						new PageModifyCallback(getPage()));
+				new PageModifyCallback(getPage()));
 		zStereotypeManager.delegate();
 
 		zEndTypeText.setData("name", "zEndTypeText");
@@ -576,6 +576,7 @@ public class AssociationSpecificsSection extends ArtifactSectionPart {
 	 * used to select the text in the "end type" widgets based on a match in the
 	 * end - A or Z - used by the details hyperlinks ...
 	 */
+	@Override
 	public void selectEndByEnd(String end) {
 		if (end.equals("aEnd")) {
 			aEndTypeText.selectAll();
