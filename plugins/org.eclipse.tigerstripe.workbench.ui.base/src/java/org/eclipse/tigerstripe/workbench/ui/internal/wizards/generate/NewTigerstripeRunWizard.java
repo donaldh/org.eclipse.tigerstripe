@@ -21,6 +21,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.jdt.core.IJavaElement;
@@ -30,7 +31,6 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.osgi.util.NLS;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
-import org.eclipse.tigerstripe.workbench.internal.core.generation.GenerationCanceledException;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.GenerationException;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.M1Generator;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
@@ -73,8 +73,8 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 	}
 
 	private ITigerstripeModelProject getTSProject() throws TigerstripeException {
-		IAbstractTigerstripeProject result = (IAbstractTigerstripeProject) fPage
-				.getIProject().getAdapter(IAbstractTigerstripeProject.class);
+		IAbstractTigerstripeProject result = (IAbstractTigerstripeProject) fPage.getIProject().getAdapter(
+				IAbstractTigerstripeProject.class);
 
 		if (result instanceof ITigerstripeModelProject)
 			return (ITigerstripeModelProject) result;
@@ -90,43 +90,41 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 	 * .core.runtime.IProgressMonitor)
 	 */
 	@Override
-	protected void finishPage(IProgressMonitor monitor)
-			throws InterruptedException, CoreException {
+	protected void finishPage(IProgressMonitor monitor) throws InterruptedException, CoreException {
 
 		try {
 			M1RunConfig config = fPage.getRunConfig();
 			M1Generator generator = new M1Generator(getTSProject(), config);
 			result = generator.run(monitor);
 
-		} catch (GenerationCanceledException e) {
-			throw new InterruptedException();
-		} catch (GenerationException e) {
+		} catch (OperationCanceledException e) {
+
 			Status status = new Status(
-					IStatus.ERROR,
+					IStatus.WARNING,
 					EclipsePlugin.getPluginId(),
 					222,
-					"An error was detected while generating a Tigerstripe project. Generation may be incomplete.",
+					"The user cancelled the operation while generating a Tigerstripe project. Generation may be incomplete.",
 					e);
-			EclipsePlugin.logErrorStatus(
-					"Tigerstripe Generation Error Detected.", status);
+			EclipsePlugin.logErrorStatus("Tigerstripe Generation Error Detected.", status);
+			PluginRunStatus runStatus = new PluginRunStatus("Operation Cancelled");
+			runStatus.add(status);
+			result = new PluginRunStatus[] { runStatus };
+		} catch (GenerationException e) {
+			Status status = new Status(IStatus.ERROR, EclipsePlugin.getPluginId(), 222,
+					"An error was detected while generating a Tigerstripe project. Generation may be incomplete.", e);
+			EclipsePlugin.logErrorStatus("Tigerstripe Generation Error Detected.", status);
 			PluginRunStatus runStatus = new PluginRunStatus(e.getMessage());
 			runStatus.add(status);
 			result = new PluginRunStatus[] { runStatus };
 		} catch (TigerstripeException e) {
-			Status status = new Status(
-					IStatus.ERROR,
-					EclipsePlugin.getPluginId(),
-					222,
-					"An error was detected while generating a Tigerstripe project. Generation may be incomplete.",
-					e);
-			EclipsePlugin.logErrorStatus(
-					"Tigerstripe Generation Error Detected.", status);
+			Status status = new Status(IStatus.ERROR, EclipsePlugin.getPluginId(), 222,
+					"An error was detected while generating a Tigerstripe project. Generation may be incomplete.", e);
+			EclipsePlugin.logErrorStatus("Tigerstripe Generation Error Detected.", status);
 			PluginRunStatus runStatus = new PluginRunStatus(e.getMessage());
 			runStatus.add(status);
 			result = new PluginRunStatus[] { runStatus };
+
 		}
-		// IStatus[] stats = fPage.runTigerstripe(monitor, segments); // use the
-		// full
 
 		// refresh project so Eclipse picks up the generated files
 		// Fix for Bug #185 to refresh in both cases - success and failure
@@ -142,23 +140,15 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 				checkLocationDeleted(projects[p]);
 			}
 		}
-		resource.refreshLocal(IResource.DEPTH_INFINITE, new SubProgressMonitor(
-				monitor, 1));
+		resource.refreshLocal(IResource.DEPTH_INFINITE, new SubProgressMonitor(monitor, 1));
 		IJavaElement jElement = JavaCore.create(resource);
 		if (jElement != null && jElement.exists())
 			javaElements.add(jElement);
 
-		IJavaModel model = JavaCore.create(ResourcesPlugin.getWorkspace()
-				.getRoot());
-		model.refreshExternalArchives((IJavaElement[]) javaElements
-				.toArray(new IJavaElement[javaElements.size()]),
+		IJavaModel model = JavaCore.create(ResourcesPlugin.getWorkspace().getRoot());
+		model.refreshExternalArchives((IJavaElement[]) javaElements.toArray(new IJavaElement[javaElements.size()]),
 				new SubProgressMonitor(monitor, 1));
 
-		// // progress monitor
-		// if (stats.length != 0) {
-		// CoreException core = new CoreException(stats[0]);
-		// throw core;
-		// }
 	}
 
 	private void checkLocationDeleted(IProject project) throws CoreException {
@@ -166,16 +156,15 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 			return;
 		File location = project.getLocation().toFile();
 		if (!location.exists()) {
-			final String message = NLS
-					.bind("The location for project {0} ({1}) has been deleted.\n Delete {0} from the workspace?",
-							project.getName(), location.getAbsolutePath());
+			final String message = NLS.bind(
+					"The location for project {0} ({1}) has been deleted.\n Delete {0} from the workspace?", project
+							.getName(), location.getAbsolutePath());
 			final boolean[] result = new boolean[1];
 			// Must prompt user in UI thread (we're in the operation thread
 			// here).
 			getShell().getDisplay().syncExec(new Runnable() {
 				public void run() {
-					result[0] = MessageDialog.openQuestion(getShell(),
-							"Project location has been deleted", message);
+					result[0] = MessageDialog.openQuestion(getShell(), "Project location has been deleted", message);
 				}
 			});
 			if (result[0]) {
@@ -192,13 +181,12 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 	@Override
 	public boolean performFinish() {
 		fPage.setPageComplete(false);
-		boolean res = super.performFinish();
+		super.performFinish();
 
-		GenerateResultDialog dialog = new GenerateResultDialog(getShell(),
-				result);
+		GenerateResultDialog dialog = new GenerateResultDialog(getShell(), result);
 		dialog.open();
 
-		return res;
+		return true;
 	}
 
 }

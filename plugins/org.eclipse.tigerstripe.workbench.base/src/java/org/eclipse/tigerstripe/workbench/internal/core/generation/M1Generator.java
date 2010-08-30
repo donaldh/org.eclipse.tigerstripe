@@ -29,6 +29,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -63,7 +64,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
  * 
  */
 public class M1Generator {
-	
+
 	// number of ticks for each unit of work.
 	static private int WORK_UNIT = 30;
 
@@ -79,43 +80,31 @@ public class M1Generator {
 		this.processor = new UseCaseProcessor(project, config);
 	}
 
-	public PluginRunStatus[] run() throws TigerstripeException,
-			GenerationException {
+	public PluginRunStatus[] run() throws TigerstripeException, GenerationException {
 		return run(new NullProgressMonitor());
 	}
 
 	private void initializeConfig() throws TigerstripeException {
 		config = new M1RunConfig();
 		IProjectDetails details = project.getProjectDetails();
-		config
-				.setClearDirectoryBeforeGenerate("true"
-						.equalsIgnoreCase(details
-								.getProperty(
-										IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE,
-										IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE_DEFAULT)));
-		config.setIgnoreFacets("true".equalsIgnoreCase(details.getProperty(
-				IProjectDetails.IGNORE_FACETS,
+		config.setClearDirectoryBeforeGenerate("true".equalsIgnoreCase(details.getProperty(
+				IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE,
+				IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE_DEFAULT)));
+		config.setIgnoreFacets("true".equalsIgnoreCase(details.getProperty(IProjectDetails.IGNORE_FACETS,
 				IProjectDetails.IGNORE_FACETS_DEFAULT)));
-		config.setGenerateModules("true".equalsIgnoreCase(details.getProperty(
-				IProjectDetails.GENERATE_MODULES,
+		config.setGenerateModules("true".equalsIgnoreCase(details.getProperty(IProjectDetails.GENERATE_MODULES,
 				IProjectDetails.GENERATE_MODULES_DEFAULT)));
-		config.setMergeFacets("true".equalsIgnoreCase(details.getProperty(
-				IProjectDetails.MERGE_FACETS,
+		config.setMergeFacets("true".equalsIgnoreCase(details.getProperty(IProjectDetails.MERGE_FACETS,
 				IProjectDetails.MERGE_FACETS_DEFAULT)));
-		config.setGenerateRefProjects("true".equalsIgnoreCase(details
-				.getProperty(IProjectDetails.GENERATE_REFPROJECTS,
-						IProjectDetails.GENERATE_REFPROJECTS_DEFAULT)));
-		config.setOverrideSubprojectSettings("true".equalsIgnoreCase(details
-				.getProperty(IProjectDetails.OVERRIDE_SUBPROJECT_SETTINGS,
-						IProjectDetails.OVERRIDE_SUBPROJECT_SETTINGS)));
-		config.setProcessUseCases("true".equalsIgnoreCase(details.getProperty(
-				IProjectDetails.PROCESS_USECASES,
+		config.setGenerateRefProjects("true".equalsIgnoreCase(details.getProperty(IProjectDetails.GENERATE_REFPROJECTS,
+				IProjectDetails.GENERATE_REFPROJECTS_DEFAULT)));
+		config.setOverrideSubprojectSettings("true".equalsIgnoreCase(details.getProperty(
+				IProjectDetails.OVERRIDE_SUBPROJECT_SETTINGS, IProjectDetails.OVERRIDE_SUBPROJECT_SETTINGS)));
+		config.setProcessUseCases("true".equalsIgnoreCase(details.getProperty(IProjectDetails.PROCESS_USECASES,
 				IProjectDetails.PROCESS_USECASES_DEFAULT)));
-		config.setProcessedUseCaseExtension(details.getProperty(
-				IProjectDetails.USECASE_PROC_EXT,
+		config.setProcessedUseCaseExtension(details.getProperty(IProjectDetails.USECASE_PROC_EXT,
 				IProjectDetails.USECASE_PROC_EXT_DEFAULT));
-		config.setUseCaseXSL(details.getProperty(
-				IProjectDetails.USECASE_USEXSLT,
+		config.setUseCaseXSL(details.getProperty(IProjectDetails.USECASE_USEXSLT,
 				IProjectDetails.USECASE_USEXSLT_DEFAULT));
 	}
 
@@ -129,44 +118,41 @@ public class M1Generator {
 			} else if (f.isDirectory()) {
 				deleteDirContents(f);
 				if (!f.delete()) {
-					throw new TigerstripeException(
-							"Could not delete directory " + f);
+					throw new TigerstripeException("Could not delete directory " + f);
 				}
 			}
 		}
 	}
 
-	public PluginRunStatus[] run(IProgressMonitor monitor)
-			throws TigerstripeException, GenerationException {
+	public PluginRunStatus[] run(IProgressMonitor monitor) throws TigerstripeException, GenerationException,
+			OperationCanceledException {
 
 		List<PluginRunStatus> overallResult = new ArrayList<PluginRunStatus>();
 
 		try {
 			// work out progress count .. (Bugzilla 241405)
-			int workCount = 
-				// for setup...
-				WORK_UNIT+
-				// allocate 30 ticks for each plugin run against this project.
-				config.getPluginConfigs().length*WORK_UNIT + 
-				// allocate 40 ticks for each dependent project.
-				project.getDependencies().length*WORK_UNIT +
-				// for pre generation work
-				WORK_UNIT +
-				// allocate 40 ticks for each referenced project.
-				project.getReferencedProjects().length*WORK_UNIT +
-				// and another for stuff in internal run
-				WORK_UNIT+
-				// for post generation work
-				WORK_UNIT;
-			
+			int workCount =
+			// for setup...
+			WORK_UNIT +
+			// allocate 30 ticks for each plugin run against this project.
+					config.getPluginConfigs().length * WORK_UNIT +
+					// allocate 40 ticks for each dependent project.
+					project.getDependencies().length * WORK_UNIT +
+					// for pre generation work
+					WORK_UNIT +
+					// allocate 40 ticks for each referenced project.
+					project.getReferencedProjects().length * WORK_UNIT +
+					// and another for stuff in internal run
+					WORK_UNIT +
+					// for post generation work
+					WORK_UNIT;
 
-			
 			monitor.beginTask("Generating project", workCount);
 			monitor.subTask("Setup");
-//			long before = System.currentTimeMillis();
+			// long before = System.currentTimeMillis();
 			refreshAndSetupForGeneration();
-//			long after = System.currentTimeMillis();
-//			System.out.println("Refresh of "+project.getProjectLabel()+" :"+(after-before));
+			// long after = System.currentTimeMillis();
+			// System.out.println("Refresh of "+project.getProjectLabel()+" :"+(after-before));
 			if (project == null)
 				throw new TigerstripeException("Invalid project");
 
@@ -174,12 +160,10 @@ public class M1Generator {
 				initializeConfig();
 			}
 
-
 			// Attempt to clear the directory if requested
 			if (config.isClearDirectoryBeforeGenerate()) {
 				String outputPath = "";
-				String outputDir = project.getProjectDetails()
-						.getOutputDirectory();
+				String outputDir = project.getProjectDetails().getOutputDirectory();
 				String projectDir = project.getLocation().toOSString();
 
 				outputPath = projectDir + File.separator + outputDir;
@@ -190,20 +174,17 @@ public class M1Generator {
 				if (outDir.exists()) {
 					// See if it is actually a dir
 					if (!outDir.isDirectory()) {
-						throw new TigerstripeException(
-								"Target directory is not a directory!");
+						throw new TigerstripeException("Target directory is not a directory!");
 					}
 					try {
 						deleteDirContents(outDir);
 					} catch (TigerstripeException t) {
-						throw new TigerstripeException(
-								"Unable to clear target directory (" + outDir
-										+ ")");
+						throw new TigerstripeException("Unable to clear target directory (" + outDir + ")");
 					}
 				}
 			}
 			monitor.worked(WORK_UNIT);
-			
+
 			// First look at the modules to be generated.
 			if (config.isGenerateModules()) {
 				monitor.subTask("Modules");
@@ -217,22 +198,23 @@ public class M1Generator {
 				overallResult.addAll(Arrays.asList(subResult));
 			}
 
-			SubProgressMonitor preWork = new SubProgressMonitor(monitor,WORK_UNIT);
-			SubProgressMonitor postWork = new SubProgressMonitor(monitor,WORK_UNIT);
+			SubProgressMonitor preWork = new SubProgressMonitor(monitor, WORK_UNIT);
+			SubProgressMonitor postWork = new SubProgressMonitor(monitor, WORK_UNIT);
 			// Iterate over all facets unless specified
 			monitor.subTask("Running Generators");
 			if (config.isIgnoreFacets()) {
 				preWork.beginTask("Preparing for generation", 1);
 				IFacetReference currentFacet = project.getActiveFacet();
 				if (currentFacet != null) {
-					
+
 					preWork.subTask("Resetting facets");
 					project.resetActiveFacet();
 				}
 				preWork.done();
-				PluginRunStatus[] subResult = internalRun(monitor, config);
+				PluginRunStatus[] subResult = null;
+				subResult = internalRun(monitor, config);
 				overallResult.addAll(Arrays.asList(subResult));
-				
+
 				postWork.beginTask("Finishing generation", 10);
 				// Use case processing
 				if (config.isProcessUseCases()) {
@@ -240,8 +222,7 @@ public class M1Generator {
 				}
 				postWork.worked(1);
 				if (currentFacet != null) {
-					postWork.subTask("Reverting to active facet ("
-							+ currentFacet.resolve().getName() + ")");
+					postWork.subTask("Reverting to active facet (" + currentFacet.resolve().getName() + ")");
 					project.setActiveFacet(currentFacet, postWork);
 				}
 				postWork.done();
@@ -258,12 +239,9 @@ public class M1Generator {
 					project.setActiveFacet(facetRef, preWork);
 				}
 
-				if (facetRef.getFacetPredicate() != null
-						&& !facetRef.getFacetPredicate().isConsistent()) {
-					IStatus facetInconsistencies = facetRef.getFacetPredicate()
-							.getInconsistencies();
-					FacetActivationResult res = new FacetActivationResult(
-							project, config, facetRef);
+				if (facetRef.getFacetPredicate() != null && !facetRef.getFacetPredicate().isConsistent()) {
+					IStatus facetInconsistencies = facetRef.getFacetPredicate().getInconsistencies();
+					FacetActivationResult res = new FacetActivationResult(project, config, facetRef);
 					if (facetInconsistencies.isMultiStatus()) {
 						for (IStatus error : facetInconsistencies.getChildren()) {
 							res.add(error);
@@ -272,7 +250,7 @@ public class M1Generator {
 					overallResult.add(res);
 				}
 				preWork.done();
-				
+
 				PluginRunStatus[] subResult = internalRun(monitor, config);
 				postWork.beginTask("Preparing for generation", 10);
 				overallResult.addAll(Arrays.asList(subResult));
@@ -300,8 +278,7 @@ public class M1Generator {
 					if (config.isMergeFacets()) {
 						preWork.beginTask("Preparing for generation", 10);
 						PluginRunStatus[] facetResult = new PluginRunStatus[0];
-						IFacetReference mergedFacet = new MultiFacetReference(
-								project.getFacetReferences(), project);
+						IFacetReference mergedFacet = new MultiFacetReference(project.getFacetReferences(), project);
 						project.setActiveFacet(mergedFacet, preWork);
 						preWork.done();
 						facetResult = internalRun(monitor, config);
@@ -309,33 +286,25 @@ public class M1Generator {
 
 						// Use case processing
 						if (config.isProcessUseCases()) {
-							overallResult
-									.addAll(Arrays.asList(processor.run()));
+							overallResult.addAll(Arrays.asList(processor.run()));
 						}
 					} else {
-						preWork.beginTask("Preparing for generation", project.getFacetReferences().length*WORK_UNIT);
+						preWork.beginTask("Preparing for generation", project.getFacetReferences().length * WORK_UNIT);
 						// Now iterate over facets if any
-						for (IFacetReference facetRef : project
-								.getFacetReferences()) {
+						for (IFacetReference facetRef : project.getFacetReferences()) {
 
 							PluginRunStatus[] facetResult = new PluginRunStatus[0];
 							if (facetRef.canResolve()) {
-								SubProgressMonitor fProgress = new SubProgressMonitor(preWork,WORK_UNIT);
-								fProgress.beginTask("Setting active facet to: "
-										+ facetRef.resolve().getName(),
+								SubProgressMonitor fProgress = new SubProgressMonitor(preWork, WORK_UNIT);
+								fProgress.beginTask("Setting active facet to: " + facetRef.resolve().getName(),
 										IProgressMonitor.UNKNOWN);
 								project.setActiveFacet(facetRef, fProgress);
 								if (facetRef.getFacetPredicate() != null
-										&& !facetRef.getFacetPredicate()
-												.isConsistent()) {
-									IStatus facetInconsistencies = facetRef
-											.getFacetPredicate()
-											.getInconsistencies();
-									FacetActivationResult res = new FacetActivationResult(
-											project, config, facetRef);
+										&& !facetRef.getFacetPredicate().isConsistent()) {
+									IStatus facetInconsistencies = facetRef.getFacetPredicate().getInconsistencies();
+									FacetActivationResult res = new FacetActivationResult(project, config, facetRef);
 									if (facetInconsistencies.isMultiStatus()) {
-										for (IStatus error : facetInconsistencies
-												.getChildren()) {
+										for (IStatus error : facetInconsistencies.getChildren()) {
 											res.add(error);
 										}
 									}
@@ -349,20 +318,17 @@ public class M1Generator {
 
 							// Use case processing
 							if (config.isProcessUseCases()) {
-								overallResult.addAll(Arrays.asList(processor
-										.run()));
+								overallResult.addAll(Arrays.asList(processor.run()));
 							}
 						}
 					}
 					if (currentFacet != null) {
-						postWork.beginTask("Reverting to active facet ("
-								+ currentFacet.resolve().getName() + ")",
+						postWork.beginTask("Reverting to active facet (" + currentFacet.resolve().getName() + ")",
 								IProgressMonitor.UNKNOWN);
 						project.setActiveFacet(currentFacet, postWork);
 						postWork.done();
 					} else {
-						postWork.beginTask("Restoring initial state",
-								IProgressMonitor.UNKNOWN);
+						postWork.beginTask("Restoring initial state", IProgressMonitor.UNKNOWN);
 						project.resetActiveFacet();
 						postWork.done();
 					}
@@ -396,8 +362,7 @@ public class M1Generator {
 				postWork.done();
 			}
 
-			return overallResult.toArray(new PluginRunStatus[overallResult
-					.size()]);
+			return overallResult.toArray(new PluginRunStatus[overallResult.size()]);
 		} finally {
 			resetAfterGeneration();
 			IPath output = config.getOutputPath();
@@ -426,8 +391,7 @@ public class M1Generator {
 	 * @throws TigerstripeException
 	 * @throws GenerationException
 	 */
-	private PluginRunStatus[] internalRun(IProgressMonitor monitor,
-			M1RunConfig config) throws TigerstripeException,
+	private PluginRunStatus[] internalRun(IProgressMonitor monitor, M1RunConfig config) throws TigerstripeException,
 			GenerationException, GenerationCanceledException {
 
 		boolean logMessages = false;
@@ -449,23 +413,29 @@ public class M1Generator {
 		List<PluginRunStatus> result = new ArrayList<PluginRunStatus>();
 		IFacetReference facetToRestore = null;
 		boolean shouldRestoreFacet = false;
-		SubProgressMonitor irProgress = new SubProgressMonitor(monitor,WORK_UNIT);
+		SubProgressMonitor irProgress = new SubProgressMonitor(monitor, WORK_UNIT);
 
 		try {
 			Collection<PluginReport> reports = new ArrayList<PluginReport>();
 
-			// This is built based on the set of housings and PluginsCofigs (in the case of OSGi Numbering) 
+			// This is built based on the set of housings and PluginsCofigs (in
+			// the case of OSGi Numbering)
 			IPluginConfig[] plugins = config.getPluginConfigs();
 			boolean isFirstRef = true;
 			boolean validationFailed = false;
 
 			// First run all validation plugins if any
 			for (IPluginConfig iRef : plugins) {
-				SubProgressMonitor pProgress = new SubProgressMonitor(monitor,WORK_UNIT);
-				pProgress.beginTask("Generating "+iRef.getPluginId(), IProgressMonitor.UNKNOWN);
+				SubProgressMonitor pProgress = new SubProgressMonitor(monitor, WORK_UNIT);
+				pProgress.beginTask("Generating " + iRef.getPluginId(), IProgressMonitor.UNKNOWN);
+
+				if (pProgress.isCanceled()) {
+					
+					throw new OperationCanceledException("Operation Cancelled by User.");
+				}
 
 				PluginConfig ref = (PluginConfig) iRef;
-				
+
 				// TODO - Do we still need this?
 				try {
 					ref.resolve();
@@ -487,17 +457,14 @@ public class M1Generator {
 
 				if (isFirstRef) {
 					isFirstRef = false;
-					changedStdOutStdErr = hijackOutput(ref, logMessages,
-							stdErrStreamRef, stderrAppender, stdOutStreamRef,
-							stdoutAppender);
+					changedStdOutStdErr = hijackOutput(ref, logMessages, stdErrStreamRef, stderrAppender,
+							stdOutStreamRef, stdoutAppender);
 				}
 
 				if (ref.getPluginNature() == EPluggablePluginNature.Validation) {
 
 					// Check for PluginConfig level facet
-					if (ref.getFacetReference() != null
-							&& !config.isIgnoreFacets()
-							&& !config.isUseCurrentFacet()
+					if (ref.getFacetReference() != null && !config.isIgnoreFacets() && !config.isUseCurrentFacet()
 							&& !config.isUseProjectFacets()) {
 						IFacetReference facetRef = ref.getFacetReference();
 						if (facetRef.canResolve()) {
@@ -505,13 +472,9 @@ public class M1Generator {
 							project.setActiveFacet(facetRef, pProgress);
 							shouldRestoreFacet = true;
 						} else {
-							PluginRunStatus res = new PluginRunStatus(ref,
-									project, config, project.getActiveFacet());
-							IStatus error = new Status(IStatus.ERROR,
-									BasePlugin.getPluginId(), "Invalid facet '"
-											+ facetRef.getProjectRelativePath()
-											+ "' for plugin '"
-											+ iRef.getPluginId() + "'.");
+							PluginRunStatus res = new PluginRunStatus(ref, project, config, project.getActiveFacet());
+							IStatus error = new Status(IStatus.ERROR, BasePlugin.getPluginId(), "Invalid facet '"
+									+ facetRef.getProjectRelativePath() + "' for plugin '" + iRef.getPluginId() + "'.");
 							res.add(error);
 							result.add(res);
 							continue;
@@ -522,17 +485,12 @@ public class M1Generator {
 					internalPluginLoop(ref, result, reports, pProgress);
 					if (ref.validationFailed()) {
 						validationFailed = true;
-						PluginRunStatus res = new PluginRunStatus(ref, project,
-								config, project.getActiveFacet());
-						IStatus error = new Status(IStatus.ERROR, BasePlugin
-								.getPluginId(), "Validation Failed: "
+						PluginRunStatus res = new PluginRunStatus(ref, project, config, project.getActiveFacet());
+						IStatus error = new Status(IStatus.ERROR, BasePlugin.getPluginId(), "Validation Failed: "
 								+ ref.getValidationFailMessage());
 						if (ref.getValidationFailThrowable() instanceof Exception) {
-							error = new Status(IStatus.ERROR, BasePlugin
-									.getPluginId(), "Validation Failed: "
-									+ ref.getValidationFailMessage(),
-									(Exception) ref
-											.getValidationFailThrowable());
+							error = new Status(IStatus.ERROR, BasePlugin.getPluginId(), "Validation Failed: "
+									+ ref.getValidationFailMessage(), (Exception) ref.getValidationFailThrowable());
 						}
 						res.add(error);
 						result.add(res);
@@ -570,16 +528,13 @@ public class M1Generator {
 
 					if (isFirstRef) {
 						isFirstRef = false;
-						changedStdOutStdErr = hijackOutput(ref, logMessages,
-								stdErrStreamRef, stderrAppender,
+						changedStdOutStdErr = hijackOutput(ref, logMessages, stdErrStreamRef, stderrAppender,
 								stdOutStreamRef, stdoutAppender);
 					}
 
 					if (ref.getPluginNature() == EPluggablePluginNature.Generic) {
 						// Check for PluginConfig level facet
-						if (ref.getFacetReference() != null
-								&& !config.isIgnoreFacets()
-								&& !config.isUseCurrentFacet()
+						if (ref.getFacetReference() != null && !config.isIgnoreFacets() && !config.isUseCurrentFacet()
 								&& !config.isUseProjectFacets()) {
 							IFacetReference facetRef = ref.getFacetReference();
 							if (facetRef.canResolve()) {
@@ -587,17 +542,11 @@ public class M1Generator {
 								project.setActiveFacet(facetRef, irProgress);
 								shouldRestoreFacet = true;
 							} else {
-								PluginRunStatus res = new PluginRunStatus(ref,
-										project, config, project
-												.getActiveFacet());
-								IStatus error = new Status(
-										IStatus.ERROR,
-										BasePlugin.getPluginId(),
-										"Invalid facet '"
-												+ facetRef
-														.getProjectRelativePath()
-												+ "' for plugin '"
-												+ iRef.getPluginId() + "'.");
+								PluginRunStatus res = new PluginRunStatus(ref, project, config, project
+										.getActiveFacet());
+								IStatus error = new Status(IStatus.ERROR, BasePlugin.getPluginId(), "Invalid facet '"
+										+ facetRef.getProjectRelativePath() + "' for plugin '" + iRef.getPluginId()
+										+ "'.");
 								res.add(error);
 								result.add(res);
 								continue;
@@ -610,6 +559,8 @@ public class M1Generator {
 
 			generateRunReport(reports, irProgress);
 
+		} catch (GenerationCanceledException e) {
+			throw e;
 		} finally {
 			// ((ArtifactManagerSessionImpl)
 			// project.getArtifactManagerSession())
@@ -636,8 +587,7 @@ public class M1Generator {
 		return result.toArray(new PluginRunStatus[result.size()]);
 	}
 
-	private void internalPluginLoop(PluginConfig ref,
-			List<PluginRunStatus> result, Collection<PluginReport> reports,
+	private void internalPluginLoop(PluginConfig ref, List<PluginRunStatus> result, Collection<PluginReport> reports,
 			IProgressMonitor monitor) throws TigerstripeException {
 		// Make sure we only trigger "generation" plugins (i.e. not
 		// the
@@ -647,13 +597,11 @@ public class M1Generator {
 		// (may have been recently un-deployed - during this
 		// session)
 
-		if (ref.getCategory() == IPluginConfig.GENERATE_CATEGORY
-				&& ref.isEnabled()) {
+		if (ref.getCategory() == IPluginConfig.GENERATE_CATEGORY && ref.isEnabled()) {
 
 			PluginLogger.setUpForRun(ref, config);
 
-			PluginRunStatus pluginResult = new PluginRunStatus(ref, project,
-					config, project.getActiveFacet());
+			PluginRunStatus pluginResult = new PluginRunStatus(ref, project, config, project.getActiveFacet());
 			try {
 				monitor.worked(1);
 				monitor.setTaskName("Running: " + ref.getLabel());
@@ -671,30 +619,24 @@ public class M1Generator {
 
 				monitor.worked(1);
 			} catch (TigerstripeException e) {
-				String failureMessage = "An error was detected while triggering '"
-						+ ref.getLabel()
+				String failureMessage = "An error was detected while triggering '" + ref.getLabel()
 						+ "' plugin. Generation may be incomplete.";
 				if (!"".equals(e.getMessage())) {
-					failureMessage = e.getMessage()
-							+ ". Generation may be incomplete.";
+					failureMessage = e.getMessage() + ". Generation may be incomplete.";
 				}
 
-				IStatus error = new Status(IStatus.ERROR, BasePlugin
-						.getPluginId(), failureMessage, e);
+				IStatus error = new Status(IStatus.ERROR, BasePlugin.getPluginId(), failureMessage, e);
 				pluginResult.add(error);
 				result.add(pluginResult);
 				if (e.getException() != null) {
-					PluginLogger.log(LogLevel.ERROR, failureMessage, e
-							.getException());
+					PluginLogger.log(LogLevel.ERROR, failureMessage, e.getException());
 				} else {
 					PluginLogger.log(LogLevel.ERROR, failureMessage, e);
 				}
 			} catch (Exception e) {
-				String failureMessage = "An error was detected while triggering '"
-						+ ref.getLabel()
+				String failureMessage = "An error was detected while triggering '" + ref.getLabel()
 						+ "' plugin. Generation may be incomplete.";
-				IStatus error = new Status(IStatus.ERROR, BasePlugin
-						.getPluginId(), failureMessage, e);
+				IStatus error = new Status(IStatus.ERROR, BasePlugin.getPluginId(), failureMessage, e);
 				pluginResult.add(error);
 				result.add(pluginResult);
 				PluginLogger.log(LogLevel.ERROR, failureMessage, e);
@@ -718,9 +660,8 @@ public class M1Generator {
 	 * @return
 	 * @throws TigerstripeException
 	 */
-	private boolean hijackOutput(PluginConfig ref, boolean logMessages,
-			PrintStream stdErrStreamRef, FileAppender stderrAppender,
-			PrintStream stdOutStreamRef, FileAppender stdoutAppender)
+	private boolean hijackOutput(PluginConfig ref, boolean logMessages, PrintStream stdErrStreamRef,
+			FileAppender stderrAppender, PrintStream stdOutStreamRef, FileAppender stdoutAppender)
 			throws TigerstripeException {
 		// this should only occur if a preference to "hijack
 		// stdout/stderr"
@@ -736,25 +677,20 @@ public class M1Generator {
 				// determine the name to use for the logfile (in the
 				// target directory)
 				String outputFile = "generation.log";
-				String outputDir = ref.getProjectHandle().getProjectDetails()
-						.getOutputDirectory();
-				String projectDir = ref.getProjectHandle().getLocation()
-						.toOSString();
+				String outputDir = ref.getProjectHandle().getProjectDetails().getOutputDirectory();
+				String projectDir = ref.getProjectHandle().getLocation().toOSString();
 
-				String outputPath = projectDir + File.separator + outputDir
-						+ File.separator + outputFile;
+				String outputPath = projectDir + File.separator + outputDir + File.separator + outputFile;
 				if (config != null && config.getAbsoluteOutputDir() != null) {
-					outputPath = config.getAbsoluteOutputDir() + File.separator
-							+ outputDir + File.separator + outputFile;
+					outputPath = config.getAbsoluteOutputDir() + File.separator + outputDir + File.separator
+							+ outputFile;
 				}
 				// now, make sure that everything sent to System.err
 				// is logged
 				PatternLayout stderrPatternLayout = new PatternLayout();
 				String stderrConversionPattern = "System.err [%d{dd-MMM-yyyy HH:mm:ss.SSS}] - %m%n";
-				stderrPatternLayout
-						.setConversionPattern(stderrConversionPattern);
-				stderrAppender = new FileAppender(stderrPatternLayout,
-						outputPath);
+				stderrPatternLayout.setConversionPattern(stderrConversionPattern);
+				stderrAppender = new FileAppender(stderrPatternLayout, outputPath);
 				Logger errLogger = Logger.getLogger("SystemErr");
 				errLogger.removeAllAppenders();
 				errLogger.addAppender(stderrAppender);
@@ -766,10 +702,8 @@ public class M1Generator {
 				// is logged
 				PatternLayout stdoutPatternLayout = new PatternLayout();
 				String stdoutConversionPattern = "System.out [%d{dd-MMM-yyyy HH:mm:ss.SSS}] - %m%n";
-				stdoutPatternLayout
-						.setConversionPattern(stdoutConversionPattern);
-				stdoutAppender = new FileAppender(stdoutPatternLayout,
-						outputPath);
+				stdoutPatternLayout.setConversionPattern(stdoutConversionPattern);
+				stdoutAppender = new FileAppender(stdoutPatternLayout, outputPath);
 				Logger outLogger = Logger.getLogger("SystemOut");
 				outLogger.removeAllAppenders();
 				outLogger.addAppender(stdoutAppender);
@@ -781,12 +715,9 @@ public class M1Generator {
 				// outLogger, info), true));
 			} catch (IOException e) {
 				TigerstripeRuntime.logErrorMessage("IOException detected", e);
-				PluginRunStatus pluginResult = new PluginRunStatus(ref,
-						project, config, project.getActiveFacet());
-				IStatus error = new Status(IStatus.ERROR, BasePlugin
-						.getPluginId(),
-						"An error was detected while redirecting stdout/stderr."
-								+ " Generation may be incomplete.", e);
+				PluginRunStatus pluginResult = new PluginRunStatus(ref, project, config, project.getActiveFacet());
+				IStatus error = new Status(IStatus.ERROR, BasePlugin.getPluginId(),
+						"An error was detected while redirecting stdout/stderr." + " Generation may be incomplete.", e);
 				pluginResult.add(error);
 			}
 		}
@@ -801,17 +732,14 @@ public class M1Generator {
 	 * @param monitor
 	 * @throws TigerstripeException
 	 */
-	private void generateRunReport(Collection<PluginReport> reports,
-			IProgressMonitor monitor) throws TigerstripeException {
+	private void generateRunReport(Collection<PluginReport> reports, IProgressMonitor monitor)
+			throws TigerstripeException {
 		try {
-			ReportModel model = new ReportModel(
-					((TigerstripeProjectHandle) project).getTSProject());
+			ReportModel model = new ReportModel(((TigerstripeProjectHandle) project).getTSProject());
 
 			if ("true"
-					.equalsIgnoreCase(project
-							.getAdvancedProperty(IAdvancedProperties.PROP_GENERATION_GenerateReport))) {
-				ArtifactManagerSessionImpl session = (ArtifactManagerSessionImpl) project
-						.getArtifactManagerSession();
+					.equalsIgnoreCase(project.getAdvancedProperty(IAdvancedProperties.PROP_GENERATION_GenerateReport))) {
+				ArtifactManagerSessionImpl session = (ArtifactManagerSessionImpl) project.getArtifactManagerSession();
 				ArtifactManager artifactMgr = session.getArtifactManager();
 				ReportRunner runner = new ReportRunner();
 				monitor.setTaskName("Creating Tigerstripe Report");
@@ -819,14 +747,12 @@ public class M1Generator {
 			}
 
 		} catch (Exception e) {
-			throw new TigerstripeException(
-					"An error occured while running generation report.", e);
+			throw new TigerstripeException("An error occured while running generation report.", e);
 		}
 	}
 
 	private void refreshAndSetupForGeneration() throws TigerstripeException {
-		project.getArtifactManagerSession().refreshAll(false,
-				new NullProgressMonitor());
+		project.getArtifactManagerSession().refreshAll(false, new NullProgressMonitor());
 		project.getArtifactManagerSession().generationStart();
 	}
 
@@ -834,14 +760,12 @@ public class M1Generator {
 		project.getArtifactManagerSession().generationComplete();
 	}
 
-	private PluginRunStatus[] generateRefProjects(IProgressMonitor monitor)
-			throws TigerstripeException {
+	private PluginRunStatus[] generateRefProjects(IProgressMonitor monitor) throws TigerstripeException {
 		List<PluginRunStatus> overallResult = new ArrayList<PluginRunStatus>();
 
-		ITigerstripeModelProject[] refProjects = project
-				.getReferencedProjects();
+		ITigerstripeModelProject[] refProjects = project.getReferencedProjects();
 
-		SubProgressMonitor subMonitor = new SubProgressMonitor(monitor,refProjects.length*WORK_UNIT);
+		SubProgressMonitor subMonitor = new SubProgressMonitor(monitor, refProjects.length * WORK_UNIT);
 		subMonitor.beginTask("Generating Referenced Projects", refProjects.length);
 
 		for (ITigerstripeModelProject refProject : refProjects) {
@@ -850,7 +774,7 @@ public class M1Generator {
 			if (config.isOverrideSubprojectSettings()) {
 				IPluginConfig[] theConfigs = config.getPluginConfigs();
 				List<IPluginConfig> newConfigs = new ArrayList<IPluginConfig>();
-				for (IPluginConfig pc : theConfigs){
+				for (IPluginConfig pc : theConfigs) {
 					IPluginConfig pcCopy = pc.clone();
 					pcCopy.setProjectHandle(refProject);
 					newConfigs.add(pcCopy);
@@ -859,10 +783,11 @@ public class M1Generator {
 				refConfig.setGenerateModules(false);
 				refConfig.setGenerateRefProjects(false);
 			}
-//			String absDir = project.getLocation().toOSString() + File.separator
-//					+ project.getProjectDetails().getOutputDirectory()
-//					+ File.separator + refProject.getProjectLabel();
-//			refConfig.setAbsoluteOutputDir(absDir);
+			// String absDir = project.getLocation().toOSString() +
+			// File.separator
+			// + project.getProjectDetails().getOutputDirectory()
+			// + File.separator + refProject.getProjectLabel();
+			// refConfig.setAbsoluteOutputDir(absDir);
 			M1Generator gen = new M1Generator(refProject, refConfig);
 			PluginRunStatus[] subResult = gen.run();
 			for (PluginRunStatus res : subResult) {
@@ -870,28 +795,24 @@ public class M1Generator {
 			}
 			overallResult.addAll(Arrays.asList(subResult));
 			subMonitor.worked(1);
-			if (subMonitor.isCanceled()){
+			if (subMonitor.isCanceled()) {
 				subMonitor.done();
-				return overallResult.toArray(new PluginRunStatus[overallResult
-					                             					.size()]);
+				return overallResult.toArray(new PluginRunStatus[overallResult.size()]);
 			}
 
 		}
 
 		subMonitor.done();
-		return overallResult.toArray(new PluginRunStatus[overallResult
-		                             					.size()]);
+		return overallResult.toArray(new PluginRunStatus[overallResult.size()]);
 	}
 
-	private PluginRunStatus[] generateModules(IProgressMonitor monitor)
-			throws TigerstripeException {
-		String corePath = TigerstripeRuntime
-				.getProperty(TigerstripeRuntime.CORE_OSSJ_ARCHIVE);
+	private PluginRunStatus[] generateModules(IProgressMonitor monitor) throws TigerstripeException {
+		String corePath = TigerstripeRuntime.getProperty(TigerstripeRuntime.CORE_OSSJ_ARCHIVE);
 		PluginRunStatus[] result = new PluginRunStatus[0];
 		IDependency[] dependencies = project.getDependencies();
 
-		SubProgressMonitor subMonitor = new SubProgressMonitor(monitor,dependencies.length*WORK_UNIT);
-		subMonitor.beginTask("Generating Dependencies",dependencies.length);
+		SubProgressMonitor subMonitor = new SubProgressMonitor(monitor, dependencies.length * WORK_UNIT);
+		subMonitor.beginTask("Generating Dependencies", dependencies.length);
 
 		// for each dependency we create an ITigerstripeProjectModule to which
 		// we had
@@ -920,7 +841,7 @@ public class M1Generator {
 			if (config.isOverrideSubprojectSettings()) {
 				IPluginConfig[] theConfigs = config.getPluginConfigs();
 				List<IPluginConfig> newConfigs = new ArrayList<IPluginConfig>();
-				for (IPluginConfig pc : theConfigs){
+				for (IPluginConfig pc : theConfigs) {
 					IPluginConfig pcCopy = pc.clone();
 					pcCopy.setProjectHandle(modProj);
 					newConfigs.add(pcCopy);
@@ -942,7 +863,7 @@ public class M1Generator {
 			// is clean
 			index++;
 			subMonitor.worked(1);
-			if (subMonitor.isCanceled()){
+			if (subMonitor.isCanceled()) {
 				subMonitor.done();
 				return result;
 			}

@@ -150,7 +150,9 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 							buf.append(writer.toString());
 						}
 					} else if (status.getException() != null)
-						buf.append(status.getException().getLocalizedMessage());
+						if(status.getException().getLocalizedMessage() != null) {
+							buf.append(status.getException().getLocalizedMessage());
+						}
 					if (includeHTML)
 						buf.append("<br/>");
 					else

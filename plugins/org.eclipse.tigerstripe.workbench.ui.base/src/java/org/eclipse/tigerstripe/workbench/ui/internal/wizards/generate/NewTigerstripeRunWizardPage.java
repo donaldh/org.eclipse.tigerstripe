@@ -840,6 +840,8 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 
 		return result;
 	}
+	
+	
 
 	public M1RunConfig getRunConfig() {
 		return this.runConfig;
