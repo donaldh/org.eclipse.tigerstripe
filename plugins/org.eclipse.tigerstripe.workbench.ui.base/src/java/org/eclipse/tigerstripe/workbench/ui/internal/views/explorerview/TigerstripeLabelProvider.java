@@ -29,6 +29,7 @@ import org.eclipse.jdt.ui.JavaElementLabels;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.LabelProviderChangedEvent;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IActiveFacetChangeListener;
@@ -107,11 +108,14 @@ public class TigerstripeLabelProvider extends TigerstripeExplorerLabelProvider
 						listenedProjects.put(project, NULL_FACET_LISTENER);
 					} else {
 						listener = new IActiveFacetChangeListener() {
-							public void facetChanged(IFacetReference oldFacet,
-									IFacetReference newFacet) {
-								LabelProviderChangedEvent event = new LabelProviderChangedEvent(
-										TigerstripeLabelProvider.this, project);
-								fireLabelProviderChanged(event);
+							public void facetChanged(IFacetReference oldFacet, IFacetReference newFacet) {
+								
+								Display.getDefault().asyncExec(new Runnable() {
+									public void run() {
+										LabelProviderChangedEvent event = new LabelProviderChangedEvent(TigerstripeLabelProvider.this, project);
+										fireLabelProviderChanged(event);		
+									}
+								});							
 							}
 						};
 						listenedProjects.put(project, listener);
