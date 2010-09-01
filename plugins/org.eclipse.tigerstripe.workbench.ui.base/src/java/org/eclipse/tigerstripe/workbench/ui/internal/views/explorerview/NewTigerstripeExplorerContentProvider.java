@@ -40,6 +40,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.LogicalExplorerNodeFactory;
 
 public class NewTigerstripeExplorerContentProvider extends
@@ -74,21 +75,17 @@ public class NewTigerstripeExplorerContentProvider extends
 				if (showRelationshipAnchors) {
 					try {
 						AbstractArtifact aArt = (AbstractArtifact) artifact;
-						List<IRelationship> origs = aArt
-								.getArtifactManager()
+						List<IRelationship> origs = aArt.getArtifactManager()
 								.getOriginatingRelationshipForFQN(
-										artifact.getFullyQualifiedName(),
-										true);
+										artifact.getFullyQualifiedName(), true);
 						for (IRelationship rel : origs) {
 							raw.add(new RelationshipAnchor(rel
 									.getRelationshipAEnd()));
 						}
 
-						List<IRelationship> terms = aArt
-								.getArtifactManager()
+						List<IRelationship> terms = aArt.getArtifactManager()
 								.getTerminatingRelationshipForFQN(
-										artifact.getFullyQualifiedName(),
-										true);
+										artifact.getFullyQualifiedName(), true);
 						for (IRelationship rel : terms) {
 							raw.add(new RelationshipAnchor(rel
 									.getRelationshipZEnd()));
@@ -144,6 +141,15 @@ public class NewTigerstripeExplorerContentProvider extends
 		return filteredChildren.toArray(new Object[filteredChildren.size()]);
 	}
 
+	@Override
+	public Object getParent(Object element) {
+		if (element instanceof AbstractLogicalExplorerNode) {
+			AbstractLogicalExplorerNode node = (AbstractLogicalExplorerNode) element;
+			element = node.getKeyResource();
+		}
+		return super.getParent(element);
+	}
+
 	/**
 	 * Post processing on JAR files to make them appear properly as TS modules
 	 * when needed
@@ -193,7 +199,7 @@ public class NewTigerstripeExplorerContentProvider extends
 	 * Note: This method is for internal use only. Clients should not call this
 	 * method.
 	 */
-	protected Object[] getTigerstripeProjects() {
+	protected IProject[] getTigerstripeProjects() {
 		List<IProject> result = new ArrayList<IProject>();
 		IProject[] projects = EclipsePlugin.getWorkspace().getRoot()
 				.getProjects();
@@ -255,7 +261,7 @@ public class NewTigerstripeExplorerContentProvider extends
 				EclipsePlugin.log(e);
 			}
 		}
-		return result.toArray();
+		return result.toArray(new IProject[0]);
 	}
 
 }

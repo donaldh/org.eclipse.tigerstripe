@@ -1070,7 +1070,7 @@
                      value="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent">
                </instanceof>
                <instanceof
-                     value="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.ClassDiagramLogicalNode" />
+                     value="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode" />
                <and>
                   <or>
                      <instanceof
@@ -1600,6 +1600,9 @@
    </extension>
    <extension
          point="org.eclipse.ui.navigator.viewer">
+	<dragAssistant
+		class="org.eclipse.ui.navigator.resources.ResourceDragAdapterAssistant"
+		viewerId="org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew" />
       <viewerContentBinding
             viewerId="org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew">
          <includes>

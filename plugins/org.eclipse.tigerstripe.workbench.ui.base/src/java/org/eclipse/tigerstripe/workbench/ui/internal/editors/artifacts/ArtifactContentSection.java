@@ -57,7 +57,8 @@ public class ArtifactContentSection extends ArtifactSectionPart {
 		getToolkit().paintBordersFor(getBody());
 	}
 
-	private static final Map<String, Class<?>> HREFS_CLASSES = new HashMap<String, Class<?>>(8);
+	private static final Map<String, Class<?>> HREFS_CLASSES = new HashMap<String, Class<?>>(
+			8);
 
 	static {
 		HREFS_CLASSES.put("attributes", ArtifactAttributesSection.class);
@@ -86,10 +87,11 @@ public class ArtifactContentSection extends ArtifactSectionPart {
 						if (sectionClass.isInstance(formPart)) {
 							expandSetFocusAndScroll(((SectionPart) formPart)
 									.getSection());
-						}
-						if (formPart instanceof EndSection) {
-							((EndSection) formPart).selectEndByEnd(e.getHref()
-									.toString());
+							if (formPart instanceof EndSection) {
+								((EndSection) formPart).selectEndByEnd(e
+										.getHref().toString());
+							}
+							break;
 						}
 					}
 				}
@@ -103,7 +105,8 @@ public class ArtifactContentSection extends ArtifactSectionPart {
 		section.forceFocus();
 		// determine where the section is and scroll so that
 		// it is visible
-		ComponentUtils.scrollToComponent(page.getManagedForm().getForm(), section);
+		ComponentUtils.scrollToComponent(page.getManagedForm().getForm(),
+				section);
 	}
 
 	private void createDescription(Composite parent, FormToolkit toolkit) {

@@ -18,28 +18,25 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.LogicalExplorerNodeFactory;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.ide.IDE;
 import org.eclipse.ui.ide.ResourceUtil;
 import org.eclipse.ui.navigator.ILinkHelper;
+import org.eclipse.ui.part.FileEditorInput;
 
 public class TigerstripeLinkHelper implements ILinkHelper {
 
 	public void activateEditor(IWorkbenchPage aPage,
 			IStructuredSelection aSelection) {
-
 		Object element = aSelection.getFirstElement();
-
 		if (element instanceof AbstractLogicalExplorerNode) {
 			IResource resource = ((AbstractLogicalExplorerNode) element)
 					.getKeyResource();
 			if (resource instanceof IFile) {
-				try {
-					IDE.openEditor(aPage, (IFile) resource);
-				} catch (PartInitException e) {
-					e.printStackTrace();
-				}
+				IEditorInput fileInput = new FileEditorInput((IFile) resource);
+				IEditorPart editor;
+				if ((editor = aPage.findEditor(fileInput)) != null)
+					aPage.bringToTop(editor);
 			}
 		}
 	}
