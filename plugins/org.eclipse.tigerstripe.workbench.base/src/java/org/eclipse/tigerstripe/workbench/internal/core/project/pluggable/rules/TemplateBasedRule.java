@@ -123,140 +123,158 @@ public abstract class TemplateBasedRule extends Rule implements
 		ArtifactManager artifactMgr = session.getArtifactManager();
 
 		// Let's put what we'll need in the context and get going
-		Collection<IAbstractArtifact> entities = ArtifactFilter.filter(
-				artifactMgr.getArtifactsByModel(ManagedEntityArtifact.MODEL,
-						false, new NullProgressMonitor()), filter);
+		if (artifactMgr.getRegisteredArtifacts().contains(ManagedEntityArtifact.MODEL)){
+			Collection<IAbstractArtifact> entities = ArtifactFilter.filter(
+					artifactMgr.getArtifactsByModel(ManagedEntityArtifact.MODEL,
+							false, new NullProgressMonitor()), filter);
+			Collection<IAbstractArtifact> allEntities = artifactMgr
+			.getArtifactsByModel(ManagedEntityArtifact.MODEL, true, false,
+					new NullProgressMonitor());
 
-		Collection<IAbstractArtifact> datatypes = ArtifactFilter.filter(
-				artifactMgr.getArtifactsByModel(DatatypeArtifact.MODEL, false,
-						new NullProgressMonitor()), filter);
+			defaultVContext.put("entities", entities);
+			defaultVContext.put("allEntities", allEntities);
+		}
+		
+		if (artifactMgr.getRegisteredArtifacts().contains(DatatypeArtifact.MODEL)){
+			Collection<IAbstractArtifact> datatypes = ArtifactFilter.filter(
+					artifactMgr.getArtifactsByModel(DatatypeArtifact.MODEL, false,
+							new NullProgressMonitor()), filter);
+			Collection<IAbstractArtifact> allDatatypes = artifactMgr
+			.getArtifactsByModel(DatatypeArtifact.MODEL, true, false,
+					new NullProgressMonitor());
+		
+			defaultVContext.put("datatypes", datatypes);
+			defaultVContext.put("allDatatypes", allDatatypes);
+		}
+		
+		if (artifactMgr.getRegisteredArtifacts().contains(EventArtifact.MODEL)){	
+			Collection<IAbstractArtifact> events = ArtifactFilter.filter(
+					artifactMgr.getArtifactsByModel(EventArtifact.MODEL, false,
+							new NullProgressMonitor()), filter);
+			Collection<IAbstractArtifact> allEvents = artifactMgr
+			.getArtifactsByModel(EventArtifact.MODEL, true, false,
+					new NullProgressMonitor());
+			
+			defaultVContext.put("events", events);
+			defaultVContext.put("allEvents", allEvents);
+		}
+		
+		if (artifactMgr.getRegisteredArtifacts().contains(EnumArtifact.MODEL)){
+			Collection<IAbstractArtifact> enums = ArtifactFilter.filter(artifactMgr
+					.getArtifactsByModel(EnumArtifact.MODEL, false,
+							new NullProgressMonitor()), filter);
+			Collection<IAbstractArtifact> allEnums = artifactMgr
+			.getArtifactsByModel(EnumArtifact.MODEL, true, false,
+					new NullProgressMonitor());
+		
+			defaultVContext.put("enumerations", enums);
+			defaultVContext.put("allEnumerations", allEnums);
+		}
+		
+		if (artifactMgr.getRegisteredArtifacts().contains(ExceptionArtifact.MODEL)){
+			Collection<IAbstractArtifact> exceptions = ArtifactFilter.filter(
+					artifactMgr.getArtifactsByModel(ExceptionArtifact.MODEL, false,
+							new NullProgressMonitor()), filter);
+			Collection<IAbstractArtifact> allExceptions = artifactMgr
+			.getArtifactsByModel(ExceptionArtifact.MODEL, true, false,
+					new NullProgressMonitor());
+			
+			defaultVContext.put("exceptions", exceptions);
+			defaultVContext.put("allExceptions", allExceptions);
+		}
+		
+		if (artifactMgr.getRegisteredArtifacts().contains(QueryArtifact.MODEL)){
+			Collection<IAbstractArtifact> queries = ArtifactFilter.filter(
+					artifactMgr.getArtifactsByModel(QueryArtifact.MODEL, false,
+							new NullProgressMonitor()), filter);
+			Collection<IAbstractArtifact> allQueries = artifactMgr
+			.getArtifactsByModel(QueryArtifact.MODEL, true, false,
+					new NullProgressMonitor());
 
-		Collection<IAbstractArtifact> events = ArtifactFilter.filter(
-				artifactMgr.getArtifactsByModel(EventArtifact.MODEL, false,
-						new NullProgressMonitor()), filter);
-
-		Collection<IAbstractArtifact> enums = ArtifactFilter.filter(artifactMgr
-				.getArtifactsByModel(EnumArtifact.MODEL, false,
-						new NullProgressMonitor()), filter);
-
-		Collection<IAbstractArtifact> exceptions = ArtifactFilter.filter(
-				artifactMgr.getArtifactsByModel(ExceptionArtifact.MODEL, false,
-						new NullProgressMonitor()), filter);
-
-		Collection<IAbstractArtifact> queries = ArtifactFilter.filter(
-				artifactMgr.getArtifactsByModel(QueryArtifact.MODEL, false,
-						new NullProgressMonitor()), filter);
-
-		Collection<IAbstractArtifact> sessions = ArtifactFilter.filter(
-				artifactMgr.getArtifactsByModel(SessionFacadeArtifact.MODEL,
-						false, new NullProgressMonitor()), filter);
-
-		Collection<IAbstractArtifact> updateProcedures = ArtifactFilter.filter(
-				artifactMgr.getArtifactsByModel(UpdateProcedureArtifact.MODEL,
-						false, new NullProgressMonitor()), filter);
-
-		Collection<IAbstractArtifact> associations = ArtifactFilter.filter(
-				artifactMgr.getArtifactsByModel(AssociationArtifact.MODEL,
-						false, new NullProgressMonitor()), filter);
-
-		Collection<IAbstractArtifact> dependencies = ArtifactFilter.filter(
-				artifactMgr.getArtifactsByModel(DependencyArtifact.MODEL,
-						false, new NullProgressMonitor()), filter);
-
-		Collection<IAbstractArtifact> associationClasses = ArtifactFilter
-				.filter(artifactMgr.getArtifactsByModel(
-						AssociationClassArtifact.MODEL, false,
-						new NullProgressMonitor()), filter);
-
-		Collection<IAbstractArtifact> packages = ArtifactFilter.filter(
-				artifactMgr.getArtifactsByModel(PackageArtifact.MODEL, false,
-						new NullProgressMonitor()), filter);
-
-		// Bug 928: removed ArtifactFilter that was used to filter all lists
-		// below
-		// since the facet is now propagated to all dependencies/referenced
-		// projects
-		Collection<IAbstractArtifact> allEntities = artifactMgr
-				.getArtifactsByModel(ManagedEntityArtifact.MODEL, true, false,
-						new NullProgressMonitor());
-
-		Collection<IAbstractArtifact> allDatatypes = artifactMgr
-				.getArtifactsByModel(DatatypeArtifact.MODEL, true, false,
-						new NullProgressMonitor());
-
-		Collection<IAbstractArtifact> allEvents = artifactMgr
-				.getArtifactsByModel(EventArtifact.MODEL, true, false,
-						new NullProgressMonitor());
-
-		Collection<IAbstractArtifact> allEnums = artifactMgr
-				.getArtifactsByModel(EnumArtifact.MODEL, true, false,
-						new NullProgressMonitor());
-
-		Collection<IAbstractArtifact> allExceptions = artifactMgr
-				.getArtifactsByModel(ExceptionArtifact.MODEL, true, false,
-						new NullProgressMonitor());
-
-		Collection<IAbstractArtifact> allQueries = artifactMgr
-				.getArtifactsByModel(QueryArtifact.MODEL, true, false,
-						new NullProgressMonitor());
-
-		Collection<IAbstractArtifact> allSessions = artifactMgr
-				.getArtifactsByModel(SessionFacadeArtifact.MODEL, true, false,
-						new NullProgressMonitor());
-
-		Collection<IAbstractArtifact> allUpdateProcedures = artifactMgr
-				.getArtifactsByModel(UpdateProcedureArtifact.MODEL, true,
-						false, new NullProgressMonitor());
-
-		Collection<IAbstractArtifact> allAssociations = artifactMgr
-				.getArtifactsByModel(AssociationArtifact.MODEL, true, false,
-						new NullProgressMonitor());
-
-		Collection<IAbstractArtifact> allDependencies = artifactMgr
-				.getArtifactsByModel(DependencyArtifact.MODEL, true, false,
-						new NullProgressMonitor());
-
-		Collection<IAbstractArtifact> allAssociationClasses = artifactMgr
-				.getArtifactsByModel(AssociationClassArtifact.MODEL, true,
-						false, new NullProgressMonitor());
-
-		Collection<IAbstractArtifact> allPackages = artifactMgr
-				.getArtifactsByModel(PackageArtifact.MODEL, true, false,
-						new NullProgressMonitor());
+			defaultVContext.put("queries", queries);
+			defaultVContext.put("allQueries", allQueries);
+		}
+		
+		if (artifactMgr.getRegisteredArtifacts().contains(SessionFacadeArtifact.MODEL)){
+			Collection<IAbstractArtifact> sessions = ArtifactFilter.filter(
+					artifactMgr.getArtifactsByModel(SessionFacadeArtifact.MODEL,
+							false, new NullProgressMonitor()), filter);
+			Collection<IAbstractArtifact> allSessions = artifactMgr
+			.getArtifactsByModel(SessionFacadeArtifact.MODEL, true, false,
+					new NullProgressMonitor());
+			
+			defaultVContext.put("sessions", sessions);
+			defaultVContext.put("allSessions", allSessions);
+		}
+		
+		if (artifactMgr.getRegisteredArtifacts().contains(UpdateProcedureArtifact.MODEL)){
+			Collection<IAbstractArtifact> updateProcedures = ArtifactFilter.filter(
+					artifactMgr.getArtifactsByModel(UpdateProcedureArtifact.MODEL,
+							false, new NullProgressMonitor()), filter);
+			Collection<IAbstractArtifact> allUpdateProcedures = artifactMgr
+			.getArtifactsByModel(UpdateProcedureArtifact.MODEL, true,
+					false, new NullProgressMonitor());
+			
+			defaultVContext.put("updateProcedures", updateProcedures);
+			defaultVContext.put("allUpdateProcedures", allUpdateProcedures);
+		}
+		
+		if (artifactMgr.getRegisteredArtifacts().contains(AssociationArtifact.MODEL)){
+			Collection<IAbstractArtifact> associations = ArtifactFilter.filter(
+					artifactMgr.getArtifactsByModel(AssociationArtifact.MODEL,
+							false, new NullProgressMonitor()), filter);
+			Collection<IAbstractArtifact> allAssociations = artifactMgr
+			.getArtifactsByModel(AssociationArtifact.MODEL, true, false,
+					new NullProgressMonitor());
+			
+			defaultVContext.put("associations", associations);
+			defaultVContext.put("allAssociations", allAssociations);
+		}
+		
+		if (artifactMgr.getRegisteredArtifacts().contains(DependencyArtifact.MODEL)){
+			Collection<IAbstractArtifact> dependencies = ArtifactFilter.filter(
+					artifactMgr.getArtifactsByModel(DependencyArtifact.MODEL,
+							false, new NullProgressMonitor()), filter);
+			Collection<IAbstractArtifact> allDependencies = artifactMgr
+			.getArtifactsByModel(DependencyArtifact.MODEL, true, false,
+					new NullProgressMonitor());
+			
+			defaultVContext.put("dependencies", dependencies);
+			defaultVContext.put("allDependencies", allDependencies);
+		}
+		
+		if (artifactMgr.getRegisteredArtifacts().contains(AssociationClassArtifact.MODEL)){
+			Collection<IAbstractArtifact> associationClasses = ArtifactFilter
+			.filter(artifactMgr.getArtifactsByModel(
+					AssociationClassArtifact.MODEL, false,
+					new NullProgressMonitor()), filter);
+			Collection<IAbstractArtifact> allAssociationClasses = artifactMgr
+			.getArtifactsByModel(AssociationClassArtifact.MODEL, true,
+					false, new NullProgressMonitor());
+			
+			defaultVContext.put("associationClasses", associationClasses);
+			defaultVContext.put("allAssociationClasses", allAssociationClasses);
+		}
+		
+		if (artifactMgr.getRegisteredArtifacts().contains(PackageArtifact.MODEL)){
+			Collection<IAbstractArtifact> packages = ArtifactFilter.filter(
+					artifactMgr.getArtifactsByModel(PackageArtifact.MODEL, false,
+							new NullProgressMonitor()), filter);
+			Collection<IAbstractArtifact> allPackages = artifactMgr
+			.getArtifactsByModel(PackageArtifact.MODEL, true, false,
+					new NullProgressMonitor());
+			
+			defaultVContext.put("packages", packages);
+			defaultVContext.put("allPackages", allPackages);
+		}
 
 		Collection<IAbstractArtifact> artifacts = artifactMgr.getAllArtifacts(
 				false, new NullProgressMonitor());
 		Collection<IAbstractArtifact> allArtifacts = artifactMgr
 				.getAllArtifacts(true, false, new NullProgressMonitor());
-
 		defaultVContext.put("artifacts", artifacts);
 		defaultVContext.put("allArtifacts", allArtifacts);
 
-		defaultVContext.put("entities", entities);
-		defaultVContext.put("datatypes", datatypes);
-		defaultVContext.put("events", events);
-		defaultVContext.put("enumerations", enums);
-		defaultVContext.put("exceptions", exceptions);
-		defaultVContext.put("queries", queries);
-		defaultVContext.put("updateProcedures", updateProcedures);
-		defaultVContext.put("associations", associations);
-		defaultVContext.put("associationClasses", associationClasses);
-		defaultVContext.put("dependencies", dependencies);
-		defaultVContext.put("sessions", sessions);
-		defaultVContext.put("packages", packages);
-
-		defaultVContext.put("allEntities", allEntities);
-		defaultVContext.put("allDatatypes", allDatatypes);
-		defaultVContext.put("allEvents", allEvents);
-		defaultVContext.put("allEnumerations", allEnums);
-		defaultVContext.put("allExceptions", allExceptions);
-		defaultVContext.put("allQueries", allQueries);
-		defaultVContext.put("allUpdateProcedures", allUpdateProcedures);
-		defaultVContext.put("allAssociations", allAssociations);
-		defaultVContext.put("allAssociationClasses", allAssociationClasses);
-		defaultVContext.put("allDependencies", allDependencies);
-		defaultVContext.put("allSessions", allSessions);
-		defaultVContext.put("allPackages", allPackages);
 
 		defaultVContext.put("pluginConfig", pluginConfig);
 		defaultVContext.put("runtime", TigerstripeRuntime.getInstance());
