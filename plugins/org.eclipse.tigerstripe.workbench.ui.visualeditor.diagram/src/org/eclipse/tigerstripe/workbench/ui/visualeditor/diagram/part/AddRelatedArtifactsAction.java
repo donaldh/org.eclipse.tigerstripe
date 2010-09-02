@@ -436,13 +436,16 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 						ClassDiagramDragDropEditPolicy dndEditPolicy = (ClassDiagramDragDropEditPolicy) mapEditPart
 								.getEditPolicy(EditPolicyRoles.DRAG_DROP_ROLE);
 						DropObjectsRequest request = new DropObjectsRequest();
-						List<String> artifactsToAddList = new ArrayList<String>();
+						List artifactsToAddList = new ArrayList();
 						for (IAbstractArtifact art : artifactsToAdd) {
-							IResource artResource = (IResource) art
-									.getAdapter(IResource.class);
-							if (artResource != null)
-								artifactsToAddList.add(artResource
-										.getLocation().toOSString());
+							// Bug 310830
+							// There is no need for this check - you can simply drop the Artifact
+//							IResource artResource = (IResource) art
+//									.getAdapter(IResource.class);
+//							if (artResource != null)
+//								artifactsToAddList.add(artResource
+//										.getLocation().toOSString());
+							artifactsToAddList.add(art);
 						}
 						request.setObjects(artifactsToAddList);
 						request.setAllowedDetail(DND.DROP_COPY);
