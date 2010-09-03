@@ -146,7 +146,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	/**
 	 * Implements Open Perspective.
 	 */
-	private void openPerspective(String perspId) {
+	protected void openPerspective(String perspId) {
 		try {
 			IWorkbench workbench = PlatformUI.getWorkbench();
 			workbench.showPerspective(perspId, workbench
@@ -159,7 +159,7 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 	/**
 	 * 
 	 */
-	private void openProject(final String projectName) {
+	protected void openProject(final String projectName) {
 		final IWorkbenchPage activePage = EclipsePlugin.getActivePage();
 		if (activePage != null) {
 			final Display display = getShell().getDisplay();
