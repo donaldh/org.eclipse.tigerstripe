@@ -51,10 +51,9 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.VMFileSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.VelocityContextDefinitionEditDialog;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.PluginDescriptorEditor;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.generator.GeneratorDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.RulesSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
-import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
@@ -62,8 +61,7 @@ import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 import org.eclipse.ui.part.FileEditorInput;
 
-public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
-		implements IDetailsPage {
+public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage {
 
 	protected TableViewer viewer;
 
@@ -183,22 +181,21 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 
 	}
 
-	public BaseTemplateRuleDetailsPage(RulesSectionPart master) {
-		super(master);
+	public BaseTemplateRuleDetailsPage(RulesSectionPart master,
+			FormToolkit formToolkit, Composite parent) {
+		super(master, formToolkit, parent);
 	}
 
-	public void createContents(Composite parent) {
+	@Override
+	protected void createContents(Composite parent) {
 		TableWrapLayout twLayout = new TableWrapLayout();
 		twLayout.numColumns = 1;
 		parent.setLayout(twLayout);
-		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.heightHint = 200;
-		parent.setLayoutData(td);
 
 		createRuleInfo(parent);
 		createContextDefinitions(parent);
 
-		form.getToolkit().paintBordersFor(parent);
+		getToolkit().paintBordersFor(parent);
 	}
 
 	@Override
@@ -245,7 +242,7 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 	// ============================================================
 	protected Composite createRuleInfo(Composite parent) {
 
-		FormToolkit toolkit = form.getToolkit();
+		FormToolkit toolkit = getToolkit();
 
 		DetailsPageListener adapter = new DetailsPageListener();
 
@@ -273,24 +270,24 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 		templComposite
 				.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		templateText = toolkit.createText(templComposite, "");
-		templateText.setEnabled(PluginDescriptorEditor.isEditable());
+		templateText.setEnabled(GeneratorDescriptorEditor.isEditable());
 		templateText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		templateText.addModifyListener(adapter);
 		templateText
 				.setToolTipText("This template will be used when running this rule.");
 
-		templateBrowseButton = form.getToolkit().createButton(templComposite,
+		templateBrowseButton = getToolkit().createButton(templComposite,
 				"Browse", SWT.PUSH);
 		// Support for testing
 		templateBrowseButton.setData("name", "Browse_Template");
-		templateBrowseButton.setEnabled(PluginDescriptorEditor.isEditable());
-		if (PluginDescriptorEditor.isEditable())
+		templateBrowseButton.setEnabled(GeneratorDescriptorEditor.isEditable());
+		if (GeneratorDescriptorEditor.isEditable())
 			templateBrowseButton.addSelectionListener(adapter);
 
 		toolkit.createLabel(sectionClient, "Output File:");
 
-		outputFile = form.getToolkit().createText(sectionClient, "");
-		outputFile.setEnabled(PluginDescriptorEditor.isEditable());
+		outputFile = getToolkit().createText(sectionClient, "");
+		outputFile.setEnabled(GeneratorDescriptorEditor.isEditable());
 		outputFile.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		outputFile.addModifyListener(adapter);
 		outputFile.setToolTipText("This name of the generated file.");
@@ -304,7 +301,7 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 	protected void createContextDefinitions(Composite parent) {
 
 		ITemplateBasedRule rule = getITemplateRunRule();
-		FormToolkit toolkit = form.getToolkit();
+		FormToolkit toolkit = getToolkit();
 		Composite sectionClient = toolkit.createComposite(parent);
 		TableWrapLayout twlayout = new TableWrapLayout();
 		twlayout.numColumns = 2;
@@ -318,7 +315,7 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 
 		Table t = toolkit.createTable(sectionClient, SWT.SINGLE
 				| SWT.FULL_SELECTION);
-		t.setEnabled(PluginDescriptorEditor.isEditable());
+		t.setEnabled(GeneratorDescriptorEditor.isEditable());
 		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
 		td.rowspan = 2;
 		td.heightHint = 100;
@@ -360,9 +357,9 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 		viewer.setSorter(nameSorter);
 
 		addButton = toolkit.createButton(sectionClient, "Add", SWT.PUSH);
-		addButton.setEnabled(PluginDescriptorEditor.isEditable());
+		addButton.setEnabled(GeneratorDescriptorEditor.isEditable());
 		addButton.setLayoutData(new TableWrapData(TableWrapData.FILL));
-		if (PluginDescriptorEditor.isEditable()) {
+		if (GeneratorDescriptorEditor.isEditable()) {
 			addButton.addSelectionListener(new SelectionListener() {
 				public void widgetSelected(SelectionEvent event) {
 					addButtonSelected(event);
@@ -374,7 +371,7 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 			});
 		}
 		removeButton = toolkit.createButton(sectionClient, "Remove", SWT.PUSH);
-		removeButton.setEnabled(PluginDescriptorEditor.isEditable());
+		removeButton.setEnabled(GeneratorDescriptorEditor.isEditable());
 		removeButton.setLayoutData(new TableWrapData());
 		removeButton.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent event) {
@@ -386,7 +383,7 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 			}
 		});
 
-		if (PluginDescriptorEditor.isEditable()) {
+		if (GeneratorDescriptorEditor.isEditable()) {
 			viewer.addDoubleClickListener(new IDoubleClickListener() {
 				public void doubleClick(DoubleClickEvent event) {
 					doubleClicked(event);
@@ -399,7 +396,7 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 
 	protected void createMacros(Composite parent) {
 		ITemplateBasedRule rule = getITemplateRunRule();
-		FormToolkit toolkit = form.getToolkit();
+		FormToolkit toolkit = getToolkit();
 		Composite sectionClient = toolkit.createComposite(parent);
 		TableWrapLayout twlayout = new TableWrapLayout();
 		twlayout.numColumns = 2;
@@ -413,7 +410,7 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 
 		Table m = toolkit.createTable(sectionClient, SWT.SINGLE
 				| SWT.FULL_SELECTION);
-		m.setEnabled(PluginDescriptorEditor.isEditable());
+		m.setEnabled(GeneratorDescriptorEditor.isEditable());
 		TableWrapData tdm = new TableWrapData(TableWrapData.FILL_GRAB);
 		tdm.rowspan = 2;
 		tdm.heightHint = 100;
@@ -448,9 +445,9 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 		macroViewer.setSorter(macroNameSorter);
 
 		macroAddButton = toolkit.createButton(sectionClient, "Add", SWT.PUSH);
-		macroAddButton.setEnabled(PluginDescriptorEditor.isEditable());
+		macroAddButton.setEnabled(GeneratorDescriptorEditor.isEditable());
 		macroAddButton.setLayoutData(new TableWrapData(TableWrapData.FILL));
-		if (PluginDescriptorEditor.isEditable()) {
+		if (GeneratorDescriptorEditor.isEditable()) {
 			macroAddButton.addSelectionListener(new SelectionListener() {
 				public void widgetSelected(SelectionEvent event) {
 					macroAddButtonSelected(event);
@@ -463,7 +460,7 @@ public abstract class BaseTemplateRuleDetailsPage extends BaseRuleDetailsPage
 		}
 		macroRemoveButton = toolkit.createButton(sectionClient, "Remove",
 				SWT.PUSH);
-		macroRemoveButton.setEnabled(PluginDescriptorEditor.isEditable());
+		macroRemoveButton.setEnabled(GeneratorDescriptorEditor.isEditable());
 		macroRemoveButton.setLayoutData(new TableWrapData());
 		macroRemoveButton.addSelectionListener(new SelectionListener() {
 			public void widgetSelected(SelectionEvent event) {

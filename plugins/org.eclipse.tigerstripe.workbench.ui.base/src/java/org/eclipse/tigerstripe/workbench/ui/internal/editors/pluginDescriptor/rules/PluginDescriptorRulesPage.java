@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules;
 
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
-import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -47,10 +47,7 @@ public class PluginDescriptorRulesPage extends TigerstripeFormPage {
 
 	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {
 		Composite body = managedForm.getForm().getBody();
-		body.setLayout(TigerstripeLayoutFactory.createPageTableWrapLayout(2,
-				true));
-
-		// sections
+		GridLayoutFactory.fillDefaults().margins(3, 3).applyTo(body);
 		managedForm.addPart(new GlobalRulesSection(this, body, toolkit));
 		managedForm.addPart(new ArtifactRulesSection(this, body, toolkit));
 	}

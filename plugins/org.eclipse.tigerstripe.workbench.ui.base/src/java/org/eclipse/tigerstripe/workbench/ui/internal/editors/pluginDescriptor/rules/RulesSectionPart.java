@@ -10,14 +10,16 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules;
 
+import org.eclipse.jface.layout.GridDataFactory;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
@@ -28,17 +30,15 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
+import org.eclipse.tigerstripe.workbench.ui.components.md.MasterDetails;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.generator.GeneratorDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.generator.GeneratorDescriptorSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
-import org.eclipse.ui.forms.DetailsPart;
-import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
-import org.eclipse.ui.forms.widgets.TableWrapData;
 
 public abstract class RulesSectionPart extends GeneratorDescriptorSectionPart {
 
@@ -50,9 +50,8 @@ public abstract class RulesSectionPart extends GeneratorDescriptorSectionPart {
 						: ExpandableComposite.NO_TITLE);
 	}
 
-	protected DetailsPart detailsPart;
-	protected SashForm sashForm;
 	private Table table;
+	private MasterDetails masterDeatils;
 
 	/**
 	 * Creates the content of the master/details block inside the managed form.
@@ -66,28 +65,34 @@ public abstract class RulesSectionPart extends GeneratorDescriptorSectionPart {
 		IManagedForm managedForm = getPage().getManagedForm();
 		FormToolkit toolkit = getToolkit();
 
-		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.colspan = 2;
-		getSection().setLayoutData(td);
-
+		GridDataFactory.fillDefaults().grab(true, true).applyTo(getSection());
 		Composite body = getToolkit().createComposite(getSection());
 		body
 				.setLayout(TigerstripeLayoutFactory.createClearGridLayout(1,
 						false));
-		sashForm = new SashForm(body, SWT.HORIZONTAL);
-		toolkit.adapt(sashForm, false, false);
-		sashForm.setMenu(body.getMenu());
-		sashForm.setToolTipText(getTooltipText());
-		sashForm.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		createMasterPart(managedForm, sashForm);
-		createDetailsPart(managedForm, sashForm);
+		Composite container = toolkit.createComposite(body);
+		container.setLayout(new GridLayout(2, false));
+		container.setLayoutData(new GridData(GridData.FILL_BOTH));
+
+		Composite masterContainer = toolkit.createComposite(container);
+		masterContainer.setLayout(new GridLayout());
+		GridDataFactory.fillDefaults().hint(400, SWT.DEFAULT).applyTo(
+				masterContainer);
+
+		createMasterPart(managedForm, masterContainer);
+
+		Composite detailsContainer = toolkit.createComposite(container);
+		detailsContainer.setLayout(new GridLayout());
+		detailsContainer.setLayoutData(new GridData(GridData.FILL_BOTH));
+
+		createDetailsPart(managedForm, detailsContainer);
 
 		getSection().setClient(body);
 		getToolkit().paintBordersFor(body);
 	}
 
-	protected abstract void registerPages(DetailsPart detailsPart);
+	protected abstract MasterDetails createMasterDeatils(Composite parent);
 
 	protected abstract String getTooltipText();
 
@@ -108,9 +113,7 @@ public abstract class RulesSectionPart extends GeneratorDescriptorSectionPart {
 	}
 
 	protected void createDetailsPart(final IManagedForm mform, Composite parent) {
-		detailsPart = new DetailsPart(mform, parent, SWT.NULL);
-		mform.addPart(detailsPart);
-		registerPages(detailsPart);
+		masterDeatils = createMasterDeatils(parent);
 	}
 
 	class MasterLabelProvider extends LabelProvider implements
@@ -142,17 +145,15 @@ public abstract class RulesSectionPart extends GeneratorDescriptorSectionPart {
 
 	protected void createMasterPart(final IManagedForm managedForm,
 			Composite parent) {
-
 		FormToolkit toolkit = getToolkit();
-
 		Section section = toolkit.createSection(parent,
 				ExpandableComposite.NO_TITLE);
-
+		section.setLayoutData(new GridData(GridData.FILL_BOTH));
 		Composite sectionClient = toolkit.createComposite(section);
 		GridLayout layout = new GridLayout(2, false);
 		sectionClient.setLayout(layout);
-
 		table = toolkit.createTable(sectionClient, SWT.NULL);
+
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		gd.verticalSpan = 4;
 		table.setLayoutData(gd);
@@ -193,11 +194,11 @@ public abstract class RulesSectionPart extends GeneratorDescriptorSectionPart {
 			});
 		}
 
-		final IFormPart part = this;
 		viewer = new TableViewer(table);
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
-				managedForm.fireSelectionChanged(part, event.getSelection());
+				// managedForm.fireSelectionChanged(RulesSectionPart.this,
+				// event.getSelection());
 				viewerSelectionChanged(event);
 			}
 		});
@@ -210,26 +211,17 @@ public abstract class RulesSectionPart extends GeneratorDescriptorSectionPart {
 	}
 
 	/**
-	 * Used only by details pages. Just workaround to avoid appearing scrolls on
-	 * details part.
-	 */
-	public void setMinimumHeight(int value) {
-		GridData gd = (GridData) table.getLayoutData();
-		if (gd.minimumHeight < value) {
-			gd = new GridData(GridData.FILL_BOTH);
-			gd.verticalSpan = 4;
-			gd.minimumHeight = value;
-			table.setLayoutData(gd);
-			getManagedForm().reflow(true);
-		}
-	}
-
-	/**
 	 * Updates the master's side based on the selection on the list of
 	 * attributes
 	 * 
 	 */
 	protected void viewerSelectionChanged(SelectionChangedEvent event) {
+		ISelection selection = event.getSelection();
+		if (selection instanceof IStructuredSelection) {
+			Object element = ((IStructuredSelection) selection)
+					.getFirstElement();
+			masterDeatils.switchTo(element);
+		}
 		updateMaster();
 	}
 
@@ -279,7 +271,6 @@ public abstract class RulesSectionPart extends GeneratorDescriptorSectionPart {
 	@Override
 	public void commit(boolean onSave) {
 		super.commit(onSave);
-		detailsPart.commit(onSave);
 	}
 
 	@Override
@@ -288,5 +279,4 @@ public abstract class RulesSectionPart extends GeneratorDescriptorSectionPart {
 		viewer.refresh();
 		updateMaster();
 	}
-
 }

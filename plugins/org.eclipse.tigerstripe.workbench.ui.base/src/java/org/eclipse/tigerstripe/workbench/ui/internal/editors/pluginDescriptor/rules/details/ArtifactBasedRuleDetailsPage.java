@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.details;
 
+import java.util.Arrays;
+
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
@@ -32,11 +34,13 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.internal.InternalTigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactMetadataSession;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.ArtifactBasedTemplateRule;
+import org.eclipse.tigerstripe.workbench.plugins.IArtifactRule;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.PluginDescriptorEditor;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.generator.GeneratorDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.ArtifactRulesSection;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.widgets.FormText;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
@@ -171,8 +175,8 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 			for (int i = 0; i < baseSupportedArtifacts.length; i++) {
 				supportedArtifacts[i] = baseSupportedArtifacts[i];
 			}
-			supportedArtifacts[baseSupportedArtifacts.length] = ArtifactBasedTemplateRule.ANY_ARTIFACT_LABEL;
-
+			supportedArtifacts[baseSupportedArtifacts.length] = IArtifactRule.ANY_ARTIFACT_LABEL;
+			Arrays.sort(supportedArtifacts);
 			rule.setArtifactType(supportedArtifacts[index]);
 			pageModified();
 		}
@@ -207,8 +211,8 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 		for (int i = 0; i < baseSupportedArtifacts.length; i++) {
 			supportedArtifacts[i] = baseSupportedArtifacts[i];
 		}
-		supportedArtifacts[baseSupportedArtifacts.length] = ArtifactBasedTemplateRule.ANY_ARTIFACT_LABEL;
-
+		supportedArtifacts[baseSupportedArtifacts.length] = IArtifactRule.ANY_ARTIFACT_LABEL;
+		Arrays.sort(supportedArtifacts);
 		int index = -1;
 		for (int i = 0; i < supportedArtifacts.length; i++) {
 			if (supportedArtifacts[i].equals(rule.getArtifactType())) {
@@ -222,15 +226,14 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 	}
 
 	@Override
-	public void createContents(Composite parent) {
+	protected void createContents(Composite parent) {
 		TableWrapLayout twLayout = new TableWrapLayout();
 		twLayout.numColumns = 1;
 		parent.setLayout(twLayout);
-		parent.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
 		Composite sectionClient = createRuleInfo(parent);
 
-		FormText text = form.getToolkit().createFormText(sectionClient, true);
+		FormText text = getToolkit().createFormText(sectionClient, true);
 		TableWrapData twData = new TableWrapData(TableWrapData.FILL_GRAB);
 		twData.colspan = 2;
 		text.setLayoutData(twData);
@@ -246,48 +249,43 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 		createContextDefinitions(sectionClient);
 		createMacros(sectionClient);
 
-		int height = sectionClient.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
-		master.setMinimumHeight(height);
-
-		form.getToolkit().paintBordersFor(parent);
+		getToolkit().paintBordersFor(parent);
 	}
 
 	protected void createOptionButtons(Composite parent) {
 		// Put an empty label first to "Centre" the control
-		form.getToolkit().createLabel(parent, "");
+		getToolkit().createLabel(parent, "");
 		ArtifactBasedRuleDetailsPageListener adapter = new ArtifactBasedRuleDetailsPageListener();
-		suppressEmptyFilesButton = form.getToolkit().createButton(parent,
+		suppressEmptyFilesButton = getToolkit().createButton(parent,
 				"Suppress Empty Files", SWT.CHECK);
-		suppressEmptyFilesButton
-				.setEnabled(PluginDescriptorEditor.isEditable());
+		suppressEmptyFilesButton.setEnabled(GeneratorDescriptorEditor
+				.isEditable());
 		suppressEmptyFilesButton.setLayoutData(new TableWrapData(
 				TableWrapData.FILL_GRAB));
-		if (PluginDescriptorEditor.isEditable())
+		if (GeneratorDescriptorEditor.isEditable())
 			suppressEmptyFilesButton.addSelectionListener(adapter);
 
 		// Put an empty label first to "Centre" the control
-		form.getToolkit().createLabel(parent, "");
-		overwriteFilesButton = form.getToolkit().createButton(parent,
+		getToolkit().createLabel(parent, "");
+		overwriteFilesButton = getToolkit().createButton(parent,
 				"Overwrite Files", SWT.CHECK);
-		overwriteFilesButton.setEnabled(PluginDescriptorEditor.isEditable());
+		overwriteFilesButton.setEnabled(GeneratorDescriptorEditor.isEditable());
 		overwriteFilesButton.setLayoutData(new TableWrapData(
 				TableWrapData.FILL_GRAB));
-		if (PluginDescriptorEditor.isEditable())
+		if (GeneratorDescriptorEditor.isEditable())
 			overwriteFilesButton.addSelectionListener(adapter);
 
 		// Pad out the section
-		form.getToolkit().createLabel(parent, "");
-		triggerOnDependenciesAndReferencesButton = form
-				.getToolkit()
-				.createButton(
-						parent,
-						"Include artifacts from dependencies and referenced projects",
-						SWT.CHECK);
+		getToolkit().createLabel(parent, "");
+		triggerOnDependenciesAndReferencesButton = getToolkit().createButton(
+				parent,
+				"Include artifacts from dependencies and referenced projects",
+				SWT.CHECK);
 		triggerOnDependenciesAndReferencesButton
-				.setEnabled(PluginDescriptorEditor.isEditable());
+				.setEnabled(GeneratorDescriptorEditor.isEditable());
 		triggerOnDependenciesAndReferencesButton
 				.setLayoutData(new TableWrapData(TableWrapData.FILL));
-		if (PluginDescriptorEditor.isEditable())
+		if (GeneratorDescriptorEditor.isEditable())
 			triggerOnDependenciesAndReferencesButton
 					.addSelectionListener(adapter);
 
@@ -295,7 +293,7 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 
 	protected void createArtifactDefinitions(Composite sectionClient) {
 
-		form.getToolkit().createLabel(sectionClient, "Artifact Type:");
+		getToolkit().createLabel(sectionClient, "Artifact Type:");
 
 		IArtifactMetadataSession session = InternalTigerstripeCore
 				.getDefaultArtifactMetadataSession();
@@ -305,14 +303,15 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 		for (int i = 0; i < baseSupportedArtifacts.length; i++) {
 			supportedArtifacts[i] = baseSupportedArtifacts[i];
 		}
-		supportedArtifacts[baseSupportedArtifacts.length] = ArtifactBasedTemplateRule.ANY_ARTIFACT_LABEL;
+		supportedArtifacts[baseSupportedArtifacts.length] = IArtifactRule.ANY_ARTIFACT_LABEL;
+		Arrays.sort(supportedArtifacts);
 		artifactTypeCombo = new CCombo(sectionClient, SWT.READ_ONLY);
-		artifactTypeCombo.setEnabled(PluginDescriptorEditor.isEditable());
-		form.getToolkit().adapt(artifactTypeCombo, true, true);
+		artifactTypeCombo.setEnabled(GeneratorDescriptorEditor.isEditable());
+		getToolkit().adapt(artifactTypeCombo, true, true);
 		artifactTypeCombo.setItems(supportedArtifacts);
 		artifactTypeCombo.setLayoutData(new TableWrapData(
 				TableWrapData.FILL_GRAB));
-		if (PluginDescriptorEditor.isEditable()) {
+		if (GeneratorDescriptorEditor.isEditable()) {
 			artifactTypeCombo.addSelectionListener(new SelectionListener() {
 				public void widgetDefaultSelected(SelectionEvent e) {
 				}
@@ -325,36 +324,37 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 	}
 
 	protected void createModelDefinitions(Composite parent) {
-		form.getToolkit().createLabel(parent, "Wrapper Class:");
+		getToolkit().createLabel(parent, "Wrapper Class:");
 
 		ArtifactBasedRuleDetailsPageListener adapter = new ArtifactBasedRuleDetailsPageListener();
 
-		Composite mcComposite = form.getToolkit().createComposite(parent);
+		Composite mcComposite = getToolkit().createComposite(parent);
 		TableWrapLayout twLayout = TigerstripeLayoutFactory
 				.createClearTableWrapLayout(2, false);
 		twLayout.horizontalSpacing = 5;
 		mcComposite.setLayout(twLayout);
 		mcComposite.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
-		modelClassText = form.getToolkit().createText(mcComposite, "");
-		modelClassText.setEnabled(PluginDescriptorEditor.isEditable());
+		modelClassText = getToolkit().createText(mcComposite, "");
+		modelClassText.setEnabled(GeneratorDescriptorEditor.isEditable());
 		modelClassText
 				.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		modelClassText.addModifyListener(adapter);
 		modelClassText
 				.setToolTipText("An instance of this class will be created per run, and initialized with the current artifact instance.");
 
-		modelClassBrowseButton = form.getToolkit().createButton(mcComposite,
+		modelClassBrowseButton = getToolkit().createButton(mcComposite,
 				"Browse", SWT.PUSH);
 		modelClassBrowseButton.setData("name", "Browse_Classes");
-		modelClassBrowseButton.setEnabled(PluginDescriptorEditor.isEditable());
-		if (PluginDescriptorEditor.isEditable())
+		modelClassBrowseButton.setEnabled(GeneratorDescriptorEditor
+				.isEditable());
+		if (GeneratorDescriptorEditor.isEditable())
 			modelClassBrowseButton.addSelectionListener(adapter);
 
-		form.getToolkit().createLabel(parent, "Wrapper Class Name:");
+		getToolkit().createLabel(parent, "Wrapper Class Name:");
 
-		modelClassNameText = form.getToolkit().createText(parent, "");
-		modelClassNameText.setEnabled(PluginDescriptorEditor.isEditable());
+		modelClassNameText = getToolkit().createText(parent, "");
+		modelClassNameText.setEnabled(GeneratorDescriptorEditor.isEditable());
 		modelClassNameText.setLayoutData(new TableWrapData(
 				TableWrapData.FILL_GRAB));
 		modelClassNameText.addModifyListener(adapter);
@@ -363,34 +363,36 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 	}
 
 	protected void createFilterDefinitions(Composite parent) {
-		form.getToolkit().createLabel(parent, "Artifact Filter:");
+		getToolkit().createLabel(parent, "Artifact Filter:");
 
 		ArtifactBasedRuleDetailsPageListener adapter = new ArtifactBasedRuleDetailsPageListener();
 
-		Composite fcComposite = form.getToolkit().createComposite(parent);
+		Composite fcComposite = getToolkit().createComposite(parent);
 		TableWrapLayout twLayout = TigerstripeLayoutFactory
 				.createClearTableWrapLayout(2, false);
 		twLayout.horizontalSpacing = 5;
 		fcComposite.setLayout(twLayout);
 		fcComposite.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
-		filterClassText = form.getToolkit().createText(fcComposite, "");
-		filterClassText.setEnabled(PluginDescriptorEditor.isEditable());
+		filterClassText = getToolkit().createText(fcComposite, "");
+		filterClassText.setEnabled(GeneratorDescriptorEditor.isEditable());
 		filterClassText
 				.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		filterClassText.addModifyListener(adapter);
 		filterClassText
 				.setToolTipText("This class can be used to filter the instances of the target artifact type.");
 
-		filterClassBrowseButton = form.getToolkit().createButton(fcComposite,
+		filterClassBrowseButton = getToolkit().createButton(fcComposite,
 				"Browse", SWT.PUSH);
-		filterClassBrowseButton.setEnabled(PluginDescriptorEditor.isEditable());
-		if (PluginDescriptorEditor.isEditable())
+		filterClassBrowseButton.setEnabled(GeneratorDescriptorEditor
+				.isEditable());
+		if (GeneratorDescriptorEditor.isEditable())
 			filterClassBrowseButton.addSelectionListener(adapter);
 
 	}
 
-	public ArtifactBasedRuleDetailsPage(ArtifactRulesSection master) {
-		super(master);
+	public ArtifactBasedRuleDetailsPage(ArtifactRulesSection master,
+			FormToolkit formToolkit, Composite parent) {
+		super(master, formToolkit, parent);
 	}
 }

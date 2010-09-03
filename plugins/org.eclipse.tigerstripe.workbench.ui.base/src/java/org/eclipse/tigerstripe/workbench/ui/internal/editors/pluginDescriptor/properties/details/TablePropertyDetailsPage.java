@@ -25,6 +25,7 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
@@ -237,29 +238,21 @@ public class TablePropertyDetailsPage extends BasePropertyDetailsPage {
 
 		columnDefListViewer.refresh(true);
 
-		addColumnDef = toolkit.createButton(sectionClient, "Add", SWT.PUSH);
-		GridData gdb = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING
-				| GridData.VERTICAL_ALIGN_BEGINNING);
-		addColumnDef.setLayoutData(gdb);
+		Composite buttonPanel = toolkit.createComposite(sectionClient);
+		FillLayout layout = new FillLayout(SWT.VERTICAL);
+		layout.spacing = 5;
+		buttonPanel.setLayout(layout);
+
+		addColumnDef = toolkit.createButton(buttonPanel, "Add", SWT.PUSH);
 		addColumnDef.addSelectionListener(listener);
 
-		upColumnDef = toolkit.createButton(sectionClient, "Up", SWT.PUSH);
-		gdb = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING
-				| GridData.VERTICAL_ALIGN_BEGINNING);
-		upColumnDef.setLayoutData(gdb);
+		upColumnDef = toolkit.createButton(buttonPanel, "Up", SWT.PUSH);
 		upColumnDef.addSelectionListener(listener);
 
-		downColumnDef = toolkit.createButton(sectionClient, "Down", SWT.PUSH);
-		gdb = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING
-				| GridData.VERTICAL_ALIGN_BEGINNING);
-		downColumnDef.setLayoutData(gdb);
+		downColumnDef = toolkit.createButton(buttonPanel, "Down", SWT.PUSH);
 		downColumnDef.addSelectionListener(listener);
 
-		removeColumnDef = toolkit.createButton(sectionClient, "Remove",
-				SWT.PUSH);
-		gdb = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING
-				| GridData.VERTICAL_ALIGN_BEGINNING);
-		removeColumnDef.setLayoutData(gdb);
+		removeColumnDef = toolkit.createButton(buttonPanel, "Remove", SWT.PUSH);
 		removeColumnDef.addSelectionListener(listener);
 
 		contentCreated = true;

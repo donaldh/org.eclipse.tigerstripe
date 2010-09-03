@@ -25,11 +25,12 @@ import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.components.md.MasterDetails;
+import org.eclipse.tigerstripe.workbench.ui.components.md.MasterDetailsBuilder;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.NewPPluginRuleSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.RulesSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.details.SimpleRuleDetailsPage;
-import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -39,8 +40,8 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
  * @author Eric Dillon
  * 
  */
-public class M0GlobalRulesSection extends RulesSectionPart implements IFormPart {
 
+public class M0GlobalRulesSection extends RulesSectionPart implements IFormPart {
 	public M0GlobalRulesSection(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit) {
 		super(page, parent, toolkit, ExpandableComposite.TWISTIE);
@@ -144,12 +145,6 @@ public class M0GlobalRulesSection extends RulesSectionPart implements IFormPart 
 	}
 
 	@Override
-	protected void registerPages(DetailsPart detailsPart) {
-		detailsPart.registerPage(M0GlobalTemplateRule.class,
-				new SimpleRuleDetailsPage(this));
-	}
-
-	@Override
 	protected String getTooltipText() {
 		return "Define/Edit global M0 template rules for this plugin.";
 	}
@@ -157,5 +152,12 @@ public class M0GlobalRulesSection extends RulesSectionPart implements IFormPart 
 	@Override
 	protected String getDescription() {
 		return "Global M0 template rules:";
+	}
+
+	@Override
+	protected MasterDetails createMasterDeatils(Composite parent) {
+		return MasterDetailsBuilder.create().addDetail(
+				M0GlobalTemplateRule.class,
+				new SimpleRuleDetailsPage(this, getToolkit(), parent)).build();
 	}
 }

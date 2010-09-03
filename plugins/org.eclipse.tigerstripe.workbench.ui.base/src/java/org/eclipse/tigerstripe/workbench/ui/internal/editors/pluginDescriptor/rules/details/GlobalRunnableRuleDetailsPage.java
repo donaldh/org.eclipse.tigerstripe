@@ -19,8 +19,9 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.GlobalRunnableRule;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.PluginDescriptorEditor;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.generator.GeneratorDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.RulesSectionPart;
+import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
@@ -30,8 +31,9 @@ public class GlobalRunnableRuleDetailsPage extends BaseRunnableRuleDetailsPage {
 
 	private Button overwriteFilesButton;
 
-	public GlobalRunnableRuleDetailsPage(RulesSectionPart master) {
-		super(master);
+	public GlobalRunnableRuleDetailsPage(RulesSectionPart master,
+			FormToolkit formToolkit, Composite parent) {
+		super(master, formToolkit, parent);
 	}
 
 	/**
@@ -71,46 +73,41 @@ public class GlobalRunnableRuleDetailsPage extends BaseRunnableRuleDetailsPage {
 		TableWrapLayout twLayout = new TableWrapLayout();
 		twLayout.numColumns = 1;
 		parent.setLayout(twLayout);
-		TableWrapData td = new TableWrapData(TableWrapData.FILL);
-		parent.setLayoutData(td);
 
 		Composite sectionClient = createRuleInfo(parent);
 
-		Label label = form.getToolkit().createLabel(sectionClient,
+		Label label = getToolkit().createLabel(sectionClient,
 				"This rule will be run once per generation with this plugin.");
 		TableWrapData twData = new TableWrapData(TableWrapData.FILL_GRAB);
 		twData.colspan = 2;
 		label.setLayoutData(twData);
 		createOptionButtons(sectionClient);
 
-		int height = sectionClient.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
-		master.setMinimumHeight(height);
-
-		form.getToolkit().paintBordersFor(parent);
+		getToolkit().paintBordersFor(parent);
 	}
 
 	protected void createOptionButtons(Composite parent) {
 		// Put an empty label first to "Centre" the control
 
-		form.getToolkit().createLabel(parent, "");
+		getToolkit().createLabel(parent, "");
 		GlobalRunnableRuleDetailsPageListener adapter = new GlobalRunnableRuleDetailsPageListener();
-		suppressEmptyFilesButton = form.getToolkit().createButton(parent,
+		suppressEmptyFilesButton = getToolkit().createButton(parent,
 				"Suppress Empty Files", SWT.CHECK);
 		suppressEmptyFilesButton.setLayoutData(new TableWrapData(
 				TableWrapData.FILL_GRAB));
-		suppressEmptyFilesButton
-				.setEnabled(PluginDescriptorEditor.isEditable());
-		if (PluginDescriptorEditor.isEditable())
+		suppressEmptyFilesButton.setEnabled(GeneratorDescriptorEditor
+				.isEditable());
+		if (GeneratorDescriptorEditor.isEditable())
 			suppressEmptyFilesButton.addSelectionListener(adapter);
 
 		// Put an empty label first to "Centre" the control
-		form.getToolkit().createLabel(parent, "");
-		overwriteFilesButton = form.getToolkit().createButton(parent,
+		getToolkit().createLabel(parent, "");
+		overwriteFilesButton = getToolkit().createButton(parent,
 				"Overwrite Files", SWT.CHECK);
 		overwriteFilesButton.setLayoutData(new TableWrapData(
 				TableWrapData.FILL_GRAB));
-		overwriteFilesButton.setEnabled(PluginDescriptorEditor.isEditable());
-		if (PluginDescriptorEditor.isEditable())
+		overwriteFilesButton.setEnabled(GeneratorDescriptorEditor.isEditable());
+		if (GeneratorDescriptorEditor.isEditable())
 			overwriteFilesButton.addSelectionListener(adapter);
 
 	}

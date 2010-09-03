@@ -228,7 +228,6 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart implements
 		}
 		extendNameText
 				.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-		extendNameText.setEditable(false);
 		extendNameText.setEnabled(!this.isReadonly());
 		extendNameText.addModifyListener(new GeneralInfoPageListener());
 		extendNameText.addKeyListener(new GeneralInfoPageListener());
@@ -257,7 +256,6 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart implements
 		implementsText = toolkit.createText(composite, implStr);
 
 		implementsText.setLayoutData(new GridData(GridData.FILL_BOTH));
-		implementsText.setEditable(false);
 
 		implementsTextBrowseButton = toolkit.createButton(composite, "Select",
 				SWT.PUSH);

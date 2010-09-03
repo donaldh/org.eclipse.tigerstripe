@@ -10,9 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.generator.m0Descriptor.rules;
 
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
-import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -47,9 +47,7 @@ public class M0DescriptorRulesPage extends TigerstripeFormPage {
 
 	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {
 		Composite body = managedForm.getForm().getBody();
-		body.setLayout(TigerstripeLayoutFactory.createPageTableWrapLayout(2,
-				true));
-
+		GridLayoutFactory.fillDefaults().margins(3, 3).applyTo(body);
 		// sections
 		M0GlobalRulesSection rulesSection = new M0GlobalRulesSection(this,
 				body, toolkit);

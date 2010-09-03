@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.details;
 
-import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -22,7 +21,6 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.CopyRule;
 import org.eclipse.tigerstripe.workbench.plugins.ICopyRule;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.GlobalRulesSection;
-import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
@@ -39,8 +37,9 @@ public class CopyRuleDetailsPage extends BaseRuleDetailsPage {
 
 	private Text toDirectoryText;
 
-	public CopyRuleDetailsPage(GlobalRulesSection master) {
-		super(master);
+	public CopyRuleDetailsPage(GlobalRulesSection master,
+			FormToolkit formToolkit, Composite parent) {
+		super(master, formToolkit, parent);
 	}
 
 	/**
@@ -74,24 +73,20 @@ public class CopyRuleDetailsPage extends BaseRuleDetailsPage {
 		}
 	}
 
-	public void createContents(Composite parent) {
+	@Override
+	protected void createContents(Composite parent) {
 		TableWrapLayout twLayout = new TableWrapLayout();
 		twLayout.numColumns = 1;
 		parent.setLayout(twLayout);
-		TableWrapData td = new TableWrapData(TableWrapData.FILL);
-		parent.setLayoutData(td);
 
-		Composite sectionClient = createRuleInfo(parent);
+		createRuleInfo(parent);
 
-		int height = sectionClient.computeSize(SWT.DEFAULT, SWT.DEFAULT).y;
-		master.setMinimumHeight(height);
-
-		form.getToolkit().paintBordersFor(parent);
+		getToolkit().paintBordersFor(parent);
 	}
 
 	protected Composite createRuleInfo(Composite parent) {
 
-		FormToolkit toolkit = form.getToolkit();
+		FormToolkit toolkit = getToolkit();
 
 		Section section = toolkit.createSection(parent,
 				ExpandableComposite.NO_TITLE);
@@ -175,13 +170,12 @@ public class CopyRuleDetailsPage extends BaseRuleDetailsPage {
 	}
 
 	@Override
-	public void selectionChanged(IFormPart part, ISelection selection) {
-		super.selectionChanged(part, selection);
+	public void switchTarget(Object target) {
+		super.switchTarget(target);
 		setSilentUpdate(true);
 		ICopyRule rule = (ICopyRule) getIRunRule();
 		filematchText.setText(rule.getFilesetMatch());
 		toDirectoryText.setText(rule.getToDirectory());
 		setSilentUpdate(false);
 	}
-
 }

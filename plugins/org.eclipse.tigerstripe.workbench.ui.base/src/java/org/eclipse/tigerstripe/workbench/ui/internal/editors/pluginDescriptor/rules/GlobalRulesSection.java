@@ -28,15 +28,16 @@ import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.components.md.MasterDetails;
+import org.eclipse.tigerstripe.workbench.ui.components.md.MasterDetailsBuilder;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.NewPPluginRuleSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.details.CopyRuleDetailsPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.details.GlobalRunnableRuleDetailsPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.details.SimpleRuleDetailsPage;
-import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IFormPart;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.Section;
 
 /**
  * 
@@ -47,7 +48,8 @@ public class GlobalRulesSection extends RulesSectionPart implements IFormPart {
 
 	public GlobalRulesSection(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit) {
-		super(page, parent, toolkit, Section.TWISTIE | Section.EXPANDED);
+		super(page, parent, toolkit, ExpandableComposite.TWISTIE
+				| ExpandableComposite.EXPANDED);
 		setTitle("&Global Rules");
 		setDescription("Define the rules to be run once only per generation with this plugin.");
 
@@ -150,12 +152,18 @@ public class GlobalRulesSection extends RulesSectionPart implements IFormPart {
 	}
 
 	@Override
-	protected void registerPages(DetailsPart detailsPart) {
-		detailsPart.registerPage(GlobalTemplateRule.class,
-				new SimpleRuleDetailsPage(this));
-		detailsPart.registerPage(CopyRule.class, new CopyRuleDetailsPage(this));
-		detailsPart.registerPage(GlobalRunnableRule.class,
-				new GlobalRunnableRuleDetailsPage(this));
+	protected MasterDetails createMasterDeatils(Composite parent) {
+		FormToolkit toolkit = getToolkit();
+		return MasterDetailsBuilder
+				.create()
+				.addDetail(GlobalTemplateRule.class,
+						new SimpleRuleDetailsPage(this, toolkit, parent))
+				.addDetail(CopyRule.class,
+						new CopyRuleDetailsPage(this, toolkit, parent))
+				.addDetail(
+						GlobalRunnableRule.class,
+						new GlobalRunnableRuleDetailsPage(this, toolkit, parent))
+				.build();
 	}
 
 	@Override

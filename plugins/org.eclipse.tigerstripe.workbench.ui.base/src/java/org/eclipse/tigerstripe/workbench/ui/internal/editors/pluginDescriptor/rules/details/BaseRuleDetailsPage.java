@@ -10,7 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.details;
 
-import org.eclipse.jface.viewers.ISelection;
+import static org.eclipse.jface.layout.GridDataFactory.createFrom;
+
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
@@ -19,28 +20,20 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
+import org.eclipse.tigerstripe.workbench.ui.components.md.IDetails;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.generator.GeneratorDescriptorEditor;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.PluginDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.RulesSectionPart;
-import org.eclipse.ui.forms.IDetailsPage;
-import org.eclipse.ui.forms.IFormPart;
-import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 
-public abstract class BaseRuleDetailsPage implements IDetailsPage {
-
-	protected IManagedForm form;
-
-	protected RulesSectionPart master;
+public abstract class BaseRuleDetailsPage implements IDetails {
 
 	private IRule rule;
 
@@ -86,8 +79,15 @@ public abstract class BaseRuleDetailsPage implements IDetailsPage {
 				.getProjectHandle();
 	}
 
-	public BaseRuleDetailsPage(RulesSectionPart master) {
+	protected final RulesSectionPart master;
+	private final FormToolkit formToolkit;
+	private final Composite parent;
+
+	public BaseRuleDetailsPage(RulesSectionPart master,
+			FormToolkit formToolkit, Composite parent) {
 		this.master = master;
+		this.formToolkit = formToolkit;
+		this.parent = parent;
 	}
 
 	protected void createRuleCommonInfo(Composite sectionClient,
@@ -100,22 +100,22 @@ public abstract class BaseRuleDetailsPage implements IDetailsPage {
 		enabledButton = toolkit.createButton(sectionClient, "Enabled",
 				SWT.CHECK);
 		enabledButton.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-		enabledButton.setEnabled(PluginDescriptorEditor.isEditable());
-		if (PluginDescriptorEditor.isEditable())
+		enabledButton.setEnabled(GeneratorDescriptorEditor.isEditable());
+		if (GeneratorDescriptorEditor.isEditable())
 			enabledButton.addSelectionListener(adapter);
 
-		Label label = toolkit.createLabel(sectionClient, "Name: ");
+		toolkit.createLabel(sectionClient, "Name: ");
 		nameText = toolkit.createText(sectionClient, "");
-		nameText.setEnabled(PluginDescriptorEditor.isEditable());
+		nameText.setEnabled(GeneratorDescriptorEditor.isEditable());
 		nameText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		nameText.addModifyListener(adapter);
 		nameText.setToolTipText("Name of the rule");
 
-		label = toolkit.createLabel(sectionClient, "Description: ");
+		toolkit.createLabel(sectionClient, "Description: ");
 
 		descriptionText = toolkit.createText(sectionClient, "", SWT.WRAP
 				| SWT.MULTI | SWT.V_SCROLL);
-		descriptionText.setEnabled(PluginDescriptorEditor.isEditable());
+		descriptionText.setEnabled(GeneratorDescriptorEditor.isEditable());
 		TableWrapData wrapData = new TableWrapData(TableWrapData.FILL_GRAB);
 		wrapData.heightHint = 60;
 		descriptionText.setLayoutData(wrapData);
@@ -123,16 +123,8 @@ public abstract class BaseRuleDetailsPage implements IDetailsPage {
 		descriptionText.setToolTipText("Document this rule.");
 	}
 
-	public void initialize(IManagedForm form) {
-		this.form = form;
-	}
-
-	public void dispose() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void commit(boolean onSave) {
+	protected FormToolkit getToolkit() {
+		return formToolkit;
 	}
 
 	public boolean setFormInput(Object input) {
@@ -141,10 +133,6 @@ public abstract class BaseRuleDetailsPage implements IDetailsPage {
 
 	public void setFocus() {
 		nameText.setFocus();
-	}
-
-	public boolean isStale() {
-		return false;
 	}
 
 	public void refresh() {
@@ -196,25 +184,10 @@ public abstract class BaseRuleDetailsPage implements IDetailsPage {
 		return master.getSection().getShell();
 	}
 
-	public boolean isDirty() {
-		return master.isDirty();
-	}
-
 	protected void handleWidgetSelected(SelectionEvent e) {
 		if (e.getSource() == enabledButton) {
 			this.rule.setEnabled(enabledButton.getSelection());
 			pageModified();
-		}
-	}
-
-	public void selectionChanged(IFormPart part, ISelection selection) {
-		if (part instanceof RulesSectionPart) {
-			master = (RulesSectionPart) part;
-			Table fieldsTable = master.getViewer().getTable();
-
-			IRule selected = (IRule) fieldsTable.getSelection()[0].getData();
-			setIRunRule(selected);
-			updateForm();
 		}
 	}
 
@@ -233,5 +206,42 @@ public abstract class BaseRuleDetailsPage implements IDetailsPage {
 				pageModified();
 			}
 		}
+	}
+
+	private Composite content;
+
+	protected abstract void createContents(Composite parent);
+
+	public void init() {
+		content = getToolkit().createComposite(parent);
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		content.setLayoutData(gd);
+		createContents(content);
+	}
+
+	public void show() {
+		setVisibleForContent(true);
+		createFrom((GridData) content.getLayoutData()).exclude(false).applyTo(
+				content);
+		parent.layout();
+		master.getManagedForm().reflow(true);
+	}
+
+	public void hide() {
+		setVisibleForContent(false);
+		createFrom((GridData) content.getLayoutData()).exclude(true).applyTo(
+				content);
+	}
+
+	public void switchTarget(Object target) {
+		setIRunRule((IRule) target);
+		updateForm();
+	}
+
+	private void setVisibleForContent(boolean value) {
+		if (content == null) {
+			throw new IllegalStateException("Page not initialiazed");
+		}
+		content.setVisible(value);
 	}
 }

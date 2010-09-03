@@ -26,14 +26,15 @@ import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.plugins.ITemplateBasedRule;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.components.md.MasterDetails;
+import org.eclipse.tigerstripe.workbench.ui.components.md.MasterDetailsBuilder;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.NewPPluginRuleSelectionDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.details.ArtifactBasedRuleDetailsPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.rules.details.ArtifactRunnableRuleDetailsPage;
-import org.eclipse.ui.forms.DetailsPart;
 import org.eclipse.ui.forms.IFormPart;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.Section;
 
 /**
  * 
@@ -69,21 +70,13 @@ public class ArtifactRulesSection extends RulesSectionPart implements IFormPart 
 
 	public ArtifactRulesSection(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit) {
-		super(page, parent, toolkit, Section.TWISTIE | Section.EXPANDED);
+		super(page, parent, toolkit, ExpandableComposite.TWISTIE
+				| ExpandableComposite.EXPANDED);
 		setTitle("&Artifact Rules");
 		setDescription("Define the rules to be run while iterating over instances of a specific Artifact type.");
 
 		createContent();
 		updateMaster();
-	}
-
-	@Override
-	protected void registerPages(DetailsPart detailsPart) {
-		detailsPart.registerPage(ArtifactBasedTemplateRule.class,
-				new ArtifactBasedRuleDetailsPage(this));
-		detailsPart.registerPage(ArtifactRunnableRule.class,
-				new ArtifactRunnableRuleDetailsPage(this));
-
 	}
 
 	@Override
@@ -163,4 +156,15 @@ public class ArtifactRulesSection extends RulesSectionPart implements IFormPart 
 		return "Artifact template rules:";
 	}
 
+	@Override
+	protected MasterDetails createMasterDeatils(Composite parent) {
+		FormToolkit toolkit = getToolkit();
+		return MasterDetailsBuilder.create().addDetail(
+				ArtifactBasedTemplateRule.class,
+				new ArtifactBasedRuleDetailsPage(this, toolkit, parent))
+				.addDetail(
+						ArtifactRunnableRule.class,
+						new ArtifactRunnableRuleDetailsPage(this, toolkit,
+								parent)).build();
+	}
 }

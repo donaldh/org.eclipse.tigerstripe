@@ -169,8 +169,7 @@ public class ArgumentEditDialog extends TSMessageDialog {
 		attributeClassDialogField = new StringButtonDialogField(adapter);
 		attributeClassDialogField.setDialogFieldListener(adapter);
 		attributeClassDialogField.setLabelText("Argument Type:"); //$NON-NLS-1$
-		attributeClassDialogField.setButtonLabel(NewWizardMessages
-				.getString("NewArtifactWizardPage.package.button")); //$NON-NLS-1$
+		attributeClassDialogField.setButtonLabel("Select..."); //$NON-NLS-1$
 
 		attributeClassStatus = new StatusInfo();
 		attributeClassCompletionProcessor = new JavaTypeCompletionProcessor(
@@ -431,6 +430,7 @@ public class ArgumentEditDialog extends TSMessageDialog {
 	private void createTypeDetailsControl(Composite composite, int nColumns) {
 		attributeClassDialogField.doFillIntoGrid(composite, nColumns);
 		Text text = attributeClassDialogField.getTextControl(null);
+		text.setEditable(false);
 		LayoutUtil.setWidthHint(text, getMaxFieldWidth());
 		ControlContentAssistHelper.createTextContentAssistant(text,
 				attributeClassCompletionProcessor);

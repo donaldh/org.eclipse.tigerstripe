@@ -112,7 +112,7 @@ public class TigerstripeLabelProvider extends TigerstripeExplorerLabelProvider
 								
 								Display.getDefault().asyncExec(new Runnable() {
 									public void run() {
-										LabelProviderChangedEvent event = new LabelProviderChangedEvent(TigerstripeLabelProvider.this, project);
+										LabelProviderChangedEvent event = new LabelProviderChangedEvent(TigerstripeLabelProvider.this);
 										fireLabelProviderChanged(event);		
 									}
 								});							
