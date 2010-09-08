@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.r
 import java.io.File;
 import java.io.IOException;
 
+import org.eclipse.core.internal.resources.Folder;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -246,7 +247,9 @@ public class ClasspathEntrySection extends GeneratorDescriptorSectionPart
 				File file = (File) element;
 				if (file.isFile())
 					return !file.getName().startsWith("ts-external");
-			}
+				if (file.isDirectory())
+					return true;
+			} 
 			return false;
 		}
 	}
