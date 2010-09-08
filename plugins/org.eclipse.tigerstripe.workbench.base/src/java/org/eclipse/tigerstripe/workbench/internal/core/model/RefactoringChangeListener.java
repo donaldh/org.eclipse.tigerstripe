@@ -179,6 +179,10 @@ public class RefactoringChangeListener implements IRefactoringExecutionListener 
 	private String getFullyQualifiedName(String handle) {
 		String packageFragment = null;
 		String type = null;
+		
+		if (handle==null)
+			return null;
+		
 		for (MementoTokenizer memento = new MementoTokenizer(handle); memento
 				.hasMoreTokens();) {
 			String token = memento.nextToken();
