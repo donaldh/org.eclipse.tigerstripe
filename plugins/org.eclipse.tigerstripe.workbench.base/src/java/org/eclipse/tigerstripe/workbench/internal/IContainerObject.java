@@ -11,7 +11,8 @@
 package org.eclipse.tigerstripe.workbench.internal;
 
 /**
- * This interface is used to keep track of Tigerstripe Descriptors
+ * This interface is used to keep track of Tigerstripe Descriptors.  Used to manage the 
+ * dirty state of a set of contained objects.
  * 
  * @author erdillon
  * 
@@ -26,7 +27,7 @@ public interface IContainerObject {
 	public void notifyDirty(IContainedObject contained);
 
 	/**
-	 * Whether this container is dirty or not. A contained can be dirty itself
+	 * Whether this container is dirty or not. A container can be dirty itself
 	 * or dirty because a contained object notified being dirty.
 	 * 
 	 * @return

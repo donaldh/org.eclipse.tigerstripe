@@ -614,6 +614,13 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 		}
 	}
 
+	/**
+	 *  TODO Note by Navid: This method should be removed.  There is a getTSProject() in TigerstripeProjectHandle
+	 *  that returns the actual TS Project.  This method seems to return the Project HANDLE and there is already
+	 *  a getProjectHandle() here, which returns a TigerstripeProjectHandle, which really IS a ITigerstripeModelProject.
+	 *   
+	 * @return
+	 */
 	public ITigerstripeModelProject getTSProject() {
 		if (getBaseDir() != null) {
 			try {

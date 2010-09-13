@@ -96,18 +96,16 @@ import com.thoughtworks.qdox.model.JavaSource;
 import com.thoughtworks.qdox.parser.ParseException;
 
 /**
- * @author Eric Dillon
- * 
  *         The Artifact Manager provides access to all source artifacts.
  * 
  *         The Artifact manager is given the Java source files as input and
- *         using QDox is parses all the source files and builds an internal
+ *         using QDox it parses all the source files and builds an internal
  *         model of the source code including all tigerstripe tags.
  * 
- *         Out of the Qdox model, Tigerstripe artifacts are "extracted" through
+ *         Out of the QDox model, Tigerstripe artifacts are "extracted" through
  *         the extractArtifact method. The extracted artifacts are based on a
  *         list of "discoverable" artifacts, which allows to extend the list of
- *         artifact supported by tigerstripe.
+ *         artifact supported by Tigerstripe.
  * 
  *         Currently the following artifacts are discoverable: - EventArtifact,
  *         DatatypeArtifact, ManagedEntityArtifact, SessionFacadeArtifact
@@ -120,6 +118,8 @@ import com.thoughtworks.qdox.parser.ParseException;
  *         Once all the artifacts have been extracted, a semantic validation is
  *         performed by calling the resolveReferences() method on each extracted
  *         artifact.
+ *         
+ *  @author Eric Dillon
  * 
  */
 public class ArtifactManager  implements ITigerstripeChangeListener{
