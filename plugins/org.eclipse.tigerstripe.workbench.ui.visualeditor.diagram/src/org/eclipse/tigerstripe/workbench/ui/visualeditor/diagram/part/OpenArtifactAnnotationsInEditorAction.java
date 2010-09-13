@@ -338,10 +338,7 @@ public class OpenArtifactAnnotationsInEditorAction extends
 		action.setEnabled(isEnabled());
 	}
 
-	/**
-	 * 
-	 */
-	private boolean isEnabled() {
+	protected boolean isEnabled() {
 		return mySelectedElements.length != 0;
 	}
 

@@ -130,7 +130,7 @@ public class AssociationUpdateCommand extends AbstractTransactionalCommand {
 				// role name
 				if (changedValuesMap.containsKey("aEndName")) {
 					String newName = (String) changedValuesMap.get("aEndName");
-					if (!association.getAEndName().equals(newName))
+					if ((association.getAEndName()==null) || (!association.getAEndName().equals(newName)))
 						iAssociationAEnd.setName(newName);
 				}
 				// next, the aEnd multiplicity value
@@ -198,7 +198,7 @@ public class AssociationUpdateCommand extends AbstractTransactionalCommand {
 				// role name
 				if (changedValuesMap.containsKey("zEndName")) {
 					String newName = (String) changedValuesMap.get("zEndName");
-					if (!association.getZEndName().equals(newName))
+					if ((association.getZEndName()==null) || (!association.getZEndName().equals(newName)))
 						iAssociationZEnd.setName(newName);
 				}
 				// next, the zEnd multiplicity value

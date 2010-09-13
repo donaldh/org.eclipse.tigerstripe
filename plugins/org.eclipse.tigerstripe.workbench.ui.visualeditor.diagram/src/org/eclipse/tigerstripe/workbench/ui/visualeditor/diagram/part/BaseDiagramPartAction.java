@@ -137,10 +137,7 @@ public abstract class BaseDiagramPartAction {
 		action.setEnabled(isEnabled());
 	}
 
-	/**
-	 * 
-	 */
-	private boolean isEnabled() {
+	protected boolean isEnabled() {
 		return mySelectedElements != null && mySelectedElements.length != 0;
 	}
 
