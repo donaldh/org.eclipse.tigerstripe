@@ -80,7 +80,7 @@ public class GenerationPrefSection extends TigerstripeSectionPart {
                             .getWorkbench()
                             .getNewWizardRegistry()
                             .findWizard(
-                                    "org.eclipse.tigerstripe.workbench.ui.wizards.newPluginWizard"); //maybe this can be found instead of hard coded???
+                                    "org.eclipse.tigerstripe.workbench.ui.wizards.newPluginWizard");
                     if (descriptor != null) {
                         try {
                             IWizard wizard = descriptor.createWizard();
