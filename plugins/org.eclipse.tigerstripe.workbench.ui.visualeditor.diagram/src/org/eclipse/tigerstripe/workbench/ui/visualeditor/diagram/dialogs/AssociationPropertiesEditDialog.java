@@ -14,15 +14,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.regex.Matcher;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditDomain;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramGraphicalViewer;
@@ -33,6 +29,7 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
@@ -51,11 +48,8 @@ import org.eclipse.tigerstripe.metamodel.impl.IAssociationClassArtifactImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.Stereotype;
-import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
@@ -387,6 +381,25 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 				.indexOf(aEndMult.getLiteral()));
 		aEndMultiplicityCombo.setVisibleItemCount(IModelComponent.EMultiplicity
 				.values().length);
+		
+		// N.M: Bugzilla 321524: Inconsistent behaviour between association pop-up editor and association form
+		aEndMultiplicityCombo.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				Object source = e.getSource();
+				if (source instanceof Combo) {
+					String value = ((Combo)source).getText();
+					
+					if (value.equals(AssocMultiplicity.ONE_LITERAL.getLiteral()) || value.equals(AssocMultiplicity.ZERO_LITERAL.getLiteral()) || value.equals(AssocMultiplicity.ZERO_ONE_LITERAL.getLiteral())) {
+						aEndIsUniqueButton.setEnabled(false);
+						aEndIsOrderedButton.setEnabled(false);
+					} else {
+						aEndIsUniqueButton.setEnabled(true);
+						aEndIsOrderedButton.setEnabled(true);
+					}
+				}
+			}
+		});
+		
 		Label aEndMultiplicityFiller = new Label(aEndBox, SWT.NULL);
 		this.setFillLayout(aEndMultiplicityFiller, 2, 1);
 		// add the control used to select the visibility
@@ -476,6 +489,13 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		aEndIsUniqueButton = new Button(aEndBox, SWT.CHECK);
 		aEndIsUniqueButton.setText("isUnique");
 		aEndIsUniqueButton.setSelection(aEndIsUnique);
+		
+		// N.M: Bugzilla 321524: Inconsistent behaviour between association pop-up editor and association form
+		if (aEndMult.equals(AssocMultiplicity.ONE_LITERAL) || aEndMult.equals(AssocMultiplicity.ZERO_LITERAL) || aEndMult.equals(AssocMultiplicity.ZERO_ONE_LITERAL)) {
+			aEndIsUniqueButton.setEnabled(false);
+			aEndIsOrderedButton.setEnabled(false);
+		}
+		
 		// now, define the controls for defining the zEnd properties...to do
 		// this, first add a
 		// new group to contain these controls
@@ -518,6 +538,25 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 				.indexOf(zEndMult.getLiteral()));
 		zEndMultiplicityCombo.setVisibleItemCount(IModelComponent.EMultiplicity
 				.values().length);
+		
+		// N.M: Bugzilla 321524: Inconsistent behaviour between association pop-up editor and association form
+		zEndMultiplicityCombo.addSelectionListener(new SelectionAdapter() {
+			public void widgetSelected(SelectionEvent e) {
+				Object source = e.getSource();
+				if (source instanceof Combo) {
+					String value = ((Combo)source).getText();
+					
+					if (value.equals(AssocMultiplicity.ONE_LITERAL.getLiteral()) || value.equals(AssocMultiplicity.ZERO_LITERAL.getLiteral()) || value.equals(AssocMultiplicity.ZERO_ONE_LITERAL.getLiteral())) {
+						zEndIsUniqueButton.setEnabled(false);
+						zEndIsOrderedButton.setEnabled(false);
+					} else {
+						zEndIsUniqueButton.setEnabled(true);
+						zEndIsOrderedButton.setEnabled(true);
+					}
+				}
+			}
+		});
+		
 		Label zEndMultiplicityFiller = new Label(zEndBox, SWT.NULL);
 		this.setFillLayout(zEndMultiplicityFiller, 2, 1);
 		// add the control used to select the visibility
@@ -590,6 +629,12 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		zEndIsUniqueButton = new Button(zEndBox, SWT.CHECK);
 		zEndIsUniqueButton.setText("isUnique");
 		zEndIsUniqueButton.setSelection(zEndIsUnique);
+		
+		// N.M: Bugzilla 321524: Inconsistent behaviour between association pop-up editor and association form
+		if (zEndMult.equals(AssocMultiplicity.ONE_LITERAL) || zEndMult.equals(AssocMultiplicity.ZERO_LITERAL) || zEndMult.equals(AssocMultiplicity.ZERO_ONE_LITERAL)) {
+			zEndIsUniqueButton.setEnabled(false);
+			zEndIsOrderedButton.setEnabled(false);
+		}
 	}
 
 	private String getStereotypeLabel(List stereotypeVals) {
