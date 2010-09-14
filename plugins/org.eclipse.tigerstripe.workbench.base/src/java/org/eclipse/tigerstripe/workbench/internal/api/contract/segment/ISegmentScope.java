@@ -163,5 +163,7 @@ public interface ISegmentScope {
 	public void addAnnotationContextPattern(ScopeAnnotationPattern pattern);
 
 	public void removeAnnotationContextPattern(ScopeAnnotationPattern pattern);
+	
+	public boolean containsPattern(ScopePattern pattern);
 
 }

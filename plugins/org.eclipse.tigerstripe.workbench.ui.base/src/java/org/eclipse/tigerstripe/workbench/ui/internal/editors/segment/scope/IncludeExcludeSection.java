@@ -580,6 +580,15 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 								newPattern.pattern);
 			}
 			newPattern.pattern = newPattern.pattern + ".*";
+			ISegmentScope scope = getScope();
+			
+			// Navid Mehregani: Bugzilla 322400 -  [Form Editor] Cannot add multiple patterns to Facet editor
+			int index = 0;
+			while(scope.containsPattern(newPattern)) {
+				newPattern.pattern = newPattern.pattern.substring(0, newPattern.pattern.lastIndexOf((index-1==-1?"":String.valueOf(index-1)) + ".*")) + String.valueOf(index) + ".*";
+				index++;
+			}
+			
 			getScope().addPattern(newPattern);
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);

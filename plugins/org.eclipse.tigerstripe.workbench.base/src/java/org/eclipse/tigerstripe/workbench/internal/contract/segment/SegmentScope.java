@@ -48,6 +48,11 @@ public class SegmentScope implements ISegmentScope {
 			patterns.add(pattern);
 		}
 	}
+	
+	// Inspired by bugzilla 322400
+	public boolean containsPattern(ScopePattern pattern) {
+		return patterns.contains(pattern);
+	}
 
 	public ScopeStereotypePattern[] getStereotypePatterns() {
 		return stereotypePatterns
