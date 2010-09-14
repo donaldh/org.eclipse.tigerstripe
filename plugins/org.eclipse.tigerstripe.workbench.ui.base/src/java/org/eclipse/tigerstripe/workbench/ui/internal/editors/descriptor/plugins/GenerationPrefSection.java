@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.plugins;
 
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginManager;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.advanced.AdvancedConfigurationPage;
@@ -47,8 +48,12 @@ public class GenerationPrefSection extends TigerstripeSectionPart {
 		rtext.setLayoutData(td);
 		StringBuffer buf = new StringBuffer();
 		buf.append("<form>");
-		buf
-				.append("<p>Click <a href=\"generationPreferences\">here</a> to change the generation settings for this project.</p>");
+		PluginManager mgr = PluginManager.getManager();
+		if (mgr.getRegisteredPluggableHousings().size() <= 0) {
+		    buf.append("<p><b>Warning</b>: No deployed plugins were found and nothing can be generated for this model unless a plugin is" +
+		                " deployed.  To create a new Tigerstripe Plugin Project, click on File > New > Tigerstripe Plugin Project.</p>");
+		}
+		buf.append("<p>Click <a href=\"generationPreferences\">here</a> to change the generation settings for this project.</p>");
 		buf.append("</form>");
 		rtext.setText(buf.toString(), true, false);
 		rtext.addHyperlinkListener(new HyperlinkAdapter() {
