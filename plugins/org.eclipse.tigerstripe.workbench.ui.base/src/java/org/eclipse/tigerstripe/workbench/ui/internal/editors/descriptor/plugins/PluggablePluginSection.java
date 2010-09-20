@@ -20,7 +20,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CCombo;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
@@ -28,6 +27,7 @@ import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.MessageBox;
@@ -72,7 +72,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 
 	protected Button applyDefaultButton;
 
-	protected CCombo loggingLevelCombo;
+	protected Combo loggingLevelCombo;
 
 	protected Label loggingLevelLabel;
 
@@ -89,7 +89,8 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 	/**
 	 * An adapter that will listen for changes on the form
 	 */
-	protected class DefaultPageListener implements SelectionListener, ModifyListener {
+	protected class DefaultPageListener implements SelectionListener,
+			ModifyListener {
 		public void widgetDefaultSelected(SelectionEvent e) {
 		}
 
@@ -99,11 +100,10 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 
 		public void modifyText(ModifyEvent e) {
 			handleModifyText(e);
-			
+
 		}
 	}
 
-	
 	public PluggablePluginSection(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit, int style) {
 		super(page, parent, toolkit, style);
@@ -117,18 +117,18 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 
 		setHousing(housing);
 
-		//setTitle(housing.getPluginId() + getNatureMark());
+		// setTitle(housing.getPluginId() + getNatureMark());
 		createContent();
 	}
 
 	public void handleModifyText(ModifyEvent e) {
-		
+
 	}
 
-	protected String getName(){
+	protected String getName() {
 		return getHousing().getPluginNature().name();
 	}
-	
+
 	protected String getNatureMark() {
 		String validationLabel = " [" + getName() + "]";
 		return validationLabel;
@@ -160,7 +160,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 	 *         exists, null otherwise.
 	 */
 	protected IPluginConfig getPluginConfig() {
-		if (getHousing() == null){
+		if (getHousing() == null) {
 			return null;
 		}
 		try {
@@ -210,10 +210,11 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 
 	protected void buildSpecifics(Composite parent, FormToolkit toolkit,
 			DefaultPageListener listener) {
-		
+
 	}
 
-	protected void buildEnableDetails(Composite parent, FormToolkit toolkit,DefaultPageListener listener){
+	protected void buildEnableDetails(Composite parent, FormToolkit toolkit,
+			DefaultPageListener listener) {
 		GridData gd = null;
 		generate = toolkit.createButton(parent, "Enable", SWT.CHECK);
 		generate.addSelectionListener(listener);
@@ -229,14 +230,12 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 
 		toolkit.createLabel(parent, "");
 
-
-
 	}
-	
+
 	protected void buildFacetDetails(Composite parent, FormToolkit toolkit) {
 		facetReferenceLabel = toolkit.createLabel(parent, "Use Facet:");
 		GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
-		
+
 		gd.horizontalIndent = 5;
 		facetReferenceLabel.setLayoutData(gd);
 
@@ -347,7 +346,6 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 		});
 		toolkit.createLabel(parent, "");
 
-
 	}
 
 	protected void buildLoggingDetails(Composite parent, FormToolkit toolkit) {
@@ -366,7 +364,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 		}
 		selections[i] = "No Logging";
 
-		loggingLevelCombo = new CCombo(parent, SWT.READ_ONLY | SWT.BORDER);
+		loggingLevelCombo = new Combo(parent, SWT.READ_ONLY | SWT.BORDER);
 
 		loggingLevelCombo.setEnabled(!this.isReadonly());
 		toolkit.adapt(loggingLevelCombo, true, true);
@@ -400,8 +398,6 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 
 		toolkit.createLabel(parent, "");
 
-		
-	
 	}
 
 	/**
@@ -411,19 +407,20 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 	 * @param toolkit
 	 */
 	protected void buildGlobalProperties(Composite parent, FormToolkit toolkit) {
-			GeneratorProjectDescriptor pProject = getHousing().getBody().getPProject();
-			PropertyRendererFactory factory = new PropertyRendererFactory(parent,
-					toolkit, getITigerstripeProject(), this);
+		GeneratorProjectDescriptor pProject = getHousing().getBody()
+				.getPProject();
+		PropertyRendererFactory factory = new PropertyRendererFactory(parent,
+				toolkit, getITigerstripeProject(), this);
 
-			for (IPluginProperty property : pProject.getGlobalProperties()) {
-				try {
-					BasePropertyRenderer renderer = factory.getRenderer(property);
-					renderer.render();
-					renderers.add(renderer);
-				} catch (TigerstripeException e) {
-					EclipsePlugin.log(e);
-				}
+		for (IPluginProperty property : pProject.getGlobalProperties()) {
+			try {
+				BasePropertyRenderer renderer = factory.getRenderer(property);
+				renderer.render();
+				renderers.add(renderer);
+			} catch (TigerstripeException e) {
+				EclipsePlugin.log(e);
 			}
+		}
 	}
 
 	/**
@@ -436,8 +433,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 	 * of properties may have changed due to plugin re-deployment.
 	 */
 	protected void initGlobalProperties() {
-		if (getHousing() != null){
-
+		if (getHousing() != null) {
 
 			IPluginConfig ref = getPluginConfig();
 			if (ref == null) {
@@ -457,11 +453,11 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 				// Make sure the ref has the correct properties
 				Properties properties = ((PluginConfig) ref).getProperties();
 				String[] definedProps = ref.getDefinedProperties();
-				
+
 				Properties usableProps = new Properties();
-				
+
 				GeneratorProjectDescriptor pProject = getHousing().getBody()
-				.getPProject();
+						.getPProject();
 				// TigerstripeRuntime.logInfoMessage(definedProps.length);
 				for (int i = 0; i < definedProps.length; i++) {
 					// TigerstripeRuntime.logInfoMessage(definedProps[i]);
@@ -471,9 +467,10 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 						for (IPluginProperty property : pProject
 								.getGlobalProperties()) {
 							if (property.getName().equals(definedProps[i])) {
-								usableProps.setProperty(definedProps[i], property
-										.getDefaultValue().toString());
-								// If we are here, we've updated descriptor based on
+								usableProps.setProperty(definedProps[i],
+										property.getDefaultValue().toString());
+								// If we are here, we've updated descriptor
+								// based on
 								// newly deployed plugin data.
 								markPageModified();
 							}
@@ -515,7 +512,8 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 	private PluggablePluginConfig createInitialPluginConfig() {
 		try {
 			TigerstripeProjectHandle handle = (TigerstripeProjectHandle) getITigerstripeProject();
-			PluggablePluginConfig ref = getHousing().makeDefaultPluginConfig(handle);
+			PluggablePluginConfig ref = getHousing().makeDefaultPluginConfig(
+					handle);
 			handle.addPluginConfig(ref);
 			return ref;
 		} catch (TigerstripeException e) {
@@ -524,8 +522,6 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 		return null;
 	}
 
-
-	
 	protected void handleWidgetSelected(SelectionEvent e) {
 		if (!isSilentUpdate()) {
 			if (e.getSource() == generate) {
@@ -590,12 +586,11 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 		setSilentUpdate(true);
 
 		IPluginConfig ref = getPluginConfig();
-		 if (ref == null){
-			 ref = createInitialPluginConfig();
-			 ref.setEnabled(false);
-		 }
-		 
-		
+		if (ref == null) {
+			ref = createInitialPluginConfig();
+			ref.setEnabled(false);
+		}
+
 		boolean isEnabled = ref.isEnabled();
 		generate.setSelection(ref.isEnabled());
 		applyDefaultButton.setEnabled(isEnabled && !this.isReadonly());
@@ -655,15 +650,15 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 
 		}
 		String enabledString = (isEnabled ? "enabled" : "disabled");
-		setTitle( getTitleString() + " (" + enabledString + ")"
+		setTitle(getTitleString() + " (" + enabledString + ")"
 				+ getNatureMark());
 		setSilentUpdate(false);
 	}
 
-	protected String getTitleString(){
+	protected String getTitleString() {
 		return getHousing().getPluginId();
 	}
-	
+
 	/**
 	 * This method is called when the property is changed from a renderer. It
 	 * will propagate the value down to the PluginConfig for persistence
