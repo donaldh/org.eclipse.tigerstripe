@@ -24,6 +24,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.persist.artifacts.Q
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
+import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.ide.IDE;
 
 import com.thoughtworks.qdox.model.JavaClass;
@@ -123,9 +124,12 @@ public class QueryArtifact extends AbstractArtifact implements IQueryArtifact {
 		super.doSave(monitor);
 		
 		IResource resource = (IResource) this.getAdapter(IResource.class);
-		final String ENTITY_EDITOR_ID = "org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.query.QueryArtifactEditor";
-		if ((resource instanceof IFile ) && (!ENTITY_EDITOR_ID.equals(IDE.getDefaultEditor((IFile)resource).getId()))) {
-			IDE.setDefaultEditor((IFile)resource, ENTITY_EDITOR_ID);
+		final String EDITOR_ID = "org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.query.QueryArtifactEditor";
+		if (resource instanceof IFile ) {
+			IFile file = (IFile) resource;
+			IEditorDescriptor editorDescriptor = IDE.getDefaultEditor(file);
+			if (editorDescriptor==null || (!EDITOR_ID.equals(editorDescriptor))) 
+				IDE.setDefaultEditor((IFile)resource, EDITOR_ID);
 		}
 	}
 }
