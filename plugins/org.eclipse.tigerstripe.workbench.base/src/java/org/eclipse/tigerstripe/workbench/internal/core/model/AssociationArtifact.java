@@ -14,11 +14,14 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.artifacts.AssociationArtifactPersister;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -28,6 +31,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.ui.ide.IDE;
 
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaClass;
@@ -246,6 +250,15 @@ public class AssociationArtifact extends AbstractArtifact implements
 		isDirty = dirty;
 	}
 
-	
+	@Override
+	public void doSave(IProgressMonitor monitor) throws TigerstripeException {
+		super.doSave(monitor);
+		
+		IResource resource = (IResource) this.getAdapter(IResource.class);
+		final String ENTITY_EDITOR_ID = "org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.associationEditor";
+		if ((resource instanceof IFile ) && (!ENTITY_EDITOR_ID.equals(IDE.getDefaultEditor((IFile)resource).getId()))) {
+			IDE.setDefaultEditor((IFile)resource, ENTITY_EDITOR_ID);
+		}
+	}
 	
 }

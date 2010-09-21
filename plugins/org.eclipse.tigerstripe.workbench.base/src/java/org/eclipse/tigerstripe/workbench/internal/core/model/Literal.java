@@ -36,8 +36,6 @@ import com.thoughtworks.qdox.model.JavaField;
 /**
  * @author Eric Dillon
  * 
- * TODO To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Style - Code Templates
  */
 public class Literal extends ArtifactComponent implements ILiteral {
 

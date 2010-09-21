@@ -63,8 +63,6 @@ import com.thoughtworks.qdox.model.JavaParameter;
 /**
  * @author Eric Dillon
  * 
- *         TODO To change the template for this generated type comment go to
- *         Window - Preferences - Java - Code Style - Code Templates
  */
 public class Method extends ArtifactComponent implements IOssjMethod {
 

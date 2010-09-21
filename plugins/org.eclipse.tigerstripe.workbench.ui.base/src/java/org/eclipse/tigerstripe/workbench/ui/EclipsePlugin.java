@@ -234,6 +234,10 @@ public class EclipsePlugin extends AbstractUIPlugin {
 		// passing this message as an "internal error" status message
 		log(new Status(IStatus.ERROR, getPluginId(), 222, message, null));
 	}
+	
+	public static void logErrorMessage(String message, Throwable e) {
+		log(new Status(IStatus.ERROR, getPluginId(), 222, message, e));
+	}
 
 	public static void logErrorStatus(String message, IStatus status) {
 		if (status == null) {

@@ -12,22 +12,25 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.io.Writer;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjDatatypeSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.artifacts.DatatypeArtifactPersister;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.ui.ide.IDE;
 
 import com.thoughtworks.qdox.model.JavaClass;
 
 /**
  * @author Eric Dillon
  * 
- * TODO To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Style - Code Templates
+ * Data type artifact
  */
 public class DatatypeArtifact extends AbstractArtifact implements
 		IDatatypeArtifact {
@@ -107,5 +110,16 @@ public class DatatypeArtifact extends AbstractArtifact implements
 		result.setInstanceMethod(false); // datatype can't have instance
 		// methods
 		return result;
+	}
+	
+	@Override
+	public void doSave(IProgressMonitor monitor) throws TigerstripeException {
+		super.doSave(monitor);
+		
+		IResource resource = (IResource) this.getAdapter(IResource.class);
+		final String ENTITY_EDITOR_ID = "org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.datatypeEditor";
+		if ((resource instanceof IFile ) && (!ENTITY_EDITOR_ID.equals(IDE.getDefaultEditor((IFile)resource).getId()))) {
+			IDE.setDefaultEditor((IFile)resource, ENTITY_EDITOR_ID);
+		}
 	}
 }

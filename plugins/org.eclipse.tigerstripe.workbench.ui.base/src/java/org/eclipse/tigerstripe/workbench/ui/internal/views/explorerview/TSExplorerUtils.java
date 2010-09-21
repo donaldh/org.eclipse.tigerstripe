@@ -74,8 +74,7 @@ public class TSExplorerUtils {
 		if (element instanceof ICompilationUnit) {
 			ICompilationUnit jElem = (ICompilationUnit) element;
 
-			IAbstractArtifact art = (IAbstractArtifact) jElem
-					.getAdapter(IAbstractArtifact.class);
+			IAbstractArtifact art = (IAbstractArtifact) jElem.getAdapter(IAbstractArtifact.class);
 
 			// Now this may mean that the artifact hasn't been extracted yet,
 			// but we're trying to display the proper icon in the explorer
@@ -142,8 +141,7 @@ public class TSExplorerUtils {
 		} else if (element instanceof IFile) {
 
 			IFile f = (IFile) element;
-			IAbstractArtifact artifact = (IAbstractArtifact) f
-					.getAdapter(IAbstractArtifact.class);
+			IAbstractArtifact artifact = (IAbstractArtifact) f.getAdapter(IAbstractArtifact.class);
 
 			return artifact;
 			// try {

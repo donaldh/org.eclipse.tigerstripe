@@ -10,7 +10,20 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.jface.dialogs.IMessageProvider;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.datatype.DatatypeArtifactEditor;
@@ -22,14 +35,22 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.query.Que
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.session.SessionArtifactEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.updateProcedure.UpdateProcedureArtifactEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
+import org.eclipse.ui.forms.widgets.Form;
+import org.eclipse.ui.forms.widgets.FormText;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.TableWrapData;
+import org.eclipse.ui.ide.IDE;
 
-public class ArtifactOverviewPage extends TigerstripeFormPage {
+
+public class ArtifactOverviewPage extends TigerstripeFormPage implements IResourceChangeListener {
 
 	private IArtifactFormLabelProvider labelProvider;
 
@@ -38,6 +59,7 @@ public class ArtifactOverviewPage extends TigerstripeFormPage {
 	private IManagedForm managedForm;
 
 	public static final String PAGE_ID = "ossj.entity.overview"; //$NON-NLS-1$
+	
 
 	public ArtifactOverviewPage(FormEditor editor,
 			IArtifactFormLabelProvider labelProvider,
@@ -47,8 +69,8 @@ public class ArtifactOverviewPage extends TigerstripeFormPage {
 		this.contentProvider = contentProvider;
 	}
 
-	public ArtifactOverviewPage() {
-		super(PAGE_ID, "Overview");
+	public ArtifactOverviewPage(FormEditor editor) {
+		super(editor, PAGE_ID, "Overview");
 	}
 
 	@Override
@@ -57,11 +79,35 @@ public class ArtifactOverviewPage extends TigerstripeFormPage {
 		this.managedForm = managedForm;
 		ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = managedForm.getToolkit();
-
-		form.setText(contentProvider
-				.getText(IArtifactFormContentProvider.ARTIFACT_OVERVIEW_TITLE));
-		fillBody(managedForm, toolkit);
-		// managedForm.refresh();
+		
+		// Navid Mehregani: If there are serious compile issues in the file,  QDOX won't be able to parse it, thus we need to open the 
+		// Java editor instead so user can fix the compile issues.
+		if (contentProvider==null || labelProvider==null) {
+			form.setText("Tigerstripe Artifact Editor");
+			Composite body = form.getBody();
+			body.setLayout(new GridLayout());			
+			FormText rtext = toolkit.createFormText(body, false);
+			rtext.setText("<p>There seems to be an error with this file.  Please try opening it with Java editor:</p>", true, false);
+			IEditorInput editorInput = getEditor().getEditorInput();			
+			try {
+				if (editorInput != null) 
+					IDE.openEditor(PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage(), editorInput, "org.eclipse.jdt.ui.CompilationUnitEditor");
+				
+				getEditor().close(false);
+				 
+			} catch (PartInitException exception) {
+				// Ignore
+			}			
+			
+		} else {
+			form.setText(contentProvider.getText(IArtifactFormContentProvider.ARTIFACT_OVERVIEW_TITLE));
+			
+			// Navid Mehregani: Used for populating the header with error information
+			ResourcesPlugin.getWorkspace().addResourceChangeListener(this, IResourceChangeEvent.POST_BUILD);
+			
+			fillBody(managedForm, toolkit);
+			// managedForm.refresh();	
+		}		
 	}
 
 	@Override
@@ -76,12 +122,14 @@ public class ArtifactOverviewPage extends TigerstripeFormPage {
 		body.setLayout(TigerstripeLayoutFactory.createClearTableWrapLayout(1,
 				false));
 		body.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-
+		
+		updateErrorMessage();
+		
 		Composite composite = toolkit.createComposite(body);
 		composite.setLayout(TigerstripeLayoutFactory.createPageTableWrapLayout(
 				2, true));
 		composite.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-
+		
 		TigerstripeSectionPart part = new ArtifactGeneralInfoSection(this,
 				composite, toolkit, labelProvider, contentProvider);
 		managedForm.addPart(part);
@@ -154,4 +202,61 @@ public class ArtifactOverviewPage extends TigerstripeFormPage {
 		}
 		return ExpandableComposite.COMPACT;
 	}
+	
+	public void resourceChanged(IResourceChangeEvent event) {
+		
+		if (event.getType() == IResourceChangeEvent.POST_BUILD) 
+			updateErrorMessage();
+	}
+	
+	private void updateErrorMessage() {
+		IEditorInput editorInput = getEditor().getEditorInput();
+		if (editorInput instanceof IFileEditorInput) {
+			IFile file = ((IFileEditorInput)editorInput).getFile();
+			
+			if (file != null) {
+				try {
+					IMarker[] markers = file.findMarkers(IMarker.PROBLEM, true,	IResource.DEPTH_INFINITE);
+					
+					boolean errorsDetected = false;
+					if (markers!=null) {
+						for (int i=0; i < markers.length; i++) {
+							if (IMarker.SEVERITY_ERROR == markers[i].getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO)) {
+								final Object errorMessage = markers[i].getAttribute(IMarker.MESSAGE);
+								if ((errorMessage instanceof String) && (((String)errorMessage).length()>0)) {
+									PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+										public void run() {
+											managedForm.getForm().setMessage("Error Detected: " + (String)errorMessage, IMessageProvider.ERROR);		
+										}
+									});
+									
+									errorsDetected = true;
+									break;
+								}
+							}
+						}
+					}
+					
+					if (!errorsDetected) {
+						PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+							public void run() {
+								managedForm.getForm().setMessage("", IMessageProvider.NONE);
+							}
+						});
+					}
+					
+				} catch (Exception e) {
+					EclipsePlugin.logErrorMessage("Could not update header with error status", e);
+				}
+			}
+		}
+	}
+
+	@Override
+	public void dispose() {
+		ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
+		super.dispose();
+	}
+	
+	
 }

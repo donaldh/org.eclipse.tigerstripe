@@ -19,49 +19,96 @@
             default="false"
             icon="src/icons/new/entity.gif"
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.entityEditor"
-            name="Tigerstripe OSS/J Entity Editor"/>
+            name="Tigerstripe Entity Editor">
+      
+      		<contentTypeBinding
+         		contentTypeId="org.eclipse.tigerstripe.workbench.base.entityContentType">
+      		</contentTypeBinding>
+      	
+      </editor>
       <editor
             class="org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.exception.ExceptionArtifactEditor"
             default="false"
             icon="src/icons/new/exception.gif"
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.exceptionEditor"
-            name="Tigerstripe OSS/J Exception Editor"/>
+            name="Tigerstripe Exception Editor">
+            
+            <contentTypeBinding
+         		contentTypeId="org.eclipse.tigerstripe.workbench.base.exceptionContentType">
+      		</contentTypeBinding>
+            	
+      </editor>
       <editor
             class="org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.query.QueryArtifactEditor"
             default="false"
             icon="src/icons/new/query.gif"
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.queryEditor"
-            name="Tigerstripe OSS/J Query Editor"/>
+            name="Tigerstripe Query Editor">
+
+			<contentTypeBinding
+         		contentTypeId="org.eclipse.tigerstripe.workbench.base.queryContentType">
+      		</contentTypeBinding>
+
+      </editor>
       <editor
             class="org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.event.EventArtifactEditor"
             default="false"
             icon="src/icons/new/event.gif"
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.eventEditor"
-            name="Tigerstripe OSS/J Event Editor"/>
+            name="Tigerstripe Event Editor">
+
+			<contentTypeBinding
+         		contentTypeId="org.eclipse.tigerstripe.workbench.base.eventContentType">
+      		</contentTypeBinding>
+
+      </editor>
       <editor
             class="org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.datatype.DatatypeArtifactEditor"
             default="false"
             icon="src/icons/new/datatype.gif"
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.datatypeEditor"
-            name="Tigerstripe OSS/J Datatype Editor"/>
+            name="Tigerstripe Datatype Editor">
+            
+            <contentTypeBinding
+         		contentTypeId="org.eclipse.tigerstripe.workbench.base.dataContentType">
+      		</contentTypeBinding>
+      </editor>
       <editor
             class="org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.session.SessionArtifactEditor"
             default="false"
             icon="src/icons/new/session.gif"
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.sessionEditor"
-            name="Tigerstripe OSS/J Session Editor"/>
+            name="Tigerstripe Session Editor">
+
+			<contentTypeBinding
+         		contentTypeId="org.eclipse.tigerstripe.workbench.base.sessionContentType">
+      		</contentTypeBinding>
+
+      </editor>
       <editor
             class="org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.enumeration.EnumArtifactEditor"
             default="false"
             icon="src/icons/new/enum.gif"
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.enumEditor"
-            name="Tigerstripe OSS/J Enum Editor"/>
+            name="Tigerstripe Enum Editor">
+
+			<contentTypeBinding
+         		contentTypeId="org.eclipse.tigerstripe.workbench.base.enumContentType">
+      		</contentTypeBinding>
+
+      </editor>
       <editor
             class="org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.updateProcedure.UpdateProcedureArtifactEditor"
             default="false"
             icon="src/icons/new/updateProc.gif"
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.updateProcedureEditor"
-            name="Tigerstripe OSS/J Update Procedure Editor"/>
+            name="Tigerstripe Update Procedure Editor">
+
+			<contentTypeBinding
+         		contentTypeId="org.eclipse.tigerstripe.workbench.base.updateContentType">
+      		</contentTypeBinding>
+
+      </editor>
       <editor
             class="org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.PluginDescriptorEditor"
             default="true"
@@ -88,19 +135,37 @@
             default="false"
             icon="src/icons/new/association.gif"
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.associationEditor"
-            name="Tigerstripe UML Association Editor"/>
+            name="Tigerstripe Association Editor">
+
+			<contentTypeBinding
+         		contentTypeId="org.eclipse.tigerstripe.workbench.base.associationContentType">
+      		</contentTypeBinding>
+
+      </editor>
       <editor
             class="org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.dependency.DependencyArtifactEditor"
             default="false"
             icon="src/icons/new/dependency.gif"
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.dependencyEditor"
-            name="Tigerstripe UML Dependency Editor"/>
+            name="Tigerstripe Dependency Editor">
+
+			<contentTypeBinding
+         		contentTypeId="org.eclipse.tigerstripe.workbench.base.dependencyContentType">
+      		</contentTypeBinding>
+
+      </editor>
       <editor
             class="org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.associationClass.AssociationClassArtifactEditor"
             default="false"
             icon="src/icons/new/associationClass.gif"
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.associationClassEditor"
-            name="Tigerstripe UML Association Class Editor"/>
+            name="Tigerstripe Association Class Editor">
+
+			<contentTypeBinding
+         		contentTypeId="org.eclipse.tigerstripe.workbench.base.associationClassContentType">
+      		</contentTypeBinding>
+
+      </editor>
       <editor
             class="org.eclipse.tigerstripe.workbench.ui.internal.editors.segment.SegmentEditor"
             default="true"
@@ -121,6 +186,11 @@
             icon="src/icons/archive/package.gif"
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.ossj.packageEditor"
             name="Tigerstripe Package Editor">
+            
+            <contentTypeBinding
+         		contentTypeId="org.eclipse.tigerstripe.workbench.base.packageContentType">
+      		</contentTypeBinding>
+            
       </editor>
    </extension>
    <extension

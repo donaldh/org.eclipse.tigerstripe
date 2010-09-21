@@ -150,21 +150,18 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 				return;
 			}
 
-			IAbstractArtifact artifact = TSExplorerUtils
-					.getArtifactFor(fileInput.getFile());
+			IAbstractArtifact artifact = TSExplorerUtils.getArtifactFor(fileInput.getFile());
 
 			try {
-				setIArtifact(((AbstractArtifact) artifact)
-						.makeWorkingCopy(new NullProgressMonitor()));
-				if (artifact != null
-						&& artifact.getTigerstripeProject() != null) {
-					artifact.getTigerstripeProject()
-							.getArtifactManagerSession()
-							.addArtifactChangeListener(this);
-					artifact.getTigerstripeProject()
-							.getArtifactManagerSession()
-							.addActiveFacetListener(this);
+				if (artifact != null) {
+					setIArtifact(((AbstractArtifact) artifact).makeWorkingCopy(new NullProgressMonitor()));
+					
+					if (artifact.getTigerstripeProject() != null) {
+						artifact.getTigerstripeProject().getArtifactManagerSession().addArtifactChangeListener(this);
+						artifact.getTigerstripeProject().getArtifactManagerSession().addActiveFacetListener(this);		
+					}
 				}
+				
 			} catch (TigerstripeException e) {
 				EclipsePlugin.log(e);
 			}
@@ -202,7 +199,7 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 
 	protected void addSourcePage() throws PartInitException {
 
-		if (!getIArtifact().isReadonly()) {
+		if ((getIArtifact()!=null) && (!getIArtifact().isReadonly())) {
 			sourcePage = new ArtifactSourcePage(this, "id", "Source");
 
 			sourcePageIndex = addPage(sourcePage, getEditorInput());
@@ -485,18 +482,26 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 		
 		IAdapterManager adapterManager = Platform.getAdapterManager();
 		
-		IOssjArtifactFormContentProvider contentProvider = (IOssjArtifactFormContentProvider) adapterManager
-				.getAdapter(artifact, IOssjArtifactFormContentProvider.class);
-
-		IArtifactFormLabelProvider labelProvider = (IArtifactFormLabelProvider) adapterManager
-				.getAdapter(artifact, IArtifactFormLabelProvider.class);
-
-		if (contentProvider == null || labelProvider == null) {
-			throw new IllegalStateException(String.format(
-					"Not found adapters for artifact type '%s'", artifact.getClass().getName()));
+		if (artifact!=null) {
+		
+			IOssjArtifactFormContentProvider contentProvider = (IOssjArtifactFormContentProvider) adapterManager
+					.getAdapter(artifact, IOssjArtifactFormContentProvider.class);
+	
+			IArtifactFormLabelProvider labelProvider = (IArtifactFormLabelProvider) adapterManager
+					.getAdapter(artifact, IArtifactFormLabelProvider.class);
+			
+			if (contentProvider == null || labelProvider == null) {
+				throw new IllegalStateException(String.format(
+						"Not found adapters for artifact type '%s'", artifact.getClass().getName()));
+			}
+			
+			return new ArtifactOverviewPage(this, labelProvider, contentProvider);
+		} else {
+			// Navid Mehregani: Inspired by bugzilla 321257.  This can happen when we have a very ugly compile error 
+			// In this case, instruct the user to open the file with Java editor.
+			return new ArtifactOverviewPage(this);
 		}
 		
-		return new ArtifactOverviewPage(this, labelProvider, contentProvider);
 	}
 	
 }

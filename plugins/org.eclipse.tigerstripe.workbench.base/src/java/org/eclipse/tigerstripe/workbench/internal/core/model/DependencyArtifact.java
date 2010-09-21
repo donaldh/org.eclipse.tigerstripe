@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
@@ -22,6 +24,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.metamodel.impl.IDependencyArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IPrimitiveTypeImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.artifacts.DependencyArtifactPersister;
@@ -33,6 +36,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
+import org.eclipse.ui.ide.IDE;
 
 import com.thoughtworks.qdox.model.DocletTag;
 import com.thoughtworks.qdox.model.JavaClass;
@@ -399,5 +403,16 @@ public class DependencyArtifact extends AbstractArtifact implements
 		ownedComponents.addAll(super.getContainedModelComponents());
 		//ownedComponents.addAll(this.getRelationshipEnds());
 		return ownedComponents;
+	}
+	
+	@Override
+	public void doSave(IProgressMonitor monitor) throws TigerstripeException {
+		super.doSave(monitor);
+		
+		IResource resource = (IResource) this.getAdapter(IResource.class);
+		final String ENTITY_EDITOR_ID = "org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.dependency.DependencyArtifactEditor";
+		if ((resource instanceof IFile ) && (!ENTITY_EDITOR_ID.equals(IDE.getDefaultEditor((IFile)resource).getId()))) {
+			IDE.setDefaultEditor((IFile)resource, ENTITY_EDITOR_ID);
+		}
 	}
 }

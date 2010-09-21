@@ -15,15 +15,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.metamodel.impl.IAssociationClassArtifactImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.artifacts.AssociationClassArtifactPersister;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.ui.ide.IDE;
 
 import com.thoughtworks.qdox.model.JavaClass;
 
@@ -117,6 +121,17 @@ public class AssociationClassArtifact extends AssociationArtifact implements
 		result.addAll(getAssociationEnds());
 
 		return result;
+	}
+	
+	@Override
+	public void doSave(IProgressMonitor monitor) throws TigerstripeException {
+		super.doSave(monitor);
+		
+		IResource resource = (IResource) this.getAdapter(IResource.class);
+		final String ENTITY_EDITOR_ID = "org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.associationClass.AssociationClassArtifactEditor";
+		if ((resource instanceof IFile ) && (!ENTITY_EDITOR_ID.equals(IDE.getDefaultEditor((IFile)resource).getId()))) {
+			IDE.setDefaultEditor((IFile)resource, ENTITY_EDITOR_ID);
+		}
 	}
 
 }

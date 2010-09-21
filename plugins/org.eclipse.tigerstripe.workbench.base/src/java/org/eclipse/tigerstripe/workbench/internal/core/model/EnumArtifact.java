@@ -12,9 +12,12 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.io.Writer;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.metamodel.impl.IEnumArtifactImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.OssjEnumSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.artifacts.EnumArtifactPersister;
@@ -22,6 +25,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
+import org.eclipse.ui.ide.IDE;
 
 import com.thoughtworks.qdox.model.JavaClass;
 
@@ -165,5 +169,16 @@ public class EnumArtifact extends AbstractArtifact implements IEnumArtifact {
 	@Override
 	protected IAbstractArtifact makeArtifact() {
 		return new EnumArtifact(getArtifactManager());
+	}
+	
+	@Override
+	public void doSave(IProgressMonitor monitor) throws TigerstripeException {
+		super.doSave(monitor);
+		
+		IResource resource = (IResource) this.getAdapter(IResource.class);
+		final String ENTITY_EDITOR_ID = "org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.enumeration.EnumArtifactEditor";
+		if ((resource instanceof IFile ) && (!ENTITY_EDITOR_ID.equals(IDE.getDefaultEditor((IFile)resource).getId()))) {
+			IDE.setDefaultEditor((IFile)resource, ENTITY_EDITOR_ID);
+		}
 	}
 }

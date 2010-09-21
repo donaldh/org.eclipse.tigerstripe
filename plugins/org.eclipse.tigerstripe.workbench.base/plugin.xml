@@ -418,5 +418,141 @@
           variable="Tigerstripe External API">
     </classpathVariableInitializer>
  </extension>
+ 
+ <!-- NM: Bugzilla 321257: Double clicking on a marker should open the correct correpsonding TS editor. -->
+ <extension point="org.eclipse.core.contenttype.contentTypes">
+     <content-type
+            base-type="org.eclipse.jdt.core.javaSource"
+            file-extensions="java"
+            id="org.eclipse.tigerstripe.workbench.base.entityContentType"
+            name="Entity Editor"
+            priority="normal">
+         <describer
+               class="org.eclipse.tigerstripe.workbench.internal.content.describers.EntityContentDescriber">
+         </describer>
+     </content-type>
+     
+      <content-type
+            base-type="org.eclipse.jdt.core.javaSource"
+            file-extensions="java"
+            id="org.eclipse.tigerstripe.workbench.base.associationContentType"
+            name="Entity Editor"
+            priority="normal">
+         <describer
+               class="org.eclipse.tigerstripe.workbench.internal.content.describers.AssociationContentDescriber">
+         </describer>
+     </content-type>
+     
+      <content-type
+            base-type="org.eclipse.jdt.core.javaSource"
+            file-extensions="java"
+            id="org.eclipse.tigerstripe.workbench.base.associationClassContentType"
+            name="Entity Editor"
+            priority="normal">
+         <describer
+               class="org.eclipse.tigerstripe.workbench.internal.content.describers.AssociationClassContentDescriber">
+         </describer>
+     </content-type>
+     
+     <content-type
+            base-type="org.eclipse.jdt.core.javaSource"
+            file-extensions="java"
+            id="org.eclipse.tigerstripe.workbench.base.dataContentType"
+            name="Entity Editor"
+            priority="normal">
+         <describer
+               class="org.eclipse.tigerstripe.workbench.internal.content.describers.DataTypeContentDescriber">
+         </describer>
+     </content-type>
+     
+      <content-type
+            base-type="org.eclipse.jdt.core.javaSource"
+            file-extensions="java"
+            id="org.eclipse.tigerstripe.workbench.base.dependencyContentType"
+            name="Entity Editor"
+            priority="normal">
+         <describer
+               class="org.eclipse.tigerstripe.workbench.internal.content.describers.DependencyContentDescriber">
+         </describer>
+     </content-type>
+     
+      <content-type
+            base-type="org.eclipse.jdt.core.javaSource"
+            file-extensions="java"
+            id="org.eclipse.tigerstripe.workbench.base.enumContentType"
+            name="Entity Editor"
+            priority="normal">
+         <describer
+               class="org.eclipse.tigerstripe.workbench.internal.content.describers.EnumContentDescriber">
+         </describer>
+     </content-type>
+     
+     <content-type
+            base-type="org.eclipse.jdt.core.javaSource"
+            file-extensions="java"
+            id="org.eclipse.tigerstripe.workbench.base.eventContentType"
+            name="Entity Editor"
+            priority="normal">
+         <describer
+               class="org.eclipse.tigerstripe.workbench.internal.content.describers.EventContentDescriber">
+         </describer>
+     </content-type>
+     
+      <content-type
+            base-type="org.eclipse.jdt.core.javaSource"
+            file-extensions="java"
+            id="org.eclipse.tigerstripe.workbench.base.exceptionContentType"
+            name="Entity Editor"
+            priority="normal">
+         <describer
+               class="org.eclipse.tigerstripe.workbench.internal.content.describers.ExceptionContentDescriber">
+         </describer>
+     </content-type>
+     
+      <content-type
+            base-type="org.eclipse.jdt.core.javaSource"
+            file-extensions="java"
+            id="org.eclipse.tigerstripe.workbench.base.packageContentType"
+            name="Entity Editor"
+            priority="normal">
+         <describer
+               class="org.eclipse.tigerstripe.workbench.internal.content.describers.PackageContentDescriber">
+         </describer>
+     </content-type>
+     
+     <content-type
+            base-type="org.eclipse.jdt.core.javaSource"
+            file-extensions="java"
+            id="org.eclipse.tigerstripe.workbench.base.queryContentType"
+            name="Entity Editor"
+            priority="normal">
+         <describer
+               class="org.eclipse.tigerstripe.workbench.internal.content.describers.QueryContentDescriber">
+         </describer>
+     </content-type>
+     
+      <content-type
+            base-type="org.eclipse.jdt.core.javaSource"
+            file-extensions="java"
+            id="org.eclipse.tigerstripe.workbench.base.sessionContentType"
+            name="Entity Editor"
+            priority="normal">
+         <describer
+               class="org.eclipse.tigerstripe.workbench.internal.content.describers.SessionContentDescriber">
+         </describer>
+     </content-type>
+     
+      <content-type
+            base-type="org.eclipse.jdt.core.javaSource"
+            file-extensions="java"
+            id="org.eclipse.tigerstripe.workbench.base.updateContentType"
+            name="Entity Editor"
+            priority="normal">
+         <describer
+               class="org.eclipse.tigerstripe.workbench.internal.content.describers.UpdateContentDescriber">
+         </describer>
+     </content-type>
+     
+ </extension>
 
 </plugin>
