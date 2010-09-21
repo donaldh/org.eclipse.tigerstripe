@@ -14,10 +14,13 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -80,6 +83,9 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 	@Override
 	public void addPages() {
 		int headerIndex = -1;
+		IFile file = null;
+		int dependencyPageIndex = -1;
+		
 		try {
 			PluginConfigurationPage pluginPage = new PluginConfigurationPage(
 					this);
@@ -98,33 +104,63 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 			// addModelPage(repoPage);
 
 			if (getEditorInput() instanceof IFileEditorInput) {
-				DescriptorDependenciesPage depPage = new DescriptorDependenciesPage(
-						this);
-				addPage(depPage);
+				
+				IFileEditorInput fileEditorInput = (IFileEditorInput)getEditorInput();
+				file = fileEditorInput.getFile();				
+				
+				DescriptorDependenciesPage depPage = new DescriptorDependenciesPage(this);
+				dependencyPageIndex = addPage(depPage);
 				addModelPage(depPage);
-			}
-
-			if (getEditorInput() instanceof IFileEditorInput) {
+				
 				AdvancedConfigurationPage advPage = new AdvancedConfigurationPage(
 						this);
 				addPage(advPage);
 				addModelPage(advPage);
-			}
-
-			if (getEditorInput() instanceof IFileEditorInput) {
+				
 				FacetReferencesPage facetPage = new FacetReferencesPage(this);
 				addPage(facetPage);
 				addModelPage(facetPage);
-			}
-
-			if (getEditorInput() instanceof IFileEditorInput) {
+				
 				addSourcePage();
 			}
+
 		} catch (PartInitException e) {
 			EclipsePlugin.log(e);
 		}
-		setActivePage(headerIndex);
+		
+		// N.M: Bugzilla 319768: Switch to dependencies tab, if there are related issues.
+		if (areThereDependencyProblems(file) && dependencyPageIndex!=-1) 
+			setActivePage(dependencyPageIndex);
+		else	
+			setActivePage(headerIndex);
+		
 		updateTitle();
+	}
+	
+	// N.M: Bugzilla 319768: Switch to dependencies tab, if there are related issues.
+	private boolean areThereDependencyProblems(IFile file) {
+		
+		try {
+			if (file != null) {
+				final String DEPENDENCY_ERROR = "Unresolved model reference";
+				IMarker[] markers = file.findMarkers(IMarker.PROBLEM, true,	IResource.DEPTH_INFINITE);
+				
+				if (markers!=null) {
+					for (int i=0; i < markers.length; i++) {
+						if (IMarker.SEVERITY_ERROR == markers[i].getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO)) {
+							final Object errorMessage = markers[i].getAttribute(IMarker.MESSAGE);
+							if ((errorMessage instanceof String) && (((String)errorMessage).contains(DEPENDENCY_ERROR))) {
+								return true;
+							}
+						}
+					}
+				}
+			}
+		} catch (CoreException e) {
+			EclipsePlugin.logErrorMessage("An error occurred while looking for dependency errors.  Exception Message (if any): " + e.getMessage(), e);
+		}
+		
+		return false;
 	}
 
 	protected void addSourcePage() throws PartInitException {
