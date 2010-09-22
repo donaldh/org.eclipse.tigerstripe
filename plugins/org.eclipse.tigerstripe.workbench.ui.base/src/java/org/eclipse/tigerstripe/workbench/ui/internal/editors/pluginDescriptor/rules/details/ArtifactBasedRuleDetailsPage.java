@@ -166,19 +166,46 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 		if (e.getSource() == artifactTypeCombo) {
 			ArtifactBasedTemplateRule rule = (ArtifactBasedTemplateRule) getITemplateRunRule();
 			int index = artifactTypeCombo.getSelectionIndex();
-
-			IArtifactMetadataSession session = InternalTigerstripeCore
-					.getDefaultArtifactMetadataSession();
-			String[] baseSupportedArtifacts = session
-					.getSupportedArtifactTypes();
-			String[] supportedArtifacts = new String[baseSupportedArtifacts.length + 1];
-			for (int i = 0; i < baseSupportedArtifacts.length; i++) {
-				supportedArtifacts[i] = baseSupportedArtifacts[i];
+			String selectedItem = artifactTypeCombo.getItem(index);
+			String artifactType = null;
+			
+			if (selectedItem.equals(IArtifactRule.ANY_ARTIFACT_LABEL)) {
+				artifactType = IArtifactRule.ANY_ARTIFACT_LABEL;
+			} else {
+				
+				// N.M: Bugzilla 324703: Artifact type of a rule is not correctly applied.  This regression was caused after the list of artifact types were sorted
+				// The indices of IArtifactMetadataSession.getSupportedArtifactTypes() map to IArtifactMetadataSession.getSupportedArtifactLabels().  We can't 
+				// sort one list as it will mess up the index mappings
+				Object data = artifactTypeCombo.getData();
+				if (data instanceof String[]) {
+					String[] baseSupportedLabels = (String[]) data;
+					
+					// Find the correct index in the untouched labels array 
+					int indexInBaselabel = -1;
+					for (int i=0; i < baseSupportedLabels.length; i++) {
+						if ((baseSupportedLabels[i]!=null) && (baseSupportedLabels[i].equals(selectedItem))) {
+							indexInBaselabel = i;
+							break;
+						}						
+					}
+					
+					// Map it to the correct artifact type
+					if (indexInBaselabel != -1) {
+						IArtifactMetadataSession session = InternalTigerstripeCore.getDefaultArtifactMetadataSession();
+						String[] baseSupportedArtifacts = session.getSupportedArtifactTypes();
+						
+						if (baseSupportedArtifacts!=null && baseSupportedArtifacts.length>indexInBaselabel)
+							artifactType = baseSupportedArtifacts[indexInBaselabel];
+					}
+				}
 			}
-			supportedArtifacts[baseSupportedArtifacts.length] = IArtifactRule.ANY_ARTIFACT_LABEL;
-			Arrays.sort(supportedArtifacts);
-			rule.setArtifactType(supportedArtifacts[index]);
-			pageModified();
+			
+			if (artifactType!=null) {
+				rule.setArtifactType(artifactType);
+				pageModified();
+			} else {
+				EclipsePlugin.logErrorMessage("CRITICAL ERROR: Artifact type could not be determined");
+			}
 		}
 	}
 
@@ -295,19 +322,22 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 
 		getToolkit().createLabel(sectionClient, "Artifact Type:");
 
-		IArtifactMetadataSession session = InternalTigerstripeCore
-				.getDefaultArtifactMetadataSession();
-		String[] baseSupportedArtifacts = session
-				.getSupportedArtifactTypeLabels();
+		IArtifactMetadataSession session = InternalTigerstripeCore.getDefaultArtifactMetadataSession();
+		String[] baseSupportedArtifacts = session.getSupportedArtifactTypeLabels();
 		String[] supportedArtifacts = new String[baseSupportedArtifacts.length + 1];
+		
 		for (int i = 0; i < baseSupportedArtifacts.length; i++) {
 			supportedArtifacts[i] = baseSupportedArtifacts[i];
 		}
+		
 		supportedArtifacts[baseSupportedArtifacts.length] = IArtifactRule.ANY_ARTIFACT_LABEL;
+		
 		Arrays.sort(supportedArtifacts);
+		
 		artifactTypeCombo = new CCombo(sectionClient, SWT.READ_ONLY);
 		artifactTypeCombo.setEnabled(GeneratorDescriptorEditor.isEditable());
 		getToolkit().adapt(artifactTypeCombo, true, true);
+		artifactTypeCombo.setData(baseSupportedArtifacts);
 		artifactTypeCombo.setItems(supportedArtifacts);
 		artifactTypeCombo.setLayoutData(new TableWrapData(
 				TableWrapData.FILL_GRAB));
