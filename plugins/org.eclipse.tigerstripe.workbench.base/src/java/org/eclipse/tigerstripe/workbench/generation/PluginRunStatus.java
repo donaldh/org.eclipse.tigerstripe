@@ -100,10 +100,10 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 			buf.append(this.message);
 
 			if (project != null) {
-				buf.append(projectType + ": " + project.getModelId());
+				buf.append(projectType + ": " + project.getModelId() + " version=" + project.getProjectDetails().getVersion());
 			}
 			if (pluginConfig != null) {
-				buf.append(", Plugin: " + ((PluginConfig) pluginConfig).isResolvedTo());
+				buf.append(", Plugin: " + ((PluginConfig) pluginConfig).isResolvedTo() + " version=" + ((PluginConfig) pluginConfig).getVersion());
 			}
 
 			if (facetRef != null && facetRef.canResolve()) {
