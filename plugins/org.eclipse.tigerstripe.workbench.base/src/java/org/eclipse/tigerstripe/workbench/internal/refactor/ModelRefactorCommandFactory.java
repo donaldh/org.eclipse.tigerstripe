@@ -34,6 +34,7 @@ import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactFQRenameRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IPhantomTigerstripeProject;
+import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
@@ -117,6 +118,22 @@ public class ModelRefactorCommandFactory {
 			IProgressMonitor monitor) throws TigerstripeException {
 		if (request.isValid().getSeverity() == IStatus.OK) {
 
+			IAbstractArtifact original = request.getOriginalArtifact();
+			ITigerstripeModelProject originalProject = original.getProject();
+			IQueryAllArtifacts query = (IQueryAllArtifacts) originalProject
+					.getArtifactManagerSession().makeQuery(
+							IQueryAllArtifacts.class.getName());
+			query.setIncludeDependencies(true);
+			Collection<IAbstractArtifact> artifacts = originalProject
+					.getArtifactManagerSession().queryArtifact(query);
+
+			for (IAbstractArtifact artifact : artifacts) {
+				if (artifact instanceof AbstractArtifact) {
+					((AbstractArtifact) artifact)
+							.resolvePackageContainment(monitor);
+				}
+			}
+
 			// First get all the derived requests if any
 			List<RefactorRequest> derivedRequests = new ArrayList<RefactorRequest>();
 			derivedRequests.add(request);
@@ -133,14 +150,6 @@ public class ModelRefactorCommandFactory {
 			// For each visited Artifact we assess if any of the
 			// ModelRefactorRequest would impact that artifact and create
 			// IModelChangeDelta accordingly
-			IAbstractArtifact original = request.getOriginalArtifact();
-			ITigerstripeModelProject originalProject = original.getProject();
-			IQueryAllArtifacts query = (IQueryAllArtifacts) originalProject
-					.getArtifactManagerSession().makeQuery(
-							IQueryAllArtifacts.class.getName());
-			query.setIncludeDependencies(true);
-			Collection<IAbstractArtifact> artifacts = originalProject
-					.getArtifactManagerSession().queryArtifact(query);
 			for (IAbstractArtifact artifact : artifacts) {
 				List<ModelChangeDelta> deltas = createDeltas(artifact,
 						mappedRequests);
@@ -300,24 +309,27 @@ public class ModelRefactorCommandFactory {
 
 			ITigerstripeModelProject destProj = request.getDestinationProject();
 			IProject destIProj = (IProject) destProj.getAdapter(IProject.class);
-			String destPackage = Util.packageOf(request.getDestinationFQN()
-					+ "."); // note the "." as we know this is a package
-			IResource dest = ResourcesPlugin.getWorkspace().getRoot()
-					.getFolder(
-							destIProj.getFullPath().append("src").append(
-									destPackage.replace('.', IPath.SEPARATOR)));
+			if (destIProj != null) {
+				String destPackage = Util.packageOf(request.getDestinationFQN()
+						+ "."); // note the "." as we know this is a package
+				IResource dest = ResourcesPlugin.getWorkspace().getRoot()
+						.getFolder(
+								destIProj.getFullPath().append("src").append(
+										destPackage.replace('.',
+												IPath.SEPARATOR)));
 
-			for (IResource member : folder.members()) {
-				HeadlessDiagramHandle handle = DiagramRefactorHelper
-						.getDiagramHandle(member);
-				if (handle != null) {
-					DiagramRefactorRequest req = new DiagramRefactorRequest();
-					req.setOriginalDiagramHandle(handle);
-					req.setDestination(dest);
+				for (IResource member : folder.members()) {
+					HeadlessDiagramHandle handle = DiagramRefactorHelper
+							.getDiagramHandle(member);
+					if (handle != null) {
+						DiagramRefactorRequest req = new DiagramRefactorRequest();
+						req.setOriginalDiagramHandle(handle);
+						req.setDestination(dest);
 
-					// avoid putting the same request twice
-					if (!result.contains(req))
-						result.add(req);
+						// avoid putting the same request twice
+						if (!result.contains(req))
+							result.add(req);
+					}
 				}
 			}
 		} catch (CoreException e) {

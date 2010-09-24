@@ -13,6 +13,8 @@ package org.eclipse.tigerstripe.workbench.internal.refactor;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -40,6 +42,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramRefactorHelper;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.refactor.IRefactorCommand;
@@ -94,23 +97,23 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		if (monitor == null)
 			monitor = new NullProgressMonitor();
 
-//		long time = System.currentTimeMillis();
-//		System.out.println("Starting refactor");
+		// long time = System.currentTimeMillis();
+		// System.out.println("Starting refactor");
 		disableAuditsAndDiagSync();
 
 		Set<Object> toCleanUp = new HashSet<Object>();
 
 		ITigerstripeModelProject[] affectedProjects = applyAllDeltas(monitor,
 				toCleanUp);
-//		long time1 = System.currentTimeMillis();
-//		System.out.println("Done with Deltas: " + (time1 - time));
+		// long time1 = System.currentTimeMillis();
+		// System.out.println("Done with Deltas: " + (time1 - time));
 
 		updateDiagrams(monitor);
-//		time1 = System.currentTimeMillis();
-//		System.out.println("Done diagram updates: " + (time1 - time));
+		// time1 = System.currentTimeMillis();
+		// System.out.println("Done diagram updates: " + (time1 - time));
 		moveDiagrams(monitor);
-//		time1 = System.currentTimeMillis();
-//		System.out.println("Done diagram moves: " + (time1 - time));
+		// time1 = System.currentTimeMillis();
+		// System.out.println("Done diagram moves: " + (time1 - time));
 
 		if (isCrossProjectCmd()) {
 			// At this stage the artifacts have been refactored inside the
@@ -128,20 +131,20 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		}
 
 		cleanUp(toCleanUp, monitor);
-//		time1 = System.currentTimeMillis();
-//		System.out.println("Done clean up: " + (time1 - time));
+		// time1 = System.currentTimeMillis();
+		// System.out.println("Done clean up: " + (time1 - time));
 
 		rebuildIndexes(affectedProjects, monitor);
-//		time1 = System.currentTimeMillis();
-//		System.out.println("Done index rebuild: " + (time1 - time));
+		// time1 = System.currentTimeMillis();
+		// System.out.println("Done index rebuild: " + (time1 - time));
 
 		// Gets the list of all resources that will be impacted.
 		// Set<IResource> affectedResources = getAffectedResources();
 		// System.out.println(affectedResources);
 
 		reEnableAuditsAndDiagSync();
-//		System.out.println("Refactor Time: "
-//				+ (System.currentTimeMillis() - time));
+		// System.out.println("Refactor Time: "
+		// + (System.currentTimeMillis() - time));
 	}
 
 	@SuppressWarnings("deprecation")
@@ -390,6 +393,36 @@ public class BaseRefactorCommand implements IRefactorCommand {
 
 	public void addDeltas(Collection<ModelChangeDelta> deltas) {
 		this.deltas.addAll(deltas);
+		reorderDeltas();
+	}
+
+	private void reorderDeltas() {
+		// Pacakge artifact delta must process after package childs.
+		Collections.sort(deltas, new Comparator<ModelChangeDelta>() {
+
+			public int compare(ModelChangeDelta o1, ModelChangeDelta o2) {
+				Object c1 = o1.getComponent();
+				Object c2 = o2.getComponent();
+				if (c1 == c2) {
+					return 0;
+				}
+				return level(c2) - level(c1);
+			}
+
+			private int level(Object component) {
+				if (!(component instanceof IModelComponent)) {
+					return -1;
+				}
+				int level = 1;
+				IModelComponent mc = (IModelComponent) component;
+				while (mc != null) {
+					level++;
+					mc = mc.getContainingModelComponent();
+				}
+				return level;
+			}
+		});
+
 	}
 
 	public void addDiagramDeltas(Collection<DiagramChangeDelta> deltas) {
