@@ -33,6 +33,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.startup.PostInstallActions;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.expressions.TigerstripeOCLFactory;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.provider.VisualeditorItemProviderAdapterFactory;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -66,6 +67,11 @@ public class TigerstripeDiagramEditorPlugin extends AbstractUIPlugin {
 	/**
 	 * @generated
 	 */
+	private TigerstripeOCLFactory oclFactory;
+
+	/**
+	 * @generated
+	 */
 	public TigerstripeDiagramEditorPlugin() {
 	}
 
@@ -95,6 +101,7 @@ public class TigerstripeDiagramEditorPlugin extends AbstractUIPlugin {
 	public void stop(BundleContext context) throws Exception {
 		adapterFactory.dispose();
 		adapterFactory = null;
+		oclFactory = null;
 		instance = null;
 		super.stop(context);
 	}
@@ -193,6 +200,20 @@ public class TigerstripeDiagramEditorPlugin extends AbstractUIPlugin {
 			image = getImageRegistry().get(path);
 		}
 		return image;
+	}
+
+	/**
+	 * @generated
+	 */
+	public TigerstripeOCLFactory getTigerstripeOCLFactory() {
+		return oclFactory;
+	}
+
+	/**
+	 * @generated
+	 */
+	public void setTigerstripeOCLFactory(TigerstripeOCLFactory f) {
+		this.oclFactory = f;
 	}
 
 	/**

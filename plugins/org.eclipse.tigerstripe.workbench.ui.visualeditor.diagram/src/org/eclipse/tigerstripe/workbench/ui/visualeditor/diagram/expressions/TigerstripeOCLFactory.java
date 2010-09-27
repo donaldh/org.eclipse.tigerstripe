@@ -16,26 +16,14 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EEnum;
-import org.eclipse.emf.ecore.EEnumLiteral;
-import org.eclipse.emf.ecore.ETypedElement;
-import org.eclipse.emf.ocl.expressions.ExpressionsFactory;
-import org.eclipse.emf.ocl.expressions.OCLExpression;
-import org.eclipse.emf.ocl.expressions.OperationCallExp;
-import org.eclipse.emf.ocl.expressions.Variable;
-import org.eclipse.emf.ocl.expressions.util.AbstractVisitor;
-import org.eclipse.emf.ocl.helper.HelperUtil;
-import org.eclipse.emf.ocl.helper.IOCLHelper;
-import org.eclipse.emf.ocl.helper.OCLParsingException;
-import org.eclipse.emf.ocl.parser.EcoreEnvironment;
-import org.eclipse.emf.ocl.parser.EcoreEnvironmentFactory;
-import org.eclipse.emf.ocl.parser.Environment;
-import org.eclipse.emf.ocl.parser.EnvironmentFactory;
-import org.eclipse.emf.ocl.parser.EvaluationEnvironment;
-import org.eclipse.emf.ocl.query.Query;
-import org.eclipse.emf.ocl.query.QueryFactory;
-import org.eclipse.emf.ocl.types.util.Types;
-import org.eclipse.emf.ocl.utilities.PredefinedType;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.ocl.Environment;
+import org.eclipse.ocl.EvaluationEnvironment;
+import org.eclipse.ocl.ParserException;
+import org.eclipse.ocl.ecore.EcoreFactory;
+import org.eclipse.ocl.ecore.OCL.Helper;
+import org.eclipse.ocl.options.ParsingOptions;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeDiagramEditorPlugin;
 
 /**
  * @generated
@@ -44,14 +32,56 @@ public class TigerstripeOCLFactory {
 	/**
 	 * @generated
 	 */
-	private TigerstripeOCLFactory() {
+	private final TigerstripeAbstractExpression[] expressions;
+
+	/**
+	 * @generated
+	 */
+	protected TigerstripeOCLFactory() {
+		this.expressions = new TigerstripeAbstractExpression[10];
+	}
+
+	/**
+	 * @generated
+	 */
+	public static TigerstripeAbstractExpression getExpression(int index,
+			EClassifier context,
+			Map/*[String, org.eclipse.emf.ecore.EClassifier]*/environment) {
+		TigerstripeOCLFactory cached = TigerstripeDiagramEditorPlugin
+				.getInstance().getTigerstripeOCLFactory();
+		if (cached == null) {
+			TigerstripeDiagramEditorPlugin.getInstance()
+					.setTigerstripeOCLFactory(
+							cached = new TigerstripeOCLFactory());
+		}
+		if (index < 0 || index >= cached.expressions.length) {
+			throw new IllegalArgumentException();
+		}
+		if (cached.expressions[index] == null) {
+			final String[] exprBodies = new String[] { "self <> oppositeEnd", //$NON-NLS-1$
+					"self <> oppositeEnd", //$NON-NLS-1$
+					"self <> oppositeEnd", //$NON-NLS-1$
+					"self <> oppositeEnd", //$NON-NLS-1$
+					"self <> oppositeEnd", //$NON-NLS-1$
+					"self <> oppositeEnd", //$NON-NLS-1$
+					"self <> oppositeEnd", //$NON-NLS-1$
+					"self <> oppositeEnd", //$NON-NLS-1$
+					"self <> oppositeEnd", //$NON-NLS-1$
+					"self <> oppositeEnd", //$NON-NLS-1$
+			};
+			cached.expressions[index] = getExpression(exprBodies[index],
+					context, environment == null ? Collections.EMPTY_MAP
+							: environment);
+		}
+		return cached.expressions[index];
 	}
 
 	/**
 	 * @generated
 	 */
 	public static TigerstripeAbstractExpression getExpression(String body,
-			EClassifier context, Map environment) {
+			EClassifier context,
+			Map/*[String, org.eclipse.emf.ecore.EClassifier]*/environment) {
 		return new Expression(body, context, environment);
 	}
 
@@ -70,22 +100,26 @@ public class TigerstripeOCLFactory {
 		/**
 		 * @generated
 		 */
-		private Query query;
+		private final org.eclipse.ocl.ecore.OCL oclInstance;
+		/**
+		 * @generated
+		 */
+		private org.eclipse.ocl.ecore.OCLExpression oclExpression;
 
 		/**
 		 * @generated
 		 */
-		public Expression(String body, EClassifier context, Map environment) {
-			super(body, context, environment);
-
-			IOCLHelper oclHelper = (environment.isEmpty()) ? HelperUtil
-					.createOCLHelper() : HelperUtil
-					.createOCLHelper(createCustomEnv(environment));
+		public Expression(String body, EClassifier context,
+				Map/*[String, org.eclipse.emf.ecore.EClassifier]*/environment) {
+			super(body, context);
+			oclInstance = org.eclipse.ocl.ecore.OCL.newInstance();
+			initCustomEnv(oclInstance.getEnvironment(), environment);
+			Helper oclHelper = oclInstance.createOCLHelper();
 			oclHelper.setContext(context());
 			try {
-				OCLExpression oclExpression = oclHelper.createQuery(body);
-				this.query = QueryFactory.eINSTANCE.createQuery(oclExpression);
-			} catch (OCLParsingException e) {
+				oclExpression = oclHelper.createQuery(body());
+				setStatus(IStatus.OK, null, null);
+			} catch (ParserException e) {
 				setStatus(IStatus.ERROR, e.getMessage(), e);
 			}
 		}
@@ -95,102 +129,57 @@ public class TigerstripeOCLFactory {
 		 */
 		@Override
 		protected Object doEvaluate(Object context, Map env) {
-			if (query == null)
+			if (oclExpression == null) {
 				return null;
-			EvaluationEnvironment evalEnv = query.getEvaluationEnvironment();
-			// init environment
-			for (Iterator it = env.entrySet().iterator(); it.hasNext();) {
-				Map.Entry nextEntry = (Map.Entry) it.next();
-				evalEnv.replace((String) nextEntry.getKey(), nextEntry
-						.getValue());
 			}
-
+			// on the first call, both evalEnvironment and extentMap are clear, for later we have finally, below.
+			EvaluationEnvironment/*[?,?,?,?,?]*/evalEnv = oclInstance
+					.getEvaluationEnvironment();
+			// initialize environment
+			for (Iterator/*[Object]*/it = env.keySet().iterator(); it
+					.hasNext();) {
+				Object nextKey = it.next();
+				evalEnv.replace((String) nextKey, env.get(nextKey));
+			}
 			try {
-				initExtentMap(context);
-				Object result = query.evaluate(context);
-				return (result != Types.OCL_INVALID) ? result : null;
+				Object result = oclInstance.evaluate(context, oclExpression);
+				return oclInstance.isInvalid(result) ? null : result;
 			} finally {
 				evalEnv.clear();
-				query.setExtentMap(Collections.EMPTY_MAP);
+				oclInstance.setExtentMap(null); // clear allInstances cache, and get the oclInstance ready for the next call
 			}
 		}
 
 		/**
 		 * @generated
 		 */
-		@Override
-		protected Object performCast(Object value, ETypedElement targetType) {
-			if (targetType.getEType() instanceof EEnum) {
-				if (value instanceof EEnumLiteral) {
-					EEnumLiteral literal = (EEnumLiteral) value;
-					return (literal.getInstance() != null) ? literal
-							.getInstance() : literal;
-				}
-			}
-			return super.performCast(value, targetType);
-		}
-
-		/**
-		 * @generated
-		 */
-		private void initExtentMap(Object context) {
-			if (query == null || context == null)
-				return;
-			final Query queryToInit = query;
-			final Object extentContext = context;
-
-			queryToInit.setExtentMap(Collections.EMPTY_MAP);
-			if (queryToInit.queryText() != null
-					&& queryToInit.queryText().indexOf("allInstances") >= 0) {
-				AbstractVisitor visitior = new AbstractVisitor() {
-					private boolean usesAllInstances = false;
-
-					@Override
-					public Object visitOperationCallExp(OperationCallExp oc) {
-						if (!usesAllInstances) {
-							usesAllInstances = PredefinedType.ALL_INSTANCES == oc
-									.getOperationCode();
-							if (usesAllInstances) {
-								queryToInit
-										.setExtentMap(EnvironmentFactory.ECORE_INSTANCE
-												.createExtentMap(extentContext));
-							}
-						}
-						return super.visitOperationCallExp(oc);
-					}
-				};
-				queryToInit.getExpression().accept(visitior);
+		private static void initCustomEnv(
+				Environment/*[?,org.eclipse.emf.ecore.EClassifier,?,?,?,org.eclipse.emf.ecore.EParameter,?,?,?,?,?,?]*/ecoreEnv,
+				Map/*[String, org.eclipse.emf.ecore.EClassifier]*/environment) {
+			// Use EObject as implicit root class for any object, to allow eContainer() and other EObject operations from OCL expressions
+			ParsingOptions.setOption(ecoreEnv,
+					ParsingOptions.implicitRootClass(ecoreEnv),
+					EcorePackage.eINSTANCE.getEObject());
+			for (Iterator/*[String]*/it = environment.keySet().iterator(); it
+					.hasNext();) {
+				String varName = (String) it.next();
+				EClassifier varType = (EClassifier) environment.get(varName);
+				ecoreEnv.addElement(varName,
+						createVar(ecoreEnv, varName, varType), false);
 			}
 		}
 
 		/**
 		 * @generated
 		 */
-		private static EcoreEnvironmentFactory createCustomEnv(Map environment) {
-			final Map env = environment;
-			return new EcoreEnvironmentFactory() {
-				@Override
-				public Environment createClassifierContext(Object context) {
-					Environment ecoreEnv = super
-							.createClassifierContext(context);
-					for (Iterator it = env.keySet().iterator(); it.hasNext();) {
-						String varName = (String) it.next();
-						EClassifier varType = (EClassifier) env.get(varName);
-						ecoreEnv.addElement(varName,
-								createVar(varName, varType), false);
-					}
-					return ecoreEnv;
-				}
-			};
-		}
-
-		/**
-		 * @generated
-		 */
-		private static Variable createVar(String name, EClassifier type) {
-			Variable var = ExpressionsFactory.eINSTANCE.createVariable();
+		private static org.eclipse.ocl.ecore.Variable createVar(
+				Environment/*[?,org.eclipse.emf.ecore.EClassifier,?,?,?,?,?,?,?,?,?,?]*/ecoreEnv,
+				String name, EClassifier type) {
+			org.eclipse.ocl.ecore.Variable var = EcoreFactory.eINSTANCE
+					.createVariable();
 			var.setName(name);
-			var.setType(EcoreEnvironment.getOCLType(type));
+			var.setType((EClassifier) ecoreEnv.getUMLReflection().getOCLType(
+					type));
 			return var;
 		}
 	}

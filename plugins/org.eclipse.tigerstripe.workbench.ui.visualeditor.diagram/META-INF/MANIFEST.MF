@@ -16,7 +16,8 @@ Require-Bundle: org.eclipse.tigerstripe.workbench.ui.visualeditor.edit;visibilit
  org.eclipse.gmf.runtime.diagram.ui.actions,
  org.eclipse.jdt.ui,
  org.eclipse.gmf.runtime.diagram.ui.providers,
- org.eclipse.gmf.runtime.diagram.ui.providers.ide
+ org.eclipse.gmf.runtime.diagram.ui.providers.ide,
+ org.eclipse.ocl.ecore
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-Vendor: Eclipse.org
