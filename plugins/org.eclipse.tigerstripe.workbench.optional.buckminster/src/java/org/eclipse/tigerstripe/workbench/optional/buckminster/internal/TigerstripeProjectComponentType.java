@@ -23,12 +23,11 @@ import org.eclipse.buckminster.core.ctype.AbstractComponentType;
 import org.eclipse.buckminster.core.ctype.IResolutionBuilder;
 import org.eclipse.buckminster.core.reader.IComponentReader;
 import org.eclipse.buckminster.core.version.VersionHelper;
-import org.eclipse.buckminster.core.version.VersionType;
 import org.eclipse.buckminster.runtime.BuckminsterException;
 import org.eclipse.buckminster.runtime.MonitorUtils;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.equinox.internal.provisional.p2.core.Version;
+import org.eclipse.equinox.p2.metadata.Version;
 import org.eclipse.tigerstripe.workbench.optional.buckminster.TigerstripePlugin;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -87,6 +86,7 @@ public class TigerstripeProjectComponentType extends AbstractComponentType {
 //			throw BuckminsterException.wrap(e);
 //		}
 
+		//FIXME dead code!
 		if (pluginsNode != null) {
 
 			for (Node ref = pluginsNode.getFirstChild(); ref != null; ref = ref.getNextSibling()) {

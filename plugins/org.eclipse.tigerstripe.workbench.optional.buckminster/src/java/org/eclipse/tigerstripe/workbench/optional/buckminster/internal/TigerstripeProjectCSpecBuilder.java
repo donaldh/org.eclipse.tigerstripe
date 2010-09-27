@@ -51,7 +51,7 @@ public class TigerstripeProjectCSpecBuilder extends AbstractTigerstripeResolutio
 		CSpecBuilder cspecBld = ri.createCSpec();
 		cspecBld.setVersion(getOSGiVersionFromDocument(tsxml, VersionQueryEnum.PROJECT));
 		TigerstripeProjectComponentType.addDependencies(reader, cspecBld, tsxml);
-		return createNode(reader, cspecBld, null);
+		return createNode(reader, cspecBld);
 	}
 
 }

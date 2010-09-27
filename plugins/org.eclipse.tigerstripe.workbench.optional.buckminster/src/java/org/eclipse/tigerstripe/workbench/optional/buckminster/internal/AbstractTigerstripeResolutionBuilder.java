@@ -14,30 +14,33 @@ import javax.xml.xpath.XPathFactory;
 import org.eclipse.buckminster.core.cspec.AbstractResolutionBuilder;
 import org.eclipse.buckminster.core.reader.IComponentReader;
 import org.eclipse.buckminster.core.reader.IStreamConsumer;
-import org.eclipse.buckminster.core.version.VersionType;
 import org.eclipse.buckminster.core.version.VersionHelper;
+import org.eclipse.buckminster.core.version.VersionType;
 import org.eclipse.buckminster.runtime.BuckminsterException;
 import org.eclipse.buckminster.runtime.MonitorUtils;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.equinox.internal.provisional.p2.core.Version;
+import org.eclipse.equinox.p2.metadata.Version;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-public abstract class AbstractTigerstripeResolutionBuilder extends AbstractResolutionBuilder implements IStreamConsumer<Document> {
+public abstract class AbstractTigerstripeResolutionBuilder extends
+		AbstractResolutionBuilder implements IStreamConsumer<Document> {
 
 	public AbstractTigerstripeResolutionBuilder() {
 		super();
 	}
 
-	public Document consumeStream(IComponentReader reader, String streamName, InputStream stream, IProgressMonitor monitor) throws CoreException,
+	public Document consumeStream(IComponentReader reader, String streamName,
+			InputStream stream, IProgressMonitor monitor) throws CoreException,
 			IOException {
 
 		monitor.beginTask(streamName, 1);
 		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilderFactory factory = DocumentBuilderFactory
+					.newInstance();
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			InputSource source = new InputSource(stream);
 			source.setSystemId(streamName);
@@ -52,20 +55,24 @@ public abstract class AbstractTigerstripeResolutionBuilder extends AbstractResol
 		}
 	}
 
-	protected Version getOSGiVersionFromDocument(Document tsxml, VersionQueryEnum query) throws CoreException {
+	protected Version getOSGiVersionFromDocument(Document tsxml,
+			VersionQueryEnum query) throws CoreException {
 
 		Node version = null;
 		try {
 			XPath xpath = XPathFactory.newInstance().newXPath();
-			version = (Node) xpath.evaluate(query.getQuery(), tsxml, XPathConstants.NODE);
+			version = (Node) xpath.evaluate(query.getQuery(), tsxml,
+					XPathConstants.NODE);
 		} catch (XPathExpressionException e) {
 			throw BuckminsterException.wrap(e);
 		}
 
 		if (version != null) {
-			return VersionHelper.createVersion(VersionType.OSGI, version.getTextContent().trim());
+			return VersionHelper.createVersion(VersionType.OSGI, version
+					.getTextContent().trim());
 		}
-		throw BuckminsterException.fromMessage("Invalid tigerstripe project file - no version defined.");
+		throw BuckminsterException
+				.fromMessage("Invalid tigerstripe project file - no version defined.");
 	}
 
 }

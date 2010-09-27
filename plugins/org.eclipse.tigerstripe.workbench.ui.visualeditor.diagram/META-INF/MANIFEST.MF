@@ -10,7 +10,6 @@ Export-Package: org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.p
  org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part,
  org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers
 Require-Bundle: org.eclipse.tigerstripe.workbench.ui.visualeditor.edit;visibility:=reexport,
- org.eclipse.emf.query.ocl;visibility:=reexport,
  org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation,
  org.eclipse.tigerstripe.workbench.ui.base,
  org.eclipse.gmf.runtime.diagram.ui.actions,
