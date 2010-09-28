@@ -60,7 +60,6 @@
 		<module> plugins/org.eclipse.tigerstripe.repository.core.test</module>
 		<module> plugins/org.eclipse.tigerstripe.test_common</module>
 		<module> plugins/org.eclipse.tigerstripe.workbench.base.test</module>
-		<module> plugins/org.eclipse.tigerstripe.workbench.optional.buckminster</module>
 		<module> plugins/org.eclipse.tigerstripe.workbench.ui.sdk</module>
 
 		<module> plugins/org.eclipse.tigerstripe.workbench.ui.base.test</module>
@@ -69,6 +68,7 @@
 
 		<module>  releng/org.eclipse.tigerstripe.update-site</module>
 
+		 <!-- <module> plugins/org.eclipse.tigerstripe.workbench.optional.buckminster</module> -->
 		<!--
 			not building <module>
 			plugins/org.eclipse.tigerstripe.workbench.ui.resources</module>
