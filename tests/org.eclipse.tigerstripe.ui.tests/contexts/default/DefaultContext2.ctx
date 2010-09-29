@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.preferences:PreferencesContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.preferences="http:///com/xored/q7/preferences.ecore" name="DefaultContext" id="_FGfSUKthEd-v8JwXbnu_tQ" cleanPreferences="true">
+  <content name="instance">
+    <childs name="org.eclipse.jdt.ui">
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="org.eclipse.jdt.ui.editor.tab.width" value=""/>
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="org.eclipse.jdt.ui.formatterprofiles.version" value="11"/>
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="fontPropagated" value="true"/>
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="org.eclipse.jdt.ui.javadoclocations.migrated" value="true"/>
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="tabWidthPropagated" value="true"/>
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="useAnnotationsPrefPage" value="true"/>
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="content_assist_proposals_foreground" value="0,0,0"/>
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="org.eclipse.jface.textfont" value="1|Courier New|10.0|0|WINDOWS|1|0|0|0|0|0|0|0|0|1|0|0|0|0|Courier New;"/>
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="spelling_locale_initialized" value="true"/>
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="proposalOrderMigrated" value="true"/>
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="content_assist_proposals_background" value="255,255,255"/>
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="useQuickDiffPrefPage" value="true"/>
+    </childs>
+    <childs name="org.eclipse.ui">
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="showIntro" value="false"/>
+    </childs>
+    <childs name="org.eclipse.ui.ide">
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="TASKS_FILTERS_MIGRATE" value="true"/>
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="PROBLEMS_FILTERS_MIGRATE" value="true"/>
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="platformState" value="1281937167744"/>
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="tipsAndTricks" value="true"/>
+    </childs>
+    <childs name="org.eclipse.core.resources">
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="version" value="1"/>
+    </childs>
+    <childs name="org.eclipse.core.net">
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="org.eclipse.core.net.hasMigrated" value="true"/>
+    </childs>
+  </content>
+</com.xored.q7.preferences:PreferencesContext>

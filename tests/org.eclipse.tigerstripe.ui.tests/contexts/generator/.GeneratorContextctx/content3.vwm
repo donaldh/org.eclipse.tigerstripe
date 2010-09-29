@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<null:Map xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:null="null" basePackage="simple.moved">
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Ent1" package="simple">
+    <attributes name="enumRef" type="simple.Enumeration0"/>
+    <attributes name="attribute1" type="simple.DataMiddle"/>
+  </artifacts>
+  <artifacts xsi:type="null:AssociationClassClass" name="AssociationClass0" package="simple"/>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Ent2" package="simple" extends="//@artifacts.0">
+    <methods name="method0" type="simple.Ent1" isUnique="true" typeMultiplicity="0..1">
+      <parameters name="arg0" type="simple.Ent1" isUnique="true"/>
+    </methods>
+  </artifacts>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="AssociatedEnt" package="simple">
+    <attributes name="attribute0" type="simple.DataMiddle"/>
+  </artifacts>
+  <associations xsi:type="null:AssociationClass" name="AssociationClass0" package="simple" aEnd="//@artifacts.0" aEndName="ent1_3" zEnd="//@artifacts.0" zEndName="ent1_4" zEndIsNavigable="true" associatedClass="//@artifacts.1"/>
+  <associations name="Association1" package="simple" aEnd="//@artifacts.0" aEndName="ent1_1" zEnd="//@artifacts.0" zEndName="ent1_2" zEndIsNavigable="true"/>
+  <associations name="Association0" package="simple" aEnd="//@artifacts.3" aEndName="associatedEnt_0" zEnd="//@artifacts.0" zEndName="ent1_0" zEndIsNavigable="true"/>
+</null:Map>

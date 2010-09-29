@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ts_plugin version="1.2">
+<project modelId="" name="">
+<outputDirectory>target/tigerstripe.gen</outputDirectory>
+<version>3.0</version>
+<description>A plugin for testing</description>
+<provider/>
+<property name="defaultArtifactPackage">com.mycompany</property>
+</project>
+<pluginNature type="Generic"/>
+<logger defautLevel="0" isEnabled="false" logPath="New Plugin Project.log" maxRoll="9"/>
+<globalProperties/>
+<globalRules>
+<rule description="A global rule for testing" enabled="true" name="AllArtifacts" type="org.eclipse.tigerstripe.workbench.plugins.IGlobalTemplateRule">
+<body outputFile="allArtifacts.txt" overwriteFiles="true" suppressFiles="true" template="templates/allArtifacts.vm"/>
+</rule>
+</globalRules>
+<artifactRules>
+<rule description="An artifact rule for testing" enabled="true" name="ArtifactRule" type="org.eclipse.tigerstripe.workbench.plugins.IArtifactBasedTemplateRule">
+<body artifactFilterClass="" artifactType="Any Artifact" includeDependencies="false" modelClass="" modelClassName="wrapper" outputFile="${artifact.Name}.txt" overwriteFiles="true" suppressFiles="true" template="templates/artifact.vm"/>
+</rule>
+</artifactRules>
+<classpathEntries/>
+<additionalFiles/>
+<advanced/>
+<annotationPlugins/>
+</ts_plugin>

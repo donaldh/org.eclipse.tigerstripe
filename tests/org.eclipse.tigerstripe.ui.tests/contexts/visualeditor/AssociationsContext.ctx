@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="AssociationsContext" id="_rY9h4K9KEd-zMOysButwpg">
+  <content>
+    <projects name="New Project">
+      <files name=".classpath" contentURI=".AssociationsContextctx/content1.classpath"/>
+      <files name=".project" contentURI=".AssociationsContextctx/content1.project"/>
+      <files name="tigerstripe.xml" contentURI=".AssociationsContextctx/content1.xml"/>
+      <folders name="bin"/>
+      <folders name="src">
+        <folders name="org">
+          <files name=".package" contentURI=".AssociationsContextctx/content4.package"/>
+          <folders name="eclipse">
+            <files name=".package" contentURI=".AssociationsContextctx/content3.package"/>
+            <files name="AssocClass0.java" contentURI=".AssociationsContextctx/content1.java"/>
+            <files name="Association0.java" contentURI=".AssociationsContextctx/content2.java"/>
+            <files name="Association2.java" contentURI=".AssociationsContextctx/content4.java"/>
+            <files name="Datatype0.java" contentURI=".AssociationsContextctx/content5.java"/>
+            <files name="Datatype1.java" contentURI=".AssociationsContextctx/content6.java"/>
+            <files name="Dependency0.java" contentURI=".AssociationsContextctx/content7.java"/>
+            <files name="Entity0.java" contentURI=".AssociationsContextctx/content8.java"/>
+            <files name="Entity1.java" contentURI=".AssociationsContextctx/content9.java"/>
+            <files name="Entity2.java" contentURI=".AssociationsContextctx/content10.java"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

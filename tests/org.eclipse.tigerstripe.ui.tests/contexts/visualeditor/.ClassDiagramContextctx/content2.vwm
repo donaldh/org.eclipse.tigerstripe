@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<null:Map xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:null="null" basePackage="org.eclipse.diagram">
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Entity2" package="org.eclipse.diagram"/>
+  <artifacts xsi:type="null:DatatypeArtifact" name="Datatype2" package="org.eclipse.diagram"/>
+  <artifacts xsi:type="null:Enumeration" name="Enumeration2" package="org.eclipse.diagram" baseType="int"/>
+  <artifacts xsi:type="null:NamedQueryArtifact" name="Query2" package="org.eclipse.diagram"/>
+  <artifacts xsi:type="null:UpdateProcedureArtifact" name="UpdateProcedure2" package="org.eclipse.diagram"/>
+  <artifacts xsi:type="null:NotificationArtifact" name="Event2" package="org.eclipse.diagram"/>
+  <artifacts xsi:type="null:SessionFacadeArtifact" name="SessionFacade2" package="org.eclipse.diagram"/>
+  <artifacts xsi:type="null:ExceptionArtifact" name="Exception2" package="org.eclipse.diagram"/>
+</null:Map>

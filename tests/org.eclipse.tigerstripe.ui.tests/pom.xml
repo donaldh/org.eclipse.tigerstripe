@@ -1,0 +1,48 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>org.eclipse.tigerstripe</groupId>
+    <artifactId>org.eclipse.tigerstripe.parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../../pom.xml</relativePath>
+  </parent>
+
+  <artifactId>org.eclipse.tigerstripe.ui.tests</artifactId>
+  <packaging>q7-tests</packaging>
+  <name>o.e.t.q7.tests</name>
+  <version>0.0.1-SNAPSHOT</version>
+
+  <build>
+        <plugins>
+            <plugin>
+                <groupId>com.xored.maven.plugins</groupId>
+                <artifactId>maven-q7-plugin</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+                <configuration>
+                    <sutProjectId>org.eclipse.tigerstripe.rcp</sutProjectId>
+                    <sutLauncherName>launcher</sutLauncherName>
+                    <delay>50</delay>
+                    <timeout>1800</timeout>
+                    <sutWsPrefix>../../sut-</sutWsPrefix>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>integration-test</phase>
+                        <goals>
+                            <goal>q7-test</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+        		<groupId>com.xored.maven.plugins</groupId>
+        		<artifactId>maven-q7-packaging-plugin</artifactId>
+        		<version>0.0.1-SNAPSHOT</version>
+        		<extensions>true</extensions>
+      		</plugin>
+        </plugins>
+    </build>
+</project>

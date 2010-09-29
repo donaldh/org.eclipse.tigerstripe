@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="ClassDiagramContext" id="_auEjoK8jEd-YepE1dWFlXA">
+  <content>
+    <projects name="New Project">
+      <files name=".classpath" contentURI=".ClassDiagramContextctx/content1.classpath"/>
+      <files name=".project" contentURI=".ClassDiagramContextctx/content1.project"/>
+      <files name="tigerstripe.xml" contentURI=".ClassDiagramContextctx/content1.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".ClassDiagramContextctx/content1.prefs"/>
+      </folders>
+      <folders name="bin"/>
+      <folders name="src">
+        <folders name="org">
+          <files name=".package" contentURI=".ClassDiagramContextctx/content6.package"/>
+          <folders name="eclipse">
+            <files name=".package" contentURI=".ClassDiagramContextctx/content5.package"/>
+            <folders name="diagram">
+              <files name=".package" contentURI=".ClassDiagramContextctx/content4.package"/>
+              <files name="Datatype2.java" contentURI=".ClassDiagramContextctx/content1.java"/>
+              <files name="Entity2.java" contentURI=".ClassDiagramContextctx/content2.java"/>
+              <files name="Enumeration2.java" contentURI=".ClassDiagramContextctx/content3.java"/>
+              <files name="Event2.java" contentURI=".ClassDiagramContextctx/content4.java"/>
+              <files name="Exception2.java" contentURI=".ClassDiagramContextctx/content5.java"/>
+              <files name="PaletteCreate.vwm" contentURI=".ClassDiagramContextctx/content2.vwm"/>
+              <files name="PaletteCreate.wvd" contentURI=".ClassDiagramContextctx/content2.wvd"/>
+              <files name="Query2.java" contentURI=".ClassDiagramContextctx/content6.java"/>
+              <files name="SessionFacade2.java" contentURI=".ClassDiagramContextctx/content7.java"/>
+              <files name="UpdateProcedure2.java" contentURI=".ClassDiagramContextctx/content8.java"/>
+            </folders>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

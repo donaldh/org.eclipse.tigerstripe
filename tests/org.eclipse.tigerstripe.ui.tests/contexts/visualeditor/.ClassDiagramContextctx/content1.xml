@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<tigerstripe version="1.1">
+<project modelId="New Project" name="">
+<outputDirectory>target/tigerstripe.gen</outputDirectory>
+<version>1.0</version>
+<description>A model project for testing</description>
+<provider/>
+<property name="defaultArtifactPackage">org.eclipse</property>
+</project>
+<repositories>
+<repository baseDir=".">
+<includes>src/**/*.java</includes>
+</repository>
+</repositories>
+<plugins/>
+<dependencies/>
+<references/>
+<facetReferences/>
+<advanced/>
+</tigerstripe>
