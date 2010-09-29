@@ -62,12 +62,12 @@
 		<module> plugins/org.eclipse.tigerstripe.workbench.base.test</module>
 		<module> plugins/org.eclipse.tigerstripe.workbench.ui.sdk</module>
 
-		<module> plugins/org.eclipse.tigerstripe.workbench.refactor.test</module>
 
 		<module>  releng/org.eclipse.tigerstripe.update-site</module>
 
 		<!-- window tester ui test plugins -->
 		<!-- 
+		<module> plugins/org.eclipse.tigerstripe.workbench.refactor.test</module>
 		<module> plugins/org.eclipse.tigerstripe.workbench.ui.base.test</module>
 		<module> plugins/orge.eclipse.tigerstripe.workbench.ui.visualeditor.test</module>
 
