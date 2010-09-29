@@ -62,11 +62,16 @@
 		<module> plugins/org.eclipse.tigerstripe.workbench.base.test</module>
 		<module> plugins/org.eclipse.tigerstripe.workbench.ui.sdk</module>
 
-		<module> plugins/org.eclipse.tigerstripe.workbench.ui.base.test</module>
 		<module> plugins/org.eclipse.tigerstripe.workbench.refactor.test</module>
-		<module> plugins/orge.eclipse.tigerstripe.workbench.ui.visualeditor.test</module>
 
 		<module>  releng/org.eclipse.tigerstripe.update-site</module>
+
+		<!-- window tester ui test plugins -->
+		<!-- 
+		<module> plugins/org.eclipse.tigerstripe.workbench.ui.base.test</module>
+		<module> plugins/orge.eclipse.tigerstripe.workbench.ui.visualeditor.test</module>
+
+ 		-->
 
 <!--  	<module> plugins/org.eclipse.tigerstripe.workbench.optional.buckminster</module> -->
 
@@ -85,11 +90,14 @@
 			<layout>p2</layout>
 			<url>http://pulse-prd-sj1.cisco.com/update_sites/eclipse/eclipse3.6/</url>
 		</repository>
+		
+		<!--  
 		<repository>
 			<id>windowtester</id>
 			<layout>p2</layout>
 			<url>http://download.instantiations.com/WindowTesterPro/integration/latest/update/3.5/</url>
 		</repository>
+		-->
 	</repositories>
 
 	<build>
