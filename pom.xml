@@ -65,9 +65,10 @@
 		<module> plugins/org.eclipse.tigerstripe.workbench.ui.base.test</module>
 		<module> plugins/org.eclipse.tigerstripe.workbench.refactor.test</module>
 		<module> plugins/orge.eclipse.tigerstripe.workbench.ui.visualeditor.test</module>
-		<module> plugins/org.eclipse.tigerstripe.workbench.optional.buckminster</module>
 
 		<module>  releng/org.eclipse.tigerstripe.update-site</module>
+
+<!--  	<module> plugins/org.eclipse.tigerstripe.workbench.optional.buckminster</module> -->
 
 		<!-- not currently building -->
 		<!-- <module> plugins/org.eclipse.tigerstripe.workbench.ui.resources</module> <module> plugins/org.eclipse.tigerstripe.releng.maps</module> 
