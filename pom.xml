@@ -87,9 +87,8 @@
 		<repository>
 			<id>buckminster</id>
 			<layout>p2</layout>
-			<url>http://pulse-prd-sj1.cisco.com/update_sites/buckminster/1.1.350.r10920</url>
+			<url>http://download.eclipse.org/tools/buckminster/updates-3.6</url>
 		</repository>
-
 	</repositories>
 
 	<build>
