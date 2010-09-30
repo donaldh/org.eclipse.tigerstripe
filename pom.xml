@@ -8,6 +8,11 @@
 	<packaging>pom</packaging>
 	<name>o.e.t/pom.xml</name>
 
+	<properties>
+		<tycho-version>0.8.0</tycho-version>
+	</properties>
+
+
 	<modules>
 		<module> plugins/org.eclipse.tigerstripe.espace.core</module>
 		<module> plugins/org.eclipse.tigerstripe.espace.resources</module>
@@ -61,7 +66,7 @@
 		<module> plugins/org.eclipse.tigerstripe.test_common</module>
 		<module> plugins/org.eclipse.tigerstripe.workbench.base.test</module>
 		<module> plugins/org.eclipse.tigerstripe.workbench.ui.sdk</module>
-		
+
 		<module> plugins/org.eclipse.tigerstripe.workbench.optional.buckminster</module>
 
 		<module>  releng/org.eclipse.tigerstripe.update-site</module>
