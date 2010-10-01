@@ -8,7 +8,7 @@
  * Contributors:
  *    E. Dillon (Cisco Systems, Inc.) - reformat for Code Open-Sourcing
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.ui.internal.utils;
+package org.eclipse.tigerstripe.workbench.internal.core.util;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;

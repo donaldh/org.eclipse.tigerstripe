@@ -81,10 +81,29 @@ public class DiagramRefactorRequest extends RefactorRequest {
 	public boolean equals(Object obj) {
 		if (obj instanceof DiagramRefactorRequest) {
 			DiagramRefactorRequest other = (DiagramRefactorRequest) obj;
+
+			if (other.destinationContainer == null
+					|| other.originalDiagramHandle == null) {
+				return false;
+			}
+
 			return other.destinationContainer.equals(destinationContainer)
 					&& other.originalDiagramHandle
 							.equals(originalDiagramHandle);
 		}
 		return false;
 	}
+
+	@Override
+	public int hashCode() {
+		int hashCode = 0;
+		if (destinationContainer != null) {
+			hashCode += destinationContainer.hashCode();
+		}
+		if (originalDiagramHandle != null) {
+			hashCode += 31 * originalDiagramHandle.hashCode();
+		}
+		return hashCode;
+	}
+
 }

@@ -26,7 +26,7 @@ import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.annotation.ITigerstripeLazyObject;
 import org.eclipse.tigerstripe.workbench.internal.annotation.PackageLazyObject;
 import org.eclipse.tigerstripe.workbench.internal.annotation.TigerstripeLazyObject;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.ArtifactSetFeatureRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactSetFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
@@ -146,7 +146,10 @@ public class ModelChangeDeltaProcessor {
 					refactor.fireChanged(oldObj, createLazyObject(newOne),
 							IRefactoringChangesListener.CHANGED);
 
-					toCleanUp.add(artifact);
+					if (!artifact.getFullyQualifiedName().equals(
+							newOne.getPackage())) {
+						toCleanUp.add(artifact);
+					}
 				} else {
 					// renaming an artifact here
 					IResource res = (IResource) artifact
@@ -169,14 +172,14 @@ public class ModelChangeDeltaProcessor {
 
 					toCleanUp.add(res);
 				}
-			} else if (ArtifactSetFeatureRequest.EXTENDS_FEATURE.equals(delta
+			} else if (IArtifactSetFeatureRequest.EXTENDS_FEATURE.equals(delta
 					.getFeature())) {
 				artifact.setExtendedArtifact((String) delta.getNewValue());
 				if (toSave == null)
 					artifact.doSave(null);
 				else
 					toSave.add(artifact);
-			} else if (ArtifactSetFeatureRequest.RETURNED_TYPE.equals(delta
+			} else if (IArtifactSetFeatureRequest.RETURNED_TYPE.equals(delta
 					.getFeature())) {
 				IQueryArtifact query = (IQueryArtifact) artifact;
 				IType type = query.makeType();
@@ -186,8 +189,8 @@ public class ModelChangeDeltaProcessor {
 					query.doSave(null);
 				else
 					toSave.add(query);
-			} else if (ArtifactSetFeatureRequest.AEND
-					.equals(delta.getFeature())) {
+			} else if (IArtifactSetFeatureRequest.AEND.equals(delta
+					.getFeature())) {
 				if (artifact instanceof IAssociationArtifact) {
 					IAssociationArtifact assoc = (IAssociationArtifact) artifact;
 					IType type = assoc.getAEnd().getType();
@@ -205,8 +208,8 @@ public class ModelChangeDeltaProcessor {
 					else
 						toSave.add(artifact);
 				}
-			} else if (ArtifactSetFeatureRequest.ZEND
-					.equals(delta.getFeature())) {
+			} else if (IArtifactSetFeatureRequest.ZEND.equals(delta
+					.getFeature())) {
 				if (artifact instanceof IAssociationArtifact) {
 					IAssociationArtifact assoc = (IAssociationArtifact) artifact;
 					IType type = assoc.getZEnd().getType();

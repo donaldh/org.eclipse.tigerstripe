@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.refactor.BaseRefactorCommand;
+import org.eclipse.tigerstripe.workbench.internal.refactor.ResourceChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramChangeDelta;
 
 /**
@@ -33,6 +34,8 @@ public interface IRefactorCommand {
 	public Collection<ModelChangeDelta> getDeltas();
 
 	public Collection<DiagramChangeDelta> getDiagramDeltas();
+
+	public Collection<ResourceChangeDelta> getResourceDeltas();
 
 	/**
 	 * All the request to be serviced by this command. Note that this will

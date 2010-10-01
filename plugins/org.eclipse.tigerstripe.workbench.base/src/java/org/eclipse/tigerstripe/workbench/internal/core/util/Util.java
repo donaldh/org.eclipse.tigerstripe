@@ -19,7 +19,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 
 /**
@@ -62,10 +61,12 @@ public class Util {
 		if (fullyQualifiedName == null)
 			return "";
 
-		if (fullyQualifiedName.lastIndexOf(".") < 0)
+		int lastIndexOfDot = fullyQualifiedName.lastIndexOf(".");
+		if (lastIndexOfDot < 0) {
 			return "";
-		return fullyQualifiedName.substring(0, fullyQualifiedName
-				.lastIndexOf("."));
+		} else {
+			return fullyQualifiedName.substring(0, lastIndexOfDot);
+		}
 	}
 
 	/**
@@ -80,10 +81,12 @@ public class Util {
 		if (fullyQualifiedName == null)
 			return "";
 
-		if (fullyQualifiedName.lastIndexOf(".") < 0)
+		int lastIndexOfDot = fullyQualifiedName.lastIndexOf(".");
+		if (lastIndexOfDot < 0) {
 			return fullyQualifiedName;
-		return fullyQualifiedName
-				.substring(fullyQualifiedName.lastIndexOf(".") + 1);
+		} else {
+			return fullyQualifiedName.substring(lastIndexOfDot + 1);
+		}
 	}
 
 	public static String toHexString(byte[] v) {
@@ -121,14 +124,14 @@ public class Util {
 		}
 		// compare as long it goes
 		int count = 0;
-		file = (File) filePathStack.get(count);
-		relativeTo = (File) relativeToPathStack.get(count);
+		file = filePathStack.get(count);
+		relativeTo = relativeToPathStack.get(count);
 		while ((count < filePathStack.size() - 1)
 				&& (count < relativeToPathStack.size() - 1)
 				&& file.equals(relativeTo)) {
 			count++;
-			file = (File) filePathStack.get(count);
-			relativeTo = (File) relativeToPathStack.get(count);
+			file = filePathStack.get(count);
+			relativeTo = relativeToPathStack.get(count);
 		}
 		if (file.equals(relativeTo))
 			count++;
@@ -139,10 +142,9 @@ public class Util {
 		}
 		// now back down to the file
 		for (int i = count; i < filePathStack.size() - 1; i++) {
-			relString.append(((File) filePathStack.get(i)).getName()
-					+ File.separator);
+			relString.append((filePathStack.get(i)).getName() + File.separator);
 		}
-		relString.append(((File) filePathStack.get(filePathStack.size() - 1))
+		relString.append((filePathStack.get(filePathStack.size() - 1))
 				.getName());
 		// just to test
 		File relFile = new File(origRelativeTo.getAbsolutePath()

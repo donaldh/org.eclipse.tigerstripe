@@ -63,16 +63,33 @@ public class HeadlessDiagramHandle {
 		return modelResource.exists() && diagramResource.exists();
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof HeadlessDiagramHandle) {
 			HeadlessDiagramHandle other = (HeadlessDiagramHandle) obj;
-			return other.getModelResource().equals(getModelResource())
-					&& other.getDiagramResource().equals(getDiagramResource());
+			if (other.modelResource == null || other.diagramResource == null) {
+				return false;
+			}
+			return other.modelResource.equals(modelResource)
+					&& other.diagramResource.equals(diagramResource);
 		} else {
 			return false;
 		}
 	}
 
+	@Override
+	public int hashCode() {
+		int hashCode = 0;
+		if (modelResource != null) {
+			hashCode += modelResource.hashCode();
+		}
+		if (diagramResource != null) {
+			hashCode += 31 * diagramResource.hashCode();
+		}
+		return hashCode;
+	}
+
+	@Override
 	public String toString() {
 		return getModelResource().getFullPath().removeFileExtension()
 				.toPortableString();

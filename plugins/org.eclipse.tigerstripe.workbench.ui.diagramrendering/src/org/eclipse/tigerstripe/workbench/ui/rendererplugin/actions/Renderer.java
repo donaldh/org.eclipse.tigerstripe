@@ -30,7 +30,6 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.diagram.ui.OffscreenEditPartFactory;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.image.ImageFileFormat;
-import org.eclipse.gmf.runtime.diagram.ui.render.clipboard.DiagramImageGenerator;
 import org.eclipse.gmf.runtime.diagram.ui.render.util.CopyToImageUtil;
 import org.eclipse.gmf.runtime.diagram.ui.resources.editor.internal.util.DiagramIOUtil;
 import org.eclipse.gmf.runtime.notation.Diagram;
@@ -38,11 +37,11 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderer;
+import org.eclipse.tigerstripe.workbench.internal.core.util.ResourceUtils;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
-import org.eclipse.tigerstripe.workbench.ui.internal.utils.ResourceUtils;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Enumeration;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
@@ -72,10 +71,12 @@ public class Renderer implements IDiagramRenderer {
 	}
 
 	public void renderDiagram(String projectLabel, String diagRelPath,
-			final String pictType, String outputProjectLabel, final String imagePath) {
+			final String pictType, String outputProjectLabel,
+			final String imagePath) {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		final IProject project = workspace.getRoot().getProject(projectLabel);
-		final IProject outputProject = workspace.getRoot().getProject(outputProjectLabel);
+		final IProject outputProject = workspace.getRoot().getProject(
+				outputProjectLabel);
 		if (project != null) {
 			final IPath iPath = new Path(imagePath);
 			final IPath diagPath = project.getLocation().append(diagRelPath);
@@ -85,8 +86,8 @@ public class Renderer implements IDiagramRenderer {
 						IFolder folder = outputProject.getFolder(iPath
 								.removeLastSegments(1));
 						ResourceUtils.createFolders(folder, null);
-						renderDiagram(diagPath, outputProject.getLocation().append(
-								imagePath), new NullProgressMonitor(),
+						renderDiagram(diagPath, outputProject.getLocation()
+								.append(imagePath), new NullProgressMonitor(),
 								mapFormat(pictType));
 					} catch (CoreException e) {
 						EclipsePlugin.log(e);
@@ -100,17 +101,18 @@ public class Renderer implements IDiagramRenderer {
 
 	public void renderDiagram(String projectLabel, String diagRelPath,
 			final String pictType, final String imagePath) {
-		renderDiagram(projectLabel, diagRelPath, pictType, projectLabel, imagePath);
+		renderDiagram(projectLabel, diagRelPath, pictType, projectLabel,
+				imagePath);
 	}
 
 	/**
 	 * Renders the diagram identified by diagram
 	 * 
-	 * @param diagramPath -
-	 *            Absolute path to diagram to render. Note that the diagram
+	 * @param diagramPath
+	 *            - Absolute path to diagram to render. Note that the diagram
 	 *            needs to be in a proper Tigerstripe Project.
-	 * @param imagePath -
-	 *            The absolute path to the file to be created
+	 * @param imagePath
+	 *            - The absolute path to the file to be created
 	 * @param monitor
 	 * @param format
 	 */
@@ -172,8 +174,10 @@ public class Renderer implements IDiagramRenderer {
 
 			// Render it now
 			Shell shell = new Shell();
-			OffscreenEditPartFactory factory = OffscreenEditPartFactory.getInstance();
-			DiagramEditPart diagramEP = factory.createDiagramEditPart(diagram, shell);
+			OffscreenEditPartFactory factory = OffscreenEditPartFactory
+					.getInstance();
+			DiagramEditPart diagramEP = factory.createDiagramEditPart(diagram,
+					shell);
 			imageUtil.copyToImage(diagramEP, imagePath, format, monitor);
 			shell.dispose();
 		}

@@ -11,10 +11,14 @@
 package org.eclipse.tigerstripe.workbench.internal.refactor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -49,6 +53,7 @@ import org.eclipse.tigerstripe.workbench.refactor.IRefactorCommand;
 import org.eclipse.tigerstripe.workbench.refactor.ITigerstripeModelRefactorParticipant;
 import org.eclipse.tigerstripe.workbench.refactor.ModelRefactorRequest;
 import org.eclipse.tigerstripe.workbench.refactor.RefactorRequest;
+import org.eclipse.tigerstripe.workbench.refactor.ResourceRefactorRequest;
 import org.eclipse.tigerstripe.workbench.refactor.diagrams.DiagramRefactorRequest;
 import org.eclipse.tigerstripe.workbench.refactor.diagrams.HeadlessDiagramHandle;
 import org.eclipse.tigerstripe.workbench.refactor.diagrams.IDiagramChangeDelta;
@@ -66,6 +71,13 @@ public class ModelRefactorCommandFactory {
 	private final static String REFACTOR_PARTICIPANT_EXTPT = "org.eclipse.tigerstripe.workbench.base.modelRefactorParticipant";
 
 	public final static ModelRefactorCommandFactory INSTANCE = new ModelRefactorCommandFactory();
+
+	/**
+	 * Exclude class and instance diagrams
+	 */
+	private static final Set<String> IGNORE_REFACTORING_RESOURCES = new HashSet<String>(
+			Arrays.asList("vwm", "wvd", "owm", "wod"));
+
 	private List<ITigerstripeModelRefactorParticipant> participants = new ArrayList<ITigerstripeModelRefactorParticipant>();
 
 	private ModelRefactorCommandFactory() {
@@ -182,10 +194,26 @@ public class ModelRefactorCommandFactory {
 
 			// Then assess any action to be taken on Diagrams after that
 			cmd.addDiagramDeltas(createDiagramDeltas(derivedRequests));
-
+			// Add resources
+			cmd.addResourceDeltas(createResourceDeltas(derivedRequests));
 			return cmd;
 		}
 		return IRefactorCommand.UNEXECUTABLE;
+	}
+
+	private List<ResourceChangeDelta> createResourceDeltas(
+			List<RefactorRequest> requests) {
+		List<ResourceChangeDelta> deltas = new ArrayList<ResourceChangeDelta>();
+		for (RefactorRequest request : requests) {
+			if (request instanceof ResourceRefactorRequest) {
+				ResourceRefactorRequest req = (ResourceRefactorRequest) request;
+				ResourceChangeDelta delta = new ResourceChangeDelta(
+						ResourceChangeDelta.Type.MOVE, req.getResource(), req
+								.getDestination().getFullPath());
+				deltas.add(delta);
+			}
+		}
+		return deltas;
 	}
 
 	protected List<DiagramChangeDelta> createDiagramDeltas(
@@ -285,9 +313,9 @@ public class ModelRefactorCommandFactory {
 	protected List<RefactorRequest> buildDerivedRequests(
 			ModelRefactorRequest request) throws TigerstripeException {
 		IAbstractArtifact original = request.getOriginalArtifact();
-		List<RefactorRequest> result = new ArrayList<RefactorRequest>();
+		Set<RefactorRequest> result = new LinkedHashSet<RefactorRequest>();
 		if (!(original instanceof IPackageArtifact)) {
-			return result;
+			return new ArrayList<RefactorRequest>(result);
 		}
 
 		// Is there any diagram that need to be moved at this level?
@@ -325,10 +353,11 @@ public class ModelRefactorCommandFactory {
 						DiagramRefactorRequest req = new DiagramRefactorRequest();
 						req.setOriginalDiagramHandle(handle);
 						req.setDestination(dest);
+						result.add(req);
 
-						// avoid putting the same request twice
-						if (!result.contains(req))
-							result.add(req);
+					}
+					if (isRefactoringResource(member)) {
+						result.add(new ResourceRefactorRequest(member, dest));
 					}
 				}
 			}
@@ -354,6 +383,18 @@ public class ModelRefactorCommandFactory {
 			}
 		}
 
-		return result;
+		return new ArrayList<RefactorRequest>(result);
+	}
+
+	private boolean isRefactoringResource(IResource member) {
+		if (member.getAdapter(IModelComponent.class) != null) {
+			return false;
+		}
+		String extension = member.getFileExtension();
+		if (extension == null) {
+			return true;
+		} else {
+			return !IGNORE_REFACTORING_RESOURCES.contains(extension);
+		}
 	}
 }

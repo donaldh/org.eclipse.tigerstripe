@@ -65,6 +65,7 @@ public class RenameModelArtifactPreviewWizardPage extends WizardPage {
 		setControl(composite);
 	}
 
+	@Override
 	public void setVisible(boolean visible) {
 
 		if (visible) {
@@ -88,6 +89,7 @@ public class RenameModelArtifactPreviewWizardPage extends WizardPage {
 						.getCommand(new NullProgressMonitor());
 				input.addAll(command.getDeltas());
 				input.addAll(command.getDiagramDeltas());
+				input.addAll(command.getResourceDeltas());
 				cmds.add(command);
 			}
 			wizard.setRefactorCommands(cmds.toArray(new IRefactorCommand[cmds

@@ -39,6 +39,7 @@ import org.eclipse.tigerstripe.workbench.internal.annotation.TigerstripeLazyObje
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
+import org.eclipse.tigerstripe.workbench.internal.core.util.ResourceUtils;
 import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramRefactorHelper;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -55,6 +56,7 @@ public class BaseRefactorCommand implements IRefactorCommand {
 	private RefactorRequest[] requests;
 	private List<ModelChangeDelta> deltas = new ArrayList<ModelChangeDelta>();
 	private List<DiagramChangeDelta> diagramDeltas = new ArrayList<DiagramChangeDelta>();
+	private List<ResourceChangeDelta> resourceDeltas = new ArrayList<ResourceChangeDelta>();
 
 	public BaseRefactorCommand(RefactorRequest[] requests) {
 		this.requests = requests;
@@ -115,6 +117,8 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		// time1 = System.currentTimeMillis();
 		// System.out.println("Done diagram moves: " + (time1 - time));
 
+		moveResources(monitor);
+
 		if (isCrossProjectCmd()) {
 			// At this stage the artifacts have been refactored inside the
 			// source project the refactored artifacts need to be moved over to
@@ -145,6 +149,29 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		reEnableAuditsAndDiagSync();
 		// System.out.println("Refactor Time: "
 		// + (System.currentTimeMillis() - time));
+	}
+
+	protected void moveResources(IProgressMonitor monitor)
+			throws TigerstripeException {
+		monitor.beginTask("Moving Resources", resourceDeltas.size());
+		for (ResourceChangeDelta delta : resourceDeltas) {
+			try {
+				IPath destPath = delta.getDestinationPath();
+				IResource res = delta.getOriginalResource();
+				IFolder f = ResourcesPlugin.getWorkspace().getRoot().getFolder(
+						destPath);
+				ResourceUtils.createFolders(f, monitor);
+				IPath newPath = destPath.append(res.getName());
+				res.move(newPath, true, monitor);
+			} catch (Exception e) {
+				Status status = new Status(IStatus.ERROR, BasePlugin.PLUGIN_ID,
+						"Error occured while trying to move Resource: "
+								+ delta.getOriginalResource().getName(), e);
+				BasePlugin.log(status);
+			}
+			monitor.worked(1);
+		}
+		monitor.done();
 	}
 
 	@SuppressWarnings("deprecation")
@@ -429,6 +456,10 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		this.diagramDeltas.addAll(deltas);
 	}
 
+	public void addResourceDeltas(List<ResourceChangeDelta> deltas) {
+		resourceDeltas.addAll(deltas);
+	}
+
 	/**
 	 * Traverses the list of IModelChangeDeltas to return a list of all affected
 	 * resources.
@@ -460,5 +491,9 @@ public class BaseRefactorCommand implements IRefactorCommand {
 			}
 		}
 		return false;
+	}
+
+	public Collection<ResourceChangeDelta> getResourceDeltas() {
+		return resourceDeltas;
 	}
 }

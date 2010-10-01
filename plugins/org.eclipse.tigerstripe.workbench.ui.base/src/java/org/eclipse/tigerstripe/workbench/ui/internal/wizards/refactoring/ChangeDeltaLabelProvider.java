@@ -15,15 +15,19 @@ import java.io.File;
 
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactSetFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactComponent;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Method.Argument;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Method.Exception;
+import org.eclipse.tigerstripe.workbench.internal.refactor.ResourceChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramChangeDelta;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.AbstractArtifactLabelProvider;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
 
 public class ChangeDeltaLabelProvider extends AbstractArtifactLabelProvider {
 
@@ -52,7 +56,7 @@ public class ChangeDeltaLabelProvider extends AbstractArtifactLabelProvider {
 				}
 				return methodImg;
 			}
-			
+
 			if (component instanceof Exception) {
 
 				if (exceptionImg == null) {
@@ -84,6 +88,9 @@ public class ChangeDeltaLabelProvider extends AbstractArtifactLabelProvider {
 				instanceDiagImg = desc.createImage();
 				return instanceDiagImg;
 			}
+		} else if (element instanceof ResourceChangeDelta) {
+			return PlatformUI.getWorkbench().getSharedImages().getImage(
+					ISharedImages.IMG_OBJ_FILE);
 		}
 		return null;
 	}
@@ -116,11 +123,11 @@ public class ChangeDeltaLabelProvider extends AbstractArtifactLabelProvider {
 						IArtifactAddFeatureRequest.IMPLEMENTS_FEATURE)) {
 
 					switch (delta.getType()) {
-					case ModelChangeDelta.ADD:
+					case IModelChangeDelta.ADD:
 						lblText.append(" will implement ");
 						lblText.append(delta.getNewValue());
 						break;
-					case ModelChangeDelta.REMOVE:
+					case IModelChangeDelta.REMOVE:
 						lblText.append(" will no longer implement ");
 						lblText.append(delta.getOldValue());
 						break;
@@ -181,6 +188,19 @@ public class ChangeDeltaLabelProvider extends AbstractArtifactLabelProvider {
 					.getName());
 
 			return lblText.toString();
+		}
+
+		if (element instanceof ResourceChangeDelta) {
+			ResourceChangeDelta delta = (ResourceChangeDelta) element;
+			switch (delta.getType()) {
+			case MOVE:
+				return new StringBuilder().append("Resource ").append(
+						delta.getOriginalResource().getName()).append(
+						" move to '").append(delta.getDestinationPath())
+						.append("'").toString();
+			default:
+				return "Resource changing";
+			}
 		}
 
 		return null;
