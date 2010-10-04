@@ -18,8 +18,6 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.refactor.ModelRefactorCommandFactory;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
@@ -75,8 +73,8 @@ public class ModelRefactorRequest extends RefactorRequest {
 	public IStatus isValid() {
 		try {
 			if (destinationFQN == null || destinationFQN.length() == 0) {
-				IStatus status = new Status(IStatus.ERROR, BasePlugin
-						.getPluginId(), "destination can't be empty");
+				IStatus status = new Status(IStatus.ERROR,
+						BasePlugin.getPluginId(), "destination can't be empty");
 				return status;
 			}
 
@@ -85,8 +83,9 @@ public class ModelRefactorRequest extends RefactorRequest {
 					.getArtifactManagerSession()
 					.getArtifactByFullyQualifiedName(originalFQN);
 			if (orig == null) {
-				IStatus status = new Status(IStatus.ERROR, BasePlugin
-						.getPluginId(), originalFQN + " doesn't exist.");
+				IStatus status = new Status(IStatus.ERROR,
+						BasePlugin.getPluginId(), originalFQN
+								+ " doesn't exist.");
 				return status;
 			}
 
@@ -95,16 +94,18 @@ public class ModelRefactorRequest extends RefactorRequest {
 					.getArtifactManagerSession()
 					.getArtifactByFullyQualifiedName(destinationFQN);
 			if (dest != null) {
-				IStatus status = new Status(IStatus.ERROR, BasePlugin
-						.getPluginId(), destinationFQN + " already exist.");
+				IStatus status = new Status(IStatus.ERROR,
+						BasePlugin.getPluginId(), destinationFQN
+								+ " already exist.");
 				return status;
 			}
 
 			// checks that it is not a change of case
 			if (originalFQN.toUpperCase().equals(destinationFQN.toUpperCase())
 					&& originalProject.equals(destinationProject)) {
-				IStatus status = new Status(IStatus.ERROR, BasePlugin
-						.getPluginId(), "Refactor is case-insensitive");
+				IStatus status = new Status(IStatus.ERROR,
+						BasePlugin.getPluginId(),
+						"Refactor is case-insensitive");
 				return status;
 			}
 

@@ -60,8 +60,8 @@ public class RenameModelArtifactWizardPage extends WizardPage {
 		javaElement = getSelectionJavaElement(selection);
 		if (javaElement != null) {
 			modelProject = (ITigerstripeModelProject) javaElement
-					.getJavaProject().getProject().getAdapter(
-							ITigerstripeModelProject.class);
+					.getJavaProject().getProject()
+					.getAdapter(ITigerstripeModelProject.class);
 			packageFragment = (IPackageFragment) javaElement
 					.getAncestor(IJavaElement.PACKAGE_FRAGMENT);
 			modelArtifact = (IAbstractArtifact) javaElement
@@ -133,7 +133,7 @@ public class RenameModelArtifactWizardPage extends WizardPage {
 			if (!status.isOK()) {
 				StatusUtil.applyToStatusLine(this, status);
 				if (status.getSeverity() == IStatus.ERROR)
-				    return;
+					return;
 			}
 		} else {
 			if (modelArtifact.getName().equals(nameText.getText().trim())) {
@@ -145,7 +145,7 @@ public class RenameModelArtifactWizardPage extends WizardPage {
 			if (!status.isOK()) {
 				StatusUtil.applyToStatusLine(this, status);
 				if (status.getSeverity() == IStatus.ERROR)
-				    return;
+					return;
 			}
 		}
 
@@ -174,9 +174,8 @@ public class RenameModelArtifactWizardPage extends WizardPage {
 		try {
 
 			ModelRefactorRequest request = new ModelRefactorRequest();
-			request.setOriginal(modelArtifact.getProject(), modelArtifact
-					.getPackage()
-					+ '.' + modelArtifact.getName());
+			request.setOriginal(modelArtifact.getProject(),
+					modelArtifact.getFullyQualifiedName());
 
 			if (javaElement.getElementType() == IJavaElement.PACKAGE_FRAGMENT) {
 				request.setDestination(modelArtifact.getProject(), nameText
@@ -194,7 +193,7 @@ public class RenameModelArtifactWizardPage extends WizardPage {
 		} catch (TigerstripeException e) {
 
 			// No need to log this...
-//			EclipsePlugin.log(e);
+			// EclipsePlugin.log(e);
 			setErrorMessage(e.getMessage());
 			setPageComplete(false);
 		}

@@ -38,11 +38,12 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
@@ -91,8 +92,8 @@ public class ModelChangeDeltaProcessor {
 				arg.getType().setFullyQualifiedName(
 						(String) delta.getNewValue());
 				if (toSave == null)
-					arg.getContainingMethod().getContainingArtifact().doSave(
-							null);
+					arg.getContainingMethod().getContainingArtifact()
+							.doSave(null);
 				else
 					toSave.add(arg.getContainingMethod()
 							.getContainingArtifact());
@@ -107,8 +108,8 @@ public class ModelChangeDeltaProcessor {
 			if (IMethodSetRequest.EXPTYPE_FEATURE.equals(delta.getFeature())) {
 				exp.setFullyQualifiedName((String) delta.getNewValue());
 				if (toSave == null)
-					exp.getContainingMethod().getContainingArtifact().doSave(
-							null);
+					exp.getContainingMethod().getContainingArtifact()
+							.doSave(null);
 				else
 					toSave.add(exp.getContainingMethod()
 							.getContainingArtifact());
@@ -146,9 +147,32 @@ public class ModelChangeDeltaProcessor {
 					refactor.fireChanged(oldObj, createLazyObject(newOne),
 							IRefactoringChangesListener.CHANGED);
 
-					if (!artifact.getFullyQualifiedName().equals(
-							newOne.getPackage())) {
-						toCleanUp.add(artifact);
+					String[] newPath = delta.getNewValue().toString()
+							.split("\\.");
+					String[] oldPath = delta.getOldValue().toString()
+							.split("\\.");
+
+					if (!isSubPakage(oldPath, newPath)) {
+						IAbstractArtifact orphan = artifact;
+						for (;;) {
+							IModelComponent parentComponent = orphan
+									.getContainingModelComponent();
+							if (parentComponent instanceof IPackageArtifact) {
+								IPackageArtifact parent = (IPackageArtifact) parentComponent;
+								Collection<IModelComponent> contained = parent
+										.getContainedModelComponents();
+								if (contained.size() == 1) {
+									IModelComponent first = contained
+											.iterator().next();
+									if (orphan.equals(first)) {
+										orphan = parent;
+										continue;
+									}
+								}
+							}
+							break;
+						}
+						toCleanUp.add(orphan);
 					}
 				} else {
 					// renaming an artifact here
@@ -288,8 +312,8 @@ public class ModelChangeDeltaProcessor {
 					IRefactoringChangesListener.ABOUT_TO_CHANGE);
 
 			IResource res = (IResource) artifact.getAdapter(IResource.class);
-			artifact.getProject().getArtifactManagerSession().renameArtifact(
-					artifact, (String) delta.getNewValue());
+			artifact.getProject().getArtifactManagerSession()
+					.renameArtifact(artifact, (String) delta.getNewValue());
 			if (toSave == null)
 				artifact.doSave(null);
 			else
@@ -320,15 +344,27 @@ public class ModelChangeDeltaProcessor {
 		}
 	}
 
+	private static boolean isSubPakage(String[] subPkg, String[] path) {
+		if (path.length < subPkg.length) {
+			return false;
+		}
+		for (int i = 0; i < subPkg.length; ++i) {
+			if (!path[i].equals(subPkg[i])) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	private static ITigerstripeLazyObject createLazyObject(
 			IAbstractArtifact artifact) throws TigerstripeException {
 		ITigerstripeModelProject project = artifact.getProject();
 		if (artifact instanceof PackageArtifact) {
-			return new PackageLazyObject(project, artifact
-					.getFullyQualifiedName());
+			return new PackageLazyObject(project,
+					artifact.getFullyQualifiedName());
 		}
-		return new TigerstripeLazyObject(project, artifact
-				.getFullyQualifiedName());
+		return new TigerstripeLazyObject(project,
+				artifact.getFullyQualifiedName());
 	}
 
 	private static ITigerstripeLazyObject createLazyObject(
