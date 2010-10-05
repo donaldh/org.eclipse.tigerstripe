@@ -70,9 +70,12 @@ chmod +x ./pre-build.sh
 
 #./$MAVEN/bin/mvn --fail-at-end -Dtycho.showEclipseLog=true  -Dosgi.ws=cocoa -Dmaven.test.skip=$MAVEN_TEST_SKIP install -e -B
 
+echo $MAVEN_HOME
+echo ${MAVEN_HOME}
+
 (cd target/
  find * -type d -name target -exec rm -rf {} \; 2>/dev/null
- $MAVEN_HOME/bin/mvn \
+ $MAVEN_HOME/mvn \
     -e -B \
     --fail-at-end \
     -Dtycho.showEclipseLog=true \
