@@ -75,7 +75,7 @@ echo ${MAVEN_HOME}
 
 (cd target/
  find * -type d -name target -exec rm -rf {} \; 2>/dev/null
- $MAVEN_HOME/mvn \
+ /auto/surf-tp/tools/maven/apache-maven-3.0-beta-3/mvn \
     -e -B \
     --fail-at-end \
     -Dtycho.showEclipseLog=true \
