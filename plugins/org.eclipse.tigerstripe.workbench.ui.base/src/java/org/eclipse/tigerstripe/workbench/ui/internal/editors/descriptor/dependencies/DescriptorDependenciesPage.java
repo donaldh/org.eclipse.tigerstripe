@@ -115,7 +115,8 @@ public class DescriptorDependenciesPage extends TigerstripeFormPage implements I
 					if (!errorDetected) {
 						PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 							public void run() {
-								managedForm.getForm().setMessage("", IMessageProvider.NONE);
+								if (!managedForm.getForm().isDisposed())
+									managedForm.getForm().setMessage("", IMessageProvider.NONE);
 							}
 						});
 					}
