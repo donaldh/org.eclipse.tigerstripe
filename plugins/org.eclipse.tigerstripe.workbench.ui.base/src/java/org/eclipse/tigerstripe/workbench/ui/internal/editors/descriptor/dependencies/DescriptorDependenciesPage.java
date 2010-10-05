@@ -89,7 +89,7 @@ public class DescriptorDependenciesPage extends TigerstripeFormPage implements I
 		if (editorInput instanceof IFileEditorInput) {
 			IFile file = ((IFileEditorInput)editorInput).getFile();
 			
-			if (file != null) {
+			if (file != null && file.isAccessible()) {
 				try {
 					IMarker[] markers = file.findMarkers(IMarker.PROBLEM, true,	IResource.DEPTH_INFINITE);
 					
