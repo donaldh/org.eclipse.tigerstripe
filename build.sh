@@ -6,7 +6,7 @@ DATE=`date`
 
 #MAVEN=tycho-distribution-0.4.0-DEV-3023
 #MAVEN=tycho-distribution-0.4.0-DEV-3076
-MAVEN=tycho-distribution-0.9.0
+MAVEN=tycho-distribution-0.8.0
 
 x=${MAVEN_TEST_SKIP:=false}
 export MAVEN_OPTS=-Xmx1024m
