@@ -2,12 +2,6 @@
 
 DATE=`date`
 
-#MAVEN_OPTS=-Xmx1024m -DsocksProxyHost=proxy-sjc-1.cisco.com -DsocksProxyPort=1080
-
-MAVEN=tycho-distribution-0.4.0-DEV-3023
-MAVEN=tycho-distribution-0.4.0-DEV-3076
-#MAVEN=tycho-distribution-0.4.0-DEV-3170
-
 x=${MAVEN_TEST_SKIP:=false}
 export MAVEN_OPTS=-Xmx1024m
 
@@ -25,8 +19,6 @@ rebuildTarget()
 {
     rm -rf target
     mkdir -p target
-
-    (cd target; tar xjf /auto/surf-tp/tools/maven/$MAVEN-bin.tar.bz2; cd ..)
 
     rsync -a --delete features target/ || exit 1
     rsync -a --delete plugins target/ || exit 1
@@ -80,7 +72,7 @@ chmod +x ./pre-build.sh
 
 (cd target/
  find * -type d -name target -exec rm -rf {} \; 2>/dev/null
- ./$MAVEN/bin/mvn \
+ ./$MAVEN_HOME/bin/mvn \
     -e -B \
     --fail-at-end \
     -Dtycho.showEclipseLog=true \
