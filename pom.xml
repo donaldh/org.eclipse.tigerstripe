@@ -1,18 +1,14 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
 	<groupId>org.eclipse.tigerstripe</groupId>
 	<artifactId>org.eclipse.tigerstripe.parent</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>o.e.t/pom.xml</name>
-
 	<properties>
-		<tycho-version>0.8.0</tycho-version>
+		<tycho-version>0.9.0</tycho-version>
 	</properties>
-
-
 	<modules>
 		<module> plugins/org.eclipse.tigerstripe.espace.core</module>
 		<module> plugins/org.eclipse.tigerstripe.espace.resources</module>
@@ -22,7 +18,6 @@
 		<module> plugins/org.eclipse.tigerstripe.annotation.ui</module>
 		<module> plugins/org.eclipse.tigerstripe.annotation.resource.ui</module>
 		<module>features/org.eclipse.tigerstripe.annotation.feature</module>
-
 		<module> plugins/org.eclipse.tigerstripe.metamodel</module>
 		<module> plugins/org.eclipse.tigerstripe.workbench.base</module>
 		<module> plugins/org.eclipse.tigerstripe.annotation.ts2project.router</module>
@@ -31,7 +26,6 @@
 		<module> plugins/org.eclipse.tigerstripe.workbench.help</module>
 		<module> plugins/org.eclipse.tigerstripe.repository.core</module>
 		<module>features/org.eclipse.tigerstripe.base</module>
-
 		<module> plugins/org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation</module>
 		<module> plugins/org.eclipse.tigerstripe.workbench.ui.base</module>
 		<module> plugins/org.eclipse.tigerstripe.workbench.ui.visualeditor</module>
@@ -48,7 +42,6 @@
 		<module> plugins/org.eclipse.tigerstripe.workbench.ui.UML2Import</module>
 		<module> plugins/org.eclipse.tigerstripe.annotation.tsmodel.ui</module>
 		<module>features/org.eclipse.tigerstripe.workbench</module>
-
 		<module> plugins/org.eclipse.tigerstripe.annotation.core.test</module>
 		<module> plugins/org.eclipse.tigerstripe.annotation.example.person.validators</module>
 		<module> plugins/org.eclipse.tigerstripe.annotation.example.person</module>
@@ -66,34 +59,22 @@
 		<module> plugins/org.eclipse.tigerstripe.test_common</module>
 		<module> plugins/org.eclipse.tigerstripe.workbench.base.test</module>
 		<module> plugins/org.eclipse.tigerstripe.workbench.ui.sdk</module>
-
 		<module> plugins/org.eclipse.tigerstripe.workbench.optional.buckminster</module>
-
 		<module>  releng/org.eclipse.tigerstripe.update-site</module>
-
-
 		<!-- not currently building -->
 		<!-- <module> plugins/org.eclipse.tigerstripe.workbench.ui.resources</module> <module> plugins/org.eclipse.tigerstripe.releng.maps</module> 
 			<module> plugins/org.eclipse.tigerstripe.releng.ant</module> <module> plugins/org.eclipse.tigerstripe.espace.core.tests</module> 
 			<module> plugins/org.eclipse.tigerstripe.annotations.ui</module> <module> plugins/org.eclipse.tigerstripe.annotations.test</module> 
 			<module> plugins/org.eclipse.tigerstripe.annotations.samples</module> <module> plugins/org.eclipse.tigerstripe.annotations</module> 
 			<module> plugins/org.eclipse.tigerstripe.annotation.person.validators</module> <module> plugins/org.eclipse.tigerstripe.annotation.example.person.tests</module> -->
-
 	</modules>
-
 	<repositories>
 		<repository>
 			<id>helios</id>
 			<layout>p2</layout>
-			<url>http://pulse-prd-sj1.cisco.com/update_sites/eclipse/eclipse3.6/</url>
-		</repository>
-		<repository>
-			<id>buckminster</id>
-			<layout>p2</layout>
-			<url>http://pulse-prd-sj1.cisco.com/update_sites/buckminster/1.3.1.r11579/</url>
+			<url>http://download.eclipse.org/releases/helios/</url>
 		</repository>
 	</repositories>
-
 	<build>
 		<resources>
 			<resource>
@@ -104,25 +85,34 @@
 				</includes>
 			</resource>
 		</resources>
-
 		<plugins>
 			<plugin>
-				<groupId>org.codehaus.tycho</groupId>
+				<groupId>org.sonatype.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<version>${tycho-version}</version>
+				<extensions>true</extensions>
+			</plugin>
+			<plugin>
+				<groupId>org.sonatype.tycho</groupId>
 				<artifactId>target-platform-configuration</artifactId>
+				<version>${tycho-version}</version>
 				<configuration>
 					<resolver>p2</resolver>
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.codehaus.tycho</groupId>
-				<artifactId>maven-osgi-test-plugin</artifactId>
+				<groupId>org.sonatype.tycho</groupId>
+				<artifactId>maven-osgi-compiler-plugin</artifactId>
+				<version>${tycho-version}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.sonatype.tycho</groupId>
+				<artifactId>maven-osgi-packaging-plugin</artifactId>
+				<version>${tycho-version}</version>
 				<configuration>
-					<useUIHarness>true</useUIHarness>
-					<argLine>-Xmx800m -XX:MaxPermSize=256m</argLine>
+					<strictVersions>false</strictVersions>
 				</configuration>
 			</plugin>
 		</plugins>
-
 	</build>
-
 </project>
