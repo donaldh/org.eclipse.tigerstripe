@@ -72,7 +72,7 @@ chmod +x ./pre-build.sh
 
 (cd target/
  find * -type d -name target -exec rm -rf {} \; 2>/dev/null
- ./$MAVEN_HOME/bin/mvn \
+ $MAVEN_HOME/bin/mvn \
     -e -B \
     --fail-at-end \
     -Dtycho.showEclipseLog=true \
