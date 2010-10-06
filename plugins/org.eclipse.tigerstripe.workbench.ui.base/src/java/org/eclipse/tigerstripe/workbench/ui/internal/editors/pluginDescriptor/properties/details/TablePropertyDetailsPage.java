@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.properties.details;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -116,16 +117,24 @@ public class TablePropertyDetailsPage extends BasePropertyDetailsPage {
 
 	private void upColumnDefSelected() {
 		int index = columnDefListViewer.getTable().getSelectionIndex();
-		ColumnDef current = getColumnDefs().remove(index);
-		getColumnDefs().add(index - 1, current);
-		updateForm();
+		List<ColumnDef> columnDefs = getColumnDefs();
+		if (index < 1 || index > columnDefs.size() - 1) {
+			return;
+		}
+		Collections.swap(columnDefs, index, index - 1);
+		columnDefListViewer.refresh(true);
+		updateButtonState();
 	}
 
 	private void downColumnDefSelected() {
 		int index = columnDefListViewer.getTable().getSelectionIndex();
-		ColumnDef current = getColumnDefs().remove(index);
-		getColumnDefs().add(index + 1, current);
-		updateForm();
+		List<ColumnDef> columnDefs = getColumnDefs();
+		if (index < 0 || index > columnDefs.size() - 2) {
+			return;
+		}
+		Collections.swap(columnDefs, index, index + 1);
+		columnDefListViewer.refresh(true);
+		updateButtonState();
 	}
 
 	private void addColumnDefSelected() {

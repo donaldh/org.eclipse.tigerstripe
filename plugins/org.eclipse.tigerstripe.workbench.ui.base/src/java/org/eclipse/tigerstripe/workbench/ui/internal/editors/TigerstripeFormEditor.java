@@ -17,7 +17,6 @@ import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.internal.ui.viewsupport.IViewPartInputProvider;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorSite;
@@ -153,13 +152,10 @@ public abstract class TigerstripeFormEditor extends FormEditor implements
 
 	@Override
 	public void setFocus() {
-		IFormPage activePage = getActivePageInstance();
-		if (activePage instanceof IFocusedControlProvider) {
-			IFocusedControlProvider fcProvider = (IFocusedControlProvider) activePage;
-			Control focusedControl = fcProvider.getFocusedControl();
-			if (focusedControl != null) {
-				focusedControl.setFocus();
-			}
+		super.setFocus();
+		IFormPage page = getActivePageInstance();
+		if ((page != null) && (page instanceof TigerstripeFormPage)) {
+			((TigerstripeFormPage) page).updateFormSelection();
 		}
 	}
 }
