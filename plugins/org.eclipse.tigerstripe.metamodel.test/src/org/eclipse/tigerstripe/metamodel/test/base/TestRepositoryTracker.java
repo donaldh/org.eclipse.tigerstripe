@@ -18,14 +18,14 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.tigerstripe.metamodel.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.metamodel.MetamodelFactory;
-import org.eclipse.tigerstripe.metamodel.test.utils.TestHelper;
+import org.eclipse.tigerstripe.metamodel.test.utils.Helper;
 import org.eclipse.tigerstripe.repository.manager.ModelRepositoryFactory;
 import org.eclipse.tigerstripe.repository.metamodel.pojo.MultiFileArtifactRepository;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class RepositoryTrackerTests {
+public class TestRepositoryTracker {
 
 	private static String PROJECTNAME = "RepositoryTrackerTests";
 	private static IJavaProject jProject = null;
@@ -34,7 +34,7 @@ public class RepositoryTrackerTests {
 
 	@BeforeClass
 	public static void setup() throws Exception {
-		jProject = TestHelper.createJavaProject(PROJECTNAME);
+		jProject = Helper.createJavaProject(PROJECTNAME);
 		URI uri = URI.createPlatformResourceURI(jProject.getProject()
 				.findMember("src").getFullPath().toString(), true);
 		repo = (MultiFileArtifactRepository) ModelRepositoryFactory.INSTANCE
@@ -43,7 +43,7 @@ public class RepositoryTrackerTests {
 
 	@AfterClass
 	public static void tearDown() throws Exception {
-		TestHelper.tearDown(jProject);
+		Helper.tearDown(jProject);
 	}
 
 	@Test

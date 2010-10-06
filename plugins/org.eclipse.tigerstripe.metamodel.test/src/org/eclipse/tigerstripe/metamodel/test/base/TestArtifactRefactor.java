@@ -18,7 +18,7 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.tigerstripe.metamodel.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.metamodel.MetamodelFactory;
-import org.eclipse.tigerstripe.metamodel.test.utils.TestHelper;
+import org.eclipse.tigerstripe.metamodel.test.utils.Helper;
 import org.eclipse.tigerstripe.repository.manager.ModelRepositoryFactory;
 import org.eclipse.tigerstripe.repository.manager.internal.SafeExecutableAbstractCommand;
 import org.eclipse.tigerstripe.repository.metamodel.pojo.MultiFileArtifactRepository;
@@ -26,7 +26,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class ArtifactRefactorTest {
+public class TestArtifactRefactor {
 
 	private static String PROJECTNAME = "ArtifactRefactorTest";
 	private static IJavaProject jProject = null;
@@ -35,7 +35,7 @@ public class ArtifactRefactorTest {
 
 	@BeforeClass
 	public static void setup() throws Exception {
-		jProject = TestHelper.createJavaProject(PROJECTNAME);
+		jProject = Helper.createJavaProject(PROJECTNAME);
 		URI uri = URI.createPlatformResourceURI(jProject.getProject()
 				.findMember("src").getFullPath().toString(), true);
 		repo = (MultiFileArtifactRepository) ModelRepositoryFactory.INSTANCE
@@ -44,7 +44,7 @@ public class ArtifactRefactorTest {
 
 	@AfterClass
 	public static void tearDown() throws Exception {
-		TestHelper.tearDown(jProject);
+		Helper.tearDown(jProject);
 	}
 
 	@Test

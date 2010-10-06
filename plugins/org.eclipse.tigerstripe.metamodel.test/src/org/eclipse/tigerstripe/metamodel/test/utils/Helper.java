@@ -22,7 +22,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.launching.JavaRuntime;
 
-public class TestHelper {
+public class Helper {
 
 	public static IJavaProject createJavaProject(String projectName)
 			throws Exception {

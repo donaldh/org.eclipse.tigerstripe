@@ -16,7 +16,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.tigerstripe.metamodel.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.metamodel.MetamodelFactory;
-import org.eclipse.tigerstripe.metamodel.test.utils.TestHelper;
+import org.eclipse.tigerstripe.metamodel.test.utils.Helper;
 import org.eclipse.tigerstripe.repository.manager.IModelRepository;
 import org.eclipse.tigerstripe.repository.manager.ModelRepositoryFactory;
 import org.eclipse.tigerstripe.repository.metamodel.pojo.MultiFileArtifactRepository;
@@ -24,7 +24,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-public class BasicLocalPojoRepositoryTests {
+public class TestBasicLocalPojoRepository {
 
 	private static String PROJECTNAME = "BasicLocalPojoRepositoryTests";
 
@@ -32,12 +32,12 @@ public class BasicLocalPojoRepositoryTests {
 
 	@BeforeClass
 	public static void setup() throws Exception {
-		jProject = TestHelper.createJavaProject(PROJECTNAME);
+		jProject = Helper.createJavaProject(PROJECTNAME);
 	}
 
 	@AfterClass
 	public static void tearDown() throws Exception {
-		TestHelper.tearDown(jProject);
+		Helper.tearDown(jProject);
 	}
 
 	@Test
