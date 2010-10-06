@@ -226,7 +226,8 @@ public class ArtifactOverviewPage extends TigerstripeFormPage implements IResour
 								if ((errorMessage instanceof String) && (((String)errorMessage).length()>0)) {
 									PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 										public void run() {
-											managedForm.getForm().setMessage("Error Detected: " + (String)errorMessage, IMessageProvider.ERROR);		
+											if (!managedForm.getForm().isDisposed())
+												managedForm.getForm().setMessage("Error Detected: " + (String)errorMessage, IMessageProvider.ERROR);		
 										}
 									});
 									
@@ -240,7 +241,8 @@ public class ArtifactOverviewPage extends TigerstripeFormPage implements IResour
 					if (!errorsDetected) {
 						PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 							public void run() {
-								managedForm.getForm().setMessage("", IMessageProvider.NONE);
+								if (!managedForm.getForm().isDisposed())
+									managedForm.getForm().setMessage("", IMessageProvider.NONE);
 							}
 						});
 					}

@@ -101,7 +101,8 @@ public class DescriptorDependenciesPage extends TigerstripeFormPage implements I
 								if ((errorMessage instanceof String) && (((String)errorMessage).length()>0)) {
 									PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
 										public void run() {
-											managedForm.getForm().setMessage("Error Detected: " + (String)errorMessage, IMessageProvider.ERROR);		
+											if (!managedForm.getForm().isDisposed())
+												managedForm.getForm().setMessage("Error Detected: " + (String)errorMessage, IMessageProvider.ERROR);		
 										}
 									});
 									
