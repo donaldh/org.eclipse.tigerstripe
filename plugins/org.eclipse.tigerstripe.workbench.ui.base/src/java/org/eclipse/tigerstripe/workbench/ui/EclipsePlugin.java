@@ -608,8 +608,8 @@ public class EclipsePlugin extends AbstractUIPlugin {
 						MessageBox box = new MessageBox(
 								getActiveWorkbenchShell(), SWT.YES | SWT.NO);
 						box.setText("Tigerstipe profile not set to default");
-						box
-								.setMessage("The current Tigerstipe profile is not that set in the default for this installation.\n Do you wish to return to defaults?");
+						// Bugzilla 327008 -  "Default profile" message is not as clear as it could be
+						box.setMessage("The current Tigerstripe profile is not the specified default profile for this installation.\n Do you wish to return to the default profile?");
 
 						int selection = box.open();
 						if (selection == SWT.YES) {
