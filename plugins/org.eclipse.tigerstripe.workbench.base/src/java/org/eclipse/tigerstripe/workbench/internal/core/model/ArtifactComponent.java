@@ -33,6 +33,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetRef
 import org.eclipse.tigerstripe.workbench.internal.contract.predicate.FacetPredicate;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.tags.StereotypeTags;
+import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.UnresolvedStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.internal.core.util.encode.XmlEscape;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
@@ -183,10 +184,17 @@ public abstract class ArtifactComponent implements IModelComponent,
 	protected void extractStereotypes() {
 		// NOTE: this needs to be called after the list of tags has been built
 		// for this component
+		IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession().getActiveProfile();
+		Collection<IStereotype> stereos = profile.getAvailableStereotypeForCapable(this);
 		IStereotypeInstance[] stInstances = StereotypeTags
 				.getAllStereotypes(getTags());
 		for (IStereotypeInstance stInstance : stInstances) {
-			addStereotypeInstance(stInstance);
+			if (stereos.contains(stInstance.getCharacterizingStereotype())){
+				addStereotypeInstance(stInstance);
+			} else {
+				// make an unresolvedInstance from this
+				addStereotypeInstance(new UnresolvedStereotypeInstance(stInstance));
+			}
 		}
 	}
 

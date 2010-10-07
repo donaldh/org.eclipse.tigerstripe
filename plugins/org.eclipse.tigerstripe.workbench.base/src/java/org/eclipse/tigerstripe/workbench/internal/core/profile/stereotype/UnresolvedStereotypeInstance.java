@@ -42,6 +42,24 @@ public class UnresolvedStereotypeInstance implements IStereotypeInstance {
 		this.label = stereotypeLabel;
 	}
 
+	/**
+	 * This constructor is used when we discover that an instance is not actually valid for 
+	 * the model component on which it has been found.
+	 * @param instance
+	 */
+	public UnresolvedStereotypeInstance(IStereotypeInstance instance) {
+		this.label = instance.getCharacterizingStereotype().getName();
+		for (IStereotypeAttribute attr : instance.getCharacterizingStereotype().getAttributes()){
+			try {
+				fakeAttributeMap.put(attr.getName(),instance.getAttributeValue(attr));
+			} catch (TigerstripeException e) {
+				// TODO Auto-generated catch block
+				// Not really a big issue
+			}
+		}
+		
+	}
+	
 	public IStereotype getCharacterizingStereotype() {
 		return null;
 	}
