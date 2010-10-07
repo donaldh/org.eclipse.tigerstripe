@@ -11,7 +11,6 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor;
 
 import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -26,6 +25,12 @@ import org.eclipse.ui.ide.IGotoMarker;
 import org.eclipse.ui.texteditor.ChainedPreferenceStore;
 import org.eclipse.ui.texteditor.DefaultRangeIndicator;
 
+/**
+ * This is the source page under tigerstripe.xml (project descriptor for model projects)<br/><br/>
+ * 
+ * History of changes:<br/>
+ * Bugzilla 313726 -  Tigerstripe.XML Editor doesn't save <br/>
+ */
 public class DescriptorSourcePage extends TextEditor implements IFormPage,
 		IGotoMarker {
 
@@ -117,13 +122,5 @@ public class DescriptorSourcePage extends TextEditor implements IFormPage,
 	public void firePropertyChange(int property) {
 		super.firePropertyChange(property);
 	}
-
-	@Override
-	public void doSave(IProgressMonitor progressMonitor) {
-		super.doSave(progressMonitor);
-		getEditor().doSave(progressMonitor);
-		// TODO Auto-generated method stub
-	}
-	
 
 }
