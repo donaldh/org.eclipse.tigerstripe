@@ -44,6 +44,15 @@ import org.eclipse.ui.IFileEditorInput;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.FileEditorInput;
 
+/**
+ * Main editor for module project descriptor file (tigersripe.xml file) <br/><br/>
+ * 
+ * <b>History of changes</b> (Name: Modification): <br/>
+ * Eric Dillon 	  :	Initial Creation <br/>
+ * Navid Mehregani: Bugzilla 319768: Switch to dependencies tab, if there are related issues. <br/>
+ * Navid Mehregani: Bugzilla 323860 -  [Form Editor] In some cases Tigerstripe files cannot be saved <br/>
+ * Navid Mehregani:	Bugzilla 313726 -  Tigerstripe.XML Editor doesn't save   <br/>
+ */
 public class DescriptorEditor extends TigerstripeFormEditor {
 
 	private int sourcePageIndex;
@@ -171,25 +180,29 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		if (getActivePage() == sourcePageIndex) {
+		// N.M: Bugzilla 323860 -  [Form Editor] In some cases Tigerstripe files cannot be saved
+		if ((sourcePage.isDirty()) || (getActivePage() == sourcePageIndex)) {
 			try {
 				updateModelFromTextEditor();
+				
 			} catch (TigerstripeException ee) {
 				Status status = new Status(IStatus.WARNING, EclipsePlugin
 						.getPluginId(), 111, "Unexpected Exception", ee);
 				EclipsePlugin.log(status);
 			}
-		}
+			sourcePage.doSave(monitor);
+			
+		} else {
 
-		try {
-			getTSProject().commit(monitor);
-		} catch (TigerstripeException ee) {
-			EclipsePlugin.log(ee);
+			try {
+				getTSProject().commit(monitor);
+			} catch (TigerstripeException ee) {
+				EclipsePlugin.log(ee);
+			}
 		}
 
 		if (getActivePage() != sourcePageIndex) {
-			((DescriptorSourcePage) getEditor(sourcePageIndex))
-					.firePropertyChange(IEditorPart.PROP_DIRTY);
+			((DescriptorSourcePage) getEditor(sourcePageIndex)).firePropertyChange(IEditorPart.PROP_DIRTY);
 			firePropertyChange(IEditorPart.PROP_DIRTY);
 		} else {
 			firePropertyChange(IEditorPart.PROP_DIRTY);
@@ -234,6 +247,12 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 
 	@Override
 	public boolean isDirty() {
+		
+		// N.M: Bugzilla 323860 -  [Form Editor] In some cases Tigerstripe files cannot be saved
+		if (getActivePage() == sourcePageIndex) {
+			return sourcePage.isDirty();
+		}
+		
 		return isPageModified || super.isDirty();
 	}
 

@@ -43,9 +43,12 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.FileEditorInput;
 
 /**
+ * Main editor for plugin project descriptor file <br/><br/>
  * 
- * @author Eric Dillon
- * @since 1.2
+ * <b>History of changes</b> (Name: Modification): <br/>
+ * Eric Dillon 	  :	Initial Creation <br/>
+ * Navid Mehregani: Bugzilla 323860 -  [Form Editor] In some cases Tigerstripe files cannot be saved <br/>
+ * Navid Mehregani:	Bugzilla 313726 -  Tigerstripe.XML Editor doesn't save   <br/>
  */
 public abstract class GeneratorDescriptorEditor extends TigerstripeFormEditor {
 
@@ -138,8 +141,8 @@ public abstract class GeneratorDescriptorEditor extends TigerstripeFormEditor {
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-
-		if (getActivePage() == sourcePageIndex) {
+		// N.M: Bugzilla 323860 -  [Form Editor] In some cases Tigerstripe files cannot be saved
+		if ((sourcePage.isDirty()) || (getActivePage() == sourcePageIndex)) {
 			try {
 				updateModelFromTextEditor();
 			} catch (TigerstripeException ee) {
@@ -147,20 +150,22 @@ public abstract class GeneratorDescriptorEditor extends TigerstripeFormEditor {
 						.getPluginId(), 111, "Unexpected Exception", ee);
 				EclipsePlugin.log(status);
 			}
+			sourcePage.doSave(monitor);
+			
+		} else {
+
+			try {
+				getProjectHandle().commit(monitor);
+			} catch (TigerstripeException ee) {
+				EclipsePlugin.log(ee);
+			}
 		}
 
-		try {
-			getProjectHandle().commit(monitor);
-		} catch (TigerstripeException ee) {
-			EclipsePlugin.log(ee);
-		}
 
 		if (getActivePage() != sourcePageIndex) {
-			((GeneratorDescriptorSourcePage) getEditor(sourcePageIndex))
-					.firePropertyChange(IEditorPart.PROP_DIRTY);
+			((GeneratorDescriptorSourcePage) getEditor(sourcePageIndex)).firePropertyChange(IEditorPart.PROP_DIRTY);
 			firePropertyChange(IEditorPart.PROP_DIRTY);
 		} else {
-			getEditor(sourcePageIndex).doSave(monitor);
 			firePropertyChange(IEditorPart.PROP_DIRTY);
 		}
 	}
@@ -203,6 +208,11 @@ public abstract class GeneratorDescriptorEditor extends TigerstripeFormEditor {
 
 	@Override
 	public boolean isDirty() {
+		// N.M: Bugzilla 323860 -  [Form Editor] In some cases Tigerstripe files cannot be saved
+		if (getActivePage() == sourcePageIndex) {
+			return sourcePage.isDirty();
+		}
+		
 		return isPageModified || super.isDirty();
 	}
 
