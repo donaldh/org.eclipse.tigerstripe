@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions;
 
+import static org.eclipse.tigerstripe.workbench.ui.internal.utils.ComponentUtils.scrollToComponentDeferred;
+
 import java.util.Iterator;
 
 import org.eclipse.core.resources.IFile;
@@ -23,13 +25,13 @@ import org.eclipse.jdt.internal.core.JarEntryFile;
 import org.eclipse.jdt.ui.actions.OpenAction;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.DatatypeArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact.DependencyEnd;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
@@ -38,7 +40,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.PackageArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact.DependencyEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
@@ -68,7 +69,6 @@ import org.eclipse.ui.IWorkbenchSite;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.IFormPart;
-import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.part.FileEditorInput;
 
 public class TSOpenAction extends OpenAction {
@@ -282,8 +282,9 @@ public class TSOpenAction extends OpenAction {
 				}
 			} else if (element instanceof AbstractLogicalExplorerNode) {
 				AbstractLogicalExplorerNode node = (AbstractLogicalExplorerNode) element;
-				return page.openEditor(new FileEditorInput((IFile) node
-						.getKeyResource()), node.getEditor());
+				return page.openEditor(
+						new FileEditorInput((IFile) node.getKeyResource()),
+						node.getEditor());
 			}
 		} catch (PartInitException e) {
 			EclipsePlugin.logErrorMessage("Failed to open the Editor.");
@@ -327,14 +328,11 @@ public class TSOpenAction extends OpenAction {
 				// the containing artifact
 				IAbstractArtifact artifact = null;
 				if (objects[i] instanceof IField)
-					artifact = (IAbstractArtifact) ((IField) objects[i])
-							.getContainingArtifact();
+					artifact = ((IField) objects[i]).getContainingArtifact();
 				else if (objects[i] instanceof IMethod)
-					artifact = (IAbstractArtifact) ((IMethod) objects[i])
-							.getContainingArtifact();
+					artifact = ((IMethod) objects[i]).getContainingArtifact();
 				else if (objects[i] instanceof ILiteral)
-					artifact = (IAbstractArtifact) ((ILiteral) objects[i])
-							.getContainingArtifact();
+					artifact = ((ILiteral) objects[i]).getContainingArtifact();
 				else if (objects[i] instanceof DependencyEnd)
 					artifact = (IAbstractArtifact) ((DependencyEnd) objects[i])
 							.getContainingRelationship();
@@ -342,7 +340,7 @@ public class TSOpenAction extends OpenAction {
 					artifact = (IAbstractArtifact) (((RelationshipAnchor) objects[i])
 							.getEnd()).getContainingRelationship();
 				else if (objects[i] instanceof IRelationshipEnd)
-					artifact = (IAbstractArtifact) ((IAssociationEnd) objects[i])
+					artifact = ((IAssociationEnd) objects[i])
 							.getContainingArtifact();
 				// then open the editor for that artifact
 				IEditorPart iEditorPart = openEditor(artifact, page);
@@ -368,11 +366,9 @@ public class TSOpenAction extends OpenAction {
 							attributesSection.getSection().setExpanded(true);
 							// determine where the section is and scroll so that
 							// it is visible
-							Point origin = attributesSection.getSection()
-									.getLocation();
-							ScrolledForm scrolledForm = selectedPage
-									.getManagedForm().getForm();
-							scrolledForm.setOrigin(origin);
+							scrollToComponentDeferred(selectedPage
+									.getManagedForm().getForm(),
+									attributesSection.getSection());
 							// then select the appropriate row in the table (and
 							// make the details visible?)
 							TableViewer viewer = attributesSection.getViewer();
@@ -404,11 +400,9 @@ public class TSOpenAction extends OpenAction {
 							methodsSection.getSection().setExpanded(true);
 							// determine where the section is and scroll so that
 							// it is visible
-							Point origin = methodsSection.getSection()
-									.getLocation();
-							ScrolledForm scrolledForm = selectedPage
-									.getManagedForm().getForm();
-							scrolledForm.setOrigin(origin);
+							scrollToComponentDeferred(selectedPage
+									.getManagedForm().getForm(),
+									methodsSection.getSection());
 							// then select the appropriate row in the table (and
 							// make the details visible?)
 							TableViewer viewer = methodsSection.getViewer();
@@ -441,11 +435,9 @@ public class TSOpenAction extends OpenAction {
 							constantsSection.getSection().setExpanded(true);
 							// determine where the section is and scroll so that
 							// it is visible
-							Point origin = constantsSection.getSection()
-									.getLocation();
-							ScrolledForm scrolledForm = selectedPage
-									.getManagedForm().getForm();
-							scrolledForm.setOrigin(origin);
+							scrollToComponentDeferred(selectedPage
+									.getManagedForm().getForm(),
+									constantsSection.getSection());
 							// then select the appropriate row in the table (and
 							// make the details visible?)
 							TableViewer viewer = constantsSection.getViewer();
@@ -478,11 +470,9 @@ public class TSOpenAction extends OpenAction {
 							specificsSection.getSection().setExpanded(true);
 							// determine where the section is and scroll so that
 							// it is visible
-							Point origin = specificsSection.getSection()
-									.getLocation();
-							ScrolledForm scrolledForm = selectedPage
-									.getManagedForm().getForm();
-							scrolledForm.setOrigin(origin);
+							scrollToComponentDeferred(selectedPage
+									.getManagedForm().getForm(),
+									specificsSection.getSection());
 							IRelationshipEnd relationshipEnd = null;
 							if (objects[i] instanceof IRelationshipEnd) {
 								relationshipEnd = (IRelationshipEnd) objects[i];
@@ -503,11 +493,9 @@ public class TSOpenAction extends OpenAction {
 							specificsSection.getSection().setExpanded(true);
 							// determine where the section is and scroll so that
 							// it is visible
-							Point origin = specificsSection.getSection()
-									.getLocation();
-							ScrolledForm scrolledForm = selectedPage
-									.getManagedForm().getForm();
-							scrolledForm.setOrigin(origin);
+							scrollToComponentDeferred(selectedPage
+									.getManagedForm().getForm(),
+									specificsSection.getSection());
 							IRelationshipEnd relationshipEnd = (IRelationshipEnd) objects[i];
 							specificsSection.selectEndName(relationshipEnd
 									.getName());

@@ -11,7 +11,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.wizards.artifacts.components;
 
-import static org.eclipse.tigerstripe.workbench.ui.internal.utils.ComponentUtils.scrollToComponent;
+import static org.eclipse.tigerstripe.workbench.ui.internal.utils.ComponentUtils.scrollToComponentDeferred;
 
 import java.util.List;
 
@@ -134,8 +134,8 @@ public abstract class NewModelComponentWizard extends Wizard implements
 
 					Section section = part.getSection();
 					section.setExpanded(true);
-					scrollToComponent(selectedPage.getManagedForm().getForm(),
-							section);
+					scrollToComponentDeferred(selectedPage.getManagedForm()
+							.getForm(), section);
 					TableViewer viewer = part.getViewer();
 					Table table = viewer.getTable();
 					table.deselectAll();
@@ -144,8 +144,8 @@ public abstract class NewModelComponentWizard extends Wizard implements
 						IModelComponent rowField = (IModelComponent) tableItem
 								.getData();
 
-						if (mainPage.getModelComponent().getName().equals(
-								rowField.getName())) {
+						if (mainPage.getModelComponent().getName()
+								.equals(rowField.getName())) {
 							table.select(row);
 							selectedPage.getManagedForm().fireSelectionChanged(
 									part, viewer.getSelection());

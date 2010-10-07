@@ -15,6 +15,7 @@ import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.ui.PlatformUI;
 
 public class ComponentUtils {
 
@@ -37,4 +38,15 @@ public class ComponentUtils {
 		}
 		scrolled.setOrigin(origin);
 	}
+
+	public static void scrollToComponentDeferred(
+			final ScrolledComposite scrolled, final Control toComponent) {
+		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+
+			public void run() {
+				scrollToComponent(scrolled, toComponent);
+			}
+		});
+	}
+
 }

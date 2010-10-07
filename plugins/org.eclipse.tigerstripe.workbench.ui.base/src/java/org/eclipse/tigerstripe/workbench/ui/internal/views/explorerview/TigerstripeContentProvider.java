@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
@@ -28,10 +29,16 @@ import org.eclipse.jdt.ui.PreferenceConstants;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
+import org.eclipse.tigerstripe.workbench.TigerstripeChangeAdapter;
 import org.eclipse.tigerstripe.workbench.diagram.IDiagram;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.preferences.ExplorerPreferencePage;
 import org.eclipse.ui.IMemento;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.navigator.extensions.CommonContentExtensionSite;
 import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 import org.eclipse.ui.navigator.IExtensionStateModel;
@@ -68,6 +75,11 @@ public class TigerstripeContentProvider extends
 
 	private INavigatorContentService contentService;
 
+	private TreeViewer viewer;
+
+	private TigerstripeChangeAdapter tigerstripeChangeListener;
+
+	@Override
 	public void init(ICommonContentExtensionSite commonContentExtensionSite) {
 		IExtensionStateModel stateModel = ((CommonContentExtensionSite) commonContentExtensionSite)
 				.getContentService().findStateModel(
@@ -96,6 +108,31 @@ public class TigerstripeContentProvider extends
 		boolean showCUChildren = store
 				.getBoolean(PreferenceConstants.SHOW_CU_CHILDREN);
 		setProvideMembers(showCUChildren);
+
+		tigerstripeChangeListener = new TigerstripeChangeAdapter() {
+
+			@Override
+			public void artifactResourceChanged(final IResource resource) {
+
+				PlatformUI.getWorkbench().getDisplay()
+						.asyncExec(new Runnable() {
+
+							public void run() {
+								if (viewer != null) {
+									IJavaElement jElem = (IJavaElement) resource
+											.getAdapter(IJavaElement.class);
+									if (jElem != null) {
+										viewer.refresh(jElem, true);
+									}
+								}
+							}
+						});
+			}
+		};
+
+		TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(
+				tigerstripeChangeListener,
+				ITigerstripeChangeListener.ARTIFACT_RESOURCES);
 	}
 
 	@Override
@@ -103,13 +140,18 @@ public class TigerstripeContentProvider extends
 		try {
 			super.dispose();
 		} catch (Exception e) {
-			//ignore any disposing errors
+			// ignore any disposing errors
 		}
 		if (fStateModel != null) {
 			fStateModel.removePropertyChangeListener(fLayoutPropertyListener);
 		}
 		EclipsePlugin.getDefault().getPreferenceStore()
 				.removePropertyChangeListener(this);
+
+		if (tigerstripeChangeListener != null) {
+			TigerstripeWorkspaceNotifier.INSTANCE
+					.removeTigerstripeChangeListener(tigerstripeChangeListener);
+		}
 	}
 
 	@Override
@@ -153,20 +195,24 @@ public class TigerstripeContentProvider extends
 		}
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public void getPipelinedChildren(Object aParent, Set theCurrentChildren) {
 		customize(getChildren(aParent), theCurrentChildren);
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public void getPipelinedElements(Object anInput, Set theCurrentElements) {
 		customize(getElements(anInput), theCurrentElements);
 	}
 
+	@Override
 	public Object getPipelinedParent(Object anObject, Object aSuggestedParent) {
 		return getParent(anObject);
 	}
 
+	@Override
 	public PipelinedShapeModification interceptAdd(
 			PipelinedShapeModification anAddModification) {
 		Object parent = anAddModification.getParent();
@@ -183,24 +229,29 @@ public class TigerstripeContentProvider extends
 		return anAddModification;
 	}
 
+	@Override
 	public PipelinedShapeModification interceptRemove(
 			PipelinedShapeModification aRemoveModification) {
 		contentService.update();
 		return null;
 	}
 
+	@Override
 	public boolean interceptRefresh(
 			PipelinedViewerUpdate aRefreshSynchronization) {
 		return false;
 	}
 
+	@Override
 	public boolean interceptUpdate(PipelinedViewerUpdate anUpdateSynchronization) {
 		return false;
 	}
 
+	@Override
 	public void restoreState(IMemento aMemento) {
 	}
 
+	@Override
 	public void saveState(IMemento aMemento) {
 	}
 
@@ -297,7 +348,8 @@ public class TigerstripeContentProvider extends
 		super.postRemove(element, runnables);
 
 		if (element instanceof IProject) {
-			super.postProjectStateChanged(((IProject)element).getParent(), runnables);
+			super.postProjectStateChanged(((IProject) element).getParent(),
+					runnables);
 		}
 	}
 
@@ -322,4 +374,13 @@ public class TigerstripeContentProvider extends
 			contentService.update();
 		}
 	}
+
+	@Override
+	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+		super.inputChanged(viewer, oldInput, newInput);
+		if (viewer instanceof TreeViewer) {
+			this.viewer = (TreeViewer) viewer;
+		}
+	}
+
 }
