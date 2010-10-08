@@ -48,8 +48,8 @@ public class UnresolvedStereotypeInstance implements IStereotypeInstance {
 	 * @param instance
 	 */
 	public UnresolvedStereotypeInstance(IStereotypeInstance instance) {
-		this.label = instance.getCharacterizingStereotype().getName();
 		if (instance.getCharacterizingStereotype() != null){
+		this.label = instance.getCharacterizingStereotype().getName();
 			for (IStereotypeAttribute attr : instance.getCharacterizingStereotype().getAttributes()){
 				try {
 					fakeAttributeMap.put(attr.getName(),instance.getAttributeValue(attr));
