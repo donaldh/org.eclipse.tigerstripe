@@ -192,8 +192,12 @@ public abstract class ArtifactComponent implements IModelComponent,
 			if (stereos.contains(stInstance.getCharacterizingStereotype())){
 				addStereotypeInstance(stInstance);
 			} else {
+				if ( stInstance instanceof UnresolvedStereotypeInstance){
+					addStereotypeInstance(stInstance);
+				} else {
 				// make an unresolvedInstance from this
-				addStereotypeInstance(new UnresolvedStereotypeInstance(stInstance));
+					addStereotypeInstance(new UnresolvedStereotypeInstance(stInstance));
+				}
 			}
 		}
 	}
