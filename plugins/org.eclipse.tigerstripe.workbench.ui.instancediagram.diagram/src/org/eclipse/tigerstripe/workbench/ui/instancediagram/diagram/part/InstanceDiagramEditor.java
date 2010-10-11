@@ -36,10 +36,10 @@ public class InstanceDiagramEditor extends FileDiagramEditor implements
 	public static final String ID = "org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.part.InstanceDiagramEditorID"; //$NON-NLS-1$
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	public InstanceDiagramEditor() {
-		super(true);
+		super(false);
 	}
 
 	/**
