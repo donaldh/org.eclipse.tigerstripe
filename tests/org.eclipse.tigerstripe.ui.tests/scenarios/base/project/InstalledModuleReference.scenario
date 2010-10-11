@@ -135,7 +135,7 @@
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Browse" multiplicity="1">
+      <data kind="Button" pattern="Select" multiplicity="1">
         <parent id="Expandable0" kind="Expandable"/>
       </data>
     </commands>
@@ -348,7 +348,7 @@
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Browse" multiplicity="1">
+      <data kind="Button" pattern="Select" multiplicity="1">
         <parent id="Expandable3" kind="Expandable"/>
       </data>
     </commands>
@@ -594,7 +594,7 @@
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Browse" multiplicity="1">
+      <data kind="Button" pattern="Select" multiplicity="1">
         <parent id="Expandable4_65" kind="Expandable"/>
       </data>
     </commands>
@@ -762,7 +762,7 @@
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Browse" multiplicity="1">
+      <data kind="Button" pattern="Select" multiplicity="1">
         <parent id="Expandable5_66" kind="Expandable"/>
       </data>
     </commands>
@@ -989,7 +989,7 @@
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Browse" multiplicity="1">
+      <data kind="Button" pattern="Select" multiplicity="1">
         <parent id="Expandable8_69" kind="Expandable"/>
       </data>
     </commands>
@@ -1160,7 +1160,7 @@
     </elementMapping>
     <elementMapping command="//@content/@commands.34">
       <elements id="Button2" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Browse">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Select">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="384" width="50" height="25"/>
@@ -1373,7 +1373,7 @@
     </elementMapping>
     <elementMapping command="//@content/@commands.92">
       <elements id="Button7" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Browse">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Select">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="384" width="50" height="25"/>
@@ -1608,7 +1608,7 @@
     </elementMapping>
     <elementMapping command="//@content/@commands.155">
       <elements id="Button11_68" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Browse">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Select">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="384" width="50" height="25"/>
@@ -1788,7 +1788,7 @@
     </elementMapping>
     <elementMapping command="//@content/@commands.200">
       <elements id="Button15_72" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Browse">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Select">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="384" width="50" height="25"/>
@@ -2030,7 +2030,7 @@
     </elementMapping>
     <elementMapping command="//@content/@commands.260">
       <elements id="Button20_77" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Browse">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Select">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="384" width="50" height="25"/>
