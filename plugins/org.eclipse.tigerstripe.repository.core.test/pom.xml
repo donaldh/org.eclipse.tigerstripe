@@ -16,7 +16,6 @@
 				<artifactId>maven-osgi-test-plugin</artifactId>
 				<configuration>
 					<useUIHarness>true</useUIHarness>
-					<testSuite>org.eclipse.tigerstripe.repository.core.test.tests.AllTests</testSuite>
 				</configuration>
 			</plugin>
 		</plugins>

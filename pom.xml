@@ -61,10 +61,13 @@
 		
 		<!-- test plugins -->
 		<module>plugins/org.eclipse.tigerstripe.test_common</module>	
-		<module>plugins/org.eclipse.tigerstripe.workbench.base.test</module>
+	
 		<module>plugins/org.eclipse.tigerstripe.repository.core.test</module>
 		
 		<!--
+			<module>plugins/org.eclipse.tigerstripe.workbench.base.test</module>
+	
+	
 		<module>plugins/org.eclipse.tigerstripe.metamodel.test</module>
 		<module>plugins/org.eclipse.tigerstripe.annotation.core.test</module>
 		-->
