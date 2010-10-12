@@ -15,6 +15,7 @@
 				<groupId>org.sonatype.tycho</groupId>
 				<artifactId>maven-osgi-test-plugin</artifactId>
 				<configuration>
+					<useUIHarness>true</useUIHarness>
 					<testSuite>org.eclipse.tigerstripe.workbench.base.test</testSuite>
 					<testClass>org.eclipse.tigerstripe.workbench.base.test.AllTests</testClass>
 				</configuration>
