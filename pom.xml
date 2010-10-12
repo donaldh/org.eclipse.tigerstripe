@@ -57,11 +57,10 @@
 		<module>plugins/org.eclipse.tigerstripe.releng</module>
 		<module>plugins/org.eclipse.tigerstripe.workbench.ui.sdk</module>
 		<module>plugins/org.eclipse.tigerstripe.workbench.optional.buckminster</module>
-		
-		
 		<!-- test plugins -->
 		<module>plugins/org.eclipse.tigerstripe.test_common</module>	
 		<module>plugins/org.eclipse.tigerstripe.metamodel.test</module>
+		<module>plugins/org.eclipse.tigerstripe.annotation.core.test</module>
 		<module>plugins/org.eclipse.tigerstripe.repository.core.test</module>
 		
 		<!--
@@ -69,7 +68,7 @@
 	
 	
 		
-		<module>plugins/org.eclipse.tigerstripe.annotation.core.test</module>
+		
 		-->
 		<!-- releng -->
 		<module>releng/org.eclipse.tigerstripe.update-site</module>
