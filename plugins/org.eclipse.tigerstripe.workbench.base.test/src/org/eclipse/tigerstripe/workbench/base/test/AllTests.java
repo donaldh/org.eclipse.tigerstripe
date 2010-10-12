@@ -61,7 +61,7 @@ public class AllTests {
 		suite.addTestSuite(TestM1ProjectContents.class);
 		suite.addTestSuite(TestM0ProjectBasics.class);
 		suite.addTestSuite(TestM0ProjectContents.class);
-		//suite.addTestSuite(TestAdapters.class);
+		suite.addTestSuite(TestAdapters.class);
 		
 		// Builder tests
 		suite.addTestSuite(TestBasicM1ProjectAuditor.class);
@@ -84,23 +84,23 @@ public class AllTests {
 		suite.addTestSuite(TestTigerstripeWorkspaceNotifications.class);
 
 		// Profiles
-		//suite.addTestSuite(TestProfileBasics.class);
+		suite.addTestSuite(TestProfileBasics.class);
 
 		// Annotations
-		//suite.addTestSuite(TestAnnotationCreationAPI.class);
+		suite.addTestSuite(TestAnnotationCreationAPI.class);
 
 		// Patterns
-		//suite.addTestSuite(PatternTest.class);
-		//suite.addTestSuite(ProjectPatternTest.class);
+		suite.addTestSuite(PatternTest.class);
+		suite.addTestSuite(ProjectPatternTest.class);
 
 		// References
-		//suite.addTestSuite(TestProjectReferences1.class);
-		//suite.addTestSuite(TestModelReferences.class);
+		suite.addTestSuite(TestProjectReferences1.class);
+		suite.addTestSuite(TestModelReferences.class);
 
 		// Export
-		//suite.addTestSuite(TestExportDiff.class);
-		//suite.addTestSuite(TestExportFacetManager.class);
-		//suite.addTestSuite(TestFacetExporter.class);
+		suite.addTestSuite(TestExportDiff.class);
+		suite.addTestSuite(TestExportFacetManager.class);
+		suite.addTestSuite(TestFacetExporter.class);
 
 		return suite;
 	}
