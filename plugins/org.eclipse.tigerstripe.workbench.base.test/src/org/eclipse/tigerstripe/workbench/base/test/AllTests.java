@@ -51,25 +51,25 @@ public class AllTests {
 		TestSuite suite = new TestSuite("org.eclipse.tigerstripe.workbench.base.test");
 
 		// Startup Tests
-		//suite.addTestSuite(TestStartup.class);
-		//suite.addTestSuite(TestTigerstripeCore.class);
+		suite.addTestSuite(TestStartup.class);
+		suite.addTestSuite(TestTigerstripeCore.class);
 
 		// Basic project operations
-		//suite.addTestSuite(TestProjectManagement.class);
-		//suite.addTestSuite(TestModelProjectLifecycle.class);
-		//suite.addTestSuite(TestM1ProjectBasics.class);
-		//suite.addTestSuite(TestM1ProjectContents.class);
-		//suite.addTestSuite(TestM0ProjectBasics.class);
-		//suite.addTestSuite(TestM0ProjectContents.class);
+		suite.addTestSuite(TestProjectManagement.class);
+		suite.addTestSuite(TestModelProjectLifecycle.class);
+		suite.addTestSuite(TestM1ProjectBasics.class);
+		suite.addTestSuite(TestM1ProjectContents.class);
+		suite.addTestSuite(TestM0ProjectBasics.class);
+		suite.addTestSuite(TestM0ProjectContents.class);
 		//suite.addTestSuite(TestAdapters.class);
 		
 		// Builder tests
-		//suite.addTestSuite(TestBasicM1ProjectAuditor.class);
-		//suite.addTestSuite(TestBasicModelProjectAuditor.class);
+		suite.addTestSuite(TestBasicM1ProjectAuditor.class);
+		suite.addTestSuite(TestBasicModelProjectAuditor.class);
 
 		// Facet Tests
 		suite.addTestSuite(BasicFacetTest.class);
-		//suite.addTestSuite(TestFacetResolution.class);
+		suite.addTestSuite(TestFacetResolution.class);
 
 		// Generation Tests
 		//suite.addTestSuite(TestProjectGenerationBasics.class);
