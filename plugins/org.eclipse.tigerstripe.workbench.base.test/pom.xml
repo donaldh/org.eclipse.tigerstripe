@@ -1,39 +1,24 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-
-  <parent>
-    <groupId>org.eclipse.tigerstripe</groupId>
-    <artifactId>org.eclipse.tigerstripe.plugins.parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-  </parent>
-
-  <artifactId>org.eclipse.tigerstripe.workbench.base.test</artifactId>
-  <packaging>eclipse-test-plugin</packaging>
-  <name>plugins/o.e.t.workbench.base.test</name>
-
-  <properties>
-	<!-- Not clear how to handle this ${eclipse-home} -->
-	<!-- The property ${eclipse-home} should be passed into this script -->
-	<!-- Set a meaningful default value for when it is not. -->
-    
-	<plugin-name>org.eclipse.tigerstripe.workbench.base.test</plugin-name>
-	<library-file>${eclipse-home}/plugins/org.eclipse.test_3.2.0/library.xml</library-file>
-    
-	<org.eclipse.tigerstripe.workbench.base-folder>${eclipse-home}/org.eclipse.tigerstripe.workbench.base</org.eclipse.tigerstripe.workbench.base-folder>
-    
-    <data-dir>${org.eclipse.tigerstripe.workbench.base-folder}</data-dir>
-    
-    <!-- Bundle-SymbolicName -->
-    <testSuite>org.eclipse.tigerstripe.workbench.base.test</testSuite>
-    
-    <!-- name of test suite class -->
-    <testClass>org.eclipse.tigerstripe.workbench.base.test.AllTests</testClass>
-    
-    <!--  vm argument -->
-    <testArgLine>-Xmx512m -XX:MaxPermSize=256m</testArgLine>
-    
-  </properties>
-
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.eclipse.tigerstripe</groupId>
+		<artifactId>org.eclipse.tigerstripe.plugins.parent</artifactId>
+		<version>1.0.0-SNAPSHOT</version>
+	</parent>
+	<artifactId>org.eclipse.tigerstripe.workbench.base.test</artifactId>
+	<packaging>eclipse-test-plugin</packaging>
+	<name>plugins/o.e.t.workbench.base.test</name>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.sonatype.tycho</groupId>
+				<artifactId>maven-osgi-test-plugin</artifactId>
+				<configuration>
+					<testSuite>org.eclipse.tigerstripe.workbench.base.test</testSuite>
+					<testClass>org.eclipse.tigerstripe.workbench.base.test.AllTests</testClass>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
