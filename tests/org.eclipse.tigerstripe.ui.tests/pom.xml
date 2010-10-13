@@ -24,7 +24,7 @@
                 <configuration>
                     <sutProjectId>org.eclipse.tigerstripe.rcp</sutProjectId>
                     <sutLauncherName>launcher</sutLauncherName>
-                    <delay>50</delay>
+                    <delay>100</delay>
                     <timeout>1800</timeout>
                     <sutWsPrefix>../../sut-</sutWsPrefix>
                 </configuration>
