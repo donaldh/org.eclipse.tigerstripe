@@ -23,6 +23,7 @@ rebuildTarget()
     rsync -a --delete features target/ || exit 1
     rsync -a --delete plugins target/ || exit 1
     rsync -a --delete releng target/ || exit 1
+	rsync -a --delete tests target/ || exit 1
     rsync -a --delete pom.xml target/ || exit 1
 
 #    SETTINGS=target/$MAVEN/conf/settings.xml
@@ -56,6 +57,7 @@ fi
 rsync -av --delete features target/ || exit 1
 rsync -av --delete plugins target/ || exit 1
 rsync -av --delete releng target/ || exit 1
+rsync -av --delete tests target/ || exit 1
 rsync -av  pom.xml target/ || exit 1
 
 # ------------------------------------------------------------------------------ 
