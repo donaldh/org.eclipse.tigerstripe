@@ -58,13 +58,16 @@
 		<module>plugins/org.eclipse.tigerstripe.workbench.ui.sdk</module>
 		<module>plugins/org.eclipse.tigerstripe.workbench.optional.buckminster</module>
 		<!-- test plugins -->
-		<module>plugins/org.eclipse.tigerstripe.test_common</module>	
+		<module>plugins/org.eclipse.tigerstripe.test_common</module>
 		<module>plugins/org.eclipse.tigerstripe.metamodel.test</module>
 		<module>plugins/org.eclipse.tigerstripe.annotation.core.test</module>
 		<module>plugins/org.eclipse.tigerstripe.repository.core.test</module>
 		<module>plugins/org.eclipse.tigerstripe.workbench.base.test</module>
+		<!-- ui test plugins -->
+		<module>test/org.eclipse.tigerstripe.ui.tests</module>
 		<!-- releng -->
 		<module>releng/org.eclipse.tigerstripe.update-site</module>
+		<module>releng/org.eclipse.tigerstripe.rcp</module>
 	</modules>
 	<repositories>
 		<repository>
@@ -73,6 +76,17 @@
 			<url>http://download.eclipse.org/releases/helios/</url>
 		</repository>
 	</repositories>
+	<!-- Location of Q7 maven plugins -->
+	<pluginRepositories>
+		<pluginRepository>
+			<id>xored</id>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+			<name>Xored snapshots</name>
+			<url>http://maven.xored.com/nexus/content/repositories/snapshots/</url>
+		</pluginRepository>
+	</pluginRepositories>
 	<build>
 		<resources>
 			<resource>
