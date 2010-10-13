@@ -54,10 +54,12 @@ import org.eclipse.ui.progress.IProgressService;
  * This class is responsible for synchronizing the content of a class diagram
  * with the IArtifacts that live in the corresponding Tigerstripe projects.
  * 
- * It basically has 2 main tasks: - making sure any change in the diagram is
+ * It basically has 2 main tasks: 
+ * 1) making sure any change in the diagram is
  * propagated into the tigerstripe model. This is handled by creating EMF
  * Adapters on every EObject living in the EModel of a Diagram, and having them
- * issue IModelChangeRequests accordingly. - making sure any change in the
+ * issue IModelChangeRequests accordingly. 
+ * 2) making sure any change in the
  * Tigerstripe model is propagated into the diagram.
  * 
  * @author Eric Dillon
@@ -295,21 +297,10 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 	}
 
 	public void artifactChanged(IAbstractArtifact artifact, IAbstractArtifact oldArtifact) {
-		
-		// Bugzilla 320052: We can't simply rely on the compare because when model is modified within
-		// the diagram (e.g. AssociationUpdateCommand), the artifact==oldArtifact.  Hence handleArtifactChange
-		// doesn't get called and as a result the diagram is never refreshed. 
-		if ((oldArtifact instanceof IMarkDirty) && (((IMarkDirty)oldArtifact).isDirty())) {
-			handleArtifactChanged(artifact);
-			((IMarkDirty)oldArtifact).setDirty(false);
-		} else {
-			ArrayList<Difference> diffs = comp.compareArtifacts(oldArtifact,artifact , true);
-			if (diffs.size()>0){
-				handleArtifactChanged(artifact);
-			}	
+		ArrayList<Difference> diffs = comp.compareArtifacts(oldArtifact,artifact , true);
+		if (diffs.size()>0){
+		    handleArtifactChanged(artifact);
 		}
-		
-		
 	}
 	
 	private void handleArtifactChanged(IAbstractArtifact artifact) {

@@ -52,7 +52,7 @@ public class ArtifactRemoveFeatureRequest extends BaseArtifactElementRequest
 			throws TigerstripeException {
 		super.execute(mgrSession);
 		IAbstractArtifact art = mgrSession
-				.getArtifactByFullyQualifiedName(getArtifactFQN());
+				.getArtifactByFullyQualifiedName(getArtifactFQN()).makeWorkingCopy(null);
 		if (art instanceof IManagedEntityArtifact
 				|| art instanceof IAssociationClassArtifact) {
 			IAbstractArtifact me = (IAbstractArtifact) art;

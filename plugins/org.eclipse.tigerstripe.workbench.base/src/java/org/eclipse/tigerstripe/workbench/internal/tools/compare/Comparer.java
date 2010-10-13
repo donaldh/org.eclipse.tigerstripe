@@ -211,7 +211,7 @@ public class Comparer {
 	public ArrayList<Difference> compareException(IExceptionArtifact artA,
 			IExceptionArtifact artB) {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
-		//differences.addAll(CompareUtils.compareInterface(artA, artB));
+		differences.addAll(CompareUtils.compareFields(artA, artB));
 		// There are no attribues,constants,methods or specifics for Exceptions
 		// Makes this whole thing a bit pointless!
 		return differences;

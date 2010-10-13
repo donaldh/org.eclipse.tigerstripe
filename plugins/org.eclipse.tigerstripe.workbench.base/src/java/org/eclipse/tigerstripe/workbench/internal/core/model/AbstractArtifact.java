@@ -56,6 +56,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjec
 import org.eclipse.tigerstripe.workbench.internal.core.util.ComparableArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
+import org.eclipse.tigerstripe.workbench.model.IMarkDirty;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;

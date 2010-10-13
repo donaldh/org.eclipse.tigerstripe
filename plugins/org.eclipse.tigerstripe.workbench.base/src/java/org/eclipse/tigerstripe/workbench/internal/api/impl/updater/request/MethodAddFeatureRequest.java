@@ -41,7 +41,7 @@ public class MethodAddFeatureRequest extends MethodSetRequest
 		super.execute(mgrSession);
 
 		IAbstractArtifact art = mgrSession
-		.getArtifactByFullyQualifiedName(getArtifactFQN());
+		.getArtifactByFullyQualifiedName(getArtifactFQN()).makeWorkingCopy(null);
 
 		boolean needSave = false;
 		if (art != null) {

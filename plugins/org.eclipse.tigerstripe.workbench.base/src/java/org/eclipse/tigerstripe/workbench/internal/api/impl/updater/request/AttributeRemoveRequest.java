@@ -73,8 +73,8 @@ public class AttributeRemoveRequest extends BaseArtifactElementRequest implement
 	public void execute(IArtifactManagerSession mgrSession)
 			throws TigerstripeException {
 		super.execute(mgrSession);
-		IAbstractArtifact art = (IAbstractArtifact) mgrSession
-				.getArtifactByFullyQualifiedName(getArtifactFQN());
+		IAbstractArtifact art = mgrSession
+				.getArtifactByFullyQualifiedName(getArtifactFQN()).makeWorkingCopy(null);
 
 		for (IField field : art.getFields()) {
 			if (field.getName().equals(getAttributeName())) {

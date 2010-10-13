@@ -89,15 +89,11 @@ public class AssociationUpdateCommand extends AbstractTransactionalCommand {
 			try {
 				IAssociationArtifact iAssociation = (IAssociationArtifact) artMgrSession
 						.getArtifactByFullyQualifiedName(association
-								.getFullyQualifiedName());
+								.getFullyQualifiedName()).makeWorkingCopy(null);
 				AssociationEnd iAssociationAEnd = (AssociationEnd) iAssociation
 						.getAEnd();
 				AssociationEnd iAssociationZEnd = (AssociationEnd) iAssociation
 						.getZEnd();
-				
-				// Bugzilla 320052: Mark this association as dirty to ensure a refresh on the diagram
-				((IMarkDirty)iAssociation).setDirty(true);
-				
 				
 				// check to see if the stereotypes for the association have
 				// changed

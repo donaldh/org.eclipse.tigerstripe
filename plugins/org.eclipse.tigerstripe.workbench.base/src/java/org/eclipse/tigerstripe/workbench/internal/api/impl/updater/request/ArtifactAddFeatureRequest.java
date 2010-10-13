@@ -68,7 +68,7 @@ public class ArtifactAddFeatureRequest extends BaseArtifactElementRequest
 		super.execute(mgrSession);
 
 		IAbstractArtifact art = mgrSession
-				.getArtifactByFullyQualifiedName(getArtifactFQN());
+				.getArtifactByFullyQualifiedName(getArtifactFQN()).makeWorkingCopy(null);
 		if (art instanceof ISessionArtifact) {
 			ISessionArtifact session = (ISessionArtifact) art;
 			if (EXPOSED_PROCEDURES.equals(featureId)) {

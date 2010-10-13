@@ -65,498 +65,518 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.views.navigator.LocalSelectionTransfer;
 
 public class ArtifactComponentTransferDropAdapter extends ViewerDropAdapter
-		implements TransferDropTargetListener {
+        implements TransferDropTargetListener {
 
-	private List<?> selectedElements;
-	private int internalCurrentOperation; // needed to duplicate as no setter in
+    private List<?> selectedElements;
+    private int internalCurrentOperation; // needed to duplicate as no setter in
 
-	public ArtifactComponentTransferDropAdapter(StructuredViewer viewer) {
-		super(viewer);
-	}
+    public ArtifactComponentTransferDropAdapter(StructuredViewer viewer) {
+        super(viewer);
+    }
 
-	/**
-	 * @see ViewerDropAdapter#performDrop
-	 */
-	public boolean performDrop(Object data) {
-		// should never be called, since we override the drop() method.
-		return false;
-	}
+    /**
+     * @see ViewerDropAdapter#performDrop
+     */
+    public boolean performDrop(Object data) {
+        // should never be called, since we override the drop() method.
+        return false;
+    }
 
-	public Transfer getTransfer() {
-		return LocalSelectionTransfer.getInstance();
-	}
+    public Transfer getTransfer() {
+        return LocalSelectionTransfer.getInstance();
+    }
 
-	public boolean isEnabled(DropTargetEvent event) {
-		initializeSelection();
-		IModelComponent[] nodes = getIModelComponents();
-		return nodes.length != 0;
-	}
+    public boolean isEnabled(DropTargetEvent event) {
+        initializeSelection();
+        IModelComponent[] nodes = getIModelComponents();
+        return nodes.length != 0;
+    }
 
-	@Override
-	public void drop(DropTargetEvent event) {
-		try {
-			switch (internalCurrentOperation) {
-			case DND.DROP_MOVE:
-				handleDropMove(getCurrentTarget(), event);
-				break;
-			case DND.DROP_COPY:
-				handleDropCopy(getCurrentTarget(), event);
-				break;
-			}
-		} catch (InvocationTargetException e) {
-			EclipsePlugin.log(e);
-		} catch (InterruptedException e) {
-			// ok
-		} finally {
-			// The drag source listener must not perform any operation
-			// since this drop adapter did the remove of the source even
-			// if we moved something.
-			event.detail = DND.DROP_NONE;
-		}
-	}
+    @Override
+    public void drop(DropTargetEvent event) {
+        try {
+            switch (internalCurrentOperation) {
+            case DND.DROP_MOVE:
+                handleDropMove(getCurrentTarget(), event);
+                break;
+            case DND.DROP_COPY:
+                handleDropCopy(getCurrentTarget(), event);
+                break;
+            }
+        } catch (InvocationTargetException e) {
+            EclipsePlugin.log(e);
+        } catch (InterruptedException e) {
+            // ok
+        } finally {
+            // The drag source listener must not perform any operation
+            // since this drop adapter did the remove of the source even
+            // if we moved something.
+            event.detail = DND.DROP_NONE;
+        }
+    }
 
-	private void handleDropCopy(final Object target, DropTargetEvent event)
-			throws InvocationTargetException, InterruptedException {
-		Display.getCurrent().asyncExec(new Runnable() {
+    private void handleDropCopy(final Object target, DropTargetEvent event)
+            throws InvocationTargetException, InterruptedException {
+        Display.getCurrent().asyncExec(new Runnable() {
 
-			public void run() {
-				IModelComponent[] components = getIModelComponents();
-				IAbstractArtifact targetArtifact = TSExplorerUtils
-						.getArtifactFor(target);
+            public void run() {
+                IModelComponent[] components = getIModelComponents();
+                try {
+                    IAbstractArtifact targetArtifact = (TSExplorerUtils
+                            .getArtifactFor(target)).makeWorkingCopy(null);
 
-				for (IModelComponent component : components) {
-					if (component instanceof IField) {
-						IField field = (IField) component;
-						targetArtifact.addField(field.clone());
-					} else if (component instanceof IMethod) {
-						IMethod method = (IMethod) component;
-						targetArtifact.addMethod(method.clone());
-					} else if (component instanceof ILiteral) {
-						ILiteral lit = (ILiteral) component;
-						targetArtifact.addLiteral(lit.clone());
-					}
-				}
+                    for (IModelComponent component : components) {
+                        if (component instanceof IField) {
+                            IField field = (IField) component;
+                            targetArtifact.addField(field.clone());
+                        } else if (component instanceof IMethod) {
+                            IMethod method = (IMethod) component;
+                            targetArtifact.addMethod(method.clone());
+                        } else if (component instanceof ILiteral) {
+                            ILiteral lit = (ILiteral) component;
+                            targetArtifact.addLiteral(lit.clone());
+                        }
+                    }
 
-				try {
-					targetArtifact.doSave(new NullProgressMonitor());
-					IResource res = (IResource) targetArtifact
-							.getAdapter(IResource.class);
-					if (res != null) {
-						try {
-							res.refreshLocal(IResource.DEPTH_ZERO,
-									new NullProgressMonitor());
-						} catch (CoreException e) {
-							throw new TigerstripeException(e.getMessage(), e);
-						}
-					}
-				} catch (TigerstripeException e) {
-					Status error = new Status(IStatus.ERROR, EclipsePlugin
-							.getPluginId(), 222,
-							"Exception during model component move: "
-									+ e.getMessage(), e);
-					MessageDialog
-							.openError(getShell(), "Move Error",
-									"An error occured during move operation.\nPlease check log for more details");
-					EclipsePlugin.log(error);
-				}
-			}
-		});
-	}
+                    targetArtifact.doSave(new NullProgressMonitor());
+                    IResource res = (IResource) targetArtifact
+                            .getAdapter(IResource.class);
+                    if (res != null) {
+                        try {
+                            res.refreshLocal(IResource.DEPTH_ZERO,
+                                    new NullProgressMonitor());
+                        } catch (CoreException e) {
+                            throw new TigerstripeException(e.getMessage(), e);
+                        }
+                    }
+                } catch (TigerstripeException e) {
+                    Status error = new Status(IStatus.ERROR, EclipsePlugin
+                            .getPluginId(), 222,
+                            "Exception during model component move: "
+                                    + e.getMessage(), e);
+                    MessageDialog
+                            .openError(getShell(), "Move Error",
+                                    "An error occured during move operation.\nPlease check log for more details");
+                    EclipsePlugin.log(error);
+                }
+            }
+        });
+    }
 
-	private IModelComponent[] getIModelComponents() {
-		List<IModelComponent> result = new ArrayList<IModelComponent>();
-		for (Object obj : selectedElements) {
-			if (obj instanceof IField || obj instanceof IMethod
-					|| obj instanceof ILiteral) {
-				result.add((IModelComponent) obj);
-			} else if (obj instanceof IAdaptable) {
-				IAbstractArtifact comp = (IAbstractArtifact) ((IAdaptable) obj)
-						.getAdapter(IAbstractArtifact.class);
-				if (comp != null) {
-					result.add(comp);
-				}
-			}
-		}
-		return result.toArray(new IModelComponent[result.size()]);
-	}
+    private IModelComponent[] getIModelComponents() {
+        List<IModelComponent> result = new ArrayList<IModelComponent>();
+        for (Object obj : selectedElements) {
+            if (obj instanceof IField || obj instanceof IMethod
+                    || obj instanceof ILiteral) {
+                result.add((IModelComponent) obj);
+            } else if (obj instanceof IAdaptable) {
+                IAbstractArtifact comp = (IAbstractArtifact) ((IAdaptable) obj)
+                        .getAdapter(IAbstractArtifact.class);
+                if (comp != null) {
+                    result.add(comp);
+                }
+            }
+        }
+        return result.toArray(new IModelComponent[result.size()]);
+    }
 
-	private void handleDropMove(final Object target, DropTargetEvent event)
-			throws InvocationTargetException, InterruptedException {
+    private void handleDropMove(final Object target, DropTargetEvent event)
+            throws InvocationTargetException, InterruptedException {
 
-		Display.getCurrent().asyncExec(new Runnable() {
+        Display.getCurrent().asyncExec(new Runnable() {
 
-			public void allArtifactsRun() {
-				
-				IModelComponent[] allArtifactsToBeMoved = getIModelComponents();
-				IResource targetContainer = (IResource) ((IAdaptable) target)
-						.getAdapter(IResource.class);
+            public void allArtifactsRun() {
 
-				IWorkbenchWindow window = PlatformUI.getWorkbench()
-						.getActiveWorkbenchWindow();
-				DragAndDropMoveRefactorWizard wizard = new DragAndDropMoveRefactorWizard();
+                IModelComponent[] allArtifactsToBeMoved = getIModelComponents();
+                IResource targetContainer = (IResource) ((IAdaptable) target)
+                        .getAdapter(IResource.class);
 
-				for (IModelComponent modelComponent : allArtifactsToBeMoved) {
+                IWorkbenchWindow window = PlatformUI.getWorkbench()
+                        .getActiveWorkbenchWindow();
+                DragAndDropMoveRefactorWizard wizard = new DragAndDropMoveRefactorWizard();
 
-					try {
+                for (IModelComponent modelComponent : allArtifactsToBeMoved) {
 
-						IAbstractArtifact srcArtifact = (IAbstractArtifact) modelComponent;
-						ITigerstripeModelProject srcProject = srcArtifact
-								.getProject();
-						ITigerstripeModelProject destProject = (ITigerstripeModelProject) targetContainer
-								.getProject().getAdapter(
-										ITigerstripeModelProject.class);
-						
-						IPackageArtifact pkg = (IPackageArtifact) targetContainer
-								.getAdapter(IPackageArtifact.class);
-						String destFQN = pkg.getFullyQualifiedName() + '.'
-								+ srcArtifact.getName();
+                    try {
 
-						ModelRefactorRequest request = new ModelRefactorRequest();
-						request.setOriginal(srcProject, srcArtifact
-								.getFullyQualifiedName());
-						request.setDestination(destProject, destFQN);
-						wizard.addRequest(request);
-					} catch (TigerstripeException e) {
-						Status error = new Status(IStatus.ERROR, EclipsePlugin
-								.getPluginId(), 222,
-								"Invalid refactor request: " + e.getMessage(),
-								e);
-						MessageDialog
-								.openError(getShell(), "Refactor Error",
-										"An error occured during move operation.\nPlease check log for more details");
-						EclipsePlugin.log(error);
-					}
+                        IAbstractArtifact srcArtifact = (IAbstractArtifact) modelComponent;
+                        ITigerstripeModelProject srcProject = srcArtifact
+                                .getProject();
+                        ITigerstripeModelProject destProject = (ITigerstripeModelProject) targetContainer
+                                .getProject().getAdapter(
+                                        ITigerstripeModelProject.class);
 
-				}
+                        IPackageArtifact pkg = (IPackageArtifact) targetContainer
+                                .getAdapter(IPackageArtifact.class);
+                        String destFQN = pkg.getFullyQualifiedName() + '.'
+                                + srcArtifact.getName();
 
-				TigerstripeRefactorWizardDialog dialog = new TigerstripeRefactorWizardDialog(
-						window.getShell(), wizard);
-				dialog.open();
+                        ModelRefactorRequest request = new ModelRefactorRequest();
+                        request.setOriginal(srcProject,
+                                srcArtifact.getFullyQualifiedName());
+                        request.setDestination(destProject, destFQN);
+                        wizard.addRequest(request);
+                    } catch (TigerstripeException e) {
+                        Status error = new Status(IStatus.ERROR, EclipsePlugin
+                                .getPluginId(), 222,
+                                "Invalid refactor request: " + e.getMessage(),
+                                e);
+                        MessageDialog
+                                .openError(getShell(), "Refactor Error",
+                                        "An error occured during move operation.\nPlease check log for more details");
+                        EclipsePlugin.log(error);
+                    }
 
-			}
+                }
 
-			public void run() {
-				IModelComponent[] components = getIModelComponents();
+                TigerstripeRefactorWizardDialog dialog = new TigerstripeRefactorWizardDialog(
+                        window.getShell(), wizard);
+                dialog.open();
 
-				if (isAllArtifacts())
-					allArtifactsRun();
+            }
 
-				IAbstractArtifact targetArtifact = TSExplorerUtils
-						.getArtifactFor(target);
+            public void run() {
+                IModelComponent[] components = getIModelComponents();
 
-				Set<IAbstractArtifact> srcArtifacts = new HashSet<IAbstractArtifact>();
+                if (isAllArtifacts())
+                    allArtifactsRun();
 
-				for (IModelComponent component : components) {
-					if (component instanceof IField) {
-						IField field = (IField) component;
-						URI oldValue = (URI) component.getAdapter(URI.class);
-						IAbstractArtifact srcArtifact = (IAbstractArtifact) field
-								.getContainingArtifact();
-						srcArtifact.removeFields(Collections.singleton(field));
-						targetArtifact.addField(field);
-						URI newValue = (URI) field.getAdapter(URI.class);
-						srcArtifacts.add(srcArtifact);
+                try {
+                    IAbstractArtifact targetArtifact = (TSExplorerUtils
+                            .getArtifactFor(target)).makeWorkingCopy(null);
 
-						// Create a notification and push down the pipe
-						ModelChangeDelta delta = new ModelChangeDelta(
-								IModelChangeDelta.MOVE);
-						delta.setAffectedModelComponentURI((URI) srcArtifact
-								.getAdapter(URI.class));
-						delta.setOldValue(oldValue);
-						delta.setNewValue(newValue);
-						TigerstripeWorkspaceNotifier.INSTANCE
-								.signalModelChange(delta);
-					} else if (component instanceof IMethod) {
-						IMethod method = (IMethod) component;
-						URI oldValue = (URI) component.getAdapter(URI.class);
-						IAbstractArtifact srcArtifact = (IAbstractArtifact) method
-								.getContainingArtifact();
-						srcArtifact
-								.removeMethods(Collections.singleton(method));
-						targetArtifact.addMethod(method);
-						URI newValue = (URI) method.getAdapter(URI.class);
-						srcArtifacts.add(srcArtifact);
+                    Set<IAbstractArtifact> srcArtifacts = new HashSet<IAbstractArtifact>();
 
-						// Create a notification and push down the pipe
-						ModelChangeDelta delta = new ModelChangeDelta(
-								IModelChangeDelta.MOVE);
-						delta.setAffectedModelComponentURI((URI) srcArtifact
-								.getAdapter(URI.class));
-						delta.setOldValue(oldValue);
-						delta.setNewValue(newValue);
-						TigerstripeWorkspaceNotifier.INSTANCE
-								.signalModelChange(delta);
-					} else if (component instanceof ILiteral) {
-						ILiteral lit = (ILiteral) component;
-						URI oldValue = (URI) component.getAdapter(URI.class);
-						IAbstractArtifact srcArtifact = (IAbstractArtifact) lit
-								.getContainingArtifact();
-						srcArtifact.removeLiterals(Collections.singleton(lit));
-						targetArtifact.addLiteral(lit);
-						URI newValue = (URI) lit.getAdapter(URI.class);
-						srcArtifacts.add(srcArtifact);
+                    for (IModelComponent component : components) {
+                        if (component instanceof IField) {
+                            IField field = (IField) component;
+                            URI oldValue = (URI) component
+                                    .getAdapter(URI.class);
+                            IAbstractArtifact srcArtifact = field
+                                    .getContainingArtifact().makeWorkingCopy(
+                                            null);
+                            for (IField realField : srcArtifact.getFields()) {
+                                if (realField.getLabelString().equals(
+                                        field.getLabelString())) {
+                                    field = realField;
+                                }
+                            }
+                            srcArtifact.removeFields(Collections
+                                    .singleton(field));
+                            targetArtifact.addField(field);
+                            URI newValue = (URI) field.getAdapter(URI.class);
+                            srcArtifacts.add(srcArtifact);
 
-						// Create a notification and push down the pipe
-						ModelChangeDelta delta = new ModelChangeDelta(
-								IModelChangeDelta.MOVE);
-						delta.setAffectedModelComponentURI((URI) srcArtifact
-								.getAdapter(URI.class));
-						delta.setOldValue(oldValue);
-						delta.setNewValue(newValue);
-						TigerstripeWorkspaceNotifier.INSTANCE
-								.signalModelChange(delta);
-					}
-				}
+                            // Create a notification and push down the pipe
+                            ModelChangeDelta delta = new ModelChangeDelta(
+                                    IModelChangeDelta.MOVE);
+                            delta.setAffectedModelComponentURI((URI) srcArtifact
+                                    .getAdapter(URI.class));
+                            delta.setOldValue(oldValue);
+                            delta.setNewValue(newValue);
+                            TigerstripeWorkspaceNotifier.INSTANCE
+                                    .signalModelChange(delta);
+                        } else if (component instanceof IMethod) {
+                            IMethod method = (IMethod) component;
+                            URI oldValue = (URI) component
+                                    .getAdapter(URI.class);
+                            IAbstractArtifact srcArtifact = method
+                                    .getContainingArtifact().makeWorkingCopy(
+                                            null);
+                            srcArtifact.removeMethods(Collections
+                                    .singleton(method));
+                            targetArtifact.addMethod(method);
+                            URI newValue = (URI) method.getAdapter(URI.class);
+                            srcArtifacts.add(srcArtifact);
 
-				try {
-					targetArtifact.doSave(new NullProgressMonitor());
-					IResource res = (IResource) targetArtifact
-							.getAdapter(IResource.class);
-					if (res != null) {
-						try {
-							res.refreshLocal(IResource.DEPTH_ZERO,
-									new NullProgressMonitor());
-						} catch (CoreException e) {
-							throw new TigerstripeException(e.getMessage(), e);
-						}
-					}
-					for (IAbstractArtifact art : srcArtifacts) {
-						art.doSave(new NullProgressMonitor());
-						res = (IResource) art.getAdapter(IResource.class);
-						if (res != null) {
-							try {
-								res.refreshLocal(IResource.DEPTH_ZERO,
-										new NullProgressMonitor());
-							} catch (CoreException e) {
-								throw new TigerstripeException(e.getMessage(),
-										e);
-							}
-						}
-					}
-				} catch (TigerstripeException e) {
-					Status error = new Status(IStatus.ERROR, EclipsePlugin
-							.getPluginId(), 222,
-							"Exception during model component move: "
-									+ e.getMessage(), e);
-					MessageDialog
-							.openError(getShell(), "Move Error",
-									"An error occured during move operation.\nPlease check log for more details");
-					EclipsePlugin.log(error);
-				}
-			}
-		});
-	}
+                            // Create a notification and push down the pipe
+                            ModelChangeDelta delta = new ModelChangeDelta(
+                                    IModelChangeDelta.MOVE);
+                            delta.setAffectedModelComponentURI((URI) srcArtifact
+                                    .getAdapter(URI.class));
+                            delta.setOldValue(oldValue);
+                            delta.setNewValue(newValue);
+                            TigerstripeWorkspaceNotifier.INSTANCE
+                                    .signalModelChange(delta);
+                        } else if (component instanceof ILiteral) {
+                            ILiteral lit = (ILiteral) component;
+                            URI oldValue = (URI) component
+                                    .getAdapter(URI.class);
+                            IAbstractArtifact srcArtifact = lit
+                                    .getContainingArtifact().makeWorkingCopy(
+                                            null);
+                            for (ILiteral realLiteral : srcArtifact
+                                    .getLiterals()) {
+                                if (realLiteral.getLabelString().equals(
+                                        lit.getLabelString()))
+                                    lit = realLiteral;
+                            }
+                            srcArtifact.removeLiterals(Collections
+                                    .singleton(lit));
+                            targetArtifact.addLiteral(lit);
+                            URI newValue = (URI) lit.getAdapter(URI.class);
+                            srcArtifacts.add(srcArtifact);
 
-	@Override
-	public boolean validateDrop(Object target, int operation,
-			TransferData transferType) {
-		internalCurrentOperation = DND.DROP_NONE;
+                            // Create a notification and push down the pipe
+                            ModelChangeDelta delta = new ModelChangeDelta(
+                                    IModelChangeDelta.MOVE);
+                            delta.setAffectedModelComponentURI((URI) srcArtifact
+                                    .getAdapter(URI.class));
+                            delta.setOldValue(oldValue);
+                            delta.setNewValue(newValue);
+                            TigerstripeWorkspaceNotifier.INSTANCE
+                                    .signalModelChange(delta);
+                        }
+                    }
 
-		initializeSelection();
+                    targetArtifact.doSave(new NullProgressMonitor());
+                    IResource res = (IResource) targetArtifact
+                            .getAdapter(IResource.class);
+                    if (res != null) {
+                        try {
+                            res.refreshLocal(IResource.DEPTH_ZERO,
+                                    new NullProgressMonitor());
+                        } catch (CoreException e) {
+                            throw new TigerstripeException(e.getMessage(), e);
+                        }
+                    }
+                    for (IAbstractArtifact art : srcArtifacts) {
+                        art.doSave(new NullProgressMonitor());
+                        res = (IResource) art.getAdapter(IResource.class);
+                        if (res != null) {
+                            try {
+                                res.refreshLocal(IResource.DEPTH_ZERO,
+                                        new NullProgressMonitor());
+                            } catch (CoreException e) {
+                                throw new TigerstripeException(e.getMessage(),
+                                        e);
+                            }
+                        }
+                    }
+                } catch (TigerstripeException e) {
+                    Status error = new Status(IStatus.ERROR, EclipsePlugin
+                            .getPluginId(), 222,
+                            "Exception during model component move: "
+                                    + e.getMessage(), e);
+                    MessageDialog
+                            .openError(getShell(), "Move Error",
+                                    "An error occured during move operation.\nPlease check log for more details");
+                    EclipsePlugin.log(error);
+                }
+            }
+        });
+    }
 
-		// Can only DnD logical nodes together with other logical nodes at this
-		// point.
-		if (getIModelComponents().length != selectedElements.size())
-			return false;
-		switch (operation) {
-		case DND.DROP_DEFAULT:
-			internalCurrentOperation = handleValidateDefault(target,
-					DND.DROP_MOVE | DND.DROP_COPY);
-			break;
-		case DND.DROP_COPY:
-			internalCurrentOperation = handleValidateCopy(target);
-			break;
-		case DND.DROP_MOVE:
-			internalCurrentOperation = handleValidateMove(target);
-			break;
-		}
-		return true;
-	}
+    @Override
+    public boolean validateDrop(Object target, int operation,
+            TransferData transferType) {
+        internalCurrentOperation = DND.DROP_NONE;
 
-	private int handleValidateDefault(Object target, int operations) {
-		if (target == null)
-			return DND.DROP_NONE;
+        initializeSelection();
 
-		if ((operations & DND.DROP_MOVE) != 0)
-			return handleValidateMove(target);
-		if ((operations & DND.DROP_COPY) != 0)
-			return handleValidateCopy(target);
-		return DND.DROP_NONE;
-	}
+        // Can only DnD logical nodes together with other logical nodes at this
+        // point.
+        if (getIModelComponents().length != selectedElements.size())
+            return false;
+        switch (operation) {
+        case DND.DROP_DEFAULT:
+            internalCurrentOperation = handleValidateDefault(target,
+                    DND.DROP_MOVE | DND.DROP_COPY);
+            break;
+        case DND.DROP_COPY:
+            internalCurrentOperation = handleValidateCopy(target);
+            break;
+        case DND.DROP_MOVE:
+            internalCurrentOperation = handleValidateMove(target);
+            break;
+        }
+        return true;
+    }
 
-	private int handleValidateCopy(Object target) {
-		if (target == null)
-			return DND.DROP_NONE;
+    private int handleValidateDefault(Object target, int operations) {
+        if (target == null)
+            return DND.DROP_NONE;
 
-		if (target instanceof ICompilationUnit && validateNoDuplicate(target)
-				&& validateCompatibleTarget(target)
-				&& validateSameProject(target))
-			return DND.DROP_COPY;
-		else
-			return DND.DROP_NONE;
-	}
+        if ((operations & DND.DROP_MOVE) != 0)
+            return handleValidateMove(target);
+        if ((operations & DND.DROP_COPY) != 0)
+            return handleValidateCopy(target);
+        return DND.DROP_NONE;
+    }
 
-	private int handleValidateMove(Object target) {
-		if (target == null)
-			return DND.DROP_NONE;
+    private int handleValidateCopy(Object target) {
+        if (target == null)
+            return DND.DROP_NONE;
 
-		if (handleValidateArtifactMove(target) == DND.DROP_MOVE)
-			return DND.DROP_MOVE;
-		else if (target instanceof ICompilationUnit
-				&& validateNoDuplicate(target)
-				&& validateCompatibleTarget(target)
-				&& validateSameProject(target))
-			return DND.DROP_MOVE;
-		else
-			return DND.DROP_NONE;
-	}
+        if (target instanceof ICompilationUnit && validateNoDuplicate(target)
+                && validateCompatibleTarget(target)
+                && validateSameProject(target))
+            return DND.DROP_COPY;
+        else
+            return DND.DROP_NONE;
+    }
 
-	private boolean isAllArtifacts() {
-		IModelComponent[] comps = getIModelComponents();
-		if (comps.length == 0)
-			return false;
+    private int handleValidateMove(Object target) {
+        if (target == null)
+            return DND.DROP_NONE;
 
-		for (IModelComponent comp : comps) {
-			if (!(comp instanceof IAbstractArtifact))
-				return false;
-		}
-		return true;
-	}
+        if (handleValidateArtifactMove(target) == DND.DROP_MOVE)
+            return DND.DROP_MOVE;
+        else if (target instanceof ICompilationUnit
+                && validateNoDuplicate(target)
+                && validateCompatibleTarget(target)
+                && validateSameProject(target))
+            return DND.DROP_MOVE;
+        else
+            return DND.DROP_NONE;
+    }
 
-	private int handleValidateArtifactMove(Object target) {
-		if (target instanceof IAdaptable) {
-			if (target instanceof IPackageFragment)
-				target = (IResource) ((IPackageFragment) target)
-						.getAdapter(IResource.class);
-			IPackageArtifact packArt = (IPackageArtifact) ((IAdaptable) target)
-					.getAdapter(IPackageArtifact.class);
-			if (packArt != null && isAllArtifacts())
-				return DND.DROP_MOVE;
-		}
+    private boolean isAllArtifacts() {
+        IModelComponent[] comps = getIModelComponents();
+        if (comps.length == 0)
+            return false;
 
-		return DND.DROP_NONE;
-	}
+        for (IModelComponent comp : comps) {
+            if (!(comp instanceof IAbstractArtifact))
+                return false;
+        }
+        return true;
+    }
 
-	/**
-	 * Validates that the target is in the same project as the source.
-	 * 
-	 * NOTE: this is a limitation that is necessary to avoid problem with cloned
-	 * elements that wouldn't belong to the right Artifact Mgr.
-	 * 
-	 * @param target
-	 * @return
-	 */
-	private boolean validateSameProject(Object target) {
-		if (target instanceof ICompilationUnit) {
-			ICompilationUnit unit = (ICompilationUnit) target;
-			try {
-				IProject p = unit.getCorrespondingResource().getProject();
-				IModelComponent[] components = getIModelComponents();
-				for (IModelComponent component : components) {
-					IResource cRes = null;
-					if (component instanceof IField) {
-						IField field = (IField) component;
-						cRes = (IResource) ((IAbstractArtifact) field
-								.getContainingArtifact())
-								.getAdapter(IResource.class);
-					} else if (component instanceof IMethod) {
-						IMethod method = (IMethod) component;
-						cRes = (IResource) ((IAbstractArtifact) method
-								.getContainingArtifact())
-								.getAdapter(IResource.class);
-					} else if (component instanceof ILiteral) {
-						ILiteral literal = (ILiteral) component;
-						cRes = (IResource) ((IAbstractArtifact) literal
-								.getContainingArtifact())
-								.getAdapter(IResource.class);
-					}
+    private int handleValidateArtifactMove(Object target) {
+        if (target instanceof IAdaptable) {
+            if (target instanceof IPackageFragment)
+                target = (IResource) ((IPackageFragment) target)
+                        .getAdapter(IResource.class);
+            IPackageArtifact packArt = (IPackageArtifact) ((IAdaptable) target)
+                    .getAdapter(IPackageArtifact.class);
+            if (packArt != null && isAllArtifacts())
+                return DND.DROP_MOVE;
+        }
 
-					if (cRes == null)
-						return false;
-					else {
-						if (!cRes.getProject().equals(p))
-							return false;
-					}
-				}
-			} catch (JavaModelException e) {
-				EclipsePlugin.log(e);
-				return false;
-			}
-		}
+        return DND.DROP_NONE;
+    }
 
-		return true;
-	}
+    /**
+     * Validates that the target is in the same project as the source.
+     * 
+     * NOTE: this is a limitation that is necessary to avoid problem with cloned
+     * elements that wouldn't belong to the right Artifact Mgr.
+     * 
+     * @param target
+     * @return
+     */
+    private boolean validateSameProject(Object target) {
+        if (target instanceof ICompilationUnit) {
+            ICompilationUnit unit = (ICompilationUnit) target;
+            try {
+                IProject p = unit.getCorrespondingResource().getProject();
+                IModelComponent[] components = getIModelComponents();
+                for (IModelComponent component : components) {
+                    IResource cRes = null;
+                    if (component instanceof IField) {
+                        IField field = (IField) component;
+                        cRes = (IResource) ((IAbstractArtifact) field
+                                .getContainingArtifact())
+                                .getAdapter(IResource.class);
+                    } else if (component instanceof IMethod) {
+                        IMethod method = (IMethod) component;
+                        cRes = (IResource) ((IAbstractArtifact) method
+                                .getContainingArtifact())
+                                .getAdapter(IResource.class);
+                    } else if (component instanceof ILiteral) {
+                        ILiteral literal = (ILiteral) component;
+                        cRes = (IResource) ((IAbstractArtifact) literal
+                                .getContainingArtifact())
+                                .getAdapter(IResource.class);
+                    }
 
-	/**
-	 * Validate that the target doesn't contain IModelComponents that have the
-	 * same name as those being dropped.
-	 * 
-	 * @param target
-	 * @return
-	 */
-	private boolean validateNoDuplicate(Object target) {
-		IAbstractArtifact artifact = TSExplorerUtils.getArtifactFor(target);
-		IModelComponent[] components = getIModelComponents();
-		for (IModelComponent component : components) {
-			if (component instanceof IField) {
-				String name = component.getName();
-				for (IField field : artifact.getFields()) {
-					if (name.equals(field.getName()))
-						return false;
-				}
-			} else if (component instanceof IMethod) {
-				IMethod meth = (IMethod) component;
-				String methLabel = meth.getLabelString();
-				for (IMethod method : artifact.getMethods()) {
-					if (methLabel.equals(method.getLabelString()))
-						return false;
-				}
-			} else if (component instanceof ILiteral) {
-				String name = component.getName();
-				for (ILiteral literal : artifact.getLiterals()) {
-					if (name.equals(literal.getName()))
-						return false;
-				}
-			}
-		}
-		return true;
-	}
+                    if (cRes == null)
+                        return false;
+                    else {
+                        if (!cRes.getProject().equals(p))
+                            return false;
+                    }
+                }
+            } catch (JavaModelException e) {
+                EclipsePlugin.log(e);
+                return false;
+            }
+        }
 
-	/**
-	 * Validates that the target can receive the given IModelComponents. For
-	 * example, An Enumeration can not receive methods.
-	 * 
-	 * @param target
-	 * @return
-	 */
-	private boolean validateCompatibleTarget(Object target) {
-		IAbstractArtifact artifact = TSExplorerUtils.getArtifactFor(target);
-		boolean acceptLiterals = (artifact instanceof IManagedEntityArtifact
-				|| artifact instanceof IDatatypeArtifact || artifact instanceof IEnumArtifact);
-		boolean acceptMethods = (artifact instanceof IManagedEntityArtifact
-				|| artifact instanceof IDatatypeArtifact
-				|| artifact instanceof ISessionArtifact || artifact instanceof IAssociationClassArtifact);
-		boolean acceptFields = !(artifact instanceof IEnumArtifact || artifact instanceof ISessionArtifact);
+        return true;
+    }
 
-		for (IModelComponent component : getIModelComponents()) {
-			if (component instanceof ILiteral && !acceptLiterals)
-				return false;
-			else if (component instanceof IField && !acceptFields)
-				return false;
-			else if (component instanceof IMethod && !acceptMethods)
-				return false;
-		}
-		return true;
-	}
+    /**
+     * Validate that the target doesn't contain IModelComponents that have the
+     * same name as those being dropped.
+     * 
+     * @param target
+     * @return
+     */
+    private boolean validateNoDuplicate(Object target) {
+        IAbstractArtifact artifact = TSExplorerUtils.getArtifactFor(target);
+        IModelComponent[] components = getIModelComponents();
+        for (IModelComponent component : components) {
+            if (component instanceof IField) {
+                String name = component.getName();
+                for (IField field : artifact.getFields()) {
+                    if (name.equals(field.getName()))
+                        return false;
+                }
+            } else if (component instanceof IMethod) {
+                IMethod meth = (IMethod) component;
+                String methLabel = meth.getLabelString();
+                for (IMethod method : artifact.getMethods()) {
+                    if (methLabel.equals(method.getLabelString()))
+                        return false;
+                }
+            } else if (component instanceof ILiteral) {
+                String name = component.getName();
+                for (ILiteral literal : artifact.getLiterals()) {
+                    if (name.equals(literal.getName()))
+                        return false;
+                }
+            }
+        }
+        return true;
+    }
 
-	protected void initializeSelection() {
-		ISelection s = LocalSelectionTransfer.getInstance().getSelection();
-		if (!(s instanceof IStructuredSelection))
-			return;
-		selectedElements = ((IStructuredSelection) s).toList();
-	}
+    /**
+     * Validates that the target can receive the given IModelComponents. For
+     * example, An Enumeration can not receive methods.
+     * 
+     * @param target
+     * @return
+     */
+    private boolean validateCompatibleTarget(Object target) {
+        IAbstractArtifact artifact = TSExplorerUtils.getArtifactFor(target);
+        boolean acceptLiterals = (artifact instanceof IManagedEntityArtifact
+                || artifact instanceof IDatatypeArtifact || artifact instanceof IEnumArtifact);
+        boolean acceptMethods = (artifact instanceof IManagedEntityArtifact
+                || artifact instanceof IDatatypeArtifact
+                || artifact instanceof ISessionArtifact || artifact instanceof IAssociationClassArtifact);
+        boolean acceptFields = !(artifact instanceof IEnumArtifact || artifact instanceof ISessionArtifact);
 
-	private Shell getShell() {
-		return getViewer().getControl().getShell();
-	}
+        for (IModelComponent component : getIModelComponents()) {
+            if (component instanceof ILiteral && !acceptLiterals)
+                return false;
+            else if (component instanceof IField && !acceptFields)
+                return false;
+            else if (component instanceof IMethod && !acceptMethods)
+                return false;
+        }
+        return true;
+    }
+
+    protected void initializeSelection() {
+        ISelection s = LocalSelectionTransfer.getInstance().getSelection();
+        if (!(s instanceof IStructuredSelection))
+            return;
+        selectedElements = ((IStructuredSelection) s).toList();
+    }
+
+    private Shell getShell() {
+        return getViewer().getControl().getShell();
+    }
 }

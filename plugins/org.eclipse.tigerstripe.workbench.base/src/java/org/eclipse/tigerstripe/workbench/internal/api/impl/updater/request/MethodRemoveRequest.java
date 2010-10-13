@@ -17,7 +17,6 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.BaseModelChangeRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodRemoveRequest;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -77,8 +76,8 @@ public class MethodRemoveRequest extends BaseArtifactElementRequest implements
 			throws TigerstripeException {
 		super.execute(mgrSession);
 
-		IAbstractArtifact art = (IAbstractArtifact) mgrSession
-				.getArtifactByFullyQualifiedName(getArtifactFQN());
+		IAbstractArtifact art = mgrSession
+				.getArtifactByFullyQualifiedName(getArtifactFQN()).makeWorkingCopy(null);
 
 		for (IMethod method : art.getMethods()) {
 			if (method.getName().equals(getMethodName())) {

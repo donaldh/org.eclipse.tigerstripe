@@ -22,7 +22,7 @@ import org.eclipse.tigerstripe.workbench.model.IMarkDirty;
  * @since 1.2
  */
 public interface IAssociationArtifact extends IModelComponent,
-		IAbstractArtifact , IRelationship, IMarkDirty {
+		IAbstractArtifact , IRelationship {
 
 	/**
 	 * Get the 'A' end of this association.

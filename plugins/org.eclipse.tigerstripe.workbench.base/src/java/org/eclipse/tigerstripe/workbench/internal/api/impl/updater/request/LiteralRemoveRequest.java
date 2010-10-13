@@ -76,8 +76,8 @@ public class LiteralRemoveRequest extends BaseArtifactElementRequest implements
 	public void execute(IArtifactManagerSession mgrSession)
 			throws TigerstripeException {
 		super.execute(mgrSession);
-		IAbstractArtifact art = (IAbstractArtifact) mgrSession
-				.getArtifactByFullyQualifiedName(getArtifactFQN());
+		IAbstractArtifact art = mgrSession
+				.getArtifactByFullyQualifiedName(getArtifactFQN()).makeWorkingCopy(null);
 
 		for (ILiteral literal : art.getLiterals()) {
 			if (literal.getName().equals(getLiteralName())) {

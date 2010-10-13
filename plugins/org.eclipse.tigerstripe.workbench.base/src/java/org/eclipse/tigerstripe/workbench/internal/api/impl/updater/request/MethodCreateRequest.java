@@ -78,8 +78,8 @@ public class MethodCreateRequest extends BaseArtifactElementRequest implements
 	public void execute(IArtifactManagerSession mgrSession)
 			throws TigerstripeException {
 		super.execute(mgrSession);
-		IAbstractArtifact art = (IAbstractArtifact) mgrSession
-				.getArtifactByFullyQualifiedName(getArtifactFQN());
+		IAbstractArtifact art = mgrSession
+				.getArtifactByFullyQualifiedName(getArtifactFQN()).makeWorkingCopy(null);
 
 		if (getMethod() == null) {
 			method = art.makeMethod();

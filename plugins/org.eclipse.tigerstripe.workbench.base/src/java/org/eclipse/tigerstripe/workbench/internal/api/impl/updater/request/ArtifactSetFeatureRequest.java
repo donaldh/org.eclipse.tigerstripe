@@ -97,7 +97,7 @@ public class ArtifactSetFeatureRequest extends BaseArtifactElementRequest
 			throws TigerstripeException {
 		super.execute(mgrSession);
 		IAbstractArtifact art = mgrSession
-				.getArtifactByFullyQualifiedName(getArtifactFQN());
+				.getArtifactByFullyQualifiedName(getArtifactFQN()).makeWorkingCopy(null);
 		if( featureValue.equals("$user")){
 			// This was supposed to have been set by the user.
 			// We can assume the value was blank,

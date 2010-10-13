@@ -171,7 +171,7 @@ public class StereotypeAddFeatureRequest extends BaseArtifactElementRequest
 		super.execute(mgrSession);
 
 		IAbstractArtifact art = mgrSession
-				.getArtifactByFullyQualifiedName(getArtifactFQN());
+				.getArtifactByFullyQualifiedName(getArtifactFQN()).makeWorkingCopy(null);
 		
 		
 		IStereotypeInstance instance = (IStereotypeInstance) this.featureValue;

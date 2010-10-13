@@ -126,7 +126,7 @@ public class AnnotationAddFeatureRequest extends BaseArtifactElementRequest
 
 		IModelComponent modelComponent = null;
 		IAbstractArtifact art = mgrSession
-		.getArtifactByFullyQualifiedName(getArtifactFQN());
+		.getArtifactByFullyQualifiedName(getArtifactFQN()).makeWorkingCopy(null);
 
 		// TODO Make sure we can find the target Model component
 		if (art != null){

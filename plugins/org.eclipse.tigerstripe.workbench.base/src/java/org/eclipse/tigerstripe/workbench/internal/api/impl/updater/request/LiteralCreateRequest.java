@@ -80,8 +80,8 @@ public class LiteralCreateRequest extends BaseArtifactElementRequest implements
 	public void execute(IArtifactManagerSession mgrSession)
 			throws TigerstripeException {
 		super.execute(mgrSession);
-		IAbstractArtifact art = (IAbstractArtifact) mgrSession
-				.getArtifactByFullyQualifiedName(getArtifactFQN());
+		IAbstractArtifact art = mgrSession
+				.getArtifactByFullyQualifiedName(getArtifactFQN()).makeWorkingCopy(null);
 
 		ILiteral literal;
 		if (this.getLiteral() == null) {

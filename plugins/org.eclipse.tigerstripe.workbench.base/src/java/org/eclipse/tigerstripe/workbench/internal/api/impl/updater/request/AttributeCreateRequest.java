@@ -76,8 +76,8 @@ public class AttributeCreateRequest extends BaseArtifactElementRequest
 	public void execute(IArtifactManagerSession mgrSession)
 			throws TigerstripeException {
 		super.execute(mgrSession);
-		IAbstractArtifact art = (IAbstractArtifact) mgrSession
-				.getArtifactByFullyQualifiedName(getArtifactFQN());
+		IAbstractArtifact art = mgrSession
+				.getArtifactByFullyQualifiedName(getArtifactFQN()).makeWorkingCopy(null);
 
 		IField field;
 		if (getField() == null) {

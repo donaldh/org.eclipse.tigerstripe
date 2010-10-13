@@ -63,8 +63,8 @@ public class LiteralSetRequest extends BaseArtifactElementRequest implements
 
 		super.execute(mgrSession);
 
-		IAbstractArtifact art = (IAbstractArtifact) mgrSession
-				.getArtifactByFullyQualifiedName(getArtifactFQN());
+		IAbstractArtifact art = mgrSession
+				.getArtifactByFullyQualifiedName(getArtifactFQN()).makeWorkingCopy(null);
 
 		boolean needSave = false;
 		if (art != null) {

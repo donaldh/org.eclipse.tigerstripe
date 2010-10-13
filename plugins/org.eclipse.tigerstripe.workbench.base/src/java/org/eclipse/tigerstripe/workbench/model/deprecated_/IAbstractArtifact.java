@@ -601,4 +601,6 @@ public interface IAbstractArtifact extends IModelComponent {
 	public IStandardSpecifics getIStandardSpecifics();
 
 	public IModuleHeader getParentModuleHeader();
+	
+	public IAbstractArtifact makeWorkingCopy(IProgressMonitor monitor) throws TigerstripeException;
 }

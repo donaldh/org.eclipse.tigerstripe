@@ -368,15 +368,14 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 	// Artifact Change listener
 	public void artifactAdded(IAbstractArtifact artifact) {
 		// Artifacts can't be on any diagrams if they never existed before!
-
+	    
 	}
 
 	public void artifactChanged(IAbstractArtifact artifact, IAbstractArtifact oldArtifact) {
 		// compare the old and new first
 		// This moight be better done in the client, so that they will only bother with
 		//changes that interest them
-		
-		
+	    
 		ArrayList<Difference> diffs = comp.compareArtifacts(oldArtifact,artifact , true);
 		if (diffs.size()>0){
 			try {
@@ -586,7 +585,6 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 	private void checkForRemovedDiagrams(Collection<IResource> removedResources)
 			throws TigerstripeException {
 		for (IResource resource : removedResources) {
-//			System.out.println("Re "+resource.getName());
 			if (handlesByDiagram.get(resource) != null) {
 				handlesByDiagram.remove(resource);
 			} else if (handlesByModel.get(resource) != null) {
@@ -599,10 +597,8 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 	private void checkForChangedDiagrams(Collection<IResource> changedResources)
 			throws TigerstripeException {
 		for (IResource resource : changedResources) {
-//			System.out.println("Ch "+resource.getName());
-			if (handlesByModel.get(resource) != null) {
-				DiagramHandle handle = handlesByModel.get(resource);
-				diagramIndex.diagramSaved(handle);
+			if (handlesByDiagram.get(resource) != null) {
+				diagramIndex.diagramSaved(handlesByDiagram.get(resource));
 			}
 		}
 	}
