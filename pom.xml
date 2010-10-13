@@ -60,12 +60,13 @@
 		<!-- ui test plugins -->
 		<module>releng/org.eclipse.tigerstripe.rcp</module>
 		<module>tests/org.eclipse.tigerstripe.ui.tests</module>
-		<!-- test plugins -->
+		<!-- test plugins 
 		<module>plugins/org.eclipse.tigerstripe.test_common</module>
 		<module>plugins/org.eclipse.tigerstripe.metamodel.test</module>
 		<module>plugins/org.eclipse.tigerstripe.annotation.core.test</module>
 		<module>plugins/org.eclipse.tigerstripe.repository.core.test</module>
 		<module>plugins/org.eclipse.tigerstripe.workbench.base.test</module>
+		-->
 		<!-- releng -->
 		<module>releng/org.eclipse.tigerstripe.update-site</module>
 	</modules>
