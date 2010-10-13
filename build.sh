@@ -74,14 +74,7 @@ chmod +x ./pre-build.sh
 
 (cd target/
  find * -type d -name target -exec rm -rf {} \; 2>/dev/null
- "$MAVEN_HOME"/bin/mvn \
-    -e -B --fail-at-end \ 
-	-Dtycho.showEclipseLog=true \ 
-	-Dmaven.test.skip=false \ 
-	-Dcom.xored.q7.location=/auto/surf-tp/xmp-sdk/q7/launcher.exe \ 
-	-Dosgi.os=linux -Dosgi.ws=gtk -Dosgi.arch=x86 
-	-Dcom.xored.directorPlatformPath=/auto/surf-tp/xmp-sdk/eclipse \ 
-	clean integration-test install
+ "$MAVEN_HOME"/bin/mvn -Dtycho.showEclipseLog=true -Dmaven.test.skip=false -Dcom.xored.q7.location=/auto/surf-tp/xmp-sdk/q7/launcher.exe -Dosgi.os=linux -Dosgi.ws=gtk -Dosgi.arch=x86 -Dcom.xored.directorPlatformPath=/auto/surf-tp/xmp-sdk/eclipse clean install
  cd ..
  cp -rf target/releng/org.eclipse.tigerstripe.update-site/target/site target
  rm -rf /auto/tigerstripe/xmpsdk/tigerstripe-test-p2/*
