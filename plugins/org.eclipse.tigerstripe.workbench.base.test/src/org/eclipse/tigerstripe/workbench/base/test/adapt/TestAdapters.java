@@ -22,6 +22,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
@@ -31,6 +32,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifac
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -248,6 +250,13 @@ public class TestAdapters extends TestCase {
 				.getArtifactManagerSession().makeArtifact(
 						IAssociationArtifact.class.getName());
 		me.setFullyQualifiedName("com.mycompany.Ass");
+		IAssociationEnd end = me.makeAssociationEnd();
+		end.setName("Name");
+		IType type = end.makeType();
+		type.setFullyQualifiedName("com.mycompany.ME");
+		end.setType(type);
+		me.setAEnd(end);
+		me.setZEnd(end);
 		me.doSave(null);
 
 		((IProject) project.getAdapter(IProject.class)).refreshLocal(
@@ -269,6 +278,13 @@ public class TestAdapters extends TestCase {
 				.getArtifactManagerSession().makeArtifact(
 						IAssociationClassArtifact.class.getName());
 		me.setFullyQualifiedName("com.mycompany.AssC");
+		IAssociationEnd end = me.makeAssociationEnd();
+		end.setName("Name");
+		IType type = end.makeType();
+		type.setFullyQualifiedName("com.mycompany.ME");
+		end.setType(type);
+		me.setAEnd(end);
+		me.setZEnd(end);
 		me.doSave(null);
 
 		((IProject) project.getAdapter(IProject.class)).refreshLocal(
@@ -289,7 +305,8 @@ public class TestAdapters extends TestCase {
 		IDependencyArtifact me = (IDependencyArtifact) project
 				.getArtifactManagerSession().makeArtifact(
 						IDependencyArtifact.class.getName());
-		me.setFullyQualifiedName("com.mycompany.AssC");
+		me.setFullyQualifiedName("com.mycompany.Dep");
+		
 		me.doSave(null);
 
 		((IProject) project.getAdapter(IProject.class)).refreshLocal(
