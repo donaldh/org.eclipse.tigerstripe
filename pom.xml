@@ -64,10 +64,10 @@
 		<module>plugins/org.eclipse.tigerstripe.repository.core.test</module>
 		<module>plugins/org.eclipse.tigerstripe.workbench.base.test</module>
 		<!-- ui test plugins -->
+		<module>releng/org.eclipse.tigerstripe.rcp</module>
 		<module>test/org.eclipse.tigerstripe.ui.tests</module>
 		<!-- releng -->
 		<module>releng/org.eclipse.tigerstripe.update-site</module>
-		<module>releng/org.eclipse.tigerstripe.rcp</module>
 	</modules>
 	<repositories>
 		<repository>
