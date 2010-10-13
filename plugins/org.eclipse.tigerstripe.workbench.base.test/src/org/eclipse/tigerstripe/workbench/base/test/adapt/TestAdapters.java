@@ -251,12 +251,6 @@ public class TestAdapters extends TestCase {
 						IAssociationArtifact.class.getName());
 		me.setFullyQualifiedName("com.mycompany.Ass");
 		IAssociationEnd end = me.makeAssociationEnd();
-		end.setName("Name");
-		IType type = end.makeType();
-		type.setFullyQualifiedName("com.mycompany.ME");
-		end.setType(type);
-		me.setAEnd(end);
-		me.setZEnd(end);
 		me.doSave(null);
 
 		((IProject) project.getAdapter(IProject.class)).refreshLocal(
@@ -278,13 +272,6 @@ public class TestAdapters extends TestCase {
 				.getArtifactManagerSession().makeArtifact(
 						IAssociationClassArtifact.class.getName());
 		me.setFullyQualifiedName("com.mycompany.AssC");
-		IAssociationEnd end = me.makeAssociationEnd();
-		end.setName("Name");
-		IType type = end.makeType();
-		type.setFullyQualifiedName("com.mycompany.ME");
-		end.setType(type);
-		me.setAEnd(end);
-		me.setZEnd(end);
 		me.doSave(null);
 
 		((IProject) project.getAdapter(IProject.class)).refreshLocal(
