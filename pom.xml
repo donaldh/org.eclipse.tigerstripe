@@ -64,9 +64,9 @@
 		<module>plugins/org.eclipse.tigerstripe.repository.core.test</module>
 		<module>plugins/org.eclipse.tigerstripe.workbench.base.test</module>
 		<!-- ui test plugins -->
+		<module>releng/org.eclipse.tigerstripe.rcp</module>
 		<module>tests/org.eclipse.tigerstripe.ui.tests</module>
 		<!-- releng -->
-		<module>releng/org.eclipse.tigerstripe.rcp</module>
 		<module>releng/org.eclipse.tigerstripe.update-site</module>
 	</modules>
 	<repositories>
