@@ -15,17 +15,24 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.gmf.runtime.diagram.core.preferences.PreferencesHint;
 import org.eclipse.gmf.runtime.diagram.core.util.ViewUtil;
+import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
 import org.eclipse.gmf.runtime.notation.NotationFactory;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.tigerstripe.workbench.ui.internal.gmf.AbstractTigerstripeShapeViewFactory;
+import org.eclipse.tigerstripe.workbench.ui.internal.gmf.PreferencesHelper;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.ManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactAttributeCompartmentEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactMethodCompartmentEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactNamePackageEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactStereotypesEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.MapEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeVisualIDRegistry;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.util.NamedElementPropertiesHelper;
 
 /**
  * @generated NOT
@@ -44,6 +51,29 @@ public class ManagedEntityArtifactViewFactory extends
 		styles.add(NotationFactory.eINSTANCE.createFillStyle());
 		styles.add(NotationFactory.eINSTANCE.createLineStyle());
 		return styles;
+	}
+
+	@Override
+	public View createView(IAdaptable semanticAdapter, View containerView,
+			String semanticHint, int index, boolean persisted,
+			PreferencesHint preferencesHint) {
+
+		CreateElementRequest adapter = (CreateElementRequest) semanticAdapter
+				.getAdapter(CreateElementRequest.class);
+
+		EObject newElement = adapter.getNewElement();
+
+		if (newElement instanceof ManagedEntityArtifact) {
+			final ManagedEntityArtifact ma = (ManagedEntityArtifact) newElement;
+			IPreferenceStore store = PreferencesHelper.getStore(containerView);
+
+			new NamedElementPropertiesHelper(ma).setProperty(
+					NamedElementPropertiesHelper.ARTIFACT_HIDE_EXTENDS,
+					PreferencesHelper.extendsRelationshipValue(store));
+		}
+
+		return super.createView(semanticAdapter, containerView, semanticHint,
+				index, persisted, preferencesHint);
 	}
 
 	/**

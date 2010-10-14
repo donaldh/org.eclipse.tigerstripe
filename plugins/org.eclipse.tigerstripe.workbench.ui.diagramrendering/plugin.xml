@@ -11,4 +11,36 @@
             renderClass="org.eclipse.tigerstripe.workbench.ui.rendererplugin.actions.Renderer"/>
    </extension>
 
+   <extension point="org.eclipse.ui.navigator.navigatorContent">
+  		<actionProvider 
+    	    class="org.eclipse.tigerstripe.workbench.ui.DiagramActionGroup"
+        	id="org.eclipse.tigerstripe.workbench.ui.explorer.actions.DiagramActions">
+				<enablement>
+					<instanceof
+						value="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractGMFDiagramNode">
+					</instanceof>
+				</enablement>
+		</actionProvider>
+	</extension>
+
+	 <extension
+         point="org.eclipse.ui.navigator.viewer">
+      <viewerActionBinding
+            viewerId="org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew">
+         <includes>
+            <actionExtension
+                  pattern="org.eclipse.tigerstripe.workbench.ui.explorer.actions.DiagramActions">
+            </actionExtension>
+         </includes>
+      </viewerActionBinding>
+   </extension>
+   
+	<extension
+         point="org.eclipse.ui.preferencePages">
+		<page
+            category="org.eclipse.tigerstripe.ui.eclipse.preferences.TopLevelPreferences"
+            class="org.eclipse.tigerstripe.workbench.ui.DiagramsPreferencePageWithConverter"
+            id="org.eclipse.tigerstripe.ui.eclipse.preferences.DiagramPreferencePage"
+            name="Diagrams"/>
+	</extension>
 </plugin>

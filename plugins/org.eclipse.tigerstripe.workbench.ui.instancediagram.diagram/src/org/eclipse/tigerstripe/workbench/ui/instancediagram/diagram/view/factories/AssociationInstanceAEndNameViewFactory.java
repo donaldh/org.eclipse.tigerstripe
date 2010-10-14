@@ -10,9 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.view.factories;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gmf.runtime.diagram.core.preferences.PreferencesHint;
 import org.eclipse.gmf.runtime.diagram.ui.util.MeasurementUnitHelper;
@@ -20,13 +17,12 @@ import org.eclipse.gmf.runtime.draw2d.ui.mapmode.IMapMode;
 import org.eclipse.gmf.runtime.notation.Location;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
-import org.eclipse.tigerstripe.workbench.ui.internal.gmf.AbstractTigerstripeLabelViewFactory;
 
 /**
  * @generated NOT
  */
 public class AssociationInstanceAEndNameViewFactory extends
-		AbstractTigerstripeLabelViewFactory {
+		AbstractAssociationViewFactory {
 
 	/**
 	 * @generated
@@ -43,14 +39,5 @@ public class AssociationInstanceAEndNameViewFactory extends
 		location.setX(mapMode.DPtoLP(0));
 		location.setY(mapMode.DPtoLP(-15));
 		return view;
-	}
-
-	/**
-	 * @generated
-	 */
-	@Override
-	protected List createStyles(View view) {
-		List styles = new ArrayList();
-		return styles;
 	}
 }

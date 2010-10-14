@@ -17,11 +17,11 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.gmf.runtime.diagram.ui.view.factories.ListCompartmentViewFactory;
-import org.eclipse.gmf.runtime.notation.DrawerStyle;
 import org.eclipse.gmf.runtime.notation.NotationFactory;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.TitleStyle;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.tigerstripe.workbench.ui.internal.gmf.PreferencesHelper;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.MapEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeVisualIDRegistry;
 
@@ -82,14 +82,11 @@ public class ManagedEntityArtifactMethodCompartmentViewFactory extends
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	protected void setupCompartmentCollapsed(View view) {
-		DrawerStyle drawerStyle = (DrawerStyle) view
-				.getStyle(NotationPackage.eINSTANCE.getDrawerStyle());
-		if (drawerStyle != null) {
-			drawerStyle.setCollapsed(false);
-		}
+		PreferencesHelper.setCompartments(view,
+				PreferencesHelper.getStore(view));
 	}
 
 }

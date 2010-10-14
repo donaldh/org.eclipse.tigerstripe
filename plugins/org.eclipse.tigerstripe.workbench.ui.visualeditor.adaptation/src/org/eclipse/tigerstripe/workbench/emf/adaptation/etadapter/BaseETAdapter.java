@@ -31,7 +31,7 @@ public abstract class BaseETAdapter implements ETAdapter {
 		ignoreNotify = ignore;
 	}
 
-	private static boolean ignoreNofigy() {
+	public static boolean ignoreNofigy() {
 		return ignoreNotify;
 	}
 

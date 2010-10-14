@@ -52,5 +52,4 @@ public class MapViewFactory extends DiagramViewFactory {
 	protected MeasurementUnit getMeasurementUnit() {
 		return MeasurementUnit.PIXEL_LITERAL;
 	}
-
 }

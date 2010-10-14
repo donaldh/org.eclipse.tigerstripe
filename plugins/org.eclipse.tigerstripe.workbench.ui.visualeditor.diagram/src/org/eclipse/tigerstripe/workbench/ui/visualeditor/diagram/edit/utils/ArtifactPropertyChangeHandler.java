@@ -21,7 +21,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.util.NamedElementProper
 
 public class ArtifactPropertyChangeHandler {
 
-	private AbstractArtifact artifact;
+	private final AbstractArtifact artifact;
 
 	public ArtifactPropertyChangeHandler(AbstractArtifact artifact) {
 		Assert.isNotNull(artifact);
@@ -44,7 +44,7 @@ public class ArtifactPropertyChangeHandler {
 			throws TigerstripeException {
 		if ("true".equals(newValue)) {
 			artifact.setExtends(null);
-		} else {
+		} else if (artifact.getExtends() == null) {
 			Map map = (Map) artifact.eContainer();
 			MapHelper mapHelper = new MapHelper(map);
 			IAbstractArtifact iArtifact = mapHelper.getIArtifactFor(artifact);

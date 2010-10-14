@@ -20,6 +20,8 @@ public abstract class TigerstripeConnectionViewFactory extends
 	protected void initializeFromPreferences(View view) {
 		super.initializeFromPreferences(view);
 		InitialDiagramPrefs.setDefaultFontStyle(view);
+		PreferencesHelper.setRoutingStyle(view,
+				PreferencesHelper.getStore(view));
 	}
 
 }

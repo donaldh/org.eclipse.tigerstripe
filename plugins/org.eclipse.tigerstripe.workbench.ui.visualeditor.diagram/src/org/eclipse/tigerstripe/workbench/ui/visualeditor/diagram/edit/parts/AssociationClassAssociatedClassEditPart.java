@@ -71,7 +71,6 @@ public class AssociationClassAssociatedClassEditPart extends
 		 * @generated
 		 */
 		public AssociationClassConnectionFigure() {
-
 			this.setLineStyle(org.eclipse.draw2d.Graphics.LINE_DASH);
 		}
 
