@@ -199,6 +199,17 @@
             name="Tigerstripe"
             id="org.eclipse.tigerstripe.eclipse">
       </category>
+      
+      <!-- Velocity template wizard -->
+      <wizard
+            category="org.eclipse.tigerstripe.eclipse"
+            class="org.eclipse.tigerstripe.workbench.ui.internal.wizards.pluggablePlugin.NewVelocityTemplateWizard"
+            finalPerspective="org.eclipse.tigerstripe.community.tigerstripePerspective"
+            icon="src/icons/velo_icon.gif"
+            id="org.eclipse.tigerstripe.workbench.ui.wizards.newVelocityTemplateWizard"
+            name="Velocity Template">
+      </wizard>
+      
       <wizard
             category="org.eclipse.tigerstripe.eclipse"
             class="org.eclipse.tigerstripe.workbench.ui.internal.wizards.project.NewProjectWizard"
@@ -261,6 +272,9 @@
             id="org.eclipse.tigerstripe.eclipse.wizards.NewConstantWizard"
             name="Constant"/>
    </extension>
+ 
+	
+	
    <extension
          point="org.eclipse.ui.perspectiveExtensions">
       <perspectiveExtension targetID="org.eclipse.jdt.ui.JavaPerspective">
@@ -1123,6 +1137,7 @@
 	</extension>
 
 	<extension point="org.eclipse.ui.navigator.navigatorContent">
+	
 		<navigatorContent
 			activeByDefault="true"
 			contentProvider="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TigerstripeContentProvider"
@@ -1664,6 +1679,20 @@
 		          <not>
 		          	<test property="tigerstripe.javaElement.inArchive" />
 		          </not>
+		       </adapt>
+		     </enablement>
+		</commonWizard>
+		
+		<!-- Velocity template wizard -->
+		<commonWizard
+		    type="new"
+		    menuGroupId="tigerstripe.commons"
+		    wizardId="org.eclipse.tigerstripe.workbench.ui.wizards.newVelocityTemplateWizard">
+			<enablement>
+		    	<adapt type="org.eclipse.core.resources.IResource">
+		          <test
+		                property="org.eclipse.core.resources.projectNature"
+		                value="org.eclipse.tigerstripe.workbench.base.tigerstripePluginProject" />
 		       </adapt>
 		     </enablement>
 		</commonWizard>
