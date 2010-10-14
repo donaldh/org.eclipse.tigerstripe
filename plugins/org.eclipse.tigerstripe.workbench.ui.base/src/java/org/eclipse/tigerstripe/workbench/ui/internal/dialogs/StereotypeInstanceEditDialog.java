@@ -67,6 +67,8 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 
 	private IStereotypeInstance instance;
 
+	private Composite area;
+
 	public StereotypeInstanceEditDialog(Shell parentShell,
 			IStereotypeInstance instance) {
 		super(parentShell);
@@ -82,7 +84,7 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 
 	@Override
 	public Control createDialogArea(Composite parent) {
-		Composite area = (Composite) super.createDialogArea(parent);
+		area = (Composite) super.createDialogArea(parent);
 		area.setLayout(new FillLayout());
 
 		initializeDialogUnits(parent);
@@ -191,6 +193,14 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 		public Image getColumnImage(Object obj, int index) {
 			return null;
 		}
+	}
+
+	@Override
+	protected void okPressed() {
+		if (area != null) {
+			area.forceFocus();			
+		}
+		super.okPressed();		
 	}
 
 	protected void renderStringArrayEntryAttribute(Composite composite,
