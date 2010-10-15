@@ -249,7 +249,7 @@ public class AddRelatedInstancesAction extends BaseDiagramPartAction implements
 			if (isEmpty(relations)) {
 				MessageDialog
 						.openInformation(getShell(), "Nothing to add",
-								"For the selected items does not exist related artifacts");
+								"Selected item does not have any related artifacts");
 				return;
 			}
 
