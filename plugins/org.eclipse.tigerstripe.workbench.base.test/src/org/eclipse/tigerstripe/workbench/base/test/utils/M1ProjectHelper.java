@@ -71,11 +71,15 @@ public class M1ProjectHelper {
 		for (File template : templates) {
 			String targetPath = targetTemplatesPath.toOSString();
 
-			if (!(new File(targetPath + "/" + template.getName())).exists()) {
-				if (template.isFile())
+			if (!(new File(targetPath + File.separator + template.getName())).exists()) {
+				if (template.isFile()){
+					System.out.println("Copying "+template.getAbsolutePath()+ " to "+targetPath);
 					FileUtils
 							.copy(template.getAbsolutePath(), targetPath, true);
+				}
 				else {
+					System.out.println("Copying Dir "+template.getParentFile().getAbsolutePath()+ " to "+targetPath);
+					
 					FileUtils.copyDir(template.getParentFile()
 							.getAbsolutePath(), targetPath, true);
 				}

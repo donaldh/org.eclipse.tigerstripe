@@ -109,7 +109,7 @@ public class TestM1Generation extends TestCase {
 				project, RunConfig.M1);
 		PluginRunStatus[] status = project.generate(runConfig, null);
 		for (PluginRunStatus s : status){
-			System.out.println(s);
+			System.out.println("Status "+s);
 		}
 		assertTrue("Status length is not 1 : "+ status.length, status.length == 1);
 		assertTrue("Status is not OK : "+status[0].getMessage()+" "+status[0].getSeverity(), status[0].isOK() );
