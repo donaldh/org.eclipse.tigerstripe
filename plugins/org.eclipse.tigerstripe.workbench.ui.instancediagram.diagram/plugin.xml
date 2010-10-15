@@ -59,7 +59,17 @@
                enablesFor="1"
                id="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.part.InstanceInitDiagramFileActionID">
          </action>
-      </objectContribution>  
+      </objectContribution>
+
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.tigerstripe.workbench.ui.instancediagram.objectContribution.ClassInstanceEditPart"
+            objectClass="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.parts.ClassInstanceEditPart">
+	     <action
+               class="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.action.AddRelatedInstancesAction"
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.AddRelatedArtifactsAction"
+               label="Add Related Instances..." />
+	  </objectContribution>
       <objectContribution
             adaptable="false"
             id="org.eclipse.tigerstripe.workbench.ui.instancediagram.objectContribution6"

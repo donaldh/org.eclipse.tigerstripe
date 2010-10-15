@@ -56,17 +56,16 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjec
 import org.eclipse.tigerstripe.workbench.internal.core.util.ComparableArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
-import org.eclipse.tigerstripe.workbench.model.IMarkDirty;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IStandardSpecifics;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -347,6 +346,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		this._fullyQualifiedName = fqn;
 	}
 
+	@Override
 	public void setName(String name) {
 		super.setName(name);
 		// if (this._package.equals("")){
@@ -626,17 +626,17 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 			} else {
 
-//				if (this.getProject() != null
-//						&& !getPackage().equals("primitive")) {
-//					IArtifactManagerSession mgr = this.getProject()
-//							.getArtifactManagerSession();
-//					PackageArtifact newPackageArtifact = PackageArtifact
-//							.makeVolatileArtifactForPackage(mgr, getPackage());
-//					mgr.addArtifact(newPackageArtifact);
-//					this.setContainingModelComponent(newPackageArtifact);
-//					newPackageArtifact.addContainedModelComponent(this);
-//
-//				}
+				// if (this.getProject() != null
+				// && !getPackage().equals("primitive")) {
+				// IArtifactManagerSession mgr = this.getProject()
+				// .getArtifactManagerSession();
+				// PackageArtifact newPackageArtifact = PackageArtifact
+				// .makeVolatileArtifactForPackage(mgr, getPackage());
+				// mgr.addArtifact(newPackageArtifact);
+				// this.setContainingModelComponent(newPackageArtifact);
+				// newPackageArtifact.addContainedModelComponent(this);
+				//
+				// }
 
 			}
 		}
@@ -951,8 +951,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		if (this.fieldTypes == null)
 			createUniqueFieldTypeList();
 		Collection<IFieldTypeRef> result = this.fieldTypes;
-		return (IFieldTypeRef[]) result
-				.toArray(new IFieldTypeRef[result.size()]);
+		return result.toArray(new IFieldTypeRef[result.size()]);
 	}
 
 	/**
@@ -1360,13 +1359,12 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			result.add(new Status(IStatus.ERROR, BasePlugin.getPluginId(), "'"
 					+ getName() + "' is not a legal artifact name"));
 		} else if (TigerstripeValidationUtils.keywordList.contains(getName())) {
-			result
-					.add(new Status(
-							IStatus.ERROR,
-							BasePlugin.getPluginId(),
-							"'"
-									+ getName()
-									+ "' is is a reserved keyword and cannot be used as an artifact name"));
+			result.add(new Status(
+					IStatus.ERROR,
+					BasePlugin.getPluginId(),
+					"'"
+							+ getName()
+							+ "' is is a reserved keyword and cannot be used as an artifact name"));
 		}
 		// check the package name to ensure it is a valid package name
 		// check to see which object this object extends (if any)
@@ -1499,8 +1497,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 							.getWorkbenchProfileSession().getActiveProfile();
 					CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
 							.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
-					if (prop
-							.getDetailsForType(IPackageArtifact.class.getName())
+					if (prop.getDetailsForType(IPackageArtifact.class.getName())
 							.isEnabled()) {
 						IAbstractArtifact parent = getProject()
 								.getArtifactManagerSession()
@@ -1542,7 +1539,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		if (notify) {
 			// This is what will actually update the content of the Artifact Mgr
 			// and notify listeners.
-//			getArtifactManager().notifyArtifactSaved(this, monitor);
+			// getArtifactManager().notifyArtifactSaved(this, monitor);
 		}
 	}
 
@@ -1584,6 +1581,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * 
 	 * @deprecated use {@link #getProject()} instead
 	 */
+	@Deprecated
 	public ITigerstripeModelProject getTigerstripeProject() {
 		TigerstripeProjectHandle handle = null;
 
@@ -1751,11 +1749,21 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		else if (obj instanceof ComparableArtifact) {
 			ComparableArtifact other = (ComparableArtifact) obj;
 			return other.getArtifact() != null
-					&& other.getArtifact().getFullyQualifiedName().equals(
-							getFullyQualifiedName());
+					&& other.getArtifact().getFullyQualifiedName()
+							.equals(getFullyQualifiedName());
 		}
 
 		return false;
+	}
+
+	@Override
+	public int hashCode() {
+		String fqn = getFullyQualifiedName();
+		if (fqn == null) {
+			return 0;
+		} else {
+			return fqn.hashCode();
+		}
 	}
 
 	public Collection<IAbstractArtifact> getImplementingArtifacts() {
@@ -1875,6 +1883,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		// NON SUPPORTED.
 	}
 
+	@Override
 	public ITigerstripeModelProject getProject() throws TigerstripeException {
 		TigerstripeProject tsProject = getTSProject();
 		if (tsProject == null)
@@ -1882,6 +1891,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		return tsProject.getProjectHandle();
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(Class adapter) {
 		if (adapter == IResource.class) {
