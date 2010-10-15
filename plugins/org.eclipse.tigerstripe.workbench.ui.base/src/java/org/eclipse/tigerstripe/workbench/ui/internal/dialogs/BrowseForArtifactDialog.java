@@ -119,7 +119,7 @@ public class BrowseForArtifactDialog {
 				}
 
 				if (NullAbstractArtifact.INSATNCE.equals(element)) {
-					return "<without extends>";
+					return "<clear extension>";
 				}
 
 				// if (element instanceof IModelComponent) {
