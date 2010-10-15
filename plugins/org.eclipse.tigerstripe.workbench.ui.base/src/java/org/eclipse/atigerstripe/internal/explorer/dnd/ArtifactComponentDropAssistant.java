@@ -9,13 +9,14 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.dnd;
+package org.eclipse.atigerstripe.internal.explorer.dnd;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.dnd.DropTargetEvent;
 import org.eclipse.swt.dnd.TransferData;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.ArtifactComponentTransferDropAdapter;
+import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.dnd.SpecialUtils;
 import org.eclipse.ui.navigator.CommonDropAdapter;
 import org.eclipse.ui.navigator.CommonDropAdapterAssistant;
 

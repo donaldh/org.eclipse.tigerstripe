@@ -1543,16 +1543,13 @@
                suppressedExtensionId="org.eclipse.jdt.java.ui.javaContent">
          </override>
          <dropAssistant
-               class="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.dnd.ArtifactComponentDropAssistant"
+               class="org.eclipse.atigerstripe.internal.explorer.dnd.ArtifactComponentDropAssistant"
                id="org.eclipse.tigerstripe.workbench.ui.explorer.dnd.artifactComponentDropAssistant">
             <possibleDropTargets>
-               <adapt
-                     type="org.eclipse.core.resources.IResource">
-                  <test
-                        property="org.eclipse.core.resources.projectNature"
-                        value="org.eclipse.tigerstripe.workbench.base.tigerstripeProject">
-                  </test>
-               </adapt>
+               <and>
+               	  <instanceof value="org.eclipse.jdt.core.IJavaElement"/>
+                  <adapt type="org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact"/>
+               </and>
             </possibleDropTargets>
          </dropAssistant>
          <dropAssistant
