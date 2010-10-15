@@ -503,11 +503,11 @@ public class EntityMethodFlavorSection extends ArtifactSectionPart {
 				}
 			}
 
-			AbstractArtifact[] selectedExceptions = dialog
+			IAbstractArtifact[] selectedExceptions = dialog
 					.browseAvailableArtifacts(getSection().getShell(),
 							existingExc);
 			if (selectedExceptions.length != 0) {
-				for (AbstractArtifact artifact : selectedExceptions) {
+				for (IAbstractArtifact artifact : selectedExceptions) {
 					currentFlavorDetails.addException(artifact
 							.getFullyQualifiedName());
 				}

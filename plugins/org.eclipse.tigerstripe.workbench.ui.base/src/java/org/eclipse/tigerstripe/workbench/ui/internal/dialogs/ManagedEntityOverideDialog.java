@@ -47,6 +47,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityDetail
 import org.eclipse.tigerstripe.workbench.internal.core.model.Method;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.EntityMethodFlavorDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.EntityOveride;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.OssjEntityMethodFlavor;
@@ -586,13 +587,13 @@ public class ManagedEntityOverideDialog extends TSMessageDialog {
 				}
 			}
 
-			AbstractArtifact[] selectedExceptions = dialog
+			IAbstractArtifact[] selectedExceptions = dialog
 					.browseAvailableArtifacts(getShell(), existingExc);
 			if (selectedExceptions.length != 0) {
 				EntityOveride overide = ((ManagedEntityDetails) managedEntity)
 						.getOveride();
 
-				for (AbstractArtifact artifact : selectedExceptions) {
+				for (IAbstractArtifact artifact : selectedExceptions) {
 					currentFlavorDetails.addException(artifact
 							.getFullyQualifiedName());
 				}

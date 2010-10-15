@@ -42,6 +42,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IGlobal
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.NullAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.GlobalSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ComparableArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -228,7 +229,7 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart implements
 		}
 		extendNameText
 				.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-		extendNameText.setEnabled(!this.isReadonly());
+		extendNameText.setEnabled(false);
 		extendNameText.addModifyListener(new GeneralInfoPageListener());
 		extendNameText.addKeyListener(new GeneralInfoPageListener());
 
@@ -254,7 +255,7 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart implements
 
 		String implStr = getIArtifact().getImplementedArtifactsAsStr();
 		implementsText = toolkit.createText(composite, implStr);
-
+		implementsText.setEnabled(false);
 		implementsText.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		implementsTextBrowseButton = toolkit.createButton(composite, "Select",
@@ -385,6 +386,7 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart implements
 			// Bug # 124
 			dialog = new BrowseForArtifactDialog(getIArtifact()
 					.getTigerstripeProject(), getIArtifact());
+			dialog.setIncludeEmptyValue(true);
 			String name = getIArtifact().getMetadata().getLabel(getIArtifact());
 			dialog.setTitle("Super " + name);
 			dialog.setMessage("Select the " + name + " to be extended.");
@@ -394,8 +396,16 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart implements
 							.asList(new Object[] { getIArtifact() }));
 		}
 		if (artifacts.length != 0) {
-			extendNameText.setText(artifacts[0].getFullyQualifiedName());
-			getIArtifact().setExtendedArtifact(artifacts[0]);
+			IAbstractArtifact artifact = artifacts[0];
+			
+			if (NullAbstractArtifact.INSATNCE.equals(artifact)) {
+				extendNameText.setText("");
+				getIArtifact().setExtendedArtifact((IAbstractArtifact)null);
+			} else {
+				extendNameText.setText(artifact.getFullyQualifiedName());
+				getIArtifact().setExtendedArtifact(artifact);
+			}
+			
 			markPageModified();
 		}
 	}

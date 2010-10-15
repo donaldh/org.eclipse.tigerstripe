@@ -22,17 +22,18 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.NullAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.PrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 import org.eclipse.tigerstripe.workbench.queries.IQueryArtifactsByType;
-import org.eclipse.tigerstripe.workbench.ui.internal.viewers.TigerstripeDecoratorManager;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.AbstractArtifactLabelProvider;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.dialogs.FilteredList.FilterMatcher;
 
@@ -57,6 +58,8 @@ public class BrowseForArtifactDialog {
 	private int fHeight = 18;
 
 	private boolean includePrimitiveTypes = true;
+
+	private boolean includeEmptyValue = false;
 
 	public void setIncludePrimitiveTypes(boolean includePrimitiveTypes) {
 		this.includePrimitiveTypes = includePrimitiveTypes;
@@ -91,7 +94,7 @@ public class BrowseForArtifactDialog {
 	 * @return EntityOption[] - Returns an array of EntityOption as selected
 	 *         from the dialog
 	 */
-	public AbstractArtifact[] browseAvailableArtifacts(Shell parentShell,
+	public IAbstractArtifact[] browseAvailableArtifacts(Shell parentShell,
 			List selectedElements) throws TigerstripeException {
 
 		final AbstractArtifactLabelProvider labelProvider = new AbstractArtifactLabelProvider() {
@@ -115,21 +118,29 @@ public class BrowseForArtifactDialog {
 					return " " + super.getText(element);
 				}
 
-//				if (element instanceof IModelComponent) {
-//					return TigerstripeDecoratorManager.getDefault()
-//							.decorateText(super.getText(element),
-//									(IModelComponent) element);
-//				} else
-					return super.getText(element);
+				if (NullAbstractArtifact.INSATNCE.equals(element)) {
+					return "<without extends>";
+				}
+
+				// if (element instanceof IModelComponent) {
+				// return TigerstripeDecoratorManager.getDefault()
+				// .decorateText(super.getText(element),
+				// (IModelComponent) element);
+				// } else
+				return super.getText(element);
 			}
 
 			@Override
 			public Image getImage(Object element) {
-//				if (element instanceof IModelComponent) {
-//					return TigerstripeDecoratorManager.getDefault()
-//							.decorateImage(super.getImage(element),
-//									(IModelComponent) element);
-//				}
+				// if (element instanceof IModelComponent) {
+				// return TigerstripeDecoratorManager.getDefault()
+				// .decorateImage(super.getImage(element),
+				// (IModelComponent) element);
+				// }
+				if (NullAbstractArtifact.INSATNCE.equals(element)) {
+					return PlatformUI.getWorkbench().getSharedImages()
+							.getImage(ISharedImages.IMG_ELCL_REMOVE_DISABLED);
+				}
 				return super.getImage(element);
 			}
 		};
@@ -147,6 +158,11 @@ public class BrowseForArtifactDialog {
 					}
 
 					public boolean match(Object element) {
+
+						if (NullAbstractArtifact.INSATNCE.equals(element)) {
+							return true;
+						}
+
 						if (element instanceof IAbstractArtifact) {
 							IAbstractArtifact art = (IAbstractArtifact) element;
 							return art.getFullyQualifiedName()
@@ -169,15 +185,15 @@ public class BrowseForArtifactDialog {
 
 			Object[] objects = elsd.getResult();
 			if (objects != null && objects.length != 0) {
-				AbstractArtifact[] result = new AbstractArtifact[objects.length];
+				IAbstractArtifact[] result = new IAbstractArtifact[objects.length];
 				for (int i = 0; i < result.length; i++) {
-					result[i] = (AbstractArtifact) objects[i];
+					result[i] = (IAbstractArtifact) objects[i];
 				}
 
 				return result;
 			}
 		}
-		return new AbstractArtifact[0];
+		return new IAbstractArtifact[0];
 	}
 
 	private Collection<IPrimitiveTypeArtifact> getBuiltinPrimitiveTypes()
@@ -197,6 +213,11 @@ public class BrowseForArtifactDialog {
 	 */
 	private Object[] getAvailableArtifactsList(List selectedElements)
 			throws TigerstripeException {
+
+		List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
+		if (isIncludeEmptyValue()) {
+			result.add(NullAbstractArtifact.INSATNCE);
+		}
 
 		Collection<IAbstractArtifact> artifacts = new LinkedList<IAbstractArtifact>();
 		IArtifactManagerSession session = project.getArtifactManagerSession();
@@ -221,13 +242,12 @@ public class BrowseForArtifactDialog {
 		}
 
 		if (artifacts == null || artifacts.size() == 0)
-			return new Object[0];
+			return result.toArray();
 
 		// Now removing from the list, all the selected elements
 		// Also, removing duplicates that would be the result of having
 		// overwriten
 		// artifacts locally.
-		List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
 		List<String> nameList = new ArrayList<String>(); // used to avoid
 		// duplicates
 		for (Iterator iterArtifacts = artifacts.iterator(); iterArtifacts
@@ -236,8 +256,7 @@ public class BrowseForArtifactDialog {
 
 			boolean keepGoing = true;
 			for (Iterator iterSelected = selectedElements.iterator(); iterSelected
-					.hasNext()
-					&& keepGoing;) {
+					.hasNext() && keepGoing;) {
 				AbstractArtifact name = (AbstractArtifact) iterSelected.next();
 				if (artifact.getFullyQualifiedName().equals(
 						name.getFullyQualifiedName())) {
@@ -271,4 +290,13 @@ public class BrowseForArtifactDialog {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
+	public void setIncludeEmptyValue(boolean includeEmptyValue) {
+		this.includeEmptyValue = includeEmptyValue;
+	}
+
+	public boolean isIncludeEmptyValue() {
+		return includeEmptyValue;
+	}
+
 }

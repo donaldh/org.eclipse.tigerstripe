@@ -312,10 +312,10 @@ public class PatternCreateWizardPage extends NewElementWizardPage implements
 						+ " to be used as base for the pattern file.");
 				dialog.setIncludePrimitiveTypes(false);
 
-				AbstractArtifact[] artifacts = dialog.browseAvailableArtifacts(
+				IAbstractArtifact[] artifacts = dialog.browseAvailableArtifacts(
 						getShell(), Arrays.asList(new Object[] {}));
 				if (artifacts.length > 0) {
-					AbstractArtifact artifactChosen = artifacts[0];
+					IAbstractArtifact artifactChosen = artifacts[0];
 					sourceArtifactText.setText(artifactChosen
 							.getFullyQualifiedName());
 
