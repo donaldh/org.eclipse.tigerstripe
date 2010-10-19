@@ -96,17 +96,14 @@ public class TestM1Generation extends TestCase {
 		assertTrue(helper.canDeploy(generator));
 		IPath path = helper.deploy(generator, null);
 
-		List<PluggableHousing> housings = PluginManager.getManager()
-				.getRegisteredPluggableHousings();
+		List<PluggableHousing> housings = PluginManager.getManager().getRegisteredPluggableHousings();
 
 		PluggableHousing housing = housings.get(0);
-		IPluginConfig pluginConfig = housing
-				.makeDefaultPluginConfig((TigerstripeProjectHandle) project);
+		IPluginConfig pluginConfig = housing.makeDefaultPluginConfig((TigerstripeProjectHandle) project);
 		wProj.addPluginConfig(pluginConfig);
 		wProj.commit(null);
 
-		IM1RunConfig runConfig = (IM1RunConfig) RunConfig.newGenerationConfig(
-				project, RunConfig.M1);
+		IM1RunConfig runConfig = (IM1RunConfig) RunConfig.newGenerationConfig(project, RunConfig.M1);
 		PluginRunStatus[] status = project.generate(runConfig, null);
 		assertTrue("Status length is not 1 : "+ status.length, status.length == 1);
 		assertTrue("Status is not OK : "+status[0].getMessage()+" "+status[0].getSeverity()+ " "+status[0].toString(), status[0].isOK() );
