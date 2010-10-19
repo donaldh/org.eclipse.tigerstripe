@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="SessionFacadeWorkspace" id="_qROx8NWjEd-EHrO7kvtrmw">
+  <content>
+    <projects name="New Project">
+      <files name=".classpath" contentURI=".SessionFacadeWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".SessionFacadeWorkspacectx/content1.project"/>
+      <files name="tigerstripe.xml" contentURI=".SessionFacadeWorkspacectx/content1.xml"/>
+      <folders name="src">
+        <folders name="org">
+          <files name=".package" contentURI=".SessionFacadeWorkspacectx/content4.package"/>
+          <folders name="eclipse">
+            <files name=".package" contentURI=".SessionFacadeWorkspacectx/content3.package"/>
+            <files name="TestSessionFacade.java" contentURI=".SessionFacadeWorkspacectx/content1.java"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.scenario:GroupContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" name="SessionFacadeGroup" id="_GizKINWkEd-EHrO7kvtrmw">
+  <contextReferences>_qROx8NWjEd-EHrO7kvtrmw</contextReferences>
+  <contextReferences>_ph040NWkEd-EHrO7kvtrmw</contextReferences>
+</com.xored.q7.scenario:GroupContext>
