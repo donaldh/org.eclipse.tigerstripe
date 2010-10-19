@@ -45,8 +45,8 @@ public class DiagramsPreferences {
 
 	public static void initializeDefaults(IPreferenceStore store) {
 		store.setDefault(P_ROUTING_STYLE, ROUTING_STYLE_VALUE_OBLIQUE);
-		store.setDefault(P_ROUTING_AVOID_OBSTRUCTIONS, true);
-		store.setDefault(P_ROUTING_CLOSEST_DISTANCE, true);
+		store.setDefault(P_ROUTING_AVOID_OBSTRUCTIONS, false);
+		store.setDefault(P_ROUTING_CLOSEST_DISTANCE, false);
 		store.setDefault(P_SHOW_COMPARTMENTS, SHOW_COMPARTMENTS_VALUE_ALL);
 		store.setDefault(P_EXTENDS_RELATIONSHIP,
 				EXTENDS_RELATIONSHIP_VALUE_SHOW);
