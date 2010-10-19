@@ -14,6 +14,10 @@
 		<resources>
 			<resource>
 				<directory>${basedir}/resources</directory>
+				<includes>
+					<include>**/*.vm</include>
+					<include>**/*.properties</include>
+				</includes>
 			</resource>
 		</resources>
 		<plugins>
