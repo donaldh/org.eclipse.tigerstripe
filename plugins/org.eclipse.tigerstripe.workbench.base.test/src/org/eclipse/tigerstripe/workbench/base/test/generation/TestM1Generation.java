@@ -88,33 +88,33 @@ public class TestM1Generation extends TestCase {
 		assertFalse("Plugin "+ generator.getId()+ " registered when not expected.",housingFound);
 	}
 
-// JS - Temp
-//	public void testGenerate() throws TigerstripeException {
-//
-//		ITigerstripeModelProject wProj = (ITigerstripeModelProject) project.makeWorkingCopy(null);
-//		GeneratorDeploymentHelper helper = new GeneratorDeploymentHelper();
-//
-//		assertTrue(helper.canDeploy(generator));
-//		IPath path = helper.deploy(generator, null);
-//
-//		List<PluggableHousing> housings = PluginManager.getManager().getRegisteredPluggableHousings();
-//
-//		PluggableHousing housing = housings.get(0);
-//		IPluginConfig pluginConfig = housing.makeDefaultPluginConfig((TigerstripeProjectHandle) project);
-//		wProj.addPluginConfig(pluginConfig);
-//		wProj.commit(null);
-//
-//		IM1RunConfig runConfig = (IM1RunConfig) RunConfig.newGenerationConfig(project, RunConfig.M1);
-//		PluginRunStatus[] status = project.generate(runConfig, null);
-//		assertTrue("Status length is not 1 : "+ status.length, status.length == 1);
-//		assertTrue("Status is not OK : "+status[0].getMessage()+" "+status[0].getSeverity()+ " "+status[0].toString(), status[0].isOK() );
-//		
-//		// Look for generated file
-//		IProject iProj = (IProject) project.getAdapter(IProject.class);
-//		IResource res = iProj.findMember("target/tigerstripe.gen/list.txt");
-//		assertNotNull(res);
-//		assertTrue(res.exists());
-//
-//		helper.unDeploy(path, null);
-//	}
+ 
+	public void testGenerate() throws TigerstripeException {
+
+		ITigerstripeModelProject wProj = (ITigerstripeModelProject) project.makeWorkingCopy(null);
+		GeneratorDeploymentHelper helper = new GeneratorDeploymentHelper();
+
+		assertTrue(helper.canDeploy(generator));
+		IPath path = helper.deploy(generator, null);
+
+		List<PluggableHousing> housings = PluginManager.getManager().getRegisteredPluggableHousings();
+
+		PluggableHousing housing = housings.get(0);
+		IPluginConfig pluginConfig = housing.makeDefaultPluginConfig((TigerstripeProjectHandle) project);
+		wProj.addPluginConfig(pluginConfig);
+		wProj.commit(null);
+
+		IM1RunConfig runConfig = (IM1RunConfig) RunConfig.newGenerationConfig(project, RunConfig.M1);
+		PluginRunStatus[] status = project.generate(runConfig, null);
+		assertTrue("Status length is not 1 : "+ status.length, status.length == 1);
+		assertTrue("Status is not OK : "+status[0].getMessage()+" "+status[0].getSeverity()+ " "+status[0].toString(), status[0].isOK() );
+		
+		// Look for generated file
+		IProject iProj = (IProject) project.getAdapter(IProject.class);
+		IResource res = iProj.findMember("target/tigerstripe.gen/list.txt");
+		assertNotNull(res);
+		assertTrue(res.exists());
+
+		helper.unDeploy(path, null);
+	}
 }
