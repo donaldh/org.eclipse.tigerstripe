@@ -99,14 +99,18 @@ public class GlobalTemplateRule extends TemplateBasedRule implements
 		return PluggablePlugin.TEMPLATE_PREFIX + "/" + REPORTTEMPLATE;
 	}
 
-	public void trigger(PluggablePluginConfig pluginConfig,
-			IPluginRuleExecutor exec) throws TigerstripeException {
+	public void trigger(PluggablePluginConfig pluginConfig, IPluginRuleExecutor exec) throws TigerstripeException {
+		
 		Writer writer = null;
 		try {
+			
 			initializeReport(pluginConfig);
 
-			VelocityEngine engine = setClasspathLoaderForVelocity(pluginConfig,
-					exec);
+			VelocityEngine engine = setClasspathLoaderForVelocity(pluginConfig, exec);
+			
+			// JS - DEBUG
+			System.out.println("***** template = " + getTemplate());
+			
 			Template template = engine.getTemplate(getTemplate());
 
 			Expander expander = new Expander(pluginConfig);
@@ -118,19 +122,15 @@ public class GlobalTemplateRule extends TemplateBasedRule implements
 			// doesn't exist
 			if (isOverwriteFiles() || !outputFileF.exists()) {
 
-				writer = getDefaultWriter(pluginConfig, targetFile, exec
-						.getConfig());
+				writer = getDefaultWriter(pluginConfig, targetFile, exec.getConfig());
 
-				VelocityContext defaultContext = getDefaultContext(
-						pluginConfig, exec);
-				VelocityContext localContext = exec.getPlugin()
-						.getLocalVelocityContext(defaultContext, this);
+				VelocityContext defaultContext = getDefaultContext(pluginConfig, exec);
+				VelocityContext localContext = exec.getPlugin().getLocalVelocityContext(defaultContext, this);
 
 				localContext.put("templateName", template.getName());
 
 				// Logging stuff
-				localContext.put("pluginLog", new PluginVelocityLog(template
-						.getName()));
+				localContext.put("pluginLog", new PluginVelocityLog(template.getName()));
 
 				template.merge(localContext, writer);
 				writer.close();
@@ -153,8 +153,7 @@ public class GlobalTemplateRule extends TemplateBasedRule implements
 			throw e;
 		} catch (Exception e) {
 			TigerstripeRuntime.logErrorMessage("Exception detected", e);
-			throw new TigerstripeException("Unexpected error while merging '"
-					+ getTemplate() + "' template: " + e.getMessage(), e);
+			throw new TigerstripeException("Unexpected error while merging '" + getTemplate() + "' template: " + e.getMessage(), e);
 		} finally {
 			if (writer != null) {
 				try {

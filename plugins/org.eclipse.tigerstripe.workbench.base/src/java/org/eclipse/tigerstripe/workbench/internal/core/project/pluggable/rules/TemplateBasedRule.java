@@ -339,40 +339,22 @@ public abstract class TemplateBasedRule extends Rule implements
 		properties.put("resource.loader", "file, class");
 
 		// So we can still access templates from the classpath
-		properties
-				.put("class.resource.loader.class",
-						"org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+		properties.put("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
 
 		// To access templates from the file system.
-		properties
-				.put("file.resource.loader.class",
-						"org.apache.velocity.runtime.resource.loader.FileResourceLoader");
-		properties.put("file.resource.loader.path", getContainingDescriptor()
-				.getBaseDir().getCanonicalPath());
-		// properties.put("file.resource.loader.path",
-		// "/TEMP/plugins/.Plug-1.0_temp");
+		properties.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.FileResourceLoader");
+		properties.put("file.resource.loader.path", getContainingDescriptor().getBaseDir().getCanonicalPath());
+		
+		// JS - DEBUG
+		System.out.println("***** file.resource.loader.path = " + getContainingDescriptor().getBaseDir().getCanonicalPath());
 
 		properties.put("file.resource.loader.cache", "true");
 		properties.put("file.resource.loader.modificationCheckInterval", "2");
 
 		properties.put("velocimacro.permissions.allow.inline", "true");
-		properties.put(
-				"velocimacro.permissions.allow.inline.to.replace.global",
-				"true");
-		// properties.put("velocimacro.permissions.allow.inline.local.scope",
-		// "true");
-
-		// comment out for runtime !
-		// properties.put("velocimacro.library.autoreload","true");
-		// Comment out for Dev purposes!
+		properties.put("velocimacro.permissions.allow.inline.to.replace.global", "true");
+		
 		properties.put("class.resource.loader.cache", "true");
-
-		// properties.put("velocimacro.library",
-		// "org/eclipse/tigerstripe/workbench/internal/core/plugin/ossj/resources/lib/Velocimacros.vm"
-		// );
-		// The above line would allow for macros - but due the the "once only"
-		// nature of init, this is not much use
-		// the way we have it configured at present.
 
 		if (hasMacroLibrary()) {
 			String libraryList = "";
@@ -385,44 +367,40 @@ public abstract class TemplateBasedRule extends Rule implements
 		}
 
 		if (exec.getPlugin().isLogEnabled()) {
-			String projectDir = pluginConfig.getProjectHandle().getLocation()
-					.toOSString();
-			String outputDir = pluginConfig.getProjectHandle()
-					.getProjectDetails().getOutputDirectory();
+			String projectDir = pluginConfig.getProjectHandle().getLocation().toOSString();
+			String outputDir = pluginConfig.getProjectHandle().getProjectDetails().getOutputDirectory();
 			String logPath = exec.getPlugin().getLogPath();
+			
 			// Find the extension (if any) and insert ".velocity" before it
 			String velocityLogPath;
 			if (logPath.contains(".")) {
+				
 				// Pay attention in case of strange formats such as
 				// path/road.street/avenue - we could easily put the extra word
 				// in the middle of the path!
 
 				IPath path = new Path(logPath);
-
 				if (path.getFileExtension() != null) {
 					String ext = path.getFileExtension();
 					path = path.removeFileExtension();
 					path = path.addFileExtension("velocity");
 					path = path.addFileExtension(ext);
-
 				} else {
 					path = path.addFileExtension("velocity");
 				}
-
 				velocityLogPath = path.toOSString();
 			} else {
 				velocityLogPath = logPath + ".velocity";
 			}
 
-			properties.put("runtime.log", projectDir + File.separatorChar
-					+ outputDir + File.separator + velocityLogPath);
+			properties.put("runtime.log", projectDir + File.separatorChar + outputDir + File.separator + velocityLogPath);
 		} else {
 			properties.put("runtime.log", "tigerstripe/velocity.log");
 		}
 
 		ClassLoader startingLoader = Thread.currentThread().getContextClassLoader();
 		try {
-			if( result.getClass().getClassLoader() != Thread.currentThread().getContextClassLoader()) {
+			if(result.getClass().getClassLoader() != Thread.currentThread().getContextClassLoader()) {
 				Thread.currentThread().setContextClassLoader(result.getClass().getClassLoader());
 			}
 			result.init(properties);
