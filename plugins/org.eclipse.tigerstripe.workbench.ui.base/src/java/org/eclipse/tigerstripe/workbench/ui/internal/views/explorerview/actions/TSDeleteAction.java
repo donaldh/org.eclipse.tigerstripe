@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions;
 
+import static java.util.Arrays.asList;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -27,6 +29,7 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.internal.ui.refactoring.reorg.DeleteAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
@@ -38,6 +41,8 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -169,9 +174,10 @@ public class TSDeleteAction extends DeleteAction {
             // notify
             // the corresponding
             // artifact manager
-            List<ElementArtifactPair> selectedResources = new ArrayList<ElementArtifactPair>();
+			List<ElementArtifactPair> selectedResources = new ArrayList<ElementArtifactPair>();
+			Set<IResource> packageResources = new HashSet<IResource>();
             if (selection != null) {
-                for (Iterator iter = selection.iterator(); iter.hasNext();) {
+                for (Iterator<?> iter = selection.iterator(); iter.hasNext();) {
                     Object obj = iter.next();
                     if (obj instanceof ICompilationUnit) {
                         ICompilationUnit jElem = (ICompilationUnit) obj;
@@ -200,11 +206,16 @@ public class TSDeleteAction extends DeleteAction {
                                 selectedResources.add(pair);
                             }
                         }
+                       	addParentPackgeResources(pack, packageResources);
+
                     }
                 }
             }
-
-            super.run(selection);
+            
+			List<Object> toDelete = new ArrayList<Object>(
+					asList(selection.toArray()));
+			toDelete.addAll(packageResources);
+			super.run(new StructuredSelection(toDelete));
 
             // Now check what was actually deleted and notify the artifact
             // manager
@@ -338,7 +349,24 @@ public class TSDeleteAction extends DeleteAction {
         }
     }
 
-    private void handleRelationshipToCascadeDelete(Set<IRelationship> toDeletes) {
+	private void addParentPackgeResources(IPackageFragment root,
+			Set<IResource> packageResources) {
+		IAbstractArtifact rootArtifact = TSExplorerUtils.getArtifactFor(root);
+		if (rootArtifact instanceof IPackageArtifact) {
+			IModelComponent current = rootArtifact
+					.getContainingModelComponent();
+			while (current instanceof IPackageArtifact) {
+				IResource resource = (IResource) current
+						.getAdapter(IResource.class);
+				if (resource != null) {
+					packageResources.add(resource);
+				}
+				current = current.getContainingModelComponent();
+			}
+		}
+	}
+
+	private void handleRelationshipToCascadeDelete(Set<IRelationship> toDeletes) {
         try {
             WorkspaceListener.handleRelationshipsToCascadeDelete(toDeletes,
                     null, new NullProgressMonitor());
