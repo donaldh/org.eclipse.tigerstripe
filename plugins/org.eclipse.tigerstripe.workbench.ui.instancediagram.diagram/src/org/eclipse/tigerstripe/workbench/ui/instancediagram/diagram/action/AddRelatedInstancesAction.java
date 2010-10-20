@@ -106,7 +106,8 @@ public class AddRelatedInstancesAction extends BaseDiagramPartAction implements
 			// handle outgoing relationships
 			Set<IAbstractArtifact> associatedArtifacts = new HashSet<IAbstractArtifact>();
 			Set<IAbstractArtifact> dependentArtifacts = new HashSet<IAbstractArtifact>();
-			relations.put("outgoing", associatedArtifacts);
+			relations.put("outgoing associated", associatedArtifacts);
+			relations.put("outgoing dependent", dependentArtifacts);
 			for (IAbstractArtifact artifact : artifacts) {
 				List<IRelationship> origRels = session
 						.getOriginatingRelationshipForFQN(
@@ -147,7 +148,8 @@ public class AddRelatedInstancesAction extends BaseDiagramPartAction implements
 			// Handling incoming relationships
 			Set<IAbstractArtifact> associatingArtifacts = new HashSet<IAbstractArtifact>();
 			Set<IAbstractArtifact> dependingArtifacts = new HashSet<IAbstractArtifact>();
-			relations.put("incoming", associatingArtifacts);
+			relations.put("incoming associating", associatingArtifacts);
+			relations.put("incoming depending", dependingArtifacts);
 			for (IAbstractArtifact artifact : artifacts) {
 				List<IRelationship> termRels = session
 						.getTerminatingRelationshipForFQN(
