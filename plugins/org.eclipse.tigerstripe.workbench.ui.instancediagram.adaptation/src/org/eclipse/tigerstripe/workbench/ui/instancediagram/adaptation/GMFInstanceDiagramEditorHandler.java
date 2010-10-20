@@ -29,7 +29,7 @@ public class GMFInstanceDiagramEditorHandler {
 	public GMFInstanceDiagramEditorHandler(FileDiagramEditor editor) {
 		this.editor = editor;
 		this.synchronizer = new InstanceDiagramSynchronizer(editor);
-		synchronizer.initializeTSProjectInMap();
+		initializeInMap();
 	}
 
 	public void initialize() {
@@ -37,6 +37,10 @@ public class GMFInstanceDiagramEditorHandler {
 		editor.getDiagramGraphicalViewer().addDropTargetListener(
 				new InstanceDiagramDropTargetListener(editor
 						.getDiagramGraphicalViewer()));
+	}
+
+	public void initializeInMap() {
+		synchronizer.initializeTSProjectInMap();
 	}
 
 	public void dispose() {

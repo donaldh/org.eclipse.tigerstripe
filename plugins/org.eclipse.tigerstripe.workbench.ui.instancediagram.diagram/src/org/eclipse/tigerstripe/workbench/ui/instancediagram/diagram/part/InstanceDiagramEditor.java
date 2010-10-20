@@ -10,7 +10,10 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.part;
 
+import static org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.InstanceDiagramLogicalNode.MODEL_EXT;
+
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.draw2d.DelegatingLayout;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.LayeredPane;
@@ -18,16 +21,17 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gef.LayerConstants;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramRootEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide.document.StorageDiagramDocumentProvider;
-import org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide.editor.FileDiagramEditor;
+import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.GMFInstanceDiagramEditorHandler;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.parts.InstanceEditPartFactory;
+import org.eclipse.tigerstripe.workbench.ui.internal.gmf.AbstractDiagramEditor;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.ide.IGotoMarker;
 
 /**
  * @generated
  */
-public class InstanceDiagramEditor extends FileDiagramEditor implements
+public class InstanceDiagramEditor extends AbstractDiagramEditor implements
 		IGotoMarker {
 
 	/**
@@ -106,10 +110,25 @@ public class InstanceDiagramEditor extends FileDiagramEditor implements
 	}
 
 	@Override
+	protected void initializeGraphicalViewerContents() {
+		if (getDiagram() != null
+				&& getDiagram().getElement() instanceof InstanceMap
+				&& ((InstanceMap) getDiagram().getElement())
+						.getCorrespondingITigerstripeProject() == null) {
+			handler.initializeInMap();
+		}
+		super.initializeGraphicalViewerContents();
+	}
+
+	@Override
 	public void dispose() {
 		if (handler != null)
 			handler.dispose();
 		super.dispose();
 	}
 
+	@Override
+	protected IPath getModelPath(IPath diagramPath) {
+		return diagramPath.removeFileExtension().addFileExtension(MODEL_EXT);
+	}
 }

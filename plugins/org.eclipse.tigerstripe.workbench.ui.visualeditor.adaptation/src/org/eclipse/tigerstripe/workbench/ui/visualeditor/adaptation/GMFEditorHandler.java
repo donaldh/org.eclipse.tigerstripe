@@ -32,15 +32,21 @@ public class GMFEditorHandler {
 	public GMFEditorHandler(FileDiagramEditor editor) {
 		this.editor = editor;
 		this.synchronizer = new ClassDiagramSynchronizer(editor);
-		synchronizer.initializeTSProjectInMap();
+		initializeInMap();
 	}
 
 	public void initialize() {
 		synchronizer.startSynchronizing();
 		Map map = (Map) editor.getDiagram().getElement();
-		ITigerstripeModelProject tsProject = map.getCorrespondingITigerstripeProject();
+		ITigerstripeModelProject tsProject = map
+				.getCorrespondingITigerstripeProject();
 		editor.getDiagramGraphicalViewer().addDropTargetListener(
-				new ClassDiagramDropTargetListener(editor.getDiagramGraphicalViewer(), tsProject));
+				new ClassDiagramDropTargetListener(editor
+						.getDiagramGraphicalViewer(), tsProject));
+	}
+
+	public void initializeInMap() {
+		synchronizer.initializeTSProjectInMap();
 	}
 
 	public void dispose() {

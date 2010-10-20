@@ -10,9 +10,10 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part;
 
+import static org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.ClassDiagramLogicalNode.MODEL_EXT;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.draw2d.AutomaticRouter;
@@ -29,27 +30,26 @@ import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditDomain;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramGraphicalViewer;
 import org.eclipse.gmf.runtime.diagram.ui.parts.IDiagramWorkbenchPart;
 import org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide.document.StorageDiagramDocumentProvider;
-import org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide.editor.FileDiagramEditor;
 import org.eclipse.gmf.runtime.draw2d.ui.internal.figures.ConnectionLayerEx;
 import org.eclipse.gmf.runtime.draw2d.ui.internal.routers.FanRouter;
 import org.eclipse.gmf.runtime.draw2d.ui.internal.routers.ObliqueRouter;
 import org.eclipse.gmf.runtime.notation.Diagram;
-import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.internal.ui.viewsupport.IViewPartInputProvider;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.eclipse.tigerstripe.workbench.ui.internal.gmf.AbstractDiagramEditor;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.GMFEditorHandler;
-import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.TigerstripeEditPartFactory;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassConnectionEditPart.AssocClassLinkPolylineConnectionEx;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.TigerstripeEditPartFactory;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.ide.IGotoMarker;
 
 /**
  * @generated
  */
-public class TigerstripeDiagramEditor extends FileDiagramEditor implements
-	IViewPartInputProvider, IGotoMarker {
+public class TigerstripeDiagramEditor extends AbstractDiagramEditor implements
+		IViewPartInputProvider, IGotoMarker {
 
 	/**
 	 * @generated
@@ -117,8 +117,8 @@ public class TigerstripeDiagramEditor extends FileDiagramEditor implements
 				DiagramRootEditPart.DECORATION_UNPRINTABLE_LAYER);
 		printableLayers.removeLayer(LayerConstants.CONNECTION_LAYER);
 		printableLayers.addLayerBefore(new MyConnectionLayerEx(),
-				LayerConstants.CONNECTION_LAYER, printableLayers
-						.getLayer(LayerConstants.PRIMARY_LAYER));
+				LayerConstants.CONNECTION_LAYER,
+				printableLayers.getLayer(LayerConstants.PRIMARY_LAYER));
 	}
 
 	public class MyConnectionLayerEx extends ConnectionLayerEx {
@@ -160,39 +160,54 @@ public class TigerstripeDiagramEditor extends FileDiagramEditor implements
 	}
 
 	@Override
+	protected void initializeGraphicalViewerContents() {
+		if (getDiagram() != null
+				&& getDiagram().getElement() instanceof Map
+				&& ((Map) getDiagram().getElement())
+						.getCorrespondingITigerstripeProject() == null) {
+			handler.initializeInMap();
+		}
+		super.initializeGraphicalViewerContents();
+	}
+
+	@Override
 	public void dispose() {
 		if (handler != null)
 			handler.dispose();
 		super.dispose();
 	}
 
-	
 	public Object getViewPartInput() {
-		DiagramGraphicalViewer viewer = (DiagramGraphicalViewer) this.getDiagramGraphicalViewer();
+		DiagramGraphicalViewer viewer = (DiagramGraphicalViewer) this
+				.getDiagramGraphicalViewer();
 		DiagramEditDomain domain = (DiagramEditDomain) viewer.getEditDomain();
-		
+
 		IDiagramWorkbenchPart pa = domain.getDiagramEditorPart();
-		Diagram diag = pa.getDiagram(); 
+		Diagram diag = pa.getDiagram();
 		Map map = (Map) diag.getElement();
 		String pack = map.getBasePackage();
-		ITigerstripeModelProject proj = map.getCorrespondingITigerstripeProject();
-		
+		ITigerstripeModelProject proj = map
+				.getCorrespondingITigerstripeProject();
+
 		IProject project = (IProject) proj.getAdapter(IProject.class);
-		if ( project == null){
+		if (project == null) {
 			return null;
 		}
-		
+
 		IJavaProject p = (IJavaProject) proj.getAdapter(IJavaProject.class);
-		IPath path  = new Path(pack.replaceAll("\\.", "/"));
+		IPath path = new Path(pack.replaceAll("\\.", "/"));
 		try {
 			return p.findElement(path);
 
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
-		
+
 	}
 
-	
+	@Override
+	protected IPath getModelPath(IPath diagramPath) {
+		return diagramPath.removeFileExtension().addFileExtension(MODEL_EXT);
+	}
 }
