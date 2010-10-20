@@ -51,7 +51,7 @@ public class DelegatesTest extends AbstractResourceTestCase {
 			assertNotNull(annotation1);
 			
 			Annotation[] annotations = manager.getAnnotations(project, false);
-			assertEquals(annotations.length, 2);
+			assertEquals(annotations.length, 1);
 
 			//TODO: Java Annotation not packaged up by default with Tigerstripe features.
 //			Annotation annotation2 = manager.addAnnotation(javaProject,

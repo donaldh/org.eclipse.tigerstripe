@@ -39,6 +39,8 @@ import org.eclipse.tigerstripe.workbench.queries.IQueryArtifactsByType;
  */
 public abstract class AbstractTigerstripeTestCase extends TestCase {
 
+	protected static final String TEST_PACKAGE_NAME = "com.test";
+
 	protected IAbstractTigerstripeProject createModelProject(String projectName)
 			throws TigerstripeException {
 		IProjectDetails details = TigerstripeCore.makeProjectDetails();
@@ -67,12 +69,8 @@ public abstract class AbstractTigerstripeTestCase extends TestCase {
 				.getSupportedArtifacts();
 		for (String supportedArtifact : supportedArtifacts) {
 			if (!supportedArtifact.endsWith("IPackageArtifact")) {
-
-				// System.out.println("SupportedArtifact: "+supportedArtifact);
-
-				String name = "InstanceOf" + supportedArtifact;
-				String pack = "com.test";
-				artifactHelper.createArtifact(supportedArtifact, name, pack);
+				artifactHelper.createArtifact(supportedArtifact,
+						getArtifactName(supportedArtifact), TEST_PACKAGE_NAME);
 			}
 		}
 		return true;
@@ -89,9 +87,8 @@ public abstract class AbstractTigerstripeTestCase extends TestCase {
 				.getSupportedArtifacts();
 		for (String supportedArtifact : supportedArtifacts) {
 			if (!supportedArtifact.endsWith("IPackageArtifact")) {
-				String name = "InstanceOf" + supportedArtifact;
-				String pack = "com.test";
-				String fqn = pack + "." + name;
+				String fqn = TEST_PACKAGE_NAME + "."
+						+ getArtifactName(supportedArtifact);
 				IAbstractArtifact artifact = mgrSession
 						.getArtifactByFullyQualifiedName(fqn);
 				artifactHelper.remove(artifact);
@@ -112,15 +109,20 @@ public abstract class AbstractTigerstripeTestCase extends TestCase {
 		Collection<IAbstractArtifact> artifacts = new LinkedList<IAbstractArtifact>();
 		for (String supportedArtifact : supportedArtifacts) {
 			if (!supportedArtifact.endsWith("IPackageArtifact")) {
-				String name = "InstanceOf" + supportedArtifact;
-				String pack = "com.test";
-				String fqn = pack + "." + name;
+				String fqn = TEST_PACKAGE_NAME + "."
+						+ getArtifactName(supportedArtifact);
 				IAbstractArtifact artifact = mgrSession
 						.getArtifactByFullyQualifiedName(fqn);
 				artifacts.add(artifact);
 			}
 		}
 		return artifacts;
+	}
+
+	private String getArtifactName(String artifactType) {
+		return "InstanceOf"
+				+ artifactType.substring(artifactType.lastIndexOf(".")+1,
+						artifactType.length());
 	}
 
 	protected Collection<IAbstractArtifact> getAllArtifacts(
