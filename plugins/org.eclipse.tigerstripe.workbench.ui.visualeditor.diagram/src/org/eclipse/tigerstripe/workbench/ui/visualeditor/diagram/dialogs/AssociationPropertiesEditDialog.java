@@ -52,8 +52,8 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.Stereotype;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EAggregationEnum;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -98,6 +98,8 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 
 	private IAbstractArtifact iAssociation = null;
 
+	private Text aEndTypeField;
+	
 	private Text aEndRoleNameField;
 
 	private Combo aEndMultiplicityCombo;
@@ -111,6 +113,8 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 	private Button aEndIsUniqueButton;
 
 	private Button aEndIsOrderedButton;
+	
+	private Text zEndTypeField;
 
 	private Text zEndRoleNameField;
 
@@ -348,8 +352,28 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		aEndBox.setLayout(bLayout);
 		setFillBothLayout(aEndBox, endControlPanelCols, numRowsControlPanels);
 		// then define a text box (and a label for that text box) for editing
+		// type
 		// the role name
 		// for the aEnd
+	
+		// N.M - Bugzilla 325546: Add type field to association edit dialog
+		Label aEndTypeLabel = new Label(aEndBox, SWT.NONE);
+		aEndTypeLabel.setText("Type:");
+		bgd = new GridData();
+		bgd.horizontalSpan = 1;
+		aEndTypeLabel.setLayoutData(bgd);
+		aEndTypeField = new Text(aEndBox, SWT.READ_ONLY | SWT.BORDER);
+		AbstractArtifact artifact = association.getAEnd();
+		if (artifact != null) 
+			aEndTypeField.setText(artifact.getName());	
+		aEndTypeField.setEnabled(false);
+		aEndTypeField.setToolTipText("The aEnd type.");
+		bgd = new GridData();
+		bgd.horizontalSpan = endControlPanelCols - 1;
+		bgd.verticalSpan = 1;
+		bgd.widthHint = 200;
+		aEndTypeField.setLayoutData(bgd);
+		
 		Label aEndRoleLabel = new Label(aEndBox, SWT.NULL);
 		aEndRoleLabel.setText("Role Name:");
 		bgd = new GridData();
@@ -506,8 +530,29 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		zEndBox.setLayout(bLayout);
 		setFillBothLayout(zEndBox, endControlPanelCols, numRowsControlPanels);
 		// then define a text box (and a label for that text box) for editing
+		// type
 		// the role name
 		// for the zEnd
+		
+		// N.M - Bugzilla 325546: Add type field to association edit dialog
+		Label zEndTypeLabel = new Label(zEndBox, SWT.NONE);
+		zEndTypeLabel.setText("Type:");
+		bgd = new GridData();
+		bgd.horizontalSpan = 1;
+		zEndTypeLabel.setLayoutData(bgd);
+		zEndTypeField = new Text(zEndBox, SWT.READ_ONLY | SWT.BORDER);
+		artifact = association.getZEnd();
+		if (artifact != null) 
+			zEndTypeField.setText(artifact.getName());	
+		zEndTypeField.setEnabled(false);
+		zEndTypeField.setToolTipText("The zEnd type.");
+		bgd = new GridData();
+		bgd.horizontalSpan = endControlPanelCols - 1;
+		bgd.verticalSpan = 1;
+		bgd.widthHint = 200;
+		zEndTypeField.setLayoutData(bgd);
+		
+		
 		Label zEndRoleLabel = new Label(zEndBox, SWT.NULL);
 		zEndRoleLabel.setText("Role Name:");
 		bgd = new GridData();
