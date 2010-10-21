@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<null:Map xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:null="null" basePackage="org.eclipse">
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Entity0" package="org.eclipse" implements="//@artifacts.6">
+    <properties name="artifact.hide.extends" value="false"/>
+    <attributes name="entity0_testField0" type="String" isUnique="true"/>
+    <methods name="entity0_testMethod0" type="void"/>
+  </artifacts>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Entity1" package="org.eclipse" extends="//@artifacts.0">
+    <properties name="artifact.hide.extends" value="false"/>
+  </artifacts>
+  <artifacts xsi:type="null:DatatypeArtifact" name="Datatype0" package="org.eclipse"/>
+  <artifacts xsi:type="null:NamedQueryArtifact" name="Query0" package="org.eclipse"/>
+  <artifacts xsi:type="null:UpdateProcedureArtifact" name="UpdateProcedure0" package="org.eclipse"/>
+  <artifacts xsi:type="null:NotificationArtifact" name="Event0" package="org.eclipse"/>
+  <artifacts xsi:type="null:SessionFacadeArtifact" name="SessionFacade0" package="org.eclipse"/>
+  <artifacts xsi:type="null:AssociationClassClass" name="AssociationClass0" package="org.eclipse"/>
+  <associations name="Association0" package="org.eclipse" aEnd="//@artifacts.2" aEndName="datatype0" zEnd="//@artifacts.0" zEndName="entity0" zEndIsNavigable="true"/>
+  <associations xsi:type="null:AssociationClass" name="AssociationClass0" package="org.eclipse" aEnd="//@artifacts.0" aEndName="entity0" zEnd="//@artifacts.5" zEndName="event0" zEndIsNavigable="true" associatedClass="//@artifacts.7"/>
+  <associations name="Association1" package="org.eclipse" aEnd="//@artifacts.0" aEndName="entity0" zEnd="//@artifacts.3" zEndName="query0" zEndIsNavigable="true"/>
+  <associations name="Association2" package="org.eclipse" aEnd="//@artifacts.4" aEndName="updateProcedure0" zEnd="//@artifacts.0" zEndName="entity0" zEndIsNavigable="true"/>
+</null:Map>
