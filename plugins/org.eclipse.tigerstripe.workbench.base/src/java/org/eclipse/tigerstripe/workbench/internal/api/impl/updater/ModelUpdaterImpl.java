@@ -13,7 +13,13 @@ package org.eclipse.tigerstripe.workbench.internal.api.impl.updater;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequestFactory;
@@ -36,14 +42,29 @@ public class ModelUpdaterImpl implements IModelUpdater {
 		return this.mgrSession;
 	}
 
-	public void handleChangeRequest(IModelChangeRequest request)
+	public void handleChangeRequest(final IModelChangeRequest request)
 			throws TigerstripeException {
 
-		BaseModelChangeRequest baseRequest = (BaseModelChangeRequest) request;
+		final BaseModelChangeRequest baseRequest = (BaseModelChangeRequest) request;
 
 		if (baseRequest.canExecute(mgrSession)) {
-			baseRequest.execute(mgrSession);
-			notifyListeners(request);
+				Job job = new Job("Model updating...") {
+
+					@Override
+					protected IStatus run(IProgressMonitor monitor) {
+						try {
+							baseRequest.execute(mgrSession);
+							notifyListeners(request);
+							return Status.OK_STATUS;
+						} catch (TigerstripeException e) {
+							return new Status(IStatus.ERROR,
+									BasePlugin.PLUGIN_ID, e.getMessage(), e);
+						}
+					}
+				};
+				job.setRule(ResourcesPlugin.getWorkspace().getRoot());
+				job.setUser(true);
+				job.schedule();			
 		}
 	}
 
