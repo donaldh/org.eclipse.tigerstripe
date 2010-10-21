@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="AssociationContextPreferencesWsp" id="_UfuPwNt9Ed-3W-KcAY2toQ">
+  <content>
+    <projects name="New Project">
+      <files name=".classpath" contentURI=".AssociationContextPreferencesWspctx/content1.classpath"/>
+      <files name=".project" contentURI=".AssociationContextPreferencesWspctx/content1.project"/>
+      <files name="tigerstripe.xml" contentURI=".AssociationContextPreferencesWspctx/content1.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".AssociationContextPreferencesWspctx/content1.prefs"/>
+      </folders>
+      <folders name="bin"/>
+      <folders name="src">
+        <files name="default.vwm" contentURI=".AssociationContextPreferencesWspctx/content2.vwm"/>
+        <files name="default.wvd" contentURI=".AssociationContextPreferencesWspctx/content2.wvd"/>
+        <folders name="org">
+          <files name=".package" contentURI=".AssociationContextPreferencesWspctx/content4.package"/>
+          <folders name="eclipse">
+            <files name=".package" contentURI=".AssociationContextPreferencesWspctx/content3.package"/>
+            <files name="Association2.java" contentURI=".AssociationContextPreferencesWspctx/content1.java"/>
+            <files name="Entity0.java" contentURI=".AssociationContextPreferencesWspctx/content2.java"/>
+            <files name="Entity1.java" contentURI=".AssociationContextPreferencesWspctx/content3.java"/>
+            <files name="Entity2.java" contentURI=".AssociationContextPreferencesWspctx/content4.java"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>
