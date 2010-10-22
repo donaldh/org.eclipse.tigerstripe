@@ -82,7 +82,7 @@ public class M1ProjectHelper {
 			while (entries.hasMoreElements()) {
 				JarEntry file = (JarEntry) entries.nextElement();
 				
-				
+				if ( file.getName().endsWith(srcDir)){
 				
 				File f = new File(targetTemplatesPath + File.separator + file.getName());
 				System.out.println("File "+f.getAbsolutePath()+ " "+f.exists());
@@ -101,6 +101,7 @@ public class M1ProjectHelper {
 				
 				fos.close();
 				is.close();
+				}
 			}
 
 		} else {
