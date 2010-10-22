@@ -28,8 +28,8 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 
 public class M1ProjectHelper {
 
-	public final static String TEMPLATES = "resources/templates";
-	public final static String SRCS = "resources/src";
+	public final static String TEMPLATES = "resources"+File.separator+"templates";
+	public final static String SRCS = "resources"+File.separator+"src";
 
 	/**
 	 * Creates a M1 project and copies all the templates located in the
