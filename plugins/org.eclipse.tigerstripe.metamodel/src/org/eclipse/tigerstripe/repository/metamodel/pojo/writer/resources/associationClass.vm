@@ -29,6 +29,7 @@ public abstract class $artifact.Name
   extends $artifact.ExtendedArtifact.FullyQualifiedName
 #end {
 
+#if($artifact.AEnd)	
 	/**
      * $!artifact.AEnd.Comment
 	 *	@tigerstripe.association-aEnd
@@ -53,7 +54,9 @@ public abstract class $artifact.Name
      * 
 	 */	
 	$utils.getVisibilityAsString( $artifact.AEnd ) $artifact.AEnd.Type.FullyQualifiedName $artifact.AEnd.Name = null;
-	
+#end
+
+#if($artifact.ZEnd)		
 	/**
      * $!artifact.ZEnd.Comment
 	 *	@tigerstripe.association-zEnd
@@ -78,6 +81,8 @@ public abstract class $artifact.Name
      * 
 	 */	
 	$utils.getVisibilityAsString( $artifact.ZEnd ) $artifact.ZEnd.Type.FullyQualifiedName $artifact.ZEnd.Name = null;
+	
+#end	
 	
 #parse("org/eclipse/tigerstripe/repository/metamodel/pojo/writer/resources/refComments.vm")
 
