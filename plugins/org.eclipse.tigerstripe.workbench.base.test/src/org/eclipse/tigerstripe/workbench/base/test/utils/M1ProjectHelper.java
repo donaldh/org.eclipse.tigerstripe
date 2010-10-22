@@ -20,6 +20,7 @@ import java.util.jar.JarFile;
 
 import junit.framework.Assert;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -71,20 +72,20 @@ public class M1ProjectHelper {
 		
 		
 		String baseBundleRoot = BundleUtils.INSTANCE.getBundleRoot();
-		Assert.assertTrue("IS NOT A JAR "+baseBundleRoot,(baseBundleRoot.endsWith(".jar")));
+		System.out.println("Base bundle "+baseBundleRoot);
 		if (baseBundleRoot.endsWith(".jar")){
 			
 			JarFile jar = new JarFile(baseBundleRoot);
-			Assert.assertNotNull("JAR",jar);
+			
 			Enumeration<JarEntry> entries = jar.entries();
-			Assert.assertNotNull("Entries ",entries);
+			
 			while (entries.hasMoreElements()) {
 				JarEntry file = (JarEntry) entries.nextElement();
 				
 				
 				
 				File f = new File(targetTemplatesPath + File.separator + file.getName());
-				Assert.assertFalse("File "+f.getAbsolutePath(),f.exists());
+				System.out.println("File "+f.getAbsolutePath()+ " "+f.exists());
 				
 				if (file.isDirectory()) { // if its a directory, create it
 					f.mkdir();

@@ -43,9 +43,7 @@ public class TestM1Generation extends TestCase {
 	protected void setUp() throws Exception {
 		project = ModelProjectHelper.createModelProject(MODEL);
 		generator = M1ProjectHelper.createM1Project(GENERATOR, true);
-		IProject iProj = (IProject) generator.getAdapter(IProject.class);
-		IResource res = iProj.findMember("templates/listAll.vm");
-		assertNotNull(res);
+		
 	}
 
 	@Override
