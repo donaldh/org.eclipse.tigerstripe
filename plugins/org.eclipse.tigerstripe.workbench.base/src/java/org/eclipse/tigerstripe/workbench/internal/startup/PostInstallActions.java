@@ -84,6 +84,7 @@ public class PostInstallActions {
 
 				baseBundleRoot = findBaseBundleRoot(context);
 				workbenchFeatureVersion = findWorkbenchFeatureVersion(context);
+				createPropertiesFileForHeadlessRun(context);
 
 				// checkForUpgrade(workbenchFeatureVersion);
 				
