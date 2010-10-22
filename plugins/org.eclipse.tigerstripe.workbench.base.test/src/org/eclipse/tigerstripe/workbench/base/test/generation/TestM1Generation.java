@@ -43,6 +43,9 @@ public class TestM1Generation extends TestCase {
 	protected void setUp() throws Exception {
 		project = ModelProjectHelper.createModelProject(MODEL);
 		generator = M1ProjectHelper.createM1Project(GENERATOR, true);
+		IProject iProj = (IProject) generator.getAdapter(IProject.class);
+		IResource res = iProj.findMember("templates/listAll.vm");
+		assertNotNull(res);
 	}
 
 	@Override
@@ -100,6 +103,16 @@ public class TestM1Generation extends TestCase {
 		List<PluggableHousing> housings = PluginManager.getManager().getRegisteredPluggableHousings();
 
 		PluggableHousing housing = housings.get(0);
+		
+		for (PluggableHousing h : housings) {
+			String id = h.getPluginId();
+			if (id.equals(generator.getId())) {
+				housing = h;
+				break;
+			}
+		}
+		
+		
 		IPluginConfig pluginConfig = housing.makeDefaultPluginConfig((TigerstripeProjectHandle) project);
 		wProj.addPluginConfig(pluginConfig);
 		wProj.commit(null);
