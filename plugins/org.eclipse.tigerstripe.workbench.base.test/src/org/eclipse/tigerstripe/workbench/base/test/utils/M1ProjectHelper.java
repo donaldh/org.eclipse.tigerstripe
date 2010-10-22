@@ -13,6 +13,8 @@ package org.eclipse.tigerstripe.workbench.base.test.utils;
 import java.io.File;
 import java.io.IOException;
 
+import junit.framework.Assert;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -28,8 +30,8 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 
 public class M1ProjectHelper {
 
-	public final static String TEMPLATES = "resources"+File.separator+"templates";
-	public final static String SRCS = "resources"+File.separator+"src";
+	public final static String TEMPLATES = "resources/templates";
+	public final static String SRCS = "resources/src";
 
 	/**
 	 * Creates a M1 project and copies all the templates located in the
@@ -66,6 +68,7 @@ public class M1ProjectHelper {
 		IPath targetTemplatesPath = projectLocation.append(targetDir);
 
 		File[] templates = templatesDir.listFiles();
+		Assert.assertNotNull(templates);
 		if (templates == null)
 			templates = new File[0];
 		for (File template : templates) {
@@ -73,13 +76,10 @@ public class M1ProjectHelper {
 
 			if (!(new File(targetPath + File.separator + template.getName())).exists()) {
 				if (template.isFile()){
-					System.out.println("Copying "+template.getAbsolutePath()+ " to "+targetPath);
 					FileUtils
 							.copy(template.getAbsolutePath(), targetPath, true);
 				}
 				else {
-					System.out.println("Copying Dir "+template.getParentFile().getAbsolutePath()+ " to "+targetPath);
-					
 					FileUtils.copyDir(template.getParentFile()
 							.getAbsolutePath(), targetPath, true);
 				}
