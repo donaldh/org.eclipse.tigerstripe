@@ -4,7 +4,7 @@
 				 		 patternType="project"
 						 uiLabel="IRD Project"
 						 iconPath="icons/project_new.gif"
-						 disabledIconPath=""
+						 disabledIconPath="icons/project_new.gif"
                        xmlns:pattern="http://org.eclipse.tigerstripe/xml/tigerstripeCreationPattern/v1-0"
                        xmlns:ts="http://org.eclipse.tigerstripe/xml/tigerstripeExport/v2-0">
     <pattern:description>Create a new IRD Project</pattern:description>
