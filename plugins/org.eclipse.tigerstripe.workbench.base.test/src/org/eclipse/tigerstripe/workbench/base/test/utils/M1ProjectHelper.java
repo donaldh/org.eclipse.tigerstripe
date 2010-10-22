@@ -72,7 +72,7 @@ public class M1ProjectHelper {
 		
 		
 		String baseBundleRoot = BundleUtils.INSTANCE.getBundleRoot();
-		System.out.println("Base bundle "+baseBundleRoot);
+		System.out.println("Base bundle ZZ"+baseBundleRoot+"ZZ");
 		if (baseBundleRoot.endsWith(".jar")){
 			
 			JarFile jar = new JarFile(baseBundleRoot);
