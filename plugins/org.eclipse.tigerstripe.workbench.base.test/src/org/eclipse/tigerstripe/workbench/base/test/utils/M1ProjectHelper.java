@@ -68,7 +68,7 @@ public class M1ProjectHelper {
 		IPath targetTemplatesPath = projectLocation.append(targetDir);
 
 		File[] templates = templatesDir.listFiles();
-		Assert.assertNotNull(templates);
+		Assert.assertNotNull(templatesDir.toString(),templates);
 		if (templates == null)
 			templates = new File[0];
 		for (File template : templates) {
