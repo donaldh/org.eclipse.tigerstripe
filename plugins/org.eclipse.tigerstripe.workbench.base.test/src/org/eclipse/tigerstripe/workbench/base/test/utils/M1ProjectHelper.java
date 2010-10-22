@@ -71,21 +71,33 @@ public class M1ProjectHelper {
 		
 		
 		String baseBundleRoot = BundleUtils.INSTANCE.getBundleRoot();
+		Assert.assertTrue("IS NOT A JAR "+baseBundleRoot,(baseBundleRoot.endsWith(".jar")));
 		if (baseBundleRoot.endsWith(".jar")){
+			
 			JarFile jar = new JarFile(baseBundleRoot);
+			Assert.assertNotNull("JAR",jar);
 			Enumeration<JarEntry> entries = jar.entries();
+			Assert.assertNotNull("Entries ",entries);
 			while (entries.hasMoreElements()) {
 				JarEntry file = (JarEntry) entries.nextElement();
+				
+				
+				
 				File f = new File(targetTemplatesPath + File.separator + file.getName());
+				Assert.assertFalse("File "+f.getAbsolutePath(),f.exists());
+				
 				if (file.isDirectory()) { // if its a directory, create it
 					f.mkdir();
 					continue;
 				}
+				
 				InputStream is = jar.getInputStream(file); // get the input stream
 				FileOutputStream fos = new FileOutputStream(f);
+				
 				while (is.available() > 0) {  // write contents of 'is' to 'fos'
 					fos.write(is.read());
 				}
+				
 				fos.close();
 				is.close();
 			}
