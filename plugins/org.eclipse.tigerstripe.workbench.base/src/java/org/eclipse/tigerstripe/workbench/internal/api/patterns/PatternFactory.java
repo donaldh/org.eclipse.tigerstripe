@@ -366,6 +366,7 @@ public class PatternFactory implements IPatternFactory {
 				
 			} catch (Exception e){
 				// This means we failed to create the proper request
+				e.printStackTrace();
 				throw new TigerstripeException("Failed to build pattern from Extension Point",e);
 			}
 		}
