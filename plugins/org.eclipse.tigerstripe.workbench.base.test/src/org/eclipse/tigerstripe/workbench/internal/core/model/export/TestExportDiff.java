@@ -45,16 +45,16 @@ public class TestExportDiff extends AbstractExportTestCase {
 
 	protected void tearDown() throws Exception {
 
-//		if (source != null && source.exists()) {
-//			source.delete(true, new NullProgressMonitor());
-//		}
-//
-//		if (destination != null && destination.exists()) {
-//			destination.delete(true, new NullProgressMonitor());
-//		}
+		if (source != null && source.exists()) {
+			source.delete(true, new NullProgressMonitor());
+		}
+
+		if (destination != null && destination.exists()) {
+			destination.delete(true, new NullProgressMonitor());
+		}
 	}
 
-	public void atestGetArtifactsListIncludeAll() throws Exception {
+	public void testGetArtifactsListIncludeAll() throws Exception {
 
 		IContractSegment facet = InternalTigerstripeCore.createModelFacet(
 				facetFile, new NullProgressMonitor());
@@ -81,7 +81,7 @@ public class TestExportDiff extends AbstractExportTestCase {
 
 	}
 
-	public void atestGetArtifactsListWithEmptyDestination() throws Exception {
+	public void testGetArtifactsListWithEmptyDestination() throws Exception {
 
 		// overwrite destination project
 		if (destination != null && destination.exists()) {
