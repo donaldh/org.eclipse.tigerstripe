@@ -11,7 +11,12 @@
 package org.eclipse.tigerstripe.workbench.base.test.utils;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Enumeration;
+import java.util.jar.JarEntry;
+import java.util.jar.JarFile;
 
 import junit.framework.Assert;
 
@@ -62,26 +67,49 @@ public class M1ProjectHelper {
 	private static void copyFiles(ITigerstripeM1GeneratorProject project,
 			String srcDir, String targetDir) throws IOException {
 		IPath projectLocation = project.getLocation();
-		String baseBundleRoot = BundleUtils.INSTANCE.getBundleRoot();
-
-		File templatesDir = new File(baseBundleRoot + File.separator + srcDir);
 		IPath targetTemplatesPath = projectLocation.append(targetDir);
-
-		File[] templates = templatesDir.listFiles();
-		Assert.assertNotNull(templatesDir.toString(),templates);
-		if (templates == null)
-			templates = new File[0];
-		for (File template : templates) {
-			String targetPath = targetTemplatesPath.toOSString();
-
-			if (!(new File(targetPath + File.separator + template.getName())).exists()) {
-				if (template.isFile()){
-					FileUtils
-							.copy(template.getAbsolutePath(), targetPath, true);
+		
+		
+		String baseBundleRoot = BundleUtils.INSTANCE.getBundleRoot();
+		if (baseBundleRoot.endsWith(".jar")){
+			JarFile jar = new JarFile(baseBundleRoot);
+			Enumeration<JarEntry> entries = jar.entries();
+			while (entries.hasMoreElements()) {
+				JarEntry file = (JarEntry) entries.nextElement();
+				File f = new File(targetTemplatesPath + File.separator + file.getName());
+				if (file.isDirectory()) { // if its a directory, create it
+					f.mkdir();
+					continue;
 				}
-				else {
-					FileUtils.copyDir(template.getParentFile()
-							.getAbsolutePath(), targetPath, true);
+				InputStream is = jar.getInputStream(file); // get the input stream
+				FileOutputStream fos = new FileOutputStream(f);
+				while (is.available() > 0) {  // write contents of 'is' to 'fos'
+					fos.write(is.read());
+				}
+				fos.close();
+				is.close();
+			}
+
+		} else {
+		
+
+			File templatesDir = new File(baseBundleRoot + File.separator + srcDir);
+			File[] templates = templatesDir.listFiles();
+			Assert.assertNotNull(templatesDir.toString(),templates);
+			if (templates == null)
+				templates = new File[0];
+			for (File template : templates) {
+				String targetPath = targetTemplatesPath.toOSString();
+
+				if (!(new File(targetPath + File.separator + template.getName())).exists()) {
+					if (template.isFile()){
+						FileUtils
+						.copy(template.getAbsolutePath(), targetPath, true);
+					}
+					else {
+						FileUtils.copyDir(template.getParentFile()
+								.getAbsolutePath(), targetPath, true);
+					}
 				}
 			}
 		}
