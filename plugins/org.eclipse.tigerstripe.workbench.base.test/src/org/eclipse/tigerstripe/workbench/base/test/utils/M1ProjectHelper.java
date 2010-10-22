@@ -81,7 +81,7 @@ public class M1ProjectHelper {
 			
 			while (entries.hasMoreElements()) {
 				JarEntry file = (JarEntry) entries.nextElement();
-				
+				System.out.println("Jar Entry  "+file.getName());
 				if ( file.getName().contains(srcDir)){
 				
 				File f = new File(targetTemplatesPath + File.separator + file.getName());
