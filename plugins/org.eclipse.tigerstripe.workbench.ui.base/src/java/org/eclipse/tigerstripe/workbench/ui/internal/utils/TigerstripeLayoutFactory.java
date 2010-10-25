@@ -22,6 +22,8 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
  */
 public class TigerstripeLayoutFactory {
 
+	public static int DEFAULT_HORIZONTAL_SPACING = 6;
+
 	public static TableWrapLayout createPageTableWrapLayout(int numColumns,
 			boolean makeColumnsEqualWidth) {
 		TableWrapLayout layout = new TableWrapLayout();

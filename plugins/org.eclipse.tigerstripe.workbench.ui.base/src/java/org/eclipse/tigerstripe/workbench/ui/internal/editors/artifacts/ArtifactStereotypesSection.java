@@ -105,6 +105,7 @@ public class ArtifactStereotypesSection extends ArtifactSectionPart {
 
 	protected void updateForm() {
 		if (stereotypeMgr != null) {
+			stereotypeMgr.setArtifactComponent(getIArtifact());
 			stereotypeMgr.refresh();
 		}
 	}

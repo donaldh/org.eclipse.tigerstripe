@@ -20,6 +20,8 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
@@ -344,39 +346,40 @@ public class AssociationSpecificsSection extends EndSection {
 
 		c = toolkit.createComposite(aEndClient);
 		c.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-		layout = TigerstripeLayoutFactory.createFormPaneTableWrapLayout(2,
-				false);
-		c.setLayout(layout);
+		GridLayout gridLayout = TigerstripeLayoutFactory.createClearGridLayout(
+				2, false);
+		gridLayout.horizontalSpacing = TigerstripeLayoutFactory.DEFAULT_HORIZONTAL_SPACING;
+		c.setLayout(gridLayout);
 
 		aAnnTable = toolkit.createTable(c, SWT.BORDER);
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.rowspan = 3;
-		aAnnTable.setLayoutData(td);
+		aAnnTable.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		c = toolkit.createComposite(c);
-		c.setLayoutData(new TableWrapData(TableWrapData.FILL));
-		layout = TigerstripeLayoutFactory.createButtonsTableWrapLayout();
-		c.setLayout(layout);
+		c.setLayoutData(new GridData(GridData.FILL));
+		c.setLayout(TigerstripeLayoutFactory.createButtonsGridLayout());
 
 		aAddAnno = toolkit.createButton(c, "Add", SWT.PUSH);
 		aAddAnno.setData("name", "Add_Stereo_Assoc_A");
 		aAddAnno.setEnabled(!getIArtifact().isReadonly());
-		aAddAnno.setLayoutData(new TableWrapData(TableWrapData.FILL));
+		aAddAnno.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL
+				| GridData.VERTICAL_ALIGN_BEGINNING));
 
 		aEditAnno = toolkit.createButton(c, "Edit", SWT.PUSH);
 		aEditAnno.setData("name", "Edit_Stereo_Assoc_A");
 		aEditAnno.setEnabled(!getIArtifact().isReadonly());
-		aEditAnno.setLayoutData(new TableWrapData(TableWrapData.FILL));
+		aEditAnno.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL
+				| GridData.VERTICAL_ALIGN_BEGINNING));
 
 		aRemoveAnno = toolkit.createButton(c, "Remove", SWT.PUSH);
 		aRemoveAnno.setData("name", "Remove_Stereo_Assoc_A");
 		aRemoveAnno.setEnabled(!getIArtifact().isReadonly());
-		aRemoveAnno.setLayoutData(new TableWrapData(TableWrapData.FILL));
+		aRemoveAnno.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL
+				| GridData.VERTICAL_ALIGN_BEGINNING));
 
 		aStereotypeManager = new StereotypeSectionManager(aAddAnno, aEditAnno,
-				aRemoveAnno, aAnnTable, ((IAssociationArtifact) getIArtifact())
-						.getAEnd(), getSection().getShell(),
-				new PageModifyCallback(getPage()));
+				aRemoveAnno, aAnnTable,
+				((IAssociationArtifact) getIArtifact()).getAEnd(), getSection()
+						.getShell(), new PageModifyCallback(getPage()));
 		aStereotypeManager.delegate();
 
 		aEndTypeText.setData("name", "aEndTypeText");
@@ -510,39 +513,40 @@ public class AssociationSpecificsSection extends EndSection {
 		toolkit.createLabel(zEndClient, "Stereotypes:");
 		c = toolkit.createComposite(zEndClient);
 		c.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-		layout = TigerstripeLayoutFactory.createFormPaneTableWrapLayout(2,
-				false);
-		c.setLayout(layout);
+		GridLayout gridLayout = TigerstripeLayoutFactory.createClearGridLayout(
+				2, false);
+		gridLayout.horizontalSpacing = TigerstripeLayoutFactory.DEFAULT_HORIZONTAL_SPACING;
+		c.setLayout(gridLayout);
 
 		zAnnTable = toolkit.createTable(c, SWT.BORDER);
-		td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.rowspan = 3;
-		zAnnTable.setLayoutData(td);
+		zAnnTable.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		c = toolkit.createComposite(c);
-		c.setLayoutData(new TableWrapData(TableWrapData.FILL));
-		layout = TigerstripeLayoutFactory.createButtonsTableWrapLayout();
-		c.setLayout(layout);
+		c.setLayoutData(new GridData(GridData.FILL));
+		c.setLayout(TigerstripeLayoutFactory.createButtonsGridLayout());
 
 		zAddAnno = toolkit.createButton(c, "Add", SWT.PUSH);
 		zAddAnno.setData("name", "Add_Stereo_Assoc_A");
 		zAddAnno.setEnabled(!getIArtifact().isReadonly());
-		zAddAnno.setLayoutData(new TableWrapData(TableWrapData.FILL));
+		zAddAnno.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL
+				| GridData.VERTICAL_ALIGN_BEGINNING));
 
 		zEditAnno = toolkit.createButton(c, "Edit", SWT.PUSH);
 		zEditAnno.setData("name", "Edit_Stereo_Assoc_A");
 		zEditAnno.setEnabled(!getIArtifact().isReadonly());
-		zEditAnno.setLayoutData(new TableWrapData(TableWrapData.FILL));
+		zEditAnno.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL
+				| GridData.VERTICAL_ALIGN_BEGINNING));
 
 		zRemoveAnno = toolkit.createButton(c, "Remove", SWT.PUSH);
 		zRemoveAnno.setData("name", "Remove_Stereo_Assoc_Z");
 		zRemoveAnno.setEnabled(!getIArtifact().isReadonly());
-		zRemoveAnno.setLayoutData(new TableWrapData(TableWrapData.FILL));
+		zRemoveAnno.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL
+				| GridData.VERTICAL_ALIGN_BEGINNING));
 
 		zStereotypeManager = new StereotypeSectionManager(zAddAnno, zEditAnno,
-				zRemoveAnno, zAnnTable, ((IAssociationArtifact) getIArtifact())
-						.getZEnd(), getSection().getShell(),
-				new PageModifyCallback(getPage()));
+				zRemoveAnno, zAnnTable,
+				((IAssociationArtifact) getIArtifact()).getZEnd(), getSection()
+						.getShell(), new PageModifyCallback(getPage()));
 		zStereotypeManager.delegate();
 
 		zEndTypeText.setData("name", "zEndTypeText");
@@ -636,6 +640,8 @@ public class AssociationSpecificsSection extends EndSection {
 			aEndIsUniqueButton.setSelection(true);
 			aEnd.setUnique(true);
 		}
+		aStereotypeManager.setArtifactComponent(aEnd);
+		aStereotypeManager.refresh();
 
 		setAEndVisibility(aEnd.getVisibility());
 
@@ -665,6 +671,8 @@ public class AssociationSpecificsSection extends EndSection {
 			zEndIsUniqueButton.setSelection(true);
 			zEnd.setUnique(true);
 		}
+		zStereotypeManager.setArtifactComponent(zEnd);
+		zStereotypeManager.refresh();
 
 		setZEndVisibility(zEnd.getVisibility());
 		setSilentUpdate(false);
@@ -690,15 +698,17 @@ public class AssociationSpecificsSection extends EndSection {
 				zEnd.setComment(zEndCommentText.getText().trim());
 				markPageModified();
 			} else if (e.getSource() == aEndTypeText) {
-				IType type = new Type(((AssociationArtifact) getIArtifact())
-						.getArtifactManager());
+				IType type = new Type(
+						((AssociationArtifact) getIArtifact())
+								.getArtifactManager());
 				type.setFullyQualifiedName(aEndTypeText.getText().trim());
 				AssociationEnd end = (AssociationEnd) assoc.getAEnd();
 				end.setType(type);
 				markPageModified();
 			} else if (e.getSource() == zEndTypeText) {
-				IType type = new Type(((AssociationArtifact) getIArtifact())
-						.getArtifactManager());
+				IType type = new Type(
+						((AssociationArtifact) getIArtifact())
+								.getArtifactManager());
 				type.setFullyQualifiedName(zEndTypeText.getText().trim());
 				AssociationEnd end = (AssociationEnd) assoc.getZEnd();
 				end.setType(type);
@@ -808,8 +818,9 @@ public class AssociationSpecificsSection extends EndSection {
 				zEnd.setOrdered(zEndIsOrderedButton.getSelection());
 				markPageModified();
 			} else if (e.getSource() == aEndTypeBrowseButton) {
-				IType type = new Type(((AssociationArtifact) getIArtifact())
-						.getArtifactManager());
+				IType type = new Type(
+						((AssociationArtifact) getIArtifact())
+								.getArtifactManager());
 				String typeStr = browseButtonPressed();
 				if (typeStr != null) {
 					type.setFullyQualifiedName(typeStr);
@@ -819,8 +830,9 @@ public class AssociationSpecificsSection extends EndSection {
 					markPageModified();
 				}
 			} else if (e.getSource() == zEndTypeBrowseButton) {
-				IType type = new Type(((AssociationArtifact) getIArtifact())
-						.getArtifactManager());
+				IType type = new Type(
+						((AssociationArtifact) getIArtifact())
+								.getArtifactManager());
 				String typeStr = browseButtonPressed();
 				if (typeStr != null) {
 					type.setFullyQualifiedName(typeStr);
@@ -841,8 +853,8 @@ public class AssociationSpecificsSection extends EndSection {
 
 	protected String browseButtonPressed() {
 		BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(
-				getIArtifact().getTigerstripeProject(), AssociationEnd
-						.getSuitableTypes());
+				getIArtifact().getTigerstripeProject(),
+				AssociationEnd.getSuitableTypes());
 		dialog.setIncludePrimitiveTypes(false);
 		dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
 				IAssociationArtifactImpl.class.getName()).getLabel(null)
