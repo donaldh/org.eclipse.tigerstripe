@@ -24,11 +24,12 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -49,6 +50,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstract
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.ClassDiagramLogicalNode;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.InstanceDiagramLogicalNode;
+import org.eclipse.tigerstripe.workbench.ui.rendererplugin.Activator;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.utils.ArtifactPropertyChangeHandler;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.util.NamedElementPropertiesHelper;
@@ -89,7 +91,7 @@ public class DiagramUtils {
 						}
 					});
 		} catch (CoreException e) {
-			throw new RuntimeException(e);
+			log(e);
 		}
 
 		final IEditorReference[] editorReferences = PlatformUI.getWorkbench()
@@ -104,10 +106,18 @@ public class DiagramUtils {
 			if (editor != null) {
 				diagram = editor.getDiagram();
 			} else {
-				diagram = loadFromFile(node.getDiagramFile(),
-						node.getModelFile());
+				IFile diagramFile = node.getDiagramFile();
+				IFile modelFile = node.getModelFile();
+				if (diagramFile != null && modelFile != null) {
+					diagram = loadFromFile(diagramFile, modelFile);
+				} else {
+					continue;
+				}
 			}
-			Assert.isNotNull(diagram);
+
+			if (diagram == null) {
+				continue;
+			}
 
 			Map<String, String> localData = PreferencesHelper
 					.toMap(PreferencesHelper.findStyle(diagram));
@@ -125,7 +135,7 @@ public class DiagramUtils {
 							diagram.getElement().eResource()
 									.save(Collections.emptyMap());
 						} catch (IOException e) {
-							throw new RuntimeException(e);
+							log(e);
 						}
 					}
 				}
@@ -165,26 +175,30 @@ public class DiagramUtils {
 
 	private static void convertExtendsRelationships(View view,
 			IPreferenceStore store) {
+		try {
+			EObject element = view.getElement();
+			if (element instanceof AbstractArtifact) {
+				AbstractArtifact artifact = (AbstractArtifact) element;
+				NamedElementPropertiesHelper helper = new NamedElementPropertiesHelper(
+						artifact);
 
-		EObject element = view.getElement();
-		if (element instanceof AbstractArtifact) {
+				String oldValue = helper
+						.getProperty(NamedElementPropertiesHelper.ARTIFACT_HIDE_EXTENDS);
+				String newValue = PreferencesHelper
+						.extendsRelationshipValue(store);
 
-			AbstractArtifact artifact = (AbstractArtifact) element;
-			NamedElementPropertiesHelper helper = new NamedElementPropertiesHelper(
-					artifact);
+				helper.setProperty(
+						NamedElementPropertiesHelper.ARTIFACT_HIDE_EXTENDS,
+						newValue);
+				ArtifactPropertyChangeHandler handler = new ArtifactPropertyChangeHandler(
+						artifact);
+				handler.handleArtifactPropertyChange(
+						NamedElementPropertiesHelper.ARTIFACT_HIDE_EXTENDS,
+						oldValue, newValue);
+			}
 
-			String oldValue = helper
-					.getProperty(NamedElementPropertiesHelper.ARTIFACT_HIDE_EXTENDS);
-			String newValue = PreferencesHelper.extendsRelationshipValue(store);
-
-			helper.setProperty(
-					NamedElementPropertiesHelper.ARTIFACT_HIDE_EXTENDS,
-					newValue);
-			ArtifactPropertyChangeHandler handler = new ArtifactPropertyChangeHandler(
-					artifact);
-			handler.handleArtifactPropertyChange(
-					NamedElementPropertiesHelper.ARTIFACT_HIDE_EXTENDS,
-					oldValue, newValue);
+		} catch (Throwable e) {
+			log(e);
 		}
 
 		Iterator<?> it = view.getChildren().iterator();
@@ -197,13 +211,11 @@ public class DiagramUtils {
 	}
 
 	public static Diagram loadFromFile(IFile diagramFile, IFile modelFile) {
-
 		ResourceSet resSet = new ResourceSetImpl();
 		Resource modelResource = resSet.createResource(URI.createURI(modelFile
 				.getLocationURI().toString()));
 		Resource resource = resSet.createResource(URI.createURI(diagramFile
 				.getLocationURI().toString()));
-
 		try {
 			modelResource.load(Collections.emptyMap());
 			for (EObject item : modelResource.getContents()) {
@@ -217,7 +229,7 @@ public class DiagramUtils {
 			}
 			resource.load(Collections.emptyMap());
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			log(e);
 		}
 		for (EObject eo : resource.getContents()) {
 			if (eo instanceof Diagram) {
@@ -243,7 +255,8 @@ public class DiagramUtils {
 			try {
 				editorInput = ref.getEditorInput();
 			} catch (PartInitException e) {
-				throw new RuntimeException(e);
+				log(e);
+				continue;
 			}
 
 			if (editorInput instanceof IFileEditorInput) {
@@ -279,11 +292,21 @@ public class DiagramUtils {
 						OperationHistoryFactory.getOperationHistory().execute(
 								command, new NullProgressMonitor(), null);
 					} catch (ExecutionException e) {
-						throw new RuntimeException(e);
+						log(e);
 					}
 				}
 			};
 		}
 		runnable.run();
 	}
+
+	private static final void log(Throwable th) {
+		Activator
+				.getDefault()
+				.getLog()
+				.log(new Status(IStatus.WARNING, Activator.PLUGIN_ID, th
+						.getMessage(), th));
+
+	}
+
 }
