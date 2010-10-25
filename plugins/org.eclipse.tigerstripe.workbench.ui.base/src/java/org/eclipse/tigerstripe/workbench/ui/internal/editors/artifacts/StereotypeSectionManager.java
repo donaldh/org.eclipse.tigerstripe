@@ -193,29 +193,19 @@ public class StereotypeSectionManager {
 	 * 
 	 */
 	public void update() {
-		if (viewer.getTable().getSelectionCount() > 0) {
-
-			// Make sure the selected instance have been resolved. Or else can't
-			// change them (JS - except to delete, bugzilla 254406)
-			/** @see UnresolvedStereotypeInstance */
-			boolean hasUnresolvedInstances = false;
-			for (TableItem item : viewer.getTable().getSelection()) {
-				Object obj = item.getData();
-				if (obj instanceof UnresolvedStereotypeInstance) {
-					hasUnresolvedInstances = true;
+		int selectionCount = viewer.getTable().getSelectionCount();
+		if (selectionCount > 0) {
+			if (selectionCount == 1) {
+				TableItem selectedItem = viewer.getTable().getSelection()[0];
+				IStereotypeInstance instance = (IStereotypeInstance) selectedItem
+						.getData();
+				if (canEdit(instance)) {
+					editButton.setEnabled(true);
+				} else {
+					editButton.setEnabled(false);
 				}
 			}
-			if (!hasUnresolvedInstances) {
-				removeButton.setEnabled(true);
-				if (((IStereotypeInstance)viewer.getTable().getSelection()[0].getData()).getCharacterizingStereotype().getAttributes().length <= 0)
-				    editButton.setEnabled(false);
-				else
-				    editButton.setEnabled(true);
-			}
-			else {
-				removeButton.setEnabled(true);
-				editButton.setEnabled(false);
-			}
+			removeButton.setEnabled(true);
 		} else {
 			removeButton.setEnabled(false);
 			editButton.setEnabled(false);
@@ -229,12 +219,17 @@ public class StereotypeSectionManager {
 		try {
 			IStereotype[] selected = dialog.browseAvailableStereotypes(shell);
 			if (selected.length > 0) {
+				IStereotypeInstance instance = null;
 				for (IStereotype st : selected) {
-					IStereotypeInstance instance = st.makeInstance();
+					instance = st.makeInstance();
 					(component).addStereotypeInstance(instance);
 					viewer.setInput(component);
 					viewer.refresh(true);
 					callback.modify();
+				}
+				if (selected.length == 1 && instance != null
+						&& canEdit(instance)) {
+					doEdit(instance);
 				}
 			}
 		} catch (TigerstripeException ee) {
@@ -248,6 +243,22 @@ public class StereotypeSectionManager {
 		IStereotypeInstance instance = (IStereotypeInstance) selectedItems[0]
 				.getData();
 
+		doEdit(instance);
+	}
+
+	private boolean canEdit(IStereotypeInstance instance) {
+		// Make sure the selected instance have been resolved. Or else
+		// can't
+		// change them (JS - except to delete, bugzilla 254406)
+		/** @see UnresolvedStereotypeInstance */
+		if (!(instance instanceof UnresolvedStereotypeInstance)
+				&& instance.getCharacterizingStereotype().getAttributes().length > 0) {
+			return true;
+		}
+		return false;
+	}
+
+	private void doEdit(IStereotypeInstance instance) {
 		try {
 			IStereotypeInstance workingInstance = (IStereotypeInstance) instance
 					.clone();
@@ -262,11 +273,11 @@ public class StereotypeSectionManager {
 						.getCharacterizingStereotype().getAttributes()) {
 					try {
 						if (attr.isArray()) {
-							instance.setAttributeValues(attr, workingInstance
-									.getAttributeValues(attr));
+							instance.setAttributeValues(attr,
+									workingInstance.getAttributeValues(attr));
 						} else {
-							instance.setAttributeValue(attr, workingInstance
-									.getAttributeValue(attr));
+							instance.setAttributeValue(attr,
+									workingInstance.getAttributeValue(attr));
 						}
 
 					} catch (TigerstripeException ee) {
@@ -278,6 +289,7 @@ public class StereotypeSectionManager {
 		} catch (CloneNotSupportedException ee) {
 			// ignore
 		}
+
 	}
 
 	protected void removeButtonSelected(SelectionEvent e) {
@@ -285,12 +297,12 @@ public class StereotypeSectionManager {
 		Collection<IStereotypeInstance> selectedLabels = new ArrayList<IStereotypeInstance>();
 
 		for (int i = 0; i < selectedItems.length; i++) {
-			selectedLabels.add((IStereotypeInstance) selectedItems[i]
-					.getData());
+			selectedLabels
+					.add((IStereotypeInstance) selectedItems[i].getData());
 		}
 
 		String message = "Do you really want to remove ";
-		if (selectedLabels.size()> 1) {
+		if (selectedLabels.size() > 1) {
 			message = message + "these " + selectedLabels.size()
 					+ " stereotypes?";
 		} else {
@@ -325,8 +337,8 @@ public class StereotypeSectionManager {
 									+ "' is not defined in the active profile.\n\nPlease active the correct profile to edit its details.");
 			return;
 		}
-        if (instance.getCharacterizingStereotype().getAttributes().length <= 0)
-            return;
+		if (instance.getCharacterizingStereotype().getAttributes().length <= 0)
+			return;
 
 		try {
 			IStereotypeInstance workingInstance = (IStereotypeInstance) instance
@@ -342,11 +354,11 @@ public class StereotypeSectionManager {
 						.getCharacterizingStereotype().getAttributes()) {
 					try {
 						if (attr.isArray()) {
-							instance.setAttributeValues(attr, workingInstance
-									.getAttributeValues(attr));
+							instance.setAttributeValues(attr,
+									workingInstance.getAttributeValues(attr));
 						} else {
-							instance.setAttributeValue(attr, workingInstance
-									.getAttributeValue(attr));
+							instance.setAttributeValue(attr,
+									workingInstance.getAttributeValue(attr));
 						}
 					} catch (TigerstripeException ee) {
 						// ignore
