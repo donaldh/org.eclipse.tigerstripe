@@ -21,7 +21,7 @@
  *      generate = "true"
  * * 
  */
-public abstract class org
+public abstract class com
  {
 	
 	// not important since this class will never be serialized.

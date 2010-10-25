@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:instancediagram="org.eclipse.tigerstripe.workbench.ui.instancediagram" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="_1OdJANw8Ed-xX_PSWLCoSw" type="Instance" name="default.wod" measurementUnit="Pixel">
-  <styles xmi:type="notation:PageStyle" xmi:id="_1OdJAdw8Ed-xX_PSWLCoSw"/>
-  <styles xmi:type="notation:GuideStyle" xmi:id="_1OdJAtw8Ed-xX_PSWLCoSw"/>
-  <styles xmi:type="notation:DescriptionStyle" xmi:id="_1OdJA9w8Ed-xX_PSWLCoSw"/>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:instancediagram="org.eclipse.tigerstripe.workbench.ui.instancediagram" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="_FLWGYd2kEd-lK6JSKg4AjQ" type="Instance" name="default.wod" measurementUnit="Pixel">
+  <children xmi:type="notation:Node" xmi:id="_1d12QN2kEd-lK6JSKg4AjQ" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_1d3EYN2kEd-lK6JSKg4AjQ" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_1d3rcN2kEd-lK6JSKg4AjQ" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_1d3rcd2kEd-lK6JSKg4AjQ"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_1d3rct2kEd-lK6JSKg4AjQ"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_1d3rc92kEd-lK6JSKg4AjQ"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_1d12Qd2kEd-lK6JSKg4AjQ" fontName="Segoe UI"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_1d12Qt2kEd-lK6JSKg4AjQ"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_1d12Q92kEd-lK6JSKg4AjQ" fillColor="13825530"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_1d12RN2kEd-lK6JSKg4AjQ"/>
+    <element xmi:type="instancediagram:ClassInstance" href="default.owm#//@classInstances.0"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_1d12Rd2kEd-lK6JSKg4AjQ" x="281" y="170"/>
+  </children>
+  <styles xmi:type="notation:PageStyle" xmi:id="_FLWGYt2kEd-lK6JSKg4AjQ"/>
+  <styles xmi:type="notation:GuideStyle" xmi:id="_FLWGY92kEd-lK6JSKg4AjQ"/>
+  <styles xmi:type="notation:DescriptionStyle" xmi:id="_FLWGZN2kEd-lK6JSKg4AjQ"/>
   <element xmi:type="instancediagram:InstanceMap" href="default.owm#/"/>
 </notation:Diagram>

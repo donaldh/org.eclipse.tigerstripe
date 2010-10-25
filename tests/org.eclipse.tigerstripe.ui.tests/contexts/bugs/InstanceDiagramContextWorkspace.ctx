@@ -1,36 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="InstanceDiagramContextWorkspace" id="_d_sJoNy7Ed-xHbcslAWPew">
   <content>
-    <projects name="New Project">
-      <files name=".classpath" contentURI=".InstanceDiagramContextWorkspacectx/content2.classpath"/>
-      <files name=".project" contentURI=".InstanceDiagramContextWorkspacectx/content2.project"/>
-      <files name="tigerstripe.xml" contentURI=".InstanceDiagramContextWorkspacectx/content2.xml"/>
+    <projects name="test">
+      <files name=".classpath" contentURI=".InstanceDiagramContextWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".InstanceDiagramContextWorkspacectx/content1.project"/>
+      <files name="tigerstripe.xml" contentURI=".InstanceDiagramContextWorkspacectx/content1.xml"/>
       <folders name=".settings">
-        <files name="org.eclipse.core.resources.prefs" contentURI=".InstanceDiagramContextWorkspacectx/content2.prefs"/>
+        <files name="org.eclipse.core.resources.prefs" contentURI=".InstanceDiagramContextWorkspacectx/content1.prefs"/>
       </folders>
       <folders name="bin"/>
       <folders name="src">
-        <files name="default.owm" contentURI=".InstanceDiagramContextWorkspacectx/content4.owm"/>
-        <files name="default.vwm" contentURI=".InstanceDiagramContextWorkspacectx/content4.vwm"/>
-        <files name="default.wod" contentURI=".InstanceDiagramContextWorkspacectx/content4.wod"/>
-        <files name="default.wvd" contentURI=".InstanceDiagramContextWorkspacectx/content4.wvd"/>
-        <folders name="org">
-          <files name=".package" contentURI=".InstanceDiagramContextWorkspacectx/content8.package"/>
-          <folders name="eclipse">
-            <files name=".package" contentURI=".InstanceDiagramContextWorkspacectx/content7.package"/>
-            <files name="Association0.java" contentURI=".InstanceDiagramContextWorkspacectx/content15.java"/>
-            <files name="Association1.java" contentURI=".InstanceDiagramContextWorkspacectx/content16.java"/>
-            <files name="Association2.java" contentURI=".InstanceDiagramContextWorkspacectx/content17.java"/>
-            <files name="Association3.java" contentURI=".InstanceDiagramContextWorkspacectx/content18.java"/>
-            <files name="AssociationClass0.java" contentURI=".InstanceDiagramContextWorkspacectx/content19.java"/>
-            <files name="Datatype0.java" contentURI=".InstanceDiagramContextWorkspacectx/content20.java"/>
-            <files name="Entity0.java" contentURI=".InstanceDiagramContextWorkspacectx/content21.java"/>
-            <files name="Entity1.java" contentURI=".InstanceDiagramContextWorkspacectx/content22.java"/>
-            <files name="Event0.java" contentURI=".InstanceDiagramContextWorkspacectx/content23.java"/>
-            <files name="Exception0.java" contentURI=".InstanceDiagramContextWorkspacectx/content24.java"/>
-            <files name="Query0.java" contentURI=".InstanceDiagramContextWorkspacectx/content25.java"/>
-            <files name="SessionFacade0.java" contentURI=".InstanceDiagramContextWorkspacectx/content26.java"/>
-            <files name="UpdateProcedure0.java" contentURI=".InstanceDiagramContextWorkspacectx/content27.java"/>
+        <folders name="com">
+          <files name=".package" contentURI=".InstanceDiagramContextWorkspacectx/content4.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".InstanceDiagramContextWorkspacectx/content3.package"/>
+            <files name="Association0.java" contentURI=".InstanceDiagramContextWorkspacectx/content1.java"/>
+            <files name="Association1.java" contentURI=".InstanceDiagramContextWorkspacectx/content2.java"/>
+            <files name="Association2.java" contentURI=".InstanceDiagramContextWorkspacectx/content3.java"/>
+            <files name="Association3.java" contentURI=".InstanceDiagramContextWorkspacectx/content4.java"/>
+            <files name="AssociationClass0.java" contentURI=".InstanceDiagramContextWorkspacectx/content5.java"/>
+            <files name="Datatype1.java" contentURI=".InstanceDiagramContextWorkspacectx/content6.java"/>
+            <files name="Dependency0.java" contentURI=".InstanceDiagramContextWorkspacectx/content7.java"/>
+            <files name="Dependency1.java" contentURI=".InstanceDiagramContextWorkspacectx/content8.java"/>
+            <files name="Entity1.java" contentURI=".InstanceDiagramContextWorkspacectx/content9.java"/>
+            <files name="Entity2.java" contentURI=".InstanceDiagramContextWorkspacectx/content10.java"/>
+            <files name="Event0.java" contentURI=".InstanceDiagramContextWorkspacectx/content11.java"/>
+            <files name="Exception0.java" contentURI=".InstanceDiagramContextWorkspacectx/content12.java"/>
+            <files name="Query0.java" contentURI=".InstanceDiagramContextWorkspacectx/content13.java"/>
+            <files name="SessionFacade0.java" contentURI=".InstanceDiagramContextWorkspacectx/content14.java"/>
+            <files name="UpdateProcedure0.java" contentURI=".InstanceDiagramContextWorkspacectx/content15.java"/>
+            <files name="default.owm" contentURI=".InstanceDiagramContextWorkspacectx/content2.owm"/>
+            <files name="default.vwm" contentURI=".InstanceDiagramContextWorkspacectx/content2.vwm"/>
+            <files name="default.wod" contentURI=".InstanceDiagramContextWorkspacectx/content2.wod"/>
+            <files name="default.wvd" contentURI=".InstanceDiagramContextWorkspacectx/content2.wvd"/>
           </folders>
         </folders>
       </folders>

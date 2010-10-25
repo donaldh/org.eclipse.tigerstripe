@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <tigerstripe version="1.1">
-<project modelId="New Project" name="">
+<project modelId="test" name="">
 <outputDirectory>target/tigerstripe.gen</outputDirectory>
-<version>1.0</version>
-<description>A model project for testing</description>
+<version>0.0.0</version>
+<description/>
 <provider/>
-<property name="defaultArtifactPackage">org.eclipse</property>
+<property name="defaultArtifactPackage">com.mycompany</property>
 </project>
 <repositories>
 <repository baseDir=".">
