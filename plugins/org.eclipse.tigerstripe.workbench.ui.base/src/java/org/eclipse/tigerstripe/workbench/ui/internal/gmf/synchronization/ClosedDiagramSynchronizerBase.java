@@ -129,18 +129,20 @@ public abstract class ClosedDiagramSynchronizerBase implements
 
 		try {
 			readLock.lock();
-
-			EList list = diagramEP.getEditingDomain().getResourceSet()
-					.getResources();
-			for (Iterator iter = list.iterator(); iter.hasNext();) {
-				Resource res = (Resource) iter.next();
-				try {
-					res.save(new HashMap());
-				} catch (IOException e) {
-					throw new TigerstripeException(
-							"Error while saving synchronized diagram "
-									+ handle.getDiagramResource().getFullPath()
-									+ ": " + e.getMessage(), e);
+			
+			if (diagramEP!=null) {
+				EList list = diagramEP.getEditingDomain().getResourceSet()
+						.getResources();
+				for (Iterator iter = list.iterator(); iter.hasNext();) {
+					Resource res = (Resource) iter.next();
+					try {
+						res.save(new HashMap());
+					} catch (IOException e) {
+						throw new TigerstripeException(
+								"Error while saving synchronized diagram "
+										+ handle.getDiagramResource().getFullPath()
+										+ ": " + e.getMessage(), e);
+					}
 				}
 			}
 			updateTStamps();

@@ -127,9 +127,11 @@ public class PartAdapterFactory implements IAdapterFactory {
 					try {
 						IAbstractArtifact artifact = art
 								.getCorrespondingIArtifact();
-						for (ILiteral literal : artifact.getLiterals()) {
-							if (literal.getName().equals(lit.getName())) {
-								return literal;
+						if (artifact!=null) {
+							for (ILiteral literal : artifact.getLiterals()) {
+								if (literal.getName().equals(lit.getName())) {
+									return literal;
+								}
 							}
 						}
 					} catch (TigerstripeException e) {
