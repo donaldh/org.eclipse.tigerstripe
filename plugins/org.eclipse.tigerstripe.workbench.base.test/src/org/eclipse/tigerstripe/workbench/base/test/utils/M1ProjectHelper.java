@@ -93,6 +93,7 @@ public class M1ProjectHelper {
 				}
 				
 				if (! f.exists()){
+					createDirRecursively(f);
 					f.createNewFile();
 				}
 				
@@ -133,6 +134,17 @@ public class M1ProjectHelper {
 		}
 	}
 
+	
+	private static void createDirRecursively(File f){
+		if (! f.getParentFile().exists())
+			f.getParentFile().mkdir();
+		else {
+			createDirRecursively(f.getParentFile());
+		}
+		
+	}
+	
+	
 	private static void copyTemplates(ITigerstripeM1GeneratorProject project)
 			throws IOException {
 		copyFiles(project, TEMPLATES, "templates");
