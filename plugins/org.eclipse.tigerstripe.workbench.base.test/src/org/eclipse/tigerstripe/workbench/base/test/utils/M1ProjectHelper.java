@@ -87,7 +87,7 @@ public class M1ProjectHelper {
 				
 				String namePart = file.getName().substring(srcDir.length()+1);
 				
-				File f = new File(targetTemplatesPath + File.separator + file.getName());
+				File f = new File(targetTemplatesPath + File.separator + namePart);
 				System.out.println("File "+f.getAbsolutePath()+ " "+f.exists());
 				
 				if (f.isDirectory()) { // if its a directory, create it

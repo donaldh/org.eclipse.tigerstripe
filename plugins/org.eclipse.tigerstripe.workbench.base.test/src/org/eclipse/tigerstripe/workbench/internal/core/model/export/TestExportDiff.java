@@ -69,6 +69,11 @@ public class TestExportDiff extends AbstractExportTestCase {
 		List<IAbstractArtifact> artifacts = ExportDiff
 				.getDuplicates(inputManager);
 		assertNotNull("Artifacts list is null", artifacts);
+		String list = "";
+		for(IAbstractArtifact art : artifacts){
+			list = list + art+ " ";
+		}
+		System.out.println(list);
 		assertEquals(4, artifacts.size()); // two for pkg, two artifacts
 
 		assertTrue(artifactExistsByFqn(artifacts, "com"));
@@ -130,6 +135,7 @@ public class TestExportDiff extends AbstractExportTestCase {
 		for(IAbstractArtifact art : artifacts){
 			list = list + art+ " ";
 		}
+		System.out.println(list);
 		assertEquals("Expected 3 - got these "+list,3, artifacts.size()); // two for pkg, one artifact
 
 		assertTrue(artifactExistsByFqn(artifacts, "com"));
