@@ -136,9 +136,12 @@ public class M1ProjectHelper {
 
 	
 	private static void createDirRecursively(File f){
+		System.out.println("Create Dirs for "+f);
 		if (f.isDirectory()){
-			if (f.getParentFile().exists())
+			if (f.getParentFile().exists()){
+				System.out.println("making dir"+f);
 				f.mkdir();
+			}
 			else {
 				createDirRecursively(f.getParentFile());
 			}
