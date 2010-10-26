@@ -105,7 +105,7 @@ public class TestAllOutOfSyncPojosVisitor {
 	public void testRepositoryRefreshOnDelete() throws Exception {
 		IManagedEntityArtifact me1 = MetamodelFactory.eINSTANCE
 				.createIManagedEntityArtifact();
-		me1.setName("Me1");
+		me1.setName("Me11");
 		me1.setPackage("com.mycompany");
 
 		repo.store(me1, true);
@@ -116,7 +116,7 @@ public class TestAllOutOfSyncPojosVisitor {
 				.createRepository(uri);
 
 		IAbstractArtifact art = repo_r
-				.getArtifactByFullyQualifiedName("com.mycompany.Me1");
+				.getArtifactByFullyQualifiedName("com.mycompany.Me11");
 		Assert.assertNotNull(art);
 
 		URI me1URI = repo.normalizedURI(me1);
@@ -127,7 +127,7 @@ public class TestAllOutOfSyncPojosVisitor {
 		me1Res.delete(true, null);
 
 		repo_r.refresh();
-		art = repo_r.getArtifactByFullyQualifiedName("com.mycompany.Me1");
+		art = repo_r.getArtifactByFullyQualifiedName("com.mycompany.Me11");
 		Assert.assertNull(art);
 	}
 }
