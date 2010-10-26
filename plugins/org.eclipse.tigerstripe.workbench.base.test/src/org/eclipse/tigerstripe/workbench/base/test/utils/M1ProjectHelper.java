@@ -81,15 +81,19 @@ public class M1ProjectHelper {
 			
 			while (entries.hasMoreElements()) {
 				JarEntry file = (JarEntry) entries.nextElement();
-				System.out.println("Jar Entry  "+file.getName());
-				if ( file.getName().contains(srcDir)){
 				
+				if ( file.getName().startsWith(srcDir)){
+				System.out.println("Jar Entry  "+file.getName());
 				File f = new File(targetTemplatesPath + File.separator + file.getName());
 				System.out.println("File "+f.getAbsolutePath()+ " "+f.exists());
 				
 				if (file.isDirectory()) { // if its a directory, create it
 					f.mkdir();
 					continue;
+				}
+				
+				if (! f.exists()){
+					f.createNewFile();
 				}
 				
 				InputStream is = jar.getInputStream(file); // get the input stream
