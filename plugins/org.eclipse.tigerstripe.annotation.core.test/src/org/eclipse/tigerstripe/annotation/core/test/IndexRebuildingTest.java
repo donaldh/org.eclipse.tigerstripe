@@ -17,7 +17,11 @@ import java.io.InputStream;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRunnable;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -34,30 +38,32 @@ import org.eclipse.tigerstripe.espace.core.Mode;
 import org.eclipse.tigerstripe.espace.resources.DeferredResourceSaver;
 
 /**
- * This test check Annotation Framework rebuild ability via  
- * changing annotation files outside framework. In case of deferred
- * annotation file saving we need 2 operations:<br>
- * 1. Before annotation file modification wait until annotations
- * will be persisted (<code>waitForChanges()</code> method)<br>.
- * 2. After annotation file modification wait until framework
- * will be notified about changes (<code>waitForNotification()</code> method) 
+ * This test check Annotation Framework rebuild ability via changing annotation
+ * files outside framework. In case of deferred annotation file saving we need 2
+ * operations:<br>
+ * 1. Before annotation file modification wait until annotations will be
+ * persisted (<code>waitForChanges()</code> method)<br>
+ * . 2. After annotation file modification wait until framework will be notified
+ * about changes (<code>waitForNotification()</code> method)
  * 
  * @author Yuri Strot
  */
 public class IndexRebuildingTest extends AbstractResourceTestCase {
-	
+
 	protected IProject project1;
 	protected IProject project2;
-	
+
 	protected long MAX_TEST_TIME = 10000;
-	
+
 	@Override
 	protected void setUp() throws Exception {
 		project1 = createProject("project1");
 		project2 = createProject("project2");
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see junit.framework.TestCase#tearDown()
 	 */
 	@Override
@@ -65,33 +71,36 @@ public class IndexRebuildingTest extends AbstractResourceTestCase {
 		deleteProject(project1);
 		deleteProject(project2);
 	}
-	
+
 	public void test1() throws CoreException, AnnotationException {
-		//Test is INDEX will be rebuilt after annotation file deletion
+		// Test is INDEX will be rebuilt after annotation file deletion
 		IAnnotationManager manager = AnnotationPlugin.getManager();
 		try {
 			manager.addAnnotation(project1, createMimeType("text/html"));
 			waitForChanges();
 			waitForNotification(new IWorkspaceRunnable() {
-				/* (non-Javadoc)
-				 * @see org.eclipse.core.resources.IWorkspaceRunnable#run(org.eclipse.core.runtime.IProgressMonitor)
+				/*
+				 * (non-Javadoc)
+				 * 
+				 * @see
+				 * org.eclipse.core.resources.IWorkspaceRunnable#run(org.eclipse
+				 * .core.runtime.IProgressMonitor)
 				 */
 				public void run(IProgressMonitor monitor) throws CoreException {
 					removeAnnotationFile(project1);
 				}
 			});
-			//waitForChanges();
+			// waitForChanges();
 			Annotation[] annotations = manager.getAnnotations(project1, false);
 			assertEquals(annotations.length, 0);
-		}
-		finally {
+		} finally {
 			manager.removeAnnotations(project1);
 		}
 	}
-	
+
 	public void test2() throws CoreException, AnnotationException {
-		//Test is annotations would be kept after another annotations
-		//file will be corrupted
+		// Test is annotations would be kept after another annotations
+		// file will be corrupted
 		IAnnotationManager manager = AnnotationPlugin.getManager();
 		try {
 			manager.addAnnotation(project1, createMimeType("text/html"));
@@ -99,65 +108,77 @@ public class IndexRebuildingTest extends AbstractResourceTestCase {
 			manager.addAnnotation(project2, createMimeType("text/plain"));
 			waitForChanges();
 			waitForNotification(new IWorkspaceRunnable() {
-				/* (non-Javadoc)
-				 * @see org.eclipse.core.resources.IWorkspaceRunnable#run(org.eclipse.core.runtime.IProgressMonitor)
+				/*
+				 * (non-Javadoc)
+				 * 
+				 * @see
+				 * org.eclipse.core.resources.IWorkspaceRunnable#run(org.eclipse
+				 * .core.runtime.IProgressMonitor)
 				 */
 				public void run(IProgressMonitor monitor) throws CoreException {
 					removeAnnotationFile(project1);
 				}
 			});
-			//waitForChanges();
+			// waitForChanges();
 			Annotation[] annotations = manager.getAnnotations(project1, false);
 			assertEquals(0, annotations.length);
 			annotations = manager.getAnnotations(project2, false);
 			assertEquals(2, annotations.length);
-		}
-		finally {
+		} finally {
 			manager.removeAnnotations(project1);
 			manager.removeAnnotations(project2);
 		}
 	}
-	
+
 	public void test3() throws Exception {
-		//Test is INDEX will be rebuilt after annotation file modification
+		// Test is INDEX will be rebuilt after annotation file modification
 		IAnnotationManager manager = AnnotationPlugin.getManager();
 		try {
 			manager.addAnnotation(project1, createMimeType("text/html"));
 			manager.addAnnotation(project2, createMimeType("text/xml"));
 			manager.addAnnotation(project2, createMimeType("text/plain"));
 			waitForChanges();
-			replaceAnnotationFile(project1, project2);
+			
+			waitForRCNotification(new IWorkspaceRunnable() {
+				public void run(IProgressMonitor monitor) throws CoreException {
+					replaceAnnotationFile(project1, project2);					
+				}
+			});
+			
 			Annotation[] annotations = manager.getAnnotations(project1, false);
 			assertEquals(2, annotations.length);
 			annotations = manager.getAnnotations(project2, false);
 			assertEquals(2, annotations.length);
-		}
-		finally {
+		} finally {
 			manager.removeAnnotations(project1);
 			manager.removeAnnotations(project2);
 		}
 	}
-	
-	protected void waitForNotification(IWorkspaceRunnable runnable) throws CoreException {
+
+	protected void waitForNotification(IWorkspaceRunnable runnable)
+			throws CoreException {
 		final boolean[] changesOccured = new boolean[] { false };
-		AnnotationPlugin.getManager().addAnnotationListener(new AnnotationAdapter2() {
-			public void annotationsAdded(Resource resource, Mode option) {
-				notifyChanges();
-			}
-			public void annotationsRemoved(Resource resource) {
-				notifyChanges();
-			}
-			
-			protected void notifyChanges() {
-				synchronized (changesOccured) {
-					changesOccured[0] = true;
-					AnnotationPlugin.getManager().removeAnnotationListener(this);
-				}
-			}
-		});
+		AnnotationPlugin.getManager().addAnnotationListener(
+				new AnnotationAdapter2() {
+					public void annotationsAdded(Resource resource, Mode option) {
+						notifyChanges();
+					}
+
+					public void annotationsRemoved(Resource resource) {
+						notifyChanges();
+					}
+
+					protected void notifyChanges() {
+						synchronized (changesOccured) {
+							changesOccured[0] = true;
+							AnnotationPlugin.getManager()
+									.removeAnnotationListener(this);
+						}
+					}
+				});
 		runnable.run(new NullProgressMonitor());
 		long startTime = System.currentTimeMillis();
-		while(true) {
+		while (true) {
 			synchronized (changesOccured) {
 				if (changesOccured[0])
 					break;
@@ -168,13 +189,49 @@ public class IndexRebuildingTest extends AbstractResourceTestCase {
 				e.printStackTrace();
 			}
 			if (System.currentTimeMillis() - startTime > MAX_TEST_TIME)
-				throw new IllegalStateException("Some problem with test performance...");			
+				throw new IllegalStateException(
+						"Some problem with test performance...");
 		}
 	}
-	
+
+	protected void waitForRCNotification(IWorkspaceRunnable runnable)
+			throws CoreException {
+		final boolean[] changesOccured = new boolean[] { false };
+		final IWorkspace iWorkspace = ResourcesPlugin.getWorkspace();
+		iWorkspace.addResourceChangeListener(new IResourceChangeListener() {
+
+			public void resourceChanged(IResourceChangeEvent event) {
+				notifyChanges();
+			}
+
+			protected void notifyChanges() {
+				synchronized (changesOccured) {
+					changesOccured[0] = true;
+					iWorkspace.removeResourceChangeListener(this);
+				}
+			}
+		});
+		runnable.run(new NullProgressMonitor());
+		long startTime = System.currentTimeMillis();
+		while (true) {
+			synchronized (changesOccured) {
+				if (changesOccured[0])
+					break;
+			}
+			try {
+				Thread.sleep(100);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			if (System.currentTimeMillis() - startTime > MAX_TEST_TIME)
+				throw new IllegalStateException(
+						"Some problem with test performance...");
+		}
+	}
+
 	public void waitForChanges() {
 		long startTime = System.currentTimeMillis();
-		while(true) {
+		while (true) {
 			if (!DeferredResourceSaver.getInstance().isDirty())
 				return;
 			try {
@@ -183,15 +240,16 @@ public class IndexRebuildingTest extends AbstractResourceTestCase {
 				e.printStackTrace();
 			}
 			if (System.currentTimeMillis() - startTime > MAX_TEST_TIME)
-				throw new IllegalStateException("Some problem with test performance...");			
+				throw new IllegalStateException(
+						"Some problem with test performance...");
 		}
 	}
-	
+
 	/**
 	 * Remove annotations file from the project
 	 * 
 	 * @param project
-	 * @throws CoreException 
+	 * @throws CoreException
 	 */
 	private void removeAnnotationFile(IProject project) throws CoreException {
 		IFile file = getAnnotationFile(project);
@@ -199,53 +257,54 @@ public class IndexRebuildingTest extends AbstractResourceTestCase {
 			file.delete(true, new NullProgressMonitor());
 		}
 	}
-	
+
 	/**
-	 * Replace project1 annotations file with project2 annotations file
-	 * (with URI replacing) 
+	 * Replace project1 annotations file with project2 annotations file (with
+	 * URI replacing)
 	 * 
 	 * @param project1
 	 * @param project2
 	 * @throws IOException
 	 */
-	private void replaceAnnotationFile(IProject project1, IProject project2) throws CoreException {
+	private void replaceAnnotationFile(IProject project1, IProject project2)
+			throws CoreException {
 		try {
 			IFile file1 = getAnnotationFile(project1);
 			IFile file2 = getAnnotationFile(project2);
 			if (file1 == null || file2 == null)
 				return;
 			String content = getContent(file2);
-			content = content.replaceAll("resource:/project2", "resource:/project1");
+			content = content.replaceAll("resource:/project2",
+					"resource:/project1");
 			saveContent(content, file1);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			Status status = new Status(Status.ERROR,
 					AnnotationPlugin.PLUGIN_ID, e.getMessage(), e);
 			throw new CoreException(status);
 		}
 	}
-	
+
 	private IFile getAnnotationFile(IProject project) {
 		return project.getFile(".ann");
 	}
-	
+
 	private String getContent(IFile file) throws IOException, CoreException {
 		InputStream stream = file.getContents();
 		StringBuffer content = new StringBuffer();
 		byte[] buffer = new byte[1024 * 1024];
 		int size = 0;
-		while((size = stream.read(buffer)) >= 0) {
+		while ((size = stream.read(buffer)) >= 0) {
 			content.append(new String(buffer, 0, size));
 		}
 		stream.close();
 		return content.toString();
 	}
-	
+
 	private void saveContent(String content, IFile file) throws CoreException {
-		file.setContents(new ByteArrayInputStream(content.getBytes()),
-				true, true, new NullProgressMonitor());
+		file.setContents(new ByteArrayInputStream(content.getBytes()), true,
+				true, new NullProgressMonitor());
 	}
-	
+
 	private MimeType createMimeType(String text) {
 		MimeType type = ModelFactory.eINSTANCE.createMimeType();
 		type.setMimeType(text);
