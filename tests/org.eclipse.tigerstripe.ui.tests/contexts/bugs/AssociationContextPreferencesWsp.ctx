@@ -5,10 +5,6 @@
       <files name=".classpath" contentURI=".AssociationContextPreferencesWspctx/content1.classpath"/>
       <files name=".project" contentURI=".AssociationContextPreferencesWspctx/content1.project"/>
       <files name="tigerstripe.xml" contentURI=".AssociationContextPreferencesWspctx/content1.xml"/>
-      <folders name=".settings">
-        <files name="org.eclipse.core.resources.prefs" contentURI=".AssociationContextPreferencesWspctx/content1.prefs"/>
-      </folders>
-      <folders name="bin"/>
       <folders name="src">
         <files name="default.vwm" contentURI=".AssociationContextPreferencesWspctx/content2.vwm"/>
         <files name="default.wvd" contentURI=".AssociationContextPreferencesWspctx/content2.wvd"/>
