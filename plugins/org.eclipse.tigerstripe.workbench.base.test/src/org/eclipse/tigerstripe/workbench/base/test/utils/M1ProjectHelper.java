@@ -72,7 +72,6 @@ public class M1ProjectHelper {
 		
 		
 		String baseBundleRoot = BundleUtils.INSTANCE.getBundleRoot();
-		System.out.println("Base bundle ZZ"+baseBundleRoot+"ZZ");
 		if (baseBundleRoot.endsWith(".jar")){
 			
 			JarFile jar = new JarFile(baseBundleRoot);
@@ -83,12 +82,12 @@ public class M1ProjectHelper {
 				JarEntry file = (JarEntry) entries.nextElement();
 				
 				if ( file.getName().startsWith(srcDir)){
-				System.out.println("Jar Entry  "+file.getName());
+//				System.out.println("Jar Entry  "+file.getName());
 				
 				String namePart = file.getName().substring(srcDir.length()+1);
 				
 				File f = new File(targetTemplatesPath + File.separator + namePart);
-				System.out.println("File "+f.getAbsolutePath()+ " "+f.exists());
+//				System.out.println("File "+f.getAbsolutePath()+ " "+f.exists());
 				
 				if (file.isDirectory()) { // if its a directory, create it
 					f.mkdir();
