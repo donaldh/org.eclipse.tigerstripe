@@ -56,8 +56,8 @@ public class M1ProjectHelper {
 						ITigerstripeM1GeneratorProject.class, null, null);
 
 		if (populateContents) {
-			addJavaSrc(project);
 			addGlobalRules(project);
+			addJavaSrc(project);
 			IProject iProj = (IProject) project.getAdapter(IProject.class);
 			iProj.refreshLocal(IResource.DEPTH_INFINITE, null);
 		}
@@ -90,14 +90,13 @@ public class M1ProjectHelper {
 				File f = new File(targetTemplatesPath + File.separator + namePart);
 				System.out.println("File "+f.getAbsolutePath()+ " "+f.exists());
 				
-				if (f.isDirectory()) { // if its a directory, create it
+				if (file.isDirectory()) { // if its a directory, create it
 					f.mkdir();
 					continue;
 				}
 				
-				if (! f.exists()){
-					f.createNewFile();
-				}
+				f.createNewFile();
+
 				
 				InputStream is = jar.getInputStream(file); // get the input stream
 				FileOutputStream fos = new FileOutputStream(f);
