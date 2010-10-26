@@ -84,6 +84,9 @@ public class M1ProjectHelper {
 				
 				if ( file.getName().startsWith(srcDir)){
 				System.out.println("Jar Entry  "+file.getName());
+				
+				String namePart = file.getName().substring(srcDir.length()+1);
+				
 				File f = new File(targetTemplatesPath + File.separator + file.getName());
 				System.out.println("File "+f.getAbsolutePath()+ " "+f.exists());
 				
@@ -93,7 +96,6 @@ public class M1ProjectHelper {
 				}
 				
 				if (! f.exists()){
-					createDirRecursively(f.getParentFile());
 					f.createNewFile();
 				}
 				
@@ -134,19 +136,6 @@ public class M1ProjectHelper {
 		}
 	}
 
-	
-	private static void createDirRecursively(File f){
-		System.out.println("Create Dirs for "+f);
-		if (f.isDirectory()){
-			if (f.getParentFile().exists()){
-				System.out.println("making dir"+f);
-				f.mkdir();
-			}
-			else {
-				createDirRecursively(f.getParentFile());
-			}
-		}
-	}
 	
 	
 	private static void copyTemplates(ITigerstripeM1GeneratorProject project)
