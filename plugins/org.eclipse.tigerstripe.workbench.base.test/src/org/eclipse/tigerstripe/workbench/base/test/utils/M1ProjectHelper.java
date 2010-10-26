@@ -93,7 +93,7 @@ public class M1ProjectHelper {
 				}
 				
 				if (! f.exists()){
-					createDirRecursively(f);
+					createDirRecursively(f.getParentFile());
 					f.createNewFile();
 				}
 				
@@ -136,12 +136,13 @@ public class M1ProjectHelper {
 
 	
 	private static void createDirRecursively(File f){
-		if (! f.getParentFile().exists())
-			f.getParentFile().mkdir();
-		else {
-			createDirRecursively(f.getParentFile());
+		if (f.isDirectory()){
+			if (f.getParentFile().exists())
+				f.mkdir();
+			else {
+				createDirRecursively(f.getParentFile());
+			}
 		}
-		
 	}
 	
 	
