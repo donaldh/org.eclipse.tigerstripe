@@ -1,0 +1,971 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" name="321409_RefactorPackageNames " id="_cC0c4OCjEd-O58X7lLKZZg" description="">
+  <contexts>_o74D4OCsEd-O58X7lLKZZg</contexts>
+  <content xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe -"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree0" kind="Tree"/>
+      <path>test</path>
+      <path>src</path>
+      <path>com.mycompany</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe -"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>test</path>
+        <path>src</path>
+        <path>com.mycompany</path>
+        <parent id="Tree0" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="com.mycompany">
+      <element id="Item0" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="childCount" value="17">
+      <element id="Item0" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe -"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree0" kind="Tree"/>
+      <path>test</path>
+      <path>src</path>
+      <path>com.mycompany.package1</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe -"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>test</path>
+        <path>src</path>
+        <path>com.mycompany.package1</path>
+        <parent id="Tree0" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="com.mycompany.package1">
+      <element id="Item0" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="childCount" value="14">
+      <element id="Item0" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe -"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree0" kind="Tree"/>
+      <path>test</path>
+      <path>src</path>
+      <path>com.mycompany.package2</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe -"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>test</path>
+        <path>src</path>
+        <path>com.mycompany.package2</path>
+        <parent id="Tree0" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="com.mycompany.package2">
+      <element id="Item0" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="childCount" value="14">
+      <element id="Item0" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow0_22" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0_22" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree0_22" kind="Tree"/>
+      <path>test</path>
+      <path>src</path>
+      <path>com.mycompany.package2</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Menu" multiplicity="1">
+        <path>Refactor Model</path>
+        <path>Rename...</path>
+        <parent id="Tree0_22" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Menu0_22" kind="Menu"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State0_22" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="Refactor Model Artifact" multiplicity="1">
+        <parent id="EclipseWindow0_22" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Label" pattern="New name:" multiplicity="1">
+        <parent id="Window0_22" kind="Window"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Text" multiplicity="1">
+        <after id="Label0_22" kind="Label"/>
+        <parent id="Window0_22" kind="Window"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Type" state="262144" code="97" character="1">
+      <element id="Text0_22" kind="Text"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Type" state="262144" code="99" character="3">
+      <element id="Text0_22" kind="Text"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetText" value="">
+      <element id="Text0_22" kind="Text"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Type" state="262144" code="118" character="22">
+      <element id="Text0_22" kind="Text"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetText" value="com.mycompany.package21">
+      <element id="Text0_22" kind="Text"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Next >" multiplicity="1">
+        <parent id="Window0_22" kind="Window"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button0_22" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State1_23" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Finish" multiplicity="1">
+        <parent id="Window0_22" kind="Window"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button1_23" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State2_24" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow0_23" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0_23" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>test</path>
+        <path>src</path>
+        <path>com.mycompany.package21</path>
+        <parent id="Tree0_23" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="com.mycompany.package21">
+      <element id="Item0_22" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="childCount" value="14">
+      <element id="Item0_22" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow0_24" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0_24" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree0_24" kind="Tree"/>
+      <path>test</path>
+      <path>src</path>
+      <path>com.mycompany</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Menu" multiplicity="1">
+        <path>Refactor Model</path>
+        <path>Rename...</path>
+        <parent id="Tree0_24" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Menu0_23" kind="Menu"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State0_25" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="Refactor Model Artifact" multiplicity="1">
+        <parent id="EclipseWindow0_24" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Label" pattern="New name:" multiplicity="1">
+        <parent id="Window0_23" kind="Window"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Text" multiplicity="1">
+        <after id="Label0_23" kind="Label"/>
+        <parent id="Window0_23" kind="Window"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Type" state="262144" code="97" character="1">
+      <element id="Text0_23" kind="Text"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Type" state="262144" code="99" character="3">
+      <element id="Text0_23" kind="Text"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetText" value="">
+      <element id="Text0_23" kind="Text"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Type" state="262144" code="118" character="22">
+      <element id="Text0_23" kind="Text"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetText" value="com.mycompany.test">
+      <element id="Text0_23" kind="Text"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Next >" multiplicity="1">
+        <parent id="Window0_23" kind="Window"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button0_24" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State1_26" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Finish" multiplicity="1">
+        <parent id="Window0_23" kind="Window"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button1_25" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State2_27" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow0_25" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0_25" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>test</path>
+        <path>src</path>
+        <path>com.mycompany.test</path>
+        <parent id="Tree0_25" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="com.mycompany.test">
+      <element id="Item0_23" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="childCount" value="17">
+      <element id="Item0_23" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow0_26" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0_26" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree0_26" kind="Tree"/>
+      <path>test</path>
+      <path>src</path>
+      <path>com.mycompany.test.package1</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow0_27" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0_27" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>test</path>
+        <path>src</path>
+        <path>com.mycompany.test.package1</path>
+        <parent id="Tree0_27" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="com.mycompany.test.package1">
+      <element id="Item1_24" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="childCount" value="14">
+      <element id="Item1_24" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow0_28" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0_28" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree0_28" kind="Tree"/>
+      <path>test</path>
+      <path>src</path>
+      <path>com.mycompany.test.package21</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow0_29" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0_29" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>test</path>
+        <path>src</path>
+        <path>com.mycompany.test.package21</path>
+        <parent id="Tree0_29" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="com.mycompany.test.package21">
+      <element id="Item0_25" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="childCount" value="14">
+      <element id="Item0_25" kind="Item"/>
+    </commands>
+    <elementMapping command="//@content/@commands.0">
+      <elements id="EclipseWindow0" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="-8" y="-8" width="1936" height="1056"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.1">
+      <elements id="View0" kind="View"/>
+      <controls/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.2">
+      <elements id="Tree0" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="472" height="888"/>
+        <selection>
+          <path>test</path>
+          <path>src</path>
+          <path>com.mycompany</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.4">
+      <elements id="EclipseWindow0" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="-8" y="-8" width="1936" height="1056"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.5">
+      <elements id="View0" kind="View"/>
+      <controls/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.6">
+      <elements id="Tree0" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="472" height="888"/>
+        <selection>
+          <path>test</path>
+          <path>src</path>
+          <path>com.mycompany</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.7">
+      <elements id="Item0" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="com.mycompany" selected="true" childCount="17">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="79" y="36" width="98" height="18"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.10">
+      <elements id="EclipseWindow0" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="-8" y="-8" width="1936" height="1056"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.11">
+      <elements id="View0" kind="View"/>
+      <controls/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.12">
+      <elements id="Tree0" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="472" height="888"/>
+        <selection>
+          <path>test</path>
+          <path>src</path>
+          <path>com.mycompany.package1</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.14">
+      <elements id="EclipseWindow0" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="-8" y="-8" width="1936" height="1056"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.15">
+      <elements id="View0" kind="View"/>
+      <controls/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.16">
+      <elements id="Tree0" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="472" height="888"/>
+        <selection>
+          <path>test</path>
+          <path>src</path>
+          <path>com.mycompany.package1</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.17">
+      <elements id="Item0" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="com.mycompany.package1" selected="true" childCount="14">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="79" y="360" width="151" height="18"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.20">
+      <elements id="EclipseWindow0" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="-8" y="-8" width="1936" height="1056"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.21">
+      <elements id="View0" kind="View"/>
+      <controls/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.22">
+      <elements id="Tree0" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="472" height="888"/>
+        <selection>
+          <path>test</path>
+          <path>src</path>
+          <path>com.mycompany.package2</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.24">
+      <elements id="EclipseWindow0" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="-8" y="-8" width="1936" height="1056"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.25">
+      <elements id="View0" kind="View"/>
+      <controls/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.26">
+      <elements id="Tree0" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="472" height="888"/>
+        <selection>
+          <path>test</path>
+          <path>src</path>
+          <path>com.mycompany.package2</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.27">
+      <elements id="Item0" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="com.mycompany.package2" selected="true" childCount="14">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="79" y="630" width="151" height="18"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.30">
+      <elements id="EclipseWindow0_22" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="-8" y="-8" width="1936" height="1056"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.31">
+      <elements id="View0_22" kind="View"/>
+      <controls/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.32">
+      <elements id="Tree0_22" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="472" height="888"/>
+        <selection>
+          <path>test</path>
+          <path>src</path>
+          <path>com.mycompany.package2</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.34">
+      <elements id="Menu0_22" kind="Menu"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.35">
+      <elements id="State0_22" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.38">
+      <elements id="Window0_22" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="698" y="232" width="525" height="433"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.39">
+      <elements id="Label0_22" kind="Label"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="New name:">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="5" y="8" width="60" height="15"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.40">
+      <elements id="Text0_22" kind="Text"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Text" enablement="true" borderWith="2" value="com.mycompany.package2">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="70" y="5" width="424" height="21"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.46">
+      <elements id="Button0_22" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Next >">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="92" width="92" height="25"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.47">
+      <elements id="State1_23" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.50">
+      <elements id="Button1_23" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="201" y="13" width="92" height="25"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.51">
+      <elements id="State2_24" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.54">
+      <elements id="EclipseWindow0_23" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="-8" y="-8" width="1936" height="1056"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.55">
+      <elements id="View0_23" kind="View"/>
+      <controls/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.56">
+      <elements id="Tree0_23" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="472" height="888"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.57">
+      <elements id="Item0_22" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="com.mycompany.package21" childCount="14">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="79" y="594" width="157" height="18"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.60">
+      <elements id="EclipseWindow0_24" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="-8" y="-8" width="1936" height="1056"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.61">
+      <elements id="View0_24" kind="View"/>
+      <controls/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.62">
+      <elements id="Tree0_24" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="472" height="888"/>
+        <selection>
+          <path>test</path>
+          <path>src</path>
+          <path>com.mycompany</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.64">
+      <elements id="Menu0_23" kind="Menu"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.65">
+      <elements id="State0_25" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.68">
+      <elements id="Window0_23" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="698" y="232" width="525" height="433"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.69">
+      <elements id="Label0_23" kind="Label"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="New name:">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="5" y="8" width="60" height="15"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.70">
+      <elements id="Text0_23" kind="Text"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Text" enablement="true" borderWith="2" value="com.mycompany">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="70" y="5" width="424" height="21"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.76">
+      <elements id="Button0_24" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Next >">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="92" width="92" height="25"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.77">
+      <elements id="State1_26" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.80">
+      <elements id="Button1_25" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="201" y="13" width="92" height="25"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.81">
+      <elements id="State2_27" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.84">
+      <elements id="EclipseWindow0_25" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="-8" y="-8" width="1936" height="1056"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.85">
+      <elements id="View0_25" kind="View"/>
+      <controls/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.86">
+      <elements id="Tree0_25" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="472" height="888"/>
+        <selection>
+          <path>test</path>
+          <path>src</path>
+          <path>com.mycompany.test</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.87">
+      <elements id="Item0_23" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="com.mycompany.test" selected="true" childCount="17">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="79" y="36" width="120" height="18"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.90">
+      <elements id="EclipseWindow0_26" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="-8" y="-8" width="1936" height="1056"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.91">
+      <elements id="View0_26" kind="View"/>
+      <controls/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.92">
+      <elements id="Tree0_26" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="472" height="888"/>
+        <selection>
+          <path>test</path>
+          <path>src</path>
+          <path>com.mycompany.test.package1</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.94">
+      <elements id="EclipseWindow0_27" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="-8" y="-8" width="1936" height="1056"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.95">
+      <elements id="View0_27" kind="View"/>
+      <controls/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.96">
+      <elements id="Tree0_27" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="472" height="888"/>
+        <selection>
+          <path>test</path>
+          <path>src</path>
+          <path>com.mycompany.test.package1</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.97">
+      <elements id="Item1_24" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="com.mycompany.test.package1" selected="true" childCount="14">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="79" y="360" width="173" height="18"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.100">
+      <elements id="EclipseWindow0_28" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="-8" y="-8" width="1936" height="1056"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.101">
+      <elements id="View0_28" kind="View"/>
+      <controls/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.102">
+      <elements id="Tree0_28" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="472" height="888"/>
+        <selection>
+          <path>test</path>
+          <path>src</path>
+          <path>com.mycompany.test.package21</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.104">
+      <elements id="EclipseWindow0_29" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="-8" y="-8" width="1936" height="1056"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.105">
+      <elements id="View0_29" kind="View"/>
+      <controls/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.106">
+      <elements id="Tree0_29" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="472" height="888"/>
+        <selection>
+          <path>test</path>
+          <path>src</path>
+          <path>com.mycompany.test.package21</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.107">
+      <elements id="Item0_25" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="com.mycompany.test.package21" selected="true" childCount="14">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="79" y="612" width="179" height="18"/>
+      </controls>
+    </elementMapping>
+  </content>
+</com.xored.q7.scenario:Scenario>
