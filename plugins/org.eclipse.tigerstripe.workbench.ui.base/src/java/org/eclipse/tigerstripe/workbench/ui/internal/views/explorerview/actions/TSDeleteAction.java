@@ -14,9 +14,11 @@ import static java.util.Arrays.asList;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
@@ -145,10 +147,7 @@ public class TSDeleteAction extends DeleteAction {
 
     private class ElementArtifactPair {
         IJavaElement element;
-
         IAbstractArtifact artifact;
-
-        ITigerstripeModelProject tsProject;
     }
 
     @Override
@@ -174,8 +173,8 @@ public class TSDeleteAction extends DeleteAction {
             // notify
             // the corresponding
             // artifact manager
-			List<ElementArtifactPair> selectedResources = new ArrayList<ElementArtifactPair>();
-			Set<IResource> packageResources = new HashSet<IResource>();
+            List<ElementArtifactPair> selectedResources = new ArrayList<ElementArtifactPair>();
+            Set<IResource> packageResources = new HashSet<IResource>();
             if (selection != null) {
                 for (Iterator<?> iter = selection.iterator(); iter.hasNext();) {
                     Object obj = iter.next();
@@ -206,16 +205,16 @@ public class TSDeleteAction extends DeleteAction {
                                 selectedResources.add(pair);
                             }
                         }
-                       	addParentPackgeResources(pack, packageResources);
+                        addParentPackgeResources(pack, packageResources);
 
                     }
                 }
             }
-            
-			List<Object> toDelete = new ArrayList<Object>(
-					asList(selection.toArray()));
-			toDelete.addAll(packageResources);
-			super.run(new StructuredSelection(toDelete));
+
+            List<Object> toDelete = new ArrayList<Object>(
+                    asList(selection.toArray()));
+            toDelete.addAll(packageResources);
+            super.run(new StructuredSelection(toDelete));
 
             // Now check what was actually deleted and notify the artifact
             // manager
@@ -254,45 +253,72 @@ public class TSDeleteAction extends DeleteAction {
                 msg += "these " + selection.size() + " elements?";
             }
             if (MessageDialog.openQuestion(getShell(), "Delete...", msg)) {
-                List<IAbstractArtifact> changedArtifacts = new ArrayList<IAbstractArtifact>();
+                //Bug 320140 - placing artifacts in a map instead of a list so if they come up again
+                //we will use the already modified artifact in the map and modify it further
+                //otherwise only the last change will take affect
+                Map<String, IAbstractArtifact> changedArtifacts = new HashMap<String, IAbstractArtifact>();
                 for (Iterator iter = selection.iterator(); iter.hasNext();) {
                     Object obj = iter.next();
                     if (obj instanceof IField) {
                         IField field = (IField) obj;
                         try {
-                            IAbstractArtifact art = field
-                                    .getContainingArtifact().makeWorkingCopy(
-                                            null);
+                            IAbstractArtifact art;
+                            String FQN = field.getContainingArtifact()
+                                    .getFullyQualifiedName();
+                            //Bug 320140 - here is where we check if we have modified this artifact before
+                            if (changedArtifacts.containsKey(FQN)) {
+                                art = changedArtifacts.get(FQN);
+
+                            } else {
+                                art = field.getContainingArtifact()
+                                        .makeWorkingCopy(null);
+                            }
                             for (IField realField : art.getFields()) {
                                 if (realField.getLabelString().equals(
                                         field.getLabelString()))
                                     field = realField;
                             }
+
                             art.removeFields(Collections.singleton(field));
 
-                            art.doSilentSave(new NullProgressMonitor());
-                            changedArtifacts.add(art);
+                            changedArtifacts.put(FQN, art);
                         } catch (TigerstripeException e) {
                             EclipsePlugin.log(e);
                         }
                     } else if (obj instanceof IMethod) {
                         IMethod method = (IMethod) obj;
                         try {
-                            IAbstractArtifact art = method
-                                    .getContainingArtifact().makeWorkingCopy(
-                                            null);
+                            IAbstractArtifact art;
+                            String FQN = method.getContainingArtifact()
+                                    .getFullyQualifiedName();
+                            if (changedArtifacts.containsKey(FQN)) {
+                                art = changedArtifacts.get(FQN);
+
+                            } else {
+                                art = method.getContainingArtifact()
+                                        .makeWorkingCopy(null);
+                            }
+
                             art.removeMethods(Collections.singleton(method));
-                            art.doSilentSave(new NullProgressMonitor());
-                            changedArtifacts.add(art);
+
+                            changedArtifacts.put(FQN, art);
                         } catch (TigerstripeException e) {
                             EclipsePlugin.log(e);
                         }
                     } else if (obj instanceof ILiteral) {
                         ILiteral literal = (ILiteral) obj;
                         try {
-                            IAbstractArtifact art = literal
-                                    .getContainingArtifact().makeWorkingCopy(
-                                            null);
+                            IAbstractArtifact art;
+                            String FQN = literal.getContainingArtifact()
+                                    .getFullyQualifiedName();
+                            if (changedArtifacts.containsKey(FQN)) {
+                                art = changedArtifacts.get(FQN);
+
+                            } else {
+                                art = literal.getContainingArtifact()
+                                        .makeWorkingCopy(null);
+                            }
+
                             for (ILiteral realLiteral : art.getLiterals()) {
                                 if (realLiteral.getLabelString().equals(
                                         literal.getLabelString()))
@@ -300,8 +326,7 @@ public class TSDeleteAction extends DeleteAction {
                             }
                             art.removeLiterals(Collections.singleton(literal));
 
-                            art.doSilentSave(new NullProgressMonitor());
-                            changedArtifacts.add(art);
+                            changedArtifacts.put(FQN, art);
                         } catch (TigerstripeException e) {
                             EclipsePlugin.log(e);
                         }
@@ -315,23 +340,14 @@ public class TSDeleteAction extends DeleteAction {
                 // only get 1 notification
                 // per artifact as opposed to one notification per changed
                 // component of each artifact.
-                for (IAbstractArtifact art : changedArtifacts) {
+                for (IAbstractArtifact art : changedArtifacts.values()) {
                     ArtifactManager mgr = ((AbstractArtifact) art)
                             .getArtifactManager();
-
                     try {
-                        mgr.addArtifact(art, new NullProgressMonitor()); // this
-                        // will
-                        // replace
-                        // the
-                        // existing definition (not add
+                        art.doSave(null);
+                        // this will replace the existing definition (not add
                         // another one!!)
-
-                        // Since we did a silentSave we need to manually notify
-                        // of the saves
-                        // now
-                        // mgr.notifyArtifactSaved(art, new
-                        // NullProgressMonitor());
+                        mgr.addArtifact(art, new NullProgressMonitor());
 
                         // for the explorer to be refreshed, the corresponding
                         // resource needs to be refreshed
@@ -349,24 +365,24 @@ public class TSDeleteAction extends DeleteAction {
         }
     }
 
-	private void addParentPackgeResources(IPackageFragment root,
-			Set<IResource> packageResources) {
-		IAbstractArtifact rootArtifact = TSExplorerUtils.getArtifactFor(root);
-		if (rootArtifact instanceof IPackageArtifact) {
-			IModelComponent current = rootArtifact
-					.getContainingModelComponent();
-			while (current instanceof IPackageArtifact) {
-				IResource resource = (IResource) current
-						.getAdapter(IResource.class);
-				if (resource != null) {
-					packageResources.add(resource);
-				}
-				current = current.getContainingModelComponent();
-			}
-		}
-	}
+    private void addParentPackgeResources(IPackageFragment root,
+            Set<IResource> packageResources) {
+        IAbstractArtifact rootArtifact = TSExplorerUtils.getArtifactFor(root);
+        if (rootArtifact instanceof IPackageArtifact) {
+            IModelComponent current = rootArtifact
+                    .getContainingModelComponent();
+            while (current instanceof IPackageArtifact) {
+                IResource resource = (IResource) current
+                        .getAdapter(IResource.class);
+                if (resource != null) {
+                    packageResources.add(resource);
+                }
+                current = current.getContainingModelComponent();
+            }
+        }
+    }
 
-	private void handleRelationshipToCascadeDelete(Set<IRelationship> toDeletes) {
+    private void handleRelationshipToCascadeDelete(Set<IRelationship> toDeletes) {
         try {
             WorkspaceListener.handleRelationshipsToCascadeDelete(toDeletes,
                     null, new NullProgressMonitor());
