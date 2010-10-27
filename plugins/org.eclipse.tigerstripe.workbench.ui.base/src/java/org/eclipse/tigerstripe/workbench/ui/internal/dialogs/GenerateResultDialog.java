@@ -95,7 +95,7 @@ public class GenerateResultDialog extends Dialog {
 		versionLabel.setText("Run Log");
 
 		pluginResultText = new Text(area, SWT.WRAP | SWT.MULTI | SWT.V_SCROLL);
-		pluginResultText.setEnabled(true);
+		pluginResultText.setEnabled(false);
 		// pluginResultText.setText(asText(result, true), true, false);
 		pluginResultText.setText(asText(result, false));
 		GridData gd = new GridData(GridData.FILL_BOTH
