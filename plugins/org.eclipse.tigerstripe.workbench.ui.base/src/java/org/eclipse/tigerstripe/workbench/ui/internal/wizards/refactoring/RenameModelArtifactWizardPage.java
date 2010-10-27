@@ -117,31 +117,31 @@ public class RenameModelArtifactWizardPage extends WizardPage {
 		setTitle("Refactor \"" + modelArtifact.getFullyQualifiedName() + "\"");
 		setPageComplete(false);
 
-		StatusInfo defaultStatus = new StatusInfo(StatusInfo.INFO,
+		StatusInfo defaultStatus = new StatusInfo(IStatus.INFO,
 				"Specify new name for " + modelArtifact.getFullyQualifiedName()
 						+ '.');
 		StatusUtil.applyToStatusLine(this, defaultStatus);
 
+		String newName = nameText.getText().trim();
 		if (modelArtifact instanceof IPackageArtifact) {
-			if (modelArtifact.getFullyQualifiedName().equals(
-					nameText.getText().trim())) {
+			if (modelArtifact.getFullyQualifiedName().equals(newName)) {
 				return;
 			}
 
 			IStatus status = ArtifactNameValidator
-					.validatePackageArtifactName(nameText.getText().trim());
+					.validatePackageArtifactName(newName);
 			if (!status.isOK()) {
 				StatusUtil.applyToStatusLine(this, status);
 				if (status.getSeverity() == IStatus.ERROR)
 					return;
 			}
 		} else {
-			if (modelArtifact.getName().equals(nameText.getText().trim())) {
+			if (modelArtifact.getName().equals(newName)) {
 				return;
 			}
 
 			IStatus status = ArtifactNameValidator
-					.validateArtifactName(nameText.getText().trim());
+					.validateArtifactName(newName);
 			if (!status.isOK()) {
 				StatusUtil.applyToStatusLine(this, status);
 				if (status.getSeverity() == IStatus.ERROR)
@@ -150,12 +150,14 @@ public class RenameModelArtifactWizardPage extends WizardPage {
 		}
 
 		try {
-			IStatus status = ArtifactNameValidator
-					.validateArtifactDoesNotExist(modelProject, nameText
-							.getText().trim());
-			if (!status.isOK()) {
-				StatusUtil.applyToStatusLine(this, status);
-				return;
+			if (!(modelArtifact instanceof IPackageArtifact)) {
+				IStatus status = ArtifactNameValidator
+						.validateArtifactDoesNotExist(modelProject, newName);
+				if (!status.isOK()) {
+					StatusUtil.applyToStatusLine(this, status);
+					return;
+				}
+
 			}
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
@@ -201,12 +203,11 @@ public class RenameModelArtifactWizardPage extends WizardPage {
 
 	private boolean validateRequest(ModelRefactorRequest request)
 			throws TigerstripeException {
-
-		if (request.isValid().isOK()) {
+		IStatus result = request.isValid();
+		if (result.isOK()) {
 			return true;
 		} else {
-			throw new TigerstripeException(request.isValid().getMessage());
+			throw new TigerstripeException(result.getMessage());
 		}
 	}
-
 }

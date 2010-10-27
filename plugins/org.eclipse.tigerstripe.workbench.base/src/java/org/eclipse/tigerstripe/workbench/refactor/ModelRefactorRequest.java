@@ -18,6 +18,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.refactor.ModelRefactorCommandFactory;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
@@ -90,14 +91,17 @@ public class ModelRefactorRequest extends RefactorRequest {
 			}
 
 			// check destination doesn't exist
-			IAbstractArtifact dest = destinationProject
-					.getArtifactManagerSession()
-					.getArtifactByFullyQualifiedName(destinationFQN);
-			if (dest != null) {
-				IStatus status = new Status(IStatus.ERROR,
-						BasePlugin.getPluginId(), destinationFQN
-								+ " already exist.");
-				return status;
+			if (!(orig instanceof IPackageArtifact)) {
+				IAbstractArtifact dest = destinationProject
+						.getArtifactManagerSession()
+						.getArtifactByFullyQualifiedName(destinationFQN);
+				if (dest != null) {
+					IStatus status = new Status(IStatus.ERROR,
+							BasePlugin.getPluginId(), destinationFQN
+									+ " already exist.");
+					return status;
+				}
+
 			}
 
 			// checks that it is not a change of case
