@@ -21,6 +21,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
+import org.eclipse.ui.PlatformUI;
 
 public class ArtifactLinkCreateRequest extends ArtifactCreateRequest implements
 		IArtifactLinkCreateRequest {
@@ -67,7 +68,7 @@ public class ArtifactLinkCreateRequest extends ArtifactCreateRequest implements
 			throws TigerstripeException {
 
 		setMgrSession(mgrSession);
-		IAbstractArtifact artifact = mgrSession.makeArtifact(getArtifactType());
+		final IAbstractArtifact artifact = mgrSession.makeArtifact(getArtifactType());
 		artifact.setFullyQualifiedName(getFullyQualifiedName());
 
 		if (artifact instanceof IAssociationArtifact) {
@@ -140,7 +141,33 @@ public class ArtifactLinkCreateRequest extends ArtifactCreateRequest implements
 
 		applyDefaults(artifact, mgrSession);
 		mgrSession.addArtifact(artifact);
-		artifact.doSave(new NullProgressMonitor());
-	}
+		
+		// N.M Bugzilla 328949: Run this asynchronously on UI thread to avoid race condition 
+		RunnableWithException runnable = new RunnableWithException (){
 
+			private TigerstripeException exception = null;
+			public void run() {
+				try {
+					artifact.doSave(new NullProgressMonitor());
+				} catch (TigerstripeException e) {
+					exception = e;
+				}
+			}
+
+			public TigerstripeException getException() {
+				return exception;
+			}
+		};
+		
+		PlatformUI.getWorkbench().getDisplay().asyncExec(runnable);
+		
+		if (runnable.getException()!=null) 
+			throw runnable.getException();
+		
+	}
+	
+	
+	private interface RunnableWithException extends Runnable {
+		public TigerstripeException getException();
+	}
 }
