@@ -55,26 +55,26 @@ public class AllTests {
 		suite.addTestSuite(TestTigerstripeCore.class);
 
 		// Basic project operations
-		suite.addTestSuite(TestProjectManagement.class);
-		suite.addTestSuite(TestModelProjectLifecycle.class);
-		suite.addTestSuite(TestM1ProjectBasics.class);
-		suite.addTestSuite(TestM1ProjectContents.class);
-		suite.addTestSuite(TestM0ProjectBasics.class);
-		suite.addTestSuite(TestM0ProjectContents.class);
-		suite.addTestSuite(TestAdapters.class);
+//		suite.addTestSuite(TestProjectManagement.class);
+//		suite.addTestSuite(TestModelProjectLifecycle.class);
+//		suite.addTestSuite(TestM1ProjectBasics.class);
+//		suite.addTestSuite(TestM1ProjectContents.class);
+//		suite.addTestSuite(TestM0ProjectBasics.class);
+//		suite.addTestSuite(TestM0ProjectContents.class);
+//		suite.addTestSuite(TestAdapters.class);
 		
 		// Builder tests
-		suite.addTestSuite(TestBasicM1ProjectAuditor.class);
-		suite.addTestSuite(TestBasicModelProjectAuditor.class);
+//		suite.addTestSuite(TestBasicM1ProjectAuditor.class);
+//		suite.addTestSuite(TestBasicModelProjectAuditor.class);
 
 		// Facet Tests
-		suite.addTestSuite(BasicFacetTest.class);
-		suite.addTestSuite(TestFacetResolution.class);
+//		suite.addTestSuite(BasicFacetTest.class);
+//		suite.addTestSuite(TestFacetResolution.class);
 
 		// Generation Tests
-		suite.addTestSuite(TestProjectGenerationBasics.class);
-		suite.addTestSuite(TestM1Generation.class);
-		suite.addTestSuite(TestM0DeployUndeploy.class);
+//		suite.addTestSuite(TestProjectGenerationBasics.class);
+//		suite.addTestSuite(TestM1Generation.class);
+//		suite.addTestSuite(TestM0DeployUndeploy.class);
 
 		// Model operations
 		suite.addTestSuite(TestArtifacts.class);
