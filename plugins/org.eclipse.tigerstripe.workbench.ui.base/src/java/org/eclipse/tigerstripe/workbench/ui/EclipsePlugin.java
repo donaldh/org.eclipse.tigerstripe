@@ -57,6 +57,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEdit
 import org.eclipse.tigerstripe.workbench.ui.internal.gmf.synchronization.DiagramSynchronizationManager;
 import org.eclipse.tigerstripe.workbench.ui.internal.preferences.PreferencesInitializer;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.ProjectLocatorFacilityForEclipse;
+import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TSExplorer;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TigerstripeExplorerPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode;
 import org.eclipse.ui.IEditorInput;
@@ -511,7 +512,7 @@ public class EclipsePlugin extends AbstractUIPlugin {
 	 * @return
 	 * @throws TigerstripeException
 	 */
-	public static TigerstripeExplorerPart findTigerstripeExplorer()
+	public static TSExplorer findTigerstripeExplorer()
 			throws TigerstripeException {
 		IWorkbenchWindow[] windows = PlatformUI.getWorkbench()
 				.getWorkbenchWindows();
@@ -523,8 +524,8 @@ public class EclipsePlugin extends AbstractUIPlugin {
 					if (TigerstripeExplorerPart.AEXPLORER_ID.equals(viewRef
 							.getId())) {
 						IWorkbenchPart part = viewRef.getPart(true);
-						if (part instanceof TigerstripeExplorerPart)
-							return (TigerstripeExplorerPart) part;
+						if (part instanceof TSExplorer)// TigerstripeExplorerPart)
+							return (TSExplorer) part;
 					}
 				}
 			}

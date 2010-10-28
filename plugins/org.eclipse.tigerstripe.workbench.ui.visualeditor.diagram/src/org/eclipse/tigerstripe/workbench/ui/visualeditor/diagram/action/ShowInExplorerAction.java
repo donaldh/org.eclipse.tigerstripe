@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.ConnectionEditPart;
 import org.eclipse.gef.EditPart;
@@ -18,13 +19,14 @@ import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.gmf.TigerstripeShapeNodeEditPart;
-import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TigerstripeExplorerPart;
+import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TSExplorer;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.QualifiedNamedElement;
 import org.eclipse.ui.IActionDelegate;
@@ -66,11 +68,11 @@ public class ShowInExplorerAction implements IActionDelegate {
 
 	private void revealQNEInExplorer(QualifiedNamedElement qne,
 			ITigerstripeModelProject project) throws TigerstripeException {
-		TigerstripeExplorerPart part = EclipsePlugin.findTigerstripeExplorer();
+		TSExplorer explorer = EclipsePlugin.findTigerstripeExplorer();
 		IArtifactManagerSession session = project.getArtifactManagerSession();
-		IAbstractArtifact artifact = session
-				.getArtifactByFullyQualifiedName(qne.getFullyQualifiedName());
-		part.revealArtifact(artifact);
+		IAbstractArtifact artifact = session.getArtifactByFullyQualifiedName(qne.getFullyQualifiedName());
+		IResource resource = (IResource)artifact.getAdapter(IResource.class);
+		explorer.selectReveal(new StructuredSelection(resource));
 	}
 
 	public void selectionChanged(IAction action, ISelection selection) {
