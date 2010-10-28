@@ -52,27 +52,29 @@ public class TestExportDiff extends AbstractExportTestCase {
 		if (destination != null && destination.exists()) {
 			destination.delete(true, new NullProgressMonitor());
 		}
+		
+		if(facetFile.exists()) {
+			facetFile.delete(true, new NullProgressMonitor());
+		}
 	}
 
 	public void testGetArtifactsListIncludeAll() throws Exception {
 
-		IContractSegment facet = InternalTigerstripeCore.createModelFacet(
-				facetFile, new NullProgressMonitor());
-		addIncludesFacetScopePatterns(Arrays.asList(new String[] { "*" }),
-				facet);
+		IContractSegment facet = InternalTigerstripeCore.createModelFacet(facetFile, new NullProgressMonitor());
+		addIncludesFacetScopePatterns(Arrays.asList(new String[] { "*" }), facet);
 
 		FacetExporterInput inputManager = new FacetExporterInput();
 		inputManager.setSource(source);
 		inputManager.setDestination(destination);
 		inputManager.setFacet(facetFile);
 
-		List<IAbstractArtifact> artifacts = ExportDiff
-				.getDuplicates(inputManager);
+		List<IAbstractArtifact> artifacts = ExportDiff.getDuplicates(inputManager);
 		assertNotNull("Artifacts list is null", artifacts);
 		String list = "";
 		for(IAbstractArtifact art : artifacts){
 			list = list + art+ " ";
 		}
+		
 		System.out.println(list);
 		assertEquals(4, artifacts.size()); // two for pkg, two artifacts
 
@@ -133,10 +135,12 @@ public class TestExportDiff extends AbstractExportTestCase {
 		assertNotNull("Artifacts list is null", artifacts);
 		String list = "";
 		for(IAbstractArtifact art : artifacts){
-			list = list + art+ " ";
+			list = list + art + " ";
 		}
+		
 		System.out.println(list);
-		assertEquals("Expected 3 - got these "+list,3, artifacts.size()); // two for pkg, one artifact
+		
+		assertEquals("Expected 3 - got these " + list, 3, artifacts.size()); // two for pkg, one artifact
 
 		assertTrue(artifactExistsByFqn(artifacts, "com"));
 		assertTrue(artifactExistsByFqn(artifacts, "com.mycompany"));
