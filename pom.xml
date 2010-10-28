@@ -18,10 +18,6 @@
 		<module>plugins/org.eclipse.tigerstripe.espace.core</module>
 		<module>plugins/org.eclipse.tigerstripe.espace.resources</module>
 		<module>plugins/org.eclipse.tigerstripe.espace.resources.monitor</module>
-		<module>plugins/org.eclipse.tigerstripe.annotation.core</module>
-		<module>plugins/org.eclipse.tigerstripe.annotation.resource</module>
-		<module>plugins/org.eclipse.tigerstripe.annotation.ui</module>
-		<module>plugins/org.eclipse.tigerstripe.annotation.resource.ui</module>
 		<module>plugins/org.eclipse.tigerstripe.metamodel</module>
 		<module>plugins/org.eclipse.tigerstripe.workbench.base</module>
 		<module>plugins/org.eclipse.tigerstripe.annotation.ts2project.router</module>
@@ -43,31 +39,40 @@
 		<module>plugins/org.eclipse.tigerstripe.workbench.ui.instancediagram.edit</module>
 		<module>plugins/org.eclipse.tigerstripe.workbench.ui.diagramrendering</module>
 		<module>plugins/org.eclipse.tigerstripe.workbench.ui.UML2Import</module>
+		<module>plugins/org.eclipse.tigerstripe.annotation.core</module>
+		<module>plugins/org.eclipse.tigerstripe.annotation.resource</module>
+		<module>plugins/org.eclipse.tigerstripe.annotation.validation</module>
+		<module>plugins/org.eclipse.tigerstripe.annotation.ui</module>
+		<module>plugins/org.eclipse.tigerstripe.annotation.resource.ui</module>
 		<module>plugins/org.eclipse.tigerstripe.annotation.tsmodel.ui</module>
+		<module>plugins/org.eclipse.tigerstripe.workbench.optional.buckminster</module>
+		<module>plugins/org.eclipse.tigerstripe.annotation.java.ui.refactoring</module>
+		<module>plugins/org.eclipse.tigerstripe.annotation.java.ui</module>
+		<module>plugins/org.eclipse.tigerstripe.annotation.java</module>
+		<module>plugins/org.eclipse.tigerstripe.annotation.ui.example.customView</module>
+		<module>plugins/org.eclipse.tigerstripe.annotation.resource.ui.refactoring</module>
+		<!-- 
 		<module>plugins/org.eclipse.tigerstripe.annotation.example.person.validators</module>
 		<module>plugins/org.eclipse.tigerstripe.annotation.example.person</module>
 		<module>plugins/org.eclipse.tigerstripe.annotation.example.router</module>
 		<module>plugins/org.eclipse.tigerstripe.annotation.example</module>
-		<module>plugins/org.eclipse.tigerstripe.annotation.java.ui.refactoring</module>
-		<module>plugins/org.eclipse.tigerstripe.annotation.java.ui</module>
-		<module>plugins/org.eclipse.tigerstripe.annotation.java</module>
-		<module>plugins/org.eclipse.tigerstripe.annotation.resource.ui.refactoring</module>
-		<module>plugins/org.eclipse.tigerstripe.annotation.ui.example.customView</module>
-		<module>plugins/org.eclipse.tigerstripe.annotation.validation</module>
+		 -->
+		<!--
 		<module>plugins/org.eclipse.tigerstripe.releng</module>
 		<module>plugins/org.eclipse.tigerstripe.workbench.ui.sdk</module>
-		<module>plugins/org.eclipse.tigerstripe.workbench.optional.buckminster</module>
-		<!-- ui test plugins -->
+		-->
+		<!-- ui test plugins 
 		<module>releng/org.eclipse.tigerstripe.rcp</module>
-		<module>tests/org.eclipse.tigerstripe.ui.tests</module>
-		<!-- test plugins --> 
-		<module>plugins/org.eclipse.tigerstripe.test_common</module>
 		<module>plugins/org.eclipse.tigerstripe.metamodel.test</module>
+		<module>tests/org.eclipse.tigerstripe.ui.tests</module>
 		<module>plugins/org.eclipse.tigerstripe.annotation.core.test</module>
 		<module>plugins/org.eclipse.tigerstripe.repository.core.test</module>
+		<module>releng/org.eclipse.tigerstripe.update-site</module>
+		-->
+		<!-- test plugins --> 
+		<module>plugins/org.eclipse.tigerstripe.test_common</module>
 		<module>plugins/org.eclipse.tigerstripe.workbench.base.test</module>
 		<!-- releng -->
-		<module>releng/org.eclipse.tigerstripe.update-site</module>
 	</modules>
 	<repositories>
 		<repository>
@@ -76,7 +81,7 @@
 			<url>http://download.eclipse.org/releases/helios/</url>
 		</repository>
 	</repositories>
-	<!-- Location of Q7 maven plugins -->
+	<!-- Location of Q7 maven plugins 
 	<pluginRepositories>
 		<pluginRepository>
 			<id>xored</id>
@@ -87,6 +92,7 @@
 			<url>http://maven.xored.com/nexus/content/repositories/snapshots/</url>
 		</pluginRepository>
 	</pluginRepositories>
+	-->
 	<build>
 		<resources>
 			<resource>
