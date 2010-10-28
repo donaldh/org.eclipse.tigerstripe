@@ -14,14 +14,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
+import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
+import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -83,6 +86,7 @@ public class TablePropertyRenderer extends BasePropertyRenderer {
 	@Override
 	public void setEnabled(boolean enabled) {
 		tableViewer.getTable().setEnabled(enabled);
+		addEntry.setEnabled(enabled);
 	}
 
 	private void handleViewerSelectionChanged(SelectionChangedEvent e) {
@@ -210,29 +214,31 @@ public class TablePropertyRenderer extends BasePropertyRenderer {
 				| GridData.VERTICAL_ALIGN_BEGINNING);
 		gdt.heightHint = 150;
 		gdt.verticalSpan = 4;
+		gdt.horizontalIndent = 5;
 		l.setLayoutData(gdt);
-
-		Table t = new Table(parent, SWT.BORDER | SWT.MULTI | SWT.FULL_SELECTION);
+		
+		Composite tableComp = toolkit.createComposite(parent);
+		GridData gdc = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING | GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL);
+		gdc.verticalSpan = gdt.verticalSpan;
+		gdc.widthHint = 400;
+		gdc.heightHint = gdt.heightHint;
+		tableComp.setLayoutData(gdc);
+		TableColumnLayout layout = new TableColumnLayout();
+		tableComp.setLayout(layout);
+		
+		tableViewer = new TableViewer(tableComp, SWT.BORDER | SWT.FULL_SELECTION | SWT.MULTI);
+		Table t = tableViewer.getTable();
 		t.setLinesVisible(true);
 		t.setHeaderVisible(true);
 		String[] columnNames = new String[sProp.getColumnDefs().size()];
 		int i = 0;
 		for (ColumnDef def : sProp.getColumnDefs()) {
-			TableColumn column = new TableColumn(t, SWT.NULL);
+			TableViewerColumn vColumn = new TableViewerColumn(tableViewer, SWT.NONE);
+			TableColumn column = vColumn.getColumn();
 			column.setText(def.columnName);
-			column.pack();
+			layout.setColumnData(column, new ColumnWeightData(1));
 			columnNames[i++] = def.columnName;
 		}
-		t.pack();
-
-		gdt = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING
-				| GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL
-				| GridData.GRAB_VERTICAL);
-		gdt.heightHint = 150;
-		gdt.verticalSpan = 4;
-		t.setLayoutData(gdt);
-
-		tableViewer = new TableViewer(t);
 		tableViewer.setLabelProvider(new ITableLabelProvider() {
 
 			public Image getColumnImage(Object element, int columnIndex) {
@@ -261,7 +267,8 @@ public class TablePropertyRenderer extends BasePropertyRenderer {
 		tableViewer.setContentProvider(new ArrayContentProvider() {
 			@Override
 			public Object[] getElements(Object inputElement) {
-				List<TablePropertyRow> tableRows = (List<TablePropertyRow>) inputElement;
+				@SuppressWarnings("unchecked")
+                List<TablePropertyRow> tableRows = (List<TablePropertyRow>) inputElement;
 				return tableRows.toArray();
 			}
 		});
@@ -283,20 +290,14 @@ public class TablePropertyRenderer extends BasePropertyRenderer {
 		addEntry.addSelectionListener(listener);
 
 		upEntry = toolkit.createButton(parent, "Up", SWT.PUSH);
-		gdb = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING
-				| GridData.VERTICAL_ALIGN_BEGINNING);
 		upEntry.setLayoutData(gdb);
 		upEntry.addSelectionListener(listener);
 
 		downEntry = toolkit.createButton(parent, "Down", SWT.PUSH);
-		gdb = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING
-				| GridData.VERTICAL_ALIGN_BEGINNING);
 		downEntry.setLayoutData(gdb);
 		downEntry.addSelectionListener(listener);
 
 		removeEntry = toolkit.createButton(parent, "Remove", SWT.PUSH);
-		gdb = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING
-				| GridData.VERTICAL_ALIGN_BEGINNING);
 		removeEntry.setLayoutData(gdb);
 		removeEntry.addSelectionListener(listener);
 	}
@@ -307,7 +308,8 @@ public class TablePropertyRenderer extends BasePropertyRenderer {
 		updateButtonState();
 	}
 
-	@Override
+	@SuppressWarnings("unchecked")
+    @Override
 	public void update(String serializedValue) {
 		setSilentUpdate(true);
 		rows = null;

@@ -64,12 +64,15 @@ public class StringPropertyRenderer extends BasePropertyRenderer {
 		IStringPluginProperty sProp = (IStringPluginProperty) getProperty();
 
 		label = getToolkit().createLabel(getParent(), sProp.getName());
+        GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+        gd.horizontalIndent = 5;
+        label.setLayoutData(gd);
 
-		text = getToolkit().createText(getParent(), sProp.getDefaultString());
+        text = getToolkit().createText(getParent(), sProp.getDefaultString());
+        gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING
+                | GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL);
+        text.setLayoutData(gd);
 		text.setToolTipText(sProp.getTipToolText());
-		GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_FILL
-				| GridData.GRAB_HORIZONTAL);
-		text.setLayoutData(gd);
 		text.addModifyListener(new StringListener());
 
 		getToolkit().createLabel(getParent(), "");

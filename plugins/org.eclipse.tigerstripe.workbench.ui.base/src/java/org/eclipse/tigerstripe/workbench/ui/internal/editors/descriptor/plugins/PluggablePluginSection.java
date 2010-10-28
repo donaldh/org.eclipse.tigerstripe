@@ -192,16 +192,14 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 
 		DefaultPageListener listener = new DefaultPageListener();
 
+        buildEnableDetails(parent, toolkit, listener);
 		buildSpecifics(parent, toolkit, listener);
-		buildEnableDetails(parent, toolkit, listener);
-
 		buildLoggingDetails(parent, toolkit);
-
 		buildFacetDetails(parent, toolkit);
-
 		// Build dynamically the content now based on the global properties
 		// found in the metadata
 		buildGlobalProperties(parent, toolkit);
+        buildResetDefaultDetails(parent, toolkit, listener);
 
 		initGlobalProperties();
 
@@ -216,24 +214,18 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 	protected void buildEnableDetails(Composite parent, FormToolkit toolkit,
 			DefaultPageListener listener) {
 		GridData gd = null;
-		generate = toolkit.createButton(parent, "Enable", SWT.CHECK);
+		generate = toolkit.createButton(parent, "Enable Generator", SWT.CHECK);
 		generate.addSelectionListener(listener);
 		generate.setEnabled(!this.isReadonly());
 		gd = new GridData(GridData.FILL);
+		gd.horizontalIndent = 5;
 		generate.setLayoutData(gd);
 
-		applyDefaultButton = toolkit.createButton(parent, "Default", SWT.PUSH);
-		applyDefaultButton.addSelectionListener(listener);
-		gd = new GridData(GridData.FILL);
-		applyDefaultButton.setLayoutData(gd);
-		applyDefaultButton.setEnabled(!this.isReadonly());
-
 		toolkit.createLabel(parent, "");
-
 	}
 
 	protected void buildFacetDetails(Composite parent, FormToolkit toolkit) {
-		facetReferenceLabel = toolkit.createLabel(parent, "Use Facet:");
+		facetReferenceLabel = toolkit.createLabel(parent, "Use Facet");
 		GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 
 		gd.horizontalIndent = 5;
@@ -277,7 +269,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 			}
 		});
 
-		browseForFacetReferenceButton = toolkit.createButton(parent, "Browse",
+		browseForFacetReferenceButton = toolkit.createButton(parent, "Select",
 				SWT.PUSH);
 		browseForFacetReferenceButton
 				.addSelectionListener(new SelectionListener() {
@@ -311,9 +303,9 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 					}
 				});
 
-		facetOutputDirLabel = toolkit.createLabel(parent, "Output dir");
+		facetOutputDirLabel = toolkit.createLabel(parent, "Facet Output Dir");
 		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
-		gd.horizontalIndent = 10;
+		gd.horizontalIndent = 5;
 		facetOutputDirLabel.setLayoutData(gd);
 
 		facetOutputDirText = toolkit.createText(parent, "");
@@ -345,12 +337,22 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 
 		});
 		toolkit.createLabel(parent, "");
+	}
+	
+	protected void buildResetDefaultDetails(Composite parent, FormToolkit toolkit,
+            DefaultPageListener listener) {
+        applyDefaultButton = toolkit.createButton(parent, "Restore Defaults", SWT.PUSH);
+        applyDefaultButton.addSelectionListener(listener);
+        GridData gd = new GridData(GridData.FILL);
+        applyDefaultButton.setLayoutData(gd);
+        applyDefaultButton.setEnabled(!this.isReadonly());
 
+        toolkit.createLabel(parent, "");
 	}
 
 	protected void buildLoggingDetails(Composite parent, FormToolkit toolkit) {
 
-		loggingLevelLabel = toolkit.createLabel(parent, "Log Level:");
+		loggingLevelLabel = toolkit.createLabel(parent, "Log Level");
 		GridData gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
 		gd.horizontalIndent = 5;
 		loggingLevelLabel.setLayoutData(gd);
@@ -604,34 +606,29 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 		facetReferenceText.setEnabled(isEnabled);
 		browseForFacetReferenceButton.setEnabled(isEnabled);
 
-		if (ref != null) {
-			if (ref.getFacetReference() != null) {
-				IFacetReference fRef = ref.getFacetReference();
-				facetReferenceText.setText(fRef.getProjectRelativePath());
-				if (!"".equals(fRef.getGenerationDir())) {
-					facetOutputDirText.setText(fRef.getGenerationDir());
-				}
+		if (ref.getFacetReference() != null) {
+			IFacetReference fRef = ref.getFacetReference();
+			facetReferenceText.setText(fRef.getProjectRelativePath());
+			if (!"".equals(fRef.getGenerationDir())) {
+				facetOutputDirText.setText(fRef.getGenerationDir());
 			}
-			if (ref.isLoggingDisabled()) {
-				loggingLevelCombo.setEnabled(isEnabled && !this.isReadonly());
-				loggingLevelLabel.setEnabled(isEnabled && !this.isReadonly());
-				loggingLevelCombo.select(PluginLog.LogLevel.values().length); // corresponds
-				// to
-				// "no
-				// logging"
-				// label
-			} else if (ref.isLogEnabled()) {
-				if (loggingLevelCombo.getSelectionIndex() == -1) {
-					loggingLevelCombo.select(ref.getCurrentLogLevel().toInt());
-				}
-				loggingLevelCombo.setEnabled(isEnabled && !this.isReadonly()
-						&& ref.isLogEnabled());
-				loggingLevelLabel.setEnabled(isEnabled && !this.isReadonly()
-						&& ref.isLogEnabled());
-			} else {
-				loggingLevelCombo.setEnabled(false);
-				loggingLevelLabel.setEnabled(false);
+		}
+		if (ref.isLoggingDisabled()) {
+			loggingLevelCombo.setEnabled(isEnabled && !this.isReadonly());
+			loggingLevelLabel.setEnabled(isEnabled && !this.isReadonly());
+			loggingLevelCombo.select(PluginLog.LogLevel.values().length); // corresponds
+			// to
+			// "no
+			// logging"
+			// label
+		} else if (ref.isLogEnabled()) {
+			if (loggingLevelCombo.getSelectionIndex() == -1) {
+				loggingLevelCombo.select(ref.getCurrentLogLevel().toInt());
 			}
+			loggingLevelCombo.setEnabled(isEnabled && !this.isReadonly()
+					&& ref.isLogEnabled());
+			loggingLevelLabel.setEnabled(isEnabled && !this.isReadonly()
+					&& ref.isLogEnabled());
 		} else {
 			loggingLevelCombo.setEnabled(false);
 			loggingLevelLabel.setEnabled(false);

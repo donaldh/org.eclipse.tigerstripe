@@ -84,6 +84,7 @@ public class BooleanPropertyRenderer extends BasePropertyRenderer {
 		propButton.setToolTipText(sProp.getTipToolText());
 		GridData gd = new GridData();
 		gd.horizontalSpan = 3;
+		gd.horizontalIndent = 5;
 		propButton.setLayoutData(gd);
 		propButton.addSelectionListener(new BooleanListener());
 	}

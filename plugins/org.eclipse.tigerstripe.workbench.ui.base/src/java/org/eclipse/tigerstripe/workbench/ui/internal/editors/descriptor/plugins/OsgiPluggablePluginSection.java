@@ -126,8 +126,7 @@ public class OsgiPluggablePluginSection extends PluggablePluginSection
 		GridDataFactory.fillDefaults().span(3, SWT.DEFAULT).applyTo(
 				versionComposite);
 
-		GridLayout layout = new GridLayout(6, false);
-		layout.verticalSpacing = 5;
+		GridLayout layout = new GridLayout(4, false);
 		versionComposite.setLayout(layout);
 
 		toolkit.createLabel(versionComposite, "Minimum Version");
@@ -145,10 +144,7 @@ public class OsgiPluggablePluginSection extends PluggablePluginSection
 		minVersionCombo.setItems(OSGIRef.constraintNames);
 		minVersionCombo.addSelectionListener(listener);
 
-		// Fill out the grid
-		toolkit.createLabel(versionComposite, "");
 		availableVersionsLabel = toolkit.createLabel(versionComposite, "");
-		toolkit.createLabel(versionComposite, "");
 
 		toolkit.createLabel(versionComposite, "Maximum Version");
 
@@ -166,8 +162,6 @@ public class OsgiPluggablePluginSection extends PluggablePluginSection
 		maxVersionCombo.addSelectionListener(listener);
 
 		// Fill out the grid
-		toolkit.createLabel(versionComposite, "");
-		toolkit.createLabel(versionComposite, "");
 		toolkit.createLabel(versionComposite, "");
 		toolkit.paintBordersFor(versionComposite);
 
