@@ -13,9 +13,9 @@ package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -245,88 +245,92 @@ public class ArtifactComponentTransferDropAdapter extends ViewerDropAdapter
                     IAbstractArtifact targetArtifact = (TSExplorerUtils
                             .getArtifactFor(target)).makeWorkingCopy(null);
 
-                    Set<IAbstractArtifact> srcArtifacts = new HashSet<IAbstractArtifact>();
+                    Map<String, IAbstractArtifact> srcArtifacts = new HashMap<String, IAbstractArtifact>();
 
                     for (IModelComponent component : components) {
+                        URI oldValue = null, newValue = null;
+                        IAbstractArtifact srcArtifact = null;
                         if (component instanceof IField) {
                             IField field = (IField) component;
-                            URI oldValue = (URI) component
-                                    .getAdapter(URI.class);
-                            IAbstractArtifact srcArtifact = field
-                                    .getContainingArtifact().makeWorkingCopy(
-                                            null);
+                            oldValue = (URI) component.getAdapter(URI.class);
+                            String FQN = field.getContainingArtifact()
+                                    .getFullyQualifiedName();
+                            
+                            if (srcArtifacts.containsKey(FQN)) {
+                                srcArtifact = srcArtifacts.get(FQN);
+                            } else {
+                                srcArtifact = field.getContainingArtifact()
+                                        .makeWorkingCopy(null);
+                            }
+                            
                             for (IField realField : srcArtifact.getFields()) {
                                 if (realField.getLabelString().equals(
                                         field.getLabelString())) {
                                     field = realField;
                                 }
                             }
+                            
                             srcArtifact.removeFields(Collections
                                     .singleton(field));
                             targetArtifact.addField(field);
-                            URI newValue = (URI) field.getAdapter(URI.class);
-                            srcArtifacts.add(srcArtifact);
-
-                            // Create a notification and push down the pipe
-                            ModelChangeDelta delta = new ModelChangeDelta(
-                                    IModelChangeDelta.MOVE);
-                            delta.setAffectedModelComponentURI((URI) srcArtifact
-                                    .getAdapter(URI.class));
-                            delta.setOldValue(oldValue);
-                            delta.setNewValue(newValue);
-                            TigerstripeWorkspaceNotifier.INSTANCE
-                                    .signalModelChange(delta);
+                            newValue = (URI) field.getAdapter(URI.class);
+                            
+                            srcArtifacts.put(FQN, srcArtifact);
                         } else if (component instanceof IMethod) {
                             IMethod method = (IMethod) component;
-                            URI oldValue = (URI) component
-                                    .getAdapter(URI.class);
-                            IAbstractArtifact srcArtifact = method
-                                    .getContainingArtifact().makeWorkingCopy(
-                                            null);
+                            oldValue = (URI) component.getAdapter(URI.class);
+                            String FQN = method.getContainingArtifact()
+                                    .getFullyQualifiedName();
+                            
+                            if (srcArtifacts.containsKey(FQN)) {
+                                srcArtifact = srcArtifacts.get(FQN);
+                            } else {
+                                srcArtifact = method.getContainingArtifact()
+                                        .makeWorkingCopy(null);
+                            }
+                            
                             srcArtifact.removeMethods(Collections
                                     .singleton(method));
                             targetArtifact.addMethod(method);
-                            URI newValue = (URI) method.getAdapter(URI.class);
-                            srcArtifacts.add(srcArtifact);
-
-                            // Create a notification and push down the pipe
-                            ModelChangeDelta delta = new ModelChangeDelta(
-                                    IModelChangeDelta.MOVE);
-                            delta.setAffectedModelComponentURI((URI) srcArtifact
-                                    .getAdapter(URI.class));
-                            delta.setOldValue(oldValue);
-                            delta.setNewValue(newValue);
-                            TigerstripeWorkspaceNotifier.INSTANCE
-                                    .signalModelChange(delta);
+                            newValue = (URI) method.getAdapter(URI.class);
+                            
+                            srcArtifacts.put(FQN, srcArtifact);
                         } else if (component instanceof ILiteral) {
                             ILiteral lit = (ILiteral) component;
-                            URI oldValue = (URI) component
-                                    .getAdapter(URI.class);
-                            IAbstractArtifact srcArtifact = lit
-                                    .getContainingArtifact().makeWorkingCopy(
-                                            null);
+                            oldValue = (URI) component.getAdapter(URI.class);
+                            String FQN = lit.getContainingArtifact()
+                                    .getFullyQualifiedName();
+                            if (srcArtifacts.containsKey(FQN)) {
+                                srcArtifact = srcArtifacts.get(FQN);
+                            } else {
+                                srcArtifact = lit.getContainingArtifact()
+                                        .makeWorkingCopy(null);
+                            }
+                            
                             for (ILiteral realLiteral : srcArtifact
                                     .getLiterals()) {
                                 if (realLiteral.getLabelString().equals(
                                         lit.getLabelString()))
                                     lit = realLiteral;
                             }
+                            
                             srcArtifact.removeLiterals(Collections
                                     .singleton(lit));
                             targetArtifact.addLiteral(lit);
-                            URI newValue = (URI) lit.getAdapter(URI.class);
-                            srcArtifacts.add(srcArtifact);
-
-                            // Create a notification and push down the pipe
-                            ModelChangeDelta delta = new ModelChangeDelta(
-                                    IModelChangeDelta.MOVE);
-                            delta.setAffectedModelComponentURI((URI) srcArtifact
-                                    .getAdapter(URI.class));
-                            delta.setOldValue(oldValue);
-                            delta.setNewValue(newValue);
-                            TigerstripeWorkspaceNotifier.INSTANCE
-                                    .signalModelChange(delta);
+                            newValue = (URI) lit.getAdapter(URI.class);
+                            
+                            srcArtifacts.put(FQN, srcArtifact);
                         }
+
+                        // Create a notification and push down the pipe
+                        ModelChangeDelta delta = new ModelChangeDelta(
+                                IModelChangeDelta.MOVE);
+                        delta.setAffectedModelComponentURI((URI) srcArtifact
+                                .getAdapter(URI.class));
+                        delta.setOldValue(oldValue);
+                        delta.setNewValue(newValue);
+                        TigerstripeWorkspaceNotifier.INSTANCE
+                                .signalModelChange(delta);
                     }
 
                     targetArtifact.doSave(new NullProgressMonitor());
@@ -340,7 +344,7 @@ public class ArtifactComponentTransferDropAdapter extends ViewerDropAdapter
                             throw new TigerstripeException(e.getMessage(), e);
                         }
                     }
-                    for (IAbstractArtifact art : srcArtifacts) {
+                    for (IAbstractArtifact art : srcArtifacts.values()) {
                         art.doSave(new NullProgressMonitor());
                         res = (IResource) art.getAdapter(IResource.class);
                         if (res != null) {
