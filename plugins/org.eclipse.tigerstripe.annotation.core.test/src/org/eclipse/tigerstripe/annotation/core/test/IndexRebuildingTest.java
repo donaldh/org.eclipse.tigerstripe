@@ -17,11 +17,8 @@ import java.io.InputStream;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceChangeListener;
-import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRunnable;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -77,7 +74,7 @@ public class IndexRebuildingTest extends AbstractResourceTestCase {
 		IAnnotationManager manager = AnnotationPlugin.getManager();
 		try {
 			manager.addAnnotation(project1, createMimeType("text/html"));
-			waitForChanges();
+			waitForChanges(null);
 			waitForNotification(new IWorkspaceRunnable() {
 				/*
 				 * (non-Javadoc)
@@ -106,7 +103,7 @@ public class IndexRebuildingTest extends AbstractResourceTestCase {
 			manager.addAnnotation(project1, createMimeType("text/html"));
 			manager.addAnnotation(project2, createMimeType("text/xml"));
 			manager.addAnnotation(project2, createMimeType("text/plain"));
-			waitForChanges();
+			waitForChanges(null);
 			waitForNotification(new IWorkspaceRunnable() {
 				/*
 				 * (non-Javadoc)
@@ -137,14 +134,10 @@ public class IndexRebuildingTest extends AbstractResourceTestCase {
 			manager.addAnnotation(project1, createMimeType("text/html"));
 			manager.addAnnotation(project2, createMimeType("text/xml"));
 			manager.addAnnotation(project2, createMimeType("text/plain"));
-			waitForChanges();
-			
-			waitForRCNotification(new IWorkspaceRunnable() {
-				public void run(IProgressMonitor monitor) throws CoreException {
-					replaceAnnotationFile(project1, project2);					
-				}
-			});
-			
+			waitForChanges(getAnnotationFile(project1));
+
+			replaceAnnotationFile(project1, project2);
+
 			Annotation[] annotations = manager.getAnnotations(project1, false);
 			assertEquals(2, annotations.length);
 			annotations = manager.getAnnotations(project2, false);
@@ -194,46 +187,29 @@ public class IndexRebuildingTest extends AbstractResourceTestCase {
 		}
 	}
 
-	protected void waitForRCNotification(IWorkspaceRunnable runnable)
-			throws CoreException {
-		final boolean[] changesOccured = new boolean[] { false };
-		final IWorkspace iWorkspace = ResourcesPlugin.getWorkspace();
-		iWorkspace.addResourceChangeListener(new IResourceChangeListener() {
-
-			public void resourceChanged(IResourceChangeEvent event) {
-				notifyChanges();
-			}
-
-			protected void notifyChanges() {
-				synchronized (changesOccured) {
-					changesOccured[0] = true;
-					iWorkspace.removeResourceChangeListener(this);
+	/**
+	 * Wait while all modified resources will be saved. If input resource isn't
+	 * null wait one second after the resource save. It's required for resource
+	 * modification determination by local time stamp value because in some
+	 * environments local time stamp for resources is defined in seconds.
+	 * 
+	 * @param resource
+	 *            a resource to wait or null
+	 */
+	public void waitForChanges(IResource resource) {
+		long startTime = System.currentTimeMillis();
+		while (true) {
+			if (!DeferredResourceSaver.getInstance().isDirty()) {
+				if (resource != null) {
+					long time = System.currentTimeMillis()
+							- resource.getLocalTimeStamp();
+					if (time > 1000) {
+						return;
+					}
+				} else {
+					return;
 				}
 			}
-		});
-		runnable.run(new NullProgressMonitor());
-		long startTime = System.currentTimeMillis();
-		while (true) {
-			synchronized (changesOccured) {
-				if (changesOccured[0])
-					break;
-			}
-			try {
-				Thread.sleep(100);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			if (System.currentTimeMillis() - startTime > MAX_TEST_TIME)
-				throw new IllegalStateException(
-						"Some problem with test performance...");
-		}
-	}
-
-	public void waitForChanges() {
-		long startTime = System.currentTimeMillis();
-		while (true) {
-			if (!DeferredResourceSaver.getInstance().isDirty())
-				return;
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
