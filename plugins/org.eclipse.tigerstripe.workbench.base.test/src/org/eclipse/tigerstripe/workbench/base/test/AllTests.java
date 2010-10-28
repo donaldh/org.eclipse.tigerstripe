@@ -84,18 +84,18 @@ public class AllTests {
 //		suite.addTestSuite(TestTigerstripeWorkspaceNotifications.class);
 
 		// Profiles
-		suite.addTestSuite(TestProfileBasics.class);
+//		suite.addTestSuite(TestProfileBasics.class);
 
 		// Annotations
-		suite.addTestSuite(TestAnnotationCreationAPI.class);
+//		suite.addTestSuite(TestAnnotationCreationAPI.class);
 
 		// Patterns
-		suite.addTestSuite(PatternTest.class);
-		suite.addTestSuite(ProjectPatternTest.class);
+//		suite.addTestSuite(PatternTest.class);
+//		suite.addTestSuite(ProjectPatternTest.class);
 
 		// References
-		suite.addTestSuite(TestProjectReferences1.class);
-		suite.addTestSuite(TestModelReferences.class);
+//		suite.addTestSuite(TestProjectReferences1.class);
+//		suite.addTestSuite(TestModelReferences.class);
 
 		// Export
 		suite.addTestSuite(TestExportDiff.class);
