@@ -51,8 +51,8 @@ public class AllTests {
 		TestSuite suite = new TestSuite("org.eclipse.tigerstripe.workbench.base.test");
 
 		// Startup Tests
-		suite.addTestSuite(TestStartup.class);
-		suite.addTestSuite(TestTigerstripeCore.class);
+//		suite.addTestSuite(TestStartup.class);
+//		suite.addTestSuite(TestTigerstripeCore.class);
 
 		// Basic project operations
 //		suite.addTestSuite(TestProjectManagement.class);
@@ -99,8 +99,8 @@ public class AllTests {
 
 		// Export
 		suite.addTestSuite(TestExportDiff.class);
-		suite.addTestSuite(TestExportFacetManager.class);
-		suite.addTestSuite(TestFacetExporter.class);
+//		suite.addTestSuite(TestExportFacetManager.class);
+//		suite.addTestSuite(TestFacetExporter.class);
 
 		return suite;
 	}
