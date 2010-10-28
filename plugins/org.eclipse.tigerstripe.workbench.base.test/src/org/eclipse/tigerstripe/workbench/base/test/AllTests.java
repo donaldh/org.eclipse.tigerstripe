@@ -77,11 +77,11 @@ public class AllTests {
 //		suite.addTestSuite(TestM0DeployUndeploy.class);
 
 		// Model operations
-		suite.addTestSuite(TestArtifacts.class);
-		suite.addTestSuite(TestFields.class);
-		suite.addTestSuite(TestLiterals.class);
-		suite.addTestSuite(TestMethods.class);
-		suite.addTestSuite(TestTigerstripeWorkspaceNotifications.class);
+//		suite.addTestSuite(TestArtifacts.class);
+//		suite.addTestSuite(TestFields.class);
+//		suite.addTestSuite(TestLiterals.class);
+//		suite.addTestSuite(TestMethods.class);
+//		suite.addTestSuite(TestTigerstripeWorkspaceNotifications.class);
 
 		// Profiles
 		suite.addTestSuite(TestProfileBasics.class);
