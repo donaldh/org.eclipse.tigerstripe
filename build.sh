@@ -81,12 +81,7 @@ else
 fi
 
 # ------------------------------------------------------------------------------
-rsync -av --delete features target/ || exit 1
-rsync -av --delete plugins target/ || exit 1
-rsync -av --delete releng target/ || exit 1
-rsync -av --delete tests target/ || exit 1
-rsync -av --delete samples target/ || exit 1
-rsync -av  pom.xml target/ || exit 1
+rsync -av --delete --exclude "CVS/" features plugins relengs tests samples pom.xml target/
 
 # ------------------------------------------------------------------------------ 
 if [ ! -z "$BUILD_VERSION" ]; then
