@@ -7,7 +7,7 @@
 	<packaging>pom</packaging>
 	<name>o.e.t/pom.xml</name>
 	<properties>
-		<tycho-version>0.9.0</tycho-version>
+		<tycho-version>0.10.0</tycho-version>
 	</properties>
 	<modules>
 		<!-- features -->
@@ -39,6 +39,7 @@
 		<module>plugins/org.eclipse.tigerstripe.workbench.ui.instancediagram.edit</module>
 		<module>plugins/org.eclipse.tigerstripe.workbench.ui.diagramrendering</module>
 		<module>plugins/org.eclipse.tigerstripe.workbench.ui.UML2Import</module>
+		<module>plugins/org.eclipse.tigerstripe.workbench.ui.sdk</module>
 		<module>plugins/org.eclipse.tigerstripe.annotation.core</module>
 		<module>plugins/org.eclipse.tigerstripe.annotation.resource</module>
 		<module>plugins/org.eclipse.tigerstripe.annotation.validation</module>
@@ -51,28 +52,25 @@
 		<module>plugins/org.eclipse.tigerstripe.annotation.java</module>
 		<module>plugins/org.eclipse.tigerstripe.annotation.ui.example.customView</module>
 		<module>plugins/org.eclipse.tigerstripe.annotation.resource.ui.refactoring</module>
-		<!-- 
 		<module>plugins/org.eclipse.tigerstripe.annotation.example.person.validators</module>
 		<module>plugins/org.eclipse.tigerstripe.annotation.example.person</module>
 		<module>plugins/org.eclipse.tigerstripe.annotation.example.router</module>
 		<module>plugins/org.eclipse.tigerstripe.annotation.example</module>
-		 -->
-		<!--
 		<module>plugins/org.eclipse.tigerstripe.releng</module>
-		<module>plugins/org.eclipse.tigerstripe.workbench.ui.sdk</module>
-		-->
+		<module>releng/org.eclipse.tigerstripe.update-site</module>
+
 		<!-- ui test plugins 
 		<module>releng/org.eclipse.tigerstripe.rcp</module>
-		<module>plugins/org.eclipse.tigerstripe.metamodel.test</module>
 		<module>tests/org.eclipse.tigerstripe.ui.tests</module>
-		<module>plugins/org.eclipse.tigerstripe.annotation.core.test</module>
-		<module>releng/org.eclipse.tigerstripe.update-site</module>
-		<module>plugins/org.eclipse.tigerstripe.workbench.base.test</module>
 		-->
+		
 		<!-- test plugins --> 
 		<module>plugins/org.eclipse.tigerstripe.test_common</module>
+		<module>plugins/org.eclipse.tigerstripe.metamodel.test</module>
+		<module>plugins/org.eclipse.tigerstripe.annotation.core.test</module>
+		<module>plugins/org.eclipse.tigerstripe.workbench.base.test</module>
 		<module>plugins/org.eclipse.tigerstripe.repository.core.test</module>
-		<!-- releng -->
+		
 	</modules>
 	<repositories>
 		<repository>
