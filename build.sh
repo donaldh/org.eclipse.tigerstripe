@@ -1,5 +1,16 @@
 #!/bin/bash
 
+export PRJ=$(cd `dirname $0`; pwd)
+
+if [ -z "$WORKSPACE" ]; then
+    export WORKSPACE=$PRJ
+fi
+
+if [ -z "$MAVEN_HOME" ]; then
+    echo "MAVEN_HOME not set"
+    exit 1
+fi
+
 DATE=`date`
 
 x=${MAVEN_TEST_SKIP:=false}
@@ -13,6 +24,21 @@ set -x
 
 env|sort
 pwd
+
+# ------------------------------------------------------------------------------
+mkdir -p $WORKSPACE/target/repository
+SETTINGS=$WORKSPACE/target/settings.xml
+if [ -e ~/.m2/settings.xml ]; then
+    sed -e "s&<!-- <localRepository/> -->&<localRepository>$WORKSPACE/target/repository</localRepository>&g" \
+        ~/.m2/settings.xml \
+        > $SETTINGS
+else
+    cat >$SETTINGS <<EOF
+<settings>
+  <localRepository>$WORKSPACE/target/repository</localRepository>
+</settings>
+EOF
+fi
 
 # ------------------------------------------------------------------------------
 rebuildTarget()
@@ -76,10 +102,9 @@ chmod +x ./pre-build.sh
 
 (cd target/
  find * -type d -name target -exec rm -rf {} \; 2>/dev/null
- "$MAVEN_HOME"/bin/mvn -X -fae -Dtycho.showEclipseLog=true -Dmaven.test.skip=false -Dcom.xored.q7.location=/auto/xmpsdk/q7/launcher -Dosgi.os=linux -Dosgi.ws=gtk -Dosgi.arch=x86 -Dcom.xored.directorPlatformPath=/auto/xmpsdk/eclipse install
+ "$MAVEN_HOME/bin/mvn" -B -X -fae -s "$SETTINGS" -Dtycho.showEclipseLog=true -Dmaven.test.skip=false -Dcom.xored.q7.location=/auto/xmpsdk/q7/launcher -Dosgi.os=linux -Dosgi.ws=gtk -Dosgi.arch=x86 -Dcom.xored.directorPlatformPath=/auto/xmpsdk/eclipse install
  cd ..
  cp -rf target/releng/org.eclipse.tigerstripe.update-site/target/site target
  rm -rf /auto/tigerstripe/xmpsdk/tigerstripe-test-p2/*
  cp -rf target/releng/org.eclipse.tigerstripe.update-site/target/site/* /auto/tigerstripe/xmpsdk/tigerstripe-test-p2
 )
-
