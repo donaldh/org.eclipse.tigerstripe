@@ -421,7 +421,7 @@
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="TabItem" pattern="Plugin Settings" multiplicity="1">
+      <data kind="TabItem" pattern="Generator Settings" multiplicity="1">
         <parent id="TabFolder3_46" kind="TabFolder"/>
       </data>
     </commands>
@@ -441,7 +441,7 @@
       <element id="Expandable9_47" kind="Expandable"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Enable" multiplicity="1">
+      <data kind="Button" pattern="Enable Generator" multiplicity="1">
         <parent id="Expandable9_47" kind="Expandable"/>
       </data>
     </commands>
@@ -1399,7 +1399,7 @@
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Label" pattern="Plugin Settings" multiplicity="1">
+      <data kind="Label" pattern="Generator Settings" multiplicity="1">
         <parent id="Editor5_48" kind="Editor"/>
       </data>
     </commands>
@@ -1901,7 +1901,7 @@
       <elements id="TabFolder3_46" kind="TabFolder"/>
       <controls xsi:type="com.xored.tesla.core.ui:TabFolder" activePage="Overview" tabCount="6">
         <pages>Overview</pages>
-        <pages>Plugin Settings</pages>
+        <pages>Generator Settings</pages>
         <pages>Dependencies</pages>
         <pages>Advanced Settings</pages>
         <pages>Facets</pages>
@@ -1924,7 +1924,7 @@
     </elementMapping>
     <elementMapping command="//@content/@commands.118">
       <elements id="Button20_48" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Enable" selected="true" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Enable Generator" selected="true" kind="Check">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="5" y="9" width="56" height="16"/>
@@ -3063,7 +3063,7 @@
     </elementMapping>
     <elementMapping command="//@content/@commands.315">
       <elements id="Label15_47" kind="Label"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Plugin Settings">
+      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Generator Settings">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor red="25" green="76" blue="127"/>
         <bounds x="6" y="5" width="122" height="20"/>

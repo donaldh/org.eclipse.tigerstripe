@@ -350,7 +350,7 @@
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="TabItem" pattern="Plugin Settings" multiplicity="1">
+      <data kind="TabItem" pattern="Generator Settings" multiplicity="1">
         <parent id="TabFolder4" kind="TabFolder"/>
       </data>
     </commands>
@@ -370,7 +370,7 @@
       <element id="Expandable6" kind="Expandable"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Enable" multiplicity="1">
+      <data kind="Button" pattern="Enable Generator" multiplicity="1">
         <parent id="Expandable6" kind="Expandable"/>
       </data>
     </commands>
@@ -817,7 +817,7 @@
       <elements id="TabFolder4" kind="TabFolder"/>
       <controls xsi:type="com.xored.tesla.core.ui:TabFolder" activePage="Overview" tabCount="6">
         <pages>Overview</pages>
-        <pages>Plugin Settings</pages>
+        <pages>Generator Settings</pages>
         <pages>Dependencies</pages>
         <pages>Advanced Settings</pages>
         <pages>Facets</pages>
@@ -840,7 +840,7 @@
     </elementMapping>
     <elementMapping command="//@content/@commands.103">
       <elements id="Button25" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Enable" selected="true" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Enable Generator" selected="true" kind="Check">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="5" y="9" width="56" height="16"/>
