@@ -20,7 +20,7 @@ release)
 SITE="TS_UPLOAD"/release
 SITE_NAME="Updates (Release)"
 ;;
-interim)
+iteration)
 SITE="TS_UPLOAD"/iteration
 SITE_NAME="Updates (Iteration)"
 ;;
