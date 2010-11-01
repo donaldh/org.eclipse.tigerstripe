@@ -12,17 +12,18 @@ if [ $# -ne 1 ]; then
 fi
 
 DST=$1; shift
+		  /home/data/httpd/download.eclipse.org/technology/tigerstripe/updates/3.6	
 TS_UPLOAD=/home/data/httpd/download.eclipse.org/technology/tigerstripe/updates/3.6
 PROMOTED_BUILD=`echo $PROMOTED_URL | awk '{split($0, a, "/");print a[6]}'`
 
 case "$DST" in
 release)
-SITE="$TS_DOWNLOAD"/release
-SITE_NAME="updates (Release)"
+SITE="TS_UPLOAD"/release
+SITE_NAME="Updates (Release)"
 ;;
 interim)
-SITE="$TS_DOWNLOAD"/iteration
-SITE_NAME="updates (Iteration)"
+SITE="TS_UPLOAD"/iteration
+SITE_NAME="Updates (Iteration)"
 ;;
 esac
  
