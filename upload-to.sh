@@ -3,7 +3,7 @@
 # This script is a simple copy to a locally mount directory that is mirrored
 # and served as the Update site.
 #
-#  ./upload-to.sh <unstable|interim|release>
+#  ./upload-to.sh <iteration|release>
 #
 
 if [ $# -ne 1 ]; then
@@ -11,25 +11,18 @@ if [ $# -ne 1 ]; then
     exit 1
 fi
 
-
 DST=$1; shift
-TS_DOWNLOAD=/home/data/users/edillon/downloads/technology/tigerstripe
-SITE="$TS_DOWNLOAD"/updates-3.5-unstable
-SITE_NAME=updates-3.5-unstable
+TS_UPLOAD=/home/data/httpd/download.eclipse.org/technology/tigerstripe/updates/3.6
 PROMOTED_BUILD=`echo $PROMOTED_URL | awk '{split($0, a, "/");print a[6]}'`
 
 case "$DST" in
 release)
-SITE="$TS_DOWNLOAD"/updates
+SITE="$TS_DOWNLOAD"/release
 SITE_NAME="updates (Release)"
 ;;
 interim)
-SITE="$TS_DOWNLOAD"/updates-3.5-interim
-SITE_NAME="updates-3.5-interim"
-;;
-*)
-SITE="$TS_DOWNLOAD"/updates-3.5-unstable
-SITE_NAME="updates-3.5-unstable"
+SITE="$TS_DOWNLOAD"/iteration
+SITE_NAME="updates (Iteration)"
 ;;
 esac
  
