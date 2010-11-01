@@ -32,7 +32,6 @@ import org.eclipse.osgi.util.NLS;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.GenerationException;
-import org.eclipse.tigerstripe.workbench.internal.core.generation.M1Generator;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -94,9 +93,7 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 
 		try {
 			M1RunConfig config = fPage.getRunConfig();
-			M1Generator generator = new M1Generator(getTSProject(), config);
-			result = generator.run(monitor);
-
+			result = getTSProject().generate(config, monitor);
 		} catch (OperationCanceledException e) {
 
 			Status status = new Status(
@@ -148,7 +145,6 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 		IJavaModel model = JavaCore.create(ResourcesPlugin.getWorkspace().getRoot());
 		model.refreshExternalArchives((IJavaElement[]) javaElements.toArray(new IJavaElement[javaElements.size()]),
 				new SubProgressMonitor(monitor, 1));
-
 	}
 
 	private void checkLocationDeleted(IProject project) throws CoreException {
@@ -182,10 +178,10 @@ public class NewTigerstripeRunWizard extends NewTSElementWizard {
 	public boolean performFinish() {
 		fPage.setPageComplete(false);
 		super.performFinish();
-
+		
 		GenerateResultDialog dialog = new GenerateResultDialog(getShell(), result);
 		dialog.open();
-
+        
 		return true;
 	}
 

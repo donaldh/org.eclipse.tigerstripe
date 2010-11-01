@@ -16,39 +16,44 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.generation.IM1RunConfig;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.IGenerateCompleteListener.GenerateCompletionStatus;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class TestProjectGenerationBasics extends TestCase {
 
-	private ITigerstripeModelProject project;
+    private ITigerstripeModelProject project;
 
-	@Override
-	protected void setUp() throws Exception {
-		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
-		project = (ITigerstripeModelProject) TigerstripeCore.createProject(
-				"TestProjectGenerationBasics", projectDetails, null,
-				ITigerstripeModelProject.class, null, null);
-	}
+    @Override
+    protected void setUp() throws Exception {
+        IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
+        project = (ITigerstripeModelProject) TigerstripeCore.createProject(
+                "TestProjectGenerationBasics", projectDetails, null,
+                ITigerstripeModelProject.class, null, null);
+    }
 
-	@Override
-	protected void tearDown() throws Exception {
-		if (project != null && project.exists())
-			project.delete(true, null);
-	}
+    @Override
+    protected void tearDown() throws Exception {
+        if (project != null && project.exists())
+            project.delete(true, null);
+    }
 
-	public void testGetRunConfig() throws TigerstripeException {
-		IM1RunConfig config = (IM1RunConfig) RunConfig.newGenerationConfig(
-				project, RunConfig.M1);
-		assertNotNull(config);
-	}
+    public void testGetRunConfig() throws TigerstripeException {
+        IM1RunConfig config = (IM1RunConfig) RunConfig.newGenerationConfig(
+                project, RunConfig.M1);
+        assertNotNull(config);
+    }
 
-	public void testEmptyGenerate() throws TigerstripeException {
-		IM1RunConfig config = (IM1RunConfig) RunConfig.newGenerationConfig(
-				project, RunConfig.M1);
-		PluginRunStatus[] status = project.generate(config, null);
+    public void testEmptyGenerate() throws TigerstripeException {
+        IM1RunConfig config = (IM1RunConfig) RunConfig.newGenerationConfig(
+                project, RunConfig.M1);
+        PluginRunStatus[] status = project.generate(config, null);
 
-		assertTrue(status.length == 0);
-	}
+        // We have a listener for ON_SUCCESS that is giving a status back
+        assertTrue(status.length == 1);
+        // Lets make sure the message is what we expected
+        assertEquals(SampleGenerateCompleteListener.MESSAGE + " "
+                + GenerateCompletionStatus.SUCCESS, status[0].getMessage());
+    }
 }

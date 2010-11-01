@@ -5,7 +5,7 @@
  <copyright>
  </copyright>
 
- $Id: plugin.xml,v 1.5 2008/09/30 15:38:40 rcraddock Exp $
+ $Id: plugin.xml,v 1.6 2010/11/01 16:26:20 rcraddock Exp $
 -->
 
 <plugin>
@@ -67,6 +67,15 @@
      <patternDefinition
            patternFile="resources/patterns/patternProject/irdProject.xml">
      </patternDefinition>
+  </extension>
+  <extension
+        id="generateCompleteTestListener"
+        name="Generate Complete Test Listener"
+        point="org.eclipse.tigerstripe.workbench.base.generateComplete">
+     <generateCompleteListener
+           class="org.eclipse.tigerstripe.workbench.base.test.generation.SampleGenerateCompleteListener"
+           notificationMode="ON_SUCCESS_ONLY">
+     </generateCompleteListener>
   </extension>
 
 </plugin>

@@ -11,6 +11,8 @@
 package org.eclipse.tigerstripe.workbench.base.test.generation;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import junit.framework.TestCase;
 

@@ -361,9 +361,16 @@ public class M1Generator {
 				overallResult.addAll(Arrays.asList(subResult));
 				postWork.done();
 			}
-
-			return overallResult.toArray(new PluginRunStatus[overallResult.size()]);
 		} finally {
+		    //Notify any listeners that the generate is complete
+		    GenerateCompleteManager manager = GenerateCompleteManager.getInstance();
+		    PluginRunStatus[] actionResults = manager.notifyListeners(this.project, 
+		             overallResult.toArray(new PluginRunStatus[overallResult.size()]));
+		    if (actionResults.length > 0) {
+		        //Add the post generate action results to the end of the plugin generate results
+		        overallResult.addAll(Arrays.asList(actionResults));
+		    }
+		    
 			resetAfterGeneration();
 			IPath output = config.getOutputPath();
 			IProject iProj = (IProject) project.getAdapter(IProject.class);
@@ -380,6 +387,7 @@ public class M1Generator {
 				}
 			}
 		}
+        return overallResult.toArray(new PluginRunStatus[overallResult.size()]);
 	}
 
 	/**
