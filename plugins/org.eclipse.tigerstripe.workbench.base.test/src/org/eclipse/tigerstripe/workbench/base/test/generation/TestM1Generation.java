@@ -119,7 +119,7 @@ public class TestM1Generation extends TestCase {
 
 		IM1RunConfig runConfig = (IM1RunConfig) RunConfig.newGenerationConfig(project, RunConfig.M1);
 		PluginRunStatus[] status = project.generate(runConfig, null);
-		assertTrue("Status length is not 2 : "+ status.length, status.length == 1);
+		assertTrue("Status length is not 2 : "+ status.length, status.length == 2); //1 for generator and 1 for sample listener
 		assertTrue("Status is not OK : "+status[0].getMessage()+" "+status[0].getSeverity()+ " "+status[0].toString(), status[0].isOK() );
 		
 		// Look for generated file
