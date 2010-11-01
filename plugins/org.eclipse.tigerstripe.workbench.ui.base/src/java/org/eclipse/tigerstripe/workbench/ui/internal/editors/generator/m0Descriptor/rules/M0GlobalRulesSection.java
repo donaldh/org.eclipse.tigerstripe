@@ -46,7 +46,7 @@ public class M0GlobalRulesSection extends RulesSectionPart implements IFormPart 
 			FormToolkit toolkit) {
 		super(page, parent, toolkit, ExpandableComposite.TWISTIE);
 		setTitle("&Global Rules");
-		setDescription("Define the rules to be run once only per generation with this plugin.");
+		setDescription("Define the rules to be run once only per generation with this generator.");
 
 		createContent();
 		updateMaster();
@@ -146,7 +146,7 @@ public class M0GlobalRulesSection extends RulesSectionPart implements IFormPart 
 
 	@Override
 	protected String getTooltipText() {
-		return "Define/Edit global M0 template rules for this plugin.";
+		return "Define/Edit global M0 template rules for this generator.";
 	}
 
 	@Override

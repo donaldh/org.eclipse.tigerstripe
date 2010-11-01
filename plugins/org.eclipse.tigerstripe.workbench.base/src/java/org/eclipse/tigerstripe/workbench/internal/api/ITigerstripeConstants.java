@@ -23,7 +23,7 @@ public interface ITigerstripeConstants {
 	public final static String PROJECT_DESCRIPTOR = "tigerstripe.xml";
 
 	/**
-	 * Tigerstripe Plugin descriptor
+	 * Tigerstripe Generator descriptor
 	 */
 	public final static String PLUGIN_DESCRIPTOR = "ts-plugin.xml";
 	

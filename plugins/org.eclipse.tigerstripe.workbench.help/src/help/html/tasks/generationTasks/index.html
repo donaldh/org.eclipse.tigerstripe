@@ -17,7 +17,7 @@
 <title>Service Contract Generation Tasks</title>
 </head >
 <h1>Service Contract Generation Tasks</h1>
-<p>Once a Service Contract has been specified in a Tigerstripe project, the corresponding technology specific detailed profiles may be generated with Tigerstripe. In addition to the output of <b>user-defined plugins</b>, the generation may produce multiple separate specifications for the Service Contract depending on the selected target technologies. Tigerstripe supports all three integrations profiles that implement the OSS/J Design Guidelines through "built-in" plugins:</p>
+<p>Once a Service Contract has been specified in a Tigerstripe project, the corresponding technology specific detailed profiles may be generated with Tigerstripe. In addition to the output of <b>user-defined plugins</b>, the generation may produce multiple separate specifications for the Service Contract depending on the selected target technologies. Tigerstripe supports all three integrations profiles that implement the OSS/J Design Guidelines through "built-in" generators:</p>
 <ul>
   <li>A J2EE Integration profile. </li>
   <li>A Message-Oriented XML Integration Profile</li>
@@ -32,8 +32,8 @@
   <li><a href="ossjWsdlProfileDetails.html">Configuring generation for Web Service Integration Profile</a>.</li>
 </ul>
 
-<p>If you have been provided with a <i>plugin</i>.zip file by another user, you can use the plugin to generate  code, but you cannot edit or modify the rules that the plugin contains. To <b>deploy</b> the plugin in your workspace, simply place the .zip file in the Tigerstripe plug-ins directory - <i>ECLIPSE_HOME\tigerstripe\plugins</i> where ECLIPSE_HOME is the install directory of eclipse. The next time you open the Generate Wizard (see below), the new plugin will be available for selection and configuration.</p>
-<p>See the section <a href="../../tasks/pluginDesignTasks/index.html">Plugin Design Tasks</a> for more information on how to create a plugin.</p> 
+<p>If you have been provided with a <i>generator</i>.zip file by another user, you can use to generate  code, but you cannot edit or modify the rules that the generator contains. To <b>deploy</b> the generator in your workspace, simply place the .zip file in the Tigerstripe plug-ins directory - <i>ECLIPSE_HOME\tigerstripe\plugins</i> where ECLIPSE_HOME is the install directory of eclipse. The next time you open the Generate Wizard (see below), the new generator will be available for selection and configuration.</p>
+<p>See the section <a href="../../tasks/pluginDesignTasks/index.html">Generator Design Tasks</a> for more information on how to create a generator.</p> 
 </blockquote>
 
 <h2>Generating Integration Profiles</h2>

@@ -51,30 +51,30 @@ public class RegisterPluggableHousingAction extends Action {
 	public void run() {
 		if (LicensedAccess.getWorkbenchPluggablePluginRole() != TSWorkbenchPluggablePluginRole.CREATE_EDIT
 				&& LicensedAccess.getWorkbenchPluggablePluginRole() != TSWorkbenchPluggablePluginRole.DEPLOY_UNDEPLOY) {
-			String errMessage = "You cannot undeploy a Tigerstripe plugin\n\n"
+			String errMessage = "You cannot undeploy a Tigerstripe generator\n\n"
 					+ "Your Tigerstripe license has insufficient privileges for this operation, "
 					+ "please contact Tigerstripe if you wish to be able to undeploy "
-					+ "plugins";
+					+ "generators";
 			MessageDialog.openError(null, "Undeploy Plugin Error", errMessage);
 		} else {
 			final PluginManager mgr = PluginManager.getManager();
 
 			FileDialog dialog = new FileDialog(controlDialog.getShell());
 			dialog.setFilterExtensions(new String[] { "*.zip" });
-			dialog.setText("Select zipped Tigerstripe plugin");
+			dialog.setText("Select zipped Tigerstripe generator");
 			String file = dialog.open();
 			if (file != null) {
 
 				final File srcFile = new File(file);
 				if (!srcFile.exists() || !srcFile.canRead()) {
 					MessageDialog.openError(controlDialog.getShell(),
-							"Plugin Deploy Error", "Can't deploy plugin "
+							"Generator Deploy Error", "Can't deploy plugin "
 									+ file + ": unable to read file.");
 					return;
 				} else {
 					IRunnableWithProgress op = new IRunnableWithProgress() {
 						public void run(IProgressMonitor monitor) {
-							monitor.beginTask("Deploying plugin", 5);
+							monitor.beginTask("Deploying generator", 5);
 
 							String runtimeRoot = TigerstripeRuntime
 									.getTigerstripeRuntimeRoot();
@@ -87,7 +87,7 @@ public class RegisterPluggableHousingAction extends Action {
 									+ srcFile.getName();
 							File targetFile = new File(targetFileStr);
 
-							monitor.subTask("Copying plugin into repository");
+							monitor.subTask("Copying generator into repository");
 							// Copy file and reload plugins
 							try {
 								FileUtils.copy(srcFile.getAbsolutePath(),
@@ -126,8 +126,8 @@ public class RegisterPluggableHousingAction extends Action {
 
 					if (!operationSucceeded)
 						MessageDialog.openError(controlDialog.getShell(),
-								"Plugin Deploy Error",
-								"Couldn't deploy plugin "
+								"Generator Deploy Error",
+								"Couldn't deploy generator "
 										+ srcFile.getAbsolutePath() + ".");
 
 				}

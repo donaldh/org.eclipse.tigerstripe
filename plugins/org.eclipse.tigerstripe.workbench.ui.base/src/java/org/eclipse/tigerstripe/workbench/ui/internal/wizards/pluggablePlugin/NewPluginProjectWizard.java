@@ -70,7 +70,7 @@ public class NewPluginProjectWizard extends Wizard implements INewWizard {
 
 		setNeedsProgressMonitor(true);
 		image = Images.getDescriptor(Images.TS_LOGO);
-		setWindowTitle("New Tigerstripe M1-Level Generation Plugin Project");
+		setWindowTitle("New Tigerstripe M1-Level Generation Project");
 	}
 
 	/**
@@ -83,8 +83,8 @@ public class NewPluginProjectWizard extends Wizard implements INewWizard {
 			NewPluggablePluginErrorPage errorPage = new NewPluggablePluginErrorPage(
 					"errorPage1");
 			errorPage
-					.setTitle("New Tigerstripe M1-Level Generation Plugin Project");
-			errorPage.setTitle("New Plugin Project Error");
+					.setTitle("New Tigerstripe M1-Level Generation Project");
+			errorPage.setTitle("New Generation Project Error");
 			addPage(errorPage);
 		} else {
 			pageOne = new NewPluginProjectWizardPage(selection,

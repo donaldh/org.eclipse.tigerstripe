@@ -73,7 +73,7 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 			FormToolkit toolkit) {
 		super(page, parent, toolkit, Section.TWISTIE | Section.EXPANDED);
 		setTitle("&Global Properties");
-		setDescription("Define global properties within the context of this plugin.");
+		setDescription("Define global properties within the context of this generator.");
 		getSection().marginWidth = 10;
 		getSection().marginHeight = 5;
 		getSection().clientVerticalSpacing = 4;
@@ -110,7 +110,7 @@ public class GlobalPropertiesSection extends PropertiesSectionPart implements
 		toolkit.adapt(sashForm, false, false);
 		sashForm.setMenu(body.getMenu());
 		sashForm
-				.setToolTipText("Define/Edit global properties for this plugin.");
+				.setToolTipText("Define/Edit global properties for this generator.");
 		sashForm.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 		createMasterPart(managedForm, sashForm);

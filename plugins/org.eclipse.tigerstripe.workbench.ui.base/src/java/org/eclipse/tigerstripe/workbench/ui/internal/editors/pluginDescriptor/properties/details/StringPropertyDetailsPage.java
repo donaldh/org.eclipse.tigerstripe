@@ -74,7 +74,7 @@ public class StringPropertyDetailsPage extends BasePropertyDetailsPage {
 		defaultString.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		defaultString.addModifyListener(adapter);
 		defaultString
-				.setToolTipText("This value will be used by default for all projects using this plugin.");
+				.setToolTipText("This value will be used by default for all projects using this generator.");
 
 		form.getToolkit().createLabel(sectionClient, "");
 
@@ -82,7 +82,7 @@ public class StringPropertyDetailsPage extends BasePropertyDetailsPage {
 				.getToolkit()
 				.createLabel(
 						sectionClient,
-						"The value of this String property will be available within the context of the plugin.");
+						"The value of this String property will be available within the context of the generator.");
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 3;
 		label.setLayoutData(gd);

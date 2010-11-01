@@ -95,7 +95,7 @@ public class ClasspathEntrySection extends GeneratorDescriptorSectionPart
 		toolkit.adapt(sashForm, false, false);
 		sashForm.setMenu(body.getMenu());
 		sashForm
-				.setToolTipText("Add/Remove classpath Entries for this plugin.");
+				.setToolTipText("Add/Remove classpath Entries for this generator.");
 		sashForm.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		createMasterPart(managedForm, sashForm);

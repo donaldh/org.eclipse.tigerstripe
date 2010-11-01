@@ -122,7 +122,7 @@ public class GeneralInfoSection extends GeneratorDescriptorSectionPart implement
 		toolkit.createLabel(parent, "Name: ", SWT.WRAP);
 		nameText = toolkit.createText(parent, "");
 		nameText
-				.setToolTipText("The name of the plugin as presented to the user once deployed.");
+				.setToolTipText("The name of the generator as presented to the user once deployed.");
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		nameText.setLayoutData(td);
 		nameText.setEnabled(false);
@@ -133,7 +133,7 @@ public class GeneralInfoSection extends GeneratorDescriptorSectionPart implement
 
 		toolkit.createLabel(parent, "Version: ", SWT.WRAP);
 		versionText = toolkit.createText(parent, "");
-		versionText.setToolTipText("The version of this plugin");
+		versionText.setToolTipText("The version of this generator");
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		versionText.setLayoutData(td);
 		versionText.addModifyListener(new GeneralInfoPageListener());
@@ -147,7 +147,7 @@ public class GeneralInfoSection extends GeneratorDescriptorSectionPart implement
 		descriptionText = toolkit.createText(parent, "", SWT.WRAP | SWT.MULTI
 				| SWT.V_SCROLL);
 		descriptionText
-				.setToolTipText("The description of this plugin, as presented to the user once deployed.");
+				.setToolTipText("The description of this generator, as presented to the user once deployed.");
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		td.grabVertical = true;
 		td.heightHint = 70;
@@ -163,7 +163,7 @@ public class GeneralInfoSection extends GeneratorDescriptorSectionPart implement
 		toolkit.createLabel(parent, "Provider: ", SWT.WRAP);
 		providerText = toolkit.createText(parent, "");
 		providerText
-				.setToolTipText("The name of the provider or owner of this plugin.");
+				.setToolTipText("The name of the provider or owner of this generator.");
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		providerText.setLayoutData(td);
 		providerText.addModifyListener(new GeneralInfoPageListener());
@@ -186,7 +186,7 @@ public class GeneralInfoSection extends GeneratorDescriptorSectionPart implement
 		toolkit.adapt(pluginNature, true, true);
 		pluginNature.setItems(getSupportedNature());
 		pluginNature
-				.setToolTipText("Choose a 'generic' plugin for simple generation,\n or 'validation' to allow this plugin to cancel generation if validation fails");
+				.setToolTipText("Choose a 'generic' generator for simple generation,\n or 'validation' to allow for cancellation of generation if validation fails");
 		if (GeneratorDescriptorEditor.isEditable()) {
 			pluginNature.addSelectionListener(new SelectionListener() {
 				public void widgetDefaultSelected(SelectionEvent e) {

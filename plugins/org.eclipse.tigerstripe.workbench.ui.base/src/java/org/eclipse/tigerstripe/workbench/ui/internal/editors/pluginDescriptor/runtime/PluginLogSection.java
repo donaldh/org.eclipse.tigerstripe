@@ -48,7 +48,7 @@ public class PluginLogSection extends GeneratorDescriptorSectionPart {
 			FormToolkit toolkit) {
 		super(page, parent, toolkit, ExpandableComposite.TITLE_BAR
 				| ExpandableComposite.COMPACT);
-		setTitle("Plugin Logging Details");
+		setTitle("Generator Logging Details");
 		createContent();
 	}
 
@@ -66,7 +66,7 @@ public class PluginLogSection extends GeneratorDescriptorSectionPart {
 		body.setLayout(gLayout);
 
 		logEnabledButton = toolkit.createButton(body,
-				"Enable logging for this plugin", SWT.CHECK);
+				"Enable logging for this generator", SWT.CHECK);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
 		logEnabledButton.setLayoutData(gd);
@@ -216,7 +216,7 @@ public class PluginLogSection extends GeneratorDescriptorSectionPart {
 		} catch (TigerstripeException e) {
 			Status status = new Status(IStatus.ERROR, EclipsePlugin
 					.getPluginId(), 222,
-					"Error refreshing Logger details on plugin descriptor", e);
+					"Error refreshing Logger details on generator descriptor", e);
 			EclipsePlugin.log(status);
 		}
 	}

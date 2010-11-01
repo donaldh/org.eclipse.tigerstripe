@@ -115,7 +115,7 @@
             filenames="ts-plugin.xml"
             icon="src/icons/plugin.gif"
             id="org.eclipse.tigerstripe.workbench.ui.eclipse.editors.pluginDescriptorEditor"
-            name="Tigerstripe Plugin Descriptor Editor"/>
+            name="Tigerstripe Generator Descriptor Editor"/>
       <editor
             class="org.eclipse.tigerstripe.workbench.ui.internal.editors.generator.m0Descriptor.M0DescriptorEditor"
             default="true"
@@ -225,7 +225,7 @@
             finalPerspective="org.eclipse.tigerstripe.community.tigerstripePerspective"
             icon="src/icons/plugin.gif"
             id="org.eclipse.tigerstripe.workbench.ui.wizards.newPluginWizard"
-            name="Tigerstripe Plugin Project"
+            name="Tigerstripe Generator Project"
             project="true"/>
       <wizard
             category="org.eclipse.tigerstripe.eclipse"
@@ -441,7 +441,7 @@
                   id="org.eclipse.tigerstripe.workbench.ui.base.pluginDescriptor.undeployAction"
                   label="Undeploy"
                   menubarPath="org.eclipse.tigerstripe.workbench.ui.base.tigerstripePluginSubMenu/content"
-                  tooltip="Undeploy this plugin."/>
+                  tooltip="Undeploy this generator"/>
             <action 	
                   class="org.eclipse.tigerstripe.workbench.ui.internal.actions.PacakgePluginActionDelegate"
                   id="org.eclipse.tigerstripe.workbench.ui.base.pluginDescriptor.packageAction"

@@ -87,9 +87,9 @@ public class GeneratorDescriptorErrorPage extends TigerstripeFormPage {
 				| SWT.READ_ONLY);
 
 		warningLabel
-				.setText("\nYou cannot edit/view Tigerstripe plugins\n\n\n"
+				.setText("\nYou cannot edit/view Tigerstripe generators\n\n\n"
 						+ "Your Tigerstripe license has insufficient privileges for this operation, "
-						+ "please contact Tigerstripe if you wish to edit/view Tigerstripe plugins.");
+						+ "please contact Tigerstripe if you wish to edit/view Tigerstripe generators.");
 		GridData gd = new GridData(GridData.GRAB_VERTICAL
 				| GridData.GRAB_HORIZONTAL | GridData.FILL_HORIZONTAL
 				| GridData.FILL_VERTICAL);

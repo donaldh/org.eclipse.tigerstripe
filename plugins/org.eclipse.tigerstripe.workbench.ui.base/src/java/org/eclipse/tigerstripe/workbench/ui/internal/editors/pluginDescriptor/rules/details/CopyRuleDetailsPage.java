@@ -132,7 +132,7 @@ public class CopyRuleDetailsPage extends BaseRuleDetailsPage {
 		twLayout.numColumns = 2;
 		fromComposite.setLayout(twLayout);
 
-		fromPluginButton = toolkit.createButton(fromComposite, "From Plugin",
+		fromPluginButton = toolkit.createButton(fromComposite, "From Generator",
 				SWT.RADIO);
 		fromPluginButton.addSelectionListener(adapter);
 

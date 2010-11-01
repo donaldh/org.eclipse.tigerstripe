@@ -62,23 +62,23 @@ public class UnRegisterPluggableHousingAction extends Action {
 	public void run() {
 		if (LicensedAccess.getWorkbenchPluggablePluginRole() != TSWorkbenchPluggablePluginRole.CREATE_EDIT
 				&& LicensedAccess.getWorkbenchPluggablePluginRole() != TSWorkbenchPluggablePluginRole.DEPLOY_UNDEPLOY) {
-			String errMessage = "You cannot undeploy a Tigerstripe plugin\n\n"
+			String errMessage = "You cannot undeploy a Tigerstripe generator\n\n"
 					+ "Your Tigerstripe license has insufficient privileges for this operation, "
 					+ "please contact Tigerstripe if you wish to be able to undeploy "
-					+ "plugins";
-			MessageDialog.openError(null, "Undeploy Plugin Error", errMessage);
+					+ "generators";
+			MessageDialog.openError(null, "Undeploy Generator Error", errMessage);
 		} else {
 			final PluginManager mgr = PluginManager.getManager();
 			boolean confirm = MessageDialog.openConfirm(null,
-					"Un-Deploy Tigerstripe Plugin?",
+					"Un-Deploy Tigerstripe Generator?",
 					"Do you really want to undeploy the '"
-							+ targetHousing.getLabel() + "' plugin?");
+							+ targetHousing.getLabel() + "' generator?");
 
 			if (confirm && targetHousing.isDeployed()) {
 				IRunnableWithProgress op = new IRunnableWithProgress() {
 					public void run(IProgressMonitor monitor) {
 						try {
-							monitor.beginTask("Un-deploying plugin:"
+							monitor.beginTask("Un-deploying generator:"
 									+ targetHousing.getLabel(), 5);
 
 							monitor.subTask("Closing all editors");
@@ -86,7 +86,7 @@ public class UnRegisterPluggableHousingAction extends Action {
 									false, false);
 							monitor.worked(2);
 
-							monitor.subTask("Removing plugin");
+							monitor.subTask("Removing generator");
 							mgr.unRegisterHousing(targetHousing);
 							monitor.worked(1);
 							PluggablePlugin pPlugin = targetHousing.getBody();

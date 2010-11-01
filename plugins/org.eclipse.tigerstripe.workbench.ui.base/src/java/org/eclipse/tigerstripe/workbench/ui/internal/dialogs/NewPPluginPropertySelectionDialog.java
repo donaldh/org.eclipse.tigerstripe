@@ -169,7 +169,7 @@ public class NewPPluginPropertySelectionDialog extends TSMessageDialog {
 	}
 
 	protected void initDialog() {
-		getShell().setText("New Plugin Property");
+		getShell().setText("New Generator Property");
 		validateParam();
 	}
 

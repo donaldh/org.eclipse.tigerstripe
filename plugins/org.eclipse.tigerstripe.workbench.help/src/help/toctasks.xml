@@ -55,14 +55,14 @@
 	    <topic label="Rolling Back to a Previous Profile" href="src/help/html/tasks/profileTasks/rolling_back.html"/>
 	    <topic label="Loading Factory Defaults" href="src/help/html/tasks/profileTasks/factory_defaults.html"/>
  	</topic>
-	<topic label="Plugin Design"  href="src/help/html/tasks/pluginDesignTasks/index.html">
-	    <topic label="New Plugin Project"  href="src/help/html/tasks/pluginDesignTasks/newPluginProject.html">
+	<topic label="Generator Design"  href="src/help/html/tasks/pluginDesignTasks/index.html">
+	    <topic label="New Generator Project"  href="src/help/html/tasks/pluginDesignTasks/newPluginProject.html">
 	         <topic label="Configuring Global Properties" href="src/help/html/tasks/pluginDesignTasks/pluginProperties.html"/>
 	         <topic label="Rule Design Tasks"  href="src/help/html/tasks/pluginDesignTasks/ruleDesignTasks/index.html">  
 		        <topic label="Using Filters in Rules" href="src/help/html/tasks/pluginDesignTasks/ruleDesignTasks/usingFiltersInRules.html"/>
 		     </topic>
 		     <topic label="Adding a runtime dependency" href="src/help/html/tasks/pluginDesignTasks/pluginRuntime.html"/>
-		     <topic label="Including Files in the deployed Plugin" href="src/help/html/tasks/pluginDesignTasks/includedFiles.html"/>
+		     <topic label="Including Files in the deployed Generator" href="src/help/html/tasks/pluginDesignTasks/includedFiles.html"/>
 		</topic>
 		<topic label="Template Design Tasks"  href="src/help/html/tasks/pluginDesignTasks/templateDesignTasks/index.html">  
 		    <topic label="Default Velocity Context Details" href="src/help/html/tasks/pluginDesignTasks/templateDesignTasks/velocityContextDetails.html"/>
@@ -70,8 +70,8 @@
 		    <topic label="Using an Expander" href="src/help/html/tasks/pluginDesignTasks/templateDesignTasks/expander.html"/>
 		</topic>
 		<topic label="Setting up a Plug-in log"  href="src/help/html/tasks/pluginDesignTasks/pluginLogging.html"/>
-		<topic label="Deploy and Test a plugin"  href="src/help/html/tasks/pluginDesignTasks/deployAndTestPlugin.html"/>
-		<topic label="Packaging a plugin for distribution to other users"  href="src/help/html/tasks/pluginDesignTasks/packagePlugin.html"/>
+		<topic label="Deploy and Test a generator"  href="src/help/html/tasks/pluginDesignTasks/deployAndTestPlugin.html"/>
+		<topic label="Packaging a generator for distribution to other users"  href="src/help/html/tasks/pluginDesignTasks/packagePlugin.html"/>
 	</topic>
 	<topic label="Facets" href="src/help/html/tasks/facets/index.html">
 		<topic label="Defining Scope" href="src/help/html/tasks/facets/scope.html"/>

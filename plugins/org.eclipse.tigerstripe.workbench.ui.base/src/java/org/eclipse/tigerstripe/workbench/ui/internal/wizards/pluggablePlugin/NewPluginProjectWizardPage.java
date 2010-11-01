@@ -91,7 +91,7 @@ public class NewPluginProjectWizardPage extends WizardPage {
 	public NewPluginProjectWizardPage(ISelection selection,
 			ImageDescriptor image) {
 		super("wizardPage");
-		setTitle("New Tigerstripe Plugin Project");
+		setTitle("New Tigerstripe Generator Project");
 		setImageDescriptor(image);
 
 		setDescription("This wizard creates new Tigerstripe Project.");

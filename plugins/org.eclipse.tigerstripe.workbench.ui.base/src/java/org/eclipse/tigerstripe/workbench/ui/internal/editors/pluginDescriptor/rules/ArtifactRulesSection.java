@@ -148,7 +148,7 @@ public class ArtifactRulesSection extends RulesSectionPart implements IFormPart 
 
 	@Override
 	protected String getTooltipText() {
-		return "Define/Edit artifact template rules for this plugin.";
+		return "Define/Edit artifact template rules for this generator.";
 	}
 
 	@Override

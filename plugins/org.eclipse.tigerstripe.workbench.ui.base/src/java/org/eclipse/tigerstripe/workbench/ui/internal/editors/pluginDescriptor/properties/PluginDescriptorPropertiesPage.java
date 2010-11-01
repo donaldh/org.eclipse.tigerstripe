@@ -35,7 +35,7 @@ public class PluginDescriptorPropertiesPage extends TigerstripeFormPage {
 		super.createFormContent(managedForm);
 		ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = managedForm.getToolkit();
-		form.setText("Plugin Properties");
+		form.setText("Generator Properties");
 		fillBody(managedForm, toolkit);
 		managedForm.refresh();
 	}

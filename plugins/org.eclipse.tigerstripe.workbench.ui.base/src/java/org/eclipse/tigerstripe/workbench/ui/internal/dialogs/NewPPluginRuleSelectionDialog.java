@@ -167,7 +167,7 @@ public class NewPPluginRuleSelectionDialog extends TSMessageDialog {
 	}
 
 	protected void initDialog() {
-		getShell().setText("New Plugin Rule");
+		getShell().setText("New Generator Rule");
 		validateParam();
 	}
 

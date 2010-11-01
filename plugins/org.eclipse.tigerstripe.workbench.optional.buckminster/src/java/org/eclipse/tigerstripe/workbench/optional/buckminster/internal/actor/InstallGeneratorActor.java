@@ -60,7 +60,7 @@ public class InstallGeneratorActor extends AbstractActor {
 				} catch (TigerstripeException e) {
 					throw new CoreException(new Status(IStatus.ERROR, TigerstripePlugin.PLUGIN_ID, e.getMessage()));
 				}
-				return "Plugin " + project.getName() + "(" + version + ") could not be deployed. See Error log for more details";
+				return "Generator " + project.getName() + "(" + version + ") could not be deployed. See Error log for more details";
 			}
 			
 		};

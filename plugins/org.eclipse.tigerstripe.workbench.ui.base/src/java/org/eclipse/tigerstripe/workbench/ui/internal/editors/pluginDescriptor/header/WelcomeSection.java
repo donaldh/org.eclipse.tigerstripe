@@ -47,7 +47,7 @@ public class WelcomeSection extends TigerstripeSectionPart {
 	protected void createWelcomeMsg(Composite parent, FormToolkit toolkit) {
 		TableWrapData td = null;
 
-		String data = "<form><p><b>Tigerstripe Workbench Plugin Editor.</b></p></form>";
+		String data = "<form><p><b>Tigerstripe Workbench Generator Editor.</b></p></form>";
 		FormText rtext = toolkit.createFormText(parent, true);
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		td.colspan = 2;

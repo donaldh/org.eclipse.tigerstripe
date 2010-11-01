@@ -61,7 +61,7 @@ public class GeneratorDeploymentHelper {
 		monitor.worked(3);
 
 		PluggablePluginProjectPackager packager = new PluggablePluginProjectPackager(((GeneratorProjectHandle) project).getDescriptor());
-		monitor.subTask("Packaging plugin...");
+		monitor.subTask("Packaging generator...");
 		packager.packageUpProject(monitor, deploymentPath);
 		monitor.worked(5);
 		monitor.subTask("Reloading Workbench");
@@ -84,7 +84,7 @@ public class GeneratorDeploymentHelper {
 		IPath destPath = new Path(path);
 		IPath srcPath = file.getLocation();
 
-		monitor.subTask("Cleaning plugin repository");
+		monitor.subTask("Cleaning generator repository");
 		cleanPluggable(destPath);
 		monitor.worked(3);
 		
@@ -118,7 +118,7 @@ public class GeneratorDeploymentHelper {
 		IPath deploymentPath = null;
 		monitor.beginTask("Un-Deploying " + project.getName(), 15);
 
-		monitor.subTask("Cleaning plugin repository");
+		monitor.subTask("Cleaning generator repository");
 		deploymentPath = getDefaultPluginPathAndFileName(project);
 
 		return deploymentPath;

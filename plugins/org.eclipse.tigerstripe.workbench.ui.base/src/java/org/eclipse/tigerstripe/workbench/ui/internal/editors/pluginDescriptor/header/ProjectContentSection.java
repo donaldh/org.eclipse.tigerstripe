@@ -69,7 +69,7 @@ public class ProjectContentSection extends GeneratorDescriptorSectionPart {
 		buf
 				.append("<li><a href=\"properties\">Properties Definitions</a>: properties available when running the template, either globally defined or relatively to an artifact.</li>");
 		buf
-				.append("<li><a href=\"runtime\">Runtime Properties</a>: defining what is available at runtime on the plugin's classpath.</li>");
+				.append("<li><a href=\"runtime\">Runtime Properties</a>: defining what is available at runtime on the generator's classpath.</li>");
 		buf.append("</form>");
 		rtext.setText(buf.toString(), true, false);
 		rtext.addHyperlinkListener(new HyperlinkAdapter() {
@@ -96,7 +96,7 @@ public class ProjectContentSection extends GeneratorDescriptorSectionPart {
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		td.colspan = 2;
 		rtext.setLayoutData(td);
-		String data = "<form><p>The plugin descriptor is saved as <b>ts-plugin.xml</b> in the top level directory of the project.</p></form>";
+		String data = "<form><p>The generator descriptor is saved as <b>ts-plugin.xml</b> in the top level directory of the project.</p></form>";
 		rtext.setText(data, true, false);
 	}
 

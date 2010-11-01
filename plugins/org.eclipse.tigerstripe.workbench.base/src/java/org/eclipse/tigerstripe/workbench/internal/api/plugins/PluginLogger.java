@@ -59,7 +59,7 @@ public class PluginLogger {
 		PluginLogger.pluginConfig = pluginConfig;
 
 		if (pluginConfig.isLogEnabled()) {
-			TigerstripeRuntime.logTraceMessage("Setting up logger for plugin: "
+			TigerstripeRuntime.logTraceMessage("Setting up logger for generator: "
 					+ pluginConfig.toString());
 			initLogger(pluginConfig, config);
 		}
@@ -111,7 +111,7 @@ public class PluginLogger {
 			logInitialized = true;
 		} catch (IOException e) {
 			TigerstripeRuntime.logErrorMessage(
-					"Error while trying to set up log for plugin: "
+					"Error while trying to set up log for generator: "
 							+ pluginConfig.getLabel(), e);
 		}
 
@@ -163,7 +163,7 @@ public class PluginLogger {
 	public static void tearDown() {
 		if (logInitialized) {
 			TigerstripeRuntime
-					.logTraceMessage("Tearing down logger for plugin: "
+					.logTraceMessage("Tearing down logger for generator: "
 							+ pluginConfig.toString());
 			pluginLogger.removeAllAppenders();
 			logInitialized = false;

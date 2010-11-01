@@ -134,7 +134,7 @@ public abstract class BasePropertyDetailsPage implements IDetailsPage {
 		tipToolText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		tipToolText.addModifyListener(adapter);
 		tipToolText
-				.setToolTipText("Some text displayed to the user when hovering over this property when using the plugin.");
+				.setToolTipText("Some text displayed to the user when hovering over this property when using the generator.");
 
 		label = toolkit.createLabel(sectionClient, "");
 		label.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL));

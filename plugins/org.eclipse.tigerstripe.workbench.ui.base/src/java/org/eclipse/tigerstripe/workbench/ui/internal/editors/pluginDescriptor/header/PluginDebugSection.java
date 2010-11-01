@@ -77,8 +77,8 @@ public class PluginDebugSection extends GeneratorDescriptorSectionPart {
 
 		buf.append("<form>");
 		buf
-				.append("<li><a href=\"deploy\">Package and deploy this plugin.</a></li>");
-		buf.append("<li><a href=\"undeploy\">Un-deploy this plugin</a></li>");
+				.append("<li><a href=\"deploy\">Package and deploy this generator.</a></li>");
+		buf.append("<li><a href=\"undeploy\">Un-deploy this generator</a></li>");
 		buf.append("</form>");
 		rtext.setText(buf.toString(), true, false);
 		rtext.addHyperlinkListener(new HyperlinkAdapter() {
@@ -92,12 +92,12 @@ public class PluginDebugSection extends GeneratorDescriptorSectionPart {
 						return;
 
 					if (LicensedAccess.getWorkbenchPluggablePluginRole() != TSWorkbenchPluggablePluginRole.CREATE_EDIT) {
-						String errMessage = "You cannot package and deploy a new Tigerstripe plugin\n\n"
+						String errMessage = "You cannot package and deploy a new Tigerstripe generator\n\n"
 								+ "Your Tigerstripe license has insufficient privileges for this operation, "
 								+ "please contact Tigerstripe if you wish to be able to package and deploy "
-								+ "plugins";
+								+ "generators";
 						MessageDialog.openError(getBody().getShell(),
-								"Package/Deploy Plugin Error", errMessage);
+								"Package/Deploy Generator Error", errMessage);
 					} else {
 						try {
 							if (getPage().getEditor().isDirty()) {
@@ -105,7 +105,7 @@ public class PluginDebugSection extends GeneratorDescriptorSectionPart {
 										.openWarning(
 												getBody().getShell(),
 												"Un-saved changes",
-												"This plugin descriptor has un-saved changes.\n\nPlease save this file before trying to deploy this plugin.");
+												"This generator descriptor has un-saved changes.\n\nPlease save this file before trying to deploy this generator.");
 								return;
 							}
 
@@ -114,8 +114,8 @@ public class PluginDebugSection extends GeneratorDescriptorSectionPart {
 							if (MessageDialog
 									.openConfirm(
 											getBody().getShell(),
-											"Deploy new plugin",
-											"You are about to deploy this plugin ('"
+											"Deploy new generator",
+											"You are about to deploy this generator ('"
 													+ projectHandle.getName()
 													+ "'). All open editors will be closed.\nDo you want to continue?.  ")) {
 
@@ -154,8 +154,8 @@ public class PluginDebugSection extends GeneratorDescriptorSectionPart {
 											.openInformation(
 													getBody().getShell(),
 													projectHandle.getName()
-															+ " Plugin",
-													"Plugin '"
+															+ " Generator",
+													"Generator '"
 															+ projectHandle
 																	.getName()
 															+ "("
@@ -170,8 +170,8 @@ public class PluginDebugSection extends GeneratorDescriptorSectionPart {
 											.openError(
 													getBody().getShell(),
 													projectHandle.getName()
-															+ " Plugin",
-													"Plugin '"
+															+ " Generator",
+													"Generator '"
 															+ projectHandle
 																	.getName()
 															+ "("
@@ -187,12 +187,12 @@ public class PluginDebugSection extends GeneratorDescriptorSectionPart {
 					}
 				} else if ("undeploy".equals(e.getHref())) {
 					if (LicensedAccess.getWorkbenchPluggablePluginRole() != TSWorkbenchPluggablePluginRole.CREATE_EDIT) {
-						String errMessage = "You cannot undeploy a Tigerstripe plugin\n\n"
+						String errMessage = "You cannot undeploy a Tigerstripe generator\n\n"
 								+ "Your Tigerstripe license has insufficient privileges for this operation, "
 								+ "please contact Tigerstripe if you wish to be able to undeploy "
-								+ "plugins";
+								+ "generators";
 						MessageDialog.openError(getBody().getShell(),
-								"Undeploy Plugin Error", errMessage);
+								"Undeploy Generator Error", errMessage);
 					} else {
 						try {
 							final ITigerstripeGeneratorProject projectHandle = getIPluggablePluginProject();
@@ -228,7 +228,7 @@ public class PluginDebugSection extends GeneratorDescriptorSectionPart {
 							if (operationSucceeded)
 								MessageDialog.openInformation(getBody()
 										.getShell(), projectHandle.getName()
-										+ " Plugin", "Plugin '"
+										+ " Generator", "Generator '"
 										+ projectHandle.getName()
 										+ "("
 										+ projectHandle.getProjectDetails()
@@ -240,8 +240,8 @@ public class PluginDebugSection extends GeneratorDescriptorSectionPart {
 										.openError(
 												getBody().getShell(),
 												projectHandle.getName()
-														+ " Plugin",
-												"An Error occured while trying to un-deploy plugin '"
+														+ " Generator",
+												"An Error occured while trying to un-deploy generator '"
 														+ projectHandle
 																.getName()
 														+ "("

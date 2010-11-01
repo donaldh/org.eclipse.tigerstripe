@@ -95,7 +95,7 @@ public abstract class GeneratorDescriptorEditor extends TigerstripeFormEditor {
 		if (LicensedAccess.getWorkbenchPluggablePluginRole() != TSWorkbenchPluggablePluginRole.CREATE_EDIT
 				&& LicensedAccess.getWorkbenchPluggablePluginRole() != TSWorkbenchPluggablePluginRole.DEPLOY_UNDEPLOY) {
 			GeneratorDescriptorErrorPage errorPage = new GeneratorDescriptorErrorPage(
-					this, "errorPage1", "Edit Plugin Error");
+					this, "errorPage1", "Edit Generator Error");
 			try {
 				addPage(errorPage);
 			} catch (Exception e) {

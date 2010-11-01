@@ -56,8 +56,8 @@ public class GenerationPrefSection extends TigerstripeSectionPart {
         buf.append("<form>");
         PluginManager mgr = PluginManager.getManager();
         if (mgr.getRegisteredPluggableHousings().size() <= 0) {
-            buf.append("<p><b>Warning</b>: No deployed plugins were found and nothing can be generated for this model unless a plugin is"
-                    + " deployed.  To create a new Tigerstripe Plugin Project, click on 'File->New->Tigerstripe Plugin Project'"
+            buf.append("<p><b>Warning</b>: No deployed generators were found and nothing can be generated for this model unless a generator is"
+                    + " deployed.  To create a new Tigerstripe Generator Project, click on 'File->New->Tigerstripe Generator Project'"
                     + " or click <a href=\"tigerstripePluginWizard\">here</a></p>");
         }
         buf.append("<p>Click <a href=\"generationPreferences\">here</a> to change the generation settings for this project.</p>");
@@ -96,7 +96,7 @@ public class GenerationPrefSection extends TigerstripeSectionPart {
                                                     .getDisplay()
                                                     .getActiveShell(),
                                             "How Embarrassing!",
-                                            "Something went wrong trying to open the new project wizard. Please select 'File->New->Tigerstripe Plugin Project' to start the wizard manually.");
+                                            "Something went wrong trying to open the new project wizard. Please select 'File->New->Tigerstripe Generator Project' to start the wizard manually.");
                         }
 
                     }

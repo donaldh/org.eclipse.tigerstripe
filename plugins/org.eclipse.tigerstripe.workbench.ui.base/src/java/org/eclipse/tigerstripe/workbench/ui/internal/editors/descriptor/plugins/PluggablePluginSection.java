@@ -237,7 +237,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 
 		facetReferenceText.setLayoutData(gd);
 		facetReferenceText
-				.setToolTipText("The facet to use as scope for this plugin.");
+				.setToolTipText("The facet to use as scope for this generator.");
 		facetReferenceText.addModifyListener(new ModifyListener() {
 			public void modifyText(ModifyEvent e) {
 				if (!isSilentUpdate()) {
@@ -313,7 +313,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 				| GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL);
 		facetOutputDirText.setLayoutData(gd);
 		facetOutputDirText
-				.setToolTipText("The facet to use as scope for this plugin.");
+				.setToolTipText("The facet to use as scope for this generator.");
 		facetOutputDirText.addModifyListener(new ModifyListener() {
 
 			public void modifyText(ModifyEvent e) {

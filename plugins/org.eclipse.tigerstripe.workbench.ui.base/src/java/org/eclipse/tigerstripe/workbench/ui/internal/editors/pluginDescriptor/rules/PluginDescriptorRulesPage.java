@@ -35,7 +35,7 @@ public class PluginDescriptorRulesPage extends TigerstripeFormPage {
 		super.createFormContent(managedForm);
 		ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = managedForm.getToolkit();
-		form.setText("Plugin Rules");
+		form.setText("Generator Rules");
 		fillBody(managedForm, toolkit);
 		managedForm.refresh();
 	}

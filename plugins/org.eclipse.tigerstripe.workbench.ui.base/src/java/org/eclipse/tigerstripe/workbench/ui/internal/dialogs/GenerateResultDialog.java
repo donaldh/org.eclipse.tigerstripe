@@ -80,7 +80,7 @@ public class GenerateResultDialog extends Dialog {
 
 		Label overallResult = new Label(area, SWT.NONE);
 		if (result.length == 0) {
-			overallResult.setText("No plugin enabled.");
+			overallResult.setText("No generator enabled.");
 			overallResult.setForeground(ColorUtils.TS_ORANGE);
 		} else if (hasErrors(result)) {
 			overallResult.setText("Generation Failed.");

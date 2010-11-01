@@ -42,7 +42,7 @@ public class PacakgePluginActionDelegate extends BasePluginActionDelegate
 			IRunnableWithProgress op = new IRunnableWithProgress() {
 				public void run(IProgressMonitor monitor) {
 					try {
-						monitor.beginTask("Packaging plugin", 10);
+						monitor.beginTask("Packaging generator", 10);
 						String lPath = path;
 						if (!path.endsWith(".zip")) {
 							lPath += ".zip";
@@ -79,7 +79,7 @@ public class PacakgePluginActionDelegate extends BasePluginActionDelegate
 				if (operationSucceeded) {
 					MessageDialog.openInformation(getShell(), projectHandle
 							.getName()
-							+ " Plugin", "Plugin '"
+							+ " Generator", "Generator '"
 							+ projectHandle.getName() + "("
 							+ projectHandle.getProjectDetails().getVersion()
 							+ ") was successfully packaged up as \n '" + path
@@ -88,8 +88,8 @@ public class PacakgePluginActionDelegate extends BasePluginActionDelegate
 					MessageDialog
 							.openError(
 									getShell(),
-									projectHandle.getName() + " Plugin",
-									"Plugin '"
+									projectHandle.getName() + " Generator",
+									"Generator '"
 											+ projectHandle.getName()
 											+ "("
 											+ projectHandle.getProjectDetails()

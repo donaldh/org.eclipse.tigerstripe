@@ -96,7 +96,7 @@ public class M0Generator {
 			monitor.worked(1);
 		} catch (TigerstripeException e) {
 			String failureMessage = "An error was detected while triggering '"
-					+ pRef.getLabel() + "' plugin. Generation may be incomplete.";
+					+ pRef.getLabel() + "' generator. Generation may be incomplete.";
 			if (!"".equals(e.getMessage())) {
 				failureMessage = e.getMessage()
 						+ ". Generation may be incomplete.";
@@ -114,7 +114,7 @@ public class M0Generator {
 			}
 		} catch (Exception e) {
 			String failureMessage = "An error was detected while triggering '"
-					+ pRef.getLabel() + "' plugin. Generation may be incomplete.";
+					+ pRef.getLabel() + "' generator. Generation may be incomplete.";
 			IStatus error = new Status(IStatus.ERROR, BasePlugin.getPluginId(),
 					failureMessage, e);
 			pluginResult.add(error);

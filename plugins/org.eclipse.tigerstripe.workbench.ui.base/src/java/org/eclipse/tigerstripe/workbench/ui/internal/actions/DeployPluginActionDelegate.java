@@ -52,8 +52,8 @@ public class DeployPluginActionDelegate extends BasePluginActionDelegate
 			if (MessageDialog
 					.openConfirm(
 							targetPart.getSite().getShell(),
-							"Deploy new plugin",
-							"You are about to deploy this plugin ('"
+							"Deploy new generator",
+							"You are about to deploy this generator ('"
 									+ projectHandle.getName()
 									+ "'). All open editors will be closed.\nDo you want to continue?.  ")) {
 
@@ -87,8 +87,8 @@ public class DeployPluginActionDelegate extends BasePluginActionDelegate
 
 				if (operationSucceeded) {
 					MessageDialog.openInformation(targetPart.getSite()
-							.getShell(), projectHandle.getName() + " Plugin",
-							"Plugin '"
+							.getShell(), projectHandle.getName() + " Generator",
+							"Generator '"
 									+ projectHandle.getName()
 									+ "("
 									+ projectHandle.getProjectDetails()
@@ -99,8 +99,8 @@ public class DeployPluginActionDelegate extends BasePluginActionDelegate
 					MessageDialog
 							.openError(
 									targetPart.getSite().getShell(),
-									projectHandle.getName() + " Plugin",
-									"Plugin '"
+									projectHandle.getName() + " Generator",
+									"Generator '"
 											+ projectHandle.getName()
 											+ "("
 											+ projectHandle.getProjectDetails()

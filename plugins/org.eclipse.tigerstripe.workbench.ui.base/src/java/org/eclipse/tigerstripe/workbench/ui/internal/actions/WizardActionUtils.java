@@ -91,7 +91,7 @@ public class WizardActionUtils {
 								222,
 								"An error was detected while triggering '"
 										+ ref.getLabel()
-										+ "' plugin. Generation may be incomplete.",
+										+ "' generator. Generation may be incomplete.",
 								e);
 						EclipsePlugin.logErrorStatus(
 								"Tigerstripe Generation Error Detected.",
@@ -104,7 +104,7 @@ public class WizardActionUtils {
 								222,
 								"An unknown error was detected while triggering '"
 										+ ref.getLabel()
-										+ "' plugin. Generation may be incomplete.",
+										+ "' generator. Generation may be incomplete.",
 								e);
 						EclipsePlugin
 								.logErrorStatus(

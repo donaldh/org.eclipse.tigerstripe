@@ -77,7 +77,7 @@ public class SimpleRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 		Composite sectionClient = createRuleInfo(parent);
 		Label label = getToolkit()
 				.createLabel(sectionClient,
-						"This template will be run once per generation with this plugin.");
+						"This template will be run once per generation with this generator.");
 		TableWrapData twData = new TableWrapData(TableWrapData.FILL_GRAB);
 		twData.colspan = 2;
 		label.setLayoutData(twData);

@@ -79,7 +79,7 @@ public class BooleanPropertyDetailsPage extends BasePropertyDetailsPage {
 		defaultBooleanCombo.setItems(new String[] { "TRUE", "FALSE" });
 		defaultBooleanCombo.addSelectionListener(adapter);
 		defaultBooleanCombo
-				.setToolTipText("This value will be used by default for all projects using this plugin.");
+				.setToolTipText("This value will be used by default for all projects using this generator.");
 
 		form.getToolkit().createLabel(sectionClient, "");
 
@@ -87,7 +87,7 @@ public class BooleanPropertyDetailsPage extends BasePropertyDetailsPage {
 				.getToolkit()
 				.createLabel(
 						sectionClient,
-						"The value of this Boolean property will be available as a 'checkbox' within the context of the plugin.");
+						"The value of this Boolean property will be available as a 'checkbox' within the context of the generator.");
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 3;
 		label.setLayoutData(gd);

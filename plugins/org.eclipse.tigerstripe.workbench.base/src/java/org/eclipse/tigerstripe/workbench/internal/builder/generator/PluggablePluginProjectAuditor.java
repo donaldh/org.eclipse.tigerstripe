@@ -378,7 +378,7 @@ public class PluggablePluginProjectAuditor extends IncrementalProjectBuilder {
 				newEntryList.add(e);
 			}
 
-			// All the Annotation Plugins
+			// All the Annotation Generator
 			String[] pluginIds = pProject.getRequiredAnnotationPlugins();
 			for (String pluginId : pluginIds) {
 				Bundle bundle = Platform.getBundle(pluginId);

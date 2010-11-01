@@ -14,30 +14,30 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	<link rel="STYLESHEET" href="book.css" charset="ISO-8859-1" type="text/css">
 	<script language="JavaScript" src="PLUGINS_ROOT/org.eclipse.help/livehelp.js"></script>
-<title>Plugin Log Settings</title>
+<title>Generator Log Settings</title>
 </head >
-<h1>Plugin log</h1>
+<h1>Generator log</h1>
 
-<p>When creating complex plugins, it is often useful to have the plugin generate a specific log file during generation. 
-This not only helps for debugging purpose but also helps when supporting the plugin.</p> 
+<p>When creating complex, it is often useful to have the generator generate a specific log file during generation. 
+This not only helps for debugging purpose but also helps when supporting the generator.</p> 
 
 <h3>Setting up the logfile</h3>
-<p>A log can be created by Plugin. It is a <i>rolling log</i> meaning that a new log with a new numbered extension will be create
-each time the plugin is run. The name of the logfile is set by the plugin developper, together with a default level of
+<p>A log can be created by Generator. It is a <i>rolling log</i> meaning that a new log with a new numbered extension will be create
+each time the generator is run. The name of the logfile is set by the generator developper, together with a default level of
 logging.</p>
-<p>This settings are available from the <b>Runtime</b> tab of the plugin descriptor, as shown below:</p>
+<p>This settings are available from the <b>Runtime</b> tab of the generator descriptor, as shown below:</p>
 <p class="style1"><img src="../../images/pluginLogSetting.gif" ><br></p>
 
 <h3>Logging to the logfile</h3>
-<p>Once the logfile has been set up. Messages can be sent to the log from either the Java code of the plugin or from Velocity templates using the following syntax:</p>
+<p>Once the logfile has been set up. Messages can be sent to the log from either the Java code of the generator or from Velocity templates using the following syntax:</p>
 <ol>
-	<li><b>From Java</b>: PluginLog.logError(String msg, Throwable e) can be used throughout the plugin code.</li>
+	<li><b>From Java</b>: PluginLog.logError(String msg, Throwable e) can be used throughout the generator code.</li>
 	<li><b>From Velocity</b>: $pluginLog.logError("my message").</li>
 </ol>
 <p>Multiple log levels are available: Error, Warning, Info, Debug, Trace. Each of these levels can be accessed through a variation on the 'logXXX' method described above.</p>
 <h3>Controlling the log during generation</h3>
-<p>Users of the plugin (i.e. once the plugin has been deployed) can control the level of logging for a specific plugin. The developper of a plugin
-can control the default level (see setting above), but the user can increase/decrease that as a property on the plugin. See plugin properties in the tigerstripe.xml project generation details.</p>
+<p>Users of the generator (i.e. once the generator has been deployed) can control the level of logging for a specific generator. The developer of a generator
+can control the default level (see setting above), but the user can increase/decrease that as a property on the generator. See generator properties in the tigerstripe.xml project generation details.</p>
 
 &#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
 </body>

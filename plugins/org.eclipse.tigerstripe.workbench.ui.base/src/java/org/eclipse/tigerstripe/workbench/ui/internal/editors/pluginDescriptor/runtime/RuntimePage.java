@@ -38,7 +38,7 @@ public class RuntimePage extends TigerstripeFormPage {
 
 		ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = managedForm.getToolkit();
-		form.setText("Tigerstripe Plugin Project");
+		form.setText("Tigerstripe Generator Project");
 		fillBody(managedForm, toolkit);
 		managedForm.refresh();
 	}

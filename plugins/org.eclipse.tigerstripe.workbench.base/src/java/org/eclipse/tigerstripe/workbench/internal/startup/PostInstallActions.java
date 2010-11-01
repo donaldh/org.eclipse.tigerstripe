@@ -258,13 +258,13 @@ public class PostInstallActions {
 
 		try {
 			// Add org.eclipse.equinox.common as a variable that can be
-			// referenced from Tigerstripe Plugin projects.
+			// referenced from Tigerstripe Generator projects.
 			IPath equinoxPath = findEquinoxCommonJarPath(context);
 			JavaCore.setClasspathVariable(ITigerstripeConstants.EQUINOX_COMMON,
 					equinoxPath, null);
 
 			// Add org.eclipse.tigerstripe.workbench.base as a variable that can
-			// be referenced from Tigerstripe plugin projects too
+			// be referenced from Tigerstripe generator projects too
 			IPath tigerstripeBasePath = findTigerstripeBaseJarPath(context);
 			JavaCore.setClasspathVariable(
 					ITigerstripeConstants.EXTERNALAPI_LIB, tigerstripeBasePath,

@@ -64,8 +64,8 @@ public class DeployZippedPluginActionDelegate implements IObjectActionDelegate {
 		if (MessageDialog
 				.openConfirm(
 						targetPart.getSite().getShell(),
-						"Deploy new plugin",
-						"You are about to deploy this plugin ('"
+						"Deploy new generator",
+						"You are about to deploy this generator ('"
 								+ zipFile.getName()
 								+ "'). All open editors will be closed.\nDo you want to continue?.  ")) {
 
@@ -102,7 +102,7 @@ public class DeployZippedPluginActionDelegate implements IObjectActionDelegate {
 
 			if (operationSucceeded) {
 				MessageDialog.openInformation(targetPart.getSite().getShell(),
-						zipFile.getName() + " Plugin", "Plugin '"
+						zipFile.getName() + " Generator", "Generator '"
 								+ zipFile.getName()
 								+ "' was successfully deployed.\n ("
 								+ deploymentPath + ")");
@@ -110,8 +110,8 @@ public class DeployZippedPluginActionDelegate implements IObjectActionDelegate {
 				MessageDialog
 						.openError(
 								targetPart.getSite().getShell(),
-								zipFile.getName() + " Plugin",
-								"Plugin '"
+								zipFile.getName() + " Generator",
+								"Generator '"
 										+ zipFile.getName()
 										+ "') could not be deployed. See Error log for more details");
 			}

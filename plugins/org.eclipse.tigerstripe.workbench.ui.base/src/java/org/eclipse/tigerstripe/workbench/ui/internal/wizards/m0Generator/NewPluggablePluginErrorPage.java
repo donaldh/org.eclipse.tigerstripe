@@ -71,9 +71,9 @@ public class NewPluggablePluginErrorPage extends WizardPage {
 				| SWT.READ_ONLY);
 
 		warningLabel
-				.setText("\nYou cannot create new Tigerstripe Plugin Project\n\n\n"
+				.setText("\nYou cannot create new Tigerstripe Generator Project\n\n\n"
 						+ "Your Tigerstripe license has insufficient privileges for this operation, "
-						+ "please contact Tigerstripe if you wish to create a new Plugin Project.");
+						+ "please contact Tigerstripe if you wish to create a new Generator Project.");
 		GridData gd = new GridData(GridData.GRAB_VERTICAL
 				| GridData.GRAB_HORIZONTAL | GridData.FILL_HORIZONTAL
 				| GridData.FILL_VERTICAL);

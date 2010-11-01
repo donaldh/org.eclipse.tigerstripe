@@ -677,7 +677,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 
 					}
 					if (!oneAtleastIsEnabled) {
-						message = "At least one plugin must be selected.";
+						message = "At least one generator must be selected.";
 						setErrorMessage(message);
 					}
 				}

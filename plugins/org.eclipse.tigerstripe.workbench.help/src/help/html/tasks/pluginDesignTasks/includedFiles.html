@@ -14,24 +14,24 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
 	<link rel="STYLESHEET" href="book.css" charset="ISO-8859-1" type="text/css">
 	<script language="JavaScript" src="PLUGINS_ROOT/org.eclipse.help/livehelp.js"></script>
-<title>Including Files in the deployed Plugin</title>
+<title>Including Files in the deployed Generator</title>
 </head >
-<h1>Including Files in the deployed Plugin</h1>
-<p>Sometimes you need to include one of more files in the plugin that are required at runtime, but are neither templates, nor jar files. Some example uses might be :</p>
+<h1>Including Files in the deployed Generator</h1>
+<p>Sometimes you need to include one of more files in the generator that are required at runtime, but are neither templates, nor jar files. Some example uses might be :</p>
 <ul>
   <li>Schema files that will be used to validate XML config files that shoud be in the project being "generated".</li>
   <li>Properties files containing rarely changed parameter settings.</li>
   </ul>
 
-<p>The included files must be in your plugin project.</p>
+<p>The included files must be in your generator project.</p>
 <h3>To add files.</h3>
 <ol>
-   <li>You can add or remove files through the <b>Runtime</b> tab of the <b>Plugin Project Descriptor</b>.</li>
-   <li>In the "Included Files" section of the Runtime tab, simply check the boxes that correspond to the directories and/or files that you wich to be inlcuded. They will be copied to the deployed plugin with the the same directory structure.</li>
+   <li>You can add or remove files through the <b>Runtime</b> tab of the <b>Generator Project Descriptor</b>.</li>
+   <li>In the "Included Files" section of the Runtime tab, simply check the boxes that correspond to the directories and/or files that you wich to be included. They will be copied to the deployed generator with the the same directory structure.</li>
 </ol>
 <h3>To access files at runtime.</h3>
 <ol>
-   <li>To gain access to these files at runtime, use the <i>$pluginDir</i> Velocity Context Defintion. This provides the root directory of the deployed plugin, and the files will be found in the directory tree below this according to their directory tree in the plugin-project.</li>
+   <li>To gain access to these files at runtime, use the <i>$pluginDir</i> Velocity Context Defintion. This provides the root directory of the deployed generator, and the files will be found in the directory tree below this according to their directory tree in the generator-project.</li>
    </p>
 
 

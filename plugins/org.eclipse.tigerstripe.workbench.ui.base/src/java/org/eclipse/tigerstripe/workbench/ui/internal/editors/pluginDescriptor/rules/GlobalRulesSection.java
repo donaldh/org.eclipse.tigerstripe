@@ -51,7 +51,7 @@ public class GlobalRulesSection extends RulesSectionPart implements IFormPart {
 		super(page, parent, toolkit, ExpandableComposite.TWISTIE
 				| ExpandableComposite.EXPANDED);
 		setTitle("&Global Rules");
-		setDescription("Define the rules to be run once only per generation with this plugin.");
+		setDescription("Define the rules to be run once only per generation with this generator.");
 
 		createContent();
 		updateMaster();
@@ -168,7 +168,7 @@ public class GlobalRulesSection extends RulesSectionPart implements IFormPart {
 
 	@Override
 	protected String getTooltipText() {
-		return "Define/Edit global template rules for this plugin.";
+		return "Define/Edit global template rules for this generator.";
 	}
 
 	@Override

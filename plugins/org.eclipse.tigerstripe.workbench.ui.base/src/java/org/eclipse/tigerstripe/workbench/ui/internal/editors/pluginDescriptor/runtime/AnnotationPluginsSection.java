@@ -58,7 +58,7 @@ public class AnnotationPluginsSection extends GeneratorDescriptorSectionPart
 	public AnnotationPluginsSection(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit) {
 		super(page, parent, toolkit, ExpandableComposite.TITLE_BAR);
-		setTitle("&Required Annotation Plugins");
+		setTitle("&Required Annotation Generators");
 
 		createContent();
 		updateMaster();
@@ -89,7 +89,7 @@ public class AnnotationPluginsSection extends GeneratorDescriptorSectionPart
 		toolkit.adapt(sashForm, false, false);
 		sashForm.setMenu(body.getMenu());
 		sashForm
-				.setToolTipText("Add/Remove required Annotation Plugins for this generator.");
+				.setToolTipText("Add/Remove required Annotation Generators.");
 		sashForm.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		createMasterPart(managedForm, sashForm);
@@ -240,7 +240,7 @@ public class AnnotationPluginsSection extends GeneratorDescriptorSectionPart
 
 		AnnotationPluginSelectionDialog dialog = new AnnotationPluginSelectionDialog(
 				getSection().getShell(), new MasterContentProvider(),
-				new MasterLabelProvider(), "Select Annotation Plugins");
+				new MasterLabelProvider(), "Select Annotation Generators");
 
 		try {
 			dialog.setInitialElementSelections(Arrays
@@ -290,13 +290,13 @@ public class AnnotationPluginsSection extends GeneratorDescriptorSectionPart
 		String message = "Do you really want to remove ";
 		if (selectedFields.length > 1) {
 			message = message + "these " + selectedFields.length
-					+ " annotation plugins?";
+					+ " annotation generators?";
 		} else {
 			message = message + "this annotation plugin?";
 		}
 
 		MessageDialog msgDialog = new MessageDialog(getBody().getShell(),
-				"Remove plugins", null, message, MessageDialog.QUESTION,
+				"Remove generators", null, message, MessageDialog.QUESTION,
 				new String[] { "Yes", "No" }, 1);
 
 		if (msgDialog.open() == 0) {

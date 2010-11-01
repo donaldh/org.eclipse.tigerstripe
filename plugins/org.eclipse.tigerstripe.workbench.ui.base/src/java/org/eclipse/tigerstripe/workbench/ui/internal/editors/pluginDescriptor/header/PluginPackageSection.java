@@ -78,7 +78,7 @@ public class PluginPackageSection extends GeneratorDescriptorSectionPart {
 		StringBuffer buf = new StringBuffer();
 
 		buf.append("<form>");
-		buf.append("<li><a href=\"package\">Package up this plugin.</a></li>");
+		buf.append("<li><a href=\"package\">Package up this generator.</a></li>");
 		buf.append("</form>");
 		rtext.setText(buf.toString(), true, false);
 		rtext.addHyperlinkListener(new HyperlinkAdapter() {
@@ -90,19 +90,19 @@ public class PluginPackageSection extends GeneratorDescriptorSectionPart {
 						return;
 
 					if (LicensedAccess.getWorkbenchPluggablePluginRole() != TSWorkbenchPluggablePluginRole.CREATE_EDIT) {
-						String errMessage = "You cannot package a Tigerstripe plugin\n\n"
+						String errMessage = "You cannot package a Tigerstripe generator\n\n"
 								+ "Your Tigerstripe license has insufficient privileges for this operation, "
-								+ "please contact Tigerstripe if you wish to be able to package " + "plugins";
-						MessageDialog.openError(getBody().getShell(), "Package Plugin Error", errMessage);
+								+ "please contact Tigerstripe if you wish to be able to package " + "generator";
+						MessageDialog.openError(getBody().getShell(), "Package Generator Error", errMessage);
 					} else {
 						if (getPage().getEditor().isDirty()) {
 							MessageDialog.openWarning(getBody().getShell(), "Un-saved changes",
-									"This plugin descriptor has un-saved changes.\n\nPlease save this file before trying to package this plugin.");
+									"This generator descriptor has un-saved changes.\n\nPlease save this file before trying to package this generator.");
 							return;
 						}
 
 						DirectoryDialog dialog = new DirectoryDialog(getBody().getShell());
-						dialog.setMessage("Select the desitination directory for the plugin package:");
+						dialog.setMessage("Select the desitination directory for the generator package:");
 
 						final String dir = dialog.open();
 						if (dir != null) {
@@ -110,7 +110,7 @@ public class PluginPackageSection extends GeneratorDescriptorSectionPart {
 							IRunnableWithProgress op = new IRunnableWithProgress() {
 								public void run(IProgressMonitor monitor) {
 									try {
-										monitor.beginTask("Packaging plugin", 10);
+										monitor.beginTask("Packaging generator", 10);
 										
 										GeneratorDeploymentHelper helper = new GeneratorDeploymentHelper();
 										String lPath = dir + File.separator + helper.getDefaultPluginFileName(projectHandle);
@@ -146,11 +146,11 @@ public class PluginPackageSection extends GeneratorDescriptorSectionPart {
 
 //							try {
 //								if (operationSucceeded) {
-//									MessageDialog.openInformation(getBody().getShell(), projectHandle.getName() + " Plugin", "Plugin '"
+//									MessageDialog.openInformation(getBody().getShell(), projectHandle.getName() + " Generator", "Plugin '"
 //											+ projectHandle.getName() + "(" + projectHandle.getProjectDetails().getVersion()
 //											+ ") was successfully packaged up as \n '" + lPath + "'.");
 //								} else {
-//									MessageDialog.openError(getBody().getShell(), projectHandle.getName() + " Plugin", "Plugin '"
+//									MessageDialog.openError(getBody().getShell(), projectHandle.getName() + " Generator", "Plugin '"
 //											+ projectHandle.getName() + "(" + projectHandle.getProjectDetails().getVersion()
 //											+ ") could not be packaged up. See Error log for more details.\n");
 //								}
