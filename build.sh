@@ -67,7 +67,7 @@ fi
 
 # ------------------------------------------------------------------------------
 #rsync -av --delete --exclude "CVS/" features plugins relengs tests samples pom.xml target/
-rsync -av --delete --exclude "CVS/" features plugins relengs tests samples pom.xml target/
+rsync -av --delete --exclude "CVS/" features plugins releng tests samples pom.xml target/
 
 # ------------------------------------------------------------------------------ 
 if [ ! -z "$BUILD_VERSION" ]; then
