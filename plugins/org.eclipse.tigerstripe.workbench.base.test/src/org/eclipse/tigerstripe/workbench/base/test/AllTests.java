@@ -99,8 +99,8 @@ public class AllTests {
 
 		// Export
 //		suite.addTestSuite(TestExportDiff.class);
-//		suite.addTestSuite(TestExportFacetManager.class);
-//		suite.addTestSuite(TestFacetExporter.class);
+		suite.addTestSuite(TestExportFacetManager.class);
+		suite.addTestSuite(TestFacetExporter.class);
 
 		return suite;
 	}
