@@ -52,21 +52,6 @@ rebuildTarget()
 	rsync -a --delete tests target/ || exit 1
 	rsync -a --delete samples target/ || exit 1
     rsync -a --delete pom.xml target/ || exit 1
-
-#    SETTINGS=target/$MAVEN/conf/settings.xml
-#    mv $SETTINGS $SETTINGS.org
-#    sed '/<settings>/ a\
-#\
-#  <proxies>\
-#   <proxy>\
-#      <active>true</active>\
-#      <protocol>http</protocol>\
-#      <host>proxy-sjc-1.cisco.com</host>\
-#      <port>80</port>\
-#      <nonProxyHosts>*.cisco.com|localhost</nonProxyHosts>\
-#    </proxy>\
-#  </proxies>\
-#' $SETTINGS.org >$SETTINGS
 }
 
 # ------------------------------------------------------------------------------
@@ -81,6 +66,7 @@ else
 fi
 
 # ------------------------------------------------------------------------------
+#rsync -av --delete --exclude "CVS/" features plugins relengs tests samples pom.xml target/
 rsync -av --delete --exclude "CVS/" features plugins relengs tests samples pom.xml target/
 
 # ------------------------------------------------------------------------------ 
