@@ -77,7 +77,7 @@ public class PluginDebugSection extends GeneratorDescriptorSectionPart {
 
 		buf.append("<form>");
 		buf
-				.append("<li><a href=\"deploy\">Package and deploy this generator.</a></li>");
+				.append("<li><a href=\"deploy\">Package and deploy this generator</a></li>");
 		buf.append("<li><a href=\"undeploy\">Un-deploy this generator</a></li>");
 		buf.append("</form>");
 		rtext.setText(buf.toString(), true, false);

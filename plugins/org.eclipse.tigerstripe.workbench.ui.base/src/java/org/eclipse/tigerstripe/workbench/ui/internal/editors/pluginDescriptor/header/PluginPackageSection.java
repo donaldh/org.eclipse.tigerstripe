@@ -78,7 +78,7 @@ public class PluginPackageSection extends GeneratorDescriptorSectionPart {
 		StringBuffer buf = new StringBuffer();
 
 		buf.append("<form>");
-		buf.append("<li><a href=\"package\">Package up this generator.</a></li>");
+		buf.append("<li><a href=\"package\">Package up this generator</a></li>");
 		buf.append("</form>");
 		rtext.setText(buf.toString(), true, false);
 		rtext.addHyperlinkListener(new HyperlinkAdapter() {
