@@ -51,16 +51,16 @@
    </extension>
    <extension
          id="tigerstripePluginProject"
-         name="Tigerstripe Plugin Project"
+         name="Tigerstripe Generator Project"
          point="org.eclipse.core.resources.natures">
       <runtime>
          <run class="org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripePluginProjectNature"/>
       </runtime>
-      <builder id="org.eclipse.tigerstripe.workbench.base.pluggablePluginProjectAuditor"/>
+      <builder id="org.eclipse.tigerstripe.workbench.base.pluggablekProjectAuditor"/>
    </extension>
    <extension
          id="pluggablePluginProjectAuditor"
-         name="Tigerstripe Plugin Auditor"
+         name="Tigerstripe Generator Auditor"
          point="org.eclipse.core.resources.builders">
       <builder hasNature="true">
          <run class="org.eclipse.tigerstripe.workbench.internal.builder.generator.PluggablePluginProjectAuditor"/>

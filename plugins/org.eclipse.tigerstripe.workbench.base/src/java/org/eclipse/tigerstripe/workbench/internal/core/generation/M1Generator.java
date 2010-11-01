@@ -482,7 +482,7 @@ public class M1Generator {
 						} else {
 							PluginRunStatus res = new PluginRunStatus(ref, project, config, project.getActiveFacet());
 							IStatus error = new Status(IStatus.ERROR, BasePlugin.getPluginId(), "Invalid facet '"
-									+ facetRef.getProjectRelativePath() + "' for plugin '" + iRef.getPluginId() + "'.");
+									+ facetRef.getProjectRelativePath() + "' for generator '" + iRef.getPluginId() + "'.");
 							res.add(error);
 							result.add(res);
 							continue;
@@ -553,7 +553,7 @@ public class M1Generator {
 								PluginRunStatus res = new PluginRunStatus(ref, project, config, project
 										.getActiveFacet());
 								IStatus error = new Status(IStatus.ERROR, BasePlugin.getPluginId(), "Invalid facet '"
-										+ facetRef.getProjectRelativePath() + "' for plugin '" + iRef.getPluginId()
+										+ facetRef.getProjectRelativePath() + "' for generator '" + iRef.getPluginId()
 										+ "'.");
 								res.add(error);
 								result.add(res);
