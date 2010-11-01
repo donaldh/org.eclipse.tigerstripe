@@ -12,7 +12,6 @@ if [ $# -ne 1 ]; then
 fi
 
 DST=$1; shift
-		  /home/data/httpd/download.eclipse.org/technology/tigerstripe/updates/3.6	
 TS_UPLOAD=/home/data/httpd/download.eclipse.org/technology/tigerstripe/updates/3.6
 PROMOTED_BUILD=`echo $PROMOTED_URL | awk '{split($0, a, "/");print a[6]}'`
 
