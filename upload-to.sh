@@ -17,11 +17,11 @@ PROMOTED_BUILD=`echo $PROMOTED_URL | awk '{split($0, a, "/");print a[6]}'`
 
 case "$DST" in
 release)
-SITE="TS_UPLOAD"/release
+SITE="$TS_UPLOAD"/release
 SITE_NAME="Updates (Release)"
 ;;
 iteration)
-SITE="TS_UPLOAD"/iteration
+SITE="$TS_UPLOAD"/iteration
 SITE_NAME="Updates (Iteration)"
 ;;
 esac
