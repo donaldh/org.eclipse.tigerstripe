@@ -13,7 +13,10 @@ package org.eclipse.tigerstripe.workbench.base.test.builders;
 import junit.framework.TestCase;
 
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.jobs.IJobManager;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
@@ -49,6 +52,10 @@ public class TestBasicM1ProjectAuditor extends TestCase {
 
 		// Force the auditor
 		AuditorHelper.forceFullBuildNow(project);
+		IJobManager jobMan = Job.getJobManager();
+		Job[] build = jobMan.find(ResourcesPlugin.FAMILY_AUTO_BUILD); 
+		if (build.length == 1)
+		    build[0].join();
 
 		IMarker[] markers = AuditorHelper.getMarkers(project);
 		assertNotNull(markers);
