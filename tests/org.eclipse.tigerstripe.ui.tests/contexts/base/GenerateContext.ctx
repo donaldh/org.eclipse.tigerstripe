@@ -1,42 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="GenerateContext" id="_m9U5kK6FEd-uWaeTFaimww">
   <content>
-    <projects name="New Plugin Project">
+    <projects name="New Generator Project">
       <files name=".classpath" contentURI=".GenerateContextctx/content1.classpath"/>
       <files name=".project" contentURI=".GenerateContextctx/content1.project"/>
       <files name="ts-plugin.xml" contentURI=".GenerateContextctx/content1.xml"/>
-      <folders name="bin"/>
       <folders name="src"/>
       <folders name="templates">
         <files name="allArtifacts.vm" contentURI=".GenerateContextctx/content1.vm"/>
         <files name="artifact.vm" contentURI=".GenerateContextctx/content2.vm"/>
       </folders>
     </projects>
-    <projects name="New Project">
+    <projects name="model-refactoring">
       <files name=".classpath" contentURI=".GenerateContextctx/content2.classpath"/>
       <files name=".project" contentURI=".GenerateContextctx/content2.project"/>
+      <files name="outside-class-diagram.vwm" contentURI=".GenerateContextctx/content5.vwm"/>
+      <files name="outside-class-diagram.wvd" contentURI=".GenerateContextctx/content5.wvd"/>
+      <files name="outside-instance-diagram.owm" contentURI=".GenerateContextctx/content1.owm"/>
+      <files name="outside-instance-diagram.wod" contentURI=".GenerateContextctx/content1.wod"/>
       <files name="tigerstripe.xml" contentURI=".GenerateContextctx/content2.xml"/>
-      <folders name="bin"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".GenerateContextctx/content1.prefs"/>
+      </folders>
       <folders name="src">
-        <folders name="org">
+        <folders name="simple">
           <files name=".package" contentURI=".GenerateContextctx/content6.package"/>
-          <folders name="eclipse">
+          <files name="AssociatedEnt.java" contentURI=".GenerateContextctx/content1.java"/>
+          <files name="Association0.java" contentURI=".GenerateContextctx/content2.java"/>
+          <files name="Association1.java" contentURI=".GenerateContextctx/content3.java"/>
+          <files name="Association2.java" contentURI=".GenerateContextctx/content4.java"/>
+          <files name="AssociationClass0.java" contentURI=".GenerateContextctx/content5.java"/>
+          <files name="DataBottom.java" contentURI=".GenerateContextctx/content6.java"/>
+          <files name="DataMiddle.java" contentURI=".GenerateContextctx/content7.java"/>
+          <files name="DataTop.java" contentURI=".GenerateContextctx/content8.java"/>
+          <files name="Dependency0.java" contentURI=".GenerateContextctx/content9.java"/>
+          <files name="Ent1.java" contentURI=".GenerateContextctx/content10.java"/>
+          <files name="Ent2.java" contentURI=".GenerateContextctx/content11.java"/>
+          <files name="Enumeration0.java" contentURI=".GenerateContextctx/content12.java"/>
+          <files name="Event0.java" contentURI=".GenerateContextctx/content13.java"/>
+          <files name="Exception0.java" contentURI=".GenerateContextctx/content14.java"/>
+          <files name="Query0.java" contentURI=".GenerateContextctx/content15.java"/>
+          <files name="SessionFacade0.java" contentURI=".GenerateContextctx/content16.java"/>
+          <files name="SuperEnt.java" contentURI=".GenerateContextctx/content17.java"/>
+          <files name="Update0.java" contentURI=".GenerateContextctx/content18.java"/>
+          <files name="default.vwm" contentURI=".GenerateContextctx/content4.vwm"/>
+          <files name="default.wvd" contentURI=".GenerateContextctx/content4.wvd"/>
+          <folders name="moved">
+            <files name=".package" contentURI=".GenerateContextctx/content4.package"/>
+            <files name="inside-moved.vwm" contentURI=".GenerateContextctx/content3.vwm"/>
+            <files name="inside-moved.wvd" contentURI=".GenerateContextctx/content3.wvd"/>
+          </folders>
+          <folders name="movedOther">
             <files name=".package" contentURI=".GenerateContextctx/content5.package"/>
-            <files name="AssocClass0.java" contentURI=".GenerateContextctx/content1.java"/>
-            <files name="Association0.java" contentURI=".GenerateContextctx/content2.java"/>
-            <files name="Datatype0.java" contentURI=".GenerateContextctx/content3.java"/>
-            <files name="Dependency0.java" contentURI=".GenerateContextctx/content4.java"/>
-            <files name="Entity0.java" contentURI=".GenerateContextctx/content5.java"/>
-            <files name="Entity1.java" contentURI=".GenerateContextctx/content6.java"/>
-            <files name="Enumeration0.java" contentURI=".GenerateContextctx/content7.java"/>
-            <files name="Event0.java" contentURI=".GenerateContextctx/content8.java"/>
-            <files name="Exception0.java" contentURI=".GenerateContextctx/content9.java"/>
-            <files name="Query0.java" contentURI=".GenerateContextctx/content10.java"/>
-            <files name="Session0.java" contentURI=".GenerateContextctx/content11.java"/>
-            <files name="Update0.java" contentURI=".GenerateContextctx/content12.java"/>
-            <folders name="Package0">
-              <files name=".package" contentURI=".GenerateContextctx/content4.package"/>
-            </folders>
           </folders>
         </folders>
       </folders>

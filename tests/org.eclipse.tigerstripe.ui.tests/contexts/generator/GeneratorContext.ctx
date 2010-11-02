@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="GeneratorContext" id="_4LXcYK9VEd-zMOysButwpg">
   <content>
-    <projects name="New Plugin Project">
+    <projects name="New Generator Project">
       <files name=".classpath" contentURI=".GeneratorContextctx/content1.classpath"/>
       <files name=".project" contentURI=".GeneratorContextctx/content1.project"/>
       <files name="ts-plugin.xml" contentURI=".GeneratorContextctx/content1.xml"/>
-      <folders name="bin"/>
       <folders name="src"/>
       <folders name="templates">
         <files name="allArtifacts.vm" contentURI=".GeneratorContextctx/content1.vm"/>
@@ -15,18 +14,17 @@
     <projects name="model-refactoring">
       <files name=".classpath" contentURI=".GeneratorContextctx/content2.classpath"/>
       <files name=".project" contentURI=".GeneratorContextctx/content2.project"/>
-      <files name="outside-class-diagram.vwm" contentURI=".GeneratorContextctx/content5.vwm"/>
-      <files name="outside-class-diagram.wvd" contentURI=".GeneratorContextctx/content5.wvd"/>
+      <files name="outside-class-diagram.vwm" contentURI=".GeneratorContextctx/content7.vwm"/>
+      <files name="outside-class-diagram.wvd" contentURI=".GeneratorContextctx/content7.wvd"/>
       <files name="outside-instance-diagram.owm" contentURI=".GeneratorContextctx/content1.owm"/>
       <files name="outside-instance-diagram.wod" contentURI=".GeneratorContextctx/content1.wod"/>
       <files name="tigerstripe.xml" contentURI=".GeneratorContextctx/content2.xml"/>
       <folders name=".settings">
         <files name="org.eclipse.core.resources.prefs" contentURI=".GeneratorContextctx/content1.prefs"/>
       </folders>
-      <folders name="bin"/>
       <folders name="src">
         <folders name="simple">
-          <files name=".package" contentURI=".GeneratorContextctx/content6.package"/>
+          <files name=".package" contentURI=".GeneratorContextctx/content9.package"/>
           <files name="AssociatedEnt.java" contentURI=".GeneratorContextctx/content1.java"/>
           <files name="Association0.java" contentURI=".GeneratorContextctx/content2.java"/>
           <files name="Association1.java" contentURI=".GeneratorContextctx/content3.java"/>
@@ -45,15 +43,15 @@
           <files name="SessionFacade0.java" contentURI=".GeneratorContextctx/content16.java"/>
           <files name="SuperEnt.java" contentURI=".GeneratorContextctx/content17.java"/>
           <files name="Update0.java" contentURI=".GeneratorContextctx/content18.java"/>
-          <files name="default.vwm" contentURI=".GeneratorContextctx/content4.vwm"/>
-          <files name="default.wvd" contentURI=".GeneratorContextctx/content4.wvd"/>
+          <files name="default.vwm" contentURI=".GeneratorContextctx/content6.vwm"/>
+          <files name="default.wvd" contentURI=".GeneratorContextctx/content6.wvd"/>
           <folders name="moved">
-            <files name=".package" contentURI=".GeneratorContextctx/content4.package"/>
-            <files name="inside-moved.vwm" contentURI=".GeneratorContextctx/content3.vwm"/>
-            <files name="inside-moved.wvd" contentURI=".GeneratorContextctx/content3.wvd"/>
+            <files name=".package" contentURI=".GeneratorContextctx/content7.package"/>
+            <files name="inside-moved.vwm" contentURI=".GeneratorContextctx/content5.vwm"/>
+            <files name="inside-moved.wvd" contentURI=".GeneratorContextctx/content5.wvd"/>
           </folders>
           <folders name="movedOther">
-            <files name=".package" contentURI=".GeneratorContextctx/content5.package"/>
+            <files name=".package" contentURI=".GeneratorContextctx/content8.package"/>
           </folders>
         </folders>
       </folders>

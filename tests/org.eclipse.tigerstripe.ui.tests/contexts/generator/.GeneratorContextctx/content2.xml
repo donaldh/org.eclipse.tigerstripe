@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <tigerstripe version="1.1">
-<project name="">
+<project modelId="1" name="">
 <outputDirectory>target/tigerstripe.gen</outputDirectory>
-<version></version>
-<description></description>
-<provider></provider>
+<version>0.0.0</version>
+<description/>
+<provider/>
 <property name="defaultArtifactPackage">com.mycompany</property>
 </project>
 <repositories>

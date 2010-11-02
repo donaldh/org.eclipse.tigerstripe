@@ -15,34 +15,20 @@ package simple;
 /**
  * 
  *
- * @tigerstripe.datatype
+ * @tigerstripe.exception
  *		isAbstract = "false"
- *      isSingleExtensionType="false"
- *      isSessionFactoryMethods="false"
  *		implements = ""
  * @tigerstripe.interface package = "$artifact.IStandardSpecifics.InterfaceProperties.get("package")"
  *      generate = "true"
  * * 
  */
-public abstract class DataBottom
-  extends simple.DataMiddle
+public abstract class Exception0
+  extends java.lang.Exception
  {
+	
+	// not important since this class will never be serialized.
+	private static final long serialVersionUID = -1L;
 
-
-
-    /**
-     * 
-     * @tigerstripe.field 
-     *  isOptional = "false"
-     *  isReadOnly = "false"
-     *  isOrdered = "false"
-     *  isUnique = "false"
-     *  typeMultiplicity = "1"
-     *
-     *
-     * 
-     */
-	public simple.DataBottom recur;
 
 
 }

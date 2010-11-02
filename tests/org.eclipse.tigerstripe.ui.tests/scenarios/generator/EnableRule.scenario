@@ -17,7 +17,7 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
       <element id="Tree7" kind="Tree"/>
-      <path>New Plugin Project</path>
+      <path>New Generator Project</path>
       <path>ts-plugin.xml</path>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
@@ -28,7 +28,7 @@
       <state id="State40" kind="State"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="New Plugin Project/ts-plugin.xml" multiplicity="1">
+      <data kind="Editor" pattern="New Generator Project/ts-plugin.xml" multiplicity="1">
         <parent id="EclipseWindow6" kind="EclipseWindow"/>
       </data>
     </commands>
@@ -177,19 +177,19 @@
       <state id="State44" kind="State"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Window" pattern="New Plugin Rule" multiplicity="1">
+      <data kind="Window" pattern="New Generator Rule" multiplicity="1">
         <parent id="EclipseWindow6" kind="EclipseWindow"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Label" pattern="Rule Name:" multiplicity="1">
-        <parent id="Window14" kind="Window" description="New Plugin Rule"/>
+        <parent id="Window14" kind="Window" description="New Generator Rule"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Text" multiplicity="1">
         <after id="Label9" kind="Label"/>
-        <parent id="Window14" kind="Window" description="New Plugin Rule"/>
+        <parent id="Window14" kind="Window" description="New Generator Rule"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Type" state="262144" code="97" character="1">
@@ -274,7 +274,7 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
       <element id="Tree7" kind="Tree"/>
-      <path>New Plugin Project</path>
+      <path>New Generator Project</path>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Menu" multiplicity="1">
@@ -291,13 +291,13 @@
       <state id="State47" kind="State"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Window" pattern="Deploy new plugin" multiplicity="1">
+      <data kind="Window" pattern="Deploy new generator" multiplicity="1">
         <parent id="EclipseWindow6" kind="EclipseWindow"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Button" pattern="OK" multiplicity="1">
-        <parent id="Window15" kind="Window" description="Deploy new plugin"/>
+        <parent id="Window15" kind="Window" description="Deploy new generator"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
@@ -308,13 +308,13 @@
       <state id="State48" kind="State"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Window" pattern="New Plugin Project Plugin" multiplicity="1">
+      <data kind="Window" pattern="New Generator Project Generator" multiplicity="1">
         <parent id="EclipseWindow6" kind="EclipseWindow"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Button" pattern="OK" multiplicity="1">
-        <parent id="Window16" kind="Window" description="New Plugin Project Plugin"/>
+        <parent id="Window16" kind="Window" description="New Generator Project Generator"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
@@ -376,7 +376,7 @@
       <element id="Canvas12" kind="Canvas"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="New Plugin Project(3.0) (disabled) [Generic]" multiplicity="1">
+      <data kind="Expandable" pattern="New Generator Project(3.0) (disabled) [Generic]" multiplicity="1">
         <parent id="Editor8" kind="Editor"/>
       </data>
     </commands>
@@ -561,7 +561,7 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
       <element id="Table7" kind="Table"/>
-      <path>New Plugin Project\(3.0\)</path>
+      <path>New Generator Project\(3.0\)</path>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Menu" multiplicity="1">
@@ -577,13 +577,13 @@
       <state id="State58" kind="State"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Window" pattern="Un-Deploy Tigerstripe Plugin?" multiplicity="1">
+      <data kind="Window" pattern="Un-Deploy Tigerstripe Generator?" multiplicity="1">
         <parent id="Window19" kind="Window"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Button" pattern="OK" multiplicity="1">
-        <parent id="Window20" kind="Window" description="Un-Deploy Tigerstripe Plugin?"/>
+        <parent id="Window20" kind="Window" description="Un-Deploy Tigerstripe Generator?"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
@@ -624,7 +624,7 @@
         <foregroundColor/>
         <bounds width="244" height="594"/>
         <selection>
-          <path>New Plugin Project</path>
+          <path>New Generator Project</path>
           <path>ts-plugin.xml</path>
         </selection>
       </controls>
@@ -1164,7 +1164,7 @@
         <columns caption="Provider" resizable="true" width="150"/>
         <columns caption="Nature" resizable="true" width="20"/>
         <selection>
-          <path>New Plugin Project\(3.0\)</path>
+          <path>New Generator Project\(3.0\)</path>
         </selection>
       </controls>
     </elementMapping>

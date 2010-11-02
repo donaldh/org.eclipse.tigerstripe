@@ -17,7 +17,7 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
       <element id="Tree3" kind="Tree"/>
-      <path>New Plugin Project</path>
+      <path>New Generator Project</path>
       <path>ts-plugin.xml</path>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
@@ -28,7 +28,7 @@
       <state id="State9" kind="State"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="New Plugin Project/ts-plugin.xml" multiplicity="1">
+      <data kind="Editor" pattern="New Generator Project/ts-plugin.xml" multiplicity="1">
         <parent id="EclipseWindow3" kind="EclipseWindow"/>
       </data>
     </commands>
@@ -53,12 +53,12 @@
       <state id="State10" kind="State"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="Plugin Logging Details" multiplicity="1">
+      <data kind="Expandable" pattern="Generator Logging Details" multiplicity="1">
         <parent id="Editor2" kind="Editor"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Button" pattern="Enable logging for this plugin" multiplicity="1">
+      <data kind="Button" pattern="Enable logging for this generator" multiplicity="1">
         <parent id="Expandable1" kind="Expandable"/>
       </data>
     </commands>
@@ -91,7 +91,7 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
       <element id="Tree3" kind="Tree"/>
-      <path>New Plugin Project</path>
+      <path>New Generator Project</path>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Menu" multiplicity="1">
@@ -108,13 +108,13 @@
       <state id="State13" kind="State"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Window" pattern="Deploy new plugin" multiplicity="1">
+      <data kind="Window" pattern="Deploy new generator" multiplicity="1">
         <parent id="EclipseWindow3" kind="EclipseWindow"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Button" pattern="OK" multiplicity="1">
-        <parent id="Window4" kind="Window" description="Deploy new plugin"/>
+        <parent id="Window4" kind="Window" description="Deploy new generator"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
@@ -125,13 +125,13 @@
       <state id="State14" kind="State"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Window" pattern="New Plugin Project Plugin" multiplicity="1">
+      <data kind="Window" pattern="New Generator Project Generator" multiplicity="1">
         <parent id="EclipseWindow3" kind="EclipseWindow"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Button" pattern="OK" multiplicity="1">
-        <parent id="Window5" kind="Window" description="New Plugin Project Plugin"/>
+        <parent id="Window5" kind="Window" description="New Generator Project Generator"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
@@ -179,7 +179,7 @@
       <state id="State17" kind="State"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Expandable" pattern="New Plugin Project(3.0) (disabled) [Generic]" multiplicity="1">
+      <data kind="Expandable" pattern="New Generator Project(3.0) (disabled) [Generic]" multiplicity="1">
         <parent id="Editor3" kind="Editor"/>
       </data>
     </commands>
@@ -277,11 +277,11 @@
         <path>model-refactoring</path>
         <path>target</path>
         <path>tigerstripe.gen</path>
-        <path>New Plugin Project.log</path>
+        <path>New Generator Project.log</path>
         <parent id="Tree4" kind="Tree"/>
       </data>
     </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="New Plugin Project.log">
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="New Generator Project.log">
       <element id="Item13" kind="Item"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -334,7 +334,7 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
       <element id="Table0" kind="Table"/>
-      <path>New Plugin Project\(3.0\)</path>
+      <path>New Generator Project\(3.0\)</path>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Menu" multiplicity="1">
@@ -350,13 +350,13 @@
       <state id="State24" kind="State"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Window" pattern="Un-Deploy Tigerstripe Plugin?" multiplicity="1">
+      <data kind="Window" pattern="Un-Deploy Tigerstripe Generator?" multiplicity="1">
         <parent id="Window8" kind="Window"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Button" pattern="OK" multiplicity="1">
-        <parent id="Window9" kind="Window" description="Un-Deploy Tigerstripe Plugin?"/>
+        <parent id="Window9" kind="Window" description="Un-Deploy Tigerstripe Generator?"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
@@ -397,7 +397,7 @@
         <foregroundColor/>
         <bounds width="330" height="792"/>
         <selection>
-          <path>New Plugin Project</path>
+          <path>New Generator Project</path>
           <path>ts-plugin.xml</path>
         </selection>
       </controls>
@@ -434,7 +434,7 @@
     </elementMapping>
     <elementMapping command="//@content/@commands.15">
       <elements id="Button7" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Enable logging for this plugin" selected="true" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Enable logging for this generator" selected="true" kind="Check">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="5" y="5" width="492" height="16"/>
@@ -619,7 +619,7 @@
     </elementMapping>
     <elementMapping command="//@content/@commands.79">
       <elements id="Item13" kind="Item"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="New Plugin Project.log">
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="New Generator Project.log">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="98" y="378" width="125" height="18"/>
@@ -679,7 +679,7 @@
         <columns caption="Provider" resizable="true" width="150"/>
         <columns caption="Nature" resizable="true" width="20"/>
         <selection>
-          <path>New Plugin Project\(3.0\)</path>
+          <path>New Generator Project\(3.0\)</path>
         </selection>
       </controls>
     </elementMapping>

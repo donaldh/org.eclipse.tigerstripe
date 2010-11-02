@@ -15,34 +15,19 @@ package simple;
 /**
  * 
  *
- * @tigerstripe.datatype
- *		isAbstract = "false"
+ * @tigerstripe.query
+ *		return = "simple.Ent1"
  *      isSingleExtensionType="false"
  *      isSessionFactoryMethods="false"
+ *		isAbstract = "false"
  *		implements = ""
- * @tigerstripe.interface package = "$artifact.IStandardSpecifics.InterfaceProperties.get("package")"
+ * @tigerstripe.interface package = "$artifact.IStandardSpecifics.InterfaceProperties.get("
  *      generate = "true"
  * * 
  */
-public abstract class DataBottom
-  extends simple.DataMiddle
+public class Query0
  {
 
-
-
-    /**
-     * 
-     * @tigerstripe.field 
-     *  isOptional = "false"
-     *  isReadOnly = "false"
-     *  isOrdered = "false"
-     *  isUnique = "false"
-     *  typeMultiplicity = "1"
-     *
-     *
-     * 
-     */
-	public simple.DataBottom recur;
 
 
 }

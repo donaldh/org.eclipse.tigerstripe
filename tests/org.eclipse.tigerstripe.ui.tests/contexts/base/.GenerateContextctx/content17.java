@@ -65,25 +65,9 @@ package simple;
  *
  * 
  */
-public abstract class AssociatedEnt
+public abstract class SuperEnt
  {
 
-
-
-    /**
-     * 
-     * @tigerstripe.field 
-     *  isOptional = "false"
-     *  isReadOnly = "false"
-     *  isOrdered = "false"
-     *  isUnique = "false"
-     *  typeMultiplicity = "1"
-     *   ref-by = "value"
-     *
-     *
-     * 
-     */
-	public simple.DataMiddle attribute0;
 
 
 

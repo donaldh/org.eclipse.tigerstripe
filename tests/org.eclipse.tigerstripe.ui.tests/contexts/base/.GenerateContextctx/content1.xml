@@ -3,7 +3,7 @@
 <project modelId="" name="">
 <outputDirectory>target/tigerstripe.gen</outputDirectory>
 <version>3.0</version>
-<description>A plugin for testing</description>
+<description>A generator for testing</description>
 <provider/>
 <property name="defaultArtifactPackage">com.mycompany</property>
 </project>
