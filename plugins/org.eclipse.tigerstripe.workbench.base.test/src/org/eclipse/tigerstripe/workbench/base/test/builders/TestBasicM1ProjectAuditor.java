@@ -52,7 +52,7 @@ public class TestBasicM1ProjectAuditor extends TestCase {
 
 		IMarker[] markers = AuditorHelper.getMarkers(project);
 		assertNotNull(markers);
-		assertTrue(markers.length == 1);
+		assertEquals("Wrong number of markers",1,markers.length);
 
 		int warning = AuditorHelper.getMarkers(IMarker.SEVERITY_WARNING,
 				project).length;
