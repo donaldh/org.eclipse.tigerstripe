@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+   		 id="postGenerationSample"
+   		 name="Post-generation custom action sample"
+         point="org.eclipse.tigerstripe.workbench.base.generateComplete">
+        
+         <generateCompleteListener
+	          class="org.eclipse.tigerstripe.postgeneration.sample.PostSuccessfulGeneration"
+	          notificationMode="ON_SUCCESS_ONLY">
+    	 </generateCompleteListener>
+    	 
+    	 <generateCompleteListener
+	          class="org.eclipse.tigerstripe.postgeneration.sample.PostFailedGeneration"
+	          notificationMode="ON_FAILURE_ONLY">
+    	 </generateCompleteListener>
+   </extension>
+</plugin>
