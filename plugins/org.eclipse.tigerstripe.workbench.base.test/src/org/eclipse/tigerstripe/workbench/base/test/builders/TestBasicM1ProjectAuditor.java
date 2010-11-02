@@ -52,11 +52,7 @@ public class TestBasicM1ProjectAuditor extends TestCase {
 
 		// Force the auditor
 		AuditorHelper.forceFullBuildNow(project);
-		IJobManager jobMan = Job.getJobManager();
-		Job[] build = jobMan.find(ResourcesPlugin.FAMILY_AUTO_BUILD); 
-		if (build.length == 1)
-		    build[0].join();
-
+		
 		IMarker[] markers = AuditorHelper.getMarkers(project);
 		assertNotNull(markers);
 		assertEquals("Wrong number of markers",1,markers.length);
