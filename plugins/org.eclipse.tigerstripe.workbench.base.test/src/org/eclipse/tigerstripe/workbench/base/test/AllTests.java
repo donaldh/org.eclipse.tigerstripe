@@ -98,7 +98,7 @@ public class AllTests {
 		suite.addTestSuite(TestModelReferences.class);
 
 		// Export
-//		suite.addTestSuite(TestExportDiff.class);
+		suite.addTestSuite(TestExportDiff.class);
 		suite.addTestSuite(TestExportFacetManager.class);
 		suite.addTestSuite(TestFacetExporter.class);
 
