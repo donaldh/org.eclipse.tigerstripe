@@ -49,10 +49,12 @@ public class TestExportDiff extends AbstractExportTestCase {
 
 		if (source != null && source.exists()) {
 			source.delete(true, new NullProgressMonitor());
+			source = null;
 		}
 
 		if (destination != null && destination.exists()) {
 			destination.delete(true, new NullProgressMonitor());
+			destination = null;
 		}
 
 	}
@@ -93,13 +95,13 @@ public class TestExportDiff extends AbstractExportTestCase {
 		// overwrite destination project
 		if (destination != null && destination.exists()) {
 			destination.delete(true, new NullProgressMonitor());
+			destination = null;
 		}
+		
 		destination = ModelProjectHelper.createEmptyModelProject("DestinationProject", null);
 
-		IContractSegment facet = InternalTigerstripeCore.createModelFacet(
-				facetFile, new NullProgressMonitor());
-		addIncludesFacetScopePatterns(Arrays.asList(new String[] { "*" }),
-				facet);
+		IContractSegment facet = InternalTigerstripeCore.createModelFacet(facetFile, new NullProgressMonitor());
+		addIncludesFacetScopePatterns(Arrays.asList(new String[] { "*" }), facet);
 
 		FacetExporterInput inputManager = new FacetExporterInput();
 		inputManager.setSource(source);
@@ -114,12 +116,15 @@ public class TestExportDiff extends AbstractExportTestCase {
 
 	public void testGetArtifactsListRestrictedByFacet() throws Exception {
 
+		System.out.println("JS-DEBUG testGetArtifactsListRestrictedByFacet");
+		
 		// overwrite destination project
 		if (destination != null && destination.exists()) {
 			destination.delete(true, new NullProgressMonitor());
+			destination = null;
 		}
 		
-		destination = ModelProjectHelper.createModelProject("DestinationProject2", true);
+		destination = ModelProjectHelper.createModelProject("DestinationProject", true);
 
 		IContractSegment facet = InternalTigerstripeCore.createModelFacet(facetFile, new NullProgressMonitor());
 		addIncludesFacetScopePatterns(Arrays.asList(new String[] { ModelProjectHelper.M1 }), facet);
@@ -131,7 +136,9 @@ public class TestExportDiff extends AbstractExportTestCase {
 		inputManager.setFacet(facetFile);
 
 		List<IAbstractArtifact> artifacts = ExportDiff.getDuplicates(inputManager);
+		
 		assertNotNull("Artifacts list is null", artifacts);
+		
 		String list = "";
 		for(IAbstractArtifact art : artifacts){
 			list = list + art + " ";
@@ -150,6 +157,8 @@ public class TestExportDiff extends AbstractExportTestCase {
 		assertFalse(artifactExistsByFqn(artifacts, ModelProjectHelper.AC1));
 		assertFalse(artifactExistsByFqn(artifacts, ModelProjectHelper.AS1));
 
+		System.out.println("JS-DEBUG testGetArtifactsListRestrictedByFacet END");
+		
 	}
 
 }
