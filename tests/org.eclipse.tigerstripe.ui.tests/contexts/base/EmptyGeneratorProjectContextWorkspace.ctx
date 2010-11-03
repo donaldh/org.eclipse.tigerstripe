@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="EmptyGeneratorProjectContextWorkspace" id="_GleSweb_Ed-nR6SHVVAXrA">
+  <content>
+    <projects name="New Generator Project">
+      <files name=".classpath" contentURI=".EmptyGeneratorProjectctx/content1.classpath"/>
+      <files name=".project" contentURI=".EmptyGeneratorProjectctx/content1.project"/>
+      <files name="ts-plugin.xml" contentURI=".EmptyGeneratorProjectctx/content1.xml"/>
+      <folders name="src"/>
+      <folders name="templates"/>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

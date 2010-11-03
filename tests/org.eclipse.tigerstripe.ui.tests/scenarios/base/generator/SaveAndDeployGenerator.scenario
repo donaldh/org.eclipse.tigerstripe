@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" name="SaveAndDeployPlugin" id="_Nypa0awJEd-SQojSn9GPCg" description="">
-  <contexts>_geSEsKtzEd-v8JwXbnu_tQ</contexts>
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" name="SaveAndDeployGenerator" id="_Nypa0awJEd-SQojSn9GPCg" description="">
+  <contexts>_dodtQOb_Ed-nR6SHVVAXrA</contexts>
   <content xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -17,7 +17,7 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
       <element id="Tree0" kind="Tree"/>
-      <path>New Plugin Project</path>
+      <path>New Generator Project</path>
       <path>ts-plugin.xml</path>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
@@ -28,7 +28,7 @@
       <state id="State0" kind="State"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="New Plugin Project/ts-plugin.xml" multiplicity="1">
+      <data kind="Editor" pattern="New Generator Project/ts-plugin.xml" multiplicity="1">
         <parent id="EclipseWindow0" kind="EclipseWindow"/>
       </data>
     </commands>
@@ -40,7 +40,7 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
       <element id="Tree0" kind="Tree"/>
-      <path>New Plugin Project</path>
+      <path>New Generator Project</path>
       <path>ts-plugin.xml</path>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -58,13 +58,13 @@
       <state id="State1" kind="State"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Window" pattern="Deploy new plugin" multiplicity="1">
+      <data kind="Window" pattern="Deploy new generator" multiplicity="1">
         <parent id="EclipseWindow0" kind="EclipseWindow"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Button" pattern="OK" multiplicity="1">
-        <parent id="Window0" kind="Window" description="Deploy new plugin"/>
+        <parent id="Window0" kind="Window" description="Deploy new generator"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
@@ -75,13 +75,13 @@
       <state id="State2" kind="State"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Window" pattern="New Plugin Project Plugin" multiplicity="1">
+      <data kind="Window" pattern="New Generator Project Generator" multiplicity="1">
         <parent id="EclipseWindow0" kind="EclipseWindow"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Button" pattern="OK" multiplicity="1">
-        <parent id="Window1" kind="Window" description="New Plugin Project Plugin"/>
+        <parent id="Window1" kind="Window" description="New Generator Project Generator"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
@@ -105,7 +105,7 @@
       <element id="Canvas0" kind="Canvas"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Label" pattern="Tigerstripe Plugin Project" multiplicity="1">
+      <data kind="Label" pattern="Tigerstripe Generator Project" multiplicity="1">
         <parent id="Editor0" kind="Editor"/>
       </data>
     </commands>
@@ -145,7 +145,7 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Window" pattern="Deployed Tigerstripe Generators" multiplicity="1">
-        <parent id="EclipseWindow1" kind="EclipseWindow" description="Tigerstripe - New Plugin Project/ts-plugin.xml - Eclipse Platform"/>
+        <parent id="EclipseWindow1" kind="EclipseWindow" description="Tigerstripe - New Generator Project/ts-plugin.xml - Eclipse Platform"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -155,14 +155,14 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Item" multiplicity="1">
-        <path>New Plugin Project\(3.0\)</path>
+        <path>New Generator Project\(3.0\)</path>
         <parent id="Table0" kind="Table"/>
       </data>
     </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="New Plugin Project(3.0)">
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="New Generator Project(3.0)">
       <element id="Item0" kind="Item"/>
     </commands>
-    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="columns" value="New Plugin Project(3.0)" index="0">
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="columns" value="New Generator Project(3.0)" index="0">
       <element id="Item0" kind="Item"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="columns" value="3.0" index="1">
@@ -176,7 +176,7 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Window" pattern="Deployed Tigerstripe Generators" multiplicity="1">
-        <parent id="EclipseWindow2" kind="EclipseWindow" description="Tigerstripe - New Plugin Project/ts-plugin.xml - Eclipse Platform"/>
+        <parent id="EclipseWindow2" kind="EclipseWindow" description="Tigerstripe - New Generator Project/ts-plugin.xml - Eclipse Platform"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -186,7 +186,7 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
       <element id="Table1" kind="Table"/>
-      <path>New Plugin Project\(3.0\)</path>
+      <path>New Generator Project\(3.0\)</path>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -203,7 +203,7 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
       <element id="Table2_28" kind="Table"/>
-      <path>New Plugin Project\(3.0\)</path>
+      <path>New Generator Project\(3.0\)</path>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Menu" multiplicity="1">
@@ -219,7 +219,7 @@
       <state id="State5_28" kind="State"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Window" pattern="Un-Deploy Tigerstripe Plugin?" multiplicity="1">
+      <data kind="Window" pattern="Un-Deploy Tigerstripe Generator?" multiplicity="1">
         <parent id="Window4_28" kind="Window"/>
       </data>
     </commands>
@@ -248,7 +248,7 @@
       <state id="State7_30" kind="State"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="New Plugin Project/ts-plugin.xml" multiplicity="1">
+      <data kind="Editor" pattern="New Generator Project/ts-plugin.xml" multiplicity="1">
         <parent id="EclipseWindow3_28" kind="EclipseWindow"/>
       </data>
     </commands>
@@ -266,7 +266,7 @@
       <element id="Canvas3_28" kind="Canvas"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Label" pattern="Tigerstripe Plugin Project" multiplicity="1">
+      <data kind="Label" pattern="Tigerstripe Generator Project" multiplicity="1">
         <parent id="Editor1_28" kind="Editor"/>
       </data>
     </commands>
@@ -346,7 +346,7 @@
       <state id="State9_32" kind="State"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Editor" pattern="New Plugin Project/ts-plugin.xml" multiplicity="1">
+      <data kind="Editor" pattern="New Generator Project/ts-plugin.xml" multiplicity="1">
         <parent id="EclipseWindow5_30" kind="EclipseWindow"/>
       </data>
     </commands>
@@ -380,7 +380,7 @@
       <element id="Canvas8_33" kind="Canvas"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
-      <data kind="Label" pattern="Tigerstripe Plugin Project" multiplicity="1">
+      <data kind="Label" pattern="Tigerstripe Generator Project" multiplicity="1">
         <parent id="Editor2_29" kind="Editor"/>
       </data>
     </commands>
@@ -412,7 +412,7 @@
         <foregroundColor/>
         <bounds width="340" height="834"/>
         <selection>
-          <path>New Plugin Project</path>
+          <path>New Generator Project</path>
           <path>ts-plugin.xml</path>
         </selection>
       </controls>
@@ -485,7 +485,7 @@
     </elementMapping>
     <elementMapping command="//@content/@commands.28">
       <elements id="Label0" kind="Label"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Tigerstripe Plugin Project">
+      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Tigerstripe Generator Project">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor red="25" green="76" blue="127"/>
         <bounds x="6" y="5" width="201" height="20"/>
@@ -544,11 +544,11 @@
     </elementMapping>
     <elementMapping command="//@content/@commands.40">
       <elements id="Item0" kind="Item"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TableItem" caption="New Plugin Project(3.0)">
+      <controls xsi:type="com.xored.tesla.core.ui:TableItem" caption="New Generator Project(3.0)">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="4" y="24" width="96" height="18"/>
-        <columns>New Plugin Project(3.0)</columns>
+        <columns>New Generator Project(3.0)</columns>
         <columns>3.0</columns>
         <columns>Deploy</columns>
         <columns></columns>
@@ -583,7 +583,7 @@
         <columns caption="Provider" resizable="true" width="150"/>
         <columns caption="Nature" resizable="true" width="20"/>
         <selection>
-          <path>New Plugin Project\(3.0\)</path>
+          <path>New Generator Project\(3.0\)</path>
         </selection>
       </controls>
     </elementMapping>
@@ -615,7 +615,7 @@
         <columns caption="Provider" resizable="true" width="150"/>
         <columns caption="Nature" resizable="true" width="20"/>
         <selection>
-          <path>New Plugin Project\(3.0\)</path>
+          <path>New Generator Project\(3.0\)</path>
         </selection>
       </controls>
     </elementMapping>
@@ -677,7 +677,7 @@
     </elementMapping>
     <elementMapping command="//@content/@commands.70">
       <elements id="Label1_28" kind="Label"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Tigerstripe Plugin Project">
+      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Tigerstripe Generator Project">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor red="25" green="76" blue="127"/>
         <bounds x="6" y="5" width="201" height="20"/>
@@ -807,7 +807,7 @@
     </elementMapping>
     <elementMapping command="//@content/@commands.99">
       <elements id="Label2_29" kind="Label"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Tigerstripe Plugin Project">
+      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Tigerstripe Generator Project">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor red="25" green="76" blue="127"/>
         <bounds x="6" y="5" width="201" height="20"/>
