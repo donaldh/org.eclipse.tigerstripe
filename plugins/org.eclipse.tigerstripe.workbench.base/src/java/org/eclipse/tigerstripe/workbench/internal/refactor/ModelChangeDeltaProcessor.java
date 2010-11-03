@@ -332,7 +332,21 @@ public class ModelChangeDeltaProcessor {
 			refactor.fireChanged(oldObj, newObj,
 					IRefactoringChangesListener.CHANGED);
 
-			toCleanUp.add(res);
+			boolean needClean = true;
+			if (artifact instanceof IPackageArtifact) {
+				Collection<IModelComponent> components = ((IPackageArtifact) artifact)
+						.getContainedModelComponents();
+				for (IModelComponent component : components) {
+					if (!toCleanUp.contains(component)) {
+						needClean = false;
+					}
+
+				}
+			}
+
+			if (needClean) {
+				toCleanUp.add(res);
+			}
 			toCleanUp.add(artifact);
 			if (topPackageToDelete != null) {
 				IProject proj = (IProject) artifact.getTigerstripeProject()

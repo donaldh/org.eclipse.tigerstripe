@@ -75,14 +75,12 @@ public class RenameModelArtifactPreviewWizardPage extends WizardPage {
 		super.setVisible(visible);
 	}
 
-	@SuppressWarnings("unchecked")
 	private void initPage() {
-
 		RenameModelArtifactWizard wizard = (RenameModelArtifactWizard) getWizard();
 		try {
 			wizard.setRefactorCommands(new IRefactorCommand[0]);
 			List<IRefactorCommand> cmds = new ArrayList<IRefactorCommand>();
-			Collection input = new ArrayList();
+			Collection<Object> input = new ArrayList<Object>();
 			List<ModelRefactorRequest> requests = wizard.getRequests();
 			for (ModelRefactorRequest request : requests) {
 				IRefactorCommand command = request

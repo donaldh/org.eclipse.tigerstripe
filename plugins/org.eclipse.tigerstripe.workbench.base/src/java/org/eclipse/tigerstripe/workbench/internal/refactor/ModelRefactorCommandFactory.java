@@ -52,6 +52,7 @@ import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 import org.eclipse.tigerstripe.workbench.refactor.IRefactorCommand;
 import org.eclipse.tigerstripe.workbench.refactor.ITigerstripeModelRefactorParticipant;
 import org.eclipse.tigerstripe.workbench.refactor.ModelRefactorRequest;
+import org.eclipse.tigerstripe.workbench.refactor.PackageModelRefactorRefactorRequest;
 import org.eclipse.tigerstripe.workbench.refactor.RefactorRequest;
 import org.eclipse.tigerstripe.workbench.refactor.ResourceRefactorRequest;
 import org.eclipse.tigerstripe.workbench.refactor.diagrams.DiagramRefactorRequest;
@@ -151,8 +152,9 @@ public class ModelRefactorCommandFactory {
 			derivedRequests.add(request);
 			derivedRequests.addAll(buildDerivedRequests(request));
 
-			BaseRefactorCommand cmd = new BaseRefactorCommand(derivedRequests
-					.toArray(new RefactorRequest[derivedRequests.size()]));
+			BaseRefactorCommand cmd = new BaseRefactorCommand(
+					derivedRequests.toArray(new RefactorRequest[derivedRequests
+							.size()]));
 
 			// Create a map of requests indexed by the FQN that will change as a
 			// result of the request
@@ -340,10 +342,14 @@ public class ModelRefactorCommandFactory {
 			if (destIProj != null) {
 				String destPackage = Util.packageOf(request.getDestinationFQN()
 						+ "."); // note the "." as we know this is a package
-				IResource dest = ResourcesPlugin.getWorkspace().getRoot()
+				IResource dest = ResourcesPlugin
+						.getWorkspace()
+						.getRoot()
 						.getFolder(
-								destIProj.getFullPath().append("src").append(
-										destPackage.replace('.',
+								destIProj
+										.getFullPath()
+										.append("src")
+										.append(destPackage.replace('.',
 												IPath.SEPARATOR)));
 
 				for (IResource member : folder.members()) {
@@ -368,22 +374,40 @@ public class ModelRefactorCommandFactory {
 		// Then look for all artifacts at this level, and dive recursively
 		String destPackageFQN = request.getDestinationFQN();
 		for (IModelComponent comp : original.getContainedModelComponents()) {
-			if (comp instanceof IAbstractArtifact) {
-				IAbstractArtifact containedArtifact = (IAbstractArtifact) comp;
-				String oFQN = containedArtifact.getFullyQualifiedName();
-				String dFQN = destPackageFQN + "."
-						+ containedArtifact.getName();
-				ModelRefactorRequest dRequest = new ModelRefactorRequest();
-				dRequest.setOriginal(request.getOriginalProject(), oFQN);
-				dRequest.setDestination(request.getDestinationProject(), dFQN);
-				result.add(dRequest);
-				if (containedArtifact instanceof IPackageArtifact) {
-					result.addAll(buildDerivedRequests(dRequest));
+			if (canHandle(comp, request)) {
+				if (comp instanceof IAbstractArtifact) {
+					IAbstractArtifact containedArtifact = (IAbstractArtifact) comp;
+					String oFQN = containedArtifact.getFullyQualifiedName();
+					String dFQN = destPackageFQN + "."
+							+ containedArtifact.getName();
+					ModelRefactorRequest dRequest = new ModelRefactorRequest();
+					dRequest.setOriginal(request.getOriginalProject(), oFQN);
+					dRequest.setDestination(request.getDestinationProject(),
+							dFQN);
+					result.add(dRequest);
+					if (containedArtifact instanceof IPackageArtifact) {
+						result.addAll(buildDerivedRequests(dRequest));
+					}
 				}
 			}
 		}
 
 		return new ArrayList<RefactorRequest>(result);
+	}
+
+	private boolean canHandle(IModelComponent component,
+			ModelRefactorRequest request) {
+		if (!(component instanceof IAbstractArtifact)) {
+			return false;
+		}
+		if (request instanceof PackageModelRefactorRefactorRequest) {
+			if (component instanceof IPackageArtifact
+					&& !((PackageModelRefactorRefactorRequest) request)
+							.isRenameSubpackages()) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	private boolean isRefactoringResource(IResource member) {

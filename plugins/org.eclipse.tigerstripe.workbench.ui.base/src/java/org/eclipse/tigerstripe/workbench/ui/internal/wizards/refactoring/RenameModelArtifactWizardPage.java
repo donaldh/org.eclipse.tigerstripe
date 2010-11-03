@@ -14,7 +14,6 @@ package org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.internal.ui.dialogs.StatusInfo;
 import org.eclipse.jdt.internal.ui.dialogs.StatusUtil;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -22,8 +21,11 @@ import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
@@ -32,6 +34,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.refactor.ModelRefactorRequest;
+import org.eclipse.tigerstripe.workbench.refactor.PackageModelRefactorRefactorRequest;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.ArtifactNameValidator;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.WizardUtils;
@@ -43,11 +46,11 @@ public class RenameModelArtifactWizardPage extends WizardPage {
 
 	private Text nameText;
 
+	private Button renameSubpackages;
+
 	IJavaElement javaElement;
 
 	ITigerstripeModelProject modelProject;
-
-	private IPackageFragment packageFragment;
 
 	private IAbstractArtifact modelArtifact;
 
@@ -62,8 +65,6 @@ public class RenameModelArtifactWizardPage extends WizardPage {
 			modelProject = (ITigerstripeModelProject) javaElement
 					.getJavaProject().getProject()
 					.getAdapter(ITigerstripeModelProject.class);
-			packageFragment = (IPackageFragment) javaElement
-					.getAncestor(IJavaElement.PACKAGE_FRAGMENT);
 			modelArtifact = (IAbstractArtifact) javaElement
 					.getAdapter(IAbstractArtifact.class);
 		}
@@ -108,6 +109,23 @@ public class RenameModelArtifactWizardPage extends WizardPage {
 				}
 			}
 		});
+		if (modelArtifact instanceof IPackageArtifact) {
+			new Label(container, SWT.LEFT);
+			renameSubpackages = new Button(container, SWT.CHECK);
+			renameSubpackages.setText("Rename subpackages");
+			renameSubpackages.setData(new GridData(
+					GridData.HORIZONTAL_ALIGN_BEGINNING));
+
+			renameSubpackages.addSelectionListener(new SelectionAdapter() {
+
+				@Override
+				public void widgetSelected(SelectionEvent e) {
+					if (isPageComplete()) {
+						addRefactorRequest();
+					}
+				}
+			});
+		}
 
 		updatePageComplete();
 	}
@@ -175,7 +193,13 @@ public class RenameModelArtifactWizardPage extends WizardPage {
 
 		try {
 
-			ModelRefactorRequest request = new ModelRefactorRequest();
+			ModelRefactorRequest request;
+			if (modelArtifact instanceof IPackageArtifact) {
+				request = new PackageModelRefactorRefactorRequest();
+				((PackageModelRefactorRefactorRequest)request).setRenameSubpackages(renameSubpackages.getSelection());
+			} else {
+				request = new ModelRefactorRequest();
+			}
 			request.setOriginal(modelArtifact.getProject(),
 					modelArtifact.getFullyQualifiedName());
 
