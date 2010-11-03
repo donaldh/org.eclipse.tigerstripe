@@ -27,14 +27,42 @@ public class ExportDiff {
 	public static List<IAbstractArtifact> getDuplicates(FacetExporterInput inputManager) throws IllegalArgumentException,
 			TigerstripeException, CoreException {
 
+		
+		// DEBUG
+		IArtifactQuery dbquery = new QueryAllArtifacts();
+		List<IAbstractArtifact> tmpSrcArtifacts = (List<IAbstractArtifact>) inputManager.getSource().getArtifactManagerSession().queryArtifact(dbquery);
+		System.out.println("JS-DEBUG: source artifacts");
+		for (IAbstractArtifact iAbstractArtifact : tmpSrcArtifacts) {
+			System.out.println("\t" + iAbstractArtifact.getName());
+		}
+
+		System.out.println();
+		List<IAbstractArtifact> tmpDestArtifacts = (List<IAbstractArtifact>) inputManager.getDestination().getArtifactManagerSession().queryArtifact(dbquery);
+		System.out.println("JS-DEBUG: destination artifacts");
+		for (IAbstractArtifact iAbstractArtifact : tmpDestArtifacts) {
+			System.out.println("\t" + iAbstractArtifact.getName());
+		}
+		// DEBUG END
+		
 		ExportFacetManager facetManager =  new ExportFacetManager(inputManager.getSource());
 		facetManager.applyExportFacet(inputManager.getFacet());
 
+		// DEBUG
+		List<IAbstractArtifact> tmpSrcArtifacts2 = (List<IAbstractArtifact>) inputManager.getSource().getArtifactManagerSession().queryArtifact(dbquery);
+		System.out.println("JS-DEBUG: source artifacts (post facet)");
+		for (IAbstractArtifact iAbstractArtifact : tmpSrcArtifacts2) {
+			if(iAbstractArtifact.isInActiveFacet()) {
+				System.out.println("\t" + iAbstractArtifact.getName());
+			}
+		}
+		// DEBUG END
+		
 		List<IAbstractArtifact> artifacts = new ArrayList<IAbstractArtifact>();
 
 		IArtifactQuery query = new QueryAllArtifacts();
 		List<IAbstractArtifact> sourceArtifacts = (List<IAbstractArtifact>) inputManager.getSource().getArtifactManagerSession().queryArtifact(query);
-
+		
+	
 		for (IAbstractArtifact artifact : sourceArtifacts) {
 
 			if (artifact.isInActiveFacet()) {
