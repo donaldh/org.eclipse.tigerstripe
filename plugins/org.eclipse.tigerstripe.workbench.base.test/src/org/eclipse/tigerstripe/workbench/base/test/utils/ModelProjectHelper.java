@@ -74,7 +74,7 @@ public class ModelProjectHelper {
 	 * @return
 	 * @throws TigerstripeException
 	 */
-	public static ITigerstripeModelProject createModelProject(
+	public static synchronized ITigerstripeModelProject createModelProject(
 			String projectName, boolean fullContent)
 			throws TigerstripeException {
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
