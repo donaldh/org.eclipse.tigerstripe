@@ -144,7 +144,7 @@ public class TestExportDiff extends AbstractExportTestCase {
 			list = list + art + " ";
 		}
 		
-		System.out.println(list);
+		// System.out.println(list);
 		
 		assertEquals("Expected 3 - got these " + list, 3, artifacts.size()); 
 
@@ -157,7 +157,7 @@ public class TestExportDiff extends AbstractExportTestCase {
 		assertFalse(artifactExistsByFqn(artifacts, ModelProjectHelper.AC1));
 		assertFalse(artifactExistsByFqn(artifacts, ModelProjectHelper.AS1));
 
-		System.out.println("JS-DEBUG testGetArtifactsListRestrictedByFacet END");
+		// System.out.println("JS-DEBUG testGetArtifactsListRestrictedByFacet END");
 		
 	}
 

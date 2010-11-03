@@ -29,32 +29,32 @@ public class ExportDiff {
 
 		
 		// DEBUG
-		IArtifactQuery dbquery = new QueryAllArtifacts();
-		List<IAbstractArtifact> tmpSrcArtifacts = (List<IAbstractArtifact>) inputManager.getSource().getArtifactManagerSession().queryArtifact(dbquery);
-		System.out.println("JS-DEBUG: source artifacts");
-		for (IAbstractArtifact iAbstractArtifact : tmpSrcArtifacts) {
-			System.out.println("\t" + iAbstractArtifact.getName());
-		}
+//		IArtifactQuery dbquery = new QueryAllArtifacts();
+//		List<IAbstractArtifact> tmpSrcArtifacts = (List<IAbstractArtifact>) inputManager.getSource().getArtifactManagerSession().queryArtifact(dbquery);
+//		System.out.println("JS-DEBUG: source artifacts");
+//		for (IAbstractArtifact iAbstractArtifact : tmpSrcArtifacts) {
+//			System.out.println("\t" + iAbstractArtifact.getName());
+//		}
 
-		System.out.println();
-		List<IAbstractArtifact> tmpDestArtifacts = (List<IAbstractArtifact>) inputManager.getDestination().getArtifactManagerSession().queryArtifact(dbquery);
-		System.out.println("JS-DEBUG: destination artifacts");
-		for (IAbstractArtifact iAbstractArtifact : tmpDestArtifacts) {
-			System.out.println("\t" + iAbstractArtifact.getName());
-		}
+//		System.out.println();
+//		List<IAbstractArtifact> tmpDestArtifacts = (List<IAbstractArtifact>) inputManager.getDestination().getArtifactManagerSession().queryArtifact(dbquery);
+//		System.out.println("JS-DEBUG: destination artifacts");
+//		for (IAbstractArtifact iAbstractArtifact : tmpDestArtifacts) {
+//			System.out.println("\t" + iAbstractArtifact.getName());
+//		}
 		// DEBUG END
 		
 		ExportFacetManager facetManager =  new ExportFacetManager(inputManager.getSource());
 		facetManager.applyExportFacet(inputManager.getFacet());
 
 		// DEBUG
-		List<IAbstractArtifact> tmpSrcArtifacts2 = (List<IAbstractArtifact>) inputManager.getSource().getArtifactManagerSession().queryArtifact(dbquery);
-		System.out.println("JS-DEBUG: source artifacts (post facet)");
-		for (IAbstractArtifact iAbstractArtifact : tmpSrcArtifacts2) {
-			if(iAbstractArtifact.isInActiveFacet()) {
-				System.out.println("\t" + iAbstractArtifact.getName());
-			}
-		}
+//		List<IAbstractArtifact> tmpSrcArtifacts2 = (List<IAbstractArtifact>) inputManager.getSource().getArtifactManagerSession().queryArtifact(dbquery);
+//		System.out.println("JS-DEBUG: source artifacts (post facet)");
+//		for (IAbstractArtifact iAbstractArtifact : tmpSrcArtifacts2) {
+//			if(iAbstractArtifact.isInActiveFacet()) {
+//				System.out.println("\t" + iAbstractArtifact.getName());
+//			}
+//		}
 		// DEBUG END
 		
 		List<IAbstractArtifact> artifacts = new ArrayList<IAbstractArtifact>();
