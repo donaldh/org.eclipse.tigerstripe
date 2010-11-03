@@ -56,7 +56,7 @@
       <runtime>
          <run class="org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripePluginProjectNature"/>
       </runtime>
-      <builder id="org.eclipse.tigerstripe.workbench.base.pluggableProjectAuditor"/>
+      <builder id="org.eclipse.tigerstripe.workbench.base.pluggablePluginProjectAuditor"/>
    </extension>
    <extension
          id="pluggablePluginProjectAuditor"
