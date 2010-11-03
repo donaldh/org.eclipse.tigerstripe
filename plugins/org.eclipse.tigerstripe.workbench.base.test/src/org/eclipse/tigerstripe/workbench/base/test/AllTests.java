@@ -19,7 +19,6 @@ import org.eclipse.tigerstripe.workbench.base.test.builders.TestBasicM1ProjectAu
 import org.eclipse.tigerstripe.workbench.base.test.builders.TestBasicModelProjectAuditor;
 import org.eclipse.tigerstripe.workbench.base.test.facet.BasicFacetTest;
 import org.eclipse.tigerstripe.workbench.base.test.facet.TestFacetResolution;
-import org.eclipse.tigerstripe.workbench.base.test.facet.TestFacetWithAnnotations;
 import org.eclipse.tigerstripe.workbench.base.test.generation.TestM0DeployUndeploy;
 import org.eclipse.tigerstripe.workbench.base.test.generation.TestM1Generation;
 import org.eclipse.tigerstripe.workbench.base.test.generation.TestProjectGenerationBasics;

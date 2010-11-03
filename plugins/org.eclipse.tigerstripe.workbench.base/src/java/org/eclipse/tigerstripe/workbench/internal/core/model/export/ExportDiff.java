@@ -39,8 +39,7 @@ public class ExportDiff {
 
 			if (artifact.isInActiveFacet()) {
 
-				IAbstractArtifact artifactToOverwrite = inputManager.getDestination().getArtifactManagerSession().getArtifactByFullyQualifiedName(
-						artifact.getFullyQualifiedName());
+				IAbstractArtifact artifactToOverwrite = inputManager.getDestination().getArtifactManagerSession().getArtifactByFullyQualifiedName(artifact.getFullyQualifiedName());
 
 				if (artifactToOverwrite != null) {
 					artifacts.add(artifactToOverwrite);

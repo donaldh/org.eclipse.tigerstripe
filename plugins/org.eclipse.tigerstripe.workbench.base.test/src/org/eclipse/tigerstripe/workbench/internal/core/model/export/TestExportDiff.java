@@ -34,6 +34,8 @@ public class TestExportDiff extends AbstractExportTestCase {
 
 	private ITigerstripeModelProject destination;
 
+	private ITigerstripeModelProject destinationFullContent;
+
 	protected void setUp() throws Exception {
 
 		source = ModelProjectHelper.createModelProject("SourceProject", true);
@@ -52,10 +54,7 @@ public class TestExportDiff extends AbstractExportTestCase {
 		if (destination != null && destination.exists()) {
 			destination.delete(true, new NullProgressMonitor());
 		}
-		
-		if(facetFile.exists()) {
-			facetFile.delete(true, new NullProgressMonitor());
-		}
+
 	}
 
 	public void testGetArtifactsListIncludeAll() throws Exception {
@@ -76,6 +75,7 @@ public class TestExportDiff extends AbstractExportTestCase {
 		}
 		
 		System.out.println(list);
+		
 		assertEquals(4, artifacts.size()); // two for pkg, two artifacts
 
 		assertTrue(artifactExistsByFqn(artifacts, "com"));
@@ -105,8 +105,7 @@ public class TestExportDiff extends AbstractExportTestCase {
 		inputManager.setSource(source);
 		inputManager.setDestination(destination);
 		inputManager.setFacet(facetFile);
-		List<IAbstractArtifact> artifacts = ExportDiff
-				.getDuplicates(inputManager);
+		List<IAbstractArtifact> artifacts = ExportDiff.getDuplicates(inputManager);
 
 		assertNotNull("Artifacts list is null", artifacts);
 		assertEquals(0, artifacts.size());
@@ -120,7 +119,7 @@ public class TestExportDiff extends AbstractExportTestCase {
 			destination.delete(true, new NullProgressMonitor());
 		}
 		
-		destination = ModelProjectHelper.createModelProject("DestinationProject", true);
+		destination = ModelProjectHelper.createModelProject("DestinationProject2", true);
 
 		IContractSegment facet = InternalTigerstripeCore.createModelFacet(facetFile, new NullProgressMonitor());
 		addIncludesFacetScopePatterns(Arrays.asList(new String[] { ModelProjectHelper.M1 }), facet);
@@ -140,7 +139,7 @@ public class TestExportDiff extends AbstractExportTestCase {
 		
 		System.out.println(list);
 		
-		assertEquals("Expected 3 - got these " + list, 3, artifacts.size()); // two for pkg, one artifact
+		assertEquals("Expected 3 - got these " + list, 3, artifacts.size()); 
 
 		assertTrue(artifactExistsByFqn(artifacts, "com"));
 		assertTrue(artifactExistsByFqn(artifacts, "com.mycompany"));
