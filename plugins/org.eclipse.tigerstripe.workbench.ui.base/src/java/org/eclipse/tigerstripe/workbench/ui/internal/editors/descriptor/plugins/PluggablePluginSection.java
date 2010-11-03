@@ -222,6 +222,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 		generate.setLayoutData(gd);
 
 		toolkit.createLabel(parent, "");
+        toolkit.createLabel(parent, "");
 	}
 
 	protected void buildFacetDetails(Composite parent, FormToolkit toolkit) {
@@ -269,7 +270,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 			}
 		});
 
-		browseForFacetReferenceButton = toolkit.createButton(parent, "Select",
+		browseForFacetReferenceButton = toolkit.createButton(parent, "Select...",
 				SWT.PUSH);
 		browseForFacetReferenceButton
 				.addSelectionListener(new SelectionListener() {
