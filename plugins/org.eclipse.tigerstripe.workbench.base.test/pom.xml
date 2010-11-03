@@ -24,6 +24,7 @@
 			<plugin>
 				<groupId>org.sonatype.tycho</groupId>
 				<artifactId>maven-osgi-test-plugin</artifactId>
+				<version>${tycho-version}</version>
 				<configuration>
 					<useUIHarness>true</useUIHarness>
 					<testSuite>org.eclipse.tigerstripe.workbench.base.test</testSuite>

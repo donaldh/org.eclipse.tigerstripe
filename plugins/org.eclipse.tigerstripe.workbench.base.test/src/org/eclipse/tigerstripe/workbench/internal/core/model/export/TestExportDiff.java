@@ -116,7 +116,7 @@ public class TestExportDiff extends AbstractExportTestCase {
 
 	public void testGetArtifactsListRestrictedByFacet() throws Exception {
 
-		System.out.println("JS-DEBUG testGetArtifactsListRestrictedByFacet");
+		//System.out.println("JS-DEBUG testGetArtifactsListRestrictedByFacet");
 		
 		// overwrite destination project
 		if (destination != null && destination.exists()) {
@@ -143,8 +143,6 @@ public class TestExportDiff extends AbstractExportTestCase {
 		for(IAbstractArtifact art : artifacts){
 			list = list + art + " ";
 		}
-		
-		// System.out.println(list);
 		
 		assertEquals("Expected 3 - got these " + list, 3, artifacts.size()); 
 
