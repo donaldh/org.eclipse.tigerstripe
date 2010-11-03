@@ -20,13 +20,13 @@
             <plugin>
                 <groupId>com.xored.maven.plugins</groupId>
                 <artifactId>maven-q7-plugin</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>0.0.2-SNAPSHOT</version>
                 <configuration>
                     <sutProjectId>org.eclipse.tigerstripe.rcp</sutProjectId>
-                    <sutLauncherName>launcher</sutLauncherName>
                     <delay>100</delay>
                     <timeout>1800</timeout>
                     <sutWsPrefix>../../sut-</sutWsPrefix>
+                    <sutVMArgs>-Xms128m;-Xmx512m;-XX:PermSize=128M;-XX:MaxPermSize=512M</sutVMArgs>
                 </configuration>
                 <executions>
                     <execution>
@@ -38,11 +38,11 @@
                 </executions>
             </plugin>
             <plugin>
-        		<groupId>com.xored.maven.plugins</groupId>
-        		<artifactId>maven-q7-packaging-plugin</artifactId>
-        		<version>0.0.1-SNAPSHOT</version>
-        		<extensions>true</extensions>
-      		</plugin>
+            <groupId>com.xored.maven.plugins</groupId>
+            <artifactId>maven-q7-packaging-plugin</artifactId>
+            <version>0.0.2-SNAPSHOT</version>
+            <extensions>true</extensions>
+          </plugin>
         </plugins>
     </build>
 </project>

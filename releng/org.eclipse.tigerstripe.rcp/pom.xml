@@ -10,7 +10,7 @@
   <artifactId>org.eclipse.tigerstripe.rcp</artifactId>
   <name>plugins/o.e.t.rcp</name>
   <version>0.5.0-SNAPSHOT</version>
-  <packaging>eclipse-application</packaging>
+  <packaging>eclipse-repository</packaging>
   
   <properties>
     <sut.build.os>linux</sut.build.os>
@@ -20,57 +20,33 @@
   
   <repositories>
     <repository>
-    	<id>test-modules</id>
-      	<layout>p2</layout>
-      	<url>file:/${basedir}/../../samples/test-modules/</url>
+      <id>test-modules</id>
+        <layout>p2</layout>
+        <url>file:/${basedir}/../../samples/test-modules/</url>
     </repository>
   </repositories>
 
   <build>
     <plugins>
       <plugin>
-        <groupId>com.xored.maven.plugins</groupId>
-        <artifactId>maven-q7-plugin</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+        <groupId>org.sonatype.tycho</groupId>
+        <artifactId>tycho-p2-director-plugin</artifactId>
+        <version>${tycho-version}</version>
         <executions>
           <execution>
-            <phase>package</phase>
+            <id>materialize-products</id>
             <goals>
-              <goal>publish-deploy-p2-metadata</goal>
+              <goal>materialize-products</goal>
             </goals>
-          </execution>
+          </execution>          
         </executions>
         <configuration>
-          <productConfigurationFile>org.eclipse.tigerstripe.rcp.product</productConfigurationFile>
-          <environments>
-            <environment>
-              <os>${sut.build.os}</os>
-              <ws>${sut.build.ws}</ws>
-              <arch>${sut.build.arch}</arch>
-            </environment>
-          </environments>                    
+          <products>
+            <product>
+              <id>org.eclipse.tigerstripe.rcp</id>
+            </product>
+          </products>
         </configuration>
-      </plugin>
-      
-      <plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <configuration>
-              <tasks>
-                <copy todir="${basedir}/target/${sut.build.os}.${sut.build.ws}.${sut.build.arch}/eclipse">
-  					<fileset dir="${basedir}">
-    					<include name="launcher.ini"/>
-  					</fileset>
-				</copy>
-			  </tasks>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
-        </executions>
       </plugin>
       
       <plugin>
