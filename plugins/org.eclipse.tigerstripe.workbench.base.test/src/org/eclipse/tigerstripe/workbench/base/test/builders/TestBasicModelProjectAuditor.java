@@ -67,8 +67,13 @@ public class TestBasicModelProjectAuditor extends TestCase {
 
 		AuditorHelper.forceFullBuildNow(project);
 		warning = AuditorHelper.getMarkers(IMarker.SEVERITY_WARNING, project).length;
-		info = AuditorHelper.getMarkers(IMarker.SEVERITY_INFO, project).length;
-		assertTrue(info == 0);
+		IMarker[] infoMarkers = AuditorHelper.getMarkers(IMarker.SEVERITY_INFO, project);
+		info = infoMarkers.length;
+		StringBuffer infoData = new StringBuffer();
+		for (IMarker marker : infoMarkers) {
+		    infoData.append(marker.toString() + "\n");
+		}
+		assertEquals("Info Recieved: " + infoData.toString(), 0, info);
 //		assertTrue(warning == 1);
 
 		// and a version
