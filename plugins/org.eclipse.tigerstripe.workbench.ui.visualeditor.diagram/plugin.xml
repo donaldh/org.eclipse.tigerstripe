@@ -779,6 +779,19 @@
 			id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action.showinexplorer">
          </action>
       </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="RefactorRenameObjectContribution"
+            objectClass="org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart">
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action.RefactorRenameAction"
+               enablesFor="1"
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.refactorRename"
+               label="Rename..."
+               menubarPath="additions"
+               style="push">
+         </action>
+      </objectContribution>
    </extension>
 <!-- <extension
        point="org.eclipse.tigerstripe.workbench.base.fileExtensionBasedAuditor">
