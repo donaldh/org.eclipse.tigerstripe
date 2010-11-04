@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.DrawerStyle;
 import org.eclipse.gmf.runtime.notation.NotationFactory;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
@@ -76,10 +77,13 @@ public class PreferencesHelper {
 		}
 	}
 
-	public static String extendsRelationshipValue(
-			IPreferenceStore preferenceStore) {
-		return Boolean.toString(EXTENDS_RELATIONSHIP_VALUE_HIDE
-				.equals(preferenceStore.getString(P_EXTENDS_RELATIONSHIP)));
+	public static String extendsRelationshipValue(IPreferenceStore store) {
+		return Boolean.toString(isHideExtendsRelationship(store));
+	}
+
+	public static boolean isHideExtendsRelationship(IPreferenceStore store) {
+		return EXTENDS_RELATIONSHIP_VALUE_HIDE.equals(store
+				.getString(P_EXTENDS_RELATIONSHIP));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -96,6 +100,10 @@ public class PreferencesHelper {
 	public static IPreferenceStore getStore(View view) {
 		return DiagramsPreferences.chooseStore(toMap(findStyle(view
 				.getDiagram())));
+	}
+
+	public static IPreferenceStore getStore(Diagram diagram) {
+		return DiagramsPreferences.chooseStore(toMap(findStyle(diagram)));
 	}
 
 	@SuppressWarnings("unchecked")

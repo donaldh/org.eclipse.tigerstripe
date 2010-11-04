@@ -31,13 +31,13 @@ import org.eclipse.gmf.runtime.diagram.ui.editpolicies.DiagramDragDropEditPolicy
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditDomain;
 import org.eclipse.gmf.runtime.diagram.ui.requests.ArrangeRequest;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateConnectionViewAndElementRequest;
+import org.eclipse.gmf.runtime.diagram.ui.requests.CreateConnectionViewAndElementRequest.ConnectionViewAndElementDescriptor;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateViewAndElementRequest;
+import org.eclipse.gmf.runtime.diagram.ui.requests.CreateViewAndElementRequest.ViewAndElementDescriptor;
+import org.eclipse.gmf.runtime.diagram.ui.requests.CreateViewRequest.ViewDescriptor;
 import org.eclipse.gmf.runtime.diagram.ui.requests.DropObjectsRequest;
 import org.eclipse.gmf.runtime.diagram.ui.requests.RefreshConnectionsRequest;
 import org.eclipse.gmf.runtime.diagram.ui.requests.RequestConstants;
-import org.eclipse.gmf.runtime.diagram.ui.requests.CreateConnectionViewAndElementRequest.ConnectionViewAndElementDescriptor;
-import org.eclipse.gmf.runtime.diagram.ui.requests.CreateViewAndElementRequest.ViewAndElementDescriptor;
-import org.eclipse.gmf.runtime.diagram.ui.requests.CreateViewRequest.ViewDescriptor;
 import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.emf.type.core.IHintedType;
 import org.eclipse.gmf.runtime.emf.type.core.requests.CreateElementRequest;
@@ -103,7 +103,7 @@ public class ClassDiagramDragDropEditPolicy extends DiagramDragDropEditPolicy {
 				// MapHelper helper = new MapHelper((Map) ((Diagram) getHost()
 				// .getModel()).getElement());
 				// EObject targetObject = helper.findAbstractArtifactFor(fqn);
-				//				
+				//
 				// // final EditPart newTargetPart = ((Diagram)
 				// getHost()).findEditPart(getHost()
 				// // .getParent(), (EObject) targetObject);
@@ -116,7 +116,7 @@ public class ClassDiagramDragDropEditPolicy extends DiagramDragDropEditPolicy {
 				// createRequest.setType(RequestConstants.REQ_CONNECTION_END);
 				// // Command cmd = newTargetPart.getCommand(createRequest);
 				//
-				//				
+				//
 			} else if (descriptor instanceof ConnectionViewAndElementDescriptor) {
 				// do we need to check that both ends are available?
 				ConnectionViewAndElementDescriptor desc = (ConnectionViewAndElementDescriptor) descriptor;
@@ -179,7 +179,7 @@ public class ClassDiagramDragDropEditPolicy extends DiagramDragDropEditPolicy {
 
 		PostCreationModelUpdateCommand postCreateCommand = new PostCreationModelUpdateCommand(
 				editingDomain, viewDescriptors, dropRequest.getObjects(),
-				project);
+				project, getHost());
 		compoundCommand.add(new ICommandProxy(postCreateCommand));
 
 		// Make sure everything is refreshed properly
@@ -219,10 +219,10 @@ public class ClassDiagramDragDropEditPolicy extends DiagramDragDropEditPolicy {
 		List<IAbstractArtifact> artifactsToDrop = dropRequest.getObjects();
 
 		for (IAbstractArtifact artifact : artifactsToDrop) {
-			
-			if ( !canDrop(artifact, map))
+
+			if (!canDrop(artifact, map))
 				return UnexecutableCommand.INSTANCE;
-			
+
 			IElementType type = ElementTypeMapper.mapToElementType(artifact);
 			if (type != null) {
 				if (type == ElementTypeMapper.Association_3001
@@ -280,15 +280,15 @@ public class ClassDiagramDragDropEditPolicy extends DiagramDragDropEditPolicy {
 							crRequest);
 
 					ViewAndElementDescriptor viewDescriptor = new ViewAndElementDescriptor(
-							adapter, Node.class, ((IHintedType) type)
-									.getSemanticHint(),
+							adapter, Node.class,
+							((IHintedType) type).getSemanticHint(),
 							((IGraphicalEditPart) getHost())
 									.getDiagramPreferencesHint());
 					viewDescriptors.add(viewDescriptor);
 				}
 			}
 		}
-		
+
 		return createViewsAndArrangeCommand(dropRequest, viewDescriptors);
 	}
 

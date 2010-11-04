@@ -15,11 +15,10 @@ import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.BaseETAdapter;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EChangeableEnum;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
-import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AggregationEnum;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssocMultiplicity;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
@@ -34,7 +33,8 @@ public class PostCreationAssociationArtifactUpdater extends
 	protected Association association;
 
 	public PostCreationAssociationArtifactUpdater(IAbstractArtifact iArtifact,
-			Association association, Map map, ITigerstripeModelProject diagramProject) {
+			Association association, Map map,
+			ITigerstripeModelProject diagramProject) {
 		super(iArtifact, map, diagramProject);
 		this.association = association;
 	}
@@ -52,8 +52,8 @@ public class PostCreationAssociationArtifactUpdater extends
 			updateStereotype(association);
 
 			IAssociationEnd aEnd = iAssoc.getAEnd();
-//			AbstractArtifact target = helper.findAbstractArtifactFor(aEnd
-//					.getType().getFullyQualifiedName());
+			// AbstractArtifact target = helper.findAbstractArtifactFor(aEnd
+			// .getType().getFullyQualifiedName());
 			// association.setAEnd(target); // Already done upon creation thru
 			// drop
 			association.setAEndIsNavigable(aEnd.isNavigable());
@@ -97,8 +97,8 @@ public class PostCreationAssociationArtifactUpdater extends
 			}
 
 			IAssociationEnd zEnd = iAssoc.getZEnd();
-//			target = helper.findAbstractArtifactFor(aEnd.getType()
-//					.getFullyQualifiedName());
+			// target = helper.findAbstractArtifactFor(aEnd.getType()
+			// .getFullyQualifiedName());
 			// association.setZEnd(target);// Already done upon creation thru
 			// drop
 			association.setZEndIsNavigable(zEnd.isNavigable());

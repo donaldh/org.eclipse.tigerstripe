@@ -18,8 +18,8 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.INamedQuery;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjQuerySpecifics;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
@@ -33,8 +33,8 @@ public class PostCreationQueryArtifactUpdater extends
 
 	public PostCreationQueryArtifactUpdater(IAbstractArtifact iArtifact,
 			AbstractArtifact eArtifact, Map map,
-			ITigerstripeModelProject diagramProject) {
-		super(iArtifact, eArtifact, map, diagramProject);
+			ITigerstripeModelProject diagramProject, boolean hideExtends) {
+		super(iArtifact, eArtifact, map, diagramProject, hideExtends);
 	}
 
 	@Override
@@ -77,7 +77,8 @@ public class PostCreationQueryArtifactUpdater extends
 							.getArtifactByFullyQualifiedName(fqn);
 					if (iArt instanceof ISessionArtifact) {
 						ISessionArtifact iSession = (ISessionArtifact) iArt;
-						Collection<INamedQuery> queries = iSession.getNamedQueries();
+						Collection<INamedQuery> queries = iSession
+								.getNamedQueries();
 						for (INamedQuery query : queries) {
 							if (query.getFullyQualifiedName().equals(
 									getEArtifact().getFullyQualifiedName())) {

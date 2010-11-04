@@ -28,8 +28,8 @@ public class PostCreationNotificationArtifactUpdater extends
 
 	public PostCreationNotificationArtifactUpdater(IAbstractArtifact iArtifact,
 			AbstractArtifact eArtifact, Map map,
-			ITigerstripeModelProject diagramProject) {
-		super(iArtifact, eArtifact, map, diagramProject);
+			ITigerstripeModelProject diagramProject, boolean hideExtends) {
+		super(iArtifact, eArtifact, map, diagramProject, hideExtends);
 	}
 
 	@Override
@@ -55,7 +55,8 @@ public class PostCreationNotificationArtifactUpdater extends
 							.getArtifactByFullyQualifiedName(fqn);
 					if (iArt instanceof ISessionArtifact) {
 						ISessionArtifact iSession = (ISessionArtifact) iArt;
-						Collection<IEmittedEvent> details = iSession.getEmittedEvents();
+						Collection<IEmittedEvent> details = iSession
+								.getEmittedEvents();
 						for (IEmittedEvent detail : details) {
 							if (detail.getFullyQualifiedName().equals(
 									getEArtifact().getFullyQualifiedName())) {

@@ -26,8 +26,8 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSessi
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -57,6 +57,7 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 		BasePostCreationElementUpdater {
 
 	private AbstractArtifact eArtifact;
+	private final boolean hideExtends;
 
 	protected void resetHideExtends(AbstractArtifact eArtifact) {
 		NamedElementPropertiesHelper helper = new NamedElementPropertiesHelper(
@@ -67,9 +68,10 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 
 	public PostCreationAbstractArtifactUpdater(IAbstractArtifact iArtifact,
 			AbstractArtifact eArtifact, Map map,
-			ITigerstripeModelProject diagramProject) {
+			ITigerstripeModelProject diagramProject, boolean hideExtends) {
 		super(iArtifact, map, diagramProject);
 		this.eArtifact = eArtifact;
+		this.hideExtends = hideExtends;
 	}
 
 	protected AbstractArtifact getEArtifact() {
@@ -84,8 +86,8 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 	 */
 	private static boolean shouldDisplayReference() {
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-				.getWorkbenchProfileSession().getActiveProfile().getProperty(
-						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
+				.getWorkbenchProfileSession().getActiveProfile()
+				.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 		boolean displayReference = prop
 				.getPropertyValue(IOssjLegacySettigsProperty.USEATTRIBUTES_ASREFERENCE);
 		return displayReference;
@@ -230,15 +232,16 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 		if (!shouldDisplayReference())
 			return true;
 		try {
-			IAbstractArtifact art = session.getArtifactByFullyQualifiedName(attrType);
+			IAbstractArtifact art = session
+					.getArtifactByFullyQualifiedName(attrType);
 			if (art instanceof IPrimitiveTypeArtifact)
 				return true;
 			else if (art instanceof IEnumArtifact)
 				return true;
 			else if (art == null)
 				return Util.isJavaScalarType(attrType)
-				|| attrType.equals("java.lang.String")
-				|| attrType.equals("String");
+						|| attrType.equals("java.lang.String")
+						|| attrType.equals("String");
 
 			return false;
 		} catch (TigerstripeException t) {
@@ -256,23 +259,26 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 		List<AbstractArtifact> eArtifacts = getMap().getArtifacts();
 		for (AbstractArtifact eArt : eArtifacts) {
 			AbstractArtifactHelper aHelper = new AbstractArtifactHelper(eArt);
-			IAbstractArtifact mirror = (IAbstractArtifact) session
-					.getArtifactByFullyQualifiedName(eArt
-							.getFullyQualifiedName(), true);
+			IAbstractArtifact mirror = session.getArtifactByFullyQualifiedName(
+					eArt.getFullyQualifiedName(), true);
 			// Take care of attributes in other artifacts that should now
 			// point to this new object
 			if (mirror != null) {
 
 				// take care of artifact extending this new object
 				if (mirror.getExtendedArtifact() != null
-						&& mirror.getExtendedArtifact()
-								.getFullyQualifiedName().equals(
-										getIArtifact().getFullyQualifiedName())) {
+						&& mirror.getExtendedArtifact().getFullyQualifiedName()
+								.equals(getIArtifact().getFullyQualifiedName())) {
 					// when DnD reset the state of the Hide/Show Extends
 					// property
 					// to avoid confusion for the user.
 					resetHideExtends(eArt);
-					eArt.setExtends(eArtifact);
+
+					if (hideExtends) {
+						eArt.setExtends(null);
+					} else {
+						eArt.setExtends(eArtifact);
+					}
 				}
 
 				// take care of artifacts implementing this new object
@@ -291,8 +297,8 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 				}
 
 				for (IField field : mirror.getFields()) {
-					if (field.getType().getFullyQualifiedName().equals(
-							eArtifact.getFullyQualifiedName())
+					if (field.getType().getFullyQualifiedName()
+							.equals(eArtifact.getFullyQualifiedName())
 							&& shouldDisplayReference() // Bug 929
 					) {
 						// before we add this reference we need to make sure
@@ -336,13 +342,18 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 			AbstractArtifact eExtendedArtifact = helper
 					.findAbstractArtifactFor(iExtendedArtifact);
 			if (eExtendedArtifact != null) {
-				eArtifact.setExtends(eExtendedArtifact);
+				if (hideExtends) {
+					eArtifact.setExtends(null);
+				} else {
+					eArtifact.setExtends(eExtendedArtifact);
+				}
 			}
 		}
 
 		// Take care of Implements
 		if (getIArtifact().getImplementedArtifacts().size() != 0) {
-			Collection<IAbstractArtifact> arts = getIArtifact().getImplementedArtifacts();
+			Collection<IAbstractArtifact> arts = getIArtifact()
+					.getImplementedArtifacts();
 			for (IAbstractArtifact art : arts) {
 				AbstractArtifact eArt = helper.findAbstractArtifactFor(art);
 				if (eArt != null) {
@@ -350,6 +361,5 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 				}
 			}
 		}
-
 	}
 }

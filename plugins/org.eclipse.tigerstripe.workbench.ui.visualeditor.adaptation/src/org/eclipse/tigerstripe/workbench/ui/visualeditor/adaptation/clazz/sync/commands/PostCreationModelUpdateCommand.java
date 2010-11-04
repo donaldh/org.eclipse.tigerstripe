@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -20,11 +21,13 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.gef.EditPart;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateConnectionViewAndElementRequest.ConnectionViewAndElementDescriptor;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateViewAndElementRequest.ViewAndElementDescriptor;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateViewRequest.ViewDescriptor;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
+import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.BaseETAdapter;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -42,6 +45,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.gmf.PreferencesHelper;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssociationClass;
@@ -76,14 +80,18 @@ public class PostCreationModelUpdateCommand extends
 
 	private ITigerstripeModelProject tsProject;
 
+	private final EditPart editPart;
+
 	public PostCreationModelUpdateCommand(TransactionalEditingDomain domain,
 			List<ViewAndElementDescriptor> descriptors,
-			List<IAbstractArtifact> artifacts, ITigerstripeModelProject tsProject) {
+			List<IAbstractArtifact> artifacts,
+			ITigerstripeModelProject tsProject, EditPart editPart) {
 		super(domain, "PostCreationModelUpdateCommand", null);
 
 		this.descriptors = descriptors;
 		this.artifacts = artifacts;
 		this.tsProject = tsProject;
+		this.editPart = editPart;
 	}
 
 	public PostCreationModelUpdateCommand(TransactionalEditingDomain domain,
@@ -93,6 +101,7 @@ public class PostCreationModelUpdateCommand extends
 		this.artifacts.add(iArtifact);
 		this.eObjects.add(eObject);
 		this.tsProject = tsProject;
+		this.editPart = null;
 	}
 
 	@Override
@@ -212,28 +221,30 @@ public class PostCreationModelUpdateCommand extends
 
 		BasePostCreationElementUpdater updater = null;
 
+		final boolean hideExtends = isHideExtends();
+
 		// Take care of the outgoing connections first
 		if (iArtifact instanceof IQueryArtifact) {
 			updater = new PostCreationQueryArtifactUpdater(iArtifact,
-					(AbstractArtifact) eArtifact, map, tsProject);
+					(AbstractArtifact) eArtifact, map, tsProject, hideExtends);
 		} else if (iArtifact instanceof ISessionArtifact) {
 			updater = new PostCreationSessionArtifactUpdater(iArtifact,
-					(AbstractArtifact) eArtifact, map, tsProject);
+					(AbstractArtifact) eArtifact, map, tsProject, hideExtends);
 		} else if (iArtifact instanceof IManagedEntityArtifact) {
 			updater = new PostCreationEntityArtifactUpdater(iArtifact,
-					(AbstractArtifact) eArtifact, map, tsProject);
+					(AbstractArtifact) eArtifact, map, tsProject, hideExtends);
 		} else if (iArtifact instanceof IEventArtifact) {
 			updater = new PostCreationNotificationArtifactUpdater(iArtifact,
-					(AbstractArtifact) eArtifact, map, tsProject);
+					(AbstractArtifact) eArtifact, map, tsProject, hideExtends);
 		} else if (iArtifact instanceof IEnumArtifact) {
 			updater = new PostCreationEnumArtifactUpdater(iArtifact,
-					(AbstractArtifact) eArtifact, map, tsProject);
+					(AbstractArtifact) eArtifact, map, tsProject, hideExtends);
 		} else if (iArtifact instanceof IDatatypeArtifact) {
 			updater = new PostCreationDatatypeArtifactUpdater(iArtifact,
-					(AbstractArtifact) eArtifact, map, tsProject);
+					(AbstractArtifact) eArtifact, map, tsProject, hideExtends);
 		} else if (iArtifact instanceof IUpdateProcedureArtifact) {
 			updater = new PostCreationUpdateProcedureArtifactUpdater(iArtifact,
-					(AbstractArtifact) eArtifact, map, tsProject);
+					(AbstractArtifact) eArtifact, map, tsProject, hideExtends);
 		} else if (iArtifact instanceof IDependencyArtifact) {
 			updater = new PostCreationDependencyArtifactUpdater(iArtifact,
 					(Dependency) eArtifact, map, tsProject);
@@ -245,7 +256,7 @@ public class PostCreationModelUpdateCommand extends
 					iArtifact, (AssociationClass) eArtifact, map, tsProject);
 		} else if (iArtifact instanceof IExceptionArtifact) {
 			updater = new PostCreationExceptionArtifactUpdater(iArtifact,
-					(AbstractArtifact) eArtifact, map, tsProject);
+					(AbstractArtifact) eArtifact, map, tsProject, hideExtends);
 		} else if (iArtifact instanceof IAssociationArtifact
 				&& eArtifact instanceof Association) {
 			// if here, then we know that we are on an Association (and not on
@@ -262,6 +273,26 @@ public class PostCreationModelUpdateCommand extends
 				EclipsePlugin.log(e);
 			}
 		}
+	}
+
+	private boolean isHideExtends() {
+		if (editPart == null) {
+			return false;
+		}
+		Iterator<?> it = editPart.getRoot().getChildren().iterator();
+		if (!it.hasNext()) {
+			return false;
+		}
+		Object next = it.next();
+		if (next instanceof EditPart) {
+			Object model = ((EditPart) next).getModel();
+			if (model instanceof Diagram) {
+				return PreferencesHelper
+						.isHideExtendsRelationship(PreferencesHelper
+								.getStore((Diagram) model));
+			}
+		}
+		return false;
 	}
 
 	protected void updateRelationships() {

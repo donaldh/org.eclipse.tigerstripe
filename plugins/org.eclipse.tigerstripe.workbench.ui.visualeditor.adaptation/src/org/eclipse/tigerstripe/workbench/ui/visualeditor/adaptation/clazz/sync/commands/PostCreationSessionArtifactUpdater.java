@@ -34,8 +34,8 @@ public class PostCreationSessionArtifactUpdater extends
 
 	public PostCreationSessionArtifactUpdater(IAbstractArtifact iArtifact,
 			AbstractArtifact eArtifact, Map map,
-			ITigerstripeModelProject diagramProject) {
-		super(iArtifact, eArtifact, map, diagramProject);
+			ITigerstripeModelProject diagramProject, boolean hideExtends) {
+		super(iArtifact, eArtifact, map, diagramProject, hideExtends);
 	}
 
 	@Override
@@ -58,7 +58,8 @@ public class PostCreationSessionArtifactUpdater extends
 		}
 
 		// look thru the exposed update procedures
-		Collection<IExposedUpdateProcedure> procs = session.getExposedUpdateProcedures();
+		Collection<IExposedUpdateProcedure> procs = session
+				.getExposedUpdateProcedures();
 		for (IExposedUpdateProcedure proc : procs) {
 			MapHelper helper = new MapHelper(getMap());
 			UpdateProcedureArtifact eProc = (UpdateProcedureArtifact) helper
@@ -82,7 +83,8 @@ public class PostCreationSessionArtifactUpdater extends
 		}
 
 		// look thru the emitted Notifications
-		Collection<IManagedEntityDetails> details = session.getManagedEntityDetails();
+		Collection<IManagedEntityDetails> details = session
+				.getManagedEntityDetails();
 		for (IManagedEntityDetails detail : details) {
 			MapHelper helper = new MapHelper(getMap());
 			ManagedEntityArtifact eArt = (ManagedEntityArtifact) helper

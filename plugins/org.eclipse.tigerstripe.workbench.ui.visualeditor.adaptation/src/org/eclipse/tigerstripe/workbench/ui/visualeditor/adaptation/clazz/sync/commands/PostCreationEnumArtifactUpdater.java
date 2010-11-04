@@ -30,8 +30,8 @@ public class PostCreationEnumArtifactUpdater extends
 
 	public PostCreationEnumArtifactUpdater(IAbstractArtifact iArtifact,
 			AbstractArtifact eArtifact, Map map,
-			ITigerstripeModelProject diagramProject) {
-		super(iArtifact, eArtifact, map, diagramProject);
+			ITigerstripeModelProject diagramProject, boolean hideExtends) {
+		super(iArtifact, eArtifact, map, diagramProject, hideExtends);
 	}
 
 	@Override
