@@ -214,7 +214,7 @@ public class ArtifactOverviewPage extends TigerstripeFormPage implements IResour
 		if (editorInput instanceof IFileEditorInput) {
 			IFile file = ((IFileEditorInput)editorInput).getFile();
 			
-			if (file != null) {
+			if ((file != null) && (file.exists())) {
 				try {
 					IMarker[] markers = file.findMarkers(IMarker.PROBLEM, true,	IResource.DEPTH_INFINITE);
 					
