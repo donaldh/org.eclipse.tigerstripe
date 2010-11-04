@@ -34,8 +34,6 @@ public class TestExportDiff extends AbstractExportTestCase {
 
 	private ITigerstripeModelProject destination;
 
-	private ITigerstripeModelProject destinationFullContent;
-
 	protected void setUp() throws Exception {
 
 		source = ModelProjectHelper.createModelProject("SourceProject", true);
@@ -116,13 +114,12 @@ public class TestExportDiff extends AbstractExportTestCase {
 
 	public void testGetArtifactsListRestrictedByFacet() throws Exception {
 
-		//System.out.println("JS-DEBUG testGetArtifactsListRestrictedByFacet");
-		
 		// overwrite destination project
 		if (destination != null && destination.exists()) {
 			destination.delete(true, new NullProgressMonitor());
-			destination = null;
 		}
+		
+		Thread.sleep(5000);
 		
 		destination = ModelProjectHelper.createModelProject("DestinationProject", true);
 
