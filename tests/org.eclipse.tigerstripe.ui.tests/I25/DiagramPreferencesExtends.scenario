@@ -1,0 +1,2731 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" name="DiagramPreferencesExtends" id="_QKs-oediEd-xAK-Uh8DO2A" description="">
+  <contexts>_OPC4UOdkEd-SavNKxJeMNg</contexts>
+  <content xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe -"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree0" kind="Tree"/>
+      <path>New Project</path>
+      <path>src</path>
+      <path>org.eclipse</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Menu" multiplicity="1">
+        <path>New</path>
+        <path>Class Diagram</path>
+        <parent id="Tree0" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Menu0" kind="Menu"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State0" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="New Tigerstripe Diagram" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Finish" multiplicity="1">
+        <parent id="Window0" kind="Window" description="New Tigerstripe Diagram"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button0" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State1" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="default.wvd" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramViewer" multiplicity="1">
+        <parent id="Editor0" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="67" y="46" kind="Move" boundsWidth="613" boundsHeight="361" figureWidth="596" figureHeight="344">
+      <element id="DiagramViewer0" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>1</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="67" y="46" kind="Hover" boundsWidth="613" boundsHeight="361" figureWidth="596" figureHeight="344">
+      <element id="DiagramViewer0" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>1</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="53" y="2" kind="Move" boundsWidth="613" boundsHeight="361" figureWidth="596" figureHeight="344">
+      <element id="DiagramViewer0" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>1</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Menu" multiplicity="1">
+        <path>Window</path>
+        <path>Preferences</path>
+        <parent id="EclipseWindow0" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Menu1" kind="Menu"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State2" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="Preferences" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="Window1" kind="Window" description="Preferences"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree1" kind="Tree"/>
+      <path>Tigerstripe</path>
+      <path>Diagrams</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="Preferences" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe - New Project/src/org/eclipse/default.wvd -"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Group" pattern="General" multiplicity="1">
+        <parent id="Window0" kind="Window"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Show" multiplicity="1">
+        <parent id="Group0" kind="Group"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="Show">
+      <element id="Button0" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="selected" value="true">
+      <element id="Button0" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="Preferences" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe - New Project/src/org/eclipse/default.wvd -"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Apply" multiplicity="1">
+        <parent id="Window0" kind="Window" description="Preferences"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button0" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State0" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="OK" multiplicity="1">
+        <parent id="Window0" kind="Window"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button1" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State1" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="default.wvd" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramViewer" multiplicity="1">
+        <parent id="Editor0" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="2" y="161" kind="Move" boundsWidth="613" boundsHeight="361" figureWidth="596" figureHeight="344">
+      <element id="DiagramViewer0" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>1</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree0" kind="Tree"/>
+      <path>New Project</path>
+      <path>src</path>
+      <path>org.eclipse</path>
+      <path>Entity1</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>New Project</path>
+        <path>src</path>
+        <path>org.eclipse</path>
+        <path>Entity1</path>
+        <parent id="Tree0" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" x="26" y="11" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Item0" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" multiplicity="1">
+        <path>editpart</path>
+        <path>address</path>
+        <parent id="DiagramViewer0" kind="DiagramViewer"/>
+        <indexes>0</indexes>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Enter" x="3" y="92" style="detail:2,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="3" y="92" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="64" y="95" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="65" y="95" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="65" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="65" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="67" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="68" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="70" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="71" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="72" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="74" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="75" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="76" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="78" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="79" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="80" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="82" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="83" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="85" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="86" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="86" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="86" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="86" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="87" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="87" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="87" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="87" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="87" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Leave" style="detail:0,button:0,mask:0,operations:0">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Accept" x="87" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Drop" x="87" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="End" style="detail:1,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="29" y="97" kind="Move" boundsWidth="613" boundsHeight="361" figureWidth="596" figureHeight="344">
+      <element id="DiagramViewer0" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>1</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree0" kind="Tree"/>
+      <path>New Project</path>
+      <path>src</path>
+      <path>org.eclipse</path>
+      <path>Entity2</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>New Project</path>
+        <path>src</path>
+        <path>org.eclipse</path>
+        <path>Entity2</path>
+        <parent id="Tree0" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" x="28" y="5" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Item1" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Enter" x="56" y="5" style="detail:2,button:0,mask:0,operations:7">
+      <element id="Item1" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="129" y="7" style="detail:2,button:0,mask:0,operations:7">
+      <element id="Item1" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Leave" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Item1" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" multiplicity="1">
+        <path>editpart</path>
+        <path>address</path>
+        <parent id="DiagramViewer0" kind="DiagramViewer"/>
+        <indexes>0</indexes>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Enter" x="18" y="103" style="detail:2,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="18" y="103" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" multiplicity="1">
+        <path>editpart</path>
+        <path>address</path>
+        <parent id="DiagramViewer0" kind="DiagramViewer"/>
+        <indexes>0</indexes>
+        <indexes>0</indexes>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="-21" y="9" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure2" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" multiplicity="1">
+        <path>editpart</path>
+        <path>address</path>
+        <parent id="DiagramViewer0" kind="DiagramViewer"/>
+        <indexes>0</indexes>
+        <indexes>0</indexes>
+        <indexes>0</indexes>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" multiplicity="1">
+        <path>rawFigure</path>
+        <path>address</path>
+        <parent id="DiagramFigure3" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="26" y="9" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure4" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="158" y="106" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="210" y="106" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="258" y="108" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="297" y="108" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="344" y="108" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="375" y="108" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="403" y="110" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="423" y="110" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="435" y="110" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="444" y="110" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="444" y="110" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="448" y="110" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="448" y="110" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="448" y="111" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="448" y="111" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="448" y="111" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="448" y="111" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="448" y="111" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="448" y="111" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="448" y="111" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Leave" style="detail:0,button:0,mask:0,operations:0">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Accept" x="448" y="111" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Drop" x="448" y="111" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="End" style="detail:1,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="12" y="9" kind="Move" boundsWidth="613" boundsHeight="361" figureWidth="56" figureHeight="16">
+      <element id="DiagramViewer0" kind="DiagramViewer"/>
+      <partPath>0</partPath>
+      <partPath>1</partPath>
+      <partPath>0</partPath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="12" y="9" kind="Hover" boundsWidth="613" boundsHeight="361" figureWidth="56" figureHeight="16">
+      <element id="DiagramViewer0" kind="DiagramViewer"/>
+      <partPath>0</partPath>
+      <partPath>1</partPath>
+      <partPath>0</partPath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="21" kind="Move" boundsWidth="613" boundsHeight="361" figureWidth="56" figureHeight="12">
+      <element id="DiagramViewer0" kind="DiagramViewer"/>
+      <partPath>0</partPath>
+      <partPath>1</partPath>
+      <partPath>1</partPath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="21" button="1" boundsWidth="613" boundsHeight="361" figureWidth="56" figureHeight="12">
+      <element id="DiagramViewer0" kind="DiagramViewer"/>
+      <partPath>0</partPath>
+      <partPath>1</partPath>
+      <partPath>1</partPath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="21" button="1" kind="Up" boundsWidth="613" boundsHeight="361" stateMask="524288" figureWidth="56" figureHeight="12">
+      <element id="DiagramViewer0" kind="DiagramViewer"/>
+      <partPath>0</partPath>
+      <partPath>1</partPath>
+      <partPath>1</partPath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="21" kind="Hover" boundsWidth="613" boundsHeight="361" figureWidth="56" figureHeight="12">
+      <element id="DiagramViewer0" kind="DiagramViewer"/>
+      <partPath>0</partPath>
+      <partPath>1</partPath>
+      <partPath>1</partPath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="20" y="2" kind="Move" boundsWidth="613" boundsHeight="361" figureWidth="56" figureHeight="3">
+      <element id="DiagramViewer0" kind="DiagramViewer"/>
+      <figurePath>1</figurePath>
+      <figurePath>2</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="20" y="2" kind="Hover" boundsWidth="613" boundsHeight="361" figureWidth="56" figureHeight="3">
+      <element id="DiagramViewer0" kind="DiagramViewer"/>
+      <figurePath>1</figurePath>
+      <figurePath>2</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="20" y="2" button="3" boundsWidth="613" boundsHeight="361" figureWidth="56" figureHeight="3">
+      <element id="DiagramViewer0" kind="DiagramViewer"/>
+      <figurePath>1</figurePath>
+      <figurePath>2</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="20" y="2" button="3" kind="Up" boundsWidth="613" boundsHeight="361" stateMask="2097152" figureWidth="56" figureHeight="3">
+      <element id="DiagramViewer0" kind="DiagramViewer"/>
+      <figurePath>1</figurePath>
+      <figurePath>2</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Canvas" index="3" multiplicity="1">
+        <parent id="Editor0" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Menu" multiplicity="1">
+        <path>Show Properties View</path>
+        <parent id="Canvas0" kind="Canvas"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Menu0" kind="Menu"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State2" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Properties" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View1" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree1" kind="Tree"/>
+      <path>EMF</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="513" y="329" kind="Move" boundsWidth="613" boundsHeight="361" figureWidth="596" figureHeight="344">
+      <element id="DiagramViewer0" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>1</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="513" y="329" kind="Hover" boundsWidth="613" boundsHeight="361" figureWidth="596" figureHeight="344">
+      <element id="DiagramViewer0" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>1</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="512" y="327" kind="Move" boundsWidth="613" boundsHeight="361" figureWidth="596" figureHeight="344">
+      <element id="DiagramViewer0" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>1</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="512" y="327" kind="Hover" boundsWidth="613" boundsHeight="361" figureWidth="596" figureHeight="344">
+      <element id="DiagramViewer0" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>1</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" y="249" kind="Move" boundsWidth="613" boundsHeight="361" figureWidth="596" figureHeight="344">
+      <element id="DiagramViewer0" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>1</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Properties" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>EMF</path>
+        <path>Extends</path>
+        <parent id="Tree0" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="columns" value="Extends" index="0">
+      <element id="Item0" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="columns" value="Managed Entity Artifact Entity1" index="1">
+      <element id="Item0" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="default.wvd" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe - New Project/src/org/eclipse/default.wvd -"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramViewer" multiplicity="1">
+        <parent id="Editor0" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="40" y="3" kind="Move" boundsWidth="613" boundsHeight="361" figureWidth="596" figureHeight="344">
+      <element id="DiagramViewer0" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>1</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Menu" multiplicity="1">
+        <path>Window</path>
+        <path>Preferences</path>
+        <parent id="EclipseWindow0" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Menu0" kind="Menu"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State0" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="Preferences" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Group" pattern="General" multiplicity="1">
+        <parent id="Window0" kind="Window" description="Preferences"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Hide" multiplicity="1">
+        <parent id="Group0" kind="Group"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button0" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State1" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="Preferences" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe - New Project/src/org/eclipse/default.wvd -"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Group" pattern="General" multiplicity="1">
+        <parent id="Window0" kind="Window" description="Preferences"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Hide" multiplicity="1">
+        <parent id="Group0" kind="Group"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="Hide">
+      <element id="Button1" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="selected" value="true">
+      <element id="Button1" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="Preferences" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe - New Project/src/org/eclipse/default.wvd -"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Group" pattern="General" multiplicity="1">
+        <parent id="Window0" kind="Window" description="Preferences"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Hide" multiplicity="1">
+        <parent id="Group0" kind="Group"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button0" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State0" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Apply" multiplicity="1">
+        <parent id="Window0" kind="Window"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button1" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State1" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="OK" multiplicity="1">
+        <parent id="Window0" kind="Window"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button2" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State2" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="default.wvd" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramViewer" multiplicity="1">
+        <parent id="Editor0" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="281" y="138" kind="Move" boundsWidth="613" boundsHeight="361" figureWidth="596" figureHeight="344">
+      <element id="DiagramViewer0" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>1</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="281" y="138" kind="Hover" boundsWidth="613" boundsHeight="361" figureWidth="596" figureHeight="344">
+      <element id="DiagramViewer0" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>1</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="4" y="145" kind="Move" boundsWidth="613" boundsHeight="361" figureWidth="596" figureHeight="344">
+      <element id="DiagramViewer0" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>1</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree0" kind="Tree"/>
+      <path>New Project</path>
+      <path>src</path>
+      <path>org.eclipse</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Menu" multiplicity="1">
+        <path>New</path>
+        <path>Class Diagram</path>
+        <parent id="Tree0" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Menu0" kind="Menu"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State3" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="New Tigerstripe Diagram" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Finish" multiplicity="1">
+        <parent id="Window1" kind="Window" description="New Tigerstripe Diagram"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button3" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State4" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree0" kind="Tree"/>
+      <path>New Project</path>
+      <path>src</path>
+      <path>org.eclipse</path>
+      <path>Entity1</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>New Project</path>
+        <path>src</path>
+        <path>org.eclipse</path>
+        <path>Entity1</path>
+        <parent id="Tree0" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" x="20" y="9" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Item0" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Enter" x="116" y="12" style="detail:2,button:0,mask:0,operations:7">
+      <element id="Item0" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="128" y="12" style="detail:2,button:0,mask:0,operations:7">
+      <element id="Item0" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Leave" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Item0" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="default2.wvd" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramViewer" multiplicity="1">
+        <parent id="Editor1" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" multiplicity="1">
+        <path>editpart</path>
+        <path>address</path>
+        <parent id="DiagramViewer1" kind="DiagramViewer"/>
+        <indexes>0</indexes>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Enter" x="15" y="94" style="detail:2,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="15" y="94" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="30" y="95" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="40" y="96" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="55" y="97" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="70" y="98" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="79" y="100" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="87" y="101" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="95" y="103" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="100" y="103" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="108" y="104" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="110" y="104" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="112" y="104" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="115" y="104" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="116" y="105" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="118" y="106" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="121" y="106" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="121" y="106" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="121" y="106" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="124" y="106" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="125" y="106" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="125" y="106" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="125" y="106" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="125" y="106" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="125" y="106" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="125" y="106" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Leave" style="detail:0,button:0,mask:0,operations:0">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Accept" x="125" y="106" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Drop" x="125" y="106" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure0" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="End" style="detail:1,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" kind="Move" boundsWidth="613" boundsHeight="361" figureWidth="56" figureHeight="16">
+      <element id="DiagramViewer1" kind="DiagramViewer"/>
+      <partPath>0</partPath>
+      <partPath>0</partPath>
+      <partPath>0</partPath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="4" y="4" kind="Hover" boundsWidth="613" boundsHeight="361" figureWidth="7" figureHeight="7">
+      <element id="DiagramViewer1" kind="DiagramViewer"/>
+      <figurePath>1</figurePath>
+      <figurePath>12</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="6" y="111" kind="Move" boundsWidth="613" boundsHeight="361" figureWidth="596" figureHeight="344">
+      <element id="DiagramViewer1" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>1</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree0" kind="Tree"/>
+      <path>New Project</path>
+      <path>src</path>
+      <path>org.eclipse</path>
+      <path>Entity2</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>New Project</path>
+        <path>src</path>
+        <path>org.eclipse</path>
+        <path>Entity2</path>
+        <parent id="Tree0" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" x="29" y="13" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Item1" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" multiplicity="1">
+        <path>editpart</path>
+        <path>address</path>
+        <parent id="DiagramViewer1" kind="DiagramViewer"/>
+        <indexes>0</indexes>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Enter" x="16" y="109" style="detail:2,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="16" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="58" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="102" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" multiplicity="1">
+        <path>editpart</path>
+        <path>address</path>
+        <parent id="DiagramViewer1" kind="DiagramViewer"/>
+        <indexes>0</indexes>
+        <indexes>0</indexes>
+        <indexes>0</indexes>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="13" y="3" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure2" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="13" y="3" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure2" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="180" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="225" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="255" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="270" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="291" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="306" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="318" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="320" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="323" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="325" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="326" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="327" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="328" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="329" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="331" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="332" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="335" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="336" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="338" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="341" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="343" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="344" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="345" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="346" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="347" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="348" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="348" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="348" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="348" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="348" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="348" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="348" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Leave" style="detail:0,button:0,mask:0,operations:0">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Accept" x="348" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Drop" x="348" y="109" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure1" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="End" style="detail:1,button:0,mask:0,operations:0">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" kind="Move" boundsWidth="613" boundsHeight="361" figureWidth="56" figureHeight="16">
+      <element id="DiagramViewer1" kind="DiagramViewer"/>
+      <partPath>0</partPath>
+      <partPath>1</partPath>
+      <partPath>0</partPath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="4" y="4" kind="Hover" boundsWidth="613" boundsHeight="361" figureWidth="7" figureHeight="7">
+      <element id="DiagramViewer1" kind="DiagramViewer"/>
+      <figurePath>1</figurePath>
+      <figurePath>12</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="5" y="1" kind="Move" boundsWidth="613" boundsHeight="361" figureWidth="11" figureHeight="11">
+      <element id="DiagramViewer1" kind="DiagramViewer"/>
+      <figurePath>1</figurePath>
+      <figurePath>3</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="5" y="1" kind="Hover" boundsWidth="613" boundsHeight="361" figureWidth="11" figureHeight="11">
+      <element id="DiagramViewer1" kind="DiagramViewer"/>
+      <figurePath>1</figurePath>
+      <figurePath>3</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="370" y="197" kind="Move" boundsWidth="613" boundsHeight="361" figureWidth="596" figureHeight="344">
+      <element id="DiagramViewer1" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>1</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="370" y="197" kind="Hover" boundsWidth="613" boundsHeight="361" figureWidth="596" figureHeight="344">
+      <element id="DiagramViewer1" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>1</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="31" y="4" kind="Move" boundsWidth="613" boundsHeight="361" figureWidth="56" figureHeight="11">
+      <element id="DiagramViewer1" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+      <partPath>0</partPath>
+      <partPath>1</partPath>
+      <partPath>1</partPath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="31" y="4" kind="Hover" boundsWidth="613" boundsHeight="361" figureWidth="56" figureHeight="11">
+      <element id="DiagramViewer1" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+      <partPath>0</partPath>
+      <partPath>1</partPath>
+      <partPath>1</partPath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="31" y="4" button="1" boundsWidth="613" boundsHeight="361" figureWidth="56" figureHeight="11">
+      <element id="DiagramViewer1" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+      <partPath>0</partPath>
+      <partPath>1</partPath>
+      <partPath>1</partPath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="31" y="4" button="1" kind="Up" boundsWidth="613" boundsHeight="361" stateMask="524288" figureWidth="56" figureHeight="11">
+      <element id="DiagramViewer1" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+      <partPath>0</partPath>
+      <partPath>1</partPath>
+      <partPath>1</partPath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="31" y="4" kind="Hover" boundsWidth="613" boundsHeight="361" figureWidth="56" figureHeight="11">
+      <element id="DiagramViewer1" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+      <partPath>0</partPath>
+      <partPath>1</partPath>
+      <partPath>1</partPath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="31" y="4" button="3" boundsWidth="613" boundsHeight="361" figureWidth="56" figureHeight="11">
+      <element id="DiagramViewer1" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+      <partPath>0</partPath>
+      <partPath>1</partPath>
+      <partPath>1</partPath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="31" y="4" button="3" kind="Up" boundsWidth="613" boundsHeight="361" stateMask="2097152" figureWidth="56" figureHeight="11">
+      <element id="DiagramViewer1" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+      <partPath>0</partPath>
+      <partPath>1</partPath>
+      <partPath>1</partPath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Canvas" index="3" multiplicity="1">
+        <parent id="Editor1" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Menu" multiplicity="1">
+        <path>Show Properties View</path>
+        <parent id="Canvas0" kind="Canvas"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Menu1" kind="Menu"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State5" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Properties" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View1" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree1" kind="Tree"/>
+      <path>EMF</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="20" y="3" kind="Move" boundsWidth="613" boundsHeight="361" figureWidth="56" figureHeight="11">
+      <element id="DiagramViewer1" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+      <partPath>0</partPath>
+      <partPath>1</partPath>
+      <partPath>1</partPath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="20" y="3" button="3" boundsWidth="613" boundsHeight="361" figureWidth="56" figureHeight="11">
+      <element id="DiagramViewer1" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+      <partPath>0</partPath>
+      <partPath>1</partPath>
+      <partPath>1</partPath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="20" y="3" button="3" kind="Up" boundsWidth="613" boundsHeight="361" stateMask="2097152" figureWidth="56" figureHeight="11">
+      <element id="DiagramViewer1" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+      <partPath>0</partPath>
+      <partPath>1</partPath>
+      <partPath>1</partPath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Menu" multiplicity="1">
+        <path>Show Properties View</path>
+        <parent id="Canvas0" kind="Canvas"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Menu2" kind="Menu"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State6" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="23" y="264" kind="Move" boundsWidth="613" boundsHeight="361" figureWidth="596" figureHeight="344">
+      <element id="DiagramViewer1" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>1</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Properties" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>EMF</path>
+        <path>Extends</path>
+        <parent id="Tree0" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="columns" value="Extends" index="0">
+      <element id="Item0" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="columns" value="Managed Entity Artifact Entity1" index="1">
+      <element id="Item0" kind="Item"/>
+    </commands>
+    <elementMapping command="//@content/@commands.0">
+      <elements id="EclipseWindow0" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="125" y="125" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.1">
+      <elements id="View0" kind="View"/>
+      <controls/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.2">
+      <elements id="Tree0" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="244" height="576"/>
+        <selection>
+          <path>New Project</path>
+          <path>src</path>
+          <path>org.eclipse</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.4">
+      <elements id="Menu0" kind="Menu"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.5">
+      <elements id="State0" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.8">
+      <elements id="Window0" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="375" y="107" width="525" height="604"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.9">
+      <elements id="Button0" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="11" y="13" width="92" height="25"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.10">
+      <elements id="State1" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.13">
+      <elements id="Editor0" kind="Editor"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.14">
+      <elements id="DiagramViewer0" kind="DiagramViewer"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.18">
+      <elements id="Menu1" kind="Menu"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.19">
+      <elements id="State2" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.22">
+      <elements id="Window1" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="320" y="140" width="635" height="554"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.23">
+      <elements id="Tree1" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" itemCount="15">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="166" height="431"/>
+        <selection>
+          <path>Tigerstripe</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.25">
+      <elements id="EclipseWindow0" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="125" y="125" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.26">
+      <elements id="Window0" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="320" y="140" width="635" height="554"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.27">
+      <elements id="Group0" kind="Group"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds y="101" width="417" height="95"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.28">
+      <elements id="Button0" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Show" selected="true" kind="Radio">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds width="50" height="16"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.31">
+      <elements id="EclipseWindow0" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="125" y="125" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.32">
+      <elements id="Window0" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="320" y="140" width="635" height="554"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.33">
+      <elements id="Button0" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Apply">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="102" width="92" height="25"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.34">
+      <elements id="State0" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.37">
+      <elements id="Button1" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="11" y="13" width="92" height="25"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.38">
+      <elements id="State1" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.41">
+      <elements id="Editor0" kind="Editor"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.42">
+      <elements id="DiagramViewer0" kind="DiagramViewer"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.44">
+      <elements id="View0" kind="View"/>
+      <controls/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.45">
+      <elements id="Tree0" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="244" height="554"/>
+        <selection>
+          <path>New Project</path>
+          <path>src</path>
+          <path>org.eclipse</path>
+          <path>Entity1</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.47">
+      <elements id="Item0" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="Entity1" selected="true">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="98" y="54" width="40" height="18"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.49">
+      <elements id="DiagramFigure0" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="344">
+        <__properties name="visible" value="true"/>
+        <__properties name="type" value="Tigerstripe"/>
+        <__properties name="mutable" value="false"/>
+        <__properties name="element.basePackage" value="org.eclipse"/>
+        <__properties name="diagram.visible" value="true"/>
+        <__properties name="diagram.type" value="Tigerstripe"/>
+        <__properties name="diagram.mutable" value="false"/>
+        <__properties name="diagram.name" value="default.wvd"/>
+        <__properties name="diagram.measurementUnit" value="Pixel"/>
+        <__properties name="name" value="default.wvd"/>
+        <__properties name="measurementUnit" value="Pixel"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.144">
+      <elements id="Item1" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="Entity2" selected="true">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="98" y="72" width="40" height="18"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.149">
+      <elements id="DiagramFigure1" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="344" childrenCount="1">
+        <__properties name="visible" value="true"/>
+        <__properties name="type" value="Tigerstripe"/>
+        <__properties name="mutable" value="false"/>
+        <__properties name="element.basePackage" value="org.eclipse"/>
+        <__properties name="diagram.visible" value="true"/>
+        <__properties name="diagram.type" value="Tigerstripe"/>
+        <__properties name="diagram.mutable" value="false"/>
+        <__properties name="diagram.name" value="default.wvd"/>
+        <__properties name="diagram.measurementUnit" value="Pixel"/>
+        <__properties name="name" value="default.wvd"/>
+        <__properties name="measurementUnit" value="Pixel"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.156">
+      <elements id="DiagramFigure2" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="87" y="96" width="56" height="50" childrenCount="3">
+        <__properties name="visible" value="true"/>
+        <__properties name="type" value="1003"/>
+        <__properties name="mutable" value="false"/>
+        <__properties name="element.name" value="Entity1"/>
+        <__properties name="element.stereotypes" value="[]"/>
+        <__properties name="element.package" value="org.eclipse"/>
+        <__properties name="element.isReadonly" value="false"/>
+        <__properties name="element.isAbstract" value="false"/>
+        <__properties name="diagram.visible" value="true"/>
+        <__properties name="diagram.type" value="Tigerstripe"/>
+        <__properties name="diagram.mutable" value="false"/>
+        <__properties name="diagram.name" value="default.wvd"/>
+        <__properties name="diagram.measurementUnit" value="Pixel"/>
+        <__properties name="layoutConstraint.x" value="87"/>
+        <__properties name="layoutConstraint.y" value="96"/>
+        <__properties name="layoutConstraint.width" value="-1"/>
+        <__properties name="layoutConstraint.height" value="-1"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.161">
+      <elements id="DiagramFigure3" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="87" y="96" width="56" height="16">
+        <__properties name="visible" value="true"/>
+        <__properties name="type" value="4006"/>
+        <__properties name="mutable" value="false"/>
+        <__properties name="element.name" value="Entity1"/>
+        <__properties name="element.stereotypes" value="[]"/>
+        <__properties name="element.package" value="org.eclipse"/>
+        <__properties name="element.isReadonly" value="false"/>
+        <__properties name="element.isAbstract" value="false"/>
+        <__properties name="diagram.visible" value="true"/>
+        <__properties name="diagram.type" value="Tigerstripe"/>
+        <__properties name="diagram.mutable" value="false"/>
+        <__properties name="diagram.name" value="default.wvd"/>
+        <__properties name="diagram.measurementUnit" value="Pixel"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.162">
+      <elements id="DiagramFigure4" kind="DiagramFigure"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.241">
+      <elements id="Canvas0" kind="Canvas"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" containMenu="true">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="613" height="361"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.242">
+      <elements id="Menu0" kind="Menu"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.243">
+      <elements id="State2" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.246">
+      <elements id="View1" kind="View"/>
+      <controls/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.247">
+      <elements id="Tree1" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" linesVisible="true" headerVisible="true" itemCount="2">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="7" y="4" width="654" height="147"/>
+        <columns caption="Property" resizable="true" width="254"/>
+        <columns caption="Value" resizable="true" width="379"/>
+        <selection>
+          <path>EMF</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.254">
+      <elements id="EclipseWindow0" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="125" y="125" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.255">
+      <elements id="View0" kind="View"/>
+      <controls/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.256">
+      <elements id="Tree0" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" linesVisible="true" headerVisible="true" itemCount="2">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="7" y="4" width="654" height="147"/>
+        <columns caption="Property" resizable="true" width="254"/>
+        <columns caption="Value" resizable="true" width="379"/>
+        <selection>
+          <path>EMF</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.257">
+      <elements id="Item0" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="Extends">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="41" y="18" width="43" height="17"/>
+        <columns>Extends</columns>
+        <columns></columns>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.260">
+      <elements id="EclipseWindow0" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="125" y="125" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.261">
+      <elements id="Editor0" kind="Editor"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.262">
+      <elements id="DiagramViewer0" kind="DiagramViewer"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.264">
+      <elements id="Menu0" kind="Menu"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.265">
+      <elements id="State0" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.268">
+      <elements id="Window0" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="320" y="140" width="635" height="554"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.269">
+      <elements id="Group0" kind="Group"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds y="101" width="417" height="95"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.270">
+      <elements id="Button0" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Hide" kind="Radio">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="58" width="46" height="16"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.271">
+      <elements id="State1" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.274">
+      <elements id="EclipseWindow0" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="125" y="125" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.275">
+      <elements id="Window0" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="320" y="140" width="635" height="554"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.276">
+      <elements id="Group0" kind="Group"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds y="101" width="417" height="95"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.277">
+      <elements id="Button1" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Hide" selected="true" kind="Radio">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="58" width="46" height="16"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.280">
+      <elements id="EclipseWindow0" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="125" y="125" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.281">
+      <elements id="Window0" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="320" y="140" width="635" height="554"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.282">
+      <elements id="Group0" kind="Group"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds y="101" width="417" height="95"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.283">
+      <elements id="Button0" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Hide" selected="true" kind="Radio">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="58" width="46" height="16"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.284">
+      <elements id="State0" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.287">
+      <elements id="Button1" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Apply">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="102" width="92" height="25"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.288">
+      <elements id="State1" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.291">
+      <elements id="Button2" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="11" y="13" width="92" height="25"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.292">
+      <elements id="State2" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.295">
+      <elements id="Editor0" kind="Editor"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.296">
+      <elements id="DiagramViewer0" kind="DiagramViewer"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.300">
+      <elements id="View0" kind="View"/>
+      <controls/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.301">
+      <elements id="Tree0" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="244" height="554"/>
+        <selection>
+          <path>New Project</path>
+          <path>src</path>
+          <path>org.eclipse</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.303">
+      <elements id="Menu0" kind="Menu"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.304">
+      <elements id="State3" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.307">
+      <elements id="Window1" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="375" y="107" width="525" height="604"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.308">
+      <elements id="Button3" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="11" y="13" width="92" height="25"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.309">
+      <elements id="State4" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.313">
+      <elements id="Item0" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="Entity1" selected="true">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="98" y="54" width="40" height="18"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.318">
+      <elements id="Editor1" kind="Editor"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.319">
+      <elements id="DiagramViewer1" kind="DiagramViewer"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.320">
+      <elements id="DiagramFigure0" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="344">
+        <__properties name="visible" value="true"/>
+        <__properties name="type" value="Tigerstripe"/>
+        <__properties name="mutable" value="false"/>
+        <__properties name="element.basePackage" value="org.eclipse"/>
+        <__properties name="diagram.visible" value="true"/>
+        <__properties name="diagram.type" value="Tigerstripe"/>
+        <__properties name="diagram.mutable" value="false"/>
+        <__properties name="diagram.name" value="default2.wvd"/>
+        <__properties name="diagram.measurementUnit" value="Pixel"/>
+        <__properties name="name" value="default2.wvd"/>
+        <__properties name="measurementUnit" value="Pixel"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.408">
+      <elements id="Item1" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="Entity2" selected="true">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="98" y="72" width="40" height="18"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.410">
+      <elements id="DiagramFigure1" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="344" childrenCount="1">
+        <__properties name="visible" value="true"/>
+        <__properties name="type" value="Tigerstripe"/>
+        <__properties name="mutable" value="false"/>
+        <__properties name="element.basePackage" value="org.eclipse"/>
+        <__properties name="diagram.visible" value="true"/>
+        <__properties name="diagram.type" value="Tigerstripe"/>
+        <__properties name="diagram.mutable" value="false"/>
+        <__properties name="diagram.name" value="default2.wvd"/>
+        <__properties name="diagram.measurementUnit" value="Pixel"/>
+        <__properties name="name" value="default2.wvd"/>
+        <__properties name="measurementUnit" value="Pixel"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.423">
+      <elements id="DiagramFigure2" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="125" y="106" width="56" height="16">
+        <__properties name="visible" value="true"/>
+        <__properties name="type" value="4006"/>
+        <__properties name="mutable" value="false"/>
+        <__properties name="element.name" value="Entity1"/>
+        <__properties name="element.stereotypes" value="[]"/>
+        <__properties name="element.package" value="org.eclipse"/>
+        <__properties name="element.isReadonly" value="false"/>
+        <__properties name="element.isAbstract" value="false"/>
+        <__properties name="diagram.visible" value="true"/>
+        <__properties name="diagram.type" value="Tigerstripe"/>
+        <__properties name="diagram.mutable" value="false"/>
+        <__properties name="diagram.name" value="default2.wvd"/>
+        <__properties name="diagram.measurementUnit" value="Pixel"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.544">
+      <elements id="Canvas0" kind="Canvas"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" containMenu="true">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="613" height="361"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.545">
+      <elements id="Menu1" kind="Menu"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.546">
+      <elements id="State5" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.549">
+      <elements id="View1" kind="View"/>
+      <controls/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.550">
+      <elements id="Tree1" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" linesVisible="true" headerVisible="true" itemCount="2">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="7" y="4" width="654" height="147"/>
+        <columns caption="Property" resizable="true" width="254"/>
+        <columns caption="Value" resizable="true" width="379"/>
+        <selection>
+          <path>EMF</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.555">
+      <elements id="Menu2" kind="Menu"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.556">
+      <elements id="State6" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.560">
+      <elements id="EclipseWindow0" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="125" y="125" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.561">
+      <elements id="View0" kind="View"/>
+      <controls/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.562">
+      <elements id="Tree0" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" linesVisible="true" headerVisible="true" itemCount="2">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="7" y="4" width="654" height="147"/>
+        <columns caption="Property" resizable="true" width="254"/>
+        <columns caption="Value" resizable="true" width="379"/>
+        <selection>
+          <path>EMF</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.563">
+      <elements id="Item0" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="Extends">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="41" y="18" width="43" height="17"/>
+        <columns>Extends</columns>
+        <columns></columns>
+      </controls>
+    </elementMapping>
+  </content>
+</com.xored.q7.scenario:Scenario>

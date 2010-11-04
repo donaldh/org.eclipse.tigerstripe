@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="ExtendsContextWorkspace" id="_HgxCcedkEd-SavNKxJeMNg">
+  <content>
+    <projects name="New Project">
+      <files name=".classpath" contentURI=".ExtendsContextWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".ExtendsContextWorkspacectx/content1.project"/>
+      <files name="tigerstripe.xml" contentURI=".ExtendsContextWorkspacectx/content1.xml"/>
+      <folders name=".settings"/>
+      <folders name="src">
+        <folders name="org">
+          <files name=".package" contentURI=".ExtendsContextWorkspacectx/content4.package"/>
+          <folders name="eclipse">
+            <files name=".package" contentURI=".ExtendsContextWorkspacectx/content3.package"/>
+            <files name="Entity1.java" contentURI=".ExtendsContextWorkspacectx/content1.java"/>
+            <files name="Entity2.java" contentURI=".ExtendsContextWorkspacectx/content2.java"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>
