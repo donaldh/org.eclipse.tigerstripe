@@ -50,8 +50,8 @@ public class TestProjectGenerationBasics extends TestCase {
                 project, RunConfig.M1);
         PluginRunStatus[] status = project.generate(config, null);
 
-        // We have a listener for ON_SUCCESS that is giving a status back
-        assertTrue(status.length == 1);
+        // We have a listener for ON_SUCCESS and one for ALWAYS that is giving a status back
+        assertTrue(status.length == 2);
 //
     }
 }

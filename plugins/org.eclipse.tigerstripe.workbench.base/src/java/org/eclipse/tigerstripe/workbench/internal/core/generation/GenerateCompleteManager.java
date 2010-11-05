@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.tigerstripe.workbench.generation.GenerateCompleteListenerRunStatus;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.IGenerateCompleteListener.GenerateCompletionNotificationMode;
@@ -29,7 +30,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.generation.IGenerateCompl
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class GenerateCompleteManager {
-    public static GenerateCompleteManager INSTANCE;
+    private static GenerateCompleteManager INSTANCE;
     IConfigurationElement[] config;
     private static final String EXTENSION_POINT_ID = "org.eclipse.tigerstripe.workbench.base.generateComplete";
     private List<CompleteListener> listeners;
@@ -63,7 +64,7 @@ public class GenerateCompleteManager {
             Status status = new Status(IStatus.ERROR, BasePlugin.getPluginId(), 222,
                     "An error was detected while trying to create a post generation action.", e);
             BasePlugin.logErrorStatus("Tigerstripe Post Generation Action Error Detected.", status);
-            PluginRunStatus pluginStatus = new PluginRunStatus(e.getMessage());
+            PluginRunStatus pluginStatus = new GenerateCompleteListenerRunStatus(e.getMessage());
             pluginStatus.add(status);
             errors.add(pluginStatus);
         }
@@ -74,7 +75,7 @@ public class GenerateCompleteManager {
             Status status = new Status(IStatus.ERROR, BasePlugin.getPluginId(), 222,
                     "An error was detected while trying to get a post action notification mode.", e);
             BasePlugin.logErrorStatus("Tigerstripe Post Generation Action Error Detected.", status);
-            PluginRunStatus pluginStatus = new PluginRunStatus(e.getMessage());
+            PluginRunStatus pluginStatus = new GenerateCompleteListenerRunStatus(e.getMessage());
             pluginStatus.add(status);
             errors.add(pluginStatus);
         }
@@ -112,13 +113,13 @@ public class GenerateCompleteManager {
                         Status status = new Status(IStatus.ERROR, BasePlugin.getPluginId(), 222,
                                 "An error was detected while executing a post generation action.", e);
                         BasePlugin.logErrorStatus("Tigerstripe Post Generation Action Error Detected.", status);
-                        PluginRunStatus pluginStatus = new PluginRunStatus(e.getMessage());
+                        PluginRunStatus pluginStatus = new GenerateCompleteListenerRunStatus(e.getMessage());
                         pluginStatus.add(status);
                         result.add(pluginStatus);
                     }
                     
                     public void run() throws Exception {
-                        PluginRunStatus pluginStatus = listener.run(s, p, rs);
+                        GenerateCompleteListenerRunStatus pluginStatus = listener.run(s, p, rs);
                         if (pluginStatus != null) {
                             result.add(pluginStatus);
                         }

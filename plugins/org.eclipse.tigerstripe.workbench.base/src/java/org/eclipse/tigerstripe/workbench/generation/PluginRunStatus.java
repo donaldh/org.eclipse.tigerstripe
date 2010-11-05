@@ -79,6 +79,11 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 	}
 
 	@Override
+	public String getMessage() {
+	    return this.message;
+	}
+	
+	@Override
 	public String toString() {
 		return toString(false);
 	}
@@ -97,7 +102,7 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 			if (hasError && includeHTML)
 				buf.append("<b>");
 			buf.append("[");
-			buf.append(this.message);
+			buf.append(getMessage());
 
 			if (project != null) {
 				buf.append(projectType + ": " + project.getModelId() + " version=" + project.getProjectDetails().getVersion());

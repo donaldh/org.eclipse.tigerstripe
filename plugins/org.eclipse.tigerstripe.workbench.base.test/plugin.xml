@@ -5,7 +5,7 @@
  <copyright>
  </copyright>
 
- $Id: plugin.xml,v 1.6 2010/11/01 16:26:20 rcraddock Exp $
+ $Id: plugin.xml,v 1.7 2010/11/05 09:27:01 rcraddock Exp $
 -->
 
 <plugin>
@@ -73,8 +73,16 @@
         name="Generate Complete Test Listener"
         point="org.eclipse.tigerstripe.workbench.base.generateComplete">
      <generateCompleteListener
-           class="org.eclipse.tigerstripe.workbench.base.test.generation.SampleGenerateCompleteListener"
+           class="org.eclipse.tigerstripe.workbench.base.test.generation.SampleGenerateAlwaysListener"
+           notificationMode="ALWAYS">
+     </generateCompleteListener>
+     <generateCompleteListener
+           class="org.eclipse.tigerstripe.workbench.base.test.generation.SampleGenerateOnSuccessListener"
            notificationMode="ON_SUCCESS_ONLY">
+     </generateCompleteListener>
+     <generateCompleteListener
+           class="org.eclipse.tigerstripe.workbench.base.test.generation.SampleGenerateOnFailListener"
+           notificationMode="ON_FAILURE_ONLY">
      </generateCompleteListener>
   </extension>
 

@@ -11,15 +11,15 @@
  *****************************************************************************/
 package org.eclipse.tigerstripe.workbench.base.test.generation;
 
+import org.eclipse.tigerstripe.workbench.generation.GenerateCompleteListenerRunStatus;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.IGenerateCompleteListener;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
-public class SampleGenerateCompleteListener implements IGenerateCompleteListener {
-    public static String MESSAGE = "SampleGenerateCompleteListener";
-    public PluginRunStatus run(GenerateCompletionStatus success,
+public class SampleGenerateAlwaysListener implements IGenerateCompleteListener {
+    public static String MESSAGE = "SampleGenerateAlwaysListener";
+    public GenerateCompleteListenerRunStatus run(GenerateCompletionStatus success,
             ITigerstripeModelProject project, PluginRunStatus[] runStatus) {
-        PluginRunStatus status = new PluginRunStatus(MESSAGE + " " + success);
-        return status;
+        return new GenerateCompleteListenerRunStatus(MESSAGE + " " + success);
     }
 }

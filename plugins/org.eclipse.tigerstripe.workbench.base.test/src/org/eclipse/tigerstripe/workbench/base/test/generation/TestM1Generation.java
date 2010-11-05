@@ -11,8 +11,6 @@
 package org.eclipse.tigerstripe.workbench.base.test.generation;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import junit.framework.TestCase;
 
@@ -120,7 +118,10 @@ public class TestM1Generation extends TestCase {
 		IM1RunConfig runConfig = (IM1RunConfig) RunConfig.newGenerationConfig(project, RunConfig.M1);
 		PluginRunStatus[] status = project.generate(runConfig, null);
 		assertTrue("Status is not OK : "+status[0].getMessage()+" "+status[0].getSeverity()+ " "+status[0].toString(), status[0].isOK() );
-		assertTrue("Status length is not 2 : "+ status.length, status.length == 2); //1 for generator and 1 for sample listener
+		if (status.length == 1) {
+		    fail("Status length should have been 2, was 1. Status message: " + status[0].getMessage());
+		}
+		assertEquals("Status length is not 3 : "+ status.length, 3, status.length); //1 for generator and 2 for listeners
 		
 		// Look for generated file
 		IProject iProj = (IProject) project.getAdapter(IProject.class);

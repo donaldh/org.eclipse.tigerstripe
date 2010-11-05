@@ -11,6 +11,7 @@
  *****************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.generation;
 
+import org.eclipse.tigerstripe.workbench.generation.GenerateCompleteListenerRunStatus;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
@@ -38,5 +39,5 @@ public interface IGenerateCompleteListener {
      * @param runStatus The PluginRunStatus array for detailed information for all the generations
      * @return A run status of the action to be shown to the user for information purposes, return null if this doesn't apply
      */
-    public PluginRunStatus run(GenerateCompletionStatus status, ITigerstripeModelProject project, PluginRunStatus[] runStatus);
+    public GenerateCompleteListenerRunStatus run(GenerateCompletionStatus status, ITigerstripeModelProject project, PluginRunStatus[] runStatus);
 }
