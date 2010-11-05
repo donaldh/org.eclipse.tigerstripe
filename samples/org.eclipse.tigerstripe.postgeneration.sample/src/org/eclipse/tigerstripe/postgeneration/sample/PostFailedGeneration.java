@@ -1,6 +1,7 @@
 package org.eclipse.tigerstripe.postgeneration.sample;
 
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.tigerstripe.workbench.generation.GenerateCompleteListenerRunStatus;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.IGenerateCompleteListener;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -16,7 +17,7 @@ import org.eclipse.ui.PlatformUI;
 public class PostFailedGeneration implements IGenerateCompleteListener {
 
 	@Override
-	public PluginRunStatus run(GenerateCompletionStatus status, 
+	public GenerateCompleteListenerRunStatus run(GenerateCompletionStatus status, 
 			ITigerstripeModelProject project, PluginRunStatus[] runStatus) {
 		
 		if (!GenerateCompletionStatus.FAILURE.equals(status)) {

@@ -13,6 +13,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.tigerstripe.workbench.generation.GenerateCompleteListenerRunStatus;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.IGenerateCompleteListener;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -31,7 +32,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 public class PostSuccessfulGeneration implements IGenerateCompleteListener {
 
 	@Override
-	public PluginRunStatus run(GenerateCompletionStatus status, 
+	public GenerateCompleteListenerRunStatus run(GenerateCompletionStatus status, 
 			ITigerstripeModelProject project, PluginRunStatus[] runStatus) {
 	
 		final String PROJECT_NAME = "SampleProject";
