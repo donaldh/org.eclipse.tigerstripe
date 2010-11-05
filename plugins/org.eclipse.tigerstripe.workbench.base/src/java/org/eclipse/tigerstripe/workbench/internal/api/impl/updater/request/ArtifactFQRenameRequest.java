@@ -52,7 +52,9 @@ public class ArtifactFQRenameRequest extends ArtifactRenameRequest implements
 	@Override
 	public void execute(IArtifactManagerSession mgrSession)
 			throws TigerstripeException {
-		super.execute(mgrSession);
+	    //Bug 327698 - This was calling ArtifactRenameRequest which was renaming and deleting the 
+	    // old artifact before we could :-( By not calling it everything is better :-)
+		//super.execute(mgrSession); 
 
 		IAbstractArtifact origArt = mgrSession
 				.getArtifactByFullyQualifiedName(getArtifactFQN());

@@ -35,7 +35,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.IActiveFacetChangeLi
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.tools.compare.Comparer;
 import org.eclipse.tigerstripe.workbench.internal.tools.compare.Difference;
-import org.eclipse.tigerstripe.workbench.model.IMarkDirty;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -345,10 +344,15 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 		TransactionalEditingDomain editingDomain = editor.getEditingDomain();
 		IDiagramEditDomain diagramEditDomain = editor.getDiagramEditDomain();
 		final Map map = (Map) editor.getDiagram().getElement();
+        final IAbstractArtifact fArtifact = artifact;
 		try {
 			ClassDiagramSynchronizerUtils.handleQualifiedNamedElementRenamed(
 					map, fromFQN, artifact.getFullyQualifiedName(),
 					editingDomain, diagramEditDomain);
+            //Bug 327698 - Need to make sure any internal references in the artifact to itself gets updated
+            ClassDiagramSynchronizerUtils.handleQualifiedNamedElementChanged(
+                    editor.getDiagram(), editor.getDiagramEditPart(), map,
+                    fArtifact, editingDomain, diagramEditDomain);
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}

@@ -414,6 +414,10 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 						fromFQN, artifact.getFullyQualifiedName(),
 						affectedDiagrams);
 				queueUpSynchronizationRequest(request);
+				//Bug 327698 - Need to make sure any internal references in the artifact to itself gets updated
+                SynchronizationForArtifactChangedRequest changeRequest = new SynchronizationForArtifactChangedRequest(
+                        artifact, affectedDiagrams);
+                queueUpSynchronizationRequest(changeRequest);
 			}
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
