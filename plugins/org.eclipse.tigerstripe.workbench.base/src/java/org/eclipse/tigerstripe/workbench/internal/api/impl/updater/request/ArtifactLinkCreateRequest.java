@@ -21,7 +21,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
-import org.eclipse.ui.PlatformUI;
 
 public class ArtifactLinkCreateRequest extends ArtifactCreateRequest implements
 		IArtifactLinkCreateRequest {
@@ -68,7 +67,7 @@ public class ArtifactLinkCreateRequest extends ArtifactCreateRequest implements
 			throws TigerstripeException {
 
 		setMgrSession(mgrSession);
-		final IAbstractArtifact artifact = mgrSession.makeArtifact(getArtifactType());
+		IAbstractArtifact artifact = mgrSession.makeArtifact(getArtifactType());
 		artifact.setFullyQualifiedName(getFullyQualifiedName());
 
 		if (artifact instanceof IAssociationArtifact) {
@@ -142,32 +141,9 @@ public class ArtifactLinkCreateRequest extends ArtifactCreateRequest implements
 		applyDefaults(artifact, mgrSession);
 		mgrSession.addArtifact(artifact);
 		
-		// N.M Bugzilla 328949: Run this asynchronously on UI thread to avoid race condition 
-		RunnableWithException runnable = new RunnableWithException (){
-
-			private TigerstripeException exception = null;
-			public void run() {
-				try {
-					artifact.doSave(new NullProgressMonitor());
-				} catch (TigerstripeException e) {
-					exception = e;
-				}
-			}
-
-			public TigerstripeException getException() {
-				return exception;
-			}
-		};
-		
-		PlatformUI.getWorkbench().getDisplay().asyncExec(runnable);
-		
-		if (runnable.getException()!=null) 
-			throw runnable.getException();
-		
+		// Bugzilla 328949: Don't need to do this, since the artifact is already saved under IArtifactPattern.addToManager()
+		// Calling doSave() from here actually causes a race condition that logs an error message to Error Log
+//		artifact.doSave(new NullProgressMonitor());
 	}
-	
-	
-	private interface RunnableWithException extends Runnable {
-		public TigerstripeException getException();
-	}
+
 }
