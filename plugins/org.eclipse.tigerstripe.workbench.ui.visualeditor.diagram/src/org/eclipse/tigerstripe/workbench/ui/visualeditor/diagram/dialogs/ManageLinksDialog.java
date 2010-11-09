@@ -18,15 +18,19 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.CheckboxCellEditor;
+import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -79,6 +83,7 @@ public class ManageLinksDialog extends TSMessageDialog {
 
 	// and the table/table viewer references
 	private TableViewer tableViewer;
+	private TableSorter tableSorter;
 	private Table table;
 	private CellEditor[] cellEditors;
 	private CellEditor textCellEditor;
@@ -147,27 +152,47 @@ public class ManageLinksDialog extends TSMessageDialog {
 		//GridLayout bLayout = new GridLayout();
 		//bLayout.numColumns = 2;
 		//box.setLayout(bLayout);
-		box.setLayout(new FillLayout());
+        TableColumnLayout layout = new TableColumnLayout();
+		box.setLayout(layout);
 		// create a TableViewer in this box (along with the
 		// associated table)
 		tableViewer = createTableViewer(box);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		for (int i = 0; i < columnNames.length; i++) {
-			String columnName = columnNames[i];
-			TableColumn column = new TableColumn(table, SWT.LEFT);
-			column.setText(columnName);
-			if (i == (columnNames.length - 1))
-				column.setWidth(200);
+			final TableColumn column = new TableColumn(table, SWT.LEFT);
+			column.setText(columnNames[i]);
+			layout.setColumnData(column, new ColumnWeightData(1));
+			if (i == 0) {
+				column.setWidth(25);
+	            column.setResizable(false);
+			}
+			else {
+	            column.setResizable(true);
+	            column.setMoveable(true);
+			}
+			final int index = i;
+			column.addSelectionListener(new SelectionAdapter() {
+                @Override
+                public void widgetSelected(SelectionEvent e) {
+                    tableSorter.setColumn(index);
+                    int dir = tableViewer.getTable().getSortDirection();
+                    if (tableViewer.getTable().getSortColumn() == column) {
+                        dir = dir == SWT.UP ? SWT.DOWN : SWT.UP;
+                    } else {
+                        dir = SWT.DOWN;
+                    }
+                    tableViewer.getTable().setSortDirection(dir);
+                    tableViewer.getTable().setSortColumn(column);
+                    tableViewer.refresh();
+                }
+            });
 		}
 		tableViewer.setInput(entries);
-		tableViewer.refresh(true);
-		for (int i = 0; i < columnNames.length; i++) {
-			if (i < (columnNames.length - 1))
-				table.getColumn(i).pack();
-		}
-		table.computeSize(SWT.DEFAULT, SWT.DEFAULT);
+		tableSorter = new TableSorter();
+		tableViewer.setSorter(tableSorter);
 		table.pack();
+		
 		// create a 'Show fully qualified names' checkbox
 		Button showFullyQualifiedNamesButton = new Button(composite, SWT.CHECK);
 		showFullyQualifiedNamesButton.setText("Show fully qualified names");
@@ -430,6 +455,67 @@ public class ManageLinksDialog extends TSMessageDialog {
 				return "";
 			}
 		}
+	}
+	
+	private class TableSorter extends ViewerSorter {
+	    private int column;
+	    private static final int DESCENDING = 1;
+
+	    private int direction = DESCENDING;
+
+	    public TableSorter() {
+	        this.column = 0;
+	    }
+
+	    public void setColumn(int column) {
+	        if (column == this.column) {
+	            direction = 1 - direction;
+	        } else {
+	            this.column = column;
+	            direction = DESCENDING;
+	        }
+	    }
+
+	    @Override
+	    public int compare(Viewer viewer, Object o1, Object o2) {
+	        int newOrder = 0;
+	        Entry e1 = (Entry)o1;
+	        Entry e2 = (Entry)o2;
+	        switch (column) {
+	        case 1:
+	            if (showFullyQualifiedName) {
+                    newOrder = e1.getFullyQualifiedRelationshipName().compareTo(e2.getFullyQualifiedRelationshipName());
+	            }
+	            else {
+                    newOrder = e1.getRelationshipName().compareTo(e2.getRelationshipName());
+	            }
+	            break;
+	        case 2:
+                if (showFullyQualifiedName) {
+                    newOrder = e1.getFullyQualifiedAEndName().compareTo(e2.getFullyQualifiedAEndName());
+                }
+                else {
+                    newOrder = e1.getAEndName().compareTo(e2.getAEndName());
+                }
+                break;
+	            
+	        case 3:
+                if (showFullyQualifiedName) {
+                    newOrder = e1.getFullyQualifiedZEndName().compareTo(e2.getFullyQualifiedZEndName());
+                }
+                else {
+                    newOrder = e1.getZEndName().compareTo(e2.getZEndName());
+                }
+	            break;
+	            default:
+	                newOrder = 1;
+	        }
+	        // If descending order, flip the direction
+	        if (direction == DESCENDING) {
+	            newOrder = -newOrder;
+	        }
+	        return newOrder;
+	    }
 	}
 
 	@Override
