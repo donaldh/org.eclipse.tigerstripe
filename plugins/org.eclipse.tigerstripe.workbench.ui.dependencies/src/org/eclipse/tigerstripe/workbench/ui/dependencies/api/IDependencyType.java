@@ -16,17 +16,40 @@ import java.util.List;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 
+/**
+ * Define the type of elements in the diagram. For example, may correspond to
+ * the type ITigerstripeModelProject or ITigerstripeModuleProject
+ */
 public interface IDependencyType {
 
+	/**
+	 * @return the unique identifier of the type
+	 */
 	String getId();
 
+	/**
+	 * @return the name for display on the GUI components. For example, in the
+	 *         color dialog for the types
+	 */
 	String getName();
 
-	Color getDefaultBackgroungColor();
+	/**
+	 * @return background shape color on the diagram for this type
+	 */
+	Color getDefaultBackgroundColor();
 
-	Color getDefaultForegroungColor();
+	/**
+	 * @return foreground shape color on the diagram for this type
+	 */
+	Color getDefaultForegroundColor();
 
+	/**
+	 * @return images for this type
+	 */
 	Image getImage();
 
+	/**
+	 * @return list of actions which will contribute to diagram menu
+	 */
 	List<IDependencyAction> getActions();
 }

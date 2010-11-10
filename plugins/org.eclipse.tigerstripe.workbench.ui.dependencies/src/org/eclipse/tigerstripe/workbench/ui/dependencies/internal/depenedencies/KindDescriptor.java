@@ -26,13 +26,13 @@ public class KindDescriptor {
 		this.externalType = externalType;
 		this.kind = kind;
 		defaultStyle = ModelsFactory.INSTANCE.createDefaultSubjectStyle();
-		Color fgColor = externalType.getDefaultForegroungColor();
+		Color fgColor = externalType.getDefaultForegroundColor();
 		if (fgColor != null) {
 			defaultStyle.setForegroundColor(ColorUtils.toColorAsInt(0,
 					fgColor.getRed(), fgColor.getGreen(), fgColor.getBlue()));
 		}
 
-		Color bgColor = externalType.getDefaultBackgroungColor();
+		Color bgColor = externalType.getDefaultBackgroundColor();
 		if (bgColor != null) {
 			defaultStyle.setBackgroundColor(ColorUtils.toColorAsInt(0,
 					bgColor.getRed(), bgColor.getGreen(), bgColor.getBlue()));
