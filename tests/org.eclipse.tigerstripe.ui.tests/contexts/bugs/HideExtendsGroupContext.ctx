@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.scenario:GroupContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" name="HideExtendsGroupContext" id="_RJe3cOy6Ed-vaKgFoOUQ8Q">
+  <contextReferences>_NX-UsOy6Ed-vaKgFoOUQ8Q</contextReferences>
+  <contextReferences>_-YZXAOy5Ed-vaKgFoOUQ8Q</contextReferences>
+  <contextReferences>_JzDccOy6Ed-vaKgFoOUQ8Q</contextReferences>
+</com.xored.q7.scenario:GroupContext>
