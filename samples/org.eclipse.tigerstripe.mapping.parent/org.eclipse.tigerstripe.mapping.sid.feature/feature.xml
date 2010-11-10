@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.eclipse.tigerstripe.mapping.sid"
+      id="org.eclipse.tigerstripe.mapping.sid.feature"
       label="SID Mapping Feature"
       version="1.0.8">
 
@@ -15,12 +15,5 @@
    <license url="http://www.example.com/license">
       [Enter License Description here.]
    </license>
-
-   <plugin
-         id="org.eclipse.tigerstripe.SIDMapping"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
 
 </feature>
