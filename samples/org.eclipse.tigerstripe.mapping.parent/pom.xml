@@ -56,5 +56,6 @@
 	</repositories>
 	<modules>
 		<module>org.eclipse.tigerstripe.mapping.sid.feature</module>
+		<module>org.eclipse.tigerstripe.mapping.sid.update-site</module>
 	</modules>
 </project>
