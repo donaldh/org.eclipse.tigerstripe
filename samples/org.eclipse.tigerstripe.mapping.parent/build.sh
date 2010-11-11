@@ -12,3 +12,5 @@ if [ -e ~/.m2/settings.xml ]; then
 else
 	echo "No local .m2/settings.xml file!"
 fi
+
+"$MAVEN_HOME/bin/mvn" -s "$SETTINGS" -Dtycho.showEclipseLog=true clean install
