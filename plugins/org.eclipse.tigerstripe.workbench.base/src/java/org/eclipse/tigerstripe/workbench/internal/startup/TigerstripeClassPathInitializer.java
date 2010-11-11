@@ -113,8 +113,15 @@ public class TigerstripeClassPathInitializer extends ClasspathVariableInitialize
 			if (bFile.getName().endsWith(".jar")) {
 				return (new Path(bFile.getAbsolutePath())).makeAbsolute();
 			} else {
-				return (new Path(bFile.getAbsolutePath() + File.separator
-						+ "bin")).makeAbsolute();
+				File result;
+				File binFile = new File(bFile, "bin");
+				if (binFile.exists()) {
+					result = binFile;
+				} else {
+					result = bFile;
+				}
+				return new Path(result.getAbsolutePath()).makeAbsolute();
+				
 			}
 		} catch (IOException e) {
 			BasePlugin.log(e);
