@@ -27,17 +27,20 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
@@ -62,6 +65,7 @@ import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.parts.C
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.parts.InstanceMapEditPart;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.util.InstanceDiagramUtils;
 import org.eclipse.tigerstripe.workbench.ui.internal.elements.TSMessageDialog;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 
 public class AssociationInstanceEditDialog extends TSMessageDialog {
 
@@ -86,6 +90,11 @@ public class AssociationInstanceEditDialog extends TSMessageDialog {
 	private String selectedName;
 	private String selectedType;
 	private String instanceName;
+	
+	private Combo aEndCombo;
+	private Combo zEndCombo;
+	private String selectedAEnd;
+	private String selectedZEnd;
 
 	public AssociationInstanceEditDialog(Shell parent,
 			InstanceMapEditPart mapEditPart, ClassInstance source,
@@ -293,17 +302,31 @@ public class AssociationInstanceEditDialog extends TSMessageDialog {
 						associationClassMap.put(associationClass.getName(),
 								associationClass);
 						if (relationshipSet == targetRelationshipSet
-								&& !associationClass.getAEnd().getType().getFullyQualifiedName().equals(associationClass.getZEnd().getType().getFullyQualifiedName())) // bug 288718)
-							reversedRelationships.put(associationClass
-									.getName(), associationClass);
+								&& !associationClass
+										.getAEnd()
+										.getType()
+										.getFullyQualifiedName()
+										.equals(associationClass.getZEnd()
+												.getType()
+												.getFullyQualifiedName())) // bug
+																			// 288718)
+							reversedRelationships.put(
+									associationClass.getName(),
+									associationClass);
 					}
 				} else if (rel instanceof IAssociationArtifact
 						&& !assocInstanceAlreadyDefined(rel)) {
 					IAssociationArtifact association = (IAssociationArtifact) rel;
 					if (!association.isAbstract()) {
 						associationMap.put(association.getName(), association);
-						if (relationshipSet == targetRelationshipSet 
-								&& !association.getAEnd().getType().getFullyQualifiedName().equals(association.getZEnd().getType().getFullyQualifiedName())) // bug 288718
+						if (relationshipSet == targetRelationshipSet
+								&& !association
+										.getAEnd()
+										.getType()
+										.getFullyQualifiedName()
+										.equals(association.getZEnd().getType()
+												.getFullyQualifiedName())) // bug
+																			// 288718
 							reversedRelationships.put(association.getName(),
 									association);
 					}
@@ -390,6 +413,10 @@ public class AssociationInstanceEditDialog extends TSMessageDialog {
 		for (String name : associationMap.keySet()) {
 			list.add(name);
 		}
+
+		// bug 222176
+		createAssociationEndsComposite(box2, viewer);
+
 		// next, create a composite for the controls for creating
 		// association classes
 		Composite box3 = new Composite(box, SWT.NULL);
@@ -430,6 +457,106 @@ public class AssociationInstanceEditDialog extends TSMessageDialog {
 		for (String name : associationClassMap.keySet()) {
 			list.add(name);
 		}
+	}
+
+	private Composite createAssociationEndsComposite(Composite parent,
+			ListViewer viewer) {
+		final Composite endsComposite = new Composite(parent, SWT.NONE);
+		endsComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
+		GridLayout layout = new GridLayout(2, false);
+		layout.marginHeight = 0;
+		layout.marginWidth = 0;
+		endsComposite.setLayout(layout);
+
+		Label aEndLabel = new Label(endsComposite, SWT.NONE);
+		aEndLabel.setText("aEnd: ");
+		final Text aEndName = new Text(endsComposite, SWT.NONE);
+		aEndName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		aEndName.setEditable(false);
+		aEndCombo = new Combo(endsComposite, SWT.NONE);
+		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gridData.horizontalSpan = 2;
+		aEndCombo.setLayoutData(gridData);
+
+		Label zEndLabel = new Label(endsComposite, SWT.NONE);
+		zEndLabel.setText("zEnd: ");
+		final Text zEndName = new Text(endsComposite, SWT.NONE);
+		zEndName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		zEndName.setEditable(false);
+		zEndCombo = new Combo(endsComposite, SWT.NONE);
+		gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gridData.horizontalSpan = 2;
+		zEndCombo.setLayoutData(gridData);
+
+		aEndCombo.addSelectionListener(new AssocEndComboSelectionAdapter());
+		zEndCombo.addSelectionListener(new AssocEndComboSelectionAdapter());
+		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			public void selectionChanged(SelectionChangedEvent event) {
+				if (event.getSource() instanceof ListViewer) {
+					List list = ((ListViewer) event.getSource()).getList();
+					int selIdx = list.getSelectionIndex();
+					if (selIdx >= 0) {
+						String assocName = list.getItem(selIdx);
+						IAssociationArtifact assoc = (IAssociationArtifact) associationMap
+								.get(assocName);
+						if (isEndsSelectable(assoc)) {
+							aEndName.setText(assoc.getAEnd().getName());
+							zEndName.setText(assoc.getZEnd().getName());
+
+							String[] comboVals = new String[] {
+									source.getInstanceName(),
+									target.getInstanceName() };
+							setEnabledRecursive(endsComposite, true);
+							for (String comboVal : comboVals) {
+								aEndCombo.add(comboVal);
+								zEndCombo.add(comboVal);
+							}
+							aEndCombo.select(0);
+							zEndCombo.select(1);
+							assocEndsUpdated();
+							return;
+						}
+					}
+					aEndName.setText("");
+					aEndCombo.removeAll();
+					zEndName.setText("");
+					zEndCombo.removeAll();
+					setEnabledRecursive(endsComposite, false);
+				}
+			}
+		});
+		setEnabledRecursive(endsComposite, false);
+
+		return endsComposite;
+	}
+
+	private class AssocEndComboSelectionAdapter extends SelectionAdapter {
+		@Override
+		public void widgetSelected(SelectionEvent e) {
+			Combo combo = ((Combo) e.getSource());
+			if (combo == aEndCombo && !selectedAEnd.equals(combo.getText())) {
+				zEndCombo.select(1 - combo.getSelectionIndex());				
+			} else if (combo == zEndCombo && !selectedZEnd.equals(combo.getText())) {
+				aEndCombo.select(1 - combo.getSelectionIndex());
+			}
+			assocEndsUpdated();
+			super.widgetSelected(e);
+		}
+	}
+	
+	private void assocEndsUpdated() {
+		selectedAEnd = aEndCombo.getText();
+		selectedZEnd = zEndCombo.getText();
+	}
+
+	private void setEnabledRecursive(Control control, boolean enabled) {
+		if (control instanceof Composite) {
+			Composite composite = (Composite) control;
+			for (Control child : composite.getChildren()) {
+				setEnabledRecursive(child, enabled);
+			}
+		}
+		control.setEnabled(enabled);
 	}
 
 	private void internalUpdateOkButton(Button okButton) {
@@ -620,7 +747,19 @@ public class AssociationInstanceEditDialog extends TSMessageDialog {
 	}
 
 	public boolean isReversedInstance() {
+		IRelationship rel = getSelectedRelationship();
+		if (rel instanceof IAssociationArtifact) {
+			IAssociationArtifact assoc = (IAssociationArtifact) rel;
+			if (isEndsSelectable(assoc)
+					&& !source.getInstanceName().equals(selectedAEnd)) {
+				return true;
+			}
+		}
 		return reversedRelationships.keySet().contains(selectedName);
 	}
 
+	private boolean isEndsSelectable(IAssociationArtifact assoc) {
+		return assoc.getAEnd().getType().getFullyQualifiedName()
+				.equals(assoc.getZEnd().getType().getFullyQualifiedName());
+	}
 }
