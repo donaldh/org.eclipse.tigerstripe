@@ -46,7 +46,10 @@ import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.AbstractArtifactAdapter;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
@@ -211,17 +214,69 @@ public class ClassDiagramDragDropEditPolicy extends DiagramDragDropEditPolicy {
 	}
 
 	protected Command getDropArtifactsCommand(DropObjectsRequest dropRequest) {
-		List<ViewDescriptor> viewDescriptors = new ArrayList<ViewDescriptor>();
+		List<IAbstractArtifact> requestArtifacts = dropRequest.getObjects();
 
 		EditPart mapEditPart = getHost();
 		Diagram diagram = (Diagram) mapEditPart.getModel();
 		Map map = (Map) diagram.getElement();
-		List<IAbstractArtifact> artifactsToDrop = dropRequest.getObjects();
+
+		List<IAbstractArtifact> artifactsToDrop = new ArrayList<IAbstractArtifact>();
+		List<IAssociationArtifact> associations = new ArrayList<IAssociationArtifact>();
+		for (IAbstractArtifact artifact : requestArtifacts) {
+			if (!canDrop(artifact, map)) {
+				return UnexecutableCommand.INSTANCE;
+			}
+			if (artifact instanceof IAssociationArtifact) {
+				associations.add((IAssociationArtifact)artifact);
+			} else {
+				artifactsToDrop.add(artifact);
+			}
+		}
+		processAssociations(map, associations, artifactsToDrop);
+		
+		dropRequest.setObjects(artifactsToDrop);
+		List<ViewDescriptor> viewDescriptors = prepareViewDescriptors(artifactsToDrop);
+
+		return createViewsAndArrangeCommand(dropRequest, viewDescriptors);
+	}
+
+	private void processAssociations(Map map,
+			List<IAssociationArtifact> associations,
+			List<IAbstractArtifact> artifactsToDrop) {
+		MapHelper helper = new MapHelper(map);
+		
+		for (IAssociationArtifact assoc : associations) {
+			boolean addAssoc = true;
+
+			IType aEndType = assoc.getRelationshipAEnd().getType();
+			if (helper.findElementFor(aEndType.getFullyQualifiedName()) == null) {
+				IAbstractArtifact aEndArtifact = aEndType.getArtifact();
+				if (!artifactsToDrop.contains(aEndArtifact)) {
+					artifactsToDrop.add(aEndArtifact);					
+				}				
+				addAssoc = false;
+			}
+
+			IType zEndType = assoc.getRelationshipZEnd().getType();
+			if (helper.findElementFor(zEndType.getFullyQualifiedName()) == null) {
+				IAbstractArtifact zEndArtifact = zEndType.getArtifact();
+				if (!artifactsToDrop.contains(zEndArtifact)) {
+					artifactsToDrop.add(zEndArtifact);
+				}
+				addAssoc = false;
+			}
+
+			if (addAssoc) {
+				artifactsToDrop.add(assoc);
+			}
+		}
+	}
+
+	private List<ViewDescriptor> prepareViewDescriptors(
+			List<IAbstractArtifact> artifactsToDrop) {
+		List<ViewDescriptor> viewDescriptors = new ArrayList<ViewDescriptor>();
 
 		for (IAbstractArtifact artifact : artifactsToDrop) {
-
-			if (!canDrop(artifact, map))
-				return UnexecutableCommand.INSTANCE;
 
 			IElementType type = ElementTypeMapper.mapToElementType(artifact);
 			if (type != null) {
@@ -288,8 +343,7 @@ public class ClassDiagramDragDropEditPolicy extends DiagramDragDropEditPolicy {
 				}
 			}
 		}
-
-		return createViewsAndArrangeCommand(dropRequest, viewDescriptors);
+		return viewDescriptors;
 	}
 
 	@Override
@@ -355,19 +409,21 @@ public class ClassDiagramDragDropEditPolicy extends DiagramDragDropEditPolicy {
 
 			if (artifact instanceof IRelationship) {
 				// In the case of IRelationShip we need to check that both
-				// ends are on
-				// the diagram
+				// ends are not null
 				IRelationship rel = (IRelationship) artifact;
 				if (rel.getRelationshipAEnd() != null
 						&& rel.getRelationshipZEnd() != null) {
-					String aEndFQN = rel.getRelationshipAEnd().getType()
-							.getFullyQualifiedName();
-					String zEndFQN = rel.getRelationshipZEnd().getType()
-							.getFullyQualifiedName();
+					// and on the diagram
+					if (rel instanceof IDependencyArtifact) {
+						String aEndFQN = rel.getRelationshipAEnd().getType()
+								.getFullyQualifiedName();
+						String zEndFQN = rel.getRelationshipZEnd().getType()
+								.getFullyQualifiedName();
 
-					result = (element == null)
-							&& (helper.findElementFor(aEndFQN) != null)
-							&& (helper.findElementFor(zEndFQN) != null);
+						result = (helper.findElementFor(aEndFQN) != null)
+								&& (helper.findElementFor(zEndFQN) != null);
+					}
+					result = result && (element == null);
 				} else {
 					result = false;
 				}
