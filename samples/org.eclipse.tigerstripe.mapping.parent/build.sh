@@ -1,0 +1,1 @@
+echo $MAVEN_HOME
