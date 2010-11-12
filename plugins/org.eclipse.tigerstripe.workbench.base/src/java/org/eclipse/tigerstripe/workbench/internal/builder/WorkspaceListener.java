@@ -71,15 +71,12 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
 /**
- * An instance of this is started by the EclipsePlugin class to listener for
+ * An instance of this is started by the BasePlugin class to listen for
  * Workspace changes and propagate them to the corresponding Artifact Mgr as
  * appropriate.
  * 
- * For now, this only listens for Package deletion and propagates that to the
- * corresponding Artifact Mgr so it knows it needs to remove the corresponding
- * artifacts.
- * 
- * @author Eric Dillon
+ *  * <b>History of changes</b> (Name: Modification): <br/>
+ * Eric Dillon 	  :	Initial Creation <br/>
  * 
  */
 public class WorkspaceListener implements IElementChangedListener,
@@ -109,7 +106,6 @@ public class WorkspaceListener implements IElementChangedListener,
 //	            IMarkerDelta[] markers = event.getDelta().getMarkerDeltas();
 //	            // if interested in markers, check these deltas
 //	      }
-		// Get the list of removed resources
 		Collection<IResource> removedResources = new HashSet<IResource>();
 		Collection<IResource> changedResources = new HashSet<IResource>();
 		Collection<IResource> addedResources = new HashSet<IResource>();

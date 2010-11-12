@@ -40,7 +40,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
  * This includes a cache for project handles.
  * 
  * This is a singleton that listens to workspace changes to make sure the cache
- * is
+ * is updated.
  * 
  * @author erdillon
  * 
