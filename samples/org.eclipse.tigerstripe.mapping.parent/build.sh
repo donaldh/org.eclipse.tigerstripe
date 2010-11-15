@@ -13,4 +13,4 @@ else
 	echo "No local .m2/settings.xml file!"
 fi
 
-"$MAVEN_HOME/bin/mvn" -s "$SETTINGS" -Dosgi.os=linux -Dosgi.ws=gtk -Dosgi.arch=x86 -Dtycho.showEclipseLog=true clean install
+"$MAVEN_HOME/bin/mvn" -X -s "$SETTINGS" -Dosgi.os=linux -Dosgi.ws=gtk -Dosgi.arch=x86 -Dtycho.showEclipseLog=true clean install
