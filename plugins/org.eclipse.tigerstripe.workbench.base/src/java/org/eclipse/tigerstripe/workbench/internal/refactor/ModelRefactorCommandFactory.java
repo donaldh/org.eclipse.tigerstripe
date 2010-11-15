@@ -276,7 +276,8 @@ public class ModelRefactorCommandFactory {
 		// Artifact itself
 		String fqn = artifact.getFullyQualifiedName();
 		ModelRefactorRequest request = mappedRequests.get(fqn);
-		if (request != null) {
+		if (request != null
+				&& artifact.getProject().equals(request.getOriginalProject())) {
 			ModelChangeDelta delta = new ModelChangeDelta(IModelChangeDelta.SET);
 			delta.setFeature(IArtifactFQRenameRequest.FQN_FEATURE);
 			delta.setAffectedModelComponentURI((URI) artifact
