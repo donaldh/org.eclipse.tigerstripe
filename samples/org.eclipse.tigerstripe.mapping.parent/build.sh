@@ -8,7 +8,7 @@ fi
 
 SETTINGS=$WORKSPACE/settings.xml
 if [ -e ~/.m2/settings.xml ]; then
-    sed -e "s&<!-- <localRepository/> -->&<localRepository>$WORKSPACE/target/repository</localRepository>&g" ~/.m2/settings.xml > $SETTINGS
+    sed -e "s&<!-- <localRepository/> -->&<localRepository>$WORKSPACE/repository</localRepository>&g" ~/.m2/settings.xml > $SETTINGS
 else
 	echo "No local .m2/settings.xml file!"
 fi
