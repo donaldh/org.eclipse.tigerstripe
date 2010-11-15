@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.scenario:GroupContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" name="AllAssociationContextGroup" id="_HUHnoO41Ed-ertF0bt14Pg">
+  <contextReferences>_aqP7ke5FEd-UScdNEKGhWA</contextReferences>
+  <contextReferences>_RH2LgO41Ed-ertF0bt14Pg</contextReferences>
+  <contextReferences>_LMN6kO41Ed-ertF0bt14Pg</contextReferences>
+</com.xored.q7.scenario:GroupContext>

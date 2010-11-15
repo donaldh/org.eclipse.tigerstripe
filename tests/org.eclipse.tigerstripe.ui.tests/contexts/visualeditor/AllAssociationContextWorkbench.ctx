@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.scenario:WorkbenchContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" name="AllAssociationContextWorkbench" id="_RH2LgO41Ed-ertF0bt14Pg" perspectiveId="org.eclipse.tigerstripe.community.tigerstripePerspective">
+  <views>org.eclipse.tigerstripe.annotation.view.property</views>
+  <views>org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew</views>
+  <views>org.eclipse.ui.views.TaskList</views>
+  <views>org.eclipse.ui.views.ProblemView</views>
+</com.xored.q7.scenario:WorkbenchContext>
