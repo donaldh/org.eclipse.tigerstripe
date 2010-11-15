@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.tools.ant.taskdefs.condition.IsSet;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.emf.ecore.EObject;
@@ -43,6 +44,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.List;
@@ -90,7 +92,7 @@ public class AssociationInstanceEditDialog extends TSMessageDialog {
 	private String selectedName;
 	private String selectedType;
 	private String instanceName;
-	
+
 	private Combo aEndCombo;
 	private Combo zEndCombo;
 	private String selectedAEnd;
@@ -374,20 +376,20 @@ public class AssociationInstanceEditDialog extends TSMessageDialog {
 		IDoubleClickListener listDoubleClickListener = new MyListDoubleClickListener();
 		ISelectionChangedListener listSelectionChangedListener = new MyListSelectionChangedListener();
 		// first, add the radio buttons to the surrounding box
-		Button button = new Button(box, SWT.RADIO);
-		button.setText(buttonLabels[0]);
-		button.addSelectionListener(selectionListener);
-		setFillLayout(button, 1, 2);
+		Button assocButton = new Button(box, SWT.RADIO);
+		assocButton.setText(buttonLabels[0]);
+		assocButton.addSelectionListener(selectionListener);
+		setFillLayout(assocButton, 1, 2);
 		if (associationMap.keySet().size() <= 0) {
-			button.setEnabled(false);
+			assocButton.setEnabled(false);
 		}
 		// create a radio button
-		button = new Button(box, SWT.RADIO);
-		button.setText(buttonLabels[1]);
-		button.addSelectionListener(selectionListener);
-		setFillLayout(button, 1, 2);
+		Button assocClassButton = new Button(box, SWT.RADIO);
+		assocClassButton.setText(buttonLabels[1]);
+		assocClassButton.addSelectionListener(selectionListener);
+		setFillLayout(assocClassButton, 1, 2);
 		if (associationClassMap.keySet().size() <= 0) {
-			button.setEnabled(false);
+			assocClassButton.setEnabled(false);
 		}
 		// next, add the controls that are controlled by the radio buttons;
 		// first
@@ -495,6 +497,8 @@ public class AssociationInstanceEditDialog extends TSMessageDialog {
 				if (event.getSource() instanceof ListViewer) {
 					List list = ((ListViewer) event.getSource()).getList();
 					int selIdx = list.getSelectionIndex();
+					aEndCombo.removeAll();
+					zEndCombo.removeAll();
 					if (selIdx >= 0) {
 						String assocName = list.getItem(selIdx);
 						IAssociationArtifact assoc = (IAssociationArtifact) associationMap
@@ -518,9 +522,7 @@ public class AssociationInstanceEditDialog extends TSMessageDialog {
 						}
 					}
 					aEndName.setText("");
-					aEndCombo.removeAll();
 					zEndName.setText("");
-					zEndCombo.removeAll();
 					setEnabledRecursive(endsComposite, false);
 				}
 			}
@@ -535,15 +537,16 @@ public class AssociationInstanceEditDialog extends TSMessageDialog {
 		public void widgetSelected(SelectionEvent e) {
 			Combo combo = ((Combo) e.getSource());
 			if (combo == aEndCombo && !selectedAEnd.equals(combo.getText())) {
-				zEndCombo.select(1 - combo.getSelectionIndex());				
-			} else if (combo == zEndCombo && !selectedZEnd.equals(combo.getText())) {
+				zEndCombo.select(1 - combo.getSelectionIndex());
+			} else if (combo == zEndCombo
+					&& !selectedZEnd.equals(combo.getText())) {
 				aEndCombo.select(1 - combo.getSelectionIndex());
 			}
 			assocEndsUpdated();
 			super.widgetSelected(e);
 		}
 	}
-	
+
 	private void assocEndsUpdated() {
 		selectedAEnd = aEndCombo.getText();
 		selectedZEnd = zEndCombo.getText();
@@ -623,15 +626,8 @@ public class AssociationInstanceEditDialog extends TSMessageDialog {
 				int selIdx = list.getSelectionIndex();
 				if (selIdx >= 0) {
 					String selVal = list.getItem(selIdx);
-					if (selectedVals.keySet().contains(list)
-							&& selectedVals.get(list).equals(selVal)) {
-						selectedName = "";
-						selectedVals.remove(list);
-						list.deselectAll();
-					} else if (selIdx >= 0) {
-						selectedVals.put(list, selVal);
-						selectedName = selVal;
-					}
+					selectedVals.put(list, selVal);
+					selectedName = selVal;
 				}
 				Button okButton = AssociationInstanceEditDialog.this
 						.getButton(IDialogConstants.OK_ID);
@@ -663,7 +659,6 @@ public class AssociationInstanceEditDialog extends TSMessageDialog {
 		}
 
 		public void widgetSelected(SelectionEvent e) {
-			// TODO Auto-generated method stub
 			Button source = (Button) e.getSource();
 			selectedType = source.getText();
 			List list = selectionMap.get(selectedType);
@@ -679,6 +674,7 @@ public class AssociationInstanceEditDialog extends TSMessageDialog {
 					prevSelectionMap.put(selectedType, selVals);
 					selectedName = "";
 					list.deselectAll();
+					list.notifyListeners(SWT.Selection, new Event());
 				}
 				if (buttonLabels[1].equals(selectedType)) {
 					instanceNameField.setEnabled(isSelection);
@@ -691,6 +687,7 @@ public class AssociationInstanceEditDialog extends TSMessageDialog {
 				String[] prevSelVals = prevSelectionMap.get(selectedType);
 				if (prevSelVals != null && prevSelVals.length > 0) {
 					list.setSelection(prevSelVals);
+					list.notifyListeners(SWT.Selection, new Event());
 					selectedName = prevSelVals[0];
 				} else {
 					selectedName = "";
@@ -705,6 +702,7 @@ public class AssociationInstanceEditDialog extends TSMessageDialog {
 				if (list.getItemCount() == 1) {
 					selectedName = list.getItem(0);
 					list.select(0);
+					list.notifyListeners(SWT.Selection, new Event());
 				}
 				internalUpdateOkButton(okButton);
 			}
@@ -720,16 +718,20 @@ public class AssociationInstanceEditDialog extends TSMessageDialog {
 		if (true) {
 			super.create();
 			// and if there are no association classes that can be created
-			// between the two endpoints and there is only one association
-			// that can be created
-			if (associationMap.size() == 1 && associationClassMap.size() == 0) {
-				// set the selected type to "association", set the single
-				// association's name as the selected name, and return the
-				// same result that would be return if the user pressed the
-				// OK button
-				selectedType = buttonLabels[0];
-				selectedName = (String) associationMap.keySet().toArray()[0];
-				return IDialogConstants.OK_ID;
+			// between the two endpoints and there is only one non self-related
+			// association that can be created
+			if (associationMap.size() == 1) {
+				IAssociationArtifact assoc = (IAssociationArtifact) associationMap
+						.values().iterator().next();
+				if (!isEndsSelectable(assoc) && associationClassMap.size() == 0) {
+					// set the selected type to "association", set the single
+					// association's name as the selected name, and return the
+					// same result that would be return if the user pressed the
+					// OK button
+					selectedType = buttonLabels[0];
+					selectedName = (String) associationMap.keySet().toArray()[0];
+					return IDialogConstants.OK_ID;
+				}
 			}
 		}
 		// otherwise, open the dialog box so that the user can select
