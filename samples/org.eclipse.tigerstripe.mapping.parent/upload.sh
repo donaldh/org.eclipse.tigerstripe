@@ -6,7 +6,7 @@
 #
 
 if [ $# -ne 1 ]; then
-    echo "usage: upload.sh destination-dir"
+    echo "usage: upload.sh"
     exit 1
 fi
 
@@ -17,4 +17,4 @@ PROMOTED_BUILD=`echo $PROMOTED_URL | awk '{split($0, a, "/");print a[6]}'`
  
 echo "Uploading build ${PROMOTED_BUILD} to $SITE_NAME"
 cd ${WORKSPACE}/../builds/${PROMOTED_BUILD}/archive/target/site
-scp -rv * jstrawn@download1.eclipse.org:"$SITE"
+scp -rv * erdillon@download1.eclipse.org:"$SITE"
