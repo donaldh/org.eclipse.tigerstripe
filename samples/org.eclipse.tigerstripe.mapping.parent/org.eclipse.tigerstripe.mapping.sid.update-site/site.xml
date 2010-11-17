@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.eclipse.tigerstripe.mapping.sid.feature_1.0.8.jar" id="org.eclipse.tigerstripe.mapping.sid.feature" version="1.0.8"/>
+   <feature url="features/org.eclipse.tigerstripe.mapping.sid.feature_1.0.8.jar" id="org.eclipse.tigerstripe.mapping.sid.feature" version="1.0.8">
+      <category name="org.eclipse.tigerstripe.mapping.sid"/>
+   </feature>
+   <category-def name="org.eclipse.tigerstripe.mapping.sid" label="Tigerstripe SID Mapping"/>
 </site>
