@@ -19,4 +19,3 @@ else
 fi
 
 "$MAVEN_HOME/bin/mvn" -B -s "$SETTINGS" -Dosgi.os=linux -Dosgi.ws=gtk -Dosgi.arch=x86 -Dtycho.showEclipseLog=true clean install
-cp -rf org.eclipse.tigerstripe.mapping.sid.update-site/target/site target
