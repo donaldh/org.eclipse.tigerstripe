@@ -2,6 +2,11 @@
 
 export MAVEN_OPTS=-Xmx1024m
 
+if [ -z "$MAVEN_HOME" ]; then
+    echo "MAVEN_HOME not set"
+    exit 1
+fi
+
 if [ ! -e "$WORKSPACE/repository" ]; then
 	mkdir "$WORKSPACE/repository"
 fi
