@@ -27,6 +27,7 @@
 		<module>plugins/org.eclipse.tigerstripe.repository.core</module>
 		<module>plugins/org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation</module>
 		<module>plugins/org.eclipse.tigerstripe.workbench.ui.base</module>
+		<module>plugins/org.eclipse.tigerstripe.workbench.ui.dependencies</module>
 		<module>plugins/org.eclipse.tigerstripe.workbench.ui.visualeditor</module>
 		<module>plugins/org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram</module>
 		<module>plugins/org.eclipse.tigerstripe.workbench.ui.visualeditor.edit</module>
