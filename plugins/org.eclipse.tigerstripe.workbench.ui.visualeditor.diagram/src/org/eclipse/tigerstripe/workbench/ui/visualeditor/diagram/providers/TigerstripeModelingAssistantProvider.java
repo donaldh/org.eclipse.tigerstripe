@@ -561,6 +561,7 @@ public class TigerstripeModelingAssistantProvider extends
 		if (targetEditPart instanceof ManagedEntityArtifactEditPart) {
 			List types = new ArrayList();
 			types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
+			types.add(TigerstripeElementTypes.NamedQueryArtifactReturnedType_3004);
 			if (shouldDisplayManages())
 				types
 						.add(TigerstripeElementTypes.SessionFacadeArtifactManagedEntities_3003);
