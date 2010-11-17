@@ -12,4 +12,4 @@ PROMOTED_BUILD=`echo $PROMOTED_URL | awk '{split($0, a, "/");print a[6]}'`
  
 echo "Uploading build ${PROMOTED_BUILD} to $SITE_NAME"
 cd ${WORKSPACE}/../builds/${PROMOTED_BUILD}/archive/target/site
-scp -rv * erdillon@download1.eclipse.org:"$SITE"
+scp -rv * jstrawn@download1.eclipse.org:"$SITE"
