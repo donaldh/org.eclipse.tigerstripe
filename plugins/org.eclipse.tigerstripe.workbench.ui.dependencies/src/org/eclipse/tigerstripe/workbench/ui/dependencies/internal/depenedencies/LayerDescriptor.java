@@ -13,7 +13,6 @@ package org.eclipse.tigerstripe.workbench.ui.dependencies.internal.depenedencies
 
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Layer;
 
-
 public class LayerDescriptor {
 
 	private final Layer layer;

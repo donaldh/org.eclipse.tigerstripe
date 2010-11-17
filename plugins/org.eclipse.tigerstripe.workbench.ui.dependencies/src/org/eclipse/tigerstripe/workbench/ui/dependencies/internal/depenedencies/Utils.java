@@ -11,16 +11,22 @@
  ******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.dependencies.internal.depenedencies;
 
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
+import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.RootEditPart;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.api.IDependencySubject;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.diagram.ui.layout.LayoutUtils;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.diagram.ui.parts.DiagramEditPart;
+import org.eclipse.tigerstripe.workbench.ui.dependencies.diagram.ui.parts.SubjectEditPart;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Connection;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.DependenciesFactory;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Diagram;
@@ -84,6 +90,12 @@ public class Utils {
 		return (Diagram) getDiagramEditPart(part).getModel();
 	}
 
+	public static void linkWithCheck(Shape from, Shape to) {
+		if (!isLinked(from, to)) {
+			link(from, to);
+		}
+	}
+
 	public static void link(Shape from, Shape to) {
 		Connection connection = DependenciesFactory.eINSTANCE
 				.createConnection();
@@ -93,11 +105,40 @@ public class Utils {
 		to.getSourceConnections().add(connection);
 	}
 
+	public static void unLink(Subject from, Subject to) {
+		Connection connection = findConnection(from, to);
+		if (connection != null) {
+			from.getTargetConnections().remove(connection);
+			to.getSourceConnections().remove(connection);
+		}
+	}
+
+	public static Connection findConnection(Shape from, Shape to) {
+		for (Connection con : from.getTargetConnections()) {
+			if (con.getSource().equals(to)) {
+				return con;
+			}
+		}
+		return null;
+	}
+
+	public static boolean isLinked(Shape from, Shape to) {
+		return findConnection(from, to) != null;
+	}
+
 	public static IDependencySubject findExternalModel(Subject subject,
 			EditPartViewer viewer) {
 		IDependencySubject model = getExternalModel(subject, viewer);
 		Assert.isNotNull(model);
 		return model;
+	}
+
+	public static Image chooseIcon(IDependencySubject subject) {
+		Image image;
+		if ((image = subject.getIcon()) != null) {
+			return image;
+		}
+		return subject.getType().getImage();
 	}
 
 	public static org.eclipse.draw2d.geometry.Point toPoint(Point point) {
@@ -166,9 +207,62 @@ public class Utils {
 		diagram.setCurrentLayer(layer);
 	}
 
+	public static void loadDependencies(SubjectEditPart part) {
+		Registry registry = getRegistry(part.getViewer());
+		Subject subject = part.getSubject();
+		if (subject.isLoaded()) {
+			return;
+		}
+		Set<Shape> attended = new HashSet<Shape>(subject.getParentLayer()
+				.getShapes());
+		Set<Subject> affected = registry.loadDependencies(subject);
+		part.getParent().refresh();
+		part.refresh();
+		Map<?, ?> editPartRegistry = part.getViewer().getEditPartRegistry();
+
+		Set<GraphicalEditPart> toLayout = new HashSet<GraphicalEditPart>();
+
+		for (Subject s : affected) {
+			GraphicalEditPart aPart = (GraphicalEditPart) editPartRegistry
+					.get(s);
+			if (aPart == null) {
+				continue;
+			}
+			if (!s.equals(subject) && !attended.contains(s)) {
+				toLayout.add(aPart);
+			}
+			aPart.refresh();
+		}
+
+		LayoutUtils.layout(toLayout, true);
+	}
+
+	public static void collapseDependencies(SubjectEditPart part) {
+		Registry registry = getRegistry(part.getViewer());
+		Subject subject = part.getSubject();
+		if (!subject.isLoaded()) {
+			return;
+		}
+		Set<Subject> affected = registry.collapseDependencies(subject);
+		part.getParent().refresh();
+		part.refresh();
+
+		Map<?, ?> editPartRegistry = part.getViewer().getEditPartRegistry();
+
+		for (Subject s : affected) {
+			GraphicalEditPart aPart = (GraphicalEditPart) editPartRegistry
+					.get(s);
+			if (aPart != null) {
+				aPart.refresh();
+			}
+		}
+
+	}
+
 	private static void throwIllegalStateOfRootEditPart() {
 		throw new IllegalStateException(
 				"Root edit part must contain one element of class "
 						+ DiagramEditPart.class.getName());
 	}
+
 }

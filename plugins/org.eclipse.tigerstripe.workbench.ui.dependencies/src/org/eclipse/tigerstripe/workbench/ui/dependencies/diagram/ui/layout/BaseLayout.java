@@ -61,6 +61,8 @@ public abstract class BaseLayout {
 	protected static final int MAX_EDGE_PADDING = NODE_PADDING * 3;
 	protected static final int MIN_EDGE_END_POINTS_PADDING = 5;
 
+	private Set<GraphicalEditPart> onlyParts;
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -118,7 +120,7 @@ public abstract class BaseLayout {
 	 * @return true if connection is to be layed out top-down, false otherwise.
 	 */
 	protected boolean layoutTopDown(ConnectionEditPart poly) {
-		return false;
+		return true;
 	}
 
 	/**
@@ -780,6 +782,10 @@ public abstract class BaseLayout {
 			if (node.data instanceof GraphicalEditPart) {
 				GraphicalEditPart gep = (GraphicalEditPart) node.data;
 
+				if (onlyParts != null && !onlyParts.contains(gep)) {
+					continue;
+				}
+
 				ChangeBoundsRequest request = new ChangeBoundsRequest(
 						RequestConstants.REQ_MOVE);
 				Rectangle nodeExt = getNodeMetrics(node);
@@ -894,7 +900,9 @@ public abstract class BaseLayout {
 	 * @return the Graph that will be used by the layout algorithm
 	 */
 	protected DirectedGraph createGraph() {
-		return new DirectedGraph();
+		DirectedGraph g = new DirectedGraph();
+		// g.setDirection(PositionConstants.EAST);
+		return g;
 	}
 
 	/**
@@ -909,4 +917,7 @@ public abstract class BaseLayout {
 		return new GMFDirectedGraphLayout();
 	}
 
+	public void setOnlyParts(Set<GraphicalEditPart> onlyParts) {
+		this.onlyParts = onlyParts;
+	}
 }

@@ -69,6 +69,7 @@ public class ModelsFactory extends EFactoryDelegate implements
 
 	public Note createNote() {
 		Note note = getDelegate().createNote();
+		note.setText("Notice");
 		initShape(note, 100, 20);
 		ShapeStyle style = note.getStyle();
 		style.setBackgroundColor(toColorAsInt(0, 255, 236, 236));

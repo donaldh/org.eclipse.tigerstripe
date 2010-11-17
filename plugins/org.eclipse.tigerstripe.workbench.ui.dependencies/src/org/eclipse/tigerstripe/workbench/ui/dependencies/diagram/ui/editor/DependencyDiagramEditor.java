@@ -17,8 +17,6 @@ import java.util.List;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.emf.common.notify.Notification;
-import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
@@ -26,7 +24,7 @@ import org.eclipse.gef.editparts.ScalableFreeformRootEditPart;
 import org.eclipse.gef.ui.parts.GraphicalEditor;
 import org.eclipse.gef.ui.parts.GraphicalViewerKeyHandler;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.swt.widgets.Control;
+import org.eclipse.tigerstripe.workbench.ui.dependencies.api.IDependencyDiagramHandler;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.api.IDependencySubject;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.api.IExternalContext;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.diagram.ui.layout.LayoutUtils;
@@ -46,16 +44,17 @@ import org.eclipse.ui.part.ShowInContext;
 public abstract class DependencyDiagramEditor extends GraphicalEditor implements
 		IShowInSource {
 
-	/** This is the root of the editor's model. */
-	private Diagram diagram;
 	private Registry registry;
+	private IDependencyDiagramHandler handler;
 	private boolean viewStateDirty;
 
-	protected abstract IExternalContext getExternalContext();
+	public abstract IExternalContext getExternalContext();
 
 	/** Create a new ShapesEditor instance. This is called by the Workspace. */
 	public DependencyDiagramEditor() {
 		setEditDomain(new DefaultEditDomain(this));
+		handler = new DependencyDiagramHandler(this);
+
 	}
 
 	/**
@@ -94,30 +93,12 @@ public abstract class DependencyDiagramEditor extends GraphicalEditor implements
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		if (diagram == null) {
+		if (getDiagram() == null) {
 			return;
 		}
-		getExternalContext().save(diagram);
+		getExternalContext().save(getDiagram());
 		viewStateDirty = false;
 		getCommandStack().markSaveLocation();
-	}
-
-	Diagram getModel() {
-		return diagram;
-	}
-
-	public void update() {
-		final Control control = getGraphicalViewer().getControl();
-		updateModel();
-		if (control != null && !control.isDisposed()) {
-			control.getDisplay().asyncExec(new Runnable() {
-				public void run() {
-					if (!control.isDisposed()) {
-						updateViewer();
-					}
-				}
-			});
-		}
 	}
 
 	@Override
@@ -125,10 +106,10 @@ public abstract class DependencyDiagramEditor extends GraphicalEditor implements
 		updateViewer();
 	}
 
-	private void updateViewer() {
+	public void updateViewer() {
 		GraphicalViewer viewer = getGraphicalViewer();
 		viewer.setContents(getModel()); // set the contents of this editor
-		Layer currentLayer = diagram.getCurrentLayer();
+		Layer currentLayer = getDiagram().getCurrentLayer();
 		if (!currentLayer.isWasLayouting()) {
 			LayoutUtils.layout(viewer.getRootEditPart().getContents(), false);
 			currentLayer.setWasLayouting(true);
@@ -176,29 +157,21 @@ public abstract class DependencyDiagramEditor extends GraphicalEditor implements
 	@Override
 	protected void setInput(IEditorInput input) {
 		super.setInput(input);
-		updateModel();
-	}
-
-	protected void updateModel() {
 		IExternalContext context = getExternalContext();
-		diagram = ModelsFactory.INSTANCE.createDiagram();
 		Diagram loadedDiagram = loadOldDiagram();
-		registry = new Registry(context.getRootExternalModel(), diagram,
-				loadedDiagram);
-		diagram.eAdapters().add(new EContentAdapter() {
+		registry = new Registry(context.getRootExternalModel(), loadedDiagram);
+		registry.addModelChangeListener(new Registry.IModelChangeListener() {
 
-			@Override
-			public void notifyChanged(Notification notification) {
-				int eventType = notification.getEventType();
-				if (eventType == Notification.RESOLVE
-						|| eventType == Notification.REMOVING_ADAPTER) {
-					return;
-				}
+			public void modelChanged() {
 				viewStateDirty = true;
 				firePropertyChange(IEditorPart.PROP_DIRTY);
 			}
 		});
 		setPartName(context.getName());
+	}
+
+	public IDependencyDiagramHandler getHandler() {
+		return handler;
 	}
 
 	private Diagram loadOldDiagram() {
@@ -212,5 +185,22 @@ public abstract class DependencyDiagramEditor extends GraphicalEditor implements
 		viewer.setProperty(SubjectStyleService.class.getName(),
 				new SubjectStyleService(registry));
 		super.setGraphicalViewer(viewer);
+	}
+
+	@Override
+	protected GraphicalViewer getGraphicalViewer() {
+		return super.getGraphicalViewer();
+	}
+
+	Diagram getModel() {
+		return getDiagram();
+	}
+
+	public Diagram getDiagram() {
+		return registry.getDiagram();
+	}
+
+	public Registry getRegistry() {
+		return registry;
 	}
 }

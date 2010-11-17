@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DependenciesPackageImpl.java,v 1.1 2010/11/05 20:20:46 ystrot Exp $
+ * $Id: DependenciesPackageImpl.java,v 1.2 2010/11/17 06:03:52 ystrot Exp $
  */
 package org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl;
 
@@ -348,6 +348,15 @@ public class DependenciesPackageImpl extends EPackageImpl implements Dependencie
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getSubject_Loaded() {
+		return (EAttribute)subjectEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getNote() {
 		return noteEClass;
 	}
@@ -609,6 +618,7 @@ public class DependenciesPackageImpl extends EPackageImpl implements Dependencie
 		createEAttribute(subjectEClass, SUBJECT__USE_CUSTOM_STYLE);
 		createEReference(subjectEClass, SUBJECT__KIND);
 		createEAttribute(subjectEClass, SUBJECT__MASTER);
+		createEAttribute(subjectEClass, SUBJECT__LOADED);
 
 		noteEClass = createEClass(NOTE);
 		createEAttribute(noteEClass, NOTE__TEXT);
@@ -696,6 +706,7 @@ public class DependenciesPackageImpl extends EPackageImpl implements Dependencie
 		initEAttribute(getSubject_UseCustomStyle(), ecorePackage.getEBoolean(), "useCustomStyle", null, 0, 1, Subject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSubject_Kind(), this.getKind(), null, "kind", null, 0, 1, Subject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSubject_Master(), ecorePackage.getEBoolean(), "master", null, 0, 1, Subject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getSubject_Loaded(), ecorePackage.getEBoolean(), "loaded", null, 0, 1, Subject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(noteEClass, Note.class, "Note", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getNote_Text(), ecorePackage.getEString(), "text", null, 0, 1, Note.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

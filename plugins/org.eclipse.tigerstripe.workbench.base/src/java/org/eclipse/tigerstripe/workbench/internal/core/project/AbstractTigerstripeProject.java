@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.project;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -17,6 +19,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Properties;
 
@@ -40,6 +43,9 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
@@ -90,6 +96,8 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 
 	public static final String ADVANCEDPROPS_TAG = "advancedProperty";
 
+	private static final String VISUALSTATEDEPS_TAG = "visualSateDeps";
+
 	protected String descriptorVersion;
 
 	private File baseDir;
@@ -103,6 +111,8 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 	private long loadTStamp = -1;
 
 	private boolean isLocalDirty = false;
+
+	private Resource dependenciesVisualState;
 
 	/**
 	 * The details of the projects
@@ -128,8 +138,9 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 		advancedProperties.setContainer(this);
 		this.projectDetails = new ProjectDetails(this);
 		this.projectDetails.setContainer(this);
-		TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(this, 
-				ITigerstripeChangeListener.MODEL | ITigerstripeChangeListener.PROJECT);
+		TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(
+				this, ITigerstripeChangeListener.MODEL
+						| ITigerstripeChangeListener.PROJECT);
 	}
 
 	protected void setDirty() {
@@ -278,6 +289,20 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 		return projectDetails;
 	}
 
+	protected Element buildDependenciesVisualState(Document document) {
+		Element vsdElm = document.createElement(VISUALSTATEDEPS_TAG);
+		if (dependenciesVisualState != null) {
+			try {
+				ByteArrayOutputStream out = new ByteArrayOutputStream();
+				dependenciesVisualState.save(out, Collections.emptyMap());
+				vsdElm.setTextContent(new String(out.toByteArray()));
+			} catch (IOException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		return vsdElm;
+	}
+
 	protected Element buildAdvancedElement(Document document) {
 		Element advancedElm = document.createElement(ADVANCED_TAG);
 
@@ -385,8 +410,8 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 
 				if (name != null && !"".equals(name.getNodeValue())
 						&& value != null) {
-					result.setProperty(name.getNodeValue(), value
-							.getNodeValue());
+					result.setProperty(name.getNodeValue(),
+							value.getNodeValue());
 				}
 			}
 		}
@@ -397,6 +422,25 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 	public void validate(ITigerstripeVisitor visitor)
 			throws TigerstripeException {
 		// FIXME
+	}
+
+	protected void loadDependenciesVisualState(Document document)
+			throws TigerstripeException {
+
+		dependenciesVisualState = null;
+		NodeList nodes = document.getElementsByTagName(VISUALSTATEDEPS_TAG);
+		if (nodes.getLength() > 0) {
+			String content = nodes.item(0).getTextContent();
+			if (content != null && content.length() > 0) {
+				dependenciesVisualState = new XMIResourceImpl();
+				try {
+					dependenciesVisualState.load(new ByteArrayInputStream(
+							content.getBytes()), Collections.emptyMap());
+				} catch (IOException e) {
+					// Nothing to do.
+				}
+			}
+		}
 	}
 
 	protected void loadAdvancedProperties(Document document)
@@ -441,6 +485,24 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 		this.advancedProperties.setProperty(prop, value);
 	}
 
+	public void setDependenciesVisualState(EObject state) {
+		setDirty();
+		dependenciesVisualState = new XMIResourceImpl();
+		dependenciesVisualState.getContents().add(state);
+	}
+
+	public <T extends EObject> T getDependenciesVisualState(Class<T> forClass) {
+		if (dependenciesVisualState == null) {
+			return null;
+		}
+		for (EObject eo : dependenciesVisualState.getContents()) {
+			if (forClass.isInstance(eo)) {
+				return forClass.cast(eo);
+			}
+		}
+		return null;
+	}
+
 	public String getDescriptorVersion() {
 		return this.descriptorVersion;
 	}
@@ -462,10 +524,10 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 
 		if (notLoaded || forceReload) {
 			needReload = true;
-//		} else {
-//			// determine if the file has changed on disk
-//			long currentTStamp = theFile.lastModified();
-//			needReload = currentTStamp != loadTStamp;
+			// } else {
+			// // determine if the file has changed on disk
+			// long currentTStamp = theFile.lastModified();
+			// needReload = currentTStamp != loadTStamp;
 		}
 
 		if (needReload) {
@@ -534,15 +596,15 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 					return null;
 				}
 			} else if (IProject.class == adapter) {
-				return ResourcesPlugin.getWorkspace().getRoot().getProject(
-						getProjectLabel());
+				return ResourcesPlugin.getWorkspace().getRoot()
+						.getProject(getProjectLabel());
 			} else if (IJavaProject.class == adapter) {
 				IProject iProj = ResourcesPlugin.getWorkspace().getRoot()
-				.getProject(getProjectLabel());
+						.getProject(getProjectLabel());
 				if (iProj != null)
 					return JavaCore.create(iProj);
 			}
-		} catch (Exception e){
+		} catch (Exception e) {
 			return null;
 		}
 		return null;
@@ -550,7 +612,7 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 
 	public void annotationChanged(IModelAnnotationChangeDelta[] delta) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void descriptorChanged(IResource changedDescriptor) {
@@ -559,34 +621,32 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 
 	public void modelChanged(IModelChangeDelta[] delta) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void projectAdded(IAbstractTigerstripeProject project) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void projectDeleted(String projectName) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void artifactResourceAdded(IResource addedArtifactResource) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void artifactResourceChanged(IResource changedArtifactResource) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void artifactResourceRemoved(IResource removedArtifactResource) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	
-	
 }

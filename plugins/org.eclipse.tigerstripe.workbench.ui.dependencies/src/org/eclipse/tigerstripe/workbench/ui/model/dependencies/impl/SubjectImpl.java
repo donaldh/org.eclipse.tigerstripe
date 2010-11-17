@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: SubjectImpl.java,v 1.1 2010/11/05 20:20:46 ystrot Exp $
+ * $Id: SubjectImpl.java,v 1.2 2010/11/17 06:03:52 ystrot Exp $
  */
 package org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl;
 
@@ -28,6 +28,7 @@ import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Subject;
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.SubjectImpl#isUseCustomStyle <em>Use Custom Style</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.SubjectImpl#getKind <em>Kind</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.SubjectImpl#isMaster <em>Master</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.SubjectImpl#isLoaded <em>Loaded</em>}</li>
  * </ul>
  * </p>
  *
@@ -103,6 +104,26 @@ public class SubjectImpl extends ShapeImpl implements Subject {
 	 * @ordered
 	 */
 	protected boolean master = MASTER_EDEFAULT;
+
+	/**
+	 * The default value of the '{@link #isLoaded() <em>Loaded</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isLoaded()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean LOADED_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isLoaded() <em>Loaded</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isLoaded()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean loaded = LOADED_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -229,6 +250,27 @@ public class SubjectImpl extends ShapeImpl implements Subject {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isLoaded() {
+		return loaded;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setLoaded(boolean newLoaded) {
+		boolean oldLoaded = loaded;
+		loaded = newLoaded;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, DependenciesPackage.SUBJECT__LOADED, oldLoaded, loaded));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
@@ -241,6 +283,8 @@ public class SubjectImpl extends ShapeImpl implements Subject {
 				return basicGetKind();
 			case DependenciesPackage.SUBJECT__MASTER:
 				return isMaster();
+			case DependenciesPackage.SUBJECT__LOADED:
+				return isLoaded();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -264,6 +308,9 @@ public class SubjectImpl extends ShapeImpl implements Subject {
 				return;
 			case DependenciesPackage.SUBJECT__MASTER:
 				setMaster((Boolean)newValue);
+				return;
+			case DependenciesPackage.SUBJECT__LOADED:
+				setLoaded((Boolean)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -289,6 +336,9 @@ public class SubjectImpl extends ShapeImpl implements Subject {
 			case DependenciesPackage.SUBJECT__MASTER:
 				setMaster(MASTER_EDEFAULT);
 				return;
+			case DependenciesPackage.SUBJECT__LOADED:
+				setLoaded(LOADED_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -309,6 +359,8 @@ public class SubjectImpl extends ShapeImpl implements Subject {
 				return kind != null;
 			case DependenciesPackage.SUBJECT__MASTER:
 				return master != MASTER_EDEFAULT;
+			case DependenciesPackage.SUBJECT__LOADED:
+				return loaded != LOADED_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -329,6 +381,8 @@ public class SubjectImpl extends ShapeImpl implements Subject {
 		result.append(useCustomStyle);
 		result.append(", master: ");
 		result.append(master);
+		result.append(", loaded: ");
+		result.append(loaded);
 		result.append(')');
 		return result.toString();
 	}

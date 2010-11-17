@@ -24,8 +24,10 @@ import org.eclipse.draw2d.PositionConstants;
 import org.eclipse.draw2d.RoundedRectangle;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.EditPart;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.api.IDependencySubject;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.diagram.ui.parts.SubjectEditPart;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.internal.depenedencies.Utils;
@@ -39,6 +41,8 @@ public class SubjectFigure extends RoundedRectangle {
 	private int titleHeight;
 	private Image image;
 
+	private Label title;
+
 	public SubjectFigure(EditPart part) {
 		Shape shape = ((SubjectEditPart) part).getShape();
 		externalModel = Utils.findExternalModel((Subject) shape,
@@ -47,10 +51,11 @@ public class SubjectFigure extends RoundedRectangle {
 		setLayoutManager(layout);
 		setOpaque(true);
 
-		Font font = part.getViewer().getControl().getFont();
-
-		Image image = externalModel.getType().getImage();
-		Label title = new Label(externalModel.getName(), image);
+		Control control;
+		Font font = (control = part.getViewer().getControl()) == null ? new Font(
+				null, "Arial", 10, SWT.NONE) : control.getFont();
+		Image image = Utils.chooseIcon(externalModel);
+		title = new Label(externalModel.getName(), image);
 		title.setFont(font);
 		title.setForegroundColor(ColorConstants.black);
 
@@ -101,6 +106,14 @@ public class SubjectFigure extends RoundedRectangle {
 	public String toString() {
 		return String
 				.format("Figure for '%s' subject", externalModel.getName());
+	}
+
+	public void setTitleComment(String text) {
+		if (text == null) {
+			title.setText(externalModel.getName());
+		} else {
+			title.setText(externalModel.getName() + " (" + text + ")");
+		}
 	}
 
 }

@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.SortedMap;
 
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.swt.graphics.Image;
 
 /**
  * Base interface for constructing the dependency graph. Each instance if this
@@ -55,4 +56,10 @@ public interface IDependencySubject extends IAdaptable {
 	 * @return type to which the subject belongs
 	 */
 	IDependencyType getType();
+
+	/**
+	 * @return the icon for this subject. Is more priority than the icon for the
+	 *         type
+	 */
+	Image getIcon();
 }

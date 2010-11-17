@@ -11,6 +11,8 @@
  ******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.dependencies.api;
 
+import java.util.Set;
+
 import org.eclipse.emf.ecore.EObject;
 
 /**
@@ -47,16 +49,8 @@ public interface IExternalContext {
 	String getName();
 
 	/**
-	 * Add listener to external system.
-	 * 
-	 * @see IExternalContextListener
+	 * @return all possible types on the diagram.
 	 */
-	void addListener(IExternalContext listener);
+	Set<IDependencyType> getAllTypes();
 
-	/**
-	 * Remove listener to external system.
-	 * 
-	 * @see IExternalContextListener
-	 */
-	void removeListener(IExternalContext listener);
 }

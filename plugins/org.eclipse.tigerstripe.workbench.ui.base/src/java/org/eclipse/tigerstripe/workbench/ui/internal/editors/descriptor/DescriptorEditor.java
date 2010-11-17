@@ -45,13 +45,16 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.FileEditorInput;
 
 /**
- * Main editor for module project descriptor file (tigersripe.xml file) <br/><br/>
+ * Main editor for module project descriptor file (tigersripe.xml file) <br/>
+ * <br/>
  * 
  * <b>History of changes</b> (Name: Modification): <br/>
- * Eric Dillon 	  :	Initial Creation <br/>
- * Navid Mehregani: Bugzilla 319768: Switch to dependencies tab, if there are related issues. <br/>
- * Navid Mehregani: Bugzilla 323860 -  [Form Editor] In some cases Tigerstripe files cannot be saved <br/>
- * Navid Mehregani:	Bugzilla 313726 -  Tigerstripe.XML Editor doesn't save   <br/>
+ * Eric Dillon : Initial Creation <br/>
+ * Navid Mehregani: Bugzilla 319768: Switch to dependencies tab, if there are
+ * related issues. <br/>
+ * Navid Mehregani: Bugzilla 323860 - [Form Editor] In some cases Tigerstripe
+ * files cannot be saved <br/>
+ * Navid Mehregani: Bugzilla 313726 - Tigerstripe.XML Editor doesn't save <br/>
  */
 public class DescriptorEditor extends TigerstripeFormEditor {
 
@@ -69,8 +72,7 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 		IEditorInput input = getEditorInput();
 		if (input instanceof IFileEditorInput) {
 			setPartName(((IResource) input.getAdapter(IResource.class))
-					.getProject().getName()
-					+ "/" + input.getName());
+					.getProject().getName() + "/" + input.getName());
 		} else {
 			setPartName(input.getName());
 		}
@@ -94,7 +96,7 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 		int headerIndex = -1;
 		IFile file = null;
 		int dependencyPageIndex = -1;
-		
+
 		try {
 			PluginConfigurationPage pluginPage = new PluginConfigurationPage(
 					this);
@@ -113,52 +115,72 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 			// addModelPage(repoPage);
 
 			if (getEditorInput() instanceof IFileEditorInput) {
-				
-				IFileEditorInput fileEditorInput = (IFileEditorInput)getEditorInput();
-				file = fileEditorInput.getFile();				
-				
-				DescriptorDependenciesPage depPage = new DescriptorDependenciesPage(this);
+
+				IFileEditorInput fileEditorInput = (IFileEditorInput) getEditorInput();
+				file = fileEditorInput.getFile();
+
+				DescriptorDependenciesPage depPage = new DescriptorDependenciesPage(
+						this);
 				dependencyPageIndex = addPage(depPage);
+				addDependencyDiagramPage();
 				addModelPage(depPage);
-				
+
 				AdvancedConfigurationPage advPage = new AdvancedConfigurationPage(
 						this);
 				addPage(advPage);
 				addModelPage(advPage);
-				
+
 				FacetReferencesPage facetPage = new FacetReferencesPage(this);
 				addPage(facetPage);
 				addModelPage(facetPage);
-				
+
 				addSourcePage();
 			}
 
 		} catch (PartInitException e) {
 			EclipsePlugin.log(e);
 		}
-		
-		// N.M: Bugzilla 319768: Switch to dependencies tab, if there are related issues.
-		if (areThereDependencyProblems(file) && dependencyPageIndex!=-1) 
+
+		// N.M: Bugzilla 319768: Switch to dependencies tab, if there are
+		// related issues.
+		if (areThereDependencyProblems(file) && dependencyPageIndex != -1)
 			setActivePage(dependencyPageIndex);
-		else	
+		else
 			setActivePage(headerIndex);
-		
+
 		updateTitle();
 	}
-	
-	// N.M: Bugzilla 319768: Switch to dependencies tab, if there are related issues.
+
+	private void addDependencyDiagramPage() {
+		diagramEditor = new TigerstripeDependenciesDiagramEditor();
+		diagramEditor.setTsPorject(getTSProject());
+		try {
+			setPageText(addPage(diagramEditor, getEditorInput()),
+					"Dependency Diagram");
+		} catch (PartInitException e) {
+			EclipsePlugin.log(e);
+		}
+	}
+
+	// N.M: Bugzilla 319768: Switch to dependencies tab, if there are related
+	// issues.
 	private boolean areThereDependencyProblems(IFile file) {
-		
+
 		try {
 			if (file != null) {
 				final String DEPENDENCY_ERROR = "Unresolved model reference";
-				IMarker[] markers = file.findMarkers(IMarker.PROBLEM, true,	IResource.DEPTH_INFINITE);
-				
-				if (markers!=null) {
-					for (int i=0; i < markers.length; i++) {
-						if (IMarker.SEVERITY_ERROR == markers[i].getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO)) {
-							final Object errorMessage = markers[i].getAttribute(IMarker.MESSAGE);
-							if ((errorMessage instanceof String) && (((String)errorMessage).contains(DEPENDENCY_ERROR))) {
+				IMarker[] markers = file.findMarkers(IMarker.PROBLEM, true,
+						IResource.DEPTH_INFINITE);
+
+				if (markers != null) {
+					for (int i = 0; i < markers.length; i++) {
+						if (IMarker.SEVERITY_ERROR == markers[i].getAttribute(
+								IMarker.SEVERITY, IMarker.SEVERITY_INFO)) {
+							final Object errorMessage = markers[i]
+									.getAttribute(IMarker.MESSAGE);
+							if ((errorMessage instanceof String)
+									&& (((String) errorMessage)
+											.contains(DEPENDENCY_ERROR))) {
 								return true;
 							}
 						}
@@ -166,9 +188,12 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 				}
 			}
 		} catch (CoreException e) {
-			EclipsePlugin.logErrorMessage("An error occurred while looking for dependency errors.  Exception Message (if any): " + e.getMessage(), e);
+			EclipsePlugin
+					.logErrorMessage(
+							"An error occurred while looking for dependency errors.  Exception Message (if any): "
+									+ e.getMessage(), e);
 		}
-		
+
 		return false;
 	}
 
@@ -180,18 +205,22 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		// N.M: Bugzilla 323860 -  [Form Editor] In some cases Tigerstripe files cannot be saved
+		diagramEditor.doSave(monitor);
+
+		// N.M: Bugzilla 323860 - [Form Editor] In some cases Tigerstripe files
+		// cannot be saved
 		if ((sourcePage.isDirty()) || (getActivePage() == sourcePageIndex)) {
 			try {
 				updateModelFromTextEditor();
-				
+
 			} catch (TigerstripeException ee) {
-				Status status = new Status(IStatus.WARNING, EclipsePlugin
-						.getPluginId(), 111, "Unexpected Exception", ee);
+				Status status = new Status(IStatus.WARNING,
+						EclipsePlugin.getPluginId(), 111,
+						"Unexpected Exception", ee);
 				EclipsePlugin.log(status);
 			}
 			sourcePage.doSave(monitor);
-			
+
 		} else {
 
 			try {
@@ -202,11 +231,10 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 		}
 
 		if (getActivePage() != sourcePageIndex) {
-			((DescriptorSourcePage) getEditor(sourcePageIndex)).firePropertyChange(IEditorPart.PROP_DIRTY);
-			firePropertyChange(IEditorPart.PROP_DIRTY);
-		} else {
-			firePropertyChange(IEditorPart.PROP_DIRTY);
+			((DescriptorSourcePage) getEditor(sourcePageIndex))
+					.firePropertyChange(IEditorPart.PROP_DIRTY);
 		}
+		firePropertyChange(IEditorPart.PROP_DIRTY);
 	}
 
 	@Override
@@ -220,8 +248,9 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 				try {
 					updateModelFromTextEditor();
 				} catch (TigerstripeException ee) {
-					Status status = new Status(IStatus.WARNING, EclipsePlugin
-							.getPluginId(), 111, "Unexpected Exception", ee);
+					Status status = new Status(IStatus.WARNING,
+							EclipsePlugin.getPluginId(), 111,
+							"Unexpected Exception", ee);
 					EclipsePlugin.log(status);
 				}
 			}
@@ -231,6 +260,8 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 	}
 
 	private boolean isPageModified;
+
+	private TigerstripeDependenciesDiagramEditor diagramEditor;
 
 	public void pageModified() {
 		isPageModified = true;
@@ -247,12 +278,13 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 
 	@Override
 	public boolean isDirty() {
-		
-		// N.M: Bugzilla 323860 -  [Form Editor] In some cases Tigerstripe files cannot be saved
+
+		// N.M: Bugzilla 323860 - [Form Editor] In some cases Tigerstripe files
+		// cannot be saved
 		if (getActivePage() == sourcePageIndex) {
 			return sourcePage.isDirty();
 		}
-		
+
 		return isPageModified || super.isDirty();
 	}
 
@@ -276,8 +308,8 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 						.set(project.asText());
 			}
 		} catch (TigerstripeException e) {
-			Status status = new Status(IStatus.ERROR, EclipsePlugin
-					.getPluginId(), 222,
+			Status status = new Status(IStatus.ERROR,
+					EclipsePlugin.getPluginId(), 222,
 					"Error refreshing source page for Tigerstripe descriptor",
 					e);
 			EclipsePlugin.log(status);
@@ -289,8 +321,8 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 			TigerstripeProjectHandle projectHandle = (TigerstripeProjectHandle) getTSProject();
 			TigerstripeProject originalProject = projectHandle.getTSProject();
 
-			String text = sourcePage.getDocumentProvider().getDocument(
-					getEditorInput()).get();
+			String text = sourcePage.getDocumentProvider()
+					.getDocument(getEditorInput()).get();
 			StringReader reader = new StringReader(text);
 			try {
 				originalProject.parse(reader);
@@ -338,24 +370,23 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 	public void resourceChanged(IResourceChangeEvent event) {
 		super.resourceChanged(event);
 		workingHandle = null;
-			IResourceDelta delta = event.getDelta();
+		IResourceDelta delta = event.getDelta();
 
-			if (getEditorInput() instanceof IFileEditorInput) {
-				FileEditorInput input = (FileEditorInput) getEditorInput();
-				IResourceDelta selfDelta = lookforSelf(delta);
+		if (getEditorInput() instanceof IFileEditorInput) {
+			FileEditorInput input = (FileEditorInput) getEditorInput();
+			IResourceDelta selfDelta = lookforSelf(delta);
 
-				if (selfDelta != null) {
-					switch (selfDelta.getKind()) {
-					case IResourceDelta.REMOVED:
-						break;
-					default:
-						refreshModelPages();
-						break;
-					}
+			if (selfDelta != null) {
+				switch (selfDelta.getKind()) {
+				case IResourceDelta.REMOVED:
+					break;
+				default:
+					refreshModelPages();
+					break;
 				}
 			}
-		
+		}
+
 	}
-	
-	
+
 }

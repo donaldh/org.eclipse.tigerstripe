@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.SafeRunner;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.WorkingCopyException;
 import org.eclipse.tigerstripe.workbench.generation.IM1RunConfig;
@@ -352,6 +353,17 @@ public abstract class TigerstripeProjectHandle extends
 			throws TigerstripeException {
 		assertSet();
 		getTSProject().setAdvancedProperty(property, value);
+	}
+
+	public void setDependenciesVisualState(EObject state)
+			throws TigerstripeException {
+		assertSet();
+		getTSProject().setDependenciesVisualState(state);
+	}
+
+	public <T extends EObject> T getDependenciesVisualState(Class<T> forClass)
+			throws TigerstripeException {
+		return getTSProject().getDependenciesVisualState(forClass);
 	}
 
 	public boolean requiresDescriptorUpgrade() throws TigerstripeException {

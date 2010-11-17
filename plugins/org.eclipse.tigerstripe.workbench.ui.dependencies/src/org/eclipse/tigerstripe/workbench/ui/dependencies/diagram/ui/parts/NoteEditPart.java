@@ -25,7 +25,9 @@ public class NoteEditPart extends ShapeEditPart {
 
 	@Override
 	protected IFigure doCreateFigure() {
-		return new NoteFigure(this);
+		NoteFigure noteFigure = new NoteFigure(this);
+		noteFigure.setText(getNote().getText());
+		return noteFigure;
 	}
 
 	@Override

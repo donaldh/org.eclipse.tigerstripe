@@ -18,7 +18,9 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
 import org.eclipse.draw2d.RoundedRectangle;
 import org.eclipse.gef.EditPart;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.widgets.Control;
 
 public class NoteFigure extends RoundedRectangle {
 
@@ -31,7 +33,9 @@ public class NoteFigure extends RoundedRectangle {
 		setForegroundColor(ColorConstants.gray);
 		setBackgroundColor(ColorConstants.lightGreen);
 
-		Font font = part.getViewer().getControl().getFont();
+		Control control;
+		Font font = (control = part.getViewer().getControl()) == null ? new Font(
+				null, "Arial", 10, SWT.NONE) : control.getFont();
 
 		text = new Label("Notice");
 		text.setFont(font);

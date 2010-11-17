@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DependenciesPackage.java,v 1.1 2010/11/05 20:20:45 ystrot Exp $
+ * $Id: DependenciesPackage.java,v 1.2 2010/11/17 06:03:52 ystrot Exp $
  */
 package org.eclipse.tigerstripe.workbench.ui.model.dependencies;
 
@@ -325,13 +325,22 @@ public interface DependenciesPackage extends EPackage {
 	int SUBJECT__MASTER = SHAPE_FEATURE_COUNT + 3;
 
 	/**
+	 * The feature id for the '<em><b>Loaded</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SUBJECT__LOADED = SHAPE_FEATURE_COUNT + 4;
+
+	/**
 	 * The number of structural features of the '<em>Subject</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SUBJECT_FEATURE_COUNT = SHAPE_FEATURE_COUNT + 4;
+	int SUBJECT_FEATURE_COUNT = SHAPE_FEATURE_COUNT + 5;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.NoteImpl <em>Note</em>}' class.
@@ -889,6 +898,17 @@ public interface DependenciesPackage extends EPackage {
 	EAttribute getSubject_Master();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Subject#isLoaded <em>Loaded</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Loaded</em>'.
+	 * @see org.eclipse.tigerstripe.workbench.ui.model.dependencies.Subject#isLoaded()
+	 * @see #getSubject()
+	 * @generated
+	 */
+	EAttribute getSubject_Loaded();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Note <em>Note</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1326,6 +1346,14 @@ public interface DependenciesPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute SUBJECT__MASTER = eINSTANCE.getSubject_Master();
+
+		/**
+		 * The meta object literal for the '<em><b>Loaded</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SUBJECT__LOADED = eINSTANCE.getSubject_Loaded();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.NoteImpl <em>Note</em>}' class.

@@ -155,7 +155,7 @@ public abstract class ShapeEditPart extends AbstractGraphicalEditPart implements
 	}
 
 	@Override
-	protected void refreshVisuals() {
+	public void refreshVisuals() {
 		// notify parent container of changed position & location
 		// if this line is removed, the XYLayoutManager used by the parent
 		// container

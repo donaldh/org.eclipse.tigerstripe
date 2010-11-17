@@ -11,6 +11,8 @@
  ******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.dependencies.diagram.ui.layout;
 
+import java.util.Set;
+
 import org.eclipse.draw2d.Animation;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.GraphicalEditPart;
@@ -19,7 +21,7 @@ import org.eclipse.gef.commands.Command;
 public class LayoutUtils {
 
 	public static void layout(EditPart root, boolean animate) {
-		TopDownLayout layout = new TopDownLayout();
+		TopDownLayout layout = getLayout();
 		if (animate)
 			Animation.markBegin();
 		Command command = layout.layoutEditParts((GraphicalEditPart) root);
@@ -28,6 +30,29 @@ public class LayoutUtils {
 		}
 		if (animate)
 			Animation.run(400);
+	}
+
+	public static void layout(Set<GraphicalEditPart> parts, boolean animate) {
+
+		if (parts.isEmpty()) {
+			return;
+		}
+
+		TopDownLayout layout = getLayout();
+		layout.setOnlyParts(parts);
+		if (animate)
+			Animation.markBegin();
+		Command command = layout.layoutEditParts((GraphicalEditPart) parts
+				.iterator().next().getParent());
+		if (command.canExecute()) {
+			command.execute();
+		}
+		if (animate)
+			Animation.run(400);
+	}
+
+	private static TopDownLayout getLayout() {
+		return new TopDownLayout();
 	}
 
 }

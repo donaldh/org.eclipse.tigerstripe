@@ -20,8 +20,6 @@ import org.eclipse.gef.RequestConstants;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.api.IDependencySubject;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.diagram.ui.figures.SubjectFigure;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.diagram.ui.properties.SubjectPropertySource;
-import org.eclipse.tigerstripe.workbench.ui.dependencies.internal.depenedencies.LayerDescriptor;
-import org.eclipse.tigerstripe.workbench.ui.dependencies.internal.depenedencies.Registry;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.internal.depenedencies.SubjectStyleService;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.internal.depenedencies.Utils;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.DependenciesPackage;
@@ -31,25 +29,27 @@ import org.eclipse.ui.views.properties.IPropertySource;
 
 public class SubjectEditPart extends ShapeEditPart {
 
-	private AdapterImpl openedAdapter;
+	private AdapterImpl loadedAdapter;
 	private EContentAdapter kindAdapter;
 	private AdapterImpl customStyleAdapter;
 
 	@Override
 	public void activate() {
 		super.activate();
-		openedAdapter = new AdapterImpl() {
+		loadedAdapter = new AdapterImpl() {
 			@Override
 			public void notifyChanged(Notification msg) {
 				if (msg.getEventType() == Notification.SET) {
-					if (DependenciesPackage.Literals.SUBJECT__OPENED.equals(msg
+					if (DependenciesPackage.Literals.SUBJECT__LOADED.equals(msg
 							.getFeature())) {
-						refreshSourceConnections();
+						updateTitleComment((SubjectFigure) getFigure());
+						refreshVisuals();
 					}
 				}
 			}
+
 		};
-		getSubject().eAdapters().add(openedAdapter);
+		getSubject().eAdapters().add(loadedAdapter);
 
 		kindAdapter = new EContentAdapter() {
 			@Override
@@ -96,8 +96,8 @@ public class SubjectEditPart extends ShapeEditPart {
 	@Override
 	public void deactivate() {
 		super.deactivate();
-		if (openedAdapter != null) {
-			getSubject().eAdapters().remove(openedAdapter);
+		if (loadedAdapter != null) {
+			getSubject().eAdapters().remove(loadedAdapter);
 		}
 		if (kindAdapter != null) {
 			Utils.getDiagram(this).eAdapters().remove(kindAdapter);
@@ -124,9 +124,20 @@ public class SubjectEditPart extends ShapeEditPart {
 		}
 	}
 
+	private void updateTitleComment(SubjectFigure sf) {
+		Subject subject = getSubject();
+		if (!subject.isMaster() && subject.isLoaded()) {
+			sf.setTitleComment("loaded");
+		} else {
+			sf.setTitleComment(null);
+		}
+	}
+
 	@Override
 	protected IFigure doCreateFigure() {
-		return new SubjectFigure(this);
+		SubjectFigure subjectFigure = new SubjectFigure(this);
+		updateTitleComment(subjectFigure);
+		return subjectFigure;
 	}
 
 	@Override
@@ -141,10 +152,16 @@ public class SubjectEditPart extends ShapeEditPart {
 	@Override
 	public void performRequest(Request req) {
 		if (RequestConstants.REQ_OPEN.equals(req.getType())) {
-			Registry registry = Utils.getService(getViewer(), Registry.class);
-			LayerDescriptor layerInfo = registry.getLayerInfo(getSubject()
-					.getExternalId());
-			Utils.switchToLayer(layerInfo.getLayer(), getViewer());
+
+			Subject subject = getSubject();
+			if (subject.isMaster()) {
+				return;
+			}
+			if (subject.isLoaded()) {
+				Utils.collapseDependencies(this);
+			} else {
+				Utils.loadDependencies(this);
+			}
 		}
 	}
 

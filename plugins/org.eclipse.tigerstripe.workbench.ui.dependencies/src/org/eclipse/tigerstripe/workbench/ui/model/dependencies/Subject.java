@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Subject.java,v 1.1 2010/11/05 20:20:45 ystrot Exp $
+ * $Id: Subject.java,v 1.2 2010/11/17 06:03:52 ystrot Exp $
  */
 package org.eclipse.tigerstripe.workbench.ui.model.dependencies;
 
@@ -19,6 +19,7 @@ package org.eclipse.tigerstripe.workbench.ui.model.dependencies;
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Subject#isUseCustomStyle <em>Use Custom Style</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Subject#getKind <em>Kind</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Subject#isMaster <em>Master</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Subject#isLoaded <em>Loaded</em>}</li>
  * </ul>
  * </p>
  *
@@ -130,5 +131,31 @@ public interface Subject extends Shape {
 	 * @generated
 	 */
 	void setMaster(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Loaded</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Loaded</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Loaded</em>' attribute.
+	 * @see #setLoaded(boolean)
+	 * @see org.eclipse.tigerstripe.workbench.ui.model.dependencies.DependenciesPackage#getSubject_Loaded()
+	 * @model
+	 * @generated
+	 */
+	boolean isLoaded();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Subject#isLoaded <em>Loaded</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Loaded</em>' attribute.
+	 * @see #isLoaded()
+	 * @generated
+	 */
+	void setLoaded(boolean value);
 
 } // Subject

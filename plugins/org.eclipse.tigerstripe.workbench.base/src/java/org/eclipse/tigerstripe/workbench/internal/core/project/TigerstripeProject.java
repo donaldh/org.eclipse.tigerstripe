@@ -269,6 +269,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			loadReferences(document);
 			loadFacetReferences(document);
 			loadAdvancedProperties(document);
+			loadDependenciesVisualState(document);
 
 		} catch (SAXParseException spe) {
 			TigerstripeRuntime.logErrorMessage("SAXParseException detected",
@@ -357,6 +358,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			root.appendChild(buildReferencesElement(document));
 			root.appendChild(buildFacetRefsElement(document));
 			root.appendChild(buildAdvancedElement(document));
+			root.appendChild(buildDependenciesVisualState(document));
 		} catch (ParserConfigurationException e) {
 			TigerstripeRuntime.logErrorMessage(
 					"ParserConfigurationException detected", e);
@@ -506,8 +508,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 					+ File.separator + baseDir)).exists()) {
 				// this is a relative path
 				repository = new ArtifactRepository(new File(getBaseDir()
-						.getAbsolutePath()
-						+ File.separator + baseDir));
+						.getAbsolutePath() + File.separator + baseDir));
 			} else if ((new File(baseDir)).exists()) {
 				// this is an absolute path
 				repository = new ArtifactRepository(new File(baseDir));
@@ -615,10 +616,12 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	}
 
 	/**
-	 *  TODO Note by Navid: This method should be removed.  There is a getTSProject() in TigerstripeProjectHandle
-	 *  that returns the actual TS Project.  This method seems to return the Project HANDLE and there is already
-	 *  a getProjectHandle() here, which returns a TigerstripeProjectHandle, which really IS a ITigerstripeModelProject.
-	 *   
+	 * TODO Note by Navid: This method should be removed. There is a
+	 * getTSProject() in TigerstripeProjectHandle that returns the actual TS
+	 * Project. This method seems to return the Project HANDLE and there is
+	 * already a getProjectHandle() here, which returns a
+	 * TigerstripeProjectHandle, which really IS a ITigerstripeModelProject.
+	 * 
 	 * @return
 	 */
 	public ITigerstripeModelProject getTSProject() {
@@ -798,10 +801,10 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 							// context when
 							// they have the same relPath and moduleID
 							if (lDep.getPath().equals(dep.getPath())
-									&& lDep.getIModuleHeader().getModuleID()
-											.equals(
-													dep.getIModuleHeader()
-															.getModuleID())) {
+									&& lDep.getIModuleHeader()
+											.getModuleID()
+											.equals(dep.getIModuleHeader()
+													.getModuleID())) {
 								matched = true;
 							}
 						}
@@ -815,10 +818,10 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 						// when
 						// they have the same relPath and moduleID
 						if (lDep.getPath().equals(dep.getPath())
-								&& lDep.getIModuleHeader().getModuleID()
-										.equals(
-												dep.getIModuleHeader()
-														.getModuleID())) {
+								&& lDep.getIModuleHeader()
+										.getModuleID()
+										.equals(dep.getIModuleHeader()
+												.getModuleID())) {
 							matched = true;
 						}
 					}
@@ -934,8 +937,9 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	public final LegacyModelReference makeLegacyModelReferenceFrom(
 			ITigerstripeModelProject project) throws TigerstripeException {
 		ModelReference mRef = ModelReference.referenceFromProject(project);
-		LegacyModelReference mLRef = new LegacyModelReference(mRef
-				.getProjectContext(), mRef.getToModelId(), project.getName());
+		LegacyModelReference mLRef = new LegacyModelReference(
+				mRef.getProjectContext(), mRef.getToModelId(),
+				project.getName());
 		return mLRef;
 	}
 
@@ -958,6 +962,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 		return handle;
 	}
 
+	@Override
 	public void descriptorChanged(IResource changedDescriptor) {
 		// If the descriptor has changed, then we need to reload for sure!
 		IProject project = (IProject) this.getAdapter(IProject.class);
