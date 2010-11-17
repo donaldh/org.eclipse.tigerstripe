@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Subject.java,v 1.2 2010/11/17 06:03:52 ystrot Exp $
+ * $Id: Subject.java,v 1.5 2010/11/18 17:00:38 ystrot Exp $
  */
 package org.eclipse.tigerstripe.workbench.ui.model.dependencies;
 
@@ -15,6 +15,7 @@ package org.eclipse.tigerstripe.workbench.ui.model.dependencies;
  * <p>
  * The following features are supported:
  * <ul>
+ *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Subject#getExternalId <em>External Id</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Subject#isOpened <em>Opened</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Subject#isUseCustomStyle <em>Use Custom Style</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Subject#getKind <em>Kind</em>}</li>
@@ -28,6 +29,32 @@ package org.eclipse.tigerstripe.workbench.ui.model.dependencies;
  * @generated
  */
 public interface Subject extends Shape {
+	/**
+	 * Returns the value of the '<em><b>External Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>External Id</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>External Id</em>' attribute.
+	 * @see #setExternalId(String)
+	 * @see org.eclipse.tigerstripe.workbench.ui.model.dependencies.DependenciesPackage#getSubject_ExternalId()
+	 * @model
+	 * @generated
+	 */
+	String getExternalId();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Subject#getExternalId <em>External Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>External Id</em>' attribute.
+	 * @see #getExternalId()
+	 * @generated
+	 */
+	void setExternalId(String value);
+
 	/**
 	 * Returns the value of the '<em><b>Opened</b></em>' attribute.
 	 * <!-- begin-user-doc -->

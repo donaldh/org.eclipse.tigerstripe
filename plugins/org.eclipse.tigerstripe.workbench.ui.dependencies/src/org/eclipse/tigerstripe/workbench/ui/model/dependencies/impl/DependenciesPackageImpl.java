@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DependenciesPackageImpl.java,v 1.2 2010/11/17 06:03:52 ystrot Exp $
+ * $Id: DependenciesPackageImpl.java,v 1.4 2010/11/17 18:57:49 ystrot Exp $
  */
 package org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl;
 
@@ -213,17 +213,8 @@ public class DependenciesPackageImpl extends EPackageImpl implements Dependencie
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getShape_ExternalId() {
-		return (EAttribute)shapeEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getShape_SourceConnections() {
-		return (EReference)shapeEClass.getEStructuralFeatures().get(4);
+		return (EReference)shapeEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -232,7 +223,7 @@ public class DependenciesPackageImpl extends EPackageImpl implements Dependencie
 	 * @generated
 	 */
 	public EReference getShape_TargetConnections() {
-		return (EReference)shapeEClass.getEStructuralFeatures().get(5);
+		return (EReference)shapeEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -241,7 +232,7 @@ public class DependenciesPackageImpl extends EPackageImpl implements Dependencie
 	 * @generated
 	 */
 	public EReference getShape_ParentLayer() {
-		return (EReference)shapeEClass.getEStructuralFeatures().get(6);
+		return (EReference)shapeEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -312,7 +303,7 @@ public class DependenciesPackageImpl extends EPackageImpl implements Dependencie
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSubject_Opened() {
+	public EAttribute getSubject_ExternalId() {
 		return (EAttribute)subjectEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -321,7 +312,7 @@ public class DependenciesPackageImpl extends EPackageImpl implements Dependencie
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getSubject_UseCustomStyle() {
+	public EAttribute getSubject_Opened() {
 		return (EAttribute)subjectEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -330,8 +321,17 @@ public class DependenciesPackageImpl extends EPackageImpl implements Dependencie
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getSubject_UseCustomStyle() {
+		return (EAttribute)subjectEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EReference getSubject_Kind() {
-		return (EReference)subjectEClass.getEStructuralFeatures().get(2);
+		return (EReference)subjectEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -340,7 +340,7 @@ public class DependenciesPackageImpl extends EPackageImpl implements Dependencie
 	 * @generated
 	 */
 	public EAttribute getSubject_Master() {
-		return (EAttribute)subjectEClass.getEStructuralFeatures().get(3);
+		return (EAttribute)subjectEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -349,7 +349,7 @@ public class DependenciesPackageImpl extends EPackageImpl implements Dependencie
 	 * @generated
 	 */
 	public EAttribute getSubject_Loaded() {
-		return (EAttribute)subjectEClass.getEStructuralFeatures().get(4);
+		return (EAttribute)subjectEClass.getEStructuralFeatures().get(5);
 	}
 
 	/**
@@ -600,7 +600,6 @@ public class DependenciesPackageImpl extends EPackageImpl implements Dependencie
 		createEReference(shapeEClass, SHAPE__LOCATION);
 		createEReference(shapeEClass, SHAPE__SIZE);
 		createEReference(shapeEClass, SHAPE__STYLE);
-		createEAttribute(shapeEClass, SHAPE__EXTERNAL_ID);
 		createEReference(shapeEClass, SHAPE__SOURCE_CONNECTIONS);
 		createEReference(shapeEClass, SHAPE__TARGET_CONNECTIONS);
 		createEReference(shapeEClass, SHAPE__PARENT_LAYER);
@@ -614,6 +613,7 @@ public class DependenciesPackageImpl extends EPackageImpl implements Dependencie
 		createEAttribute(dimensionEClass, DIMENSION__HEIGHT);
 
 		subjectEClass = createEClass(SUBJECT);
+		createEAttribute(subjectEClass, SUBJECT__EXTERNAL_ID);
 		createEAttribute(subjectEClass, SUBJECT__OPENED);
 		createEAttribute(subjectEClass, SUBJECT__USE_CUSTOM_STYLE);
 		createEReference(subjectEClass, SUBJECT__KIND);
@@ -688,7 +688,6 @@ public class DependenciesPackageImpl extends EPackageImpl implements Dependencie
 		initEReference(getShape_Location(), this.getPoint(), null, "location", null, 0, 1, Shape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getShape_Size(), this.getDimension(), null, "size", null, 0, 1, Shape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getShape_Style(), this.getShapeStyle(), null, "style", null, 0, 1, Shape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getShape_ExternalId(), ecorePackage.getEString(), "externalId", null, 0, 1, Shape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getShape_SourceConnections(), this.getConnection(), null, "sourceConnections", null, 0, -1, Shape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getShape_TargetConnections(), this.getConnection(), null, "targetConnections", null, 0, -1, Shape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getShape_ParentLayer(), this.getLayer(), this.getLayer_Shapes(), "parentLayer", null, 0, 1, Shape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -702,6 +701,7 @@ public class DependenciesPackageImpl extends EPackageImpl implements Dependencie
 		initEAttribute(getDimension_Height(), ecorePackage.getEInt(), "height", null, 0, 1, Dimension.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(subjectEClass, Subject.class, "Subject", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getSubject_ExternalId(), ecorePackage.getEString(), "externalId", null, 0, 1, Subject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSubject_Opened(), ecorePackage.getEBoolean(), "opened", null, 0, 1, Subject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getSubject_UseCustomStyle(), ecorePackage.getEBoolean(), "useCustomStyle", null, 0, 1, Subject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getSubject_Kind(), this.getKind(), null, "kind", null, 0, 1, Subject.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

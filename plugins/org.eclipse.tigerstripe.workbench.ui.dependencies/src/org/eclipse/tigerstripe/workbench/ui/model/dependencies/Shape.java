@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Shape.java,v 1.1 2010/11/05 20:20:45 ystrot Exp $
+ * $Id: Shape.java,v 1.3 2010/11/17 18:57:49 ystrot Exp $
  */
 package org.eclipse.tigerstripe.workbench.ui.model.dependencies;
 
@@ -21,7 +21,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Shape#getLocation <em>Location</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Shape#getSize <em>Size</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Shape#getStyle <em>Style</em>}</li>
- *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Shape#getExternalId <em>External Id</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Shape#getSourceConnections <em>Source Connections</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Shape#getTargetConnections <em>Target Connections</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Shape#getParentLayer <em>Parent Layer</em>}</li>
@@ -110,32 +109,6 @@ public interface Shape extends EObject {
 	 * @generated
 	 */
 	void setStyle(ShapeStyle value);
-
-	/**
-	 * Returns the value of the '<em><b>External Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>External Id</em>' attribute isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>External Id</em>' attribute.
-	 * @see #setExternalId(String)
-	 * @see org.eclipse.tigerstripe.workbench.ui.model.dependencies.DependenciesPackage#getShape_ExternalId()
-	 * @model
-	 * @generated
-	 */
-	String getExternalId();
-
-	/**
-	 * Sets the value of the '{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Shape#getExternalId <em>External Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>External Id</em>' attribute.
-	 * @see #getExternalId()
-	 * @generated
-	 */
-	void setExternalId(String value);
 
 	/**
 	 * Returns the value of the '<em><b>Source Connections</b></em>' reference list.

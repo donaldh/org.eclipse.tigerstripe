@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: SubjectImpl.java,v 1.2 2010/11/17 06:03:52 ystrot Exp $
+ * $Id: SubjectImpl.java,v 1.5 2010/11/18 17:00:38 ystrot Exp $
  */
 package org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl;
 
@@ -24,6 +24,7 @@ import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Subject;
  * <p>
  * The following features are implemented:
  * <ul>
+ *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.SubjectImpl#getExternalId <em>External Id</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.SubjectImpl#isOpened <em>Opened</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.SubjectImpl#isUseCustomStyle <em>Use Custom Style</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.SubjectImpl#getKind <em>Kind</em>}</li>
@@ -35,6 +36,26 @@ import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Subject;
  * @generated
  */
 public class SubjectImpl extends ShapeImpl implements Subject {
+	/**
+	 * The default value of the '{@link #getExternalId() <em>External Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getExternalId()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final String EXTERNAL_ID_EDEFAULT = null;
+
+	/**
+	 * The cached value of the '{@link #getExternalId() <em>External Id</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getExternalId()
+	 * @generated
+	 * @ordered
+	 */
+	protected String externalId = EXTERNAL_ID_EDEFAULT;
+
 	/**
 	 * The default value of the '{@link #isOpened() <em>Opened</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -142,6 +163,27 @@ public class SubjectImpl extends ShapeImpl implements Subject {
 	@Override
 	protected EClass eStaticClass() {
 		return DependenciesPackage.Literals.SUBJECT;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public String getExternalId() {
+		return externalId;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setExternalId(String newExternalId) {
+		String oldExternalId = externalId;
+		externalId = newExternalId;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, DependenciesPackage.SUBJECT__EXTERNAL_ID, oldExternalId, externalId));
 	}
 
 	/**
@@ -274,6 +316,8 @@ public class SubjectImpl extends ShapeImpl implements Subject {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
+			case DependenciesPackage.SUBJECT__EXTERNAL_ID:
+				return getExternalId();
 			case DependenciesPackage.SUBJECT__OPENED:
 				return isOpened();
 			case DependenciesPackage.SUBJECT__USE_CUSTOM_STYLE:
@@ -297,6 +341,9 @@ public class SubjectImpl extends ShapeImpl implements Subject {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
+			case DependenciesPackage.SUBJECT__EXTERNAL_ID:
+				setExternalId((String)newValue);
+				return;
 			case DependenciesPackage.SUBJECT__OPENED:
 				setOpened((Boolean)newValue);
 				return;
@@ -324,6 +371,9 @@ public class SubjectImpl extends ShapeImpl implements Subject {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
+			case DependenciesPackage.SUBJECT__EXTERNAL_ID:
+				setExternalId(EXTERNAL_ID_EDEFAULT);
+				return;
 			case DependenciesPackage.SUBJECT__OPENED:
 				setOpened(OPENED_EDEFAULT);
 				return;
@@ -351,6 +401,8 @@ public class SubjectImpl extends ShapeImpl implements Subject {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
+			case DependenciesPackage.SUBJECT__EXTERNAL_ID:
+				return EXTERNAL_ID_EDEFAULT == null ? externalId != null : !EXTERNAL_ID_EDEFAULT.equals(externalId);
 			case DependenciesPackage.SUBJECT__OPENED:
 				return opened != OPENED_EDEFAULT;
 			case DependenciesPackage.SUBJECT__USE_CUSTOM_STYLE:
@@ -375,7 +427,9 @@ public class SubjectImpl extends ShapeImpl implements Subject {
 		if (eIsProxy()) return super.toString();
 
 		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (opened: ");
+		result.append(" (externalId: ");
+		result.append(externalId);
+		result.append(", opened: ");
 		result.append(opened);
 		result.append(", useCustomStyle: ");
 		result.append(useCustomStyle);

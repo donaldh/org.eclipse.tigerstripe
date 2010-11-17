@@ -27,14 +27,14 @@ import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.api.IDependencySubject;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.api.IDependencyType;
+import org.eclipse.tigerstripe.workbench.ui.dependencies.internal.depenedencies.Cache.Creator;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Connection;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Diagram;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Kind;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Layer;
+import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Note;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Shape;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Subject;
-import org.eclipse.tigerstripe.workbench.ui.model.dependencies.util.Cache;
-import org.eclipse.tigerstripe.workbench.ui.model.dependencies.util.Cache.Creator;
 
 public class Registry {
 
@@ -481,11 +481,158 @@ public class Registry {
 		return affectedSubjects;
 	}
 
-	public Set<Subject> collapseDependencies(Subject forSubject) {
-		return collapseDependenciesInternal(forSubject, new HashSet<Subject>());
+	public void collapseDependencies(Subject forSubject) {
+		collapseDependenciesInternal(forSubject, new HashSet<Subject>());
 	}
 
-	private Set<Subject> collapseDependenciesInternal(Subject forSubject,
+	private void collapseDependenciesInternal(Subject forSubject,
+			Set<Subject> seen) {
+
+		if (!seen.add(forSubject)) {
+			return;
+		}
+
+		if (!forSubject.isLoaded()) {
+			return;
+		}
+
+		LayerDescriptor layerDescriptor = initializedLayers.get(forSubject
+				.getParentLayer().getId());
+
+		if (layerDescriptor == null) {
+			return;
+		}
+		forSubject.setLoaded(false);
+
+		LayerData layerData = layerDescriptor.getLayerData();
+		SubjectDescriptor fromD = layerData.get(forSubject.getExternalId());
+		Subject fromShape = fromD.getSubject();
+
+		Set<Subject> toShapes = new HashSet<Subject>();
+
+		for (IDependencySubject to : fromD.getExternalSubject()
+				.getDependencies()) {
+
+			SubjectDescriptor toDescriptor = layerData.get(to.getId());
+
+			if (toDescriptor == null) {
+				continue;
+			}
+
+			toShapes.add(toDescriptor.getSubject());
+		}
+
+		Set<Subject> toRemoves = new HashSet<Subject>();
+		Set<Subject> linkedWithOthers = new HashSet<Subject>();
+
+		for (Subject toShape : toShapes) {
+			for (Connection con : toShape.getSourceConnections()) {
+				Shape target = con.getTarget();
+				if (target instanceof Subject) {
+					Subject targetSubject = (Subject) target;
+					if (!toShapes.contains(targetSubject)
+							&& targetSubject.isLoaded()) {
+						linkedWithOthers.add(toShape);
+					}
+				}
+			}
+		}
+
+		for (Subject toShape : toShapes.toArray(new Subject[0])) {
+
+			if (toShape.isMaster()) {
+				continue;
+			}
+
+			// Delete orphan
+			boolean canRemove;
+			if (linkedWithOthers.contains(toShape)) {
+				canRemove = false;
+				continue;
+			} else {
+				canRemove = true;
+			}
+			for (Connection con : toShape.getSourceConnections()) {
+				Shape target = con.getTarget();
+				if (target instanceof Subject) {
+					Subject targetSubject = (Subject) target;
+					if ((linkedWithOthers.contains(targetSubject) || !toShapes
+							.contains(targetSubject))
+							&& targetSubject.isLoaded()) {
+						canRemove = false;
+						break;
+					}
+				}
+			}
+
+			if (canRemove) {
+				toRemoves.add(toShape);
+			}
+		}
+
+		for (Subject toRemove : toRemoves) {
+			if (toRemove.isLoaded()) {
+				collapseDependenciesInternal2(toRemove, seen);
+			}
+		}
+
+		List<Shape> layerShapes = fromShape.getParentLayer().getShapes();
+		for (Subject toRemove : toRemoves) {
+
+			for (Connection con : toRemove.getTargetConnections()) {
+				Shape source = con.getSource();
+				if (source instanceof Note) {
+					layerShapes.remove(source);
+				}
+			}
+			layerShapes.remove(toRemove);
+			layerData.remove(toRemove.getExternalId());
+
+			// saveSubject(toRemove);
+			// Remove notice
+		}
+
+		updateConnections(layerDescriptor);
+	}
+
+	private void updateConnections(LayerDescriptor layerDescriptor) {
+
+		Layer layer = layerDescriptor.getLayer();
+		for (Shape shape : layer.getShapes()) {
+			if (shape instanceof Subject) {
+				shape.getTargetConnections().clear();
+				shape.getSourceConnections().clear();
+			}
+		}
+
+		LayerData layerData = layerDescriptor.getLayerData();
+		for (Shape shape : layer.getShapes()) {
+			if (shape instanceof Subject) {
+				SubjectDescriptor fromD = layerData.get(((Subject) shape)
+						.getExternalId());
+				if (fromD != null) {
+					for (IDependencySubject dep : fromD.getExternalSubject()
+							.getDependencies()) {
+						SubjectDescriptor toSd = layerData.get(dep.getId());
+						if (toSd != null) {
+							Utils.link(fromD.getSubject(), toSd.getSubject());
+						}
+					}
+				}
+			} else if (shape instanceof Note) {
+				Note note = (Note) shape;
+				for (Connection con : note.getSourceConnections()) {
+					Shape target = con.getTarget();
+					if (target instanceof Subject) {
+						target.getTargetConnections().add(con);
+					}
+				}
+			}
+		}
+	}
+
+	@Deprecated
+	private Set<Subject> collapseDependenciesInternal2(Subject forSubject,
 			Set<Subject> seen) {
 
 		if (!seen.add(forSubject)) {
@@ -584,7 +731,7 @@ public class Registry {
 
 		for (Subject toRemove : toRemoves) {
 			if (toRemove.isLoaded()) {
-				affectedSubjects.addAll(collapseDependenciesInternal(toRemove,
+				affectedSubjects.addAll(collapseDependenciesInternal2(toRemove,
 						seen));
 			}
 		}
@@ -604,6 +751,9 @@ public class Registry {
 
 			layerShapes.remove(toRemove);
 			layerData.remove(toRemove.getExternalId());
+		}
+		if (!affectedSubjects.isEmpty()) {
+			affectedSubjects.add(forSubject);
 		}
 		return affectedSubjects;
 	}

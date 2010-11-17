@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DependenciesPackage.java,v 1.2 2010/11/17 06:03:52 ystrot Exp $
+ * $Id: DependenciesPackage.java,v 1.4 2010/11/17 18:57:49 ystrot Exp $
  */
 package org.eclipse.tigerstripe.workbench.ui.model.dependencies;
 
@@ -97,22 +97,13 @@ public interface DependenciesPackage extends EPackage {
 	int SHAPE__STYLE = 2;
 
 	/**
-	 * The feature id for the '<em><b>External Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SHAPE__EXTERNAL_ID = 3;
-
-	/**
 	 * The feature id for the '<em><b>Source Connections</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SHAPE__SOURCE_CONNECTIONS = 4;
+	int SHAPE__SOURCE_CONNECTIONS = 3;
 
 	/**
 	 * The feature id for the '<em><b>Target Connections</b></em>' containment reference list.
@@ -121,7 +112,7 @@ public interface DependenciesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SHAPE__TARGET_CONNECTIONS = 5;
+	int SHAPE__TARGET_CONNECTIONS = 4;
 
 	/**
 	 * The feature id for the '<em><b>Parent Layer</b></em>' container reference.
@@ -130,7 +121,7 @@ public interface DependenciesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SHAPE__PARENT_LAYER = 6;
+	int SHAPE__PARENT_LAYER = 5;
 
 	/**
 	 * The number of structural features of the '<em>Shape</em>' class.
@@ -139,7 +130,7 @@ public interface DependenciesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SHAPE_FEATURE_COUNT = 7;
+	int SHAPE_FEATURE_COUNT = 6;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.PointImpl <em>Point</em>}' class.
@@ -253,15 +244,6 @@ public interface DependenciesPackage extends EPackage {
 	int SUBJECT__STYLE = SHAPE__STYLE;
 
 	/**
-	 * The feature id for the '<em><b>External Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int SUBJECT__EXTERNAL_ID = SHAPE__EXTERNAL_ID;
-
-	/**
 	 * The feature id for the '<em><b>Source Connections</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -289,13 +271,22 @@ public interface DependenciesPackage extends EPackage {
 	int SUBJECT__PARENT_LAYER = SHAPE__PARENT_LAYER;
 
 	/**
+	 * The feature id for the '<em><b>External Id</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SUBJECT__EXTERNAL_ID = SHAPE_FEATURE_COUNT + 0;
+
+	/**
 	 * The feature id for the '<em><b>Opened</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SUBJECT__OPENED = SHAPE_FEATURE_COUNT + 0;
+	int SUBJECT__OPENED = SHAPE_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Use Custom Style</b></em>' attribute.
@@ -304,7 +295,7 @@ public interface DependenciesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SUBJECT__USE_CUSTOM_STYLE = SHAPE_FEATURE_COUNT + 1;
+	int SUBJECT__USE_CUSTOM_STYLE = SHAPE_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Kind</b></em>' reference.
@@ -313,7 +304,7 @@ public interface DependenciesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SUBJECT__KIND = SHAPE_FEATURE_COUNT + 2;
+	int SUBJECT__KIND = SHAPE_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Master</b></em>' attribute.
@@ -322,7 +313,7 @@ public interface DependenciesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SUBJECT__MASTER = SHAPE_FEATURE_COUNT + 3;
+	int SUBJECT__MASTER = SHAPE_FEATURE_COUNT + 4;
 
 	/**
 	 * The feature id for the '<em><b>Loaded</b></em>' attribute.
@@ -331,7 +322,7 @@ public interface DependenciesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SUBJECT__LOADED = SHAPE_FEATURE_COUNT + 4;
+	int SUBJECT__LOADED = SHAPE_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of structural features of the '<em>Subject</em>' class.
@@ -340,7 +331,7 @@ public interface DependenciesPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int SUBJECT_FEATURE_COUNT = SHAPE_FEATURE_COUNT + 5;
+	int SUBJECT_FEATURE_COUNT = SHAPE_FEATURE_COUNT + 6;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.NoteImpl <em>Note</em>}' class.
@@ -378,15 +369,6 @@ public interface DependenciesPackage extends EPackage {
 	 * @ordered
 	 */
 	int NOTE__STYLE = SHAPE__STYLE;
-
-	/**
-	 * The feature id for the '<em><b>External Id</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int NOTE__EXTERNAL_ID = SHAPE__EXTERNAL_ID;
 
 	/**
 	 * The feature id for the '<em><b>Source Connections</b></em>' reference list.
@@ -736,17 +718,6 @@ public interface DependenciesPackage extends EPackage {
 	EReference getShape_Style();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Shape#getExternalId <em>External Id</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>External Id</em>'.
-	 * @see org.eclipse.tigerstripe.workbench.ui.model.dependencies.Shape#getExternalId()
-	 * @see #getShape()
-	 * @generated
-	 */
-	EAttribute getShape_ExternalId();
-
-	/**
 	 * Returns the meta object for the reference list '{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Shape#getSourceConnections <em>Source Connections</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -852,6 +823,17 @@ public interface DependenciesPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getSubject();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Subject#getExternalId <em>External Id</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>External Id</em>'.
+	 * @see org.eclipse.tigerstripe.workbench.ui.model.dependencies.Subject#getExternalId()
+	 * @see #getSubject()
+	 * @generated
+	 */
+	EAttribute getSubject_ExternalId();
 
 	/**
 	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Subject#isOpened <em>Opened</em>}'.
@@ -1222,14 +1204,6 @@ public interface DependenciesPackage extends EPackage {
 		EReference SHAPE__STYLE = eINSTANCE.getShape_Style();
 
 		/**
-		 * The meta object literal for the '<em><b>External Id</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute SHAPE__EXTERNAL_ID = eINSTANCE.getShape_ExternalId();
-
-		/**
 		 * The meta object literal for the '<em><b>Source Connections</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1314,6 +1288,14 @@ public interface DependenciesPackage extends EPackage {
 		 * @generated
 		 */
 		EClass SUBJECT = eINSTANCE.getSubject();
+
+		/**
+		 * The meta object literal for the '<em><b>External Id</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SUBJECT__EXTERNAL_ID = eINSTANCE.getSubject_ExternalId();
 
 		/**
 		 * The meta object literal for the '<em><b>Opened</b></em>' attribute feature.

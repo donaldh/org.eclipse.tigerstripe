@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ShapeImpl.java,v 1.1 2010/11/05 20:20:46 ystrot Exp $
+ * $Id: ShapeImpl.java,v 1.3 2010/11/17 18:57:49 ystrot Exp $
  */
 package org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl;
 
@@ -42,7 +42,6 @@ import org.eclipse.tigerstripe.workbench.ui.model.dependencies.ShapeStyle;
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.ShapeImpl#getLocation <em>Location</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.ShapeImpl#getSize <em>Size</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.ShapeImpl#getStyle <em>Style</em>}</li>
- *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.ShapeImpl#getExternalId <em>External Id</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.ShapeImpl#getSourceConnections <em>Source Connections</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.ShapeImpl#getTargetConnections <em>Target Connections</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.ShapeImpl#getParentLayer <em>Parent Layer</em>}</li>
@@ -81,26 +80,6 @@ public class ShapeImpl extends EObjectImpl implements Shape {
 	 * @ordered
 	 */
 	protected ShapeStyle style;
-
-	/**
-	 * The default value of the '{@link #getExternalId() <em>External Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getExternalId()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final String EXTERNAL_ID_EDEFAULT = null;
-
-	/**
-	 * The cached value of the '{@link #getExternalId() <em>External Id</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getExternalId()
-	 * @generated
-	 * @ordered
-	 */
-	protected String externalId = EXTERNAL_ID_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getSourceConnections() <em>Source Connections</em>}' reference list.
@@ -275,27 +254,6 @@ public class ShapeImpl extends EObjectImpl implements Shape {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public String getExternalId() {
-		return externalId;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setExternalId(String newExternalId) {
-		String oldExternalId = externalId;
-		externalId = newExternalId;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, DependenciesPackage.SHAPE__EXTERNAL_ID, oldExternalId, externalId));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EList<Connection> getSourceConnections() {
 		if (sourceConnections == null) {
 			sourceConnections = new EObjectResolvingEList<Connection>(Connection.class, this, DependenciesPackage.SHAPE__SOURCE_CONNECTIONS);
@@ -422,8 +380,6 @@ public class ShapeImpl extends EObjectImpl implements Shape {
 				return getSize();
 			case DependenciesPackage.SHAPE__STYLE:
 				return getStyle();
-			case DependenciesPackage.SHAPE__EXTERNAL_ID:
-				return getExternalId();
 			case DependenciesPackage.SHAPE__SOURCE_CONNECTIONS:
 				return getSourceConnections();
 			case DependenciesPackage.SHAPE__TARGET_CONNECTIONS:
@@ -451,9 +407,6 @@ public class ShapeImpl extends EObjectImpl implements Shape {
 				return;
 			case DependenciesPackage.SHAPE__STYLE:
 				setStyle((ShapeStyle)newValue);
-				return;
-			case DependenciesPackage.SHAPE__EXTERNAL_ID:
-				setExternalId((String)newValue);
 				return;
 			case DependenciesPackage.SHAPE__SOURCE_CONNECTIONS:
 				getSourceConnections().clear();
@@ -487,9 +440,6 @@ public class ShapeImpl extends EObjectImpl implements Shape {
 			case DependenciesPackage.SHAPE__STYLE:
 				setStyle((ShapeStyle)null);
 				return;
-			case DependenciesPackage.SHAPE__EXTERNAL_ID:
-				setExternalId(EXTERNAL_ID_EDEFAULT);
-				return;
 			case DependenciesPackage.SHAPE__SOURCE_CONNECTIONS:
 				getSourceConnections().clear();
 				return;
@@ -517,8 +467,6 @@ public class ShapeImpl extends EObjectImpl implements Shape {
 				return size != null;
 			case DependenciesPackage.SHAPE__STYLE:
 				return style != null;
-			case DependenciesPackage.SHAPE__EXTERNAL_ID:
-				return EXTERNAL_ID_EDEFAULT == null ? externalId != null : !EXTERNAL_ID_EDEFAULT.equals(externalId);
 			case DependenciesPackage.SHAPE__SOURCE_CONNECTIONS:
 				return sourceConnections != null && !sourceConnections.isEmpty();
 			case DependenciesPackage.SHAPE__TARGET_CONNECTIONS:
@@ -527,22 +475,6 @@ public class ShapeImpl extends EObjectImpl implements Shape {
 				return getParentLayer() != null;
 		}
 		return super.eIsSet(featureID);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public String toString() {
-		if (eIsProxy()) return super.toString();
-
-		StringBuffer result = new StringBuffer(super.toString());
-		result.append(" (externalId: ");
-		result.append(externalId);
-		result.append(')');
-		return result.toString();
 	}
 
 } //ShapeImpl

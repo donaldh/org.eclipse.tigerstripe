@@ -243,20 +243,14 @@ public class Utils {
 		if (!subject.isLoaded()) {
 			return;
 		}
-		Set<Subject> affected = registry.collapseDependencies(subject);
-		part.getParent().refresh();
-		part.refresh();
+		registry.collapseDependencies(subject);
+		EditPart parent = part.getParent();
+		parent.refresh();
 
-		Map<?, ?> editPartRegistry = part.getViewer().getEditPartRegistry();
-
-		for (Subject s : affected) {
-			GraphicalEditPart aPart = (GraphicalEditPart) editPartRegistry
-					.get(s);
-			if (aPart != null) {
-				aPart.refresh();
-			}
+		Iterator<?> it = parent.getChildren().iterator();
+		while (it.hasNext()) {
+			((EditPart) it.next()).refresh();
 		}
-
 	}
 
 	private static void throwIllegalStateOfRootEditPart() {
