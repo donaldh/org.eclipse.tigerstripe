@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# This script is a simple copy to an eclipse.org hosted update site
+# This script is a simple copy to an eclipse.org hosted update site for the sid mapping plugin
 #
 #  ./upload.sh
 #
