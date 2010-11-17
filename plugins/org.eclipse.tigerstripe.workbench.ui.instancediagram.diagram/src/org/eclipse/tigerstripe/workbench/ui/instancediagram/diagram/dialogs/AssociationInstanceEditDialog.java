@@ -475,7 +475,7 @@ public class AssociationInstanceEditDialog extends TSMessageDialog {
 		final Text aEndName = new Text(endsComposite, SWT.NONE);
 		aEndName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		aEndName.setEditable(false);
-		aEndCombo = new Combo(endsComposite, SWT.NONE);
+		aEndCombo = new Combo(endsComposite, SWT.NONE | SWT.READ_ONLY);
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.horizontalSpan = 2;
 		aEndCombo.setLayoutData(gridData);
@@ -485,7 +485,7 @@ public class AssociationInstanceEditDialog extends TSMessageDialog {
 		final Text zEndName = new Text(endsComposite, SWT.NONE);
 		zEndName.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		zEndName.setEditable(false);
-		zEndCombo = new Combo(endsComposite, SWT.NONE);
+		zEndCombo = new Combo(endsComposite, SWT.NONE | SWT.READ_ONLY);
 		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.horizontalSpan = 2;
 		zEndCombo.setLayoutData(gridData);
