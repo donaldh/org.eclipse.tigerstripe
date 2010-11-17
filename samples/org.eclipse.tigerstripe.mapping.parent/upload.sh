@@ -5,11 +5,6 @@
 #  ./upload.sh
 #
 
-if [ $# -ne 1 ]; then
-    echo "usage: upload.sh"
-    exit 1
-fi
-
 DST=$1; shift
 SITE=/home/data/httpd/download.eclipse.org/technology/tigerstripe/updates/sid-mappings
 SITE_NAME="Updates (Release)"
