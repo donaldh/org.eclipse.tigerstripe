@@ -22,5 +22,15 @@
 		<packageFinder
 			class="org.eclipse.tigerstripe.annotation.internal.core.PackageFinder"/>
 	</extension>
+ <extension
+       point="org.eclipse.help.toc">
+    <toc
+          file="doc/toc.xml">
+    </toc>
+    <toc
+          file="doc/apiToc.xml"
+          primary="true">
+    </toc>
+ </extension>
 
 </plugin>
