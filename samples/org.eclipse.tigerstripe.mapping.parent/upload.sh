@@ -11,5 +11,5 @@ SITE_NAME="Updates (Release)"
 PROMOTED_BUILD=`echo $PROMOTED_URL | awk '{split($0, a, "/");print a[6]}'`
  
 echo "Uploading build ${PROMOTED_BUILD} to $SITE_NAME"
-cd ${WORKSPACE}/../builds/${PROMOTED_BUILD}/archive/target/site
+cd ${WORKSPACE}/../builds/${PROMOTED_BUILD}/archive/org.eclipse.tigerstripe.mapping.sid.update-site/target/site
 scp -rv * edillon@download1.eclipse.org:"$SITE"
