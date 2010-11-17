@@ -11,10 +11,15 @@
  ******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.dependencies.diagram.ui.edit;
 
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.gef.GraphicalEditPart;
 import org.eclipse.gef.tools.CellEditorLocator;
 import org.eclipse.gef.tools.DirectEditManager;
+import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.TextCellEditor;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.diagram.ui.figures.NoteFigure;
 
 public class NoteTextEditManager extends DirectEditManager {
@@ -25,9 +30,17 @@ public class NoteTextEditManager extends DirectEditManager {
 	}
 
 	@Override
+	protected CellEditor createCellEditorOn(Composite composite) {
+		return new TextCellEditor(composite, SWT.WRAP | SWT.MULTI);
+	}
+	
+	@Override
 	protected void initCellEditor() {
 		NoteFigure noteFigure = (NoteFigure) getEditPart().getFigure();
-		getCellEditor().setValue(noteFigure.getText());
+		CellEditor cellEditor = getCellEditor();
+		Text text = (Text) cellEditor.getControl();
+		Dimension size = noteFigure.getSize();
+		text.setSize(size.width, size.height);
+		cellEditor.setValue(noteFigure.getText());
 	}
-
 }

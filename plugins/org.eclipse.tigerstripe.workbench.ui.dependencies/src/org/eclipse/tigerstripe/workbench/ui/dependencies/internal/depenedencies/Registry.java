@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -482,10 +483,88 @@ public class Registry {
 	}
 
 	public void collapseDependencies(Subject forSubject) {
-		collapseDependenciesInternal(forSubject, new HashSet<Subject>());
+		collapseDependenciesInternal(forSubject);
 	}
 
-	private void collapseDependenciesInternal(Subject forSubject,
+	private void collapseDependenciesInternal(Subject forSubject) {
+		
+		LayerDescriptor layerDescriptor = initializedLayers.get(forSubject
+				.getParentLayer().getId());
+
+		if (layerDescriptor == null) {
+			return;
+		}
+		forSubject .setLoaded(false);
+		GraphTraverser traverser = new GraphTraverser(GraphTraverser.Direction.TARGET);
+		
+		final Set<Subject> toRemoves = new HashSet<Subject>();
+		
+		traverser.traverse(forSubject, new GraphVisitor() {
+			@Override
+			public void visit(Subject subject) {
+				if (subject.isMaster()) {
+					System.out.println("Warning");
+				}
+				toRemoves.add(subject);
+			}
+		});
+		toRemoves.remove(forSubject);
+
+		Set<Subject> staticSubjects = new HashSet<Subject>();
+		
+		for (Shape shape : layerDescriptor.getLayer().getShapes()) {
+			if (isLoaded(shape)) {
+				staticSubjects.add((Subject) shape);
+			}
+		} 
+		staticSubjects.removeAll(toRemoves);
+		staticSubjects.remove(forSubject);
+		
+
+		while (!staticSubjects.isEmpty()) {
+			Set<Subject> nextStatic = new HashSet<Subject>(); 
+			Iterator<Subject> it = toRemoves.iterator();
+			while (it.hasNext()) {
+				Subject subject = it.next();
+				for (Connection con : subject.getSourceConnections()) {
+					if (staticSubjects.contains(con.getTarget())) {
+						it.remove();
+						if (subject.isLoaded()) {
+							nextStatic.add(subject);
+						}
+						break;
+					}
+				}
+			}
+			staticSubjects = nextStatic;
+		} 
+			
+		List<Shape> layerShapes = layerDescriptor.getLayer().getShapes();
+		for (Subject toRemove : toRemoves) {
+
+			for (Connection con : toRemove.getTargetConnections()) {
+				Shape source = con.getSource();
+				if (source instanceof Note) {
+					layerShapes.remove(source);
+				}
+			}
+			layerShapes.remove(toRemove);
+			layerDescriptor.getLayerData().remove(toRemove.getExternalId());
+
+			// saveSubject(toRemove);
+			// Remove notice
+		}
+
+		updateConnections(layerDescriptor);
+		
+	}
+
+	private boolean isLoaded(Shape shape) {
+		return shape instanceof Subject && ((Subject)shape).isLoaded();
+	}
+	
+	@SuppressWarnings("unused")
+	private void collapseDependenciesInternal3(Subject forSubject,
 			Set<Subject> seen) {
 
 		if (!seen.add(forSubject)) {
