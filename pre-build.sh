@@ -14,5 +14,8 @@ cd target
 echo "Running Javadoc in org.eclipse.tigerstripe.workbench.base"
 cd plugins/org.eclipse.tigerstripe.workbench.base
 $ANT -f javadoc.xml
+echo "Running Javadoc in org.eclipse.tigerstripe.annotation.core"
+cd ../org.eclipse.tigerstripe.annotation.core
+$ANT -f javadoc.xml
 cd ../..
 
