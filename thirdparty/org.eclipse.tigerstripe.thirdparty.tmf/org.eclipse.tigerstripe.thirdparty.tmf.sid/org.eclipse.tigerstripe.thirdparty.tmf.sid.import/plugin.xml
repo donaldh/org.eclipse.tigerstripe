@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.tigerstripe.workbench.ui.UML2Import.umlImportModelMapper">
+      <mapper
+            mapper_class="org.eclipse.tigerstripe.sidmapping.SIDModelMapper"
+            name="SIDMapper">
+      </mapper>
+   </extension>
+   <extension
+         point="org.eclipse.tigerstripe.workbench.ui.UML2Import.umlCharacterMapper">
+      <characterMap
+            from="-"
+            to="_">
+      </characterMap>
+      <characterMap
+            from="{"
+            to="_">
+      </characterMap>
+      <characterMap
+            from="}"
+            to="_">
+      </characterMap>
+      <characterMap
+            from=" "
+            to="_">
+      </characterMap>
+      <characterMap
+            from="/"
+            to="_">
+      </characterMap>
+      <characterMap
+            from="("
+            to="_">
+      </characterMap>
+      <characterMap
+            from=")"
+            to="_">
+      </characterMap>
+      <characterMap
+            from="["
+            to="_">
+      </characterMap>
+      <characterMap
+            from="]"
+            to="_">
+      </characterMap>
+      <characterMap
+            from=":"
+            to="_">
+      </characterMap>
+   </extension>
+   <extension
+         point="org.eclipse.tigerstripe.workbench.ui.UML2Import.umlImportCommentProcessor">
+      <commentProcessor
+            name="SidComments"
+            processor_class="org.eclipse.tigerstripe.sidmapping.CommentProcessor">
+      </commentProcessor>
+   </extension>
+   <extension
+         point="org.eclipse.tigerstripe.workbench.ui.UML2Import.umlImportModelTrimmer">
+      <trimmer
+            name="SIDTrimmer"
+            trimmer_class="org.eclipse.tigerstripe.sidmapping.SIDModelTrimmer">
+      </trimmer>
+   </extension>
+
+</plugin>
+
