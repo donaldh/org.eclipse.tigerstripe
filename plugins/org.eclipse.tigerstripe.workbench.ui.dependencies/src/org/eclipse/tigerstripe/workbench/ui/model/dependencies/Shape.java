@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: Shape.java,v 1.3 2010/11/17 18:57:49 ystrot Exp $
+ * $Id: Shape.java,v 1.4 2010/11/18 17:00:38 ystrot Exp $
  */
 package org.eclipse.tigerstripe.workbench.ui.model.dependencies;
 
@@ -24,6 +24,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Shape#getSourceConnections <em>Source Connections</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Shape#getTargetConnections <em>Target Connections</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Shape#getParentLayer <em>Parent Layer</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Shape#isWasLayouting <em>Was Layouting</em>}</li>
  * </ul>
  * </p>
  *
@@ -169,5 +170,31 @@ public interface Shape extends EObject {
 	 * @generated
 	 */
 	void setParentLayer(Layer value);
+
+	/**
+	 * Returns the value of the '<em><b>Was Layouting</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Was Layouting</em>' attribute isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Was Layouting</em>' attribute.
+	 * @see #setWasLayouting(boolean)
+	 * @see org.eclipse.tigerstripe.workbench.ui.model.dependencies.DependenciesPackage#getShape_WasLayouting()
+	 * @model
+	 * @generated
+	 */
+	boolean isWasLayouting();
+
+	/**
+	 * Sets the value of the '{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Shape#isWasLayouting <em>Was Layouting</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Was Layouting</em>' attribute.
+	 * @see #isWasLayouting()
+	 * @generated
+	 */
+	void setWasLayouting(boolean value);
 
 } // Shape

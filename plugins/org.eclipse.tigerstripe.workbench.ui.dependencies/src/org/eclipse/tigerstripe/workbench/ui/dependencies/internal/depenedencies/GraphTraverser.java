@@ -23,24 +23,27 @@ public class GraphTraverser {
 
 	private final boolean seeTarget;
 	private final boolean seeSource;
-	
+
 	public GraphTraverser(Direction direction) {
-		seeTarget = Direction.TARGET.equals(direction) || Direction.BOTH.equals(direction); 
-		seeSource = Direction.SOURCE.equals(direction) || Direction.BOTH.equals(direction); 
+		seeTarget = Direction.TARGET.equals(direction)
+				|| Direction.BOTH.equals(direction);
+		seeSource = Direction.SOURCE.equals(direction)
+				|| Direction.BOTH.equals(direction);
 	}
-	
+
 	public void traverse(Shape root, Visitor visitor) {
 		traverse(root, visitor, new HashSet<Shape>(), new HashSet<Connection>());
 	}
-	
-	private void traverse(Shape root, Visitor visitor, Set<Shape> seenShapes, Set<Connection> seenConnections) {
-		
+
+	private void traverse(Shape root, Visitor visitor, Set<Shape> seenShapes,
+			Set<Connection> seenConnections) {
+
 		if (!seenShapes.add(root)) {
 			return;
 		}
-			
+
 		dispatchVisit(root, visitor);
-		
+
 		if (seeTarget) {
 			for (Connection con : root.getTargetConnections()) {
 				if (seenConnections.add(con)) {
@@ -48,22 +51,22 @@ public class GraphTraverser {
 				}
 				traverse(con.getSource(), visitor, seenShapes, seenConnections);
 			}
-		}	
-		if (seeSource) 
+		}
+		if (seeSource)
 			for (Connection con : root.getSourceConnections()) {
 				if (seenConnections.add(con)) {
 					visitor.visit(con);
 				}
 				traverse(con.getTarget(), visitor, seenShapes, seenConnections);
 			}
-		}	
-	
+	}
+
 	private void dispatchVisit(Shape shape, Visitor visitor) {
 		visitor.visit(shape);
 		if (shape instanceof Subject) {
-			visitor.visit((Subject)shape);
+			visitor.visit((Subject) shape);
 		} else if (shape instanceof Note) {
-			visitor.visit((Note)shape);
+			visitor.visit((Note) shape);
 		} else {
 			throw new UnsupportedOperationException(String.format(
 					"Shape type '%s' not supported", shape.eClass().getName()));
@@ -73,16 +76,16 @@ public class GraphTraverser {
 	public static enum Direction {
 		TARGET, SOURCE, BOTH;
 	}
-	
+
 	public static interface Visitor {
 
 		void visit(Shape shape);
-		
+
 		void visit(Subject subject);
-		
+
 		void visit(Note note);
-		
+
 		void visit(Connection connection);
 	}
-	
+
 }

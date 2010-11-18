@@ -2,12 +2,13 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DependenciesPackageImpl.java,v 1.4 2010/11/17 18:57:49 ystrot Exp $
+ * $Id: DependenciesPackageImpl.java,v 1.5 2010/11/18 17:00:38 ystrot Exp $
  */
 package org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -23,6 +24,7 @@ import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Kind;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Layer;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Note;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Point;
+import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Router;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Shape;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.ShapeStyle;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Subject;
@@ -110,6 +112,13 @@ public class DependenciesPackageImpl extends EPackageImpl implements Dependencie
 	 * @generated
 	 */
 	private EClass kindEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EEnum routerEEnum = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -233,6 +242,15 @@ public class DependenciesPackageImpl extends EPackageImpl implements Dependencie
 	 */
 	public EReference getShape_ParentLayer() {
 		return (EReference)shapeEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getShape_WasLayouting() {
+		return (EAttribute)shapeEClass.getEStructuralFeatures().get(6);
 	}
 
 	/**
@@ -501,6 +519,15 @@ public class DependenciesPackageImpl extends EPackageImpl implements Dependencie
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getDiagram_Router() {
+		return (EAttribute)diagramEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getLayer() {
 		return layerEClass;
 	}
@@ -573,6 +600,15 @@ public class DependenciesPackageImpl extends EPackageImpl implements Dependencie
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EEnum getRouter() {
+		return routerEEnum;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public DependenciesFactory getDependenciesFactory() {
 		return (DependenciesFactory)getEFactoryInstance();
 	}
@@ -603,6 +639,7 @@ public class DependenciesPackageImpl extends EPackageImpl implements Dependencie
 		createEReference(shapeEClass, SHAPE__SOURCE_CONNECTIONS);
 		createEReference(shapeEClass, SHAPE__TARGET_CONNECTIONS);
 		createEReference(shapeEClass, SHAPE__PARENT_LAYER);
+		createEAttribute(shapeEClass, SHAPE__WAS_LAYOUTING);
 
 		pointEClass = createEClass(POINT);
 		createEAttribute(pointEClass, POINT__X);
@@ -640,6 +677,7 @@ public class DependenciesPackageImpl extends EPackageImpl implements Dependencie
 		createEReference(diagramEClass, DIAGRAM__KINDS);
 		createEReference(diagramEClass, DIAGRAM__LAYERS);
 		createEReference(diagramEClass, DIAGRAM__LAYERS_HISTORY);
+		createEAttribute(diagramEClass, DIAGRAM__ROUTER);
 
 		layerEClass = createEClass(LAYER);
 		createEAttribute(layerEClass, LAYER__ID);
@@ -650,6 +688,9 @@ public class DependenciesPackageImpl extends EPackageImpl implements Dependencie
 		createEAttribute(kindEClass, KIND__ID);
 		createEReference(kindEClass, KIND__STYLE);
 		createEAttribute(kindEClass, KIND__USE_CUSTOM_STYLE);
+
+		// Create enums
+		routerEEnum = createEEnum(ROUTER);
 	}
 
 	/**
@@ -691,6 +732,7 @@ public class DependenciesPackageImpl extends EPackageImpl implements Dependencie
 		initEReference(getShape_SourceConnections(), this.getConnection(), null, "sourceConnections", null, 0, -1, Shape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getShape_TargetConnections(), this.getConnection(), null, "targetConnections", null, 0, -1, Shape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getShape_ParentLayer(), this.getLayer(), this.getLayer_Shapes(), "parentLayer", null, 0, 1, Shape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getShape_WasLayouting(), ecorePackage.getEBoolean(), "wasLayouting", null, 0, 1, Shape.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(pointEClass, Point.class, "Point", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getPoint_X(), ecorePackage.getEInt(), "x", null, 0, 1, Point.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -728,6 +770,7 @@ public class DependenciesPackageImpl extends EPackageImpl implements Dependencie
 		initEReference(getDiagram_Kinds(), this.getKind(), null, "kinds", null, 0, -1, Diagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getDiagram_Layers(), this.getLayer(), null, "layers", null, 0, -1, Diagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getDiagram_LayersHistory(), this.getLayer(), null, "layersHistory", null, 0, -1, Diagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getDiagram_Router(), this.getRouter(), "router", null, 0, 1, Diagram.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(layerEClass, Layer.class, "Layer", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getLayer_Id(), ecorePackage.getEString(), "id", null, 0, 1, Layer.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -738,6 +781,11 @@ public class DependenciesPackageImpl extends EPackageImpl implements Dependencie
 		initEAttribute(getKind_Id(), ecorePackage.getEString(), "id", null, 0, 1, Kind.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getKind_Style(), this.getShapeStyle(), null, "style", null, 0, 1, Kind.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getKind_UseCustomStyle(), ecorePackage.getEBoolean(), "useCustomStyle", null, 0, 1, Kind.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		// Initialize enums and add enum literals
+		initEEnum(routerEEnum, Router.class, "Router");
+		addEEnumLiteral(routerEEnum, Router.OBLIQUE);
+		addEEnumLiteral(routerEEnum, Router.RECTILINEAR);
 
 		// Create resource
 		createResource(eNS_URI);

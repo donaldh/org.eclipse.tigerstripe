@@ -2,12 +2,13 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DependenciesPackage.java,v 1.4 2010/11/17 18:57:49 ystrot Exp $
+ * $Id: DependenciesPackage.java,v 1.5 2010/11/18 17:00:38 ystrot Exp $
  */
 package org.eclipse.tigerstripe.workbench.ui.model.dependencies;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EEnum;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -124,13 +125,22 @@ public interface DependenciesPackage extends EPackage {
 	int SHAPE__PARENT_LAYER = 5;
 
 	/**
+	 * The feature id for the '<em><b>Was Layouting</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SHAPE__WAS_LAYOUTING = 6;
+
+	/**
 	 * The number of structural features of the '<em>Shape</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int SHAPE_FEATURE_COUNT = 6;
+	int SHAPE_FEATURE_COUNT = 7;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.PointImpl <em>Point</em>}' class.
@@ -271,6 +281,15 @@ public interface DependenciesPackage extends EPackage {
 	int SUBJECT__PARENT_LAYER = SHAPE__PARENT_LAYER;
 
 	/**
+	 * The feature id for the '<em><b>Was Layouting</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int SUBJECT__WAS_LAYOUTING = SHAPE__WAS_LAYOUTING;
+
+	/**
 	 * The feature id for the '<em><b>External Id</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -396,6 +415,15 @@ public interface DependenciesPackage extends EPackage {
 	 * @ordered
 	 */
 	int NOTE__PARENT_LAYER = SHAPE__PARENT_LAYER;
+
+	/**
+	 * The feature id for the '<em><b>Was Layouting</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NOTE__WAS_LAYOUTING = SHAPE__WAS_LAYOUTING;
 
 	/**
 	 * The feature id for the '<em><b>Text</b></em>' attribute.
@@ -573,13 +601,22 @@ public interface DependenciesPackage extends EPackage {
 	int DIAGRAM__LAYERS_HISTORY = 3;
 
 	/**
+	 * The feature id for the '<em><b>Router</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int DIAGRAM__ROUTER = 4;
+
+	/**
 	 * The number of structural features of the '<em>Diagram</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int DIAGRAM_FEATURE_COUNT = 4;
+	int DIAGRAM_FEATURE_COUNT = 5;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.LayerImpl <em>Layer</em>}' class.
@@ -675,6 +712,17 @@ public interface DependenciesPackage extends EPackage {
 
 
 	/**
+	 * The meta object id for the '{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Router <em>Router</em>}' enum.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see org.eclipse.tigerstripe.workbench.ui.model.dependencies.Router
+	 * @see org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.DependenciesPackageImpl#getRouter()
+	 * @generated
+	 */
+	int ROUTER = 11;
+
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Shape <em>Shape</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -749,6 +797,17 @@ public interface DependenciesPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getShape_ParentLayer();
+
+	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Shape#isWasLayouting <em>Was Layouting</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Was Layouting</em>'.
+	 * @see org.eclipse.tigerstripe.workbench.ui.model.dependencies.Shape#isWasLayouting()
+	 * @see #getShape()
+	 * @generated
+	 */
+	EAttribute getShape_WasLayouting();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Point <em>Point</em>}'.
@@ -1062,6 +1121,17 @@ public interface DependenciesPackage extends EPackage {
 	EReference getDiagram_LayersHistory();
 
 	/**
+	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Diagram#getRouter <em>Router</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Router</em>'.
+	 * @see org.eclipse.tigerstripe.workbench.ui.model.dependencies.Diagram#getRouter()
+	 * @see #getDiagram()
+	 * @generated
+	 */
+	EAttribute getDiagram_Router();
+
+	/**
 	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Layer <em>Layer</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1148,6 +1218,16 @@ public interface DependenciesPackage extends EPackage {
 	EAttribute getKind_UseCustomStyle();
 
 	/**
+	 * Returns the meta object for enum '{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Router <em>Router</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for enum '<em>Router</em>'.
+	 * @see org.eclipse.tigerstripe.workbench.ui.model.dependencies.Router
+	 * @generated
+	 */
+	EEnum getRouter();
+
+	/**
 	 * Returns the factory that creates the instances of the model.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1226,6 +1306,14 @@ public interface DependenciesPackage extends EPackage {
 		 * @generated
 		 */
 		EReference SHAPE__PARENT_LAYER = eINSTANCE.getShape_ParentLayer();
+
+		/**
+		 * The meta object literal for the '<em><b>Was Layouting</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute SHAPE__WAS_LAYOUTING = eINSTANCE.getShape_WasLayouting();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.PointImpl <em>Point</em>}' class.
@@ -1476,6 +1564,14 @@ public interface DependenciesPackage extends EPackage {
 		EReference DIAGRAM__LAYERS_HISTORY = eINSTANCE.getDiagram_LayersHistory();
 
 		/**
+		 * The meta object literal for the '<em><b>Router</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute DIAGRAM__ROUTER = eINSTANCE.getDiagram_Router();
+
+		/**
 		 * The meta object literal for the '{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.LayerImpl <em>Layer</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -1542,6 +1638,16 @@ public interface DependenciesPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute KIND__USE_CUSTOM_STYLE = eINSTANCE.getKind_UseCustomStyle();
+
+		/**
+		 * The meta object literal for the '{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.Router <em>Router</em>}' enum.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see org.eclipse.tigerstripe.workbench.ui.model.dependencies.Router
+		 * @see org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.DependenciesPackageImpl#getRouter()
+		 * @generated
+		 */
+		EEnum ROUTER = eINSTANCE.getRouter();
 
 	}
 

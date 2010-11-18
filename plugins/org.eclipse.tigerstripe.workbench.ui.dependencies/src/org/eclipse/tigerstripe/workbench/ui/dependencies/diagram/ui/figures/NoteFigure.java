@@ -47,7 +47,8 @@ public class NoteFigure extends RectangleFigure {
 
 		text = new TextFlow("Notice");
 		text.setFont(font);
-		text.setForegroundColor(Display.getCurrent().getSystemColor(SWT.COLOR_BLACK));
+		text.setForegroundColor(Display.getCurrent().getSystemColor(
+				SWT.COLOR_BLACK));
 		FlowPage fp = new FlowPage();
 		fp.add(text);
 
@@ -57,16 +58,16 @@ public class NoteFigure extends RectangleFigure {
 		constraint.verticalAlignment = SWT.TOP;
 		constraint.horizontalAlignment = SWT.CENTER;
 		add(fp, constraint);
-		
-//		setBorder(new NoteFigureBorder(new Insets(1)));
+
+		// setBorder(new NoteFigureBorder(new Insets(1)));
 		updateTextLabelSize();
 		setSize(getPreferredSize());
 	}
 
 	public void updateTextLabelSize() {
-		
+
 	}
-	
+
 	public void setText(String value) {
 		text.setText(value);
 		layout();
@@ -79,15 +80,17 @@ public class NoteFigure extends RectangleFigure {
 	public IFigure getEditComponent() {
 		return text;
 	}
-	
+
 	public class NoteFigureBorder extends AbstractBorder {
 		private Insets margin;
+
 		NoteFigureBorder(Insets insets) {
 			margin = insets;
-		}	
-		
+		}
+
 		/**
 		 * Returns margin for this border
+		 * 
 		 * @return margin as Insets
 		 */
 		public Insets getMargin() {
@@ -95,54 +98,56 @@ public class NoteFigure extends RectangleFigure {
 		}
 
 		/**
-		 * Sets the margin for this border 
-		 * @param margin as Insets
+		 * Sets the margin for this border
+		 * 
+		 * @param margin
+		 *            as Insets
 		 */
 		public void setMargin(Insets margin) {
 			this.margin = margin;
 		}
 
-
 		/*
 		 * @see org.eclipse.draw2d.Border#getInsets(org.eclipse.draw2d.IFigure)
 		 */
 		public Insets getInsets(IFigure figure) {
-			NoteFigure noteFigure = (NoteFigure)figure;
+			NoteFigure noteFigure = (NoteFigure) figure;
 			int width = noteFigure.getLineWidth();
-			return new Insets(width + margin.top, width + margin.left, 
-					width + margin.bottom, width + margin.right);
+			return new Insets(width + margin.top, width + margin.left, width
+					+ margin.bottom, width + margin.right);
 		}
 
-
-		/* 
-		 * @see org.eclipse.draw2d.Border#paint(org.eclipse.draw2d.IFigure, org.eclipse.draw2d.Graphics, org.eclipse.draw2d.geometry.Insets)
+		/*
+		 * @see org.eclipse.draw2d.Border#paint(org.eclipse.draw2d.IFigure,
+		 * org.eclipse.draw2d.Graphics, org.eclipse.draw2d.geometry.Insets)
 		 */
 		public void paint(IFigure figure, Graphics g, Insets insets) {
-			NoteFigure noteFigure = (NoteFigure)figure;
+			NoteFigure noteFigure = (NoteFigure) figure;
 			Rectangle r = noteFigure.getBounds().getCopy();
-			r.shrink(noteFigure.getLineWidth() / 2, noteFigure.getLineWidth() / 2);
-			
+			r.shrink(noteFigure.getLineWidth() / 2,
+					noteFigure.getLineWidth() / 2);
+
 			PointList p = noteFigure.getPointList(r);
 			p.addPoint(r.x, r.y - noteFigure.getLineWidth() / 2);
-			g.setLineWidth(noteFigure.getLineWidth());  
-			g.setLineStyle(noteFigure.getLineStyle());  
+			g.setLineWidth(noteFigure.getLineWidth());
+			g.setLineStyle(noteFigure.getLineStyle());
 			g.drawPolyline(p);
-			
+
 			PointList corner = new PointList();
 			int clipWidth = 15, clipHeight = 15;
 			corner.addPoint(r.x + r.width - clipWidth, r.y);
 			corner.addPoint(r.x + r.width - clipWidth, r.y + clipHeight);
 			corner.addPoint(r.x + r.width, r.y + clipHeight);
-			g.drawPolyline(corner);			
+			g.drawPolyline(corner);
 		}
 	}
-	
+
 	protected PointList getPointList(Rectangle r) {
 
 		PointList p = new PointList();
-		
+
 		p.addPoint(r.x, r.y);
-		p.addPoint(r.x + r.width - 1, r.y) ;
+		p.addPoint(r.x + r.width - 1, r.y);
 		p.addPoint(r.x + r.width - 1, r.y + r.height - 1);
 		p.addPoint(r.x, r.y + r.height - 1);
 		p.addPoint(r.x, r.y);
@@ -150,5 +155,4 @@ public class NoteFigure extends RectangleFigure {
 		return p;
 	}
 
-	
 }

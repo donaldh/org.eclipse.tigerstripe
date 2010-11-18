@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.dependencies.internal.depenedencies
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,6 +27,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.api.IDependencySubject;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.diagram.ui.layout.LayoutUtils;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.diagram.ui.parts.DiagramEditPart;
+import org.eclipse.tigerstripe.workbench.ui.dependencies.diagram.ui.parts.ShapeEditPart;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.diagram.ui.parts.SubjectEditPart;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Connection;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.DependenciesFactory;
@@ -191,10 +193,12 @@ public class Utils {
 		}
 		diagram.getLayersHistory().add(currentLayer);
 		diagram.setCurrentLayer(layer);
-		if (!layer.isWasLayouting()) {
-			LayoutUtils.layout(rootEditPart.getContents(), true);
-			layer.setWasLayouting(true);
-		}
+		ensureLayout(viewer, !layer.isWasLayouting());
+		layer.setWasLayouting(true);
+		// if (!layer.isWasLayouting()) {
+		// LayoutUtils.layout(rootEditPart.getContents(), true);
+		// layer.setWasLayouting(true);
+		// }
 	}
 
 	public static void popLayer(EditPartViewer viewer) {
@@ -230,6 +234,9 @@ public class Utils {
 			}
 			if (!s.equals(subject) && !attended.contains(s)) {
 				toLayout.add(aPart);
+				if (aPart instanceof ShapeEditPart) {
+					((ShapeEditPart) aPart).getShape().setWasLayouting(true);
+				}
 			}
 			aPart.refresh();
 		}
@@ -257,6 +264,41 @@ public class Utils {
 		throw new IllegalStateException(
 				"Root edit part must contain one element of class "
 						+ DiagramEditPart.class.getName());
+	}
+
+	public static boolean ensureLayout(EditPartViewer viewer) {
+		return ensureLayout(viewer, false);
+	}
+
+	public static boolean ensureLayout(EditPartViewer viewer,
+			boolean useAnimation) {
+		return ensureLayout(getDiagramEditPart(viewer.getRootEditPart()),
+				useAnimation);
+	}
+
+	public static boolean ensureLayout(DiagramEditPart diagramEditPart) {
+		return ensureLayout(diagramEditPart, false);
+	}
+
+	public static boolean ensureLayout(DiagramEditPart diagramEditPart,
+			boolean useAnimation) {
+		@SuppressWarnings("unchecked")
+		List<EditPart> children = diagramEditPart.getChildren();
+
+		Set<ShapeEditPart> toLayout = new HashSet<ShapeEditPart>();
+
+		for (EditPart editPart : children) {
+			if (editPart instanceof ShapeEditPart) {
+				if (!((ShapeEditPart) editPart).getShape().isWasLayouting()) {
+					toLayout.add((ShapeEditPart) editPart);
+				}
+			}
+		}
+		LayoutUtils.layout(toLayout, useAnimation);
+		for (ShapeEditPart shapeEditPart : toLayout) {
+			shapeEditPart.getShape().setWasLayouting(true);
+		}
+		return !toLayout.isEmpty();
 	}
 
 }

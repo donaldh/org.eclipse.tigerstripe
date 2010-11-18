@@ -61,7 +61,7 @@ public abstract class BaseLayout {
 	protected static final int MAX_EDGE_PADDING = NODE_PADDING * 3;
 	protected static final int MIN_EDGE_END_POINTS_PADDING = 5;
 
-	private Set<GraphicalEditPart> onlyParts;
+	private Set<? extends GraphicalEditPart> onlyParts;
 
 	/*
 	 * (non-Javadoc)
@@ -917,7 +917,7 @@ public abstract class BaseLayout {
 		return new GMFDirectedGraphLayout();
 	}
 
-	public void setOnlyParts(Set<GraphicalEditPart> onlyParts) {
+	public void setOnlyParts(Set<? extends GraphicalEditPart> onlyParts) {
 		this.onlyParts = onlyParts;
 	}
 }

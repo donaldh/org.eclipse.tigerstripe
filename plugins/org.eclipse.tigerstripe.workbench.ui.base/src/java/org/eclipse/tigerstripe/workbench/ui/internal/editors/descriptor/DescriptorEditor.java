@@ -35,6 +35,8 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEdit
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.advanced.AdvancedConfigurationPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.dependencies.DescriptorDependenciesPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.depsdiagram.ITigerstripeProjectProvider;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.depsdiagram.TigerstripeDependenciesDiagram;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.facetRefs.FacetReferencesPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.header.OverviewPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.plugins.PluginConfigurationPage;
@@ -152,8 +154,14 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 	}
 
 	private void addDependencyDiagramPage() {
-		diagramEditor = new TigerstripeDependenciesDiagramEditor();
-		diagramEditor.setTsPorject(getTSProject());
+		diagramEditor = new TigerstripeDependenciesDiagram();
+		diagramEditor.setProjectProvider(new ITigerstripeProjectProvider() {
+
+			public ITigerstripeModelProject getProject() {
+				return getTSProject();
+			}
+		});
+
 		try {
 			setPageText(addPage(diagramEditor, getEditorInput()),
 					"Dependency Diagram");
@@ -205,8 +213,6 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		diagramEditor.doSave(monitor);
-
 		// N.M: Bugzilla 323860 - [Form Editor] In some cases Tigerstripe files
 		// cannot be saved
 		if ((sourcePage.isDirty()) || (getActivePage() == sourcePageIndex)) {
@@ -229,7 +235,7 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 				EclipsePlugin.log(ee);
 			}
 		}
-
+		diagramEditor.doSave(monitor);
 		if (getActivePage() != sourcePageIndex) {
 			((DescriptorSourcePage) getEditor(sourcePageIndex))
 					.firePropertyChange(IEditorPart.PROP_DIRTY);
@@ -261,7 +267,7 @@ public class DescriptorEditor extends TigerstripeFormEditor {
 
 	private boolean isPageModified;
 
-	private TigerstripeDependenciesDiagramEditor diagramEditor;
+	private TigerstripeDependenciesDiagram diagramEditor;
 
 	public void pageModified() {
 		isPageModified = true;

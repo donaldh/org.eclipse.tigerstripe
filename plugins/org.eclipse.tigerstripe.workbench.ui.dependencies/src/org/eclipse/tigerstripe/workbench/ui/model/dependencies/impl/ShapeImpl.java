@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: ShapeImpl.java,v 1.3 2010/11/17 18:57:49 ystrot Exp $
+ * $Id: ShapeImpl.java,v 1.4 2010/11/18 17:00:38 ystrot Exp $
  */
 package org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl;
 
@@ -45,6 +45,7 @@ import org.eclipse.tigerstripe.workbench.ui.model.dependencies.ShapeStyle;
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.ShapeImpl#getSourceConnections <em>Source Connections</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.ShapeImpl#getTargetConnections <em>Target Connections</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.ShapeImpl#getParentLayer <em>Parent Layer</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.ShapeImpl#isWasLayouting <em>Was Layouting</em>}</li>
  * </ul>
  * </p>
  *
@@ -100,6 +101,26 @@ public class ShapeImpl extends EObjectImpl implements Shape {
 	 * @ordered
 	 */
 	protected EList<Connection> targetConnections;
+
+	/**
+	 * The default value of the '{@link #isWasLayouting() <em>Was Layouting</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isWasLayouting()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final boolean WAS_LAYOUTING_EDEFAULT = false;
+
+	/**
+	 * The cached value of the '{@link #isWasLayouting() <em>Was Layouting</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #isWasLayouting()
+	 * @generated
+	 * @ordered
+	 */
+	protected boolean wasLayouting = WAS_LAYOUTING_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -319,6 +340,27 @@ public class ShapeImpl extends EObjectImpl implements Shape {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public boolean isWasLayouting() {
+		return wasLayouting;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setWasLayouting(boolean newWasLayouting) {
+		boolean oldWasLayouting = wasLayouting;
+		wasLayouting = newWasLayouting;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, DependenciesPackage.SHAPE__WAS_LAYOUTING, oldWasLayouting, wasLayouting));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -386,6 +428,8 @@ public class ShapeImpl extends EObjectImpl implements Shape {
 				return getTargetConnections();
 			case DependenciesPackage.SHAPE__PARENT_LAYER:
 				return getParentLayer();
+			case DependenciesPackage.SHAPE__WAS_LAYOUTING:
+				return isWasLayouting();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -419,6 +463,9 @@ public class ShapeImpl extends EObjectImpl implements Shape {
 			case DependenciesPackage.SHAPE__PARENT_LAYER:
 				setParentLayer((Layer)newValue);
 				return;
+			case DependenciesPackage.SHAPE__WAS_LAYOUTING:
+				setWasLayouting((Boolean)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -449,6 +496,9 @@ public class ShapeImpl extends EObjectImpl implements Shape {
 			case DependenciesPackage.SHAPE__PARENT_LAYER:
 				setParentLayer((Layer)null);
 				return;
+			case DependenciesPackage.SHAPE__WAS_LAYOUTING:
+				setWasLayouting(WAS_LAYOUTING_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -473,8 +523,26 @@ public class ShapeImpl extends EObjectImpl implements Shape {
 				return targetConnections != null && !targetConnections.isEmpty();
 			case DependenciesPackage.SHAPE__PARENT_LAYER:
 				return getParentLayer() != null;
+			case DependenciesPackage.SHAPE__WAS_LAYOUTING:
+				return wasLayouting != WAS_LAYOUTING_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (wasLayouting: ");
+		result.append(wasLayouting);
+		result.append(')');
+		return result.toString();
 	}
 
 } //ShapeImpl

@@ -218,28 +218,6 @@ public class DependencyContextMenuProvider extends ContextMenuProvider {
 			});
 		}
 
-		menu.appendToGroup(GEFActionConstants.GROUP_VIEW, new Action(
-				"Kind Properties...") {
-			@Override
-			public void run() {
-				KindPropertiesDialog kindPropertiesDialog = new KindPropertiesDialog(
-						null, getKinds(), Utils.getRegistry(getViewer()));
-				kindPropertiesDialog.open();
-			}
-
-			private EList<Kind> getKinds() {
-				Diagram diagram = Utils.getDiagram(getViewer()
-						.getRootEditPart());
-				EList<Kind> kinds = diagram.getKinds();
-				return kinds;
-			}
-
-			@Override
-			public boolean isEnabled() {
-				return !getKinds().isEmpty();
-			}
-		});
-
 		SubjectEditPart subjectEditPart = getSelectedSubjectEditPart();
 		if (subjectEditPart != null) {
 			final IDependencySubject externalModel = Utils.getExternalModel(
@@ -263,6 +241,39 @@ public class DependencyContextMenuProvider extends ContextMenuProvider {
 				}
 			}
 		}
+
+		menu.appendToGroup(GEFActionConstants.GROUP_VIEW, new Action(
+				"Kind Properties...") {
+			@Override
+			public void run() {
+				KindPropertiesDialog kindPropertiesDialog = new KindPropertiesDialog(
+						null, getKinds(), Utils.getRegistry(getViewer()));
+				kindPropertiesDialog.open();
+			}
+
+			private EList<Kind> getKinds() {
+				Diagram diagram = Utils.getDiagram(getViewer()
+						.getRootEditPart());
+				EList<Kind> kinds = diagram.getKinds();
+				return kinds;
+			}
+
+			@Override
+			public boolean isEnabled() {
+				return !getKinds().isEmpty();
+			}
+		});
+
+		menu.appendToGroup(GEFActionConstants.GROUP_VIEW, new Action(
+				"Diagram Style...") {
+
+			@Override
+			public void run() {
+				Diagram diagram = Utils.getDiagram(getViewer()
+						.getRootEditPart());
+				new DiagramPropertiesDialog(null, diagram).open();
+			}
+		});
 	}
 
 	private GraphicalEditPart getSelectedEditPart() {

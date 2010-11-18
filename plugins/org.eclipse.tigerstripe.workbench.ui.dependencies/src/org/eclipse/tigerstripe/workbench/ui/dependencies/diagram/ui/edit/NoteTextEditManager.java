@@ -33,7 +33,7 @@ public class NoteTextEditManager extends DirectEditManager {
 	protected CellEditor createCellEditorOn(Composite composite) {
 		return new TextCellEditor(composite, SWT.WRAP | SWT.MULTI);
 	}
-	
+
 	@Override
 	protected void initCellEditor() {
 		NoteFigure noteFigure = (NoteFigure) getEditPart().getFigure();

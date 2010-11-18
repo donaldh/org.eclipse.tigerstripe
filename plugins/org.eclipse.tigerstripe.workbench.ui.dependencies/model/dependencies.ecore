@@ -16,6 +16,7 @@
         eType="#//Connection" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="parentLayer" eType="#//Layer"
         eOpposite="#//Layer/shapes"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="wasLayouting" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Point">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="x" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
@@ -57,6 +58,7 @@
         eType="#//Layer" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="layersHistory" upperBound="-1"
         eType="#//Layer"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="router" eType="#//Router"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Layer">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="id" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -69,5 +71,9 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="style" eType="#//ShapeStyle"
         containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="useCustomStyle" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="Router">
+    <eLiterals name="OBLIQUE"/>
+    <eLiterals name="RECTILINEAR" value="1"/>
   </eClassifiers>
 </ecore:EPackage>

@@ -93,6 +93,7 @@ public class DependencyDiagramHandler implements IDependencyDiagramHandler {
 		getRegistry()
 				.update(editor.getExternalContext().getRootExternalModel());
 		editor.updateViewer();
+
 	}
 
 	public Registry getRegistry() {

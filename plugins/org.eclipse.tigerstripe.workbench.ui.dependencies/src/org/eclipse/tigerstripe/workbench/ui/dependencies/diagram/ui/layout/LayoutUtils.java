@@ -32,7 +32,8 @@ public class LayoutUtils {
 			Animation.run(400);
 	}
 
-	public static void layout(Set<GraphicalEditPart> parts, boolean animate) {
+	public static void layout(Set<? extends GraphicalEditPart> parts,
+			boolean animate) {
 
 		if (parts.isEmpty()) {
 			return;

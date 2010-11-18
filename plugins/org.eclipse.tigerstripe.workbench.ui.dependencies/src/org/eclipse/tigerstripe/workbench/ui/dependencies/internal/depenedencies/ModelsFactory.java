@@ -23,6 +23,7 @@ import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Kind;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Layer;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Note;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Point;
+import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Router;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Shape;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.ShapeStyle;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Subject;
@@ -70,6 +71,7 @@ public class ModelsFactory extends EFactoryDelegate implements
 	public Note createNote() {
 		Note note = getDelegate().createNote();
 		note.setText("Notice");
+		note.setWasLayouting(true);
 		initShape(note, 100, 20);
 		ShapeStyle style = note.getStyle();
 		style.setBackgroundColor(toColorAsInt(0, 255, 255, 203));
@@ -93,7 +95,9 @@ public class ModelsFactory extends EFactoryDelegate implements
 	}
 
 	public Diagram createDiagram() {
-		return getDelegate().createDiagram();
+		Diagram diagram = getDelegate().createDiagram();
+		diagram.setRouter(Router.OBLIQUE);
+		return diagram;
 	}
 
 	public DependenciesPackage getDependenciesPackage() {

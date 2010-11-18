@@ -27,7 +27,6 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.api.IDependencyDiagramHandler;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.api.IDependencySubject;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.api.IExternalContext;
-import org.eclipse.tigerstripe.workbench.ui.dependencies.diagram.ui.layout.LayoutUtils;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.diagram.ui.parts.DependenciesEditPartFactory;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.diagram.ui.parts.SubjectEditPart;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.internal.depenedencies.ModelsFactory;
@@ -35,7 +34,6 @@ import org.eclipse.tigerstripe.workbench.ui.dependencies.internal.depenedencies.
 import org.eclipse.tigerstripe.workbench.ui.dependencies.internal.depenedencies.SubjectStyleService;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.internal.depenedencies.Utils;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Diagram;
-import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Layer;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.part.IShowInSource;
@@ -109,12 +107,17 @@ public abstract class DependencyDiagramEditor extends GraphicalEditor implements
 	public void updateViewer() {
 		GraphicalViewer viewer = getGraphicalViewer();
 		viewer.setContents(getModel()); // set the contents of this editor
-		Layer currentLayer = getDiagram().getCurrentLayer();
-		if (!currentLayer.isWasLayouting()) {
-			LayoutUtils.layout(viewer.getRootEditPart().getContents(), false);
-			currentLayer.setWasLayouting(true);
+
+		if (Utils.ensureLayout(viewer)) {
 			doSave(new NullProgressMonitor());
 		}
+
+		// Layer currentLayer = getDiagram().getCurrentLayer();
+		// if (!currentLayer.isWasLayouting()) {
+		// LayoutUtils.layout(viewer.getRootEditPart().getContents(), false);
+		// currentLayer.setWasLayouting(true);
+		// doSave(new NullProgressMonitor());
+		// }
 	}
 
 	@Override

@@ -11,14 +11,18 @@
  ******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.dependencies.diagram.ui.parts;
 
+import static org.eclipse.tigerstripe.workbench.ui.model.dependencies.Router.OBLIQUE;
+
 import java.util.List;
 
 import org.eclipse.draw2d.ConnectionLayer;
+import org.eclipse.draw2d.ConnectionRouter;
 import org.eclipse.draw2d.Figure;
 import org.eclipse.draw2d.FreeformLayer;
 import org.eclipse.draw2d.FreeformLayout;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.LayoutAnimator;
+import org.eclipse.draw2d.ManhattanConnectionRouter;
 import org.eclipse.draw2d.MarginBorder;
 import org.eclipse.draw2d.ShortestPathConnectionRouter;
 import org.eclipse.draw2d.geometry.Rectangle;
@@ -42,6 +46,8 @@ import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Shape;
 public class DiagramEditPart extends AbstractGraphicalEditPart {
 
 	private Adapter adapter;
+	private ConnectionRouter obliqueRouter;
+	private ConnectionRouter rectilinearRouter = new ManhattanConnectionRouter();
 
 	@Override
 	public void activate() {
@@ -50,18 +56,41 @@ public class DiagramEditPart extends AbstractGraphicalEditPart {
 			@Override
 			public void notifyChanged(Notification msg) {
 				if (msg.getEventType() == Notification.SET) {
+					Object newValue = msg.getNewValue();
+					Object oldValue = msg.getOldValue();
 					if (DependenciesPackage.Literals.DIAGRAM__CURRENT_LAYER
 							.equals(msg.getFeature())) {
-						Object newValue = msg.getNewValue();
-						Object oldValue = msg.getOldValue();
 						if (newValue != oldValue) {
 							refresh();
 						}
+					} else if (DependenciesPackage.Literals.DIAGRAM__ROUTER
+							.equals(msg.getFeature())) {
+						if (newValue != oldValue) {
+							updateRouter();
+						}
 					}
+
 				}
 			}
 		};
 		getDiagram().eAdapters().add(adapter);
+	}
+
+	private void updateRouter() {
+		if (OBLIQUE.equals(getDiagram().getRouter())) {
+			switchToRouter(obliqueRouter);
+		} else {
+			switchToRouter(rectilinearRouter);
+		}
+	}
+
+	private void switchToRouter(ConnectionRouter router) {
+		if (router != null) {
+			ConnectionLayer connLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
+			if (connLayer != null) {
+				connLayer.setConnectionRouter(router);
+			}
+		}
 	}
 
 	@Override
@@ -92,9 +121,8 @@ public class DiagramEditPart extends AbstractGraphicalEditPart {
 		f.addLayoutListener(LayoutAnimator.getDefault());
 
 		// Create the static router for the connection layer
-		ConnectionLayer connLayer = (ConnectionLayer) getLayer(LayerConstants.CONNECTION_LAYER);
-		connLayer.setConnectionRouter(new ShortestPathConnectionRouter(f));
-
+		obliqueRouter = new ShortestPathConnectionRouter(f);
+		updateRouter();
 		return f;
 	}
 

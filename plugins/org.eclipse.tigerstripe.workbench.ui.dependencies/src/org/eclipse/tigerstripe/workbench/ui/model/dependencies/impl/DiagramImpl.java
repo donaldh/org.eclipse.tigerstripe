@@ -2,7 +2,7 @@
  * <copyright>
  * </copyright>
  *
- * $Id: DiagramImpl.java,v 1.3 2010/11/17 18:57:49 ystrot Exp $
+ * $Id: DiagramImpl.java,v 1.4 2010/11/18 17:00:38 ystrot Exp $
  */
 package org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl;
 
@@ -27,6 +27,7 @@ import org.eclipse.tigerstripe.workbench.ui.model.dependencies.DependenciesPacka
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Diagram;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Kind;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Layer;
+import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Router;
 
 /**
  * <!-- begin-user-doc -->
@@ -39,6 +40,7 @@ import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Layer;
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.DiagramImpl#getKinds <em>Kinds</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.DiagramImpl#getLayers <em>Layers</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.DiagramImpl#getLayersHistory <em>Layers History</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.workbench.ui.model.dependencies.impl.DiagramImpl#getRouter <em>Router</em>}</li>
  * </ul>
  * </p>
  *
@@ -84,6 +86,26 @@ public class DiagramImpl extends EObjectImpl implements Diagram {
 	 * @ordered
 	 */
 	protected EList<Layer> layersHistory;
+
+	/**
+	 * The default value of the '{@link #getRouter() <em>Router</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRouter()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final Router ROUTER_EDEFAULT = Router.OBLIQUE;
+
+	/**
+	 * The cached value of the '{@link #getRouter() <em>Router</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRouter()
+	 * @generated
+	 * @ordered
+	 */
+	protected Router router = ROUTER_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -183,6 +205,27 @@ public class DiagramImpl extends EObjectImpl implements Diagram {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public Router getRouter() {
+		return router;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setRouter(Router newRouter) {
+		Router oldRouter = router;
+		router = newRouter == null ? ROUTER_EDEFAULT : newRouter;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, DependenciesPackage.DIAGRAM__ROUTER, oldRouter, router));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -211,6 +254,8 @@ public class DiagramImpl extends EObjectImpl implements Diagram {
 				return getLayers();
 			case DependenciesPackage.DIAGRAM__LAYERS_HISTORY:
 				return getLayersHistory();
+			case DependenciesPackage.DIAGRAM__ROUTER:
+				return getRouter();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -239,6 +284,9 @@ public class DiagramImpl extends EObjectImpl implements Diagram {
 				getLayersHistory().clear();
 				getLayersHistory().addAll((Collection<? extends Layer>)newValue);
 				return;
+			case DependenciesPackage.DIAGRAM__ROUTER:
+				setRouter((Router)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -263,6 +311,9 @@ public class DiagramImpl extends EObjectImpl implements Diagram {
 			case DependenciesPackage.DIAGRAM__LAYERS_HISTORY:
 				getLayersHistory().clear();
 				return;
+			case DependenciesPackage.DIAGRAM__ROUTER:
+				setRouter(ROUTER_EDEFAULT);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -283,8 +334,26 @@ public class DiagramImpl extends EObjectImpl implements Diagram {
 				return layers != null && !layers.isEmpty();
 			case DependenciesPackage.DIAGRAM__LAYERS_HISTORY:
 				return layersHistory != null && !layersHistory.isEmpty();
+			case DependenciesPackage.DIAGRAM__ROUTER:
+				return router != ROUTER_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy()) return super.toString();
+
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (router: ");
+		result.append(router);
+		result.append(')');
+		return result.toString();
 	}
 
 } //DiagramImpl

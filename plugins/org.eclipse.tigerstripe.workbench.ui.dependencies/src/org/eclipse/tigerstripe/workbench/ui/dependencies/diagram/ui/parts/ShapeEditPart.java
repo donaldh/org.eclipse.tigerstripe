@@ -114,6 +114,9 @@ public abstract class ShapeEditPart extends AbstractGraphicalEditPart implements
 	}
 
 	private void updateStyle(IFigure figure, ShapeStyle style) {
+		if (figure == null || style == null) {
+			return;
+		}
 		figure.setForegroundColor(toColor(style.getForegroundColor()));
 		figure.setBackgroundColor(toColor(style.getBackgroundColor()));
 	}

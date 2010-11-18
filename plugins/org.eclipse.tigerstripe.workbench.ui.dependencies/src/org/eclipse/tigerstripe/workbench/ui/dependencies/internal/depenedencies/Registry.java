@@ -84,6 +84,9 @@ public class Registry {
 					.getLayer();
 		}
 		diagram.setCurrentLayer(initLayer);
+		if (loadedDiagram.getRouter() != null) {
+			diagram.setRouter(loadedDiagram.getRouter());
+		}
 		diagram.eAdapters().add(contentListener);
 	}
 
@@ -153,6 +156,7 @@ public class Registry {
 				subject.setSize(loadedSubject.getSize());
 				subject.setStyle(loadedSubject.getStyle());
 				subject.setUseCustomStyle(loadedSubject.isUseCustomStyle());
+				subject.setWasLayouting(loadedSubject.isWasLayouting());
 			}
 		}
 	}
@@ -487,42 +491,42 @@ public class Registry {
 	}
 
 	private void collapseDependenciesInternal(Subject forSubject) {
-		
+
 		LayerDescriptor layerDescriptor = initializedLayers.get(forSubject
 				.getParentLayer().getId());
 
 		if (layerDescriptor == null) {
 			return;
 		}
-		forSubject .setLoaded(false);
-		GraphTraverser traverser = new GraphTraverser(GraphTraverser.Direction.TARGET);
-		
+		forSubject.setLoaded(false);
+		GraphTraverser traverser = new GraphTraverser(
+				GraphTraverser.Direction.TARGET);
+
 		final Set<Subject> toRemoves = new HashSet<Subject>();
-		
+
 		traverser.traverse(forSubject, new GraphVisitor() {
 			@Override
 			public void visit(Subject subject) {
-				if (subject.isMaster()) {
-					System.out.println("Warning");
+				if (!subject.isMaster()) {
+					toRemoves.add(subject);
 				}
-				toRemoves.add(subject);
 			}
 		});
+
 		toRemoves.remove(forSubject);
 
 		Set<Subject> staticSubjects = new HashSet<Subject>();
-		
+
 		for (Shape shape : layerDescriptor.getLayer().getShapes()) {
 			if (isLoaded(shape)) {
 				staticSubjects.add((Subject) shape);
 			}
-		} 
+		}
 		staticSubjects.removeAll(toRemoves);
 		staticSubjects.remove(forSubject);
-		
 
 		while (!staticSubjects.isEmpty()) {
-			Set<Subject> nextStatic = new HashSet<Subject>(); 
+			Set<Subject> nextStatic = new HashSet<Subject>();
 			Iterator<Subject> it = toRemoves.iterator();
 			while (it.hasNext()) {
 				Subject subject = it.next();
@@ -537,8 +541,8 @@ public class Registry {
 				}
 			}
 			staticSubjects = nextStatic;
-		} 
-			
+		}
+
 		List<Shape> layerShapes = layerDescriptor.getLayer().getShapes();
 		for (Subject toRemove : toRemoves) {
 
@@ -556,13 +560,13 @@ public class Registry {
 		}
 
 		updateConnections(layerDescriptor);
-		
+
 	}
 
 	private boolean isLoaded(Shape shape) {
-		return shape instanceof Subject && ((Subject)shape).isLoaded();
+		return shape instanceof Subject && ((Subject) shape).isLoaded();
 	}
-	
+
 	@SuppressWarnings("unused")
 	private void collapseDependenciesInternal3(Subject forSubject,
 			Set<Subject> seen) {
