@@ -6,7 +6,7 @@
 #
 
 DST=$1; shift
-SITE=/home/data/httpd/download.eclipse.org/technology/tigerstripe/updates/sid-mappings
+SITE=/home/data/httpd/download.eclipse.org/technology/tigerstripe/updates/tmforum
 SITE_NAME="Updates (Release)"
 PROMOTED_BUILD=`echo $PROMOTED_URL | awk '{split($0, a, "/");print a[6]}'`
  
