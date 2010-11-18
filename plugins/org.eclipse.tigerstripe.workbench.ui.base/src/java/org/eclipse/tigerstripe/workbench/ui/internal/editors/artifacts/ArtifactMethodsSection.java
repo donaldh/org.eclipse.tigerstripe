@@ -103,6 +103,8 @@ public class ArtifactMethodsSection extends ModelComponentSectionPart implements
 
 		createMasterPart(managedForm, sashForm);
 		createDetailsPart(managedForm, sashForm);
+		
+		sashForm.setWeights(new int[] {1, 2});
 
 		getSection().setClient(body);
 		getToolkit().paintBordersFor(body);

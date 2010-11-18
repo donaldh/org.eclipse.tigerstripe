@@ -109,6 +109,8 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart implemen
 
 		createMasterPart(managedForm, sashForm);
 		createDetailsPart(managedForm, sashForm);
+        
+        sashForm.setWeights(new int[] {1, 2});
 
 		getSection().setClient(body);
 		getToolkit().paintBordersFor(body);
@@ -185,11 +187,11 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart implemen
 
 		TableColumn nameColumn = new TableColumn(table, SWT.NULL);
 		nameColumn.setText("Name");
-		nameColumn.setWidth(180);
+		nameColumn.setWidth(125);
 
 		TableColumn valueColumn = new TableColumn(table, SWT.NULL);
 		valueColumn.setText("Value");
-		valueColumn.setWidth(70);
+		valueColumn.setWidth(125);
 
 		viewer = new TableViewer(table);
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
