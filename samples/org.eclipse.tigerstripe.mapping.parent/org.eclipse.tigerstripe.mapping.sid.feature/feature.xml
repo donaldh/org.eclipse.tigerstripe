@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
       id="org.eclipse.tigerstripe.mapping.sid.feature"
-      label="Tigerstripe TM Forum SID Feature (Incubation)"
+      label="Tigerstripe TM Forum Feature (Incubation)"
       version="1.0.8"
       provider-name="Cisco Systems">
 
