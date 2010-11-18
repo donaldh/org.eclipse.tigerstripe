@@ -157,9 +157,27 @@ public class ModelChangeDeltaProcessor {
 							.split("\\.");
 
 					if (!isSubPakage(oldPath, newPath)) {
-						if (needToCleanUpPackage((IPackageArtifact) artifact,
-								toCleanUp)) {
-							toCleanUp.add(artifact);
+						IPackageArtifact orphan = (IPackageArtifact) artifact;
+						if (needToCleanUpPackage(orphan, toCleanUp)) {
+							for (;;) {
+								IModelComponent parentComponent = orphan
+										.getContainingModelComponent();
+								if (parentComponent instanceof IPackageArtifact) {
+									IPackageArtifact parent = (IPackageArtifact) parentComponent;
+									Collection<IModelComponent> contained = parent
+											.getContainedModelComponents();
+									if (contained.size() == 1) {
+										IModelComponent first = contained
+												.iterator().next();
+										if (orphan.equals(first)) {
+											orphan = parent;
+											continue;
+										}
+									}
+								}
+								break;
+							}
+							toCleanUp.add(orphan);
 						}
 					}
 				} else {
