@@ -32,6 +32,17 @@ import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.annotation.AnnotationUtils;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 
+
+/**
+ * WorkspaceListener notifies this class, which manages a set of of listeners 
+ * that it notifies (among which is ArtifactManager)
+ * 
+ *  * <b>History of changes</b> (Name: Modification): <br/>
+ * Eric Dillon 	  :	Initial Creation <br/>
+ * Navid Mehregani: Bug 319793 - [performance] About 90 threads are started when three TS projects are imported<br/>
+ * Dan and Navid  : Significant performance improvements per defect 324197<br/>
+ * 
+ */
 public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 
 	public static TigerstripeWorkspaceNotifier INSTANCE = new TigerstripeWorkspaceNotifier();
@@ -115,17 +126,6 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 			if (listener.select(ITigerstripeChangeListener.ARTIFACT_RESOURCES))
 				listener.getListener().artifactResourceChanged(changedArtifactResource);
 		}
-		
-//		Job notifyArtifactResourceChanged = new Job("Handle Artifact Resource Change") {
-//
-//			@Override
-//			protected IStatus run(IProgressMonitor monitor) {
-//				broadcastArtifactResourceChanged(changedArtifactResource);
-//				return Status.OK_STATUS;
-//			}
-//		};
-//
-//		notifyArtifactResourceChanged.schedule();
 	}
 	
 	
@@ -137,18 +137,6 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 			if (listener.select(ITigerstripeChangeListener.ARTIFACT_RESOURCES))
 				listener.getListener().artifactResourceAdded(addedArtifactResource);
 		}
-		
-
-//		Job notifyArtifactResourceAdded = new Job("Handle Artifact Resource Add") {
-//
-//			@Override
-//			protected IStatus run(IProgressMonitor monitor) {	
-//				broadcastArtifactResourceAdded(addedArtifactResource);
-//				return Status.OK_STATUS;
-//			}
-//		};
-//
-//		notifyArtifactResourceAdded.schedule();
 	}
 	
 	
@@ -161,83 +149,7 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 			if (listener.select(ITigerstripeChangeListener.ARTIFACT_RESOURCES))
 				listener.getListener().artifactResourceRemoved(removedArtifactResource);
 		}
-		
-//		Job notifyArtifactResourceRemoved = new Job("Handle Artifact Resource Remove") {
-//
-//			@Override
-//			protected IStatus run(IProgressMonitor monitor) {
-//				broadcastArtifactResourceRemoved(removedArtifactResource);
-//				return Status.OK_STATUS;
-//			}
-//		};
-//
-//		notifyArtifactResourceRemoved.schedule();
 	}
-	
-	private void broadcastArtifactResourceChanged(
-			final IResource changedArtifactResource) {
-
-		Object[] listenersArray = listeners.getListeners();
-		for (Object l : listenersArray) {
-			final FilteredListener listener = (FilteredListener) l;
-			if (listener.select(ITigerstripeChangeListener.ARTIFACT_RESOURCES))
-				SafeRunner.run(new ISafeRunnable() {
-
-					public void handleException(Throwable exception) {
-						BasePlugin.log(exception);
-					}
-
-					public void run() throws Exception {
-						listener.getListener().artifactResourceChanged(changedArtifactResource);
-					}
-
-				});
-		}
-	}
-	
-	private void broadcastArtifactResourceAdded(
-			final IResource addedArtifactResource) {
-
-		Object[] listenersArray = listeners.getListeners();
-		for (Object l : listenersArray) {
-			final FilteredListener listener = (FilteredListener) l;
-			if (listener.select(ITigerstripeChangeListener.ARTIFACT_RESOURCES))
-				SafeRunner.run(new ISafeRunnable() {
-
-					public void handleException(Throwable exception) {
-						BasePlugin.log(exception);
-					}
-
-					public void run() throws Exception {						
-						listener.getListener().artifactResourceAdded(addedArtifactResource);
-					}
-
-				});
-		}
-	}
-	
-	private void broadcastArtifactResourceRemoved(
-			final IResource removedArtifactResource) {
-
-		Object[] listenersArray = listeners.getListeners();
-		for (Object l : listenersArray) {
-			final FilteredListener listener = (FilteredListener) l;
-			if (listener.select(ITigerstripeChangeListener.ARTIFACT_RESOURCES))
-				SafeRunner.run(new ISafeRunnable() {
-
-					public void handleException(Throwable exception) {
-						BasePlugin.log(exception);
-					}
-
-					public void run() throws Exception {
-						listener.getListener().artifactResourceRemoved(removedArtifactResource);
-					}
-
-				});
-		}
-	}
-	
-	
 	
 	public void signalDescriptorChanged(final IResource changedDescriptor){
 		Job notifyDescriptorChanged = new Job("Handle Tigerstripe Descriptor Change") {
@@ -351,17 +263,6 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 			}
 				
 		}
-		
-//		Job notifyModelChanged = new Job("Handle Tigerstripe Model Change") {
-//
-//			@Override
-//			protected IStatus run(IProgressMonitor monitor) {
-//				broadcastModelChange(new IModelChangeDelta[] { delta });
-//				return Status.OK_STATUS;
-//			}
-//		};
-//
-//		notifyModelChanged.schedule();
 	}
 
 	public void signalModelChange(final IModelChangeDelta[] deltas) {
@@ -375,35 +276,6 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 				
 		}
 		
-//		Job notifyModelChanged = new Job("Handle Tigerstripe Model Change") {
-//
-//			@Override
-//			protected IStatus run(IProgressMonitor monitor) {
-//				broadcastModelChange(deltas);
-//				return Status.OK_STATUS;
-//			}
-//		};
-//
-//		notifyModelChanged.schedule();
-	}
-
-	private void broadcastModelChange(final IModelChangeDelta[] deltas) {
-		Object[] listenersArray = listeners.getListeners();
-		for (Object l : listenersArray) {
-			final FilteredListener listener = (FilteredListener) l;
-			if (listener.select(ITigerstripeChangeListener.MODEL))
-				SafeRunner.run(new ISafeRunnable() {
-
-					public void handleException(Throwable exception) {
-						BasePlugin.log(exception);
-					}
-
-					public void run() throws Exception {
-						listener.getListener().modelChanged(deltas);
-					}
-
-				});
-		}
 	}
 
 	public void annotationAdded(Annotation annotation) {

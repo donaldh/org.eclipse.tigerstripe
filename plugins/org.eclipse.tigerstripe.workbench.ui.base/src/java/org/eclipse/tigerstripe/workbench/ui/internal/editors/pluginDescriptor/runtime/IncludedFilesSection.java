@@ -610,6 +610,10 @@ public class IncludedFilesSection extends GeneratorDescriptorSectionPart
 	}
 
 	public boolean visit(IResourceDelta delta) throws CoreException {
+		
+		if (fDoRefresh)
+			return false;
+		
 		IResource resource = delta.getResource();
 
 		FileEditorInput input = (FileEditorInput) getPage().getEditorInput();
