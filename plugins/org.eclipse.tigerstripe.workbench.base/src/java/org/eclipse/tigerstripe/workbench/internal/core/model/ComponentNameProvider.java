@@ -2,6 +2,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import org.eclipse.core.runtime.CoreException;
@@ -28,6 +29,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelati
 import org.eclipse.tigerstripe.workbench.patterns.IPattern;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
+import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 import org.eclipse.tigerstripe.workbench.queries.IQueryArtifactsByType;
 
 public class ComponentNameProvider implements IComponentNameProvider{
@@ -386,14 +388,18 @@ public class ComponentNameProvider implements IComponentNameProvider{
 												.artifactMetadataMigrateClassname(artifactClass
 														.getName())));
 		
-		IArtifactQuery allArtsByType = session.makeQuery(IQueryArtifactsByType.class
+		IArtifactQuery allArtifacts = session.makeQuery(IQueryAllArtifacts.class
 				.getName());
-		IQueryArtifactsByType typeQuery = (IQueryArtifactsByType) allArtsByType;
-		typeQuery.setIncludeDependencies(false);
-		typeQuery.setArtifactType(artifactClass.getName());
-
-		Collection<IAbstractArtifact> artifacts = session
-				.queryArtifact(typeQuery);
+		IQueryAllArtifacts query = (IQueryAllArtifacts) allArtifacts;
+		query.setIncludeDependencies(false);
+		
+		Collection<IAbstractArtifact> artifacts = session.queryArtifact(query);
+		for (Iterator<IAbstractArtifact> it = artifacts.iterator(); it.hasNext();) {
+			IAbstractArtifact iAbstractArtifact = it.next();
+			if (!packageName.equals(iAbstractArtifact.getPackage())) {
+				it.remove();
+			}
+		}
 		
 		int count = artifacts.size();
 		
