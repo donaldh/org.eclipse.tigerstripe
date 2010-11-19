@@ -158,8 +158,8 @@ public class BaseRefactorCommand implements IRefactorCommand {
 			try {
 				IPath destPath = delta.getDestinationPath();
 				IResource res = delta.getOriginalResource();
-				IFolder f = ResourcesPlugin.getWorkspace().getRoot().getFolder(
-						destPath);
+				IFolder f = ResourcesPlugin.getWorkspace().getRoot()
+						.getFolder(destPath);
 				ResourceUtils.createFolders(f, monitor);
 				IPath newPath = destPath.append(res.getName());
 				res.move(newPath, true, monitor);
@@ -186,7 +186,8 @@ public class BaseRefactorCommand implements IRefactorCommand {
 				ModelRefactorRequest mRReq = (ModelRefactorRequest) req;
 				if (mRReq.isCrossProjectCmd()) {
 					try {
-						IAbstractArtifact art = mRReq.getOriginalProject()
+						IAbstractArtifact art = mRReq
+								.getOriginalProject()
 								.getArtifactManagerSession()
 								.getArtifactByFullyQualifiedName(
 										mRReq.getDestinationFQN());
@@ -194,7 +195,8 @@ public class BaseRefactorCommand implements IRefactorCommand {
 						// propagate to annotations framework
 						TigerstripeLazyObject oldPath = new TigerstripeLazyObject(
 								art);
-						refactor.fireChanged(oldPath,
+						refactor.fireChanged(
+								oldPath,
 								new TigerstripeLazyObject(mRReq
 										.getDestinationProject(), art
 										.getFullyQualifiedName()),
@@ -353,7 +355,7 @@ public class BaseRefactorCommand implements IRefactorCommand {
 
 	protected ITigerstripeModelProject[] applyAllDeltas(
 			IProgressMonitor monitor, Collection<Object> toCleanUp) {
-		monitor.beginTask("Applying deltas", 2 * deltas.size());
+		monitor.beginTask("Applying deltas", deltas.size());
 
 		Set<ITigerstripeModelProject> affectedProjects = new HashSet<ITigerstripeModelProject>();
 
@@ -369,7 +371,7 @@ public class BaseRefactorCommand implements IRefactorCommand {
 			}
 			monitor.worked(1);
 		}
-		for (IAbstractArtifact art : toSave)
+		for (IAbstractArtifact art : toSave) {
 			try {
 				art.doSave(monitor);
 
@@ -378,27 +380,7 @@ public class BaseRefactorCommand implements IRefactorCommand {
 			} catch (TigerstripeException e) {
 				BasePlugin.log(e);
 			}
-
-		// Then update all the relationship ends.
-		toSave.clear();
-		for (ModelChangeDelta delta : deltas) {
-			try {
-				if (delta.isRelationEndRefactor()
-						|| delta.isComponentRefactor())
-					delta.apply(toCleanUp, toSave);
-			} catch (TigerstripeException e) {
-				BasePlugin.log(e);
-			}
-			monitor.worked(1);
 		}
-		for (IAbstractArtifact art : toSave)
-			try {
-				art.doSave(monitor);
-				if (art.getProject() != null)
-					affectedProjects.add(art.getProject());
-			} catch (TigerstripeException e) {
-				BasePlugin.log(e);
-			}
 
 		monitor.done();
 
@@ -419,8 +401,10 @@ public class BaseRefactorCommand implements IRefactorCommand {
 	}
 
 	public void addDeltas(Collection<ModelChangeDelta> deltas) {
-		this.deltas.addAll(deltas);
-		reorderDeltas();
+		if (deltas.size() > 0) {
+			this.deltas.addAll(deltas);
+			reorderDeltas();
+		}
 	}
 
 	private void reorderDeltas() {

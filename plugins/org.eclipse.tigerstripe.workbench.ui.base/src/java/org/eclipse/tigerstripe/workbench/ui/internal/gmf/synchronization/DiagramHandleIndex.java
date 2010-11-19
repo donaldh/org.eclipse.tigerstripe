@@ -99,7 +99,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 		try {
 			writeLock.lock();
 			// un-index the previous content if it is known
-			Set<String> previousFQNs = handleContent.get(handle);
+			Set<String> previousFQNs = handleContent.remove(handle);
 			if (previousFQNs != null) {
 				for (String fqn : previousFQNs) {
 					Set<DiagramHandle> handles = handlesByFQN.get(fqn);
@@ -114,7 +114,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 				}
 				// System.out.println("Un-indexed: " +
 				// handle.getDiagramResource().getFullPath());
-			}
+			}			
 		} catch (Exception e) {
 			throw new TigerstripeException("Error: " + e.getMessage(), e);
 		} finally {

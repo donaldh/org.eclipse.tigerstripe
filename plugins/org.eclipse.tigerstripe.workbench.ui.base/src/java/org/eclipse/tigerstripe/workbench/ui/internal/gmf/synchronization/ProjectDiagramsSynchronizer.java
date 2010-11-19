@@ -590,7 +590,8 @@ public class ProjectDiagramsSynchronizer implements IArtifactChangeListener,
 			throws TigerstripeException {
 		for (IResource resource : removedResources) {
 			if (handlesByDiagram.get(resource) != null) {
-				handlesByDiagram.remove(resource);
+				DiagramHandle handle = handlesByDiagram.remove(resource);
+				diagramIndex.diagramDeleted(handle);
 			} else if (handlesByModel.get(resource) != null) {
 				DiagramHandle handle = handlesByModel.remove(resource);
 				diagramIndex.diagramDeleted(handle);
