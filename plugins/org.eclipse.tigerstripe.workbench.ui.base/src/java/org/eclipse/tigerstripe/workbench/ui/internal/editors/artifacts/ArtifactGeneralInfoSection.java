@@ -13,10 +13,12 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
@@ -59,8 +61,14 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.undo.CheckButtonEditListener;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.AbstractArtifactLabelProvider;
+import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.TSOpenAction;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ListSelectionDialog;
+import org.eclipse.ui.forms.events.HyperlinkAdapter;
+import org.eclipse.ui.forms.events.HyperlinkEvent;
 import org.eclipse.ui.forms.widgets.FormToolkit;
+import org.eclipse.ui.forms.widgets.Hyperlink;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
@@ -210,8 +218,25 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart implements
 	}
 
 	private int createExtendName(Composite parent, FormToolkit toolkit) {
-		Label label = toolkit.createLabel(parent, "Extends: ", SWT.NULL);
-		label.setEnabled(!this.isReadonly());
+		// N.M: bugzilla 328441 - provide easy navigability to artifact being extended/implemented
+		Hyperlink link = toolkit.createHyperlink(parent, "Extends:", SWT.NULL);
+		link.setEnabled(!this.isReadonly());
+		
+		
+		link.addHyperlinkListener(new HyperlinkAdapter() {
+			@Override
+			public void linkActivated(HyperlinkEvent e) {
+				
+				IAbstractArtifact parent = getIArtifact().getExtendedArtifact();
+				if (parent !=null) {
+					String fqnOfParent = parent.getFullyQualifiedName();
+					if (fqnOfParent!=null && fqnOfParent.length()!=0) 
+						openArtifact(fqnOfParent);
+				} else {
+					MessageDialog.openInformation( PlatformUI.getWorkbench().getDisplay().getActiveShell(), "No Parent Artifact", "This artifact doesn't have a parent artifact to open!");
+				}
+			}
+		});
 
 		Composite composite = toolkit.createComposite(parent);
 		TableWrapLayout layout = TigerstripeLayoutFactory
@@ -219,8 +244,8 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart implements
 		layout.horizontalSpacing = 5;
 		composite.setLayout(layout);
 		composite.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-
-		IAbstractArtifact extend = getIArtifact().getExtendedArtifact();
+		
+		IAbstractArtifact extend = getIArtifact().getExtendedArtifact();	
 		if (extend == null) {
 			extendNameText = toolkit.createText(composite, "");
 		} else {
@@ -240,11 +265,48 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart implements
 		Point size = typeBrowseButton.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 		return size.x;
 	}
+	
+	private void openArtifact(String fqn) {
+		if (getIArtifact() != null && getIArtifact().getTigerstripeProject() != null) {
+			try {
+				IArtifactManagerSession session = getIArtifact().getTigerstripeProject().getArtifactManagerSession();
+				IAbstractArtifact target = session.getArtifactByFullyQualifiedName(fqn);
+				if (target != null) {
+					IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+					TSOpenAction.openEditor(target, page);
+				}
+			} catch (TigerstripeException ee) {
+				EclipsePlugin.log(ee);
+			}
+		}
+	}
 
 	private void createImplementsNames(Composite parent, FormToolkit toolkit,
 			int buttonWidth) {
-		Label label = toolkit.createLabel(parent, "Implements: ", SWT.NULL);
-		label.setEnabled(!this.isReadonly());
+		
+		// N.M: bugzilla 328441 - provide easy navigability to artifact being extended/implemented
+		Hyperlink link = toolkit.createHyperlink(parent, "Implements:", SWT.NULL);
+		link.setEnabled(!this.isReadonly());
+		
+		
+		link.addHyperlinkListener(new HyperlinkAdapter() {
+			@Override
+			public void linkActivated(HyperlinkEvent e) {
+				
+				Collection<IAbstractArtifact> implementedArtifacts = getIArtifact().getImplementedArtifacts();
+				if (implementedArtifacts!=null && implementedArtifacts.size()>0) {
+					Iterator<IAbstractArtifact> iterator = implementedArtifacts.iterator();
+					if (iterator.hasNext()) {
+						IAbstractArtifact artifact = iterator.next();
+						String fqnOfParent = artifact.getFullyQualifiedName();
+						if (fqnOfParent!=null && fqnOfParent.length()!=0) 
+							openArtifact(fqnOfParent);	
+					}
+				} else {
+					MessageDialog.openInformation( PlatformUI.getWorkbench().getDisplay().getActiveShell(), "No Implemented Artifact", "This artifact doesn't implement anything!");
+				}
+			}
+		});
 
 		Composite composite = toolkit.createComposite(parent);
 		GridLayout layout = TigerstripeLayoutFactory.createClearGridLayout(2,
