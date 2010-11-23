@@ -194,7 +194,7 @@ public class ClassInstanceItemSemanticEditPolicy extends
 	 * @generated
 	 */
 	@Override
-	protected Command getCreateRelationshipCommand(CreateRelationshipRequest req) {
+	public Command getCreateRelationshipCommand(CreateRelationshipRequest req) {
 		if (InstanceElementTypes.AssociationInstance_3001 == req
 				.getElementType())
 			return req.getTarget() == null ? getCreateStartOutgoingAssociationInstance3001Command(req)

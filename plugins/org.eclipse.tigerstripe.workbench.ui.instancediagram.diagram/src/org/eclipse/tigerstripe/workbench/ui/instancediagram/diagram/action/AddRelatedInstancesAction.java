@@ -25,11 +25,12 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.operations.OperationHistoryFactory;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.gef.commands.Command;
-import org.eclipse.gmf.runtime.common.core.command.ICommand;
+import org.eclipse.gef.commands.CompoundCommand;
 import org.eclipse.gmf.runtime.diagram.ui.commands.CommandProxy;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
 import org.eclipse.gmf.runtime.diagram.ui.requests.DropObjectsRequest;
+import org.eclipse.gmf.runtime.emf.type.core.requests.CreateRelationshipRequest;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
@@ -38,9 +39,9 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -49,8 +50,10 @@ import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.dnd.InstanceDiagramDragDropEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.dialogs.AddRelatedInstancesDialog;
+import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.policies.ClassInstanceItemSemanticEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.part.BaseDiagramPartAction;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.part.InstanceDiagramEditor;
+import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.providers.InstanceElementTypes;
 import org.eclipse.ui.IObjectActionDelegate;
 
 public class AddRelatedInstancesAction extends BaseDiagramPartAction implements
@@ -72,36 +75,6 @@ public class AddRelatedInstancesAction extends BaseDiagramPartAction implements
 
 			IArtifactManagerSession session = tsProject
 					.getArtifactManagerSession();
-			boolean relationshipsExist = false;
-
-			// Handle extended Artifacts
-			Set<IAbstractArtifact> extendedArtifacts = new HashSet<IAbstractArtifact>();
-			relations.put("extended", extendedArtifacts);
-			for (IAbstractArtifact artifact : artifacts) {
-				IAbstractArtifact extendedArtifact = artifact
-						.getExtendedArtifact();
-				if (extendedArtifact != null
-						&& !namesOfArtifactsInMap.contains(extendedArtifact
-								.getFullyQualifiedName())) {
-					extendedArtifacts.add(extendedArtifact);
-					relationshipsExist = true;
-				}
-			}
-
-			// Handle extending Artifacts
-			Set<IAbstractArtifact> extendingArtifacts = new HashSet<IAbstractArtifact>();
-			relations.put("extending", extendingArtifacts);
-			for (IAbstractArtifact artifact : artifacts) {
-				Collection<IAbstractArtifact> extendingArtArray = artifact
-						.getExtendingArtifacts();
-				for (IAbstractArtifact extendingArt : extendingArtArray) {
-					if (!namesOfArtifactsInMap.contains(extendingArt
-							.getFullyQualifiedName())) {
-						relationshipsExist = true;
-						extendingArtifacts.add(extendingArt);
-					}
-				}
-			}
 
 			// handle outgoing relationships
 			Set<IAbstractArtifact> associatedArtifacts = new HashSet<IAbstractArtifact>();
@@ -109,40 +82,50 @@ public class AddRelatedInstancesAction extends BaseDiagramPartAction implements
 			relations.put("outgoing associated", associatedArtifacts);
 			relations.put("outgoing dependent", dependentArtifacts);
 			for (IAbstractArtifact artifact : artifacts) {
-				List<IRelationship> origRels = session
-						.getOriginatingRelationshipForFQN(
-								artifact.getFullyQualifiedName(), true);
-				for (IRelationship relationship : origRels) {
-					if (relationship instanceof IAssociationArtifact) {
-						IAssociationEnd zEnd = ((IAssociationArtifact) relationship)
-								.getZEnd();
-						IAbstractArtifact associatedArt = zEnd.getType()
-								.getArtifact();
 
-						if (!namesOfArtifactsInMap.contains(associatedArt
-								.getFullyQualifiedName())) {
-							relationshipsExist = true;
-							associatedArtifacts.add(associatedArt);
-						} else if (relationship instanceof IAssociationClassArtifact
-								&& !namesOfArtifactsInMap
-										.contains(((IAssociationClassArtifact) relationship)
+				Set<String> hierarhy = new HashSet<String>();
+				featchHierarhyUp(artifact, hierarhy);
+
+				Set<IRelationship> seen = new HashSet<IRelationship>();
+				for (String fqn : hierarhy) {
+					Collection<IRelationship> origRels = new HashSet<IRelationship>(
+							session.getOriginatingRelationshipForFQN(fqn, true));
+					origRels.removeAll(seen);
+					seen.addAll(origRels);
+
+					for (IRelationship relationship : origRels) {
+						if (relationship instanceof IAssociationArtifact) {
+							IAssociationEnd zEnd = ((IAssociationArtifact) relationship)
+									.getZEnd();
+
+							Set<IAbstractArtifact> downHierarhy = new HashSet<IAbstractArtifact>();
+							featchHierarhyDown(zEnd.getType().getArtifact(),
+									downHierarhy);
+							for (IAbstractArtifact associatedArt : downHierarhy) {
+								if (!namesOfArtifactsInMap
+										.contains(associatedArt
 												.getFullyQualifiedName())) {
-							associatedArtifacts
-									.add((IAbstractArtifact) relationship);
-						}
-					} else if (relationship instanceof IDependencyArtifact) {
-						IRelationshipEnd zEnd = ((IDependencyArtifact) relationship)
-								.getRelationshipZEnd();
-						IAbstractArtifact dependentArt = zEnd.getType()
-								.getArtifact();
+									associatedArtifacts.add(associatedArt);
+								}
+							}
+						} else if (relationship instanceof IDependencyArtifact) {
+							IRelationshipEnd zEnd = ((IDependencyArtifact) relationship)
+									.getRelationshipZEnd();
 
-						if (!namesOfArtifactsInMap.contains(dependentArt
-								.getFullyQualifiedName())) {
-							relationshipsExist = true;
-							dependentArtifacts.add(dependentArt);
+							Set<IAbstractArtifact> downHierarhy = new HashSet<IAbstractArtifact>();
+							featchHierarhyDown(zEnd.getType().getArtifact(),
+									downHierarhy);
+							for (IAbstractArtifact dependentArt : downHierarhy) {
+								if (!namesOfArtifactsInMap
+										.contains(dependentArt
+												.getFullyQualifiedName())) {
+									dependentArtifacts.add(dependentArt);
+								}
+							}
 						}
 					}
 				}
+
 			}
 
 			// Handling incoming relationships
@@ -151,107 +134,54 @@ public class AddRelatedInstancesAction extends BaseDiagramPartAction implements
 			relations.put("incoming associating", associatingArtifacts);
 			relations.put("incoming depending", dependingArtifacts);
 			for (IAbstractArtifact artifact : artifacts) {
-				List<IRelationship> termRels = session
-						.getTerminatingRelationshipForFQN(
-								artifact.getFullyQualifiedName(), true);
-				for (IRelationship relationship : termRels) {
-					if (relationship instanceof IAssociationArtifact) {
-						IAssociationEnd aEnd = ((IAssociationArtifact) relationship)
-								.getAEnd();
-						IAbstractArtifact associatingArt = aEnd.getType()
-								.getArtifact();
 
-						if (!namesOfArtifactsInMap.contains(associatingArt
-								.getFullyQualifiedName())) {
-							relationshipsExist = true;
-							associatingArtifacts.add(associatingArt);
-						} else if (relationship instanceof IAssociationClassArtifact
-								&& !namesOfArtifactsInMap
-										.contains(((IAssociationClassArtifact) relationship)
+				Set<String> hierarhy = new HashSet<String>();
+				featchHierarhyUp(artifact, hierarhy);
+
+				Set<IRelationship> seen = new HashSet<IRelationship>();
+				for (String fqn : hierarhy) {
+					Collection<IRelationship> termRels = new HashSet<IRelationship>(
+							session.getTerminatingRelationshipForFQN(fqn, true));
+					termRels.removeAll(seen);
+					seen.addAll(termRels);
+
+					for (IRelationship relationship : termRels) {
+						if (relationship instanceof IAssociationArtifact) {
+							IAssociationEnd aEnd = ((IAssociationArtifact) relationship)
+									.getAEnd();
+
+							Set<IAbstractArtifact> downHierarhy = new HashSet<IAbstractArtifact>();
+							featchHierarhyDown(aEnd.getType().getArtifact(),
+									downHierarhy);
+							for (IAbstractArtifact associatingArt : downHierarhy) {
+								if (!namesOfArtifactsInMap
+										.contains(associatingArt
 												.getFullyQualifiedName())) {
-							associatingArtifacts
-									.add((IAbstractArtifact) relationship);
+									associatingArtifacts.add(associatingArt);
+								}
+							}
+						} else if (relationship instanceof IDependencyArtifact) {
+							IRelationshipEnd aEnd = ((IDependencyArtifact) relationship)
+									.getRelationshipAEnd();
+
+							Set<IAbstractArtifact> downHierarhy = new HashSet<IAbstractArtifact>();
+							featchHierarhyDown(aEnd.getType().getArtifact(),
+									downHierarhy);
+							for (IAbstractArtifact dependingArt : downHierarhy) {
+								if (!namesOfArtifactsInMap
+										.contains(dependingArt
+												.getFullyQualifiedName())) {
+									dependingArtifacts.add(dependingArt);
+								}
+							}
 						}
-					} else if (relationship instanceof IDependencyArtifact) {
-						IRelationshipEnd aEnd = ((IDependencyArtifact) relationship)
-								.getRelationshipAEnd();
-						IAbstractArtifact dependingArt = aEnd.getType()
-								.getArtifact();
-
-						if (!namesOfArtifactsInMap.contains(dependingArt
-								.getFullyQualifiedName())) {
-							relationshipsExist = true;
-							dependingArtifacts.add(dependingArt);
-						}
-					}
-				}
-			}
-
-			// Handling implemented Artifacts
-			Set<IAbstractArtifact> implementedArtifacts = new HashSet<IAbstractArtifact>();
-			relations.put("implemented", implementedArtifacts);
-			for (IAbstractArtifact artifact : artifacts) {
-				Collection<IAbstractArtifact> implementedArts = artifact
-						.getImplementedArtifacts();
-				for (IAbstractArtifact implementedArt : implementedArts) {
-					if (!namesOfArtifactsInMap.contains(implementedArt
-							.getFullyQualifiedName())) {
-						relationshipsExist = true;
-						implementedArtifacts.add(implementedArt);
-					}
-				}
-			}
-
-			// Handling implementing Artifacts
-			Set<IAbstractArtifact> implementingArtifacts = new HashSet<IAbstractArtifact>();
-			relations.put("implementing", implementingArtifacts);
-			for (IAbstractArtifact artifact : artifacts) {
-				Collection<IAbstractArtifact> implementingArts = (artifact)
-						.getImplementingArtifacts();
-				for (IAbstractArtifact implementingArt : implementingArts) {
-					if (!namesOfArtifactsInMap.contains(implementingArt
-							.getFullyQualifiedName())) {
-						if (!relationshipsExist)
-							relationshipsExist = true;
-						implementingArtifacts.add(implementingArt);
-					}
-				}
-			}
-
-			// Handling referenced artifacts
-			Set<IAbstractArtifact> referencedArtifacts = new HashSet<IAbstractArtifact>();
-			relations.put("referenced", referencedArtifacts);
-			for (IAbstractArtifact artifact : artifacts) {
-
-				for (IAbstractArtifact referencedArt : artifact
-						.getReferencedArtifacts()) {
-					if (!namesOfArtifactsInMap.contains(referencedArt
-							.getFullyQualifiedName())) {
-						relationshipsExist = true;
-						referencedArtifacts.add(referencedArt);
-					}
-
-				}
-			}
-
-			// Handling referencing artifacts
-			Set<IAbstractArtifact> referencingArtifacts = new HashSet<IAbstractArtifact>();
-			relations.put("referencing", referencingArtifacts);
-			for (IAbstractArtifact artifact : artifacts) {
-				for (IAbstractArtifact referencingArt : artifact
-						.getReferencingArtifacts()) {
-					if (!namesOfArtifactsInMap.contains(referencingArt
-							.getFullyQualifiedName())) {
-						relationshipsExist = true;
-						referencingArtifacts.add(referencingArt);
 					}
 				}
 			}
 
 			if (isEmpty(relations)) {
-				MessageDialog
-						.openInformation(getShell(), "Nothing to add",
-								"Selected item does not have any related artifacts");
+				MessageDialog.openInformation(getShell(), "Nothing to add",
+						"Selected item does not have any related artifacts");
 				return;
 			}
 
@@ -272,6 +202,35 @@ public class AddRelatedInstancesAction extends BaseDiagramPartAction implements
 		}
 	}
 
+	private void featchHierarhyUp(IAbstractArtifact artifact, Set<String> set) {
+		if (artifact == null) {
+			return;
+		}
+		if (!set.add(artifact.getFullyQualifiedName())) {
+			return;
+		}
+		featchHierarhyUp(artifact.getExtendedArtifact(), set);
+		for (IAbstractArtifact impl : artifact.getImplementingArtifacts()) {
+			featchHierarhyUp(impl, set);
+		}
+	}
+
+	private void featchHierarhyDown(IAbstractArtifact artifact,
+			Set<IAbstractArtifact> set) {
+		if (artifact == null) {
+			return;
+		}
+		if (!set.add(artifact)) {
+			return;
+		}
+		for (IAbstractArtifact extending : artifact.getExtendingArtifacts()) {
+			featchHierarhyDown(extending, set);
+		}
+		for (IAbstractArtifact impl : artifact.getImplementingArtifacts()) {
+			featchHierarhyDown(impl, set);
+		}
+	}
+
 	protected Set<String> getNamesOfArtifactsInMap(List<?> artifactsInMap) {
 		Set<String> namesOfArtifactsInMap = new HashSet<String>(
 				artifactsInMap.size());
@@ -287,24 +246,49 @@ public class AddRelatedInstancesAction extends BaseDiagramPartAction implements
 	private void addToDiagram(DiagramEditPart mapEditPart,
 			Set<IAbstractArtifact> artifactsToAdd) {
 
+		Set<ClassInstance> oldState = new HashSet<ClassInstance>(getMap()
+				.getClassInstances());
+
 		InstanceDiagramDragDropEditPolicy dndEditPolicy = (InstanceDiagramDragDropEditPolicy) mapEditPart
 				.getEditPolicy(EditPolicyRoles.DRAG_DROP_ROLE);
 		dndEditPolicy.setHost(mapEditPart);
 		DropObjectsRequest request = new DropObjectsRequest();
-		request.setObjects(new ArrayList<IAbstractArtifact>(artifactsToAdd));
+		request.setObjects(new ArrayList<IModelComponent>(artifactsToAdd));
 		request.setAllowedDetail(DND.DROP_COPY);
-		final Command cmd = dndEditPolicy.getDropObjectsCommand(request);
+
+		exec(dndEditPolicy.getDropObjectsCommand(request));
+
+		Set<ClassInstance> newObjects = new HashSet<ClassInstance>(getMap()
+				.getClassInstances());
+		newObjects.removeAll(oldState);
+
+		CompoundCommand addRelationsCommand = new CompoundCommand();
+		ClassInstanceItemSemanticEditPolicy ciEditPolicy = new ClassInstanceItemSemanticEditPolicy();
+		ciEditPolicy.setHost(mySelectedElement);
+
+		for (ClassInstance ci : newObjects) {
+			CreateRelationshipRequest req = new CreateRelationshipRequest(
+					InstanceElementTypes.AssociationInstance_3001);
+			req.setSource(getCorrespondingEObject());
+			req.setTarget(ci);
+			addRelationsCommand.add(ciEditPolicy
+					.getCreateRelationshipCommand(req));
+		}
+
+		exec(addRelationsCommand);
+	}
+
+	private void exec(Command cmd) {
 		if (cmd.canExecute()) {
 			cmd.setLabel("Add Related Artifacts");
-			ICommand iCommand = new CommandProxy(cmd);
+			CommandProxy command = new CommandProxy(cmd);
 			try {
-				OperationHistoryFactory.getOperationHistory().execute(iCommand,
+				OperationHistoryFactory.getOperationHistory().execute(command,
 						new NullProgressMonitor(), null);
 			} catch (ExecutionException e) {
 				EclipsePlugin.log(e);
 			}
 		}
-
 	}
 
 	private boolean isEmpty(Map<String, Set<IAbstractArtifact>> relations) {
