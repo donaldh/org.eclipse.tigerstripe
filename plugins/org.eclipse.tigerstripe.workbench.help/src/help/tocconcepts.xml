@@ -15,7 +15,10 @@
 	<topic label="Tigerstripe Projects"  href="src/help/html/concepts/tigerstripeprojects/index.html"> 
 		<topic label="Tigerstripe Source Model" href="src/help/html/concepts/tigerstripeprojects/sourceartifacts.html" /> 
 		<topic label="Tigerstripe Project Descriptor" href="src/help/html/concepts/tigerstripeprojects/projectdescriptor.html" /> 
-		<topic label="Project Dependencies" href="src/help/html/concepts/tigerstripeprojects/projectdependencies.html" /> 
+		<topic href="src/help/html/concepts/tigerstripeprojects/projectdependencies.html" label="Project Dependencies">
+  </topic>
+  <topic href="src/help/html/concepts/tigerstripeprojects/dependencyDiagrams.html" label="Dependency Diagrams">
+  </topic> 
 	</topic>
 	<topic label="Core Tigerstripe Artifacts" href="src/help/html/concepts/tigerstripeartifacts/index.html">
 	</topic> 

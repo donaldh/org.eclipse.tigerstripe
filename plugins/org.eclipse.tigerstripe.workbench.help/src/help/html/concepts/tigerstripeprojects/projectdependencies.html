@@ -17,14 +17,31 @@
 <title>Tigerstripe Project Dependencies</title>
 </head >
 <h1>Tigerstripe Project Dependencies</h1>
-<p>Because <b>Service Contracts</b> are meant to interact within a complete SOA Solution, very often they will share common information models. To avoid duplication and increased complexity, such commonalities between <b>Tigerstripe</b> projects can be saved into a <b>Tigerstripe Module</b>. The module can further be referenced by other projects. These referenced <b>Tigerstripe Modules</b> are called <b>Project Dependencies</b>.</p>
-<h2>Project Dependencies</h2>
-<blockquote><p><b>Project Dependencies</b> are a list of referenced <b>Tigerstripe Modules</b> required for a <b>Tigerstripe Project</b>. These dependencies typically contain common information models, for example a common definition of a <i>Customer Entity</i>, so that all <b>Service Contracts</b> of an end-to-end solution are based on common definitions.</p>
+<p>Tigersripe models, very often share common base models. To avoid duplication and increased complexity, such commonalities between <b>Tigerstripe</b> projects can be saved into a <b>Tigerstripe Module</b>. The module can further be referenced by other projects.</p>
 <p>Dependencies can be added to and removed from the list of dependencies of a project through the <b>Dependencies Tab</b> of the <b>Tigerstripe Descriptor Editor</b> as show below:</p>
 <p align="center" class="style2"><img src="../../images/dependencyTab.gif"></p>
-<p><b>Note:</b> If a project dependency cannot be satisfied (for example a missing file), the project will likely not be valid.</p></blockquote>
+
+<h2>Project Dependencies</h2>
+<blockquote><p> There are two types of <b>Project Dependencies</b> in Tigerstripe. 
+<br><b>Dependencies</b>, which are made by reference to <b>Tigerstripe modules</b> are mostly obsolete.
+<br><b>Referenced Tigerstripe Projects</b> is now the preferred manner of managing project dependencies. A reference can be between projects within your workspace, or to <b>Installed Modules</b>. These references are made by <b>Model Id</b>. 
+<ul>
+	<li>If there is a Tigerstripe project in your workspace that matches the modelId specified, then that project will be used when resolving and generating artifacts. </li>
+	<li>If there is no project in the workspace, then Tigerstripe looks for an <b>Installed Module</b> with that ModelId.</li>
+	<li>If no <b>Installed Module</b> is found, then the reference is unsatisfied, and the model will be in error.</li>
+</ul>
+It is because of this override behaviour that this is the preferred method of referencing projects.
+</blockquote>
+
+<h2>Installed Modules</h2>
+<blockquote><p><b>Installed Modules</b>, are pre-packaged versions of <b>Tigerstripe</b> projects that are wrapped up inside eclipse plugins and are part of the installed product. Refer to <a href="../../tasks/importExportTasks/index.html">Import/Export Tasks</a> for more details on how to export an existing <b>Tigerstripe Project</b> as an <b>Installable Module</b>.
+
+
+</blockquote>
+
+
 <h2>Tigerstripe Modules</h2>
-<blockquote><p><b>Project Dependencies</b> are references to a set of <b>Tigerstripe Modules</b>, for example, pre-packaged, binary-like, versions of <b>Tigerstripe</b> projects. Refer to <a href="../../tasks/importExportTasks/index.html">Import/Export Tasks</a> for more details on how to export an existing <b>Tigerstripe Project</b> into a module that can be referenced as a dependency by other projects. </p>
+<blockquote><p><b>Tigerstripe Modules</b>, are pre-packaged, binary-like, versions of <b>Tigerstripe</b> projects. Refer to <a href="../../tasks/importExportTasks/index.html">Import/Export Tasks</a> for more details on how to export an existing <b>Tigerstripe Project</b> into a module that can be referenced as a dependency by other projects. </p>
 <p>Although <b>Tigerstripe</b> modules have a <em>.jar</em> file extension, they contain additional <b>Tigerstripe</b> specific information to further identify the content of a module. This additional information is displayed when selecting a referenced dependency in a <b>Tigerstripe</b> project descriptor (as show in the above image):</p>
 <ul>
   <li><strong>Module ID</strong>: a unique module identifier set when the module was created through a project export operation.</li>
@@ -38,7 +55,9 @@
 <h4>Related Topics</h4>
 <p><a href="sourceartifacts.html">Source Model</a>
 <br><a href="projectdescriptor.html">Project Descriptor</a>
-<p><a href="projectdependencies.html"> <img src="../../images/finger.gif" width="20" height="19" align="absmiddle">&nbsp;Project Dependencies</a></p>-->
+<br><a href="dependencyDiagrams.html">Dependency Diagrams</a>
+<p><a href="dependencyDiagrams.html"> <img src="../../images/finger.gif" width="20" height="19" align="absmiddle">&nbsp;Dependency Diagrams</a></p>-->
+
 </p>
 
 &#169; copyright 2005, 2006, 2007 Cisco Systems, Inc. - All rights reserved </p>
