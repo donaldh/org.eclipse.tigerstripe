@@ -818,7 +818,8 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 		private void valueChanged(boolean checked) {
 			setChecked(checked);
 			setHideNotes(provider, !checked);
-			contributor.updateNotes();
+			if (contributor!=null)
+				contributor.updateNotes();
 		}
 
 		public void notesChanged(INote[] notes) {
