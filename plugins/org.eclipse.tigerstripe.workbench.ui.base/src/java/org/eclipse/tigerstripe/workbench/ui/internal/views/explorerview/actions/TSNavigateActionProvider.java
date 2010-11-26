@@ -11,6 +11,10 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
+import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.actions.ActionGroup;
 import org.eclipse.ui.navigator.CommonNavigator;
@@ -30,7 +34,17 @@ public class TSNavigateActionProvider extends ActionGroupWrapper {
 
 	public void fillActionBars(IActionBars actionBars) {
 		super.fillActionBars(actionBars);
-		actionBars.setGlobalActionHandler(ICommonActionConstants.OPEN,
-				((TSNavigateActionGroup) actionGroup).getOpenAction());
+		
+		// N.M Bugzilla 328947 - [TS Explorer] Double clicking on containers should expand them
+		if (getContext() !=null) {
+			ISelection selection = getContext().getSelection();
+			if (selection instanceof IStructuredSelection) {
+				Object firstElement = ((IStructuredSelection)selection).getFirstElement();
+				if (!((firstElement instanceof IPackageFragmentRoot) || (firstElement instanceof IProject))) {
+					actionBars.setGlobalActionHandler(ICommonActionConstants.OPEN, ((TSNavigateActionGroup) actionGroup).getOpenAction());			
+				}
+			}
+		}
+		
 	}
 }
