@@ -158,7 +158,7 @@ public class ModelChangeDeltaProcessor {
 
 					if (!isSubPakage(oldPath, newPath)) {
 						IPackageArtifact orphan = (IPackageArtifact) artifact;
-						if (needToCleanUpPackage(orphan, toCleanUp)) {
+						if (needToCleanUpPackage(project, orphan, toCleanUp)) {
 							for (;;) {
 								IModelComponent parentComponent = orphan
 										.getContainingModelComponent();
@@ -369,7 +369,8 @@ public class ModelChangeDeltaProcessor {
 					IRefactoringChangesListener.CHANGED);
 
 			if (artifact instanceof IPackageArtifact) {
-				if (needToCleanUpPackage((IPackageArtifact) artifact, toCleanUp)) {
+				if (needToCleanUpPackage(project, (IPackageArtifact) artifact,
+						toCleanUp)) {
 					toCleanUp.add(artifact);
 				}
 			} else {
@@ -387,11 +388,13 @@ public class ModelChangeDeltaProcessor {
 	}
 
 	private static boolean needToCleanUpPackage(
-			IPackageArtifact packageArtifact, Collection<Object> toCleanUp) {
+			ITigerstripeModelProject project, IPackageArtifact packageArtifact,
+			Collection<Object> toCleanUp) throws TigerstripeException {
 		Collection<IModelComponent> components = packageArtifact
 				.getContainedModelComponents();
 		for (IModelComponent component : components) {
-			if (!toCleanUp.contains(component)) {
+			if (component.getProject().equals(project)
+					&& !toCleanUp.contains(component)) {
 				return false;
 			}
 		}

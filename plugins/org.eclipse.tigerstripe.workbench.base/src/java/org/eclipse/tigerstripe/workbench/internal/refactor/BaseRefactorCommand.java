@@ -53,10 +53,10 @@ import org.eclipse.tigerstripe.workbench.refactor.diagrams.DiagramSynchronizerCo
 
 public class BaseRefactorCommand implements IRefactorCommand {
 
-	private RefactorRequest[] requests;
-	private List<ModelChangeDelta> deltas = new ArrayList<ModelChangeDelta>();
-	private List<DiagramChangeDelta> diagramDeltas = new ArrayList<DiagramChangeDelta>();
-	private List<ResourceChangeDelta> resourceDeltas = new ArrayList<ResourceChangeDelta>();
+	private final RefactorRequest[] requests;
+	private final List<ModelChangeDelta> deltas = new ArrayList<ModelChangeDelta>();
+	private final List<DiagramChangeDelta> diagramDeltas = new ArrayList<DiagramChangeDelta>();
+	private final List<ResourceChangeDelta> resourceDeltas = new ArrayList<ResourceChangeDelta>();
 
 	public BaseRefactorCommand(RefactorRequest[] requests) {
 		this.requests = requests;
@@ -355,7 +355,7 @@ public class BaseRefactorCommand implements IRefactorCommand {
 
 	protected ITigerstripeModelProject[] applyAllDeltas(
 			IProgressMonitor monitor, Collection<Object> toCleanUp) {
-		monitor.beginTask("Applying deltas", deltas.size());
+		monitor.beginTask("Applying deltas", 2 * deltas.size());
 
 		Set<ITigerstripeModelProject> affectedProjects = new HashSet<ITigerstripeModelProject>();
 
@@ -364,8 +364,9 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		for (ModelChangeDelta delta : deltas) {
 			try {
 				if (!delta.isComponentRefactor()
-						&& !delta.isRelationEndRefactor())
+						&& !delta.isRelationEndRefactor()) {
 					delta.apply(toCleanUp, toSave);
+				}
 			} catch (TigerstripeException e) {
 				BasePlugin.log(e);
 			}
@@ -375,12 +376,35 @@ public class BaseRefactorCommand implements IRefactorCommand {
 			try {
 				art.doSave(monitor);
 
+				if (art.getProject() != null) {
+					affectedProjects.add(art.getProject());
+				}
+			} catch (TigerstripeException e) {
+				BasePlugin.log(e);
+			}
+		}
+
+		// Then update all the relationship ends.
+		toSave.clear();
+		for (ModelChangeDelta delta : deltas) {
+			try {
+				if (delta.isComponentRefactor()
+						|| (delta.isRelationEndRefactor() && !affectedProjects
+								.contains(delta.getProject())))
+					delta.apply(toCleanUp, toSave);
+			} catch (TigerstripeException e) {
+				BasePlugin.log(e);
+			}
+			monitor.worked(1);
+		}
+		for (IAbstractArtifact art : toSave)
+			try {
+				art.doSave(monitor);
 				if (art.getProject() != null)
 					affectedProjects.add(art.getProject());
 			} catch (TigerstripeException e) {
 				BasePlugin.log(e);
 			}
-		}
 
 		monitor.done();
 

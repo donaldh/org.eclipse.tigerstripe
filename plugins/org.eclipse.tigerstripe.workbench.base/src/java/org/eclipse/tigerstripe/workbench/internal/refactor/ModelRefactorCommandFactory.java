@@ -79,7 +79,7 @@ public class ModelRefactorCommandFactory {
 	private static final Set<String> IGNORE_REFACTORING_RESOURCES = new HashSet<String>(
 			Arrays.asList("vwm", "wvd", "owm", "wod"));
 
-	private List<ITigerstripeModelRefactorParticipant> participants = new ArrayList<ITigerstripeModelRefactorParticipant>();
+	private final List<ITigerstripeModelRefactorParticipant> participants = new ArrayList<ITigerstripeModelRefactorParticipant>();
 
 	private ModelRefactorCommandFactory() {
 		discoverRegisteredParticipants();
@@ -375,7 +375,8 @@ public class ModelRefactorCommandFactory {
 		// Then look for all artifacts at this level, and dive recursively
 		String destPackageFQN = request.getDestinationFQN();
 		for (IModelComponent comp : original.getContainedModelComponents()) {
-			if (canHandle(comp, request)) {
+			if (request.getOriginalProject().equals(comp.getProject())
+					&& canHandle(comp, request)) {
 				if (comp instanceof IAbstractArtifact) {
 					IAbstractArtifact containedArtifact = (IAbstractArtifact) comp;
 					String oFQN = containedArtifact.getFullyQualifiedName();
