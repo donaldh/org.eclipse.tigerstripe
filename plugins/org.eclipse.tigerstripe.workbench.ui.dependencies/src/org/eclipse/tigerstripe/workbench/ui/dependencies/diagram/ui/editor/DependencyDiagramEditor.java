@@ -16,7 +16,6 @@ import java.util.List;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.DefaultEditDomain;
 import org.eclipse.gef.GraphicalViewer;
@@ -109,7 +108,8 @@ public abstract class DependencyDiagramEditor extends GraphicalEditor implements
 		viewer.setContents(getModel()); // set the contents of this editor
 
 		if (Utils.ensureLayout(viewer)) {
-			doSave(new NullProgressMonitor());
+			viewStateDirty = false;
+			getCommandStack().markSaveLocation();
 		}
 
 		// Layer currentLayer = getDiagram().getCurrentLayer();

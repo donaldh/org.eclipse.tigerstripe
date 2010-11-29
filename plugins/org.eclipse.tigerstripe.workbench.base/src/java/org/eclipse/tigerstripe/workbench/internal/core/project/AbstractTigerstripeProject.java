@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.project;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -19,7 +17,6 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.Properties;
 
@@ -43,9 +40,6 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
@@ -111,8 +105,6 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 	private long loadTStamp = -1;
 
 	private boolean isLocalDirty = false;
-
-	private Resource dependenciesVisualState;
 
 	/**
 	 * The details of the projects
@@ -289,20 +281,6 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 		return projectDetails;
 	}
 
-	protected Element buildDependenciesVisualState(Document document) {
-		Element vsdElm = document.createElement(VISUALSTATEDEPS_TAG);
-		if (dependenciesVisualState != null) {
-			try {
-				ByteArrayOutputStream out = new ByteArrayOutputStream();
-				dependenciesVisualState.save(out, Collections.emptyMap());
-				vsdElm.setTextContent(new String(out.toByteArray()));
-			} catch (IOException e) {
-				throw new RuntimeException(e);
-			}
-		}
-		return vsdElm;
-	}
-
 	protected Element buildAdvancedElement(Document document) {
 		Element advancedElm = document.createElement(ADVANCED_TAG);
 
@@ -424,25 +402,6 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 		// FIXME
 	}
 
-	protected void loadDependenciesVisualState(Document document)
-			throws TigerstripeException {
-
-		dependenciesVisualState = null;
-		NodeList nodes = document.getElementsByTagName(VISUALSTATEDEPS_TAG);
-		if (nodes.getLength() > 0) {
-			String content = nodes.item(0).getTextContent();
-			if (content != null && content.length() > 0) {
-				dependenciesVisualState = new XMIResourceImpl();
-				try {
-					dependenciesVisualState.load(new ByteArrayInputStream(
-							content.getBytes()), Collections.emptyMap());
-				} catch (IOException e) {
-					// Nothing to do.
-				}
-			}
-		}
-	}
-
 	protected void loadAdvancedProperties(Document document)
 			throws TigerstripeException {
 		advancedProperties.clear();
@@ -483,24 +442,6 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 	public void setAdvancedProperty(String prop, String value) {
 		setDirty();
 		this.advancedProperties.setProperty(prop, value);
-	}
-
-	public void setDependenciesVisualState(EObject state) {
-		setDirty();
-		dependenciesVisualState = new XMIResourceImpl();
-		dependenciesVisualState.getContents().add(state);
-	}
-
-	public <T extends EObject> T getDependenciesVisualState(Class<T> forClass) {
-		if (dependenciesVisualState == null) {
-			return null;
-		}
-		for (EObject eo : dependenciesVisualState.getContents()) {
-			if (forClass.isInstance(eo)) {
-				return forClass.cast(eo);
-			}
-		}
-		return null;
 	}
 
 	public String getDescriptorVersion() {

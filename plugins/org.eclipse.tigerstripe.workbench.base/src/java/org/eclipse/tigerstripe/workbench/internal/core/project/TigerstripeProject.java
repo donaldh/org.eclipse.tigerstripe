@@ -269,7 +269,6 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			loadReferences(document);
 			loadFacetReferences(document);
 			loadAdvancedProperties(document);
-			loadDependenciesVisualState(document);
 
 		} catch (SAXParseException spe) {
 			TigerstripeRuntime.logErrorMessage("SAXParseException detected",
@@ -358,7 +357,6 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			root.appendChild(buildReferencesElement(document));
 			root.appendChild(buildFacetRefsElement(document));
 			root.appendChild(buildAdvancedElement(document));
-			root.appendChild(buildDependenciesVisualState(document));
 		} catch (ParserConfigurationException e) {
 			TigerstripeRuntime.logErrorMessage(
 					"ParserConfigurationException detected", e);

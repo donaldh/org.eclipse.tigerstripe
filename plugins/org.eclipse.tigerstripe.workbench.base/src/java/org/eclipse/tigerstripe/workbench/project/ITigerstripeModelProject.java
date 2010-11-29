@@ -13,7 +13,6 @@ package org.eclipse.tigerstripe.workbench.project;
 import java.net.URI;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.WorkingCopyException;
 import org.eclipse.tigerstripe.workbench.generation.IM1RunConfig;
@@ -147,12 +146,6 @@ public interface ITigerstripeModelProject extends IAbstractTigerstripeProject {
 
 	public void setAdvancedProperty(String property, String value)
 			throws WorkingCopyException, TigerstripeException;
-
-	public void setDependenciesVisualState(EObject state)
-			throws TigerstripeException;
-
-	public <T extends EObject> T getDependenciesVisualState(Class<T> forClass)
-			throws TigerstripeException;
 
 	/**
 	 * Returns the Plugin references defined in this project
