@@ -24,6 +24,9 @@ public class HideArtifactExtendsToggleAction extends ArtifactToggleAction {
 		// No need to enable if the artifact has no extends clause
 		IAbstractArtifact[] iArtifacts = getCorrespondingIArtifacts();
 		boolean allEnabled = iArtifacts.length != 0;
+		if (allEnabled)
+			super.computeEnabledAndChecked(action);
+
 		for (IAbstractArtifact iArtifact : iArtifacts) {
 			if (iArtifact != null) {
 				IAbstractArtifact extendedIArt = iArtifact
@@ -42,19 +45,16 @@ public class HideArtifactExtendsToggleAction extends ArtifactToggleAction {
 							AbstractArtifact extendedEArt = helper
 									.findAbstractArtifactFor(extendedIArt);
 							if (extendedEArt != null) {
-								continue; // 
+								continue;
 							} else {
 								action.setEnabled(false);
 								return;
 							}
 						}
 					}
-
 				}
 			}
 		}
-		if (allEnabled)
-			super.computeEnabledAndChecked(action);
 	}
 
 	@Override

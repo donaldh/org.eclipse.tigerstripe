@@ -59,13 +59,6 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 	private AbstractArtifact eArtifact;
 	private final boolean hideExtends;
 
-	protected void resetHideExtends(AbstractArtifact eArtifact) {
-		NamedElementPropertiesHelper helper = new NamedElementPropertiesHelper(
-				eArtifact);
-		helper.setProperty(NamedElementPropertiesHelper.ARTIFACT_HIDE_EXTENDS,
-				"false");
-	}
-
 	public PostCreationAbstractArtifactUpdater(IAbstractArtifact iArtifact,
 			AbstractArtifact eArtifact, Map map,
 			ITigerstripeModelProject diagramProject, boolean hideExtends) {
@@ -272,7 +265,12 @@ public abstract class PostCreationAbstractArtifactUpdater extends
 					// when DnD reset the state of the Hide/Show Extends
 					// property
 					// to avoid confusion for the user.
-					resetHideExtends(eArt);
+
+					NamedElementPropertiesHelper namedHelper = new NamedElementPropertiesHelper(
+							eArt);
+					namedHelper.setProperty(
+							NamedElementPropertiesHelper.ARTIFACT_HIDE_EXTENDS,
+							Boolean.toString(hideExtends));
 
 					if (hideExtends) {
 						eArt.setExtends(null);
