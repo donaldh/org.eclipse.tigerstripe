@@ -23,7 +23,6 @@ import org.eclipse.gmf.runtime.diagram.ui.editpolicies.OpenEditPolicy;
 import org.eclipse.gmf.runtime.notation.impl.NodeImpl;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.dialogs.ClassInstanceEditDialog;
@@ -71,15 +70,9 @@ public class ClassInstanceOpenEditPolicy extends OpenEditPolicy {
 				.getEditingDomain();
 		// final InstanceMap instanceMap =
 		// (InstanceMap)((View)mapEditPart.getModel()).getElement();
-		HashMap<String, String> newInstanceNames = null;
-		HashMap<String, IType> newInstanceTypes = null;
-		if (ied.areAddingNewReferenceInstances()) {
-			newInstanceNames = ied.getNewReferenceInstanceNames();
-			newInstanceTypes = ied.getNewReferenceInstanceTypes();
-		}
 		ClassInstanceUpdateCommand cmd = new ClassInstanceUpdateCommand(
 				editingDomain, mapEditPart, classInstance, newName,
-				newVariableMap, newInstanceNames, newInstanceTypes);
+				newVariableMap, ied.getNewReferenceInstances());
 		return new ICommandProxy(cmd);
 	}
 

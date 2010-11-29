@@ -41,28 +41,25 @@ import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.parts.I
 
 public class ClassInstanceUpdateCommand extends BaseGMFTransactionalCommand {
 
-	private InstanceMapEditPart mapEditPart;
+	private final InstanceMapEditPart mapEditPart;
 	private IArtifactManagerSession artMgrSession;
 	private InstanceMap instanceMap;
-	private ClassInstance instance;
-	private String newInstanceName;
-	private HashMap<String, List<Object>> newVariableMap;
-	HashMap<String, String> additionalInstanceNames;
-	HashMap<String, IType> additionalInstanceTypes;
+	private final ClassInstance instance;
+	private final String newInstanceName;
+	private final HashMap<String, List<Object>> newVariableMap;
+	private final Map<IType, List<String>> additionalInstances;
 
 	public ClassInstanceUpdateCommand(TransactionalEditingDomain domain,
 			InstanceMapEditPart mapEditPart, ClassInstance instance,
 			String newInstanceName,
 			HashMap<String, List<Object>> newVariableMap,
-			HashMap<String, String> additionalInstanceNames,
-			HashMap<String, IType> additionalInstanceTypes) {
+			Map<IType, List<String>> additionalInstances) {
 		super(domain, "Update instance " + instance.getArtifactName(), null);
 		this.mapEditPart = mapEditPart;
 		this.instance = instance;
 		this.newInstanceName = newInstanceName;
 		this.newVariableMap = newVariableMap;
-		this.additionalInstanceNames = additionalInstanceNames;
-		this.additionalInstanceTypes = additionalInstanceTypes;
+		this.additionalInstances = additionalInstances;
 		DiagramGraphicalViewer mapViewer = (DiagramGraphicalViewer) mapEditPart
 				.getViewer();
 		DiagramEditDomain diagramDomain = (DiagramEditDomain) mapViewer
@@ -119,21 +116,21 @@ public class ClassInstanceUpdateCommand extends BaseGMFTransactionalCommand {
 		// new class
 		// instance while editing the referenced fields), then create those
 		// instances now...
-		if (additionalInstanceNames != null) {
-			for (String fieldName : additionalInstanceNames.keySet()) {
-				ClassInstance lclInstance = InstancediagramFactory.eINSTANCE
-						.createClassInstance();
-				lclInstance.setArtifactName(additionalInstanceNames
-						.get(fieldName));
-				IType type = additionalInstanceTypes.get(fieldName);
-				lclInstance.setName(type.getName());
-				String fqn = type.getFullyQualifiedName();
-				int idx = fqn.lastIndexOf(".");
-				if (idx > 0)
-					lclInstance.setPackage(fqn.substring(0, idx));
-				else
-					lclInstance.setPackage("");
-				instanceMap.getClassInstances().add(lclInstance);
+		if (additionalInstances != null) {
+			for (IType type : additionalInstances.keySet()) {
+				for (String name : additionalInstances.get(type)) {
+					ClassInstance lclInstance = InstancediagramFactory.eINSTANCE
+							.createClassInstance();
+					lclInstance.setArtifactName(name);
+					lclInstance.setName(type.getName());
+					String fqn = type.getFullyQualifiedName();
+					int idx = fqn.lastIndexOf(".");
+					if (idx > 0)
+						lclInstance.setPackage(fqn.substring(0, idx));
+					else
+						lclInstance.setPackage("");
+					instanceMap.getClassInstances().add(lclInstance);
+				}
 			}
 		}
 		// next, put together a list of the variables/associations to add, the

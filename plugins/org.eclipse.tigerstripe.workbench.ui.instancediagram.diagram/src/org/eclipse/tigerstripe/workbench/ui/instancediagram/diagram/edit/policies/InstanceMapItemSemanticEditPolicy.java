@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.polici
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.OperationCanceledException;
@@ -142,20 +143,21 @@ public class InstanceMapItemSemanticEditPolicy extends
 			} catch (TigerstripeException e) {
 				throw new RuntimeException("IArtifactManagerSession not found");
 			}
-			// Bug 288318: now allowing abstract classes to be displayed on instance diagrams.
-//			if (artifact.isAbstract()) {
-//				String warningStr = "Cannot instantiate an abstract class; "
-//						+ "drag-and-drop operation cancelled";
-//				String[] buttonLabels = new String[] { "OK" };
-//				int defButtonIdx = 0;
-//				MessageDialog warningDialog = new MessageDialog(shell,
-//						"Abstract class detected", (Image) null, warningStr,
-//						MessageDialog.WARNING, buttonLabels, defButtonIdx);
-//				int retIdx = warningDialog.open();
-//				throw new OperationCanceledException(
-//						"Cannot Instantiate Abstract Class");
-//			} else 
-				if (!sessionFacadeInstancesEnabled()
+			// Bug 288318: now allowing abstract classes to be displayed on
+			// instance diagrams.
+			// if (artifact.isAbstract()) {
+			// String warningStr = "Cannot instantiate an abstract class; "
+			// + "drag-and-drop operation cancelled";
+			// String[] buttonLabels = new String[] { "OK" };
+			// int defButtonIdx = 0;
+			// MessageDialog warningDialog = new MessageDialog(shell,
+			// "Abstract class detected", (Image) null, warningStr,
+			// MessageDialog.WARNING, buttonLabels, defButtonIdx);
+			// int retIdx = warningDialog.open();
+			// throw new OperationCanceledException(
+			// "Cannot Instantiate Abstract Class");
+			// } else
+			if (!sessionFacadeInstancesEnabled()
 					&& artifact instanceof ISessionArtifact) {
 				String warningStr = "Your profile does not allow for instantiation "
 						+ "of "
@@ -190,26 +192,25 @@ public class InstanceMapItemSemanticEditPolicy extends
 			instance.setArtifactName(instanceName);
 			instance.setName(artifact.getName());
 			instance.setPackage(artifact.getPackage());
-			if (ied.areAddingNewReferenceInstances()) {
+
+			Map<IType, List<String>> newReferencedInstancies = ied
+					.getNewReferenceInstances();
+			if (newReferencedInstancies != null) {
 				// need to create the requested class instances...
-				HashMap<String, String> instanceNames = ied
-						.getNewReferenceInstanceNames();
-				HashMap<String, IType> instanceTypes = ied
-						.getNewReferenceInstanceTypes();
-				for (String fieldName : instanceNames.keySet()) {
-					Instance newRefInstance = (Instance) super
-							.doDefaultElementCreation();
-					newRefInstance
-							.setArtifactName(instanceNames.get(fieldName));
-					IType type = instanceTypes.get(fieldName);
-					newRefInstance.setName(type.getName());
-					String fqn = type.getFullyQualifiedName();
-					int idx = fqn.lastIndexOf(".");
-					if (idx > 0)
-						newRefInstance.setPackage(fqn.substring(0, idx));
-					else
-						newRefInstance.setPackage("");
-					instanceMap.getClassInstances().add(newRefInstance);
+				for (IType type : newReferencedInstancies.keySet()) {
+					for (String name : newReferencedInstancies.get(type)) {
+						Instance newRefInstance = (Instance) super
+								.doDefaultElementCreation();
+						newRefInstance.setArtifactName(name);
+						newRefInstance.setName(type.getName());
+						String fqn = type.getFullyQualifiedName();
+						int idx = fqn.lastIndexOf(".");
+						if (idx > 0)
+							newRefInstance.setPackage(fqn.substring(0, idx));
+						else
+							newRefInstance.setPackage("");
+						instanceMap.getClassInstances().add(newRefInstance);
+					}
 				}
 			}
 			HashMap<String, List<Object>> selectionMap = ied.getSelection();
@@ -260,8 +261,8 @@ public class InstanceMapItemSemanticEditPolicy extends
 
 	private static boolean sessionFacadeInstancesEnabled() {
 		GlobalSettingsProperty prop = (GlobalSettingsProperty) TigerstripeCore
-				.getWorkbenchProfileSession().getActiveProfile().getProperty(
-						IWorkbenchPropertyLabels.GLOBAL_SETTINGS);
+				.getWorkbenchProfileSession().getActiveProfile()
+				.getProperty(IWorkbenchPropertyLabels.GLOBAL_SETTINGS);
 		return prop
 				.getPropertyValue(IGlobalSettingsProperty.ENABLE_SESSIONFACADE_ONINSTDIAG);
 	}
