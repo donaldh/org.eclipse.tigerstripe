@@ -59,7 +59,8 @@ public class PostCreationModelUpdateCommand extends
 
 	public PostCreationModelUpdateCommand(TransactionalEditingDomain domain,
 			List<ViewAndElementDescriptor> descriptors,
-			List<IAbstractArtifact> artifacts, ITigerstripeModelProject tsProject) {
+			List<IAbstractArtifact> artifacts,
+			ITigerstripeModelProject tsProject) {
 		super(domain, "PostCreationModelUpdateCommand", null);
 
 		this.descriptors = descriptors;
@@ -110,9 +111,8 @@ public class PostCreationModelUpdateCommand extends
 		// First one pass to set up the names/packages on the newly created
 		// objects so we can cross-reference them, and THEN update all the
 		// variables/assocs...
-
-		int index = 0;
-		for (EObject obj : eObjects) {
+		for (int index = 0; index < eObjects.size(); ++index) {
+			EObject obj = eObjects.get(index);
 			if (obj instanceof ClassInstance) {
 				// set name properly
 
@@ -124,8 +124,8 @@ public class PostCreationModelUpdateCommand extends
 		}
 
 		// second pass now.
-		index = 0;
-		for (EObject obj : eObjects) {
+		for (int index = 0; index < eObjects.size(); ++index) {
+			EObject obj = eObjects.get(index);
 			if (obj instanceof ClassInstance) {
 				// set name properly
 				ClassInstance eArtifact = (ClassInstance) obj;
@@ -138,7 +138,6 @@ public class PostCreationModelUpdateCommand extends
 			// know
 			// // the following AssociationClassClass is
 			// // following and needs the same stuff
-			// index++;
 		}
 		return CommandResult.newOKCommandResult();
 	}
