@@ -69,54 +69,57 @@ public class WizardActionUtils {
 			handle.getArtifactManagerSession().refresh(monitor);
 			((ArtifactManagerSessionImpl) handle.getArtifactManagerSession())
 					.setLockForGeneration(true);
+			try {
+				for (Iterator iter = Arrays.asList(plugins).iterator(); iter
+						.hasNext();) {
+					PluginConfig ref = (PluginConfig) iter.next();
+					if (ref.getCategory() == IPluginConfig.GENERATE_CATEGORY
+							&& ref.isEnabled()) {
+						try {
+							monitor.worked(1);
+							monitor.setTaskName("Running: " + ref.getLabel());
 
-			for (Iterator iter = Arrays.asList(plugins).iterator(); iter
-					.hasNext();) {
-				PluginConfig ref = (PluginConfig) iter.next();
-				if (ref.getCategory() == IPluginConfig.GENERATE_CATEGORY
-						&& ref.isEnabled()) {
-					try {
-						monitor.worked(1);
-						monitor.setTaskName("Running: " + ref.getLabel());
+							ref.trigger();
+							IPluginReport rep = ref.getReport();
+							reports.add(ref.getReport());
 
-						ref.trigger();
-						IPluginReport rep = ref.getReport();
-						reports.add(ref.getReport());
-
-						monitor.worked(1);
-					} catch (TigerstripeException e) {
-						Status status = new Status(
-								IStatus.ERROR,
-								EclipsePlugin.getPluginId(),
-								222,
-								"An error was detected while triggering '"
-										+ ref.getLabel()
-										+ "' generator. Generation may be incomplete.",
-								e);
-						EclipsePlugin.logErrorStatus(
-								"Tigerstripe Generation Error Detected.",
-								status);
-						statuses.add(status);
-					} catch (Exception e) {
-						Status status = new Status(
-								IStatus.ERROR,
-								EclipsePlugin.getPluginId(),
-								222,
-								"An unknown error was detected while triggering '"
-										+ ref.getLabel()
-										+ "' generator. Generation may be incomplete.",
-								e);
-						EclipsePlugin
-								.logErrorStatus(
-										"Unexpected Tigerstripe Generation Error Detected.",
-										status);
-						statuses.add(status);
+							monitor.worked(1);
+						} catch (TigerstripeException e) {
+							Status status = new Status(
+									IStatus.ERROR,
+									EclipsePlugin.getPluginId(),
+									222,
+									"An error was detected while triggering '"
+											+ ref.getLabel()
+											+ "' generator. Generation may be incomplete.",
+									e);
+							EclipsePlugin.logErrorStatus(
+									"Tigerstripe Generation Error Detected.",
+									status);
+							statuses.add(status);
+						} catch (Exception e) {
+							Status status = new Status(
+									IStatus.ERROR,
+									EclipsePlugin.getPluginId(),
+									222,
+									"An unknown error was detected while triggering '"
+											+ ref.getLabel()
+											+ "' generator. Generation may be incomplete.",
+									e);
+							EclipsePlugin
+									.logErrorStatus(
+											"Unexpected Tigerstripe Generation Error Detected.",
+											status);
+							statuses.add(status);
+						}
 					}
 				}
-			}
 
-			((ArtifactManagerSessionImpl) handle.getArtifactManagerSession())
-					.setLockForGeneration(false);
+			} finally {
+				((ArtifactManagerSessionImpl) handle
+						.getArtifactManagerSession())
+						.setLockForGeneration(false);
+			}
 
 			try {
 				TigerstripeProjectHandle tsHandle = (TigerstripeProjectHandle) handle;
@@ -124,7 +127,7 @@ public class WizardActionUtils {
 
 				// handle.getAdvancedProperty(IAdvancedProperties.
 				// PROP_GENERATION_GenerateReport).toString();
-				//				
+				//
 				if ("true"
 						.equalsIgnoreCase(handle
 								.getAdvancedProperty(IAdvancedProperties.PROP_GENERATION_GenerateReport))) {

@@ -78,14 +78,19 @@ public class DependenciesContentCache {
 	}
 
 	public synchronized void updateCache(IProgressMonitor monitor) {
+		boolean wasLocked = manager.isLocked();
+		try {
+			manager.lock(true);
+			cleanCache();
 
-		cleanCache();
-
-		updateArtifactsByModel(monitor);
-		updateAllArtifacts(monitor);
-		updateArtifactsByFqn(monitor);
-		updateAllKnownArtifactsByFqn(monitor);
-		isInitialized = true;
+			updateArtifactsByModel(monitor);
+			updateAllArtifacts(monitor);
+			updateArtifactsByFqn(monitor);
+			updateAllKnownArtifactsByFqn(monitor);
+			isInitialized = true;
+		} finally {
+			manager.lock(wasLocked);
+		}
 	}
 
 	private void updateArtifactsByModel(IProgressMonitor monitor) {
