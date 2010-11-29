@@ -11,8 +11,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.java.ui.refactoring;
 
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,55 +63,29 @@ public class JavaChanges implements IElementChanges {
 			IJavaElement[] children;
 			try {
 				children = JavaElementTree.getChildren(element);
-				Arrays.sort(children, new Comparator<IJavaElement>() {
 
-					public int compare(IJavaElement o1, IJavaElement o2) {
-						URI uri1 = JavaURIConverter.toURI(o1);
-						URI uri2 = JavaURIConverter.toURI(o2);
-
-						if (uri1 == null && uri2 == null)
-							return 0;
-						if (uri1 == null)
-							return -1;
-						if (uri2 == null)
-							return 1;
-
-						return uri1.toString().compareTo(uri2.toString());
-					}
-
-				});
 				JavaElementTree[] elements = tree.getChildren().toArray(
 						new JavaElementTree[tree.getChildren().size()]);
-				Arrays.sort(elements, new Comparator<JavaElementTree>() {
+				Map<URI, JavaElementTree> elementsMap = new HashMap<URI, JavaElementTree>(
+						elements.length);
 
-					public int compare(JavaElementTree o1, JavaElementTree o2) {
-						URI uri1 = o1.getElement();
-						URI uri2 = o2.getElement();
-
-						if (uri1 == null && uri2 == null)
-							return 0;
-						if (uri1 == null)
-							return -1;
-						if (uri2 == null)
-							return 1;
-
-						return uri1.toString().compareTo(uri2.toString());
+				for (JavaElementTree javaElementTree : elements) {
+					URI el = javaElementTree.getElement();
+					if (el != null) {
+						elementsMap.put(el, javaElementTree);
 					}
-
-				});
-				if (elements.length != children.length) {
-					throw new IllegalArgumentException(
-							"Unexpected java changes. Old elements: "
-									+ Arrays.toString(elements)
-									+ ". New elements: "
-									+ Arrays.toString(children));
 				}
+
 				for (int i = 0; i < children.length; i++) {
 					IJavaElement child = children[i];
 					URI childUri = JavaURIConverter.toURI(child);
 					if (childUri == null)
 						continue;
-					collectChanges(child, elements[i], changes);
+
+					JavaElementTree elementTree = elementsMap.get(childUri);
+					if (elementTree != null) {
+						collectChanges(child, elementTree, changes);
+					}
 				}
 			} catch (Exception e) {
 				AnnotationPlugin.log(e);
