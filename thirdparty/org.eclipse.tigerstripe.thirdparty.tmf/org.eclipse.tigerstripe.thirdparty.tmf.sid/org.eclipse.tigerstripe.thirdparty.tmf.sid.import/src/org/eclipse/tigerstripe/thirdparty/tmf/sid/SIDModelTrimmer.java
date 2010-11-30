@@ -147,6 +147,7 @@ public class SIDModelTrimmer implements IModelTrimmer {
 			out.close();
 			return modelToTrim;
 		} catch (Exception localException1) {
+			localException1.printStackTrace();
 		}
 		return null;
 	}

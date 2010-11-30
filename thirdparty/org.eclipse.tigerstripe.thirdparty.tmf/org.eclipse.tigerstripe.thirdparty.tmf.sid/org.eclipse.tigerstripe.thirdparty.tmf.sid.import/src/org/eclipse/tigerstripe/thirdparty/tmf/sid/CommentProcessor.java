@@ -55,7 +55,8 @@ public class CommentProcessor implements ICommentProcessor {
 				string = string.replaceAll(pattern, " ");
 			}
 		}
-		System.out.println("Return " + string);
+		if (printdebug)
+			System.out.println("Return " + string);
 		return string;
 	}
 }
