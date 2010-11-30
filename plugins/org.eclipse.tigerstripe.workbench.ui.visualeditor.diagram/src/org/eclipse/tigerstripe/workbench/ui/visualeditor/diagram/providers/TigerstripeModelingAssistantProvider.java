@@ -83,140 +83,164 @@ public class TigerstripeModelingAssistantProvider extends
 		ModelingAssistantProvider {
 
 	private static java.util.Map<IElementType, IHintedType> customTypes = null;
+
 	public static IHintedType getCustomType(IElementType hintedType) {
-		if (customTypes == null){
+		if (customTypes == null) {
 			setTypes();
 		}
 		return customTypes.get(hintedType);
 	}
-	
+
 	private static List<IHintedType> customAssociationNodeTypes = null;
+
 	public static List<IHintedType> getCustomAssociationNodeTypes() {
-		if (customAssociationNodeTypes == null){
+		if (customAssociationNodeTypes == null) {
 			setTypes();
 		}
 		return customAssociationNodeTypes;
 	}
+
 	private static List<IHintedType> customDependencyNodeTypes = null;
+
 	public static List<IHintedType> getCustomDependencyNodeTypes() {
-		if (customDependencyNodeTypes == null){
+		if (customDependencyNodeTypes == null) {
 			setTypes();
 		}
 		return customDependencyNodeTypes;
 	}
-	
+
 	private static List<IHintedType> customRelationTypes = null;
+
 	public static List<IHintedType> getCustomRelationTypes() {
-		if (customRelationTypes == null){
+		if (customRelationTypes == null) {
 			setTypes();
 		}
 		return customRelationTypes;
 	}
 
 	private static List<IHintedType> dependencyTypes = null;
+
 	public static List<IHintedType> getDependencyTypes() {
-		if (dependencyTypes == null){
+		if (dependencyTypes == null) {
 			setTypes();
 		}
 		return dependencyTypes;
 	}
 
-	
-	private static void setTypes(){
+	private static void setTypes() {
 		customTypes = new HashMap<IElementType, IHintedType>();
 		customRelationTypes = new ArrayList<IHintedType>();
 		dependencyTypes = new ArrayList<IHintedType>();
 		customAssociationNodeTypes = new ArrayList<IHintedType>();
 		customDependencyNodeTypes = new ArrayList<IHintedType>();
-		try{
-		for (String name : PatternFactory.getInstance().getRegisteredPatterns().keySet()){
-			IPattern pattern = PatternFactory.getInstance().getRegisteredPatterns().get(name);
-			if (pattern instanceof IArtifactPattern){
-				IArtifactPattern artifactPattern = (IArtifactPattern) pattern;
-				IHintedType ht = null;
-				IHintedType t = null;
-				if (artifactPattern.getTargetArtifactType().equals(IAssociationArtifact.class.getName())){
-					ht = (IHintedType)TigerstripeElementTypes.Association_3001;
-					t = TigerstripeElementTypes.getCustomType(ht, artifactPattern);
-					customRelationTypes.add(t);
-				}
-				if (artifactPattern.getTargetArtifactType().equals(IAssociationClassArtifact.class.getName())){
-					ht = (IHintedType)TigerstripeElementTypes.AssociationClass_3010;
-					t = TigerstripeElementTypes.getCustomType(ht, artifactPattern);
-					customRelationTypes.add(t);
-				}
-				if (artifactPattern.getTargetArtifactType().equals(IDependencyArtifact.class.getName())){
-					ht = (IHintedType)TigerstripeElementTypes.Dependency_3008;
-					t = TigerstripeElementTypes.getCustomType(ht, artifactPattern);
-					dependencyTypes.add(t);
-					customRelationTypes.add(t);
-				}
-				if (artifactPattern.getTargetArtifactType().equals(IManagedEntityArtifact.class.getName())){
-					ht = (IHintedType)TigerstripeElementTypes.ManagedEntityArtifact_1003;
-					t = TigerstripeElementTypes.getCustomType(ht, artifactPattern);
-					customAssociationNodeTypes.add(t);
-					customDependencyNodeTypes.add(t);
-				}
-				if (artifactPattern.getTargetArtifactType().equals(IDatatypeArtifact.class.getName())){
-					ht = (IHintedType)TigerstripeElementTypes.DatatypeArtifact_1005;
-					t = TigerstripeElementTypes.getCustomType(ht, artifactPattern);
-					customAssociationNodeTypes.add(t);
-					customDependencyNodeTypes.add(t);
-				}
-				if (artifactPattern.getTargetArtifactType().equals(IEnumArtifact.class.getName())){
-					ht = (IHintedType)TigerstripeElementTypes.Enumeration_1006;
-					t = TigerstripeElementTypes.getCustomType(ht, artifactPattern);
-					customDependencyNodeTypes.add(t);
-				}
-				if (artifactPattern.getTargetArtifactType().equals(IEventArtifact.class.getName())){
-					ht = (IHintedType)TigerstripeElementTypes.NotificationArtifact_1004;
-					t = TigerstripeElementTypes.getCustomType(ht, artifactPattern);
-					customAssociationNodeTypes.add(t);
-					customDependencyNodeTypes.add(t);
-				}
-				if (artifactPattern.getTargetArtifactType().equals(IExceptionArtifact.class.getName())){
-					ht = (IHintedType)TigerstripeElementTypes.ExceptionArtifact_1002;
-					t = TigerstripeElementTypes.getCustomType(ht, artifactPattern);
-					customAssociationNodeTypes.add(t);
-					customDependencyNodeTypes.add(t);
-				}
-				if (artifactPattern.getTargetArtifactType().equals(IQueryArtifact.class.getName())){
-					ht = (IHintedType)TigerstripeElementTypes.NamedQueryArtifact_1001;
-					t = TigerstripeElementTypes.getCustomType(ht, artifactPattern);
-					customAssociationNodeTypes.add(t);
-					customDependencyNodeTypes.add(t);
-				}
-				if (artifactPattern.getTargetArtifactType().equals(IUpdateProcedureArtifact.class.getName())){
-					ht = (IHintedType)TigerstripeElementTypes.UpdateProcedureArtifact_1007;
-					t = TigerstripeElementTypes.getCustomType(ht, artifactPattern);
-					customAssociationNodeTypes.add(t);
-					customDependencyNodeTypes.add(t);
-				}
-				if (artifactPattern.getTargetArtifactType().equals(ISessionArtifact.class.getName())){
-					ht = (IHintedType)TigerstripeElementTypes.SessionFacadeArtifact_1008;
-					t = TigerstripeElementTypes.getCustomType(ht, artifactPattern);
-					customAssociationNodeTypes.add(t);
-					customDependencyNodeTypes.add(t);
-				}
-				
-				if (ht != null) {
-					customTypes.put(ht, t);
+		try {
+			for (String name : PatternFactory.getInstance()
+					.getRegisteredPatterns().keySet()) {
+				IPattern pattern = PatternFactory.getInstance()
+						.getRegisteredPatterns().get(name);
+				if (pattern instanceof IArtifactPattern) {
+					IArtifactPattern artifactPattern = (IArtifactPattern) pattern;
+					IHintedType ht = null;
+					IHintedType t = null;
+					if (artifactPattern.getTargetArtifactType().equals(
+							IAssociationArtifact.class.getName())) {
+						ht = (IHintedType) TigerstripeElementTypes.Association_3001;
+						t = TigerstripeElementTypes.getCustomType(ht,
+								artifactPattern);
+						customRelationTypes.add(t);
+					}
+					if (artifactPattern.getTargetArtifactType().equals(
+							IAssociationClassArtifact.class.getName())) {
+						ht = (IHintedType) TigerstripeElementTypes.AssociationClass_3010;
+						t = TigerstripeElementTypes.getCustomType(ht,
+								artifactPattern);
+						customRelationTypes.add(t);
+					}
+					if (artifactPattern.getTargetArtifactType().equals(
+							IDependencyArtifact.class.getName())) {
+						ht = (IHintedType) TigerstripeElementTypes.Dependency_3008;
+						t = TigerstripeElementTypes.getCustomType(ht,
+								artifactPattern);
+						dependencyTypes.add(t);
+						customRelationTypes.add(t);
+					}
+					if (artifactPattern.getTargetArtifactType().equals(
+							IManagedEntityArtifact.class.getName())) {
+						ht = (IHintedType) TigerstripeElementTypes.ManagedEntityArtifact_1003;
+						t = TigerstripeElementTypes.getCustomType(ht,
+								artifactPattern);
+						customAssociationNodeTypes.add(t);
+						customDependencyNodeTypes.add(t);
+					}
+					if (artifactPattern.getTargetArtifactType().equals(
+							IDatatypeArtifact.class.getName())) {
+						ht = (IHintedType) TigerstripeElementTypes.DatatypeArtifact_1005;
+						t = TigerstripeElementTypes.getCustomType(ht,
+								artifactPattern);
+						customAssociationNodeTypes.add(t);
+						customDependencyNodeTypes.add(t);
+					}
+					if (artifactPattern.getTargetArtifactType().equals(
+							IEnumArtifact.class.getName())) {
+						ht = (IHintedType) TigerstripeElementTypes.Enumeration_1006;
+						t = TigerstripeElementTypes.getCustomType(ht,
+								artifactPattern);
+						customDependencyNodeTypes.add(t);
+					}
+					if (artifactPattern.getTargetArtifactType().equals(
+							IEventArtifact.class.getName())) {
+						ht = (IHintedType) TigerstripeElementTypes.NotificationArtifact_1004;
+						t = TigerstripeElementTypes.getCustomType(ht,
+								artifactPattern);
+						customAssociationNodeTypes.add(t);
+						customDependencyNodeTypes.add(t);
+					}
+					if (artifactPattern.getTargetArtifactType().equals(
+							IExceptionArtifact.class.getName())) {
+						ht = (IHintedType) TigerstripeElementTypes.ExceptionArtifact_1002;
+						t = TigerstripeElementTypes.getCustomType(ht,
+								artifactPattern);
+						customAssociationNodeTypes.add(t);
+						customDependencyNodeTypes.add(t);
+					}
+					if (artifactPattern.getTargetArtifactType().equals(
+							IQueryArtifact.class.getName())) {
+						ht = (IHintedType) TigerstripeElementTypes.NamedQueryArtifact_1001;
+						t = TigerstripeElementTypes.getCustomType(ht,
+								artifactPattern);
+						customAssociationNodeTypes.add(t);
+						customDependencyNodeTypes.add(t);
+					}
+					if (artifactPattern.getTargetArtifactType().equals(
+							IUpdateProcedureArtifact.class.getName())) {
+						ht = (IHintedType) TigerstripeElementTypes.UpdateProcedureArtifact_1007;
+						t = TigerstripeElementTypes.getCustomType(ht,
+								artifactPattern);
+						customAssociationNodeTypes.add(t);
+						customDependencyNodeTypes.add(t);
+					}
+					if (artifactPattern.getTargetArtifactType().equals(
+							ISessionArtifact.class.getName())) {
+						ht = (IHintedType) TigerstripeElementTypes.SessionFacadeArtifact_1008;
+						t = TigerstripeElementTypes.getCustomType(ht,
+								artifactPattern);
+						customAssociationNodeTypes.add(t);
+						customDependencyNodeTypes.add(t);
+					}
+
+					if (ht != null) {
+						customTypes.put(ht, t);
+					}
 				}
 			}
-		}
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-
-
 
 	public TigerstripeModelingAssistantProvider() {
 		super();
 	}
-
-
 
 	private boolean isReadOnlyEditPart(IGraphicalEditPart editPart) {
 		Object modelObj = editPart.getModel();
@@ -320,46 +344,49 @@ public class TigerstripeModelingAssistantProvider extends
 			 * the palette (only those artifacts that should be in the model for
 			 * a given profile)
 			 */
-			// Removed the floating palette because 
+			// Removed the floating palette because
 			// a) its annoyoing
 			// b) I don't know how to fill it in properly with patterns
-//			IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession()
-//					.getActiveProfile();
-//			CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) profile
-//					.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
-//			if (prop.getDetailsForType(IManagedEntityArtifact.class.getName())
-//					.isEnabled()) {
-//				types.add(TigerstripeElementTypes.ManagedEntityArtifact_1003);
-//			}
-//			if (prop.getDetailsForType(IDatatypeArtifact.class.getName())
-//					.isEnabled()) {
-//				types.add(TigerstripeElementTypes.DatatypeArtifact_1005);
-//			}
-//			if (prop.getDetailsForType(IEnumArtifact.class.getName())
-//					.isEnabled()) {
-//				types.add(TigerstripeElementTypes.Enumeration_1006);
-//			}
-//			if (prop.getDetailsForType(IQueryArtifact.class.getName())
-//					.isEnabled()) {
-//				types.add(TigerstripeElementTypes.NamedQueryArtifact_1001);
-//			}
-//			if (prop
-//					.getDetailsForType(IUpdateProcedureArtifact.class.getName())
-//					.isEnabled()) {
-//				types.add(TigerstripeElementTypes.UpdateProcedureArtifact_1007);
-//			}
-//			if (prop.getDetailsForType(IEventArtifact.class.getName())
-//					.isEnabled()) {
-//				types.add(TigerstripeElementTypes.NotificationArtifact_1004);
-//			}
-//			if (prop.getDetailsForType(ISessionArtifact.class.getName())
-//					.isEnabled()) {
-//				types.add(TigerstripeElementTypes.SessionFacadeArtifact_1008);
-//			}
-//			if (prop.getDetailsForType(IExceptionArtifact.class.getName())
-//					.isEnabled()) {
-//				types.add(TigerstripeElementTypes.ExceptionArtifact_1002);
-//			}
+			// IWorkbenchProfile profile =
+			// TigerstripeCore.getWorkbenchProfileSession()
+			// .getActiveProfile();
+			// CoreArtifactSettingsProperty prop =
+			// (CoreArtifactSettingsProperty) profile
+			// .getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
+			// if
+			// (prop.getDetailsForType(IManagedEntityArtifact.class.getName())
+			// .isEnabled()) {
+			// types.add(TigerstripeElementTypes.ManagedEntityArtifact_1003);
+			// }
+			// if (prop.getDetailsForType(IDatatypeArtifact.class.getName())
+			// .isEnabled()) {
+			// types.add(TigerstripeElementTypes.DatatypeArtifact_1005);
+			// }
+			// if (prop.getDetailsForType(IEnumArtifact.class.getName())
+			// .isEnabled()) {
+			// types.add(TigerstripeElementTypes.Enumeration_1006);
+			// }
+			// if (prop.getDetailsForType(IQueryArtifact.class.getName())
+			// .isEnabled()) {
+			// types.add(TigerstripeElementTypes.NamedQueryArtifact_1001);
+			// }
+			// if (prop
+			// .getDetailsForType(IUpdateProcedureArtifact.class.getName())
+			// .isEnabled()) {
+			// types.add(TigerstripeElementTypes.UpdateProcedureArtifact_1007);
+			// }
+			// if (prop.getDetailsForType(IEventArtifact.class.getName())
+			// .isEnabled()) {
+			// types.add(TigerstripeElementTypes.NotificationArtifact_1004);
+			// }
+			// if (prop.getDetailsForType(ISessionArtifact.class.getName())
+			// .isEnabled()) {
+			// types.add(TigerstripeElementTypes.SessionFacadeArtifact_1008);
+			// }
+			// if (prop.getDetailsForType(IExceptionArtifact.class.getName())
+			// .isEnabled()) {
+			// types.add(TigerstripeElementTypes.ExceptionArtifact_1002);
+			// }
 			return types;
 		}
 		return Collections.EMPTY_LIST;
@@ -373,8 +400,8 @@ public class TigerstripeModelingAssistantProvider extends
 	 */
 	private boolean shouldDisplayReference() {
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-				.getWorkbenchProfileSession().getActiveProfile().getProperty(
-						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
+				.getWorkbenchProfileSession().getActiveProfile()
+				.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 		boolean displayReference = prop
 				.getPropertyValue(IOssjLegacySettigsProperty.USEATTRIBUTES_ASREFERENCE);
 		return displayReference;
@@ -382,8 +409,8 @@ public class TigerstripeModelingAssistantProvider extends
 
 	private boolean shouldDisplayManages() {
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-				.getWorkbenchProfileSession().getActiveProfile().getProperty(
-						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
+				.getWorkbenchProfileSession().getActiveProfile()
+				.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 		boolean displayManages = prop
 				.getPropertyValue(IOssjLegacySettigsProperty.USEMANAGEDENTITIES_ONSESSION);
 		return displayManages;
@@ -391,8 +418,8 @@ public class TigerstripeModelingAssistantProvider extends
 
 	private boolean shouldDisplayExposes() {
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-				.getWorkbenchProfileSession().getActiveProfile().getProperty(
-						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
+				.getWorkbenchProfileSession().getActiveProfile()
+				.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 		boolean displayExposes = prop
 				.getPropertyValue(IOssjLegacySettigsProperty.USEEXPOSEDPROCEDURES_ONSESSION);
 		return displayExposes;
@@ -400,8 +427,8 @@ public class TigerstripeModelingAssistantProvider extends
 
 	private boolean shouldDisplayEmits() {
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-				.getWorkbenchProfileSession().getActiveProfile().getProperty(
-						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
+				.getWorkbenchProfileSession().getActiveProfile()
+				.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 		boolean displayEmits = prop
 				.getPropertyValue(IOssjLegacySettigsProperty.USEEMITTEDNOTIFICATIONS_ONSESSION);
 		return displayEmits;
@@ -409,8 +436,8 @@ public class TigerstripeModelingAssistantProvider extends
 
 	private boolean shouldDisplayUses() {
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-				.getWorkbenchProfileSession().getActiveProfile().getProperty(
-						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
+				.getWorkbenchProfileSession().getActiveProfile()
+				.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 		boolean displayUses = prop
 				.getPropertyValue(IOssjLegacySettigsProperty.USENAMEDQUERIES_ONSESSION);
 		return displayUses;
@@ -418,8 +445,8 @@ public class TigerstripeModelingAssistantProvider extends
 
 	private boolean shouldDisplayImplements() {
 		GlobalSettingsProperty prop = (GlobalSettingsProperty) TigerstripeCore
-				.getWorkbenchProfileSession().getActiveProfile().getProperty(
-						IWorkbenchPropertyLabels.GLOBAL_SETTINGS);
+				.getWorkbenchProfileSession().getActiveProfile()
+				.getProperty(IWorkbenchPropertyLabels.GLOBAL_SETTINGS);
 		boolean displayImplements = prop
 				.getPropertyValue(IGlobalSettingsProperty.IMPLEMENTSRELATIONSHIP);
 		return displayImplements;
@@ -443,10 +470,9 @@ public class TigerstripeModelingAssistantProvider extends
 			List types = new ArrayList();
 			types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
 			if (shouldDisplayImplements())
-				types
-						.add(TigerstripeElementTypes.AbstractArtifactImplements_3012);
-			for (IHintedType type : getCustomRelationTypes()){
-				addSuitableType(sourceEditPart,types,type);
+				types.add(TigerstripeElementTypes.AbstractArtifactImplements_3012);
+			for (IHintedType type : getCustomRelationTypes()) {
+				addSuitableType(sourceEditPart, types, type);
 			}
 			if (displayReference)
 				types.add(TigerstripeElementTypes.Reference_3009);
@@ -455,8 +481,8 @@ public class TigerstripeModelingAssistantProvider extends
 		if (sourceEditPart instanceof DatatypeArtifactEditPart) {
 			List types = new ArrayList();
 			types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
-			for (IHintedType type : getCustomRelationTypes()){
-				addSuitableType(sourceEditPart,types,type);
+			for (IHintedType type : getCustomRelationTypes()) {
+				addSuitableType(sourceEditPart, types, type);
 			}
 			if (displayReference)
 				types.add(TigerstripeElementTypes.Reference_3009);
@@ -464,16 +490,16 @@ public class TigerstripeModelingAssistantProvider extends
 		}
 		if (sourceEditPart instanceof EnumerationEditPart) {
 			List types = new ArrayList();
-			for (IHintedType type : getCustomRelationTypes()){
-				addSuitableType(sourceEditPart,types,type);
+			for (IHintedType type : getCustomRelationTypes()) {
+				addSuitableType(sourceEditPart, types, type);
 			}
 			return types;
 		}
 		if (sourceEditPart instanceof NotificationArtifactEditPart) {
 			List types = new ArrayList();
 			types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
-			for (IHintedType type : getCustomRelationTypes()){
-				addSuitableType(sourceEditPart,types,type);
+			for (IHintedType type : getCustomRelationTypes()) {
+				addSuitableType(sourceEditPart, types, type);
 			}
 			if (displayReference)
 				types.add(TigerstripeElementTypes.Reference_3009);
@@ -482,8 +508,8 @@ public class TigerstripeModelingAssistantProvider extends
 		if (sourceEditPart instanceof UpdateProcedureArtifactEditPart) {
 			List types = new ArrayList();
 			types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
-			for (IHintedType type : getCustomRelationTypes()){
-				addSuitableType(sourceEditPart,types,type);
+			for (IHintedType type : getCustomRelationTypes()) {
+				addSuitableType(sourceEditPart, types, type);
 			}
 			if (displayReference)
 				types.add(TigerstripeElementTypes.Reference_3009);
@@ -492,10 +518,9 @@ public class TigerstripeModelingAssistantProvider extends
 		if (sourceEditPart instanceof NamedQueryArtifactEditPart) {
 			List types = new ArrayList();
 			types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
-			types
-					.add(TigerstripeElementTypes.NamedQueryArtifactReturnedType_3004);
-			for (IHintedType type : getCustomRelationTypes()){
-				addSuitableType(sourceEditPart,types,type);
+			types.add(TigerstripeElementTypes.NamedQueryArtifactReturnedType_3004);
+			for (IHintedType type : getCustomRelationTypes()) {
+				addSuitableType(sourceEditPart, types, type);
 			}
 			if (displayReference)
 				types.add(TigerstripeElementTypes.Reference_3009);
@@ -505,27 +530,23 @@ public class TigerstripeModelingAssistantProvider extends
 			List types = new ArrayList();
 			types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
 			if (shouldDisplayManages())
-				types
-						.add(TigerstripeElementTypes.SessionFacadeArtifactManagedEntities_3003);
+				types.add(TigerstripeElementTypes.SessionFacadeArtifactManagedEntities_3003);
 			if (shouldDisplayUses())
-				types
-						.add(TigerstripeElementTypes.SessionFacadeArtifactNamedQueries_3005);
+				types.add(TigerstripeElementTypes.SessionFacadeArtifactNamedQueries_3005);
 			if (shouldDisplayExposes())
-				types
-						.add(TigerstripeElementTypes.SessionFacadeArtifactExposedProcedures_3006);
+				types.add(TigerstripeElementTypes.SessionFacadeArtifactExposedProcedures_3006);
 			if (shouldDisplayEmits())
-				types
-						.add(TigerstripeElementTypes.SessionFacadeArtifactEmittedNotifications_3002);
-			for (IHintedType type : getCustomRelationTypes()){
-				addSuitableType(sourceEditPart,types,type);
+				types.add(TigerstripeElementTypes.SessionFacadeArtifactEmittedNotifications_3002);
+			for (IHintedType type : getCustomRelationTypes()) {
+				addSuitableType(sourceEditPart, types, type);
 			}
 			return types;
 		}
 		if (sourceEditPart instanceof ExceptionArtifactEditPart) {
 			List types = new ArrayList();
 			types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
-			for (IHintedType type : getCustomRelationTypes()){
-				addSuitableType(sourceEditPart,types,type);
+			for (IHintedType type : getCustomRelationTypes()) {
+				addSuitableType(sourceEditPart, types, type);
 			}
 			return types;
 		}
@@ -533,10 +554,9 @@ public class TigerstripeModelingAssistantProvider extends
 			List types = new ArrayList();
 			types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
 			if (shouldDisplayImplements())
-				types
-						.add(TigerstripeElementTypes.AbstractArtifactImplements_3012);
-			for (IHintedType type : getCustomRelationTypes()){
-				addSuitableType(sourceEditPart,types,type);
+				types.add(TigerstripeElementTypes.AbstractArtifactImplements_3012);
+			for (IHintedType type : getCustomRelationTypes()) {
+				addSuitableType(sourceEditPart, types, type);
 			}
 			if (displayReference)
 				types.add(TigerstripeElementTypes.Reference_3009);
@@ -563,10 +583,9 @@ public class TigerstripeModelingAssistantProvider extends
 			types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
 			types.add(TigerstripeElementTypes.NamedQueryArtifactReturnedType_3004);
 			if (shouldDisplayManages())
-				types
-						.add(TigerstripeElementTypes.SessionFacadeArtifactManagedEntities_3003);
-			for (IHintedType type : getCustomRelationTypes()){
-				addSuitableType(targetEditPart,types,type);
+				types.add(TigerstripeElementTypes.SessionFacadeArtifactManagedEntities_3003);
+			for (IHintedType type : getCustomRelationTypes()) {
+				addSuitableType(targetEditPart, types, type);
 			}
 			if (displayReference)
 				types.add(TigerstripeElementTypes.Reference_3009);
@@ -575,10 +594,9 @@ public class TigerstripeModelingAssistantProvider extends
 		if (targetEditPart instanceof DatatypeArtifactEditPart) {
 			List types = new ArrayList();
 			types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
-			types
-					.add(TigerstripeElementTypes.NamedQueryArtifactReturnedType_3004);
-			for (IHintedType type : getCustomRelationTypes()){
-				addSuitableType(targetEditPart,types,type);
+			types.add(TigerstripeElementTypes.NamedQueryArtifactReturnedType_3004);
+			for (IHintedType type : getCustomRelationTypes()) {
+				addSuitableType(targetEditPart, types, type);
 			}
 			if (displayReference)
 				types.add(TigerstripeElementTypes.Reference_3009);
@@ -587,8 +605,8 @@ public class TigerstripeModelingAssistantProvider extends
 		if (targetEditPart instanceof EnumerationEditPart) {
 			List types = new ArrayList();
 			types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
-			for (IHintedType type : getCustomRelationTypes()){
-				addSuitableType(targetEditPart,types,type);
+			for (IHintedType type : getCustomRelationTypes()) {
+				addSuitableType(targetEditPart, types, type);
 			}
 			return types;
 		}
@@ -596,10 +614,9 @@ public class TigerstripeModelingAssistantProvider extends
 			List types = new ArrayList();
 			types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
 			if (shouldDisplayUses())
-				types
-						.add(TigerstripeElementTypes.SessionFacadeArtifactNamedQueries_3005);
-			for (IHintedType type : getCustomRelationTypes()){
-				addSuitableType(targetEditPart,types,type);
+				types.add(TigerstripeElementTypes.SessionFacadeArtifactNamedQueries_3005);
+			for (IHintedType type : getCustomRelationTypes()) {
+				addSuitableType(targetEditPart, types, type);
 			}
 			if (displayReference)
 				types.add(TigerstripeElementTypes.Reference_3009);
@@ -609,10 +626,9 @@ public class TigerstripeModelingAssistantProvider extends
 			List types = new ArrayList();
 			types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
 			if (shouldDisplayExposes())
-				types
-						.add(TigerstripeElementTypes.SessionFacadeArtifactExposedProcedures_3006);
-			for (IHintedType type : getCustomRelationTypes()){
-				addSuitableType(targetEditPart,types,type);
+				types.add(TigerstripeElementTypes.SessionFacadeArtifactExposedProcedures_3006);
+			for (IHintedType type : getCustomRelationTypes()) {
+				addSuitableType(targetEditPart, types, type);
 			}
 			if (displayReference)
 				types.add(TigerstripeElementTypes.Reference_3009);
@@ -622,10 +638,9 @@ public class TigerstripeModelingAssistantProvider extends
 			List types = new ArrayList();
 			types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
 			if (shouldDisplayEmits())
-				types
-						.add(TigerstripeElementTypes.SessionFacadeArtifactEmittedNotifications_3002);
-			for (IHintedType type : getCustomRelationTypes()){
-				addSuitableType(targetEditPart,types,type);
+				types.add(TigerstripeElementTypes.SessionFacadeArtifactEmittedNotifications_3002);
+			for (IHintedType type : getCustomRelationTypes()) {
+				addSuitableType(targetEditPart, types, type);
 			}
 			if (displayReference)
 				types.add(TigerstripeElementTypes.Reference_3009);
@@ -635,10 +650,9 @@ public class TigerstripeModelingAssistantProvider extends
 			List types = new ArrayList();
 			types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
 			if (shouldDisplayImplements())
-				types
-						.add(TigerstripeElementTypes.AbstractArtifactImplements_3012);
-			for (IHintedType type : getCustomRelationTypes()){
-				addSuitableType(targetEditPart,types,type);
+				types.add(TigerstripeElementTypes.AbstractArtifactImplements_3012);
+			for (IHintedType type : getCustomRelationTypes()) {
+				addSuitableType(targetEditPart, types, type);
 			}
 			if (displayReference)
 				types.add(TigerstripeElementTypes.Reference_3009);
@@ -647,19 +661,19 @@ public class TigerstripeModelingAssistantProvider extends
 		if (targetEditPart instanceof ExceptionArtifactEditPart) {
 			List types = new ArrayList();
 			types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
-			for (IHintedType type : getCustomRelationTypes()){
-				addSuitableType(targetEditPart,types,type);
+			for (IHintedType type : getCustomRelationTypes()) {
+				addSuitableType(targetEditPart, types, type);
 			}
 			if (displayReference)
 				types.add(TigerstripeElementTypes.Reference_3009);
-		
+
 			return types;
 		}
 		if (targetEditPart instanceof AssociationClassClassEditPart) {
 			List types = new ArrayList();
 			types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
-			for (IHintedType type : getCustomRelationTypes()){
-				addSuitableType(targetEditPart,types,type);
+			for (IHintedType type : getCustomRelationTypes()) {
+				addSuitableType(targetEditPart, types, type);
 			}
 			if (displayReference)
 				types.add(TigerstripeElementTypes.Reference_3009);
@@ -668,8 +682,6 @@ public class TigerstripeModelingAssistantProvider extends
 		return Collections.EMPTY_LIST;
 	}
 
-
-	
 	/**
 	 * @generated NOT
 	 */
@@ -687,8 +699,7 @@ public class TigerstripeModelingAssistantProvider extends
 		// first check to see if it's an editPart that has an associated
 		// read-only "QualifiedNamedElement" object in it's model, if so then
 		// we don't want to allow for any changes so return an empty list
-		
-		
+
 		if (isReadOnlyEditPart(sourceEditPart))
 			return Collections.EMPTY_LIST;
 		if (sourceEditPart instanceof ManagedEntityArtifactEditPart) {
@@ -697,45 +708,41 @@ public class TigerstripeModelingAssistantProvider extends
 					&& targetEditPart != sourceEditPart
 					&& !isOutboundReference(sourceEditPart, targetEditPart)) {
 				if (!isHidingExtends(sourceEditPart))
-					types
-							.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
+					types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
 			} else if (targetEditPart instanceof SessionFacadeArtifactEditPart) {
 				if (shouldDisplayImplements()
 						&& !isOutboundReference(sourceEditPart, targetEditPart)) // Bug
 					// 924
-					types
-							.add(TigerstripeElementTypes.AbstractArtifactImplements_3012);
+					types.add(TigerstripeElementTypes.AbstractArtifactImplements_3012);
 			}
-			if (!isOutboundReference(sourceEditPart, targetEditPart)){
-				for (IHintedType type : getCustomRelationTypes()){
-					addSuitableType(targetEditPart,types,type);
+			if (!isOutboundReference(sourceEditPart, targetEditPart)) {
+				for (IHintedType type : getCustomRelationTypes()) {
+					addSuitableType(targetEditPart, types, type);
 				}
 			}
-			
+
 			if (displayReference
 					&& !(targetEditPart instanceof EnumerationEditPart)
 					&& !isOutboundReference(sourceEditPart, targetEditPart))
 				types.add(TigerstripeElementTypes.Reference_3009);
-			
-			
+
 			return types;
 		}
-		
+
 		if (sourceEditPart instanceof DatatypeArtifactEditPart) {
 			List types = new ArrayList();
 			if ((targetEditPart instanceof DatatypeArtifactEditPart || targetEditPart instanceof EnumerationEditPart)
 					&& targetEditPart != sourceEditPart
 					&& !isOutboundReference(sourceEditPart, targetEditPart)) {
 				if (!isHidingExtends(sourceEditPart))
-					types
-							.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
+					types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
 			}
-			if (!isOutboundReference(sourceEditPart, targetEditPart)){
-				for (IHintedType type : getCustomRelationTypes()){
-					addSuitableType(targetEditPart,types,type);
+			if (!isOutboundReference(sourceEditPart, targetEditPart)) {
+				for (IHintedType type : getCustomRelationTypes()) {
+					addSuitableType(targetEditPart, types, type);
 				}
 			}
-			
+
 			if (displayReference
 					&& !(targetEditPart instanceof EnumerationEditPart)
 					&& !isOutboundReference(sourceEditPart, targetEditPart))
@@ -748,58 +755,53 @@ public class TigerstripeModelingAssistantProvider extends
 					&& targetEditPart != sourceEditPart
 					&& !isOutboundReference(sourceEditPart, targetEditPart)) {
 				if (!isHidingExtends(sourceEditPart))
-					types
-							.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
+					types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
 			}
 			if (!isOutboundReference(sourceEditPart, targetEditPart))
-				types.addAll(dependencyTypes);	
+				types.addAll(dependencyTypes);
 			return types;
 		}
-		
+
 		if (sourceEditPart instanceof NamedQueryArtifactEditPart) {
 			List types = new ArrayList();
 			if ((targetEditPart instanceof ManagedEntityArtifactEditPart || targetEditPart instanceof DatatypeArtifactEditPart)
 					&& targetEditPart != sourceEditPart
 					&& !isOutboundReference(sourceEditPart, targetEditPart)) {
 				// returns relationship to either a Managed Entity or a Datatype
-				types
-						.add(TigerstripeElementTypes.NamedQueryArtifactReturnedType_3004);
+				types.add(TigerstripeElementTypes.NamedQueryArtifactReturnedType_3004);
 			} else if (targetEditPart instanceof NamedQueryArtifactEditPart
 					&& targetEditPart != sourceEditPart
 					&& !isOutboundReference(sourceEditPart, targetEditPart)) {
 				if (!isHidingExtends(sourceEditPart))
-					types
-							.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
+					types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
 			}
-			if (!isOutboundReference(sourceEditPart, targetEditPart)){
-				for (IHintedType type : getCustomRelationTypes()){
-					addSuitableType(targetEditPart,types,type);
+			if (!isOutboundReference(sourceEditPart, targetEditPart)) {
+				for (IHintedType type : getCustomRelationTypes()) {
+					addSuitableType(targetEditPart, types, type);
 				}
 			}
-			
+
 			if (displayReference
 					&& !(targetEditPart instanceof EnumerationEditPart)
 					&& !isOutboundReference(sourceEditPart, targetEditPart))
 				types.add(TigerstripeElementTypes.Reference_3009);
 			return types;
 		}
-		
-		
+
 		if (sourceEditPart instanceof UpdateProcedureArtifactEditPart) {
 			List types = new ArrayList();
 			if (targetEditPart instanceof UpdateProcedureArtifactEditPart
 					&& targetEditPart != sourceEditPart
 					&& !isOutboundReference(sourceEditPart, targetEditPart)) {
 				if (!isHidingExtends(sourceEditPart))
-					types
-							.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
+					types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
 			}
 			if (!isOutboundReference(sourceEditPart, targetEditPart)) {
-				for (IHintedType type : getCustomRelationTypes()){
-					addSuitableType(targetEditPart,types,type);
+				for (IHintedType type : getCustomRelationTypes()) {
+					addSuitableType(targetEditPart, types, type);
 				}
 			}
-			
+
 			if (displayReference
 					&& !(targetEditPart instanceof EnumerationEditPart)
 					&& !isOutboundReference(sourceEditPart, targetEditPart))
@@ -812,22 +814,21 @@ public class TigerstripeModelingAssistantProvider extends
 					&& targetEditPart != sourceEditPart
 					&& !isOutboundReference(sourceEditPart, targetEditPart)) {
 				if (!isHidingExtends(sourceEditPart))
-					types
-							.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
+					types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
 			}
-			if (!isOutboundReference(sourceEditPart, targetEditPart)){
-				for (IHintedType type : getCustomRelationTypes()){
-					addSuitableType(targetEditPart,types,type);
+			if (!isOutboundReference(sourceEditPart, targetEditPart)) {
+				for (IHintedType type : getCustomRelationTypes()) {
+					addSuitableType(targetEditPart, types, type);
 				}
 			}
-			
+
 			if (displayReference
 					&& !(targetEditPart instanceof EnumerationEditPart)
 					&& !isOutboundReference(sourceEditPart, targetEditPart))
 				types.add(TigerstripeElementTypes.Reference_3009);
 			return types;
 		}
-		
+
 		if (sourceEditPart instanceof SessionFacadeArtifactEditPart) {
 			List types = new ArrayList();
 			if (targetEditPart instanceof UpdateProcedureArtifactEditPart
@@ -835,38 +836,33 @@ public class TigerstripeModelingAssistantProvider extends
 				// exposes relationship to an Update Procedure
 				if (shouldDisplayExposes()
 						&& !isOutboundReference(sourceEditPart, targetEditPart))
-					types
-							.add(TigerstripeElementTypes.SessionFacadeArtifactExposedProcedures_3006);
+					types.add(TigerstripeElementTypes.SessionFacadeArtifactExposedProcedures_3006);
 			} else if (targetEditPart instanceof NotificationArtifactEditPart) {
 				// emits relationship to a Notification Artifact
 				if (shouldDisplayEmits()
 						&& !isOutboundReference(sourceEditPart, targetEditPart))
-					types
-							.add(TigerstripeElementTypes.SessionFacadeArtifactEmittedNotifications_3002);
+					types.add(TigerstripeElementTypes.SessionFacadeArtifactEmittedNotifications_3002);
 			} else if (targetEditPart instanceof ManagedEntityArtifactEditPart) {
 				// manages relationship to a Managed Entity
 				if (shouldDisplayManages()
 						&& !isOutboundReference(sourceEditPart, targetEditPart))
-					types
-							.add(TigerstripeElementTypes.SessionFacadeArtifactManagedEntities_3003);
+					types.add(TigerstripeElementTypes.SessionFacadeArtifactManagedEntities_3003);
 			} else if (targetEditPart instanceof NamedQueryArtifactEditPart) {
 				// supports relationship to a Named Query
 				if (shouldDisplayUses()
 						&& !isOutboundReference(sourceEditPart, targetEditPart))
-					types
-							.add(TigerstripeElementTypes.SessionFacadeArtifactNamedQueries_3005);
+					types.add(TigerstripeElementTypes.SessionFacadeArtifactNamedQueries_3005);
 			} else if (targetEditPart instanceof SessionFacadeArtifactEditPart
 					&& targetEditPart != sourceEditPart
 					&& !isOutboundReference(sourceEditPart, targetEditPart)) {
 				// extends relationship to another Session Facade
 				if (!isHidingExtends(sourceEditPart))
-					types
-							.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
+					types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
 			}
-			
+
 			if (!isOutboundReference(sourceEditPart, targetEditPart)) {
-				for (IHintedType type : getCustomRelationTypes()){
-					addSuitableType(targetEditPart,types,type);
+				for (IHintedType type : getCustomRelationTypes()) {
+					addSuitableType(targetEditPart, types, type);
 				}
 			}
 			return types;
@@ -877,22 +873,20 @@ public class TigerstripeModelingAssistantProvider extends
 					&& targetEditPart != sourceEditPart
 					&& !isOutboundReference(sourceEditPart, targetEditPart)) {
 				if (!isHidingExtends(sourceEditPart))
-					types
-							.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
+					types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
 			}
-			
 
 			if (!isOutboundReference(sourceEditPart, targetEditPart)) {
-				for (IHintedType type : getCustomRelationTypes()){
-					addSuitableType(targetEditPart,types,type);
+				for (IHintedType type : getCustomRelationTypes()) {
+					addSuitableType(targetEditPart, types, type);
 				}
 			}
-			
+
 			if (displayReference
 					&& !(targetEditPart instanceof EnumerationEditPart)
 					&& !isOutboundReference(sourceEditPart, targetEditPart))
 				types.add(TigerstripeElementTypes.Reference_3009);
-			
+
 			return types;
 		}
 		if (sourceEditPart instanceof AssociationClassClassEditPart) {
@@ -902,17 +896,15 @@ public class TigerstripeModelingAssistantProvider extends
 					&& targetEditPart != sourceEditPart
 					&& !isOutboundReference(sourceEditPart, targetEditPart)) {
 				if (!isHidingExtends(sourceEditPart))
-					types
-							.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
+					types.add(TigerstripeElementTypes.AbstractArtifactExtends_3007);
 			}
-			
 
 			if (!isOutboundReference(sourceEditPart, targetEditPart)) {
-				for (IHintedType type : getCustomRelationTypes()){
-					addSuitableType(targetEditPart,types,type);
+				for (IHintedType type : getCustomRelationTypes()) {
+					addSuitableType(targetEditPart, types, type);
 				}
 			}
-			
+
 			if (displayReference
 					&& !(targetEditPart instanceof EnumerationEditPart)
 					&& !isOutboundReference(sourceEditPart, targetEditPart))
@@ -947,20 +939,26 @@ public class TigerstripeModelingAssistantProvider extends
 				types.add(getCustomType(TigerstripeElementTypes.DatatypeArtifact_1005));
 			} else if (relationshipType instanceof CustomElementType) {
 				CustomElementType cet = (CustomElementType) relationshipType;
-				if (cet.getBaseType().equals(TigerstripeElementTypes.Association_3001)){
-					// association relationship to this Managed Entity from another
+				if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Association_3001)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-					//addAssociationDatatypes(types);
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.AssociationClass_3010)){
-					// association relationship to this Managed Entity from another
+					// addAssociationDatatypes(types);
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.AssociationClass_3010)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.Dependency_3008)){
-					// association relationship to this Managed Entity from another
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Dependency_3008)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomDependencyNodeTypes());
-				} 
+				}
 
 			} else if (relationshipType == TigerstripeElementTypes.Reference_3009) {
 				addReferenceSourcetypes(types);
@@ -978,20 +976,26 @@ public class TigerstripeModelingAssistantProvider extends
 				types.add(getCustomType(TigerstripeElementTypes.DatatypeArtifact_1005));
 			} else if (relationshipType instanceof CustomElementType) {
 				CustomElementType cet = (CustomElementType) relationshipType;
-				if (cet.getBaseType().equals(TigerstripeElementTypes.Association_3001)){
-					// association relationship to this Managed Entity from another
+				if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Association_3001)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-					//addAssociationDatatypes(types);
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.AssociationClass_3010)){
-					// association relationship to this Managed Entity from another
+					// addAssociationDatatypes(types);
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.AssociationClass_3010)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.Dependency_3008)){
-					// association relationship to this Managed Entity from another
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Dependency_3008)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomDependencyNodeTypes());
-				} 
+				}
 
 			} else if (relationshipType == TigerstripeElementTypes.Reference_3009) {
 				addReferenceSourcetypes(types);
@@ -1008,20 +1012,26 @@ public class TigerstripeModelingAssistantProvider extends
 				types.add(getCustomType(TigerstripeElementTypes.Enumeration_1006));
 			} else if (relationshipType instanceof CustomElementType) {
 				CustomElementType cet = (CustomElementType) relationshipType;
-				if (cet.getBaseType().equals(TigerstripeElementTypes.Association_3001)){
-					// association relationship to this Managed Entity from another
+				if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Association_3001)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-					//addAssociationDatatypes(types);
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.AssociationClass_3010)){
-					// association relationship to this Managed Entity from another
+					// addAssociationDatatypes(types);
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.AssociationClass_3010)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.Dependency_3008)){
-					// association relationship to this Managed Entity from another
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Dependency_3008)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomDependencyNodeTypes());
-				} 
+				}
 
 			} else if (relationshipType == TigerstripeElementTypes.Reference_3009) {
 				addReferenceSourcetypes(types);
@@ -1046,20 +1056,26 @@ public class TigerstripeModelingAssistantProvider extends
 				addAssociationDatatypes(types);
 			} else if (relationshipType instanceof CustomElementType) {
 				CustomElementType cet = (CustomElementType) relationshipType;
-				if (cet.getBaseType().equals(TigerstripeElementTypes.Association_3001)){
-					// association relationship to this Managed Entity from another
+				if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Association_3001)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-					//addAssociationDatatypes(types);
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.AssociationClass_3010)){
-					// association relationship to this Managed Entity from another
+					// addAssociationDatatypes(types);
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.AssociationClass_3010)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.Dependency_3008)){
-					// association relationship to this Managed Entity from another
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Dependency_3008)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomDependencyNodeTypes());
-				} 
+				}
 
 			} else if (relationshipType == TigerstripeElementTypes.Reference_3009) {
 				addReferenceSourcetypes(types);
@@ -1083,20 +1099,26 @@ public class TigerstripeModelingAssistantProvider extends
 				addAssociationDatatypes(types);
 			} else if (relationshipType instanceof CustomElementType) {
 				CustomElementType cet = (CustomElementType) relationshipType;
-				if (cet.getBaseType().equals(TigerstripeElementTypes.Association_3001)){
-					// association relationship to this Managed Entity from another
+				if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Association_3001)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-					//addAssociationDatatypes(types);
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.AssociationClass_3010)){
-					// association relationship to this Managed Entity from another
+					// addAssociationDatatypes(types);
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.AssociationClass_3010)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.Dependency_3008)){
-					// association relationship to this Managed Entity from another
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Dependency_3008)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomDependencyNodeTypes());
-				} 
+				}
 
 			} else if (relationshipType == TigerstripeElementTypes.Reference_3009) {
 				addReferenceSourcetypes(types);
@@ -1116,20 +1138,26 @@ public class TigerstripeModelingAssistantProvider extends
 				types.add(getCustomType(TigerstripeElementTypes.NamedQueryArtifact_1001));
 			} else if (relationshipType instanceof CustomElementType) {
 				CustomElementType cet = (CustomElementType) relationshipType;
-				if (cet.getBaseType().equals(TigerstripeElementTypes.Association_3001)){
-					// association relationship to this Managed Entity from another
+				if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Association_3001)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-					//addAssociationDatatypes(types);
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.AssociationClass_3010)){
-					// association relationship to this Managed Entity from another
+					// addAssociationDatatypes(types);
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.AssociationClass_3010)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.Dependency_3008)){
-					// association relationship to this Managed Entity from another
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Dependency_3008)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomDependencyNodeTypes());
-				} 
+				}
 
 			} else if (relationshipType == TigerstripeElementTypes.Reference_3009) {
 				addReferenceSourcetypes(types);
@@ -1148,20 +1176,26 @@ public class TigerstripeModelingAssistantProvider extends
 				types.add(getCustomType(TigerstripeElementTypes.AssociationClass_3010));
 			} else if (relationshipType instanceof CustomElementType) {
 				CustomElementType cet = (CustomElementType) relationshipType;
-				if (cet.getBaseType().equals(TigerstripeElementTypes.Association_3001)){
-					// association relationship to this Managed Entity from another
+				if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Association_3001)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-					//addAssociationDatatypes(types);
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.AssociationClass_3010)){
-					// association relationship to this Managed Entity from another
+					// addAssociationDatatypes(types);
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.AssociationClass_3010)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.Dependency_3008)){
-					// association relationship to this Managed Entity from another
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Dependency_3008)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomDependencyNodeTypes());
-				} 
+				}
 
 			} else if (relationshipType == TigerstripeElementTypes.Reference_3009) {
 				addReferenceSourcetypes(types);
@@ -1177,20 +1211,26 @@ public class TigerstripeModelingAssistantProvider extends
 				types.add(getCustomType(TigerstripeElementTypes.ExceptionArtifact_1002));
 			} else if (relationshipType instanceof CustomElementType) {
 				CustomElementType cet = (CustomElementType) relationshipType;
-				if (cet.getBaseType().equals(TigerstripeElementTypes.Association_3001)){
-					// association relationship to this Managed Entity from another
+				if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Association_3001)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-					//addAssociationDatatypes(types);
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.AssociationClass_3010)){
-					// association relationship to this Managed Entity from another
+					// addAssociationDatatypes(types);
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.AssociationClass_3010)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.Dependency_3008)){
-					// association relationship to this Managed Entity from another
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Dependency_3008)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomDependencyNodeTypes());
-				} 
+				}
 
 			} else if (relationshipType == TigerstripeElementTypes.Reference_3009) {
 				addReferenceSourcetypes(types);
@@ -1221,20 +1261,26 @@ public class TigerstripeModelingAssistantProvider extends
 				types.add(getCustomType(TigerstripeElementTypes.SessionFacadeArtifact_1008));
 			} else if (relationshipType instanceof CustomElementType) {
 				CustomElementType cet = (CustomElementType) relationshipType;
-				if (cet.getBaseType().equals(TigerstripeElementTypes.Association_3001)){
-					// association relationship to this Managed Entity from another
+				if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Association_3001)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-					//addAssociationDatatypes(types);
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.AssociationClass_3010)){
-					// association relationship to this Managed Entity from another
+					// addAssociationDatatypes(types);
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.AssociationClass_3010)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.Dependency_3008)){
-					// association relationship to this Managed Entity from another
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Dependency_3008)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomDependencyNodeTypes());
-				} 
+				}
 
 			} else if (relationshipType == TigerstripeElementTypes.Reference_3009) {
 				addReferenceDatatypes(types);
@@ -1251,20 +1297,26 @@ public class TigerstripeModelingAssistantProvider extends
 				types.add(getCustomType(TigerstripeElementTypes.Enumeration_1006));
 			} else if (relationshipType instanceof CustomElementType) {
 				CustomElementType cet = (CustomElementType) relationshipType;
-				if (cet.getBaseType().equals(TigerstripeElementTypes.Association_3001)){
-					// association relationship to this Managed Entity from another
+				if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Association_3001)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-					//addAssociationDatatypes(types);
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.AssociationClass_3010)){
-					// association relationship to this Managed Entity from another
+					// addAssociationDatatypes(types);
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.AssociationClass_3010)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.Dependency_3008)){
-					// association relationship to this Managed Entity from another
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Dependency_3008)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomDependencyNodeTypes());
-				} 
+				}
 
 			} else if (relationshipType == TigerstripeElementTypes.Reference_3009) {
 				addReferenceDatatypes(types);
@@ -1280,11 +1332,13 @@ public class TigerstripeModelingAssistantProvider extends
 				types.add(getCustomType(TigerstripeElementTypes.Enumeration_1006));
 			} else if (relationshipType instanceof CustomElementType) {
 				CustomElementType cet = (CustomElementType) relationshipType;
-				if (cet.getBaseType().equals(TigerstripeElementTypes.Dependency_3008)){
-					// association relationship to this Managed Entity from another
+				if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Dependency_3008)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomDependencyNodeTypes());
-				} 
+				}
 
 			} else if (relationshipType == TigerstripeElementTypes.Dependency_3008) {
 				addDependencyDatatypes(types);
@@ -1300,20 +1354,26 @@ public class TigerstripeModelingAssistantProvider extends
 				types.add(getCustomType(TigerstripeElementTypes.NotificationArtifact_1004));
 			} else if (relationshipType instanceof CustomElementType) {
 				CustomElementType cet = (CustomElementType) relationshipType;
-				if (cet.getBaseType().equals(TigerstripeElementTypes.Association_3001)){
-					// association relationship to this Managed Entity from another
+				if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Association_3001)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-					//addAssociationDatatypes(types);
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.AssociationClass_3010)){
-					// association relationship to this Managed Entity from another
+					// addAssociationDatatypes(types);
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.AssociationClass_3010)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.Dependency_3008)){
-					// association relationship to this Managed Entity from another
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Dependency_3008)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomDependencyNodeTypes());
-				} 
+				}
 
 			} else if (relationshipType == TigerstripeElementTypes.Reference_3009) {
 				addReferenceDatatypes(types);
@@ -1329,20 +1389,26 @@ public class TigerstripeModelingAssistantProvider extends
 				types.add(getCustomType(TigerstripeElementTypes.UpdateProcedureArtifact_1007));
 			} else if (relationshipType instanceof CustomElementType) {
 				CustomElementType cet = (CustomElementType) relationshipType;
-				if (cet.getBaseType().equals(TigerstripeElementTypes.Association_3001)){
-					// association relationship to this Managed Entity from another
+				if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Association_3001)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-					//addAssociationDatatypes(types);
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.AssociationClass_3010)){
-					// association relationship to this Managed Entity from another
+					// addAssociationDatatypes(types);
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.AssociationClass_3010)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.Dependency_3008)){
-					// association relationship to this Managed Entity from another
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Dependency_3008)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomDependencyNodeTypes());
-				} 
+				}
 
 			} else if (relationshipType == TigerstripeElementTypes.Reference_3009) {
 				addReferenceDatatypes(types);
@@ -1354,29 +1420,35 @@ public class TigerstripeModelingAssistantProvider extends
 			if (relationshipType == TigerstripeElementTypes.NamedQueryArtifactReturnedType_3004) {
 				types.add(getCustomType(TigerstripeElementTypes.ManagedEntityArtifact_1003));
 				types.add(getCustomType(TigerstripeElementTypes.DatatypeArtifact_1005));
-			} else 	if (relationshipType == TigerstripeElementTypes.AbstractArtifactExtends_3007) {
+			} else if (relationshipType == TigerstripeElementTypes.AbstractArtifactExtends_3007) {
 				// Named Query can only extend another Named Query
 				types.add(getCustomType(TigerstripeElementTypes.NamedQueryArtifact_1001));
-			
+
 			} else if (relationshipType instanceof CustomElementType) {
 				CustomElementType cet = (CustomElementType) relationshipType;
-				if (cet.getBaseType().equals(TigerstripeElementTypes.Association_3001)){
-					// association relationship to this Managed Entity from another
+				if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Association_3001)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-					//addAssociationDatatypes(types);
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.AssociationClass_3010)){
-					// association relationship to this Managed Entity from another
+					// addAssociationDatatypes(types);
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.AssociationClass_3010)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.Dependency_3008)){
-					// association relationship to this Managed Entity from another
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Dependency_3008)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomDependencyNodeTypes());
-				} 
-			}else if (relationshipType == TigerstripeElementTypes.Reference_3009) {
-					addReferenceDatatypes(types);
 				}
+			} else if (relationshipType == TigerstripeElementTypes.Reference_3009) {
+				addReferenceDatatypes(types);
+			}
 
 			return types;
 		}
@@ -1386,29 +1458,35 @@ public class TigerstripeModelingAssistantProvider extends
 				types.add(TigerstripeElementTypes.NotificationArtifact_1004);
 			} else if (relationshipType == TigerstripeElementTypes.SessionFacadeArtifactManagedEntities_3003) {
 				types.add(TigerstripeElementTypes.ManagedEntityArtifact_1003);
-			} else 	if (relationshipType == TigerstripeElementTypes.SessionFacadeArtifactNamedQueries_3005) {
+			} else if (relationshipType == TigerstripeElementTypes.SessionFacadeArtifactNamedQueries_3005) {
 				types.add(TigerstripeElementTypes.NamedQueryArtifact_1001);
-			} else 	if (relationshipType == TigerstripeElementTypes.SessionFacadeArtifactExposedProcedures_3006) {
+			} else if (relationshipType == TigerstripeElementTypes.SessionFacadeArtifactExposedProcedures_3006) {
 				types.add(TigerstripeElementTypes.UpdateProcedureArtifact_1007);
-			} else 	if (relationshipType == TigerstripeElementTypes.AbstractArtifactExtends_3007) {
+			} else if (relationshipType == TigerstripeElementTypes.AbstractArtifactExtends_3007) {
 				// Session Facade can only extend another Session Facade
 				types.add(getCustomType(TigerstripeElementTypes.SessionFacadeArtifact_1008));
 			} else if (relationshipType instanceof CustomElementType) {
 				CustomElementType cet = (CustomElementType) relationshipType;
-				if (cet.getBaseType().equals(TigerstripeElementTypes.Association_3001)){
-					// association relationship to this Managed Entity from another
+				if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Association_3001)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-					//addAssociationDatatypes(types);
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.AssociationClass_3010)){
-					// association relationship to this Managed Entity from another
+					// addAssociationDatatypes(types);
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.AssociationClass_3010)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomAssociationNodeTypes());
-				} else if (cet.getBaseType().equals(TigerstripeElementTypes.Dependency_3008)){
-					// association relationship to this Managed Entity from another
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Dependency_3008)) {
+					// association relationship to this Managed Entity from
+					// another
 					// Abstract Artifact
 					types.addAll(getCustomDependencyNodeTypes());
-				} 
+				}
 
 			}
 			return types;
@@ -1420,21 +1498,27 @@ public class TigerstripeModelingAssistantProvider extends
 				// extends relationship from another Exception to this one
 				types.add(getCustomType(TigerstripeElementTypes.ExceptionArtifact_1002));
 			} else if (relationshipType instanceof CustomElementType) {
-			CustomElementType cet = (CustomElementType) relationshipType;
-			if (cet.getBaseType().equals(TigerstripeElementTypes.Association_3001)){
-				// association relationship to this Managed Entity from another
-				// Abstract Artifact
-				types.addAll(getCustomAssociationNodeTypes());
-				//addAssociationDatatypes(types);
-			} else if (cet.getBaseType().equals(TigerstripeElementTypes.AssociationClass_3010)){
-				// association relationship to this Managed Entity from another
-				// Abstract Artifact
-				types.addAll(getCustomAssociationNodeTypes());
-			} else if (cet.getBaseType().equals(TigerstripeElementTypes.Dependency_3008)){
-				// association relationship to this Managed Entity from another
-				// Abstract Artifact
-				types.addAll(getCustomDependencyNodeTypes());
-			} 
+				CustomElementType cet = (CustomElementType) relationshipType;
+				if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Association_3001)) {
+					// association relationship to this Managed Entity from
+					// another
+					// Abstract Artifact
+					types.addAll(getCustomAssociationNodeTypes());
+					// addAssociationDatatypes(types);
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.AssociationClass_3010)) {
+					// association relationship to this Managed Entity from
+					// another
+					// Abstract Artifact
+					types.addAll(getCustomAssociationNodeTypes());
+				} else if (cet.getBaseType().equals(
+						TigerstripeElementTypes.Dependency_3008)) {
+					// association relationship to this Managed Entity from
+					// another
+					// Abstract Artifact
+					types.addAll(getCustomDependencyNodeTypes());
+				}
 
 			}
 			return types;
@@ -1448,8 +1532,8 @@ public class TigerstripeModelingAssistantProvider extends
 	@Override
 	public EObject selectExistingElementForSource(IAdaptable target,
 			IElementType relationshipType) {
-		return selectExistingElement(target, getTypesForSource(target,
-				relationshipType));
+		return selectExistingElement(target, relationshipType,
+				getTypesForSource(target, relationshipType));
 	}
 
 	/**
@@ -1458,26 +1542,35 @@ public class TigerstripeModelingAssistantProvider extends
 	@Override
 	public EObject selectExistingElementForTarget(IAdaptable source,
 			IElementType relationshipType) {
-		return selectExistingElement(source, getTypesForTarget(source,
-				relationshipType));
+		return selectExistingElement(source, relationshipType,
+				getTypesForTarget(source, relationshipType));
 	}
 
 	/**
 	 * @generated NOT
 	 */
-	protected EObject selectExistingElement(IAdaptable host, Collection types) {
+	protected EObject selectExistingElement(IAdaptable host,
+			IElementType relationshipType, Collection types) {
 		if (types.isEmpty())
 			return null;
-		
+
 		Collection nonCustomTypes = new ArrayList();
 		for (Object object : types) {
 			IElementType type = (IElementType) object;
 			if (type instanceof CustomElementType) {
 				type = ((CustomElementType) type).getBaseType();
-			}				
+			}
 			nonCustomTypes.add(type);
 		}
-		
+
+		Collection ignoreObjects = new ArrayList();
+		if (relationshipType == TigerstripeElementTypes.AbstractArtifactExtends_3007) {
+			Object object = (EObject) host.getAdapter(EObject.class);
+			if (object != null) {
+				ignoreObjects.add(object);
+			}
+		}
+
 		IGraphicalEditPart editPart = (IGraphicalEditPart) host
 				.getAdapter(IGraphicalEditPart.class);
 		if (editPart == null)
@@ -1486,7 +1579,8 @@ public class TigerstripeModelingAssistantProvider extends
 		Collection elements = new HashSet();
 		for (Iterator it = diagram.getElement().eAllContents(); it.hasNext();) {
 			EObject element = (EObject) it.next();
-			if (isApplicableElement(element, nonCustomTypes)) {
+
+			if (isApplicableElement(element, nonCustomTypes, ignoreObjects)) {
 				elements.add(element);
 			}
 		}
@@ -1497,12 +1591,16 @@ public class TigerstripeModelingAssistantProvider extends
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
-	protected boolean isApplicableElement(EObject element, Collection types) {
-		IElementType type = ElementTypeRegistry.getInstance().getElementType(
-				element);
-		return types.contains(type);
+	protected boolean isApplicableElement(EObject element, Collection types,
+			Collection ignoreObjects) {
+		if (!ignoreObjects.contains(element)) {
+			IElementType type = ElementTypeRegistry.getInstance()
+					.getElementType(element);
+			return types.contains(type);
+		}
+		return false;
 	}
 
 	/**
@@ -1544,7 +1642,6 @@ public class TigerstripeModelingAssistantProvider extends
 		}
 	}
 
-	
 	/*
 	 * internal method that is used to add datatypes that can be included in an
 	 * association relationship to the list of data types being returned from
@@ -1604,7 +1701,7 @@ public class TigerstripeModelingAssistantProvider extends
 	 * list of types if the targetEditPart is of the appropriate type
 	 */
 	private void addAssociationForTarget(IGraphicalEditPart targetEditPart,
-			List types , List associationTypes ,List associationClassTypes) {
+			List types, List associationTypes, List associationClassTypes) {
 		if (targetEditPart instanceof ManagedEntityArtifactEditPart
 				|| targetEditPart instanceof DatatypeArtifactEditPart
 				|| targetEditPart instanceof NamedQueryArtifactEditPart
@@ -1615,41 +1712,41 @@ public class TigerstripeModelingAssistantProvider extends
 				|| targetEditPart instanceof AssociationClassClassEditPart) {
 			// association relationship from this artifact to other
 			// artifacts that can be included in an association relationship
-			//types.add(TigerstripeElementTypes.Association_3001);
-			//types.add(TigerstripeElementTypes.AssociationClass_3010);
+			// types.add(TigerstripeElementTypes.Association_3001);
+			// types.add(TigerstripeElementTypes.AssociationClass_3010);
 			types.addAll(associationTypes);
 			types.addAll(associationClassTypes);
 		}
 
 	}
 
-	
-	private void addSuitableType(IGraphicalEditPart targetEditPart,
-			List types , IHintedType hintedType){
-		
+	private void addSuitableType(IGraphicalEditPart targetEditPart, List types,
+			IHintedType hintedType) {
+
 		// TODO This should take into account the source and target pair types
-		if ( hintedType instanceof CustomElementType){
+		if (hintedType instanceof CustomElementType) {
 			CustomElementType type = (CustomElementType) hintedType;
 
-			if ((type.getBaseType().equals(TigerstripeElementTypes.Association_3001) ||
-				  type.getBaseType().equals(TigerstripeElementTypes.AssociationClass_3010))	&&
-					(targetEditPart instanceof ManagedEntityArtifactEditPart
+			if ((type.getBaseType().equals(
+					TigerstripeElementTypes.Association_3001) || type
+					.getBaseType().equals(
+							TigerstripeElementTypes.AssociationClass_3010))
+					&& (targetEditPart instanceof ManagedEntityArtifactEditPart
 							|| targetEditPart instanceof DatatypeArtifactEditPart
 							|| targetEditPart instanceof NamedQueryArtifactEditPart
 							|| targetEditPart instanceof UpdateProcedureArtifactEditPart
 							|| targetEditPart instanceof NotificationArtifactEditPart
 							|| targetEditPart instanceof SessionFacadeArtifactEditPart
-							|| targetEditPart instanceof ExceptionArtifactEditPart
-							|| targetEditPart instanceof AssociationClassClassEditPart)
-					){
+							|| targetEditPart instanceof ExceptionArtifactEditPart || targetEditPart instanceof AssociationClassClassEditPart)) {
 
 				types.add(type);
-			} else if (type.getBaseType().equals(TigerstripeElementTypes.Dependency_3008)){
-				types.add(type);	
+			} else if (type.getBaseType().equals(
+					TigerstripeElementTypes.Dependency_3008)) {
+				types.add(type);
 			}
 		}
 	}
-	
+
 	/**
 	 * This method checks whether creating a relationship between sourcePart and
 	 * target would create an outbound relationship, i.e. creating a
