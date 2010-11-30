@@ -364,6 +364,19 @@ public class Expander implements IExpander {
 				outString = nameMatcher.replaceAll("UNKNOWN_NAME");
 			}
 		}
+		
+		Pattern modelId = Pattern.compile("\\$\\{modelId\\}");
+		Matcher modelIdMatcher = modelId.matcher(outString);
+		String id = project.getProjectDetails().getModelId();
+		id = id.replaceAll(" ", "_");
+		if (modelIdMatcher.find(0)) {
+			if (id.length() > 0) {
+				outString = modelIdMatcher.replaceAll(id);
+			} else {
+				outString = modelIdMatcher.replaceAll("UNKNOWN_MODELID");
+			}
+		}
+		
 
 		// Should actually be ${project.Name} and ${project.Version} for
 		// compatability
@@ -393,6 +406,20 @@ public class Expander implements IExpander {
 			}
 		}
 
+		Pattern projModelId = Pattern.compile("\\$\\{project\\.ModelId\\}");
+		Matcher projModelIdMatcher = projModelId.matcher(outString);
+		String projid = project.getProjectDetails().getModelId();
+		projid = projid.replaceAll(" ", "_");
+		if (projModelIdMatcher.find(0)) {
+			if (id.length() > 0) {
+				outString = projModelIdMatcher.replaceAll(id);
+			} else {
+				outString = projModelIdMatcher.replaceAll("UNKNOWN_MODELID");
+			}
+		}
+		
+		
+		
 		// Support of BUG 280 (part)
 		// Look for the common NS reference so that we can use that locally
 		// and always point to the *local* project CommonNS
