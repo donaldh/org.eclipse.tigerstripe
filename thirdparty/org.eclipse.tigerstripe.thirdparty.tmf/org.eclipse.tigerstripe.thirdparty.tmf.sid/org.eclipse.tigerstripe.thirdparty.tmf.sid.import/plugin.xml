@@ -4,7 +4,7 @@
    <extension
          point="org.eclipse.tigerstripe.workbench.ui.UML2Import.umlImportModelMapper">
       <mapper
-            mapper_class="org.eclipse.tigerstripe.sidmapping.SIDModelMapper"
+            mapper_class="org.eclipse.tigerstripe.thirdparty.tmf.sid.SIDModelMapper"
             name="SIDMapper">
       </mapper>
    </extension>
@@ -55,14 +55,14 @@
          point="org.eclipse.tigerstripe.workbench.ui.UML2Import.umlImportCommentProcessor">
       <commentProcessor
             name="SidComments"
-            processor_class="org.eclipse.tigerstripe.sidmapping.CommentProcessor">
+            processor_class="org.eclipse.tigerstripe.thirdparty.tmf.sid.CommentProcessor">
       </commentProcessor>
    </extension>
    <extension
          point="org.eclipse.tigerstripe.workbench.ui.UML2Import.umlImportModelTrimmer">
-      <trimmer
+              <trimmer
             name="SIDTrimmer"
-            trimmer_class="org.eclipse.tigerstripe.sidmapping.SIDModelTrimmer">
+            trimmer_class="org.eclipse.tigerstripe.thirdparty.tmf.sid.SIDModelTrimmer">
       </trimmer>
    </extension>
 

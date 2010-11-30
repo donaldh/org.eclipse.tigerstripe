@@ -8,7 +8,7 @@
  * Contributors:
  *    R. Craddock (Cisco Systems, Inc.) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.sidmapping;
+package org.eclipse.tigerstripe.thirdparty.tmf.sid;
 
 import org.eclipse.tigerstripe.workbench.ui.uml2import.internal.model.ICommentProcessor;
 

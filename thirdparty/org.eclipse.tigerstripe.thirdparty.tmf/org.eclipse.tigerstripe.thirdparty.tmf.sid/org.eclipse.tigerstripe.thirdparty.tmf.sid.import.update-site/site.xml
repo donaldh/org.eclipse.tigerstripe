@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.eclipse.tigerstripe.thirdparty.tmf.sid.import.feature.jar" id="org.eclipse.tigerstripe.thirdparty.tmf.sid.import.feature" version="1.0.8">
-      <category name="org.eclipse.tigerstripe.thirdparty.tmf.sid"/>
-   </feature>
+   <feature url="features/org.eclipse.tigerstripe.thirdparty.tmf.sid.feature_1.0.8.jar" id="org.eclipse.tigerstripe.thirdparty.tmf.sid.feature" version="1.0.8"/>
    <category-def name="org.eclipse.tigerstripe.thirdparty.tmf.sid" label="TM Forum SID Import"/>
 </site>

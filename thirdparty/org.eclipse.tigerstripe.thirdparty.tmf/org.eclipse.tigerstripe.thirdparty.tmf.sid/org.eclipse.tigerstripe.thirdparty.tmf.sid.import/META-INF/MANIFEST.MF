@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: org.eclipse.tigerstripe.thirdparty.tmf.sid.import
 Bundle-SymbolicName: org.eclipse.tigerstripe.thirdparty.tmf.sid.import;singleton:=true
 Bundle-Version: 1.0.8
-Bundle-Activator: org.eclipse.tigerstripe.sidmapping.Activator
+Bundle-Activator: org.eclipse.tigerstripe.thirdparty.tmf.sid.Activator
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.tigerstripe.workbench.ui.UML2Import

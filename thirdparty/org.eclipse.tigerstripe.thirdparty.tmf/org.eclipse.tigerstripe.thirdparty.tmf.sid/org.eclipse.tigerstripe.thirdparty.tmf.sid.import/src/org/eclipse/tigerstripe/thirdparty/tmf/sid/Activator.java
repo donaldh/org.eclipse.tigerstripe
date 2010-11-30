@@ -8,7 +8,7 @@
  * Contributors:
  *    R. Craddock (Cisco Systems, Inc.) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.sidmapping;
+package org.eclipse.tigerstripe.thirdparty.tmf.sid;
 
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -19,7 +19,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "org.eclipse.tigerstripe.SIDMapping";
+	public static final String PLUGIN_ID = "org.eclipthirdparty.tmf.sid.importripe.thirdparty.tmf.sid.import";
 
 	// The shared instance
 	private static Activator plugin;
