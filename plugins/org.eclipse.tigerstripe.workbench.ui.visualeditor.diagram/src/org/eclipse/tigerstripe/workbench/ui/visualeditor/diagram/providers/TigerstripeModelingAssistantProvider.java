@@ -1463,11 +1463,21 @@ public class TigerstripeModelingAssistantProvider extends
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	protected EObject selectExistingElement(IAdaptable host, Collection types) {
 		if (types.isEmpty())
 			return null;
+		
+		Collection nonCustomTypes = new ArrayList();
+		for (Object object : types) {
+			IElementType type = (IElementType) object;
+			if (type instanceof CustomElementType) {
+				type = ((CustomElementType) type).getBaseType();
+			}				
+			nonCustomTypes.add(type);
+		}
+		
 		IGraphicalEditPart editPart = (IGraphicalEditPart) host
 				.getAdapter(IGraphicalEditPart.class);
 		if (editPart == null)
@@ -1476,7 +1486,7 @@ public class TigerstripeModelingAssistantProvider extends
 		Collection elements = new HashSet();
 		for (Iterator it = diagram.getElement().eAllContents(); it.hasNext();) {
 			EObject element = (EObject) it.next();
-			if (isApplicableElement(element, types)) {
+			if (isApplicableElement(element, nonCustomTypes)) {
 				elements.add(element);
 			}
 		}
@@ -1496,7 +1506,7 @@ public class TigerstripeModelingAssistantProvider extends
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	protected EObject selectElement(EObject[] elements) {
 		Shell shell = Display.getCurrent().getActiveShell();
@@ -1505,8 +1515,8 @@ public class TigerstripeModelingAssistantProvider extends
 						.getItemProvidersAdapterFactory());
 		ElementListSelectionDialog dialog = new ElementListSelectionDialog(
 				shell, labelProvider);
-		dialog.setMessage("Available domain model elements:");
-		dialog.setTitle("Select domain model element");
+		dialog.setMessage("Available model elements:");
+		dialog.setTitle("Select model element");
 		dialog.setMultipleSelection(false);
 		dialog.setElements(elements);
 		EObject selected = null;

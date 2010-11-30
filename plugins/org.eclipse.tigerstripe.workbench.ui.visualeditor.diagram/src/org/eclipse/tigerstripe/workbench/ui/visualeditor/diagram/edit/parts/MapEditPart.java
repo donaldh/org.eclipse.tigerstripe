@@ -17,6 +17,7 @@ import java.util.ListIterator;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.editparts.AbstractEditPart;
 import org.eclipse.gmf.runtime.diagram.core.util.ViewUtil;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
@@ -107,6 +108,9 @@ public class MapEditPart extends DiagramEditPart {
 				new MapCanonicalEditPolicy());
 		installEditPolicy(EditPolicyRoles.DRAG_DROP_ROLE,
 				new ClassDiagramDragDropEditPolicy());
+		installEditPolicy(
+				EditPolicy.GRAPHICAL_NODE_ROLE,
+				new MapEditPartContainerNodeEditPolicy());
 		// installEditPolicy(EditPolicyRoles.CREATION_ROLE,
 		// new ClassDiagramCreationEditPolicy());
 	}
