@@ -436,6 +436,7 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart implements
 					.getTigerstripeProject(),
 					new IAbstractArtifact[] { AssociationClassArtifact.MODEL,
 							ManagedEntityArtifact.MODEL });
+			dialog.setIncludeEmptyValue(true);
 			dialog.setTitle("Super Artifact");
 			dialog.setMessage("Select the artifact" + " to be extended.");
 
