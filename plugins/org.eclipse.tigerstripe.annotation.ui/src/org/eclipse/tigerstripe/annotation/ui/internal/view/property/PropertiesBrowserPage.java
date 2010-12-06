@@ -102,7 +102,7 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 	private static INote NULL_NOTE = new AnnotationNote(
 			AnnotationFactory.eINSTANCE.createAnnotation());
 
-	private StructuredSelection EMPTY_SELECTION = new StructuredSelection();
+	private final StructuredSelection EMPTY_SELECTION = new StructuredSelection();
 
 	private Map<INote, DirtyListener> adapters = new HashMap<INote, DirtyListener>();
 
@@ -127,6 +127,7 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 	 * 
 	 * @see org.eclipse.ui.part.IPage#dispose()
 	 */
+	@Override
 	public void dispose() {
 		super.dispose();
 		/**
@@ -142,6 +143,7 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 	 * 
 	 * @see org.eclipse.ui.part.IPage#setActionBars(org.eclipse.ui.IActionBars)
 	 */
+	@Override
 	public void setActionBars(IActionBars bars) {
 		IToolBarManager manager = bars.getToolBarManager();
 
@@ -155,6 +157,7 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 		}
 
 		addAction = new Action("Add") {
+			@Override
 			public void run() {
 				PropertiesSelectionManager.getInstance().getSelection()
 						.addDefaultValue();
@@ -162,8 +165,10 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 		};
 		addAction.setImageDescriptor(Images.getDescriptor(Images.ADD));
 		manager.add(addAction);
+		addAction.setEnabled(false);
 
 		removeAction = new Action("Remove") {
+			@Override
 			public void run() {
 				PropertiesSelectionManager.getInstance().getSelection()
 						.remove();
@@ -171,8 +176,10 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 		};
 		removeAction.setImageDescriptor(Images.getDescriptor(Images.REMOVE));
 		manager.add(removeAction);
+		removeAction.setEnabled(false);
 
 		saveAction = new Action("Save") {
+			@Override
 			public void run() {
 				saveAnnotation();
 			}
@@ -181,6 +188,7 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 		manager.add(saveAction);
 
 		saveAllAction = new Action("Save All") {
+			@Override
 			public void run() {
 				saveAllAnnotations();
 			}
@@ -189,6 +197,7 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 		manager.add(saveAllAction);
 
 		revertAction = new Action("Revert") {
+			@Override
 			public void run() {
 				revertAnnotation();
 			}
@@ -197,6 +206,7 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 		manager.add(revertAction);
 
 		revertAllAction = new Action("Revert All") {
+			@Override
 			public void run() {
 				revertAllAnnotations();
 			}
@@ -245,6 +255,7 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 	 * 
 	 * @see org.eclipse.ui.part.IPage#setFocus()
 	 */
+	@Override
 	public void setFocus() {
 		getControl().setFocus();
 	}
@@ -264,6 +275,7 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 	 * org.eclipse.ui.part.IPage#createControl(org.eclipse.swt.widgets.Composite
 	 * )
 	 */
+	@Override
 	public void createControl(Composite parent) {
 
 		TabbedPropertySheetWidgetFactory factory = new TabbedPropertySheetWidgetFactory();
@@ -474,6 +486,7 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 		INote note = getSelectedNote();
 		if (note != null) {
 			superSelectionChanged(part, new StructuredSelection(note) {
+				@Override
 				public boolean equals(Object o) {
 					return false;
 				}
@@ -678,16 +691,15 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 				INote[] nodes = dirties.toArray(new INote[dirties.size()]);
 				MessageBox message = new MessageBox(shell, SWT.ICON_QUESTION
 						| SWT.YES | SWT.NO);
-				message
-						.setMessage("Annotations have been modified. Save changes?");
+				message.setMessage("Annotations have been modified. Save changes?");
 				message.setText("Save Annotations");
 				if (message.open() == SWT.YES)
 					for (INote node : nodes) {
 						try {
 							node.save();
 						} catch (CoreException e) {
-							ErrorDialog.openError(shell, "Save is failed", e
-									.getMessage(), e.getStatus());
+							ErrorDialog.openError(shell, "Save is failed",
+									e.getMessage(), e.getStatus());
 							AnnotationUIPlugin.log(e);
 						}
 					}
@@ -707,6 +719,7 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 	 * @seeorg.eclipse.ui.ISelectionListener#selectionChanged(org.eclipse.ui.
 	 * IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
 	 */
+	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		if (block)
 			return;
@@ -729,6 +742,7 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 	 * org.eclipse.jface.viewers.ILabelProviderListener#labelProviderChanged
 	 * (org.eclipse.jface.viewers.LabelProviderChangedEvent)
 	 */
+	@Override
 	public void labelProviderChanged(LabelProviderChangedEvent event) {
 		if (event.getElements() == null && getControl() != null) {
 			super.labelProviderChanged(event);
@@ -798,7 +812,7 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 	}
 
 	class NoteFilterAction extends Action implements INoteListener {
-		private INoteProvider provider;
+		private final INoteProvider provider;
 
 		public NoteFilterAction(INoteProvider provider) {
 			super();
@@ -811,6 +825,7 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 			setChecked(!isHideNotes(provider));
 		}
 
+		@Override
 		public void run() {
 			valueChanged(isChecked());
 		}
@@ -818,7 +833,7 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 		private void valueChanged(boolean checked) {
 			setChecked(checked);
 			setHideNotes(provider, !checked);
-			if (contributor!=null)
+			if (contributor != null)
 				contributor.updateNotes();
 		}
 
@@ -833,15 +848,15 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 	}
 
 	boolean isHideNotes(INoteProvider provider) {
-		return AnnotationUIPlugin.getDefault().getPreferenceStore().getBoolean(
-				getHideNotesPropertyName(provider));
+		return AnnotationUIPlugin.getDefault().getPreferenceStore()
+				.getBoolean(getHideNotesPropertyName(provider));
 	}
 
 	void setHideNotes(INoteProvider provider, boolean value) {
-		AnnotationUIPlugin.getDefault().getPreferenceStore().setValue(
-				getHideNotesPropertyName(provider), value);
+		AnnotationUIPlugin.getDefault().getPreferenceStore()
+				.setValue(getHideNotesPropertyName(provider), value);
 	}
 
-	private INoteProvider[] providers;
+	private final INoteProvider[] providers;
 
 }
