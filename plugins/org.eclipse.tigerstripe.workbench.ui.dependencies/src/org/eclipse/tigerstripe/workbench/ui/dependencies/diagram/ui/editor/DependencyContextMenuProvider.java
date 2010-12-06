@@ -20,6 +20,7 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.gef.ContextMenuProvider;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gef.GraphicalEditPart;
+import org.eclipse.gef.GraphicalViewer;
 import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.gef.ui.actions.GEFActionConstants;
 import org.eclipse.jface.action.Action;
@@ -28,6 +29,7 @@ import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.api.IDependencyAction;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.api.IDependencySubject;
+import org.eclipse.tigerstripe.workbench.ui.dependencies.diagram.image.GraphicalViewerImageRenderer;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.diagram.ui.parts.NoteEditPart;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.diagram.ui.parts.SubjectEditPart;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.internal.depenedencies.LayerDescriptor;
@@ -90,8 +92,20 @@ public class DependencyContextMenuProvider extends ContextMenuProvider {
 				getAction(ActionFactory.UNDO.getId())); // action to add
 		menu.appendToGroup(GEFActionConstants.GROUP_UNDO,
 				getAction(ActionFactory.REDO.getId()));
+
+		menu.appendToGroup(GEFActionConstants.GROUP_VIEW, new Action(
+				"Save To File...") {
+
+			@Override
+			public void run() {
+				GraphicalViewerImageRenderer.save(getMenu().getShell(),
+						(GraphicalViewer) getViewer());
+			}
+
+		});
+
 		menu.appendToGroup(GEFActionConstants.GROUP_VIEW,
-				new Action("Go into") {
+				new Action("Go Into") {
 
 					@Override
 					public void run() {
