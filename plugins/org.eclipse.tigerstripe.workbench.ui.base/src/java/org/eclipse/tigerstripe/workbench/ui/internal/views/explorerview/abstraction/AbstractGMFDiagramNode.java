@@ -29,6 +29,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.diagram.IDiagram;
 import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramRefactorHelper;
+import org.eclipse.tigerstripe.workbench.refactor.diagrams.HeadlessDiagramHandle;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
@@ -51,7 +52,7 @@ public abstract class AbstractGMFDiagramNode extends
 
 	private IFile modelFile;
 
-	private IFile diagramFile;
+	private final IFile diagramFile;
 
 	private boolean shouldCancel;
 
@@ -124,8 +125,10 @@ public abstract class AbstractGMFDiagramNode extends
 	public void performMove(IContainer targetContainer, IProgressMonitor monitor)
 			throws CoreException, TigerstripeException {
 		if (!closeCorrespondingDiagram()) {
-			DiagramRefactorHelper.performDiagramMove(targetContainer,
-					getUnderlyingResources(), monitor);
+			HeadlessDiagramHandle handle = DiagramRefactorHelper
+					.getDiagramHandle(diagramFile);
+			DiagramRefactorHelper.performDiagramMove(targetContainer, handle,
+					monitor);
 		}
 	}
 

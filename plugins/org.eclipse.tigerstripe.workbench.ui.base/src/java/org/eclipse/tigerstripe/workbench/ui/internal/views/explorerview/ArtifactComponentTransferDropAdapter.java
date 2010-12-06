@@ -77,7 +77,8 @@ public class ArtifactComponentTransferDropAdapter extends ViewerDropAdapter
     /**
      * @see ViewerDropAdapter#performDrop
      */
-    public boolean performDrop(Object data) {
+    @Override
+	public boolean performDrop(Object data) {
         // should never be called, since we override the drop() method.
         return false;
     }
@@ -322,15 +323,17 @@ public class ArtifactComponentTransferDropAdapter extends ViewerDropAdapter
                             srcArtifacts.put(FQN, srcArtifact);
                         }
 
-                        // Create a notification and push down the pipe
-                        ModelChangeDelta delta = new ModelChangeDelta(
-                                IModelChangeDelta.MOVE);
-                        delta.setAffectedModelComponentURI((URI) srcArtifact
-                                .getAdapter(URI.class));
-                        delta.setOldValue(oldValue);
-                        delta.setNewValue(newValue);
-                        TigerstripeWorkspaceNotifier.INSTANCE
-                                .signalModelChange(delta);
+						if (srcArtifact != null) {
+							// Create a notification and push down the pipe
+							ModelChangeDelta delta = new ModelChangeDelta(
+									IModelChangeDelta.MOVE);
+							delta.setAffectedModelComponentURI((URI) srcArtifact
+									.getAdapter(URI.class));
+							delta.setOldValue(oldValue);
+							delta.setNewValue(newValue);
+							TigerstripeWorkspaceNotifier.INSTANCE
+									.signalModelChange(delta);
+						}
                     }
 
                     targetArtifact.doSave(new NullProgressMonitor());

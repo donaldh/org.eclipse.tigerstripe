@@ -117,10 +117,7 @@ public class DiagramRefactorHelper {
 				// stage
 				createRecursive(f, monitor);
 			}
-			performDiagramMove(f, handle.getUnderlyingResources(), monitor);
-			IResource movedModelResoource = f.findMember(handle
-					.getModelResource().getName());
-			updatePackage(movedModelResoource);
+			performDiagramMove(f, handle, monitor);
 		} catch (CoreException e) {
 			throw new TigerstripeException("While handling diagram move: "
 					+ diagramDelta.getAffDiagramHandle().getDiagramResource()
@@ -141,9 +138,9 @@ public class DiagramRefactorHelper {
 	}
 
 	public static void performDiagramMove(IContainer targetContainer,
-			IResource[] underlyingResources, IProgressMonitor monitor)
+			HeadlessDiagramHandle handle, IProgressMonitor monitor)
 			throws CoreException {
-		for (IResource res : underlyingResources) {
+		for (IResource res : handle.getUnderlyingResources()) {
 			try {
 				IPath newPath = targetContainer.getFullPath().append(
 						res.getName());
@@ -152,7 +149,9 @@ public class DiagramRefactorHelper {
 				BasePlugin.log(e);
 			}
 		}
-
+		IResource movedModelResoource = targetContainer.findMember(handle
+				.getModelResource().getName());
+		updatePackage(movedModelResoource);
 	}
 
 	/**
