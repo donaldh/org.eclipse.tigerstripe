@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.queries;
 
+import org.eclipse.tigerstripe.workbench.internal.core.model.ExecutionContext;
+
 /**
  * Base Query type for all Artifact Queries
  * 
@@ -35,4 +37,9 @@ public interface IArtifactQuery {
 	 * @param includeDependencies
 	 */
 	public void setIncludeDependencies(boolean includeDependencies);
+
+	public void setExecutionContext(ExecutionContext executionContext);
+
+	public ExecutionContext getExecutionContext();
+
 }

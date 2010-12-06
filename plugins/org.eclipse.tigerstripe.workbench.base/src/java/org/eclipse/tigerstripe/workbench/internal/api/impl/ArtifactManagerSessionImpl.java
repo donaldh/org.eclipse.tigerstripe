@@ -97,14 +97,13 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 				ISessionArtifact.class, IEnumArtifact.class,
 				IUpdateProcedureArtifact.class, IAssociationArtifact.class,
 				IAssociationClassArtifact.class, IPrimitiveTypeArtifact.class,
-				IDependencyArtifact.class,
-				IPackageArtifact.class };
+				IDependencyArtifact.class, IPackageArtifact.class };
 
 		ArrayList<Class> result = new ArrayList<Class>();
 
 		CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) TigerstripeCore
-				.getWorkbenchProfileSession().getActiveProfile().getProperty(
-						IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
+				.getWorkbenchProfileSession().getActiveProfile()
+				.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
 
 		for (Class pot : potentials) {
 			if (prop.getDetailsForType(pot.getName()).isEnabled()) {

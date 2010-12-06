@@ -17,7 +17,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.contract.predicate.PredicateFilter;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
@@ -56,6 +55,8 @@ public class DependenciesContentCache {
 
 	private boolean isInitialized = false;
 
+	private boolean inStateOfUpdate;
+
 	public DependenciesContentCache(ArtifactManager manager) {
 		this.manager = manager;
 	}
@@ -77,49 +78,58 @@ public class DependenciesContentCache {
 		allKnownArtifactsByFqn = new HashMap<String, List<IAbstractArtifact>>();
 	}
 
-	public synchronized void updateCache(IProgressMonitor monitor) {
+	public synchronized void updateCache(ExecutionContext context) {
+		if (inStateOfUpdate) {
+			return;
+		}
+
 		boolean wasLocked = manager.isLocked();
+		inStateOfUpdate = true;
 		try {
 			manager.lock(true);
 			cleanCache();
 
-			updateArtifactsByModel(monitor);
-			updateAllArtifacts(monitor);
-			updateArtifactsByFqn(monitor);
-			updateAllKnownArtifactsByFqn(monitor);
+			updateArtifactsByModel(context);
+			updateAllArtifacts(context);
+			updateArtifactsByFqn(context);
+			updateAllKnownArtifactsByFqn(context);
 			isInitialized = true;
 		} finally {
+			inStateOfUpdate = false;
 			manager.lock(wasLocked);
 		}
 	}
 
-	private void updateArtifactsByModel(IProgressMonitor monitor) {
+	private void updateArtifactsByModel(ExecutionContext context) {
 		Collection<IAbstractArtifact> registeredArtifacts = manager
 				.getRegisteredArtifacts();
-		monitor.beginTask("Cache update - Pass 1", registeredArtifacts.size());
+		context.getMonitor().beginTask("Cache update - Pass 1",
+				registeredArtifacts.size());
 		for (IAbstractArtifact model : registeredArtifacts) {
 			Set<IAbstractArtifact> list = new HashSet<IAbstractArtifact>();
 			for (IDependency dependency : manager.getProjectDependencies()) {
 				Dependency dep = (Dependency) dependency;
-				if (dep != null && dep.getArtifactManager(monitor) != null)
-					list.addAll(dep.getArtifactManager(monitor)
-							.getArtifactsByModel((AbstractArtifact) model,
-									true, monitor));
+				ArtifactManager artifactManager = dep
+						.getArtifactManager(context.getMonitor());
+				if (dep != null && artifactManager != null)
+					list.addAll(artifactManager.getArtifactsByModel(
+							(AbstractArtifact) model, true, context));
 			}
 
 			artifactsByModel.put(model, list);
-			monitor.worked(1);
+			context.getMonitor().worked(1);
 		}
-		monitor.done();
+		context.getMonitor().done();
 	}
 
-	private void updateAllArtifacts(IProgressMonitor monitor) {
+	private void updateAllArtifacts(ExecutionContext context) {
 		Set<IAbstractArtifact> result = new HashSet<IAbstractArtifact>();
 		for (IDependency dependency : manager.getProjectDependencies()) {
 			Dependency dep = (Dependency) dependency;
-			if (dep != null && dep.getArtifactManager(monitor) != null)
-				result.addAll(dep.getArtifactManager(monitor).getAllArtifacts(
-						true, monitor));
+			ArtifactManager artifactManager = dep.getArtifactManager(context
+					.getMonitor());
+			if (dep != null && artifactManager != null)
+				result.addAll(artifactManager.getAllArtifacts(true, context));
 		}
 
 		allArtifacts = result;
@@ -127,7 +137,7 @@ public class DependenciesContentCache {
 
 	// TODO: really this could be replaced now with by extracting the first item
 	// in the allKnownArtifactsByFqn...
-	private void updateArtifactsByFqn(IProgressMonitor monitor) {
+	private void updateArtifactsByFqn(ExecutionContext context) {
 		artifactsByFqn = new HashMap<String, IAbstractArtifact>();
 		for (IAbstractArtifact artifact : allArtifacts) {
 			String fqn = artifact.getFullyQualifiedName();
@@ -135,7 +145,7 @@ public class DependenciesContentCache {
 		}
 	}
 
-	private void updateAllKnownArtifactsByFqn(IProgressMonitor monitor) {
+	private void updateAllKnownArtifactsByFqn(ExecutionContext context) {
 		allKnownArtifactsByFqn = new HashMap<String, List<IAbstractArtifact>>();
 		for (IAbstractArtifact artifact : allArtifacts) {
 			String fqn = artifact.getFullyQualifiedName();
@@ -152,9 +162,9 @@ public class DependenciesContentCache {
 	}
 
 	public synchronized Collection<IAbstractArtifact> getAllKnownArtifactsByFullyQualifiedName(
-			String fqn, IProgressMonitor monitor) {
+			String fqn, ExecutionContext context) {
 		if (!isInitialized) {
-			updateCache(monitor);
+			updateCache(context);
 		}
 
 		if (allKnownArtifactsByFqn.containsKey(fqn))
@@ -165,26 +175,26 @@ public class DependenciesContentCache {
 	}
 
 	public synchronized Collection<IAbstractArtifact> getArtifactsByModelInChained(
-			AbstractArtifact model, IProgressMonitor monitor) {
+			AbstractArtifact model, ExecutionContext context) {
 		if (!isInitialized)
-			updateCache(monitor);
+			updateCache(context);
 
 		return ArtifactFilter.filter(artifactsByModel.get(model),
 				artifactFilter);
 	}
 
 	public synchronized Collection<IAbstractArtifact> getAllChainedArtifacts(
-			IProgressMonitor monitor) {
+			ExecutionContext context) {
 		if (!isInitialized)
-			updateCache(monitor);
+			updateCache(context);
 
 		return ArtifactFilter.filter(allArtifacts, artifactFilter);
 	}
 
 	public synchronized AbstractArtifact getArtifactByFullyQualifiedNameInChained(
-			String name, IProgressMonitor monitor) {
+			String name, ExecutionContext context) {
 		if (!isInitialized)
-			updateCache(monitor);
+			updateCache(context);
 
 		AbstractArtifact potentialResult = (AbstractArtifact) artifactsByFqn
 				.get(name);

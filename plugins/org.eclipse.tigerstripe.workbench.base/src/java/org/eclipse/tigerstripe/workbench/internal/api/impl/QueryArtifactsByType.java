@@ -24,6 +24,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ExecutionContext;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.PackageArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.PrimitiveTypeArtifact;
@@ -61,7 +62,7 @@ public class QueryArtifactsByType extends ArtifactQueryBase implements
 			IAssociationArtifact.class.getName(),
 			IDependencyArtifact.class.getName(),
 			IPrimitiveTypeArtifact.class.getName(),
-			IPackageArtifact.class.getName()};
+			IPackageArtifact.class.getName() };
 
 	private static String[] implArtifactTypes = {
 			ManagedEntityArtifact.class.getName(),
@@ -74,7 +75,7 @@ public class QueryArtifactsByType extends ArtifactQueryBase implements
 			AssociationArtifact.class.getName(),
 			DependencyArtifact.class.getName(),
 			PrimitiveTypeArtifact.class.getName(),
-			PackageArtifact.class.getName()};
+			PackageArtifact.class.getName() };
 
 	private String artifactType;
 
@@ -96,10 +97,20 @@ public class QueryArtifactsByType extends ArtifactQueryBase implements
 
 		for (Iterator iter = registered.iterator(); iter.hasNext();) {
 			AbstractArtifact model = (AbstractArtifact) iter.next();
-			if (model.getClass().getName().equals(
-					mappedImplementationType(artifactType)))
-				return mgr.getArtifactsByModel(model, includeDependencies(),
-						getProgressMonitor());
+			if (model.getClass().getName()
+					.equals(mappedImplementationType(artifactType))) {
+
+				ExecutionContext context = getExecutionContext();
+
+				if (context == null) {
+					return mgr.getArtifactsByModel(model,
+							includeDependencies(), getProgressMonitor());
+				} else {
+					return mgr.getArtifactsByModel(model,
+							includeDependencies(), context);
+				}
+
+			}
 		}
 
 		// TODO Auto-generated method stub
@@ -130,8 +141,8 @@ public class QueryArtifactsByType extends ArtifactQueryBase implements
 
 		for (Iterator iter = registered.iterator(); iter.hasNext();) {
 			AbstractArtifact model = (AbstractArtifact) iter.next();
-			if (model.getClass().getName().equals(
-					mappedImplementationType(artifactType)))
+			if (model.getClass().getName()
+					.equals(mappedImplementationType(artifactType)))
 				return model;
 		}
 

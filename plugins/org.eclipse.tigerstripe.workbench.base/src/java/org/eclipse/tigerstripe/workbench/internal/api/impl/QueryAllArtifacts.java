@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.api.impl;
 import java.util.Collection;
 
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ExecutionContext;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 
@@ -28,7 +29,15 @@ public class QueryAllArtifacts extends ArtifactQueryBase implements
 	public Collection run(IArtifactManagerSession mgrSession) {
 		ArtifactManagerSessionImpl impl = (ArtifactManagerSessionImpl) mgrSession;
 		ArtifactManager mgr = impl.getArtifactManager();
-		return mgr.getAllArtifacts(includeDependencies(), getProgressMonitor());
+
+		ExecutionContext context = getExecutionContext();
+
+		if (context == null) {
+			return mgr.getAllArtifacts(includeDependencies(),
+					getProgressMonitor());
+		} else {
+			return mgr.getAllArtifacts(includeDependencies(), context);
+		}
 	}
 
 }
