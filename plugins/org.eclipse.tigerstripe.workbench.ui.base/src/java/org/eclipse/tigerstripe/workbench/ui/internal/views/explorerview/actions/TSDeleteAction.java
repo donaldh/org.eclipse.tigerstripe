@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions
 import static java.util.Arrays.asList;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -366,21 +367,34 @@ public class TSDeleteAction extends DeleteAction {
     }
 
     private void addParentPackgeResources(IPackageFragment root,
-            Set<IResource> packageResources) {
-        IAbstractArtifact rootArtifact = TSExplorerUtils.getArtifactFor(root);
-        if (rootArtifact instanceof IPackageArtifact) {
-            IModelComponent current = rootArtifact
-                    .getContainingModelComponent();
-            while (current instanceof IPackageArtifact) {
-                IResource resource = (IResource) current
-                        .getAdapter(IResource.class);
-                if (resource != null) {
-                    packageResources.add(resource);
-                }
-                current = current.getContainingModelComponent();
-            }
-        }
-    }
+			Set<IResource> packageResources) {
+		IAbstractArtifact rootArtifact = TSExplorerUtils.getArtifactFor(root);
+		if (rootArtifact instanceof IPackageArtifact
+				&& isOrphaned((IPackageArtifact) rootArtifact)) {
+			IModelComponent current = rootArtifact
+					.getContainingModelComponent();
+			while (current instanceof IPackageArtifact
+					&& current.getContainedModelComponents().size() == 1) {
+				IResource resource = (IResource) current
+						.getAdapter(IResource.class);
+				if (resource != null) {
+					packageResources.add(resource);
+				}
+				current = current.getContainingModelComponent();
+			}
+		}
+	}
+
+	private boolean isOrphaned(IPackageArtifact artifact) {
+		Collection<IModelComponent> subComponents = artifact
+				.getContainedModelComponents();
+		for (IModelComponent component : subComponents) {
+			if (component instanceof IPackageArtifact) {
+				return false;
+			}
+		}
+		return true;
+	}
 
     private void handleRelationshipToCascadeDelete(Set<IRelationship> toDeletes) {
         try {
