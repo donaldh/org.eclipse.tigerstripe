@@ -101,8 +101,12 @@ public class ProjectDefaultsSection extends TigerstripeDescriptorSectionPart {
 
 		idLabel = toolkit.createLabel(parent, "Default Artifact Package: ",
 				SWT.WRAP);
-		idText = toolkit.createText(parent, handle.getProjectDetails()
-				.getProperty(IProjectDetails.DEFAULTARTIFACTPACKAGE_PROP, ""));
+		
+		String defaultArtifactPackage = "";
+		if (handle!=null) 
+			defaultArtifactPackage = handle.getProjectDetails().getProperty(IProjectDetails.DEFAULTARTIFACTPACKAGE_PROP, "");
+		
+		idText = toolkit.createText(parent, defaultArtifactPackage);
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		idText.setLayoutData(td);
 		idText.addModifyListener(listener);
@@ -111,9 +115,13 @@ public class ProjectDefaultsSection extends TigerstripeDescriptorSectionPart {
 
 		idLabel2 = toolkit.createLabel(parent,
 				"Copyright Notice for all files: ", SWT.NONE);
-		idText2 = toolkit.createText(parent, handle.getProjectDetails()
-				.getProperty("copyrightNotice", ""), SWT.WRAP | SWT.MULTI
-				| SWT.V_SCROLL);
+		
+		String copyRightNotice = "";
+		
+		if (handle!=null) 
+			handle.getProjectDetails().getProperty("copyrightNotice", "");		
+		
+		idText2 = toolkit.createText(parent, copyRightNotice, SWT.WRAP | SWT.MULTI | SWT.V_SCROLL);
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		td.heightHint = 70;
 		idText2.setLayoutData(td);
