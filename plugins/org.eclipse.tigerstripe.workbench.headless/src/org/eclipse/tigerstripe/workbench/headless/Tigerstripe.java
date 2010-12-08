@@ -11,11 +11,15 @@
 package org.eclipse.tigerstripe.workbench.headless;
 
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -31,9 +35,18 @@ import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.eclipse.ui.dialogs.IOverwriteQuery;
+import org.eclipse.ui.wizards.datatransfer.FileSystemStructureProvider;
+import org.eclipse.ui.wizards.datatransfer.ImportOperation;
 import org.osgi.framework.Constants;
 
-public class Tigerstripe implements IApplication {
+/**
+ * Main class responsible for headless Tigerstripe builds
+ * 
+ * nmehrega: Fixed Bug 331457 - [Headless] Project import does not work in headless mode 
+ *
+ */
+public class Tigerstripe implements IApplication, IResourceChangeListener {
 
 	private static final String DELIMITER = "=";
 
@@ -44,6 +57,8 @@ public class Tigerstripe implements IApplication {
 	private List<String> projects;
 
 	private String generationProject;
+	
+	private static String postBuildLock = "LOCK";
 
 	public Object start(IApplicationContext context) throws Exception {
 
@@ -94,6 +109,10 @@ public class Tigerstripe implements IApplication {
 	}
 
 	private void initializeWorkspace() throws TigerstripeException {
+		
+		if (projects==null || projects.isEmpty())
+			return;
+		
 		importProjectsToWorkspace(projects);
 		for (String project : projects) {
 			System.out.println("Imported " + project + " into workspace.");
@@ -112,40 +131,29 @@ public class Tigerstripe implements IApplication {
 	private void importProjectsToWorkspace(final List<String> projects)
 			throws TigerstripeException {
 
-		IWorkspaceRunnable op = new IWorkspaceRunnable() {
-
-			public void run(IProgressMonitor monitor) throws CoreException {
-				final IWorkspace workspace = ResourcesPlugin.getWorkspace();
-				for (String projectName : projects) {
-					ProjectRecord projectRecord = new ProjectRecord(new File(
-							projectName + File.separator + ".project"));
-					final IProject project = workspace.getRoot().getProject(
-							projectName);
-					if (!project.exists()) {
-						try {
-							project.create(projectRecord.description, null);
-							project.open(IResource.BACKGROUND_REFRESH, null);
-							// project.refreshLocal(IResource.DEPTH_INFINITE,
-							// null);
-						} catch (CoreException e) {
-							throw e;
-						}
-					}
-				}
-				workspace.getRoot()
-						.refreshLocal(IResource.DEPTH_INFINITE, null);
-				// workspace.build(IncrementalProjectBuilder.FULL_BUILD,
-				// monitor);
-			}
-		};
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(this, IResourceChangeEvent.POST_BUILD);
+		
+		IWorkspaceRunnable op = new WorkspaceRunnable(projects);
 
 		// run the new project creation operation
 		try {
 			ResourcesPlugin.getWorkspace().run(op, null);
 		} catch (CoreException e) {
-			throw new TigerstripeException(
-					"Importing projects to workspace is failed.", e);
+			throw new TigerstripeException("Importing projects to workspace is failed.", e);
 		}
+		
+		// NM: Wait until we get a build before proceeding.  This also makes sure all POST_CHANGE resource change listeners are processed
+		synchronized(postBuildLock) {
+			try {
+				postBuildLock.wait(5000);
+			} catch (InterruptedException e) {
+				// Ignore
+			}
+		}
+	}
+	
+	private boolean isStringValid(String text) {
+		return (text!=null && text.trim().length()>0);
 	}
 
 	private void generateTigerstripeOutput() throws TigerstripeException {
@@ -171,6 +179,76 @@ public class Tigerstripe implements IApplication {
 
 	public void stop() {
 		System.out.println("Stopping");
+	}
+	
+	class WorkspaceRunnable implements IWorkspaceRunnable, IOverwriteQuery {
+
+		private List<String> projects = null;
+		
+		public WorkspaceRunnable(List<String> projects) {
+			this.projects = projects;
+		}
+		
+		public String queryOverwrite(String pathString) {
+			return IOverwriteQuery.YES;
+		}
+		
+		public void run(IProgressMonitor monitor) throws CoreException {
+			final IWorkspace workspace = ResourcesPlugin.getWorkspace();
+			for (String projectPath : projects) {
+				if (isStringValid(projectPath)) {
+					if (projectPath.contains("\\")) 
+						projectPath = projectPath.replaceAll("\\\\", "/");
+					
+					if (projectPath.endsWith("/"))
+						projectPath = projectPath.substring(0, projectPath.length()-1);
+					
+					File projectMetaFile = new File(projectPath + "/.project");
+					if (!projectMetaFile.exists()) {
+						System.out.println(projectMetaFile.toString() + " does not exist!!");
+						return;
+					}
+					
+					ProjectRecord projectRecord = new ProjectRecord(new File(projectPath + "/.project"));
+					String projectName = projectPath.substring(projectPath.lastIndexOf("/")+1);
+					
+					IProject project = workspace.getRoot().getProject(projectName);
+					if (!project.exists()) {
+						try {
+							URI locationURI = projectRecord.description.getLocationURI();
+							File importSource = new File(locationURI);
+							List<?> filesToImport = FileSystemStructureProvider.INSTANCE.getChildren(importSource);
+							ImportOperation operation = new ImportOperation(project.getFullPath(), importSource,FileSystemStructureProvider.INSTANCE, this, filesToImport);
+							operation.setOverwriteResources(true); 
+							operation.setCreateContainerStructure(false);
+							operation.run(monitor);
+							
+						} catch (InvocationTargetException e) {
+							e.printStackTrace();
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}	
+				}
+			}
+			workspace.getRoot().refreshLocal(IResource.DEPTH_INFINITE, null);
+		}
+	
+	}
+
+	public void resourceChanged(IResourceChangeEvent event) {
+		
+		if (event.getType() == IResourceChangeEvent.POST_BUILD) {
+			synchronized(postBuildLock) {
+			
+				try {
+					postBuildLock.notify();
+				} catch (Exception e) {
+					// Ignore
+				}
+			}
+		}
+			
 	}
 
 }
