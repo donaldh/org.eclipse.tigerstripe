@@ -26,6 +26,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
@@ -70,6 +71,7 @@ public class Tigerstripe implements IApplication, IResourceChangeListener {
 			initializeWorkspace();
 			generateTigerstripeOutput();
 		} catch (Exception e) {
+			System.err.println(e.getMessage());
 			e.printStackTrace();
 			return 1;
 		}
@@ -139,7 +141,7 @@ public class Tigerstripe implements IApplication, IResourceChangeListener {
 		try {
 			ResourcesPlugin.getWorkspace().run(op, null);
 		} catch (CoreException e) {
-			throw new TigerstripeException("Importing projects to workspace is failed.", e);
+			throw new TigerstripeException("Importing projects to workspace has failed.  " + e.getMessage(), e);
 		}
 		
 		// NM: Wait until we get a build before proceeding.  This also makes sure all POST_CHANGE resource change listeners are processed
@@ -205,8 +207,7 @@ public class Tigerstripe implements IApplication, IResourceChangeListener {
 					
 					File projectMetaFile = new File(projectPath + "/.project");
 					if (!projectMetaFile.exists()) {
-						System.out.println(projectMetaFile.toString() + " does not exist!!");
-						return;
+						throw new CoreException(new Status(IStatus.ERROR, "headless_plugin", projectMetaFile.toString() + " does not exist!!"));
 					}
 					
 					ProjectRecord projectRecord = new ProjectRecord(new File(projectPath + "/.project"));
