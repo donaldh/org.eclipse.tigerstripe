@@ -44,6 +44,13 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
+/**
+ * Class responsible for rules page of generator descriptors for an artifact model run rule
+ * 
+ * * <b>History of changes</b> (Name: Modification): <br/>
+ * Navid Mehregani: Bug 329229 - [Form Editor] In some cases selected artifact type is not persisted for a generator descriptor <br/>
+ *
+ */
 public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 
 	private CCombo artifactTypeCombo;
@@ -166,38 +173,15 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 		if (e.getSource() == artifactTypeCombo) {
 			ArtifactBasedTemplateRule rule = (ArtifactBasedTemplateRule) getITemplateRunRule();
 			int index = artifactTypeCombo.getSelectionIndex();
-			String selectedItem = artifactTypeCombo.getItem(index);
+			String artifactLabel = artifactTypeCombo.getItem(index);
 			String artifactType = null;
 			
-			if (selectedItem.equals(IArtifactRule.ANY_ARTIFACT_LABEL)) {
+			if (artifactLabel.equals(IArtifactRule.ANY_ARTIFACT_LABEL)) {
 				artifactType = IArtifactRule.ANY_ARTIFACT_LABEL;
 			} else {
 				
-				// N.M: Bugzilla 324703: Artifact type of a rule is not correctly applied.  This regression was caused after the list of artifact types were sorted
-				// The indices of IArtifactMetadataSession.getSupportedArtifactTypes() map to IArtifactMetadataSession.getSupportedArtifactLabels().  We can't 
-				// sort one list as it will mess up the index mappings
-				Object data = artifactTypeCombo.getData();
-				if (data instanceof String[]) {
-					String[] baseSupportedLabels = (String[]) data;
-					
-					// Find the correct index in the untouched labels array 
-					int indexInBaselabel = -1;
-					for (int i=0; i < baseSupportedLabels.length; i++) {
-						if ((baseSupportedLabels[i]!=null) && (baseSupportedLabels[i].equals(selectedItem))) {
-							indexInBaselabel = i;
-							break;
-						}						
-					}
-					
-					// Map it to the correct artifact type
-					if (indexInBaselabel != -1) {
-						IArtifactMetadataSession session = InternalTigerstripeCore.getDefaultArtifactMetadataSession();
-						String[] baseSupportedArtifacts = session.getSupportedArtifactTypes();
-						
-						if (baseSupportedArtifacts!=null && baseSupportedArtifacts.length>indexInBaselabel)
-							artifactType = baseSupportedArtifacts[indexInBaselabel];
-					}
-				}
+				IArtifactMetadataSession session = InternalTigerstripeCore.getDefaultArtifactMetadataSession();
+				artifactType = session.getArtifactType(artifactLabel);
 			}
 			
 			if (artifactType!=null) {
@@ -231,24 +215,31 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 		triggerOnDependenciesAndReferencesButton.setSelection(rule
 				.isIncludeDependencies());
 
-		IArtifactMetadataSession session = InternalTigerstripeCore
-				.getDefaultArtifactMetadataSession();
-		String[] baseSupportedArtifacts = session.getSupportedArtifactTypes();
-		String[] supportedArtifacts = new String[baseSupportedArtifacts.length + 1];
-		for (int i = 0; i < baseSupportedArtifacts.length; i++) {
-			supportedArtifacts[i] = baseSupportedArtifacts[i];
-		}
-		supportedArtifacts[baseSupportedArtifacts.length] = IArtifactRule.ANY_ARTIFACT_LABEL;
-		Arrays.sort(supportedArtifacts);
-		int index = -1;
-		for (int i = 0; i < supportedArtifacts.length; i++) {
-			if (supportedArtifacts[i].equals(rule.getArtifactType())) {
-				index = i;
+		IArtifactMetadataSession session = InternalTigerstripeCore.getDefaultArtifactMetadataSession();
+		String artifactType = rule.getArtifactType();
+		if (artifactType != null && artifactType.length()>0) {
+			String artifactLabel = null;
+			
+			if (artifactType.equals(IArtifactRule.ANY_ARTIFACT_LABEL))
+				artifactLabel = IArtifactRule.ANY_ARTIFACT_LABEL;
+			else
+				artifactLabel = session.getArtifactLabel(artifactType);
+			
+			if (artifactLabel != null) {
+				String[] comboBoxItems = artifactTypeCombo.getItems();
+				for (int i=0; i < comboBoxItems.length; i++) {
+					if (comboBoxItems[i].equals(artifactLabel)) {
+						artifactTypeCombo.select(i);
+						break;
+					}
+				}
+			} else {
+				artifactTypeCombo.select(-1); // Don't select anything
 			}
+		} else {
+			artifactTypeCombo.select(-1); // Don't select anything
 		}
-		// if ( index != -1 ) {
-		artifactTypeCombo.select(index);
-		// }
+		
 		setSilentUpdate(false);
 	}
 
@@ -337,7 +328,6 @@ public class ArtifactBasedRuleDetailsPage extends BaseTemplateRuleDetailsPage {
 		artifactTypeCombo = new CCombo(sectionClient, SWT.READ_ONLY);
 		artifactTypeCombo.setEnabled(GeneratorDescriptorEditor.isEditable());
 		getToolkit().adapt(artifactTypeCombo, true, true);
-		artifactTypeCombo.setData(baseSupportedArtifacts);
 		artifactTypeCombo.setItems(supportedArtifacts);
 		artifactTypeCombo.setLayoutData(new TableWrapData(
 				TableWrapData.FILL_GRAB));

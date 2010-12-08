@@ -11,7 +11,9 @@
 package org.eclipse.tigerstripe.workbench.internal.api.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -48,12 +50,12 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
 
 /**
- * A singleton class that holds all the metadata about known artifact types
- * 
+ * A singleton class that holds all the metadata about known artifacts
  * Each artifact manager delegates the artifact registration to this.
  * 
- * @author Eric Dillon
- * @since 1.2
+ * <b>History of changes</b> (Name: Modification): <br/>
+ * Eric Dillon : Initial Creation <br/>
+ * Navid Mehregani: Bug 329229 - [Form Editor] In some cases selected artifact type is not persisted for a generator descriptor <br/>
  */
 public class ArtifactMetadataSessionImpl implements IArtifactMetadataSession {
 
@@ -68,10 +70,11 @@ public class ArtifactMetadataSessionImpl implements IArtifactMetadataSession {
 	}
 
 	private List<IAbstractArtifact> registeredArtifactTypes;
-
-	private String[] registeredArtifactTypesCache;
-
+	
 	private String[] registeredArtifactLabelsCache;
+	
+	private Map<String,String> artifactTypeToLabel = new HashMap<String,String>();
+	private Map<String,String> artifactLabelToType = new HashMap<String,String>();
 
 	private ArtifactMetadataSessionImpl() {
 		registeredArtifactTypes = new ArrayList<IAbstractArtifact>();
@@ -82,47 +85,54 @@ public class ArtifactMetadataSessionImpl implements IArtifactMetadataSession {
 		return registeredArtifactLabelsCache;
 	}
 
-	public synchronized void registerArtifactType(
-			IAbstractArtifact artifactModel) throws TigerstripeException {
+	public synchronized void registerArtifactType(IAbstractArtifact artifactModel) throws TigerstripeException {
 		if (!registeredArtifactTypes.contains(artifactModel)) {
 			registeredArtifactTypes.add(artifactModel);
 			buildRegisteredArtifactCache();
 			return;
 		}
-		throw new TigerstripeException("Duplicate Artifact Type definition:'"
-				+ artifactModel.getLabel() + "'");
+		throw new TigerstripeException("Duplicate Artifact Type definition:'" + artifactModel.getLabel() + "'");
 	}
 
-	public synchronized void unRegisterArtifactType(
-			IAbstractArtifact artifactModel) throws TigerstripeException {
+	public synchronized void unRegisterArtifactType(IAbstractArtifact artifactModel) throws TigerstripeException {
 		if (registeredArtifactTypes.contains(artifactModel)) {
 			registeredArtifactTypes.remove(artifactModel);
 			buildRegisteredArtifactCache();
 			return;
 		}
-		throw new TigerstripeException("Unknown Artifact Type definition:'"
-				+ artifactModel.getLabel() + "'");
+		throw new TigerstripeException("Unknown Artifact Type definition:'" + artifactModel.getLabel() + "'");
 	}
 
 	protected void buildRegisteredArtifactCache() {
-		List<String> result = new ArrayList<String>();
-		List<String> resultType = new ArrayList<String>();
+		
+		if (registeredArtifactTypes==null || registeredArtifactTypes.isEmpty()) {
+			registeredArtifactLabelsCache = new String[0];
+			artifactTypeToLabel = new HashMap<String,String>();
+			artifactLabelToType = new HashMap<String,String>();
+			return;
+		}
+		
+		List<String> artifactLabelList = new ArrayList<String>();
 
 		for (IAbstractArtifact artifact : registeredArtifactTypes) {
-			result.add(artifact.getLabel());
-			resultType.add(artifact.getArtifactType());
+			
+			String artifactLabel = artifact.getLabel(); 
+			String artifactType = artifact.getArtifactType();
+			
+			artifactLabelList.add(artifactLabel);
+			artifactTypeToLabel.put(artifactType, artifactLabel);
+			artifactLabelToType.put(artifactLabel, artifactType);
 		}
-		registeredArtifactLabelsCache = result
-				.toArray(new String[result.size()]);
-		registeredArtifactTypesCache = resultType.toArray(new String[resultType
-				.size()]);
+		registeredArtifactLabelsCache = artifactLabelList.toArray(new String[artifactLabelList.size()]);
+		
 	}
-
-	public String[] getSupportedArtifactTypes() {
-		if (registeredArtifactTypesCache == null) {
-			buildRegisteredArtifactCache();
-		}
-		return registeredArtifactTypesCache;
+	
+	public String getArtifactType(String artifactLabel) {
+		return artifactLabelToType.get(artifactLabel);
+	}
+	
+	public String getArtifactLabel(String artifactLabel) {
+		return artifactTypeToLabel.get(artifactLabel);
 	}
 
 	/**

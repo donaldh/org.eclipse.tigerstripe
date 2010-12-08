@@ -14,20 +14,28 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 
 /**
- * This interface provides access to all Artifact metadata
+ * This interface provides access to all Artifact metadata.
+ * At this point it holds all artifact types/labels for all registered artifacts.
  * 
- * @author Eric Dillon
- * @since 1.2
+ * <b>History of changes</b> (Name: Modification): <br/>
+ * Eric Dillon : Initial Creation <br/>
+ * Navid Mehregani: Bug 329229 - [Form Editor] In some cases selected artifact type is not persisted for a generator descriptor <br/>
  */
 public interface IArtifactMetadataSession {
 
 	public String[] getSupportedArtifactTypeLabels();
+	
+	/**
+	 * @return  Returns artifact type for the given artifact label
+	 */
+	public String getArtifactType(String artifactLabel);
+	
+	/**
+	 * @return  Returns artifact label for the given artifact type
+	 */
+	public String getArtifactLabel(String artifactLabel);
 
-	public String[] getSupportedArtifactTypes();
+	public void registerArtifactType(IAbstractArtifact artifactModel) throws TigerstripeException;
 
-	public void registerArtifactType(IAbstractArtifact artifactModel)
-			throws TigerstripeException;
-
-	public void unRegisterArtifactType(IAbstractArtifact artifactModel)
-			throws TigerstripeException;
+	public void unRegisterArtifactType(IAbstractArtifact artifactModel) throws TigerstripeException;
 }

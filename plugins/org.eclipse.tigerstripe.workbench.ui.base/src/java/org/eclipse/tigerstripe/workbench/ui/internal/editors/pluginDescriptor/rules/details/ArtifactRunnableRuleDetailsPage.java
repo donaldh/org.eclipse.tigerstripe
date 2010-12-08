@@ -44,6 +44,13 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
 
+/**
+ * Class responsible for rules page of generator descriptors for an artifact runnable rule
+ * 
+ * <b>History of changes</b> (Name: Modification): <br/>
+ * Navid Mehregani: Bug 329229 - [Form Editor] In some cases selected artifact type is not persisted for a generator descriptor <br/>
+ * 
+ */
 public class ArtifactRunnableRuleDetailsPage extends
 		BaseRunnableRuleDetailsPage {
 
@@ -144,19 +151,23 @@ public class ArtifactRunnableRuleDetailsPage extends
 		if (e.getSource() == artifactTypeCombo) {
 			ArtifactRunnableRule rule = (ArtifactRunnableRule) getIRunnableRule();
 			int index = artifactTypeCombo.getSelectionIndex();
-
-			IArtifactMetadataSession session = InternalTigerstripeCore
-					.getDefaultArtifactMetadataSession();
-			String[] baseSupportedArtifacts = session
-					.getSupportedArtifactTypes();
-			String[] supportedArtifacts = new String[baseSupportedArtifacts.length + 1];
-			for (int i = 0; i < baseSupportedArtifacts.length; i++) {
-				supportedArtifacts[i] = baseSupportedArtifacts[i];
+			String artifactLabel = artifactTypeCombo.getItem(index);
+			String artifactType = null;
+			
+			if (artifactLabel.equals(IArtifactRule.ANY_ARTIFACT_LABEL)) {
+				artifactType = IArtifactRule.ANY_ARTIFACT_LABEL;
+			} else {
+				
+				IArtifactMetadataSession session = InternalTigerstripeCore.getDefaultArtifactMetadataSession();
+				artifactType = session.getArtifactType(artifactLabel);
 			}
-			supportedArtifacts[baseSupportedArtifacts.length] = IArtifactRule.ANY_ARTIFACT_LABEL;
-
-			rule.setArtifactType(supportedArtifacts[index]);
-			pageModified();
+			
+			if (artifactType!=null) {
+				rule.setArtifactType(artifactType);
+				pageModified();
+			} else {
+				EclipsePlugin.logErrorMessage("CRITICAL ERROR: Artifact type could not be determined");
+			}
 		}
 	}
 
@@ -180,24 +191,33 @@ public class ArtifactRunnableRuleDetailsPage extends
 		triggerOnDependenciesAndReferencesButton.setSelection(rule
 				.isIncludeDependencies());
 
-		IArtifactMetadataSession session = InternalTigerstripeCore
-				.getDefaultArtifactMetadataSession();
-		String[] baseSupportedArtifacts = session.getSupportedArtifactTypes();
-		String[] supportedArtifacts = new String[baseSupportedArtifacts.length + 1];
-		for (int i = 0; i < baseSupportedArtifacts.length; i++) {
-			supportedArtifacts[i] = baseSupportedArtifacts[i];
-		}
-		supportedArtifacts[baseSupportedArtifacts.length] = IArtifactRule.ANY_ARTIFACT_LABEL;
-
-		int index = -1;
-		for (int i = 0; i < supportedArtifacts.length; i++) {
-			if (supportedArtifacts[i].equals(rule.getArtifactType())) {
-				index = i;
+		
+		IArtifactMetadataSession session = InternalTigerstripeCore.getDefaultArtifactMetadataSession();
+		String artifactType = rule.getArtifactType();
+		if (artifactType != null) {
+			
+			String artifactLabel = null;
+			
+			if (artifactType.equals(IArtifactRule.ANY_ARTIFACT_LABEL))
+				artifactLabel = IArtifactRule.ANY_ARTIFACT_LABEL;
+			else
+				artifactLabel = session.getArtifactLabel(artifactType);
+			
+			if (artifactLabel != null) {
+				String[] comboBoxItems = artifactTypeCombo.getItems();
+				for (int i=0; i < comboBoxItems.length; i++) {
+					if (comboBoxItems[i].equals(artifactLabel)) {
+						artifactTypeCombo.select(i);
+						break;
+					}
+				}
+			} else {
+				artifactTypeCombo.select(-1); // Don't select anything
 			}
+		} else {
+			artifactTypeCombo.select(-1); // Don't select anything
 		}
-		// if ( index != -1 ) {
-		artifactTypeCombo.select(index);
-		// }
+		
 		setSilentUpdate(false);
 	}
 
@@ -268,10 +288,8 @@ public class ArtifactRunnableRuleDetailsPage extends
 
 		getToolkit().createLabel(sectionClient, "Artifact Type:");
 
-		IArtifactMetadataSession session = InternalTigerstripeCore
-				.getDefaultArtifactMetadataSession();
-		String[] baseSupportedArtifacts = session
-				.getSupportedArtifactTypeLabels();
+		IArtifactMetadataSession session = InternalTigerstripeCore.getDefaultArtifactMetadataSession();
+		String[] baseSupportedArtifacts = session.getSupportedArtifactTypeLabels();
 		String[] supportedArtifacts = new String[baseSupportedArtifacts.length + 1];
 		for (int i = 0; i < baseSupportedArtifacts.length; i++) {
 			supportedArtifacts[i] = baseSupportedArtifacts[i];
