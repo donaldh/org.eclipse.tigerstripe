@@ -20,6 +20,8 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 
 public abstract class ModelComponentSectionPart extends ArtifactSectionPart {
 
+	public static int MASTER_TABLE_COMPONENT_WIDTH = 250;
+
 	public ModelComponentSectionPart(TigerstripeFormPage page,
 			Composite parent, FormToolkit toolkit,
 			IArtifactFormLabelProvider labelProvider,

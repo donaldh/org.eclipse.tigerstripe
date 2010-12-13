@@ -14,6 +14,8 @@ import java.util.Arrays;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.layout.TableColumnLayout;
+import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
@@ -166,17 +168,22 @@ public class ArtifactMethodsSection extends ModelComponentSectionPart implements
 		GridLayout layout = new GridLayout(2, false);
 		sectionClient.setLayout(layout);
 
-		table = toolkit.createTable(sectionClient, SWT.NULL);
+		tableComposite = toolkit.createComposite(sectionClient, SWT.NONE);
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		gd.verticalSpan = 4;
-		table.setLayoutData(gd);
+		gd.widthHint = MASTER_TABLE_COMPONENT_WIDTH;
+		tableComposite.setLayoutData(gd);
+		TableColumnLayout tcLayout = new TableColumnLayout();
+		tableComposite.setLayout(tcLayout);
+		
+		table = toolkit.createTable(tableComposite, SWT.NULL);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 
 		// Make a header for the table
 		nameColumn = new TableColumn(table, SWT.NULL);
 		nameColumn.setText("Name");
-		nameColumn.setWidth(250);
+		tcLayout.setColumnData(nameColumn, new ColumnWeightData(100, false));
 
 		nameColumn.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
@@ -298,8 +305,9 @@ public class ArtifactMethodsSection extends ModelComponentSectionPart implements
 	void setMinimumHeight(int value) {
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		gd.verticalSpan = 4;
+		gd.widthHint = MASTER_TABLE_COMPONENT_WIDTH;
 		gd.minimumHeight = value;
-		table.setLayoutData(gd);
+		tableComposite.setLayoutData(gd);
 		getManagedForm().reflow(true);
 	}
 
@@ -563,6 +571,7 @@ public class ArtifactMethodsSection extends ModelComponentSectionPart implements
 
 	private int selIndex = -1;
 	private Table table;
+	private Composite tableComposite;
 
 	@Override
 	public void refresh() {

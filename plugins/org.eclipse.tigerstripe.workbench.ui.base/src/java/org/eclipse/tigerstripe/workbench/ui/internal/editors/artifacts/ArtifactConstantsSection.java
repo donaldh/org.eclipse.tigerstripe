@@ -14,6 +14,8 @@ import java.util.Arrays;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.layout.TableColumnLayout;
+import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
@@ -178,21 +180,26 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart implemen
 		GridLayout layout = new GridLayout(2, false);
 		sectionClient.setLayout(layout);
 
-		table = toolkit.createTable(sectionClient, SWT.NULL);
+		tableComposite = toolkit.createComposite(sectionClient, SWT.NONE);
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		gd.verticalSpan = 4;
-		table.setLayoutData(gd);
+		gd.widthHint = MASTER_TABLE_COMPONENT_WIDTH;
+		tableComposite.setLayoutData(gd);
+		TableColumnLayout tcLayout = new TableColumnLayout();
+		tableComposite.setLayout(tcLayout);
+		
+		table = toolkit.createTable(tableComposite, SWT.NULL);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 
 		TableColumn nameColumn = new TableColumn(table, SWT.NULL);
 		nameColumn.setText("Name");
-		nameColumn.setWidth(125);
-
+		tcLayout.setColumnData(nameColumn, new ColumnWeightData(50, false));
+		
 		TableColumn valueColumn = new TableColumn(table, SWT.NULL);
 		valueColumn.setText("Value");
-		valueColumn.setWidth(125);
-
+		tcLayout.setColumnData(valueColumn, new ColumnWeightData(50, false));
+		
 		viewer = new TableViewer(table);
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
@@ -345,8 +352,9 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart implemen
 	void setMinimumHeight(int value) {
 		GridData gd = new GridData(GridData.FILL_BOTH);
 		gd.verticalSpan = 4;
+		gd.widthHint = 250;
 		gd.minimumHeight = value;
-		table.setLayoutData(gd);
+		tableComposite.setLayoutData(gd);
 		getManagedForm().reflow(true);
 	}
 
@@ -643,6 +651,7 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart implemen
 
 	private int selIndex = -1;
 	private Table table;
+	private Composite tableComposite;
 
 	@Override
 	public void refresh() {
