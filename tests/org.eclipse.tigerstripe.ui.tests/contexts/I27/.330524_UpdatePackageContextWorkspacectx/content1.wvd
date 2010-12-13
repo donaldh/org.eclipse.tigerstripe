@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:null="null" xmi:id="_9HI40QSGEeCeTsa7z9kIow" type="Tigerstripe" name="default.wvd" measurementUnit="Pixel">
+  <styles xmi:type="notation:PageStyle" xmi:id="_9HI40gSGEeCeTsa7z9kIow"/>
+  <styles xmi:type="notation:GuideStyle" xmi:id="_9HI40wSGEeCeTsa7z9kIow"/>
+  <styles xmi:type="notation:DescriptionStyle" xmi:id="_9HI41ASGEeCeTsa7z9kIow"/>
+  <element xmi:type="null:Map" href="default.vwm#/"/>
+</notation:Diagram>
