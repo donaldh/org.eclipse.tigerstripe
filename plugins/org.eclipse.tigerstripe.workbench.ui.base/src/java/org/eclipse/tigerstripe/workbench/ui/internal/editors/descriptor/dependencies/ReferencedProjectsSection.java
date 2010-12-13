@@ -157,7 +157,7 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 	public ReferencedProjectsSection(TigerstripeFormPage page,
 			Composite parent, FormToolkit toolkit) {
 		super(page, parent, toolkit, ExpandableComposite.TITLE_BAR);
-		setTitle("Referenced Tigerstripe Projects");
+		setTitle("Dependencies");
 	}
 
 	@Override
