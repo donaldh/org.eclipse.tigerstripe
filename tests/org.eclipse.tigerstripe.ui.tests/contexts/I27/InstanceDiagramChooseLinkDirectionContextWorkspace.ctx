@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="InstanceDiagramChooseLinkDirectionContextWorkspace" id="_97Hl8PFrEd--0tEe1g5dQQ">
+  <content>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".InstanceDiagramChooseLinkDirectionContextWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".InstanceDiagramChooseLinkDirectionContextWorkspacectx/content1.project"/>
+      <files name="tigerstripe.xml" contentURI=".InstanceDiagramChooseLinkDirectionContextWorkspacectx/content1.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".InstanceDiagramChooseLinkDirectionContextWorkspacectx/content1.prefs"/>
+      </folders>
+      <folders name="src">
+        <files name="default.owm" contentURI=".InstanceDiagramChooseLinkDirectionContextWorkspacectx/content2.owm"/>
+        <files name="default.vwm" contentURI=".InstanceDiagramChooseLinkDirectionContextWorkspacectx/content2.vwm"/>
+        <files name="default.wod" contentURI=".InstanceDiagramChooseLinkDirectionContextWorkspacectx/content2.wod"/>
+        <files name="default.wvd" contentURI=".InstanceDiagramChooseLinkDirectionContextWorkspacectx/content2.wvd"/>
+        <folders name="com">
+          <files name=".package" contentURI=".InstanceDiagramChooseLinkDirectionContextWorkspacectx/content4.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".InstanceDiagramChooseLinkDirectionContextWorkspacectx/content3.package"/>
+            <files name="Association0.java" contentURI=".InstanceDiagramChooseLinkDirectionContextWorkspacectx/content1.java"/>
+            <files name="Association1.java" contentURI=".InstanceDiagramChooseLinkDirectionContextWorkspacectx/content2.java"/>
+            <files name="Entity0.java" contentURI=".InstanceDiagramChooseLinkDirectionContextWorkspacectx/content3.java"/>
+            <files name="Entity1.java" contentURI=".InstanceDiagramChooseLinkDirectionContextWorkspacectx/content4.java"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>
