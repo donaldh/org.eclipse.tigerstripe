@@ -29,12 +29,13 @@ import org.eclipse.ui.forms.editor.FormEditor;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.ScrolledForm;
 
-public class DescriptorDependenciesPage extends TigerstripeFormPage implements IResourceChangeListener {
+public class DescriptorDependenciesPage extends TigerstripeFormPage implements
+		IResourceChangeListener {
 
 	public static final String PAGE_ID = "descriptor.dependencies"; //$NON-NLS-1$
 
 	private IManagedForm managedForm;
-	
+
 	public DescriptorDependenciesPage(FormEditor editor) {
 		super(editor, PAGE_ID, "Dependencies");
 	}
@@ -50,10 +51,12 @@ public class DescriptorDependenciesPage extends TigerstripeFormPage implements I
 		ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = managedForm.getToolkit();
 		form.setText("Project Dependencies");
-		
-		// Navid Mehregani: Used for populating the header with error information
-		ResourcesPlugin.getWorkspace().addResourceChangeListener(this, IResourceChangeEvent.POST_BUILD);
-		
+
+		// Navid Mehregani: Used for populating the header with error
+		// information
+		ResourcesPlugin.getWorkspace().addResourceChangeListener(this,
+				IResourceChangeEvent.POST_BUILD);
+
 		fillBody(managedForm, toolkit);
 		managedForm.refresh();
 	}
@@ -67,63 +70,76 @@ public class DescriptorDependenciesPage extends TigerstripeFormPage implements I
 
 	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {
 		Composite body = managedForm.getForm().getBody();
-		body.setLayout(TigerstripeLayoutFactory.createPageGridLayout(2, true));
-		
-		updateErrorMessage();
+		body.setLayout(TigerstripeLayoutFactory.createPageGridLayout(1, true));
 
+		updateErrorMessage();
 		// sections
-		managedForm.addPart(new DescriptorDependenciesSection(this, body,
-				toolkit));
 		managedForm.addPart(new ReferencedProjectsSection(this, body, toolkit));
 	}
-	
+
 	public void resourceChanged(IResourceChangeEvent event) {
-		
-		if (event.getType() == IResourceChangeEvent.POST_BUILD) 
+
+		if (event.getType() == IResourceChangeEvent.POST_BUILD)
 			updateErrorMessage();
 	}
-	
-	// N.M: Bugzilla 319768: If there are any compile issues, print the error message in the form's header
+
+	// N.M: Bugzilla 319768: If there are any compile issues, print the error
+	// message in the form's header
 	private void updateErrorMessage() {
 		IEditorInput editorInput = getEditor().getEditorInput();
 		if (editorInput instanceof IFileEditorInput) {
-			IFile file = ((IFileEditorInput)editorInput).getFile();
-			
+			IFile file = ((IFileEditorInput) editorInput).getFile();
+
 			if (file != null && file.isAccessible()) {
 				try {
-					IMarker[] markers = file.findMarkers(IMarker.PROBLEM, true,	IResource.DEPTH_INFINITE);
-					
+					IMarker[] markers = file.findMarkers(IMarker.PROBLEM, true,
+							IResource.DEPTH_INFINITE);
+
 					boolean errorDetected = false;
-					if (markers!=null) {
-						for (int i=0; i < markers.length; i++) {
-							if (IMarker.SEVERITY_ERROR == markers[i].getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO)) {
-								final Object errorMessage = markers[i].getAttribute(IMarker.MESSAGE);
-								if ((errorMessage instanceof String) && (((String)errorMessage).length()>0)) {
-									PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-										public void run() {
-											if (!managedForm.getForm().isDisposed())
-												managedForm.getForm().setMessage("Error Detected: " + (String)errorMessage, IMessageProvider.ERROR);		
-										}
-									});
-									
+					if (markers != null) {
+						for (int i = 0; i < markers.length; i++) {
+							if (IMarker.SEVERITY_ERROR == markers[i]
+									.getAttribute(IMarker.SEVERITY,
+											IMarker.SEVERITY_INFO)) {
+								final Object errorMessage = markers[i]
+										.getAttribute(IMarker.MESSAGE);
+								if ((errorMessage instanceof String)
+										&& (((String) errorMessage).length() > 0)) {
+									PlatformUI.getWorkbench().getDisplay()
+											.asyncExec(new Runnable() {
+												public void run() {
+													if (!managedForm.getForm()
+															.isDisposed())
+														managedForm
+																.getForm()
+																.setMessage(
+																		"Error Detected: "
+																				+ (String) errorMessage,
+																		IMessageProvider.ERROR);
+												}
+											});
+
 									errorDetected = true;
 									break;
 								}
 							}
 						}
 					}
-					
+
 					if (!errorDetected) {
-						PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
-							public void run() {
-								if (!managedForm.getForm().isDisposed())
-									managedForm.getForm().setMessage("", IMessageProvider.NONE);
-							}
-						});
+						PlatformUI.getWorkbench().getDisplay()
+								.asyncExec(new Runnable() {
+									public void run() {
+										if (!managedForm.getForm().isDisposed())
+											managedForm.getForm().setMessage(
+													"", IMessageProvider.NONE);
+									}
+								});
 					}
-					
+
 				} catch (Exception e) {
-					EclipsePlugin.logErrorMessage("Could not update header with error status", e);
+					EclipsePlugin.logErrorMessage(
+							"Could not update header with error status", e);
 				}
 			}
 		}

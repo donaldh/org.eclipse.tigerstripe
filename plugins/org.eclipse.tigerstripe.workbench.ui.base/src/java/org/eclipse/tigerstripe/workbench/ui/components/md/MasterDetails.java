@@ -1,3 +1,14 @@
+/******************************************************************************* 
+ * Copyright (c) 2010 xored software, Inc.  
+ * 
+ * All rights reserved. This program and the accompanying materials 
+ * are made available under the terms of the Eclipse Public License v1.0 
+ * which accompanies this distribution, and is available at 
+ * http://www.eclipse.org/legal/epl-v10.html  
+ * 
+ * Contributors: 
+ *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
+ *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.components.md;
 
 import static java.lang.String.format;
@@ -56,25 +67,25 @@ public class MasterDetails {
 			switchToDefault();
 			return;
 		}
-		Object kind = resolveKind(target);
-		IDetails detail = details.get(kind);
-		if (detail == null) {
-			throw new IllegalArgumentException(format(
-					"Detials with key '%s' is not register", kind));
-		}
-		switchTo(detail);
-		detail.switchTarget(target);
+
+		IDetails details = resolveKind(target);
+		switchTo(details);
+		details.switchTarget(target);
 	}
 
-	private Object resolveKind(Object target) {
+	private IDetails resolveKind(Object target) {
 		for (IKindResolver resolver : keyResolvers) {
-			Object kind = resolver.toKind(target);
-			if (kind != null) {
-				return kind;
+			if (resolver.canResolve(target)) {
+				for (Map.Entry<Object, IDetails> e : details.entrySet()) {
+					if (resolver.equalsKind(target, e.getKey())) {
+						return e.getValue();
+					}
+				}
 			}
 		}
-		throw new IllegalStateException(
-				"Default key resolver must be resolve allways");
+
+		throw new IllegalArgumentException(format(
+				"Detials for kind of object '%s' is not register", target));
 	}
 
 	/**

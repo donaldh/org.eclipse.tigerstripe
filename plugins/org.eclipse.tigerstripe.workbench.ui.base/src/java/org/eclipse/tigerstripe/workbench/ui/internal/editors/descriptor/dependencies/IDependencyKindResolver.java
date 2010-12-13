@@ -9,27 +9,10 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.ui.components.md;
+package org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.dependencies;
 
-/**
- * Default implementation of the resolver kind
- */
-public class DefaultKindResolver implements IKindResolver {
+public interface IDependencyKindResolver {
 
-	public Object toKind(Object object) {
-		return object.getClass();
-	}
-
-	public boolean canResolve(Object target) {
-		return true;
-	}
-
-	public boolean equalsKind(Object target, Object source) {
-		if (source instanceof Class<?>) {
-			return ((Class<?>) source).isInstance(target);
-		} else {
-			return false;
-		}
-	}
+	DependencyKind resolve(Object obj);
 
 }

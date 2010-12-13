@@ -54,8 +54,8 @@ public class Images {
 	private static HashMap<String, ImageDescriptor> fgAvoidSWTErrorMap = null;
 
 	static {
-		iconsBaseURL = EclipsePlugin.getDefault().getBundle().getEntry(
-				"src/icons/");
+		iconsBaseURL = EclipsePlugin.getDefault().getBundle()
+				.getEntry("src/icons/");
 		if (fgAvoidSWTErrorMap == null)
 			fgAvoidSWTErrorMap = new HashMap<String, ImageDescriptor>();
 	}
@@ -174,8 +174,6 @@ public class Images {
 	public static final String PACKAGE_ICON_NEW = PACKAGE_ICON + NEW_;
 	public static final String PACKAGE_ICON_GS = PACKAGE_ICON + GS_;
 
-	
-	
 	public static final String FIELD_ICON = IFieldImpl.class.getName();
 	public static final String FIELD_ICON_NEW = FIELD_ICON + NEW_;
 	public static final String FIELD_ICON_GS = FIELD_ICON + GS_;
@@ -209,6 +207,10 @@ public class Images {
 	public static final String EXTENDSARROW_ICON = "ExtendsIcon-small.png";
 	public static final String REFERENCEARROW_ICON = "ReferenceIcon-small.png";
 
+	public static final String DEPS_DEPENDENCY_ICON = "dependency.gif";
+	public static final String DEPS_INSTALLED_MODULE_ICON = "installed-module.gif";
+	public static final String DEPS_UNKNOWN_ICON = "unknown-dependency.gif";
+
 	// Creating the managed version of all of that
 	static {
 
@@ -228,6 +230,10 @@ public class Images {
 		createManaged(EXTENDSARROW_ICON, localIcon(EXTENDSARROW_ICON));
 		createManaged(REFERENCEARROW_ICON, localIcon(REFERENCEARROW_ICON));
 		createManaged(STEREOTYPE_ICON, localIcon(STEREOTYPE_ICON));
+		createManaged(DEPS_DEPENDENCY_ICON, localIcon(DEPS_DEPENDENCY_ICON));
+		createManaged(DEPS_INSTALLED_MODULE_ICON,
+				localIcon(DEPS_INSTALLED_MODULE_ICON));
+		createManaged(DEPS_UNKNOWN_ICON, localIcon(DEPS_UNKNOWN_ICON));
 
 		// Managed Entity
 		createManaged(ENTITY_ICON, ArtifactMetadataFactory.INSTANCE
@@ -272,16 +278,19 @@ public class Images {
 		// Association Class
 		createManaged(ASSOCIATIONCLASS_ICON, ArtifactMetadataFactory.INSTANCE
 				.getMetadata(ASSOCIATIONCLASS_ICON).getIconURL(null));
-		createManaged(ASSOCIATIONCLASS_ICON_NEW,
+		createManaged(
+				ASSOCIATIONCLASS_ICON_NEW,
 				ArtifactMetadataFactory.INSTANCE.getMetadata(
 						ASSOCIATIONCLASS_ICON).getNewIconURL(null));
-		createManaged(ASSOCIATIONCLASS_ICON_GS,
+		createManaged(
+				ASSOCIATIONCLASS_ICON_GS,
 				ArtifactMetadataFactory.INSTANCE.getMetadata(
 						ASSOCIATIONCLASS_ICON).getGreyedoutIconURL(null));
 
 		// Query
-		createManaged(QUERY_ICON, ArtifactMetadataFactory.INSTANCE.getMetadata(
-				QUERY_ICON).getIconURL(null));
+		createManaged(QUERY_ICON,
+				ArtifactMetadataFactory.INSTANCE.getMetadata(QUERY_ICON)
+						.getIconURL(null));
 		createManaged(QUERY_ICON_NEW, ArtifactMetadataFactory.INSTANCE
 				.getMetadata(QUERY_ICON).getNewIconURL(null));
 		createManaged(QUERY_ICON_GS, ArtifactMetadataFactory.INSTANCE
@@ -304,8 +313,9 @@ public class Images {
 				.getMetadata(NOTIFICATION_ICON).getGreyedoutIconURL(null));
 
 		// Update Procedure
-		createManaged(ENUM_ICON, ArtifactMetadataFactory.INSTANCE.getMetadata(
-				ENUM_ICON).getIconURL(null));
+		createManaged(ENUM_ICON,
+				ArtifactMetadataFactory.INSTANCE.getMetadata(ENUM_ICON)
+						.getIconURL(null));
 		createManaged(ENUM_ICON_NEW, ArtifactMetadataFactory.INSTANCE
 				.getMetadata(ENUM_ICON).getNewIconURL(null));
 		createManaged(ENUM_ICON_GS, ArtifactMetadataFactory.INSTANCE
@@ -334,10 +344,11 @@ public class Images {
 				.getMetadata(PACKAGE_ICON).getNewIconURL(null));
 		createManaged(PACKAGE_ICON_GS, ArtifactMetadataFactory.INSTANCE
 				.getMetadata(PACKAGE_ICON).getGreyedoutIconURL(null));
-		
+
 		// Field
-		createManaged(FIELD_ICON, ArtifactMetadataFactory.INSTANCE.getMetadata(
-				FIELD_ICON).getIconURL(null));
+		createManaged(FIELD_ICON,
+				ArtifactMetadataFactory.INSTANCE.getMetadata(FIELD_ICON)
+						.getIconURL(null));
 		createManaged(FIELD_ICON_NEW, ArtifactMetadataFactory.INSTANCE
 				.getMetadata(FIELD_ICON).getNewIconURL(null));
 		createManaged(FIELD_ICON_GS, ArtifactMetadataFactory.INSTANCE

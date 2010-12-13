@@ -10,19 +10,26 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.dialogs;
 
+import static java.util.Arrays.asList;
+
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceVisitor;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.internal.ui.JavaPluginImages;
 import org.eclipse.jdt.internal.ui.dialogs.StatusInfo;
 import org.eclipse.jdt.ui.JavaElementLabelProvider;
-import org.eclipse.jdt.ui.JavaElementSorter;
 import org.eclipse.jdt.ui.StandardJavaElementContentProvider;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
@@ -45,7 +52,14 @@ import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.module.InstalledModule;
 import org.eclipse.tigerstripe.workbench.internal.core.module.InstalledModuleManager;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
+import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.dependencies.DependenciesImageProvider;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.dependencies.DependenciesSorter;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.dependencies.DependencyKind;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.dependencies.IDependencyKindResolver;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.dependencies.ITextProvider;
 import org.eclipse.ui.dialogs.SelectionStatusDialog;
 
 /**
@@ -57,21 +71,36 @@ import org.eclipse.ui.dialogs.SelectionStatusDialog;
  */
 public class TigerstripeProjectSelectionDialog extends SelectionStatusDialog {
 
+	private static final IDependencyKindResolver KIND_RESOLVER = new IDependencyKindResolver() {
+
+		public DependencyKind resolve(Object obj) {
+			if (obj instanceof IJavaProject) {
+				return DependencyKind.PROJECT;
+			} else if (obj instanceof InstalledModule) {
+				return DependencyKind.MODULE;
+			} else if (obj instanceof IResource) {
+				return DependencyKind.DEPENDENCY;
+			} else {
+				return DependencyKind.UNKNOWN;
+			}
+		}
+	};
+
 	class TigerstripeProjectReferencesProvider extends
 			StandardJavaElementContentProvider {
 		@Override
 		public Object[] getElements(Object parent) {
-			Map<String, Object> elements = new HashMap<String, Object>();
+			Map<String, Object> projsAndModulesMap = new HashMap<String, Object>();
+			Object[] javaResult = super.getElements(parent);
 			InstalledModule[] modules = InstalledModuleManager.getInstance()
 					.getModules();
-			Object[] javaResult = super.getElements(parent);
-			Object[] all = new Object[javaResult.length + modules.length];
-			System.arraycopy(javaResult, 0, all, 0, javaResult.length);
-			System
-					.arraycopy(modules, 0, all, javaResult.length,
-							modules.length);
-			for (Object o : all) {
-				String id = null;
+
+			Collection<Object> projsAndModules = new HashSet<Object>();
+			projsAndModules.addAll(asList(javaResult));
+			projsAndModules.addAll(asList(modules));
+
+			for (Object o : projsAndModules) {
+				String id;
 				if (o instanceof IJavaProject) {
 					IJavaProject javaProject = (IJavaProject) o;
 					ITigerstripeModelProject tsp = (ITigerstripeModelProject) javaProject
@@ -81,23 +110,70 @@ public class TigerstripeProjectSelectionDialog extends SelectionStatusDialog {
 							id = tsp.getModelId();
 						} catch (TigerstripeException e) {
 							BasePlugin.log(e);
+							continue;
 						}
+					} else {
+						continue;
 					}
 				} else if (o instanceof InstalledModule) {
 					InstalledModule module = (InstalledModule) o;
 					id = module.getModuleID();
+				} else {
+					continue;
 				}
-				if (id != null && !elements.containsKey(id)) {
-					elements.put(id, o);
+
+				if (!projsAndModulesMap.containsKey(id)) {
+					projsAndModulesMap.put(id, o);
 				}
 			}
-
-			return elements.values().toArray(new Object[0]);
+			Collection<IResource> dependencies = findDependencies();
+			Set<Object> all = new HashSet<Object>(projsAndModulesMap.size()
+					+ dependencies.size());
+			all.addAll(projsAndModulesMap.values());
+			all.addAll(dependencies);
+			return all.toArray(new Object[0]);
 		}
+	}
+
+	private final static Set<String> DEPENDENCIES_EXTENSIONS = new HashSet<String>(
+			asList("jar", "zip"));
+
+	private Collection<IResource> findDependencies() {
+
+		IProject project = (IProject) currentProject.getAdapter(IProject.class);
+
+		final Collection<IResource> result = new HashSet<IResource>();
+
+		try {
+			project.accept(new IResourceVisitor() {
+				public boolean visit(IResource resource) throws CoreException {
+					if (resource instanceof IFile) {
+						if (DEPENDENCIES_EXTENSIONS.contains(resource
+								.getFileExtension())) {
+							result.add(resource);
+						}
+						return false;
+					} else {
+						return true;
+					}
+				}
+			});
+		} catch (CoreException e) {
+			EclipsePlugin.log(e);
+		}
+		return result;
 	}
 
 	class TigerstripeProjectReferencesLabelProvider extends
 			JavaElementLabelProvider {
+
+		private final DependenciesImageProvider imageProvider = new DependenciesImageProvider(
+				KIND_RESOLVER);
+
+		public TigerstripeProjectReferencesLabelProvider() {
+			super(SHOW_PARAMETERS | SHOW_SMALL_ICONS);
+		}
+
 		@Override
 		public String getText(Object element) {
 			if (element instanceof InstalledModule) {
@@ -112,17 +188,16 @@ public class TigerstripeProjectSelectionDialog extends SelectionStatusDialog {
 					buffer.append(")");
 				}
 				return buffer.toString();
+			} else if (element instanceof IResource) {
+				return ((IResource) element).getName();
+			} else {
+				return super.getText(element);
 			}
-			return super.getText(element);
 		}
 
-		@SuppressWarnings("restriction")
 		@Override
 		public Image getImage(Object element) {
-			if (element instanceof InstalledModule) {
-				return JavaPluginImages.get(JavaPluginImages.IMG_OBJS_JAR);
-			}
-			return super.getImage(element);
+			return imageProvider.getImage(element);
 		}
 	}
 
@@ -138,9 +213,13 @@ public class TigerstripeProjectSelectionDialog extends SelectionStatusDialog {
 
 	private ViewerFilter fFilter;
 
+	private final ITigerstripeModelProject currentProject;
+
 	public TigerstripeProjectSelectionDialog(Shell parentShell,
-			Collection<ModelReference> filteredOutProjects) {
+			Collection<ModelReference> filteredOutProjects,
+			final ITigerstripeModelProject currentProject) {
 		super(parentShell);
+		this.currentProject = currentProject;
 		setTitle("Select Tigerstripe Project");
 		setMessage("Select Tigerstripe Project to reference");
 		fFilteredOutProjects = filteredOutProjects;
@@ -165,6 +244,8 @@ public class TigerstripeProjectSelectionDialog extends SelectionStatusDialog {
 								return false;
 						}
 						return true;
+					} else {
+						return false;
 					}
 				} else if (element instanceof InstalledModule) {
 					InstalledModule module = (InstalledModule) element;
@@ -173,8 +254,29 @@ public class TigerstripeProjectSelectionDialog extends SelectionStatusDialog {
 							return false;
 					}
 					return true;
+				} else if (element instanceof IResource) {
+
+					try {
+						IDependency[] dependencies = currentProject
+								.getDependencies();
+
+						for (IDependency dep : dependencies) {
+							if (dep.getPath().equals(
+									((IResource) element)
+											.getProjectRelativePath()
+											.toOSString())) {
+								return false;
+							}
+						}
+						return true;
+
+					} catch (TigerstripeException e) {
+						EclipsePlugin.log(e);
+						return false;
+					}
+				} else {
+					return false;
 				}
-				return false;
 			}
 		};
 
@@ -214,11 +316,21 @@ public class TigerstripeProjectSelectionDialog extends SelectionStatusDialog {
 		data.widthHint = SIZING_SELECTION_WIDGET_WIDTH;
 		fTableViewer.getTable().setLayoutData(data);
 
-		fTableViewer
-				.setLabelProvider(new TigerstripeProjectReferencesLabelProvider());
+		final TigerstripeProjectReferencesLabelProvider labelProvider = new TigerstripeProjectReferencesLabelProvider();
+
+		fTableViewer.setLabelProvider(labelProvider);
 		fTableViewer
 				.setContentProvider(new TigerstripeProjectReferencesProvider());
-		fTableViewer.setSorter(new JavaElementSorter());
+
+		ITextProvider textAdapter = new ITextProvider() {
+
+			public String getText(Object obj) {
+				return labelProvider.getText(obj);
+			}
+		};
+
+		fTableViewer.setSorter(new DependenciesSorter(textAdapter,
+				KIND_RESOLVER));
 		fTableViewer.getControl().setFont(font);
 
 		// Button checkbox= new Button(composite, SWT.CHECK);
