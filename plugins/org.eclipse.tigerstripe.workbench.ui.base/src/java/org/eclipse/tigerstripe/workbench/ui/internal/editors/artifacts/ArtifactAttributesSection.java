@@ -47,8 +47,8 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.Field;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
@@ -89,7 +89,7 @@ public class ArtifactAttributesSection extends ModelComponentSectionPart impleme
 	 *            the managed form to create the block in
 	 */
 	@Override
-	public void createContent() {
+	public void createInternalContent() {
 		IManagedForm managedForm = getPage().getManagedForm();
 		FormToolkit toolkit = getToolkit();
 

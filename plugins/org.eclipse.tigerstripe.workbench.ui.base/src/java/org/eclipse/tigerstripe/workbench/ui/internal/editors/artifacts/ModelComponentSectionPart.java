@@ -11,9 +11,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts;
 
+import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
+import org.eclipse.ui.IWorkbenchSite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 public abstract class ModelComponentSectionPart extends ArtifactSectionPart {
@@ -29,4 +31,23 @@ public abstract class ModelComponentSectionPart extends ArtifactSectionPart {
 
 	public abstract void updateMaster();
 
+	protected abstract void createInternalContent();
+
+	@Override
+	protected void createContent() {
+		createInternalContent();
+		getViewer().getTable().addFocusListener(
+				new SelectionProviderIntermediateFocusListener() {
+
+					@Override
+					public IWorkbenchSite getWorkbenchSite() {
+						return getPage().getSite();
+					}
+
+					@Override
+					public ISelectionProvider getSelectionProvider() {
+						return getViewer();
+					}
+				});
+	}
 }

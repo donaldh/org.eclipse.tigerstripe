@@ -17,9 +17,9 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ComponentNameProvid
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactMethodsSection;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ModelComponentSectionPart;
@@ -92,7 +92,7 @@ public class NewMethodPage extends NewModelComponentPage {
 		};
 
 		methodInfoEditComponent = new MethodInfoEditComponent(false, true,
-				getShell(), toolkit, handler);
+				getShell(), toolkit, handler, null);
 		methodInfoEditComponent.createContents(parent);
 		methodInfoEditComponent.setMethod(newMethod);
 		methodInfoEditComponent.update();

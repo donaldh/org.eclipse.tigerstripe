@@ -24,6 +24,7 @@ import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.ILabelProviderListener;
+import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
@@ -68,20 +69,22 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.ArgumentEditDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForArtifactDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.MethodReturnDetailsEditDialog;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.SelectionProviderIntermediateFocusListener;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
+import org.eclipse.ui.IWorkbenchSite;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
@@ -95,6 +98,7 @@ public class MethodInfoEditComponent {
 	private final Shell shell;
 	private final FormToolkit toolkit;
 	private final Handler handler;
+	private final IWorkbenchSite site;
 
 	public Section section;
 
@@ -136,17 +140,18 @@ public class MethodInfoEditComponent {
 
 	private Label returnValueLabel;
 
-	private boolean displayDirection;
+	private final boolean displayDirection;
 
 	public MethodInfoEditComponent(boolean isReadOnly,
 			boolean enabledInstanceMethods, Shell shell, FormToolkit toolkit,
-			Handler handler) {
+			Handler handler, IWorkbenchSite site) {
 
 		this.isReadOnly = isReadOnly;
 		this.enabledInstanceMethods = enabledInstanceMethods;
 		this.shell = shell;
 		this.toolkit = toolkit;
 		this.handler = handler;
+		this.site = site;
 
 		// See if we should display the argument Direction
 		GlobalSettingsProperty prop = (GlobalSettingsProperty) TigerstripeCore
@@ -543,6 +548,18 @@ public class MethodInfoEditComponent {
 		argViewer.setLabelProvider(new ArgumentLabelProvider());
 		argViewer.setInput("ccc"); // input is ignored
 		argViewer.addDoubleClickListener(adapter);
+
+		argViewer.getTable().addFocusListener(
+				new SelectionProviderIntermediateFocusListener() {
+					@Override
+					public IWorkbenchSite getWorkbenchSite() {
+						return site;
+					}
+					@Override
+					public ISelectionProvider getSelectionProvider() {
+						return argViewer;
+					}
+				});
 
 		Point p = buttonsClient.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 

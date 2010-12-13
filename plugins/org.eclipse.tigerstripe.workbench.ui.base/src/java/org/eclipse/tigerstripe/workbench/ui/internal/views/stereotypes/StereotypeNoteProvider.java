@@ -97,14 +97,17 @@ public class StereotypeNoteProvider implements INoteProvider,
 	public void setSelection(IWorkbenchPart part, ISelection selection) {
 		removeListeners();
 		component = null;
-		if (part instanceof ArtifactEditorBase) {
-			ArtifactEditorBase artifactEditor = (ArtifactEditorBase) part;
-			component = artifactEditor.getIArtifact();
-		} else if (selection instanceof IStructuredSelection) {
+		if (selection instanceof IStructuredSelection) {
 			Object element = ((IStructuredSelection) selection)
 					.getFirstElement();
 			component = getCapable(element);
 		}
+		
+		if (component == null && part instanceof ArtifactEditorBase) {
+			ArtifactEditorBase artifactEditor = (ArtifactEditorBase) part;
+			component = artifactEditor.getIArtifact();
+		}
+		
 		if (component != null) {
 			if (listeners.size() > 0) {
 				addListeners();
@@ -185,6 +188,6 @@ public class StereotypeNoteProvider implements INoteProvider,
 	}
 
 	private IStereotypeCapable component;
-	private ListenerList listeners = new ListenerList();
+	private final ListenerList listeners = new ListenerList();
 
 }

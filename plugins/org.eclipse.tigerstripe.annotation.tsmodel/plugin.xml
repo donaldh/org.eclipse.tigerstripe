@@ -11,6 +11,16 @@
 		  <delegate type="org.eclipse.jdt.core.IJavaElement"/>
 		</provider>
    </extension>
+   <extension
+			point="org.eclipse.tigerstripe.annotation.core.annotationProvider">
+		<provider
+			id="org.eclipse.tigerstripe.annotation.tsmodel.provider.model"
+			class="org.eclipse.tigerstripe.annotation.tsmodel.TSModelAnnotationProvider"
+			targetDescription="Tigerstripe Method Argument"
+			type="org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod$IArgument">
+		  <delegate type="org.eclipse.jdt.core.IJavaElement"/>
+		</provider>
+   </extension>
 	<extension
 			point="org.eclipse.tigerstripe.annotation.core.annotationProvider">
 		<provider

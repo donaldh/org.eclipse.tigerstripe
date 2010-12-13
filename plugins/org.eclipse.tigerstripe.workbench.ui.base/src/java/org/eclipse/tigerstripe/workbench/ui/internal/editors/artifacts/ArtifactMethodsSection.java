@@ -42,9 +42,9 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ComponentNameProvid
 import org.eclipse.tigerstripe.workbench.internal.core.model.Method;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
@@ -83,7 +83,7 @@ public class ArtifactMethodsSection extends ModelComponentSectionPart implements
 	 *            the managed form to create the block in
 	 */
 	@Override
-	public void createContent() {
+	public void createInternalContent() {
 		IManagedForm managedForm = getPage().getManagedForm();
 		FormToolkit toolkit = getToolkit();
 

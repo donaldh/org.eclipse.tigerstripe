@@ -26,6 +26,7 @@ import org.eclipse.tigerstripe.espace.resources.core.EObjectRouter;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.diagram.IDiagram;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 
@@ -96,6 +97,10 @@ public class ProjectRouter implements EObjectRouter {
 			if (annotable instanceof IModelComponent) {
 				IModelComponent comp = (IModelComponent) annotable;
 				projectName = comp.getProject().getName();
+			} else if (annotable instanceof IArgument) {
+				IArgument argument = (IArgument) annotable;
+				projectName = argument.getContainingMethod().getProject()
+						.getName();
 			} else if (annotable instanceof IAbstractTigerstripeProject) {
 				IAbstractTigerstripeProject tsProject = (IAbstractTigerstripeProject) annotable;
 				projectName = tsProject.getName();

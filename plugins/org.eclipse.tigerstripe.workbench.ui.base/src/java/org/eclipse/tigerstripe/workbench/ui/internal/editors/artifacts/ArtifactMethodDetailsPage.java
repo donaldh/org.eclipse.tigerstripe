@@ -149,7 +149,8 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 
 		methodInfoEditComponent = new MethodInfoEditComponent(isReadOnly,
 				master.getContentProvider().enabledInstanceMethods(), master
-						.getSection().getShell(), form.getToolkit(), handler);
+						.getSection().getShell(), form.getToolkit(), handler,
+				master.getPage().getSite());
 	}
 
 	public void dispose() {
