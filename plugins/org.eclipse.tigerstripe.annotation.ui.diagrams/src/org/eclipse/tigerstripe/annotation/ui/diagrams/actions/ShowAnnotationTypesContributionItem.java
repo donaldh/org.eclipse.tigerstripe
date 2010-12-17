@@ -9,22 +9,23 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.ui.internal.diagrams.actions;
+package org.eclipse.tigerstripe.annotation.ui.diagrams.actions;
 
 import org.eclipse.tigerstripe.annotation.ui.internal.actions.PullDownContributionItem;
+import org.eclipse.tigerstripe.annotation.ui.internal.diagrams.actions.ChangeAnnotationTypesVisibility;
 
 /**
  * @author Yuri Strot
  *
  */
-public class HideAnnotationTypeContributionItem extends PullDownContributionItem {
+public class ShowAnnotationTypesContributionItem extends PullDownContributionItem {
 
 	/**
 	 * @param provider
 	 */
-	public HideAnnotationTypeContributionItem() {
+	public ShowAnnotationTypesContributionItem() {
 		super(new ChangeAnnotationTypesVisibility(
-				"Hide Annotation Types", false));
+				"Show Annotation Types", true));
 	}
 
 }

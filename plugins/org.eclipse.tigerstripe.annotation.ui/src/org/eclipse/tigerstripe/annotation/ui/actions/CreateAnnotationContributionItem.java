@@ -9,7 +9,10 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.ui.internal.actions;
+package org.eclipse.tigerstripe.annotation.ui.actions;
+
+import org.eclipse.tigerstripe.annotation.ui.internal.actions.CreateAnnotationAction;
+import org.eclipse.tigerstripe.annotation.ui.internal.actions.PullDownContributionItem;
 
 
 /**

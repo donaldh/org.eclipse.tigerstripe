@@ -1743,4 +1743,35 @@
 			type="org.eclipse.jdt.core.ICompilationUnit"
 			class="org.eclipse.tigerstripe.workbench.ui.internal.utils.ArtifactTester" />
    </extension>
+   
+   <extension
+			point="org.eclipse.ui.menus">
+		<menuContribution
+				locationURI="popup:org.eclipse.ui.popup.any?after=additions">
+			<menu id="org.eclipse.tigerstripe.annotation.menus.annotations" label="Annotations">
+				<dynamic
+					class="org.eclipse.tigerstripe.annotation.ui.actions.CreateAnnotationContributionItem"
+					id="org.eclipse.tigerstripe.annotation.ui.actions.create">
+				</dynamic>
+				<command
+					commandId="org.eclipse.tigerstripe.annotation.ui.commands.remove"
+					style="push"/>
+				<visibleWhen checkEnabled="false">
+              		<with variable="selection">
+                 		<iterate>
+                 		    <or>
+                 		        <adapt type="org.eclipse.core.resources.IResource">
+              						<test
+                    					property="org.eclipse.core.resources.projectNature"
+                    					value="org.eclipse.tigerstripe.workbench.base.tigerstripeProject">
+              						</test>
+           						</adapt>
+           						<adapt type="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent"/>			           						
+           					</or>
+                 		</iterate>
+              		</with>
+           		</visibleWhen>
+			</menu>
+		</menuContribution>
+	</extension>
 </plugin>

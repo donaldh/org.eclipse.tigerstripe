@@ -43,4 +43,43 @@
             id="org.eclipse.tigerstripe.ui.eclipse.preferences.DiagramPreferencePage"
             name="Diagrams"/>
 	</extension>
+	
+	<extension
+			point="org.eclipse.ui.menus">
+		<menuContribution
+				locationURI="popup:org.eclipse.tigerstripe.annotation.menus.annotations">
+			<separator
+				visible="true"
+				name="org.eclipse.tigerstripe.annotation.ui.diagrams.separator">
+			</separator>
+			<dynamic
+					class="org.eclipse.tigerstripe.annotation.ui.diagrams.actions.ShowAnnotationTypesContributionItem"
+					id="org.eclipse.tigerstripe.annotation.ui.diagrams.actions.showTypes">
+				<visibleWhen>
+          			<iterate>
+          				<and>
+          					<instanceof
+                    			value="org.eclipse.gmf.runtime.diagram.ui.editparts.GraphicalEditPart">
+          					</instanceof>
+          					<adapt type="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent"/>
+          				</and>          				
+          			</iterate>
+				</visibleWhen>
+			</dynamic>
+			<dynamic
+					class="org.eclipse.tigerstripe.annotation.ui.diagrams.actions.HideAnnotationTypeContributionItem"
+					id="org.eclipse.tigerstripe.annotation.ui.diagrams.actions.hideTypes">
+				<visibleWhen>
+          			<iterate>
+          				<and>
+          					<instanceof
+                    			value="org.eclipse.gmf.runtime.diagram.ui.editparts.GraphicalEditPart">
+          					</instanceof>
+          					<adapt type="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent"/>          					
+          				</and>          				
+          			</iterate>
+				</visibleWhen>
+			</dynamic>
+		</menuContribution>
+	</extension>
 </plugin>
