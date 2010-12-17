@@ -17,12 +17,16 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
+import org.apache.velocity.runtime.log.Log4JLogChute;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -83,20 +87,20 @@ public abstract class TemplateBasedRule extends Rule implements
 	}
 
 	protected VelocityContext getDefaultContext(
-			PluggablePluginConfig pluginConfig, Map<String, Object> context) 
-		throws TigerstripeException {
+			PluggablePluginConfig pluginConfig, Map<String, Object> context)
+			throws TigerstripeException {
 		if (this.defaultVContext == null) {
 			this.defaultVContext = new VelocityContext();
 			VelocityContextUtil util = new VelocityContextUtil();
 			this.defaultVContext.put("util", util);
 		}
-		for (String key : context.keySet()){
-			this.defaultVContext.put(key, context.get(key));
+		for (Entry<String, Object> e : context.entrySet()) {
+			this.defaultVContext.put(e.getKey(), e.getValue());
 		}
-		
+
 		return this.defaultVContext;
 	}
-	
+
 	/**
 	 * Returns the default velocity context.
 	 * 
@@ -123,147 +127,159 @@ public abstract class TemplateBasedRule extends Rule implements
 		ArtifactManager artifactMgr = session.getArtifactManager();
 
 		// Let's put what we'll need in the context and get going
-		if (artifactMgr.getRegisteredArtifacts().contains(ManagedEntityArtifact.MODEL)){
+		if (artifactMgr.getRegisteredArtifacts().contains(
+				ManagedEntityArtifact.MODEL)) {
 			Collection<IAbstractArtifact> entities = ArtifactFilter.filter(
-					artifactMgr.getArtifactsByModel(ManagedEntityArtifact.MODEL,
-							false, new NullProgressMonitor()), filter);
+					artifactMgr.getArtifactsByModel(
+							ManagedEntityArtifact.MODEL, false,
+							new NullProgressMonitor()), filter);
 			Collection<IAbstractArtifact> allEntities = artifactMgr
-			.getArtifactsByModel(ManagedEntityArtifact.MODEL, true, false,
-					new NullProgressMonitor());
+					.getArtifactsByModel(ManagedEntityArtifact.MODEL, true,
+							false, new NullProgressMonitor());
 
 			defaultVContext.put("entities", entities);
 			defaultVContext.put("allEntities", allEntities);
 		}
-		
-		if (artifactMgr.getRegisteredArtifacts().contains(DatatypeArtifact.MODEL)){
+
+		if (artifactMgr.getRegisteredArtifacts().contains(
+				DatatypeArtifact.MODEL)) {
 			Collection<IAbstractArtifact> datatypes = ArtifactFilter.filter(
-					artifactMgr.getArtifactsByModel(DatatypeArtifact.MODEL, false,
-							new NullProgressMonitor()), filter);
+					artifactMgr.getArtifactsByModel(DatatypeArtifact.MODEL,
+							false, new NullProgressMonitor()), filter);
 			Collection<IAbstractArtifact> allDatatypes = artifactMgr
-			.getArtifactsByModel(DatatypeArtifact.MODEL, true, false,
-					new NullProgressMonitor());
-		
+					.getArtifactsByModel(DatatypeArtifact.MODEL, true, false,
+							new NullProgressMonitor());
+
 			defaultVContext.put("datatypes", datatypes);
 			defaultVContext.put("allDatatypes", allDatatypes);
 		}
-		
-		if (artifactMgr.getRegisteredArtifacts().contains(EventArtifact.MODEL)){	
+
+		if (artifactMgr.getRegisteredArtifacts().contains(EventArtifact.MODEL)) {
 			Collection<IAbstractArtifact> events = ArtifactFilter.filter(
 					artifactMgr.getArtifactsByModel(EventArtifact.MODEL, false,
 							new NullProgressMonitor()), filter);
 			Collection<IAbstractArtifact> allEvents = artifactMgr
-			.getArtifactsByModel(EventArtifact.MODEL, true, false,
-					new NullProgressMonitor());
-			
+					.getArtifactsByModel(EventArtifact.MODEL, true, false,
+							new NullProgressMonitor());
+
 			defaultVContext.put("events", events);
 			defaultVContext.put("allEvents", allEvents);
 		}
-		
-		if (artifactMgr.getRegisteredArtifacts().contains(EnumArtifact.MODEL)){
-			Collection<IAbstractArtifact> enums = ArtifactFilter.filter(artifactMgr
-					.getArtifactsByModel(EnumArtifact.MODEL, false,
+
+		if (artifactMgr.getRegisteredArtifacts().contains(EnumArtifact.MODEL)) {
+			Collection<IAbstractArtifact> enums = ArtifactFilter.filter(
+					artifactMgr.getArtifactsByModel(EnumArtifact.MODEL, false,
 							new NullProgressMonitor()), filter);
 			Collection<IAbstractArtifact> allEnums = artifactMgr
-			.getArtifactsByModel(EnumArtifact.MODEL, true, false,
-					new NullProgressMonitor());
-		
+					.getArtifactsByModel(EnumArtifact.MODEL, true, false,
+							new NullProgressMonitor());
+
 			defaultVContext.put("enumerations", enums);
 			defaultVContext.put("allEnumerations", allEnums);
 		}
-		
-		if (artifactMgr.getRegisteredArtifacts().contains(ExceptionArtifact.MODEL)){
+
+		if (artifactMgr.getRegisteredArtifacts().contains(
+				ExceptionArtifact.MODEL)) {
 			Collection<IAbstractArtifact> exceptions = ArtifactFilter.filter(
-					artifactMgr.getArtifactsByModel(ExceptionArtifact.MODEL, false,
-							new NullProgressMonitor()), filter);
+					artifactMgr.getArtifactsByModel(ExceptionArtifact.MODEL,
+							false, new NullProgressMonitor()), filter);
 			Collection<IAbstractArtifact> allExceptions = artifactMgr
-			.getArtifactsByModel(ExceptionArtifact.MODEL, true, false,
-					new NullProgressMonitor());
-			
+					.getArtifactsByModel(ExceptionArtifact.MODEL, true, false,
+							new NullProgressMonitor());
+
 			defaultVContext.put("exceptions", exceptions);
 			defaultVContext.put("allExceptions", allExceptions);
 		}
-		
-		if (artifactMgr.getRegisteredArtifacts().contains(QueryArtifact.MODEL)){
+
+		if (artifactMgr.getRegisteredArtifacts().contains(QueryArtifact.MODEL)) {
 			Collection<IAbstractArtifact> queries = ArtifactFilter.filter(
 					artifactMgr.getArtifactsByModel(QueryArtifact.MODEL, false,
 							new NullProgressMonitor()), filter);
 			Collection<IAbstractArtifact> allQueries = artifactMgr
-			.getArtifactsByModel(QueryArtifact.MODEL, true, false,
-					new NullProgressMonitor());
+					.getArtifactsByModel(QueryArtifact.MODEL, true, false,
+							new NullProgressMonitor());
 
 			defaultVContext.put("queries", queries);
 			defaultVContext.put("allQueries", allQueries);
 		}
-		
-		if (artifactMgr.getRegisteredArtifacts().contains(SessionFacadeArtifact.MODEL)){
+
+		if (artifactMgr.getRegisteredArtifacts().contains(
+				SessionFacadeArtifact.MODEL)) {
 			Collection<IAbstractArtifact> sessions = ArtifactFilter.filter(
-					artifactMgr.getArtifactsByModel(SessionFacadeArtifact.MODEL,
-							false, new NullProgressMonitor()), filter);
+					artifactMgr.getArtifactsByModel(
+							SessionFacadeArtifact.MODEL, false,
+							new NullProgressMonitor()), filter);
 			Collection<IAbstractArtifact> allSessions = artifactMgr
-			.getArtifactsByModel(SessionFacadeArtifact.MODEL, true, false,
-					new NullProgressMonitor());
-			
+					.getArtifactsByModel(SessionFacadeArtifact.MODEL, true,
+							false, new NullProgressMonitor());
+
 			defaultVContext.put("sessions", sessions);
 			defaultVContext.put("allSessions", allSessions);
 		}
-		
-		if (artifactMgr.getRegisteredArtifacts().contains(UpdateProcedureArtifact.MODEL)){
-			Collection<IAbstractArtifact> updateProcedures = ArtifactFilter.filter(
-					artifactMgr.getArtifactsByModel(UpdateProcedureArtifact.MODEL,
-							false, new NullProgressMonitor()), filter);
+
+		if (artifactMgr.getRegisteredArtifacts().contains(
+				UpdateProcedureArtifact.MODEL)) {
+			Collection<IAbstractArtifact> updateProcedures = ArtifactFilter
+					.filter(artifactMgr.getArtifactsByModel(
+							UpdateProcedureArtifact.MODEL, false,
+							new NullProgressMonitor()), filter);
 			Collection<IAbstractArtifact> allUpdateProcedures = artifactMgr
-			.getArtifactsByModel(UpdateProcedureArtifact.MODEL, true,
-					false, new NullProgressMonitor());
-			
+					.getArtifactsByModel(UpdateProcedureArtifact.MODEL, true,
+							false, new NullProgressMonitor());
+
 			defaultVContext.put("updateProcedures", updateProcedures);
 			defaultVContext.put("allUpdateProcedures", allUpdateProcedures);
 		}
-		
-		if (artifactMgr.getRegisteredArtifacts().contains(AssociationArtifact.MODEL)){
+
+		if (artifactMgr.getRegisteredArtifacts().contains(
+				AssociationArtifact.MODEL)) {
 			Collection<IAbstractArtifact> associations = ArtifactFilter.filter(
 					artifactMgr.getArtifactsByModel(AssociationArtifact.MODEL,
 							false, new NullProgressMonitor()), filter);
 			Collection<IAbstractArtifact> allAssociations = artifactMgr
-			.getArtifactsByModel(AssociationArtifact.MODEL, true, false,
-					new NullProgressMonitor());
-			
+					.getArtifactsByModel(AssociationArtifact.MODEL, true,
+							false, new NullProgressMonitor());
+
 			defaultVContext.put("associations", associations);
 			defaultVContext.put("allAssociations", allAssociations);
 		}
-		
-		if (artifactMgr.getRegisteredArtifacts().contains(DependencyArtifact.MODEL)){
+
+		if (artifactMgr.getRegisteredArtifacts().contains(
+				DependencyArtifact.MODEL)) {
 			Collection<IAbstractArtifact> dependencies = ArtifactFilter.filter(
 					artifactMgr.getArtifactsByModel(DependencyArtifact.MODEL,
 							false, new NullProgressMonitor()), filter);
 			Collection<IAbstractArtifact> allDependencies = artifactMgr
-			.getArtifactsByModel(DependencyArtifact.MODEL, true, false,
-					new NullProgressMonitor());
-			
+					.getArtifactsByModel(DependencyArtifact.MODEL, true, false,
+							new NullProgressMonitor());
+
 			defaultVContext.put("dependencies", dependencies);
 			defaultVContext.put("allDependencies", allDependencies);
 		}
-		
-		if (artifactMgr.getRegisteredArtifacts().contains(AssociationClassArtifact.MODEL)){
+
+		if (artifactMgr.getRegisteredArtifacts().contains(
+				AssociationClassArtifact.MODEL)) {
 			Collection<IAbstractArtifact> associationClasses = ArtifactFilter
-			.filter(artifactMgr.getArtifactsByModel(
-					AssociationClassArtifact.MODEL, false,
-					new NullProgressMonitor()), filter);
+					.filter(artifactMgr.getArtifactsByModel(
+							AssociationClassArtifact.MODEL, false,
+							new NullProgressMonitor()), filter);
 			Collection<IAbstractArtifact> allAssociationClasses = artifactMgr
-			.getArtifactsByModel(AssociationClassArtifact.MODEL, true,
-					false, new NullProgressMonitor());
-			
+					.getArtifactsByModel(AssociationClassArtifact.MODEL, true,
+							false, new NullProgressMonitor());
+
 			defaultVContext.put("associationClasses", associationClasses);
 			defaultVContext.put("allAssociationClasses", allAssociationClasses);
 		}
-		
-		if (artifactMgr.getRegisteredArtifacts().contains(PackageArtifact.MODEL)){
+
+		if (artifactMgr.getRegisteredArtifacts()
+				.contains(PackageArtifact.MODEL)) {
 			Collection<IAbstractArtifact> packages = ArtifactFilter.filter(
-					artifactMgr.getArtifactsByModel(PackageArtifact.MODEL, false,
-							new NullProgressMonitor()), filter);
+					artifactMgr.getArtifactsByModel(PackageArtifact.MODEL,
+							false, new NullProgressMonitor()), filter);
 			Collection<IAbstractArtifact> allPackages = artifactMgr
-			.getArtifactsByModel(PackageArtifact.MODEL, true, false,
-					new NullProgressMonitor());
-			
+					.getArtifactsByModel(PackageArtifact.MODEL, true, false,
+							new NullProgressMonitor());
+
 			defaultVContext.put("packages", packages);
 			defaultVContext.put("allPackages", allPackages);
 		}
@@ -274,7 +290,6 @@ public abstract class TemplateBasedRule extends Rule implements
 				.getAllArtifacts(true, false, new NullProgressMonitor());
 		defaultVContext.put("artifacts", artifacts);
 		defaultVContext.put("allArtifacts", allArtifacts);
-
 
 		defaultVContext.put("pluginConfig", pluginConfig);
 		defaultVContext.put("runtime", TigerstripeRuntime.getInstance());
@@ -339,42 +354,54 @@ public abstract class TemplateBasedRule extends Rule implements
 		properties.put("resource.loader", "file, class");
 
 		// So we can still access templates from the classpath
-		properties.put("class.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+		properties
+				.put("class.resource.loader.class",
+						"org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
 
 		// To access templates from the file system.
-		properties.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.FileResourceLoader");
-		properties.put("file.resource.loader.path", getContainingDescriptor().getBaseDir().getCanonicalPath());
-		
+		properties
+				.put("file.resource.loader.class",
+						"org.apache.velocity.runtime.resource.loader.FileResourceLoader");
+		properties.put("file.resource.loader.path", getContainingDescriptor()
+				.getBaseDir().getCanonicalPath());
+
 		// JS - DEBUG
-		System.out.println("***** file.resource.loader.path = " + getContainingDescriptor().getBaseDir().getCanonicalPath());
+		System.out.println("***** file.resource.loader.path = "
+				+ getContainingDescriptor().getBaseDir().getCanonicalPath());
 
 		properties.put("file.resource.loader.cache", "true");
 		properties.put("file.resource.loader.modificationCheckInterval", "2");
 
 		properties.put("velocimacro.permissions.allow.inline", "true");
-		properties.put("velocimacro.permissions.allow.inline.to.replace.global", "true");
-		
+		properties.put(
+				"velocimacro.permissions.allow.inline.to.replace.global",
+				"true");
+
 		properties.put("class.resource.loader.cache", "true");
 
 		if (hasMacroLibrary()) {
-			String libraryList = "";
-			String comma = "";
-			for (int i = 0; i < this.macroLibraries.size(); i++) {
-				libraryList = libraryList + comma + macroLibraries.get(i);
-				comma = ",";
+			StringBuilder libraryList = new StringBuilder();
+			Iterator<String> it = macroLibraries.iterator();
+			if (it.hasNext()) {
+				libraryList.append(it.next());
 			}
-			properties.put("velocimacro.library", libraryList);
+			while (it.hasNext()) {
+				libraryList.append(",").append(it.next());
+			}
+			properties.put("velocimacro.library", libraryList.toString());
 		}
 
 		if (exec.getPlugin().isLogEnabled()) {
-			String projectDir = pluginConfig.getProjectHandle().getLocation().toOSString();
-			String outputDir = pluginConfig.getProjectHandle().getProjectDetails().getOutputDirectory();
+			String projectDir = pluginConfig.getProjectHandle().getLocation()
+					.toOSString();
+			String outputDir = pluginConfig.getProjectHandle()
+					.getProjectDetails().getOutputDirectory();
 			String logPath = exec.getPlugin().getLogPath();
-			
+
 			// Find the extension (if any) and insert ".velocity" before it
 			String velocityLogPath;
 			if (logPath.contains(".")) {
-				
+
 				// Pay attention in case of strange formats such as
 				// path/road.street/avenue - we could easily put the extra word
 				// in the middle of the path!
@@ -382,9 +409,8 @@ public abstract class TemplateBasedRule extends Rule implements
 				IPath path = new Path(logPath);
 				if (path.getFileExtension() != null) {
 					String ext = path.getFileExtension();
-					path = path.removeFileExtension();
-					path = path.addFileExtension("velocity");
-					path = path.addFileExtension(ext);
+					path = path.removeFileExtension()
+							.addFileExtension("velocity").addFileExtension(ext);
 				} else {
 					path = path.addFileExtension("velocity");
 				}
@@ -393,15 +419,22 @@ public abstract class TemplateBasedRule extends Rule implements
 				velocityLogPath = logPath + ".velocity";
 			}
 
-			properties.put("runtime.log", projectDir + File.separatorChar + outputDir + File.separator + velocityLogPath);
+			properties.put("runtime.log", projectDir + File.separatorChar
+					+ outputDir + File.separator + velocityLogPath);
 		} else {
 			properties.put("runtime.log", "tigerstripe/velocity.log");
 		}
 
-		ClassLoader startingLoader = Thread.currentThread().getContextClassLoader();
+		properties.put(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
+				Log4JLogChute.class.getName());
+
+		ClassLoader startingLoader = Thread.currentThread()
+				.getContextClassLoader();
 		try {
-			if(result.getClass().getClassLoader() != Thread.currentThread().getContextClassLoader()) {
-				Thread.currentThread().setContextClassLoader(result.getClass().getClassLoader());
+			if (result.getClass().getClassLoader() != Thread.currentThread()
+					.getContextClassLoader()) {
+				Thread.currentThread().setContextClassLoader(
+						result.getClass().getClassLoader());
 			}
 			result.init(properties);
 		} finally {
