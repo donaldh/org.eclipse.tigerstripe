@@ -54,7 +54,8 @@ public class SessionFacadeArtifactMethodCompartmentCanonicalEditPolicy extends
 	 */
 	@Override
 	protected boolean shouldDeleteView(View view) {
-		return view.isSetElement() && view.getElement() != null;
+		return view.isSetElement() && view.getElement() != null
+				|| !view.isSetElement();
 		// && view.getElement().eIsProxy();
 	}
 
