@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" name="330528_ClearExtensionForAssociationClass" id="_hj974AR_EeC3S_PC6IM0yQ" description="" type="tesla">
+  <contexts>_ZW1iYAR_EeC3S_PC6IM0yQ</contexts>
+  <content xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree0" kind="Tree"/>
+      <path>Project1</path>
+      <path>src</path>
+      <path>com.mycompany</path>
+      <path>AC1</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DoubleClick">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="AC1" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Expandable" pattern="General Information" multiplicity="1">
+        <parent id="Editor0" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Select" multiplicity="1">
+        <parent id="Expandable0" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button0" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State0" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="Super Artifact" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Label" pattern="Select the artifact to be extended." multiplicity="1">
+        <parent id="Window0" kind="Window" description="Super Artifact"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Table" multiplicity="1">
+        <after id="Label0" kind="Label"/>
+        <parent id="Window0" kind="Window" description="Super Artifact"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Table0" kind="Table"/>
+      <path>com.mycompany.A</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="OK" multiplicity="1">
+        <parent id="Window0" kind="Window" description="Super Artifact"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button1" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State1" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Save (Ctrl+S)" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button2" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State2" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button0" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State3" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="Super Artifact" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Label" pattern="Select the artifact to be extended." multiplicity="1">
+        <parent id="Window1" kind="Window" description="Super Artifact"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Table" multiplicity="1">
+        <after id="Label1" kind="Label"/>
+        <parent id="Window1" kind="Window" description="Super Artifact"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Table1" kind="Table"/>
+      <path>&lt;clear extension></path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="Super Artifact" multiplicity="1">
+        <parent id="EclipseWindow1" kind="EclipseWindow" description="Tigerstripe - Project1/src/com/mycompany/AC1.java - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Label" pattern="Select the artifact to be extended." multiplicity="1">
+        <parent id="Window2" kind="Window" description="Super Artifact"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Table" multiplicity="1">
+        <after id="Label2" kind="Label"/>
+        <parent id="Window2" kind="Window" description="Super Artifact"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>&lt;clear extension></path>
+        <parent id="Table2" kind="Table"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="&lt;clear extension>">
+      <element id="Item0" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="Super Artifact" multiplicity="1">
+        <parent id="EclipseWindow2" kind="EclipseWindow" description="Tigerstripe - Project1/src/com/mycompany/AC1.java - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="OK" multiplicity="1">
+        <parent id="Window3" kind="Window" description="Super Artifact"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button3" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State4" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Save (Ctrl+S)" multiplicity="1">
+        <parent id="EclipseWindow2" kind="EclipseWindow" description="Tigerstripe - Project1/src/com/mycompany/AC1.java - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button4" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State5" kind="State"/>
+    </commands>
+    <elementMapping command="//@content/@commands.0">
+      <elements id="EclipseWindow0" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="50" y="50" width="1255" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.1">
+      <elements id="View0" kind="View"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.2">
+      <elements id="Tree0" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="301" height="618"/>
+        <selection>
+          <path>Project1</path>
+          <path>src</path>
+          <path>com.mycompany</path>
+          <path>AC1</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.5">
+      <elements id="Editor0" kind="Editor"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.6">
+      <elements id="Expandable0" kind="Expandable"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="6" y="6" width="448" height="267"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.7">
+      <elements id="Button0" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Select">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="289" width="43" height="25"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.8">
+      <elements id="State0" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.11">
+      <elements id="Window0" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="238" y="143" width="878" height="437"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.12">
+      <elements id="Label0" kind="Label"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Select the artifact to be extended.">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="11" y="13" width="840" height="15"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.13">
+      <elements id="Table0" kind="Table"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" borderWith="2" itemCount="3">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="840" height="270"/>
+        <selection>
+          <path>&lt;clear extension></path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.15">
+      <elements id="Button1" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="11" y="13" width="92" height="25"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.16">
+      <elements id="State1" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.19">
+      <elements id="Button2" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.20">
+      <elements id="State2" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.23">
+      <elements id="State3" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.26">
+      <elements id="Window1" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="238" y="143" width="878" height="437"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.27">
+      <elements id="Label1" kind="Label"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Select the artifact to be extended.">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="11" y="13" width="840" height="15"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.28">
+      <elements id="Table1" kind="Table"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" borderWith="2" itemCount="3">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="840" height="270"/>
+        <selection>
+          <path>&lt;clear extension></path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.30">
+      <elements id="EclipseWindow1" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="50" y="50" width="1255" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.31">
+      <elements id="Window2" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="238" y="143" width="878" height="437"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.32">
+      <elements id="Label2" kind="Label"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Select the artifact to be extended.">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="11" y="13" width="840" height="15"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.33">
+      <elements id="Table2" kind="Table"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" borderWith="2" itemCount="3">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="840" height="270"/>
+        <selection>
+          <path>&lt;clear extension></path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.34">
+      <elements id="Item0" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TableItem" caption="&lt;clear extension>" selected="true">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="20" width="102" height="19"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.36">
+      <elements id="EclipseWindow2" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="50" y="50" width="1255" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.37">
+      <elements id="Window3" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="238" y="143" width="878" height="437"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.38">
+      <elements id="Button3" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="11" y="13" width="92" height="25"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.39">
+      <elements id="State4" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.42">
+      <elements id="Button4" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@content/@commands.43">
+      <elements id="State5" kind="State"/>
+    </elementMapping>
+  </content>
+</com.xored.q7.scenario:Scenario>

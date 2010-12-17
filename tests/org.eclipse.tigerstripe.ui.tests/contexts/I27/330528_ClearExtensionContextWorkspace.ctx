@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="330528_ClearExtensionContextWorkspace" id="_S0pnwAR_EeC3S_PC6IM0yQ">
+  <content>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".330528_ClearExtensionContextWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".330528_ClearExtensionContextWorkspacectx/content1.project"/>
+      <files name=".visualstate" contentURI=".330528_ClearExtensionContextWorkspacectx/content1.visualstate"/>
+      <files name="tigerstripe.xml" contentURI=".330528_ClearExtensionContextWorkspacectx/content1.xml"/>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".330528_ClearExtensionContextWorkspacectx/content4.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".330528_ClearExtensionContextWorkspacectx/content3.package"/>
+            <files name="A.java" contentURI=".330528_ClearExtensionContextWorkspacectx/content1.java"/>
+            <files name="AC1.java" contentURI=".330528_ClearExtensionContextWorkspacectx/content2.java"/>
+            <files name="B.java" contentURI=".330528_ClearExtensionContextWorkspacectx/content3.java"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>
