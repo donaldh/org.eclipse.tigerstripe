@@ -25,24 +25,28 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.C
  */
 public class GMFEditorHandler {
 
-	private FileDiagramEditor editor;
+	private final FileDiagramEditor editor;
 
-	private ClassDiagramSynchronizer synchronizer;
+	private final ClassDiagramSynchronizer synchronizer;
 
 	public GMFEditorHandler(FileDiagramEditor editor) {
 		this.editor = editor;
 		this.synchronizer = new ClassDiagramSynchronizer(editor);
 		initializeInMap();
+		registerDropListener();
 	}
 
-	public void initialize() {
-		synchronizer.startSynchronizing();
+	private void registerDropListener() {
 		Map map = (Map) editor.getDiagram().getElement();
 		ITigerstripeModelProject tsProject = map
 				.getCorrespondingITigerstripeProject();
 		editor.getDiagramGraphicalViewer().addDropTargetListener(
 				new ClassDiagramDropTargetListener(editor
 						.getDiagramGraphicalViewer(), tsProject));
+	}
+
+	public void initialize() {
+		synchronizer.startSynchronizing();
 	}
 
 	public void initializeInMap() {
