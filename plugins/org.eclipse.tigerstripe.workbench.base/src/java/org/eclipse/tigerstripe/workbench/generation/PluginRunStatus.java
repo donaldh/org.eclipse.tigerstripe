@@ -12,6 +12,9 @@ package org.eclipse.tigerstripe.workbench.generation;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
@@ -22,6 +25,9 @@ import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModule
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginReport;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.RuleReport;
+import org.eclipse.tigerstripe.workbench.plugins.IPluginReport;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
@@ -43,6 +49,8 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 	private String context;
 
 	private String message = "";
+
+	private IPluginReport report;
 
 	public void setContext(String context) {
 		this.context = context;
@@ -80,19 +88,20 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 
 	@Override
 	public String getMessage() {
-	    return this.message;
+		return this.message;
 	}
-	
+
 	@Override
 	public String toString() {
 		return toString(false);
 	}
 
 	public String toString(boolean includeHTML) {
-		super.toString();
-		StringBuffer buf = new StringBuffer();
+
+		StringBuilder res = new StringBuilder();
 
 		boolean hasError = !isOK();
+		String newline = includeHTML ? "<br/>" : "\n";
 		try {
 			String projectType = "Project";
 			if (project instanceof ITigerstripeModuleProject) {
@@ -100,50 +109,86 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 			}
 
 			if (hasError && includeHTML)
-				buf.append("<b>");
-			buf.append("[");
-			buf.append(getMessage());
+				res.append("<b>");
+			res.append("[");
+			res.append(getMessage());
 
 			if (project != null) {
-				buf.append(projectType + ": " + project.getModelId() + " version=" + project.getProjectDetails().getVersion());
+				res.append(projectType + ": " + project.getModelId()
+						+ " version="
+						+ project.getProjectDetails().getVersion());
 			}
 			if (pluginConfig != null) {
-				buf.append(", Plugin: " + ((PluginConfig) pluginConfig).isResolvedTo() + " version=" + ((PluginConfig) pluginConfig).getVersion());
+				res.append(", Plugin: "
+						+ ((PluginConfig) pluginConfig).isResolvedTo()
+						+ " version="
+						+ ((PluginConfig) pluginConfig).getVersion());
 			}
 
 			if (facetRef != null && facetRef.canResolve()) {
 				String facetName = facetRef.resolve().getName();
-				buf.append(", Facet: " + facetName);
+				res.append(", Facet: " + facetName);
 			}
 
-			buf.append("]");
+			res.append("]");
 
 			if (context != null) {
-				buf.append(" (" + context + ")");
+				res.append(" (" + context + ")");
 			}
 			if (hasError && includeHTML)
-				buf.append("</b>");
-			if (includeHTML)
-				buf.append("<br/>");
-			else
-				buf.append("\n");
+				res.append("</b>");
+
+			res.append(newline);
 
 			if (!hasError) {
-				buf.append("Generation Successful.");
-				if (includeHTML)
-					buf.append("<br/>");
-				else
-					buf.append("\n");
+				boolean success = true;
+				if (report instanceof PluggablePluginReport) {
+					PluggablePluginReport ppr = (PluggablePluginReport) report;
+					List<RuleReport> childReports = new ArrayList<RuleReport>(
+							ppr.getChildReports());
+
+					for (Iterator<RuleReport> it = childReports.iterator(); it
+							.hasNext();) {
+						RuleReport rr = it.next();
+						if (rr == null) {
+							it.remove();
+						}
+					}
+					if (childReports.isEmpty()) {
+						res.append("Warning: Plugin '")
+								.append(ppr.getPluginConfig().getLabel())
+								.append("' has no rules.").append(newline);
+						success = false;
+					} else {
+						boolean nothingMatch = true;
+						for (RuleReport rr : childReports) {
+							if (rr.getMatchedArtifacts().isEmpty()) {
+								res.append(
+										"Notice: None of the artifact does not match to the rule '")
+										.append(rr.getName()).append("'.")
+										.append(newline);
+							} else {
+								nothingMatch = false;
+							}
+						}
+						if (nothingMatch) {
+							res.append(
+									"Warning: None of the artifact does not match one rule.")
+									.append(newline);
+						}
+						success = !nothingMatch;
+					}
+				}
+				if (success) {
+					res.append("Generation Successful.").append(newline);
+				}
 			} else {
 				for (IStatus status : getChildren()) {
 					if (includeHTML)
-						buf.append("<li><span color=\"red\">");
-					buf.append(getSeverityString(status.getSeverity()) + ": "
+						res.append("<li><span color=\"red\">");
+					res.append(getSeverityString(status.getSeverity()) + ": "
 							+ status.getMessage());
-					if (includeHTML)
-						buf.append("<br/>");
-					else
-						buf.append("\n");
+					res.append(newline);
 
 					if (status.getException() instanceof TigerstripeException) {
 						TigerstripeException tsExc = (TigerstripeException) status
@@ -152,19 +197,18 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 							StringWriter writer = new StringWriter();
 							tsExc.getException().printStackTrace(
 									new PrintWriter(writer));
-							buf.append(writer.toString());
+							res.append(writer.toString());
 						}
 					} else if (status.getException() != null)
-						if(status.getException().getLocalizedMessage() != null) {
-							buf.append(status.getException().getLocalizedMessage());
+						if (status.getException().getLocalizedMessage() != null) {
+							res.append(status.getException()
+									.getLocalizedMessage());
 						}
-					if (includeHTML)
-						buf.append("<br/>");
-					else
-						buf.append("\n");
+
+					res.append(newline);
 
 					if (includeHTML)
-						buf.append("</span></li>");
+						res.append("</span></li>");
 				}
 			}
 
@@ -172,7 +216,7 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
 					e);
 		}
-		return buf.toString();
+		return res.toString();
 	}
 
 	protected String getSeverityString(int severity) {
@@ -186,5 +230,13 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 		default:
 			return "Unknown";
 		}
+	}
+
+	public void setReport(IPluginReport report) {
+		this.report = report;
+	}
+
+	public IPluginReport getReport() {
+		return report;
 	}
 }

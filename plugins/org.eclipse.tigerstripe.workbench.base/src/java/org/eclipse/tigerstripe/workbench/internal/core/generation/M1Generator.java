@@ -622,8 +622,10 @@ public class M1Generator {
 					result.add(pluginResult);
 				}
 				PluginReport rep = ref.getReport();
-				if (rep != null)
+				if (rep != null) {
+					pluginResult.setReport(rep);
 					reports.add(rep);
+				}
 
 				monitor.worked(1);
 			} catch (TigerstripeException e) {
