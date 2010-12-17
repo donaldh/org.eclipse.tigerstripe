@@ -366,6 +366,7 @@ public class BaseRefactorCommand implements IRefactorCommand {
 				if (!delta.isComponentRefactor()
 						&& !delta.isRelationEndRefactor()) {
 					delta.apply(toCleanUp, toSave);
+					affectedProjects.add(delta.getProject());
 				}
 			} catch (TigerstripeException e) {
 				BasePlugin.log(e);
@@ -388,9 +389,9 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		toSave.clear();
 		for (ModelChangeDelta delta : deltas) {
 			try {
-				if (delta.isComponentRefactor()
-						|| (delta.isRelationEndRefactor() && !affectedProjects
-								.contains(delta.getProject())))
+				if ((delta.isComponentRefactor() || delta
+						.isRelationEndRefactor())
+						&& !affectedProjects.contains(delta.getProject()))
 					delta.apply(toCleanUp, toSave);
 			} catch (TigerstripeException e) {
 				BasePlugin.log(e);
