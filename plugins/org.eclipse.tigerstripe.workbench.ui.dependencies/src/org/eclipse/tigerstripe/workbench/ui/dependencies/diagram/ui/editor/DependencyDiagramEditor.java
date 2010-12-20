@@ -90,10 +90,11 @@ public abstract class DependencyDiagramEditor extends GraphicalEditor implements
 
 	@Override
 	public void doSave(IProgressMonitor monitor) {
-		if (getDiagram() == null) {
+		Diagram diagram = registry.getDiagramToSave();
+		if (diagram == null) {
 			return;
 		}
-		getExternalContext().save(getDiagram());
+		getExternalContext().save(diagram);
 		viewStateDirty = false;
 		getCommandStack().markSaveLocation();
 	}

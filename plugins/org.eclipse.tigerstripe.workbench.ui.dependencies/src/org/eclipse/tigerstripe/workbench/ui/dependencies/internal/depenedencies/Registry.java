@@ -149,16 +149,17 @@ public class Registry {
 				if (sd == null) {
 					continue;
 				}
-
-				Subject loadedSubject = sd.getSubject();
-
-				subject.setLocation(loadedSubject.getLocation());
-				subject.setSize(loadedSubject.getSize());
-				subject.setStyle(loadedSubject.getStyle());
-				subject.setUseCustomStyle(loadedSubject.isUseCustomStyle());
-				subject.setWasLayouting(loadedSubject.isWasLayouting());
+				mergeSubject(subject, sd.getSubject());
 			}
 		}
+	}
+
+	private void mergeSubject(Subject subject, Subject loadedSubject) {
+		subject.setLocation(loadedSubject.getLocation());
+		subject.setSize(loadedSubject.getSize());
+		subject.setStyle(loadedSubject.getStyle());
+		subject.setUseCustomStyle(loadedSubject.isUseCustomStyle());
+		subject.setWasLayouting(loadedSubject.isWasLayouting());
 	}
 
 	private void addSimpleShapes(LayerDescriptor loadedLayerInfo,
@@ -283,7 +284,7 @@ public class Registry {
 
 		if (subject.isMaster()
 				|| (oldSubject != null && oldSubject.getSubject().isLoaded())) {
-			loadDependencies(subject);
+			loadDependenciesInternal(subject, false);
 
 			for (Connection con : subject.getTargetConnections()) {
 				Shape shape = con.getSource();
@@ -394,6 +395,11 @@ public class Registry {
 	}
 
 	public Set<Subject> loadDependencies(Subject forSubject) {
+		return loadDependenciesInternal(forSubject, true);
+	}
+
+	private Set<Subject> loadDependenciesInternal(Subject forSubject,
+			boolean mergeAdded) {
 
 		if (forSubject.isLoaded()) {
 			return Collections.emptySet();
@@ -428,11 +434,36 @@ public class Registry {
 				.get(subjectDescriptor.getExternalSubject().getId());
 
 		Set<Subject> toAdd = new HashSet<Subject>();
+		Set<Note> toAddNotes = new HashSet<Note>();
 		for (IDependencySubject dependency : dependencies) {
 			boolean needAdd = !layerData.containsKey(dependency.getId());
-			Subject subject = findOrCreate(layerData, dependency);
 			if (needAdd) {
+				Subject subject = findOrCreate(layerData, dependency);
 				toAdd.add(subject);
+				if (mergeAdded) {
+					LayerDescriptor loadedDescriptor = loadedLayers
+							.get(layerDescriptor.getLayer().getId());
+					if (loadedDescriptor != null) {
+						SubjectDescriptor loadedSubjectD = loadedDescriptor
+								.getLayerData().get(subject.getExternalId());
+						if (loadedSubjectD != null) {
+							Subject loadedSubject = loadedSubjectD.getSubject();
+
+							for (Connection con : loadedSubject
+									.getTargetConnections().toArray(
+											new Connection[0])) {
+								Shape source = con.getSource();
+								if (source instanceof Note) {
+									subject.getTargetConnections().add(con);
+									con.setTarget(subject);
+									toAddNotes.add((Note) source);
+								}
+							}
+
+							mergeSubject(subject, loadedSubject);
+						}
+					}
+				}
 			}
 			// Utils.linkWithCheck(subjectDescriptor.getSubject(), subject);
 		}
@@ -481,7 +512,9 @@ public class Registry {
 
 			}
 		}
-		layerDescriptor.getLayer().getShapes().addAll(toAdd);
+		EList<Shape> shapes = layerDescriptor.getLayer().getShapes();
+		shapes.addAll(toAdd);
+		shapes.addAll(toAddNotes);
 		forSubject.setLoaded(true);
 		return affectedSubjects;
 	}
@@ -555,12 +588,58 @@ public class Registry {
 			layerShapes.remove(toRemove);
 			layerDescriptor.getLayerData().remove(toRemove.getExternalId());
 
-			// saveSubject(toRemove);
-			// Remove notice
+			saveSubject(toRemove, layerDescriptor.getLayer().getId());
 		}
 
 		updateConnections(layerDescriptor);
 
+	}
+
+	private void saveSubject(Subject subj, String layerId) {
+
+		LayerDescriptor ld = loadedLayers.get(layerId);
+		if (ld == null) {
+			ld = new LayerDescriptor(ModelsFactory.INSTANCE.createLayer(),
+					new LayerData());
+			loadedLayers.put(layerId, ld);
+		}
+		ld.getLayerData().put(subj.getExternalId(),
+				new SubjectDescriptor(null, subj));
+		saveSubject(subj, ld.getLayer().getShapes());
+	}
+
+	private void saveSubject(Subject subj, List<Shape> shapes) {
+
+		Iterator<Shape> it = shapes.iterator();
+
+		Set<Note> oldNotes = new HashSet<Note>();
+		while (it.hasNext()) {
+			Shape shape = it.next();
+			if (subj.getExternalId().equals(getExternalId(shape))) {
+				for (Connection con : shape.getTargetConnections()) {
+					Shape source = con.getSource();
+					if (source instanceof Note) {
+						oldNotes.add((Note) source);
+					}
+				}
+				it.remove();
+			}
+		}
+		shapes.removeAll(oldNotes);
+		shapes.add(subj);
+		for (Connection con : subj.getTargetConnections()) {
+			Shape source = con.getSource();
+			if (source instanceof Note) {
+				shapes.add(source);
+			}
+		}
+	}
+
+	private String getExternalId(Shape shape) {
+		if (!(shape instanceof Subject)) {
+			return null;
+		}
+		return ((Subject) shape).getExternalId();
 	}
 
 	private boolean isLoaded(Shape shape) {
@@ -857,6 +936,67 @@ public class Registry {
 
 	public Diagram getDiagram() {
 		return diagram;
+	}
+
+	public Diagram getDiagramToSave() {
+
+		if (diagram == null) {
+			return null;
+		}
+
+		Diagram toSave = EcoreUtil.copy(diagram);
+
+		List<Layer> layers = toSave.getLayers();
+
+		for (Layer layer : layers) {
+			LayerDescriptor loadedLD = loadedLayers.get(layer.getId());
+
+			List<Shape> shapes = layer.getShapes();
+			Set<String> layerIds = new HashSet<String>(shapes.size());
+			for (Shape shape : shapes) {
+				if (shape instanceof Subject) {
+					layerIds.add(((Subject) shape).getExternalId());
+				}
+			}
+
+			Set<Subject> shapesToSave = new HashSet<Subject>();
+
+			for (Shape shape : loadedLD.getLayer().getShapes()) {
+
+				if (shape instanceof Subject) {
+					Subject subject = (Subject) shape;
+					if (!layerIds.contains(subject.getExternalId())) {
+						shapesToSave.add(subject);
+					}
+				}
+			}
+
+			for (Subject subject : shapesToSave) {
+
+				Iterator<Connection> it = subject.getTargetConnections()
+						.iterator();
+
+				while (it.hasNext()) {
+					Shape source = it.next().getSource();
+					if (!(source instanceof Note)) {
+						it.remove();
+					}
+				}
+				subject.getSourceConnections().clear();
+
+				Kind kind = subject.getKind();
+				for (Kind k : toSave.getKinds()) {
+					if (kind.getId().equals(k.getId())) {
+						subject.setKind(k);
+						break;
+					}
+				}
+
+				saveSubject(subject, shapes);
+			}
+
+		}
+		return toSave;
 	}
 
 	Set<IModelChangeListener> modelChangeListeners = new LinkedHashSet<IModelChangeListener>();

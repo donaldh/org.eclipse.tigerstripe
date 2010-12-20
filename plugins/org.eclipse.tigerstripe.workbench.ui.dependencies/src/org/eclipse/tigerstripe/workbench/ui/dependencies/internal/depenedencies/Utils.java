@@ -227,6 +227,9 @@ public class Utils {
 		Set<GraphicalEditPart> toLayout = new HashSet<GraphicalEditPart>();
 
 		for (Subject s : affected) {
+			if (s.isWasLayouting()) {
+				continue;
+			}
 			GraphicalEditPart aPart = (GraphicalEditPart) editPartRegistry
 					.get(s);
 			if (aPart == null) {
