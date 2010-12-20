@@ -219,7 +219,7 @@ public class MethodInfoEditComponent {
 	// ============================================================
 	public void setMethod(IMethod method) {
 		this.method = method;
-		setEnabled(method != null);
+		setEnabled(method != null && !isReadOnly);
 	}
 
 	public void setEnabled(boolean value) {

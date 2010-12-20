@@ -323,7 +323,7 @@ public class ConstantInfoEditComponent {
 
 	public void setLiteral(ILiteral literal) {
 		this.literal = literal;
-		setEnabled(literal != null);
+		setEnabled(literal != null && !isReadOnly);
 	}
 
 	public void setEnabled(boolean value) {

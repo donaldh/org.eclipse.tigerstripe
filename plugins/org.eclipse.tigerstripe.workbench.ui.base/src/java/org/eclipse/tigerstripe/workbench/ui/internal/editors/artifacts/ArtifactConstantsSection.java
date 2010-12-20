@@ -214,35 +214,37 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart implemen
 		viewer.setInput(((ArtifactEditorBase) getPage().getEditor())
 				.getIArtifact());
 
-		nameColumn.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event e) {
-				// determine new sort column and direction
-				TableColumn sortColumn = viewer.getTable().getSortColumn();
-				TableColumn currentColumn = (TableColumn) e.widget;
-				int dir = viewer.getTable().getSortDirection();
+		if (!isReadonly()) {
+			nameColumn.addListener(SWT.Selection, new Listener() {
+				public void handleEvent(Event e) {
+					// determine new sort column and direction
+					TableColumn sortColumn = viewer.getTable().getSortColumn();
+					TableColumn currentColumn = (TableColumn) e.widget;
+					int dir = viewer.getTable().getSortDirection();
 
-				if (sortColumn == currentColumn) {
-					dir = dir == SWT.UP ? SWT.DOWN : SWT.UP;
-				} else {
-					viewer.getTable().setSortColumn(currentColumn);
-					dir = SWT.UP;
+					if (sortColumn == currentColumn) {
+						dir = dir == SWT.UP ? SWT.DOWN : SWT.UP;
+					} else {
+						viewer.getTable().setSortColumn(currentColumn);
+						dir = SWT.UP;
+					}
+
+					viewer.getTable().setSortDirection(dir);
+					viewer.setSorter(new Sorter(dir));
+
+					TableItem[] allItems = viewer.getTable().getItems();
+					ILiteral[] newFields = new ILiteral[allItems.length];
+					for (int i = 0; i < newFields.length; i++) {
+						newFields[i] = (ILiteral) allItems[i].getData();
+					}
+					getIArtifact().setLiterals(Arrays.asList(newFields));
+
+					refresh();
+					updateMaster();
+					markPageModified();
 				}
-
-				viewer.getTable().setSortDirection(dir);
-				viewer.setSorter(new Sorter(dir));
-
-				TableItem[] allItems = viewer.getTable().getItems();
-				ILiteral[] newFields = new ILiteral[allItems.length];
-				for (int i = 0; i < newFields.length; i++) {
-					newFields[i] = (ILiteral) allItems[i].getData();
-				}
-				getIArtifact().setLiterals(Arrays.asList(newFields));
-
-				refresh();
-				updateMaster();
-				markPageModified();
-			}
-		});
+			});
+		}
 
 		valueColumn.addListener(SWT.Selection, new Listener() {
 			public void handleEvent(Event e) {
@@ -418,7 +420,6 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart implemen
 			int position = viewer.getTable().getSelectionIndex();
 			TableItem[] allItems = this.viewer.getTable().getItems();
 
-			ILiteral[] allFields = new ILiteral[allItems.length];
 			ILiteral[] newFields = new ILiteral[allItems.length + 1];
 			for (int i = 0; i <= position; i++) {
 				newFields[i] = (ILiteral) allItems[i].getData();

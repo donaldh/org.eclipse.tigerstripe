@@ -24,7 +24,6 @@ import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.jface.viewers.ViewerSorter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionEvent;
@@ -154,8 +153,6 @@ public class ArtifactAttributesSection extends ModelComponentSectionPart impleme
 
 	TableColumn nameColumn;
 
-	private ViewerSorter nameSorter;
-
 	private Button addAttributeButton;
 
 	private Button removeAttributeButton;
@@ -197,33 +194,35 @@ public class ArtifactAttributesSection extends ModelComponentSectionPart impleme
 		nameColumn = new TableColumn(table, SWT.NONE);
 		nameColumn.setText("Name");
 
-		nameColumn.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event e) {
-				// determine new sort column and direction
-				TableColumn sortColumn = viewer.getTable().getSortColumn();
-				TableColumn currentColumn = (TableColumn) e.widget;
-				int dir = viewer.getTable().getSortDirection();
+		if (!isReadonly()) {
+			nameColumn.addListener(SWT.Selection, new Listener() {
+				public void handleEvent(Event e) {
+					// determine new sort column and direction
+					TableColumn sortColumn = viewer.getTable().getSortColumn();
+					TableColumn currentColumn = (TableColumn) e.widget;
+					int dir = viewer.getTable().getSortDirection();
 
-				if (sortColumn == currentColumn) {
-					dir = dir == SWT.UP ? SWT.DOWN : SWT.UP;
-				} else {
-					viewer.getTable().setSortColumn(currentColumn);
-					dir = SWT.UP;
-				}
+					if (sortColumn == currentColumn) {
+						dir = dir == SWT.UP ? SWT.DOWN : SWT.UP;
+					} else {
+						viewer.getTable().setSortColumn(currentColumn);
+						dir = SWT.UP;
+					}
 
-				viewer.getTable().setSortDirection(dir);
-				viewer.setSorter(new Sorter(dir));
-				TableItem[] allItems = viewer.getTable().getItems();
-				IField[] newFields = new IField[allItems.length];
-				for (int i = 0; i < newFields.length; i++) {
-					newFields[i] = (IField) allItems[i].getData();
+					viewer.getTable().setSortDirection(dir);
+					viewer.setSorter(new Sorter(dir));
+					TableItem[] allItems = viewer.getTable().getItems();
+					IField[] newFields = new IField[allItems.length];
+					for (int i = 0; i < newFields.length; i++) {
+						newFields[i] = (IField) allItems[i].getData();
+					}
+					getIArtifact().setFields(Arrays.asList(newFields));
+					refresh();
+					updateMaster();
+					markPageModified();
 				}
-				getIArtifact().setFields(Arrays.asList(newFields));
-				refresh();
-				updateMaster();
-				markPageModified();
-			}
-		});
+			});
+		}
 		tcLayout.setColumnData(nameColumn, new ColumnWeightData(100, false));
 
 		addAttributeButton = toolkit.createButton(sectionClient, "Add",

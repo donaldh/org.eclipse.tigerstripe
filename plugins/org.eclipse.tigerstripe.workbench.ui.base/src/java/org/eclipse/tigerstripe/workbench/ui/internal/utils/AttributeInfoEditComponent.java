@@ -593,7 +593,7 @@ public class AttributeInfoEditComponent {
 
 	public void setIField(IField field) {
 		this.field = field;
-		setEnabled(field != null);
+		setEnabled(field != null && !isReadOnly);
 	}
 
 	public IField getField() {

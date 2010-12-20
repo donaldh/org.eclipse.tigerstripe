@@ -185,33 +185,35 @@ public class ArtifactMethodsSection extends ModelComponentSectionPart implements
 		nameColumn.setText("Name");
 		tcLayout.setColumnData(nameColumn, new ColumnWeightData(100, false));
 
-		nameColumn.addListener(SWT.Selection, new Listener() {
-			public void handleEvent(Event e) {
-				// determine new sort column and direction
-				TableColumn sortColumn = viewer.getTable().getSortColumn();
-				TableColumn currentColumn = (TableColumn) e.widget;
-				int dir = viewer.getTable().getSortDirection();
+		if (!isReadonly()) {
+			nameColumn.addListener(SWT.Selection, new Listener() {
+				public void handleEvent(Event e) {
+					// determine new sort column and direction
+					TableColumn sortColumn = viewer.getTable().getSortColumn();
+					TableColumn currentColumn = (TableColumn) e.widget;
+					int dir = viewer.getTable().getSortDirection();
 
-				if (sortColumn == currentColumn) {
-					dir = dir == SWT.UP ? SWT.DOWN : SWT.UP;
-				} else {
-					viewer.getTable().setSortColumn(currentColumn);
-					dir = SWT.UP;
-				}
+					if (sortColumn == currentColumn) {
+						dir = dir == SWT.UP ? SWT.DOWN : SWT.UP;
+					} else {
+						viewer.getTable().setSortColumn(currentColumn);
+						dir = SWT.UP;
+					}
 
-				viewer.getTable().setSortDirection(dir);
-				viewer.setSorter(new Sorter(dir));
-				TableItem[] allItems = viewer.getTable().getItems();
-				IMethod[] newFields = new IMethod[allItems.length];
-				for (int i = 0; i < newFields.length; i++) {
-					newFields[i] = (IMethod) allItems[i].getData();
+					viewer.getTable().setSortDirection(dir);
+					viewer.setSorter(new Sorter(dir));
+					TableItem[] allItems = viewer.getTable().getItems();
+					IMethod[] newFields = new IMethod[allItems.length];
+					for (int i = 0; i < newFields.length; i++) {
+						newFields[i] = (IMethod) allItems[i].getData();
+					}
+					getIArtifact().setMethods(Arrays.asList(newFields));
+					refresh();
+					updateMaster();
+					markPageModified();
 				}
-				getIArtifact().setMethods(Arrays.asList(newFields));
-				refresh();
-				updateMaster();
-				markPageModified();
-			}
-		});
+			});
+		}
 
 		addAttributeButton = toolkit.createButton(sectionClient, "Add",
 				SWT.PUSH);
@@ -248,6 +250,7 @@ public class ArtifactMethodsSection extends ModelComponentSectionPart implements
 
 		downAttributeButton = toolkit.createButton(sectionClient, "Down",
 				SWT.PUSH);
+		downAttributeButton.setEnabled(!isReadonly());
 		downAttributeButton.setLayoutData(new GridData(
 				GridData.HORIZONTAL_ALIGN_FILL
 						| GridData.VERTICAL_ALIGN_BEGINNING));
@@ -357,7 +360,6 @@ public class ArtifactMethodsSection extends ModelComponentSectionPart implements
 			int position = viewer.getTable().getSelectionIndex();
 			TableItem[] allItems = this.viewer.getTable().getItems();
 
-			IMethod[] allFields = new IMethod[allItems.length];
 			IMethod[] newFields = new IMethod[allItems.length + 1];
 			for (int i = 0; i <= position; i++) {
 				newFields[i] = (IMethod) allItems[i].getData();
