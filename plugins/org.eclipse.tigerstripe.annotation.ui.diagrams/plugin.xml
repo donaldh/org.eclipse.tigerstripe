@@ -79,6 +79,39 @@
 			genModel = "model/model.genmodel" /> 
 	</extension>
 	
+	<extension
+			point="org.eclipse.ui.menus">
+		<menuContribution
+				locationURI="popup:org.eclipse.tigerstripe.annotation.menus.annotations">
+			<separator
+				visible="true"
+				name="org.eclipse.tigerstripe.annotation.ui.diagrams.separator">
+			</separator>
+			<dynamic
+					class="org.eclipse.tigerstripe.annotation.ui.diagrams.actions.ShowAnnotationTypesContributionItem"
+					id="org.eclipse.tigerstripe.annotation.ui.diagrams.actions.showTypes">
+				<visibleWhen>
+          			<iterate>
+          				<instanceof
+                    		value="org.eclipse.gmf.runtime.diagram.ui.editparts.GraphicalEditPart">
+          				</instanceof>
+          			</iterate>
+				</visibleWhen>
+			</dynamic>
+			<dynamic
+					class="org.eclipse.tigerstripe.annotation.ui.diagrams.actions.HideAnnotationTypeContributionItem"
+					id="org.eclipse.tigerstripe.annotation.ui.diagrams.actions.hideTypes">
+				<visibleWhen>
+          			<iterate>
+	        			<instanceof
+                    		value="org.eclipse.gmf.runtime.diagram.ui.editparts.GraphicalEditPart">
+          				</instanceof>
+          			</iterate>
+				</visibleWhen>
+			</dynamic>
+		</menuContribution>
+	</extension>
+	
    <extension
          point="org.eclipse.ui.popupMenus">
       <objectContribution
