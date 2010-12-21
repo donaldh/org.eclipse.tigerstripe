@@ -1758,17 +1758,20 @@
 					style="push"/>
 				<visibleWhen checkEnabled="false">
               		<with variable="selection">
-                 		<iterate>
-                 		    <or>
-                 		        <adapt type="org.eclipse.core.resources.IResource">
-              						<test
-                    					property="org.eclipse.core.resources.projectNature"
-                    					value="org.eclipse.tigerstripe.workbench.base.tigerstripeProject">
-              						</test>
-           						</adapt>
-           						<adapt type="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent"/>			           						
-           					</or>
-                 		</iterate>
+              			<and>
+              				<count value="+"/>
+                 			<iterate>
+                 		    	<or>
+                 		        	<adapt type="org.eclipse.core.resources.IResource">
+              							<test
+                    						property="org.eclipse.core.resources.projectNature"
+                    						value="org.eclipse.tigerstripe.workbench.base.tigerstripeProject">
+              							</test>
+           							</adapt>
+           							<adapt type="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent"/>
+           						</or>
+                 			</iterate>
+                 		</and>
               		</with>
            		</visibleWhen>
 			</menu>
