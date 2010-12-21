@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="HideShowExtendsRelationshipContextWorkspace" id="_GQbOcAZ9EeC3S_PC6IM0yQ">
+  <content>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".HideShowExtendsRelationshipContextWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".HideShowExtendsRelationshipContextWorkspacectx/content1.project"/>
+      <files name=".visualstate" contentURI=".HideShowExtendsRelationshipContextWorkspacectx/content1.visualstate"/>
+      <files name="tigerstripe.xml" contentURI=".HideShowExtendsRelationshipContextWorkspacectx/content1.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".HideShowExtendsRelationshipContextWorkspacectx/content1.prefs"/>
+      </folders>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".HideShowExtendsRelationshipContextWorkspacectx/content4.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".HideShowExtendsRelationshipContextWorkspacectx/content3.package"/>
+            <files name="One.java" contentURI=".HideShowExtendsRelationshipContextWorkspacectx/content1.java"/>
+            <files name="Two.java" contentURI=".HideShowExtendsRelationshipContextWorkspacectx/content2.java"/>
+            <files name="default.vwm" contentURI=".HideShowExtendsRelationshipContextWorkspacectx/content2.vwm"/>
+            <files name="default.wvd" contentURI=".HideShowExtendsRelationshipContextWorkspacectx/content2.wvd"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>
