@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
@@ -31,6 +32,10 @@ public class TSLibraryFilter extends ViewerFilter {
 		if (element instanceof IPackageFragmentRoot) {
 			IPackageFragmentRoot root = (IPackageFragmentRoot) element;
 			if (root.isArchive()) {
+				IPath path = root.getPath();
+				if ((path!=null) && (path.toString().endsWith("phantom.zip")))
+					return false;
+				
 				// don't filter out JARs contained in the project itself
 				IResource resource = root.getResource();
 				if (resource != null) {
