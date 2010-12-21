@@ -58,7 +58,7 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 		implements  IActiveFacetChangeListener,
 		ITigerstripeChangeListener, IArtifactChangeListener {
 
-	private AbstractArtifactLabelProvider prov = new AbstractArtifactLabelProvider();
+	private final AbstractArtifactLabelProvider prov = new AbstractArtifactLabelProvider();
 
 	private boolean ignoreResourceChange = false;
 
@@ -70,7 +70,9 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 
 	private ArtifactSourcePage sourcePage;
 
-	private Collection<TigerstripeFormPage> modelPages = new ArrayList<TigerstripeFormPage>();
+	private final Collection<TigerstripeFormPage> modelPages = new ArrayList<TigerstripeFormPage>();
+
+	private IArtifactManagerSession session;
 
 	public ArtifactEditorBase() {
 		// Performance improvements - only register for the right sort of changes.
@@ -126,17 +128,16 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 
 	@Override
 	protected void closeMyself() {
-		try {
-			if (artifact != null && artifact.getTigerstripeProject() != null) {
-				artifact.getTigerstripeProject().getArtifactManagerSession()
-						.removeArtifactChangeListener(this);
-				artifact.getTigerstripeProject().getArtifactManagerSession()
-						.removeActiveFacetListener(this);
-			}
-		} catch (TigerstripeException e) {
-//			EclipsePlugin.log(e);
-		}
+		removeListeners();
 		super.closeMyself();
+	}
+
+	private void removeListeners() {
+		if (session != null) {
+			session.removeArtifactChangeListener(this);
+			session.removeActiveFacetListener(this);
+			session = null;
+		}
 	}
 
 	@Override
@@ -154,14 +155,16 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 
 			try {
 				if (artifact != null) {
-					setIArtifact(((AbstractArtifact) artifact).makeWorkingCopy(new NullProgressMonitor()));
-					
+					setIArtifact(((AbstractArtifact) artifact)
+							.makeWorkingCopy(new NullProgressMonitor()));
+
 					if (artifact.getTigerstripeProject() != null) {
-						artifact.getTigerstripeProject().getArtifactManagerSession().addArtifactChangeListener(this);
-						artifact.getTigerstripeProject().getArtifactManagerSession().addActiveFacetListener(this);		
+						session = artifact.getTigerstripeProject()
+								.getArtifactManagerSession();
+						session.addArtifactChangeListener(this);
+						session.addActiveFacetListener(this);
 					}
 				}
-				
 			} catch (TigerstripeException e) {
 				EclipsePlugin.log(e);
 			}
@@ -383,19 +386,9 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 
 	@Override
 	public void dispose() {
-		try {
-			if (artifact != null && artifact.getTigerstripeProject() != null) {
-				artifact.getTigerstripeProject().getArtifactManagerSession()
-						.removeArtifactChangeListener(this);
-				artifact.getTigerstripeProject().getArtifactManagerSession()
-				.removeActiveFacetListener(this);
-			}
-
-			TigerstripeWorkspaceNotifier.INSTANCE
-					.removeTigerstripeChangeListener(this);
-		} catch (TigerstripeException e) {
-			// Simply ignore... we're cleaning up anyway.
-		}
+		removeListeners();
+		TigerstripeWorkspaceNotifier.INSTANCE
+				.removeTigerstripeChangeListener(this);
 		super.dispose();
 	}
 
