@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="324148_ArtifactRulesWarningContextWorkspace" id="_mTnOIAwPEeCqQ4ETbKfwUw">
+  <content>
+    <projects name="GeneratorProject">
+      <files name=".classpath" contentURI=".324148_ArtifactRulesWarningContextWorkspacectx/content3.classpath"/>
+      <files name=".project" contentURI=".324148_ArtifactRulesWarningContextWorkspacectx/content3.project"/>
+      <files name="ts-plugin.xml" contentURI=".324148_ArtifactRulesWarningContextWorkspacectx/content3.xml"/>
+      <folders name="src"/>
+      <folders name="templates">
+        <files name="artifact.vm" contentURI=".324148_ArtifactRulesWarningContextWorkspacectx/content2.vm"/>
+      </folders>
+    </projects>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".324148_ArtifactRulesWarningContextWorkspacectx/content4.classpath"/>
+      <files name=".project" contentURI=".324148_ArtifactRulesWarningContextWorkspacectx/content4.project"/>
+      <files name=".visualstate" contentURI=".324148_ArtifactRulesWarningContextWorkspacectx/content2.visualstate"/>
+      <files name="tigerstripe.xml" contentURI=".324148_ArtifactRulesWarningContextWorkspacectx/content4.xml"/>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".324148_ArtifactRulesWarningContextWorkspacectx/content8.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".324148_ArtifactRulesWarningContextWorkspacectx/content7.package"/>
+            <files name="Entity1.java" contentURI=".324148_ArtifactRulesWarningContextWorkspacectx/content2.java"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>
