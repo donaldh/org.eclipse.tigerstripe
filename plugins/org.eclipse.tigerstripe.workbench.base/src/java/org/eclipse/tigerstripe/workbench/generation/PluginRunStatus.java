@@ -164,7 +164,7 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 						for (RuleReport rr : childReports) {
 							if (rr.getMatchedArtifacts().isEmpty()) {
 								res.append(
-										"Notice: None of the artifact does not match to the rule '")
+										"Notice: None of the artifact(s) match the specified rule(s) '")
 										.append(rr.getName()).append("'.")
 										.append(newline);
 							} else {
@@ -173,7 +173,7 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 						}
 						if (nothingMatch) {
 							res.append(
-									"Warning: None of the artifact does not match one rule.")
+									"Warning: None of the artifact(s) match the generator's rule.")
 									.append(newline);
 						}
 						success = !nothingMatch;
