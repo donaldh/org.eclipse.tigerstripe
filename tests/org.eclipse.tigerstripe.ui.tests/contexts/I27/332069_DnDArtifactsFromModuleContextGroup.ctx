@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.scenario:GroupContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" name="332069_DnDArtifactsFromModuleContextGroup" id="_UI4twAqIEeC3icb0FRsnow">
+  <contextReferences>_F-aMEAqIEeC3icb0FRsnow</contextReferences>
+  <contextReferences>_FGfSUKthEd-v8JwXbnu_tQ</contextReferences>
+  <contextReferences>_9D6jAatgEd-v8JwXbnu_tQ</contextReferences>
+</com.xored.q7.scenario:GroupContext>
