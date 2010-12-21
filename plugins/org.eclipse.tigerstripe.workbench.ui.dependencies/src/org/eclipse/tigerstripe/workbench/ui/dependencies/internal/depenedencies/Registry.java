@@ -949,7 +949,12 @@ public class Registry {
 		List<Layer> layers = toSave.getLayers();
 
 		for (Layer layer : layers) {
-			LayerDescriptor loadedLD = loadedLayers.get(layer.getId());
+			String layerId = layer.getId();
+			LayerDescriptor loadedLD = loadedLayers.get(layerId);
+			if (loadedLD == null) {
+				loadedLD = new LayerDescriptor(ModelsFactory.INSTANCE.createLayer(), new LayerData());
+				loadedLayers.put(layerId, loadedLD);
+			}
 
 			List<Shape> shapes = layer.getShapes();
 			Set<String> layerIds = new HashSet<String>(shapes.size());
