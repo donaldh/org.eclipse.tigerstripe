@@ -35,7 +35,6 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
@@ -220,20 +219,20 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart implements
 	private int createExtendName(Composite parent, FormToolkit toolkit) {
 		// N.M: bugzilla 328441 - provide easy navigability to artifact being extended/implemented
 		Hyperlink link = toolkit.createHyperlink(parent, "Extends:", SWT.NULL);
-		link.setEnabled(!this.isReadonly());
-		
 		
 		link.addHyperlinkListener(new HyperlinkAdapter() {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
-				
+
 				IAbstractArtifact parent = getIArtifact().getExtendedArtifact();
-				if (parent !=null) {
-					String fqnOfParent = parent.getFullyQualifiedName();
-					if (fqnOfParent!=null && fqnOfParent.length()!=0) 
-						openArtifact(fqnOfParent);
+				if (parent != null) {
+					openArtifact(parent);
 				} else {
-					MessageDialog.openInformation( PlatformUI.getWorkbench().getDisplay().getActiveShell(), "No Parent Artifact", "This artifact doesn't have a parent artifact to open!");
+					MessageDialog
+							.openInformation(PlatformUI.getWorkbench()
+									.getDisplay().getActiveShell(),
+									"No Parent Artifact",
+									"This artifact doesn't have a parent artifact to open!");
 				}
 			}
 		});
@@ -266,18 +265,26 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart implements
 		return size.x;
 	}
 	
-	private void openArtifact(String fqn) {
-		if (getIArtifact() != null && getIArtifact().getTigerstripeProject() != null) {
-			try {
-				IArtifactManagerSession session = getIArtifact().getTigerstripeProject().getArtifactManagerSession();
-				IAbstractArtifact target = session.getArtifactByFullyQualifiedName(fqn);
-				if (target != null) {
-					IWorkbenchPage page = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-					TSOpenAction.openEditor(target, page);
+	private void openArtifact(IAbstractArtifact toOpen) {
+		try {
+			String fqn = toOpen.getFullyQualifiedName();
+			if (fqn != null && fqn.length() != 0) {
+				IAbstractArtifact target = null;
+				if (getIArtifact() != null
+						&& getIArtifact().getProject() != null) {
+					IArtifactManagerSession session = getIArtifact()
+							.getProject().getArtifactManagerSession();
+					target = session.getArtifactByFullyQualifiedName(fqn);
 				}
-			} catch (TigerstripeException ee) {
-				EclipsePlugin.log(ee);
+				if (target == null) {
+					target = toOpen;
+				}
+				IWorkbenchPage page = PlatformUI.getWorkbench()
+						.getActiveWorkbenchWindow().getActivePage();
+				TSOpenAction.openEditor(target, page);
 			}
+		} catch (TigerstripeException ee) {
+			EclipsePlugin.log(ee);
 		}
 	}
 
@@ -286,24 +293,25 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart implements
 		
 		// N.M: bugzilla 328441 - provide easy navigability to artifact being extended/implemented
 		Hyperlink link = toolkit.createHyperlink(parent, "Implements:", SWT.NULL);
-		link.setEnabled(!this.isReadonly());
-		
 		
 		link.addHyperlinkListener(new HyperlinkAdapter() {
 			@Override
 			public void linkActivated(HyperlinkEvent e) {
-				
-				Collection<IAbstractArtifact> implementedArtifacts = getIArtifact().getImplementedArtifacts();
-				if (implementedArtifacts!=null && implementedArtifacts.size()>0) {
-					Iterator<IAbstractArtifact> iterator = implementedArtifacts.iterator();
+				Collection<IAbstractArtifact> implementedArtifacts = getIArtifact()
+						.getImplementedArtifacts();
+				if (implementedArtifacts != null
+						&& implementedArtifacts.size() > 0) {
+					Iterator<IAbstractArtifact> iterator = implementedArtifacts
+							.iterator();
 					if (iterator.hasNext()) {
 						IAbstractArtifact artifact = iterator.next();
-						String fqnOfParent = artifact.getFullyQualifiedName();
-						if (fqnOfParent!=null && fqnOfParent.length()!=0) 
-							openArtifact(fqnOfParent);	
+						openArtifact(artifact);
 					}
 				} else {
-					MessageDialog.openInformation( PlatformUI.getWorkbench().getDisplay().getActiveShell(), "No Implemented Artifact", "This artifact doesn't implement anything!");
+					MessageDialog.openInformation(PlatformUI.getWorkbench()
+							.getDisplay().getActiveShell(),
+							"No Implemented Artifact",
+							"This artifact doesn't implement anything!");
 				}
 			}
 		});
