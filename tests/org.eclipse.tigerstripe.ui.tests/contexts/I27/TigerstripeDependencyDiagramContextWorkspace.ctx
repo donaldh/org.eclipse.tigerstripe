@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="TigerstripeDependencyDiagramContextWorkspace" id="_HbU74PhGEd-iKuOiJgVXVQ">
+  <content>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".TigerstripeDependencyDiagramContextWorkspacectx/content9.classpath"/>
+      <files name=".project" contentURI=".TigerstripeDependencyDiagramContextWorkspacectx/content9.project"/>
+      <files name=".visualstate" contentURI=".TigerstripeDependencyDiagramContextWorkspacectx/content9.visualstate"/>
+      <files name="tigerstripe.xml" contentURI=".TigerstripeDependencyDiagramContextWorkspacectx/content9.xml"/>
+      <folders name="src"/>
+    </projects>
+    <projects name="Project2">
+      <files name=".classpath" contentURI=".TigerstripeDependencyDiagramContextWorkspacectx/content10.classpath"/>
+      <files name=".project" contentURI=".TigerstripeDependencyDiagramContextWorkspacectx/content10.project"/>
+      <files name=".visualstate" contentURI=".TigerstripeDependencyDiagramContextWorkspacectx/content10.visualstate"/>
+      <files name="tigerstripe.xml" contentURI=".TigerstripeDependencyDiagramContextWorkspacectx/content10.xml"/>
+      <folders name="src"/>
+    </projects>
+    <projects name="Project3">
+      <files name=".classpath" contentURI=".TigerstripeDependencyDiagramContextWorkspacectx/content11.classpath"/>
+      <files name=".project" contentURI=".TigerstripeDependencyDiagramContextWorkspacectx/content11.project"/>
+      <files name=".visualstate" contentURI=".TigerstripeDependencyDiagramContextWorkspacectx/content11.visualstate"/>
+      <files name="tigerstripe.xml" contentURI=".TigerstripeDependencyDiagramContextWorkspacectx/content11.xml"/>
+      <folders name="src"/>
+    </projects>
+    <projects name="Project4">
+      <files name=".classpath" contentURI=".TigerstripeDependencyDiagramContextWorkspacectx/content12.classpath"/>
+      <files name=".project" contentURI=".TigerstripeDependencyDiagramContextWorkspacectx/content12.project"/>
+      <files name=".visualstate" contentURI=".TigerstripeDependencyDiagramContextWorkspacectx/content12.visualstate"/>
+      <files name="tigerstripe.xml" contentURI=".TigerstripeDependencyDiagramContextWorkspacectx/content12.xml"/>
+      <folders name="src"/>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

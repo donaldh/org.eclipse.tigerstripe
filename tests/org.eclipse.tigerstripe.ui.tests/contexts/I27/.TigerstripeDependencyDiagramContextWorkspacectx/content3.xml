@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<tigerstripe version="1.1">
+<project modelId="Project3" name="">
+<outputDirectory>target/tigerstripe.gen</outputDirectory>
+<version>0.0.0</version>
+<description/>
+<provider/>
+<property name="defaultArtifactPackage">com.mycompany</property>
+</project>
+<repositories>
+<repository baseDir=".">
+<includes>src/**/*.java</includes>
+</repository>
+</repositories>
+<plugins/>
+<dependencies>
+<dependency path="Project1_0.0.0.jar"/>
+</dependencies>
+<references>
+<reference modelId="Project2" path="Project2"/>
+<reference modelId="Project4" path="Project4"/>
+</references>
+<facetReferences/>
+<advanced/>
+<visualSateDeps/>
+</tigerstripe>

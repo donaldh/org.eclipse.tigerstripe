@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="ASCII"?>
+<org.eclipse.tigerstripe.dependencies:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:org.eclipse.tigerstripe.dependencies="http:///org/eclipse/tigerstripe/dependencies.ecore" currentLayer="//@layers.0">
+  <kinds id="PROJECT">
+    <style backgroundColor="16774131" foregroundColor="14800341"/>
+  </kinds>
+  <kinds id="DEPENDENCY">
+    <style backgroundColor="15988223" foregroundColor="14014433"/>
+  </kinds>
+  <layers id="PROJECT.Project3" wasLayouting="true">
+    <shapes xsi:type="org.eclipse.tigerstripe.dependencies:Subject" externalId="PROJECT.Project3" kind="//@kinds.0" master="true" loaded="true">
+      <location x="30" y="30"/>
+      <size width="200" height="80"/>
+      <style backgroundColor="16777182" foregroundColor="9671466"/>
+      <targetConnections source="//@layers.0/@shapes.2" target="//@layers.0/@shapes.0"/>
+      <targetConnections source="//@layers.0/@shapes.3" target="//@layers.0/@shapes.0"/>
+      <targetConnections source="//@layers.0/@shapes.1" target="//@layers.0/@shapes.0"/>
+    </shapes>
+    <shapes xsi:type="org.eclipse.tigerstripe.dependencies:Subject" sourceConnections="//@layers.0/@shapes.0/@targetConnections.2" externalId="PROJECT.Project2" kind="//@kinds.0">
+      <location/>
+      <size width="200" height="80"/>
+      <style backgroundColor="16777182" foregroundColor="9671466"/>
+    </shapes>
+    <shapes xsi:type="org.eclipse.tigerstripe.dependencies:Subject" sourceConnections="//@layers.0/@shapes.0/@targetConnections.0" externalId="DEPENDENCY.Project1_0.0.0.jar" kind="//@kinds.1">
+      <location/>
+      <size width="200" height="80"/>
+      <style backgroundColor="16777182" foregroundColor="9671466"/>
+    </shapes>
+    <shapes xsi:type="org.eclipse.tigerstripe.dependencies:Subject" sourceConnections="//@layers.0/@shapes.0/@targetConnections.1" externalId="PROJECT.Project4" kind="//@kinds.0">
+      <location/>
+      <size width="200" height="80"/>
+      <style backgroundColor="16777182" foregroundColor="9671466"/>
+    </shapes>
+  </layers>
+  <layers id="DEPENDENCY.Project1_0.0.0.jar">
+    <shapes xsi:type="org.eclipse.tigerstripe.dependencies:Subject" externalId="DEPENDENCY.Project1_0.0.0.jar" kind="//@kinds.1" master="true" loaded="true">
+      <location/>
+      <size width="200" height="80"/>
+      <style backgroundColor="16777182" foregroundColor="9671466"/>
+    </shapes>
+  </layers>
+  <layers id="PROJECT.Project4">
+    <shapes xsi:type="org.eclipse.tigerstripe.dependencies:Subject" externalId="PROJECT.Project4" kind="//@kinds.0" master="true" loaded="true">
+      <location/>
+      <size width="200" height="80"/>
+      <style backgroundColor="16777182" foregroundColor="9671466"/>
+    </shapes>
+  </layers>
+  <layers id="PROJECT.Project2">
+    <shapes xsi:type="org.eclipse.tigerstripe.dependencies:Subject" externalId="PROJECT.Project2" kind="//@kinds.0" master="true" loaded="true">
+      <location/>
+      <size width="200" height="80"/>
+      <style backgroundColor="16777182" foregroundColor="9671466"/>
+    </shapes>
+  </layers>
+</org.eclipse.tigerstripe.dependencies:Diagram>
