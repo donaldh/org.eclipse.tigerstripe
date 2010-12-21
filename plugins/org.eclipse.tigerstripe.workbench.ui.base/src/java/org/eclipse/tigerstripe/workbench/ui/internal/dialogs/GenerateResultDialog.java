@@ -85,6 +85,9 @@ public class GenerateResultDialog extends Dialog {
 		} else if (hasErrors(result)) {
 			overallResult.setText("Generation Failed.");
 			overallResult.setForeground(ColorUtils.TS_ORANGE);
+		} else if (hasWarnings(result)) {
+			overallResult.setText("Warnings during generation.");
+			overallResult.setForeground(ColorUtils.TS_ORANGE);
 		} else {
 			overallResult.setText("Generation Successful.");
 			overallResult.setForeground(ColorUtils.BLACK);
@@ -118,6 +121,15 @@ public class GenerateResultDialog extends Dialog {
 
 		getShell().setText("Generate Result");
 		return area;
+	}
+
+	private boolean hasWarnings(PluginRunStatus[] statuses) {
+		for (PluginRunStatus st : statuses) {
+			if (st.hasWarning()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private void copyToClipboard() {

@@ -219,6 +219,29 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 		return res.toString();
 	}
 
+	public boolean hasWarning() {
+		if (!(report instanceof PluggablePluginReport)) {
+			return false;
+		}
+		PluggablePluginReport ppr = (PluggablePluginReport) report;
+		if (ppr.getChildReports().isEmpty()) {
+			return true;
+		}
+		if (!hasMatches(ppr)) {
+			return true;
+		}
+		return false;
+	}
+
+	private boolean hasMatches(PluggablePluginReport ppr) {
+		for (RuleReport rr : ppr.getChildReports()) {
+			if (!rr.getMatchedArtifacts().isEmpty()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	protected String getSeverityString(int severity) {
 		switch (severity) {
 		case IStatus.ERROR:
