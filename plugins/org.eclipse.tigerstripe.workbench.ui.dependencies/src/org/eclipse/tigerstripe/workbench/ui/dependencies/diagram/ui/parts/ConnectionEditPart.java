@@ -16,6 +16,8 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.PolygonDecoration;
 import org.eclipse.draw2d.PolylineConnection;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
+import org.eclipse.tigerstripe.workbench.ui.dependencies.api.IDependencySubject;
+import org.eclipse.tigerstripe.workbench.ui.dependencies.internal.depenedencies.Utils;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Connection;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Note;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Subject;
@@ -36,8 +38,15 @@ public class ConnectionEditPart extends AbstractConnectionEditPart {
 			PolygonDecoration decoration = new PolygonDecoration();
 			decoration.setForegroundColor(ColorConstants.black);
 			decoration.setBackgroundColor(ColorConstants.white);
-			connectionFigure.setSourceDecoration(decoration);
+			Subject source = ((Subject) model.getSource());
+			IDependencySubject extSource = Utils.findExternalModel(source,
+					getViewer());
 
+			if (extSource != null && extSource.isReverseDirection()) {
+				connectionFigure.setTargetDecoration(decoration);
+			} else {
+				connectionFigure.setSourceDecoration(decoration);
+			}
 			if (!((Subject) model.getTarget()).isMaster()) {
 				connectionFigure.setLineDash(new float[] { 5 });
 			}

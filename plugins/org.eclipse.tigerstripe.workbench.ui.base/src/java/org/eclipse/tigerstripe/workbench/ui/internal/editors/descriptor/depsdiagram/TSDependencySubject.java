@@ -66,4 +66,8 @@ public class TSDependencySubject extends IdObject implements IDependencySubject 
 		return null;
 	}
 
+	public boolean isReverseDirection() {
+		return false;
+	}
+
 }

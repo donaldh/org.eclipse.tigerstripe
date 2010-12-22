@@ -62,4 +62,9 @@ public interface IDependencySubject extends IAdaptable {
 	 *         type
 	 */
 	Image getIcon();
+
+	/**
+	 * @return true if connection should be shown in reverse direction 
+	 */
+	boolean isReverseDirection();
 }

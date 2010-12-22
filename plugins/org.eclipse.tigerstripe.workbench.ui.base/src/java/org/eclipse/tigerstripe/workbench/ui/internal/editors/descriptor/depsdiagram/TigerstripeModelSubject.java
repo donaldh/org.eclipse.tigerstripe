@@ -111,4 +111,8 @@ public class TigerstripeModelSubject extends IdObject implements
 	public Image getIcon() {
 		return null;
 	}
+
+	public boolean isReverseDirection() {
+		return false;
+	}
 }
