@@ -14,13 +14,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
-import org.eclipse.gef.RootEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramDropTargetListener;
-import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramGraphicalViewer;
-import org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide.editor.FileDiagramEditor;
 import org.eclipse.jface.util.LocalSelectionTransfer;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
@@ -67,43 +64,20 @@ public class ClassDiagramDropTargetListener extends DiagramDropTargetListener {
 	 * @return
 	 */
 	protected List<IAbstractArtifact> internalGetObjectsBeingDropped() {
-
-		List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
-
 		TransferData[] data = getCurrentEvent().dataTypes;
-
-		for (int i = 0; i < data.length; i++) {
-			if (LocalSelectionTransfer.getTransfer().isSupportedType(data[i])) {
-				Object obj = LocalSelectionTransfer.getTransfer().nativeToJava(
-						data[i]);
-				if (obj instanceof IStructuredSelection) {
-					IStructuredSelection sel = (IStructuredSelection) obj;
-					for (Iterator iter = sel.iterator(); iter.hasNext();) {
-						Object item = iter.next();
-						IAbstractArtifact artifact = AbstractArtifactAdapter
-								.adapt(item);
-						if (artifact != null) {
-							result.add(artifact);
-						}
-					}
-				}
-			}
-		}
-
-		return result;
+		return internalGetObjectsBeingDropped(data);
 	}
 
 	protected List<IAbstractArtifact> internalGetObjectsBeingDropped(
 			TransferData[] data) {
-
 		List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
-
 		for (int i = 0; i < data.length; i++) {
 			if (LocalSelectionTransfer.getTransfer().isSupportedType(data[i])) {
-				Object obj = LocalSelectionTransfer.getTransfer().nativeToJava(
-						data[i]);
-				if (obj instanceof IStructuredSelection) {
-					IStructuredSelection sel = (IStructuredSelection) obj;
+				ISelection selection = LocalSelectionTransfer.getTransfer()
+						.getSelection();
+				if (selection != null
+						&& selection instanceof IStructuredSelection) {
+					IStructuredSelection sel = (IStructuredSelection) selection;
 					for (Iterator iter = sel.iterator(); iter.hasNext();) {
 						Object item = iter.next();
 						IAbstractArtifact artifact = AbstractArtifactAdapter
@@ -113,9 +87,9 @@ public class ClassDiagramDropTargetListener extends DiagramDropTargetListener {
 						}
 					}
 				}
+				break;
 			}
 		}
-
 		return result;
 	}
 

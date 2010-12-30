@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.gef.EditPartViewer;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramDropTargetListener;
 import org.eclipse.jface.util.LocalSelectionTransfer;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DropTargetEvent;
@@ -52,17 +53,15 @@ public class InstanceDiagramDropTargetListener extends
 	 * @return
 	 */
 	protected List<IAbstractArtifact> internalGetObjectsBeingDropped() {
-
-		List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
-
 		TransferData[] data = getCurrentEvent().dataTypes;
-
+		List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
 		for (int i = 0; i < data.length; i++) {
 			if (LocalSelectionTransfer.getTransfer().isSupportedType(data[i])) {
-				Object obj = LocalSelectionTransfer.getTransfer().nativeToJava(
-						data[i]);
-				if (obj instanceof IStructuredSelection) {
-					IStructuredSelection sel = (IStructuredSelection) obj;
+				ISelection selection = LocalSelectionTransfer.getTransfer()
+						.getSelection();
+				if (selection != null
+						&& selection instanceof IStructuredSelection) {
+					IStructuredSelection sel = (IStructuredSelection) selection;
 					for (Iterator iter = sel.iterator(); iter.hasNext();) {
 						Object item = iter.next();
 						IAbstractArtifact artifact = AbstractArtifactAdapter
@@ -72,9 +71,9 @@ public class InstanceDiagramDropTargetListener extends
 						}
 					}
 				}
+				break;
 			}
 		}
-
 		return result;
 	}
 
@@ -93,15 +92,17 @@ public class InstanceDiagramDropTargetListener extends
 
 		for (int i = 0; i < data.length; i++) {
 			if (LocalSelectionTransfer.getTransfer().isSupportedType(data[i])) {
-				Object obj = LocalSelectionTransfer.getTransfer().nativeToJava(
-						data[i]);
-				if (obj instanceof IStructuredSelection) {
-					IStructuredSelection sel = (IStructuredSelection) obj;
+				ISelection selection = LocalSelectionTransfer.getTransfer()
+						.getSelection();
+				if (selection != null
+						&& selection instanceof IStructuredSelection) {
+					IStructuredSelection sel = (IStructuredSelection) selection;
 					result = InstanceDiagramDragDropEnablePolicy
 							.getInstance()
 							.isEnabled(sel,
 									getViewer().getRootEditPart().getContents());
 				}
+				break;
 			}
 		}
 		return result;
