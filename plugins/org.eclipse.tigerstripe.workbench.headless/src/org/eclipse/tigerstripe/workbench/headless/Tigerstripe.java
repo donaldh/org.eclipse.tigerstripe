@@ -16,6 +16,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -69,7 +70,12 @@ public class Tigerstripe implements IApplication, IResourceChangeListener {
 		try {
 			printProfile();
 			initializeWorkspace();
-			generateTigerstripeOutput();
+
+			File projectFile = new File(generationProject);
+			ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
+					.findProject(projectFile.toURI());
+			validateProject(project);
+			generateTigerstripeOutput(project);
 		} catch (Exception e) {
 			System.err.println(e.getMessage());
 			e.printStackTrace();
@@ -122,6 +128,29 @@ public class Tigerstripe implements IApplication, IResourceChangeListener {
 		System.out.println("Generation project: " + generationProject);
 	}
 
+	private void validateProject(ITigerstripeModelProject project)
+			throws TigerstripeException {
+		try {
+			IProject iProject = (IProject) project.getAdapter(IProject.class);
+			IMarker[] markers = iProject.findMarkers(IMarker.PROBLEM, true,
+					IResource.DEPTH_INFINITE);
+			for (int i = 0; i < markers.length; i++) {
+				if (IMarker.SEVERITY_ERROR == markers[i].getAttribute(
+						IMarker.SEVERITY, IMarker.SEVERITY_INFO)) {
+					throw new TigerstripeException(
+							"Unable to perform generation. Project ["
+									+ iProject.getName()
+									+ "] contains errors: "
+									+ markers[i].getAttribute(IMarker.MESSAGE,
+											""));
+				}
+			}
+		} catch (CoreException e) {
+			throw new TigerstripeException("Errors during project validation. "
+					+ e.getMessage(), e);
+		}
+	}
+
 	private void printProfile() {
 		IWorkbenchProfileSession profileSession = TigerstripeCore
 				.getWorkbenchProfileSession();
@@ -158,11 +187,8 @@ public class Tigerstripe implements IApplication, IResourceChangeListener {
 		return (text!=null && text.trim().length()>0);
 	}
 
-	private void generateTigerstripeOutput() throws TigerstripeException {
-
-		File projectFile = new File(generationProject);
-		ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
-				.findProject(projectFile.toURI());
+	private void generateTigerstripeOutput(ITigerstripeModelProject project)
+			throws TigerstripeException {
 		IM1RunConfig config = (IM1RunConfig) RunConfig.newGenerationConfig(
 				project, RunConfig.M1);
 		PluginRunStatus[] statuses = project.generate(config, null);
