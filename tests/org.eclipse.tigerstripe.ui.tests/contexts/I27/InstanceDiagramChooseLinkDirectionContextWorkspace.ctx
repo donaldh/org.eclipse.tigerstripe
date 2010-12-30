@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="InstanceDiagramChooseLinkDirectionContextWorkspace" id="_97Hl8PFrEd--0tEe1g5dQQ">
   <content>
-    <projects name="Project1">
+    <projects name="Project5">
       <files name=".classpath" contentURI=".InstanceDiagramChooseLinkDirectionContextWorkspacectx/content1.classpath"/>
       <files name=".project" contentURI=".InstanceDiagramChooseLinkDirectionContextWorkspacectx/content1.project"/>
       <files name="tigerstripe.xml" contentURI=".InstanceDiagramChooseLinkDirectionContextWorkspacectx/content1.xml"/>

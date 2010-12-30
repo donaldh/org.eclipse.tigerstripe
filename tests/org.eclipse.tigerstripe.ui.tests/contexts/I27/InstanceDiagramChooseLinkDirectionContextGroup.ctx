@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.xored.q7.scenario:GroupContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" name="InstanceDiagramChooseLinkDirectionContextGroup" id="_DYso8PFsEd--0tEe1g5dQQ">
+  <contextReferences>_rHfkQKthEd-v8JwXbnu_tQ</contextReferences>
+  <contextReferences>_FGfSUKthEd-v8JwXbnu_tQ</contextReferences>
   <contextReferences>_97Hl8PFrEd--0tEe1g5dQQ</contextReferences>
   <contextReferences>_9D6jAatgEd-v8JwXbnu_tQ</contextReferences>
-  <contextReferences>_FGfSUKthEd-v8JwXbnu_tQ</contextReferences>
 </com.xored.q7.scenario:GroupContext>
