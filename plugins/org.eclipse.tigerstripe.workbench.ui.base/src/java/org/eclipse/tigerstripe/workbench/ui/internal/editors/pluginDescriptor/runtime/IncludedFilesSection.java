@@ -45,8 +45,8 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.generator.GeneratorDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.generator.GeneratorDescriptorSectionPart;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.pluginDescriptor.PluginDescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.DefaultContentProvider;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
@@ -653,7 +653,7 @@ public class IncludedFilesSection extends GeneratorDescriptorSectionPart
 
 	// ====
 	protected void markPageModified() {
-		PluginDescriptorEditor editor = (PluginDescriptorEditor) getPage()
+		GeneratorDescriptorEditor editor = (GeneratorDescriptorEditor) getPage()
 				.getEditor();
 		editor.pageModified();
 	}
