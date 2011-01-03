@@ -132,17 +132,18 @@ public class Tigerstripe implements IApplication, IResourceChangeListener {
 			throws TigerstripeException {
 		try {
 			IProject iProject = (IProject) project.getAdapter(IProject.class);
-			IMarker[] markers = iProject.findMarkers(IMarker.PROBLEM, true,
-					IResource.DEPTH_INFINITE);
-			for (int i = 0; i < markers.length; i++) {
-				if (IMarker.SEVERITY_ERROR == markers[i].getAttribute(
-						IMarker.SEVERITY, IMarker.SEVERITY_INFO)) {
-					throw new TigerstripeException(
-							"Unable to perform generation. Project ["
-									+ iProject.getName()
-									+ "] contains errors: "
-									+ markers[i].getAttribute(IMarker.MESSAGE,
-											""));
+			if (iProject !=null) {
+				IMarker[] markers = iProject.findMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
+				for (int i = 0; i < markers.length; i++) {
+					if (IMarker.SEVERITY_ERROR == markers[i].getAttribute(
+							IMarker.SEVERITY, IMarker.SEVERITY_INFO)) {
+						throw new TigerstripeException(
+								"Unable to perform generation. Project ["
+										+ iProject.getName()
+										+ "] contains errors: "
+										+ markers[i].getAttribute(IMarker.MESSAGE,
+												""));
+					}
 				}
 			}
 		} catch (CoreException e) {
