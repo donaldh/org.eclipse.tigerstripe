@@ -88,6 +88,6 @@ chmod +x ./pre-build.sh
  cd ..
  cp -rf target/releng/org.eclipse.tigerstripe.update-site/target/site target
  rm -rf /auto/tigerstripe/xmpsdk/tigerstripe-test-p2/*
- chmod 754 -r target/releng/org.eclipse.tigerstripe.update-site/target/site/*
+ chmod -R 754 target/releng/org.eclipse.tigerstripe.update-site/target/site/*
  cp -rf target/releng/org.eclipse.tigerstripe.update-site/target/site/* /auto/tigerstripe/xmpsdk/tigerstripe-test-p2
 )
