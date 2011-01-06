@@ -87,7 +87,4 @@ chmod +x ./pre-build.sh
  "$MAVEN_HOME/bin/mvn" -B -s "$SETTINGS" -Dtycho.showEclipseLog=true -Dmaven.test.skip=false -Dcom.xored.q7.location=/auto/xmpsdk/q7/eclipse -Dosgi.os=linux -Dosgi.ws=gtk -Dosgi.arch=x86 -Dcom.xored.directorPlatformPath=/auto/xmpsdk/eclipse clean install
  cd ..
  cp -rf target/releng/org.eclipse.tigerstripe.update-site/target/site target
- rm -rf /auto/tigerstripe/xmpsdk/tigerstripe-test-p2/*
- chmod -R 754 target/releng/org.eclipse.tigerstripe.update-site/target/site/*
- cp -rf target/releng/org.eclipse.tigerstripe.update-site/target/site/* /auto/tigerstripe/xmpsdk/tigerstripe-test-p2
 )
