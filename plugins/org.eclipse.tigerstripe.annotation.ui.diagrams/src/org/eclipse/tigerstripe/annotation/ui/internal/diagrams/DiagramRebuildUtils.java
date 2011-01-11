@@ -13,11 +13,9 @@ package org.eclipse.tigerstripe.annotation.ui.internal.diagrams;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
@@ -43,9 +41,9 @@ import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.internal.services.layout.LayoutNode;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateConnectionViewRequest;
-import org.eclipse.gmf.runtime.diagram.ui.requests.RequestConstants;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateConnectionViewRequest.ConnectionViewDescriptor;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateViewRequest.ViewDescriptor;
+import org.eclipse.gmf.runtime.diagram.ui.requests.RequestConstants;
 import org.eclipse.gmf.runtime.diagram.ui.services.layout.LayoutService;
 import org.eclipse.gmf.runtime.diagram.ui.services.layout.LayoutType;
 import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCommand;
@@ -78,7 +76,7 @@ public class DiagramRebuildUtils {
 	
 	public static void collectParts(Map<?, ?> registry, View container, List<EditPart> parts) {
 		List<?> children = container.getVisibleChildren();
-		HashSet<Edge> edges = new HashSet<Edge>();
+		List<Edge> edges = new ArrayList<Edge>();
 		for (Object child : children) {
 			View view = (View)child;
 			if (ignore(view))
@@ -132,16 +130,18 @@ public class DiagramRebuildUtils {
 		return false;
 	}
 	
-	protected static void lookForEdges(View view, Set<Edge> edges) {
+	protected static void lookForEdges(View view, List<Edge> edges) {
 		lookForEdges(view.getSourceEdges(), edges);
 		lookForEdges(view.getTargetEdges(), edges);
 	}
 	
-	protected static void lookForEdges(List<?> list, Set<Edge> edges) {
+	protected static void lookForEdges(List<?> list, List<Edge> edges) {
 		for (Object object : list) {
 			Edge edge = (Edge)object;
-			if (edges.add(edge))
+			if (!edges.contains(edge)) {
+				edges.add(edge);
 				lookForEdges(edge, edges);
+			}
 		}
 	}
 
