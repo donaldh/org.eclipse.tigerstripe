@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="CreateStereotypes" version="3.0" id="_NsXNkA5qEeCNwqgXAnPIdw" description="Precondition:&#xD;&#xA;create TS project with profile&#xD;&#xA;&#xD;&#xA;Steps: &#xD;&#xA;Create stereotypes of each various type:&#xD;&#xA;Add stereotypes with different scope&#xD;&#xA;METHOD_STEREO&#xD;&#xA;ATTRIBUTE_STEREO&#xD;&#xA;LITERAL_STEREO&#xD;&#xA;ARGUMENT_STEREO&#xD;&#xA;ASSOCIATION_END_STEREO&#xD;&#xA;&#xD;&#xA;Add the Artifact based stereotypes:&#xD;&#xA;ASSOCIATION_STEREO&#xD;&#xA;ASSOCIATION_CLASS_STEREO&#xD;&#xA;DATATYPE_STEREO&#xD;&#xA;dependency_stereo&#xD;&#xA;enumeration_stereo&#xD;&#xA;event_stereo&#xD;&#xA;exception_stereo&#xD;&#xA;entity_stereo&#xD;&#xA;package_stereo&#xD;&#xA;primitiveType_stereo&#xD;&#xA;query_stereo&#xD;&#xA;session_stereo&#xD;&#xA;updateProcedure_stereo&#xD;&#xA;&#xD;&#xA;Add Entity stereotype that has some Attributes&#xD;&#xA;entity_stereo_withAttributes&#xD;&#xA;Add attribute with name string_attr, default value &quot;Start&quot;&#xD;&#xA;&#xD;&#xA;Save changes." type="tesla">
+  <contexts>_7M3rEA53EeCNwqgXAnPIdw</contexts>
+  <content xsi:type="org.eclipse.ecl.core:Script" content="get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project1/testProject.wbp&quot; | double-click&#xA;with [get-editor &quot;Project1/testProject.wbp&quot;] {&#xA;    get-tab-folder | get-tab-item Stereotypes | click&#xA;    with [get-section] {&#xA;        get-section &quot;Stereotype Definitions&quot; | get-button Add | click&#xA;        with [get-section &quot;Stereotype Details&quot;] {&#xA;            with [get-editbox -after [get-label &quot;Name:&quot;]] {&#xA;                key-type &quot;CTRL+a&quot;&#xA;                set-text &quot;method_stereo&quot;&#xA;            }&#xA;            get-button Method | click&#xA;        }&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor &quot;Project1/testProject.wbp&quot; | get-section | get-section &quot;Stereotype Definitions&quot; | get-table -after [get-label &quot;Stereotype Definitions&quot;] | get-item &quot;method_stereo&quot; | get-property caption | is-equal &quot;method_stereo&quot; | verify&#xA;with [get-editor &quot;Project1/testProject.wbp&quot; | get-section] {&#xA;    get-section &quot;Stereotype Definitions&quot; | get-button Add | click&#xA;    with [get-section &quot;Stereotype Details&quot;] {&#xA;        with [get-editbox -after [get-label &quot;Name:&quot;]] {&#xA;            key-type &quot;CTRL+a&quot;&#xA;            set-text &quot;attribute_stereo&quot;&#xA;        }&#xA;        get-button Attribute | click&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor &quot;Project1/testProject.wbp&quot; | get-section | get-section &quot;Stereotype Definitions&quot; | get-table -after [get-label &quot;Stereotype Definitions&quot;] | get-item &quot;attribute_stereo&quot; | get-property caption | is-equal &quot;attribute_stereo&quot; | verify&#xA;with [get-editor &quot;Project1/testProject.wbp&quot; | get-section] {&#xA;    get-section &quot;Stereotype Definitions&quot; | get-button Add | click&#xA;    with [get-section &quot;Stereotype Details&quot;] {&#xA;        with [get-editbox -after [get-label &quot;Name:&quot;]] {&#xA;            key-type &quot;CTRL+a&quot;&#xA;            set-text &quot;literal_stereo&quot;&#xA;        }&#xA;        get-button Literal | click&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor &quot;Project1/testProject.wbp&quot; | get-section | get-section &quot;Stereotype Definitions&quot; | get-table -after [get-label &quot;Stereotype Definitions&quot;] | get-item &quot;literal_stereo&quot; | get-property caption | is-equal &quot;literal_stereo&quot; | verify&#xA;with [get-editor &quot;Project1/testProject.wbp&quot; | get-section] {&#xA;    get-section &quot;Stereotype Definitions&quot; | get-button Add | click&#xA;    with [get-section &quot;Stereotype Details&quot;] {&#xA;        with [get-editbox -after [get-label &quot;Name:&quot;]] {&#xA;            key-type &quot;CTRL+a&quot;&#xA;            set-text &quot;ô&quot;&#xA;            key-type &quot;CTRL+SHIFT&quot;&#xA;            set-text &quot;argument_stereo&quot;&#xA;        }&#xA;        get-button Argument | click&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor &quot;Project1/testProject.wbp&quot; | get-section | get-section &quot;Stereotype Definitions&quot; | get-table -after [get-label &quot;Stereotype Definitions&quot;] | get-item &quot;argument_stereo&quot; | get-property caption | is-equal &quot;argument_stereo&quot; | verify&#xA;with [get-editor &quot;Project1/testProject.wbp&quot; | get-section] {&#xA;    get-section &quot;Stereotype Definitions&quot; | get-button Add | click&#xA;    with [get-section &quot;Stereotype Details&quot;] {&#xA;        with [get-editbox -after [get-label &quot;Name:&quot;]] {&#xA;            key-type &quot;CTRL+a&quot;&#xA;            set-text &quot;association_end_stereo&quot;&#xA;        }&#xA;        get-button &quot;Association End&quot; | click&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor &quot;Project1/testProject.wbp&quot; | get-section | get-section &quot;Stereotype Definitions&quot; | get-table -after [get-label &quot;Stereotype Definitions&quot;] | get-item &quot;association_end_stereo&quot; | get-property caption | is-equal &quot;association_end_stereo&quot; | verify&#xA;with [get-editor &quot;Project1/testProject.wbp&quot; | get-section | get-section &quot;Stereotype Details&quot; | get-table -after [get-label &quot;Scope:&quot;]] {&#xA;    get-item &quot;&quot; -index 0 | click -nowait&#xA;    get-item &quot;&quot; -index 0 | click -nowait&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;with [get-editor &quot;Project1/testProject.wbp&quot; | get-section] {&#xA;    get-section &quot;Stereotype Definitions&quot; | get-button Add | click&#xA;    with [get-section &quot;Stereotype Details&quot;] {&#xA;        with [get-editbox -after [get-label &quot;Name:&quot;]] {&#xA;            key-type &quot;CTRL+a&quot;&#xA;            set-text &quot;association_stereo&quot;&#xA;        }&#xA;        get-table -after [get-label &quot;Scope:&quot;] | get-item &quot;&quot; -index 0 | click -nowait&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor &quot;Project1/testProject.wbp&quot; | get-section | get-section &quot;Stereotype Definitions&quot; | get-table -after [get-label &quot;Stereotype Definitions&quot;] | get-item &quot;association_stereo&quot; | get-property caption | is-equal &quot;association_stereo&quot; | verify&#xA;with [get-editor &quot;Project1/testProject.wbp&quot; | get-section] {&#xA;    get-section &quot;Stereotype Definitions&quot; | get-button Add | click&#xA;    with [get-section &quot;Stereotype Details&quot;] {&#xA;        with [get-editbox -after [get-label &quot;Name:&quot;]] {&#xA;            key-type &quot;CTRL+a&quot;&#xA;            set-text &quot;association_class_stereo&quot;&#xA;        }&#xA;        get-table -after [get-label &quot;Scope:&quot;] | get-item &quot;%1%&quot; -index 0 | click -nowait&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;with [get-editor &quot;Project1/testProject.wbp&quot; | get-section] {&#xA;    get-section &quot;Stereotype Definitions&quot; | get-button Add | click&#xA;    with [get-section &quot;Stereotype Details&quot;] {&#xA;        with [get-editbox -after [get-label &quot;Name:&quot;]] {&#xA;            key-type &quot;CTRL+a&quot;&#xA;            set-text &quot;datatype_stereo&quot;&#xA;        }&#xA;        get-table -after [get-label &quot;Scope:&quot;] | get-item &quot;%2%&quot; -index 0 | click -nowait&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor &quot;Project1/testProject.wbp&quot; | get-section | get-section &quot;Stereotype Definitions&quot; | get-table -after [get-label &quot;Stereotype Definitions&quot;] | get-item &quot;datatype_stereo&quot; | get-property caption | is-equal &quot;datatype_stereo&quot; | verify&#xA;with [get-editor &quot;Project1/testProject.wbp&quot; | get-section] {&#xA;    get-section &quot;Stereotype Definitions&quot; | get-button Add | click&#xA;    with [get-section &quot;Stereotype Details&quot;] {&#xA;        with [get-editbox -after [get-label &quot;Name:&quot;]] {&#xA;            key-type &quot;CTRL+a&quot;&#xA;            set-text &quot;dependency_stereo&quot;&#xA;        }&#xA;        get-table -after [get-label &quot;Scope:&quot;] | get-item &quot;%3%&quot; -index 0 | click -nowait&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor &quot;Project1/testProject.wbp&quot; | get-section | get-section &quot;Stereotype Definitions&quot; | get-table -after [get-label &quot;Stereotype Definitions&quot;] | get-item &quot;dependency_stereo&quot; | get-property caption | is-equal &quot;dependency_stereo&quot; | verify&#xA;with [get-editor &quot;Project1/testProject.wbp&quot; | get-section] {&#xA;    get-section &quot;Stereotype Definitions&quot; | get-button Add | click&#xA;    with [get-section &quot;Stereotype Details&quot;] {&#xA;        with [get-editbox -after [get-label &quot;Name:&quot;]] {&#xA;            key-type &quot;CTRL+a&quot;&#xA;            set-text &quot;enumeration_stereo&quot;&#xA;        }&#xA;        get-table -after [get-label &quot;Scope:&quot;] | get-item &quot;%4%&quot; -index 0 | click -nowait&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor &quot;Project1/testProject.wbp&quot; | get-section | get-section &quot;Stereotype Definitions&quot; | get-table -after [get-label &quot;Stereotype Definitions&quot;] | get-item &quot;enumeration_stereo&quot; | get-property caption | is-equal &quot;enumeration_stereo&quot; | verify&#xA;with [get-editor &quot;Project1/testProject.wbp&quot; | get-section] {&#xA;    get-section &quot;Stereotype Definitions&quot; | get-button Add | click&#xA;    with [get-section &quot;Stereotype Details&quot;] {&#xA;        with [get-editbox -after [get-label &quot;Name:&quot;]] {&#xA;            key-type &quot;CTRL+a&quot;&#xA;            set-text &quot;event_stereo&quot;&#xA;        }&#xA;        get-table -after [get-label &quot;Scope:&quot;] | get-item &quot;%5%&quot; -index 0 | click -nowait&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor &quot;Project1/testProject.wbp&quot; | get-section | get-section &quot;Stereotype Definitions&quot; | get-table -after [get-label &quot;Stereotype Definitions&quot;] | get-item &quot;event_stereo&quot; | get-property caption | is-equal &quot;event_stereo&quot; | verify&#xA;with [get-editor &quot;Project1/testProject.wbp&quot; | get-section] {&#xA;    get-section &quot;Stereotype Definitions&quot; | get-button Add | click&#xA;    with [get-section &quot;Stereotype Details&quot;] {&#xA;        with [get-editbox -after [get-label &quot;Name:&quot;]] {&#xA;            key-type &quot;CTRL+a&quot;&#xA;            set-text &quot;exception_stereo&quot;&#xA;        }&#xA;        get-table -after [get-label &quot;Scope:&quot;] | get-item &quot;%6%&quot; -index 0 | click -nowait&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor &quot;Project1/testProject.wbp&quot; | get-section | get-section &quot;Stereotype Definitions&quot; | get-table -after [get-label &quot;Stereotype Definitions&quot;] | get-item &quot;exception_stereo&quot; | get-property caption | is-equal &quot;exception_stereo&quot; | verify&#xA;with [get-editor &quot;Project1/testProject.wbp&quot; | get-section] {&#xA;    get-section &quot;Stereotype Definitions&quot; | get-button Add | click&#xA;    with [get-section &quot;Stereotype Details&quot;] {&#xA;        with [get-editbox -after [get-label &quot;Name:&quot;]] {&#xA;            key-type &quot;CTRL+a&quot;&#xA;            set-text &quot;entity_stereo&quot;&#xA;        }&#xA;        get-table -after [get-label &quot;Scope:&quot;] | get-item &quot;%7%&quot; -index 0 | click -nowait&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor &quot;Project1/testProject.wbp&quot; | get-section | get-section &quot;Stereotype Definitions&quot; | get-table -after [get-label &quot;Stereotype Definitions&quot;] | get-item &quot;entity_stereo&quot; | get-property caption | is-equal &quot;entity_stereo&quot; | verify&#xA;with [get-editor &quot;Project1/testProject.wbp&quot; | get-section] {&#xA;    get-section &quot;Stereotype Definitions&quot; | get-button Add | click&#xA;    with [get-section &quot;Stereotype Details&quot;] {&#xA;        with [get-editbox -after [get-label &quot;Name:&quot;]] {&#xA;            key-type &quot;CTRL+a&quot;&#xA;            set-text &quot;package_stereo&quot;&#xA;        }&#xA;        get-table -after [get-label &quot;Scope:&quot;] | get-item &quot;%8%&quot; -index 0 | click -nowait&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor &quot;Project1/testProject.wbp&quot; | get-section | get-section &quot;Stereotype Definitions&quot; | get-table -after [get-label &quot;Stereotype Definitions&quot;] | get-item &quot;package_stereo&quot; | get-property caption | is-equal &quot;package_stereo&quot; | verify&#xA;with [get-editor &quot;Project1/testProject.wbp&quot; | get-section] {&#xA;    get-section &quot;Stereotype Definitions&quot; | get-button Add | click&#xA;    with [get-section &quot;Stereotype Details&quot;] {&#xA;        with [get-editbox -after [get-label &quot;Name:&quot;]] {&#xA;            key-type &quot;CTRL+a&quot;&#xA;            set-text &quot;primitive_type_stereo&quot;&#xA;        }&#xA;        get-table -after [get-label &quot;Scope:&quot;] | get-item &quot;%9%&quot; -index 0 | click -nowait&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor &quot;Project1/testProject.wbp&quot; | get-section | get-section &quot;Stereotype Definitions&quot; | get-table -after [get-label &quot;Stereotype Definitions&quot;] | get-item &quot;primitive_type_stereo&quot; | get-property caption | is-equal &quot;primitive_type_stereo&quot; | verify&#xA;with [get-editor &quot;Project1/testProject.wbp&quot; | get-section] {&#xA;    get-section &quot;Stereotype Definitions&quot; | get-button Add | click&#xA;    with [get-section &quot;Stereotype Details&quot;] {&#xA;        with [get-editbox -after [get-label &quot;Name:&quot;]] {&#xA;            key-type &quot;CTRL+a&quot;&#xA;            set-text &quot;query_stereo&quot;&#xA;        }&#xA;        get-table -after [get-label &quot;Scope:&quot;] | get-item &quot;%10%&quot; -index 0 | click -nowait&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor &quot;Project1/testProject.wbp&quot; | get-section | get-section &quot;Stereotype Definitions&quot; | get-table -after [get-label &quot;Stereotype Definitions&quot;] | get-item &quot;query_stereo&quot; | get-property caption | is-equal &quot;query_stereo&quot; | verify&#xA;with [get-editor &quot;Project1/testProject.wbp&quot; | get-section] {&#xA;    get-section &quot;Stereotype Definitions&quot; | get-button Add | click&#xA;    with [get-section &quot;Stereotype Details&quot;] {&#xA;        with [get-editbox -after [get-label &quot;Name:&quot;]] {&#xA;            key-type &quot;CTRL+a&quot;&#xA;            set-text &quot;session_stereo&quot;&#xA;        }&#xA;        get-table -after [get-label &quot;Scope:&quot;] | get-item &quot;%11%&quot; -index 0 | click -nowait&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor &quot;Project1/testProject.wbp&quot; | get-section | get-section &quot;Stereotype Definitions&quot; | get-table -after [get-label &quot;Stereotype Definitions&quot;] | get-item &quot;session_stereo&quot; | get-property caption | is-equal &quot;session_stereo&quot; | verify&#xA;with [get-editor &quot;Project1/testProject.wbp&quot; | get-section] {&#xA;    get-section &quot;Stereotype Definitions&quot; | get-button Add | click&#xA;    with [get-section &quot;Stereotype Details&quot;] {&#xA;        with [get-editbox -after [get-label &quot;Name:&quot;]] {&#xA;            key-type &quot;CTRL+a&quot;&#xA;            set-text &quot;update_procedure_stereo&quot;&#xA;        }&#xA;        get-table -after [get-label &quot;Scope:&quot;] | get-item &quot;%12%&quot; -index 0 | click -nowait&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor &quot;Project1/testProject.wbp&quot; | get-section | get-section &quot;Stereotype Definitions&quot; | get-table -after [get-label &quot;Stereotype Definitions&quot;] | get-item &quot;update_procedure_stereo&quot; | get-property caption | is-equal &quot;update_procedure_stereo&quot; | verify&#xA;with [get-editor &quot;Project1/testProject.wbp&quot; | get-section] {&#xA;    get-section &quot;Stereotype Definitions&quot; | get-button Add | click&#xA;    with [get-section &quot;Stereotype Details&quot;] {&#xA;        with [get-editbox -after [get-label &quot;Name:&quot;]] {&#xA;            key-type &quot;CTRL+a&quot;&#xA;            set-text &quot;entity_stereo_with_attribute&quot;&#xA;        }&#xA;        get-table -after [get-label &quot;Scope:&quot;] | get-item &quot;%7%&quot; -index 0 | click -nowait&#xA;        get-button Add | click&#xA;    }&#xA;}&#xA;with [get-window &quot;Stereotype Attribute Edit&quot;] {&#xA;    get-editbox -after [get-label &quot;Name:&quot;] | set-text &quot;string_attr&quot;&#xA;    get-group &quot;Attribute type&quot; | get-editbox -after [get-label &quot;Default value:&quot;] | set-text start&#xA;    get-button OK | click&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor &quot;Project1/testProject.wbp&quot; | get-section | get-section &quot;Stereotype Definitions&quot; | get-table -after [get-label &quot;Stereotype Definitions&quot;] | get-item &quot;entity_stereo_with_attribute&quot; | get-property caption | is-equal &quot;entity_stereo_with_attribute&quot; | verify"/>
+  <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree0" kind="Tree"/>
+      <path>Project1</path>
+      <path>testProject.wbp</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DoubleClick">
+      <element id="Tree0" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="Project1/testProject.wbp" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="TabFolder" multiplicity="1">
+        <parent id="Editor0" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="TabItem" pattern="Stereotypes" multiplicity="1">
+        <parent id="TabFolder0" kind="TabFolder"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="TabItem0" kind="TabItem"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State0" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Expandable" multiplicity="1">
+        <parent id="Editor0" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Expandable" pattern="Stereotype Definitions" multiplicity="1">
+        <parent id="Expandable0" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Add" multiplicity="1">
+        <parent id="Expandable1" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button0" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State1" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Expandable" pattern="Stereotype Details" multiplicity="1">
+        <parent id="Expandable0" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Label" pattern="Name:" multiplicity="1">
+        <parent id="Expandable2" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Text" multiplicity="1">
+        <after id="Label0" kind="Label"/>
+        <parent id="Expandable2" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Type" state="262144" code="97" character="1">
+      <element id="Text0" kind="Text"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetText" value="method_stereo">
+      <element id="Text0" kind="Text"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Method" multiplicity="1">
+        <parent id="Expandable2" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button1" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State2" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Save (Ctrl+S)" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button2" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State3" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="Project1/testProject.wbp" multiplicity="1">
+        <parent id="EclipseWindow1" kind="EclipseWindow" description="Tigerstripe - Project1/testProject.wbp - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Expandable" multiplicity="1">
+        <parent id="Editor1" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Expandable" pattern="Stereotype Definitions" multiplicity="1">
+        <parent id="Expandable3" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Label" pattern="Stereotype Definitions" multiplicity="1">
+        <parent id="Expandable4" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Table" multiplicity="1">
+        <after id="Label1" kind="Label"/>
+        <parent id="Expandable4" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>method_stereo</path>
+        <parent id="Table0" kind="Table"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="method_stereo">
+      <element id="Item0" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="Project1/testProject.wbp" multiplicity="1">
+        <parent id="EclipseWindow2" kind="EclipseWindow" description="Tigerstripe - Project1/testProject.wbp - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Expandable" multiplicity="1">
+        <parent id="Editor2" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Expandable" pattern="Stereotype Definitions" multiplicity="1">
+        <parent id="Expandable5" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Add" multiplicity="1">
+        <parent id="Expandable6" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button3" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State4" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Expandable" pattern="Stereotype Details" multiplicity="1">
+        <parent id="Expandable5" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Label" pattern="Name:" multiplicity="1">
+        <parent id="Expandable7" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Text" multiplicity="1">
+        <after id="Label2" kind="Label"/>
+        <parent id="Expandable7" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Type" state="262144" code="97" character="1">
+      <element id="Text1" kind="Text"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetText" value="attribute_stereo">
+      <element id="Text1" kind="Text"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Attribute" multiplicity="1">
+        <parent id="Expandable7" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button4" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State5" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Save (Ctrl+S)" multiplicity="1">
+        <parent id="EclipseWindow2" kind="EclipseWindow" description="Tigerstripe - Project1/testProject.wbp - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button5" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State6" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="Project1/testProject.wbp" multiplicity="1">
+        <parent id="EclipseWindow3" kind="EclipseWindow" description="Tigerstripe - Project1/testProject.wbp - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Expandable" multiplicity="1">
+        <parent id="Editor3" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Expandable" pattern="Stereotype Definitions" multiplicity="1">
+        <parent id="Expandable8" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Label" pattern="Stereotype Definitions" multiplicity="1">
+        <parent id="Expandable9" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Table" multiplicity="1">
+        <after id="Label3" kind="Label"/>
+        <parent id="Expandable9" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>attribute_stereo</path>
+        <parent id="Table1" kind="Table"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="attribute_stereo">
+      <element id="Item1" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="Project1/testProject.wbp" multiplicity="1">
+        <parent id="EclipseWindow4" kind="EclipseWindow" description="Tigerstripe - Project1/testProject.wbp - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Expandable" multiplicity="1">
+        <parent id="Editor4" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Expandable" pattern="Stereotype Definitions" multiplicity="1">
+        <parent id="Expandable10" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Add" multiplicity="1">
+        <parent id="Expandable11" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button6" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State7" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Expandable" pattern="Stereotype Details" multiplicity="1">
+        <parent id="Expandable10" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Label" pattern="Name:" multiplicity="1">
+        <parent id="Expandable12" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Text" multiplicity="1">
+        <after id="Label4" kind="Label"/>
+        <parent id="Expandable12" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Type" state="262144" code="97" character="1">
+      <element id="Text2" kind="Text"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetText" value="literal_stereo">
+      <element id="Text2" kind="Text"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Literal

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="ProfileWithStereotypesContextWorkspace" id="_ITlGkRGBEeC46s5Prxi4vQ">
+  <content>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".ProfileWithStereotypesContextWorkspacectx/content4.classpath"/>
+      <files name=".project" contentURI=".ProfileWithStereotypesContextWorkspacectx/content4.project"/>
+      <files name="default.wbp" contentURI=".ProfileWithStereotypesContextWorkspacectx/content4.wbp"/>
+      <files name="tigerstripe.xml" contentURI=".ProfileWithStereotypesContextWorkspacectx/content4.xml"/>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".ProfileWithStereotypesContextWorkspacectx/content12.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".ProfileWithStereotypesContextWorkspacectx/content11.package"/>
+            <files name="Datatype.java" contentURI=".ProfileWithStereotypesContextWorkspacectx/content3.java"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>
