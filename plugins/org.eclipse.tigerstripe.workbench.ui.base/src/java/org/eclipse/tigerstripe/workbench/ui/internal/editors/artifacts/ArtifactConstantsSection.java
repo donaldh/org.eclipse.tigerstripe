@@ -10,7 +10,12 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.dialogs.MessageDialog;
@@ -18,6 +23,7 @@ import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.ITableColorProvider;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -28,11 +34,13 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.SashForm;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Table;
@@ -63,13 +71,91 @@ import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 
-public class ArtifactConstantsSection extends ModelComponentSectionPart implements
-		IFormPart {
+public class ArtifactConstantsSection extends ModelComponentSectionPart
+		implements IFormPart {
+
+	class MasterContentProvider implements IStructuredContentProvider {
+
+		public void dispose() {
+
+		}
+
+		public Object[] getElements(Object inputElement) {
+			List<IAbstractArtifact> hierarhy = getHierarchy();
+			List<ILiteral> literals = new ArrayList<ILiteral>();
+
+			for (IAbstractArtifact arti : hierarhy) {
+				literals.addAll(arti.getLiterals());
+			}
+			return literals.toArray();
+		}
+
+		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
+			if (newInput instanceof IAbstractArtifact) {
+				literalsInModel = new HashSet<ILiteral>(
+						((IAbstractArtifact) newInput).getLiterals());
+			}
+		}
+	}
+	class MasterLabelProvider extends LabelProvider implements
+			ITableLabelProvider, ITableColorProvider {
+		public Color getBackground(Object element, int columnIndex) {
+			return null;
+		}
+
+		public Image getColumnImage(Object obj, int index) {
+			return null;
+		}
+
+		public String getColumnText(Object obj, int index) {
+			ILiteral literal = (ILiteral) obj;
+			switch (index) {
+			case 1:
+				return literal.getValue();
+			default:
+				if (literalsInModel.contains(literal)) {
+					return literal.getLabelString();
+				} else {
+					return literal.getLabelString() + "("
+							+ literal.getContainingArtifact().getName() + ")";
+				}
+			}
+		}
+
+		public Color getForeground(Object element, int columnIndex) {
+			if (!literalsInModel.contains(element)) {
+				return Display.getCurrent().getSystemColor(SWT.COLOR_GRAY);
+			} else {
+				return null;
+			}
+		}
+	}
 
 	private static final int INT_TYPE = 0;
+
 	private static final int STRING_TYPE = 1;
 
+	private Button addAttributeButton;
+
 	protected DetailsPart detailsPart;
+
+	private Button downAttributeButton;
+
+	private Set<ILiteral> literalsInModel = Collections.emptySet();
+
+	private int newLiteralValue;
+
+	private Button removeAttributeButton;
+
+	protected SashForm sashForm;
+
+	private int selIndex = -1;
+	private Table table;
+	private Composite tableComposite;
+	private Button upAttributeButton;
+
+	// ====================================================================
+	private TableViewer viewer;
 
 	public ArtifactConstantsSection(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit, IArtifactFormLabelProvider labelProvider,
@@ -81,7 +167,95 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart implemen
 		updateMaster();
 	}
 
-	protected SashForm sashForm;
+	/**
+	 * Triggered when the add button is pushed
+	 * 
+	 */
+	protected void addButtonSelected(SelectionEvent event) {
+		IAbstractArtifact artifact = getIArtifact();
+		ILiteral newLiteral = artifact.makeLiteral();
+
+		ComponentNameProvider nameFactory = ComponentNameProvider.getInstance();
+
+		String newLabelName = nameFactory.getNewLiteralName(artifact);
+		newLiteral.setName(newLabelName);
+		IType defaultType = newLiteral.makeType();
+
+		// See bug #77, #90
+		if (getForcedBaseType() != null) {
+			defaultType.setFullyQualifiedName(getForcedBaseType());
+		} else {
+			defaultType.setFullyQualifiedName("String");
+		}
+		defaultType.setTypeMultiplicity(EMultiplicity.ZERO_ONE);
+		newLiteral.setType(defaultType);
+		newLiteral.setVisibility(EVisibility.PUBLIC);
+		newLiteral.setValue(getInitialLiteralValue(defaultType));
+
+		// Add the item after the current selection (if there is one, and its
+		// not the last thing in the table.)
+		TableItem[] selection = viewer.getTable().getSelection();
+		if (selection.length == 0) {
+			List<ILiteral> newLiterals = new ArrayList<ILiteral>(getIArtifact()
+					.getLiterals());
+			newLiterals.add(newLiteral);
+			getIArtifact().setLiterals(newLiterals);
+		} else {
+
+			List<ILiteral> newLiterals = new ArrayList<ILiteral>(getIArtifact()
+					.getLiterals());
+
+			int afterPos = newLiterals.indexOf(selection[selection.length - 1]
+					.getData());
+
+			if (afterPos >= 0 && afterPos < newLiterals.size()) {
+				newLiterals.add(afterPos + 1, newLiteral);
+			} else {
+				newLiterals.add(newLiteral);
+			}
+			getIArtifact().setLiterals(newLiterals);
+		}
+
+		refresh();
+
+		viewer.setSelection(new StructuredSelection(newLiteral), true);
+		markPageModified();
+		updateMaster();
+
+		// Record Add Edit
+		try {
+			URI artURI = (URI) getIArtifact().getAdapter(URI.class);
+			URI attrURI = artURI.appendFragment(newLabelName);
+			ModelUndoableEdit edit = new ModelUndoableEdit(artURI,
+					IModelChangeDelta.ADD, newLiteral.getClass()
+							.getSimpleName(), null, attrURI, getIArtifact()
+							.getProject());
+			((TigerstripeFormEditor) getPage().getEditor()).getUndoManager()
+					.addEdit(edit);
+		} catch (TigerstripeException e) {
+			EclipsePlugin.log(e);
+		}
+
+	}
+
+	/**
+	 * Commits the part. Subclasses should call 'super' when overriding.
+	 * 
+	 * @param onSave
+	 *            <code>true</code> if the request to commit has arrived as a
+	 *            result of the 'save' action.
+	 */
+	@Override
+	public void commit(boolean onSave) {
+		super.commit(onSave);
+		detailsPart.commit(onSave);
+	}
+
+	private void createDetailsPart(final IManagedForm mform, Composite parent) {
+		detailsPart = new DetailsPart(mform, parent, SWT.NULL);
+		mform.addPart(detailsPart);
+		registerPages(detailsPart);
+	}
 
 	/**
 	 * Creates the content of the master/details block inside the managed form.
@@ -100,9 +274,7 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart implemen
 		getSection().setLayoutData(td);
 
 		Composite body = getToolkit().createComposite(getSection());
-		body
-				.setLayout(TigerstripeLayoutFactory.createClearGridLayout(1,
-						false));
+		body.setLayout(TigerstripeLayoutFactory.createClearGridLayout(1, false));
 		sashForm = new SashForm(body, SWT.HORIZONTAL);
 		toolkit.adapt(sashForm, false, false);
 		sashForm.setMenu(body.getMenu());
@@ -111,60 +283,11 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart implemen
 
 		createMasterPart(managedForm, sashForm);
 		createDetailsPart(managedForm, sashForm);
-        
-        sashForm.setWeights(new int[] {1, 2});
+
+		sashForm.setWeights(new int[] { 1, 2 });
 
 		getSection().setClient(body);
 		getToolkit().paintBordersFor(body);
-	}
-
-	class MasterContentProvider implements IStructuredContentProvider {
-
-		public Object[] getElements(Object inputElement) {
-			if (inputElement instanceof IAbstractArtifact) {
-				IAbstractArtifact artifact = (IAbstractArtifact) inputElement;
-				return artifact.getLiterals().toArray();
-			}
-			return new Object[0];
-		}
-
-		public void dispose() {
-
-		}
-
-		public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
-
-		}
-	}
-
-	class MasterLabelProvider extends LabelProvider implements
-			ITableLabelProvider {
-		public String getColumnText(Object obj, int index) {
-			ILiteral literal = (ILiteral) obj;
-			switch (index) {
-			case 1:
-				return literal.getValue();
-			default:
-				return literal.getName();
-			}
-		}
-
-		public Image getColumnImage(Object obj, int index) {
-			return null;
-		}
-	}
-
-	// ====================================================================
-	private TableViewer viewer;
-
-	private Button addAttributeButton;
-	private Button upAttributeButton;
-	private Button downAttributeButton;
-	private Button removeAttributeButton;
-
-	@Override
-	public TableViewer getViewer() {
-		return this.viewer;
 	}
 
 	protected void createMasterPart(final IManagedForm managedForm,
@@ -187,7 +310,7 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart implemen
 		tableComposite.setLayoutData(gd);
 		TableColumnLayout tcLayout = new TableColumnLayout();
 		tableComposite.setLayout(tcLayout);
-		
+
 		table = toolkit.createTable(tableComposite, SWT.NULL);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
@@ -195,11 +318,11 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart implemen
 		TableColumn nameColumn = new TableColumn(table, SWT.NULL);
 		nameColumn.setText("Name");
 		tcLayout.setColumnData(nameColumn, new ColumnWeightData(50, false));
-		
+
 		TableColumn valueColumn = new TableColumn(table, SWT.NULL);
 		valueColumn.setText("Value");
 		tcLayout.setColumnData(valueColumn, new ColumnWeightData(50, false));
-		
+
 		viewer = new TableViewer(table);
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
@@ -230,14 +353,19 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart implemen
 					}
 
 					viewer.getTable().setSortDirection(dir);
-					viewer.setSorter(new Sorter(dir));
 
+					viewer.setSorter(new Sorter(dir, getIArtifact()));
 					TableItem[] allItems = viewer.getTable().getItems();
-					ILiteral[] newFields = new ILiteral[allItems.length];
-					for (int i = 0; i < newFields.length; i++) {
-						newFields[i] = (ILiteral) allItems[i].getData();
+
+					List<ILiteral> newLiterals = new ArrayList<ILiteral>(
+							allItems.length);
+					for (int i = 0; i < allItems.length; i++) {
+						ILiteral literal = (ILiteral) allItems[i].getData();
+						if (literalsInModel.contains(literal)) {
+							newLiterals.add(literal);
+						}
 					}
-					getIArtifact().setLiterals(Arrays.asList(newFields));
+					getIArtifact().setLiterals(newLiterals);
 
 					refresh();
 					updateMaster();
@@ -261,14 +389,18 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart implemen
 				}
 
 				viewer.getTable().setSortDirection(dir);
-				viewer.setSorter(new Sorter(dir, "value"));
-
+				viewer.setSorter(new Sorter(dir, getIArtifact()));
 				TableItem[] allItems = viewer.getTable().getItems();
-				ILiteral[] newFields = new ILiteral[allItems.length];
-				for (int i = 0; i < newFields.length; i++) {
-					newFields[i] = (ILiteral) allItems[i].getData();
+
+				List<ILiteral> newLiterals = new ArrayList<ILiteral>(
+						allItems.length);
+				for (int i = 0; i < allItems.length; i++) {
+					ILiteral literal = (ILiteral) allItems[i].getData();
+					if (literalsInModel.contains(literal)) {
+						newLiterals.add(literal);
+					}
 				}
-				getIArtifact().setLiterals(Arrays.asList(newFields));
+				getIArtifact().setLiterals(newLiterals);
 
 				refresh();
 				updateMaster();
@@ -285,12 +417,12 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart implemen
 				GridData.HORIZONTAL_ALIGN_FILL
 						| GridData.VERTICAL_ALIGN_BEGINNING));
 		addAttributeButton.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent event) {
-				addButtonSelected(event);
-			}
-
 			public void widgetDefaultSelected(SelectionEvent event) {
 				// empty
+			}
+
+			public void widgetSelected(SelectionEvent event) {
+				addButtonSelected(event);
 			}
 		});
 		upAttributeButton = toolkit.createButton(sectionClient, "Up", SWT.PUSH);
@@ -299,12 +431,12 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart implemen
 				GridData.HORIZONTAL_ALIGN_FILL
 						| GridData.VERTICAL_ALIGN_BEGINNING));
 		upAttributeButton.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent event) {
-				upButtonSelected(event);
-			}
-
 			public void widgetDefaultSelected(SelectionEvent event) {
 				// empty
+			}
+
+			public void widgetSelected(SelectionEvent event) {
+				upButtonSelected(event);
 			}
 		});
 
@@ -315,12 +447,12 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart implemen
 				GridData.HORIZONTAL_ALIGN_FILL
 						| GridData.VERTICAL_ALIGN_BEGINNING));
 		downAttributeButton.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent event) {
-				downButtonSelected(event);
-			}
-
 			public void widgetDefaultSelected(SelectionEvent event) {
 				// empty
+			}
+
+			public void widgetSelected(SelectionEvent event) {
+				downButtonSelected(event);
 			}
 		});
 
@@ -334,12 +466,12 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart implemen
 						| GridData.VERTICAL_ALIGN_BEGINNING));
 
 		removeAttributeButton.addSelectionListener(new SelectionListener() {
-			public void widgetSelected(SelectionEvent event) {
-				removeButtonSelected(event);
-			}
-
 			public void widgetDefaultSelected(SelectionEvent event) {
 				// empty
+			}
+
+			public void widgetSelected(SelectionEvent event) {
+				removeButtonSelected(event);
 			}
 		});
 
@@ -348,118 +480,50 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart implemen
 	}
 
 	/**
-	 * FIXME Used only by ArtifactConstantDetailsPage. Just workaround to avoid
-	 * appearing scrolls on details part.
-	 */
-	void setMinimumHeight(int value) {
-		GridData gd = new GridData(GridData.FILL_BOTH);
-		gd.verticalSpan = 4;
-		gd.widthHint = 250;
-		gd.minimumHeight = value;
-		tableComposite.setLayoutData(gd);
-		getManagedForm().reflow(true);
-	}
-
-	/**
-	 * Updates the master's side based on the selection on the list of
-	 * attributes
+	 * Triggered when the down button is pushed
 	 * 
 	 */
-	protected void viewerSelectionChanged(SelectionChangedEvent event) {
-		updateMaster();
-	}
+	protected void downButtonSelected(SelectionEvent event) {
 
-	private String getInitialLiteralValue(IType type) {
-		if ("int".equals(type.getFullyQualifiedName()))
-			return findNewLiteralValue(INT_TYPE);
-		else if ("String".equals(Misc.removeJavaLangString(type
-				.getFullyQualifiedName())))
-			return findNewLiteralValue(STRING_TYPE);
-		return "0";
-	}
-
-	/**
-	 * Triggered when the add button is pushed
-	 * 
-	 */
-	protected void addButtonSelected(SelectionEvent event) {
-		IAbstractArtifact artifact = getIArtifact();
-		ILiteral newLiteral = artifact.makeLiteral();
-
-		ComponentNameProvider nameFactory = ComponentNameProvider.getInstance();
-
-		String newLabelName = nameFactory.getNewLiteralName(artifact);
-		newLiteral.setName(newLabelName);
-		IType defaultType = newLiteral.makeType();
-
-		// See bug #77, #90
-		if (getForcedBaseType() != null) {
-			defaultType.setFullyQualifiedName(getForcedBaseType());
-		} else {
-			defaultType.setFullyQualifiedName("String");
-		}
-		defaultType.setTypeMultiplicity(EMultiplicity.ZERO_ONE);
-		newLiteral.setType(defaultType);
-		newLiteral.setVisibility(EVisibility.PUBLIC);
-		newLiteral.setValue(getInitialLiteralValue(defaultType));
-
-		// Add the item after the current selection (if there is one, and its
-		// not the last thing in the table.)
-		if (viewer.getTable().getSelectionCount() == 0
-				|| viewer.getTable().getSelectionIndex() == viewer.getTable()
-						.getItemCount()) {
-			viewer.add(newLiteral);
-			TableItem[] allItems = this.viewer.getTable().getItems();
-			ILiteral[] newFields = new ILiteral[allItems.length];
-			for (int i = 0; i < newFields.length; i++) {
-				newFields[i] = (ILiteral) allItems[i].getData();
-			}
-			getIArtifact().setLiterals(Arrays.asList(newFields));
-
-		} else {
-			int position = viewer.getTable().getSelectionIndex();
-			TableItem[] allItems = this.viewer.getTable().getItems();
-
-			ILiteral[] newFields = new ILiteral[allItems.length + 1];
-			for (int i = 0; i <= position; i++) {
-				newFields[i] = (ILiteral) allItems[i].getData();
-			}
-			newFields[position + 1] = newLiteral;
-
-			for (int i = position + 2; i < newFields.length; i++) {
-				newFields[i] = (ILiteral) allItems[i - 1].getData();
-			}
-			getIArtifact().setLiterals(Arrays.asList(newFields));
+		TableItem[] selectedItems = viewer.getTable().getSelection();
+		if (!onlyNative(selectedItems)) {
+			return;
 		}
 
-		refresh();
+		// If you go up/down then the sort order ion the viewer has to be
+		// removed!
+		viewer.setSorter(null);
 
-		viewer.setSelection(new StructuredSelection(newLiteral), true);
+		ILiteral[] selectedLiterals = new ILiteral[selectedItems.length];
+
+		for (int i = 0; i < selectedItems.length; i++) {
+			selectedLiterals[i] = (ILiteral) selectedItems[i].getData();
+		}
+
+		List<ILiteral> newLiterals = new ArrayList<ILiteral>(getIArtifact()
+				.getLiterals());
+
+		boolean wasSwap = false;
+		for (ILiteral selectedLiteral : selectedLiterals) {
+
+			int toDownIndex = newLiterals.indexOf(selectedLiteral);
+
+			if (toDownIndex >= 0 && toDownIndex < newLiterals.size() - 1) {
+				Collections.swap(newLiterals, toDownIndex, toDownIndex + 1);
+				wasSwap = true;
+			}
+		}
+
+		// TODO - This should be wrapped in case of error?
+		if (wasSwap) {
+			++selIndex;
+		}
+		getIArtifact().setLiterals(newLiterals);
+
 		markPageModified();
+		refresh();
 		updateMaster();
-
-		// Record Add Edit
-		try {
-			URI artURI = (URI) getIArtifact().getAdapter(URI.class);
-			URI attrURI = artURI.appendFragment(newLabelName);
-			ModelUndoableEdit edit = new ModelUndoableEdit(artURI,
-					IModelChangeDelta.ADD, newLiteral.getClass()
-							.getSimpleName(), null, attrURI, getIArtifact()
-							.getProject());
-			((TigerstripeFormEditor) getPage().getEditor()).getUndoManager()
-					.addEdit(edit);
-		} catch (TigerstripeException e) {
-			EclipsePlugin.log(e);
-		}
-
 	}
-
-	protected void markPageModified() {
-		ArtifactEditorBase editor = (ArtifactEditorBase) getPage().getEditor();
-		editor.pageModified();
-	}
-
-	private int newLiteralValue;
 
 	private String findNewLiteralValue(int type) {
 		String result = String.valueOf(newLiteralValue);
@@ -477,6 +541,82 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart implemen
 			}
 		}
 		return result;
+	}
+
+	public DetailsPart getDetailsPart() {
+		return detailsPart;
+	}
+
+	// ======
+	// See bug #90, handle Enumerations slightly differently
+	public String getForcedBaseType() {
+		IAbstractArtifact artifact = ((ArtifactEditorBase) getPage()
+				.getEditor()).getIArtifact();
+		if (artifact instanceof IEnumArtifact) {
+			IEnumArtifact enumArtifact = (IEnumArtifact) artifact;
+			IOssjEnumSpecifics specs = (IOssjEnumSpecifics) enumArtifact
+					.getIStandardSpecifics();
+			if (specs.getBaseIType() != null)
+				return specs.getBaseIType().getFullyQualifiedName();
+		}
+		return null;
+	}
+
+	private String getInitialLiteralValue(IType type) {
+		if ("int".equals(type.getFullyQualifiedName()))
+			return findNewLiteralValue(INT_TYPE);
+		else if ("String".equals(Misc.removeJavaLangString(type
+				.getFullyQualifiedName())))
+			return findNewLiteralValue(STRING_TYPE);
+		return "0";
+	}
+
+	@Override
+	public TableViewer getViewer() {
+		return this.viewer;
+	}
+
+	protected void markPageModified() {
+		ArtifactEditorBase editor = (ArtifactEditorBase) getPage().getEditor();
+		editor.pageModified();
+	}
+
+	@Override
+	protected void onExtendedArtifactChange(IAbstractArtifact artifact) {
+		if (viewer != null && !viewer.getTable().isDisposed()) {
+			viewer.refresh();
+		}
+	}
+
+	private boolean onlyNative(TableItem[] selectedItems) {
+		for (int i = 0; i < selectedItems.length; i++) {
+			if (!literalsInModel.contains((selectedItems[i].getData()))) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	@Override
+	public void refresh() {
+		int si = selIndex;
+		viewer.setInput(((ArtifactEditorBase) getPage().getEditor())
+				.getIArtifact());
+		selIndex = si;
+		viewer.refresh(true);
+		if (selIndex != -1) {
+			Object refreshedMethod = viewer.getTable().getItem(selIndex)
+					.getData();
+			viewer.setSelection(new StructuredSelection(refreshedMethod), true);
+		}
+		updateMaster();
+	}
+
+	protected void registerPages(DetailsPart detailsPart) {
+		detailsPart.registerPage(Literal.class, // TODO remove the dependency on
+				// Core and use API instead
+				new ArtifactConstantDetailsPage(this, getIArtifact()
+						.isReadonly()));
 	}
 
 	/**
@@ -533,80 +673,86 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart implemen
 		}
 		updateMaster();
 	}
-
+	/**
+	 * FIXME Used only by ArtifactConstantDetailsPage. Just workaround to avoid
+	 * appearing scrolls on details part.
+	 */
+	void setMinimumHeight(int value) {
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		gd.verticalSpan = 4;
+		gd.widthHint = 250;
+		gd.minimumHeight = value;
+		tableComposite.setLayoutData(gd);
+		getManagedForm().reflow(true);
+	}
 	/**
 	 * Triggered when the up button is pushed
 	 * 
 	 */
 	protected void upButtonSelected(SelectionEvent event) {
 
+		TableItem[] selectedItems = viewer.getTable().getSelection();
+		if (!onlyNative(selectedItems)) {
+			return;
+		}
+
 		// If you go up/down then the sort order ion the viewer has to be
 		// removed!
 		viewer.setSorter(null);
 
-		TableItem[] selectedItems = viewer.getTable().getSelection();
-		ILiteral[] selectedFields = new ILiteral[selectedItems.length];
+		ILiteral[] selectedLiterals = new ILiteral[selectedItems.length];
 
 		for (int i = 0; i < selectedItems.length; i++) {
-			selectedFields[i] = (ILiteral) selectedItems[i].getData();
+			selectedLiterals[i] = (ILiteral) selectedItems[i].getData();
 		}
-		TableItem[] allItems = this.viewer.getTable().getItems();
 
-		ILiteral[] allFields = new ILiteral[allItems.length];
-		ILiteral[] newFields = new ILiteral[allItems.length];
+		List<ILiteral> newLiterals = new ArrayList<ILiteral>(getIArtifact()
+				.getLiterals());
 
-		for (int i = 0; i < allFields.length; i++) {
-			newFields[i] = (ILiteral) allItems[i].getData();
-			if (allItems[i].getData().equals(selectedFields[0]) && i != 0) {
-				newFields[i] = newFields[i - 1];
-				newFields[i - 1] = (ILiteral) allItems[i].getData();
+		boolean wasSwap = false;
+		for (ILiteral selectedLiteral : selectedLiterals) {
+
+			int toUpIndex = newLiterals.indexOf(selectedLiteral);
+
+			if (toUpIndex > 0) {
+				Collections.swap(newLiterals, toUpIndex, toUpIndex - 1);
+				wasSwap = true;
 			}
 		}
 
 		// TODO - This should be wrapped in case of error?
-		selIndex = selIndex - 1;
-		getIArtifact().setLiterals(Arrays.asList(newFields));
+		if (wasSwap) {
+			--selIndex;
+		}
+		getIArtifact().setLiterals(newLiterals);
+
 		markPageModified();
 		refresh();
 		updateMaster();
 	}
 
-	/**
-	 * Triggered when the down button is pushed
-	 * 
-	 */
-	protected void downButtonSelected(SelectionEvent event) {
+	private void updateButtons() {
 
-		// If you go up/down then the sort order ion the viewer has to be
-		// removed!
-		viewer.setSorter(null);
+		List<ILiteral> fields = new ArrayList<ILiteral>(getIArtifact()
+				.getLiterals());
 
-		TableItem[] selectedItems = viewer.getTable().getSelection();
-		ILiteral[] selectedFields = new ILiteral[selectedItems.length];
+		TableItem[] selection = viewer.getTable().getSelection();
 
-		for (int i = 0; i < selectedItems.length; i++) {
-			selectedFields[i] = (ILiteral) selectedItems[i].getData();
-		}
-		TableItem[] allItems = this.viewer.getTable().getItems();
+		boolean readonly = getIArtifact().isReadonly();
+		boolean empty = selection.length == 0;
+		boolean onlyNative = onlyNative(selection);
 
-		ILiteral[] allFields = new ILiteral[allItems.length];
-		ILiteral[] newFields = new ILiteral[allItems.length];
+		boolean singleUpperSelection = viewer.getTable().getSelectionCount() == 1
+				&& fields.indexOf((selection[0].getData())) == 0;
 
-		for (int i = allFields.length - 1; i > -1; i--) {
-			newFields[i] = (ILiteral) allItems[i].getData();
-			if (allItems[i].getData().equals(selectedFields[0])
-					&& i != allFields.length - 1) {
-				newFields[i] = newFields[i + 1];
-				newFields[i + 1] = (ILiteral) allItems[i].getData();
-			}
-		}
+		boolean singleDownSelection = viewer.getTable().getSelectionCount() == 1
+				&& fields.indexOf((selection[0].getData())) == fields.size() - 1;
 
-		// TODO - This should be wrapped in case of error?
-		selIndex = selIndex + 1;
-		getIArtifact().setLiterals(Arrays.asList(newFields));
-		markPageModified();
-		refresh();
-		updateMaster();
+		upAttributeButton.setEnabled(!empty && !readonly && onlyNative
+				&& !singleUpperSelection);
+		downAttributeButton.setEnabled(!empty && !readonly && onlyNative
+				&& !singleDownSelection);
+		removeAttributeButton.setEnabled(!empty && !readonly && onlyNative);
 	}
 
 	/**
@@ -615,76 +761,16 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart implemen
 	 */
 	@Override
 	public void updateMaster() {
-
-		// Updates the state of the Remove Button
-		if (viewer.getSelection() != null && !viewer.getSelection().isEmpty()) {
-			removeAttributeButton.setEnabled(!isReadonly());
-		} else {
-			removeAttributeButton.setEnabled(false);
-		}
-	}
-
-	protected void registerPages(DetailsPart detailsPart) {
-		detailsPart.registerPage(Literal.class, // TODO remove the dependency on
-				// Core and use API instead
-				new ArtifactConstantDetailsPage(this, getIArtifact()
-						.isReadonly()));
-	}
-
-	private void createDetailsPart(final IManagedForm mform, Composite parent) {
-		detailsPart = new DetailsPart(mform, parent, SWT.NULL);
-		mform.addPart(detailsPart);
-		registerPages(detailsPart);
+		updateButtons();
 	}
 
 	/**
-	 * Commits the part. Subclasses should call 'super' when overriding.
+	 * Updates the master's side based on the selection on the list of
+	 * attributes
 	 * 
-	 * @param onSave
-	 *            <code>true</code> if the request to commit has arrived as a
-	 *            result of the 'save' action.
 	 */
-	@Override
-	public void commit(boolean onSave) {
-		super.commit(onSave);
-		detailsPart.commit(onSave);
-	}
-
-	private int selIndex = -1;
-	private Table table;
-	private Composite tableComposite;
-
-	@Override
-	public void refresh() {
-		int si = selIndex;
-		viewer.setInput(((ArtifactEditorBase) getPage().getEditor())
-				.getIArtifact());
-		selIndex = si;
-		viewer.refresh(true);
-		if (selIndex != -1) {
-			Object refreshedMethod = viewer.getTable().getItem(selIndex)
-					.getData();
-			viewer.setSelection(new StructuredSelection(refreshedMethod), true);
-		}
+	protected void viewerSelectionChanged(SelectionChangedEvent event) {
 		updateMaster();
-	}
-
-	// ======
-	// See bug #90, handle Enumerations slightly differently
-	public String getForcedBaseType() {
-		IAbstractArtifact artifact = ((ArtifactEditorBase) getPage()
-				.getEditor()).getIArtifact();
-		if (artifact instanceof IEnumArtifact) {
-			IEnumArtifact enumArtifact = (IEnumArtifact) artifact;
-			IOssjEnumSpecifics specs = (IOssjEnumSpecifics) enumArtifact
-					.getIStandardSpecifics();
-			if (specs.getBaseIType() != null)
-				return specs.getBaseIType().getFullyQualifiedName();
-		}
-		return null;
-	}
-
-	public DetailsPart getDetailsPart() {
-		return detailsPart;
+		updateButtons();
 	}
 }

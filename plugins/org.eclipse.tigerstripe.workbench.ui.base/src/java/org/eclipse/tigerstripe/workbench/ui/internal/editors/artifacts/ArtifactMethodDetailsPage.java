@@ -100,6 +100,9 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 	private void setIMethod(IMethod method) {
 		if (methodInfoEditComponent != null) {
 			methodInfoEditComponent.setMethod(method);
+			if (!master.getIArtifact().getMethods().contains(method)) {
+				methodInfoEditComponent.setEnabled(false);
+			}
 		}
 	}
 

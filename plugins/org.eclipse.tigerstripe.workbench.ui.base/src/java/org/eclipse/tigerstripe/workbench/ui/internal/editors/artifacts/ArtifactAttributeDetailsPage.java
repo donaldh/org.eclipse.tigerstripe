@@ -167,6 +167,9 @@ public class ArtifactAttributeDetailsPage implements IDetailsPage,
 	private void setIField(IField field) {
 		if (attributeInfoEditComponent != null) {
 			attributeInfoEditComponent.setIField(field);
+			if (!master.getIArtifact().getFields().contains(field)) {
+				attributeInfoEditComponent.setEnabled(false);
+			}
 		}
 	}
 

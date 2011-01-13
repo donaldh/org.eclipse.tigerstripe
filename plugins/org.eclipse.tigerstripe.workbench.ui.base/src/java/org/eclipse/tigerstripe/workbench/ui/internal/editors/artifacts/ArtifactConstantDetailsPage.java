@@ -90,6 +90,9 @@ public class ArtifactConstantDetailsPage implements IDetailsPage,
 	private void setLiteral(ILiteral literal) {
 		if (constantInfoEditComponent != null) {
 			constantInfoEditComponent.setLiteral(literal);
+			if (!master.getIArtifact().getLiterals().contains(literal)) {
+				constantInfoEditComponent.setEnabled(false);
+			}
 		}
 	}
 
