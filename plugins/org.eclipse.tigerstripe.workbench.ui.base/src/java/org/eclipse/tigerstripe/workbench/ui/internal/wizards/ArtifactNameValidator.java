@@ -10,9 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.wizards;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
@@ -90,34 +92,42 @@ public class ArtifactNameValidator {
 
 	public static IStatus validateArtifactDoesNotExist(
 			IPackageFragment artifactPackage, String artifactName) {
-
 		StatusInfo status = new StatusInfo();
 
 		if (artifactPackage != null) {
 			ICompilationUnit cu = artifactPackage
 					.getCompilationUnit(artifactName + ".java"); //$NON-NLS-1$
-
 			IResource resource = cu.getResource();
-			if (resource.exists()) {
-				status
-						.setError(org.eclipse.jdt.internal.ui.wizards.NewWizardMessages.NewTypeWizardPage_error_TypeNameExists);
-				return status;
+			String error = validateExistence(resource);
+			if (error == null) {
+				resource = ((IContainer) artifactPackage.getResource())
+						.getFolder(new Path(artifactName));
+				error = validateExistence(resource);
 			}
-			IPath location = resource.getLocation();
-			if (location != null && location.toFile().exists()) {
-				status
-						.setError(org.eclipse.jdt.internal.ui.wizards.NewWizardMessages.NewTypeWizardPage_error_TypeNameExistsDifferentCase);
+
+			if (error != null) {
+				status.setError(error);
 				return status;
 			}
 		} else {
-
-			status
-					.setError(NewWizardMessages
-							.getString("NewArtifactWizardPage.error.EnterArtifactName")); //$NON-NLS-1$
+			status.setError(NewWizardMessages
+					.getString("NewArtifactWizardPage.error.EnterArtifactName")); //$NON-NLS-1$
 			return status;
 		}
-
 		return status;
+	}
+
+	private static String validateExistence(IResource resource) {
+		String error = null;
+		if (resource.exists()) {
+			error = org.eclipse.jdt.internal.ui.wizards.NewWizardMessages.NewTypeWizardPage_error_TypeNameExists;
+		} else {
+			IPath location = resource.getLocation();
+			if (location != null && location.toFile().exists()) {
+				error = org.eclipse.jdt.internal.ui.wizards.NewWizardMessages.NewTypeWizardPage_error_TypeNameExistsDifferentCase;
+			}
+		}
+		return error;
 	}
 
 	public static IStatus validatePackageArtifactDoesNotExist(
