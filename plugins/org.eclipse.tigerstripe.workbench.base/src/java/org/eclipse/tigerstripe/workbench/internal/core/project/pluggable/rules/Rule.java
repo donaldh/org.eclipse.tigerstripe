@@ -83,6 +83,7 @@ public abstract class Rule extends BaseContainerObject implements
 		this.report.setName(getName());
 		this.report.setType(getLabel());
 		this.report.setEnabled(isEnabled());
+		this.report.setRule(this);
 	}
 
 	/**
@@ -165,154 +166,161 @@ public abstract class Rule extends BaseContainerObject implements
 		return report;
 	}
 
-	public Map<String, Object> getGlobalContext(PluggablePluginConfig pluginConfig )
-	throws TigerstripeException {
+	public Map<String, Object> getGlobalContext(
+			PluggablePluginConfig pluginConfig) throws TigerstripeException {
 
 		Map<String, Object> context = new HashMap<String, Object>();
 		ITigerstripeModelProject handle = pluginConfig.getProjectHandle();
 
 		ArtifactManagerSessionImpl session = (ArtifactManagerSessionImpl) handle
-		.getArtifactManagerSession();
+				.getArtifactManagerSession();
 		ArtifactManager artifactMgr = session.getArtifactManager();
 
 		// The collections of things in this project
 		Collection<IAbstractArtifact> artifacts = artifactMgr.getAllArtifacts(
 				false, new NullProgressMonitor());
 		Collection<IAbstractArtifact> allArtifacts = artifactMgr
-		.getAllArtifacts(true, false, new NullProgressMonitor());
+				.getAllArtifacts(true, false, new NullProgressMonitor());
 		context.put(ARTIFACTS, artifacts);
 		context.put(ALLARTIFACTS, allArtifacts);
 
-
-		if (artifactMgr.getRegisteredArtifacts().contains(ManagedEntityArtifact.MODEL)){
-			Collection<IAbstractArtifact> entities = 
-				artifactMgr.getArtifactsByModel(ManagedEntityArtifact.MODEL,
-						false, new NullProgressMonitor());
+		if (artifactMgr.getRegisteredArtifacts().contains(
+				ManagedEntityArtifact.MODEL)) {
+			Collection<IAbstractArtifact> entities = artifactMgr
+					.getArtifactsByModel(ManagedEntityArtifact.MODEL, false,
+							new NullProgressMonitor());
 			Collection<IAbstractArtifact> allEntities = artifactMgr
-			.getArtifactsByModel(ManagedEntityArtifact.MODEL, true, false,
-					new NullProgressMonitor());
+					.getArtifactsByModel(ManagedEntityArtifact.MODEL, true,
+							false, new NullProgressMonitor());
 			context.put(ENTITIES, entities);
 			context.put(ALLENTITIES, allEntities);
 		}
 
-		if (artifactMgr.getRegisteredArtifacts().contains(DatatypeArtifact.MODEL)){
-			Collection<IAbstractArtifact> datatypes = 
-				artifactMgr.getArtifactsByModel(DatatypeArtifact.MODEL, false,
-						new NullProgressMonitor());
+		if (artifactMgr.getRegisteredArtifacts().contains(
+				DatatypeArtifact.MODEL)) {
+			Collection<IAbstractArtifact> datatypes = artifactMgr
+					.getArtifactsByModel(DatatypeArtifact.MODEL, false,
+							new NullProgressMonitor());
 			Collection<IAbstractArtifact> allDatatypes = artifactMgr
-			.getArtifactsByModel(DatatypeArtifact.MODEL, true, false,
-					new NullProgressMonitor());
+					.getArtifactsByModel(DatatypeArtifact.MODEL, true, false,
+							new NullProgressMonitor());
 			context.put(DATATYPES, datatypes);
 			context.put(ALLDATATYPES, allDatatypes);
 		}
 
-		if (artifactMgr.getRegisteredArtifacts().contains(EventArtifact.MODEL)){
-			Collection<IAbstractArtifact> events = 
-				artifactMgr.getArtifactsByModel(EventArtifact.MODEL, false,
-						new NullProgressMonitor());
+		if (artifactMgr.getRegisteredArtifacts().contains(EventArtifact.MODEL)) {
+			Collection<IAbstractArtifact> events = artifactMgr
+					.getArtifactsByModel(EventArtifact.MODEL, false,
+							new NullProgressMonitor());
 			Collection<IAbstractArtifact> allEvents = artifactMgr
-			.getArtifactsByModel(EventArtifact.MODEL, true, false,
-					new NullProgressMonitor());
+					.getArtifactsByModel(EventArtifact.MODEL, true, false,
+							new NullProgressMonitor());
 			context.put(EVENTS, events);
 			context.put(ALLEVENTS, allEvents);
 		}
 
-		if (artifactMgr.getRegisteredArtifacts().contains(EnumArtifact.MODEL)){
-			Collection<IAbstractArtifact> enums = 
-				artifactMgr.getArtifactsByModel(EnumArtifact.MODEL, false,
-						new NullProgressMonitor());
+		if (artifactMgr.getRegisteredArtifacts().contains(EnumArtifact.MODEL)) {
+			Collection<IAbstractArtifact> enums = artifactMgr
+					.getArtifactsByModel(EnumArtifact.MODEL, false,
+							new NullProgressMonitor());
 			Collection<IAbstractArtifact> allEnums = artifactMgr
-			.getArtifactsByModel(EnumArtifact.MODEL, true, false,
-					new NullProgressMonitor());
+					.getArtifactsByModel(EnumArtifact.MODEL, true, false,
+							new NullProgressMonitor());
 			context.put(ENUMERATIONS, enums);
 			context.put(ALLENUMERATIONS, allEnums);
 		}
 
-		if (artifactMgr.getRegisteredArtifacts().contains(ExceptionArtifact.MODEL)){
-			Collection<IAbstractArtifact> exceptions = 
-				artifactMgr.getArtifactsByModel(ExceptionArtifact.MODEL, false,
-						new NullProgressMonitor());
+		if (artifactMgr.getRegisteredArtifacts().contains(
+				ExceptionArtifact.MODEL)) {
+			Collection<IAbstractArtifact> exceptions = artifactMgr
+					.getArtifactsByModel(ExceptionArtifact.MODEL, false,
+							new NullProgressMonitor());
 			Collection<IAbstractArtifact> allExceptions = artifactMgr
-			.getArtifactsByModel(ExceptionArtifact.MODEL, true, false,
-					new NullProgressMonitor());
+					.getArtifactsByModel(ExceptionArtifact.MODEL, true, false,
+							new NullProgressMonitor());
 			context.put(EXCEPTIONS, exceptions);
 			context.put(ALLEXCEPTIONS, allExceptions);
 		}
 
-		if (artifactMgr.getRegisteredArtifacts().contains(QueryArtifact.MODEL)){
-			Collection<IAbstractArtifact> queries = 
-				artifactMgr.getArtifactsByModel(QueryArtifact.MODEL, false,
-						new NullProgressMonitor());
+		if (artifactMgr.getRegisteredArtifacts().contains(QueryArtifact.MODEL)) {
+			Collection<IAbstractArtifact> queries = artifactMgr
+					.getArtifactsByModel(QueryArtifact.MODEL, false,
+							new NullProgressMonitor());
 			Collection<IAbstractArtifact> allQueries = artifactMgr
-			.getArtifactsByModel(QueryArtifact.MODEL, true, false,
-					new NullProgressMonitor());
+					.getArtifactsByModel(QueryArtifact.MODEL, true, false,
+							new NullProgressMonitor());
 			context.put(QUERIES, queries);
 			context.put(ALLQUERIES, allQueries);
 		}
 
-		if (artifactMgr.getRegisteredArtifacts().contains(SessionFacadeArtifact.MODEL)){
-			Collection<IAbstractArtifact> sessions = 
-				artifactMgr.getArtifactsByModel(SessionFacadeArtifact.MODEL,
-						false, new NullProgressMonitor());
+		if (artifactMgr.getRegisteredArtifacts().contains(
+				SessionFacadeArtifact.MODEL)) {
+			Collection<IAbstractArtifact> sessions = artifactMgr
+					.getArtifactsByModel(SessionFacadeArtifact.MODEL, false,
+							new NullProgressMonitor());
 			Collection<IAbstractArtifact> allSessions = artifactMgr
-			.getArtifactsByModel(SessionFacadeArtifact.MODEL, true, false,
-					new NullProgressMonitor());
+					.getArtifactsByModel(SessionFacadeArtifact.MODEL, true,
+							false, new NullProgressMonitor());
 			context.put(SESSIONS, sessions);
 			context.put(ALLSESSIONS, allSessions);
 		}
 
-		if (artifactMgr.getRegisteredArtifacts().contains(UpdateProcedureArtifact.MODEL)){
-			Collection<IAbstractArtifact> updateProcedures = 
-				artifactMgr.getArtifactsByModel(UpdateProcedureArtifact.MODEL,
-						false, new NullProgressMonitor());
+		if (artifactMgr.getRegisteredArtifacts().contains(
+				UpdateProcedureArtifact.MODEL)) {
+			Collection<IAbstractArtifact> updateProcedures = artifactMgr
+					.getArtifactsByModel(UpdateProcedureArtifact.MODEL, false,
+							new NullProgressMonitor());
 			Collection<IAbstractArtifact> allUpdateProcedures = artifactMgr
-			.getArtifactsByModel(UpdateProcedureArtifact.MODEL, true,
-					false, new NullProgressMonitor());
+					.getArtifactsByModel(UpdateProcedureArtifact.MODEL, true,
+							false, new NullProgressMonitor());
 			context.put(UPDATEPROCEDURES, updateProcedures);
 			context.put(ALLUPDATEPROCEDURES, allUpdateProcedures);
 		}
 
-		if (artifactMgr.getRegisteredArtifacts().contains(AssociationArtifact.MODEL)){
-			Collection<IAbstractArtifact> associations = 
-				artifactMgr.getArtifactsByModel(AssociationArtifact.MODEL,
-						false, new NullProgressMonitor());
+		if (artifactMgr.getRegisteredArtifacts().contains(
+				AssociationArtifact.MODEL)) {
+			Collection<IAbstractArtifact> associations = artifactMgr
+					.getArtifactsByModel(AssociationArtifact.MODEL, false,
+							new NullProgressMonitor());
 			Collection<IAbstractArtifact> allAssociations = artifactMgr
-			.getArtifactsByModel(AssociationArtifact.MODEL, true, false,
-					new NullProgressMonitor());
+					.getArtifactsByModel(AssociationArtifact.MODEL, true,
+							false, new NullProgressMonitor());
 			context.put(ASSOCIATIONS, associations);
 			context.put(ALLASSOCIATIONS, allAssociations);
 		}
 
-		if (artifactMgr.getRegisteredArtifacts().contains(DependencyArtifact.MODEL)){
-			Collection<IAbstractArtifact> dependencies = 
-				artifactMgr.getArtifactsByModel(DependencyArtifact.MODEL,
-						false, new NullProgressMonitor());
+		if (artifactMgr.getRegisteredArtifacts().contains(
+				DependencyArtifact.MODEL)) {
+			Collection<IAbstractArtifact> dependencies = artifactMgr
+					.getArtifactsByModel(DependencyArtifact.MODEL, false,
+							new NullProgressMonitor());
 			Collection<IAbstractArtifact> allDependencies = artifactMgr
-			.getArtifactsByModel(DependencyArtifact.MODEL, true, false,
-					new NullProgressMonitor());
+					.getArtifactsByModel(DependencyArtifact.MODEL, true, false,
+							new NullProgressMonitor());
 			context.put(DEPENDENCIES, dependencies);
 			context.put(ALLDEPENDENCIES, allDependencies);
 		}
 
-		if (artifactMgr.getRegisteredArtifacts().contains(AssociationClassArtifact.MODEL)){
-			Collection<IAbstractArtifact> associationClasses = 
-				artifactMgr.getArtifactsByModel(
-						AssociationClassArtifact.MODEL, false,
-						new NullProgressMonitor());
+		if (artifactMgr.getRegisteredArtifacts().contains(
+				AssociationClassArtifact.MODEL)) {
+			Collection<IAbstractArtifact> associationClasses = artifactMgr
+					.getArtifactsByModel(AssociationClassArtifact.MODEL, false,
+							new NullProgressMonitor());
 			Collection<IAbstractArtifact> allAssociationClasses = artifactMgr
-			.getArtifactsByModel(AssociationClassArtifact.MODEL, true,
-					false, new NullProgressMonitor());
+					.getArtifactsByModel(AssociationClassArtifact.MODEL, true,
+							false, new NullProgressMonitor());
 			context.put(ASSOCIATIONCLASSES, associationClasses);
 			context.put(ALLASSOCIATIONCLASSES, allAssociationClasses);
 		}
 
-		if (artifactMgr.getRegisteredArtifacts().contains(PackageArtifact.MODEL)){
-			Collection<IAbstractArtifact> packages = 
-				artifactMgr.getArtifactsByModel(PackageArtifact.MODEL, false,
-						new NullProgressMonitor());
+		if (artifactMgr.getRegisteredArtifacts()
+				.contains(PackageArtifact.MODEL)) {
+			Collection<IAbstractArtifact> packages = artifactMgr
+					.getArtifactsByModel(PackageArtifact.MODEL, false,
+							new NullProgressMonitor());
 			Collection<IAbstractArtifact> allPackages = artifactMgr
-			.getArtifactsByModel(PackageArtifact.MODEL, true, false,
-					new NullProgressMonitor());
+					.getArtifactsByModel(PackageArtifact.MODEL, true, false,
+							new NullProgressMonitor());
 			context.put(PACKAGES, packages);
 			context.put(ALLPACKAGES, allPackages);
 		}
@@ -328,17 +336,16 @@ public abstract class Rule extends BaseContainerObject implements
 		context.put(EXP, new Expander(pluginConfig));
 		context.put(MANAGER, artifactMgr);
 
-
 		context.put(PLUGINDIR, getContainingDescriptor().getBaseDir());
 
 		context.put(DIAGRAMGENERATOR, new DiagramGenerator(handle));
 
 		if (session.getActiveFacet() != null
 				&& session.getActiveFacet().canResolve())
-			context.put(ANNOTATIONCONTEXT, session.getActiveFacet()
-					.resolve().getAnnotationContext());
+			context.put(ANNOTATIONCONTEXT, session.getActiveFacet().resolve()
+					.getAnnotationContext());
 
 		return context;
 	}
-	
+
 }

@@ -27,6 +27,9 @@ import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginReport;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.RuleReport;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.GlobalRunnableRule;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.GlobalTemplateRule;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.Rule;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginReport;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -162,6 +165,12 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 					} else {
 						boolean nothingMatch = true;
 						for (RuleReport rr : childReports) {
+							Rule rule = rr.getRule();
+							if ((rule instanceof GlobalTemplateRule)
+									|| (rule instanceof GlobalRunnableRule)) {
+								nothingMatch = false;
+								break;
+							}
 							if (rr.getMatchedArtifacts().isEmpty()) {
 								res.append(
 										"Notice: None of the artifact(s) match the specified rule(s) '")

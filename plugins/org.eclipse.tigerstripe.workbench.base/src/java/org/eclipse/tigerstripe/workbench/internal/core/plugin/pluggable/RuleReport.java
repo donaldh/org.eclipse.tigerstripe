@@ -15,16 +15,14 @@ import java.util.Collection;
 
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
+import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.Rule;
 import org.eclipse.tigerstripe.workbench.plugins.ICopyRule;
 import org.eclipse.tigerstripe.workbench.plugins.IRuleReport;
 
 /**
- * 
+ * A rule report is sub-type of report used in pluggable plugins
  * 
  * @author Richard Craddock
- * 
- * a Rule report is sub-type of report used in pluggable plugins
- * 
  */
 public class RuleReport extends PluginReport implements IRuleReport {
 
@@ -38,12 +36,13 @@ public class RuleReport extends PluginReport implements IRuleReport {
 	private boolean overwriteFiles;
 	private boolean suppressEmptyFiles;
 	private boolean includeDependencies;
+	private Rule rule;
 
 	// CopyRule specifics
 	private String filesetMatch;
 	private int copyFrom;
 	private String toDirectory;
-	
+
 	// Runnable specifics
 	private String runnableClassName;
 
@@ -115,8 +114,12 @@ public class RuleReport extends PluginReport implements IRuleReport {
 		this.suppressEmptyFiles = suppressEmptyFiles;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.IRuleReport#getPreservedFiles()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.IRuleReport
+	 * #getPreservedFiles()
 	 */
 	public Collection<String> getPreservedFiles() {
 		return preservedFiles;
@@ -161,12 +164,20 @@ public class RuleReport extends PluginReport implements IRuleReport {
 	public String getToDirectory() {
 		return this.toDirectory;
 	}
-	
+
 	public String getRunnableClassName() {
 		return runnableClassName;
 	}
 
 	public void setRunnableClassName(String runnableClassName) {
 		this.runnableClassName = runnableClassName;
+	}
+
+	public void setRule(Rule rule) {
+		this.rule = rule;
+	}
+
+	public Rule getRule() {
+		return rule;
 	}
 }
