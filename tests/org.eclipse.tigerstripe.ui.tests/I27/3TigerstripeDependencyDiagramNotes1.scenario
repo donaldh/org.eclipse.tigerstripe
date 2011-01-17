@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="3TigerstripeDependencyDiagramNotes" version="3.0" id="_B0S48AnAEeCXqp4SMdtbsg" description="Precondition: 1 project with dependency types Model and Module Projects&#xD;&#xA;&#xD;&#xA;1. Create dependency for project 3: Move exported Tigerstripe module to project3. &#xD;&#xA;On project dependencies tab for project3 add exported module. Save changes.&#xD;&#xA;2. Open &quot;Diagram&quot; tab on editor. &#xD;&#xA;3. Add a note to the diagram to Model and Module Projects&#xD;&#xA;4. Delete note&#xD;&#xA;5. Create a new note to a reference, remove reference. Note should be removed" type="ecl">
   <contexts>_E-NZMfhGEd-iKuOiJgVXVQ</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script" content="get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project1/tigerstripe.xml&quot; | double-click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project1/tigerstripe.xml&quot; | get-menu &quot;Export...&quot; | click&#xA;with [get-window Export] {&#xA;    get-tree -after [get-label &quot;Select an export destination:&quot;] | select &quot;Tigerstripe/Tigerstripe Module&quot;&#xA;    get-button &quot;Next >&quot; | click&#xA;}&#xA;get-window &quot;Export to Tigerstripe module&quot; | get-button Finish | click&#xA;with [get-view &quot;Tigerstripe Explorer&quot; | get-tree] {&#xA;    select &quot;Project1/Project1_0.0.0.jar&quot; | get-item &quot;Project1/Project1_0.0.0.jar&quot; | drag-start &quot;4&quot; &quot;4&quot; -button none&#xA;    with [get-item Project2] {&#xA;        drag-enter &quot;23&quot; &quot;2&quot; -detail &quot;2&quot; -operation &quot;7&quot; -button none&#xA;        drag-over &quot;23&quot; &quot;17&quot; -detail &quot;2&quot; -operation &quot;7&quot; -button none&#xA;    }&#xA;    get-item Project3 | drag-over &quot;23&quot; &quot;8&quot; -detail &quot;2&quot; -operation &quot;7&quot; -button none&#xA;    get-item Project2 | drag-exit -button none&#xA;    get-item Project3 | drag-accept &quot;23&quot; &quot;8&quot; -detail &quot;2&quot; -operation &quot;7&quot; -button none&#xA;    drag-set-data -button none&#xA;    get-item Project3 | drop &quot;23&quot; &quot;8&quot; -detail &quot;2&quot; -operation &quot;7&quot; -button none&#xA;    drag-end -button none&#xA;    select &quot;Project3/tigerstripe.xml&quot; | double-click&#xA;}&#xA;with [get-editor &quot;Project3/tigerstripe.xml&quot;] {&#xA;    get-tab-folder | get-tab-item Dependencies | click&#xA;    get-section Dependencies | get-button Add | click&#xA;}&#xA;with [get-window &quot;Select Tigerstripe Project&quot;] {&#xA;    get-table -after [get-label &quot;Select Tigerstripe Project to reference&quot;] | select &quot;Project1_0.0.0.jar&quot;&#xA;    get-button OK | click&#xA;}&#xA;get-editor &quot;Project3/tigerstripe.xml&quot; | get-section Dependencies | get-button Add | click&#xA;with [get-window &quot;Select Tigerstripe Project&quot;] {&#xA;    get-table -after [get-label &quot;Select Tigerstripe Project to reference&quot;] | select Project2&#xA;    get-button OK | click&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;with [get-editor &quot;Project3/tigerstripe.xml&quot;] {&#xA;    get-tab-folder | get-tab-item &quot;Dependency Diagram&quot; | click&#xA;    with [get-diagram] {&#xA;        mouse-move &quot;281&quot; &quot;135&quot; -height &quot;378&quot; -width &quot;491&quot;&#xA;        mouse-press &quot;281&quot; &quot;135&quot; button3 -height &quot;378&quot; -width &quot;491&quot;&#xA;        mouse-release &quot;281&quot; &quot;135&quot; button3 -height &quot;378&quot; -width &quot;491&quot;&#xA;    }&#xA;    get-canvas | get-menu Layout | click&#xA;    get-diagram | mouse-move &quot;18&quot; &quot;209&quot; -height &quot;358&quot; -width &quot;493&quot;&#xA;}&#xA;get-editor &quot;Project3/tigerstripe.xml&quot; | get-diagram | get-edit-part &quot;0&quot; | get-property childrenCount | is-equal &quot;3&quot; | verify&#xA;with [get-editor &quot;Project3/tigerstripe.xml&quot;] {&#xA;    with [get-diagram] {&#xA;        get-edit-part &quot;0/1&quot; | mouse-move &quot;100&quot; &quot;65&quot; -height &quot;80&quot; -width &quot;200&quot;&#xA;        get-edit-part &quot;0/1&quot; | mouse-press &quot;100&quot; &quot;65&quot; button3 -height &quot;80&quot; -width &quot;200&quot;&#xA;        get-edit-part &quot;0/1&quot; | mouse-release &quot;100&quot; &quot;65&quot; button3 -height &quot;80&quot; -width &quot;200&quot;&#xA;    }&#xA;    get-canvas | get-menu &quot;Add Note...&quot; | click&#xA;    with [get-diagram] {&#xA;        get-edit-part &quot;0/2&quot; | mouse-move &quot;78&quot; &quot;62&quot; -height &quot;80&quot; -width &quot;200&quot;&#xA;        get-edit-part &quot;0/2&quot; | mouse-hover &quot;78&quot; &quot;62&quot; -height &quot;80&quot; -width &quot;200&quot;&#xA;        get-edit-part &quot;0/2&quot; | mouse-press &quot;78&quot; &quot;62&quot; button1 -height &quot;80&quot; -width &quot;200&quot;&#xA;        get-edit-part &quot;0/2&quot; | mouse-release &quot;78&quot; &quot;62&quot; button1 -height &quot;80&quot; -width &quot;200&quot;&#xA;        get-edit-part &quot;0/2&quot; | mouse-move &quot;67&quot; &quot;61&quot; -height &quot;80&quot; -width &quot;200&quot;&#xA;        get-edit-part &quot;0/2&quot; | mouse-press &quot;67&quot; &quot;61&quot; button3 -height &quot;80&quot; -width &quot;200&quot;&#xA;        get-edit-part &quot;0/2&quot; | mouse-release &quot;67&quot; &quot;61&quot; button3 -height &quot;80&quot; -width &quot;200&quot;&#xA;    }&#xA;    get-canvas | get-menu &quot;Add Note...&quot; | click&#xA;    get-diagram | mouse-move &quot;126&quot; &quot;150&quot; -height &quot;358&quot; -width &quot;603&quot;&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor &quot;Project3/tigerstripe.xml&quot; | get-diagram | get-edit-part &quot;0&quot; | get-property childrenCount | is-equal &quot;5&quot; | verify&#xA;with [get-editor &quot;Project3/tigerstripe.xml&quot;] {&#xA;    with [get-diagram] {&#xA;        mouse-move &quot;520&quot; &quot;217&quot; -height &quot;358&quot; -width &quot;603&quot;&#xA;        mouse-hover &quot;520&quot; &quot;217&quot; -height &quot;358&quot; -width &quot;603&quot;&#xA;        mouse-move &quot;524&quot; &quot;217&quot; -height &quot;358&quot; -width &quot;603&quot;&#xA;        mouse-hover &quot;524&quot; &quot;217&quot; -height &quot;358&quot; -width &quot;603&quot;&#xA;        mouse-move &quot;338&quot; &quot;293&quot; -height &quot;358&quot; -width &quot;603&quot;&#xA;        mouse-hover &quot;338&quot; &quot;293&quot; -height &quot;358&quot; -width &quot;603&quot;&#xA;        get-edit-part &quot;0/4&quot; | mouse-move &quot;26&quot; &quot;13&quot; -height &quot;20&quot; -width &quot;100&quot;&#xA;        get-edit-part &quot;0/4&quot; | mouse-hover &quot;26&quot; &quot;13&quot; -height &quot;20&quot; -width &quot;100&quot;&#xA;        get-edit-part &quot;0/4&quot; | mouse-press &quot;26&quot; &quot;13&quot; button1 -height &quot;20&quot; -width &quot;100&quot;&#xA;        get-edit-part &quot;0/4&quot; | mouse-release &quot;26&quot; &quot;13&quot; button1 -height &quot;20&quot; -width &quot;100&quot;&#xA;        get-edit-part &quot;0/4&quot; | mouse-hover &quot;26&quot; &quot;13&quot; -height &quot;20&quot; -width &quot;100&quot;&#xA;        get-edit-part &quot;0/4&quot; | mouse-move &quot;23&quot; &quot;14&quot; -height &quot;20&quot; -width &quot;100&quot;&#xA;        get-edit-part &quot;0/4&quot; | mouse-press &quot;23&quot; &quot;14&quot; button3 -height &quot;20&quot; -width &quot;100&quot;&#xA;        get-edit-part &quot;0/4&quot; | mouse-release &quot;23&quot; &quot;14&quot; button3 -height &quot;20&quot; -width &quot;100&quot;&#xA;    }&#xA;    get-canvas | get-menu &quot;Remove Note&quot; | click&#xA;    get-diagram | mouse-move &quot;26&quot; &quot;155&quot; -height &quot;358&quot; -width &quot;493&quot;&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor &quot;Project3/tigerstripe.xml&quot; | get-diagram | get-edit-part &quot;0&quot; | get-property childrenCount | is-equal &quot;4&quot; | verify&#xA;with [get-editor &quot;Project3/tigerstripe.xml&quot;] {&#xA;    with [get-diagram] {&#xA;        mouse-move &quot;226&quot; &quot;324&quot; -height &quot;358&quot; -width &quot;493&quot;&#xA;        mouse-hover &quot;226&quot; &quot;324&quot; -height &quot;358&quot; -width &quot;493&quot;&#xA;        mouse-move &quot;213&quot; &quot;357&quot; -height &quot;358&quot; -width &quot;493&quot;&#xA;    }&#xA;    get-tab-folder | get-tab-item Dependencies | click&#xA;    with [get-section Dependencies] {&#xA;        get-table -after [get-label Dependencies] | select &quot;Project2 \\(0.0.0\\)&quot;&#xA;        get-button Remove | click&#xA;    }&#xA;}&#xA;get-window &quot;Remove Reference/Dependency&quot; | get-button Yes | click&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;with [get-editor &quot;Project3/tigerstripe.xml&quot;] {&#xA;    get-tab-folder | get-tab-item &quot;Dependency Diagram&quot; | click&#xA;    get-diagram | mouse-move &quot;19&quot; &quot;312&quot; -height &quot;358&quot; -width &quot;493&quot;&#xA;}&#xA;get-editor &quot;Project3/tigerstripe.xml&quot; | get-diagram | get-edit-part &quot;0&quot; | get-property childrenCount | is-equal &quot;2&quot; | verify&#xA;get-editor &quot;Project3/tigerstripe.xml&quot; | get-diagram | mouse-move &quot;32&quot; &quot;100&quot; -height &quot;358&quot; -width &quot;493&quot;"/>
+  <content xsi:type="org.eclipse.ecl.core:Script" content="get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project1/tigerstripe.xml&quot; | double-click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project1/tigerstripe.xml&quot; | get-menu &quot;Export...&quot; | click&#xA;with [get-window Export] {&#xA;    get-tree -after [get-label &quot;Select an export destination:&quot;] | select &quot;Tigerstripe/Tigerstripe Module&quot;&#xA;    get-button &quot;Next >&quot; | click&#xA;}&#xA;get-window &quot;Export to Tigerstripe module&quot; | get-button Finish | click&#xA;with [get-view &quot;Tigerstripe Explorer&quot; | get-tree] {&#xA;    select &quot;Project1/Project1_0.0.0.jar&quot; | get-item &quot;Project1/Project1_0.0.0.jar&quot; | drag-start &quot;4&quot; &quot;4&quot; -button none&#xA;    with [get-item Project2] {&#xA;        drag-enter &quot;23&quot; &quot;2&quot; -detail &quot;2&quot; -operation &quot;7&quot; -button none&#xA;        drag-over &quot;23&quot; &quot;17&quot; -detail &quot;2&quot; -operation &quot;7&quot; -button none&#xA;    }&#xA;    get-item Project3 | drag-over &quot;23&quot; &quot;8&quot; -detail &quot;2&quot; -operation &quot;7&quot; -button none&#xA;    get-item Project2 | drag-exit -button none&#xA;    get-item Project3 | drag-accept &quot;23&quot; &quot;8&quot; -detail &quot;2&quot; -operation &quot;7&quot; -button none&#xA;    drag-set-data -button none&#xA;    get-item Project3 | drop &quot;23&quot; &quot;8&quot; -detail &quot;2&quot; -operation &quot;7&quot; -button none&#xA;    drag-end -button none&#xA;    select &quot;Project3/tigerstripe.xml&quot; | double-click&#xA;}&#xA;with [get-editor &quot;Project3/tigerstripe.xml&quot;] {&#xA;    get-tab-folder | get-tab-item Dependencies | click&#xA;    get-section Dependencies | get-button Add | click&#xA;}&#xA;with [get-window &quot;Select Tigerstripe Project&quot;] {&#xA;    get-table -after [get-label &quot;Select Tigerstripe Project to reference&quot;] | select &quot;Project1_0.0.0.jar&quot;&#xA;    get-button OK | click&#xA;}&#xA;get-editor &quot;Project3/tigerstripe.xml&quot; | get-section Dependencies | get-button Add | click&#xA;with [get-window &quot;Select Tigerstripe Project&quot;] {&#xA;    get-table -after [get-label &quot;Select Tigerstripe Project to reference&quot;] | select Project2&#xA;    get-button OK | click&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;with [get-editor &quot;Project3/tigerstripe.xml&quot;] {&#xA;    get-tab-folder | get-tab-item &quot;Dependency Diagram&quot; | click&#xA;    with [get-diagram] {&#xA;        mouse-move &quot;281&quot; &quot;135&quot; -height &quot;378&quot; -width &quot;491&quot;&#xA;        mouse-press &quot;281&quot; &quot;135&quot; button3 -height &quot;378&quot; -width &quot;491&quot;&#xA;        mouse-release &quot;281&quot; &quot;135&quot; button3 -height &quot;378&quot; -width &quot;491&quot;&#xA;    }&#xA;    get-canvas | get-menu Layout | click&#xA;    get-diagram | mouse-move &quot;18&quot; &quot;209&quot; -height &quot;358&quot; -width &quot;493&quot;&#xA;}&#xA;get-editor &quot;Project3/tigerstripe.xml&quot; | get-diagram | get-edit-part &quot;0&quot; | get-property childrenCount | is-equal &quot;3&quot; | verify&#xA;with [get-editor &quot;Project3/tigerstripe.xml&quot;] {&#xA;    with [get-diagram] {&#xA;        get-edit-part &quot;0/1&quot; | mouse-move &quot;100&quot; &quot;65&quot; -height &quot;80&quot; -width &quot;200&quot;&#xA;        get-edit-part &quot;0/1&quot; | mouse-press &quot;100&quot; &quot;65&quot; button3 -height &quot;80&quot; -width &quot;200&quot;&#xA;        get-edit-part &quot;0/1&quot; | mouse-release &quot;100&quot; &quot;65&quot; button3 -height &quot;80&quot; -width &quot;200&quot;&#xA;    }&#xA;    get-canvas | get-menu &quot;Add Note...&quot; | click&#xA;    with [get-diagram] {&#xA;        get-edit-part &quot;0/2&quot; | mouse-move &quot;78&quot; &quot;62&quot; -height &quot;80&quot; -width &quot;200&quot;&#xA;        get-edit-part &quot;0/2&quot; | mouse-hover &quot;78&quot; &quot;62&quot; -height &quot;80&quot; -width &quot;200&quot;&#xA;        get-edit-part &quot;0/2&quot; | mouse-press &quot;78&quot; &quot;62&quot; button1 -height &quot;80&quot; -width &quot;200&quot;&#xA;        get-edit-part &quot;0/2&quot; | mouse-release &quot;78&quot; &quot;62&quot; button1 -height &quot;80&quot; -width &quot;200&quot;&#xA;        get-edit-part &quot;0/2&quot; | mouse-move &quot;67&quot; &quot;61&quot; -height &quot;80&quot; -width &quot;200&quot;&#xA;        get-edit-part &quot;0/2&quot; | mouse-press &quot;67&quot; &quot;61&quot; button3 -height &quot;80&quot; -width &quot;200&quot;&#xA;        get-edit-part &quot;0/2&quot; | mouse-release &quot;67&quot; &quot;61&quot; button3 -height &quot;80&quot; -width &quot;200&quot;&#xA;    }&#xA;    get-canvas | get-menu &quot;Add Note...&quot; | click&#xA;    get-diagram | mouse-move &quot;126&quot; &quot;150&quot; -height &quot;358&quot; -width &quot;603&quot;&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor &quot;Project3/tigerstripe.xml&quot; | get-diagram | get-edit-part &quot;0&quot; | get-property childrenCount | is-equal &quot;5&quot; | verify&#xA;with [get-editor &quot;Project3/tigerstripe.xml&quot;] {&#xA;    with [get-diagram] {&#xA;        mouse-move &quot;520&quot; &quot;217&quot; -height &quot;358&quot; -width &quot;603&quot;&#xA;        mouse-hover &quot;520&quot; &quot;217&quot; -height &quot;358&quot; -width &quot;603&quot;&#xA;        mouse-move &quot;524&quot; &quot;217&quot; -height &quot;358&quot; -width &quot;603&quot;&#xA;        mouse-hover &quot;524&quot; &quot;217&quot; -height &quot;358&quot; -width &quot;603&quot;&#xA;        mouse-move &quot;338&quot; &quot;293&quot; -height &quot;358&quot; -width &quot;603&quot;&#xA;        mouse-hover &quot;338&quot; &quot;293&quot; -height &quot;358&quot; -width &quot;603&quot;&#xA;        get-edit-part &quot;0/4&quot; | mouse-move &quot;26&quot; &quot;13&quot; -height &quot;20&quot; -width &quot;100&quot;&#xA;        get-edit-part &quot;0/4&quot; | mouse-hover &quot;26&quot; &quot;13&quot; -height &quot;20&quot; -width &quot;100&quot;&#xA;        get-edit-part &quot;0/4&quot; | mouse-press &quot;26&quot; &quot;13&quot; button1 -height &quot;20&quot; -width &quot;100&quot;&#xA;        get-edit-part &quot;0/4&quot; | mouse-release &quot;26&quot; &quot;13&quot; button1 -height &quot;20&quot; -width &quot;100&quot;&#xA;        get-edit-part &quot;0/4&quot; | mouse-hover &quot;26&quot; &quot;13&quot; -height &quot;20&quot; -width &quot;100&quot;&#xA;        get-edit-part &quot;0/4&quot; | mouse-move &quot;23&quot; &quot;14&quot; -height &quot;20&quot; -width &quot;100&quot;&#xA;        get-edit-part &quot;0/4&quot; | mouse-press &quot;23&quot; &quot;14&quot; button3 -height &quot;20&quot; -width &quot;100&quot;&#xA;        get-edit-part &quot;0/4&quot; | mouse-release &quot;23&quot; &quot;14&quot; button3 -height &quot;20&quot; -width &quot;100&quot;&#xA;    }&#xA;    get-canvas | get-menu &quot;Remove Note&quot; | click&#xA;    get-diagram | mouse-move &quot;26&quot; &quot;155&quot; -height &quot;358&quot; -width &quot;493&quot;&#xA;}&#xA;&#xA;with [get-editor &quot;Project3/tigerstripe.xml&quot;] {&#xA;    with [get-diagram] {&#xA;        mouse-move 562 31 -height 381 -width 885&#xA;        mouse-hover 562 31 -height 381 -width 885&#xA;        with [get-edit-part &quot;0/2&quot; | get-figure 1] {&#xA;            mouse-move 158 6 -height 15 -width 190&#xA;            mouse-hover 158 6 -height 15 -width 190&#xA;            mouse-press 158 6 button3 -height 15 -width 190&#xA;            mouse-release 158 6 button3 -height 15 -width 190 -mask 2097152&#xA;        }&#xA;    }&#xA;    get-canvas | get-menu &quot;Add Note...&quot; | click&#xA;    with [get-diagram] {&#xA;        mouse-move 522 372 -height 381 -width 885&#xA;        mouse-hover 522 372 -height 381 -width 885&#xA;        mouse-move 9 177 -height 381 -width 885&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;with [get-editor &quot;Project3/tigerstripe.xml&quot;] {&#xA;    with [get-diagram] {&#xA;        mouse-move 143 0 -height 381 -width 885&#xA;        mouse-hover 143 0 -height 381 -width 885&#xA;        mouse-move 191 379 -height 381 -width 885&#xA;    }&#xA;    get-tab-folder | get-tab-item Dependencies | click&#xA;    with [get-section Dependencies] {&#xA;        get-table -after [get-label Dependencies] | select &quot;Project2 \\(0.0.0\\)&quot;&#xA;        get-button Remove | click&#xA;    }&#xA;}&#xA;get-window &quot;Remove Reference/Dependency&quot; | get-button Yes | click&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;with [get-editor &quot;Project3/tigerstripe.xml&quot;] {&#xA;    get-tab-folder | get-tab-item &quot;Dependency Diagram&quot; | click&#xA;    get-diagram | mouse-move 4 208 -height 381 -width 885&#xA;}&#xA;get-editor &quot;Project3/tigerstripe.xml&quot; | get-diagram | get-edit-part 0 | get-property childrenCount | is-equal 3 | verify"/>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -684,6 +684,209 @@
     <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="32" y="100" kind="Move" boundsWidth="488" boundsHeight="375" figureWidth="493" figureHeight="358">
       <element id="DiagramViewer37" kind="DiagramViewer"/>
     </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="Project3/tigerstripe.xml" multiplicity="1">
+        <parent id="EclipseWindow0_88" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramViewer" multiplicity="1">
+        <parent id="Editor0_88" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="562" y="31" kind="Move" boundsWidth="885" boundsHeight="381" figureWidth="885" figureHeight="381">
+      <element id="DiagramViewer0_88" kind="DiagramViewer"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="562" y="31" kind="Hover" boundsWidth="885" boundsHeight="381" figureWidth="885" figureHeight="381">
+      <element id="DiagramViewer0_88" kind="DiagramViewer"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="158" y="6" kind="Move" boundsWidth="885" boundsHeight="381" figureWidth="190" figureHeight="15">
+      <element id="DiagramViewer0_88" kind="DiagramViewer"/>
+      <figurePath>1</figurePath>
+      <partPath>0</partPath>
+      <partPath>2</partPath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="158" y="6" kind="Hover" boundsWidth="885" boundsHeight="381" figureWidth="190" figureHeight="15">
+      <element id="DiagramViewer0_88" kind="DiagramViewer"/>
+      <figurePath>1</figurePath>
+      <partPath>0</partPath>
+      <partPath>2</partPath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="158" y="6" button="3" boundsWidth="885" boundsHeight="381" figureWidth="190" figureHeight="15">
+      <element id="DiagramViewer0_88" kind="DiagramViewer"/>
+      <figurePath>1</figurePath>
+      <partPath>0</partPath>
+      <partPath>2</partPath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="158" y="6" button="3" kind="Up" boundsWidth="885" boundsHeight="381" stateMask="2097152" figureWidth="190" figureHeight="15">
+      <element id="DiagramViewer0_88" kind="DiagramViewer"/>
+      <figurePath>1</figurePath>
+      <partPath>0</partPath>
+      <partPath>2</partPath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Canvas" multiplicity="1">
+        <parent id="Editor0_88" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Menu" multiplicity="1">
+        <path>Add Note...</path>
+        <parent id="Canvas0_88" kind="Canvas"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Menu0_88" kind="Menu"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State0_88" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="522" y="372" kind="Move" boundsWidth="885" boundsHeight="381" figureWidth="885" figureHeight="381">
+      <element id="DiagramViewer0_88" kind="DiagramViewer"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="522" y="372" kind="Hover" boundsWidth="885" boundsHeight="381" figureWidth="885" figureHeight="381">
+      <element id="DiagramViewer0_88" kind="DiagramViewer"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="9" y="177" kind="Move" boundsWidth="885" boundsHeight="381" figureWidth="885" figureHeight="381">
+      <element id="DiagramViewer0_88" kind="DiagramViewer"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Save (Ctrl+S)" multiplicity="1">
+        <parent id="EclipseWindow0_88" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button0_88" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State1_89" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="143" kind="Move" boundsWidth="885" boundsHeight="381" figureWidth="885" figureHeight="381">
+      <element id="DiagramViewer0_88" kind="DiagramViewer"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="143" kind="Hover" boundsWidth="885" boundsHeight="381" figureWidth="885" figureHeight="381">
+      <element id="DiagramViewer0_88" kind="DiagramViewer"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="191" y="379" kind="Move" boundsWidth="885" boundsHeight="381" figureWidth="885" figureHeight="381">
+      <element id="DiagramViewer0_88" kind="DiagramViewer"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="TabFolder" multiplicity="1">
+        <parent id="Editor0_88" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="TabItem" pattern="Dependencies" multiplicity="1">
+        <parent id="TabFolder0_88" kind="TabFolder"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="TabItem0_88" kind="TabItem"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State2_90" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Expandable" pattern="Dependencies" multiplicity="1">
+        <parent id="Editor0_88" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Label" pattern="Dependencies" multiplicity="1">
+        <parent id="Expandable0_88" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Table" multiplicity="1">
+        <after id="Label0_88" kind="Label"/>
+        <parent id="Expandable0_88" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Table0_88" kind="Table"/>
+      <path>Project2 \(0.0.0\)</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Remove" multiplicity="1">
+        <parent id="Expandable0_88" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button1_89" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State3_91" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="Remove Reference/Dependency" multiplicity="1">
+        <parent id="EclipseWindow0_88" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Yes" multiplicity="1">
+        <parent id="Window0_88" kind="Window"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button2_90" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State4_92" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button0_88" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State5_93" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="TabItem" pattern="Dependency Diagram" multiplicity="1">
+        <parent id="TabFolder0_88" kind="TabFolder"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="TabItem1_89" kind="TabItem"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State6_94" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="4" y="208" kind="Move" boundsWidth="885" boundsHeight="381" figureWidth="885" figureHeight="381">
+      <element id="DiagramViewer0_88" kind="DiagramViewer"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="Project3/tigerstripe.xml" multiplicity="1">
+        <parent id="EclipseWindow1_89" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramViewer" multiplicity="1">
+        <parent id="Editor1_89" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" multiplicity="1">
+        <path>editpart</path>
+        <path>address</path>
+        <parent id="DiagramViewer1_89" kind="DiagramViewer"/>
+        <indexes>0</indexes>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="childrenCount" value="3">
+      <element id="DiagramFigure0_88" kind="DiagramFigure"/>
+    </commands>
     <elementMapping command="//@teslaContent/@commands.0">
       <elements id="EclipseWindow32" kind="EclipseWindow"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
@@ -1155,6 +1358,146 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.175">
       <elements id="DiagramViewer37" kind="DiagramViewer"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.177">
+      <elements id="EclipseWindow0_88" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="250" y="160" width="1216" height="778"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.178">
+      <elements id="Editor0_88" kind="Editor"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.179">
+      <elements id="DiagramViewer0_88" kind="DiagramViewer"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.186">
+      <elements id="Canvas0_88" kind="Canvas"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" containMenu="true">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="885" height="381"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.187">
+      <elements id="Menu0_88" kind="Menu"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.188">
+      <elements id="State0_88" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.194">
+      <elements id="Button0_88" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.195">
+      <elements id="State1_89" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.201">
+      <elements id="TabFolder0_88" kind="TabFolder"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TabFolder" activePage="Dependency Diagram" tabCount="7">
+        <pages>Overview</pages>
+        <pages>Generator Settings</pages>
+        <pages>Dependencies</pages>
+        <pages>Dependency Diagram</pages>
+        <pages>Advanced Settings</pages>
+        <pages>Facets</pages>
+        <pages>Source</pages>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.202">
+      <elements id="TabItem0_88" kind="TabItem"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.203">
+      <elements id="State2_90" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.206">
+      <elements id="Expandable0_88" kind="Expandable"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="11" y="11" width="863" height="325"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.207">
+      <elements id="Label0_88" kind="Label"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Dependencies">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor red="25" green="76" blue="127"/>
+        <bounds x="6" y="3" width="79" height="15"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.208">
+      <elements id="Table0_88" kind="Table"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" borderWith="2" multiSelection="true" itemCount="2">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="1" y="1" width="359" height="299"/>
+        <selection>
+          <path>Project2 \(0.0.0\)</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.210">
+      <elements id="Button1_89" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Remove">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds y="30" width="55" height="25"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.211">
+      <elements id="State3_91" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.214">
+      <elements id="Window0_88" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="597" y="455" width="522" height="142"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.215">
+      <elements id="Button2_90" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Yes">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds width="92" height="25"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.216">
+      <elements id="State4_92" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.219">
+      <elements id="State5_93" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.222">
+      <elements id="TabItem1_89" kind="TabItem"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.223">
+      <elements id="State6_94" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.227">
+      <elements id="EclipseWindow1_89" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="250" y="160" width="1216" height="778"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.228">
+      <elements id="Editor1_89" kind="Editor"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.229">
+      <elements id="DiagramViewer1_89" kind="DiagramViewer"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.230">
+      <elements id="DiagramFigure0_88" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="885" height="381" childrenCount="3"/>
     </elementMapping>
   </teslaContent>
 </com.xored.q7.scenario:Scenario>
