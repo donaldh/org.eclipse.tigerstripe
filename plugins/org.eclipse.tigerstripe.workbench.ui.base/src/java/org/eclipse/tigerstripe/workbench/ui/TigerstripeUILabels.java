@@ -15,6 +15,7 @@ import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.graphics.TextStyle;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
@@ -60,8 +61,15 @@ public class TigerstripeUILabels {
 		return new StyledString();
 	}
 
-	private static StyledString getStyledString(RelationshipAnchor anchor, long flags) {
-		return new StyledString(anchor.getLabel());
+	private static StyledString getStyledString(final RelationshipAnchor anchor, long flags) {
+		return new StyledString(anchor.getLabel(), new StyledString.Styler() {
+			@Override
+			public void applyStyles(TextStyle textStyle) {
+				if (anchor.isInherited()) {
+					textStyle.foreground = Display.getCurrent().getSystemColor(SWT.COLOR_GRAY);
+				}
+			}
+		});
 	}
 	
 	private static StyledString getStyledString(IRelationshipEnd end, long flags) {

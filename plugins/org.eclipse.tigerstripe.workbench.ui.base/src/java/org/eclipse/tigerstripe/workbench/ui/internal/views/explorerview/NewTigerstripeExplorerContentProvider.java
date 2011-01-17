@@ -11,7 +11,9 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IStorage;
@@ -35,6 +37,7 @@ import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeM0G
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripePluginProjectNature;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeProjectNature;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
@@ -74,21 +77,33 @@ public class NewTigerstripeExplorerContentProvider extends
 				// in the explorer.
 				if (showRelationshipAnchors) {
 					try {
-						AbstractArtifact aArt = (AbstractArtifact) artifact;
-						List<IRelationship> origs = aArt.getArtifactManager()
-								.getOriginatingRelationshipForFQN(
-										artifact.getFullyQualifiedName(), true);
-						for (IRelationship rel : origs) {
-							raw.add(new RelationshipAnchor(rel
-									.getRelationshipAEnd()));
-						}
+						AbstractArtifact art = (AbstractArtifact) artifact;
+						HashSet<String> hierarchy = new HashSet<String>();
+						featchHierarhyUp(art, hierarchy);
+						ArtifactManager artifactManager = art.getArtifactManager();
 
-						List<IRelationship> terms = aArt.getArtifactManager()
-								.getTerminatingRelationshipForFQN(
-										artifact.getFullyQualifiedName(), true);
-						for (IRelationship rel : terms) {
-							raw.add(new RelationshipAnchor(rel
-									.getRelationshipZEnd()));
+						for (String fqn : hierarchy) {
+							boolean isInherited = !art.getFullyQualifiedName().equals(fqn);
+
+							List<IRelationship> origs = artifactManager
+									.getOriginatingRelationshipForFQN(fqn, true);
+
+							for (IRelationship rel : origs) {
+								RelationshipAnchor anchor = new RelationshipAnchor(
+										rel.getRelationshipAEnd());
+								anchor.setInherited(isInherited);
+								raw.add(anchor);
+							}
+
+							List<IRelationship> terms = artifactManager
+									.getTerminatingRelationshipForFQN(fqn, true);
+
+							for (IRelationship rel : terms) {
+								RelationshipAnchor anchor = new RelationshipAnchor(
+										rel.getRelationshipZEnd());
+								anchor.setInherited(isInherited);
+								raw.add(anchor);
+							}
 						}
 
 					} catch (TigerstripeException e) {
@@ -139,6 +154,19 @@ public class NewTigerstripeExplorerContentProvider extends
 			}
 		}
 		return filteredChildren.toArray(new Object[filteredChildren.size()]);
+	}
+
+	private void featchHierarhyUp(IAbstractArtifact artifact, Set<String> set) {
+		if (artifact == null) {
+			return;
+		}
+		if (!set.add(artifact.getFullyQualifiedName())) {
+			return;
+		}
+		featchHierarhyUp(artifact.getExtendedArtifact(), set);
+		for (IAbstractArtifact impl : artifact.getImplementingArtifacts()) {
+			featchHierarhyUp(impl, set);
+		}
 	}
 
 	@Override
@@ -243,11 +271,10 @@ public class NewTigerstripeExplorerContentProvider extends
 								@Override
 								protected IStatus run(IProgressMonitor monitor) {
 									try {
-										project
-												.build(
-														IncrementalProjectBuilder.FULL_BUILD,
-														TigerstripeProjectAuditor.BUILDER_ID,
-														null, monitor);
+										project.build(
+												IncrementalProjectBuilder.FULL_BUILD,
+												TigerstripeProjectAuditor.BUILDER_ID,
+												null, monitor);
 									} catch (CoreException e) {
 										EclipsePlugin.log(e);
 									}

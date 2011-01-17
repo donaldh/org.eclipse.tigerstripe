@@ -18,7 +18,8 @@ public class RelationshipAnchor {
 	private String targetTypeFQN;
 	private String relationshipFQN;
 	private String anchorName;
-	
+	private boolean inherited;
+
 	private IRelationshipEnd end;
 
 	public RelationshipAnchor(IRelationshipEnd end) {
@@ -37,5 +38,13 @@ public class RelationshipAnchor {
 	public String getLabel() {
 		return anchorName + ":" + Util.nameOf(targetTypeFQN) + " ("
 				+ Util.nameOf(relationshipFQN) + ")";
+	}
+
+	public void setInherited(boolean inherited) {
+		this.inherited = inherited;
+	}
+
+	public boolean isInherited() {
+		return inherited;
 	}
 }
