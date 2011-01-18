@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="324148_ArtifactRulesWarning" version="3.0" id="_1KfGUAwQEeCqQ4ETbKfwUw" description="Precondition&#xD;&#xA;Create Tigerstripe project with Entity artifact.&#xD;&#xA;Create Generator project without rules&#xD;&#xA;&#xD;&#xA;Reproducing Steps&#xD;&#xA;1 Deploy generator. Generate code for TS project.&#xD;&#xA;2 Check warning message that the generator doesn't contain any rules.&#xD;&#xA;3 Add artifact rule for Datatype artifact.&#xD;&#xA;4 Deploy generator. Generate code for TS project.&#xD;&#xA;5 Check warning message that rules didn't match any of the artifacts in the project.&#xD;&#xA;6 Add Entity artifact for TS project. Generate code for TS project.&#xD;&#xA;7 Check warning message that that generation was successful.&#xD;&#xA;" type="ecl">
   <contexts>_sCPIYAwQEeCqQ4ETbKfwUw</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script" content="get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;GeneratorProject/ts-plugin.xml&quot; | double-click&#xA;get-editor &quot;GeneratorProject/ts-plugin.xml&quot; | get-section Testing | get-link &quot;Package and deploy this generator&quot; | click&#xA;get-window &quot;Deploy new generator&quot; | get-button OK | click&#xA;get-window &quot;GeneratorProject Generator&quot; | get-button OK | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project1/tigerstripe.xml&quot; | double-click&#xA;with [get-editor &quot;Project1/tigerstripe.xml&quot;] {&#xA;    get-tab-folder | get-tab-item &quot;Generator Settings&quot; | click&#xA;    with [get-section &quot;GeneratorProject(0.0.0) (disabled) [Generic]&quot;] {&#xA;        click&#xA;        get-button &quot;Enable Generator&quot; | click&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select Project1 | get-menu &quot;Generate...&quot; | click&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-button Finish | click&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-window &quot;Generate Result&quot; | get-editbox -after [get-label &quot;Run Log&quot;] | get-property value | is-equal &quot;[Project: Project1 version=0.0.0, Plugin: GeneratorProject(0.0.0) version=0.0.0]Warning: Plugin \'GeneratorProject(0.0.0)\' has no rules.&quot; | verify&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-window &quot;Generate Result&quot; | get-button OK | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;GeneratorProject/ts-plugin.xml&quot; | double-click&#xA;with [get-editor &quot;GeneratorProject/ts-plugin.xml&quot;] {&#xA;    get-tab-folder | get-tab-item Rules | click&#xA;    get-section &quot;Artifact Rules&quot; | get-section | get-button Add | click&#xA;}&#xA;get-window &quot;New Generator Rule&quot; | get-button OK | click&#xA;get-editor &quot;GeneratorProject/ts-plugin.xml&quot; | get-section &quot;Artifact Rules&quot; | get-section -after [get-label &quot;Artifact Rules&quot;] -index 1 | get-button Browse | click&#xA;with [get-window &quot;Select Velocity Template&quot;] {&#xA;    get-tree | select &quot;artifact.vm&quot;&#xA;    get-button OK | click&#xA;}&#xA;with [get-editor &quot;GeneratorProject/ts-plugin.xml&quot; | get-section &quot;Artifact Rules&quot; | get-section -after [get-label &quot;Artifact Rules&quot;] -index 1] {&#xA;    get-editbox -after [get-label &quot;Output File:&quot;] | set-text test&#xA;    get-combo -after [get-label &quot;Artifact Type:&quot;] | set-text Datatype&#xA;}&#xA;&#xA;get-editor &quot;GeneratorProject/ts-plugin.xml&quot; | get-tab-folder | get-tab-item Overview | click&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor &quot;GeneratorProject/ts-plugin.xml&quot; | get-section Testing | get-link &quot;Package and deploy this generator&quot; | click&#xA;get-window &quot;Deploy new generator&quot; | get-button OK | click&#xA;get-window &quot;GeneratorProject Generator&quot; | get-button OK | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select Project1 | get-menu &quot;Generate...&quot; | click&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-button Finish | click&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-window &quot;Generate Result&quot; | get-editbox -after [get-label &quot;Run Log&quot;] | get-property value | is-equal &quot;[Project: Project1 version=0.0.0, Plugin: GeneratorProject(0.0.0) version=0.0.0]Notice: None of the artifact(s) match the specified rule(s) \'aRule0\'.Warning: None of the artifact(s) match the generator's rule.&quot; | verify&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-window &quot;Generate Result&quot; | get-button OK | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select Project1 | get-menu &quot;New/Datatype&quot; | click&#xA;with [get-window &quot;Create a new Datatype&quot;] {&#xA;    get-editbox -after [get-label &quot;Name:&quot;] | set-text Datatype&#xA;    get-button Finish | click&#xA;}&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select Project1 | get-menu &quot;Generate...&quot; | click&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-button Finish | click&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-window &quot;Generate Result&quot; | get-editbox -after [get-label &quot;Run Log&quot;] | get-property value | is-equal &quot;[Project: Project1 version=0.0.0, Plugin: GeneratorProject(0.0.0) version=0.0.0]Generation Successful.&quot; | verify&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-window &quot;Generate Result&quot; | get-button OK | click"/>
+  <content xsi:type="org.eclipse.ecl.core:Script" content="get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;GeneratorProject/ts-plugin.xml&quot; | double-click&#xA;get-editor &quot;GeneratorProject/ts-plugin.xml&quot; | get-section Testing | get-link &quot;Package and deploy this generator&quot; | click&#xA;get-window &quot;Deploy new generator&quot; | get-button OK | click&#xA;get-window &quot;GeneratorProject Generator&quot; | get-button OK | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project1/tigerstripe.xml&quot; | double-click&#xA;with [get-editor &quot;Project1/tigerstripe.xml&quot;] {&#xA;    get-tab-folder | get-tab-item &quot;Generator Settings&quot; | click&#xA;    with [get-section &quot;GeneratorProject(0.0.0) (disabled) [Generic]&quot;] {&#xA;        click&#xA;        get-button &quot;Enable Generator&quot; | click&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select Project1 | get-menu &quot;Generate...&quot; | click&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-button Finish | click&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-window &quot;Generate Result&quot; | get-editbox -after [get-label &quot;Run Log&quot;] | get-property value | is-equal &quot;[Project: Project1 version=0.0.0, Plugin: GeneratorProject(0.0.0) version=0.0.0]Warning: Plugin \'GeneratorProject(0.0.0)\' has no rules.&quot; | verify&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-window &quot;Generate Result&quot; | get-button OK | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;GeneratorProject/ts-plugin.xml&quot; | double-click&#xA;with [get-editor &quot;GeneratorProject/ts-plugin.xml&quot;] {&#xA;    get-tab-folder | get-tab-item Rules | click&#xA;    get-section &quot;Artifact Rules&quot; | get-section | get-button Add | click&#xA;}&#xA;get-window &quot;New Generator Rule&quot; | get-button OK | click&#xA;get-editor &quot;GeneratorProject/ts-plugin.xml&quot; | get-section &quot;Artifact Rules&quot; | get-section -after [get-label &quot;Artifact Rules&quot;] -index 1 | get-button Browse | click&#xA;with [get-window &quot;Select Velocity Template&quot;] {&#xA;    get-tree | select &quot;artifact.vm&quot;&#xA;    get-button OK | click&#xA;}&#xA;with [get-editor &quot;GeneratorProject/ts-plugin.xml&quot; | get-section &quot;Artifact Rules&quot; | get-section -after [get-label &quot;Artifact Rules&quot;] -index 1] {&#xA;    get-editbox -after [get-label &quot;Output File:&quot;] | set-text test&#xA;    get-combo -after [get-label &quot;Artifact Type:&quot;] | set-text Datatype&#xA;}&#xA;&#xA;get-editor &quot;GeneratorProject/ts-plugin.xml&quot; | get-tab-folder | get-tab-item Overview | click&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor &quot;GeneratorProject/ts-plugin.xml&quot; | get-section Testing | get-link &quot;Package and deploy this generator&quot; | click&#xA;get-window &quot;Deploy new generator&quot; | get-button OK | click&#xA;get-window &quot;GeneratorProject Generator&quot; | get-button OK | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select Project1 | get-menu &quot;Generate...&quot; | click&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-button Finish | click&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-window &quot;Generate Result&quot; | get-editbox -after [get-label &quot;Run Log&quot;] | get-property value | is-equal &quot;[Project: Project1 version=0.0.0, Plugin: GeneratorProject(0.0.0) version=0.0.0]Notice: None of the artifact(s) match the specified rule(s) \'aRule0\'.Warning: None of the artifact(s) match the generator's rule.&quot; | verify&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-window &quot;Generate Result&quot; | get-button OK | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select Project1 | get-menu &quot;New/Datatype&quot; | click&#xA;with [get-window &quot;Create a new Datatype&quot;] {&#xA;    get-editbox -after [get-label &quot;Name:&quot;] | set-text Datatype&#xA;    get-button Finish | click&#xA;}&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select Project1 | get-menu &quot;Generate...&quot; | click&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-button Finish | click&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-window &quot;Generate Result&quot; | get-editbox -after [get-label &quot;Run Log&quot;] | get-property value | is-equal &quot;[Project: Project1 version=0.0.0, Plugin: GeneratorProject(0.0.0) version=0.0.0]Generation Successful.&quot; | verify&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-window &quot;Generate Result&quot; | get-button OK | click&#xA;get-menu &quot;Tigerstripe/Deployed Generators...&quot; | click&#xA;with [get-window &quot;Deployed Tigerstripe Generators&quot;] {&#xA;    get-table | select &quot;GeneratorProject\\(0.0.0\\)&quot; | get-menu &quot;Un-deploy&quot; | click&#xA;    get-window &quot;Un-Deploy Tigerstripe Generator?&quot; | get-button OK | click&#xA;    get-button OK | click&#xA;}"/>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -1006,6 +1006,79 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
       <state id="State53_125" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Menu" multiplicity="1">
+        <path>Tigerstripe</path>
+        <path>Deployed Generators...</path>
+        <parent id="EclipseWindow0_170" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Menu0_170" kind="Menu"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State0_170" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="Deployed Tigerstripe Generators" multiplicity="1">
+        <parent id="EclipseWindow0_170" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Table" multiplicity="1">
+        <parent id="Window0_170" kind="Window"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Table0_170" kind="Table"/>
+      <path>GeneratorProject\(0.0.0\)</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Menu" multiplicity="1">
+        <path>Un-deploy</path>
+        <parent id="Table0_170" kind="Table"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Menu1_171" kind="Menu"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State1_171" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="Un-Deploy Tigerstripe Generator?" multiplicity="1">
+        <parent id="Window0_170" kind="Window"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="OK" multiplicity="1">
+        <parent id="Window1_171" kind="Window"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button0_170" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State2_172" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="OK" multiplicity="1">
+        <parent id="Window0_170" kind="Window"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button1_171" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State3_173" kind="State"/>
     </commands>
     <elementMapping command="//@teslaContent/@commands.0">
       <elements id="EclipseWindow8" kind="EclipseWindow"/>
@@ -2064,6 +2137,80 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.269">
       <elements id="State53_125" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.272">
+      <elements id="EclipseWindow0_170" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="457" y="45" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.273">
+      <elements id="Menu0_170" kind="Menu"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.274">
+      <elements id="State0_170" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.277">
+      <elements id="Window0_170" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="767" y="191" width="405" height="358"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.278">
+      <elements id="Table0_170" kind="Table"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" containMenu="true" linesVisible="true" headerVisible="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="11" y="13" width="367" height="167"/>
+        <columns caption="Name" resizable="true" width="100"/>
+        <columns caption="Version" resizable="true" width="70"/>
+        <columns caption="Type" resizable="true" width="50"/>
+        <columns caption="Provider" resizable="true" width="150"/>
+        <columns caption="Nature" resizable="true" width="20"/>
+        <selection>
+          <path>GeneratorProject\(0.0.0\)</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.280">
+      <elements id="Menu1_171" kind="Menu"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.281">
+      <elements id="State1_171" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.284">
+      <elements id="Window1_171" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="708" y="276" width="522" height="142"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.285">
+      <elements id="Button0_170" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds width="92" height="25"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.286">
+      <elements id="State2_172" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.289">
+      <elements id="Button1_171" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="11" y="13" width="92" height="25"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.290">
+      <elements id="State3_173" kind="State"/>
     </elementMapping>
   </teslaContent>
 </com.xored.q7.scenario:Scenario>
