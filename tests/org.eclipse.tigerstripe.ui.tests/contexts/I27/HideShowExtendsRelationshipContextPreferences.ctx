@@ -806,7 +806,7 @@
     </childs>
     <childs name="org.eclipse.epp.usagedata.gathering">
       <data xsi:type="com.xored.q7.preferences:StringPrefData" key="org.eclipse.epp.usagedata.gathering.terms_accepted" value="false"/>
-      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="org.eclipse.epp.usagedata.gathering.enabled" value="true"/>
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="org.eclipse.epp.usagedata.gathering.enabled" value="false"/>
     </childs>
     <childs name="org.eclipse.jdt.launching">
       <data xsi:type="com.xored.q7.preferences:StringPrefData" key="org.eclipse.jdt.launching.PREF_STRICTLY_COMPATIBLE_JRE_NOT_AVAILABLE" value="warning"/>
@@ -1323,30 +1323,33 @@
       <data xsi:type="com.xored.q7.preferences:StringPrefData" key="content_assist_proposals_background" value="255,255,255"/>
       <data xsi:type="com.xored.q7.preferences:StringPrefData" key="useQuickDiffPrefPage" value="true"/>
     </childs>
-    <childs name="org.eclipse.ui.ide">
-      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="TASKS_FILTERS_MIGRATE" value="true"/>
-      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="PROBLEMS_FILTERS_MIGRATE" value="true"/>
-      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="platformState" value="1281937167744"/>
-      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="tipsAndTricks" value="true"/>
-    </childs>
-    <childs name="org.eclipse.tigerstripe.annotation.ui">
-      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="AnnotationPropertyView.NotesFilter.Annotations.isChecked" value="true"/>
-      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="AnnotationPropertyView.NotesFilter.Stereotypes.isChecked" value="true"/>
-    </childs>
-    <childs name="org.eclipse.core.resources">
-      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="version" value="1"/>
-    </childs>
-    <childs name="org.eclipse.core.net">
-      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="org.eclipse.core.net.hasMigrated" value="true"/>
-    </childs>
     <childs name="org.eclipse.ui">
       <data xsi:type="com.xored.q7.preferences:StringPrefData" key="showIntro" value="false"/>
     </childs>
     <childs name="org.eclipse.tigerstripe.workbench.ui.internal.gmf.DiagramsPreferences">
       <data xsi:type="com.xored.q7.preferences:StringPrefData" key="p.diagram.extendsRelationship" value="hide"/>
     </childs>
+    <childs name="org.eclipse.ui.ide">
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="TASKS_FILTERS_MIGRATE" value="true"/>
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="PROBLEMS_FILTERS_MIGRATE" value="true"/>
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="platformState" value="1281937167744"/>
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="tipsAndTricks" value="true"/>
+    </childs>
+    <childs name="org.eclipse.epp.usagedata.gathering">
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="org.eclipse.epp.usagedata.gathering.enabled" value="false"/>
+    </childs>
+    <childs name="org.eclipse.tigerstripe.annotation.ui">
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="AnnotationPropertyView.NotesFilter.Annotations.isChecked" value="true"/>
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="AnnotationPropertyView.NotesFilter.Stereotypes.isChecked" value="true"/>
+    </childs>
     <childs name="org.eclipse.epp.usagedata.recording">
-      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="org.eclipse.epp.usagedata.recording.last-upload" value="1292219351786"/>
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="org.eclipse.epp.usagedata.recording.last-upload" value="1295260363812"/>
+    </childs>
+    <childs name="org.eclipse.core.resources">
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="version" value="1"/>
+    </childs>
+    <childs name="org.eclipse.core.net">
+      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="org.eclipse.core.net.hasMigrated" value="true"/>
     </childs>
   </content>
   <content xsi:type="com.xored.q7.preferences:SecurePrefNode" name="secureStorage">
