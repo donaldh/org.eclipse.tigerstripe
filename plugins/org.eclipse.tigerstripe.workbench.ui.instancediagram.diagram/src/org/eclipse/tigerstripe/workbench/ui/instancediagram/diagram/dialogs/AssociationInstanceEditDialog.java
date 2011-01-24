@@ -16,7 +16,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.tools.ant.taskdefs.condition.IsSet;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.OperationCanceledException;
 import org.eclipse.emf.ecore.EObject;
@@ -28,7 +27,6 @@ import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ListViewer;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.swt.SWT;
@@ -58,7 +56,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArti
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
-import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.Instance;
@@ -67,26 +64,25 @@ import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.parts.C
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.parts.InstanceMapEditPart;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.util.InstanceDiagramUtils;
 import org.eclipse.tigerstripe.workbench.ui.internal.elements.TSMessageDialog;
-import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 
 public class AssociationInstanceEditDialog extends TSMessageDialog {
 
 	private IArtifactManagerSession artifactMgrSession;
-	private InstanceMapEditPart mapEditPart;
-	private DiagramGraphicalViewer mapViewer;
-	private ClassInstance source;
+	private final InstanceMapEditPart mapEditPart;
+	private final DiagramGraphicalViewer mapViewer;
+	private final ClassInstance source;
 	private IAbstractArtifact sourceArtifact;
-	private ClassInstance target;
+	private final ClassInstance target;
 	private IAbstractArtifact targetArtifact;
 
-	private Map<String, IRelationship> reversedRelationships = new HashMap<String, IRelationship>();
-	private Map<String, IRelationship> associationMap = new HashMap<String, IRelationship>();
-	private Map<String, IRelationship> associationClassMap = new HashMap<String, IRelationship>();
+	private final Map<String, IRelationship> reversedRelationships = new HashMap<String, IRelationship>();
+	private final Map<String, IRelationship> associationMap = new HashMap<String, IRelationship>();
+	private final Map<String, IRelationship> associationClassMap = new HashMap<String, IRelationship>();
 
 	private final String[] buttonLabels = new String[] { "Associations",
 			"Association Classes" };
-	private Map<String, Map> typeMap = new HashMap<String, Map>();
-	private Set<String> instanceNames = new HashSet<String>();
+	private final Map<String, Map> typeMap = new HashMap<String, Map>();
+	private final Set<String> instanceNames = new HashSet<String>();
 
 	private Text instanceNameField;
 	private String selectedName;
@@ -202,12 +198,12 @@ public class AssociationInstanceEditDialog extends TSMessageDialog {
 								return true;
 						}
 					}
-					// if the zEnd of this instance equals the target of the
+					// if the aEnd of this instance equals the target of the
 					// connection we are trying
 					// to create, then might be a match
-				} else if (assocInstance.getZEnd() == target) {
+				} else if (assocInstance.getAEnd() == target) {
 					ClassInstance otherClassInstance = (ClassInstance) assocInstance
-							.getAEnd();
+							.getZEnd();
 					// if the "other class instance" is an association class
 					// instance, check
 					// the "other connection" that (together with that class
@@ -218,11 +214,11 @@ public class AssociationInstanceEditDialog extends TSMessageDialog {
 						java.util.List<AssociationInstance> assocs = otherClassInstance
 								.getAssociations();
 						for (AssociationInstance assoc : assocs) {
-							// if the "other connection's" aEnd matches the
+							// if the "other connection's" zEnd matches the
 							// source, then we
 							// already have an association class between this
 							// source and target
-							if (assoc.getAEnd() == source)
+							if (assoc.getZEnd() == source)
 								return true;
 						}
 					}
@@ -617,7 +613,7 @@ public class AssociationInstanceEditDialog extends TSMessageDialog {
 
 	private class MyListSelectionChangedListener implements
 			ISelectionChangedListener {
-		private HashMap<List, String> selectedVals = new HashMap<List, String>();
+		private final HashMap<List, String> selectedVals = new HashMap<List, String>();
 
 		public void selectionChanged(SelectionChangedEvent e) {
 			Object source = e.getSource();
