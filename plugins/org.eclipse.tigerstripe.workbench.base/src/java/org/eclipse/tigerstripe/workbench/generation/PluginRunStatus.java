@@ -101,10 +101,10 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 
 	public String toString(boolean includeHTML) {
 
-		StringBuilder res = new StringBuilder();
+		final StringBuilder res = new StringBuilder();
 
 		boolean hasError = !isOK();
-		String newline = includeHTML ? "<br/>" : "\n";
+		final String newline = includeHTML ? "<br/>" : "\n";
 		try {
 			String projectType = "Project";
 			if (project instanceof ITigerstripeModuleProject) {
@@ -144,51 +144,28 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 			res.append(newline);
 
 			if (!hasError) {
-				boolean success = true;
-				if (report instanceof PluggablePluginReport) {
-					PluggablePluginReport ppr = (PluggablePluginReport) report;
-					List<RuleReport> childReports = new ArrayList<RuleReport>(
-							ppr.getChildReports());
+				if (analyzeWarnings(new AnalyzeHandler() {
 
-					for (Iterator<RuleReport> it = childReports.iterator(); it
-							.hasNext();) {
-						RuleReport rr = it.next();
-						if (rr == null) {
-							it.remove();
-						}
-					}
-					if (childReports.isEmpty()) {
+					public void noRules(PluggablePluginReport ppr) {
 						res.append("Warning: Plugin '")
 								.append(ppr.getPluginConfig().getLabel())
 								.append("' has no rules.").append(newline);
-						success = false;
-					} else {
-						boolean nothingMatch = true;
-						for (RuleReport rr : childReports) {
-							Rule rule = rr.getRule();
-							if ((rule instanceof GlobalTemplateRule)
-									|| (rule instanceof GlobalRunnableRule)) {
-								nothingMatch = false;
-								break;
-							}
-							if (rr.getMatchedArtifacts().isEmpty()) {
-								res.append(
-										"Notice: None of the artifact(s) match the specified rule(s) '")
-										.append(rr.getName()).append("'.")
-										.append(newline);
-							} else {
-								nothingMatch = false;
-							}
-						}
-						if (nothingMatch) {
-							res.append(
-									"Warning: None of the artifact(s) match the generator's rule.")
-									.append(newline);
-						}
-						success = !nothingMatch;
 					}
-				}
-				if (success) {
+
+					public void noMatchesArtifacts(RuleReport rr) {
+						res.append(
+								"Notice: None of the artifact(s) match the specified rule(s) '")
+								.append(rr.getName()).append("'.")
+								.append(newline);
+					}
+
+					public void noMatchesArtifacts() {
+						res.append(
+								"Warning: None of the artifact(s) match the generator's rule.")
+								.append(newline);
+					}
+
+				})) {
 					res.append("Generation Successful.").append(newline);
 				}
 			} else {
@@ -228,27 +205,72 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 		return res.toString();
 	}
 
-	public boolean hasWarning() {
-		if (!(report instanceof PluggablePluginReport)) {
-			return false;
-		}
-		PluggablePluginReport ppr = (PluggablePluginReport) report;
-		if (ppr.getChildReports().isEmpty()) {
-			return true;
-		}
-		if (!hasMatches(ppr)) {
-			return true;
-		}
-		return false;
+	static interface AnalyzeHandler {
+
+		AnalyzeHandler EMPTY = new AnalyzeHandler() {
+
+			public void noRules(PluggablePluginReport ppr) {
+			}
+
+			public void noMatchesArtifacts(RuleReport rr) {
+			}
+
+			public void noMatchesArtifacts() {
+			}
+
+		};
+
+		void noRules(PluggablePluginReport ppr);
+
+		void noMatchesArtifacts(RuleReport rr);
+
+		void noMatchesArtifacts();
+
 	}
 
-	private boolean hasMatches(PluggablePluginReport ppr) {
-		for (RuleReport rr : ppr.getChildReports()) {
-			if (!rr.getMatchedArtifacts().isEmpty()) {
-				return true;
+	private boolean analyzeWarnings(AnalyzeHandler handler) {
+		boolean success = true;
+		if (report instanceof PluggablePluginReport) {
+			PluggablePluginReport ppr = (PluggablePluginReport) report;
+			List<RuleReport> childReports = new ArrayList<RuleReport>(
+					ppr.getChildReports());
+
+			for (Iterator<RuleReport> it = childReports.iterator(); it
+					.hasNext();) {
+				RuleReport rr = it.next();
+				if (rr == null) {
+					it.remove();
+				}
+			}
+			if (childReports.isEmpty()) {
+				handler.noRules(ppr);
+				success = false;
+			} else {
+				boolean nothingMatch = true;
+				for (RuleReport rr : childReports) {
+					Rule rule = rr.getRule();
+					if ((rule instanceof GlobalTemplateRule)
+							|| (rule instanceof GlobalRunnableRule)) {
+						nothingMatch = false;
+						continue;
+					}
+					if (rr.getMatchedArtifacts().isEmpty()) {
+						handler.noMatchesArtifacts(rr);
+					} else {
+						nothingMatch = false;
+					}
+				}
+				if (nothingMatch) {
+					handler.noMatchesArtifacts();
+				}
+				success = !nothingMatch;
 			}
 		}
-		return false;
+		return success;
+	}
+
+	public boolean hasWarning() {
+		return !analyzeWarnings(AnalyzeHandler.EMPTY);
 	}
 
 	protected String getSeverityString(int severity) {

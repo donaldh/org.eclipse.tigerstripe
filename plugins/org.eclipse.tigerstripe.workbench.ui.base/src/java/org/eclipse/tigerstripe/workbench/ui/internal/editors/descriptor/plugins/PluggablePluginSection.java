@@ -410,7 +410,11 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 	 * @param toolkit
 	 */
 	protected void buildGlobalProperties(Composite parent, FormToolkit toolkit) {
-		GeneratorProjectDescriptor pProject = getHousing().getBody()
+		PluggableHousing housing = getHousing();
+		if (housing == null) {
+			return;
+		}
+		GeneratorProjectDescriptor pProject = housing.getBody()
 				.getPProject();
 		PropertyRendererFactory factory = new PropertyRendererFactory(parent,
 				toolkit, getITigerstripeProject(), this);
