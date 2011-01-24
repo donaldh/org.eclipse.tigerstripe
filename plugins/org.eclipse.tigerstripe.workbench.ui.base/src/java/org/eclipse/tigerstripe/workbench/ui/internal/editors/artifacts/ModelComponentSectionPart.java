@@ -13,10 +13,12 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts;
 
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
@@ -26,6 +28,9 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
+import org.eclipse.tigerstripe.workbench.model.HierarchyWalker;
+import org.eclipse.tigerstripe.workbench.model.IHierarchyVisitor;
+import org.eclipse.tigerstripe.workbench.model.ModelUtils;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
@@ -119,37 +124,64 @@ public abstract class ModelComponentSectionPart extends ArtifactSectionPart {
 		}
 	}
 
-	protected boolean inHierarhy(IAbstractArtifact artifact) {
-		IAbstractArtifact extended = getIArtifact().getExtendedArtifact();
-		while (extended != null) {
-			if (extended.getFullyQualifiedName().equals(
-					artifact.getFullyQualifiedName())) {
-				return true;
-			}
-			extended = extended.getExtendedArtifact();
+	protected boolean inHierarhy(final IAbstractArtifact changedArtifact) {
+		IAbstractArtifact editorArtifact = getIArtifact();
+		if (ModelUtils.equalsByFQN(changedArtifact, editorArtifact)) {
+			return false;
 		}
-		return false;
+
+		final boolean[] result = new boolean[1];
+		new HierarchyWalker(true, isListenImplemented()).accept(editorArtifact,
+				new IHierarchyVisitor() {
+
+					public boolean accept(IAbstractArtifact artifact) {
+
+						if (ModelUtils.equalsByFQN(changedArtifact, artifact)) {
+							result[0] = true;
+							// break walk
+							return false;
+						} else {
+							return true;
+						}
+					}
+
+				});
+		return result[0];
 	}
 
-	protected List<IAbstractArtifact> getHierarchy() {
-		List<IAbstractArtifact> hierarhy = new ArrayList<IAbstractArtifact>();
-		IAbstractArtifact rootArtifact = getIArtifact();
-		hierarhy.add(rootArtifact);
-		IAbstractArtifact extended = rootArtifact.getExtendedArtifact();
-		while (extended != null) {
-			IAbstractArtifact updated = updatedArtifacts.get(extended
-					.getFullyQualifiedName());
-			if (updated != null) {
-				extended = updated;
-			} else {
-				IResource res = (IResource) extended
+	protected abstract boolean isListenImplemented();
+
+	protected Collection<IAbstractArtifact> getHierarchy(
+			boolean includeImplemented) {
+		LinkedHashSet<IAbstractArtifact> hierarchy = new LinkedHashSet<IAbstractArtifact>();
+		fetchHierarchy(getIArtifact(), hierarchy, new HashSet<String>(),
+				includeImplemented);
+		return hierarchy;
+	}
+
+	private void fetchHierarchy(IAbstractArtifact artifact,
+			Set<IAbstractArtifact> hierarchy, Set<String> fqns,
+			boolean includeImplemented) {
+		if (artifact == null) {
+			return;
+		}
+		String fqn = artifact.getFullyQualifiedName();
+		if (!fqns.add(fqn)) {
+			return;
+		}
+		IAbstractArtifact updated = updatedArtifacts.get(fqn);
+		if (updated != null) {
+			artifact = updated;
+		} else {
+			if (artifact != getIArtifact()) {
+				IResource res = (IResource) artifact
 						.getAdapter(IResource.class);
 				if (res instanceof IFile) {
 					try {
 						Reader reader = new InputStreamReader(
 								((IFile) res).getContents());
 						try {
-							extended = extended
+							artifact = artifact
 									.getProject()
 									.getArtifactManagerSession()
 									.extractArtifact(reader,
@@ -162,9 +194,18 @@ public abstract class ModelComponentSectionPart extends ArtifactSectionPart {
 					}
 				}
 			}
-			hierarhy.add(extended);
-			extended = extended.getExtendedArtifact();
 		}
-		return hierarhy;
+		hierarchy.add(artifact);
+
+		IAbstractArtifact extended = artifact.getExtendedArtifact();
+		if (extended != null) {
+			fetchHierarchy(extended, hierarchy, fqns, includeImplemented);
+		}
+
+		if (includeImplemented) {
+			for (IAbstractArtifact impl : artifact.getImplementedArtifacts()) {
+				fetchHierarchy(impl, hierarchy, fqns, includeImplemented);
+			}
+		}
 	}
 }

@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -81,7 +82,7 @@ public class ArtifactAttributesSection extends ModelComponentSectionPart
 		}
 
 		public Object[] getElements(Object inputElement) {
-			List<IAbstractArtifact> hierarhy = getHierarchy();
+			Collection<IAbstractArtifact> hierarhy = getHierarchy(false);
 			List<IField> fields = new ArrayList<IField>();
 			for (IAbstractArtifact arti : hierarhy) {
 				fields.addAll(arti.getFields());
@@ -660,6 +661,7 @@ public class ArtifactAttributesSection extends ModelComponentSectionPart
 		refresh();
 		updateMaster();
 	}
+
 	private void updateButtons() {
 
 		List<IField> fields = new ArrayList<IField>(getIArtifact().getFields());
@@ -700,6 +702,11 @@ public class ArtifactAttributesSection extends ModelComponentSectionPart
 	protected void viewerSelectionChanged(SelectionChangedEvent event) {
 		updateMaster();
 		updateButtons();
+	}
+
+	@Override
+	protected boolean isListenImplemented() {
+		return false;
 	}
 
 }

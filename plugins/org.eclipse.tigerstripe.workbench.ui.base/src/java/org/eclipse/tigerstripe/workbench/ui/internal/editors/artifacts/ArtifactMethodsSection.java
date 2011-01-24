@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -78,10 +79,11 @@ public class ArtifactMethodsSection extends ModelComponentSectionPart implements
 		}
 
 		public Object[] getElements(Object inputElement) {
-			List<IAbstractArtifact> hierarhy = getHierarchy();
+			Collection<IAbstractArtifact> hierarchy = getHierarchy(true);
+
 			List<IMethod> methods = new ArrayList<IMethod>();
 
-			for (IAbstractArtifact arti : hierarhy) {
+			for (IAbstractArtifact arti : hierarchy) {
 				methods.addAll(arti.getMethods());
 			}
 			return methods.toArray();
@@ -93,6 +95,10 @@ public class ArtifactMethodsSection extends ModelComponentSectionPart implements
 						((IAbstractArtifact) newInput).getMethods());
 			}
 		}
+	}
+
+	public void getAllImplementedArtifacts(IAbstractArtifact artifact,
+			Set<IAbstractArtifact> hierarchy) {
 	}
 
 	class MasterLabelProvider extends LabelProvider implements
@@ -147,6 +153,7 @@ public class ArtifactMethodsSection extends ModelComponentSectionPart implements
 
 	public ArtifactMethodsSection(TigerstripeFormPage page, Composite parent,
 			FormToolkit toolkit, IArtifactFormLabelProvider labelProvider,
+
 			IOssjArtifactFormContentProvider contentProvider, int style) {
 		super(page, parent, toolkit, labelProvider, contentProvider,
 				ExpandableComposite.TWISTIE | style);
@@ -588,6 +595,7 @@ public class ArtifactMethodsSection extends ModelComponentSectionPart implements
 		tableComposite.setLayoutData(gd);
 		getManagedForm().reflow(true);
 	}
+
 	/**
 	 * Triggered when the up button is pushed
 	 * 
@@ -633,6 +641,7 @@ public class ArtifactMethodsSection extends ModelComponentSectionPart implements
 		refresh();
 		updateMaster();
 	}
+
 	private void updateButtons() {
 
 		List<IMethod> fields = new ArrayList<IMethod>(getIArtifact()
@@ -674,6 +683,11 @@ public class ArtifactMethodsSection extends ModelComponentSectionPart implements
 	protected void viewerSelectionChanged(SelectionChangedEvent event) {
 		updateMaster();
 		updateButtons();
+	}
+
+	@Override
+	protected boolean isListenImplemented() {
+		return true;
 	}
 
 }

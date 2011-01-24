@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -81,7 +82,7 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart
 		}
 
 		public Object[] getElements(Object inputElement) {
-			List<IAbstractArtifact> hierarhy = getHierarchy();
+			Collection<IAbstractArtifact> hierarhy = getHierarchy(false);
 			List<ILiteral> literals = new ArrayList<ILiteral>();
 
 			for (IAbstractArtifact arti : hierarhy) {
@@ -97,6 +98,7 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart
 			}
 		}
 	}
+
 	class MasterLabelProvider extends LabelProvider implements
 			ITableLabelProvider, ITableColorProvider {
 		public Color getBackground(Object element, int columnIndex) {
@@ -673,6 +675,7 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart
 		}
 		updateMaster();
 	}
+
 	/**
 	 * FIXME Used only by ArtifactConstantDetailsPage. Just workaround to avoid
 	 * appearing scrolls on details part.
@@ -685,6 +688,7 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart
 		tableComposite.setLayoutData(gd);
 		getManagedForm().reflow(true);
 	}
+
 	/**
 	 * Triggered when the up button is pushed
 	 * 
@@ -772,5 +776,10 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart
 	protected void viewerSelectionChanged(SelectionChangedEvent event) {
 		updateMaster();
 		updateButtons();
+	}
+
+	@Override
+	protected boolean isListenImplemented() {
+		return false;
 	}
 }
