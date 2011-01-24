@@ -1273,6 +1273,10 @@
                   <instanceof
                         value="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode">
                   </instanceof>
+				  <and>                  
+				    <instanceof value="org.eclipse.jdt.core.IJavaElement" />
+				    <adapt type="org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact"/>
+			      </and>
                   <and>
                      <adapt
                            type="org.eclipse.core.resources.IResource">
