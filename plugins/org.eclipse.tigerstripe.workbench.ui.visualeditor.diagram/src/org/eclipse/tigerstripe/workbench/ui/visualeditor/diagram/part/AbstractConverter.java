@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gef.EditPart;
+import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.RootEditPart;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
@@ -43,9 +44,7 @@ import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.QualifiedNamedElement;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.commands.AssociationUpdateCommand;
-import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.MapEditPart;
-import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.ManagedEntityArtifactItemSemanticEditPolicy;
 import org.eclipse.ui.IObjectActionDelegate;
 
 /**
@@ -119,13 +118,15 @@ public abstract class AbstractConverter extends BaseDiagramPartAction implements
 			
 			
 			// Get the corresponding command for the request
-			ManagedEntityArtifactEditPart managedEntityArtifactEditPart = (ManagedEntityArtifactEditPart)getEditPart(aEndNodeFQN);
-			if (managedEntityArtifactEditPart==null) {
+			EditPart artifactEditPart = (EditPart) getEditPart(aEndNodeFQN);
+			if (artifactEditPart == null) {
 				TigerstripeDiagramEditorPlugin.getInstance().logError("Could not find the list of all edit parts");
 				return;
 			}
-			ManagedEntityArtifactItemSemanticEditPolicy managedEntityEditPolicy = (ManagedEntityArtifactItemSemanticEditPolicy)managedEntityArtifactEditPart.getEditPolicy(EditPolicyRoles.SEMANTIC_ROLE);
-			Command command = managedEntityEditPolicy.getCommand(editCommandRequestWrapper);
+			EditPolicy artifactEditPolicy = artifactEditPart
+					.getEditPolicy(EditPolicyRoles.SEMANTIC_ROLE);
+			Command command = artifactEditPolicy
+					.getCommand(editCommandRequestWrapper);
 			
 			// Delete the association class (to be replaced by an association) 
 			IArtifactDeleteRequest deleteRequest = (IArtifactDeleteRequest) updater.getRequestFactory().makeRequest(IModelChangeRequestFactory.ARTIFACT_DELETE);
@@ -280,6 +281,7 @@ public abstract class AbstractConverter extends BaseDiagramPartAction implements
 	/**
 	 * Enable the action only when one single association is selected
 	 */
+	@Override
 	protected boolean isEnabled() {
 		return mySelectedElements != null && mySelectedElements.length == 1;
 	}
