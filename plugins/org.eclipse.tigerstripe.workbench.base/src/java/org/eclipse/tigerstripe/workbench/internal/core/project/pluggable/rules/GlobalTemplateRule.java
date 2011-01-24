@@ -109,7 +109,7 @@ public class GlobalTemplateRule extends TemplateBasedRule implements
 			VelocityEngine engine = setClasspathLoaderForVelocity(pluginConfig, exec);
 			
 			// JS - DEBUG
-			System.out.println("***** template = " + getTemplate());
+		//	System.out.println("***** template = " + getTemplate());
 			
 			Template template = engine.getTemplate(getTemplate());
 
