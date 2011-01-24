@@ -1,0 +1,3 @@
+This pom is here for Hudson/Pulse integration purpose. 
+In hudson when a build is promoted this pom is copied 
+into /target/site.
