@@ -10,29 +10,41 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.policies;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.ConnectionHandleEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.handles.ConnectionHandle.HandleDirection;
+import org.eclipse.gmf.runtime.diagram.ui.internal.DiagramUIPlugin;
+import org.eclipse.gmf.runtime.diagram.ui.preferences.IPreferenceConstants;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.part.TigerstripeInstanceConnectionHandle;
 
 public class TigerstripeInstanceConnectionHandleEditPolicy extends
 		ConnectionHandleEditPolicy {
 
 	@Override
-	protected List getHandleFigures() {
-		List list = new ArrayList(1);
+	protected boolean isPreferenceOn() {
+		// BUG#333182: Ensure default settings load
+		DiagramUIPlugin
+				.getInstance()
+				.getPreferenceStore()
+				.getDefaultBoolean(
+						IPreferenceConstants.PREF_SHOW_CONNECTION_HANDLES);
+		return super.isPreferenceOn();
+	}
 
+	@Override
+	protected List getHandleFigures() {
 		String tooltip = buildTooltip(HandleDirection.OUTGOING);
 		if (tooltip != null) {
-			list.add(new TigerstripeInstanceConnectionHandle(
-					(IGraphicalEditPart) getHost(), HandleDirection.OUTGOING,
-					tooltip));
+			return Collections
+					.singletonList(new TigerstripeInstanceConnectionHandle(
+							(IGraphicalEditPart) getHost(),
+							HandleDirection.OUTGOING, tooltip));
+		} else {
+			return Collections.EMPTY_LIST;
 		}
-
-		return list;
 	}
 
 }
