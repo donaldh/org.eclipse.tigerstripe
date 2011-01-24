@@ -80,6 +80,12 @@
                label="Hide Artifact Packages"
                menubarPath="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.hideShow/group1"
                style="toggle"/>
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.action.HideOrderQualifiersToggleAction"
+               id="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.action10"
+               label="Hide Order Qualifiers"
+               menubarPath="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.hideShow/group1"
+               style="toggle"/>
          <menu
                id="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.hideShow"
                label="Hide/Show"
@@ -92,6 +98,30 @@
                label="Generate..."
                menubarPath="additions"
                tooltip="Trigger an M0-Level Generator Plugin in the context of this Diagram">
+         </action>
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.tigerstripe.workbench.ui.instancediagram.objectContribution.AssociationInstanceEditPart"
+            objectClass="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.parts.AssociationInstanceEditPart">
+         <menu
+               id="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.setOrder"
+               label="Set Order"
+               path="additions">
+            <groupMarker name="group1"/>
+            <groupMarker name="group2"/>
+         </menu>
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.action.SetAEndOrderAction"
+               id="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.action2"
+               label="aEnd"
+               menubarPath="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.setOrder/group1">
+         </action>
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.action.SetZEndOrderAction"
+               id="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.action3"
+               label="zEnd"
+               menubarPath="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.setOrder/group2">
          </action>
       </objectContribution>
   </extension>

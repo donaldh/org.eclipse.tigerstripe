@@ -27,11 +27,14 @@ public class DiagramPropertiesHelper {
 
 	public final static String HIDEARTIFACTPACKAGES = "hideArtifactPackages";
 
-	public final static String[] properties = { HIDEARTIFACTPACKAGES };
+	public final static String HIDEORDERQUALIFIERS = "hideOrderQualifiers";
 
-	public final static String[] propertiesDefaults = { "false" };
+	public final static String[] properties = { HIDEARTIFACTPACKAGES,
+			HIDEORDERQUALIFIERS };
 
-	private InstanceMap map;
+	public final static String[] propertiesDefaults = { "false", "true" };
+
+	private final InstanceMap map;
 
 	public DiagramPropertiesHelper(InstanceMap map) {
 		this.map = map;
@@ -58,6 +61,10 @@ public class DiagramPropertiesHelper {
 				return defaultValue(name);
 		}
 		throw new IllegalArgumentException("Unknown Diagram property: " + name);
+	}
+
+	public boolean getBooleanPropertyValue(String name) {
+		return Boolean.parseBoolean(getPropertyValue(name));
 	}
 
 	private boolean isValidProperty(String name) {

@@ -10,40 +10,28 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers;
 
-import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
-import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.utils.ClassDiagramPartsUtils;
-import org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.Visibility;
 
-public class AssociationZEndParser extends
-		TigerstripeFieldnameConstrainedFeatureParser {
+public class AssociationZEndParser extends AssociationEndParser {
 
 	public AssociationZEndParser(EStructuralFeature feature) {
 		super(feature);
 	}
 
 	@Override
-	public String getPrintString(IAdaptable adapter, int flags) {
-
-		setCurrentMap(adapter);
-		
-		Association association = (Association) adapter
-				.getAdapter(AssociationImpl.class);
-		
-		String printString = super.getPrintString(adapter, flags);
-		
-		String visibilityPrefix = ClassDiagramPartsUtils
-			.visibilityPrefix(association.getAEndVisibility());
-		
-		String stereotypePref = "";
-		if (!hideStereotypes()) {
-			String stereoNames = association.getZEndStereotypeNames();
-			if (stereoNames.length() > 0)
-				stereotypePref =  stereoNames+ " ";
-		}
-
-		return  stereotypePref + visibilityPrefix + printString;
+	protected String getEndStereotypeNames(Association association) {
+		return association.getZEndStereotypeNames();
 	}
-	
+
+	@Override
+	protected boolean isEndIsOrdered(Association association) {
+		return association.isZEndIsOrdered();
+	}
+
+	@Override
+	protected Visibility getEndVisibility(Association association) {
+		return association.getZEndVisibility();
+	}
 }

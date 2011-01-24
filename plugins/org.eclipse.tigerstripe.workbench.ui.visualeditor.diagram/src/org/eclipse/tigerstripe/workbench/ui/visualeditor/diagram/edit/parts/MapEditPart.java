@@ -43,7 +43,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.util.DiagramPropertiesH
  */
 public class MapEditPart extends DiagramEditPart {
 
-	private List assocClassConnections = new ArrayList();
+	private final List assocClassConnections = new ArrayList();
 
 	/**
 	 * @generated
@@ -197,6 +197,8 @@ public class MapEditPart extends DiagramEditPart {
 			refreshCompartmentLabels();
 		} else if (DiagramPropertiesHelper.HIDESTEREOTYPES.equals(name)) {
 			refreshStereotypeLabels();
+		} else if (DiagramPropertiesHelper.HIDEORDERQUALIFIERS.equals(name)) {
+			refreshOrderQualifiersLabels();
 		} else if (DiagramPropertiesHelper.HIDEARTIFACTPACKAGES.equals(name)) {
 			refreshNamePackageLabels();
 		}
@@ -207,7 +209,6 @@ public class MapEditPart extends DiagramEditPart {
 
 		Map map = (Map) ((Diagram) getModel()).getElement();
 		List<AbstractArtifact> artifacts = map.getArtifacts();
-		List<Association> associations = map.getAssociations();
 		List<Dependency> dependencies = map.getDependencies();
 
 		for (AbstractArtifact artifact : artifacts) {
@@ -227,22 +228,7 @@ public class MapEditPart extends DiagramEditPart {
 			}
 		}
 
-		for (Association assoc : associations) {
-			// then, for each artifact, get the edit part that goes along
-			// with it
-			IGraphicalEditPart editPart = (IGraphicalEditPart) findConnectionEditPart(assoc);
-			if (editPart != null) {
-				// if the edit part is not null, get a list of that edit
-				// part's children
-				List<AbstractEditPart> childEditParts = editPart.getChildren();
-				for (AbstractEditPart childEditPart : childEditParts) {
-					if (childEditPart instanceof TigerstripeStereotypeEditPart || 
-							childEditPart instanceof AssociationNamePackageEditPart) {
-						childEditPart.refresh();
-					}
-				}
-			}
-		}
+		refreshAssociations(map);
 
 		for (Dependency dep : dependencies) {
 			// then, for each artifact, get the edit part that goes along
@@ -260,6 +246,31 @@ public class MapEditPart extends DiagramEditPart {
 			}
 		}
 
+	}
+
+	private void refreshOrderQualifiersLabels() {
+		Map map = (Map) ((Diagram) getModel()).getElement();
+		refreshAssociations(map);
+	}
+
+	private void refreshAssociations(Map map) {
+		List<Association> associations = map.getAssociations();
+		for (Association assoc : associations) {
+			// then, for each artifact, get the edit part that goes along
+			// with it
+			IGraphicalEditPart editPart = (IGraphicalEditPart) findConnectionEditPart(assoc);
+			if (editPart != null) {
+				// if the edit part is not null, get a list of that edit
+				// part's children
+				List<AbstractEditPart> childEditParts = editPart.getChildren();
+				for (AbstractEditPart childEditPart : childEditParts) {
+					if (childEditPart instanceof TigerstripeStereotypeEditPart
+							|| childEditPart instanceof AssociationNamePackageEditPart) {
+						childEditPart.refresh();
+					}
+				}
+			}
+		}
 	}
 
 	private void refreshNamePackageLabels() {

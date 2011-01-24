@@ -33,13 +33,16 @@ public class DiagramPropertiesHelper {
 
 	public final static String HIDEARTIFACTPACKAGES = "hideArtifactPackages";
 
+	public final static String HIDEORDERQUALIFIERS = "hideOrderQualifier";
+
 	public final static String[] properties = { HIDEPACKAGESINCOMPARTMENTS,
-			HIDEDEFAULTVALUES, HIDESTEREOTYPES, HIDEARTIFACTPACKAGES };
+			HIDEDEFAULTVALUES, HIDESTEREOTYPES, HIDEARTIFACTPACKAGES,
+			HIDEORDERQUALIFIERS };
 
 	public final static String[] propertiesDefaults = { "true", "false",
-			"false", "false" };
+			"false", "false", "true" };
 
-	private Map map;
+	private final Map map;
 
 	public DiagramPropertiesHelper(Map map) {
 		this.map = map;

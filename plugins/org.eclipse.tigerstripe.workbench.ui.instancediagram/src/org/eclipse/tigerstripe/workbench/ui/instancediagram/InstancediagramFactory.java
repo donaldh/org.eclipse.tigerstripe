@@ -15,19 +15,17 @@ import org.eclipse.emf.ecore.EFactory;
 /**
  * <!-- begin-user-doc --> The <b>Factory</b> for the model. It provides a
  * create method for each non-abstract class of the model. <!-- end-user-doc -->
- * 
  * @see org.eclipse.tigerstripe.workbench.ui.instancediagram.InstancediagramPackage
  * @generated
  */
 public interface InstancediagramFactory extends EFactory {
 	/**
-	 * The singleton instance of the factory. <!-- begin-user-doc --> <!--
+	 * The singleton instance of the factory.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	InstancediagramFactory eINSTANCE = org.eclipse.tigerstripe.workbench.ui.instancediagram.impl.InstancediagramFactoryImpl
-			.init();
+	InstancediagramFactory eINSTANCE = org.eclipse.tigerstripe.workbench.ui.instancediagram.impl.InstancediagramFactoryImpl.init();
 
 	/**
 	 * Returns a new object of class '<em>Named Element</em>'. <!--
@@ -102,9 +100,9 @@ public interface InstancediagramFactory extends EFactory {
 	DiagramProperty createDiagramProperty();
 
 	/**
-	 * Returns the package supported by this factory. <!-- begin-user-doc -->
+	 * Returns the package supported by this factory.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the package supported by this factory.
 	 * @generated
 	 */

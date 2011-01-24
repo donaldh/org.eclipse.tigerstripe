@@ -28,12 +28,16 @@ import org.eclipse.gmf.runtime.common.ui.services.parser.ParserEditStatus;
 import org.eclipse.gmf.runtime.emf.type.core.commands.SetValueCommand;
 import org.eclipse.gmf.runtime.emf.type.core.requests.SetRequest;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
+import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.part.InstanceDiagramEditorPlugin;
+import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.utils.DiagramPropertiesHelper;
 
 /**
  * @generated
  */
 public abstract class InstanceAbstractParser implements IParser {
+
+	protected InstanceMap currentMap;
 
 	/**
 	 * @generated
@@ -383,7 +387,7 @@ public abstract class InstanceAbstractParser implements IParser {
 	 */
 	protected class InvalidValue {
 
-		private String description;
+		private final String description;
 
 		public InvalidValue(String description) {
 			this.description = description;
@@ -393,5 +397,36 @@ public abstract class InstanceAbstractParser implements IParser {
 		public String toString() {
 			return description;
 		}
+	}
+
+	protected boolean hideOrderedQualifiers() {
+		return getBooleanPropertyValue(
+				DiagramPropertiesHelper.HIDEORDERQUALIFIERS, true);
+	}
+
+	private boolean getBooleanPropertyValue(String property,
+			boolean defaultValue) {
+		if (currentMap != null) {
+			DiagramPropertiesHelper helper = new DiagramPropertiesHelper(
+					currentMap);
+			return Boolean.parseBoolean(helper.getPropertyValue(property));
+		}
+		return defaultValue;
+	}
+
+	protected void setCurrentMap(IAdaptable adapter) {
+		EObject con = null;
+		EObject obj = (EObject) adapter.getAdapter(EObject.class);
+		if (obj != null) {
+			con = obj.eContainer();
+			while (!(con instanceof InstanceMap) && con != null) {
+				con = con.eContainer();
+			}
+			currentMap = (InstanceMap) con;
+		}
+	}
+
+	protected InstanceMap getCurrentMap() {
+		return currentMap;
 	}
 }

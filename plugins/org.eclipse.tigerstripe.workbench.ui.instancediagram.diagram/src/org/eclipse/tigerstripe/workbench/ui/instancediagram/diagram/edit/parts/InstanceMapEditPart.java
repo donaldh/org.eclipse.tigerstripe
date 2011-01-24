@@ -79,14 +79,15 @@ public class InstanceMapEditPart extends DiagramEditPart implements TigerstripeE
 
 		if (DiagramPropertiesHelper.HIDEARTIFACTPACKAGES.equals(name)) {
 			refreshCompartmentLabels();
+		} else if (DiagramPropertiesHelper.HIDEORDERQUALIFIERS.equals(name)) {
+			refreshAssociationEndLabels();
 		}
 	}
 
 	private void refreshCompartmentLabels() {
-		InstanceMap map = (InstanceMap) ((Diagram) getModel()).getElement();
+		InstanceMap map = getInstanceMap();
+
 		List<ClassInstance> classInstances = map.getClassInstances();
-		List<AssociationInstance> assocInstances = map
-				.getAssociationInstances();
 		for (ClassInstance instance : classInstances) {
 			// then, for each artifact, get the edit part that goes along with
 			// it
@@ -103,19 +104,23 @@ public class InstanceMapEditPart extends DiagramEditPart implements TigerstripeE
 				}
 			}
 		}
-		List connectionList = getConnections();
-		Map<String, EditPart> connectionMap = new HashMap<String, EditPart>();
-		for (Object obj : connectionList) {
-			if (obj instanceof AssociationInstanceEditPart) {
-				AssociationInstanceEditPart assocEditPart = (AssociationInstanceEditPart) obj;
-				EObject eObject = ((EdgeImpl) assocEditPart.getModel())
-						.getElement();
-				AssociationInstance assoc = (AssociationInstance) eObject;
-				String key = assoc.toString();
-				connectionMap.put(key, assocEditPart);
-			}
-		}
-		for (AssociationInstance instance : assocInstances) {
+
+		refreshAssociations(map, new Class[] { NamePackageInterface.class });
+	}
+
+	public void refreshAssociationEndLabels() {
+		InstanceMap map = getInstanceMap();
+		refreshAssociations(map, new Class[] {
+				AssociationInstanceAEndNameEditPart.class,
+				AssociationInstanceZEndNameEditPart.class });
+	}
+
+	private void refreshAssociations(InstanceMap map, Class<?>[] clazzes) {
+		List<?> assocInstances = map.getAssociationInstances();
+		Map<String, EditPart> connectionMap = getConnectionsMap();
+
+		for (Object object : assocInstances) {
+			AssociationInstance instance = (AssociationInstance) object;
 			// then, for each artifact, get the edit part that goes along with
 			// it
 			String key = instance.toString();
@@ -127,10 +132,35 @@ public class InstanceMapEditPart extends DiagramEditPart implements TigerstripeE
 				List<EditPart> childEditParts = editPart.getChildren();
 				for (EditPart childEditPart : childEditParts) {
 					// and then refresh each of the children
-					if (childEditPart instanceof NamePackageInterface)
-						childEditPart.refresh();
+					for (Class<?> clazz : clazzes) {
+						if (clazz.isAssignableFrom(childEditPart.getClass())) {
+							childEditPart.refresh();
+						}
+					}
 				}
 			}
 		}
+	}
+
+	private Map<String, EditPart> getConnectionsMap() {
+		List<?> connectionList = getConnections();
+		Map<String, EditPart> connectionMap = new HashMap<String, EditPart>();
+		for (Object obj : connectionList) {
+			if (obj instanceof AssociationInstanceEditPart) {
+				AssociationInstanceEditPart assocEditPart = (AssociationInstanceEditPart) obj;
+				EObject eObject = ((EdgeImpl) assocEditPart.getModel())
+						.getElement();
+				if (eObject instanceof AssociationInstance) {
+					AssociationInstance assoc = (AssociationInstance) eObject;
+					String key = assoc.toString();
+					connectionMap.put(key, assocEditPart);
+				}
+			}
+		}
+		return connectionMap;
+	}
+
+	private InstanceMap getInstanceMap() {
+		return (InstanceMap) ((Diagram) getModel()).getElement();
 	}
 }

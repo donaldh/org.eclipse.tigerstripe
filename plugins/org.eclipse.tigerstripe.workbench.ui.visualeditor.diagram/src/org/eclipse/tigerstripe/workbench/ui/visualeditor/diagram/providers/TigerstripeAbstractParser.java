@@ -413,7 +413,7 @@ public abstract class TigerstripeAbstractParser implements IParser {
 	 */
 	protected class InvalidValue {
 
-		private String description;
+		private final String description;
 
 		public InvalidValue(String description) {
 			this.description = description;
@@ -426,35 +426,33 @@ public abstract class TigerstripeAbstractParser implements IParser {
 	}
 
 	protected boolean hidePackage() {
-		if (currentMap != null) {
-			DiagramPropertiesHelper helper = new DiagramPropertiesHelper(
-					currentMap);
-			return Boolean
-					.parseBoolean(helper
-							.getPropertyValue(DiagramPropertiesHelper.HIDEPACKAGESINCOMPARTMENTS));
-		}
-		return true;
+		return getBooleanPropertyValue(
+				DiagramPropertiesHelper.HIDEPACKAGESINCOMPARTMENTS, true);
 	}
 
 	protected boolean hideStereotypes() {
-		if (currentMap != null) {
-			DiagramPropertiesHelper helper = new DiagramPropertiesHelper(
-					currentMap);
-			return Boolean.parseBoolean(helper
-					.getPropertyValue(DiagramPropertiesHelper.HIDESTEREOTYPES));
-		}
-		return true;
+		return getBooleanPropertyValue(DiagramPropertiesHelper.HIDESTEREOTYPES,
+				true);
+	}
+
+	protected boolean hideOrderedQualifiers() {
+		return getBooleanPropertyValue(
+				DiagramPropertiesHelper.HIDEORDERQUALIFIERS, true);
 	}
 
 	protected boolean hideDefaultValues() {
+		return getBooleanPropertyValue(
+				DiagramPropertiesHelper.HIDEDEFAULTVALUES, false);
+	}
+
+	private boolean getBooleanPropertyValue(String property,
+			boolean defaultValue) {
 		if (currentMap != null) {
 			DiagramPropertiesHelper helper = new DiagramPropertiesHelper(
 					currentMap);
-			return Boolean
-					.parseBoolean(helper
-							.getPropertyValue(DiagramPropertiesHelper.HIDEDEFAULTVALUES));
+			return Boolean.parseBoolean(helper.getPropertyValue(property));
 		}
-		return false;
+		return defaultValue;
 	}
 
 	protected void setCurrentMap(IAdaptable adapter) {

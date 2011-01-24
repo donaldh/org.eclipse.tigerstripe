@@ -180,10 +180,10 @@ public class InstanceParserProvider extends AbstractProvider implements
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	protected IParser createAssociationInstanceAssociationInstanceAEndName_4004Parser() {
-		InstanceStructuralFeatureParser parser = new InstanceStructuralFeatureParser(
+		InstanceStructuralFeatureParser parser = new AssociationAEndParser(
 				InstancediagramPackage.eINSTANCE.getAssociationInstance()
 						.getEStructuralFeature("aEndName")); //$NON-NLS-1$
 		return parser;
@@ -236,10 +236,10 @@ public class InstanceParserProvider extends AbstractProvider implements
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	protected IParser createAssociationInstanceAssociationInstanceZEndName_4006Parser() {
-		InstanceStructuralFeatureParser parser = new InstanceStructuralFeatureParser(
+		InstanceStructuralFeatureParser parser = new AssociationZEndParser(
 				InstancediagramPackage.eINSTANCE.getAssociationInstance()
 						.getEStructuralFeature("zEndName")); //$NON-NLS-1$
 		return parser;

@@ -43,8 +43,8 @@ import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EAggregationEnum;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.AggregationEnum;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance;
@@ -509,6 +509,8 @@ public class ClassInstanceItemSemanticEditPolicy extends
 					assocInstance1.setPackage(artifact.getPackage());
 					assocInstance1.setAEndIsNavigable(artifact.getAEnd()
 							.isNavigable());
+					assocInstance1.setAEndIsOrdered(artifact.getAEnd()
+							.isOrdered());
 					AggregationEnum aEndAggregation = getAggregation(artifact
 							.getAEnd().getAggregation());
 					assocInstance1.setAEndAggregation(aEndAggregation);
@@ -525,6 +527,8 @@ public class ClassInstanceItemSemanticEditPolicy extends
 					assocInstance1.setPackage(artifact.getPackage());
 					assocInstance1.setZEndIsNavigable(artifact.getZEnd()
 							.isNavigable());
+					assocInstance1.setZEndIsOrdered(artifact.getZEnd()
+							.isOrdered());
 					AggregationEnum zEndAggregation = getAggregation(artifact
 							.getZEnd().getAggregation());
 					assocInstance1.setZEndAggregation(zEndAggregation);
@@ -551,6 +555,8 @@ public class ClassInstanceItemSemanticEditPolicy extends
 					assocInstance2.setPackage(artifact.getPackage());
 					assocInstance2.setZEndIsNavigable(artifact.getZEnd()
 							.isNavigable());
+					assocInstance2.setZEndIsOrdered(artifact.getZEnd()
+							.isOrdered());
 					AggregationEnum zEndAggregation = getAggregation(artifact
 							.getZEnd().getAggregation());
 					assocInstance2.setZEndAggregation(zEndAggregation);
@@ -567,6 +573,8 @@ public class ClassInstanceItemSemanticEditPolicy extends
 					assocInstance2.setPackage(artifact.getPackage());
 					assocInstance2.setAEndIsNavigable(artifact.getAEnd()
 							.isNavigable());
+					assocInstance2.setAEndIsOrdered(artifact.getAEnd()
+							.isOrdered());
 					AggregationEnum aEndAggregation = getAggregation(artifact
 							.getAEnd().getAggregation());
 					assocInstance2.setAEndAggregation(aEndAggregation);
@@ -590,6 +598,7 @@ public class ClassInstanceItemSemanticEditPolicy extends
 					newElement.setAEnd((Instance) getTarget());
 				newElement.setAEndName(rel.getRelationshipAEnd().getName());
 				newElement.setAEndIsNavigable(artifact.getAEnd().isNavigable());
+				newElement.setAEndIsOrdered(artifact.getAEnd().isOrdered());
 				AggregationEnum aEndAggregation = getAggregation(artifact
 						.getAEnd().getAggregation());
 				newElement.setAEndAggregation(aEndAggregation);
@@ -600,6 +609,7 @@ public class ClassInstanceItemSemanticEditPolicy extends
 					newElement.setZEnd((Instance) getSource());
 				newElement.setZEndName(rel.getRelationshipZEnd().getName());
 				newElement.setZEndIsNavigable(artifact.getZEnd().isNavigable());
+				newElement.setZEndIsOrdered(artifact.getZEnd().isOrdered());
 				AggregationEnum zEndAggregation = getAggregation(artifact
 						.getZEnd().getAggregation());
 				newElement.setZEndAggregation(zEndAggregation);
