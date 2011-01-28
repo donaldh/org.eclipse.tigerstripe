@@ -34,8 +34,8 @@ package org.eclipse.tigerstripe.workbench.ui.instancediagram;
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance#getZEndIsChangeable <em>ZEnd Is Changeable</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance#getZEndAggregation <em>ZEnd Aggregation</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance#getReferenceName <em>Reference Name</em>}</li>
- *   <li>{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance#getAEndOrderNumber <em>AEnd Order Number</em>}</li>
- *   <li>{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance#getZEndOrderNumber <em>ZEnd Order Number</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance#getAEndOrder <em>AEnd Order</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance#getZEndOrder <em>ZEnd Order</em>}</li>
  * </ul>
  * </p>
  *
@@ -490,56 +490,56 @@ public interface AssociationInstance extends Instance {
 	void setReferenceName(String value);
 
 	/**
-	 * Returns the value of the '<em><b>AEnd Order Number</b></em>' attribute.
+	 * Returns the value of the '<em><b>AEnd Order</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>AEnd Order Number</em>' attribute isn't clear,
+	 * If the meaning of the '<em>AEnd Order</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>AEnd Order Number</em>' attribute.
-	 * @see #setAEndOrderNumber(Integer)
-	 * @see org.eclipse.tigerstripe.workbench.ui.instancediagram.InstancediagramPackage#getAssociationInstance_AEndOrderNumber()
+	 * @return the value of the '<em>AEnd Order</em>' attribute.
+	 * @see #setAEndOrder(String)
+	 * @see org.eclipse.tigerstripe.workbench.ui.instancediagram.InstancediagramPackage#getAssociationInstance_AEndOrder()
 	 * @model
 	 * @generated
 	 */
-	Integer getAEndOrderNumber();
+	String getAEndOrder();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance#getAEndOrderNumber <em>AEnd Order Number</em>}' attribute.
+	 * Sets the value of the '{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance#getAEndOrder <em>AEnd Order</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>AEnd Order Number</em>' attribute.
-	 * @see #getAEndOrderNumber()
+	 * @param value the new value of the '<em>AEnd Order</em>' attribute.
+	 * @see #getAEndOrder()
 	 * @generated
 	 */
-	void setAEndOrderNumber(Integer value);
+	void setAEndOrder(String value);
 
 	/**
-	 * Returns the value of the '<em><b>ZEnd Order Number</b></em>' attribute.
+	 * Returns the value of the '<em><b>ZEnd Order</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>ZEnd Order Number</em>' attribute isn't clear,
+	 * If the meaning of the '<em>ZEnd Order</em>' attribute isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>ZEnd Order Number</em>' attribute.
-	 * @see #setZEndOrderNumber(Integer)
-	 * @see org.eclipse.tigerstripe.workbench.ui.instancediagram.InstancediagramPackage#getAssociationInstance_ZEndOrderNumber()
+	 * @return the value of the '<em>ZEnd Order</em>' attribute.
+	 * @see #setZEndOrder(String)
+	 * @see org.eclipse.tigerstripe.workbench.ui.instancediagram.InstancediagramPackage#getAssociationInstance_ZEndOrder()
 	 * @model
 	 * @generated
 	 */
-	Integer getZEndOrderNumber();
+	String getZEndOrder();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance#getZEndOrderNumber <em>ZEnd Order Number</em>}' attribute.
+	 * Sets the value of the '{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance#getZEndOrder <em>ZEnd Order</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>ZEnd Order Number</em>' attribute.
-	 * @see #getZEndOrderNumber()
+	 * @param value the new value of the '<em>ZEnd Order</em>' attribute.
+	 * @see #getZEndOrder()
 	 * @generated
 	 */
-	void setZEndOrderNumber(Integer value);
+	void setZEndOrder(String value);
 
 	/**
 	 * used internally to determine which if this association instance

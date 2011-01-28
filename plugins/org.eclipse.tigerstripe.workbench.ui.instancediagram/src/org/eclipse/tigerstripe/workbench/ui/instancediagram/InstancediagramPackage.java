@@ -467,22 +467,22 @@ public interface InstancediagramPackage extends EPackage {
 	int ASSOCIATION_INSTANCE__REFERENCE_NAME = INSTANCE_FEATURE_COUNT + 16;
 
 	/**
-	 * The feature id for the '<em><b>AEnd Order Number</b></em>' attribute.
+	 * The feature id for the '<em><b>AEnd Order</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ASSOCIATION_INSTANCE__AEND_ORDER_NUMBER = INSTANCE_FEATURE_COUNT + 17;
+	int ASSOCIATION_INSTANCE__AEND_ORDER = INSTANCE_FEATURE_COUNT + 17;
 
 	/**
-	 * The feature id for the '<em><b>ZEnd Order Number</b></em>' attribute.
+	 * The feature id for the '<em><b>ZEnd Order</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ASSOCIATION_INSTANCE__ZEND_ORDER_NUMBER = INSTANCE_FEATURE_COUNT + 18;
+	int ASSOCIATION_INSTANCE__ZEND_ORDER = INSTANCE_FEATURE_COUNT + 18;
 
 	/**
 	 * The number of structural features of the '<em>Association Instance</em>' class.
@@ -889,26 +889,26 @@ public interface InstancediagramPackage extends EPackage {
 	EAttribute getAssociationInstance_ReferenceName();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance#getAEndOrderNumber <em>AEnd Order Number</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance#getAEndOrder <em>AEnd Order</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>AEnd Order Number</em>'.
-	 * @see org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance#getAEndOrderNumber()
+	 * @return the meta object for the attribute '<em>AEnd Order</em>'.
+	 * @see org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance#getAEndOrder()
 	 * @see #getAssociationInstance()
 	 * @generated
 	 */
-	EAttribute getAssociationInstance_AEndOrderNumber();
+	EAttribute getAssociationInstance_AEndOrder();
 
 	/**
-	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance#getZEndOrderNumber <em>ZEnd Order Number</em>}'.
+	 * Returns the meta object for the attribute '{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance#getZEndOrder <em>ZEnd Order</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>ZEnd Order Number</em>'.
-	 * @see org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance#getZEndOrderNumber()
+	 * @return the meta object for the attribute '<em>ZEnd Order</em>'.
+	 * @see org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance#getZEndOrder()
 	 * @see #getAssociationInstance()
 	 * @generated
 	 */
-	EAttribute getAssociationInstance_ZEndOrderNumber();
+	EAttribute getAssociationInstance_ZEndOrder();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.TypedElement <em>Typed Element</em>}'.
@@ -1281,20 +1281,20 @@ public interface InstancediagramPackage extends EPackage {
 		EAttribute ASSOCIATION_INSTANCE__REFERENCE_NAME = eINSTANCE.getAssociationInstance_ReferenceName();
 
 		/**
-		 * The meta object literal for the '<em><b>AEnd Order Number</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>AEnd Order</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute ASSOCIATION_INSTANCE__AEND_ORDER_NUMBER = eINSTANCE.getAssociationInstance_AEndOrderNumber();
+		EAttribute ASSOCIATION_INSTANCE__AEND_ORDER = eINSTANCE.getAssociationInstance_AEndOrder();
 
 		/**
-		 * The meta object literal for the '<em><b>ZEnd Order Number</b></em>' attribute feature.
+		 * The meta object literal for the '<em><b>ZEnd Order</b></em>' attribute feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute ASSOCIATION_INSTANCE__ZEND_ORDER_NUMBER = eINSTANCE.getAssociationInstance_ZEndOrderNumber();
+		EAttribute ASSOCIATION_INSTANCE__ZEND_ORDER = eINSTANCE.getAssociationInstance_ZEndOrder();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.impl.TypedElementImpl <em>Typed Element</em>}' class.

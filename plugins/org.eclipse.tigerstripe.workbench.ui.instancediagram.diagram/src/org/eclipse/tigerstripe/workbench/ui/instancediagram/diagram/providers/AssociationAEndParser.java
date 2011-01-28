@@ -33,7 +33,7 @@ public class AssociationAEndParser extends AssociationEndParser {
 	}
 
 	@Override
-	protected Integer getEndOrderNumber(AssociationInstance association) {
-		return association.getAEndOrderNumber();
+	protected String getEndOrder(AssociationInstance association) {
+		return association.getAEndOrder();
 	}
 }

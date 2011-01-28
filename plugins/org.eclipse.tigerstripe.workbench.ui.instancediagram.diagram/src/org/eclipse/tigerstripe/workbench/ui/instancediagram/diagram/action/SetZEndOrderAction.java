@@ -29,14 +29,14 @@ public class SetZEndOrderAction extends SetAssociationEndOrderAction {
 	}
 
 	@Override
-	protected Integer getEndOrderNumber(AssociationInstance association) {
-		return association.getZEndOrderNumber();
+	protected String getEndOrder(AssociationInstance association) {
+		return association.getZEndOrder();
 	}
 
 	@Override
-	protected void setEndOrderNumber(AssociationInstance association,
-			Integer orderNumber) {
-		association.setZEndOrderNumber(orderNumber);
+	protected void setEndOrder(AssociationInstance association,
+			String order) {
+		association.setZEndOrder(order);
 	}
 
 	@Override

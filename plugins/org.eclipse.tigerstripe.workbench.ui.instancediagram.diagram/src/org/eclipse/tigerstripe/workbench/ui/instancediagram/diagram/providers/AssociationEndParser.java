@@ -38,7 +38,7 @@ public abstract class AssociationEndParser extends
 	protected abstract IAssociationEnd getEnd(
 			IAssociationArtifact associationArtifact);
 
-	protected abstract Integer getEndOrderNumber(AssociationInstance association);
+	protected abstract String getEndOrder(AssociationInstance association);
 
 	protected boolean isEndIsOrdered(AssociationInstance association) {
 		// Before 230101 bug "is ordered" flag was ignored and flag value was
@@ -76,14 +76,12 @@ public abstract class AssociationEndParser extends
 
 		if (!hideOrderedQualifiers()) {
 			if (isEndIsOrdered(association)) {
-				result.append("{order=");
-				Integer orderNumber = getEndOrderNumber(association);
-				if (orderNumber != null) {
-					result.append(orderNumber);
-				} else {
-					result.append("unknown");
+				String order = getEndOrder(association);
+				if (order != null) {
+					result.append("{order=");
+					result.append(order);
+					result.append("} ");
 				}
-				result.append("} ");
 			}
 		}
 		result.append(super.getPrintString(adapter, flags));

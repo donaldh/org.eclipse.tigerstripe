@@ -399,7 +399,7 @@ public class InstancediagramPackageImpl extends EPackageImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getAssociationInstance_AEndOrderNumber() {
+	public EAttribute getAssociationInstance_AEndOrder() {
 		return (EAttribute)associationInstanceEClass.getEStructuralFeatures().get(17);
 	}
 
@@ -408,7 +408,7 @@ public class InstancediagramPackageImpl extends EPackageImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EAttribute getAssociationInstance_ZEndOrderNumber() {
+	public EAttribute getAssociationInstance_ZEndOrder() {
 		return (EAttribute)associationInstanceEClass.getEStructuralFeatures().get(18);
 	}
 
@@ -583,8 +583,8 @@ public class InstancediagramPackageImpl extends EPackageImpl implements
 		createEAttribute(associationInstanceEClass, ASSOCIATION_INSTANCE__ZEND_IS_CHANGEABLE);
 		createEAttribute(associationInstanceEClass, ASSOCIATION_INSTANCE__ZEND_AGGREGATION);
 		createEAttribute(associationInstanceEClass, ASSOCIATION_INSTANCE__REFERENCE_NAME);
-		createEAttribute(associationInstanceEClass, ASSOCIATION_INSTANCE__AEND_ORDER_NUMBER);
-		createEAttribute(associationInstanceEClass, ASSOCIATION_INSTANCE__ZEND_ORDER_NUMBER);
+		createEAttribute(associationInstanceEClass, ASSOCIATION_INSTANCE__AEND_ORDER);
+		createEAttribute(associationInstanceEClass, ASSOCIATION_INSTANCE__ZEND_ORDER);
 
 		typedElementEClass = createEClass(TYPED_ELEMENT);
 		createEAttribute(typedElementEClass, TYPED_ELEMENT__TYPE);
@@ -671,8 +671,8 @@ public class InstancediagramPackageImpl extends EPackageImpl implements
 		initEAttribute(getAssociationInstance_ZEndIsChangeable(), this.getChangeableEnum(), "zEndIsChangeable", null, 0, 1, AssociationInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAssociationInstance_ZEndAggregation(), this.getAggregationEnum(), "zEndAggregation", null, 0, 1, AssociationInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getAssociationInstance_ReferenceName(), ecorePackage.getEString(), "referenceName", null, 0, 1, AssociationInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getAssociationInstance_AEndOrderNumber(), ecorePackage.getEIntegerObject(), "aEndOrderNumber", null, 0, 1, AssociationInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEAttribute(getAssociationInstance_ZEndOrderNumber(), ecorePackage.getEIntegerObject(), "zEndOrderNumber", null, 0, 1, AssociationInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAssociationInstance_AEndOrder(), ecorePackage.getEString(), "aEndOrder", null, 0, 1, AssociationInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAssociationInstance_ZEndOrder(), ecorePackage.getEString(), "zEndOrder", null, 0, 1, AssociationInstance.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(typedElementEClass, TypedElement.class, "TypedElement", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getTypedElement_Type(), ecorePackage.getEString(), "type", null, 0, 1, TypedElement.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

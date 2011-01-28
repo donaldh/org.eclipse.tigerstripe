@@ -44,8 +44,8 @@ import org.eclipse.tigerstripe.workbench.ui.instancediagram.util.InstanceDiagram
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.impl.AssociationInstanceImpl#getZEndIsChangeable <em>ZEnd Is Changeable</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.impl.AssociationInstanceImpl#getZEndAggregation <em>ZEnd Aggregation</em>}</li>
  *   <li>{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.impl.AssociationInstanceImpl#getReferenceName <em>Reference Name</em>}</li>
- *   <li>{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.impl.AssociationInstanceImpl#getAEndOrderNumber <em>AEnd Order Number</em>}</li>
- *   <li>{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.impl.AssociationInstanceImpl#getZEndOrderNumber <em>ZEnd Order Number</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.impl.AssociationInstanceImpl#getAEndOrder <em>AEnd Order</em>}</li>
+ *   <li>{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.impl.AssociationInstanceImpl#getZEndOrder <em>ZEnd Order</em>}</li>
  * </ul>
  * </p>
  *
@@ -342,44 +342,44 @@ public class AssociationInstanceImpl extends InstanceImpl implements
 	protected String referenceName = REFERENCE_NAME_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getAEndOrderNumber() <em>AEnd Order Number</em>}' attribute.
+	 * The default value of the '{@link #getAEndOrder() <em>AEnd Order</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getAEndOrderNumber()
+	 * @see #getAEndOrder()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Integer AEND_ORDER_NUMBER_EDEFAULT = null;
+	protected static final String AEND_ORDER_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getAEndOrderNumber() <em>AEnd Order Number</em>}' attribute.
+	 * The cached value of the '{@link #getAEndOrder() <em>AEnd Order</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getAEndOrderNumber()
+	 * @see #getAEndOrder()
 	 * @generated
 	 * @ordered
 	 */
-	protected Integer aEndOrderNumber = AEND_ORDER_NUMBER_EDEFAULT;
+	protected String aEndOrder = AEND_ORDER_EDEFAULT;
 
 	/**
-	 * The default value of the '{@link #getZEndOrderNumber() <em>ZEnd Order Number</em>}' attribute.
+	 * The default value of the '{@link #getZEndOrder() <em>ZEnd Order</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getZEndOrderNumber()
+	 * @see #getZEndOrder()
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Integer ZEND_ORDER_NUMBER_EDEFAULT = null;
+	protected static final String ZEND_ORDER_EDEFAULT = null;
 
 	/**
-	 * The cached value of the '{@link #getZEndOrderNumber() <em>ZEnd Order Number</em>}' attribute.
+	 * The cached value of the '{@link #getZEndOrder() <em>ZEnd Order</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getZEndOrderNumber()
+	 * @see #getZEndOrder()
 	 * @generated
 	 * @ordered
 	 */
-	protected Integer zEndOrderNumber = ZEND_ORDER_NUMBER_EDEFAULT;
+	protected String zEndOrder = ZEND_ORDER_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
@@ -961,8 +961,8 @@ public class AssociationInstanceImpl extends InstanceImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Integer getAEndOrderNumber() {
-		return aEndOrderNumber;
+	public String getAEndOrder() {
+		return aEndOrder;
 	}
 
 	/**
@@ -970,11 +970,11 @@ public class AssociationInstanceImpl extends InstanceImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setAEndOrderNumber(Integer newAEndOrderNumber) {
-		Integer oldAEndOrderNumber = aEndOrderNumber;
-		aEndOrderNumber = newAEndOrderNumber;
+	public void setAEndOrder(String newAEndOrder) {
+		String oldAEndOrder = aEndOrder;
+		aEndOrder = newAEndOrder;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, InstancediagramPackage.ASSOCIATION_INSTANCE__AEND_ORDER_NUMBER, oldAEndOrderNumber, aEndOrderNumber));
+			eNotify(new ENotificationImpl(this, Notification.SET, InstancediagramPackage.ASSOCIATION_INSTANCE__AEND_ORDER, oldAEndOrder, aEndOrder));
 	}
 
 	/**
@@ -982,8 +982,8 @@ public class AssociationInstanceImpl extends InstanceImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Integer getZEndOrderNumber() {
-		return zEndOrderNumber;
+	public String getZEndOrder() {
+		return zEndOrder;
 	}
 
 	/**
@@ -991,11 +991,11 @@ public class AssociationInstanceImpl extends InstanceImpl implements
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setZEndOrderNumber(Integer newZEndOrderNumber) {
-		Integer oldZEndOrderNumber = zEndOrderNumber;
-		zEndOrderNumber = newZEndOrderNumber;
+	public void setZEndOrder(String newZEndOrder) {
+		String oldZEndOrder = zEndOrder;
+		zEndOrder = newZEndOrder;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, InstancediagramPackage.ASSOCIATION_INSTANCE__ZEND_ORDER_NUMBER, oldZEndOrderNumber, zEndOrderNumber));
+			eNotify(new ENotificationImpl(this, Notification.SET, InstancediagramPackage.ASSOCIATION_INSTANCE__ZEND_ORDER, oldZEndOrder, zEndOrder));
 	}
 
 	/**
@@ -1041,10 +1041,10 @@ public class AssociationInstanceImpl extends InstanceImpl implements
 				return getZEndAggregation();
 			case InstancediagramPackage.ASSOCIATION_INSTANCE__REFERENCE_NAME:
 				return getReferenceName();
-			case InstancediagramPackage.ASSOCIATION_INSTANCE__AEND_ORDER_NUMBER:
-				return getAEndOrderNumber();
-			case InstancediagramPackage.ASSOCIATION_INSTANCE__ZEND_ORDER_NUMBER:
-				return getZEndOrderNumber();
+			case InstancediagramPackage.ASSOCIATION_INSTANCE__AEND_ORDER:
+				return getAEndOrder();
+			case InstancediagramPackage.ASSOCIATION_INSTANCE__ZEND_ORDER:
+				return getZEndOrder();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -1107,11 +1107,11 @@ public class AssociationInstanceImpl extends InstanceImpl implements
 			case InstancediagramPackage.ASSOCIATION_INSTANCE__REFERENCE_NAME:
 				setReferenceName((String)newValue);
 				return;
-			case InstancediagramPackage.ASSOCIATION_INSTANCE__AEND_ORDER_NUMBER:
-				setAEndOrderNumber((Integer)newValue);
+			case InstancediagramPackage.ASSOCIATION_INSTANCE__AEND_ORDER:
+				setAEndOrder((String)newValue);
 				return;
-			case InstancediagramPackage.ASSOCIATION_INSTANCE__ZEND_ORDER_NUMBER:
-				setZEndOrderNumber((Integer)newValue);
+			case InstancediagramPackage.ASSOCIATION_INSTANCE__ZEND_ORDER:
+				setZEndOrder((String)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -1175,11 +1175,11 @@ public class AssociationInstanceImpl extends InstanceImpl implements
 			case InstancediagramPackage.ASSOCIATION_INSTANCE__REFERENCE_NAME:
 				setReferenceName(REFERENCE_NAME_EDEFAULT);
 				return;
-			case InstancediagramPackage.ASSOCIATION_INSTANCE__AEND_ORDER_NUMBER:
-				setAEndOrderNumber(AEND_ORDER_NUMBER_EDEFAULT);
+			case InstancediagramPackage.ASSOCIATION_INSTANCE__AEND_ORDER:
+				setAEndOrder(AEND_ORDER_EDEFAULT);
 				return;
-			case InstancediagramPackage.ASSOCIATION_INSTANCE__ZEND_ORDER_NUMBER:
-				setZEndOrderNumber(ZEND_ORDER_NUMBER_EDEFAULT);
+			case InstancediagramPackage.ASSOCIATION_INSTANCE__ZEND_ORDER:
+				setZEndOrder(ZEND_ORDER_EDEFAULT);
 				return;
 		}
 		super.eUnset(featureID);
@@ -1226,10 +1226,10 @@ public class AssociationInstanceImpl extends InstanceImpl implements
 				return zEndAggregation != ZEND_AGGREGATION_EDEFAULT;
 			case InstancediagramPackage.ASSOCIATION_INSTANCE__REFERENCE_NAME:
 				return REFERENCE_NAME_EDEFAULT == null ? referenceName != null : !REFERENCE_NAME_EDEFAULT.equals(referenceName);
-			case InstancediagramPackage.ASSOCIATION_INSTANCE__AEND_ORDER_NUMBER:
-				return AEND_ORDER_NUMBER_EDEFAULT == null ? aEndOrderNumber != null : !AEND_ORDER_NUMBER_EDEFAULT.equals(aEndOrderNumber);
-			case InstancediagramPackage.ASSOCIATION_INSTANCE__ZEND_ORDER_NUMBER:
-				return ZEND_ORDER_NUMBER_EDEFAULT == null ? zEndOrderNumber != null : !ZEND_ORDER_NUMBER_EDEFAULT.equals(zEndOrderNumber);
+			case InstancediagramPackage.ASSOCIATION_INSTANCE__AEND_ORDER:
+				return AEND_ORDER_EDEFAULT == null ? aEndOrder != null : !AEND_ORDER_EDEFAULT.equals(aEndOrder);
+			case InstancediagramPackage.ASSOCIATION_INSTANCE__ZEND_ORDER:
+				return ZEND_ORDER_EDEFAULT == null ? zEndOrder != null : !ZEND_ORDER_EDEFAULT.equals(zEndOrder);
 		}
 		return super.eIsSet(featureID);
 	}
@@ -1273,10 +1273,10 @@ public class AssociationInstanceImpl extends InstanceImpl implements
 		result.append(zEndAggregation);
 		result.append(", referenceName: ");
 		result.append(referenceName);
-		result.append(", aEndOrderNumber: ");
-		result.append(aEndOrderNumber);
-		result.append(", zEndOrderNumber: ");
-		result.append(zEndOrderNumber);
+		result.append(", aEndOrder: ");
+		result.append(aEndOrder);
+		result.append(", zEndOrder: ");
+		result.append(zEndOrder);
 		result.append(')');
 		return result.toString();
 	}
