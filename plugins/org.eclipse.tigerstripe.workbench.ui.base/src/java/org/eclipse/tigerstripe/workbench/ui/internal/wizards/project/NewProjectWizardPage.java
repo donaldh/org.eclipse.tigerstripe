@@ -13,8 +13,11 @@ package org.eclipse.tigerstripe.workbench.ui.internal.wizards.project;
 import java.io.File;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Preferences;
@@ -332,21 +335,27 @@ public class NewProjectWizardPage extends WizardPage {
 		projectDirectoryText.setEnabled(specifyDirectory);
 		directoryBrowseButton.setEnabled(specifyDirectory);
 		directoryLabel.setEnabled(specifyDirectory);
-
-		if ("".equals(getProjectName())) {
+		
+		String projectName = getProjectName();
+		if ("".equals(projectName)) {
 			setErrorMessage("Valid project name required");
 			setPageComplete(false);
 			return;
 		}
-
+		
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+        IStatus validNameStatus = workspace.validateName(projectName, IResource.PROJECT);
+        if (!validNameStatus.isOK()) {
+            setErrorMessage(validNameStatus.getMessage());
+            setPageComplete(false);
+            return;
+        }
 		// check for duplicate Project name
-		for (IProject proj : ResourcesPlugin.getWorkspace().getRoot()
-				.getProjects()) {
-			if (proj.getName().equals(getProjectName())) {
-				setErrorMessage("Duplicate project name.");
-				setPageComplete(false);
-				return;
-			}
+        IProject projectHandle = workspace.getRoot().getProject(getProjectName());
+		if (projectHandle.exists()) {
+		    setErrorMessage("Duplicate project name.");
+			setPageComplete(false);
+			return;
 		}
 
 		setErrorMessage(message);
