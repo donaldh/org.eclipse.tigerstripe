@@ -296,7 +296,7 @@ public class TigerstripeProjectSelectionDialog extends SelectionStatusDialog {
 		createMessageArea(composite);
 
 		fTableViewer = new TableViewer(composite, SWT.H_SCROLL | SWT.V_SCROLL
-				| SWT.BORDER);
+				| SWT.BORDER | SWT.MULTI);
 		fTableViewer
 				.addSelectionChangedListener(new ISelectionChangedListener() {
 					public void selectionChanged(SelectionChangedEvent event) {
@@ -373,7 +373,7 @@ public class TigerstripeProjectSelectionDialog extends SelectionStatusDialog {
 	// }
 	//
 	private void doSelectionChanged(Object[] objects) {
-		if (objects.length != 1) {
+		if (objects.length == 0) {
 			updateStatus(new StatusInfo(IStatus.ERROR, "")); //$NON-NLS-1$
 			setSelectionResult(null);
 		} else {
