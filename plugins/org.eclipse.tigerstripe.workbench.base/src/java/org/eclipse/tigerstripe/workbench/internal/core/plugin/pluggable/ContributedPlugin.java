@@ -44,13 +44,19 @@ public class ContributedPlugin extends PluggablePlugin {
 				List<URL> urls = new ArrayList<URL>();
 				// Create a classloader that includes the additional classpath
 				
+				
 				// In this case that is all at the top level of the bundle.
 				URL classesUrl = bundle.getEntry(bundleName+".jar"); //$NON_NLS-1$
 				if (classesUrl != null){
 					urls.add(classesUrl);
-
 				}
 
+				// This is really only required during debug session!
+				URL binUrl = bundle.getEntry("bin"); //$NON_NLS-1$
+				if (binUrl != null){
+					urls.add(binUrl);
+				}
+				
 				// with all packaged up entries
 				for (IPluginClasspathEntry entry : getPProject()
 						.getClasspathEntries()) {
@@ -60,7 +66,7 @@ public class ContributedPlugin extends PluggablePlugin {
 						urls.add(jarUrl);
 					}
 				}
-
+				
 				classLoader = new URLClassLoader(urls.toArray(new URL[urls
 						.size()]), this.getClass().getClassLoader());
 			}
