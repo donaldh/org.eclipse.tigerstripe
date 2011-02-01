@@ -11,6 +11,7 @@
  ******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.dependencies.internal.depenedencies;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -18,6 +19,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.Assert;
+import org.eclipse.draw2d.Animation;
+import org.eclipse.draw2d.IFigure;
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.EditPartViewer;
@@ -193,7 +197,7 @@ public class Utils {
 		}
 		diagram.getLayersHistory().add(currentLayer);
 		diagram.setCurrentLayer(layer);
-		ensureLayout(viewer, !layer.isWasLayouting());
+		ensureLayoutDown(viewer, !layer.isWasLayouting());
 		layer.setWasLayouting(true);
 		// if (!layer.isWasLayouting()) {
 		// LayoutUtils.layout(rootEditPart.getContents(), true);
@@ -245,6 +249,63 @@ public class Utils {
 		}
 
 		LayoutUtils.layout(toLayout, true);
+
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		List<?> otherParts = new ArrayList(part.getParent().getChildren());
+		otherParts.removeAll(toLayout);
+
+		List<ShapeEditPart> toDown = new ArrayList<ShapeEditPart>();
+
+		for (GraphicalEditPart graphicalEditPart : toLayout) {
+			if (graphicalEditPart instanceof ShapeEditPart) {
+				ShapeEditPart sep = ((ShapeEditPart) graphicalEditPart);
+				Iterator<?> it = otherParts.iterator();
+				while (it.hasNext()) {
+					Object other = it.next();
+					if (!sep.equals(other) && other instanceof ShapeEditPart) {
+						IFigure sepFigure = sep.getFigure();
+						IFigure otherFigure = ((ShapeEditPart) other)
+								.getFigure();
+						if (sepFigure != null && otherFigure != null) {
+							if (sepFigure.getBounds().intersects(
+									otherFigure.getBounds())) {
+								toDown.add(sep);
+								break;
+							}
+						}
+
+					}
+				}
+			}
+		}
+
+		Rectangle bound = new Rectangle();
+		Iterator<?> it = otherParts.iterator();
+		while (it.hasNext()) {
+			Object other = it.next();
+			if (other instanceof ShapeEditPart) {
+				Shape shape = ((ShapeEditPart) other).getShape();
+				Point loc = shape.getLocation();
+				Dimension size = shape.getSize();
+				bound = bound.union(loc.getX(), loc.getY(), size.getWidth(),
+						size.getHeight());
+			}
+		}
+
+		Animation.markBegin();
+		final int step = 25;
+		int x = 10;
+		int y = bound.y + bound.height + step;
+		for (ShapeEditPart shapeEditPart : toDown) {
+			Shape shape = shapeEditPart.getShape();
+			shape.setWasLayouting(true);
+			Point loc = shape.getLocation();
+			loc.setX(x);
+			loc.setY(y);
+			shapeEditPart.refreshVisuals();
+			x += step + shape.getSize().getWidth();
+		}
+		Animation.run(400);
 	}
 
 	public static void collapseDependencies(SubjectEditPart part) {
@@ -301,6 +362,53 @@ public class Utils {
 		for (ShapeEditPart shapeEditPart : toLayout) {
 			shapeEditPart.getShape().setWasLayouting(true);
 		}
+		return !toLayout.isEmpty();
+	}
+
+	public static boolean ensureLayoutDown(EditPartViewer viewer,
+			boolean animate) {
+		DiagramEditPart diagramEditPart = getDiagramEditPart(viewer
+				.getRootEditPart());
+		@SuppressWarnings("unchecked")
+		List<EditPart> children = diagramEditPart.getChildren();
+
+		Set<ShapeEditPart> toLayout = new HashSet<ShapeEditPart>();
+
+		Rectangle bound = new Rectangle();
+		boolean allNeedLayout = true;
+		for (EditPart editPart : children) {
+
+			if (editPart instanceof ShapeEditPart) {
+				Shape shape = ((ShapeEditPart) editPart).getShape();
+				if (!shape.isWasLayouting()) {
+					toLayout.add((ShapeEditPart) editPart);
+				} else {
+					allNeedLayout = false;
+					Point loc = shape.getLocation();
+					Dimension size = shape.getSize();
+					bound = bound.union(loc.getX(), loc.getY(),
+							size.getWidth(), size.getHeight());
+				}
+			}
+		}
+
+		if (allNeedLayout) {
+			return ensureLayout(diagramEditPart, animate);
+		}
+
+		final int step = 25;
+		int x = 10;
+		final int y = bound.y + bound.height + step;
+		for (ShapeEditPart shapeEditPart : toLayout) {
+			Shape shape = shapeEditPart.getShape();
+			shape.setWasLayouting(true);
+			Point loc = shape.getLocation();
+			loc.setX(x);
+			loc.setY(y);
+			shapeEditPart.refreshVisuals();
+			x += step + shape.getSize().getWidth();
+		}
+
 		return !toLayout.isEmpty();
 	}
 

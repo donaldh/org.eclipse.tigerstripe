@@ -22,14 +22,16 @@ public class LayoutUtils {
 
 	public static void layout(EditPart root, boolean animate) {
 		TopDownLayout layout = getLayout();
-		if (animate)
+		if (animate) {
 			Animation.markBegin();
+		}
 		Command command = layout.layoutEditParts((GraphicalEditPart) root);
 		if (command.canExecute()) {
 			command.execute();
 		}
-		if (animate)
+		if (animate) {
 			Animation.run(400);
+		}
 	}
 
 	public static void layout(Set<? extends GraphicalEditPart> parts,
@@ -41,15 +43,17 @@ public class LayoutUtils {
 
 		TopDownLayout layout = getLayout();
 		layout.setOnlyParts(parts);
-		if (animate)
+		if (animate) {
 			Animation.markBegin();
+		}
 		Command command = layout.layoutEditParts((GraphicalEditPart) parts
 				.iterator().next().getParent());
 		if (command.canExecute()) {
 			command.execute();
 		}
-		if (animate)
+		if (animate) {
 			Animation.run(400);
+		}
 	}
 
 	private static TopDownLayout getLayout() {

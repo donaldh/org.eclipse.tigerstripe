@@ -108,7 +108,7 @@ public abstract class DependencyDiagramEditor extends GraphicalEditor implements
 		GraphicalViewer viewer = getGraphicalViewer();
 		viewer.setContents(getModel()); // set the contents of this editor
 
-		if (Utils.ensureLayout(viewer)) {
+		if (Utils.ensureLayoutDown(viewer, false)) {
 			viewStateDirty = false;
 			getCommandStack().markSaveLocation();
 		}
