@@ -133,12 +133,6 @@
                label="Hide Stereotypes"
                menubarPath="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.hideShow/group1"
                style="toggle"/>
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action.HideOrderQualifiersToggleAction"
-               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action9"
-               label="Hide Order Qualifiers"
-               menubarPath="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.hideShow/group1"
-               style="toggle"/>
          <menu
                id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.hideShow"
                label="Hide/Show"

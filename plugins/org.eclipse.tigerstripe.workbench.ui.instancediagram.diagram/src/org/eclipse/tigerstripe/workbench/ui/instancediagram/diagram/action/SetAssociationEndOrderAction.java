@@ -143,7 +143,7 @@ public abstract class SetAssociationEndOrderAction extends
 				.getParent()).getContents();
 	}
 
-	private AssociationInstance getAssociationInstance() {
+	protected AssociationInstance getAssociationInstance() {
 		EObject object = getCorrespondingEObject();
 		if (object instanceof AssociationInstance) {
 			return (AssociationInstance) object;

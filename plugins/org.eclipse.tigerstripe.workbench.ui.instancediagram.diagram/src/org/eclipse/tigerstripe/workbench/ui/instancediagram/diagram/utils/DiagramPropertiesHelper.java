@@ -27,12 +27,9 @@ public class DiagramPropertiesHelper {
 
 	public final static String HIDEARTIFACTPACKAGES = "hideArtifactPackages";
 
-	public final static String HIDEORDERQUALIFIERS = "hideOrderQualifiers";
+	public final static String[] properties = { HIDEARTIFACTPACKAGES };
 
-	public final static String[] properties = { HIDEARTIFACTPACKAGES,
-			HIDEORDERQUALIFIERS };
-
-	public final static String[] propertiesDefaults = { "false", "true" };
+	public final static String[] propertiesDefaults = { "false" };
 
 	private final InstanceMap map;
 

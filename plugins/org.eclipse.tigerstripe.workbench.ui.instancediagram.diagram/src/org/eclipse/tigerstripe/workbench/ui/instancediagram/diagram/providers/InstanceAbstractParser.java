@@ -30,7 +30,6 @@ import org.eclipse.gmf.runtime.emf.type.core.requests.SetRequest;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.part.InstanceDiagramEditorPlugin;
-import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.utils.DiagramPropertiesHelper;
 
 /**
  * @generated
@@ -397,21 +396,6 @@ public abstract class InstanceAbstractParser implements IParser {
 		public String toString() {
 			return description;
 		}
-	}
-
-	protected boolean hideOrderedQualifiers() {
-		return getBooleanPropertyValue(
-				DiagramPropertiesHelper.HIDEORDERQUALIFIERS, true);
-	}
-
-	private boolean getBooleanPropertyValue(String property,
-			boolean defaultValue) {
-		if (currentMap != null) {
-			DiagramPropertiesHelper helper = new DiagramPropertiesHelper(
-					currentMap);
-			return Boolean.parseBoolean(helper.getPropertyValue(property));
-		}
-		return defaultValue;
 	}
 
 	protected void setCurrentMap(IAdaptable adapter) {

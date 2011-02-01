@@ -13,6 +13,8 @@ package org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.parts;
 import java.util.Collections;
 import java.util.List;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.draw2d.ConnectionLocator;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
@@ -41,6 +43,7 @@ import org.eclipse.gmf.runtime.emf.type.core.IElementType;
 import org.eclipse.gmf.runtime.emf.ui.services.parser.ISemanticParser;
 import org.eclipse.gmf.runtime.emf.ui.services.parser.ParserHintAdapter;
 import org.eclipse.gmf.runtime.notation.FontStyle;
+import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.NotationPackage;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
@@ -50,10 +53,17 @@ import org.eclipse.swt.accessibility.AccessibleEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
+import org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance;
+import org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.Activator;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.policies.InstanceTextSelectionEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.part.InstanceVisualIDRegistry;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.providers.InstanceElementTypes;
+import org.eclipse.tigerstripe.workbench.ui.instancediagram.util.NamedElementPropertiesHelper;
 
 /**
  * @generated
@@ -206,7 +216,7 @@ public class AssociationInstanceAEndNameEditPart extends LabelEditPart
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	protected String getLabelText() {
 		String text = null;
@@ -218,7 +228,61 @@ public class AssociationInstanceAEndNameEditPart extends LabelEditPart
 		if (text == null || text.length() == 0) {
 			text = defaultText;
 		}
-		return text;
+
+		Node node = (Node) getModel();
+		AssociationInstance instance = (AssociationInstance) node.getElement();
+		NamedElementPropertiesHelper helper = new NamedElementPropertiesHelper(
+				instance);
+		String detailsProp = helper
+				.getProperty(NamedElementPropertiesHelper.ASSOC_DETAILS);
+
+		StringBuilder result = new StringBuilder();
+		if (NamedElementPropertiesHelper.ASSOC_SHOW_NONE.equals(detailsProp)) {
+			return "";
+		} else if ((NamedElementPropertiesHelper.ASSOC_SHOW_ALL
+				.equals(detailsProp) || NamedElementPropertiesHelper.ASSOC_SHOW_NAME_ORDER
+				.equals(detailsProp))
+				&& isAEndIsOrdered(instance)) {
+			String order = instance.getAEndOrder();
+			if (order != null) {
+				result.append("{order=");
+				result.append(order);
+				result.append("} ");
+			}
+		}
+
+		if (!NamedElementPropertiesHelper.ASSOC_SHOW_NAME_ORDER
+				.equals(detailsProp)) {
+			result.append(text);
+		}
+
+		return result.toString();
+	}
+
+	private boolean isAEndIsOrdered(AssociationInstance association) {
+		// Before 230101 bug "is ordered" flag was ignored and flag value was
+		// always
+		// "false" during associations
+		// creation. So to support ordering on diagrams which was created before
+		// 230101 we should get
+		// "is ordered" flag from direct artifact instance.
+		try {
+			IAbstractArtifact artifact = association.getArtifact();
+			if (artifact != null && artifact instanceof IAssociationArtifact) {
+				IAssociationEnd end = ((IAssociationArtifact) artifact)
+						.getAEnd();
+				if (end != null) {
+					return end.isOrdered();
+				}
+			}
+		} catch (TigerstripeException e) {
+			Activator
+					.getDefault()
+					.getLog()
+					.log(new Status(IStatus.WARNING, Activator.PLUGIN_ID, e
+							.getLocalizedMessage(), e));
+		}
+		return association.isAEndIsOrdered();
 	}
 
 	/**

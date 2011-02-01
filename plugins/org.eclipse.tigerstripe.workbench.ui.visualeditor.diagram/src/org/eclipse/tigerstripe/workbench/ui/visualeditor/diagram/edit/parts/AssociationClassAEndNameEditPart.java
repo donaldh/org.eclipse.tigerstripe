@@ -57,7 +57,6 @@ import org.eclipse.tigerstripe.workbench.ui.internal.gmf.InitialDiagramPrefs;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorPackage;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.TigerstripeTextSelectionEditPolicy;
-import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.utils.ClassDiagramPartsUtils;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeVisualIDRegistry;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.TigerstripeElementTypes;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.util.NamedElementPropertiesHelper;
@@ -235,11 +234,14 @@ public class AssociationClassAEndNameEditPart extends LabelEditPart implements
 				|| NamedElementPropertiesHelper.ASSOC_SHOW_NAME
 						.equals(detailsProp)
 				|| NamedElementPropertiesHelper.ASSOC_SHOW_NONE
-						.equals(detailsProp))
+						.equals(detailsProp)) {
 			return "";
+		} else if (NamedElementPropertiesHelper.ASSOC_SHOW_ALL
+				.equals(detailsProp) && attr.isAEndIsOrdered()) {
+			text = "{ordered} " + text;
+		}
 
-		
-		return  text;
+		return text;
 	}
 
 	/**

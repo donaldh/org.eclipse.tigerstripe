@@ -79,8 +79,6 @@ public class InstanceMapEditPart extends DiagramEditPart implements TigerstripeE
 
 		if (DiagramPropertiesHelper.HIDEARTIFACTPACKAGES.equals(name)) {
 			refreshCompartmentLabels();
-		} else if (DiagramPropertiesHelper.HIDEORDERQUALIFIERS.equals(name)) {
-			refreshAssociationEndLabels();
 		}
 	}
 

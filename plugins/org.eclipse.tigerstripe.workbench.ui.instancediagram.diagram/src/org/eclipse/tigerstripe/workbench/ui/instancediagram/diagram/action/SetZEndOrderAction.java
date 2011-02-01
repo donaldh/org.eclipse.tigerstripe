@@ -43,4 +43,14 @@ public class SetZEndOrderAction extends SetAssociationEndOrderAction {
 	protected Instance getEndInstance(AssociationInstance association) {
 		return association.getZEnd();
 	}
+
+	@Override
+	protected boolean isEnabled() {
+		AssociationInstance instance = getAssociationInstance();
+		if (instance != null && instance.getArtifactName() != null) {
+			return super.isEnabled()
+					&& !instance.getArtifactName().endsWith("::aEnd");
+		}
+		return super.isEnabled();
+	}
 }

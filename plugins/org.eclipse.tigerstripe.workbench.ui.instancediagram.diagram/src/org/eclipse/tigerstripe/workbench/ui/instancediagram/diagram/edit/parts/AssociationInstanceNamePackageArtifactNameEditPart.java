@@ -59,6 +59,7 @@ import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.policie
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.part.InstanceVisualIDRegistry;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.providers.InstanceElementTypes;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.utils.DiagramPropertiesHelper;
+import org.eclipse.tigerstripe.workbench.ui.instancediagram.util.NamedElementPropertiesHelper;
 
 /**
  * @generated
@@ -222,6 +223,14 @@ public class AssociationInstanceNamePackageArtifactNameEditPart extends
 		}
 		AssociationInstance instance = (AssociationInstance) ((NodeImpl) this
 				.getModel()).getElement();
+		NamedElementPropertiesHelper helper = new NamedElementPropertiesHelper(
+				instance);
+		String detailsProp = helper
+				.getProperty(NamedElementPropertiesHelper.ASSOC_DETAILS);
+		if (NamedElementPropertiesHelper.ASSOC_SHOW_NONE.equals(detailsProp)) {
+			return "";
+		}
+
 		String packageName = instance.getPackage();
 		InstanceMap map = (InstanceMap) instance.eContainer();
 		String elemPackageName = null;

@@ -26,11 +26,6 @@ public class AssociationAEndParser extends AssociationEndParser {
 	}
 
 	@Override
-	protected boolean isEndIsOrdered(Association association) {
-		return association.isAEndIsOrdered();
-	}
-
-	@Override
 	protected Visibility getEndVisibility(Association association) {
 		return association.getAEndVisibility();
 	}

@@ -11,9 +11,11 @@
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers;
 
 import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Visibility;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorPackage;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.utils.ClassDiagramPartsUtils;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl;
 
@@ -25,8 +27,6 @@ public abstract class AssociationEndParser extends
 	}
 
 	protected abstract String getEndStereotypeNames(Association association);
-
-	protected abstract boolean isEndIsOrdered(Association association);
 
 	protected abstract Visibility getEndVisibility(Association association);
 
@@ -47,10 +47,6 @@ public abstract class AssociationEndParser extends
 			}
 		}
 
-		if (!hideOrderedQualifiers() && isEndIsOrdered(association)) {
-			result.append("{ordered} ");
-		}
-
 		// visibilityPrefix
 		result.append(ClassDiagramPartsUtils
 				.visibilityPrefix(getEndVisibility(association)));
@@ -58,5 +54,18 @@ public abstract class AssociationEndParser extends
 		result.append(super.getPrintString(adapter, flags));
 
 		return result.toString();
+	}
+
+	@Override
+	public boolean isAffectingEvent(Object event, int flags) {
+		if (event instanceof Notification) {
+			Object obj = ((Notification) event).getFeature();
+			if (VisualeditorPackage.eINSTANCE.getAssociation_AEndIsOrdered()
+					.equals(obj)
+					|| VisualeditorPackage.eINSTANCE
+							.getAssociation_ZEndIsOrdered().equals(obj))
+				return true;
+		}
+		return super.isAffectingEvent(event, flags);
 	}
 }

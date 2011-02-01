@@ -9,14 +9,21 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action;
+package org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.action;
 
-import org.eclipse.tigerstripe.workbench.ui.visualeditor.util.DiagramPropertiesHelper;
+import org.eclipse.tigerstripe.workbench.ui.instancediagram.util.NamedElementPropertiesHelper;
+import org.eclipse.ui.IObjectActionDelegate;
 
-public class HideOrderQualifiersToggleAction extends DiagramToggleAction {
+public class AssociationShowNameEndsNamesAction extends
+		BaseAssociationToggleAction implements IObjectActionDelegate {
 
 	@Override
-	protected String getTargetProperty() {
-		return DiagramPropertiesHelper.HIDEORDERQUALIFIERS;
+	public String getTargetPropertyKey() {
+		return NamedElementPropertiesHelper.ASSOC_DETAILS;
+	}
+
+	@Override
+	public String getTargetPropertyValue() {
+		return NamedElementPropertiesHelper.ASSOC_SHOW_NAME_ENDSNAMES;
 	}
 }

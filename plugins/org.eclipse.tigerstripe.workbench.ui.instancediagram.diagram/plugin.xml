@@ -80,12 +80,6 @@
                label="Hide Artifact Packages"
                menubarPath="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.hideShow/group1"
                style="toggle"/>
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.action.HideOrderQualifiersToggleAction"
-               id="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.action10"
-               label="Hide Order Qualifiers"
-               menubarPath="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.hideShow/group1"
-               style="toggle"/>
          <menu
                id="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.hideShow"
                label="Hide/Show"
@@ -123,6 +117,41 @@
                label="zEnd"
                menubarPath="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.setOrder/group2">
          </action>
+      </objectContribution>
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.AssociationInstanceContribution"
+            objectClass="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.parts.AssociationInstanceEditPart">
+         <menu
+               id="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.associationHideShowMenu"
+               label="Hide/Show Details..."
+               path="additions">
+            <separator name="content"/>
+         </menu>
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.action.AssociationShowNoneAction"
+               id="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.associationShowNone"
+               label="None"
+               menubarPath="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.associationHideShowMenu/content"
+               style="radio"/>
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.action.AssociationShowNameEndsNamesAction"
+               id="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.associationShowNameEndsNames"
+               label="Assoc. name and Names of ends"
+               menubarPath="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.associationHideShowMenu/content"
+               style="radio"/>
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.action.AssociationShowNameOrderAction"
+               id="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.associationShowNameOrder"
+               label="Assoc. name and Order"
+               menubarPath="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.associationHideShowMenu/content"
+               style="radio"/>
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.action.AssociationShowAllAction"
+               id="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.associationShowAll"
+               label="All"
+               menubarPath="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.associationHideShowMenu/content"
+               style="radio"/>
       </objectContribution>
   </extension>
 

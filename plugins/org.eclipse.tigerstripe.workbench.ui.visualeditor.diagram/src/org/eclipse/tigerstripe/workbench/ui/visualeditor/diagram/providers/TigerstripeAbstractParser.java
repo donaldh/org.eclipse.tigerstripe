@@ -435,11 +435,6 @@ public abstract class TigerstripeAbstractParser implements IParser {
 				true);
 	}
 
-	protected boolean hideOrderedQualifiers() {
-		return getBooleanPropertyValue(
-				DiagramPropertiesHelper.HIDEORDERQUALIFIERS, true);
-	}
-
 	protected boolean hideDefaultValues() {
 		return getBooleanPropertyValue(
 				DiagramPropertiesHelper.HIDEDEFAULTVALUES, false);

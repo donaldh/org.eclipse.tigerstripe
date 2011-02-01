@@ -13,7 +13,6 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts;
 import java.util.Collections;
 import java.util.List;
 
-import org.apache.tools.ant.types.Assertions.EnabledAssertion;
 import org.eclipse.draw2d.ConnectionLocator;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.Label;
@@ -58,7 +57,6 @@ import org.eclipse.tigerstripe.workbench.ui.internal.gmf.InitialDiagramPrefs;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorPackage;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.TigerstripeTextSelectionEditPolicy;
-import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.utils.ClassDiagramPartsUtils;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeVisualIDRegistry;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.TigerstripeElementTypes;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationImpl;
@@ -252,8 +250,12 @@ public class AssociationAEndNameEditPart extends LabelEditPart implements
 				|| NamedElementPropertiesHelper.ASSOC_SHOW_NAME
 						.equals(detailsProp)
 				|| NamedElementPropertiesHelper.ASSOC_SHOW_NONE
-						.equals(detailsProp))
+						.equals(detailsProp)) {
 			return "";
+		} else if (NamedElementPropertiesHelper.ASSOC_SHOW_ALL
+				.equals(detailsProp) && attr.isAEndIsOrdered()) {
+			text = "{ordered} " + text;
+		}
 
 		return text;
 	}

@@ -183,7 +183,7 @@ public class InstanceParserProvider extends AbstractProvider implements
 	 * @generated NOT
 	 */
 	protected IParser createAssociationInstanceAssociationInstanceAEndName_4004Parser() {
-		InstanceStructuralFeatureParser parser = new AssociationAEndParser(
+		InstanceStructuralFeatureParser parser = new AssociationEndParser(
 				InstancediagramPackage.eINSTANCE.getAssociationInstance()
 						.getEStructuralFeature("aEndName")); //$NON-NLS-1$
 		return parser;
@@ -239,7 +239,7 @@ public class InstanceParserProvider extends AbstractProvider implements
 	 * @generated NOT
 	 */
 	protected IParser createAssociationInstanceAssociationInstanceZEndName_4006Parser() {
-		InstanceStructuralFeatureParser parser = new AssociationZEndParser(
+		InstanceStructuralFeatureParser parser = new AssociationEndParser(
 				InstancediagramPackage.eINSTANCE.getAssociationInstance()
 						.getEStructuralFeature("zEndName")); //$NON-NLS-1$
 		return parser;

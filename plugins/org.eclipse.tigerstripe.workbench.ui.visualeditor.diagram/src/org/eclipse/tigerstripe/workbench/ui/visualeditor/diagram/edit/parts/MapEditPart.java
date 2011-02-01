@@ -197,8 +197,6 @@ public class MapEditPart extends DiagramEditPart {
 			refreshCompartmentLabels();
 		} else if (DiagramPropertiesHelper.HIDESTEREOTYPES.equals(name)) {
 			refreshStereotypeLabels();
-		} else if (DiagramPropertiesHelper.HIDEORDERQUALIFIERS.equals(name)) {
-			refreshOrderQualifiersLabels();
 		} else if (DiagramPropertiesHelper.HIDEARTIFACTPACKAGES.equals(name)) {
 			refreshNamePackageLabels();
 		}
@@ -246,11 +244,6 @@ public class MapEditPart extends DiagramEditPart {
 			}
 		}
 
-	}
-
-	private void refreshOrderQualifiersLabels() {
-		Map map = (Map) ((Diagram) getModel()).getElement();
-		refreshAssociations(map);
 	}
 
 	private void refreshAssociations(Map map) {

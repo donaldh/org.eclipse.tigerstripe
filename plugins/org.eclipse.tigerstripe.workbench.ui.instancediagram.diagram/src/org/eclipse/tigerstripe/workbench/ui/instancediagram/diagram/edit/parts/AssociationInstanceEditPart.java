@@ -30,12 +30,15 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.AggregationEnum;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
+import org.eclipse.tigerstripe.workbench.ui.instancediagram.DiagramProperty;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.policies.AssociationInstanceItemSemanticEditPolicy;
+import org.eclipse.tigerstripe.workbench.ui.instancediagram.util.NamedElementPropertiesHelper;
 
 /**
- * @generated
+ * @generated NOT
  */
-public class AssociationInstanceEditPart extends ConnectionNodeEditPart implements TigerstripeEditableEntityEditPart{
+public class AssociationInstanceEditPart extends ConnectionNodeEditPart
+		implements TigerstripeEditableEntityEditPart, PropertyAwarePart {
 
 	/**
 	 * @generated
@@ -355,4 +358,23 @@ public class AssociationInstanceEditPart extends ConnectionNodeEditPart implemen
 		return null;
 	}
 
+	// As a result of implementing PropertyAwarePart, this method is called
+	// whenever a local property is changed on this part
+	public void propertyChanged(DiagramProperty property) {
+		if (NamedElementPropertiesHelper.ASSOC_DETAILS.equals(property
+				.getName())) {
+			for (Object obj : getChildren()) {
+				if (obj instanceof AssociationInstanceAEndNameEditPart) {
+					AssociationInstanceAEndNameEditPart part = (AssociationInstanceAEndNameEditPart) obj;
+					part.refresh();
+				} else if (obj instanceof AssociationInstanceZEndNameEditPart) {
+					AssociationInstanceZEndNameEditPart part = (AssociationInstanceZEndNameEditPart) obj;
+					part.refresh();
+				} else if (obj instanceof AssociationInstanceNamePackageArtifactNameEditPart) {
+					AssociationInstanceNamePackageArtifactNameEditPart part = (AssociationInstanceNamePackageArtifactNameEditPart) obj;
+					part.refresh();
+				}
+			}
+		}
+	}
 }

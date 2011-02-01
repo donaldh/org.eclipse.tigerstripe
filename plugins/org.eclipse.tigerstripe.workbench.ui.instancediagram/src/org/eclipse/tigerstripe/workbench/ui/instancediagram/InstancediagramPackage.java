@@ -79,12 +79,21 @@ public interface InstancediagramPackage extends EPackage {
 	int NAMED_ELEMENT__NAME = 0;
 
 	/**
+	 * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAMED_ELEMENT__PROPERTIES = 1;
+
+	/**
 	 * The number of structural features of the '<em>Named Element</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int NAMED_ELEMENT_FEATURE_COUNT = 1;
+	int NAMED_ELEMENT_FEATURE_COUNT = 2;
 
 	/**
 	 * The meta object id for the '{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.impl.TypedElementImpl <em>Typed Element</em>}' class.
@@ -103,6 +112,15 @@ public interface InstancediagramPackage extends EPackage {
 	 * @ordered
 	 */
 	int TYPED_ELEMENT__NAME = NAMED_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPED_ELEMENT__PROPERTIES = NAMED_ELEMENT__PROPERTIES;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute. <!--
@@ -146,6 +164,15 @@ public interface InstancediagramPackage extends EPackage {
 	 * @ordered
 	 */
 	int VARIABLE__NAME = TYPED_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int VARIABLE__PROPERTIES = TYPED_ELEMENT__PROPERTIES;
 
 	/**
 	 * The feature id for the '<em><b>Type</b></em>' attribute. <!--
@@ -200,6 +227,15 @@ public interface InstancediagramPackage extends EPackage {
 	int INSTANCE__NAME = NAMED_ELEMENT__NAME;
 
 	/**
+	 * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int INSTANCE__PROPERTIES = NAMED_ELEMENT__PROPERTIES;
+
+	/**
 	 * The feature id for the '<em><b>Package</b></em>' attribute. <!--
 	 * begin-user-doc --> <!-- end-user-doc -->
 	 * 
@@ -241,6 +277,15 @@ public interface InstancediagramPackage extends EPackage {
 	 * @ordered
 	 */
 	int CLASS_INSTANCE__NAME = INSTANCE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLASS_INSTANCE__PROPERTIES = INSTANCE__PROPERTIES;
 
 	/**
 	 * The feature id for the '<em><b>Package</b></em>' attribute. <!--
@@ -308,6 +353,15 @@ public interface InstancediagramPackage extends EPackage {
 	 * @ordered
 	 */
 	int ASSOCIATION_INSTANCE__NAME = INSTANCE__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Properties</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSOCIATION_INSTANCE__PROPERTIES = INSTANCE__PROPERTIES;
 
 	/**
 	 * The feature id for the '<em><b>Package</b></em>' attribute. <!--
@@ -621,6 +675,17 @@ public interface InstancediagramPackage extends EPackage {
 	 * @generated
 	 */
 	EAttribute getNamedElement_Name();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.NamedElement#getProperties <em>Properties</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Properties</em>'.
+	 * @see org.eclipse.tigerstripe.workbench.ui.instancediagram.NamedElement#getProperties()
+	 * @see #getNamedElement()
+	 * @generated
+	 */
+	EReference getNamedElement_Properties();
 
 	/**
 	 * Returns the meta object for class '{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.Variable <em>Variable</em>}'.
@@ -1081,6 +1146,14 @@ public interface InstancediagramPackage extends EPackage {
 		 * @generated
 		 */
 		EAttribute NAMED_ELEMENT__NAME = eINSTANCE.getNamedElement_Name();
+
+		/**
+		 * The meta object literal for the '<em><b>Properties</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference NAMED_ELEMENT__PROPERTIES = eINSTANCE.getNamedElement_Properties();
 
 		/**
 		 * The meta object literal for the '{@link org.eclipse.tigerstripe.workbench.ui.instancediagram.impl.VariableImpl <em>Variable</em>}' class.

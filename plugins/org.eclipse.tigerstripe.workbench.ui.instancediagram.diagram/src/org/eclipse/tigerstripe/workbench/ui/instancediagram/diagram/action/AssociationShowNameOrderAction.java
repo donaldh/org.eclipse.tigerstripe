@@ -11,12 +11,19 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.action;
 
-import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.utils.DiagramPropertiesHelper;
+import org.eclipse.tigerstripe.workbench.ui.instancediagram.util.NamedElementPropertiesHelper;
+import org.eclipse.ui.IObjectActionDelegate;
 
-public class HideOrderQualifiersToggleAction extends DiagramToggleAction {
+public class AssociationShowNameOrderAction extends BaseAssociationToggleAction
+		implements IObjectActionDelegate {
 
 	@Override
-	protected String getTargetProperty() {
-		return DiagramPropertiesHelper.HIDEORDERQUALIFIERS;
+	public String getTargetPropertyKey() {
+		return NamedElementPropertiesHelper.ASSOC_DETAILS;
+	}
+
+	@Override
+	public String getTargetPropertyValue() {
+		return NamedElementPropertiesHelper.ASSOC_SHOW_NAME_ORDER;
 	}
 }
