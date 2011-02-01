@@ -366,8 +366,8 @@ public abstract class TemplateBasedRule extends Rule implements
 				.getBaseDir().getCanonicalPath());
 
 		// JS - DEBUG
-		System.out.println("***** file.resource.loader.path = "
-				+ getContainingDescriptor().getBaseDir().getCanonicalPath());
+//		System.out.println("***** file.resource.loader.path = "
+//				+ getContainingDescriptor().getBaseDir().getCanonicalPath());
 
 		properties.put("file.resource.loader.cache", "true");
 		properties.put("file.resource.loader.modificationCheckInterval", "2");
