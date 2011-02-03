@@ -139,10 +139,10 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	protected Collection<IMethod> inheritedMethods = null;
 
 	/** The list of artifacts that are extending "this". */
-	private Collection<IAbstractArtifact> extendingArtifacts = new ArrayList<IAbstractArtifact>();
+	private final Collection<IAbstractArtifact> extendingArtifacts = new ArrayList<IAbstractArtifact>();
 
 	/** The map of RefComments for this artifact */
-	private HashMap<String, RefComment> refComments = new HashMap<String, RefComment>();
+	private final HashMap<String, RefComment> refComments = new HashMap<String, RefComment>();
 
 	/** The artifact referenced by the extends clause */
 	private AbstractArtifact extendsArtifact;
@@ -158,7 +158,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	private IModelComponent containingModelComponent;
 
 	/** The artifacts referenced by the "implements" clause */
-	private List<IAbstractArtifact> implementedArtifacts = new ArrayList<IAbstractArtifact>();
+	private final List<IAbstractArtifact> implementedArtifacts = new ArrayList<IAbstractArtifact>();
 
 	/** The javaclass that this artifact was extracted from */
 	protected JavaClass javaClass;
@@ -1502,7 +1502,13 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 						IAbstractArtifact parent = getProject()
 								.getArtifactManagerSession()
 								.getArtifactByFullyQualifiedName(getPackage());
-						if (parent == null) {
+						IResource parentResource = null;
+						if (parent != null) {
+							parentResource = (IResource) parent
+									.getAdapter(IResource.class);
+						}
+						if (parent == null || parentResource == null
+								|| !parentResource.exists()) {
 							// Better make one
 							// System.out.println("Making "+getPackage());
 							parent = getProject().getArtifactManagerSession()
@@ -1510,9 +1516,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 											IPackageArtifact.class.getName());
 							parent.setFullyQualifiedName(getPackage());
 							parent.doSave(monitor);
-
 						}
-
 					}
 				}
 
