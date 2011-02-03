@@ -3,6 +3,8 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.header;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
@@ -74,6 +76,7 @@ public class ProjectDefaultsSection extends TigerstripeDescriptorSectionPart {
 		createContent();
 	}
 
+	@Override
 	protected void createContent() {
 		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
 		td.colspan = 2;
@@ -127,8 +130,15 @@ public class ProjectDefaultsSection extends TigerstripeDescriptorSectionPart {
 		idText2.setLayoutData(td);
 		idText2.addModifyListener(listener);
 		idText2.setEnabled(!this.isReadonly());
+		idText2.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				if (idText2 != null && !idText2.isDisposed()) {
+					idText2.setSelection(0);
+				}
+			}
+		});
 		idLabel2.setEnabled(!this.isReadonly());
-
 	}
 
 	/**
@@ -150,6 +160,7 @@ public class ProjectDefaultsSection extends TigerstripeDescriptorSectionPart {
 		return this.silentUpdate;
 	}
 
+	@Override
 	public void commit(boolean onSave) {
 		super.commit(onSave);
 	}
@@ -192,6 +203,7 @@ public class ProjectDefaultsSection extends TigerstripeDescriptorSectionPart {
 		editor.pageModified();
 	}
 
+	@Override
 	public void refresh() {
 		updateForm();
 	}

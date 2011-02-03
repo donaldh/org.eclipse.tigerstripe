@@ -14,6 +14,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
@@ -191,6 +193,14 @@ public class GeneralInfoSection extends TigerstripeDescriptorSectionPart
 		descriptionText.addModifyListener(new GeneralInfoPageListener());
 		descriptionText.setEnabled(!this.isReadonly());
 		descriptionLabel.setEnabled(!this.isReadonly());
+		descriptionText.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				if (descriptionText != null && !descriptionText.isDisposed()) {
+					descriptionText.setSelection(0);
+				}
+			}
+		});
 	}
 
 	/**

@@ -14,6 +14,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CCombo;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
@@ -155,6 +157,14 @@ public class GeneralInfoSection extends GeneratorDescriptorSectionPart implement
 		if (GeneratorDescriptorEditor.isEditable())
 			descriptionText.addModifyListener(new GeneralInfoPageListener());
 		descriptionText.setEnabled(GeneratorDescriptorEditor.isEditable());
+		descriptionText.addFocusListener(new FocusAdapter() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				if (descriptionText != null && !descriptionText.isDisposed()) {
+					descriptionText.setSelection(0);
+				}
+			}
+		});
 	}
 
 	private void createProvider(Composite parent, FormToolkit toolkit) {
