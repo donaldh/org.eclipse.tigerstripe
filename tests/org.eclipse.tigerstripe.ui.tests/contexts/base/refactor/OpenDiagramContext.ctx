@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.scenario:GroupContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" name="OpenDiagramContext" id="_WBJSgM0UEd-6Q5V9pxn_5A">
+  <contextReferences>_Kt4xMMz2Ed-ncakhinV22g</contextReferences>
+  <contextReferences>_CJytkM0UEd-6Q5V9pxn_5A</contextReferences>
+  <contextReferences>_FGfSUKthEd-v8JwXbnu_tQ</contextReferences>
+</com.xored.q7.scenario:GroupContext>

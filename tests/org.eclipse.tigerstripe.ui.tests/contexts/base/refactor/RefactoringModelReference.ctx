@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="RefactoringModelReferenceWorkspace" id="_NmmqwMz2Ed-ncakhinV22g" clearWorkspace="false">
+  <content>
+    <projects name="model-refactoring-reference">
+      <files name=".classpath" contentURI=".RefactoringModelReferencectx/content1.classpath"/>
+      <files name=".project" contentURI=".RefactoringModelReferencectx/content1.project"/>
+      <files name="tigerstripe.xml" contentURI=".RefactoringModelReferencectx/content1.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".RefactoringModelReferencectx/content1.prefs"/>
+      </folders>
+      <folders name="src">
+        <folders name="simple">
+          <files name=".package" contentURI=".RefactoringModelReferencectx/content1.package"/>
+          <files name="Association3.java" contentURI=".RefactoringModelReferencectx/content1.java"/>
+          <files name="AssociationClass1.java" contentURI=".RefactoringModelReferencectx/content2.java"/>
+          <files name="Dependency1.java" contentURI=".RefactoringModelReferencectx/content3.java"/>
+          <files name="Ent3.java" contentURI=".RefactoringModelReferencectx/content4.java"/>
+          <files name="Query1.java" contentURI=".RefactoringModelReferencectx/content5.java"/>
+          <files name="classDiagram.vwm" contentURI=".RefactoringModelReferencectx/content1.vwm"/>
+          <files name="classDiagram.wvd" contentURI=".RefactoringModelReferencectx/content1.wvd"/>
+          <files name="instanceDiagram.owm" contentURI=".RefactoringModelReferencectx/content1.owm"/>
+          <files name="instanceDiagram.wod" contentURI=".RefactoringModelReferencectx/content1.wod"/>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.scenario:GroupContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" name="RefactoringContextGroup" id="_NG89gMz6Ed-6Q5V9pxn_5A">
+  <contextReferences>_FGfSUKthEd-v8JwXbnu_tQ</contextReferences>
+  <contextReferences>_9D6jAatgEd-v8JwXbnu_tQ</contextReferences>
+  <contextReferences>_Kt4xMMz2Ed-ncakhinV22g</contextReferences>
+</com.xored.q7.scenario:GroupContext>

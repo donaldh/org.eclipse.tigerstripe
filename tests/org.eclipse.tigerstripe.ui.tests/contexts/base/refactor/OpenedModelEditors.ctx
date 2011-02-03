@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.scenario:WorkbenchContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" name="OpenedModelDiagrams" id="_CJytkM0UEd-6Q5V9pxn_5A" perspectiveId="" noModalDialogs="false">
+  <editors xsi:type="com.xored.q7.scenario:FileEditor" path="/model-refactoring/src/simple/default.wvd"/>
+  <editors xsi:type="com.xored.q7.scenario:FileEditor" path="/model-refactoring/src/simple/moved/inside-moved.wvd"/>
+  <editors xsi:type="com.xored.q7.scenario:FileEditor" path="/model-refactoring/outside-class-diagram.wvd"/>
+</com.xored.q7.scenario:WorkbenchContext>

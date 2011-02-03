@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instancediagram:InstanceMap xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:instancediagram="org.eclipse.tigerstripe.workbench.ui.instancediagram" basePackage="simple">
+  <classInstances name="Ent3" package="simple" artifactName="Ent3">
+    <variables name="attribute0" type="Ent1" value="Ent1"/>
+  </classInstances>
+  <classInstances name="Ent1" package="simple" artifactName="Ent1"/>
+  <classInstances name="AssociationClass0" package="simple" artifactName="AssocClass0" associations="//@associationInstances.2 //@associationInstances.3" associationClassInstance="true"/>
+  <classInstances name="AssociationClass1" package="simple" artifactName="AssocClass1" associations="//@associationInstances.4 //@associationInstances.5" associationClassInstance="true"/>
+  <associationInstances name="Association3" package="simple" aEnd="//@classInstances.0" aEndName="ent3" zEnd="//@classInstances.1" zEndName="ent1" zEndIsNavigable="true"/>
+  <associationInstances name="Association1" package="simple" aEnd="//@classInstances.1" aEndName="ent1_1" zEnd="//@classInstances.0" zEndName="ent1_2" zEndIsNavigable="true"/>
+  <associationInstances name="AssociationClass0" package="simple" artifactName="AssocClass0::zEnd" aEnd="//@classInstances.2" aEndName="" aEndMultiplicityLowerBound="1" aEndMultiplicityUpperBound="" zEnd="//@classInstances.1" zEndName="ent1_4" zEndMultiplicityLowerBound="1" zEndMultiplicityUpperBound="" zEndIsNavigable="true"/>
+  <associationInstances name="AssociationClass0" package="simple" artifactName="AssocClass0::aEnd" aEnd="//@classInstances.0" aEndName="ent1_3" aEndMultiplicityLowerBound="1" aEndMultiplicityUpperBound="" zEnd="//@classInstances.2" zEndName="" zEndMultiplicityLowerBound="1" zEndMultiplicityUpperBound=""/>
+  <associationInstances name="AssociationClass1" package="simple" artifactName="AssocClass1::aEnd" aEnd="//@classInstances.0" aEndName="ent3_0" aEndMultiplicityLowerBound="1" aEndMultiplicityUpperBound="" zEnd="//@classInstances.3" zEndName="" zEndMultiplicityLowerBound="1" zEndMultiplicityUpperBound=""/>
+  <associationInstances name="AssociationClass1" package="simple" artifactName="AssocClass1::zEnd" aEnd="//@classInstances.3" aEndName="" aEndMultiplicityLowerBound="1" aEndMultiplicityUpperBound="" zEnd="//@classInstances.1" zEndName="ent1_1" zEndMultiplicityLowerBound="1" zEndMultiplicityUpperBound="" zEndIsNavigable="true"/>
+</instancediagram:InstanceMap>
