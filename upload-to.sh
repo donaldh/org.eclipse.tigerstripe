@@ -28,5 +28,4 @@ esac
  
 echo "Uploading build ${PROMOTED_BUILD} to $SITE_NAME"
 cd ${WORKSPACE}/../builds/${PROMOTED_BUILD}/archive/target/site
-chmod -R 644 *
-scp -rv * jstrawn@download1.eclipse.org:"$SITE"
+scp -rv * edillon@download1.eclipse.org:"$SITE"
