@@ -60,10 +60,10 @@
 		<module>plugins/org.eclipse.tigerstripe.releng</module>
 		<module>releng/org.eclipse.tigerstripe.update-site</module>
 
-		<!-- ui test plugins -->
+		<!-- ui test plugins 
 		<module>releng/org.eclipse.tigerstripe.rcp</module>
 		<module>tests/org.eclipse.tigerstripe.ui.tests</module>
-		
+		-->
 		
 		<!-- test plugins --> 
 		<module>plugins/org.eclipse.tigerstripe.test_common</module>
