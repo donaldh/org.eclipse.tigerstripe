@@ -1690,11 +1690,18 @@
 		    menuGroupId="tigerstripe.commons"
 		    wizardId="org.eclipse.tigerstripe.workbench.ui.wizards.newVelocityTemplateWizard">
 			<enablement>
-		    	<adapt type="org.eclipse.core.resources.IResource">
-		          <test
-		                property="org.eclipse.core.resources.projectNature"
-		                value="org.eclipse.tigerstripe.workbench.base.tigerstripePluginProject" />
-		       </adapt>
+				<or>
+		    		<adapt type="org.eclipse.core.resources.IResource">
+		          		<test
+		                	property="org.eclipse.core.resources.projectNature"
+		                	value="org.eclipse.tigerstripe.workbench.base.tigerstripePluginProject" />
+		        	</adapt>
+		        	<adapt type="org.eclipse.core.resources.IResource">
+		          		<test
+		                	property="org.eclipse.core.resources.projectNature"
+		                	value="org.eclipse.tigerstripe.workbench.base.m0GeneratorProject" />
+		        	</adapt>
+		        </or>
 		     </enablement>
 		</commonWizard>
    </extension>

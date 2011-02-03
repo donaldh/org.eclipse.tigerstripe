@@ -47,6 +47,8 @@ import org.eclipse.ui.part.DrillDownComposite;
 public class NewVelocityWizardPage extends WizardPage {
 
 	private final String GENERATOR_PROJECT_NATURE_ID = "org.eclipse.tigerstripe.workbench.base.tigerstripePluginProject";
+
+	private final String M0_GENERATOR_PROJECT_NATURE_ID = "org.eclipse.tigerstripe.workbench.base.m0GeneratorProject";
 	private ContainerSelectionGroup targetContainer;
 	private Text fFilenameText = null;
 	private boolean fCanFinish = false;
@@ -362,8 +364,9 @@ public class NewVelocityWizardPage extends WizardPage {
 							.getProjects()) {
 						try {
 							if (project.isOpen()
-									&& project
-											.getNature(GENERATOR_PROJECT_NATURE_ID) != null) {
+									&& (project
+											.getNature(GENERATOR_PROJECT_NATURE_ID) != null || project
+											.getNature(M0_GENERATOR_PROJECT_NATURE_ID) != null)) {
 								result.add(project);
 							}
 						} catch (CoreException e) {
