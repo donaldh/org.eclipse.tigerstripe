@@ -726,6 +726,7 @@ public class AssociationInstanceEditDialog extends TSMessageDialog {
 					// OK button
 					selectedType = buttonLabels[0];
 					selectedName = (String) associationMap.keySet().toArray()[0];
+					close();
 					return IDialogConstants.OK_ID;
 				}
 			}
