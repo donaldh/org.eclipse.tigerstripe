@@ -485,8 +485,12 @@ public abstract class TigerstripeProjectHandle extends
 
 	public PluginRunStatus[] generate(IM1RunConfig config,
 			IProgressMonitor monitor) throws TigerstripeException {
+	    
 		M1Generator generator = new M1Generator(this, (M1RunConfig) config);
-		return generator.run();
+		if (monitor == null)
+		    return generator.run();
+		else
+		    return generator.run(monitor);
 	}
 
 	// ========================================
