@@ -349,16 +349,22 @@ public class ClassInstanceItemSemanticEditPolicy extends
 							boolean matchingLinkExists = false;
 							String relationshipStr = "";
 							if (aEndIsSingle && zEndIsSingle) {
-								matchingLinkExists = (assoc.getAEnd() == (Instance) getSource() || assoc
-										.getZEnd() == (Instance) getTarget());
+								matchingLinkExists = assoc.getAEnd() == getSource()
+										|| assoc.getZEnd() == getTarget()
+										|| assoc.getZEnd() == getSource()
+										|| assoc.getAEnd() == getTarget();
 								relationshipStr = "one to one";
 							} else if (aEndIsSingle) {
-								matchingLinkExists = (assoc.getAEnd() != (Instance) getSource() && assoc
-										.getZEnd() == (Instance) getTarget());
+								matchingLinkExists = (assoc.getAEnd() != getSource() && assoc
+										.getZEnd() == getTarget())
+										|| (assoc.getAEnd() != getTarget() && assoc
+												.getZEnd() == getSource());
 								relationshipStr = "one to many";
 							} else if (zEndIsSingle) {
-								matchingLinkExists = (assoc.getAEnd() == (Instance) getSource() && assoc
-										.getZEnd() != (Instance) getTarget());
+								matchingLinkExists = (assoc.getAEnd() == getSource() && assoc
+										.getZEnd() != getTarget())
+										|| (assoc.getAEnd() == getTarget() && assoc
+												.getZEnd() != getSource());
 								relationshipStr = "many to one";
 							}
 							// if a matching link exists, check to make sure
@@ -451,14 +457,16 @@ public class ClassInstanceItemSemanticEditPolicy extends
 						if (instance.getArtifact().getFullyQualifiedName()
 								.equals(artifact.getFullyQualifiedName())) {
 							if ( aEndIsSingle ) {
-								if (getTarget() == instance.getZEnd()) {
+								if (getTarget() == instance.getZEnd()
+										|| getSource() == instance.getZEnd()) {
 									matchingLinkExists = true;
 									break;
 								}
 							} 
 							
 							if (zEndIsSingle) {
-								if ( getSource() == instance.getAEnd()) {
+								if (getSource() == instance.getAEnd()
+										|| getTarget() == instance.getAEnd()) {
 									matchingLinkExists = true;
 									break;
 								}
