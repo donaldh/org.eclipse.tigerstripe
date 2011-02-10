@@ -989,17 +989,19 @@ public class Registry {
 				}
 				subject.getSourceConnections().clear();
 
-				Kind kind = subject.getKind();
+				Kind targetKind = null;
 				for (Kind k : toSave.getKinds()) {
-					if (kind.getId().equals(k.getId())) {
-						subject.setKind(k);
+					if (subject.getKind().getId().equals(k.getId())) {
+						targetKind = k;
 						break;
 					}
 				}
 
-				saveSubject(subject, shapes);
+				if (targetKind != null) {
+					subject.setKind(targetKind);
+					saveSubject(subject, shapes);
+				}
 			}
-
 		}
 		return toSave;
 	}
