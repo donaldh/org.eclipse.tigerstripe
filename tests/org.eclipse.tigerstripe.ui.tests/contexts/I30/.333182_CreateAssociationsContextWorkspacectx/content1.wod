@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:instancediagram="org.eclipse.tigerstripe.workbench.ui.instancediagram" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="_C2B80DBOEeCioZSlbseYXA" type="Instance" name="default.wod" measurementUnit="Pixel">
+  <children xmi:type="notation:Node" xmi:id="_EjarsDBOEeCioZSlbseYXA" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_EjbSwDBOEeCioZSlbseYXA" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_EjbSwTBOEeCioZSlbseYXA" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_EjbSwjBOEeCioZSlbseYXA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_EjbSwzBOEeCioZSlbseYXA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_EjbSxDBOEeCioZSlbseYXA"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_EjarsTBOEeCioZSlbseYXA" fontName="Segoe UI"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_EjarsjBOEeCioZSlbseYXA"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_EjarszBOEeCioZSlbseYXA" fillColor="13825530"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_EjartDBOEeCioZSlbseYXA"/>
+    <element xmi:type="instancediagram:ClassInstance" href="default.owm#//@classInstances.0"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_EjartTBOEeCioZSlbseYXA" x="234" y="82"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_FM4fcDBOEeCioZSlbseYXA" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_FM5GgDBOEeCioZSlbseYXA" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_FM5GgTBOEeCioZSlbseYXA" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_FM5GgjBOEeCioZSlbseYXA"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_FM5GgzBOEeCioZSlbseYXA"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_FM5GhDBOEeCioZSlbseYXA"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_FM4fcTBOEeCioZSlbseYXA" fontName="Segoe UI"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_FM4fcjBOEeCioZSlbseYXA"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_FM4fczBOEeCioZSlbseYXA" fillColor="13825530"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_FM4fdDBOEeCioZSlbseYXA"/>
+    <element xmi:type="instancediagram:ClassInstance" href="default.owm#//@classInstances.1"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_FM4fdTBOEeCioZSlbseYXA" x="477" y="95"/>
+  </children>
+  <styles xmi:type="notation:PageStyle" xmi:id="_C2B80TBOEeCioZSlbseYXA"/>
+  <styles xmi:type="notation:GuideStyle" xmi:id="_C2B80jBOEeCioZSlbseYXA"/>
+  <styles xmi:type="notation:DescriptionStyle" xmi:id="_C2B80zBOEeCioZSlbseYXA"/>
+  <element xmi:type="instancediagram:InstanceMap" href="default.owm#/"/>
+</notation:Diagram>
