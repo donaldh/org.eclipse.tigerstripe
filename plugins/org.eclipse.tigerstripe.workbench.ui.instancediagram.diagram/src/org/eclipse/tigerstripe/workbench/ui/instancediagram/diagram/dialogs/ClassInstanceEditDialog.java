@@ -1053,6 +1053,8 @@ public class ClassInstanceEditDialog extends NewTSMessageDialog {
 				}
 			}
 
+			Collections.sort(possibleElements);
+
 			return possibleElements
 					.toArray(new String[possibleElements.size()]);
 		}
