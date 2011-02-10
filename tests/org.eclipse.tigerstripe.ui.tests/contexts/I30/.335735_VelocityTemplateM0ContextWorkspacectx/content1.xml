@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<m0-generator>
+<project modelId="" name="">
+<outputDirectory>target/tigerstripe.gen</outputDirectory>
+<version>0.0.0</version>
+<description/>
+<provider/>
+<property name="defaultArtifactPackage">com.mycompany</property>
+</project>
+<pluginNature type="M0"/>
+<logger defautLevel="0" isEnabled="false" logPath="null.log" maxRoll="9"/>
+<globalProperties/>
+<globalRules/>
+<classpathEntries/>
+<additionalFiles/>
+<advanced/>
+</m0-generator>

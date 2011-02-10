@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="335735_VelocityTemplateM0ContextWorkspace" id="_b_t2gTAsEeCxNYnw9sYIxQ">
+  <content>
+    <projects name="M0Project">
+      <files name=".classpath" contentURI=".335735_VelocityTemplateM0ContextWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".335735_VelocityTemplateM0ContextWorkspacectx/content1.project"/>
+      <files name="m0-generator.xml" contentURI=".335735_VelocityTemplateM0ContextWorkspacectx/content1.xml"/>
+      <folders name="src"/>
+      <folders name="templates"/>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>
