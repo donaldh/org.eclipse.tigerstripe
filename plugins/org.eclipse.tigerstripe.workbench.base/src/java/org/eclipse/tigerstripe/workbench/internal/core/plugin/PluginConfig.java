@@ -248,6 +248,9 @@ public abstract class PluginConfig extends BaseContainerObject implements
 			return "unknown";
 		}
 
+		if (this.housing==null) 
+			return "unknown";  // Fix NPE in headless environment
+		
 		return this.housing.getLabel();
 	}
 
