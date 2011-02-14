@@ -15,12 +15,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.OperationCanceledException;
@@ -29,9 +31,13 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubProgressMonitor;
 import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaModel;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.ui.JavaPlugin;
 import org.eclipse.jdt.internal.ui.actions.ActionMessages;
 import org.eclipse.jdt.internal.ui.actions.WorkbenchRunnableAdapter;
@@ -167,9 +173,18 @@ public class ModuleExportWizard extends Wizard implements IWorkbenchWizard {
 			header.setModuleID(moduleID);
 
 			monitor.worked(3);
-			String classesDirStr = tsProject.getLocation().toFile().toURI()
-					.getPath()
-					+ File.separator + "/bin";
+
+			String classesDirStr;
+			IPath outputPath = getOutputLocation(tsProject,
+					fPage.getPackageFragmentRoot());
+			if (outputPath != null) {
+				classesDirStr = outputPath.toOSString();
+			} else {
+				classesDirStr = tsProject.getLocation().toFile().toURI()
+						.getPath()
+						+ File.separator + "/bin";
+			}
+
 			File classesDir = new File(classesDirStr);
 			packager
 					.packageUp(file.toURI(), classesDir, header,
@@ -200,6 +215,40 @@ public class ModuleExportWizard extends Wizard implements IWorkbenchWizard {
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}
+	}
+
+	private IPath getOutputLocation(ITigerstripeModelProject tsProject,
+			IPackageFragmentRoot sourceFolder) {
+		IPath result = null;
+		if (sourceFolder != null) {
+			IJavaProject javaProject = (IJavaProject) tsProject
+					.getAdapter(IJavaProject.class);
+			if (javaProject != null) {
+				try {
+					IPath sourceFolderPath = sourceFolder.getPath();
+					IClasspathEntry[] entries = javaProject.getRawClasspath();
+					for (IClasspathEntry entry : entries) {
+						if (entry.getEntryKind() == IClasspathEntry.CPE_SOURCE
+								&& sourceFolderPath.equals(entry.getPath())) {
+							IPath workspaceRelativeOutputPath = entry
+									.getOutputLocation();
+							if (workspaceRelativeOutputPath == null) {
+								workspaceRelativeOutputPath = javaProject
+										.getOutputLocation();
+							}
+							IFolder out = ResourcesPlugin.getWorkspace()
+									.getRoot()
+									.getFolder(workspaceRelativeOutputPath);
+							result = out.getLocation();
+							break;
+						}
+					}
+				} catch (JavaModelException e) {
+					EclipsePlugin.log(e);
+				}
+			}
+		}
+		return result;
 	}
 
 	/**
