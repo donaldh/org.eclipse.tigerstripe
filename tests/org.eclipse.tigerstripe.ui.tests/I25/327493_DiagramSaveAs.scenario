@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" name="327493_DiagramSaveAs" id="_A8hFseDqEd-6J9xiWJ4XnA" description="Open a diagram.&#xD;&#xA;Make some changes to it.&#xD;&#xA;Now from the menu choose File SaveAs...&#xD;&#xA;Choose a new name" type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="327493_DiagramSaveAs" id="_A8hFseDqEd-6J9xiWJ4XnA" description="Open a diagram.&#xD;&#xA;Make some changes to it.&#xD;&#xA;Now from the menu choose File SaveAs...&#xD;&#xA;Choose a new name" type="ecl">
   <contexts>_eq7awK8jEd-YepE1dWFlXA</contexts>
+  <content xsi:type="org.eclipse.ecl.core:Script" content="get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;New Project/src/org.eclipse.diagram/PaletteCreate&quot; | double-click&#xA;with [get-editor &quot;PaletteCreate.wvd&quot;] {&#xA;    get-diagram | get-figure &quot;0/1/0/0&quot; | mouse-move 1259 50 -height 556 -width 1280&#xA;    with [get-palette] {&#xA;        with [get-edit-part &quot;0/1/0&quot; | get-figure 0] {&#xA;            mouse-move 54 13 -height 23 -width 125&#xA;            mouse-press 54 13 button1 -height 23 -width 125&#xA;            mouse-release 54 13 button1 524288 -height 23 -width 125&#xA;            mouse-move 47 11 -height 23 -width 125&#xA;            mouse-press 47 11 button1 -height 23 -width 125&#xA;            drag-start 47 11 none&#xA;        }&#xA;        mouse-drag &quot;-120&quot; 45 -mask 524288 -height 549 -width 125&#xA;        mouse-drag &quot;-114&quot; 51 -mask 524288 -height 549 -width 125&#xA;        mouse-drag &quot;-668&quot; 13 button1 524288 -height 549 -width 125&#xA;        mouse-release &quot;-668&quot; 13 button1 524288 -height 549 -width 125&#xA;    }&#xA;    with [get-diagram] {&#xA;        with [get-figure &quot;0/1/0/0&quot;] {&#xA;            mouse-hover 632 37 -height 556 -width 1280&#xA;            mouse-move 618 40 -height 556 -width 1280&#xA;            mouse-press 618 40 button1 -height 556 -width 1280&#xA;            mouse-release 618 40 button1 524288 -height 556 -width 1280&#xA;        }&#xA;        get-edit-part &quot;0/8/1&quot; | activate-direct-edit&#xA;        get-figure &quot;1/12&quot; | mouse-hover 4 4 -height 7 -width 7&#xA;        with [get-figure &quot;0/1/0/0&quot;] {&#xA;            mouse-move 819 139 -height 556 -width 1280&#xA;            mouse-press 819 139 button1 -height 556 -width 1280&#xA;        }&#xA;        cancel-direct-edit&#xA;        with [get-figure &quot;0/1/0/0&quot;] {&#xA;            mouse-release 819 139 button1 524288 -height 556 -width 1280&#xA;            mouse-move 818 139 -height 556 -width 1280&#xA;            mouse-hover 818 139 -height 556 -width 1280&#xA;            mouse-move 10 150 -height 556 -width 1280&#xA;        }&#xA;    }&#xA;}&#xA;with [get-editor &quot;PaletteCreate.wvd&quot; | get-diagram | get-figure &quot;0/1/0/0&quot;] {&#xA;    mouse-move 595 94 -height 556 -width 1280&#xA;    mouse-hover 595 94 -height 556 -width 1280&#xA;    mouse-move 12 47 -height 556 -width 1280&#xA;}&#xA;get-menu &quot;File/Save As...&quot; | click&#xA;with [get-window &quot;Save As&quot;] {&#xA;    with [get-editbox -after [get-label &quot;File name:&quot;]] {&#xA;        key-type &quot;CTRL+a&quot;&#xA;        set-text &quot;PaletteCreateNew.wvd&quot;&#xA;    }&#xA;    get-button OK | click&#xA;}&#xA;&#xA;get-editor &quot;PaletteCreateNew.wvd&quot; | get-diagram | get-figure &quot;0/1/0/0&quot; | mouse-move 18 145 -height 356 -width 596&#xA;get-tab-folder | get-property activePage | is-equal &quot;PaletteCreateNew.wvd&quot; | verify&#xA;get-editor &quot;PaletteCreateNew.wvd&quot; | get-diagram | get-figure &quot;0/1/0/0&quot; | mouse-move 6 102 -height 356 -width 596&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;New Project/src/org.eclipse.diagram/PaletteCreate&quot; | double-click -nowait&#xA;get-tab-folder | get-property activePage | is-equal &quot;PaletteCreate.wvd&quot; | verify"/>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -361,6 +362,93 @@
       <figurePath>0</figurePath>
       <figurePath>0</figurePath>
     </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="PaletteCreateNew.wvd" multiplicity="1">
+        <parent id="EclipseWindow0_26" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="PaletteViewer" multiplicity="1">
+        <parent id="Editor0_26" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramViewer" multiplicity="1">
+        <parent id="Editor0_26" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="18" y="145" kind="Move" boundsWidth="613" boundsHeight="373" figureWidth="596" figureHeight="356">
+      <element id="DiagramViewer0_26" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>1</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="TabFolder" multiplicity="1">
+        <parent id="EclipseWindow1_27" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="activePage" value="PaletteCreateNew.wvd">
+      <element id="TabFolder0_26" kind="TabFolder"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="PaletteCreateNew.wvd" multiplicity="1">
+        <parent id="EclipseWindow2_28" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramViewer" multiplicity="1">
+        <parent id="Editor1_27" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="6" y="102" kind="Move" boundsWidth="613" boundsHeight="373" figureWidth="596" figureHeight="356">
+      <element id="DiagramViewer1_27" kind="DiagramViewer"/>
+      <figurePath>0</figurePath>
+      <figurePath>1</figurePath>
+      <figurePath>0</figurePath>
+      <figurePath>0</figurePath>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow2_28" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0_26" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree0_26" kind="Tree"/>
+      <path>New Project</path>
+      <path>src</path>
+      <path>org.eclipse.diagram</path>
+      <path>PaletteCreate</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DoubleClick">
+      <element id="Tree0_26" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="TabFolder" multiplicity="1">
+        <parent id="EclipseWindow3_29" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="activePage" value="PaletteCreate.wvd">
+      <element id="TabFolder1_27" kind="TabFolder"/>
+    </commands>
     <elementMapping command="//@teslaContent/@commands.0">
       <elements id="EclipseWindow0" kind="EclipseWindow"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
@@ -490,6 +578,83 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.67">
       <elements id="DiagramViewer1_12" kind="DiagramViewer"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.69">
+      <elements id="EclipseWindow0_26" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="125" y="125" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.70">
+      <elements id="Editor0_26" kind="Editor"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.71">
+      <elements id="PaletteViewer0_26" kind="PaletteViewer"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.72">
+      <elements id="DiagramViewer0_26" kind="DiagramViewer"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.74">
+      <elements id="EclipseWindow1_27" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="125" y="125" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.75">
+      <elements id="TabFolder0_26" kind="TabFolder"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TabFolder" activePage="PaletteCreateNew.wvd" tabCount="1">
+        <pages>PaletteCreateNew.wvd</pages>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.77">
+      <elements id="EclipseWindow2_28" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="125" y="125" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.78">
+      <elements id="Editor1_27" kind="Editor"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.79">
+      <elements id="DiagramViewer1_27" kind="DiagramViewer"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.81">
+      <elements id="View0_26" kind="View"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.82">
+      <elements id="Tree0_26" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="244" height="572"/>
+        <selection>
+          <path>New Project</path>
+          <path>src</path>
+          <path>org.eclipse.diagram</path>
+          <path>PaletteCreate</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.85">
+      <elements id="EclipseWindow3_29" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="125" y="125" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.86">
+      <elements id="TabFolder1_27" kind="TabFolder"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TabFolder" activePage="PaletteCreate.wvd" tabCount="2">
+        <pages>PaletteCreateNew.wvd</pages>
+        <pages>PaletteCreate.wvd</pages>
+      </controls>
     </elementMapping>
   </teslaContent>
 </com.xored.q7.scenario:Scenario>
