@@ -15,7 +15,12 @@ import java.util.List;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jdt.core.ElementChangedEvent;
+import org.eclipse.jdt.core.IElementChangedListener;
+import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.jdt.core.IJavaElementDelta;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.jface.layout.GridLayoutFactory;
@@ -35,6 +40,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -63,6 +69,58 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 	private Button removeButton;
 
 	private MasterDetails masterDetails;
+
+	private ClasspathChangesListener classpathListener;
+
+	private class ClasspathChangesListener implements IElementChangedListener {
+
+		private final ITigerstripeModelProject tsProject;
+
+		public ClasspathChangesListener(ITigerstripeModelProject project) {
+			this.tsProject = project;
+		}
+
+		public void elementChanged(ElementChangedEvent event) {
+			IJavaElementDelta delta = event.getDelta();
+			IJavaElementDelta[] childs = delta.getAffectedChildren();
+			for (IJavaElementDelta child : childs) {
+				if (child.getElement().getElementType() == IJavaElement.JAVA_PROJECT) {
+					IJavaProject jProject = (IJavaProject) child.getElement();
+					if (isCurrentProject(jProject) && isClassPathChanged(child)) {
+						refreshReferences();
+					}
+				}
+			}
+		}
+
+		public boolean isCurrentProject(IJavaProject jProject) {
+			IJavaProject jTsProject = (IJavaProject) tsProject
+					.getAdapter(IJavaProject.class);
+			if (jTsProject != null && jTsProject.equals(jProject)) {
+				return true;
+			}
+			return false;
+		}
+
+		public boolean isClassPathChanged(IJavaElementDelta delta) {
+			if ((delta.getFlags() & IJavaElementDelta.F_CLASSPATH_CHANGED) != 0
+					|| (delta.getFlags() & IJavaElementDelta.F_RESOLVED_CLASSPATH_CHANGED) != 0) {
+				return true;
+			}
+			return false;
+		}
+
+		private void refreshReferences() {
+			Control control = viewer.getControl();
+			if (!control.isDisposed()) {
+				control.getDisplay().asyncExec(new Runnable() {
+					public void run() {
+						refresh();
+					}
+				});
+			}
+		}
+	}
 
 	class ReferencedProjectsContentProvider implements
 			IStructuredContentProvider {
@@ -164,6 +222,18 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 	public void initialize(IManagedForm form) {
 		super.initialize(form);
 		createContent();
+
+		classpathListener = new ClasspathChangesListener(getTSProject());
+		JavaCore.addElementChangedListener(classpathListener,
+				ElementChangedEvent.POST_CHANGE);
+	}
+
+	@Override
+	public void dispose() {
+		if (classpathListener != null) {
+			JavaCore.removeElementChangedListener(classpathListener);
+		}
+		super.dispose();
 	}
 
 	@Override

@@ -68,6 +68,12 @@ public class DescriptorDependenciesPage extends TigerstripeFormPage implements
 		}
 	}
 
+	@Override
+	public void dispose() {
+		ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
+		super.dispose();
+	}
+
 	private void fillBody(IManagedForm managedForm, FormToolkit toolkit) {
 		Composite body = managedForm.getForm().getBody();
 		body.setLayout(TigerstripeLayoutFactory.createPageGridLayout(1, true));
