@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="336309_TSDependencyRemoveContextWorkspace" id="_QpuxQDW0EeCE2rLJUEJ6Fg">
+  <content>
+    <projects name="p1">
+      <files name=".classpath" contentURI=".336309_TSDependencyRemoveContextWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".336309_TSDependencyRemoveContextWorkspacectx/content1.project"/>
+      <files name="tigerstripe.xml" contentURI=".336309_TSDependencyRemoveContextWorkspacectx/content1.xml"/>
+      <folders name="src"/>
+    </projects>
+    <projects name="p2">
+      <files name=".classpath" contentURI=".336309_TSDependencyRemoveContextWorkspacectx/content2.classpath"/>
+      <files name=".project" contentURI=".336309_TSDependencyRemoveContextWorkspacectx/content2.project"/>
+      <files name="tigerstripe.xml" contentURI=".336309_TSDependencyRemoveContextWorkspacectx/content2.xml"/>
+      <folders name="src"/>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>
