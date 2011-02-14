@@ -23,6 +23,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.re
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.Dependency;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.QualifiedNamedElement;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.dnd.ElementTypeMapper;
@@ -30,7 +31,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.C
 
 public class MapETAdapter extends BaseETAdapter implements ETAdapter {
 
-	private Map map;
+	private final Map map;
 
 	public MapETAdapter(Map map, IModelUpdater modelUpdater,
 			ClassDiagramSynchronizer synchronizer) {
@@ -62,6 +63,17 @@ public class MapETAdapter extends BaseETAdapter implements ETAdapter {
 			try {
 				AssociationETAdapter adapter = (AssociationETAdapter) ETAdapterFactory
 						.makeETAdapterFor(association, getModelUpdater(),
+								getSynchronizer());
+			} catch (TigerstripeException e) {
+				EclipsePlugin.log(e);
+			}
+		}
+
+		List<Dependency> dependencies = map.getDependencies();
+		for (Dependency dependency : dependencies) {
+			try {
+				ETAdapterFactory
+						.makeETAdapterFor(dependency, getModelUpdater(),
 								getSynchronizer());
 			} catch (TigerstripeException e) {
 				EclipsePlugin.log(e);
