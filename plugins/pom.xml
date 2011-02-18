@@ -36,10 +36,8 @@
 	<module>org.eclipse.tigerstripe.espace.resources</module>
 	<module>org.eclipse.tigerstripe.espace.resources.monitor</module>
 	<module>org.eclipse.tigerstripe.metamodel</module>
-	<module>org.eclipse.tigerstripe.metamodel.test</module>
 	<module>org.eclipse.tigerstripe.releng</module>
 	<module>org.eclipse.tigerstripe.repository.core</module>
-	<module>org.eclipse.tigerstripe.repository.core.test</module> 
 	<module>org.eclipse.tigerstripe.workbench.base</module>
 	<module>org.eclipse.tigerstripe.workbench.branding</module>
 	<module>org.eclipse.tigerstripe.workbench.headless</module>
@@ -62,7 +60,9 @@
 	
 	<!-- test plugins
 	<module>org.eclipse.tigerstripe.annotation.core.test</module>
+	<module>org.eclipse.tigerstripe.metamodel.test</module>
 	<module>org.eclipse.tigerstripe.test_common</module>
+	<module>org.eclipse.tigerstripe.repository.core.test</module> 
 	<module>org.eclipse.tigerstripe.workbench.base.test</module>
 	 --> 
   </modules>
