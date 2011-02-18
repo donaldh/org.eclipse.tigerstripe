@@ -37,8 +37,8 @@
         </os>
       </activation>
       <modules>
-      	<!-- Q7 Tests -->
-        <module>org.eclipse.tigerstripe.ui.tests</module>
+      	<!-- Q7 Tests
+        <module>org.eclipse.tigerstripe.ui.tests</module> -->
       </modules>
     </profile>
   </profiles>

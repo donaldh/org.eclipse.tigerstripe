@@ -60,10 +60,10 @@
 	<module>org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram</module>
 	<module>org.eclipse.tigerstripe.workbench.ui.visualeditor.edit</module>
 	
-	<!-- test plugins --> 
+	<!-- test plugins
 	<module>org.eclipse.tigerstripe.annotation.core.test</module>
 	<module>org.eclipse.tigerstripe.test_common</module>
 	<module>org.eclipse.tigerstripe.workbench.base.test</module>
-	
+	 --> 
   </modules>
 </project>
