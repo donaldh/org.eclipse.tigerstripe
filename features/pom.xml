@@ -6,11 +6,20 @@
   <parent>
     <groupId>org.eclipse.tigerstripe</groupId>
     <artifactId>org.eclipse.tigerstripe.parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>0.7.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
+  <groupId>org.eclipse.tigerstripe</groupId>
   <artifactId>org.eclipse.tigerstripe.features.parent</artifactId>
   <packaging>pom</packaging>
-  <name>plugins</name>
+  <name>features</name>
+
+  <version>0.7.0-SNAPSHOT</version>
+  <modules>
+	<module>org.eclipse.tigerstripe.annotation.feature</module>
+	<module>org.eclipse.tigerstripe.base</module>
+	<module>org.eclipse.tigerstripe.workbench</module>
+  </modules>
 
 </project>

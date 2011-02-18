@@ -1,7 +1,0 @@
-ARTIFACTS=$artifacts.size()
-ENTITIES=$entities.size()
-DATATYPES=$datatypes.size()
-
-#foreach ($artifact in $artifacts)
-	$artifact.Name
-#end

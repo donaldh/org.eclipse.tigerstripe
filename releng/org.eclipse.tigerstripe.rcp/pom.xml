@@ -4,19 +4,13 @@
   <parent>
     <groupId>org.eclipse.tigerstripe</groupId>
     <artifactId>org.eclipse.tigerstripe.releng.parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>0.7.0-SNAPSHOT</version>
   </parent>
   
   <artifactId>org.eclipse.tigerstripe.rcp</artifactId>
-  <name>plugins/o.e.t.rcp</name>
-  <version>0.5.0-SNAPSHOT</version>
+  <name>releng/o.e.t.rcp</name>
+  <version>0.7.0-SNAPSHOT</version>
   <packaging>eclipse-repository</packaging>
-  
-  <properties>
-    <sut.build.os>linux</sut.build.os>
-    <sut.build.ws>gtk</sut.build.ws>
-    <sut.build.arch>x86</sut.build.arch>    
-  </properties>
   
   <repositories>
     <repository>
@@ -57,9 +51,9 @@
           <resolver>p2</resolver>
           <environments>
             <environment>
-              <os>${sut.build.os}</os>
-              <ws>${sut.build.ws}</ws>
-              <arch>${sut.build.arch}</arch>
+              <os>${osgi.os}</os>
+              <ws>${osgi.ws}</ws>
+              <arch>${osgi.arch}</arch>
             </environment>            
           </environments>
         </configuration>

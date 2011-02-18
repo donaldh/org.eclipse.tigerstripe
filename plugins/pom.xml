@@ -6,11 +6,64 @@
   <parent>
     <groupId>org.eclipse.tigerstripe</groupId>
     <artifactId>org.eclipse.tigerstripe.parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>0.7.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
+  <groupId>org.eclipse.tigerstripe</groupId>
   <artifactId>org.eclipse.tigerstripe.plugins.parent</artifactId>
   <packaging>pom</packaging>
   <name>plugins</name>
 
+  <modules>
+	<module>org.eclipse.tigerstripe.annotation.core</module>
+	<module>org.eclipse.tigerstripe.annotation.example</module>
+	<module>org.eclipse.tigerstripe.annotation.example.person</module>
+	<module>org.eclipse.tigerstripe.annotation.example.person.validators</module>
+	<module>org.eclipse.tigerstripe.annotation.example.router</module>
+	<module>org.eclipse.tigerstripe.annotation.java</module>
+	<module>org.eclipse.tigerstripe.annotation.java.ui</module>
+	<module>org.eclipse.tigerstripe.annotation.java.ui.refactoring</module>
+	<module>org.eclipse.tigerstripe.annotation.resource</module>
+	<module>org.eclipse.tigerstripe.annotation.resource.ui</module>
+	<module>org.eclipse.tigerstripe.annotation.ts2project.router</module>
+	<module>org.eclipse.tigerstripe.annotation.tsmodel</module>
+	<module>org.eclipse.tigerstripe.annotation.tsmodel.ui</module>
+	<module>org.eclipse.tigerstripe.annotation.ui</module>
+	<module>org.eclipse.tigerstripe.annotation.ui.example.customView</module>
+	<module>org.eclipse.tigerstripe.annotation.validation</module>
+	<module>org.eclipse.tigerstripe.espace.core</module>
+	<module>org.eclipse.tigerstripe.espace.resources</module>
+	<module>org.eclipse.tigerstripe.espace.resources.monitor</module>
+	<module>org.eclipse.tigerstripe.metamodel</module>
+	<module>org.eclipse.tigerstripe.metamodel.test</module>
+	<module>org.eclipse.tigerstripe.releng</module>
+	<module>org.eclipse.tigerstripe.repository.core</module>
+	<module>org.eclipse.tigerstripe.repository.core.test</module> 
+	<module>org.eclipse.tigerstripe.workbench.base</module>
+	<module>org.eclipse.tigerstripe.workbench.branding</module>
+	<module>org.eclipse.tigerstripe.workbench.headless</module>
+	<module>org.eclipse.tigerstripe.workbench.help</module>
+	<module>org.eclipse.tigerstripe.workbench.optional.bulkImport</module>
+	<module>org.eclipse.tigerstripe.workbench.optional.UML2Export</module>
+	<module>org.eclipse.tigerstripe.workbench.ui.base</module>
+	<module>org.eclipse.tigerstripe.workbench.ui.dependencies</module>
+	<module>org.eclipse.tigerstripe.workbench.ui.diagramrendering</module>
+	<module>org.eclipse.tigerstripe.workbench.ui.instancediagram</module>
+	<module>org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation</module>
+	<module>org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram</module>
+	<module>org.eclipse.tigerstripe.workbench.ui.instancediagram.edit</module>
+	<module>org.eclipse.tigerstripe.workbench.ui.sdk</module>
+	<module>org.eclipse.tigerstripe.workbench.ui.UML2Import</module>
+	<module>org.eclipse.tigerstripe.workbench.ui.visualeditor</module>
+	<module>org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation</module>
+	<module>org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram</module>
+	<module>org.eclipse.tigerstripe.workbench.ui.visualeditor.edit</module>
+	
+	<!-- test plugins --> 
+	<module>org.eclipse.tigerstripe.annotation.core.test</module>
+	<module>org.eclipse.tigerstripe.test_common</module>
+	<module>org.eclipse.tigerstripe.workbench.base.test</module>
+	
+  </modules>
 </project>

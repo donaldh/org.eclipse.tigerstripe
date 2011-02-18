@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.tigerstripe.annotation.feature"
       label="%featureName"
-      version="0.0.0"
+      version="0.7.0.qualifier"
       provider-name="%providerName">
 
    <description>
@@ -32,49 +32,49 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.tigerstripe.annotation.core"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.tigerstripe.annotation.resource"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.tigerstripe.annotation.resource.ui"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.tigerstripe.annotation.ui"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.tigerstripe.espace.core"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.tigerstripe.espace.resources"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.tigerstripe.espace.resources.monitor"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
 
 </feature>

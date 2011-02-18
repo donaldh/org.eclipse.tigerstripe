@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Metamodel Test Plug-in
 Bundle-SymbolicName: org.eclipse.tigerstripe.metamodel.test
-Bundle-Version: 0.0.0
+Bundle-Version: 0.7.0.qualifier
 Bundle-ClassPath: org.eclipse.tigerstripe.metamodel.test/
 Bundle-Activator: org.eclipse.tigerstripe.metamodel.test.Activator
 Bundle-Vendor: Eclipse.org

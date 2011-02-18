@@ -6,11 +6,18 @@
   <parent>
     <groupId>org.eclipse.tigerstripe</groupId>
     <artifactId>org.eclipse.tigerstripe.parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>0.7.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
+  <groupId>org.eclipse.tigerstripe</groupId>
   <artifactId>org.eclipse.tigerstripe.releng.parent</artifactId>
   <packaging>pom</packaging>
-  <name>plugins</name>
+  <name>releng</name>
+  
+  <modules>
+  	<module>org.eclipse.tigerstripe.update-site</module>
+  	<module>org.eclipse.tigerstripe.rcp</module>
+  </modules>
 
 </project>

@@ -5,44 +5,48 @@
 
   <parent>
     <groupId>org.eclipse.tigerstripe</groupId>
-    <artifactId>org.eclipse.tigerstripe.parent</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
-    <relativePath>../../pom.xml</relativePath>
+    <artifactId>org.eclipse.tigerstripe.tests.parent</artifactId>
+    <version>0.7.0-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <artifactId>org.eclipse.tigerstripe.ui.tests</artifactId>
   <packaging>q7-tests</packaging>
-  <name>o.e.t.q7.tests</name>
-  <version>0.0.1-SNAPSHOT</version>
-
+  <name>tests/o.e.t.q7.tests</name>
+  <version>0.7.0-SNAPSHOT</version>
+  
   <build>
-        <plugins>
-            <plugin>
-                <groupId>com.xored.maven.plugins</groupId>
-                <artifactId>maven-q7-plugin</artifactId>
-                <version>0.0.2-SNAPSHOT</version>
-                <configuration>
-                    <sutProjectId>org.eclipse.tigerstripe.rcp</sutProjectId>
-                    <delay>50</delay>
-                    <timeout>3600</timeout>
-                    <sutWsPrefix>../../sut-</sutWsPrefix>
-                    <sutVMArgs>-Xms128m;-Xmx512m;-XX:PermSize=128M;-XX:MaxPermSize=512M</sutVMArgs>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>integration-test</phase>
-                        <goals>
-                            <goal>q7-test</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-            <groupId>com.xored.maven.plugins</groupId>
-            <artifactId>maven-q7-packaging-plugin</artifactId>
-            <version>0.0.2-SNAPSHOT</version>
-            <extensions>true</extensions>
-          </plugin>
-        </plugins>
-    </build>
+    <plugins>
+      <plugin>
+        <groupId>com.xored.maven.plugins</groupId>
+        <artifactId>maven-q7-plugin</artifactId>
+        <version>0.0.2-SNAPSHOT</version>
+        <configuration>
+		  <q7Location>${q7.location}</q7Location>
+		  <osgiOs>${osgi.os}</osgiOs>
+		  <osgiWs>${osgi.ws}</osgiWs>
+		  <osgiArch>${osgi.arch}</osgiArch>
+          <sutProjectId>org.eclipse.tigerstripe.rcp</sutProjectId>
+          <delay>50</delay>
+          <timeout>3600</timeout>
+          <sutWsPrefix>../../sut-</sutWsPrefix>
+          <sutVMArgs>-Xms128m;-Xmx512m;-XX:PermSize=128M;-XX:MaxPermSize=512M</sutVMArgs>
+        </configuration>
+        <executions>
+          <execution>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>q7-test</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>com.xored.maven.plugins</groupId>
+        <artifactId>maven-q7-packaging-plugin</artifactId>
+        <version>0.0.2-SNAPSHOT</version>
+        <extensions>true</extensions>
+      </plugin>
+    </plugins>
+  </build>
 </project>

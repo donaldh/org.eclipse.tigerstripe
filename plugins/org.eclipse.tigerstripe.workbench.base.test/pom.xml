@@ -1,36 +1,42 @@
-<?xml version="1.0"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
-		<groupId>org.eclipse.tigerstripe</groupId>
-		<artifactId>org.eclipse.tigerstripe.plugins.parent</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
-	</parent>
-	<artifactId>org.eclipse.tigerstripe.workbench.base.test</artifactId>
-	<packaging>eclipse-test-plugin</packaging>
-	<name>plugins/o.e.t.workbench.base.test</name>
-	<build>
-		<resources>
-			<resource>
-				<directory>${basedir}/resources</directory>
-				<includes>
-					<include>**/*.vm</include>
-					<include>**/*.properties</include>
-				</includes>
-			</resource>
-		</resources>
-		<plugins>
-			<plugin>
-				<groupId>org.sonatype.tycho</groupId>
-				<artifactId>maven-osgi-test-plugin</artifactId>
-				<version>${tycho-version}</version>
-				<configuration>
-					<useUIHarness>true</useUIHarness>
-					<testSuite>org.eclipse.tigerstripe.workbench.base.test</testSuite>
-					<testClass>org.eclipse.tigerstripe.workbench.base.test.AllTests</testClass>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+  <modelVersion>4.0.0</modelVersion>
+	
+  <parent>
+	<groupId>org.eclipse.tigerstripe</groupId>
+	<artifactId>org.eclipse.tigerstripe.plugins.parent</artifactId>
+	<version>0.7.0-SNAPSHOT</version>
+	<relativePath>../pom.xml</relativePath>
+  </parent>
+	
+  <artifactId>org.eclipse.tigerstripe.workbench.base.test</artifactId>
+  <packaging>eclipse-test-plugin</packaging>
+  <name>plugins/o.e.t.workbench.base.test</name>
+	
+  <build>
+	<resources>
+	  <resource>
+	    <directory>${basedir}/resources</directory>
+		<includes>
+		  <include>**/*.vm</include>
+		  <include>**/*.properties</include>
+		</includes>
+	  </resource>
+	</resources>
+	<plugins>
+	  <plugin>
+		<groupId>org.sonatype.tycho</groupId>
+		<artifactId>maven-osgi-test-plugin</artifactId>
+		<version>${tycho-version}</version>
+		<configuration>
+		  <useUIHarness>true</useUIHarness>
+		  <argLine>${junit.args}</argLine>
+		  <testSuite>org.eclipse.tigerstripe.workbench.base.test</testSuite>
+		  <testClass>org.eclipse.tigerstripe.workbench.base.test.AllTests</testClass>
+		</configuration>
+	  </plugin>
+	</plugins>
+  </build>
+  
 </project>

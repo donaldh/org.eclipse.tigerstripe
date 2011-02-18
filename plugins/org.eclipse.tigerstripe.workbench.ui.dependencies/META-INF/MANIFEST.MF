@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tigerstripe Dependencies Diagram
 Bundle-SymbolicName: org.eclipse.tigerstripe.workbench.ui.dependencies;singleton:=true
-Bundle-Version: 0.0.0
+Bundle-Version: 0.7.0.qualifier
 Bundle-Activator: org.eclipse.tigerstripe.workbench.ui.dependencies.internal.diagram.ui.DependencyDiagramPlugin
 Bundle-Vendor: Cisco Systems, Inc.
 Require-Bundle: org.eclipse.ui,

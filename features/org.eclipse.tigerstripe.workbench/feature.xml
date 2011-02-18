@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.tigerstripe.workbench"
       label="%featureName"
-      version="0.0.0"
+      version="0.7.0.qualifier"
       provider-name="%providerName"
       plugin="org.eclipse.tigerstripe.workbench.branding"
       image="eclipse_update_120.jpg">
@@ -31,7 +31,7 @@ http://www.eclipse.org/legal/epl-v10.html
 
    <includes
          id="org.eclipse.tigerstripe.base"
-         version="0.0.0"/>
+         version="0.7.0.qualifier"/>
 
    <requires>
       <import plugin="org.eclipse.ui"/>
@@ -93,119 +93,112 @@ http://www.eclipse.org/legal/epl-v10.html
          id="org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.tigerstripe.workbench.ui.base"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.tigerstripe.workbench.ui.dependencies"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.tigerstripe.workbench.ui.visualeditor"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.tigerstripe.workbench.ui.visualeditor.edit"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.tigerstripe.workbench.branding"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.tigerstripe.workbench.optional.bulkImport"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.tigerstripe.workbench.optional.UML2Export"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.tigerstripe.workbench.ui.instancediagram"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.tigerstripe.workbench.ui.instancediagram.edit"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.tigerstripe.workbench.ui.diagramrendering"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.tigerstripe.workbench.ui.UML2Import"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.tigerstripe.annotation.tsmodel.ui"
          download-size="0"
          install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.tigerstripe.workbench.optional.buckminster"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
 
 </feature>

@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.tigerstripe.base"
       label="%featureName"
-      version="0.0.0"
+      version="0.7.0.qualifier"
       provider-name="%providerName">
 
    <description url="http://www.example.com/description">
@@ -30,55 +30,55 @@ http://www.eclipse.org/legal/epl-v10.html
 
    <includes
          id="org.eclipse.tigerstripe.annotation.feature"
-         version="0.0.0"/>
-
+         version="0.7.0.qualifier"/>
+         
    <plugin
          id="org.eclipse.tigerstripe.metamodel"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
-
+         
    <plugin
          id="org.eclipse.tigerstripe.workbench.base"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.tigerstripe.annotation.ts2project.router"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.tigerstripe.annotation.tsmodel"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.tigerstripe.workbench.headless"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.tigerstripe.workbench.help"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="0.7.0.qualifier"
          unpack="false"/>
-
+         
    <plugin
-         id="org.eclipse.tigerstripe.repository.core"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+   		id="org.eclipse.tigerstripe.repository.core"
+   		download-size="0"
+   		install-size="0"
+   		version="0.7.0.qualifier"
+   		unpack="false"/>
 
 </feature>

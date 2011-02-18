@@ -14,18 +14,13 @@
          These features are included in the modeling workbench, but can be downloaded separately for custom installs and other needs.
       </description>
    </category-def>
-   <feature url="features/org.eclipse.tigerstripe.annotation.feature_0.0.0.qualifier.jar" id="org.eclipse.tigerstripe.annotation.feature" version="0.0.0">
+   <feature url="org.eclipse.tigerstripe.annotation.feature_0.7.0.qualifier" id="org.eclipse.tigerstripe.annotation.feature" version="0.7.0.qualifier">
       <category name="Framework"/>
    </feature>
-<!--
-   <feature url="features/org.eclipse.tigerstripe.base.test_feature_0.0.0.qualifier.jar" id="org.eclipse.tigerstripe.base.test_feature" version="0.0.0">
-      <category name="End-User Workbench"/>
-   </feature>
--->
-   <feature url="features/org.eclipse.tigerstripe.base_0.0.0.qualifier.jar" id="org.eclipse.tigerstripe.base" version="0.0.0">
+   <feature url="org.eclipse.tigerstripe.base_0.7.0.qualifier" id="org.eclipse.tigerstripe.base" version="0.7.0.qualifier">
       <category name="Framework"/>
    </feature>
-   <feature url="features/org.eclipse.tigerstripe.workbench_0.0.0.qualifier.jar" id="org.eclipse.tigerstripe.workbench" version="0.0.0">
+   <feature url="org.eclipse.tigerstripe.workbench_0.7.0.qualifier" id="org.eclipse.tigerstripe.workbench" version="0.7.0.qualifier">
       <category name="Workbench"/>
    </feature>
 </site>
