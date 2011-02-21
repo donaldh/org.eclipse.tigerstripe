@@ -14,6 +14,7 @@ package org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.action;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -258,8 +259,18 @@ public class AddRelatedInstancesAction extends BaseDiagramPartAction implements
 
 		exec(dndEditPolicy.getDropObjectsCommand(request));
 
-		Set<ClassInstance> newObjects = new HashSet<ClassInstance>(getMap()
+		List<ClassInstance> newObjects = new ArrayList<ClassInstance>(getMap()
 				.getClassInstances());
+		Collections.sort(newObjects, new Comparator<ClassInstance>() {
+
+			public int compare(ClassInstance o1, ClassInstance o2) {
+				int compare = nullSafeCompare(o1.getFullyQualifiedName(), o2.getFullyQualifiedName());
+				if (compare == 0) {
+					compare = nullSafeCompare(o1.getInstanceName(), o2.getInstanceName());
+				}
+				return compare;
+			}
+		});
 		newObjects.removeAll(oldState);
 
 		CompoundCommand addRelationsCommand = new CompoundCommand();
@@ -299,6 +310,19 @@ public class AddRelatedInstancesAction extends BaseDiagramPartAction implements
 		exec(addRelationsCommand);
 	}
 
+	private <T extends Comparable<T>> int nullSafeCompare(T o1, T o2) {
+		if (o1 == null && o2 == null) {
+			return 0;
+		}
+		if (o1 == null) {
+			return -1;
+		}
+		if (o2 == null) {
+			return 1;
+		}
+		return o1.compareTo(o2);
+	}
+	
 	private void exec(Command cmd) {
 		if (cmd.canExecute()) {
 			cmd.setLabel("Add Related Artifacts");
