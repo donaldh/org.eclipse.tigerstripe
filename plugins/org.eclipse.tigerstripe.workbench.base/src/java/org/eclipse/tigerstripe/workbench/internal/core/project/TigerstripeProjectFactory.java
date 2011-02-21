@@ -46,7 +46,7 @@ public class TigerstripeProjectFactory {
 
 	public final static TigerstripeProjectFactory INSTANCE = new TigerstripeProjectFactory();
 
-	private ProjectSessionImpl session = new ProjectSessionImpl();
+	private final ProjectSessionImpl session = new ProjectSessionImpl();
 
 	@SuppressWarnings("unchecked")
 	private final static Class[] SUPPORTED_PROJECT_TYPES = {
@@ -147,7 +147,11 @@ public class TigerstripeProjectFactory {
 	public URI getProjectURI(IPath path) throws TigerstripeException {
 		try {
 			path = path.addTrailingSeparator();
-			return new URI("file", null, path.toString(), null);
+			String p = path.toString();
+			if (!p.startsWith("/")) {
+				p = "/" + p;
+			}
+			return new URI("file", null, "//" + p, null);
 		} catch (URISyntaxException e) {
 			throw new TigerstripeException(String.format("Unable to determine URI for the project path '%s'", path), e);
 		}
