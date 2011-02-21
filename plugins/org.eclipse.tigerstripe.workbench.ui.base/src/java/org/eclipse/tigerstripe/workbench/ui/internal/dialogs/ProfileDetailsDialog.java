@@ -44,7 +44,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.editors.EditorHelper;
 import org.eclipse.tigerstripe.workbench.ui.internal.elements.MessageListDialog;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -148,7 +147,6 @@ public class ProfileDetailsDialog extends Dialog {
 
 			public void widgetSelected(SelectionEvent e) {
 				resetProfile();
-				refresh();
 			}
 		});
 
@@ -162,7 +160,6 @@ public class ProfileDetailsDialog extends Dialog {
 
 			public void widgetSelected(SelectionEvent e) {
 				deployProfile();
-				refresh();
 			}
 		});
 
@@ -170,17 +167,9 @@ public class ProfileDetailsDialog extends Dialog {
 		return area;
 	}
 
-	private void refresh() {
-		IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession()
-				.getActiveProfile();
-		descText.setText(profile.getDescription());
-		nameText.setText(profile.getName());
-		versionText.setText(profile.getVersion());
-	}
-
 	private boolean rollbackCreated = false;
 	private boolean operationSucceeded = false;
-	
+
 	private void resetProfile() {
 
 		if (LicensedAccess.getWorkbenchProfileRole() != TSWorkbenchProfileRole.CREATE_EDIT
