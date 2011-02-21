@@ -38,7 +38,7 @@ public class TigerstripeProjectLocator {
 	public static IAbstractTigerstripeProject getProject(String name) throws TigerstripeException
 	{
 		IPath path = getProjectPath(name);
-		IAbstractTigerstripeProject project = TigerstripeCore.findProject(path);
+		IAbstractTigerstripeProject project = TigerstripeCore.findProjectOrCreate(path);
 		if(project instanceof ITigerstripeModelProject)
 			return project;
 		else
