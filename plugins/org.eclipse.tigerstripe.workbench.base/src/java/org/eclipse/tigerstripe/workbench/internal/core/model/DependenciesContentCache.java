@@ -203,4 +203,12 @@ public class DependenciesContentCache {
 
 		return null;
 	}
+
+	public void dispose() {
+		allArtifacts = null;
+		allKnownArtifactsByFqn = null;
+		artifactsByFqn = null;
+		artifactsByModel = null;
+		artifactFilter = null;
+	}
 }

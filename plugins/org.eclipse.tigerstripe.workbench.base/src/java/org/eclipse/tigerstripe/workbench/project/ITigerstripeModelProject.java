@@ -198,4 +198,6 @@ public interface ITigerstripeModelProject extends IAbstractTigerstripeProject {
 	public void removeProjectDependencyChangeListener(
 			IProjectDependencyChangeListener listener);
 
+	public boolean wasDisposed();
+
 }

@@ -10,15 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.builder;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.core.runtime.IProgressMonitor;
 
-public class DatatypeArtifactAuditor extends AbstractArtifactAuditor implements
-		IArtifactAuditor {
+public class DatatypeArtifactAuditor extends AbstractArtifactAuditor {
 
-	public DatatypeArtifactAuditor(IProject project, IAbstractArtifact artifact) {
-		super(project, artifact);
-		// TODO Auto-generated constructor stub
+	public void run(IProgressMonitor monitor) {
 	}
 
 }

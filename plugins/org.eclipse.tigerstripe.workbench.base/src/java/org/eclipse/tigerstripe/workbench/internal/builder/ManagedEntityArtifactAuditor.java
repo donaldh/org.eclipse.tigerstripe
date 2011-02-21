@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.builder;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IType;
@@ -23,29 +22,19 @@ import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLe
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjEntitySpecifics;
 
-public class ManagedEntityArtifactAuditor extends AbstractArtifactAuditor
-		implements IArtifactAuditor {
+public class ManagedEntityArtifactAuditor extends AbstractArtifactAuditor {
 
-	public ManagedEntityArtifactAuditor(IProject project,
-			IManagedEntityArtifact artifact) {
-		super(project, artifact);
-	}
-
-	@Override
 	public void run(IProgressMonitor monitor) {
-		super.run(monitor);
 
 		IManagedEntityArtifact artifact = (IManagedEntityArtifact) getArtifact();
 		IOssjEntitySpecifics specifics = (IOssjEntitySpecifics) artifact
 				.getIStandardSpecifics();
 
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-		.getWorkbenchProfileSession().getActiveProfile().getProperty(
-				IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
-		
+				.getWorkbenchProfileSession().getActiveProfile()
+				.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 
-		if (prop
-				.getPropertyValue(IOssjLegacySettigsProperty.DISPLAY_OSSJSPECIFICS)) {
+		if (prop.getPropertyValue(IOssjLegacySettigsProperty.DISPLAY_OSSJSPECIFICS)) {
 			// Check on the primary key - ONLY if using OSS/J Specifics
 			String fqn = specifics.getPrimaryKey();
 			if (fqn == null || fqn.length() == 0) {
@@ -64,8 +53,8 @@ public class ManagedEntityArtifactAuditor extends AbstractArtifactAuditor
 						IType type = jProject.findType(fqn);
 						if (type == null) {
 							TigerstripeProjectAuditor.reportError(
-									"Primary key type is unknown", getIResource(),
-									222);
+									"Primary key type is unknown",
+									getIResource(), 222);
 						}
 					} catch (JavaModelException e) {
 						BasePlugin.log(e);

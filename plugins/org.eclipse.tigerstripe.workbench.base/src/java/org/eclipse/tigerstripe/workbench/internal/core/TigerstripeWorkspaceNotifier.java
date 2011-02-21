@@ -39,7 +39,7 @@ import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
  * 
  *  * <b>History of changes</b> (Name: Modification): <br/>
  * Eric Dillon 	  :	Initial Creation <br/>
- * Navid Mehregani: Bug 319793 - [performance] About 90 threads are started when three TS projects are imported<br/>
+ * Navid Mehregani: Bug319793 - [performance] About 90 threads are started when three TS projects are imported<br/>
  * Dan and Navid  : Significant performance improvements per defect 324197<br/>
  * 
  */

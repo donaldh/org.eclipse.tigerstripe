@@ -12,7 +12,6 @@ package org.eclipse.tigerstripe.workbench.internal.builder;
 
 import java.util.Collection;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.metamodel.impl.IEventArtifactImpl;
 import org.eclipse.tigerstripe.metamodel.impl.IExceptionArtifactImpl;
@@ -31,25 +30,16 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.Enti
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.OssjEntityMethodFlavor;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IEmittedEvent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IManagedEntityDetails;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.INamedQuery;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjMethod;
 
-public class SessionFacadeArtifactAuditor extends AbstractArtifactAuditor
-		implements IArtifactAuditor {
+public class SessionFacadeArtifactAuditor extends AbstractArtifactAuditor {
 
-	public SessionFacadeArtifactAuditor(IProject project,
-			IAbstractArtifact artifact) {
-		super(project, artifact);
-	}
-
-	@Override
 	public void run(IProgressMonitor monitor) {
-		super.run(monitor);
-
 		checkManagedEntities(monitor);
 		checkNamedQueries(monitor);
 		checkEmittedEvents(monitor);
@@ -68,16 +58,14 @@ public class SessionFacadeArtifactAuditor extends AbstractArtifactAuditor
 					.getWorkbenchProfileSession().getActiveProfile()
 					.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 
-			if (prop
-					.getPropertyValue(IOssjLegacySettigsProperty.DISPLAY_OSSJSPECIFICS)) {
+			if (prop.getPropertyValue(IOssjLegacySettigsProperty.DISPLAY_OSSJSPECIFICS)) {
 
 				IArtifactManagerSession session = artifact
 						.getTigerstripeProject().getArtifactManagerSession();
 				Collection<IManagedEntityDetails> details = artifact
 						.getManagedEntityDetails();
 				if (details.size() == 0
-						&& prop
-								.getPropertyValue(IOssjLegacySettigsProperty.USEMANAGEDENTITIES_ONSESSION)) {
+						&& prop.getPropertyValue(IOssjLegacySettigsProperty.USEMANAGEDENTITIES_ONSESSION)) {
 					TigerstripeProjectAuditor
 							.reportWarning(
 									ArtifactMetadataFactory.INSTANCE
@@ -139,11 +127,9 @@ public class SessionFacadeArtifactAuditor extends AbstractArtifactAuditor
 																+ "'"
 																+ fqn
 																+ "' defined in override of '"
-																+ detail
-																		.getName()
+																+ detail.getName()
 																+ ":"
-																+ method
-																		.getName()
+																+ method.getName()
 																+ "("
 																+ flavor.name()
 																+ ")' cannot be resolved.",
@@ -170,11 +156,9 @@ public class SessionFacadeArtifactAuditor extends AbstractArtifactAuditor
 			IArtifactManagerSession session = artifact.getTigerstripeProject()
 					.getArtifactManagerSession();
 			Collection<INamedQuery> queries = artifact.getNamedQueries();
-			if (prop
-					.getPropertyValue(IOssjLegacySettigsProperty.DISPLAY_OSSJSPECIFICS)) {
+			if (prop.getPropertyValue(IOssjLegacySettigsProperty.DISPLAY_OSSJSPECIFICS)) {
 				if (queries.size() == 0
-						&& prop
-								.getPropertyValue(IOssjLegacySettigsProperty.USENAMEDQUERIES_ONSESSION)) {
+						&& prop.getPropertyValue(IOssjLegacySettigsProperty.USENAMEDQUERIES_ONSESSION)) {
 					TigerstripeProjectAuditor.reportWarning(
 							ArtifactMetadataFactory.INSTANCE.getMetadata(
 									ISessionArtifactImpl.class.getName())
@@ -223,11 +207,9 @@ public class SessionFacadeArtifactAuditor extends AbstractArtifactAuditor
 			IArtifactManagerSession session = artifact.getTigerstripeProject()
 					.getArtifactManagerSession();
 			Collection<IEmittedEvent> eevents = artifact.getEmittedEvents();
-			if (prop
-					.getPropertyValue(IOssjLegacySettigsProperty.DISPLAY_OSSJSPECIFICS)) {
+			if (prop.getPropertyValue(IOssjLegacySettigsProperty.DISPLAY_OSSJSPECIFICS)) {
 				if (eevents.size() == 0
-						&& prop
-								.getPropertyValue(IOssjLegacySettigsProperty.USEEMITTEDNOTIFICATIONS_ONSESSION)) {
+						&& prop.getPropertyValue(IOssjLegacySettigsProperty.USEEMITTEDNOTIFICATIONS_ONSESSION)) {
 					TigerstripeProjectAuditor.reportWarning(
 							ArtifactMetadataFactory.INSTANCE.getMetadata(
 									ISessionArtifactImpl.class.getName())

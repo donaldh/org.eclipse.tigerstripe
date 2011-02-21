@@ -11,14 +11,11 @@
 package org.eclipse.tigerstripe.workbench.internal.core.project;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceChangeEvent;
-import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -45,15 +42,11 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
  * @author erdillon
  * 
  */
-public class TigerstripeProjectFactory implements IResourceChangeListener {
+public class TigerstripeProjectFactory {
 
 	public final static TigerstripeProjectFactory INSTANCE = new TigerstripeProjectFactory();
 
 	private ProjectSessionImpl session = new ProjectSessionImpl();
-
-	private TigerstripeProjectFactory() {
-		registerForProjectDeletion();
-	}
 
 	@SuppressWarnings("unchecked")
 	private final static Class[] SUPPORTED_PROJECT_TYPES = {
@@ -104,7 +97,7 @@ public class TigerstripeProjectFactory implements IResourceChangeListener {
 			IWorkspace workspace = ResourcesPlugin.getWorkspace();
 			workspace.run(runnable, monitor);
 
-			return findProject(workspace.getRoot().findMember(projectName)
+			return findProjectOrCreate(workspace.getRoot().findMember(projectName)
 					.getLocation());
 		} catch (CoreException e) {
 			throw new TigerstripeException(
@@ -141,39 +134,40 @@ public class TigerstripeProjectFactory implements IResourceChangeListener {
 	 * @return
 	 * @throws TigerstripeException
 	 */
-	public IAbstractTigerstripeProject findProject(IPath path)
+	public IAbstractTigerstripeProject findProjectOrCreate(IPath path)
 			throws TigerstripeException {
-		URI uri = path.toFile().toURI();
-		return session.makeTigerstripeProject(uri);
+		return session.makeTigerstripeProject(getProjectURI(path));
 	}
 
+	public IAbstractTigerstripeProject findProject(IPath path)
+			throws TigerstripeException {
+		return session.getProject(getProjectURI(path));
+	}
+	
+	public URI getProjectURI(IPath path) throws TigerstripeException {
+		try {
+			path = path.addTrailingSeparator();
+			return new URI("file", null, path.toString(), null);
+		} catch (URISyntaxException e) {
+			throw new TigerstripeException(String.format("Unable to determine URI for the project path '%s'", path), e);
+		}
+	}
+	
+	
 	/**
 	 * As a result of a project being deleted we need to remove its entry in the
 	 * cache
 	 * 
 	 * @param projectPath
+	 * @throws TigerstripeException 
 	 */
-	private void projectDeleted(IPath projectPath) {
-		session.removeFromCache(projectPath);
+	public void deleteProject(IPath projectPath) throws TigerstripeException {
+		session.removeProject(getProjectURI(projectPath));
 	}
 
 	public IPhantomTigerstripeProject getPhantomProject()
 			throws TigerstripeException {
 		return session.getPhantomProject();
-	}
-
-	// ==============================================
-	// Resource change listener.
-	public void resourceChanged(IResourceChangeEvent event) {
-		IResource res = event.getResource();
-		if (res instanceof IProject) {
-			projectDeleted(res.getLocation());
-		}
-	}
-
-	private void registerForProjectDeletion() {
-		ResourcesPlugin.getWorkspace().addResourceChangeListener(this,
-				IResourceChangeEvent.PRE_DELETE);
 	}
 
 	// FIXME this is temporary until the project session disappears.

@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.builder;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
@@ -20,49 +19,45 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationEnd;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.UnresolvedStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EAggregationEnum;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
-public class AssociationArtifactAuditor extends AbstractArtifactAuditor
-		implements IArtifactAuditor {
+public class AssociationArtifactAuditor extends AbstractArtifactAuditor {
 
-	public AssociationArtifactAuditor(IProject project,
-			IAbstractArtifact artifact) {
-		super(project, artifact);
-	}
-
-	@Override
 	public void run(IProgressMonitor monitor) {
-		super.run(monitor);
 
 		IAssociationArtifact artifact = (IAssociationArtifact) getArtifact();
 
 		// Added test - Bug 244010
-		IType aEndType = artifact.getAEnd()!=null?artifact.getAEnd().getType():null;
+		IType aEndType = artifact.getAEnd() != null ? artifact.getAEnd()
+				.getType() : null;
 		boolean aEndDefined = false;
 		if (aEndType == null || aEndType.getFullyQualifiedName().length() == 0) {
-			TigerstripeProjectAuditor.reportError("Undefined "
-					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IAssociationArtifactImpl.class.getName()).getLabel(
-							artifact) + " end (aEnd) in '"
-					+ artifact.getFullyQualifiedName() + "'.", getIResource(),
-					222);
+			TigerstripeProjectAuditor.reportError(
+					"Undefined "
+							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+									IAssociationArtifactImpl.class.getName())
+									.getLabel(artifact) + " end (aEnd) in '"
+							+ artifact.getFullyQualifiedName() + "'.",
+					getIResource(), 222);
 		} else
 			aEndDefined = true;
 
 		// Added test - Bug 244010
-		IType zEndType = artifact.getZEnd()!=null?artifact.getZEnd().getType():null;
+		IType zEndType = artifact.getZEnd() != null ? artifact.getZEnd()
+				.getType() : null;
 		boolean zEndDefined = false;
 		if (zEndType == null || zEndType.getFullyQualifiedName().length() == 0) {
-			TigerstripeProjectAuditor.reportError("Undefined "
-					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IAssociationArtifactImpl.class.getName()).getLabel(
-							artifact) + " end (zEnd) in '"
-					+ artifact.getFullyQualifiedName() + "'.", getIResource(),
-					222);
+			TigerstripeProjectAuditor.reportError(
+					"Undefined "
+							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+									IAssociationArtifactImpl.class.getName())
+									.getLabel(artifact) + " end (zEnd) in '"
+							+ artifact.getFullyQualifiedName() + "'.",
+					getIResource(), 222);
 		} else
 			zEndDefined = true;
 
@@ -79,35 +74,36 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 		}
 	}
 
-	
 	/**
-	 * Check the the end types are defined as "suitable" types for the ends
-	 * Pass in the types as we have already extracted them.
+	 * Check the the end types are defined as "suitable" types for the ends Pass
+	 * in the types as we have already extracted them.
 	 */
-	protected void checkSuitableEndTypes(IType aEndType, IType zEndType){
-		if (! AssociationEnd.isSuitableType(aEndType)){
+	protected void checkSuitableEndTypes(IType aEndType, IType zEndType) {
+		if (!AssociationEnd.isSuitableType(aEndType)) {
 			String typeLabel = "";
-			if (aEndType.isArtifact()){
+			if (aEndType.isArtifact()) {
 				typeLabel = aEndType.getArtifact().getLabel();
 			} else {
 				typeLabel = aEndType.getFullyQualifiedName();
 			}
-			
-			TigerstripeProjectAuditor.reportError("The A End must be of a suitable Type. Association Ends may not be of type '"+typeLabel+ "'.", getIResource(),
-					222);
+
+			TigerstripeProjectAuditor.reportError(
+					"The A End must be of a suitable Type. Association Ends may not be of type '"
+							+ typeLabel + "'.", getIResource(), 222);
 		}
-		if (! AssociationEnd.isSuitableType(zEndType)){
+		if (!AssociationEnd.isSuitableType(zEndType)) {
 			String typeLabel = "";
-			if (zEndType.isArtifact()){
+			if (zEndType.isArtifact()) {
 				typeLabel = zEndType.getArtifact().getLabel();
 			} else {
 				typeLabel = zEndType.getFullyQualifiedName();
 			}
-			TigerstripeProjectAuditor.reportError("The Z End must be of a suitable Type. Association Ends may not be of type '"+typeLabel+ "'.", getIResource(),
-					222);
+			TigerstripeProjectAuditor.reportError(
+					"The Z End must be of a suitable Type. Association Ends may not be of type '"
+							+ typeLabel + "'.", getIResource(), 222);
 		}
 	}
-	
+
 	/**
 	 * Check that at least one end is navigable
 	 */
@@ -115,12 +111,14 @@ public class AssociationArtifactAuditor extends AbstractArtifactAuditor
 		IAssociationArtifact artifact = (IAssociationArtifact) getArtifact();
 		if (!artifact.getAEnd().isNavigable()
 				&& !artifact.getZEnd().isNavigable()) {
-			TigerstripeProjectAuditor.reportError("At least one "
-					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IAssociationArtifactImpl.class.getName()).getLabel(
-							artifact) + " End must be navigable in '"
-					+ artifact.getFullyQualifiedName() + "'.", getIResource(),
-					222);
+			TigerstripeProjectAuditor.reportError(
+					"At least one "
+							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+									IAssociationArtifactImpl.class.getName())
+									.getLabel(artifact)
+							+ " End must be navigable in '"
+							+ artifact.getFullyQualifiedName() + "'.",
+					getIResource(), 222);
 		}
 	}
 

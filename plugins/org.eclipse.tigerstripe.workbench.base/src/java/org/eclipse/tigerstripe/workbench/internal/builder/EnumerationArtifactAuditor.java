@@ -12,29 +12,19 @@ package org.eclipse.tigerstripe.workbench.internal.builder;
 
 import java.util.HashMap;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.metamodel.impl.IEnumArtifactImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjEnumSpecifics;
 
-public class EnumerationArtifactAuditor extends AbstractArtifactAuditor
-		implements IArtifactAuditor {
+public class EnumerationArtifactAuditor extends AbstractArtifactAuditor {
 
-	public EnumerationArtifactAuditor(IProject project,
-			IAbstractArtifact artifact) {
-		super(project, artifact);
-	}
-
-	@Override
 	public void run(IProgressMonitor monitor) {
-		super.run(monitor);
 
 		IEnumArtifact artifact = (IEnumArtifact) getArtifact();
 		IOssjEnumSpecifics specifics = (IOssjEnumSpecifics) artifact
@@ -125,18 +115,21 @@ public class EnumerationArtifactAuditor extends AbstractArtifactAuditor
 				if (valueDefinitionMap.containsKey(value)) {
 					String otherDefName = (String) valueDefinitionMap
 							.get(value);
-					TigerstripeProjectAuditor.reportWarning("The value ("
-							+ value
-							+ ") of label '"
-							+ name
-							+ "' is identical to value of label '"
-							+ otherDefName
-							+ "' in '"
-							+ artifact.getFullyQualifiedName()
-							+ "' "
-							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-									IEnumArtifactImpl.class.getName())
-									.getLabel(artifact) + " Artifact.",
+					TigerstripeProjectAuditor.reportWarning(
+							"The value ("
+									+ value
+									+ ") of label '"
+									+ name
+									+ "' is identical to value of label '"
+									+ otherDefName
+									+ "' in '"
+									+ artifact.getFullyQualifiedName()
+									+ "' "
+									+ ArtifactMetadataFactory.INSTANCE
+											.getMetadata(
+													IEnumArtifactImpl.class
+															.getName())
+											.getLabel(artifact) + " Artifact.",
 							getIResource(), 222);
 				} else {
 					valueDefinitionMap.put(value, name);

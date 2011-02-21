@@ -65,6 +65,8 @@ public abstract class TigerstripeProjectHandle extends
 
 	public final static String DESCRIPTOR_FILENAME = ITigerstripeConstants.PROJECT_DESCRIPTOR;
 
+	private boolean wasDisposed = false;
+
 	public String getDescriptorFilename() {
 		return DESCRIPTOR_FILENAME;
 	}
@@ -113,6 +115,10 @@ public abstract class TigerstripeProjectHandle extends
 		}
 
 		return artifactMgrSession;
+	}
+
+	public boolean wasDisposed() {
+		return super.wasDisposed() && wasDisposed;
 	}
 
 	protected void setArtifactManagerSession(ArtifactManagerSessionImpl session) {
@@ -485,12 +491,12 @@ public abstract class TigerstripeProjectHandle extends
 
 	public PluginRunStatus[] generate(IM1RunConfig config,
 			IProgressMonitor monitor) throws TigerstripeException {
-	    
+
 		M1Generator generator = new M1Generator(this, (M1RunConfig) config);
 		if (monitor == null)
-		    return generator.run();
+			return generator.run();
 		else
-		    return generator.run(monitor);
+			return generator.run(monitor);
 	}
 
 	// ========================================
@@ -508,7 +514,9 @@ public abstract class TigerstripeProjectHandle extends
 			IProjectDependencyChangeListener listener) {
 		if (isWorkingCopy()) {
 			TigerstripeProjectHandle original = (TigerstripeProjectHandle) getOriginal();
-			original.removeProjectDependencyChangeListener(listener);
+			if (original != null) {
+				original.removeProjectDependencyChangeListener(listener);
+			}
 		} else
 			projectChangeListeners.remove(listener);
 	}
@@ -578,6 +586,15 @@ public abstract class TigerstripeProjectHandle extends
 
 	public ModelReference[] getModelReferences() throws TigerstripeException {
 		return getTSProject().getModelReferences();
+	}
+
+	@Override
+	public void dispose() {
+		super.dispose();
+		if (manager != null) {
+			manager.dispose();
+		}
+		wasDisposed = true;
 	}
 
 }

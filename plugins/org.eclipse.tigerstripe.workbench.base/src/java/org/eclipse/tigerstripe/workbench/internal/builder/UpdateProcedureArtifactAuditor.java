@@ -10,14 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.builder;
 
-import org.eclipse.core.resources.IProject;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.core.runtime.IProgressMonitor;
 
-public class UpdateProcedureArtifactAuditor extends AbstractArtifactAuditor
-		implements IArtifactAuditor {
+public class UpdateProcedureArtifactAuditor extends AbstractArtifactAuditor {
 
-	public UpdateProcedureArtifactAuditor(IProject project,
-			IAbstractArtifact artifact) {
-		super(project, artifact);
+	public void run(IProgressMonitor monitor) {
 	}
+
 }

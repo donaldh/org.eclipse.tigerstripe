@@ -10,20 +10,17 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.builder;
 
-import org.eclipse.core.resources.IProject;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 
-public class AssociationClassArtifactAuditor extends AssociationArtifactAuditor
-		implements IArtifactAuditor {
+public class AssociationClassArtifactAuditor extends AbstractArtifactAuditor {
 
-	public AssociationClassArtifactAuditor(IProject project,
-			IAbstractArtifact artifact) {
-		super(project, artifact);
+	public void run(IProgressMonitor monitor) {
+		checkSuperArtifact();
 	}
 
-	@Override
-	protected void checkSuperArtifact() {
+	private void checkSuperArtifact() {
 		IAbstractArtifact superArtifact = getArtifact().getExtendedArtifact();
 
 		if (superArtifact != null) {
@@ -40,5 +37,4 @@ public class AssociationClassArtifactAuditor extends AssociationArtifactAuditor
 			}
 		}
 	}
-
 }

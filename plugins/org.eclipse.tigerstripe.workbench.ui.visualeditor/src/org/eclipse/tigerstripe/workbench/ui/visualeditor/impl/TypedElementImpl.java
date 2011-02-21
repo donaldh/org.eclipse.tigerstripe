@@ -17,13 +17,16 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssocMultiplicity;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
@@ -706,4 +709,35 @@ public class TypedElementImpl extends NamedElementImpl implements TypedElement {
 		return result.toString();
 	}
 
+	private ArtifactManager oldListenedManager;
+
+	protected void listenModelComponent(IModelComponent component) {
+		if (oldListenedManager != null) {
+			oldListenedManager.removeDisposeListener(disposeListener);
+		}
+		if (component == null) {
+			return;
+		}
+
+		try {
+			ArtifactManager artifactManager = component.getProject().getArtifactManagerSession().getArtifactManager();
+			if (artifactManager.wasDisposed()) {
+				return;
+			}
+			artifactManager.addDisposeListener(disposeListener);
+			oldListenedManager = artifactManager;
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+		}
+	}
+
+	ArtifactManager.IDisposeListener disposeListener = new ArtifactManager.IDisposeListener() {
+		public void onDispose() {
+			onArtifactManagerDispose();	
+		}
+
+	}; 
+
+	protected void onArtifactManagerDispose() {
+	}
 } // TypedElementImpl

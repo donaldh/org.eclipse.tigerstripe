@@ -167,9 +167,8 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 					monitor.subTask(artifact.getFullyQualifiedName());
 					// System.out.println(
 					// dateStr+"Smart Audit Project starting audit for Artifact "+artifact.getName());
-					IArtifactAuditor auditor = ArtifactAuditorFactory
-							.getInstance().newArtifactAuditor(getProject(),
-									artifact);
+					IArtifactAuditor auditor = ArtifactAuditorFactory.INSTANCE
+							.newArtifactAuditor(getProject(), artifact);
 					auditor.run(monitor);
 					// System.out.println(
 					// dateStr+"Smart Audit Project starting audit for Artifact done"+artifact.getName());
@@ -222,9 +221,8 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 					if (artifact != null) {
 						deleteAuditMarkers(artifact);
 						monitor.subTask(artifact.getFullyQualifiedName());
-						IArtifactAuditor auditor = ArtifactAuditorFactory
-								.getInstance().newArtifactAuditor(getProject(),
-										artifact);
+						IArtifactAuditor auditor = ArtifactAuditorFactory.INSTANCE
+								.newArtifactAuditor(getProject(), artifact);
 						auditor.run(monitor);
 						modelAuditorHelper.artifactAudited(artifact);
 						monitor.worked(1);
@@ -270,8 +268,8 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 				if (resource instanceof IFolder)
 					return false;
 				if (javaOutputPath != null) {
-					if (resource.getFullPath().toString().startsWith(
-							javaOutputPath.toString()))
+					if (resource.getFullPath().toString()
+							.startsWith(javaOutputPath.toString()))
 						return false;
 				}
 				if ("java".equals(resource.getFileExtension())
@@ -558,8 +556,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		} finally {
 			if (session != null) {
 				try {
-					session
-							.setBroadcastMask(IArtifactChangeListener.NOTIFY_ALL);
+					session.setBroadcastMask(IArtifactChangeListener.NOTIFY_ALL);
 				} catch (TigerstripeException e) {
 					// ignore here
 				}
@@ -607,8 +604,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 
 		public boolean visit(IResourceDelta delta) throws CoreException {
 			descriptorFound = descriptorName.equals(delta.getResource()
-					.getName())
-					&& delta.getKind() == IResourceDelta.CHANGED;
+					.getName()) && delta.getKind() == IResourceDelta.CHANGED;
 			return !descriptorFound;
 		}
 
@@ -660,7 +656,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 			monitor.beginTask("Auditing Artifacts", artifacts.size());
 			for (IAbstractArtifact artifact : artifacts) {
 				monitor.subTask(artifact.getFullyQualifiedName());
-				IArtifactAuditor auditor = ArtifactAuditorFactory.getInstance()
+				IArtifactAuditor auditor = ArtifactAuditorFactory.INSTANCE
 						.newArtifactAuditor(getProject(), artifact);
 				auditor.run(monitor);
 				monitor.worked(1);
@@ -705,8 +701,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	public static boolean deleteAuditMarkers(IResource resource, int depth) {
 		try {
 			if (resource != null)
-				resource
-						.deleteMarkers(BuilderConstants.MARKER_ID, false, depth);
+				resource.deleteMarkers(BuilderConstants.MARKER_ID, false, depth);
 			return true;
 		} catch (CoreException e) {
 			BasePlugin.log(e);
@@ -921,8 +916,8 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 					aUri.fragment());
 			marker.setAttribute(IMarker.LOCATION, aUri.toString());
 			marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
-			marker.setAttribute(BuilderConstants.ANNOTATION_ID, annotation
-					.getId());
+			marker.setAttribute(BuilderConstants.ANNOTATION_ID,
+					annotation.getId());
 		} catch (Exception e) {
 			BasePlugin.log(e);
 		}

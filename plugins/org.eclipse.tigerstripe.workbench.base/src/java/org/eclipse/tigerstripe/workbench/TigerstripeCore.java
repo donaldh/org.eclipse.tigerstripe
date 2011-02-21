@@ -107,6 +107,11 @@ public class TigerstripeCore {
 	 * @return
 	 * @throws TigerstripeException
 	 */
+	public static IAbstractTigerstripeProject findProjectOrCreate(IPath path)
+			throws TigerstripeException {
+		return TigerstripeProjectFactory.INSTANCE.findProjectOrCreate(path);
+	}
+
 	public static IAbstractTigerstripeProject findProject(IPath path)
 			throws TigerstripeException {
 		return TigerstripeProjectFactory.INSTANCE.findProject(path);
@@ -132,7 +137,7 @@ public class TigerstripeCore {
 			throws TigerstripeException {
 		File file = new File(uri);
 		IPath path = new Path(file.getAbsolutePath());
-		return TigerstripeProjectFactory.INSTANCE.findProject(path);
+		return TigerstripeProjectFactory.INSTANCE.findProjectOrCreate(path);
 	}
 
 	public static IAbstractTigerstripeProject findProject(String name)
@@ -143,7 +148,7 @@ public class TigerstripeCore {
 			return null;
 		}
 		IPath path = tsContainer.getLocation();
-		return findProject(path);
+		return findProjectOrCreate(path);
 	}
 
 	/**
@@ -155,21 +160,18 @@ public class TigerstripeCore {
 	 */
 	public static IAbstractTigerstripeProject[] allProjects()
 			throws TigerstripeException {
-//		return TigerstripeProjectsSession.INSTANCE.allProjects();
-		 List<IAbstractTigerstripeProject> allProjects = new
-		 ArrayList<IAbstractTigerstripeProject>();
-		
-		 IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		 for (IProject iProject : root.getProjects()) {
-		 IAbstractTigerstripeProject tProject = (IAbstractTigerstripeProject)
-		 iProject
-		 .getAdapter(IAbstractTigerstripeProject.class);
-		 if (tProject instanceof IAbstractTigerstripeProject)
-		 allProjects.add(tProject);
-		 }
-		 return allProjects.toArray(new
-		 IAbstractTigerstripeProject[allProjects
-		 .size()]);
+		// return TigerstripeProjectsSession.INSTANCE.allProjects();
+		List<IAbstractTigerstripeProject> allProjects = new ArrayList<IAbstractTigerstripeProject>();
+
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		for (IProject iProject : root.getProjects()) {
+			IAbstractTigerstripeProject tProject = (IAbstractTigerstripeProject) iProject
+					.getAdapter(IAbstractTigerstripeProject.class);
+			if (tProject instanceof IAbstractTigerstripeProject)
+				allProjects.add(tProject);
+		}
+		return allProjects.toArray(new IAbstractTigerstripeProject[allProjects
+				.size()]);
 	}
 
 	/**
@@ -181,26 +183,25 @@ public class TigerstripeCore {
 	 */
 	public static ITigerstripeModelProject[] allModelProjects()
 			throws TigerstripeException {
-//		return TigerstripeProjectsSession.INSTANCE.allModelProjects();
-		 List<ITigerstripeModelProject> allProjects = new
-		 ArrayList<ITigerstripeModelProject>();
-		
-		 IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		 for (IProject iProject : root.getProjects()) {
-		 ITigerstripeModelProject tProject = (ITigerstripeModelProject)
-		 iProject
-		 .getAdapter(ITigerstripeModelProject.class);
-		 if (tProject instanceof ITigerstripeModelProject)
-		 allProjects.add(tProject);
-		 }
-		 return allProjects.toArray(new ITigerstripeModelProject[allProjects
-		 .size()]);
+		// return TigerstripeProjectsSession.INSTANCE.allModelProjects();
+		List<ITigerstripeModelProject> allProjects = new ArrayList<ITigerstripeModelProject>();
+
+		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		for (IProject iProject : root.getProjects()) {
+			ITigerstripeModelProject tProject = (ITigerstripeModelProject) iProject
+					.getAdapter(ITigerstripeModelProject.class);
+			if (tProject instanceof ITigerstripeModelProject)
+				allProjects.add(tProject);
+		}
+		return allProjects.toArray(new ITigerstripeModelProject[allProjects
+				.size()]);
 	}
 
 	/**
 	 * Returns Tigerstripe Model Project by model ID
 	 * 
-	 * @param modelId project model ID
+	 * @param modelId
+	 *            project model ID
 	 * @return
 	 */
 	public static ITigerstripeModelProject findModelProjectByID(String modelId) {
@@ -211,7 +212,7 @@ public class TigerstripeCore {
 		for (IProject iProject : root.getProjects()) {
 			ITigerstripeModelProject tProject = (ITigerstripeModelProject) iProject
 					.getAdapter(ITigerstripeModelProject.class);
-			
+
 			if (tProject != null) {
 				try {
 					if (modelId.equals(tProject.getModelId())) {

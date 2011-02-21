@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.builder;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.metamodel.impl.IManagedEntityArtifactImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
@@ -24,16 +23,9 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjQuerySpecifics;
 
-public class QueryArtifactAuditor extends AbstractArtifactAuditor implements
-		IArtifactAuditor {
+public class QueryArtifactAuditor extends AbstractArtifactAuditor {
 
-	public QueryArtifactAuditor(IProject project, IAbstractArtifact artifact) {
-		super(project, artifact);
-	}
-
-	@Override
 	public void run(IProgressMonitor monitor) {
-		super.run(monitor);
 
 		IQueryArtifact artifact = (IQueryArtifact) getArtifact();
 		IOssjQuerySpecifics specifics = (IOssjQuerySpecifics) artifact
@@ -41,11 +33,13 @@ public class QueryArtifactAuditor extends AbstractArtifactAuditor implements
 		IType returnedType = specifics.getReturnedEntityIType();
 		if (returnedType == null
 				|| returnedType.getFullyQualifiedName().length() == 0) {
-			TigerstripeProjectAuditor.reportError("Undefined returned "
-					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IManagedEntityArtifactImpl.class.getName())
-							.getLabel(returnedType) + " type referenced in '"
-					+ artifact.getName() + "'.", getIResource(), 222);
+			TigerstripeProjectAuditor.reportError(
+					"Undefined returned "
+							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+									IManagedEntityArtifactImpl.class.getName())
+									.getLabel(returnedType)
+							+ " type referenced in '" + artifact.getName()
+							+ "'.", getIResource(), 222);
 		} else {
 			// As of 1.0.6 we allow both Datatype and Entity type to be returned
 			String fqn = returnedType.getFullyQualifiedName();
@@ -55,12 +49,18 @@ public class QueryArtifactAuditor extends AbstractArtifactAuditor implements
 				IAbstractArtifact returnType = session
 						.getArtifactByFullyQualifiedName(fqn);
 				if (returnType == null) {
-					TigerstripeProjectAuditor.reportError("Returned "
-							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-									IManagedEntityArtifactImpl.class.getName())
-									.getLabel(fqn) + " type '" + fqn
-							+ "' referenced in '" + artifact.getName()
-							+ "' cannot be resolved.", getIResource(), 222);
+					TigerstripeProjectAuditor
+							.reportError(
+									"Returned "
+											+ ArtifactMetadataFactory.INSTANCE
+													.getMetadata(
+															IManagedEntityArtifactImpl.class
+																	.getName())
+													.getLabel(fqn) + " type '"
+											+ fqn + "' referenced in '"
+											+ artifact.getName()
+											+ "' cannot be resolved.",
+									getIResource(), 222);
 				} else if (!(returnType instanceof IManagedEntityArtifact || returnType instanceof IDatatypeArtifact)) {
 					TigerstripeProjectAuditor
 							.reportError(
@@ -79,8 +79,8 @@ public class QueryArtifactAuditor extends AbstractArtifactAuditor implements
 													.getMetadata(
 															org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
 																	.getName())
-													.getLabel(returnType) + " artifact.",
-									getIResource(), 222);
+													.getLabel(returnType)
+											+ " artifact.", getIResource(), 222);
 				}
 			} catch (TigerstripeException e) {
 				BasePlugin.log(e);

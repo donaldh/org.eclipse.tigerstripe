@@ -28,7 +28,7 @@ public class ReferencesInitializer extends ClasspathContainerInitializer {
 	public static ReferencesClasspathContainer createContainer(
 			IJavaProject javaProject) throws TigerstripeException {
 		IAbstractTigerstripeProject project = TigerstripeCore
-				.findProject(javaProject.getProject().getLocation());
+				.findProjectOrCreate(javaProject.getProject().getLocation());
 		if (project instanceof ITigerstripeModelProject) {
 			return new ReferencesClasspathContainer(
 					(ITigerstripeModelProject) project);

@@ -18,10 +18,13 @@ import java.io.Reader;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -122,6 +125,10 @@ import com.thoughtworks.qdox.parser.ParseException;
  */
 public class ArtifactManager implements ITigerstripeChangeListener {
 
+	public static interface IDisposeListener {
+		void onDispose();
+	}
+
 	private final static int DEFAULT_BROADCASTMASK = IArtifactChangeListener.NOTIFY_ALL;
 
 	private long localTimeStamp = 0;
@@ -185,6 +192,8 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	 */
 	private ArtifactRelationshipCache relationshipCache;
 
+	private final Set<IDisposeListener> disposeListeners = new LinkedHashSet<ArtifactManager.IDisposeListener>();
+
 	public Collection<IPrimitiveTypeArtifact> getReservedPrimitiveTypeArtifacts() {
 		if (reservedPrimitiveTypeArtifacts == null) {
 			Collection<IPrimitiveTypeDef> defs = WorkbenchProfile
@@ -224,6 +233,66 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	public ArtifactManager(TigerstripeProject tsProject) {
 		this.tsProject = tsProject;
 		initManager();
+	}
+
+	public void dispose() {
+		if (wasDisposed) {
+			return;
+		}
+		try {
+			TigerstripeWorkspaceNotifier.INSTANCE
+					.removeTigerstripeChangeListener(this);
+			RefactoringChangeListener.getInstance().removeArtifactManager(this);
+			fireDispose();
+			clear(extractedMap);
+			clear(namedArtifactsMap);
+			clear(filenameMap);
+			clear(sourceMap);
+			clear(listeners);
+			clear(disposeListeners);
+			if (depContentCache != null) {
+				depContentCache.dispose();
+			}
+			if (relationshipCache != null) {
+				relationshipCache.clearCache();
+			}
+			clear(pojosMap);
+			extractedMap = null;
+			namedArtifactsMap = null;
+			filenameMap = null;
+			sourceMap = null;
+			listeners = null;
+			discoverableArtifacts = null;
+			activeFacet = null;
+			depContentCache = null;
+			facetListeners = null;
+			listeners = null;
+			phantomArtifactMgrSession = null;
+			pojosMap = null;
+			relationshipCache = null;
+			tsProject = null;
+		} finally {
+			wasDisposed = true;
+		}
+	}
+
+	protected void clear(Map<?, ?> map) {
+		if (map != null) {
+			map.clear();
+		}
+	}
+
+	protected void clear(Collection<?> collection) {
+		if (collection != null) {
+			collection.clear();
+		}
+	}
+
+	
+	private boolean wasDisposed = false;
+
+	public boolean wasDisposed() {
+		return wasDisposed;
 	}
 
 	private void clearExtractedMap() {
@@ -287,6 +356,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	 * 
 	 */
 	public void reset(IProgressMonitor monitor) {
+		if (wasDisposed) {
+			return;
+		}
 
 		if (monitor == null)
 			monitor = new NullProgressMonitor();
@@ -301,10 +373,16 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	}
 
 	public Collection<IAbstractArtifact> getRegisteredArtifacts() {
+		if (wasDisposed) {
+			return Collections.emptySet();
+		}
 		return this.discoverableArtifacts;
 	}
 
 	public void updateDependenciesContentCache(IProgressMonitor monitor) {
+		if (wasDisposed) {
+			return;
+		}
 		if (monitor == null)
 			monitor = new NullProgressMonitor();
 
@@ -400,6 +478,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	 */
 	public void registerDiscoverableArtifact(AbstractArtifact artifact)
 			throws IllegalArgumentException {
+		if (wasDisposed) {
+			return;
+		}
 		if (artifact == null)
 			throw new IllegalArgumentException(
 					"Trying to register invalid artifact (null)");
@@ -481,6 +562,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 
 	public List<IAbstractArtifact> getArtifactsByModel(AbstractArtifact model,
 			boolean includeDependencies, IProgressMonitor monitor) {
+		if (wasDisposed) {
+			return Collections.emptyList();
+		}
 		return getArtifactsByModel(model, includeDependencies,
 				shouldOverridePredicate(), monitor);
 	}
@@ -488,12 +572,18 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	public List<IAbstractArtifact> getArtifactsByModel(AbstractArtifact model,
 			boolean includeDependencies, boolean overridePredicate,
 			IProgressMonitor monitor) {
+		if (wasDisposed) {
+			return Collections.emptyList();
+		}
 		return getArtifactsByModel(model, includeDependencies,
 				overridePredicate, newContext(monitor));
 	}
 
 	public List<IAbstractArtifact> getArtifactsByModel(AbstractArtifact model,
 			boolean includeDependencies, ExecutionContext context) {
+		if (wasDisposed) {
+			return Collections.emptyList();
+		}
 		return getArtifactsByModel(model, includeDependencies,
 				shouldOverridePredicate(), context);
 	}
@@ -501,6 +591,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	public List<IAbstractArtifact> getArtifactsByModel(AbstractArtifact model,
 			boolean includeDependencies, boolean overridePredicate,
 			ExecutionContext context) {
+		if (wasDisposed) {
+			return Collections.emptyList();
+		}
 
 		IProgressMonitor monitor = context.getMonitor();
 
@@ -560,6 +653,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	 * @return Note: this doesn't go thru the dependencies
 	 */
 	public AbstractArtifact getArtifactByFilename(String filename) {
+		if (wasDisposed) {
+			return null;
+		}
 		try {
 			readLock.lock();
 			return (AbstractArtifact) this.filenameMap.get(filename);
@@ -570,12 +666,18 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 
 	public List<IAbstractArtifact> getAllArtifacts(boolean includeDependencies,
 			boolean isOverridePredicate, IProgressMonitor monitor) {
+		if (wasDisposed) {
+			return Collections.emptyList();
+		}
 		return getAllArtifacts(includeDependencies, isOverridePredicate,
 				newContext(monitor));
 	}
 
 	public List<IAbstractArtifact> getAllArtifacts(boolean includeDependencies,
 			ExecutionContext context) {
+		if (wasDisposed) {
+			return Collections.emptyList();
+		}
 		return getAllArtifacts(includeDependencies, shouldOverridePredicate(),
 				context);
 	}
@@ -587,7 +689,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	 */
 	public List<IAbstractArtifact> getAllArtifacts(boolean includeDependencies,
 			boolean isOverridePredicate, ExecutionContext context) {
-
+		if (wasDisposed) {
+			return Collections.emptyList();
+		}
 		try {
 			lock(true);
 			readLock.lock();
@@ -662,7 +766,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 
 	public Collection<IAbstractArtifact> getAllArtifacts(
 			boolean includeDependencies, IProgressMonitor monitor) {
-
+		if (wasDisposed) {
+			return Collections.emptyList();
+		}
 		if (monitor == null)
 			monitor = new NullProgressMonitor();
 
@@ -672,6 +778,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 
 	public Collection getModelArtifacts(boolean includeDependencies,
 			IProgressMonitor monitor) {
+		if (wasDisposed) {
+			return Collections.emptyList();
+		}
 		if (monitor == null)
 			monitor = new NullProgressMonitor();
 
@@ -681,7 +790,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 
 	public Collection getModelArtifacts(boolean includeDependencies,
 			boolean overridePredicate, IProgressMonitor monitor) {
-
+		if (wasDisposed) {
+			return Collections.emptyList();
+		}
 		if (monitor == null)
 			monitor = new NullProgressMonitor();
 
@@ -711,6 +822,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	@Deprecated
 	public Collection getCapabilitiesArtifacts(boolean includeDependencies,
 			IProgressMonitor monitor) {
+		if (wasDisposed) {
+			return Collections.emptyList();
+		}
 		return getCapabilitiesArtifacts(includeDependencies,
 				shouldOverridePredicate(), monitor);
 	}
@@ -725,6 +839,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	@Deprecated
 	public Collection getCapabilitiesArtifacts(boolean includeDependencies,
 			boolean overridePredicate, IProgressMonitor monitor) {
+		if (wasDisposed) {
+			return Collections.emptyList();
+		}
 		try {
 			readLock.lock();
 			Collection result = new ArrayList();
@@ -746,6 +863,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 
 	public AbstractArtifact getArtifactByFullyQualifiedName(String name,
 			boolean includeDependencies, IProgressMonitor monitor) {
+		if (wasDisposed) {
+			return null;
+		}
 		if (monitor == null)
 			monitor = new NullProgressMonitor();
 
@@ -756,7 +876,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	public AbstractArtifact getArtifactByFullyQualifiedName(String name,
 			boolean includeDependencies, boolean isOverridePredicate,
 			IProgressMonitor monitor) {
-
+		if (wasDisposed) {
+			return null;
+		}
 		if (monitor == null)
 			monitor = new NullProgressMonitor();
 
@@ -825,6 +947,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	// - Active facet cannot be ignored: the default behavior when non
 	// generate is to ignore facets for lookups/queries.
 	public void generationStart() {
+		if (wasDisposed) {
+			return;
+		}
 		lock(true);
 		setDefaultFacetBehavior(DONT_IGNORE_ACTIVEFACET);
 
@@ -846,6 +971,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	}
 
 	public void generationComplete() {
+		if (wasDisposed) {
+			return;
+		}
 		setDefaultFacetBehavior(IGNORE_ACTIVEFACET);
 		lock(false);
 
@@ -921,7 +1049,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	 *            will be applied.
 	 */
 	public void refresh(boolean forceReload, IProgressMonitor monitor) {
-
+		if (wasDisposed) {
+			return;
+		}
 		if (monitor == null)
 			monitor = new NullProgressMonitor();
 
@@ -1001,6 +1131,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	}
 
 	public void refreshReferences(IProgressMonitor monitor) {
+		if (wasDisposed) {
+			return;
+		}
 		try {
 			writeLock.lock();
 			if (monitor == null)
@@ -1022,6 +1155,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	}
 
 	public void updateCaches(IProgressMonitor monitor) {
+		if (wasDisposed) {
+			return;
+		}
 		try {
 			writeLock.lock();
 			if (monitor == null)
@@ -1138,7 +1274,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	}
 
 	protected List<String> findAllResourcesFromPath(IProgressMonitor monitor) {
-
+		if (wasDisposed) {
+			return Collections.emptyList();
+		}
 		long startTime = System.currentTimeMillis();
 		List<String> allResources = new ArrayList<String>();
 
@@ -1306,6 +1444,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	 * Add a listener to this Artifact Manager
 	 */
 	public void addArtifactManagerListener(IArtifactChangeListener listener) {
+		if (wasDisposed) {
+			return;
+		}
 		Lock lwriteLock = listenersLock.writeLock();
 		try {
 			lwriteLock.lock();
@@ -1320,6 +1461,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	 * Add a listener to this Artifact Manager
 	 */
 	public void removeArtifactManagerListener(IArtifactChangeListener listener) {
+		if (wasDisposed) {
+			return;
+		}
 		Lock lwriteLock = listenersLock.writeLock();
 		try {
 			lwriteLock.lock();
@@ -1473,6 +1617,10 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	 */
 	public AbstractArtifact extractArtifact(JavaSource source,
 			IProgressMonitor monitor) throws TigerstripeException {
+		if (wasDisposed) {
+			return null;
+		}
+
 		AbstractArtifact extracted = null;
 		for (Iterator<IAbstractArtifact> iter = this.discoverableArtifacts
 				.iterator(); iter.hasNext();) {
@@ -1548,6 +1696,10 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	 */
 	public AbstractArtifact extractArtifact(Reader reader,
 			IProgressMonitor monitor) throws TigerstripeException {
+		if (wasDisposed) {
+			return null;
+		}
+
 		try {
 			JavaDocBuilder builder = new JavaDocBuilder();
 			JavaSource source = builder.addSource(reader);
@@ -1559,6 +1711,10 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 
 	public AbstractArtifact extractArtifactModel(Reader reader)
 			throws TigerstripeException {
+		if (wasDisposed) {
+			return null;
+		}
+
 		try {
 			JavaDocBuilder builder = new JavaDocBuilder();
 			JavaSource source = builder.addSource(reader);
@@ -1584,6 +1740,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	 */
 	public void addArtifact(IAbstractArtifact iartifact,
 			IProgressMonitor monitor) throws TigerstripeException {
+		if (wasDisposed) {
+			return;
+		}
 
 		if (iartifact == null)
 			return;
@@ -1686,6 +1845,11 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 		return null;
 	}
 
+	
+	public void removeArtifact(IAbstractArtifact artifact) throws TigerstripeException {
+		removeArtifact(artifact, Collections.<ITigerstripeModelProject>emptySet());
+	}
+	
 	/**
 	 * Removes an artifact from this manager and updates all the internal
 	 * tables.
@@ -1697,8 +1861,12 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	 * @throws TigerstripeException
 	 *             if the artifact cannot be properly removed
 	 */
-	public void removeArtifact(IAbstractArtifact artifact)
+	public void removeArtifact(IAbstractArtifact artifact, Set<ITigerstripeModelProject> ignoreProjects)
 			throws TigerstripeException {
+
+		if (wasDisposed) {
+			return;
+		}
 
 		if (artifact == null)
 			return;
@@ -1714,7 +1882,7 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 
 			if (artifact instanceof IRelationship) {
 				getRelationshipCache().removeRelationship(
-						(IRelationship) artifact);
+						(IRelationship) artifact, ignoreProjects);
 			}
 
 			((AbstractArtifact) artifact).dispose();
@@ -1808,6 +1976,10 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	}
 
 	public IDependency[] getProjectDependencies() {
+		if (wasDisposed) {
+			return new IDependency[0];
+		}
+
 		return getTSProject().getDependencies();
 	}
 
@@ -2015,6 +2187,10 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	 */
 	public Collection<IAbstractArtifact> getAllKnownArtifactsByFullyQualifiedName(
 			String fqn, IProgressMonitor monitor) {
+		if (wasDisposed) {
+			return Collections.emptyList();
+		}
+
 		try {
 			readLock.lock();
 			ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
@@ -2045,6 +2221,10 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 
 	public Collection<IAbstractArtifact> getAllKnownArtifactsByFullyQualifiedNameInModules(
 			String fqn, IProgressMonitor monitor) {
+		if (wasDisposed) {
+			return Collections.emptyList();
+		}
+
 		try {
 			readLock.lock();
 			Collection<IAbstractArtifact> list = depContentCache
@@ -2066,6 +2246,10 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 
 	public Collection<IAbstractArtifact> getAllKnownArtifactsByFullyQualifiedNameInReferencedProjects(
 			String fqn) {
+		if (wasDisposed) {
+			return Collections.emptyList();
+		}
+
 		try {
 			readLock.lock();
 			ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
@@ -2090,6 +2274,10 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 
 	public List<IRelationship> getOriginatingRelationshipForFQN(String fqn,
 			boolean includeProjectDependencies) throws TigerstripeException {
+		if (wasDisposed) {
+			return Collections.emptyList();
+		}
+
 		try {
 			readLock.lock();
 			return getOriginatingRelationshipForFQN(fqn,
@@ -2102,6 +2290,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	public List<IRelationship> getOriginatingRelationshipForFQN(String fqn,
 			boolean includeProjectDependencies, boolean ignoreFacets)
 			throws TigerstripeException {
+		if (wasDisposed) {
+			return Collections.emptyList();
+		}
 
 		try {
 			readLock.lock();
@@ -2127,6 +2318,10 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 
 	public List<IRelationship> getTerminatingRelationshipForFQN(String fqn,
 			boolean includeProjectDependencies) throws TigerstripeException {
+		if (wasDisposed) {
+			return Collections.emptyList();
+		}
+
 		try {
 			readLock.lock();
 			return getTerminatingRelationshipForFQN(fqn,
@@ -2139,6 +2334,10 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	public List<IRelationship> getTerminatingRelationshipForFQN(String fqn,
 			boolean includeProjectDependencies, boolean ignoreFacet)
 			throws TigerstripeException {
+		if (wasDisposed) {
+			return Collections.emptyList();
+		}
+
 		try {
 			readLock.lock();
 			List<IRelationship> result = new ArrayList<IRelationship>();
@@ -2169,6 +2368,10 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	// Really the Art Mgr should be listenning for Workspace Changes here
 	// and figure it out on its own.
 	public void notifyArtifactDeleted(IAbstractArtifact artifact) {
+		if (wasDisposed) {
+			return;
+		}
+
 		try {
 			URI oldURI = (URI) artifact.getAdapter(URI.class);
 			String simpleName = artifact.getClass().getSimpleName();
@@ -2192,6 +2395,10 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	}
 
 	public void notifyArtifactRenamed(IAbstractArtifact artifact, String fromFQN) {
+		if (wasDisposed) {
+			return;
+		}
+
 		Lock lreadLock = listenersLock.readLock();
 		try {
 			lreadLock.lock();
@@ -2215,6 +2422,10 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 
 	public void renameArtifact(IAbstractArtifact artifact, String toFQN,
 			IProgressMonitor monitor) throws TigerstripeException {
+		if (wasDisposed) {
+			return;
+		}
+
 		String fromFQN = artifact.getFullyQualifiedName();
 		try {
 			writeLock.lock();
@@ -2244,6 +2455,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	 * Add a listener to this Artifact Manager
 	 */
 	public void addActiveFacetListener(IActiveFacetChangeListener listener) {
+		if (wasDisposed) {
+			return;
+		}
 		Lock lwriteLock = facetListenersLock.writeLock();
 		try {
 			lwriteLock.lock();
@@ -2258,6 +2472,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	 * Add a listener to this Artifact Manager
 	 */
 	public void removeActiveFacetListener(IActiveFacetChangeListener listener) {
+		if (wasDisposed) {
+			return;
+		}
 		Lock lwriteLock = facetListenersLock.writeLock();
 		try {
 			lwriteLock.lock();
@@ -2350,6 +2567,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	}
 
 	public void resetActiveFacet() throws TigerstripeException {
+		if (wasDisposed) {
+			return;
+		}
 		IFacetReference oldFacet = activeFacet;
 		activeFacet = null;
 		resetScopingPredicate();
@@ -2375,6 +2595,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 
 	public void setActiveFacet(IFacetReference facetRef,
 			IProgressMonitor monitor) throws TigerstripeException {
+		if (wasDisposed) {
+			return;
+		}
 		if (facetRef.canResolve()) {
 			IFacetReference oldFacet = activeFacet;
 			activeFacet = facetRef;
@@ -2419,6 +2642,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	 */
 	public boolean isInActiveFacet(IAbstractArtifact artifact)
 			throws TigerstripeException {
+		if (wasDisposed) {
+			return false;
+		}
 		if (getActiveFacet() == null)
 			return true;
 
@@ -2477,6 +2703,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	// This will be proviked by changes to .java or .project file changes
 	// in the underlying fle system
 	public void artifactResourceChanged(IResource changedArtifactResource) {
+		if (wasDisposed) {
+			return;
+		}
 		try {
 			IProject p = (IProject) getTSProject().getAdapter(IProject.class);
 			if (changedArtifactResource.getProject().equals(p)) {
@@ -2492,7 +2721,7 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 				}
 			}
 		} catch (Exception e) {
-			TigerstripeRuntime.logErrorMessage(
+			BasePlugin.logErrorMessage(
 					"Failed to update ArtifactManager from changed Resource "
 							+ changedArtifactResource.getFullPath(), e);
 		}
@@ -2500,6 +2729,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	}
 
 	public void artifactResourceAdded(IResource addedArtifactResource) {
+		if (wasDisposed) {
+			return;
+		}
 		try {
 			IProject p = (IProject) getTSProject().getAdapter(IProject.class);
 			if (addedArtifactResource.getProject().equals(p)) {
@@ -2515,7 +2747,7 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 				}
 			}
 		} catch (Exception e) {
-			TigerstripeRuntime.logErrorMessage(
+			BasePlugin.logErrorMessage(
 					"Failed to update ArtifactManager from added Resource "
 							+ addedArtifactResource.getFullPath(), e);
 		}
@@ -2523,25 +2755,29 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	}
 
 	public void artifactResourceRemoved(IResource removedArtifactResource) {
-		try {
-			IProject p = (IProject) getTSProject().getAdapter(IProject.class);
-			if (removedArtifactResource.getProject().equals(p)) {
-				if (removedArtifactResource instanceof IFile) {
-					Reader reader;
+		/*
+		 * Move delete artifact logic to class WorkspaceListener. See comments
+		 * in this method about artifact deletion.
+		 */
+	}
 
-					reader = new InputStreamReader(
-							((IFile) removedArtifactResource).getContents());
-					AbstractArtifact aArtifact = extractArtifact(reader, null);
-
-					removeArtifact(aArtifact);
-
-				}
-			}
-		} catch (Exception e) {
-			TigerstripeRuntime.logErrorMessage(
-					"Failed to update ArtifactManager from removed Resource "
-							+ removedArtifactResource.getFullPath(), e);
+	public void addDisposeListener(IDisposeListener listener) {
+		if (wasDisposed) {
+			return;
 		}
+		disposeListeners.add(listener);
+	}
 
+	public void removeDisposeListener(IDisposeListener listener) {
+		if (wasDisposed) {
+			return;
+		}
+		disposeListeners.remove(listener);
+	}
+
+	private void fireDispose() {
+		for (IDisposeListener listener : disposeListeners) {
+			listener.onDispose();
+		}
 	}
 }

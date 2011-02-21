@@ -310,9 +310,13 @@ public class MethodImpl extends TypedElementImpl implements Method {
 	}
 
 	public void setMethod(IMethod method) {
+		listenModelComponent(method);
 		this.method = method;
 	}
-	
-	
+
+	 @Override
+	protected void onArtifactManagerDispose() {
+		method = null;
+	}
 
 } // MethodImpl

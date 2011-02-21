@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.annotation;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -88,23 +89,26 @@ public class ModuleAnnotationManager {
 				.getLocation().append(tsModuleURI.toPlatformString(true))
 				.toOSString();
 
-		JarFile file = new JarFile(filePath);
-		for (Enumeration<JarEntry> entries = file.entries(); entries
-				.hasMoreElements();) {
-			JarEntry entry = entries.nextElement();
-			if (entry.getName().endsWith(
-					EObjectRouter.ANNOTATION_FILE_EXTENSION)) {
-				ResourceSet set = new ResourceSetImpl();
+		File file = new File(filePath);
+		if (file.exists()) {
+			JarFile jarFile = new JarFile(file);
+			for (Enumeration<JarEntry> entries = jarFile.entries(); entries
+					.hasMoreElements();) {
+				JarEntry entry = entries.nextElement();
+				if (entry.getName().endsWith(
+						EObjectRouter.ANNOTATION_FILE_EXTENSION)) {
+					ResourceSet set = new ResourceSetImpl();
 
-				//create archive URI
-				String uriString = "tsmodule:/" + moduleID + "/" + filePath + "!/" + entry.getName();
-				URI rr = URI.createURI(uriString);
+					// create archive URI
+					String uriString = "tsmodule:/" + moduleID + "/" + filePath
+							+ "!/" + entry.getName();
+					URI rr = URI.createURI(uriString);
 
-				Resource res = set.createResource(rr);
-				result.add(res);
+					Resource res = set.createResource(rr);
+					result.add(res);
+				}
 			}
 		}
-
 		return result.toArray(new Resource[result.size()]);
 	}
 }

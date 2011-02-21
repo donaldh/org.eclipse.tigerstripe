@@ -55,15 +55,24 @@ public class ModuleArtifactManager extends ArtifactManager {
 
 	public void addTemporaryDependency(IDependency dependency)
 			throws TigerstripeException {
+		if (wasDisposed()) {
+			return;
+		}
 		temporaryDependencies.add(dependency);
 	}
 
 	public void clearTemporaryDependencies(IProgressMonitor monitor) {
+		if (wasDisposed()) {
+			return;
+		}
 		temporaryDependencies.clear();
 		updateDependenciesContentCache(monitor);
 	}
 
 	protected IDependency[] getTemporaryDependencies() {
+		if (wasDisposed()) {
+			return new IDependency[0];
+		}
 		return temporaryDependencies
 				.toArray(new IDependency[temporaryDependencies.size()]);
 	}
@@ -71,6 +80,16 @@ public class ModuleArtifactManager extends ArtifactManager {
 	@Override
 	public synchronized IDependency[] getProjectDependencies() {
 		return getTemporaryDependencies();
+	}
+
+	@Override
+	public void dispose() {
+		if (wasDisposed()) {
+			return;
+		}
+		temporaryDependencies.clear();
+		temporaryDependencies = null;
+		super.dispose();
 	}
 
 }

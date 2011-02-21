@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -27,6 +28,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * This holds a cache allowing to access all relationships using their
@@ -76,8 +78,8 @@ public class ArtifactRelationshipCache {
 
 	// Bug 928
 	/* package */void setActiveFacet(IFacetReference facetRef) {
-		this.relationshipFilter = new RelationshipPredicateFilter(facetRef
-				.getFacetPredicate());
+		this.relationshipFilter = new RelationshipPredicateFilter(
+				facetRef.getFacetPredicate());
 	}
 
 	// Bug 928
@@ -141,17 +143,18 @@ public class ArtifactRelationshipCache {
 	 */
 	public List<IRelationship> getRelationshipsOriginatingFromFQN(
 			String fullyQualifiedName) throws TigerstripeException {
-		return RelationshipFilter.filter(internalGetRelationshipsForFQN(
-				fullyQualifiedName, ORIGINATING), relationshipFilter);
+		return RelationshipFilter
+				.filter(internalGetRelationshipsForFQN(fullyQualifiedName,
+						ORIGINATING), relationshipFilter);
 	}
 
 	public List<IRelationship> getRelationshipsOriginatingFromFQN(
 			String fullyQualifiedName, boolean ignoreFacets)
 			throws TigerstripeException {
 		if (ignoreFacets)
-			return RelationshipFilter.filter(internalGetRelationshipsForFQN(
-					fullyQualifiedName, ORIGINATING),
-					RelationshipNoFilter.INSTANCE);
+			return RelationshipFilter.filter(
+					internalGetRelationshipsForFQN(fullyQualifiedName,
+							ORIGINATING), RelationshipNoFilter.INSTANCE);
 		else
 			return getRelationshipsOriginatingFromFQN(fullyQualifiedName);
 	}
@@ -166,17 +169,18 @@ public class ArtifactRelationshipCache {
 	 */
 	public List<IRelationship> getRelationshipsTerminatingInFQN(
 			String fullyQualifiedName) throws TigerstripeException {
-		return RelationshipFilter.filter(internalGetRelationshipsForFQN(
-				fullyQualifiedName, TERMINATING), relationshipFilter);
+		return RelationshipFilter
+				.filter(internalGetRelationshipsForFQN(fullyQualifiedName,
+						TERMINATING), relationshipFilter);
 	}
 
 	public List<IRelationship> getRelationshipsTerminatingInFQN(
 			String fullyQualifiedName, boolean ignoreFacet)
 			throws TigerstripeException {
 		if (ignoreFacet) {
-			return RelationshipFilter.filter(internalGetRelationshipsForFQN(
-					fullyQualifiedName, TERMINATING),
-					RelationshipNoFilter.INSTANCE);
+			return RelationshipFilter.filter(
+					internalGetRelationshipsForFQN(fullyQualifiedName,
+							TERMINATING), RelationshipNoFilter.INSTANCE);
 		} else {
 			return getRelationshipsTerminatingInFQN(fullyQualifiedName);
 		}
@@ -324,28 +328,35 @@ public class ArtifactRelationshipCache {
 		flushDeltas(deltas);
 	}
 
-	public void removeRelationship(IRelationship relationship) {
+	public void removeRelationship(IRelationship relationship, Set<ITigerstripeModelProject> ignoreProjects) {
 		List<IModelChangeDelta> deltas = new ArrayList<IModelChangeDelta>();
 
+		
 		if (relationship != null) {
 			// let's remove all entries about this old one
-			if (relationship.getRelationshipAEnd() != null
-					&& relationship.getRelationshipAEnd().getType() != null) {
-				String oldAEnd = relationship.getRelationshipAEnd().getType()
-						.getFullyQualifiedName();
-				removeRelationshipForFQN(oldAEnd, relationship, ORIGINATING);
-				addRelationshipEndDelta(deltas, relationship
-						.getRelationshipAEnd().getType().getArtifact(),
-						relationship.getFullyQualifiedName(), null, ORIGINATING);
+			IRelationshipEnd aEnd = relationship.getRelationshipAEnd();
+			
+			if (aEnd != null) {
+				IType aType = aEnd.getType();
+				ArtifactManager aMgr = aType.getArtifactManager();
+				if (aType != null && !aMgr.wasDisposed() && !ignoreProjects.contains(aMgr.getTSProject())) {
+					String oldAEnd = aType.getFullyQualifiedName();
+					removeRelationshipForFQN(oldAEnd, relationship, ORIGINATING);
+					IAbstractArtifact artifact = aType.getArtifact();
+					addRelationshipEndDelta(deltas, artifact,
+							relationship.getFullyQualifiedName(), null, ORIGINATING);
+				}
 			}
-			if (relationship.getRelationshipZEnd() != null
-					&& relationship.getRelationshipZEnd().getType() != null) {
-				String oldZEnd = relationship.getRelationshipZEnd().getType()
-						.getFullyQualifiedName();
-				removeRelationshipForFQN(oldZEnd, relationship, TERMINATING);
-				addRelationshipEndDelta(deltas, relationship
-						.getRelationshipZEnd().getType().getArtifact(),
-						relationship.getFullyQualifiedName(), null, TERMINATING);
+			IRelationshipEnd zEnd = relationship.getRelationshipZEnd();
+			if (zEnd != null) {
+				IType zType = zEnd.getType();
+				ArtifactManager aMgr = zType.getArtifactManager();
+				if (zType != null && !aMgr.wasDisposed() && !ignoreProjects.contains(aMgr.getTSProject())) {
+					String oldZEnd = zType.getFullyQualifiedName();
+					removeRelationshipForFQN(oldZEnd, relationship, TERMINATING);
+					addRelationshipEndDelta(deltas, zType.getArtifact(),
+							relationship.getFullyQualifiedName(), null, TERMINATING);
+				}
 			}
 		}
 		flushDeltas(deltas);

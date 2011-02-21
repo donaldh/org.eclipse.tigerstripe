@@ -117,7 +117,7 @@ public class ActiveFacetDecorationDelegate implements
 	public void descriptorChanged(IResource changedDescriptor) {
 		// NOT USED HERE
 	}
-	
+
 	public void projectAdded(IAbstractTigerstripeProject project) {
 		if (project instanceof ITigerstripeModelProject)
 			watchProject((ITigerstripeModelProject) project,
@@ -130,16 +130,21 @@ public class ActiveFacetDecorationDelegate implements
 
 	public void artifactResourceChanged(IResource changedArtifactResource) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void artifactResourceAdded(IResource addedArtifactResource) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void artifactResourceRemoved(IResource removedArtifactResource) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	public void dispose() {
+		TigerstripeWorkspaceNotifier.INSTANCE
+				.removeTigerstripeChangeListener(this);
 	}
 }

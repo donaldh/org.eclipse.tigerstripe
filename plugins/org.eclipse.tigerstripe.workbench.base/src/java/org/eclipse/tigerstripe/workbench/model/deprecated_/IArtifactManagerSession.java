@@ -21,6 +21,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetRef
 import org.eclipse.tigerstripe.workbench.internal.api.model.IActiveFacetChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 
 /**
@@ -50,9 +51,9 @@ public interface IArtifactManagerSession {
 	 * Makes a new Artifact of the given type. Valid types are returned by
 	 * getSupportedArtifacts()
 	 * 
-	 * @param artifactType -
-	 *            String the fully qualified name of the artifact to make. Valid
-	 *            fully qualified artifact types are given by
+	 * @param artifactType
+	 *            - String the fully qualified name of the artifact to make.
+	 *            Valid fully qualified artifact types are given by
 	 *            getSupportedArtifacts().
 	 * @see #getSupportedArtifacts()
 	 */
@@ -65,16 +66,16 @@ public interface IArtifactManagerSession {
 	 * This method creates a new Artifact of the same type as the one provided
 	 * as parameter. No values are duplicated from the model.
 	 * 
-	 * @param model -
-	 *            IAbstractArtifact the artifact of the type to be made
+	 * @param model
+	 *            - IAbstractArtifact the artifact of the type to be made
 	 */
 	public IAbstractArtifact makeArtifact(IAbstractArtifact model);
 
 	/**
 	 * Adds the artifact to the session manager.
 	 * 
-	 * @param artifact -
-	 *            the artifact to add
+	 * @param artifact
+	 *            - the artifact to add
 	 * @throws TigerstripeException
 	 *             if the artifact cannot be added
 	 */
@@ -84,8 +85,8 @@ public interface IArtifactManagerSession {
 	/**
 	 * Removes the artifact from the session manager.
 	 * 
-	 * @param artifact -
-	 *            the artifact to remove
+	 * @param artifact
+	 *            - the artifact to remove
 	 * @throws TigerstripeException
 	 *             if the artifact cannot be removed
 	 */
@@ -133,8 +134,9 @@ public interface IArtifactManagerSession {
 	/**
 	 * Refreshes the session by re-reading all artifacts
 	 * 
-	 * @param forceReload,
-	 *            it true, POJOs will be reparsed, even if they haven't changed.
+	 * @param forceReload
+	 *            , it true, POJOs will be reparsed, even if they haven't
+	 *            changed.
 	 * @throws TigerstripeException
 	 */
 	public void refresh(boolean forceReload, IProgressMonitor monitor)
@@ -236,8 +238,8 @@ public interface IArtifactManagerSession {
 	 * This mask will condition what is and what is not broadcast by the
 	 * underlying manager
 	 * 
-	 * @param broadcastMask -
-	 *            valid values are a combination of
+	 * @param broadcastMask
+	 *            - valid values are a combination of
 	 *            {@link IArtifactChangeListener#NOTIFY_ADDED} etc..
 	 */
 	public void setBroadcastMask(int broadcastMask) throws TigerstripeException;
@@ -259,8 +261,8 @@ public interface IArtifactManagerSession {
 	/**
 	 * Query artifacts based on the given query Object
 	 * 
-	 * @param query -
-	 *            ArtifactQuery the query to execute
+	 * @param query
+	 *            - ArtifactQuery the query to execute
 	 */
 	public Collection<IAbstractArtifact> queryArtifact(IArtifactQuery query)
 			throws IllegalArgumentException, TigerstripeException;
@@ -272,4 +274,6 @@ public interface IArtifactManagerSession {
 	 * @return
 	 */
 	public long getLocalTimeStamp() throws TigerstripeException;
+
+	public ArtifactManager getArtifactManager();
 }

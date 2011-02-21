@@ -174,9 +174,13 @@ public class LiteralImpl extends TypedElementImpl implements Literal {
 	}
 
 	public void setLiteral(ILiteral literal) {
+		listenModelComponent(literal);
 		this.literal = literal;
 	}
-	
-	
 
+	@Override
+	protected void onArtifactManagerDispose() {
+		literal = null;
+	}
+	
 } // LiteralImpl

@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.model.deprecated_;
 
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 
 /**
  * A Type in a Tigerstripe Model
@@ -58,7 +59,7 @@ public interface IType {
 	 */
 	public IModelComponent.EMultiplicity getTypeMultiplicity();
 
-	/** 
+	/**
 	 * Sets the multiplicity for this type.
 	 * 
 	 * @param multiplicity
@@ -71,6 +72,7 @@ public interface IType {
 
 	/**
 	 * Clone this type.
+	 * 
 	 * @return
 	 */
 	public IType clone();
@@ -175,4 +177,6 @@ public interface IType {
 	 */
 	@Deprecated
 	public void setMultiplicity(int multiplicity);
+
+	public ArtifactManager getArtifactManager();
 }

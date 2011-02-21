@@ -184,6 +184,14 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 
 	}
 
+	@Override
+	public void dispose() {
+		super.dispose();
+		facetDecorationDelegate.dispose();
+		TigerstripeWorkspaceNotifier.INSTANCE
+				.removeTigerstripeChangeListener(this);
+	}
+
 	private void addTigerstripeLabelDecorators(
 			TigerstripeExplorerLabelProvider provider) {
 		for (ITigerstripeLabelDecorator decorator : TigerstripeDecoratorManager
@@ -330,7 +338,7 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 		// if (fMemento != null) {
 		// restoreLinkingEnabled(fMemento);
 		// }
-		//		
+		//
 		makeActions(); // call before registering for selection changes
 
 		// Set input after filter and sorter has been set. This avoids resorting
@@ -389,7 +397,7 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 
 	private void restoreFilterAndSorter() {
 		treeViewer.addFilter(new OutputFolderFilter());
-		//treeViewer.addFilter(new DottedFilesFilter());
+		// treeViewer.addFilter(new DottedFilesFilter());
 		treeViewer.addFilter(new ClasspathContainerFilter());
 		treeViewer.addFilter(new EmptyDefaultPackageFilter());
 		treeViewer.addFilter(new TSLibraryFilter());
@@ -675,7 +683,7 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 	public void descriptorChanged(IResource changedDescriptor) {
 		// NOT USED HERE
 	}
-	
+
 	public void propertyChange(PropertyChangeEvent event) {
 		if (event.getProperty().equals(
 				ExplorerPreferencePage.P_LABEL_STEREO_ARTIFACT)
@@ -712,16 +720,16 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 
 	public void artifactResourceChanged(IResource changedArtifactResource) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void artifactResourceAdded(IResource addedArtifactResource) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void artifactResourceRemoved(IResource removedArtifactResource) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

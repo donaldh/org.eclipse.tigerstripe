@@ -144,13 +144,13 @@ public class UseCaseReference implements IUseCaseReference {
 			if (project == null && projectLabel != null) {
 				IWorkspace workspace = ResourcesPlugin.getWorkspace();
 				IResource res = workspace.getRoot().findMember(projectLabel);
-				TigerstripeCore.findProject(res.getFullPath());
+				TigerstripeCore.findProjectOrCreate(res.getFullPath());
 			} else {
 				IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 				File file = project.getBaseDir();
 				IPath path = new Path(file.getAbsolutePath());
 				IContainer container = root.getContainerForLocation(path);
-				aProject = TigerstripeCore.findProject(container.getFullPath());
+				aProject = TigerstripeCore.findProjectOrCreate(container.getFullPath());
 			}
 			if (aProject instanceof ITigerstripeModelProject)
 				return (ITigerstripeModelProject) aProject;

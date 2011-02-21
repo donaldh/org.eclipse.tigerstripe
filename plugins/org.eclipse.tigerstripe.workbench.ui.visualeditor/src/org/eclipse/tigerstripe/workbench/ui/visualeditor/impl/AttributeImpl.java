@@ -50,10 +50,13 @@ public class AttributeImpl extends TypedElementImpl implements Attribute {
 	}
 
 	public void setField(IField field) {
+		listenModelComponent(field);
 		this.field = field;
-		
 	}
 
-	
+	@Override
+	protected void onArtifactManagerDispose() {
+		field = null;
+	}
 	
 } // AttributeImpl

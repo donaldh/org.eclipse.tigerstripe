@@ -16,7 +16,6 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
@@ -33,7 +32,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
 
 public class ProjectSessionImpl {
 
-	private Map projectMappedByURIs = new HashMap();
+	final private Map<URI, IAbstractTigerstripeProject> projectMappedByURIs = new HashMap<URI, IAbstractTigerstripeProject>();
 
 	private TigerstripePhantomProjectHandle phantomHandle = null;
 
@@ -70,7 +69,7 @@ public class ProjectSessionImpl {
 
 		if (projectMappedByURIs.containsKey(projectURI)) {
 
-			AbstractTigerstripeProjectHandle result = null;
+			IAbstractTigerstripeProject result = null;
 			// Check that the URI points to an existing resource
 			File uriFile = new File(projectURI);
 			if (!uriFile.exists()) {
@@ -99,9 +98,7 @@ public class ProjectSessionImpl {
 				// projectMappedByURIs.put(projectURI, result);
 				// }
 			}
-
-			return (IAbstractTigerstripeProject) projectMappedByURIs
-					.get(projectURI);
+			return projectMappedByURIs.get(projectURI);
 		} else if (projectType == null) {
 			IAbstractTigerstripeProject result = null;
 			projectType = findProjectType(projectURI);
@@ -174,11 +171,8 @@ public class ProjectSessionImpl {
 	 * 
 	 * @param projectPath
 	 */
-	public void removeFromCache(IPath projectPath) {
-		URI uri = projectPath.toFile().toURI();
-		if (projectMappedByURIs.containsKey(uri)) {
-			projectMappedByURIs.remove(uri);
-		}
+	public void removeProject(URI uri) {
+		projectMappedByURIs.remove(uri);
 	}
 
 	public void refreshCacheFor(URI uri,
@@ -189,15 +183,15 @@ public class ProjectSessionImpl {
 					.get(uri);
 			if (result instanceof TigerstripeProjectHandle
 					&& workingCopy instanceof TigerstripeProjectHandle) {
-				// 
+				//
 				TigerstripeProjectHandle handle = (TigerstripeProjectHandle) result;
 				TigerstripeProjectHandle workingHandle = (TigerstripeProjectHandle) workingCopy;
 				TigerstripeProject project = handle.getTSProject();
 
 				boolean hasDifferentDepOrRef = !project.hasSameDependencies(
 						workingHandle.getTSProject(), false)
-						|| !project.hasSameReferences(workingHandle
-								.getTSProject(), false);
+						|| !project.hasSameReferences(
+								workingHandle.getTSProject(), false);
 
 				StringReader reader = new StringReader(workingHandle
 						.getTSProject().asText());
@@ -225,5 +219,9 @@ public class ProjectSessionImpl {
 				project.parse(reader);
 			}
 		}
+	}
+
+	public IAbstractTigerstripeProject getProject(URI projectURI) {
+		return projectMappedByURIs.get(projectURI);
 	}
 }

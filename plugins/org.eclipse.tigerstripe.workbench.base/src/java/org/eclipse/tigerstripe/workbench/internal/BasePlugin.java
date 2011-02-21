@@ -158,30 +158,34 @@ public class BasePlugin extends Plugin {
 		// that appears in the "Problems" view
 		if (status.getSeverity() == IStatus.ERROR) {
 			if (status.getException() != null)
-				internalLogErrorMessage(status.getMessage(), status
-						.getException());
+				internalLogErrorMessage(status.getMessage(),
+						status.getException());
 			else
 				internalLogErrorMessage(status.getMessage());
 		} else if (status.getSeverity() == IStatus.WARNING) {
 			if (status.getException() != null)
-				internalLogWarnMessage(status.getMessage(), status
-						.getException());
+				internalLogWarnMessage(status.getMessage(),
+						status.getException());
 			else
 				internalLogWarnMessage(status.getMessage());
 		} else if (status.getSeverity() == IStatus.INFO) {
 			if (status.getException() != null)
-				internalLogInfoMessage(status.getMessage(), status
-						.getException());
+				internalLogInfoMessage(status.getMessage(),
+						status.getException());
 			else
 				internalLogInfoMessage(status.getMessage());
 		}
 	}
 
 	public static void logErrorMessage(String message) {
+		logErrorMessage(message, null);
+	}
+
+	public static void logErrorMessage(String message, Throwable t) {
 		// calls through to the static EclipsePlugin.log(IStatus):void method
 		// (above)
 		// passing this message as an "internal error" status message
-		log(new Status(IStatus.ERROR, getPluginId(), 222, message, null));
+		log(new Status(IStatus.ERROR, getPluginId(), 222, message, t));
 	}
 
 	public static void logErrorStatus(String message, IStatus status) {

@@ -80,6 +80,7 @@ public class ReferencesListener {
 				if (details.getModelId() != null) {
 					changedReferences.add(details.getModelId());
 				}
+				nameToDetails.remove(iProject);
 			}
 		}
 		return false;
@@ -115,8 +116,8 @@ public class ReferencesListener {
 					changedReferences.add(newDetails.getModelId());
 					changedReferences.add(details.getModelId());
 				}
-				if (!Arrays.equals(details.getReferences(), newDetails
-						.getReferences())) {
+				if (!Arrays.equals(details.getReferences(),
+						newDetails.getReferences())) {
 					changedProjects.add(newDetails);
 				}
 				nameToDetails.put(iProject, newDetails);
@@ -185,8 +186,8 @@ public class ReferencesListener {
 	private void updateAllReferences() {
 		nameToDetails = new HashMap<IProject, ProjectInfo>();
 		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		List<ProjectInfo> changedProjects = new ArrayList<ProjectInfo>(root
-				.getProjects().length);
+		List<ProjectInfo> changedProjects = new ArrayList<ProjectInfo>(
+				root.getProjects().length);
 		for (IProject project : root.getProjects()) {
 			ProjectInfo details = new ProjectInfo(project);
 			nameToDetails.put(project, details);

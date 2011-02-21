@@ -33,6 +33,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IActiveFacetChangeListener;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.ui.IMemento;
@@ -88,6 +89,15 @@ public class TigerstripeLabelProvider extends TigerstripeExplorerLabelProvider
 							addListenerIfNeed((IProject) resource);
 						}
 					}
+					for (IResourceDelta child : delta
+							.getAffectedChildren(IResourceDelta.REMOVED)) {
+						IResource resource = child.getResource();
+						if (resource instanceof IProject) {
+							synchronized (listenedProjects) {
+								listenedProjects.remove(resource);
+							}
+						}
+					}
 				}
 			}
 		};
@@ -108,14 +118,16 @@ public class TigerstripeLabelProvider extends TigerstripeExplorerLabelProvider
 						listenedProjects.put(project, NULL_FACET_LISTENER);
 					} else {
 						listener = new IActiveFacetChangeListener() {
-							public void facetChanged(IFacetReference oldFacet, IFacetReference newFacet) {
-								
+							public void facetChanged(IFacetReference oldFacet,
+									IFacetReference newFacet) {
+
 								Display.getDefault().asyncExec(new Runnable() {
 									public void run() {
-										LabelProviderChangedEvent event = new LabelProviderChangedEvent(TigerstripeLabelProvider.this);
-										fireLabelProviderChanged(event);		
+										LabelProviderChangedEvent event = new LabelProviderChangedEvent(
+												TigerstripeLabelProvider.this);
+										fireLabelProviderChanged(event);
 									}
-								});							
+								});
 							}
 						};
 						listenedProjects.put(project, listener);
@@ -175,8 +187,13 @@ public class TigerstripeLabelProvider extends TigerstripeExplorerLabelProvider
 						.getKey().getAdapter(ITigerstripeModelProject.class);
 				if (tp != null) {
 					try {
-						tp.getArtifactManagerSession()
-								.removeActiveFacetListener(entry.getValue());
+						IArtifactManagerSession artifactManagerSession = tp
+								.getArtifactManagerSession();
+						if (!artifactManagerSession.getArtifactManager()
+								.wasDisposed()) {
+							artifactManagerSession
+									.removeActiveFacetListener(entry.getValue());
+						}
 					} catch (TigerstripeException e) {
 						EclipsePlugin.log(e);
 					}

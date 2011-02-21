@@ -35,8 +35,8 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -131,12 +131,12 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		IPath resPath = project.getFullPath();
 		if (resPath == null || resPath.isEmpty())
 			return null;
-		resPath = resPath.append("src").append(
-				path.segment(3).replace('.', IPath.SEPARATOR))
+		resPath = resPath.append("src")
+				.append(path.segment(3).replace('.', IPath.SEPARATOR))
 				.addFileExtension(path.segment(2));
 		System.out.println("Resource path: " + resPath);
-		IResource res = ResourcesPlugin.getWorkspace().getRoot().findMember(
-				resPath);
+		IResource res = ResourcesPlugin.getWorkspace().getRoot()
+				.findMember(resPath);
 		if (res != null)
 			return (IDiagram) res.getAdapter(IDiagram.class);
 
@@ -191,7 +191,8 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 					.getArtifactManagerSession();
 			artifact = artifactManagerSession
 					.getArtifactByFullyQualifiedName(fqn);
-			//FIXME hack to get artifact by resource while it is not accessible by FQN
+			// FIXME hack to get artifact by resource while it is not accessible
+			// by FQN
 			if (artifact == null) {
 				// try to find the according resource
 				if (modelProject instanceof TigerstripeProjectHandle) {
@@ -201,8 +202,9 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 							.getRoot();
 					IProject iproject = root.getProject(project);
 					if (iproject != null && iproject.exists()) {
-						IPath resourcePath = new Path(uri.path().replace('.',
-								IPath.SEPARATOR).replace(project, sourceFolder));
+						IPath resourcePath = new Path(uri.path()
+								.replace('.', IPath.SEPARATOR)
+								.replace(project, sourceFolder));
 						// try to find source
 						IResource resource = iproject.findMember(resourcePath);
 						if (resource == null) {
@@ -415,8 +417,8 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		} else if (component instanceof IAssociationEnd) {
 			IAssociationEnd end = (IAssociationEnd) component;
 			IAssociationArtifact assoc = end.getContainingAssociation();
-			StringBuilder b = new StringBuilder(newName == null ? assoc
-					.getName() : newName);
+			StringBuilder b = new StringBuilder(
+					newName == null ? assoc.getName() : newName);
 			if (assoc.getAEnd() == end) {
 				b.append(";aEnd");
 			} else {
@@ -431,11 +433,12 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	private static IPath getArtifactPath(IAbstractArtifact art, String newName) {
 		try {
 			IPath path = null;
-			if (art.getProject() == null) {
+			ITigerstripeModelProject project = art.getProject();
+			if (project == null) {
 				IModuleHeader header = art.getParentModuleHeader();
 				path = new Path(header.getModuleID());
 			} else {
-				path = new Path(art.getProject().getModelId());
+				path = new Path(project.getModelId());
 			}
 
 			path = path.append(newName == null ? art.getFullyQualifiedName()
@@ -474,8 +477,8 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		}
 
 		try {
-			URI uri = URI.createHierarchicalURI(scheme, null, null, path
-					.segments(), null, fragment);
+			URI uri = URI.createHierarchicalURI(scheme, null, null,
+					path.segments(), null, fragment);
 			return uri;
 		} catch (IllegalArgumentException e) {
 			BasePlugin.log(e);

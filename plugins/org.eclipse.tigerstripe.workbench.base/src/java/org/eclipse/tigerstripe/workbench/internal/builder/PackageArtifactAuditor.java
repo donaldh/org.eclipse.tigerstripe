@@ -10,35 +10,24 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.builder;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 
-public class PackageArtifactAuditor extends AbstractArtifactAuditor implements
-		IArtifactAuditor {
+public class PackageArtifactAuditor extends AbstractArtifactAuditor {
 
-	IProject project;
-	
-	public PackageArtifactAuditor(IProject project, IAbstractArtifact artifact) {
-		super(project, artifact);
-		this.project = project;
-	}
-	
-	@Override
 	public void run(IProgressMonitor monitor) {
-		super.run(monitor);
 		// TODO Check that the associated .package file actually exists
 		IPackageArtifact packageArtifact = (IPackageArtifact) getArtifact();
-		
+
 		IResource myResource = getIResource();
-		if (myResource == null){
-			TigerstripeProjectAuditor.reportWarning("No .package file for package "+
-					packageArtifact.getFullyQualifiedName(),
-					this.project, 222);
+		if (myResource == null) {
+			TigerstripeProjectAuditor.reportWarning(
+					"No .package file for package "
+							+ packageArtifact.getFullyQualifiedName(),
+					getIProject(), 222);
 		}
-		
+
 	}
 
 }
