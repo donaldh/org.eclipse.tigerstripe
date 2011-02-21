@@ -1438,7 +1438,7 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	private Collection<IArtifactChangeListener> listeners = new ArrayList<IArtifactChangeListener>();
 
 	// A readWrite lock to allow for multiple reads on the listeners but 1 write
-	private ReadWriteLock listenersLock = new ReentrantReadWriteLock();
+	private final ReadWriteLock listenersLock = new ReentrantReadWriteLock();
 
 	/**
 	 * Add a listener to this Artifact Manager
@@ -2449,7 +2449,7 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	// =====================================================================
 	private ArrayList<IActiveFacetChangeListener> facetListeners = new ArrayList<IActiveFacetChangeListener>();
 
-	private ReadWriteLock facetListenersLock = new ReentrantReadWriteLock();
+	private final ReadWriteLock facetListenersLock = new ReentrantReadWriteLock();
 
 	/**
 	 * Add a listener to this Artifact Manager
@@ -2572,7 +2572,12 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 		}
 		IFacetReference oldFacet = activeFacet;
 		activeFacet = null;
-		resetScopingPredicate();
+		try {
+			writeLock.lock();
+			resetScopingPredicate();
+		} finally {
+			writeLock.unlock();
+		}
 		propagateFacetChangeToDependencies(oldFacet, null,
 				new NullProgressMonitor()); // FIXME: monitor?
 		notifyFacetChanged(oldFacet);
@@ -2601,7 +2606,12 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 		if (facetRef.canResolve()) {
 			IFacetReference oldFacet = activeFacet;
 			activeFacet = facetRef;
-			setScopingPredicate(facetRef.getFacetPredicate());
+			try {
+				writeLock.lock();
+				setScopingPredicate(facetRef.getFacetPredicate());
+			} finally {
+				writeLock.unlock();
+			}
 			propagateFacetChangeToDependencies(oldFacet, activeFacet, monitor);
 			notifyFacetChanged(oldFacet);
 			return;
