@@ -12,7 +12,7 @@
   <properties>
 	<tycho-version>0.10.0</tycho-version>
 	<!-- Default OSGi values. Might be overridden by a profile. -->
-	<osgi.arch>x86</osgi.arch>
+	<osgi.arch>x86_64</osgi.arch>
 	<osgi.os>linux</osgi.os>
 	<osgi.ws>gtk</osgi.ws>
 	<junit.args>-Xms256m -Xmx1024m -XX:MaxPermSize=512m</junit.args>
@@ -23,7 +23,7 @@
 		 Default location for build server: /auto/xmpsdk/q7_32/eclipse
 		 The 64-bit profile below overrides this location, 
 		 so if on a 64 bit machine change the definition in the profile below.-->
-		<q7.location>/auto/xmpsdk/q7_32/eclipse</q7.location>
+		<q7.location>/auto/xmpsdk/q7/eclipse</q7.location>
   </properties>
 	
   <modules>
@@ -84,16 +84,16 @@
   
   <profiles>
 	<profile>
-	  <id>64-bit</id>
+	  <id>32-bit</id>
 	  <activation>
 	    <property>
 	      <name>sun.arch.data.model</name>
-	      <value>64</value>
+	      <value>32</value>
 	    </property>
 	  </activation>
       <properties>
-		<q7.location>/auto/xmpsdk/q7/eclipse</q7.location>
-        <osgi.arch>x86_64</osgi.arch>
+		<q7.location>/auto/xmpsdk/q7_32/eclipse</q7.location>
+        <osgi.arch>x86</osgi.arch>
       </properties>
 	</profile>
     
