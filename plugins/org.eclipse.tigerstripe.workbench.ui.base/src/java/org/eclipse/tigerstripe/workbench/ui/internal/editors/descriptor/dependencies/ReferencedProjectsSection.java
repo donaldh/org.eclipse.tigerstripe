@@ -307,9 +307,7 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 		viewer = new TableViewer(t);
 		viewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
-				updateForm();
-				masterDetails.switchTo(((IStructuredSelection) event
-						.getSelection()).getFirstElement());
+				refresh();
 			}
 		});
 		viewer.setContentProvider(new ReferencedProjectsContentProvider());
@@ -445,6 +443,8 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 	@Override
 	public void refresh() {
 		updateForm();
+		masterDetails.switchTo(((IStructuredSelection) viewer.getSelection())
+				.getFirstElement());
 	}
 
 	protected void updateForm() {
