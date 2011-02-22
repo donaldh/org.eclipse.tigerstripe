@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ts_plugin version="1.2">
+<project modelId="" name="">
+<outputDirectory>target/tigerstripe.gen</outputDirectory>
+<version>0.0.0</version>
+<description/>
+<provider/>
+<property name="defaultArtifactPackage">com.mycompany</property>
+</project>
+<pluginNature type="Generic"/>
+<logger defautLevel="0" isEnabled="false" logPath="GeneratorProject2.log" maxRoll="9"/>
+<globalProperties/>
+<globalRules/>
+<artifactRules/>
+<classpathEntries/>
+<additionalFiles/>
+<advanced/>
+<annotationPlugins/>
+</ts_plugin>

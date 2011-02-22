@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.scenario:WorkbenchContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" name="334903_SaveAllFunctionContextWorkbench" id="_vb67gD5ZEeCgispzDL5Yhg" perspectiveId="org.eclipse.tigerstripe.community.tigerstripePerspective">
+  <editors xsi:type="com.xored.q7.scenario:FileEditor" path="/Project1/tigerstripe.xml"/>
+  <editors xsi:type="com.xored.q7.scenario:FileEditor" path="/Project2/tigerstripe.xml"/>
+  <editors xsi:type="com.xored.q7.scenario:FileEditor" path="/GeneratorProject1/ts-plugin.xml"/>
+  <editors xsi:type="com.xored.q7.scenario:FileEditor" path="/GeneratorProject2/ts-plugin.xml"/>
+  <views>org.eclipse.tigerstripe.annotation.view.property</views>
+  <views>org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew</views>
+  <views>org.eclipse.ui.views.TaskList</views>
+  <views>org.eclipse.ui.views.ProblemView</views>
+</com.xored.q7.scenario:WorkbenchContext>

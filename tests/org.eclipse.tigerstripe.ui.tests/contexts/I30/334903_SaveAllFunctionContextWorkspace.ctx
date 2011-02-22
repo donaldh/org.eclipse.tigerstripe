@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="334903_SaveAllFunctionContextWorkspace" id="_2yu4YT5WEeCgispzDL5Yhg">
+  <content>
+    <projects name="GeneratorProject1">
+      <files name=".classpath" contentURI=".334903_SaveAllFunctionContextWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".334903_SaveAllFunctionContextWorkspacectx/content1.project"/>
+      <files name="ts-plugin.xml" contentURI=".334903_SaveAllFunctionContextWorkspacectx/content1.xml"/>
+      <folders name="src"/>
+      <folders name="templates"/>
+    </projects>
+    <projects name="GeneratorProject2">
+      <files name=".classpath" contentURI=".334903_SaveAllFunctionContextWorkspacectx/content2.classpath"/>
+      <files name=".project" contentURI=".334903_SaveAllFunctionContextWorkspacectx/content2.project"/>
+      <files name="ts-plugin.xml" contentURI=".334903_SaveAllFunctionContextWorkspacectx/content2.xml"/>
+      <folders name="src"/>
+      <folders name="templates"/>
+    </projects>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".334903_SaveAllFunctionContextWorkspacectx/content3.classpath"/>
+      <files name=".project" contentURI=".334903_SaveAllFunctionContextWorkspacectx/content3.project"/>
+      <files name="tigerstripe.xml" contentURI=".334903_SaveAllFunctionContextWorkspacectx/content3.xml"/>
+      <folders name="src"/>
+    </projects>
+    <projects name="Project2">
+      <files name=".classpath" contentURI=".334903_SaveAllFunctionContextWorkspacectx/content4.classpath"/>
+      <files name=".project" contentURI=".334903_SaveAllFunctionContextWorkspacectx/content4.project"/>
+      <files name="tigerstripe.xml" contentURI=".334903_SaveAllFunctionContextWorkspacectx/content4.xml"/>
+      <folders name="src"/>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>
