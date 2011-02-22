@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="336105_CreateIllegalAssociationsContextWorkspace" id="_Ial-YD5AEeCFtNsZvRZJ1Q">
+  <content>
+    <projects name="P1">
+      <files name=".classpath" contentURI=".336105_CreateIllegalAssociationsContextWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".336105_CreateIllegalAssociationsContextWorkspacectx/content1.project"/>
+      <files name="tigerstripe.xml" contentURI=".336105_CreateIllegalAssociationsContextWorkspacectx/content1.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".336105_CreateIllegalAssociationsContextWorkspacectx/content1.prefs"/>
+      </folders>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".336105_CreateIllegalAssociationsContextWorkspacectx/content4.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".336105_CreateIllegalAssociationsContextWorkspacectx/content3.package"/>
+            <files name="AssociationOne.java" contentURI=".336105_CreateIllegalAssociationsContextWorkspacectx/content1.java"/>
+            <files name="EntityOne.java" contentURI=".336105_CreateIllegalAssociationsContextWorkspacectx/content2.java"/>
+            <files name="EntityTwo.java" contentURI=".336105_CreateIllegalAssociationsContextWorkspacectx/content3.java"/>
+            <files name="default.owm" contentURI=".336105_CreateIllegalAssociationsContextWorkspacectx/content2.owm"/>
+            <files name="default.wod" contentURI=".336105_CreateIllegalAssociationsContextWorkspacectx/content2.wod"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>
