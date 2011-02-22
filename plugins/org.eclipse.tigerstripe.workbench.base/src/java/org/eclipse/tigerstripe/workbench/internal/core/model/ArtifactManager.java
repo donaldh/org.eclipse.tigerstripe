@@ -288,7 +288,6 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 		}
 	}
 
-	
 	private boolean wasDisposed = false;
 
 	public boolean wasDisposed() {
@@ -863,24 +862,39 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 
 	public AbstractArtifact getArtifactByFullyQualifiedName(String name,
 			boolean includeDependencies, IProgressMonitor monitor) {
+		if (monitor == null)
+			monitor = new NullProgressMonitor();
+		return getArtifactByFullyQualifiedName(name, includeDependencies,
+				newContext(monitor));
+	}
+
+	public AbstractArtifact getArtifactByFullyQualifiedName(String name,
+			boolean includeDependencies, ExecutionContext context) {
 		if (wasDisposed) {
 			return null;
 		}
-		if (monitor == null)
-			monitor = new NullProgressMonitor();
 
 		return getArtifactByFullyQualifiedName(name, includeDependencies,
-				shouldOverridePredicate(), monitor);
+				shouldOverridePredicate(), context);
 	}
 
 	public AbstractArtifact getArtifactByFullyQualifiedName(String name,
 			boolean includeDependencies, boolean isOverridePredicate,
 			IProgressMonitor monitor) {
+		if (monitor == null)
+			monitor = new NullProgressMonitor();
+
+		return getArtifactByFullyQualifiedName(name, includeDependencies,
+				isOverridePredicate, new ExecutionContext(monitor));
+	}
+
+	public AbstractArtifact getArtifactByFullyQualifiedName(String name,
+			boolean includeDependencies, boolean isOverridePredicate,
+			ExecutionContext context) {
+
 		if (wasDisposed) {
 			return null;
 		}
-		if (monitor == null)
-			monitor = new NullProgressMonitor();
 
 		try {
 			readLock.lock();
@@ -896,7 +910,7 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 			else {
 				if (includeDependencies) {
 					IAbstractArtifact result = getArtifactByFullyQualifiedNameInChained(
-							name, newContext(monitor));
+							name, context);
 					if (result == null) {
 						try {
 							if (phantomArtifactMgrSession != null)
@@ -1845,11 +1859,12 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 		return null;
 	}
 
-	
-	public void removeArtifact(IAbstractArtifact artifact) throws TigerstripeException {
-		removeArtifact(artifact, Collections.<ITigerstripeModelProject>emptySet());
+	public void removeArtifact(IAbstractArtifact artifact)
+			throws TigerstripeException {
+		removeArtifact(artifact,
+				Collections.<ITigerstripeModelProject> emptySet());
 	}
-	
+
 	/**
 	 * Removes an artifact from this manager and updates all the internal
 	 * tables.
@@ -1861,7 +1876,8 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	 * @throws TigerstripeException
 	 *             if the artifact cannot be properly removed
 	 */
-	public void removeArtifact(IAbstractArtifact artifact, Set<ITigerstripeModelProject> ignoreProjects)
+	public void removeArtifact(IAbstractArtifact artifact,
+			Set<ITigerstripeModelProject> ignoreProjects)
 			throws TigerstripeException {
 
 		if (wasDisposed) {
@@ -1965,7 +1981,7 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 					.getArtifactByFullyQualifiedNameInChained(name, context);
 			if (result != null)
 				return result;
-			result = getArtifactByFullyQualifiedNameInReferences(name);
+			result = getArtifactByFullyQualifiedNameInReferences(name, context);
 			if (result != null)
 				return result;
 			result = getArtifactByFullyQualifiedNameInInstalledModules(name);
@@ -2052,17 +2068,21 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	}
 
 	protected AbstractArtifact getArtifactByFullyQualifiedNameInReferences(
-			String name) {
+			String name, ExecutionContext context) {
 		try {
 			readLock.lock();
 			IAbstractArtifact result = null;
 			for (ITigerstripeModelProject project : getTSProject()
 					.getReferencedProjects()) {
+				if (!context.addInGenericReferencesCycle(project)) {
+					continue;
+				}
 				try {
 					IArtifactManagerSession session = project
 							.getArtifactManagerSession();
 					// do not include dependencies
-					result = session.getArtifactByFullyQualifiedName(name);
+					result = session.getArtifactByFullyQualifiedName(name,
+							context);
 					if (result != null)
 						return (AbstractArtifact) result;
 				} catch (TigerstripeException e) {

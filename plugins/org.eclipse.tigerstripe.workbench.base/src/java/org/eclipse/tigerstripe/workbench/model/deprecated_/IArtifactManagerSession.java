@@ -22,6 +22,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.IActiveFacetChangeLi
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ExecutionContext;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 
 /**
@@ -95,6 +96,9 @@ public interface IArtifactManagerSession {
 
 	public IAbstractArtifact getArtifactByFullyQualifiedName(String fqn)
 			throws TigerstripeException;
+
+	public IAbstractArtifact getArtifactByFullyQualifiedName(String fqn,
+			ExecutionContext context) throws TigerstripeException;
 
 	public IAbstractArtifact getArtifactByFullyQualifiedName(String fqn,
 			boolean includeDependencies);

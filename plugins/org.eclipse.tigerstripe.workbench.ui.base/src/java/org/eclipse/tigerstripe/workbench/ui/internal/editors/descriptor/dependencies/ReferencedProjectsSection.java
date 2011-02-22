@@ -327,16 +327,14 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 	}
 
 	protected void addButtonSelected() {
-		ITigerstripeModelProject handle = getTSProject();
-
 		List<ModelReference> filteredOutProjects = new ArrayList<ModelReference>();
 
 		try {
 			filteredOutProjects
-					.add(ModelReference.referenceFromProject(handle)); // the
+					.add(ModelReference.referenceFromProject(getTSProject())); // the
 																		// current
 																		// project
-			for (ModelReference prjRefs : handle.getModelReferences()) {
+			for (ModelReference prjRefs : getTSProject().getModelReferences()) {
 				filteredOutProjects.add(prjRefs);
 			}
 		} catch (TigerstripeException e) {
@@ -344,7 +342,7 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 		}
 
 		TigerstripeProjectSelectionDialog dialog = new TigerstripeProjectSelectionDialog(
-				getSection().getShell(), filteredOutProjects, handle);
+				getSection().getShell(), filteredOutProjects, getTSProject());
 		if (dialog.open() == Window.OK) {
 			Object[] results = dialog.getResult();
 			for (Object res : results) {
@@ -369,7 +367,7 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 				}
 				if (ref != null) {
 					try {
-						handle.addModelReference(ref);
+						getTSProject().addModelReference(ref);
 						viewer.refresh(true);
 						markPageModified();
 					} catch (TigerstripeException e) {
@@ -379,10 +377,10 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 				}
 				if (res instanceof IResource) {
 					try {
-						IDependency dep = handle
+						IDependency dep = getTSProject()
 								.makeDependency(((IResource) res)
 										.getProjectRelativePath().toOSString());
-						handle.addDependency(dep, new NullProgressMonitor());
+						getTSProject().addDependency(dep, new NullProgressMonitor());
 						viewer.refresh(true);
 						markPageModified();
 					} catch (TigerstripeException e) {

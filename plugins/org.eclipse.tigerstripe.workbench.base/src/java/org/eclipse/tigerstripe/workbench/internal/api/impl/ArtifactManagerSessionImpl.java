@@ -44,6 +44,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ExecutionContext;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.core.model.PackageArtifact;
@@ -246,7 +247,6 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 			boolean includeDependencies) {
 		return getArtifactManager().getArtifactByFullyQualifiedName(fqn,
 				includeDependencies, new NullProgressMonitor()); // FIXME
-
 	}
 
 	public AbstractArtifact getArtifactByFullyQualifiedName(String fqn,
@@ -602,6 +602,13 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 
 	public long getLocalTimeStamp() throws TigerstripeException {
 		return getArtifactManager().getLocalTimeStamp();
+	}
+
+	public IAbstractArtifact getArtifactByFullyQualifiedName(String fqn,
+			ExecutionContext context) throws TigerstripeException {
+
+		return getArtifactManager().getArtifactByFullyQualifiedName(fqn, true,
+				context);
 	}
 
 }

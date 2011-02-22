@@ -14,12 +14,9 @@ import java.util.Map;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
-import org.eclipse.jdt.core.IJavaElement;
-import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.refactoring.descriptors.DeleteDescriptor;
 import org.eclipse.jdt.core.refactoring.descriptors.MoveDescriptor;
 import org.eclipse.jdt.core.refactoring.descriptors.RenameJavaElementDescriptor;
@@ -158,7 +155,7 @@ public class RefactoringChangeListener implements IRefactoringExecutionListener 
 										.get(key));
 								IAbstractArtifact artifact = mgr
 										.getArtifactByFullyQualifiedName(
-												elements[i - 1], false, null);
+												elements[i - 1], false, (IProgressMonitor)null);
 								if (artifact != null)
 									mgr.notifyArtifactDeleted(artifact);
 //								System.out

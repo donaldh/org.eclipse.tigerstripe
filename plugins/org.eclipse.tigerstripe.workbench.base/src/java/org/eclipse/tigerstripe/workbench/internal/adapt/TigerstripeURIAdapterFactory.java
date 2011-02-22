@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
@@ -176,7 +177,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 							ArtifactManager mgr = ((Dependency) dep)
 									.getArtifactManager(null);
 							artifact = mgr.getArtifactByFullyQualifiedName(fqn,
-									false, null);
+									false, (IProgressMonitor)null);
 							if (artifact != null) {
 								return artifact;
 							}

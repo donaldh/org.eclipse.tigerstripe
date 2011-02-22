@@ -21,6 +21,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.components.md.Details;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
@@ -119,12 +120,15 @@ public class ReferenceDetails extends Details {
 		String id = reference.getToModelId();
 		moduleId.setText((id != null) ? id : "<unknown>");
 
-		String name = reference.getResolvedModel().getName();
+		ITigerstripeModelProject resolvedModel = reference.getResolvedModel();
+		if (resolvedModel == null) {
+			return;
+		}
+		String name = resolvedModel.getName();
 		projectName.setText((name != null) ? name : "<unknown>");
 
 		try {
-			IProjectDetails details = reference.getResolvedModel()
-					.getProjectDetails();
+			IProjectDetails details = resolvedModel.getProjectDetails();
 
 			String version = details.getVersion();
 			projectVersion.setText((version != null) ? version : "<unknown>");
