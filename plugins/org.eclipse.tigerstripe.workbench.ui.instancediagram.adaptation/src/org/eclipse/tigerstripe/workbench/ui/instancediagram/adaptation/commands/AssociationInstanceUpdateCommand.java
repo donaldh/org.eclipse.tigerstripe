@@ -25,7 +25,7 @@ public class AssociationInstanceUpdateCommand extends
 
 	private boolean isAEndAssoc = false;
 	private boolean isZEndAssoc = false;
-	private IArtifactManagerSession artifactMgrSession;
+	private final IArtifactManagerSession artifactMgrSession;
 
 	public AssociationInstanceUpdateCommand(Instance eArtifact,
 			IAbstractArtifact iArtifact,
@@ -67,19 +67,6 @@ public class AssociationInstanceUpdateCommand extends
 				eAssociation.setAEnd(null);
 				return;
 			}
-			boolean matchingTypeFound = false;
-			IAbstractArtifact localArt = eArt;
-			do {
-				if (localArt.getFullyQualifiedName().equals(aEndType)) {
-					matchingTypeFound = true;
-					break;
-				}
-			} while ((localArt = localArt.getExtendedArtifact()) != null);
-			if (!matchingTypeFound) {
-				eAssociation.setAEnd(null);
-				// if eArt == null the dependency will be removed downstream
-				return;
-			}
 		}
 
 		if (isZEndAssoc && zEnd.getType() != null) {
@@ -92,19 +79,6 @@ public class AssociationInstanceUpdateCommand extends
 				eArt = artifactMgrSession.getArtifactByFullyQualifiedName(fqn);
 			} catch (TigerstripeException e) {
 				eAssociation.setAEnd(null);
-				return;
-			}
-			boolean matchingTypeFound = false;
-			IAbstractArtifact localArt = eArt;
-			do {
-				if (localArt.getFullyQualifiedName().equals(zEndType)) {
-					matchingTypeFound = true;
-					break;
-				}
-			} while ((localArt = localArt.getExtendedArtifact()) != null);
-			if (!matchingTypeFound) {
-				eAssociation.setAEnd(null);
-				// if eArt == null the dependency will be removed downstream
 				return;
 			}
 		}

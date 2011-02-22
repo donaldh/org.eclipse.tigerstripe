@@ -73,7 +73,7 @@ public class ModelChangeDeltaProcessor {
 			throws TigerstripeException {
 		Object component = delta.getComponent();
 		if (component instanceof IField) {
-			processIFieldChange((IField) component, delta, toSave);
+			processIFieldChange((IField) component, delta, null);
 		} else if (component instanceof IMethod) {
 			processIMethodChange((IMethod) component, delta, toSave);
 		} else if (component instanceof IAbstractArtifact) {
