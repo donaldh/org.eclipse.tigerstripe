@@ -83,7 +83,11 @@ public abstract class AbstractTigerstripeProjectHandle extends
 	}
 
 	public IPath getFullPath() {
-		return ResourcesPlugin.getWorkspace().getRoot().findMember(getName())
+		String name = getName();
+		if (name == null) {
+			return null;
+		}
+		return ResourcesPlugin.getWorkspace().getRoot().findMember(name)
 				.getFullPath();
 	}
 

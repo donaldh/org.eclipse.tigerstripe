@@ -44,7 +44,9 @@ public class TigerstripeSubjectsFactory {
 
 	private void listen(ITigerstripeModelProject project) {
 		if (listened.add(project)) {
-			project.addProjectDependencyChangeListener(projectListener);
+			if (!project.wasDisposed()) {
+				project.addProjectDependencyChangeListener(projectListener);
+			}
 		}
 	}
 
