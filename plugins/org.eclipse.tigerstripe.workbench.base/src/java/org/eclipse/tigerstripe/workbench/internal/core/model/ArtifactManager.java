@@ -1788,15 +1788,7 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 			addToNamedArtifactsMap(artifact.getFullyQualifiedName(), artifact,
 					oldArtifact);
 			addToSourceMap(source, artifact, oldArtifact);
-
-			if (artifact.getArtifactPath() != null) {
-				// need the full abs path
-				String baseDir = getTSProject().getBaseDir().toString();
-				String fullPath = baseDir + File.separator
-						+ artifact.getArtifactPath();
-				File f = new File(fullPath);
-				addToFilenameMap(f.getAbsolutePath(), artifact);
-			}
+			addToFilenameMap(artifact);
 
 			if (iartifact instanceof IRelationship) {
 				IRelationship rel = (IRelationship) iartifact;
@@ -1845,18 +1837,27 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 			}
 	}
 
-	private void addToFilenameMap(String filename, IAbstractArtifact artifact) {
-		filenameMap.put(filename, artifact);
+	private void addToFilenameMap(IAbstractArtifact artifact)
+			throws TigerstripeException {
+		String artifactPath = artifact.getArtifactPath();
+		if (artifactPath != null) {
+			filenameMap.put(getAbsolutePath(artifactPath), artifact);
+		}
 	}
 
-	private String removeFromFilenameMap(AbstractArtifact artifact)
+	private String getAbsolutePath(String artifactPath) {
+		String baseDir = getTSProject().getBaseDir().toString();
+		String fullPath = baseDir + File.separator + artifactPath;
+		File f = new File(fullPath);
+		return f.getAbsolutePath();
+	}
+
+	private void removeFromFilenameMap(AbstractArtifact artifact)
 			throws TigerstripeException {
-		String filename = artifact.getArtifactPath();
-		if (filename != null) {
-			filenameMap.remove(filename);
-			return filename;
+		String artifactPath = artifact.getArtifactPath();
+		if (artifactPath != null) {
+			filenameMap.remove(getAbsolutePath(artifactPath));
 		}
-		return null;
 	}
 
 	public void removeArtifact(IAbstractArtifact artifact)
