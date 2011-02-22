@@ -22,9 +22,10 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleRef;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
-import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeModuleProject;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ProjectDetails;
+import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeModuleProject;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * A Module reference as would appear from within a TS Project. This contains
@@ -35,6 +36,8 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjec
  */
 public class ModuleRef implements IModuleRef {
 
+	private final ITigerstripeModelProject container;
+
 	// The URI to the jar file
 	protected URI jarURI;
 
@@ -42,10 +45,17 @@ public class ModuleRef implements IModuleRef {
 
 	protected boolean isValid = false;
 
-	/* package */ModuleRef(URI jarURI, IProgressMonitor monitor)
+	ModuleRef(ITigerstripeModelProject container, URI jarURI,
+			IProgressMonitor monitor)
 			throws InvalidModuleException {
+		this.container = container;
 		setJarURI(jarURI);
 		parse(monitor);
+	}
+
+	ModuleRef(URI jarURI, IProgressMonitor monitor)
+			throws InvalidModuleException {
+		this(null, jarURI, monitor);
 	}
 
 	// =================================================
@@ -127,7 +137,8 @@ public class ModuleRef implements IModuleRef {
 
 		InputStream stream = file.getInputStream(tsDescriptorEntry);
 		Reader reader = new InputStreamReader(stream);
-		TigerstripeModuleProject embeddedProject = new TigerstripeModuleProject();
+		TigerstripeModuleProject embeddedProject = new TigerstripeModuleProject(
+				container);
 		try {
 			embeddedProject.parse(reader);
 			// ((ModuleArtifactManager) getArtifactManager())

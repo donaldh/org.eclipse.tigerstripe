@@ -145,7 +145,8 @@ public class Dependency extends AbstractContainedObject implements IDependency,
 					+ "'.");
 
 		ModuleRefFactory factory = ModuleRefFactory.getInstance();
-		moduleRef = factory.parseModule(jarFile.toURI(), monitor);
+		moduleRef = factory.parseModule(project.getProjectHandle(),
+				jarFile.toURI(), monitor);
 
 		isValid = moduleRef.isValid();
 		validated = true;

@@ -15,6 +15,7 @@ import java.net.URI;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * A Factory for new module refs.
@@ -38,6 +39,11 @@ public class ModuleRefFactory {
 	private ModuleRefFactory() {
 	}
 
+	public ModuleRef parseModule(ITigerstripeModelProject container,
+			URI jarURI, IProgressMonitor monitor) throws InvalidModuleException {
+		return new ModuleRef(container, jarURI, monitor);
+	}
+
 	/**
 	 * Parse the given URI (jar) into a module ref.
 	 * 
@@ -45,7 +51,7 @@ public class ModuleRefFactory {
 	 */
 	public ModuleRef parseModule(URI jarURI, IProgressMonitor monitor)
 			throws InvalidModuleException {
-		return new ModuleRef(jarURI, monitor);
+		return parseModule(null, jarURI, monitor);
 	}
 
 	public IModuleHeader parseModuleHeader(URI jarURI,

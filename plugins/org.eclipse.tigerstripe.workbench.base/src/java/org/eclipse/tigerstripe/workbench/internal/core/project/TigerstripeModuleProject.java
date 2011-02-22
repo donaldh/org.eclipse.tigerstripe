@@ -18,7 +18,9 @@ import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModule
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.module.InstalledModule;
 import org.eclipse.tigerstripe.workbench.internal.core.module.InstalledModuleManager;
+import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * @author Alena Repina
@@ -26,16 +28,38 @@ import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
  */
 public class TigerstripeModuleProject extends TigerstripeProject {
 
-	public TigerstripeModuleProject() {
+	private final ITigerstripeModelProject container;
+
+	public TigerstripeModuleProject(ITigerstripeModelProject container) {
 		super();
+		this.container = container;
 	}
 
+	public TigerstripeModuleProject() {
+		this(null);
+	}
+
+	@Override
 	public TigerstripeProjectHandle getProjectHandle() {
 		try {
 			IProjectDetails pd = getIProjectDetails();
 			if (pd != null) {
 				String modelId = pd.getModelId();
 				if (modelId != null) {
+					if (container != null) {
+						for (IDependency dependency : container
+								.getDependencies()) {
+							if (dependency.getIModuleHeader().getModuleID()
+									.equals(modelId)) {
+								ITigerstripeModuleProject moduleProject = dependency
+										.makeModuleProject(container);
+								if (moduleProject instanceof TigerstripeProjectHandle) {
+									return (TigerstripeProjectHandle) moduleProject;
+								}
+							}
+						}
+					}
+
 					InstalledModule module = InstalledModuleManager
 							.getInstance().getModule(modelId);
 					if (module != null) {
@@ -53,9 +77,9 @@ public class TigerstripeModuleProject extends TigerstripeProject {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public void descriptorChanged(IResource changedDescriptor) {
-		//Ignore this - it shouldn't really happen!
+		// Ignore this - it shouldn't really happen!
 	}
 }

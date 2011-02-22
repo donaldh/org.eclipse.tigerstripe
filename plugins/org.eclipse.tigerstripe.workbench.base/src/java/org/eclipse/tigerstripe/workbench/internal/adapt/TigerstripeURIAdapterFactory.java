@@ -28,6 +28,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHan
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
+import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
@@ -176,6 +177,27 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 									.getArtifactManager(null);
 							artifact = mgr.getArtifactByFullyQualifiedName(fqn,
 									false, null);
+							if (artifact != null) {
+								return artifact;
+							}
+						}
+					}
+
+					for (ModelReference reference : proj.getModelReferences()) {
+						if (project.equals(reference.getToModelId())) {
+							if (reference.isInstalledModuleReference()) {
+								ITigerstripeModelProject resolvedModel = reference
+										.getResolvedModel();
+								if (resolvedModel != null) {
+									artifact = resolvedModel
+											.getArtifactManagerSession()
+											.getArtifactByFullyQualifiedName(
+													fqn, false);
+									if (artifact != null) {
+										return artifact;
+									}
+								}
+							}
 						}
 					}
 				}
