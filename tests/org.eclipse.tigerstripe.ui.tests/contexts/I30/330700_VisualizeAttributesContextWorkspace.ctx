@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="330700_VisualizeAttributesContextWorkspace" id="_Z3qHcC0DEeCd5Nt1cNc6Eg">
+  <content>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".330700_VisualizeAttributesContextWorkspacectx/content2.classpath"/>
+      <files name=".project" contentURI=".330700_VisualizeAttributesContextWorkspacectx/content2.project"/>
+      <files name="tigerstripe.xml" contentURI=".330700_VisualizeAttributesContextWorkspacectx/content2.xml"/>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".330700_VisualizeAttributesContextWorkspacectx/content8.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".330700_VisualizeAttributesContextWorkspacectx/content7.package"/>
+            <files name="A.java" contentURI=".330700_VisualizeAttributesContextWorkspacectx/content4.java"/>
+            <files name="B.java" contentURI=".330700_VisualizeAttributesContextWorkspacectx/content5.java"/>
+            <files name="SF.java" contentURI=".330700_VisualizeAttributesContextWorkspacectx/content6.java"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>
