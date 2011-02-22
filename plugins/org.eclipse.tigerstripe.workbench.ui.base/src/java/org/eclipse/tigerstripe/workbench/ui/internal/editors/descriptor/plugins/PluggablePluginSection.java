@@ -142,8 +142,9 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 		try {
 			createID(getBody(), getToolkit());
 		} catch (TigerstripeException ee) {
-			Status status = new Status(IStatus.WARNING, EclipsePlugin
-					.getPluginId(), 111, "Unexpected Exception", ee);
+			Status status = new Status(IStatus.WARNING,
+					EclipsePlugin.getPluginId(), 111, "Unexpected Exception",
+					ee);
 			EclipsePlugin.log(status);
 		}
 
@@ -192,14 +193,14 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 
 		DefaultPageListener listener = new DefaultPageListener();
 
-        buildEnableDetails(parent, toolkit, listener);
+		buildEnableDetails(parent, toolkit, listener);
 		buildSpecifics(parent, toolkit, listener);
 		buildLoggingDetails(parent, toolkit);
 		buildFacetDetails(parent, toolkit);
 		// Build dynamically the content now based on the global properties
 		// found in the metadata
 		buildGlobalProperties(parent, toolkit);
-        buildResetDefaultDetails(parent, toolkit, listener);
+		buildResetDefaultDetails(parent, toolkit, listener);
 
 		initGlobalProperties();
 
@@ -222,7 +223,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 		generate.setLayoutData(gd);
 
 		toolkit.createLabel(parent, "");
-        toolkit.createLabel(parent, "");
+		toolkit.createLabel(parent, "");
 	}
 
 	protected void buildFacetDetails(Composite parent, FormToolkit toolkit) {
@@ -270,8 +271,8 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 			}
 		});
 
-		browseForFacetReferenceButton = toolkit.createButton(parent, "Select...",
-				SWT.PUSH);
+		browseForFacetReferenceButton = toolkit.createButton(parent,
+				"Select...", SWT.PUSH);
 		browseForFacetReferenceButton
 				.addSelectionListener(new SelectionListener() {
 
@@ -339,16 +340,17 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 		});
 		toolkit.createLabel(parent, "");
 	}
-	
-	protected void buildResetDefaultDetails(Composite parent, FormToolkit toolkit,
-            DefaultPageListener listener) {
-        applyDefaultButton = toolkit.createButton(parent, "Restore Defaults", SWT.PUSH);
-        applyDefaultButton.addSelectionListener(listener);
-        GridData gd = new GridData(GridData.FILL);
-        applyDefaultButton.setLayoutData(gd);
-        applyDefaultButton.setEnabled(!this.isReadonly());
 
-        toolkit.createLabel(parent, "");
+	protected void buildResetDefaultDetails(Composite parent,
+			FormToolkit toolkit, DefaultPageListener listener) {
+		applyDefaultButton = toolkit.createButton(parent, "Restore Defaults",
+				SWT.PUSH);
+		applyDefaultButton.addSelectionListener(listener);
+		GridData gd = new GridData(GridData.FILL);
+		applyDefaultButton.setLayoutData(gd);
+		applyDefaultButton.setEnabled(!this.isReadonly());
+
+		toolkit.createLabel(parent, "");
 	}
 
 	protected void buildLoggingDetails(Composite parent, FormToolkit toolkit) {
@@ -414,8 +416,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 		if (housing == null) {
 			return;
 		}
-		GeneratorProjectDescriptor pProject = housing.getBody()
-				.getPProject();
+		GeneratorProjectDescriptor pProject = housing.getBody().getPProject();
 		PropertyRendererFactory factory = new PropertyRendererFactory(parent,
 				toolkit, getITigerstripeProject(), this);
 
@@ -468,23 +469,22 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 				// TigerstripeRuntime.logInfoMessage(definedProps.length);
 				for (int i = 0; i < definedProps.length; i++) {
 					// TigerstripeRuntime.logInfoMessage(definedProps[i]);
-					if (properties.getProperty(definedProps[i]) == null
-							|| properties.getProperty(definedProps[i]).length() == 0) {
+					String definedProp = definedProps[i];
+					String value = properties.getProperty(definedProp);
+					if (value == null || value.length() == 0) {
 
 						for (IPluginProperty property : pProject
 								.getGlobalProperties()) {
-							if (property.getName().equals(definedProps[i])) {
-								usableProps.setProperty(definedProps[i],
-										property.getDefaultValue().toString());
-								// If we are here, we've updated descriptor
-								// based on
-								// newly deployed plugin data.
-								markPageModified();
+							if (property.getName().equals(definedProp)) {
+								usableProps.setProperty(definedProp, property
+										.getDefaultValue().toString());
+								// We do not need to notify about dirty state,
+								// because notification happens when the section
+								// will be enabled.
 							}
 						}
 					} else {
-						usableProps.setProperty(definedProps[i], properties
-								.getProperty(definedProps[i]));
+						usableProps.setProperty(definedProp, value);
 					}
 				}
 				pRef.setProperties(usableProps);
@@ -558,8 +558,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 				MessageBox dialog = new MessageBox(getSection().getShell(),
 						SWT.ICON_QUESTION | SWT.YES | SWT.NO);
 				dialog.setText("Apply Default Values");
-				dialog
-						.setMessage("Do you really want to apply default values?\nAll current values will be lost.");
+				dialog.setMessage("Do you really want to apply default values?\nAll current values will be lost.");
 				if (dialog.open() == SWT.YES) {
 
 					for (BasePropertyRenderer renderer : renderers) {
@@ -686,9 +685,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 					.getEditorInput();
 			FacetSelectionDialog dialog = new FacetSelectionDialog(getSection()
 					.getShell(), false, false);
-			dialog
-					.setInput(input.getFile().getProject().getLocation()
-							.toFile());
+			dialog.setInput(input.getFile().getProject().getLocation().toFile());
 			dialog.setDoubleClickSelects(true);
 			dialog.setTitle("Select Facet");
 
