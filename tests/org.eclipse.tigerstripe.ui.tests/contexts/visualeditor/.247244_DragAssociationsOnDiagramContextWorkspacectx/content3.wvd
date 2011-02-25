@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:null="null" xmi:id="_XFg5QO40Ed-7S-TtleKiMA" type="Tigerstripe" name="default.wvd" measurementUnit="Pixel">
+  <children xmi:type="notation:Node" xmi:id="_-NYVgO5IEd-qeOG0ylC6YQ" type="1003">
+    <children xmi:type="notation:Node" xmi:id="_-NaKsO5IEd-qeOG0ylC6YQ" type="4005"/>
+    <children xmi:type="notation:Node" xmi:id="_-NaKse5IEd-qeOG0ylC6YQ" type="4006"/>
+    <children xmi:type="notation:Node" xmi:id="_-NaKsu5IEd-qeOG0ylC6YQ" type="5003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_-NaKs-5IEd-qeOG0ylC6YQ"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_-NaKtO5IEd-qeOG0ylC6YQ"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_-NaKte5IEd-qeOG0ylC6YQ"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_-NaxwO5IEd-qeOG0ylC6YQ" type="5004">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_-Naxwe5IEd-qeOG0ylC6YQ"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_-Naxwu5IEd-qeOG0ylC6YQ"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_-Naxw-5IEd-qeOG0ylC6YQ"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_-NYVge5IEd-qeOG0ylC6YQ" fontName="Segoe UI"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_-NYVgu5IEd-qeOG0ylC6YQ"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_-NYVg-5IEd-qeOG0ylC6YQ" fillColor="13825530"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_-NYVhO5IEd-qeOG0ylC6YQ"/>
+    <element xmi:type="null:ManagedEntityArtifact" href="default.vwm#//@artifacts.0"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_-NYVhe5IEd-qeOG0ylC6YQ" x="460" y="145"/>
+  </children>
+  <styles xmi:type="notation:PageStyle" xmi:id="_XFg5Qe40Ed-7S-TtleKiMA"/>
+  <styles xmi:type="notation:GuideStyle" xmi:id="_XFg5Qu40Ed-7S-TtleKiMA"/>
+  <styles xmi:type="notation:DescriptionStyle" xmi:id="_XFg5Q-40Ed-7S-TtleKiMA"/>
+  <element xmi:type="null:Map" href="default.vwm#/"/>
+</notation:Diagram>
