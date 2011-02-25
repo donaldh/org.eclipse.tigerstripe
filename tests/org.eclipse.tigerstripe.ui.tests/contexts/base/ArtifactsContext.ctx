@@ -5,7 +5,6 @@
       <files name=".classpath" contentURI=".ArtifactsContextctx/content1.classpath"/>
       <files name=".project" contentURI=".ArtifactsContextctx/content1.project"/>
       <files name="tigerstripe.xml" contentURI=".ArtifactsContextctx/content1.xml"/>
-      <folders name="bin"/>
       <folders name="src">
         <folders name="org">
           <files name=".package" contentURI=".ArtifactsContextctx/content6.package"/>

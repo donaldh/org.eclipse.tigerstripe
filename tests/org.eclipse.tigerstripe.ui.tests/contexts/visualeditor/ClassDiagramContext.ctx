@@ -8,7 +8,6 @@
       <folders name=".settings">
         <files name="org.eclipse.core.resources.prefs" contentURI=".ClassDiagramContextctx/content1.prefs"/>
       </folders>
-      <folders name="bin"/>
       <folders name="src">
         <folders name="org">
           <files name=".package" contentURI=".ClassDiagramContextctx/content6.package"/>
