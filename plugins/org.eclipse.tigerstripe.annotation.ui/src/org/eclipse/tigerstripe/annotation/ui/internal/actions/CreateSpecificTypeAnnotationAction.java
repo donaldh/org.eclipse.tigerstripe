@@ -26,16 +26,18 @@ import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
 
 /**
  * @author Yuri Strot
- *
+ * 
  */
 public class CreateSpecificTypeAnnotationAction extends Action {
-	
-	private TargetAnnotationType targetType;
-	
+
+	private final TargetAnnotationType targetType;
+	private boolean isCanceled;
+
 	public CreateSpecificTypeAnnotationAction(TargetAnnotationType targetType) {
 		super(targetType.getType().getName());
 		AnnotationType type = targetType.getType();
-		ILabelProvider provider = AnnotationUIPlugin.getManager().getLabelProvider(type);
+		ILabelProvider provider = AnnotationUIPlugin.getManager()
+				.getLabelProvider(type);
 		if (provider != null) {
 			Image image = provider.getImage(type.createInstance());
 			if (image != null)
@@ -43,8 +45,10 @@ public class CreateSpecificTypeAnnotationAction extends Action {
 		}
 		this.targetType = targetType;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
 	@Override
@@ -53,22 +57,27 @@ public class CreateSpecificTypeAnnotationAction extends Action {
 		Object selected = null;
 		if (targets.length == 1) {
 			selected = targets[0].getAdaptedObject();
-		}
-		else if (targets.length > 1) {
-			ObjectsListDialog dialog = new ObjectsListDialog(targetType, new Shell(SWT.RESIZE));
-			if (dialog.open() == Dialog.OK) {
+		} else if (targets.length > 1) {
+			ObjectsListDialog dialog = new ObjectsListDialog(targetType,
+					new Shell(SWT.RESIZE));
+			int returnCode = dialog.open();
+			if (returnCode == Dialog.CANCEL) {
+				isCanceled = true;
+			} else if (returnCode == Dialog.OK) {
 				selected = dialog.getSelected();
 			}
 		}
 		if (selected != null) {
 			try {
-				AnnotationPlugin.getManager().addAnnotation(
-						selected, targetType.getType().createInstance());
-			}
-			catch (Exception e) {
+				AnnotationPlugin.getManager().addAnnotation(selected,
+						targetType.getType().createInstance());
+			} catch (Exception e) {
 				AnnotationUIPlugin.log(e);
 			}
 		}
 	}
 
+	public boolean isCanceled() {
+		return isCanceled;
+	}
 }

@@ -20,31 +20,33 @@ import org.eclipse.ui.IWorkbench;
 
 /**
  * @author Yuri Strot
- *
+ * 
  */
 public class CreateAnnotationWizard extends Wizard implements INewWizard {
-	
+
 	private static final String TITLE = "Create Annotation Wizard";
-	
+
 	protected CreateAnnotationWizardPage page;
 	protected Object object;
-	
+
 	public CreateAnnotationWizard() {
 		setWindowTitle(TITLE);
 	}
-	
+
 	public CreateAnnotationWizard(Object object) {
 		this();
 		this.object = object;
 	}
-	
+
 	@Override
 	public void addPages() {
 		page = new CreateAnnotationWizardPage(object);
 		addPage(page);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.wizard.Wizard#canFinish()
 	 */
 	@Override
@@ -53,20 +55,29 @@ public class CreateAnnotationWizard extends Wizard implements INewWizard {
 	}
 
 	@Override
-    public boolean performFinish() {
+	public boolean performFinish() {
 		TargetAnnotationType type = page.getType();
-		addContent(type);
-		return true;
-    }
-	
-	protected void addContent(TargetAnnotationType type) {
-		if (object != null) {
-			new CreateSpecificTypeAnnotationAction(type).run();
+		if (addContent(type)) {
+			return true;
+		} else {
+			return false;
 		}
+	}
+
+	protected boolean addContent(TargetAnnotationType type) {
+		if (object != null) {
+			CreateSpecificTypeAnnotationAction createAction = new CreateSpecificTypeAnnotationAction(
+					type);
+			createAction.run();
+			if (createAction.isCanceled()) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		object = selection.getFirstElement();
-    }
+	}
 
 }
