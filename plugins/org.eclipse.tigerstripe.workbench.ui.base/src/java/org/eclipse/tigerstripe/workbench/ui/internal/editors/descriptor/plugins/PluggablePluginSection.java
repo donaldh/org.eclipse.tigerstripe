@@ -68,7 +68,7 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 
 	protected PluggableHousing housing;
 
-	private List<BasePropertyRenderer> renderers = new ArrayList<BasePropertyRenderer>();
+	private final List<BasePropertyRenderer> renderers = new ArrayList<BasePropertyRenderer>();
 
 	protected Button applyDefaultButton;
 
@@ -613,7 +613,8 @@ public class PluggablePluginSection extends TigerstripeDescriptorSectionPart
 		if (ref.getFacetReference() != null) {
 			IFacetReference fRef = ref.getFacetReference();
 			facetReferenceText.setText(fRef.getProjectRelativePath());
-			if (!"".equals(fRef.getGenerationDir())) {
+			if (fRef.getGenerationDir() != null
+					&& !"".equals(fRef.getGenerationDir())) {
 				facetOutputDirText.setText(fRef.getGenerationDir());
 			}
 		}

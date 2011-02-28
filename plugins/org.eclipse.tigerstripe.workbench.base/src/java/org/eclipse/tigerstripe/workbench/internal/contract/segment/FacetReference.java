@@ -14,15 +14,12 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.AbstractContainedObject;
@@ -65,7 +62,7 @@ public class FacetReference extends AbstractContainedObject implements
 
 	private String projectLabel;
 
-	private String projectRelativePath;
+	private final String projectRelativePath;
 
 	private FacetPredicate primaryPredicate;
 
@@ -459,12 +456,15 @@ public class FacetReference extends AbstractContainedObject implements
 						.getName());
 			}
 		}
-		refElm.setAttribute("genDir", Util.fixWindowsPath(ref
-				.getGenerationDir()));
+		if (ref.getGenerationDir() != null) {
+			refElm.setAttribute("genDir",
+					Util.fixWindowsPath(ref.getGenerationDir()));
+		}
 
 		return refElm;
 	}
 
+	@Override
 	public IFacetReference clone() {
 		return new FacetReference(this);
 	}
