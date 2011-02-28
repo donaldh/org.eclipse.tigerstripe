@@ -26,6 +26,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.model.HierarchyWalker;
@@ -56,9 +57,7 @@ public abstract class ModelComponentSectionPart extends ArtifactSectionPart {
 
 	protected abstract void createInternalContent();
 
-	protected abstract void onExtendedArtifactChange(IAbstractArtifact artifact);
-
-	private Map<String, IAbstractArtifact> updatedArtifacts = new HashMap<String, IAbstractArtifact>();
+	private final Map<String, IAbstractArtifact> updatedArtifacts = new HashMap<String, IAbstractArtifact>();
 
 	@Override
 	protected void createContent() {
@@ -79,7 +78,16 @@ public abstract class ModelComponentSectionPart extends ArtifactSectionPart {
 					if (inHierarhy(artifact)) {
 						updatedArtifacts.put(artifact.getFullyQualifiedName(),
 								artifact);
-						onExtendedArtifactChange(artifact);
+
+						Display.getDefault().asyncExec(new Runnable() {
+							public void run() {
+								TableViewer viewer = getViewer();
+								if (viewer != null
+										&& !viewer.getTable().isDisposed()) {
+									viewer.refresh();
+								}
+							}
+						});
 					}
 				}
 

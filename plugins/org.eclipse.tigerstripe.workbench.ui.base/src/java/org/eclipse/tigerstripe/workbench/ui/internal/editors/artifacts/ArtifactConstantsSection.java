@@ -583,13 +583,6 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart
 		editor.pageModified();
 	}
 
-	@Override
-	protected void onExtendedArtifactChange(IAbstractArtifact artifact) {
-		if (viewer != null && !viewer.getTable().isDisposed()) {
-			viewer.refresh();
-		}
-	}
-
 	private boolean onlyNative(TableItem[] selectedItems) {
 		for (int i = 0; i < selectedItems.length; i++) {
 			if (!literalsInModel.contains((selectedItems[i].getData()))) {
