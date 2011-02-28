@@ -37,7 +37,7 @@
         </os>
       </activation>
       <modules>
-        <module>org.eclipse.tigerstripe.ui.tests</module>
+        <!-- <module>org.eclipse.tigerstripe.ui.tests</module> -->
       </modules>
     </profile>
 
