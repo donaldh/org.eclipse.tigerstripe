@@ -74,12 +74,6 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 
 	private class ClasspathChangesListener implements IElementChangedListener {
 
-		private final ITigerstripeModelProject tsProject;
-
-		public ClasspathChangesListener(ITigerstripeModelProject project) {
-			this.tsProject = project;
-		}
-
 		public void elementChanged(ElementChangedEvent event) {
 			IJavaElementDelta delta = event.getDelta();
 			IJavaElementDelta[] childs = delta.getAffectedChildren();
@@ -87,14 +81,15 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 				if (child.getElement().getElementType() == IJavaElement.JAVA_PROJECT) {
 					IJavaProject jProject = (IJavaProject) child.getElement();
 					if (isCurrentProject(jProject) && isClassPathChanged(child)) {
+						resolveReferencedModels();
 						refreshReferences();
 					}
 				}
 			}
 		}
 
-		public boolean isCurrentProject(IJavaProject jProject) {
-			IJavaProject jTsProject = (IJavaProject) tsProject
+		private boolean isCurrentProject(IJavaProject jProject) {
+			IJavaProject jTsProject = (IJavaProject) getTSProject()
 					.getAdapter(IJavaProject.class);
 			if (jTsProject != null && jTsProject.equals(jProject)) {
 				return true;
@@ -102,12 +97,24 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 			return false;
 		}
 
-		public boolean isClassPathChanged(IJavaElementDelta delta) {
+		private boolean isClassPathChanged(IJavaElementDelta delta) {
 			if ((delta.getFlags() & IJavaElementDelta.F_CLASSPATH_CHANGED) != 0
 					|| (delta.getFlags() & IJavaElementDelta.F_RESOLVED_CLASSPATH_CHANGED) != 0) {
 				return true;
 			}
 			return false;
+		}
+
+		private void resolveReferencedModels() {
+			try {
+				ModelReference[] references = getTSProject()
+						.getModelReferences();
+				for (ModelReference reference : references) {
+					reference.resolveModel();
+				}
+			} catch (TigerstripeException e) {
+				EclipsePlugin.log(e);
+			}
 		}
 
 		private void refreshReferences() {
@@ -223,7 +230,7 @@ public class ReferencedProjectsSection extends TigerstripeDescriptorSectionPart 
 		super.initialize(form);
 		createContent();
 
-		classpathListener = new ClasspathChangesListener(getTSProject());
+		classpathListener = new ClasspathChangesListener();
 		JavaCore.addElementChangedListener(classpathListener,
 				ElementChangedEvent.POST_CHANGE);
 	}
