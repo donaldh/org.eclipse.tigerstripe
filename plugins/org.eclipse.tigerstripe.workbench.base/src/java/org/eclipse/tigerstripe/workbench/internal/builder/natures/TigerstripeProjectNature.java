@@ -64,9 +64,8 @@ public class TigerstripeProjectNature implements IProjectNature {
 	 */
 	public static boolean hasNature(IProject project) throws CoreException {
 
-		if (!project.isAccessible()) // can't determine nature on a closed
-			// project
-			return true;
+		if (!project.isAccessible()) // can't determine nature on a closed project
+			return false;
 
 		return project.isNatureEnabled(BuilderConstants.PROJECT_NATURE_ID);
 
