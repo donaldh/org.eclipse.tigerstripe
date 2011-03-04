@@ -66,7 +66,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.gmf.IconCachingCompartmentEditPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring.RenameModelArtifactWizard;
-import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.QualifiedNamedElement;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.TigerstripeTextSelectionEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeDiagramEditorPlugin;
@@ -117,12 +116,12 @@ public class ManagedEntityArtifactNamePackageEditPart extends
 	@Override
 	protected void createDefaultEditPolicies() {
 		super.createDefaultEditPolicies();
-		
-				installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
-						new LabelDirectEditPolicy());
-//		removeEditPolicy(EditPolicy.DIRECT_EDIT_ROLE);
-//		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
-//				new ArtifactNameEditPolicy());
+
+		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
+				new LabelDirectEditPolicy());
+		// removeEditPolicy(EditPolicy.DIRECT_EDIT_ROLE);
+		// installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE,
+		// new ArtifactNameEditPolicy());
 
 		installEditPolicy(EditPolicy.PRIMARY_DRAG_ROLE,
 				new NonResizableEditPolicy() {
@@ -208,7 +207,7 @@ public class ManagedEntityArtifactNamePackageEditPart extends
 	@Override
 	protected List getModelChildren() {
 		return Collections.EMPTY_LIST;
-		
+
 	}
 
 	/**
@@ -243,35 +242,7 @@ public class ManagedEntityArtifactNamePackageEditPart extends
 	 * @generated NOT
 	 */
 	protected String getLabelText() {
-		String text = null;
-		if (getParser() != null) {
-			text = getParser().getPrintString(
-					new EObjectAdapter(getParserElement()),
-					getParserOptions().intValue());
-		}
-		QualifiedNamedElement qualNamedElem = (QualifiedNamedElement) ((NodeImpl) this
-				.getModel()).getElement();
-		String packageName = qualNamedElem.getPackage();
-		Map map = (Map) qualNamedElem.eContainer();
-		String elemPackageName = null;
-		if (packageName == null)
-			elemPackageName = map.getBasePackage();
-		else
-			elemPackageName = packageName;
-		if (text == null || text.length() == 0) {
-			text = defaultText;
-		} else if (hideArtifactPackages(map)
-				|| elemPackageName.equals(map.getBasePackage())) {
-			// since the packages match, truncate to just show the name
-			// or the diagram is set to hide packages anyway..
-			int lastDotPos = text.lastIndexOf(".");
-			if (lastDotPos > 0 && lastDotPos < (text.length() - 1)) {
-				String newText = text.substring(lastDotPos + 1);
-				text = newText;
-			}
-		}
-
-		return decorateText(text);
+		return super.getLabelText();
 	}
 
 	/**
@@ -424,37 +395,38 @@ public class ManagedEntityArtifactNamePackageEditPart extends
 	}
 
 	/**
-	 * @generated NOT
-	 * This now calls out to the refactor logic
+	 * @generated NOT This now calls out to the refactor logic
 	 */
 	@Override
 	protected void performDirectEditRequest(Request request) {
-		
-		// Bugzilla 319500: Refactor wizard should not pop up when element is initially created		
+
+		// Bugzilla 319500: Refactor wizard should not pop up when element is
+		// initially created
 		if (manager == null) {
 			performDirectEdit();
 			return;
 		}
-		
+
 		Shell shell = EclipsePlugin.getActiveWorkbenchShell();
 		RenameModelArtifactWizard wizard = new RenameModelArtifactWizard();
 		QualifiedNamedElement qualNamedElem = (QualifiedNamedElement) ((NodeImpl) this
 				.getModel()).getElement();
 
 		try {
-			IAbstractArtifact artifact = qualNamedElem.getCorrespondingIArtifact();
-			
-			if (artifact != null){
-				wizard.init((IStructuredSelection) new StructuredSelection(artifact));
+			IAbstractArtifact artifact = qualNamedElem
+					.getCorrespondingIArtifact();
+
+			if (artifact != null) {
+				wizard.init((IStructuredSelection) new StructuredSelection(
+						artifact));
 				WizardDialog dialog = new WizardDialog(shell, wizard);
 				dialog.open();
 			}
 		} catch (TigerstripeException e) {
-			TigerstripeRuntime.logErrorMessage("Failed to determine Artifact for refactoring",
-					e);
+			TigerstripeRuntime.logErrorMessage(
+					"Failed to determine Artifact for refactoring", e);
 		}
-		
-		
+
 	}
 
 	/**
@@ -514,9 +486,10 @@ public class ManagedEntityArtifactNamePackageEditPart extends
 		FontStyle style = (FontStyle) getFontStyleOwnerView().getStyle(
 				NotationPackage.eINSTANCE.getFontStyle());
 		if (style != null) {
-			FontData fontData = new FontData(style.getFontName(), style
-					.getFontHeight(), (style.isBold() ? SWT.BOLD : SWT.NORMAL)
-					| (isAbstractArtifact() ? SWT.ITALIC : SWT.NORMAL));
+			FontData fontData = new FontData(style.getFontName(),
+					style.getFontHeight(), (style.isBold() ? SWT.BOLD
+							: SWT.NORMAL)
+							| (isAbstractArtifact() ? SWT.ITALIC : SWT.NORMAL));
 			setFont(fontData);
 		}
 	}
@@ -655,11 +628,16 @@ public class ManagedEntityArtifactNamePackageEditPart extends
 		// Parent should assign one using setLabel method
 		return null;
 	}
-	
+
 	public Object getAdapter(Class adapter) {
 		if (adapter.equals(IconCachingCompartmentEditPart.class))
 			return this;
-		
+
 		return super.getAdapter(adapter);
+	}
+
+	@Override
+	protected String getDefaultText() {
+		return defaultText;
 	}
 }

@@ -28,7 +28,6 @@ import org.eclipse.gef.Request;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.NonResizableEditPolicy;
 import org.eclipse.gef.handles.NonResizableHandleKit;
-import org.eclipse.gef.requests.DirectEditRequest;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParser;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParserEditStatus;
@@ -38,7 +37,6 @@ import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ITextAwareEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.LabelDirectEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.l10n.DiagramColorRegistry;
-import org.eclipse.gmf.runtime.diagram.ui.requests.RequestConstants;
 import org.eclipse.gmf.runtime.diagram.ui.tools.TextDirectEditManager;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrapLabel;
 import org.eclipse.gmf.runtime.emf.core.util.EObjectAdapter;
@@ -66,7 +64,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring.RenameModelArtifactWizard;
-import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.QualifiedNamedElement;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.TigerstripeTextSelectionEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeDiagramEditorPlugin;
@@ -235,34 +232,7 @@ public class EnumerationNamePackageEditPart extends AbstractNamePackageEditPart
 	 * @generated NOT
 	 */
 	protected String getLabelText() {
-		String text = null;
-		if (getParser() != null) {
-			text = getParser().getPrintString(
-					new EObjectAdapter(getParserElement()),
-					getParserOptions().intValue());
-		}
-		QualifiedNamedElement qualNamedElem = (QualifiedNamedElement) ((NodeImpl) this
-				.getModel()).getElement();
-		String packageName = qualNamedElem.getPackage();
-		Map map = (Map) qualNamedElem.eContainer();
-		String elemPackageName = null;
-		if (packageName == null)
-			elemPackageName = map.getBasePackage();
-		else
-			elemPackageName = packageName;
-		if (text == null || text.length() == 0) {
-			text = defaultText;
-		} else if (hideArtifactPackages(map)
-				|| elemPackageName.equals(map.getBasePackage())) {
-			// since the packages match, truncate to just show the name
-			// or the diagram is set to hide packages anyway..
-			int lastDotPos = text.lastIndexOf(".");
-			if (lastDotPos > 0 && lastDotPos < (text.length() - 1)) {
-				String newText = text.substring(lastDotPos + 1);
-				text = newText;
-			}
-		}
-		return decorateText(text);
+		return super.getLabelText();
 	}
 
 	/**
@@ -415,38 +385,38 @@ public class EnumerationNamePackageEditPart extends AbstractNamePackageEditPart
 	}
 
 	/**
-	 * @generated NOT
-	 * This now calls out to the refactor logic
+	 * @generated NOT This now calls out to the refactor logic
 	 */
 	@Override
 	protected void performDirectEditRequest(Request request) {
-		
-		// Bugzilla 319500: Refactor wizard should not pop up when element is initially created		
+
+		// Bugzilla 319500: Refactor wizard should not pop up when element is
+		// initially created
 		if (manager == null) {
 			performDirectEdit();
 			return;
 		}
-		
+
 		Shell shell = EclipsePlugin.getActiveWorkbenchShell();
 		RenameModelArtifactWizard wizard = new RenameModelArtifactWizard();
 		QualifiedNamedElement qualNamedElem = (QualifiedNamedElement) ((NodeImpl) this
 				.getModel()).getElement();
 
 		try {
-			IAbstractArtifact artifact = qualNamedElem.getCorrespondingIArtifact();
+			IAbstractArtifact artifact = qualNamedElem
+					.getCorrespondingIArtifact();
 
-
-			if (artifact != null){
-				wizard.init((IStructuredSelection) new StructuredSelection(artifact));
+			if (artifact != null) {
+				wizard.init((IStructuredSelection) new StructuredSelection(
+						artifact));
 				WizardDialog dialog = new WizardDialog(shell, wizard);
 				dialog.open();
 			}
 		} catch (TigerstripeException e) {
-			TigerstripeRuntime.logErrorMessage("Failed to determine Artifact for refactoring",
-					e);
+			TigerstripeRuntime.logErrorMessage(
+					"Failed to determine Artifact for refactoring", e);
 		}
-		
-		
+
 	}
 
 	/**
@@ -506,9 +476,10 @@ public class EnumerationNamePackageEditPart extends AbstractNamePackageEditPart
 		FontStyle style = (FontStyle) getFontStyleOwnerView().getStyle(
 				NotationPackage.eINSTANCE.getFontStyle());
 		if (style != null) {
-			FontData fontData = new FontData(style.getFontName(), style
-					.getFontHeight(), (style.isBold() ? SWT.BOLD : SWT.NORMAL)
-					| (isAbstractArtifact() ? SWT.ITALIC : SWT.NORMAL));
+			FontData fontData = new FontData(style.getFontName(),
+					style.getFontHeight(), (style.isBold() ? SWT.BOLD
+							: SWT.NORMAL)
+							| (isAbstractArtifact() ? SWT.ITALIC : SWT.NORMAL));
 			setFont(fontData);
 		}
 	}
@@ -647,4 +618,10 @@ public class EnumerationNamePackageEditPart extends AbstractNamePackageEditPart
 		// Parent should assign one using setLabel method
 		return null;
 	}
+
+	@Override
+	protected String getDefaultText() {
+		return defaultText;
+	}
+
 }

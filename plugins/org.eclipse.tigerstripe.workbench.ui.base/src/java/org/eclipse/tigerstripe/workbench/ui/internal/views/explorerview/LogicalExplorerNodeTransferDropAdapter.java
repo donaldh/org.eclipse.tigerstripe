@@ -235,6 +235,9 @@ public class LogicalExplorerNodeTransferDropAdapter extends ViewerDropAdapter
 	private boolean validateProjectReference(Object target) {
 		initializeSelection();
 		AbstractLogicalExplorerNode[] nodes = getNodes();
+		if (nodes.length == 0) {
+			return false;
+		}
 		if (target instanceof IResource || target instanceof IJavaElement) {
 			try {
 				IResource res = null;
