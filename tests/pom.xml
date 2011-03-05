@@ -32,9 +32,11 @@
     <profile>
       <id>Q7 Tests</id>
       <activation>
+      <!-- Due to a bug in maven these are being treated as OR instead of AND. I need to turn off this so the q7 tests won't run on the server
         <os>
           <family>!mac</family>
         </os>
+        -->
         <property>
           <name>run.tests</name>
           <value>true</value>
