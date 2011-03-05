@@ -24,7 +24,6 @@
 		 The 64-bit profile below overrides this location, 
 		 so if on a 64 bit machine change the definition in the profile below.-->
 	<q7.location>/auto/xmpsdk/q7/eclipse</q7.location>
-	<run.tests>true</run.tests>
   </properties>
 	
   <modules>
@@ -86,13 +85,6 @@
   </build>
   
   <profiles>
-    <profile>
-      <id>SkipTests</id>
-      <properties>
-        <run.tests>false</run.tests>
-      </properties>
-    </profile>
-    
 	<profile>
 	  <id>32-bit</id>
 	  <activation>

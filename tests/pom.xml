@@ -38,8 +38,8 @@
         </os>
         -->
         <property>
-          <name>run.tests</name>
-          <value>true</value>
+          <name>skip.tests</name>
+          <value>!true</value>
         </property>
       </activation>
       <modules>
