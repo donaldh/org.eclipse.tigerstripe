@@ -76,7 +76,7 @@ public class KindPropertiesDialog extends Dialog {
 	@Override
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
-		newShell.setText("Digaram Element Kinds");
+		newShell.setText("Diagram Element Kinds");
 	}
 
 	@Override
