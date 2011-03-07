@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal.adapt;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 import org.eclipse.core.resources.IFile;
@@ -121,13 +122,21 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 										res.getLocation().toOSString());
 
 						if (artifact == null && res.exists()) {
+							InputStreamReader reader = null;
 							try {
-								InputStreamReader reader = new InputStreamReader(
+								reader = new InputStreamReader(
 										res.getContents());
 								artifact = mgr.extractArtifact(reader,
 										new NullProgressMonitor());
 							} catch (CoreException e) {
 								BasePlugin.log(e);
+							} finally {
+								if (reader != null) {
+									try {
+										reader.close();
+									} catch (IOException e) {
+									}
+								}
 							}
 						}
 						if (adapterType.isInstance(artifact))
@@ -176,13 +185,23 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 										if (res instanceof IFile) {
 											IFile f = (IFile) res;
 											if (f.getName().equals(".package")) {
-												InputStreamReader reader = new InputStreamReader(
-														f.getContents());
-												artifact = mgr
-														.extractArtifact(
-																reader,
-																new NullProgressMonitor());
-												return artifact;
+												InputStreamReader reader = null;
+												try {
+													reader = new InputStreamReader(
+															f.getContents());
+													artifact = mgr
+															.extractArtifact(
+																	reader,
+																	new NullProgressMonitor());
+													return artifact;
+												} finally {
+													if (reader != null) {
+														try {
+															reader.close();
+														} catch (IOException e) {
+														}
+													}
+												}
 											}
 										}
 									}
