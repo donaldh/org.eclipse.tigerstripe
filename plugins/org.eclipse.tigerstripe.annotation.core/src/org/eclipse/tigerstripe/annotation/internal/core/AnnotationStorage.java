@@ -46,7 +46,7 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 	protected static Annotation[] EMPTY_ARRAY = new Annotation[0];
 
 	private EMFDatabase database;
-	private ReentrantLock databaseLock = new ReentrantLock();
+	private final ReentrantLock databaseLock = new ReentrantLock();
 	protected ListenerList listeners = new ListenerList();
 
 	protected Map<Annotation, ChangeRecorder> changes = new ConcurrentHashMap<Annotation, ChangeRecorder>();
@@ -120,7 +120,13 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 	}
 
 	public List<Annotation> getAnnotations(URI uri) {
-		return doGetAnnotations(uri);
+		List<Annotation> list = doGetAnnotations(uri);
+		for (Iterator<Annotation> it = list.iterator(); it.hasNext();) {
+			if (it.next().getContent() == null) {
+				it.remove();
+			}
+		}
+		return list;
 	}
 
 	public Annotation getAnnotationById(String id) {
