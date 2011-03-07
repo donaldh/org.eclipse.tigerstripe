@@ -18,7 +18,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceDescription;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 
 /**
@@ -229,5 +234,20 @@ public class Util {
 			fullPath = fullPath.substring(i + 1, fullPath.length());
 		}
 		return fullPath;
+	}
+
+	public static boolean isAutoBuildingEnabled() {
+		return ResourcesPlugin.getWorkspace().getDescription().isAutoBuilding();
+	}
+
+	public static void setAutoBuilding(boolean value) {
+		IWorkspace ws = ResourcesPlugin.getWorkspace();
+		IWorkspaceDescription desc = ws.getDescription();
+		desc.setAutoBuilding(value);
+		try {
+			ws.setDescription(desc);
+		} catch (CoreException e) {
+			BasePlugin.log(e);
+		}
 	}
 }

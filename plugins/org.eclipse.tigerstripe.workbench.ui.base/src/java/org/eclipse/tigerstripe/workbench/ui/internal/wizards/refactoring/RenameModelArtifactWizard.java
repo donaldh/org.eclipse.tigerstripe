@@ -25,6 +25,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramChangeDelta;
 import org.eclipse.tigerstripe.workbench.refactor.IRefactorCommand;
 import org.eclipse.tigerstripe.workbench.refactor.ModelRefactorRequest;
@@ -50,6 +51,33 @@ public class RenameModelArtifactWizard extends Wizard implements
 
 	public IRefactorCommand[] getRefactorCommands() {
 		return commands;
+	}
+
+	private static class DisableAutoBuildingRunnable implements
+			IRunnableWithProgress {
+
+		private final IRunnableWithProgress delegat;
+
+		public DisableAutoBuildingRunnable(IRunnableWithProgress delegat) {
+			this.delegat = delegat;
+		}
+
+		public void run(IProgressMonitor monitor)
+				throws InvocationTargetException, InterruptedException {
+
+			boolean autoBuildingEnabled = Util.isAutoBuildingEnabled();
+			if (autoBuildingEnabled) {
+				Util.setAutoBuilding(false);
+			}
+			try {
+				delegat.run(monitor);
+			} finally {
+				if (autoBuildingEnabled) {
+					Util.setAutoBuilding(true);
+				}
+			}
+		}
+
 	}
 
 	private class RefactorRunnable implements IRunnableWithProgress {
@@ -174,9 +202,9 @@ public class RenameModelArtifactWizard extends Wizard implements
 	}
 
 	public boolean performFinish() {
-
 		try {
-			getContainer().run(false, true, new RefactorRunnable());
+			getContainer().run(false, true,
+					new DisableAutoBuildingRunnable(new RefactorRunnable()));
 		} catch (InvocationTargetException e) {
 			EclipsePlugin.log(e);
 		} catch (InterruptedException e) {
@@ -184,5 +212,4 @@ public class RenameModelArtifactWizard extends Wizard implements
 		}
 		return true;
 	}
-
 }
