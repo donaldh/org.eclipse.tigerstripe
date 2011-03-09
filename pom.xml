@@ -125,6 +125,17 @@
 		<junit.args>-XstartOnFirstThread -Xms256m -Xmx1024m -XX:MaxPermSize=512m</junit.args>
 	  </properties>
 	</profile>
+	
+	<profile>
+		<id>external-repositories</id>
+		<repositories>
+			<repository>
+	  			<id>helios</id>
+	  			<layout>p2</layout>
+	  			<url>http://download.eclipse.org/releases/helios/</url>
+			</repository>
+  		</repositories>
+	</profile>
   </profiles>
-  
+   
 </project>

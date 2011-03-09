@@ -29,7 +29,7 @@
           <sutProjectId>org.eclipse.tigerstripe.rcp</sutProjectId>
           <delay>50</delay>
           <timeout>3600</timeout>
-          <sutWsPrefix>../../sut-</sutWsPrefix>
+          <sutWsPrefix>target/sut-</sutWsPrefix>
           <sutVMArgs>-Xms128m;-Xmx512m;-XX:PermSize=128M;-XX:MaxPermSize=512M</sutVMArgs>
         </configuration>
         <executions>
