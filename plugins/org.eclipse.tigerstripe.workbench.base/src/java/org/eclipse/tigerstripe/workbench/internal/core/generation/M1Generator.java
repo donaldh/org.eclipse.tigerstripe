@@ -22,8 +22,11 @@ import org.apache.log4j.FileAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -43,6 +46,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.plugins.PluginLogger;
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.MultiFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ModelResourcesChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.UnknownPluginException;
@@ -147,8 +151,8 @@ public class M1Generator {
 					// for post generation work
 					WORK_UNIT;
 
+            monitor.subTask("Setup");
 			monitor.beginTask("Generating project", workCount);
-			monitor.subTask("Setup");
 			// long before = System.currentTimeMillis();
 			refreshAndSetupForGeneration();
 			// long after = System.currentTimeMillis();
@@ -362,6 +366,8 @@ public class M1Generator {
 				postWork.done();
 			}
 		} finally {
+		    monitor.done();
+		    
 		    //Notify any listeners that the generate is complete
 		    GenerateCompleteManager manager = GenerateCompleteManager.getInstance();
 		    PluginRunStatus[] actionResults = manager.notifyListeners(this.project, 
@@ -370,6 +376,30 @@ public class M1Generator {
 		        //Add the post generate action results to the end of the plugin generate results
 		        overallResult.addAll(Arrays.asList(actionResults));
 		    }
+		    
+		    // Remove any markers on the target folder saying for being out of date
+		    try {
+	            IProjectDetails details = project.getProjectDetails();
+	            if (details != null) {
+	                String outputDir = details.getOutputDirectory();
+	                IProject proj = ResourcesPlugin.getWorkspace().getRoot().getProject(project.getName());
+	                if (proj != null) {
+	                    final IResource folder = proj.findMember(outputDir);
+	                    if (folder != null) {
+	                        IMarker[] markers = folder.findMarkers(ModelResourcesChangeListener.TARGET_OUT_OF_DATE_MARKER, true, 1);
+	                        
+	                        for (int i = 0; i < markers.length; i++) {
+	                            IMarker marker = markers[i];
+	                            if (marker.exists()) {
+	                                marker.delete();
+	                            }
+	                        }
+	                    }
+	                }
+	            }
+	        } catch (Exception e) {
+	            // IGNORE, this is just a convenience framework anyway.
+	        }
 		    
 			resetAfterGeneration();
 			IPath output = config.getOutputPath();

@@ -99,7 +99,7 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 				else if ("PROJECT".equals(levelStr))
 					level = ITigerstripeChangeListener.PROJECT;
 				ITigerstripeChangeListener listener = (ITigerstripeChangeListener) element
-						.createExecutableExtension("listener");
+						.createExecutableExtension("class");
 				addTigerstripeChangeListener(listener, level);
 			} catch (CoreException e) {
 				BasePlugin.log(e);
