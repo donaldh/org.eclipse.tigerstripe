@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class TigerstripeChangeAdapter implements ITigerstripeChangeListener {
 
@@ -38,5 +39,8 @@ public class TigerstripeChangeAdapter implements ITigerstripeChangeListener {
 	}
 
 	public void artifactResourceRemoved(IResource removedArtifactResource) {
+	}
+	
+	public void activeFacetChanged(ITigerstripeModelProject project) {
 	}
 }

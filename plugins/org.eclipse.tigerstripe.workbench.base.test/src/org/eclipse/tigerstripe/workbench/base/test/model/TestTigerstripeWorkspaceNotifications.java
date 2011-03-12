@@ -20,6 +20,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.base.test.utils.M1ProjectHelper;
 import org.eclipse.tigerstripe.workbench.base.test.utils.ModelProjectHelper;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class TestTigerstripeWorkspaceNotifications extends TestCase implements
 		ITigerstripeChangeListener {
@@ -192,5 +193,10 @@ public class TestTigerstripeWorkspaceNotifications extends TestCase implements
 		// TODO Auto-generated method stub
 		
 	}
+
+    public void activeFacetChanged(ITigerstripeModelProject project) {
+        // TODO Auto-generated method stub
+        
+    }
 
 }

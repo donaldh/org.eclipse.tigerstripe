@@ -471,6 +471,11 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 		
 	}
 
+    public void activeFacetChanged(ITigerstripeModelProject project) {
+        // TODO Auto-generated method stub
+        
+    }
+
 	protected ArtifactOverviewPage createOverviewPage() {
 		
 		IAdapterManager adapterManager = Platform.getAdapterManager();

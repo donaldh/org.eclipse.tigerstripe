@@ -17,6 +17,7 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -41,6 +42,7 @@ public class ResetActiveFacetActionDelegate implements IObjectActionDelegate {
 	public void run(IAction action) {
 		try {
 			targetProject.resetActiveFacet();
+			TigerstripeWorkspaceNotifier.INSTANCE.activeFacetChanged(targetProject);
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}

@@ -2791,6 +2791,11 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 		 * in this method about artifact deletion.
 		 */
 	}
+    
+    public void activeFacetChanged(ITigerstripeModelProject project) {
+        // TODO Auto-generated method stub
+        
+    }
 
 	public void addDisposeListener(IDisposeListener listener) {
 		if (wasDisposed) {

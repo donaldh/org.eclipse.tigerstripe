@@ -31,6 +31,7 @@ import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.annotation.AnnotationUtils;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 
 /**
@@ -329,6 +330,29 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 
 				});
 		}
+	}
+	
+	public void activeFacetChanged(ITigerstripeModelProject project) {
+	    broadcastFacetChange(project);
+	}
+	
+	private void broadcastFacetChange(final ITigerstripeModelProject project) {
+	       Object[] listenersArray = listeners.getListeners();
+	       for (Object l : listenersArray) {
+	            final FilteredListener listener = (FilteredListener) l;
+	            if (listener.select(ITigerstripeChangeListener.FACET))
+	                SafeRunner.run(new ISafeRunnable() {
+
+	                    public void handleException(Throwable exception) {
+	                        BasePlugin.log(exception);
+	                    }
+
+	                    public void run() throws Exception {
+	                        listener.getListener().activeFacetChanged(project);
+	                    }
+
+	                });
+	        }
 	}
 
 }

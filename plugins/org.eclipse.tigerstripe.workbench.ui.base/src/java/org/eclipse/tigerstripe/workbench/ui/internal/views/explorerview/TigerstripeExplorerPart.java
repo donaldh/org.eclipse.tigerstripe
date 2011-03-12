@@ -65,6 +65,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.preferences.ExplorerPreferencePage;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TSElementSorter;
@@ -732,4 +733,9 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 		// TODO Auto-generated method stub
 
 	}
+    
+    public void activeFacetChanged(ITigerstripeModelProject project) {
+        // TODO Auto-generated method stub
+        
+    }
 }

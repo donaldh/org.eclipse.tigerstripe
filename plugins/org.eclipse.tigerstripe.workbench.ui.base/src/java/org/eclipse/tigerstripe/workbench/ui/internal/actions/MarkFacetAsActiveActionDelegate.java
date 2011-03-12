@@ -32,6 +32,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetPredicate;
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -91,6 +92,7 @@ public class MarkFacetAsActiveActionDelegate implements IObjectActionDelegate {
 											IProgressMonitor.UNKNOWN);
 									targetProject.setActiveFacet(ref, monitor);
 									monitor.done();
+									TigerstripeWorkspaceNotifier.INSTANCE.activeFacetChanged(targetProject);
 								} catch (TigerstripeException e) {
 									IStatus status = new Status(IStatus.ERROR,
 											EclipsePlugin.getPluginId(), 222,

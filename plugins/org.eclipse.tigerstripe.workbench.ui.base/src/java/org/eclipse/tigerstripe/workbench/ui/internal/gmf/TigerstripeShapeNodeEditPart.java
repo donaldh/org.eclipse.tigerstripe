@@ -24,6 +24,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotif
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 
 public abstract class TigerstripeShapeNodeEditPart extends ShapeNodeEditPart
@@ -145,4 +146,9 @@ public abstract class TigerstripeShapeNodeEditPart extends ShapeNodeEditPart
 		// TODO Auto-generated method stub
 		
 	}
+    
+    public void activeFacetChanged(ITigerstripeModelProject project) {
+        // TODO Auto-generated method stub
+        
+    }
 }

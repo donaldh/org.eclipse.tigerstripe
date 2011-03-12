@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
@@ -36,6 +37,8 @@ public class ModelResourcesChangeListener implements ITigerstripeChangeListener 
     
     public static String TARGET_OUT_OF_DATE_MARKER = "org.eclipse.tigerstripe.workbench.base.targetOutOfDateMarker";
     
+    public static String MODEL_RESOURCES_CHANGE_LISTENER_ID = BasePlugin.PLUGIN_ID + ".ModelResourcesChangeListener";
+    
     protected void markTargetOutOfDate(ITigerstripeModelProject project) {
         if (project == null)
             return;
@@ -48,26 +51,24 @@ public class ModelResourcesChangeListener implements ITigerstripeChangeListener 
                 if (proj != null) {
                     final IResource folder = proj.findMember(outputDir);
                     if (folder != null) {
-                        
-                        IMarker[] markers = folder.findMarkers(TARGET_OUT_OF_DATE_MARKER, true, 1);
-                        
-                        if (markers.length <= 0) {
-                            WorkspaceJob job = new WorkspaceJob("Add Out-of-date Marker") {
-                                
-                                @Override
-                                public IStatus runInWorkspace(IProgressMonitor monitor) throws CoreException {
-                                    try {
+                        WorkspaceJob job = new WorkspaceJob("Add Out-of-date Marker") {
+                            @Override
+                            public IStatus runInWorkspace(IProgressMonitor monitor) throws CoreException {
+                                try {
+                                    IMarker[] markers = folder.findMarkers(TARGET_OUT_OF_DATE_MARKER, true, 1);
+                                    if (markers.length <= 0) {
                                         IMarker marker = folder.createMarker(TARGET_OUT_OF_DATE_MARKER);
                                         marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
                                         marker.setAttribute(IMarker.MESSAGE, "Target folder may be out of date due to changes in the project. Running Tigerstripe generation on the project will remove this message.");
-                                        return new Status(IStatus.OK, BasePlugin.PLUGIN_ID, "Added target folder out-of-date marker on project " + projectName);
-                                    } catch (Exception e) {
-                                        throw new CoreException(new Status(IStatus.ERROR, BasePlugin.PLUGIN_ID, "Failed to add target folder out-of-date marker on project " + projectName));
+                                        return new Status(IStatus.OK, MODEL_RESOURCES_CHANGE_LISTENER_ID, "Added target folder out-of-date marker on project " + projectName);
                                     }
+                                    return new Status(IStatus.OK, BasePlugin.PLUGIN_ID, "Target folder already marked out-of-date on project " + projectName);
+                                } catch (Exception e) {
+                                    throw new CoreException(new Status(IStatus.ERROR, MODEL_RESOURCES_CHANGE_LISTENER_ID, "Failed to add target folder out-of-date marker on project " + projectName));
                                 }
-                            };
-                            job.schedule();
-                        }
+                            }
+                        };
+                        job.schedule();
                     }
                 }
             }
@@ -167,5 +168,9 @@ public class ModelResourcesChangeListener implements ITigerstripeChangeListener 
         ITigerstripeModelProject modelProject = TigerstripeCore.findModelProjectByID(removedArtifactResource.getProject().getName());
         markTargetOutOfDate(modelProject);
         
+    }
+    
+    public void activeFacetChanged(ITigerstripeModelProject project) {
+        markTargetOutOfDate(project);
     }
 }

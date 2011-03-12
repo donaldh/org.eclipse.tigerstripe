@@ -142,6 +142,11 @@ public class ActiveFacetDecorationDelegate implements
 		// TODO Auto-generated method stub
 
 	}
+    
+    public void activeFacetChanged(ITigerstripeModelProject project) {
+        // TODO Auto-generated method stub
+        
+    }
 
 	public void dispose() {
 		TigerstripeWorkspaceNotifier.INSTANCE

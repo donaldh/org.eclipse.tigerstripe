@@ -55,6 +55,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotif
 import org.eclipse.tigerstripe.workbench.internal.core.locale.Messages;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ContainedProperties;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -589,5 +590,10 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 		// TODO Auto-generated method stub
 
 	}
+    
+    public void activeFacetChanged(ITigerstripeModelProject project) {
+        // TODO Auto-generated method stub
+        
+    }
 
 }

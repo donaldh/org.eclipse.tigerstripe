@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * ITigerstripeChangeListeners are notified whenever a change in the workspace
@@ -27,8 +28,9 @@ public interface ITigerstripeChangeListener {
 	public final static int MODEL = 0x2;
 	public final static int ANNOTATION = 0x4;
 	public final static int ARTIFACT_RESOURCES = 0x8;
+	public final static int FACET = 0x16;
 
-	public final static int ALL = PROJECT | MODEL | ANNOTATION| ARTIFACT_RESOURCES;
+	public final static int ALL = PROJECT | MODEL | ANNOTATION| ARTIFACT_RESOURCES | FACET;
 
 	/**
 	 * Notification that a Tigerstripe project was added to the workspace
@@ -79,5 +81,7 @@ public interface ITigerstripeChangeListener {
 	public void artifactResourceAdded(IResource addedArtifactResource);
 	
 	public void artifactResourceRemoved(IResource removedArtifactResource);
+	
+	public void activeFacetChanged(ITigerstripeModelProject project);
 	
 }

@@ -137,5 +137,10 @@ public class TigerstripeProjectsSession implements ITigerstripeChangeListener {
 		// TODO Auto-generated method stub
 		
 	}
+    
+    public void activeFacetChanged(ITigerstripeModelProject project) {
+        // TODO Auto-generated method stub
+        
+    }
 
 }
