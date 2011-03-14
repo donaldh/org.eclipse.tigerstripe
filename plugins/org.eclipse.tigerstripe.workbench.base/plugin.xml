@@ -33,6 +33,22 @@
          <run class="org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeProjectNature"/>
       </runtime>
       <builder id="org.eclipse.tigerstripe.workbench.base.tigerstripeProjectAuditor"/>
+      <builder id="org.eclipse.tigerstripe.workbench.base.cycleReferencesAuditor" />
+   </extension>
+   <extension 
+     id="cycleReferencesAuditor" 
+     name="Cycle References Auditor" 
+     point="org.eclipse.core.resources.builders">
+	  <builder hasNature="true">
+	     <run class="org.eclipse.tigerstripe.workbench.internal.builder.CycleReferencesAuditor" />
+	  </builder>
+   </extension>
+   <extension
+         id="projectCyclesMarker"
+         name="Tigerstripe Projects Cycles Marker"
+         point="org.eclipse.core.resources.markers">
+      <super type="org.eclipse.core.resources.problemmarker"/>
+      <persistent value="true"/>
    </extension>
    <extension
          id="tigerstripeProjectAuditor"

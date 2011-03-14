@@ -12,18 +12,25 @@ package org.eclipse.tigerstripe.workbench.internal;
 
 import org.apache.log4j.Level;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceVisitor;
+import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderer;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderingSession;
+import org.eclipse.tigerstripe.workbench.internal.builder.BuilderConstants;
+import org.eclipse.tigerstripe.workbench.internal.builder.BuilderUtils;
 import org.eclipse.tigerstripe.workbench.internal.builder.ProjectInfo;
 import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceListener;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -61,6 +68,46 @@ public class BasePlugin extends Plugin {
 		extensionPointRegistered();
 
 		startWorkspaceListener();
+
+		addBuilders();
+	}
+
+	private void addBuilders() throws CoreException {
+		ResourcesPlugin.getWorkspace().getRoot().accept(new IResourceVisitor() {
+
+			public boolean visit(IResource resource) throws CoreException {
+
+				if (resource instanceof IProject) {
+
+					final IProject project = (IProject) resource;
+
+					if (project.hasNature(BuilderConstants.PROJECT_NATURE_ID)) {
+
+						if (BuilderUtils.addBuilder(project,
+								BuilderConstants.CYCLES_BUILDER_ID)) {
+							new Job("Tigerstripe Cycle References Audit") {
+								@Override
+								protected IStatus run(IProgressMonitor monitor) {
+									try {
+
+										project.build(
+												IncrementalProjectBuilder.FULL_BUILD,
+												BuilderConstants.CYCLES_BUILDER_ID,
+												null, monitor);
+
+									} catch (CoreException e) {
+										BasePlugin.log(e);
+									}
+									return org.eclipse.core.runtime.Status.OK_STATUS;
+								}
+							}.schedule();
+						}
+					}
+					return false;
+				}
+				return true;
+			}
+		});
 	}
 
 	@Override

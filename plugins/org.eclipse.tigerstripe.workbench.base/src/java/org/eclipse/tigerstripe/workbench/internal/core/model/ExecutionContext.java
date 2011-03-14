@@ -11,20 +11,18 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.util.CheckUtils;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class ExecutionContext {
 
 	private final IProgressMonitor monitor;
-	private final Set<String> referencesCycle = new HashSet<String>();
-	private final Set<String> installedModuleCycle = new HashSet<String>();
+	private final Map<ICycle, Set<Object>> cycles = new HashMap<ExecutionContext.ICycle, Set<Object>>();
 
 	public ExecutionContext(IProgressMonitor monitor) {
 		this.monitor = CheckUtils.notNull(monitor, "monitor");
@@ -34,21 +32,16 @@ public class ExecutionContext {
 		return monitor;
 	}
 
-	public boolean addInGenericReferencesCycle(ITigerstripeModelProject project) {
-		try {
-			return referencesCycle.add(project.getModelId());
-		} catch (TigerstripeException e) {
-			BasePlugin.log(e);
-			return false;
+	public boolean addToCycle(ICycle cycle, Object element) {
+		Set<Object> set = cycles.get(cycle);
+		if (set == null) {
+			set = new HashSet<Object>();
+			cycles.put(cycle, set);
 		}
+		return set.add(element);
 	}
 
-	public boolean addInInstalledModulesCycle(ITigerstripeModelProject project) {
-		try {
-			return installedModuleCycle.add(project.getModelId());
-		} catch (TigerstripeException e) {
-			BasePlugin.log(e);
-			return false;
-		}
+	public static interface ICycle {
+
 	}
 }

@@ -14,6 +14,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.tigerstripe.workbench.internal.builder.BuilderConstants;
+import org.eclipse.tigerstripe.workbench.internal.builder.BuilderUtils;
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
 
 public class TigerstripeProjectNature implements IProjectNature {
@@ -26,6 +27,7 @@ public class TigerstripeProjectNature implements IProjectNature {
 
 	public void configure() throws CoreException {
 		TigerstripeProjectAuditor.addBuilderToProject(project);
+		BuilderUtils.addBuilder(project, BuilderConstants.CYCLES_BUILDER_ID);
 //		new Job("Tigerstripe Project Audit") {
 //			@Override
 //			protected IStatus run(IProgressMonitor monitor) {

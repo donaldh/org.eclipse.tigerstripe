@@ -19,6 +19,7 @@ import java.util.Set;
 
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.contract.predicate.PredicateFilter;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ExecutionContext.ICycle;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
@@ -108,6 +109,9 @@ public class DependenciesContentCache {
 		for (IAbstractArtifact model : registeredArtifacts) {
 			Set<IAbstractArtifact> list = new HashSet<IAbstractArtifact>();
 			for (IDependency dependency : manager.getProjectDependencies()) {
+				if (!context.addToCycle(Cycles.BY_MODEL, dependency.getURI())) {
+					continue;
+				}
 				Dependency dep = (Dependency) dependency;
 				ArtifactManager artifactManager = dep
 						.getArtifactManager(context.getMonitor());
@@ -125,6 +129,9 @@ public class DependenciesContentCache {
 	private void updateAllArtifacts(ExecutionContext context) {
 		Set<IAbstractArtifact> result = new HashSet<IAbstractArtifact>();
 		for (IDependency dependency : manager.getProjectDependencies()) {
+			if (!context.addToCycle(Cycles.ALL, dependency.getURI())) {
+				continue;
+			}
 			Dependency dep = (Dependency) dependency;
 			ArtifactManager artifactManager = dep.getArtifactManager(context
 					.getMonitor());
@@ -210,5 +217,9 @@ public class DependenciesContentCache {
 		artifactsByFqn = null;
 		artifactsByModel = null;
 		artifactFilter = null;
+	}
+
+	private static enum Cycles implements ICycle {
+		BY_MODEL, ALL;
 	}
 }
