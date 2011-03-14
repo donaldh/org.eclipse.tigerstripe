@@ -23,6 +23,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.Method;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Tag;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.StereotypeInstance;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.UnresolvedStereotypeInstance;
+import org.eclipse.tigerstripe.workbench.internal.core.util.encode.XmlEscape;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeAttribute;
@@ -158,16 +159,19 @@ public final class StereotypeTags {
 				for (IStereotypeAttribute attr : stereotype.getAttributes()) {
 					try {
 						// Check that we can find the attr properly.
-						String attrVal = props.getProperty(attr.getName());
+						String attrVal = props.getProperty(attr.getName(),
+								attr.getDefaultValue());
+						if (attrVal != null) {
+							XmlEscape xmlEscape = new XmlEscape();
+							attrVal = xmlEscape.decode(attrVal);
+						}
 
 						if (!attr.isArray()) {
-							instance.setAttributeValue(attr, props.getProperty(
-									attr.getName(), attr.getDefaultValue()));
+							instance.setAttributeValue(attr, attrVal);
 						} else {
 							((StereotypeInstance) instance)
 									.setAttributeValuesFromStringified(attr,
-											props.getProperty(attr.getName(),
-													attr.getDefaultValue()));
+											attrVal);
 						}
 					} catch (TigerstripeException e) {
 						TigerstripeRuntime.logDebugMessage(
