@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.annotation;
 
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 
 /**
@@ -21,9 +23,10 @@ import org.eclipse.emf.common.util.URI;
  */
 public class ModuleURIHelper {
 	
-	private URI moduleUri;
+	private final URI moduleUri;
 	private URI archiveUri;
 	private String moduleID;
+	private IPath archivePath;
 	
 	public ModuleURIHelper(URI moduleUri) {
 		this.moduleUri = moduleUri;
@@ -39,10 +42,15 @@ public class ModuleURIHelper {
 			moduleEnd = path.indexOf("/", 1);
 		}
 		moduleID = path.substring(moduleStart, moduleEnd);
-		path = path.substring(moduleEnd + 1);
-		archiveUri = URI.createURI("archive:file:/" + path);
+		String archive = path.substring(moduleEnd + 1);
+		archivePath = new Path(archive);
+		archiveUri = URI.createURI("archive:file:/" + archive);
 	}
-	
+
+	public IPath getArchivePath() {
+		return archivePath;
+	}
+
 	/**
 	 * @return the archiveUri
 	 */

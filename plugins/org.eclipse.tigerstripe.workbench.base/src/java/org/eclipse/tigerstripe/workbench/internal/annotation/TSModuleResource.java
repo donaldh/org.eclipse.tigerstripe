@@ -16,6 +16,10 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
@@ -24,6 +28,7 @@ import org.eclipse.emf.ecore.resource.URIConverter;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.espace.resources.format.AnnotationXMIResource;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
+import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 
 /**
  * @author Yuri Strot
@@ -57,6 +62,7 @@ public class TSModuleResource extends AnnotationXMIResource {
 	protected void updateContent() {
 		EList<EObject> contents = getContents();
 
+		String containerName = getContainerName();
 		for (EObject obj : contents) {
 			if (obj instanceof Annotation) {
 				Annotation ann = (Annotation) obj;
@@ -66,7 +72,13 @@ public class TSModuleResource extends AnnotationXMIResource {
 				// The first segment must be changed from being the original
 				// project name
 				// to being the module ID
-				segments[0] = container.getModuleID();
+				if (containerName != null) {
+					segments[0] = containerName
+							+ TigerstripeURIAdapterFactory.SCHEME_TS_MODULE_CONTAINER_SEPARATOR
+							+ container.getModuleID();
+				} else {
+					segments[0] = container.getModuleID();
+				}
 				URI newURI = URI.createHierarchicalURI(
 						TigerstripeURIAdapterFactory.SCHEME_TS_MODULE, null,
 						null, segments, null, originalURI.fragment());
@@ -74,7 +86,22 @@ public class TSModuleResource extends AnnotationXMIResource {
 			}
 		}
 	}
-	
+
+	private String getContainerName() {
+		IPath path = container.getArchivePath();
+		IFile file = ResourcesPlugin.getWorkspace().getRoot()
+				.getFileForLocation(path);
+		if (file != null) {
+			IProject project = file.getProject();
+			IAbstractTigerstripeProject tsProject = (IAbstractTigerstripeProject) project
+					.getAdapter(IAbstractTigerstripeProject.class);
+			if (tsProject != null) {
+				return project.getName();
+			}
+		}
+		return null;
+	}
+
 	protected boolean load(URI uri, Map<?, ?> options) throws IOException {
 		if (!isLoaded) {
 			URIConverter uriConverter = getURIConverter();

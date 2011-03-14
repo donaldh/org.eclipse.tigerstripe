@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.adapt;
 
+import java.io.File;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -27,6 +29,7 @@ import org.eclipse.tigerstripe.workbench.diagram.IDiagram;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
+import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
@@ -47,6 +50,8 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 
 	public static final String SCHEME_TS = "tigerstripe";
 	public static final String SCHEME_TS_MODULE = "tigerstripe_module";
+
+	public static final String SCHEME_TS_MODULE_CONTAINER_SEPARATOR = ":";
 
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
@@ -163,6 +168,13 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 
 		IAbstractArtifact artifact = null;
 		if (SCHEME_TS_MODULE.equals(uri.scheme())) {
+			String container = null;
+			String[] elements = project
+					.split(SCHEME_TS_MODULE_CONTAINER_SEPARATOR);
+			if (elements.length == 2) {
+				container = elements[0];
+				project = elements[1];
+			}
 			// In this case we don't have a project name, we only have a
 			// ModuleID. Not sure how to proceed.
 			// This logic only works if a module is used ONCE only in the
@@ -171,13 +183,16 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 			for (IAbstractTigerstripeProject p : TigerstripeCore.projects()) {
 				if (p instanceof ITigerstripeModelProject) {
 					ITigerstripeModelProject proj = (ITigerstripeModelProject) p;
+					if (container != null && !proj.getName().equals(container)) {
+						continue;
+					}
 					for (IDependency dep : proj.getDependencies()) {
 						if (dep.getIModuleHeader().getModuleID()
 								.equals(project)) {
 							ArtifactManager mgr = ((Dependency) dep)
 									.getArtifactManager(null);
 							artifact = mgr.getArtifactByFullyQualifiedName(fqn,
-									false, (IProgressMonitor)null);
+									false, (IProgressMonitor) null);
 							if (artifact != null) {
 								return artifact;
 							}
@@ -450,7 +465,14 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 			fragment = b.toString();
 		}
 
-		return toURI(artifactPath, fragment, art.isReadonly());
+		ITigerstripeModelProject project = null;
+		try {
+			project = art.getProject();
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+		}
+
+		return toURI(artifactPath, fragment, art.isReadonly(), project);
 	}
 
 	private static IPath getArtifactPath(IAbstractArtifact art, String newName) {
@@ -490,23 +512,52 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	}
 
 	private static URI toURI(IPath path, String fragment, boolean isFromModule) {
+		return toURI(path, fragment, isFromModule, null);
+	}
 
+	private static URI toURI(IPath path, String fragment, boolean isFromModule,
+			ITigerstripeModelProject project) {
 		if (path == null)
 			return null;
 
 		String scheme = SCHEME_TS;
+		IPath resPath = path;
 		if (isFromModule) {
 			scheme = SCHEME_TS_MODULE;
+			if (project != null && project instanceof ITigerstripeModuleProject) {
+				ITigerstripeModuleProject moduleProject = (ITigerstripeModuleProject) project;
+				String container = null;
+				if (moduleProject.getProjectContainerURI() != null) {
+					IPath containerPath = new Path(moduleProject
+							.getProjectContainerURI().getPath());
+					if (containerPath.segmentCount() > 0) {
+						container = containerPath.lastSegment();
+					}
+				}
+
+				if (container != null) {
+					StringBuilder res = new StringBuilder();
+					for (int i = 0; i < path.segmentCount(); i++) {
+						String segment = path.segment(i);
+						if (i == 0) {
+							res.append(container
+									+ SCHEME_TS_MODULE_CONTAINER_SEPARATOR);
+						}
+						res.append(segment);
+						res.append(File.separator);
+					}
+					resPath = new Path(path.getDevice(), res.toString());
+				}
+			}
 		}
 
 		try {
 			URI uri = URI.createHierarchicalURI(scheme, null, null,
-					path.segments(), null, fragment);
+					resPath.segments(), null, fragment);
 			return uri;
 		} catch (IllegalArgumentException e) {
 			BasePlugin.log(e);
 		}
 		return null;
 	}
-
 }

@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.api.modules;
 
+import java.net.URI;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
@@ -58,4 +60,6 @@ public interface ITigerstripeModuleProject extends ITigerstripeModelProject {
 	 * @see #addTemporaryDependency(IDependency)
 	 */
 	public void clearTemporaryDependencies(IProgressMonitor monitor);
+
+	public URI getProjectContainerURI();
 }
