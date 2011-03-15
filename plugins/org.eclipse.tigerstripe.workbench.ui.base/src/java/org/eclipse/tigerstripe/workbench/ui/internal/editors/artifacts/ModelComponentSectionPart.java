@@ -126,7 +126,7 @@ public abstract class ModelComponentSectionPart extends ArtifactSectionPart {
 		if (listener != null) {
 			try {
 				ITigerstripeModelProject project = getIArtifact().getProject();
-				if (!project.wasDisposed()) {
+				if ((project!=null) && (!project.wasDisposed())) {
 					project.getArtifactManagerSession()
 							.removeArtifactChangeListener(listener);
 				}

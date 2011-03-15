@@ -92,11 +92,12 @@ public class TigerstripeUILabels {
 			try {
 				if (tsProject.getActiveFacet() != null
 						&& tsProject.getActiveFacet().canResolve()) {
-					String activeName = project.getName() + " {"
-							+ tsProject.getActiveFacet().resolve().getName()
-							+ "}";
-					return new StyledString(activeName,
-							new LabelStyler(project));
+					String activeName = project.getName();
+					
+					if ((tsProject!=null) && (tsProject.getActiveFacet()!=null)) 
+						activeName = activeName + " {" + tsProject.getActiveFacet().resolve().getName() + "}";
+					
+					return new StyledString(activeName,	new LabelStyler(project));
 				}
 			} catch (TigerstripeException e) {
 				// Upon import the tigerstripe.xml may not be
