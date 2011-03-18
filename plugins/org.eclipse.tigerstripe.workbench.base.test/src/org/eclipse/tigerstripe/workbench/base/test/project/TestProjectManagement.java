@@ -69,7 +69,7 @@ public class TestProjectManagement extends TestCase {
 		proj.delete(true, new NullProgressMonitor());
 
 		IAbstractTigerstripeProject tsProject = TigerstripeCore
-				.findProject(proj.getFullPath());
+				.findProjectOrCreate(proj.getFullPath());
 		assertFalse(tsProject.exists());
 	}
 

@@ -64,7 +64,7 @@ public class TestProjectReferences1 extends TestCase {
 
 		IPath fp = workspace.getRoot().getLocation()
 				.append(proja.getFullPath());
-		aProject = (TigerstripeProjectHandle) TigerstripeCore.findProject(fp);
+		aProject = (TigerstripeProjectHandle) TigerstripeCore.findProjectOrCreate(fp);
 
 		ModelReference[] refs = aProject.getModelReferences();
 		assertTrue(refs.length == 1);

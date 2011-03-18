@@ -391,7 +391,7 @@ public class UML2ImportDetailsWizardPage extends TSRuntimeBasedWizardPage {
 		IPath fullProjectPath = rootpath.append(tsContainer.getFullPath());
 		
 		try {		
-			 IAbstractTigerstripeProject project = TigerstripeCore.findProject(fullProjectPath);
+			 IAbstractTigerstripeProject project = TigerstripeCore.findProjectOrCreate(fullProjectPath);
 			 if (project instanceof ITigerstripeModelProject) {
 				 tsProject = (ITigerstripeModelProject)  project;
 			 } else {

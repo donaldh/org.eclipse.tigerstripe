@@ -335,16 +335,17 @@ public class ArtifactRelationshipCache {
 		if (relationship != null) {
 			// let's remove all entries about this old one
 			IRelationshipEnd aEnd = relationship.getRelationshipAEnd();
-			
 			if (aEnd != null) {
 				IType aType = aEnd.getType();
-				ArtifactManager aMgr = aType.getArtifactManager();
-				if (aType != null && !aMgr.wasDisposed() && !ignoreProjects.contains(aMgr.getTSProject())) {
-					String oldAEnd = aType.getFullyQualifiedName();
-					removeRelationshipForFQN(oldAEnd, relationship, ORIGINATING);
-					IAbstractArtifact artifact = aType.getArtifact();
-					addRelationshipEndDelta(deltas, artifact,
-							relationship.getFullyQualifiedName(), null, ORIGINATING);
+				if (aType != null) {
+					ArtifactManager aMgr = aType.getArtifactManager();
+					if (aType != null && !aMgr.wasDisposed() && !ignoreProjects.contains(aMgr.getTSProject())) {
+						String oldAEnd = aType.getFullyQualifiedName();
+						removeRelationshipForFQN(oldAEnd, relationship, ORIGINATING);
+						IAbstractArtifact artifact = aType.getArtifact();
+						addRelationshipEndDelta(deltas, artifact,
+								relationship.getFullyQualifiedName(), null, ORIGINATING);
+					}
 				}
 			}
 			IRelationshipEnd zEnd = relationship.getRelationshipZEnd();
