@@ -27,5 +27,5 @@ SITE_NAME="Updates (Latest)"
 esac
  
 echo "Uploading build ${PROMOTED_BUILD} to $SITE_NAME"
-cd ${WORKSPACE}/../builds/${PROMOTED_BUILD}/archive/target/site
+cd ${WORKSPACE}/../builds/${PROMOTED_BUILD}/archive/site
 scp -rv * edillon@download1.eclipse.org:"$SITE"
