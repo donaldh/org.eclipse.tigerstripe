@@ -2,9 +2,9 @@
 <!-- Schema file written by PDE -->
 <schema targetNamespace="org.eclipse.tigerstripe.metamodel" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
-      <appinfo>
+      <appInfo>
          <meta.schema plugin="org.eclipse.tigerstripe.metamodel" id="customArtifactMetadata" name="Custom Artifact Metadata"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          This extension point allows customization of the Artifact Metadata used in Tigerstripe.
       </documentation>
@@ -12,9 +12,9 @@
 
    <element name="extension">
       <annotation>
-         <appinfo>
+         <appInfo>
             <meta.element />
-         </appinfo>
+         </appInfo>
       </annotation>
       <complexType>
          <choice minOccurs="1" maxOccurs="unbounded">
@@ -41,9 +41,9 @@
                <documentation>
                   
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute translatable="true"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
       </complexType>
@@ -51,9 +51,14 @@
 
    <element name="artifactMetadata">
       <annotation>
-         <appinfo>
+         <appInfo>
             <meta.element labelAttribute="userLabel" icon="icon"/>
-         </appinfo>
+         </appInfo>
+         <documentation>
+            Not Implemented.
+
+Do not use.
+         </documentation>
       </annotation>
       <complexType>
          <attribute name="artifactType" type="string" use="required">
@@ -61,9 +66,9 @@
                <documentation>
                   
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute kind="java" basedOn="org.eclipse.tigerstripe.metamodel.impl.IAbstractArtifactImpl:"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
          <attribute name="userLabel" type="string" use="required">
@@ -99,9 +104,9 @@
                <documentation>
                   
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute kind="resource"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
          <attribute name="icon_new" type="string">
@@ -109,9 +114,9 @@
                <documentation>
                   
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute kind="resource"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
          <attribute name="icon_gs" type="string">
@@ -119,9 +124,9 @@
                <documentation>
                   
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute kind="resource"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
       </complexType>
@@ -138,11 +143,8 @@ For example this can be used to change the appearance of an artifact icon based 
          <attribute name="artifactType" type="string" use="required">
             <annotation>
                <documentation>
-                  The target type of Artifact to use this provider for
+                  The target type of Artifact to use this provider for. For example &apos;IEnumArtifact&apos;.
                </documentation>
-               <appinfo>
-                  <meta.attribute kind="java" basedOn="org.eclipse.tigerstripe.metamodel.impl.IAbstractArtifactImpl:"/>
-               </appinfo>
             </annotation>
          </attribute>
          <attribute name="provider" type="string" use="required">
@@ -150,9 +152,9 @@ For example this can be used to change the appearance of an artifact icon based 
                <documentation>
                   The provide to use.
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute kind="java" basedOn=":org.eclipse.tigerstripe.repository.metamodel.providers.IModelComponentIconProvider"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
       </complexType>
@@ -170,9 +172,9 @@ For example this can be used to change the appearance of an artifact icon based 
                <documentation>
                   The URL for the &apos;nornal&apos; icon. This should be a standard Eclipse 16x16 gif icon.
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute kind="resource"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
          <attribute name="icon_new" type="string" use="required">
@@ -180,9 +182,9 @@ For example this can be used to change the appearance of an artifact icon based 
                <documentation>
                   The URL for the &apos;new&apos; icon. This should be a standard Eclipse 16x16 gif icon.
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute kind="resource"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
          <attribute name="icon_gs" type="string" use="required">
@@ -190,9 +192,9 @@ For example this can be used to change the appearance of an artifact icon based 
                <documentation>
                   The URL for the &apos;grey state&apos; icon. This should be a standard Eclipse 16x16 gif icon.
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute kind="resource"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
          <attribute name="artifactName" type="string" use="required">
@@ -206,36 +208,36 @@ For example this can be used to change the appearance of an artifact icon based 
    </element>
 
    <annotation>
-      <appinfo>
+      <appInfo>
          <meta.section type="since"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          [Enter the first release in which this extension point appears.]
       </documentation>
    </annotation>
 
    <annotation>
-      <appinfo>
+      <appInfo>
          <meta.section type="examples"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          [Enter extension point usage example here.]
       </documentation>
    </annotation>
 
    <annotation>
-      <appinfo>
+      <appInfo>
          <meta.section type="apiInfo"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          [Enter API information here.]
       </documentation>
    </annotation>
 
    <annotation>
-      <appinfo>
+      <appInfo>
          <meta.section type="implementation"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          [Enter information about supplied implementation of this extension point.]
       </documentation>
