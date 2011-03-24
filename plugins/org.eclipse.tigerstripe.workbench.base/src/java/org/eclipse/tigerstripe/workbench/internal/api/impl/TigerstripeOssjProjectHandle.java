@@ -12,21 +12,20 @@ package org.eclipse.tigerstripe.workbench.internal.api.impl;
 
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.WorkingCopyManager;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ExecutionContext;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ExecutionContext.ICycle;
 import org.eclipse.tigerstripe.workbench.internal.core.module.packaging.ModulePackager;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
-import org.eclipse.uml2.uml.Model;
 
 public class TigerstripeOssjProjectHandle extends TigerstripeProjectHandle {
 
@@ -73,6 +72,16 @@ public class TigerstripeOssjProjectHandle extends TigerstripeProjectHandle {
 	 */
 	public ModelReference[] getReferencingModels(int level)
 			throws TigerstripeException {
+		return getReferencingModels(level, new ExecutionContext(
+				new NullProgressMonitor()));
+	}
+
+	private static enum Cycles implements ICycle {
+		REFERENCING;
+	}
+
+	public ModelReference[] getReferencingModels(int level, ExecutionContext ctx)
+			throws TigerstripeException {
 		// This is an expensive method?
 		List<ModelReference> result = new ArrayList<ModelReference>();
 
@@ -83,7 +92,15 @@ public class TigerstripeOssjProjectHandle extends TigerstripeProjectHandle {
 			ModelReference selfRef = ModelReference.referenceFromProject(this);
 			ITigerstripeModelProject[] projects = TigerstripeCore
 					.allModelProjects();
+
+			ctx.addToCycle(Cycles.REFERENCING, getModelId());
+
+			int refLevel = level > 1 ? level - 1 : level;
+
 			for (ITigerstripeModelProject project : projects) {
+				if (!ctx.addToCycle(Cycles.REFERENCING, project.getModelId())) {
+					continue;
+				}
 				boolean referencesThis = false;
 				for (ModelReference ref : project.getModelReferences()) {
 					if (ref.equals(selfRef)) {
@@ -98,19 +115,18 @@ public class TigerstripeOssjProjectHandle extends TigerstripeProjectHandle {
 							.referenceFromProject(project);
 					if (!result.contains(ref)) {
 						result.add(ref);
-						if (level == ModelReference.INFINITE_LEVEL) {
-							// We need to add the projects that reference
-							// "project"
-							for (ModelReference insideRef : project
-									.getReferencingModels(ModelReference.INFINITE_LEVEL)) {
-								if (!result.contains(insideRef))
-									result.add(insideRef);
-							}
-						} else if ( level > 1) {
-							for (ModelReference insideRef : project
-									.getReferencingModels(level-1)) {
-								if (!result.contains(insideRef))
-									result.add(insideRef);
+
+						ModelReference[] refModels;
+						if (project instanceof TigerstripeOssjProjectHandle) {
+							refModels = ((TigerstripeOssjProjectHandle) project)
+									.getReferencingModels(refLevel, ctx);
+						} else {
+							refModels = project.getReferencingModels(refLevel);
+						}
+
+						for (ModelReference insideRef : refModels) {
+							if (!result.contains(insideRef)) {
+								result.add(insideRef);
 							}
 						}
 					}
