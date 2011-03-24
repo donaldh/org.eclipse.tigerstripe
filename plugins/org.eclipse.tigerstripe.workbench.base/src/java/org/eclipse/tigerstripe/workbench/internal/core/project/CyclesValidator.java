@@ -52,8 +52,11 @@ public class CyclesValidator {
 			return;
 		}
 
+		if (node.equals(path.peekLast())) {
+			cycles.add(new ArrayList<INode>(path));	
+		}
+
 		if (!seen.add(node)) {
-			cycles.add(new ArrayList<INode>(path));
 			return;
 		}
 		path.push(node);
@@ -239,10 +242,6 @@ public class CyclesValidator {
 		public boolean equals(Object obj) {
 
 			if (!(obj instanceof ModelNode)) {
-				return false;
-			}
-
-			if (obj.getClass() != getClass()) {
 				return false;
 			}
 
