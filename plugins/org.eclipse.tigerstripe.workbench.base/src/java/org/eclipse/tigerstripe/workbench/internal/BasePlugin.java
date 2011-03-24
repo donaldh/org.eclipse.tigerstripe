@@ -69,7 +69,7 @@ public class BasePlugin extends Plugin {
 
 		startWorkspaceListener();
 
-		addBuilders();
+		//addBuilders();
 	}
 
 	private void addBuilders() throws CoreException {
@@ -81,26 +81,30 @@ public class BasePlugin extends Plugin {
 
 					final IProject project = (IProject) resource;
 
-					if (project.hasNature(BuilderConstants.PROJECT_NATURE_ID)) {
+					if (project.isOpen()){
+						if(project.isAccessible()){
+							if (project.hasNature(BuilderConstants.PROJECT_NATURE_ID)) {
 
-						if (BuilderUtils.addBuilder(project,
-								BuilderConstants.CYCLES_BUILDER_ID)) {
-							new Job("Tigerstripe Cycle References Audit") {
-								@Override
-								protected IStatus run(IProgressMonitor monitor) {
-									try {
+								if (BuilderUtils.addBuilder(project,
+										BuilderConstants.CYCLES_BUILDER_ID)) {
+									new Job("Tigerstripe Cycle References Audit") {
+										@Override
+										protected IStatus run(IProgressMonitor monitor) {
+											try {
 
-										project.build(
-												IncrementalProjectBuilder.FULL_BUILD,
-												BuilderConstants.CYCLES_BUILDER_ID,
-												null, monitor);
+												project.build(
+														IncrementalProjectBuilder.FULL_BUILD,
+														BuilderConstants.CYCLES_BUILDER_ID,
+														null, monitor);
 
-									} catch (CoreException e) {
-										BasePlugin.log(e);
-									}
-									return org.eclipse.core.runtime.Status.OK_STATUS;
+											} catch (CoreException e) {
+												BasePlugin.log(e);
+											}
+											return org.eclipse.core.runtime.Status.OK_STATUS;
+										}
+									}.schedule();
 								}
-							}.schedule();
+							}
 						}
 					}
 					return false;
