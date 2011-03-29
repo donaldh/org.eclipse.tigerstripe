@@ -351,12 +351,14 @@ public class ArtifactRelationshipCache {
 			IRelationshipEnd zEnd = relationship.getRelationshipZEnd();
 			if (zEnd != null) {
 				IType zType = zEnd.getType();
-				ArtifactManager aMgr = zType.getArtifactManager();
-				if (zType != null && !aMgr.wasDisposed() && !ignoreProjects.contains(aMgr.getTSProject())) {
-					String oldZEnd = zType.getFullyQualifiedName();
-					removeRelationshipForFQN(oldZEnd, relationship, TERMINATING);
-					addRelationshipEndDelta(deltas, zType.getArtifact(),
-							relationship.getFullyQualifiedName(), null, TERMINATING);
+				if (zType != null) {
+    				ArtifactManager aMgr = zType.getArtifactManager();
+    				if (!aMgr.wasDisposed() && !ignoreProjects.contains(aMgr.getTSProject())) {
+    					String oldZEnd = zType.getFullyQualifiedName();
+    					removeRelationshipForFQN(oldZEnd, relationship, TERMINATING);
+    					addRelationshipEndDelta(deltas, zType.getArtifact(),
+    							relationship.getFullyQualifiedName(), null, TERMINATING);
+    				}
 				}
 			}
 		}
