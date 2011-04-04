@@ -100,6 +100,12 @@ public class ExceptionArtifact extends AbstractArtifact implements
 		return new ExceptionArtifact(getArtifactManager());
 	}
 
+	@Override
+	public boolean isReadonly() {
+		return Exception.class.getName().equals(getFullyQualifiedName())
+				|| super.isReadonly();
+	}
+
 	/**
 	 * Returns true if this artifact extends another artifact
 	 * 
@@ -119,18 +125,19 @@ public class ExceptionArtifact extends AbstractArtifact implements
 			return true;
 
 	}
-	
+
 	@Override
 	public void doSave(IProgressMonitor monitor) throws TigerstripeException {
 		super.doSave(monitor);
-		
+
 		IResource resource = (IResource) this.getAdapter(IResource.class);
 		final String EDITOR_ID = "org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.exception.ExceptionArtifactEditor";
-		if (resource instanceof IFile ) {
+		if (resource instanceof IFile) {
 			IFile file = (IFile) resource;
 			IEditorDescriptor editorDescriptor = IDE.getDefaultEditor(file);
-			if (editorDescriptor==null || (!EDITOR_ID.equals(editorDescriptor))) 
-				IDE.setDefaultEditor((IFile)resource, EDITOR_ID);
+			if (editorDescriptor == null
+					|| (!EDITOR_ID.equals(editorDescriptor)))
+				IDE.setDefaultEditor((IFile) resource, EDITOR_ID);
 		}
 	}
 }
