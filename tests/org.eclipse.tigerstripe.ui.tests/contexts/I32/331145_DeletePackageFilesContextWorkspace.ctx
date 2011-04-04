@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="331145_DeletePackageFilesContextWorkspace" id="_Ss_2sAR2EeC3S_PC6IM0yQ">
+  <content>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".331145_DeletePackageFilesContextWorkspacectx/content2.classpath"/>
+      <files name=".project" contentURI=".331145_DeletePackageFilesContextWorkspacectx/content2.project"/>
+      <files name="tigerstripe.xml" contentURI=".331145_DeletePackageFilesContextWorkspacectx/content2.xml"/>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".331145_DeletePackageFilesContextWorkspacectx/content16.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".331145_DeletePackageFilesContextWorkspacectx/content15.package"/>
+            <folders name="one">
+              <files name=".package" contentURI=".331145_DeletePackageFilesContextWorkspacectx/content14.package"/>
+              <folders name="two">
+                <files name=".package" contentURI=".331145_DeletePackageFilesContextWorkspacectx/content13.package"/>
+                <files name="Ent2.java" contentURI=".331145_DeletePackageFilesContextWorkspacectx/content4.java"/>
+                <folders name="three">
+                  <files name=".package" contentURI=".331145_DeletePackageFilesContextWorkspacectx/content12.package"/>
+                  <files name="Ent3.java" contentURI=".331145_DeletePackageFilesContextWorkspacectx/content3.java"/>
+                </folders>
+              </folders>
+            </folders>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>
