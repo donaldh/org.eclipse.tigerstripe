@@ -197,7 +197,7 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 
 	private class PatternCellModifier implements ICellModifier {
 
-		private TableViewer viewer;
+		private final TableViewer viewer;
 
 		public PatternCellModifier(TableViewer viewer) {
 			this.viewer = viewer;
@@ -621,11 +621,7 @@ public class IncludeExcludeSection extends TigerstripeSegmentSectionPart {
 			String stereoLabel = ((ScopeStereotypePattern) items[i].getData()).stereotypeName;
 			IStereotype stereotype = activeProfile
 					.getStereotypeByName(stereoLabel);
-			if (stereotype == null) {
-				EclipsePlugin.logErrorMessage("Unknown stereotype '"
-						+ stereoLabel + "'. Ignoring");
-				continue;
-			} else {
+			if (stereotype != null) {
 				existingStereotypes.add(stereotype.makeInstance());
 			}
 		}
