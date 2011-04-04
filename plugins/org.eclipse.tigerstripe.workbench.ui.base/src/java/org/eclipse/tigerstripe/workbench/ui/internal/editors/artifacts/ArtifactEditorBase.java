@@ -408,8 +408,12 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 	}
 
 	public void facetChanged(IFacetReference oldFacet, IFacetReference newFacet) {
-		AbstractArtifactLabelProvider prov = new AbstractArtifactLabelProvider();
-		setTitleImage(prov.getImage(getIArtifact()));
+		Display.getDefault().asyncExec(new Runnable() {
+			public void run() {
+				AbstractArtifactLabelProvider prov = new AbstractArtifactLabelProvider();
+				setTitleImage(prov.getImage(getIArtifact()));
+			}
+		});
 	}
 
 	private void setIgnoreResourceChange(boolean ignoreResourceChange) {
