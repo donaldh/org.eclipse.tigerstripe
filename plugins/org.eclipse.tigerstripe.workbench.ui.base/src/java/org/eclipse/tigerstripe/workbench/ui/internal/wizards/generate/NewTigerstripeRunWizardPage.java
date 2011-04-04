@@ -618,6 +618,12 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 		return status;
 	}
 
+	@Override
+	public void setVisible(boolean visible) {
+		super.setVisible(visible);
+		updatePage();
+	}
+
 	protected void updatePluginsControls() {
 		if (pluginsControlsInitialized) {
 			String message;
@@ -660,7 +666,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 									&& mch.getConfig().getCategory() == IPluginConfig.GENERATE_CATEGORY
 									&& mch.getConfig().getPluginNature() != EPluggablePluginNature.M0) {
 								for (int j = 0; j < buttonNames.length; j++) {
-									if (buttonNames[j]
+									if (mch.getHousing() != null && buttonNames[j]
 									                .equals(((PluginConfig) mch.getConfig())
 									                		.getPluginName())) {
 										String newButtonName = name + " "+ mch.getHousing().getVersion();
