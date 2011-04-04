@@ -21,6 +21,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
@@ -33,6 +34,7 @@ import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.perspective.TigerstripePerspectiveFactory;
+import org.eclipse.tigerstripe.workbench.ui.internal.preferences.GenerationPreferencePage;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.TSOpenAction;
 import org.eclipse.ui.INewWizard;
@@ -114,6 +116,13 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 				projectDetails.getProperties().setProperty(
 						IProjectDetails.DEFAULTARTIFACTPACKAGE_PROP,
 						details.getDefaultArtifactPackage());
+
+				IPreferenceStore store = EclipsePlugin.getDefault()
+						.getPreferenceStore();
+				if (store.contains(GenerationPreferencePage.P_TARGETPATH)) {
+					projectDetails.setProjectOutputDirectory(store
+							.getString(GenerationPreferencePage.P_TARGETPATH));
+				}
 
 				try {
 					ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
