@@ -61,7 +61,10 @@ public class PostInstallActions {
 
 	public void run(final BundleContext context) throws TigerstripeException {
 
-		synchronized (hasRun) {
+		// CSCto45728 [NM]: Commenting out synchronized block as it was causing a deadlock
+		// According to API of plugin start method, implementers should avoid synchronized blocks as it may result in deadlocks
+		// This method is only called from BasePlugin at the moment so there is no need for a synchronized block.
+//		synchronized (hasRun) {
 			if (!hasRun) {
 				installLocation = Platform.getInstallLocation();
 
@@ -119,7 +122,7 @@ public class PostInstallActions {
 
 				hasRun = true;
 			}
-		}
+//		}
 	}
 
 //	protected void forceCreationOfPhantomProject(BundleContext context)

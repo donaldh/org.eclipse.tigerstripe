@@ -81,7 +81,7 @@ public class TigerstripeDiagramEditorPlugin extends AbstractUIPlugin {
 	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
-		executePostInstallationActions(context);
+//		executePostInstallationActions(context);  // CSCto45728: This is already done in Activator class of tigerstripe.workbench.base
 		instance = this;
 		PreferencesHint.registerPreferenceStore(DIAGRAM_PREFERENCES_HINT,
 				getPreferenceStore());
@@ -275,9 +275,10 @@ public class TigerstripeDiagramEditorPlugin extends AbstractUIPlugin {
 		}
 	}
 
-	private void executePostInstallationActions(BundleContext context)
-			throws TigerstripeException {
-		(new PostInstallActions()).run(context);
-	}
+	// CSCto45728: This is already done in Activator class of tigerstripe.workbench.base
+//	private void executePostInstallationActions(BundleContext context)
+//			throws TigerstripeException {
+//		(new PostInstallActions()).run(context);
+//	}
 
 }
