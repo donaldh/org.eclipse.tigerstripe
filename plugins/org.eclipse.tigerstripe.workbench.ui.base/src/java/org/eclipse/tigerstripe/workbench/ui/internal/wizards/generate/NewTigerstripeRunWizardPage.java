@@ -683,7 +683,7 @@ public class NewTigerstripeRunWizardPage extends TSRuntimeBasedWizardPage {
 
 					}
 					if (!oneAtleastIsEnabled) {
-						message = "At least one generator must be selected.";
+						message = "At least one generator must be selected and its version\n must fall within the selected range.";
 						setErrorMessage(message);
 					}
 				}
