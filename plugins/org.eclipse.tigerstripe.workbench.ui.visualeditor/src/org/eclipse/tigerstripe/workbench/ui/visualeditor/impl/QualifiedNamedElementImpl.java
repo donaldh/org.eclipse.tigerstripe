@@ -329,11 +329,14 @@ public class QualifiedNamedElementImpl extends NamedElementImpl implements
 			Map map = (Map) eContainer();
 			ITigerstripeModelProject tsProject = map
 					.getCorrespondingITigerstripeProject();
-			IArtifactManagerSession session = tsProject
-					.getArtifactManagerSession();
-			IAbstractArtifact artifact = session
-					.getArtifactByFullyQualifiedName(getFullyQualifiedName());
-			return artifact;
+			
+			if (tsProject!=null) {
+				IArtifactManagerSession session = tsProject
+						.getArtifactManagerSession();
+				IAbstractArtifact artifact = session
+						.getArtifactByFullyQualifiedName(getFullyQualifiedName());
+				return artifact;
+			}
 		}
 		return null;
 	}
