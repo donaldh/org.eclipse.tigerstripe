@@ -13,8 +13,10 @@ package org.eclipse.tigerstripe.workbench.ui.internal.dialogs;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.jface.dialogs.IDialogConstants;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.StatusDialog;
 import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
@@ -49,7 +51,6 @@ import org.eclipse.tigerstripe.workbench.profile.stereotype.IEntryListStereotype
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeAttribute;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.elements.TSMessageDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.ColorUtils;
 import org.eclipse.ui.forms.widgets.TableWrapData;
 import org.eclipse.ui.forms.widgets.TableWrapLayout;
@@ -57,14 +58,12 @@ import org.eclipse.ui.forms.widgets.TableWrapLayout;
 /**
  * @author Eric Dillon
  * 
- * TODO To change the template for this generated type comment go to Window -
- * Preferences - Java - Code Style - Code Templates
  */
-public class StereotypeAttributeEditDialog extends TSMessageDialog {
+public class StereotypeAttributeEditDialog extends StatusDialog {
 
 	private boolean isEdit = false;
 
-	private List<Entry> entries = new ArrayList<Entry>();
+	private final List<Entry> entries = new ArrayList<Entry>();
 
 	public void setEdit(boolean edit) {
 		this.isEdit = edit;
@@ -130,7 +129,7 @@ public class StereotypeAttributeEditDialog extends TSMessageDialog {
 
 	private Button removeEntryButton;
 
-	private List<IStereotypeAttribute> existingStereotypeAttributes;
+	private final List<IStereotypeAttribute> existingStereotypeAttributes;
 
 	private class AttributeWidgetListener implements SelectionListener,
 			ISelectionChangedListener {
@@ -171,20 +170,22 @@ public class StereotypeAttributeEditDialog extends TSMessageDialog {
 	}
 
 	protected void setDefaultMessage() {
-		setMessage("Edit Stereotype Attribute");
+		IStatus defaultStatus = new Status(IStatus.OK, EclipsePlugin.PLUGIN_ID,
+				"Edit Stereotype Attribute");
+		updateStatus(defaultStatus);
 	}
 
 	protected boolean validateParam() {
-		Button okButton = this.getButton(IDialogConstants.OK_ID);
 		boolean okEnabled = true;
-
 		// Check for duplicates
 		if (!isEdit) {
 			for (IStereotypeAttribute attr : existingStereotypeAttributes) {
 				if (nameText != null) {
 					if (attr.getName().equals(nameText.getText().trim())) {
 						okEnabled = false;
-						setErrorMessage("Duplicate attribute name");
+						updateStatus(new Status(IStatus.ERROR,
+								EclipsePlugin.PLUGIN_ID,
+								"Duplicate attribute name"));
 					}
 				}
 			}
@@ -193,13 +194,9 @@ public class StereotypeAttributeEditDialog extends TSMessageDialog {
 		if (nameText != null) {
 			if (nameText.getText().trim().length() == 0) {
 				okEnabled = false;
-				setErrorMessage("Please enter valid attribute name");
+				updateStatus(new Status(IStatus.ERROR, EclipsePlugin.PLUGIN_ID,
+						"Please enter valid attribute name"));
 			}
-		}
-
-		// In case this is called before the button is created
-		if (okButton != null) {
-			okButton.setEnabled(okEnabled);
 		}
 
 		if (okEnabled) {
@@ -209,7 +206,7 @@ public class StereotypeAttributeEditDialog extends TSMessageDialog {
 	}
 
 	protected void handleWidgetSelected(SelectionEvent e) {
-		
+
 		if (e.getSource() == stringEntryTypeButton) {
 			setKind(IStereotypeAttribute.STRING_ENTRY_KIND);
 		} else if (e.getSource() == checkableTypeButton) {
@@ -238,7 +235,6 @@ public class StereotypeAttributeEditDialog extends TSMessageDialog {
 			checkableTypeButton.setEnabled(true);
 			entryListTypeButton.setEnabled(true);
 		}
-
 	}
 
 	private int newFieldCount;
@@ -328,7 +324,6 @@ public class StereotypeAttributeEditDialog extends TSMessageDialog {
 		layout.numColumns = nColumns;
 		composite.setLayout(layout);
 
-		createMessageArea(composite, nColumns);
 		createStereotypeAttributeControl(composite, nColumns);
 
 		initDialog();
@@ -452,21 +447,21 @@ public class StereotypeAttributeEditDialog extends TSMessageDialog {
 		GridData g = new GridData(GridData.FILL_HORIZONTAL
 				| GridData.GRAB_HORIZONTAL);
 		nameText.setLayoutData(g);
-		nameText
-				.setToolTipText("The name of the attribute as presented to the end-user.");
+		nameText.setToolTipText("The name of the attribute as presented to the end-user.");
 		nameText.addModifyListener(new ModifyListener() {
 
 			public void modifyText(ModifyEvent e) {
 				validateParam();
 			}
-
 		});
 
 		l = new Label(composite, SWT.BOLD);
-		l.setText("Short Description");
-		descriptionText = new Text(composite, SWT.BORDER | SWT.V_SCROLL);
+		l.setText("Description:");
+		descriptionText = new Text(composite, SWT.BORDER | SWT.WRAP
+				| SWT.V_SCROLL);
 		g = new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL);
-		g.heightHint = 40;
+		g.widthHint = convertWidthInCharsToPixels(50);
+		g.heightHint = convertHeightInCharsToPixels(5);
 		descriptionText.setLayoutData(g);
 		descriptionText
 				.setToolTipText("This short description will be presented as a tooltip to the end-user when hovering over this attribute.");
@@ -576,8 +571,7 @@ public class StereotypeAttributeEditDialog extends TSMessageDialog {
 		gdt.rowspan = 3;
 		t.setLayoutData(gdt);
 		entryListViewer = new TableViewer(t);
-		t
-				.setToolTipText("This is the list of valid choices that will be presented to the end-user");
+		t.setToolTipText("This is the list of valid choices that will be presented to the end-user");
 		entryListViewer.setLabelProvider(new LabelProvider() {
 			@Override
 			public String getText(Object obj) {
@@ -624,7 +618,7 @@ public class StereotypeAttributeEditDialog extends TSMessageDialog {
 
 	private class EntryListCellModifier implements ICellModifier {
 
-		private TableViewer viewer;
+		private final TableViewer viewer;
 
 		public EntryListCellModifier(TableViewer viewer) {
 			this.viewer = viewer;
@@ -652,22 +646,13 @@ public class StereotypeAttributeEditDialog extends TSMessageDialog {
 			if (value == null)
 				return;
 
-			Entry theEntry = (Entry) viewer.getTable().getSelection()[0].getData();
+			Entry theEntry = (Entry) viewer.getTable().getSelection()[0]
+					.getData();
 			if (theEntry != null) {
 				theEntry.label = (String) value;
 				viewer.refresh(true);
 			}
 		}
-	}
-
-	@Override
-	protected void createButtonsForButtonBar(Composite parent) {
-		// create OK and Cancel buttons by default
-		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL,
-				true);
-		createButton(parent, IDialogConstants.CANCEL_ID,
-				IDialogConstants.CANCEL_LABEL, false);
-		validateParam();
 	}
 
 	@Override
@@ -709,5 +694,4 @@ public class StereotypeAttributeEditDialog extends TSMessageDialog {
 	public IStereotypeAttribute getStereotypeAttribute() {
 		return attribute;
 	}
-
 }

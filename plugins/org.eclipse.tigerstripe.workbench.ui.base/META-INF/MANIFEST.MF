@@ -17,7 +17,8 @@ Require-Bundle: org.eclipse.ui.editors,
  org.eclipse.ui.navigator,
  org.eclipse.ui.navigator.resources,
  org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide,
- org.eclipse.tigerstripe.workbench.ui.dependencies
+ org.eclipse.tigerstripe.workbench.ui.dependencies,
+ org.eclipse.help
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.tigerstripe.workbench.ui,
  org.eclipse.tigerstripe.workbench.ui.internal.actions,

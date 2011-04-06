@@ -15,7 +15,10 @@ import static org.eclipse.jface.layout.GridDataFactory.fillDefaults;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.StatusDialog;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ICellModifier;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
@@ -25,6 +28,7 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.HelpListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -54,7 +58,7 @@ import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeAttribute;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.elements.TSMessageDialog;
+import org.eclipse.tigerstripe.workbench.ui.internal.help.StereotypeHelpListener;
 
 /**
  * Edit dialog that renders all attributes of Stereotype instance, and allows to
@@ -63,11 +67,13 @@ import org.eclipse.tigerstripe.workbench.ui.internal.elements.TSMessageDialog;
  * @author Eric Dillon
  * @since 1.2
  */
-public class StereotypeInstanceEditDialog extends TSMessageDialog {
+public class StereotypeInstanceEditDialog extends StatusDialog {
 
-	private IStereotypeInstance instance;
+	private final IStereotypeInstance instance;
+	private HelpListener helpListener;
 
 	private Composite area;
+	private Composite parentComposite;
 
 	public StereotypeInstanceEditDialog(Shell parentShell,
 			IStereotypeInstance instance) {
@@ -79,11 +85,17 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 	}
 
 	protected void setDefaultMessage() {
-		setMessage("Edit the details of this stereotype");
+		updateStatus(new Status(IStatus.OK, EclipsePlugin.PLUGIN_ID,
+				"Edit the details of this stereotype"));
 	}
 
 	@Override
 	public Control createDialogArea(Composite parent) {
+		parentComposite = parent;
+		helpListener = new StereotypeHelpListener(
+				instance.getCharacterizingStereotype());
+		parentComposite.addHelpListener(helpListener);
+
 		area = (Composite) super.createDialogArea(parent);
 		area.setLayout(new FillLayout());
 
@@ -94,12 +106,19 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 		layout.numColumns = nColumns;
 		composite.setLayout(layout);
 
-		createMessageArea(composite, nColumns);
 		createAttributesControls(composite, nColumns);
 		getShell().setText("Stereotype Details");
 
 		setDefaultMessage();
 		return area;
+	}
+
+	@Override
+	public boolean close() {
+		if (parentComposite != null) {
+			parentComposite.removeHelpListener(helpListener);
+		}
+		return super.close();
 	}
 
 	protected void createAttributesControls(Composite composite, int nColumns) {
@@ -198,9 +217,9 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 	@Override
 	protected void okPressed() {
 		if (area != null) {
-			area.forceFocus();			
+			area.forceFocus();
 		}
-		super.okPressed();		
+		super.okPressed();
 	}
 
 	protected void renderStringArrayEntryAttribute(Composite composite,
@@ -219,6 +238,7 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 
 		Table m = new Table(subComposite, SWT.SINGLE | SWT.FULL_SELECTION
 				| SWT.BORDER);
+		m.setToolTipText(attribute.getDescription());
 		GridData tdm = new GridData(GridData.FILL_BOTH);
 		tdm.verticalSpan = 2;
 		tdm.heightHint = 100;
@@ -281,9 +301,9 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 
 	private class StereotypeEditorCellModifier implements ICellModifier {
 
-		private TableViewer viewer;
+		private final TableViewer viewer;
 
-		private IStereotypeAttribute attribute;
+		private final IStereotypeAttribute attribute;
 
 		public StereotypeEditorCellModifier(TableViewer viewer,
 				IStereotypeAttribute attribute) {
@@ -367,8 +387,8 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 
 		try {
 			String[] values = instance.getAttributeValues(attribute);
-			ArrayList<String> result = new ArrayList<String>(Arrays
-					.asList(values));
+			ArrayList<String> result = new ArrayList<String>(
+					Arrays.asList(values));
 			String defaultValue = attribute.getDefaultValue();
 			if (defaultValue == null) {
 				defaultValue = "";
@@ -482,8 +502,8 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 				if (index != -1) {
 					try {
 						IEntryListStereotypeAttribute attr = (IEntryListStereotypeAttribute) attribute;
-						instance.setAttributeValue(attribute, attr
-								.getSelectableValues()[index]);
+						instance.setAttributeValue(attribute,
+								attr.getSelectableValues()[index]);
 					} catch (TigerstripeException te) {
 						EclipsePlugin.log(te);
 					}
@@ -503,6 +523,7 @@ public class StereotypeInstanceEditDialog extends TSMessageDialog {
 		int style = SWT.CHECK | SWT.SINGLE | SWT.BORDER | SWT.H_SCROLL
 				| SWT.V_SCROLL;
 		Table table = new Table(composite, style);
+		table.setToolTipText(attribute.getDescription());
 
 		table.addListener(SWT.Selection, new Listener() {
 
