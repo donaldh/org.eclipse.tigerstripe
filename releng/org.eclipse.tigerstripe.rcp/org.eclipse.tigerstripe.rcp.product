@@ -71,6 +71,8 @@
       <feature id="org.eclipse.tigerstripe.base"/>
       <feature id="org.eclipse.tigerstripe.workbench"/>
       <feature id="com.cisco.tigerstripe.test.modules" version="1.0.0.201009281247"/>
+
+      <feature id="org.eclipse.tigerstripe.annotation.example.feature"/>
    </features>
 
    <configurations>
