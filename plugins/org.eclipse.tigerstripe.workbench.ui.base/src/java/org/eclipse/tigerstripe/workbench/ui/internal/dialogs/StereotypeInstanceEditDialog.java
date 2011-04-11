@@ -28,6 +28,8 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.FocusAdapter;
+import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.HelpListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -74,6 +76,8 @@ public class StereotypeInstanceEditDialog extends StatusDialog {
 
 	private Composite area;
 	private Composite parentComposite;
+	private Label descrLabel;
+	private Text descrText;
 
 	public StereotypeInstanceEditDialog(Shell parentShell,
 			IStereotypeInstance instance) {
@@ -107,10 +111,60 @@ public class StereotypeInstanceEditDialog extends StatusDialog {
 		composite.setLayout(layout);
 
 		createAttributesControls(composite, nColumns);
+
+		Composite descrComposite = new Composite(composite, SWT.NONE);
+		GridData data = new GridData(GridData.FILL_BOTH);
+		data.horizontalSpan = 2;
+		descrComposite.setLayoutData(data);
+		descrComposite.setLayout(new GridLayout());
+
+		descrLabel = new Label(descrComposite, SWT.NONE);
+		descrLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
+				| GridData.GRAB_HORIZONTAL));
+		descrText = new Text(descrComposite, SWT.WRAP | SWT.MULTI
+				| SWT.READ_ONLY
+				| SWT.V_SCROLL);
+		descrText.setFont(composite.getFont());
+		descrText.setBackground(composite.getBackground());
+		data = new GridData(GridData.FILL_BOTH);
+		data.widthHint = convertWidthInCharsToPixels(50);
+		data.heightHint = convertHeightInCharsToPixels(4);
+		descrText.setLayoutData(data);
 		getShell().setText("Stereotype Details");
 
 		setDefaultMessage();
 		return area;
+	}
+
+	private class AttributeFocusListener extends FocusAdapter {
+
+		private final IStereotypeAttribute attribute;
+
+		public AttributeFocusListener(IStereotypeAttribute attribute) {
+			this.attribute = attribute;
+		}
+
+		@Override
+		public void focusGained(FocusEvent e) {
+			super.focusGained(e);
+			if (descrText != null) {
+				descrLabel.setText(attribute.getName() + " description:");
+				String description = "";
+				if (attribute.getDescription() != null) {
+					description = attribute.getDescription();
+				}
+				descrText.setText(description);
+			}
+		}
+
+		@Override
+		public void focusLost(FocusEvent e) {
+			super.focusLost(e);
+			if (descrText != null) {
+				descrLabel.setText("");
+				descrText.setText("");
+			}
+		}
 	}
 
 	@Override
@@ -147,25 +201,31 @@ public class StereotypeInstanceEditDialog extends StatusDialog {
 		// updates appropriately.
 		IStereotype stereotype = instance.getCharacterizingStereotype();
 		for (IStereotypeAttribute attr : stereotype.getAttributes()) {
+			Control resultControl = null;
 			int attrKind = attr.getKind();
 			switch (attrKind) {
 			case IStereotypeAttribute.STRING_ENTRY_KIND:
 				if (attr.isArray()) {
-					renderStringArrayEntryAttribute(border, attr);
+					resultControl = renderStringArrayEntryAttribute(border,
+							attr);
 				} else {
-					renderStringEntryAttribute(border, attr);
+					resultControl = renderStringEntryAttribute(border, attr);
 				}
 				break;
 			case IStereotypeAttribute.CHECKABLE_KIND:
-				renderCheckableAttribute(border, attr);
+				resultControl = renderCheckableAttribute(border, attr);
 				break;
 			case IStereotypeAttribute.ENTRY_LIST_KIND:
 				if (!attr.isArray()) {
-					renderEntryListAttribute(border, attr);
+					resultControl = renderEntryListAttribute(border, attr);
 				} else {
-					renderEntryArrayListAttribute(border, attr);
+					resultControl = renderEntryArrayListAttribute(border, attr);
 				}
 				break;
+			}
+			if (resultControl != null) {
+				resultControl
+						.addFocusListener(new AttributeFocusListener(attr));
 			}
 		}
 	}
@@ -222,7 +282,7 @@ public class StereotypeInstanceEditDialog extends StatusDialog {
 		super.okPressed();
 	}
 
-	protected void renderStringArrayEntryAttribute(Composite composite,
+	protected Control renderStringArrayEntryAttribute(Composite composite,
 			final IStereotypeAttribute attribute) {
 
 		Label l = new Label(composite, SWT.NULL);
@@ -297,6 +357,8 @@ public class StereotypeInstanceEditDialog extends StatusDialog {
 				attributeArrayViewer, attribute));
 
 		attributeArrayViewer.refresh(true);
+
+		return m;
 	}
 
 	private class StereotypeEditorCellModifier implements ICellModifier {
@@ -402,7 +464,7 @@ public class StereotypeInstanceEditDialog extends StatusDialog {
 		}
 	}
 
-	protected void renderStringEntryAttribute(Composite composite,
+	protected Control renderStringEntryAttribute(Composite composite,
 			final IStereotypeAttribute attribute) {
 		Label l = new Label(composite, SWT.NULL);
 		l.setText(attribute.getName());
@@ -427,9 +489,10 @@ public class StereotypeInstanceEditDialog extends StatusDialog {
 				}
 			}
 		});
+		return text;
 	}
 
-	protected void renderCheckableAttribute(Composite composite,
+	protected Control renderCheckableAttribute(Composite composite,
 			final IStereotypeAttribute attribute) {
 
 		Label l = new Label(composite, SWT.NULL);
@@ -463,9 +526,11 @@ public class StereotypeInstanceEditDialog extends StatusDialog {
 				}
 			}
 		});
+
+		return button;
 	}
 
-	protected void renderEntryListAttribute(Composite composite,
+	protected Control renderEntryListAttribute(Composite composite,
 			final IStereotypeAttribute attribute) {
 
 		Label l = new Label(composite, SWT.NULL);
@@ -510,9 +575,11 @@ public class StereotypeInstanceEditDialog extends StatusDialog {
 				}
 			}
 		});
+
+		return combo;
 	}
 
-	protected void renderEntryArrayListAttribute(Composite composite,
+	protected Control renderEntryArrayListAttribute(Composite composite,
 			final IStereotypeAttribute attribute) {
 
 		Label l = new Label(composite, SWT.NULL);
@@ -578,6 +645,6 @@ public class StereotypeInstanceEditDialog extends StatusDialog {
 			EclipsePlugin.log(e);
 		}
 
+		return table;
 	}
-
 }
