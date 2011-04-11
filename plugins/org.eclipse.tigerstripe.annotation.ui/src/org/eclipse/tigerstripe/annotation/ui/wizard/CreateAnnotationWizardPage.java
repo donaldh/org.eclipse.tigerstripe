@@ -13,8 +13,12 @@ package org.eclipse.tigerstripe.annotation.ui.wizard;
 
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.ILabelProvider;
+import org.eclipse.jface.wizard.IWizardContainer;
+import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseAdapter;
+import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
@@ -41,7 +45,7 @@ public class CreateAnnotationWizardPage extends WizardPage {
 	private TargetAnnotationType type;
 	private TargetAnnotationType[] types;
 	private Tree combo;
-	private Object object;
+	private final Object object;
 
 	private ComboListener comboListener;
 	private Image defaultImage;
@@ -156,6 +160,26 @@ public class CreateAnnotationWizardPage extends WizardPage {
 			else
 				combo.select(item);
 		}
+		combo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseDoubleClick(MouseEvent e) {
+				TreeItem[] selection = combo.getSelection();
+				if (selection.length > 0) {
+					type = (TargetAnnotationType) selection[0].getData();
+					if (type != null) {
+						final IWizardContainer container = getContainer();
+						if (container instanceof WizardDialog) {
+							final WizardDialog dialog = (WizardDialog) container;
+							if (getWizard().canFinish()) {
+								if (getWizard().performFinish()) {
+									dialog.close();
+								}
+							}
+						}
+					}
+				}
+			}
+		});
 		combo.forceFocus();
 		comboListener.updateDescription();
 	}
