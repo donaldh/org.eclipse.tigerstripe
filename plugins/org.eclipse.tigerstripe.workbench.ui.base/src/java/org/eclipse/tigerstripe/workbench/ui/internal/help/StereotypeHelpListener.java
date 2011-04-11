@@ -11,31 +11,70 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.help;
 
-import org.eclipse.help.IContext;
 import org.eclipse.help.IContext2;
 import org.eclipse.help.IHelpResource;
+import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.events.HelpEvent;
 import org.eclipse.swt.events.HelpListener;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeAttribute;
 import org.eclipse.ui.PlatformUI;
 
 public class StereotypeHelpListener implements HelpListener {
-	private IContext context;
-	private final IStereotype stereotype;
+	private StereotypeHelpContext context;
+	private IStereotype stereotype;
 
 	public StereotypeHelpListener(IStereotype stereotype) {
 		this.stereotype = stereotype;
 	}
 
 	public void helpRequested(HelpEvent e) {
-		if (context == null) {
-			context = new StereotypeHelpContext();
+		displayHelp();
+	}
+
+	public void setStereotype(IStereotype iStereotype) {
+		this.stereotype = iStereotype;
+		if (isContextHelpDisplayed()) {
+			displayHelp();
 		}
-		PlatformUI.getWorkbench().getHelpSystem().displayHelp(context);
+	}
+
+	private boolean isContextHelpDisplayed() {
+		Shell activeShell = PlatformUI.getWorkbench().getDisplay()
+				.getActiveShell();
+		Object object = activeShell.getData();
+		if (object instanceof TrayDialog) {
+			TrayDialog trayDialog = (TrayDialog) object;
+			if (trayDialog.getTray() != null) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	private void displayHelp() {
+		if (stereotype != null) {
+			if (context == null || !context.getStereotype().equals(stereotype)) {
+				context = new StereotypeHelpContext(stereotype);
+			}
+			PlatformUI.getWorkbench().getHelpSystem().displayHelp(context);
+		} else {
+			PlatformUI.getWorkbench().getHelpSystem().displayHelp();
+		}
 	}
 
 	private class StereotypeHelpContext implements IContext2 {
+		private final IStereotype stereotype;
+
+		public StereotypeHelpContext(IStereotype stereotype) {
+			this.stereotype = stereotype;
+		}
+
+		public IStereotype getStereotype() {
+			return stereotype;
+		}
+
 		public IHelpResource[] getRelatedTopics() {
 			return null;
 		}

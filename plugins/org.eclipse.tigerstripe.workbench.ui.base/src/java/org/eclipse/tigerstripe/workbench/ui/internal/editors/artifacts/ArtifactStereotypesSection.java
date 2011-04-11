@@ -12,13 +12,23 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.SashForm;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
+import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
+import org.eclipse.ui.forms.IManagedForm;
+import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
 import org.eclipse.ui.forms.widgets.TableWrapData;
@@ -28,9 +38,12 @@ import org.eclipse.ui.forms.widgets.TableWrapData;
  */
 public class ArtifactStereotypesSection extends ArtifactSectionPart {
 
+	public static int MASTER_TABLE_COMPONENT_WIDTH = 250;
+
 	private StereotypeSectionManager stereotypeMgr;
 
 	private Table annTable;
+	private Text description;
 
 	public ArtifactStereotypesSection(TigerstripeFormPage page,
 			Composite parent, FormToolkit toolkit,
@@ -43,18 +56,47 @@ public class ArtifactStereotypesSection extends ArtifactSectionPart {
 
 	@Override
 	protected void createContent() {
-		Section section = getSection();
+		IManagedForm managedForm = getPage().getManagedForm();
 		FormToolkit toolkit = getToolkit();
 
-		section.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-		Composite body =  getBody();
-		body.setLayout(new GridLayout(2, false));
+		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
+		td.colspan = 2;
+		getSection().setLayoutData(td);
 
-		annTable = toolkit.createTable(body, SWT.BORDER | SWT.FLAT);
+		Composite body = getToolkit().createComposite(getSection());
+		body.setLayout(TigerstripeLayoutFactory.createClearGridLayout(1, false));
+		SashForm sashForm = new SashForm(body, SWT.HORIZONTAL);
+		toolkit.adapt(sashForm, false, false);
+		sashForm.setMenu(body.getMenu());
+		sashForm.setLayoutData(new GridData(GridData.FILL_BOTH));
+
+		createMasterPart(managedForm, sashForm);
+		createDetailsPart(managedForm, sashForm);
+
+		sashForm.setWeights(new int[] { 1, 2 });
+
+		getSection().setClient(body);
+		getToolkit().paintBordersFor(body);
+	}
+
+	private void createMasterPart(final IManagedForm managedForm,
+			Composite parent) {
+		FormToolkit toolkit = getToolkit();
+
+		Section section = toolkit.createSection(parent,
+				ExpandableComposite.NO_TITLE);
+
+		Composite sectionClient = toolkit.createComposite(section);
+		GridLayout layout = new GridLayout(2, false);
+		sectionClient.setLayout(layout);
+
+		annTable = toolkit.createTable(sectionClient, SWT.BORDER | SWT.FLAT);
 		annTable.setEnabled(!this.isReadonly());
-		annTable.setLayoutData(new GridData(GridData.FILL_BOTH));
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		gd.widthHint = MASTER_TABLE_COMPONENT_WIDTH;
+		annTable.setLayoutData(gd);
 
-		Composite buttonClient = toolkit.createComposite(body);
+		Composite buttonClient = toolkit.createComposite(sectionClient);
 		buttonClient.setLayoutData(new GridData(GridData.FILL));
 		buttonClient.setLayout(TigerstripeLayoutFactory
 				.createButtonsGridLayout());
@@ -79,13 +121,68 @@ public class ArtifactStereotypesSection extends ArtifactSectionPart {
 				| GridData.VERTICAL_ALIGN_BEGINNING));
 
 		stereotypeMgr = new StereotypeSectionManager(addAnno, editAnno,
-				removeAnno, annTable, getIArtifact(), body.getShell(),
-				new PageModifyCallback(getPage()));
+				removeAnno, annTable, getIArtifact(), sectionClient.getShell(),
+				new PageModifyCallback(getPage()) {
+					@Override
+					public void modify() {
+						super.modify();
+						refreshDetailsPart();
+					}
+				});
 		stereotypeMgr.delegate();
 
-		// updateForm();
-		getSection().setClient(body);
-		getToolkit().paintBordersFor(body);
+		toolkit.paintBordersFor(sectionClient);
+		section.setClient(sectionClient);
+	}
+
+	private void createDetailsPart(final IManagedForm mform, Composite parent) {
+		FormToolkit toolkit = getToolkit();
+		Section section = toolkit.createSection(parent,
+				ExpandableComposite.NO_TITLE);
+		section.setLayout(new GridLayout());
+		Composite sectionClient = toolkit.createComposite(section);
+		sectionClient.setLayoutData(new GridData(GridData.FILL_BOTH));
+		sectionClient.setLayout(new GridLayout());
+
+		Label label = new Label(sectionClient, SWT.NONE);
+		label.setText("Description:");
+		label.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		description = new Text(sectionClient, SWT.MULTI
+				| SWT.READ_ONLY | SWT.V_SCROLL | SWT.WRAP);
+		description.setBackground(parent.getBackground());
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		gd.widthHint = 350;
+		gd.heightHint = 50;
+		gd.grabExcessHorizontalSpace = true;
+		gd.grabExcessVerticalSpace = true;
+		description.setLayoutData(gd);
+
+		annTable.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				refreshDetailsPart();
+			}
+		});
+
+		toolkit.paintBordersFor(sectionClient);
+		section.setClient(sectionClient);
+	}
+
+
+	private void refreshDetailsPart() {
+		String result = "";
+		TableItem[] items = annTable.getSelection();
+		if (items.length > 0) {
+			Object selected = items[0].getData();
+			if (selected != null && selected instanceof IStereotypeInstance) {
+				IStereotype stereotype = ((IStereotypeInstance) selected)
+						.getCharacterizingStereotype();
+				if (stereotype.getDescription() != null) {
+					result = stereotype.getDescription();
+				}
+			}
+		}
+		description.setText(result);
 	}
 
 	@Override

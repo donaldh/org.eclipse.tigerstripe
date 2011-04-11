@@ -16,16 +16,25 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
+import org.eclipse.tigerstripe.workbench.ui.internal.help.StereotypeHelpListener;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
+import org.eclipse.ui.dialogs.FilteredList;
 
 /**
  * @author Eric Dillon
@@ -46,13 +55,13 @@ public class BrowseForStereotypeDialog {
 		}
 	}
 
-	private Collection<IStereotypeInstance> existingInstances;
+	private final Collection<IStereotypeInstance> existingInstances;
 
 	private String title = "Stereotype Selection";
 
 	private String message = "Please select a Stereotype";
 
-	private IStereotypeCapable component;
+	private final IStereotypeCapable component;
 
 	/**
 	 * 
@@ -75,7 +84,7 @@ public class BrowseForStereotypeDialog {
 	public IStereotype[] browseAvailableStereotypes(Shell parentShell)
 			throws TigerstripeException {
 
-		ElementListSelectionDialog elsd = new ElementListSelectionDialog(
+		ElementListSelectionDialog elsd = new StereotypeSelectionDialog(
 				parentShell, new StereotypeLabelProvider());
 
 		elsd.setTitle(getTitle());
@@ -97,6 +106,72 @@ public class BrowseForStereotypeDialog {
 			}
 		}
 		return new IStereotype[0];
+	}
+
+	private class StereotypeSelectionDialog extends ElementListSelectionDialog {
+		private Composite parentComposite;
+		private Text descrText;
+		private StereotypeHelpListener helpListener;
+
+		public StereotypeSelectionDialog(Shell parent, ILabelProvider renderer) {
+			super(parent, renderer);
+		}
+
+		@Override
+		protected FilteredList createFilteredList(Composite parent) {
+			FilteredList fl = super.createFilteredList(parent);
+			createDescriptionArea(parent);
+			return fl;
+		}
+
+		@Override
+		protected Control createDialogArea(Composite parent) {
+			parentComposite = parent;
+			helpListener = new StereotypeHelpListener(null);
+			parentComposite.addHelpListener(helpListener);
+			return super.createDialogArea(parent);
+		}
+
+		@Override
+		public boolean close() {
+			parentComposite.removeHelpListener(helpListener);
+			return super.close();
+		}
+
+		protected void createDescriptionArea(Composite composite) {
+			Label descrLabel = new Label(composite, SWT.NONE);
+			descrLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL
+					| GridData.GRAB_HORIZONTAL));
+			descrLabel.setText("Description:");
+			descrText = new Text(composite, SWT.WRAP | SWT.MULTI
+					| SWT.V_SCROLL | SWT.READ_ONLY);
+			descrText.setFont(composite.getFont());
+			descrText.setBackground(composite.getBackground());
+			GridData data = new GridData(GridData.FILL_BOTH);
+			data.widthHint = convertWidthInCharsToPixels(50);
+			data.heightHint = convertHeightInCharsToPixels(4);
+			descrText.setLayoutData(data);
+		}
+
+		@Override
+		protected void handleSelectionChanged() {
+			super.handleSelectionChanged();
+			IStereotype stereotype = null;
+			String description = "";
+			Object[] elements = getSelectedElements();
+			if (elements.length > 0) {
+				StringBuilder builder = new StringBuilder();
+				stereotype = (IStereotype) elements[0];
+				if (stereotype.getDescription() != null) {
+					builder.append(stereotype.getDescription());
+				}
+				builder.append(" Click on Help button for more details.");
+				description = builder.toString();
+			}
+			descrText.setText(description);
+
+			helpListener.setStereotype(stereotype);
+		}
 	}
 
 	/**
