@@ -19,6 +19,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
@@ -44,6 +45,7 @@ public class ArtifactStereotypesSection extends ArtifactSectionPart {
 
 	private Table annTable;
 	private Text description;
+	private Composite detailsComposite;
 
 	public ArtifactStereotypesSection(TigerstripeFormPage page,
 			Composite parent, FormToolkit toolkit,
@@ -140,14 +142,14 @@ public class ArtifactStereotypesSection extends ArtifactSectionPart {
 		Section section = toolkit.createSection(parent,
 				ExpandableComposite.NO_TITLE);
 		section.setLayout(new GridLayout());
-		Composite sectionClient = toolkit.createComposite(section);
-		sectionClient.setLayoutData(new GridData(GridData.FILL_BOTH));
-		sectionClient.setLayout(new GridLayout());
+		detailsComposite = toolkit.createComposite(section);
+		detailsComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
+		detailsComposite.setLayout(new GridLayout());
 
-		Label label = new Label(sectionClient, SWT.NONE);
+		Label label = new Label(detailsComposite, SWT.NONE);
 		label.setText("Description:");
 		label.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		description = new Text(sectionClient, SWT.MULTI
+		description = new Text(detailsComposite, SWT.MULTI
 				| SWT.READ_ONLY | SWT.V_SCROLL | SWT.WRAP);
 		description.setBackground(parent.getBackground());
 		GridData gd = new GridData(GridData.FILL_BOTH);
@@ -156,6 +158,8 @@ public class ArtifactStereotypesSection extends ArtifactSectionPart {
 		gd.grabExcessHorizontalSpace = true;
 		gd.grabExcessVerticalSpace = true;
 		description.setLayoutData(gd);
+		
+		setVisibleRecursive(detailsComposite, false);
 
 		annTable.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -164,10 +168,9 @@ public class ArtifactStereotypesSection extends ArtifactSectionPart {
 			}
 		});
 
-		toolkit.paintBordersFor(sectionClient);
-		section.setClient(sectionClient);
+		toolkit.paintBordersFor(detailsComposite);
+		section.setClient(detailsComposite);
 	}
-
 
 	private void refreshDetailsPart() {
 		String result = "";
@@ -181,8 +184,27 @@ public class ArtifactStereotypesSection extends ArtifactSectionPart {
 					result = stereotype.getDescription();
 				}
 			}
+			setDetailsPartVisibility(true);
+		} else {
+			setDetailsPartVisibility(false);
 		}
 		description.setText(result);
+	}
+
+	private void setDetailsPartVisibility(boolean visible) {
+		if (detailsComposite.isVisible() != visible) {
+			setVisibleRecursive(detailsComposite, visible);
+		}
+	}
+
+	private void setVisibleRecursive(Control control, boolean visible) {
+		control.setVisible(visible);
+
+		if (control instanceof Composite) {
+			for (Control subControl : ((Composite) control).getChildren()) {
+				setVisibleRecursive(subControl, visible);
+			}
+		}
 	}
 
 	@Override
