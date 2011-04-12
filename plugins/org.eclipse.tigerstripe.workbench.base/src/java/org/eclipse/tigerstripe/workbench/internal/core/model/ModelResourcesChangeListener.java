@@ -66,6 +66,7 @@ public class ModelResourcesChangeListener implements ITigerstripeChangeListener 
                                 }
                             }
                         };
+                        job.setRule(folder);
                         job.schedule();
                     }
                 }
