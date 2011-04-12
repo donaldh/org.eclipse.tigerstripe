@@ -17,9 +17,7 @@ import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
@@ -55,10 +53,10 @@ public class ModelResourcesChangeListener implements ITigerstripeChangeListener 
                             @Override
                             public IStatus runInWorkspace(IProgressMonitor monitor) throws CoreException {
                                 try {
-                                    IMarker[] markers = folder.findMarkers(TARGET_OUT_OF_DATE_MARKER, true, 1);
+                                    IMarker[] markers = folder.findMarkers(TARGET_OUT_OF_DATE_MARKER, true, IResource.DEPTH_INFINITE);
                                     if (markers.length <= 0) {
                                         IMarker marker = folder.createMarker(TARGET_OUT_OF_DATE_MARKER);
-                                        marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
+                                        marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_INFO);
                                         marker.setAttribute(IMarker.MESSAGE, "Target folder may be out of date due to changes in the project. Running Tigerstripe generation on the project will remove this message.");
                                         return new Status(IStatus.OK, MODEL_RESOURCES_CHANGE_LISTENER_ID, "Added target folder out-of-date marker on project " + projectName);
                                     }
