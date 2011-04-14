@@ -22,6 +22,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.Generat
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.Rule;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactRule;
+import org.eclipse.tigerstripe.workbench.plugins.IModelRule;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
 
 /**
@@ -86,7 +87,31 @@ public class PluginRuleExecutor implements IPluginRuleExecutor {
 		TigerstripeRuntime.logTraceMessage("     Ran global rules (" + counter
 				+ "/" + globalRules.length + ") in "
 				+ (System.currentTimeMillis() - startTime));
+		
+		if (config instanceof M1RunConfig) {
+			long startTime2 = System.currentTimeMillis();
+			counter = 0;
+			// Then trigger all model-based rules
+			IModelRule[] modelRules = ((PluggablePluginProject) plugin
+					.getPProject()).getModelRules();
 
+			monitor.beginTask("Running model rules", modelRules.length);
+			for (IModelRule rule : modelRules) {
+				monitor.subTask(rule.getName());
+				if (rule.isEnabled()) {
+					counter++;
+					((Rule) rule).trigger(pluginConfig, this);
+					RuleReport subReport = ((Rule) rule).getReport();
+					this.reports.add(subReport);
+				}
+				monitor.worked(1);
+			}
+			monitor.done();
+			TigerstripeRuntime.logTraceMessage("     Ran model rules ("
+					+ counter + "/" + modelRules.length + ") in "
+					+ (System.currentTimeMillis() - startTime2));
+		}
+		
 		if (config instanceof M1RunConfig) {
 			long startTime2 = System.currentTimeMillis();
 			counter = 0;

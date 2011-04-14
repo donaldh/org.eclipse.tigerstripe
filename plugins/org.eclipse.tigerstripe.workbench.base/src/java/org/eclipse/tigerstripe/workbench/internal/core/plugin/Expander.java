@@ -40,6 +40,7 @@ public class Expander implements IExpander {
 	private IPluginConfig pluginConfig;
 	private IAbstractArtifact currentArtifact;
 	private IArtifactWrapper currentWrapper;
+	private ITigerstripeModelProject tsModel;
 
 	public Expander(PluginConfig pluginConfig) {
 		this.pluginConfig = pluginConfig;
@@ -66,6 +67,19 @@ public class Expander implements IExpander {
 		this.currentArtifact = currentArtifact;
 	}
 
+	/**
+	 * Allows to set a "current model" for this expander. When a current
+	 * artifact is set, additional variable may expanded. This is used in the
+	 * context of Model-based plugin rules so that the user can get access to
+	 * details about the current model
+	 * 
+	 * @param tsModel
+	 * @since 1.2
+	 */
+	public void setCurrentTSModel(ITigerstripeModelProject tsModel) {
+		this.tsModel = tsModel;
+	}
+	
 	/**
 	 * As for current Artifact, can set a "Current Model" for this expander This
 	 * can be used to extract things like the TargetPackage from the model -
@@ -355,7 +369,7 @@ public class Expander implements IExpander {
 
 		Pattern name = Pattern.compile("\\$\\{name\\}");
 		Matcher nameMatcher = name.matcher(outString);
-		String projectName = project.getProjectLabel();
+		String projectName = project.getProjectDetails().getName();
 		projectName = projectName.replaceAll(" ", "_");
 		if (nameMatcher.find(0)) {
 			if (projectName.length() > 0) {
@@ -396,7 +410,7 @@ public class Expander implements IExpander {
 
 		Pattern projName = Pattern.compile("\\$\\{project\\.Name\\}");
 		Matcher projNameMatcher = projName.matcher(outString);
-		projectName = project.getProjectLabel();
+		projectName = project.getProjectDetails().getName();
 		projectName = projectName.replaceAll(" ", "_");
 		if (projNameMatcher.find(0)) {
 			if (projectName.length() > 0) {

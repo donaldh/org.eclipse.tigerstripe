@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.project;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactRule;
+import org.eclipse.tigerstripe.workbench.plugins.IModelRule;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
 
 /**
@@ -42,5 +43,25 @@ public interface ITigerstripeM1GeneratorProject extends
 	public <T extends IArtifactRule> Class<T>[] getSupportedPluginArtifactRules();
 
 	public String[] getSupportedPluginArtifactRuleLabels();
+	
+	// ==================================================
+	// Rules-related definitions
+	public IModelRule[] getModelRules() throws TigerstripeException;
+
+	public void addModelRule(IModelRule rule)
+			throws TigerstripeException;
+
+	public void removeModelRule(IRule rule)
+			throws TigerstripeException;
+
+	public void removeModelRules(IRule[] rules)
+			throws TigerstripeException;
+
+	public void addModelRules(IModelRule[] rules)
+			throws TigerstripeException;
+
+	public <T extends IModelRule> Class<T>[] getSupportedPluginModelRules();
+
+	public String[] getSupportedPluginModelRuleLabels();
 
 }

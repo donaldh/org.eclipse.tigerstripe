@@ -23,6 +23,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 public interface IRule {
 
 	public String  ARTIFACT = "artifact";
+	public String  MODULE = "module";
 	public Class<?> ARTIFACT_CLASS = IAbstractArtifact.class;
 	
 	public String  PLUGINCONFIG = "pluginConfig";
@@ -49,6 +50,20 @@ public interface IRule {
 	public String  DEPENDENCIES = "dependencies";
 	public String  SESSIONS = "sessions";
 	public String  PACKAGES = "packages";
+	
+	public String  MODULE_ARTIFACTS = "moduleArtifacts";
+	public String  MODULE_ENTITIES = "moduleEntities";
+	public String  MODULE_DATATYPES = "moduleDatatypes";
+	public String  MODULE_EVENTS = "moduleEvents";
+	public String  MODULE_ENUMERATIONS = "moduleEnumerations";
+	public String  MODULE_EXCEPTIONS = "moduleExceptions";
+	public String  MODULE_QUERIES = "moduleQueries";
+	public String  MODULE_UPDATEPROCEDURES = "moduleUpdateProcedures";
+	public String  MODULE_ASSOCIATIONS = "moduleAssociations";
+	public String  MODULE_ASSOCIATIONCLASSES = "moduleAssociationClasses";
+	public String  MODULE_DEPENDENCIES = "moduleDependencies";
+	public String  MODULE_SESSIONS = "moduleSessions";
+	public String  MODULE_PACKAGES = "modulePackages";
 
 	public String  ALLPLUGINCONFIG = "allPluginConfig";
 	public String  ALLARTIFACTS = "allArtifacts";

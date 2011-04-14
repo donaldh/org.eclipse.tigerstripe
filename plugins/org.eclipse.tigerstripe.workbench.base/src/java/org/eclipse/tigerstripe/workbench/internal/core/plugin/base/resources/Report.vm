@@ -33,6 +33,7 @@ $reportUtils.xMLComment($plugin.Label)
 	</tigerstripeDetails>
 	<projectDetails
 		name      = "$tsProject.ProjectDetails.Name"
+		modelId   = "$project.ModelId"
 		version   = "$tsProject.ProjectDetails.Version"
 		outputDirectory = "$tsProject.ProjectDetails.OutputDirectory"
 		>

@@ -18,6 +18,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.Rule;
 import org.eclipse.tigerstripe.workbench.plugins.ICopyRule;
 import org.eclipse.tigerstripe.workbench.plugins.IRuleReport;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
  * A rule report is sub-type of report used in pluggable plugins
@@ -71,8 +72,27 @@ public class RuleReport extends PluginReport implements IRuleReport {
 	public void setArtifactType(String artifactType) {
 		this.artifactType = artifactType;
 	}
-
+	
+	
 	// End of block
+	
+	// This block should really be in a Model rule Report only..
+	private ArrayList<ITigerstripeModelProject> modules = new ArrayList<ITigerstripeModelProject>();
+
+	
+	public ArrayList<ITigerstripeModelProject> getModules() {
+		return modules;
+	}
+
+	public void setModules(ArrayList<ITigerstripeModelProject> modules) {
+		this.modules = modules;
+	}
+
+	
+	
+	
+	// End of block
+	
 
 	public String getName() {
 		return name;

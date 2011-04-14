@@ -22,6 +22,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.ProjectDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.GeneratorProjectDescriptor;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.PluggablePluginProject;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactRule;
+import org.eclipse.tigerstripe.workbench.plugins.IModelRule;
 import org.eclipse.tigerstripe.workbench.plugins.IRule;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
@@ -116,6 +117,58 @@ public class TigerstripePluginProjectHandle extends GeneratorProjectHandle
 		}
 	}
 
+	// =========================================
+
+	public void addModelRule(IModelRule rule)
+			throws TigerstripeException {
+		assertSet();
+		((PluggablePluginProject) getDescriptor()).addModelRule(rule);
+	}
+
+	public void addModelRules(IModelRule[] rules)
+			throws TigerstripeException {
+		for (IModelRule rule : rules) {
+			addModelRule(rule);
+		}
+	}
+
+	public IModelRule[] getModelRules() throws TigerstripeException {
+		return ((PluggablePluginProject) getDescriptor()).getModelRules();
+	}
+
+	public void removeModelRule(IRule rule)
+			throws TigerstripeException {
+		assertSet();
+		((PluggablePluginProject) getDescriptor()).removeModelRule(rule);
+	}
+
+	public void removeModelRules(IRule[] rules)
+			throws TigerstripeException {
+		assertSet();
+		((PluggablePluginProject) getDescriptor()).removeModelRules(rules);
+	}
+
+	@SuppressWarnings("unchecked")
+	public <T extends IModelRule> Class<T>[] getSupportedPluginModelRules() {
+		try {
+			return ((PluggablePluginProject) getDescriptor())
+					.getSupportedPluginModelRules();
+		} catch (TigerstripeException e) {
+			return new Class[0];
+		}
+	}
+
+	public String[] getSupportedPluginModelRuleLabels() {
+		try {
+			return ((PluggablePluginProject) getDescriptor())
+					.getSupportedPluginModelRuleLabels();
+		} catch (TigerstripeException e) {
+			return new String[0];
+		}
+	}
+	
+	//==========================
+	
 	public IProjectDetails getIProjectDetails() throws TigerstripeException {
 
 		return getProjectDetails();

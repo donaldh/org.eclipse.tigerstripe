@@ -30,6 +30,8 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.RuleRepo
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.GlobalRunnableRule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.GlobalTemplateRule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.Rule;
+import org.eclipse.tigerstripe.workbench.plugins.IGlobalRule;
+import org.eclipse.tigerstripe.workbench.plugins.IModelRule;
 import org.eclipse.tigerstripe.workbench.plugins.IPluginReport;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -249,8 +251,7 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 				boolean nothingMatch = true;
 				for (RuleReport rr : childReports) {
 					Rule rule = rr.getRule();
-					if ((rule instanceof GlobalTemplateRule)
-							|| (rule instanceof GlobalRunnableRule)) {
+					if (rule instanceof IGlobalRule || rule instanceof IModelRule) {
 						nothingMatch = false;
 						continue;
 					}

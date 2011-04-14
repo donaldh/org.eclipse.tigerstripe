@@ -49,6 +49,7 @@ public class PluginDescriptorRulesPage extends TigerstripeFormPage {
 		Composite body = managedForm.getForm().getBody();
 		GridLayoutFactory.fillDefaults().margins(3, 3).applyTo(body);
 		managedForm.addPart(new GlobalRulesSection(this, body, toolkit));
+		managedForm.addPart(new ModelRulesSection(this, body, toolkit));
 		managedForm.addPart(new ArtifactRulesSection(this, body, toolkit));
 	}
 }

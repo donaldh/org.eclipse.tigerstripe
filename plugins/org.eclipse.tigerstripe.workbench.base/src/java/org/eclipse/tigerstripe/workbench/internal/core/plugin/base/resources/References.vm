@@ -13,6 +13,7 @@
 			<reference>
 				<projectDetails
 					name      = "$project.ProjectDetails.Name"
+					modelId   = "$project.ModelId"
 					version   = "$project.ProjectDetails.Version"
 					>
 					<description>
