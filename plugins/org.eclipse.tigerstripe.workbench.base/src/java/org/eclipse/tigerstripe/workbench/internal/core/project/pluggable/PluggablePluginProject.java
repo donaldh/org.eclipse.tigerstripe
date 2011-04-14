@@ -94,7 +94,7 @@ public class PluggablePluginProject extends GeneratorProjectDescriptor {
 	
 	// model rule stuff...
 	
-	private List<IModelRule>  modelRules;
+	private List<IModelRule>  modelRules = new ArrayList<IModelRule>();
 	
 	public static final String MODEL_RULES = "modelRules";
 	
