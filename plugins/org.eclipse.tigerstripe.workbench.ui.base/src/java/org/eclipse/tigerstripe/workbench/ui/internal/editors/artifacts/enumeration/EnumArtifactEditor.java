@@ -10,6 +10,11 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.enumeration;
 
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactOverviewPage;
@@ -47,5 +52,44 @@ public class EnumArtifactEditor extends ArtifactEditorBase {
 		}
 		super.addPages();
 		setActivePage(index);
+	}
+
+	@Override
+	public void doSave(IProgressMonitor monitor) {
+		boolean literalsChanged = false;
+		try {
+			IEnumArtifact wsEnumArtifact = (IEnumArtifact) getIArtifact();
+			IEnumArtifact enumArtifact = (IEnumArtifact) wsEnumArtifact
+					.getProject()
+					.getArtifactManagerSession()
+					.getArtifactByFullyQualifiedName(
+							wsEnumArtifact.getFullyQualifiedName(), false);
+			for (ILiteral literal : enumArtifact.getLiterals()) {
+				boolean found = false;
+				for (ILiteral wsLiteral : wsEnumArtifact.getLiterals()) {
+					if (literal.getName().equals(wsLiteral.getName())) {
+						found = true;
+						break;
+					}
+				}
+				if (!found) {
+					literalsChanged = true;
+					break;
+				}
+			}
+		} catch (TigerstripeException e) {
+			EclipsePlugin.log(e);
+		}
+
+		if (literalsChanged
+				&& !MessageDialog
+						.openQuestion(
+								getSite().getShell(),
+								"Save Enumeration",
+								"Enumeration literals were changed, this may affect all artifacts referencing the Enumeration. Do you wish to proceed?")) {
+			return;
+		}
+
+		super.doSave(monitor);
 	}
 }

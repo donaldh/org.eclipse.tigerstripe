@@ -10,12 +10,14 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.builder;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.UnresolvedStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
@@ -42,7 +44,44 @@ public class CommonArtifactAuditor extends AbstractArtifactAuditor implements
 		for (IField attribute : getArtifact().getFields()) {
 			checkStereotypes(attribute, "attribute '" + attribute.getName()
 					+ "' of artifact '" + getArtifact().getName() + "'");
+			checkEnumField(attribute);
 		}
+	}
+	
+	private void checkEnumField(IField field) {
+		if (field.getType() != null) {
+			IAbstractArtifact typeArtifact = field.getType().getArtifact();
+			if (typeArtifact instanceof IEnumArtifact) {
+				IEnumArtifact enumArtifact = (IEnumArtifact) typeArtifact;
+				if (!isEnumFieldDefaultValueCorrect(field, enumArtifact)) {
+					TigerstripeProjectAuditor
+							.reportError(
+									"Default value of '"
+											+ field.getName()
+											+ "' attrubute is incorrect. Referenced enumeration '"
+											+ enumArtifact
+													.getFullyQualifiedName()
+											+ "' doesn't contain '"
+											+ field.getDefaultValue()
+											+ "' literal.",
+									(IResource) getArtifact().getAdapter(
+											IResource.class), 222);
+				}
+			}
+		}
+	}
+
+	private boolean isEnumFieldDefaultValueCorrect(IField field,
+			IEnumArtifact enumArtifact) {
+		if (field.getDefaultValue() == null) {
+			return true;
+		}
+		for (ILiteral literal : enumArtifact.getLiterals()) {
+			if (field.getDefaultValue().equals(literal.getName())) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	public void run(IProgressMonitor monitor) {

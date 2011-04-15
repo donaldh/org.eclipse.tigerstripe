@@ -45,21 +45,21 @@ public class ModelAuditorHelper implements IProjectDependencyChangeListener {
 
 	private boolean isInitialized = false;
 
-	private ITigerstripeModelProject project;
+	private final ITigerstripeModelProject project;
 
 	// the keys are the artifact being referenced, the values are the set of all
 	// artifacts where the key is referenced
-	private HashMap<String, Set<String>> referencedArtifacts = new HashMap<String, Set<String>>();
+	private final HashMap<String, Set<String>> referencedArtifacts = new HashMap<String, Set<String>>();
 
 	// the keys are the artifact being unresolved yet referenced, the values are
 	// the set of all artifacts where the key is referenced
-	private HashMap<String, Set<String>> unresolvedArtifacts = new HashMap<String, Set<String>>();
+	private final HashMap<String, Set<String>> unresolvedArtifacts = new HashMap<String, Set<String>>();
 
 	// The keys are all artifacts in the project, the values are sets of
 	// artifact that being referenced.
 	// This is only intended so that updates to the above 2 hashs can be
 	// efficient
-	private HashMap<String, Set<String>> artifactsWithReferences = new HashMap<String, Set<String>>();
+	private final HashMap<String, Set<String>> artifactsWithReferences = new HashMap<String, Set<String>>();
 
 	public ModelAuditorHelper(ITigerstripeModelProject project) {
 		this.project = project;
@@ -142,7 +142,9 @@ public class ModelAuditorHelper implements IProjectDependencyChangeListener {
 	 */
 	public Set<String> auditListForArtifactChanged(String artifactFQN) {
 		initialize();
-		Set<String> toAudit = new HashSet<String>();
+		Set<String> toAudit = referencedArtifacts.get(artifactFQN);
+		if (toAudit == null)
+			toAudit = new HashSet<String>();
 		toAudit.add(artifactFQN);
 		return toAudit;
 	}

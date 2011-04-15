@@ -44,8 +44,8 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForArtifactDialog;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
@@ -430,8 +430,8 @@ public class AttributeInfoEditComponent {
 				if (index != -1) {
 					defaultValueText.select(index);
 				} else {
-					defaultValueText.setText("");
 					defaultValueText.clearSelection();
+					defaultValueText.setText(field.getDefaultValue());
 				}
 			} else {
 				defaultValueText.setText(field.getDefaultValue());
