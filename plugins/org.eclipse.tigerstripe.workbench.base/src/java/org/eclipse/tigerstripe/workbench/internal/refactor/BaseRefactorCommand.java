@@ -358,16 +358,26 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		monitor.beginTask("Applying deltas", 2 * deltas.size());
 
 		Set<ITigerstripeModelProject> affectedProjects = new HashSet<ITigerstripeModelProject>();
+		Set<IAbstractArtifact> toSave = new HashSet<IAbstractArtifact>();
+
+		// Update all the relationship ends.
+		for (ModelChangeDelta delta : deltas) {
+			try {
+				if (delta.isRelationEndRefactor()
+						|| delta.isComponentRefactor())
+					delta.apply(toCleanUp, toSave);
+			} catch (TigerstripeException e) {
+				BasePlugin.log(e);
+			}
+			monitor.worked(1);
+		}
 
 		// move artifacts that need to be moved
-		Set<IAbstractArtifact> toSave = new HashSet<IAbstractArtifact>();
 		for (ModelChangeDelta delta : deltas) {
 			try {
 				if (!delta.isComponentRefactor()
-						&& !delta.isRelationEndRefactor()) {
+						&& !delta.isRelationEndRefactor())
 					delta.apply(toCleanUp, toSave);
-					affectedProjects.add(delta.getProject());
-				}
 			} catch (TigerstripeException e) {
 				BasePlugin.log(e);
 			}
@@ -377,40 +387,18 @@ public class BaseRefactorCommand implements IRefactorCommand {
 			try {
 				art.doSave(monitor);
 
-				if (art.getProject() != null) {
-					affectedProjects.add(art.getProject());
-				}
-			} catch (TigerstripeException e) {
-				BasePlugin.log(e);
-			}
-		}
-
-		// Then update all the relationship ends.
-		toSave.clear();
-		for (ModelChangeDelta delta : deltas) {
-			try {
-				if ((delta.isComponentRefactor() || delta
-						.isRelationEndRefactor())
-						&& !affectedProjects.contains(delta.getProject()))
-					delta.apply(toCleanUp, toSave);
-			} catch (TigerstripeException e) {
-				BasePlugin.log(e);
-			}
-			monitor.worked(1);
-		}
-		for (IAbstractArtifact art : toSave)
-			try {
-				art.doSave(monitor);
 				if (art.getProject() != null)
 					affectedProjects.add(art.getProject());
 			} catch (TigerstripeException e) {
 				BasePlugin.log(e);
 			}
+		}
 
 		monitor.done();
 
 		return affectedProjects
 				.toArray(new ITigerstripeModelProject[affectedProjects.size()]);
+
 	}
 
 	public RefactorRequest[] getRequests() {

@@ -203,6 +203,27 @@ public class ModelRefactorCommandFactory {
 		return IRefactorCommand.UNEXECUTABLE;
 	}
 
+	public IRefactorCommand combine(IRefactorCommand[] commands) {
+		Collection<RefactorRequest> requests = new ArrayList<RefactorRequest>();
+		Collection<ModelChangeDelta> modelDeltas = new ArrayList<ModelChangeDelta>();
+		Collection<DiagramChangeDelta> diagramDeltas = new ArrayList<DiagramChangeDelta>();
+		List<ResourceChangeDelta> resourceDeltas = new ArrayList<ResourceChangeDelta>();
+
+		for (IRefactorCommand command : commands) {
+			requests.addAll(Arrays.asList(command.getRequests()));
+			modelDeltas.addAll(command.getDeltas());
+			diagramDeltas.addAll(command.getDiagramDeltas());
+			resourceDeltas.addAll(command.getResourceDeltas());
+		}
+
+		BaseRefactorCommand command = new BaseRefactorCommand(
+				requests.toArray(new RefactorRequest[requests.size()]));
+		command.addDeltas(modelDeltas);
+		command.addDiagramDeltas(diagramDeltas);
+		command.addResourceDeltas(resourceDeltas);
+		return command;
+	}
+
 	private List<ResourceChangeDelta> createResourceDeltas(
 			List<RefactorRequest> requests) {
 		List<ResourceChangeDelta> deltas = new ArrayList<ResourceChangeDelta>();

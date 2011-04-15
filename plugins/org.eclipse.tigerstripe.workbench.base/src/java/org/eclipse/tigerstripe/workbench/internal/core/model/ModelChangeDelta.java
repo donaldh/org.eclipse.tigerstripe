@@ -210,7 +210,7 @@ public class ModelChangeDelta implements IModelChangeDelta {
 		if (component instanceof IAbstractArtifact) {
 			return !IArtifactFQRenameRequest.FQN_FEATURE.equals(getFeature());
 		}
-		return false;
+		return true;
 	}
 
 	public boolean isRelationEndRefactor() {

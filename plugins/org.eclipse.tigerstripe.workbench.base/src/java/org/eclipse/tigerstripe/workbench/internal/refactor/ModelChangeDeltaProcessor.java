@@ -14,8 +14,10 @@ import java.util.Collection;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringChangesListener;
@@ -26,10 +28,6 @@ import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.annotation.ITigerstripeLazyObject;
 import org.eclipse.tigerstripe.workbench.internal.annotation.PackageLazyObject;
 import org.eclipse.tigerstripe.workbench.internal.annotation.TigerstripeLazyObject;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.ArtifactFQRenameRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.ArtifactRenameRequest;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequestFactory;
-import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactSetFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
@@ -73,7 +71,7 @@ public class ModelChangeDeltaProcessor {
 			throws TigerstripeException {
 		Object component = delta.getComponent();
 		if (component instanceof IField) {
-			processIFieldChange((IField) component, delta, null);
+			processIFieldChange((IField) component, delta, toSave);
 		} else if (component instanceof IMethod) {
 			processIMethodChange((IMethod) component, delta, toSave);
 		} else if (component instanceof IAbstractArtifact) {
@@ -91,16 +89,22 @@ public class ModelChangeDeltaProcessor {
 	protected static void processIArgumentChange(IArgument arg,
 			IModelChangeDelta delta, Collection<Object> toCleanUp,
 			Collection<IAbstractArtifact> toSave) throws TigerstripeException {
+		IArgument rcArg = arg;
+		if (toSave != null) {
+			rcArg = getRefactoringComponent(arg, toSave);
+		}
 		if (IModelChangeDelta.SET == delta.getType()) {
 			if (IMethodSetRequest.ARGTYPE_FEATURE.equals(delta.getFeature())) {
-				arg.getType().setFullyQualifiedName(
+				rcArg.getType().setFullyQualifiedName(
 						(String) delta.getNewValue());
-				if (toSave == null)
-					arg.getContainingMethod().getContainingArtifact()
-							.doSave(null);
-				else
-					toSave.add(arg.getContainingMethod()
-							.getContainingArtifact());
+
+				IAbstractArtifact parent = rcArg.getContainingMethod()
+						.getContainingArtifact();
+				if (toSave == null) {
+					parent.doSave(null);
+				} else {
+					toSave.add(parent);
+				}
 			}
 		}
 	}
@@ -108,15 +112,22 @@ public class ModelChangeDeltaProcessor {
 	protected static void processIExceptionChange(IException exp,
 			IModelChangeDelta delta, Collection<Object> toCleanUp,
 			Collection<IAbstractArtifact> toSave) throws TigerstripeException {
+		IException rcExp = exp;
+		if (toSave != null) {
+			rcExp = getRefactoringComponent(exp, toSave);
+		}
+
 		if (IModelChangeDelta.SET == delta.getType()) {
 			if (IMethodSetRequest.EXPTYPE_FEATURE.equals(delta.getFeature())) {
-				exp.setFullyQualifiedName((String) delta.getNewValue());
-				if (toSave == null)
-					exp.getContainingMethod().getContainingArtifact()
-							.doSave(null);
-				else
-					toSave.add(exp.getContainingMethod()
-							.getContainingArtifact());
+				rcExp.setFullyQualifiedName((String) delta.getNewValue());
+
+				IAbstractArtifact parent = rcExp.getContainingMethod()
+						.getContainingArtifact();
+				if (toSave == null) {
+					parent.doSave(null);
+				} else {
+					toSave.add(parent);
+				}
 			}
 		}
 	}
@@ -181,116 +192,101 @@ public class ModelChangeDeltaProcessor {
 						}
 					}
 				} else {
+					IAbstractArtifact rcArtifact = getRefactoringComponent(
+							artifact, toSave, false);
+					if (rcArtifact == null) {
+						rcArtifact = artifact;
+					}
+
 					// renaming an artifact here
-					IResource res = (IResource) artifact
+					IResource res = (IResource) rcArtifact
 							.getAdapter(IResource.class);
-					IArtifactManagerSession mgr = artifact.getProject()
+					IArtifactManagerSession session = rcArtifact.getProject()
 							.getArtifactManagerSession();
-					String newFqn = (String) delta.getNewValue();
-					String oldPackage = delta
-							.getOldValue()
-							.toString()
-							.substring(
-									0,
-									delta.getOldValue().toString()
-											.lastIndexOf('.'));
-					String newPackage = newFqn.substring(0,
-							newFqn.lastIndexOf('.'));
 
 					// propagate to annotations framework
 					refactor.fireChanged(oldObj, newObj,
 							IRefactoringChangesListener.ABOUT_TO_CHANGE);
 
-					// Bug 327698 - Need to make rename requests based on if it
-					// is in the same package,
-					// or being moved to a different package.
-					IModelUpdater updater = mgr.getIModelUpdater();
-					if (oldPackage.equals(newPackage)) {
-						// Renaming in same package
-						ArtifactRenameRequest request = (ArtifactRenameRequest) updater
-								.getRequestFactory()
-								.makeRequest(
-										IModelChangeRequestFactory.ARTIFACT_RENAME);
-						request.setArtifactFQN(artifact.getFullyQualifiedName());
-						request.setNewName(newFqn.substring(newFqn
-								.lastIndexOf(".") + 1));
-						request.execute(mgr);
+					session.renameArtifact(rcArtifact,
+							(String) delta.getNewValue());
+					if (toSave == null) {
+						rcArtifact.doSave(null);
 					} else {
-						// Moving to a different package
-						ArtifactFQRenameRequest request = (ArtifactFQRenameRequest) updater
-								.getRequestFactory()
-								.makeRequest(
-										IModelChangeRequestFactory.ARTIFACT_FQRENAME);
-						request.setArtifactFQN(artifact.getFullyQualifiedName());
-						request.setNewFQName(newFqn);
-						request.execute(mgr);
+						toSave.add(rcArtifact);
 					}
 
 					// propagate to annotations framework
-					refactor.fireChanged(oldObj, createLazyObject(artifact),
+					refactor.fireChanged(oldObj, createLazyObject(rcArtifact),
 							IRefactoringChangesListener.CHANGED);
 
 					toCleanUp.add(res);
 				}
-			} else if (IArtifactSetFeatureRequest.EXTENDS_FEATURE.equals(delta
-					.getFeature())) {
-				artifact.setExtendedArtifact((String) delta.getNewValue());
-				if (toSave == null)
-					artifact.doSave(null);
-				else
-					toSave.add(artifact);
-			} else if (IArtifactSetFeatureRequest.RETURNED_TYPE.equals(delta
-					.getFeature())) {
-				IQueryArtifact query = (IQueryArtifact) artifact;
-				IType type = query.makeType();
-				type.setFullyQualifiedName((String) delta.getNewValue());
-				query.setReturnedType(type);
-				if (toSave == null)
-					query.doSave(null);
-				else
-					toSave.add(query);
-			} else if (IArtifactSetFeatureRequest.AEND.equals(delta
-					.getFeature())) {
-				if (artifact instanceof IAssociationArtifact) {
-					IAssociationArtifact assoc = (IAssociationArtifact) artifact;
-					IType type = assoc.getAEnd().getType();
-					type.setFullyQualifiedName((String) delta.getNewValue());
-					if (toSave == null)
-						artifact.doSave(null);
-					else
-						toSave.add(artifact);
-				} else if (artifact instanceof IDependencyArtifact) {
-					IDependencyArtifact assoc = (IDependencyArtifact) artifact;
-					IType type = assoc.getAEndType();
-					type.setFullyQualifiedName((String) delta.getNewValue());
-					if (toSave == null)
-						artifact.doSave(null);
-					else
-						toSave.add(artifact);
-				}
-			} else if (IArtifactSetFeatureRequest.ZEND.equals(delta
-					.getFeature())) {
-				if (artifact instanceof IAssociationArtifact) {
-					IAssociationArtifact assoc = (IAssociationArtifact) artifact;
-					IType type = assoc.getZEnd().getType();
-					type.setFullyQualifiedName((String) delta.getNewValue());
-					if (toSave == null)
-						artifact.doSave(null);
-					else
-						toSave.add(artifact);
-				} else if (artifact instanceof IDependencyArtifact) {
-					IDependencyArtifact assoc = (IDependencyArtifact) artifact;
-					IType type = assoc.getZEndType();
-					type.setFullyQualifiedName((String) delta.getNewValue());
-					if (toSave == null)
-						artifact.doSave(null);
-					else
-						toSave.add(artifact);
-				}
 			} else {
-				Status status = new Status(IStatus.ERROR, BasePlugin.PLUGIN_ID,
-						"Unsupported refactor delta: " + delta);
-				BasePlugin.log(status);
+				IAbstractArtifact rcArtifact = getRefactoringComponent(
+						artifact, toSave);
+				if (IArtifactSetFeatureRequest.EXTENDS_FEATURE.equals(delta
+						.getFeature())) {
+					rcArtifact
+							.setExtendedArtifact((String) delta.getNewValue());
+					if (toSave == null)
+						rcArtifact.doSave(null);
+					else
+						toSave.add(rcArtifact);
+				} else if (IArtifactSetFeatureRequest.RETURNED_TYPE
+						.equals(delta.getFeature())) {
+					IQueryArtifact query = (IQueryArtifact) rcArtifact;
+					IType type = query.makeType();
+					type.setFullyQualifiedName((String) delta.getNewValue());
+					query.setReturnedType(type);
+					if (toSave == null)
+						query.doSave(null);
+					else
+						toSave.add(query);
+				} else if (IArtifactSetFeatureRequest.AEND.equals(delta
+						.getFeature())) {
+					if (rcArtifact instanceof IAssociationArtifact) {
+						IAssociationArtifact assoc = (IAssociationArtifact) rcArtifact;
+						IType type = assoc.getAEnd().getType();
+						type.setFullyQualifiedName((String) delta.getNewValue());
+						if (toSave == null)
+							rcArtifact.doSave(null);
+						else
+							toSave.add(rcArtifact);
+					} else if (rcArtifact instanceof IDependencyArtifact) {
+						IDependencyArtifact assoc = (IDependencyArtifact) rcArtifact;
+						IType type = assoc.getAEndType();
+						type.setFullyQualifiedName((String) delta.getNewValue());
+						if (toSave == null)
+							rcArtifact.doSave(null);
+						else
+							toSave.add(rcArtifact);
+					}
+				} else if (IArtifactSetFeatureRequest.ZEND.equals(delta
+						.getFeature())) {
+					if (rcArtifact instanceof IAssociationArtifact) {
+						IAssociationArtifact assoc = (IAssociationArtifact) rcArtifact;
+						IType type = assoc.getZEnd().getType();
+						type.setFullyQualifiedName((String) delta.getNewValue());
+						if (toSave == null)
+							rcArtifact.doSave(null);
+						else
+							toSave.add(rcArtifact);
+					} else if (rcArtifact instanceof IDependencyArtifact) {
+						IDependencyArtifact assoc = (IDependencyArtifact) rcArtifact;
+						IType type = assoc.getZEndType();
+						type.setFullyQualifiedName((String) delta.getNewValue());
+						if (toSave == null)
+							rcArtifact.doSave(null);
+						else
+							toSave.add(rcArtifact);
+					}
+				} else {
+					Status status = new Status(IStatus.ERROR,
+							BasePlugin.PLUGIN_ID,
+							"Unsupported refactor delta: " + delta);
+					BasePlugin.log(status);
+				}
 			}
 		} else if (IModelChangeDelta.ADD == delta.getType()) {
 			if (toSave == null)
@@ -347,15 +343,20 @@ public class ModelChangeDeltaProcessor {
 			refactor.fireChanged(oldObj, newObj,
 					IRefactoringChangesListener.ABOUT_TO_CHANGE);
 
-			IResource res = (IResource) artifact.getAdapter(IResource.class);
-			artifact.getProject().getArtifactManagerSession()
-					.renameArtifact(artifact, (String) delta.getNewValue());
+			IAbstractArtifact rcArtifact = getRefactoringComponent(artifact,
+					toSave, false);
+			if (rcArtifact == null) {
+				rcArtifact = artifact;
+			}
+			IResource res = (IResource) rcArtifact.getAdapter(IResource.class);
+			rcArtifact.getProject().getArtifactManagerSession()
+					.renameArtifact(rcArtifact, (String) delta.getNewValue());
 			if (toSave == null)
-				artifact.doSave(null);
+				rcArtifact.doSave(null);
 			else
-				toSave.add(artifact);
+				toSave.add(rcArtifact);
 
-			IAbstractArtifact newOne = ((AbstractArtifact) artifact)
+			IAbstractArtifact newOne = ((AbstractArtifact) rcArtifact)
 					.makeWorkingCopy(null);
 			delta.getProject().getArtifactManagerSession().addArtifact(newOne);
 
@@ -368,17 +369,17 @@ public class ModelChangeDeltaProcessor {
 			refactor.fireChanged(oldObj, newObj,
 					IRefactoringChangesListener.CHANGED);
 
-			if (artifact instanceof IPackageArtifact) {
-				if (needToCleanUpPackage(project, (IPackageArtifact) artifact,
-						toCleanUp)) {
-					toCleanUp.add(artifact);
+			if (rcArtifact instanceof IPackageArtifact) {
+				if (needToCleanUpPackage(project,
+						(IPackageArtifact) rcArtifact, toCleanUp)) {
+					toCleanUp.add(rcArtifact);
 				}
 			} else {
 				toCleanUp.add(res);
-				toCleanUp.add(artifact);
+				toCleanUp.add(rcArtifact);
 			}
 			if (topPackageToDelete != null) {
-				IProject proj = (IProject) artifact.getTigerstripeProject()
+				IProject proj = (IProject) rcArtifact.getTigerstripeProject()
 						.getAdapter(IProject.class);
 				String ff = "src/" + topPackageToDelete.replace(".", "/");
 				IPath path = proj.getFullPath().append(ff);
@@ -393,8 +394,23 @@ public class ModelChangeDeltaProcessor {
 		Collection<IModelComponent> components = packageArtifact
 				.getContainedModelComponents();
 		for (IModelComponent component : components) {
-			if (component.getProject().equals(project)
-					&& !toCleanUp.contains(component)) {
+			IResource componentResource = (IResource) component
+					.getAdapter(IResource.class);
+			boolean inCleanup = false;
+			if (componentResource != null) {
+				for (Object cleanupObject : toCleanUp) {
+					if (cleanupObject instanceof IAdaptable) {
+						IResource cleanupResource = (IResource) ((IAdaptable) cleanupObject)
+								.getAdapter(IResource.class);
+						if (cleanupResource != null
+								&& componentResource.equals(cleanupResource)) {
+							inCleanup = true;
+							break;
+						}
+					}
+				}
+			}
+			if (!inCleanup) {
 				return false;
 			}
 		}
@@ -435,34 +451,139 @@ public class ModelChangeDeltaProcessor {
 	protected static void processIMethodChange(IMethod method,
 			IModelChangeDelta delta, Collection<IAbstractArtifact> toSave)
 			throws TigerstripeException {
+		IMethod rcMethod = method;
+		if (toSave != null) {
+			rcMethod = getRefactoringComponent(method, toSave);
+		}
+
 		if (IMethodSetRequest.TYPE_FEATURE.equals(delta.getFeature())) {
-			IType returnType = method.getReturnType();
+			IType returnType = rcMethod.getReturnType();
 			returnType.setFullyQualifiedName((String) delta.getNewValue());
-			if (toSave == null)
-				method.getContainingArtifact().doSave(null);
-			else
-				toSave.add(method.getContainingArtifact());
+
+			IAbstractArtifact parent = (IAbstractArtifact) rcMethod
+					.getContainingModelComponent();
+			if (toSave == null) {
+				parent.doSave(null);
+			} else {
+				toSave.add(parent);
+			}
 		}
 	}
 
 	protected static void processIFieldChange(IField field,
 			IModelChangeDelta delta, Collection<IAbstractArtifact> toSave)
 			throws TigerstripeException {
+		IField rcField = field;
+		if (toSave != null) {
+			rcField = getRefactoringComponent(field, toSave);
+		}
+
 		if (IAttributeSetRequest.NAME_FEATURE.equals(delta.getFeature())) {
-			field.setName((String) delta.getNewValue());
+			rcField.setName((String) delta.getNewValue());
 		} else if (IAttributeSetRequest.TYPE_FEATURE.equals(delta.getFeature())) {
-			IType type = field.getType();
+			IType type = rcField.getType();
 			type.setFullyQualifiedName((String) delta.getNewValue());
 		} else {
 			throw new UnsupportedOperationException(
 					"Can't apply delta for IField " + delta);
 		}
 
-		IAbstractArtifact parent = (IAbstractArtifact) field
+		IAbstractArtifact parent = (IAbstractArtifact) rcField
 				.getContainingModelComponent();
-		if (toSave == null)
+		if (toSave == null) {
 			parent.doSave(null);
-		else
+		} else {
 			toSave.add(parent);
+		}
+	}
+
+	private static IField getRefactoringComponent(IField field,
+			Collection<IAbstractArtifact> toSave) {
+		IField result = field;
+		IAbstractArtifact rcArtifact = getRefactoringComponent(
+				(IAbstractArtifact) field.getContainingModelComponent(), toSave);
+		for (IField rcField : rcArtifact.getFields()) {
+			if (field.getName().equals(rcField.getName())) {
+				result = rcField;
+				break;
+			}
+		}
+		return result;
+	}
+
+	private static IMethod getRefactoringComponent(IMethod method,
+			Collection<IAbstractArtifact> toSave) {
+		IMethod result = method;
+		IAbstractArtifact rcArtifact = getRefactoringComponent(
+				(IAbstractArtifact) method.getContainingModelComponent(),
+				toSave);
+		for (IMethod rcMethod : rcArtifact.getMethods()) {
+			if (method.getName().equals(rcMethod.getName())) {
+				result = rcMethod;
+				break;
+			}
+		}
+		return result;
+	}
+
+	private static IArgument getRefactoringComponent(IArgument arg,
+			Collection<IAbstractArtifact> toSave) {
+		IArgument result = arg;
+		IAbstractArtifact rcArtifact = getRefactoringComponent(
+				(IAbstractArtifact) arg.getContainingMethod()
+						.getContainingModelComponent(), toSave);
+		for (IMethod rcMethod : rcArtifact.getMethods()) {
+			if (arg.getContainingMethod().getName().equals(rcMethod.getName())) {
+				for (IArgument rcArg : rcMethod.getArguments()) {
+					if (arg.getName().equals(rcArg.getName())) {
+						result = rcArg;
+						break;
+					}
+				}
+			}
+		}
+		return result;
+	}
+
+	private static IException getRefactoringComponent(IException exp,
+			Collection<IAbstractArtifact> toSave) {
+		IException result = exp;
+		IMethod rcMethod = getRefactoringComponent(exp.getContainingMethod(),
+				toSave);
+		for (IException rcExp : rcMethod.getExceptions()) {
+			if (exp.getFullyQualifiedName().equals(
+					rcExp.getFullyQualifiedName())) {
+				result = rcExp;
+				break;
+			}
+		}
+		return result;
+	}
+
+	private static IAbstractArtifact getRefactoringComponent(
+			IAbstractArtifact artifact, Collection<IAbstractArtifact> toSave) {
+		return getRefactoringComponent(artifact, toSave, true);
+	}
+
+	private static IAbstractArtifact getRefactoringComponent(
+			IAbstractArtifact artifact, Collection<IAbstractArtifact> toSave,
+			boolean create) {
+		IAbstractArtifact result = null;
+		for (IAbstractArtifact wc : toSave) {
+			if (artifact.getFullyQualifiedName().equals(
+					wc.getFullyQualifiedName())) {
+				result = wc;
+				break;
+			}
+		}
+
+		if (result == null && create) {
+			try {
+				result = artifact.makeWorkingCopy(new NullProgressMonitor());
+			} catch (TigerstripeException e) {
+				BasePlugin.log(e);
+			}
+		}
+		return result;
 	}
 }

@@ -13,7 +13,6 @@ package org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
@@ -26,6 +25,7 @@ import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.refactor.ModelRefactorCommandFactory;
 import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramChangeDelta;
 import org.eclipse.tigerstripe.workbench.refactor.IRefactorCommand;
 import org.eclipse.tigerstripe.workbench.refactor.ModelRefactorRequest;
@@ -124,61 +124,54 @@ public abstract class AbstractModelRefactorWizard extends Wizard implements
 								.toArray(new IRefactorCommand[cmds.size()]));
 					}
 
-					for (IRefactorCommand command : getRefactorCommands()) {
+					IRefactorCommand command = ModelRefactorCommandFactory.INSTANCE
+							.combine(getRefactorCommands());
 
-						try {
+					try {
 
-							for (DiagramChangeDelta delta : command
-									.getDiagramDeltas()) {
+						for (DiagramChangeDelta delta : command
+								.getDiagramDeltas()) {
 
-								IFile iFile = (IFile) delta
-										.getAffDiagramHandle()
-										.getDiagramResource();
+							IFile iFile = (IFile) delta.getAffDiagramHandle()
+									.getDiagramResource();
 
-								IWorkbenchWindow windows[] = PlatformUI
-										.getWorkbench().getWorkbenchWindows();
-								for (int i = 0; i < windows.length; i++) {
-									IWorkbenchPage pages[] = windows[i]
-											.getPages();
-									for (int j = 0; j < pages.length; j++) {
-										IEditorReference[] refs = pages[j]
-												.getEditorReferences();
-										for (IEditorReference ref : refs) {
-											IEditorPart part = ref
-													.getEditor(false);
-											if (part != null
-													&& part.getTitle().equals(
-															iFile.getName())) {
-												final IEditorPart fPart = part;
-												Display display = Display
-														.getDefault();
-												display
-														.syncExec(new Runnable() {
-															public void run() {
-																PlatformUI
-																		.getWorkbench()
-																		.getActiveWorkbenchWindow()
-																		.getActivePage()
-																		.closeEditor(
-																				fPart,
-																				true);
-															}
-														});
-											}
+							IWorkbenchWindow windows[] = PlatformUI
+									.getWorkbench().getWorkbenchWindows();
+							for (int i = 0; i < windows.length; i++) {
+								IWorkbenchPage pages[] = windows[i].getPages();
+								for (int j = 0; j < pages.length; j++) {
+									IEditorReference[] refs = pages[j]
+											.getEditorReferences();
+									for (IEditorReference ref : refs) {
+										IEditorPart part = ref.getEditor(false);
+										if (part != null
+												&& part.getTitle().equals(
+														iFile.getName())) {
+											final IEditorPart fPart = part;
+											Display display = Display
+													.getDefault();
+											display.syncExec(new Runnable() {
+												public void run() {
+													PlatformUI
+															.getWorkbench()
+															.getActiveWorkbenchWindow()
+															.getActivePage()
+															.closeEditor(fPart,
+																	true);
+												}
+											});
 										}
 									}
 								}
-
 							}
 
-							command.execute(monitor);
-						} catch (TigerstripeException e) {
-							throw new InvocationTargetException(e);
 						}
+
+						command.execute(monitor);
+					} catch (TigerstripeException e) {
+						throw new InvocationTargetException(e);
 					}
-
 				}
-
 			});
 		} catch (InvocationTargetException e) {
 			EclipsePlugin.log(e);
