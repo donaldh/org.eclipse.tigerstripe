@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="UpdateProfileArtifacts" version="3.0" id="_03nFEA5qEeCNwqgXAnPIdw" description="Enable and disable work with artifacts.&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;Create Tigerstripe progect with artifacts of each type and profile.&#xD;&#xA;Create generator project with artifacts rules.&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;Apply profile.&#xD;&#xA;Open profile. Uncheck all checkboxes on Artifacts tab.&#xD;&#xA;Save changes. Save as active profile.&#xD;&#xA;Open project with artifacts of each type. Artifacts should not be valid.&#xD;&#xA;Deploy and enable generator. &#xD;&#xA;Generate output file for artifacts.&#xD;&#xA;Check error message that there is no artifacts.&#xD;&#xA;Delete tigerstripe.gen folder.&#xD;&#xA;Re-enable artifact types in the profile.&#xD;&#xA;Save changes. Save as active profile.&#xD;&#xA;Open project with artifacts of each type. Artifacts should be valid.&#xD;&#xA;Generate output file for artifacts.&#xD;&#xA;Check OK message.&#xD;&#xA;Reset profile&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;" type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="UpdateProfileArtifacts" version="3.0" id="_03nFEA5qEeCNwqgXAnPIdw" description="Enable and disable work with artifacts.&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;Create Tigerstripe progect with artifacts of each type and profile.&#xD;&#xA;Create generator project with artifacts rules.&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;Apply profile.&#xD;&#xA;Open profile. Uncheck all checkboxes on Artifacts tab.&#xD;&#xA;Save changes. Save as active profile.&#xD;&#xA;Open project with artifacts of each type. Artifacts should not be valid.&#xD;&#xA;Deploy and enable generator. &#xD;&#xA;Generate output file for artifacts.&#xD;&#xA;Check error message that there is no artifacts.&#xD;&#xA;Delete tigerstripe.gen folder.&#xD;&#xA;Re-enable artifact types in the profile.&#xD;&#xA;Save changes. Save as active profile.&#xD;&#xA;Open project with artifacts of each type. Artifacts should be valid.&#xD;&#xA;Generate output file for artifacts.&#xD;&#xA;Check OK message.&#xD;&#xA;Reset profile&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;" type="ecl">
   <contexts>_bEZkQBPREeCrTY2DkyxR-A</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script" content="get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project4/profile.wbp&quot; | double-click -nowait&#xA;with [get-editor &quot;Project4/profile.wbp&quot;] {&#xA;    with [get-tab-folder] {&#xA;        get-tab-item &quot;Primitive Types&quot; | click&#xA;        get-tab-item Artifacts | click&#xA;        get-tab-item Overview | click&#xA;    }&#xA;    get-section &quot;General Information&quot; | get-link &quot;Save as active profile and reload&quot; | click -nowait&#xA;}&#xA;get-window &quot;Save as Active Profile&quot; | get-button OK | click -nowait&#xA;wait-until-eclipse-is-ready&#xA;with [get-editor &quot;Project4/profile.wbp&quot;] {&#xA;    get-tab-folder | get-tab-item Artifacts | click&#xA;    with [get-section &quot;Core Artifact Settings&quot; | get-table -after [get-label &quot;Core Artifact Settings&quot;]] {&#xA;        select &quot;&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%1%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%2%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%3%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%4%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%5%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%6%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%7%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%8%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%9%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%10%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%11%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%12%&quot; | get-item -index 0 | click -nowait&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;with [get-editor &quot;Project4/profile.wbp&quot;] {&#xA;    get-tab-folder | get-tab-item Overview | click&#xA;    get-section &quot;General Information&quot; | get-link &quot;Save as active profile and reload&quot; | click -nowait&#xA;}&#xA;get-window &quot;Save as Active Profile&quot; | get-button OK | click -nowait&#xA;wait-until-eclipse-is-ready&#xA;get-menu &quot;Tigerstripe/Active Profile Details...&quot; | click&#xA;get-window &quot;Active Profile Details&quot; | get-editbox -after [get-label Name] | get-property value | is-equal profile | verify&#xA;get-window &quot;Active Profile Details&quot; | get-button OK | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Project4/src/com.mycompany/Association4.java&quot; | get-property caption | is-equal &quot;Association4.java&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Project4/src/com.mycompany/Datatype1.java&quot; | get-property caption | is-equal &quot;Datatype1.java&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Project4/src/com.mycompany/Entity0.java&quot; | get-property caption | is-equal &quot;Entity0.java&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Project4/src/com.mycompany/Enumeration2.java&quot; | get-property caption | is-equal &quot;Enumeration2.java&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Project4/src/com.mycompany/Event7.java&quot; | get-property caption | is-equal &quot;Event7.java&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Project4/src/com.mycompany/Exception8.java&quot; | get-property caption | is-equal &quot;Exception8.java&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Project4/src/com.mycompany/Query3.java&quot; | get-property caption | is-equal &quot;Query3.java&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Project4/src/com.mycompany/UpdateProcedure5.java&quot; | get-property caption | is-equal &quot;UpdateProcedure5.java&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;New Generator Project/ts-plugin.xml&quot; | double-click -nowait&#xA;get-editor &quot;New Generator Project/ts-plugin.xml&quot; | get-section Testing | get-link &quot;Package and deploy this generator&quot; | click -nowait&#xA;get-window &quot;Deploy new generator&quot; | get-button OK | click&#xA;get-window &quot;New Generator Project Generator&quot; | get-button OK | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project4/tigerstripe.xml&quot; | double-click -nowait&#xA;with [get-editor &quot;Project4/tigerstripe.xml&quot;] {&#xA;    get-tab-folder | get-tab-item &quot;Generator Settings&quot; | click&#xA;    with [get-section &quot;New Generator Project(3.0) (disabled) [Generic]&quot;] {&#xA;        click -nowait&#xA;        get-button &quot;Enable Generator&quot; | click&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select Project4 | get-menu &quot;Generate...&quot; | click&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-button Finish | click&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-window &quot;Generate Result&quot; | get-editbox -after [get-label &quot;Run Log&quot;] | get-property value | is-equal &quot;[Project: Project4 version=0.0.1, Plugin: New Generator Project(3.0) version=3.0]Notice: None of the artifact(s) match the specified rule(s) \'ArtifactRule\'.Generation Successful.&quot; | verify&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-window &quot;Generate Result&quot; | get-button OK | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project4/target/tigerstripe.gen&quot; | get-menu Delete | click&#xA;get-window &quot;Confirm Delete&quot; | get-button OK | click&#xA;with [get-editor &quot;Project4/profile.wbp&quot;] {&#xA;    click -nowait&#xA;    with [get-tab-folder] {&#xA;        get-tab-item Stereotypes | click&#xA;        get-tab-item &quot;Primitive Types&quot; | click&#xA;        get-tab-item Artifacts | click&#xA;    }&#xA;    with [get-section &quot;Core Artifact Settings&quot; | get-table -after [get-label &quot;Core Artifact Settings&quot;]] {&#xA;        select &quot;&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%1%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%2%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%3%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%4%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%5%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%6%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%7%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%8%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%9%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%10%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%11%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%12%&quot; | get-item -index 0 | click -nowait&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;with [get-editor &quot;Project4/profile.wbp&quot;] {&#xA;    get-tab-folder | get-tab-item Overview | click&#xA;    get-section &quot;General Information&quot; | get-link &quot;Save as active profile and reload&quot; | click -nowait&#xA;}&#xA;get-window &quot;Save as Active Profile&quot; | get-button OK | click -nowait&#xA;wait-until-eclipse-is-ready"/>
+  <content xsi:type="org.eclipse.ecl.core:Script" content="get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project4/profile.wbp&quot; | double-click -nowait&#xA;with [get-editor &quot;Project4/profile.wbp&quot;] {&#xA;    with [get-tab-folder] {&#xA;        get-tab-item &quot;Primitive Types&quot; | click&#xA;        get-tab-item Artifacts | click&#xA;        get-tab-item Overview | click&#xA;    }&#xA;    get-section &quot;General Information&quot; | get-link &quot;Save as active profile and reload&quot; | click -nowait&#xA;}&#xA;get-window &quot;Save as Active Profile&quot; | get-button OK | click -nowait&#xA;wait-until-eclipse-is-ready&#xA;with [get-editor &quot;Project4/profile.wbp&quot;] {&#xA;    get-tab-folder | get-tab-item Artifacts | click&#xA;    with [get-section &quot;Core Artifact Settings&quot; | get-table -after [get-label &quot;Core Artifact Settings&quot;]] {&#xA;        select &quot;&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%1%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%2%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%3%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%4%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%5%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%6%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%7%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%8%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%9%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%10%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%11%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%12%&quot; | get-item -index 0 | click -nowait&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;with [get-editor &quot;Project4/profile.wbp&quot;] {&#xA;    get-tab-folder | get-tab-item Overview | click&#xA;    get-section &quot;General Information&quot; | get-link &quot;Save as active profile and reload&quot; | click -nowait&#xA;}&#xA;get-window &quot;Save as Active Profile&quot; | get-button OK | click -nowait&#xA;wait-until-eclipse-is-ready&#xA;get-menu &quot;Tigerstripe/Active Profile Details...&quot; | click&#xA;get-window &quot;Active Profile Details&quot; | get-editbox -after [get-label Name] | get-property value | is-equal profile | verify&#xA;get-window &quot;Active Profile Details&quot; | get-button OK | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Project4/src/com.mycompany/Association4.java&quot; | get-property caption | is-equal &quot;Association4.java&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Project4/src/com.mycompany/Datatype1.java&quot; | get-property caption | is-equal &quot;Datatype1.java&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Project4/src/com.mycompany/Entity0.java&quot; | get-property caption | is-equal &quot;Entity0.java&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Project4/src/com.mycompany/Enumeration2.java&quot; | get-property caption | is-equal &quot;Enumeration2.java&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Project4/src/com.mycompany/Event7.java&quot; | get-property caption | is-equal &quot;Event7.java&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Project4/src/com.mycompany/Exception8.java&quot; | get-property caption | is-equal &quot;Exception8.java&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Project4/src/com.mycompany/Query3.java&quot; | get-property caption | is-equal &quot;Query3.java&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Project4/src/com.mycompany/UpdateProcedure5.java&quot; | get-property caption | is-equal &quot;UpdateProcedure5.java&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;New Generator Project/ts-plugin.xml&quot; | double-click -nowait&#xA;get-editor &quot;New Generator Project/ts-plugin.xml&quot; | get-section Testing | get-link &quot;Package and deploy this generator&quot; | click -nowait&#xA;get-window &quot;Deploy new generator&quot; | get-button OK | click&#xA;get-window &quot;New Generator Project Generator&quot; | get-button OK | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project4/tigerstripe.xml&quot; | double-click -nowait&#xA;with [get-editor &quot;Project4/tigerstripe.xml&quot;] {&#xA;    get-tab-folder | get-tab-item &quot;Generator Settings&quot; | click&#xA;    with [get-section &quot;New Generator Project(3.0) (disabled) [Generic]&quot;] {&#xA;        click -nowait&#xA;        get-button &quot;Enable Generator&quot; | click&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select Project4 | get-menu &quot;Generate...&quot; | click&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-button Finish | click&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-window &quot;Generate Result&quot; | get-editbox -after [get-label &quot;Run Log&quot;] | get-property value | equals &quot;[Project: Project4 version=0.0.1, Plugin: New Generator Project(3.0) version=3.0] Notice: None of the artifact(s) match the specified rule(s) \'ArtifactRule\'. Generation Successful.&quot; | verify-true&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-window &quot;Generate Result&quot; | get-button OK | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project4/target/tigerstripe.gen&quot; | get-menu Delete | click&#xA;get-window &quot;Confirm Delete&quot; | get-button OK | click&#xA;with [get-editor &quot;Project4/profile.wbp&quot;] {&#xA;    click -nowait&#xA;    with [get-tab-folder] {&#xA;        get-tab-item Stereotypes | click&#xA;        get-tab-item &quot;Primitive Types&quot; | click&#xA;        get-tab-item Artifacts | click&#xA;    }&#xA;    with [get-section &quot;Core Artifact Settings&quot; | get-table -after [get-label &quot;Core Artifact Settings&quot;]] {&#xA;        select &quot;&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%1%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%2%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%3%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%4%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%5%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%6%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%7%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%8%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%9%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%10%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%11%&quot; | get-item -index 0 | click -nowait&#xA;        select &quot;%12%&quot; | get-item -index 0 | click -nowait&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;with [get-editor &quot;Project4/profile.wbp&quot;] {&#xA;    get-tab-folder | get-tab-item Overview | click&#xA;    get-section &quot;General Information&quot; | get-link &quot;Save as active profile and reload&quot; | click -nowait&#xA;}&#xA;get-window &quot;Save as Active Profile&quot; | get-button OK | click -nowait&#xA;wait-until-eclipse-is-ready"/>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -1761,6 +1761,106 @@
       <element id="Button3_219" kind="Button"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:WaitForRestart"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow0_253" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0_253" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree0_253" kind="Tree"/>
+      <path>Project4</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Menu" multiplicity="1">
+        <path>Generate...</path>
+        <parent id="Tree0_253" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Menu0_253" kind="Menu"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State0_253" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="Generate Tigerstripe Project" multiplicity="1">
+        <parent id="EclipseWindow0_253" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Finish" multiplicity="1">
+        <parent id="Window0_253" kind="Window"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button0_253" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State1_254" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="Generate Tigerstripe Project" multiplicity="1">
+        <parent id="EclipseWindow1_254" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="Generate Result" multiplicity="1">
+        <parent id="Window1_254" kind="Window"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Label" pattern="Run Log" multiplicity="1">
+        <parent id="Window2_255" kind="Window"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Text" multiplicity="1">
+        <after id="Label0_253" kind="Label"/>
+        <parent id="Window2_255" kind="Window"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="value" value="[Project: Project4 version=0.0.1, Plugin: New Generator Project(3.0) version=3.0] Notice: None of the artifact(s) match the specified rule(s) 'ArtifactRule'. Generation Successful.">
+      <element id="Text0_253" kind="Text"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="Generate Tigerstripe Project" multiplicity="1">
+        <parent id="EclipseWindow2_255" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="Generate Result" multiplicity="1">
+        <parent id="Window3_256" kind="Window"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="OK" multiplicity="1">
+        <parent id="Window4_257" kind="Window"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button1_254" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State2_255" kind="State"/>
+    </commands>
     <elementMapping command="//@teslaContent/@commands.0">
       <elements id="EclipseWindow1" kind="EclipseWindow"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
@@ -3433,6 +3533,134 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.453">
       <elements id="State8_224" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.456">
+      <elements id="EclipseWindow0_253" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project4/tigerstripe.xml - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="25" y="25" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.457">
+      <elements id="View0_253" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="50" width="244" height="594"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.458">
+      <elements id="Tree0_253" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="2">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="244" height="594"/>
+        <selection>
+          <path>Project4</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.460">
+      <elements id="Menu0_253" kind="Menu"/>
+      <controls xsi:type="com.xored.tesla.core.ui:MenuItem" caption="Generate..." enablement="true" index="14" cascade="true"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.461">
+      <elements id="State0_253" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.464">
+      <elements id="Window0_253" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Generate Tigerstripe Project">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="269" width="536" height="755"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.465">
+      <elements id="Button0_253" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="11" y="13" width="92" height="25"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.466">
+      <elements id="State1_254" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.469">
+      <elements id="EclipseWindow1_254" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project4/tigerstripe.xml - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="25" y="25" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.470">
+      <elements id="Window1_254" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Generate Tigerstripe Project">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="269" width="536" height="755"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.471">
+      <elements id="Window2_255" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Generate Result">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="25" y="25" width="500" height="300"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.472">
+      <elements id="Label0_253" kind="Label"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Run Log">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="11" y="40" width="44" height="15"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.473">
+      <elements id="Text0_253" kind="Text"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Text" enablement="true" value="[Project: Project4 version=0.0.1, Plugin: New Generator Project(3.0) version=3.0] Notice: None of the artifact(s) match the specified rule(s) 'ArtifactRule'. Generation Successful." readOnly="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="11" y="63" width="462" height="102"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.475">
+      <elements id="EclipseWindow2_255" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project4/tigerstripe.xml - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="25" y="25" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.476">
+      <elements id="Window3_256" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Generate Tigerstripe Project">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="269" width="536" height="755"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.477">
+      <elements id="Window4_257" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Generate Result">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="25" y="25" width="500" height="300"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.478">
+      <elements id="Button1_254" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="11" y="13" width="92" height="25"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.479">
+      <elements id="State2_255" kind="State"/>
     </elementMapping>
   </teslaContent>
 </com.xored.q7.scenario:Scenario>
