@@ -68,17 +68,16 @@ public class CycleReferencesAuditor extends IncrementalProjectBuilder {
 	protected IProject[] build(int kind, Map args, IProgressMonitor monitor)
 			throws CoreException {
 
-		// TODO - Commented out as the logic is ncorrect
-//		if (kind == IncrementalProjectBuilder.FULL_BUILD) {
-//			fullBuild(monitor);
-//		} else {
-//			IResourceDelta delta = getDelta(getProject());
-//			if (delta == null) {
-//				fullBuild(monitor);
-//			} else {
-//				incrementalBuild(delta, monitor);
-//			}
-//		}
+		if (kind == IncrementalProjectBuilder.FULL_BUILD) {
+			fullBuild(monitor);
+		} else {
+			IResourceDelta delta = getDelta(getProject());
+			if (delta == null) {
+				fullBuild(monitor);
+			} else {
+				incrementalBuild(delta, monitor);
+			}
+		}
 		return null;
 	}
 

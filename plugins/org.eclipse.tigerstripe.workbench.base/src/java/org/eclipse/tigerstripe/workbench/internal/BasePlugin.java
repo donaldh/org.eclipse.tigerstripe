@@ -69,7 +69,7 @@ public class BasePlugin extends Plugin {
 
 		startWorkspaceListener();
 
-		//addBuilders();
+		addBuilders();
 	}
 
 	private void addBuilders() throws CoreException {
