@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" name="SelectArtifactRuleType" id="_0a5YMbAVEd-GWvy5TzCqJA" description="">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" name="SelectArtifactRuleType" id="_0a5YMbAVEd-GWvy5TzCqJA" description="" type="ecl">
   <contexts>_AFuq4K9WEd-zMOysButwpg</contexts>
-  <content xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
+  <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow3" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+        <parent id="EclipseWindow3" kind="EclipseWindow"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -89,13 +89,13 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Label" pattern="Property Name:" multiplicity="1">
-        <parent id="Window9" kind="Window" description="New Generator Property"/>
+        <parent id="Window9" kind="Window"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Text" multiplicity="1">
         <after id="Label8" kind="Label"/>
-        <parent id="Window9" kind="Window" description="New Generator Property"/>
+        <parent id="Window9" kind="Window"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Type" state="262144" code="97" character="1">
@@ -212,13 +212,13 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Label" pattern="Rule Name:" multiplicity="1">
-        <parent id="Window10" kind="Window" description="New Generator Rule"/>
+        <parent id="Window10" kind="Window"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Text" multiplicity="1">
         <after id="Label13" kind="Label"/>
-        <parent id="Window10" kind="Window" description="New Generator Rule"/>
+        <parent id="Window10" kind="Window"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Type" state="262144" code="97" character="1">
@@ -272,7 +272,7 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Tree" multiplicity="1">
-        <parent id="Window11" kind="Window" description="Select Velocity Template"/>
+        <parent id="Window11" kind="Window"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
@@ -372,7 +372,7 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Button" pattern="OK" multiplicity="1">
-        <parent id="Window12" kind="Window" description="Deploy new generator"/>
+        <parent id="Window12" kind="Window"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
@@ -389,7 +389,7 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Button" pattern="OK" multiplicity="1">
-        <parent id="Window13" kind="Window" description="New Generator Project Generator"/>
+        <parent id="Window13" kind="Window"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
@@ -490,7 +490,7 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Button" pattern="Finish" multiplicity="1">
-        <parent id="Window14" kind="Window" description="Generate Tigerstripe Project"/>
+        <parent id="Window14" kind="Window"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
@@ -507,7 +507,7 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Button" pattern="OK" multiplicity="1">
-        <parent id="Window15" kind="Window" description="Generate Result"/>
+        <parent id="Window15" kind="Window"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
@@ -522,7 +522,7 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow4" kind="EclipseWindow" description="Tigerstripe - model-refactoring/tigerstripe.xml - Eclipse Platform"/>
+        <parent id="EclipseWindow4" kind="EclipseWindow"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -547,12 +547,12 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow4" kind="EclipseWindow" description="Tigerstripe - model-refactoring/tigerstripe.xml - Eclipse Platform"/>
+        <parent id="EclipseWindow0" kind="EclipseWindow"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Tree" multiplicity="1">
-        <parent id="View3" kind="View"/>
+        <parent id="View0" kind="View"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -560,7 +560,7 @@
         <path>model-refactoring</path>
         <path>target</path>
         <path>tigerstripe.gen</path>
-        <parent id="Tree5" kind="Tree"/>
+        <parent id="Tree0" kind="Tree"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="childCount" value="6">
@@ -571,12 +571,12 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow4" kind="EclipseWindow" description="Tigerstripe - model-refactoring/tigerstripe.xml - Eclipse Platform"/>
+        <parent id="EclipseWindow1" kind="EclipseWindow"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Tree" multiplicity="1">
-        <parent id="View3" kind="View"/>
+        <parent id="View1" kind="View"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -585,7 +585,7 @@
         <path>target</path>
         <path>tigerstripe.gen</path>
         <path>allArtifacts.txt</path>
-        <parent id="Tree5" kind="Tree"/>
+        <parent id="Tree1" kind="Tree"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="allArtifacts.txt">
@@ -596,12 +596,12 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow4" kind="EclipseWindow" description="Tigerstripe - model-refactoring/tigerstripe.xml - Eclipse Platform"/>
+        <parent id="EclipseWindow2" kind="EclipseWindow"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Tree" multiplicity="1">
-        <parent id="View3" kind="View"/>
+        <parent id="View4" kind="View"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -610,7 +610,7 @@
         <path>target</path>
         <path>tigerstripe.gen</path>
         <path>AssociatedEnt.txt</path>
-        <parent id="Tree5" kind="Tree"/>
+        <parent id="Tree2" kind="Tree"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="AssociatedEnt.txt">
@@ -621,12 +621,12 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow4" kind="EclipseWindow" description="Tigerstripe - model-refactoring/tigerstripe.xml - Eclipse Platform"/>
+        <parent id="EclipseWindow5" kind="EclipseWindow"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Tree" multiplicity="1">
-        <parent id="View3" kind="View"/>
+        <parent id="View5" kind="View"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -635,7 +635,7 @@
         <path>target</path>
         <path>tigerstripe.gen</path>
         <path>Ent1.txt</path>
-        <parent id="Tree5" kind="Tree"/>
+        <parent id="Tree6" kind="Tree"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="Ent1.txt">
@@ -646,12 +646,12 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow4" kind="EclipseWindow" description="Tigerstripe - model-refactoring/tigerstripe.xml - Eclipse Platform"/>
+        <parent id="EclipseWindow6" kind="EclipseWindow"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Tree" multiplicity="1">
-        <parent id="View3" kind="View"/>
+        <parent id="View6" kind="View"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -660,7 +660,7 @@
         <path>target</path>
         <path>tigerstripe.gen</path>
         <path>Ent2.txt</path>
-        <parent id="Tree5" kind="Tree"/>
+        <parent id="Tree7" kind="Tree"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="Ent2.txt">
@@ -671,12 +671,12 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
-        <parent id="EclipseWindow4" kind="EclipseWindow" description="Tigerstripe - model-refactoring/tigerstripe.xml - Eclipse Platform"/>
+        <parent id="EclipseWindow7" kind="EclipseWindow"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Tree" multiplicity="1">
-        <parent id="View3" kind="View"/>
+        <parent id="View7" kind="View"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -685,7 +685,7 @@
         <path>target</path>
         <path>tigerstripe.gen</path>
         <path>SuperEnt.txt</path>
-        <parent id="Tree5" kind="Tree"/>
+        <parent id="Tree8" kind="Tree"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="SuperEnt.txt">
@@ -698,7 +698,7 @@
       <data kind="Menu" multiplicity="1">
         <path>Tigerstripe</path>
         <path>Deployed Generators...</path>
-        <parent id="EclipseWindow5" kind="EclipseWindow" description="Tigerstripe - model-refactoring/tigerstripe.xml - Eclipse Platform"/>
+        <parent id="EclipseWindow8" kind="EclipseWindow"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
@@ -710,12 +710,12 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Window" pattern="Deployed Tigerstripe Generators" multiplicity="1">
-        <parent id="EclipseWindow5" kind="EclipseWindow"/>
+        <parent id="EclipseWindow8" kind="EclipseWindow"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Table" multiplicity="1">
-        <parent id="Window16" kind="Window" description="Deployed Tigerstripe Generators"/>
+        <parent id="Window16" kind="Window"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
@@ -742,7 +742,7 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="Button" pattern="OK" multiplicity="1">
-        <parent id="Window17" kind="Window" description="Un-Deploy Tigerstripe generator?"/>
+        <parent id="Window17" kind="Window"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
@@ -764,7 +764,7 @@
     <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
       <state id="State47" kind="State"/>
     </commands>
-    <elementMapping command="//@content/@commands.0">
+    <elementMapping command="//@teslaContent/@commands.0">
       <elements id="EclipseWindow3" kind="EclipseWindow"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
         <backgroundColor red="240" green="240" blue="240"/>
@@ -772,11 +772,11 @@
         <bounds x="150" y="150" width="1368" height="942"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.1">
+    <elementMapping command="//@teslaContent/@commands.1">
       <elements id="View2" kind="View"/>
       <controls/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.2">
+    <elementMapping command="//@teslaContent/@commands.2">
       <elements id="Tree3" kind="Tree"/>
       <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="2">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -788,13 +788,13 @@
         </selection>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.4">
+    <elementMapping command="//@teslaContent/@commands.4">
       <elements id="State24" kind="State"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.7">
+    <elementMapping command="//@teslaContent/@commands.7">
       <elements id="Editor3" kind="Editor"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.9">
+    <elementMapping command="//@teslaContent/@commands.9">
       <elements id="Expandable4" kind="Expandable"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -802,7 +802,7 @@
         <bounds x="6" y="262" width="519" height="72"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.10">
+    <elementMapping command="//@teslaContent/@commands.10">
       <elements id="Canvas4" kind="Canvas"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" containMenu="true">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -810,7 +810,7 @@
         <bounds x="5" y="5" width="497" height="38"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.12">
+    <elementMapping command="//@teslaContent/@commands.12">
       <elements id="TabFolder2" kind="TabFolder"/>
       <controls xsi:type="com.xored.tesla.core.ui:TabFolder" activePage="Overview" tabCount="5">
         <pages>Overview</pages>
@@ -820,13 +820,13 @@
         <pages>Source</pages>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.13">
+    <elementMapping command="//@teslaContent/@commands.13">
       <elements id="TabItem3" kind="TabItem"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.14">
+    <elementMapping command="//@teslaContent/@commands.14">
       <elements id="State25" kind="State"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.17">
+    <elementMapping command="//@teslaContent/@commands.17">
       <elements id="Expandable5" kind="Expandable"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -834,7 +834,7 @@
         <bounds x="6" y="6" width="987" height="313"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.18">
+    <elementMapping command="//@teslaContent/@commands.18">
       <elements id="Button13" kind="Button"/>
       <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Add">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -842,10 +842,10 @@
         <bounds x="222" y="5" width="55" height="25"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.19">
+    <elementMapping command="//@teslaContent/@commands.19">
       <elements id="State26" kind="State"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.22">
+    <elementMapping command="//@teslaContent/@commands.22">
       <elements id="Window9" kind="Window"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
         <backgroundColor red="240" green="240" blue="240"/>
@@ -853,7 +853,7 @@
         <bounds x="654" y="496" width="361" height="188"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.23">
+    <elementMapping command="//@teslaContent/@commands.23">
       <elements id="Label8" kind="Label"/>
       <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Property Name:">
         <backgroundColor red="240" green="240" blue="240"/>
@@ -861,7 +861,7 @@
         <bounds x="5" y="58" width="83" height="15"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.24">
+    <elementMapping command="//@teslaContent/@commands.24">
       <elements id="Text5" kind="Text"/>
       <controls xsi:type="com.xored.tesla.core.ui:Text" enablement="true" borderWith="2" value="aProperty0">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -869,7 +869,7 @@
         <bounds x="93" y="55" width="252" height="21"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.27">
+    <elementMapping command="//@teslaContent/@commands.27">
       <elements id="Button14" kind="Button"/>
       <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
         <backgroundColor red="240" green="240" blue="240"/>
@@ -877,10 +877,10 @@
         <bounds x="11" y="13" width="92" height="25"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.28">
+    <elementMapping command="//@teslaContent/@commands.28">
       <elements id="State27" kind="State"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.31">
+    <elementMapping command="//@teslaContent/@commands.31">
       <elements id="Label9" kind="Label"/>
       <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Default Value:">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -888,7 +888,7 @@
         <bounds x="5" y="60" width="73" height="15"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.32">
+    <elementMapping command="//@teslaContent/@commands.32">
       <elements id="Text6" kind="Text"/>
       <controls xsi:type="com.xored.tesla.core.ui:Text" enablement="true" borderWith="2" value="">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -896,13 +896,13 @@
         <bounds x="83" y="57" width="316" height="21"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.34">
+    <elementMapping command="//@teslaContent/@commands.34">
       <elements id="TabItem4" kind="TabItem"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.35">
+    <elementMapping command="//@teslaContent/@commands.35">
       <elements id="State28" kind="State"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.38">
+    <elementMapping command="//@teslaContent/@commands.38">
       <elements id="Expandable6" kind="Expandable"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -910,7 +910,7 @@
         <bounds x="6" y="118" width="987" height="102"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.39">
+    <elementMapping command="//@teslaContent/@commands.39">
       <elements id="Label10" kind="Label"/>
       <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="&amp;Artifact Rules">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -918,7 +918,7 @@
         <bounds x="21" y="3" width="76" height="15"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.40">
+    <elementMapping command="//@teslaContent/@commands.40">
       <elements id="Table2" kind="Table"/>
       <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" borderWith="2" itemCount="1">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -929,7 +929,7 @@
         </selection>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.42">
+    <elementMapping command="//@teslaContent/@commands.42">
       <elements id="Label11" kind="Label"/>
       <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Output File:">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -937,7 +937,7 @@
         <bounds x="5" y="142" width="62" height="15"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.43">
+    <elementMapping command="//@teslaContent/@commands.43">
       <elements id="Canvas5" kind="Canvas"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" containMenu="true">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -945,7 +945,7 @@
         <bounds x="5" y="168" width="466" height="30"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.45">
+    <elementMapping command="//@teslaContent/@commands.45">
       <elements id="Label12" kind="Label"/>
       <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Artifact Type:">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -953,7 +953,7 @@
         <bounds x="5" y="203" width="71" height="15"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.46">
+    <elementMapping command="//@teslaContent/@commands.46">
       <elements id="Combo1" kind="Combo"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -961,7 +961,7 @@
         <bounds x="123" y="203" width="348" height="17"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.49">
+    <elementMapping command="//@teslaContent/@commands.49">
       <elements id="Button15" kind="Button"/>
       <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Add">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -969,10 +969,10 @@
         <bounds x="426" y="5" width="55" height="25"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.50">
+    <elementMapping command="//@teslaContent/@commands.50">
       <elements id="State29" kind="State"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.53">
+    <elementMapping command="//@teslaContent/@commands.53">
       <elements id="Window10" kind="Window"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
         <backgroundColor red="240" green="240" blue="240"/>
@@ -980,7 +980,7 @@
         <bounds x="665" y="496" width="339" height="188"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.54">
+    <elementMapping command="//@teslaContent/@commands.54">
       <elements id="Label13" kind="Label"/>
       <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Rule Name:">
         <backgroundColor red="240" green="240" blue="240"/>
@@ -988,7 +988,7 @@
         <bounds x="5" y="58" width="61" height="15"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.55">
+    <elementMapping command="//@teslaContent/@commands.55">
       <elements id="Text7" kind="Text"/>
       <controls xsi:type="com.xored.tesla.core.ui:Text" enablement="true" borderWith="2" value="aRule0">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -996,7 +996,7 @@
         <bounds x="71" y="55" width="252" height="21"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.58">
+    <elementMapping command="//@teslaContent/@commands.58">
       <elements id="Button16" kind="Button"/>
       <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
         <backgroundColor red="240" green="240" blue="240"/>
@@ -1004,10 +1004,10 @@
         <bounds x="11" y="13" width="92" height="25"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.59">
+    <elementMapping command="//@teslaContent/@commands.59">
       <elements id="State30" kind="State"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.62">
+    <elementMapping command="//@teslaContent/@commands.62">
       <elements id="Label14" kind="Label"/>
       <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Description: ">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -1015,7 +1015,7 @@
         <bounds x="5" y="47" width="66" height="15"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.63">
+    <elementMapping command="//@teslaContent/@commands.63">
       <elements id="Text8" kind="Text"/>
       <controls xsi:type="com.xored.tesla.core.ui:Text" enablement="true" borderWith="2" value="">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -1023,7 +1023,7 @@
         <bounds x="123" y="47" width="337" height="60"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.65">
+    <elementMapping command="//@teslaContent/@commands.65">
       <elements id="Button17" kind="Button"/>
       <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Browse">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -1031,10 +1031,10 @@
         <bounds x="287" width="50" height="25"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.66">
+    <elementMapping command="//@teslaContent/@commands.66">
       <elements id="State31" kind="State"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.69">
+    <elementMapping command="//@teslaContent/@commands.69">
       <elements id="Window11" kind="Window"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
         <backgroundColor red="240" green="240" blue="240"/>
@@ -1042,7 +1042,7 @@
         <bounds x="625" y="318" width="419" height="455"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.70">
+    <elementMapping command="//@teslaContent/@commands.70">
       <elements id="Tree4" kind="Tree"/>
       <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" borderWith="2" multiSelection="true" itemCount="2">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -1053,10 +1053,10 @@
         </selection>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.72">
+    <elementMapping command="//@teslaContent/@commands.72">
       <elements id="State32" kind="State"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.76">
+    <elementMapping command="//@teslaContent/@commands.76">
       <elements id="Text9" kind="Text"/>
       <controls xsi:type="com.xored.tesla.core.ui:Text" enablement="true" borderWith="2" value="">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -1064,7 +1064,7 @@
         <bounds x="123" y="142" width="337" height="21"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.82">
+    <elementMapping command="//@teslaContent/@commands.82">
       <elements id="Canvas6" kind="Canvas"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
@@ -1072,7 +1072,7 @@
         <bounds width="999" height="34"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.84">
+    <elementMapping command="//@teslaContent/@commands.84">
       <elements id="Canvas7" kind="Canvas"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
@@ -1080,7 +1080,7 @@
         <bounds y="1" width="113" height="30"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.86">
+    <elementMapping command="//@teslaContent/@commands.86">
       <elements id="Toolbar1" kind="Toolbar"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
@@ -1088,23 +1088,23 @@
         <bounds x="11" width="84" height="22"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.87">
+    <elementMapping command="//@teslaContent/@commands.87">
       <elements id="Button18" kind="Button"/>
       <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.88">
+    <elementMapping command="//@teslaContent/@commands.88">
       <elements id="State33" kind="State"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.93">
+    <elementMapping command="//@teslaContent/@commands.93">
       <elements id="Menu4" kind="Menu"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.94">
+    <elementMapping command="//@teslaContent/@commands.94">
       <elements id="State34" kind="State"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.97">
+    <elementMapping command="//@teslaContent/@commands.97">
       <elements id="Window12" kind="Window"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
         <backgroundColor red="240" green="240" blue="240"/>
@@ -1112,7 +1112,7 @@
         <bounds x="573" y="518" width="522" height="155"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.98">
+    <elementMapping command="//@teslaContent/@commands.98">
       <elements id="Button19" kind="Button"/>
       <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
         <backgroundColor red="240" green="240" blue="240"/>
@@ -1120,10 +1120,10 @@
         <bounds width="92" height="25"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.99">
+    <elementMapping command="//@teslaContent/@commands.99">
       <elements id="State35" kind="State"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.102">
+    <elementMapping command="//@teslaContent/@commands.102">
       <elements id="Window13" kind="Window"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
         <backgroundColor red="240" green="240" blue="240"/>
@@ -1131,7 +1131,7 @@
         <bounds x="573" y="527" width="522" height="142"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.103">
+    <elementMapping command="//@teslaContent/@commands.103">
       <elements id="Button20" kind="Button"/>
       <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
         <backgroundColor red="240" green="240" blue="240"/>
@@ -1139,16 +1139,16 @@
         <bounds width="92" height="25"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.104">
+    <elementMapping command="//@teslaContent/@commands.104">
       <elements id="State36" kind="State"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.108">
+    <elementMapping command="//@teslaContent/@commands.108">
       <elements id="State37" kind="State"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.111">
+    <elementMapping command="//@teslaContent/@commands.111">
       <elements id="Editor4" kind="Editor"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.113">
+    <elementMapping command="//@teslaContent/@commands.113">
       <elements id="TabFolder3" kind="TabFolder"/>
       <controls xsi:type="com.xored.tesla.core.ui:TabFolder" activePage="Overview" tabCount="6">
         <pages>Overview</pages>
@@ -1159,13 +1159,13 @@
         <pages>Source</pages>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.114">
+    <elementMapping command="//@teslaContent/@commands.114">
       <elements id="TabItem5" kind="TabItem"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.115">
+    <elementMapping command="//@teslaContent/@commands.115">
       <elements id="State38" kind="State"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.118">
+    <elementMapping command="//@teslaContent/@commands.118">
       <elements id="Expandable7" kind="Expandable"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -1173,7 +1173,7 @@
         <bounds x="5" y="39" width="989" height="167"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.120">
+    <elementMapping command="//@teslaContent/@commands.120">
       <elements id="Button21" kind="Button"/>
       <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Enable Generator" selected="true" kind="Check">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -1181,19 +1181,19 @@
         <bounds x="5" y="9" width="56" height="16"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.121">
+    <elementMapping command="//@teslaContent/@commands.121">
       <elements id="State39" kind="State"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.124">
+    <elementMapping command="//@teslaContent/@commands.124">
       <elements id="State40" kind="State"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.129">
+    <elementMapping command="//@teslaContent/@commands.129">
       <elements id="Menu5" kind="Menu"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.130">
+    <elementMapping command="//@teslaContent/@commands.130">
       <elements id="State41" kind="State"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.133">
+    <elementMapping command="//@teslaContent/@commands.133">
       <elements id="Window14" kind="Window"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
         <backgroundColor red="240" green="240" blue="240"/>
@@ -1201,7 +1201,7 @@
         <bounds x="566" y="121" width="536" height="751"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.134">
+    <elementMapping command="//@teslaContent/@commands.134">
       <elements id="Button22" kind="Button"/>
       <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
         <backgroundColor red="240" green="240" blue="240"/>
@@ -1209,10 +1209,10 @@
         <bounds x="11" y="13" width="92" height="25"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.135">
+    <elementMapping command="//@teslaContent/@commands.135">
       <elements id="State42" kind="State"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.138">
+    <elementMapping command="//@teslaContent/@commands.138">
       <elements id="Window15" kind="Window"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
         <backgroundColor red="240" green="240" blue="240"/>
@@ -1220,7 +1220,7 @@
         <bounds x="175" y="175" width="500" height="300"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.139">
+    <elementMapping command="//@teslaContent/@commands.139">
       <elements id="Button23" kind="Button"/>
       <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
         <backgroundColor red="240" green="240" blue="240"/>
@@ -1228,10 +1228,10 @@
         <bounds x="11" y="13" width="92" height="25"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.140">
+    <elementMapping command="//@teslaContent/@commands.140">
       <elements id="State43" kind="State"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.143">
+    <elementMapping command="//@teslaContent/@commands.143">
       <elements id="EclipseWindow4" kind="EclipseWindow"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
         <backgroundColor red="240" green="240" blue="240"/>
@@ -1239,11 +1239,11 @@
         <bounds x="150" y="150" width="1368" height="942"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.144">
+    <elementMapping command="//@teslaContent/@commands.144">
       <elements id="View3" kind="View"/>
       <controls/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.145">
+    <elementMapping command="//@teslaContent/@commands.145">
       <elements id="Tree5" kind="Tree"/>
       <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="2">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -1254,7 +1254,7 @@
         </selection>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.146">
+    <elementMapping command="//@teslaContent/@commands.146">
       <elements id="Item4" kind="Item"/>
       <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="artifact" childCount="21">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -1262,20 +1262,20 @@
         <bounds x="98" y="72" width="41" height="18"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.148">
-      <elements id="EclipseWindow4" kind="EclipseWindow"/>
+    <elementMapping command="//@teslaContent/@commands.148">
+      <elements id="EclipseWindow0" kind="EclipseWindow"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="150" y="150" width="1368" height="942"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.149">
-      <elements id="View3" kind="View"/>
+    <elementMapping command="//@teslaContent/@commands.149">
+      <elements id="View0" kind="View"/>
       <controls/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.150">
-      <elements id="Tree5" kind="Tree"/>
+    <elementMapping command="//@teslaContent/@commands.150">
+      <elements id="Tree0" kind="Tree"/>
       <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="2">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
@@ -1285,7 +1285,7 @@
         </selection>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.151">
+    <elementMapping command="//@teslaContent/@commands.151">
       <elements id="Item5" kind="Item"/>
       <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="tigerstripe.gen" childCount="6">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -1293,20 +1293,20 @@
         <bounds x="79" y="54" width="80" height="18"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.153">
-      <elements id="EclipseWindow4" kind="EclipseWindow"/>
+    <elementMapping command="//@teslaContent/@commands.153">
+      <elements id="EclipseWindow1" kind="EclipseWindow"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="150" y="150" width="1368" height="942"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.154">
-      <elements id="View3" kind="View"/>
+    <elementMapping command="//@teslaContent/@commands.154">
+      <elements id="View1" kind="View"/>
       <controls/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.155">
-      <elements id="Tree5" kind="Tree"/>
+    <elementMapping command="//@teslaContent/@commands.155">
+      <elements id="Tree1" kind="Tree"/>
       <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="2">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
@@ -1316,7 +1316,7 @@
         </selection>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.156">
+    <elementMapping command="//@teslaContent/@commands.156">
       <elements id="Item6" kind="Item"/>
       <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="allArtifacts.txt">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -1324,20 +1324,20 @@
         <bounds x="98" y="468" width="76" height="18"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.158">
-      <elements id="EclipseWindow4" kind="EclipseWindow"/>
+    <elementMapping command="//@teslaContent/@commands.158">
+      <elements id="EclipseWindow2" kind="EclipseWindow"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="150" y="150" width="1368" height="942"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.159">
-      <elements id="View3" kind="View"/>
+    <elementMapping command="//@teslaContent/@commands.159">
+      <elements id="View4" kind="View"/>
       <controls/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.160">
-      <elements id="Tree5" kind="Tree"/>
+    <elementMapping command="//@teslaContent/@commands.160">
+      <elements id="Tree2" kind="Tree"/>
       <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="2">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
@@ -1347,7 +1347,7 @@
         </selection>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.161">
+    <elementMapping command="//@teslaContent/@commands.161">
       <elements id="Item7" kind="Item"/>
       <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="AssociatedEnt.txt">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -1355,100 +1355,7 @@
         <bounds x="98" y="486" width="94" height="18"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.163">
-      <elements id="EclipseWindow4" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="150" y="150" width="1368" height="942"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@content/@commands.164">
-      <elements id="View3" kind="View"/>
-      <controls/>
-    </elementMapping>
-    <elementMapping command="//@content/@commands.165">
-      <elements id="Tree5" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="2">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="330" height="792"/>
-        <selection>
-          <path>model-refactoring</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@content/@commands.166">
-      <elements id="Item8" kind="Item"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="Ent1.txt">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="98" y="504" width="43" height="18"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@content/@commands.168">
-      <elements id="EclipseWindow4" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="150" y="150" width="1368" height="942"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@content/@commands.169">
-      <elements id="View3" kind="View"/>
-      <controls/>
-    </elementMapping>
-    <elementMapping command="//@content/@commands.170">
-      <elements id="Tree5" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="2">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="330" height="792"/>
-        <selection>
-          <path>model-refactoring</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@content/@commands.171">
-      <elements id="Item9" kind="Item"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="Ent2.txt">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="98" y="522" width="43" height="18"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@content/@commands.173">
-      <elements id="EclipseWindow4" kind="EclipseWindow"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
-        <backgroundColor red="240" green="240" blue="240"/>
-        <foregroundColor/>
-        <bounds x="150" y="150" width="1368" height="942"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@content/@commands.174">
-      <elements id="View3" kind="View"/>
-      <controls/>
-    </elementMapping>
-    <elementMapping command="//@content/@commands.175">
-      <elements id="Tree5" kind="Tree"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="2">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds width="330" height="792"/>
-        <selection>
-          <path>model-refactoring</path>
-        </selection>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@content/@commands.176">
-      <elements id="Item10" kind="Item"/>
-      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="SuperEnt.txt">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="98" y="540" width="67" height="18"/>
-      </controls>
-    </elementMapping>
-    <elementMapping command="//@content/@commands.178">
+    <elementMapping command="//@teslaContent/@commands.163">
       <elements id="EclipseWindow5" kind="EclipseWindow"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
         <backgroundColor red="240" green="240" blue="240"/>
@@ -1456,13 +1363,106 @@
         <bounds x="150" y="150" width="1368" height="942"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.179">
+    <elementMapping command="//@teslaContent/@commands.164">
+      <elements id="View5" kind="View"/>
+      <controls/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.165">
+      <elements id="Tree6" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="2">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="330" height="792"/>
+        <selection>
+          <path>model-refactoring</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.166">
+      <elements id="Item8" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="Ent1.txt">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="98" y="504" width="43" height="18"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.168">
+      <elements id="EclipseWindow6" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="150" y="150" width="1368" height="942"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.169">
+      <elements id="View6" kind="View"/>
+      <controls/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.170">
+      <elements id="Tree7" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="2">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="330" height="792"/>
+        <selection>
+          <path>model-refactoring</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.171">
+      <elements id="Item9" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="Ent2.txt">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="98" y="522" width="43" height="18"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.173">
+      <elements id="EclipseWindow7" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="150" y="150" width="1368" height="942"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.174">
+      <elements id="View7" kind="View"/>
+      <controls/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.175">
+      <elements id="Tree8" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="2">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="330" height="792"/>
+        <selection>
+          <path>model-refactoring</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.176">
+      <elements id="Item10" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="SuperEnt.txt">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="98" y="540" width="67" height="18"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.178">
+      <elements id="EclipseWindow8" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="150" y="150" width="1368" height="942"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.179">
       <elements id="Menu6" kind="Menu"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.180">
+    <elementMapping command="//@teslaContent/@commands.180">
       <elements id="State44" kind="State"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.183">
+    <elementMapping command="//@teslaContent/@commands.183">
       <elements id="Window16" kind="Window"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
         <backgroundColor red="240" green="240" blue="240"/>
@@ -1470,7 +1470,7 @@
         <bounds x="632" y="383" width="405" height="358"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.184">
+    <elementMapping command="//@teslaContent/@commands.184">
       <elements id="Table3" kind="Table"/>
       <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" containMenu="true" linesVisible="true" headerVisible="true" itemCount="1">
         <backgroundColor red="255" green="255" blue="255"/>
@@ -1486,13 +1486,13 @@
         </selection>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.186">
+    <elementMapping command="//@teslaContent/@commands.186">
       <elements id="Menu7" kind="Menu"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.187">
+    <elementMapping command="//@teslaContent/@commands.187">
       <elements id="State45" kind="State"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.190">
+    <elementMapping command="//@teslaContent/@commands.190">
       <elements id="Window17" kind="Window"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
         <backgroundColor red="240" green="240" blue="240"/>
@@ -1500,7 +1500,7 @@
         <bounds x="573" y="468" width="522" height="142"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.191">
+    <elementMapping command="//@teslaContent/@commands.191">
       <elements id="Button24" kind="Button"/>
       <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
         <backgroundColor red="240" green="240" blue="240"/>
@@ -1508,10 +1508,10 @@
         <bounds width="92" height="25"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.192">
+    <elementMapping command="//@teslaContent/@commands.192">
       <elements id="State46" kind="State"/>
     </elementMapping>
-    <elementMapping command="//@content/@commands.195">
+    <elementMapping command="//@teslaContent/@commands.195">
       <elements id="Button25" kind="Button"/>
       <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
         <backgroundColor red="240" green="240" blue="240"/>
@@ -1519,8 +1519,8 @@
         <bounds x="11" y="13" width="92" height="25"/>
       </controls>
     </elementMapping>
-    <elementMapping command="//@content/@commands.196">
+    <elementMapping command="//@teslaContent/@commands.196">
       <elements id="State47" kind="State"/>
     </elementMapping>
-  </content>
+  </teslaContent>
 </com.xored.q7.scenario:Scenario>

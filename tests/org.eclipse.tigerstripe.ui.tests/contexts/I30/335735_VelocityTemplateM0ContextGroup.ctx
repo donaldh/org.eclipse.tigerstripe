@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:GroupContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" name="335735_VelocityTemplateM0ContextGroup" id="_fV2E0DAsEeCxNYnw9sYIxQ">
+<com.xored.q7.scenario:GroupContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" name="335735_VelocityTemplateM0ContextGroup" id="_fV2E0DAsEeCxNYnw9sYIxQ">
+  <contextReferences>_b_t2gTAsEeCxNYnw9sYIxQ</contextReferences>
   <contextReferences>_FGfSUKthEd-v8JwXbnu_tQ</contextReferences>
   <contextReferences>_9D6jAatgEd-v8JwXbnu_tQ</contextReferences>
-  <contextReferences>_b_t2gTAsEeCxNYnw9sYIxQ</contextReferences>
 </com.xored.q7.scenario:GroupContext>

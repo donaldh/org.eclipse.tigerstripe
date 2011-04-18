@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="230101_OrderedAssociationsContextWorkspace" id="_NWnLQC-AEeCn6P5HDw8CRw">
+  <content>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".230101_OrderedAssociationsContextWorkspacectx/content2.classpath"/>
+      <files name=".project" contentURI=".230101_OrderedAssociationsContextWorkspacectx/content2.project"/>
+      <files name="tigerstripe.xml" contentURI=".230101_OrderedAssociationsContextWorkspacectx/content2.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".230101_OrderedAssociationsContextWorkspacectx/content2.prefs"/>
+      </folders>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".230101_OrderedAssociationsContextWorkspacectx/content8.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".230101_OrderedAssociationsContextWorkspacectx/content7.package"/>
+            <files name="A.java" contentURI=".230101_OrderedAssociationsContextWorkspacectx/content4.java"/>
+            <files name="Association.java" contentURI=".230101_OrderedAssociationsContextWorkspacectx/content5.java"/>
+            <files name="B.java" contentURI=".230101_OrderedAssociationsContextWorkspacectx/content6.java"/>
+            <files name="ClassDiagram.vwm" contentURI=".230101_OrderedAssociationsContextWorkspacectx/content4.vwm"/>
+            <files name="ClassDiagram.wvd" contentURI=".230101_OrderedAssociationsContextWorkspacectx/content4.wvd"/>
+            <files name="InstanceDiagram.owm" contentURI=".230101_OrderedAssociationsContextWorkspacectx/content4.owm"/>
+            <files name="InstanceDiagram.wod" contentURI=".230101_OrderedAssociationsContextWorkspacectx/content4.wod"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

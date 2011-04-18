@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<null:Map xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:null="null" basePackage="com.mycompany">
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="A" package="com.mycompany">
+    <properties name="artifact.hide.extends" value="false"/>
+  </artifacts>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="B" package="com.mycompany">
+    <properties name="artifact.hide.extends" value="false"/>
+  </artifacts>
+  <artifacts xsi:type="null:AssociationClassClass" name="AssociationClass3" package="com.mycompany"/>
+  <associations xsi:type="null:AssociationClass" name="AssociationClass3" package="com.mycompany" aEnd="//@artifacts.0" aEndName="a_0" aEndMultiplicity="0..*" aEndIsOrdered="true" aEndIsUnique="true" zEnd="//@artifacts.1" zEndName="b_0" zEndIsNavigable="true" zEndIsUnique="true" associatedClass="//@artifacts.2">
+    <properties name="assoc.details" value="assoc.show.none"/>
+  </associations>
+</null:Map>
