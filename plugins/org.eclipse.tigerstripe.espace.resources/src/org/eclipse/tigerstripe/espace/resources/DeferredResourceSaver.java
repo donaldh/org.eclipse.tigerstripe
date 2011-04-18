@@ -174,7 +174,10 @@ public class DeferredResourceSaver extends Thread implements IResourceSaver {
 	}
 	
 	public static void save(Resource resource) {
-    	try {
+		if (resource.getContents().isEmpty()) {
+			return;
+		}
+		try {
             resource.save(null);
         }
         catch (IOException e) {
