@@ -285,13 +285,6 @@ public class AddRelatedInstancesAction extends BaseDiagramPartAction implements
 			addRelationsCommand.add(ciEditPolicy
 					.getCreateRelationshipCommand(req));
 
-			req = new CreateRelationshipRequest(
-					InstanceElementTypes.AssociationInstance_3001);
-			req.setSource(ci);
-			req.setTarget(getCorrespondingEObject());
-			addRelationsCommand.add(ciEditPolicy
-					.getCreateRelationshipCommand(req));
-
 			// link with each other
 			for (ClassInstance ci2 : newObjects) {
 				if (ci2.equals(ci)) {
