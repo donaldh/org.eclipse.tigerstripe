@@ -98,9 +98,6 @@ public class TigerstripeOssjProjectHandle extends TigerstripeProjectHandle {
 			int refLevel = level > 1 ? level - 1 : level;
 
 			for (ITigerstripeModelProject project : projects) {
-				if (!ctx.addToCycle(Cycles.REFERENCING, project.getModelId())) {
-					continue;
-				}
 				boolean referencesThis = false;
 				for (ModelReference ref : project.getModelReferences()) {
 					if (ref.equals(selfRef)) {
@@ -116,6 +113,9 @@ public class TigerstripeOssjProjectHandle extends TigerstripeProjectHandle {
 					if (!result.contains(ref)) {
 						result.add(ref);
 
+						if (!ctx.addToCycle(Cycles.REFERENCING, project.getModelId())) {
+							continue;
+						}
 						ModelReference[] refModels;
 						if (project instanceof TigerstripeOssjProjectHandle) {
 							refModels = ((TigerstripeOssjProjectHandle) project)
@@ -128,7 +128,7 @@ public class TigerstripeOssjProjectHandle extends TigerstripeProjectHandle {
 							if (!result.contains(insideRef)) {
 								result.add(insideRef);
 							}
-						}
+						}						
 					}
 				}
 			}
