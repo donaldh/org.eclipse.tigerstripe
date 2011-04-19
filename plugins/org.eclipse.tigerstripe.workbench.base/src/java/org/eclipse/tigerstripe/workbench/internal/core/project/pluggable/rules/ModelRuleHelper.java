@@ -15,6 +15,9 @@ import java.util.HashSet;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
+import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
+import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
@@ -37,9 +40,11 @@ public class ModelRuleHelper {
 				resultSet.add(project);
 				
 				
-				//TODO ? - include dependencies
+				//include dependencies
 				for (IDependency dependecny : project.getDependencies()){
-					System.out.println("DEPENDS "+dependecny.getIModuleHeader().getModuleID());
+					
+					ITigerstripeModuleProject modProj = dependecny.makeModuleProject(project);
+					resultSet.add(modProj);
 				}
 				
 				
