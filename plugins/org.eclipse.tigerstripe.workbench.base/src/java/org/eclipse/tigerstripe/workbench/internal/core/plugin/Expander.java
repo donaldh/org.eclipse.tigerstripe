@@ -369,7 +369,7 @@ public class Expander implements IExpander {
 
 		Pattern name = Pattern.compile("\\$\\{name\\}");
 		Matcher nameMatcher = name.matcher(outString);
-		String projectName = project.getProjectDetails().getName();
+		String projectName = project.getProjectHandle().getName();
 		projectName = projectName.replaceAll(" ", "_");
 		if (nameMatcher.find(0)) {
 			if (projectName.length() > 0) {
@@ -410,7 +410,7 @@ public class Expander implements IExpander {
 
 		Pattern projName = Pattern.compile("\\$\\{project\\.Name\\}");
 		Matcher projNameMatcher = projName.matcher(outString);
-		projectName = project.getProjectDetails().getName();
+		projectName = project.getProjectHandle().getName();
 		projectName = projectName.replaceAll(" ", "_");
 		if (projNameMatcher.find(0)) {
 			if (projectName.length() > 0) {
