@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -27,6 +28,7 @@ import org.eclipse.tigerstripe.workbench.plugins.IModelRule;
 import org.eclipse.tigerstripe.workbench.plugins.IModelRunnableRule;
 import org.eclipse.tigerstripe.workbench.plugins.IRunnableRule;
 import org.eclipse.tigerstripe.workbench.plugins.IRunnableWrapper;
+import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -119,7 +121,20 @@ public class ModelRunnableRule extends RunnableRule implements IModelRule, IRunn
 			setContext(context);
 
 			IProgressMonitor monitor = exec.getConfig().getMonitor();
-			Collection<ITigerstripeModelProject> resultSet = ModelRuleHelper.getResultSet(pluginConfig, monitor);
+			Collection<ITigerstripeModelProject> resultSet;
+			if(!((IM1RunConfig) runConfig).isAllRulesAsLocal()){
+				resultSet = ModelRuleHelper.getResultSet(pluginConfig, monitor);
+			} else {
+				resultSet = new HashSet<ITigerstripeModelProject>();
+				IAbstractTigerstripeProject aProject = pluginConfig
+					.getProjectHandle();
+				if (aProject != null
+						&& aProject instanceof ITigerstripeModelProject) {
+					ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
+					//Add the base project itself!
+					resultSet.add(project);
+				}
+			}
 			
 
 			// LOOP 

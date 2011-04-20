@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -34,6 +35,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.plugins.IModelRule;
 import org.eclipse.tigerstripe.workbench.plugins.IModelTemplateRule;
+import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -136,7 +138,20 @@ public class ModelTemplateRule extends TemplateBasedRule implements
 			// setContext(context);
 
 			IProgressMonitor monitor = exec.getConfig().getMonitor();
-			Collection<ITigerstripeModelProject> resultSet = ModelRuleHelper.getResultSet(pluginConfig, monitor);
+			Collection<ITigerstripeModelProject> resultSet;
+			if(!((IM1RunConfig) runConfig).isAllRulesAsLocal()){
+				resultSet = ModelRuleHelper.getResultSet(pluginConfig, monitor);
+			} else {
+				resultSet = new HashSet<ITigerstripeModelProject>();
+				IAbstractTigerstripeProject aProject = pluginConfig
+					.getProjectHandle();
+				if (aProject != null
+						&& aProject instanceof ITigerstripeModelProject) {
+					ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
+					//Add the base project itself!
+					resultSet.add(project);
+				}
+			}
 			
 
 			// Velocity specifics......
