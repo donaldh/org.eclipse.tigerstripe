@@ -34,6 +34,7 @@ public class GenerationPreferencePage extends FieldEditorPreferencePage
 	// The target generation path
 	public static final String P_TARGETPATH = "p.general.target.path";
 	public static final String P_DEFAULTPACKAGE = "p.general.default.artifact.package";
+	public static final String P_GENERATERUNASLOCAL = IAdvancedProperties.PROP_GENERATION_allRulesLocal;
 	public static final String P_GENERATEREPORT = IAdvancedProperties.PROP_GENERATION_GenerateReport;
 	public static final String P_LOGMESSAGES = IAdvancedProperties.PROP_GENERATION_LogMessages;
 
@@ -56,6 +57,8 @@ public class GenerationPreferencePage extends FieldEditorPreferencePage
 		store.setDefault(P_TARGETPATH, "target/tigerstripe.gen");
 		store.setDefault(IAdvancedProperties.PROP_GENERATION_GenerateReport,
 				"true");
+		store.setDefault(IAdvancedProperties.PROP_GENERATION_allRulesLocal,
+			"false");
 		store.setDefault(IAdvancedProperties.PROP_GENERATION_LogMessages,
 				"false");
 
@@ -96,6 +99,9 @@ public class GenerationPreferencePage extends FieldEditorPreferencePage
 		addField(new BooleanFieldEditor(
 				IAdvancedProperties.PROP_GENERATION_GenerateReport,
 				"&Generate report", getFieldEditorParent()));
+		addField(new BooleanFieldEditor(
+				IAdvancedProperties.PROP_GENERATION_allRulesLocal,
+				"Run All Rules as Local", getFieldEditorParent()));
 //		addField(new BooleanFieldEditor(
 //				IAdvancedProperties.PROP_GENERATION_LogMessages,
 //				"&Log messages", getFieldEditorParent()));

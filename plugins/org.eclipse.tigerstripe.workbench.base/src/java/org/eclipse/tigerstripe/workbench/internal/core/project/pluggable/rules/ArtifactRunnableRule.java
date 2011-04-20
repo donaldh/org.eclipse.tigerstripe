@@ -15,7 +15,9 @@ import java.util.Map;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.generation.IM1RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.MigrationHelper;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.IPluginRuleExecutor;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
@@ -116,8 +118,20 @@ public class ArtifactRunnableRule extends RunnableRule implements IArtifactRule,
 	public void trigger(PluggablePluginConfig pluginConfig,
 			IPluginRuleExecutor exec) throws TigerstripeException {
 
+		//#####################################################################################
+		// Take account of the "All Rules As Local" advnanced property
+		boolean includeDependencies = isIncludeDependencies();
+		RunConfig runConfig = exec.getConfig();
+		if (runConfig instanceof IM1RunConfig){
+			boolean overrideMe =((IM1RunConfig) runConfig).isAllRulesAsLocal();
+			if (overrideMe){
+				includeDependencies = false;
+			}
+		}
+		
+		
 		IAbstractArtifact currentArtifact = null;
-		Map<String, Object> context = getGlobalContext(pluginConfig);
+		Map<String, Object> context = getGlobalContext(pluginConfig, includeDependencies);
 		
 		initializeReport(pluginConfig);
 		getReport().setArtifactType(getArtifactType());
@@ -127,7 +141,7 @@ public class ArtifactRunnableRule extends RunnableRule implements IArtifactRule,
 		context.put(REPORT, getReport());
 		context.put(SUPPRESSFILES,isSuppressEmptyFiles());
 		context.put(OVERWRITEFILES, isOverwriteFiles());
-		context.put(INCLUDEDEPENDENCIES, isIncludeDependencies());
+		context.put(INCLUDEDEPENDENCIES, includeDependencies);
 		
 		try {
 			// TODO 

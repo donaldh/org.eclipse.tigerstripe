@@ -14,6 +14,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.generation.IM1RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -28,7 +29,7 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 
 	private boolean clearDirectoryBeforeGenerate = "true"
 			.equalsIgnoreCase(IProjectDetails.CLEAR_DIRECTORY_BEFORE_GENERATE_DEFAULT);
-
+	
 	private boolean ignoreFacets = "true"
 			.equalsIgnoreCase(IProjectDetails.IGNORE_FACETS_DEFAULT);
 
@@ -57,6 +58,8 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 	private String useCaseXsl = null;
 
 	private boolean useUseCaseXSL = false;
+
+	private boolean allRulesAsLocal = false;
 
 	/* package */ M1RunConfig() {
 		this(null); // making the compiler happy
@@ -191,6 +194,7 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 		this.processUseCases = processUseCases;
 	}
 
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -271,6 +275,17 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 		this.useProjectFacets = useProjectFacets;
 	}
 
+	public void setAllRulesAsLocal(boolean allRulesAsLocal) {
+		this.allRulesAsLocal  = allRulesAsLocal;
+		
+	}
+
+	public boolean isAllRulesAsLocal() {
+		return allRulesAsLocal;
+	}
+
+	
+	
 	@Override
 	protected void initializeFromProject() throws TigerstripeException {
 		super.initializeFromProject();
@@ -310,6 +325,8 @@ public class M1RunConfig extends RunConfig implements IM1RunConfig {
 		processUseCaseExtension = details.getProperties().getProperty(
 				IProjectDetails.USECASE_PROC_EXT,
 				IProjectDetails.USECASE_PROC_EXT_DEFAULT);
+		allRulesAsLocal = "true".equals(getTargetProject().getAdvancedProperty(
+				IAdvancedProperties.PROP_GENERATION_allRulesLocal));
 
 		if (!ignoreFacets) {
 			// By default use project level facets although pluginConfig

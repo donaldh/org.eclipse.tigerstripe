@@ -165,9 +165,17 @@ public abstract class Rule extends BaseContainerObject implements
 	public RuleReport getReport() {
 		return report;
 	}
-
+	
+	/**
+	 * 
+	 * @param pluginConfig
+	 * @param includeDependencyOverride This implements the logic for "Run all rules as Local"
+	 *     it restricts the scope of the "allXXX" collections for 'global' down to 'local'  
+	 * @return
+	 * @throws TigerstripeException
+	 */
 	public Map<String, Object> getGlobalContext(
-			PluggablePluginConfig pluginConfig) throws TigerstripeException {
+			PluggablePluginConfig pluginConfig, boolean includeDependencyOverride) throws TigerstripeException {
 
 		Map<String, Object> context = new HashMap<String, Object>();
 		ITigerstripeModelProject handle = pluginConfig.getProjectHandle();
@@ -180,7 +188,7 @@ public abstract class Rule extends BaseContainerObject implements
 		Collection<IAbstractArtifact> artifacts = artifactMgr.getAllArtifacts(
 				false, new NullProgressMonitor());
 		Collection<IAbstractArtifact> allArtifacts = artifactMgr
-				.getAllArtifacts(true, false, new NullProgressMonitor());
+				.getAllArtifacts(includeDependencyOverride, false, new NullProgressMonitor());
 		context.put(ARTIFACTS, artifacts);
 		context.put(ALLARTIFACTS, allArtifacts);
 
@@ -190,7 +198,7 @@ public abstract class Rule extends BaseContainerObject implements
 					.getArtifactsByModel(ManagedEntityArtifact.MODEL, false,
 							new NullProgressMonitor());
 			Collection<IAbstractArtifact> allEntities = artifactMgr
-					.getArtifactsByModel(ManagedEntityArtifact.MODEL, true,
+					.getArtifactsByModel(ManagedEntityArtifact.MODEL, includeDependencyOverride,
 							false, new NullProgressMonitor());
 			context.put(ENTITIES, entities);
 			context.put(ALLENTITIES, allEntities);
@@ -202,7 +210,7 @@ public abstract class Rule extends BaseContainerObject implements
 					.getArtifactsByModel(DatatypeArtifact.MODEL, false,
 							new NullProgressMonitor());
 			Collection<IAbstractArtifact> allDatatypes = artifactMgr
-					.getArtifactsByModel(DatatypeArtifact.MODEL, true, false,
+					.getArtifactsByModel(DatatypeArtifact.MODEL, includeDependencyOverride, false,
 							new NullProgressMonitor());
 			context.put(DATATYPES, datatypes);
 			context.put(ALLDATATYPES, allDatatypes);
@@ -213,7 +221,7 @@ public abstract class Rule extends BaseContainerObject implements
 					.getArtifactsByModel(EventArtifact.MODEL, false,
 							new NullProgressMonitor());
 			Collection<IAbstractArtifact> allEvents = artifactMgr
-					.getArtifactsByModel(EventArtifact.MODEL, true, false,
+					.getArtifactsByModel(EventArtifact.MODEL, includeDependencyOverride, false,
 							new NullProgressMonitor());
 			context.put(EVENTS, events);
 			context.put(ALLEVENTS, allEvents);
@@ -224,7 +232,7 @@ public abstract class Rule extends BaseContainerObject implements
 					.getArtifactsByModel(EnumArtifact.MODEL, false,
 							new NullProgressMonitor());
 			Collection<IAbstractArtifact> allEnums = artifactMgr
-					.getArtifactsByModel(EnumArtifact.MODEL, true, false,
+					.getArtifactsByModel(EnumArtifact.MODEL, includeDependencyOverride, false,
 							new NullProgressMonitor());
 			context.put(ENUMERATIONS, enums);
 			context.put(ALLENUMERATIONS, allEnums);
@@ -236,7 +244,7 @@ public abstract class Rule extends BaseContainerObject implements
 					.getArtifactsByModel(ExceptionArtifact.MODEL, false,
 							new NullProgressMonitor());
 			Collection<IAbstractArtifact> allExceptions = artifactMgr
-					.getArtifactsByModel(ExceptionArtifact.MODEL, true, false,
+					.getArtifactsByModel(ExceptionArtifact.MODEL, includeDependencyOverride, false,
 							new NullProgressMonitor());
 			context.put(EXCEPTIONS, exceptions);
 			context.put(ALLEXCEPTIONS, allExceptions);
@@ -247,7 +255,7 @@ public abstract class Rule extends BaseContainerObject implements
 					.getArtifactsByModel(QueryArtifact.MODEL, false,
 							new NullProgressMonitor());
 			Collection<IAbstractArtifact> allQueries = artifactMgr
-					.getArtifactsByModel(QueryArtifact.MODEL, true, false,
+					.getArtifactsByModel(QueryArtifact.MODEL, includeDependencyOverride, false,
 							new NullProgressMonitor());
 			context.put(QUERIES, queries);
 			context.put(ALLQUERIES, allQueries);
@@ -259,7 +267,7 @@ public abstract class Rule extends BaseContainerObject implements
 					.getArtifactsByModel(SessionFacadeArtifact.MODEL, false,
 							new NullProgressMonitor());
 			Collection<IAbstractArtifact> allSessions = artifactMgr
-					.getArtifactsByModel(SessionFacadeArtifact.MODEL, true,
+					.getArtifactsByModel(SessionFacadeArtifact.MODEL, includeDependencyOverride,
 							false, new NullProgressMonitor());
 			context.put(SESSIONS, sessions);
 			context.put(ALLSESSIONS, allSessions);
@@ -271,7 +279,7 @@ public abstract class Rule extends BaseContainerObject implements
 					.getArtifactsByModel(UpdateProcedureArtifact.MODEL, false,
 							new NullProgressMonitor());
 			Collection<IAbstractArtifact> allUpdateProcedures = artifactMgr
-					.getArtifactsByModel(UpdateProcedureArtifact.MODEL, true,
+					.getArtifactsByModel(UpdateProcedureArtifact.MODEL, includeDependencyOverride,
 							false, new NullProgressMonitor());
 			context.put(UPDATEPROCEDURES, updateProcedures);
 			context.put(ALLUPDATEPROCEDURES, allUpdateProcedures);
@@ -283,7 +291,7 @@ public abstract class Rule extends BaseContainerObject implements
 					.getArtifactsByModel(AssociationArtifact.MODEL, false,
 							new NullProgressMonitor());
 			Collection<IAbstractArtifact> allAssociations = artifactMgr
-					.getArtifactsByModel(AssociationArtifact.MODEL, true,
+					.getArtifactsByModel(AssociationArtifact.MODEL, includeDependencyOverride,
 							false, new NullProgressMonitor());
 			context.put(ASSOCIATIONS, associations);
 			context.put(ALLASSOCIATIONS, allAssociations);
@@ -295,7 +303,7 @@ public abstract class Rule extends BaseContainerObject implements
 					.getArtifactsByModel(DependencyArtifact.MODEL, false,
 							new NullProgressMonitor());
 			Collection<IAbstractArtifact> allDependencies = artifactMgr
-					.getArtifactsByModel(DependencyArtifact.MODEL, true, false,
+					.getArtifactsByModel(DependencyArtifact.MODEL, includeDependencyOverride, false,
 							new NullProgressMonitor());
 			context.put(DEPENDENCIES, dependencies);
 			context.put(ALLDEPENDENCIES, allDependencies);
@@ -307,7 +315,7 @@ public abstract class Rule extends BaseContainerObject implements
 					.getArtifactsByModel(AssociationClassArtifact.MODEL, false,
 							new NullProgressMonitor());
 			Collection<IAbstractArtifact> allAssociationClasses = artifactMgr
-					.getArtifactsByModel(AssociationClassArtifact.MODEL, true,
+					.getArtifactsByModel(AssociationClassArtifact.MODEL, includeDependencyOverride,
 							false, new NullProgressMonitor());
 			context.put(ASSOCIATIONCLASSES, associationClasses);
 			context.put(ALLASSOCIATIONCLASSES, allAssociationClasses);
@@ -319,7 +327,7 @@ public abstract class Rule extends BaseContainerObject implements
 					.getArtifactsByModel(PackageArtifact.MODEL, false,
 							new NullProgressMonitor());
 			Collection<IAbstractArtifact> allPackages = artifactMgr
-					.getArtifactsByModel(PackageArtifact.MODEL, true, false,
+					.getArtifactsByModel(PackageArtifact.MODEL, includeDependencyOverride, false,
 							new NullProgressMonitor());
 			context.put(PACKAGES, packages);
 			context.put(ALLPACKAGES, allPackages);

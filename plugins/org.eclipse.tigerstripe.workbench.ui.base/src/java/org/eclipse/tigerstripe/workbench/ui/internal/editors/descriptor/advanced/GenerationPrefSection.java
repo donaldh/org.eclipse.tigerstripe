@@ -86,6 +86,10 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 	// Should a report be generated upon run (PROP_GENERATION_GenerateReport)
 	private Button generateReportButton;
 
+	// Should artifactRules be run as local only (PROP_GENERATION_allRulesLocal)
+	private Button generateRunAllRulesLocalButton;
+
+	
 	// Should messages from code generation be logged during run
 	// (PROP_GENERATION_LogMessages)
 	private Button logMessagesButton;
@@ -163,6 +167,21 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 						ee);
 				EclipsePlugin.log(status);
 			}
+		} else if (e.getSource() == generateRunAllRulesLocalButton) {
+			try {
+				handle.setAdvancedProperty(
+						IAdvancedProperties.PROP_GENERATION_allRulesLocal,
+						String.valueOf(generateRunAllRulesLocalButton.getSelection()));
+				markPageModified();
+			} catch (TigerstripeException ee) {
+				Status status = new Status(IStatus.ERROR, EclipsePlugin
+						.getPluginId(), 222, "Error while setting "
+						+ IAdvancedProperties.PROP_GENERATION_allRulesLocal
+						+ " advanced property on Project " + handle.getName(),
+						ee);
+				EclipsePlugin.log(status);
+			}
+
 
 		} else if (e.getSource() == logMessagesButton) {
 			try {
@@ -217,6 +236,11 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 						IAdvancedProperties.PROP_GENERATION_GenerateReport,
 						store
 								.getString(IAdvancedProperties.PROP_GENERATION_GenerateReport));
+		handle
+			.setAdvancedProperty(
+				IAdvancedProperties.PROP_GENERATION_allRulesLocal,
+				store
+						.getString(IAdvancedProperties.PROP_GENERATION_allRulesLocal));
 		handle
 				.setAdvancedProperty(
 						IAdvancedProperties.PROP_GENERATION_LogMessages,
@@ -333,6 +357,13 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 		generateReportButton.setLayoutData(gd);
 		generateReportButton.addSelectionListener(new DefaultPageListener());
 
+		generateRunAllRulesLocalButton = toolkit.createButton(parent, "Run All Rules as Local",
+				SWT.CHECK);
+		gd = new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING);
+		gd.horizontalSpan = 8;
+		generateRunAllRulesLocalButton.setLayoutData(gd);
+		generateRunAllRulesLocalButton.addSelectionListener(new DefaultPageListener());
+		
 		logMessagesButton = toolkit.createButton(parent,
 				"Capture standard output/error during generation.", SWT.CHECK);
 		logMessagesButton
@@ -765,6 +796,10 @@ public class GenerationPrefSection extends TigerstripeDescriptorSectionPart {
 					.setSelection("true"
 							.equalsIgnoreCase(handle
 									.getAdvancedProperty(IAdvancedProperties.PROP_GENERATION_GenerateReport)));
+			generateRunAllRulesLocalButton
+				.setSelection("true"
+					.equalsIgnoreCase(handle
+							.getAdvancedProperty(IAdvancedProperties.PROP_GENERATION_allRulesLocal)));
 
 			logMessagesButton
 					.setSelection("true"

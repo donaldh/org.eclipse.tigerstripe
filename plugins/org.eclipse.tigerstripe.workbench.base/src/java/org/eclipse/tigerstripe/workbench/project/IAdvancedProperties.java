@@ -22,6 +22,9 @@ package org.eclipse.tigerstripe.workbench.project;
  */
 public interface IAdvancedProperties {
 
+	// should all rules be overriddedn to execute in "Local mode only"
+	public final static String PROP_GENERATION_allRulesLocal = "generation.allRulesLocal";
+	
 	// should a report be generated upon project generation
 	public final static String PROP_GENERATION_GenerateReport = "generation.generateReport";
 

@@ -110,6 +110,8 @@ public class M1Generator {
 				IProjectDetails.USECASE_PROC_EXT_DEFAULT));
 		config.setUseCaseXSL(details.getProperty(IProjectDetails.USECASE_USEXSLT,
 				IProjectDetails.USECASE_USEXSLT_DEFAULT));
+		config.setAllRulesAsLocal("true".equalsIgnoreCase(
+				project.getAdvancedProperty(IAdvancedProperties.PROP_GENERATION_allRulesLocal)));
 	}
 
 	public void deleteDirContents(File dir) throws TigerstripeException {

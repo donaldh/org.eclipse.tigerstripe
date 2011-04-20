@@ -56,5 +56,13 @@ public interface IM1RunConfig {
 
 	public abstract void setOverrideSubprojectSettings(boolean overrideSubprojectSettings);
 	
+	/*
+	* This implements the logic for "Run all rules as Local"
+	*     it restricts the scope of the "allXXX" collections for 'global' down to 'local'  
+	*/
+	
+	public void setAllRulesAsLocal(boolean allRulesAsLocal);
+	
+	public boolean isAllRulesAsLocal();
 
 }

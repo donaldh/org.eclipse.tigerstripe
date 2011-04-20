@@ -17,6 +17,8 @@ import java.util.Map.Entry;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.generation.IM1RunConfig;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.IPluginRuleExecutor;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
@@ -86,18 +88,31 @@ public class ModelRunnableRule extends RunnableRule implements IModelRule, IRunn
 			IPluginRuleExecutor exec) throws TigerstripeException {
 
 		ITigerstripeModelProject currentModel = null;
-		Map<String, Object> context = getGlobalContext(pluginConfig);
+		
 		
 		initializeReport(pluginConfig);
 		getReport().setRunnableClassName(getRunnableClassName());
 		
-		// We need to add a few extra items that should be respected by the plugin, but are in fact out of our control!
-		context.put(REPORT, getReport());
-		context.put(SUPPRESSFILES,isSuppressEmptyFiles());
-		context.put(OVERWRITEFILES, isOverwriteFiles());
 		
 		try {
-			// TODO 
+			//  
+			//#####################################################################################
+			// Take account of the "All Rules As Local" advnanced property
+			boolean includeDependencies = true;
+			RunConfig runConfig = exec.getConfig();
+			if (runConfig instanceof IM1RunConfig){
+				boolean overrideMe =((IM1RunConfig) runConfig).isAllRulesAsLocal();
+				if (overrideMe){
+					includeDependencies = false;
+				}
+			}
+			
+			Map<String, Object> context = getGlobalContext(pluginConfig, includeDependencies);
+
+			// We need to add a few extra items that should be respected by the plugin, but are in fact out of our control!
+			context.put(REPORT, getReport());
+			context.put(SUPPRESSFILES,isSuppressEmptyFiles());
+			context.put(OVERWRITEFILES, isOverwriteFiles());
 			
 			// We need to add a few extra items that should be respected by the plugin, but are in fact out of our control!
 			context.put(REPORT,getReport());

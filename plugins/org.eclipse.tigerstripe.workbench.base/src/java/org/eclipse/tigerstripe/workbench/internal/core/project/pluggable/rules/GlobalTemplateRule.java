@@ -14,13 +14,18 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Collection;
+import java.util.Map;
+
+import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.generation.IM1RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.PluginVelocityLog;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.IPluginRuleExecutor;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
@@ -121,10 +126,24 @@ public class GlobalTemplateRule extends TemplateBasedRule implements
 			// Only create the flag if we are allowed to overwrite Or the file
 			// doesn't exist
 			if (isOverwriteFiles() || !outputFileF.exists()) {
+			//  
+				//#####################################################################################
+				// Take account of the "All Rules As Local" advnanced property
+				
+				boolean includeDependencies = true;
+				RunConfig runConfig = exec.getConfig();
+				if (runConfig instanceof IM1RunConfig){
+					boolean overrideMe =((IM1RunConfig) runConfig).isAllRulesAsLocal();
+					if (overrideMe){
+						includeDependencies = false;
+					}
+				}
+				
+				Map<String, Object> context = getGlobalContext(pluginConfig, includeDependencies);
 
 				writer = getDefaultWriter(pluginConfig, targetFile, exec.getConfig());
 
-				VelocityContext defaultContext = getDefaultContext(pluginConfig, exec);
+				VelocityContext defaultContext = getDefaultContext(pluginConfig, context);
 				VelocityContext localContext = exec.getPlugin().getLocalVelocityContext(defaultContext, this);
 
 				localContext.put("templateName", template.getName());

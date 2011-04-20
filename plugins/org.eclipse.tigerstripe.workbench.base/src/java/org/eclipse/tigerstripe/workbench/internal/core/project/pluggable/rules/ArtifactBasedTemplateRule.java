@@ -21,9 +21,11 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.generation.IM1RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.MigrationHelper;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.PluginVelocityLog;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.Expander;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.IPluginRuleExecutor;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
@@ -171,18 +173,31 @@ public class ArtifactBasedTemplateRule extends TemplateBasedRule implements
 			IPluginRuleExecutor exec) throws TigerstripeException {
 
 		IAbstractArtifact currentArtifact = null;
-		Map<String, Object> context = getGlobalContext(pluginConfig);
+		
 
 		Writer writer = null;
 		try {
 			initializeReport(pluginConfig);
 
+			//#####################################################################################
+			// Take account of the "All Rules As Local" advnanced property
+			boolean includeDependencies = isIncludeDependencies();
+			RunConfig runConfig = exec.getConfig();
+			if (runConfig instanceof IM1RunConfig){
+				boolean overrideMe =((IM1RunConfig) runConfig).isAllRulesAsLocal();
+				if (overrideMe){
+					includeDependencies = false;
+				}
+			}
+			
+			Map<String, Object> context = getGlobalContext(pluginConfig, includeDependencies);
+			
 			// setContext(context);
 
 			IProgressMonitor monitor = exec.getConfig().getMonitor();
 			Collection<IAbstractArtifact> resultSet = ArtifactRuleHelper
 					.getResultSet(getArtifactType(), pluginConfig,
-							isIncludeDependencies(), monitor);
+							includeDependencies, monitor);
 			IArtifactFilter filter = ArtifactRuleHelper.getArtifactFilter(
 					getArtifactFilterClass(), exec);
 			getReport().setArtifactType(getArtifactType());
