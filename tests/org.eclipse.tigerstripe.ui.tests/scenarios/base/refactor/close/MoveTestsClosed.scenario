@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="MoveTestsClosed" version="3.0" id="_Zp7nwC9kEeC10pY5Az195Q" description="Test diagram closure after artifact move&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;Create a Tigerstripe Project with 'simple' and 'simple.moved' packages.&#xD;&#xA;Create artifacts in 'simple' package:&#xD;&#xA;&#x9;Ent1 of type entity with attribute1 of DataMiddle type, with extends SuperEnt and implements SessionFacade0.&#xD;&#xA;&#x9;Ent2 of type entity with Ent1 used in Method Return type, with Exception0 used in a method, and argument Arg1, with extends Ent1.&#xD;&#xA;&#x9;AssociatedEnt of type entity with attribute0 of DataMiddle type.&#xD;&#xA;&#x9;SuperEnt of type entity.&#xD;&#xA;&#x9;Query0 of type query with returned type = Ent1.&#xD;&#xA;&#x9;DataBottom of type Datatype with extends to DataMiddle and 'recur' attribute (self reference).&#xD;&#xA;&#x9;DataMiddle of type Datatype with extends to DataTop&#xD;&#xA;&#x9;DataTop of type Datatype.&#xD;&#xA;&#x9;Enumeration0 of type Enumeration.&#xD;&#xA;&#x9;Event0 of type Event.&#xD;&#xA;&#x9;Exception0 of type Exception.&#xD;&#xA;&#x9;SessionFacade0 of type Session Facade.&#xD;&#xA;&#x9;Update0 of type Update Procedure.&#xD;&#xA;Create connection artifacts in 'simple' package:&#xD;&#xA;&#x9;Association0 with 'zEnd Details' is equal 'simple.Ent1'.&#xD;&#xA;&#x9;Association1 with 'aEnd Details' and 'zEnd Details' are equal 'simple.Ent1'.&#xD;&#xA;&#x9;AssociationClass0 with 'aEnd Details' and 'zEnd Details' are equal 'simple.Ent1'.&#xD;&#xA;&#x9;Dependency0 with 'aEnd Details' is equal 'simple.Ent1'.&#xD;&#xA;Create class diagrams within the 'simple' and 'simple.moved' packages themselves.&#xD;&#xA;Create class and instance diagrams outside of all packages.&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;Select menu item &quot;Refactor Model/Move...&quot; for Ent1 artifact. &#xD;&#xA;Select 'simple.moved' package as destination for Ent1.&#xD;&#xA;Open all of the diagrams.&#xD;&#xA;Check changed element package on the diagram.&#xD;&#xA;Check tab count and tab names.&#xD;&#xA;Close all diagrams.&#xD;&#xA;Check tab count&#xD;&#xA;Select multiple artifacts (DataBottom, DataMiddle, DataTop).&#xD;&#xA;Select menu item &quot;Refactor Model/Move...&quot; for selected artifacts. &#xD;&#xA;Select 'simple.moved' package as destination for selected artifacts.&#xD;&#xA;Open all of the diagrams.&#xD;&#xA;Check changed element package on the diagram.&#xD;&#xA;Check tab count and tab names.&#xD;&#xA;Close all diagrams.&#xD;&#xA;Check tab count" type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="MoveTestsClosed" version="3.0" id="_Zp7nwC9kEeC10pY5Az195Q" description="Test diagram closure after artifact move&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;Create a Tigerstripe Project with 'simple' and 'simple.moved' packages.&#xD;&#xA;Create artifacts in 'simple' package:&#xD;&#xA;&#x9;Ent1 of type entity with attribute1 of DataMiddle type, with extends SuperEnt and implements SessionFacade0.&#xD;&#xA;&#x9;Ent2 of type entity with Ent1 used in Method Return type, with Exception0 used in a method, and argument Arg1, with extends Ent1.&#xD;&#xA;&#x9;AssociatedEnt of type entity with attribute0 of DataMiddle type.&#xD;&#xA;&#x9;SuperEnt of type entity.&#xD;&#xA;&#x9;Query0 of type query with returned type = Ent1.&#xD;&#xA;&#x9;DataBottom of type Datatype with extends to DataMiddle and 'recur' attribute (self reference).&#xD;&#xA;&#x9;DataMiddle of type Datatype with extends to DataTop&#xD;&#xA;&#x9;DataTop of type Datatype.&#xD;&#xA;&#x9;Enumeration0 of type Enumeration.&#xD;&#xA;&#x9;Event0 of type Event.&#xD;&#xA;&#x9;Exception0 of type Exception.&#xD;&#xA;&#x9;SessionFacade0 of type Session Facade.&#xD;&#xA;&#x9;Update0 of type Update Procedure.&#xD;&#xA;Create connection artifacts in 'simple' package:&#xD;&#xA;&#x9;Association0 with 'zEnd Details' is equal 'simple.Ent1'.&#xD;&#xA;&#x9;Association1 with 'aEnd Details' and 'zEnd Details' are equal 'simple.Ent1'.&#xD;&#xA;&#x9;AssociationClass0 with 'aEnd Details' and 'zEnd Details' are equal 'simple.Ent1'.&#xD;&#xA;&#x9;Dependency0 with 'aEnd Details' is equal 'simple.Ent1'.&#xD;&#xA;Create class diagrams within the 'simple' and 'simple.moved' packages themselves.&#xD;&#xA;Create class and instance diagrams outside of all packages.&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;Select menu item &quot;Refactor Model/Move...&quot; for Ent1 artifact. &#xD;&#xA;Select 'simple.moved' package as destination for Ent1.&#xD;&#xA;Open all of the diagrams.&#xD;&#xA;Check changed element package on the diagram.&#xD;&#xA;Check tab count and tab names.&#xD;&#xA;Close all diagrams.&#xD;&#xA;Check tab count&#xD;&#xA;Select multiple artifacts (DataBottom, DataMiddle, DataTop).&#xD;&#xA;Select menu item &quot;Refactor Model/Move...&quot; for selected artifacts. &#xD;&#xA;Select 'simple.moved' package as destination for selected artifacts.&#xD;&#xA;Open all of the diagrams.&#xD;&#xA;Check changed element package on the diagram.&#xD;&#xA;Check tab count and tab names.&#xD;&#xA;Close all diagrams.&#xD;&#xA;Check tab count" type="ecl">
   <contexts>_NG89gMz6Ed-6Q5V9pxn_5A</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script" content="with [get-view &quot;Tigerstripe Explorer&quot; | get-tree] {&#xA;    select &quot;model-refactoring/src/simple/Ent1&quot; | drag-start 87 223 -button none&#xA;    drag-enter 126 232 -detail 2 -operation 7 -button none&#xA;    drag-over 129 246 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/Enumeration0&quot; | drag-over 35 16 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/Event0&quot; | drag-over 36 17 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/Exception0&quot; | drag-over 36 15 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/Query0&quot; | drag-over 33 16 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/SessionFacade0&quot; | drag-over 33 16 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/SuperEnt&quot; | drag-over 32 17 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/Update0&quot; | drag-over 35 17 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/default&quot; | drag-over 33 16 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple.moved&quot; | drag-over 49 8 -detail 2 -operation 7 -button none&#xA;    drag-exit -button none&#xA;    get-item &quot;model-refactoring/src/simple.moved&quot; | drag-accept 49 8 -detail 2 -operation 7 -button none&#xA;    drag-set-data -button none&#xA;    get-item &quot;model-refactoring/src/simple.moved&quot; | drop 49 8 -detail 2 -operation 7 -button none&#xA;    drag-end -button none&#xA;}&#xA;get-window Move | get-button Finish | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple/default&quot; | double-click -nowait&#xA;get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part &quot;0/0/1&quot; | get-property package | is-equal &quot;simple.moved&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple.moved/inside-moved&quot; | double-click -nowait&#xA;get-editor &quot;inside-moved.wvd&quot; | get-diagram | get-edit-part &quot;0/0/1&quot; | get-property package | is-equal &quot;simple.moved&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/outside-class-diagram&quot; | double-click -nowait&#xA;get-editor &quot;outside-class-diagram.wvd&quot; | get-diagram | get-edit-part &quot;0/0/1&quot; | get-property package | is-equal &quot;simple.moved&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/outside-instance-diagram&quot; | double-click -nowait&#xA;get-editor &quot;outside-instance-diagram.wod&quot; | get-diagram | get-edit-part &quot;0/0/0&quot; | get-property package | is-equal &quot;simple.moved&quot; | verify&#xA;with [get-tab-folder] {&#xA;    get-property pages -index 0 | equals &quot;*default.wvd&quot; | verify-true&#xA;    get-property pages -index 1 | equals &quot;*inside-moved.wvd&quot; | verify-true&#xA;    get-property pages -index 2 | equals &quot;*outside-class-diagram.wvd&quot; | verify-true&#xA;    get-property pages -index 3 | equals &quot;outside-instance-diagram.wod&quot; | verify-true&#xA;    get-property tabCount | is-equal 4 | verify&#xA;}&#xA;get-button &quot;Save All (Ctrl+Shift+S)&quot; | click&#xA;get-editor &quot;outside-instance-diagram.wod&quot; | close&#xA;with [get-editor &quot;outside-class-diagram.wvd&quot;] {&#xA;    click -nowait&#xA;    get-diagram | get-figure &quot;0/1/0/0&quot; | mouse-move 12 296 -height 568 -width 1280&#xA;}&#xA;with [get-tab-folder] {&#xA;    get-property pages -index 0 | is-equal &quot;default.wvd&quot; | verify&#xA;    get-property pages -index 1 | is-equal &quot;inside-moved.wvd&quot; | verify&#xA;    get-property pages -index 2 | is-equal &quot;outside-class-diagram.wvd&quot; | verify&#xA;    get-property tabCount | is-equal 3 | verify&#xA;    get-menu &quot;Close All&quot; | click&#xA;    get-property tabCount | is-equal 0 | verify&#xA;}&#xA;&#xA;with [get-view &quot;Tigerstripe Explorer&quot; | get-tree] {&#xA;    select &quot;model-refactoring/src/simple/DataBottom&quot; &quot;model-refactoring/src/simple/DataMiddle&quot; &quot;model-refactoring/src/simple/DataTop&quot; | get-item &quot;model-refactoring/src/simple/DataMiddle&quot; | drag-start 27 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/DataMiddle&quot; | drag-enter 43 8 -detail 2 -operation 7 -button none&#xA;    drag-over 151 195 -detail 2 -operation 7 -button none&#xA;    drag-over 152 231 -detail 2 -operation 7 -button none&#xA;    drag-over 148 269 -detail 2 -operation 7 -button none&#xA;    drag-over 142 303 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/SessionFacade0&quot; | drag-over 41 16 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/SuperEnt&quot; | drag-over 39 17 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/Update0&quot; | drag-over 38 17 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/default&quot; | drag-over 37 17 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple.moved&quot; | drag-over 52 8 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/DataMiddle&quot; | drag-exit -button none&#xA;    get-item &quot;model-refactoring/src/simple.moved&quot; | drag-accept 52 8 -detail 2 -operation 7 -button none&#xA;    drag-set-data -button none&#xA;    get-item &quot;model-refactoring/src/simple.moved&quot; | drop 52 8 -detail 2 -operation 7 -button none&#xA;    drag-end -button none&#xA;}&#xA;get-window Move | get-button Finish | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple/default&quot; | double-click -nowait&#xA;with [get-editor &quot;default.wvd&quot; | get-diagram] {&#xA;    with [get-edit-part &quot;0/7/1&quot;] {&#xA;        get-property name | equals DataTop | verify-true&#xA;        get-property package | equals &quot;simple.moved&quot; | verify-true&#xA;    }&#xA;    with [get-edit-part &quot;0/4/1&quot;] {&#xA;        get-property name | equals DataMiddle | verify-true&#xA;        get-property package | equals &quot;simple.moved&quot; | verify-true&#xA;    }&#xA;}&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple.moved/inside-moved&quot; | double-click -nowait&#xA;with [get-editor &quot;inside-moved.wvd&quot; | get-diagram | get-figure &quot;0/1/0/0&quot;] {&#xA;    mouse-move 524 303 -height 568 -width 1280&#xA;    mouse-hover 524 303 -height 568 -width 1280&#xA;    mouse-move 3 156 -height 568 -width 1280&#xA;}&#xA;with [get-view &quot;Tigerstripe Explorer&quot; | get-tree] {&#xA;    select &quot;model-refactoring/outside-class-diagram&quot; | double-click -nowait&#xA;    select &quot;model-refactoring/outside-instance-diagram&quot; | double-click -nowait&#xA;}&#xA;get-editor &quot;outside-instance-diagram.wod&quot; | get-diagram | get-figure &quot;0/1/0/0&quot; | mouse-move 172 92 -height 568 -width 1408&#xA;with [get-tab-folder] {&#xA;    get-property pages -index 0 | equals &quot;default.wvd&quot; | verify-true&#xA;    get-property pages -index 1 | equals &quot;inside-moved.wvd&quot; | verify-true&#xA;    get-property pages -index 2 | equals &quot;outside-class-diagram.wvd&quot; | verify-true&#xA;    get-property pages -index 3 | equals &quot;outside-instance-diagram.wod&quot; | verify-true&#xA;    get-property tabCount | is-equal 4 | verify&#xA;}&#xA;get-editor &quot;outside-instance-diagram.wod&quot; | close&#xA;with [get-editor &quot;outside-class-diagram.wvd&quot;] {&#xA;    click -nowait&#xA;    close&#xA;}&#xA;with [get-editor &quot;inside-moved.wvd&quot;] {&#xA;    click -nowait&#xA;    get-diagram | get-figure &quot;0/1/0/0&quot; | mouse-move 265 0 -height 568 -width 1280&#xA;    close&#xA;}&#xA;with [get-editor &quot;default.wvd&quot;] {&#xA;    click -nowait&#xA;    close&#xA;}&#xA;get-view &quot;Tigerstripe Explorer&quot; | click -nowait&#xA;get-tab-folder | get-property tabCount | is-equal 0 | verify"/>
+  <content xsi:type="org.eclipse.ecl.core:Script" content="with [get-view &quot;Tigerstripe Explorer&quot; | get-tree] {&#xA;    select &quot;model-refactoring/src/simple/Ent1&quot; | drag-start 87 223 -button none&#xA;    drag-enter 126 232 -detail 2 -operation 7 -button none&#xA;    drag-over 129 246 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/Enumeration0&quot; | drag-over 35 16 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/Event0&quot; | drag-over 36 17 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/Exception0&quot; | drag-over 36 15 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/Query0&quot; | drag-over 33 16 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/SessionFacade0&quot; | drag-over 33 16 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/SuperEnt&quot; | drag-over 32 17 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/Update0&quot; | drag-over 35 17 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/default&quot; | drag-over 33 16 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple.moved&quot; | drag-over 49 8 -detail 2 -operation 7 -button none&#xA;    drag-exit -button none&#xA;    get-item &quot;model-refactoring/src/simple.moved&quot; | drag-accept 49 8 -detail 2 -operation 7 -button none&#xA;    drag-set-data -button none&#xA;    get-item &quot;model-refactoring/src/simple.moved&quot; | drop 49 8 -detail 2 -operation 7 -button none&#xA;    drag-end -button none&#xA;}&#xA;get-window Move | get-button Finish | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple/default&quot; | double-click -nowait&#xA;get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part &quot;0/0/1&quot; | get-property package | is-equal &quot;simple.moved&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple.moved/inside-moved&quot; | double-click -nowait&#xA;get-editor &quot;inside-moved.wvd&quot; | get-diagram | get-edit-part &quot;0/0/1&quot; | get-property package | is-equal &quot;simple.moved&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/outside-class-diagram&quot; | double-click -nowait&#xA;get-editor &quot;outside-class-diagram.wvd&quot; | get-diagram | get-edit-part &quot;0/0/1&quot; | get-property package | is-equal &quot;simple.moved&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/outside-instance-diagram&quot; | double-click -nowait&#xA;get-editor &quot;outside-instance-diagram.wod&quot; | get-diagram | get-edit-part &quot;0/0/0&quot; | get-property package | is-equal &quot;simple.moved&quot; | verify&#xA;with [get-tab-folder] {&#xA;    get-property pages -index 0 | equals &quot;default.wvd&quot; | verify-true&#xA;    get-property pages -index 1 | equals &quot;inside-moved.wvd&quot; | verify-true&#xA;    get-property pages -index 2 | equals &quot;outside-class-diagram.wvd&quot; | verify-true&#xA;    get-property pages -index 3 | equals &quot;outside-instance-diagram.wod&quot; | verify-true&#xA;    get-property tabCount | is-equal 4 | verify&#xA;}&#xA;get-editor &quot;outside-instance-diagram.wod&quot; | close&#xA;with [get-editor &quot;outside-class-diagram.wvd&quot;] {&#xA;    click -nowait&#xA;    get-diagram | get-figure &quot;0/1/0/0&quot; | mouse-move 12 296 -height 568 -width 1280&#xA;}&#xA;with [get-tab-folder] {&#xA;    get-property pages -index 0 | is-equal &quot;default.wvd&quot; | verify&#xA;    get-property pages -index 1 | is-equal &quot;inside-moved.wvd&quot; | verify&#xA;    get-property pages -index 2 | is-equal &quot;outside-class-diagram.wvd&quot; | verify&#xA;    get-property tabCount | is-equal 3 | verify&#xA;    get-menu &quot;Close All&quot; | click&#xA;    get-property tabCount | is-equal 0 | verify&#xA;}&#xA;&#xA;with [get-view &quot;Tigerstripe Explorer&quot; | get-tree] {&#xA;    select &quot;model-refactoring/src/simple/DataBottom&quot; &quot;model-refactoring/src/simple/DataMiddle&quot; &quot;model-refactoring/src/simple/DataTop&quot; | get-item &quot;model-refactoring/src/simple/DataMiddle&quot; | drag-start 27 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/DataMiddle&quot; | drag-enter 43 8 -detail 2 -operation 7 -button none&#xA;    drag-over 151 195 -detail 2 -operation 7 -button none&#xA;    drag-over 152 231 -detail 2 -operation 7 -button none&#xA;    drag-over 148 269 -detail 2 -operation 7 -button none&#xA;    drag-over 142 303 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/SessionFacade0&quot; | drag-over 41 16 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/SuperEnt&quot; | drag-over 39 17 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/Update0&quot; | drag-over 38 17 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/default&quot; | drag-over 37 17 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple.moved&quot; | drag-over 52 8 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/DataMiddle&quot; | drag-exit -button none&#xA;    get-item &quot;model-refactoring/src/simple.moved&quot; | drag-accept 52 8 -detail 2 -operation 7 -button none&#xA;    drag-set-data -button none&#xA;    get-item &quot;model-refactoring/src/simple.moved&quot; | drop 52 8 -detail 2 -operation 7 -button none&#xA;    drag-end -button none&#xA;}&#xA;get-window Move | get-button Finish | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple/default&quot; | double-click -nowait&#xA;with [get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className Map | get-edit-part -className DatatypeArtifact -index 8 | get-edit-part -className DatatypeArtifactNamePackage -index 1] {&#xA;    get-property name | equals DataTop | verify-true&#xA;    get-property package | equals &quot;simple.moved&quot; | verify-true&#xA;}&#xA;with [get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className Map | get-edit-part -className DatatypeArtifact -index 5 | get-edit-part -className DatatypeArtifactNamePackage -index 1] {&#xA;    get-property name | equals DataMiddle | verify-true&#xA;    get-property package | equals &quot;simple.moved&quot; | verify-true&#xA;}&#xA;with [get-view &quot;Tigerstripe Explorer&quot; | get-tree] {&#xA;    select &quot;model-refactoring/src/simple.moved/inside-moved&quot; | double-click -nowait&#xA;    select &quot;model-refactoring/outside-class-diagram&quot; | double-click -nowait&#xA;    select &quot;model-refactoring/outside-instance-diagram&quot; | double-click -nowait&#xA;}&#xA;with [get-tab-folder] {&#xA;    get-property pages -index 0 | equals &quot;*default.wvd&quot; | verify-true&#xA;    get-property pages -index 1 | equals &quot;inside-moved.wvd&quot; | verify-true&#xA;    get-property pages -index 2 | equals &quot;outside-class-diagram.wvd&quot; | verify-true&#xA;    get-property pages -index 3 | equals &quot;outside-instance-diagram.wod&quot; | verify-true&#xA;    get-property tabCount | equals 4 | verify-true&#xA;}&#xA;get-editor &quot;outside-instance-diagram.wod&quot; | close&#xA;with [get-editor &quot;outside-class-diagram.wvd&quot;] {&#xA;    click -nowait&#xA;    close&#xA;}&#xA;with [get-editor &quot;inside-moved.wvd&quot;] {&#xA;    click -nowait&#xA;    close&#xA;}&#xA;with [get-editor &quot;default.wvd&quot;] {&#xA;    click -nowait&#xA;    close&#xA;}&#xA;get-window &quot;Save Resource&quot; | get-button Yes | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | click -nowait"/>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -1190,6 +1190,236 @@
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="tabCount" value="0">
       <element id="TabFolder10_81" kind="TabFolder"/>
     </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="default.wvd" multiplicity="1">
+        <parent id="EclipseWindow0_121" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramViewer" multiplicity="1">
+        <parent id="Editor0_121" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="Map" multiplicity="1">
+        <path>editpart</path>
+        <path>classname</path>
+        <parent id="DiagramViewer0_121" kind="DiagramViewer"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="DatatypeArtifact" index="8" multiplicity="1">
+        <path>editpart</path>
+        <path>classname</path>
+        <parent id="DiagramFigure0_121" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="DatatypeArtifactNamePackage" index="1" multiplicity="1">
+        <path>editpart</path>
+        <path>classname</path>
+        <parent id="DiagramFigure1_122" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="name" value="DataTop" category="property">
+      <element id="DiagramFigure2_123" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="package" value="simple.moved" category="property">
+      <element id="DiagramFigure2_123" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="default.wvd" multiplicity="1">
+        <parent id="EclipseWindow1_122" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramViewer" multiplicity="1">
+        <parent id="Editor1_122" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="Map" multiplicity="1">
+        <path>editpart</path>
+        <path>classname</path>
+        <parent id="DiagramViewer1_122" kind="DiagramViewer"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="DatatypeArtifact" index="5" multiplicity="1">
+        <path>editpart</path>
+        <path>classname</path>
+        <parent id="DiagramFigure3_124" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="DatatypeArtifactNamePackage" index="1" multiplicity="1">
+        <path>editpart</path>
+        <path>classname</path>
+        <parent id="DiagramFigure7_125" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="name" value="DataMiddle" category="property">
+      <element id="DiagramFigure8_126" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="package" value="simple.moved" category="property">
+      <element id="DiagramFigure8_126" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow2_123" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0_121" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree0_121" kind="Tree"/>
+      <path>model-refactoring</path>
+      <path>src</path>
+      <path>simple.moved</path>
+      <path>inside-moved</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DoubleClick">
+      <element id="Tree0_121" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree0_121" kind="Tree"/>
+      <path>model-refactoring</path>
+      <path>outside-class-diagram</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DoubleClick">
+      <element id="Tree0_121" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree0_121" kind="Tree"/>
+      <path>model-refactoring</path>
+      <path>outside-instance-diagram</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DoubleClick">
+      <element id="Tree0_121" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="TabFolder" multiplicity="1">
+        <parent id="EclipseWindow3_124" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="pages" value="*default.wvd" index="0">
+      <element id="TabFolder1_121" kind="TabFolder"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="pages" value="inside-moved.wvd" index="1">
+      <element id="TabFolder1_121" kind="TabFolder"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="pages" value="outside-class-diagram.wvd" index="2">
+      <element id="TabFolder1_121" kind="TabFolder"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="pages" value="outside-instance-diagram.wod" index="3">
+      <element id="TabFolder1_121" kind="TabFolder"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="tabCount" value="4">
+      <element id="TabFolder1_121" kind="TabFolder"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow4_125" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View2_122" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>model-refactoring</path>
+        <path>src</path>
+        <path>simple</path>
+        <path>Association0</path>
+        <parent id="Tree2_122" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="outside-instance-diagram.wod" multiplicity="1">
+        <parent id="EclipseWindow4_125" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Close">
+      <element id="Editor2_123" kind="Editor"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="outside-class-diagram.wvd" multiplicity="1">
+        <parent id="EclipseWindow4_125" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click" withWait="false">
+      <element id="Editor3_124" kind="Editor"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Close">
+      <element id="Editor3_124" kind="Editor"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="inside-moved.wvd" multiplicity="1">
+        <parent id="EclipseWindow4_125" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click" withWait="false">
+      <element id="Editor4_125" kind="Editor"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Close">
+      <element id="Editor4_125" kind="Editor"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="default.wvd" multiplicity="1">
+        <parent id="EclipseWindow4_125" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click" withWait="false">
+      <element id="Editor5_126" kind="Editor"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Close">
+      <element id="Editor5_126" kind="Editor"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="Save Resource" multiplicity="1">
+        <parent id="EclipseWindow4_125" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Yes" multiplicity="1">
+        <parent id="Window0_121" kind="Window"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button0_121" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State0_121" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click" withWait="false">
+      <element id="View2_122" kind="View"/>
+    </commands>
     <elementMapping command="//@teslaContent/@commands.0">
       <elements id="EclipseWindow0" kind="EclipseWindow"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
@@ -2004,6 +2234,240 @@
     <elementMapping command="//@teslaContent/@commands.247">
       <elements id="TabFolder10_81" kind="TabFolder"/>
       <controls xsi:type="com.xored.tesla.core.ui:TabFolder"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.249">
+      <elements id="EclipseWindow0_121" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - model-refactoring/src/simple/default.wvd - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="-8" y="-8" width="1936" height="1056"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.250">
+      <elements id="Editor0_121" kind="Editor"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="default.wvd" dirty="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="1425" height="585"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.251">
+      <elements id="DiagramViewer0_121" kind="DiagramViewer"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="default.wvd" dirty="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="1425" height="585"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.252">
+      <elements id="DiagramFigure0_121" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="1280" height="568" childrenCount="9" text="simple.moved.Ent1+enumRef:Enumeration0+attribute1:DataMiddleAssociationClass0SuperEntSessionFacade0Enumeration0int+literal0=0simple.moved.DataMiddle+attribute0:Enumeration0AssociatedEnt+attribute0:DataMiddleEnt2+method0(Ent1):Ent1[0..1]simple.moved.DataTop">
+        <__properties name="basePackage" value="simple"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.253">
+      <elements id="DiagramFigure1_122" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="585" y="27" width="146" height="50" childrenCount="3" text="simple.moved.DataTop">
+        <__properties name="name" value="DataTop"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="package" value="simple.moved"/>
+        <__properties name="isReadonly" value="false"/>
+        <__properties name="isAbstract" value="false"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.254">
+      <elements id="DiagramFigure2_123" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="585" y="27" width="146" height="16" text="simple.moved.DataTop">
+        <__properties name="name" value="DataTop"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="package" value="simple.moved"/>
+        <__properties name="isReadonly" value="false"/>
+        <__properties name="isAbstract" value="false"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.257">
+      <elements id="EclipseWindow1_122" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - model-refactoring/src/simple/default.wvd - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="-8" y="-8" width="1936" height="1056"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.258">
+      <elements id="Editor1_122" kind="Editor"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="default.wvd" dirty="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="1425" height="585"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.259">
+      <elements id="DiagramViewer1_122" kind="DiagramViewer"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="default.wvd" dirty="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="1425" height="585"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.260">
+      <elements id="DiagramFigure3_124" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="1280" height="568" childrenCount="9" text="simple.moved.Ent1+enumRef:Enumeration0+attribute1:DataMiddleAssociationClass0SuperEntSessionFacade0Enumeration0int+literal0=0simple.moved.DataMiddle+attribute0:Enumeration0AssociatedEnt+attribute0:DataMiddleEnt2+method0(Ent1):Ent1[0..1]simple.moved.DataTop">
+        <__properties name="basePackage" value="simple"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.261">
+      <elements id="DiagramFigure7_125" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="549" y="144" width="168" height="57" childrenCount="3" text="simple.moved.DataMiddle+attribute0:Enumeration0">
+        <__properties name="name" value="DataMiddle"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="package" value="simple.moved"/>
+        <__properties name="isReadonly" value="false"/>
+        <__properties name="isAbstract" value="false"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.262">
+      <elements id="DiagramFigure8_126" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="549" y="144" width="168" height="16" text="simple.moved.DataMiddle">
+        <__properties name="name" value="DataMiddle"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="package" value="simple.moved"/>
+        <__properties name="isReadonly" value="false"/>
+        <__properties name="isAbstract" value="false"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.265">
+      <elements id="EclipseWindow2_123" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - model-refactoring/src/simple/default.wvd - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="-8" y="-8" width="1936" height="1056"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.266">
+      <elements id="View0_121" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="472" height="906"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.267">
+      <elements id="Tree0_121" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="472" height="906"/>
+        <selection>
+          <path>model-refactoring</path>
+          <path>src</path>
+          <path>simple.moved</path>
+          <path>inside-moved</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.274">
+      <elements id="EclipseWindow3_124" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - model-refactoring/outside-instance-diagram.wod - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="-8" y="-8" width="1936" height="1056"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.275">
+      <elements id="TabFolder1_121" kind="TabFolder"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TabFolder" activePage="outside-instance-diagram.wod" tabCount="4">
+        <pages>*default.wvd</pages>
+        <pages>inside-moved.wvd</pages>
+        <pages>outside-class-diagram.wvd</pages>
+        <pages>outside-instance-diagram.wod</pages>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.281">
+      <elements id="EclipseWindow4_125" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - model-refactoring/outside-instance-diagram.wod - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="-8" y="-8" width="1936" height="1056"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.282">
+      <elements id="View2_122" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="472" height="906"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.283">
+      <elements id="Tree2_122" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="472" height="906"/>
+        <selection>
+          <path>model-refactoring</path>
+          <path>outside-instance-diagram</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.284">
+      <elements id="Item1_121" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="Association0" index="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="98" y="72" width="71" height="18"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.285">
+      <elements id="Editor2_123" kind="Editor"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="outside-instance-diagram.wod">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="1425" height="585"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.287">
+      <elements id="Editor3_124" kind="Editor"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="outside-class-diagram.wvd">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="1425" height="585"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.290">
+      <elements id="Editor4_125" kind="Editor"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="inside-moved.wvd">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="1425" height="585"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.293">
+      <elements id="Editor5_126" kind="Editor"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="default.wvd" dirty="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="1425" height="585"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.296">
+      <elements id="Window0_121" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Save Resource">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="699" y="426" width="522" height="142"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.297">
+      <elements id="Button0_121" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Yes">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds width="92" height="25"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.298">
+      <elements id="State0_121" kind="State"/>
     </elementMapping>
   </teslaContent>
 </com.xored.q7.scenario:Scenario>
