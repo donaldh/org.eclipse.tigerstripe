@@ -56,11 +56,14 @@ public class ModelChangeDelta implements IModelChangeDelta {
 	public ITigerstripeModelProject[] getAffectedProjects()
 			throws TigerstripeException {
 		List<ITigerstripeModelProject> projects = new ArrayList<ITigerstripeModelProject>();
-
-		projects.add(getProject());
-		for (ITigerstripeModelProject other : getProject()
-				.getReferencedProjects()) {
-			projects.add(other);
+		
+		ITigerstripeModelProject project = getProject();
+		
+		if (project!=null) {
+			projects.add(project);
+			for (ITigerstripeModelProject other : project.getReferencedProjects()) {
+				projects.add(other);
+			}
 		}
 
 		return projects.toArray(new ITigerstripeModelProject[projects.size()]);

@@ -269,15 +269,19 @@ public class CyclesValidator {
 
 	private static void addDependencies(IDependency[] deps,
 			Collection<INode> nodes) {
-		for (IDependency d : deps) {
-			nodes.add(new DependencyNode(d));
+		if (deps!=null) {
+			for (IDependency d : deps) {
+				nodes.add(new DependencyNode(d));
+			}
 		}
 	}
 
 	private static void addReferences(ModelReference[] refs,
 			Collection<INode> nodes) {
-		for (ModelReference r : refs) {
-			nodes.add(new ReferenceNode(r));
+		if (refs!=null) {
+			for (ModelReference r : refs) {
+				nodes.add(new ReferenceNode(r));
+			}
 		}
 	}
 
