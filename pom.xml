@@ -44,6 +44,7 @@
   </repositories>
 	
   <build>
+    <sourceDirectory>src</sourceDirectory>
 	<resources>
 	  <resource>
 		<directory>${basedir}/src/java</directory>
@@ -81,6 +82,15 @@
 		  <strictVersions>false</strictVersions>
 		</configuration>
 	  </plugin>
+	  <plugin>       
+	    <inherited>true</inherited>     
+	    <groupId>org.apache.maven.plugins</groupId>            
+	    <artifactId>maven-javadoc-plugin</artifactId>            
+	    <version>2.7</version>     
+		<configuration>
+		  <excludePackageNames>*.internal</excludePackageNames>
+		</configuration>    
+	  </plugin> 
 	</plugins>
   </build>
   
