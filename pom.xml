@@ -44,7 +44,6 @@
   </repositories>
 	
   <build>
-    <sourceDirectory>src</sourceDirectory>
 	<resources>
 	  <resource>
 		<directory>${basedir}/src/java</directory>
