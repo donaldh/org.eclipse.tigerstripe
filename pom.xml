@@ -81,17 +81,16 @@
 		  <strictVersions>false</strictVersions>
 		</configuration>
 	  </plugin>
-	</plugins>
-  </build>
-  <reporting>
-	<plugins>
 	  <plugin>
+	    <inherited>true</inherited>
 		<groupId>org.apache.maven.plugins</groupId>
 		<artifactId>maven-javadoc-plugin</artifactId>
-		<version>2.7</version>
+		<configuration>
+		  <excludePackageNames>*.internal.*</excludePackageNames>
+		</configuration>
 	  </plugin>
 	</plugins>
-  </reporting>
+  </build>
   
   <profiles>
 	<profile>
