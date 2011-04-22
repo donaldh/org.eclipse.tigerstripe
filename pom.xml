@@ -92,6 +92,7 @@
 	    <artifactId>maven-javadoc-plugin</artifactId>            
 	    <version>2.7</version>
 		<configuration>
+		  <aggregate>true</aggregate>
           <minmemory>256m</minmemory>
           <maxmemory>2048m</maxmemory>
 		  <excludePackageNames>*.internal</excludePackageNames>
