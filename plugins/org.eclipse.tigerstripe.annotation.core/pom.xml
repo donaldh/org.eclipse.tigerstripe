@@ -14,12 +14,21 @@
   <packaging>eclipse-plugin</packaging>
   <name>plugins/o.e.t.annotation.core</name>
   
-  <reporting>
+  <build>
     <plugins>
-	  <plugin>        
+	  <plugin>          
 	    <groupId>org.apache.maven.plugins</groupId>            
 	    <artifactId>maven-javadoc-plugin</artifactId>            
-	    <version>2.7</version>     
+	    <version>2.7</version>   
+        <executions>
+          <execution>
+            <id>javadoc</id>
+            <phase>jar</phase>
+            <goals>
+              <goal>javadoc</goal>
+            </goals>
+          </execution>
+        </executions>
 		<configuration>
           <minmemory>256m</minmemory>
           <maxmemory>2048m</maxmemory>
@@ -27,5 +36,5 @@
 		</configuration>    
 	  </plugin> 
 	</plugins>
-  </reporting>
+  </build>
 </project>
