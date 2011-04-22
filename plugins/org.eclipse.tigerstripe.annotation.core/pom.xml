@@ -13,16 +13,4 @@
   <artifactId>org.eclipse.tigerstripe.annotation.core</artifactId>
   <packaging>eclipse-plugin</packaging>
   <name>plugins/o.e.t.annotation.core</name>
-  
-  <build>
-    <plugins>
-	  <plugin>
-		<groupId>org.apache.maven.plugins</groupId>
-		<artifactId>maven-javadoc-plugin</artifactId>
-		<configuration>
-		  <excludePackageNames>*.internal.*</excludePackageNames>
-		</configuration>
-	  </plugin>
-    </plugins>
-  </build>
 </project>
