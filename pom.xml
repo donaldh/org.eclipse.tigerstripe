@@ -10,7 +10,7 @@
   <name>o.e.t/pom.xml</name>
 	
   <properties>
-	<tycho-version>0.10.0</tycho-version>
+	<tycho-version>0.11.0</tycho-version>
 	<!-- Default OSGi values. Might be overridden by a profile. -->
 	<osgi.arch>x86_64</osgi.arch>
 	<osgi.os>linux</osgi.os>
