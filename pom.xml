@@ -39,7 +39,7 @@
 	  <layout>p2</layout>
 	  <!-- Having to point to pulse for now because this update site is having problems
 	  <url>http://download.eclipse.org/releases/helios/</url> -->
-	  <url>http://download.eclipse.org/releases/helios/</url>
+	  <url>http://pulse-prd-sj1.cisco.com/update_sites/eclipse/helios_3.6.1/3.6.1/</url>
 	</repository>
   </repositories>
 	
