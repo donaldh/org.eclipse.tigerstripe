@@ -23,7 +23,7 @@
         <executions>
           <execution>
             <id>javadoc</id>
-            <phase>jar</phase>
+            <phase>process-classes</phase>
             <goals>
               <goal>javadoc</goal>
             </goals>
