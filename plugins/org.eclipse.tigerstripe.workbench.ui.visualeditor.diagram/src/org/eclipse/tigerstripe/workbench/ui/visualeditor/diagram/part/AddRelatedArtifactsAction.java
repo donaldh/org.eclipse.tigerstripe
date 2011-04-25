@@ -20,7 +20,6 @@ import java.util.Set;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.commands.operations.OperationHistoryFactory;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gef.EditPart;
@@ -38,6 +37,7 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -133,6 +133,13 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 				Collection<IAbstractArtifact> extendingArtArray = artifact
 						.getExtendingArtifacts();
 				for (IAbstractArtifact extendingArt : extendingArtArray) {
+
+					if (!containsInReferences(getMap()
+							.getCorrespondingITigerstripeProject(),
+							extendingArt)) {
+						continue;
+					}
+
 					if (!namesOfArtifactsInMap.contains(extendingArt
 							.getFullyQualifiedName())) {
 						relationshipsExist = true;
@@ -146,8 +153,8 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 			Set<IAbstractArtifact> dependentArtifacts = new HashSet<IAbstractArtifact>();
 			for (IAbstractArtifact artifact : artifacts) {
 				List<IRelationship> origRels = session
-						.getOriginatingRelationshipForFQN(artifact
-								.getFullyQualifiedName(), true);
+						.getOriginatingRelationshipForFQN(
+								artifact.getFullyQualifiedName(), true);
 				for (IRelationship relationship : origRels) {
 					if (relationship instanceof IAssociationArtifact) {
 						IAssociationEnd zEnd = (IAssociationEnd) ((IAssociationArtifact) relationship)
@@ -192,8 +199,8 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 			Set<IAbstractArtifact> dependingArtifacts = new HashSet<IAbstractArtifact>();
 			for (IAbstractArtifact artifact : artifacts) {
 				List<IRelationship> termRels = session
-						.getTerminatingRelationshipForFQN(artifact
-								.getFullyQualifiedName(), true);
+						.getTerminatingRelationshipForFQN(
+								artifact.getFullyQualifiedName(), true);
 				for (IRelationship relationship : termRels) {
 					if (relationship instanceof IAssociationArtifact) {
 						IAssociationEnd aEnd = (IAssociationEnd) ((IAssociationArtifact) relationship)
@@ -439,12 +446,13 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 						List artifactsToAddList = new ArrayList();
 						for (IAbstractArtifact art : artifactsToAdd) {
 							// Bug 310830
-							// There is no need for this check - you can simply drop the Artifact
-//							IResource artResource = (IResource) art
-//									.getAdapter(IResource.class);
-//							if (artResource != null)
-//								artifactsToAddList.add(artResource
-//										.getLocation().toOSString());
+							// There is no need for this check - you can simply
+							// drop the Artifact
+							// IResource artResource = (IResource) art
+							// .getAdapter(IResource.class);
+							// if (artResource != null)
+							// artifactsToAddList.add(artResource
+							// .getLocation().toOSString());
 							artifactsToAddList.add(art);
 						}
 						request.setObjects(artifactsToAddList);
@@ -538,6 +546,23 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 			}
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
+		}
+	}
+
+	private boolean containsInReferences(ITigerstripeModelProject tsProject,
+			IAbstractArtifact extendingArt) {
+		if (tsProject == null) {
+			return false;
+		}
+
+		try {
+			IArtifactManagerSession session = tsProject
+					.getArtifactManagerSession();
+			return session.getArtifactByFullyQualifiedName(extendingArt
+					.getFullyQualifiedName()) != null;
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+			return false;
 		}
 	}
 
