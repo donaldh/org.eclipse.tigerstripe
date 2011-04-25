@@ -1,7 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="MoveTestsClosed" version="3.0" id="_Zp7nwC9kEeC10pY5Az195Q" description="Test diagram closure after artifact move&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;Create a Tigerstripe Project with 'simple' and 'simple.moved' packages.&#xD;&#xA;Create artifacts in 'simple' package:&#xD;&#xA;&#x9;Ent1 of type entity with attribute1 of DataMiddle type, with extends SuperEnt and implements SessionFacade0.&#xD;&#xA;&#x9;Ent2 of type entity with Ent1 used in Method Return type, with Exception0 used in a method, and argument Arg1, with extends Ent1.&#xD;&#xA;&#x9;AssociatedEnt of type entity with attribute0 of DataMiddle type.&#xD;&#xA;&#x9;SuperEnt of type entity.&#xD;&#xA;&#x9;Query0 of type query with returned type = Ent1.&#xD;&#xA;&#x9;DataBottom of type Datatype with extends to DataMiddle and 'recur' attribute (self reference).&#xD;&#xA;&#x9;DataMiddle of type Datatype with extends to DataTop&#xD;&#xA;&#x9;DataTop of type Datatype.&#xD;&#xA;&#x9;Enumeration0 of type Enumeration.&#xD;&#xA;&#x9;Event0 of type Event.&#xD;&#xA;&#x9;Exception0 of type Exception.&#xD;&#xA;&#x9;SessionFacade0 of type Session Facade.&#xD;&#xA;&#x9;Update0 of type Update Procedure.&#xD;&#xA;Create connection artifacts in 'simple' package:&#xD;&#xA;&#x9;Association0 with 'zEnd Details' is equal 'simple.Ent1'.&#xD;&#xA;&#x9;Association1 with 'aEnd Details' and 'zEnd Details' are equal 'simple.Ent1'.&#xD;&#xA;&#x9;AssociationClass0 with 'aEnd Details' and 'zEnd Details' are equal 'simple.Ent1'.&#xD;&#xA;&#x9;Dependency0 with 'aEnd Details' is equal 'simple.Ent1'.&#xD;&#xA;Create class diagrams within the 'simple' and 'simple.moved' packages themselves.&#xD;&#xA;Create class and instance diagrams outside of all packages.&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;Select menu item &quot;Refactor Model/Move...&quot; for Ent1 artifact. &#xD;&#xA;Select 'simple.moved' package as destination for Ent1.&#xD;&#xA;Open all of the diagrams.&#xD;&#xA;Check changed element package on the diagram.&#xD;&#xA;Check tab count and tab names.&#xD;&#xA;Close all diagrams.&#xD;&#xA;Check tab count&#xD;&#xA;Select multiple artifacts (DataBottom, DataMiddle, DataTop).&#xD;&#xA;Select menu item &quot;Refactor Model/Move...&quot; for selected artifacts. &#xD;&#xA;Select 'simple.moved' package as destination for selected artifacts.&#xD;&#xA;Open all of the diagrams.&#xD;&#xA;Check changed element package on the diagram.&#xD;&#xA;Check tab count and tab names.&#xD;&#xA;Close all diagrams.&#xD;&#xA;Check tab count" type="ecl">
   <contexts>_NG89gMz6Ed-6Q5V9pxn_5A</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script" content="with [get-view &quot;Tigerstripe Explorer&quot; | get-tree] {&#xA;    select &quot;model-refactoring/src/simple/Ent1&quot; | drag-start 87 223 -button none&#xA;    drag-enter 126 232 -detail 2 -operation 7 -button none&#xA;    drag-over 129 246 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/Enumeration0&quot; | drag-over 35 16 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/Event0&quot; | drag-over 36 17 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/Exception0&quot; | drag-over 36 15 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/Query0&quot; | drag-over 33 16 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/SessionFacade0&quot; | drag-over 33 16 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/SuperEnt&quot; | drag-over 32 17 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/Update0&quot; | drag-over 35 17 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/default&quot; | drag-over 33 16 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple.moved&quot; | drag-over 49 8 -detail 2 -operation 7 -button none&#xA;    drag-exit -button none&#xA;    get-item &quot;model-refactoring/src/simple.moved&quot; | drag-accept 49 8 -detail 2 -operation 7 -button none&#xA;    drag-set-data -button none&#xA;    get-item &quot;model-refactoring/src/simple.moved&quot; | drop 49 8 -detail 2 -operation 7 -button none&#xA;    drag-end -button none&#xA;}&#xA;get-window Move | get-button Finish | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple/default&quot; | double-click -nowait&#xA;get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part &quot;0/0/1&quot; | get-property package | is-equal &quot;simple.moved&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple.moved/inside-moved&quot; | double-click -nowait&#xA;get-editor &quot;inside-moved.wvd&quot; | get-diagram | get-edit-part &quot;0/0/1&quot; | get-property package | is-equal &quot;simple.moved&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/outside-class-diagram&quot; | double-click -nowait&#xA;get-editor &quot;outside-class-diagram.wvd&quot; | get-diagram | get-edit-part &quot;0/0/1&quot; | get-property package | is-equal &quot;simple.moved&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/outside-instance-diagram&quot; | double-click -nowait&#xA;get-editor &quot;outside-instance-diagram.wod&quot; | get-diagram | get-edit-part &quot;0/0/0&quot; | get-property package | is-equal &quot;simple.moved&quot; | verify&#xA;with [get-tab-folder] {&#xA;    get-property pages -index 0 | equals &quot;default.wvd&quot; | verify-true&#xA;    get-property pages -index 1 | equals &quot;inside-moved.wvd&quot; | verify-true&#xA;    get-property pages -index 2 | equals &quot;outside-class-diagram.wvd&quot; | verify-true&#xA;    get-property pages -index 3 | equals &quot;outside-instance-diagram.wod&quot; | verify-true&#xA;    get-property tabCount | is-equal 4 | verify&#xA;}&#xA;get-editor &quot;outside-instance-diagram.wod&quot; | close&#xA;with [get-editor &quot;outside-class-diagram.wvd&quot;] {&#xA;    click -nowait&#xA;    get-diagram | get-figure &quot;0/1/0/0&quot; | mouse-move 12 296 -height 568 -width 1280&#xA;}&#xA;with [get-tab-folder] {&#xA;    get-property pages -index 0 | is-equal &quot;default.wvd&quot; | verify&#xA;    get-property pages -index 1 | is-equal &quot;inside-moved.wvd&quot; | verify&#xA;    get-property pages -index 2 | is-equal &quot;outside-class-diagram.wvd&quot; | verify&#xA;    get-property tabCount | is-equal 3 | verify&#xA;    get-menu &quot;Close All&quot; | click&#xA;    get-property tabCount | is-equal 0 | verify&#xA;}&#xA;&#xA;with [get-view &quot;Tigerstripe Explorer&quot; | get-tree] {&#xA;    select &quot;model-refactoring/src/simple/DataBottom&quot; &quot;model-refactoring/src/simple/DataMiddle&quot; &quot;model-refactoring/src/simple/DataTop&quot; | get-item &quot;model-refactoring/src/simple/DataMiddle&quot; | drag-start 27 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/DataMiddle&quot; | drag-enter 43 8 -detail 2 -operation 7 -button none&#xA;    drag-over 151 195 -detail 2 -operation 7 -button none&#xA;    drag-over 152 231 -detail 2 -operation 7 -button none&#xA;    drag-over 148 269 -detail 2 -operation 7 -button none&#xA;    drag-over 142 303 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/SessionFacade0&quot; | drag-over 41 16 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/SuperEnt&quot; | drag-over 39 17 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/Update0&quot; | drag-over 38 17 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/default&quot; | drag-over 37 17 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple.moved&quot; | drag-over 52 8 -detail 2 -operation 7 -button none&#xA;    get-item &quot;model-refactoring/src/simple/DataMiddle&quot; | drag-exit -button none&#xA;    get-item &quot;model-refactoring/src/simple.moved&quot; | drag-accept 52 8 -detail 2 -operation 7 -button none&#xA;    drag-set-data -button none&#xA;    get-item &quot;model-refactoring/src/simple.moved&quot; | drop 52 8 -detail 2 -operation 7 -button none&#xA;    drag-end -button none&#xA;}&#xA;get-window Move | get-button Finish | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple/default&quot; | double-click -nowait&#xA;with [get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className Map | get-edit-part -className DatatypeArtifact -index 8 | get-edit-part -className DatatypeArtifactNamePackage -index 1] {&#xA;    get-property name | equals DataTop | verify-true&#xA;    get-property package | equals &quot;simple.moved&quot; | verify-true&#xA;}&#xA;with [get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className Map | get-edit-part -className DatatypeArtifact -index 5 | get-edit-part -className DatatypeArtifactNamePackage -index 1] {&#xA;    get-property name | equals DataMiddle | verify-true&#xA;    get-property package | equals &quot;simple.moved&quot; | verify-true&#xA;}&#xA;with [get-view &quot;Tigerstripe Explorer&quot; | get-tree] {&#xA;    select &quot;model-refactoring/src/simple.moved/inside-moved&quot; | double-click -nowait&#xA;    select &quot;model-refactoring/outside-class-diagram&quot; | double-click -nowait&#xA;    select &quot;model-refactoring/outside-instance-diagram&quot; | double-click -nowait&#xA;}&#xA;with [get-tab-folder] {&#xA;    get-property pages -index 0 | equals &quot;*default.wvd&quot; | verify-true&#xA;    get-property pages -index 1 | equals &quot;inside-moved.wvd&quot; | verify-true&#xA;    get-property pages -index 2 | equals &quot;outside-class-diagram.wvd&quot; | verify-true&#xA;    get-property pages -index 3 | equals &quot;outside-instance-diagram.wod&quot; | verify-true&#xA;    get-property tabCount | equals 4 | verify-true&#xA;}&#xA;get-editor &quot;outside-instance-diagram.wod&quot; | close&#xA;with [get-editor &quot;outside-class-diagram.wvd&quot;] {&#xA;    click -nowait&#xA;    close&#xA;}&#xA;with [get-editor &quot;inside-moved.wvd&quot;] {&#xA;    click -nowait&#xA;    close&#xA;}&#xA;with [get-editor &quot;default.wvd&quot;] {&#xA;    click -nowait&#xA;    close&#xA;}&#xA;get-window &quot;Save Resource&quot; | get-button Yes | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | click -nowait"/>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "model-refactoring/src/simple/Ent1" | drag-start 87 223 -button none
+    drag-enter 126 232 -detail 2 -operation 7 -button none
+    drag-over 129 246 -detail 2 -operation 7 -button none
+    get-item "model-refactoring/src/simple/Enumeration0" | drag-over 35 16 -detail 2 -operation 7 -button none
+    get-item "model-refactoring/src/simple/Event0" | drag-over 36 17 -detail 2 -operation 7 -button none
+    get-item "model-refactoring/src/simple/Exception0" | drag-over 36 15 -detail 2 -operation 7 -button none
+    get-item "model-refactoring/src/simple/Query0" | drag-over 33 16 -detail 2 -operation 7 -button none
+    get-item "model-refactoring/src/simple/SessionFacade0" | drag-over 33 16 -detail 2 -operation 7 -button none
+    get-item "model-refactoring/src/simple/SuperEnt" | drag-over 32 17 -detail 2 -operation 7 -button none
+    get-item "model-refactoring/src/simple/Update0" | drag-over 35 17 -detail 2 -operation 7 -button none
+    get-item "model-refactoring/src/simple/default" | drag-over 33 16 -operation 7 -button none
+    get-item "model-refactoring/src/simple.moved" | drag-over 49 8 -detail 2 -operation 7 -button none
+    drag-exit -button none
+    get-item "model-refactoring/src/simple.moved" | drag-accept 49 8 -detail 2 -operation 7 -button none
+    drag-set-data -button none
+    get-item "model-refactoring/src/simple.moved" | drop 49 8 -detail 2 -operation 7 -button none
+    drag-end -button none
+}
+get-window Move | get-button Finish | click
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/default" | double-click -nowait
+get-editor "default.wvd" | get-diagram | get-edit-part "0/0/1" | get-property package | is-equal "simple.moved" | verify
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple.moved/inside-moved" | double-click -nowait
+get-editor "inside-moved.wvd" | get-diagram | get-edit-part "0/0/1" | get-property package | is-equal "simple.moved" | verify
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/outside-class-diagram" | double-click -nowait
+get-editor "outside-class-diagram.wvd" | get-diagram | get-edit-part "0/0/1" | get-property package | is-equal "simple.moved" | verify
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/outside-instance-diagram" | double-click -nowait
+get-editor "outside-instance-diagram.wod" | get-diagram | get-edit-part "0/0/0" | get-property package | is-equal "simple.moved" | verify
+with [get-tab-folder] {
+    get-property pages -index 0 | equals "default.wvd" | verify-true
+    get-property pages -index 1 | equals "inside-moved.wvd" | verify-true
+    get-property pages -index 2 | equals "outside-class-diagram.wvd" | verify-true
+    get-property pages -index 3 | equals "outside-instance-diagram.wod" | verify-true
+    get-property tabCount | is-equal 4 | verify
+}
+get-editor "outside-instance-diagram.wod" | close
+with [get-editor "outside-class-diagram.wvd"] {
+    click -nowait
+    get-diagram | get-figure "0/1/0/0" | mouse-move 12 296 -height 568 -width 1280
+}
+with [get-tab-folder] {
+    get-property pages -index 0 | is-equal "default.wvd" | verify
+    get-property pages -index 1 | is-equal "inside-moved.wvd" | verify
+    get-property pages -index 2 | is-equal "outside-class-diagram.wvd" | verify
+    get-property tabCount | is-equal 3 | verify
+    get-menu "Close All" | click
+    get-property tabCount | is-equal 0 | verify
+}
+
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "model-refactoring/src/simple/DataBottom" "model-refactoring/src/simple/DataMiddle" "model-refactoring/src/simple/DataTop" | get-item "model-refactoring/src/simple/DataMiddle" | drag-start 27 7 -button none
+    get-item "model-refactoring/src/simple/DataMiddle" | drag-enter 43 8 -detail 2 -operation 7 -button none
+    drag-over 151 195 -detail 2 -operation 7 -button none
+    drag-over 152 231 -detail 2 -operation 7 -button none
+    drag-over 148 269 -detail 2 -operation 7 -button none
+    drag-over 142 303 -detail 2 -operation 7 -button none
+    get-item "model-refactoring/src/simple/SessionFacade0" | drag-over 41 16 -detail 2 -operation 7 -button none
+    get-item "model-refactoring/src/simple/SuperEnt" | drag-over 39 17 -detail 2 -operation 7 -button none
+    get-item "model-refactoring/src/simple/Update0" | drag-over 38 17 -detail 2 -operation 7 -button none
+    get-item "model-refactoring/src/simple/default" | drag-over 37 17 -operation 7 -button none
+    get-item "model-refactoring/src/simple.moved" | drag-over 52 8 -detail 2 -operation 7 -button none
+    get-item "model-refactoring/src/simple/DataMiddle" | drag-exit -button none
+    get-item "model-refactoring/src/simple.moved" | drag-accept 52 8 -detail 2 -operation 7 -button none
+    drag-set-data -button none
+    get-item "model-refactoring/src/simple.moved" | drop 52 8 -detail 2 -operation 7 -button none
+    drag-end -button none
+}
+get-window Move | get-button Finish | click
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/default" | double-click -nowait
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name DataTop | get-edit-part -text "simple.moved.DataTop"] {
+    get-property name | equals DataTop | verify-true
+    get-property package | equals "simple.moved" | verify-true
+}
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name DataMiddle | get-edit-part -text "simple.moved.DataMiddle"] {
+    get-property name | equals DataMiddle | verify-true
+    get-property package | equals "simple.moved" | verify-true
+}
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "model-refactoring/src/simple.moved/inside-moved" | double-click -nowait
+    select "model-refactoring/outside-class-diagram" | double-click -nowait
+    select "model-refactoring/outside-instance-diagram" | double-click -nowait
+}
+with [get-tab-folder] {
+    get-property pages -index 0 | equals "*default.wvd" | verify-true
+    get-property pages -index 1 | equals "inside-moved.wvd" | verify-true
+    get-property pages -index 2 | equals "outside-class-diagram.wvd" | verify-true
+    get-property pages -index 3 | equals "outside-instance-diagram.wod" | verify-true
+    get-property tabCount | equals 4 | verify-true
+}
+get-editor "outside-instance-diagram.wod" | close
+with [get-editor "outside-class-diagram.wvd"] {
+    click -nowait
+    close
+}
+with [get-editor "inside-moved.wvd"] {
+    click -nowait
+    close
+}
+with [get-editor "default.wvd"] {
+    click -nowait
+    close
+}
+get-window "Save Resource" | get-button Yes | click
+get-view "Tigerstripe Explorer" | click -nowait]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -198,10 +303,10 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart</path>
         <path>address</path>
-        <parent id="DiagramViewer0" kind="DiagramViewer"/>
         <indexes>0</indexes>
         <indexes>0</indexes>
         <indexes>1</indexes>
+        <parent id="DiagramViewer0" kind="DiagramViewer"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="package" value="simple.moved" category="property">
@@ -247,10 +352,10 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart</path>
         <path>address</path>
-        <parent id="DiagramViewer1" kind="DiagramViewer"/>
         <indexes>0</indexes>
         <indexes>0</indexes>
         <indexes>1</indexes>
+        <parent id="DiagramViewer1" kind="DiagramViewer"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="package" value="simple.moved" category="property">
@@ -294,10 +399,10 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart</path>
         <path>address</path>
-        <parent id="DiagramViewer2" kind="DiagramViewer"/>
         <indexes>0</indexes>
         <indexes>0</indexes>
         <indexes>1</indexes>
+        <parent id="DiagramViewer2" kind="DiagramViewer"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="package" value="simple.moved" category="property">
@@ -341,10 +446,10 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart</path>
         <path>address</path>
+        <indexes>0</indexes>
+        <indexes>0</indexes>
+        <indexes>0</indexes>
         <parent id="DiagramViewer3" kind="DiagramViewer"/>
-        <indexes>0</indexes>
-        <indexes>0</indexes>
-        <indexes>0</indexes>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="package" value="simple.moved" category="property">
@@ -731,10 +836,10 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart</path>
         <path>address</path>
-        <parent id="DiagramViewer5" kind="DiagramViewer"/>
         <indexes>0</indexes>
         <indexes>8</indexes>
         <indexes>1</indexes>
+        <parent id="DiagramViewer5" kind="DiagramViewer"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="package" value="simple.moved" category="property">
@@ -757,10 +862,10 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart</path>
         <path>address</path>
-        <parent id="DiagramViewer6" kind="DiagramViewer"/>
         <indexes>0</indexes>
         <indexes>5</indexes>
         <indexes>1</indexes>
+        <parent id="DiagramViewer6" kind="DiagramViewer"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="package" value="simple.moved" category="property">
@@ -970,10 +1075,10 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart</path>
         <path>address</path>
-        <parent id="DiagramViewer7_80" kind="DiagramViewer"/>
         <indexes>0</indexes>
         <indexes>5</indexes>
         <indexes>1</indexes>
+        <parent id="DiagramViewer7_80" kind="DiagramViewer"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="package" value="simple.moved" category="property">
@@ -996,10 +1101,10 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart</path>
         <path>address</path>
-        <parent id="DiagramViewer8_81" kind="DiagramViewer"/>
         <indexes>0</indexes>
         <indexes>8</indexes>
         <indexes>1</indexes>
+        <parent id="DiagramViewer8_81" kind="DiagramViewer"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="package" value="simple.moved" category="property">
