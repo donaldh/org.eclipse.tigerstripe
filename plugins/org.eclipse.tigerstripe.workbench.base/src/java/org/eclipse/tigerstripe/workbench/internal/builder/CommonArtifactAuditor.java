@@ -41,14 +41,25 @@ public class CommonArtifactAuditor extends AbstractArtifactAuditor implements
 	 * @param monitor
 	 */
 	private void checkAttributes(IProgressMonitor monitor) {
+		IAbstractArtifact artifact = getArtifact();
+		String artifactName = "";
+		if (artifact!=null) 
+			artifactName = artifact.getFullyQualifiedName();
+		
+		if (artifactName==null)
+			artifactName="";
+		else
+			artifactName = artifactName + ".";
+		
 		for (IField attribute : getArtifact().getFields()) {
 			checkStereotypes(attribute, "attribute '" + attribute.getName()
 					+ "' of artifact '" + getArtifact().getName() + "'");
-			checkEnumField(attribute);
+			
+			checkEnumField(attribute,artifactName);
 		}
 	}
 	
-	private void checkEnumField(IField field) {
+	private void checkEnumField(IField field,String artifactName) {
 		if (field.getType() != null) {
 			IAbstractArtifact typeArtifact = field.getType().getArtifact();
 			if (typeArtifact instanceof IEnumArtifact) {
@@ -57,8 +68,9 @@ public class CommonArtifactAuditor extends AbstractArtifactAuditor implements
 					TigerstripeProjectAuditor
 							.reportError(
 									"Default value of '"
+											+ artifactName
 											+ field.getName()
-											+ "' attrubute is incorrect. Referenced enumeration '"
+											+ "' attribute is incorrect. Referenced enumeration '"
 											+ enumArtifact
 													.getFullyQualifiedName()
 											+ "' doesn't contain '"
