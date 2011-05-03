@@ -756,7 +756,8 @@
                  checkEnabled="false">
               <with
                     variable="selection">
-                 <iterate>
+                 <iterate
+                       ifEmpty="false">
                     <and>
                        <instanceof
                              value="org.eclipse.jdt.core.IJavaElement">
