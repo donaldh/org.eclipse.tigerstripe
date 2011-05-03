@@ -290,7 +290,7 @@ public class MapCanonicalEditPolicy extends CanonicalConnectionEditPolicy {
 	private java.util.Map myEObject2ViewMap = new HashMap();
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	private Collection refreshConnections() {
 		try {
@@ -306,6 +306,8 @@ public class MapCanonicalEditPolicy extends CanonicalConnectionEditPolicy {
 						.getElement();
 				int diagramLinkVisualID = TigerstripeVisualIDRegistry
 						.getVisualID(nextDiagramLink);
+
+				boolean removeFromDiagramLinks = false;
 				for (Iterator modelLinkDescriptors = myLinkDescriptors
 						.iterator(); modelLinkDescriptors.hasNext();) {
 					LinkDescriptor nextLinkDescriptor = (LinkDescriptor) modelLinkDescriptors
@@ -317,9 +319,12 @@ public class MapCanonicalEditPolicy extends CanonicalConnectionEditPolicy {
 									.getDestination()
 							&& diagramLinkVisualID == nextLinkDescriptor
 									.getVisualID()) {
-						diagramLinks.remove();
+						removeFromDiagramLinks = true;
 						modelLinkDescriptors.remove();
 					}
+				}
+				if (removeFromDiagramLinks) {
+					diagramLinks.remove();
 				}
 			}
 			deleteViews(existingLinks.iterator());
