@@ -1,7 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="DiagramRenameTest_AttrMethods" version="3.0" id="_OKyf8GWTEeC-wLIWNiIuCA" description="Rename artifacts and check updates on class and instance diagrams within and outside the packages for the updated attribute and method types.&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;Create a Tigerstripe Project with 'simple' and 'simple.moved' packages.&#xD;&#xA;Create artifacts in 'simple' package:&#xD;&#xA;&#x9;Ent1 of type entity with attribute1 of DataMiddle type, with extends SuperEnt and implements SessionFacade0.&#xD;&#xA;&#x9;Ent2 of type entity with Ent1 used in Method Return type, with Exception0 used in a method, and argument Arg1, with extends Ent1.&#xD;&#xA;&#x9;AssociatedEnt of type entity with attribute0 of DataMiddle type.&#xD;&#xA;&#x9;SuperEnt of type entity.&#xD;&#xA;&#x9;Query0 of type query with returned type = Ent1.&#xD;&#xA;&#x9;DataBottom of type Datatype with extends to DataMiddle and 'recur' attribute (self reference).&#xD;&#xA;&#x9;DataMiddle of type Datatype with extends to DataTop&#xD;&#xA;&#x9;DataTop of type Datatype.&#xD;&#xA;&#x9;Enumeration0 of type Enumeration.&#xD;&#xA;&#x9;Event0 of type Event.&#xD;&#xA;&#x9;Exception0 of type Exception.&#xD;&#xA;&#x9;SessionFacade0 of type Session Facade.&#xD;&#xA;&#x9;Update0 of type Update Procedure.&#xD;&#xA;Create connection artifacts in 'simple' package:&#xD;&#xA;&#x9;Association0 with 'zEnd Details' is equal 'simple.Ent1'.&#xD;&#xA;&#x9;Association1 with 'aEnd Details' and 'zEnd Details' are equal 'simple.Ent1'.&#xD;&#xA;&#x9;AssociationClass0 with 'aEnd Details' and 'zEnd Details' are equal 'simple.Ent1'.&#xD;&#xA;&#x9;Dependency0 with 'aEnd Details' is equal 'simple.Ent1'.&#xD;&#xA;Create class diagrams within the 'simple' and 'simple.moved' packages themselves.&#xD;&#xA;Create class and instance diagrams outside of all packages.&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;Open all class diagrams.&#xD;&#xA;Rename artifacts in Tigerstripe Explorer:&#xD;&#xA;&#x9;Rename Ent1_to_Ent10&#xD;&#xA;&#x9;Enumeration0_to_Enumeration00&#xD;&#xA;&#x9;DataMiddle_to_DataMiddle0&#xD;&#xA;&#x9;DataBottom_to_DataBottom0&#xD;&#xA;Save diagram.&#xD;&#xA;Check type names for attributes and methods names in the Tigerstripe Explorer.&#xD;&#xA;Check changed type names for attributes and methods on the diagrams.&#xD;&#xA;" type="ecl">
   <contexts>_NG89gMz6Ed-6Q5V9pxn_5A</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script" content="with [get-view &quot;Tigerstripe Explorer&quot; | get-tree] {&#xA;    select &quot;model-refactoring/src/simple/default&quot; | double-click -nowait&#xA;    select &quot;model-refactoring/src/simple.moved/inside-moved&quot; | double-click -nowait&#xA;    select &quot;model-refactoring/outside-class-diagram&quot; | double-click -nowait&#xA;    select &quot;model-refactoring/src/simple/Ent1&quot; | get-menu &quot;Refactor Model/Rename...&quot; | click&#xA;}&#xA;with [get-window &quot;Refactor Model Artifact&quot;] {&#xA;    with [get-editbox -after [get-label &quot;New name:&quot;]] {&#xA;        key-type &quot;M1+a&quot;&#xA;        set-text Ent10&#xA;    }&#xA;    get-button &quot;Next >&quot; | click&#xA;    get-button Finish | click&#xA;}&#xA;get-button &quot;Save All (Ctrl+Shift+S)&quot; | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple/Enumeration0&quot; | get-menu &quot;Refactor Model/Rename...&quot; | click&#xA;with [get-window &quot;Refactor Model Artifact&quot;] {&#xA;    with [get-editbox -after [get-label &quot;New name:&quot;]] {&#xA;        key-type &quot;M1+a&quot;&#xA;        set-text Enumeration00&#xA;    }&#xA;    get-button &quot;Next >&quot; | click&#xA;    get-button Finish | click&#xA;}&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple/DataMiddle&quot;&#xA;get-button &quot;Save All (Ctrl+Shift+S)&quot; | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple/DataMiddle&quot; | get-menu &quot;Refactor Model/Rename...&quot; | click&#xA;with [get-window &quot;Refactor Model Artifact&quot;] {&#xA;    with [get-editbox -after [get-label &quot;New name:&quot;]] {&#xA;        key-type &quot;M1+a&quot;&#xA;        set-text DataMiddle0&#xA;    }&#xA;    get-button &quot;Next >&quot; | click&#xA;    get-button Finish | click&#xA;}&#xA;get-button &quot;Save All (Ctrl+Shift+S)&quot; | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple/DataBottom&quot; | get-menu &quot;Refactor Model/Rename...&quot; | click&#xA;with [get-window &quot;Refactor Model Artifact&quot;] {&#xA;    with [get-editbox -after [get-label &quot;New name:&quot;]] {&#xA;        key-type &quot;M1+a&quot;&#xA;        set-text DataBottom0&#xA;    }&#xA;    get-button &quot;Next >&quot; | click&#xA;    get-button Finish | click&#xA;}&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;model-refactoring/src/simple/AssociatedEnt/attribute0:DataMiddle0&quot; | get-property caption | equals &quot;attribute0:DataMiddle0&quot; | verify-true&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;model-refactoring/src/simple/DataBottom0/recur:DataBottom0&quot; | get-property caption | equals &quot;recur:DataBottom0&quot; | verify-true&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;model-refactoring/src/simple/DataMiddle0/attribute0:Enumeration00&quot; | get-property caption | equals &quot;attribute0:Enumeration00&quot; | verify-true&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;model-refactoring/src/simple/Ent10/enumRef:Enumeration00&quot; | get-property caption | equals &quot;enumRef:Enumeration00&quot; | verify-true&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;model-refactoring/src/simple/Ent10/attribute1:DataMiddle0&quot; | get-property caption | equals &quot;attribute1:DataMiddle0&quot; | verify-true&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;model-refactoring/src/simple/Ent2/method0\\(Ent10\\):Ent10\\[0..1\\]&quot; | get-property caption | equals &quot;method0(Ent10):Ent10[0..1]&quot; | verify-true&#xA;with [get-editor &quot;outside-class-diagram.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent10 | get-edit-part -text &quot;+enumRef:Enumeration0+attribute1:DataMiddle0&quot; | get-edit-part -name enumRef] {&#xA;    get-property name | equals enumRef | verify-true&#xA;    get-property type | equals &quot;simple.Enumeration00&quot; | verify-true&#xA;}&#xA;with [get-editor &quot;outside-class-diagram.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent10 | get-edit-part -text &quot;+enumRef:Enumeration0+attribute1:DataMiddle0&quot; | get-edit-part -name attribute1] {&#xA;    get-property name | equals attribute1 | verify-true&#xA;    get-property type | equals &quot;simple.DataMiddle&quot; | verify-true&#xA;}&#xA;get-editor &quot;inside-moved.wvd&quot; | click -nowait&#xA;with [get-editor &quot;inside-moved.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name AssociatedEnt | get-edit-part -text &quot;+attribute0:DataMiddle0&quot; | get-edit-part -name attribute0] {&#xA;    get-property name | equals attribute0 | verify-true&#xA;    get-property type | equals &quot;simple.DataMiddle0&quot; | verify-true&#xA;}&#xA;with [get-editor &quot;inside-moved.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent10 | get-edit-part -text &quot;+enumRef:Enumeration00+attribute1:DataMiddle0&quot; | get-edit-part -name enumRef] {&#xA;    get-property name | equals enumRef | verify-true&#xA;    get-property type | equals &quot;simple.Enumeration00&quot; | verify-true&#xA;}&#xA;with [get-editor &quot;inside-moved.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent10 | get-edit-part -text &quot;+enumRef:Enumeration00+attribute1:DataMiddle0&quot; | get-edit-part -name attribute1] {&#xA;    get-property name | equals attribute1 | verify-true&#xA;    get-property type | equals &quot;simple.DataMiddle0&quot; | verify-true&#xA;}&#xA;get-editor &quot;default.wvd&quot; | click -nowait&#xA;with [get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent10 | get-edit-part -text &quot;+enumRef:Enumeration00+attribute1:DataMiddle0&quot; | get-edit-part -name enumRef] {&#xA;    get-property name | equals enumRef | verify-true&#xA;    get-property type | equals &quot;simple.Enumeration00&quot; | verify-true&#xA;}&#xA;with [get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent10 | get-edit-part -text &quot;+enumRef:Enumeration00+attribute1:DataMiddle0&quot; | get-edit-part -name attribute1] {&#xA;    get-property name | equals attribute1 | verify-true&#xA;    get-property type | equals &quot;simple.DataMiddle0&quot; | verify-true&#xA;}&#xA;with [get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name DataMiddle0 | get-edit-part -text &quot;+attribute0:Enumeration00&quot; | get-edit-part -name attribute0] {&#xA;    get-property name | equals attribute0 | verify-true&#xA;    get-property type | equals &quot;simple.Enumeration00&quot; | verify-true&#xA;}&#xA;with [get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent2 | get-edit-part -text &quot;+method0(Ent10):Ent10[0..1]&quot; | get-edit-part -name method0] {&#xA;    get-property name | equals method0 | verify-true&#xA;    get-property type | equals &quot;simple.Ent10&quot; | verify-true&#xA;}"/>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "model-refactoring/src/simple/default" | double-click -nowait
+    select "model-refactoring/src/simple.moved/inside-moved" | double-click -nowait
+    select "model-refactoring/outside-class-diagram" | double-click -nowait
+    select "model-refactoring/src/simple/Ent1" | get-menu "Refactor Model/Rename..." | click
+}
+with [get-window "Refactor Model Artifact"] {
+    with [get-editbox -after [get-label "New name:"]] {
+        key-type "M1+a"
+        set-text Ent10
+    }
+    get-button "Next >" | click
+    get-button Finish | click
+}
+get-button "Save All (Ctrl+Shift+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/Enumeration0" | get-menu "Refactor Model/Rename..." | click
+with [get-window "Refactor Model Artifact"] {
+    with [get-editbox -after [get-label "New name:"]] {
+        key-type "M1+a"
+        set-text Enumeration00
+    }
+    get-button "Next >" | click
+    get-button Finish | click
+}
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/DataMiddle"
+get-button "Save All (Ctrl+Shift+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/DataMiddle" | get-menu "Refactor Model/Rename..." | click
+with [get-window "Refactor Model Artifact"] {
+    with [get-editbox -after [get-label "New name:"]] {
+        key-type "M1+a"
+        set-text DataMiddle0
+    }
+    get-button "Next >" | click
+    get-button Finish | click
+}
+get-button "Save All (Ctrl+Shift+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/DataBottom" | get-menu "Refactor Model/Rename..." | click
+with [get-window "Refactor Model Artifact"] {
+    with [get-editbox -after [get-label "New name:"]] {
+        key-type "M1+a"
+        set-text DataBottom0
+    }
+    get-button "Next >" | click
+    get-button Finish | click
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/AssociatedEnt/attribute0:DataMiddle0" | get-property caption | equals "attribute0:DataMiddle0" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/DataBottom0/recur:DataBottom0" | get-property caption | equals "recur:DataBottom0" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/DataMiddle0/attribute0:Enumeration00" | get-property caption | equals "attribute0:Enumeration00" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/Ent10/enumRef:Enumeration00" | get-property caption | equals "enumRef:Enumeration00" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/Ent10/attribute1:DataMiddle0" | get-property caption | equals "attribute1:DataMiddle0" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/Ent2/method0\\(Ent10\\):Ent10\\[0..1\\]" | get-property caption | equals "method0(Ent10):Ent10[0..1]" | verify-true
+with [get-editor "outside-class-diagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent10 | get-edit-part -text "+enumRef:Enumeration00+attribute1:DataMiddle0" | get-edit-part -name enumRef] {
+    get-property name | equals enumRef | verify-true
+    get-property type | equals "simple.Enumeration00" | verify-true
+}
+with [get-editor "outside-class-diagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent10 | get-edit-part -text "+enumRef:Enumeration00+attribute1:DataMiddle0" | get-edit-part -name attribute1] {
+    get-property name | equals attribute1 | verify-true
+    get-property type | equals "simple.DataMiddle0" | verify-true
+}
+get-editor "inside-moved.wvd" | click -nowait
+with [get-editor "inside-moved.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name AssociatedEnt | get-edit-part -text "+attribute0:DataMiddle0" | get-edit-part -name attribute0] {
+    get-property name | equals attribute0 | verify-true
+    get-property type | equals "simple.DataMiddle0" | verify-true
+}
+with [get-editor "inside-moved.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent10 | get-edit-part -text "+enumRef:Enumeration00+attribute1:DataMiddle0" | get-edit-part -name enumRef] {
+    get-property name | equals enumRef | verify-true
+    get-property type | equals "simple.Enumeration00" | verify-true
+}
+with [get-editor "inside-moved.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent10 | get-edit-part -text "+enumRef:Enumeration00+attribute1:DataMiddle0" | get-edit-part -name attribute1] {
+    get-property name | equals attribute1 | verify-true
+    get-property type | equals "simple.DataMiddle0" | verify-true
+}
+get-editor "default.wvd" | click -nowait
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent10 | get-edit-part -text "+enumRef:Enumeration00+attribute1:DataMiddle0" | get-edit-part -name enumRef] {
+    get-property name | equals enumRef | verify-true
+    get-property type | equals "simple.Enumeration00" | verify-true
+}
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent10 | get-edit-part -text "+enumRef:Enumeration00+attribute1:DataMiddle0" | get-edit-part -name attribute1] {
+    get-property name | equals attribute1 | verify-true
+    get-property type | equals "simple.DataMiddle0" | verify-true
+}
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name DataMiddle0 | get-edit-part -text "+attribute0:Enumeration00" | get-edit-part -name attribute0] {
+    get-property name | equals attribute0 | verify-true
+    get-property type | equals "simple.Enumeration00" | verify-true
+}
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent2 | get-edit-part -text "+method0(Ent10):Ent10[0..1]" | get-edit-part -name method0] {
+    get-property name | equals method0 | verify-true
+    get-property type | equals "simple.Ent10" | verify-true
+}]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
