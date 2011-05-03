@@ -633,7 +633,7 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 				if (phantomArtifactMgrSession != null
 						&& model instanceof IPrimitiveTypeArtifact) {
 
-					if (!context.addToCycle(Cycles.PHANTOM,
+					if (context.addToCycle(Cycles.PHANTOM,
 							phantomArtifactMgrSession)) {
 
 						ArtifactManager phantomMgr = ((ArtifactManagerSessionImpl) phantomArtifactMgrSession)
