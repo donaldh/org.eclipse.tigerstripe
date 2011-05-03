@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="341055_RenameEnumerationLiteralsContextWorkspace" id="_YOsIAW--EeCS3bGR9ACI6w">
+  <content>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".341055_RenameEnumerationLiteralsctx/content2.classpath"/>
+      <files name=".project" contentURI=".341055_RenameEnumerationLiteralsctx/content2.project"/>
+      <files name="tigerstripe.xml" contentURI=".341055_RenameEnumerationLiteralsctx/content2.xml"/>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".341055_RenameEnumerationLiteralsctx/content8.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".341055_RenameEnumerationLiteralsctx/content7.package"/>
+            <files name="Entity1.java" contentURI=".341055_RenameEnumerationLiteralsctx/content3.java"/>
+            <files name="Enum.java" contentURI=".341055_RenameEnumerationLiteralsctx/content4.java"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>
