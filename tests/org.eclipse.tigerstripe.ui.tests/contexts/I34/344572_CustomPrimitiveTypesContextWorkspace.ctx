@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="344572_CustomPrimitiveTypesContextWorkspace" id="_esBOUXZBEeCl96NjdO1nlQ">
+  <content>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".344572_CustomPrimitiveTypesContextWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".344572_CustomPrimitiveTypesContextWorkspacectx/content1.project"/>
+      <files name="tigerstripe.xml" contentURI=".344572_CustomPrimitiveTypesContextWorkspacectx/content1.xml"/>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".344572_CustomPrimitiveTypesContextWorkspacectx/content4.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".344572_CustomPrimitiveTypesContextWorkspacectx/content3.package"/>
+            <files name="Entity1.java" contentURI=".344572_CustomPrimitiveTypesContextWorkspacectx/content1.java"/>
+            <files name="default.wbp" contentURI=".344572_CustomPrimitiveTypesContextWorkspacectx/content2.wbp"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>
