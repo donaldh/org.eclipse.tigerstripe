@@ -128,5 +128,11 @@
            class="org.eclipse.tigerstripe.annotation.ui.core.view.AnnotationNoteProvider">
      </provider>
   </extension>
+  <extension
+        point="org.eclipse.ui.propertiesView">
+     <excludeSources
+           id="org.eclipse.tigerstripe.annotation.view.property">
+     </excludeSources>
+  </extension>
 
 </plugin>
