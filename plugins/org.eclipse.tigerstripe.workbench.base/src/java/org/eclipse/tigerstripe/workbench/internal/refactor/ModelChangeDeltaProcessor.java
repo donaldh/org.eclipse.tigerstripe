@@ -10,7 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.refactor;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -28,6 +30,7 @@ import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.annotation.ITigerstripeLazyObject;
 import org.eclipse.tigerstripe.workbench.internal.annotation.PackageLazyObject;
 import org.eclipse.tigerstripe.workbench.internal.annotation.TigerstripeLazyObject;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactRemoveFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactSetFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
@@ -45,6 +48,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
@@ -289,15 +293,60 @@ public class ModelChangeDeltaProcessor {
 				}
 			}
 		} else if (IModelChangeDelta.ADD == delta.getType()) {
-			if (toSave == null)
-				artifact.doSave(null);
-			else
-				toSave.add(artifact);
+			if (IArtifactRemoveFeatureRequest.IMPLEMENTS_FEATURE.equals(delta
+					.getFeature())) {
+				IAbstractArtifact rcArtifact = getRefactoringComponent(
+						artifact, toSave);
+				IAbstractArtifact newImpl = rcArtifact
+						.getProject()
+						.getArtifactManagerSession()
+						.getArtifactByFullyQualifiedName(
+								(String) delta.getNewValue());
+				if (newImpl == null) {
+					// Make a dummy one
+					newImpl = rcArtifact.getProject()
+							.getArtifactManagerSession()
+							.makeArtifact(ISessionArtifact.class.getName());
+					newImpl.setFullyQualifiedName((String) delta.getNewValue());
+
+				}
+				Collection<IAbstractArtifact> implemented = new ArrayList<IAbstractArtifact>();
+				implemented.addAll(rcArtifact.getImplementedArtifacts());
+				implemented.add(newImpl);
+				rcArtifact.setImplementedArtifacts(implemented);
+
+				if (toSave == null) {
+					rcArtifact.doSave(null);
+				} else {
+					toSave.add(rcArtifact);
+				}
+			}
+
 		} else if (IModelChangeDelta.REMOVE == delta.getType()) {
-			if (toSave == null)
-				artifact.doSave(null);
-			else
-				toSave.add(artifact);
+			if (IArtifactRemoveFeatureRequest.IMPLEMENTS_FEATURE.equals(delta
+					.getFeature())) {
+				IAbstractArtifact rcArtifact = getRefactoringComponent(
+						artifact, toSave);
+
+				Collection<IAbstractArtifact> implemented = new ArrayList<IAbstractArtifact>();
+				implemented.addAll(rcArtifact.getImplementedArtifacts());
+				for (Iterator<IAbstractArtifact> it = implemented.iterator(); it
+						.hasNext();) {
+					IAbstractArtifact implArtifact = it.next();
+					if (implArtifact.getFullyQualifiedName().equals(
+							delta.getOldValue())) {
+						it.remove();
+						break;
+					}
+				}
+				rcArtifact.setImplementedArtifacts(implemented);
+
+				if (toSave == null) {
+					rcArtifact.doSave(null);
+				} else {
+					toSave.add(rcArtifact);
+				}
+			}
 		} else if (IModelChangeDelta.MOVE == delta.getType()) {
 			// In order for the diagrams to be updated properly before the move
 			// we need to rename the artifact to the target location in the
