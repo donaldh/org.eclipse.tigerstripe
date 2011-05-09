@@ -24,15 +24,16 @@ public class StereotypeScopeDetails implements IStereotypeScopeDetails {
 	private boolean isMethodLevel;
 	private boolean isLiteralLevel;
 	private boolean isAssociationEndLevel;
+	private boolean isReturnLevel;
 
-	public void setAssociationEndLevel(boolean isAssociationEndLevel ) {
+	public void setAssociationEndLevel(boolean isAssociationEndLevel) {
 		this.isAssociationEndLevel = isAssociationEndLevel;
 	}
-	
+
 	public boolean isAssociationEndLevel() {
 		return isAssociationEndLevel;
 	}
-	
+
 	public void setArgumentLevel(boolean isArgumentLevel) {
 		this.isArgumentLevel = isArgumentLevel;
 	}
@@ -86,4 +87,11 @@ public class StereotypeScopeDetails implements IStereotypeScopeDetails {
 		return isMethodLevel;
 	}
 
+	public void setReturnLevel(boolean isReturnLevel) {
+		this.isReturnLevel = isReturnLevel;
+	}
+
+	public boolean isReturnLevel() {
+		return isReturnLevel;
+	}
 }

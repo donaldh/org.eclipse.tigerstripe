@@ -45,10 +45,10 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument.EDirection;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IEntityMethodFlavorDetails;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjFlavorDefaults;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjMethod;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
@@ -142,33 +142,28 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 
 	public class ReturnTypeWrapper implements IReturnedType {
 
-		private IMethod theMethod;
-
-		public ReturnTypeWrapper(IMethod method) {
-			theMethod = method;
-		}
 
 		/**
 		 * @return the theMethod
 		 */
 		public IMethod getContainingMethod() {
-			return theMethod;
+			return Method.this;
 		}
 
 		public void addStereotypeInstance(IStereotypeInstance instance) {
-			((Method) theMethod).addReturnStereotypeInstance(instance);
+			Method.this.addReturnStereotypeInstance(instance);
 		}
 
 		public Collection<IStereotypeInstance> getStereotypeInstances() {
-			return ((Method) theMethod).getReturnStereotypeInstances();
+			return Method.this.getReturnStereotypeInstances();
 		}
 
 		public void addStereotypeListener(IStereotypeListener listener) {
-			((Method) theMethod).addStereotypeListener(listener);
+			Method.this.addStereotypeListener(listener);
 		}
 
 		public void removeStereotypeListener(IStereotypeListener listener) {
-			((Method) theMethod).removeStereotypeListener(listener);
+			Method.this.removeStereotypeListener(listener);
 		}
 
 		public IStereotypeInstance getStereotypeInstanceByName(String name) {
@@ -189,12 +184,12 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		}
 
 		public void removeStereotypeInstance(IStereotypeInstance instance) {
-			((Method) theMethod).removeReturnStereotypeInstance(instance);
+			Method.this.removeReturnStereotypeInstance(instance);
 		}
 
 		public void removeStereotypeInstances(
 				Collection<IStereotypeInstance> instances) {
-			((Method) theMethod).removeReturnStereotypeInstances(instances);
+			Method.this.removeReturnStereotypeInstances(instances);
 		}
 
 		public Object getAnnotation(String annotationSpecificationID) {

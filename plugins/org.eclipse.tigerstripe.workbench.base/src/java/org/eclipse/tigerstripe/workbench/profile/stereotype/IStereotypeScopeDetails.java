@@ -47,6 +47,8 @@ public interface IStereotypeScopeDetails {
 	
 	public void setAssociationEndLevel( boolean isAssociationEndLevel);
 
+	public void setReturnLevel(boolean isReturnLevel);
+
 	public void setArtifactLevelTypes(String[] types);
 
 	/**
@@ -95,4 +97,11 @@ public interface IStereotypeScopeDetails {
 	 * @return true if applicable at association End level
 	 */
 	public boolean isAssociationEndLevel();
+
+	/**
+	 * Return true if the stereotype can be applied at return level.
+	 * 
+	 * @return true if applicable at association End level
+	 */
+	public boolean isReturnLevel();
 }

@@ -287,13 +287,15 @@ public class Stereotype implements IStereotype {
 		stereotype.addElement("description").setText(getDescription());
 
 		Element scope = stereotype.addElement("scope");
-		scope.addAttribute("argument", String
-				.valueOf(details.isArgumentLevel()));
-		scope.addAttribute("attribute", String.valueOf(details
-				.isAttributeLevel()));
+		scope.addAttribute("argument",
+				String.valueOf(details.isArgumentLevel()));
+		scope.addAttribute("attribute",
+				String.valueOf(details.isAttributeLevel()));
 		scope.addAttribute("method", String.valueOf(details.isMethodLevel()));
 		scope.addAttribute("label", String.valueOf(details.isLiteralLevel()));
-		scope.addAttribute("associationEnd", String.valueOf(details.isAssociationEndLevel()));
+		scope.addAttribute("associationEnd",
+				String.valueOf(details.isAssociationEndLevel()));
+		scope.addAttribute("return", String.valueOf(details.isReturnLevel()));
 
 		if (details.getArtifactLevelTypes() != null) {
 			String[] types = details.getArtifactLevelTypes();
@@ -331,17 +333,21 @@ public class Stereotype implements IStereotype {
 
 		Element scope = element.element("scope");
 		if (scope != null) {
-			details.setArgumentLevel("true".equals(scope
+			details.setArgumentLevel(Boolean.parseBoolean(scope
 					.attributeValue("argument")));
-			details.setAttributeLevel("true".equals(scope
+			details.setAttributeLevel(Boolean.parseBoolean(scope
 					.attributeValue("attribute")));
-			details.setMethodLevel("true"
-					.equals(scope.attributeValue("method")));
-			details.setLiteralLevel("true"
-					.equals(scope.attributeValue("label")));
-			details.setAssociationEndLevel("true"
-					.equals(scope.attributeValue("associationEnd")));
+			details.setMethodLevel(Boolean.parseBoolean(scope
+					.attributeValue("method")));
+			details.setLiteralLevel(Boolean.parseBoolean(scope
+					.attributeValue("label")));
+			details.setAssociationEndLevel(Boolean.parseBoolean(scope
+					.attributeValue("associationEnd")));
 			details.setArtifactLevelTypes(null);
+
+			details.setReturnLevel(Boolean.parseBoolean(scope
+					.attributeValue("return")));
+
 			ArrayList<String> incls = new ArrayList<String>();
 			for (Iterator<Element> iter = scope
 					.elementIterator("artifactLevelType"); iter.hasNext();) {

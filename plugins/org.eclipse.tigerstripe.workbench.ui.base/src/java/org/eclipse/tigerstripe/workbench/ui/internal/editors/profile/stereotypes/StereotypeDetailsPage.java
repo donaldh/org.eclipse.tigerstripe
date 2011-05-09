@@ -243,6 +243,8 @@ public class StereotypeDetailsPage implements IDetailsPage {
 
 	private Composite client;
 
+	private Button returnLevelButton;
+
 	public StereotypeDetailsPage(StereotypesSection master) {
 		super();
 		this.master = master;
@@ -301,6 +303,9 @@ public class StereotypeDetailsPage implements IDetailsPage {
 		} else if (e.getSource() == associationEndLevelButton) {
 			details.setAssociationEndLevel(associationEndLevelButton
 					.getSelection());
+			pageModified();
+		} else if (e.getSource() == returnLevelButton) {
+			details.setReturnLevel(returnLevelButton.getSelection());
 			pageModified();
 		}
 	}
@@ -383,10 +388,13 @@ public class StereotypeDetailsPage implements IDetailsPage {
 		associationEndLevelButton.addSelectionListener(adapter);
 		associationEndLevelButton
 				.setToolTipText("Mark this stereotype applicable to any Association End.");
-		TableWrapData td = new TableWrapData(TableWrapData.FILL_GRAB);
-		td.colspan = 2;
-		associationEndLevelButton.setLayoutData(td);
 
+		returnLevelButton = toolkit.createButton(c, "Return Value", SWT.CHECK);
+		returnLevelButton.setEnabled(ProfileEditor.isEditable());
+		returnLevelButton.addSelectionListener(adapter);
+		returnLevelButton
+				.setToolTipText("Mark this stereotype applicable to any Return Value, regardless of Value Type");
+		
 		createArtifactTypeTable(parent, toolkit);
 	}
 
@@ -748,6 +756,8 @@ public class StereotypeDetailsPage implements IDetailsPage {
 				.isArgumentLevel());
 		associationEndLevelButton.setSelection(st.getStereotypeScopeDetails()
 				.isAssociationEndLevel());
+
+		returnLevelButton.setSelection(st.getStereotypeScopeDetails().isReturnLevel());
 
 		attributesViewer.setInput(st);
 		attributesViewer.refresh(true);

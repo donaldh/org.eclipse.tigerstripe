@@ -125,7 +125,7 @@ public class MethodReturnDetailsEditDialog extends TSMessageDialog {
 
 		StereotypeSectionManager stereomgr = new StereotypeSectionManager(
 				addAnno, editAnno, removeAnno, annTable,
-				((Method) initialMethod).new ReturnTypeWrapper(initialMethod),
+				((Method) initialMethod).new ReturnTypeWrapper(),
 				getShell(), callback);
 		stereomgr.delegate();
 

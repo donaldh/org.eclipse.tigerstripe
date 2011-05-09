@@ -34,7 +34,6 @@ import org.eclipse.tigerstripe.workbench.internal.MigrationHelper;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.IWorkbenchProfileProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.model.Method.ReturnTypeWrapper;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.primitiveType.PrimitiveTypeDef;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.GlobalSettingsProperty;
@@ -45,8 +44,9 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IReturnedType;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
@@ -556,8 +556,10 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 				result.add(stereotype);
 			} else if (capable instanceof ILiteral && details.isLiteralLevel()) {
 				result.add(stereotype);
-			} else if ((capable instanceof IArgument || capable instanceof ReturnTypeWrapper)
-					&& details.isArgumentLevel()) {
+			} else if (capable instanceof IArgument && details.isArgumentLevel()) {
+				result.add(stereotype);
+			} else if (capable instanceof IReturnedType && (details.isReturnLevel() || details.isArgumentLevel())) {
+				/** 'isArgumentLevel' check used for backward compatibility **/
 				result.add(stereotype);
 			} else if (capable instanceof IAssociationEnd
 					&& details.isAssociationEndLevel()) {
