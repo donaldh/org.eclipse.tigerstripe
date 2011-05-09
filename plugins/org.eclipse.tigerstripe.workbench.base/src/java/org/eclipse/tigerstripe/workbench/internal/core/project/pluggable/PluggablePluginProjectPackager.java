@@ -11,12 +11,17 @@
 package org.eclipse.tigerstripe.workbench.internal.core.project.pluggable;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -46,11 +51,20 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeM1GeneratorProject;
  */
 public class PluggablePluginProjectPackager {
 
+	private static final String TEMPLATES_DIR = "templates";
+	private static final String CLASSES_DIR = "classes";
 	private GeneratorProjectDescriptor descriptor;
 
 	public PluggablePluginProjectPackager(GeneratorProjectDescriptor descriptor) {
 		this.descriptor = descriptor;
 	}
+
+	private static final FileFilter REPOSITORY_FILTER = new FileFilter() {
+
+		public boolean accept(File pathname) {
+			return !isRepositoryMetadataDir(pathname);
+		}
+	};
 
 	public void packageUpProject(IProgressMonitor monitor, IPath path)
 			throws TigerstripeException {
@@ -73,32 +87,50 @@ public class PluggablePluginProjectPackager {
 
 			// the templates dir
 			String projectDir = descriptor.getBaseDir().getAbsolutePath();
-			String templatesDir = projectDir + File.separator + "templates";
+			String templatesDir = projectDir + File.separator + TEMPLATES_DIR;
 			File templateDirFile = new File(templatesDir);
-			File[] templateFiles = templateDirFile.listFiles();
-			zipper.write(templateFiles, "templates");
+			File[] templateFiles = templateDirFile.listFiles(REPOSITORY_FILTER);
+			zipper.write(templateFiles, TEMPLATES_DIR);
 			monitor.worked(2);
 
 			// the bin dir with all compiled classes
-			String binDir = projectDir + File.separator + "classes";
+			String binDir = projectDir + File.separator + CLASSES_DIR;
 			File binDirFile = new File(binDir);
-			File[] binFiles = binDirFile.listFiles();
-			zipper.write(binFiles, "classes");
+			File[] binFiles = binDirFile.listFiles(REPOSITORY_FILTER);
+			zipper.write(binFiles, CLASSES_DIR);
 			monitor.worked(2);
 
 			// package up user-jars
 			String baseDir = projectDir + File.separator;
+			Collection<File> classpathEntryFiles = new ArrayList<File>();
 			for (IPluginClasspathEntry entry : descriptor.getClasspathEntries()) {
 				String entryPath = baseDir + entry.getRelativePath();
 				File entryFile = new File(entryPath);
-				if (entryFile.exists()) {
+				classpathEntryFiles.add(entryFile);
+				if (entryFile.exists() && !entryFile.isDirectory()) {
 					zipper.write(entryFile, entry.getRelativePath());
 				}
 			}
 
 			// package up specified additionalFiles
-			File[] additionalFiles = computeAdditionalFiles();
-			zipper.write(additionalFiles, "", baseDir);
+			// Avoid duplicate entries
+			List<File> additionalFiles = new ArrayList<File>(
+					Arrays.asList(computeAdditionalFiles()));
+			additionalFiles.removeAll(Arrays.asList(templateFiles));
+			additionalFiles.removeAll(Arrays.asList(binFiles));
+			additionalFiles.removeAll(classpathEntryFiles);
+			additionalFiles.remove(descriptorFile);
+
+			Iterator<File> it = additionalFiles.iterator();
+
+			while (it.hasNext()) {
+				File file = it.next();
+				if (isRepositoryMetadataFile(file)) {
+					it.remove();
+				}
+			}
+
+			zipper.write(additionalFiles.toArray(new File[0]), "", baseDir);
 
 			zipper.finished();
 
@@ -115,6 +147,29 @@ public class PluggablePluginProjectPackager {
 				}
 			}
 		}
+	}
+
+	private static final Set<String> REPOSITORY_METADATA_NAMES = new HashSet<String>(
+			Arrays.asList(".svn", ".cvs", ".git"));
+
+	private static boolean isRepositoryMetadataDir(File file) {
+		return REPOSITORY_METADATA_NAMES.contains(file.getName())
+				&& file.isDirectory();
+	}
+
+	private static boolean isRepositoryMetadataFile(File file) {
+
+		if (isRepositoryMetadataDir(file)) {
+			return true;
+		}
+
+		while (file != null) {
+			if (REPOSITORY_METADATA_NAMES.contains(file.getName())) {
+				return true;
+			}
+			file = file.getParentFile();
+		}
+		return false;
 	}
 
 	protected File[] computeAdditionalFiles() {
@@ -179,7 +234,7 @@ public class PluggablePluginProjectPackager {
 		List<String> compilerArgs = new ArrayList<String>();
 
 		// First clean up
-		File classesDir = new File(projectDir, "classes");
+		File classesDir = new File(projectDir, CLASSES_DIR);
 		if (classesDir.exists()) {
 			classesDir.delete();
 		}
@@ -193,7 +248,7 @@ public class PluggablePluginProjectPackager {
 
 		// then look at the classpath
 		compilerArgs.add("-d");
-		String outputDir = projectDir + File.separator + "classes";
+		String outputDir = projectDir + File.separator + CLASSES_DIR;
 		compilerArgs.add(outputDir);
 		int unitsNumber = 0;
 

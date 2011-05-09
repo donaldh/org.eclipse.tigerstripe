@@ -44,8 +44,12 @@ public class TigerstripeLinkHelper implements ILinkHelper {
 	public IStructuredSelection findSelection(IEditorInput input) {
 		IResource resource = ResourceUtil.getResource(input);
 		if (resource != null) {
-			return new StructuredSelection(LogicalExplorerNodeFactory
-					.getInstance().getNode(resource));
+			Object node = LogicalExplorerNodeFactory
+					.getInstance().getNode(resource);
+			if (node == null) {
+				return null;
+			}
+			return new StructuredSelection(node);
 		} else {
 			return null;
 		}
