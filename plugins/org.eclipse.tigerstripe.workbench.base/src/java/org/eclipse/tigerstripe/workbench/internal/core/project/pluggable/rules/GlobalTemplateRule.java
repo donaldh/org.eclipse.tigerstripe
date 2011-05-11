@@ -16,11 +16,10 @@ import java.io.Writer;
 import java.util.Collection;
 import java.util.Map;
 
-import javax.swing.text.html.HTMLDocument.HTMLReader.IsindexAction;
-
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.log.Log4JLogChute;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.generation.IM1RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.PluginVelocityLog;
@@ -107,11 +106,12 @@ public class GlobalTemplateRule extends TemplateBasedRule implements
 	public void trigger(PluggablePluginConfig pluginConfig, IPluginRuleExecutor exec) throws TigerstripeException {
 		
 		Writer writer = null;
+		VelocityEngine engine = null;
 		try {
 			
 			initializeReport(pluginConfig);
 
-			VelocityEngine engine = setClasspathLoaderForVelocity(pluginConfig, exec);
+			engine = setClasspathLoaderForVelocity(pluginConfig, exec);
 			
 			// JS - DEBUG
 		//	System.out.println("***** template = " + getTemplate());
@@ -174,6 +174,13 @@ public class GlobalTemplateRule extends TemplateBasedRule implements
 			TigerstripeRuntime.logErrorMessage("Exception detected", e);
 			throw new TigerstripeException("Unexpected error while merging '" + getTemplate() + "' template: " + e.getMessage(), e);
 		} finally {
+			if (engine!=null) {
+				// nmehrega - bugzilla 251858: Shut down logger so logger streams are closed properly
+				Object logger = engine.getApplicationAttribute(LOGGER_KEY);
+				if (logger instanceof Log4JLogChute) {
+					((Log4JLogChute)logger).shutdown();
+				}
+			}
 			if (writer != null) {
 				try {
 					writer.close();

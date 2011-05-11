@@ -27,6 +27,7 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.log.Log4JLogChute;
+import org.apache.velocity.runtime.log.LogChute;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Path;
@@ -62,6 +63,8 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 public abstract class TemplateBasedRule extends Rule implements
 		ITemplateBasedRule {
 
+	protected final String LOGGER_KEY = "CUSTOM_LOGGER";
+	
 	public TemplateBasedRule() {
 		super();
 		contextDefinitions = new ArrayList<VelocityContextDefinition>();
@@ -392,6 +395,8 @@ public abstract class TemplateBasedRule extends Rule implements
 		}
 
 		if (exec.getPlugin().isLogEnabled()) {
+			
+			
 			String projectDir = pluginConfig.getProjectHandle().getLocation()
 					.toOSString();
 			String outputDir = pluginConfig.getProjectHandle()
@@ -425,8 +430,9 @@ public abstract class TemplateBasedRule extends Rule implements
 			properties.put("runtime.log", "tigerstripe/velocity.log");
 		}
 
-		properties.put(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM_CLASS,
-				Log4JLogChute.class.getName());
+		LogChute logger = new Log4JLogChute();
+		result.setApplicationAttribute(LOGGER_KEY, logger);
+		result.setProperty(RuntimeConstants.RUNTIME_LOG_LOGSYSTEM,logger);		
 
 		ClassLoader startingLoader = Thread.currentThread()
 				.getContextClassLoader();
@@ -437,7 +443,7 @@ public abstract class TemplateBasedRule extends Rule implements
 						result.getClass().getClassLoader());
 			}
 			result.init(properties);
-		} finally {
+		}  finally {
 			Thread.currentThread().setContextClassLoader(startingLoader);
 		}
 		return result;

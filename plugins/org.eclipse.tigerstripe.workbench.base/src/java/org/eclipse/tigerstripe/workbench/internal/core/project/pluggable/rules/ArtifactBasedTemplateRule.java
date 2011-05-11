@@ -19,6 +19,7 @@ import java.util.Map;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.log.Log4JLogChute;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.generation.IM1RunConfig;
@@ -176,6 +177,7 @@ public class ArtifactBasedTemplateRule extends TemplateBasedRule implements
 		
 
 		Writer writer = null;
+		VelocityEngine engine = null;
 		try {
 			initializeReport(pluginConfig);
 
@@ -203,15 +205,15 @@ public class ArtifactBasedTemplateRule extends TemplateBasedRule implements
 			getReport().setArtifactType(getArtifactType());
 
 			// Velocity specifics......
-			VelocityEngine engine = setClasspathLoaderForVelocity(pluginConfig,
-					exec);
+			engine = setClasspathLoaderForVelocity(pluginConfig, exec);
+			
+			
 			Template template = engine.getTemplate(getTemplate());
 			Expander expander = new Expander(pluginConfig);
 
 			// VelocityContext defaultContext = getDefaultContext(
 			// pluginConfig, exec);
-			VelocityContext defaultContext = getDefaultContext(pluginConfig,
-					context);
+			VelocityContext defaultContext = getDefaultContext(pluginConfig, context);
 
 			// LOOP
 			for (IAbstractArtifact artifact : resultSet) {
@@ -309,6 +311,13 @@ public class ArtifactBasedTemplateRule extends TemplateBasedRule implements
 						"Unexpected error while merging '" + getTemplate()
 								+ "' template: " + e.getMessage(), e);
 		} finally {
+			if (engine!=null) {
+				// nmehrega - bugzilla 251858: Shut down logger so logger streams are closed properly
+				Object logger = engine.getApplicationAttribute(LOGGER_KEY);
+				if (logger instanceof Log4JLogChute) {
+					((Log4JLogChute)logger).shutdown();
+				}
+			}
 			if (writer != null) {
 				try {
 					writer.close();

@@ -13,7 +13,6 @@ package org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules;
 import java.io.File;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
@@ -22,6 +21,7 @@ import java.util.Map.Entry;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.log.Log4JLogChute;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.generation.IM1RunConfig;
@@ -32,7 +32,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.plugin.IPluginRuleExecuto
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.plugins.IModelRule;
 import org.eclipse.tigerstripe.workbench.plugins.IModelTemplateRule;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -120,6 +119,7 @@ public class ModelTemplateRule extends TemplateBasedRule implements
 		ITigerstripeModelProject currentModel = null;
 		
 		Writer writer = null;
+		VelocityEngine engine = null;
 		try {
 			initializeReport(pluginConfig);
 			//#####################################################################################
@@ -155,7 +155,7 @@ public class ModelTemplateRule extends TemplateBasedRule implements
 			
 
 			// Velocity specifics......
-			VelocityEngine engine = setClasspathLoaderForVelocity(pluginConfig,
+			engine = setClasspathLoaderForVelocity(pluginConfig,
 					exec);
 			Template template = engine.getTemplate(getTemplate());
 			Expander expander = new Expander(pluginConfig);
@@ -229,6 +229,13 @@ public class ModelTemplateRule extends TemplateBasedRule implements
 						"Unexpected error while merging '" + getTemplate()
 								+ "' template: " + e.getMessage(), e);
 		} finally {
+			if (engine!=null) {
+				// nmehrega - bugzilla 251858: Shut down logger so logger streams are closed properly
+				Object logger = engine.getApplicationAttribute(LOGGER_KEY);
+				if (logger instanceof Log4JLogChute) {
+					((Log4JLogChute)logger).shutdown();
+				}
+			}
 			if (writer != null) {
 				try {
 					writer.close();
