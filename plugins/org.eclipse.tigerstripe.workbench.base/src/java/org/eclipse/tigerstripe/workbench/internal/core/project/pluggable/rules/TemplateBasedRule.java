@@ -21,7 +21,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Properties;
 
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
@@ -353,34 +352,31 @@ public abstract class TemplateBasedRule extends Rule implements
 
 		VelocityEngine result = new VelocityEngine();
 
-		Properties properties = new Properties();
-		properties.put("resource.loader", "file, class");
+		result.setProperty("resource.loader", "file, class");
 
 		// So we can still access templates from the classpath
-		properties
-				.put("class.resource.loader.class",
+		result.setProperty("class.resource.loader.class",
 						"org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
 
 		// To access templates from the file system.
-		properties
-				.put("file.resource.loader.class",
+		result.setProperty("file.resource.loader.class",
 						"org.apache.velocity.runtime.resource.loader.FileResourceLoader");
-		properties.put("file.resource.loader.path", getContainingDescriptor()
+		result.setProperty("file.resource.loader.path", getContainingDescriptor()
 				.getBaseDir().getCanonicalPath());
 
 		// JS - DEBUG
 //		System.out.println("***** file.resource.loader.path = "
 //				+ getContainingDescriptor().getBaseDir().getCanonicalPath());
 
-		properties.put("file.resource.loader.cache", "true");
-		properties.put("file.resource.loader.modificationCheckInterval", "2");
+		result.setProperty("file.resource.loader.cache", "true");
+		result.setProperty("file.resource.loader.modificationCheckInterval", "2");
 
-		properties.put("velocimacro.permissions.allow.inline", "true");
-		properties.put(
+		result.setProperty("velocimacro.permissions.allow.inline", "true");
+		result.setProperty(
 				"velocimacro.permissions.allow.inline.to.replace.global",
 				"true");
 
-		properties.put("class.resource.loader.cache", "true");
+		result.setProperty("class.resource.loader.cache", "true");
 
 		if (hasMacroLibrary()) {
 			StringBuilder libraryList = new StringBuilder();
@@ -391,7 +387,7 @@ public abstract class TemplateBasedRule extends Rule implements
 			while (it.hasNext()) {
 				libraryList.append(",").append(it.next());
 			}
-			properties.put("velocimacro.library", libraryList.toString());
+			result.setProperty("velocimacro.library", libraryList.toString());
 		}
 
 		if (exec.getPlugin().isLogEnabled()) {
@@ -424,10 +420,10 @@ public abstract class TemplateBasedRule extends Rule implements
 				velocityLogPath = logPath + ".velocity";
 			}
 
-			properties.put("runtime.log", projectDir + File.separatorChar
+			result.setProperty("runtime.log", projectDir + File.separatorChar
 					+ outputDir + File.separator + velocityLogPath);
 		} else {
-			properties.put("runtime.log", "tigerstripe/velocity.log");
+			result.setProperty("runtime.log", "tigerstripe/velocity.log");
 		}
 
 		LogChute logger = new Log4JLogChute();
@@ -442,7 +438,7 @@ public abstract class TemplateBasedRule extends Rule implements
 				Thread.currentThread().setContextClassLoader(
 						result.getClass().getClassLoader());
 			}
-			result.init(properties);
+			result.init();	
 		}  finally {
 			Thread.currentThread().setContextClassLoader(startingLoader);
 		}
