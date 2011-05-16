@@ -65,7 +65,7 @@ public abstract class RulesSectionPart extends GeneratorDescriptorSectionPart {
 		IManagedForm managedForm = getPage().getManagedForm();
 		FormToolkit toolkit = getToolkit();
 
-		GridDataFactory.fillDefaults().grab(true, true).applyTo(getSection());
+		GridDataFactory.fillDefaults().grab(true, false).applyTo(getSection());
 		Composite body = getToolkit().createComposite(getSection());
 		body
 				.setLayout(TigerstripeLayoutFactory.createClearGridLayout(1,
