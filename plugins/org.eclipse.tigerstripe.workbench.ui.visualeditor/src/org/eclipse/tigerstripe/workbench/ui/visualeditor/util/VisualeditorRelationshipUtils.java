@@ -28,17 +28,17 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EAggregationEnum;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EChangeableEnum;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EAggregationEnum;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EChangeableEnum;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
@@ -271,6 +271,7 @@ public class VisualeditorRelationshipUtils {
 		assoc.setAEndIsChangeable(getIsChangeable(assocArtifact.getAEnd()
 				.getChangeable()));
 		assoc.setAEndIsOrdered(assocArtifact.getAEnd().isOrdered());
+		assoc.setAEndIsUnique(assocArtifact.getAEnd().isUnique());
 		assoc.setAEndMultiplicity(getRelationshipMuliplicity(assocArtifact
 				.getAEnd().getMultiplicity()));
 		// and fill in zEnd parameters
@@ -286,6 +287,7 @@ public class VisualeditorRelationshipUtils {
 		assoc.setZEndIsChangeable(getIsChangeable(assocArtifact.getZEnd()
 				.getChangeable()));
 		assoc.setZEndIsOrdered(assocArtifact.getZEnd().isOrdered());
+		assoc.setZEndIsUnique(assocArtifact.getZEnd().isUnique());
 		assoc.setZEndMultiplicity(getRelationshipMuliplicity(assocArtifact
 				.getZEnd().getMultiplicity()));
 	}
@@ -366,6 +368,7 @@ public class VisualeditorRelationshipUtils {
 				eAttribute.setName(field.getName());
 				eAttribute.setType(typeName);
 				eAttribute.setVisibility(mapVisibility(field.getVisibility()));
+				eAttribute.setIsUnique(field.isUnique());
 				// add the attribute to the EObject
 				assocClassClass.getAttributes().add(eAttribute);
 			} else {
@@ -390,6 +393,7 @@ public class VisualeditorRelationshipUtils {
 					eAttribute.setType(typeName);
 					eAttribute.setVisibility(mapVisibility(field
 							.getVisibility()));
+					eAttribute.setIsUnique(field.isUnique());
 				} else {
 					QualifiedNamedElement otherNode = nodesInMap.get(typeName);
 					if (otherNode == null)
