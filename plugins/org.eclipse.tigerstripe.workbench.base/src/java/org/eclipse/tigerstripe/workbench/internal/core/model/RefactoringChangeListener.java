@@ -29,6 +29,8 @@ import org.eclipse.ltk.core.refactoring.history.IRefactoringExecutionListener;
 import org.eclipse.ltk.core.refactoring.history.RefactoringExecutionEvent;
 import org.eclipse.ltk.core.refactoring.resource.MoveResourcesDescriptor;
 import org.eclipse.ltk.core.refactoring.resource.RenameResourceDescriptor;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.annotation.core.refactoring.ILazyObject;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
@@ -49,7 +51,7 @@ public class RefactoringChangeListener implements IRefactoringExecutionListener 
 
 	private static final String ATTR_INPUT = "input";
 
-	private ListenerList artMgrs = new ListenerList();
+	private final ListenerList artMgrs = new ListenerList();
 
 	private static RefactoringChangeListener instance = null;
 
@@ -153,11 +155,19 @@ public class RefactoringChangeListener implements IRefactoringExecutionListener 
 								String key = "element" + i;
 								elements[i - 1] = getFullyQualifiedName((String) attrs
 										.get(key));
-								IAbstractArtifact artifact = mgr
+								final IAbstractArtifact artifact = mgr
 										.getArtifactByFullyQualifiedName(
-												elements[i - 1], false, (IProgressMonitor)null);
-								if (artifact != null)
+												elements[i - 1], false,
+												(IProgressMonitor) null);
+								if (artifact != null) {
 									mgr.notifyArtifactDeleted(artifact);
+									AnnotationPlugin.getRefactoringNotifier()
+											.fireDeleted(new ILazyObject() {
+												public Object getObject() {
+													return artifact;
+												}
+											});
+								}
 //								System.out
 //										.println("Removing " + elements[i - 1]
 //												+ " from  " + project);
