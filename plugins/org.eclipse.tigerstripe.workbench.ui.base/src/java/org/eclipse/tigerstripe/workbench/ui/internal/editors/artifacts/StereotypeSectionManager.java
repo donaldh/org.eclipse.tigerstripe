@@ -143,6 +143,9 @@ public class StereotypeSectionManager {
 			}
 
 			public void widgetSelected(SelectionEvent e) {
+				if (!stTable.isDisposed() && !stTable.isFocusControl()) {
+					stTable.forceFocus();
+				}
 				addButtonSelected(e);
 			}
 		});
@@ -186,6 +189,7 @@ public class StereotypeSectionManager {
 	public void refresh() {
 		viewer.setInput(component);
 		viewer.refresh(true);
+		update();
 	}
 
 	/**
@@ -240,10 +244,11 @@ public class StereotypeSectionManager {
 
 	protected void editButtonSelected(SelectionEvent e) {
 		TableItem[] selectedItems = this.viewer.getTable().getSelection();
-		IStereotypeInstance instance = (IStereotypeInstance) selectedItems[0]
-				.getData();
-
-		doEdit(instance);
+		if (selectedItems.length > 0) {
+			IStereotypeInstance instance = (IStereotypeInstance) selectedItems[0]
+					.getData();
+			doEdit(instance);
+		}
 	}
 
 	private boolean canEdit(IStereotypeInstance instance) {
