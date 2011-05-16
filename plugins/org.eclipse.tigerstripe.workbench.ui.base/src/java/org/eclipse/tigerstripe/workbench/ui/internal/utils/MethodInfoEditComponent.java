@@ -155,8 +155,8 @@ public class MethodInfoEditComponent {
 
 		// See if we should display the argument Direction
 		GlobalSettingsProperty prop = (GlobalSettingsProperty) TigerstripeCore
-				.getWorkbenchProfileSession().getActiveProfile().getProperty(
-						IWorkbenchPropertyLabels.GLOBAL_SETTINGS);
+				.getWorkbenchProfileSession().getActiveProfile()
+				.getProperty(IWorkbenchPropertyLabels.GLOBAL_SETTINGS);
 
 		displayDirection = prop
 				.getPropertyValue(IGlobalSettingsProperty.ARGUMENTDIRECTION);
@@ -257,8 +257,8 @@ public class MethodInfoEditComponent {
 		MethodInfoListener adapter = new MethodInfoListener();
 
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-				.getWorkbenchProfileSession().getActiveProfile().getProperty(
-						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
+				.getWorkbenchProfileSession().getActiveProfile()
+				.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 
 		section = toolkit.createSection(parent, ExpandableComposite.NO_TITLE);
 		section.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
@@ -345,8 +345,7 @@ public class MethodInfoEditComponent {
 			optionalButton.addSelectionListener(adapter);
 		}
 
-		if (prop
-				.getPropertyValue(IOssjLegacySettigsProperty.ENABLE_INSTANCEMETHOD)) {
+		if (prop.getPropertyValue(IOssjLegacySettigsProperty.ENABLE_INSTANCEMETHOD)) {
 			isInstanceMethodButton = toolkit.createButton(optComposite,
 					"Instance", SWT.CHECK);
 			isInstanceMethodButton.setEnabled(!isReadOnly);
@@ -374,7 +373,7 @@ public class MethodInfoEditComponent {
 		typeText = toolkit.createText(c, "", SWT.BORDER);
 		typeText.setEnabled(!isReadOnly);
 		typeText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		
+
 		typeBrowseButton = toolkit.createButton(c, " Browse ", SWT.PUSH);
 		typeBrowseButton.setLayoutData(new GridData(GridData.FILL_VERTICAL));
 		typeBrowseButton.setEnabled(!isReadOnly);
@@ -396,8 +395,7 @@ public class MethodInfoEditComponent {
 		multiplicityCombo.setVisibleItemCount(IModelComponent.EMultiplicity
 				.values().length);
 
-		if (prop
-				.getPropertyValue(IOssjLegacySettigsProperty.USEREFBY_MODIFIERS)) {
+		if (prop.getPropertyValue(IOssjLegacySettigsProperty.USEREFBY_MODIFIERS)) {
 			toolkit.createLabel(sectionClient, "");
 			Composite refComposite = toolkit.createComposite(sectionClient);
 			layout = new TableWrapLayout();
@@ -426,7 +424,8 @@ public class MethodInfoEditComponent {
 
 		returnLabel = toolkit.createLabel(sectionClient, "Return label:");
 		returnLabel.setEnabled(!isReadOnly);
-		methodReturnNameText = toolkit.createText(sectionClient, "", SWT.BORDER);
+		methodReturnNameText = toolkit
+				.createText(sectionClient, "", SWT.BORDER);
 		methodReturnNameText.setLayoutData(new TableWrapData(
 				TableWrapData.FILL_GRAB));
 		methodReturnNameText.addModifyListener(adapter);
@@ -555,6 +554,7 @@ public class MethodInfoEditComponent {
 					public IWorkbenchSite getWorkbenchSite() {
 						return site;
 					}
+
 					@Override
 					public ISelectionProvider getSelectionProvider() {
 						return argViewer;
@@ -579,6 +579,7 @@ public class MethodInfoEditComponent {
 
 		MethodInfoListener adapter = new MethodInfoListener();
 		Table table = toolkit.createTable(composite, SWT.BORDER);
+		table.setEnabled(!isReadOnly);
 		table.addSelectionListener(adapter);
 
 		Composite buttonsClient = toolkit.createComposite(composite);
@@ -589,6 +590,7 @@ public class MethodInfoEditComponent {
 
 		addExceptionButton = toolkit.createButton(buttonsClient, "Add",
 				SWT.PUSH);
+		addExceptionButton.setEnabled(!isReadOnly);
 		// Support for testing
 		addExceptionButton.setData("name", "Add_Exception");
 		addExceptionButton.setLayoutData(new TableWrapData(
@@ -601,7 +603,6 @@ public class MethodInfoEditComponent {
 		removeExceptionButton.setData("name", "Remove_Exception");
 		removeExceptionButton.setLayoutData(new TableWrapData(
 				TableWrapData.FILL_GRAB));
-		removeExceptionButton.setEnabled(false);
 		removeExceptionButton.addSelectionListener(adapter);
 
 		exceptionViewer = new TableViewer(table);
@@ -810,17 +811,15 @@ public class MethodInfoEditComponent {
 		// to be set here. (RC comment)
 		// Except that we need it if the instance methods are not allowed!
 		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-				.getWorkbenchProfileSession().getActiveProfile().getProperty(
-						IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
+				.getWorkbenchProfileSession().getActiveProfile()
+				.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
 
-		boolean enabled = prop
-				.getPropertyValue(IOssjLegacySettigsProperty.ENABLE_INSTANCEMETHOD);
-
-		boolean exceptionsAllowed = !isReadOnly
-				&& (!method.isInstanceMethod() || !enabled);
-		exceptionViewer.getTable().setEnabled(exceptionsAllowed);
-		addExceptionButton.setEnabled(exceptionsAllowed);
-		removeExceptionButton.setEnabled(exceptionsAllowed);
+		if (method.isInstanceMethod()
+				&& prop.getPropertyValue(IOssjLegacySettigsProperty.ENABLE_INSTANCEMETHOD)) {
+			exceptionViewer.getTable().setEnabled(false);
+			addExceptionButton.setEnabled(false);
+			removeExceptionButton.setEnabled(false);
+		}
 
 		if (optionalButton != null)
 			optionalButton.setSelection(method.isOptional());
@@ -1128,10 +1127,13 @@ public class MethodInfoEditComponent {
 			type.setFullyQualifiedName(getDefaultTypeName());
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
-			MessageDialog.openWarning(shell, "Default "
-					+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-							IPrimitiveTypeImpl.class.getName()).getLabel(null)
-					+ " For Parameter", e.getMessage());
+			MessageDialog.openWarning(
+					shell,
+					"Default "
+							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+									IPrimitiveTypeImpl.class.getName())
+									.getLabel(null) + " For Parameter", e
+							.getMessage());
 			return;
 		}
 		type.setTypeMultiplicity(EMultiplicity.ONE);

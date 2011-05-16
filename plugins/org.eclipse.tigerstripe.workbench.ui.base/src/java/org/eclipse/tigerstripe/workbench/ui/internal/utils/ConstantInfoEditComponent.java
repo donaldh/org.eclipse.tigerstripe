@@ -28,9 +28,9 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 import org.eclipse.ui.forms.widgets.Section;
@@ -185,7 +185,8 @@ public class ConstantInfoEditComponent {
 
 		label = toolkit.createLabel(sectionClient, "Type: ");
 		label.setEnabled(!isReadOnly);
-		baseTypeCombo = new CCombo(sectionClient, SWT.SINGLE | SWT.READ_ONLY | SWT.BORDER);
+		baseTypeCombo = new CCombo(sectionClient, SWT.SINGLE | SWT.READ_ONLY
+				| SWT.BORDER);
 		baseTypeCombo.setEnabled(!isReadOnly);
 		toolkit.adapt(this.baseTypeCombo, true, true);
 
@@ -225,9 +226,9 @@ public class ConstantInfoEditComponent {
 		for (int i = 0; i < supportedPrimitiveTypes.length; i++) {
 			if (typeFqn.equals(supportedPrimitiveTypes[i])) {
 				baseTypeCombo.select(i);
-				baseTypeCombo
-						.setEnabled(!isReadOnly
-								&& !(literal.getContainingArtifact() instanceof EnumArtifact));
+				if (literal.getContainingArtifact() instanceof EnumArtifact) {
+					baseTypeCombo.setEnabled(false);
+				}
 			}
 		}
 
