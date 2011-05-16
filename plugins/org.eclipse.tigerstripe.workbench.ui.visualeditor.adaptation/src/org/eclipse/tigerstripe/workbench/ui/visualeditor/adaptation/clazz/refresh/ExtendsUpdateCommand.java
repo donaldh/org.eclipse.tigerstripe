@@ -62,10 +62,8 @@ public class ExtendsUpdateCommand extends AbstractArtifactUpdateCommand {
 					&& (eArtifact.getExtends() == null || !target
 							.getFullyQualifiedName().equals(
 									eArtifact.getExtends()
-											.getFullyQualifiedName())))
+											.getFullyQualifiedName()))) {
 				eArtifact.setExtends(target);
-			else if (target == null && eArtifact.getExtends() != null) {
-				eArtifact.setExtends(null);
 			}
 		} else {
 			if (eArtifact.getExtends() != null) {
