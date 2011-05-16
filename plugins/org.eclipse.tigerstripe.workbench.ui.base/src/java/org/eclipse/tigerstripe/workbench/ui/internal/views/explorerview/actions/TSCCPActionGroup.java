@@ -16,6 +16,7 @@ import org.eclipse.jdt.ui.IContextMenuConstants;
 import org.eclipse.jdt.ui.actions.SelectionDispatchAction;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
+import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.swt.dnd.Clipboard;
 import org.eclipse.ui.IActionBars;
@@ -73,8 +74,11 @@ public class TSCCPActionGroup extends BaseActionProvider {
 
 	private void registerActionsAsSelectionChangeListeners() {
 		ISelectionProvider provider = getSelectionProvider();
+		ISelection selection = provider.getSelection();
 		for (int i = 0; i < fActions.length; i++) {
-			provider.addSelectionChangedListener(fActions[i]);
+			SelectionDispatchAction action = fActions[i];
+			action.update(selection);
+			provider.addSelectionChangedListener(action);
 		}
 	}
 
