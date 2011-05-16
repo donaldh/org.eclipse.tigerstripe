@@ -214,6 +214,14 @@ public class ModelChangeDeltaProcessor {
 
 					session.renameArtifact(rcArtifact,
 							(String) delta.getNewValue());
+
+					IModelComponent container = artifact
+							.getContainingModelComponent();
+					if (container instanceof PackageArtifact) {
+						((PackageArtifact) container)
+								.removeContainedModelComponent(artifact);
+					}
+
 					if (toSave == null) {
 						rcArtifact.doSave(null);
 					} else {
