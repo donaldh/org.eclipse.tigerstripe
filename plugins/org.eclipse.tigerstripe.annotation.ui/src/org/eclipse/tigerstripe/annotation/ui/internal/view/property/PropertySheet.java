@@ -47,6 +47,7 @@ public class PropertySheet extends PageBookView implements INoteListener,
 	 * (non-Javadoc) Method declared on PageBookView. Returns the default
 	 * property sheet page.
 	 */
+	@Override
 	protected IPage createDefaultPage(PageBook book) {
 		return doCreatePage(book);
 	}
@@ -74,6 +75,7 @@ public class PropertySheet extends PageBookView implements INoteListener,
 	 * <code>IWorkbenchPart</code> method creates a <code>PageBook</code>
 	 * control with its default page showing.
 	 */
+	@Override
 	public void createPartControl(Composite parent) {
 		super.createPartControl(parent);
 		addListeners();
@@ -102,6 +104,7 @@ public class PropertySheet extends PageBookView implements INoteListener,
 	/*
 	 * (non-Javadoc) Method declared on IWorkbenchPart.
 	 */
+	@Override
 	public void dispose() {
 		// run super.
 		super.dispose();
@@ -111,6 +114,7 @@ public class PropertySheet extends PageBookView implements INoteListener,
 	/*
 	 * (non-Javadoc) Method declared on PageBookView.
 	 */
+	@Override
 	protected PageRec doCreatePage(IWorkbenchPart part) {
 		PropertiesBrowserPage page = doCreatePage(getPageBook());
 		return new PageRec(part, page);
@@ -119,6 +123,7 @@ public class PropertySheet extends PageBookView implements INoteListener,
 	/*
 	 * (non-Javadoc) Method declared on PageBookView.
 	 */
+	@Override
 	protected void doDestroyPage(IWorkbenchPart part, PageRec rec) {
 		IPropertySheetPage page = (IPropertySheetPage) rec.page;
 		page.dispose();
@@ -129,6 +134,7 @@ public class PropertySheet extends PageBookView implements INoteListener,
 	 * (non-Javadoc) Method declared on PageBookView. Returns the active part on
 	 * the same workbench page as this property sheet view.
 	 */
+	@Override
 	protected IWorkbenchPart getBootstrapPart() {
 		IWorkbenchPage page = getSite().getPage();
 		if (page != null) {
@@ -148,6 +154,7 @@ public class PropertySheet extends PageBookView implements INoteListener,
 	 * (non-Javadoc) Method declared on PageBookView. The property sheet may
 	 * show properties for any view other than this view.
 	 */
+	@Override
 	protected boolean isImportant(IWorkbenchPart part) {
 		return part != this;
 	}
@@ -158,6 +165,7 @@ public class PropertySheet extends PageBookView implements INoteListener,
 	 * <code>IContributedContentsView</code> adapter and if so, asks it for its
 	 * contributing part.
 	 */
+	@Override
 	public void partActivated(final IWorkbenchPart part) {
 	}
 
@@ -167,14 +175,19 @@ public class PropertySheet extends PageBookView implements INoteListener,
 	 */
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		// we ignore our own selection
-		if (part == this)
+		if (part == this
+				|| (selection != null && selection.equals(currentSelection))) {
 			return;
-		if (selection == null) {
-			selection = new StructuredSelection();
+		}
+
+		currentSelection = selection;
+
+		if (currentSelection == null) {
+			currentSelection = new StructuredSelection();
 		}
 		this.part = part;
 		for (INoteProvider provider : getProviders()) {
-			provider.setSelection(part, selection);
+			provider.setSelection(part, currentSelection);
 		}
 		updateSelection();
 	}
@@ -209,6 +222,7 @@ public class PropertySheet extends PageBookView implements INoteListener,
 	 * 
 	 * @since 3.2
 	 */
+	@Override
 	@SuppressWarnings("unchecked")
 	protected Object getViewAdapter(Class key) {
 		if (ISaveablePart.class.equals(key)) {
@@ -242,6 +256,7 @@ public class PropertySheet extends PageBookView implements INoteListener,
 
 	private IWorkbenchPart part;
 	private INoteProvider[] providers;
+	private ISelection currentSelection;
 
 	/*
 	 * (non-Javadoc)
