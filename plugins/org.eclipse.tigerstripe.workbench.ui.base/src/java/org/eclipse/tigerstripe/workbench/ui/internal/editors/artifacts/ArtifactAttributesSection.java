@@ -527,8 +527,9 @@ public class ArtifactAttributesSection extends ModelComponentSectionPart
 				.getIArtifact());
 		selIndex = si;
 		viewer.refresh();
-		if (selIndex != -1) {
-			Object refreshedMethod = viewer.getTable().getItem(selIndex)
+		Table table = viewer.getTable();
+		if (selIndex != -1 && selIndex < table.getItemCount()) {
+			Object refreshedMethod = table.getItem(selIndex)
 					.getData();
 			viewer.setSelection(new StructuredSelection(refreshedMethod), true);
 		}

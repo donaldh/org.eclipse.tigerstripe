@@ -504,8 +504,9 @@ public class ArtifactMethodsSection extends ModelComponentSectionPart implements
 				.getIArtifact());
 		viewer.refresh(true);
 
-		if (selIndex != -1) {
-			Object refreshedMethod = viewer.getTable().getItem(selIndex)
+		Table table = viewer.getTable();
+		if (selIndex != -1 && selIndex < table.getItemCount()) {
+			Object refreshedMethod = table.getItem(selIndex)
 					.getData();
 			viewer.setSelection(new StructuredSelection(refreshedMethod), true);
 		}

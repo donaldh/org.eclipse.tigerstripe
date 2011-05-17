@@ -599,8 +599,9 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart
 				.getIArtifact());
 		selIndex = si;
 		viewer.refresh(true);
-		if (selIndex != -1) {
-			Object refreshedMethod = viewer.getTable().getItem(selIndex)
+
+		if (selIndex != -1 && selIndex < table.getItemCount()) {
+			Object refreshedMethod = table.getItem(selIndex)
 					.getData();
 			viewer.setSelection(new StructuredSelection(refreshedMethod), true);
 		}
