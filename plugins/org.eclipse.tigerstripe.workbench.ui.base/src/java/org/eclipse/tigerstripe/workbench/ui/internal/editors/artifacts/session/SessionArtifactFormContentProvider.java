@@ -52,7 +52,7 @@ public class SessionArtifactFormContentProvider extends
 			.append("<li><a href=\"methods\">Methods</a>: Operations that are allowed on this "
 					+ ArtifactMetadataFactory.INSTANCE
 							.getMetadata(
-									org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
+									org.eclipse.tigerstripe.metamodel.impl.ISessionArtifactImpl.class
 											.getName()).getLabel(null)
 					+ " Artifact.</li>");
 			

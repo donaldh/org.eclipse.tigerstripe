@@ -41,7 +41,7 @@ public class EntityArtifactFormContentProvider extends
 			buf
 					.append("<li><a href=\"attributes\">Attributes</a>: Containing the detailed information for an Entity.</li>");
 			buf
-					.append("<li><a href=\"constants\">Constants</a>: Contants related to an entity.</li>");
+					.append("<li><a href=\"constants\">Constants</a>: Constants related to an entity.</li>");
 			buf
 					.append("<li><a href=\"methods\">Methods</a>: Operations that are allowed on an entity. These operations are candidate to be exposed through the final API.</li>");
 			buf.append("</form>");

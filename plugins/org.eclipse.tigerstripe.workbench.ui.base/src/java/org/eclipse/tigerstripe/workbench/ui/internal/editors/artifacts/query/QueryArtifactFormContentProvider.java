@@ -44,7 +44,7 @@ public class QueryArtifactFormContentProvider extends
 									IQueryArtifactImpl.class.getName())
 									.getLabel(null) + ".</li>");
 			buf
-					.append("<li><a href=\"constants\">Constants</a>: Contants relevant in the context of this "
+					.append("<li><a href=\"constants\">Constants</a>: Constants relevant in the context of this "
 							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									IQueryArtifactImpl.class.getName())
 									.getLabel(null) + ".</li>");

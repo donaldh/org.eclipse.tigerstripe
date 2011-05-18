@@ -42,7 +42,7 @@ public class ExceptionArtifactFormContentProvider extends
 			.append("<li><a href=\"attributes\">Attributes</a>: Containing the detailed information for this "
 					+ ArtifactMetadataFactory.INSTANCE
 							.getMetadata(
-									org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
+									org.eclipse.tigerstripe.metamodel.impl.IExceptionArtifactImpl.class
 											.getName()).getLabel(null)
 					+ " Artifact.</li>");
 			buf.append("</form>");

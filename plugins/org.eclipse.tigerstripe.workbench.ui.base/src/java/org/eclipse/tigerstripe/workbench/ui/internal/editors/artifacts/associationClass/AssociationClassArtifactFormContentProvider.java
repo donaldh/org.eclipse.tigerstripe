@@ -59,14 +59,14 @@ public class AssociationClassArtifactFormContentProvider extends
 					.append("<li><a href=\"attributes\">Attributes</a>: a list of attributes for this "
 					+ ArtifactMetadataFactory.INSTANCE
 							.getMetadata(
-									org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
+									org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl.class
 											.getName()).getLabel(null)
 					+ " Artifact.</li>");
 			buf
 			.append("<li><a href=\"methods\">Methods</a>: Operations that are allowed on this "
 					+ ArtifactMetadataFactory.INSTANCE
 							.getMetadata(
-									org.eclipse.tigerstripe.metamodel.impl.IDatatypeArtifactImpl.class
+									org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl.class
 											.getName()).getLabel(null)
 					+ " Artifact.</li>");
 			buf.append("</form>");
