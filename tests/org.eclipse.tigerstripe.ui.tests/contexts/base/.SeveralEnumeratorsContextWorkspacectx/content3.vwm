@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<null:Map xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:null="null" basePackage="com.mycompany">
+  <artifacts xsi:type="null:Enumeration" name="Enumeration2" package="com.mycompany" baseType="int">
+    <literals name="literal0" type="int" value="1"/>
+    <literals name="literal1" type="int" value="2"/>
+  </artifacts>
+  <artifacts xsi:type="null:Enumeration" name="Enumeration3" package="com.mycompany" extends="//@artifacts.0" baseType="int"/>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Entity2" package="com.mycompany" extends="//@artifacts.3">
+    <properties name="artifact.hide.extends" value="false"/>
+  </artifacts>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Entity1" package="com.mycompany">
+    <properties name="artifact.hide.extends" value="false"/>
+    <attributes name="attribute0" type="com.mycompany.Enumeration2" isUnique="true" defaultValue="literal1"/>
+    <methods name="method0" type="com.mycompany.Enumeration2" isUnique="true" typeMultiplicity="0..1" defaultValue="literal0">
+      <parameters name="arg0" type="com.mycompany.Enumeration2" isUnique="true"/>
+    </methods>
+  </artifacts>
+  <dependencies name="Dependency5" package="com.mycompany" aEnd="//@artifacts.1" zEnd="//@artifacts.2"/>
+</null:Map>
