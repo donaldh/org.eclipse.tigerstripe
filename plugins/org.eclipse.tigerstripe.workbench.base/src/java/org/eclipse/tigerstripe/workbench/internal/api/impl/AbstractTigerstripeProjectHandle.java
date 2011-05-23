@@ -123,6 +123,14 @@ public abstract class AbstractTigerstripeProjectHandle extends
 		return false;
 	}
 
+	@Override
+	public int hashCode() {
+		if (getURI() != null) {
+			return getURI().hashCode();
+		}
+		return super.hashCode();
+	}
+
 	public long handleTStamp() {
 		return this.handleTStamp;
 	}
