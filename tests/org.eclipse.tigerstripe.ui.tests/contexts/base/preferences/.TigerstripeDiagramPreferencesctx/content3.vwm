@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<null:Map xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:null="null" basePackage="com.mycompany">
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Entity1" package="com.mycompany">
+    <properties name="artifact.hide.extends" value="false"/>
+    <attributes name="attribute0" type="String" isUnique="true"/>
+    <methods name="method0" type="void"/>
+  </artifacts>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Entity2" package="com.mycompany" extends="//@artifacts.0">
+    <properties name="artifact.hide.extends" value="false"/>
+  </artifacts>
+  <artifacts xsi:type="null:Enumeration" name="Enumeration" package="com.mycompany" baseType="int">
+    <literals name="literal0" type="int" value="0"/>
+  </artifacts>
+  <dependencies name="Dependency3" package="com.mycompany" aEnd="//@artifacts.2" zEnd="//@artifacts.0"/>
+</null:Map>

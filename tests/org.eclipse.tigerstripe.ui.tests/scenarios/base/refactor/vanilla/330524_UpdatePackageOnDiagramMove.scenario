@@ -1,7 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="330524_UpdatePackageOnDiagramMove" version="3.0" id="_gpMccAdCEeCdhMB5s9U5xQ" description="1.Clear error log.&#xD;&#xA;2.Audit diagram (Right click on project > Diagrams > Audit all diagrams). Message 'No discrepancy was found.' is displayed.&#xD;&#xA;3.Move class diagram file from com.mycompany to com.mypackage. Audit the&#xD;&#xA;diagram again. Message 'No discrepancy was found.' is displayed.Invalid base package 'com.mycompany' (located in 'com.mypackage')&#xD;&#xA;4.Error Log is not indicates errors." type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="330524_UpdatePackageOnDiagramMove" version="3.0" id="_gpMccAdCEeCdhMB5s9U5xQ" description="1.Clear error log.&#xD;&#xA;2.Audit diagram (Right click on project > Diagrams > Audit all diagrams). Message 'No discrepancy was found.' is displayed.&#xD;&#xA;3.Move class diagram file from com.mycompany to com.mypackage. Audit the&#xD;&#xA;diagram again. Message 'No discrepancy was found.' is displayed.Invalid base package 'com.mycompany' (located in 'com.mypackage')&#xD;&#xA;4.Error Log is not indicates errors." tags="TS_Project/Edit/Artifacts/Refactor, I27" type="ecl">
   <contexts>_FWCz8ASHEeC3S_PC6IM0yQ</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script" content="get-view &quot;Error Log&quot; | get-button &quot;Clear Log Viewer&quot; | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select Project1 | get-menu &quot;Diagrams/Audit all diagrams&quot; | click&#xA;get-window OK | get-label &quot;No discrepancy was found.&quot; | get-property caption | is-equal &quot;No discrepancy was found.&quot; | verify&#xA;get-window OK | get-button OK | click&#xA;with [get-view &quot;Tigerstripe Explorer&quot; | get-tree] {&#xA;    select &quot;Project1/src/com.mycompany/default&quot; | get-item &quot;Project1/src/com.mycompany/default&quot; | drag-start 9 1 -button none&#xA;    with [get-item &quot;Project1/src/com.mycompany/default&quot;] {&#xA;        drag-enter 22 8 -detail 2 -operation 7 -button none&#xA;        drag-over 27 17 -operation 7 -button none&#xA;    }&#xA;    get-item &quot;Project1/src/com.mypackage&quot; | drag-over 40 13 -detail 2 -operation 7 -button none&#xA;    get-item &quot;Project1/src/com.mycompany/default&quot; | drag-exit -button none&#xA;    get-item &quot;Project1/src/com.mypackage&quot; | drag-accept 40 13 -detail 2 -operation 7 -button none&#xA;    drag-set-data -button none&#xA;    get-item &quot;Project1/src/com.mypackage&quot; | drop 40 13 -detail 2 -operation 7 -button none&#xA;    drag-end -button none&#xA;    select Project1 | get-menu &quot;Diagrams/Audit all diagrams&quot; | click&#xA;}&#xA;get-window OK | get-label &quot;No discrepancy was found.&quot; | get-property caption | is-equal &quot;No discrepancy was found.&quot; | verify&#xA;get-window OK | get-button OK | click&#xA;get-view &quot;Error Log&quot; | get-tree | get-property itemCount | is-equal 0 | verify"/>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Error Log" | get-button "Clear Log Viewer" | click
+get-view "Tigerstripe Explorer" | get-tree | select Project1 | get-menu "Diagrams/Audit all diagrams" | click
+get-window OK | get-label "No discrepancy was found." | get-property caption | is-equal "No discrepancy was found." | verify
+get-window OK | get-button OK | click
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "Project1/src/com.mycompany/default" | get-item "Project1/src/com.mycompany/default" | drag-start 9 1 -button none
+    with [get-item "Project1/src/com.mycompany/default"] {
+        drag-enter 22 8 -detail 2 -operation 7 -button none
+        drag-over 27 17 -operation 7 -button none
+    }
+    get-item "Project1/src/com.mypackage" | drag-over 40 13 -detail 2 -operation 7 -button none
+    get-item "Project1/src/com.mycompany/default" | drag-exit -button none
+    get-item "Project1/src/com.mypackage" | drag-accept 40 13 -detail 2 -operation 7 -button none
+    drag-set-data -button none
+    get-item "Project1/src/com.mypackage" | drop 40 13 -detail 2 -operation 7 -button none
+    drag-end -button none
+    select Project1 | get-menu "Diagrams/Audit all diagrams" | click
+}
+get-window OK | get-label "No discrepancy was found." | get-property caption | is-equal "No discrepancy was found." | verify
+get-window OK | get-button OK | click
+get-view "Error Log" | get-tree | get-property itemCount | is-equal 0 | verify]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
