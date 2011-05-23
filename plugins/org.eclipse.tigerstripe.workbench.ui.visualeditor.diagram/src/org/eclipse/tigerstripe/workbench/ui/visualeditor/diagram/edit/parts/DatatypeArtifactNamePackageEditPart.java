@@ -50,7 +50,6 @@ import org.eclipse.gmf.runtime.notation.impl.NodeImpl;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
 import org.eclipse.jface.viewers.ICellEditorValidator;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.SWT;
@@ -212,6 +211,7 @@ public class DatatypeArtifactNamePackageEditPart extends
 	/**
 	 * @generated
 	 */
+	@Override
 	protected EObject getParserElement() {
 		EObject element = resolveSemanticElement();
 		return element != null ? element : (View) getModel();
@@ -232,6 +232,7 @@ public class DatatypeArtifactNamePackageEditPart extends
 	/**
 	 * @generated NOT
 	 */
+	@Override
 	protected String getLabelText() {
 		return super.getLabelText();
 	}
@@ -313,6 +314,7 @@ public class DatatypeArtifactNamePackageEditPart extends
 	/**
 	 * @generated
 	 */
+	@Override
 	public ParserOptions getParserOptions() {
 		return ParserOptions.NONE;
 	}
@@ -320,6 +322,7 @@ public class DatatypeArtifactNamePackageEditPart extends
 	/**
 	 * @generated
 	 */
+	@Override
 	public IParser getParser() {
 		if (parser == null) {
 			String parserHint = ((View) getModel()).getType();
@@ -343,7 +346,7 @@ public class DatatypeArtifactNamePackageEditPart extends
 	 */
 	protected DirectEditManager getManager() {
 		if (manager == null) {
-			setManager(new TextDirectEditManager(this,
+			setManager(new NameAwareTextDirectEditManager(this,
 					TextDirectEditManager.getTextCellEditorClass(this),
 					TigerstripeEditPartFactory.getTextCellEditorLocator(this)));
 		}
@@ -408,7 +411,7 @@ public class DatatypeArtifactNamePackageEditPart extends
 					.getCorrespondingIArtifact();
 
 			if (artifact != null) {
-				wizard.init((IStructuredSelection) new StructuredSelection(
+				wizard.init(new StructuredSelection(
 						artifact));
 				WizardDialog dialog = new WizardDialog(shell, wizard);
 				dialog.open();
