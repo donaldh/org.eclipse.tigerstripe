@@ -292,11 +292,14 @@
             class="org.eclipse.tigerstripe.workbench.ui.internal.preferences.GeneralPreferencePage"
             id="org.eclipse.tigerstripe.ui.eclipse.preferences.GeneralPreferencePage"
             name="General"/>
+      
+      <!--
+      TA24515: Clean up Tigerstripe preferences
       <page
             category="org.eclipse.tigerstripe.ui.eclipse.preferences.TopLevelPreferences"
             class="org.eclipse.tigerstripe.workbench.ui.internal.preferences.modelImport.ImportPreferencePage"
             id="org.eclipse.tigerstripe.ui.eclipse.preferences.ModelImportPreferencePage"
-            name="Model Import"/>
+            name="Model Import"/> -->
       <page
             category="org.eclipse.tigerstripe.ui.eclipse.preferences.TopLevelPreferences"
             class="org.eclipse.tigerstripe.workbench.ui.internal.preferences.GenerationPreferencePage"
