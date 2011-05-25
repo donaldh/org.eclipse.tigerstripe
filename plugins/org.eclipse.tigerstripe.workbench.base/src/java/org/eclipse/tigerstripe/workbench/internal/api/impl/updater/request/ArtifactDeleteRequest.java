@@ -60,9 +60,9 @@ public class ArtifactDeleteRequest extends BaseModelChangeRequest implements
 				getFullyQualifiedName(), true);
 		if (art == null)
 			return false;
-		
+
 		ITigerstripeModelProject project = art.getTigerstripeProject();
-		if (project != null){
+		if (project != null) {
 			// We are NOT in a module so can be updated
 			return true;
 		}
@@ -79,6 +79,11 @@ public class ArtifactDeleteRequest extends BaseModelChangeRequest implements
 		}
 		IAbstractArtifact artifact = mgrSession
 				.getArtifactByFullyQualifiedName(fqn);
+
+		if (artifact == null) {
+			return;
+		}
+
 		project = artifact.getProject();
 		artifactURI = (URI) artifact.getAdapter(URI.class);
 		artifactSimpleType = artifact.getClass().getSimpleName();
@@ -87,15 +92,17 @@ public class ArtifactDeleteRequest extends BaseModelChangeRequest implements
 
 	@Override
 	public IModelChangeDelta getCorrespondingDelta() {
-		// A ModelChangeDelta is pushed by the ArtifactManagerSession so this one 
+		// A ModelChangeDelta is pushed by the ArtifactManagerSession so this
+		// one
 		// would be redundant...
 		return null;
-//		ModelChangeDelta delta = new ModelChangeDelta(IModelChangeDelta.REMOVE);
-//		delta.setOldValue(artifactURI);
-//		delta.setProject(project);
-//		delta.setFeature(artifactSimpleType);
-//		delta.setSource(this);
-//		return delta;
+		// ModelChangeDelta delta = new
+		// ModelChangeDelta(IModelChangeDelta.REMOVE);
+		// delta.setOldValue(artifactURI);
+		// delta.setProject(project);
+		// delta.setFeature(artifactSimpleType);
+		// delta.setSource(this);
+		// return delta;
 	}
 
 }
