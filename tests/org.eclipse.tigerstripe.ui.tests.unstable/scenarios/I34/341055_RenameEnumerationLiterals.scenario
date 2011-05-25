@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="341055_RenameEnumerationLiterals" version="3.0" id="_tJ9BAG--EeCS3bGR9ACI6w" description="When users change enumeration literals, users should be presented with a&#xD;&#xA;generic message indicating that this may affect all artifacts referencing the&#xD;&#xA;Enumeration and whether or not they wish to proceed &#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;   1. Create Tigerstripe project&#xD;&#xA;   2. Create Enumeration artifact 'Enum' and add literal 'Literal'&#xD;&#xA;   3. Create an entity 'Entity1' and add an attribute 'testEnum'.&#xD;&#xA;   4. Set data type for this attribute to 'Enum'.&#xD;&#xA;   5. Set the default value for this attribute by pulling the choice list and clicking Literal&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;   1. Check attribute and literal names in Tigerstripe Explorer&#xD;&#xA;   2. Update literal name and save changes&#xD;&#xA;   3. Check warning message and click 'No'&#xD;&#xA;   4. Check literal name in Tigerstripe Explorer (it is not changed). Editor should be marked as dirty&#xD;&#xA;   5. Save changes and click 'Yes' in warning message&#xD;&#xA;   6. Check that literal is updated, attribute is not updated&#xD;&#xA;   7. Check error in Problems view&#xD;&#xA;" tags="I34, TS_Project/Edit/Artifacts" type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="341055_RenameEnumerationLiterals" version="3.0" id="_tJ9BAG--EeCS3bGR9ACI6w" description="When users change enumeration literals, users should be presented with a&#xD;&#xA;generic message indicating that this may affect all artifacts referencing the&#xD;&#xA;Enumeration and whether or not they wish to proceed &#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;   1. Create Tigerstripe project&#xD;&#xA;   2. Create Enumeration artifact 'Enum' and add literal 'Literal'&#xD;&#xA;   3. Create an entity 'Entity1' and add an attribute 'testEnum'.&#xD;&#xA;   4. Set data type for this attribute to 'Enum'.&#xD;&#xA;   5. Set the default value for this attribute by pulling the choice list and clicking Literal&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;   1. Check attribute and literal names in Tigerstripe Explorer&#xD;&#xA;   2. Update literal name and save changes&#xD;&#xA;   3. Check warning message and click 'No'&#xD;&#xA;   4. Check literal name in Tigerstripe Explorer (it is not changed). Editor should be marked as dirty&#xD;&#xA;   5. Save changes and click 'Yes' in warning message&#xD;&#xA;   6. Check that literal is updated, attribute is not updated&#xD;&#xA;   7. Check error in Problems view&#xD;&#xA;" tags="I34, TS_Project/Edit/Artifacts" type="ecl">
   <contexts>_fvu3kG--EeCS3bGR9ACI6w</contexts>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany/Entity1/testEnum:Enum=Literal" | get-property caption | equals "testEnum:Enum=Literal" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany/Enum/Literal=0" | get-property caption | equals "Literal=0" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Enum/Literal=0" | double-click -nowait
+with [get-editor Enum | get-section Constants | get-section -index 1 | get-editbox -after [get-label "Name:"]] {
+    key-type "M1+a"
+    set-text LiteralUpdated
+}
+get-button "Save (Ctrl+S)" | click
+get-window "Save Enumeration" | get-label "Enumeration literals were changed, this may affect all artifacts referencing the Enumeration. Do you wish to proceed?" | get-property caption | equals "Enumeration literals were changed, this may affect all artifacts referencing the Enumeration. Do you wish to proceed?" | verify-true
+get-window "Save Enumeration" | get-button No | click
+get-tab-folder -index 1 | get-property pages -index 0 | equals "*Enum" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany/Enum/Literal=0" | get-property caption | equals "Literal=0" | verify-true
+get-button "Save (Ctrl+S)" | click
+get-window "Save Enumeration" | get-button Yes | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany/Enum/LiteralUpdated=0" | get-property caption | equals "LiteralUpdated=0" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany/Entity1/testEnum:Enum=Literal" | get-property caption | equals "testEnum:Enum=Literal" | verify-true
+get-view Problems | get-tree | select "Errors \\(1 item\\)"
+
+get-view Problems | get-tree | get-item "Errors \\(1 item\\)/Default value of \'com.mycompany.Entity1.testEnum\' attribute is incorrect. Referenced enumeration \'com.mycompany.Enum\' doesn\'t contain \'Literal\' literal." | get-property caption | equals "Default value of \'com.mycompany.Entity1.testEnum\' attribute is incorrect. Referenced enumeration \'com.mycompany.Enum\' doesn\'t contain \'Literal\' literal." | verify-true]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -325,6 +346,30 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="Default value of 'testEnum' attrubute is incorrect. Referenced enumeration 'com.mycompany.Enum' doesn't contain 'Literal' literal.">
       <element id="Item35" kind="Item"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Problems" multiplicity="1">
+        <parent id="EclipseWindow0_53" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0_53" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>Errors \(1 item\)</path>
+        <path>Default value of 'com.mycompany.Entity1.testEnum' attribute is incorrect. Referenced enumeration 'com.mycompany.Enum' doesn't contain 'Literal' literal.</path>
+        <parent id="Tree0_53" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="Default value of 'com.mycompany.Entity1.testEnum' attribute is incorrect. Referenced enumeration 'com.mycompany.Enum' doesn't contain 'Literal' literal.">
+      <element id="Item0_53" kind="Item"/>
       <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </commands>
     <elementMapping command="//@teslaContent/@commands.0">
@@ -759,6 +804,51 @@
       <elements id="Item35" kind="Item"/>
       <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="Default value of 'testEnum' attrubute is incorrect. Referenced enumeration 'com.mycompany.Enum' doesn't contain 'Literal' literal.">
         <columns>Default value of 'testEnum' attrubute is incorrect. Referenced enumeration 'com.mycompany.Enum' doesn't contain 'Literal' literal.</columns>
+        <columns>Entity1.java</columns>
+        <columns>/Project1/src/com/mycompany</columns>
+        <columns>Unknown</columns>
+        <columns>Tigerstripe Audit Marker</columns>
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="60" y="18" width="239" height="17"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.73">
+      <elements id="EclipseWindow0_53" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project1/src/com/mycompany/Enum.java - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="852" y="151" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.74">
+      <elements id="View0_53" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Problems">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="256" y="470" width="741" height="174"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.75">
+      <elements id="Tree0_53" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" linesVisible="true" multiSelection="true" headerVisible="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="741" height="174"/>
+        <columns caption="Description" resizable="true" movable="true" width="300" tooltip="Description"/>
+        <columns caption="Resource" index="1" resizable="true" movable="true" width="94" tooltip="Resource"/>
+        <columns caption="Path" index="2" resizable="true" movable="true" width="124" tooltip="Path"/>
+        <columns caption="Location" index="3" resizable="true" movable="true" width="64" tooltip="Location"/>
+        <columns caption="Type" index="4" resizable="true" movable="true" width="94" tooltip="Type"/>
+        <selection>
+          <path>Errors \(1 item\)</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.76">
+      <elements id="Item0_53" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="Default value of 'com.mycompany.Entity1.testEnum' attribute is incorrect. Referenced enumeration 'com.mycompany.Enum' doesn't contain 'Literal' literal.">
+        <columns>Default value of 'com.mycompany.Entity1.testEnum' attribute is incorrect. Referenced enumeration 'com.mycompany.Enum' doesn't contain 'Literal' literal.</columns>
         <columns>Entity1.java</columns>
         <columns>/Project1/src/com/mycompany</columns>
         <columns>Unknown</columns>

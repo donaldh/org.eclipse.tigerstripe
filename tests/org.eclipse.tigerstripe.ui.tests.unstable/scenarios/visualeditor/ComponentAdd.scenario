@@ -1,6 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ComponentAdd" id="_udkCgK8iEd-YepE1dWFlXA" description="Add literal to Enumeration. Save changes and verify.&#xD;&#xA;Change name and type of the literal. Save changes and verify.&#xD;&#xA;Add attribute and method to Entity. Save changes and verify.&#xD;&#xA;Change name and type of the attribute. Save changes and verify." type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="ComponentAdd" id="_udkCgK8iEd-YepE1dWFlXA" description="Add literal to Enumeration. Save changes and verify.&#xD;&#xA;Change name and type of the literal. Save changes and verify.&#xD;&#xA;Add attribute and method to Entity. Save changes and verify.&#xD;&#xA;Change name and type of the attribute. Save changes and verify." tags="TS_Project/VisualEditor" type="ecl" externalReference="http://docs.xored.com/display/TS/Visual+Editor">
   <contexts>_eq7awK8jEd-YepE1dWFlXA</contexts>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse.diagram/PaletteCreate" | double-click -nowait
+with [get-editor "PaletteCreate.wvd"] {
+    with [get-palette | get-palette-entry Field | get-figure 0] {
+        mouse-move 51 13 button1 -height 23 -width 125
+        mouse-press 51 13 button1 -height 23 -width 125
+        mouse-release 51 13 button1 524288 -height 23 -width 125
+    }
+    with [get-diagram] {
+        with [get-edit-part -className MapEditPart | get-edit-part -name Entity2 | get-edit-part -className ManagedEntityArtifactAttributeCompartmentEditPart | get-figure "1/0/0"] {
+            mouse-move 30 5 button1 -height 11 -width 56
+            mouse-press 30 5 button1 -height 11 -width 56
+            mouse-release 30 5 button1 524288 -height 11 -width 56
+        }
+        get-edit-part -className MapEditPart | get-edit-part -name Entity2 | get-edit-part -text "attribute0:String" | get-edit-part -name attribute0 | activate-direct-edit
+        commit-direct-edit
+    }
+    with [get-palette | get-palette-entry Method | get-figure 0] {
+        mouse-move 56 10 button1 -height 23 -width 125
+        mouse-press 56 10 button1 -height 23 -width 125
+        mouse-release 56 10 button1 524288 -height 23 -width 125
+    }
+    with [get-diagram] {
+        with [get-edit-part -className MapEditPart | get-edit-part -name Entity2 | get-edit-part -className ManagedEntityArtifactMethodCompartmentEditPart | get-figure "1/0/0"] {
+            mouse-move 23 2 button1 -height 11 -width 122
+            mouse-press 23 2 button1 -height 11 -width 122
+            mouse-release 23 2 button1 524288 -height 11 -width 122
+        }
+        get-edit-part -className MapEditPart | get-edit-part -name Entity2 | get-edit-part -text "method0():void" | get-edit-part -name method0 | activate-direct-edit
+        commit-direct-edit
+        with [get-edit-part -className MapEditPart] {
+            mouse-move 155 132 button1 -height 356 -width 596
+            mouse-press 155 132 button1 -height 356 -width 596
+            mouse-release 155 132 button1 524288 -height 356 -width 596
+        }
+    }
+}
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse.diagram/Entity2"
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse.diagram/Entity2/attribute0:String" | get-property caption | equals "attribute0:String" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse.diagram/Entity2/method0\\(\\):void" | get-property caption | equals "method0():void" | verify-true
+with [get-editor "PaletteCreate.wvd"] {
+    with [get-palette | get-palette-entry Literal | get-figure 0] {
+        mouse-move 54 11 button1 -height 23 -width 125
+        mouse-press 54 11 button1 -height 23 -width 125
+        mouse-release 54 11 button1 524288 -height 23 -width 125
+    }
+    with [get-diagram] {
+        with [get-edit-part -className MapEditPart | get-edit-part -name Enumeration2 | get-edit-part -className EnumerationLiteralCompartmentEditPart | get-figure "1/0/0"] {
+            mouse-move 12 6 button1 -height 11 -width 94
+            mouse-press 12 6 button1 -height 11 -width 94
+            mouse-release 12 6 button1 524288 -height 11 -width 94
+        }
+        get-edit-part -className MapEditPart | get-edit-part -name Enumeration2 | get-edit-part -text "literal0=0" | get-edit-part -name literal0 | activate-direct-edit
+        commit-direct-edit
+        with [get-edit-part -className MapEditPart] {
+            mouse-move 298 107 button1 -height 407 -width 825
+            mouse-press 298 107 button1 -height 407 -width 825
+            mouse-release 298 107 button1 524288 -height 407 -width 825
+        }
+    }
+}
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse.diagram/Enumeration2/literal0=0" | get-property caption | equals "literal0=0" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse.diagram/Entity2/attribute0:String" | double-click -nowait
+with [get-editor Entity2 | get-section Attributes | get-section -index 1 | get-editbox -after [get-label "Name:"]] {
+    key-type "M1+a"
+    set-text "entity2_testField2"
+}
+get-button "Save (Ctrl+S)" | click
+get-editor Entity2 | get-section Attributes | get-section | get-table | get-item "entity2_testField2" | get-property columns -index 0 | equals "entity2_testField2" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse.diagram/Entity2/entity2_testField2:String" | get-property caption | equals "entity2_testField2:String" | verify-true
+get-editor "PaletteCreate.wvd" | click -nowait
+get-button "Save (Ctrl+S)" | click
+with [get-editor "PaletteCreate.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity2 | get-edit-part -text "+entity2_testField2:String" | get-edit-part -name "entity2_testField2"] {
+    get-property name | equals "entity2_testField2" | verify-true
+    get-property type | equals String | verify-true
+}
+with [get-editor Entity2] {
+    click -nowait
+    with [get-section Methods] {
+        click -nowait
+        get-section | get-table | select "method0\\(\\):void"
+        with [get-section -index 1 | get-editbox -after [get-label "Name:"]] {
+            key-type "M1+a"
+            set-text "entity2_testMethod2"
+        }
+    }
+}
+get-button "Save (Ctrl+S)" | click
+get-editor Entity2 | get-section Methods | get-section | get-table | get-item "entity2_testMethod2\\(\\):void" | get-property columns -index 0 | equals "entity2_testMethod2():void" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse.diagram/Entity2/entity2_testMethod2\\(\\):void" | get-property caption | equals "entity2_testMethod2():void" | verify-true
+get-editor "PaletteCreate.wvd" | click -nowait
+get-button "Save (Ctrl+S)" | click
+with [get-editor "PaletteCreate.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity2 | get-edit-part -text "+entity2_testMethod2():void" | get-edit-part -name "entity2_testMethod2"] {
+    get-property name | equals "entity2_testMethod2" | verify-true
+    get-property type | equals void | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse.diagram/Enumeration2" | double-click -nowait
+with [get-editor Enumeration2 | get-section Constants] {
+    get-section | get-table | select "literal0=0"
+    with [get-section -index 1 | get-editbox -after [get-label "Name:"]] {
+        key-type "M1+a"
+        set-text "enumeration2_testLiteral2"
+    }
+}
+get-button "Save (Ctrl+S)" | click
+get-window "Save Enumeration" | get-button Yes | click
+with [get-editor Enumeration2 | get-section Constants | get-section | get-table | get-item "enumeration2_testLiteral2=0"] {
+    get-property columns -index 0 | equals "enumeration2_testLiteral2=0" | verify-true
+    get-property columns -index 1 | equals 0 | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse.diagram/Enumeration2/enumeration2_testLiteral2=0" | get-property caption | equals "enumeration2_testLiteral2=0" | verify-true
+get-editor "PaletteCreate.wvd" | click -nowait
+get-button "Save (Ctrl+S)" | click
+with [get-editor "PaletteCreate.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Enumeration2 | get-edit-part -text "+enumeration2_testLiteral2=0" | get-edit-part -name "enumeration2_testLiteral2"] {
+    get-property name | equals "enumeration2_testLiteral2" | verify-true
+    get-property type | equals int | verify-true
+}]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -54,8 +174,8 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>rawFigure</path>
         <path>address</path>
-        <parent id="PaletteEntry8" kind="PaletteEntry"/>
         <indexes>0</indexes>
+        <parent id="PaletteEntry8" kind="PaletteEntry"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="51" y="13" button="1" kind="Move" boundsWidth="125" boundsHeight="349" figureWidth="125" figureHeight="23">
@@ -97,10 +217,10 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>rawFigure</path>
         <path>address</path>
-        <parent id="DiagramFigure20" kind="DiagramFigure"/>
         <indexes>1</indexes>
         <indexes>0</indexes>
         <indexes>0</indexes>
+        <parent id="DiagramFigure20" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="30" y="5" button="1" kind="Move" boundsWidth="613" boundsHeight="373" figureWidth="56" figureHeight="11">
@@ -165,8 +285,8 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>rawFigure</path>
         <path>address</path>
-        <parent id="PaletteEntry11" kind="PaletteEntry"/>
         <indexes>0</indexes>
+        <parent id="PaletteEntry11" kind="PaletteEntry"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="56" y="10" button="1" kind="Move" boundsWidth="125" boundsHeight="349" figureWidth="125" figureHeight="23">
@@ -189,10 +309,10 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>rawFigure</path>
         <path>address</path>
-        <parent id="DiagramFigure27" kind="DiagramFigure"/>
         <indexes>1</indexes>
         <indexes>0</indexes>
         <indexes>0</indexes>
+        <parent id="DiagramFigure27" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="23" y="2" button="1" kind="Move" boundsWidth="613" boundsHeight="373" figureWidth="122" figureHeight="11">
@@ -352,8 +472,8 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>rawFigure</path>
         <path>address</path>
-        <parent id="PaletteEntry2_43" kind="PaletteEntry"/>
         <indexes>0</indexes>
+        <parent id="PaletteEntry2_43" kind="PaletteEntry"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="54" y="11" button="1" kind="Move" boundsWidth="125" boundsHeight="400" figureWidth="125" figureHeight="23">
@@ -395,10 +515,10 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>rawFigure</path>
         <path>address</path>
-        <parent id="DiagramFigure3_44" kind="DiagramFigure"/>
         <indexes>1</indexes>
         <indexes>0</indexes>
         <indexes>0</indexes>
+        <parent id="DiagramFigure3_44" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="12" y="6" button="1" kind="Move" boundsWidth="842" boundsHeight="424" figureWidth="94" figureHeight="11">
@@ -2227,10 +2347,10 @@
     <elementMapping command="//@teslaContent/@commands.121">
       <elements id="Item6_64" kind="Item"/>
       <controls xsi:type="com.xored.tesla.core.ui:TableItem" caption="entity2_testField2">
+        <columns>entity2_testField2</columns>
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="4" y="24" width="99" height="18"/>
-        <columns>entity2_testField2</columns>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.123">
@@ -2619,10 +2739,10 @@
     <elementMapping command="//@teslaContent/@commands.166">
       <elements id="Item13_66" kind="Item"/>
       <controls xsi:type="com.xored.tesla.core.ui:TableItem" caption="entity2_testMethod2():void" selected="true">
+        <columns>entity2_testMethod2():void</columns>
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="4" y="24" width="150" height="18"/>
-        <columns>entity2_testMethod2():void</columns>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.168">
@@ -3036,11 +3156,11 @@
     <elementMapping command="//@teslaContent/@commands.213">
       <elements id="Item18_68" kind="Item"/>
       <controls xsi:type="com.xored.tesla.core.ui:TableItem" caption="enumeration2_testLiteral2=0" selected="true">
+        <columns>enumeration2_testLiteral2=0</columns>
+        <columns>0</columns>
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="4" y="24" width="158" height="18"/>
-        <columns>enumeration2_testLiteral2=0</columns>
-        <columns>0</columns>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.216">

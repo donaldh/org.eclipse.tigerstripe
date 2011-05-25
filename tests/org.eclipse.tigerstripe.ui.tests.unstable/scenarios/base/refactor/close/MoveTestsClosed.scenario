@@ -85,7 +85,7 @@ with [get-view "Tigerstripe Explorer" | get-tree] {
     select "model-refactoring/outside-instance-diagram" | double-click -nowait
 }
 with [get-tab-folder] {
-    get-property pages -index 0 | equals "*default.wvd" | verify-true
+    get-property pages -index 0 | equals "default.wvd" | verify-true
     get-property pages -index 1 | equals "inside-moved.wvd" | verify-true
     get-property pages -index 2 | equals "outside-class-diagram.wvd" | verify-true
     get-property pages -index 3 | equals "outside-instance-diagram.wod" | verify-true
@@ -104,7 +104,6 @@ with [get-editor "default.wvd"] {
     click -nowait
     close
 }
-get-window "Save Resource" | get-button Yes | click
 get-view "Tigerstripe Explorer" | click -nowait]]></content>
   </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
