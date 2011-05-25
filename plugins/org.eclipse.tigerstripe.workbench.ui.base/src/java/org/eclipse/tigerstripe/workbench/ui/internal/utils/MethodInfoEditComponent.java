@@ -908,7 +908,6 @@ public class MethodInfoEditComponent {
 				uniqueButton.setSelection(true);
 				method.setUnique(true);
 			}
-
 		} else {
 			defaultReturnValue.clearSelection();
 			defaultReturnValue.setText("");
@@ -921,7 +920,7 @@ public class MethodInfoEditComponent {
 			orderedButton.setEnabled(false);
 			uniqueButton.setEnabled(false);
 		}
-
+		ComponentUtils.setEnabledAll(sectionClient, sectionClient.getEnabled());
 		// Enablement of Iterator result button
 		// !void, multiplicty of *, returned type is entity type
 		// NOTE: only care about it if displayed, i.e. it has not been disabled

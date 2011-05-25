@@ -20,6 +20,7 @@ import org.eclipse.ui.PlatformUI;
 public class ComponentUtils {
 
 	public static void setEnabledAll(Composite parent, boolean value) {
+		parent.setEnabled(value);
 		for (Control child : parent.getChildren()) {
 			child.setEnabled(value);
 			if (child instanceof Composite) {
