@@ -574,7 +574,7 @@
  <extension
        point="org.eclipse.tigerstripe.workbench.base.tigerstripeChangeListener">
     <listener
-          class="org.eclipse.tigerstripe.workbench.internal.core.model.ModelResourcesChangeListener"
+          class="org.eclipse.tigerstripe.workbench.model.ModelResourcesChangeListener"
           level="ALL">
     </listener>
  </extension>

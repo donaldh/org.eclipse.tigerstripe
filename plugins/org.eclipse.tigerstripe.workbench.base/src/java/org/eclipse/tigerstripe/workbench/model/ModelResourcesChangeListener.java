@@ -7,7 +7,7 @@
  * Systems.
  * 
  *****************************************************************************/
-package org.eclipse.tigerstripe.workbench.internal.core.model;
+package org.eclipse.tigerstripe.workbench.model;
 
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
