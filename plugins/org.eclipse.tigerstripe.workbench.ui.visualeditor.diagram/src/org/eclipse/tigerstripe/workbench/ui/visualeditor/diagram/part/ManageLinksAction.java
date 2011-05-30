@@ -11,12 +11,15 @@
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.command.Command;
+import org.eclipse.emf.common.command.CompoundCommand;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditDomain;
@@ -34,8 +37,10 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssociationClass;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssociationClassClass;
@@ -43,7 +48,12 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.Dependency;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.QualifiedNamedElement;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorFactory;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.helpers.MapHelper;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.dialogs.ManageLinksDialog;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.dialogs.ManageLinksDialog.LinkEntry;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.dialogs.ManageLinksDialog.LinksSet;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.utils.ArtifactPropertyChangeHandler;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.util.NamedElementPropertiesHelper;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.util.VisualeditorRelationshipUtils;
 import org.eclipse.ui.IObjectActionDelegate;
 import org.eclipse.ui.IWorkbenchPart;
@@ -67,10 +77,18 @@ public class ManageLinksAction extends BaseDiagramPartAction implements
 
 	public void run(IAction action) {
 		Shell shell = EclipsePlugin.getActiveWorkbenchShell();
+		Collection<AbstractArtifact> selectedArtifacts = null;
 		IAbstractArtifact artifact = null;
 		if (mySelectedElements.length != 0) {
 			IAbstractArtifact[] artifacts = getCorrespondingArtifacts();
 			artifact = artifacts[0];
+
+			selectedArtifacts = new ArrayList<AbstractArtifact>();
+			for (EObject eObject : getCorrespondingEObjects()) {
+				if (eObject instanceof AbstractArtifact) {
+					selectedArtifacts.add((AbstractArtifact) eObject);
+				}
+			}
 		}
 		Object[] returnObjects = null;
 		Map map = null;
@@ -106,94 +124,26 @@ public class ManageLinksAction extends BaseDiagramPartAction implements
 				}
 			}
 		}
-		Set<IRelationship> possibleRelationships = null;
-		HashMap<String, QualifiedNamedElement> associationsInMap = null;
-		HashMap<String, QualifiedNamedElement> dependenciesInMap = null;
-		HashMap<String, QualifiedNamedElement> nodesInMap = null;
-		if (returnObjects != null && returnObjects.length == 4) {
-			// extract the returned values from the object array
-			possibleRelationships = (Set<IRelationship>) returnObjects[0];
-			associationsInMap = (HashMap<String, QualifiedNamedElement>) returnObjects[1];
-			dependenciesInMap = (HashMap<String, QualifiedNamedElement>) returnObjects[2];
-			nodesInMap = (HashMap<String, QualifiedNamedElement>) returnObjects[3];
+
+		UpdatableLinksSet[] linkSets = collectLinksSets(map, selectedArtifacts,
+				returnObjects);
+		boolean hasLinks = false;
+		for (UpdatableLinksSet linksSet : linkSets) {
+			if (linksSet.hasLinks()) {
+				hasLinks = true;
+			}
 		}
-		if (possibleRelationships != null && possibleRelationships.size() > 0) {
-			// display the list of relationships in a dialog (allowing user to
-			// pick which relationships should be shown/hidden)
-			ManageLinksDialog diag = new ManageLinksDialog(shell,
-					possibleRelationships, associationsInMap.keySet(),
-					dependenciesInMap.keySet());
+		if (hasLinks) {
+			ManageLinksDialog diag = new ManageLinksDialog(shell, linkSets);
 			if (diag.open() == Window.OK) {
-				// now get the values that the user selected and determine which
-				// links need
-				// to be created/destroyed based on the selected values in that
-				// list
-				HashMap<String, IRelationship> selectedValues = diag
-						.getSelection();
-				List<IRelationship> relationshipsToCreate = new ArrayList<IRelationship>();
-				Set<String> selectedNames = selectedValues.keySet();
-				Set<String> associationNames = associationsInMap.keySet();
-				Set<String> dependencyNames = dependenciesInMap.keySet();
-				for (String name : selectedNames) {
-					IRelationship relationship = selectedValues.get(name);
-					if (!associationNames.contains(name)
-							&& !dependencyNames.contains(name))
-						relationshipsToCreate.add(relationship);
-				}
-				// look to see if there are any associations that are in the map
-				// that are not in the
-				// selection...if so, need to destroy them
-				List<QualifiedNamedElement> associationsToDestroy = new ArrayList<QualifiedNamedElement>();
-				for (String name : associationNames) {
-					if (!selectedNames.contains(name))
-						if (artifact != null) {
-							String artifactFQN = artifact
-									.getFullyQualifiedName();
-							QualifiedNamedElement elem = associationsInMap
-									.get(name);
-							String aEndFQN = ((Association) elem).getAEnd()
-									.getFullyQualifiedName();
-							String zEndFQN = ((Association) elem).getZEnd()
-									.getFullyQualifiedName();
-							if (artifactFQN.equals(aEndFQN)
-									|| artifactFQN.equals(zEndFQN))
-								associationsToDestroy.add(associationsInMap
-										.get(name));
-						} else
-							associationsToDestroy.add(associationsInMap
-									.get(name));
-				}
-				// look to see if there are any dependencies that are in the map
-				// that are not in the
-				// selection...if so, need to destroy them
-				List<QualifiedNamedElement> dependenciesToDestroy = new ArrayList<QualifiedNamedElement>();
-				for (String name : dependencyNames) {
-					if (!selectedNames.contains(name))
-						if (artifact != null) {
-							String artifactFQN = artifact
-									.getFullyQualifiedName();
-							QualifiedNamedElement elem = dependenciesInMap
-									.get(name);
-							String aEndFQN = ((Dependency) elem).getAEnd()
-									.getFullyQualifiedName();
-							String zEndFQN = ((Dependency) elem).getZEnd()
-									.getFullyQualifiedName();
-							if (artifactFQN.equals(aEndFQN)
-									|| artifactFQN.equals(zEndFQN))
-								dependenciesToDestroy.add(dependenciesInMap
-										.get(name));
-						} else
-							dependenciesToDestroy.add(dependenciesInMap
-									.get(name));
+				CompoundCommand cmd = new CompoundCommand();
+				for (UpdatableLinksSet linksSet : linkSets) {
+					Command command = linksSet.getUpdateCommand();
+					if (command != null) {
+						cmd.append(command);
+					}
 				}
 
-				// set up command to update the map by adding the new
-				// relationships
-				// and
-				// destroying the unwanted associations and dependencies
-				Command cmd = new UpdateRelationshipsCommand(map, nodesInMap,
-						relationshipsToCreate, associationsToDestroy,
-						dependenciesToDestroy);
 				TigerstripeDiagramEditor editor = null;
 				if (mySelectedElements.length != 0
 						&& mySelectedElements[0] != null) {
@@ -230,6 +180,245 @@ public class ManageLinksAction extends BaseDiagramPartAction implements
 			MessageDialog.openWarning(shell, "No Relationship Found",
 					warningMessage);
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private UpdatableLinksSet[] collectLinksSets(Map map,
+			Collection<AbstractArtifact> selectedArtifacts,
+			Object[] returnObjects) {
+		List<UpdatableLinksSet> linksSets = new ArrayList<UpdatableLinksSet>();
+		linksSets.add(getRelationshipsLinksSet(returnObjects, map));
+
+		Collection<AbstractArtifact> toHandle = null;
+		if (selectedArtifacts == null || selectedArtifacts.size() == 0) {
+			toHandle = map.getArtifacts();
+		} else {
+			toHandle = selectedArtifacts;
+		}
+		linksSets.addAll(Arrays.asList(getExtendsImplementsLinksSet(toHandle)));
+
+		return linksSets.toArray(new UpdatableLinksSet[linksSets.size()]);
+	}
+
+	@SuppressWarnings("unchecked")
+	private UpdatableLinksSet getRelationshipsLinksSet(Object[] returnObjects,
+			final Map map) {
+		Set<IRelationship> possibleRelationships = null;
+		HashMap<String, QualifiedNamedElement> associationsInMap = null;
+		HashMap<String, QualifiedNamedElement> dependenciesInMap = null;
+		HashMap<String, QualifiedNamedElement> nodes = new HashMap<String, QualifiedNamedElement>();
+		if (returnObjects != null && returnObjects.length == 4) {
+			// extract the returned values from the object array
+			possibleRelationships = (Set<IRelationship>) returnObjects[0];
+			associationsInMap = (HashMap<String, QualifiedNamedElement>) returnObjects[1];
+			dependenciesInMap = (HashMap<String, QualifiedNamedElement>) returnObjects[2];
+			nodes = (HashMap<String, QualifiedNamedElement>) returnObjects[3];
+		}
+
+		final HashMap<String, QualifiedNamedElement> nodesInMap = nodes;
+
+		final List<LinkEntry> relEntries = new ArrayList<LinkEntry>();
+		if (possibleRelationships != null) {
+			for (IRelationship relationship : possibleRelationships) {
+				QualifiedNamedElement element = associationsInMap
+						.get(relationship.getFullyQualifiedName());
+				if (element == null) {
+					element = dependenciesInMap.get(relationship
+							.getFullyQualifiedName());
+				}
+				RelationshipLinkEntry entry = new RelationshipLinkEntry(
+						relationship, element);
+				relEntries.add(entry);
+			}
+		}
+
+		return new UpdatableLinksSet("Associations", new String[] { "Name",
+				"A End", "Z End" }, relEntries) {
+			@Override
+			public Command getUpdateCommand() {
+				List<IRelationship> relationshipsToCreate = new ArrayList<IRelationship>();
+				List<QualifiedNamedElement> associationsToDestroy = new ArrayList<QualifiedNamedElement>();
+				List<QualifiedNamedElement> dependenciesToDestroy = new ArrayList<QualifiedNamedElement>();
+				for (LinkEntry entry : relEntries) {
+					RelationshipLinkEntry relEntry = (RelationshipLinkEntry) entry;
+					if (relEntry.isEnabled() && !relEntry.isExists()) {
+						relationshipsToCreate.add(relEntry.getRelationship());
+					} else if (!relEntry.isEnabled() && relEntry.isExists()) {
+						QualifiedNamedElement element = relEntry.getElement();
+						if (element instanceof Association) {
+							associationsToDestroy.add(element);
+						} else if (element instanceof Dependency) {
+							dependenciesToDestroy.add(element);
+						}
+					}
+				}
+
+				return new UpdateRelationshipsCommand(map, nodesInMap,
+						relationshipsToCreate, associationsToDestroy,
+						dependenciesToDestroy);
+			}
+
+		};
+
+	}
+
+	private UpdatableLinksSet[] getExtendsImplementsLinksSet(
+			Collection<AbstractArtifact> artifacts) {
+		List<LinkEntry> extendsEntries = new ArrayList<LinkEntry>();
+		List<LinkEntry> implementsEntries = new ArrayList<LinkEntry>();
+		for (AbstractArtifact art : artifacts) {
+			boolean hideExtends = Boolean
+					.parseBoolean(NamedElementPropertiesHelper.getProperty(art,
+							NamedElementPropertiesHelper.ARTIFACT_HIDE_EXTENDS));
+			AbstractArtifact extended = null;
+			if (!hideExtends) {
+				extended = art.getExtends();
+			} else {
+				extended = getExtendedFromDiagram(art);
+			}
+			if (extended != null) {
+				extendsEntries.add(new ExtendsLinkEntry(art, extended));
+			}
+
+			boolean hideImplements = Boolean
+					.parseBoolean(NamedElementPropertiesHelper
+							.getProperty(
+									art,
+									NamedElementPropertiesHelper.ARTIFACT_HIDE_IMPLEMENTS));
+			List<AbstractArtifact> implemented = null;
+			if (!hideImplements) {
+				implemented = art.getImplements();
+			} else {
+				implemented = getImplementedFromDiagram(art);
+			}
+
+			if (implemented != null && implemented.size() > 0) {
+				implementsEntries
+						.add(new ImplementsLinkEntry(art, implemented));
+			}
+		}
+		UpdatableLinksSet extendsLinkSet = new UpdatableLinksSet("Extends",
+				new String[] { "Source", "Extends" }, extendsEntries) {
+			@Override
+			public Command getUpdateCommand() {
+				return new UpdateExtendsImplementsVisibilityCommand(
+						this.getLinkEntries(),
+						NamedElementPropertiesHelper.ARTIFACT_HIDE_EXTENDS);
+			}
+
+		};
+		UpdatableLinksSet implementsLinkSet = new UpdatableLinksSet(
+				"Implements", new String[] { "Source", "Implements" },
+				implementsEntries) {
+			@Override
+			public Command getUpdateCommand() {
+				return new UpdateExtendsImplementsVisibilityCommand(
+						this.getLinkEntries(),
+						NamedElementPropertiesHelper.ARTIFACT_HIDE_IMPLEMENTS);
+			}
+		};
+
+		return new UpdatableLinksSet[] { extendsLinkSet, implementsLinkSet };
+	}
+
+	private AbstractArtifact getExtendedFromDiagram(AbstractArtifact artifact) {
+		AbstractArtifact extended = artifact.getExtends();
+		if (extended == null) {
+			try {
+				Map map = (Map) artifact.eContainer();
+				MapHelper mapHelper = new MapHelper(map);
+				IAbstractArtifact iArtifact = mapHelper
+						.getIArtifactFor(artifact);
+				IAbstractArtifact extendedIArtifact = iArtifact
+						.getExtendedArtifact();
+				if (extendedIArtifact != null) {
+					extended = mapHelper
+							.findAbstractArtifactFor(extendedIArtifact);
+				}
+			} catch (TigerstripeException e) {
+				EclipsePlugin.log(e);
+			}
+		}
+		return extended;
+	}
+
+	@SuppressWarnings("unchecked")
+	private List<AbstractArtifact> getImplementedFromDiagram(
+			AbstractArtifact artifact) {
+		List<AbstractArtifact> implemented = new ArrayList<AbstractArtifact>();
+		try {
+			Map map = (Map) artifact.eContainer();
+			MapHelper mapHelper = new MapHelper(map);
+			IAbstractArtifact iArtifact = mapHelper.getIArtifactFor(artifact);
+			Collection<IAbstractArtifact> implementedIArtifacts = iArtifact
+					.getImplementedArtifacts();
+			for (IAbstractArtifact implementedIArtifact : implementedIArtifacts) {
+				implemented.add(mapHelper
+						.findAbstractArtifactFor(implementedIArtifact));
+			}
+		} catch (TigerstripeException e) {
+			EclipsePlugin.log(e);
+		}
+		return implemented;
+	}
+
+	private class UpdateExtendsImplementsVisibilityCommand extends
+			AbstractCommand {
+
+		private final Collection<LinkEntry> entries;
+		private final String propertyKey;
+
+		public UpdateExtendsImplementsVisibilityCommand(
+				Collection<LinkEntry> entries, String propertyKey) {
+			this.entries = entries;
+			this.propertyKey = propertyKey;
+		}
+
+		@Override
+		public boolean canExecute() {
+			return true;
+		}
+
+		@Override
+		public boolean canUndo() {
+			return false;
+		}
+
+		public void execute() {
+			for (LinkEntry entry : entries) {
+				BaseArtifactLinkEntry artifactEntry = (BaseArtifactLinkEntry) entry;
+				if (entry.isEnabled() && !entry.isExists()) {
+					updateProperty(artifactEntry.getArtifact(), propertyKey,
+							Boolean.TRUE.toString(), Boolean.FALSE.toString());
+				} else if (!artifactEntry.isEnabled()
+						&& artifactEntry.isExists()) {
+					updateProperty(artifactEntry.getArtifact(), propertyKey,
+							Boolean.FALSE.toString(), Boolean.TRUE.toString());
+				}
+			}
+		}
+
+		public void redo() {
+		}
+
+		private void updateProperty(AbstractArtifact artifact,
+				String propertyKey, String oldValue, String newValue) {
+			NamedElementPropertiesHelper.setProperty(artifact, propertyKey,
+					newValue);
+			ArtifactPropertyChangeHandler handler = new ArtifactPropertyChangeHandler(
+					artifact);
+			handler.handleArtifactPropertyChange(propertyKey, oldValue,
+					newValue);
+		}
+	}
+
+	private abstract class UpdatableLinksSet extends LinksSet {
+		public UpdatableLinksSet(String name, String[] columnNames,
+				Collection<LinkEntry> entries) {
+			super(name, columnNames, entries);
+		}
+
+		public abstract Command getUpdateCommand();
 	}
 
 	/**
@@ -340,7 +529,150 @@ public class ManageLinksAction extends BaseDiagramPartAction implements
 		public boolean canUndo() {
 			return true;
 		}
-
 	}
 
+	private class RelationshipLinkEntry extends LinkEntry {
+		private final IRelationship relationship;
+		private final QualifiedNamedElement element;
+
+		public RelationshipLinkEntry(IRelationship relationship,
+				QualifiedNamedElement element) {
+			this.relationship = relationship;
+			this.element = element;
+			setEnabled(isExists());
+		}
+
+		public IRelationship getRelationship() {
+			return relationship;
+		}
+
+		public QualifiedNamedElement getElement() {
+			return element;
+		}
+
+		@Override
+		public boolean isExists() {
+			return element != null;
+		}
+
+		@Override
+		public String getLabel(boolean fullName, int column) {
+			String result = null;
+			switch (column) {
+			case 0:
+				if (fullName) {
+					result = relationship.getFullyQualifiedName();
+				} else {
+					result = relationship.getName();
+				}
+				break;
+			case 1:
+				result = getEndName(fullName,
+						relationship.getRelationshipAEnd());
+				break;
+			case 2:
+				result = getEndName(fullName,
+						relationship.getRelationshipZEnd());
+				break;
+			}
+			return result;
+		}
+
+		private String getEndName(boolean fullName, IRelationshipEnd end) {
+			if (fullName) {
+				return end.getType().getFullyQualifiedName();
+			} else {
+				return end.getType().getName();
+			}
+		}
+	}
+
+	private abstract class BaseArtifactLinkEntry extends LinkEntry {
+
+		private final AbstractArtifact artifact;
+
+		public BaseArtifactLinkEntry(AbstractArtifact artifact) {
+			this.artifact = artifact;
+		}
+
+		public AbstractArtifact getArtifact() {
+			return artifact;
+		}
+
+		protected String getName(AbstractArtifact art, boolean fullNames) {
+			if (fullNames) {
+				return art.getFullyQualifiedName();
+			} else {
+				return art.getName();
+			}
+		}
+	}
+
+	private class ExtendsLinkEntry extends BaseArtifactLinkEntry {
+		private final AbstractArtifact extended;
+
+		public ExtendsLinkEntry(AbstractArtifact artifact,
+				AbstractArtifact extended) {
+			super(artifact);
+			this.extended = extended;
+			setEnabled(isExists());
+		}
+
+		@Override
+		public boolean isExists() {
+			return !Boolean
+					.parseBoolean(NamedElementPropertiesHelper.getProperty(
+							getArtifact(),
+							NamedElementPropertiesHelper.ARTIFACT_HIDE_EXTENDS));
+		}
+
+		@Override
+		public String getLabel(boolean fullNames, int column) {
+			String result = null;
+			if (column == 0) {
+				result = getName(getArtifact(), fullNames);
+			} else if (column == 1) {
+				result = getName(extended, fullNames);
+			}
+			return result;
+		}
+	}
+
+	private class ImplementsLinkEntry extends BaseArtifactLinkEntry {
+		private final List<AbstractArtifact> implemented;
+
+		public ImplementsLinkEntry(AbstractArtifact artifact,
+				List<AbstractArtifact> implemented) {
+			super(artifact);
+			this.implemented = implemented;
+			setEnabled(isExists());
+		}
+
+		@Override
+		public boolean isExists() {
+			return !Boolean
+					.parseBoolean(NamedElementPropertiesHelper
+							.getProperty(
+									getArtifact(),
+									NamedElementPropertiesHelper.ARTIFACT_HIDE_IMPLEMENTS));
+		}
+
+		@Override
+		public String getLabel(boolean fullNames, int column) {
+			String result = null;
+			if (column == 0) {
+				result = getName(getArtifact(), fullNames);
+			} else if (column == 1) {
+				StringBuilder builder = new StringBuilder();
+				for (int i = 0; i < implemented.size(); i++) {
+					if (i != 0) {
+						builder.append(", ");
+					}
+					builder.append(getName(implemented.get(i), fullNames));
+				}
+				result = builder.toString();
+			}
+			return result;
+		}
+	}
 }

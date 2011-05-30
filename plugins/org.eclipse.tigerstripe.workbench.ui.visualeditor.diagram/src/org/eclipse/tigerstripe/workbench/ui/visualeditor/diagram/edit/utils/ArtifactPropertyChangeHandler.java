@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.utils;
 
+import java.util.Collection;
+
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -34,6 +36,9 @@ public class ArtifactPropertyChangeHandler {
 			if (NamedElementPropertiesHelper.ARTIFACT_HIDE_EXTENDS
 					.equals(propertyKey)) {
 				handleHideExtends(oldValue, newValue);
+			} else if (NamedElementPropertiesHelper.ARTIFACT_HIDE_IMPLEMENTS
+					.equals(propertyKey)) {
+				handleHideImplements(oldValue, newValue);
 			}
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
@@ -55,6 +60,25 @@ public class ArtifactPropertyChangeHandler {
 						.findAbstractArtifactFor(extendedIArtifact);
 				if (extendedEArtifact != null) {
 					artifact.setExtends(extendedEArtifact);
+				}
+			}
+		}
+	}
+
+	protected void handleHideImplements(String oldValue, String newValue)
+			throws TigerstripeException {
+		artifact.getImplements().clear();
+		if ("false".equals(newValue)) {
+			Map map = (Map) artifact.eContainer();
+			MapHelper mapHelper = new MapHelper(map);
+			IAbstractArtifact iArtifact = mapHelper.getIArtifactFor(artifact);
+			Collection<IAbstractArtifact> implementedArtifacts = iArtifact
+					.getImplementedArtifacts();
+			for (IAbstractArtifact implementedArtifact : implementedArtifacts) {
+				AbstractArtifact implementedEArtifact = mapHelper
+						.findAbstractArtifactFor(implementedArtifact);
+				if (implementedEArtifact != null) {
+					artifact.getImplements().add(implementedEArtifact);
 				}
 			}
 		}

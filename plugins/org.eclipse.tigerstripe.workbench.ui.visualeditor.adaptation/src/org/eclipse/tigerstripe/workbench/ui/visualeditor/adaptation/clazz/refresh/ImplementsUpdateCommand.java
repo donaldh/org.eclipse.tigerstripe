@@ -19,6 +19,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.helpers.MapHelper;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.util.NamedElementPropertiesHelper;
 
 public class ImplementsUpdateCommand extends AbstractArtifactUpdateCommand {
 
@@ -27,9 +28,21 @@ public class ImplementsUpdateCommand extends AbstractArtifactUpdateCommand {
 		super(eArtifact, iArtifact);
 	}
 
+	protected boolean hideImplements() {
+		return Boolean.parseBoolean(NamedElementPropertiesHelper.getProperty(
+				getEArtifact(),
+				NamedElementPropertiesHelper.ARTIFACT_HIDE_IMPLEMENTS));
+	}
+
 	@Override
 	public void updateEArtifact(AbstractArtifact eArtifact,
 			IAbstractArtifact iArtifact) {
+		if (hideImplements()) {
+			if (eArtifact.getImplements() != null)
+				eArtifact.getImplements().clear();
+			return;
+		}
+
 		Collection<IAbstractArtifact> iImplements = new ArrayList<IAbstractArtifact>();
 		if (iArtifact.getImplementedArtifacts() != null) {
 			iImplements = iArtifact.getImplementedArtifacts();

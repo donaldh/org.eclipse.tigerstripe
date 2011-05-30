@@ -41,22 +41,25 @@ public class NamedElementPropertiesHelper {
 	// Bug 933
 	public final static String ARTIFACT_HIDE_EXTENDS = "artifact.hide.extends";
 
-	private NamedElement namedElement;
+	public final static String ARTIFACT_HIDE_IMPLEMENTS = "artifact.hide.implements";
+
+	private final NamedElement namedElement;
 
 	public final static String[] properties = { ASSOC_DETAILS,
-			ARTIFACT_HIDE_EXTENDS };
+			ARTIFACT_HIDE_EXTENDS, ARTIFACT_HIDE_IMPLEMENTS };
 
-	public final static String[] propertiesDefaults = { ASSOC_SHOW_ALL, "false" };
+	public final static String[] propertiesDefaults = { ASSOC_SHOW_ALL,
+			"false", "false" };
 
 	public NamedElementPropertiesHelper(NamedElement namedElement) {
 		this.namedElement = namedElement;
 	}
 
-	private boolean isValidProperty(String name) {
+	private static boolean isValidProperty(String name) {
 		return Arrays.asList(properties).contains(name);
 	}
 
-	private String defaultValue(String name) {
+	private static String defaultValue(String name) {
 		if (isValidProperty(name)) {
 			int i = 0;
 			for (String prop : properties) {
@@ -69,20 +72,19 @@ public class NamedElementPropertiesHelper {
 	}
 
 	public String getProperty(String propertyKey) {
-		Assert.isNotNull(propertyKey);
-		EList propertyList = namedElement.getProperties();
-		for (Iterator iter = propertyList.iterator(); iter.hasNext();) {
-			DiagramProperty property = (DiagramProperty) iter.next();
-			if (propertyKey.equals(property.getName()))
-				return property.getValue();
-		}
-		return defaultValue(propertyKey);
+		return getProperty(namedElement, propertyKey);
 	}
 
 	public DiagramProperty setProperty(String propertyKey, String value) {
+		return setProperty(namedElement, propertyKey, value);
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static DiagramProperty setProperty(NamedElement element,
+			String propertyKey, String value) {
 		Assert.isNotNull(propertyKey);
 		Assert.isNotNull(value);
-		EList propertyList = namedElement.getProperties();
+		EList propertyList = element.getProperties();
 		for (Iterator iter = propertyList.iterator(); iter.hasNext();) {
 			DiagramProperty property = (DiagramProperty) iter.next();
 			if (propertyKey.equals(property.getName())) {
@@ -99,5 +101,16 @@ public class NamedElementPropertiesHelper {
 		newProp.setValue(value);
 		propertyList.add(newProp);
 		return newProp;
+	}
+
+	public static String getProperty(NamedElement element, String propertyKey) {
+		Assert.isNotNull(propertyKey);
+		EList<?> propertyList = element.getProperties();
+		for (Iterator<?> iter = propertyList.iterator(); iter.hasNext();) {
+			DiagramProperty property = (DiagramProperty) iter.next();
+			if (propertyKey.equals(property.getName()))
+				return property.getValue();
+		}
+		return defaultValue(propertyKey);
 	}
 }

@@ -102,7 +102,7 @@
          <action
                class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.ManageLinksAction"
                id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action5"
-               label="Manage Associations..."
+               label="Manage Artifact Links..."
                />
       </objectContribution>
       <objectContribution
@@ -191,12 +191,6 @@
                path="additions">
             <separator name="group1"/>
          </menu>
-         <action
-               class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action.HideArtifactExtendsToggleAction"
-               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action1"
-               label="Hide Extends Relationship"
-               menubarPath="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.artifactHideShow/group1"
-               style="toggle"/>
       </objectContribution>
       
       <!-- Buzilla 221443: Refactor Association <-> Association Class -->
