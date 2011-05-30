@@ -19,6 +19,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.layout.GridLayoutFactory;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.window.Window;
@@ -58,6 +59,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.IFocusedControlProv
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.undo.CheckButtonEditListener;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.SpellCheckingTextBox;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.AbstractArtifactLabelProvider;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.TSOpenAction;
@@ -135,7 +137,7 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart implements
 
 	private Button implementsTextBrowseButton;
 
-	private Text descriptionText;
+	private SpellCheckingTextBox descriptionText;
 
 	public ArtifactGeneralInfoSection(TigerstripeFormPage page,
 			Composite parent, FormToolkit toolkit,
@@ -205,12 +207,14 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart implements
 		// Made changes to include a scroll bar in the Description box and
 		// increased
 		// the size to 100 from 70 - bug # 162
-		descriptionText = toolkit.createText(parent, getIArtifact()
-				.getComment(), SWT.WRAP | SWT.MULTI | SWT.V_SCROLL);
+		Composite composite = toolkit.createComposite(parent);
 		TableWrapData gd = new TableWrapData(TableWrapData.FILL_GRAB);
 		gd.heightHint = 100;
 		gd.maxHeight = 100;
-		descriptionText.setLayoutData(gd);
+		composite.setLayoutData(gd);
+		GridLayoutFactory.fillDefaults().applyTo(composite);
+		descriptionText = new SpellCheckingTextBox(composite, getIArtifact()
+				.getComment());
 		descriptionText.addModifyListener(new GeneralInfoPageListener());
 		descriptionText.setEnabled(!this.isReadonly());
 		descriptionText.addKeyListener(new GeneralInfoPageListener());
@@ -385,7 +389,7 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart implements
 			// when updating the form, the changes to all fields should be
 			// ignored so that the form is not marked as dirty.
 
-			if (e.getSource() == descriptionText) {
+			if (e.getSource() == descriptionText.getControl()) {
 				getIArtifact().setComment(descriptionText.getText().trim());
 			} else if (e.getSource() == extendNameText) {
 
@@ -592,6 +596,6 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart implements
 	}
 
 	public Control getFocusedControl() {
-		return descriptionText;
+		return descriptionText.getControl();
 	}
 }
