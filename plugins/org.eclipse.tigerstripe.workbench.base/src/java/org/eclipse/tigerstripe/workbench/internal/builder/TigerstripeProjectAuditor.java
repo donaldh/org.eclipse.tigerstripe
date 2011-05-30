@@ -342,7 +342,6 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		// IResourceDelta delta = getDelta(getProject());
 		// doDelta(delta);
 
-		deleteAuditMarkers(getProject(), IResource.DEPTH_INFINITE);
 		checkUnresolvedAnnotations();
 		checkUnresolvedModelReferences();
 
