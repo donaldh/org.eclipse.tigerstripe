@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.preferences;
 
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -57,8 +59,17 @@ public class GenerationPreferencePage extends FieldEditorPreferencePage
 		store.setDefault(P_TARGETPATH, "target/tigerstripe.gen");
 		store.setDefault(IAdvancedProperties.PROP_GENERATION_GenerateReport,
 				"true");
-		store.setDefault(IAdvancedProperties.PROP_GENERATION_allRulesLocal,
-			"false");
+		
+		// NM: Look for appropriate extension point and set default value of 'run all rules as local' 
+		String runAllRulesDefaultValue = "false";
+		IConfigurationElement[] configElements = Platform.getExtensionRegistry().getConfigurationElementsFor("org.eclipse.tigerstripe.workbench.base.runAllRulesAsLocal");
+		if (configElements!=null && configElements.length>0) {
+			String attribute = configElements[0].getAttribute("value");
+			if (attribute!=null && attribute.equalsIgnoreCase("true"))
+				runAllRulesDefaultValue = "true";
+		}
+		
+		store.setDefault(IAdvancedProperties.PROP_GENERATION_allRulesLocal,runAllRulesDefaultValue);
 		store.setDefault(IAdvancedProperties.PROP_GENERATION_LogMessages,
 				"false");
 
