@@ -26,10 +26,12 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.tigerstripe.workbench.IWorkingCopy;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.project.IAdvancedProperties;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -129,6 +131,21 @@ public class NewProjectWizard extends Wizard implements INewWizard {
 							.createProject(details.getProjectName(),
 									projectDetails, null,
 									ITigerstripeModelProject.class, null, null);
+					
+					// NM TA24515: Initialize advanced properties in accordance with set values under preferences
+					try {
+						IWorkingCopy workingCopy = project.makeWorkingCopy(null);
+						if (workingCopy instanceof ITigerstripeModelProject) {
+							ITigerstripeModelProject projectCopy = ((ITigerstripeModelProject)workingCopy);
+							projectCopy.setAdvancedProperty(IAdvancedProperties.PROP_GENERATION_GenerateReport, store.getString(IAdvancedProperties.PROP_GENERATION_GenerateReport));
+							projectCopy.setAdvancedProperty(IAdvancedProperties.PROP_GENERATION_allRulesLocal, store.getString(IAdvancedProperties.PROP_GENERATION_allRulesLocal));
+							projectCopy.setAdvancedProperty(IAdvancedProperties.PROP_GENERATION_LogMessages, store.getString(IAdvancedProperties.PROP_GENERATION_LogMessages));
+							projectCopy.commit(null);
+						}		
+					} catch (Exception e) {
+						// Ignore.  Don't disturb project creation.
+					}
+					
 				} catch (TigerstripeException e) {
 					throw new CoreException(new Status(IStatus.ERROR,
 							EclipsePlugin.getPluginId(),
