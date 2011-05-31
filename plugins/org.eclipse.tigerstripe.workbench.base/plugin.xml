@@ -12,6 +12,7 @@
    <extension-point id="contributedGenerator" name="Tigerstripe Contributed Generator" schema="schema/contributedGenerator.exsd"/>
    <extension-point id="module" name="Tigerstripe Module" schema="schema/module.exsd"/>
    <extension-point id="generateComplete" name="Generate Complete" schema="schema/generateComplete.exsd"/>
+   <extension-point id="runAllRulesAsLocal" name="Run All Rules as Local" schema="schema/runAllRulesAsLocal.exsd"/>
 <!--   <extension
          point="org.eclipse.emf.ecore.extension_parser">
       <parser
