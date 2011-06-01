@@ -58,7 +58,7 @@ public class GenerationPreferencePage extends FieldEditorPreferencePage
 				.getPreferenceStore();
 		store.setDefault(P_TARGETPATH, "target/tigerstripe.gen");
 		store.setDefault(IAdvancedProperties.PROP_GENERATION_GenerateReport,
-				"true");
+				"false");
 		
 		// NM: Look for appropriate extension point and set default value of 'run all rules as local' 
 		String runAllRulesDefaultValue = "false";
