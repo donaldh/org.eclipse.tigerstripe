@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="UpdateAttributeMultiplicity" version="3.0" id="_0fInIItPEeCRoeGZa_Dvtg" description="Check default Attribute Multiplicity and qualifiers values &#x9;&#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;ArtifactsContext&#xD;&#xA;&#xD;&#xA;Steps&#xD;&#xA;    Add attribute to the entity and check default Attribute Multiplicity and qualifiers values&#xD;&#xA;    Open Multiplicity list and check available items&#xD;&#xA;    Check disabled qualifiers checkboxes if multiplicity = 1 or 0&#xD;&#xA;    Select multiplicity item and save changes&#xD;&#xA;    Check Tigerstripe explorer attribute value" tags="TS_Project/Edit/Artifacts/Attribute" type="ecl" externalReference="http://docs.xored.com/display/TS/Base+Tigerstripe+Project+Tests">
+  <contexts>_aOd6IKw8Ed-cSZ2bfD-mDg</contexts>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse/Entity1" | double-click -nowait
+get-editor Entity1 | get-section Attributes | get-section | get-button Add | click
+with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-combo -after [get-label "Multiplicity:"]] {
+    get-property selection | equals 1 | verify-true
+    get-property values -index 0 | equals 0 | verify-true
+    get-property values -index 1 | equals "0..1" | verify-true
+    get-property values -index 2 | equals "0..*" | verify-true
+    get-property values -index 3 | equals "*" | verify-true
+    get-property values -index 4 | equals 1 | verify-true
+    get-property values -index 5 | equals "1..*" | verify-true
+}
+with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-button Readonly] {
+    get-property caption | equals Readonly | verify-true
+    get-property selected | equals false | verify-true
+}
+with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-button Ordered] {
+    get-property enablement | equals false | verify-true
+    get-property caption | equals Ordered | verify-true
+    get-property selected | equals false | verify-true
+}
+get-editor Entity1 | get-section Attributes | get-section -index 1 | get-button Readonly | get-property enablement | equals true | verify-true
+with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-button Unique] {
+    get-property enablement | equals false | verify-true
+    get-property caption | equals Unique | verify-true
+    get-property selected | equals true | verify-true
+}
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse/Entity1/attribute0:String" | get-property caption | equals "attribute0:String" | verify-true
+get-editor Entity1 | get-section Attributes | get-section -index 1 | get-combo -after [get-label "Multiplicity:"] | set-text 0
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse/Entity1/attribute0:String\\[0\\]" | get-property caption | equals "attribute0:String[0]" | verify-true
+with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-button Readonly] {
+    get-property enablement | equals true | verify-true
+    get-property caption | equals Readonly | verify-true
+    get-property selected | equals false | verify-true
+}
+with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-button Ordered] {
+    get-property enablement | equals false | verify-true
+    get-property caption | equals Ordered | verify-true
+    get-property selected | equals false | verify-true
+}
+with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-button Unique] {
+    get-property enablement | equals false | verify-true
+    get-property caption | equals Unique | verify-true
+    get-property selected | equals true | verify-true
+}
+get-editor Entity1 | get-section Attributes | get-section -index 1 | get-combo -after [get-label "Multiplicity:"] | set-text "0..1"
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse/Entity1/attribute0:String\\[0..1\\]" | get-property caption | equals "attribute0:String[0..1]" | verify-true
+with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-button Readonly] {
+    get-property enablement | equals true | verify-true
+    get-property caption | equals Readonly | verify-true
+    get-property selected | equals false | verify-true
+}
+with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-button Ordered] {
+    get-property enablement | equals false | verify-true
+    get-property caption | equals Ordered | verify-true
+    get-property selected | equals false | verify-true
+}
+with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-button Unique] {
+    get-property enablement | equals false | verify-true
+    get-property caption | equals Unique | verify-true
+    get-property selected | equals true | verify-true
+}
+get-editor Entity1 | get-section Attributes | get-section -index 1 | get-combo -after [get-label "Multiplicity:"] | set-text "0..*"
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse/Entity1/attribute0:String\\[0..\\*\\]" | get-property caption | equals "attribute0:String[0..*]" | verify-true
+with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-button Readonly] {
+    get-property enablement | equals true | verify-true
+    get-property caption | equals Readonly | verify-true
+    get-property selected | equals false | verify-true
+}
+with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-button Ordered] {
+    get-property enablement | equals true | verify-true
+    get-property caption | equals Ordered | verify-true
+    get-property selected | equals false | verify-true
+}
+with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-button Unique] {
+    get-property enablement | equals true | verify-true
+    get-property caption | equals Unique | verify-true
+    get-property selected | equals true | verify-true
+}
+get-editor Entity1 | get-section Attributes | get-section -index 1 | get-combo -after [get-label "Multiplicity:"] | set-text "*"
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse/Entity1/attribute0:String\\[\\*\\]" | get-property caption | equals "attribute0:String[*]" | verify-true
+with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-button Readonly] {
+    get-property enablement | equals true | verify-true
+    get-property caption | equals Readonly | verify-true
+    get-property selected | equals false | verify-true
+}
+with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-button Ordered] {
+    get-property enablement | equals true | verify-true
+    get-property caption | equals Ordered | verify-true
+    get-property selected | equals false | verify-true
+}
+with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-button Unique] {
+    get-property enablement | equals true | verify-true
+    get-property caption | equals Unique | verify-true
+    get-property selected | equals true | verify-true
+}
+get-editor Entity1 | get-section Attributes | get-section -index 1 | get-combo -after [get-label "Multiplicity:"] | set-text 1
+get-button "Save (Ctrl+S)" | click
+get-editor Entity1 | get-section Attributes | get-section -index 1 | get-combo -after [get-label "Multiplicity:"] | set-text "1..*"
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse/Entity1/attribute0:String\\[1..\\*\\]" | get-property caption | equals "attribute0:String[1..*]" | verify-true
+with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-button Readonly] {
+    get-property enablement | equals true | verify-true
+    get-property selected | equals false | verify-true
+}
+with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-button Ordered] {
+    get-property enablement | equals true | verify-true
+    get-property selected | equals false | verify-true
+}
+with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-button Unique] {
+    get-property enablement | equals true | verify-true
+    get-property selected | equals true | verify-true
+}
+get-editor Entity1 | close
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse/Entity1/attribute0:String\\[1..\\*\\]" | get-property caption | equals "attribute0:String[1..*]" | verify-true]]></content>
+  </content>
+  <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>New Project</path>
+        <path>src</path>
+        <path>org.eclipse</path>
+        <path>Entity1</path>
+        <path>attribute0:String\[1..\*\]</path>
+        <parent id="Tree0" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="attribute0:String[1..*]">
+      <element id="Item3" kind="Item"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow2" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View3" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>New Project</path>
+        <path>src</path>
+        <path>org.eclipse.Package0</path>
+        <parent id="Tree3" kind="Tree"/>
+      </data>
+    </commands>
+    <elementMapping command="//@teslaContent/@commands.0">
+      <elements id="EclipseWindow0" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="648" y="150" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.1">
+      <elements id="View0" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="50" width="244" height="594"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.2">
+      <elements id="Tree0" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="244" height="594"/>
+        <selection>
+          <path>New Project</path>
+          <path>src</path>
+          <path>org.eclipse</path>
+          <path>Entity1</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.3">
+      <elements id="Item3" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="attribute0:String[1..*]">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="117" y="162" width="114" height="18"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.5">
+      <elements id="EclipseWindow2" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="648" y="150" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.6">
+      <elements id="View3" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="50" width="244" height="594"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.7">
+      <elements id="Tree3" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="244" height="594"/>
+        <selection>
+          <path>New Project</path>
+          <path>src</path>
+          <path>org.eclipse</path>
+          <path>Entity1</path>
+          <path>attribute0:String\[1..\*\]</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.8">
+      <elements id="Item5" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="org.eclipse.Package0" index="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="79" y="288" width="114" height="18"/>
+      </controls>
+    </elementMapping>
+  </teslaContent>
+</com.xored.q7.scenario:Scenario>

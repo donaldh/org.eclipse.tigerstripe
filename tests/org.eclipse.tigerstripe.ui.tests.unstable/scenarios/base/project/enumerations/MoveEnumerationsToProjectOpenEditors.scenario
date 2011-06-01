@@ -52,7 +52,6 @@ with [get-window "Super Enumeration"] {
     get-button OK | click
 }
 get-button "Save (Ctrl+S)" | click
-get-view Problems | get-tree | get-property itemCount | equals 0 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project2/src/com.mycompany.package2" | get-property childCount | equals 2 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project2/src/com.mycompany.package2/Enumeration3" | get-property caption | equals Enumeration3 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany" | get-property childCount | equals 5 | verify-true]]></content>

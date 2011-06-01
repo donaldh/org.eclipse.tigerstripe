@@ -105,7 +105,6 @@ with [get-window "Artifact Type Selection"] {
     get-button OK | click
 }
 get-button "Save (Ctrl+S)" | click
-get-view Problems | get-tree | get-property itemCount | equals 0 | verify-true
 with [get-editor Entity1 | get-section Attributes | get-section -index 1 | get-combo -after [get-label "Default Value:"]] {
     get-property values -index 0 | equals true | verify-true
     get-property values -index 1 | equals false | verify-true

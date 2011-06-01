@@ -15,7 +15,6 @@ get-view Problems | get-tree | get-item "Errors \\(1 item\\)" | get-property cap
 get-view Problems | get-tree | get-item "Errors \\(1 item\\)/Type mismatch: cannot convert from double to int" | get-property caption | equals "Type mismatch: cannot convert from double to int" | verify-true
 get-editor Enumeration1 | get-section Constants | get-section -index 1 | get-editbox -after [get-label "Value:"] | set-text "-12"
 get-button "Save (Ctrl+S)" | click
-get-view Problems | get-tree | get-property itemCount | equals 0 | verify-true
 with [get-editor Enumeration1 | get-section Constants | get-section -index 1 | get-editbox -after [get-label "Value:"]] {
     key-type "M1+a"
     set-text test
@@ -25,7 +24,6 @@ get-view Problems | get-tree | get-item "Errors \\(1 item\\)" | get-property cap
 get-view Problems | get-tree | get-item "Errors \\(1 item\\)/test cannot be resolved to a variable" | get-property caption | equals "test cannot be resolved to a variable" | verify-true
 get-editor Enumeration1 | get-section Constants | get-section -index 1 | get-editbox -after [get-label "Value:"] | set-text 1
 get-button "Save (Ctrl+S)" | click
-get-view Problems | get-tree | get-property itemCount | equals 0 | verify-true
 get-editor Enumeration1 | get-section Constants | get-section -index 1 | get-editbox -after [get-label "Value:"] | set-text ""
 get-button "Save (Ctrl+S)" | click
 get-view Problems | get-tree | get-item "Errors \\(1 item\\)/Syntax error on token \"=\", VariableInitializer expected after this token" | get-property columns -index 0 | equals "Syntax error on token \"=\", VariableInitializer expected after this token" | verify-true
@@ -57,7 +55,6 @@ get-view Problems | get-tree | get-item "Errors \\(1 item\\)" | get-property cap
 get-view Problems | get-tree | get-item "Errors \\(1 item\\)/test cannot be resolved to a variable" | get-property caption | equals "test cannot be resolved to a variable" | verify-true
 get-editor Enumeration1 | get-section Constants | get-section -index 1 | get-editbox -after [get-label "Value:"] | set-text "\"test\""
 get-button "Save (Ctrl+S)" | click
-get-view Problems | get-tree | get-property itemCount | equals 0 | verify-true
 with [get-editor Enumeration1 | get-section Constants | get-section | get-table | get-item "literal0=\"test\""] {
     get-property columns -index 0 | equals "literal0=\"test\"" | verify-true
     get-property columns -index 1 | equals "\"test\"" | verify-true

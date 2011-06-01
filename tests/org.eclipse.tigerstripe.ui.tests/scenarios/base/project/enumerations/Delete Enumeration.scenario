@@ -7,7 +7,6 @@ get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/
 get-window "Confirm Delete" | get-label "Are you sure you want to delete file \'Enumeration1.java\'?" | get-property caption | equals "Are you sure you want to delete file \'Enumeration1.java\'?" | verify-true
 get-window "Confirm Delete" | get-button OK | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany" | get-property childCount | equals 6 | verify-true
-get-view Problems | get-tree | get-property itemCount | equals 0 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Enumeration2" | get-menu Delete | click
 get-window "Confirm Delete" | get-button OK | click
 with [get-view Problems | get-tree | get-item "Errors \\(4 items\\)"] {

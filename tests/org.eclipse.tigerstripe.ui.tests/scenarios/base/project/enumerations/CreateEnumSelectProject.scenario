@@ -1,6 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="CreateEnumSelectProject" version="3.0" id="_58ABYH97EeCcSOu_oe8o1g" description="Check project and package selection on Enumeration artifact creation. Check description update&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;SeveralProjectsContext&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;1. Create Enumeration artifact. Choose the project where the enumeration is going to be place to.&#xD;&#xA;2. Create another Enumeration artifact. Choose Artifact Package where the enumeration is going to be place to.&#xD;&#xA;3. Add description and verify it" tags="TS_Project/Edit/Artifacts/Enumeration" type="ecl" externalReference="http://docs.xored.com/display/TS/Base+Tigerstripe+Project+Tests">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="CreateEnumSelectProject" version="3.0" id="_58ABYH97EeCcSOu_oe8o1g" description="Check project and package selection on Enumeration artifact creation. Check description update&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;SeveralProjectsContext&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;1. Create Enumeration artifact. Choose the project where the enumeration is going to be place to.&#xD;&#xA;2. Create another Enumeration artifact. Choose Artifact Package where the enumeration is going to be place to.&#xD;&#xA;3. Add description and verify it" tags="TS_Project/Edit/Artifacts/Enumeration" type="ecl" externalReference="http://docs.xored.com/display/TS/Base+Tigerstripe+Project+Tests">
   <contexts>_tc0j4H97EeCcSOu_oe8o1g</contexts>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select Project1 | get-menu "New/Enumeration" | click
+get-window "Create a new Enumeration" | get-button "Browse..." | click
+get-window "Create a new Enumeration" | get-window "Source Folder Selection" | get-tree | get-property itemCount | equals 3 | verify-true
+with [get-window "Create a new Enumeration"] {
+    with [get-window "Source Folder Selection"] {
+        get-tree | select "Project2/src"
+        get-button OK | click
+    }
+    get-editbox -after [get-label "Name:"] | set-text Enum1
+    get-button Finish | click
+}
+get-view "Tigerstripe Explorer" | get-tree | select "Project2/src/com.mycompany" | get-menu "New/Enumeration" | click
+with [get-window "Create a new Enumeration"] {
+    get-button "Browse..." -after [get-label "Artifact Package:"] | click
+    get-window "Package Selection" | get-table | select "com.mycompany"
+}
+get-window "Create a new Enumeration" | get-window "Package Selection" | get-table | get-property itemCount | equals 3 | verify-true
+with [get-window "Create a new Enumeration"] {
+    with [get-window "Package Selection"] {
+        get-table | select com
+        get-button OK | click
+    }
+    get-editbox -after [get-label "Name:"] | set-text Enum2
+    get-button Finish | click
+}
+with [get-view "Tigerstripe Explorer" | get-tree | get-item "Project2/src/com"] {
+    get-property caption | equals com | verify-true
+    get-property childCount | equals 1 | verify-true
+}
+get-editor Enum2 | get-section "General Information" | get-editbox -after [get-label "Description:"] | set-text "Test enumeration description.\n///"
+get-button "Save (Ctrl+S)" | click
+get-editor Enum2 | close
+get-editor Enum1 | click -nowait
+get-view "Tigerstripe Explorer" | get-tree | select "Project2/src/com/Enum2" | double-click -nowait
+
+get-editor Enum2 | get-section "General Information" | get-editbox -after [get-label "Description:"] | get-property rawValue | equals "Test enumeration description.\\n///" | verify-true]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -407,6 +445,34 @@
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="value" value="Test enumeration description. ///">
       <element id="Text3_52" kind="Text"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="Enum2" multiplicity="1">
+        <parent id="EclipseWindow0_66" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Expandable" pattern="General Information" multiplicity="1">
+        <parent id="Editor0_66" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Label" pattern="Description:" multiplicity="1">
+        <parent id="Expandable0_66" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Text" multiplicity="1">
+        <after id="Label0_66" kind="Label"/>
+        <parent id="Expandable0_66" kind="Expandable"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="rawValue" value="Test enumeration description.\n///">
+      <element id="Text0_66" kind="Text"/>
       <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </commands>
     <elementMapping command="//@teslaContent/@commands.0">
@@ -909,6 +975,46 @@
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="99" y="57" width="502" height="100"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.100">
+      <elements id="EclipseWindow0_66" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project2/src/com/Enum2.java - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="648" y="150" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.101">
+      <elements id="Editor0_66" kind="Editor"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Enum2">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="741" height="395"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.102">
+      <elements id="Expandable0_66" kind="Expandable"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="6" y="6" width="592" height="237"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.103">
+      <elements id="Label0_66" kind="Label"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Description: ">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="5" y="57" width="66" height="15"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.104">
+      <elements id="Text0_66" kind="Text"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Text" enablement="true" containMenu="true" value="Test enumeration description.///" rawValue="Test enumeration description.\n///">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="472" height="96"/>
       </controls>
     </elementMapping>
   </teslaContent>
