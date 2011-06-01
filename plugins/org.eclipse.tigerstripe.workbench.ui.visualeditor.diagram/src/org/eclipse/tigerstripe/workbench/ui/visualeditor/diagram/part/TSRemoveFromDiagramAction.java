@@ -31,6 +31,8 @@ import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AbstractArtifactExtendsEditPart;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AbstractArtifactImplementsEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassClassEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationEditPart;
@@ -69,7 +71,9 @@ public class TSRemoveFromDiagramAction extends AbstractDeleteFromAction
 				|| part instanceof UpdateProcedureArtifactEditPart
 				|| part instanceof AssociationEditPart
 				|| part instanceof AssociationClassEditPart
-				|| part instanceof AssociationClassClassEditPart || part instanceof DependencyEditPart);
+				|| part instanceof AssociationClassClassEditPart
+				|| part instanceof DependencyEditPart
+				|| part instanceof AbstractArtifactExtendsEditPart || part instanceof AbstractArtifactImplementsEditPart);
 	}
 
 	public TSRemoveFromDiagramAction() {
@@ -100,7 +104,9 @@ public class TSRemoveFromDiagramAction extends AbstractDeleteFromAction
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gmf.runtime.diagram.ui.actions.DiagramAction#calculateEnabled()
+	 * @see
+	 * org.eclipse.gmf.runtime.diagram.ui.actions.DiagramAction#calculateEnabled
+	 * ()
 	 */
 	@Override
 	protected boolean calculateEnabled() {
@@ -117,8 +123,10 @@ public class TSRemoveFromDiagramAction extends AbstractDeleteFromAction
 			if (!canBeDeletedFromDiagram(editPart))
 				return false;
 
-			// disable on diagram links
-			if (editPart instanceof IGraphicalEditPart) {
+			if (editPart instanceof AbstractArtifactExtendsEditPart
+					|| editPart instanceof AbstractArtifactImplementsEditPart) {
+				return true;
+			} else if (editPart instanceof IGraphicalEditPart) {
 				IGraphicalEditPart gEditPart = (IGraphicalEditPart) editPart;
 				View view = (View) gEditPart.getModel();
 				// Disallow diagram deletion from model only if it is the top
@@ -162,7 +170,9 @@ public class TSRemoveFromDiagramAction extends AbstractDeleteFromAction
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gmf.runtime.diagram.ui.actions.DiagramAction#getCommand(org.eclipse.gef.Request)
+	 * @see
+	 * org.eclipse.gmf.runtime.diagram.ui.actions.DiagramAction#getCommand(org
+	 * .eclipse.gef.Request)
 	 */
 	@Override
 	protected Command getCommand(Request request) {
