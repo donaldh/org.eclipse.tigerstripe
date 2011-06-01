@@ -15,11 +15,13 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.UnresolvedStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
@@ -43,23 +45,23 @@ public class CommonArtifactAuditor extends AbstractArtifactAuditor implements
 	private void checkAttributes(IProgressMonitor monitor) {
 		IAbstractArtifact artifact = getArtifact();
 		String artifactName = "";
-		if (artifact!=null) 
+		if (artifact != null)
 			artifactName = artifact.getFullyQualifiedName();
-		
-		if (artifactName==null)
-			artifactName="";
+
+		if (artifactName == null)
+			artifactName = "";
 		else
 			artifactName = artifactName + ".";
-		
+
 		for (IField attribute : getArtifact().getFields()) {
 			checkStereotypes(attribute, "attribute '" + attribute.getName()
 					+ "' of artifact '" + getArtifact().getName() + "'");
-			
-			checkEnumField(attribute,artifactName);
+
+			checkEnumField(attribute, artifactName);
 		}
 	}
-	
-	private void checkEnumField(IField field,String artifactName) {
+
+	private void checkEnumField(IField field, String artifactName) {
 		if (field.getType() != null) {
 			IAbstractArtifact typeArtifact = field.getType().getArtifact();
 			if (typeArtifact instanceof IEnumArtifact) {
@@ -217,17 +219,25 @@ public class CommonArtifactAuditor extends AbstractArtifactAuditor implements
 	 * 
 	 */
 	private void checkSuperArtifact() {
-		IAbstractArtifact superArtifact = getArtifact().getExtendedArtifact();
+		IAbstractArtifact artifact = getArtifact();
+		IAbstractArtifact superArtifact = artifact.getExtendedArtifact();
 
 		if (superArtifact != null
 				&& !((AbstractArtifact) superArtifact).isProxy()) {
-			if (superArtifact.getClass() != getArtifact().getClass()) {
+
+			boolean eligableHierarhy = superArtifact.getClass() == artifact
+					.getClass();
+			if (artifact instanceof AssociationClassArtifact) {
+				eligableHierarhy |= superArtifact instanceof IManagedEntityArtifact;
+			}
+
+			if (!eligableHierarhy) {
 				TigerstripeProjectAuditor.reportError(
 						"Invalid Type Hierarchy in '"
-								+ getArtifact().getFullyQualifiedName()
+								+ artifact.getFullyQualifiedName()
 								+ "'. Super-artifact should be of same type.",
 						TigerstripeProjectAuditor.getIResourceForArtifact(
-								getIProject(), getArtifact()), 222);
+								getIProject(), artifact), 222);
 			}
 		}
 	}
