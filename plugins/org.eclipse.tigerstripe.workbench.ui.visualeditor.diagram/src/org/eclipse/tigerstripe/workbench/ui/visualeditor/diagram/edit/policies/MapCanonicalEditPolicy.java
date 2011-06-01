@@ -154,7 +154,7 @@ public class MapCanonicalEditPolicy extends CanonicalConnectionEditPolicy {
 		return result;
 	}
 
-	private String[] shouldRefreshLinks = {
+	private final String[] shouldRefreshLinks = {
 			((IHintedType) TigerstripeElementTypes.Association_3001)
 					.getSemanticHint(),
 			((IHintedType) TigerstripeElementTypes.AssociationClass_3010)
@@ -282,12 +282,12 @@ public class MapCanonicalEditPolicy extends CanonicalConnectionEditPolicy {
 	/**
 	 * @generated
 	 */
-	private Collection myLinkDescriptors = new LinkedList();
+	private final Collection myLinkDescriptors = new LinkedList();
 
 	/**
 	 * @generated
 	 */
-	private java.util.Map myEObject2ViewMap = new HashMap();
+	private final java.util.Map myEObject2ViewMap = new HashMap();
 
 	/**
 	 * @generated NOT
@@ -663,12 +663,12 @@ public class MapCanonicalEditPolicy extends CanonicalConnectionEditPolicy {
 		/**
 		 * @generated
 		 */
-		private EObject mySource;
+		private final EObject mySource;
 
 		/**
 		 * @generated
 		 */
-		private EObject myDestination;
+		private final EObject myDestination;
 
 		/**
 		 * @generated
@@ -678,7 +678,7 @@ public class MapCanonicalEditPolicy extends CanonicalConnectionEditPolicy {
 		/**
 		 * @generated
 		 */
-		private int myVisualID;
+		private final int myVisualID;
 
 		/**
 		 * @generated
@@ -863,13 +863,13 @@ public class MapCanonicalEditPolicy extends CanonicalConnectionEditPolicy {
 					if (assocClassClass != null)
 						map.getArtifacts().remove(assocClassClass);
 				} else if (val instanceof AssociationClassClass) {
-					AssociationClassClass assocClassClass = (AssociationClassClass) oldValue;
+					AssociationClassClass assocClassClass = (AssociationClassClass) val;
 					AssociationClass assocClass = findAssociatedAssociationClass(
 							assocClassClass, map);
 					if (assocClass != null)
 						map.getAssociations().remove(assocClass);
 				} else if (val instanceof Dependency) {
-					Dependency dependency = (Dependency) oldValue;
+					Dependency dependency = (Dependency) val;
 					if (dependency != null)
 						map.getDependencies().remove(dependency);
 				}

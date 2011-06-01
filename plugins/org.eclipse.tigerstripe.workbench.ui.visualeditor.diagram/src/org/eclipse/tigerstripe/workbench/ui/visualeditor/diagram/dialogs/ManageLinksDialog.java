@@ -100,8 +100,6 @@ public class ManageLinksDialog extends TSMessageDialog {
 	private static boolean showFullyQualifiedName = true;
 	private final String SHOW_QUALIFIED_NAMES_PREF = "ShowFullyQualifiedNamesInManageAssocationsView";
 
-	private LinkEntriesSorter tableSorter;
-
 	public ManageLinksDialog(Shell parentShell, LinksSet[] linksSets) {
 		super(parentShell);
 		this.linksSets = linksSets;
@@ -126,7 +124,7 @@ public class ManageLinksDialog extends TSMessageDialog {
 
 	protected void initDialog() {
 		getShell().setText("Manage Artifact Links");
-		getShell().setMinimumSize(450, 225);
+		getShell().setMinimumSize(500, 300);
 
 		showFullyQualifiedName = TigerstripeDiagramEditorPlugin.getInstance()
 				.getPreferenceStore().getBoolean(SHOW_QUALIFIED_NAMES_PREF);
@@ -138,8 +136,10 @@ public class ManageLinksDialog extends TSMessageDialog {
 		showFQNButton.setSelection(showFullyQualifiedName);
 
 		TabFolder tabFolder = new TabFolder(composite, SWT.NONE);
-		tabFolder.setLayoutData(new GridData(GridData.FILL_BOTH
-				| GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL));
+		GridData gridData = new GridData(GridData.FILL_BOTH
+				| GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL);
+		gridData.heightHint = convertHeightInCharsToPixels(15);
+		tabFolder.setLayoutData(gridData);
 
 		final List<LinksTabInterface> linksTabs = new ArrayList<LinksTabInterface>(
 				linksSets.length);
@@ -168,6 +168,7 @@ public class ManageLinksDialog extends TSMessageDialog {
 				}
 			}
 		});
+		composite.pack();
 	}
 
 	private LinksTabInterface createLinksTab(TabFolder tabFolder,
@@ -190,8 +191,6 @@ public class ManageLinksDialog extends TSMessageDialog {
 		tableViewer.setLabelProvider(new LinkEntryLabelProvider());
 		tableViewer.setContentProvider(new ArrayContentProvider());
 		tableViewer.setInput(linkSet.getLinkEntries());
-		tableSorter = new LinkEntriesSorter();
-		tableViewer.setSorter(tableSorter);
 		tableViewer.getTable().pack();
 
 		Composite buttonsComposite = new Composite(tabItemComposite, SWT.NONE);
@@ -245,18 +244,20 @@ public class ManageLinksDialog extends TSMessageDialog {
 				SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL | SWT.BORDER);
 		tableViewer.getTable().setHeaderVisible(true);
 		tableViewer.getTable().setLinesVisible(true);
+		final LinkEntriesSorter tableSorter = new LinkEntriesSorter();
 		String[] columnNames = linkSet.getColumnNames();
 		for (int i = 0; i < columnNames.length + 1; i++) {
 			final TableViewerColumn viewerColumn = new TableViewerColumn(
 					tableViewer, SWT.LEFT);
 			final TableColumn column = viewerColumn.getColumn();
-			layout.setColumnData(column, new ColumnWeightData(1));
 			if (i == 0) {
+				layout.setColumnData(column, new ColumnWeightData(1));
 				column.setWidth(25);
 				column.setResizable(false);
 				viewerColumn.setEditingSupport(new EnabledColumnEditingSupport(
 						tableViewer));
 			} else {
+				layout.setColumnData(column, new ColumnWeightData(3));
 				column.setText(columnNames[i - 1]);
 				column.setResizable(true);
 				column.setMoveable(true);
@@ -278,6 +279,8 @@ public class ManageLinksDialog extends TSMessageDialog {
 				}
 			});
 		}
+		tableViewer.setSorter(tableSorter);
+
 		return tableViewer;
 	}
 
