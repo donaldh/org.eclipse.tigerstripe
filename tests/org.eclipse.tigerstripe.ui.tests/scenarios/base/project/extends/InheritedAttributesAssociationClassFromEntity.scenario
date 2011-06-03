@@ -39,8 +39,7 @@ with [get-window "Super Artifact"] {
     get-button OK | click
 }
 get-button "Save (Ctrl+S)" | click
-get-view Problems | get-tree | get-item "Errors \\(1 item\\)" | get-property caption | equals "Errors (1 item)" | verify-true
-get-view Problems | get-tree | get-item "Errors \\(1 item\\)/Invalid Type Hierarchy in \'org.eclipse.Package0.AC\'. Super-artifact should be of same type." | get-property caption | equals "Invalid Type Hierarchy in \'org.eclipse.Package0.AC\'. Super-artifact should be of same type." | verify-true
+get-view Problems | get-tree | get-property itemCount | equals 0 | verify-true
 get-editor AC | get-section "General Information" | get-link "Extends:" | click
 get-editor Entity0 | get-section Methods | click -nowait
 get-editor Entity0 | get-section Attributes | get-section | get-table | get-property itemCount | equals 1 | verify-true
@@ -797,10 +796,11 @@ get-view "Error Log" | get-tree | get-property itemCount | equals 0 | verify-tru
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.3">
       <elements id="Button14" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Select">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="411" width="43" height="25"/>
+        <caption>Select</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.4">
@@ -827,10 +827,11 @@ get-view "Error Log" | get-tree | get-property itemCount | equals 0 | verify-tru
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.10">
       <elements id="Button15" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.11">
@@ -838,9 +839,10 @@ get-view "Error Log" | get-tree | get-property itemCount | equals 0 | verify-tru
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.14">
       <elements id="Button16" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.15">
@@ -1406,10 +1408,11 @@ get-view "Error Log" | get-tree | get-property itemCount | equals 0 | verify-tru
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.99">
       <elements id="Button18" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Select">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="411" width="43" height="25"/>
+        <caption>Select</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.100">
@@ -1436,10 +1439,11 @@ get-view "Error Log" | get-tree | get-property itemCount | equals 0 | verify-tru
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.106">
       <elements id="Button19" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.107">
@@ -1447,9 +1451,10 @@ get-view "Error Log" | get-tree | get-property itemCount | equals 0 | verify-tru
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.110">
       <elements id="Button20" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.111">
@@ -1648,10 +1653,11 @@ get-view "Error Log" | get-tree | get-property itemCount | equals 0 | verify-tru
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.141">
       <elements id="Button12_99" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Select">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="411" width="43" height="25"/>
+        <caption>Select</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.142">
@@ -1678,10 +1684,11 @@ get-view "Error Log" | get-tree | get-property itemCount | equals 0 | verify-tru
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.148">
       <elements id="Button13_100" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.149">
@@ -1689,9 +1696,10 @@ get-view "Error Log" | get-tree | get-property itemCount | equals 0 | verify-tru
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.152">
       <elements id="Button14_101" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.153">

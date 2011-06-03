@@ -52,7 +52,6 @@ with [get-window "Super Enumeration"] {
     get-button OK | click
 }
 get-button "Save (Ctrl+S)" | click
-get-view Problems | get-tree | get-property itemCount | equals 0 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project2/src/com.mycompany.package2" | get-property childCount | equals 2 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project2/src/com.mycompany.package2/Enumeration3" | get-property caption | equals Enumeration3 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany" | get-property childCount | equals 5 | verify-true]]></content>
@@ -770,10 +769,11 @@ get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompan
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.11">
       <elements id="Button15" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.12">
@@ -812,10 +812,11 @@ get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompan
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.24">
       <elements id="Button16" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.25">
@@ -919,10 +920,11 @@ get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompan
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.57">
       <elements id="Button17" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.58">
@@ -1100,10 +1102,11 @@ get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompan
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.88">
       <elements id="Button18" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="109" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.89">
@@ -1290,10 +1293,11 @@ get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompan
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.114">
       <elements id="Button19" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Select">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="459" width="43" height="25"/>
+        <caption>Select</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.115">
@@ -1320,10 +1324,11 @@ get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompan
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.121">
       <elements id="Button20" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.122">
@@ -1331,9 +1336,10 @@ get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompan
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.125">
       <elements id="Button21" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.126">
