@@ -1,0 +1,1725 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="345871_RemoveFromModelItem" version="3.0" id="_pnDDQI3AEeCQJ7V2A3r4wA" description="Remove artifact from model via 'Remove from model' item on Class Diagram &#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;AllArtifactsDiagramContextGroup&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;1. Check count of diagram artifact  items and count of artifact items in Tigerstripe Explorer&#xD;&#xA;2. Click on Entity artifact on Class diagram and select 'Remove from model' item in&#xD;&#xA;dropdown menu &#xD;&#xA;3. Select 'OK' in warning message&#xD;&#xA;4. Check count of diagram artifact items and count of artifact items in Tigerstripe Explorer to verify that Entity artifact is removed" tags="TS_Project/VisualEditor, I35" type="ecl" externalReference="http://docs.xored.com/display/TS/345871_RemoveFromModelItem">
+  <contexts>_EARxYOGJEd-OnL-uzP0BCw</contexts>
+  <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow80" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View46" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>test</path>
+        <path>src</path>
+        <path>com.mycompany</path>
+        <parent id="Tree49" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="childCount" value="17">
+      <element id="Item78" kind="Item"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow82" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View49" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>test</path>
+        <path>src</path>
+        <path>com.mycompany</path>
+        <path>Exception0</path>
+        <parent id="Tree52" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree52" kind="Tree"/>
+      <path>test</path>
+      <path>src</path>
+      <path>com.mycompany</path>
+      <path>default%1%</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DoubleClick">
+      <element id="Tree52" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="default.wvd" multiplicity="1">
+        <parent id="EclipseWindow83" kind="EclipseWindow" description="Tigerstripe - test/src/com/mycompany/default.wvd - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramViewer" multiplicity="1">
+        <parent id="Editor58" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="MapEditPart" multiplicity="1">
+        <path>editpart</path>
+        <path>classname</path>
+        <parent id="DiagramViewer26" kind="DiagramViewer"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="childrenCount" value="10">
+      <element id="DiagramFigure154" kind="DiagramFigure"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="default.wvd" multiplicity="1">
+        <parent id="EclipseWindow85" kind="EclipseWindow" description="Tigerstripe - test/src/com/mycompany/default.wvd - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramViewer" multiplicity="1">
+        <parent id="Editor59" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="MapEditPart" multiplicity="1">
+        <path>editpart</path>
+        <path>classname</path>
+        <parent id="DiagramViewer27" kind="DiagramViewer"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="Entity2" multiplicity="1">
+        <path>editpart</path>
+        <path>name</path>
+        <parent id="DiagramFigure155" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="Entity2" multiplicity="1">
+        <path>editpart</path>
+        <path>text</path>
+        <parent id="DiagramFigure156" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="19" y="15" button="1" kind="Move" boundsWidth="613" boundsHeight="373" figureWidth="56" figureHeight="16">
+      <element id="DiagramFigure157" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="19" y="15" button="1" boundsWidth="613" boundsHeight="373" figureWidth="56" figureHeight="16">
+      <element id="DiagramFigure157" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="19" y="15" button="1" kind="Up" boundsWidth="613" boundsHeight="373" stateMask="524288" figureWidth="56" figureHeight="16">
+      <element id="DiagramFigure157" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="19" y="15" kind="Hover" boundsWidth="613" boundsHeight="373" figureWidth="56" figureHeight="16">
+      <element id="DiagramFigure157" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="19" y="15" button="3" boundsWidth="613" boundsHeight="373" figureWidth="56" figureHeight="16">
+      <element id="DiagramFigure157" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="19" y="15" button="3" kind="Up" boundsWidth="613" boundsHeight="373" stateMask="2097152" figureWidth="56" figureHeight="16">
+      <element id="DiagramFigure157" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Canvas" index="3" multiplicity="1">
+        <parent id="Editor59" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Menu" multiplicity="1">
+        <path>Remove from Model</path>
+        <parent id="Canvas15" kind="Canvas"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Menu20" kind="Menu"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State50" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="Delete from Model" multiplicity="1">
+        <parent id="EclipseWindow85" kind="EclipseWindow" description="Tigerstripe - test/src/com/mycompany/default.wvd - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="OK" multiplicity="1">
+        <parent id="Window19" kind="Window" description="Delete from Model"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button43" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State51" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="373" y="270" kind="Hover" boundsWidth="613" boundsHeight="373" figureWidth="596" figureHeight="465">
+      <element id="DiagramFigure155" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="TabFolder" multiplicity="1">
+        <parent id="EclipseWindow86" kind="EclipseWindow" description="Tigerstripe - test/src/com/mycompany/default.wvd - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="activePage" value="*default.wvd">
+      <element id="TabFolder29" kind="TabFolder"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="default.wvd" multiplicity="1">
+        <parent id="EclipseWindow87" kind="EclipseWindow" description="Tigerstripe - test/src/com/mycompany/default.wvd - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramViewer" multiplicity="1">
+        <parent id="Editor61" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="MapEditPart" multiplicity="1">
+        <path>editpart</path>
+        <path>classname</path>
+        <parent id="DiagramViewer29" kind="DiagramViewer"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="childrenCount" value="9">
+      <element id="DiagramFigure159" kind="DiagramFigure"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow88" kind="EclipseWindow" description="Tigerstripe - test/src/com/mycompany/default.wvd - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View53" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>test</path>
+        <path>src</path>
+        <path>com.mycompany</path>
+        <parent id="Tree56" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="childCount" value="16">
+      <element id="Item90" kind="Item"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Save All (Ctrl+Shift+S)" multiplicity="1">
+        <parent id="EclipseWindow90" kind="EclipseWindow" description="Tigerstripe - test/src/com/mycompany/default.wvd - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button45" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State52" kind="State"/>
+    </commands>
+    <elementMapping command="//@teslaContent/@commands.0">
+      <elements id="EclipseWindow80" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="809" y="86" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.1">
+      <elements id="View46" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="50" width="244" height="594"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.2">
+      <elements id="Tree49" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="244" height="594"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.3">
+      <elements id="Item78" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="com.mycompany" childCount="17">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="79" y="36" width="98" height="18"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.5">
+      <elements id="EclipseWindow82" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="809" y="86" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.6">
+      <elements id="View49" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="50" width="244" height="594"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.7">
+      <elements id="Tree52" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="244" height="594"/>
+        <selection>
+          <path>test</path>
+          <path>src</path>
+          <path>com.mycompany</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.8">
+      <elements id="Item80" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="Exception0" index="11">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="98" y="252" width="61" height="18"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.11">
+      <elements id="EclipseWindow83" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - test/src/com/mycompany/default.wvd - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="809" y="86" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.12">
+      <elements id="Editor58" kind="Editor"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="default.wvd">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="741" height="373"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.13">
+      <elements id="DiagramViewer26" kind="DiagramViewer"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="default.wvd">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="741" height="373"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.14">
+      <elements id="DiagramFigure154" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="465" childrenCount="10" text="">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="Tigerstripe"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[PageStyle:0].pageX" value="0"/>
+        <__properties name="view.styles[PageStyle:0].pageY" value="0"/>
+        <__properties name="view.styles[PageStyle:0].pageWidth" value="100"/>
+        <__properties name="view.styles[PageStyle:0].pageHeight" value="100"/>
+        <__properties name="view.styles[DescriptionStyle:2].description" value=""/>
+        <__properties name="view.name" value="default.wvd"/>
+        <__properties name="view.measurementUnit" value="Pixel"/>
+        <__properties name="view.edges[Edge:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].type" value="3007"/>
+        <__properties name="view.edges[Edge:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:0].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="view.edges[Edge:1].visible" value="true"/>
+        <__properties name="view.edges[Edge:1].type" value="3012"/>
+        <__properties name="view.edges[Edge:1].mutable" value="false"/>
+        <__properties name="view.edges[Edge:1].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:1].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:1].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:1].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:1].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:1].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:1].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:1].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:1].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:1].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:1].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:1].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:1].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:1].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:1].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:1].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:1].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="view.edges[Edge:2].visible" value="true"/>
+        <__properties name="view.edges[Edge:2].type" value="3008"/>
+        <__properties name="view.edges[Edge:2].mutable" value="false"/>
+        <__properties name="view.edges[Edge:2].children[Node:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:2].children[Node:0].type" value="4031"/>
+        <__properties name="view.edges[Edge:2].children[Node:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:2].children[Node:1].visible" value="true"/>
+        <__properties name="view.edges[Edge:2].children[Node:1].type" value="4038"/>
+        <__properties name="view.edges[Edge:2].children[Node:1].mutable" value="false"/>
+        <__properties name="view.edges[Edge:2].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:2].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:2].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:2].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:2].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:2].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:2].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:2].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:2].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:2].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:2].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:2].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:2].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:2].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:2].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:2].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:2].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="view.edges[Edge:3].visible" value="true"/>
+        <__properties name="view.edges[Edge:3].type" value="3008"/>
+        <__properties name="view.edges[Edge:3].mutable" value="false"/>
+        <__properties name="view.edges[Edge:3].children[Node:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:3].children[Node:0].type" value="4031"/>
+        <__properties name="view.edges[Edge:3].children[Node:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:3].children[Node:1].visible" value="true"/>
+        <__properties name="view.edges[Edge:3].children[Node:1].type" value="4038"/>
+        <__properties name="view.edges[Edge:3].children[Node:1].mutable" value="false"/>
+        <__properties name="view.edges[Edge:3].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:3].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:3].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:3].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:3].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:3].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:3].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:3].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:3].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:3].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:3].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:3].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:3].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:3].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:3].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:3].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:3].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="view.edges[Edge:4].visible" value="true"/>
+        <__properties name="view.edges[Edge:4].type" value="3008"/>
+        <__properties name="view.edges[Edge:4].mutable" value="false"/>
+        <__properties name="view.edges[Edge:4].children[Node:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:4].children[Node:0].type" value="4031"/>
+        <__properties name="view.edges[Edge:4].children[Node:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:4].children[Node:1].visible" value="true"/>
+        <__properties name="view.edges[Edge:4].children[Node:1].type" value="4038"/>
+        <__properties name="view.edges[Edge:4].children[Node:1].mutable" value="false"/>
+        <__properties name="view.edges[Edge:4].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:4].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:4].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:4].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:4].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:4].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:4].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:4].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:4].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:4].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:4].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:4].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:4].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:4].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:4].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:4].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:4].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="view.edges[Edge:5].visible" value="true"/>
+        <__properties name="view.edges[Edge:5].type" value="3008"/>
+        <__properties name="view.edges[Edge:5].mutable" value="false"/>
+        <__properties name="view.edges[Edge:5].children[Node:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:5].children[Node:0].type" value="4031"/>
+        <__properties name="view.edges[Edge:5].children[Node:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:5].children[Node:1].visible" value="true"/>
+        <__properties name="view.edges[Edge:5].children[Node:1].type" value="4038"/>
+        <__properties name="view.edges[Edge:5].children[Node:1].mutable" value="false"/>
+        <__properties name="view.edges[Edge:5].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:5].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:5].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:5].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:5].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:5].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:5].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:5].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:5].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:5].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:5].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:5].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:5].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:5].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:5].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:5].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:5].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="view.edges[Edge:6].visible" value="true"/>
+        <__properties name="view.edges[Edge:6].type" value="3010"/>
+        <__properties name="view.edges[Edge:6].mutable" value="false"/>
+        <__properties name="view.edges[Edge:6].children[Node:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:6].children[Node:0].type" value="4034"/>
+        <__properties name="view.edges[Edge:6].children[Node:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:6].children[Node:1].visible" value="true"/>
+        <__properties name="view.edges[Edge:6].children[Node:1].type" value="4035"/>
+        <__properties name="view.edges[Edge:6].children[Node:1].mutable" value="false"/>
+        <__properties name="view.edges[Edge:6].children[Node:2].visible" value="true"/>
+        <__properties name="view.edges[Edge:6].children[Node:2].type" value="4036"/>
+        <__properties name="view.edges[Edge:6].children[Node:2].mutable" value="false"/>
+        <__properties name="view.edges[Edge:6].children[Node:3].visible" value="true"/>
+        <__properties name="view.edges[Edge:6].children[Node:3].type" value="4037"/>
+        <__properties name="view.edges[Edge:6].children[Node:3].mutable" value="false"/>
+        <__properties name="view.edges[Edge:6].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:6].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:6].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:6].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:6].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:6].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:6].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:6].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:6].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:6].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:6].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:6].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:6].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:6].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:6].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:6].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:6].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="view.edges[Edge:7].visible" value="true"/>
+        <__properties name="view.edges[Edge:7].type" value="3001"/>
+        <__properties name="view.edges[Edge:7].mutable" value="false"/>
+        <__properties name="view.edges[Edge:7].children[Node:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:7].children[Node:0].type" value="4020"/>
+        <__properties name="view.edges[Edge:7].children[Node:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:7].children[Node:1].visible" value="true"/>
+        <__properties name="view.edges[Edge:7].children[Node:1].type" value="4021"/>
+        <__properties name="view.edges[Edge:7].children[Node:1].mutable" value="false"/>
+        <__properties name="view.edges[Edge:7].children[Node:2].visible" value="true"/>
+        <__properties name="view.edges[Edge:7].children[Node:2].type" value="4022"/>
+        <__properties name="view.edges[Edge:7].children[Node:2].mutable" value="false"/>
+        <__properties name="view.edges[Edge:7].children[Node:3].visible" value="true"/>
+        <__properties name="view.edges[Edge:7].children[Node:3].type" value="4023"/>
+        <__properties name="view.edges[Edge:7].children[Node:3].mutable" value="false"/>
+        <__properties name="view.edges[Edge:7].children[Node:4].visible" value="true"/>
+        <__properties name="view.edges[Edge:7].children[Node:4].type" value="4024"/>
+        <__properties name="view.edges[Edge:7].children[Node:4].mutable" value="false"/>
+        <__properties name="view.edges[Edge:7].children[Node:5].visible" value="true"/>
+        <__properties name="view.edges[Edge:7].children[Node:5].type" value="4025"/>
+        <__properties name="view.edges[Edge:7].children[Node:5].mutable" value="false"/>
+        <__properties name="view.edges[Edge:7].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:7].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:7].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:7].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:7].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:7].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:7].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:7].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:7].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:7].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:7].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:7].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:7].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:7].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:7].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:7].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:7].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].name" value="Entity1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].package" value="com.mycompany"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].isReadonly" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].isAbstract" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].name" value="attribute0"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].type" value="String"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].multiplicity" value=""/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].visibility" value="PUBLIC"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].isOrdered" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].isUnique" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].typeMultiplicity" value="1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].name" value="method0"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].type" value="void"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].multiplicity" value=""/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].visibility" value="PUBLIC"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].isOrdered" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].isUnique" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].typeMultiplicity" value="1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].isAbstract" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].implements[SessionFacadeArtifact:0].name" value="SessionFacade0"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].implements[SessionFacadeArtifact:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].implements[SessionFacadeArtifact:0].package" value="com.mycompany"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].implements[SessionFacadeArtifact:0].isReadonly" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].implements[SessionFacadeArtifact:0].isAbstract" value="false"/>
+        <__properties name="artifacts[DatatypeArtifact:1].name" value="Datatype1"/>
+        <__properties name="artifacts[DatatypeArtifact:1].stereotypes" value="[]"/>
+        <__properties name="artifacts[DatatypeArtifact:1].package" value="com.mycompany"/>
+        <__properties name="artifacts[DatatypeArtifact:1].isReadonly" value="false"/>
+        <__properties name="artifacts[DatatypeArtifact:1].isAbstract" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:2].name" value="Entity2"/>
+        <__properties name="artifacts[ManagedEntityArtifact:2].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:2].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="artifacts[ManagedEntityArtifact:2].properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:2].package" value="com.mycompany"/>
+        <__properties name="artifacts[ManagedEntityArtifact:2].isReadonly" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:2].isAbstract" value="false"/>
+        <__properties name="artifacts[NamedQueryArtifact:3].name" value="Query0"/>
+        <__properties name="artifacts[NamedQueryArtifact:3].stereotypes" value="[]"/>
+        <__properties name="artifacts[NamedQueryArtifact:3].package" value="com.mycompany"/>
+        <__properties name="artifacts[NamedQueryArtifact:3].isReadonly" value="false"/>
+        <__properties name="artifacts[NamedQueryArtifact:3].isAbstract" value="false"/>
+        <__properties name="artifacts[UpdateProcedureArtifact:4].name" value="UpdateProcedure0"/>
+        <__properties name="artifacts[UpdateProcedureArtifact:4].stereotypes" value="[]"/>
+        <__properties name="artifacts[UpdateProcedureArtifact:4].package" value="com.mycompany"/>
+        <__properties name="artifacts[UpdateProcedureArtifact:4].isReadonly" value="false"/>
+        <__properties name="artifacts[UpdateProcedureArtifact:4].isAbstract" value="false"/>
+        <__properties name="artifacts[NotificationArtifact:5].name" value="Event0"/>
+        <__properties name="artifacts[NotificationArtifact:5].stereotypes" value="[]"/>
+        <__properties name="artifacts[NotificationArtifact:5].package" value="com.mycompany"/>
+        <__properties name="artifacts[NotificationArtifact:5].isReadonly" value="false"/>
+        <__properties name="artifacts[NotificationArtifact:5].isAbstract" value="false"/>
+        <__properties name="artifacts[SessionFacadeArtifact:6].name" value="SessionFacade0"/>
+        <__properties name="artifacts[SessionFacadeArtifact:6].stereotypes" value="[]"/>
+        <__properties name="artifacts[SessionFacadeArtifact:6].package" value="com.mycompany"/>
+        <__properties name="artifacts[SessionFacadeArtifact:6].isReadonly" value="false"/>
+        <__properties name="artifacts[SessionFacadeArtifact:6].isAbstract" value="false"/>
+        <__properties name="artifacts[ExceptionArtifact:7].name" value="Exception0"/>
+        <__properties name="artifacts[ExceptionArtifact:7].stereotypes" value="[]"/>
+        <__properties name="artifacts[ExceptionArtifact:7].package" value="com.mycompany"/>
+        <__properties name="artifacts[ExceptionArtifact:7].isReadonly" value="false"/>
+        <__properties name="artifacts[ExceptionArtifact:7].isAbstract" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:8].name" value="Entity3"/>
+        <__properties name="artifacts[ManagedEntityArtifact:8].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:8].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="artifacts[ManagedEntityArtifact:8].properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:8].package" value="com.mycompany"/>
+        <__properties name="artifacts[ManagedEntityArtifact:8].isReadonly" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:8].isAbstract" value="false"/>
+        <__properties name="artifacts[AssociationClassClass:9].name" value="AssociationClass1"/>
+        <__properties name="artifacts[AssociationClassClass:9].stereotypes" value="[]"/>
+        <__properties name="artifacts[AssociationClassClass:9].package" value="com.mycompany"/>
+        <__properties name="artifacts[AssociationClassClass:9].isReadonly" value="false"/>
+        <__properties name="artifacts[AssociationClassClass:9].isAbstract" value="false"/>
+        <__properties name="associations[AssociationClass:0].name" value="AssociationClass1"/>
+        <__properties name="associations[AssociationClass:0].stereotypes" value="[]"/>
+        <__properties name="associations[AssociationClass:0].package" value="com.mycompany"/>
+        <__properties name="associations[AssociationClass:0].isReadonly" value="false"/>
+        <__properties name="associations[AssociationClass:0].isAbstract" value="false"/>
+        <__properties name="associations[AssociationClass:0].aEndMultiplicity" value="1"/>
+        <__properties name="associations[AssociationClass:0].aEndIsNavigable" value="false"/>
+        <__properties name="associations[AssociationClass:0].aEndIsOrdered" value="false"/>
+        <__properties name="associations[AssociationClass:0].aEndIsUnique" value="false"/>
+        <__properties name="associations[AssociationClass:0].aEndIsChangeable" value="none"/>
+        <__properties name="associations[AssociationClass:0].aEndAggregation" value="none"/>
+        <__properties name="associations[AssociationClass:0].zEndMultiplicity" value="1"/>
+        <__properties name="associations[AssociationClass:0].zEndIsNavigable" value="true"/>
+        <__properties name="associations[AssociationClass:0].zEndIsOrdered" value="false"/>
+        <__properties name="associations[AssociationClass:0].zEndIsUnique" value="false"/>
+        <__properties name="associations[AssociationClass:0].zEndIsChangeable" value="none"/>
+        <__properties name="associations[AssociationClass:0].zEndAggregation" value="none"/>
+        <__properties name="associations[AssociationClass:0].aEndVisibility" value="PUBLIC"/>
+        <__properties name="associations[AssociationClass:0].zEndVisibility" value="PUBLIC"/>
+        <__properties name="associations[Association:1].name" value="Association0"/>
+        <__properties name="associations[Association:1].stereotypes" value="[]"/>
+        <__properties name="associations[Association:1].package" value="com.mycompany"/>
+        <__properties name="associations[Association:1].isReadonly" value="false"/>
+        <__properties name="associations[Association:1].isAbstract" value="false"/>
+        <__properties name="associations[Association:1].aEndName" value="entity1"/>
+        <__properties name="associations[Association:1].aEndMultiplicity" value="1"/>
+        <__properties name="associations[Association:1].aEndIsNavigable" value="false"/>
+        <__properties name="associations[Association:1].aEndIsOrdered" value="false"/>
+        <__properties name="associations[Association:1].aEndIsUnique" value="false"/>
+        <__properties name="associations[Association:1].aEndIsChangeable" value="none"/>
+        <__properties name="associations[Association:1].aEndAggregation" value="none"/>
+        <__properties name="associations[Association:1].zEndName" value="datatype1"/>
+        <__properties name="associations[Association:1].zEndMultiplicity" value="1"/>
+        <__properties name="associations[Association:1].zEndIsNavigable" value="true"/>
+        <__properties name="associations[Association:1].zEndIsOrdered" value="false"/>
+        <__properties name="associations[Association:1].zEndIsUnique" value="false"/>
+        <__properties name="associations[Association:1].zEndIsChangeable" value="none"/>
+        <__properties name="associations[Association:1].zEndAggregation" value="none"/>
+        <__properties name="associations[Association:1].aEndVisibility" value="PUBLIC"/>
+        <__properties name="associations[Association:1].zEndVisibility" value="PUBLIC"/>
+        <__properties name="dependencies[Dependency:0].name" value="Dependency0"/>
+        <__properties name="dependencies[Dependency:0].stereotypes" value="[]"/>
+        <__properties name="dependencies[Dependency:0].package" value="com.mycompany"/>
+        <__properties name="dependencies[Dependency:0].isReadonly" value="false"/>
+        <__properties name="dependencies[Dependency:0].isAbstract" value="false"/>
+        <__properties name="dependencies[Dependency:0].aEndMultiplicity" value="1"/>
+        <__properties name="dependencies[Dependency:0].aEndIsNavigable" value="false"/>
+        <__properties name="dependencies[Dependency:0].zEndMultiplicity" value="1"/>
+        <__properties name="dependencies[Dependency:0].zEndIsNavigable" value="false"/>
+        <__properties name="dependencies[Dependency:1].name" value="Dependency1"/>
+        <__properties name="dependencies[Dependency:1].stereotypes" value="[]"/>
+        <__properties name="dependencies[Dependency:1].package" value="com.mycompany"/>
+        <__properties name="dependencies[Dependency:1].isReadonly" value="false"/>
+        <__properties name="dependencies[Dependency:1].isAbstract" value="false"/>
+        <__properties name="dependencies[Dependency:1].aEndMultiplicity" value="1"/>
+        <__properties name="dependencies[Dependency:1].aEndIsNavigable" value="false"/>
+        <__properties name="dependencies[Dependency:1].zEndMultiplicity" value="1"/>
+        <__properties name="dependencies[Dependency:1].zEndIsNavigable" value="false"/>
+        <__properties name="dependencies[Dependency:2].name" value="Dependency2"/>
+        <__properties name="dependencies[Dependency:2].stereotypes" value="[]"/>
+        <__properties name="dependencies[Dependency:2].package" value="com.mycompany"/>
+        <__properties name="dependencies[Dependency:2].isReadonly" value="false"/>
+        <__properties name="dependencies[Dependency:2].isAbstract" value="false"/>
+        <__properties name="dependencies[Dependency:2].aEndMultiplicity" value="1"/>
+        <__properties name="dependencies[Dependency:2].aEndIsNavigable" value="false"/>
+        <__properties name="dependencies[Dependency:2].zEndMultiplicity" value="1"/>
+        <__properties name="dependencies[Dependency:2].zEndIsNavigable" value="false"/>
+        <__properties name="dependencies[Dependency:3].name" value="Dependency3"/>
+        <__properties name="dependencies[Dependency:3].stereotypes" value="[]"/>
+        <__properties name="dependencies[Dependency:3].package" value="com.mycompany"/>
+        <__properties name="dependencies[Dependency:3].isReadonly" value="false"/>
+        <__properties name="dependencies[Dependency:3].isAbstract" value="false"/>
+        <__properties name="dependencies[Dependency:3].aEndMultiplicity" value="1"/>
+        <__properties name="dependencies[Dependency:3].aEndIsNavigable" value="false"/>
+        <__properties name="dependencies[Dependency:3].zEndMultiplicity" value="1"/>
+        <__properties name="dependencies[Dependency:3].zEndIsNavigable" value="false"/>
+        <__properties name="basePackage" value="com.mycompany"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.16">
+      <elements id="EclipseWindow85" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - test/src/com/mycompany/default.wvd - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="809" y="86" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.17">
+      <elements id="Editor59" kind="Editor"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="default.wvd">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="741" height="373"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.18">
+      <elements id="DiagramViewer27" kind="DiagramViewer"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="default.wvd">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="741" height="373"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.19">
+      <elements id="DiagramFigure155" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="465" childrenCount="10" text="">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="Tigerstripe"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[PageStyle:0].pageX" value="0"/>
+        <__properties name="view.styles[PageStyle:0].pageY" value="0"/>
+        <__properties name="view.styles[PageStyle:0].pageWidth" value="100"/>
+        <__properties name="view.styles[PageStyle:0].pageHeight" value="100"/>
+        <__properties name="view.styles[DescriptionStyle:2].description" value=""/>
+        <__properties name="view.name" value="default.wvd"/>
+        <__properties name="view.measurementUnit" value="Pixel"/>
+        <__properties name="view.edges[Edge:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].type" value="3007"/>
+        <__properties name="view.edges[Edge:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:0].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="view.edges[Edge:1].visible" value="true"/>
+        <__properties name="view.edges[Edge:1].type" value="3012"/>
+        <__properties name="view.edges[Edge:1].mutable" value="false"/>
+        <__properties name="view.edges[Edge:1].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:1].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:1].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:1].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:1].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:1].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:1].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:1].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:1].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:1].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:1].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:1].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:1].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:1].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:1].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:1].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:1].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="view.edges[Edge:2].visible" value="true"/>
+        <__properties name="view.edges[Edge:2].type" value="3008"/>
+        <__properties name="view.edges[Edge:2].mutable" value="false"/>
+        <__properties name="view.edges[Edge:2].children[Node:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:2].children[Node:0].type" value="4031"/>
+        <__properties name="view.edges[Edge:2].children[Node:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:2].children[Node:1].visible" value="true"/>
+        <__properties name="view.edges[Edge:2].children[Node:1].type" value="4038"/>
+        <__properties name="view.edges[Edge:2].children[Node:1].mutable" value="false"/>
+        <__properties name="view.edges[Edge:2].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:2].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:2].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:2].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:2].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:2].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:2].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:2].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:2].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:2].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:2].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:2].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:2].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:2].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:2].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:2].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:2].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="view.edges[Edge:3].visible" value="true"/>
+        <__properties name="view.edges[Edge:3].type" value="3008"/>
+        <__properties name="view.edges[Edge:3].mutable" value="false"/>
+        <__properties name="view.edges[Edge:3].children[Node:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:3].children[Node:0].type" value="4031"/>
+        <__properties name="view.edges[Edge:3].children[Node:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:3].children[Node:1].visible" value="true"/>
+        <__properties name="view.edges[Edge:3].children[Node:1].type" value="4038"/>
+        <__properties name="view.edges[Edge:3].children[Node:1].mutable" value="false"/>
+        <__properties name="view.edges[Edge:3].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:3].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:3].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:3].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:3].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:3].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:3].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:3].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:3].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:3].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:3].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:3].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:3].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:3].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:3].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:3].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:3].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="view.edges[Edge:4].visible" value="true"/>
+        <__properties name="view.edges[Edge:4].type" value="3008"/>
+        <__properties name="view.edges[Edge:4].mutable" value="false"/>
+        <__properties name="view.edges[Edge:4].children[Node:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:4].children[Node:0].type" value="4031"/>
+        <__properties name="view.edges[Edge:4].children[Node:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:4].children[Node:1].visible" value="true"/>
+        <__properties name="view.edges[Edge:4].children[Node:1].type" value="4038"/>
+        <__properties name="view.edges[Edge:4].children[Node:1].mutable" value="false"/>
+        <__properties name="view.edges[Edge:4].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:4].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:4].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:4].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:4].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:4].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:4].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:4].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:4].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:4].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:4].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:4].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:4].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:4].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:4].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:4].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:4].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="view.edges[Edge:5].visible" value="true"/>
+        <__properties name="view.edges[Edge:5].type" value="3008"/>
+        <__properties name="view.edges[Edge:5].mutable" value="false"/>
+        <__properties name="view.edges[Edge:5].children[Node:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:5].children[Node:0].type" value="4031"/>
+        <__properties name="view.edges[Edge:5].children[Node:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:5].children[Node:1].visible" value="true"/>
+        <__properties name="view.edges[Edge:5].children[Node:1].type" value="4038"/>
+        <__properties name="view.edges[Edge:5].children[Node:1].mutable" value="false"/>
+        <__properties name="view.edges[Edge:5].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:5].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:5].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:5].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:5].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:5].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:5].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:5].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:5].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:5].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:5].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:5].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:5].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:5].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:5].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:5].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:5].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="view.edges[Edge:6].visible" value="true"/>
+        <__properties name="view.edges[Edge:6].type" value="3010"/>
+        <__properties name="view.edges[Edge:6].mutable" value="false"/>
+        <__properties name="view.edges[Edge:6].children[Node:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:6].children[Node:0].type" value="4034"/>
+        <__properties name="view.edges[Edge:6].children[Node:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:6].children[Node:1].visible" value="true"/>
+        <__properties name="view.edges[Edge:6].children[Node:1].type" value="4035"/>
+        <__properties name="view.edges[Edge:6].children[Node:1].mutable" value="false"/>
+        <__properties name="view.edges[Edge:6].children[Node:2].visible" value="true"/>
+        <__properties name="view.edges[Edge:6].children[Node:2].type" value="4036"/>
+        <__properties name="view.edges[Edge:6].children[Node:2].mutable" value="false"/>
+        <__properties name="view.edges[Edge:6].children[Node:3].visible" value="true"/>
+        <__properties name="view.edges[Edge:6].children[Node:3].type" value="4037"/>
+        <__properties name="view.edges[Edge:6].children[Node:3].mutable" value="false"/>
+        <__properties name="view.edges[Edge:6].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:6].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:6].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:6].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:6].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:6].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:6].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:6].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:6].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:6].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:6].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:6].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:6].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:6].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:6].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:6].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:6].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="view.edges[Edge:7].visible" value="true"/>
+        <__properties name="view.edges[Edge:7].type" value="3001"/>
+        <__properties name="view.edges[Edge:7].mutable" value="false"/>
+        <__properties name="view.edges[Edge:7].children[Node:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:7].children[Node:0].type" value="4020"/>
+        <__properties name="view.edges[Edge:7].children[Node:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:7].children[Node:1].visible" value="true"/>
+        <__properties name="view.edges[Edge:7].children[Node:1].type" value="4021"/>
+        <__properties name="view.edges[Edge:7].children[Node:1].mutable" value="false"/>
+        <__properties name="view.edges[Edge:7].children[Node:2].visible" value="true"/>
+        <__properties name="view.edges[Edge:7].children[Node:2].type" value="4022"/>
+        <__properties name="view.edges[Edge:7].children[Node:2].mutable" value="false"/>
+        <__properties name="view.edges[Edge:7].children[Node:3].visible" value="true"/>
+        <__properties name="view.edges[Edge:7].children[Node:3].type" value="4023"/>
+        <__properties name="view.edges[Edge:7].children[Node:3].mutable" value="false"/>
+        <__properties name="view.edges[Edge:7].children[Node:4].visible" value="true"/>
+        <__properties name="view.edges[Edge:7].children[Node:4].type" value="4024"/>
+        <__properties name="view.edges[Edge:7].children[Node:4].mutable" value="false"/>
+        <__properties name="view.edges[Edge:7].children[Node:5].visible" value="true"/>
+        <__properties name="view.edges[Edge:7].children[Node:5].type" value="4025"/>
+        <__properties name="view.edges[Edge:7].children[Node:5].mutable" value="false"/>
+        <__properties name="view.edges[Edge:7].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:7].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:7].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:7].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:7].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:7].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:7].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:7].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:7].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:7].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:7].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:7].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:7].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:7].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:7].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:7].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:7].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].name" value="Entity1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].package" value="com.mycompany"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].isReadonly" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].isAbstract" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].name" value="attribute0"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].type" value="String"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].multiplicity" value=""/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].visibility" value="PUBLIC"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].isOrdered" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].isUnique" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].typeMultiplicity" value="1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].name" value="method0"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].type" value="void"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].multiplicity" value=""/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].visibility" value="PUBLIC"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].isOrdered" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].isUnique" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].typeMultiplicity" value="1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].isAbstract" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].implements[SessionFacadeArtifact:0].name" value="SessionFacade0"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].implements[SessionFacadeArtifact:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].implements[SessionFacadeArtifact:0].package" value="com.mycompany"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].implements[SessionFacadeArtifact:0].isReadonly" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].implements[SessionFacadeArtifact:0].isAbstract" value="false"/>
+        <__properties name="artifacts[DatatypeArtifact:1].name" value="Datatype1"/>
+        <__properties name="artifacts[DatatypeArtifact:1].stereotypes" value="[]"/>
+        <__properties name="artifacts[DatatypeArtifact:1].package" value="com.mycompany"/>
+        <__properties name="artifacts[DatatypeArtifact:1].isReadonly" value="false"/>
+        <__properties name="artifacts[DatatypeArtifact:1].isAbstract" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:2].name" value="Entity2"/>
+        <__properties name="artifacts[ManagedEntityArtifact:2].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:2].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="artifacts[ManagedEntityArtifact:2].properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:2].package" value="com.mycompany"/>
+        <__properties name="artifacts[ManagedEntityArtifact:2].isReadonly" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:2].isAbstract" value="false"/>
+        <__properties name="artifacts[NamedQueryArtifact:3].name" value="Query0"/>
+        <__properties name="artifacts[NamedQueryArtifact:3].stereotypes" value="[]"/>
+        <__properties name="artifacts[NamedQueryArtifact:3].package" value="com.mycompany"/>
+        <__properties name="artifacts[NamedQueryArtifact:3].isReadonly" value="false"/>
+        <__properties name="artifacts[NamedQueryArtifact:3].isAbstract" value="false"/>
+        <__properties name="artifacts[UpdateProcedureArtifact:4].name" value="UpdateProcedure0"/>
+        <__properties name="artifacts[UpdateProcedureArtifact:4].stereotypes" value="[]"/>
+        <__properties name="artifacts[UpdateProcedureArtifact:4].package" value="com.mycompany"/>
+        <__properties name="artifacts[UpdateProcedureArtifact:4].isReadonly" value="false"/>
+        <__properties name="artifacts[UpdateProcedureArtifact:4].isAbstract" value="false"/>
+        <__properties name="artifacts[NotificationArtifact:5].name" value="Event0"/>
+        <__properties name="artifacts[NotificationArtifact:5].stereotypes" value="[]"/>
+        <__properties name="artifacts[NotificationArtifact:5].package" value="com.mycompany"/>
+        <__properties name="artifacts[NotificationArtifact:5].isReadonly" value="false"/>
+        <__properties name="artifacts[NotificationArtifact:5].isAbstract" value="false"/>
+        <__properties name="artifacts[SessionFacadeArtifact:6].name" value="SessionFacade0"/>
+        <__properties name="artifacts[SessionFacadeArtifact:6].stereotypes" value="[]"/>
+        <__properties name="artifacts[SessionFacadeArtifact:6].package" value="com.mycompany"/>
+        <__properties name="artifacts[SessionFacadeArtifact:6].isReadonly" value="false"/>
+        <__properties name="artifacts[SessionFacadeArtifact:6].isAbstract" value="false"/>
+        <__properties name="artifacts[ExceptionArtifact:7].name" value="Exception0"/>
+        <__properties name="artifacts[ExceptionArtifact:7].stereotypes" value="[]"/>
+        <__properties name="artifacts[ExceptionArtifact:7].package" value="com.mycompany"/>
+        <__properties name="artifacts[ExceptionArtifact:7].isReadonly" value="false"/>
+        <__properties name="artifacts[ExceptionArtifact:7].isAbstract" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:8].name" value="Entity3"/>
+        <__properties name="artifacts[ManagedEntityArtifact:8].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:8].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="artifacts[ManagedEntityArtifact:8].properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:8].package" value="com.mycompany"/>
+        <__properties name="artifacts[ManagedEntityArtifact:8].isReadonly" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:8].isAbstract" value="false"/>
+        <__properties name="artifacts[AssociationClassClass:9].name" value="AssociationClass1"/>
+        <__properties name="artifacts[AssociationClassClass:9].stereotypes" value="[]"/>
+        <__properties name="artifacts[AssociationClassClass:9].package" value="com.mycompany"/>
+        <__properties name="artifacts[AssociationClassClass:9].isReadonly" value="false"/>
+        <__properties name="artifacts[AssociationClassClass:9].isAbstract" value="false"/>
+        <__properties name="associations[AssociationClass:0].name" value="AssociationClass1"/>
+        <__properties name="associations[AssociationClass:0].stereotypes" value="[]"/>
+        <__properties name="associations[AssociationClass:0].package" value="com.mycompany"/>
+        <__properties name="associations[AssociationClass:0].isReadonly" value="false"/>
+        <__properties name="associations[AssociationClass:0].isAbstract" value="false"/>
+        <__properties name="associations[AssociationClass:0].aEndMultiplicity" value="1"/>
+        <__properties name="associations[AssociationClass:0].aEndIsNavigable" value="false"/>
+        <__properties name="associations[AssociationClass:0].aEndIsOrdered" value="false"/>
+        <__properties name="associations[AssociationClass:0].aEndIsUnique" value="false"/>
+        <__properties name="associations[AssociationClass:0].aEndIsChangeable" value="none"/>
+        <__properties name="associations[AssociationClass:0].aEndAggregation" value="none"/>
+        <__properties name="associations[AssociationClass:0].zEndMultiplicity" value="1"/>
+        <__properties name="associations[AssociationClass:0].zEndIsNavigable" value="true"/>
+        <__properties name="associations[AssociationClass:0].zEndIsOrdered" value="false"/>
+        <__properties name="associations[AssociationClass:0].zEndIsUnique" value="false"/>
+        <__properties name="associations[AssociationClass:0].zEndIsChangeable" value="none"/>
+        <__properties name="associations[AssociationClass:0].zEndAggregation" value="none"/>
+        <__properties name="associations[AssociationClass:0].aEndVisibility" value="PUBLIC"/>
+        <__properties name="associations[AssociationClass:0].zEndVisibility" value="PUBLIC"/>
+        <__properties name="associations[Association:1].name" value="Association0"/>
+        <__properties name="associations[Association:1].stereotypes" value="[]"/>
+        <__properties name="associations[Association:1].package" value="com.mycompany"/>
+        <__properties name="associations[Association:1].isReadonly" value="false"/>
+        <__properties name="associations[Association:1].isAbstract" value="false"/>
+        <__properties name="associations[Association:1].aEndName" value="entity1"/>
+        <__properties name="associations[Association:1].aEndMultiplicity" value="1"/>
+        <__properties name="associations[Association:1].aEndIsNavigable" value="false"/>
+        <__properties name="associations[Association:1].aEndIsOrdered" value="false"/>
+        <__properties name="associations[Association:1].aEndIsUnique" value="false"/>
+        <__properties name="associations[Association:1].aEndIsChangeable" value="none"/>
+        <__properties name="associations[Association:1].aEndAggregation" value="none"/>
+        <__properties name="associations[Association:1].zEndName" value="datatype1"/>
+        <__properties name="associations[Association:1].zEndMultiplicity" value="1"/>
+        <__properties name="associations[Association:1].zEndIsNavigable" value="true"/>
+        <__properties name="associations[Association:1].zEndIsOrdered" value="false"/>
+        <__properties name="associations[Association:1].zEndIsUnique" value="false"/>
+        <__properties name="associations[Association:1].zEndIsChangeable" value="none"/>
+        <__properties name="associations[Association:1].zEndAggregation" value="none"/>
+        <__properties name="associations[Association:1].aEndVisibility" value="PUBLIC"/>
+        <__properties name="associations[Association:1].zEndVisibility" value="PUBLIC"/>
+        <__properties name="dependencies[Dependency:0].name" value="Dependency0"/>
+        <__properties name="dependencies[Dependency:0].stereotypes" value="[]"/>
+        <__properties name="dependencies[Dependency:0].package" value="com.mycompany"/>
+        <__properties name="dependencies[Dependency:0].isReadonly" value="false"/>
+        <__properties name="dependencies[Dependency:0].isAbstract" value="false"/>
+        <__properties name="dependencies[Dependency:0].aEndMultiplicity" value="1"/>
+        <__properties name="dependencies[Dependency:0].aEndIsNavigable" value="false"/>
+        <__properties name="dependencies[Dependency:0].zEndMultiplicity" value="1"/>
+        <__properties name="dependencies[Dependency:0].zEndIsNavigable" value="false"/>
+        <__properties name="dependencies[Dependency:1].name" value="Dependency1"/>
+        <__properties name="dependencies[Dependency:1].stereotypes" value="[]"/>
+        <__properties name="dependencies[Dependency:1].package" value="com.mycompany"/>
+        <__properties name="dependencies[Dependency:1].isReadonly" value="false"/>
+        <__properties name="dependencies[Dependency:1].isAbstract" value="false"/>
+        <__properties name="dependencies[Dependency:1].aEndMultiplicity" value="1"/>
+        <__properties name="dependencies[Dependency:1].aEndIsNavigable" value="false"/>
+        <__properties name="dependencies[Dependency:1].zEndMultiplicity" value="1"/>
+        <__properties name="dependencies[Dependency:1].zEndIsNavigable" value="false"/>
+        <__properties name="dependencies[Dependency:2].name" value="Dependency2"/>
+        <__properties name="dependencies[Dependency:2].stereotypes" value="[]"/>
+        <__properties name="dependencies[Dependency:2].package" value="com.mycompany"/>
+        <__properties name="dependencies[Dependency:2].isReadonly" value="false"/>
+        <__properties name="dependencies[Dependency:2].isAbstract" value="false"/>
+        <__properties name="dependencies[Dependency:2].aEndMultiplicity" value="1"/>
+        <__properties name="dependencies[Dependency:2].aEndIsNavigable" value="false"/>
+        <__properties name="dependencies[Dependency:2].zEndMultiplicity" value="1"/>
+        <__properties name="dependencies[Dependency:2].zEndIsNavigable" value="false"/>
+        <__properties name="dependencies[Dependency:3].name" value="Dependency3"/>
+        <__properties name="dependencies[Dependency:3].stereotypes" value="[]"/>
+        <__properties name="dependencies[Dependency:3].package" value="com.mycompany"/>
+        <__properties name="dependencies[Dependency:3].isReadonly" value="false"/>
+        <__properties name="dependencies[Dependency:3].isAbstract" value="false"/>
+        <__properties name="dependencies[Dependency:3].aEndMultiplicity" value="1"/>
+        <__properties name="dependencies[Dependency:3].aEndIsNavigable" value="false"/>
+        <__properties name="dependencies[Dependency:3].zEndMultiplicity" value="1"/>
+        <__properties name="dependencies[Dependency:3].zEndIsNavigable" value="false"/>
+        <__properties name="basePackage" value="com.mycompany"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.20">
+      <elements id="DiagramFigure156" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="465" y="40" width="56" height="50" childrenCount="3" text="Entity2">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="1003"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[FontStyle:0].fontColor" value="0"/>
+        <__properties name="view.styles[FontStyle:0].fontName" value="Segoe UI"/>
+        <__properties name="view.styles[FontStyle:0].fontHeight" value="9"/>
+        <__properties name="view.styles[FontStyle:0].bold" value="false"/>
+        <__properties name="view.styles[FontStyle:0].italic" value="false"/>
+        <__properties name="view.styles[FontStyle:0].underline" value="false"/>
+        <__properties name="view.styles[FontStyle:0].strikeThrough" value="false"/>
+        <__properties name="view.styles[DescriptionStyle:1].description" value=""/>
+        <__properties name="view.styles[FillStyle:2].fillColor" value="13825530"/>
+        <__properties name="view.styles[FillStyle:2].transparency" value="-1"/>
+        <__properties name="view.styles[LineStyle:3].lineColor" value="11579568"/>
+        <__properties name="view.styles[LineStyle:3].lineWidth" value="-1"/>
+        <__properties name="name" value="Entity2"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="package" value="com.mycompany"/>
+        <__properties name="isReadonly" value="false"/>
+        <__properties name="isAbstract" value="false"/>
+        <__properties name="extends.name" value="Entity1"/>
+        <__properties name="extends.stereotypes" value="[]"/>
+        <__properties name="extends.properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="extends.properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="extends.package" value="com.mycompany"/>
+        <__properties name="extends.isReadonly" value="false"/>
+        <__properties name="extends.isAbstract" value="false"/>
+        <__properties name="extends.attributes[Attribute:0].name" value="attribute0"/>
+        <__properties name="extends.attributes[Attribute:0].stereotypes" value="[]"/>
+        <__properties name="extends.attributes[Attribute:0].type" value="String"/>
+        <__properties name="extends.attributes[Attribute:0].multiplicity" value=""/>
+        <__properties name="extends.attributes[Attribute:0].visibility" value="PUBLIC"/>
+        <__properties name="extends.attributes[Attribute:0].isOrdered" value="false"/>
+        <__properties name="extends.attributes[Attribute:0].isUnique" value="false"/>
+        <__properties name="extends.attributes[Attribute:0].typeMultiplicity" value="1"/>
+        <__properties name="extends.methods[Method:0].name" value="method0"/>
+        <__properties name="extends.methods[Method:0].stereotypes" value="[]"/>
+        <__properties name="extends.methods[Method:0].type" value="void"/>
+        <__properties name="extends.methods[Method:0].multiplicity" value=""/>
+        <__properties name="extends.methods[Method:0].visibility" value="PUBLIC"/>
+        <__properties name="extends.methods[Method:0].isOrdered" value="false"/>
+        <__properties name="extends.methods[Method:0].isUnique" value="false"/>
+        <__properties name="extends.methods[Method:0].typeMultiplicity" value="1"/>
+        <__properties name="extends.methods[Method:0].isAbstract" value="false"/>
+        <__properties name="extends.implements[SessionFacadeArtifact:0].name" value="SessionFacade0"/>
+        <__properties name="extends.implements[SessionFacadeArtifact:0].stereotypes" value="[]"/>
+        <__properties name="extends.implements[SessionFacadeArtifact:0].package" value="com.mycompany"/>
+        <__properties name="extends.implements[SessionFacadeArtifact:0].isReadonly" value="false"/>
+        <__properties name="extends.implements[SessionFacadeArtifact:0].isAbstract" value="false"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.21">
+      <elements id="DiagramFigure157" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="465" y="40" width="56" height="16" text="Entity2">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="4006"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="name" value="Entity2"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="package" value="com.mycompany"/>
+        <__properties name="isReadonly" value="false"/>
+        <__properties name="isAbstract" value="false"/>
+        <__properties name="extends.name" value="Entity1"/>
+        <__properties name="extends.stereotypes" value="[]"/>
+        <__properties name="extends.properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="extends.properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="extends.package" value="com.mycompany"/>
+        <__properties name="extends.isReadonly" value="false"/>
+        <__properties name="extends.isAbstract" value="false"/>
+        <__properties name="extends.attributes[Attribute:0].name" value="attribute0"/>
+        <__properties name="extends.attributes[Attribute:0].stereotypes" value="[]"/>
+        <__properties name="extends.attributes[Attribute:0].type" value="String"/>
+        <__properties name="extends.attributes[Attribute:0].multiplicity" value=""/>
+        <__properties name="extends.attributes[Attribute:0].visibility" value="PUBLIC"/>
+        <__properties name="extends.attributes[Attribute:0].isOrdered" value="false"/>
+        <__properties name="extends.attributes[Attribute:0].isUnique" value="false"/>
+        <__properties name="extends.attributes[Attribute:0].typeMultiplicity" value="1"/>
+        <__properties name="extends.methods[Method:0].name" value="method0"/>
+        <__properties name="extends.methods[Method:0].stereotypes" value="[]"/>
+        <__properties name="extends.methods[Method:0].type" value="void"/>
+        <__properties name="extends.methods[Method:0].multiplicity" value=""/>
+        <__properties name="extends.methods[Method:0].visibility" value="PUBLIC"/>
+        <__properties name="extends.methods[Method:0].isOrdered" value="false"/>
+        <__properties name="extends.methods[Method:0].isUnique" value="false"/>
+        <__properties name="extends.methods[Method:0].typeMultiplicity" value="1"/>
+        <__properties name="extends.methods[Method:0].isAbstract" value="false"/>
+        <__properties name="extends.implements[SessionFacadeArtifact:0].name" value="SessionFacade0"/>
+        <__properties name="extends.implements[SessionFacadeArtifact:0].stereotypes" value="[]"/>
+        <__properties name="extends.implements[SessionFacadeArtifact:0].package" value="com.mycompany"/>
+        <__properties name="extends.implements[SessionFacadeArtifact:0].isReadonly" value="false"/>
+        <__properties name="extends.implements[SessionFacadeArtifact:0].isAbstract" value="false"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.28">
+      <elements id="Canvas15" kind="Canvas"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" containMenu="true">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="613" height="373"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.29">
+      <elements id="Menu20" kind="Menu"/>
+      <controls xsi:type="com.xored.tesla.core.ui:MenuItem" caption="Remove from Model" enablement="true" index="22" cascade="true"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.30">
+      <elements id="State50" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.33">
+      <elements id="Window19" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Delete from Model">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="1060" y="376" width="522" height="142"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.34">
+      <elements id="Button43" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds width="92" height="25"/>
+        <caption>OK</caption>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.35">
+      <elements id="State51" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.39">
+      <elements id="EclipseWindow86" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - test/src/com/mycompany/default.wvd - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="809" y="86" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.40">
+      <elements id="TabFolder29" kind="TabFolder"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TabFolder" activePage="*default.wvd" tabCount="1">
+        <pages>*default.wvd</pages>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.42">
+      <elements id="EclipseWindow87" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - test/src/com/mycompany/default.wvd - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="809" y="86" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.43">
+      <elements id="Editor61" kind="Editor"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="default.wvd" dirty="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="741" height="373"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.44">
+      <elements id="DiagramViewer29" kind="DiagramViewer"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="default.wvd" dirty="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="741" height="373"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.45">
+      <elements id="DiagramFigure159" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="465" childrenCount="9" text="">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="Tigerstripe"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[PageStyle:0].pageX" value="0"/>
+        <__properties name="view.styles[PageStyle:0].pageY" value="0"/>
+        <__properties name="view.styles[PageStyle:0].pageWidth" value="100"/>
+        <__properties name="view.styles[PageStyle:0].pageHeight" value="100"/>
+        <__properties name="view.styles[DescriptionStyle:2].description" value=""/>
+        <__properties name="view.name" value="default.wvd"/>
+        <__properties name="view.measurementUnit" value="Pixel"/>
+        <__properties name="view.edges[Edge:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].type" value="3012"/>
+        <__properties name="view.edges[Edge:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:0].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="view.edges[Edge:1].visible" value="true"/>
+        <__properties name="view.edges[Edge:1].type" value="3008"/>
+        <__properties name="view.edges[Edge:1].mutable" value="false"/>
+        <__properties name="view.edges[Edge:1].children[Node:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:1].children[Node:0].type" value="4031"/>
+        <__properties name="view.edges[Edge:1].children[Node:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:1].children[Node:1].visible" value="true"/>
+        <__properties name="view.edges[Edge:1].children[Node:1].type" value="4038"/>
+        <__properties name="view.edges[Edge:1].children[Node:1].mutable" value="false"/>
+        <__properties name="view.edges[Edge:1].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:1].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:1].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:1].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:1].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:1].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:1].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:1].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:1].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:1].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:1].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:1].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:1].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:1].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:1].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:1].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:1].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="view.edges[Edge:2].visible" value="true"/>
+        <__properties name="view.edges[Edge:2].type" value="3008"/>
+        <__properties name="view.edges[Edge:2].mutable" value="false"/>
+        <__properties name="view.edges[Edge:2].children[Node:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:2].children[Node:0].type" value="4031"/>
+        <__properties name="view.edges[Edge:2].children[Node:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:2].children[Node:1].visible" value="true"/>
+        <__properties name="view.edges[Edge:2].children[Node:1].type" value="4038"/>
+        <__properties name="view.edges[Edge:2].children[Node:1].mutable" value="false"/>
+        <__properties name="view.edges[Edge:2].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:2].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:2].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:2].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:2].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:2].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:2].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:2].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:2].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:2].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:2].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:2].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:2].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:2].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:2].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:2].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:2].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="view.edges[Edge:3].visible" value="true"/>
+        <__properties name="view.edges[Edge:3].type" value="3008"/>
+        <__properties name="view.edges[Edge:3].mutable" value="false"/>
+        <__properties name="view.edges[Edge:3].children[Node:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:3].children[Node:0].type" value="4031"/>
+        <__properties name="view.edges[Edge:3].children[Node:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:3].children[Node:1].visible" value="true"/>
+        <__properties name="view.edges[Edge:3].children[Node:1].type" value="4038"/>
+        <__properties name="view.edges[Edge:3].children[Node:1].mutable" value="false"/>
+        <__properties name="view.edges[Edge:3].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:3].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:3].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:3].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:3].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:3].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:3].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:3].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:3].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:3].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:3].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:3].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:3].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:3].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:3].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:3].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:3].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="view.edges[Edge:4].visible" value="true"/>
+        <__properties name="view.edges[Edge:4].type" value="3008"/>
+        <__properties name="view.edges[Edge:4].mutable" value="false"/>
+        <__properties name="view.edges[Edge:4].children[Node:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:4].children[Node:0].type" value="4031"/>
+        <__properties name="view.edges[Edge:4].children[Node:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:4].children[Node:1].visible" value="true"/>
+        <__properties name="view.edges[Edge:4].children[Node:1].type" value="4038"/>
+        <__properties name="view.edges[Edge:4].children[Node:1].mutable" value="false"/>
+        <__properties name="view.edges[Edge:4].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:4].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:4].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:4].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:4].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:4].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:4].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:4].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:4].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:4].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:4].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:4].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:4].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:4].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:4].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:4].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:4].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="view.edges[Edge:5].visible" value="true"/>
+        <__properties name="view.edges[Edge:5].type" value="3010"/>
+        <__properties name="view.edges[Edge:5].mutable" value="false"/>
+        <__properties name="view.edges[Edge:5].children[Node:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:5].children[Node:0].type" value="4034"/>
+        <__properties name="view.edges[Edge:5].children[Node:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:5].children[Node:1].visible" value="true"/>
+        <__properties name="view.edges[Edge:5].children[Node:1].type" value="4035"/>
+        <__properties name="view.edges[Edge:5].children[Node:1].mutable" value="false"/>
+        <__properties name="view.edges[Edge:5].children[Node:2].visible" value="true"/>
+        <__properties name="view.edges[Edge:5].children[Node:2].type" value="4036"/>
+        <__properties name="view.edges[Edge:5].children[Node:2].mutable" value="false"/>
+        <__properties name="view.edges[Edge:5].children[Node:3].visible" value="true"/>
+        <__properties name="view.edges[Edge:5].children[Node:3].type" value="4037"/>
+        <__properties name="view.edges[Edge:5].children[Node:3].mutable" value="false"/>
+        <__properties name="view.edges[Edge:5].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:5].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:5].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:5].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:5].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:5].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:5].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:5].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:5].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:5].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:5].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:5].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:5].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:5].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:5].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:5].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:5].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="view.edges[Edge:6].visible" value="true"/>
+        <__properties name="view.edges[Edge:6].type" value="3001"/>
+        <__properties name="view.edges[Edge:6].mutable" value="false"/>
+        <__properties name="view.edges[Edge:6].children[Node:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:6].children[Node:0].type" value="4020"/>
+        <__properties name="view.edges[Edge:6].children[Node:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:6].children[Node:1].visible" value="true"/>
+        <__properties name="view.edges[Edge:6].children[Node:1].type" value="4021"/>
+        <__properties name="view.edges[Edge:6].children[Node:1].mutable" value="false"/>
+        <__properties name="view.edges[Edge:6].children[Node:2].visible" value="true"/>
+        <__properties name="view.edges[Edge:6].children[Node:2].type" value="4022"/>
+        <__properties name="view.edges[Edge:6].children[Node:2].mutable" value="false"/>
+        <__properties name="view.edges[Edge:6].children[Node:3].visible" value="true"/>
+        <__properties name="view.edges[Edge:6].children[Node:3].type" value="4023"/>
+        <__properties name="view.edges[Edge:6].children[Node:3].mutable" value="false"/>
+        <__properties name="view.edges[Edge:6].children[Node:4].visible" value="true"/>
+        <__properties name="view.edges[Edge:6].children[Node:4].type" value="4024"/>
+        <__properties name="view.edges[Edge:6].children[Node:4].mutable" value="false"/>
+        <__properties name="view.edges[Edge:6].children[Node:5].visible" value="true"/>
+        <__properties name="view.edges[Edge:6].children[Node:5].type" value="4025"/>
+        <__properties name="view.edges[Edge:6].children[Node:5].mutable" value="false"/>
+        <__properties name="view.edges[Edge:6].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:6].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:6].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:6].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:6].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:6].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:6].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:6].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:6].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:6].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:6].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:6].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:6].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:6].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:6].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:6].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:6].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].name" value="Entity1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].package" value="com.mycompany"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].isReadonly" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].isAbstract" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].name" value="attribute0"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].type" value="String"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].multiplicity" value=""/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].visibility" value="PUBLIC"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].isOrdered" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].isUnique" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].typeMultiplicity" value="1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].name" value="method0"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].type" value="void"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].multiplicity" value=""/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].visibility" value="PUBLIC"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].isOrdered" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].isUnique" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].typeMultiplicity" value="1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].isAbstract" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].implements[SessionFacadeArtifact:0].name" value="SessionFacade0"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].implements[SessionFacadeArtifact:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].implements[SessionFacadeArtifact:0].package" value="com.mycompany"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].implements[SessionFacadeArtifact:0].isReadonly" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].implements[SessionFacadeArtifact:0].isAbstract" value="false"/>
+        <__properties name="artifacts[DatatypeArtifact:1].name" value="Datatype1"/>
+        <__properties name="artifacts[DatatypeArtifact:1].stereotypes" value="[]"/>
+        <__properties name="artifacts[DatatypeArtifact:1].package" value="com.mycompany"/>
+        <__properties name="artifacts[DatatypeArtifact:1].isReadonly" value="false"/>
+        <__properties name="artifacts[DatatypeArtifact:1].isAbstract" value="false"/>
+        <__properties name="artifacts[NamedQueryArtifact:2].name" value="Query0"/>
+        <__properties name="artifacts[NamedQueryArtifact:2].stereotypes" value="[]"/>
+        <__properties name="artifacts[NamedQueryArtifact:2].package" value="com.mycompany"/>
+        <__properties name="artifacts[NamedQueryArtifact:2].isReadonly" value="false"/>
+        <__properties name="artifacts[NamedQueryArtifact:2].isAbstract" value="false"/>
+        <__properties name="artifacts[UpdateProcedureArtifact:3].name" value="UpdateProcedure0"/>
+        <__properties name="artifacts[UpdateProcedureArtifact:3].stereotypes" value="[]"/>
+        <__properties name="artifacts[UpdateProcedureArtifact:3].package" value="com.mycompany"/>
+        <__properties name="artifacts[UpdateProcedureArtifact:3].isReadonly" value="false"/>
+        <__properties name="artifacts[UpdateProcedureArtifact:3].isAbstract" value="false"/>
+        <__properties name="artifacts[NotificationArtifact:4].name" value="Event0"/>
+        <__properties name="artifacts[NotificationArtifact:4].stereotypes" value="[]"/>
+        <__properties name="artifacts[NotificationArtifact:4].package" value="com.mycompany"/>
+        <__properties name="artifacts[NotificationArtifact:4].isReadonly" value="false"/>
+        <__properties name="artifacts[NotificationArtifact:4].isAbstract" value="false"/>
+        <__properties name="artifacts[SessionFacadeArtifact:5].name" value="SessionFacade0"/>
+        <__properties name="artifacts[SessionFacadeArtifact:5].stereotypes" value="[]"/>
+        <__properties name="artifacts[SessionFacadeArtifact:5].package" value="com.mycompany"/>
+        <__properties name="artifacts[SessionFacadeArtifact:5].isReadonly" value="false"/>
+        <__properties name="artifacts[SessionFacadeArtifact:5].isAbstract" value="false"/>
+        <__properties name="artifacts[ExceptionArtifact:6].name" value="Exception0"/>
+        <__properties name="artifacts[ExceptionArtifact:6].stereotypes" value="[]"/>
+        <__properties name="artifacts[ExceptionArtifact:6].package" value="com.mycompany"/>
+        <__properties name="artifacts[ExceptionArtifact:6].isReadonly" value="false"/>
+        <__properties name="artifacts[ExceptionArtifact:6].isAbstract" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:7].name" value="Entity3"/>
+        <__properties name="artifacts[ManagedEntityArtifact:7].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:7].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="artifacts[ManagedEntityArtifact:7].properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:7].package" value="com.mycompany"/>
+        <__properties name="artifacts[ManagedEntityArtifact:7].isReadonly" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:7].isAbstract" value="false"/>
+        <__properties name="artifacts[AssociationClassClass:8].name" value="AssociationClass1"/>
+        <__properties name="artifacts[AssociationClassClass:8].stereotypes" value="[]"/>
+        <__properties name="artifacts[AssociationClassClass:8].package" value="com.mycompany"/>
+        <__properties name="artifacts[AssociationClassClass:8].isReadonly" value="false"/>
+        <__properties name="artifacts[AssociationClassClass:8].isAbstract" value="false"/>
+        <__properties name="associations[AssociationClass:0].name" value="AssociationClass1"/>
+        <__properties name="associations[AssociationClass:0].stereotypes" value="[]"/>
+        <__properties name="associations[AssociationClass:0].package" value="com.mycompany"/>
+        <__properties name="associations[AssociationClass:0].isReadonly" value="false"/>
+        <__properties name="associations[AssociationClass:0].isAbstract" value="false"/>
+        <__properties name="associations[AssociationClass:0].aEndMultiplicity" value="1"/>
+        <__properties name="associations[AssociationClass:0].aEndIsNavigable" value="false"/>
+        <__properties name="associations[AssociationClass:0].aEndIsOrdered" value="false"/>
+        <__properties name="associations[AssociationClass:0].aEndIsUnique" value="false"/>
+        <__properties name="associations[AssociationClass:0].aEndIsChangeable" value="none"/>
+        <__properties name="associations[AssociationClass:0].aEndAggregation" value="none"/>
+        <__properties name="associations[AssociationClass:0].zEndMultiplicity" value="1"/>
+        <__properties name="associations[AssociationClass:0].zEndIsNavigable" value="true"/>
+        <__properties name="associations[AssociationClass:0].zEndIsOrdered" value="false"/>
+        <__properties name="associations[AssociationClass:0].zEndIsUnique" value="false"/>
+        <__properties name="associations[AssociationClass:0].zEndIsChangeable" value="none"/>
+        <__properties name="associations[AssociationClass:0].zEndAggregation" value="none"/>
+        <__properties name="associations[AssociationClass:0].aEndVisibility" value="PUBLIC"/>
+        <__properties name="associations[AssociationClass:0].zEndVisibility" value="PUBLIC"/>
+        <__properties name="associations[Association:1].name" value="Association0"/>
+        <__properties name="associations[Association:1].stereotypes" value="[]"/>
+        <__properties name="associations[Association:1].package" value="com.mycompany"/>
+        <__properties name="associations[Association:1].isReadonly" value="false"/>
+        <__properties name="associations[Association:1].isAbstract" value="false"/>
+        <__properties name="associations[Association:1].aEndName" value="entity1"/>
+        <__properties name="associations[Association:1].aEndMultiplicity" value="1"/>
+        <__properties name="associations[Association:1].aEndIsNavigable" value="false"/>
+        <__properties name="associations[Association:1].aEndIsOrdered" value="false"/>
+        <__properties name="associations[Association:1].aEndIsUnique" value="false"/>
+        <__properties name="associations[Association:1].aEndIsChangeable" value="none"/>
+        <__properties name="associations[Association:1].aEndAggregation" value="none"/>
+        <__properties name="associations[Association:1].zEndName" value="datatype1"/>
+        <__properties name="associations[Association:1].zEndMultiplicity" value="1"/>
+        <__properties name="associations[Association:1].zEndIsNavigable" value="true"/>
+        <__properties name="associations[Association:1].zEndIsOrdered" value="false"/>
+        <__properties name="associations[Association:1].zEndIsUnique" value="false"/>
+        <__properties name="associations[Association:1].zEndIsChangeable" value="none"/>
+        <__properties name="associations[Association:1].zEndAggregation" value="none"/>
+        <__properties name="associations[Association:1].aEndVisibility" value="PUBLIC"/>
+        <__properties name="associations[Association:1].zEndVisibility" value="PUBLIC"/>
+        <__properties name="dependencies[Dependency:0].name" value="Dependency0"/>
+        <__properties name="dependencies[Dependency:0].stereotypes" value="[]"/>
+        <__properties name="dependencies[Dependency:0].package" value="com.mycompany"/>
+        <__properties name="dependencies[Dependency:0].isReadonly" value="false"/>
+        <__properties name="dependencies[Dependency:0].isAbstract" value="false"/>
+        <__properties name="dependencies[Dependency:0].aEndMultiplicity" value="1"/>
+        <__properties name="dependencies[Dependency:0].aEndIsNavigable" value="false"/>
+        <__properties name="dependencies[Dependency:0].zEndMultiplicity" value="1"/>
+        <__properties name="dependencies[Dependency:0].zEndIsNavigable" value="false"/>
+        <__properties name="dependencies[Dependency:1].name" value="Dependency1"/>
+        <__properties name="dependencies[Dependency:1].stereotypes" value="[]"/>
+        <__properties name="dependencies[Dependency:1].package" value="com.mycompany"/>
+        <__properties name="dependencies[Dependency:1].isReadonly" value="false"/>
+        <__properties name="dependencies[Dependency:1].isAbstract" value="false"/>
+        <__properties name="dependencies[Dependency:1].aEndMultiplicity" value="1"/>
+        <__properties name="dependencies[Dependency:1].aEndIsNavigable" value="false"/>
+        <__properties name="dependencies[Dependency:1].zEndMultiplicity" value="1"/>
+        <__properties name="dependencies[Dependency:1].zEndIsNavigable" value="false"/>
+        <__properties name="dependencies[Dependency:2].name" value="Dependency2"/>
+        <__properties name="dependencies[Dependency:2].stereotypes" value="[]"/>
+        <__properties name="dependencies[Dependency:2].package" value="com.mycompany"/>
+        <__properties name="dependencies[Dependency:2].isReadonly" value="false"/>
+        <__properties name="dependencies[Dependency:2].isAbstract" value="false"/>
+        <__properties name="dependencies[Dependency:2].aEndMultiplicity" value="1"/>
+        <__properties name="dependencies[Dependency:2].aEndIsNavigable" value="false"/>
+        <__properties name="dependencies[Dependency:2].zEndMultiplicity" value="1"/>
+        <__properties name="dependencies[Dependency:2].zEndIsNavigable" value="false"/>
+        <__properties name="dependencies[Dependency:3].name" value="Dependency3"/>
+        <__properties name="dependencies[Dependency:3].stereotypes" value="[]"/>
+        <__properties name="dependencies[Dependency:3].package" value="com.mycompany"/>
+        <__properties name="dependencies[Dependency:3].isReadonly" value="false"/>
+        <__properties name="dependencies[Dependency:3].isAbstract" value="false"/>
+        <__properties name="dependencies[Dependency:3].aEndMultiplicity" value="1"/>
+        <__properties name="dependencies[Dependency:3].aEndIsNavigable" value="false"/>
+        <__properties name="dependencies[Dependency:3].zEndMultiplicity" value="1"/>
+        <__properties name="dependencies[Dependency:3].zEndIsNavigable" value="false"/>
+        <__properties name="basePackage" value="com.mycompany"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.47">
+      <elements id="EclipseWindow88" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - test/src/com/mycompany/default.wvd - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="809" y="86" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.48">
+      <elements id="View53" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="50" width="244" height="572"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.49">
+      <elements id="Tree56" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="244" height="572"/>
+        <selection>
+          <path>test</path>
+          <path>src</path>
+          <path>com.mycompany</path>
+          <path>default%1%</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.50">
+      <elements id="Item90" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="com.mycompany" childCount="16">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="79" y="36" width="98" height="18"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.52">
+      <elements id="EclipseWindow90" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - test/src/com/mycompany/default.wvd - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="809" y="86" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.53">
+      <elements id="Button45" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <caption></caption>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.54">
+      <elements id="State52" kind="State"/>
+    </elementMapping>
+  </teslaContent>
+</com.xored.q7.scenario:Scenario>
