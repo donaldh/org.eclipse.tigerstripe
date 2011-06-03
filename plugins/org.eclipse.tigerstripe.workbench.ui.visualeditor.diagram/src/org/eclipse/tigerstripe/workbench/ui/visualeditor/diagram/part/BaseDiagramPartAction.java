@@ -234,7 +234,7 @@ public abstract class BaseDiagramPartAction {
 		return components.toArray(new IModelComponent[components.size()]);
 	}
 
-	private IAbstractArtifact getArtifact(ITigerstripeModelProject project,
+	protected IAbstractArtifact getArtifact(ITigerstripeModelProject project,
 			QualifiedNamedElement element) throws TigerstripeException {
 		String fqn = element.getFullyQualifiedName();
 		if (fqn != null && fqn.length() != 0) {
