@@ -1,4 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<instancediagram:InstanceMap xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:instancediagram="org.eclipse.tigerstripe.workbench.ui.instancediagram" basePackage="com.mycompany">
-  <classInstances name="Entity1" package="com.mycompany" artifactName="Entity1"/>
-</instancediagram:InstanceMap>
