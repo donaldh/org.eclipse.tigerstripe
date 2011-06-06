@@ -10,8 +10,10 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.module;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.Writer;
@@ -32,6 +34,7 @@ import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.emf.ecore.xml.type.internal.DataValue.Base64;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
@@ -234,24 +237,19 @@ public class ModuleDescriptorModel {
 					+ File.separator
 					+ ((AbstractArtifact) artifact).getArtifactPath();
 			File artFile = new File(path);
+			
 			try {
-				// Bug 917
-				// process Illegal XML Characters
-				StringBuffer sb = Util.readAndReplaceInFile(artFile,
-						"" + '\05', "<?char x0005?>");
-				finalText = sb.toString();
+				byte[] bytes = Util.read(artFile);
+				finalText = Base64.encode(bytes);
 			} catch (IOException e) {
 				String artText = artifact.asText();
-				// Bug 917
-				// process Illegal XML Characters
-				String c = "" + '\05';
-				finalText = artText.replaceAll(c, "<?char x0005?>");
+				finalText = Base64.encode(artText.getBytes());
 			}
 
 			Element artifactElem = artifacts.addElement("artifact");
 			artifactElem.addAttribute("name", artifact.getFullyQualifiedName());
 			artifactElem.addAttribute("type", artifact.getClass().getName());
-			artifactElem.addText(finalText);
+			artifactElem.addCDATA(finalText);
 			if (monitor.isCanceled())
 				throw new TigerstripeException(
 						"Interupted Packaging. Last processed was "
@@ -327,12 +325,16 @@ public class ModuleDescriptorModel {
 			JavaDocBuilder builder = new JavaDocBuilder();
 			for (Iterator iter = list.iterator(); iter.hasNext();) {
 				Node node = (Node) iter.next();
-				String text = node.getText();
 
-				// Bug 917
-				String finalText = text.replaceAll("<\\?char x0005\\?>",
-						"" + '\05');
-				StringReader reader = new StringReader(finalText);
+				String text = node.getText();
+				byte[] decode = Base64.decode(text);
+				Reader reader;
+				if (decode == null) {
+					//Old format
+					reader = new StringReader(text);
+				} else {
+					reader = new InputStreamReader(new ByteArrayInputStream(decode));
+				}
 
 				try {
 					JavaSource src = builder.addSource(reader);

@@ -10,7 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.util;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -184,6 +186,22 @@ public class Util {
 		}
 		return false;
 	}
+
+	public static byte[] read(File file) throws IOException {
+		ByteArrayOutputStream out = new ByteArrayOutputStream((int)file.length());
+	    BufferedInputStream reader = new BufferedInputStream(
+	                new FileInputStream(file));
+    	try {
+    		byte[] buf = new byte[1024];
+    		int numRead=0;
+    		while((numRead=reader.read(buf)) != -1){
+    			out.write(buf, 0, numRead);
+    		}
+    	} finally {
+    		reader.close();
+    	}
+	    return out.toByteArray();
+	}	
 
 	public static StringBuffer readAndReplaceInFile(File file, String regex,
 			String replace) throws IOException {
