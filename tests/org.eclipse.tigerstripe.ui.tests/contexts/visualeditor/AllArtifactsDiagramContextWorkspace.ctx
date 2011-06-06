@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="AllArtifactsDiagramContextWorkspace" id="_O01yEOGHEd-OnL-uzP0BCw">
+  <content>
+    <projects name="test">
+      <files name=".classpath" contentURI=".AllArtifactsDiagramContextWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".AllArtifactsDiagramContextWorkspacectx/content1.project"/>
+      <files name="tigerstripe.xml" contentURI=".AllArtifactsDiagramContextWorkspacectx/content1.xml"/>
+      <folders name="bin"/>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".AllArtifactsDiagramContextWorkspacectx/content4.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".AllArtifactsDiagramContextWorkspacectx/content3.package"/>
+            <files name="Association0.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content1.java"/>
+            <files name="AssociationClass1.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content2.java"/>
+            <files name="Datatype1.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content3.java"/>
+            <files name="Dependency0.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content4.java"/>
+            <files name="Dependency1.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content5.java"/>
+            <files name="Dependency2.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content6.java"/>
+            <files name="Dependency3.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content7.java"/>
+            <files name="Entity1.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content8.java"/>
+            <files name="Entity2.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content9.java"/>
+            <files name="Entity3.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content10.java"/>
+            <files name="Event0.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content11.java"/>
+            <files name="Exception0.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content12.java"/>
+            <files name="Query0.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content13.java"/>
+            <files name="SessionFacade0.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content14.java"/>
+            <files name="UpdateProcedure0.java" contentURI=".AllArtifactsDiagramContextWorkspacectx/content15.java"/>
+            <files name="default.owm" contentURI=".AllArtifactsDiagramContextWorkspacectx/content2.owm"/>
+            <files name="default.vwm" contentURI=".AllArtifactsDiagramContextWorkspacectx/content2.vwm"/>
+            <files name="default.wod" contentURI=".AllArtifactsDiagramContextWorkspacectx/content2.wod"/>
+            <files name="default.wvd" contentURI=".AllArtifactsDiagramContextWorkspacectx/content2.wvd"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="337842_CircularReferences" version="3.0" id="_6p3CIFt6EeCvoLbaUs_Cpg" description="Detect TS projects with circular references&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;1 Create two Tigerstripe projects&#xD;&#xA;2 Create reference from project 1 to project 2&#xD;&#xA;(DependantProjectsWithPackagesContextGroup)&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;   1. Create reference from project 1 to project 2&#xD;&#xA;   2. Check error log to detect circular references and report errors.&#xD;&#xA;   3. Rename an entity in any project into workspace (StackOverflow error is not displayed)&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;" tags="I32, Descriptor" type="ecl" externalReference="http://docs.xored.com/display/TS/337842_CircularReferences">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="337842_CircularReferences" version="3.0" id="_6p3CIFt6EeCvoLbaUs_Cpg" description="Detect TS projects with circular references&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;1 Create two Tigerstripe projects&#xD;&#xA;2 Create reference from project 1 to project 2&#xD;&#xA;(DependantProjectsWithPackagesContextGroup)&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;   1. Create reference from project 1 to project 2&#xD;&#xA;   2. Check error log to detect circular references and report errors.&#xD;&#xA;   3. Rename an entity in any project into workspace (StackOverflow error is not displayed)&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;" tags="I32, Descriptor" type="ecl" externalReference="http://docs.xored.com/display/TS/337842_CircularReferences">
   <contexts>_h-k60POVEd-s8v7FVtLgHw</contexts>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "Two/tigerstripe.xml" | double-click -nowait
+with [get-editor "Two/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item Dependencies | click
+    get-section Dependencies | get-button Add | click
+}
+with [get-window "Select Tigerstripe Project"] {
+    get-table | select One
+    get-button OK | click
+}
+get-button "Save (Ctrl+S)" | click
+get-view Problems | get-tree | get-item "Errors \\(5 items\\)" | get-property caption | equals "Errors (5 items)" 
+    | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "Two/src/com.mycompany/Ent2" | get-menu "Refactor Model/Rename..." 
+    | click
+with [get-window "Refactor Model Artifact"] {
+    with [get-editbox -after [get-label "New name:"]] {
+        key-type "M1+a"
+        set-text Ent3
+    }
+    get-button "Next >" | click
+    get-button Finish | click
+}
+get-view Problems | get-tree | get-item "Errors \\(5 items\\)" | get-property caption | equals "Errors (5 items)" 
+    | verify-true]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -290,10 +316,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.12">
       <elements id="Button0" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Add">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds width="55" height="25"/>
+        <caption>Add</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.13">
@@ -320,10 +347,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.19">
       <elements id="Button1" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.20">
@@ -331,9 +359,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.23">
       <elements id="Button2" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.24">
@@ -371,14 +400,14 @@
     <elementMapping command="//@teslaContent/@commands.30">
       <elements id="Item5" kind="Item"/>
       <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="Errors (4 items)">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="41" width="82" height="17"/>
         <columns>Errors (4 items)</columns>
         <columns></columns>
         <columns></columns>
         <columns></columns>
         <columns></columns>
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="41" width="82" height="17"/>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.32">
@@ -444,10 +473,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.45">
       <elements id="Button3" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Next >">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="92" width="92" height="25"/>
+        <caption><![CDATA[&Next >]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.46">
@@ -455,10 +485,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.49">
       <elements id="Button4" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="201" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.50">
@@ -496,14 +527,14 @@
     <elementMapping command="//@teslaContent/@commands.56">
       <elements id="Item6_33" kind="Item"/>
       <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="Errors (4 items)" childCount="4">
-        <backgroundColor red="255" green="255" blue="255"/>
-        <foregroundColor/>
-        <bounds x="41" width="82" height="17"/>
         <columns>Errors (4 items)</columns>
         <columns></columns>
         <columns></columns>
         <columns></columns>
         <columns></columns>
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="41" width="82" height="17"/>
       </controls>
     </elementMapping>
   </teslaContent>
