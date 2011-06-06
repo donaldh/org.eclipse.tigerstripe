@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -174,8 +175,14 @@ public class ModelChangeDeltaProcessor {
 
 					if (!isSubPakage(oldPath, newPath)) {
 						IPackageArtifact orphan = (IPackageArtifact) artifact;
-						if (needToCleanUpPackage(project, orphan, toCleanUp)) {
-							for (;;) {
+
+						for (;;) {
+							if (needToCleanUpPackage(project, orphan, toCleanUp)) {
+								IResource r = (IResource) orphan
+										.getAdapter(IResource.class);
+								IContainer rContainer = r.getParent();
+								toCleanUp.add(rContainer);
+
 								IModelComponent parentComponent = orphan
 										.getContainingModelComponent();
 								if (parentComponent instanceof IPackageArtifact) {
@@ -186,14 +193,14 @@ public class ModelChangeDeltaProcessor {
 										IModelComponent first = contained
 												.iterator().next();
 										if (orphan.equals(first)) {
+
 											orphan = parent;
 											continue;
 										}
 									}
 								}
-								break;
 							}
-							toCleanUp.add(orphan);
+							break;
 						}
 					}
 				} else {
@@ -453,28 +460,35 @@ public class ModelChangeDeltaProcessor {
 	private static boolean needToCleanUpPackage(
 			ITigerstripeModelProject project, IPackageArtifact packageArtifact,
 			Collection<Object> toCleanUp) throws TigerstripeException {
-		Collection<IModelComponent> components = packageArtifact
-				.getContainedModelComponents();
-		for (IModelComponent component : components) {
-			IResource componentResource = (IResource) component
+		try {
+			IResource packageResource = (IResource) packageArtifact
 					.getAdapter(IResource.class);
-			boolean inCleanup = false;
-			if (componentResource != null) {
-				for (Object cleanupObject : toCleanUp) {
-					if (cleanupObject instanceof IAdaptable) {
-						IResource cleanupResource = (IResource) ((IAdaptable) cleanupObject)
-								.getAdapter(IResource.class);
-						if (cleanupResource != null
-								&& componentResource.equals(cleanupResource)) {
-							inCleanup = true;
-							break;
+			if (packageResource != null) {
+				IContainer packageContainer = packageResource.getParent();
+				for (IResource resource : packageContainer.members()) {
+					boolean inCleanup = false;
+					if (resource.equals(packageResource)) {
+						inCleanup = true;
+					} else {
+						for (Object cleanupObject : toCleanUp) {
+							if (cleanupObject instanceof IAdaptable) {
+								IResource cleanupResource = (IResource) ((IAdaptable) cleanupObject)
+										.getAdapter(IResource.class);
+								if (cleanupResource != null
+										&& resource.equals(cleanupResource)) {
+									inCleanup = true;
+									break;
+								}
+							}
 						}
+					}
+					if (!inCleanup) {
+						return false;
 					}
 				}
 			}
-			if (!inCleanup) {
-				return false;
-			}
+		} catch (CoreException e) {
+			throw new TigerstripeException(e.getMessage(), e);
 		}
 		return true;
 	}

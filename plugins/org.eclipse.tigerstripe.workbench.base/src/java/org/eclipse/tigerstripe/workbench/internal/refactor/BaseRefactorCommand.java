@@ -105,19 +105,17 @@ public class BaseRefactorCommand implements IRefactorCommand {
 
 		Set<Object> toCleanUp = new HashSet<Object>();
 
+		// First move all diagrams and resource. After that we can remove all
+		// empty orphaned packages.
+		moveDiagrams(monitor);
+		moveResources(monitor);
+
 		ITigerstripeModelProject[] affectedProjects = applyAllDeltas(monitor,
 				toCleanUp);
 		// long time1 = System.currentTimeMillis();
 		// System.out.println("Done with Deltas: " + (time1 - time));
 
 		updateDiagrams(monitor);
-		// time1 = System.currentTimeMillis();
-		// System.out.println("Done diagram updates: " + (time1 - time));
-		moveDiagrams(monitor);
-		// time1 = System.currentTimeMillis();
-		// System.out.println("Done diagram moves: " + (time1 - time));
-
-		moveResources(monitor);
 
 		if (isCrossProjectCmd()) {
 			// At this stage the artifacts have been refactored inside the
