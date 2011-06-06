@@ -16,16 +16,12 @@
   <packaging>pom</packaging>
   <name>tests</name>
   
-  <!-- Location of Q7 maven plugins   -->
   <pluginRepositories>
-  <pluginRepository>
-    <id>xored</id>
-    <snapshots>
-    <enabled>true</enabled>
-    </snapshots>
-    <name>Xored snapshots</name>
-    <url>http://maven.xored.com/nexus/content/repositories/snapshots/</url>
-  </pluginRepository>
+  	<pluginRepository>
+    	<id>xored</id>
+    	<name>Xored Maven repository</name>
+    	<url>http://maven.xored.com/nexus/content/repositories/cisco-releases/</url>
+  	</pluginRepository>
   </pluginRepositories>
   
   <profiles>
