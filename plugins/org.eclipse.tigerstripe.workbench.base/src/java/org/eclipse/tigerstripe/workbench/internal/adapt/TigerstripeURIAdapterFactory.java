@@ -33,6 +33,8 @@ import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModule
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
+import org.eclipse.tigerstripe.workbench.internal.core.project.ProjectDetails;
+import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
@@ -465,34 +467,50 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 			fragment = b.toString();
 		}
 
-		ITigerstripeModelProject project = null;
-		try {
-			project = art.getProject();
-		} catch (TigerstripeException e) {
-			BasePlugin.log(e);
+		/*
+		 * Avoid cycles in dependencies. 
+		 * Getting project if dependencies has cycles caused stack overflow.
+		 * But the project is not needed for getting URI in this case.
+		 */
+		boolean readonly = art.isReadonly();
+		if (readonly) {
+			return toURI(artifactPath, fragment, readonly, null);
+		} else {
+			ITigerstripeModelProject project = null;
+			try {
+				project = art.getProject();
+			} catch (TigerstripeException e) {
+				BasePlugin.log(e);
+			}
+			return toURI(artifactPath, fragment, readonly, project);
 		}
-
-		return toURI(artifactPath, fragment, art.isReadonly(), project);
 	}
 
 	private static IPath getArtifactPath(IAbstractArtifact art, String newName) {
-		try {
-			IPath path = null;
-			ITigerstripeModelProject project = art.getProject();
-			if (project == null) {
-				IModuleHeader header = art.getParentModuleHeader();
-				path = new Path(header.getModuleID());
-			} else {
-				path = new Path(project.getModelId());
-			}
+		IPath path = null;
 
-			path = path.append(newName == null ? art.getFullyQualifiedName()
-					: newName);
-			return path;
-		} catch (TigerstripeException e) {
-			BasePlugin.log(e);
-			return null;
+		TigerstripeProject tsProject = art.getTSProject();
+		
+		if (tsProject != null) {
+			ProjectDetails details = tsProject.getProjectDetails();
+			if (details != null) {
+				path = new Path(details.getModelId());
+			}
 		}
+
+		if (path == null) {
+			IModuleHeader header = art.getParentModuleHeader();
+			if (header == null) {
+				throw new IllegalStateException(
+						"Can't determinate module id for artifact "
+								+ art.getFullyQualifiedName());
+			}
+			path = new Path(header.getModuleID());
+		}
+
+		path = path.append(newName == null ? art.getFullyQualifiedName()
+				: newName);
+		return path;
 	}
 
 	private static IAbstractArtifact getArtifact(IModelComponent component) {

@@ -17,6 +17,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
+import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IStandardSpecifics;
 import org.eclipse.tigerstripe.workbench.project.IProjectDescriptor;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -603,4 +604,6 @@ public interface IAbstractArtifact extends IModelComponent {
 	public IModuleHeader getParentModuleHeader();
 	
 	public IAbstractArtifact makeWorkingCopy(IProgressMonitor monitor) throws TigerstripeException;
+
+	public TigerstripeProject getTSProject();
 }

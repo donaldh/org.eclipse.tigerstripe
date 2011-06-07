@@ -21,6 +21,7 @@ import org.eclipse.tigerstripe.repository.internal.IModelComponentMetadata;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
+import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
@@ -387,6 +388,10 @@ public enum NullAbstractArtifact implements IAbstractArtifact {
 
 	public IAbstractArtifact makeWorkingCopy(IProgressMonitor monitor)
 			throws TigerstripeException {
+		return null;
+	}
+
+	public TigerstripeProject getTSProject() {
 		return null;
 	}
 
