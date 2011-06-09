@@ -26,6 +26,9 @@
           		<aut>
     				<explicit>../../releng/org.eclipse.tigerstripe.rcp/target/products/org.eclipse.tigerstripe.rcp-${osgi.os}.${osgi.ws}.${osgi.arch}.zip</explicit>
 				</aut>
+				<q7>
+					<version>1.0.0-RC3</version>
+				</q7>
           		<testOptions>
           			<vmArgs>-Xms128m;-Xmx512m;-XX:PermSize=128M;-XX:MaxPermSize=512M</vmArgs>
     				<execTimeout>60min</execTimeout>
