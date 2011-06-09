@@ -51,6 +51,7 @@ import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeResourceAdapterFactory;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
+import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceHelper.IResourceFilter;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
@@ -592,45 +593,33 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		monitor.done();
 	}
 
-	class LookForDescriptorVisitor implements IResourceDeltaVisitor {
-
-		private boolean descriptorFound = false;
-		private String descriptorName = "";
-
-		public LookForDescriptorVisitor(String descriptorName) {
-			this.descriptorName = descriptorName;
-		}
-
-		public boolean visit(IResourceDelta delta) throws CoreException {
-			descriptorFound = descriptorName.equals(delta.getResource()
-					.getName()) && delta.getKind() == IResourceDelta.CHANGED;
-			return !descriptorFound;
-		}
-
-		public boolean hasChanged() {
-			return descriptorFound;
-		}
-	}
-
-	/**
-	 * This method determines if a check of the auditor is necessary.
-	 * 
-	 * @return
-	 */
 	private boolean shouldCheckDescriptor(int kind) {
 		if (kind == FULL_BUILD || kind == CLEAN_BUILD) {
 			return true;
 		}
 
 		IResourceDelta delta = getDelta(getProject());
-		LookForDescriptorVisitor vis = new LookForDescriptorVisitor(
-				ITigerstripeConstants.PROJECT_DESCRIPTOR);
+		// look for project descriptor or facets
+		LookForResourceVisitor vis = new LookForResourceVisitor() {
+			@Override
+			public boolean isLookedFor(int deltaKind, IResource resource) {
+				if (resource instanceof IFile) {
+					if ((deltaKind == IResourceDelta.CHANGED && ITigerstripeConstants.PROJECT_DESCRIPTOR
+							.equals(resource.getName()))
+							|| IContractSegment.FILE_EXTENSION.equals(resource
+									.getFileExtension())) {
+						return true;
+					}
+				}
+				return false;
+			}
+		};
 		try {
 			delta.accept(vis);
 		} catch (CoreException e) {
 			BasePlugin.log(e);
 		}
-		return vis.hasChanged();
+		return vis.hasLookedFor();
 	}
 
 	private void checkDescriptor(IProgressMonitor monitor) {
@@ -922,4 +911,20 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		}
 	}
 
+	private abstract class LookForResourceVisitor implements
+			IResourceDeltaVisitor {
+
+		private boolean found = false;
+
+		public boolean visit(IResourceDelta delta) throws CoreException {
+			found = isLookedFor(delta.getKind(), delta.getResource());
+			return !found;
+		}
+
+		public boolean hasLookedFor() {
+			return found;
+		}
+
+		public abstract boolean isLookedFor(int deltaKind, IResource resource);
+	}
 }

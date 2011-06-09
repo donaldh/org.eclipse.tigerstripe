@@ -32,7 +32,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class DescriptorAuditor {
 
-	private IProject project;
+	private final IProject project;
 
 	private IFile projectDescriptor;
 
@@ -47,10 +47,11 @@ public class DescriptorAuditor {
 		projectDescriptor = project
 				.getFile(ITigerstripeConstants.PROJECT_DESCRIPTOR);
 		if (projectDescriptor == null) {
-			TigerstripeProjectAuditor.reportError("Project '"
-					+ project.getName() + "' has no Tigerstripe descriptor ("
-					+ ITigerstripeConstants.PROJECT_DESCRIPTOR + ")", project,
-					222);
+			TigerstripeProjectAuditor.reportError(
+					"Project '" + project.getName()
+							+ "' has no Tigerstripe descriptor ("
+							+ ITigerstripeConstants.PROJECT_DESCRIPTOR + ")",
+					project, 222);
 		}
 
 		TigerstripeProjectAuditor.deleteAuditMarkers(projectDescriptor,
@@ -72,8 +73,9 @@ public class DescriptorAuditor {
 			checkFacetReferences(tsProject);
 			monitor.done();
 		} else {
-			TigerstripeProjectAuditor.reportError("Project '"
-					+ project.getName() + "' is invalid", project, 222);
+			TigerstripeProjectAuditor.reportError(
+					"Project '" + project.getName() + "' is invalid", project,
+					222);
 		}
 	}
 
@@ -113,10 +115,12 @@ public class DescriptorAuditor {
 		try {
 			for (IFacetReference ref : tsProject.getFacetReferences()) {
 				if (!ref.canResolve()) {
-					TigerstripeProjectAuditor.reportError("Facet '"
-							+ ref.getProjectRelativePath()
-							+ "' referenced in project '" + tsProject.getName()
-							+ " cannot be found.", projectDescriptor, 222);
+					TigerstripeProjectAuditor.reportError(
+							"Facet '" + ref.getProjectRelativePath()
+									+ "' referenced in project '"
+									+ tsProject.getName()
+									+ "' cannot be found.", projectDescriptor,
+							222);
 				} else if (ref.getGenerationDir() == null
 						|| ref.getGenerationDir().trim().length() == 0) {
 					TigerstripeProjectAuditor
@@ -125,7 +129,7 @@ public class DescriptorAuditor {
 											+ ref.getProjectRelativePath()
 											+ "' referenced in project '"
 											+ tsProject.getName()
-											+ " does not have a specific generation directory.",
+											+ "' does not have a specific generation directory.",
 									projectDescriptor, 222);
 				}
 			}
@@ -158,21 +162,23 @@ public class DescriptorAuditor {
 
 			if (details.getVersion() == null
 					|| details.getVersion().length() == 0) {
-				TigerstripeProjectAuditor.reportWarning("Project "
-						+ project.getName() + " has no 'Project Version'",
+				TigerstripeProjectAuditor.reportWarning(
+						"Project " + project.getName()
+								+ " has no 'Project Version'",
 						projectDescriptor, 222);
 			}
 
 			if (details.getDescription() == null
 					|| details.getDescription().length() == 0) {
-				TigerstripeProjectAuditor.reportInfo("Project "
-						+ project.getName() + " has no 'Project Description'",
+				TigerstripeProjectAuditor.reportInfo(
+						"Project " + project.getName()
+								+ " has no 'Project Description'",
 						projectDescriptor, 222);
 			}
 
 			if (details.getModelId() == null || "".equals(details.getModelId())) {
-				TigerstripeProjectAuditor.reportWarning("Project "
-						+ project.getName() + " has no 'modelID'",
+				TigerstripeProjectAuditor.reportWarning(
+						"Project " + project.getName() + " has no 'modelID'",
 						projectDescriptor, 222);
 			}
 
@@ -210,16 +216,16 @@ public class DescriptorAuditor {
 		}
 	}
 
-	private void checkPropertiesOnPluginConfig(IPluginConfig ref) {
-		if (ref.isEnabled()) {
-			String[] definedProps = ref.getDefinedProperties();
+	private void checkPropertiesOnPluginConfig(IPluginConfig pluginConfig) {
+		if (pluginConfig.isEnabled()) {
+			String[] definedProps = pluginConfig.getDefinedProperties();
 
 			for (int i = 0; i < definedProps.length; i++) {
 				try {
-					IPluginProperty propDef = ref
+					IPluginProperty propDef = pluginConfig
 							.getPropertyDef(definedProps[i]);
 					if (propDef.getDefaultValue() == null) {
-						if (ref.getProperty(definedProps[i]) == null) {
+						if (pluginConfig.getProperty(definedProps[i]) == null) {
 							TigerstripeProjectAuditor.reportError("Property '"
 									+ definedProps[i] + "' is undefined.",
 									projectDescriptor, 222);
@@ -229,6 +235,16 @@ public class DescriptorAuditor {
 					// SImply ignore here as we don't want to complain if a
 					// plugin is not present
 				}
+			}
+			IFacetReference facetReference = pluginConfig.getFacetReference();
+			if (!facetReference.canResolve()) {
+				TigerstripeProjectAuditor.reportError(
+						"Facet '" + facetReference.getProjectRelativePath()
+								+ "' referenced in project '"
+								+ pluginConfig.getProjectHandle().getName()
+								+ "' in settings for generator '"
+								+ pluginConfig.getPluginId()
+								+ "' cannot be found.", projectDescriptor, 222);
 			}
 			// TODO : Check the Property TYPE is the same?
 		}
