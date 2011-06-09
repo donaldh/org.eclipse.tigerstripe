@@ -1,7 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="330700_VisualizeAttributes" version="3.0" id="_WbHvIC0DEeCd5Nt1cNc6Eg" description="Check displaying all the attributes defined on a given artifacts in Tigerstripe Explorer&#xD;&#xA;Check displaying methods of an implemented Session Facade.&#xD;&#xA;&#xD;&#xA;Precondititon:&#xD;&#xA;   1. Create Tigerstripe project&#xD;&#xA;   2. Create artifacts: entites A and B, session facade SF.&#xD;&#xA;   3. Create attribute, constant and method for entities A and B.&#xD;&#xA;   4. Create method for session facade SF&#xD;&#xA;&#xD;&#xA;Steps: &#xD;&#xA;   1. Open editor for entity A.&#xD;&#xA;   2. Check items in editor in attributes, constants and methods sections.&#xD;&#xA;   3. Extend entity A to entity B&#xD;&#xA;   4. Check items in editor in attributes, constants and methods sections. Items of entity B are displayed in grey.&#xD;&#xA;   5. Add attribute, constant and method for entity B and save changes.&#xD;&#xA;   6. Check items in editor in attributes, constants and methods sections. New items of entity B are displayed in grey. Details of inherited items are not enabled&#xD;&#xA;   7. Delete attribute, constant and method from entity B and save changes.&#xD;&#xA;   8. Check items in editor in attributes, constants and methods sections. New items of entity B are not displayed.&#xD;&#xA;   9. Delete extend for entity A.&#xD;&#xA;  10. Check items in editor in attributes, constants and methods sections. Items of entity B are not displayed.&#xD;&#xA;  11. Implement entity A to session facade SF.&#xD;&#xA;  12. Check items in editor in methods section. Items of session facade SF are displayed in grey. Details of inherited items are not enabled&#xD;&#xA;  13. Add method for session facade SF and save changes.&#xD;&#xA;  14. Check items in editor in methods section. New item of session facade SF is displayed in grey.&#xD;&#xA;  15. Delete method from session facade SF and save changes.&#xD;&#xA;  16. Check items in editor in methods section. New item of session facade SF is not displayed.&#xD;&#xA;  17. Delete implements for entity A.&#xD;&#xA;  18. Check items in editor in methods section. Items of session facade SF are not displayed.&#xD;&#xA;" type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="330700_VisualizeAttributes" version="3.0" id="_WbHvIC0DEeCd5Nt1cNc6Eg" description="Check displaying all the attributes defined on a given artifacts in Tigerstripe Explorer&#xD;&#xA;Check displaying methods of an implemented Session Facade.&#xD;&#xA;&#xD;&#xA;Precondititon:&#xD;&#xA;   1. Create Tigerstripe project&#xD;&#xA;   2. Create artifacts: entites A and B, session facade SF.&#xD;&#xA;   3. Create attribute, constant and method for entities A and B.&#xD;&#xA;   4. Create method for session facade SF&#xD;&#xA;&#xD;&#xA;Steps: &#xD;&#xA;   1. Open editor for entity A.&#xD;&#xA;   2. Check items in editor in attributes, constants and methods sections.&#xD;&#xA;   3. Extend entity A to entity B&#xD;&#xA;   4. Check items in editor in attributes, constants and methods sections. Items of entity B are displayed in grey.&#xD;&#xA;   5. Add attribute, constant and method for entity B and save changes.&#xD;&#xA;   6. Check items in editor in attributes, constants and methods sections. New items of entity B are displayed in grey. Details of inherited items are not enabled&#xD;&#xA;   7. Delete attribute, constant and method from entity B and save changes.&#xD;&#xA;   8. Check items in editor in attributes, constants and methods sections. New items of entity B are not displayed.&#xD;&#xA;   9. Delete extend for entity A.&#xD;&#xA;  10. Check items in editor in attributes, constants and methods sections. Items of entity B are not displayed.&#xD;&#xA;  11. Implement entity A to session facade SF.&#xD;&#xA;  12. Check items in editor in methods section. Items of session facade SF are displayed in grey. Details of inherited items are not enabled&#xD;&#xA;  13. Add method for session facade SF and save changes.&#xD;&#xA;  14. Check items in editor in methods section. New item of session facade SF is displayed in grey.&#xD;&#xA;  15. Delete method from session facade SF and save changes.&#xD;&#xA;  16. Check items in editor in methods section. New item of session facade SF is not displayed.&#xD;&#xA;  17. Delete implements for entity A.&#xD;&#xA;  18. Check items in editor in methods section. Items of session facade SF are not displayed.&#xD;&#xA;" tags="TS_Project/Edit/Artifacts/Extends, I29" type="ecl" externalReference="http://docs.xored.com/display/TS/330700_VisualizeAttributes">
   <contexts>_xGdhoC0JEeCd5Nt1cNc6Eg</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script" content="get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project1/src/com.mycompany/A&quot; | double-click -nowait&#xA;with [get-editor A] {&#xA;    get-section Constants | click -nowait&#xA;    get-section Methods | click -nowait&#xA;}&#xA;get-editor A | get-section Attributes | get-section -after [get-label Attributes] | get-table | get-property itemCount | is-equal 1 | verify&#xA;get-editor A | get-section Constants | get-section -after [get-label Constants] | get-table | get-property itemCount | is-equal 1 | verify&#xA;get-editor A | get-section Methods | get-section -after [get-label Methods] | get-table | get-property itemCount | is-equal 1 | verify&#xA;get-editor A | get-section &quot;General Information&quot; | get-button Select | click&#xA;get-window &quot;Super Entity&quot; | get-table -after [get-label &quot;Select the Entity to be extended.&quot;] | select &quot;com.mycompany.B&quot;&#xA;get-window &quot;Super Entity&quot; | get-button OK | click&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor A | get-section Attributes | get-section -after [get-label Attributes] | get-table | get-property itemCount | is-equal 2 | verify&#xA;get-editor A | get-section Attributes | get-section -after [get-label Attributes] | get-table | get-item &quot;attribute0\\(B\\)&quot; | get-property caption | is-equal &quot;attribute0(B)&quot; | verify&#xA;get-editor A | get-section Constants | get-section -after [get-label Constants] | get-table | get-property itemCount | is-equal 2 | verify&#xA;get-editor A | get-section Constants | get-section -after [get-label Constants] | get-table | get-item &quot;literal0=\&quot;0\&quot;\\(B\\)&quot; | get-property caption | is-equal &quot;literal0=\&quot;0\&quot;(B)&quot; | verify&#xA;get-editor A | get-section Methods | get-section -after [get-label Methods] | get-table | get-property itemCount | is-equal 2 | verify&#xA;get-editor A | get-section Methods | get-section -after [get-label Methods] | get-table | get-item &quot;method0\\(\\):void\\(B\\)&quot; | get-property caption | is-equal &quot;method0():void(B)&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project1/src/com.mycompany/B&quot; | double-click -nowait&#xA;with [get-editor B] {&#xA;    get-section Attributes | get-section -after [get-label Attributes] | get-button Add | click&#xA;    with [get-section Constants] {&#xA;        click -nowait&#xA;        get-section -after [get-label Constants] | get-button Add | click&#xA;    }&#xA;    with [get-section Methods] {&#xA;        click -nowait&#xA;        get-section -after [get-label Methods] | get-button Add | click&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor A | click -nowait&#xA;get-editor A | get-section Attributes | get-section -after [get-label Attributes] | get-table | get-property itemCount | is-equal 3 | verify&#xA;get-editor A | get-section Constants | get-section -after [get-label Constants] | get-table | get-property itemCount | is-equal 3 | verify&#xA;get-editor A | get-section Methods | get-section -after [get-label Methods] | get-table | get-property itemCount | is-equal 3 | verify&#xA;with [get-editor B] {&#xA;    click -nowait&#xA;    get-section Constants | get-section -after [get-label Constants] | get-table | select &quot;literal1=\&quot;1\&quot;&quot;&#xA;}&#xA;get-editor B | get-section Constants | get-section -after [get-label Constants] | get-button Remove | click&#xA;get-window &quot;Remove Constant&quot; | get-button Yes | click&#xA;get-editor B | get-section Methods | get-section -after [get-label Methods] | get-table | select &quot;method1\\(\\):void&quot;&#xA;get-editor B | get-section Methods | get-section -after [get-label Methods] | get-button Remove | click&#xA;get-window &quot;Remove method&quot; | get-button Yes | click&#xA;get-editor B | get-section Attributes | get-section -after [get-label Attributes] | get-table | select attribute1&#xA;get-editor B | get-section Attributes | get-section -after [get-label Attributes] | get-button Remove | click&#xA;get-window &quot;Remove attribute&quot; | get-button Yes | click&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;with [get-editor A] {&#xA;    click -nowait&#xA;    get-section Attributes | get-section -after [get-label Attributes] | get-table | get-property itemCount | is-equal 2 | verify&#xA;}&#xA;get-editor A | get-section Attributes | get-section -after [get-label Attributes] | get-table | select &quot;attribute0\\(B\\)&quot;&#xA;with [get-editor A | get-section Attributes | get-section -after [get-label Attributes] -index 1 | get-editbox -after [get-label &quot;Name:&quot;]] {&#xA;    get-property enablement | is-equal false | verify&#xA;    get-property value | is-equal attribute0 | verify&#xA;}&#xA;get-editor A | get-section Attributes | get-section -after [get-label Attributes] | get-table | select attribute0&#xA;with [get-editor A | get-section Attributes | get-section -after [get-label Attributes] -index 1 | get-editbox -after [get-label &quot;Name:&quot;]] {&#xA;    get-property enablement | is-equal true | verify&#xA;    get-property value | is-equal attribute0 | verify&#xA;}&#xA;get-editor A | get-section Constants | get-section -after [get-label Constants] | get-table | get-property itemCount | is-equal 2 | verify&#xA;get-editor A | get-section Constants | get-section -after [get-label Constants] | get-table | select &quot;literal0=\&quot;0\&quot;\\(B\\)&quot;&#xA;with [get-editor A | get-section Constants | get-section -after [get-label Constants] -index 1 | get-editbox -after [get-label &quot;Name:&quot;]] {&#xA;    get-property enablement | is-equal false | verify&#xA;    get-property value | is-equal literal0 | verify&#xA;}&#xA;get-editor A | get-section Constants | get-section -after [get-label Constants] | get-table | select &quot;literal0=\&quot;1\&quot;&quot;&#xA;with [get-editor A | get-section Constants | get-section -after [get-label Constants] -index 1 | get-editbox -after [get-label &quot;Name:&quot;]] {&#xA;    get-property enablement | is-equal true | verify&#xA;    get-property value | is-equal literal0 | verify&#xA;}&#xA;get-editor A | get-section Methods | get-section -after [get-label Methods] | get-table | get-property itemCount | is-equal 2 | verify&#xA;get-editor A | get-section Methods | get-section -after [get-label Methods] | get-table | select &quot;method0\\(\\):void\\(B\\)&quot;&#xA;with [get-editor A | get-section Methods | get-section -after [get-label Methods] -index 1 | get-editbox -after [get-label &quot;Name:&quot;]] {&#xA;    get-property enablement | is-equal false | verify&#xA;    get-property value | is-equal method0 | verify&#xA;}&#xA;get-editor A | get-section Methods | get-section -after [get-label Methods] | get-table | select &quot;method0\\(\\):void&quot;&#xA;with [get-editor A | get-section Methods | get-section -after [get-label Methods] -index 1 | get-editbox -after [get-label &quot;Name:&quot;]] {&#xA;    get-property enablement | is-equal true | verify&#xA;    get-property value | is-equal method0 | verify&#xA;}&#xA;get-editor A | get-section &quot;General Information&quot; | get-button Select | click&#xA;get-window &quot;Super Entity&quot; | get-table -after [get-label &quot;Select the Entity to be extended.&quot;] | select &quot;com.mycompany.B&quot;&#xA;get-window &quot;Super Entity&quot; | get-button OK | click&#xA;get-editor A | get-section &quot;General Information&quot; | get-button Select | click&#xA;get-window &quot;Super Entity&quot; | get-table -after [get-label &quot;Select the Entity to be extended.&quot;] | select &quot;&lt;clear extension>&quot;&#xA;get-window &quot;Super Entity&quot; | get-button OK | click&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor A | get-section Attributes | get-section -after [get-label Attributes] | get-table | get-property itemCount | is-equal 1 | verify&#xA;get-editor A | get-section Constants | get-section -after [get-label Constants] | get-table | get-property itemCount | is-equal 1 | verify&#xA;get-editor A | get-section Methods | get-section -after [get-label Methods] | get-table | get-property itemCount | is-equal 1 | verify&#xA;get-editor A | get-section &quot;General Information&quot; | get-button Select -after [get-link &quot;Implements:&quot;] | click&#xA;with [get-window &quot;Selection Needed&quot;] {&#xA;    with [get-table -after [get-label &quot;Select implemented artifacts.&quot;]] {&#xA;        select &quot;com.mycompany.SF&quot;&#xA;        get-item &quot;com.mycompany.SF&quot; | check&#xA;    }&#xA;    get-button OK | click&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor A | get-section Methods | get-section -after [get-label Methods] | get-table | get-property itemCount | is-equal 2 | verify&#xA;get-editor A | get-section Methods | get-section -after [get-label Methods] | get-table | select &quot;method0\\(\\):void\\(SF\\)&quot;&#xA;with [get-editor A | get-section Methods | get-section -after [get-label Methods] -index 1 | get-editbox -after [get-label &quot;Name:&quot;]] {&#xA;    get-property enablement | is-equal false | verify&#xA;    get-property value | is-equal method0 | verify&#xA;}&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project1/src/com.mycompany/SF&quot; | double-click -nowait&#xA;get-editor SF | get-section Methods | get-section -after [get-label Methods] | get-button Add | click&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor A | click -nowait&#xA;get-editor A | get-section Methods | get-section -after [get-label Methods] | get-table | get-property itemCount | is-equal 3 | verify&#xA;with [get-editor SF] {&#xA;    click -nowait&#xA;    get-section Methods | get-section -after [get-label Methods] | get-table | select &quot;method1\\(\\):void&quot;&#xA;}&#xA;get-editor SF | get-section Methods | get-section -after [get-label Methods] | get-button Remove | click&#xA;get-window &quot;Remove method&quot; | get-button Yes | click&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;with [get-editor A] {&#xA;    click -nowait&#xA;    get-section Methods | get-section -after [get-label Methods] | get-table | get-property itemCount | is-equal 2 | verify&#xA;}&#xA;get-editor A | get-section &quot;General Information&quot; | get-button Select -after [get-link &quot;Implements:&quot;] | click&#xA;with [get-window &quot;Selection Needed&quot;] {&#xA;    get-table -after [get-label &quot;Select implemented artifacts.&quot;] | get-item &quot;com.mycompany.SF&quot; | uncheck&#xA;    get-button OK | click&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor A | get-section Methods | get-section -after [get-label Methods] | get-table | get-property itemCount | is-equal 1 | verify"/>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/A" | double-click -nowait
+with [get-editor A] {
+    get-section Constants | click -nowait
+    get-section Methods | click -nowait
+}
+get-editor A | get-section Attributes | get-section -after [get-label Attributes] | get-table | get-property itemCount | is-equal 1 | verify
+get-editor A | get-section Constants | get-section -after [get-label Constants] | get-table | get-property itemCount | is-equal 1 | verify
+get-editor A | get-section Methods | get-section -after [get-label Methods] | get-table | get-property itemCount | is-equal 1 | verify
+get-editor A | get-section "General Information" | get-button Select | click
+get-window "Super Entity" | get-table -after [get-label "Select the Entity to be extended."] | select "com.mycompany.B"
+get-window "Super Entity" | get-button OK | click
+get-button "Save (Ctrl+S)" | click
+get-editor A | get-section Attributes | get-section -after [get-label Attributes] | get-table | get-property itemCount | is-equal 2 | verify
+get-editor A | get-section Attributes | get-section -after [get-label Attributes] | get-table | get-item "attribute0\\(B\\)" | get-property caption | is-equal "attribute0(B)" | verify
+get-editor A | get-section Constants | get-section -after [get-label Constants] | get-table | get-property itemCount | is-equal 2 | verify
+get-editor A | get-section Constants | get-section -after [get-label Constants] | get-table | get-item "literal0=\"0\"\\(B\\)" | get-property caption | is-equal "literal0=\"0\"(B)" | verify
+get-editor A | get-section Methods | get-section -after [get-label Methods] | get-table | get-property itemCount | is-equal 2 | verify
+get-editor A | get-section Methods | get-section -after [get-label Methods] | get-table | get-item "method0\\(\\):void\\(B\\)" | get-property caption | is-equal "method0():void(B)" | verify
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/B" | double-click -nowait
+with [get-editor B] {
+    get-section Attributes | get-section -after [get-label Attributes] | get-button Add | click
+    with [get-section Constants] {
+        click -nowait
+        get-section -after [get-label Constants] | get-button Add | click
+    }
+    with [get-section Methods] {
+        click -nowait
+        get-section -after [get-label Methods] | get-button Add | click
+    }
+}
+get-button "Save (Ctrl+S)" | click
+get-editor A | click -nowait
+get-editor A | get-section Attributes | get-section -after [get-label Attributes] | get-table | get-property itemCount | is-equal 3 | verify
+get-editor A | get-section Constants | get-section -after [get-label Constants] | get-table | get-property itemCount | is-equal 3 | verify
+get-editor A | get-section Methods | get-section -after [get-label Methods] | get-table | get-property itemCount | is-equal 3 | verify
+with [get-editor B] {
+    click -nowait
+    get-section Constants | get-section -after [get-label Constants] | get-table | select "literal1=\"1\""
+}
+get-editor B | get-section Constants | get-section -after [get-label Constants] | get-button Remove | click
+get-window "Remove Constant" | get-button Yes | click
+get-editor B | get-section Methods | get-section -after [get-label Methods] | get-table | select "method1\\(\\):void"
+get-editor B | get-section Methods | get-section -after [get-label Methods] | get-button Remove | click
+get-window "Remove method" | get-button Yes | click
+get-editor B | get-section Attributes | get-section -after [get-label Attributes] | get-table | select attribute1
+get-editor B | get-section Attributes | get-section -after [get-label Attributes] | get-button Remove | click
+get-window "Remove attribute" | get-button Yes | click
+get-button "Save (Ctrl+S)" | click
+with [get-editor A] {
+    click -nowait
+    get-section Attributes | get-section -after [get-label Attributes] | get-table | get-property itemCount | is-equal 2 | verify
+}
+get-editor A | get-section Attributes | get-section -after [get-label Attributes] | get-table | select "attribute0\\(B\\)"
+with [get-editor A | get-section Attributes | get-section -after [get-label Attributes] -index 1 | get-editbox -after [get-label "Name:"]] {
+    get-property enablement | is-equal false | verify
+    get-property value | is-equal attribute0 | verify
+}
+get-editor A | get-section Attributes | get-section -after [get-label Attributes] | get-table | select attribute0
+with [get-editor A | get-section Attributes | get-section -after [get-label Attributes] -index 1 | get-editbox -after [get-label "Name:"]] {
+    get-property enablement | is-equal true | verify
+    get-property value | is-equal attribute0 | verify
+}
+get-editor A | get-section Constants | get-section -after [get-label Constants] | get-table | get-property itemCount | is-equal 2 | verify
+get-editor A | get-section Constants | get-section -after [get-label Constants] | get-table | select "literal0=\"0\"\\(B\\)"
+with [get-editor A | get-section Constants | get-section -after [get-label Constants] -index 1 | get-editbox -after [get-label "Name:"]] {
+    get-property enablement | is-equal false | verify
+    get-property value | is-equal literal0 | verify
+}
+get-editor A | get-section Constants | get-section -after [get-label Constants] | get-table | select "literal0=\"1\""
+with [get-editor A | get-section Constants | get-section -after [get-label Constants] -index 1 | get-editbox -after [get-label "Name:"]] {
+    get-property enablement | is-equal true | verify
+    get-property value | is-equal literal0 | verify
+}
+get-editor A | get-section Methods | get-section -after [get-label Methods] | get-table | get-property itemCount | is-equal 2 | verify
+get-editor A | get-section Methods | get-section -after [get-label Methods] | get-table | select "method0\\(\\):void\\(B\\)"
+with [get-editor A | get-section Methods | get-section -after [get-label Methods] -index 1 | get-editbox -after [get-label "Name:"]] {
+    get-property enablement | is-equal false | verify
+    get-property value | is-equal method0 | verify
+}
+get-editor A | get-section Methods | get-section -after [get-label Methods] | get-table | select "method0\\(\\):void"
+with [get-editor A | get-section Methods | get-section -after [get-label Methods] -index 1 | get-editbox -after [get-label "Name:"]] {
+    get-property enablement | is-equal true | verify
+    get-property value | is-equal method0 | verify
+}
+get-editor A | get-section "General Information" | get-button Select | click
+get-window "Super Entity" | get-table -after [get-label "Select the Entity to be extended."] | select "com.mycompany.B"
+get-window "Super Entity" | get-button OK | click
+get-editor A | get-section "General Information" | get-button Select | click
+get-window "Super Entity" | get-table -after [get-label "Select the Entity to be extended."] | select "<clear extension>"
+get-window "Super Entity" | get-button OK | click
+get-button "Save (Ctrl+S)" | click
+get-editor A | get-section Attributes | get-section -after [get-label Attributes] | get-table | get-property itemCount | is-equal 1 | verify
+get-editor A | get-section Constants | get-section -after [get-label Constants] | get-table | get-property itemCount | is-equal 1 | verify
+get-editor A | get-section Methods | get-section -after [get-label Methods] | get-table | get-property itemCount | is-equal 1 | verify
+get-editor A | get-section "General Information" | get-button Select -after [get-link "Implements:"] | click
+with [get-window "Selection Needed"] {
+    with [get-table -after [get-label "Select implemented artifacts."]] {
+        select "com.mycompany.SF"
+        get-item "com.mycompany.SF" | check
+    }
+    get-button OK | click
+}
+get-button "Save (Ctrl+S)" | click
+get-editor A | get-section Methods | get-section -after [get-label Methods] | get-table | get-property itemCount | is-equal 2 | verify
+get-editor A | get-section Methods | get-section -after [get-label Methods] | get-table | select "method0\\(\\):void\\(SF\\)"
+with [get-editor A | get-section Methods | get-section -after [get-label Methods] -index 1 | get-editbox -after [get-label "Name:"]] {
+    get-property enablement | is-equal false | verify
+    get-property value | is-equal method0 | verify
+}
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/SF" | double-click -nowait
+get-editor SF | get-section Methods | get-section -after [get-label Methods] | get-button Add | click
+get-button "Save (Ctrl+S)" | click
+get-editor A | click -nowait
+get-editor A | get-section Methods | get-section -after [get-label Methods] | get-table | get-property itemCount | is-equal 3 | verify
+with [get-editor SF] {
+    click -nowait
+    get-section Methods | get-section -after [get-label Methods] | get-table | select "method1\\(\\):void"
+}
+get-editor SF | get-section Methods | get-section -after [get-label Methods] | get-button Remove | click
+get-window "Remove method" | get-button Yes | click
+get-button "Save (Ctrl+S)" | click
+with [get-editor A] {
+    click -nowait
+    get-section Methods | get-section -after [get-label Methods] | get-table | get-property itemCount | is-equal 2 | verify
+}
+get-editor A | get-section "General Information" | get-button Select -after [get-link "Implements:"] | click
+with [get-window "Selection Needed"] {
+    get-table -after [get-label "Select implemented artifacts."] | get-item "com.mycompany.SF" | uncheck
+    get-button OK | click
+}
+get-button "Save (Ctrl+S)" | click
+get-editor A | get-section Methods | get-section -after [get-label Methods] | get-table | get-property itemCount | is-equal 1 | verify]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -2313,10 +2446,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.34">
       <elements id="Button2" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Select">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="614" width="43" height="25"/>
+        <caption>Select</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.35">
@@ -2351,10 +2485,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.42">
       <elements id="Button3" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.43">
@@ -2362,9 +2497,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.46">
       <elements id="Button4" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.47">
@@ -2466,10 +2602,10 @@
     <elementMapping command="//@teslaContent/@commands.63">
       <elements id="Item5" kind="Item"/>
       <controls xsi:type="com.xored.tesla.core.ui:TableItem" caption="attribute0(B)">
+        <columns>attribute0(B)</columns>
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="4" y="43" width="74" height="18"/>
-        <columns>attribute0(B)</columns>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.65">
@@ -2565,11 +2701,11 @@
     <elementMapping command="//@teslaContent/@commands.78">
       <elements id="Item9" kind="Item"/>
       <controls xsi:type="com.xored.tesla.core.ui:TableItem" caption="literal0=&quot;0&quot;(B)">
+        <columns>literal0=&quot;0&quot;(B)</columns>
+        <columns>&quot;0&quot;</columns>
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="4" y="43" width="82" height="18"/>
-        <columns>literal0=&quot;0&quot;(B)</columns>
-        <columns>&quot;0&quot;</columns>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.80">
@@ -2663,10 +2799,10 @@
     <elementMapping command="//@teslaContent/@commands.93">
       <elements id="Item16" kind="Item"/>
       <controls xsi:type="com.xored.tesla.core.ui:TableItem" caption="method0():void(B)">
+        <columns>method0():void(B)</columns>
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="4" y="43" width="105" height="18"/>
-        <columns>method0():void(B)</columns>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.95">
@@ -2723,10 +2859,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.104">
       <elements id="Button7" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Add">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="400" y="5" width="55" height="25"/>
+        <caption>Add</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.105">
@@ -2758,10 +2895,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.112">
       <elements id="Button8" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Add">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="400" y="5" width="55" height="25"/>
+        <caption>Add</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.113">
@@ -2793,10 +2931,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.120">
       <elements id="Button9" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Add">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="400" y="5" width="55" height="25"/>
+        <caption>Add</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.121">
@@ -2804,9 +2943,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.124">
       <elements id="Button10" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.125">
@@ -3003,10 +3143,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.159">
       <elements id="Button13" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Remove">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="400" y="95" width="55" height="25"/>
+        <caption>Remove</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.160">
@@ -3022,10 +3163,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.164">
       <elements id="Button14" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Yes">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption>Yes</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.165">
@@ -3069,10 +3211,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.173">
       <elements id="Button15" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Remove">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="400" y="95" width="55" height="25"/>
+        <caption>Remove</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.174">
@@ -3088,10 +3231,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.178">
       <elements id="Button16" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Yes">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption>Yes</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.179">
@@ -3135,10 +3279,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.187">
       <elements id="Button17" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Remove">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="400" y="95" width="55" height="25"/>
+        <caption>Remove</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.188">
@@ -3154,10 +3299,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.192">
       <elements id="Button18" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Yes">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption>Yes</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.193">
@@ -3165,9 +3311,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.196">
       <elements id="Button19" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.197">
@@ -3925,10 +4072,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.322">
       <elements id="Button23" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Select">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="614" width="43" height="25"/>
+        <caption>Select</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.323">
@@ -3963,10 +4111,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.330">
       <elements id="Button24" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.331">
@@ -4004,10 +4153,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.341">
       <elements id="Button25" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.342">
@@ -4015,9 +4165,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.345">
       <elements id="Button26" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.346">
@@ -4199,10 +4350,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.374">
       <elements id="Button27" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Select">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="614" width="43" height="25"/>
+        <caption>Select</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.375">
@@ -4237,10 +4389,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.383">
       <elements id="Button28" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.384">
@@ -4248,9 +4401,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.387">
       <elements id="Button29" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.388">
@@ -4465,10 +4619,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.423">
       <elements id="Button31" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Add">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="400" y="5" width="55" height="25"/>
+        <caption>Add</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.424">
@@ -4476,9 +4631,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.427">
       <elements id="Button32" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.428">
@@ -4588,10 +4744,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.448">
       <elements id="Button34" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Remove">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="400" y="95" width="55" height="25"/>
+        <caption>Remove</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.449">
@@ -4607,10 +4764,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.453">
       <elements id="Button35" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Yes">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption>Yes</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.454">
@@ -4618,9 +4776,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.457">
       <elements id="Button36" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.458">
@@ -4710,10 +4869,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.474">
       <elements id="Button37" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Select">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="614" width="43" height="25"/>
+        <caption>Select</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.475">
@@ -4745,10 +4905,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.482">
       <elements id="Button38" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.483">
@@ -4756,9 +4917,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.486">
       <elements id="Button39" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.487">

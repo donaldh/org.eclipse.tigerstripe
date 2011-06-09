@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" name="324146_AddMethodSessionFacade" id="_GmeugdUbEd-EHrO7kvtrmw" description="Check that TS Explorer is not get out of sync with the methods created for an Entity or Session Facade.&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;1. Create a Session Facade artifact&#xD;&#xA;2. Don't expand the artifact in Explorer.  Open it in the editor by double&#xD;&#xA;clicking on it.&#xD;&#xA;3. Add a method and save the file&#xD;&#xA;4. Expand the artifact in Explorer.  The newly created method should be&#xD;&#xA;displayed&#xD;&#xA;5. In the Session Facade artifact, add two more methods and click on Save. &#xD;&#xA;" type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" name="324146_AddMethodSessionFacade" id="_GmeugdUbEd-EHrO7kvtrmw" description="Check that TS Explorer is not get out of sync with the methods created for an Entity or Session Facade.&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;1. Create a Session Facade artifact&#xD;&#xA;2. Don't expand the artifact in Explorer.  Open it in the editor by double&#xD;&#xA;clicking on it.&#xD;&#xA;3. Add a method and save the file&#xD;&#xA;4. Expand the artifact in Explorer.  The newly created method should be&#xD;&#xA;displayed&#xD;&#xA;5. In the Session Facade artifact, add two more methods and click on Save. &#xD;&#xA;" tags="TS_Project/Edit/Artifacts/Method, I25" type="ecl" externalReference="http://docs.xored.com/display/TS/324146_AddMethodSessionFacade">
   <contexts>_GizKINWkEd-EHrO7kvtrmw</contexts>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -262,10 +262,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.10">
       <elements id="Button0" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Add">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="630" y="5" width="55" height="25"/>
+        <caption>Add</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.11">
@@ -281,9 +282,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.15">
       <elements id="Button1" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.16">
@@ -353,10 +355,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.29">
       <elements id="Button2" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Add">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="630" y="5" width="55" height="25"/>
+        <caption>Add</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.30">
@@ -372,9 +375,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.34">
       <elements id="Button3" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.35">

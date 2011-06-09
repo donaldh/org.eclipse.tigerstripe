@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" name="333440_WarningMessageGlobalRules" version="3.0" id="_TFyfUSrEEeC2zcw_G6nY9g" description="Test warning message generated for global rules &#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;1 Create Model project and generator project&#xD;&#xA;2 Define global rule for a generator&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;1 Open ts-plugin.xml of MyGenerator&#xD;&#xA;2 Disable artifact rules and save changes.&#xD;&#xA;3 Under &quot;Overview&quot; tab select &quot;Package and deploy this generator&quot;.&#xD;&#xA;3 Open tigerstripe.xml of MyProject. Switch to Generator Settings and enable MyGenerator.&#xD;&#xA;4 Start model generation. The warning message should not be displayed&#xD;&#xA;&#xD;&#xA;    " type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" name="333440_WarningMessageGlobalRules" version="3.0" id="_TFyfUSrEEeC2zcw_G6nY9g" description="Test warning message generated for global rules &#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;1 Create Model project and generator project&#xD;&#xA;2 Define global rule for a generator&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;1 Open ts-plugin.xml of MyGenerator&#xD;&#xA;2 Disable artifact rules and save changes.&#xD;&#xA;3 Under &quot;Overview&quot; tab select &quot;Package and deploy this generator&quot;.&#xD;&#xA;3 Open tigerstripe.xml of MyProject. Switch to Generator Settings and enable MyGenerator.&#xD;&#xA;4 Start model generation. The warning message should not be displayed&#xD;&#xA;&#xD;&#xA;    " tags="TS_Generator/Generate, I29" type="ecl" externalReference="http://docs.xored.com/display/TS/333440_WarningMessageGlobalRules">
   <contexts>_5OPsMK6FEd-uWaeTFaimww</contexts>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -457,10 +457,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.17">
       <elements id="Button0" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Enabled" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" kind="Check">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="123" width="351" height="16"/>
+        <caption>Enabled</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.18">
@@ -468,9 +469,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.21">
       <elements id="Button1" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.22">
@@ -503,10 +505,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.33">
       <elements id="Button2" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.34">
@@ -522,10 +525,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.38">
       <elements id="Button3" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.39">
@@ -562,10 +566,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.52">
       <elements id="Button4" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Enable Generator" selected="true" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Check">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="10" y="5" width="111" height="16"/>
+        <caption>Enable Generator</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.53">
@@ -590,10 +595,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.65">
       <elements id="Button5" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.66">
@@ -657,10 +663,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.77">
       <elements id="Button6" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.78">
@@ -722,10 +729,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.94">
       <elements id="Button2_49" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.95">
@@ -733,10 +741,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.98">
       <elements id="Button3_50" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.99">

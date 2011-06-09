@@ -1,7 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="327493_DiagramSaveAs" id="_A8hFseDqEd-6J9xiWJ4XnA" description="Open a diagram.&#xD;&#xA;Make some changes to it.&#xD;&#xA;Now from the menu choose File SaveAs...&#xD;&#xA;Choose a new name" type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="327493_DiagramSaveAs" id="_A8hFseDqEd-6J9xiWJ4XnA" description="Open a diagram.&#xD;&#xA;Make some changes to it.&#xD;&#xA;Now from the menu choose File SaveAs...&#xD;&#xA;Choose a new name" tags="TS_Project/VisualEditor, I25" type="ecl" externalReference="http://docs.xored.com/display/TS/327493_DiagramSaveAs">
   <contexts>_eq7awK8jEd-YepE1dWFlXA</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script" content="get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;New Project/src/org.eclipse.diagram/PaletteCreate&quot; | double-click&#xA;with [get-editor &quot;PaletteCreate.wvd&quot;] {&#xA;    get-diagram | get-figure &quot;0/1/0/0&quot; | mouse-move 1259 50 -height 556 -width 1280&#xA;    with [get-palette] {&#xA;        with [get-edit-part &quot;0/1/0&quot; | get-figure 0] {&#xA;            mouse-move 54 13 -height 23 -width 125&#xA;            mouse-press 54 13 button1 -height 23 -width 125&#xA;            mouse-release 54 13 button1 524288 -height 23 -width 125&#xA;            mouse-move 47 11 -height 23 -width 125&#xA;            mouse-press 47 11 button1 -height 23 -width 125&#xA;            drag-start 47 11 none&#xA;        }&#xA;        mouse-drag &quot;-120&quot; 45 -mask 524288 -height 549 -width 125&#xA;        mouse-drag &quot;-114&quot; 51 -mask 524288 -height 549 -width 125&#xA;        mouse-drag &quot;-668&quot; 13 button1 524288 -height 549 -width 125&#xA;        mouse-release &quot;-668&quot; 13 button1 524288 -height 549 -width 125&#xA;    }&#xA;    with [get-diagram] {&#xA;        with [get-figure &quot;0/1/0/0&quot;] {&#xA;            mouse-hover 632 37 -height 556 -width 1280&#xA;            mouse-move 618 40 -height 556 -width 1280&#xA;            mouse-press 618 40 button1 -height 556 -width 1280&#xA;            mouse-release 618 40 button1 524288 -height 556 -width 1280&#xA;        }&#xA;        get-edit-part &quot;0/8/1&quot; | activate-direct-edit&#xA;        get-figure &quot;1/12&quot; | mouse-hover 4 4 -height 7 -width 7&#xA;        with [get-figure &quot;0/1/0/0&quot;] {&#xA;            mouse-move 819 139 -height 556 -width 1280&#xA;            mouse-press 819 139 button1 -height 556 -width 1280&#xA;        }&#xA;        cancel-direct-edit&#xA;        with [get-figure &quot;0/1/0/0&quot;] {&#xA;            mouse-release 819 139 button1 524288 -height 556 -width 1280&#xA;            mouse-move 818 139 -height 556 -width 1280&#xA;            mouse-hover 818 139 -height 556 -width 1280&#xA;            mouse-move 10 150 -height 556 -width 1280&#xA;        }&#xA;    }&#xA;}&#xA;with [get-editor &quot;PaletteCreate.wvd&quot; | get-diagram | get-figure &quot;0/1/0/0&quot;] {&#xA;    mouse-move 595 94 -height 556 -width 1280&#xA;    mouse-hover 595 94 -height 556 -width 1280&#xA;    mouse-move 12 47 -height 556 -width 1280&#xA;}&#xA;get-menu &quot;File/Save As...&quot; | click&#xA;with [get-window &quot;Save As&quot;] {&#xA;    with [get-editbox -after [get-label &quot;File name:&quot;]] {&#xA;        key-type &quot;CTRL+a&quot;&#xA;        set-text &quot;PaletteCreateNew.wvd&quot;&#xA;    }&#xA;    get-button OK | click&#xA;}&#xA;&#xA;get-editor &quot;PaletteCreateNew.wvd&quot; | get-diagram | get-figure &quot;0/1/0/0&quot; | mouse-move 18 145 -height 356 -width 596&#xA;get-tab-folder | get-property activePage | is-equal &quot;PaletteCreateNew.wvd&quot; | verify&#xA;get-editor &quot;PaletteCreateNew.wvd&quot; | get-diagram | get-figure &quot;0/1/0/0&quot; | mouse-move 6 102 -height 356 -width 596&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;New Project/src/org.eclipse.diagram/PaletteCreate&quot; | double-click -nowait&#xA;get-tab-folder | get-property activePage | is-equal &quot;PaletteCreate.wvd&quot; | verify"/>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse.diagram/PaletteCreate" | double-click
+with [get-editor "PaletteCreate.wvd"] {
+    get-diagram | get-figure "0/1/0/0" | mouse-move 1259 50 -height 556 -width 1280
+    with [get-palette] {
+        with [get-edit-part "0/1/0" | get-figure 0] {
+            mouse-move 54 13 -height 23 -width 125
+            mouse-press 54 13 button1 -height 23 -width 125
+            mouse-release 54 13 button1 524288 -height 23 -width 125
+            mouse-move 47 11 -height 23 -width 125
+            mouse-press 47 11 button1 -height 23 -width 125
+            drag-start 47 11 none
+        }
+        mouse-drag "-120" 45 -mask 524288 -height 549 -width 125
+        mouse-drag "-114" 51 -mask 524288 -height 549 -width 125
+        mouse-drag "-668" 13 button1 524288 -height 549 -width 125
+        mouse-release "-668" 13 button1 524288 -height 549 -width 125
+    }
+    with [get-diagram] {
+        with [get-figure "0/1/0/0"] {
+            mouse-hover 632 37 -height 556 -width 1280
+            mouse-move 618 40 -height 556 -width 1280
+            mouse-press 618 40 button1 -height 556 -width 1280
+            mouse-release 618 40 button1 524288 -height 556 -width 1280
+        }
+        get-edit-part "0/8/1" | activate-direct-edit
+        get-figure "1/12" | mouse-hover 4 4 -height 7 -width 7
+        with [get-figure "0/1/0/0"] {
+            mouse-move 819 139 -height 556 -width 1280
+            mouse-press 819 139 button1 -height 556 -width 1280
+        }
+        cancel-direct-edit
+        with [get-figure "0/1/0/0"] {
+            mouse-release 819 139 button1 524288 -height 556 -width 1280
+            mouse-move 818 139 -height 556 -width 1280
+            mouse-hover 818 139 -height 556 -width 1280
+            mouse-move 10 150 -height 556 -width 1280
+        }
+    }
+}
+with [get-editor "PaletteCreate.wvd" | get-diagram | get-figure "0/1/0/0"] {
+    mouse-move 595 94 -height 556 -width 1280
+    mouse-hover 595 94 -height 556 -width 1280
+    mouse-move 12 47 -height 556 -width 1280
+}
+get-menu "File/Save As..." | click
+with [get-window "Save As"] {
+    with [get-editbox -after [get-label "File name:"]] {
+        key-type "CTRL+a"
+        set-text "PaletteCreateNew.wvd"
+    }
+    get-button OK | click
+}
+
+get-editor "PaletteCreateNew.wvd" | get-diagram | get-figure "0/1/0/0" | mouse-move 18 145 -height 356 -width 596
+get-tab-folder | get-property activePage | is-equal "PaletteCreateNew.wvd" | verify
+get-editor "PaletteCreateNew.wvd" | get-diagram | get-figure "0/1/0/0" | mouse-move 6 102 -height 356 -width 596
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse.diagram/PaletteCreate" | double-click -nowait
+get-tab-folder | get-property activePage | is-equal "PaletteCreate.wvd" | verify]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -91,18 +150,18 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart</path>
         <path>address</path>
-        <parent id="PaletteViewer0" kind="PaletteViewer"/>
         <indexes>0</indexes>
         <indexes>1</indexes>
         <indexes>0</indexes>
+        <parent id="PaletteViewer0" kind="PaletteViewer"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="DiagramFigure" multiplicity="1">
         <path>rawFigure</path>
         <path>address</path>
-        <parent id="DiagramFigure0" kind="DiagramFigure"/>
         <indexes>0</indexes>
+        <parent id="DiagramFigure0" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" x="47" y="11" style="detail:0,button:0,mask:0,operations:0">
@@ -543,10 +602,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.51">
       <elements id="Button0_11" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.52">

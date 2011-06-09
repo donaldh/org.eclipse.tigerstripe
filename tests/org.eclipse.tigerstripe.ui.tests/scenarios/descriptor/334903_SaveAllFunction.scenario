@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" name="334903_SaveAllFunction" version="3.0" id="_KBu8gD5aEeCgispzDL5Yhg" description="Check 'Save All' functionality for descriptor editors&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;   1. Create 2 Tigerstripe projects and 2 Generator projects&#xD;&#xA;   2. Open tigerstripe.xml/ts-plugin.xml files of all projects&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;   1. Type in a description and copyright notice for all editors (Without saving)&#xD;&#xA;   2. With the last editor selected, click on the &quot;Save All&quot; toolbar button.&#xD;&#xA;   3. Close and reopen tigerstripe.xml/ts-plugin.xml files of all projects&#xD;&#xA;   4. Check updated description and copyright notice&#xD;&#xA;" type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" name="334903_SaveAllFunction" version="3.0" id="_KBu8gD5aEeCgispzDL5Yhg" description="Check 'Save All' functionality for descriptor editors&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;   1. Create 2 Tigerstripe projects and 2 Generator projects&#xD;&#xA;   2. Open tigerstripe.xml/ts-plugin.xml files of all projects&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;   1. Type in a description and copyright notice for all editors (Without saving)&#xD;&#xA;   2. With the last editor selected, click on the &quot;Save All&quot; toolbar button.&#xD;&#xA;   3. Close and reopen tigerstripe.xml/ts-plugin.xml files of all projects&#xD;&#xA;   4. Check updated description and copyright notice&#xD;&#xA;" tags="TS_Project/Edit/Descriptor, I30" type="ecl" externalReference="http://docs.xored.com/display/TS/334903_SaveAllFunction">
   <contexts>_0lW6gD5ZEeCgispzDL5Yhg</contexts>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -601,9 +601,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.33">
       <elements id="Button0" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.34">

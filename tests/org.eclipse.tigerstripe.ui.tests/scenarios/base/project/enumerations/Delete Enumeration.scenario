@@ -9,28 +9,7 @@ get-window "Confirm Delete" | get-button OK | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany" | get-property childCount | equals 6 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Enumeration2" | get-menu Delete | click
 get-window "Confirm Delete" | get-button OK | click
-with [get-view Problems | get-tree | get-item "Errors \\(4 items\\)"] {
-    get-property caption | equals "Errors (4 items)" | verify-true
-    get-property columns -index 0 | equals "Errors (4 items)" | verify-true
-}
-with [get-view Problems | get-tree | get-item "Errors \\(4 items\\)/com.mycompany.Enumeration2 cannot be resolved to a type"] {
-    get-property columns -index 0 | equals "com.mycompany.Enumeration2 cannot be resolved to a type" | verify-true
-    get-property columns -index 1 | equals "Entity1.java" | verify-true
-}
-with [get-view Problems | get-tree | get-item "Errors \\(4 items\\)/com.mycompany.Enumeration2 cannot be resolved to a type%1%"] {
-    get-property columns -index 0 | equals "com.mycompany.Enumeration2 cannot be resolved to a type" | verify-true
-    get-property columns -index 1 | equals "Entity1.java" | verify-true
-}
-with [get-view Problems | get-tree | get-item "Errors \\(4 items\\)/com.mycompany.Enumeration2 cannot be resolved to a type%2%"] {
-    get-property columns -index 0 | equals "com.mycompany.Enumeration2 cannot be resolved to a type" | verify-true
-    get-property columns -index 1 | equals "Entity1.java" | verify-true
-}
-with [get-view Problems | get-tree | get-item "Errors \\(4 items\\)/com.mycompany.Enumeration2 cannot be resolved to a type%3%"] {
-    get-property columns -index 0 | equals "com.mycompany.Enumeration2 cannot be resolved to a type" | verify-true
-    get-property columns -index 1 | equals "Enumeration3.java" | verify-true
-}
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany" | get-property childCount | equals 5 | verify-true
-
 get-menu "Window/Show View/Error Log" | click
 get-view "Error Log" | get-button "Clear Log Viewer" | click
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Enumeration3" | get-menu Delete | click
@@ -883,10 +862,11 @@ with [get-view Problems | get-tree | get-item "Errors \\(3 items\\)/com.mycompan
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.20">
       <elements id="Button12" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="109" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.21">
@@ -1000,10 +980,11 @@ with [get-view Problems | get-tree | get-item "Errors \\(3 items\\)/com.mycompan
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.42">
       <elements id="Button14" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="109" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.43">
@@ -1313,10 +1294,11 @@ with [get-view Problems | get-tree | get-item "Errors \\(3 items\\)/com.mycompan
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.90">
       <elements id="Button15" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="109" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.91">
@@ -1372,10 +1354,11 @@ with [get-view Problems | get-tree | get-item "Errors \\(3 items\\)/com.mycompan
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.101">
       <elements id="Button20" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="152" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.102">
@@ -1413,9 +1396,10 @@ with [get-view Problems | get-tree | get-item "Errors \\(3 items\\)/com.mycompan
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.115">
       <elements id="Button21_75" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Clear Log Viewer" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Clear Log Viewer" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.116">
@@ -1460,10 +1444,11 @@ with [get-view Problems | get-tree | get-item "Errors \\(3 items\\)/com.mycompan
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.127">
       <elements id="Button22_76" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="109" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.128">
