@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="328622_CreateNewArtifactDragConnection" id="_E2Y2IfFEEd-3hOAK3iGi8g" description="Precondition: create diagram with artifacts of types Entity, Session Facade and Query. Add created artifact to diagram&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;1. Select Entity artifact. Drag connection &quot;from&quot; and drop in arbitrary place. Select in the popup menu &quot;Create Extends From&quot; -> &quot;New Element: Entity&quot;&#xD;&#xA;2. Select Entity artifact. Drag connection &quot;to&quot; and drop in arbitrary place. Select in the popup menu &quot;Create Extends To&quot; -> &quot;New Element: Entity&quot;&#xD;&#xA;3. Select Session Facade artifact. Drag connection &quot;from&quot; and drop in arbitrary place. Select in the popup menu &quot;Create Implements From&quot; -> &quot;New Element: Entity&quot;&#xD;&#xA;4. Select Entity artifact. Drag connection &quot;to&quot; and drop in arbitrary place. Select in the popup menu &quot;Create Implements To&quot; -> &quot;New Element: Session Facade&quot;&#xD;&#xA;5. Select Entity artifact. Drag connection &quot;from&quot; and drop in arbitrary place. Select in the popup menu &quot;Create Return From&quot; -> &quot;New Element: Query&quot;&#xD;&#xA;6. Select Query artifact. Drag connection &quot;to&quot; and drop in arbitrary place. Select in the popup menu &quot;Create Return To&quot; -> &quot;New Element: Entity&quot;&#xD;&#xA;7. Check new artifacts in Tigerstripe explorer" type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="328622_CreateNewArtifactDragConnection" id="_E2Y2IfFEEd-3hOAK3iGi8g" description="Precondition: create diagram with artifacts of types Entity, Session Facade and Query. Add created artifact to diagram&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;1. Select Entity artifact. Drag connection &quot;from&quot; and drop in arbitrary place. Select in the popup menu &quot;Create Extends From&quot; -> &quot;New Element: Entity&quot;&#xD;&#xA;2. Select Entity artifact. Drag connection &quot;to&quot; and drop in arbitrary place. Select in the popup menu &quot;Create Extends To&quot; -> &quot;New Element: Entity&quot;&#xD;&#xA;3. Select Session Facade artifact. Drag connection &quot;from&quot; and drop in arbitrary place. Select in the popup menu &quot;Create Implements From&quot; -> &quot;New Element: Entity&quot;&#xD;&#xA;4. Select Entity artifact. Drag connection &quot;to&quot; and drop in arbitrary place. Select in the popup menu &quot;Create Implements To&quot; -> &quot;New Element: Session Facade&quot;&#xD;&#xA;5. Select Entity artifact. Drag connection &quot;from&quot; and drop in arbitrary place. Select in the popup menu &quot;Create Return From&quot; -> &quot;New Element: Query&quot;&#xD;&#xA;6. Select Query artifact. Drag connection &quot;to&quot; and drop in arbitrary place. Select in the popup menu &quot;Create Return To&quot; -> &quot;New Element: Entity&quot;&#xD;&#xA;7. Check new artifacts in Tigerstripe explorer" tags="TS_Project/VisualEditor " type="ecl" externalReference="http://docs.xored.com/display/TS/328622_CreateNewArtifactDragConnection">
   <contexts>_luehIAKVEeCI5eYSA_LRBA</contexts>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -60,10 +60,10 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>rawFigure</path>
         <path>address</path>
-        <parent id="DiagramFigure2" kind="DiagramFigure"/>
         <indexes>1</indexes>
         <indexes>0</indexes>
         <indexes>0</indexes>
+        <parent id="DiagramFigure2" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="41" y="10" button="1" kind="Move" boundsWidth="842" boundsHeight="424" figureWidth="56" figureHeight="11">
@@ -76,9 +76,9 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>rawFigure</path>
         <path>address</path>
-        <parent id="DiagramFigure1" kind="DiagramFigure"/>
         <indexes>-2</indexes>
         <indexes>0</indexes>
+        <parent id="DiagramFigure1" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="14" y="8" button="1" kind="Move" boundsWidth="842" boundsHeight="424" figureWidth="20" figureHeight="16">
@@ -172,8 +172,8 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>rawFigure</path>
         <path>address</path>
-        <parent id="DiagramFigure8" kind="DiagramFigure"/>
         <indexes>0</indexes>
+        <parent id="DiagramFigure8" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="26" y="33" button="1" kind="Move" boundsWidth="842" boundsHeight="424" figureWidth="56" figureHeight="50">
@@ -186,9 +186,9 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>rawFigure</path>
         <path>address</path>
-        <parent id="DiagramFigure8" kind="DiagramFigure"/>
         <indexes>-2</indexes>
         <indexes>1</indexes>
+        <parent id="DiagramFigure8" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="17" y="8" button="1" kind="Move" boundsWidth="842" boundsHeight="424" figureWidth="20" figureHeight="16">
@@ -282,8 +282,8 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>rawFigure</path>
         <path>address</path>
-        <parent id="DiagramFigure14" kind="DiagramFigure"/>
         <indexes>0</indexes>
+        <parent id="DiagramFigure14" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="37" y="22" button="1" kind="Move" boundsWidth="842" boundsHeight="424" figureWidth="102" figureHeight="40">
@@ -299,9 +299,9 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>rawFigure</path>
         <path>address</path>
-        <parent id="DiagramFigure14" kind="DiagramFigure"/>
         <indexes>-2</indexes>
         <indexes>0</indexes>
+        <parent id="DiagramFigure14" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="9" y="4" button="1" kind="Move" boundsWidth="842" boundsHeight="424" figureWidth="16" figureHeight="20">
@@ -397,10 +397,10 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>rawFigure</path>
         <path>address</path>
-        <parent id="DiagramFigure21" kind="DiagramFigure"/>
         <indexes>1</indexes>
         <indexes>0</indexes>
         <indexes>0</indexes>
+        <parent id="DiagramFigure21" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="28" y="1" button="1" kind="Move" boundsWidth="842" boundsHeight="424" figureWidth="56" figureHeight="11">
@@ -416,9 +416,9 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>rawFigure</path>
         <path>address</path>
-        <parent id="DiagramFigure20" kind="DiagramFigure"/>
         <indexes>-2</indexes>
         <indexes>1</indexes>
+        <parent id="DiagramFigure20" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="8" y="17" button="1" kind="Move" boundsWidth="842" boundsHeight="424" figureWidth="16" figureHeight="20">
@@ -514,10 +514,10 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>rawFigure</path>
         <path>address</path>
-        <parent id="DiagramFigure28" kind="DiagramFigure"/>
         <indexes>1</indexes>
         <indexes>0</indexes>
         <indexes>0</indexes>
+        <parent id="DiagramFigure28" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="35" y="2" button="1" kind="Move" boundsWidth="842" boundsHeight="424" figureWidth="56" figureHeight="11">
@@ -533,9 +533,9 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>rawFigure</path>
         <path>address</path>
-        <parent id="DiagramFigure27" kind="DiagramFigure"/>
         <indexes>-2</indexes>
         <indexes>0</indexes>
+        <parent id="DiagramFigure27" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="8" y="3" button="1" kind="Move" boundsWidth="842" boundsHeight="424" figureWidth="16" figureHeight="20">
@@ -631,10 +631,10 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>rawFigure</path>
         <path>address</path>
-        <parent id="DiagramFigure35" kind="DiagramFigure"/>
         <indexes>1</indexes>
         <indexes>0</indexes>
         <indexes>0</indexes>
+        <parent id="DiagramFigure35" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="29" y="2" button="1" kind="Move" boundsWidth="842" boundsHeight="424" figureWidth="58" figureHeight="15">
@@ -650,9 +650,9 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>rawFigure</path>
         <path>address</path>
-        <parent id="DiagramFigure34" kind="DiagramFigure"/>
         <indexes>-2</indexes>
         <indexes>1</indexes>
+        <parent id="DiagramFigure34" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="15" y="7" button="1" kind="Move" boundsWidth="842" boundsHeight="424" figureWidth="20" figureHeight="16">
@@ -1146,9 +1146,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.32">
       <elements id="Button0" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.33">
@@ -1328,9 +1329,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.59">
       <elements id="Button1" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.60">

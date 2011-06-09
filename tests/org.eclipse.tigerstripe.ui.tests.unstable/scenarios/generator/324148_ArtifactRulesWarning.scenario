@@ -1,7 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="324148_ArtifactRulesWarning" version="3.0" id="_1KfGUAwQEeCqQ4ETbKfwUw" description="Precondition&#xD;&#xA;Create Tigerstripe project with Entity artifact.&#xD;&#xA;Create Generator project without rules&#xD;&#xA;&#xD;&#xA;Reproducing Steps&#xD;&#xA;1 Deploy generator. Generate code for TS project.&#xD;&#xA;2 Check warning message that the generator doesn't contain any rules.&#xD;&#xA;3 Add artifact rule for Datatype artifact.&#xD;&#xA;4 Deploy generator. Generate code for TS project.&#xD;&#xA;5 Check warning message that rules didn't match any of the artifacts in the project.&#xD;&#xA;6 Add Entity artifact for TS project. Generate code for TS project.&#xD;&#xA;7 Check warning message that that generation was successful.&#xD;&#xA;" type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="324148_ArtifactRulesWarning" version="3.0" id="_1KfGUAwQEeCqQ4ETbKfwUw" description="Test is used to check warning message when none of the rules of a plugin match the artifacts of a TS Project.&#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;Create Tigerstripe project with Entity artifact.&#xD;&#xA;Create Generator project without rules&#xD;&#xA;&#xD;&#xA;Reproducing Steps&#xD;&#xA;1 Deploy generator. Generate code for TS project.&#xD;&#xA;2 Check warning message that the generator doesn't contain any rules.&#xD;&#xA;3 Add artifact rule for Datatype artifact.&#xD;&#xA;4 Deploy generator. Generate code for TS project.&#xD;&#xA;5 Check warning message that rules didn't match any of the artifacts in the project.&#xD;&#xA;6 Add Entity artifact for TS project. Generate code for TS project.&#xD;&#xA;7 Check warning message that that generation was successful.&#xD;&#xA;" tags="TS_Generator/Deploy, I27" type="ecl" externalReference="http://docs.xored.com/display/TS/324148_ArtifactRulesWarning">
   <contexts>_sCPIYAwQEeCqQ4ETbKfwUw</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script" content="get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;GeneratorProject/ts-plugin.xml&quot; | double-click&#xA;get-editor &quot;GeneratorProject/ts-plugin.xml&quot; | get-section Testing | get-link &quot;Package and deploy this generator&quot; | click&#xA;get-window &quot;Deploy new generator&quot; | get-button OK | click&#xA;get-window &quot;GeneratorProject Generator&quot; | get-button OK | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project1/tigerstripe.xml&quot; | double-click&#xA;with [get-editor &quot;Project1/tigerstripe.xml&quot;] {&#xA;    get-tab-folder | get-tab-item &quot;Generator Settings&quot; | click&#xA;    with [get-section &quot;GeneratorProject(0.0.0) (disabled) [Generic]&quot;] {&#xA;        click&#xA;        get-button &quot;Enable Generator&quot; | click&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project1/tigerstripe.xml&quot; | get-menu &quot;Generate...&quot; | click&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-button Finish | click&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-window &quot;Generate Result&quot; | get-editbox -after [get-label &quot;Run Log&quot;] | get-property value | equals &quot;[Project: Project1 version=0.0.0, Plugin: GeneratorProject(0.0.0) version=0.0.0] Warning: Plugin \'GeneratorProject(0.0.0)\' has no rules.&quot; | verify-true&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-window &quot;Generate Result&quot; | get-button OK | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;GeneratorProject/ts-plugin.xml&quot; | double-click&#xA;with [get-editor &quot;GeneratorProject/ts-plugin.xml&quot;] {&#xA;    get-tab-folder | get-tab-item Rules | click&#xA;    get-section &quot;Artifact Rules&quot; | get-section | get-button Add | click&#xA;}&#xA;get-window &quot;New Generator Rule&quot; | get-button OK | click&#xA;get-editor &quot;GeneratorProject/ts-plugin.xml&quot; | get-section &quot;Artifact Rules&quot; | get-section -after [get-label &quot;Artifact Rules&quot;] -index 1 | get-button Browse | click&#xA;with [get-window &quot;Select Velocity Template&quot;] {&#xA;    get-tree | select &quot;artifact.vm&quot;&#xA;    get-button OK | click&#xA;}&#xA;with [get-editor &quot;GeneratorProject/ts-plugin.xml&quot; | get-section &quot;Artifact Rules&quot; | get-section -after [get-label &quot;Artifact Rules&quot;] -index 1] {&#xA;    get-editbox -after [get-label &quot;Output File:&quot;] | set-text test&#xA;    get-combo -after [get-label &quot;Artifact Type:&quot;] | set-text Datatype&#xA;}&#xA;&#xA;get-editor &quot;GeneratorProject/ts-plugin.xml&quot; | get-tab-folder | get-tab-item Overview | click&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor &quot;GeneratorProject/ts-plugin.xml&quot; | get-section Testing | get-link &quot;Package and deploy this generator&quot; | click&#xA;get-window &quot;Deploy new generator&quot; | get-button OK | click&#xA;get-window &quot;GeneratorProject Generator&quot; | get-button OK | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project1/tigerstripe.xml&quot; | get-menu &quot;Generate...&quot; | click&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-button Finish | click&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-window &quot;Generate Result&quot; | get-editbox -after [get-label &quot;Run Log&quot;] | get-property value | equals &quot;[Project: Project1 version=0.0.0, Plugin: GeneratorProject(0.0.0) version=0.0.0] Notice: None of the artifact(s) match the specified rule(s) \'aRule0\'. Warning: None of the artifact(s) match the generator\'s rule.&quot; | verify-true&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-window &quot;Generate Result&quot; | get-button OK | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select Project1 | get-menu &quot;New/Datatype&quot; | click&#xA;with [get-window &quot;Create a new Datatype&quot;] {&#xA;    get-editbox -after [get-label &quot;Name:&quot;] | set-text Datatype&#xA;    get-button Finish | click&#xA;}&#xA;&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project1/tigerstripe.xml&quot; | get-menu &quot;Generate...&quot; | click&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-button Finish | click&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-window &quot;Generate Result&quot; | get-editbox -after [get-label &quot;Run Log&quot;] | get-property value | equals &quot;[Project: Project1 version=0.0.0, Plugin: GeneratorProject(0.0.0) version=0.0.0] Generation Successful.&quot; | verify-true&#xA;get-window &quot;Generate Tigerstripe Project&quot; | get-window &quot;Generate Result&quot; | get-button OK | click&#xA;get-menu &quot;Tigerstripe/Deployed Generators...&quot; | click&#xA;with [get-window &quot;Deployed Tigerstripe Generators&quot;] {&#xA;    get-table | select &quot;GeneratorProject\\(0.0.0\\)&quot; | get-menu &quot;Un-deploy&quot; | click&#xA;    get-window &quot;Un-Deploy Tigerstripe Generator?&quot; | get-button OK | click&#xA;    get-button OK | click&#xA;}"/>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "GeneratorProject/ts-plugin.xml" | double-click
+get-editor "GeneratorProject/ts-plugin.xml" | get-section Testing | get-link "Package and deploy this generator" | click
+get-window "Deploy new generator" | get-button OK | click
+get-window "GeneratorProject Generator" | get-button OK | click
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/tigerstripe.xml" | double-click
+with [get-editor "Project1/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item "Generator Settings" | click
+    with [get-section "GeneratorProject(0.0.0) (disabled) [Generic]"] {
+        click
+        get-button "Enable Generator" | click
+    }
+}
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/tigerstripe.xml" | get-menu "Generate..." | click
+get-window "Generate Tigerstripe Project" | get-button Finish | click
+get-window "Generate Tigerstripe Project" | get-window "Generate Result" | get-editbox -after [get-label "Run Log"] | get-property value | equals "[Project: Project1 version=0.0.0, Plugin: GeneratorProject(0.0.0) version=0.0.0] Warning: Plugin \'GeneratorProject(0.0.0)\' has no rules." | verify-true
+get-window "Generate Tigerstripe Project" | get-window "Generate Result" | get-button OK | click
+get-view "Tigerstripe Explorer" | get-tree | select "GeneratorProject/ts-plugin.xml" | double-click
+with [get-editor "GeneratorProject/ts-plugin.xml"] {
+    get-tab-folder | get-tab-item Rules | click
+    get-section "Artifact Rules" | get-section | get-button Add | click
+}
+get-window "New Generator Rule" | get-button OK | click
+get-editor "GeneratorProject/ts-plugin.xml" | get-section "Artifact Rules" | get-section -after [get-label "Artifact Rules"] -index 1 | get-button Browse | click
+with [get-window "Select Velocity Template"] {
+    get-tree | select "artifact.vm"
+    get-button OK | click
+}
+with [get-editor "GeneratorProject/ts-plugin.xml" | get-section "Artifact Rules" | get-section -after [get-label "Artifact Rules"] -index 1] {
+    get-editbox -after [get-label "Output File:"] | set-text test
+    get-combo -after [get-label "Artifact Type:"] | set-text Datatype
+}
+
+get-editor "GeneratorProject/ts-plugin.xml" | get-tab-folder | get-tab-item Overview | click
+get-button "Save (Ctrl+S)" | click
+get-editor "GeneratorProject/ts-plugin.xml" | get-section Testing | get-link "Package and deploy this generator" | click
+get-window "Deploy new generator" | get-button OK | click
+get-window "GeneratorProject Generator" | get-button OK | click
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/tigerstripe.xml" | get-menu "Generate..." | click
+get-window "Generate Tigerstripe Project" | get-button Finish | click
+get-window "Generate Tigerstripe Project" | get-window "Generate Result" | get-editbox -after [get-label "Run Log"] | get-property value | equals "[Project: Project1 version=0.0.0, Plugin: GeneratorProject(0.0.0) version=0.0.0] Notice: None of the artifact(s) match the specified rule(s) \'aRule0\'. Warning: None of the artifact(s) match the generator\'s rule." | verify-true
+get-window "Generate Tigerstripe Project" | get-window "Generate Result" | get-button OK | click
+get-view "Tigerstripe Explorer" | get-tree | select Project1 | get-menu "New/Datatype" | click
+with [get-window "Create a new Datatype"] {
+    get-editbox -after [get-label "Name:"] | set-text Datatype
+    get-button Finish | click
+}
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/tigerstripe.xml" | get-menu "Generate..." | click
+get-window "Generate Tigerstripe Project" | get-button Finish | click
+get-window "Generate Tigerstripe Project" | get-window "Generate Result" | get-editbox -after [get-label "Run Log"] | get-property value | equals "[Project: Project1 version=0.0.0, Plugin: GeneratorProject(0.0.0) version=0.0.0] Generation Successful." | verify-true
+get-window "Generate Tigerstripe Project" | get-window "Generate Result" | get-button OK | click
+get-menu "Tigerstripe/Deployed Generators..." | click
+with [get-window "Deployed Tigerstripe Generators"] {
+    get-table | select "GeneratorProject\\(0.0.0\\)" | get-menu "Un-deploy" | click
+    get-window "Un-Deploy Tigerstripe Generator?" | get-button OK | click
+    get-button OK | click
+}]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -1430,10 +1489,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.10">
       <elements id="Button29" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.11">
@@ -1449,10 +1509,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.15">
       <elements id="Button30" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.16">
@@ -1489,10 +1550,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.29">
       <elements id="Button31" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Enable Generator" selected="true" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Check">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="10" y="5" width="111" height="16"/>
+        <caption>Enable Generator</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.30">
@@ -1500,9 +1562,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.33">
       <elements id="Button32" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.34">
@@ -1524,10 +1587,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.43">
       <elements id="Button33" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.44">
@@ -1599,10 +1663,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.56">
       <elements id="Button34" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.57">
@@ -1660,10 +1725,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.72">
       <elements id="Button35" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Add">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="330" y="5" width="55" height="25"/>
+        <caption>Add</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.73">
@@ -1679,10 +1745,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.77">
       <elements id="Button36" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.78">
@@ -1706,10 +1773,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.83">
       <elements id="Button37" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Browse">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="301" width="50" height="25"/>
+        <caption>Browse</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.84">
@@ -1736,10 +1804,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.90">
       <elements id="Button38" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.91">
@@ -1779,9 +1848,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.100">
       <elements id="Button39" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.101">
@@ -1814,10 +1884,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.112">
       <elements id="Button40" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.113">
@@ -1833,10 +1904,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.117">
       <elements id="Button41" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.118">
@@ -1858,10 +1930,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.127">
       <elements id="Button42" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.128">
@@ -1933,10 +2006,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.140">
       <elements id="Button44" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.141">
@@ -1971,9 +2045,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.151">
       <elements id="Button21_89" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.152">
@@ -2000,10 +2075,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.159">
       <elements id="Button22_90" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.160">
@@ -2019,10 +2095,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.164">
       <elements id="Button23_91" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.165">
@@ -2058,10 +2135,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.176">
       <elements id="Button24_92" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.177">
@@ -2077,10 +2155,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.181">
       <elements id="Button25_93" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.182">
@@ -2115,9 +2194,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.192">
       <elements id="Button26_114" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.193">
@@ -2144,10 +2224,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.200">
       <elements id="Button27_115" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.201">
@@ -2163,10 +2244,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.205">
       <elements id="Button28_116" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.206">
@@ -2202,10 +2284,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.217">
       <elements id="Button29_117" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.218">
@@ -2277,10 +2360,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.230">
       <elements id="Button31_118" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.231">
@@ -2332,10 +2416,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.245">
       <elements id="Button32_119" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.246">
@@ -2357,10 +2442,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.255">
       <elements id="Button33_120" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.256">
@@ -2432,10 +2518,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.268">
       <elements id="Button34_121" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.269">
@@ -2495,10 +2582,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.285">
       <elements id="Button0_170" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.286">
@@ -2506,10 +2594,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.289">
       <elements id="Button1_171" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.290">
@@ -2560,10 +2649,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.302">
       <elements id="Button0_182" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.303">
@@ -2635,10 +2725,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.315">
       <elements id="Button1_183" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.316">
@@ -2689,10 +2780,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.328">
       <elements id="Button2_200" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.329">
@@ -2764,10 +2856,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.341">
       <elements id="Button3_201" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.342">
@@ -2818,10 +2911,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.354">
       <elements id="Button4_218" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.355">
@@ -2893,10 +2987,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.367">
       <elements id="Button5_219" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.368">

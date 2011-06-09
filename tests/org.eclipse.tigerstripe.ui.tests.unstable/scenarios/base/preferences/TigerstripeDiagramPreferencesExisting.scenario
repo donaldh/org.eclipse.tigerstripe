@@ -102,8 +102,11 @@ with [get-view Properties | get-tree | get-item "EMF/Extends"] {
     get-property columns -index 0 | equals Extends | verify-true
     get-property columns -index 1 | equals "" | verify-true
 }
-get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity1 | contains-image "base64://" "iVBORw0KGgoAAAANSUhEUgAAADcAAAAxCAIAAADx4KYMAAABjElEQVR4nO3WvU7DMBAHcD9XB6Z0ZuAFvDGhSGEGZeqGGJCiLlkYGJCQyNRIFbwBS4Z26QuwsGWBhUucXM92voaSOOKsf6vWdZpf47NT8f62eXW+CXh85xnNmbzFGB9NFU2pZKs4ST4+IVd3z45YKyX6vvIfiFL2WeNAHFuQDjjfPlyKxXo/YGQqBRlZKKnPVlKrpRxyysZhHcema08IXwa2MnjaQdqUl/cJZCxlwwBNiVbDN1hZ9kRS1cAySrWq8OP6ENoZwpU7VgtMtBcehihVqK9diU1usafQqMLCTjwfviadMFIdkmdbH8WnVDZdyw5Qa2f9e6oL6aIyO0QLKA/13FWXFzeP3crz64e/UxY7lCcDj36bpUw3L2pHpFbDB4Fh7XWJa8UGFdWmrx6js35bvS53ImxlDVS7OggMq+GziCcOWTcN0e6Q1Dqar55xXDd9SmodyVfNb8/doUHpYFjJShczH6X7bT7XcnIEK1nJSlaykpXOhZWsdDH8L/g/zvjkCFaykpWsnIHyFxIB1m8CWSvDAAAAAElFTkSuQmCC" | verify-true
-get-preferences-menu | click
+
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity2 
+    | contains-image "base64://" "iVBORw0KGgoAAAANSUhEUgAAADcAAAAxCAIAAADx4KYMAAACFUlEQVR4nO3ZvWvCQBQA8CN/lkMnnTv0H8jWqQjp3JKpW+lQEDu4dOhQKOjUA2fHdnDQxcmtCF1ECu2Qvtxd7t5dPowY9QXyeIR4vcRf7ssrYUxEFEXDvQNuwlBUf0/48LuZyjzzb3XqwjKZVu50edE9oyS0724wGn18QV7dv+5kjVJRiTKGQqti3/fmD1Iqt1kHAWq5gJf41nnYYa3+fGtN3m9bt42V2JdWYmtKWeYrM6sVXstD9SfuM+aPtTJ4mUHmKS8fRpDHU6aqWUptdXyllaKk58vO6vS4NSq6g+QSXBhC55rRAo3XDhd4hIiPGUqZ2Jev1BH3iyqJNaaz7IfR56gQaspLNtNxF49vrh9gT2VWWxaAcguT50ENCWKtp6CcLnotGB7yqEs00Sgvbp6LlefXj4dTivHnB200BvDolEr+/iZXRGx1fJBQLX9c6rmSBom+s2aPU+j0r1ks9ZKpVnUQOFbHlyJWnPa8cVMpZWLr0XxJj1tdXKTE1iP5VP9uWeEzlASzUTZKilkfJf1gk8nkyQ4oOXnj6VT/9wBLnnmeJ0+g5OQ4rIx/y8H0IwKUcFyv10SVnh1EldB+q9UKfHBcLpdElTMRoPwUQU0ZQ4nPcZn1WdVPjmiUjbJRNsqaKOlHTX4hie+CjZLyLtgoKe+CjZLyLtgoKe+ClbIec3xYi1W98jebB3lbWv1b4gO8ef4HSJpQ8pwV8bsAAAAASUVORK5CYII=" 
+    | verify-true
+    get-preferences-menu | click
 with [get-window Preferences] {
     get-button "Restore Defaults" | click
     get-link "Settings can be <a>applied to existing elements</a>" | click
@@ -167,7 +170,9 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     get-property isUnique | equals false | verify-true
     get-property typeMultiplicity | equals 1 | verify-true
     get-property isAbstract | equals false | verify-true
-}]]></content>
+}
+    
+    ]]></content>
   </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -1731,6 +1736,37 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="isAbstract" value="false" category="property">
       <element id="DiagramFigure330" kind="DiagramFigure"/>
     </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="default.wvd" multiplicity="1">
+        <parent id="EclipseWindow4_194" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramViewer" multiplicity="1">
+        <parent id="Editor3_194" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="MapEditPart" multiplicity="1">
+        <path>editpart</path>
+        <path>classname</path>
+        <parent id="DiagramViewer3_194" kind="DiagramViewer"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="Entity2" multiplicity="1">
+        <path>editpart</path>
+        <path>name</path>
+        <parent id="DiagramFigure12_194" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="Contain image" kind="ContainsImage">
+      <element id="DiagramFigure13_195" kind="DiagramFigure"/>
+      <imageData image="89504E470D0A1A0A0000000D4948445200000037000000310802000000F1E0A60C0000021549444154789CEDD9BD6BC2401400F0237F9643279D3BF41FC8D6A908E9DC92A95BE950103BB874E85028E8D40367C77670D0C5C9AD085D440AED90BEDC5DEEDE5D3E8C18F505F2788478BDC45FEECB2B614C441445C3BD036EC250547F4FF8F0BB99CA3CF36F75EAC2329956EE7479D13DA324B4EF6E301A7D7C415EDDBFEE648D525189328642AB62DFF7E60F522AB75907016AB98097F8D679D861ADFE7C6B4DDE6F5BB78D95D89756626B4A59E62B33AB155ECB43F527EE33E68FB532789941E6292F1F4690C753A6AA594A6D757CA595A2A4E7CBCEEAF4B8352ABA83E4125C1842E79AD1028DD70E177884888F194A99D897AFD411F78B2A8935A6B3EC87D1E7A8106ACA4B36D371178F6FAE1F604F65565B1680720B93E7410D0962ADA7A09C2E7A2D181EF2A84B34D1282F6E9E8B95E7D78F87538AF1E7076D3406F0E8944AFEFE2657446C757C90502D7F5CEAB9920689BEB3668F53E8F4AF592CF592A95675103856C79722569CF6BC7153296562EBD17C498F5B5D5CA4C4D623F954FF6E59E1339404B351364A8A591F25FD6093C9E4C90E283979E3E954FFF7004B9E799E274FA0E4E438AC8C7FCBC1F4230294705CAFD744959E1D4495D07EABD50A7C705C2E9744953311A0FC14414D194389CF7199F559D54F8E68948DB25136CA9A28E9474D7E2189EF828D92F22ED82829EF828D92F22ED82829EF8295B21E737C588B55BDF2379B07795B5AFD5BE203BC79FE07489A50F29C15F1BB0000000049454E44AE426082" width="56" height="50"/>
+    </commands>
     <elementMapping command="//@teslaContent/@commands.0">
       <elements id="EclipseWindow122" kind="EclipseWindow"/>
       <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project1/src/com/mycompany/default.wvd - Eclipse Platform">
@@ -2131,10 +2167,11 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.16">
       <elements id="Button105" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Oblique" selected="true" kind="Radio">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Radio">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="8" y="20" width="63" height="16"/>
+        <caption>Oblique</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.18">
@@ -2171,10 +2208,11 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.22">
       <elements id="Button107" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Rectilinear" kind="Radio">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" kind="Radio">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="89" y="20" width="76" height="16"/>
+        <caption>Rectilinear</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.24">
@@ -2203,10 +2241,11 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.27">
       <elements id="Button108" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Avoid obstructions" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" kind="Check">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="5" y="5" width="121" height="16"/>
+        <caption>Avoid obstructions</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.29">
@@ -2235,10 +2274,11 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.32">
       <elements id="Button109" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Closest distance" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" kind="Check">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="131" y="5" width="106" height="16"/>
+        <caption>Closest distance</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.34">
@@ -2989,10 +3029,11 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.95">
       <elements id="Button110" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Rectilinear" selected="true" kind="Radio">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Radio">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="71" width="76" height="16"/>
+        <caption>Rectilinear</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.96">
@@ -3000,10 +3041,11 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.99">
       <elements id="Button111" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Avoid Obstructions" selected="true" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Check">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="3" y="56" width="123" height="16"/>
+        <caption>Avoid Obstructions</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.100">
@@ -3011,10 +3053,11 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.103">
       <elements id="Button112" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Closest Distance" selected="true" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Check">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="3" y="77" width="107" height="16"/>
+        <caption>Closest Distance</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.104">
@@ -3030,10 +3073,11 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.108">
       <elements id="Button113" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Name Only" selected="true" kind="Radio">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Radio">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="43" width="81" height="16"/>
+        <caption>Name Only</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.109">
@@ -3041,10 +3085,11 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.112">
       <elements id="Button114" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Hide" selected="true" kind="Radio">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Radio">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="58" width="46" height="16"/>
+        <caption>Hide</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.113">
@@ -3063,10 +3108,11 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.120">
       <elements id="Button115" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Apply">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="102" width="92" height="25"/>
+        <caption><![CDATA[&Apply]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.121">
@@ -3074,10 +3120,11 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.124">
       <elements id="Button116" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.125">
@@ -3085,9 +3132,10 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.128">
       <elements id="Button117" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.129">
@@ -3489,10 +3537,11 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.152">
       <elements id="Button118" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Oblique" kind="Radio">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" kind="Radio">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="8" y="20" width="63" height="16"/>
+        <caption>Oblique</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.154">
@@ -3529,10 +3578,11 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.158">
       <elements id="Button120" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Rectilinear" selected="true" kind="Radio">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Radio">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="89" y="20" width="76" height="16"/>
+        <caption>Rectilinear</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.160">
@@ -3561,10 +3611,11 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.163">
       <elements id="Button121" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Avoid obstructions" selected="true" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Check">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="5" y="5" width="121" height="16"/>
+        <caption>Avoid obstructions</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.165">
@@ -3593,10 +3644,11 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.168">
       <elements id="Button123" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Closest distance" selected="true" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Check">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="131" y="5" width="106" height="16"/>
+        <caption>Closest distance</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.170">
@@ -4416,10 +4468,11 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.273">
       <elements id="Button133" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Restore &amp;Defaults">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="97" height="25"/>
+        <caption><![CDATA[Restore &Defaults]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.274">
@@ -4438,10 +4491,11 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.281">
       <elements id="Button134" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Apply">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="102" width="92" height="25"/>
+        <caption><![CDATA[&Apply]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.282">
@@ -4449,10 +4503,11 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.285">
       <elements id="Button135" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.286">
@@ -4460,9 +4515,10 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.289">
       <elements id="Button136" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.290">
@@ -4884,10 +4940,11 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.312">
       <elements id="Button137" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Oblique" selected="true" kind="Radio">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Radio">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="8" y="20" width="63" height="16"/>
+        <caption>Oblique</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.314">
@@ -4924,10 +4981,11 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.318">
       <elements id="Button138" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Rectilinear" kind="Radio">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" kind="Radio">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="89" y="20" width="76" height="16"/>
+        <caption>Rectilinear</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.320">
@@ -4956,10 +5014,11 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.323">
       <elements id="Button140" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Avoid obstructions" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" kind="Check">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="5" y="5" width="121" height="16"/>
+        <caption>Avoid obstructions</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.325">
@@ -4988,10 +5047,11 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.328">
       <elements id="Button141" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Closest distance" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" kind="Check">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="131" y="5" width="106" height="16"/>
+        <caption>Closest distance</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.330">
@@ -5720,6 +5780,156 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
         <__properties name="isOrdered" value="false"/>
         <__properties name="isUnique" value="false"/>
         <__properties name="typeMultiplicity" value="1"/>
+        <__properties name="isAbstract" value="false"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.388">
+      <elements id="EclipseWindow4_194" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project1/src/com/mycompany/default.wvd - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="125" y="125" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.389">
+      <elements id="Editor3_194" kind="Editor"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="default.wvd">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="741" height="373"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.390">
+      <elements id="DiagramViewer3_194" kind="DiagramViewer"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="default.wvd">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="741" height="373"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.391">
+      <elements id="DiagramFigure12_194" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="356" childrenCount="3" text="">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="Tigerstripe"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[PageStyle:0].pageX" value="0"/>
+        <__properties name="view.styles[PageStyle:0].pageY" value="0"/>
+        <__properties name="view.styles[PageStyle:0].pageWidth" value="100"/>
+        <__properties name="view.styles[PageStyle:0].pageHeight" value="100"/>
+        <__properties name="view.styles[DescriptionStyle:2].description" value=""/>
+        <__properties name="view.name" value="default.wvd"/>
+        <__properties name="view.measurementUnit" value="Pixel"/>
+        <__properties name="view.edges[Edge:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].type" value="3008"/>
+        <__properties name="view.edges[Edge:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:0].type" value="4031"/>
+        <__properties name="view.edges[Edge:0].children[Node:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:1].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:1].type" value="4038"/>
+        <__properties name="view.edges[Edge:0].children[Node:1].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].routing" value="Rectilinear"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].avoidObstructions" value="true"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].closestDistance" value="true"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:0].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].name" value="Entity1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].value" value="true"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].package" value="com.mycompany"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].isReadonly" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].isAbstract" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].name" value="attribute0"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].type" value="String"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].multiplicity" value=""/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].visibility" value="PUBLIC"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].isOrdered" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].isUnique" value="true"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].typeMultiplicity" value="1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].name" value="method0"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].type" value="void"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].multiplicity" value=""/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].visibility" value="PUBLIC"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].isOrdered" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].isUnique" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].typeMultiplicity" value="1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].isAbstract" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].name" value="Entity2"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].properties[DiagramProperty:0].value" value="true"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].package" value="com.mycompany"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].isReadonly" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].isAbstract" value="false"/>
+        <__properties name="artifacts[Enumeration:2].name" value="Enumeration"/>
+        <__properties name="artifacts[Enumeration:2].stereotypes" value="[]"/>
+        <__properties name="artifacts[Enumeration:2].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="artifacts[Enumeration:2].properties[DiagramProperty:0].value" value="true"/>
+        <__properties name="artifacts[Enumeration:2].package" value="com.mycompany"/>
+        <__properties name="artifacts[Enumeration:2].isReadonly" value="false"/>
+        <__properties name="artifacts[Enumeration:2].isAbstract" value="false"/>
+        <__properties name="artifacts[Enumeration:2].literals[Literal:0].name" value="literal0"/>
+        <__properties name="artifacts[Enumeration:2].literals[Literal:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[Enumeration:2].literals[Literal:0].type" value="int"/>
+        <__properties name="artifacts[Enumeration:2].literals[Literal:0].multiplicity" value=""/>
+        <__properties name="artifacts[Enumeration:2].literals[Literal:0].visibility" value="PUBLIC"/>
+        <__properties name="artifacts[Enumeration:2].literals[Literal:0].isOrdered" value="false"/>
+        <__properties name="artifacts[Enumeration:2].literals[Literal:0].isUnique" value="false"/>
+        <__properties name="artifacts[Enumeration:2].literals[Literal:0].typeMultiplicity" value="1"/>
+        <__properties name="artifacts[Enumeration:2].literals[Literal:0].value" value="0"/>
+        <__properties name="artifacts[Enumeration:2].baseType" value="int"/>
+        <__properties name="dependencies[Dependency:0].name" value="Dependency3"/>
+        <__properties name="dependencies[Dependency:0].stereotypes" value="[]"/>
+        <__properties name="dependencies[Dependency:0].package" value="com.mycompany"/>
+        <__properties name="dependencies[Dependency:0].isReadonly" value="false"/>
+        <__properties name="dependencies[Dependency:0].isAbstract" value="false"/>
+        <__properties name="dependencies[Dependency:0].aEndMultiplicity" value="1"/>
+        <__properties name="dependencies[Dependency:0].aEndIsNavigable" value="false"/>
+        <__properties name="dependencies[Dependency:0].zEndMultiplicity" value="1"/>
+        <__properties name="dependencies[Dependency:0].zEndIsNavigable" value="false"/>
+        <__properties name="basePackage" value="com.mycompany"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.392">
+      <elements id="DiagramFigure13_195" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="520" y="72" width="56" height="50" childrenCount="3" text="Entity2">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="1003"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[FontStyle:0].fontColor" value="0"/>
+        <__properties name="view.styles[FontStyle:0].fontName" value="Segoe UI"/>
+        <__properties name="view.styles[FontStyle:0].fontHeight" value="9"/>
+        <__properties name="view.styles[FontStyle:0].bold" value="false"/>
+        <__properties name="view.styles[FontStyle:0].italic" value="false"/>
+        <__properties name="view.styles[FontStyle:0].underline" value="false"/>
+        <__properties name="view.styles[FontStyle:0].strikeThrough" value="false"/>
+        <__properties name="view.styles[DescriptionStyle:1].description" value=""/>
+        <__properties name="view.styles[FillStyle:2].fillColor" value="13825530"/>
+        <__properties name="view.styles[FillStyle:2].transparency" value="-1"/>
+        <__properties name="view.styles[LineStyle:3].lineColor" value="11579568"/>
+        <__properties name="view.styles[LineStyle:3].lineWidth" value="-1"/>
+        <__properties name="name" value="Entity2"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="properties[DiagramProperty:0].value" value="true"/>
+        <__properties name="package" value="com.mycompany"/>
+        <__properties name="isReadonly" value="false"/>
         <__properties name="isAbstract" value="false"/>
       </controls>
     </elementMapping>

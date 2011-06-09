@@ -1,7 +1,293 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="DiagramRenameTest" version="3.0" id="_TTOAkC6kEeC10pY5Az195Q" description="Rename all artifacts and check updates on class and instance diagrams within and outside the packages.&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;Create a Tigerstripe Project with 'simple' and 'simple.moved' packages.&#xD;&#xA;Create artifacts in 'simple' package:&#xD;&#xA;&#x9;Ent1 of type entity with attribute1 of DataMiddle type, with extends SuperEnt and implements SessionFacade0.&#xD;&#xA;&#x9;Ent2 of type entity with Ent1 used in Method Return type, with Exception0 used in a method, and argument Arg1, with extends Ent1.&#xD;&#xA;&#x9;AssociatedEnt of type entity with attribute0 of DataMiddle type.&#xD;&#xA;&#x9;SuperEnt of type entity.&#xD;&#xA;&#x9;Query0 of type query with returned type = Ent1.&#xD;&#xA;&#x9;DataBottom of type Datatype with extends to DataMiddle and 'recur' attribute (self reference).&#xD;&#xA;&#x9;DataMiddle of type Datatype with extends to DataTop&#xD;&#xA;&#x9;DataTop of type Datatype.&#xD;&#xA;&#x9;Enumeration0 of type Enumeration.&#xD;&#xA;&#x9;Event0 of type Event.&#xD;&#xA;&#x9;Exception0 of type Exception.&#xD;&#xA;&#x9;SessionFacade0 of type Session Facade.&#xD;&#xA;&#x9;Update0 of type Update Procedure.&#xD;&#xA;Create connection artifacts in 'simple' package:&#xD;&#xA;&#x9;Association0 with 'zEnd Details' is equal 'simple.Ent1'.&#xD;&#xA;&#x9;Association1 with 'aEnd Details' and 'zEnd Details' are equal 'simple.Ent1'.&#xD;&#xA;&#x9;AssociationClass0 with 'aEnd Details' and 'zEnd Details' are equal 'simple.Ent1'.&#xD;&#xA;&#x9;Dependency0 with 'aEnd Details' is equal 'simple.Ent1'.&#xD;&#xA;Create class diagrams within the 'simple' and 'simple.moved' packages themselves.&#xD;&#xA;Create class and instance diagrams outside of all packages.&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;Open all of the diagrams.&#xD;&#xA;Rename all artifacts in Tigerstripe Explorer from 'name0' to 'name00' in the diagram of the same package:&#xD;&#xA;&#x9;Rename Ent1_to_Ent10&#xD;&#xA;&#x9;Enumeration0_to_Enumeration00&#xD;&#xA;&#x9;DataMiddle_to_DataMiddle0&#xD;&#xA;&#x9;DataBottom_to_DataBottom0&#xD;&#xA;&#x9;Association0_to_Association00&#xD;&#xA;&#x9;AssociationClass0_to_AssociationClass00&#xD;&#xA;&#x9;Dependency0_to_Dependency00&#xD;&#xA;&#x9;Exception0_to_Exception00&#xD;&#xA;&#x9;Update0_to_Update00&#xD;&#xA;&#x9;Event0_to_Event00&#xD;&#xA;&#x9;Query0_to_Query00&#xD;&#xA;&#x9;Session0_to_Session00&#xD;&#xA;Save diagram after each rename.&#xD;&#xA;Check changed diagram element names.&#xD;&#xA;Check changed artifact names in the Tigerstripe Explorer.&#xD;&#xA;" type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="DiagramRenameTest" version="3.0" id="_TTOAkC6kEeC10pY5Az195Q" description="Rename all artifacts and check updates on class and instance diagrams within and outside the packages.&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;Create a Tigerstripe Project with 'simple' and 'simple.moved' packages.&#xD;&#xA;Create artifacts in 'simple' package:&#xD;&#xA;&#x9;Ent1 of type entity with attribute1 of DataMiddle type, with extends SuperEnt and implements SessionFacade0.&#xD;&#xA;&#x9;Ent2 of type entity with Ent1 used in Method Return type, with Exception0 used in a method, and argument Arg1, with extends Ent1.&#xD;&#xA;&#x9;AssociatedEnt of type entity with attribute0 of DataMiddle type.&#xD;&#xA;&#x9;SuperEnt of type entity.&#xD;&#xA;&#x9;Query0 of type query with returned type = Ent1.&#xD;&#xA;&#x9;DataBottom of type Datatype with extends to DataMiddle and 'recur' attribute (self reference).&#xD;&#xA;&#x9;DataMiddle of type Datatype with extends to DataTop&#xD;&#xA;&#x9;DataTop of type Datatype.&#xD;&#xA;&#x9;Enumeration0 of type Enumeration.&#xD;&#xA;&#x9;Event0 of type Event.&#xD;&#xA;&#x9;Exception0 of type Exception.&#xD;&#xA;&#x9;SessionFacade0 of type Session Facade.&#xD;&#xA;&#x9;Update0 of type Update Procedure.&#xD;&#xA;Create connection artifacts in 'simple' package:&#xD;&#xA;&#x9;Association0 with 'zEnd Details' is equal 'simple.Ent1'.&#xD;&#xA;&#x9;Association1 with 'aEnd Details' and 'zEnd Details' are equal 'simple.Ent1'.&#xD;&#xA;&#x9;AssociationClass0 with 'aEnd Details' and 'zEnd Details' are equal 'simple.Ent1'.&#xD;&#xA;&#x9;Dependency0 with 'aEnd Details' is equal 'simple.Ent1'.&#xD;&#xA;Create class diagrams within the 'simple' and 'simple.moved' packages themselves.&#xD;&#xA;Create class and instance diagrams outside of all packages.&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;Open all of the diagrams.&#xD;&#xA;Rename all artifacts in Tigerstripe Explorer from 'name0' to 'name00' in the diagram of the same package:&#xD;&#xA;&#x9;Rename Ent1_to_Ent10&#xD;&#xA;&#x9;Enumeration0_to_Enumeration00&#xD;&#xA;&#x9;DataMiddle_to_DataMiddle0&#xD;&#xA;&#x9;DataBottom_to_DataBottom0&#xD;&#xA;&#x9;Association0_to_Association00&#xD;&#xA;&#x9;AssociationClass0_to_AssociationClass00&#xD;&#xA;&#x9;Dependency0_to_Dependency00&#xD;&#xA;&#x9;Exception0_to_Exception00&#xD;&#xA;&#x9;Update0_to_Update00&#xD;&#xA;&#x9;Event0_to_Event00&#xD;&#xA;&#x9;Query0_to_Query00&#xD;&#xA;&#x9;Session0_to_Session00&#xD;&#xA;Save diagram after each rename.&#xD;&#xA;Check changed diagram element names.&#xD;&#xA;Check changed artifact names in the Tigerstripe Explorer.&#xD;&#xA;" tags="TS_Project/VisualEditor/Refactor " type="ecl" externalReference="http://docs.xored.com/display/TS/DiagramRenameTest">
   <contexts>_NG89gMz6Ed-6Q5V9pxn_5A</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script" content="with [get-view &quot;Tigerstripe Explorer&quot; | get-tree] {&#xA;    select &quot;model-refactoring/src/simple/default&quot; | double-click -nowait&#xA;    select &quot;model-refactoring/src/simple.moved/inside-moved&quot; | double-click -nowait&#xA;    select &quot;model-refactoring/outside-class-diagram&quot; | double-click -nowait&#xA;    select &quot;model-refactoring/outside-instance-diagram&quot; | double-click -nowait&#xA;}&#xA;get-editor &quot;default.wvd&quot; | click -nowait&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple/Ent1&quot; | get-menu &quot;Refactor Model/Rename...&quot; | click&#xA;with [get-window &quot;Refactor Model Artifact&quot;] {&#xA;    with [get-editbox -after [get-label &quot;New name:&quot;]] {&#xA;        key-type &quot;M1+a&quot;&#xA;        key-type &quot;M1+e&quot;&#xA;        set-text Ent10&#xA;    }&#xA;    get-button &quot;Next >&quot; | click&#xA;    get-button Finish | click&#xA;}&#xA;get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent10 | get-edit-part -text Ent10 | get-property name | equals Ent10 | verify-true&#xA;get-button &quot;Save All (Ctrl+Shift+S)&quot; | click&#xA;get-editor &quot;inside-moved.wvd&quot; | click -nowait&#xA;with [get-editor &quot;inside-moved.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent10 | get-edit-part -text &quot;simple.Ent10&quot;] {&#xA;    get-property name | equals Ent10 | verify-true&#xA;    get-property package | equals simple | verify-true&#xA;}&#xA;get-editor &quot;outside-class-diagram.wvd&quot; | click -nowait&#xA;with [get-editor &quot;outside-class-diagram.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent10 | get-edit-part -text &quot;simple.Ent10&quot;] {&#xA;    get-property name | equals Ent10 | verify-true&#xA;    get-property package | equals simple | verify-true&#xA;}&#xA;get-editor &quot;outside-instance-diagram.wod&quot; | click -nowait&#xA;with [get-editor &quot;outside-instance-diagram.wod&quot; | get-diagram | get-edit-part -className InstanceMapEditPart | get-edit-part -name Ent10 | get-edit-part -text &quot;ent1:simple.Ent10&quot;] {&#xA;    get-property name | equals Ent10 | verify-true&#xA;    get-property package | equals simple | verify-true&#xA;}&#xA;get-editor &quot;default.wvd&quot; | click -nowait&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;model-refactoring/src/simple/Ent10&quot; | get-property caption | equals Ent10 | verify-true&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple/Enumeration0&quot; | get-menu &quot;Refactor Model/Rename...&quot; | click&#xA;with [get-window &quot;Refactor Model Artifact&quot;] {&#xA;    with [get-editbox -after [get-label &quot;New name:&quot;]] {&#xA;        key-type &quot;M1+a&quot;&#xA;        set-text Enumeration00&#xA;    }&#xA;    get-button &quot;Next >&quot; | click&#xA;    get-button Finish | click&#xA;}&#xA;get-button &quot;Save All (Ctrl+Shift+S)&quot; | click&#xA;get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Enumeration00 | get-edit-part -text Enumeration00 | get-property name | equals Enumeration00 | verify-true&#xA;get-editor &quot;inside-moved.wvd&quot; | click -nowait&#xA;get-editor &quot;outside-class-diagram.wvd&quot; | click -nowait&#xA;get-editor &quot;outside-instance-diagram.wod&quot; | click -nowait&#xA;get-editor &quot;default.wvd&quot; | click -nowait&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;model-refactoring/src/simple/Enumeration00&quot; | get-property caption | equals Enumeration00 | verify-true&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple/DataMiddle&quot; | get-menu &quot;Refactor Model/Rename...&quot; | click&#xA;with [get-window &quot;Refactor Model Artifact&quot;] {&#xA;    with [get-editbox -after [get-label &quot;New name:&quot;]] {&#xA;        key-type &quot;M1+a&quot;&#xA;        set-text DataMiddle0&#xA;    }&#xA;    get-button &quot;Next >&quot; | click&#xA;    get-button Finish | click&#xA;}&#xA;get-button &quot;Save All (Ctrl+Shift+S)&quot; | click&#xA;get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name DataMiddle0 | get-edit-part -text DataMiddle0 | get-property name | equals DataMiddle0 | verify-true&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;model-refactoring/src/simple/DataMiddle0&quot; | get-property caption | equals DataMiddle0 | verify-true&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple/Association0&quot; | get-menu &quot;Refactor Model/Rename...&quot; | click&#xA;with [get-window &quot;Refactor Model Artifact&quot;] {&#xA;    with [get-editbox -after [get-label &quot;New name:&quot;]] {&#xA;        key-type &quot;M1+a&quot;&#xA;        set-text Association00&#xA;    }&#xA;    get-button &quot;Next >&quot; | click&#xA;    get-button Finish | click&#xA;}&#xA;get-button &quot;Save All (Ctrl+Shift+S)&quot; | click&#xA;get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent10 | get-target-connection 2 | get-edit-part -text Association00 | get-property name | equals Association00 | verify-true&#xA;get-editor &quot;inside-moved.wvd&quot; | click -nowait&#xA;with [get-editor &quot;inside-moved.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent10 | get-target-connection 3 | get-edit-part -text &quot;simple.Association00&quot;] {&#xA;    get-property name | equals Association00 | verify-true&#xA;    get-property package | equals simple | verify-true&#xA;}&#xA;&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;model-refactoring/src/simple/Association00&quot; | get-property caption | equals Association00 | verify-true&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple/AssociationClass0&quot; | get-menu &quot;Refactor Model/Rename...&quot; | click&#xA;with [get-window &quot;Refactor Model Artifact&quot;] {&#xA;    with [get-editbox -after [get-label &quot;New name:&quot;]] {&#xA;        key-type &quot;M1+a&quot;&#xA;        set-text AssociationClass00&#xA;    }&#xA;    get-button &quot;Next >&quot; | click&#xA;    get-button Finish | click&#xA;}&#xA;get-button &quot;Save All (Ctrl+Shift+S)&quot; | click&#xA;get-editor &quot;default.wvd&quot; | click -nowait&#xA;get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name AssociationClass00 | get-edit-part -text AssociationClass00 | get-property name | equals AssociationClass00 | verify-true&#xA;get-editor &quot;inside-moved.wvd&quot; | click -nowait&#xA;with [get-editor &quot;inside-moved.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name AssociationClass00 | get-edit-part -text &quot;simple.AssociationClass00&quot;] {&#xA;    get-property name | equals AssociationClass00 | verify-true&#xA;    get-property package | equals simple | verify-true&#xA;}&#xA;get-editor &quot;outside-class-diagram.wvd&quot; | click -nowait&#xA;with [get-editor &quot;outside-class-diagram.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name AssociationClass00 | get-edit-part -text &quot;simple.AssociationClass00&quot;] {&#xA;    get-property name | equals AssociationClass00 | verify-true&#xA;    get-property package | equals simple | verify-true&#xA;}&#xA;get-editor &quot;outside-instance-diagram.wod&quot; | click -nowait&#xA;with [get-editor &quot;outside-instance-diagram.wod&quot; | get-diagram | get-edit-part -className InstanceMapEditPart | get-edit-part -name AssociationClass00 | get-edit-part -text &quot;as0:simple.AssociationClass00&quot;] {&#xA;    get-property name | equals AssociationClass00 | verify-true&#xA;    get-property package | equals simple | verify-true&#xA;}&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;model-refactoring/src/simple/AssociationClass00&quot; | get-property caption | equals AssociationClass00 | verify-true&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple/Dependency0&quot; | get-menu &quot;Refactor Model/Rename...&quot; | click&#xA;with [get-window &quot;Refactor Model Artifact&quot;] {&#xA;    with [get-editbox -after [get-label &quot;New name:&quot;]] {&#xA;        key-type &quot;M1+a&quot;&#xA;        set-text Dependency00&#xA;    }&#xA;    get-button &quot;Next >&quot; | click&#xA;    get-button Finish | click&#xA;}&#xA;get-editor &quot;default.wvd&quot; | click -nowait&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name DataTop | get-target-connection 0 | get-edit-part -text Dependency00 | get-property name | equals Dependency00 | verify-true&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;model-refactoring/src/simple/Dependency00&quot; | get-property caption | equals Dependency00 | verify-true&#xA;&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple/Exception0&quot; | get-item &quot;model-refactoring/src/simple/Exception0&quot; | drag-start 40 10 none&#xA;with [get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart] {&#xA;    drag-enter 1 257 none -detail 2 -operation 7&#xA;    drag-over 99 145 none -detail 1 -operation 7&#xA;    drag-exit -button none&#xA;    drag-accept 99 145 none -detail 1 -operation 7&#xA;}&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;model-refactoring&quot; | drag-set-data &quot;-41&quot; -button none&#xA;get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | drop 99 145 none -detail 1 -operation 7&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;model-refactoring&quot; | drag-end &quot;-41&quot; -button none -detail 1&#xA;get-button &quot;Save All (Ctrl+Shift+S)&quot; | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple/Exception0&quot; | get-menu &quot;Refactor Model/Rename...&quot; | click&#xA;with [get-window &quot;Refactor Model Artifact&quot;] {&#xA;    with [get-editbox -after [get-label &quot;New name:&quot;]] {&#xA;        key-type &quot;M1+a&quot;&#xA;        set-text Exception00&#xA;    }&#xA;    get-button &quot;Next >&quot; | click&#xA;    get-button Finish | click&#xA;}&#xA;get-button &quot;Save All (Ctrl+Shift+S)&quot; | click&#xA;get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Exception00 | get-edit-part -text Exception00 | get-property name | equals Exception00 | verify-true&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;model-refactoring/src/simple/Exception00&quot; | get-property caption | equals Exception00 | verify-true&#xA;with [get-view &quot;Tigerstripe Explorer&quot; | get-tree] {&#xA;    select &quot;model-refactoring/src/simple/Update0&quot; | get-item &quot;model-refactoring/src/simple/Update0&quot; | drag-start 15 7 none&#xA;    with [get-item &quot;model-refactoring/src/simple/DataTop&quot;] {&#xA;        drag-enter 111 11 none -detail 2 -operation 7&#xA;        drag-over 111 11 none -detail 2 -operation 7&#xA;    }&#xA;    get-item &quot;model-refactoring/src/simple/DataBottom/recur:DataBottom&quot; | drag-over 108 8 none -operation 7&#xA;    get-item &quot;model-refactoring/src/simple/DataBottom&quot; | drag-over 132 5 none -detail 2 -operation 7&#xA;    get-item &quot;model-refactoring/src/simple/AssociationClass00/ent1_4:Ent10&quot; | drag-over 119 6 none -operation 7&#xA;    get-item &quot;model-refactoring/src/simple/AssociationClass00/ent1_3:Ent10&quot; | drag-over 125 6 none -operation 7&#xA;    get-item &quot;model-refactoring/src/simple/AssociationClass00&quot; | drag-over 151 2 none -detail 2 -operation 7&#xA;    get-item &quot;model-refactoring/src/simple/Association2&quot; | drag-over 156 3 none -detail 2 -operation 7&#xA;    get-item &quot;model-refactoring/src/simple/Association1&quot; | drag-over 163 3 none -detail 2 -operation 7&#xA;    get-item &quot;model-refactoring/src/simple/Association00/ent1_0:Ent10&quot; | drag-over 155 -button none -operation 7&#xA;    get-item &quot;model-refactoring/src/simple/Association00/associatedEnt_0:AssociatedEnt&quot; | drag-over 175 1 none -operation 7&#xA;    get-item &quot;model-refactoring/src/simple/Association00&quot; | drag-over 204 14 none -detail 2 -operation 7&#xA;    get-item &quot;model-refactoring/src/simple/DataTop&quot; | drag-exit -button none&#xA;}&#xA;with [get-control Any -index 121] {&#xA;    drag-enter 1 99 none -detail 16 -operation 5&#xA;    drag-over 1 99 none -detail 1 -operation 5&#xA;    drag-exit -button none&#xA;}&#xA;with [get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart] {&#xA;    drag-enter 1 71 none -detail 2 -operation 7&#xA;    drag-over 52 46 none -detail 1 -operation 7&#xA;    drag-exit -button none&#xA;    drag-accept 52 46 none -detail 1 -operation 7&#xA;}&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;model-refactoring&quot; | drag-set-data &quot;-41&quot; -button none&#xA;get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | drop 52 46 none -detail 1 -operation 7&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;model-refactoring&quot; | drag-end &quot;-41&quot; -button none -detail 1&#xA;with [get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart] {&#xA;    mouse-move 25 61 button1 -height 407 -width 825&#xA;    mouse-press 25 61 button1 -height 407 -width 825&#xA;    mouse-release 25 61 button1 524288 -height 407 -width 825&#xA;}&#xA;get-button &quot;Save All (Ctrl+Shift+S)&quot; | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple/Update0&quot; | get-menu &quot;Refactor Model/Rename...&quot; | click&#xA;with [get-window &quot;Refactor Model Artifact&quot;] {&#xA;    with [get-editbox -after [get-label &quot;New name:&quot;]] {&#xA;        key-type &quot;M1+a&quot;&#xA;        set-text Update00&#xA;    }&#xA;    get-button &quot;Next >&quot; | click&#xA;    get-button Finish | click&#xA;}&#xA;get-button &quot;Save All (Ctrl+Shift+S)&quot; | click&#xA;get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Update00 | get-edit-part -text Update00 | get-property name | equals Update00 | verify-true&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;model-refactoring/src/simple/Update00&quot; | get-property caption | equals Update00 | verify-true&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple/Event0&quot; | get-item &quot;model-refactoring/src/simple/Event0&quot; | drag-start 21 10 none&#xA;with [get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart] {&#xA;    drag-enter 59 229 none -detail 2 -operation 7&#xA;    drag-over 98 168 none -detail 1 -operation 7&#xA;    with [get-edit-part -name Exception00 | get-figure 0] {&#xA;        drag-over 2 19 none -detail 1 -operation 7&#xA;        drag-over 2 22 none -detail 1 -operation 7&#xA;    }&#xA;    drag-over 73 223 none -detail 1 -operation 7&#xA;    drag-exit -button none&#xA;    drag-accept 73 223 none -detail 1 -operation 7&#xA;}&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;model-refactoring&quot; | drag-set-data &quot;-41&quot; -button none&#xA;get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | drop 73 223 none -detail 1 -operation 7&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;model-refactoring&quot; | drag-end &quot;-41&quot; -button none -detail 1&#xA;with [get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart] {&#xA;    mouse-move 155 213 button1 -height 407 -width 825&#xA;    mouse-press 155 213 button1 -height 407 -width 825&#xA;    mouse-release 155 213 button1 524288 -height 407 -width 825&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple/Event0&quot; | get-menu &quot;Refactor Model/Rename...&quot; | click&#xA;with [get-window &quot;Refactor Model Artifact&quot;] {&#xA;    with [get-editbox -after [get-label &quot;New name:&quot;]] {&#xA;        key-type &quot;M1+a&quot;&#xA;        set-text Event00&#xA;    }&#xA;    get-button &quot;Next >&quot; | click&#xA;    get-button Finish | click&#xA;}&#xA;get-button &quot;Save All (Ctrl+Shift+S)&quot; | click&#xA;get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Event00 | get-edit-part -text Event00 | get-property name | equals Event00 | verify-true&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;model-refactoring/src/simple/Event00&quot; | get-property caption | equals Event00 | verify-true&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple/Query0&quot; | get-item &quot;model-refactoring/src/simple/Query0&quot; | drag-start 20 9 none&#xA;with [get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart] {&#xA;    drag-enter 519 422 none -detail 2 -operation 7&#xA;    drag-over 841 390 none -detail 1 -operation 7&#xA;    drag-exit -button none&#xA;}&#xA;with [get-control Any -index 121] {&#xA;    drag-enter 845 414 none -detail 16 -operation 5&#xA;    drag-over 845 382 none -detail 1 -operation 5&#xA;    drag-exit -button none&#xA;}&#xA;with [get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart] {&#xA;    drag-enter 840 355 none -detail 2 -operation 7&#xA;    drag-over 746 271 none -detail 1 -operation 7&#xA;    drag-exit -button none&#xA;    drag-accept 746 271 none -detail 1 -operation 7&#xA;}&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;model-refactoring&quot; | drag-set-data &quot;-41&quot; -button none&#xA;get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | drop 746 271 none -detail 1 -operation 7&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;model-refactoring&quot; | drag-end &quot;-41&quot; -button none -detail 1&#xA;with [get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart] {&#xA;    mouse-move 710 363 button1 -height 407 -width 825&#xA;    mouse-press 710 363 button1 -height 407 -width 825&#xA;    mouse-release 710 363 button1 524288 -height 407 -width 825&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple/Query0&quot; | get-menu &quot;Refactor Model/Rename...&quot; | click&#xA;with [get-window &quot;Refactor Model Artifact&quot;] {&#xA;    with [get-editbox -after [get-label &quot;New name:&quot;]] {&#xA;        key-type &quot;M1+a&quot;&#xA;        set-text Query00&#xA;    }&#xA;    get-button &quot;Next >&quot; | click&#xA;    get-button Finish | click&#xA;}&#xA;get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Query00 | get-edit-part -text Query00 | get-property name | equals Query00 | verify-true&#xA;get-button &quot;Save All (Ctrl+Shift+S)&quot; | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;model-refactoring/src/simple/Query00&quot; | get-property caption | equals Query00 | verify-true&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple/SessionFacade0&quot; | get-menu &quot;Refactor Model/Rename...&quot; | click&#xA;with [get-window &quot;Refactor Model Artifact&quot;] {&#xA;    with [get-editbox -after [get-label &quot;New name:&quot;]] {&#xA;        key-type &quot;M1+a&quot;&#xA;        set-text SessionFacade00&#xA;    }&#xA;    get-button &quot;Next >&quot; | click&#xA;    get-button Finish | click&#xA;}&#xA;with [get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart] {&#xA;    mouse-move 5 132 button1 -height 407 -width 825&#xA;    mouse-press 5 132 button1 -height 407 -width 825&#xA;    mouse-release 5 132 button1 524288 -height 407 -width 825&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name SessionFacade00 | get-edit-part -text SessionFacade00 | get-property name | equals SessionFacade00 | verify-true&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;model-refactoring/src/simple/SessionFacade00&quot; | get-property caption | equals SessionFacade00 | verify-true"/>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "model-refactoring/src/simple/default" | double-click -nowait
+    select "model-refactoring/src/simple.moved/inside-moved" | double-click -nowait
+    select "model-refactoring/outside-class-diagram" | double-click -nowait
+    select "model-refactoring/outside-instance-diagram" | double-click -nowait
+}
+get-editor "default.wvd" | click -nowait
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/Ent1" | get-menu "Refactor Model/Rename..." | click
+with [get-window "Refactor Model Artifact"] {
+    with [get-editbox -after [get-label "New name:"]] {
+        key-type "M1+a"
+        key-type "M1+e"
+        set-text Ent10
+    }
+    get-button "Next >" | click
+    get-button Finish | click
+}
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent10 | get-edit-part -text Ent10 | get-property name | equals Ent10 | verify-true
+get-button "Save All (Ctrl+Shift+S)" | click
+get-editor "inside-moved.wvd" | click -nowait
+with [get-editor "inside-moved.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent10 | get-edit-part -text "simple.Ent10"] {
+    get-property name | equals Ent10 | verify-true
+    get-property package | equals simple | verify-true
+}
+get-editor "outside-class-diagram.wvd" | click -nowait
+with [get-editor "outside-class-diagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent10 | get-edit-part -text "simple.Ent10"] {
+    get-property name | equals Ent10 | verify-true
+    get-property package | equals simple | verify-true
+}
+get-editor "outside-instance-diagram.wod" | click -nowait
+with [get-editor "outside-instance-diagram.wod" | get-diagram | get-edit-part -className InstanceMapEditPart | get-edit-part -name Ent10 | get-edit-part -text "ent1:simple.Ent10"] {
+    get-property name | equals Ent10 | verify-true
+    get-property package | equals simple | verify-true
+}
+get-editor "default.wvd" | click -nowait
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/Ent10" | get-property caption | equals Ent10 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/Enumeration0" | get-menu "Refactor Model/Rename..." | click
+with [get-window "Refactor Model Artifact"] {
+    with [get-editbox -after [get-label "New name:"]] {
+        key-type "M1+a"
+        set-text Enumeration00
+    }
+    get-button "Next >" | click
+    get-button Finish | click
+}
+get-button "Save All (Ctrl+Shift+S)" | click
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Enumeration00 | get-edit-part -text Enumeration00 | get-property name | equals Enumeration00 | verify-true
+get-editor "inside-moved.wvd" | click -nowait
+get-editor "outside-class-diagram.wvd" | click -nowait
+get-editor "outside-instance-diagram.wod" | click -nowait
+get-editor "default.wvd" | click -nowait
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/Enumeration00" | get-property caption | equals Enumeration00 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/DataMiddle" | get-menu "Refactor Model/Rename..." | click
+with [get-window "Refactor Model Artifact"] {
+    with [get-editbox -after [get-label "New name:"]] {
+        key-type "M1+a"
+        set-text DataMiddle0
+    }
+    get-button "Next >" | click
+    get-button Finish | click
+}
+get-button "Save All (Ctrl+Shift+S)" | click
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name DataMiddle0 | get-edit-part -text DataMiddle0 | get-property name | equals DataMiddle0 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/DataMiddle0" | get-property caption | equals DataMiddle0 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/Association0" | get-menu "Refactor Model/Rename..." | click
+with [get-window "Refactor Model Artifact"] {
+    with [get-editbox -after [get-label "New name:"]] {
+        key-type "M1+a"
+        set-text Association00
+    }
+    get-button "Next >" | click
+    get-button Finish | click
+}
+get-button "Save All (Ctrl+Shift+S)" | click
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent10 | get-target-connection 2 | get-edit-part -text Association00 | get-property name | equals Association00 | verify-true
+get-editor "inside-moved.wvd" | click -nowait
+with [get-editor "inside-moved.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Ent10 | get-target-connection 3 | get-edit-part -text "simple.Association00"] {
+    get-property name | equals Association00 | verify-true
+    get-property package | equals simple | verify-true
+}
+
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/Association00" | get-property caption | equals Association00 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/AssociationClass0" | get-menu "Refactor Model/Rename..." | click
+with [get-window "Refactor Model Artifact"] {
+    with [get-editbox -after [get-label "New name:"]] {
+        key-type "M1+a"
+        set-text AssociationClass00
+    }
+    get-button "Next >" | click
+    get-button Finish | click
+}
+get-button "Save All (Ctrl+Shift+S)" | click
+get-editor "default.wvd" | click -nowait
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name AssociationClass00 | get-edit-part -text AssociationClass00 | get-property name | equals AssociationClass00 | verify-true
+get-editor "inside-moved.wvd" | click -nowait
+with [get-editor "inside-moved.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name AssociationClass00 | get-edit-part -text "simple.AssociationClass00"] {
+    get-property name | equals AssociationClass00 | verify-true
+    get-property package | equals simple | verify-true
+}
+get-editor "outside-class-diagram.wvd" | click -nowait
+with [get-editor "outside-class-diagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name AssociationClass00 | get-edit-part -text "simple.AssociationClass00"] {
+    get-property name | equals AssociationClass00 | verify-true
+    get-property package | equals simple | verify-true
+}
+get-editor "outside-instance-diagram.wod" | click -nowait
+with [get-editor "outside-instance-diagram.wod" | get-diagram | get-edit-part -className InstanceMapEditPart | get-edit-part -name AssociationClass00 | get-edit-part -text "as0:simple.AssociationClass00"] {
+    get-property name | equals AssociationClass00 | verify-true
+    get-property package | equals simple | verify-true
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/AssociationClass00" | get-property caption | equals AssociationClass00 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/Dependency0" | get-menu "Refactor Model/Rename..." | click
+with [get-window "Refactor Model Artifact"] {
+    with [get-editbox -after [get-label "New name:"]] {
+        key-type "M1+a"
+        set-text Dependency00
+    }
+    get-button "Next >" | click
+    get-button Finish | click
+}
+get-editor "default.wvd" | click -nowait
+get-button "Save (Ctrl+S)" | click
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name DataTop | get-target-connection 0 | get-edit-part -text Dependency00 | get-property name | equals Dependency00 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/Dependency00" | get-property caption | equals Dependency00 | verify-true
+
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/Exception0" | get-item "model-refactoring/src/simple/Exception0" | drag-start 40 10 none
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    drag-enter 1 257 none -detail 2 -operation 7
+    drag-over 99 145 none -detail 1 -operation 7
+    drag-exit -button none
+    drag-accept 99 145 none -detail 1 -operation 7
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring" | drag-set-data "-41" -button none
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | drop 99 145 none -detail 1 -operation 7
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring" | drag-end "-41" -button none -detail 1
+get-button "Save All (Ctrl+Shift+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/Exception0" | get-menu "Refactor Model/Rename..." | click
+with [get-window "Refactor Model Artifact"] {
+    with [get-editbox -after [get-label "New name:"]] {
+        key-type "M1+a"
+        set-text Exception00
+    }
+    get-button "Next >" | click
+    get-button Finish | click
+}
+get-button "Save All (Ctrl+Shift+S)" | click
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Exception00 | get-edit-part -text Exception00 | get-property name | equals Exception00 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/Exception00" | get-property caption | equals Exception00 | verify-true
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "model-refactoring/src/simple/Update0" | get-item "model-refactoring/src/simple/Update0" | drag-start 15 7 none
+    with [get-item "model-refactoring/src/simple/DataTop"] {
+        drag-enter 111 11 none -detail 2 -operation 7
+        drag-over 111 11 none -detail 2 -operation 7
+    }
+    get-item "model-refactoring/src/simple/DataBottom/recur:DataBottom" | drag-over 108 8 none -operation 7
+    get-item "model-refactoring/src/simple/DataBottom" | drag-over 132 5 none -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/AssociationClass00/ent1_4:Ent10" | drag-over 119 6 none -operation 7
+    get-item "model-refactoring/src/simple/AssociationClass00/ent1_3:Ent10" | drag-over 125 6 none -operation 7
+    get-item "model-refactoring/src/simple/AssociationClass00" | drag-over 151 2 none -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/Association2" | drag-over 156 3 none -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/Association1" | drag-over 163 3 none -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/Association00/ent1_0:Ent10" | drag-over 155 -button none -operation 7
+    get-item "model-refactoring/src/simple/Association00/associatedEnt_0:AssociatedEnt" | drag-over 175 1 none -operation 7
+    get-item "model-refactoring/src/simple/Association00" | drag-over 204 14 none -detail 2 -operation 7
+    get-item "model-refactoring/src/simple/DataTop" | drag-exit -button none
+}
+with [get-control Any -index 121] {
+    drag-enter 1 99 none -detail 16 -operation 5
+    drag-over 1 99 none -detail 1 -operation 5
+    drag-exit -button none
+}
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    drag-enter 1 71 none -detail 2 -operation 7
+    drag-over 52 46 none -detail 1 -operation 7
+    drag-exit -button none
+    drag-accept 52 46 none -detail 1 -operation 7
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring" | drag-set-data "-41" -button none
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | drop 52 46 none -detail 1 -operation 7
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring" | drag-end "-41" -button none -detail 1
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    mouse-move 25 61 button1 -height 407 -width 825
+    mouse-press 25 61 button1 -height 407 -width 825
+    mouse-release 25 61 button1 524288 -height 407 -width 825
+}
+get-button "Save All (Ctrl+Shift+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/Update0" | get-menu "Refactor Model/Rename..." | click
+with [get-window "Refactor Model Artifact"] {
+    with [get-editbox -after [get-label "New name:"]] {
+        key-type "M1+a"
+        set-text Update00
+    }
+    get-button "Next >" | click
+    get-button Finish | click
+}
+get-button "Save All (Ctrl+Shift+S)" | click
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Update00 | get-edit-part -text Update00 | get-property name | equals Update00 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/Update00" | get-property caption | equals Update00 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/Event0" | get-item "model-refactoring/src/simple/Event0" | drag-start 21 10 none
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    drag-enter 59 229 none -detail 2 -operation 7
+    drag-over 98 168 none -detail 1 -operation 7
+    with [get-edit-part -name Exception00 | get-figure 0] {
+        drag-over 2 19 none -detail 1 -operation 7
+        drag-over 2 22 none -detail 1 -operation 7
+    }
+    drag-over 73 223 none -detail 1 -operation 7
+    drag-exit -button none
+    drag-accept 73 223 none -detail 1 -operation 7
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring" | drag-set-data "-41" -button none
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | drop 73 223 none -detail 1 -operation 7
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring" | drag-end "-41" -button none -detail 1
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    mouse-move 155 213 button1 -height 407 -width 825
+    mouse-press 155 213 button1 -height 407 -width 825
+    mouse-release 155 213 button1 524288 -height 407 -width 825
+}
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/Event0" | get-menu "Refactor Model/Rename..." | click
+with [get-window "Refactor Model Artifact"] {
+    with [get-editbox -after [get-label "New name:"]] {
+        key-type "M1+a"
+        set-text Event00
+    }
+    get-button "Next >" | click
+    get-button Finish | click
+}
+get-button "Save All (Ctrl+Shift+S)" | click
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Event00 | get-edit-part -text Event00 | get-property name | equals Event00 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/Event00" | get-property caption | equals Event00 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/Query0" | get-item "model-refactoring/src/simple/Query0" | drag-start 20 9 none
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    drag-enter 519 422 none -detail 2 -operation 7
+    drag-over 841 390 none -detail 1 -operation 7
+    drag-exit -button none
+}
+with [get-control Any -index 121] {
+    drag-enter 845 414 none -detail 16 -operation 5
+    drag-over 845 382 none -detail 1 -operation 5
+    drag-exit -button none
+}
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    drag-enter 840 355 none -detail 2 -operation 7
+    drag-over 746 271 none -detail 1 -operation 7
+    drag-exit -button none
+    drag-accept 746 271 none -detail 1 -operation 7
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring" | drag-set-data "-41" -button none
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | drop 746 271 none -detail 1 -operation 7
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring" | drag-end "-41" -button none -detail 1
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    mouse-move 710 363 button1 -height 407 -width 825
+    mouse-press 710 363 button1 -height 407 -width 825
+    mouse-release 710 363 button1 524288 -height 407 -width 825
+}
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/Query0" | get-menu "Refactor Model/Rename..." | click
+with [get-window "Refactor Model Artifact"] {
+    with [get-editbox -after [get-label "New name:"]] {
+        key-type "M1+a"
+        set-text Query00
+    }
+    get-button "Next >" | click
+    get-button Finish | click
+}
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Query00 | get-edit-part -text Query00 | get-property name | equals Query00 | verify-true
+get-button "Save All (Ctrl+Shift+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/Query00" | get-property caption | equals Query00 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/SessionFacade0" | get-menu "Refactor Model/Rename..." | click
+with [get-window "Refactor Model Artifact"] {
+    with [get-editbox -after [get-label "New name:"]] {
+        key-type "M1+a"
+        set-text SessionFacade00
+    }
+    get-button "Next >" | click
+    get-button Finish | click
+}
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    mouse-move 5 132 button1 -height 407 -width 825
+    mouse-press 5 132 button1 -height 407 -width 825
+    mouse-release 5 132 button1 524288 -height 407 -width 825
+}
+get-button "Save (Ctrl+S)" | click
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name SessionFacade00 | get-edit-part -text SessionFacade00 | get-property name | equals SessionFacade00 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/src/simple/SessionFacade00" | get-property caption | equals SessionFacade00 | verify-true]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -1394,8 +1680,8 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart.target.connection</path>
         <path>address</path>
-        <parent id="DiagramFigure187_149" kind="DiagramFigure"/>
         <indexes>0</indexes>
+        <parent id="DiagramFigure187_149" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -2243,8 +2529,8 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>rawFigure</path>
         <path>address</path>
-        <parent id="DiagramFigure221_241" kind="DiagramFigure"/>
         <indexes>0</indexes>
+        <parent id="DiagramFigure221_241" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="2" y="19" style="detail:1,button:0,mask:0,operations:7">
@@ -2985,10 +3271,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.24">
       <elements id="Button12" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Next >">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="92" width="92" height="25"/>
+        <caption><![CDATA[&Next >]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.25">
@@ -2996,10 +3283,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.28">
       <elements id="Button13" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="201" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.29">
@@ -3548,9 +3836,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.40">
       <elements id="Button14" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.41">
@@ -4596,10 +4885,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.98">
       <elements id="Button16" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Next >">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="92" width="92" height="25"/>
+        <caption><![CDATA[&Next >]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.99">
@@ -4607,10 +4897,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.102">
       <elements id="Button17" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="201" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.103">
@@ -4618,9 +4909,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.106">
       <elements id="Button18" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.107">
@@ -5258,10 +5550,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.144">
       <elements id="Button22" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Next >">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="92" width="92" height="25"/>
+        <caption><![CDATA[&Next >]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.145">
@@ -5269,10 +5562,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.148">
       <elements id="Button23" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="201" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.149">
@@ -5280,9 +5574,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.152">
       <elements id="Button24" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.153">
@@ -5890,10 +6185,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.181">
       <elements id="Button28" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Next >">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="92" width="92" height="25"/>
+        <caption><![CDATA[&Next >]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.182">
@@ -5901,10 +6197,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.185">
       <elements id="Button29" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="201" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.186">
@@ -6005,10 +6302,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.207">
       <elements id="Button31" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Next >">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="92" width="92" height="25"/>
+        <caption><![CDATA[&Next >]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.208">
@@ -6016,10 +6314,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.211">
       <elements id="Button32" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="201" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.212">
@@ -6027,9 +6326,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.215">
       <elements id="Button33" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.216">
@@ -6130,10 +6430,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.237">
       <elements id="Button35_136" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Next >">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="92" width="92" height="25"/>
+        <caption><![CDATA[&Next >]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.238">
@@ -6141,10 +6442,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.241">
       <elements id="Button36_137" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="201" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.242">
@@ -6152,9 +6454,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.245">
       <elements id="Button37_138" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.246">
@@ -7679,10 +7982,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.309">
       <elements id="Button39_139" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Next >">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="92" width="92" height="25"/>
+        <caption><![CDATA[&Next >]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.310">
@@ -7690,10 +7994,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.313">
       <elements id="Button40_140" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="201" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.314">
@@ -7709,9 +8014,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.319">
       <elements id="Button41_141" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.320">
@@ -8393,10 +8699,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.349">
       <elements id="Button45_142" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Next >">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="92" width="92" height="25"/>
+        <caption><![CDATA[&Next >]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.350">
@@ -8404,10 +8711,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.353">
       <elements id="Button46_143" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="201" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.354">
@@ -8924,9 +9232,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.379">
       <elements id="Button47_231" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.380">
@@ -8965,10 +9274,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.393">
       <elements id="Button48_232" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Next >">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="92" width="92" height="25"/>
+        <caption><![CDATA[&Next >]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.394">
@@ -8976,10 +9286,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.397">
       <elements id="Button49_233" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="201" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.398">
@@ -8987,9 +9298,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.401">
       <elements id="Button50_234" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.402">
@@ -10514,9 +10826,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.466">
       <elements id="Button51_235" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.467">
@@ -10555,10 +10868,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.480">
       <elements id="Button52_236" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Next >">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="92" width="92" height="25"/>
+        <caption><![CDATA[&Next >]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.481">
@@ -10566,10 +10880,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.484">
       <elements id="Button53_237" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="201" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.485">
@@ -12083,9 +12398,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.532">
       <elements id="Button54_238" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.533">
@@ -12124,10 +12440,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.546">
       <elements id="Button55_239" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Next >">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="92" width="92" height="25"/>
+        <caption><![CDATA[&Next >]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.547">
@@ -12135,10 +12452,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.550">
       <elements id="Button56_240" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="201" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.551">
@@ -12146,9 +12464,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.554">
       <elements id="Button57_241" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.555">
@@ -13636,9 +13955,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.598">
       <elements id="Button58_242" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.599">
@@ -13677,10 +13997,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.612">
       <elements id="Button59_243" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Next >">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="92" width="92" height="25"/>
+        <caption><![CDATA[&Next >]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.613">
@@ -13688,10 +14009,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.616">
       <elements id="Button60_244" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="201" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.617">
@@ -14281,9 +14603,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.628">
       <elements id="Button61_245" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.629">
@@ -14384,10 +14707,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.650">
       <elements id="Button62_246" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Next >">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="92" width="92" height="25"/>
+        <caption><![CDATA[&Next >]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.651">
@@ -14395,10 +14719,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.654">
       <elements id="Button63_247" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="201" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.655">
@@ -14878,9 +15203,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.664">
       <elements id="Button64_248" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.665">

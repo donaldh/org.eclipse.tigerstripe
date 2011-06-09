@@ -1,7 +1,254 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="4TigerstripeDependencyDiagramLayout" version="3.0" id="_aP67MTcvEeCs2Yz8DnW68g" description="Test is used to check diagram layout. &#xD;&#xA;&#xD;&#xA;Precondition: 3 projects, project 1 with references&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;Open &quot;Diagram&quot; tab on editor. &#xD;&#xA;1. Recise elements &#xD;&#xA;2. Change backgrouns and foreground colors &#xD;&#xA;3. Move elements on diagram &#xD;&#xA;&#xD;&#xA;Do not save changes. Move to another tab on the editor. Re-open diagram tab - diagram should be as previous. &#xD;&#xA;Do not save &amp; close editor. Re-open editor. Re-open diagram tab - diagram should be without changes. &#xD;&#xA;&#xD;&#xA;Open &quot;Diagram&quot; tab on editor. &#xD;&#xA;1. Select &quot;Layout&quot; item in dropdown menu. diagram should be optimized &#xD;&#xA;2. Select default backgrouns and foreground colors &#xD;&#xA;&#xD;&#xA;Save changes. Move to another tab on the editor. Re-open diagram tab - diagram should be as previous. &#xD;&#xA;Save &amp; close editor. Re-open editor. Re-open diagram tab - diagram should be as previous " type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="4TigerstripeDependencyDiagramLayout" version="3.0" id="_aP67MTcvEeCs2Yz8DnW68g" description="Test is used to check diagram layout. &#xD;&#xA;&#xD;&#xA;Precondition: 3 projects, project 1 with references&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;Open &quot;Diagram&quot; tab on editor. &#xD;&#xA;1. Recise elements &#xD;&#xA;2. Change backgrouns and foreground colors &#xD;&#xA;3. Move elements on diagram &#xD;&#xA;&#xD;&#xA;Do not save changes. Move to another tab on the editor. Re-open diagram tab - diagram should be as previous. &#xD;&#xA;Do not save &amp; close editor. Re-open editor. Re-open diagram tab - diagram should be without changes. &#xD;&#xA;&#xD;&#xA;Open &quot;Diagram&quot; tab on editor. &#xD;&#xA;1. Select &quot;Layout&quot; item in dropdown menu. diagram should be optimized &#xD;&#xA;2. Select default backgrouns and foreground colors &#xD;&#xA;&#xD;&#xA;Save changes. Move to another tab on the editor. Re-open diagram tab - diagram should be as previous. &#xD;&#xA;Save &amp; close editor. Re-open editor. Re-open diagram tab - diagram should be as previous " tags="TS_Project/Edit/Descriptor/Diagram, I27" type="ecl" externalReference="http://docs.xored.com/display/TS/4TigerstripeDependencyDiagramLayout">
   <contexts>_E-NZMfhGEd-iKuOiJgVXVQ</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script" content="get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project1/tigerstripe.xml&quot; | double-click -nowait&#xA;with [get-editor &quot;Project1/tigerstripe.xml&quot;] {&#xA;    get-tab-folder | get-tab-item Dependencies | click&#xA;    get-section Dependencies | get-button Add | click&#xA;}&#xA;get-window &quot;Select Tigerstripe Project&quot; | get-table -after [get-label &quot;Select Tigerstripe Project to reference&quot;] | select Project2&#xA;get-window &quot;Select Tigerstripe Project&quot; | get-button OK | click&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;with [get-editor &quot;Project1/tigerstripe.xml&quot;] {&#xA;    get-tab-folder | get-tab-item &quot;Dependency Diagram&quot; | click&#xA;    with [get-diagram] {&#xA;        mouse-move 18 338 -height 375 -width 741&#xA;        get-edit-part 0 | get-property childrenCount | is-equal 2 | verify&#xA;    }&#xA;}&#xA;with [get-editor &quot;Project1/tigerstripe.xml&quot; | get-diagram | get-edit-part &quot;0/1&quot;] {&#xA;    get-property x | is-equal 10 | verify&#xA;    get-property y | is-equal 135 | verify&#xA;    get-property width | is-equal 200 | verify&#xA;    get-property height | is-equal 80 | verify&#xA;    get-property &quot;Background color&quot; | is-equal &quot;RGB {255, 243, 243}&quot; | verify&#xA;    get-property &quot;Foreground color&quot; | is-equal &quot;RGB {225, 213, 213}&quot; | verify&#xA;}&#xA;with [get-editor &quot;Project1/tigerstripe.xml&quot;] {&#xA;    with [get-diagram] {&#xA;        mouse-move 214 231 -height 375 -width 741&#xA;        mouse-hover 214 231 -height 375 -width 741&#xA;        with [get-edit-part &quot;0/1&quot; | get-figure 2] {&#xA;            mouse-move 116 6 -height 15 -width 190&#xA;            mouse-press 116 6 button1 -height 15 -width 190&#xA;            mouse-release 116 6 button1 524288 -height 15 -width 190&#xA;        }&#xA;        with [get-figure &quot;1/2&quot;] {&#xA;            mouse-move 3 4 -height 7 -width 7&#xA;            mouse-press 3 4 button1 -height 7 -width 7&#xA;            mouse-drag 4 4 -mask 524288 -height 7 -width 7&#xA;        }&#xA;        mouse-drag 216 221 -mask 524288 -height 375 -width 741&#xA;        mouse-drag 251 258 button1 524288 -height 375 -width 741&#xA;        mouse-release 251 258 button1 524288 -height 375 -width 741&#xA;        get-figure &quot;1/2&quot; | mouse-hover 3 4 -height 7 -width 7&#xA;        mouse-move 311 223 -height 375 -width 741&#xA;        mouse-press 311 223 button1 -height 375 -width 741&#xA;        mouse-release 311 223 button1 524288 -height 375 -width 741&#xA;        with [get-edit-part &quot;0/1&quot;] {&#xA;            mouse-move 192 78 -height 123 -width 242&#xA;            mouse-press 192 78 button1 -height 123 -width 242&#xA;            mouse-release 192 78 button1 524288 -height 123 -width 242&#xA;            mouse-move 169 77 -height 123 -width 242&#xA;            mouse-press 169 77 button3 -height 123 -width 242&#xA;            mouse-release 169 77 button3 2097152 -height 123 -width 242&#xA;        }&#xA;    }&#xA;    get-canvas | get-menu &quot;Kind Properties...&quot; | click&#xA;}&#xA;get-window &quot;Digaram Element Kinds&quot; | get-button &quot;Use Custom&quot; | click&#xA;return-from-os-dialog COLOR &quot;255,255,128&quot;&#xA;get-window &quot;Digaram Element Kinds&quot; | get-button -after [get-label &quot;Background Color:&quot;] | click&#xA;return-from-os-dialog COLOR &quot;128,255,128&quot;&#xA;with [get-window &quot;Digaram Element Kinds&quot;] {&#xA;    get-button -after [get-label &quot;Foreground Color:&quot;] | click&#xA;    get-button OK | click&#xA;}&#xA;with [get-editor &quot;Project1/tigerstripe.xml&quot; | get-diagram] {&#xA;    with [get-edit-part &quot;0/1&quot;] {&#xA;        mouse-move 174 93 -height 123 -width 242&#xA;        mouse-press 174 93 button1 -height 123 -width 242&#xA;        mouse-drag 174 94 -mask 524288 -height 123 -width 242&#xA;    }&#xA;    mouse-drag 190 235 -mask 524288 -height 375 -width 741&#xA;    mouse-drag 184 283 button1 524288 -height 375 -width 741&#xA;    mouse-release 184 283 button1 524288 -height 375 -width 741&#xA;    with [get-edit-part &quot;0/1&quot;] {&#xA;        mouse-hover 174 93 -height 123 -width 242&#xA;        mouse-move 174 87 -height 123 -width 242&#xA;        mouse-hover 174 87 -height 123 -width 242&#xA;        mouse-move 173 87 -height 123 -width 242&#xA;        mouse-hover 173 87 -height 123 -width 242&#xA;    }&#xA;    mouse-move 25 157 -height 375 -width 741&#xA;}&#xA;with [get-editor &quot;Project1/tigerstripe.xml&quot; | get-diagram | get-edit-part &quot;0/1&quot;] {&#xA;    get-property x | is-equal 11 | verify&#xA;    get-property y | is-equal 190 | verify&#xA;    get-property width | is-equal 241 | verify&#xA;    get-property height | is-equal 123 | verify&#xA;    get-property &quot;Background color&quot; | is-equal &quot;RGB {255, 255, 128}&quot; | verify&#xA;    get-property &quot;Foreground color&quot; | is-equal &quot;RGB {128, 255, 128}&quot; | verify&#xA;}&#xA;with [get-editor &quot;Project1/tigerstripe.xml&quot;] {&#xA;    get-diagram | mouse-move 302 372 -height 375 -width 741&#xA;    with [get-tab-folder] {&#xA;        get-tab-item &quot;Advanced Settings&quot; | click&#xA;        get-tab-item &quot;Dependency Diagram&quot; | click&#xA;    }&#xA;    get-diagram | mouse-move 35 315 -height 375 -width 741&#xA;}&#xA;with [get-editor &quot;Project1/tigerstripe.xml&quot; | get-diagram | get-edit-part &quot;0/1&quot;] {&#xA;    get-property x | is-equal 11 | verify&#xA;    get-property y | is-equal 190 | verify&#xA;    get-property width | is-equal 241 | verify&#xA;    get-property height | is-equal 123 | verify&#xA;    get-property &quot;Background color&quot; | is-equal &quot;RGB {255, 255, 128}&quot; | verify&#xA;    get-property &quot;Foreground color&quot; | is-equal &quot;RGB {128, 255, 128}&quot; | verify&#xA;}&#xA;with [get-editor &quot;Project1/tigerstripe.xml&quot;] {&#xA;    get-diagram | mouse-move 184 0 -height 375 -width 741&#xA;    close&#xA;}&#xA;get-window &quot;Save Resource&quot; | get-button No | click&#xA;with [get-view &quot;Tigerstripe Explorer&quot;] {&#xA;    click -nowait&#xA;    get-tree | select &quot;Project1/tigerstripe.xml&quot; | double-click -nowait&#xA;}&#xA;with [get-editor &quot;Project1/tigerstripe.xml&quot;] {&#xA;    get-tab-folder | get-tab-item &quot;Dependency Diagram&quot; | click&#xA;    with [get-diagram] {&#xA;        mouse-move 19 342 -height 375 -width 741&#xA;        get-edit-part 0 | get-property childrenCount | is-equal 2 | verify&#xA;    }&#xA;}&#xA;with [get-editor &quot;Project1/tigerstripe.xml&quot; | get-diagram | get-edit-part &quot;0/1&quot;] {&#xA;    get-property x | is-equal 10 | verify&#xA;    get-property y | is-equal 135 | verify&#xA;    get-property width | is-equal 200 | verify&#xA;    get-property height | is-equal 80 | verify&#xA;    get-property &quot;Background color&quot; | is-equal &quot;RGB {255, 243, 243}&quot; | verify&#xA;    get-property &quot;Foreground color&quot; | is-equal &quot;RGB {225, 213, 213}&quot; | verify&#xA;}&#xA;with [get-editor &quot;Project1/tigerstripe.xml&quot;] {&#xA;    with [get-diagram] {&#xA;        mouse-move 321 51 -height 375 -width 741&#xA;        mouse-press 321 51 button3 -height 375 -width 741&#xA;        mouse-release 321 51 button3 2097152 -height 375 -width 741&#xA;    }&#xA;    get-canvas | get-menu Layout | click&#xA;    with [get-diagram] {&#xA;        mouse-move 380 177 -height 375 -width 741&#xA;        mouse-hover 380 177 -height 375 -width 741&#xA;        get-edit-part &quot;0/1&quot; | get-figure 0 | mouse-move 1 2 -height 16 -width 190&#xA;    }&#xA;}&#xA;with [get-editor &quot;Project1/tigerstripe.xml&quot; | get-diagram | get-edit-part &quot;0/1&quot;] {&#xA;    get-property x | is-equal 30 | verify&#xA;    get-property y | is-equal 170 | verify&#xA;}&#xA;with [get-editor &quot;Project1/tigerstripe.xml&quot;] {&#xA;    with [get-diagram] {&#xA;        mouse-move 234 138 -height 375 -width 741&#xA;        mouse-hover 234 138 -height 375 -width 741&#xA;        mouse-move 235 136 -height 375 -width 741&#xA;        mouse-hover 235 136 -height 375 -width 741&#xA;        with [get-edit-part &quot;0/1&quot;] {&#xA;            with [get-figure 1] {&#xA;                mouse-move 84 10 -height 15 -width 190&#xA;                mouse-hover 84 10 -height 15 -width 190&#xA;                mouse-move 85 13 -height 15 -width 190&#xA;                mouse-hover 85 13 -height 15 -width 190&#xA;            }&#xA;            with [get-figure 2] {&#xA;                mouse-move 153 10 -height 15 -width 190&#xA;                mouse-hover 153 10 -height 15 -width 190&#xA;                mouse-press 153 10 button1 -height 15 -width 190&#xA;                mouse-release 153 10 button1 524288 -height 15 -width 190&#xA;                mouse-move 149 10 -height 15 -width 190&#xA;                mouse-press 149 10 button3 -height 15 -width 190&#xA;                mouse-release 149 10 button3 2097152 -height 15 -width 190&#xA;            }&#xA;        }&#xA;    }&#xA;    get-canvas | get-menu &quot;Kind Properties...&quot; | click&#xA;}&#xA;get-window &quot;Digaram Element Kinds&quot; | get-button &quot;Use Custom&quot; | click&#xA;return-from-os-dialog COLOR &quot;255,255,128&quot;&#xA;get-window &quot;Digaram Element Kinds&quot; | get-button -after [get-label &quot;Background Color:&quot;] | click&#xA;return-from-os-dialog COLOR &quot;255,0,0&quot;&#xA;with [get-window &quot;Digaram Element Kinds&quot;] {&#xA;    get-button -after [get-label &quot;Foreground Color:&quot;] | click&#xA;    get-button OK | click&#xA;}&#xA;get-editor &quot;Project1/tigerstripe.xml&quot; | get-diagram | mouse-move 40 168 -height 375 -width 741&#xA;with [get-editor &quot;Project1/tigerstripe.xml&quot; | get-diagram | get-edit-part &quot;0/1&quot;] {&#xA;    get-property &quot;Background color&quot; | is-equal &quot;RGB {255, 255, 128}&quot; | verify&#xA;    get-property &quot;Foreground color&quot; | is-equal &quot;RGB {255, 0, 0}&quot; | verify&#xA;}&#xA;with [get-editor &quot;Project1/tigerstripe.xml&quot;] {&#xA;    with [get-diagram | get-edit-part &quot;0/1&quot; | get-figure 1] {&#xA;        mouse-move 84 11 -height 15 -width 190&#xA;        mouse-press 84 11 button3 -height 15 -width 190&#xA;        mouse-release 84 11 button3 2097152 -height 15 -width 190&#xA;    }&#xA;    get-canvas | get-menu &quot;Kind Properties...&quot; | click&#xA;}&#xA;with [get-window &quot;Digaram Element Kinds&quot;] {&#xA;    get-button &quot;Use Custom&quot; | click&#xA;    get-button OK | click&#xA;}&#xA;get-editor &quot;Project1/tigerstripe.xml&quot; | get-diagram | mouse-move 40 158 -height 375 -width 741&#xA;with [get-editor &quot;Project1/tigerstripe.xml&quot; | get-diagram | get-edit-part &quot;0/1&quot;] {&#xA;    get-property &quot;Background color&quot; | is-equal &quot;RGB {255, 243, 243}&quot; | verify&#xA;    get-property &quot;Foreground color&quot; | is-equal &quot;RGB {225, 213, 213}&quot; | verify&#xA;}&#xA;with [get-editor &quot;Project1/tigerstripe.xml&quot; | get-diagram] {&#xA;    mouse-move 57 280 -height 375 -width 741&#xA;    mouse-hover 57 280 -height 375 -width 741&#xA;    mouse-move 3 266 -height 375 -width 741&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;with [get-editor &quot;Project1/tigerstripe.xml&quot;] {&#xA;    get-diagram | mouse-move 319 374 -height 375 -width 741&#xA;    with [get-tab-folder] {&#xA;        get-tab-item &quot;Advanced Settings&quot; | click&#xA;        get-tab-item &quot;Dependency Diagram&quot; | click&#xA;    }&#xA;    get-diagram | mouse-move 17 276 -height 375 -width 741&#xA;}&#xA;with [get-editor &quot;Project1/tigerstripe.xml&quot; | get-diagram | get-edit-part &quot;0/1&quot;] {&#xA;    get-property x | is-equal 30 | verify&#xA;    get-property y | is-equal 170 | verify&#xA;    get-property width | is-equal 200 | verify&#xA;    get-property height | is-equal 80 | verify&#xA;    get-property &quot;Background color&quot; | is-equal &quot;RGB {255, 243, 243}&quot; | verify&#xA;    get-property &quot;Foreground color&quot; | is-equal &quot;RGB {225, 213, 213}&quot; | verify&#xA;}&#xA;with [get-editor &quot;Project1/tigerstripe.xml&quot;] {&#xA;    get-diagram | mouse-move 140 0 -height 375 -width 741&#xA;    close&#xA;}&#xA;with [get-view &quot;Tigerstripe Explorer&quot;] {&#xA;    click -nowait&#xA;    get-tree | select &quot;Project1/tigerstripe.xml&quot; | double-click -nowait&#xA;}&#xA;with [get-editor &quot;Project1/tigerstripe.xml&quot;] {&#xA;    get-tab-folder | get-tab-item &quot;Dependency Diagram&quot; | click&#xA;    with [get-diagram] {&#xA;        mouse-move 16 343 -height 375 -width 741&#xA;        with [get-edit-part &quot;0/1&quot;] {&#xA;            get-property x | is-equal 30 | verify&#xA;            get-property y | is-equal 170 | verify&#xA;            get-property width | is-equal 200 | verify&#xA;            get-property height | is-equal 80 | verify&#xA;            get-property &quot;Background color&quot; | is-equal &quot;RGB {255, 243, 243}&quot; | verify&#xA;            get-property &quot;Foreground color&quot; | is-equal &quot;RGB {225, 213, 213}&quot; | verify&#xA;        }&#xA;    }&#xA;}"/>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "Project1/tigerstripe.xml" | double-click -nowait
+with [get-editor "Project1/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item Dependencies | click
+    get-section Dependencies | get-button Add | click
+}
+get-window "Select Tigerstripe Project" | get-table -after [get-label "Select Tigerstripe Project to reference"] | select Project2
+get-window "Select Tigerstripe Project" | get-button OK | click
+get-button "Save (Ctrl+S)" | click
+with [get-editor "Project1/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item "Dependency Diagram" | click
+    with [get-diagram] {
+        mouse-move 18 338 -height 375 -width 741
+        get-edit-part 0 | get-property childrenCount | is-equal 2 | verify
+    }
+}
+with [get-editor "Project1/tigerstripe.xml" | get-diagram | get-edit-part "0/1"] {
+    get-property x | is-equal 10 | verify
+    get-property y | is-equal 135 | verify
+    get-property width | is-equal 200 | verify
+    get-property height | is-equal 80 | verify
+    get-property "Background color" | is-equal "RGB {255, 243, 243}" | verify
+    get-property "Foreground color" | is-equal "RGB {225, 213, 213}" | verify
+}
+with [get-editor "Project1/tigerstripe.xml"] {
+    with [get-diagram] {
+        mouse-move 214 231 -height 375 -width 741
+        mouse-hover 214 231 -height 375 -width 741
+        with [get-edit-part "0/1" | get-figure 2] {
+            mouse-move 116 6 -height 15 -width 190
+            mouse-press 116 6 button1 -height 15 -width 190
+            mouse-release 116 6 button1 524288 -height 15 -width 190
+        }
+        with [get-figure "1/2"] {
+            mouse-move 3 4 -height 7 -width 7
+            mouse-press 3 4 button1 -height 7 -width 7
+            mouse-drag 4 4 -mask 524288 -height 7 -width 7
+        }
+        mouse-drag 216 221 -mask 524288 -height 375 -width 741
+        mouse-drag 251 258 button1 524288 -height 375 -width 741
+        mouse-release 251 258 button1 524288 -height 375 -width 741
+        get-figure "1/2" | mouse-hover 3 4 -height 7 -width 7
+        mouse-move 311 223 -height 375 -width 741
+        mouse-press 311 223 button1 -height 375 -width 741
+        mouse-release 311 223 button1 524288 -height 375 -width 741
+        with [get-edit-part "0/1"] {
+            mouse-move 192 78 -height 123 -width 242
+            mouse-press 192 78 button1 -height 123 -width 242
+            mouse-release 192 78 button1 524288 -height 123 -width 242
+            mouse-move 169 77 -height 123 -width 242
+            mouse-press 169 77 button3 -height 123 -width 242
+            mouse-release 169 77 button3 2097152 -height 123 -width 242
+        }
+    }
+    get-canvas | get-menu "Kind Properties..." | click
+}
+get-window "Digaram Element Kinds" | get-button "Use Custom" | click
+return-from-os-dialog COLOR "255,255,128"
+get-window "Digaram Element Kinds" | get-button -after [get-label "Background Color:"] | click
+return-from-os-dialog COLOR "128,255,128"
+with [get-window "Digaram Element Kinds"] {
+    get-button -after [get-label "Foreground Color:"] | click
+    get-button OK | click
+}
+with [get-editor "Project1/tigerstripe.xml" | get-diagram] {
+    with [get-edit-part "0/1"] {
+        mouse-move 174 93 -height 123 -width 242
+        mouse-press 174 93 button1 -height 123 -width 242
+        mouse-drag 174 94 -mask 524288 -height 123 -width 242
+    }
+    mouse-drag 190 235 -mask 524288 -height 375 -width 741
+    mouse-drag 184 283 button1 524288 -height 375 -width 741
+    mouse-release 184 283 button1 524288 -height 375 -width 741
+    with [get-edit-part "0/1"] {
+        mouse-hover 174 93 -height 123 -width 242
+        mouse-move 174 87 -height 123 -width 242
+        mouse-hover 174 87 -height 123 -width 242
+        mouse-move 173 87 -height 123 -width 242
+        mouse-hover 173 87 -height 123 -width 242
+    }
+    mouse-move 25 157 -height 375 -width 741
+}
+with [get-editor "Project1/tigerstripe.xml" | get-diagram | get-edit-part "0/1"] {
+    get-property x | is-equal 11 | verify
+    get-property y | is-equal 190 | verify
+    get-property width | is-equal 241 | verify
+    get-property height | is-equal 123 | verify
+    get-property "Background color" | is-equal "RGB {255, 255, 128}" | verify
+    get-property "Foreground color" | is-equal "RGB {128, 255, 128}" | verify
+}
+with [get-editor "Project1/tigerstripe.xml"] {
+    get-diagram | mouse-move 302 372 -height 375 -width 741
+    with [get-tab-folder] {
+        get-tab-item "Advanced Settings" | click
+        get-tab-item "Dependency Diagram" | click
+    }
+    get-diagram | mouse-move 35 315 -height 375 -width 741
+}
+with [get-editor "Project1/tigerstripe.xml" | get-diagram | get-edit-part "0/1"] {
+    get-property x | is-equal 11 | verify
+    get-property y | is-equal 190 | verify
+    get-property width | is-equal 241 | verify
+    get-property height | is-equal 123 | verify
+    get-property "Background color" | is-equal "RGB {255, 255, 128}" | verify
+    get-property "Foreground color" | is-equal "RGB {128, 255, 128}" | verify
+}
+with [get-editor "Project1/tigerstripe.xml"] {
+    get-diagram | mouse-move 184 0 -height 375 -width 741
+    close
+}
+get-window "Save Resource" | get-button No | click
+with [get-view "Tigerstripe Explorer"] {
+    click -nowait
+    get-tree | select "Project1/tigerstripe.xml" | double-click -nowait
+}
+with [get-editor "Project1/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item "Dependency Diagram" | click
+    with [get-diagram] {
+        mouse-move 19 342 -height 375 -width 741
+        get-edit-part 0 | get-property childrenCount | is-equal 2 | verify
+    }
+}
+with [get-editor "Project1/tigerstripe.xml" | get-diagram | get-edit-part "0/1"] {
+    get-property x | is-equal 10 | verify
+    get-property y | is-equal 135 | verify
+    get-property width | is-equal 200 | verify
+    get-property height | is-equal 80 | verify
+    get-property "Background color" | is-equal "RGB {255, 243, 243}" | verify
+    get-property "Foreground color" | is-equal "RGB {225, 213, 213}" | verify
+}
+with [get-editor "Project1/tigerstripe.xml"] {
+    with [get-diagram] {
+        mouse-move 321 51 -height 375 -width 741
+        mouse-press 321 51 button3 -height 375 -width 741
+        mouse-release 321 51 button3 2097152 -height 375 -width 741
+    }
+    get-canvas | get-menu Layout | click
+    with [get-diagram] {
+        mouse-move 380 177 -height 375 -width 741
+        mouse-hover 380 177 -height 375 -width 741
+        get-edit-part "0/1" | get-figure 0 | mouse-move 1 2 -height 16 -width 190
+    }
+}
+with [get-editor "Project1/tigerstripe.xml" | get-diagram | get-edit-part "0/1"] {
+    get-property x | is-equal 30 | verify
+    get-property y | is-equal 170 | verify
+}
+with [get-editor "Project1/tigerstripe.xml"] {
+    with [get-diagram] {
+        mouse-move 234 138 -height 375 -width 741
+        mouse-hover 234 138 -height 375 -width 741
+        mouse-move 235 136 -height 375 -width 741
+        mouse-hover 235 136 -height 375 -width 741
+        with [get-edit-part "0/1"] {
+            with [get-figure 1] {
+                mouse-move 84 10 -height 15 -width 190
+                mouse-hover 84 10 -height 15 -width 190
+                mouse-move 85 13 -height 15 -width 190
+                mouse-hover 85 13 -height 15 -width 190
+            }
+            with [get-figure 2] {
+                mouse-move 153 10 -height 15 -width 190
+                mouse-hover 153 10 -height 15 -width 190
+                mouse-press 153 10 button1 -height 15 -width 190
+                mouse-release 153 10 button1 524288 -height 15 -width 190
+                mouse-move 149 10 -height 15 -width 190
+                mouse-press 149 10 button3 -height 15 -width 190
+                mouse-release 149 10 button3 2097152 -height 15 -width 190
+            }
+        }
+    }
+    get-canvas | get-menu "Kind Properties..." | click
+}
+get-window "Digaram Element Kinds" | get-button "Use Custom" | click
+return-from-os-dialog COLOR "255,255,128"
+get-window "Digaram Element Kinds" | get-button -after [get-label "Background Color:"] | click
+return-from-os-dialog COLOR "255,0,0"
+with [get-window "Digaram Element Kinds"] {
+    get-button -after [get-label "Foreground Color:"] | click
+    get-button OK | click
+}
+get-editor "Project1/tigerstripe.xml" | get-diagram | mouse-move 40 168 -height 375 -width 741
+with [get-editor "Project1/tigerstripe.xml" | get-diagram | get-edit-part "0/1"] {
+    get-property "Background color" | is-equal "RGB {255, 255, 128}" | verify
+    get-property "Foreground color" | is-equal "RGB {255, 0, 0}" | verify
+}
+with [get-editor "Project1/tigerstripe.xml"] {
+    with [get-diagram | get-edit-part "0/1" | get-figure 1] {
+        mouse-move 84 11 -height 15 -width 190
+        mouse-press 84 11 button3 -height 15 -width 190
+        mouse-release 84 11 button3 2097152 -height 15 -width 190
+    }
+    get-canvas | get-menu "Kind Properties..." | click
+}
+with [get-window "Digaram Element Kinds"] {
+    get-button "Use Custom" | click
+    get-button OK | click
+}
+get-editor "Project1/tigerstripe.xml" | get-diagram | mouse-move 40 158 -height 375 -width 741
+with [get-editor "Project1/tigerstripe.xml" | get-diagram | get-edit-part "0/1"] {
+    get-property "Background color" | is-equal "RGB {255, 243, 243}" | verify
+    get-property "Foreground color" | is-equal "RGB {225, 213, 213}" | verify
+}
+with [get-editor "Project1/tigerstripe.xml" | get-diagram] {
+    mouse-move 57 280 -height 375 -width 741
+    mouse-hover 57 280 -height 375 -width 741
+    mouse-move 3 266 -height 375 -width 741
+}
+get-button "Save (Ctrl+S)" | click
+with [get-editor "Project1/tigerstripe.xml"] {
+    get-diagram | mouse-move 319 374 -height 375 -width 741
+    with [get-tab-folder] {
+        get-tab-item "Advanced Settings" | click
+        get-tab-item "Dependency Diagram" | click
+    }
+    get-diagram | mouse-move 17 276 -height 375 -width 741
+}
+with [get-editor "Project1/tigerstripe.xml" | get-diagram | get-edit-part "0/1"] {
+    get-property x | is-equal 30 | verify
+    get-property y | is-equal 170 | verify
+    get-property width | is-equal 200 | verify
+    get-property height | is-equal 80 | verify
+    get-property "Background color" | is-equal "RGB {255, 243, 243}" | verify
+    get-property "Foreground color" | is-equal "RGB {225, 213, 213}" | verify
+}
+with [get-editor "Project1/tigerstripe.xml"] {
+    get-diagram | mouse-move 140 0 -height 375 -width 741
+    close
+}
+with [get-view "Tigerstripe Explorer"] {
+    click -nowait
+    get-tree | select "Project1/tigerstripe.xml" | double-click -nowait
+}
+with [get-editor "Project1/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item "Dependency Diagram" | click
+    with [get-diagram] {
+        mouse-move 16 343 -height 375 -width 741
+        with [get-edit-part "0/1"] {
+            get-property x | is-equal 30 | verify
+            get-property y | is-equal 170 | verify
+            get-property width | is-equal 200 | verify
+            get-property height | is-equal 80 | verify
+            get-property "Background color" | is-equal "RGB {255, 243, 243}" | verify
+            get-property "Foreground color" | is-equal "RGB {225, 213, 213}" | verify
+        }
+    }
+}]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -144,8 +391,8 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart</path>
         <path>address</path>
-        <parent id="DiagramViewer6" kind="DiagramViewer"/>
         <indexes>0</indexes>
+        <parent id="DiagramViewer6" kind="DiagramViewer"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="childrenCount" value="2">
@@ -168,9 +415,9 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart</path>
         <path>address</path>
-        <parent id="DiagramViewer7" kind="DiagramViewer"/>
         <indexes>0</indexes>
         <indexes>1</indexes>
+        <parent id="DiagramViewer7" kind="DiagramViewer"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="x" value="10">
@@ -450,9 +697,9 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart</path>
         <path>address</path>
-        <parent id="DiagramViewer9" kind="DiagramViewer"/>
         <indexes>0</indexes>
         <indexes>1</indexes>
+        <parent id="DiagramViewer9" kind="DiagramViewer"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="x" value="10">
@@ -538,9 +785,9 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart</path>
         <path>address</path>
-        <parent id="DiagramViewer11" kind="DiagramViewer"/>
         <indexes>0</indexes>
         <indexes>1</indexes>
+        <parent id="DiagramViewer11" kind="DiagramViewer"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="x" value="10">
@@ -665,8 +912,8 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart</path>
         <path>address</path>
-        <parent id="DiagramViewer14" kind="DiagramViewer"/>
         <indexes>0</indexes>
+        <parent id="DiagramViewer14" kind="DiagramViewer"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="childrenCount" value="2">
@@ -689,9 +936,9 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart</path>
         <path>address</path>
-        <parent id="DiagramViewer15" kind="DiagramViewer"/>
         <indexes>0</indexes>
         <indexes>1</indexes>
+        <parent id="DiagramViewer15" kind="DiagramViewer"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="x" value="10">
@@ -781,9 +1028,9 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart</path>
         <path>address</path>
-        <parent id="DiagramViewer17" kind="DiagramViewer"/>
         <indexes>0</indexes>
         <indexes>1</indexes>
+        <parent id="DiagramViewer17" kind="DiagramViewer"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="x" value="30">
@@ -988,9 +1235,9 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart</path>
         <path>address</path>
-        <parent id="DiagramViewer19" kind="DiagramViewer"/>
         <indexes>0</indexes>
         <indexes>1</indexes>
+        <parent id="DiagramViewer19" kind="DiagramViewer"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="Background color" value="RGB {255, 255, 128}" category="property">
@@ -1097,9 +1344,9 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart</path>
         <path>address</path>
-        <parent id="DiagramViewer21" kind="DiagramViewer"/>
         <indexes>0</indexes>
         <indexes>1</indexes>
+        <parent id="DiagramViewer21" kind="DiagramViewer"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="Background color" value="RGB {255, 243, 243}" category="property">
@@ -1194,9 +1441,9 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart</path>
         <path>address</path>
-        <parent id="DiagramViewer23" kind="DiagramViewer"/>
         <indexes>0</indexes>
         <indexes>1</indexes>
+        <parent id="DiagramViewer23" kind="DiagramViewer"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="x" value="30">
@@ -1304,9 +1551,9 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart</path>
         <path>address</path>
-        <parent id="DiagramViewer26" kind="DiagramViewer"/>
         <indexes>0</indexes>
         <indexes>1</indexes>
+        <parent id="DiagramViewer26" kind="DiagramViewer"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="x" value="30">
@@ -1381,10 +1628,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.12">
       <elements id="Button1" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Add">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds width="55" height="25"/>
+        <caption>Add</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.13">
@@ -1419,10 +1667,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.20">
       <elements id="Button2" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.21">
@@ -1430,9 +1679,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.24">
       <elements id="Button3" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.25">
@@ -1524,10 +1774,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.79">
       <elements id="Button8" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Use Custom" selected="true" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Check">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="156" height="16"/>
+        <caption>Use Custom</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.80">
@@ -1543,10 +1794,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.84">
       <elements id="Button9" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="105" y="24" width="51" height="25"/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.85">
@@ -1562,10 +1814,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.90">
       <elements id="Button10" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="105" y="57" width="51" height="25"/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.91">
@@ -1573,10 +1826,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.95">
       <elements id="Button11" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.96">
@@ -1686,10 +1940,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.151">
       <elements id="Button12" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;No">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="98" width="92" height="25"/>
+        <caption><![CDATA[&No]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.152">
@@ -1860,10 +2115,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.227">
       <elements id="Button13" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Use Custom" selected="true" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Check">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="156" height="16"/>
+        <caption>Use Custom</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.228">
@@ -1879,10 +2135,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.232">
       <elements id="Button14" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="105" y="24" width="51" height="25"/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.233">
@@ -1898,10 +2155,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.238">
       <elements id="Button15" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="105" y="57" width="51" height="25"/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.239">
@@ -1909,10 +2167,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.243">
       <elements id="Button16" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.244">
@@ -1977,10 +2236,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.266">
       <elements id="Button17" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Use Custom" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" kind="Check">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="156" height="16"/>
+        <caption>Use Custom</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.267">
@@ -1988,10 +2248,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.270">
       <elements id="Button18" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.271">
@@ -2034,9 +2295,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.287">
       <elements id="Button19" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.288">

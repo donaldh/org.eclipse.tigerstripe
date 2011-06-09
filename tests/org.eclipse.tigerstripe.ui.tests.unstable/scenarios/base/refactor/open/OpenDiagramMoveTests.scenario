@@ -1,7 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="OpenDiagramMoveTests" id="_By608M-hEd--BLGWfF3Gaw" description="Test single and multiply artifacts move from one package to another and check updates on class and instance diagrams&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;Create a Tigerstripe Project with 'simple' and 'simple.moved' packages.&#xD;&#xA;Create artifacts in 'simple' package:&#xD;&#xA;&#x9;Ent1 of type entity with attribute1 of DataMiddle type, with extends SuperEnt and implements SessionFacade0.&#xD;&#xA;&#x9;Ent2 of type entity with Ent1 used in Method Return type, with Exception0 used in a method, and argument Arg1, with extends Ent1.&#xD;&#xA;&#x9;AssociatedEnt of type entity with attribute0 of DataMiddle type.&#xD;&#xA;&#x9;SuperEnt of type entity.&#xD;&#xA;&#x9;Query0 of type query with returned type = Ent1.&#xD;&#xA;&#x9;DataBottom of type Datatype with extends to DataMiddle and 'recur' attribute (self reference).&#xD;&#xA;&#x9;DataMiddle of type Datatype with extends to DataTop&#xD;&#xA;&#x9;DataTop of type Datatype.&#xD;&#xA;&#x9;Enumeration0 of type Enumeration.&#xD;&#xA;&#x9;Event0 of type Event.&#xD;&#xA;&#x9;Exception0 of type Exception.&#xD;&#xA;&#x9;SessionFacade0 of type Session Facade.&#xD;&#xA;&#x9;Update0 of type Update Procedure.&#xD;&#xA;Create connection artifacts in 'simple' package:&#xD;&#xA;&#x9;Association0 with 'zEnd Details' is equal 'simple.Ent1'.&#xD;&#xA;&#x9;Association1 with 'aEnd Details' and 'zEnd Details' are equal 'simple.Ent1'.&#xD;&#xA;&#x9;AssociationClass0 with 'aEnd Details' and 'zEnd Details' are equal 'simple.Ent1'.&#xD;&#xA;&#x9;Dependency0 with 'aEnd Details' is equal 'simple.Ent1'.&#xD;&#xA;Create class diagrams within the 'simple' and 'simple.moved' packages themselves.&#xD;&#xA;Create class and instance diagrams outside of all packages.&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;Open all of the diagrams.&#xD;&#xA;Select menu item &quot;Refactor Model/Move...&quot; for Ent1 artifact. &#xD;&#xA;Select 'simple.moved' package as destination for Ent1.&#xD;&#xA;Save diagram.&#xD;&#xA;Check changed element package on the diagram.&#xD;&#xA;Select multiple artifacts (DataBottom, DataMiddle, DataTop).&#xD;&#xA;Select menu item &quot;Refactor Model/Move...&quot; for selected artifacts. &#xD;&#xA;Select 'simple.moved' package as destination for selected artifacts.&#xD;&#xA;Save diagram.&#xD;&#xA;Check changed element package on the diagram.&#xD;&#xA;" type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="OpenDiagramMoveTests" id="_By608M-hEd--BLGWfF3Gaw" description="Test single and multiply artifacts move from one package to another and check updates on class and instance diagrams&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;Create a Tigerstripe Project with 'simple' and 'simple.moved' packages.&#xD;&#xA;Create artifacts in 'simple' package:&#xD;&#xA;&#x9;Ent1 of type entity with attribute1 of DataMiddle type, with extends SuperEnt and implements SessionFacade0.&#xD;&#xA;&#x9;Ent2 of type entity with Ent1 used in Method Return type, with Exception0 used in a method, and argument Arg1, with extends Ent1.&#xD;&#xA;&#x9;AssociatedEnt of type entity with attribute0 of DataMiddle type.&#xD;&#xA;&#x9;SuperEnt of type entity.&#xD;&#xA;&#x9;Query0 of type query with returned type = Ent1.&#xD;&#xA;&#x9;DataBottom of type Datatype with extends to DataMiddle and 'recur' attribute (self reference).&#xD;&#xA;&#x9;DataMiddle of type Datatype with extends to DataTop&#xD;&#xA;&#x9;DataTop of type Datatype.&#xD;&#xA;&#x9;Enumeration0 of type Enumeration.&#xD;&#xA;&#x9;Event0 of type Event.&#xD;&#xA;&#x9;Exception0 of type Exception.&#xD;&#xA;&#x9;SessionFacade0 of type Session Facade.&#xD;&#xA;&#x9;Update0 of type Update Procedure.&#xD;&#xA;Create connection artifacts in 'simple' package:&#xD;&#xA;&#x9;Association0 with 'zEnd Details' is equal 'simple.Ent1'.&#xD;&#xA;&#x9;Association1 with 'aEnd Details' and 'zEnd Details' are equal 'simple.Ent1'.&#xD;&#xA;&#x9;AssociationClass0 with 'aEnd Details' and 'zEnd Details' are equal 'simple.Ent1'.&#xD;&#xA;&#x9;Dependency0 with 'aEnd Details' is equal 'simple.Ent1'.&#xD;&#xA;Create class diagrams within the 'simple' and 'simple.moved' packages themselves.&#xD;&#xA;Create class and instance diagrams outside of all packages.&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;Open all of the diagrams.&#xD;&#xA;Select menu item &quot;Refactor Model/Move...&quot; for Ent1 artifact. &#xD;&#xA;Select 'simple.moved' package as destination for Ent1.&#xD;&#xA;Save diagram.&#xD;&#xA;Check changed element package on the diagram.&#xD;&#xA;Select multiple artifacts (DataBottom, DataMiddle, DataTop).&#xD;&#xA;Select menu item &quot;Refactor Model/Move...&quot; for selected artifacts. &#xD;&#xA;Select 'simple.moved' package as destination for selected artifacts.&#xD;&#xA;Save diagram.&#xD;&#xA;Check changed element package on the diagram.&#xD;&#xA;" tags="TS_Project/VisualEditor/Refactor" type="ecl" externalReference="http://docs.xored.com/display/TS/OpenDiagramMoveTests">
   <contexts>_NG89gMz6Ed-6Q5V9pxn_5A</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script" content="get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;model-refactoring/src/simple/default&quot; | double-click&#xA;get-editor &quot;default.wvd&quot; | click -nowait&#xA;with [get-view &quot;Tigerstripe Explorer&quot;] {&#xA;    click -nowait&#xA;    get-tree | select &quot;model-refactoring/src/simple.moved/inside-moved&quot; | double-click&#xA;}&#xA;get-editor &quot;inside-moved.wvd&quot; | click -nowait&#xA;with [get-view &quot;Tigerstripe Explorer&quot;] {&#xA;    click -nowait&#xA;    get-tree | select &quot;model-refactoring/outside-class-diagram&quot; | double-click&#xA;}&#xA;get-editor &quot;outside-class-diagram.wvd&quot; | click -nowait&#xA;with [get-view &quot;Tigerstripe Explorer&quot;] {&#xA;    click -nowait&#xA;    get-tree | select &quot;model-refactoring/src/simple/Ent1&quot; | get-menu &quot;Refactor Model/Move...&quot; | click&#xA;}&#xA;with [get-window Move] {&#xA;    get-tree -after [get-label &quot;Choose destination for \'Ent1:&quot;] | select &quot;model-refactoring/src/simple/moved&quot;&#xA;    get-button Finish | click&#xA;}&#xA;with [get-editor &quot;outside-class-diagram.wvd&quot; | get-diagram | get-figure &quot;0/1/0/0&quot;] {&#xA;    mouse-hover 468 466 -height 491 -width 968&#xA;    mouse-move 58 3 -height 491 -width 968&#xA;}&#xA;get-editor &quot;default.wvd&quot; | click -nowait&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;with [get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part &quot;0/0&quot;] {&#xA;    get-property name | equals Ent1 | verify-true&#xA;    get-property package | equals &quot;simple.moved&quot; | verify-true&#xA;}&#xA;with [get-editor &quot;inside-moved.wvd&quot;] {&#xA;    click -nowait&#xA;    get-diagram | get-figure &quot;0/1/0/0&quot; | mouse-move 6 15 -height 491 -width 968&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;with [get-editor &quot;inside-moved.wvd&quot; | get-diagram | get-edit-part &quot;0/0&quot;] {&#xA;    get-property name | equals Ent1 | verify-true&#xA;    get-property package | equals &quot;simple.moved&quot; | verify-true&#xA;}&#xA;with [get-editor &quot;outside-class-diagram.wvd&quot;] {&#xA;    click -nowait&#xA;    get-diagram | get-figure &quot;0/1/0/0&quot; | mouse-move 0 26 -height 491 -width 968&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;with [get-editor &quot;outside-class-diagram.wvd&quot; | get-diagram | get-edit-part &quot;0/0&quot;] {&#xA;    get-property name | equals Ent1 | verify-true&#xA;    get-property package | equals &quot;simple.moved&quot; | verify-true&#xA;}&#xA;with [get-view &quot;Tigerstripe Explorer&quot;] {&#xA;    click -nowait&#xA;    with [get-tree] {&#xA;        select &quot;model-refactoring/src/simple/DataBottom&quot; | key-type CTRL&#xA;        select &quot;model-refactoring/src/simple/DataBottom&quot; &quot;model-refactoring/src/simple/DataMiddle&quot; &quot;model-refactoring/src/simple/DataTop&quot;&#xA;        get-menu &quot;Refactor Model/Move...&quot; | click&#xA;    }&#xA;}&#xA;with [get-window Move] {&#xA;    get-tree -after [get-label &quot;Choose destination for 3 selected elements:&quot;] | select &quot;model-refactoring/src/simple/moved&quot;&#xA;    get-button Finish | click&#xA;}&#xA;with [get-editor &quot;outside-class-diagram.wvd&quot; | get-diagram | get-figure &quot;0/1/0/0&quot;] {&#xA;    mouse-hover 464 463 -height 491 -width 968&#xA;    mouse-move 136 5 -height 491 -width 968&#xA;}&#xA;get-editor &quot;default.wvd&quot; | click -nowait&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;&#xA;with [get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name DataTop | get-edit-part -text &quot;simple.moved.DataTop&quot;] {&#xA;    get-property name | equals DataTop | verify-true&#xA;    get-property package | equals &quot;simple.moved&quot; | verify-true&#xA;}&#xA;with [get-editor &quot;default.wvd&quot; | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name DataMiddle | get-edit-part -text &quot;simple.moved.DataMiddle&quot;] {&#xA;    get-property name | equals DataMiddle | verify-true&#xA;    get-property package | equals &quot;simple.moved&quot; | verify-true&#xA;}"/>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/src/simple/default" | double-click
+get-editor "default.wvd" | click -nowait
+with [get-view "Tigerstripe Explorer"] {
+    click -nowait
+    get-tree | select "model-refactoring/src/simple.moved/inside-moved" | double-click
+}
+get-editor "inside-moved.wvd" | click -nowait
+with [get-view "Tigerstripe Explorer"] {
+    click -nowait
+    get-tree | select "model-refactoring/outside-class-diagram" | double-click
+}
+get-editor "outside-class-diagram.wvd" | click -nowait
+with [get-view "Tigerstripe Explorer"] {
+    click -nowait
+    get-tree | select "model-refactoring/src/simple/Ent1" | get-menu "Refactor Model/Move..." | click
+}
+with [get-window Move] {
+    get-tree -after [get-label "Choose destination for \'Ent1:"] | select "model-refactoring/src/simple/moved"
+    get-button Finish | click
+}
+with [get-editor "outside-class-diagram.wvd" | get-diagram | get-figure "0/1/0/0"] {
+    mouse-hover 468 466 -height 491 -width 968
+    mouse-move 58 3 -height 491 -width 968
+}
+get-editor "default.wvd" | click -nowait
+get-button "Save (Ctrl+S)" | click
+with [get-editor "default.wvd" | get-diagram | get-edit-part "0/0"] {
+    get-property name | equals Ent1 | verify-true
+    get-property package | equals "simple.moved" | verify-true
+}
+with [get-editor "inside-moved.wvd"] {
+    click -nowait
+    get-diagram | get-figure "0/1/0/0" | mouse-move 6 15 -height 491 -width 968
+}
+get-button "Save (Ctrl+S)" | click
+with [get-editor "inside-moved.wvd" | get-diagram | get-edit-part "0/0"] {
+    get-property name | equals Ent1 | verify-true
+    get-property package | equals "simple.moved" | verify-true
+}
+with [get-editor "outside-class-diagram.wvd"] {
+    click -nowait
+    get-diagram | get-figure "0/1/0/0" | mouse-move 0 26 -height 491 -width 968
+}
+get-button "Save (Ctrl+S)" | click
+with [get-editor "outside-class-diagram.wvd" | get-diagram | get-edit-part "0/0"] {
+    get-property name | equals Ent1 | verify-true
+    get-property package | equals "simple.moved" | verify-true
+}
+with [get-view "Tigerstripe Explorer"] {
+    click -nowait
+    with [get-tree] {
+        select "model-refactoring/src/simple/DataBottom" | key-type CTRL
+        select "model-refactoring/src/simple/DataBottom" "model-refactoring/src/simple/DataMiddle" "model-refactoring/src/simple/DataTop"
+        get-menu "Refactor Model/Move..." | click
+    }
+}
+with [get-window Move] {
+    get-tree -after [get-label "Choose destination for 3 selected elements:"] | select "model-refactoring/src/simple/moved"
+    get-button Finish | click
+}
+with [get-editor "outside-class-diagram.wvd" | get-diagram | get-figure "0/1/0/0"] {
+    mouse-hover 464 463 -height 491 -width 968
+    mouse-move 136 5 -height 491 -width 968
+}
+get-editor "default.wvd" | click -nowait
+get-button "Save (Ctrl+S)" | click
+
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name DataTop | get-edit-part -text "simple.moved.DataTop"] {
+    get-property name | equals DataTop | verify-true
+    get-property package | equals "simple.moved" | verify-true
+}
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name DataMiddle | get-edit-part -text "simple.moved.DataMiddle"] {
+    get-property name | equals DataMiddle | verify-true
+    get-property package | equals "simple.moved" | verify-true
+}]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -201,9 +277,9 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart</path>
         <path>address</path>
+        <indexes>0</indexes>
+        <indexes>0</indexes>
         <parent id="DiagramViewer1" kind="DiagramViewer"/>
-        <indexes>0</indexes>
-        <indexes>0</indexes>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="name" value="Ent1" category="property">
@@ -269,9 +345,9 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart</path>
         <path>address</path>
+        <indexes>0</indexes>
+        <indexes>0</indexes>
         <parent id="DiagramViewer3" kind="DiagramViewer"/>
-        <indexes>0</indexes>
-        <indexes>0</indexes>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="name" value="Ent1" category="property">
@@ -337,9 +413,9 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart</path>
         <path>address</path>
+        <indexes>0</indexes>
+        <indexes>0</indexes>
         <parent id="DiagramViewer5" kind="DiagramViewer"/>
-        <indexes>0</indexes>
-        <indexes>0</indexes>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="name" value="Ent1" category="property">
@@ -508,9 +584,9 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart</path>
         <path>address</path>
-        <parent id="DiagramViewer7" kind="DiagramViewer"/>
         <indexes>0</indexes>
         <indexes>5</indexes>
+        <parent id="DiagramViewer7" kind="DiagramViewer"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="name" value="DataMiddle" category="property">
@@ -536,9 +612,9 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart</path>
         <path>address</path>
-        <parent id="DiagramViewer8" kind="DiagramViewer"/>
         <indexes>0</indexes>
         <indexes>8</indexes>
+        <parent id="DiagramViewer8" kind="DiagramViewer"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="name" value="DataTop" category="property">
@@ -564,10 +640,10 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart</path>
         <path>address</path>
-        <parent id="DiagramViewer0_69" kind="DiagramViewer"/>
         <indexes>0</indexes>
         <indexes>4</indexes>
         <indexes>1</indexes>
+        <parent id="DiagramViewer0_69" kind="DiagramViewer"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="name" value="DataMiddle" category="property">
@@ -593,10 +669,10 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart</path>
         <path>address</path>
-        <parent id="DiagramViewer1_70" kind="DiagramViewer"/>
         <indexes>0</indexes>
         <indexes>7</indexes>
         <indexes>1</indexes>
+        <parent id="DiagramViewer1_70" kind="DiagramViewer"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="name" value="DataTop" category="property">
@@ -684,10 +760,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.33">
       <elements id="Button0" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="109" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.34">
@@ -706,9 +783,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.42">
       <elements id="Button1" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.43">
@@ -767,9 +845,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.58">
       <elements id="Button2" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.59">
@@ -823,9 +902,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.74">
       <elements id="Button3" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.75">
@@ -915,10 +995,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.99">
       <elements id="Button4" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="109" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.100">
@@ -943,9 +1024,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.110">
       <elements id="Button5" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.111">

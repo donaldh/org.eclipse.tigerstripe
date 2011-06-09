@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="4TsDependencyDiagramLayout_Colors" version="3.0" id="_SUe4EWS1EeCS8L33xQZvBg" description="Test is used to check diagram layout. &#xD;&#xA;&#xD;&#xA;Precondition: 2 projects, 1 installed module (com.cisco.test.Module)&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;Add dependencies to a project and save changes.&#xD;&#xA;Open &quot;Diagram&quot; tab on editor. Verify colors.&#xD;&#xA;Change backgrouns and foreground colors.&#xD;&#xA;Do not save changes. Move to another tab on the editor. Re-open diagram tab - diagram should be as previous. Verify colors.&#xD;&#xA;Do not save &amp; close editor. Re-open editor. Re-open diagram tab - diagram should be without changes. Verify colors.&#xD;&#xA;&#xD;&#xA;Change backgrouns and foreground colors. Verify colors.&#xD;&#xA;Save &amp; close editor. Re-open editor. Re-open diagram tab - diagram should be as previous. Verify colors.&#xD;&#xA;&#xD;&#xA;Select default backgrouns and foreground colors. Verify colors. &#xD;&#xA;Save changes." tags="I27, Dependency" type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="4TsDependencyDiagramLayout_Colors" version="3.0" id="_SUe4EWS1EeCS8L33xQZvBg" description="Test is used to check diagram layout colors. &#xD;&#xA;&#xD;&#xA;Precondition: 2 projects, 1 installed module (com.cisco.test.Module)&#xD;&#xA;TigerstripeDependencyDiagramContextGroup&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;Add dependencies to a project and save changes.&#xD;&#xA;Open &quot;Diagram&quot; tab on editor. Verify colors.&#xD;&#xA;Change backgrouns and foreground colors.&#xD;&#xA;Do not save changes. Move to another tab on the editor. Re-open diagram tab - diagram should be as previous. Verify colors.&#xD;&#xA;Do not save &amp; close editor. Re-open editor. Re-open diagram tab - diagram should be without changes. Verify colors.&#xD;&#xA;&#xD;&#xA;Change backgrouns and foreground colors. Verify colors.&#xD;&#xA;Save &amp; close editor. Re-open editor. Re-open diagram tab - diagram should be as previous. Verify colors.&#xD;&#xA;&#xD;&#xA;Select default backgrouns and foreground colors. Verify colors. &#xD;&#xA;Save changes." tags="TS_Project/Edit/Descriptor/Diagram, I27" type="ecl" externalReference="http://docs.xored.com/display/TS/4TsDependencyDiagramLayout_Colors">
   <contexts>_E-NZMfhGEd-iKuOiJgVXVQ</contexts>
   <content xsi:type="org.eclipse.ecl.core:Script">
     <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "Project1/tigerstripe.xml" | double-click -nowait
@@ -1329,10 +1329,11 @@ get-button "Save (Ctrl+S)" | click]]></content>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.12">
       <elements id="Button9" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Add">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds width="55" height="25"/>
+        <caption>Add</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.13">
@@ -1359,10 +1360,11 @@ get-button "Save (Ctrl+S)" | click]]></content>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.19">
       <elements id="Button10" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.20">
@@ -1392,10 +1394,11 @@ get-button "Save (Ctrl+S)" | click]]></content>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.29">
       <elements id="Button11" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.30">
@@ -1403,9 +1406,10 @@ get-button "Save (Ctrl+S)" | click]]></content>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.33">
       <elements id="Button12" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.34">
@@ -1578,10 +1582,11 @@ get-button "Save (Ctrl+S)" | click]]></content>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.77">
       <elements id="Button13" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Use Custom" selected="true" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Check">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="156" height="16"/>
+        <caption>Use Custom</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.78">
@@ -1589,10 +1594,11 @@ get-button "Save (Ctrl+S)" | click]]></content>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.81">
       <elements id="Button14" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="105" y="24" width="51" height="25"/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.82">
@@ -1608,10 +1614,11 @@ get-button "Save (Ctrl+S)" | click]]></content>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.87">
       <elements id="Button15" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="105" y="57" width="51" height="25"/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.88">
@@ -1619,10 +1626,11 @@ get-button "Save (Ctrl+S)" | click]]></content>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.92">
       <elements id="Button16" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.93">
@@ -1834,10 +1842,11 @@ get-button "Save (Ctrl+S)" | click]]></content>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.139">
       <elements id="Button17" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;No">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="98" width="92" height="25"/>
+        <caption><![CDATA[&No]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.140">
@@ -2047,10 +2056,11 @@ get-button "Save (Ctrl+S)" | click]]></content>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.187">
       <elements id="Button19_109" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Use Custom" selected="true" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Check">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="156" height="16"/>
+        <caption>Use Custom</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.188">
@@ -2058,10 +2068,11 @@ get-button "Save (Ctrl+S)" | click]]></content>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.191">
       <elements id="Button20_110" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="105" y="24" width="51" height="25"/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.192">
@@ -2077,10 +2088,11 @@ get-button "Save (Ctrl+S)" | click]]></content>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.197">
       <elements id="Button21_111" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="105" y="57" width="51" height="25"/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.198">
@@ -2088,10 +2100,11 @@ get-button "Save (Ctrl+S)" | click]]></content>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.202">
       <elements id="Button22_112" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.203">
@@ -2158,9 +2171,10 @@ get-button "Save (Ctrl+S)" | click]]></content>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.219">
       <elements id="Button23_113" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.220">
@@ -2307,10 +2321,11 @@ get-button "Save (Ctrl+S)" | click]]></content>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.258">
       <elements id="Button24_114" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Use Custom" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" kind="Check">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="156" height="16"/>
+        <caption>Use Custom</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.259">
@@ -2318,10 +2333,11 @@ get-button "Save (Ctrl+S)" | click]]></content>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.262">
       <elements id="Button25_115" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.263">
@@ -2407,9 +2423,10 @@ get-button "Save (Ctrl+S)" | click]]></content>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.281">
       <elements id="Button26_116" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.282">

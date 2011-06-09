@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="341055_RenameEnumerationLiterals" version="3.0" id="_tJ9BAG--EeCS3bGR9ACI6w" description="When users change enumeration literals, users should be presented with a&#xD;&#xA;generic message indicating that this may affect all artifacts referencing the&#xD;&#xA;Enumeration and whether or not they wish to proceed &#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;   1. Create Tigerstripe project&#xD;&#xA;   2. Create Enumeration artifact 'Enum' and add literal 'Literal'&#xD;&#xA;   3. Create an entity 'Entity1' and add an attribute 'testEnum'.&#xD;&#xA;   4. Set data type for this attribute to 'Enum'.&#xD;&#xA;   5. Set the default value for this attribute by pulling the choice list and clicking Literal&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;   1. Check attribute and literal names in Tigerstripe Explorer&#xD;&#xA;   2. Update literal name and save changes&#xD;&#xA;   3. Check warning message and click 'No'&#xD;&#xA;   4. Check literal name in Tigerstripe Explorer (it is not changed). Editor should be marked as dirty&#xD;&#xA;   5. Save changes and click 'Yes' in warning message&#xD;&#xA;   6. Check that literal is updated, attribute is not updated&#xD;&#xA;   7. Check error in Problems view&#xD;&#xA;" tags="I34, TS_Project/Edit/Artifacts" type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="341055_RenameEnumerationLiterals" version="3.0" id="_tJ9BAG--EeCS3bGR9ACI6w" description="When users change enumeration literals, users should be presented with a&#xD;&#xA;generic message indicating that this may affect all artifacts referencing the&#xD;&#xA;Enumeration and whether or not they wish to proceed &#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;   1. Create Tigerstripe project&#xD;&#xA;   2. Create Enumeration artifact 'Enum' and add literal 'Literal'&#xD;&#xA;   3. Create an entity 'Entity1' and add an attribute 'testEnum'.&#xD;&#xA;   4. Set data type for this attribute to 'Enum'.&#xD;&#xA;   5. Set the default value for this attribute by pulling the choice list and clicking Literal&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;   1. Check attribute and literal names in Tigerstripe Explorer&#xD;&#xA;   2. Update literal name and save changes&#xD;&#xA;   3. Check warning message and click 'No'&#xD;&#xA;   4. Check literal name in Tigerstripe Explorer (it is not changed). Editor should be marked as dirty&#xD;&#xA;   5. Save changes and click 'Yes' in warning message&#xD;&#xA;   6. Check that literal is updated, attribute is not updated&#xD;&#xA;   7. Check error in Problems view&#xD;&#xA;" tags="I34, TS_Project/Edit/Artifacts" type="ecl" externalReference="http://docs.xored.com/display/TS/341055_RenameEnumerationLiterals">
   <contexts>_fvu3kG--EeCS3bGR9ACI6w</contexts>
   <content xsi:type="org.eclipse.ecl.core:Script">
     <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany/Entity1/testEnum:Enum=Literal" | get-property caption | equals "testEnum:Enum=Literal" | verify-true
@@ -516,9 +516,10 @@ get-view Problems | get-tree | get-item "Errors \\(1 item\\)/Default value of \'
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.22">
       <elements id="Button0" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.23">
@@ -566,10 +567,11 @@ get-view Problems | get-tree | get-item "Errors \\(1 item\\)/Default value of \'
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.32">
       <elements id="Button1" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;No">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="98" width="92" height="25"/>
+        <caption><![CDATA[&No]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.33">
@@ -638,9 +640,10 @@ get-view Problems | get-tree | get-item "Errors \\(1 item\\)/Default value of \'
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.45">
       <elements id="Button3" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.46">
@@ -656,10 +659,11 @@ get-view Problems | get-tree | get-item "Errors \\(1 item\\)/Default value of \'
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.50">
       <elements id="Button4" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Yes">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption><![CDATA[&Yes]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.51">

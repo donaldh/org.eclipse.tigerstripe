@@ -1,7 +1,183 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="230101_OrderedAssociations_Instance" version="3.0" id="__shhsGZlEeCrMqyZEEy-ow" description="Test ability to specify the order of ordered association on instance diagram&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;   1. Create a Model project Project1&#xD;&#xA;   2. Create two entities A and B&#xD;&#xA;   3. Created an association between A and B and modified the aEnd to specify a&#xD;&#xA;      multiplicity of 0..* and set 'isOrdered' to true.&#xD;&#xA;   4. Create Class Diagram and Instance Diagram&#xD;&#xA;   5. Add artifacts to class and instance diagrams.&#xD;&#xA;&#xD;&#xA;   Steps:&#xD;&#xA;b. Open instance diagram:   &#xD;&#xA;   1. Add association class to instance diagram.&#xD;&#xA;   2. Open 'Set Order' dialog in association context menu for aEnd. &#xD;&#xA;   3. Enter 'unknown' value&#xD;&#xA;   4. Check that 'unknown' displayed&#xD;&#xA;   5. Open 'Set Order' dialog and update value to '1'&#xD;&#xA;   6. Check that '1' displayed&#xD;&#xA;   7. Open 'Set Order' dialog and remove value&#xD;&#xA;   8. Check that qualifiers are hidden&#xD;&#xA;   9. Remove association class. Add Association between A and B &#xD;&#xA;   10. Try to open 'Set Order' dialog for zEnd.&#xD;&#xA;   11. Modifiy the zEnd to specify a multiplicity of 0..* and set 'isOrdered' to true.&#xD;&#xA;   12. Open 'Set Order' dialog in association context menu for aEnd. &#xD;&#xA;   13. Enter 'unknown' value&#xD;&#xA;   14. Check that 'unknown' displayed&#xD;&#xA;&#xD;&#xA;" type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="230101_OrderedAssociations_Instance" version="3.0" id="__shhsGZlEeCrMqyZEEy-ow" description="Test ability to specify the order of ordered association on instance diagram&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;   1. Create a Model project Project1&#xD;&#xA;   2. Create two entities A and B&#xD;&#xA;   3. Created an association between A and B and modified the aEnd to specify a&#xD;&#xA;      multiplicity of 0..* and set 'isOrdered' to true.&#xD;&#xA;   4. Create Class Diagram and Instance Diagram&#xD;&#xA;   5. Add artifacts to class and instance diagrams.&#xD;&#xA;&#xD;&#xA;   Steps:&#xD;&#xA;b. Open instance diagram:   &#xD;&#xA;   1. Add association class to instance diagram.&#xD;&#xA;   2. Open 'Set Order' dialog in association context menu for aEnd. &#xD;&#xA;   3. Enter 'unknown' value&#xD;&#xA;   4. Check that 'unknown' displayed&#xD;&#xA;   5. Open 'Set Order' dialog and update value to '1'&#xD;&#xA;   6. Check that '1' displayed&#xD;&#xA;   7. Open 'Set Order' dialog and remove value&#xD;&#xA;   8. Check that qualifiers are hidden&#xD;&#xA;   9. Remove association class. Add Association between A and B &#xD;&#xA;   10. Try to open 'Set Order' dialog for zEnd.&#xD;&#xA;   11. Modifiy the zEnd to specify a multiplicity of 0..* and set 'isOrdered' to true.&#xD;&#xA;   12. Open 'Set Order' dialog in association context menu for aEnd. &#xD;&#xA;   13. Enter 'unknown' value&#xD;&#xA;   14. Check that 'unknown' displayed&#xD;&#xA;&#xD;&#xA;" tags="TS_Project/VisualEditor, I33" type="ecl" externalReference="http://docs.xored.com/display/TS/230101_OrderedAssociations_Instance">
   <contexts>_BDX7sGZtEeCrMqyZEEy-ow</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script" content="get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project1/src/com.mycompany/InstanceDiagram&quot; | double-click -nowait&#xA;with [get-editor &quot;InstanceDiagram.wod&quot; | get-diagram] {&#xA;    with [get-edit-part -className InstanceMapEditPart | get-edit-part -name A] {&#xA;        with [get-figure 0] {&#xA;            mouse-move 17 21 button3 -height 40 -width 40&#xA;            mouse-press 17 21 button3 -height 40 -width 40&#xA;            mouse-release 17 21 button3 2097152 -height 40 -width 40&#xA;        }&#xA;        with [get-edit-part -text &quot;A:A&quot;] {&#xA;            mouse-press 13 15 button1 -height 19 -width 40&#xA;            mouse-drag 13 15 -mask 524288 -height 19 -width 40&#xA;        }&#xA;    }&#xA;    mouse-drag 177 124 -mask 524288 -height 407 -width 953&#xA;    with [get-edit-part -className InstanceMapEditPart] {&#xA;        with [get-figure &quot;0/0/0&quot;] {&#xA;            mouse-drag 13 15 button1 524288 -height 19 -width 40&#xA;            mouse-release 13 15 button1 524288 -height 19 -width 40&#xA;        }&#xA;        with [get-edit-part -name A | get-connection-handle 0] {&#xA;            mouse-move 3 8 button1 -height 16 -width 21&#xA;            mouse-press 3 8 button1 -height 16 -width 21&#xA;            mouse-drag 4 9 -mask 524288 -height 16 -width 21&#xA;        }&#xA;    }&#xA;    mouse-drag 145 127 -mask 524288 -height 407 -width 953&#xA;    with [get-edit-part -className InstanceMapEditPart | get-edit-part -name B | get-figure 0] {&#xA;        mouse-drag 11 21 button1 524288 -height 40 -width 40&#xA;        mouse-release 11 21 button1 524288 -height 40 -width 40&#xA;    }&#xA;}&#xA;with [get-window &quot;Instance Edit&quot;] {&#xA;    with [get-group Relationships] {&#xA;        get-button Associations | click&#xA;        get-list | select Association&#xA;        get-button &quot;Association Classes&quot; | click&#xA;        get-list -after [get-label &quot;Instance name&quot;] | select AssociationClass3&#xA;        get-editbox -after [get-label &quot;Instance name&quot;] | set-text AC&#xA;    }&#xA;    get-button OK | click&#xA;}&#xA;get-button &quot;Save All (Ctrl+Shift+S)&quot; | click&#xA;with [get-editor &quot;InstanceDiagram.wod&quot;] {&#xA;    with [get-diagram] {&#xA;        with [get-edit-part -className InstanceMapEditPart | get-edit-part -name AssociationClass3 | get-target-connection 0] {&#xA;            with [get-edit-part -text &quot;a_0&quot;] {&#xA;                mouse-move 6 10 button3 -height 15 -width 18&#xA;                mouse-press 6 10 button3 -height 15 -width 18&#xA;                mouse-release 6 10 button3 2097152 -height 15 -width 18&#xA;            }&#xA;            mouse-press 43 29 button3 -height 115 -width 305&#xA;            mouse-drag 43 29 -mask 2097152 -height 115 -width 305&#xA;        }&#xA;        mouse-drag 234 140 -mask 2097152 -height 407 -width 953&#xA;        with [get-edit-part -className InstanceMapEditPart] {&#xA;            mouse-drag 228 134 button3 2097152 -height 407 -width 953&#xA;            mouse-release 228 134 button3 2097152 -height 407 -width 953&#xA;        }&#xA;    }&#xA;    get-canvas | get-menu &quot;Set Order/aEnd&quot; | click&#xA;}&#xA;get-window &quot;Set Order&quot; | get-editbox | set-text unknown&#xA;get-window &quot;Set Order&quot; | get-button OK | click&#xA;get-editor &quot;InstanceDiagram.wod&quot; | get-diagram | get-edit-part -className InstanceMapEditPart | get-edit-part -name AssociationClass3 | get-target-connection 0 | get-edit-part -text &quot;{order=unknown} a_0&quot; | get-property text | equals &quot;{order=unknown} a_0&quot; | verify-true&#xA;with [get-editor &quot;InstanceDiagram.wod&quot;] {&#xA;    with [get-diagram | get-edit-part -className InstanceMapEditPart | get-edit-part -name AssociationClass3 | get-target-connection 0] {&#xA;        mouse-move 139 56 button3 -height 115 -width 318&#xA;        mouse-press 139 56 button3 -height 115 -width 318&#xA;        mouse-release 139 56 button3 2097152 -height 115 -width 318&#xA;    }&#xA;    get-canvas | get-menu &quot;Set Order/aEnd&quot; | click&#xA;}&#xA;with [get-window &quot;Set Order&quot;] {&#xA;    with [get-editbox] {&#xA;        key-type &quot;M1+a&quot;&#xA;        set-text 1&#xA;    }&#xA;    get-button OK | click&#xA;}&#xA;get-button &quot;Save All (Ctrl+Shift+S)&quot; | click&#xA;get-editor &quot;InstanceDiagram.wod&quot; | get-diagram | get-edit-part -className InstanceMapEditPart | get-edit-part -name AssociationClass3 | get-target-connection 0 | get-edit-part -text &quot;{order=1} a_0&quot; | get-property text | equals &quot;{order=1} a_0&quot; | verify-true&#xA;with [get-editor &quot;InstanceDiagram.wod&quot;] {&#xA;    with [get-diagram] {&#xA;        with [get-edit-part -className InstanceMapEditPart] {&#xA;            with [get-edit-part -name AssociationClass3 | get-target-connection 0 | get-edit-part -text &quot;{order=1} a_0&quot;] {&#xA;                mouse-move 54 13 button3 -height 15 -width 71&#xA;                mouse-press 54 13 button3 -height 15 -width 71&#xA;                mouse-release 54 13 button3 2097152 -height 15 -width 71&#xA;            }&#xA;            mouse-press 235 142 button1 -height 407 -width 953&#xA;            mouse-drag 235 142 -mask 524288 -height 407 -width 953&#xA;        }&#xA;        mouse-drag 241 148 -mask 524288 -height 407 -width 953&#xA;        with [get-edit-part -className InstanceMapEditPart] {&#xA;            mouse-drag 235 142 button1 524288 -height 407 -width 953&#xA;            mouse-release 235 142 button1 524288 -height 407 -width 953&#xA;            with [get-edit-part -name AssociationClass3 | get-target-connection 0] {&#xA;                mouse-move 54 35 button1 -height 115 -width 305&#xA;                mouse-press 54 35 button1 -height 115 -width 305&#xA;                mouse-release 54 35 button1 524288 -height 115 -width 305&#xA;                mouse-press 54 35 button3 -height 115 -width 305&#xA;                mouse-release 54 35 button3 2097152 -height 115 -width 305&#xA;            }&#xA;        }&#xA;    }&#xA;    get-canvas | get-menu &quot;Set Order/aEnd&quot; | click&#xA;}&#xA;with [get-window &quot;Set Order&quot;] {&#xA;    with [get-editbox] {&#xA;        key-type &quot;M1+a&quot;&#xA;        set-text &quot;&quot;&#xA;    }&#xA;    get-button OK | click&#xA;}&#xA;get-button &quot;Save All (Ctrl+Shift+S)&quot; | click&#xA;get-editor &quot;InstanceDiagram.wod&quot; | get-diagram | get-edit-part -className InstanceMapEditPart | get-edit-part -name AssociationClass3 | get-target-connection 0 | get-edit-part -text &quot;a_0&quot; | get-property text | equals &quot;a_0&quot; | verify-true&#xA;with [get-editor &quot;InstanceDiagram.wod&quot; | get-diagram] {&#xA;    with [get-edit-part -className InstanceMapEditPart] {&#xA;        with [get-edit-part -name B | get-target-connection 0] {&#xA;            mouse-move 39 34 button3 -height 87 -width 77&#xA;            mouse-press 39 34 button3 -height 87 -width 77&#xA;            mouse-release 39 34 button3 2097152 -height 87 -width 77&#xA;        }&#xA;        mouse-press 347 355 button1 -height 407 -width 953&#xA;        mouse-drag 347 355 -mask 524288 -height 407 -width 953&#xA;    }&#xA;    mouse-drag 353 361 -mask 524288 -height 407 -width 953&#xA;    with [get-edit-part -className InstanceMapEditPart] {&#xA;        mouse-drag 347 355 button1 524288 -height 407 -width 953&#xA;        mouse-release 347 355 button1 524288 -height 407 -width 953&#xA;        with [get-edit-part -name B | get-target-connection 0] {&#xA;            mouse-move 42 38 button3 -height 87 -width 77&#xA;            mouse-press 42 38 button3 -height 87 -width 77&#xA;            mouse-release 42 38 button3 2097152 -height 87 -width 77&#xA;            with [get-edit-part -text &quot;b_0&quot;] {&#xA;                mouse-press 8 12 button3 -height 15 -width 19&#xA;                mouse-drag 8 12 -mask 2097152 -height 15 -width 19&#xA;            }&#xA;        }&#xA;    }&#xA;    mouse-drag 510 167 -mask 2097152 -height 407 -width 953&#xA;    with [get-edit-part -className InstanceMapEditPart | get-edit-part -name B | get-target-connection 0] {&#xA;        with [get-figure 4] {&#xA;            mouse-drag 8 12 button3 2097152 -height 15 -width 19&#xA;            mouse-release 8 12 button3 2097152 -height 15 -width 19&#xA;        }&#xA;        with [get-edit-part -text &quot;b_0&quot;] {&#xA;            mouse-press 13 10 button1 -height 15 -width 19&#xA;            mouse-drag 13 10 -mask 524288 -height 15 -width 19&#xA;        }&#xA;    }&#xA;    mouse-drag 515 165 -mask 524288 -height 407 -width 953&#xA;}&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project1/src/com.mycompany/AssociationClass3&quot; | double-click -nowait&#xA;with [get-editor AssociationClass3 | get-section -index 5 | get-section &quot;zEnd Details&quot;] {&#xA;    get-combo -after [get-label Multiplicity] | set-text &quot;0..*&quot;&#xA;    get-button isOrdered | click&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-editor &quot;InstanceDiagram.wod&quot; | click -nowait&#xA;get-button &quot;Save All (Ctrl+Shift+S)&quot; | click&#xA;with [get-editor &quot;InstanceDiagram.wod&quot;] {&#xA;    with [get-diagram | get-edit-part -className InstanceMapEditPart | get-edit-part -name B | get-target-connection 0] {&#xA;        mouse-move 41 53 button3 -height 87 -width 71&#xA;        mouse-press 41 53 button3 -height 87 -width 71&#xA;        mouse-release 41 53 button3 2097152 -height 87 -width 71&#xA;    }&#xA;    get-canvas | get-menu &quot;Set Order/zEnd&quot; | click&#xA;}&#xA;with [get-window &quot;Set Order&quot;] {&#xA;    get-editbox | set-text unknown&#xA;    get-button OK | click&#xA;}&#xA;get-button &quot;Save All (Ctrl+Shift+S)&quot; | click&#xA;get-editor &quot;InstanceDiagram.wod&quot; | get-diagram | get-edit-part -className InstanceMapEditPart | get-edit-part -name B | get-target-connection 0 | get-edit-part -text &quot;{order=unknown} b_0&quot; | get-property text | equals &quot;{order=unknown} b_0&quot; | verify-true"/>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/InstanceDiagram" | double-click -nowait
+with [get-editor "InstanceDiagram.wod" | get-diagram] {
+    with [get-edit-part -className InstanceMapEditPart | get-edit-part -name A] {
+        with [get-figure 0] {
+            mouse-move 17 21 button3 -height 40 -width 40
+            mouse-press 17 21 button3 -height 40 -width 40
+            mouse-release 17 21 button3 2097152 -height 40 -width 40
+        }
+        with [get-edit-part -text "A:A"] {
+            mouse-press 13 15 button1 -height 19 -width 40
+            mouse-drag 13 15 -mask 524288 -height 19 -width 40
+        }
+    }
+    mouse-drag 177 124 -mask 524288 -height 407 -width 953
+    with [get-edit-part -className InstanceMapEditPart] {
+        with [get-figure "0/0/0"] {
+            mouse-drag 13 15 button1 524288 -height 19 -width 40
+            mouse-release 13 15 button1 524288 -height 19 -width 40
+        }
+        with [get-edit-part -name A | get-connection-handle 0] {
+            mouse-move 3 8 button1 -height 16 -width 21
+            mouse-press 3 8 button1 -height 16 -width 21
+            mouse-drag 4 9 -mask 524288 -height 16 -width 21
+        }
+    }
+    mouse-drag 145 127 -mask 524288 -height 407 -width 953
+    with [get-edit-part -className InstanceMapEditPart | get-edit-part -name B | get-figure 0] {
+        mouse-drag 11 21 button1 524288 -height 40 -width 40
+        mouse-release 11 21 button1 524288 -height 40 -width 40
+    }
+}
+with [get-window "Instance Edit"] {
+    with [get-group Relationships] {
+        get-button Associations | click
+        get-list | select Association
+        get-button "Association Classes" | click
+        get-list -after [get-label "Instance name"] | select AssociationClass3
+        get-editbox -after [get-label "Instance name"] | set-text AC
+    }
+    get-button OK | click
+}
+get-button "Save All (Ctrl+Shift+S)" | click
+with [get-editor "InstanceDiagram.wod"] {
+    with [get-diagram] {
+        with [get-edit-part -className InstanceMapEditPart | get-edit-part -name AssociationClass3 | get-target-connection 0] {
+            with [get-edit-part -text "a_0"] {
+                mouse-move 6 10 button3 -height 15 -width 18
+                mouse-press 6 10 button3 -height 15 -width 18
+                mouse-release 6 10 button3 2097152 -height 15 -width 18
+            }
+            mouse-press 43 29 button3 -height 115 -width 305
+            mouse-drag 43 29 -mask 2097152 -height 115 -width 305
+        }
+        mouse-drag 234 140 -mask 2097152 -height 407 -width 953
+        with [get-edit-part -className InstanceMapEditPart] {
+            mouse-drag 228 134 button3 2097152 -height 407 -width 953
+            mouse-release 228 134 button3 2097152 -height 407 -width 953
+        }
+    }
+    get-canvas | get-menu "Set Order/aEnd" | click
+}
+get-window "Set Order" | get-editbox | set-text unknown
+get-window "Set Order" | get-button OK | click
+get-editor "InstanceDiagram.wod" | get-diagram | get-edit-part -className InstanceMapEditPart | get-edit-part -name AssociationClass3 | get-target-connection 0 | get-edit-part -text "{order=unknown} a_0" | get-property text | equals "{order=unknown} a_0" | verify-true
+with [get-editor "InstanceDiagram.wod"] {
+    with [get-diagram | get-edit-part -className InstanceMapEditPart | get-edit-part -name AssociationClass3 | get-target-connection 0] {
+        mouse-move 139 56 button3 -height 115 -width 318
+        mouse-press 139 56 button3 -height 115 -width 318
+        mouse-release 139 56 button3 2097152 -height 115 -width 318
+    }
+    get-canvas | get-menu "Set Order/aEnd" | click
+}
+with [get-window "Set Order"] {
+    with [get-editbox] {
+        key-type "M1+a"
+        set-text 1
+    }
+    get-button OK | click
+}
+get-button "Save All (Ctrl+Shift+S)" | click
+get-editor "InstanceDiagram.wod" | get-diagram | get-edit-part -className InstanceMapEditPart | get-edit-part -name AssociationClass3 | get-target-connection 0 | get-edit-part -text "{order=1} a_0" | get-property text | equals "{order=1} a_0" | verify-true
+with [get-editor "InstanceDiagram.wod"] {
+    with [get-diagram] {
+        with [get-edit-part -className InstanceMapEditPart] {
+            with [get-edit-part -name AssociationClass3 | get-target-connection 0 | get-edit-part -text "{order=1} a_0"] {
+                mouse-move 54 13 button3 -height 15 -width 71
+                mouse-press 54 13 button3 -height 15 -width 71
+                mouse-release 54 13 button3 2097152 -height 15 -width 71
+            }
+            mouse-press 235 142 button1 -height 407 -width 953
+            mouse-drag 235 142 -mask 524288 -height 407 -width 953
+        }
+        mouse-drag 241 148 -mask 524288 -height 407 -width 953
+        with [get-edit-part -className InstanceMapEditPart] {
+            mouse-drag 235 142 button1 524288 -height 407 -width 953
+            mouse-release 235 142 button1 524288 -height 407 -width 953
+            with [get-edit-part -name AssociationClass3 | get-target-connection 0] {
+                mouse-move 54 35 button1 -height 115 -width 305
+                mouse-press 54 35 button1 -height 115 -width 305
+                mouse-release 54 35 button1 524288 -height 115 -width 305
+                mouse-press 54 35 button3 -height 115 -width 305
+                mouse-release 54 35 button3 2097152 -height 115 -width 305
+            }
+        }
+    }
+    get-canvas | get-menu "Set Order/aEnd" | click
+}
+with [get-window "Set Order"] {
+    with [get-editbox] {
+        key-type "M1+a"
+        set-text ""
+    }
+    get-button OK | click
+}
+get-button "Save All (Ctrl+Shift+S)" | click
+get-editor "InstanceDiagram.wod" | get-diagram | get-edit-part -className InstanceMapEditPart | get-edit-part -name AssociationClass3 | get-target-connection 0 | get-edit-part -text "a_0" | get-property text | equals "a_0" | verify-true
+with [get-editor "InstanceDiagram.wod" | get-diagram] {
+    with [get-edit-part -className InstanceMapEditPart] {
+        with [get-edit-part -name B | get-target-connection 0] {
+            mouse-move 39 34 button3 -height 87 -width 77
+            mouse-press 39 34 button3 -height 87 -width 77
+            mouse-release 39 34 button3 2097152 -height 87 -width 77
+        }
+        mouse-press 347 355 button1 -height 407 -width 953
+        mouse-drag 347 355 -mask 524288 -height 407 -width 953
+    }
+    mouse-drag 353 361 -mask 524288 -height 407 -width 953
+    with [get-edit-part -className InstanceMapEditPart] {
+        mouse-drag 347 355 button1 524288 -height 407 -width 953
+        mouse-release 347 355 button1 524288 -height 407 -width 953
+        with [get-edit-part -name B | get-target-connection 0] {
+            mouse-move 42 38 button3 -height 87 -width 77
+            mouse-press 42 38 button3 -height 87 -width 77
+            mouse-release 42 38 button3 2097152 -height 87 -width 77
+            with [get-edit-part -text "b_0"] {
+                mouse-press 8 12 button3 -height 15 -width 19
+                mouse-drag 8 12 -mask 2097152 -height 15 -width 19
+            }
+        }
+    }
+    mouse-drag 510 167 -mask 2097152 -height 407 -width 953
+    with [get-edit-part -className InstanceMapEditPart | get-edit-part -name B | get-target-connection 0] {
+        with [get-figure 4] {
+            mouse-drag 8 12 button3 2097152 -height 15 -width 19
+            mouse-release 8 12 button3 2097152 -height 15 -width 19
+        }
+        with [get-edit-part -text "b_0"] {
+            mouse-press 13 10 button1 -height 15 -width 19
+            mouse-drag 13 10 -mask 524288 -height 15 -width 19
+        }
+    }
+    mouse-drag 515 165 -mask 524288 -height 407 -width 953
+}
+get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/AssociationClass3" | double-click -nowait
+with [get-editor AssociationClass3 | get-section -index 5 | get-section "zEnd Details"] {
+    get-combo -after [get-label Multiplicity] | set-text "0..*"
+    get-button isOrdered | click
+}
+get-button "Save (Ctrl+S)" | click
+get-editor "InstanceDiagram.wod" | click -nowait
+get-button "Save All (Ctrl+Shift+S)" | click
+with [get-editor "InstanceDiagram.wod"] {
+    with [get-diagram | get-edit-part -className InstanceMapEditPart | get-edit-part -name B | get-target-connection 0] {
+        mouse-move 41 53 button3 -height 87 -width 71
+        mouse-press 41 53 button3 -height 87 -width 71
+        mouse-release 41 53 button3 2097152 -height 87 -width 71
+    }
+    get-canvas | get-menu "Set Order/zEnd" | click
+}
+with [get-window "Set Order"] {
+    get-editbox | set-text unknown
+    get-button OK | click
+}
+get-button "Save All (Ctrl+Shift+S)" | click
+get-editor "InstanceDiagram.wod" | get-diagram | get-edit-part -className InstanceMapEditPart | get-edit-part -name B | get-target-connection 0 | get-edit-part -text "{order=unknown} b_0" | get-property text | equals "{order=unknown} b_0" | verify-true]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -54,8 +230,8 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>rawFigure</path>
         <path>address</path>
-        <parent id="DiagramFigure79" kind="DiagramFigure"/>
         <indexes>0</indexes>
+        <parent id="DiagramFigure79" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="17" y="21" button="3" kind="Move" boundsWidth="970" boundsHeight="424" figureWidth="40" figureHeight="40">
@@ -87,10 +263,10 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>rawFigure</path>
         <path>address</path>
+        <indexes>0</indexes>
+        <indexes>0</indexes>
+        <indexes>0</indexes>
         <parent id="DiagramFigure78" kind="DiagramFigure"/>
-        <indexes>0</indexes>
-        <indexes>0</indexes>
-        <indexes>0</indexes>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="13" y="15" button="1" kind="Drag" boundsWidth="970" boundsHeight="424" stateMask="524288" figureWidth="40" figureHeight="19">
@@ -103,9 +279,9 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>rawFigure</path>
         <path>address</path>
-        <parent id="DiagramFigure79" kind="DiagramFigure"/>
         <indexes>-2</indexes>
         <indexes>0</indexes>
+        <parent id="DiagramFigure79" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="3" y="8" button="1" kind="Move" boundsWidth="970" boundsHeight="424" figureWidth="21" figureHeight="16">
@@ -131,8 +307,8 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>rawFigure</path>
         <path>address</path>
-        <parent id="DiagramFigure84" kind="DiagramFigure"/>
         <indexes>0</indexes>
+        <parent id="DiagramFigure84" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="11" y="21" button="1" kind="Drag" boundsWidth="970" boundsHeight="424" stateMask="524288" figureWidth="40" figureHeight="40">
@@ -250,8 +426,8 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart.source.connection</path>
         <path>address</path>
-        <parent id="DiagramFigure87" kind="DiagramFigure"/>
         <indexes>0</indexes>
+        <parent id="DiagramFigure87" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -265,8 +441,8 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart.target.connection</path>
         <path>address</path>
-        <parent id="DiagramFigure89" kind="DiagramFigure"/>
         <indexes>0</indexes>
+        <parent id="DiagramFigure89" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -383,8 +559,8 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart.source.connection</path>
         <path>address</path>
-        <parent id="DiagramFigure105_44" kind="DiagramFigure"/>
         <indexes>0</indexes>
+        <parent id="DiagramFigure105_44" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -398,8 +574,8 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart.target.connection</path>
         <path>address</path>
-        <parent id="DiagramFigure107_46" kind="DiagramFigure"/>
         <indexes>0</indexes>
+        <parent id="DiagramFigure107_46" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="139" y="56" button="3" kind="Move" boundsWidth="970" boundsHeight="424" figureWidth="318" figureHeight="115">
@@ -504,8 +680,8 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart.source.connection</path>
         <path>address</path>
-        <parent id="DiagramFigure122_62" kind="DiagramFigure"/>
         <indexes>0</indexes>
+        <parent id="DiagramFigure122_62" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -519,8 +695,8 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart.target.connection</path>
         <path>address</path>
-        <parent id="DiagramFigure124_64" kind="DiagramFigure"/>
         <indexes>0</indexes>
+        <parent id="DiagramFigure124_64" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -659,8 +835,8 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart.source.connection</path>
         <path>address</path>
-        <parent id="DiagramFigure128_80" kind="DiagramFigure"/>
         <indexes>0</indexes>
+        <parent id="DiagramFigure128_80" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -674,8 +850,8 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart.target.connection</path>
         <path>address</path>
-        <parent id="DiagramFigure130_82" kind="DiagramFigure"/>
         <indexes>0</indexes>
+        <parent id="DiagramFigure130_82" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="39" y="34" button="3" kind="Move" boundsWidth="970" boundsHeight="424" figureWidth="77" figureHeight="87">
@@ -731,8 +907,8 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>rawFigure</path>
         <path>address</path>
-        <parent id="DiagramFigure131_83" kind="DiagramFigure"/>
         <indexes>4</indexes>
+        <parent id="DiagramFigure131_83" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="8" y="12" button="3" kind="Drag" boundsWidth="970" boundsHeight="424" stateMask="2097152" figureWidth="19" figureHeight="15">
@@ -876,8 +1052,8 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart.source.connection</path>
         <path>address</path>
-        <parent id="DiagramFigure135_87" kind="DiagramFigure"/>
         <indexes>0</indexes>
+        <parent id="DiagramFigure135_87" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -891,8 +1067,8 @@
       <data kind="DiagramFigure" multiplicity="1">
         <path>editpart.target.connection</path>
         <path>address</path>
-        <parent id="DiagramFigure137_89" kind="DiagramFigure"/>
         <indexes>0</indexes>
+        <parent id="DiagramFigure137_89" kind="DiagramFigure"/>
       </data>
     </commands>
     <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="41" y="53" button="3" kind="Move" boundsWidth="970" boundsHeight="424" figureWidth="71" figureHeight="87">
@@ -1103,10 +1279,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.31">
       <elements id="Button8" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Associations" selected="true" kind="Radio">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Radio">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="8" y="20" width="200" height="16"/>
+        <caption>Associations</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.32">
@@ -1122,10 +1299,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.37">
       <elements id="Button9" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Association Classes" selected="true" kind="Radio">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Radio">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="213" y="20" width="200" height="16"/>
+        <caption>Association Classes</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.38">
@@ -1157,10 +1335,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.46">
       <elements id="Button10" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.47">
@@ -1168,9 +1347,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.50">
       <elements id="Button11" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.51">
@@ -1818,10 +1998,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.78">
       <elements id="Button12" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.79">
@@ -2407,10 +2588,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.102">
       <elements id="Button13_43" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.103">
@@ -2426,9 +2608,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.107">
       <elements id="Button14_44" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.108">
@@ -3093,10 +3276,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.142">
       <elements id="Button15_61" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.143">
@@ -3104,9 +3288,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.146">
       <elements id="Button16_62" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.147">
@@ -3804,10 +3989,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.195">
       <elements id="Button17_79" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="isOrdered" selected="true" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Check">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="88" width="72" height="16"/>
+        <caption>isOrdered</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.196">
@@ -3815,9 +4001,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.199">
       <elements id="Button18_80" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.200">
@@ -3825,9 +4012,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.204">
       <elements id="Button19_81" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save All (Ctrl+Shift+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.205">
@@ -4374,10 +4562,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.223">
       <elements id="Button20_82" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.224">
