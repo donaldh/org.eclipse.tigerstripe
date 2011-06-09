@@ -20,7 +20,7 @@
   	<pluginRepository>
     	<id>xored</id>
     	<name>Xored Maven repository</name>
-    	<url>http://maven.xored.com/nexus/content/repositories/cisco-releases/</url>
+    	<url>http://maven.xored.com/nexus/content/repositories/q7-releases/</url>
   	</pluginRepository>
   </pluginRepositories>
   
