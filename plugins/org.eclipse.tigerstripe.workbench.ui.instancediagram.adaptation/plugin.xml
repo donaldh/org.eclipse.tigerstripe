@@ -20,5 +20,18 @@
             name="Instance Diagram Auditor">
       </diagramAuditor>
    </extension>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="false"
+            id="org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.objectContribution1"
+            objectClass="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.parts.InstanceMapEditPart">
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.commands.InstanceDiagramRefreshAction"
+               id="org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.diagramSyncUp"
+               label="Sync-up with Model"
+               />
+      </objectContribution>
+   </extension>
 
 </plugin>

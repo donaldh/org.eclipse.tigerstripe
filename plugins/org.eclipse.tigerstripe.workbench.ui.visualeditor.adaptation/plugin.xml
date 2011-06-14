@@ -24,10 +24,10 @@
       <objectContribution
             adaptable="false"
             id="org.eclipse.tigerstripe.workbench.ui.adaptation.objectContribution1"
-            objectClass="org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart">
+            objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.MapEditPart">
          <action
                class="org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.refresh.ClassDiagramRefreshAction"
-               id="org.eclipse.tigerstripe.workbench.ui.adaptation.diagramSyncUp"
+               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.diagramSyncUp"
                label="Sync-up with Model"
                />
       </objectContribution>
