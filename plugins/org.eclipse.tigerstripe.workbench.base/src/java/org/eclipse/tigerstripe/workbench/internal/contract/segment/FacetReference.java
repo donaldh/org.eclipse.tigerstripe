@@ -160,6 +160,7 @@ public class FacetReference extends AbstractContainedObject implements
 							.getIContractSession().makeIContractSegment(
 									getURI());
 					resolvedTStamp = target.lastModified();
+					facetPredicate = null;
 				}
 				return resolvedSegment;
 			} else
@@ -253,33 +254,16 @@ public class FacetReference extends AbstractContainedObject implements
 		return facetPredicate;
 	}
 
-	// Bug 921: we need to re-evaluate the facet predicate if the underlying
-	// facet scope changes!
-	private boolean hasFacetChanged() {
-		if (canResolve()) {
-			try {
-				URI csURI = getURI();
-				File file = new File(csURI);
-				long tStamp = file.lastModified();
-				return resolvedTStamp < tStamp;
-			} catch (TigerstripeException e) {
-				TigerstripeRuntime.logErrorMessage(
-						"Couldn't determine whether facet has changed or not: "
-								+ e.getMessage(), e);
-			}
-		}
-		return false;
-	}
-
 	public IFacetPredicate getFacetPredicate() {
-		if (needsToBeEvaluated())
+		if (needsToBeEvaluated()) {
 			return computeFacetPredicate(new NullProgressMonitor());
+		}
 
 		return facetPredicate;
 	}
 
 	public boolean needsToBeEvaluated() {
-		return facetPredicate == null || hasFacetChanged() || modelHasChanged();
+		return facetPredicate == null || modelHasChanged();
 	}
 
 	@Override

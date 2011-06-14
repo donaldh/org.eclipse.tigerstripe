@@ -26,7 +26,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class MultiFacetReference extends FacetReference {
 
-	private List<IFacetReference> facets = new ArrayList<IFacetReference>();
+	private final List<IFacetReference> facets = new ArrayList<IFacetReference>();
 
 	private IContractSegment combinedFacet;
 
@@ -69,6 +69,7 @@ public class MultiFacetReference extends FacetReference {
 	protected void internalResolve() {
 		// combine all facets into a single one
 		combinedFacet = new LogicalContractSegment();
+		facetPredicate = null;
 
 		String name = "<Merged Facets: ";
 		String sep = "";
