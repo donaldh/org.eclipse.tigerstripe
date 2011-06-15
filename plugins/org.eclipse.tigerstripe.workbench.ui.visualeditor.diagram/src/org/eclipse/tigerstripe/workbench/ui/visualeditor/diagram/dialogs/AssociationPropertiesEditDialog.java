@@ -366,7 +366,6 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		AbstractArtifact artifact = association.getAEnd();
 		if (artifact != null) 
 			aEndTypeField.setText(artifact.getName());	
-		aEndTypeField.setEnabled(false);
 		aEndTypeField.setToolTipText("The aEnd type.");
 		bgd = new GridData();
 		bgd.horizontalSpan = endControlPanelCols - 1;
@@ -544,7 +543,6 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		artifact = association.getZEnd();
 		if (artifact != null) 
 			zEndTypeField.setText(artifact.getName());	
-		zEndTypeField.setEnabled(false);
 		zEndTypeField.setToolTipText("The zEnd type.");
 		bgd = new GridData();
 		bgd.horizontalSpan = endControlPanelCols - 1;
