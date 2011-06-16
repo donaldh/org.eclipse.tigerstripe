@@ -159,7 +159,8 @@ public class ModelTemplateRule extends TemplateBasedRule implements
 					exec);
 			Template template = engine.getTemplate(getTemplate());
 			Expander expander = new Expander(pluginConfig);
-
+			expander.addVelocityContextDefinitions(getVelocityContextDefinitions(), 
+					exec.getPlugin());
 
 			VelocityContext defaultContext = getDefaultContext(pluginConfig,
 					context);
@@ -188,7 +189,8 @@ public class ModelTemplateRule extends TemplateBasedRule implements
 				localContext.put("pluginLog", new PluginVelocityLog(template
 						.getName()));
 
-				expander.setCurrentTSModel(currentModel);
+				// This call was not actually doing anything in teh expander!
+				//expander.setCurrentTSModel(currentModel);
 				String targetFile = expander.expandVar(getOutputFile(),currentModel);
 				File outputFileF = getOutputFile(pluginConfig, targetFile, exec
 						.getConfig());

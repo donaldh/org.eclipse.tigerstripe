@@ -118,7 +118,15 @@ public class GlobalTemplateRule extends TemplateBasedRule implements
 			
 			Template template = engine.getTemplate(getTemplate());
 
+			/*
+			 *  This temp context only has the additional entries defined in the rule.
+			 * 
+			 */
+			
+			
 			Expander expander = new Expander(pluginConfig);
+			expander.addVelocityContextDefinitions(getVelocityContextDefinitions(), 
+					exec.getPlugin());
 			String targetFile = expander.expandVar(getOutputFile());
 			File outputFileF = getOutputFile(pluginConfig, targetFile, exec
 					.getConfig());

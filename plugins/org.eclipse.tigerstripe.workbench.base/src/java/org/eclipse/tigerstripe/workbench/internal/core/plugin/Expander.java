@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.plugin;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.regex.MatchResult;
@@ -18,6 +19,8 @@ import java.util.regex.Pattern;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.VelocityContextDefinition;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.plugins.IArtifactModel;
@@ -40,7 +43,12 @@ public class Expander implements IExpander {
 	private IPluginConfig pluginConfig;
 	private IAbstractArtifact currentArtifact;
 	private IArtifactWrapper currentWrapper;
-	private ITigerstripeModelProject tsModel;
+
+	
+	private VelocityContextDefinition[] definitions = new VelocityContextDefinition[0];
+
+	private PluggablePlugin pluggablePlugin = null;
+
 
 	public Expander(PluginConfig pluginConfig) {
 		this.pluginConfig = pluginConfig;
@@ -67,18 +75,6 @@ public class Expander implements IExpander {
 		this.currentArtifact = currentArtifact;
 	}
 
-	/**
-	 * Allows to set a "current model" for this expander. When a current
-	 * artifact is set, additional variable may expanded. This is used in the
-	 * context of Model-based plugin rules so that the user can get access to
-	 * details about the current model
-	 * 
-	 * @param tsModel
-	 * @since 1.2
-	 */
-	public void setCurrentTSModel(ITigerstripeModelProject tsModel) {
-		this.tsModel = tsModel;
-	}
 	
 	/**
 	 * As for current Artifact, can set a "Current Model" for this expander This
@@ -165,6 +161,7 @@ public class Expander implements IExpander {
 		if (currentWrapper != null)
 			outString = matchCurrentWrapper(outString);
 
+		outString = matchContextEntry(outString, project);
 		// Handle "nested" examples of expander - especially important for model
 		// filenames that might have project references in
 		// loop until the input & output are the same
@@ -347,6 +344,54 @@ public class Expander implements IExpander {
 		return outString;
 	}
 
+	protected String matchContextEntry(String outString,
+			TigerstripeProject project) {
+		// Look for entries that call out to a context entry.
+		for (VelocityContextDefinition def : definitions){
+			String defName = "\\$\\{"+def.getName()+"\\.[^\\}]*\\}";
+			
+			Pattern defNamePattern = Pattern.compile(defName);
+			Matcher defNameMatcher = defNamePattern.matcher(outString);
+//			if (defNameMatcher.find(0)) {
+//				System.out.println(outString );
+//			}
+			
+			ArrayList<MatchResult> results = new ArrayList<MatchResult>();
+			while (defNameMatcher.find()) {
+				// We have a property - so get the name
+				MatchResult result = defNameMatcher.toMatchResult();
+				results.add(result);
+			}
+			for (MatchResult result : results) {
+				int tagLength = ("${" + def.getName() + ".").length();
+				String varName = result.group().substring(tagLength,
+						result.group().length() - 1);
+				
+				// remaining part (varName) should be the method name - plus the arguments.
+				//System.out.println(varName);
+				if (varName.indexOf("(") > -1 ){
+					String methName = varName.substring(0, varName.indexOf("("));
+					
+					//Make a set of arguments? must all be strings!
+					String arg = varName.substring(varName.indexOf("(")+1, varName.length()-1);
+					try{
+						Object defInstance = pluggablePlugin.getInstance(def.getClassname());
+						Method varMethod = defInstance.getClass().getMethod(
+								methName, String.class);
+						Object response = varMethod.invoke(defInstance, arg);
+						outString  = outString.replaceFirst(defName, response.toString());
+						
+					} catch (Exception e){
+						return outString;
+					
+					}
+					
+				}
+			}
+		}
+		return outString;
+	}
+	
 	protected String matchProjectProperty(String outString,
 			TigerstripeProject project) {
 		// Look for variable in the inString - constrained by ${}
@@ -434,6 +479,8 @@ public class Expander implements IExpander {
 		
 		
 		
+		
+		
 		// Support of BUG 280 (part)
 		// Look for the common NS reference so that we can use that locally
 		// and always point to the *local* project CommonNS
@@ -464,6 +511,16 @@ public class Expander implements IExpander {
 
 	public void setWrapperName(String wrapperName) {
 		this.wrapperName = wrapperName;
+	}
+
+	/*
+	 * Add a Velocity Context to the expander - this can be used to do rule name 
+	 * processing using some utils classes for example.
+	 */
+	public void addVelocityContextDefinitions(VelocityContextDefinition[] definitions, PluggablePlugin pluggablePlugin) {
+		this.definitions = definitions;
+		this.pluggablePlugin = pluggablePlugin;
+		
 	}
 
 }

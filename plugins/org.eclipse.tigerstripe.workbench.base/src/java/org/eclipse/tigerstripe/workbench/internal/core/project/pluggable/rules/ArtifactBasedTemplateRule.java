@@ -210,7 +210,8 @@ public class ArtifactBasedTemplateRule extends TemplateBasedRule implements
 			
 			Template template = engine.getTemplate(getTemplate());
 			Expander expander = new Expander(pluginConfig);
-
+			expander.addVelocityContextDefinitions(getVelocityContextDefinitions(), 
+					exec.getPlugin());
 			// VelocityContext defaultContext = getDefaultContext(
 			// pluginConfig, exec);
 			VelocityContext defaultContext = getDefaultContext(pluginConfig, context);
