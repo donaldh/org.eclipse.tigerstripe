@@ -42,10 +42,12 @@ with [get-window Move] {
     get-tree | select "Project2/src/com/mycompany/package2"
     get-button Finish | click
 }
-get-view Problems | get-tree | get-item "Errors \\(2 items\\)" | get-property caption | equals "Errors (2 items)" | verify-true
-get-view Problems | get-tree | get-item "Errors \\(2 items\\)/Base type of extended Enumeration mismatched. Was expecting \'null\', found=\'int\'." | get-property caption | equals "Base type of extended Enumeration mismatched. Was expecting \'null\', found=\'int\'." | verify-true
-get-view Problems | get-tree | get-item "Errors \\(2 items\\)/com.mycompany.Enumeration2 cannot be resolved to a type" | get-property caption | equals "com.mycompany.Enumeration2 cannot be resolved to a type" | verify-true
-get-view "Tigerstripe Explorer" | get-tree | select "Project2/src/com.mycompany.package2/Enumeration3" | double-click -nowait
+
+get-view "Tigerstripe Explorer" | get-tree | select "Project2/src/com.mycompany.package2/Enumeration3" | double-click 
+    -nowait
+get-editor Enumeration3 | get-label "Error Detected: com.mycompany.Enumeration2 cannot be resolved to a type" 
+    | get-property caption | equals "Error Detected: com.mycompany.Enumeration2 cannot be resolved to a type" 
+    | verify-true
 get-editor Enumeration3 | get-section "General Information" | get-button Select | click
 with [get-window "Super Enumeration"] {
     get-table | select "<clear extension>"
@@ -54,7 +56,8 @@ with [get-window "Super Enumeration"] {
 get-button "Save (Ctrl+S)" | click
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project2/src/com.mycompany.package2" | get-property childCount | equals 2 | verify-true
 get-view "Tigerstripe Explorer" | get-tree | get-item "Project2/src/com.mycompany.package2/Enumeration3" | get-property caption | equals Enumeration3 | verify-true
-get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany" | get-property childCount | equals 5 | verify-true]]></content>
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany" | get-property childCount | equals 5 | verify-true
+    ]]></content>
   </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -711,6 +714,67 @@ get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompan
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="childCount" value="5">
       <element id="Item76" kind="Item"/>
       <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow0_94" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0_94" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree0_94" kind="Tree"/>
+      <path>Project2</path>
+      <path>src</path>
+      <path>com.mycompany.package2</path>
+      <path>Enumeration3</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DoubleClick">
+      <element id="Tree0_94" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="Enumeration3" multiplicity="1">
+        <parent id="EclipseWindow1_95" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Label" pattern="Error Detected: com.mycompany.Enumeration2 cannot be resolved to a type" multiplicity="1">
+        <parent id="Editor0_94" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="Error Detected: com.mycompany.Enumeration2 cannot be resolved to a type">
+      <element id="Label0_94" kind="Label"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow3_96" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View2_95" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>Project1</path>
+        <path>src</path>
+        <path>com.mycompany.package2</path>
+        <parent id="Tree2_95" kind="Tree"/>
+      </data>
     </commands>
     <elementMapping command="//@teslaContent/@commands.0">
       <elements id="EclipseWindow26" kind="EclipseWindow"/>
@@ -1485,6 +1549,98 @@ get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompan
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="79" y="36" width="98" height="18"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.148">
+      <elements id="EclipseWindow0_94" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project2/tigerstripe.xml - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="734" y="204" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.149">
+      <elements id="View0_94" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="50" width="244" height="594"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.150">
+      <elements id="Tree0_94" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="2">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="244" height="594"/>
+        <selection>
+          <path>Project2</path>
+          <path>src</path>
+          <path>com.mycompany.package2</path>
+          <path>Enumeration3</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.153">
+      <elements id="EclipseWindow1_95" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project2/src/com/mycompany/package2/Enumeration3.java - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="734" y="204" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.154">
+      <elements id="Editor0_94" kind="Editor"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="Enumeration3">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="741" height="395"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.155">
+      <elements id="Label0_94" kind="Label"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Error Detected: com.mycompany.Enumeration2 cannot be resolved to a type">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor red="255"/>
+        <bounds x="205" y="7" width="410" height="21"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.157">
+      <elements id="EclipseWindow3_96" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project2/src/com/mycompany/package2/Enumeration3.java - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="734" y="204" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.158">
+      <elements id="View2_95" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="50" width="244" height="594"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.159">
+      <elements id="Tree2_95" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="2">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="244" height="594"/>
+        <selection>
+          <path>Project2</path>
+          <path>src</path>
+          <path>com.mycompany.package2</path>
+          <path>Enumeration3</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.160">
+      <elements id="Item5_94" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="com.mycompany.package2" index="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="79" y="144" width="151" height="18"/>
       </controls>
     </elementMapping>
   </teslaContent>

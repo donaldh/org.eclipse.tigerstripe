@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="341055_RenameEnumerationLiteralsContextWorkspace" id="_YOsIAW--EeCS3bGR9ACI6w">
   <content>
-    <projects name="Project1">
-      <files name=".classpath" contentURI=".341055_RenameEnumerationLiteralsctx/content2.classpath"/>
-      <files name=".project" contentURI=".341055_RenameEnumerationLiteralsctx/content2.project"/>
-      <files name="tigerstripe.xml" contentURI=".341055_RenameEnumerationLiteralsctx/content2.xml"/>
+    <projects name="Project">
+      <files name=".classpath" contentURI=".341055_RenameEnumerationLiteralsContextWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".341055_RenameEnumerationLiteralsContextWorkspacectx/content1.project"/>
+      <files name="tigerstripe.xml" contentURI=".341055_RenameEnumerationLiteralsContextWorkspacectx/content1.xml"/>
+      <folders name="bin">
+        <folders name="com">
+          <files name=".package" contentURI=".341055_RenameEnumerationLiteralsContextWorkspacectx/content2.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".341055_RenameEnumerationLiteralsContextWorkspacectx/content1.package"/>
+            <files name="Entity1.class" contentURI=".341055_RenameEnumerationLiteralsContextWorkspacectx/content1.class"/>
+            <files name="Enum.class" contentURI=".341055_RenameEnumerationLiteralsContextWorkspacectx/content2.class"/>
+          </folders>
+        </folders>
+      </folders>
       <folders name="src">
         <folders name="com">
-          <files name=".package" contentURI=".341055_RenameEnumerationLiteralsctx/content8.package"/>
+          <files name=".package" contentURI=".341055_RenameEnumerationLiteralsContextWorkspacectx/content4.package"/>
           <folders name="mycompany">
-            <files name=".package" contentURI=".341055_RenameEnumerationLiteralsctx/content7.package"/>
-            <files name="Entity1.java" contentURI=".341055_RenameEnumerationLiteralsctx/content3.java"/>
-            <files name="Enum.java" contentURI=".341055_RenameEnumerationLiteralsctx/content4.java"/>
+            <files name=".package" contentURI=".341055_RenameEnumerationLiteralsContextWorkspacectx/content3.package"/>
+            <files name="Entity1.java" contentURI=".341055_RenameEnumerationLiteralsContextWorkspacectx/content1.java"/>
+            <files name="Enum.java" contentURI=".341055_RenameEnumerationLiteralsContextWorkspacectx/content2.java"/>
           </folders>
         </folders>
       </folders>

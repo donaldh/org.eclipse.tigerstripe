@@ -1,7 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="CheckPrimitives" version="3.0" id="_f3dhgA5pEeCNwqgXAnPIdw" description="Precondition:&#xD;&#xA;Create project&#xD;&#xA;Create profile with profile name testProfile for created project.&#xD;&#xA;Create primitive type with 'string' name and set it as default.&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;Apply profile&#xD;&#xA;Add datatype artifact. Add attribute and check its type&#xD;&#xA;" type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="CheckPrimitives" version="3.0" id="_f3dhgA5pEeCNwqgXAnPIdw" description="Precondition:&#xD;&#xA;Create project&#xD;&#xA;Create profile with profile name testProfile for created project.&#xD;&#xA;Create primitive type with 'string' name and set it as default.&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;Apply profile&#xD;&#xA;Add datatype artifact. Add attribute and check its type&#xD;&#xA;Reset profile" type="ecl">
   <contexts>_Jp774BGJEeC46s5Prxi4vQ</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script" content="get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project2/ProfileProject2.wbp&quot; | double-click&#xA;with [get-editor &quot;Project2/ProfileProject2.wbp&quot;] {&#xA;    get-tab-folder | get-tab-item &quot;Primitive Types&quot; | click&#xA;    with [get-section] {&#xA;        get-section &quot;Primitive Type Definitions&quot; | get-button Add | click&#xA;        with [get-section &quot;Primitive Type Details&quot; | get-editbox -after [get-label &quot;Name:&quot;]] {&#xA;            key-type &quot;CTRL+a&quot;&#xA;            set-text string&#xA;        }&#xA;    }&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;with [get-editor &quot;Project2/ProfileProject2.wbp&quot; | get-section | get-section &quot;Primitive Type Definitions&quot;] {&#xA;    get-table -after [get-label &quot;Primitive Type Definitions&quot;] | select string&#xA;    get-button &quot;Set Default&quot; | click&#xA;}&#xA;get-window &quot;Primitive Type&quot; | get-button OK | click&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;with [get-editor &quot;Project2/ProfileProject2.wbp&quot;] {&#xA;    get-tab-folder | get-tab-item Overview | click&#xA;    get-section &quot;General Information&quot; | get-link &quot;Save as active profile and reload&quot; | click -nowait&#xA;}&#xA;get-window &quot;Save as Active Profile&quot; | get-button OK | click -nowait&#xA;wait-until-eclipse-is-ready&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project2/src&quot; | get-menu &quot;New/Datatype&quot; | click&#xA;with [get-window &quot;Create a new Datatype&quot;] {&#xA;    get-editbox -after [get-label &quot;Name:&quot;] | set-text Datatype&#xA;    get-button Finish | click&#xA;}&#xA;get-editor Datatype | get-section Attributes | get-section | get-button Add | click&#xA;get-editor Datatype | get-section Attributes | get-section -after [get-label Attributes] -index 1 | get-editbox -after [get-label &quot;Type:&quot;] | get-property value | is-equal &quot;primitive.string&quot; | verify&#xA;get-button &quot;Save (Ctrl+S)&quot; | click"/>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "Project2/ProfileProject2.wbp" | double-click
+with [get-editor "Project2/ProfileProject2.wbp"] {
+    get-tab-folder | get-tab-item "Primitive Types" | click
+    with [get-section] {
+        get-section "Primitive Type Definitions" | get-button Add | click
+        with [get-section "Primitive Type Details" | get-editbox -after [get-label "Name:"]] {
+            key-type "CTRL+a"
+            set-text string
+        }
+    }
+}
+get-button "Save (Ctrl+S)" | click
+with [get-editor "Project2/ProfileProject2.wbp" | get-section | get-section "Primitive Type Definitions"] {
+    get-table -after [get-label "Primitive Type Definitions"] | select string
+    get-button "Set Default" | click
+}
+get-window "Primitive Type" | get-button OK | click
+get-button "Save (Ctrl+S)" | click
+with [get-editor "Project2/ProfileProject2.wbp"] {
+    get-tab-folder | get-tab-item Overview | click
+    get-section "General Information" | get-link "Save as active profile and reload" | click -nowait
+}
+get-window "Save as Active Profile" | get-button OK | click -nowait
+wait-until-eclipse-is-ready
+get-view "Tigerstripe Explorer" | get-tree | select "Project2/src" | get-menu "New/Datatype" | click
+with [get-window "Create a new Datatype"] {
+    get-editbox -after [get-label "Name:"] | set-text Datatype
+    get-button Finish | click
+}
+get-editor Datatype | get-section Attributes | get-section | get-button Add | click
+get-editor Datatype | get-section Attributes | get-section -after [get-label Attributes] -index 1 | get-editbox -after [get-label "Type:"] | get-property value | is-equal "primitive.string" | verify
+get-button "Save (Ctrl+S)" | click
+get-menu "Tigerstripe/Active Profile Details..." | click
+with [get-window "Active Profile Details"] {
+    get-button "Reset Profile" | click
+    get-window "Reset Active profile to Factory Defaults?" | get-button OK | click -nowait
+}
+wait-until-eclipse-is-ready]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -336,6 +375,55 @@
     <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
       <state id="State3_35" kind="State"/>
     </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Menu" multiplicity="1">
+        <path>Tigerstripe</path>
+        <path>Active Profile Details...</path>
+        <parent id="EclipseWindow0_57" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Menu0_57" kind="Menu"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State0_57" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="Active Profile Details" multiplicity="1">
+        <parent id="EclipseWindow0_57" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Reset Profile" multiplicity="1">
+        <parent id="Window0_57" kind="Window"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button0_57" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State1_58" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="Reset Active profile to Factory Defaults?" multiplicity="1">
+        <parent id="Window0_57" kind="Window"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="OK" multiplicity="1">
+        <parent id="Window1_58" kind="Window"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button1_58" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForRestart"/>
     <elementMapping command="//@teslaContent/@commands.0">
       <elements id="EclipseWindow0" kind="EclipseWindow"/>
       <controls xsi:type="com.xored.tesla.core.ui:Control" enablement="true" borderWith="1">
@@ -397,10 +485,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.13">
       <elements id="Button0" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Add">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds width="69" height="25"/>
+        <caption>Add</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.14">
@@ -432,9 +521,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.22">
       <elements id="Button1" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.23">
@@ -461,10 +551,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.29">
       <elements id="Button2" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Set Default">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds y="60" width="69" height="25"/>
+        <caption>Set Default</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.30">
@@ -480,10 +571,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.34">
       <elements id="Button3" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.35">
@@ -519,10 +611,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.49">
       <elements id="Button4" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.50">
@@ -582,10 +675,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.65">
       <elements id="Button0_32" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.66">
@@ -612,10 +706,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.72">
       <elements id="Button1_33" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Add">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="259" y="5" width="55" height="25"/>
+        <caption>Add</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.73">
@@ -682,13 +777,69 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.85">
       <elements id="Button2_34" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.86">
       <elements id="State3_35" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.89">
+      <elements id="EclipseWindow0_57" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project2/src/com/mycompany/Datatype.java - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="734" y="204" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.90">
+      <elements id="Menu0_57" kind="Menu"/>
+      <controls xsi:type="com.xored.tesla.core.ui:MenuItem" caption="Active Profile Details..." enablement="true" index="6" cascade="true"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.91">
+      <elements id="State0_57" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.94">
+      <elements id="Window0_57" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Active Profile Details">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="100" y="100" width="500" height="300"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.95">
+      <elements id="Button0_57" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Reset profile to factory defaults">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="77" y="173" width="77" height="25"/>
+        <caption>Reset Profile</caption>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.96">
+      <elements id="State1_58" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.99">
+      <elements id="Window1_58" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Reset Active profile to Factory Defaults?">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="89" y="107" width="522" height="215"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.100">
+      <elements id="Button1_58" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds width="92" height="25"/>
+        <caption>OK</caption>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.101">
+      <elements id="State2_59" kind="State"/>
     </elementMapping>
   </teslaContent>
 </com.xored.q7.scenario:Scenario>

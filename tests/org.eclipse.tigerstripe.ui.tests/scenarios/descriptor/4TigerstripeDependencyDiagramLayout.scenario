@@ -57,11 +57,11 @@ with [get-editor "Project1/tigerstripe.xml"] {
     }
     get-canvas | get-menu "Kind Properties..." | click
 }
-get-window "Digaram Element Kinds" | get-button "Use Custom" | click
+get-window "Diagram Element Kinds" | get-button "Use Custom" | click
 return-from-os-dialog COLOR "255,255,128"
-get-window "Digaram Element Kinds" | get-button -after [get-label "Background Color:"] | click
+get-window "Diagram Element Kinds" | get-button -after [get-label "Background Color:"] | click
 return-from-os-dialog COLOR "128,255,128"
-with [get-window "Digaram Element Kinds"] {
+with [get-window "Diagram Element Kinds"] {
     get-button -after [get-label "Foreground Color:"] | click
     get-button OK | click
 }
@@ -84,7 +84,7 @@ with [get-editor "Project1/tigerstripe.xml" | get-diagram] {
     mouse-move 25 157 -height 375 -width 741
 }
 with [get-editor "Project1/tigerstripe.xml" | get-diagram | get-edit-part "0/1"] {
-    get-property x | is-equal 11 | verify
+    get-property x | is-equal 10 | verify
     get-property y | is-equal 190 | verify
     get-property width | is-equal 241 | verify
     get-property height | is-equal 123 | verify
@@ -100,7 +100,7 @@ with [get-editor "Project1/tigerstripe.xml"] {
     get-diagram | mouse-move 35 315 -height 375 -width 741
 }
 with [get-editor "Project1/tigerstripe.xml" | get-diagram | get-edit-part "0/1"] {
-    get-property x | is-equal 11 | verify
+    get-property x | is-equal 10 | verify
     get-property y | is-equal 190 | verify
     get-property width | is-equal 241 | verify
     get-property height | is-equal 123 | verify
@@ -174,11 +174,11 @@ with [get-editor "Project1/tigerstripe.xml"] {
     }
     get-canvas | get-menu "Kind Properties..." | click
 }
-get-window "Digaram Element Kinds" | get-button "Use Custom" | click
+get-window "Diagram Element Kinds" | get-button "Use Custom" | click
 return-from-os-dialog COLOR "255,255,128"
-get-window "Digaram Element Kinds" | get-button -after [get-label "Background Color:"] | click
+get-window "Diagram Element Kinds" | get-button -after [get-label "Background Color:"] | click
 return-from-os-dialog COLOR "255,0,0"
-with [get-window "Digaram Element Kinds"] {
+with [get-window "Diagram Element Kinds"] {
     get-button -after [get-label "Foreground Color:"] | click
     get-button OK | click
 }
@@ -195,7 +195,7 @@ with [get-editor "Project1/tigerstripe.xml"] {
     }
     get-canvas | get-menu "Kind Properties..." | click
 }
-with [get-window "Digaram Element Kinds"] {
+with [get-window "Diagram Element Kinds"] {
     get-button "Use Custom" | click
     get-button OK | click
 }

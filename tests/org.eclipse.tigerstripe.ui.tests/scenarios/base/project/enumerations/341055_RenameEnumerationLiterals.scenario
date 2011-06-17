@@ -2,9 +2,9 @@
 <com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="341055_RenameEnumerationLiterals" version="3.0" id="_tJ9BAG--EeCS3bGR9ACI6w" description="When users change enumeration literals, users should be presented with a&#xD;&#xA;generic message indicating that this may affect all artifacts referencing the&#xD;&#xA;Enumeration and whether or not they wish to proceed &#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;   1. Create Tigerstripe project&#xD;&#xA;   2. Create Enumeration artifact 'Enum' and add literal 'Literal'&#xD;&#xA;   3. Create an entity 'Entity1' and add an attribute 'testEnum'.&#xD;&#xA;   4. Set data type for this attribute to 'Enum'.&#xD;&#xA;   5. Set the default value for this attribute by pulling the choice list and clicking Literal&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;   1. Check attribute and literal names in Tigerstripe Explorer&#xD;&#xA;   2. Update literal name and save changes&#xD;&#xA;   3. Check warning message and click 'No'&#xD;&#xA;   4. Check literal name in Tigerstripe Explorer (it is not changed). Editor should be marked as dirty&#xD;&#xA;   5. Save changes and click 'Yes' in warning message&#xD;&#xA;   6. Check that literal is updated, attribute is not updated&#xD;&#xA;   7. Check error in Problems view&#xD;&#xA;" tags="I34, TS_Project/Edit/Artifacts" type="ecl" externalReference="http://docs.xored.com/display/TS/341055_RenameEnumerationLiterals">
   <contexts>_fvu3kG--EeCS3bGR9ACI6w</contexts>
   <content xsi:type="org.eclipse.ecl.core:Script">
-    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany/Entity1/testEnum:Enum=Literal" | get-property caption | equals "testEnum:Enum=Literal" | verify-true
-get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany/Enum/Literal=0" | get-property caption | equals "Literal=0" | verify-true
-get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Enum/Literal=0" | double-click -nowait
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/Entity1/testEnum:Enum=literal" | get-property caption | equals "testEnum:Enum=literal" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/Enum/literal=0" | get-property caption | equals "literal=0" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "Project/src/com.mycompany/Enum/literal=0" | double-click -nowait
 with [get-editor Enum | get-section Constants | get-section -index 1 | get-editbox -after [get-label "Name:"]] {
     key-type "M1+a"
     set-text LiteralUpdated
@@ -13,14 +13,14 @@ get-button "Save (Ctrl+S)" | click
 get-window "Save Enumeration" | get-label "Enumeration literals were changed, this may affect all artifacts referencing the Enumeration. Do you wish to proceed?" | get-property caption | equals "Enumeration literals were changed, this may affect all artifacts referencing the Enumeration. Do you wish to proceed?" | verify-true
 get-window "Save Enumeration" | get-button No | click
 get-tab-folder -index 1 | get-property pages -index 0 | equals "*Enum" | verify-true
-get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany/Enum/Literal=0" | get-property caption | equals "Literal=0" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/Enum/literal=0" | get-property caption | equals "literal=0" | verify-true
 get-button "Save (Ctrl+S)" | click
 get-window "Save Enumeration" | get-button Yes | click
-get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany/Enum/LiteralUpdated=0" | get-property caption | equals "LiteralUpdated=0" | verify-true
-get-view "Tigerstripe Explorer" | get-tree | get-item "Project1/src/com.mycompany/Entity1/testEnum:Enum=Literal" | get-property caption | equals "testEnum:Enum=Literal" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/Enum/LiteralUpdated=0" | get-property caption | equals "LiteralUpdated=0" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/Entity1/testEnum:Enum=literal" | get-property caption | equals "testEnum:Enum=literal" | verify-true
 get-view Problems | get-tree | select "Errors \\(1 item\\)"
 
-get-view Problems | get-tree | get-item "Errors \\(1 item\\)/Default value of \'com.mycompany.Entity1.testEnum\' attribute is incorrect. Referenced enumeration \'com.mycompany.Enum\' doesn\'t contain \'Literal\' literal." | get-property caption | equals "Default value of \'com.mycompany.Entity1.testEnum\' attribute is incorrect. Referenced enumeration \'com.mycompany.Enum\' doesn\'t contain \'Literal\' literal." | verify-true]]></content>
+get-view Problems | get-tree | get-item "Errors \\(1 item\\)/Default value of \'com.mycompany.Entity1.testEnum\' attribute is incorrect. Referenced enumeration \'com.mycompany.Enum\' doesn\'t contain \'literal\' literal." | get-property caption | equals "Default value of \'com.mycompany.Entity1.testEnum\' attribute is incorrect. Referenced enumeration \'com.mycompany.Enum\' doesn\'t contain \'literal\' literal." | verify-true]]></content>
   </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
