@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Properties;
 
 import org.apache.velocity.VelocityContext;
+import org.eclipse.core.runtime.IPath;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
@@ -42,6 +44,8 @@ import org.eclipse.tigerstripe.workbench.plugins.PluginLog.LogLevel;
  * @since 1.2
  */
 public class PluggablePlugin extends BasePlugin {
+
+	private static final String DEFAULT_LOG_DIR = "logs";
 
 	private boolean canDelete = true;
 	
@@ -338,7 +342,8 @@ public class PluggablePlugin extends BasePlugin {
 
 	@Override
 	public String getLogPath() {
-		return descriptor.getLogPath();
+		IPath path = new Path(DEFAULT_LOG_DIR);
+		return path.append(descriptor.getLogPath()).toOSString();
 	}
 
 	@Override
