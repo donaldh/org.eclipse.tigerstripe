@@ -331,6 +331,7 @@ public class ModuleDescriptorModel {
 				Reader reader;
 				if (decode == null) {
 					//Old format
+					text = text.replaceAll("<\\?char x0005\\?>", "" + '\05');
 					reader = new StringReader(text);
 				} else {
 					reader = new InputStreamReader(new ByteArrayInputStream(decode));
