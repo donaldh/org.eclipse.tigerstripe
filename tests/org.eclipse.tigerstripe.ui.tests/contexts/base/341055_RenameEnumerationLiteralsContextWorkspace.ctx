@@ -5,21 +5,11 @@
       <files name=".classpath" contentURI=".341055_RenameEnumerationLiteralsContextWorkspacectx/content1.classpath"/>
       <files name=".project" contentURI=".341055_RenameEnumerationLiteralsContextWorkspacectx/content1.project"/>
       <files name="tigerstripe.xml" contentURI=".341055_RenameEnumerationLiteralsContextWorkspacectx/content1.xml"/>
-      <folders name="bin">
-        <folders name="com">
-          <files name=".package" contentURI=".341055_RenameEnumerationLiteralsContextWorkspacectx/content2.package"/>
-          <folders name="mycompany">
-            <files name=".package" contentURI=".341055_RenameEnumerationLiteralsContextWorkspacectx/content1.package"/>
-            <files name="Entity1.class" contentURI=".341055_RenameEnumerationLiteralsContextWorkspacectx/content1.class"/>
-            <files name="Enum.class" contentURI=".341055_RenameEnumerationLiteralsContextWorkspacectx/content2.class"/>
-          </folders>
-        </folders>
-      </folders>
       <folders name="src">
         <folders name="com">
-          <files name=".package" contentURI=".341055_RenameEnumerationLiteralsContextWorkspacectx/content4.package"/>
+          <files name=".package" contentURI=".341055_RenameEnumerationLiteralsContextWorkspacectx/content6.package"/>
           <folders name="mycompany">
-            <files name=".package" contentURI=".341055_RenameEnumerationLiteralsContextWorkspacectx/content3.package"/>
+            <files name=".package" contentURI=".341055_RenameEnumerationLiteralsContextWorkspacectx/content5.package"/>
             <files name="Entity1.java" contentURI=".341055_RenameEnumerationLiteralsContextWorkspacectx/content1.java"/>
             <files name="Enum.java" contentURI=".341055_RenameEnumerationLiteralsContextWorkspacectx/content2.java"/>
           </folders>

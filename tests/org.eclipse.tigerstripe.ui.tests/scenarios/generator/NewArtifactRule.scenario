@@ -26,24 +26,6 @@ with [get-editor "New Generator Project/ts-plugin.xml" | get-section "Artifact R
     get-section -index 1 | get-editbox -after [get-label "Description:"] | set-text Description
 }
 get-button "Save (Ctrl+S)" | click
-
-get-view Problems | get-tree | get-item "Errors \\(3 items\\)" | get-property caption | equals "Errors (3 items)" 
-    | verify-true
-get-view Problems | get-tree 
-    | get-item "Errors \\(3 items\\)/Artifact Type undefined in Artifact Model Run Rule \'ArtifactRule\' in project \'New Generator Project\'" 
-    | get-property caption 
-    | equals "Artifact Type undefined in Artifact Model Run Rule \'ArtifactRule\' in project \'New Generator Project\'" 
-    | verify-true
-get-view Problems | get-tree 
-    | get-item "Errors \\(3 items\\)/No specified output filename for Artifact Model Run Rule \'ArtifactRule\' in project \'New Generator Project\'" 
-    | get-property caption 
-    | equals "No specified output filename for Artifact Model Run Rule \'ArtifactRule\' in project \'New Generator Project\'" 
-    | verify-true
-get-view Problems | get-tree 
-    | get-item "Errors \\(3 items\\)/No Template specified for Artifact Model Run Rule \'ArtifactRule\' in project \'New Generator Project\'" 
-    | get-property caption 
-    | equals "No Template specified for Artifact Model Run Rule \'ArtifactRule\' in project \'New Generator Project\'" 
-    | verify-true
 get-view "Tigerstripe Explorer" | get-tree | select "New Generator Project/templates" | get-menu "New/File" | click
 with [get-window "New File"] {
     with [get-editbox -after [get-label "File name:"]] {
@@ -62,36 +44,15 @@ with [get-window "Select Velocity Template"] {
     get-button OK | click
 }
 get-button "Save All (Ctrl+Shift+S)" | click
-get-view Problems | get-tree | select "Errors \\(2 items\\)"
-get-view Problems | get-tree | get-item "Errors \\(2 items\\)" | get-property caption | equals "Errors (2 items)" 
-    | verify-true
-get-view Problems | get-tree 
-    | get-item "Errors \\(2 items\\)/Artifact Type undefined in Artifact Model Run Rule \'ArtifactRule\' in project \'New Generator Project\'" 
-    | get-property caption 
-    | equals "Artifact Type undefined in Artifact Model Run Rule \'ArtifactRule\' in project \'New Generator Project\'" 
-    | verify-true
-get-view Problems | get-tree 
-    | get-item "Errors \\(2 items\\)/No specified output filename for Artifact Model Run Rule \'ArtifactRule\' in project \'New Generator Project\'" 
-    | get-property caption 
-    | equals "No specified output filename for Artifact Model Run Rule \'ArtifactRule\' in project \'New Generator Project\'" 
-    | verify-true
 with [get-editor "New Generator Project/ts-plugin.xml" | get-section "Artifact Rules" | get-section -index 1 
     | get-editbox -after [get-label "Output File:"]] {
     key-type "M1+v"
     set-text "ArtifactRule.txt"
 }
 get-button "Save All (Ctrl+Shift+S)" | click
-get-view Problems | get-tree | get-item "Errors \\(1 item\\)" | get-property caption | equals "Errors (1 item)" 
-    | verify-true
-get-view Problems | get-tree 
-    | get-item "Errors \\(1 item\\)/Artifact Type undefined in Artifact Model Run Rule \'ArtifactRule\' in project \'New Generator Project\'" 
-    | get-property caption 
-    | equals "Artifact Type undefined in Artifact Model Run Rule \'ArtifactRule\' in project \'New Generator Project\'" 
-    | verify-true
 get-editor "New Generator Project/ts-plugin.xml" | get-section "Artifact Rules" | get-section -index 1 | get-combo 
     -after [get-label "Artifact Type:"] | set-text "Any Artifact"
-get-button "Save (Ctrl+S)" | click
-get-view Problems | get-tree | get-property itemCount | equals 0 | verify-true]]></content>
+get-button "Save (Ctrl+S)" | click]]></content>
   </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
