@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="DefinedFacetScopeContextWorkspace" id="_De6GwDs7EeCt76CYYPZ_qw">
+  <content>
+    <projects name="New Generator Project">
+      <files name=".classpath" contentURI=".DefinedFacetScopeContextWorkspacectx/content3.classpath"/>
+      <files name=".project" contentURI=".DefinedFacetScopeContextWorkspacectx/content3.project"/>
+      <files name="ts-plugin.xml" contentURI=".DefinedFacetScopeContextWorkspacectx/content3.xml"/>
+      <folders name="src"/>
+      <folders name="templates">
+        <files name="allArtifacts.vm" contentURI=".DefinedFacetScopeContextWorkspacectx/content3.vm"/>
+        <files name="artifact.vm" contentURI=".DefinedFacetScopeContextWorkspacectx/content4.vm"/>
+      </folders>
+    </projects>
+    <projects name="model-refactoring">
+      <files name=".classpath" contentURI=".DefinedFacetScopeContextWorkspacectx/content4.classpath"/>
+      <files name=".project" contentURI=".DefinedFacetScopeContextWorkspacectx/content4.project"/>
+      <files name="default.wfc" contentURI=".DefinedFacetScopeContextWorkspacectx/content2.wfc"/>
+      <files name="outside-class-diagram.vwm" contentURI=".DefinedFacetScopeContextWorkspacectx/content10.vwm"/>
+      <files name="outside-class-diagram.wvd" contentURI=".DefinedFacetScopeContextWorkspacectx/content10.wvd"/>
+      <files name="outside-instance-diagram.owm" contentURI=".DefinedFacetScopeContextWorkspacectx/content2.owm"/>
+      <files name="outside-instance-diagram.wod" contentURI=".DefinedFacetScopeContextWorkspacectx/content2.wod"/>
+      <files name="tigerstripe.xml" contentURI=".DefinedFacetScopeContextWorkspacectx/content4.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".DefinedFacetScopeContextWorkspacectx/content2.prefs"/>
+      </folders>
+      <folders name="src">
+        <folders name="simple">
+          <files name=".package" contentURI=".DefinedFacetScopeContextWorkspacectx/content12.package"/>
+          <files name="AssociatedEnt.java" contentURI=".DefinedFacetScopeContextWorkspacectx/content19.java"/>
+          <files name="Association0.java" contentURI=".DefinedFacetScopeContextWorkspacectx/content20.java"/>
+          <files name="Association1.java" contentURI=".DefinedFacetScopeContextWorkspacectx/content21.java"/>
+          <files name="Association2.java" contentURI=".DefinedFacetScopeContextWorkspacectx/content22.java"/>
+          <files name="AssociationClass0.java" contentURI=".DefinedFacetScopeContextWorkspacectx/content23.java"/>
+          <files name="DataBottom.java" contentURI=".DefinedFacetScopeContextWorkspacectx/content24.java"/>
+          <files name="DataMiddle.java" contentURI=".DefinedFacetScopeContextWorkspacectx/content25.java"/>
+          <files name="DataTop.java" contentURI=".DefinedFacetScopeContextWorkspacectx/content26.java"/>
+          <files name="Dependency0.java" contentURI=".DefinedFacetScopeContextWorkspacectx/content27.java"/>
+          <files name="Ent1.java" contentURI=".DefinedFacetScopeContextWorkspacectx/content28.java"/>
+          <files name="Ent2.java" contentURI=".DefinedFacetScopeContextWorkspacectx/content29.java"/>
+          <files name="Enumeration0.java" contentURI=".DefinedFacetScopeContextWorkspacectx/content30.java"/>
+          <files name="Event0.java" contentURI=".DefinedFacetScopeContextWorkspacectx/content31.java"/>
+          <files name="Exception0.java" contentURI=".DefinedFacetScopeContextWorkspacectx/content32.java"/>
+          <files name="Query0.java" contentURI=".DefinedFacetScopeContextWorkspacectx/content33.java"/>
+          <files name="SessionFacade0.java" contentURI=".DefinedFacetScopeContextWorkspacectx/content34.java"/>
+          <files name="SuperEnt.java" contentURI=".DefinedFacetScopeContextWorkspacectx/content35.java"/>
+          <files name="Update0.java" contentURI=".DefinedFacetScopeContextWorkspacectx/content36.java"/>
+          <files name="default.vwm" contentURI=".DefinedFacetScopeContextWorkspacectx/content9.vwm"/>
+          <files name="default.wvd" contentURI=".DefinedFacetScopeContextWorkspacectx/content9.wvd"/>
+          <folders name="moved">
+            <files name=".package" contentURI=".DefinedFacetScopeContextWorkspacectx/content10.package"/>
+            <files name="inside-moved.vwm" contentURI=".DefinedFacetScopeContextWorkspacectx/content8.vwm"/>
+            <files name="inside-moved.wvd" contentURI=".DefinedFacetScopeContextWorkspacectx/content8.wvd"/>
+          </folders>
+          <folders name="movedOther">
+            <files name=".package" contentURI=".DefinedFacetScopeContextWorkspacectx/content11.package"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

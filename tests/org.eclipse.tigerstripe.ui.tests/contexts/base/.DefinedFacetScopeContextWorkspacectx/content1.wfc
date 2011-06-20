@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<contractSegment name="default" version="NO_VERSION">
+  <description>NO_DESCRIPTION</description>
+  <scope>
+    <pattern type="0">simple.*</pattern>
+    <pattern type="1">simple.moved.*</pattern>
+  </scope>
+  <facetRefs/>
+  <useCaseRefs/>
+</contractSegment>

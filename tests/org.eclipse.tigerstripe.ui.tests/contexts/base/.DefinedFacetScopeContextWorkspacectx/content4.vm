@@ -1,0 +1,4 @@
+ARTIFACT_TYPE=$artifact.Label
+ARTIFACT_FQN=$artifact.FullyQualifiedName
+ARTIFACT_NAME=$artifact.Name
+
