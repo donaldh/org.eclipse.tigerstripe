@@ -43,4 +43,44 @@
             id="org.eclipse.tigerstripe.ui.eclipse.preferences.DiagramPreferencePage"
             name="Diagrams"/>
 	</extension>
+
+	<extension point="org.eclipse.gmf.runtime.common.ui.services.action.contributionItemProviders">
+      <contributionItemProvider
+            checkPluginLoaded="true"
+            class="org.eclipse.tigerstripe.workbench.ui.diagram.actions.DiagramContributionItemProvider">
+         <Priority
+               name="Low">
+         </Priority>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.TigerstripeEditableEntityEditPart"/>
+            <popupPredefinedItem id="fillColorContributionItem" path="/formatMenu/fontFillLineGroup" remove="true"/>
+            <popupCustom path="/formatMenu/fontFillLineGroup" id="tigerstripeFillColorContributionItem"/>
+         </popupContribution>
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.NamePackageInterface"/>
+            <popupPredefinedItem id="fillColorContributionItem" path="/formatMenu/fontFillLineGroup" remove="true"/>
+            <popupCustom path="/formatMenu/fontFillLineGroup" id="tigerstripeFillColorContributionItem"/>
+         </popupContribution>
+
+         <popupContribution class="org.eclipse.gmf.runtime.diagram.ui.providers.DiagramContextMenuProvider">
+            <popupStructuredContributionCriteria objectClass="org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.parts.TigerstripeEditableEntityEditPart"/>
+            <popupPredefinedItem id="fillColorContributionItem" path="/formatMenu/fontFillLineGroup" remove="true"/>
+            <popupCustom path="/formatMenu/fontFillLineGroup" id="tigerstripeFillColorContributionItem"/>
+         </popupContribution>         
+
+         <partContribution class="org.eclipse.tigerstripe.workbench.ui.internal.gmf.AbstractDiagramEditor">
+         	<partCustom menubarPath="/diagramMenu/fontColorLineGroup" toolbarPath="/toolbarColorLineGroup" id="tigerstripeFillColorContributionItem">
+            </partCustom>
+         </partContribution>
+         <partContribution class="org.eclipse.tigerstripe.workbench.ui.internal.gmf.AbstractDiagramEditor">
+         	<partPredefinedItem
+                id="fillColorContributionItem"
+                menubarPath="/diagramMenu/fontColorLineGroup"
+                toolbarPath="/toolbarColorLineGroup"
+                removeFromMenubar="true"
+                removeFromToolbar="true">
+         	</partPredefinedItem>
+         </partContribution> 
+      </contributionItemProvider>
+   </extension>
 </plugin>

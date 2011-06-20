@@ -20,7 +20,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "testPlugin";
+	public static final String PLUGIN_ID = "org.eclipse.tigerstripe.workbench.ui.diagramrendering";
 
 	// The shared instance
 	private static Activator plugin;

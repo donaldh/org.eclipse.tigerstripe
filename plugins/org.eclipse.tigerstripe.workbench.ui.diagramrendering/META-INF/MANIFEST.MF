@@ -10,7 +10,8 @@ Require-Bundle: org.eclipse.tigerstripe.workbench.ui.base,
  org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram,
  org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation,
  org.eclipse.ui.navigator,
- org.eclipse.jdt.ui
+ org.eclipse.jdt.ui,
+ org.eclipse.gmf.runtime.diagram.ui.actions
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: 
  Eclipse.org
