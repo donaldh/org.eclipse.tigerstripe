@@ -188,53 +188,56 @@ public class FileUtils {
 		createJar(jarPath, baseDirPath, manifest);
 	}
 
-	public final static void createJar(String jarPath, String baseDirPath,
-			Manifest manifest) throws IOException {
-		if (!baseDirPath.endsWith(File.separator)) {
-			baseDirPath = baseDirPath + File.separator;
-		}
-
-		FileOutputStream fos = new FileOutputStream(jarPath);
-		JarOutputStream jos = new JarOutputStream(fos, manifest);
-
-		walkDirectory(baseDirPath, baseDirPath, jos);
-
-		jos.flush();
-		jos.close();
-		fos.close();
+	public final static void createJar(String jarPath, String targetFolder, Manifest manifest) throws IOException
+	{
+		JarOutputStream target = new JarOutputStream(new FileOutputStream(jarPath), manifest);
+		add(new File(targetFolder), targetFolder, target);
+		target.close();
 	}
 
-	private final static void walkDirectory(String dirPath, String baseDirPath,
-			JarOutputStream jos) throws IOException {
-		File dirobject = new File(dirPath);
-		if (dirobject.exists() == true) {
-			if (dirobject.isDirectory() == true) {
-				File[] fileList = dirobject.listFiles();
-				// Loop through the files
-				for (int i = 0; i < fileList.length; i++) {
-					if (fileList[i].isDirectory()) {
-						walkDirectory(fileList[i].getPath(), baseDirPath, jos);
-					} else if (fileList[i].isFile()) {
-						// Call the zipFunc function
-						jarFile(fileList[i].getPath(), baseDirPath, jos);
-					}
+	private static void add(File source, String targetFolder, JarOutputStream target) throws IOException
+	{
+		BufferedInputStream in = null;
+		try
+		{
+			if (source.isDirectory())
+			{
+				String name = source.getPath().replace("\\", "/").substring(targetFolder.length());
+				if (!name.isEmpty())
+				{
+					if (!name.endsWith("/"))
+						name += "/";
+					if (name.startsWith("/"))
+						name = name.substring(1);
+					JarEntry entry = new JarEntry(name);
+					entry.setTime(source.lastModified());
+					target.putNextEntry(entry);
+					target.closeEntry();
 				}
+				for (File nestedFile: source.listFiles())
+					add(nestedFile, targetFolder, target);
+				return;
 			}
-		}
-	}
 
-	private final static void jarFile(String filePath, String baseDirPath,
-			JarOutputStream jos) throws IOException {
-		FileInputStream fis = new FileInputStream(filePath);
-		BufferedInputStream bis = new BufferedInputStream(fis);
-		JarEntry fileEntry = new JarEntry(filePath.substring(
-				baseDirPath.length()).replace(File.separatorChar, '/'));
-		jos.putNextEntry(fileEntry);
-		byte[] data = new byte[1024];
-		int byteCount;
-		while ((byteCount = bis.read(data, 0, 1024)) > -1) {
-			jos.write(data, 0, byteCount);
-		}
+			JarEntry entry = new JarEntry(source.getPath().replace("\\", "/").substring(targetFolder.length() + 1));
+			entry.setTime(source.lastModified());
+			target.putNextEntry(entry);
+			in = new BufferedInputStream(new FileInputStream(source));
 
+			byte[] buffer = new byte[1024];
+			while (true)
+			{
+				int count = in.read(buffer);
+				if (count == -1)
+					break;
+				target.write(buffer, 0, count);
+			}
+			target.closeEntry();
+		}
+		finally
+		{
+			if (in != null)
+				in.close();
+		}
 	}
 }
