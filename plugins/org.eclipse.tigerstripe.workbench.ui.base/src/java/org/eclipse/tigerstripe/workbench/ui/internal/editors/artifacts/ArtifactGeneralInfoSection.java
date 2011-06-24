@@ -207,9 +207,10 @@ public class ArtifactGeneralInfoSection extends ArtifactSectionPart implements
 		// Made changes to include a scroll bar in the Description box and
 		// increased
 		// the size to 100 from 70 - bug # 162
-		Composite composite = toolkit.createComposite(parent);
+		Composite composite = toolkit.createComposite(parent, SWT.BORDER);
 		TableWrapData gd = new TableWrapData(TableWrapData.FILL_GRAB);
 		gd.heightHint = 100;
+		gd.maxWidth = 50;
 		gd.maxHeight = 100;
 		composite.setLayoutData(gd);
 		GridLayoutFactory.fillDefaults().applyTo(composite);

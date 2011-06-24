@@ -66,7 +66,8 @@ public class TigerstripeUILabels {
 			@Override
 			public void applyStyles(TextStyle textStyle) {
 				if (anchor.isInherited()) {
-					textStyle.foreground = Display.getCurrent().getSystemColor(SWT.COLOR_GRAY);
+					textStyle.foreground = Display.getCurrent().getSystemColor(
+							SWT.COLOR_DARK_GRAY);
 				}
 			}
 		});

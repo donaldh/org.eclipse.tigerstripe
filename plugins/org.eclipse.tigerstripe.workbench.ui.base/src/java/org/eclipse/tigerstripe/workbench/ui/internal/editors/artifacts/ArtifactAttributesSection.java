@@ -121,7 +121,7 @@ public class ArtifactAttributesSection extends ModelComponentSectionPart
 
 		public Color getForeground(Object element, int columnIndex) {
 			if (!fieldsInModel.contains(element)) {
-				return Display.getCurrent().getSystemColor(SWT.COLOR_GRAY);
+				return Display.getCurrent().getSystemColor(SWT.COLOR_DARK_GRAY);
 			} else {
 				return null;
 			}

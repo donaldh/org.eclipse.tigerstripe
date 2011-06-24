@@ -42,7 +42,6 @@ import org.eclipse.swt.events.FocusEvent;
 import org.eclipse.swt.events.FocusListener;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyListener;
-import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
@@ -64,23 +63,19 @@ public class SpellCheckingTextBox {
 
 	private final StyledText textField;
 	private Composite parentComposite;
-	private String initialText;
 
 	public SpellCheckingTextBox(Composite composite, String initialText) {
 		parentComposite = composite;
-		this.initialText = initialText;
 		
 		AnnotationModel annotationModel = new AnnotationModel();
 		IAnnotationAccess annotationAccess = new DefaultMarkerAnnotationAccess();
 
-		Composite cc = new Composite(composite, SWT.BORDER);
-		cc.setLayout(new FillLayout());
-		cc.setLayoutData(new GridData(GridData.FILL_BOTH));
-
-		final SourceViewer sourceViewer = new SourceViewer(cc, null, null,
+		final SourceViewer sourceViewer = new SourceViewer(parentComposite,
+				null, null,
 				true, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 		textField = sourceViewer.getTextWidget();
 		textField.setIndent(2);
+		textField.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		final SourceViewerDecorationSupport support = new SourceViewerDecorationSupport(
 				sourceViewer, null, annotationAccess,
