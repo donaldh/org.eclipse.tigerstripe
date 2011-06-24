@@ -237,7 +237,7 @@ public class DescriptorAuditor {
 				}
 			}
 			IFacetReference facetReference = pluginConfig.getFacetReference();
-			if (!facetReference.canResolve()) {
+			if (facetReference != null && !facetReference.canResolve()) {
 				TigerstripeProjectAuditor.reportError(
 						"Facet '" + facetReference.getProjectRelativePath()
 								+ "' referenced in project '"
