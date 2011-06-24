@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="AllLinksContextWorkspace" id="_YiZ2kJ4TEeC0FMmSWvz47w">
+  <content>
+    <projects name="Project">
+      <files name=".classpath" contentURI=".AllLinksContextWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".AllLinksContextWorkspacectx/content1.project"/>
+      <files name=".visualstate" contentURI=".AllLinksContextWorkspacectx/content1.visualstate"/>
+      <files name="tigerstripe.xml" contentURI=".AllLinksContextWorkspacectx/content1.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".AllLinksContextWorkspacectx/content1.prefs"/>
+      </folders>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".AllLinksContextWorkspacectx/content4.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".AllLinksContextWorkspacectx/content3.package"/>
+            <files name="Association.java" contentURI=".AllLinksContextWorkspacectx/content1.java"/>
+            <files name="AssociationClass6.java" contentURI=".AllLinksContextWorkspacectx/content2.java"/>
+            <files name="ClassDiagram.vwm" contentURI=".AllLinksContextWorkspacectx/content2.vwm"/>
+            <files name="ClassDiagram.wvd" contentURI=".AllLinksContextWorkspacectx/content2.wvd"/>
+            <files name="Dependency4.java" contentURI=".AllLinksContextWorkspacectx/content3.java"/>
+            <files name="Entity1.java" contentURI=".AllLinksContextWorkspacectx/content4.java"/>
+            <files name="Entity2.java" contentURI=".AllLinksContextWorkspacectx/content5.java"/>
+            <files name="Entity3.java" contentURI=".AllLinksContextWorkspacectx/content6.java"/>
+            <files name="Entity5.java" contentURI=".AllLinksContextWorkspacectx/content7.java"/>
+            <files name="Entity7.java" contentURI=".AllLinksContextWorkspacectx/content8.java"/>
+            <files name="Query9.java" contentURI=".AllLinksContextWorkspacectx/content9.java"/>
+            <files name="SessionFacade8.java" contentURI=".AllLinksContextWorkspacectx/content10.java"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

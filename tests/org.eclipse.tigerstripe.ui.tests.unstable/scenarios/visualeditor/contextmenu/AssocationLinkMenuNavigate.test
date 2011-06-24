@@ -1,0 +1,1643 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="AssociationLinkMenuNavigate" version="3.0" id="_76QGUJyREeCwQoDghmuRmQ" description="Use 'Navigate' option for Association link&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;EntityWithAssociationContextWorkspace&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;    Select Association link and open dropdown menu&#xD;&#xA;    Select &quot;Navigate/Show in/Tigerstripe Explorer&quot; item&#xD;&#xA;    Check that Association is selected in Tigerstripe Explorer&#xD;&#xA;    Select &quot;Navigate/Select Source&quot; item for Association link&#xD;&#xA;    Check that source entity is selected on diagram&#xD;&#xA;    Select &quot;Navigate/Select Target&quot; item for Association link&#xD;&#xA;    Check that target entity is selected on diagram&#xD;&#xA;" tags="TS_Project/VisualEditor/ContextMenu" type="ecl" externalReference="http://docs.xored.com/display/TS/AssociationLinkMenuNavigate">
+  <contexts>_FGfSUKthEd-v8JwXbnu_tQ</contexts>
+  <contexts>_OHSl4JyPEeCwQoDghmuRmQ</contexts>
+  <contexts>_9D6jAatgEd-v8JwXbnu_tQ</contexts>
+  <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow26" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View18" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>Project</path>
+        <path>src</path>
+        <path>com.mycompany</path>
+        <path>Association</path>
+        <parent id="Tree18" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="selected" value="false">
+      <element id="Item31" kind="Item"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow28" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View21" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree21" kind="Tree"/>
+      <path>Project</path>
+      <path>src</path>
+      <path>com.mycompany</path>
+      <path>ClassDiagram</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DoubleClick">
+      <element id="Tree21" kind="Tree"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="ClassDiagram.wvd" multiplicity="1">
+        <parent id="EclipseWindow28" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramViewer" multiplicity="1">
+        <parent id="Editor18" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="MapEditPart" multiplicity="1">
+        <path>editpart</path>
+        <path>classname</path>
+        <parent id="DiagramViewer18" kind="DiagramViewer"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="Entity1" multiplicity="1">
+        <path>editpart</path>
+        <path>name</path>
+        <parent id="DiagramFigure74" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" multiplicity="1">
+        <path>editpart.source.connection</path>
+        <path>address</path>
+        <indexes>0</indexes>
+        <parent id="DiagramFigure75" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="Entity2" multiplicity="1">
+        <path>editpart</path>
+        <path>name</path>
+        <parent id="DiagramFigure74" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" multiplicity="1">
+        <path>editpart.target.connection</path>
+        <path>address</path>
+        <indexes>0</indexes>
+        <parent id="DiagramFigure77" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="43" y="45" button="1" kind="Move" boundsWidth="613" boundsHeight="373" figureWidth="291" figureHeight="78">
+      <element id="DiagramFigure78" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="43" y="45" button="1" boundsWidth="613" boundsHeight="373" figureWidth="291" figureHeight="78">
+      <element id="DiagramFigure78" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="43" y="45" button="1" kind="Up" boundsWidth="613" boundsHeight="373" stateMask="524288" figureWidth="291" figureHeight="78">
+      <element id="DiagramFigure78" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="43" y="44" kind="Hover" boundsWidth="613" boundsHeight="373" figureWidth="291" figureHeight="78">
+      <element id="DiagramFigure78" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="43" y="44" button="3" kind="Move" boundsWidth="613" boundsHeight="373" figureWidth="291" figureHeight="78">
+      <element id="DiagramFigure78" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="43" y="44" button="3" boundsWidth="613" boundsHeight="373" figureWidth="291" figureHeight="78">
+      <element id="DiagramFigure78" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="43" y="44" button="3" kind="Up" boundsWidth="613" boundsHeight="373" stateMask="2097152" figureWidth="291" figureHeight="78">
+      <element id="DiagramFigure78" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Menu" multiplicity="1">
+        <path>Navigate</path>
+        <path>Show in</path>
+        <path>Tigerstripe Explorer</path>
+        <parent id="DiagramViewer18" kind="DiagramViewer"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Menu5" kind="Menu"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State6" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow29" kind="EclipseWindow" description="Tigerstripe - Project/src/com/mycompany/ClassDiagram.wvd - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View22" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>Project</path>
+        <path>src</path>
+        <path>com.mycompany</path>
+        <path>Association</path>
+        <parent id="Tree22" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="selected" value="true">
+      <element id="Item34" kind="Item"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="ClassDiagram.wvd" multiplicity="1">
+        <parent id="EclipseWindow31" kind="EclipseWindow" description="Tigerstripe - Project/src/com/mycompany/ClassDiagram.wvd - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramViewer" multiplicity="1">
+        <parent id="Editor19" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="MapEditPart" multiplicity="1">
+        <path>editpart</path>
+        <path>classname</path>
+        <parent id="DiagramViewer19" kind="DiagramViewer"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="Entity1" multiplicity="1">
+        <path>editpart</path>
+        <path>name</path>
+        <parent id="DiagramFigure79" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" multiplicity="1">
+        <path>editpart.source.connection</path>
+        <path>address</path>
+        <indexes>0</indexes>
+        <parent id="DiagramFigure80" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="Entity2" multiplicity="1">
+        <path>editpart</path>
+        <path>name</path>
+        <parent id="DiagramFigure79" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" multiplicity="1">
+        <path>editpart.target.connection</path>
+        <path>address</path>
+        <indexes>0</indexes>
+        <parent id="DiagramFigure82" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="180" y="43" button="1" kind="Move" boundsWidth="613" boundsHeight="373" figureWidth="291" figureHeight="78">
+      <element id="DiagramFigure83" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="180" y="43" button="1" boundsWidth="613" boundsHeight="373" figureWidth="291" figureHeight="78">
+      <element id="DiagramFigure83" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="180" y="43" button="1" kind="Up" boundsWidth="613" boundsHeight="373" stateMask="524288" figureWidth="291" figureHeight="78">
+      <element id="DiagramFigure83" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:ActivateDirectEdit">
+      <element id="DiagramFigure83" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="Association" multiplicity="1">
+        <path>editpart</path>
+        <path>text</path>
+        <parent id="DiagramFigure83" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:ActivateDirectEdit">
+      <element id="DiagramFigure84" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="180" y="43" kind="Hover" boundsWidth="613" boundsHeight="373" figureWidth="291" figureHeight="78">
+      <element id="DiagramFigure83" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="180" y="43" button="3" boundsWidth="613" boundsHeight="373" figureWidth="291" figureHeight="78">
+      <element id="DiagramFigure83" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:CancelDirectEdit">
+      <element id="DiagramViewer19" kind="DiagramViewer"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="180" y="43" button="3" kind="Up" boundsWidth="613" boundsHeight="373" stateMask="2097152" figureWidth="291" figureHeight="78">
+      <element id="DiagramFigure83" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Menu" multiplicity="1">
+        <path>Navigate</path>
+        <path>Select Source</path>
+        <parent id="DiagramViewer19" kind="DiagramViewer"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Menu6" kind="Menu"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State7" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="ClassDiagram.wvd" multiplicity="1">
+        <parent id="EclipseWindow32" kind="EclipseWindow" description="Tigerstripe - Project/src/com/mycompany/ClassDiagram.wvd - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramViewer" multiplicity="1">
+        <parent id="Editor20" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="MapEditPart" multiplicity="1">
+        <path>editpart</path>
+        <path>classname</path>
+        <parent id="DiagramViewer20" kind="DiagramViewer"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="Contain image" kind="ContainsImage">
+      <element id="DiagramFigure85" kind="DiagramFigure"/>
+      <imageData image="89504E470D0A1A0A0000000D494844520000025300000163080200000096B1198F00000CEF49444154789CEDDDCF6B1CE701C761D13F2B879E1CF0AD87FE03BEF55402AEAF2D3EF5567A289814E44B0F3D140A8A69B170B07551088154901C1C0881FC201763C8C588824B5047BBDAD1ECEC2FADF5EECEBBFB7D1E96B019ED8E765FEFBC9F9D999574700100490E867E0000B055CA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E808B17CF9F1E55AF7990438FD39E503E808BA62B6FCFBFEC5E7E79EF0FEDA5F7A5A12ECD831C7A9CF684F2014C956F5CBB3F3EFEE8A3FFBC6A2EBFFDD33F2AE99FF295A27C051C74A4AD13F6C3B87C6DF37E3AFF5F7319976F55FF1EDFEF6C59F78F6FD0B0AF1EBE7FF0DE875FADBCE5F18777A656AB7CA598010BE815E5E0D6B6B34EA0D544A5DBBCD9F275FB3753BE9B646CEECD96DEF7F8E1D5978EEF1D1CDCFB58F9CA310316D02BCAEDCF636F679D40EB6854BEFB7F7FD95C1695EF377FFEA8B96CAF7C33373B52BE42CC8005F48AD23B5BF00E670896ACF39D2FB3EB045ADDF2B5FDEB35EFC6E51B2D79746FBCADBDFFE878EA88E8078F2777E92E7CF8E19DCE91D26627EFCEC36FBA474747FFAB7CA59801CB7B7BEB33E473D779FBF2018BCC966F7CE9366F71F95A97C724AF965C16EEFA40E57420DBEB9D85CD2DC77739FFF2E30FBAE70B8FDB282A5F29CA5746F33A3FAAF10CF978C3BBBE65F320EDF05197EF0EEF1E3C38997B65FE8DAF2CB8C53BBA5DF9E6EDF32D89DCC28593467676F89A0AB64554BE524C82658CCB57D919F2D107C33EB8775FF96EEBE4C1C1DDC3EF36B6FA2513FDC5CD7AB0D3669FD7C267DAF987B8BC4DC97F940ACAF7E5378FDE7BFFD1F1F8BFED92367BCA579049B08CB67CF59D217F5C4BF9D67A6BDFBBCBB04E1E343699BEA52A1984D59A2CF51E67B3647AF7AC792E770F0FA7964E76E29AF1BD7AA6D74B0EDB358EEEF8DDF47798FD7EB731DE7E7FFDFBBF2D2FDFAF7EF797CD956F743EEFDEFD3B9DE39FDDB37DCA578EF295D12B5F4D67C8EB2BDF92255D57D3E6E093FE64D2EDA6AF9DD27B33F19CE37033B3FFD4C2D14ABBE3D03F9A371B8605AB9D13952DEB97A8DD41BB7EE0A367733590D7FB6F933B5EDF6EB2A41DF593D9771E8577C49B4DE3F8E93FC7E723BAFDEB35AFB934379BD97EAF4DB6D6D9C88D8E5B4E6DBFBD85BD639BD73FCCD79E0751BE5294AF8CB9E5ABE30C79F1F26DFEADFDD51AEF1E9E54B0BBD37948938772D27DBC93AB73174E4FEF57D7A6EF3495B4DED1BCE90CCCDC6FEADAFCA86CC575F2BB3DEF3E88394F61E9136C07F3AA7833E12B7DAC73F293EC4DD57AFDEB356F267B852FD39F6DE95F94AF14E52BE3D6E5DBDC19F28D976F836FED2B38D037095FF779CF0DCBA285DDBDB4993DBCF67BCC799A9DD97F611816AC769871EBBD307A3D5CFC20971D069FB7C33D5A73F1B21F757E7B59B77F5B6BDEE468E7D4E14DE5DB10E52BA38EF2CD39435EB27CDB7F6B3F7CF93A071F7B3BB5DD3158B470EAF14F1A7ADDD2EE1DAF9F6667985786617AB5D5956FE631AC5DBECBAB5327594783BC89E77634F31BABC7B5DB52F3AE8E6DAE38DFAF7CA5285F196DF9EA3A43BE8D7DBECDBDB5AFA07CD3959A3397AFD8FD5B779FEF7230FBC74CE70C579DFB7C7D0B0EC9AE57BEA9E39A1BCBDEC5BCF2557851BE5294AF8C71F9AA3E433EF91D101B28DF06DEDACFAE6708978FAAFBEDC7CFB5B7973BBE3E77E1CAF37CE3ABCB67FC795FBD69540636FD419E8B450F72BCB3DC198776C9D5F5CE684D2BF824952F8AF2957130F949F6FACF90DFBA7C7DE5DFDAB7869EC17BE16B9F61FF80E4E46BF326E4F53EDBD93962DABC11E87E38A81B8679ABADB17C25F4DF7D6C8AF24551BE32DAF28D2F359F212F5EBEE26FEDAFEDD30CCEFABA9F94DA34E58BA27C65F4CAD7ED5F6D67C83750BE12B6F5D69E286767675F7FFDF5DBB76F57DE52F9A2543909EEA0B9E5ABF05267F9B6F9D69E28E7E7E72F5FBE3C3E3E6E12F8E6CD9B25B7DC95ED776B43B7DFAA9B047794F241B57EFEF9E7EFBFFFFEF9F3E7A7A7A73FFEF8E3DCDBDCFE4F606EC796876E5F9904CB503EA8DFEBD7AF3FFFFCF367CF9ECD1E02DD95ED77A8A1DB3326C132940F76C5DC43A0BBB2FD0E3B747BC3245886F2C16EE91D02DD95ED77E861DB1326C132940F6EEEF59A9A447DB5A6D31B7BF1E2C593274F7665FB1DFA9F6E4F9804CB18976F2728DF4EABAA1963CF9E3D5BF745B8EEB7383B3B5BF759DC64709A5DBDCF3EFBECE9D3A7CD7F8F942F8949B0984F3EF9E4AFD39A25836F2AED65E8E1199E66146C46D7F9F9F9D0FFB66B7BF5EAD5A79F7EDA8CFFB7DF7E3BFEA88BF24551BE02C6BFBFA4495D6F79B364F04DA55BBEEE2F3C5CEB096A8666EC8726724DEA9A174F93BD267EDD2F295F14E52BA02DDF7F3BDEBC795379F934831CCD0BE68B2FBE689AD7FC77EE8B47F9A2285F016DF97E31ADF2F24182D9039B73295F143360016DF99AFDBC76A7E4871F7E503E18D6E9E9E9EC81CDB9942F8A19B098A6732F47CE266A2B1FB088F24551BE329ABDA8CA3FDBD96E3976F86096F245310996E127D961A7EDCAF63BF438ED09936019CA073B6D57B6DFA1C7694F9804CB503ED869BBB2FD0E3D4E7BC2245886F2C1BBBBFCDBC40F4E067D08BBB2FD0E3A48FBC3245886F2AD56C1EC468D4E1E8C7ED066F8F2ED844107697F285F19CAB7421DB31BB519BD2EEE1E9E0CFFAE6857B6DF4107697F285F19CAB7443DB31B95AAE078C0AE6CBF830ED2FE50BE32946FB50A66372A55C16B6357B6DF4107697F285F19CAB75A05B31B95AAE0B5B12BDBEFA083B43F94AF0C7F9976B50A66372A55C16BE348F992285F197E7BD96A15CC6E54AA82D786F24551BE32EAFFCBB4CA47BD2A786D285F14E52BA3FEBF4CAB7CB084F24551BE32EAFFCBB4C3970F2AA67C514C8265D4FF9769950F9650BE2826C132C6E5ABF92FD32A1F2CF1EF7F3DD9F6C7ACD7D73CC8A1C7694F9804CBF0D94E805D61122CC34FB203EC0A936079B7EFD376D6099049F90A38E8B82854A92DAC13209319B0805E516E7F1E7B3BEB04C864062CA05794835BDBCE3A013299010BD8445176659D003BC70C084016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF20190E5FFACB45C1AAB05853E0000000049454E44AE426082" width="596" height="356"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="ClassDiagram.wvd" multiplicity="1">
+        <parent id="EclipseWindow34" kind="EclipseWindow" description="Tigerstripe - Project/src/com/mycompany/ClassDiagram.wvd - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramViewer" multiplicity="1">
+        <parent id="Editor21" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="MapEditPart" multiplicity="1">
+        <path>editpart</path>
+        <path>classname</path>
+        <parent id="DiagramViewer21" kind="DiagramViewer"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="Entity1" multiplicity="1">
+        <path>editpart</path>
+        <path>name</path>
+        <parent id="DiagramFigure86" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" multiplicity="1">
+        <path>editpart.source.connection</path>
+        <path>address</path>
+        <indexes>0</indexes>
+        <parent id="DiagramFigure87" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="Entity2" multiplicity="1">
+        <path>editpart</path>
+        <path>name</path>
+        <parent id="DiagramFigure86" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" multiplicity="1">
+        <path>editpart.target.connection</path>
+        <path>address</path>
+        <indexes>0</indexes>
+        <parent id="DiagramFigure89" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="214" y="42" button="1" kind="Move" boundsWidth="613" boundsHeight="373" figureWidth="291" figureHeight="78">
+      <element id="DiagramFigure90" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="214" y="42" button="1" boundsWidth="613" boundsHeight="373" figureWidth="291" figureHeight="78">
+      <element id="DiagramFigure90" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="214" y="42" button="1" kind="Up" boundsWidth="613" boundsHeight="373" stateMask="524288" figureWidth="291" figureHeight="78">
+      <element id="DiagramFigure90" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="214" y="42" kind="Hover" boundsWidth="613" boundsHeight="373" figureWidth="291" figureHeight="78">
+      <element id="DiagramFigure90" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="214" y="42" button="3" boundsWidth="613" boundsHeight="373" figureWidth="291" figureHeight="78">
+      <element id="DiagramFigure90" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol.diagram:FigureMouseCommand" x="214" y="42" button="3" kind="Up" boundsWidth="613" boundsHeight="373" stateMask="2097152" figureWidth="291" figureHeight="78">
+      <element id="DiagramFigure90" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Menu" multiplicity="1">
+        <path>Navigate</path>
+        <path>Select Target</path>
+        <parent id="DiagramViewer21" kind="DiagramViewer"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Menu7" kind="Menu"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State8" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="ClassDiagram.wvd" multiplicity="1">
+        <parent id="EclipseWindow35" kind="EclipseWindow" description="Tigerstripe - Project/src/com/mycompany/ClassDiagram.wvd - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramViewer" multiplicity="1">
+        <parent id="Editor22" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="MapEditPart" multiplicity="1">
+        <path>editpart</path>
+        <path>classname</path>
+        <parent id="DiagramViewer22" kind="DiagramViewer"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="Contain image" kind="ContainsImage">
+      <element id="DiagramFigure91" kind="DiagramFigure"/>
+      <imageData image="89504E470D0A1A0A0000000D494844520000025300000163080200000096B1198F00000CC249444154789CEDDDCF6B23F71DC761D33FAB879E36B0B71EFA0FECADA712D8EEB5654FBD951E0A4B0ADE4B0F3D140A4A6989D9B0F5C52197D4901C361002F9412ECB422F8B29B804772C59E3AF46926DADBED2CCF8FD3C88E0CC4A63E9B3D2BC3433F2FAE00200921CF47D070060AF940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF201D10E0A69EB8C658240B44E510EB6B69F75B20D1304A2758A32D9DA7ED6C9364C1088D629CAF9D917B3CBCF1EFDB6BDB40BEF72B9619DEF7C595E27DB3041806B6DF37EF7FCC30FFFFDBAB9FCEAF77FDDA87F2BD7B97DF9A848F98074CD5ED46432299BF79FB3FF359759F96EEBDFF3C7C5DED8E3A33B94ECCBA7EF1DFCF4832F6FBDE6D1070F1656DBDC493B7C551822906E56BEB279CBE52BFBB754BEBB646CE5D56EBCEDD1D3AB3F3A7A7470F0E863E5ABC710ABF9D7CB8FB63F8FBD6BCD9DEC7B4E30386DF91EFFE555735957BE5FFEE1C3E6B2BFF22D5D6DA27C9518623593E9D192F2F2CE67C87777994C3F2406943AE56BFBD769DE9DCB375DF2ECD1EC40E57BCF8E168E88BEFF7C7E9372E1D30F1E14474A9B9DBC074FBF2E8F8E4EFF57F96A31C46ACAF26D79865CF9609F56966F76299BB7BE7CADCB6392574B2E0B777DA0723190EDD7C5C2E69AB39B9C7DF1F1FBE5F9C2A3368ACA578B21563319E219F2D90BEFFA9ACAC7E07C7BF8F0E0C9F1CA2F565FF9CA9A6BBC8BADCBB76A9FEF86C8AD5D386F64B1C3D754B02DA2F2D56288D54C0677867CFAC1B0F71F3D56BE6D1D3F397878F8EDCE567FC386FEE26E3D18B5E5C7B5F691167F1197D7A9F697328CF27DF1F5B39FBEF7EC68F6DF76499B3DE5ABC810AB19EA19F2E74329DF466FED3B37E9D7F193C62ED377A3810CE1764D963AF7B359B2B87BD63C968787870B4BE73B71CD7CAF1EE9F592C3768DD31B7EBBF81D96BFDF3B6BCBF78BDFFCF9E6F2FDFCD77FDC5DF9A6E7F31E3D7E501CFF2CCFF6295F3D8658CD50CF900FAF7C372C295D6D367BDFE8CF37BA65FADA4D7A674BBCE238DCD2D67F61E174A5E51CBA47F396C3B066B52BA2B267DD12B53B68D7777CFA68AE0679BDFF36BFE1F5F5E64BDAA91F2FBFF3A8B9233E2BDFD1477F9B9D8F28FBD7695E7369AEB6F4FABD367FB52E476E7ADC72E1F5DB59D839B679FDC37CED7910E5ABC510AB19EA19F2EAE5DBFD5BFBAB353E3C3C1EC0EE4E7197E677E5B8BCBFF32F572E5CDCBC5F7DB578A385A4758EE62D6660E9760B5FAD8ECA5E5C27BFEC797927563C841B1F603BCCABE22D85AFEAB1CEE227D99BAA75FAD769DE52F62A5F163FDBD2BD285F2D8658CD00CE13AC3C43BEF3F2EDF0ADFD000EF4CDC3573EEE956159B7B0DC4B5BDAC36BBFC78A87596CFDD78661CD6AFB995BE789D1E9E1FA3B79D361F0553BDCD335D72D7B5BBED9A5ECDFDE9A373FDAB9707853F976C410AB1940F9569C21AF59BEFDBFB5EFBF7CC5C1C7CE4E6D3983750B17EEFFBCA1D72D2D6F78FD308B31DF1A86C5D50EAE7C4BF761E3F25D7EB97092753AE4EA8FAD53BEB27F7B6ADED5B1CD5BCEF72B5F2D8658CD10CF90EF639F6F776FED0750BEC54AADD896DFB2FBB7E93EDFE530BBC74C578C6B98FB7C5D6B0EC96E56BE85E39ABBC9DEC59AF20DF0A27CB5186235433F433EFF3720B67EA07B796BBFBC9E3E5CDEABF2DBCF1E6B672F77F6F5CA85B79EE79B7D79F3167FD59FDE352A3D5BFC20CFC5BA3B39DB592EE6D02EB9FABA98D6A25A0F52F9D21862356339435EFD81D77F6BDFEA7B0BDE095FFB08BB0724E77FB66A83BCD9673B8B23A6CD1B81F2C341651856AD7688E5ABA1FBEE6327942F8D2156339633E43B78E895DFDA5FBB4F5B7036577E526AA7942F8D2156339633E47DCF698DBDBCB527CDE9E9E9575F7D757E7E7EF3D5942F8D21563396574EDF735A616F6FED49737676F6EAD5ABA3A3A326816FDFBE5D7735E54B6388D58CE595D3F79C60DF7EFCF1C7EFBEFBEEE5CB972727273FFCF0C3F21566E51B05E5ABC210AB99281F0CDB9B376F3EFBECB3172F5E2C1F02FDE4934FFEB4A859D2FB0BB6BDF435B1FB4AF9AA513E1885F210E8C57487AFD1A4AE73B56649EF2FD8B27CE58F73F430B5FBC504AB513E1891D921D08BA27CFF2DBC7DFB56F9EE3113AC46F9E08EDE6CA849D4971B3AB99B8BA27C3F59A47CF7980956D3DF39EFCDF43D27B6329C66B45EBC78B1E99370D36F717A7ABAE9A3B8CB70669F7669CBD7ECE7B57FF4FDF7DF2BDF3D6682D54CECF30D9B66546C46E9ECECACEFBFDB8DBD7EFDFAD34F3F6DE6DF2E693AF76AEA746E68E5A322E5ABE61E974F3334E37E383F3FFFE69B6F9A274F93BD267EEDF2662F6AE09FED6C5FBF76F8AA30C46AC652BE669BAE19A4699E309F7FFE79D3BCE6BFCB4F1E3FC99EC610AB19CB2BA7EF39C15EB507369BBDBD75FF8C99F2A531C46AC6F2CAE97B4EB03F2727279D039B2B295F1A43AC662CAF9CBEE70483A37C690CB19AB1BC72FA9E130C8EF2A531C46AC6F2CAE97B4E3038CA97C610AB19CB2BA7EF39C1E0285F1A43AC662CAF9CBEE70483A37C690CB19AB1BC72FA9E132CB9FCDDC44F8EFBFBFECA97C610AB19CB2BA7B701F5BD7563A08E9F4CFF29CAFECB370ACA578521563351BE1B0C60EBC6004D9F170F0F8FFBDFE7F3AF974531C46A946F9D816CDD18AEBE8F070CFF37D32A5F5D86588DF2DDA2EFAD1BC3D5F77363F8BF9956F9EA32C46A94EF167D6FDD18AEBE9F1BC3FFCDB4CA57972156D3CFF9EECDF536A0BEB76E0C57DFCF8DE1FF665AE5ABCB10AB99D8E7BB59DF5B3786ABEFE7C6AC7C43FECDB4CA57972156A37CB7E87BEBC670F5FDDCF0D9CE3486588DF2DDA2EFAD1BACE327D9D31862356379E5F43D2718B4ED5F65FB5927DB50BE6A940FC6E8A07051A9527B5827DB30C16A940FC6A853942A1F9FDEC33AD986095633513E18A14E510EB6B69F75B20D13AC46F9608C765194B1AC33960956A37C00A3A07CD5281FC028285F35FFFCC7DFB73F8FBD6BCD9DEC7B4E003D533E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E503208BF2019045F900C8A27C0064513E00B2281F0059940F802CCA074016E50320CBFF0106276061ADFFDB4D0000000049454E44AE426082" width="596" height="356"/>
+    </commands>
+    <elementMapping command="//@teslaContent/@commands.0">
+      <elements id="EclipseWindow26" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="657" y="88" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.1">
+      <elements id="View18" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="50" width="244" height="594"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.2">
+      <elements id="Tree18" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="244" height="594"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.3">
+      <elements id="Item31" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="Association">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="98" y="54" width="65" height="18"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.5">
+      <elements id="EclipseWindow28" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="657" y="88" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.6">
+      <elements id="View21" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="50" width="244" height="594"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.7">
+      <elements id="Tree21" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="244" height="594"/>
+        <selection>
+          <path>Project</path>
+          <path>src</path>
+          <path>com.mycompany</path>
+          <path>ClassDiagram</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.10">
+      <elements id="Editor18" kind="Editor"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="ClassDiagram.wvd">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="741" height="373"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.11">
+      <elements id="DiagramViewer18" kind="DiagramViewer"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="ClassDiagram.wvd">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="741" height="373"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.12">
+      <elements id="DiagramFigure74" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" width="596" height="356" childrenCount="2">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="Tigerstripe"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[PageStyle:0].pageX" value="0"/>
+        <__properties name="view.styles[PageStyle:0].pageY" value="0"/>
+        <__properties name="view.styles[PageStyle:0].pageWidth" value="100"/>
+        <__properties name="view.styles[PageStyle:0].pageHeight" value="100"/>
+        <__properties name="view.styles[DescriptionStyle:2].description" value=""/>
+        <__properties name="view.name" value="ClassDiagram.wvd"/>
+        <__properties name="view.measurementUnit" value="Pixel"/>
+        <__properties name="view.edges[Edge:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].type" value="3001"/>
+        <__properties name="view.edges[Edge:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:0].type" value="4020"/>
+        <__properties name="view.edges[Edge:0].children[Node:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:1].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:1].type" value="4021"/>
+        <__properties name="view.edges[Edge:0].children[Node:1].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:2].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:2].type" value="4022"/>
+        <__properties name="view.edges[Edge:0].children[Node:2].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:3].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:3].type" value="4023"/>
+        <__properties name="view.edges[Edge:0].children[Node:3].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:4].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:4].type" value="4024"/>
+        <__properties name="view.edges[Edge:0].children[Node:4].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:5].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:5].type" value="4025"/>
+        <__properties name="view.edges[Edge:0].children[Node:5].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:0].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].name" value="Entity2"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].package" value="com.mycompany"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].isReadonly" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].isAbstract" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].name" value="Entity1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].package" value="com.mycompany"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].isReadonly" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].isAbstract" value="false"/>
+        <__properties name="associations[Association:0].name" value="Association"/>
+        <__properties name="associations[Association:0].stereotypes" value="[]"/>
+        <__properties name="associations[Association:0].package" value="com.mycompany"/>
+        <__properties name="associations[Association:0].isReadonly" value="false"/>
+        <__properties name="associations[Association:0].isAbstract" value="false"/>
+        <__properties name="associations[Association:0].aEndName" value="entity1"/>
+        <__properties name="associations[Association:0].aEndMultiplicity" value="1"/>
+        <__properties name="associations[Association:0].aEndIsNavigable" value="false"/>
+        <__properties name="associations[Association:0].aEndIsOrdered" value="false"/>
+        <__properties name="associations[Association:0].aEndIsUnique" value="false"/>
+        <__properties name="associations[Association:0].aEndIsChangeable" value="none"/>
+        <__properties name="associations[Association:0].aEndAggregation" value="none"/>
+        <__properties name="associations[Association:0].zEndName" value="entity2"/>
+        <__properties name="associations[Association:0].zEndMultiplicity" value="1"/>
+        <__properties name="associations[Association:0].zEndIsNavigable" value="true"/>
+        <__properties name="associations[Association:0].zEndIsOrdered" value="false"/>
+        <__properties name="associations[Association:0].zEndIsUnique" value="false"/>
+        <__properties name="associations[Association:0].zEndIsChangeable" value="none"/>
+        <__properties name="associations[Association:0].zEndAggregation" value="none"/>
+        <__properties name="associations[Association:0].aEndVisibility" value="PUBLIC"/>
+        <__properties name="associations[Association:0].zEndVisibility" value="PUBLIC"/>
+        <__properties name="basePackage" value="com.mycompany"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.13">
+      <elements id="DiagramFigure75" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Entity1" x="110" y="100" width="56" height="50" childrenCount="3">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="1003"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[FontStyle:0].fontColor" value="0"/>
+        <__properties name="view.styles[FontStyle:0].fontName" value="Segoe UI"/>
+        <__properties name="view.styles[FontStyle:0].fontHeight" value="9"/>
+        <__properties name="view.styles[FontStyle:0].bold" value="false"/>
+        <__properties name="view.styles[FontStyle:0].italic" value="false"/>
+        <__properties name="view.styles[FontStyle:0].underline" value="false"/>
+        <__properties name="view.styles[FontStyle:0].strikeThrough" value="false"/>
+        <__properties name="view.styles[DescriptionStyle:1].description" value=""/>
+        <__properties name="view.styles[FillStyle:2].fillColor" value="13825530"/>
+        <__properties name="view.styles[FillStyle:2].transparency" value="-1"/>
+        <__properties name="view.styles[LineStyle:3].lineColor" value="11579568"/>
+        <__properties name="view.styles[LineStyle:3].lineWidth" value="-1"/>
+        <__properties name="name" value="Entity1"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="package" value="com.mycompany"/>
+        <__properties name="isReadonly" value="false"/>
+        <__properties name="isAbstract" value="false"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.14">
+      <elements id="DiagramFigure76" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Association11+entity1+entity2" x="153" y="80" width="291" height="78" childrenCount="6">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="3001"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="name" value="Association"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="package" value="com.mycompany"/>
+        <__properties name="isReadonly" value="false"/>
+        <__properties name="isAbstract" value="false"/>
+        <__properties name="aEnd.name" value="Entity1"/>
+        <__properties name="aEnd.stereotypes" value="[]"/>
+        <__properties name="aEnd.properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="aEnd.properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="aEnd.package" value="com.mycompany"/>
+        <__properties name="aEnd.isReadonly" value="false"/>
+        <__properties name="aEnd.isAbstract" value="false"/>
+        <__properties name="aEndName" value="entity1"/>
+        <__properties name="aEndMultiplicity" value="1"/>
+        <__properties name="aEndIsNavigable" value="false"/>
+        <__properties name="aEndIsOrdered" value="false"/>
+        <__properties name="aEndIsUnique" value="false"/>
+        <__properties name="aEndIsChangeable" value="none"/>
+        <__properties name="aEndAggregation" value="none"/>
+        <__properties name="zEnd.name" value="Entity2"/>
+        <__properties name="zEnd.stereotypes" value="[]"/>
+        <__properties name="zEnd.properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="zEnd.properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="zEnd.package" value="com.mycompany"/>
+        <__properties name="zEnd.isReadonly" value="false"/>
+        <__properties name="zEnd.isAbstract" value="false"/>
+        <__properties name="zEndName" value="entity2"/>
+        <__properties name="zEndMultiplicity" value="1"/>
+        <__properties name="zEndIsNavigable" value="true"/>
+        <__properties name="zEndIsOrdered" value="false"/>
+        <__properties name="zEndIsUnique" value="false"/>
+        <__properties name="zEndIsChangeable" value="none"/>
+        <__properties name="zEndAggregation" value="none"/>
+        <__properties name="aEndVisibility" value="PUBLIC"/>
+        <__properties name="zEndVisibility" value="PUBLIC"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.15">
+      <elements id="DiagramFigure77" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Entity2" x="430" y="95" width="56" height="50" childrenCount="3">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="1003"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[FontStyle:0].fontColor" value="0"/>
+        <__properties name="view.styles[FontStyle:0].fontName" value="Segoe UI"/>
+        <__properties name="view.styles[FontStyle:0].fontHeight" value="9"/>
+        <__properties name="view.styles[FontStyle:0].bold" value="false"/>
+        <__properties name="view.styles[FontStyle:0].italic" value="false"/>
+        <__properties name="view.styles[FontStyle:0].underline" value="false"/>
+        <__properties name="view.styles[FontStyle:0].strikeThrough" value="false"/>
+        <__properties name="view.styles[DescriptionStyle:1].description" value=""/>
+        <__properties name="view.styles[FillStyle:2].fillColor" value="13825530"/>
+        <__properties name="view.styles[FillStyle:2].transparency" value="-1"/>
+        <__properties name="view.styles[LineStyle:3].lineColor" value="11579568"/>
+        <__properties name="view.styles[LineStyle:3].lineWidth" value="-1"/>
+        <__properties name="name" value="Entity2"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="package" value="com.mycompany"/>
+        <__properties name="isReadonly" value="false"/>
+        <__properties name="isAbstract" value="false"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.16">
+      <elements id="DiagramFigure78" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Association11+entity1+entity2" x="153" y="80" width="291" height="78" childrenCount="6">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="3001"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="name" value="Association"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="package" value="com.mycompany"/>
+        <__properties name="isReadonly" value="false"/>
+        <__properties name="isAbstract" value="false"/>
+        <__properties name="aEnd.name" value="Entity1"/>
+        <__properties name="aEnd.stereotypes" value="[]"/>
+        <__properties name="aEnd.properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="aEnd.properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="aEnd.package" value="com.mycompany"/>
+        <__properties name="aEnd.isReadonly" value="false"/>
+        <__properties name="aEnd.isAbstract" value="false"/>
+        <__properties name="aEndName" value="entity1"/>
+        <__properties name="aEndMultiplicity" value="1"/>
+        <__properties name="aEndIsNavigable" value="false"/>
+        <__properties name="aEndIsOrdered" value="false"/>
+        <__properties name="aEndIsUnique" value="false"/>
+        <__properties name="aEndIsChangeable" value="none"/>
+        <__properties name="aEndAggregation" value="none"/>
+        <__properties name="zEnd.name" value="Entity2"/>
+        <__properties name="zEnd.stereotypes" value="[]"/>
+        <__properties name="zEnd.properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="zEnd.properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="zEnd.package" value="com.mycompany"/>
+        <__properties name="zEnd.isReadonly" value="false"/>
+        <__properties name="zEnd.isAbstract" value="false"/>
+        <__properties name="zEndName" value="entity2"/>
+        <__properties name="zEndMultiplicity" value="1"/>
+        <__properties name="zEndIsNavigable" value="true"/>
+        <__properties name="zEndIsOrdered" value="false"/>
+        <__properties name="zEndIsUnique" value="false"/>
+        <__properties name="zEndIsChangeable" value="none"/>
+        <__properties name="zEndAggregation" value="none"/>
+        <__properties name="aEndVisibility" value="PUBLIC"/>
+        <__properties name="zEndVisibility" value="PUBLIC"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.24">
+      <elements id="Menu5" kind="Menu"/>
+      <controls xsi:type="com.xored.tesla.core.ui:MenuItem" caption="Tigerstripe Explorer" enablement="true" cascade="true"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.25">
+      <elements id="State6" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.28">
+      <elements id="EclipseWindow29" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project/src/com/mycompany/ClassDiagram.wvd - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="657" y="88" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.29">
+      <elements id="View22" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="50" width="244" height="572"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.30">
+      <elements id="Tree22" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="244" height="572"/>
+        <selection>
+          <path>Project</path>
+          <path>src</path>
+          <path>com.mycompany</path>
+          <path>Association</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.31">
+      <elements id="Item34" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="Association" selected="true">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="98" y="54" width="65" height="18"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.33">
+      <elements id="EclipseWindow31" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project/src/com/mycompany/ClassDiagram.wvd - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="657" y="88" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.34">
+      <elements id="Editor19" kind="Editor"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="ClassDiagram.wvd">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="741" height="373"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.35">
+      <elements id="DiagramViewer19" kind="DiagramViewer"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="ClassDiagram.wvd">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="741" height="373"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.36">
+      <elements id="DiagramFigure79" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" width="596" height="356" childrenCount="2">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="Tigerstripe"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[PageStyle:0].pageX" value="0"/>
+        <__properties name="view.styles[PageStyle:0].pageY" value="0"/>
+        <__properties name="view.styles[PageStyle:0].pageWidth" value="100"/>
+        <__properties name="view.styles[PageStyle:0].pageHeight" value="100"/>
+        <__properties name="view.styles[DescriptionStyle:2].description" value=""/>
+        <__properties name="view.name" value="ClassDiagram.wvd"/>
+        <__properties name="view.measurementUnit" value="Pixel"/>
+        <__properties name="view.edges[Edge:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].type" value="3001"/>
+        <__properties name="view.edges[Edge:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:0].type" value="4020"/>
+        <__properties name="view.edges[Edge:0].children[Node:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:1].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:1].type" value="4021"/>
+        <__properties name="view.edges[Edge:0].children[Node:1].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:2].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:2].type" value="4022"/>
+        <__properties name="view.edges[Edge:0].children[Node:2].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:3].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:3].type" value="4023"/>
+        <__properties name="view.edges[Edge:0].children[Node:3].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:4].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:4].type" value="4024"/>
+        <__properties name="view.edges[Edge:0].children[Node:4].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:5].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:5].type" value="4025"/>
+        <__properties name="view.edges[Edge:0].children[Node:5].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:0].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].name" value="Entity2"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].package" value="com.mycompany"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].isReadonly" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].isAbstract" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].name" value="Entity1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].package" value="com.mycompany"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].isReadonly" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].isAbstract" value="false"/>
+        <__properties name="associations[Association:0].name" value="Association"/>
+        <__properties name="associations[Association:0].stereotypes" value="[]"/>
+        <__properties name="associations[Association:0].package" value="com.mycompany"/>
+        <__properties name="associations[Association:0].isReadonly" value="false"/>
+        <__properties name="associations[Association:0].isAbstract" value="false"/>
+        <__properties name="associations[Association:0].aEndName" value="entity1"/>
+        <__properties name="associations[Association:0].aEndMultiplicity" value="1"/>
+        <__properties name="associations[Association:0].aEndIsNavigable" value="false"/>
+        <__properties name="associations[Association:0].aEndIsOrdered" value="false"/>
+        <__properties name="associations[Association:0].aEndIsUnique" value="false"/>
+        <__properties name="associations[Association:0].aEndIsChangeable" value="none"/>
+        <__properties name="associations[Association:0].aEndAggregation" value="none"/>
+        <__properties name="associations[Association:0].zEndName" value="entity2"/>
+        <__properties name="associations[Association:0].zEndMultiplicity" value="1"/>
+        <__properties name="associations[Association:0].zEndIsNavigable" value="true"/>
+        <__properties name="associations[Association:0].zEndIsOrdered" value="false"/>
+        <__properties name="associations[Association:0].zEndIsUnique" value="false"/>
+        <__properties name="associations[Association:0].zEndIsChangeable" value="none"/>
+        <__properties name="associations[Association:0].zEndAggregation" value="none"/>
+        <__properties name="associations[Association:0].aEndVisibility" value="PUBLIC"/>
+        <__properties name="associations[Association:0].zEndVisibility" value="PUBLIC"/>
+        <__properties name="basePackage" value="com.mycompany"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.37">
+      <elements id="DiagramFigure80" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Entity1" x="110" y="100" width="56" height="50" childrenCount="3">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="1003"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[FontStyle:0].fontColor" value="0"/>
+        <__properties name="view.styles[FontStyle:0].fontName" value="Segoe UI"/>
+        <__properties name="view.styles[FontStyle:0].fontHeight" value="9"/>
+        <__properties name="view.styles[FontStyle:0].bold" value="false"/>
+        <__properties name="view.styles[FontStyle:0].italic" value="false"/>
+        <__properties name="view.styles[FontStyle:0].underline" value="false"/>
+        <__properties name="view.styles[FontStyle:0].strikeThrough" value="false"/>
+        <__properties name="view.styles[DescriptionStyle:1].description" value=""/>
+        <__properties name="view.styles[FillStyle:2].fillColor" value="13825530"/>
+        <__properties name="view.styles[FillStyle:2].transparency" value="-1"/>
+        <__properties name="view.styles[LineStyle:3].lineColor" value="11579568"/>
+        <__properties name="view.styles[LineStyle:3].lineWidth" value="-1"/>
+        <__properties name="name" value="Entity1"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="package" value="com.mycompany"/>
+        <__properties name="isReadonly" value="false"/>
+        <__properties name="isAbstract" value="false"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.38">
+      <elements id="DiagramFigure81" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Association11+entity1+entity2" x="153" y="80" width="291" height="78" childrenCount="6">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="3001"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="name" value="Association"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="package" value="com.mycompany"/>
+        <__properties name="isReadonly" value="false"/>
+        <__properties name="isAbstract" value="false"/>
+        <__properties name="aEnd.name" value="Entity1"/>
+        <__properties name="aEnd.stereotypes" value="[]"/>
+        <__properties name="aEnd.properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="aEnd.properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="aEnd.package" value="com.mycompany"/>
+        <__properties name="aEnd.isReadonly" value="false"/>
+        <__properties name="aEnd.isAbstract" value="false"/>
+        <__properties name="aEndName" value="entity1"/>
+        <__properties name="aEndMultiplicity" value="1"/>
+        <__properties name="aEndIsNavigable" value="false"/>
+        <__properties name="aEndIsOrdered" value="false"/>
+        <__properties name="aEndIsUnique" value="false"/>
+        <__properties name="aEndIsChangeable" value="none"/>
+        <__properties name="aEndAggregation" value="none"/>
+        <__properties name="zEnd.name" value="Entity2"/>
+        <__properties name="zEnd.stereotypes" value="[]"/>
+        <__properties name="zEnd.properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="zEnd.properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="zEnd.package" value="com.mycompany"/>
+        <__properties name="zEnd.isReadonly" value="false"/>
+        <__properties name="zEnd.isAbstract" value="false"/>
+        <__properties name="zEndName" value="entity2"/>
+        <__properties name="zEndMultiplicity" value="1"/>
+        <__properties name="zEndIsNavigable" value="true"/>
+        <__properties name="zEndIsOrdered" value="false"/>
+        <__properties name="zEndIsUnique" value="false"/>
+        <__properties name="zEndIsChangeable" value="none"/>
+        <__properties name="zEndAggregation" value="none"/>
+        <__properties name="aEndVisibility" value="PUBLIC"/>
+        <__properties name="zEndVisibility" value="PUBLIC"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.39">
+      <elements id="DiagramFigure82" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Entity2" x="430" y="95" width="56" height="50" childrenCount="3">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="1003"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[FontStyle:0].fontColor" value="0"/>
+        <__properties name="view.styles[FontStyle:0].fontName" value="Segoe UI"/>
+        <__properties name="view.styles[FontStyle:0].fontHeight" value="9"/>
+        <__properties name="view.styles[FontStyle:0].bold" value="false"/>
+        <__properties name="view.styles[FontStyle:0].italic" value="false"/>
+        <__properties name="view.styles[FontStyle:0].underline" value="false"/>
+        <__properties name="view.styles[FontStyle:0].strikeThrough" value="false"/>
+        <__properties name="view.styles[DescriptionStyle:1].description" value=""/>
+        <__properties name="view.styles[FillStyle:2].fillColor" value="13825530"/>
+        <__properties name="view.styles[FillStyle:2].transparency" value="-1"/>
+        <__properties name="view.styles[LineStyle:3].lineColor" value="11579568"/>
+        <__properties name="view.styles[LineStyle:3].lineWidth" value="-1"/>
+        <__properties name="name" value="Entity2"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="package" value="com.mycompany"/>
+        <__properties name="isReadonly" value="false"/>
+        <__properties name="isAbstract" value="false"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.40">
+      <elements id="DiagramFigure83" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Association11+entity1+entity2" x="153" y="80" width="291" height="78" childrenCount="6">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="3001"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="name" value="Association"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="package" value="com.mycompany"/>
+        <__properties name="isReadonly" value="false"/>
+        <__properties name="isAbstract" value="false"/>
+        <__properties name="aEnd.name" value="Entity1"/>
+        <__properties name="aEnd.stereotypes" value="[]"/>
+        <__properties name="aEnd.properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="aEnd.properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="aEnd.package" value="com.mycompany"/>
+        <__properties name="aEnd.isReadonly" value="false"/>
+        <__properties name="aEnd.isAbstract" value="false"/>
+        <__properties name="aEndName" value="entity1"/>
+        <__properties name="aEndMultiplicity" value="1"/>
+        <__properties name="aEndIsNavigable" value="false"/>
+        <__properties name="aEndIsOrdered" value="false"/>
+        <__properties name="aEndIsUnique" value="false"/>
+        <__properties name="aEndIsChangeable" value="none"/>
+        <__properties name="aEndAggregation" value="none"/>
+        <__properties name="zEnd.name" value="Entity2"/>
+        <__properties name="zEnd.stereotypes" value="[]"/>
+        <__properties name="zEnd.properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="zEnd.properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="zEnd.package" value="com.mycompany"/>
+        <__properties name="zEnd.isReadonly" value="false"/>
+        <__properties name="zEnd.isAbstract" value="false"/>
+        <__properties name="zEndName" value="entity2"/>
+        <__properties name="zEndMultiplicity" value="1"/>
+        <__properties name="zEndIsNavigable" value="true"/>
+        <__properties name="zEndIsOrdered" value="false"/>
+        <__properties name="zEndIsUnique" value="false"/>
+        <__properties name="zEndIsChangeable" value="none"/>
+        <__properties name="zEndAggregation" value="none"/>
+        <__properties name="aEndVisibility" value="PUBLIC"/>
+        <__properties name="zEndVisibility" value="PUBLIC"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.44">
+      <elements id="control1" kind="control"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.45">
+      <elements id="DiagramFigure84" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Association" x="266" y="101" width="64" height="15">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="4021"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="name" value="Association"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="package" value="com.mycompany"/>
+        <__properties name="isReadonly" value="false"/>
+        <__properties name="isAbstract" value="false"/>
+        <__properties name="aEnd.name" value="Entity1"/>
+        <__properties name="aEnd.stereotypes" value="[]"/>
+        <__properties name="aEnd.properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="aEnd.properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="aEnd.package" value="com.mycompany"/>
+        <__properties name="aEnd.isReadonly" value="false"/>
+        <__properties name="aEnd.isAbstract" value="false"/>
+        <__properties name="aEndName" value="entity1"/>
+        <__properties name="aEndMultiplicity" value="1"/>
+        <__properties name="aEndIsNavigable" value="false"/>
+        <__properties name="aEndIsOrdered" value="false"/>
+        <__properties name="aEndIsUnique" value="false"/>
+        <__properties name="aEndIsChangeable" value="none"/>
+        <__properties name="aEndAggregation" value="none"/>
+        <__properties name="zEnd.name" value="Entity2"/>
+        <__properties name="zEnd.stereotypes" value="[]"/>
+        <__properties name="zEnd.properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="zEnd.properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="zEnd.package" value="com.mycompany"/>
+        <__properties name="zEnd.isReadonly" value="false"/>
+        <__properties name="zEnd.isAbstract" value="false"/>
+        <__properties name="zEndName" value="entity2"/>
+        <__properties name="zEndMultiplicity" value="1"/>
+        <__properties name="zEndIsNavigable" value="true"/>
+        <__properties name="zEndIsOrdered" value="false"/>
+        <__properties name="zEndIsUnique" value="false"/>
+        <__properties name="zEndIsChangeable" value="none"/>
+        <__properties name="zEndAggregation" value="none"/>
+        <__properties name="aEndVisibility" value="PUBLIC"/>
+        <__properties name="zEndVisibility" value="PUBLIC"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.46">
+      <elements id="control2" kind="control"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.51">
+      <elements id="Menu6" kind="Menu"/>
+      <controls xsi:type="com.xored.tesla.core.ui:MenuItem" caption="Select Source" enablement="true" index="1" cascade="true"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.52">
+      <elements id="State7" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.55">
+      <elements id="EclipseWindow32" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project/src/com/mycompany/ClassDiagram.wvd - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="657" y="88" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.56">
+      <elements id="Editor20" kind="Editor"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="ClassDiagram.wvd">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="741" height="373"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.57">
+      <elements id="DiagramViewer20" kind="DiagramViewer"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="ClassDiagram.wvd">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="741" height="373"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.58">
+      <elements id="DiagramFigure85" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" width="596" height="356" childrenCount="2">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="Tigerstripe"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[PageStyle:0].pageX" value="0"/>
+        <__properties name="view.styles[PageStyle:0].pageY" value="0"/>
+        <__properties name="view.styles[PageStyle:0].pageWidth" value="100"/>
+        <__properties name="view.styles[PageStyle:0].pageHeight" value="100"/>
+        <__properties name="view.styles[DescriptionStyle:2].description" value=""/>
+        <__properties name="view.name" value="ClassDiagram.wvd"/>
+        <__properties name="view.measurementUnit" value="Pixel"/>
+        <__properties name="view.edges[Edge:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].type" value="3001"/>
+        <__properties name="view.edges[Edge:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:0].type" value="4020"/>
+        <__properties name="view.edges[Edge:0].children[Node:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:1].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:1].type" value="4021"/>
+        <__properties name="view.edges[Edge:0].children[Node:1].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:2].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:2].type" value="4022"/>
+        <__properties name="view.edges[Edge:0].children[Node:2].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:3].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:3].type" value="4023"/>
+        <__properties name="view.edges[Edge:0].children[Node:3].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:4].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:4].type" value="4024"/>
+        <__properties name="view.edges[Edge:0].children[Node:4].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:5].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:5].type" value="4025"/>
+        <__properties name="view.edges[Edge:0].children[Node:5].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:0].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].name" value="Entity2"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].package" value="com.mycompany"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].isReadonly" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].isAbstract" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].name" value="Entity1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].package" value="com.mycompany"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].isReadonly" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].isAbstract" value="false"/>
+        <__properties name="associations[Association:0].name" value="Association"/>
+        <__properties name="associations[Association:0].stereotypes" value="[]"/>
+        <__properties name="associations[Association:0].package" value="com.mycompany"/>
+        <__properties name="associations[Association:0].isReadonly" value="false"/>
+        <__properties name="associations[Association:0].isAbstract" value="false"/>
+        <__properties name="associations[Association:0].aEndName" value="entity1"/>
+        <__properties name="associations[Association:0].aEndMultiplicity" value="1"/>
+        <__properties name="associations[Association:0].aEndIsNavigable" value="false"/>
+        <__properties name="associations[Association:0].aEndIsOrdered" value="false"/>
+        <__properties name="associations[Association:0].aEndIsUnique" value="false"/>
+        <__properties name="associations[Association:0].aEndIsChangeable" value="none"/>
+        <__properties name="associations[Association:0].aEndAggregation" value="none"/>
+        <__properties name="associations[Association:0].zEndName" value="entity2"/>
+        <__properties name="associations[Association:0].zEndMultiplicity" value="1"/>
+        <__properties name="associations[Association:0].zEndIsNavigable" value="true"/>
+        <__properties name="associations[Association:0].zEndIsOrdered" value="false"/>
+        <__properties name="associations[Association:0].zEndIsUnique" value="false"/>
+        <__properties name="associations[Association:0].zEndIsChangeable" value="none"/>
+        <__properties name="associations[Association:0].zEndAggregation" value="none"/>
+        <__properties name="associations[Association:0].aEndVisibility" value="PUBLIC"/>
+        <__properties name="associations[Association:0].zEndVisibility" value="PUBLIC"/>
+        <__properties name="basePackage" value="com.mycompany"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.60">
+      <elements id="EclipseWindow34" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project/src/com/mycompany/ClassDiagram.wvd - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="657" y="88" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.61">
+      <elements id="Editor21" kind="Editor"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="ClassDiagram.wvd">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="741" height="373"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.62">
+      <elements id="DiagramViewer21" kind="DiagramViewer"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="ClassDiagram.wvd">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="741" height="373"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.63">
+      <elements id="DiagramFigure86" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" width="596" height="356" childrenCount="2">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="Tigerstripe"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[PageStyle:0].pageX" value="0"/>
+        <__properties name="view.styles[PageStyle:0].pageY" value="0"/>
+        <__properties name="view.styles[PageStyle:0].pageWidth" value="100"/>
+        <__properties name="view.styles[PageStyle:0].pageHeight" value="100"/>
+        <__properties name="view.styles[DescriptionStyle:2].description" value=""/>
+        <__properties name="view.name" value="ClassDiagram.wvd"/>
+        <__properties name="view.measurementUnit" value="Pixel"/>
+        <__properties name="view.edges[Edge:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].type" value="3001"/>
+        <__properties name="view.edges[Edge:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:0].type" value="4020"/>
+        <__properties name="view.edges[Edge:0].children[Node:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:1].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:1].type" value="4021"/>
+        <__properties name="view.edges[Edge:0].children[Node:1].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:2].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:2].type" value="4022"/>
+        <__properties name="view.edges[Edge:0].children[Node:2].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:3].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:3].type" value="4023"/>
+        <__properties name="view.edges[Edge:0].children[Node:3].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:4].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:4].type" value="4024"/>
+        <__properties name="view.edges[Edge:0].children[Node:4].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:5].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:5].type" value="4025"/>
+        <__properties name="view.edges[Edge:0].children[Node:5].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:0].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].name" value="Entity2"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].package" value="com.mycompany"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].isReadonly" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].isAbstract" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].name" value="Entity1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].package" value="com.mycompany"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].isReadonly" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].isAbstract" value="false"/>
+        <__properties name="associations[Association:0].name" value="Association"/>
+        <__properties name="associations[Association:0].stereotypes" value="[]"/>
+        <__properties name="associations[Association:0].package" value="com.mycompany"/>
+        <__properties name="associations[Association:0].isReadonly" value="false"/>
+        <__properties name="associations[Association:0].isAbstract" value="false"/>
+        <__properties name="associations[Association:0].aEndName" value="entity1"/>
+        <__properties name="associations[Association:0].aEndMultiplicity" value="1"/>
+        <__properties name="associations[Association:0].aEndIsNavigable" value="false"/>
+        <__properties name="associations[Association:0].aEndIsOrdered" value="false"/>
+        <__properties name="associations[Association:0].aEndIsUnique" value="false"/>
+        <__properties name="associations[Association:0].aEndIsChangeable" value="none"/>
+        <__properties name="associations[Association:0].aEndAggregation" value="none"/>
+        <__properties name="associations[Association:0].zEndName" value="entity2"/>
+        <__properties name="associations[Association:0].zEndMultiplicity" value="1"/>
+        <__properties name="associations[Association:0].zEndIsNavigable" value="true"/>
+        <__properties name="associations[Association:0].zEndIsOrdered" value="false"/>
+        <__properties name="associations[Association:0].zEndIsUnique" value="false"/>
+        <__properties name="associations[Association:0].zEndIsChangeable" value="none"/>
+        <__properties name="associations[Association:0].zEndAggregation" value="none"/>
+        <__properties name="associations[Association:0].aEndVisibility" value="PUBLIC"/>
+        <__properties name="associations[Association:0].zEndVisibility" value="PUBLIC"/>
+        <__properties name="basePackage" value="com.mycompany"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.64">
+      <elements id="DiagramFigure87" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Entity1" x="110" y="100" width="56" height="50" childrenCount="3">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="1003"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[FontStyle:0].fontColor" value="0"/>
+        <__properties name="view.styles[FontStyle:0].fontName" value="Segoe UI"/>
+        <__properties name="view.styles[FontStyle:0].fontHeight" value="9"/>
+        <__properties name="view.styles[FontStyle:0].bold" value="false"/>
+        <__properties name="view.styles[FontStyle:0].italic" value="false"/>
+        <__properties name="view.styles[FontStyle:0].underline" value="false"/>
+        <__properties name="view.styles[FontStyle:0].strikeThrough" value="false"/>
+        <__properties name="view.styles[DescriptionStyle:1].description" value=""/>
+        <__properties name="view.styles[FillStyle:2].fillColor" value="13825530"/>
+        <__properties name="view.styles[FillStyle:2].transparency" value="-1"/>
+        <__properties name="view.styles[LineStyle:3].lineColor" value="11579568"/>
+        <__properties name="view.styles[LineStyle:3].lineWidth" value="-1"/>
+        <__properties name="name" value="Entity1"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="package" value="com.mycompany"/>
+        <__properties name="isReadonly" value="false"/>
+        <__properties name="isAbstract" value="false"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.65">
+      <elements id="DiagramFigure88" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Association11+entity1+entity2" x="153" y="80" width="291" height="78" childrenCount="6">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="3001"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="name" value="Association"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="package" value="com.mycompany"/>
+        <__properties name="isReadonly" value="false"/>
+        <__properties name="isAbstract" value="false"/>
+        <__properties name="aEnd.name" value="Entity1"/>
+        <__properties name="aEnd.stereotypes" value="[]"/>
+        <__properties name="aEnd.properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="aEnd.properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="aEnd.package" value="com.mycompany"/>
+        <__properties name="aEnd.isReadonly" value="false"/>
+        <__properties name="aEnd.isAbstract" value="false"/>
+        <__properties name="aEndName" value="entity1"/>
+        <__properties name="aEndMultiplicity" value="1"/>
+        <__properties name="aEndIsNavigable" value="false"/>
+        <__properties name="aEndIsOrdered" value="false"/>
+        <__properties name="aEndIsUnique" value="false"/>
+        <__properties name="aEndIsChangeable" value="none"/>
+        <__properties name="aEndAggregation" value="none"/>
+        <__properties name="zEnd.name" value="Entity2"/>
+        <__properties name="zEnd.stereotypes" value="[]"/>
+        <__properties name="zEnd.properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="zEnd.properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="zEnd.package" value="com.mycompany"/>
+        <__properties name="zEnd.isReadonly" value="false"/>
+        <__properties name="zEnd.isAbstract" value="false"/>
+        <__properties name="zEndName" value="entity2"/>
+        <__properties name="zEndMultiplicity" value="1"/>
+        <__properties name="zEndIsNavigable" value="true"/>
+        <__properties name="zEndIsOrdered" value="false"/>
+        <__properties name="zEndIsUnique" value="false"/>
+        <__properties name="zEndIsChangeable" value="none"/>
+        <__properties name="zEndAggregation" value="none"/>
+        <__properties name="aEndVisibility" value="PUBLIC"/>
+        <__properties name="zEndVisibility" value="PUBLIC"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.66">
+      <elements id="DiagramFigure89" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Entity2" x="430" y="95" width="56" height="50" childrenCount="3">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="1003"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[FontStyle:0].fontColor" value="0"/>
+        <__properties name="view.styles[FontStyle:0].fontName" value="Segoe UI"/>
+        <__properties name="view.styles[FontStyle:0].fontHeight" value="9"/>
+        <__properties name="view.styles[FontStyle:0].bold" value="false"/>
+        <__properties name="view.styles[FontStyle:0].italic" value="false"/>
+        <__properties name="view.styles[FontStyle:0].underline" value="false"/>
+        <__properties name="view.styles[FontStyle:0].strikeThrough" value="false"/>
+        <__properties name="view.styles[DescriptionStyle:1].description" value=""/>
+        <__properties name="view.styles[FillStyle:2].fillColor" value="13825530"/>
+        <__properties name="view.styles[FillStyle:2].transparency" value="-1"/>
+        <__properties name="view.styles[LineStyle:3].lineColor" value="11579568"/>
+        <__properties name="view.styles[LineStyle:3].lineWidth" value="-1"/>
+        <__properties name="name" value="Entity2"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="package" value="com.mycompany"/>
+        <__properties name="isReadonly" value="false"/>
+        <__properties name="isAbstract" value="false"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.67">
+      <elements id="DiagramFigure90" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Association11+entity1+entity2" x="153" y="80" width="291" height="78" childrenCount="6">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="3001"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="name" value="Association"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="package" value="com.mycompany"/>
+        <__properties name="isReadonly" value="false"/>
+        <__properties name="isAbstract" value="false"/>
+        <__properties name="aEnd.name" value="Entity1"/>
+        <__properties name="aEnd.stereotypes" value="[]"/>
+        <__properties name="aEnd.properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="aEnd.properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="aEnd.package" value="com.mycompany"/>
+        <__properties name="aEnd.isReadonly" value="false"/>
+        <__properties name="aEnd.isAbstract" value="false"/>
+        <__properties name="aEndName" value="entity1"/>
+        <__properties name="aEndMultiplicity" value="1"/>
+        <__properties name="aEndIsNavigable" value="false"/>
+        <__properties name="aEndIsOrdered" value="false"/>
+        <__properties name="aEndIsUnique" value="false"/>
+        <__properties name="aEndIsChangeable" value="none"/>
+        <__properties name="aEndAggregation" value="none"/>
+        <__properties name="zEnd.name" value="Entity2"/>
+        <__properties name="zEnd.stereotypes" value="[]"/>
+        <__properties name="zEnd.properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="zEnd.properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="zEnd.package" value="com.mycompany"/>
+        <__properties name="zEnd.isReadonly" value="false"/>
+        <__properties name="zEnd.isAbstract" value="false"/>
+        <__properties name="zEndName" value="entity2"/>
+        <__properties name="zEndMultiplicity" value="1"/>
+        <__properties name="zEndIsNavigable" value="true"/>
+        <__properties name="zEndIsOrdered" value="false"/>
+        <__properties name="zEndIsUnique" value="false"/>
+        <__properties name="zEndIsChangeable" value="none"/>
+        <__properties name="zEndAggregation" value="none"/>
+        <__properties name="aEndVisibility" value="PUBLIC"/>
+        <__properties name="zEndVisibility" value="PUBLIC"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.74">
+      <elements id="Menu7" kind="Menu"/>
+      <controls xsi:type="com.xored.tesla.core.ui:MenuItem" caption="Select Target" enablement="true" index="2" cascade="true"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.75">
+      <elements id="State8" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.78">
+      <elements id="EclipseWindow35" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project/src/com/mycompany/ClassDiagram.wvd - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="657" y="88" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.79">
+      <elements id="Editor22" kind="Editor"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="ClassDiagram.wvd">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="741" height="373"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.80">
+      <elements id="DiagramViewer22" kind="DiagramViewer"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="ClassDiagram.wvd">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="741" height="373"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.81">
+      <elements id="DiagramFigure91" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" width="596" height="356" childrenCount="2">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="Tigerstripe"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[PageStyle:0].pageX" value="0"/>
+        <__properties name="view.styles[PageStyle:0].pageY" value="0"/>
+        <__properties name="view.styles[PageStyle:0].pageWidth" value="100"/>
+        <__properties name="view.styles[PageStyle:0].pageHeight" value="100"/>
+        <__properties name="view.styles[DescriptionStyle:2].description" value=""/>
+        <__properties name="view.name" value="ClassDiagram.wvd"/>
+        <__properties name="view.measurementUnit" value="Pixel"/>
+        <__properties name="view.edges[Edge:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].type" value="3001"/>
+        <__properties name="view.edges[Edge:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:0].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:0].type" value="4020"/>
+        <__properties name="view.edges[Edge:0].children[Node:0].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:1].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:1].type" value="4021"/>
+        <__properties name="view.edges[Edge:0].children[Node:1].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:2].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:2].type" value="4022"/>
+        <__properties name="view.edges[Edge:0].children[Node:2].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:3].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:3].type" value="4023"/>
+        <__properties name="view.edges[Edge:0].children[Node:3].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:4].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:4].type" value="4024"/>
+        <__properties name="view.edges[Edge:0].children[Node:4].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].children[Node:5].visible" value="true"/>
+        <__properties name="view.edges[Edge:0].children[Node:5].type" value="4025"/>
+        <__properties name="view.edges[Edge:0].children[Node:5].mutable" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].roundedBendpointsRadius" value="0"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].routing" value="Manual"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].smoothness" value="None"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].avoidObstructions" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].closestDistance" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinkStatus" value="None"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinkType" value="Semicircle"/>
+        <__properties name="view.edges[Edge:0].styles[RoutingStyle:0].jumpLinksReverse" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontColor" value="0"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontName" value="Segoe UI"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].fontHeight" value="9"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].bold" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].italic" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].underline" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[FontStyle:1].strikeThrough" value="false"/>
+        <__properties name="view.edges[Edge:0].styles[LineStyle:2].lineColor" value="11579568"/>
+        <__properties name="view.edges[Edge:0].styles[LineStyle:2].lineWidth" value="-1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].name" value="Entity2"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].package" value="com.mycompany"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].isReadonly" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].isAbstract" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].name" value="Entity1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].package" value="com.mycompany"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].isReadonly" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:1].isAbstract" value="false"/>
+        <__properties name="associations[Association:0].name" value="Association"/>
+        <__properties name="associations[Association:0].stereotypes" value="[]"/>
+        <__properties name="associations[Association:0].package" value="com.mycompany"/>
+        <__properties name="associations[Association:0].isReadonly" value="false"/>
+        <__properties name="associations[Association:0].isAbstract" value="false"/>
+        <__properties name="associations[Association:0].aEndName" value="entity1"/>
+        <__properties name="associations[Association:0].aEndMultiplicity" value="1"/>
+        <__properties name="associations[Association:0].aEndIsNavigable" value="false"/>
+        <__properties name="associations[Association:0].aEndIsOrdered" value="false"/>
+        <__properties name="associations[Association:0].aEndIsUnique" value="false"/>
+        <__properties name="associations[Association:0].aEndIsChangeable" value="none"/>
+        <__properties name="associations[Association:0].aEndAggregation" value="none"/>
+        <__properties name="associations[Association:0].zEndName" value="entity2"/>
+        <__properties name="associations[Association:0].zEndMultiplicity" value="1"/>
+        <__properties name="associations[Association:0].zEndIsNavigable" value="true"/>
+        <__properties name="associations[Association:0].zEndIsOrdered" value="false"/>
+        <__properties name="associations[Association:0].zEndIsUnique" value="false"/>
+        <__properties name="associations[Association:0].zEndIsChangeable" value="none"/>
+        <__properties name="associations[Association:0].zEndAggregation" value="none"/>
+        <__properties name="associations[Association:0].aEndVisibility" value="PUBLIC"/>
+        <__properties name="associations[Association:0].zEndVisibility" value="PUBLIC"/>
+        <__properties name="basePackage" value="com.mycompany"/>
+      </controls>
+    </elementMapping>
+  </teslaContent>
+</com.xored.q7.scenario:Scenario>

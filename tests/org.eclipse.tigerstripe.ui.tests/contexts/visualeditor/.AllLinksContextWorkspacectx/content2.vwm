@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<null:Map xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:null="null" basePackage="com.mycompany">
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Entity2" package="com.mycompany">
+    <properties name="artifact.hide.extends" value="false"/>
+  </artifacts>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Entity1" package="com.mycompany" implements="//@artifacts.5">
+    <properties name="artifact.hide.extends" value="false"/>
+  </artifacts>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Entity3" package="com.mycompany">
+    <properties name="artifact.hide.extends" value="false"/>
+  </artifacts>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Entity5" package="com.mycompany">
+    <properties name="artifact.hide.extends" value="false"/>
+  </artifacts>
+  <artifacts xsi:type="null:AssociationClassClass" name="AssociationClass6" package="com.mycompany"/>
+  <artifacts xsi:type="null:SessionFacadeArtifact" name="SessionFacade8" package="com.mycompany"/>
+  <artifacts xsi:type="null:NamedQueryArtifact" name="Query9" package="com.mycompany" returnedType="//@artifacts.1"/>
+  <associations name="Association" package="com.mycompany" aEnd="//@artifacts.1" aEndName="entity1" zEnd="//@artifacts.0" zEndName="entity2" zEndIsNavigable="true"/>
+  <associations xsi:type="null:AssociationClass" name="AssociationClass6" package="com.mycompany" aEnd="//@artifacts.1" aEndName="entity1" zEnd="//@artifacts.3" zEndName="entity5" zEndIsNavigable="true" associatedClass="//@artifacts.4"/>
+  <dependencies name="Dependency4" package="com.mycompany" aEnd="//@artifacts.1" zEnd="//@artifacts.2"/>
+</null:Map>

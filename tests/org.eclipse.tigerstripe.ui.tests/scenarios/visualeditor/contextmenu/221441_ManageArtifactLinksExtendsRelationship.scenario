@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="221441_ManageArtifactLinksExtendsRelationship" id="_A3xHsAZ9EeC3S_PC6IM0yQ" description="Hide and show Extends relationship using 'Manage Artifact Links' dialog&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;HideShowExtendsRelationshipContextGroup&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;    Drag entity 'Two' and then entity 'One' to the diagram.&#xD;&#xA;    Verify that extends relationship is hidden&#xD;&#xA;    Select entity &quot;Two&quot;, select 'Manage Artifact Links' - > Extends tab&#xD;&#xA;    Verify source and extends artifacts names&#xD;&#xA;    Check &quot;Show fully qualified names&quot; button and verify source and extends artifacts names&#xD;&#xA;    Check checkbox to show extends relationship &#xD;&#xA;    Verify that extends relationship is displayed&#xD;&#xA;    Select entity &quot;Two&quot;, select 'Manage Artifact Links' - > Extends tab.  Check checkbox to hide extends relationship &#xD;&#xA;    Verify that extends relationship is hidden&#xD;&#xA;" tags="TS_Project/VisualEditor, I35" type="ecl" externalReference="http://docs.xored.com/display/TS/HideShowExtendsRelationship">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="221441_ManageArtifactLinksExtendsRelationship" id="_A3xHsAZ9EeC3S_PC6IM0yQ" description="Hide and show Extends relationship using 'Manage Artifact Links' dialog&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;HideShowExtendsRelationshipContextGroup&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;    Drag entity 'Two' and then entity 'One' to the diagram.&#xD;&#xA;    Verify that extends relationship is hidden&#xD;&#xA;    Select entity &quot;Two&quot;, select 'Manage Artifact Links' - > Extends tab&#xD;&#xA;    Verify source and extends artifacts names&#xD;&#xA;    Check &quot;Show fully qualified names&quot; button and verify source and extends artifacts names&#xD;&#xA;    Check checkbox to show extends relationship &#xD;&#xA;    Verify that extends relationship is displayed&#xD;&#xA;    Select entity &quot;Two&quot;, select 'Manage Artifact Links' - > Extends tab.  Check checkbox to hide extends relationship &#xD;&#xA;    Verify that extends relationship is hidden&#xD;&#xA;" tags="TS_Project/VisualEditor/ContextMenu, I35" type="ecl" externalReference="http://docs.xored.com/display/TS/HideShowExtendsRelationship">
   <contexts>_gLPxsAZ9EeC3S_PC6IM0yQ</contexts>
   <content xsi:type="org.eclipse.ecl.core:Script">
     <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/Two" | get-item "Project1/src/com.mycompany/Two" | drag-start "-9" 5 none
@@ -898,9 +898,10 @@ with [get-view Properties | get-tree | get-item "EMF/Extends"] {
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.28">
       <elements id="Button1" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.29">
@@ -1228,10 +1229,11 @@ with [get-view Properties | get-tree | get-item "EMF/Extends"] {
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.81">
       <elements id="Button2" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Show fully qualified names" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" kind="Check">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="5" y="5" width="163" height="16"/>
+        <caption>Show fully qualified names</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.83">
@@ -1290,10 +1292,11 @@ with [get-view Properties | get-tree | get-item "EMF/Extends"] {
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.92">
       <elements id="Button5" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Show fully qualified names" selected="true" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Check">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="5" y="5" width="163" height="16"/>
+        <caption>Show fully qualified names</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.93">
@@ -1369,10 +1372,11 @@ with [get-view Properties | get-tree | get-item "EMF/Extends"] {
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.108">
       <elements id="Button6" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.109">
@@ -1380,9 +1384,10 @@ with [get-view Properties | get-tree | get-item "EMF/Extends"] {
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.112">
       <elements id="Button7" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.113">
@@ -1602,10 +1607,11 @@ with [get-view Properties | get-tree | get-item "EMF/Extends"] {
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.139">
       <elements id="Button8" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.140">
@@ -1613,9 +1619,10 @@ with [get-view Properties | get-tree | get-item "EMF/Extends"] {
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.144">
       <elements id="Button9" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.145">
