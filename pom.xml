@@ -16,14 +16,8 @@
 	<osgi.os>linux</osgi.os>
 	<osgi.ws>gtk</osgi.ws>
 	<junit.args>-Xms256m -Xmx1024m -XX:MaxPermSize=512m</junit.args>
-	<!-- Change this to point to your local q7 executable. 
-		 Linux: path/to/q7/eclipse 
-		 Windows: C:\path\to\q7\eclipse.exe
-		 Mac: Q7 is not yet supported for Macs 
-		 Default location for build server: /auto/xmpsdk/q7_32/eclipse
-		 The 64-bit profile below overrides this location, 
-		 so if on a 64 bit machine change the definition in the profile below.-->
-	<q7.location>/auto/xmpsdk/q7/eclipse</q7.location>
+	<!--Update site with Tigerstripe specific extensions for Q7.-->
+	<tigerstripe.ecl.update.site>http://pulse-prd-sj1/update_sites/org.eclipse.tigerstripe.ecl/ts-ecl/1.0.0.201106162003/</tigerstripe.ecl.update.site>
   </properties>
 	
   <modules>
@@ -94,8 +88,7 @@
 	    </property>
 	  </activation>
       <properties>
-		<q7.location>/auto/xmpsdk/q7_32/eclipse</q7.location>
-        <osgi.arch>x86</osgi.arch>
+		<osgi.arch>x86</osgi.arch>
       </properties>
 	</profile>
     
@@ -128,6 +121,9 @@
 	
 	<profile>
 		<id>external-repositories</id>
+		<properties>
+			<tigerstripe.ecl.update.site>http://build.xored.com/browse/TS-ECL/latest/artifact/JOB1/site/</tigerstripe.ecl.update.site>
+  		</properties>
 		<repositories>
 			<repository>
 	  			<id>helios</id>
