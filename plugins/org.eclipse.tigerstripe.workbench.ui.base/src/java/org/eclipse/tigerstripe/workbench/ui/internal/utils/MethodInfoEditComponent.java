@@ -218,7 +218,13 @@ public class MethodInfoEditComponent {
 
 	// ============================================================
 	public void setMethod(IMethod method) {
+		setMethod(method, false);
+	}
+	
+	public void setMethod(IMethod method, boolean inherited) {
 		this.method = method;
+		inheritedMethod = inherited;
+		boolean isReadOnly = this.isReadOnly || inheritedMethod;		
 		setEnabled(method != null && !isReadOnly);
 	}
 
@@ -785,6 +791,8 @@ public class MethodInfoEditComponent {
 
 	private Composite sectionClient;
 
+	private boolean inheritedMethod;
+
 	public void setFocus() {
 		nameText.setFocus();
 	}
@@ -794,6 +802,8 @@ public class MethodInfoEditComponent {
 		if (method == null) {
 			return;
 		}
+
+		boolean isReadOnly = this.isReadOnly || inheritedMethod;
 
 		setSilentUpdate(true);
 		nameText.setText(method.getName());
@@ -920,7 +930,6 @@ public class MethodInfoEditComponent {
 			orderedButton.setEnabled(false);
 			uniqueButton.setEnabled(false);
 		}
-		ComponentUtils.setEnabledAll(sectionClient, sectionClient.getEnabled());
 		// Enablement of Iterator result button
 		// !void, multiplicty of *, returned type is entity type
 		// NOTE: only care about it if displayed, i.e. it has not been disabled
