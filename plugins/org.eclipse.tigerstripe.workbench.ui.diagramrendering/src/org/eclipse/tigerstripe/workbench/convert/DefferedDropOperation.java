@@ -56,10 +56,7 @@ public class DefferedDropOperation extends AbstractOperation {
 
 			org.eclipse.gef.commands.Command cmd = editPolicy
 					.getCommand(request);
-			if (!cmd.canExecute()) {
-				throw new IllegalStateException(
-						"Can't execute drag drop command");
-			}
+
 			cmd.setLabel(getLabel());
 			compoundCommand.add(cmd);
 		}

@@ -240,10 +240,12 @@ public class ModelChangeDeltaProcessor {
 					refactor.fireChanged(oldObj, createLazyObject(rcArtifact),
 							IRefactoringChangesListener.CHANGED);
 
-					try {
-						res.delete(true, null);
-					} catch (CoreException e) {
-						BasePlugin.log(e);
+					if (res != null) {
+						try {
+							res.delete(true, null);
+						} catch (CoreException e) {
+							BasePlugin.log(e);
+						}
 					}
 				}
 			} else {
