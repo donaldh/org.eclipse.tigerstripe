@@ -201,7 +201,7 @@ public class ConvertArtifactOperation extends AbstractOperation {
 				String fqn = art.getFullyQualifiedName();
 				if (needConvert(fqn)) {
 
-					Class<?> mapClass = from instanceof IAssociationArtifact ? IAssociationArtifact.class
+					Class<?> mapClass = art instanceof IAssociationArtifact ? IAssociationArtifact.class
 							: IAbstractArtifact.class;
 
 					Map<String, Object> savedProperties = ModelUtils
