@@ -197,11 +197,12 @@ public class PostCreationModelUpdateCommand extends
 		// During this operation, the ETAdapters still need to ignore
 		// update and not push them to the TS domain, or else a round trip
 		// occurs and everybody gets confused (duplicated attr, meth, etc...)
+		boolean ignore = BaseETAdapter.ignoreNofigy();
+		BaseETAdapter.setIgnoreNotify(true);
 		try {
-			BaseETAdapter.setIgnoreNotify(true);
 			updateRelationships();
 		} finally {
-			BaseETAdapter.setIgnoreNotify(false);
+			BaseETAdapter.setIgnoreNotify(ignore);
 		}
 
 		return CommandResult.newOKCommandResult();

@@ -95,4 +95,15 @@ public class ModelUpdaterImpl implements IModelUpdater {
 	public void removeModelChangeListener(IModelChangeListener listener) {
 		listeners.remove(listener);
 	}
+
+	public void handleChangeRequestSynch(IModelChangeRequest request)
+			throws TigerstripeException {
+		
+		final BaseModelChangeRequest baseRequest = (BaseModelChangeRequest) request;
+
+		if (baseRequest.canExecute(mgrSession)) {
+			baseRequest.execute(mgrSession);
+			notifyListeners(request);
+		}
+	}
 }

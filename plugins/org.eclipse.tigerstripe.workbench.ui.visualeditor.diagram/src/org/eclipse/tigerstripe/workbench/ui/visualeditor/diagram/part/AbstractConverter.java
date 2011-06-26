@@ -89,7 +89,7 @@ public abstract class AbstractConverter extends BaseDiagramPartAction implements
 			// Gather info for selected association
 			String associationName = association.getName();
 			String associationFQN = association.getFullyQualifiedName();
-			String associationPackage = association.getPackage();			
+			String associationPackage = association.getPackage();
 			String aEndName = association.getAEnd().getName();
 			String zEndName = association.getZEnd().getName();
 			String aEndNodeFQN = association.getAEnd().getType().getFullyQualifiedName();

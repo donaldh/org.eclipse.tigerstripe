@@ -37,7 +37,7 @@ public class DiagramHandle extends HeadlessDiagramHandle {
 		super(diagramResource);
 	}
 
-	protected IClosedDiagramSynchronizer getSynchronizer()
+	public IClosedDiagramSynchronizer getSynchronizer()
 			throws TigerstripeException {
 		if (synchronizer == null || synchronizer.isOutofDate()) {
 			synchronizer = DiagramSynchronizerFactory.make(this);

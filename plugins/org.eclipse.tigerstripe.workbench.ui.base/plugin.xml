@@ -5,6 +5,7 @@
    <extension-point id="modelFileContentReader" name="Model Specific Content Reader" schema="schema/modelFileContentReader.exsd"/>
    <extension-point id="diagramAuditor" name="Diagram Auditor" schema="schema/diagramAuditor.exsd"/>
    <extension-point id="labelDecorator" name="Label Decorator" schema="schema/labelDecorator.exsd"/>
+   <extension-point id="lifecycle" name="Diagram Lifecycle" schema="schema/lifecycle.exsd"/>
    <extension
          point="org.eclipse.ui.editors">
       <editor
@@ -738,6 +739,7 @@
      <menuContribution
            locationURI="popup:org.eclipse.ui.popup.any?after=group.build">
         <menu
+        	  id="org.eclipse.tigerstripe.workbench.ui.base.refactoring"
               label="Refactor Model">
            <command
                  commandId="org.eclipse.tigerstripe.workbench.ui.base.refactorRename"

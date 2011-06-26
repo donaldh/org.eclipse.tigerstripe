@@ -15,6 +15,7 @@ import java.util.Arrays;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.AnnotationAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.ArtifactAddFeatureRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.ArtifactCreateExistingRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.ArtifactCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.ArtifactDeleteRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.request.ArtifactFQRenameRequest;
@@ -39,7 +40,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IM
 
 public class ModelChangeRequestFactory implements IModelChangeRequestFactory {
 
-	private final static String[] supportedTypes = { ARTIFACT_CREATE,
+	private final static String[] supportedTypes = { ARTIFACT_CREATE, ARTIFACT_CREATE_EXISTING,
 
 	ATTRIBUTE_CREATE, ATTRIBUTE_REMOVE, ATTRIBUTE_SET,
 
@@ -56,8 +57,8 @@ public class ModelChangeRequestFactory implements IModelChangeRequestFactory {
 			METHOD_ANNOTATION_ADD};
 
 	private final static Class[] requestClasses = {
-			ArtifactCreateRequest.class,
-
+			ArtifactCreateRequest.class, ArtifactCreateExistingRequest.class,
+			
 			AttributeCreateRequest.class, AttributeRemoveRequest.class,
 			AttributeSetRequest.class,
 
@@ -119,6 +120,11 @@ public class ModelChangeRequestFactory implements IModelChangeRequestFactory {
 			}
 		}
 		throw new TigerstripeException("Unknown request type");
+	}
+
+	public <T> T makeRequest(Class<T> requestClass)
+			throws TigerstripeException {
+		return requestClass.cast(makeRequest(requestClass.getName()));
 	}
 
 }

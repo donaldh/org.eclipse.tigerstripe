@@ -54,7 +54,7 @@ public abstract class ClosedDiagramSynchronizerBase implements
 
 	private DiagramEditPart diagramEP;
 
-	private TransactionalEditingDomain editingDomain;
+	protected TransactionalEditingDomain editingDomain;
 
 	// We need to lock access to components of the diagram until it has been
 	// properly initialized
@@ -85,7 +85,7 @@ public abstract class ClosedDiagramSynchronizerBase implements
 		}
 	}
 
-	protected DiagramEditPart getDiagramEP() {
+	public DiagramEditPart getDiagramEP() {
 		try {
 			readLock.lock();
 			return this.diagramEP;
@@ -125,7 +125,7 @@ public abstract class ClosedDiagramSynchronizerBase implements
 		}
 	}
 
-	protected void saveDiagram() throws TigerstripeException {
+	public void saveDiagram() throws TigerstripeException {
 
 		try {
 			readLock.lock();
@@ -207,7 +207,7 @@ public abstract class ClosedDiagramSynchronizerBase implements
 	/**
 	 * 
 	 */
-	private void initialize() throws TigerstripeException {
+	protected void initialize() throws TigerstripeException {
 		Assert.isNotNull(handle);
 
 		editingDomain = TransactionalEditingDomain.Factory.INSTANCE

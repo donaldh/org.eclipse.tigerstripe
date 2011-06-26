@@ -256,8 +256,8 @@ public class AssociationNamePackageEditPart extends
 			elemPackageName = packageName;
 		if (text == null || text.length() == 0) {
 			text = defaultText;
-		} else if (hideArtifactPackages(map)
-				|| elemPackageName.equals(map.getBasePackage())) {
+		} else if (map != null && (hideArtifactPackages(map)
+				|| elemPackageName.equals(map.getBasePackage()))) {
 			// since the packages match, truncate to just show the name
 			// or the diagram is set to hide packages anyway..
 			int lastDotPos = text.lastIndexOf(".");

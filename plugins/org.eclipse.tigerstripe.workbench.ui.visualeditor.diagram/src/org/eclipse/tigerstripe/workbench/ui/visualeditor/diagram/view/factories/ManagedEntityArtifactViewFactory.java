@@ -58,19 +58,23 @@ public class ManagedEntityArtifactViewFactory extends
 			String semanticHint, int index, boolean persisted,
 			PreferencesHint preferencesHint) {
 
-		CreateElementRequest adapter = (CreateElementRequest) semanticAdapter
-				.getAdapter(CreateElementRequest.class);
-
-		EObject newElement = adapter.getNewElement();
-
-		if (newElement instanceof ManagedEntityArtifact) {
-			final ManagedEntityArtifact ma = (ManagedEntityArtifact) newElement;
-			IPreferenceStore store = PreferencesHelper.getStore(containerView);
-
-			new NamedElementPropertiesHelper(ma).setProperty(
-					NamedElementPropertiesHelper.ARTIFACT_HIDE_EXTENDS,
-					PreferencesHelper.extendsRelationshipValue(store));
-		}
+		if (semanticAdapter != null) {
+			CreateElementRequest adapter = (CreateElementRequest) semanticAdapter
+			.getAdapter(CreateElementRequest.class);
+	
+			if (adapter != null) {
+				EObject newElement = adapter.getNewElement();
+				
+				if (newElement instanceof ManagedEntityArtifact) {
+					final ManagedEntityArtifact ma = (ManagedEntityArtifact) newElement;
+					IPreferenceStore store = PreferencesHelper.getStore(containerView);
+					
+					new NamedElementPropertiesHelper(ma).setProperty(
+							NamedElementPropertiesHelper.ARTIFACT_HIDE_EXTENDS,
+							PreferencesHelper.extendsRelationshipValue(store));
+				}
+			}
+		}		
 
 		return super.createView(semanticAdapter, containerView, semanticHint,
 				index, persisted, preferencesHint);

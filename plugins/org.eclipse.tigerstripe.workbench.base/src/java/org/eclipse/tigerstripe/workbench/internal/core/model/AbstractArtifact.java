@@ -188,7 +188,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	private boolean isProxy = false;
 
-	protected void setProxy(boolean bool) {
+	public void setProxy(boolean bool) {
 		isProxy = bool;
 	}
 

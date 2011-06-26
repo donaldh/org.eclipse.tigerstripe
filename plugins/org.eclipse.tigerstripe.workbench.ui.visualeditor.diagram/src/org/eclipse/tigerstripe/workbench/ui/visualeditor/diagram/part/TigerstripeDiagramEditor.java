@@ -10,7 +10,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part;
 
+import static org.eclipse.tigerstripe.workbench.ui.internal.gmf.LifecycleHandlerProvider.getHandlers;
 import static org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.ClassDiagramLogicalNode.MODEL_EXT;
+import static org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Constants.DOMAIN_ID;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -38,6 +40,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.internal.ui.viewsupport.IViewPartInputProvider;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.internal.gmf.AbstractDiagramEditor;
+import org.eclipse.tigerstripe.workbench.ui.internal.gmf.Lifecycle;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.GMFEditorHandler;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassConnectionEditPart.AssocClassLinkPolylineConnectionEx;
@@ -64,11 +67,11 @@ public class TigerstripeDiagramEditor extends AbstractDiagramEditor implements
 	}
 
 	/**
-	 * @generated
+	 * @generated NOT
 	 */
 	@Override
 	protected String getEditingDomainID() {
-		return "org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.EditingDomain"; //$NON-NLS-1$
+		return DOMAIN_ID;
 	}
 
 	/**
@@ -154,9 +157,17 @@ public class TigerstripeDiagramEditor extends AbstractDiagramEditor implements
 
 	@Override
 	protected void initializeGraphicalViewer() {
+		//TODO register GMFEditorHandler as lifecycle handler through wxtension point
 		handler = new GMFEditorHandler(this);
 		super.initializeGraphicalViewer();
 		handler.initialize();
+		initializeInternal();
+	}
+
+	private void initializeInternal() {
+		for (Lifecycle handler : getHandlers()) {
+			handler.init(getDiagramEditPart(), this, getUndoContext());	
+		}
 	}
 
 	@Override
@@ -172,6 +183,9 @@ public class TigerstripeDiagramEditor extends AbstractDiagramEditor implements
 
 	@Override
 	public void dispose() {
+		for (Lifecycle handler : getHandlers()) {
+			handler.dispose(getDiagramEditPart(), this, getUndoContext());	
+		}
 		if (handler != null)
 			handler.dispose();
 		super.dispose();

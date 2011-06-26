@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.Collections;
 
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.operations.IUndoableOperation;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -27,6 +28,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.workspace.ResourceUndoContext;
 import org.eclipse.gmf.runtime.common.core.command.CommandResult;
 import org.eclipse.gmf.runtime.diagram.ui.resources.editor.document.IDocumentProvider;
 import org.eclipse.gmf.runtime.diagram.ui.resources.editor.ide.editor.FileDiagramEditor;
@@ -46,7 +48,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.SaveAsDialog;
 import org.eclipse.ui.part.FileEditorInput;
 
-public abstract class AbstractDiagramEditor extends FileDiagramEditor {
+public abstract class AbstractDiagramEditor extends FileDiagramEditor implements UndoContextBindable {
 	
 	public AbstractDiagramEditor(boolean hasFlyoutPalette) {
 		super(hasFlyoutPalette);
@@ -171,6 +173,17 @@ public abstract class AbstractDiagramEditor extends FileDiagramEditor {
 			progressMonitor.setCanceled(!success);
 	}
 
+	public void bindUndoContext(IUndoableOperation op) {
+		op.addContext(getUndoContext());
+		
+		ResourceUndoContext resourceUndoContext = new ResourceUndoContext(
+				getEditingDomain(), getDiagramEditPart().getDiagramView()
+						.eResource());
+		if (!op.hasContext(resourceUndoContext)) {
+			op.addContext(resourceUndoContext);
+		}
+	}
+	
 	protected abstract IPath getModelPath(IPath diagramPath);
 
 }

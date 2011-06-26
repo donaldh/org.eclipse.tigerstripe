@@ -33,6 +33,9 @@ public interface IModelUpdater {
 	public void handleChangeRequest(IModelChangeRequest request)
 			throws TigerstripeException;
 
+	public void handleChangeRequestSynch(IModelChangeRequest request)
+		throws TigerstripeException;
+	
 	public IModelChangeRequestFactory getRequestFactory();
 
 	public void addModelChangeListener(IModelChangeListener listener);

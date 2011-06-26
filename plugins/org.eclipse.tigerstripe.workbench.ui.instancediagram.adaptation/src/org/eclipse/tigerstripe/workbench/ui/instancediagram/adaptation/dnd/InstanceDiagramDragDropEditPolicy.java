@@ -18,6 +18,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gef.EditPart;
@@ -52,6 +53,8 @@ import org.eclipse.tigerstripe.workbench.ui.instancediagram.Instance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.commands.PostCreationModelUpdateCommand;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.helpers.InstanceDiagramMapHelper;
+import org.eclipse.tigerstripe.workbench.ui.internal.gmf.Named;
+import org.eclipse.tigerstripe.workbench.ui.internal.gmf.Sizable;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.AbstractArtifactAdapter;
 
 public class InstanceDiagramDragDropEditPolicy extends
@@ -81,6 +84,14 @@ public class InstanceDiagramDragDropEditPolicy extends
 
 				if (dropRequest.getLocation() != null)
 					createViewRequest.setLocation(dropRequest.getLocation());
+
+				if (dropRequest instanceof Sizable) {
+					Dimension dimension = ((Sizable) dropRequest)
+							.getDimension();
+					if (dimension != null) {
+						createViewRequest.setSize(dimension);
+					}
+				}
 
 				Command createCommand = getHost().getCommand(createViewRequest);
 				if (createCommand != null) {
@@ -234,6 +245,11 @@ public class InstanceDiagramDragDropEditPolicy extends
 							type);
 					crRequest.setParameter("IAbstractArtifact", artifact);
 					crRequest.setParameter(DRAGGED_ARTIFACT, new Boolean(true));
+
+					if (dropRequest instanceof Named) {
+						crRequest.setParameter(Named.ID,
+								((Named) dropRequest).getName());
+					}
 
 					CreateElementRequestAdapter adapter = new CreateElementRequestAdapter(
 							crRequest);

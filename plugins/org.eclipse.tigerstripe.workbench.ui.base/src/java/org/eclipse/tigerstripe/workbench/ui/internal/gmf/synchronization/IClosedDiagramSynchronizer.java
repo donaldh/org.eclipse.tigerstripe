@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.gmf.synchronization;
 
+import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -53,4 +54,8 @@ public interface IClosedDiagramSynchronizer {
 	public boolean isOutofDate();
 
 	public Diagram getDiagram() throws TigerstripeException;
+	
+	public DiagramEditPart getDiagramEP();
+	
+	public void saveDiagram() throws TigerstripeException;
 }

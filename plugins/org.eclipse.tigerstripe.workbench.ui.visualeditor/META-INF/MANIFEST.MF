@@ -6,6 +6,7 @@ Bundle-Version: 0.7.0.qualifier
 Bundle-ClassPath: .
 Bundle-Localization: plugin
 Export-Package: org.eclipse.tigerstripe.workbench.ui.visualeditor,
+ org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram,
  org.eclipse.tigerstripe.workbench.ui.visualeditor.impl,
  org.eclipse.tigerstripe.workbench.ui.visualeditor.util
 Require-Bundle: org.eclipse.core.runtime,

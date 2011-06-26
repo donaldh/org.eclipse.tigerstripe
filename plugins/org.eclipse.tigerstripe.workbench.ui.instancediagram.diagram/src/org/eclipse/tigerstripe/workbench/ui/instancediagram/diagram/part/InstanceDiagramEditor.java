@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.part;
 
+import static org.eclipse.tigerstripe.workbench.ui.internal.gmf.LifecycleHandlerProvider.getHandlers;
 import static org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.InstanceDiagramLogicalNode.MODEL_EXT;
 
 import org.eclipse.core.resources.IFile;
@@ -25,6 +26,7 @@ import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.GMFInstanceDiagramEditorHandler;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.edit.parts.InstanceEditPartFactory;
 import org.eclipse.tigerstripe.workbench.ui.internal.gmf.AbstractDiagramEditor;
+import org.eclipse.tigerstripe.workbench.ui.internal.gmf.Lifecycle;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.ide.IGotoMarker;
 
@@ -107,6 +109,13 @@ public class InstanceDiagramEditor extends AbstractDiagramEditor implements
 		handler = new GMFInstanceDiagramEditorHandler(this);
 		super.initializeGraphicalViewer();
 		handler.initialize();
+		initializeInternal();
+	}
+
+	private void initializeInternal() {
+		for (Lifecycle handler : getHandlers()) {
+			handler.init(getDiagramEditPart(), this, getUndoContext());
+		}
 	}
 
 	@Override
@@ -122,6 +131,9 @@ public class InstanceDiagramEditor extends AbstractDiagramEditor implements
 
 	@Override
 	public void dispose() {
+		for (Lifecycle handler : getHandlers()) {
+			handler.dispose(getDiagramEditPart(), this, getUndoContext());
+		}
 		if (handler != null)
 			handler.dispose();
 		super.dispose();

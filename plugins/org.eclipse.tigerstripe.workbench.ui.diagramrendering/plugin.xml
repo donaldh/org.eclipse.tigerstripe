@@ -43,6 +43,208 @@
             id="org.eclipse.tigerstripe.ui.eclipse.preferences.DiagramPreferencePage"
             name="Diagrams"/>
 	</extension>
+	
+	<extension
+        point="org.eclipse.ui.commands">
+	     <command
+           categoryId="org.eclipse.tigerstripe.workbench.category.refactoring"
+           defaultHandler="org.eclipse.tigerstripe.workbench.convert.handlers.ToDataType"
+           description="Convert artifact to data type"
+           id="org.eclipse.tigerstripe.workbench.ui.base.refactor.convert.DataType"
+           name="ConvertToDataType" />
+	     <command
+           categoryId="org.eclipse.tigerstripe.workbench.category.refactoring"
+           defaultHandler="org.eclipse.tigerstripe.workbench.convert.handlers.ToEntity"
+           description="Convert artifact to entity"
+           id="org.eclipse.tigerstripe.workbench.ui.base.refactor.convert.Entity"
+           name="ConvertToEntity" />
+	     <command
+           categoryId="org.eclipse.tigerstripe.workbench.category.refactoring"
+           defaultHandler="org.eclipse.tigerstripe.workbench.convert.handlers.ToAssociation"
+           description="Convert artifact to assciation"
+           id="org.eclipse.tigerstripe.workbench.ui.base.refactor.convert.Association"
+           name="ConvertToAssociation" />
+	     <command
+           categoryId="org.eclipse.tigerstripe.workbench.category.refactoring"
+           defaultHandler="org.eclipse.tigerstripe.workbench.convert.handlers.ToAssociationClass"
+           description="Convert artifact to assciation class"
+           id="org.eclipse.tigerstripe.workbench.ui.base.refactor.convert.AssociationClass"
+           name="ConvertToAssociation" />
+	</extension>
+	
+	<extension
+        point="org.eclipse.ui.menus">
+		<menuContribution
+	           locationURI="popup:org.eclipse.ui.popup.any?after=group.build">
+	           
+	        <menu
+	        	id="org.eclipse.tigerstripe.workbench.ui.base.refactoring"
+	            label="Refactor Model">
+	            
+	           <command
+	                 commandId="org.eclipse.tigerstripe.workbench.ui.base.refactor.convert.DataType"
+	                 label="Convert to DataType..."
+	                 style="push">
+	                 <visibleWhen
+                        checkEnabled="false">
+		              <with
+		                    variable="selection">
+		                 <iterate
+		                       ifEmpty="false">
+		                    <and>
+		                       <instanceof
+		                             value="org.eclipse.jdt.core.IJavaElement">
+		                       </instanceof>
+		                       <adapt
+		                             type="org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact">
+		                             <instanceof
+                                     	value="org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact" />
+		                       </adapt>
+		                    </and>
+		                 </iterate>
+		              </with>							                        
+	                 </visibleWhen>
+	           </command>
+	           <command
+	                 commandId="org.eclipse.tigerstripe.workbench.ui.base.refactor.convert.Entity"
+	                 label="Convert to Entity..."
+	                 style="push">
+	                 <visibleWhen
+                        checkEnabled="false">
+		              <with
+		                    variable="selection">
+		                 <iterate
+		                       ifEmpty="false">
+		                    <and>
+		                       <instanceof
+		                             value="org.eclipse.jdt.core.IJavaElement">
+		                       </instanceof>
+		                       <adapt
+		                             type="org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact">
+		                             <instanceof
+                                     	value="org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact" />
+		                       </adapt>
+		                    </and>
+		                 </iterate>
+		              </with>							                        
+	                 </visibleWhen>
+	           </command>
+	           <command
+	                 commandId="org.eclipse.tigerstripe.workbench.ui.base.refactor.convert.Association"
+	                 label="Convert to Association..."
+	                 style="push">
+	                 <visibleWhen
+                        checkEnabled="false">
+		              <with
+		                    variable="selection">
+		                 <iterate
+		                       ifEmpty="false">
+		                    <and>
+		                       <instanceof
+		                             value="org.eclipse.jdt.core.IJavaElement">
+		                       </instanceof>
+		                       <adapt
+		                             type="org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact">
+		                             <instanceof
+                                     	value="org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact" />
+		                       </adapt>
+		                    </and>
+		                 </iterate>
+		              </with>							                        
+	                 </visibleWhen>	                 
+	           </command>
+	           <command
+	                 commandId="org.eclipse.tigerstripe.workbench.ui.base.refactor.convert.AssociationClass"
+	                 label="Convert to AssociationClass..."
+	                 style="push">
+	                 <visibleWhen
+                        checkEnabled="false">
+		              <with
+		                    variable="selection">
+		                 <iterate
+		                       ifEmpty="false">
+		                    <and>
+		                       <instanceof
+		                             value="org.eclipse.jdt.core.IJavaElement">
+		                       </instanceof>
+		                       <adapt
+		                             type="org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact">
+		                             <and>
+		                             	<instanceof
+                                      		value="org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact" />
+		                             	<not>
+		                             		<instanceof
+                                       			value="org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact" />
+		                             	</not>
+		                             </and>
+		                       </adapt>
+		                    </and>
+		                 </iterate>
+		              </with>							                        
+	                 </visibleWhen>	                 
+	           </command>	   
+			</menu>
+		</menuContribution>
+	</extension>
+	
+	<extension point="org.eclipse.ui.popupMenus">
+		<objectContribution
+	      		adaptable="false"
+	            id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.convert.DataType"
+	            objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.ManagedEntityArtifactEditPart">
+	      	<action
+	               class="org.eclipse.tigerstripe.workbench.convert.partactions.ToDataType"
+	               id="org.eclipse.tigerstripe.workbench.convert.part.DataType"
+	               label="Convert to DataType..."/>
+	    </objectContribution>
+		<objectContribution
+	      		adaptable="false"
+	            id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.convert.Entity"
+	            objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.DatatypeArtifactEditPart">
+	      	<action
+	               class="org.eclipse.tigerstripe.workbench.convert.partactions.ToEntity"
+	               id="org.eclipse.tigerstripe.workbench.convert.part.Entity"
+	               label="Convert to Entity..."/>
+	    </objectContribution>
+
+ 		<!-- Buzilla 221443: Refactor Association <-> Association Class -->
+		<objectContribution
+	      		adaptable="false"
+	            id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.convert.Association"
+	            objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassEditPart">
+	      	<action
+	               class="org.eclipse.tigerstripe.workbench.convert.partactions.ToAssociation"
+	               id="org.eclipse.tigerstripe.workbench.convert.part.Association"
+	               label="Convert to Association..."/>
+	    </objectContribution>
+
+		<objectContribution
+	      		adaptable="false"
+	            id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.convert.Association2"
+	            objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassClassEditPart">
+	      	<action
+	               class="org.eclipse.tigerstripe.workbench.convert.partactions.ToAssociation"
+	               id="org.eclipse.tigerstripe.workbench.convert.part.Association2"
+	               label="Convert to Association..."/>
+	    </objectContribution>
+		<objectContribution
+	      		adaptable="false"
+	            id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.convert.AssociationClass"
+	            objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationEditPart">
+	      	<action
+	               class="org.eclipse.tigerstripe.workbench.convert.partactions.ToAssociationClass"
+	               id="org.eclipse.tigerstripe.workbench.convert.part.AssociationClass"
+	               label="Convert to Association Class..."/>
+	    </objectContribution>
+	</extension>
+	
+	<extension
+		point="org.eclipse.tigerstripe.workbench.ui.base.lifecycle">
+		<handler
+			class="org.eclipse.tigerstripe.workbench.convert.ConverterLifecycle">
+		</handler>
+	</extension>	
+	
 
 	<extension point="org.eclipse.gmf.runtime.common.ui.services.action.contributionItemProviders">
       <contributionItemProvider

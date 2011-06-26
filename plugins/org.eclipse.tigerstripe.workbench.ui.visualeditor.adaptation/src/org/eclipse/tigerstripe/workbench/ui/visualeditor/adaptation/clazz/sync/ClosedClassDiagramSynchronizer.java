@@ -18,6 +18,7 @@ import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.gmf.synchronization.ClosedDiagramSynchronizerBase;
 import org.eclipse.tigerstripe.workbench.ui.internal.gmf.synchronization.IClosedDiagramSynchronizer;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.Constants;
 
 /**
  * Closed Class Diagram Synchronizer
@@ -96,6 +97,12 @@ public class ClosedClassDiagramSynchronizer extends
 	@Override
 	public String getSupportedDiagramExtension() {
 		return DIAGRAM_EXT;
+	}
+
+	@Override
+	protected void initialize() throws TigerstripeException {
+		super.initialize();
+		editingDomain.setID(Constants.DOMAIN_ID);
 	}
 
 }

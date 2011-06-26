@@ -37,6 +37,20 @@ public class ModelUtils {
 		return a1.getFullyQualifiedName().equals(a2.getFullyQualifiedName());
 	}
 
+	public static boolean equalsByFQN(String p1, String n1, String p2, String n2) {
+		if (n1 == null || n2 == null) {
+			return false;
+		}
+
+		boolean eqPack;
+		if (p1 == null) {
+			eqPack = p2 == null;
+		} else {
+			eqPack = p1.equals(p2);
+		}
+		return eqPack && n1.equals(n2);
+	}
+
 	public static Map<String, Object> mapWritablePropertiesExclude(Class<?> beanClass, Object bean, 
 			String... exclude) {
 		
@@ -52,11 +66,8 @@ public class ModelUtils {
 	}
 	
 	public static Map<String, Object> mapProperties(Class<?> beanClass, Object bean, Predicate predicate) {
-		BeanInfo beanInfo = getBeanInfo(beanClass);
-		PropertyDescriptor[] propertyDescriptors = beanInfo
-				.getPropertyDescriptors();
 		Map<String, Object> result = new HashMap<String, Object>();
-		for (PropertyDescriptor pd : propertyDescriptors) {
+		for (PropertyDescriptor pd : getDescriptors(beanClass)) {
 			try {
 				if (pd instanceof IndexedPropertyDescriptor) {
 					continue;
@@ -76,13 +87,29 @@ public class ModelUtils {
 		return result;
 	}
 	
+	private static Set<PropertyDescriptor> getDescriptors(Class<?> beanClass) {
+		Set<Class<?>> interfaces = featchInterfaces(beanClass, new HashSet<Class<?>>());
+		interfaces.add(beanClass); 
+		Set<PropertyDescriptor> propertyDescriptors = new HashSet<PropertyDescriptor>();
+		for (Class<?> iface : interfaces) {
+			BeanInfo beanInfo = getBeanInfo(iface);
+			propertyDescriptors.addAll(Arrays.asList(beanInfo.getPropertyDescriptors()));
+		}
+		return propertyDescriptors;
+	}
+
+	private static Set<Class<?>> featchInterfaces(Class<?> beanClass, Set<Class<?>> ifaces) {
+		for (Class<?> iface : beanClass.getInterfaces()) {
+			ifaces.add(iface);
+			featchInterfaces(iface, ifaces);
+		}
+		return ifaces;
+	}
+
 	public static void setProperties(Class<?> beanClass, Object bean, Map<String, Object> properties) {
-		BeanInfo beanInfo = getBeanInfo(beanClass);
-		
+
 		Map<String, PropertyDescriptor> pdMap = new HashMap<String, PropertyDescriptor>();
-		
-		for (PropertyDescriptor pd : beanInfo
-				.getPropertyDescriptors()) {
+		for (PropertyDescriptor pd : getDescriptors(beanClass)) {
 			pdMap.put(pd.getName(), pd);
 		}
 
@@ -178,4 +205,58 @@ public class ModelUtils {
 		}
 	}
 
+	public static void featchHierarhyUp(IAbstractArtifact artifact,
+			Set<String> set) {
+		if (artifact == null) {
+			return;
+		}
+		if (!set.add(artifact.getFullyQualifiedName())) {
+			return;
+		}
+		featchHierarhyUp(artifact.getExtendedArtifact(), set);
+		for (IAbstractArtifact impl : artifact.getImplementingArtifacts()) {
+			featchHierarhyUp(impl, set);
+		}
+	}
+
+	public static void featchHierarhyUpAsModels(IAbstractArtifact artifact,
+			Set<IAbstractArtifact> set) {
+		if (artifact == null) {
+			return;
+		}
+		if (!set.add(artifact)) {
+			return;
+		}
+		featchHierarhyUpAsModels(artifact.getExtendedArtifact(), set);
+		for (IAbstractArtifact impl : artifact.getImplementingArtifacts()) {
+			featchHierarhyUpAsModels(impl, set);
+		}
+	}
+
+	public static void featchHierarhyDown(IAbstractArtifact artifact,
+			Set<String> set) {
+
+		Set<IAbstractArtifact> modelsSet = new HashSet<IAbstractArtifact>();
+		featchHierarhyDownAsModels(artifact, modelsSet);
+
+		for (IAbstractArtifact art : modelsSet) {
+			set.add(art.getFullyQualifiedName());
+		}
+	}
+
+	public static void featchHierarhyDownAsModels(IAbstractArtifact artifact,
+			Set<IAbstractArtifact> set) {
+		if (artifact == null) {
+			return;
+		}
+		if (!set.add(artifact)) {
+			return;
+		}
+		for (IAbstractArtifact extending : artifact.getExtendingArtifacts()) {
+			featchHierarhyDownAsModels(extending, set);
+		}
+		for (IAbstractArtifact impl : artifact.getImplementingArtifacts()) {
+			featchHierarhyDownAsModels(impl, set);
+		}
+	}
 }

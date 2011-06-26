@@ -38,6 +38,7 @@ import org.eclipse.tigerstripe.workbench.internal.tools.compare.Difference;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.gmf.synchronization.DiagramSynchronizationManager;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.etadapter.ETAdapterFactory;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.etadapter.MapETAdapter;
@@ -296,6 +297,9 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 	}
 
 	public void artifactChanged(IAbstractArtifact artifact, IAbstractArtifact oldArtifact) {
+		if (!isEnabled()) {
+			return;
+		}
 		ArrayList<Difference> diffs = comp.compareArtifacts(oldArtifact,artifact , true);
 		if (diffs.size()>0){
 		    handleArtifactChanged(artifact);
@@ -324,6 +328,10 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 		if (artifact == null)
 			return; // should never happen
 
+		if (!isEnabled()) {
+			return;
+		}
+
 		TransactionalEditingDomain editingDomain = editor.getEditingDomain();
 		IDiagramEditDomain diagramEditDomain = editor.getDiagramEditDomain();
 		final Map map = (Map) editor.getDiagram().getElement();
@@ -338,6 +346,11 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 	}
 
 	public void artifactRenamed(IAbstractArtifact artifact, String fromFQN) {
+
+		if (!isEnabled()) {
+			return;
+		}
+	
 		if (artifact == null || fromFQN == null || fromFQN.length() == 0)
 			return;
 
@@ -457,6 +470,11 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 	}
 
 	public void facetChanged(IFacetReference oldFacet, IFacetReference newFacet) {
+
+		if (!isEnabled()) {
+			return;
+		}
+
 		// all we have to do is refresh the diagram so the icons are being
 		// re-picked-up.
 		getDisplay().asyncExec(new Runnable() {
@@ -478,5 +496,9 @@ public class ClassDiagramSynchronizer implements IArtifactChangeListener,
 			}
 
 		});
+	}
+
+	protected boolean isEnabled() {
+		return DiagramSynchronizationManager.getInstance().isEnabled();
 	}
 }

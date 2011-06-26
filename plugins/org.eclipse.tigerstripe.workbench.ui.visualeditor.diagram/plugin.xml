@@ -193,17 +193,6 @@
          </menu>
       </objectContribution>
       
-      <!-- Buzilla 221443: Refactor Association <-> Association Class -->
-      <objectContribution
-      		adaptable="false"
-            id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationEditPart"
-            objectClass="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationEditPart">
-      	
-      	<action
-               class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.ConvertAssociationToAssociationClass"
-               id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.convertAssociationToAssociationClass"
-               label="Convert to Association Class"/>      	
-      </objectContribution>
       <objectContribution
       		adaptable="false"
             id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassEditPart"

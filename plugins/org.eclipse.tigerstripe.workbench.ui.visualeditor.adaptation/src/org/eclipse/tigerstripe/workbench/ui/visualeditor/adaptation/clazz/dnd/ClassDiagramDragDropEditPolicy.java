@@ -14,10 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gef.EditPart;
@@ -28,7 +28,6 @@ import org.eclipse.gmf.runtime.diagram.core.edithelpers.CreateElementRequestAdap
 import org.eclipse.gmf.runtime.diagram.ui.commands.ICommandProxy;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.DiagramDragDropEditPolicy;
-import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditDomain;
 import org.eclipse.gmf.runtime.diagram.ui.requests.ArrangeRequest;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateConnectionViewAndElementRequest;
 import org.eclipse.gmf.runtime.diagram.ui.requests.CreateConnectionViewAndElementRequest.ConnectionViewAndElementDescriptor;
@@ -51,6 +50,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.eclipse.tigerstripe.workbench.ui.internal.gmf.Sizable;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.AbstractArtifactAdapter;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.QualifiedNamedElement;
@@ -84,6 +84,14 @@ public class ClassDiagramDragDropEditPolicy extends DiagramDragDropEditPolicy {
 
 				if (dropRequest.getLocation() != null)
 					createViewRequest.setLocation(dropRequest.getLocation());
+
+				if (dropRequest instanceof Sizable) {
+					Dimension dimension = ((Sizable) dropRequest)
+							.getDimension();
+					if (dimension != null) {
+						createViewRequest.setSize(dimension);
+					}
+				}
 
 				Command createCommand = getHost().getCommand(createViewRequest);
 				if (createCommand != null) {
@@ -171,14 +179,9 @@ public class ClassDiagramDragDropEditPolicy extends DiagramDragDropEditPolicy {
 		TransactionalEditingDomain editingDomain = ((IGraphicalEditPart) getHost())
 				.getEditingDomain();
 
-		DiagramEditDomain domain = (DiagramEditDomain) getHost().getViewer()
-				.getEditDomain();
-
-		IResource res = (IResource) domain.getEditorPart().getEditorInput()
-				.getAdapter(IResource.class);
-
-		ITigerstripeModelProject project = (ITigerstripeModelProject) res
-				.getProject().getAdapter(ITigerstripeModelProject.class);
+		ITigerstripeModelProject project = ((Map) ((Diagram) getHost()
+				.getModel()).getElement())
+				.getCorrespondingITigerstripeProject();
 
 		PostCreationModelUpdateCommand postCreateCommand = new PostCreationModelUpdateCommand(
 				editingDomain, viewDescriptors, dropRequest.getObjects(),
@@ -195,7 +198,7 @@ public class ClassDiagramDragDropEditPolicy extends DiagramDragDropEditPolicy {
 				RequestConstants.REQ_ARRANGE_DEFERRED);
 		arrangeRequest.setViewAdaptersToArrange(allObjects);
 		Command arrangeCommand = getHost().getCommand(arrangeRequest);
-
+		
 		compoundCommand.add(refreshCommand);
 		compoundCommand.add(arrangeCommand);
 		return compoundCommand;

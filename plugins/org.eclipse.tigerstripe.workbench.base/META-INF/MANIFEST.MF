@@ -348,7 +348,8 @@ Export-Package: org.apache.log4j,
  org.eclipse.tigerstripe.workbench.project,
  org.eclipse.tigerstripe.workbench.queries,
  org.eclipse.tigerstripe.workbench.refactor,
- org.eclipse.tigerstripe.workbench.refactor.diagrams
+ org.eclipse.tigerstripe.workbench.refactor.diagrams,
+ org.eclipse.tigerstripe.workbench.utils
 Bundle-ClassPath: lib/dom4j-1.6.1.jar,
  lib/qdox-1.6.3.jar,
  .,

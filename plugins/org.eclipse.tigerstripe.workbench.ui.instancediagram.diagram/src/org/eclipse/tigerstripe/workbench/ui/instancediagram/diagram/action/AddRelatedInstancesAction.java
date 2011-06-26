@@ -11,6 +11,9 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.action;
 
+import static org.eclipse.tigerstripe.workbench.model.ModelUtils.featchHierarhyDownAsModels;
+import static org.eclipse.tigerstripe.workbench.model.ModelUtils.featchHierarhyUp;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -100,7 +103,7 @@ public class AddRelatedInstancesAction extends BaseDiagramPartAction implements
 									.getZEnd();
 
 							Set<IAbstractArtifact> downHierarhy = new HashSet<IAbstractArtifact>();
-							featchHierarhyDown(zEnd.getType().getArtifact(),
+							featchHierarhyDownAsModels(zEnd.getType().getArtifact(),
 									downHierarhy);
 							for (IAbstractArtifact associatedArt : downHierarhy) {
 								if (!namesOfArtifactsInMap
@@ -114,7 +117,7 @@ public class AddRelatedInstancesAction extends BaseDiagramPartAction implements
 									.getRelationshipZEnd();
 
 							Set<IAbstractArtifact> downHierarhy = new HashSet<IAbstractArtifact>();
-							featchHierarhyDown(zEnd.getType().getArtifact(),
+							featchHierarhyDownAsModels(zEnd.getType().getArtifact(),
 									downHierarhy);
 							for (IAbstractArtifact dependentArt : downHierarhy) {
 								if (!namesOfArtifactsInMap
@@ -152,7 +155,7 @@ public class AddRelatedInstancesAction extends BaseDiagramPartAction implements
 									.getAEnd();
 
 							Set<IAbstractArtifact> downHierarhy = new HashSet<IAbstractArtifact>();
-							featchHierarhyDown(aEnd.getType().getArtifact(),
+							featchHierarhyDownAsModels(aEnd.getType().getArtifact(),
 									downHierarhy);
 							for (IAbstractArtifact associatingArt : downHierarhy) {
 								if (!namesOfArtifactsInMap
@@ -166,7 +169,7 @@ public class AddRelatedInstancesAction extends BaseDiagramPartAction implements
 									.getRelationshipAEnd();
 
 							Set<IAbstractArtifact> downHierarhy = new HashSet<IAbstractArtifact>();
-							featchHierarhyDown(aEnd.getType().getArtifact(),
+							featchHierarhyDownAsModels(aEnd.getType().getArtifact(),
 									downHierarhy);
 							for (IAbstractArtifact dependingArt : downHierarhy) {
 								if (!namesOfArtifactsInMap
@@ -203,34 +206,7 @@ public class AddRelatedInstancesAction extends BaseDiagramPartAction implements
 		}
 	}
 
-	private void featchHierarhyUp(IAbstractArtifact artifact, Set<String> set) {
-		if (artifact == null) {
-			return;
-		}
-		if (!set.add(artifact.getFullyQualifiedName())) {
-			return;
-		}
-		featchHierarhyUp(artifact.getExtendedArtifact(), set);
-		for (IAbstractArtifact impl : artifact.getImplementingArtifacts()) {
-			featchHierarhyUp(impl, set);
-		}
-	}
 
-	private void featchHierarhyDown(IAbstractArtifact artifact,
-			Set<IAbstractArtifact> set) {
-		if (artifact == null) {
-			return;
-		}
-		if (!set.add(artifact)) {
-			return;
-		}
-		for (IAbstractArtifact extending : artifact.getExtendingArtifacts()) {
-			featchHierarhyDown(extending, set);
-		}
-		for (IAbstractArtifact impl : artifact.getImplementingArtifacts()) {
-			featchHierarhyDown(impl, set);
-		}
-	}
 
 	protected Set<String> getNamesOfArtifactsInMap(List<?> artifactsInMap) {
 		Set<String> namesOfArtifactsInMap = new HashSet<String>(

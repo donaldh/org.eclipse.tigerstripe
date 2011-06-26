@@ -37,6 +37,7 @@ import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.helpers.InstanceDiagramEditorHelper;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.util.InstanceDiagramReferenceMapper;
+import org.eclipse.tigerstripe.workbench.ui.internal.gmf.synchronization.DiagramSynchronizationManager;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -230,6 +231,10 @@ public class InstanceDiagramSynchronizer implements IArtifactChangeListener {
 		// This moight be better done in the client, so that they will only bother with
 		//changes that interest them
 
+		if (!isEnabled()) {
+			return;
+		}
+
 		ArrayList<Difference> diffs = comp.compareArtifacts(oldArtifact,artifact , true);
 		if (diffs.size()>0){
 			TransactionalEditingDomain editingDomain = editor.getEditingDomain();
@@ -250,6 +255,10 @@ public class InstanceDiagramSynchronizer implements IArtifactChangeListener {
 		if (artifact == null)
 			return; // should never happen
 
+		if (!isEnabled()) {
+			return;
+		}
+
 		TransactionalEditingDomain editingDomain = editor.getEditingDomain();
 		IDiagramEditDomain diagramEditDomain = editor.getDiagramEditDomain();
 		final InstanceMap map = (InstanceMap) editor.getDiagram().getElement();
@@ -263,7 +272,12 @@ public class InstanceDiagramSynchronizer implements IArtifactChangeListener {
 	}
 
 	public void artifactRenamed(IAbstractArtifact artifact, String fromFQN) {
-		TransactionalEditingDomain editingDomain = editor.getEditingDomain();
+
+		if (!isEnabled()) {
+			return;
+		}
+
+	TransactionalEditingDomain editingDomain = editor.getEditingDomain();
 		IDiagramEditDomain diagramEditDomain = editor.getDiagramEditDomain();
 		final InstanceMap map = (InstanceMap) editor.getDiagram().getElement();
 		try {
@@ -434,6 +448,10 @@ public class InstanceDiagramSynchronizer implements IArtifactChangeListener {
 		// on the Map...
 		InstanceMap map = (InstanceMap) editor.getDiagram().getElement();
 		map.setCorrespondingITigerstripeProject(getTSProject());
+	}
+	
+	protected boolean isEnabled() {
+		return DiagramSynchronizationManager.getInstance().isEnabled();
 	}
 
 }

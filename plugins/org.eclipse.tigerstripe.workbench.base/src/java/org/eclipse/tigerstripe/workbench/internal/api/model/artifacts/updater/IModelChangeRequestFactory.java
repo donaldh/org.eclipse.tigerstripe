@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAnnotationAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactAddFeatureRequest;
+import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactCreateExistingRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactCreateRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactDeleteRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactFQRenameRequest;
@@ -42,6 +43,8 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.re
 public interface IModelChangeRequestFactory {
 
 	public final static String ARTIFACT_CREATE = IArtifactCreateRequest.class
+			.getName();
+	public final static String ARTIFACT_CREATE_EXISTING = IArtifactCreateExistingRequest.class
 			.getName();
 	public final static String ARTIFACT_RENAME = IArtifactRenameRequest.class
 			.getName();
@@ -101,4 +104,7 @@ public interface IModelChangeRequestFactory {
 	 */
 	public IModelChangeRequest makeRequest(String requestType)
 			throws TigerstripeException;
+	
+	public <T> T makeRequest(Class<T> requestClass)
+		throws TigerstripeException;
 }

@@ -10,15 +10,12 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.gmf.synchronization;
 
-import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -31,11 +28,7 @@ import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequest;
-import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceHelper;
-import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceListener;
-import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceHelper.IResourceFilter;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.refactor.diagrams.DiagramSynchronizerController;
@@ -74,6 +67,8 @@ public class DiagramSynchronizationManager extends
 	private HashMap<String, ProjectDiagramsSynchronizer> projectWatchHash = new HashMap<String, ProjectDiagramsSynchronizer>();
 
 	private boolean hold = false;
+
+	private boolean enabled = true;
 
 	private DiagramSynchronizationManager() {
 		// making sure this is a singleton.
@@ -216,6 +211,10 @@ public class DiagramSynchronizationManager extends
 		monitor.done();
 	}
 
+	public Collection<ProjectDiagramsSynchronizer> getDiagramsSynchronizers() {
+		return projectWatchHash.values();
+	}
+	
 	@Override
 	public void holdSynchronization() {
 		setHoldSynchronization(true);
@@ -267,4 +266,15 @@ public class DiagramSynchronizationManager extends
 	    
 	}
 
+
+	public void setEnabled(boolean value) {
+		this.enabled = value;
+		for (ProjectDiagramsSynchronizer ps : getDiagramsSynchronizers()) {
+			ps.setEnabled(value);
+		}
+	}
+	
+	public boolean isEnabled() {
+		return enabled;
+	}
 }

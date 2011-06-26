@@ -12,8 +12,6 @@ package org.eclipse.tigerstripe.workbench.model.deprecated_;
 
 import java.util.Collection;
 
-import org.eclipse.tigerstripe.workbench.model.IMarkDirty;
-
 
 /**
  * Internal Interface for IAssociationArtifact

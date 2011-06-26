@@ -1,0 +1,685 @@
+package org.eclipse.tigerstripe.workbench.convert;
+
+import static org.eclipse.tigerstripe.workbench.convert.ConvertUtils.getPointAndSize;
+import static org.eclipse.tigerstripe.workbench.convert.ConvertUtils.makeDeleteFromClassDiagramCommand;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.core.commands.operations.AbstractOperation;
+import org.eclipse.core.commands.operations.IUndoableOperation;
+import org.eclipse.core.runtime.IAdaptable;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.draw2d.geometry.Dimension;
+import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gmf.runtime.diagram.core.commands.DeleteCommand;
+import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
+import org.eclipse.gmf.runtime.diagram.ui.editparts.INodeEditPart;
+import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
+import org.eclipse.gmf.runtime.emf.core.util.EMFCoreUtil;
+import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.jface.window.Window;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.convert.SuggestConvertationDialog.Result;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.util.CheckUtils;
+import org.eclipse.tigerstripe.workbench.internal.core.util.Provider;
+import org.eclipse.tigerstripe.workbench.internal.core.util.Tuple;
+import org.eclipse.tigerstripe.workbench.model.ModelUtils;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
+import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.part.InstanceDiagramEditor;
+import org.eclipse.tigerstripe.workbench.ui.internal.gmf.UndoContextBindable;
+import org.eclipse.tigerstripe.workbench.ui.internal.gmf.synchronization.DiagramSynchronizationManager;
+import org.eclipse.tigerstripe.workbench.ui.internal.gmf.synchronization.ProjectDiagramsSynchronizer;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.CompositeOperation;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.CreateArtifactOperation;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.DeleteArtifactOperation;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.EmptyOperation;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeDiagramEditor;
+import org.eclipse.tigerstripe.workbench.utils.RunnableWithResult;
+import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PlatformUI;
+
+@SuppressWarnings("deprecation")
+public class ConvertArtifactOperation extends AbstractOperation {
+
+	private static final String EXTENDED_ARTIFACT_ATTR = "extendedArtifact";
+	private static final String IMPLEMENTED_ARTIFACTS_ATTR = "implementedArtifacts";
+	private final IArtifactManagerSession session;
+	private IAbstractArtifact from;
+	private String toType;
+	private boolean association;
+
+	private String mainFqn;
+	private Collection<String> toConvert;
+
+	private Set<String> parents;
+	private Set<String> children;
+
+	private boolean convertParents;
+	private boolean convertChildren;
+
+	private IUndoableOperation deleteOperation;
+	private IUndoableOperation createOperation;
+
+	private CompositeOperation deleteRelationsOperation;
+	private List<OpDesciptor> operations;
+
+	private Set<IRelationship> relationships;
+	private Set<IEditorPart> contextParts;
+	private Map<String, Provider<IAbstractArtifact>> providers = new HashMap<String, Provider<IAbstractArtifact>>();
+
+	public static ConvertArtifactOperation make(
+			IArtifactManagerSession session, IAbstractArtifact from,
+			String toType, IEditorPart... contextParts) {
+
+		Set<IEditorPart> contextPartsSet = new HashSet<IEditorPart>(
+				Arrays.asList(CheckUtils.notNull(contextParts, "contextParts")));
+
+		return new ConvertArtifactOperation(session, from, toType,
+				contextPartsSet);
+	}
+
+	public ConvertArtifactOperation(IArtifactManagerSession session,
+			IAbstractArtifact from, String toType, Set<IEditorPart> contextParts) {
+		super("Convert");
+		this.contextParts = contextParts;
+		this.session = CheckUtils.notNull(session, "session");
+		this.from = CheckUtils.notNull(from, "from");
+		this.toType = CheckUtils.notNull(toType, "toType");
+
+		// Set human label after checks.
+		setLabel("Convert " + from.getName());
+	}
+
+	public boolean init(IProgressMonitor monitor) throws ExecutionException {
+		try {
+			association = from instanceof IRelationship;
+			operations = new ArrayList<ConvertArtifactOperation.OpDesciptor>();
+
+			mainFqn = from.getFullyQualifiedName();
+
+			toConvert = new LinkedHashSet<String>();
+			LinkedHashSet<IAbstractArtifact> toConvertAsModels = new LinkedHashSet<IAbstractArtifact>();
+
+			toConvert.add(mainFqn);
+			toConvertAsModels.add(from);
+
+			Set<IAbstractArtifact> parentsAsModels = new HashSet<IAbstractArtifact>();
+			Set<IAbstractArtifact> childrenAsModels = new HashSet<IAbstractArtifact>();
+
+			ModelUtils.featchHierarhyUpAsModels(from, parentsAsModels);
+			ModelUtils.featchHierarhyDownAsModels(from, childrenAsModels);
+			parentsAsModels.remove(from);
+			childrenAsModels.remove(from);
+
+			parents = new HashSet<String>(parentsAsModels.size());
+			children = new HashSet<String>(childrenAsModels.size());
+
+			for (IAbstractArtifact art : parentsAsModels) {
+				parents.add(art.getFullyQualifiedName());
+			}
+
+			for (IAbstractArtifact art : childrenAsModels) {
+				children.add(art.getFullyQualifiedName());
+			}
+
+			toConvert.addAll(parents);
+			toConvert.addAll(children);
+
+			toConvertAsModels.addAll(parentsAsModels);
+			toConvertAsModels.addAll(childrenAsModels);
+
+			Set<IEditorPart> openedParts = findOpened();
+			openedParts.addAll(contextParts);
+
+			relationships = getRelations();
+
+			Collection<DiagramEditor> partsToSave = getPartsToSave(contextParts);
+
+			if (!parents.isEmpty() || !children.isEmpty()
+					|| !relationships.isEmpty() || !partsToSave.isEmpty()) {
+				Shell shell = PlatformUI.getWorkbench()
+						.getActiveWorkbenchWindow().getShell();
+
+				SuggestConvertationDialog sd = new SuggestConvertationDialog(
+						shell, mainFqn, !parents.isEmpty(),
+						!children.isEmpty(), !relationships.isEmpty(),
+						partsToSave);
+				if (sd.open() != Window.OK) {
+					return false;
+				}
+
+				Result res = sd.getResult();
+				this.convertParents = res.convertParents;
+				this.convertChildren = res.convertChildren;
+			}
+
+			/*
+			 * We must save all diagrams only for updating synchronization
+			 * info(cahe by fqn)
+			 */
+			savePartsGlobal(monitor, contextParts);
+
+			List<IUndoableOperation> relationsOperations = new ArrayList<IUndoableOperation>();
+			for (IRelationship r : relationships) {
+				if (r instanceof IAbstractArtifact) {
+					relationsOperations.add(new DeleteArtifactOperation(
+							(IAbstractArtifact) r, session));
+				}
+			}
+
+			List<IUndoableOperation> deleteOprations = new ArrayList<IUndoableOperation>();
+			List<IUndoableOperation> createOprations = new ArrayList<IUndoableOperation>();
+			HierarchyHelper hierarchyHelper = new HierarchyHelper(
+					toConvertAsModels);
+			for (IAbstractArtifact art : toConvertAsModels) {
+
+				deleteOprations.add(new DeleteArtifactOperation(art, session));
+
+				String fqn = art.getFullyQualifiedName();
+				if (needConvert(fqn)) {
+
+					Class<?> mapClass = from instanceof IAssociationArtifact ? IAssociationArtifact.class
+							: IAbstractArtifact.class;
+
+					Map<String, Object> savedProperties = ModelUtils
+							.mapWritablePropertiesExclude(mapClass, art,
+									IMPLEMENTED_ARTIFACTS_ATTR,
+									EXTENDED_ARTIFACT_ATTR);
+
+					String extendedFqn = hierarchyHelper.getExtended(fqn);
+					if (extendedFqn != null) {
+						savedProperties.put(EXTENDED_ARTIFACT_ATTR,
+								makeProxy(toType, extendedFqn));
+					}
+
+					List<String> implementedFqns = hierarchyHelper
+							.getImplemented(fqn);
+					if (!implementedFqns.isEmpty()) {
+						List<IAbstractArtifact> implemented = new ArrayList<IAbstractArtifact>();
+						for (String implementedFqn : implementedFqns) {
+							implemented.add(makeProxy(toType, implementedFqn));
+						}
+						savedProperties.put(IMPLEMENTED_ARTIFACTS_ATTR,
+								implemented);
+					}
+
+					CreateArtifactOperation createOperation = new CreateArtifactOperation(
+							session, toType, savedProperties);
+					createOprations.add(createOperation);
+					providers.put(fqn, createOperation);
+				}
+			}
+			deleteOperation = new CompositeOperation("Delete Artifact",
+					deleteOprations);
+			createOperation = new CompositeOperation("Create Artifact",
+					createOprations);
+
+			deleteRelationsOperation = new CompositeOperation(
+					"Delete Relation", relationsOperations);
+
+			for (IEditorPart opened : openedParts) {
+				if (opened instanceof DiagramEditor) {
+					operations.add(makeDescriptor((DiagramEditor) opened));
+				}
+			}
+
+			from = null;
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+			return false;
+		}
+		return true;
+	}
+
+	private IAbstractArtifact makeProxy(String toType, String extendedFqn) {
+		AbstractArtifact extended = (AbstractArtifact) session
+				.makeArtifact(toType);
+		extended.setFullyQualifiedName(extendedFqn);
+		extended.setProxy(true);
+		return extended;
+	}
+
+	private static void save(final IEditorPart part,
+			final IProgressMonitor monitor) {
+		part.doSave(monitor);
+	}
+
+	private OpDesciptor makeDescriptor(DiagramEditor diagramEditor) {
+
+		OpDesciptor od = new OpDesciptor();
+		od.part = diagramEditor;
+
+		List<IUndoableOperation> partOperations = new ArrayList<IUndoableOperation>();
+		for (IRelationship r : relationships) {
+			if (r instanceof IAbstractArtifact) {
+				partOperations.add(makeDeleteRelationFromDiagram(diagramEditor,
+						r));
+			}
+		}
+
+		DiagramEditPart diagramEditPart = diagramEditor.getDiagramEditPart();
+		if (diagramEditor instanceof TigerstripeDiagramEditor) {
+			List<Provider<IAbstractArtifact>> dproviders = new ArrayList<Provider<IAbstractArtifact>>();
+			List<Tuple<Point, Dimension>> sizes = new ArrayList<Tuple<Point, Dimension>>();
+
+			for (String fqn : toConvert) {
+				partOperations.add(makeDeleteFromClassDiagramCommand(
+						diagramEditPart, fqn));
+
+				if (needConvert(fqn)) {
+
+					Tuple<Point, Dimension> ps = getPointAndSize(
+							diagramEditPart, fqn);
+					Provider<IAbstractArtifact> provider = providers.get(fqn);
+					if (provider == null) {
+						throw new IllegalStateException();
+					}
+					dproviders.add(provider);
+					sizes.add(ps);
+				}
+			}
+			DefferedDropOperation dropOperation = new DefferedDropOperation(
+					diagramEditPart, dproviders, sizes);
+			partOperations.add(dropOperation);
+
+		} else if (diagramEditor instanceof InstanceDiagramEditor) {
+
+			Set<String> toRepaint = new HashSet<String>();
+
+			for (String fqn : toConvert) {
+				if (!needConvert(fqn) || association) {
+					partOperations.add(ConvertUtils
+							.makeDeleteFromInstanceDiagramCommand(
+									diagramEditPart, fqn));
+				} else {
+					toRepaint.add(fqn);
+				}
+			}
+			partOperations.add(new RefreshOperation("Repaint",
+					(InstanceDiagramEditor) diagramEditor, toRepaint));
+		}
+
+		od.operation = new CompositeOperation("Convert Part Operation",
+				partOperations);
+		return od;
+	}
+
+	private boolean needConvert(String fqn) {
+		if (fqn.equals(mainFqn)) {
+			return true;
+		}
+		if (children.contains(fqn) && convertChildren) {
+			return true;
+		}
+		if (parents.contains(fqn) && convertParents) {
+			return true;
+		}
+		return false;
+	}
+
+	public void removeEditor(DiagramEditor diagramEditor) {
+		Iterator<OpDesciptor> it = operations.iterator();
+		while (it.hasNext()) {
+			OpDesciptor od = it.next();
+			if (diagramEditor.equals(od.part)) {
+				it.remove();
+			}
+		}
+		contextParts.remove(diagramEditor);
+	}
+
+	private Set<IEditorPart> findOpened() {
+		DiagramSynchronizationManager synchronizationManager = DiagramSynchronizationManager
+				.getInstance();
+
+		Collection<ProjectDiagramsSynchronizer> diagramsSynchronizers = synchronizationManager
+				.getDiagramsSynchronizers();
+
+		Set<IEditorPart> openedParts = new HashSet<IEditorPart>();
+		for (ProjectDiagramsSynchronizer ds : diagramsSynchronizers) {
+			for (String fqn : toConvert) {
+				openedParts.addAll(ds.getOpenedDiagrams(fqn));
+			}
+		}
+		return openedParts;
+	}
+
+	private IUndoableOperation makeDeleteRelationFromDiagram(
+			DiagramEditor editor, IRelationship r) {
+		String fqn = r.getFullyQualifiedName();
+
+		if (editor instanceof TigerstripeDiagramEditor) {
+			return ConvertUtils.makeDeleteFromClassDiagramCommand(
+					editor.getDiagramEditPart(), fqn);
+		} else if (editor instanceof InstanceDiagramEditor) {
+			return ConvertUtils.makeDeleteFromInstanceDiagramCommand(
+					editor.getDiagramEditPart(), fqn);
+		} else {
+			return EmptyOperation.INSTANCE;
+		}
+	}
+
+	@SuppressWarnings({ "unchecked", "unused" })
+	private IUndoableOperation makeDestroyCommand(DiagramEditor editor,
+			List<? extends EObject> semantic) {
+		if (semantic.isEmpty()) {
+			return EmptyOperation.INSTANCE;
+		}
+
+		List<IUndoableOperation> commands = new ArrayList<IUndoableOperation>();
+		for (EObject e : semantic) {
+
+			List<INodeEditPart> partsForElement = editor
+					.getDiagramGraphicalViewer().findEditPartsForElement(
+							EMFCoreUtil.getProxyID(e), INodeEditPart.class);
+
+			for (INodeEditPart part : partsForElement) {
+
+				View view = (View) part.getModel();
+				commands.add(new DeleteCommand(view));
+			}
+		}
+		switch (commands.size()) {
+		case 0:
+			return EmptyOperation.INSTANCE;
+		case 1:
+			return commands.get(0);
+		default:
+			return new CompositeOperation("Delete Relations", commands);
+		}
+	}
+
+	private Set<IRelationship> getRelations() throws TigerstripeException {
+
+		Set<IRelationship> relationships = new HashSet<IRelationship>();
+
+		for (String fqn : toConvert) {
+			List<IRelationship> originatingRelationshipForFQN = session
+					.getOriginatingRelationshipForFQN(fqn, true);
+
+			List<IRelationship> terminatingRelationshipForFQN = session
+					.getTerminatingRelationshipForFQN(fqn, true);
+
+			relationships.addAll(originatingRelationshipForFQN);
+			relationships.addAll(terminatingRelationshipForFQN);
+		}
+		return relationships;
+	}
+
+	@Override
+	public IStatus execute(final IProgressMonitor monitor, final IAdaptable info)
+			throws ExecutionException {
+
+		IStatus status = WithoutSynchRunner
+				.run(new RunnableWithResult<IStatus, ExecutionException>() {
+
+					public IStatus run() throws ExecutionException {
+						deleteRelationsOperation.execute(monitor, info);
+						deleteOperation.execute(monitor, info);
+						createOperation.execute(monitor, info);
+						for (OpDesciptor o : operations) {
+							o.operation.execute(monitor, info);
+						}
+						resolveHierarchyProxies();
+						return Status.OK_STATUS;
+					}
+				});
+		savePartsAsync(monitor);
+		bindUndoContext();
+		return status;
+	}
+
+	@Override
+	public IStatus redo(final IProgressMonitor monitor, final IAdaptable info)
+			throws ExecutionException {
+		savePartsGlobal(monitor);
+		IStatus status = WithoutSynchRunner
+				.run(new RunnableWithResult<IStatus, ExecutionException>() {
+
+					public IStatus run() throws ExecutionException {
+						removeClosed();
+						deleteRelationsOperation.redo(monitor, info);
+						deleteOperation.redo(monitor, info);
+						createOperation.redo(monitor, info);
+						for (OpDesciptor o : operations) {
+							o.operation.redo(monitor, info);
+						}
+						Collection<OpDesciptor> newOpened = addOpened();
+						for (OpDesciptor o : newOpened) {
+							o.operation.execute(monitor, info);
+						}
+						return Status.OK_STATUS;
+					}
+
+				});
+		savePartsAsync(monitor);
+		return status;
+	}
+
+	@Override
+	public IStatus undo(final IProgressMonitor monitor, final IAdaptable info)
+			throws ExecutionException {
+
+		savePartsGlobal(monitor);
+		IStatus status = WithoutSynchRunner
+				.run(new RunnableWithResult<IStatus, ExecutionException>() {
+
+					public IStatus run() throws ExecutionException {
+						removeClosed();
+						createOperation.undo(monitor, info);
+						deleteOperation.undo(monitor, info);
+						deleteRelationsOperation.undo(monitor, info);
+
+						int size = operations.size();
+						for (int i = size - 1; i > -1; --i) {
+							operations.get(i).operation.undo(monitor, info);
+						}
+						Collection<DiagramEditor> newOpened = findNewOpened();
+						for (DiagramEditor de : newOpened) {
+							validateAndCorrect(de, monitor);
+						}
+						return Status.OK_STATUS;
+					}
+				});
+		savePartsAsync(monitor);
+		return status;
+	}
+
+	private void savePartsAsync(final IProgressMonitor monitor) {
+		PlatformUI.getWorkbench().getDisplay().asyncExec(new Runnable() {
+
+			public void run() {
+				saveParts(monitor);
+			}
+		});
+	}
+
+	private void resolveHierarchyProxies() {
+		Collection<Provider<IAbstractArtifact>> values = providers.values();
+		for (Provider<IAbstractArtifact> provider : values) {
+			provider.get().getExtendedArtifact();
+			provider.get().getImplementedArtifacts();
+		}
+	}
+
+	private void saveParts(IProgressMonitor monitor) {
+		for (OpDesciptor od : operations) {
+			if (contextParts.contains(od.part)) {
+				continue;
+			}
+			save(od.part, monitor);
+		}
+	}
+
+	private void savePartsGlobal(IProgressMonitor monitor) {
+		savePartsGlobal(monitor, contextParts);
+	}
+
+	private static void savePartsGlobal(IProgressMonitor monitor,
+			Set<IEditorPart> contextParts) {
+		for (DiagramEditor de : getPartsToSave(contextParts)) {
+			save(de, monitor);
+		}
+	}
+
+	private static Collection<DiagramEditor> getPartsToSave(
+			Set<IEditorPart> contextParts) {
+		Collection<DiagramEditor> allParts = getAllParts();
+		allParts.removeAll(contextParts);
+		Iterator<DiagramEditor> it = allParts.iterator();
+		while (it.hasNext()) {
+			DiagramEditor de = it.next();
+			if (!de.isDirty()) {
+				it.remove();
+			}
+		}
+		return allParts;
+	}
+
+	private static Collection<DiagramEditor> getAllParts() {
+		Collection<DiagramEditor> result = new ArrayList<DiagramEditor>();
+		IWorkbenchWindow windows[] = PlatformUI.getWorkbench()
+				.getWorkbenchWindows();
+		for (int i = 0; i < windows.length; i++) {
+			IWorkbenchPage pages[] = windows[i].getPages();
+			for (int j = 0; j < pages.length; j++) {
+				IEditorReference[] refs = pages[j].getEditorReferences();
+				for (IEditorReference ref : refs) {
+					IEditorPart part = ref.getEditor(false);
+					if (part instanceof DiagramEditor) {
+						result.add((DiagramEditor) part);
+					}
+				}
+			}
+		}
+		return result;
+	}
+
+	private void validateAndCorrect(DiagramEditor de, IProgressMonitor monitor) {
+		if (de instanceof TigerstripeDiagramEditor) {
+			new ClassDiagramCorrector().correct(de.getDiagramEditPart(),
+					session.getArtifactManager(), monitor);
+		} else if (de instanceof InstanceDiagramEditor) {
+			new InstanceDiagramCorrector().correct(de.getDiagramEditPart(),
+					session.getArtifactManager(), monitor);
+		}
+	}
+
+	private void removeClosed() {
+		Set<IEditorPart> opened = findOpened();
+		Iterator<OpDesciptor> it = operations.iterator();
+		while (it.hasNext()) {
+			OpDesciptor od = it.next();
+			if (!opened.contains(od.part)) {
+				it.remove();
+			}
+		}
+		contextParts.retainAll(opened);
+	}
+
+	private Collection<OpDesciptor> addOpened() {
+		List<DiagramEditor> newOpened = findNewOpened();
+		List<OpDesciptor> toAdd = new ArrayList<OpDesciptor>(newOpened.size());
+		for (DiagramEditor de : newOpened) {
+			toAdd.add(makeDescriptor(de));
+		}
+		operations.addAll(toAdd);
+		return toAdd;
+	}
+
+	private List<DiagramEditor> findNewOpened() {
+		Set<IEditorPart> opened = findOpened();
+
+		Set<IEditorPart> currentState = new HashSet<IEditorPart>();
+		for (OpDesciptor od : operations) {
+			currentState.add(od.part);
+		}
+
+		List<DiagramEditor> newOpened = new ArrayList<DiagramEditor>();
+		for (IEditorPart part : opened) {
+			if (part instanceof DiagramEditor) {
+				DiagramEditor editor = (DiagramEditor) part;
+				if (!currentState.contains(editor)) {
+					newOpened.add(editor);
+				}
+			}
+		}
+		return newOpened;
+	}
+
+	private void bindUndoContext() {
+		for (OpDesciptor od : operations) {
+			((UndoContextBindable) od.part).bindUndoContext(this);
+		}
+	}
+
+	private static class HierarchyHelper {
+
+		private final Map<String, String> extended = new HashMap<String, String>();
+		private final Map<String, List<String>> implemented = new HashMap<String, List<String>>();
+
+		public HierarchyHelper(Collection<IAbstractArtifact> artifacts) {
+			for (IAbstractArtifact art : artifacts) {
+				String fqn = art.getFullyQualifiedName();
+				List<String> impls = getImplementedFromMap(fqn);
+				for (IAbstractArtifact impl : art.getImplementedArtifacts()) {
+					impls.add(impl.getFullyQualifiedName());
+				}
+				IAbstractArtifact ext = art.getExtendedArtifact();
+				if (ext != null) {
+					extended.put(fqn, ext.getFullyQualifiedName());
+				}
+			}
+		}
+
+		public List<String> getImplemented(String fqn) {
+			List<String> list = implemented.get(fqn);
+			if (list == null) {
+				return Collections.emptyList();
+			} else {
+				return list;
+			}
+		}
+
+		public String getExtended(String fqn) {
+			return extended.get(fqn);
+		}
+
+		private List<String> getImplementedFromMap(String fqn) {
+			List<String> impls = implemented.get(fqn);
+			if (impls == null) {
+				impls = new ArrayList<String>();
+				implemented.put(fqn, impls);
+			}
+			return impls;
+		}
+	}
+
+	private static class OpDesciptor {
+		public IUndoableOperation operation;
+		public DiagramEditor part;
+	}
+}
