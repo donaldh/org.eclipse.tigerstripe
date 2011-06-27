@@ -61,15 +61,15 @@ import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeScopeDeta
  */
 public class WorkbenchProfile implements IWorkbenchProfile {
 
-	private List<IStereotype> stereotypes = new ArrayList<IStereotype>();
+	private final List<IStereotype> stereotypes = new ArrayList<IStereotype>();
 
 	private IPrimitiveTypeDef defaultPrimitiveType = null;
 
 	private static List<IPrimitiveTypeDef> reservedPrimitiveTypeDefs = null;
 
-	private List<IPrimitiveTypeDef> primitiveTypeDefs = new ArrayList<IPrimitiveTypeDef>();
+	private final List<IPrimitiveTypeDef> primitiveTypeDefs = new ArrayList<IPrimitiveTypeDef>();
 
-	private HashMap<String, IWorkbenchProfileProperty> properties = new HashMap<String, IWorkbenchProfileProperty>();
+	private final HashMap<String, IWorkbenchProfileProperty> properties = new HashMap<String, IWorkbenchProfileProperty>();
 
 	public final static String REQUIRED_COMPATIBILITY_LEVEL = "1.2";
 
@@ -405,6 +405,7 @@ public class WorkbenchProfile implements IWorkbenchProfile {
 				PrimitiveTypeDef pDef = new PrimitiveTypeDef();
 				pDef.setName(name);
 				pDef.setDescription(desc);
+				pDef.setValidationExpression(def[2]);
 				pDef.setPackageName(IPrimitiveTypeArtifact.RESERVED);
 				pDef.setReserved(true);
 				reservedPrimitiveTypeDefs.add(pDef);

@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.builder;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
@@ -24,7 +25,11 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
+import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 
@@ -56,8 +61,46 @@ public class CommonArtifactAuditor extends AbstractArtifactAuditor implements
 		for (IField attribute : getArtifact().getFields()) {
 			checkStereotypes(attribute, "attribute '" + attribute.getName()
 					+ "' of artifact '" + getArtifact().getName() + "'");
-
+			checkDefaultValue(artifact, attribute);
 			checkEnumField(attribute, artifactName);
+		}
+	}
+
+	private void checkDefaultValue(IAbstractArtifact artifact, IField field) {
+		IType type = field.getType();
+		if (type.isPrimitive()
+				|| type.getArtifact() instanceof IPrimitiveTypeArtifact) {
+			String defaultValue = field.getDefaultValue();
+			if (defaultValue != null && defaultValue.trim().length() > 0) {
+				IWorkbenchProfile profile = TigerstripeCore
+						.getWorkbenchProfileSession().getActiveProfile();
+				for (IPrimitiveTypeDef primitiveTypeDef : profile
+						.getPrimitiveTypeDefs(true)) {
+					if (primitiveTypeDef.getName().equals(type.getName())) {
+						validateDefaultValue(artifact, field, primitiveTypeDef);
+						break;
+					}
+				}
+			}
+		}
+	}
+
+	private void validateDefaultValue(IAbstractArtifact artifact, IField field,
+			IPrimitiveTypeDef primitiveTypeDef) {
+		if (primitiveTypeDef.getValidationExpression() != null
+				&& !field.getDefaultValue().matches(
+						primitiveTypeDef.getValidationExpression())) {
+			TigerstripeProjectAuditor
+					.reportError(
+							"Default value of '"
+									+ artifact.getFullyQualifiedName()
+									+ "."
+									+ field.getName()
+									+ "' attribute is incorrect. Default value should mutch following reqular expression: "
+									+ primitiveTypeDef
+											.getValidationExpression(),
+							(IResource) getArtifact().getAdapter(
+									IResource.class), 222);
 		}
 	}
 

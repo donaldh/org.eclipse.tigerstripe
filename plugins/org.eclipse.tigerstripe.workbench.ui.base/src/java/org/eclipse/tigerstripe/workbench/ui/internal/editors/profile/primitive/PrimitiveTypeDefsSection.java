@@ -384,7 +384,8 @@ public class PrimitiveTypeDefsSection extends BaseStereotypeSectionPart
 			refresh();
 			markPageModified();
 		} catch (TigerstripeException e) {
-			MessageDialog.openWarning(getPage().getPartControl().getShell(),
+			MessageDialog.openWarning(
+					getPage().getPartControl().getShell(),
 					"Default "
 							+ ArtifactMetadataFactory.INSTANCE.getMetadata(
 									IPrimitiveTypeImpl.class.getName())
@@ -394,7 +395,8 @@ public class PrimitiveTypeDefsSection extends BaseStereotypeSectionPart
 			return;
 		}
 
-		MessageDialog.openInformation(getPage().getPartControl().getShell(),
+		MessageDialog.openInformation(
+				getPage().getPartControl().getShell(),
 				ArtifactMetadataFactory.INSTANCE.getMetadata(
 						IPrimitiveTypeImpl.class.getName()).getLabel(null),
 				"This profile must be made active for the changes "
@@ -428,7 +430,7 @@ public class PrimitiveTypeDefsSection extends BaseStereotypeSectionPart
 		} else {
 			defaultAttributeButton.setEnabled(false);
 		}
-
+		viewer.refresh();
 	}
 
 	@Override

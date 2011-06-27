@@ -32,6 +32,10 @@ public interface IPrimitiveTypeDef {
 
 	public String getPackageName();
 
+	public String getValidationExpression();
+
+	public void setValidationExpression(String expression);
+
 	public String getDescription();
 
 	public void setDescription(String description);

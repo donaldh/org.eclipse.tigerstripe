@@ -13,6 +13,8 @@ package org.eclipse.tigerstripe.workbench.internal.builder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -68,9 +70,9 @@ public class ProfileDescriptorAuditor implements IFileExtensionBasedAuditor {
 			}
 			monitor.done();
 		} else {
-			TigerstripeProjectAuditor.reportError("Project '"
-					+ project.getName() + "' contains invalid profile",
-					project, 222);
+			TigerstripeProjectAuditor.reportError(
+					"Project '" + project.getName()
+							+ "' contains invalid profile", project, 222);
 		}
 	}
 
@@ -86,18 +88,39 @@ public class ProfileDescriptorAuditor implements IFileExtensionBasedAuditor {
 				.getPrimitiveTypeDefs(false);
 		for (IPrimitiveTypeDef prim : primitiveTypes) {
 			if (!prim.isValidName()) {
-				TigerstripeProjectAuditor.reportError("Invalid "
-						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-								IPrimitiveTypeImpl.class.getName()).getLabel(
-								prim) + " name '" + prim.getName()
-						+ "' detected", iresource, 222);
+				TigerstripeProjectAuditor
+						.reportError(
+								"Invalid "
+										+ ArtifactMetadataFactory.INSTANCE
+												.getMetadata(
+														IPrimitiveTypeImpl.class
+																.getName())
+												.getLabel(prim) + " name '"
+										+ prim.getName() + "' detected",
+								iresource, 222);
 			} else if (!prim.isRecommendedName()) {
-				TigerstripeProjectAuditor.reportWarning("Type name '"
-						+ prim.getName()
-						+ "' is not recommended as the name of a "
-						+ ArtifactMetadataFactory.INSTANCE.getMetadata(
-								IPrimitiveTypeImpl.class.getName()).getLabel(
-								prim), iresource, 222);
+				TigerstripeProjectAuditor.reportWarning(
+						"Type name '"
+								+ prim.getName()
+								+ "' is not recommended as the name of a "
+								+ ArtifactMetadataFactory.INSTANCE.getMetadata(
+										IPrimitiveTypeImpl.class.getName())
+										.getLabel(prim), iresource, 222);
+			} else {
+				String expression = prim.getValidationExpression();
+				if (expression != null && expression.trim().length() > 0) {
+					try {
+						Pattern.compile(expression);
+					} catch (PatternSyntaxException e) {
+						TigerstripeProjectAuditor
+								.reportError(
+										"Primitive type '"
+												+ prim.getName()
+												+ "' has invalid validation regular expression: "
+												+ e.getMessage(), iresource,
+										222);
+					}
+				}
 			}
 		}
 	}

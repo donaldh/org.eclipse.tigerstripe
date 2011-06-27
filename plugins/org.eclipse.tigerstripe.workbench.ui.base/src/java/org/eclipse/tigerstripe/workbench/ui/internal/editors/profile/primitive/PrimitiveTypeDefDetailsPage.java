@@ -38,6 +38,7 @@ public class PrimitiveTypeDefDetailsPage implements IDetailsPage {
 
 	private Text nameText;
 	private Text packageNameText;
+	private Text validationExpressionText;
 	private Text descriptionText;
 
 	/**
@@ -144,8 +145,7 @@ public class PrimitiveTypeDefDetailsPage implements IDetailsPage {
 		nameText.setEnabled(ProfileEditor.isEditable());
 		nameText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		nameText.addModifyListener(adapter);
-		nameText
-				.setToolTipText("Name of the primitive type, as seen by end-user.");
+		nameText.setToolTipText("Name of the primitive type, as seen by end-user.");
 
 		toolkit.createLabel(parent, "Package: ");
 		packageNameText = toolkit.createText(parent, "");
@@ -155,6 +155,15 @@ public class PrimitiveTypeDefDetailsPage implements IDetailsPage {
 		packageNameText
 				.setToolTipText("Package of the primitive type, as seen by end-user.");
 		packageNameText.setEnabled(false);
+
+		toolkit.createLabel(parent, "Validation (Regular Expression): ");
+		validationExpressionText = toolkit.createText(parent, "");
+		validationExpressionText.setLayoutData(new TableWrapData(
+				TableWrapData.FILL_GRAB));
+		validationExpressionText.addModifyListener(adapter);
+		validationExpressionText
+				.setToolTipText("Validation expression of the primitive type.");
+		validationExpressionText.setEnabled(ProfileEditor.isEditable());
 
 		toolkit.createLabel(parent, "Description: ");
 		descriptionText = toolkit.createText(parent, "", SWT.WRAP | SWT.MULTI
@@ -219,17 +228,21 @@ public class PrimitiveTypeDefDetailsPage implements IDetailsPage {
 
 	protected void updateForm() {
 		setSilentUpdate(true);
-		IPrimitiveTypeDef st = getIPrimitiveTypeDef();
-		nameText.setText(st.getName());
-		packageNameText.setText(st.getPackageName());
-		descriptionText.setText(st.getDescription());
+		IPrimitiveTypeDef typeDef = getIPrimitiveTypeDef();
+		nameText.setText(typeDef.getName());
+		packageNameText.setText(typeDef.getPackageName());
+		String expression = "";
+		if (typeDef.getValidationExpression() != null) {
+			expression = typeDef.getValidationExpression();
+		}
+		validationExpressionText.setText(expression);
+		descriptionText.setText(typeDef.getDescription());
 
-		// nameText.setEditable(ProfileEditor.isEditable() && !st.isReserved());
-		nameText.setEnabled(ProfileEditor.isEditable() && !st.isReserved());
-		// descriptionText.setEditable(ProfileEditor.isEditable() &&
-		// !st.isReserved());
+		nameText.setEnabled(ProfileEditor.isEditable() && !typeDef.isReserved());
+		validationExpressionText.setEnabled(ProfileEditor.isEditable()
+				&& !typeDef.isReserved());
 		descriptionText.setEnabled(ProfileEditor.isEditable()
-				&& !st.isReserved());
+				&& !typeDef.isReserved());
 		setSilentUpdate(false);
 	}
 
@@ -270,6 +283,10 @@ public class PrimitiveTypeDefDetailsPage implements IDetailsPage {
 			} else if (e.getSource() == packageNameText) {
 				getIPrimitiveTypeDef().setPackageName(
 						packageNameText.getText().trim());
+				pageModified();
+			} else if (e.getSource() == validationExpressionText) {
+				getIPrimitiveTypeDef().setValidationExpression(
+						validationExpressionText.getText().trim());
 				pageModified();
 			}
 		}

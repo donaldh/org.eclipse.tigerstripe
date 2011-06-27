@@ -10,21 +10,22 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.model.deprecated_;
 
-
 public interface IPrimitiveTypeArtifact extends IAbstractArtifact,
 		IModelComponent {
 
 	public final static String RESERVED = "<reserved>";
 
 	public final static String[][] reservedPrimitiveTypes = {
-			{ "int", "Reserved int primitive Type." },
-			{ "char", "Reserved char primitive Type." },
-			{ "boolean", "Reserved boolean primitive Type." },
-			{ "byte", "Reserved byte primitive Type." },
-			{ "double", "Reserved double primitive Type." },
-			{ "float", "Reserved float primitive Type." },
-			{ "long", "Reserved long primitive Type." },
-			{ "short", "Reserved short primitive Type." },
-			{ "void", "Reserved void primitive Type." } };
+			{ "int", "Reserved int primitive Type.", "^[-+]?[0-9]*" },
+			{ "char", "Reserved char primitive Type.", null },
+			{ "boolean", "Reserved boolean primitive Type.", "1|0|true|false" },
+			{ "byte", "Reserved byte primitive Type.", "^[-+]?[0-9]*" },
+			{ "double", "Reserved double primitive Type.",
+					"^[-+]?[0-9]*\\.?[0-9]+$" },
+			{ "float", "Reserved float primitive Type.",
+					"^[-+]?[0-9]*\\.?[0-9]+$" },
+			{ "long", "Reserved long primitive Type.", "^[-+]?[0-9]*" },
+			{ "short", "Reserved short primitive Type.", "^[-+]?[0-9]*" },
+			{ "void", "Reserved void primitive Type.", null } };
 
 }

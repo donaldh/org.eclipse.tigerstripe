@@ -28,6 +28,8 @@ public class PrimitiveTypeDef implements IPrimitiveTypeDef {
 
 	private String packageName = ITigerstripeConstants.BASEPRIMITIVE_PACKAGE;
 
+	private String validationExpression;
+
 	private boolean isReserved = false;
 
 	public void setReserved(boolean isReserved) {
@@ -50,6 +52,14 @@ public class PrimitiveTypeDef implements IPrimitiveTypeDef {
 		return this.packageName;
 	}
 
+	public String getValidationExpression() {
+		return validationExpression;
+	}
+
+	public void setValidationExpression(String validationExpression) {
+		this.validationExpression = validationExpression;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -67,6 +77,11 @@ public class PrimitiveTypeDef implements IPrimitiveTypeDef {
 		Element primitiveType = factory.createElement("primitiveType");
 		primitiveType.addAttribute("name", getName());
 		primitiveType.addElement("description").setText(getDescription());
+
+		String ve = getValidationExpression();
+		if (ve != null && ve.trim().length() > 0) {
+			primitiveType.addElement("validationExpression").setText(ve);
+		}
 		return primitiveType;
 	}
 
@@ -90,6 +105,11 @@ public class PrimitiveTypeDef implements IPrimitiveTypeDef {
 			if (packageName.equals(IPrimitiveTypeArtifact.RESERVED)) {
 				isReserved = true;
 			}
+		}
+
+		if (element.element("validationExpression") != null) {
+			setValidationExpression(element.element("validationExpression")
+					.getText());
 		}
 	}
 
