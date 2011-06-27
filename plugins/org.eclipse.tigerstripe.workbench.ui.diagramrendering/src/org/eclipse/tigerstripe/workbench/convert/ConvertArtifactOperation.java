@@ -59,6 +59,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSessi
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.part.InstanceDiagramEditor;
@@ -150,7 +151,12 @@ public class ConvertArtifactOperation extends AbstractOperation {
 			ModelUtils.featchHierarhyDownAsModels(from, childrenAsModels);
 			parentsAsModels.remove(from);
 			childrenAsModels.remove(from);
-
+			
+			if (from instanceof IAssociationClassArtifact) {
+				removeEntities(parentsAsModels);
+				removeEntities(childrenAsModels);
+			}
+			
 			parents = new HashSet<String>(parentsAsModels.size());
 			children = new HashSet<String>(childrenAsModels.size());
 
@@ -238,21 +244,25 @@ public class ConvertArtifactOperation extends AbstractOperation {
 									IMPLEMENTED_ARTIFACTS_ATTR,
 									EXTENDED_ARTIFACT_ATTR);
 
-					String extendedFqn = hierarchyHelper.getExtended(fqn);
-					if (extendedFqn != null) {
-						savedProperties.put(EXTENDED_ARTIFACT_ATTR,
-								makeProxy(toType, extendedFqn));
+					IAbstractArtifact extended = hierarchyHelper.getExtended(fqn);
+					if (extended != null) {
+						if (eligableInheratance(from, extended)) {
+							savedProperties.put(EXTENDED_ARTIFACT_ATTR,
+									makeProxy(toType, extended.getFullyQualifiedName()));
+						}
 					}
 
-					List<String> implementedFqns = hierarchyHelper
+					List<IAbstractArtifact> implemented = hierarchyHelper
 							.getImplemented(fqn);
-					if (!implementedFqns.isEmpty()) {
-						List<IAbstractArtifact> implemented = new ArrayList<IAbstractArtifact>();
-						for (String implementedFqn : implementedFqns) {
-							implemented.add(makeProxy(toType, implementedFqn));
+					if (!implemented.isEmpty()) {
+						List<IAbstractArtifact> impls = new ArrayList<IAbstractArtifact>();
+						for (IAbstractArtifact impl : impls) {
+							if (eligableInheratance(from, impl)) {
+								impls.add(makeProxy(toType,
+										impl.getFullyQualifiedName()));
+							}
 						}
-						savedProperties.put(IMPLEMENTED_ARTIFACTS_ATTR,
-								implemented);
+						savedProperties.put(IMPLEMENTED_ARTIFACTS_ATTR, impls);
 					}
 
 					CreateArtifactOperation createOperation = new CreateArtifactOperation(
@@ -281,6 +291,25 @@ public class ConvertArtifactOperation extends AbstractOperation {
 			return false;
 		}
 		return true;
+	}
+
+	private boolean eligableInheratance(IAbstractArtifact art,
+			IAbstractArtifact extended) {
+		if (art instanceof IAssociationClassArtifact) {
+			return !(extended instanceof IManagedEntityArtifact);
+		} else {
+			return true;
+		}
+	}
+
+	private void removeEntities(Set<IAbstractArtifact> artifacts) {
+		Iterator<IAbstractArtifact> it = artifacts.iterator();
+		while (it.hasNext()) {
+			IAbstractArtifact artifact = it.next();
+			if (artifact instanceof IManagedEntityArtifact) {
+				it.remove();
+			}
+		}
 	}
 
 	private IAbstractArtifact makeProxy(String toType, String extendedFqn) {
@@ -667,25 +696,25 @@ public class ConvertArtifactOperation extends AbstractOperation {
 
 	private static class HierarchyHelper {
 
-		private final Map<String, String> extended = new HashMap<String, String>();
-		private final Map<String, List<String>> implemented = new HashMap<String, List<String>>();
+		private final Map<String, IAbstractArtifact> extended = new HashMap<String, IAbstractArtifact>();
+		private final Map<String, List<IAbstractArtifact>> implemented = new HashMap<String, List<IAbstractArtifact>>();
 
 		public HierarchyHelper(Collection<IAbstractArtifact> artifacts) {
 			for (IAbstractArtifact art : artifacts) {
 				String fqn = art.getFullyQualifiedName();
-				List<String> impls = getImplementedFromMap(fqn);
+				List<IAbstractArtifact> impls = getImplementedFromMap(fqn);
 				for (IAbstractArtifact impl : art.getImplementedArtifacts()) {
-					impls.add(impl.getFullyQualifiedName());
+					impls.add(impl);
 				}
 				IAbstractArtifact ext = art.getExtendedArtifact();
 				if (ext != null) {
-					extended.put(fqn, ext.getFullyQualifiedName());
+					extended.put(fqn, ext);
 				}
 			}
 		}
 
-		public List<String> getImplemented(String fqn) {
-			List<String> list = implemented.get(fqn);
+		public List<IAbstractArtifact> getImplemented(String fqn) {
+			List<IAbstractArtifact> list = implemented.get(fqn);
 			if (list == null) {
 				return Collections.emptyList();
 			} else {
@@ -693,14 +722,14 @@ public class ConvertArtifactOperation extends AbstractOperation {
 			}
 		}
 
-		public String getExtended(String fqn) {
+		public IAbstractArtifact getExtended(String fqn) {
 			return extended.get(fqn);
 		}
 
-		private List<String> getImplementedFromMap(String fqn) {
-			List<String> impls = implemented.get(fqn);
+		private List<IAbstractArtifact> getImplementedFromMap(String fqn) {
+			List<IAbstractArtifact> impls = implemented.get(fqn);
 			if (impls == null) {
-				impls = new ArrayList<String>();
+				impls = new ArrayList<IAbstractArtifact>();
 				implemented.put(fqn, impls);
 			}
 			return impls;
