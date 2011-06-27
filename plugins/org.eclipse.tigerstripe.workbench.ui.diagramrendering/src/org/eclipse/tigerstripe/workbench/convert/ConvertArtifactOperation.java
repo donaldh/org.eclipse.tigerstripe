@@ -1,3 +1,14 @@
+/*******************************************************************************
+ * Copyright (c) 2011 xored software, Inc.
+ * 
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ * 
+ * Contributors:
+ *     xored software, Inc. - initial API and implementation (Valentin Erastov)
+ ******************************************************************************/
 package org.eclipse.tigerstripe.workbench.convert;
 
 import static org.eclipse.tigerstripe.workbench.convert.ConvertUtils.getPointAndSize;
@@ -31,7 +42,9 @@ import org.eclipse.gmf.runtime.diagram.ui.editparts.INodeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
 import org.eclipse.gmf.runtime.emf.core.util.EMFCoreUtil;
 import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.convert.SuggestConvertationDialog.Result;
@@ -44,6 +57,9 @@ import org.eclipse.tigerstripe.workbench.model.ModelUtils;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.part.InstanceDiagramEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.gmf.UndoContextBindable;
@@ -54,6 +70,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.utils.CreateArtifactOperati
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.DeleteArtifactOperation;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.EmptyOperation;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeDiagramEditor;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeDiagramEditorPlugin;
 import org.eclipse.tigerstripe.workbench.utils.RunnableWithResult;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
@@ -156,6 +173,18 @@ public class ConvertArtifactOperation extends AbstractOperation {
 
 			relationships = getRelations();
 
+			if (from instanceof IAssociationClassArtifact && toType.equals(IAssociationArtifact.class.getName())) {
+				Collection<IMethod> methods = from.getMethods();
+				Collection<IField> fields = from.getFields();
+				if ((methods!=null && methods.size()>0) || (fields!=null && fields.size()>0)) {
+					String message = "Converting to an Association will remove all methods and fields for the selected Association Class.  Are you sure you want to continue?";
+					MessageDialog messageDialog = new MessageDialog(TigerstripeDiagramEditorPlugin.getInstance().getWorkbench().getDisplay().getActiveShell(), "Warning", null, message, MessageDialog.WARNING, new String[]{"No", "Yes"}, 1);
+					int result = messageDialog.open();
+					if (result==0 || result==SWT.DEFAULT)
+						return false;
+				}
+			}
+			
 			Collection<DiagramEditor> partsToSave = getPartsToSave(contextParts);
 
 			if (!parents.isEmpty() || !children.isEmpty()
