@@ -96,7 +96,7 @@ public class CommonArtifactAuditor extends AbstractArtifactAuditor implements
 									+ artifact.getFullyQualifiedName()
 									+ "."
 									+ field.getName()
-									+ "' attribute is incorrect. Default value should mutch following reqular expression: "
+									+ "' attribute is incorrect. Default value should match following reqular expression: "
 									+ primitiveTypeDef
 											.getValidationExpression(),
 							(IResource) getArtifact().getAdapter(
