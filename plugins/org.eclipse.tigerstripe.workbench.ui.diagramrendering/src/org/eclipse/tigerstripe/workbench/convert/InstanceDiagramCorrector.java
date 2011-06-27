@@ -35,9 +35,11 @@ public class InstanceDiagramCorrector {
 		Set<String> toDelete = new HashSet<String>();
 
 		Iterator<ClassInstance> cit = classInstances.iterator();
+		Set<String> classesFqns = new HashSet<String>(classInstances.size());
 		while (cit.hasNext()) {
 			ClassInstance ci = cit.next();
 			String fqn = ci.getFullyQualifiedName();
+			classesFqns.add(fqn);
 			IAbstractArtifact art = artifactManager
 					.getArtifactByFullyQualifiedName(fqn, true, monitor);
 			if (art == null) {
@@ -58,7 +60,7 @@ public class InstanceDiagramCorrector {
 			if (art == null) {
 				toDelete.add(fqn);
 			}
-			if (art instanceof IAssociationClassArtifact) {
+			if ((art instanceof IAssociationClassArtifact) && !classesFqns.contains(fqn)) {
 				toDelete.add(fqn);
 			}
 		}
