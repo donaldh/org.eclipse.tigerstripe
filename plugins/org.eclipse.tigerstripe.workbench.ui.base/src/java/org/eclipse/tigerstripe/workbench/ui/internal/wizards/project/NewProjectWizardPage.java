@@ -41,6 +41,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.preferences.GeneralPreferencePage;
 import org.eclipse.tigerstripe.workbench.ui.internal.preferences.GenerationPreferencePage;
+import org.eclipse.tigerstripe.workbench.ui.internal.preferences.TSPreferences;
 
 /**
  * The "New" wizard page allows setting the container for the new file as well
@@ -228,9 +229,6 @@ public class NewProjectWizardPage extends WizardPage {
 	}
 
 	public void createDefaultValuesGroup(Composite parent) {
-
-		Preferences store = EclipsePlugin.getDefault().getPluginPreferences();
-
 		Group projectNature = new Group(parent, SWT.NULL);
 		projectNature.setText("Project Defaults");
 		final GridLayout natureGridLayout = new GridLayout();
@@ -248,14 +246,8 @@ public class NewProjectWizardPage extends WizardPage {
 		defaultArtifactPackageText = new Text(projectNature, SWT.BORDER);
 		defaultArtifactPackageText.setLayoutData(new GridData(
 				GridData.FILL_HORIZONTAL));
-
-		if ("".equals(store.getString(GeneralPreferencePage.P_DEFAULTPACKAGE))
-				|| store.getString(GeneralPreferencePage.P_DEFAULTPACKAGE) == null) {
-			defaultArtifactPackageText.setText("com.mycompany");
-		} else {
-			defaultArtifactPackageText.setText(store
-					.getString(GeneralPreferencePage.P_DEFAULTPACKAGE));
-		}
+		defaultArtifactPackageText.setText(TSPreferences
+				.defaultArtifactPackage());
 	}
 
 	/**
