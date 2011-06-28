@@ -17,7 +17,7 @@ public interface IPrimitiveTypeArtifact extends IAbstractArtifact,
 
 	public final static String[][] reservedPrimitiveTypes = {
 			{ "int", "Reserved int primitive Type.", "^[-+]?[0-9]*" },
-			{ "char", "Reserved char primitive Type.", null },
+			{ "char", "Reserved char primitive Type.", ".{1}" },
 			{ "boolean", "Reserved boolean primitive Type.", "1|0|true|false" },
 			{ "byte", "Reserved byte primitive Type.", "^[-+]?[0-9]*" },
 			{ "double", "Reserved double primitive Type.",
