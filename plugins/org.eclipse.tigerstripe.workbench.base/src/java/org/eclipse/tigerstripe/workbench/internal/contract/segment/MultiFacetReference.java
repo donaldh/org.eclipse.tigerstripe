@@ -37,8 +37,7 @@ public class MultiFacetReference extends FacetReference {
 	}
 
 	@Override
-	public IFacetPredicate computeFacetPredicate(
-			IProgressMonitor monitor) {
+	public IFacetPredicate computeFacetPredicate(IProgressMonitor monitor) {
 
 		facetPredicate = new LogicalFacetPredicate(LogicalPredicate.OR);
 		for (IFacetReference facet : facets) {
@@ -87,5 +86,31 @@ public class MultiFacetReference extends FacetReference {
 		name = name + ">";
 
 		combinedFacet.setName(name);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((facets == null) ? 0 : facets.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (getClass() != obj.getClass())
+			return false;
+		MultiFacetReference other = (MultiFacetReference) obj;
+		if (this.facets.size() != other.facets.size()) {
+			return false;
+		}
+		for (IFacetReference reference : this.facets) {
+			if (!other.facets.contains(reference)) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

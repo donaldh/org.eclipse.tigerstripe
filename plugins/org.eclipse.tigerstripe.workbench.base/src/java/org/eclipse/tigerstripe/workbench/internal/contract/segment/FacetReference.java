@@ -271,7 +271,10 @@ public class FacetReference extends AbstractContainedObject implements
 		if (obj instanceof IFacetReference) {
 			IFacetReference other = (IFacetReference) obj;
 			try {
-				return other.getURI().equals(getURI());
+				URI otherURI = other.getURI();
+				if (otherURI != null) {
+					return otherURI.equals(getURI());
+				}
 			} catch (TigerstripeException e) {
 				TigerstripeRuntime.logErrorMessage(
 						"TigerstripeException detected", e);
@@ -279,6 +282,20 @@ public class FacetReference extends AbstractContainedObject implements
 			}
 		}
 		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		try {
+			URI uri = getURI();
+			if (uri != null) {
+				return uri.hashCode();
+			}
+		} catch (TigerstripeException e) {
+			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
+					e);
+		}
+		return super.hashCode();
 	}
 
 	public void artifactAdded(IAbstractArtifact artifact) {

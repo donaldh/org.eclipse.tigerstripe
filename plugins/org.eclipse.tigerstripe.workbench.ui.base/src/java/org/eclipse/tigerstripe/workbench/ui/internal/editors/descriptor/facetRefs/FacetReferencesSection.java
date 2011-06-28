@@ -32,6 +32,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -44,6 +45,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForFacetsDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.FacetSelectionDialog;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.IFocusedControlProvider;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.DescriptorEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.TigerstripeDescriptorSectionPart;
@@ -55,11 +57,10 @@ import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
 import org.eclipse.ui.forms.widgets.FormToolkit;
-import org.eclipse.ui.forms.widgets.ScrolledForm;
 import org.eclipse.ui.forms.widgets.Section;
 
 public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
-		implements IFormPart {
+		implements IFormPart, IFocusedControlProvider {
 
 	protected DetailsPart detailsPart;
 
@@ -84,7 +85,6 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 	@Override
 	public void createContent() {
 		IManagedForm managedForm = getPage().getManagedForm();
-		final ScrolledForm form = managedForm.getForm();
 		FormToolkit toolkit = getToolkit();
 
 		GridData td = new GridData(GridData.FILL_BOTH);
@@ -523,5 +523,12 @@ public class FacetReferencesSection extends TigerstripeDescriptorSectionPart
 	@Override
 	public boolean isReadonly() {
 		return super.isReadonly();
+	}
+
+	public Control getFocusedControl() {
+		if (viewer != null) {
+			return viewer.getControl();
+		}
+		return null;
 	}
 }

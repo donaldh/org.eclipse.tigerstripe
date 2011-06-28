@@ -55,6 +55,8 @@ public class FacetReferencesPage extends TigerstripeFormPage {
 		body.setLayout(TigerstripeLayoutFactory.createPageGridLayout(1, false));
 
 		// sections
+		managedForm.addPart(new FacetReferencesDescriptionSection(this, body,
+				toolkit));
 		managedForm.addPart(new FacetReferencesSection(this, body, toolkit));
 	}
 }
