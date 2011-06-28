@@ -10,7 +10,6 @@ import org.eclipse.core.commands.operations.IUndoableOperation;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
@@ -42,12 +41,14 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.ManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.NamedQueryArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.NotificationArtifact;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.QualifiedNamedElement;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.SessionFacadeArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.UpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.util.VisualeditorSwitch;
 
 public class ClassDiagramCorrector {
 
+	@SuppressWarnings("unchecked")
 	public void correct(DiagramEditPart part, ArtifactManager artifactManager,
 			IProgressMonitor monitor) {
 
@@ -55,36 +56,47 @@ public class ClassDiagramCorrector {
 
 		Map map = (Map) diagram.getElement();
 
-		@SuppressWarnings("unchecked")
-		EList<AbstractArtifact> artifacts = map.getArtifacts();
+		List<QualifiedNamedElement> artifacts = new ArrayList<QualifiedNamedElement>(); 
 
+		artifacts.addAll(map.getArtifacts());
+		artifacts.addAll(map.getAssociations());
+		artifacts.addAll(map.getDependencies());
+		
 		List<IUndoableOperation> commands = new ArrayList<IUndoableOperation>();
-		for (AbstractArtifact dArt : artifacts) {
+		for (QualifiedNamedElement qe : artifacts) {
 
-			Class<? extends IAbstractArtifact> workspaceType = getWorkspaceType(dArt);
-			String fqn = dArt.getFullyQualifiedName();
+			String fqn = qe.getFullyQualifiedName();
 			org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact wArt = artifactManager
-					.getArtifactByFullyQualifiedName(fqn, true, monitor);
+				.getArtifactByFullyQualifiedName(fqn, true, monitor);
 
 			if (wArt == null) {
 				commands.add(ConvertUtils.makeDeleteFromClassDiagramCommand(
 						part, fqn));
-			} else if (workspaceType != null && !workspaceType.isInstance(wArt)) {
-
-				IUndoableOperation deleteCommand = ConvertUtils
-						.makeDeleteFromClassDiagramCommand(part, fqn);
-				Tuple<Point, Dimension> ps = ConvertUtils.getPointAndSize(part,
-						fqn);
-				List<Provider<IAbstractArtifact>> providers = Collections
-						.<Provider<IAbstractArtifact>> singletonList(new ImmutableProvider<IAbstractArtifact>(
-								wArt));
-				DefferedDropOperation dropOperation = new DefferedDropOperation(
-						part, providers, Collections.singletonList(ps));
-
-				CompositeOperation correctCommand = new CompositeOperation(
-						"Correct " + fqn, Arrays.asList(deleteCommand,
-								dropOperation));
-				commands.add(correctCommand);
+  			}
+			if (qe instanceof AbstractArtifact) {
+				AbstractArtifact dArt = (AbstractArtifact) qe;
+				Class<? extends IAbstractArtifact> workspaceType = getWorkspaceType(dArt);
+				
+				if (wArt == null) {
+					commands.add(ConvertUtils.makeDeleteFromClassDiagramCommand(
+							part, fqn));
+				} else if (workspaceType != null && !workspaceType.isInstance(wArt)) {
+					
+					IUndoableOperation deleteCommand = ConvertUtils
+					.makeDeleteFromClassDiagramCommand(part, fqn);
+					Tuple<Point, Dimension> ps = ConvertUtils.getPointAndSize(part,
+							fqn);
+					List<Provider<IAbstractArtifact>> providers = Collections
+					.<Provider<IAbstractArtifact>> singletonList(new ImmutableProvider<IAbstractArtifact>(
+							wArt));
+					DefferedDropOperation dropOperation = new DefferedDropOperation(
+							part, providers, Collections.singletonList(ps));
+					
+					CompositeOperation correctCommand = new CompositeOperation(
+							"Correct " + fqn, Arrays.asList(deleteCommand,
+									dropOperation));
+					commands.add(correctCommand);
+				}
 			}
 		}
 		doConvert(commands, null);
