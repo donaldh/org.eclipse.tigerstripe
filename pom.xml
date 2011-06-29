@@ -17,7 +17,7 @@
 	<osgi.ws>gtk</osgi.ws>
 	<junit.args>-Xms256m -Xmx1024m -XX:MaxPermSize=512m</junit.args>
 	<!--Update site with Tigerstripe specific extensions for Q7.-->
-	<tigerstripe.ecl.update.site>http://pulse-prd-sj1/update_sites/org.eclipse.tigerstripe.ecl/ts-ecl/1.0.0.201106162003/</tigerstripe.ecl.update.site>
+	<tigerstripe.ecl.update.site>http://pulse-prd-sj1/update_sites/org.eclipse.tigerstripe.ecl/ts-ecl/1.0.0.201106162003</tigerstripe.ecl.update.site>
   </properties>
 	
   <modules>
@@ -122,7 +122,7 @@
 	<profile>
 		<id>external-repositories</id>
 		<properties>
-			<tigerstripe.ecl.update.site>http://build.xored.com/browse/TS-ECL/latest/artifact/JOB1/site/</tigerstripe.ecl.update.site>
+			<tigerstripe.ecl.update.site>http://build.xored.com/browse/TS-ECL/latest/artifact/JOB1/site</tigerstripe.ecl.update.site>
   		</properties>
 		<repositories>
 			<repository>

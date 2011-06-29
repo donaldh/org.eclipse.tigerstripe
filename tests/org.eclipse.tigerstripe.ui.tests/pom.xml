@@ -25,6 +25,11 @@
         	<configuration>
           		<aut>
     				<explicit>../../releng/org.eclipse.tigerstripe.rcp/target/products/org.eclipse.tigerstripe.rcp-${osgi.os}.${osgi.ws}.${osgi.arch}.zip</explicit>
+    				<injections> 
+        				<injection> 
+            				<site>${tigerstripe.ecl.update.site}</site>            			 
+        				</injection> 
+    				</injections>
 				</aut>
 				<q7>
 					<version>1.0.0-RC3</version>
@@ -33,14 +38,6 @@
           			<vmArgs>-Xms128m;-Xmx512m;-XX:PermSize=128M;-XX:MaxPermSize=512M</vmArgs>
     				<execTimeout>60min</execTimeout>
           		</testOptions>
-          		<injections> 
-        			<injection> 
-            			<site>${tigerstripe.ecl.update.site}</site> 
-            			<features> 
-                 			<feature>org.eclipse.tigerstripe.ecl.feature</feature> 
-            			</features> 
-        			</injection> 
-    			</injections>
         	</configuration>
       </plugin>
     </plugins>
