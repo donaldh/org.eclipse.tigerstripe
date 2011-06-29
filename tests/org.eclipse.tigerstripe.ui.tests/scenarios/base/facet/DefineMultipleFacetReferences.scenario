@@ -28,40 +28,36 @@ get-button "Save (Ctrl+S)" | click
 get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/tigerstripe.xml" | double-click -nowait
 with [get-editor "model-refactoring/tigerstripe.xml"] {
     get-tab-folder | get-tab-item Facets | click
-    get-section | get-section "Facet References" | get-button Add | click
+    get-section "Facet References" | get-button Add | click
 }
 with [get-window "Select Facets"] {
     get-tree | select "AnotherFacet.wfc" "default.wfc"
     get-button OK | click
 }
 get-button "Save (Ctrl+S)" | click
-get-editor "model-refactoring/tigerstripe.xml" | get-section -after [get-label "Facets References"] 
-    | get-section "Facet References" | get-table -after [get-label "Facet References"] | select "AnotherFacet.wfc"
-get-editor "model-refactoring/tigerstripe.xml" | get-section -after [get-label "Facets References"] 
-    | get-section "Facet References" | get-table -after [get-label "Facet References"] | get-item "AnotherFacet.wfc" 
+get-editor "model-refactoring/tigerstripe.xml" | get-section -index 1 | get-section "Facet References" | get-table | select "AnotherFacet.wfc"
+get-editor "model-refactoring/tigerstripe.xml" | get-section --index 1 | get-section "Facet References" | get-table | get-item "AnotherFacet.wfc" 
     | get-property caption | equals "AnotherFacet.wfc" | verify-true
-get-editor "model-refactoring/tigerstripe.xml" | get-section -after [get-label "Facets References"] 
-    | get-section "Facet Reference Details" | get-editbox -after [get-label "Name:"] | get-property value 
+get-editor "model-refactoring/tigerstripe.xml" | get-section -index 1 | get-section "Facet Reference Details" 
+    | get-editbox -after [get-label "Name:"] | get-property value 
     | equals AnotherFacet | verify-true
-get-editor "model-refactoring/tigerstripe.xml" | get-section -after [get-label "Facets References"] 
-    | get-section "Facet Reference Details" | get-editbox -after [get-label "Version:"] | get-property value 
+get-editor "model-refactoring/tigerstripe.xml" | get-section -index 1 | get-section "Facet Reference Details" 
+    | get-editbox -after [get-label "Version:"] | get-property value 
     | equals "2.0" | verify-true
-get-editor "model-refactoring/tigerstripe.xml" | get-section -after [get-label "Facets References"] 
-    | get-section "Facet Reference Details" | get-editbox -after [get-label "Description:"] | get-property value 
+get-editor "model-refactoring/tigerstripe.xml" | get-section -index 1 | get-section "Facet Reference Details" 
+    | get-editbox -after [get-label "Description:"] | get-property value 
     | equals "another facet description" | verify-true
-get-editor "model-refactoring/tigerstripe.xml" | get-section -after [get-label "Facets References"] 
-    | get-section "Facet References" | get-table -after [get-label "Facet References"] | select "default.wfc"
-get-editor "model-refactoring/tigerstripe.xml" | get-section -after [get-label "Facets References"] 
-    | get-section "Facet References" | get-table -after [get-label "Facet References"] | get-item "default.wfc" 
+get-editor "model-refactoring/tigerstripe.xml" | get-section -index 1 | get-section "Facet References" | get-table | select "default.wfc"    
+get-editor "model-refactoring/tigerstripe.xml" | get-section -index 1 | get-section "Facet References" | get-table | get-item "default.wfc" 
     | get-property caption | equals "default.wfc" | verify-true
-get-editor "model-refactoring/tigerstripe.xml" | get-section -after [get-label "Facets References"] 
-    | get-section "Facet Reference Details" | get-editbox -after [get-label "Name:"] | get-property value 
+get-editor "model-refactoring/tigerstripe.xml" | get-section -index 1 | get-section "Facet Reference Details" 
+    | get-editbox -after [get-label "Name:"] | get-property value 
     | equals "default facet" | verify-true
-get-editor "model-refactoring/tigerstripe.xml" | get-section -after [get-label "Facets References"] 
-    | get-section "Facet Reference Details" | get-editbox -after [get-label "Version:"] | get-property value 
+get-editor "model-refactoring/tigerstripe.xml" | get-section -index 1 | get-section "Facet Reference Details" 
+    | get-editbox -after [get-label "Version:"] | get-property value 
     | equals "1.0" | verify-true
-get-editor "model-refactoring/tigerstripe.xml" | get-section -after [get-label "Facets References"] 
-    | get-section "Facet Reference Details" | get-editbox -after [get-label "Description:"] | get-property value 
+get-editor "model-refactoring/tigerstripe.xml" | get-section -index 1 | get-section "Facet Reference Details" 
+    | get-editbox -after [get-label "Description:"] | get-property value 
     | equals "default facet description" | verify-true]]></content>
   </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">

@@ -13,15 +13,15 @@ get-window "New Generator Project Generator" | get-button OK | click
 get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/tigerstripe.xml" | double-click -nowait
 with [get-editor "model-refactoring/tigerstripe.xml"] {
     get-tab-folder | get-tab-item Facets | click
-    get-section -after [get-label "Facets References"] | get-section "Facet References" | get-button Add | click
+    get-section -index 1 | get-section "Facet References" | get-button Add | click
 }
 with [get-window "Select Facets"] {
     get-tree | select "default.wfc"
     get-button OK | click
 }
 get-button "Save (Ctrl+S)" | click
-with [get-editor "model-refactoring/tigerstripe.xml" | get-section -after [get-label "Facets References"]] {
-    get-section "Facet References" | get-table -after [get-label "Facet References"] | select "default.wfc" 
+with [get-editor "model-refactoring/tigerstripe.xml" | get-section -index 1] {
+    get-section "Facet References" | get-table | select "default.wfc" 
         | double-click -nowait
     get-section "Facet Reference Details" | get-editbox -after [get-label "Output Directory:"] | set-text defaultfacet
 }

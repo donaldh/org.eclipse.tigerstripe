@@ -1,6 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" name="DefineFacetReferences" version="3.0" id="_6pcXYDs5EeCt76CYYPZ_qw" description="Define a facet to use with Tigerstripe project&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;Tigerstripe project with defined facet&#xD;&#xA;&#xD;&#xA;Steps&#xD;&#xA;   1. Open the Facets tab in Tigerstripe Project in Editor.&#xD;&#xA;   2. Check empty facet list and enabled buttons.&#xD;&#xA;   3. Click Add to add a facet to the project.&#xD;&#xA;   4. Select facet in the Select Facets dialog box. Click OK.&#xD;&#xA;   5. Check selected facet in the Facets tab. Check facet details.&#xD;&#xA;" tags="TS_Project/Facet/References" type="ecl" externalReference="http://docs.xored.com/display/TS/DefineFacetReferences">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="DefineFacetReferences" version="3.0" id="_6pcXYDs5EeCt76CYYPZ_qw" description="Define a facet to use with Tigerstripe project&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;Tigerstripe project with defined facet&#xD;&#xA;&#xD;&#xA;Steps&#xD;&#xA;   1. Open the Facets tab in Tigerstripe Project in Editor.&#xD;&#xA;   2. Check empty facet list and enabled buttons.&#xD;&#xA;   3. Click Add to add a facet to the project.&#xD;&#xA;   4. Select facet in the Select Facets dialog box. Click OK.&#xD;&#xA;   5. Check selected facet in the Facets tab. Check facet details.&#xD;&#xA;" tags="TS_Project/Facet/References" type="ecl" externalReference="http://docs.xored.com/display/TS/DefineFacetReferences">
   <contexts>_FyZMUDs7EeCt76CYYPZ_qw</contexts>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/tigerstripe.xml" | double-click -nowait
+get-editor "model-refactoring/tigerstripe.xml" | get-tab-folder | get-tab-item Facets | click
+get-editor "model-refactoring/tigerstripe.xml" | get-section -index 1 | get-section "Facet References" | get-table 
+    | get-property itemCount | equals 0 | verify-true
+get-editor "model-refactoring/tigerstripe.xml" | get-section -index 1 | get-section "Facet References" | get-button Add
+    | get-property enablement | equals true | verify-true
+with [get-editor "model-refactoring/tigerstripe.xml" | get-section -index 1 | get-section "Facet References" | get-button "Add From..."] {
+    get-property enablement | equals false | verify-true
+    get-property caption | equals "Add From..." | verify-true
+}
+with [get-editor "model-refactoring/tigerstripe.xml" | get-section -index 1 | get-section "Facet References" | get-button Remove] {
+    get-property enablement | equals false | verify-true
+    get-property caption | equals Remove | verify-true
+}
+get-editor "model-refactoring/tigerstripe.xml" | get-section -index 1 | get-section "Facet References" | get-button Add | click
+with [get-window "Select Facets"] {
+    get-tree | select "default.wfc"
+    get-button OK | click
+}
+get-button "Save (Ctrl+S)" | click
+get-editor "model-refactoring/tigerstripe.xml" | get-section -index 1 | get-section "Facet References" | get-table | get-property itemCount 
+    | equals 1 | verify-true
+get-editor "model-refactoring/tigerstripe.xml" | get-section -index 1 | get-section "Facet References" | get-table | get-item "default.wfc" 
+    | get-property caption | equals "default.wfc" | verify-true
+get-editor "model-refactoring/tigerstripe.xml" | get-section -index 1 | get-section "Facet References" | get-table | select "default.wfc"
+with [get-editor "model-refactoring/tigerstripe.xml" | get-section -index 1 | get-section "Facet Reference Details" 
+    | get-editbox -after [get-label "Name:"]] {
+    get-property readOnly | equals true | verify-true
+    get-property rawValue | equals "default facet" | verify-true
+}
+with [get-editor "model-refactoring/tigerstripe.xml" | get-section -index 1 | get-section "Facet Reference Details" 
+    | get-editbox -after [get-label "Version:"]] {
+    get-property readOnly | equals true | verify-true
+    get-property rawValue | equals "1.0" | verify-true
+}
+with [get-editor "model-refactoring/tigerstripe.xml" | get-section -index 1 | get-section "Facet Reference Details" 
+    | get-editbox -after [get-label "Description:"]] {
+    get-property readOnly | equals true | verify-true
+    get-property rawValue | equals "default facet description" | verify-true
+}
+with [get-editor "model-refactoring/tigerstripe.xml" | get-section -index 1 | get-section "Facet Reference Details" 
+    | get-editbox -after [get-label "Output Directory:"]] {
+    get-property readOnly | equals false | verify-true
+    get-property rawValue | equals "" | verify-true
+}
+with [get-editor "model-refactoring/tigerstripe.xml" | get-section -index 1 | get-section "Facet References" 
+    | get-button "Merge all facets for generation"] {
+    get-property caption | equals "Merge all facets for generation" | verify-true
+    get-property selected | equals false | verify-true
+}]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
