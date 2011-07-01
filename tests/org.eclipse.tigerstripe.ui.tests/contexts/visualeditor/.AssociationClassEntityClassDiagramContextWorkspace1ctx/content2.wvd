@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:null="null" xmi:id="_wzKcwKOaEeCAntghzNI18g" type="Tigerstripe" name="Class Diagram.wvd" measurementUnit="Pixel">
+  <children xmi:type="notation:Node" xmi:id="_3R1wYKOaEeCAntghzNI18g" type="1003">
+    <children xmi:type="notation:Node" xmi:id="_3R3lkKOaEeCAntghzNI18g" type="4005"/>
+    <children xmi:type="notation:Node" xmi:id="_3R4MoKOaEeCAntghzNI18g" type="4006"/>
+    <children xmi:type="notation:Node" xmi:id="_3R5awKOaEeCAntghzNI18g" type="5003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_3R5awaOaEeCAntghzNI18g"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_3R5awqOaEeCAntghzNI18g"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_3R5aw6OaEeCAntghzNI18g"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_3R6B0KOaEeCAntghzNI18g" type="5004">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_3R6B0aOaEeCAntghzNI18g"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_3R6B0qOaEeCAntghzNI18g"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_3R6B06OaEeCAntghzNI18g"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_3R1wYaOaEeCAntghzNI18g" fontName="Segoe UI"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_3R1wYqOaEeCAntghzNI18g"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_3R1wY6OaEeCAntghzNI18g" fillColor="13825530"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_3R1wZKOaEeCAntghzNI18g"/>
+    <element xmi:type="null:ManagedEntityArtifact" href="Class Diagram.vwm#//@artifacts.0"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_3R1wZaOaEeCAntghzNI18g" x="185" y="35"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_3SzZsKOaEeCAntghzNI18g" type="1003">
+    <children xmi:type="notation:Node" xmi:id="_3S0AwKOaEeCAntghzNI18g" type="4005"/>
+    <children xmi:type="notation:Node" xmi:id="_3S0AwaOaEeCAntghzNI18g" type="4006"/>
+    <children xmi:type="notation:Node" xmi:id="_3S0AwqOaEeCAntghzNI18g" type="5003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_3S0Aw6OaEeCAntghzNI18g"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_3S0AxKOaEeCAntghzNI18g"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_3S0AxaOaEeCAntghzNI18g"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_3S0n0KOaEeCAntghzNI18g" type="5004">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_3S0n0aOaEeCAntghzNI18g"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_3S0n0qOaEeCAntghzNI18g"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_3S0n06OaEeCAntghzNI18g"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_3SzZsaOaEeCAntghzNI18g" fontName="Segoe UI"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_3SzZsqOaEeCAntghzNI18g"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_3SzZs6OaEeCAntghzNI18g" fillColor="13825530"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_3SzZtKOaEeCAntghzNI18g"/>
+    <element xmi:type="null:ManagedEntityArtifact" href="Class Diagram.vwm#//@artifacts.1"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_3SzZtaOaEeCAntghzNI18g" x="410" y="45"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_SkAHwKOgEeCAntghzNI18g" type="1009">
+    <children xmi:type="notation:Node" xmi:id="_SkAu0KOgEeCAntghzNI18g" type="4018"/>
+    <children xmi:type="notation:Node" xmi:id="_SkAu0aOgEeCAntghzNI18g" type="4019"/>
+    <children xmi:type="notation:Node" xmi:id="_SkAu0qOgEeCAntghzNI18g" type="5011">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_SkAu06OgEeCAntghzNI18g"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_SkAu1KOgEeCAntghzNI18g"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_SkAu1aOgEeCAntghzNI18g"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_SkBV4KOgEeCAntghzNI18g" type="5012">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_SkBV4aOgEeCAntghzNI18g"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_SkBV4qOgEeCAntghzNI18g"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_SkBV46OgEeCAntghzNI18g"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_SkAHwaOgEeCAntghzNI18g" fontName="Segoe UI"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_SkAHwqOgEeCAntghzNI18g"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_SkAHw6OgEeCAntghzNI18g" fillColor="13825530"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_SkAHxKOgEeCAntghzNI18g"/>
+    <element xmi:type="null:AssociationClassClass" href="Class Diagram.vwm#//@artifacts.2"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_SkAHxaOgEeCAntghzNI18g" x="80" y="210"/>
+  </children>
+  <styles xmi:type="notation:PageStyle" xmi:id="_wzKcwaOaEeCAntghzNI18g"/>
+  <styles xmi:type="notation:GuideStyle" xmi:id="_wzKcwqOaEeCAntghzNI18g"/>
+  <styles xmi:type="notation:DescriptionStyle" xmi:id="_wzKcw6OaEeCAntghzNI18g"/>
+  <element xmi:type="null:Map" href="Class Diagram.vwm#/"/>
+  <edges xmi:type="notation:Edge" xmi:id="_Sj6BIKOgEeCAntghzNI18g" type="3010" source="_3R1wYKOaEeCAntghzNI18g" target="_3SzZsKOaEeCAntghzNI18g">
+    <children xmi:type="notation:Node" xmi:id="_Sj6oMKOgEeCAntghzNI18g" type="4034">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_Sj6oMaOgEeCAntghzNI18g" y="15"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_Sj6oMqOgEeCAntghzNI18g" type="4035">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_Sj6oM6OgEeCAntghzNI18g" x="-5" y="15"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_Sj6oNKOgEeCAntghzNI18g" type="4036">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_Sj6oNaOgEeCAntghzNI18g" y="-15"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_Sj6oNqOgEeCAntghzNI18g" type="4037">
+      <layoutConstraint xmi:type="notation:Location" xmi:id="_Sj6oN6OgEeCAntghzNI18g" x="-5" y="-15"/>
+    </children>
+    <styles xmi:type="notation:RoutingStyle" xmi:id="_Sj6BIaOgEeCAntghzNI18g"/>
+    <styles xmi:type="notation:FontStyle" xmi:id="_Sj6BIqOgEeCAntghzNI18g" fontName="Segoe UI"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_Sj6BI6OgEeCAntghzNI18g"/>
+    <element xmi:type="null:AssociationClass" href="Class Diagram.vwm#//@associations.0"/>
+    <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_Sj6BJKOgEeCAntghzNI18g" points="[28, 0, -87, 0]$[87, 0, -28, 0]"/>
+  </edges>
+</notation:Diagram>

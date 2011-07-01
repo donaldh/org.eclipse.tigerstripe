@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="DatatypeOnDiagramContextWorkspace" id="_llELsKLhEeCnVOKduz-xbg" description="Tigerstripe project with Datatype and Datatype2 with attribute, constant and method&#xD;&#xA;Datatypes are added on Class Diagram" tags="Datatype, ClassDiagram">
+  <content>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".DatatypeOnDiagramContextWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".DatatypeOnDiagramContextWorkspacectx/content1.project"/>
+      <files name="tigerstripe.xml" contentURI=".DatatypeOnDiagramContextWorkspacectx/content1.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".DatatypeOnDiagramContextWorkspacectx/content1.prefs"/>
+      </folders>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".DatatypeOnDiagramContextWorkspacectx/content4.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".DatatypeOnDiagramContextWorkspacectx/content3.package"/>
+            <files name="ClassDiagram.vwm" contentURI=".DatatypeOnDiagramContextWorkspacectx/content2.vwm"/>
+            <files name="ClassDiagram.wvd" contentURI=".DatatypeOnDiagramContextWorkspacectx/content2.wvd"/>
+            <files name="Datatype.java" contentURI=".DatatypeOnDiagramContextWorkspacectx/content1.java"/>
+            <files name="Datatype2.java" contentURI=".DatatypeOnDiagramContextWorkspacectx/content2.java"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

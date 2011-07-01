@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:null="null" xmi:id="_9XAo8KFXEeCTZLW_k-CmJw" type="Tigerstripe" name="ClassDiagram.wvd" measurementUnit="Pixel">
+  <children xmi:type="notation:Node" xmi:id="_e4L8wKFcEeCrftZBMrv15g" type="1003">
+    <children xmi:type="notation:Node" xmi:id="_e4Mj0KFcEeCrftZBMrv15g" type="4005"/>
+    <children xmi:type="notation:Node" xmi:id="_e4NK4KFcEeCrftZBMrv15g" type="4006"/>
+    <children xmi:type="notation:Node" xmi:id="_e4NK4aFcEeCrftZBMrv15g" type="5003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_e4NK4qFcEeCrftZBMrv15g"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_e4NK46FcEeCrftZBMrv15g"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_e4NK5KFcEeCrftZBMrv15g"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_e4Nx8KFcEeCrftZBMrv15g" type="5004">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_e4Nx8aFcEeCrftZBMrv15g"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_e4Nx8qFcEeCrftZBMrv15g"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_e4Nx86FcEeCrftZBMrv15g"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_e4L8waFcEeCrftZBMrv15g" fontName="Segoe UI"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_e4L8wqFcEeCrftZBMrv15g"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_e4L8w6FcEeCrftZBMrv15g" fillColor="13825530"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_e4L8xKFcEeCrftZBMrv15g"/>
+    <element xmi:type="null:ManagedEntityArtifact" href="ClassDiagram.vwm#//@artifacts.0"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_e4L8xaFcEeCrftZBMrv15g" x="89" y="104"/>
+  </children>
+  <children xmi:type="notation:Node" xmi:id="_hb1lQKFcEeCrftZBMrv15g" type="1003">
+    <children xmi:type="notation:Node" xmi:id="_hb2MUKFcEeCrftZBMrv15g" type="4005"/>
+    <children xmi:type="notation:Node" xmi:id="_hb2MUaFcEeCrftZBMrv15g" type="4006"/>
+    <children xmi:type="notation:Node" xmi:id="_hb2MUqFcEeCrftZBMrv15g" type="5003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_hb2MU6FcEeCrftZBMrv15g"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_hb2MVKFcEeCrftZBMrv15g"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_hb2MVaFcEeCrftZBMrv15g"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_hb2zYKFcEeCrftZBMrv15g" type="5004">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_hb2zYaFcEeCrftZBMrv15g"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_hb2zYqFcEeCrftZBMrv15g"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_hb2zY6FcEeCrftZBMrv15g"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_hb1lQaFcEeCrftZBMrv15g" fontName="Segoe UI"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_hb1lQqFcEeCrftZBMrv15g"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_hb1lQ6FcEeCrftZBMrv15g" fillColor="13825530"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_hb1lRKFcEeCrftZBMrv15g"/>
+    <element xmi:type="null:ManagedEntityArtifact" href="ClassDiagram.vwm#//@artifacts.1"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_hb1lRaFcEeCrftZBMrv15g" x="300" y="110"/>
+  </children>
+  <styles xmi:type="notation:PageStyle" xmi:id="_9XAo8aFXEeCTZLW_k-CmJw"/>
+  <styles xmi:type="notation:GuideStyle" xmi:id="_9XAo8qFXEeCTZLW_k-CmJw"/>
+  <styles xmi:type="notation:DescriptionStyle" xmi:id="_9XAo86FXEeCTZLW_k-CmJw"/>
+  <element xmi:type="null:Map" href="ClassDiagram.vwm#/"/>
+</notation:Diagram>

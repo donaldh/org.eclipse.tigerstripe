@@ -1,6 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ConvertAssociationClassToAssociation_NoExtends" version="3.0" id="__dFhQI2mEeCQJ7V2A3r4wA" description=" Convert Association Class to Association and vice versa on Class diagram &#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;ArtifactsContext&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;    Create class diagram and add Association Class to the diagram.&#xD;&#xA;    Select Association Class line and select 'convert to Association'&#xD;&#xA;    Check warning message and save changes&#xD;&#xA;    Check that artifact is converted&#xD;&#xA;    Select Association line and select 'convert to Association Class'&#xD;&#xA;    Check that artifact is converted&#xD;&#xA;&#xD;&#xA;" tags="TS_Project/VisualEditor, I35" type="ecl" externalReference="http://docs.xored.com/display/TS/ConvertAssociationClassToAssociation_NoExtends">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="ConvertAssociationClassToAssociation_NoExtends" version="3.0" id="__dFhQI2mEeCQJ7V2A3r4wA" description=" Convert Association Class to Association and vice versa on Class diagram &#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;ArtifactsContext&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;    Create class diagram and add Association Class to the diagram.&#xD;&#xA;    Select Association Class line and select 'convert to Association'&#xD;&#xA;    Check warning message and save changes&#xD;&#xA;    Check that artifact is converted&#xD;&#xA;    Select Association line and select 'convert to Association Class'&#xD;&#xA;    Check that artifact is converted&#xD;&#xA;&#xD;&#xA;" tags="TS_Project/VisualEditor, I35" type="ecl" externalReference="http://docs.xored.com/display/TS/ConvertAssociationClassToAssociation_NoExtends">
   <contexts>_aOd6IKw8Ed-cSZ2bfD-mDg</contexts>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse" | get-menu "New/Class Diagram" | click
+get-window "New Tigerstripe Diagram" | get-button Finish | click
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse/AssocClass0" 
+    | get-item "New Project/src/org.eclipse/AssocClass0" | drag-start 31 13 none
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    drag-enter 32 90 none -detail 2 -operation 7
+    drag-over 249 90 none -detail 1 -operation 7
+    drag-exit -button none
+    drag-accept 249 90 none -detail 1 -operation 7
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project" | drag-set-data "-41" -button none
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | drop 249 90 none -detail 1 -operation 7
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project" | drag-end "-41" -button none -detail 1
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    mouse-move 244 251 button1 -height 356 -width 596
+    mouse-press 244 251 button1 -height 356 -width 596
+    mouse-release 244 251 button1 524288 -height 356 -width 596
+    mouse-hover 239 246 -height 356 -width 596
+}
+get-button "Save (Ctrl+S)" | click
+with [get-editor "default.wvd"] {
+    with [get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity1 | get-target-connection 2] {
+        mouse-move 78 39 button1 -height 67 -width 139
+        mouse-press 78 39 button1 -height 67 -width 139
+        mouse-release 78 39 button1 524288 -height 67 -width 139
+        mouse-hover 77 39 -height 67 -width 139
+        mouse-move 77 39 button3 -height 67 -width 139
+        mouse-press 77 39 button3 -height 67 -width 139
+        mouse-release 77 39 button3 2097152 -height 67 -width 139
+    }
+    get-canvas -index 3 | get-menu "Convert to Association..." | click
+}
+get-window Warning 
+    | get-label "Converting to an Association will remove all methods and fields for the selected Association Class.  Are you sure you want to continue?" 
+    | get-property caption 
+    | equals "Converting to an Association will remove all methods and fields for the selected Association Class.  Are you sure you want to continue?" 
+    | verify-true
+get-window Warning | get-button Yes | click
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    mouse-move 461 272 button1 -height 356 -width 596
+    mouse-press 461 272 button1 -height 356 -width 596
+    mouse-release 461 272 button1 524288 -height 356 -width 596
+    mouse-hover 461 272 -height 356 -width 596
+}
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "New Project/src/org.eclipse/AssocClass0" | get-property caption 
+    | equals AssocClass0 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse/AssocClass0" | double-click -nowait
+get-editor AssocClass0 | get-label "Association Artifact" | get-property caption | equals "Association Artifact" 
+    | verify-true
+get-editor AssocClass0 | close
+with [get-editor "default.wvd"] {
+    click -nowait
+    with [get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity1 | get-target-connection 2] {
+        mouse-move 78 40 button1 -height 67 -width 139
+        mouse-press 78 40 button1 -height 67 -width 139
+        mouse-release 78 40 button1 524288 -height 67 -width 139
+        mouse-hover 78 40 -height 67 -width 139
+        mouse-press 78 40 button3 -height 67 -width 139
+        mouse-release 78 40 button3 2097152 -height 67 -width 139
+    }
+    get-canvas -index 3 | get-menu "Convert to Association Class..." | click
+    get-diagram | get-edit-part -className MapEditPart | mouse-hover 588 346 -height 356 -width 596
+}
+get-button "Save (Ctrl+S)" | click
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity1 
+    | get-target-connection 2 | get-property name | equals AssocClass0 | verify-true
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name AssocClass0 
+    | get-property text | equals AssocClass0 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse/AssocClass0" | double-click -nowait
+get-editor AssocClass0 | get-label "Association Class Artifact" | get-property caption 
+    | equals "Association Class Artifact" | verify-true]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -669,7 +743,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.18">
       <elements id="DiagramFigure0" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="356" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" width="596" height="356">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="Tigerstripe"/>
         <__properties name="view.mutable" value="false"/>
@@ -693,7 +767,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.27">
       <elements id="DiagramFigure1" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="356" childrenCount="3" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" width="596" height="356" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="Tigerstripe"/>
         <__properties name="view.mutable" value="false"/>
@@ -963,7 +1037,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.36">
       <elements id="DiagramFigure2" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="250" y="90" width="178" height="64" childrenCount="3" text="Entity0">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Entity0" x="250" y="90" width="178" height="64" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="1003"/>
         <__properties name="view.mutable" value="false"/>
@@ -1007,7 +1081,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.37">
       <elements id="DiagramFigure3" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="384" y="89" width="139" height="67" childrenCount="4" text="11+aEnd_entity0_0+zEnd_entity1_0">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="11+aEnd_entity0_0+zEnd_entity1_0" x="384" y="89" width="139" height="67" childrenCount="4">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="3010"/>
         <__properties name="view.mutable" value="false"/>
@@ -1106,7 +1180,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.38">
       <elements id="DiagramFigure4" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="485" y="90" width="56" height="50" childrenCount="3" text="Entity1">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Entity1" x="485" y="90" width="56" height="50" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="1003"/>
         <__properties name="view.mutable" value="false"/>
@@ -1133,7 +1207,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.39">
       <elements id="DiagramFigure5" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="384" y="89" width="139" height="67" childrenCount="4" text="11+aEnd_entity0_0+zEnd_entity1_0">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="11+aEnd_entity0_0+zEnd_entity1_0" x="384" y="89" width="139" height="67" childrenCount="4">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="3010"/>
         <__properties name="view.mutable" value="false"/>
@@ -1315,7 +1389,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.64">
       <elements id="DiagramFigure6" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="356" childrenCount="2" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" width="596" height="356" childrenCount="2">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="Tigerstripe"/>
         <__properties name="view.mutable" value="false"/>
@@ -1644,7 +1718,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.93">
       <elements id="DiagramFigure7" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="356" childrenCount="2" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" width="596" height="356" childrenCount="2">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="Tigerstripe"/>
         <__properties name="view.mutable" value="false"/>
@@ -1844,7 +1918,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.94">
       <elements id="DiagramFigure8" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="250" y="90" width="178" height="64" childrenCount="3" text="Entity0">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Entity0" x="250" y="90" width="178" height="64" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="1003"/>
         <__properties name="view.mutable" value="false"/>
@@ -1888,7 +1962,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.95">
       <elements id="DiagramFigure9" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="384" y="89" width="139" height="67" childrenCount="6" text="AssocClass011+aEnd_entity0_0+zEnd_entity1_0">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="AssocClass011+aEnd_entity0_0+zEnd_entity1_0" x="384" y="89" width="139" height="67" childrenCount="6">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="3001"/>
         <__properties name="view.mutable" value="false"/>
@@ -1965,7 +2039,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.96">
       <elements id="DiagramFigure10" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="485" y="90" width="56" height="50" childrenCount="3" text="Entity1">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Entity1" x="485" y="90" width="56" height="50" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="1003"/>
         <__properties name="view.mutable" value="false"/>
@@ -1992,7 +2066,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.97">
       <elements id="DiagramFigure11" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="384" y="89" width="139" height="67" childrenCount="6" text="AssocClass011+aEnd_entity0_0+zEnd_entity1_0">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="AssocClass011+aEnd_entity0_0+zEnd_entity1_0" x="384" y="89" width="139" height="67" childrenCount="6">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="3001"/>
         <__properties name="view.mutable" value="false"/>
@@ -2084,7 +2158,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.109">
       <elements id="DiagramFigure12" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="356" childrenCount="3" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" width="596" height="356" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="Tigerstripe"/>
         <__properties name="view.mutable" value="true"/>
@@ -2355,7 +2429,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.118">
       <elements id="DiagramFigure13" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="356" childrenCount="3" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" width="596" height="356" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="Tigerstripe"/>
         <__properties name="view.mutable" value="false"/>
@@ -2591,7 +2665,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.119">
       <elements id="DiagramFigure17" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="485" y="90" width="56" height="50" childrenCount="3" text="Entity1">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Entity1" x="485" y="90" width="56" height="50" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="1003"/>
         <__properties name="view.mutable" value="false"/>
@@ -2618,7 +2692,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.120">
       <elements id="DiagramFigure21" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="384" y="89" width="139" height="67" childrenCount="4" text="11+aEnd_entity0_0+zEnd_entity1_0">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="11+aEnd_entity0_0+zEnd_entity1_0" x="384" y="89" width="139" height="67" childrenCount="4">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="3010"/>
         <__properties name="view.mutable" value="false"/>
@@ -2724,7 +2798,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.125">
       <elements id="DiagramFigure27" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="356" childrenCount="3" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" width="596" height="356" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="Tigerstripe"/>
         <__properties name="view.mutable" value="false"/>
@@ -2960,7 +3034,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.126">
       <elements id="DiagramFigure28" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="298" y="178" width="84" height="50" childrenCount="3" text="AssocClass0">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="AssocClass0" x="298" y="178" width="84" height="50" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="1009"/>
         <__properties name="view.mutable" value="false"/>

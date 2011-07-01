@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ExtendsLink_Remove" version="3.0" id="_DXzGsJx2EeCwQoDghmuRmQ" description="Extended link removes when I select 'Remove' items for extends link&#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;345398_ExtendsLinkContextWorkspace&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;    Open diagram&#xD;&#xA;    Select extends link and open dropdown menu&#xD;&#xA;    Select 'Show Properties View' item&#xD;&#xA;    In Properties View check that Extends link is displayed on diagram&#xD;&#xA;    Select 'Remove from Diagram' item&#xD;&#xA;    In Properties View check that Extends link is not displayed on diagram&#xD;&#xA;    In Editor for extended Entity check that extends is still exists&#xD;&#xA;    Remove Entity from the diagram&#xD;&#xA;    Reopen diagram&#xD;&#xA;    Select extends link and open dropdown menu&#xD;&#xA;    Select 'Remove from Model' item&#xD;&#xA;    In Properties View check that Extends link is not displayed on diagram&#xD;&#xA;    In Editor for extended Entity check that extends is removed" tags="TS_Project/VisualEditor, I36" type="ecl" externalReference="http://docs.xored.com/display/TS/ExtendsLink_Remove">
+  <contexts>_FGfSUKthEd-v8JwXbnu_tQ</contexts>
   <contexts>_XbmosJx1EeCwQoDghmuRmQ</contexts>
+  <contexts>_9D6jAatgEd-v8JwXbnu_tQ</contexts>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -907,7 +909,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.7">
       <elements id="DiagramFigure20" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="356" childrenCount="2" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" width="596" height="356" childrenCount="2">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="Tigerstripe"/>
         <__properties name="view.mutable" value="false"/>
@@ -957,7 +959,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.8">
       <elements id="DiagramFigure21" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="49" y="106" width="43" height="50" childrenCount="3" text="Two">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Two" x="49" y="106" width="43" height="50" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="1003"/>
         <__properties name="view.mutable" value="false"/>
@@ -991,7 +993,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.9">
       <elements id="DiagramFigure22" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="79" y="98" width="181" height="45" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" x="79" y="98" width="181" height="45">
         <__properties name="visible" value="true"/>
         <__properties name="type" value="3007"/>
         <__properties name="mutable" value="false"/>
@@ -1275,7 +1277,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.10">
       <elements id="DiagramFigure23" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="246" y="90" width="42" height="50" childrenCount="3" text="One">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="One" x="246" y="90" width="42" height="50" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="1003"/>
         <__properties name="view.mutable" value="false"/>
@@ -1302,7 +1304,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.11">
       <elements id="DiagramFigure24" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="79" y="98" width="181" height="45" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" x="79" y="98" width="181" height="45">
         <__properties name="visible" value="true"/>
         <__properties name="type" value="3007"/>
         <__properties name="mutable" value="false"/>
@@ -1664,7 +1666,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.31">
       <elements id="DiagramFigure26" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="356" childrenCount="2" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" width="596" height="356" childrenCount="2">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="Tigerstripe"/>
         <__properties name="view.mutable" value="false"/>
@@ -1714,7 +1716,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.32">
       <elements id="DiagramFigure27" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="49" y="106" width="43" height="50" childrenCount="3" text="Two">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Two" x="49" y="106" width="43" height="50" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="1003"/>
         <__properties name="view.mutable" value="false"/>
@@ -1748,7 +1750,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.33">
       <elements id="DiagramFigure28" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="49" y="127" width="43" height="12" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" x="49" y="127" width="43" height="12">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="5003"/>
         <__properties name="view.mutable" value="false"/>
@@ -1868,7 +1870,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.53">
       <elements id="DiagramFigure31" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="356" childrenCount="2" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" width="596" height="356" childrenCount="2">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="Tigerstripe"/>
         <__properties name="view.mutable" value="false"/>
@@ -1918,7 +1920,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.54">
       <elements id="DiagramFigure32" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="49" y="106" width="43" height="50" childrenCount="3" text="Two">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Two" x="49" y="106" width="43" height="50" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="1003"/>
         <__properties name="view.mutable" value="false"/>
@@ -1952,7 +1954,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.55">
       <elements id="DiagramFigure33" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="79" y="98" width="181" height="45" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" x="79" y="98" width="181" height="45">
         <__properties name="visible" value="true"/>
         <__properties name="type" value="3007"/>
         <__properties name="mutable" value="false"/>
@@ -2236,7 +2238,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.56">
       <elements id="DiagramFigure34" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="246" y="90" width="42" height="50" childrenCount="3" text="One">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="One" x="246" y="90" width="42" height="50" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="1003"/>
         <__properties name="view.mutable" value="false"/>
@@ -2263,7 +2265,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.57">
       <elements id="DiagramFigure35" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="79" y="98" width="181" height="45" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" x="79" y="98" width="181" height="45">
         <__properties name="visible" value="true"/>
         <__properties name="type" value="3007"/>
         <__properties name="mutable" value="false"/>
@@ -2599,7 +2601,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.74">
       <elements id="DiagramFigure36" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="356" childrenCount="2" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" width="596" height="356" childrenCount="2">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="Tigerstripe"/>
         <__properties name="view.mutable" value="false"/>
@@ -2629,7 +2631,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.75">
       <elements id="DiagramFigure37" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="49" y="106" width="43" height="50" childrenCount="3" text="Two">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Two" x="49" y="106" width="43" height="50" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="1003"/>
         <__properties name="view.mutable" value="false"/>
@@ -2801,7 +2803,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.105">
       <elements id="DiagramFigure38_62" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="356" childrenCount="2" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" width="596" height="356" childrenCount="2">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="Tigerstripe"/>
         <__properties name="view.mutable" value="false"/>
@@ -2831,7 +2833,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.106">
       <elements id="DiagramFigure39_63" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="49" y="106" width="43" height="50" childrenCount="3" text="Two">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Two" x="49" y="106" width="43" height="50" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="1003"/>
         <__properties name="view.mutable" value="false"/>
@@ -2858,7 +2860,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.107">
       <elements id="DiagramFigure40_64" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="49" y="106" width="43" height="16" text="Two">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Two" x="49" y="106" width="43" height="16">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="4006"/>
         <__properties name="view.mutable" value="false"/>
@@ -2922,7 +2924,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.133">
       <elements id="DiagramFigure41_65" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="356" childrenCount="2" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" width="596" height="356" childrenCount="2">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="Tigerstripe"/>
         <__properties name="view.mutable" value="false"/>
@@ -2972,7 +2974,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.134">
       <elements id="DiagramFigure42_66" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="75" y="101" width="43" height="50" childrenCount="3" text="Two">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Two" x="75" y="101" width="43" height="50" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="1003"/>
         <__properties name="view.mutable" value="false"/>
@@ -3075,7 +3077,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.150">
       <elements id="DiagramFigure45_68" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="356" childrenCount="2" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" width="596" height="356" childrenCount="2">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="Tigerstripe"/>
         <__properties name="view.mutable" value="false"/>
@@ -3125,7 +3127,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.151">
       <elements id="DiagramFigure46_69" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="75" y="101" width="43" height="50" childrenCount="3" text="Two">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Two" x="75" y="101" width="43" height="50" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="1003"/>
         <__properties name="view.mutable" value="false"/>
@@ -3159,7 +3161,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.152">
       <elements id="DiagramFigure47_70" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="105" y="98" width="155" height="40" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" x="105" y="98" width="155" height="40">
         <__properties name="visible" value="true"/>
         <__properties name="type" value="3007"/>
         <__properties name="mutable" value="false"/>
@@ -3443,7 +3445,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.153">
       <elements id="DiagramFigure48_71" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="246" y="90" width="42" height="50" childrenCount="3" text="One">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="One" x="246" y="90" width="42" height="50" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="1003"/>
         <__properties name="view.mutable" value="false"/>
@@ -3470,7 +3472,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.154">
       <elements id="DiagramFigure49_72" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="105" y="98" width="155" height="40" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" x="105" y="98" width="155" height="40">
         <__properties name="visible" value="true"/>
         <__properties name="type" value="3007"/>
         <__properties name="mutable" value="false"/>
@@ -3813,7 +3815,7 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.177">
       <elements id="DiagramFigure50_73" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="75" y="101" width="43" height="16" text="Two">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Two" x="75" y="101" width="43" height="16">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="4006"/>
         <__properties name="view.mutable" value="false"/>

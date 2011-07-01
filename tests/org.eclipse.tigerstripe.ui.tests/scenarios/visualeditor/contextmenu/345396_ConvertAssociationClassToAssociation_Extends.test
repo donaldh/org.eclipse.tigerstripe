@@ -45,7 +45,7 @@ with [get-editor "default.wvd"] {
         mouse-press 66 41 button3 -height 67 -width 139
         mouse-release 66 41 button3 2097152 -height 67 -width 139
     }
-    get-canvas -index 3 | get-menu "Convert to Association" | click
+    get-canvas -index 3 | get-menu "Convert to Association..." | click
 }
 get-window Warning | get-button Yes | click
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | mouse-hover 425 270 -height 356 
@@ -91,7 +91,7 @@ with [get-editor "default.wvd"] {
         mouse-press 76 43 button3 -height 67 -width 139
         mouse-release 76 43 button3 2097152 -height 67 -width 139
     }
-    get-canvas -index 3 | get-menu "Convert to Association Class" | click
+    get-canvas -index 3 | get-menu "Convert to Association Class..." | click
     get-diagram | get-edit-part -className MapEditPart | mouse-hover 150 201 -height 356 -width 596
 }
 get-button "Save (Ctrl+S)" | click
@@ -1178,7 +1178,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.55">
       <elements id="DiagramFigure33" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="356" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" width="596" height="356">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="Tigerstripe"/>
         <__properties name="view.mutable" value="false"/>
@@ -1205,7 +1205,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.67">
       <elements id="DiagramFigure34" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="356" childrenCount="3" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" width="596" height="356" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="Tigerstripe"/>
         <__properties name="view.mutable" value="false"/>
@@ -1464,7 +1464,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.68">
       <elements id="DiagramFigure35" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="165" y="90" width="178" height="64" childrenCount="3" text="Entity0">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Entity0" x="165" y="90" width="178" height="64" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="1003"/>
         <__properties name="view.mutable" value="false"/>
@@ -1508,7 +1508,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.69">
       <elements id="DiagramFigure36" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="299" y="89" width="139" height="67" childrenCount="4" text="11+aEnd_entity0_0+zEnd_entity1_0">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="11+aEnd_entity0_0+zEnd_entity1_0" x="299" y="89" width="139" height="67" childrenCount="4">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="3010"/>
         <__properties name="view.mutable" value="false"/>
@@ -1607,7 +1607,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.70">
       <elements id="DiagramFigure37" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="400" y="90" width="56" height="50" childrenCount="3" text="Entity1">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Entity1" x="400" y="90" width="56" height="50" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="1003"/>
         <__properties name="view.mutable" value="false"/>
@@ -1634,7 +1634,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.71">
       <elements id="DiagramFigure38" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="299" y="89" width="139" height="67" childrenCount="4" text="11+aEnd_entity0_0+zEnd_entity1_0">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="11+aEnd_entity0_0+zEnd_entity1_0" x="299" y="89" width="139" height="67" childrenCount="4">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="3010"/>
         <__properties name="view.mutable" value="false"/>
@@ -1768,7 +1768,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.88">
       <elements id="DiagramFigure39" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="356" childrenCount="2" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" width="596" height="356" childrenCount="2">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="Tigerstripe"/>
         <__properties name="view.mutable" value="false"/>
@@ -1971,7 +1971,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.93">
       <elements id="DiagramFigure40" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="165" y="90" width="178" height="64" childrenCount="3" text="Entity0">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Entity0" x="165" y="90" width="178" height="64" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="1003"/>
         <__properties name="view.mutable" value="false"/>
@@ -2015,7 +2015,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.94">
       <elements id="DiagramFigure41" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="299" y="89" width="139" height="67" childrenCount="6" text="AssocClass011+aEnd_entity0_0+zEnd_entity1_0">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="AssocClass011+aEnd_entity0_0+zEnd_entity1_0" x="299" y="89" width="139" height="67" childrenCount="6">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="3001"/>
         <__properties name="view.mutable" value="false"/>
@@ -2092,7 +2092,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.95">
       <elements id="DiagramFigure42" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="400" y="90" width="56" height="50" childrenCount="3" text="Entity1">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Entity1" x="400" y="90" width="56" height="50" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="1003"/>
         <__properties name="view.mutable" value="false"/>
@@ -2119,7 +2119,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.96">
       <elements id="DiagramFigure43" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="299" y="89" width="139" height="67" childrenCount="6" text="AssocClass011+aEnd_entity0_0+zEnd_entity1_0">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="AssocClass011+aEnd_entity0_0+zEnd_entity1_0" x="299" y="89" width="139" height="67" childrenCount="6">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="3001"/>
         <__properties name="view.mutable" value="false"/>
@@ -2223,7 +2223,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.109">
       <elements id="DiagramFigure55" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="356" childrenCount="2" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" width="596" height="356" childrenCount="2">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="Tigerstripe"/>
         <__properties name="view.mutable" value="false"/>
@@ -2423,7 +2423,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.110">
       <elements id="DiagramFigure56" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="165" y="90" width="178" height="64" childrenCount="3" text="Entity0">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Entity0" x="165" y="90" width="178" height="64" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="1003"/>
         <__properties name="view.mutable" value="false"/>
@@ -2467,7 +2467,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.111">
       <elements id="DiagramFigure57" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="299" y="89" width="139" height="67" childrenCount="6" text="AssocClass011+aEnd_entity0_0+zEnd_entity1_0">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="AssocClass011+aEnd_entity0_0+zEnd_entity1_0" x="299" y="89" width="139" height="67" childrenCount="6">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="3001"/>
         <__properties name="view.mutable" value="false"/>
@@ -2544,7 +2544,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.112">
       <elements id="DiagramFigure58" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="400" y="90" width="56" height="50" childrenCount="3" text="Entity1">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Entity1" x="400" y="90" width="56" height="50" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="1003"/>
         <__properties name="view.mutable" value="false"/>
@@ -2571,7 +2571,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.113">
       <elements id="DiagramFigure59" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="299" y="89" width="139" height="67" childrenCount="6" text="AssocClass011+aEnd_entity0_0+zEnd_entity1_0">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="AssocClass011+aEnd_entity0_0+zEnd_entity1_0" x="299" y="89" width="139" height="67" childrenCount="6">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="3001"/>
         <__properties name="view.mutable" value="false"/>
@@ -2763,7 +2763,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.139">
       <elements id="DiagramFigure61" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="356" childrenCount="2" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" width="596" height="356" childrenCount="2">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="Tigerstripe"/>
         <__properties name="view.mutable" value="false"/>
@@ -2963,7 +2963,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.140">
       <elements id="DiagramFigure62" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="165" y="90" width="178" height="64" childrenCount="3" text="Entity0">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Entity0" x="165" y="90" width="178" height="64" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="1003"/>
         <__properties name="view.mutable" value="false"/>
@@ -3007,7 +3007,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.141">
       <elements id="DiagramFigure63" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="299" y="89" width="139" height="67" childrenCount="6" text="AssocClass011+aEnd_entity0_0+zEnd_entity1_0">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="AssocClass011+aEnd_entity0_0+zEnd_entity1_0" x="299" y="89" width="139" height="67" childrenCount="6">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="3001"/>
         <__properties name="view.mutable" value="false"/>
@@ -3084,7 +3084,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.142">
       <elements id="DiagramFigure64" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="400" y="90" width="56" height="50" childrenCount="3" text="Entity1">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Entity1" x="400" y="90" width="56" height="50" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="1003"/>
         <__properties name="view.mutable" value="false"/>
@@ -3111,7 +3111,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.143">
       <elements id="DiagramFigure65" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="299" y="89" width="139" height="67" childrenCount="6" text="AssocClass011+aEnd_entity0_0+zEnd_entity1_0">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="AssocClass011+aEnd_entity0_0+zEnd_entity1_0" x="299" y="89" width="139" height="67" childrenCount="6">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="3001"/>
         <__properties name="view.mutable" value="false"/>
@@ -3206,7 +3206,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.157">
       <elements id="DiagramFigure67" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="356" childrenCount="3" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" width="596" height="356" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="Tigerstripe"/>
         <__properties name="view.mutable" value="false"/>
@@ -3477,7 +3477,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.166">
       <elements id="DiagramFigure68" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="356" childrenCount="3" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" width="596" height="356" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="Tigerstripe"/>
         <__properties name="view.mutable" value="false"/>
@@ -3713,7 +3713,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.167">
       <elements id="DiagramFigure69" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="298" y="178" width="84" height="50" childrenCount="3" text="AssocClass0">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="AssocClass0" x="298" y="178" width="84" height="50" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="1009"/>
         <__properties name="view.mutable" value="false"/>
@@ -3762,7 +3762,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.172">
       <elements id="DiagramFigure83" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="596" height="356" childrenCount="3" text="">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="" width="596" height="356" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="Tigerstripe"/>
         <__properties name="view.mutable" value="false"/>
@@ -3998,7 +3998,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.176">
       <elements id="DiagramFigure84" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="165" y="90" width="178" height="64" childrenCount="3" text="Entity0">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Entity0" x="165" y="90" width="178" height="64" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="1003"/>
         <__properties name="view.mutable" value="false"/>
@@ -4042,7 +4042,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.177">
       <elements id="DiagramFigure85" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="299" y="89" width="139" height="67" childrenCount="4" text="11+aEnd_entity0_0+zEnd_entity1_0">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="11+aEnd_entity0_0+zEnd_entity1_0" x="299" y="89" width="139" height="67" childrenCount="4">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="3010"/>
         <__properties name="view.mutable" value="false"/>
@@ -4124,7 +4124,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.178">
       <elements id="DiagramFigure86" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="400" y="90" width="56" height="50" childrenCount="3" text="Entity1">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="Entity1" x="400" y="90" width="56" height="50" childrenCount="3">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="1003"/>
         <__properties name="view.mutable" value="false"/>
@@ -4151,7 +4151,7 @@ get-editor AssocClass0 | get-section "General Information" | get-editbox -after 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.179">
       <elements id="DiagramFigure87" kind="DiagramFigure"/>
-      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="299" y="89" width="139" height="67" childrenCount="4" text="11+aEnd_entity0_0+zEnd_entity1_0">
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" text="11+aEnd_entity0_0+zEnd_entity1_0" x="299" y="89" width="139" height="67" childrenCount="4">
         <__properties name="view.visible" value="true"/>
         <__properties name="view.type" value="3010"/>
         <__properties name="view.mutable" value="false"/>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="DatatypeDiagramAssociationsContextWorkspace" id="_IVw9waLSEeCnVOKduz-xbg">
+  <content>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".DatatypeDiagramAssociationsContextWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".DatatypeDiagramAssociationsContextWorkspacectx/content1.project"/>
+      <files name="tigerstripe.xml" contentURI=".DatatypeDiagramAssociationsContextWorkspacectx/content1.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".DatatypeDiagramAssociationsContextWorkspacectx/content1.prefs"/>
+      </folders>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".DatatypeDiagramAssociationsContextWorkspacectx/content4.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".DatatypeDiagramAssociationsContextWorkspacectx/content3.package"/>
+            <files name="A.java" contentURI=".DatatypeDiagramAssociationsContextWorkspacectx/content1.java"/>
+            <files name="AC.java" contentURI=".DatatypeDiagramAssociationsContextWorkspacectx/content2.java"/>
+            <files name="ClassDiagram.vwm" contentURI=".DatatypeDiagramAssociationsContextWorkspacectx/content2.vwm"/>
+            <files name="ClassDiagram.wvd" contentURI=".DatatypeDiagramAssociationsContextWorkspacectx/content2.wvd"/>
+            <files name="D1.java" contentURI=".DatatypeDiagramAssociationsContextWorkspacectx/content3.java"/>
+            <files name="Datatype.java" contentURI=".DatatypeDiagramAssociationsContextWorkspacectx/content4.java"/>
+            <files name="Datatype2.java" contentURI=".DatatypeDiagramAssociationsContextWorkspacectx/content5.java"/>
+            <files name="Datatype3.java" contentURI=".DatatypeDiagramAssociationsContextWorkspacectx/content6.java"/>
+            <files name="Datatype4.java" contentURI=".DatatypeDiagramAssociationsContextWorkspacectx/content7.java"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

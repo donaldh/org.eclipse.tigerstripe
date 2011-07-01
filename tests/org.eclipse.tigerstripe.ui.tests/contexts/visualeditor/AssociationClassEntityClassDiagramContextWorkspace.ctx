@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="AssociationClassExtendsEntityClassDiagramContextWorkspace" id="_fPm4sKOVEeCnVOKduz-xbg" description="    Create Tigerstripe project&#xD;&#xA;    Create 3 Entity artifacts, 2 Association Class, Association &#xD;&#xA;    Extend Association Class AC to the AC2.&#xD;&#xA;    Create class diagram and add Association Classes and Entities to the diagram.&#xD;&#xA;" tags="Entity, Association Class, Extend, Class Diagram">
+  <content>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".AssociationClassEntityClassDiagramContextWorkspacectx/content3.classpath"/>
+      <files name=".project" contentURI=".AssociationClassEntityClassDiagramContextWorkspacectx/content3.project"/>
+      <files name="tigerstripe.xml" contentURI=".AssociationClassEntityClassDiagramContextWorkspacectx/content3.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".AssociationClassEntityClassDiagramContextWorkspacectx/content3.prefs"/>
+      </folders>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".AssociationClassEntityClassDiagramContextWorkspacectx/content12.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".AssociationClassEntityClassDiagramContextWorkspacectx/content11.package"/>
+            <files name="A1.java" contentURI=".AssociationClassEntityClassDiagramContextWorkspacectx/content11.java"/>
+            <files name="AC.java" contentURI=".AssociationClassEntityClassDiagramContextWorkspacectx/content12.java"/>
+            <files name="AC2.java" contentURI=".AssociationClassEntityClassDiagramContextWorkspacectx/content13.java"/>
+            <files name="Class Diagram.vwm" contentURI=".AssociationClassEntityClassDiagramContextWorkspacectx/content6.vwm"/>
+            <files name="Class Diagram.wvd" contentURI=".AssociationClassEntityClassDiagramContextWorkspacectx/content6.wvd"/>
+            <files name="Entity1.java" contentURI=".AssociationClassEntityClassDiagramContextWorkspacectx/content14.java"/>
+            <files name="Entity2.java" contentURI=".AssociationClassEntityClassDiagramContextWorkspacectx/content15.java"/>
+            <files name="Entity3.java" contentURI=".AssociationClassEntityClassDiagramContextWorkspacectx/content16.java"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<null:Map xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:null="null" basePackage="com.mycompany">
+  <artifacts xsi:type="null:DatatypeArtifact" name="Datatype" package="com.mycompany"/>
+  <artifacts xsi:type="null:DatatypeArtifact" name="Datatype2" package="com.mycompany"/>
+  <artifacts xsi:type="null:DatatypeArtifact" name="Datatype3" package="com.mycompany"/>
+  <artifacts xsi:type="null:DatatypeArtifact" name="Datatype4" package="com.mycompany"/>
+  <artifacts xsi:type="null:AssociationClassClass" name="AC" package="com.mycompany"/>
+  <associations name="A" package="com.mycompany" aEnd="//@artifacts.0" aEndName="datatype" zEnd="//@artifacts.1" zEndName="datatype2" zEndIsNavigable="true"/>
+  <associations xsi:type="null:AssociationClass" name="AC" package="com.mycompany" aEnd="//@artifacts.0" aEndName="datatype" zEnd="//@artifacts.3" zEndName="datatype4" zEndIsNavigable="true" associatedClass="//@artifacts.4"/>
+  <dependencies name="D1" package="com.mycompany" aEnd="//@artifacts.0" zEnd="//@artifacts.2"/>
+</null:Map>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="EntityOnDiagramContextWorkspace" id="_wrsM4KFXEeCjS6NbCUXM_w" tags="Entity, ClassDiagram">
+  <content>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".EntityOnDiagramContextWorkspacectx/content2.classpath"/>
+      <files name=".project" contentURI=".EntityOnDiagramContextWorkspacectx/content2.project"/>
+      <files name="tigerstripe.xml" contentURI=".EntityOnDiagramContextWorkspacectx/content2.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".EntityOnDiagramContextWorkspacectx/content2.prefs"/>
+      </folders>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".EntityOnDiagramContextWorkspacectx/content6.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".EntityOnDiagramContextWorkspacectx/content5.package"/>
+            <files name="ClassDiagram.vwm" contentURI=".EntityOnDiagramContextWorkspacectx/content3.vwm"/>
+            <files name="ClassDiagram.wvd" contentURI=".EntityOnDiagramContextWorkspacectx/content3.wvd"/>
+            <files name="Entity.java" contentURI=".EntityOnDiagramContextWorkspacectx/content2.java"/>
+            <files name="Entity2.java" contentURI=".EntityOnDiagramContextWorkspacectx/content3.java"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

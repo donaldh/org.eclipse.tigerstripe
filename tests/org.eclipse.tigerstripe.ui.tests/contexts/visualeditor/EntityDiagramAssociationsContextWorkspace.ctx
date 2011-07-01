@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="EntityDiagramAssociationsContextWorkspace" id="_qEobgKFmEeCjS6NbCUXM_w">
+  <content>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".EntityDiagramAssociationsContextWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".EntityDiagramAssociationsContextWorkspacectx/content1.project"/>
+      <files name="tigerstripe.xml" contentURI=".EntityDiagramAssociationsContextWorkspacectx/content1.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".EntityDiagramAssociationsContextWorkspacectx/content1.prefs"/>
+      </folders>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".EntityDiagramAssociationsContextWorkspacectx/content4.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".EntityDiagramAssociationsContextWorkspacectx/content3.package"/>
+            <files name="A1.java" contentURI=".EntityDiagramAssociationsContextWorkspacectx/content1.java"/>
+            <files name="AC.java" contentURI=".EntityDiagramAssociationsContextWorkspacectx/content2.java"/>
+            <files name="ClassDiagram.vwm" contentURI=".EntityDiagramAssociationsContextWorkspacectx/content2.vwm"/>
+            <files name="ClassDiagram.wvd" contentURI=".EntityDiagramAssociationsContextWorkspacectx/content2.wvd"/>
+            <files name="D1.java" contentURI=".EntityDiagramAssociationsContextWorkspacectx/content3.java"/>
+            <files name="Entity.java" contentURI=".EntityDiagramAssociationsContextWorkspacectx/content4.java"/>
+            <files name="Entity2.java" contentURI=".EntityDiagramAssociationsContextWorkspacectx/content5.java"/>
+            <files name="Entity3.java" contentURI=".EntityDiagramAssociationsContextWorkspacectx/content6.java"/>
+            <files name="Entity4.java" contentURI=".EntityDiagramAssociationsContextWorkspacectx/content7.java"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>
