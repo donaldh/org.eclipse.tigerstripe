@@ -14,10 +14,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
@@ -138,7 +136,7 @@ public abstract class NewPatternBasedArtifactWizardPage extends
 	protected IStatus artifactNameStatus;
 
 	// The name of the artifact that will be generated
-	private StringDialogField artifactNameDialogField;
+	private final StringDialogField artifactNameDialogField;
 
 	// The package of the Artifact
 	private StringButtonStatusDialogField packageDialogField;
@@ -901,7 +899,8 @@ public abstract class NewPatternBasedArtifactWizardPage extends
 		} else if (targetType.equals(IAssociationArtifact.class.getName())) {
 			return new IAbstractArtifact[] { AssociationArtifact.MODEL };
 		} else if (targetType.equals(IAssociationClassArtifact.class.getName())) {
-			return new IAbstractArtifact[] { AssociationClassArtifact.MODEL };
+			return new IAbstractArtifact[] { AssociationClassArtifact.MODEL,
+					ManagedEntityArtifact.MODEL };
 		} else if (targetType.equals(IDependencyArtifact.class.getName())) {
 			return new IAbstractArtifact[] { DependencyArtifact.MODEL };
 		}
@@ -1075,6 +1074,7 @@ public abstract class NewPatternBasedArtifactWizardPage extends
 
 	}
 
+	@Override
 	protected void updateStatus(IStatus[] status) {
 
 		IStatus[] additional = getAdditionalStatuses();
