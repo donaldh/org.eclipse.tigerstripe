@@ -50,6 +50,8 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.Attribute;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Literal;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Method;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.QualifiedNamedElement;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AbstractArtifactExtendsEditPart;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AbstractArtifactImplementsEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.TigerstripeAttributeEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.TigerstripeEditableEntityEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.TigerstripeEditableLabelEditPart;
@@ -325,7 +327,8 @@ public class OpenArtifactAnnotationsInEditorAction extends
 
 		if (selection instanceof IStructuredSelection) {
 			IStructuredSelection structuredSelection = (IStructuredSelection) selection;
-			for (Iterator iter = structuredSelection.iterator(); iter.hasNext();) {
+			for (Iterator<?> iter = structuredSelection.iterator(); iter
+					.hasNext();) {
 				Object obj = iter.next();
 				if (obj instanceof TigerstripeEditableLabelEditPart
 						|| obj instanceof TigerstripeEditableEntityEditPart) {
@@ -338,8 +341,14 @@ public class OpenArtifactAnnotationsInEditorAction extends
 		action.setEnabled(isEnabled());
 	}
 
+	@Override
 	protected boolean isEnabled() {
-		return mySelectedElements.length != 0;
+		for (EditPart element : mySelectedElements) {
+			if (!(element instanceof AbstractArtifactExtendsEditPart || element instanceof AbstractArtifactImplementsEditPart)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	protected IAbstractArtifact getContainingArtifact() {
