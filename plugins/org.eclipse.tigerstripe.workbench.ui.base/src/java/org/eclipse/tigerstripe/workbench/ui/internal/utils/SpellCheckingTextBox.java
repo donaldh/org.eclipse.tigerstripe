@@ -66,13 +66,12 @@ public class SpellCheckingTextBox {
 
 	public SpellCheckingTextBox(Composite composite, String initialText) {
 		parentComposite = composite;
-		
+
 		AnnotationModel annotationModel = new AnnotationModel();
 		IAnnotationAccess annotationAccess = new DefaultMarkerAnnotationAccess();
 
 		final SourceViewer sourceViewer = new SourceViewer(parentComposite,
-				null, null,
-				true, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
+				null, null, true, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP);
 		textField = sourceViewer.getTextWidget();
 		textField.setIndent(2);
 		textField.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -89,10 +88,14 @@ public class SpellCheckingTextBox {
 
 		support.install(EditorsUI.getPreferenceStore());
 
-		final IHandlerService handlerService = (IHandlerService) PlatformUI
-				.getWorkbench().getService(IHandlerService.class);
-		final IHandlerActivation handlerActivation = installQuickFixActionHandler(
-				handlerService, sourceViewer);
+		final Action quickFixAction = new Action() {
+			@Override
+			public void run() {
+				sourceViewer.doOperation(ISourceViewer.QUICK_ASSIST);
+			}
+		};
+		quickFixAction
+				.setActionDefinitionId(ITextEditorActionDefinitionIds.QUICK_ASSIST);
 
 		final TextViewerAction cutAction = new TextViewerAction(sourceViewer,
 				ITextOperationTarget.CUT);
@@ -183,12 +186,19 @@ public class SpellCheckingTextBox {
 			private IHandlerActivation copyHandlerActivation;
 			private IHandlerActivation pasteHandlerActivation;
 			private IHandlerActivation selectAllHandlerActivation;
+			private IHandlerActivation quickFixHandlerActivation;
 
 			public void focusGained(FocusEvent e) {
 				cutAction.update();
 				copyAction.update();
 				IHandlerService service = (IHandlerService) PlatformUI
 						.getWorkbench().getService(IHandlerService.class);
+
+				this.quickFixHandlerActivation = service.activateHandler(
+						ITextEditorActionDefinitionIds.QUICK_ASSIST,
+						new ActionHandler(quickFixAction),
+						new ActiveShellExpression(parentComposite.getShell()));
+
 				this.cutHandlerActivation = service.activateHandler(
 						IWorkbenchCommandConstants.EDIT_CUT, new ActionHandler(
 								cutAction), new ActiveShellExpression(
@@ -211,6 +221,10 @@ public class SpellCheckingTextBox {
 			public void focusLost(FocusEvent e) {
 				IHandlerService service = (IHandlerService) PlatformUI
 						.getWorkbench().getService(IHandlerService.class);
+
+				if (quickFixHandlerActivation != null) {
+					service.deactivateHandler(quickFixHandlerActivation);
+				}
 
 				if (cutHandlerActivation != null) {
 					service.deactivateHandler(cutHandlerActivation);
@@ -245,9 +259,7 @@ public class SpellCheckingTextBox {
 
 			public void widgetDisposed(DisposeEvent e) {
 				support.uninstall();
-				handlerService.deactivateHandler(handlerActivation);
 			}
-
 		});
 
 		Document document = new Document(initialText);
@@ -265,28 +277,6 @@ public class SpellCheckingTextBox {
 				|| (position.offset + position.length) == caretOffset;
 	}
 
-	private IHandlerActivation installQuickFixActionHandler(
-			IHandlerService handlerService, SourceViewer sourceViewer) {
-		return handlerService.activateHandler(
-				ITextEditorActionDefinitionIds.QUICK_ASSIST,
-				createQuickFixActionHandler(sourceViewer),
-				new ActiveShellExpression(sourceViewer.getTextWidget()
-						.getShell()));
-	}
-
-	private ActionHandler createQuickFixActionHandler(
-			final ITextOperationTarget textOperationTarget) {
-		Action quickFixAction = new Action() {
-			@Override
-			public void run() {
-				textOperationTarget.doOperation(ISourceViewer.QUICK_ASSIST);
-			}
-		};
-		quickFixAction
-				.setActionDefinitionId(ITextEditorActionDefinitionIds.QUICK_ASSIST);
-		return new ActionHandler(quickFixAction);
-	}
-
 	public void setEnabled(boolean enabled) {
 		textField.setEnabled(enabled);
 	}
@@ -302,7 +292,7 @@ public class SpellCheckingTextBox {
 	public void setFocus() {
 		textField.setFocus();
 	}
-	
+
 	public void addModifyListener(ModifyListener modifyListener) {
 		textField.addModifyListener(modifyListener);
 	}
