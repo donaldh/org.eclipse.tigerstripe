@@ -1,7 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="InstalledModuleReference" id="_MNs-oN9AEd-NxYpMWs0pEw" description="Check Extends creation for an Entity for a project with and without reference to installed module&#xD;&#xA;&#xD;&#xA;* No reference to installed module - No access possible&#xD;&#xA;* Add Reference to installed module - verify access to contained artifacts&#xD;&#xA;* Add local project with sameId - verify access is now to local instance&#xD;&#xA;* Remove local project with sameId - verify access to contained artifacts of module&#xD;&#xA;* Remove reference - No access possible" type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="InstalledModuleReference" id="_MNs-oN9AEd-NxYpMWs0pEw" description="Check Extends creation for an Entity for a project with and without reference to installed module&#xD;&#xA;&#xD;&#xA;* No reference to installed module - No access possible&#xD;&#xA;* Add Reference to installed module - verify access to contained artifacts&#xD;&#xA;* Add local project with sameId - verify access is now to local instance&#xD;&#xA;* Remove local project with sameId - verify access to contained artifacts of module&#xD;&#xA;* Remove reference - No access possible" tags="TS_Project/Edit/Artifacts " type="ecl" externalReference="http://docs.xored.com/display/TS/InstalledModuleReference">
   <contexts>_rHfkQKthEd-v8JwXbnu_tQ</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script" content="get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-menu &quot;New/Tigerstripe Project&quot; | click&#xA;with [get-window &quot;New Tigerstripe Project&quot;] {&#xA;    get-editbox -after [get-label &quot;Project Name:&quot;] | set-text &quot;com.cisco.sample.project&quot;&#xA;    get-button Finish | click&#xA;}&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;com.cisco.sample.project/src&quot; | get-menu &quot;New/Entity&quot; | click&#xA;with [get-window &quot;Create a new Entity&quot;] {&#xA;    get-editbox -after [get-label &quot;Name:&quot;] | set-text Entity&#xA;    get-button Finish | click&#xA;}&#xA;get-editor Entity | get-section &quot;General Information&quot; | get-button Select | click&#xA;get-window &quot;Super Entity&quot; | get-table -after [get-label &quot;Select the Entity to be extended.&quot;] | get-item &quot;&lt;clear extension>&quot; | get-property caption | is-equal &quot;&lt;clear extension>&quot; | verify&#xA;get-window &quot;Super Entity&quot; | get-button Cancel | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;com.cisco.sample.project/tigerstripe.xml&quot; | double-click&#xA;with [get-editor &quot;com.cisco.sample.project/tigerstripe.xml&quot;] {&#xA;    get-tab-folder | get-tab-item Dependencies | click&#xA;    get-section &quot;Dependencies&quot; | get-button Add | click&#xA;}&#xA;get-window &quot;Select Tigerstripe Project&quot; | get-table -after [get-label &quot;Select Tigerstripe Project to reference&quot;] | get-item &quot;com.cisco.testModule \\(2.0.0\\)&quot; | get-property caption | is-equal &quot;com.cisco.testModule (2.0.0)&quot; | verify&#xA;with [get-window &quot;Select Tigerstripe Project&quot;] {&#xA;    get-table -after [get-label &quot;Select Tigerstripe Project to reference&quot;] | select &quot;com.cisco.testModule \\(2.0.0\\)&quot;&#xA;    get-button OK | click&#xA;}&#xA;with [get-editor &quot;com.cisco.sample.project/tigerstripe.xml&quot;] {&#xA;    with [get-section &quot;Dependencies&quot; | get-button Add] {&#xA;        key-type CTRL&#xA;        key-type &quot;CTRL+s&quot;&#xA;    }&#xA;}&#xA;get-editor &quot;com.cisco.sample.project/tigerstripe.xml&quot; | get-canvas | mouse-move 254 7&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;com.cisco.sample.project/src/com.mycompany/Entity&quot; | double-click&#xA;get-editor Entity | get-section &quot;General Information&quot; | get-button Select | click&#xA;get-window &quot;Super Entity&quot; | get-table -after [get-label &quot;Select the Entity to be extended.&quot;] | get-item &quot;com.cisco.InstalledEntity&quot; | get-property caption | is-equal &quot;com.cisco.InstalledEntity&quot; | verify&#xA;get-window &quot;Super Entity&quot; | get-button Cancel | click&#xA;with [get-editor Entity | get-section Details] {&#xA;    get-canvas -after [get-label Details] -index 1 | mouse-move 154 0&#xA;    with [get-canvas] {&#xA;        mouse-move 286 9&#xA;        mouse-move 91 74&#xA;    }&#xA;}&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;com.cisco.sample.project/tigerstripe.xml&quot; | double-click -nowait&#xA;get-tab-folder -after [get-label Dependencies] | get-menu Close | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;com.cisco.sample.project/src/com.mycompany/Entity&quot; | get-menu &quot;New/Tigerstripe Project&quot; | click&#xA;with [get-window &quot;New Tigerstripe Project&quot;] {&#xA;    get-editbox -after [get-label &quot;Project Name:&quot;] | set-text &quot;com.cisco.testModule&quot;&#xA;    get-button Finish | click&#xA;}&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;com.cisco.testModule/src&quot; | get-menu &quot;New/Entity&quot; | click&#xA;with [get-window &quot;Create a new Entity&quot;] {&#xA;    get-editbox -after [get-label &quot;Name:&quot;] | set-text LocalEntity&#xA;    get-button Finish | click&#xA;}&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;com.cisco.sample.project/src/com.mycompany/Entity&quot; | double-click&#xA;with [get-editor Entity] {&#xA;    get-canvas | mouse-move 296 31&#xA;    get-section &quot;General Information&quot; | get-button Select | click&#xA;}&#xA;get-window &quot;Super Entity&quot; | get-table -after [get-label &quot;Select the Entity to be extended.&quot;] | get-item &quot;com.mycompany.LocalEntity&quot; | get-property caption | is-equal &quot;com.mycompany.LocalEntity&quot; | verify&#xA;get-window &quot;Super Entity&quot; | get-table -after [get-label &quot;Select the Entity to be extended.&quot;] | get-property itemCount | is-equal 2 | verify&#xA;get-window &quot;Super Entity&quot; | get-button Cancel | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;com.cisco.testModule&quot; | get-menu Delete | click&#xA;get-window &quot;Delete Resources&quot; | get-button OK | click&#xA;get-editor Entity | get-section Details | get-canvas | mouse-move 11 48&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;com.cisco.sample.project/src/com.mycompany/Entity&quot; | double-click&#xA;get-editor Entity | get-section &quot;General Information&quot; | get-button Select | click&#xA;get-window &quot;Super Entity&quot; | get-table -after [get-label &quot;Select the Entity to be extended.&quot;] | get-item &quot;com.cisco.InstalledEntity&quot; | get-property caption | is-equal &quot;com.cisco.InstalledEntity&quot; | verify&#xA;get-window &quot;Super Entity&quot; | get-button Cancel | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;com.cisco.sample.project/tigerstripe.xml&quot; | double-click&#xA;with [get-editor &quot;com.cisco.sample.project/tigerstripe.xml&quot;] {&#xA;    get-tab-folder | get-tab-item Dependencies | click&#xA;    get-section &quot;Dependencies&quot; | get-table -after [get-label &quot;Dependencies&quot;] | get-item &quot;com.cisco.testModule \\(2.0.0\\)&quot; | get-property caption | is-equal &quot;com.cisco.testModule (2.0.0)&quot; | verify&#xA;}&#xA;with [get-editor &quot;com.cisco.sample.project/tigerstripe.xml&quot;] {&#xA;    get-canvas -index 1 | mouse-move 5 29&#xA;    with [get-section &quot;Dependencies&quot;] {&#xA;        get-table -after [get-label &quot;Dependencies&quot;] | select &quot;com.cisco.testModule \\(2.0.0\\)&quot;&#xA;        get-button Remove | click&#xA;    }&#xA;}&#xA;get-window &quot;Remove Reference/Dependency&quot; | get-button Yes | click&#xA;with [get-editor &quot;com.cisco.sample.project/tigerstripe.xml&quot; | get-section &quot;Dependencies&quot; | get-button Add] {&#xA;    key-type CTRL&#xA;    key-type &quot;CTRL+s&quot;&#xA;}&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;com.cisco.sample.project/src/com.mycompany/Entity&quot; | double-click&#xA;with [get-editor Entity] {&#xA;    get-section Details | get-canvas -after [get-label Details] -index 1 | mouse-move 24 44&#xA;    get-section &quot;General Information&quot; | get-button Select | click&#xA;}&#xA;get-window &quot;Super Entity&quot; | get-table -after [get-label &quot;Select the Entity to be extended.&quot;] | get-item &quot;&lt;clear extension>&quot; | get-property caption | is-equal &quot;&lt;clear extension>&quot; | verify&#xA;get-window &quot;Super Entity&quot; | get-table -after [get-label &quot;Select the Entity to be extended.&quot;] | get-property itemCount | is-equal 1 | verify&#xA;get-window &quot;Super Entity&quot; | get-button Cancel | click"/>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | get-menu "New/Tigerstripe Project" | click
+with [get-window "New Tigerstripe Project"] {
+    get-editbox -after [get-label "Project Name:"] | set-text "com.cisco.sample.project"
+    get-button Finish | click
+}
+get-view "Tigerstripe Explorer" | get-tree | select "com.cisco.sample.project/src" | get-menu "New/Entity" | click
+with [get-window "Create a new Entity"] {
+    get-editbox -after [get-label "Name:"] | set-text Entity
+    get-button Finish | click
+}
+get-editor Entity | get-section "General Information" | get-button Select | click
+get-window "Super Entity" | get-table -after [get-label "Select the Entity to be extended."] | get-item "<clear extension>" | get-property caption | is-equal "<clear extension>" | verify
+get-window "Super Entity" | get-button Cancel | click
+get-view "Tigerstripe Explorer" | get-tree | select "com.cisco.sample.project/tigerstripe.xml" | double-click
+with [get-editor "com.cisco.sample.project/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item Dependencies | click
+    get-section "Dependencies" | get-button Add | click
+}
+get-window "Select Tigerstripe Project" | get-table -after [get-label "Select Tigerstripe Project to reference"] | get-item "com.cisco.testModule \\(2.0.0\\)" | get-property caption | is-equal "com.cisco.testModule (2.0.0)" | verify
+with [get-window "Select Tigerstripe Project"] {
+    get-table -after [get-label "Select Tigerstripe Project to reference"] | select "com.cisco.testModule \\(2.0.0\\)"
+    get-button OK | click
+}
+with [get-editor "com.cisco.sample.project/tigerstripe.xml"] {
+    with [get-section "Dependencies" | get-button Add] {
+        key-type CTRL
+        key-type "CTRL+s"
+    }
+}
+get-editor "com.cisco.sample.project/tigerstripe.xml" | get-canvas | mouse-move 254 7
+get-view "Tigerstripe Explorer" | get-tree | select "com.cisco.sample.project/src/com.mycompany/Entity" | double-click
+get-editor Entity | get-section "General Information" | get-button Select | click
+get-window "Super Entity" | get-table -after [get-label "Select the Entity to be extended."] | get-item "com.cisco.InstalledEntity" | get-property caption | is-equal "com.cisco.InstalledEntity" | verify
+get-window "Super Entity" | get-button Cancel | click
+with [get-editor Entity | get-section Details] {
+    get-canvas -after [get-label Details] -index 1 | mouse-move 154 0
+    with [get-canvas] {
+        mouse-move 286 9
+        mouse-move 91 74
+    }
+}
+get-view "Tigerstripe Explorer" | get-tree | select "com.cisco.sample.project/tigerstripe.xml" | double-click -nowait
+get-tab-folder -after [get-label Dependencies] | get-menu Close | click
+get-view "Tigerstripe Explorer" | get-tree | select "com.cisco.sample.project/src/com.mycompany/Entity" | get-menu "New/Tigerstripe Project" | click
+with [get-window "New Tigerstripe Project"] {
+    get-editbox -after [get-label "Project Name:"] | set-text "com.cisco.testModule"
+    get-button Finish | click
+}
+get-view "Tigerstripe Explorer" | get-tree | select "com.cisco.testModule/src" | get-menu "New/Entity" | click
+with [get-window "Create a new Entity"] {
+    get-editbox -after [get-label "Name:"] | set-text LocalEntity
+    get-button Finish | click
+}
+get-view "Tigerstripe Explorer" | get-tree | select "com.cisco.sample.project/src/com.mycompany/Entity" | double-click
+with [get-editor Entity] {
+    get-canvas | mouse-move 296 31
+    get-section "General Information" | get-button Select | click
+}
+get-window "Super Entity" | get-table -after [get-label "Select the Entity to be extended."] | get-item "com.mycompany.LocalEntity" | get-property caption | is-equal "com.mycompany.LocalEntity" | verify
+get-window "Super Entity" | get-table -after [get-label "Select the Entity to be extended."] | get-property itemCount | is-equal 2 | verify
+get-window "Super Entity" | get-button Cancel | click
+get-view "Tigerstripe Explorer" | get-tree | select "com.cisco.testModule" | get-menu Delete | click
+get-window "Delete Resources" | get-button OK | click
+get-editor Entity | get-section Details | get-canvas | mouse-move 11 48
+get-view "Tigerstripe Explorer" | get-tree | select "com.cisco.sample.project/src/com.mycompany/Entity" | double-click
+get-editor Entity | get-section "General Information" | get-button Select | click
+get-window "Super Entity" | get-table -after [get-label "Select the Entity to be extended."] | get-item "com.cisco.InstalledEntity" | get-property caption | is-equal "com.cisco.InstalledEntity" | verify
+get-window "Super Entity" | get-button Cancel | click
+get-view "Tigerstripe Explorer" | get-tree | select "com.cisco.sample.project/tigerstripe.xml" | double-click
+with [get-editor "com.cisco.sample.project/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item Dependencies | click
+    get-section "Dependencies" | get-table -after [get-label "Dependencies"] | get-item "com.cisco.testModule \\(2.0.0\\)" | get-property caption | is-equal "com.cisco.testModule (2.0.0)" | verify
+}
+with [get-editor "com.cisco.sample.project/tigerstripe.xml"] {
+    get-canvas -index 1 | mouse-move 5 29
+    with [get-section "Dependencies"] {
+        get-table -after [get-label "Dependencies"] | select "com.cisco.testModule \\(2.0.0\\)"
+        get-button Remove | click
+    }
+}
+get-window "Remove Reference/Dependency" | get-button Yes | click
+with [get-editor "com.cisco.sample.project/tigerstripe.xml" | get-section "Dependencies" | get-button Add] {
+    key-type CTRL
+    key-type "CTRL+s"
+}
+get-view "Tigerstripe Explorer" | get-tree | select "com.cisco.sample.project/src/com.mycompany/Entity" | double-click
+with [get-editor Entity] {
+    get-section Details | get-canvas -after [get-label Details] -index 1 | mouse-move 24 44
+    get-section "General Information" | get-button Select | click
+}
+get-window "Super Entity" | get-table -after [get-label "Select the Entity to be extended."] | get-item "<clear extension>" | get-property caption | is-equal "<clear extension>" | verify
+get-window "Super Entity" | get-table -after [get-label "Select the Entity to be extended."] | get-property itemCount | is-equal 1 | verify
+get-window "Super Entity" | get-button Cancel | click]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -1201,10 +1295,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.11">
       <elements id="Button0" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.12">
@@ -1242,10 +1337,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.24">
       <elements id="Button1" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.25">
@@ -1265,10 +1361,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.30">
       <elements id="Button2" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Select">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="625" width="43" height="25"/>
+        <caption>Select</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.31">
@@ -1335,10 +1432,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.42">
       <elements id="Button3" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Cancel">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="109" y="13" width="92" height="25"/>
+        <caption>Cancel</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.43">
@@ -1394,10 +1492,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.59">
       <elements id="Button4" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Add">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds width="55" height="25"/>
+        <caption>Add</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.60">
@@ -1480,10 +1579,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.74">
       <elements id="Button5" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.75">
@@ -1519,10 +1619,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.83">
       <elements id="Button6" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Add">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds width="55" height="25"/>
+        <caption>Add</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.86">
@@ -1578,10 +1679,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.98">
       <elements id="Button0_57" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Select">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="625" width="43" height="25"/>
+        <caption>Select</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.99">
@@ -1648,10 +1750,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.110">
       <elements id="Button0_58" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Cancel">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="109" y="13" width="92" height="25"/>
+        <caption>Cancel</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.111">
@@ -1759,10 +1862,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.135">
       <elements id="Button0_76" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.136">
@@ -1800,10 +1904,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.148">
       <elements id="Button1_77" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.149">
@@ -1830,10 +1935,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.159">
       <elements id="Button2_78" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Select">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="625" width="43" height="25"/>
+        <caption>Select</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.160">
@@ -1935,10 +2041,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.176">
       <elements id="Button0_79" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Cancel">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="109" y="13" width="92" height="25"/>
+        <caption>Cancel</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.177">
@@ -1975,10 +2082,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.188">
       <elements id="Button1_80" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="109" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.189">
@@ -2041,10 +2149,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.204">
       <elements id="Button0_124" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Select">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="283" width="43" height="25"/>
+        <caption>Select</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.205">
@@ -2111,10 +2220,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.216">
       <elements id="Button0_125" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Cancel">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="109" y="13" width="92" height="25"/>
+        <caption>Cancel</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.217">
@@ -2248,10 +2358,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.244">
       <elements id="Button0_126" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Remove">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds y="30" width="55" height="25"/>
+        <caption>Remove</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.245">
@@ -2267,10 +2378,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.249">
       <elements id="Button1_127" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Yes">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption>Yes</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.250">
@@ -2278,10 +2390,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.253">
       <elements id="Button2_128" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Add">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds width="55" height="25"/>
+        <caption>Add</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.256">
@@ -2351,10 +2464,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.269">
       <elements id="Button0_166" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Select">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="283" width="43" height="25"/>
+        <caption>Select</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.270">
@@ -2456,10 +2570,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.286">
       <elements id="Button0_167" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Cancel">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="109" y="13" width="92" height="25"/>
+        <caption>Cancel</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.287">
