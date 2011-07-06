@@ -12,6 +12,9 @@ package org.eclipse.tigerstripe.workbench.internal.builder;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.swt.SWT;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
@@ -61,47 +64,60 @@ public class CommonArtifactAuditor extends AbstractArtifactAuditor implements
 		for (IField attribute : getArtifact().getFields()) {
 			checkStereotypes(attribute, "attribute '" + attribute.getName()
 					+ "' of artifact '" + getArtifact().getName() + "'");
-			checkDefaultValue(artifact, attribute);
+			checkAttributeDefaultValue(artifact, attribute);
 			checkEnumField(attribute, artifactName);
 		}
 	}
 
-	private void checkDefaultValue(IAbstractArtifact artifact, IField field) {
-		IType type = field.getType();
+	private void checkAttributeDefaultValue(IAbstractArtifact artifact,
+			IField attribute) {
+		IStatus vStatus = isDefaultValueValid(attribute.getType(),
+				attribute.getDefaultValue());
+		if (!vStatus.isOK()) {
+			TigerstripeProjectAuditor.reportError(
+					"Default value of '" + artifact.getFullyQualifiedName()
+							+ "." + attribute.getName()
+							+ "' attribute is incorrect. "
+							+ vStatus.getMessage(), (IResource) getArtifact()
+							.getAdapter(IResource.class), 222);
+		}
+	}
+
+	private void checkMethodDefaultValue(IAbstractArtifact artifact,
+			IMethod method) {
+		IStatus vStatus = isDefaultValueValid(method.getReturnType(),
+				method.getDefaultReturnValue());
+		if (!vStatus.isOK()) {
+			TigerstripeProjectAuditor.reportError("Default value of '"
+					+ artifact.getFullyQualifiedName() + "." + method.getName()
+					+ "' method is incorrect. " + vStatus.getMessage(),
+					(IResource) getArtifact().getAdapter(IResource.class), 222);
+		}
+	}
+
+	private IStatus isDefaultValueValid(IType type, String defaultValue) {
 		if (type.isPrimitive()
 				|| type.getArtifact() instanceof IPrimitiveTypeArtifact) {
-			String defaultValue = field.getDefaultValue();
 			if (defaultValue != null && defaultValue.trim().length() > 0) {
 				IWorkbenchProfile profile = TigerstripeCore
 						.getWorkbenchProfileSession().getActiveProfile();
 				for (IPrimitiveTypeDef primitiveTypeDef : profile
 						.getPrimitiveTypeDefs(true)) {
 					if (primitiveTypeDef.getName().equals(type.getName())) {
-						validateDefaultValue(artifact, field, primitiveTypeDef);
+						if (primitiveTypeDef.getValidationExpression() != null
+								&& !defaultValue.matches(primitiveTypeDef
+										.getValidationExpression())) {
+							return new Status(SWT.ERROR, "pluginId",
+									"Default value should match following reqular expression: "
+											+ primitiveTypeDef
+													.getValidationExpression());
+						}
 						break;
 					}
 				}
 			}
 		}
-	}
-
-	private void validateDefaultValue(IAbstractArtifact artifact, IField field,
-			IPrimitiveTypeDef primitiveTypeDef) {
-		if (primitiveTypeDef.getValidationExpression() != null
-				&& !field.getDefaultValue().matches(
-						primitiveTypeDef.getValidationExpression())) {
-			TigerstripeProjectAuditor
-					.reportError(
-							"Default value of '"
-									+ artifact.getFullyQualifiedName()
-									+ "."
-									+ field.getName()
-									+ "' attribute is incorrect. Default value should match following reqular expression: "
-									+ primitiveTypeDef
-											.getValidationExpression(),
-							(IResource) getArtifact().getAdapter(
-									IResource.class), 222);
-		}
+		return Status.OK_STATUS;
 	}
 
 	private void checkEnumField(IField field, String artifactName) {
@@ -251,6 +267,7 @@ public class CommonArtifactAuditor extends AbstractArtifactAuditor implements
 					+ "' of artifact '" + getArtifact().getName() + "'");
 			// Need separate method to check the Return and Argument steros.
 			// Possible change with new metamodel
+			checkMethodDefaultValue(getArtifact(), method);
 			checkMethodStereotypes(method);
 		}
 	}
