@@ -976,6 +976,8 @@ public class MethodInfoEditComponent {
 			defaultReturnValue.setText("");
 		}
 
+		argViewer.refresh();
+		argViewer.getTable().redraw();
 		removeArgButton.setEnabled(!isReadOnly
 				&& argViewer.getTable().getSelectionCount() > 0);
 		upArgButton.setEnabled(!isReadOnly
@@ -985,13 +987,10 @@ public class MethodInfoEditComponent {
 		editArgButton.setEnabled(!isReadOnly
 				&& argViewer.getTable().getSelectionCount() > 0);
 
-		argViewer.refresh();
-		argViewer.getTable().redraw();
-
-		removeExceptionButton.setEnabled(!isReadOnly
-				&& exceptionViewer.getTable().getSelectionCount() > 0);
 		exceptionViewer.refresh();
 		exceptionViewer.getTable().redraw();
+		removeExceptionButton.setEnabled(!isReadOnly
+				&& exceptionViewer.getTable().getSelectionCount() > 0);
 
 		handler.afterUpdate();
 
