@@ -1598,7 +1598,7 @@
             description="Hides external libraries (except modules) i.e. those not contained inside the project itself">
       </commonFilter>
       <commonFilter
-            activeByDefault="true"
+            activeByDefault="false"
             class="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.AnnotationsFilesFilter"
             id="org.eclipse.tigerstripe.workbench.ui.explorer.filters.AnnotationsFilesFilter"
             name="Tigerstripe Annotations Files"

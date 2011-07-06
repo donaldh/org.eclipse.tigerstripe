@@ -14,7 +14,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
-import org.eclipse.tigerstripe.annotation.internal.core.AnnotationManager;
 import org.eclipse.tigerstripe.espace.resources.core.EObjectRouter;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 
@@ -55,5 +54,4 @@ public class AnnotationsFilesFilter extends ViewerFilter {
 		} else
 			return true;
 	}
-
 }

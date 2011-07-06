@@ -71,7 +71,6 @@ import org.eclipse.tigerstripe.workbench.ui.internal.preferences.ExplorerPrefere
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TSElementSorter;
 import org.eclipse.tigerstripe.workbench.ui.internal.viewers.TigerstripeDecoratorManager;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.TigerstripeExplorerActionGroup;
-import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.AnnotationsFilesFilter;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.ClasspathContainerFilter;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.EmptyDefaultPackageFilter;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.TSLibraryFilter;
@@ -100,9 +99,7 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 		ISetSelectionTarget, IShowInTarget, ITigerstripeChangeListener,
 		IPropertyChangeListener {
 
-	private AnnotationsFilesFilter annFilter = new AnnotationsFilesFilter();
-
-	private boolean showRelationshipAnchors = false;
+	private final boolean showRelationshipAnchors = false;
 
 	public boolean show(ShowInContext context) {
 		if (context.getSelection() instanceof IStructuredSelection) {
@@ -153,9 +150,9 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 
 	private ProblemTreeViewer treeViewer;
 
-	private NewTigerstripeExplorerContentProvider contentProvider;
+	private final NewTigerstripeExplorerContentProvider contentProvider;
 
-	private TigerstripeExplorerLabelProvider labelProvider;
+	private final TigerstripeExplorerLabelProvider labelProvider;
 
 	private ActiveFacetDecorationDelegate facetDecorationDelegate = null;
 
@@ -403,10 +400,6 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 		treeViewer.addFilter(new EmptyDefaultPackageFilter());
 		treeViewer.addFilter(new TSLibraryFilter());
 
-		boolean hide = EclipsePlugin.getDefault().getPreferenceStore()
-				.getBoolean(ExplorerPreferencePage.P_LABEL_HIDE_ANNOTATIONS);
-		annFilter.setHide(hide);
-		treeViewer.addFilter(annFilter);
 		setSorter();
 		// if (fMemento != null)
 		// fActionSet.restoreFilterAndSorterState(fMemento);
@@ -697,15 +690,7 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 				|| event.getProperty().equals(
 						ExplorerPreferencePage.P_LABEL_STEREO_LIT)
 				|| event.getProperty().equals(
-						ExplorerPreferencePage.P_LABEL_STEREO_END)
-				|| event.getProperty().equals(
-						ExplorerPreferencePage.P_LABEL_HIDE_ANNOTATIONS)) {
-			boolean hide = EclipsePlugin
-					.getDefault()
-					.getPreferenceStore()
-					.getBoolean(ExplorerPreferencePage.P_LABEL_HIDE_ANNOTATIONS);
-			annFilter.setHide(hide);
-
+						ExplorerPreferencePage.P_LABEL_STEREO_END)) {
 			treeViewer.refresh(true);
 		} else if (event.getProperty().equals(
 				ExplorerPreferencePage.P_LABEL_SHOW_RELATIONSHIP_ANCHORS)) {

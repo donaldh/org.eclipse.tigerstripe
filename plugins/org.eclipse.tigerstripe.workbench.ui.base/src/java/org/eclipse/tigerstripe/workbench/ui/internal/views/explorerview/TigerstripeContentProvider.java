@@ -21,7 +21,6 @@ import java.util.Set;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaModel;
@@ -35,16 +34,12 @@ import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
 import org.eclipse.tigerstripe.workbench.TigerstripeChangeAdapter;
 import org.eclipse.tigerstripe.workbench.diagram.IDiagram;
-import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.preferences.ExplorerPreferencePage;
-import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.filters.AnnotationsFilesFilter;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.internal.navigator.NavigatorContentService;
 import org.eclipse.ui.internal.navigator.extensions.CommonContentExtensionSite;
-import org.eclipse.ui.navigator.CommonViewer;
 import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 import org.eclipse.ui.navigator.IExtensionStateModel;
 import org.eclipse.ui.navigator.INavigatorContentService;
@@ -80,8 +75,6 @@ public class TigerstripeContentProvider extends
 
 	private INavigatorContentService contentService;
 
-	private AnnotationsFilesFilter annFilter = new AnnotationsFilesFilter();
-
 	private TreeViewer viewer;
 
 	private TigerstripeChangeAdapter tigerstripeChangeListener;
@@ -95,24 +88,6 @@ public class TigerstripeContentProvider extends
 		fStateModel = stateModel;
 
 		contentService = commonContentExtensionSite.getService();
-
-		try {
-			CommonViewer viewer = ((CommonViewer) ((NavigatorContentService) contentService)
-					.getViewer());
-			boolean hide = EclipsePlugin
-					.getDefault()
-					.getPreferenceStore()
-					.getBoolean(ExplorerPreferencePage.P_LABEL_HIDE_ANNOTATIONS);
-			annFilter.setHide(hide);
-			viewer.addFilter(annFilter);
-		} catch (ClassCastException e) {
-			BasePlugin
-					.log(new Status(
-							Status.ERROR,
-							BasePlugin.getPluginId(),
-							"Couldn't create stereotype filter on Tigerstripe Explorer: ",
-							e));
-		}
 
 		restoreState(memento);
 		fLayoutPropertyListener = new IPropertyChangeListener() {
@@ -222,13 +197,13 @@ public class TigerstripeContentProvider extends
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void getPipelinedChildren(Object aParent, Set theCurrentChildren) {
 		customize(getChildren(aParent), theCurrentChildren);
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void getPipelinedElements(Object anInput, Set theCurrentElements) {
 		customize(getElements(anInput), theCurrentElements);
 	}
@@ -281,7 +256,7 @@ public class TigerstripeContentProvider extends
 	public void saveState(IMemento aMemento) {
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void deconvertTigerstripeProjects(
 			PipelinedShapeModification modification) {
 		Set convertedChildren = new LinkedHashSet();
@@ -339,7 +314,7 @@ public class TigerstripeContentProvider extends
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	protected void postAdd(final Object parent, final Object element,
 			Collection runnables) {
 		if (parent instanceof IJavaModel)
@@ -353,7 +328,7 @@ public class TigerstripeContentProvider extends
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	protected void postRefresh(final List toRefresh,
 			final boolean updateLabels, Collection runnables) {
 		for (Iterator iter = toRefresh.iterator(); iter.hasNext();) {
@@ -369,7 +344,7 @@ public class TigerstripeContentProvider extends
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings("rawtypes")
 	protected void postRemove(final Object element, Collection runnables) {
 		super.postRemove(element, runnables);
 
@@ -392,16 +367,7 @@ public class TigerstripeContentProvider extends
 				|| event.getProperty().equals(
 						ExplorerPreferencePage.P_LABEL_STEREO_LIT)
 				|| event.getProperty().equals(
-						ExplorerPreferencePage.P_LABEL_STEREO_END)
-				|| event.getProperty().equals(
-						ExplorerPreferencePage.P_LABEL_HIDE_ANNOTATIONS)) {
-			;
-			boolean hide = EclipsePlugin
-					.getDefault()
-					.getPreferenceStore()
-					.getBoolean(ExplorerPreferencePage.P_LABEL_HIDE_ANNOTATIONS);
-			annFilter.setHide(hide);
-
+						ExplorerPreferencePage.P_LABEL_STEREO_END)) {
 			update();
 		} else if (event.getProperty().equals(
 				ExplorerPreferencePage.P_LABEL_SHOW_RELATIONSHIP_ANCHORS)) {
