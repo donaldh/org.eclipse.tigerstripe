@@ -1,6 +1,7 @@
 package org.eclipse.tigerstripe.workbench.convert;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -33,6 +34,7 @@ import org.eclipse.tigerstripe.workbench.ui.instancediagram.Instance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.diagram.part.InstanceDiagramEditor;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.EmptyOperation;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.QualifiedNamedElement;
 
 public class ConvertUtils {
@@ -106,16 +108,25 @@ public class ConvertUtils {
 
 					org.eclipse.tigerstripe.workbench.ui.visualeditor.Map map = (org.eclipse.tigerstripe.workbench.ui.visualeditor.Map) element;
 					if (fqn != null){
-						deleteArtifactByFqn(fqn, map.getArtifacts());
+						@SuppressWarnings("unchecked")
+						List<AbstractArtifact> artifacts = map.getArtifacts();
+						deleteArtifactByFqn(fqn, artifacts);
 						deleteArtifactByFqn(fqn, map.getAssociations());
 						deleteArtifactByFqn(fqn, map.getDependencies());
+						for (AbstractArtifact art : artifacts) {
+							AbstractArtifact ext = art.getExtends();
+							if (ext != null && fqn.equals(ext.getFullyQualifiedName())) {
+								art.setExtends((AbstractArtifact)null);
+							}
+							deleteArtifactByFqn(fqn, art.getImplements());
+						}
 					}
 					
 					return CommandResult.newOKCommandResult();
 				}
 
-				private void deleteArtifactByFqn(final String fqn, List<?> list) {
-					Iterator<?> it = list.iterator();
+				private void deleteArtifactByFqn(final String fqn, Collection<?> elements) {
+					Iterator<?> it = elements.iterator();
 					while (it.hasNext()) {
 						QualifiedNamedElement qe = (QualifiedNamedElement) it
 								.next();

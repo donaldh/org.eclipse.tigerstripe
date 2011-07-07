@@ -244,25 +244,31 @@ public class ConvertArtifactOperation extends AbstractOperation {
 									IMPLEMENTED_ARTIFACTS_ATTR,
 									EXTENDED_ARTIFACT_ATTR);
 
-					IAbstractArtifact extended = hierarchyHelper.getExtended(fqn);
-					if (extended != null) {
-						if (eligableInheratance(from, extended)) {
-							savedProperties.put(EXTENDED_ARTIFACT_ATTR,
-									makeProxy(toType, extended.getFullyQualifiedName()));
-						}
-					}
-
-					List<IAbstractArtifact> implemented = hierarchyHelper
-							.getImplemented(fqn);
-					if (!implemented.isEmpty()) {
-						List<IAbstractArtifact> impls = new ArrayList<IAbstractArtifact>();
-						for (IAbstractArtifact impl : impls) {
-							if (eligableInheratance(from, impl)) {
-								impls.add(makeProxy(toType,
-										impl.getFullyQualifiedName()));
+					if (convertParents) {
+						IAbstractArtifact extended = hierarchyHelper
+								.getExtended(fqn);
+						if (extended != null) {
+							if (eligableInheratance(from, extended)) {
+								savedProperties.put(
+										EXTENDED_ARTIFACT_ATTR,
+										makeProxy(toType, extended
+												.getFullyQualifiedName()));
 							}
 						}
-						savedProperties.put(IMPLEMENTED_ARTIFACTS_ATTR, impls);
+
+						List<IAbstractArtifact> implemented = hierarchyHelper
+								.getImplemented(fqn);
+						if (!implemented.isEmpty()) {
+							List<IAbstractArtifact> impls = new ArrayList<IAbstractArtifact>();
+							for (IAbstractArtifact impl : impls) {
+								if (eligableInheratance(from, impl)) {
+									impls.add(makeProxy(toType,
+											impl.getFullyQualifiedName()));
+								}
+							}
+							savedProperties.put(IMPLEMENTED_ARTIFACTS_ATTR,
+									impls);
+						}
 					}
 
 					CreateArtifactOperation createOperation = new CreateArtifactOperation(
