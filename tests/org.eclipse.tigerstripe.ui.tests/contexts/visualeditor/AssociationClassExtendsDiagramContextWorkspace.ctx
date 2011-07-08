@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="AssociationClassExtendsDiagramContextWorkspace" id="_3VDHYKe2EeCpNIqZ17RFzw" description="AC1 and AC2 are with Associations&#xD;&#xA;AC2 is extended to AC3&#xD;&#xA;AC2 is extended to Entity">
+  <content>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".AssociationClassExtendsDiagramContextWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".AssociationClassExtendsDiagramContextWorkspacectx/content1.project"/>
+      <files name="tigerstripe.xml" contentURI=".AssociationClassExtendsDiagramContextWorkspacectx/content1.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".AssociationClassExtendsDiagramContextWorkspacectx/content1.prefs"/>
+      </folders>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".AssociationClassExtendsDiagramContextWorkspacectx/content4.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".AssociationClassExtendsDiagramContextWorkspacectx/content3.package"/>
+            <files name="AC1.java" contentURI=".AssociationClassExtendsDiagramContextWorkspacectx/content1.java"/>
+            <files name="AC2.java" contentURI=".AssociationClassExtendsDiagramContextWorkspacectx/content2.java"/>
+            <files name="Association10.java" contentURI=".AssociationClassExtendsDiagramContextWorkspacectx/content3.java"/>
+            <files name="Association9.java" contentURI=".AssociationClassExtendsDiagramContextWorkspacectx/content4.java"/>
+            <files name="AssociationClass7.java" contentURI=".AssociationClassExtendsDiagramContextWorkspacectx/content5.java"/>
+            <files name="ClassDiagram.vwm" contentURI=".AssociationClassExtendsDiagramContextWorkspacectx/content2.vwm"/>
+            <files name="ClassDiagram.wvd" contentURI=".AssociationClassExtendsDiagramContextWorkspacectx/content2.wvd"/>
+            <files name="Dependency8.java" contentURI=".AssociationClassExtendsDiagramContextWorkspacectx/content6.java"/>
+            <files name="Entity1.java" contentURI=".AssociationClassExtendsDiagramContextWorkspacectx/content7.java"/>
+            <files name="Entity2.java" contentURI=".AssociationClassExtendsDiagramContextWorkspacectx/content8.java"/>
+            <files name="Entity3.java" contentURI=".AssociationClassExtendsDiagramContextWorkspacectx/content9.java"/>
+            <files name="Entity4.java" contentURI=".AssociationClassExtendsDiagramContextWorkspacectx/content10.java"/>
+            <files name="Entity5.java" contentURI=".AssociationClassExtendsDiagramContextWorkspacectx/content11.java"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

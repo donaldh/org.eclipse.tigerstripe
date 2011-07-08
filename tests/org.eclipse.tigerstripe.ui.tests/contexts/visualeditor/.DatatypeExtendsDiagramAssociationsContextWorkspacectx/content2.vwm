@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<null:Map xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:null="null" basePackage="com.mycompany">
+  <artifacts xsi:type="null:DatatypeArtifact" name="Datatype1" package="com.mycompany"/>
+  <artifacts xsi:type="null:DatatypeArtifact" name="Datatype2" package="com.mycompany" extends="//@artifacts.2"/>
+  <artifacts xsi:type="null:DatatypeArtifact" name="Datatype3" package="com.mycompany"/>
+  <artifacts xsi:type="null:DatatypeArtifact" name="Datatype4" package="com.mycompany" extends="//@artifacts.0"/>
+  <artifacts xsi:type="null:AssociationClassClass" name="AC" package="com.mycompany"/>
+  <artifacts xsi:type="null:DatatypeArtifact" name="Datatype5" package="com.mycompany"/>
+  <artifacts xsi:type="null:DatatypeArtifact" name="Datatype6" package="com.mycompany"/>
+  <artifacts xsi:type="null:DatatypeArtifact" name="Datatype7" package="com.mycompany"/>
+  <artifacts xsi:type="null:AssociationClassClass" name="AssociationClass11" package="com.mycompany"/>
+  <associations name="A" package="com.mycompany" aEnd="//@artifacts.0" aEndName="datatype" zEnd="//@artifacts.1" zEndName="datatype2" zEndIsNavigable="true"/>
+  <associations xsi:type="null:AssociationClass" name="AC" package="com.mycompany" aEnd="//@artifacts.0" aEndName="datatype" zEnd="//@artifacts.3" zEndName="datatype4" zEndIsNavigable="true" associatedClass="//@artifacts.4"/>
+  <associations xsi:type="null:AssociationClass" name="AssociationClass11" package="com.mycompany" aEnd="//@artifacts.1" aEndName="datatype2" zEnd="//@artifacts.6" zEndName="datatype6" zEndIsNavigable="true" associatedClass="//@artifacts.8"/>
+  <associations name="Association12" package="com.mycompany" aEnd="//@artifacts.1" aEndName="datatype2" zEnd="//@artifacts.7" zEndName="datatype7" zEndIsNavigable="true"/>
+  <dependencies name="D1" package="com.mycompany" aEnd="//@artifacts.0" zEnd="//@artifacts.2"/>
+  <dependencies name="Dependency10" package="com.mycompany" aEnd="//@artifacts.1" zEnd="//@artifacts.5"/>
+</null:Map>

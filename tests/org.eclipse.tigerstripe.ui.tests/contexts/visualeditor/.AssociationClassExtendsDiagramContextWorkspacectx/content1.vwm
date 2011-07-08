@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<null:Map xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:null="null" basePackage="com.mycompany">
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Entity1" package="com.mycompany">
+    <properties name="artifact.hide.extends" value="false"/>
+  </artifacts>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Entity2" package="com.mycompany">
+    <properties name="artifact.hide.extends" value="false"/>
+  </artifacts>
+  <artifacts xsi:type="null:AssociationClassClass" name="AC1" package="com.mycompany" extends="//@artifacts.7"/>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Entity3" package="com.mycompany">
+    <properties name="artifact.hide.extends" value="false"/>
+  </artifacts>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Entity4" package="com.mycompany">
+    <properties name="artifact.hide.extends" value="false"/>
+  </artifacts>
+  <artifacts xsi:type="null:AssociationClassClass" name="AC2" package="com.mycompany" extends="//@artifacts.6"/>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Entity5" package="com.mycompany">
+    <properties name="artifact.hide.extends" value="false"/>
+  </artifacts>
+  <artifacts xsi:type="null:AssociationClassClass" name="AssociationClass7" package="com.mycompany"/>
+  <associations xsi:type="null:AssociationClass" name="AC1" package="com.mycompany" aEnd="//@artifacts.0" aEndName="entity1" zEnd="//@artifacts.1" zEndName="entity2" zEndIsNavigable="true" associatedClass="//@artifacts.2"/>
+  <associations xsi:type="null:AssociationClass" name="AC2" package="com.mycompany" aEnd="//@artifacts.3" aEndName="entity3" zEnd="//@artifacts.4" zEndName="entity4" zEndIsNavigable="true" associatedClass="//@artifacts.5"/>
+  <associations xsi:type="null:AssociationClass" name="AssociationClass7" package="com.mycompany" aEnd="//@artifacts.1" aEndName="entity2" zEnd="//@artifacts.4" zEndName="entity4" zEndIsNavigable="true" associatedClass="//@artifacts.7"/>
+  <associations name="Association9" package="com.mycompany" aEnd="//@artifacts.2" aEndName="aC1" zEnd="//@artifacts.4" zEndName="entity4" zEndIsNavigable="true"/>
+  <associations name="Association10" package="com.mycompany" aEnd="//@artifacts.5" aEndName="aC2" zEnd="//@artifacts.1" zEndName="entity2" zEndIsNavigable="true"/>
+  <dependencies name="Dependency8" package="com.mycompany" aEnd="//@artifacts.2" zEnd="//@artifacts.3"/>
+</null:Map>

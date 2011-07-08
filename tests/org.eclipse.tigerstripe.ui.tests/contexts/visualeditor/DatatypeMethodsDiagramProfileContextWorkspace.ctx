@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="DatatypeMethodsDiagramProfileContextWorkspace" id="_zw4toKd1EeCodoOuG34GLw" description="Create Tigerstripe project with 4 Datatypes&#xD;&#xA;Add attribute, method and constant to Datatype1 and Datatype2 &#xD;&#xA;Extend Datatype3 to Datatype1&#xD;&#xA;Extend Datatype4 to Datatype2&#xD;&#xA;Create Tigerstripe workbench profile&#xD;&#xA;Add Stereotypes for Entity and Datatype &#xD;&#xA;Add datatypes to Class Diagram&#xD;&#xA;" tags="Datatype, Extend, Attribute, Method, Profile, Stereotypes">
+  <content>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".DatatypeMethodsDiagramProfileContextWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".DatatypeMethodsDiagramProfileContextWorkspacectx/content1.project"/>
+      <files name="default.wbp" contentURI=".DatatypeMethodsDiagramProfileContextWorkspacectx/content1.wbp"/>
+      <files name="tigerstripe.xml" contentURI=".DatatypeMethodsDiagramProfileContextWorkspacectx/content1.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".DatatypeMethodsDiagramProfileContextWorkspacectx/content1.prefs"/>
+      </folders>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".DatatypeMethodsDiagramProfileContextWorkspacectx/content4.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".DatatypeMethodsDiagramProfileContextWorkspacectx/content3.package"/>
+            <files name="ClassDiagram.vwm" contentURI=".DatatypeMethodsDiagramProfileContextWorkspacectx/content2.vwm"/>
+            <files name="ClassDiagram.wvd" contentURI=".DatatypeMethodsDiagramProfileContextWorkspacectx/content2.wvd"/>
+            <files name="Datatype1.java" contentURI=".DatatypeMethodsDiagramProfileContextWorkspacectx/content1.java"/>
+            <files name="Datatype2.java" contentURI=".DatatypeMethodsDiagramProfileContextWorkspacectx/content2.java"/>
+            <files name="Datatype3.java" contentURI=".DatatypeMethodsDiagramProfileContextWorkspacectx/content3.java"/>
+            <files name="Datatype4.java" contentURI=".DatatypeMethodsDiagramProfileContextWorkspacectx/content4.java"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

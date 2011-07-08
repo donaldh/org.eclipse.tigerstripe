@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="AssociationClassMethodsDiagramProfileContextWorkspace" id="_uJEskaehEeCpNIqZ17RFzw" description="Create Tigerstripe project with 3 Association Class and Entities&#xD;&#xA;Add attribute, method and constant to AC1 and AC2&#xD;&#xA;Extend AC3 to AC1&#xD;&#xA;Extend AC4 to AC2&#xD;&#xA;Create Tigerstripe workbench profile&#xD;&#xA;Add Stereotypes for Association Class and Association &#xD;&#xA;Add Entities to Class Diagram&#xD;&#xA;" tags="Association Class, Extend, Attribute, Method, Profile, Stereotypes">
+  <content>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".AssociationClassMethodsDiagramProfileContextWorkspacectx/content3.classpath"/>
+      <files name=".project" contentURI=".AssociationClassMethodsDiagramProfileContextWorkspacectx/content3.project"/>
+      <files name="default.wbp" contentURI=".AssociationClassMethodsDiagramProfileContextWorkspacectx/content3.wbp"/>
+      <files name="tigerstripe.xml" contentURI=".AssociationClassMethodsDiagramProfileContextWorkspacectx/content3.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".AssociationClassMethodsDiagramProfileContextWorkspacectx/content3.prefs"/>
+      </folders>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".AssociationClassMethodsDiagramProfileContextWorkspacectx/content12.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".AssociationClassMethodsDiagramProfileContextWorkspacectx/content11.package"/>
+            <files name="AC1.java" contentURI=".AssociationClassMethodsDiagramProfileContextWorkspacectx/content17.java"/>
+            <files name="AC2.java" contentURI=".AssociationClassMethodsDiagramProfileContextWorkspacectx/content18.java"/>
+            <files name="AC3.java" contentURI=".AssociationClassMethodsDiagramProfileContextWorkspacectx/content19.java"/>
+            <files name="AC4.java" contentURI=".AssociationClassMethodsDiagramProfileContextWorkspacectx/content20.java"/>
+            <files name="ClassDiagram.vwm" contentURI=".AssociationClassMethodsDiagramProfileContextWorkspacectx/content6.vwm"/>
+            <files name="ClassDiagram.wvd" contentURI=".AssociationClassMethodsDiagramProfileContextWorkspacectx/content6.wvd"/>
+            <files name="Entity0.java" contentURI=".AssociationClassMethodsDiagramProfileContextWorkspacectx/content21.java"/>
+            <files name="Entity1.java" contentURI=".AssociationClassMethodsDiagramProfileContextWorkspacectx/content22.java"/>
+            <files name="Entity3.java" contentURI=".AssociationClassMethodsDiagramProfileContextWorkspacectx/content23.java"/>
+            <files name="Entity4.java" contentURI=".AssociationClassMethodsDiagramProfileContextWorkspacectx/content24.java"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="DatatypeExtendsDiagramAssociationsContextWorkspace" id="_jXCP8KbpEeCodoOuG34GLw" description="Datatype1 and Datatype2 are with Associations&#xD;&#xA;Datatype2 is extended to Datatype3&#xD;&#xA;Datatype4 is extended to Datatype1" tags="Datatype, Extend, Associations, Class Diagram">
+  <content>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".DatatypeExtendsDiagramAssociationsContextWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".DatatypeExtendsDiagramAssociationsContextWorkspacectx/content1.project"/>
+      <files name="tigerstripe.xml" contentURI=".DatatypeExtendsDiagramAssociationsContextWorkspacectx/content1.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".DatatypeExtendsDiagramAssociationsContextWorkspacectx/content1.prefs"/>
+      </folders>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".DatatypeExtendsDiagramAssociationsContextWorkspacectx/content4.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".DatatypeExtendsDiagramAssociationsContextWorkspacectx/content3.package"/>
+            <files name="A.java" contentURI=".DatatypeExtendsDiagramAssociationsContextWorkspacectx/content1.java"/>
+            <files name="AC.java" contentURI=".DatatypeExtendsDiagramAssociationsContextWorkspacectx/content2.java"/>
+            <files name="Association12.java" contentURI=".DatatypeExtendsDiagramAssociationsContextWorkspacectx/content3.java"/>
+            <files name="AssociationClass11.java" contentURI=".DatatypeExtendsDiagramAssociationsContextWorkspacectx/content4.java"/>
+            <files name="ClassDiagram.vwm" contentURI=".DatatypeExtendsDiagramAssociationsContextWorkspacectx/content2.vwm"/>
+            <files name="ClassDiagram.wvd" contentURI=".DatatypeExtendsDiagramAssociationsContextWorkspacectx/content2.wvd"/>
+            <files name="D1.java" contentURI=".DatatypeExtendsDiagramAssociationsContextWorkspacectx/content5.java"/>
+            <files name="Datatype1.java" contentURI=".DatatypeExtendsDiagramAssociationsContextWorkspacectx/content6.java"/>
+            <files name="Datatype2.java" contentURI=".DatatypeExtendsDiagramAssociationsContextWorkspacectx/content7.java"/>
+            <files name="Datatype3.java" contentURI=".DatatypeExtendsDiagramAssociationsContextWorkspacectx/content8.java"/>
+            <files name="Datatype4.java" contentURI=".DatatypeExtendsDiagramAssociationsContextWorkspacectx/content9.java"/>
+            <files name="Datatype5.java" contentURI=".DatatypeExtendsDiagramAssociationsContextWorkspacectx/content10.java"/>
+            <files name="Datatype6.java" contentURI=".DatatypeExtendsDiagramAssociationsContextWorkspacectx/content11.java"/>
+            <files name="Datatype7.java" contentURI=".DatatypeExtendsDiagramAssociationsContextWorkspacectx/content12.java"/>
+            <files name="Dependency10.java" contentURI=".DatatypeExtendsDiagramAssociationsContextWorkspacectx/content13.java"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="EntityMethodsDiagramProfileContextWorkspace" id="_U6uhsKeJEeCodoOuG34GLw" description="Create Tigerstripe project with 4 Entities&#xD;&#xA;Add attribute, method and constant to Entity1 and Entity2 &#xD;&#xA;Extend Entity3 to Entity1&#xD;&#xA;Extend Entity4 to Entity2&#xD;&#xA;Create Tigerstripe workbench profile&#xD;&#xA;Add Stereotypes for Entity and Datatype &#xD;&#xA;Add Entities to Class Diagram&#xD;&#xA;" tags="Entity, Extend, Attribute, Method, Profile, Stereotypes">
+  <content>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".EntityMethodsDiagramProfileContextWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".EntityMethodsDiagramProfileContextWorkspacectx/content1.project"/>
+      <files name="default.wbp" contentURI=".EntityMethodsDiagramProfileContextWorkspacectx/content1.wbp"/>
+      <files name="tigerstripe.xml" contentURI=".EntityMethodsDiagramProfileContextWorkspacectx/content1.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".EntityMethodsDiagramProfileContextWorkspacectx/content1.prefs"/>
+      </folders>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".EntityMethodsDiagramProfileContextWorkspacectx/content4.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".EntityMethodsDiagramProfileContextWorkspacectx/content3.package"/>
+            <files name="ClassDiagram.vwm" contentURI=".EntityMethodsDiagramProfileContextWorkspacectx/content2.vwm"/>
+            <files name="ClassDiagram.wvd" contentURI=".EntityMethodsDiagramProfileContextWorkspacectx/content2.wvd"/>
+            <files name="Entity1.java" contentURI=".EntityMethodsDiagramProfileContextWorkspacectx/content1.java"/>
+            <files name="Entity2.java" contentURI=".EntityMethodsDiagramProfileContextWorkspacectx/content2.java"/>
+            <files name="Entity3.java" contentURI=".EntityMethodsDiagramProfileContextWorkspacectx/content3.java"/>
+            <files name="Entity4.java" contentURI=".EntityMethodsDiagramProfileContextWorkspacectx/content4.java"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>
