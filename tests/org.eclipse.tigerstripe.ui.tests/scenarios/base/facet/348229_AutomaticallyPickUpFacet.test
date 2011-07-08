@@ -1,6 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="348229_AutomaticallyPickUpFacet" version="3.0" id="_rkyHkKklEeCQuoNCiruvtQ" description="Modify referenced Facet and check that changes are automatically picked up &#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;GeneratorContextGroup&#xD;&#xA;&#xD;&#xA;Steps&#xD;&#xA;    Deploy generator and enable it&#xD;&#xA;    Create a facet in model project with the following entry under 'Excluded patterns': simple.*&#xD;&#xA;    Open tigerstripe.xml file > switch to Facets tab > Add facet to project&#xD;&#xA;    Run generation > notice the file for artifact of simple package is not created.&#xD;&#xA;    Remove target folder&#xD;&#xA;    Open the Facet, remove the entry added under Excluded patterns.&#xD;&#xA;    Run generation again > notice the appropriate file is created.&#xD;&#xA;" tags="TS_Project/Facet, I37" type="ecl" externalReference="http://docs.xored.com/display/TS/348229_AutomaticallyPickUpFacet">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="348229_AutomaticallyPickUpFacet" version="3.0" id="_rkyHkKklEeCQuoNCiruvtQ" description="Modify referenced Facet and check that changes are automatically picked up &#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;GeneratorContextGroup&#xD;&#xA;&#xD;&#xA;Steps&#xD;&#xA;    Deploy generator and enable it&#xD;&#xA;    Create a facet in model project with the following entry under 'Excluded patterns': simple.*&#xD;&#xA;    Open tigerstripe.xml file > switch to Facets tab > Add facet to project&#xD;&#xA;    Run generation > notice the file for artifact of simple package is not created.&#xD;&#xA;    Remove target folder&#xD;&#xA;    Open the Facet, remove the entry added under Excluded patterns.&#xD;&#xA;    Run generation again > notice the appropriate file is created.&#xD;&#xA;" tags="TS_Project/Facet, I37" type="ecl" externalReference="http://docs.xored.com/display/TS/348229_AutomaticallyPickUpFacet">
   <contexts>_5OPsMK6FEd-uWaeTFaimww</contexts>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "New Generator Project/ts-plugin.xml" | double-click -nowait
+get-editor "New Generator Project/ts-plugin.xml" | get-section Testing | get-link "Package and deploy this generator" 
+    | click -nowait
+get-window "Deploy new generator" | get-button OK | click
+get-window "New Generator Project Generator" | get-button OK | click
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/tigerstripe.xml" | double-click -nowait
+with [get-editor "model-refactoring/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item "Generator Settings" | click
+    with [get-section "New Generator Project(3.0) (disabled) [Generic]"] {
+        click -nowait
+        get-button "Enable Generator" | click
+    }
+}
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring" | get-menu "New/Other..." | click
+with [get-window New] {
+    get-tree | select "Tigerstripe/Facet"
+    get-button "Next >" | click
+}
+get-window "New Tigerstripe Workbench Contract Segment" | get-button Finish | click
+with [get-editor "model-refactoring/default.wfc"] {
+    get-tab-folder | get-tab-item Scope | click
+    with [get-section "Scope Details"] {
+        get-button Add -after [get-label "Excluded patterns:"] | click
+        with [get-table -after [get-label "Excluded patterns:"]] {
+            select "com.mycompany.\\*" | get-item -index 0 | activate-cell-edit
+            get-editbox | set-text "simple.*"
+        }
+    }
+}
+get-button "Save (Ctrl+S)" | click
+get-editor "model-refactoring/default.wfc" | get-section "Scope Details" | get-table 
+    -after [get-label "Excluded patterns:"] | get-item -index 0 | apply-cell-edit
+with [get-editor "model-refactoring/tigerstripe.xml"] {
+    click -nowait
+    get-tab-folder | get-tab-item Facets | click
+    get-section -index 1 | get-section "Facet References" | get-button Add | click
+}
+with [get-window "Select Facets"] {
+    get-tree | select "default.wfc"
+    get-button OK | click
+}
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring" | get-menu "Generate..." | click
+with [get-window "Generate Tigerstripe Project"] {
+    get-button Finish | click
+    get-window "Generate Result" | get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen" 
+    | get-property childCount | equals 2 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring/target" | get-menu Delete | click
+get-window "Confirm Delete" | get-button OK | click
+with [get-editor "model-refactoring/default.wfc"] {
+    click -nowait
+    with [get-section "Scope Details"] {
+        with [get-table -after [get-label "Excluded patterns:"]] {
+            select "simple.\\*" | get-item -index 0 | activate-cell-edit
+            get-item -index 0 | apply-cell-edit
+        }
+        get-button Remove -index 1 | click
+    }
+}
+get-window "Remove Scope Pattern" | get-button OK | click
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | select "model-refactoring" | get-menu "Generate..." | click
+with [get-window "Generate Tigerstripe Project"] {
+    get-button Finish | click
+    get-window "Generate Result" | get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen" 
+    | get-property childCount | equals 22 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "model-refactoring/target/tigerstripe.gen/AssociatedEnt.txt" 
+    | get-property caption | equals "AssociatedEnt.txt" | verify-true]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
