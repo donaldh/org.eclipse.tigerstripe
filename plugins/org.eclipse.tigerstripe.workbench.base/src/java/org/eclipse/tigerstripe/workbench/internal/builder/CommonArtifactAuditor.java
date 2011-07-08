@@ -269,6 +269,28 @@ public class CommonArtifactAuditor extends AbstractArtifactAuditor implements
 			// Possible change with new metamodel
 			checkMethodDefaultValue(getArtifact(), method);
 			checkMethodStereotypes(method);
+			checkMethodArguments(method);
+		}
+	}
+
+	private void checkMethodArguments(IMethod method) {
+		for (IArgument argument : method.getArguments()) {
+			checkArgumentDefaultValue(getArtifact(), method, argument);
+		}
+	}
+
+	private void checkArgumentDefaultValue(IAbstractArtifact artifact,
+			IMethod method, IArgument argument) {
+		IStatus vStatus = isDefaultValueValid(argument.getType(),
+				argument.getDefaultValue());
+		if (!vStatus.isOK()) {
+			TigerstripeProjectAuditor.reportError(
+					"Default value of argument '" + argument.getName()
+							+ "' in method '"
+							+ artifact.getFullyQualifiedName() + "."
+							+ method.getName() + "' is incorrect. "
+							+ vStatus.getMessage(), (IResource) getArtifact()
+							.getAdapter(IResource.class), 222);
 		}
 	}
 
