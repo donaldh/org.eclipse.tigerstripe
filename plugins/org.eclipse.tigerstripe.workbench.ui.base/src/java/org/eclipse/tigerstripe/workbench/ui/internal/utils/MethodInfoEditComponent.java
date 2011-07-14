@@ -16,6 +16,7 @@ import static org.eclipse.jface.layout.GridLayoutFactory.fillDefaults;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.List;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jdt.core.IJavaElement;
@@ -220,11 +221,11 @@ public class MethodInfoEditComponent {
 	public void setMethod(IMethod method) {
 		setMethod(method, false);
 	}
-	
+
 	public void setMethod(IMethod method, boolean inherited) {
 		this.method = method;
 		inheritedMethod = inherited;
-		boolean isReadOnly = this.isReadOnly || inheritedMethod;		
+		boolean isReadOnly = this.isReadOnly || inheritedMethod;
 		setEnabled(method != null && !isReadOnly);
 	}
 
@@ -506,8 +507,8 @@ public class MethodInfoEditComponent {
 		composite.setLayout(layout);
 
 		MethodInfoListener adapter = new MethodInfoListener();
-		Table table = toolkit.createTable(composite, SWT.BORDER | SWT.H_SCROLL
-				| SWT.V_SCROLL);
+		Table table = toolkit.createTable(composite, SWT.BORDER
+				| SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL);
 		table.setEnabled(!isReadOnly);
 		table.addSelectionListener(adapter);
 
@@ -980,12 +981,19 @@ public class MethodInfoEditComponent {
 		argViewer.getTable().redraw();
 		removeArgButton.setEnabled(!isReadOnly
 				&& argViewer.getTable().getSelectionCount() > 0);
-		upArgButton.setEnabled(!isReadOnly
-				&& argViewer.getTable().getSelectionCount() > 0);
-		downArgButton.setEnabled(!isReadOnly
-				&& argViewer.getTable().getSelectionCount() > 0);
-		editArgButton.setEnabled(!isReadOnly
-				&& argViewer.getTable().getSelectionCount() > 0);
+
+		TableItem[] selection = argViewer.getTable().getSelection();
+		List<IArgument> arguments = new ArrayList<IArgument>(getMethod()
+				.getArguments());
+		boolean canMoveUp = selection.length == 1
+				&& arguments.indexOf((selection[0].getData())) != 0;
+
+		boolean canMoveDown = selection.length == 1
+				&& arguments.indexOf((selection[0].getData())) != arguments
+						.size() - 1;
+		upArgButton.setEnabled(!isReadOnly && canMoveUp);
+		downArgButton.setEnabled(!isReadOnly && canMoveDown);
+		editArgButton.setEnabled(!isReadOnly && selection.length == 1);
 
 		exceptionViewer.refresh();
 		exceptionViewer.getTable().redraw();
@@ -1293,7 +1301,7 @@ public class MethodInfoEditComponent {
 				newArgs[i - 1] = (IArgument) allItems[i].getData();
 			}
 		}
-		method.setArguments(Arrays.asList(newArgs));
+		method.setArguments(new ArrayList<IArgument>(Arrays.asList(newArgs)));
 		stateModified();
 		refreshMethodLabel();
 		update();
@@ -1317,7 +1325,7 @@ public class MethodInfoEditComponent {
 				newArgs[i + 1] = (IArgument) allItems[i].getData();
 			}
 		}
-		method.setArguments(Arrays.asList(newArgs));
+		method.setArguments(new ArrayList<IArgument>(Arrays.asList(newArgs)));
 		stateModified();
 		refreshMethodLabel();
 		update();
