@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<null:Map xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:null="null" basePackage="org.eclipse">
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Entity" package="org.eclipse">
+    <properties name="artifact.hide.extends" value="false"/>
+    <attributes name="attribute0" type="String" isUnique="true"/>
+    <attributes name="attribute1" type="String" isUnique="true"/>
+  </artifacts>
+</null:Map>

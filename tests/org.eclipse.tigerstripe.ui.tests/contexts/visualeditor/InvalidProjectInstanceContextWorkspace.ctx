@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="InvalidProjectInstanceContextWorkspace" id="_aGqMAa3UEeCh35rSSWFFwQ" tags="Synch, Class diagram, Instance diagram">
+  <content>
+    <projects name="New Project">
+      <files name=".classpath" contentURI=".InvalidProjectInstanceContextWorkspacectx/content2.classpath"/>
+      <files name=".project" contentURI=".InvalidProjectInstanceContextWorkspacectx/content2.project"/>
+      <files name="tigerstripe.xml" contentURI=".InvalidProjectInstanceContextWorkspacectx/content2.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".InvalidProjectInstanceContextWorkspacectx/content2.prefs"/>
+      </folders>
+      <folders name="src">
+        <folders name="org">
+          <files name=".package" contentURI=".InvalidProjectInstanceContextWorkspacectx/content8.package"/>
+          <folders name="eclipse">
+            <files name=".package" contentURI=".InvalidProjectInstanceContextWorkspacectx/content7.package"/>
+            <files name="Entity.java" contentURI=".InvalidProjectInstanceContextWorkspacectx/content2.java"/>
+            <files name="default.owm" contentURI=".InvalidProjectInstanceContextWorkspacectx/content4.owm"/>
+            <files name="default.vwm" contentURI=".InvalidProjectInstanceContextWorkspacectx/content2.vwm"/>
+            <files name="default.wod" contentURI=".InvalidProjectInstanceContextWorkspacectx/content4.wod"/>
+            <files name="default.wvd" contentURI=".InvalidProjectInstanceContextWorkspacectx/content2.wvd"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

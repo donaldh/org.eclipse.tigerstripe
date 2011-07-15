@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:instancediagram="org.eclipse.tigerstripe.workbench.ui.instancediagram" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmi:id="_WQvf0K3TEeCO2ZnNkqN7Hg" type="Instance" name="default.wod" measurementUnit="Pixel">
+  <children xmi:type="notation:Node" xmi:id="_YETvMK3TEeCO2ZnNkqN7Hg" type="1001">
+    <children xmi:type="notation:Node" xmi:id="_YEVkYK3TEeCO2ZnNkqN7Hg" type="4001"/>
+    <children xmi:type="notation:Node" xmi:id="_YEXZkK3TEeCO2ZnNkqN7Hg" type="5001">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_YEXZka3TEeCO2ZnNkqN7Hg"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_YEXZkq3TEeCO2ZnNkqN7Hg"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_YEXZk63TEeCO2ZnNkqN7Hg"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_YETvMa3TEeCO2ZnNkqN7Hg" fontName="Segoe UI"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_YETvMq3TEeCO2ZnNkqN7Hg"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_YETvM63TEeCO2ZnNkqN7Hg" fillColor="13825530"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_YETvNK3TEeCO2ZnNkqN7Hg"/>
+    <element xmi:type="instancediagram:ClassInstance" href="default.owm#//@classInstances.0"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_YETvNa3TEeCO2ZnNkqN7Hg" x="308" y="90"/>
+  </children>
+  <styles xmi:type="notation:PageStyle" xmi:id="_WQvf0a3TEeCO2ZnNkqN7Hg"/>
+  <styles xmi:type="notation:GuideStyle" xmi:id="_WQvf0q3TEeCO2ZnNkqN7Hg"/>
+  <styles xmi:type="notation:DescriptionStyle" xmi:id="_WQvf063TEeCO2ZnNkqN7Hg"/>
+  <element xmi:type="instancediagram:InstanceMap" href="default.owm#/"/>
+</notation:Diagram>

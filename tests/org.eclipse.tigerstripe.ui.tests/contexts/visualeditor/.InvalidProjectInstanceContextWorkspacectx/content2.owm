@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<instancediagram:InstanceMap xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:instancediagram="org.eclipse.tigerstripe.workbench.ui.instancediagram" basePackage="org.eclipse">
+  <classInstances name="Entity" package="org.eclipse" artifactName="Entity">
+    <variables name="attribute0" type="String" value="1"/>
+    <variables name="attribute1" type="String" value="2"/>
+  </classInstances>
+</instancediagram:InstanceMap>
