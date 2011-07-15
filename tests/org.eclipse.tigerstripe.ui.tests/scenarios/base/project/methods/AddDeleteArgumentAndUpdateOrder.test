@@ -10,10 +10,10 @@ with [get-editor Entity1 | get-section Methods] {
 }
 get-editor Entity1 | get-section Methods | get-section -index 1 | get-button Edit -index 1 | get-property enablement 
     | equals true | verify-true
-get-editor Entity1 | get-section Methods | get-section -index 1 | get-button Up | get-property enablement | equals true 
+get-editor Entity1 | get-section Methods | get-section -index 1 | get-button Up | get-property enablement | equals false 
     | verify-true
 get-editor Entity1 | get-section Methods | get-section -index 1 | get-button Down | get-property enablement 
-    | equals true | verify-true
+    | equals false | verify-true
 get-editor Entity1 | get-section Methods | get-section -index 1 | get-button Remove -index 1 | get-property enablement 
     | equals true | verify-true
 get-button "Save (Ctrl+S)" | click
