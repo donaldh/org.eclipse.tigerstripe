@@ -227,7 +227,7 @@ public abstract class TigerstripeProjectHandle extends
 		getTSProject().addDependency(dependency);
 		IPath path = new Path(dependency.getPath());
 		ProjectDependencyChangeDelta delta = new ProjectDependencyChangeDelta(
-				this, IProjectDependencyDelta.PROJECT_DEPENDENCY_ADDED, path);
+				this, IProjectDependencyDelta.PROJECT_DEPENDENCY_ADDED, path, dependency);
 		broadcastProjectDependencyChange(delta);
 	}
 
@@ -241,7 +241,7 @@ public abstract class TigerstripeProjectHandle extends
 			IPath path = new Path(dep.getPath());
 			ProjectDependencyChangeDelta delta = new ProjectDependencyChangeDelta(
 					this, IProjectDependencyDelta.PROJECT_DEPENDENCY_ADDED,
-					path);
+					path, dep);
 			broadcastProjectDependencyChange(delta);
 		}
 	}
@@ -254,7 +254,7 @@ public abstract class TigerstripeProjectHandle extends
 		getTSProject().removeDependency(dependency);
 		IPath path = new Path(dependency.getPath());
 		ProjectDependencyChangeDelta delta = new ProjectDependencyChangeDelta(
-				this, IProjectDependencyDelta.PROJECT_DEPENDENCY_REMOVED, path);
+				this, IProjectDependencyDelta.PROJECT_DEPENDENCY_REMOVED, path, dependency);
 		broadcastProjectDependencyChange(delta);
 	}
 
@@ -268,7 +268,7 @@ public abstract class TigerstripeProjectHandle extends
 			IPath path = new Path(dep.getPath());
 			ProjectDependencyChangeDelta delta = new ProjectDependencyChangeDelta(
 					this, IProjectDependencyDelta.PROJECT_DEPENDENCY_REMOVED,
-					path);
+					path, dep);
 			broadcastProjectDependencyChange(delta);
 		}
 	}

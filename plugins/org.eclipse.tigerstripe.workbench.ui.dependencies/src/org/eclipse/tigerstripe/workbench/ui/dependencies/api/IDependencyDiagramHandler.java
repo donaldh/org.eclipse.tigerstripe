@@ -16,12 +16,12 @@ public interface IDependencyDiagramHandler {
 	/**
 	 * Called when a new item is added to the dependency graph
 	 */
-	void addDependency(IDependencySubject from, IDependencySubject to);
+	void addDependencies(IDependencySubject from, Collection<IDependencySubject> to);
 
 	/**
 	 * Called when a item is removed from the dependency graph
 	 */
-	void removeDependency(IDependencySubject from, IDependencySubject to);
+	void removeDependencies(IDependencySubject from, Collection<IDependencySubject> to);
 
 	/**
 	 * Update the diagram

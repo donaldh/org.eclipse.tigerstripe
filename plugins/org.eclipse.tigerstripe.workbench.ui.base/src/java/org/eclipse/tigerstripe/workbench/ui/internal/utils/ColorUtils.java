@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.utils;
 
 import org.eclipse.swt.graphics.Color;
+import org.eclipse.swt.graphics.RGB;
 
 public class ColorUtils {
 
@@ -24,4 +25,15 @@ public class ColorUtils {
 
 	public final static Color TS_ORANGE = new Color(null, 232, 123, 20);
 
+	public static RGB sate(RGB color, int value) {
+		int r = ensureColor(color.red + value);
+		int g = ensureColor(color.green + value);
+		int b = ensureColor(color.blue + value);
+		return new RGB(r, g, b);
+	}
+
+	public static int ensureColor(int value) {
+		value = value > 255 ? 255 : value;
+		return value < 0 ? 0 : value;
+	}
 }

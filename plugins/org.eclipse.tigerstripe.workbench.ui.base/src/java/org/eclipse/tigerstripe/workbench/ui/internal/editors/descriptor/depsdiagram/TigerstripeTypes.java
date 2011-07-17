@@ -20,6 +20,7 @@ import org.eclipse.swt.graphics.RGB;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.api.IDependencyAction;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.api.IDependencyType;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.ColorUtils;
 
 public enum TigerstripeTypes implements IDependencyType {
 
@@ -31,7 +32,7 @@ public enum TigerstripeTypes implements IDependencyType {
 
 	private TigerstripeTypes(RGB color) {
 		bgColor = new Color(null, color);
-		fgColor = new Color(null, Utils.sate(color, -30));
+		fgColor = new Color(null, ColorUtils.sate(color, -30));
 	}
 
 	public String getId() {

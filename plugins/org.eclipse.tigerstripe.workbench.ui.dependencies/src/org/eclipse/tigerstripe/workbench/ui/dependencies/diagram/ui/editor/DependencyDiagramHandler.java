@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.dependencies.diagram.ui.editor;
 
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -33,31 +34,52 @@ public class DependencyDiagramHandler implements IDependencyDiagramHandler {
 		this.editor = CheckUtils.notNull(editor, "editor");
 	}
 
-	public void addDependency(IDependencySubject from, IDependencySubject to) {
-		getRegistry().addDependency(from, to);
-
+	public void addDependencies(IDependencySubject from, Collection<IDependencySubject> to) {
+		Set<Subject> affected = new HashSet<Subject>();
+		for (IDependencySubject added : to) {
+			affected.addAll(getRegistry().addDependency(from, added));
+		}
+		
+		affected.retainAll(getRegistry().getDiagram().getCurrentLayer().getShapes());
+		
 		SubjectEditPart fromEditPart = findEditPart(from);
 		if (fromEditPart != null) {
 			fromEditPart.getParent().refresh();
-			fromEditPart.refresh();
 		}
-		SubjectEditPart toEditPart = findEditPart(to);
-		if (toEditPart != null) {
-			toEditPart.refresh();
-		}
+		refreshAffected(affected);
 	}
 
-	public void removeDependency(IDependencySubject from, IDependencySubject to) {
-		getRegistry().removeDependency(from, to);
+	public void removeDependencies(IDependencySubject from, Collection<IDependencySubject> to) {
+		
+//		if (crrentLayer == to) {
+//			switch to back;
+//		}
+
+		Set<Subject> affected = new HashSet<Subject>();
+		for (IDependencySubject removed : to) {
+			affected.addAll(getRegistry().removeDependency(from, removed));
+		}
+
+		affected.retainAll(getRegistry().getDiagram().getCurrentLayer().getShapes());
 
 		SubjectEditPart fromEditPart = findEditPart(from);
 		if (fromEditPart != null) {
 			fromEditPart.getParent().refresh();
-			fromEditPart.refresh();
 		}
-		SubjectEditPart toEditPart = findEditPart(to);
-		if (toEditPart != null) {
-			toEditPart.refresh();
+		
+		refreshAffected(affected);
+	}
+
+	private void refreshAffected(Set<Subject> affected) {
+		@SuppressWarnings("rawtypes")
+		Map editPartRegistry = editor.getGraphicalViewer()
+				.getEditPartRegistry();
+		for (Subject subject : affected) {
+			GraphicalEditPart aPart = (GraphicalEditPart) editPartRegistry
+					.get(subject);
+			if (aPart != null) {
+				aPart.refresh();
+			}
 		}
 	}
 

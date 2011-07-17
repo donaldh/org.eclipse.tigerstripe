@@ -21,6 +21,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -68,15 +69,19 @@ public class TigerstripeModelSubject extends IdObject implements
 		try {
 			for (ITigerstripeModelProject ref : tsProject
 					.getReferencedProjects()) {
-				result.add(factory.getSubject(ref));
+				try {
+					result.add(factory.getSubject(ref));
+				} catch (TigerstripeException e) {
+					BasePlugin.log(e);
+				}
 			}
 			for (IDependency dep : tsProject.getDependencies()) {
-				result.add(factory.getSubject(dep));
+				result.add(factory.getSubject(dep, tsProject.getModelId()));
 			}
-			return result;
 		} catch (TigerstripeException e) {
-			throw new RuntimeException(e);
+			BasePlugin.log(e);
 		}
+		return result;
 	}
 
 	public SortedMap<String, String> getProperties() {
@@ -114,5 +119,9 @@ public class TigerstripeModelSubject extends IdObject implements
 
 	public boolean isReverseDirection() {
 		return false;
+	}
+
+	public ITigerstripeModelProject getTsProject() {
+		return tsProject;
 	}
 }

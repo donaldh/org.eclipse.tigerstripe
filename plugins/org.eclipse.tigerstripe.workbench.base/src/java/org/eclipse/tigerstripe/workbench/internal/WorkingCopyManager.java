@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal;
 
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -104,11 +105,13 @@ public abstract class WorkingCopyManager implements IWorkingCopy {
 			throw new TigerstripeException("This working copy was disposed.");
 		}
 
+		CommitEvent commitEvent = new CommitEvent(this, original);
 		doCommit(monitor);
 
 		OriginalChangeEvent event = new OriginalChangeEvent(
 				OriginalChangeEvent.ORIGINAL_CHANGED);
 		notifyListeners(event);
+		fireCommitListeners(commitEvent);
 	}
 
 	private void dispose(IWorkingCopy copy) {
@@ -151,5 +154,41 @@ public abstract class WorkingCopyManager implements IWorkingCopy {
 	}
 
 	public abstract boolean isDirty();
+	
 
+	private static final Set<CommitListener> commitListeners = new LinkedHashSet<CommitListener>();
+
+	public static void addCommitListener(CommitListener listener) {
+		commitListeners.add(listener);
+	}
+
+	public static void removeCommitListener(CommitListener listener) {
+		commitListeners.remove(listener);
+	}
+
+	public static void fireCommitListeners(CommitEvent event) {
+		for (CommitListener l : commitListeners) {
+			l.onCommit(event);
+		}
+	}
+	
+	public static interface CommitListener {
+		void onCommit(CommitEvent event);
+	}
+	
+	public static class CommitEvent {
+		private final IWorkingCopy workingCopy;
+		private final Object original;
+		
+		public CommitEvent(IWorkingCopy workingCopy, Object original) {
+			this.workingCopy = workingCopy;
+			this.original = original;
+		}
+		public IWorkingCopy getWorkingCopy() {
+			return workingCopy;
+		}
+		public Object getOriginal() {
+			return original;
+		}
+	}
 }

@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EContentAdapter;
@@ -30,10 +31,13 @@ import org.eclipse.tigerstripe.workbench.ui.dependencies.api.IDependencySubject;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.api.IDependencyType;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.internal.depenedencies.Cache.Creator;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Connection;
+import org.eclipse.tigerstripe.workbench.ui.model.dependencies.DependenciesPackage;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Diagram;
+import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Dimension;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Kind;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Layer;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Note;
+import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Point;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Shape;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Subject;
 
@@ -44,7 +48,9 @@ public class Registry {
 	private Map<String, LayerDescriptor> loadedLayers;
 	private Map<String, KindDescriptor> kinds;
 	private IDependencySubject rootSubject;
-
+	private Diagram loadedDiagram;
+	private boolean disableNotifaction;
+	
 	public Registry(IDependencySubject rootSubject, Diagram loadedDiagram) {
 		this.rootSubject = rootSubject;
 		build(rootSubject, loadedDiagram);
@@ -55,52 +61,21 @@ public class Registry {
 		initializedLayers = new HashMap<String, LayerDescriptor>();
 		loadedLayers = new HashMap<String, LayerDescriptor>();
 		kinds = new HashMap<String, KindDescriptor>();
-
-		for (Layer loadedLayer : loadedDiagram.getLayers()) {
-			initLoaded(loadedLayer);
-		}
+		this.loadedDiagram = loadedDiagram;
 
 		// Initial logic
-		initLayers(initialSubject);
-		mergeLayers();
-		mergeKinds(loadedDiagram);
-		mergeLayersHistory(loadedDiagram);
-
-		// Set current layer
-		Layer initLayer;
-		Layer loadedCurrentLayer = loadedDiagram.getCurrentLayer();
-		if (loadedCurrentLayer != null) {
-			LayerDescriptor layerInfo = initializedLayers
-					.get(loadedCurrentLayer.getId());
-
-			if (layerInfo != null) {
-				initLayer = layerInfo.getLayer();
-			} else {
-				initLayer = initializedLayers.get(initialSubject.getId())
-						.getLayer();
-			}
-		} else {
-			initLayer = initializedLayers.get(initialSubject.getId())
-					.getLayer();
-		}
+		final Layer initLayer = initLayer(initialSubject);
+		mergeKinds();
+		
 		diagram.setCurrentLayer(initLayer);
+		
 		if (loadedDiagram.getRouter() != null) {
 			diagram.setRouter(loadedDiagram.getRouter());
 		}
 		diagram.eAdapters().add(contentListener);
 	}
 
-	private void mergeLayersHistory(Diagram loadedDiagram) {
-
-		for (Layer l : loadedDiagram.getLayersHistory()) {
-			LayerDescriptor ld = initializedLayers.get(l.getId());
-			if (ld != null) {
-				diagram.getLayersHistory().add(ld.getLayer());
-			}
-		}
-	}
-
-	private void mergeKinds(Diagram loadedDiagram) {
+	private void mergeKinds() {
 
 		EList<Kind> loadedKinds = loadedDiagram.getKinds();
 		Map<String, Kind> loadedKindsMap = new HashMap<String, Kind>(
@@ -120,20 +95,16 @@ public class Registry {
 		}
 	}
 
-	private void mergeLayers() {
-
-		for (Entry<String, LayerDescriptor> entry : initializedLayers
-				.entrySet()) {
-
-			LayerDescriptor loadedLayerInfo = loadedLayers.get(entry.getKey());
-
-			if (loadedLayerInfo != null) {
-				LayerDescriptor layerInfo = entry.getValue();
-				layerInfo.getLayer().setWasLayouting(
-						loadedLayerInfo.getLayer().isWasLayouting());
-				mergeSubjects(loadedLayerInfo, layerInfo);
-				addSimpleShapes(loadedLayerInfo, layerInfo);
-			}
+	private void mergeLayers(String layerId) {
+		
+		LayerDescriptor layerInfo = initializedLayers.get(layerId);
+		LayerDescriptor loadedLayerInfo = loadedLayers.get(layerId);
+		
+		if (layerInfo != null && loadedLayerInfo != null) {
+			layerInfo.getLayer().setWasLayouting(
+					loadedLayerInfo.getLayer().isWasLayouting());
+			mergeSubjects(loadedLayerInfo, layerInfo);
+			addSimpleShapes(loadedLayerInfo, layerInfo);
 		}
 	}
 
@@ -218,13 +189,21 @@ public class Registry {
 		}
 	}
 
-	public void initLayers(IDependencySubject root) {
+	public Layer initLayer(IDependencySubject root) {
 
 		LayerDescriptor layerInfo = initializedLayers.get(root.getId());
 
 		if (layerInfo != null) {
-			return;
+			return layerInfo.getLayer();
 		}
+		
+		EList<Layer> layers = loadedDiagram.getLayers();
+		for (Layer loadedLayer : layers) {
+			if (loadedLayer.getId().equals(root.getId())) {
+				initLoaded(loadedLayer);
+			}
+		}
+		
 		Layer layer = ModelsFactory.INSTANCE.createLayer();
 		layer.setId(root.getId());
 		diagram.getLayers().add(layer);
@@ -238,34 +217,8 @@ public class Registry {
 		layer.getShapes().add(rootSubject);
 
 		loadDependenciesRecursive(rootSubject, new HashSet<Subject>());
-
-		// Set<IDependencySubject> dependencies = root.getDependencies();
-		// for (IDependencySubject dependency : dependencies) {
-		// Utils.link(rootSubject, findOrCreate(layerData, dependency));
-		// }
-		//
-		// for (IDependencySubject dependency : dependencies) {
-		// Subject subject = layerData.get(dependency.getId())
-		// .getSubject();
-		// for (IDependencySubject subDependency : dependency
-		// .getDependencies()) {
-		// SubjectDescriptor sd = layerData.get(subDependency
-		// .getId());
-		// if (sd != null) {
-		// Utils.link(subject, sd.getSubject());
-		// }
-		// }
-		// }
-
-		for (Entry<String, SubjectDescriptor> e : layerData.entrySet()) {
-
-			// Subject subject = e.getValue().getSubject();
-			IDependencySubject externalSubject = e.getValue()
-					.getExternalSubject();
-
-			// layer.getShapes().add(subject);
-			initLayers(externalSubject);
-		}
+		mergeLayers(layer.getId());
+		return layer;
 	}
 
 	private void loadDependenciesRecursive(Subject subject, Set<Subject> seen) {
@@ -329,31 +282,101 @@ public class Registry {
 		return kinds.get(id);
 	}
 
-	public void addDependency(IDependencySubject from, IDependencySubject to) {
-
+	public Set<Subject> addDependency(IDependencySubject from, IDependencySubject to) {
+		disableNotifaction = true;
+		Set<Subject> affected = new HashSet<Subject>();
 		for (Entry<String, LayerDescriptor> e : initializedLayers.entrySet()) {
 
 			LayerData layerData = e.getValue().getLayerData();
 
 			SubjectDescriptor fromDescriptor = layerData.get(from.getId());
-
+			
 			if (fromDescriptor == null) {
 				continue;
 			}
 
 			Subject fromShape = findOrCreate(layerData, from);
+			if (!fromShape.isLoaded()) {
+				continue;
+			}
+			boolean newShape = !layerData.containsKey(to.getId());
+			
 			Subject toShape = findOrCreate(layerData, to);
-
+			affected.add(fromShape);
+			affected.add(toShape);
 			EList<Shape> shapes = fromShape.getParentLayer().getShapes();
 			if (!shapes.contains(toShape)) {
+				setPositionForNewShape(shapes, toShape);
 				shapes.add(toShape);
 			}
 			Utils.linkWithCheck(fromShape, toShape);
+			if (newShape) {
+				for (IDependencySubject subj : to.getDependencies()) {
+					SubjectDescriptor desc = layerData.get(subj.getId());
+					if (desc != null) {
+						Subject linked = desc.getSubject();
+						Utils.link(toShape, linked);
+						affected.add(linked);
+					}
+				}
+				for (SubjectDescriptor desc: layerData.values()) {
+					Subject subject = desc.getSubject();
+					if (toShape.equals(subject) || fromShape.equals(subject)) {
+						continue;
+					}
+					if (containsId(to.getId(), desc.getExternalSubject().getDependencies())) {
+						Utils.link(subject, toShape);
+						affected.add(subject);
+					}
+				}
+			}
 		}
+		disableNotifaction = false;
+		return affected;
 	}
 
-	public void removeDependency(IDependencySubject from, IDependencySubject to) {
+	private boolean containsId(String id, Set<IDependencySubject> deps) {
+		for (IDependencySubject subj : deps) {
+			if (id.equals(subj.getId())) {
+				return true;
+			}
+		}
+		return false;
+	}
 
+	private void setPositionForNewShape(EList<Shape> shapes, Subject shape) {
+		final int MAX_WIDTH = 700;
+		final int STEP = 25;
+		
+		Rectangle bound = new Rectangle();
+		for (Shape s : shapes) {
+			Point loc = s.getLocation();
+			Dimension size = s.getSize();
+			bound = bound.union(loc.getX(), loc.getY(),
+					size.getWidth(), size.getHeight());
+		}
+
+		Dimension size = shape.getSize();
+		Point loc = shape.getLocation();
+		
+		if (bound.width + size.getWidth() + STEP > MAX_WIDTH) {
+			loc.setX(STEP);
+			loc.setY(bound.height + STEP);
+		} else {
+			int y = bound.height - size.getHeight();
+			if (y < 0) {
+				y = 0;
+			}
+			loc.setX(bound.width + STEP);
+			loc.setY(y);
+		}
+		shape.setWasLayouting(true);
+	}
+
+	public Set<Subject> removeDependency(IDependencySubject from, IDependencySubject to) {
+		Set<Subject> affected = new HashSet<Subject>();
+		disableNotifaction = true;
+		initializedLayers.remove(to.getId());
 		for (Entry<String, LayerDescriptor> e : initializedLayers.entrySet()) {
 			LayerData layerData = e.getValue().getLayerData();
 
@@ -363,27 +386,76 @@ public class Registry {
 			if (fromDescriptor == null || toDescriptor == null) {
 				continue;
 			}
-			Subject toShape = toDescriptor.getSubject();
 			Subject fromShape = fromDescriptor.getSubject();
+			Subject toShape = toDescriptor.getSubject();
+			
 			Utils.unLink(fromShape, toShape);
-			// Delete orphan
-			if (notContaintSubjects(toShape.getTargetConnections())
-					&& notContaintSubjects(toShape.getSourceConnections())) {
-				fromShape.getParentLayer().getShapes().remove(toShape);
-				layerData.remove(toShape.getExternalId());
+			affected.add(fromShape);			
+			
+			boolean needRetain = false;
+			for (SubjectDescriptor desc: layerData.values()) {
+				Subject subject = desc.getSubject();
+				if (toShape.equals(subject) || fromShape.equals(subject)) {
+					continue;
+				}
+				if (Utils.findConnection(subject, toShape) != null) {
+					needRetain = subject.isLoaded() || subject.isMaster();
+					if (needRetain) {
+						break;
+					}
+				}
+			}
+			
+			if (needRetain) {
+				affected.add(toShape);
+			} else {
+				Set<Subject> toRemove = findToCollapse(toShape);
+				toRemove.add(toShape);
+				affected.addAll(removeSubjects(toRemove, layerData, fromShape.getParentLayer()));
 			}
 		}
+		disableNotifaction = false;
+		return affected;
 	}
 
-	private boolean notContaintSubjects(Iterable<Connection> connections) {
-		for (Connection connection : connections) {
-			if (connection instanceof Subject) {
-				return true;
+	private Set<Subject> removeSubjects(Set<Subject> toRemoves, LayerData layerData, Layer layer) {
+		
+		Set<Subject> affected = new HashSet<Subject>();
+		List<Shape> layerShapes = layer.getShapes();
+		for (Subject toRemove : toRemoves) {
+
+			for (Connection con : toRemove.getTargetConnections()) {
+				Shape source = con.getSource();
+				if (source instanceof Note) {
+					layerShapes.remove(source);
+				}
+				
+				if (source instanceof Subject) {
+					if (!toRemoves.contains(source)) {
+						Subject sourceSubject = (Subject)source;
+						sourceSubject.getSourceConnections().remove(con);
+						affected.add(sourceSubject);
+					}
+				}
 			}
-		}
-		return false;
-	}
+			for (Connection con : toRemove.getSourceConnections()) {
+				Shape target = con.getTarget();
+				if (target instanceof Subject) {
+					if (!toRemoves.contains(target)) {
+						Subject targetSubject = (Subject)target;
+						targetSubject.getTargetConnections().remove(con);
+						affected.add(targetSubject);
+					}
+				}
+			}
+			layerShapes.remove(toRemove);
+			layerData.remove(toRemove.getExternalId());
 
+			saveSubject(toRemove, layer.getId());
+		}		
+		return affected;
+	}
+	
 	public void update() {
 		diagram.eAdapters().remove(contentListener);
 		build(rootSubject, diagram);
@@ -532,6 +604,37 @@ public class Registry {
 			return;
 		}
 		forSubject.setLoaded(false);
+		
+		Set<Subject> toRemoves = findToCollapse(forSubject);
+		
+		List<Shape> layerShapes = layerDescriptor.getLayer().getShapes();
+		for (Subject toRemove : toRemoves) {
+
+			for (Connection con : toRemove.getTargetConnections()) {
+				Shape source = con.getSource();
+				if (source instanceof Note) {
+					layerShapes.remove(source);
+				}
+			}
+			layerShapes.remove(toRemove);
+			layerDescriptor.getLayerData().remove(toRemove.getExternalId());
+
+			saveSubject(toRemove, layerDescriptor.getLayer().getId());
+		}
+
+		updateConnections(layerDescriptor);
+
+	}
+	
+	private Set<Subject> findToCollapse(Subject forSubject) {
+
+		LayerDescriptor layerDescriptor = initializedLayers.get(forSubject
+				.getParentLayer().getId());
+
+		if (layerDescriptor == null) {
+			return Collections.emptySet();
+		}
+		forSubject.setLoaded(false);
 		GraphTraverser traverser = new GraphTraverser(
 				GraphTraverser.Direction.TARGET);
 
@@ -576,22 +679,7 @@ public class Registry {
 			staticSubjects = nextStatic;
 		}
 
-		List<Shape> layerShapes = layerDescriptor.getLayer().getShapes();
-		for (Subject toRemove : toRemoves) {
-
-			for (Connection con : toRemove.getTargetConnections()) {
-				Shape source = con.getSource();
-				if (source instanceof Note) {
-					layerShapes.remove(source);
-				}
-			}
-			layerShapes.remove(toRemove);
-			layerDescriptor.getLayerData().remove(toRemove.getExternalId());
-
-			saveSubject(toRemove, layerDescriptor.getLayer().getId());
-		}
-
-		updateConnections(layerDescriptor);
+		return toRemoves;
 
 	}
 
@@ -1030,9 +1118,15 @@ public class Registry {
 
 		@Override
 		public void notifyChanged(Notification notification) {
+			super.notifyChanged(notification);
+			if (disableNotifaction) {
+				return;
+			}
 			int eventType = notification.getEventType();
 			if (eventType == Notification.RESOLVE
-					|| eventType == Notification.REMOVING_ADAPTER) {
+					|| eventType == Notification.REMOVING_ADAPTER
+					|| DependenciesPackage.Literals.DIAGRAM__LAYERS_HISTORY.equals(notification.getFeature())
+					|| DependenciesPackage.Literals.DIAGRAM__CURRENT_LAYER.equals(notification.getFeature())) {
 				return;
 			}
 			fireModelChange();

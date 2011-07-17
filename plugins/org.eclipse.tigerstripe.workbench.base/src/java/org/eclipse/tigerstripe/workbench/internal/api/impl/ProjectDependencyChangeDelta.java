@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.api.impl;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
+import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.IProjectDependencyDelta;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
@@ -22,6 +23,7 @@ public class ProjectDependencyChangeDelta implements IProjectDependencyDelta {
 	private IPath path;
 	
 	private ModelReference modelReference;
+	private IDependency dependency;
 
 	public ProjectDependencyChangeDelta(ITigerstripeModelProject project,
 			int kind, IPath path, ModelReference modelReference) {
@@ -31,8 +33,9 @@ public class ProjectDependencyChangeDelta implements IProjectDependencyDelta {
 		this.modelReference = modelReference;
 	}
 	
-	public ProjectDependencyChangeDelta(ITigerstripeModelProject project, int kind, IPath path ) {
-		this(project, kind, path, null);
+	public ProjectDependencyChangeDelta(ITigerstripeModelProject project, int kind, IPath path, IDependency dependency) {
+		this(project, kind, path, (ModelReference) null);
+		this.dependency = dependency;
 	}
 
 	public int getKind() {
@@ -47,4 +50,11 @@ public class ProjectDependencyChangeDelta implements IProjectDependencyDelta {
 		return project;
 	}
 
+	public ModelReference getModelReference() {
+		return modelReference;
+	}
+
+	public IDependency getDependency() {
+		return dependency;
+	}
 }

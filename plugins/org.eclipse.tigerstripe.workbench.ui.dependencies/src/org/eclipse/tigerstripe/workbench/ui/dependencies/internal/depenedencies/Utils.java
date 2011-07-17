@@ -231,15 +231,12 @@ public class Utils {
 		Set<GraphicalEditPart> toLayout = new HashSet<GraphicalEditPart>();
 
 		for (Subject s : affected) {
-			if (s.isWasLayouting()) {
-				continue;
-			}
 			GraphicalEditPart aPart = (GraphicalEditPart) editPartRegistry
 					.get(s);
 			if (aPart == null) {
 				continue;
 			}
-			if (!s.equals(subject) && !attended.contains(s)) {
+			if (!s.isWasLayouting() && !s.equals(subject) && !attended.contains(s)) {
 				toLayout.add(aPart);
 				if (aPart instanceof ShapeEditPart) {
 					((ShapeEditPart) aPart).getShape().setWasLayouting(true);

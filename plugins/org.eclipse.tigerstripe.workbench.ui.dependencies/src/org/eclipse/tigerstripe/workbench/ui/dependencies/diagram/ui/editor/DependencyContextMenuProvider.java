@@ -35,6 +35,7 @@ import org.eclipse.tigerstripe.workbench.ui.dependencies.diagram.ui.parts.Subjec
 import org.eclipse.tigerstripe.workbench.ui.dependencies.internal.depenedencies.LayerDescriptor;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.internal.depenedencies.ModelsFactory;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.internal.depenedencies.Registry;
+import org.eclipse.tigerstripe.workbench.ui.dependencies.internal.depenedencies.SubjectDescriptor;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.internal.depenedencies.Utils;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Connection;
 import org.eclipse.tigerstripe.workbench.ui.model.dependencies.Diagram;
@@ -109,13 +110,24 @@ public class DependencyContextMenuProvider extends ContextMenuProvider {
 
 					@Override
 					public void run() {
-						SubjectEditPart selectedSubjectEditPart = getSelectedSubjectEditPart();
+						SubjectEditPart editPart = getSelectedSubjectEditPart();
+						if (editPart == null) {
+							return;
+						}
 						Registry registry = Utils.getService(getViewer(),
 								Registry.class);
-						LayerDescriptor layerInfo = registry
-								.getLayerInfo(selectedSubjectEditPart
-										.getSubject().getExternalId());
-						Utils.switchToLayer(layerInfo.getLayer(), getViewer());
+						
+						LayerDescriptor layerInfo = registry.getLayerInfo(Utils.getDiagram(editPart).getCurrentLayer().getId());
+						
+						SubjectDescriptor subjectDescriptor = layerInfo.getLayerData().get(editPart
+								.getSubject().getExternalId());
+						
+						if (subjectDescriptor == null) {
+							return;
+						}
+						
+						Layer layer = registry.initLayer(subjectDescriptor.getExternalSubject());
+						Utils.switchToLayer(layer, getViewer());
 					}
 
 					@Override
@@ -125,19 +137,10 @@ public class DependencyContextMenuProvider extends ContextMenuProvider {
 						if (editPart == null) {
 							return false;
 						}
-						Registry registry = Utils.getService(getViewer(),
-								Registry.class);
-						LayerDescriptor layerInfo = registry
-								.getLayerInfo(editPart.getSubject()
-										.getExternalId());
-
-						if (layerInfo == null) {
-							return false;
-						}
-
+						
 						Diagram diagram = Utils.getDiagram(editPart);
-						Layer currentLayer = diagram.getCurrentLayer();
-						return !currentLayer.equals(layerInfo.getLayer());
+						return !diagram.getCurrentLayer().getId()
+								.equals(editPart.getSubject().getExternalId());
 					}
 				});
 

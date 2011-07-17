@@ -11,6 +11,7 @@
  ******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.depsdiagram;
 
+import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.api.IDependencySubject;
 import org.eclipse.ui.IEditorInput;
@@ -33,7 +34,11 @@ public class TigerstripeDependenciesDiagram extends
 
 	@Override
 	protected IDependencySubject getRootModel(IEditorInput input) {
-		return factory.getSubject(getTSProject(input));
+		try {
+			return factory.getSubject(getTSProject(input));
+		} catch (TigerstripeException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	public void setProjectProvider(ITigerstripeProjectProvider projectProvider) {
