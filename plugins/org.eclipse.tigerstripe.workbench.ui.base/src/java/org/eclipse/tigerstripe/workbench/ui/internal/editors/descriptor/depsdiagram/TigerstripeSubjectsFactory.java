@@ -81,7 +81,6 @@ public class TigerstripeSubjectsFactory implements CommitListener {
 	private void listen(TigerstripeModelSubject subject) throws TigerstripeException {
 		ITigerstripeModelProject project = subject.getTsProject();
 		if (!listened.containsKey(project)) {
-			System.out.println("listen "+project.getModelId());
 			if (!project.wasDisposed()) {
 				DependencyListnener listener = new DependencyListnener(subject);
 				project.addProjectDependencyChangeListener(listener);
@@ -91,7 +90,6 @@ public class TigerstripeSubjectsFactory implements CommitListener {
 	}
 
 	public void dispose() {
-		System.out.println("dispose factory");
 		WorkingCopyManager.removeCommitListener(this);
 		Set<Entry<ITigerstripeModelProject, DependencyListnener>> entrySet = listened.entrySet();
 		for (Entry<ITigerstripeModelProject, DependencyListnener> e : entrySet) {
@@ -130,7 +128,6 @@ public class TigerstripeSubjectsFactory implements CommitListener {
 				IDependency dependency = toDependency(delta);
 				switch (delta.getKind()) {
 				case PROJECT_REFERENCE_ADDED:
-					System.out.println(String.format("add from %s to %s", workingCopy.getModelId(), reference.getModelId()));
 					Utils.addToSetInMap(addedRefs, workingCopy, reference);
 					Utils.removeFromSetInMap(removedRefs, workingCopy, reference);
 					break;
@@ -158,7 +155,6 @@ public class TigerstripeSubjectsFactory implements CommitListener {
 
 		private void commit(ITigerstripeModelProject workingCopy) {
 			
-			System.out.println("commit " + from.getId());
 			Set<ITigerstripeModelProject> rAdded = addedRefs.get(workingCopy);
 			if (rAdded != null) {
 				handler.addDependencies(from, mapAsSubjects(rAdded));
