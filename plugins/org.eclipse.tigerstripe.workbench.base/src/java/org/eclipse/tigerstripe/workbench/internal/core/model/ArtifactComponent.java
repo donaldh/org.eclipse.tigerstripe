@@ -456,8 +456,13 @@ public abstract class ArtifactComponent implements IModelComponent,
 	private boolean isAnnotationMatchWithID(String annotationID, Object obj) {
 		if (obj!=null) {
 			String className = obj.getClass().getName();
-			if (className.equals(annotationID) || className.endsWith(annotationID))
-				return true;
+			if (className!=null) {
+				String implementationClass = annotationID + "Impl";
+				
+				if (className.equals(annotationID) || className.endsWith(annotationID) ||
+						className.equals(implementationClass) || className.endsWith(implementationClass))
+					return true;
+			}
 		}
 		return false;
 	}
