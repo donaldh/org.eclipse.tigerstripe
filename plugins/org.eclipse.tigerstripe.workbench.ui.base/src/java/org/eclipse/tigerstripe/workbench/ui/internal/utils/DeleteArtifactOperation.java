@@ -29,7 +29,7 @@ public class DeleteArtifactOperation extends AbstractOperation {
 	private final IAbstractArtifact artifact;
 
 	public DeleteArtifactOperation(IAbstractArtifact artifact,
-			IArtifactManagerSession session) {
+			IArtifactManagerSession session, boolean deleteResourse) {
 
 		super(String.format("Delete Operation for Artifact '%s'",
 				artifact.getFullyQualifiedName()));
@@ -37,15 +37,20 @@ public class DeleteArtifactOperation extends AbstractOperation {
 		this.artifact = CheckUtils.notNull(artifact, "artifact");
 		this.session = CheckUtils.notNull(session, "session");
 
-		IResource resource = (IResource) artifact.getAdapter(IResource.class);
 
 		String opName = String.format(
 				"Delete Resource Operation for Artifact '%s'",
 				artifact.getFullyQualifiedName());
 
-		if (resource != null) {
-			deleteResourceOperation = new DeleteResourcesOperation(
-					new IResource[] { resource }, opName, false);
+		if (deleteResourse) {
+			IResource resource = (IResource) artifact
+					.getAdapter(IResource.class);
+			if (resource != null) {
+				deleteResourceOperation = new DeleteResourcesOperation(
+						new IResource[] { resource }, opName, false);
+			} else {
+				deleteResourceOperation = new EmptyOperation();
+			}
 		} else {
 			deleteResourceOperation = new EmptyOperation();
 		}

@@ -221,7 +221,7 @@ public class ConvertArtifactOperation extends AbstractOperation {
 			for (IRelationship r : relationships) {
 				if (r instanceof IAbstractArtifact) {
 					relationsOperations.add(new DeleteArtifactOperation(
-							(IAbstractArtifact) r, session));
+							(IAbstractArtifact) r, session, true));
 				}
 			}
 
@@ -231,10 +231,12 @@ public class ConvertArtifactOperation extends AbstractOperation {
 					toConvertAsModels);
 			for (IAbstractArtifact art : toConvertAsModels) {
 
-				deleteOprations.add(new DeleteArtifactOperation(art, session));
-
 				String fqn = art.getFullyQualifiedName();
-				if (needConvert(fqn)) {
+				boolean needConvert = needConvert(fqn);
+				deleteOprations.add(new DeleteArtifactOperation(art, session,
+						!needConvert));
+
+				if (needConvert) {
 
 					Class<?> mapClass = art instanceof IAssociationArtifact ? IAssociationArtifact.class
 							: IAbstractArtifact.class;
@@ -493,6 +495,7 @@ public class ConvertArtifactOperation extends AbstractOperation {
 		return relationships;
 	}
 
+
 	@Override
 	public IStatus execute(final IProgressMonitor monitor, final IAdaptable info)
 			throws ExecutionException {
@@ -515,7 +518,7 @@ public class ConvertArtifactOperation extends AbstractOperation {
 		bindUndoContext();
 		return status;
 	}
-
+   
 	@Override
 	public IStatus redo(final IProgressMonitor monitor, final IAdaptable info)
 			throws ExecutionException {
