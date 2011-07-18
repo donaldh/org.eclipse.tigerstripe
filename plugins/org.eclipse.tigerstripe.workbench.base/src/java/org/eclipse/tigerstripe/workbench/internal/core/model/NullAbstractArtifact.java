@@ -395,4 +395,12 @@ public enum NullAbstractArtifact implements IAbstractArtifact {
 		return null;
 	}
 
+	public Object getAnnotationByID(String annotationID) {
+		return null;
+	}
+
+	public boolean hasAnnotationWithID(String annotationID) {
+		return false;
+	}
+
 }

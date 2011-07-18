@@ -443,6 +443,25 @@ public abstract class ArtifactComponent implements IModelComponent,
 		return null;
 	}
 
+	public Object getAnnotationByID(String annotationID) {
+		List<Object> all = getAnnotations();
+		for (Object obj : all) {
+			if (isAnnotationMatchWithID(annotationID, obj))
+				return obj;
+		}
+
+		return null;
+	}
+	
+	private boolean isAnnotationMatchWithID(String annotationID, Object obj) {
+		if (obj!=null) {
+			String className = obj.getClass().getName();
+			if (className.equals(annotationID) || className.endsWith(annotationID))
+				return true;
+		}
+		return false;
+	}
+	
 	/**
 	 * @param annotationSpecificationID
 	 * @param obj
@@ -476,6 +495,15 @@ public abstract class ArtifactComponent implements IModelComponent,
 		List<Object> annotations = getAnnotations();
 		for (Iterator<Object> i = annotations.iterator(); i.hasNext();) {
 			if (isAnnotationMatch(annotationSpecificationID, i.next()))
+				return true;
+		}
+		return false;
+	}
+	
+	public boolean hasAnnotationWithID(String annotationID) {
+		List<Object> annotations = getAnnotations();
+		for (Iterator<Object> i = annotations.iterator(); i.hasNext();) {
+			if (isAnnotationMatchWithID(annotationID, i.next()))
 				return true;
 		}
 		return false;

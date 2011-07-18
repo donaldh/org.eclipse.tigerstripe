@@ -48,8 +48,20 @@ public interface IAnnotationCapable {
 	 *            "org.eclipse.tigerstripe.annotation.example.Person" or
 	 *            "Person" would work, e.g.
 	 * @return the first annotation for the given scheme and annotationType
+	 * @deprecated Use getAnnotationsByID(annotationID) instead
 	 */
 	public Object getAnnotation(String annotationType);
+	
+	/**
+	 * Returns the annotation with the given ID.  Null if annotation with the given ID does 
+	 * not exist.
+	 * 
+	 * @param annotationID  -  ID of the annotation of interest
+	 * @return  Annotation with with the given ID or null if no such annotation exists for 
+	 * this object.
+	 */
+	public Object getAnnotationByID(String annotationID);
+	
 
 	/**
 	 * Returns the list of annotations defined against this object for the "tigerstripe"
@@ -140,8 +152,17 @@ public interface IAnnotationCapable {
 	 *            "org.eclipse.tigerstripe.annotation.example.Person" or
 	 *            "Person" would work, e.g.
 	 * @return true - if there is any annotation defined against this object
+	 * @deprecated  Use hasAnnotationWithID(annotationID)
 	 */
 	public boolean hasAnnotations(String annotationType);
+	
+	/**
+	 * Returns true if annotation with the given ID exists on this object; false otherwise
+	 * 
+	 * @param annotationID - ID of the annotation of interest
+	 * @return true if annotation with the given ID exists on this object; false otherwise
+	 */
+	public boolean hasAnnotationWithID(String annotationID);
 
 	/**
 	 * Returns true if there is any annotation defined against this object for

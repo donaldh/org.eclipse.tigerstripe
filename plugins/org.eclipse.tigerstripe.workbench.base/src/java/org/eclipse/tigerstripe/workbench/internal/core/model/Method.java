@@ -254,6 +254,18 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			return result;
 		}
 
+		public Object getAnnotationByID(String annotationID) {
+			BasePlugin.log(new TigerstripeException(
+			"Annotations not supported on Method return"));
+			return null;
+		}
+
+		public boolean hasAnnotationWithID(String annotationID) {
+			BasePlugin.log(new TigerstripeException(
+			"Annotations not supported on Method return"));
+			return false;
+		}
+
 	}
 
 	public String getDefaultReturnValue() {
@@ -971,6 +983,18 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		public URI toURI() throws TigerstripeException {
 			URI u = TigerstripeURIAdapterFactory.toURI(this);
 			return u;
+		}
+
+		public Object getAnnotationByID(String annotationID) {
+			BasePlugin.log(new TigerstripeException(
+			"Annotations not supported on Method Arguments"));
+			return null;
+		}
+
+		public boolean hasAnnotationWithID(String annotationID) {
+			BasePlugin.log(new TigerstripeException(
+			"Annotations not supported on Method Arguments"));
+			return false;
 		}
 
 	}

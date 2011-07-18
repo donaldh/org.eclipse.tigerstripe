@@ -230,6 +230,15 @@ public class DiagramGenerator implements IDiagramGenerator {
 		public boolean hasAnnotations(String annotationType) {
 			return !getAnnotations(annotationType).isEmpty();
 		}
+
+		public Object getAnnotationByID(String annotationID) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		public boolean hasAnnotationWithID(String annotationID) {
+			return hasAnnotations(annotationID);
+		}
 	}
 
 	// private static DiagramGenerator instance;
