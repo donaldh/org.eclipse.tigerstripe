@@ -10,6 +10,7 @@ import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequestFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
@@ -19,6 +20,15 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.CheckUtils;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ReadOnlyArtifactEditorInput;
+import org.eclipse.tigerstripe.workbench.utils.AdaptHelper;
+import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IFileEditorInput;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.undo.DeleteResourcesOperation;
 
 @SuppressWarnings("deprecation")
@@ -27,6 +37,7 @@ public class DeleteArtifactOperation extends AbstractOperation {
 	private final IArtifactManagerSession session;
 	private final IUndoableOperation deleteResourceOperation;
 	private final IAbstractArtifact artifact;
+	private final boolean closeEditors;
 
 	public DeleteArtifactOperation(IAbstractArtifact artifact,
 			IArtifactManagerSession session, boolean deleteResourse) {
@@ -36,7 +47,6 @@ public class DeleteArtifactOperation extends AbstractOperation {
 
 		this.artifact = CheckUtils.notNull(artifact, "artifact");
 		this.session = CheckUtils.notNull(session, "session");
-
 
 		String opName = String.format(
 				"Delete Resource Operation for Artifact '%s'",
@@ -54,7 +64,7 @@ public class DeleteArtifactOperation extends AbstractOperation {
 		} else {
 			deleteResourceOperation = new EmptyOperation();
 		}
-
+		closeEditors = deleteResourceOperation instanceof EmptyOperation;
 	}
 
 	public <T extends IModelChangeRequest> T getRequest(Class<T> clazz,
@@ -78,8 +88,37 @@ public class DeleteArtifactOperation extends AbstractOperation {
 		} catch (TigerstripeException e) {
 			return EclipsePlugin.getStatus(e);
 		}
+		IStatus status = deleteResourceOperation.execute(monitor, info);
+		if (closeEditors && status.isOK()) {
+			closeEditors();
+		}
+		return status;
+	}
 
-		return deleteResourceOperation.execute(monitor, info);
+	private void closeEditors() {
+		for (IWorkbenchWindow w : PlatformUI.getWorkbench()
+				.getWorkbenchWindows()) {
+			for (IWorkbenchPage page : w.getPages()) {
+
+				for (IEditorReference ref : page.getEditorReferences()) {
+					try {
+						IEditorInput editorInput = ref.getEditorInput();
+						if (editorInput instanceof IFileEditorInput) {
+							IAbstractArtifact artifact = AdaptHelper.adapt(
+									((IFileEditorInput) editorInput).getFile(),
+									IAbstractArtifact.class);
+							if (artifact != null) {
+								page.closeEditor(ref.getEditor(false), false);
+							}
+						} else if (editorInput instanceof ReadOnlyArtifactEditorInput) {
+							page.closeEditor(ref.getEditor(false), false);
+						}
+					} catch (PartInitException e) {
+						BasePlugin.log(e);
+					}
+				}
+			}
+		}
 	}
 
 	@Override
