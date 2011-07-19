@@ -459,8 +459,8 @@ public abstract class ArtifactComponent implements IModelComponent,
 			if (className!=null) {
 				String implementationClass = annotationID + "Impl";
 				
-				if (className.equals(annotationID) || className.endsWith(annotationID) ||
-						className.equals(implementationClass) || className.endsWith(implementationClass))
+				if (className.equals(annotationID) || className.endsWith("." + annotationID) ||
+						className.equals(implementationClass) || className.endsWith("." + implementationClass))
 					return true;
 			}
 		}
