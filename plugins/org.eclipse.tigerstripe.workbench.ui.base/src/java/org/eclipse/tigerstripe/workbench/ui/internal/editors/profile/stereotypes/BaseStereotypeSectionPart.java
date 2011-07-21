@@ -131,7 +131,6 @@ public abstract class BaseStereotypeSectionPart extends TigerstripeSectionPart {
 	 * 
 	 */
 	protected void updateMaster() {
-
 		// Updates the state of the Remove Button
 		if (ProfileEditor.isEditable() && viewer.getSelection() != null
 				&& !viewer.getSelection().isEmpty()) {
@@ -139,6 +138,7 @@ public abstract class BaseStereotypeSectionPart extends TigerstripeSectionPart {
 		} else {
 			removeAttributeButton.setEnabled(false);
 		}
+		viewer.refresh();
 	}
 
 	protected void createDetailsPart(final IManagedForm mform, Composite parent) {
