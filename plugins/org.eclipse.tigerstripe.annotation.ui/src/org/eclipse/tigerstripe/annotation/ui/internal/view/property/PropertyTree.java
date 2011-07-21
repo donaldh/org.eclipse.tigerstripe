@@ -54,7 +54,7 @@ public class PropertyTree {
 	private static String[] columnLabels = { "Property", "Value" };
 
 	// Cell editor support.
-	private int columnToEdit = 1;
+	private final int columnToEdit = 1;
 	private boolean readOnly;
 
 	public Control create(Composite parent) {
@@ -127,6 +127,7 @@ public class PropertyTree {
 			 * org.eclipse.swt.events.SelectionListener#widgetSelected(org.eclipse
 			 * .swt.events.SelectionEvent)
 			 */
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				// The viewer only owns the status line when there is
 				// no 'active' cell editor
@@ -160,12 +161,14 @@ public class PropertyTree {
 			 * org.eclipse.swt.events.SelectionListener#widgetDefaultSelected
 			 * (org.eclipse.swt.events.SelectionEvent)
 			 */
+			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				// handleSelect((TreeItem) e.item);
 			}
 		});
 		// Part2: handle single click activation of cell editor
 		tree.addMouseListener(new MouseAdapter() {
+			@Override
 			public void mouseDown(MouseEvent event) {
 				// only activate if there is a cell editor
 				Point pt = new Point(event.x, event.y);
@@ -189,6 +192,7 @@ public class PropertyTree {
 			 * org.eclipse.swt.events.KeyAdapter#keyPressed(org.eclipse.swt.
 			 * events.KeyEvent)
 			 */
+			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.character == SWT.CR && cellEditor == null) {
 					TreeItem[] items = tree.getSelection();
@@ -198,6 +202,7 @@ public class PropertyTree {
 				}
 			}
 
+			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.character == SWT.ESC) {
 					deactivateCellEditor();
@@ -221,7 +226,7 @@ public class PropertyTree {
 		}
 		EProperty entry = (EProperty) treeItem.getData();
 		try {
-			if (cellEditor != null) {
+			if (cellEditor != null && cellEditor.isDirty()) {
 				entry.setValue(cellEditor.getValue());
 			}
 		} finally {
@@ -359,6 +364,7 @@ public class PropertyTree {
 		}
 
 		tree.addControlListener(new ControlAdapter() {
+			@Override
 			public void controlResized(ControlEvent e) {
 				Rectangle area = tree.getClientArea();
 				TreeColumn[] columns = tree.getColumns();
