@@ -26,6 +26,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
@@ -45,6 +46,7 @@ public class CreateAnnotationWizardPage extends WizardPage {
 	private TargetAnnotationType type;
 	private TargetAnnotationType[] types;
 	private Tree combo;
+	private Text descriptionText;
 	private final Object object;
 
 	private ComboListener comboListener;
@@ -77,8 +79,7 @@ public class CreateAnnotationWizardPage extends WizardPage {
 
 	public void createControl(Composite parent) {
 		initializeDialogUnits(parent);
-		setMessage("No possible types");
-
+		
 		Composite composite = new Composite(parent, SWT.NONE);
 		composite.setFont(parent.getFont());
 
@@ -87,9 +88,27 @@ public class CreateAnnotationWizardPage extends WizardPage {
 		composite.setLayout(layout);
 
 		createTypeControls(composite);
+		createDescription(composite);
+		
+		setFirstSelection();
 
 		setControl(composite);
 		Dialog.applyDialogFont(composite);
+	}
+
+	private void setFirstSelection() {
+		if (combo.getItemCount() > 0) {
+			TreeItem item = combo.getItem(0);
+			item.setExpanded(true);
+			TreeItem[] items = item.getItems();
+			if (items.length > 0)
+				combo.select(items[0]);
+			else
+				combo.select(item);
+		}
+		
+		combo.forceFocus();
+		comboListener.updateDescription();
 	}
 
 	public boolean canFinish() {
@@ -151,15 +170,6 @@ public class CreateAnnotationWizardPage extends WizardPage {
 
 		comboListener = new ComboListener();
 		combo.addSelectionListener(comboListener);
-		if (combo.getItemCount() > 0) {
-			TreeItem item = combo.getItem(0);
-			item.setExpanded(true);
-			TreeItem[] items = item.getItems();
-			if (items.length > 0)
-				combo.select(items[0]);
-			else
-				combo.select(item);
-		}
 		combo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseDoubleClick(MouseEvent e) {
@@ -180,8 +190,24 @@ public class CreateAnnotationWizardPage extends WizardPage {
 				}
 			}
 		});
-		combo.forceFocus();
-		comboListener.updateDescription();
+	}
+	
+	private void createDescription(Composite composite) {
+		Label descrLabel = new Label(composite, SWT.NONE);
+		GridData data = new GridData(GridData.FILL_HORIZONTAL
+				| GridData.GRAB_HORIZONTAL);
+		data.horizontalSpan = 2;
+		descrLabel.setLayoutData(data);
+		descrLabel.setText("Annotation Description:");
+		descriptionText = new Text(composite, SWT.WRAP | SWT.MULTI
+				| SWT.V_SCROLL | SWT.READ_ONLY);
+		descriptionText.setFont(composite.getFont());
+		descriptionText.setBackground(composite.getBackground());
+		data = new GridData(GridData.FILL_BOTH);
+		data.horizontalSpan = 2;
+		data.widthHint = convertWidthInCharsToPixels(50);
+		data.heightHint = convertHeightInCharsToPixels(4);
+		descriptionText.setLayoutData(data);
 	}
 
 	private class ComboListener implements SelectionListener {
@@ -195,23 +221,21 @@ public class CreateAnnotationWizardPage extends WizardPage {
 		}
 
 		public void updateDescription() {
+			String description = "";
 			TreeItem[] selection = combo.getSelection();
 			if (selection.length > 0) {
 				type = (TargetAnnotationType) selection[0].getData();
 				if (type != null) {
-					String d = type.getType().getDescription();
-					if (d == null)
-						d = "";
-					setMessage(d);
-				} else {
-					setMessage("");
+					type.getType().getDescription();
+					if (type.getType().getDescription() != null) {
+						description = type.getType().getDescription();
+					}
 				}
 			} else {
 				type = null;
 			}
+			descriptionText.setText(description);
 			getWizard().getContainer().updateButtons();
 		}
-
 	}
-
 }
