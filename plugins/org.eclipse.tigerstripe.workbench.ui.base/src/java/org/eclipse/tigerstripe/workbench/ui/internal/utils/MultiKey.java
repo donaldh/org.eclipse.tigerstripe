@@ -2,7 +2,7 @@ package org.eclipse.tigerstripe.workbench.ui.internal.utils;
 
 import java.util.Arrays;
 
-public final class MultiKey {
+public class MultiKey {
 
 	private final Object[] values;
 
