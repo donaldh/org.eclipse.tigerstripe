@@ -203,7 +203,7 @@ public class CreateAnnotationWizardPage extends WizardPage {
 				| SWT.V_SCROLL | SWT.READ_ONLY);
 		descriptionText.setFont(composite.getFont());
 		descriptionText.setBackground(composite.getBackground());
-		data = new GridData(GridData.FILL_BOTH);
+		data = new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL);
 		data.horizontalSpan = 2;
 		data.widthHint = convertWidthInCharsToPixels(50);
 		data.heightHint = convertHeightInCharsToPixels(4);
@@ -225,11 +225,8 @@ public class CreateAnnotationWizardPage extends WizardPage {
 			TreeItem[] selection = combo.getSelection();
 			if (selection.length > 0) {
 				type = (TargetAnnotationType) selection[0].getData();
-				if (type != null) {
-					type.getType().getDescription();
-					if (type.getType().getDescription() != null) {
-						description = type.getType().getDescription();
-					}
+				if (type != null && type.getType().getDescription() != null) {
+					description = type.getType().getDescription();
 				}
 			} else {
 				type = null;
