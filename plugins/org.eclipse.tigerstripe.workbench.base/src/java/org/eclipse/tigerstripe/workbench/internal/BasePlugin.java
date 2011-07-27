@@ -14,6 +14,7 @@ import org.apache.log4j.Level;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceVisitor;
+import org.eclipse.core.resources.IWorkspaceRunnable;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -21,6 +22,7 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
@@ -73,45 +75,51 @@ public class BasePlugin extends Plugin {
 	}
 
 	private void addBuilders() throws CoreException {
-		ResourcesPlugin.getWorkspace().getRoot().accept(new IResourceVisitor() {
+		
+		ResourcesPlugin.getWorkspace().run(new IWorkspaceRunnable() {
+			
+			public void run(IProgressMonitor monitor) throws CoreException {
+				ResourcesPlugin.getWorkspace().getRoot().accept(new IResourceVisitor() {
 
-			public boolean visit(IResource resource) throws CoreException {
+					public boolean visit(IResource resource) throws CoreException {
 
-				if (resource instanceof IProject) {
+						if (resource instanceof IProject) {
 
-					final IProject project = (IProject) resource;
+							final IProject project = (IProject) resource;
 
-					if (project.isOpen()){
-						if(project.isAccessible()){
-							if (project.hasNature(BuilderConstants.PROJECT_NATURE_ID)) {
+							if (project.isOpen()){
+								if(project.isAccessible()){
+									if (project.hasNature(BuilderConstants.PROJECT_NATURE_ID)) {
 
-								if (BuilderUtils.addBuilder(project,
-										BuilderConstants.CYCLES_BUILDER_ID)) {
-									new Job("Tigerstripe Cycle References Audit") {
-										@Override
-										protected IStatus run(IProgressMonitor monitor) {
-											try {
+										if (BuilderUtils.addBuilder(project,
+												BuilderConstants.CYCLES_BUILDER_ID)) {
+											new Job("Tigerstripe Cycle References Audit") {
+												@Override
+												protected IStatus run(IProgressMonitor monitor) {
+													try {
 
-												project.build(
-														IncrementalProjectBuilder.FULL_BUILD,
-														BuilderConstants.CYCLES_BUILDER_ID,
-														null, monitor);
+														project.build(
+																IncrementalProjectBuilder.FULL_BUILD,
+																BuilderConstants.CYCLES_BUILDER_ID,
+																null, monitor);
 
-											} catch (CoreException e) {
-												BasePlugin.log(e);
-											}
-											return org.eclipse.core.runtime.Status.OK_STATUS;
+													} catch (CoreException e) {
+														BasePlugin.log(e);
+													}
+													return org.eclipse.core.runtime.Status.OK_STATUS;
+												}
+											}.schedule();
 										}
-									}.schedule();
+									}
 								}
 							}
+							return false;
 						}
+						return true;
 					}
-					return false;
-				}
-				return true;
+				});
 			}
-		});
+		}, new NullProgressMonitor());
 	}
 
 	@Override
