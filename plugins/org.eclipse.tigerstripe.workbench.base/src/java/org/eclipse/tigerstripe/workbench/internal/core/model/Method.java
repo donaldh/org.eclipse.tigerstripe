@@ -133,7 +133,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 
 	private Properties ossjMethodProperties;
 
-	private ArrayList<IStereotypeInstance> methodReturnStereotypes = new ArrayList<IStereotypeInstance>();
+	private final ArrayList<IStereotypeInstance> methodReturnStereotypes = new ArrayList<IStereotypeInstance>();
 
 	private String methodReturnName = "";
 
@@ -235,23 +235,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		}
 
 		public String getStereotypeString() {
-
-			String result = "";
-			if (getStereotypeInstances().size() == 0)
-				return result;
-
-			for (IStereotypeInstance instance : getStereotypeInstances()) {
-				if (result.length() == 0) {
-					result += "<<";
-				} else {
-					result += ",";
-				}
-				result += instance.getName();
-			}
-
-			result += ">>";
-
-			return result;
+			return getStereotypesAsString(ReturnTypeWrapper.this);
 		}
 
 		public Object getAnnotationByID(String annotationID) {
@@ -643,10 +627,10 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 	public class Argument implements IArgument {
 
 		/** the stereotypes attached to this component */
-		private ArrayList<IStereotypeInstance> stereotypeInstances = new ArrayList<IStereotypeInstance>();
+		private final ArrayList<IStereotypeInstance> stereotypeInstances = new ArrayList<IStereotypeInstance>();
 
 		/** the stereotype listeners attached to this component */
-		private ArrayList<IStereotypeListener> stereotypeListeners = new ArrayList<IStereotypeListener>();
+		private final ArrayList<IStereotypeListener> stereotypeListeners = new ArrayList<IStereotypeListener>();
 
 		private String name;
 
@@ -889,6 +873,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 					.toArray(new IStereotypeListener[stereotypeListeners.size()]);
 		}
 
+		@Override
 		public IArgument clone() {
 			IArgument result = new Argument(this.getParentMethod());
 			result.setComment(getComment());
@@ -951,23 +936,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		}
 
 		public String getStereotypeString() {
-
-			String result = "";
-			if (getStereotypeInstances().size() == 0)
-				return result;
-
-			for (IStereotypeInstance instance : getStereotypeInstances()) {
-				if (result.length() == 0) {
-					result += "<<";
-				} else {
-					result += ",";
-				}
-				result += instance.getName();
-			}
-
-			result += ">>";
-
-			return result;
+			return getStereotypesAsString(Argument.this);
 		}
 
 		public EDirection getDirection() {
@@ -1107,6 +1076,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			return result;
 		}
 
+		@Override
 		public IException clone() {
 			IException result = new Exception(getContainingMethod(),
 					getFullyQualifiedName());
@@ -1187,31 +1157,43 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 	}
 
 	public String getLabelString(boolean includeArgStereotypes) {
-		String result = getName() + "("
-				+ getParamsString(includeArgStereotypes) + "):";
-		String retType = getReturnType().getName();
-		if (isVoid()) {
-			retType = "void";
+		IArgumentAnnotationsFormatter aaFormatter = null;
+		if (includeArgStereotypes) {
+			aaFormatter = new DefaultArgumentStereotypesFormatter();
 		}
-		result = result + retType;
-
-		if (!isVoid()
-				&& getReturnType().getTypeMultiplicity() != IModelComponent.EMultiplicity.ONE) {
-			result = result + "["
-					+ getReturnType().getTypeMultiplicity().getLabel() + "]";
-		}
-
-		if (!isVoid() && getDefaultReturnValue() != null) {
-			if (getDefaultReturnValue().length() == 0) {
-				result = result + "=\"\"";
-			} else {
-				result = result + "=" + getDefaultReturnValue();
-			}
-		}
-		return result;
+		return getLabelString(aaFormatter);
 	}
 
-	private String getParamsString(boolean includeArgStereotypes) {
+	public String getLabelString(
+			IArgumentAnnotationsFormatter annotationsFormatter) {
+		StringBuilder result = new StringBuilder();
+		result.append(getName()).append("(")
+				.append(getParamsAsString(annotationsFormatter)).append("):");
+
+		if (isVoid()) {
+			result.append("void");
+		} else {
+			result.append(getReturnType().getName());
+			if (getReturnType().getTypeMultiplicity() != IModelComponent.EMultiplicity.ONE) {
+				result.append("[")
+						.append(getReturnType().getTypeMultiplicity()
+								.getLabel()).append("]");
+			}
+			if (getDefaultReturnValue() != null) {
+				result.append("=");
+				if (getDefaultReturnValue().length() == 0) {
+					result.append("\"\"");
+				} else {
+					result.append(getDefaultReturnValue());
+				}
+			}
+		}
+
+		return result.toString();
+	}
+
+	private String getParamsAsString(
+			IArgumentAnnotationsFormatter annotationsFormatter) {
 
 		GlobalSettingsProperty propG = (GlobalSettingsProperty) TigerstripeCore
 				.getWorkbenchProfileSession().getActiveProfile().getProperty(
@@ -1226,42 +1208,42 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			return "";
 		// else, append the parameter types to form a list of types for the
 		// method signature
-		StringBuffer paramBuffer = new StringBuffer();
+		StringBuilder result = new StringBuilder();
 		int paramCount = 0;
-		for (IArgument iarg : getArguments()) {
-
-			if (includeArgStereotypes) {
-				paramBuffer.append(iarg.getStereotypeString());
+		for (IArgument argument : getArguments()) {
+			if (annotationsFormatter != null) {
+				result.append(annotationsFormatter
+						.getAnnotationsAsString(argument));
 			}
 
 			if (displayDirection) {
-				paramBuffer.append(iarg.getDirection().getLabel() + " ");
+				result.append(argument.getDirection().getLabel()).append(" ");
 			}
 
-			String paramString = Util.nameOf(iarg.getType()
+			String paramString = Util.nameOf(argument.getType()
 					.getFullyQualifiedName());
-			paramBuffer.append(Misc.removeJavaLangString(paramString));
+			result.append(Misc.removeJavaLangString(paramString));
 
-			if (iarg.getType().getTypeMultiplicity() != IModelComponent.EMultiplicity.ONE) {
-				paramBuffer
-						.append("["
-								+ iarg.getType().getTypeMultiplicity()
-										.getLabel() + "]");
+			if (argument.getType().getTypeMultiplicity() != IModelComponent.EMultiplicity.ONE) {
+				result.append("[")
+						.append(argument.getType().getTypeMultiplicity()
+								.getLabel())
+						.append("]");
 			}
 
-			if (iarg.getDefaultValue() != null) {
-				if (iarg.getDefaultValue().length() == 0) {
-					paramBuffer.append("=\"\"");
+			if (argument.getDefaultValue() != null) {
+				result.append("=");
+				if (argument.getDefaultValue().length() == 0) {
+					result.append("\"\"");
 				} else {
-					paramBuffer.append("=" + iarg.getDefaultValue());
+					result.append(argument.getDefaultValue());
 				}
 			}
 
 			if (++paramCount < numParams)
-				paramBuffer.append(", ");
+				result.append(", ");
 		}
-		String paramString = paramBuffer.toString();
-		return paramString;
+		return result.toString();
 	}
 
 	public IArgument makeArgument() {
@@ -1348,6 +1330,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		return this.supportedFlavors;
 	}
 
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof Method) {
 			Method other = (Method) obj;
@@ -1378,6 +1361,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 	/**
 	 * @deprecated
 	 */
+	@Deprecated
 	public EntityMethodFlavorDetails getFlavorDetails(
 			OssjEntityMethodFlavor flavor) {
 		String pojoFlavorDetails = getOssjMethodProperties().getProperty(
@@ -1392,6 +1376,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 	/**
 	 * @deprecated
 	 */
+	@Deprecated
 	public void setFlavorDetails(OssjEntityMethodFlavor flavor,
 			EntityMethodFlavorDetails details) {
 		getOssjMethodProperties().setProperty(flavor.getPojoLabel(),
@@ -1534,6 +1519,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		this.isAbstract = isAbstract;
 	}
 
+	@Override
 	public IMethod clone() {
 		if (getContainingArtifact() == null)
 			throw new IllegalStateException(
@@ -1611,6 +1597,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		return null;
 	}
 
+	@Override
 	public String toString() {
 		String label = this.getLabelString(true);
 		if (hasExceptions()) {
@@ -1623,5 +1610,12 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			}
 		}
 		return label;
+	}
+	
+	private class DefaultArgumentStereotypesFormatter implements IArgumentAnnotationsFormatter {
+
+		public String getAnnotationsAsString(IArgument argument) {
+			return argument.getStereotypeString();
+		}		
 	}
 }

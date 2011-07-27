@@ -130,7 +130,7 @@
          <action
                class="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action.HideStereotypesToggleAction"
                id="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.action8"
-               label="Hide Stereotypes"
+               label="Hide Stereotypes and Annotations"
                menubarPath="org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.hideShow/group1"
                style="toggle"/>
          <menu

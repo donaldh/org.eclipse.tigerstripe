@@ -19,6 +19,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EAggr
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EChangeableEnum;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.eclipse.tigerstripe.workbench.ui.ModelElementAnnotationsHelper;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AggregationEnum;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssocMultiplicity;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
@@ -60,7 +61,8 @@ public class PostCreationAssociationArtifactUpdater extends
 			association.setAEndIsOrdered(aEnd.isOrdered());
 			association.setAEndIsUnique(aEnd.isUnique());
 			association.setAEndName(aEnd.getName());
-			association.setAEndStereotypeNames(aEnd.getStereotypeString());
+			association.setAEndStereotypeNames(ModelElementAnnotationsHelper
+					.getAnnotationsAsString(aEnd));
 			association.setAEndVisibility(ClassDiagramUtils.toVisibility(aEnd
 					.getVisibility()));
 			if (aEnd.getMultiplicity() == IModelComponent.EMultiplicity.ONE) {
@@ -105,7 +107,8 @@ public class PostCreationAssociationArtifactUpdater extends
 			association.setZEndIsUnique(zEnd.isUnique());
 			association.setZEndIsOrdered(zEnd.isOrdered());
 			association.setZEndName(zEnd.getName());
-			association.setZEndStereotypeNames(zEnd.getStereotypeString());
+			association.setZEndStereotypeNames(ModelElementAnnotationsHelper
+					.getAnnotationsAsString(zEnd));
 			association.setZEndVisibility(ClassDiagramUtils.toVisibility(zEnd
 					.getVisibility()));
 			if (zEnd.getMultiplicity() == IModelComponent.EMultiplicity.ONE) {

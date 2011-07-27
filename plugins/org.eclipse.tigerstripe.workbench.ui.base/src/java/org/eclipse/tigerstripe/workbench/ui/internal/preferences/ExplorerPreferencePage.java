@@ -79,7 +79,7 @@ public class ExplorerPreferencePage extends FieldEditorPreferencePage implements
 		GridLayout gl = new GridLayout();
 		gl.numColumns = 3;
 		group.setLayout(gl);
-		group.setText("Display Stereotypes");
+		group.setText("Display Stereotypes and Annotations");
 		addField(new BooleanFieldEditor(P_LABEL_STEREO_ARTIFACT,
 				"on Artifacts", group));
 		addField(new BooleanFieldEditor(P_LABEL_STEREO_ATTR, "on Attributes",

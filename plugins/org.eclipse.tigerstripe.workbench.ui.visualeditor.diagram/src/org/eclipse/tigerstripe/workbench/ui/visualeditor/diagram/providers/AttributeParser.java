@@ -13,11 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers;
 import java.util.List;
 
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
-import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
-import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssocMultiplicity;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Attribute;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.TypeMultiplicity;
@@ -44,28 +40,10 @@ public class AttributeParser extends TigerstripeStructuralFeaturesParser {
 		// visibility
 		String visibilityPrefix = ClassDiagramPartsUtils
 				.visibilityPrefix(attribute.getVisibility());
-		// if the attribute has any stereotypes, then put together a stereotype
-		// prefix string for the attribute
-		String stereotypePref = "";
-		if (!hideStereotypes()) {
-			IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession().getActiveProfile();
-			StringBuffer stereoPrefBuf = new StringBuffer();
-			EList stereotypes = attribute.getStereotypes();
-			for (Object obj : stereotypes) {
-				String val = (String) obj;
-				IStereotype stereo = profile.getStereotypeByName(val);
-				if (stereo != null){
-					if (stereoPrefBuf.length() == 0)
-						stereoPrefBuf.append("<<");
-					else 
-						stereoPrefBuf.append(", ");
-					stereoPrefBuf.append(val);
-				}
-			}
-			if (stereoPrefBuf.length() > 0)
-				stereoPrefBuf.append(">>");
 
-			stereotypePref = stereoPrefBuf.toString();
+		String annotationsString = "";
+		if (!hideStereotypes()) {
+			annotationsString = getAnnotationsAsString(attribute);
 		}
 
 		if (attribute.getTypeMultiplicity() != AssocMultiplicity.ONE_LITERAL)
@@ -80,11 +58,11 @@ public class AttributeParser extends TigerstripeStructuralFeaturesParser {
 			}
 		}
 
-		if (stereotypePref.length() == 0)
+		if (annotationsString.length() == 0)
 			return visibilityPrefix + printString;
 		// else, return with the stereotype prefix...
 
-		return stereotypePref + " " + visibilityPrefix + printString;
+		return annotationsString + " " + visibilityPrefix + printString;
 	}
 
 	@Override

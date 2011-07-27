@@ -10,25 +10,16 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part;
 
-import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ConnectionNodeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ITextAwareEditPart;
 import org.eclipse.gmf.runtime.notation.Edge;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.gmf.TigerstripeShapeNodeEditPart;
-import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
-import org.eclipse.tigerstripe.workbench.ui.visualeditor.Attribute;
-import org.eclipse.tigerstripe.workbench.ui.visualeditor.Literal;
-import org.eclipse.tigerstripe.workbench.ui.visualeditor.Method;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.QualifiedNamedElement;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationAEndNameEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationEditPart;
@@ -37,8 +28,9 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Tige
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.TigerstripeLiteralEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.TigerstripeMethodEditPart;
 
-public class PartAdapterFactory implements IAdapterFactory {
+public class PartAdapterFactory extends VisualeditorModelAdapterFactory {
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
 		if (adapterType == IModelComponent.class) {
@@ -47,98 +39,31 @@ public class PartAdapterFactory implements IAdapterFactory {
 		return null;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public Class[] getAdapterList() {
 		return new Class[] { IModelComponent.class };
 	}
 
+	@Override
 	protected Object getAnnotable(Object adaptableObject) {
 		if (adaptableObject instanceof TigerstripeShapeNodeEditPart) {
 			TigerstripeShapeNodeEditPart part = (TigerstripeShapeNodeEditPart) adaptableObject;
 			Node node = (Node) part.getModel();
-
-			if (node.getElement() instanceof AbstractArtifact) {
-				AbstractArtifact art = (AbstractArtifact) node.getElement();
-				try {
-					return art.getCorrespondingIArtifact();
-				} catch (TigerstripeException e) {
-					EclipsePlugin.log(e);
-				}
-			}
+			return super.getAnnotable(node.getElement());
 		} else if (adaptableObject instanceof ConnectionNodeEditPart) {
 			ConnectionNodeEditPart part = (ConnectionNodeEditPart) adaptableObject;
 			Edge edge = (Edge) part.getModel();
-
 			if (edge.getElement() instanceof QualifiedNamedElement) {
-				QualifiedNamedElement art = (QualifiedNamedElement) edge
-						.getElement();
-				try {
-					return art.getCorrespondingIArtifact();
-				} catch (TigerstripeException e) {
-					EclipsePlugin.log(e);
-				}
+				return super.getAnnotable(edge.getElement());
 			}
 		} else if (adaptableObject instanceof ITextAwareEditPart) {
 			ITextAwareEditPart tPart = (ITextAwareEditPart) adaptableObject;
 			Node model = (Node) tPart.getModel();
-			if (adaptableObject instanceof TigerstripeAttributeEditPart) {
-				Attribute attr = (Attribute) model.getElement();
-				AbstractArtifact art = (AbstractArtifact) attr.eContainer();
-				if (art != null) {
-					try {
-						IAbstractArtifact artifact = art
-								.getCorrespondingIArtifact();
-						if (artifact == null)
-							throw new TigerstripeException(
-									"Diagram includes reference to '"
-											+ art.getFullyQualifiedName()
-											+ "' which is not imported by this project.");
-						for (IField field : artifact.getFields()) {
-							if (field.getName().equals(attr.getName())) {
-								return field;
-							}
-						}
-					} catch (TigerstripeException e) {
-						EclipsePlugin.log(e);
-						return null;
-					}
-				}
-			} else if (adaptableObject instanceof TigerstripeMethodEditPart) {
-				Method meth = (Method) model.getElement();
-				AbstractArtifact art = (AbstractArtifact) meth.eContainer();
-				if (art != null) {
-					try {
-						IAbstractArtifact artifact = art
-								.getCorrespondingIArtifact();
-						for (IMethod method : artifact.getMethods()) {
-							if (method.getName().equals(meth.getName())) {
-								return method;
-							}
-						}
-					} catch (TigerstripeException e) {
-						EclipsePlugin.log(e);
-						return null;
-					}
-				}
-			} else if (adaptableObject instanceof TigerstripeLiteralEditPart) {
-				Literal lit = (Literal) model.getElement();
-				AbstractArtifact art = (AbstractArtifact) lit.eContainer();
-				if (art != null) {
-					try {
-						IAbstractArtifact artifact = art
-								.getCorrespondingIArtifact();
-						if (artifact!=null) {
-							for (ILiteral literal : artifact.getLiterals()) {
-								if (literal.getName().equals(lit.getName())) {
-									return literal;
-								}
-							}
-						}
-					} catch (TigerstripeException e) {
-						EclipsePlugin.log(e);
-						return null;
-					}
-				}
+			if (adaptableObject instanceof TigerstripeAttributeEditPart
+					|| adaptableObject instanceof TigerstripeMethodEditPart
+					|| adaptableObject instanceof TigerstripeLiteralEditPart) {
+				return super.getAnnotable(model.getElement());
 			} else if (adaptableObject instanceof AssociationAEndNameEditPart) {
 				AssociationAEndNameEditPart aEnd = (AssociationAEndNameEditPart) adaptableObject;
 				Edge edge = (Edge) ((AssociationEditPart) aEnd.getParent())

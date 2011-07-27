@@ -13,11 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers;
 import java.util.List;
 
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
-import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
-import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Literal;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.utils.ClassDiagramPartsUtils;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.LiteralImpl;
@@ -41,33 +37,14 @@ public class LiteralParser extends TigerstripeStructuralFeaturesParser {
 		// visibility
 		String visibilityPrefix = ClassDiagramPartsUtils
 				.visibilityPrefix(literal.getVisibility());
-		// if the method has any stereotypes, then put together a stereotype
-		// prefix string for the method
-		String stereotypePref = "";
+		String annotationsString = "";
 		if (!hideStereotypes()) {
-			IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession().getActiveProfile();
-			StringBuffer stereoPrefBuf = new StringBuffer();
-			EList stereotypes = literal.getStereotypes();
-			for (Object obj : stereotypes) {
-				String val = (String) obj;
-				IStereotype stereo = profile.getStereotypeByName(val);
-				if (stereo != null){
-					if (stereoPrefBuf.length() == 0)
-						stereoPrefBuf.append("<<");
-					else 
-						stereoPrefBuf.append(", ");
-					stereoPrefBuf.append(val);
-				}
-			}
-			if (stereoPrefBuf.length() > 0)
-				stereoPrefBuf.append(">>");
-
-			stereotypePref = stereoPrefBuf.toString();
+			annotationsString = getAnnotationsAsString(literal);
 		}
-		if (stereotypePref.length() == 0)
+		if (annotationsString.length() == 0)
 			return visibilityPrefix + printString;
 		// else, return with the stereotype prefix...
-		return stereotypePref + " " + visibilityPrefix + printString;
+		return annotationsString + " " + visibilityPrefix + printString;
 	}
 
 	@Override

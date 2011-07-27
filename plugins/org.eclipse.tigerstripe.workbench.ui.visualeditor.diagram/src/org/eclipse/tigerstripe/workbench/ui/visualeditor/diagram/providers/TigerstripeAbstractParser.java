@@ -12,6 +12,8 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers;
 
 import java.text.MessageFormat;
 import java.text.ParsePosition;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EClassifier;
@@ -28,8 +30,15 @@ import org.eclipse.gmf.runtime.common.ui.services.parser.ParserEditStatus;
 import org.eclipse.gmf.runtime.emf.type.core.commands.SetValueCommand;
 import org.eclipse.gmf.runtime.emf.type.core.requests.SetRequest;
 import org.eclipse.jface.text.contentassist.IContentAssistProcessor;
+import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.util.AnnotationUtils;
+import org.eclipse.tigerstripe.annotation.ui.util.DisplayAnnotationUtil;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.NamedElement;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeDiagramEditorPlugin;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.util.DiagramPropertiesHelper;
 
@@ -459,6 +468,53 @@ public abstract class TigerstripeAbstractParser implements IParser {
 				con = con.eContainer();
 			}
 			currentMap = (Map) con;
+		}
+	}
+
+	protected String getAnnotationsAsString(NamedElement namedElement) {
+		return getAnnotationsAsString(true, namedElement);
+	}
+
+	protected String getAnnotationsAsString(boolean format,
+			NamedElement namedElement) {
+		StringBuilder builder = new StringBuilder("");
+		if (namedElement.getStereotypes().size() > 0) {
+			IWorkbenchProfile profile = TigerstripeCore
+					.getWorkbenchProfileSession().getActiveProfile();
+			for (Object obj : namedElement.getStereotypes()) {
+				String value = (String) obj;
+				IStereotype stereotype = profile.getStereotypeByName(value);
+				if (stereotype != null) {
+					appendElement(format, value, builder);
+				}
+			}
+		}
+
+		List<Annotation> annotations = new ArrayList<Annotation>();
+		AnnotationUtils.getAllAnnotations(namedElement, annotations);
+		for (Annotation annotation : annotations) {
+			appendElement(format, DisplayAnnotationUtil.getText(annotation),
+					builder);
+		}
+
+		appendTail(format, builder);
+
+		return builder.toString();
+	}
+
+	private void appendElement(boolean format, String element,
+			StringBuilder builder) {
+		if (builder.length() > 0) {
+			builder.append(", ");
+		} else if (format) {
+			builder.append("<<");
+		}
+		builder.append(element);
+	}
+
+	private void appendTail(boolean format, StringBuilder builder) {
+		if (format && builder.length() > 0) {
+			builder.append(">>");
 		}
 	}
 }

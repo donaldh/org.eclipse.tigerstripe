@@ -22,6 +22,8 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgumentAnnotationsFormatter;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -61,7 +63,8 @@ public class TigerstripeUILabels {
 		return new StyledString();
 	}
 
-	private static StyledString getStyledString(final RelationshipAnchor anchor, long flags) {
+	private static StyledString getStyledString(
+			final RelationshipAnchor anchor, long flags) {
 		return new StyledString(anchor.getLabel(), new StyledString.Styler() {
 			@Override
 			public void applyStyles(TextStyle textStyle) {
@@ -72,7 +75,7 @@ public class TigerstripeUILabels {
 			}
 		});
 	}
-	
+
 	private static StyledString getStyledString(IRelationshipEnd end, long flags) {
 		return new StyledString(end.getType().getName());
 	}
@@ -94,11 +97,16 @@ public class TigerstripeUILabels {
 				if (tsProject.getActiveFacet() != null
 						&& tsProject.getActiveFacet().canResolve()) {
 					String activeName = project.getName();
-					
-					if ((tsProject!=null) && (tsProject.getActiveFacet()!=null)) 
-						activeName = activeName + " {" + tsProject.getActiveFacet().resolve().getName() + "}";
-					
-					return new StyledString(activeName,	new LabelStyler(project));
+
+					if ((tsProject != null)
+							&& (tsProject.getActiveFacet() != null))
+						activeName = activeName
+								+ " {"
+								+ tsProject.getActiveFacet().resolve()
+										.getName() + "}";
+
+					return new StyledString(activeName,
+							new LabelStyler(project));
 				}
 			} catch (TigerstripeException e) {
 				// Upon import the tigerstripe.xml may not be
@@ -185,20 +193,24 @@ public class TigerstripeUILabels {
 		StyledString result = new StyledString("");
 
 		String label = component.getName();
-		String stereotypeString = component.getStereotypeString();
-		StereotypeLabelStyler stereoStyler = new StereotypeLabelStyler(
-				component);
-		StyledString stereoStyledString = new StyledString(stereotypeString,
-				stereoStyler);
 
 		String stereoPrefsLabel = null;
 
 		if (component instanceof IAbstractArtifact) {
 			stereoPrefsLabel = ExplorerPreferencePage.P_LABEL_STEREO_ARTIFACT;
 		} else if (component instanceof IMethod) {
-			boolean stereoArgs = store
+			boolean includeArgumentAnnotations = store
 					.getBoolean(ExplorerPreferencePage.P_LABEL_STEREO_METHARGS);
-			label = ((IMethod) component).getLabelString(stereoArgs);
+			IArgumentAnnotationsFormatter aaFormatter = null;
+			if (includeArgumentAnnotations) {
+				aaFormatter = new IArgumentAnnotationsFormatter() {
+					public String getAnnotationsAsString(IArgument argument) {
+						return ModelElementAnnotationsHelper
+								.getAnnotationsAsString(argument);
+					}
+				};
+			}
+			label = ((IMethod) component).getLabelString(aaFormatter);
 			stereoPrefsLabel = ExplorerPreferencePage.P_LABEL_STEREO_METH;
 		} else if (component instanceof ILiteral) {
 			label = ((ILiteral) component).getLabelString();
@@ -212,6 +224,12 @@ public class TigerstripeUILabels {
 		}
 
 		if (store.getBoolean(stereoPrefsLabel)) {
+			String stereotypeString = ModelElementAnnotationsHelper
+					.getAnnotationsAsString(component);
+			StereotypeLabelStyler stereoStyler = new StereotypeLabelStyler(
+					component);
+			StyledString stereoStyledString = new StyledString(
+					stereotypeString, stereoStyler);
 			result.append(stereoStyledString);
 		}
 

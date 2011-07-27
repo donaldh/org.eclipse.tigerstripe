@@ -78,7 +78,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisi
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
-import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.ArgumentEditDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForArtifactDialog;
@@ -668,23 +667,6 @@ public class MethodInfoEditComponent {
 				}
 				String directionPrefix = arg.getDirection().getLabel();
 
-				String stereotypePrefix = "";
-				boolean isFirstInstance = true;
-				for (IStereotypeInstance instance : arg
-						.getStereotypeInstances()) {
-					if (isFirstInstance) {
-						stereotypePrefix += "<<";
-					}
-					if (!isFirstInstance) {
-						stereotypePrefix += ",";
-					}
-					stereotypePrefix += instance.getName();
-					isFirstInstance = false;
-				}
-				if (stereotypePrefix.length() != 0) {
-					stereotypePrefix += ">> ";
-				}
-
 				String label = "";
 
 				// If the profile allows it, show the direction prefix
@@ -693,7 +675,8 @@ public class MethodInfoEditComponent {
 					label = directionPrefix + " ";
 				}
 
-				label = label + stereotypePrefix + arg.getName() + ": "
+				label = label + arg.getStereotypeString() + arg.getName()
+						+ ": "
 						+ Misc.removeJavaLangString(fqn);
 
 				if (arg.getType().getTypeMultiplicity() != IModelComponent.EMultiplicity.ONE) {

@@ -30,9 +30,8 @@ import org.eclipse.gmf.runtime.diagram.core.preferences.PreferencesHint;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.startup.PostInstallActions;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.NamedElement;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.expressions.TigerstripeOCLFactory;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.provider.VisualeditorItemProviderAdapterFactory;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -92,6 +91,8 @@ public class TigerstripeDiagramEditorPlugin extends AbstractUIPlugin {
 		IAdapterFactory factory = new PartAdapterFactory();
 		manager.registerAdapters(factory, IGraphicalEditPart.class);
 
+		factory = new VisualeditorModelAdapterFactory();
+		manager.registerAdapters(factory, NamedElement.class);
 	}
 
 	/**

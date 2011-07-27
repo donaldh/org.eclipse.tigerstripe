@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.gmf;
 
+import java.util.Iterator;
+
 import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.gef.EditPart;
@@ -56,11 +58,15 @@ public abstract class TigerstripeShapeNodeEditPart extends ShapeNodeEditPart
 
 	private boolean shouldRefresh(IModelAnnotationChangeDelta[] deltas) {
 		for (IModelAnnotationChangeDelta delta : deltas) {
-			URI uri = delta.getAffectedModelComponentURI();
 			IModelComponent component = getModelComponent();
 			if (component != null) {
 				try {
 					URI thisURI = TigerstripeURIAdapterFactory.toURI(component);
+					URI uri = delta.getAffectedModelComponentURI();
+					if (uri.hasFragment()) {
+						uri = uri.trimFragment();
+					}
+
 					if (uri.equals(thisURI)) {
 						return true;
 					}
@@ -95,8 +101,15 @@ public abstract class TigerstripeShapeNodeEditPart extends ShapeNodeEditPart
 
 	public void annotationChanged(IModelAnnotationChangeDelta[] delta) {
 		if (shouldRefresh(delta)) {
-			if (getPrimaryChildEditPart() != null)
-				getPrimaryChildEditPart().refresh();
+			refreshRecursively(this);
+		}
+	}
+
+	private void refreshRecursively(EditPart editPart) {
+		for (Iterator<?> it = editPart.getChildren().iterator(); it.hasNext();) {
+			EditPart childEditPart = (EditPart) it.next();
+			refreshRecursively(childEditPart);
+			childEditPart.refresh();
 		}
 	}
 

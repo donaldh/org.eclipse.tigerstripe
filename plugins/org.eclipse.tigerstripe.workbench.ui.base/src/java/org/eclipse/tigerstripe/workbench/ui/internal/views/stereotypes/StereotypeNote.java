@@ -18,12 +18,13 @@ import org.eclipse.tigerstripe.annotation.ui.core.view.EObjectBasedNote;
 import org.eclipse.tigerstripe.annotation.ui.core.view.INote;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
+import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 public class StereotypeNote extends EObjectBasedNote implements INote {
 
-	private IStereotypeInstance stereotype;
-	private IStereotypeCapable capable;
+	private final IStereotypeInstance stereotype;
+	private final IStereotypeCapable capable;
 	private EObject eObject;
 
 	public StereotypeNote(IStereotypeCapable capable,
@@ -51,6 +52,11 @@ public class StereotypeNote extends EObjectBasedNote implements INote {
 
 	public void remove() {
 		capable.removeStereotypeInstance(stereotype);
+		try {
+			StereotypeCapableSaveHelper.save(capable);
+		} catch (CoreException e) {
+			EclipsePlugin.log(e);
+		}
 	}
 
 	public void revert() throws CoreException {

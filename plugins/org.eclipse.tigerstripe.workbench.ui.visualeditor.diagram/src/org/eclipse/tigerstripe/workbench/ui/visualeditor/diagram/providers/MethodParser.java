@@ -13,7 +13,6 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers;
 import java.util.List;
 
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IGlobalSettingsProperty;
@@ -22,8 +21,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.Global
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
-import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
-import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssocMultiplicity;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Method;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Parameter;
@@ -71,28 +68,9 @@ public class MethodParser extends TigerstripeStructuralFeaturesParser {
 			}
 		}
 
-		// if the method has any stereotypes, then put together a stereotype
-		// prefix string for the method
-		String stereotypePref = "";
+		String methodAnnotations = "";
 		if (!hideStereotypes()) {
-			IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession().getActiveProfile();
-			StringBuffer stereoPrefBuf = new StringBuffer();
-			EList stereotypes = method.getStereotypes();
-			for (Object obj : stereotypes) {
-				String val = (String) obj;
-				IStereotype stereo = profile.getStereotypeByName(val);
-				if (stereo != null){
-					if (stereoPrefBuf.length() == 0)
-						stereoPrefBuf.append("<<");
-					else 
-						stereoPrefBuf.append(", ");
-					stereoPrefBuf.append(val);
-				}
-			}
-			if (stereoPrefBuf.length() > 0)
-				stereoPrefBuf.append(">>");
-
-			stereotypePref = stereoPrefBuf.toString();
+			methodAnnotations = getAnnotationsAsString(method);
 		}
 
 		// and put together a list of method parameters
@@ -101,10 +79,10 @@ public class MethodParser extends TigerstripeStructuralFeaturesParser {
 		// if the number of parameters is zero, just return the print string
 		// from
 		// the superclass (prefixed by the visibility string)
-		if (numParams == 0 && stereotypePref.length() == 0)
+		if (numParams == 0 && methodAnnotations.length() == 0)
 			return visibilityPrefix + printString + defValue;
 		else if (numParams == 0)
-			return stereotypePref + " " + visibilityPrefix + printString
+			return methodAnnotations + " " + visibilityPrefix + printString
 					+ defValue;
 		// else, append the parameter types to form a list of types for the
 		// method signature
@@ -120,20 +98,7 @@ public class MethodParser extends TigerstripeStructuralFeaturesParser {
 			}
 
 			if (!hideStereotypes()) {
-				StringBuffer argStereoPrefBuf = new StringBuffer();
-				EList stereotypes = param.getStereotypes();
-				int stereotypeCount = 0;
-				for (Object obj : stereotypes) {
-					String val = (String) obj;
-					if (stereotypeCount == 0)
-						argStereoPrefBuf.append("<<");
-					argStereoPrefBuf.append(val);
-					if (++stereotypeCount < stereotypes.size())
-						argStereoPrefBuf.append(", ");
-					else
-						argStereoPrefBuf.append(">>");
-				}
-				paramBuffer.append(argStereoPrefBuf.toString());
+				paramBuffer.append(getAnnotationsAsString(param));
 			}
 
 			if (hidePackage()) {
@@ -164,12 +129,12 @@ public class MethodParser extends TigerstripeStructuralFeaturesParser {
 		int rightParenPos = printString.indexOf(")");
 		if (rightParenPos >= 0) {
 			// should always end up here...
-			if (stereotypePref.length() == 0) {
+			if (methodAnnotations.length() == 0) {
 				newPrintString = visibilityPrefix
 						+ printString.substring(0, rightParenPos) + paramString
 						+ printString.substring(rightParenPos);
 			} else {
-				newPrintString = stereotypePref + " " + visibilityPrefix
+				newPrintString = methodAnnotations + " " + visibilityPrefix
 						+ printString.substring(0, rightParenPos) + paramString
 						+ printString.substring(rightParenPos);
 			}
@@ -177,9 +142,10 @@ public class MethodParser extends TigerstripeStructuralFeaturesParser {
 		}
 
 		// just in case...
-		if (stereotypePref.length() == 0)
+		if (methodAnnotations.length() == 0)
 			return visibilityPrefix + printString + defValue;
-		return stereotypePref + " " + visibilityPrefix + printString + defValue;
+		return methodAnnotations + " " + visibilityPrefix + printString
+				+ defValue;
 	}
 
 	@Override

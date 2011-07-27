@@ -13,9 +13,10 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.refre
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EChangeableEnum;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.ui.ModelElementAnnotationsHelper;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AggregationEnum;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssocMultiplicity;
@@ -85,16 +86,17 @@ public class AssociationEndUpdateCommand extends
 		if (!aEnd.getName().equals(eAssociation.getAEndName())) {
 			eAssociation.setAEndName(aEnd.getName());
 		}
-		
-		if (!aEnd.getStereotypeString().equals(eAssociation.getAEndStereotypeNames())){
-			eAssociation.setAEndStereotypeNames(aEnd.getStereotypeString());
+
+		String aEndAnnString = ModelElementAnnotationsHelper
+				.getAnnotationsAsString(aEnd);
+		if (!aEndAnnString.equals(eAssociation.getAEndStereotypeNames())) {
+			eAssociation.setAEndStereotypeNames(aEndAnnString);
 			// Need to make diagram dirty
 			// This is Eric's suggestion
-			eAssociation.setAEndName(aEnd.getName()+"_");
+			eAssociation.setAEndName(aEnd.getName() + "_");
 			eAssociation.setAEndName(aEnd.getName());
 		}
-		
-		
+
 		if (aEnd.isNavigable() != eAssociation.isAEndIsNavigable()) {
 			eAssociation.setAEndIsNavigable(aEnd.isNavigable());
 		}
@@ -115,15 +117,17 @@ public class AssociationEndUpdateCommand extends
 		if (!zEnd.getName().equals(eAssociation.getZEndName())) {
 			eAssociation.setZEndName(zEnd.getName());
 		}
-		
-		if (!zEnd.getStereotypeString().equals(eAssociation.getZEndStereotypeNames())){
-			eAssociation.setZEndStereotypeNames(zEnd.getStereotypeString());
+
+		String zEndAnnString = ModelElementAnnotationsHelper
+				.getAnnotationsAsString(zEnd);
+		if (!zEndAnnString.equals(eAssociation.getZEndStereotypeNames())) {
+			eAssociation.setZEndStereotypeNames(zEndAnnString);
 			// Need to make diagram dirty
 			// This is Eric's suggestion
-			eAssociation.setZEndName(zEnd.getName()+"_");
+			eAssociation.setZEndName(zEnd.getName() + "_");
 			eAssociation.setZEndName(zEnd.getName());
 		}
-		
+
 		if (zEnd.isNavigable() != eAssociation.isZEndIsNavigable()) {
 			eAssociation.setZEndIsNavigable(zEnd.isNavigable());
 		}

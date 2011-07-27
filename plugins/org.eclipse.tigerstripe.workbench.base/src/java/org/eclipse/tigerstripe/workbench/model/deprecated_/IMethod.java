@@ -42,7 +42,7 @@ public interface IMethod extends IModelComponent {
 		public enum EDirection {
 			IN("in"), OUT("out"), INOUT("inOut");
 
-			private String label;
+			private final String label;
 			private static String[] labels;
 
 			private EDirection(String label) {
@@ -328,7 +328,7 @@ public interface IMethod extends IModelComponent {
 
 		INSTANCEMETHOD("instanceMethod");
 
-		private String pojoLabel;
+		private final String pojoLabel;
 
 		OssjMethodProperty(String pojoLabel) {
 			this.pojoLabel = pojoLabel;
@@ -371,6 +371,12 @@ public interface IMethod extends IModelComponent {
 	 * @return formatted String
 	 */
 	public String getLabelString(boolean includeArgStereotypes);
+
+	public interface IArgumentAnnotationsFormatter {
+		public String getAnnotationsAsString(IArgument argument);
+	}
+
+	public String getLabelString(IArgumentAnnotationsFormatter formatter);
 
 	/**
 	 * Returns an identifier that uniquely identifies this method within the

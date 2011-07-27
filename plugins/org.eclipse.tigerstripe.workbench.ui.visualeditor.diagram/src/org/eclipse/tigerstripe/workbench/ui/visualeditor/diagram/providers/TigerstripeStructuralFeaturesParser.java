@@ -43,7 +43,7 @@ public class TigerstripeStructuralFeaturesParser extends
 	/**
 	 * @generated
 	 */
-	private List features;
+	private final List features;
 
 	protected EObject feature;
 

@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.ui.ModelElementAnnotationsHelper;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AggregationEnum;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssocMultiplicity;
@@ -805,8 +806,10 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 		try {
 			IAssociationArtifact assoc = (IAssociationArtifact) getCorrespondingIArtifact();
 			if (assoc != null) {
-				setAEndStereotypeNames(assoc.getAEnd().getStereotypeString());
-				setZEndStereotypeNames(assoc.getZEnd().getStereotypeString());
+				setAEndStereotypeNames(ModelElementAnnotationsHelper
+						.getAnnotationsAsString(assoc.getAEnd()));
+				setZEndStereotypeNames(ModelElementAnnotationsHelper
+						.getAnnotationsAsString(assoc.getZEnd()));
 			}
 		} catch (TigerstripeException e) {
 			BasePlugin.log(e);
