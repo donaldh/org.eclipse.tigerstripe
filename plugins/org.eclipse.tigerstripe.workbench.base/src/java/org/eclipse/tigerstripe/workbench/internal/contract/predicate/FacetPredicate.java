@@ -43,18 +43,18 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IEmittedEvent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IExposedUpdateProcedure;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IManagedEntityDetails;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.INamedQuery;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -72,13 +72,13 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 	//
 	// private final static int ZEND = 1;
 	//
-	private IFacetReference facetRef;
+	private final IFacetReference facetRef;
 
 	private RegExpFQNSetPred primaryPredicate;
 
 	private RegExpFQNSetPred resolvedPredicate = null;
 
-	private ITigerstripeModelProject tsProject;
+	private final ITigerstripeModelProject tsProject;
 
 	// This is used to gather inconsistencies that may be found during facet
 	// resolution.
@@ -184,16 +184,18 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 		// First get all the base artifacts that have been identified
 		// through the scope and their inherited parents
 		Set<IAbstractArtifact> baseArtifacts = new HashSet<IAbstractArtifact>();
+		Set<IDependencyArtifact> dependencies = new HashSet<IDependencyArtifact>();
 		monitor.beginTask("Resolving base scope", artifacts.size());
 		for (IAbstractArtifact artifact : artifacts) {
 			// We only take the "Class Artifacts" not the relationships.
-			if (!(artifact instanceof IRelationship)
+			if (!(artifact instanceof IRelationship && !(artifact instanceof IDependencyArtifact))
 					&& primaryPredicate.evaluate(artifact)
 					&& !isExcludedByStereotype(artifact)) {
-				baseArtifacts.add(artifact);
-				// for (IArtifact arti : artifact.getAncestors()) {
-				// baseArtifacts.add((IAbstractArtifact) arti);
-				// }
+				if (artifact instanceof IDependencyArtifact) {
+					dependencies.add((IDependencyArtifact) artifact);
+				} else {
+					baseArtifacts.add(artifact);
+				}
 			}
 			monitor.worked(1);
 		}
@@ -206,6 +208,8 @@ public class FacetPredicate implements Predicate, IFacetPredicate {
 			addRelatedArtifacts(scope, artifact, false, monitor);
 		}
 		monitor.done();
+
+		scope.addAll(dependencies);
 
 		for (IAbstractArtifact art : scope) {
 			resolvedPredicate.addIsIncludedPattern(ContractUtils
