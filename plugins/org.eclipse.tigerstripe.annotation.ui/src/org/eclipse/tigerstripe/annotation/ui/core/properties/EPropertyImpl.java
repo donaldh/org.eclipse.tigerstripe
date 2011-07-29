@@ -171,4 +171,14 @@ public class EPropertyImpl implements EProperty {
 		return ObjectUtil.hashCode(value);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.tigerstripe.annotation.ui.core.properties.EProperty#
+	 * getDescription()
+	 */
+	public String getDescription() {
+		return value.getDescription();
+	}
+
 }

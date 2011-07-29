@@ -12,6 +12,8 @@
 
 package org.eclipse.tigerstripe.workbench.ui.internal.views.stereotypes;
 
+import static org.eclipse.tigerstripe.annotation.internal.core.AnnotationManager.FEATURE_ANNOTATION_URI;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +32,7 @@ import org.eclipse.emf.ecore.impl.EAttributeImpl;
 import org.eclipse.emf.ecore.impl.EClassImpl;
 import org.eclipse.emf.ecore.impl.EEnumImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.tigerstripe.annotation.internal.core.AnnotationManager;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IEntryListStereotypeAttribute;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
@@ -154,6 +157,9 @@ public class StereotypeConverter {
 			EAttributeImpl eAttr = createAttribute(attribute);
 			eAttr.setFeatureID(i);
 			eClass.getEStructuralFeatures().add(eAttr);
+			EcoreUtil.setAnnotation(eAttr, FEATURE_ANNOTATION_URI,
+					AnnotationManager.DESCRIPTION_ANNOTATION,
+					attribute.getDescription());
 		}
 		return eClass;
 	}

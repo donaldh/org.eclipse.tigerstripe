@@ -66,4 +66,9 @@ public interface EProperty {
 	 */
 	public IEditableValue getEditableValue();
 
+	/**
+	 * @return
+	 */
+	public String getDescription();
+
 }

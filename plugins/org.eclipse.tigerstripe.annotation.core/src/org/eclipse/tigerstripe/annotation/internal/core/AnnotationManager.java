@@ -66,6 +66,10 @@ public class AnnotationManager extends AnnotationStorage implements
 		IAnnotationManager, IRefactoringNotifier, IRefactoringSupport,
 		IRefactoringDelegate {
 
+	public static final String FEATURE_ANNOTATION_URI = "http:///org/eclipse/tigerstripe/annotation/Info";
+	
+	public static final String DESCRIPTION_ANNOTATION = "description";
+
 	private static final String EXTPT_PREFIX = "org.eclipse.tigerstripe.annotation.core.";
 
 	private static final String ANNOTATION_TYPE_EXTPT = EXTPT_PREFIX

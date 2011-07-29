@@ -11,9 +11,13 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.core.properties;
 
+import static org.eclipse.tigerstripe.annotation.internal.core.AnnotationManager.DESCRIPTION_ANNOTATION;
+import static org.eclipse.tigerstripe.annotation.internal.core.AnnotationManager.FEATURE_ANNOTATION_URI;
+
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.util.ObjectUtil;
@@ -122,6 +126,10 @@ public class EditableFeature implements IEditableValue {
 	@Override
 	public int hashCode() {
 		return ObjectUtil.hashCode(object) ^ ObjectUtil.hashCode(feature);
+	}
+
+	public String getDescription() {
+		return EcoreUtil.getAnnotation(feature, FEATURE_ANNOTATION_URI, DESCRIPTION_ANNOTATION);
 	}
 
 }

@@ -114,4 +114,8 @@ public class EditableListValue implements IEditableValue {
 		parent.save();
 	}
 
+	public String getDescription() {
+		return null;
+	}
+
 }

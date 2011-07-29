@@ -33,4 +33,6 @@ public interface IEditableValue {
 	
 	public void save();
 
+	public String getDescription();
+
 }

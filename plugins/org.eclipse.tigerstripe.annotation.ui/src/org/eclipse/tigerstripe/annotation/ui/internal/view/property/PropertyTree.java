@@ -51,7 +51,7 @@ public class PropertyTree {
 	private ICellEditorListener editorListener;
 	private PropertyLabelProvider labelProvider;
 
-	private static String[] columnLabels = { "Property", "Value" };
+	private static String[] columnLabels = { "Property", "Value", "Description" };
 
 	// Cell editor support.
 	private final int columnToEdit = 1;
@@ -60,7 +60,7 @@ public class PropertyTree {
 	public Control create(Composite parent) {
 		tree = new Tree(parent, SWT.FULL_SELECTION | SWT.SINGLE
 				| SWT.HIDE_SELECTION | SWT.BORDER);
-
+		
 		tree.setLinesVisible(true);
 		tree.setHeaderVisible(true);
 
@@ -78,6 +78,7 @@ public class PropertyTree {
 	}
 
 	public void setContent(EObject object, boolean readOnly) {
+		tree.setToolTipText(null);
 		this.readOnly = readOnly;
 		labelProvider.setReadOnly(readOnly);
 		viewer.setInput(object);
@@ -142,6 +143,7 @@ public class PropertyTree {
 					while (it.hasNext()) {
 						Object object = it.next();
 						if (object instanceof EProperty) {
+							tree.setToolTipText(((EProperty) object).getDescription());
 							PropertiesSelectionManager.getInstance()
 									.setSelection(
 											new PropertySelection(
@@ -369,8 +371,9 @@ public class PropertyTree {
 				Rectangle area = tree.getClientArea();
 				TreeColumn[] columns = tree.getColumns();
 				if (area.width > 0) {
-					columns[0].setWidth(area.width * 40 / 100);
-					columns[1].setWidth(area.width - columns[0].getWidth() - 4);
+					columns[0].setWidth(area.width * 30 / 100);
+					columns[1].setWidth(area.width * 30 / 100 );
+					columns[2].setWidth(area.width - columns[0].getWidth() - columns[1].getWidth() - 4);
 					tree.removeControlListener(this);
 				}
 			}

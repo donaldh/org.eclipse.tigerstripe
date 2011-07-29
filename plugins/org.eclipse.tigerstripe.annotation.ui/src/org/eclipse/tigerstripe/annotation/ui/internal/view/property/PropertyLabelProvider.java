@@ -43,6 +43,12 @@ public class PropertyLabelProvider extends LabelProvider implements
 			switch (columnIndex) {
 			case 0:
 				return property.getName();
+			case 2:
+				String description = property.getDescription();
+				if (description == null) {
+					return null;
+				}
+				return description.replaceAll("\n", " ");
 			default:
 				return property.getDisplayName();
 			}
