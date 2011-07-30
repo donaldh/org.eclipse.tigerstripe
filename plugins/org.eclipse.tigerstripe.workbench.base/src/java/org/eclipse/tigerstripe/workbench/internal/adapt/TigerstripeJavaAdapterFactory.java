@@ -96,18 +96,18 @@ public class TigerstripeJavaAdapterFactory implements IAdapterFactory {
 		return null;
 	}
 
-	public static IAbstractArtifact getArtifactFor(IClassFile cFile) {
-		ArtifactManager manager = getArtifactManagerFor(cFile);
+	public static IAbstractArtifact getArtifactFor(IJavaElement javaElement) {
+		ArtifactManager manager = getArtifactManagerFor(javaElement);
 		if (manager != null) {
-			String fqn = getFQNfor(cFile);
+			String fqn = getFQNfor(javaElement);
 			return manager.getArtifactByFullyQualifiedName(fqn, false,
 					new NullProgressMonitor());
 		}
 		return null;
 	}
 
-	public static ArtifactManager getArtifactManagerFor(IClassFile classFile) {
-		IPackageFragmentRoot rootJar = getIPackageFragmentRootFor(classFile);
+	public static ArtifactManager getArtifactManagerFor(IJavaElement javaElement) {
+		IPackageFragmentRoot rootJar = getIPackageFragmentRootFor(javaElement);
 		ITigerstripeModelProject tsProject = getProjectFor(rootJar);
 		if (tsProject != null) {
 			try {
@@ -161,7 +161,7 @@ public class TigerstripeJavaAdapterFactory implements IAdapterFactory {
 			return getIPackageFragmentRootFor(classFile.getParent());
 	}
 
-	public static String getFQNfor(IClassFile classFile) {
+	public static String getFQNfor(IJavaElement classFile) {
 		String name = classFile.getElementName().replaceFirst("\\.class", "");
 		if (classFile.getParent() instanceof IPackageFragment) {
 			IPackageFragment fragment = (IPackageFragment) classFile

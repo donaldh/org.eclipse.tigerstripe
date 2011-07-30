@@ -112,6 +112,10 @@ public class TSExplorerUtils {
 
 				if (!res.exists() || res.getCorrespondingResource() == null) {
 					// We are in a module
+					if (res.isReadOnly()) {
+						return TigerstripeJavaAdapterFactory
+								.getArtifactFor(res);
+					}
 					return null;
 				}
 

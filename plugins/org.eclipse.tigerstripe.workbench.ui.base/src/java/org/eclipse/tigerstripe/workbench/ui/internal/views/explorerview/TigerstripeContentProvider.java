@@ -23,7 +23,9 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IJarEntryResource;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.internal.ui.navigator.IExtensionStateConstants.Values;
@@ -204,7 +206,14 @@ public class TigerstripeContentProvider extends
 		boolean isCompilationUnitChildren = true;
 		for (Object object : proposedChildren) {
 			if (!(object instanceof IJavaElement)
-					|| !(((IJavaElement) object).getParent() instanceof ICompilationUnit)) {
+					|| !((((IJavaElement) object).getParent() instanceof ICompilationUnit)
+					|| ((IJavaElement) object).getParent() instanceof IClassFile)) {
+				if (object instanceof IJarEntryResource) {
+					if (((IJarEntryResource) object).getName().endsWith(
+							".package")) {
+						continue;
+					}
+				}
 				isCompilationUnitChildren = false;
 				break;
 			}

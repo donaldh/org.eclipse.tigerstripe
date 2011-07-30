@@ -1163,14 +1163,9 @@
                <instanceof
                      value="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode" />
                <and>
-                  <or>
-                     <instanceof
-                           value="org.eclipse.core.resources.IResource">
-                     </instanceof>
-                     <instanceof
-                           value="org.eclipse.jdt.core.IJavaElement">
-                     </instanceof>
-                  </or>
+                  <instanceof
+                        value="org.eclipse.core.resources.IResource">
+                  </instanceof>
                   <adapt
                         type="org.eclipse.core.resources.IResource">
                      <test
@@ -1181,6 +1176,9 @@
                </and>
                <instanceof
                      value="org.eclipse.jdt.core.IJavaModel">
+               </instanceof>
+               <instanceof
+                           value="org.eclipse.jdt.core.IJavaElement">
                </instanceof>
             </or>
          </triggerPoints>
@@ -1510,6 +1508,8 @@
                class="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.EmptyActionProvider"
                overrides="org.eclipse.jdt.ui.navigator.actions.OpenActions">
             <enablement>
+              <or>
+              <and>
                <or>
                   <instanceof
                         value="org.eclipse.core.resources.IResource">
@@ -1525,6 +1525,9 @@
                         value="org.eclipse.tigerstripe.workbench.base.tigerstripeProject">
                   </test>
                </adapt>
+              </and>
+               <adapt type="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent"/>
+              </or>
             </enablement>
          </actionProvider>
          <actionProvider
