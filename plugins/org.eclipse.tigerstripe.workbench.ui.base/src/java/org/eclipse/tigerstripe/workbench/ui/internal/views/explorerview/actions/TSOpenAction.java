@@ -71,6 +71,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.part.FileEditorInput;
 
+@SuppressWarnings("restriction")
 public class TSOpenAction extends OpenAction {
 
 	public final static String DESCRIPTOR_EDITOR = "org.eclipse.tigerstripe.workbench.ui.eclipse.editors.descriptorEditor";
@@ -524,7 +525,7 @@ public class TSOpenAction extends OpenAction {
 	private boolean checkEnabled(IStructuredSelection selection) {
 		if (selection.isEmpty())
 			return false;
-		for (Iterator iter = selection.iterator(); iter.hasNext();) {
+		for (Iterator<?> iter = selection.iterator(); iter.hasNext();) {
 			Object element = iter.next();
 
 			if (element instanceof IProject)

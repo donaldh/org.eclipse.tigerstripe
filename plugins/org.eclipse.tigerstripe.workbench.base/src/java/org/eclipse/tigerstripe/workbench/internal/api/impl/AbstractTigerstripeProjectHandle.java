@@ -135,8 +135,7 @@ public abstract class AbstractTigerstripeProjectHandle extends
 		return this.handleTStamp;
 	}
 
-	@SuppressWarnings("unchecked")
-	public Object getAdapter(Class adapter) {
+	public Object getAdapter(@SuppressWarnings("rawtypes") Class adapter) {
 		if (adapter == IProject.class) {
 			try {
 				return getIProject();
@@ -160,14 +159,29 @@ public abstract class AbstractTigerstripeProjectHandle extends
 
 	private IProject getIProject()
 			throws TigerstripeException {
-		
+
 		IContainer container = getIContainer();
-		
-		if (container instanceof IProject)
+
+		if (container instanceof IProject) {
 			return (IProject) container;
-		
-		throw new TigerstripeException("Can't resolve "
-				+ this.getLocation() + " as Eclipse IProject");
+		}
+
+		/**
+		 * Project also can be child folder in other project. In this case this
+		 * container will be IFolder instead of IProject
+		 */
+
+		if (container != null) {
+			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+			for (IProject project : root.getProjects()) {
+				if (project.getLocation().equals(container.getLocation())) {
+					return project;
+				}
+			}
+		}
+
+		throw new TigerstripeException("Can't resolve " + this.getLocation()
+				+ " as Eclipse IProject");
 	}
 	
 	// Introduced as a result of Bugzilla 319896
