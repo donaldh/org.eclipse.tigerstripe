@@ -20,7 +20,7 @@
     	<plugin>
         	<groupId>com.xored.q7</groupId>
         	<artifactId>q7-maven-plugin</artifactId>
-        	<version>1.0.0-RC3</version>
+        	<version>${q7version}</version>
         	<extensions>true</extensions>
         	<configuration>
           		<aut>
@@ -32,14 +32,21 @@
     				</injections>
 				</aut>
 				<q7>
-					<version>1.0.0-RC3</version>
+					<version>${q7version}</version>
 				</q7>
           		<testOptions>
           			<vmArgs>-Xms128m;-Xmx512m;-XX:PermSize=128M;-XX:MaxPermSize=512M</vmArgs>
-    				<execTimeout>60min</execTimeout>
+          			<execTimeout>120min</execTimeout>
+          			<!-- q7 1.0.0 version's format  
+          			<vmArgs>-Xms128m -Xmx512m -XX:PermSize=128M -XX:MaxPermSize=512M</vmArgs>
+    				<execTimeout>7200</execTimeout>
+          			-->
           		</testOptions>
         	</configuration>
       </plugin>
     </plugins>
   </build>
+  <properties>
+    <q7version>1.0.0-RC3</q7version>
+  </properties>
 </project>
