@@ -28,6 +28,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.jdt.ui.refactoring.RefactoringSaveHelper;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.util.TransferDropTargetListener;
 import org.eclipse.jface.viewers.ISelection;
@@ -183,6 +184,12 @@ public class ArtifactComponentTransferDropAdapter extends ViewerDropAdapter
 
     private void handleDropMove(final Object target, DropTargetEvent event)
             throws InvocationTargetException, InterruptedException {
+
+		if (!new RefactoringSaveHelper(
+				RefactoringSaveHelper.SAVE_ALL_ALWAYS_ASK)
+				.saveEditors(getShell())) {
+			return;
+		}
 
         Display.getCurrent().asyncExec(new Runnable() {
 
