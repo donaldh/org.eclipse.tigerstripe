@@ -1,7 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="Explorer" version="3.0" id="_aHf4kA5qEeCNwqgXAnPIdw" description="Use preferences to display stereotypes in Tigerstripe explorer elements.&#xD;&#xA;Enable preferences and add and then remove stereotype. Check explorer&#xD;&#xA;Disable preferences and add and then remove stereotype. Check explorer&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;Create project with datatype, entity and enumeration artifacts.&#xD;&#xA;Create profile with datatype stereotype, entity stereotype with attribute, method stereotype and literal Stereotype.&#xD;&#xA;&#xD;&#xA;Steps:&#x9;&#xD;&#xA;Apply profile.&#xD;&#xA;Open Tigerstripe Explorer preferences.&#xD;&#xA;Add preferences to display stereotype. Check checkboxes:&#xD;&#xA;&#x9;&#x9;&quot;on Artifacts&quot;;&#xD;&#xA;&#x9;&#x9;&quot;on Attributes&quot;;&#xD;&#xA;&#x9;&#x9;&quot;on Methods&quot;;&#xD;&#xA;&#x9;&#x9;&quot;on Literals&quot;;&#xD;&#xA;&#x9;&#x9;&quot;on Method Arguments&quot;;&#xD;&#xA;&#x9;&#x9;&quot;on Relationship ends&quot;&#xD;&#xA;Save and apply changes.&#xD;&#xA;Open project. Open datatype artifact. Add Stereotype to the artifact. Save changes.&#xD;&#xA;Open entity artifact. Add Stereotype with attribute to the artifact. Save changes.&#xD;&#xA;Open entity artifact. Add method Stereotype to the artifact. Save changes.&#xD;&#xA;Open enumeration artifact. Add literal Stereotype to the artifact. Save changes.&#xD;&#xA;Check items in Tigerstripe Explorer.&#xD;&#xA;&#xD;&#xA;Remove stereotype from datatype artifact.Save changes.&#xD;&#xA;Check item in Tigerstripe Explorer.&#xD;&#xA;&#xD;&#xA;Open Tigerstripe Explorer preferences.&#xD;&#xA;Remove preferences checkboxes (set defaults):&#xD;&#xA;&#x9;&#x9;&quot;on Artifacts&quot;;&#xD;&#xA;&#x9;&#x9;&quot;on Attributes&quot;;&#xD;&#xA;&#x9;&#x9;&quot;on Methods&quot;;&#xD;&#xA;&#x9;&#x9;&quot;on Literals&quot;;&#xD;&#xA;&#x9;&#x9;&quot;on Method Arguments&quot;;&#xD;&#xA;&#x9;&#x9;&quot;on Relationship ends&quot;&#xD;&#xA;Save and apply changes.&#xD;&#xA;Check items in Tigerstripe Explorer.&#xD;&#xA;" type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="Explorer" version="3.0" id="_aHf4kA5qEeCNwqgXAnPIdw" description="Use preferences to display stereotypes in Tigerstripe explorer elements.&#xD;&#xA;Enable preferences and add and then remove stereotype. Check explorer&#xD;&#xA;Disable preferences and add and then remove stereotype. Check explorer&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;Create project with datatype, entity and enumeration artifacts.&#xD;&#xA;Create profile with datatype stereotype, entity stereotype with attribute, method stereotype and literal Stereotype.&#xD;&#xA;&#xD;&#xA;Steps:&#x9;&#xD;&#xA;Apply profile.&#xD;&#xA;Open Tigerstripe Explorer preferences.&#xD;&#xA;Add preferences to display stereotype. Check checkboxes:&#xD;&#xA;&#x9;&#x9;&quot;on Artifacts&quot;;&#xD;&#xA;&#x9;&#x9;&quot;on Attributes&quot;;&#xD;&#xA;&#x9;&#x9;&quot;on Methods&quot;;&#xD;&#xA;&#x9;&#x9;&quot;on Literals&quot;;&#xD;&#xA;&#x9;&#x9;&quot;on Method Arguments&quot;;&#xD;&#xA;&#x9;&#x9;&quot;on Relationship ends&quot;&#xD;&#xA;Save and apply changes.&#xD;&#xA;Open project. Open datatype artifact. Add Stereotype to the artifact. Save changes.&#xD;&#xA;Open entity artifact. Add Stereotype with attribute to the artifact. Save changes.&#xD;&#xA;Open entity artifact. Add method Stereotype to the artifact. Save changes.&#xD;&#xA;Open enumeration artifact. Add literal Stereotype to the artifact. Save changes.&#xD;&#xA;Check items in Tigerstripe Explorer.&#xD;&#xA;&#xD;&#xA;Remove stereotype from datatype artifact.Save changes.&#xD;&#xA;Check item in Tigerstripe Explorer.&#xD;&#xA;&#xD;&#xA;Open Tigerstripe Explorer preferences.&#xD;&#xA;Remove preferences checkboxes (set defaults):&#xD;&#xA;&#x9;&#x9;&quot;on Artifacts&quot;;&#xD;&#xA;&#x9;&#x9;&quot;on Attributes&quot;;&#xD;&#xA;&#x9;&#x9;&quot;on Methods&quot;;&#xD;&#xA;&#x9;&#x9;&quot;on Literals&quot;;&#xD;&#xA;&#x9;&#x9;&quot;on Method Arguments&quot;;&#xD;&#xA;&#x9;&#x9;&quot;on Relationship ends&quot;&#xD;&#xA;Save and apply changes.&#xD;&#xA;Check items in Tigerstripe Explorer.&#xD;&#xA;" type="ecl">
   <contexts>_XzgU8BMFEeCrTY2DkyxR-A</contexts>
-  <content xsi:type="org.eclipse.ecl.core:Script" content="get-menu &quot;Tigerstripe/Active Profile Details...&quot; | click&#xA;with [get-window &quot;Active Profile Details&quot;] {&#xA;    get-button &quot;Reset Profile&quot; | click&#xA;    get-window &quot;Reset Active profile to Factory Defaults?&quot; | get-button OK | click -nowait&#xA;}&#xA;wait-until-eclipse-is-ready&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project3/Project3Profile.wbp&quot; | double-click&#xA;with [get-editor &quot;Project3/Project3Profile.wbp&quot;] {&#xA;    with [get-tab-folder] {&#xA;        get-tab-item Stereotypes | click&#xA;        get-tab-item Overview | click&#xA;    }&#xA;    get-section &quot;General Information&quot; | get-link &quot;Save as active profile and reload&quot; | click -nowait&#xA;}&#xA;get-window &quot;Save as Active Profile&quot; | get-button OK | click -nowait&#xA;wait-until-eclipse-is-ready&#xA;get-menu &quot;Tigerstripe/Active Profile Details...&quot; | click&#xA;get-window &quot;Active Profile Details&quot; | get-editbox -after [get-label Name] | get-property value | is-equal Project3Profile | verify&#xA;get-window &quot;Active Profile Details&quot; | get-button OK | click&#xA;get-menu &quot;Window/Preferences&quot; | click&#xA;with [get-window Preferences] {&#xA;    get-tree | select &quot;Tigerstripe/Explorer&quot;&#xA;    with [get-group &quot;Display Stereotypes&quot;] {&#xA;        get-button &quot;on Artifacts&quot; | click&#xA;        get-button &quot;on Attributes&quot; | click&#xA;        get-button &quot;on Methods&quot; | click&#xA;        get-button &quot;on Method Arguments&quot; | click&#xA;        get-button &quot;on Literals&quot; | click&#xA;        get-button &quot;on Relationship ends&quot; | click&#xA;    }&#xA;    get-button Apply | click&#xA;    get-button OK | click&#xA;}&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project3/src/com.mycompany/Datatype&quot; | double-click&#xA;get-editor Datatype | get-section Stereotypes | get-button Add | click&#xA;with [get-window &quot;Stereotype Selection&quot;] {&#xA;    get-table -after [get-label &quot;Please select a Stereotype&quot;] | select &quot;datatype_stereotype&quot;&#xA;    get-button OK | click&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Project3/src/com.mycompany/&lt;&lt;datatype_stereotype>>Datatype&quot; | get-property caption | is-equal &quot;&lt;&lt;datatype_stereotype>>Datatype&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project3/src/com.mycompany/Entity&quot; | double-click&#xA;get-editor Entity | get-section Stereotypes | get-button Add | click&#xA;with [get-window &quot;Stereotype Selection&quot;] {&#xA;    get-table -after [get-label &quot;Please select a Stereotype&quot;] | select &quot;entity_stereo_attribute&quot;&#xA;    get-button OK | click&#xA;}&#xA;get-window &quot;Stereotype Details&quot; | get-button OK | click&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Project3/src/com.mycompany/&lt;&lt;entity_stereo_attribute>>Entity&quot; | get-property caption | is-equal &quot;&lt;&lt;entity_stereo_attribute>>Entity&quot; | verify&#xA;get-editor Entity | get-section Stereotypes | get-button Add | click&#xA;with [get-window &quot;Stereotype Selection&quot;] {&#xA;    get-table -after [get-label &quot;Please select a Stereotype&quot;] | select &quot;entity_method_stereotype&quot;&#xA;    get-button OK | click&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Project3/src/com.mycompany/&lt;&lt;entity_stereo_attribute,entity_method_stereotype>>Entity&quot; | get-property caption | is-equal &quot;&lt;&lt;entity_stereo_attribute,entity_method_stereotype>>Entity&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project3/src/com.mycompany/Enumeration&quot; | double-click&#xA;get-editor Enumeration | get-section Stereotypes | get-button Add | click&#xA;with [get-window &quot;Stereotype Selection&quot;] {&#xA;    get-table -after [get-label &quot;Please select a Stereotype&quot;] | select &quot;enum_literal_stereotype&quot;&#xA;    get-button OK | click&#xA;}&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Project3/src/com.mycompany/&lt;&lt;enum_literal_stereotype>>Enumeration&quot; | get-property caption | is-equal &quot;&lt;&lt;enum_literal_stereotype>>Enumeration&quot; | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | select &quot;Project3/src/com.mycompany/&lt;&lt;datatype_stereotype>>Datatype&quot; | double-click&#xA;with [get-editor Datatype | get-section Stereotypes] {&#xA;    get-table -after [get-label Stereotypes] | select &quot;datatype_stereotype&quot;&#xA;    get-button Remove | click&#xA;}&#xA;get-window &quot;Remove Stereotype&quot; | get-button Yes | click&#xA;get-button &quot;Save (Ctrl+S)&quot; | click&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Project3/src/com.mycompany/Datatype&quot; | get-property caption | is-equal Datatype | verify&#xA;get-menu &quot;Window/Preferences&quot; | click&#xA;with [get-window Preferences] {&#xA;    get-button &quot;Restore Defaults&quot; | click&#xA;    get-button Apply | click&#xA;    get-button OK | click&#xA;}&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Project3/src/com.mycompany/Entity&quot; | get-property caption | is-equal Entity | verify&#xA;get-view &quot;Tigerstripe Explorer&quot; | get-tree | get-item &quot;Project3/src/com.mycompany/Enumeration&quot; | get-property caption | is-equal Enumeration | verify"/>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-menu "Tigerstripe/Active Profile Details..." | click
+with [get-window "Active Profile Details"] {
+    get-button "Reset Profile" | click
+    get-window "Reset Active profile to Factory Defaults?" | get-button OK | click -nowait
+}
+wait-until-eclipse-is-ready
+get-view "Tigerstripe Explorer" | get-tree | select "Project3/Project3Profile.wbp" | double-click
+with [get-editor "Project3/Project3Profile.wbp"] {
+    with [get-tab-folder] {
+        get-tab-item Stereotypes | click
+        get-tab-item Overview | click
+    }
+    get-section "General Information" | get-link "Save as active profile and reload" | click -nowait
+}
+get-window "Save as Active Profile" | get-button OK | click -nowait
+wait-until-eclipse-is-ready
+get-menu "Tigerstripe/Active Profile Details..." | click
+get-window "Active Profile Details" | get-editbox -after [get-label Name] | get-property value | is-equal Project3Profile | verify
+get-window "Active Profile Details" | get-button OK | click
+get-menu "Window/Preferences" | click
+with [get-window Preferences] {
+    get-tree | select "Tigerstripe/Explorer"
+    with [get-group "Display Stereotypes and Annotations"] {
+        get-button "on Artifacts" | click
+        get-button "on Attributes" | click
+        get-button "on Methods" | click
+        get-button "on Method Arguments" | click
+        get-button "on Literals" | click
+        get-button "on Relationship ends" | click
+    }
+    get-button Apply | click
+    get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | select "Project3/src/com.mycompany/Datatype" | double-click
+get-editor Datatype | get-section Stereotypes | get-button Add | click
+with [get-window "Stereotype Selection"] {
+    get-table -after [get-label "Please select a Stereotype"] | select "datatype_stereotype"
+    get-button OK | click
+}
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project3/src/com.mycompany/<<datatype_stereotype>>Datatype" | get-property caption | is-equal "<<datatype_stereotype>>Datatype" | verify
+get-view "Tigerstripe Explorer" | get-tree | select "Project3/src/com.mycompany/Entity" | double-click
+get-editor Entity | get-section Stereotypes | get-button Add | click
+with [get-window "Stereotype Selection"] {
+    get-table -after [get-label "Please select a Stereotype"] | select "entity_stereo_attribute"
+    get-button OK | click
+}
+get-window "Stereotype Details" | get-button OK | click
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project3/src/com.mycompany/<<entity_stereo_attribute>>Entity" | get-property caption | is-equal "<<entity_stereo_attribute>>Entity" | verify
+get-editor Entity | get-section Stereotypes | get-button Add | click
+with [get-window "Stereotype Selection"] {
+    get-table -after [get-label "Please select a Stereotype"] | select "entity_method_stereotype"
+    get-button OK | click
+}
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project3/src/com.mycompany/<<entity_stereo_attribute,entity_method_stereotype>>Entity" | get-property caption | is-equal "<<entity_stereo_attribute,entity_method_stereotype>>Entity" | verify
+get-view "Tigerstripe Explorer" | get-tree | select "Project3/src/com.mycompany/Enumeration" | double-click
+get-editor Enumeration | get-section Stereotypes | get-button Add | click
+with [get-window "Stereotype Selection"] {
+    get-table -after [get-label "Please select a Stereotype"] | select "enum_literal_stereotype"
+    get-button OK | click
+}
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project3/src/com.mycompany/<<enum_literal_stereotype>>Enumeration" | get-property caption | is-equal "<<enum_literal_stereotype>>Enumeration" | verify
+get-view "Tigerstripe Explorer" | get-tree | select "Project3/src/com.mycompany/<<datatype_stereotype>>Datatype" | double-click
+with [get-editor Datatype | get-section Stereotypes] {
+    get-table -after [get-label Stereotypes] | select "datatype_stereotype"
+    get-button Remove | click
+}
+get-window "Remove Stereotype" | get-button Yes | click
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project3/src/com.mycompany/Datatype" | get-property caption | is-equal Datatype | verify
+get-menu "Window/Preferences" | click
+with [get-window Preferences] {
+    get-button "Restore Defaults" | click
+    get-button Apply | click
+    get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project3/src/com.mycompany/Entity" | get-property caption | is-equal Entity | verify
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project3/src/com.mycompany/Enumeration" | get-property caption | is-equal Enumeration | verify
+get-menu "Tigerstripe/Active Profile Details..." | click
+with [get-window "Active Profile Details"] {
+    get-button "Reset Profile" | click
+    get-window "Reset Active profile to Factory Defaults?" | get-button OK | click -nowait
+}
+wait-until-eclipse-is-ready]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -1017,10 +1105,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.19">
       <elements id="Button8" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.20">
@@ -1090,10 +1179,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.35">
       <elements id="Button0_15" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.36">
@@ -1134,10 +1224,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.47">
       <elements id="Button1_16" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="on Artifacts" selected="true" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Check">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="3" y="15" width="82" height="16"/>
+        <caption>on Artifacts</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.48">
@@ -1145,10 +1236,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.51">
       <elements id="Button2_17" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="on Attributes" selected="true" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Check">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="3" y="36" width="90" height="16"/>
+        <caption>on Attributes</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.52">
@@ -1156,10 +1248,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.55">
       <elements id="Button3_18" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="on Methods" selected="true" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Check">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="3" y="57" width="85" height="16"/>
+        <caption>on Methods</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.56">
@@ -1167,10 +1260,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.59">
       <elements id="Button4_19" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="on Method Arguments" selected="true" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Check">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="3" y="78" width="142" height="16"/>
+        <caption>on Method Arguments</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.60">
@@ -1178,10 +1272,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.63">
       <elements id="Button5_20" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="on Literals" selected="true" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Check">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="3" y="99" width="75" height="16"/>
+        <caption>on Literals</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.64">
@@ -1189,10 +1284,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.67">
       <elements id="Button6_21" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="on Relationship ends" selected="true" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Check">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="3" y="120" width="131" height="16"/>
+        <caption>on Relationship ends</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.68">
@@ -1200,10 +1296,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.71">
       <elements id="Button7_22" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Apply">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="102" width="92" height="25"/>
+        <caption><![CDATA[&Apply]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.72">
@@ -1211,10 +1308,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.75">
       <elements id="Button8_23" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.76">
@@ -1250,10 +1348,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.85">
       <elements id="Button9_24" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Add">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds width="55" height="25"/>
+        <caption>Add</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.86">
@@ -1288,10 +1387,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.93">
       <elements id="Button10_25" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.94">
@@ -1299,9 +1399,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.97">
       <elements id="Button11_26" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.98">
@@ -1378,10 +1479,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.113">
       <elements id="Button12_27" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Add">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds width="55" height="25"/>
+        <caption>Add</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.114">
@@ -1416,10 +1518,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.121">
       <elements id="Button13_28" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.122">
@@ -1435,10 +1538,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.126">
       <elements id="Button14_29" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.127">
@@ -1446,9 +1550,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.130">
       <elements id="Button15_30" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.131">
@@ -1508,10 +1613,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.142">
       <elements id="Button17_31" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Add">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds width="55" height="25"/>
+        <caption>Add</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.143">
@@ -1546,10 +1652,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.150">
       <elements id="Button18_32" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.151">
@@ -1557,9 +1664,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.154">
       <elements id="Button19_33" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.155">
@@ -1636,10 +1744,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.170">
       <elements id="Button20_34" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Add">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds width="55" height="25"/>
+        <caption>Add</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.171">
@@ -1674,10 +1783,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.178">
       <elements id="Button21_35" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.179">
@@ -1685,9 +1795,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.182">
       <elements id="Button22_36" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.183">
@@ -1783,10 +1894,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.201">
       <elements id="Button23_37" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Remove">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds y="60" width="55" height="25"/>
+        <caption>Remove</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.202">
@@ -1802,10 +1914,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.206">
       <elements id="Button24_38" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Yes">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption>Yes</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.207">
@@ -1813,9 +1926,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.210">
       <elements id="Button25_39" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.211">
@@ -1878,10 +1992,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.225">
       <elements id="Button26_40" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Restore &amp;Defaults">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="97" height="25"/>
+        <caption><![CDATA[Restore &Defaults]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.226">
@@ -1889,10 +2004,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.229">
       <elements id="Button27_41" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Apply">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="102" width="92" height="25"/>
+        <caption><![CDATA[&Apply]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.230">
@@ -1900,10 +2016,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.233">
       <elements id="Button28_42" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.234">
