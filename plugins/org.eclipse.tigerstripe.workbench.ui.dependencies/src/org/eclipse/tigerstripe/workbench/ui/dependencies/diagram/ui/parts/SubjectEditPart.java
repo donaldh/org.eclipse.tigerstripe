@@ -111,13 +111,13 @@ public class SubjectEditPart extends ShapeEditPart {
 		return (Subject) getModel();
 	}
 
-	@SuppressWarnings({ "rawtypes" })
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Object getAdapter(Class key) {
-		if (IDependencySubject.class.isAssignableFrom(key)) {
+		if (key.isAssignableFrom(IDependencySubject.class)) {
 			// return getSubject().getSubject();
 			throw new UnsupportedOperationException();
-		} else if (IPropertySource.class.isAssignableFrom(key)) {
+		} else if (key.isAssignableFrom(IPropertySource.class)) {
 			return new SubjectPropertySource(getSubject(), getStyleService());
 		} else {
 			return super.getAdapter(key);

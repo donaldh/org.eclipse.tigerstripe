@@ -97,9 +97,10 @@ public abstract class ShapeEditPart extends AbstractGraphicalEditPart implements
 		propertySource = new ShapePropertySource(getShape());
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Object getAdapter(@SuppressWarnings("rawtypes") Class key) {
-		if (IPropertySource.class.isAssignableFrom(key)) {
+		if (key.isAssignableFrom(IPropertySource.class)) {
 			return propertySource;
 		}
 		return super.getAdapter(key);
