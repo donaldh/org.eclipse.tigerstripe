@@ -54,13 +54,14 @@ public class TigerstripeSubjectsFactory implements CommitListener {
 		WorkingCopyManager.addCommitListener(this);
 	}
 
-	public IDependencySubject getSubject(IDependency dependency, String forModelId) throws TigerstripeException {
+	public IDependencySubject getSubject(IDependency dependency,
+			String forModelId) throws TigerstripeException {
 		MultiKey id = new MultiKey(dependency.getPath(), forModelId);
 		IDependencySubject subject = dependencies.get(id);
 		if (subject == null) {
 			dependencies.put(id, subject = new TSDependencySubject(dependency));
 		}
-		return subject; 
+		return subject;
 	}
 
 	public IDependencySubject getSubject(ITigerstripeModelProject project)
@@ -78,7 +79,8 @@ public class TigerstripeSubjectsFactory implements CommitListener {
 		return subject;
 	}
 
-	private void listen(TigerstripeModelSubject subject) throws TigerstripeException {
+	private void listen(TigerstripeModelSubject subject)
+			throws TigerstripeException {
 		ITigerstripeModelProject project = subject.getTsProject();
 		if (!listened.containsKey(project)) {
 			if (!project.wasDisposed()) {
@@ -91,7 +93,8 @@ public class TigerstripeSubjectsFactory implements CommitListener {
 
 	public void dispose() {
 		WorkingCopyManager.removeCommitListener(this);
-		Set<Entry<ITigerstripeModelProject, DependencyListnener>> entrySet = listened.entrySet();
+		Set<Entry<ITigerstripeModelProject, DependencyListnener>> entrySet = listened
+				.entrySet();
 		for (Entry<ITigerstripeModelProject, DependencyListnener> e : entrySet) {
 			e.getKey().removeProjectDependencyChangeListener(e.getValue());
 		}
@@ -108,15 +111,14 @@ public class TigerstripeSubjectsFactory implements CommitListener {
 
 	class DependencyListnener implements IProjectDependencyChangeListener {
 
-		private final TigerstripeModelSubject from; 
-		
+		private final TigerstripeModelSubject from;
+
 		public DependencyListnener(TigerstripeModelSubject from) {
 			this.from = from;
 		}
-		
+
 		private final Map<ITigerstripeModelProject, Set<ITigerstripeModelProject>> addedRefs = new HashMap<ITigerstripeModelProject, Set<ITigerstripeModelProject>>();
 		private final Map<ITigerstripeModelProject, Set<ITigerstripeModelProject>> removedRefs = new HashMap<ITigerstripeModelProject, Set<ITigerstripeModelProject>>();
-		
 
 		private final Map<ITigerstripeModelProject, Set<IDependency>> addedDeps = new HashMap<ITigerstripeModelProject, Set<IDependency>>();
 		private final Map<ITigerstripeModelProject, Set<IDependency>> removedDeps = new HashMap<ITigerstripeModelProject, Set<IDependency>>();
@@ -129,7 +131,8 @@ public class TigerstripeSubjectsFactory implements CommitListener {
 				switch (delta.getKind()) {
 				case PROJECT_REFERENCE_ADDED:
 					Utils.addToSetInMap(addedRefs, workingCopy, reference);
-					Utils.removeFromSetInMap(removedRefs, workingCopy, reference);
+					Utils.removeFromSetInMap(removedRefs, workingCopy,
+							reference);
 					break;
 				case PROJECT_REFERENCE_REMOVED:
 					Utils.addToSetInMap(removedRefs, workingCopy, reference);
@@ -137,7 +140,8 @@ public class TigerstripeSubjectsFactory implements CommitListener {
 					break;
 				case PROJECT_DEPENDENCY_ADDED:
 					Utils.addToSetInMap(addedDeps, workingCopy, dependency);
-					Utils.removeFromSetInMap(removedDeps, workingCopy, dependency);
+					Utils.removeFromSetInMap(removedDeps, workingCopy,
+							dependency);
 					break;
 				case PROJECT_DEPENDENCY_REMOVED:
 					Utils.addToSetInMap(removedDeps, workingCopy, dependency);
@@ -145,7 +149,7 @@ public class TigerstripeSubjectsFactory implements CommitListener {
 					break;
 				}
 				if (!workingCopy.isWorkingCopy()) {
-//					commit(...);
+					// commit(...);
 				}
 
 			} catch (TigerstripeException e) {
@@ -154,30 +158,34 @@ public class TigerstripeSubjectsFactory implements CommitListener {
 		}
 
 		private void commit(ITigerstripeModelProject workingCopy) {
-			
+
 			Set<ITigerstripeModelProject> rAdded = addedRefs.get(workingCopy);
 			if (rAdded != null) {
 				handler.addDependencies(from, mapAsSubjects(rAdded));
 				rAdded.clear();
 			}
-			Set<ITigerstripeModelProject> rRemoved = removedRefs.get(workingCopy);
+			Set<ITigerstripeModelProject> rRemoved = removedRefs
+					.get(workingCopy);
 			if (rRemoved != null) {
 				handler.removeDependencies(from, mapAsSubjects(rRemoved));
 				rRemoved.clear();
 			}
 			Set<IDependency> dAdded = addedDeps.get(workingCopy);
 			if (dAdded != null) {
-				handler.addDependencies(from, mapAsDepsSubjects(dAdded, workingCopy));
+				handler.addDependencies(from,
+						mapAsDepsSubjects(dAdded, workingCopy));
 				dAdded.clear();
 			}
 			Set<IDependency> dRemoved = removedDeps.get(workingCopy);
 			if (dRemoved != null) {
-				handler.removeDependencies(from, mapAsDepsSubjects(dRemoved, workingCopy));
+				handler.removeDependencies(from,
+						mapAsDepsSubjects(dRemoved, workingCopy));
 				dRemoved.clear();
 			}
 		}
 
-		private List<IDependencySubject> mapAsSubjects(Set<ITigerstripeModelProject> projects) {
+		private List<IDependencySubject> mapAsSubjects(
+				Set<ITigerstripeModelProject> projects) {
 			List<IDependencySubject> subjects = new ArrayList<IDependencySubject>();
 			for (ITigerstripeModelProject p : projects) {
 				try {
@@ -188,7 +196,7 @@ public class TigerstripeSubjectsFactory implements CommitListener {
 			}
 			return subjects;
 		}
-		
+
 		private Collection<IDependencySubject> mapAsDepsSubjects(
 				Set<IDependency> deps, ITigerstripeModelProject workingCopy) {
 			List<IDependencySubject> subjects = new ArrayList<IDependencySubject>();
@@ -201,16 +209,19 @@ public class TigerstripeSubjectsFactory implements CommitListener {
 			}
 			return subjects;
 		}
-		
-		private ITigerstripeModelProject toProject(IProjectDependencyDelta delta) throws TigerstripeException {
-			ModelReference modelReference = ((ProjectDependencyChangeDelta) delta).getModelReference();
+
+		private ITigerstripeModelProject toProject(IProjectDependencyDelta delta)
+				throws TigerstripeException {
+			ModelReference modelReference = ((ProjectDependencyChangeDelta) delta)
+					.getModelReference();
 			if (modelReference == null) {
 				return null;
 			}
 			return modelReference.getResolvedModel();
 		}
-		
-		private IDependency toDependency(IProjectDependencyDelta delta) throws TigerstripeException {
+
+		private IDependency toDependency(IProjectDependencyDelta delta)
+				throws TigerstripeException {
 			return ((ProjectDependencyChangeDelta) delta).getDependency();
 		}
 
@@ -221,8 +232,9 @@ public class TigerstripeSubjectsFactory implements CommitListener {
 		if (!(workingCopy instanceof ITigerstripeModelProject)) {
 			return;
 		}
-		
-		DependencyListnener dependencyListnener = listened.get(event.getOriginal());
+
+		DependencyListnener dependencyListnener = listened.get(event
+				.getOriginal());
 		if (dependencyListnener != null) {
 			dependencyListnener.commit((ITigerstripeModelProject) workingCopy);
 		}
