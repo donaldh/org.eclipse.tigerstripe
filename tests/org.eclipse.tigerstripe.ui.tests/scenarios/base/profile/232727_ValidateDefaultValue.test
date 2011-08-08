@@ -80,8 +80,9 @@ get-button "Save (Ctrl+S)" | click
 get-editor "New Project/default.wbp" | get-section | get-section "Primitive Type Definitions" | get-table 
     | select atype0
 get-view Problems | click -nowait
+wait 500
 get-view Problems | get-tree 
-    | get-item "Errors \\(1 item\\)/Primitive type \'atype0\' has invalid validation regular expression: Dangling meta character \'\\+\' near index 0\r\n"
+    | get-item "Errors \\(.* item.*\\)/Primitive type \'atype0\' has invalid validation regular expression: Dangling meta character \'\\+\' near index 0\r\n"
     + "\\+?\\*\r\n"
     + "^" | get-property caption 
     | equals "Primitive type \'atype0\' has invalid validation regular expression: Dangling meta character \'+\' near index 0\r\n"

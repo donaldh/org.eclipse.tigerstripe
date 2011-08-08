@@ -134,8 +134,14 @@ get-window Move | get-button Finish | click
 get-editor Entity1 | click -nowait
 get-view "Error Log" | click -nowait
 get-view Problems | click -nowait
-get-view Problems | get-tree | get-item "Errors \\(6 items\\)" | get-property columns -index 0 
-    | equals "Errors (6 items)" | verify-true
+wait 500
+with [get-view Problems | get-tree] {
+    get-item "Errors \\(.* items\\)" | get-item "com.mycompany.package2.Entity0 cannot be resolved to a type" -index 2 
+        | get-property columns -index 0 | equals "com.mycompany.package2.Entity0 cannot be resolved to a type" 
+        | verify-true
+    get-item "Errors \\(.* items\\)" | get-item "com.mycompany.package2.Entity0 cannot be resolved to a type" -index 2 
+        | get-property columns -index 1 | equals "Entity1.java" | verify-true
+}
 get-editor "Project2/tigerstripe.xml" | click -nowait
 with [get-editor Entity1] {
     click -nowait
