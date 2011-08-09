@@ -21,11 +21,11 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.NamedElement;
 
 public abstract class BasePostCreationElementUpdater {
 
-	private ITigerstripeModelProject tsProject;
+	private final ITigerstripeModelProject tsProject;
 
-	private IAbstractArtifact iArtifact;
+	private final IAbstractArtifact iArtifact;
 
-	private Map map;
+	private final Map map;
 
 	public BasePostCreationElementUpdater(IAbstractArtifact iArtifact, Map map,
 			ITigerstripeModelProject tsProject) {
@@ -54,6 +54,10 @@ public abstract class BasePostCreationElementUpdater {
 				.getStereotypeInstances()) {
 			strs.add(instance.getName());
 		}
-		element.getStereotypes().addAll(strs);
+		if (strs.size() > 0) {
+			element.getStereotypes().addAll(strs);
+		} else {
+			element.resetStereotypes();
+		}
 	}
 }
