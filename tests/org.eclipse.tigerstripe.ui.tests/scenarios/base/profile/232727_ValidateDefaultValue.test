@@ -74,13 +74,16 @@ with [get-editor "New Project/default.wbp" | get-section | get-section "Primitiv
 with [get-editor "New Project/default.wbp" | get-section | get-section "Primitive Type Details" | get-editbox 
     -after [get-label "Validation (Regular Expression):"]] {
     key-type "M1+v"
-    set-text "+?* "
+    set-text "+?*11"
 }
 get-button "Save (Ctrl+S)" | click
-get-editor "New Project/default.wbp" | get-section | get-section "Primitive Type Definitions" | get-table 
-    | select atype0
-get-view Problems | click -nowait
-wait 500
+get-menu "Project/Clean..." | click
+with [get-window Clean] {
+    get-button "Clean all projects" | click
+    get-button OK | click
+} 
+get-view Problems | get-tree 
+    | select "Errors \\(.* items\\)/Primitive type \'atype0\' has invalid validation regular expression: Dangling meta character \'\\+\' near index 0\r\n" | double-click -nowait
 get-view Problems | get-tree 
     | get-item "Errors \\(.* item.*\\)/Primitive type \'atype0\' has invalid validation regular expression: Dangling meta character \'\\+\' near index 0\r\n"
     + "\\+?\\*\r\n"
