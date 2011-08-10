@@ -348,10 +348,15 @@ public class NamedElementImpl extends EObjectImpl implements NamedElement {
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
+	/**
+	 * @generated NOT
+	 */
 	public EList resetStereotypes() {
 		EList oldStereotypes = new EDataTypeUniqueEList(String.class, this,
 				VisualeditorPackage.NAMED_ELEMENT__STEREOTYPES);
-		oldStereotypes.addAll(stereotypes);
+		if (stereotypes != null) {
+			oldStereotypes.addAll(stereotypes);
+		}
 		stereotypes = null;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.REMOVE_MANY,
