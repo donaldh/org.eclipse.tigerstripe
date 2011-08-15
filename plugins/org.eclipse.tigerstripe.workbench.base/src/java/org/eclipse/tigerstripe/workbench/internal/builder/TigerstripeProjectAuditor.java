@@ -160,11 +160,13 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 				// dateStr+"Smart Audit Project got Artifacts "+artifacts.size()
 				// );
 				IResource srcRes = getProject().findMember("src");
-				if (srcRes != null)
-					deleteAuditMarkers(srcRes, IResource.DEPTH_INFINITE);
+				if (srcRes != null) {
+					deleteAuditMarkers(srcRes, IResource.DEPTH_ZERO);
+				}
 
 				monitor.beginTask("Auditing Artifacts", artifacts.size());
 				for (IAbstractArtifact artifact : artifacts) {
+					deleteAuditMarkers(artifact);
 					monitor.subTask(artifact.getFullyQualifiedName());
 					// System.out.println(
 					// dateStr+"Smart Audit Project starting audit for Artifact "+artifact.getName());

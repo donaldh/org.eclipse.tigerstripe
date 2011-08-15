@@ -17,6 +17,7 @@ import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IColorProvider;
 import org.eclipse.jface.viewers.ILabelProvider;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
+import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
@@ -271,11 +272,10 @@ public abstract class BaseStereotypeSectionPart extends TigerstripeSectionPart {
 			viewer.setInput(((ProfileEditor) getPage().getEditor())
 					.getProfile());
 			viewer.refresh();
-			if (viewerSel != -1) {
-				Object refreshedStereotype = viewer.getTable().getItem(
-						viewerSel).getData();
+			Object selected = ((IStructuredSelection)  viewer.getSelection()).getFirstElement();
+			if (selected != null) {
 				viewer.setSelection(
-						new StructuredSelection(refreshedStereotype), true);
+						new StructuredSelection(selected), true);
 			}
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
