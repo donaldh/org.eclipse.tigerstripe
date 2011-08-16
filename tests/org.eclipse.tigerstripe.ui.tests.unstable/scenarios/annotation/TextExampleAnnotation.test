@@ -1,0 +1,1313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="TextExampleAnnotation" version="3.0" id="_oTluQccOEeCbRKPVX6qmIQ" description="Update values with text examples in Annotation property view&#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;RemoveAnnotationsContextGroup&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;1. Open Font Annotation for Entity&#xD;&#xA;2. Check defaut font example and empty fields&#xD;&#xA;3. Update values and check changed example &#xD;&#xA;4. Check that annotation name is not dirty" tags="Annotation" type="ecl" externalReference="http://docs.xored.com/display/TS/TextExampleAnnotation">
+  <contexts>_pje2YGyZEeC-86eLlbu98w</contexts>
+  <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View0" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree0" kind="Tree"/>
+      <path>New Project</path>
+      <path>src</path>
+      <path>org.eclipse</path>
+      <path>Entity1</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Annotation Property View" multiplicity="1">
+        <parent id="EclipseWindow0" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click" withWait="false">
+      <element id="View1" kind="View"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree0" kind="Tree"/>
+      <path>New Project</path>
+      <path>src</path>
+      <path>org.eclipse</path>
+      <path>Entity1</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Table" multiplicity="1">
+        <parent id="View1" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Table0" kind="Table"/>
+      <path>Font</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Annotation Property View" multiplicity="1">
+        <parent id="EclipseWindow1" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Group" pattern="Font" multiplicity="1">
+        <parent id="View2" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Combo" multiplicity="1">
+        <parent id="Group0" kind="Group"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="selection" value="">
+      <element id="Combo0" kind="Combo"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Annotation Property View" multiplicity="1">
+        <parent id="EclipseWindow1" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Group" pattern="Font" multiplicity="1">
+        <parent id="View2" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Combo" index="1" multiplicity="1">
+        <parent id="Group0" kind="Group"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="selection" value="">
+      <element id="Combo1" kind="Combo"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Annotation Property View" multiplicity="1">
+        <parent id="EclipseWindow1" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Group" pattern="Font" multiplicity="1">
+        <parent id="View2" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Combo" index="2" multiplicity="1">
+        <parent id="Group0" kind="Group"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="selection" value="">
+      <element id="Combo2" kind="Combo"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Annotation Property View" multiplicity="1">
+        <parent id="EclipseWindow1" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Group" pattern="Font" multiplicity="1">
+        <parent id="View2" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Label" pattern="Example Text" multiplicity="1">
+        <parent id="Group0" kind="Group"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="Contain image" kind="ContainsImage">
+      <element id="Label2" kind="Label"/>
+      <imageData image="89504E470D0A1A0A0000000D49484452000001B60000001408020000006EC88F760000016449444154789CEDDC51728230140550D7C582588FAB71332CA64520C4243CD48ED8763CE7C349C303E2CF9D3CB19EBE00089C7E7B01007F9788040889488090880408894880D06D445EFA53D65F8EBBE978A3EE3CDCA9A8DC3901E0005544BE27881EBFD1B34B7ADB5B003E82880408ED44E470EED2DFE948EE7F973E7C3A70190B97B96119AE172A0A8AC961BDC94E67DF445E515FADB04B878EFD9800F81CD1679173C68C33E3607EFD2A2BE7689A4E6986D378BD429ACD81767B7A8ECDADED5F15916D7DB542BB48E095EE35DA53C4E580CC29DA64DCF6B8B8664AB23499B784D1D6AF5CD2667DB1421109BCD23311794DA879388E7E1091EBF9B711B9DF12B711D9D48B48E030FB1159B6B1EBF18D96391A5F036C99CD01B775745BDB6857F51A6DE040E1F722E7872C6524A646B7EBFB6776916375D9496F3EAE79A0D1AEEBCFCD0AD37BF0B8067885A3FFBBC6B60EF8C744244048440284FC8C054048440284BE0171BB48AC1D0BDA5A0000000049454E44AE426082" width="439" height="21"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Annotation Property View" multiplicity="1">
+        <parent id="EclipseWindow2" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Group" pattern="Font" multiplicity="1">
+        <parent id="View4" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Combo" multiplicity="1">
+        <parent id="Group1" kind="Group"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetText" value="@Batang">
+      <element id="Combo3" kind="Combo"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Combo" index="1" multiplicity="1">
+        <parent id="Group1" kind="Group"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetText" value="10">
+      <element id="Combo4" kind="Combo"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Combo" index="2" multiplicity="1">
+        <parent id="Group1" kind="Group"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetText" value="Bold">
+      <element id="Combo5" kind="Combo"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Annotation Property View" multiplicity="1">
+        <parent id="EclipseWindow3" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Group" pattern="Font" multiplicity="1">
+        <parent id="View5" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Label" pattern="Example Text" multiplicity="1">
+        <parent id="Group2" kind="Group"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="Contain image" kind="ContainsImage">
+      <element id="Label3" kind="Label"/>
+      <imageData image="89504E470D0A1A0A0000000D49484452000001B6000000120802000000B8916C6B0000014649444154789CEDDA6D6E83301045516F907DB01856C306DB289152E29967C6A6C514DFF3CBB8FE9A4A7D324DD217004048BD0F0000D74544028044440280F4139149E870A6D6ADAF5302807BF8888F2C503AE6CB9188741B671E03C06D9422D2ED3947C3BEDB29AA7DC23100DC890C44DB7E5896C5BEC0AA9E699AB6FDF6B5F7F538CFB3FA51F66887C9AAC430771D555DEDA600EEC7894837176CA644DA361C55F60597B58F7E55DE988315011850E816B9ED29A44636FD718BDC5D363D6F9176859323525547440283ABFBCF63217AB27CF9F588747739724E3B26D20360281519B17BCFFAD388ACAB4A4764794AA13A00038A7EE9A7A11D8CC8DD586C88AD4844D656046040A1AF8EBFDBE54FB4D775CDE66EC7ABB9F613EDC21691CC2A8C74D70956D7FC2B06F07F75FECB4F9F2FDA0070293D23327E3104802EC826009088480090BE018AABB4EB4262F9640000000049454E44AE426082" width="439" height="19"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Annotation Property View" multiplicity="1">
+        <parent id="EclipseWindow4" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Table" multiplicity="1">
+        <parent id="View7" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>Font</path>
+        <parent id="Table2" kind="Table"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="Font">
+      <element id="Item6" kind="Item"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Annotation Property View" multiplicity="1">
+        <parent id="EclipseWindow5" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Group" pattern="Font" multiplicity="1">
+        <parent id="View9" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Combo" multiplicity="1">
+        <parent id="Group4" kind="Group"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="selection" value="@Batang">
+      <element id="Combo7" kind="Combo"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Annotation Property View" multiplicity="1">
+        <parent id="EclipseWindow5" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Group" pattern="Font" multiplicity="1">
+        <parent id="View9" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Combo" index="1" multiplicity="1">
+        <parent id="Group4" kind="Group"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="selection" value="10">
+      <element id="Combo8" kind="Combo"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Annotation Property View" multiplicity="1">
+        <parent id="EclipseWindow5" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Group" pattern="Font" multiplicity="1">
+        <parent id="View9" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Combo" index="2" multiplicity="1">
+        <parent id="Group4" kind="Group"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="selection" value="Bold">
+      <element id="Combo9" kind="Combo"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </commands>
+    <elementMapping command="//@teslaContent/@commands.0">
+      <elements id="EclipseWindow0" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform" sizeable="true" hasMinimizeButton="true" hasMaximizeButton="true" hasCloseButton="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="601" y="118" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.1">
+      <elements id="View0" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="50" width="244" height="594"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.2">
+      <elements id="Tree0" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="244" height="594"/>
+        <selection>
+          <path>New Project</path>
+          <path>src</path>
+          <path>org.eclipse</path>
+          <path>Entity1</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.4">
+      <elements id="View1" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Annotation Property View">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="256" y="453" width="741" height="191"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.7">
+      <elements id="Table0" kind="Table"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" containMenu="true" borderWith="2" itemCount="6">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds y="4" width="196" height="161"/>
+        <selection>
+          <path>Font</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.9">
+      <elements id="EclipseWindow1" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform" sizeable="true" hasMinimizeButton="true" hasMaximizeButton="true" hasCloseButton="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="601" y="118" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.10">
+      <elements id="View2" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Annotation Property View">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="256" y="453" width="741" height="191"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.11">
+      <elements id="Group0" kind="Group"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Group" enablement="true" childCount="4" caption="Font">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="5" y="5" width="455" height="155"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.12">
+      <elements id="Combo0" kind="Combo"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Combo" enablement="true" borderWith="2" selection="" readOnly="true">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="8" y="20" width="164" height="21"/>
+        <values>@Batang</values>
+        <values>@BatangChe</values>
+        <values>@DFKai-SB</values>
+        <values>@Dotum</values>
+        <values>@DotumChe</values>
+        <values>@FangSong</values>
+        <values>@Gulim</values>
+        <values>@GulimChe</values>
+        <values>@Gungsuh</values>
+        <values>@GungsuhChe</values>
+        <values>@KaiTi</values>
+        <values>@MS Gothic</values>
+        <values>@MS Mincho</values>
+        <values>@MS PGothic</values>
+        <values>@MS PMincho</values>
+        <values>@MS UI Gothic</values>
+        <values>@Malgun Gothic</values>
+        <values>@Meiryo</values>
+        <values>@Meiryo UI</values>
+        <values>@Microsoft JhengHei</values>
+        <values>@Microsoft YaHei</values>
+        <values>@MingLiU</values>
+        <values>@MingLiU-ExtB</values>
+        <values>@MingLiU_HKSCS</values>
+        <values>@MingLiU_HKSCS-ExtB</values>
+        <values>@NSimSun</values>
+        <values>@PMingLiU</values>
+        <values>@PMingLiU-ExtB</values>
+        <values>@SimHei</values>
+        <values>@SimSun</values>
+        <values>@SimSun-ExtB</values>
+        <values>Aharoni</values>
+        <values>Andalus</values>
+        <values>Angsana New</values>
+        <values>AngsanaUPC</values>
+        <values>Aparajita</values>
+        <values>Arabic Transparent</values>
+        <values>Arabic Typesetting</values>
+        <values>Arial</values>
+        <values>Arial Baltic</values>
+        <values>Arial Black</values>
+        <values>Arial CE</values>
+        <values>Arial CYR</values>
+        <values>Arial Cyr</values>
+        <values>Arial Greek</values>
+        <values>Arial Narrow</values>
+        <values>Arial TUR</values>
+        <values>Batang</values>
+        <values>BatangChe</values>
+        <values>Book Antiqua</values>
+        <values>Bookman Old Style</values>
+        <values>Bookshelf Symbol 7</values>
+        <values>Browallia New</values>
+        <values>BrowalliaUPC</values>
+        <values>Calibri</values>
+        <values>Cambria</values>
+        <values>Cambria Math</values>
+        <values>Candara</values>
+        <values>Century Gothic</values>
+        <values>Comic Sans MS</values>
+        <values>Consolas</values>
+        <values>Constantia</values>
+        <values>Corbel</values>
+        <values>Cordia New</values>
+        <values>CordiaUPC</values>
+        <values>Courier</values>
+        <values>Courier New</values>
+        <values>Courier New Baltic</values>
+        <values>Courier New CE</values>
+        <values>Courier New CYR</values>
+        <values>Courier New Cyr</values>
+        <values>Courier New Greek</values>
+        <values>Courier New TUR</values>
+        <values>DFKai-SB</values>
+        <values>DaunPenh</values>
+        <values>David</values>
+        <values>DilleniaUPC</values>
+        <values>DokChampa</values>
+        <values>Dotum</values>
+        <values>DotumChe</values>
+        <values>Ebrima</values>
+        <values>Estrangelo Edessa</values>
+        <values>EucrosiaUPC</values>
+        <values>Euphemia</values>
+        <values>FangSong</values>
+        <values>FrankRuehl</values>
+        <values>Franklin Gothic Medium</values>
+        <values>FreesiaUPC</values>
+        <values>Gabriola</values>
+        <values>Garamond</values>
+        <values>Gautami</values>
+        <values>Georgia</values>
+        <values>Gisha</values>
+        <values>Gulim</values>
+        <values>GulimChe</values>
+        <values>Gungsuh</values>
+        <values>GungsuhChe</values>
+        <values>Impact</values>
+        <values>IrisUPC</values>
+        <values>Iskoola Pota</values>
+        <values>JasmineUPC</values>
+        <values>KaiTi</values>
+        <values>Kalinga</values>
+        <values>Kartika</values>
+        <values>Khmer UI</values>
+        <values>KodchiangUPC</values>
+        <values>Kokila</values>
+        <values>Lao UI</values>
+        <values>Latha</values>
+        <values>Leelawadee</values>
+        <values>Levenim MT</values>
+        <values>LilyUPC</values>
+        <values>Lucida Console</values>
+        <values>Lucida Sans Unicode</values>
+        <values>MS Gothic</values>
+        <values>MS Mincho</values>
+        <values>MS Outlook</values>
+        <values>MS PGothic</values>
+        <values>MS PMincho</values>
+        <values>MS Reference Sans Serif</values>
+        <values>MS Reference Specialty</values>
+        <values>MS UI Gothic</values>
+        <values>MV Boli</values>
+        <values>Malgun Gothic</values>
+        <values>Mangal</values>
+        <values>Marlett</values>
+        <values>Meiryo</values>
+        <values>Meiryo UI</values>
+        <values>Microsoft Himalaya</values>
+        <values>Microsoft JhengHei</values>
+        <values>Microsoft New Tai Lue</values>
+        <values>Microsoft PhagsPa</values>
+        <values>Microsoft Sans Serif</values>
+        <values>Microsoft Tai Le</values>
+        <values>Microsoft Uighur</values>
+        <values>Microsoft YaHei</values>
+        <values>Microsoft Yi Baiti</values>
+        <values>MingLiU</values>
+        <values>MingLiU-ExtB</values>
+        <values>MingLiU_HKSCS</values>
+        <values>MingLiU_HKSCS-ExtB</values>
+        <values>Miriam</values>
+        <values>Miriam Fixed</values>
+        <values>Modern</values>
+        <values>Mongolian Baiti</values>
+        <values>Monotype Corsiva</values>
+        <values>MoolBoran</values>
+        <values>NSimSun</values>
+        <values>Narkisim</values>
+        <values>Nyala</values>
+        <values>PMingLiU</values>
+        <values>PMingLiU-ExtB</values>
+        <values>Palatino Linotype</values>
+        <values>Plantagenet Cherokee</values>
+        <values>Raavi</values>
+        <values>Rod</values>
+        <values>Roman</values>
+        <values>Sakkal Majalla</values>
+        <values>Script</values>
+        <values>Segoe Print</values>
+        <values>Segoe Script</values>
+        <values>Segoe UI</values>
+        <values>Segoe UI Light</values>
+        <values>Segoe UI Semibold</values>
+        <values>Segoe UI Symbol</values>
+        <values>Shonar Bangla</values>
+        <values>Shruti</values>
+        <values>SimHei</values>
+        <values>SimSun</values>
+        <values>SimSun-ExtB</values>
+        <values>Simplified Arabic</values>
+        <values>Simplified Arabic Fixed</values>
+        <values>Sylfaen</values>
+        <values>Symbol</values>
+        <values>Tahoma</values>
+        <values>Times New Roman</values>
+        <values>Times New Roman Baltic</values>
+        <values>Times New Roman CE</values>
+        <values>Times New Roman CYR</values>
+        <values>Times New Roman Cyr</values>
+        <values>Times New Roman Greek</values>
+        <values>Times New Roman TUR</values>
+        <values>Traditional Arabic</values>
+        <values>Trebuchet MS</values>
+        <values>Tunga</values>
+        <values>Utsaah</values>
+        <values>Vani</values>
+        <values>Verdana</values>
+        <values>Vijaya</values>
+        <values>Vrinda</values>
+        <values>Webdings</values>
+        <values>Wingdings</values>
+        <values>Wingdings 2</values>
+        <values>Wingdings 3</values>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.14">
+      <elements id="EclipseWindow1" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform" sizeable="true" hasMinimizeButton="true" hasMaximizeButton="true" hasCloseButton="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="601" y="118" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.15">
+      <elements id="View2" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Annotation Property View">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="256" y="453" width="741" height="191"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.16">
+      <elements id="Group0" kind="Group"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Group" enablement="true" childCount="4" caption="Font">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="5" y="5" width="455" height="155"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.17">
+      <elements id="Combo1" kind="Combo"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Combo" enablement="true" borderWith="2" selection="" readOnly="true">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="177" y="20" width="43" height="21"/>
+        <values>8</values>
+        <values>9</values>
+        <values>10</values>
+        <values>11</values>
+        <values>12</values>
+        <values>14</values>
+        <values>16</values>
+        <values>18</values>
+        <values>20</values>
+        <values>22</values>
+        <values>24</values>
+        <values>26</values>
+        <values>28</values>
+        <values>36</values>
+        <values>48</values>
+        <values>72</values>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.19">
+      <elements id="EclipseWindow1" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform" sizeable="true" hasMinimizeButton="true" hasMaximizeButton="true" hasCloseButton="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="601" y="118" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.20">
+      <elements id="View2" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Annotation Property View">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="256" y="453" width="741" height="191"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.21">
+      <elements id="Group0" kind="Group"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Group" enablement="true" childCount="4" caption="Font">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="5" y="5" width="455" height="155"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.22">
+      <elements id="Combo2" kind="Combo"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Combo" enablement="true" borderWith="2" selection="" readOnly="true">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="225" y="20" width="71" height="21"/>
+        <values>Normal</values>
+        <values>Bold</values>
+        <values>Italic</values>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.24">
+      <elements id="EclipseWindow1" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform" sizeable="true" hasMinimizeButton="true" hasMaximizeButton="true" hasCloseButton="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="601" y="118" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.25">
+      <elements id="View2" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Annotation Property View">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="256" y="453" width="741" height="191"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.26">
+      <elements id="Group0" kind="Group"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Group" enablement="true" childCount="4" caption="Font">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="5" y="5" width="455" height="155"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.27">
+      <elements id="Label2" kind="Label"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Example Text">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="8" y="46" width="439" height="21"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.29">
+      <elements id="EclipseWindow2" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform" sizeable="true" hasMinimizeButton="true" hasMaximizeButton="true" hasCloseButton="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="601" y="118" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.30">
+      <elements id="View4" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Annotation Property View">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="256" y="453" width="741" height="191"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.31">
+      <elements id="Group1" kind="Group"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Group" enablement="true" childCount="4" caption="Font">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="5" y="5" width="455" height="155"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.32">
+      <elements id="Combo3" kind="Combo"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Combo" enablement="true" borderWith="2" selection="@Batang" readOnly="true">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="8" y="20" width="164" height="21"/>
+        <values>@Batang</values>
+        <values>@BatangChe</values>
+        <values>@DFKai-SB</values>
+        <values>@Dotum</values>
+        <values>@DotumChe</values>
+        <values>@FangSong</values>
+        <values>@Gulim</values>
+        <values>@GulimChe</values>
+        <values>@Gungsuh</values>
+        <values>@GungsuhChe</values>
+        <values>@KaiTi</values>
+        <values>@MS Gothic</values>
+        <values>@MS Mincho</values>
+        <values>@MS PGothic</values>
+        <values>@MS PMincho</values>
+        <values>@MS UI Gothic</values>
+        <values>@Malgun Gothic</values>
+        <values>@Meiryo</values>
+        <values>@Meiryo UI</values>
+        <values>@Microsoft JhengHei</values>
+        <values>@Microsoft YaHei</values>
+        <values>@MingLiU</values>
+        <values>@MingLiU-ExtB</values>
+        <values>@MingLiU_HKSCS</values>
+        <values>@MingLiU_HKSCS-ExtB</values>
+        <values>@NSimSun</values>
+        <values>@PMingLiU</values>
+        <values>@PMingLiU-ExtB</values>
+        <values>@SimHei</values>
+        <values>@SimSun</values>
+        <values>@SimSun-ExtB</values>
+        <values>Aharoni</values>
+        <values>Andalus</values>
+        <values>Angsana New</values>
+        <values>AngsanaUPC</values>
+        <values>Aparajita</values>
+        <values>Arabic Transparent</values>
+        <values>Arabic Typesetting</values>
+        <values>Arial</values>
+        <values>Arial Baltic</values>
+        <values>Arial Black</values>
+        <values>Arial CE</values>
+        <values>Arial CYR</values>
+        <values>Arial Cyr</values>
+        <values>Arial Greek</values>
+        <values>Arial Narrow</values>
+        <values>Arial TUR</values>
+        <values>Batang</values>
+        <values>BatangChe</values>
+        <values>Book Antiqua</values>
+        <values>Bookman Old Style</values>
+        <values>Bookshelf Symbol 7</values>
+        <values>Browallia New</values>
+        <values>BrowalliaUPC</values>
+        <values>Calibri</values>
+        <values>Cambria</values>
+        <values>Cambria Math</values>
+        <values>Candara</values>
+        <values>Century Gothic</values>
+        <values>Comic Sans MS</values>
+        <values>Consolas</values>
+        <values>Constantia</values>
+        <values>Corbel</values>
+        <values>Cordia New</values>
+        <values>CordiaUPC</values>
+        <values>Courier</values>
+        <values>Courier New</values>
+        <values>Courier New Baltic</values>
+        <values>Courier New CE</values>
+        <values>Courier New CYR</values>
+        <values>Courier New Cyr</values>
+        <values>Courier New Greek</values>
+        <values>Courier New TUR</values>
+        <values>DFKai-SB</values>
+        <values>DaunPenh</values>
+        <values>David</values>
+        <values>DilleniaUPC</values>
+        <values>DokChampa</values>
+        <values>Dotum</values>
+        <values>DotumChe</values>
+        <values>Ebrima</values>
+        <values>Estrangelo Edessa</values>
+        <values>EucrosiaUPC</values>
+        <values>Euphemia</values>
+        <values>FangSong</values>
+        <values>FrankRuehl</values>
+        <values>Franklin Gothic Medium</values>
+        <values>FreesiaUPC</values>
+        <values>Gabriola</values>
+        <values>Garamond</values>
+        <values>Gautami</values>
+        <values>Georgia</values>
+        <values>Gisha</values>
+        <values>Gulim</values>
+        <values>GulimChe</values>
+        <values>Gungsuh</values>
+        <values>GungsuhChe</values>
+        <values>Impact</values>
+        <values>IrisUPC</values>
+        <values>Iskoola Pota</values>
+        <values>JasmineUPC</values>
+        <values>KaiTi</values>
+        <values>Kalinga</values>
+        <values>Kartika</values>
+        <values>Khmer UI</values>
+        <values>KodchiangUPC</values>
+        <values>Kokila</values>
+        <values>Lao UI</values>
+        <values>Latha</values>
+        <values>Leelawadee</values>
+        <values>Levenim MT</values>
+        <values>LilyUPC</values>
+        <values>Lucida Console</values>
+        <values>Lucida Sans Unicode</values>
+        <values>MS Gothic</values>
+        <values>MS Mincho</values>
+        <values>MS Outlook</values>
+        <values>MS PGothic</values>
+        <values>MS PMincho</values>
+        <values>MS Reference Sans Serif</values>
+        <values>MS Reference Specialty</values>
+        <values>MS UI Gothic</values>
+        <values>MV Boli</values>
+        <values>Malgun Gothic</values>
+        <values>Mangal</values>
+        <values>Marlett</values>
+        <values>Meiryo</values>
+        <values>Meiryo UI</values>
+        <values>Microsoft Himalaya</values>
+        <values>Microsoft JhengHei</values>
+        <values>Microsoft New Tai Lue</values>
+        <values>Microsoft PhagsPa</values>
+        <values>Microsoft Sans Serif</values>
+        <values>Microsoft Tai Le</values>
+        <values>Microsoft Uighur</values>
+        <values>Microsoft YaHei</values>
+        <values>Microsoft Yi Baiti</values>
+        <values>MingLiU</values>
+        <values>MingLiU-ExtB</values>
+        <values>MingLiU_HKSCS</values>
+        <values>MingLiU_HKSCS-ExtB</values>
+        <values>Miriam</values>
+        <values>Miriam Fixed</values>
+        <values>Modern</values>
+        <values>Mongolian Baiti</values>
+        <values>Monotype Corsiva</values>
+        <values>MoolBoran</values>
+        <values>NSimSun</values>
+        <values>Narkisim</values>
+        <values>Nyala</values>
+        <values>PMingLiU</values>
+        <values>PMingLiU-ExtB</values>
+        <values>Palatino Linotype</values>
+        <values>Plantagenet Cherokee</values>
+        <values>Raavi</values>
+        <values>Rod</values>
+        <values>Roman</values>
+        <values>Sakkal Majalla</values>
+        <values>Script</values>
+        <values>Segoe Print</values>
+        <values>Segoe Script</values>
+        <values>Segoe UI</values>
+        <values>Segoe UI Light</values>
+        <values>Segoe UI Semibold</values>
+        <values>Segoe UI Symbol</values>
+        <values>Shonar Bangla</values>
+        <values>Shruti</values>
+        <values>SimHei</values>
+        <values>SimSun</values>
+        <values>SimSun-ExtB</values>
+        <values>Simplified Arabic</values>
+        <values>Simplified Arabic Fixed</values>
+        <values>Sylfaen</values>
+        <values>Symbol</values>
+        <values>Tahoma</values>
+        <values>Times New Roman</values>
+        <values>Times New Roman Baltic</values>
+        <values>Times New Roman CE</values>
+        <values>Times New Roman CYR</values>
+        <values>Times New Roman Cyr</values>
+        <values>Times New Roman Greek</values>
+        <values>Times New Roman TUR</values>
+        <values>Traditional Arabic</values>
+        <values>Trebuchet MS</values>
+        <values>Tunga</values>
+        <values>Utsaah</values>
+        <values>Vani</values>
+        <values>Verdana</values>
+        <values>Vijaya</values>
+        <values>Vrinda</values>
+        <values>Webdings</values>
+        <values>Wingdings</values>
+        <values>Wingdings 2</values>
+        <values>Wingdings 3</values>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.34">
+      <elements id="Combo4" kind="Combo"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Combo" enablement="true" borderWith="2" selection="10" readOnly="true">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="177" y="20" width="43" height="21"/>
+        <values>8</values>
+        <values>9</values>
+        <values>10</values>
+        <values>11</values>
+        <values>12</values>
+        <values>14</values>
+        <values>16</values>
+        <values>18</values>
+        <values>20</values>
+        <values>22</values>
+        <values>24</values>
+        <values>26</values>
+        <values>28</values>
+        <values>36</values>
+        <values>48</values>
+        <values>72</values>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.36">
+      <elements id="Combo5" kind="Combo"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Combo" enablement="true" borderWith="2" selection="Bold" readOnly="true">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="225" y="20" width="71" height="21"/>
+        <values>Normal</values>
+        <values>Bold</values>
+        <values>Italic</values>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.38">
+      <elements id="EclipseWindow3" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform" sizeable="true" hasMinimizeButton="true" hasMaximizeButton="true" hasCloseButton="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="601" y="118" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.39">
+      <elements id="View5" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Annotation Property View">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="256" y="453" width="741" height="191"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.40">
+      <elements id="Group2" kind="Group"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Group" enablement="true" childCount="4" caption="Font">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="5" y="5" width="455" height="155"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.41">
+      <elements id="Label3" kind="Label"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Label" enablement="true" caption="Example Text">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="8" y="46" width="439" height="19"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.43">
+      <elements id="EclipseWindow4" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform" sizeable="true" hasMinimizeButton="true" hasMaximizeButton="true" hasCloseButton="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="601" y="118" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.44">
+      <elements id="View7" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Annotation Property View">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="256" y="453" width="741" height="191"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.45">
+      <elements id="Table2" kind="Table"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" containMenu="true" borderWith="2" itemCount="6">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds y="4" width="196" height="161"/>
+        <selection>
+          <path>Font</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.46">
+      <elements id="Item6" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TableItem" caption="Font" index="4" selected="true">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="20" y="76" width="103" height="19"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.48">
+      <elements id="EclipseWindow5" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform" sizeable="true" hasMinimizeButton="true" hasMaximizeButton="true" hasCloseButton="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="601" y="118" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.49">
+      <elements id="View9" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Annotation Property View">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="256" y="453" width="741" height="191"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.50">
+      <elements id="Group4" kind="Group"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Group" enablement="true" childCount="4" caption="Font">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="5" y="5" width="455" height="155"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.51">
+      <elements id="Combo7" kind="Combo"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Combo" enablement="true" borderWith="2" selection="@Batang" readOnly="true">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="8" y="20" width="164" height="21"/>
+        <values>@Batang</values>
+        <values>@BatangChe</values>
+        <values>@DFKai-SB</values>
+        <values>@Dotum</values>
+        <values>@DotumChe</values>
+        <values>@FangSong</values>
+        <values>@Gulim</values>
+        <values>@GulimChe</values>
+        <values>@Gungsuh</values>
+        <values>@GungsuhChe</values>
+        <values>@KaiTi</values>
+        <values>@MS Gothic</values>
+        <values>@MS Mincho</values>
+        <values>@MS PGothic</values>
+        <values>@MS PMincho</values>
+        <values>@MS UI Gothic</values>
+        <values>@Malgun Gothic</values>
+        <values>@Meiryo</values>
+        <values>@Meiryo UI</values>
+        <values>@Microsoft JhengHei</values>
+        <values>@Microsoft YaHei</values>
+        <values>@MingLiU</values>
+        <values>@MingLiU-ExtB</values>
+        <values>@MingLiU_HKSCS</values>
+        <values>@MingLiU_HKSCS-ExtB</values>
+        <values>@NSimSun</values>
+        <values>@PMingLiU</values>
+        <values>@PMingLiU-ExtB</values>
+        <values>@SimHei</values>
+        <values>@SimSun</values>
+        <values>@SimSun-ExtB</values>
+        <values>Aharoni</values>
+        <values>Andalus</values>
+        <values>Angsana New</values>
+        <values>AngsanaUPC</values>
+        <values>Aparajita</values>
+        <values>Arabic Transparent</values>
+        <values>Arabic Typesetting</values>
+        <values>Arial</values>
+        <values>Arial Baltic</values>
+        <values>Arial Black</values>
+        <values>Arial CE</values>
+        <values>Arial CYR</values>
+        <values>Arial Cyr</values>
+        <values>Arial Greek</values>
+        <values>Arial Narrow</values>
+        <values>Arial TUR</values>
+        <values>Batang</values>
+        <values>BatangChe</values>
+        <values>Book Antiqua</values>
+        <values>Bookman Old Style</values>
+        <values>Bookshelf Symbol 7</values>
+        <values>Browallia New</values>
+        <values>BrowalliaUPC</values>
+        <values>Calibri</values>
+        <values>Cambria</values>
+        <values>Cambria Math</values>
+        <values>Candara</values>
+        <values>Century Gothic</values>
+        <values>Comic Sans MS</values>
+        <values>Consolas</values>
+        <values>Constantia</values>
+        <values>Corbel</values>
+        <values>Cordia New</values>
+        <values>CordiaUPC</values>
+        <values>Courier</values>
+        <values>Courier New</values>
+        <values>Courier New Baltic</values>
+        <values>Courier New CE</values>
+        <values>Courier New CYR</values>
+        <values>Courier New Cyr</values>
+        <values>Courier New Greek</values>
+        <values>Courier New TUR</values>
+        <values>DFKai-SB</values>
+        <values>DaunPenh</values>
+        <values>David</values>
+        <values>DilleniaUPC</values>
+        <values>DokChampa</values>
+        <values>Dotum</values>
+        <values>DotumChe</values>
+        <values>Ebrima</values>
+        <values>Estrangelo Edessa</values>
+        <values>EucrosiaUPC</values>
+        <values>Euphemia</values>
+        <values>FangSong</values>
+        <values>FrankRuehl</values>
+        <values>Franklin Gothic Medium</values>
+        <values>FreesiaUPC</values>
+        <values>Gabriola</values>
+        <values>Garamond</values>
+        <values>Gautami</values>
+        <values>Georgia</values>
+        <values>Gisha</values>
+        <values>Gulim</values>
+        <values>GulimChe</values>
+        <values>Gungsuh</values>
+        <values>GungsuhChe</values>
+        <values>Impact</values>
+        <values>IrisUPC</values>
+        <values>Iskoola Pota</values>
+        <values>JasmineUPC</values>
+        <values>KaiTi</values>
+        <values>Kalinga</values>
+        <values>Kartika</values>
+        <values>Khmer UI</values>
+        <values>KodchiangUPC</values>
+        <values>Kokila</values>
+        <values>Lao UI</values>
+        <values>Latha</values>
+        <values>Leelawadee</values>
+        <values>Levenim MT</values>
+        <values>LilyUPC</values>
+        <values>Lucida Console</values>
+        <values>Lucida Sans Unicode</values>
+        <values>MS Gothic</values>
+        <values>MS Mincho</values>
+        <values>MS Outlook</values>
+        <values>MS PGothic</values>
+        <values>MS PMincho</values>
+        <values>MS Reference Sans Serif</values>
+        <values>MS Reference Specialty</values>
+        <values>MS UI Gothic</values>
+        <values>MV Boli</values>
+        <values>Malgun Gothic</values>
+        <values>Mangal</values>
+        <values>Marlett</values>
+        <values>Meiryo</values>
+        <values>Meiryo UI</values>
+        <values>Microsoft Himalaya</values>
+        <values>Microsoft JhengHei</values>
+        <values>Microsoft New Tai Lue</values>
+        <values>Microsoft PhagsPa</values>
+        <values>Microsoft Sans Serif</values>
+        <values>Microsoft Tai Le</values>
+        <values>Microsoft Uighur</values>
+        <values>Microsoft YaHei</values>
+        <values>Microsoft Yi Baiti</values>
+        <values>MingLiU</values>
+        <values>MingLiU-ExtB</values>
+        <values>MingLiU_HKSCS</values>
+        <values>MingLiU_HKSCS-ExtB</values>
+        <values>Miriam</values>
+        <values>Miriam Fixed</values>
+        <values>Modern</values>
+        <values>Mongolian Baiti</values>
+        <values>Monotype Corsiva</values>
+        <values>MoolBoran</values>
+        <values>NSimSun</values>
+        <values>Narkisim</values>
+        <values>Nyala</values>
+        <values>PMingLiU</values>
+        <values>PMingLiU-ExtB</values>
+        <values>Palatino Linotype</values>
+        <values>Plantagenet Cherokee</values>
+        <values>Raavi</values>
+        <values>Rod</values>
+        <values>Roman</values>
+        <values>Sakkal Majalla</values>
+        <values>Script</values>
+        <values>Segoe Print</values>
+        <values>Segoe Script</values>
+        <values>Segoe UI</values>
+        <values>Segoe UI Light</values>
+        <values>Segoe UI Semibold</values>
+        <values>Segoe UI Symbol</values>
+        <values>Shonar Bangla</values>
+        <values>Shruti</values>
+        <values>SimHei</values>
+        <values>SimSun</values>
+        <values>SimSun-ExtB</values>
+        <values>Simplified Arabic</values>
+        <values>Simplified Arabic Fixed</values>
+        <values>Sylfaen</values>
+        <values>Symbol</values>
+        <values>Tahoma</values>
+        <values>Times New Roman</values>
+        <values>Times New Roman Baltic</values>
+        <values>Times New Roman CE</values>
+        <values>Times New Roman CYR</values>
+        <values>Times New Roman Cyr</values>
+        <values>Times New Roman Greek</values>
+        <values>Times New Roman TUR</values>
+        <values>Traditional Arabic</values>
+        <values>Trebuchet MS</values>
+        <values>Tunga</values>
+        <values>Utsaah</values>
+        <values>Vani</values>
+        <values>Verdana</values>
+        <values>Vijaya</values>
+        <values>Vrinda</values>
+        <values>Webdings</values>
+        <values>Wingdings</values>
+        <values>Wingdings 2</values>
+        <values>Wingdings 3</values>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.53">
+      <elements id="EclipseWindow5" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform" sizeable="true" hasMinimizeButton="true" hasMaximizeButton="true" hasCloseButton="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="601" y="118" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.54">
+      <elements id="View9" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Annotation Property View">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="256" y="453" width="741" height="191"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.55">
+      <elements id="Group4" kind="Group"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Group" enablement="true" childCount="4" caption="Font">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="5" y="5" width="455" height="155"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.56">
+      <elements id="Combo8" kind="Combo"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Combo" enablement="true" borderWith="2" selection="10" readOnly="true">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="177" y="20" width="43" height="21"/>
+        <values>8</values>
+        <values>9</values>
+        <values>10</values>
+        <values>11</values>
+        <values>12</values>
+        <values>14</values>
+        <values>16</values>
+        <values>18</values>
+        <values>20</values>
+        <values>22</values>
+        <values>24</values>
+        <values>26</values>
+        <values>28</values>
+        <values>36</values>
+        <values>48</values>
+        <values>72</values>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.58">
+      <elements id="EclipseWindow5" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform" sizeable="true" hasMinimizeButton="true" hasMaximizeButton="true" hasCloseButton="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="601" y="118" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.59">
+      <elements id="View9" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Annotation Property View">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="256" y="453" width="741" height="191"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.60">
+      <elements id="Group4" kind="Group"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Group" enablement="true" childCount="4" caption="Font">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="5" y="5" width="455" height="155"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.61">
+      <elements id="Combo9" kind="Combo"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Combo" enablement="true" borderWith="2" selection="Bold" readOnly="true">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="225" y="20" width="71" height="21"/>
+        <values>Normal</values>
+        <values>Bold</values>
+        <values>Italic</values>
+      </controls>
+    </elementMapping>
+  </teslaContent>
+</com.xored.q7.scenario:Scenario>
