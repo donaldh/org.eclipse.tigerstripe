@@ -26,7 +26,7 @@ import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactRenameRequest;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Type;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
@@ -39,16 +39,16 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IEmittedEvent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IExposedUpdateProcedure;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IManagedEntityDetails;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.INamedQuery;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 
 public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
@@ -98,7 +98,7 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 		IAbstractArtifact origArt = mgrSession
 				.getArtifactByFullyQualifiedName(getArtifactFQN());
 
-		AbstractArtifact aArt = (AbstractArtifact) origArt;
+		IAbstractArtifactInternal aArt = (IAbstractArtifactInternal) origArt;
 		String oldFQN = aArt.getFullyQualifiedName();
 
 		// This is using the fact that this is a file. Will need to be removed
@@ -183,10 +183,10 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 				// take care of containing artifacts same way.  This is looking UPWARDS
 				IModelComponent containing = artifact.getContainingModelComponent();
 				
-				AbstractArtifact aArtifact = (AbstractArtifact) artifact;
+				IAbstractArtifactInternal aArtifact = (IAbstractArtifactInternal) artifact;
 
 				if (containing instanceof IAbstractArtifact) {
-					AbstractArtifact containingArt = (AbstractArtifact) containing;
+					IAbstractArtifactInternal containingArt = (IAbstractArtifactInternal) containing;
 					if (containingArt.getFullyQualifiedName().equals(oldFQN) || containingArt.getFullyQualifiedName().equals(newName)) {
 						aArtifact.setContainingModelComponent(referencedArtifact);
 						needSave = false;
@@ -199,8 +199,8 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 				ArrayList<IModelComponent> componentsToAdd = new ArrayList<IModelComponent>();
 				
 				for (IModelComponent cont : contains) {
-					if (cont instanceof AbstractArtifact) {
-						AbstractArtifact containedArt = (AbstractArtifact) cont;
+					if (cont instanceof IAbstractArtifactInternal) {
+						IAbstractArtifactInternal containedArt = (IAbstractArtifactInternal) cont;
 						if (containedArt.getFullyQualifiedName().equals(oldFQN)	|| containedArt.getFullyQualifiedName().equals(newName)) {
 							componentsToRemove.add(cont);
 							componentsToAdd.add(referencedArtifact);
@@ -360,7 +360,7 @@ public class ArtifactRenameRequest extends BaseArtifactElementRequest implements
 		ModelChangeDelta delta = new ModelChangeDelta(IModelChangeDelta.SET);
 
 		try {
-			AbstractArtifact comp = (AbstractArtifact) getMgrSession()
+			IAbstractArtifactInternal comp = (IAbstractArtifactInternal) getMgrSession()
 					.getArtifactByFullyQualifiedName(
 							Util.packageOf(getArtifactFQN()) + "." + newName);
 			delta

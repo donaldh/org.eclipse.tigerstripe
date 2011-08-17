@@ -49,7 +49,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.convert.SuggestConvertationDialog.Result;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.util.CheckUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Provider;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Tuple;
@@ -86,7 +86,7 @@ public class ConvertArtifactOperation extends AbstractOperation {
 	private static final String IMPLEMENTED_ARTIFACTS_ATTR = "implementedArtifacts";
 	private final IArtifactManagerSession session;
 	private IAbstractArtifact from;
-	private String toType;
+	private final String toType;
 	private boolean association;
 
 	private String mainFqn;
@@ -105,8 +105,8 @@ public class ConvertArtifactOperation extends AbstractOperation {
 	private List<OpDesciptor> operations;
 
 	private Set<IRelationship> relationships;
-	private Set<IEditorPart> contextParts;
-	private Map<String, Provider<IAbstractArtifact>> providers = new HashMap<String, Provider<IAbstractArtifact>>();
+	private final Set<IEditorPart> contextParts;
+	private final Map<String, Provider<IAbstractArtifact>> providers = new HashMap<String, Provider<IAbstractArtifact>>();
 
 	public static ConvertArtifactOperation make(
 			IArtifactManagerSession session, IAbstractArtifact from,
@@ -321,7 +321,7 @@ public class ConvertArtifactOperation extends AbstractOperation {
 	}
 
 	private IAbstractArtifact makeProxy(String toType, String extendedFqn) {
-		AbstractArtifact extended = (AbstractArtifact) session
+		IAbstractArtifactInternal extended = (IAbstractArtifactInternal) session
 				.makeArtifact(toType);
 		extended.setFullyQualifiedName(extendedFqn);
 		extended.setProxy(true);

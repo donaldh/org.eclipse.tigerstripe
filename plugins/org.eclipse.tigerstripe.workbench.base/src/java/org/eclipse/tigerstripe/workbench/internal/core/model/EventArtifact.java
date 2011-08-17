@@ -32,7 +32,8 @@ import com.thoughtworks.qdox.model.JavaClass;
  * @author Eric Dillon
  * 
  */
-public class EventArtifact extends AbstractArtifact implements IEventArtifact {
+public class EventArtifact extends AbstractArtifact implements IEventArtifact,
+		IAbstractArtifactInternal {
 
 	public final static String MARKING_TAG = AbstractArtifactTag.PREFIX
 			+ AbstractArtifactTag.EVENT;
@@ -57,7 +58,7 @@ public class EventArtifact extends AbstractArtifact implements IEventArtifact {
 	}
 
 	@Override
-	public AbstractArtifact getModel() {
+	public IAbstractArtifactInternal getModel() {
 		return MODEL;
 	}
 
@@ -67,7 +68,7 @@ public class EventArtifact extends AbstractArtifact implements IEventArtifact {
 	}
 
 	@Override
-	public AbstractArtifact extractFromClass(JavaClass javaClass,
+	public IAbstractArtifactInternal extractFromClass(JavaClass javaClass,
 			ArtifactManager artifactMgr, IProgressMonitor monitor) {
 		EventArtifact result = new EventArtifact(javaClass, artifactMgr,
 				monitor);

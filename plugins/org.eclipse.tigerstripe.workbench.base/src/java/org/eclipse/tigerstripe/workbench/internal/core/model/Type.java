@@ -20,9 +20,15 @@ import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef;
 
 /**
@@ -32,7 +38,7 @@ import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef
  */
 public class Type implements IType {
 
-	private ArtifactManager artifactManager;
+	private final ArtifactManager artifactManager;
 
 	private String fullyQualifiedName;
 
@@ -170,7 +176,7 @@ public class Type implements IType {
 	}
 
 	public boolean isArtifact() {
-		AbstractArtifact artifact = getArtifactManager()
+		IAbstractArtifactInternal artifact = getArtifactManager()
 				.getArtifactByFullyQualifiedName(getFullyQualifiedName(), true,
 						new NullProgressMonitor());
 		if (artifact != null)
@@ -185,10 +191,10 @@ public class Type implements IType {
 	 * 
 	 */
 	public boolean isDatatype() {
-		AbstractArtifact artifact = getArtifactManager()
+		IAbstractArtifactInternal artifact = getArtifactManager()
 				.getArtifactByFullyQualifiedName(getFullyQualifiedName(), true,
 						new NullProgressMonitor());
-		if ((artifact != null) && (artifact instanceof DatatypeArtifact))
+		if ((artifact != null) && (artifact instanceof IDatatypeArtifact))
 			return true;
 		return false;
 	}
@@ -200,10 +206,10 @@ public class Type implements IType {
 	 * 
 	 */
 	public boolean isQueryType() {
-		AbstractArtifact artifact = getArtifactManager()
+		IAbstractArtifactInternal artifact = getArtifactManager()
 				.getArtifactByFullyQualifiedName(getFullyQualifiedName(), true,
 						new NullProgressMonitor());
-		if ((artifact != null) && (artifact instanceof QueryArtifact))
+		if ((artifact != null) && (artifact instanceof IQueryArtifact))
 			return true;
 		return false;
 	}
@@ -215,10 +221,11 @@ public class Type implements IType {
 	 * 
 	 */
 	public boolean isUpdateProcedureType() {
-		AbstractArtifact artifact = getArtifactManager()
+		IAbstractArtifactInternal artifact = getArtifactManager()
 				.getArtifactByFullyQualifiedName(getFullyQualifiedName(), true,
 						new NullProgressMonitor());
-		if ((artifact != null) && (artifact instanceof UpdateProcedureArtifact))
+		if ((artifact != null)
+				&& (artifact instanceof IUpdateProcedureArtifact))
 			return true;
 		return false;
 	}
@@ -230,10 +237,10 @@ public class Type implements IType {
 	 * 
 	 */
 	public boolean isEntityType() {
-		AbstractArtifact artifact = getArtifactManager()
+		IAbstractArtifactInternal artifact = getArtifactManager()
 				.getArtifactByFullyQualifiedName(getFullyQualifiedName(), true,
 						new NullProgressMonitor());
-		if ((artifact != null) && (artifact instanceof ManagedEntityArtifact))
+		if ((artifact != null) && (artifact instanceof IManagedEntityArtifact))
 			return true;
 		return false;
 	}
@@ -245,10 +252,10 @@ public class Type implements IType {
 	 * 
 	 */
 	public boolean isTSException() {
-		AbstractArtifact artifact = getArtifactManager()
+		IAbstractArtifactInternal artifact = getArtifactManager()
 				.getArtifactByFullyQualifiedName(getFullyQualifiedName(), true,
 						new NullProgressMonitor());
-		if ((artifact != null) && (artifact instanceof ExceptionArtifact))
+		if ((artifact != null) && (artifact instanceof IExceptionArtifact))
 			return true;
 		return false;
 	}
@@ -260,20 +267,20 @@ public class Type implements IType {
 	 * 
 	 */
 	public boolean isEnum() {
-		AbstractArtifact artifact = getArtifactManager()
+		IAbstractArtifactInternal artifact = getArtifactManager()
 				.getArtifactByFullyQualifiedName(getFullyQualifiedName(), true,
 						new NullProgressMonitor());
-		if ((artifact != null) && (artifact instanceof EnumArtifact))
+		if ((artifact != null) && (artifact instanceof IEnumArtifact))
 			return true;
 		else
 			return false;
 	}
 
 	public boolean isExtensibleEnum() {
-		AbstractArtifact artifact = getArtifactManager()
+		IAbstractArtifactInternal artifact = getArtifactManager()
 				.getArtifactByFullyQualifiedName(getFullyQualifiedName(), true,
 						new NullProgressMonitor());
-		if ((artifact != null) && (artifact instanceof EnumArtifact)) {
+		if ((artifact != null) && (artifact instanceof IEnumArtifact)) {
 			EnumArtifact en = (EnumArtifact) artifact;
 			return en.getExtensible();
 		} else
@@ -281,7 +288,7 @@ public class Type implements IType {
 	}
 
 	public Type getBaseType() {
-		AbstractArtifact artifact = getArtifactManager()
+		IAbstractArtifactInternal artifact = getArtifactManager()
 				.getArtifactByFullyQualifiedName(getFullyQualifiedName(), true,
 						new NullProgressMonitor());
 		if (artifact instanceof EnumArtifact) {
@@ -349,8 +356,8 @@ public class Type implements IType {
 			return false;
 	}
 
-	public AbstractArtifact getArtifact() {
-		AbstractArtifact artifact = getArtifactManager()
+	public IAbstractArtifactInternal getArtifact() {
+		IAbstractArtifactInternal artifact = getArtifactManager()
 				.getArtifactByFullyQualifiedName(getFullyQualifiedName(), true,
 						new NullProgressMonitor());
 		return artifact;

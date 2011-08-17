@@ -29,13 +29,23 @@ import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.artifacts.DependencyArtifactPersister;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.ide.IDE;
 
@@ -44,7 +54,7 @@ import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaField;
 
 public class DependencyArtifact extends AbstractArtifact implements
-		IDependencyArtifact, IRelationship {
+		IDependencyArtifact, IRelationship, IAbstractArtifactInternal {
 
 	private IRelationshipEnd aRelationshipEnd;
 
@@ -60,17 +70,23 @@ public class DependencyArtifact extends AbstractArtifact implements
 	public final static String ZEND_TAG = AbstractArtifactTag.PREFIX
 			+ AbstractArtifactTag.DEPENDENCY + "-zEnd";
 	
-
-	
 	private static IAbstractArtifact[] suitableTypes;
-	private static List<Class> suitableTypesList;
 	
 	public static boolean isSuitableType(IType type){
 		if (type.isArtifact()){
 			if (suitableTypes == null)
 				loadSuitableTypes();
 			IAbstractArtifact typeArtifact = type.getArtifact();
-			if (suitableTypesList.contains(typeArtifact.getClass())){
+			if (typeArtifact instanceof IManagedEntityArtifact
+					|| typeArtifact instanceof IPackageArtifact
+					|| typeArtifact instanceof IDatatypeArtifact
+					|| typeArtifact instanceof IEnumArtifact
+					|| typeArtifact instanceof IExceptionArtifact
+					|| typeArtifact instanceof IAssociationClassArtifact
+					|| typeArtifact instanceof IQueryArtifact
+					|| typeArtifact instanceof IEventArtifact
+					|| typeArtifact instanceof IUpdateProcedureArtifact
+					|| typeArtifact instanceof ISessionArtifact) {
 				return true;
 			}
 		}
@@ -84,42 +100,19 @@ public class DependencyArtifact extends AbstractArtifact implements
 		
 	private static void loadSuitableTypes(){
 		List<IAbstractArtifact> suitableModelsList = new ArrayList<IAbstractArtifact>();
-		suitableTypesList = new ArrayList<Class>();
-		
 		//suitableModelsList.add(PrimitiveTypeArtifact.MODEL);
 		suitableModelsList.add(ManagedEntityArtifact.MODEL);
-		suitableTypesList.add(ManagedEntityArtifact.class);
-		
 		suitableModelsList.add(PackageArtifact.MODEL);
-		suitableTypesList.add(PackageArtifact.class);
-		
 		suitableModelsList.add(DatatypeArtifact.MODEL);
-		suitableTypesList.add(DatatypeArtifact.class);
-		
 		suitableModelsList.add(EnumArtifact.MODEL);
-		suitableTypesList.add(EnumArtifact.class);
-		
 		suitableModelsList.add(ExceptionArtifact.MODEL);
-		suitableTypesList.add(ExceptionArtifact.class);
-		
 		//suitableModelsList.add(AssociationArtifact.MODEL);
 		//suitableModelsList.add(DependencyArtifact.MODEL);
 		suitableModelsList.add(AssociationClassArtifact.MODEL);
-		suitableTypesList.add(AssociationClassArtifact.class);
-		
 		suitableModelsList.add(QueryArtifact.MODEL);
-		suitableTypesList.add(QueryArtifact.class);
-		
 		suitableModelsList.add(EventArtifact.MODEL);
-		suitableTypesList.add(EventArtifact.class);
-		
 		suitableModelsList.add(UpdateProcedureArtifact.MODEL);
-		suitableTypesList.add(UpdateProcedureArtifact.class);
-		
 		suitableModelsList.add(SessionFacadeArtifact.MODEL);
-		suitableTypesList.add(SessionFacadeArtifact.class);
-
-
 		suitableTypes = suitableModelsList.toArray( new IAbstractArtifact[0] );
 	}
 	
@@ -217,7 +210,7 @@ public class DependencyArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	public AbstractArtifact extractFromClass(JavaClass javaClass,
+	public IAbstractArtifactInternal extractFromClass(JavaClass javaClass,
 			ArtifactManager artifactMgr, IProgressMonitor monitor) {
 		DependencyArtifact result = new DependencyArtifact(javaClass,
 				artifactMgr, monitor);
@@ -245,7 +238,7 @@ public class DependencyArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	public AbstractArtifact getModel() {
+	public IAbstractArtifactInternal getModel() {
 		return MODEL;
 	}
 
@@ -261,11 +254,11 @@ public class DependencyArtifact extends AbstractArtifact implements
 
 	public class DependencyEnd implements IRelationshipEnd {
 
-		private IDependencyArtifact containingArtifact;
+		private final IDependencyArtifact containingArtifact;
 
 		private IType type;
 
-		private String name;
+		private final String name;
 
 		public DependencyEnd(String name, IDependencyArtifact dependency) {
 			this.containingArtifact = dependency;

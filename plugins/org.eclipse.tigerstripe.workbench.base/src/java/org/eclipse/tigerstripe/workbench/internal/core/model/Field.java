@@ -228,7 +228,7 @@ public class Field extends ArtifactComponent implements IField{
 		return "keyresult".equalsIgnoreCase(this.refBy);
 	}
 
-	public void setContainingArtifact(AbstractArtifact artifact) {
+	public void setContainingArtifact(IAbstractArtifactInternal artifact) {
 		this.containingModelComponent = artifact;
 	}
 
@@ -394,7 +394,8 @@ public class Field extends ArtifactComponent implements IField{
 			throw new IllegalStateException(
 					"Cannot clone field that doesn't belong to any artifact.");
 
-		IField result = ((AbstractArtifact) getContainingArtifact()).makeField();
+		IField result = ((IAbstractArtifactInternal) getContainingArtifact())
+				.makeField();
 		result.setName(getName());
 		result.setComment(getComment());
 		result.setDefaultValue(getDefaultValue());
@@ -443,7 +444,8 @@ public class Field extends ArtifactComponent implements IField{
 	@Override
 	public ITigerstripeModelProject getProject() throws TigerstripeException {
 		if (getContainingArtifact() != null)
-			return ((AbstractArtifact)getContainingArtifact()) .getProject();
+			return ((IAbstractArtifactInternal) getContainingArtifact())
+					.getProject();
 
 		return null;
 	}

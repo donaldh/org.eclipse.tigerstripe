@@ -26,10 +26,10 @@ import org.eclipse.gmf.runtime.diagram.ui.requests.RequestConstants;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
@@ -79,7 +79,7 @@ public class InstanceDiagramSynchronizerUtils {
 		for (AssociationInstance eAssociation : associations) {
 			if (artifact.getFullyQualifiedName().equals(
 					eAssociation.getFullyQualifiedName())) {
-				if (!(artifact instanceof AssociationClassArtifact))
+				if (!(artifact instanceof IAssociationClassArtifact))
 					// skip association class updates, those are handled as
 					// class instances
 					// in the instance diagram so they've already been

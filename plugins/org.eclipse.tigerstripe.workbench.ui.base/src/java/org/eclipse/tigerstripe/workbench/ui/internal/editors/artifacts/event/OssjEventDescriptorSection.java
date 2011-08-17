@@ -36,10 +36,10 @@ import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EventDescriptorEntry;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
@@ -244,7 +244,7 @@ public class OssjEventDescriptorSection extends ArtifactSectionPart {
 		@Override
 		public Object[] getElements(Object inputElement) {
 			nodeList = new ArrayList();
-			EventArtifact event = (EventArtifact) inputElement;
+			IEventArtifact event = (IEventArtifact) inputElement;
 
 			for (IField field : event.getFields()) {
 				TreeNode node = new TreeNode();

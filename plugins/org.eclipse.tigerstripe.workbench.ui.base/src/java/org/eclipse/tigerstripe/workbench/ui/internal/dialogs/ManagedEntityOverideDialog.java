@@ -40,17 +40,17 @@ import org.eclipse.tigerstripe.metamodel.impl.IExceptionArtifactImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Method;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.EntityMethodFlavorDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.EntityOveride;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.OssjEntityMethodFlavor;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IManagedEntityDetails;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjMethod;
 import org.eclipse.tigerstripe.workbench.ui.internal.elements.TSMessageDialog;
@@ -578,9 +578,10 @@ public class ManagedEntityOverideDialog extends TSMessageDialog {
 					.getArtifact().getArtifactManager();
 
 			// Build list of existing exceptions
-			List<AbstractArtifact> existingExc = new ArrayList<AbstractArtifact>();
+			List<IAbstractArtifactInternal> existingExc = new ArrayList<IAbstractArtifactInternal>();
 			for (String fqn : currentFlavorDetails.getExceptions()) {
-				AbstractArtifact art = mgr.getArtifactByFullyQualifiedName(fqn,
+				IAbstractArtifactInternal art = mgr
+						.getArtifactByFullyQualifiedName(fqn,
 						true, new NullProgressMonitor());
 				if (art != null) {
 					existingExc.add(art);

@@ -700,7 +700,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 
 		public String getComment() {
 			if (getRefCommentId() != null) {
-				AbstractArtifact art = (AbstractArtifact) parentMethod
+				IAbstractArtifactInternal art = (IAbstractArtifactInternal) parentMethod
 						.getContainingArtifact();
 				RefComment rComment = art.getRefCommentById(getRefCommentId());
 				if (rComment != null)
@@ -715,7 +715,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 					&& getRefCommentId() == null)
 				return;
 
-			AbstractArtifact art = (AbstractArtifact) parentMethod
+			IAbstractArtifactInternal art = (IAbstractArtifactInternal) parentMethod
 					.getContainingArtifact();
 			if (getRefCommentId() == null) {
 				setRefCommentId(art.getUniqueRefCommentId());
@@ -1368,7 +1368,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 				flavor.getPojoLabel());
 		if (pojoFlavorDetails != null)
 			return new EntityMethodFlavorDetails(
-					(AbstractArtifact) getContainingArtifact(),
+					(IAbstractArtifactInternal) getContainingArtifact(),
 					pojoFlavorDetails);
 		return null;
 	}
@@ -1495,14 +1495,14 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 				flavor.getPojoLabel());
 		if (pojoFlavorDetails != null)
 			return new EntityMethodFlavorDetails(
-					(AbstractArtifact) getContainingArtifact(),
+					(IAbstractArtifactInternal) getContainingArtifact(),
 					pojoFlavorDetails);
 		return null;
 	}
 
 	public IEntityMethodFlavorDetails makeEntityMethodFlavorDetails() {
 		return new EntityMethodFlavorDetails(
-				(AbstractArtifact) this.containingModelComponent);
+				(IAbstractArtifactInternal) this.containingModelComponent);
 	}
 
 	public void setEntityMethodFlavorDetails(OssjEntityMethodFlavor flavor,

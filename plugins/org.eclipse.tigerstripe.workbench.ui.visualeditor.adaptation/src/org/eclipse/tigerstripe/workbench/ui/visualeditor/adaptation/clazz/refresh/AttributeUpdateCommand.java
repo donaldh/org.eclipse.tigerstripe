@@ -15,17 +15,11 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.ETAdapter;
-import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
-import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AssocMultiplicity;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Attribute;
@@ -34,7 +28,6 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.Reference;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.TypeMultiplicity;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorFactory;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorPackage;
-import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.sync.etadapter.ETAdapterFactory;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.clazz.utils.ClassDiagramUtils;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.helpers.AbstractArtifactHelper;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.adaptation.helpers.MapHelper;
@@ -121,7 +114,7 @@ public class AttributeUpdateCommand extends AbstractArtifactUpdateCommand {
 				if (ClassDiagramUtils
 						.shouldPopulateAttribute(
 								typeStr,
-								((org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact) iArtifact)
+								((org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal) iArtifact)
 										.getArtifactManager())) {
 
 					// let's check that this attribute doesn't exist

@@ -23,17 +23,13 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.espace.resources.core.EObjectRouter;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.diagram.IDiagram;
-import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
-import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
+import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
@@ -102,14 +98,14 @@ public class ProjectRouter implements EObjectRouter {
 			String projectName = null;
 			if (annotable instanceof IModelComponent) {
 				IModelComponent comp = (IModelComponent) annotable;
-				projectName = getTargetProjectName(comp.getProject());
+				projectName = getTargetProjectName(comp);
 			} else if (annotable instanceof IArgument) {
 				IArgument argument = (IArgument) annotable;
-				projectName = getTargetProjectName(argument
-						.getContainingMethod().getProject());
+				projectName = argument.getContainingMethod().getProject()
+						.getName();
 			} else if (annotable instanceof IAbstractTigerstripeProject) {
 				IAbstractTigerstripeProject tsProject = (IAbstractTigerstripeProject) annotable;
-				projectName = getTargetProjectName(tsProject);
+				projectName = tsProject.getName();
 			} else if(annotable instanceof IDiagram) {
 				IDiagram diagram = (IDiagram)annotable;
 				IFile dFile = diagram.getDiagramFile();
@@ -159,43 +155,14 @@ public class ProjectRouter implements EObjectRouter {
 		return null;
 	}
 
-	private String getTargetProjectName(IAbstractTigerstripeProject project) {
-		if (project instanceof ITigerstripeModuleProject) {
-			try {
-				ITigerstripeModelProject aContainer = getModuleContainer((ITigerstripeModuleProject) project);
-				if (aContainer != null) {
-					return aContainer.getName();
-				}
-			} catch (TigerstripeException e) {
-				BasePlugin.log(e);
-			}
-		} else {
-			return project.getName();
-		}
-		return null;
-	}
-
-	private ITigerstripeModelProject getModuleContainer(
-			ITigerstripeModuleProject moduleProject)
+	private String getTargetProjectName(IModelComponent component)
 			throws TigerstripeException {
-		for (IAbstractTigerstripeProject p : TigerstripeCore.projects()) {
-			if (p instanceof ITigerstripeModelProject) {
-				ITigerstripeModelProject proj = (ITigerstripeModelProject) p;
-				for (IDependency dep : proj.getDependencies()) {
-					if (dep.getIModuleHeader().getModuleID()
-							.equals(moduleProject.getModelId())) {
-						return proj;
-					}
-				}
-
-				for (ModelReference reference : proj.getModelReferences()) {
-					if (reference.getToModelId().equals(
-							moduleProject.getModelId())) {
-						return proj;
-					}
-				}
-			}
+		if (component instanceof IContextProjectAware) {
+			ITigerstripeModelProject context = ((IContextProjectAware) component)
+					.getContextProject();
+			return context.getName();
+		} else {
+			return component.getProject().getName();
 		}
-		return null;
 	}
 }

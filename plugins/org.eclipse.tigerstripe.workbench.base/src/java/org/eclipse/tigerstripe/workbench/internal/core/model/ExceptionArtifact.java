@@ -33,7 +33,7 @@ import com.thoughtworks.qdox.model.JavaClass;
  * 
  */
 public class ExceptionArtifact extends AbstractArtifact implements
-		IExceptionArtifact {
+		IExceptionArtifact, IAbstractArtifactInternal {
 
 	public final static String MARKING_TAG = AbstractArtifactTag.PREFIX
 			+ AbstractArtifactTag.EXCEPTION;
@@ -58,7 +58,7 @@ public class ExceptionArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	public AbstractArtifact getModel() {
+	public IAbstractArtifactInternal getModel() {
 		return MODEL;
 	}
 
@@ -68,7 +68,7 @@ public class ExceptionArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	public AbstractArtifact extractFromClass(JavaClass javaClass,
+	public IAbstractArtifactInternal extractFromClass(JavaClass javaClass,
 			ArtifactManager artifactMgr, IProgressMonitor monitor) {
 		ExceptionArtifact result = new ExceptionArtifact(javaClass,
 				artifactMgr, monitor);

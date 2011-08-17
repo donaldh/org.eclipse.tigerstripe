@@ -11,8 +11,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts;
 
-import java.io.InputStreamReader;
-import java.io.Reader;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,9 +18,6 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.jface.viewers.ISelectionProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Composite;
@@ -184,29 +179,16 @@ public abstract class ModelComponentSectionPart extends ArtifactSectionPart {
 		IAbstractArtifact updated = updatedArtifacts.get(fqn);
 		if (updated != null) {
 			artifact = updated;
-		} else {
-			if (artifact != getIArtifact()) {
-				IResource res = (IResource) artifact
-						.getAdapter(IResource.class);
-				if (res instanceof IFile) {
-					try {
-						Reader reader = new InputStreamReader(
-								((IFile) res).getContents());
-						try {
-							artifact = artifact
-									.getProject()
-									.getArtifactManagerSession()
-									.extractArtifact(reader,
-											new NullProgressMonitor());
-						} finally {
-							reader.close();
-						}
-					} catch (Exception e) {
-						EclipsePlugin.log(e);
-					}
-				}
-			}
 		}
+		/*
+		 * else { if (artifact != getIArtifact()) { IResource res = (IResource)
+		 * artifact .getAdapter(IResource.class); if (res instanceof IFile) {
+		 * try { Reader reader = new InputStreamReader( ((IFile)
+		 * res).getContents()); try { artifact = artifact .getProject()
+		 * .getArtifactManagerSession() .extractArtifact(reader, new
+		 * NullProgressMonitor()); } finally { reader.close(); } } catch
+		 * (Exception e) { EclipsePlugin.log(e); } } } }
+		 */
 		hierarchy.add(artifact);
 
 		IAbstractArtifact extended = artifact.getExtendedArtifact();

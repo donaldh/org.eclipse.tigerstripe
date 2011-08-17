@@ -109,7 +109,7 @@ public class Literal extends ArtifactComponent implements ILiteral {
 		this.value = value;
 	}
 
-	public void setContainingArtifact(AbstractArtifact artifact) {
+	public void setContainingArtifact(IAbstractArtifactInternal artifact) {
 		this.containingModelComponent = artifact;
 	}
 

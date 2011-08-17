@@ -23,6 +23,7 @@ import org.eclipse.jdt.internal.ui.packageview.PackageExplorerLabelProvider;
 import org.eclipse.jdt.internal.ui.viewsupport.ColoringLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.tigerstripe.workbench.IElementWrapper;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeM0GeneratorNature;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripePluginProjectNature;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeProjectNature;
@@ -54,7 +55,9 @@ public class TigerstripeExplorerLabelProvider extends
 	@Override
 	public StyledString getStyledText(Object element) {
 		StyledString string = null;
-		if (element instanceof IProject) {
+		if (element instanceof IElementWrapper) {
+			return getStyledText(((IElementWrapper) element).getElement());
+		} else if (element instanceof IProject) {
 			IAbstractTigerstripeProject tsProj = (IAbstractTigerstripeProject) toJavaProject((IProject) element)
 					.getAdapter(IAbstractTigerstripeProject.class);
 			string = TigerstripeUILabels.getStyledString(tsProj,
@@ -114,7 +117,9 @@ public class TigerstripeExplorerLabelProvider extends
 
 	@Override
 	public Image getImage(Object element) {
-		if (element instanceof IProject) {
+		if (element instanceof IElementWrapper) {
+			return getImage(((IElementWrapper) element).getElement());
+		} else if (element instanceof IProject) {
 			IProject iProject = (IProject) element;
 			try {
 				if (TigerstripeProjectNature.hasNature(iProject)

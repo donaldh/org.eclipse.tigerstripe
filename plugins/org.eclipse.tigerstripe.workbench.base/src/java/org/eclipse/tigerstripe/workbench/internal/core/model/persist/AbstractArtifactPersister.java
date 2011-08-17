@@ -17,16 +17,14 @@ import java.util.Properties;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.apache.velocity.runtime.RuntimeInstance;
-import org.apache.velocity.runtime.resource.ResourceManagerImpl;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.util.encode.XmlEscape;
 
 public abstract class AbstractArtifactPersister {
 
-	private AbstractArtifact artifact;
+	private IAbstractArtifactInternal artifact;
 
 	/**
 	 * The velocity template that will be used to perform the generation
@@ -38,7 +36,7 @@ public abstract class AbstractArtifactPersister {
 	 */
 	private Writer writer;
 
-	protected AbstractArtifactPersister(AbstractArtifact artifact,
+	protected AbstractArtifactPersister(IAbstractArtifactInternal artifact,
 			String template, Writer writer) {
 		setArtifact(artifact);
 		setTemplate(template);
@@ -74,11 +72,11 @@ public abstract class AbstractArtifactPersister {
 		return writer;
 	}
 
-	protected AbstractArtifact getArtifact() {
+	protected IAbstractArtifactInternal getArtifact() {
 		return artifact;
 	}
 
-	protected void setArtifact(AbstractArtifact artifact) {
+	protected void setArtifact(IAbstractArtifactInternal artifact) {
 		this.artifact = artifact;
 	}
 

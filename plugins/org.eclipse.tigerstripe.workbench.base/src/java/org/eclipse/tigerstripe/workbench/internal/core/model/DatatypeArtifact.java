@@ -34,7 +34,7 @@ import com.thoughtworks.qdox.model.JavaClass;
  * Data type artifact
  */
 public class DatatypeArtifact extends AbstractArtifact implements
-		IDatatypeArtifact {
+		IDatatypeArtifact, IAbstractArtifactInternal {
 
 	/** The marking tag for this Artifact */
 	public final static String MARKING_TAG = AbstractArtifactTag.PREFIX
@@ -61,7 +61,7 @@ public class DatatypeArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	public AbstractArtifact getModel() {
+	public IAbstractArtifactInternal getModel() {
 		return MODEL;
 	}
 
@@ -73,7 +73,7 @@ public class DatatypeArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	public AbstractArtifact extractFromClass(JavaClass javaClass,
+	public IAbstractArtifactInternal extractFromClass(JavaClass javaClass,
 			ArtifactManager artifactMgr, IProgressMonitor monitor) {
 		// validate( javaClass );
 		DatatypeArtifact result = new DatatypeArtifact(javaClass, artifactMgr,

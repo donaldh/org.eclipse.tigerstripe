@@ -17,8 +17,8 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.QueryArtifactsByType;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.IPluginRuleExecutor;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -54,7 +54,7 @@ public class ArtifactRuleHelper {
 					resultSet = artifactMgr.getAllArtifacts(
 							includeDependencies, false, monitor);
 				} else {
-					AbstractArtifact model = QueryArtifactsByType
+					IAbstractArtifactInternal model = QueryArtifactsByType
 							.getArtifactClassForType(artifactMgr, artifactType);
 					resultSet = artifactMgr.getArtifactsByModel(model,
 							includeDependencies, false, monitor);

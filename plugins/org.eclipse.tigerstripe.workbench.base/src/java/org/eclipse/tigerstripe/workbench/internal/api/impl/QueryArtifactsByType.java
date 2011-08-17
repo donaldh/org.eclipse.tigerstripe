@@ -15,7 +15,6 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
@@ -25,6 +24,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ExecutionContext;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.PackageArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.PrimitiveTypeArtifact;
@@ -96,7 +96,8 @@ public class QueryArtifactsByType extends ArtifactQueryBase implements
 		Collection registered = mgr.getRegisteredArtifacts();
 
 		for (Iterator iter = registered.iterator(); iter.hasNext();) {
-			AbstractArtifact model = (AbstractArtifact) iter.next();
+			IAbstractArtifactInternal model = (IAbstractArtifactInternal) iter
+					.next();
 			if (model.getClass().getName()
 					.equals(mappedImplementationType(artifactType))) {
 
@@ -134,13 +135,14 @@ public class QueryArtifactsByType extends ArtifactQueryBase implements
 		return apiType;
 	}
 
-	public final static AbstractArtifact getArtifactClassForType(
+	public final static IAbstractArtifactInternal getArtifactClassForType(
 			ArtifactManager mgr, String artifactType)
 			throws TigerstripeException {
 		Collection registered = mgr.getRegisteredArtifacts();
 
 		for (Iterator iter = registered.iterator(); iter.hasNext();) {
-			AbstractArtifact model = (AbstractArtifact) iter.next();
+			IAbstractArtifactInternal model = (IAbstractArtifactInternal) iter
+					.next();
 			if (model.getClass().getName()
 					.equals(mappedImplementationType(artifactType)))
 				return model;

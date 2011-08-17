@@ -23,12 +23,12 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAnnotationAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactSetFeatureRequest;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.annotation.AnnotationHelper;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
@@ -98,9 +98,8 @@ public class AnnotationAddFeatureRequest extends BaseArtifactElementRequest
 								return true;
 							}
 						}
-						if (art instanceof AssociationArtifact)
+						if (art instanceof IAssociationArtifact)
 						{
-							AssociationArtifact associationArt = (AssociationArtifact) art;
 							if (target.equals(IArtifactSetFeatureRequest.AEND))
 								return true;
 							if (target.equals(IArtifactSetFeatureRequest.ZEND))
@@ -158,8 +157,8 @@ public class AnnotationAddFeatureRequest extends BaseArtifactElementRequest
 							modelComponent =  literal;
 						}
 					}
-					if (art instanceof AssociationArtifact){
-						AssociationArtifact assoc = (AssociationArtifact) art;
+					if (art instanceof IAssociationArtifact) {
+						IAssociationArtifact assoc = (IAssociationArtifact) art;
 						if (target.equals(IArtifactSetFeatureRequest.AEND)){
 							modelComponent = assoc.getAEnd();
 						}else if (target.equals(IArtifactSetFeatureRequest.ZEND)){
@@ -200,6 +199,7 @@ public class AnnotationAddFeatureRequest extends BaseArtifactElementRequest
 	}
 
 
+	@Override
 	public IModelChangeDelta getCorrespondingDelta() {
 		ModelChangeDelta delta = new ModelChangeDelta(IModelChangeDelta.ADD);
 

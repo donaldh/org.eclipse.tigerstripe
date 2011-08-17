@@ -23,7 +23,7 @@ import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.repository.internal.IModelComponentMetadata;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -83,7 +83,7 @@ public class AbstractArtifactLabelProvider implements ILabelProvider,
 	}
 
 	public String getText(Object element) {
-		AbstractArtifact artifact = (AbstractArtifact) element;
+		IAbstractArtifactInternal artifact = (IAbstractArtifactInternal) element;
 		return artifact.getFullyQualifiedName();
 	}
 

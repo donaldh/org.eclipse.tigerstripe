@@ -12,7 +12,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.model.persist.artifacts;
 
 import java.io.Writer;
 
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 
 public class AssociationClassArtifactPersister extends
@@ -20,7 +20,8 @@ public class AssociationClassArtifactPersister extends
 
 	private final static String TEMPLATE = "org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/associationClass.vm";
 
-	public AssociationClassArtifactPersister(AbstractArtifact artifact,
+	public AssociationClassArtifactPersister(
+			IAbstractArtifactInternal artifact,
 			Writer writer) {
 		super(artifact, TEMPLATE, writer);
 	}

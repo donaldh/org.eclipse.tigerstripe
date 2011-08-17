@@ -12,14 +12,15 @@ package org.eclipse.tigerstripe.workbench.internal.core.model.persist.artifacts;
 
 import java.io.Writer;
 
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 
 public class SessionArtifactPersister extends AbstractArtifactPersister {
 
 	private final static String TEMPLATE = "org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/session.vm";
 
-	public SessionArtifactPersister(AbstractArtifact artifact, Writer writer) {
+	public SessionArtifactPersister(IAbstractArtifactInternal artifact,
+			Writer writer) {
 		super(artifact, TEMPLATE, writer);
 	}
 }

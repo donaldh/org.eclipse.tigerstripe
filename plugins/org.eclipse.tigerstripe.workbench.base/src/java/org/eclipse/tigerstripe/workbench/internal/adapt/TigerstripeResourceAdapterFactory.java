@@ -22,6 +22,8 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.tigerstripe.workbench.IModuleElementWrapper;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
@@ -30,6 +32,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessio
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeM0GeneratorNature;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripePluginProjectNature;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeProjectNature;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ContextProjectAwareProxy;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
@@ -80,7 +83,18 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
-		if (adapterType == ITigerstripeModelProject.class) {
+		if (adaptableObject instanceof IModuleElementWrapper) {
+			Object result = getAdapter(
+					((IModuleElementWrapper) adaptableObject).getElement(),
+					adapterType);
+			if (result != null && result instanceof IModelComponent) {
+				ITigerstripeModelProject context = getProjectFor(((IModuleElementWrapper) adaptableObject)
+						.getParent());
+				return ContextProjectAwareProxy.newInstance(result, context);
+			} else {
+				return null;
+			}
+		} else if (adapterType == ITigerstripeModelProject.class) {
 			IAbstractTigerstripeProject aProject = adaptToProject(adaptableObject);
 			if (aProject instanceof ITigerstripeModelProject) {
 				return aProject;
@@ -313,4 +327,15 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 				.toPortableString());
 	}
 
+	private static ITigerstripeModelProject getProjectFor(IJavaProject jProject) {
+		if (jProject != null) {
+			IProject project = jProject.getProject();
+			IAbstractTigerstripeProject atsProject = (IAbstractTigerstripeProject) project
+					.getAdapter(IAbstractTigerstripeProject.class);
+			if (atsProject instanceof ITigerstripeModelProject) {
+				return (ITigerstripeModelProject) atsProject;
+			}
+		}
+		return null;
+	}
 }

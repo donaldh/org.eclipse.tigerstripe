@@ -39,9 +39,9 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.metamodel.impl.IExceptionArtifactImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Method;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.EntityMethodFlavorDetails;
@@ -490,13 +490,14 @@ public class EntityMethodFlavorSection extends ArtifactSectionPart {
 				IExceptionArtifactImpl.class.getName()).getLabel(null)
 				+ " Artifact Selector");
 		try {
-			ArtifactManager mgr = ((AbstractArtifact) getIArtifact())
+			ArtifactManager mgr = ((IAbstractArtifactInternal) getIArtifact())
 					.getArtifactManager();
 
 			// Build list of existing exceptions
-			List<AbstractArtifact> existingExc = new ArrayList<AbstractArtifact>();
+			List<IAbstractArtifactInternal> existingExc = new ArrayList<IAbstractArtifactInternal>();
 			for (String fqn : currentFlavorDetails.getExceptions()) {
-				AbstractArtifact art = mgr.getArtifactByFullyQualifiedName(fqn,
+				IAbstractArtifactInternal art = mgr
+						.getArtifactByFullyQualifiedName(fqn,
 						true, new NullProgressMonitor());
 				if (art != null) {
 					existingExc.add(art);
@@ -561,7 +562,7 @@ public class EntityMethodFlavorSection extends ArtifactSectionPart {
 	private List<String> getNonRemoveableExceptions() {
 		ArrayList<String> result = new ArrayList<String>();
 		((Method) currentMethod)
-				.setContainingArtifact((AbstractArtifact) getIArtifact());
+				.setContainingArtifact((IAbstractArtifactInternal) getIArtifact());
 		ArtifactManager mgr = ((Method) currentMethod).getArtifactManager();
 		ManagedEntityDetails details = new ManagedEntityDetails(mgr);
 		String methodId = currentMethod.getMethodId();

@@ -10,13 +10,13 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics;
 
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjUpdateProcedureSpecifics;
 @Deprecated
 public class OssjUpdateProcedureSpecifics extends OssjArtifactSpecifics
 		implements IOssjUpdateProcedureSpecifics {
 
-	public OssjUpdateProcedureSpecifics(AbstractArtifact artifact) {
+	public OssjUpdateProcedureSpecifics(IAbstractArtifactInternal artifact) {
 		super(artifact);
 	}
 

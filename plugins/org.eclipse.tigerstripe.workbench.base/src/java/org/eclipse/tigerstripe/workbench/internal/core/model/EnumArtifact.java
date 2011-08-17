@@ -34,7 +34,8 @@ import com.thoughtworks.qdox.model.JavaClass;
  * @author Eric Dillon
  * 
  */
-public class EnumArtifact extends AbstractArtifact implements IEnumArtifact {
+public class EnumArtifact extends AbstractArtifact implements IEnumArtifact,
+		IAbstractArtifactInternal {
 
 	public final static String MARKING_TAG = AbstractArtifactTag.PREFIX
 			+ AbstractArtifactTag.ENUM;
@@ -59,7 +60,7 @@ public class EnumArtifact extends AbstractArtifact implements IEnumArtifact {
 	}
 
 	@Override
-	public AbstractArtifact getModel() {
+	public IAbstractArtifactInternal getModel() {
 		return MODEL;
 	}
 
@@ -69,7 +70,7 @@ public class EnumArtifact extends AbstractArtifact implements IEnumArtifact {
 	}
 
 	@Override
-	public AbstractArtifact extractFromClass(JavaClass javaClass,
+	public IAbstractArtifactInternal extractFromClass(JavaClass javaClass,
 			ArtifactManager artifactMgr, IProgressMonitor monitor) {
 		EnumArtifact result = new EnumArtifact(javaClass, artifactMgr, monitor);
 

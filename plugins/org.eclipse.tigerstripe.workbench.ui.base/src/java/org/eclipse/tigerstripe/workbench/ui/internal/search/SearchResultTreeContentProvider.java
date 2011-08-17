@@ -20,8 +20,8 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -37,7 +37,7 @@ public class SearchResultTreeContentProvider implements ITreeContentProvider,
 
 	private TigerstripeSearchResult fResult;
 	private Map<Object, Set<Object>> fChildrenMap;
-	private TigerstripeSearchResultPage fPage;
+	private final TigerstripeSearchResultPage fPage;
 
 	protected synchronized void initialize(TigerstripeSearchResult result) {
 		fResult = result;
@@ -66,7 +66,7 @@ public class SearchResultTreeContentProvider implements ITreeContentProvider,
 			else {
 				// since we don't have a resource, maybe it is because this is
 				// coming from a module or from the Phantom Project
-				AbstractArtifact art = (AbstractArtifact) element;
+				IAbstractArtifactInternal art = (IAbstractArtifactInternal) element;
 				ArtifactManager mgr = art.getArtifactManager();
 				if (mgr instanceof ModuleArtifactManager) {
 					ModuleArtifactManager mMgr = (ModuleArtifactManager) mgr;
@@ -101,7 +101,7 @@ public class SearchResultTreeContentProvider implements ITreeContentProvider,
 		return getChildren(element).length > 0;
 	}
 
-	private TreeViewer fTreeViewer;
+	private final TreeViewer fTreeViewer;
 
 	public SearchResultTreeContentProvider(TigerstripeSearchResultPage page,
 			TreeViewer viewer) {

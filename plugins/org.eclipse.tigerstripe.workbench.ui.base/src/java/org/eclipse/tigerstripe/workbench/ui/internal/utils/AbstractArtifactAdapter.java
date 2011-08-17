@@ -22,6 +22,7 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.tigerstripe.workbench.IElementWrapper;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -137,7 +138,9 @@ public class AbstractArtifactAdapter {
 	 * @return
 	 */
 	public static IAbstractArtifact adapt(Object obj) {
-		if (obj instanceof IJavaElement) {
+		if (obj instanceof IElementWrapper) {
+			return adapt(((IElementWrapper) obj).getElement());
+		} else if (obj instanceof IJavaElement) {
 			IJavaElement jElement = (IJavaElement) obj;
 			IJavaProject jProject = jElement.getJavaProject();
 

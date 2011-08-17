@@ -14,8 +14,8 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Properties;
 
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifactTag;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Tag;
@@ -28,7 +28,7 @@ public class OssjSessionFacadeSpecifics extends OssjArtifactSpecifics implements
 	public final static String MANAGED_ENTITY_OVERRIDE_TAG = AbstractArtifactTag.PREFIX
 			+ "managed-entity-overide";
 
-	public OssjSessionFacadeSpecifics(AbstractArtifact artifact) {
+	public OssjSessionFacadeSpecifics(IAbstractArtifactInternal artifact) {
 		super(artifact);
 	}
 

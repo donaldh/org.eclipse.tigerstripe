@@ -19,7 +19,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.IProjectDependencyChangeListener;
 import org.eclipse.tigerstripe.workbench.project.IProjectDependencyDelta;
@@ -232,7 +232,7 @@ public class ModelAuditorHelper implements IProjectDependencyChangeListener {
 			try {
 				IAbstractArtifact ref = project.getArtifactManagerSession()
 						.getArtifactByFullyQualifiedName(refFQN);
-				if (ref == null || ((AbstractArtifact)ref).isProxy()) {
+				if (ref == null || ((IAbstractArtifactInternal) ref).isProxy()) {
 					// this is a reference to an unresolved artifact.
 					Set<String> set = unresolvedArtifacts.get(refFQN);
 					if (set == null) {

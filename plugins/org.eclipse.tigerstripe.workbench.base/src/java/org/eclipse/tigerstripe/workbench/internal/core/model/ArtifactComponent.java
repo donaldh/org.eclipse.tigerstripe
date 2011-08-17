@@ -49,8 +49,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
  * 
  *         Any component of an artifact (method, field, tag)
  */
-public abstract class ArtifactComponent implements IModelComponent,
-		IStereotypeCapable {
+public abstract class ArtifactComponent implements IArtifactComponentInternal {
 
 	/** the stereotypes attached to this component */
 	private final ArrayList<IStereotypeInstance> stereotypeInstances = new ArrayList<IStereotypeInstance>();
@@ -78,10 +77,16 @@ public abstract class ArtifactComponent implements IModelComponent,
 	// The manager this artifact belongs to
 	private ArtifactManager artifactMgr;
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IArtifactComponentInternal2#getArtifactManager()
+	 */
 	public ArtifactManager getArtifactManager() {
 		return this.artifactMgr;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IArtifactComponentInternal2#setArtifactManager(org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager)
+	 */
 	public void setArtifactManager(ArtifactManager artifactManager) {
 		this.artifactMgr = artifactManager;
 	}
@@ -92,15 +97,16 @@ public abstract class ArtifactComponent implements IModelComponent,
 		setArtifactManager(artifactMgr);
 	}
 
-	/**
-	 * Return the parent artifact for this component if it exists.
-	 * 
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IArtifactComponentInternal2#getParentArtifact()
 	 */
 	public IAbstractArtifact getParentArtifact() {
 		return this.parentArtifact;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IArtifactComponentInternal2#setParentArtifact(org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact)
+	 */
 	public void setParentArtifact(IAbstractArtifact parentArtifact) {
 		this.parentArtifact = parentArtifact;
 	}
@@ -113,10 +119,16 @@ public abstract class ArtifactComponent implements IModelComponent,
 		this.name = name;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IArtifactComponentInternal2#addTag(org.eclipse.tigerstripe.workbench.internal.core.model.Tag)
+	 */
 	public void addTag(Tag tag) {
 		tags.add(tag);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IArtifactComponentInternal2#getTags()
+	 */
 	public Collection getTags() {
 		return this.tags;
 	}
@@ -205,11 +217,8 @@ public abstract class ArtifactComponent implements IModelComponent,
 		}
 	}
 
-	/**
-	 * Returns a collection of Strings. Each string corresponding to a non
-	 * Tigerstripe Tag
-	 * 
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IArtifactComponentInternal2#getNonTigerstripeTags()
 	 */
 	public Collection getNonTigerstripeTags() {
 		Collection result = new ArrayList();
@@ -242,11 +251,8 @@ public abstract class ArtifactComponent implements IModelComponent,
 		return result;
 	}
 
-	/**
-	 * Returns all tag with the given name
-	 * 
-	 * @param name
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IArtifactComponentInternal2#getTagsByName(java.lang.String)
 	 */
 	public Collection<Tag> getTagsByName(String name) {
 		ArrayList<Tag> result = new ArrayList<Tag>();
@@ -263,11 +269,8 @@ public abstract class ArtifactComponent implements IModelComponent,
 		return result;
 	}
 
-	/**
-	 * Returns the first tag with the given name
-	 * 
-	 * @param name
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IArtifactComponentInternal2#getFirstTagByName(java.lang.String)
 	 */
 	public Tag getFirstTagByName(String name) {
 		Tag result = null;
@@ -304,6 +307,9 @@ public abstract class ArtifactComponent implements IModelComponent,
 		this.customProperties.put(name, value);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IArtifactComponentInternal2#getCustomProperty(java.lang.String, java.lang.String)
+	 */
 	public String getCustomProperty(String name, String defaultValue) {
 		String result = this.customProperties.getProperty(name, defaultValue);
 		return result;
@@ -529,6 +535,9 @@ public abstract class ArtifactComponent implements IModelComponent,
 		return null;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IArtifactComponentInternal2#toURI()
+	 */
 	public URI toURI() throws TigerstripeException {
 		return TigerstripeURIAdapterFactory.toURI(this);
 	}

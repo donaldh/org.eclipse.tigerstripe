@@ -13,6 +13,7 @@ import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.DiagramEditPart;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ImmutableProvider;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Provider;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Tuple;
@@ -66,7 +67,7 @@ public class ClassDiagramCorrector {
 		for (QualifiedNamedElement qe : artifacts) {
 
 			String fqn = qe.getFullyQualifiedName();
-			org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact wArt = artifactManager
+			IAbstractArtifactInternal wArt = artifactManager
 				.getArtifactByFullyQualifiedName(fqn, true, monitor);
 
 			if (wArt == null) {

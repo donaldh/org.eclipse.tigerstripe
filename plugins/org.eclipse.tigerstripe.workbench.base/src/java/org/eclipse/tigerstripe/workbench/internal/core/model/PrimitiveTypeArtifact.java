@@ -28,7 +28,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifac
 import com.thoughtworks.qdox.model.JavaClass;
 
 public class PrimitiveTypeArtifact extends AbstractArtifact implements
-		IPrimitiveTypeArtifact {
+		IPrimitiveTypeArtifact, IAbstractArtifactInternal {
 
 	/** The marking tag for this Artifact */
 	public final static String MARKING_TAG = AbstractArtifactTag.PREFIX
@@ -55,7 +55,7 @@ public class PrimitiveTypeArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	public AbstractArtifact extractFromClass(JavaClass javaClass,
+	public IAbstractArtifactInternal extractFromClass(JavaClass javaClass,
 			ArtifactManager artifactMgr, IProgressMonitor monitor) {
 		PrimitiveTypeArtifact result = new PrimitiveTypeArtifact(javaClass,
 				artifactMgr, monitor);
@@ -68,7 +68,7 @@ public class PrimitiveTypeArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	public AbstractArtifact getModel() {
+	public IAbstractArtifactInternal getModel() {
 		return MODEL;
 	}
 

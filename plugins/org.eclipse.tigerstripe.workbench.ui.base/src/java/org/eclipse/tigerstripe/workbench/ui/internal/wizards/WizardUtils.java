@@ -18,9 +18,9 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.ui.viewsupport.IViewPartInputProvider;
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationEnd;
 import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact.DependencyEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
@@ -105,8 +105,8 @@ public class WizardUtils {
 				Object obj = art.getAdapter(IResource.class);
 				if (obj != null)
 					selectedElement = obj;
-			} else if (selectedElement instanceof AssociationEnd) {
-				AssociationEnd la = (AssociationEnd) selectedElement;
+			} else if (selectedElement instanceof IAssociationEnd) {
+				IAssociationEnd la = (IAssociationEnd) selectedElement;
 				IAbstractArtifact art = (IAbstractArtifact) la
 						.getContainingArtifact();
 				Object obj = art.getAdapter(IResource.class);

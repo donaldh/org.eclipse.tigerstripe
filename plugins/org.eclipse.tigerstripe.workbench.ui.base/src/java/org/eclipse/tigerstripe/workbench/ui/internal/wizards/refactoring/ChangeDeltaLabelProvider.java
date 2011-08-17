@@ -18,12 +18,12 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactSetFeatureRequest;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactComponent;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Method.Argument;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Method.Exception;
 import org.eclipse.tigerstripe.workbench.internal.refactor.ResourceChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramChangeDelta;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.AbstractArtifactLabelProvider;
 import org.eclipse.ui.ISharedImages;
@@ -105,9 +105,9 @@ public class ChangeDeltaLabelProvider extends AbstractArtifactLabelProvider {
 			ModelChangeDelta delta = (ModelChangeDelta) element;
 			Object component = delta.getComponent();
 
-			if (component instanceof ArtifactComponent) {
+			if (component instanceof IModelComponent) {
 
-				ArtifactComponent artComponent = (ArtifactComponent) component;
+				IModelComponent artComponent = (IModelComponent) component;
 				lblText.append(artComponent.getLabel() + " ");
 				lblText.append(artComponent.getName());
 

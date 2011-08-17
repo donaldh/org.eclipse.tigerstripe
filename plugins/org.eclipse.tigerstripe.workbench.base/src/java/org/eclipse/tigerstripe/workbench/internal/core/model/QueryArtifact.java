@@ -33,7 +33,8 @@ import com.thoughtworks.qdox.model.JavaClass;
  * @author Eric Dillon
  * 
  */
-public class QueryArtifact extends AbstractArtifact implements IQueryArtifact {
+public class QueryArtifact extends AbstractArtifact implements IQueryArtifact,
+		IAbstractArtifactInternal {
 
 	public final static String MARKING_TAG = AbstractArtifactTag.PREFIX
 			+ AbstractArtifactTag.QUERY;
@@ -54,7 +55,7 @@ public class QueryArtifact extends AbstractArtifact implements IQueryArtifact {
 	}
 
 	@Override
-	public AbstractArtifact getModel() {
+	public IAbstractArtifactInternal getModel() {
 		return MODEL;
 	}
 
@@ -64,7 +65,7 @@ public class QueryArtifact extends AbstractArtifact implements IQueryArtifact {
 	}
 
 	@Override
-	public AbstractArtifact extractFromClass(JavaClass javaClass,
+	public IAbstractArtifactInternal extractFromClass(JavaClass javaClass,
 			ArtifactManager artifactMgr, IProgressMonitor monitor) {
 		QueryArtifact result = new QueryArtifact(javaClass, artifactMgr,
 				monitor);

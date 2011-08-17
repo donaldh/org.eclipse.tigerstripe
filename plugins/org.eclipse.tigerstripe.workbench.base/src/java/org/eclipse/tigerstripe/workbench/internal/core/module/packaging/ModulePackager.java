@@ -38,7 +38,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModulePackager;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.module.InstalledModuleManager;
 import org.eclipse.tigerstripe.workbench.internal.core.module.InvalidModuleException;
 import org.eclipse.tigerstripe.workbench.internal.core.module.ModuleDescriptorModel;
@@ -198,7 +198,7 @@ public class ModulePackager implements IModulePackager {
 					.queryArtifact(query);
 
 			for (Object obj : artifacts) {
-				AbstractArtifact artifact = (AbstractArtifact) obj;
+				IAbstractArtifactInternal artifact = (IAbstractArtifactInternal) obj;
 				unitsNumber++;
 				compilerArgs.add(getTSProject().getLocation().toFile()
 						+ File.separator + artifact.getArtifactPath());

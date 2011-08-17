@@ -15,7 +15,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactFQRenameRequest;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 
@@ -59,7 +59,7 @@ public class ArtifactFQRenameRequest extends ArtifactRenameRequest implements
 		IAbstractArtifact origArt = mgrSession
 				.getArtifactByFullyQualifiedName(getArtifactFQN());
 
-		AbstractArtifact aArt = (AbstractArtifact) origArt;
+		IAbstractArtifactInternal aArt = (IAbstractArtifactInternal) origArt;
 		String oldFQN = aArt.getFullyQualifiedName();
 
 		IResource res = (IResource) aArt.getAdapter(IResource.class);

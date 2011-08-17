@@ -31,12 +31,20 @@ import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLe
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
-import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 import com.thoughtworks.qdox.model.DocletTag;
@@ -45,18 +53,24 @@ import com.thoughtworks.qdox.model.JavaField;
 public class AssociationEnd extends ArtifactComponent implements
 		IAssociationEnd {
 
-
-	
 	private static IAbstractArtifact[] suitableTypes;
-	private static List<Class> suitableTypesList;
 	
 	public static boolean isSuitableType(IType type){
 		if (type.isArtifact()){
-			if (suitableTypes == null)
-				loadSuitableTypes();
 			IAbstractArtifact typeArtifact = type.getArtifact();
-			if (suitableTypesList.contains(typeArtifact.getClass())){
+			if (typeArtifact instanceof IDatatypeArtifact
+					|| typeArtifact instanceof IAssociationClassArtifact
+					|| typeArtifact instanceof IManagedEntityArtifact
+					|| typeArtifact instanceof IExceptionArtifact
+					|| typeArtifact instanceof ISessionArtifact) {
 				return true;
+			} else if (isDisplayReference()) {
+				if (typeArtifact instanceof IQueryArtifact
+						|| typeArtifact instanceof IEventArtifact
+						|| typeArtifact instanceof IUpdateProcedureArtifact
+						|| typeArtifact instanceof IEnumArtifact) {
+					return true;
+				}
 			}
 		}
 		return false; 
@@ -70,53 +84,33 @@ public class AssociationEnd extends ArtifactComponent implements
 		
 	private static void loadSuitableTypes(){
 		List<IAbstractArtifact> suitableModelsList = new ArrayList<IAbstractArtifact>();
-		suitableTypesList = new ArrayList<Class>();
 		
 		//suitableModelsList.add(PrimitiveTypeArtifact.MODEL);
 		
 		suitableModelsList.add(DatatypeArtifact.MODEL);
-		suitableTypesList.add(DatatypeArtifact.class);
-		
 		suitableModelsList.add(AssociationClassArtifact.MODEL);
-		suitableTypesList.add(AssociationClassArtifact.class);
-		
 		suitableModelsList.add(ManagedEntityArtifact.MODEL);
-		suitableTypesList.add(ManagedEntityArtifact.class);
-		
 		suitableModelsList.add(ExceptionArtifact.MODEL);
-		suitableTypesList.add(ExceptionArtifact.class);
-		
 		suitableModelsList.add(SessionFacadeArtifact.MODEL);
-		suitableTypesList.add(SessionFacadeArtifact.class);
 		
-		IWorkbenchProfile profile = TigerstripeCore
-			.getWorkbenchProfileSession()
-			.getActiveProfile();
-		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
-			.getWorkbenchProfileSession().getActiveProfile().getProperty(
-				IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
-		boolean displayReference = prop
-			.getPropertyValue(IOssjLegacySettigsProperty.USEATTRIBUTES_ASREFERENCE);
-		if (displayReference){
+		if (isDisplayReference()) {
 			//suitableModelsList.add(AssociationArtifact.MODEL);
 			//suitableModelsList.add(DependencyArtifact.MODEL);
 			suitableModelsList.add(QueryArtifact.MODEL);
-			suitableTypesList.add(QueryArtifact.class);
-			
 			suitableModelsList.add(EventArtifact.MODEL);
-			suitableTypesList.add(EventArtifact.class);
-			
 			suitableModelsList.add(UpdateProcedureArtifact.MODEL);
-			suitableTypesList.add(UpdateProcedureArtifact.class);
-			
 			suitableModelsList.add(EnumArtifact.MODEL);
-			suitableTypesList.add(EnumArtifact.class);
-			
 		}
-
 		suitableTypes = suitableModelsList.toArray( new IAbstractArtifact[0] );
 	}
 	
+	private static boolean isDisplayReference() {
+		OssjLegacySettingsProperty prop = (OssjLegacySettingsProperty) TigerstripeCore
+				.getWorkbenchProfileSession().getActiveProfile()
+				.getProperty(IWorkbenchPropertyLabels.OSSJ_LEGACY_SETTINGS);
+		return prop
+				.getPropertyValue(IOssjLegacySettigsProperty.USEATTRIBUTES_ASREFERENCE);
+	}
 	
 	
 	public String getLabel() {
@@ -272,7 +266,7 @@ public class AssociationEnd extends ArtifactComponent implements
 		return (IAssociationArtifact) this.containingModelComponent;
 	}
 
-	public void setContainingArtifact(AbstractArtifact artifact) {
+	public void setContainingArtifact(IAbstractArtifactInternal artifact) {
 		this.containingModelComponent = artifact;
 	}
 

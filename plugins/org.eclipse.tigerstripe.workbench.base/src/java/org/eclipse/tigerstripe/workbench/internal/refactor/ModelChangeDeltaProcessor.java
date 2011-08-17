@@ -36,9 +36,8 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.re
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactSetFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeSetRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodSetRequest;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
-import org.eclipse.tigerstripe.workbench.internal.core.model.PackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
@@ -158,7 +157,7 @@ public class ModelChangeDeltaProcessor {
 					refactor.fireChanged(oldObj, newObj,
 							IRefactoringChangesListener.ABOUT_TO_CHANGE);
 
-					IAbstractArtifact newOne = ((AbstractArtifact) artifact)
+					IAbstractArtifact newOne = ((IAbstractArtifactInternal) artifact)
 							.makeWorkingCopy(null);
 					newOne.setFullyQualifiedName((String) delta.getNewValue());
 
@@ -225,8 +224,8 @@ public class ModelChangeDeltaProcessor {
 
 					IModelComponent container = artifact
 							.getContainingModelComponent();
-					if (container instanceof PackageArtifact) {
-						((PackageArtifact) container)
+					if (container instanceof IPackageArtifact) {
+						((IAbstractArtifactInternal) container)
 								.removeContainedModelComponent(artifact);
 					}
 
@@ -427,7 +426,7 @@ public class ModelChangeDeltaProcessor {
 			else
 				toSave.add(rcArtifact);
 
-			IAbstractArtifact newOne = ((AbstractArtifact) rcArtifact)
+			IAbstractArtifact newOne = ((IAbstractArtifactInternal) rcArtifact)
 					.makeWorkingCopy(null);
 			delta.getProject().getArtifactManagerSession().addArtifact(newOne);
 
@@ -510,7 +509,7 @@ public class ModelChangeDeltaProcessor {
 	private static ITigerstripeLazyObject createLazyObject(
 			IAbstractArtifact artifact) throws TigerstripeException {
 		ITigerstripeModelProject project = artifact.getProject();
-		if (artifact instanceof PackageArtifact) {
+		if (artifact instanceof IPackageArtifact) {
 			return new PackageLazyObject(project,
 					artifact.getFullyQualifiedName());
 		}

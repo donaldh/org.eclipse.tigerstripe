@@ -41,7 +41,7 @@ import org.eclipse.tigerstripe.workbench.project.IDependency;
  */
 public class DependenciesContentCache {
 
-	private ArtifactManager manager;
+	private final ArtifactManager manager;
 
 	private HashMap<IAbstractArtifact, Set<IAbstractArtifact>> artifactsByModel;
 
@@ -117,7 +117,7 @@ public class DependenciesContentCache {
 						.getArtifactManager(context.getMonitor());
 				if (dep != null && artifactManager != null)
 					list.addAll(artifactManager.getArtifactsByModel(
-							(AbstractArtifact) model, true, context));
+							(IAbstractArtifactInternal) model, true, context));
 			}
 
 			artifactsByModel.put(model, list);
@@ -182,7 +182,7 @@ public class DependenciesContentCache {
 	}
 
 	public synchronized Collection<IAbstractArtifact> getArtifactsByModelInChained(
-			AbstractArtifact model, ExecutionContext context) {
+			IAbstractArtifactInternal model, ExecutionContext context) {
 		if (!isInitialized)
 			updateCache(context);
 
@@ -198,12 +198,12 @@ public class DependenciesContentCache {
 		return ArtifactFilter.filter(allArtifacts, artifactFilter);
 	}
 
-	public synchronized AbstractArtifact getArtifactByFullyQualifiedNameInChained(
+	public synchronized IAbstractArtifactInternal getArtifactByFullyQualifiedNameInChained(
 			String name, ExecutionContext context) {
 		if (!isInitialized)
 			updateCache(context);
 
-		AbstractArtifact potentialResult = (AbstractArtifact) artifactsByFqn
+		IAbstractArtifactInternal potentialResult = (IAbstractArtifactInternal) artifactsByFqn
 				.get(name);
 		if (potentialResult != null && artifactFilter.select(potentialResult))
 			return potentialResult;

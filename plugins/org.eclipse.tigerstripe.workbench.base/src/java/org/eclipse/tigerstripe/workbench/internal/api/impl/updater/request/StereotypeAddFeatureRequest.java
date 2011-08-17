@@ -18,15 +18,15 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodChangeRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IStereotypeAddFeatureRequest;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 
@@ -144,16 +144,16 @@ public class StereotypeAddFeatureRequest extends BaseArtifactElementRequest
 						return true;
 				}
 			} else if (getCapableClass().equals(ECapableClass.AEND)){
-				if (art instanceof AssociationArtifact){
-					AssociationArtifact assoc  = (AssociationArtifact) art;
+				if (art instanceof IAssociationArtifact) {
+					IAssociationArtifact assoc = (IAssociationArtifact) art;
 					return (null != assoc.getAEnd());
 				} else 
 					return false;
 
 
 			} else if (getCapableClass().equals(ECapableClass.ZEND)){
-				if (art instanceof AssociationArtifact){
-					AssociationArtifact assoc  = (AssociationArtifact) art;
+				if (art instanceof IAssociationArtifact) {
+					IAssociationArtifact assoc = (IAssociationArtifact) art;
 					return (null != assoc.getZEnd());
 				} else 
 					return false;
@@ -229,11 +229,11 @@ public class StereotypeAddFeatureRequest extends BaseArtifactElementRequest
 				}
 			}
 		} else if (getCapableClass().equals(ECapableClass.AEND)){
-				AssociationArtifact assoc  = (AssociationArtifact) art;
+			IAssociationArtifact assoc = (IAssociationArtifact) art;
 					addInstanceToCapable(assoc.getAEnd(),instance);
 
 		} else if (getCapableClass().equals(ECapableClass.ZEND)){
-			AssociationArtifact assoc  = (AssociationArtifact) art;
+			IAssociationArtifact assoc = (IAssociationArtifact) art;
 				addInstanceToCapable(assoc.getZEnd(),instance);
 		}
 		
@@ -265,6 +265,7 @@ public class StereotypeAddFeatureRequest extends BaseArtifactElementRequest
 		this.featureValue = value;
 	}
 
+	@Override
 	public IModelChangeDelta getCorrespondingDelta() {
 		ModelChangeDelta delta = new ModelChangeDelta(IModelChangeDelta.ADD);
 

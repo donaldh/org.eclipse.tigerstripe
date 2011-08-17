@@ -27,8 +27,6 @@ import org.eclipse.emf.common.util.TreeIterator;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
-import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.util.messages.MessageList;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -36,23 +34,22 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSessi
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EAggregationEnum;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EChangeableEnum;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument.EDirection;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EAggregationEnum;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EChangeableEnum;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument.EDirection;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMultiplicity;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjEnumSpecifics;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfileSession;
 import org.eclipse.tigerstripe.workbench.profile.primitiveType.IPrimitiveTypeDef;
@@ -99,25 +96,25 @@ import org.eclipse.uml2.uml.internal.impl.EnumerationLiteralImpl;
 
 public class UML2TS {
 
-	private Map<EObject, String> classMap;
+	private final Map<EObject, String> classMap;
 	
-	private String PRIMITIVE_PREFIX = "primitive.";
+	private final String PRIMITIVE_PREFIX = "primitive.";
 
-	private String DEFAULT_MULTIPLICITY = "1";
+	private final String DEFAULT_MULTIPLICITY = "1";
 
 	private IArtifactManagerSession mgrSession;
 
-	private PrintWriter out;
+	private final PrintWriter out;
 
 	private String modelLibrary;
 
 	private MessageList messages;
 
-	private IWorkbenchProfileSession profileSession;
+	private final IWorkbenchProfileSession profileSession;
 	
 	private int nullClassCounter = 0;
 	
-	private CoreArtifactSettingsProperty property;
+	private final CoreArtifactSettingsProperty property;
 	
 	private boolean ignoreUnknown = false;
 	private String unknownType = "primitive.unknown";
@@ -248,8 +245,8 @@ public class UML2TS {
 								    this.out.println("INFO : Adding "+clientEntity.getImplementedArtifacts().size()+" implements relations to "+clientFQN);
 
 								    
-								} else if (clientArtifact instanceof AssociationClassArtifact){
-									AssociationClassArtifact clientEntity = (AssociationClassArtifact) clientArtifact;
+								} else if (clientArtifact instanceof IAssociationClassArtifact) {
+									IAssociationClassArtifact clientEntity = (IAssociationClassArtifact) clientArtifact;
 									Collection<IAbstractArtifact> existing = clientEntity.getImplementedArtifacts();
 									
 									ArrayList<IAbstractArtifact> imp = new ArrayList<IAbstractArtifact>();

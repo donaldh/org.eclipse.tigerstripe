@@ -30,14 +30,15 @@ import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.internal.core.JarEntryFile;
 import org.eclipse.jdt.internal.core.JarPackageFragmentRoot;
 import org.eclipse.jdt.internal.ui.navigator.JavaNavigatorContentProvider;
+import org.eclipse.tigerstripe.workbench.IModuleElementWrapper;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.ProjectMigrationUtils;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeM0GeneratorNature;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripePluginProjectNature;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeProjectNature;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
@@ -64,6 +65,8 @@ public class NewTigerstripeExplorerContentProvider extends
 
 		Object[] rawChildren = NO_CHILDREN;
 
+		boolean isJarPackageFragmentRoot = false;
+
 		if (parentElement instanceof ICompilationUnit
 				|| parentElement instanceof IClassFile) {
 			IAbstractArtifact artifact = TSExplorerUtils
@@ -77,7 +80,7 @@ public class NewTigerstripeExplorerContentProvider extends
 				// in the explorer.
 				if (showRelationshipAnchors) {
 					try {
-						AbstractArtifact art = (AbstractArtifact) artifact;
+						IAbstractArtifactInternal art = (IAbstractArtifactInternal) artifact;
 						HashSet<String> hierarchy = new HashSet<String>();
 						featchHierarhyUp(art, hierarchy);
 						ArtifactManager artifactManager = art.getArtifactManager();
@@ -124,9 +127,18 @@ public class NewTigerstripeExplorerContentProvider extends
 			// To enable proper rendering of Module components are
 			// artifacts,
 			// we need to post-process the result here
+			isJarPackageFragmentRoot = true;
 			Object[] tmpChildren = super.getChildren(parentElement);
 			rawChildren = postProcessPackageFragmentRoot(
 					(JarPackageFragmentRoot) parentElement, tmpChildren);
+		} else if (parentElement instanceof IModuleElementWrapper) {
+			IModuleElementWrapper wrapper = (IModuleElementWrapper) parentElement;
+			Object[] childs = getChildren(wrapper.getElement());
+			List<Object> result = new ArrayList<Object>(childs.length);
+			for (Object object : childs) {
+				result.add(new ModuleElementWrapper(object, wrapper.getParent()));
+			}
+			rawChildren = result.toArray(new Object[result.size()]);
 		} else {
 			// delegate
 			rawChildren = super.getChildren(parentElement);
@@ -153,7 +165,19 @@ public class NewTigerstripeExplorerContentProvider extends
 				}
 			}
 		}
-		return filteredChildren.toArray(new Object[filteredChildren.size()]);
+
+		if (isJarPackageFragmentRoot) {
+			JarPackageFragmentRoot pEl = (JarPackageFragmentRoot) parentElement;
+			List<Object> result = new ArrayList<Object>(filteredChildren.size());
+			for (Object object : filteredChildren) {
+				result.add(new ModuleElementWrapper(object, pEl
+						.getJavaProject()));
+			}
+			return result.toArray(new Object[result.size()]);
+		} else {
+			return filteredChildren
+					.toArray(new Object[filteredChildren.size()]);
+		}
 	}
 
 	private void featchHierarhyUp(IAbstractArtifact artifact, Set<String> set) {

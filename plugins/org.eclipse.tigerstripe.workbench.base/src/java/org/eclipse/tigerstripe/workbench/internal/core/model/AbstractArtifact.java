@@ -58,13 +58,20 @@ import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidatio
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IStandardSpecifics;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
@@ -104,7 +111,7 @@ import com.thoughtworks.qdox.model.JavaSource;
  * 
  */
 public abstract class AbstractArtifact extends ArtifactComponent implements
-		IAbstractArtifact {
+		IAbstractArtifactInternal {
 
 	// the updater that this artifact depends on
 	private IModelUpdater myUpdater;
@@ -145,7 +152,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	private final HashMap<String, RefComment> refComments = new HashMap<String, RefComment>();
 
 	/** The artifact referenced by the extends clause */
-	private AbstractArtifact extendsArtifact;
+	private IAbstractArtifactInternal extendsArtifact;
 
 	/** The components owned by this artifact */
 	Collection<IModelComponent> containedComponents = new ArrayList<IModelComponent>();
@@ -188,10 +195,16 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	private boolean isProxy = false;
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#setProxy(boolean)
+	 */
 	public void setProxy(boolean bool) {
 		isProxy = bool;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#isProxy()
+	 */
 	public boolean isProxy() {
 		return isProxy;
 	}
@@ -200,6 +213,9 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		return this.javaClass;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#setTSProject(org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject)
+	 */
 	public void setTSProject(TigerstripeProject project) {
 	}
 
@@ -227,7 +243,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
 
 		for (IAbstractArtifact art : implementedArtifacts) {
-			IAbstractArtifact realArtifact = ((AbstractArtifact) art)
+			IAbstractArtifact realArtifact = ((IAbstractArtifactInternal) art)
 					.resolveIfProxy(null);
 			try {
 				// Bug 919: facet needs to be considered here
@@ -309,13 +325,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		updateArtifactPath();
 	}
 
-	/**
-	 * Returns the markingTag for this
-	 * 
-	 * The Marking Tag is the identifier that uniquely determines the type of
-	 * Artifact.
-	 * 
-	 * @return String - the marking tag for this
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#getMarkingTag()
 	 */
 	public abstract String getMarkingTag();
 
@@ -356,16 +367,11 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		updateArtifactPath();
 	}
 
-	/**
-	 * Returns the correct type of artifact based on the given class
-	 * 
-	 * This is used by the ArtifactManager while extracting artifacts.
-	 * 
-	 * @param javaClass
-	 * @return TODO: this is an ugly way of implementing this, need to be
-	 *         changed.
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#extractFromClass(com.thoughtworks.qdox.model.JavaClass, org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public abstract AbstractArtifact extractFromClass(JavaClass javaClass,
+	public abstract IAbstractArtifactInternal extractFromClass(
+			JavaClass javaClass,
 			ArtifactManager artifactMgr, IProgressMonitor monitor);
 
 	public boolean isAbstract() {
@@ -520,7 +526,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			// resolved once everything has been parsed in the
 			// resolveReferences()
 			// method below
-			AbstractArtifact art = (AbstractArtifact) makeArtifact();
+			IAbstractArtifactInternal art = (IAbstractArtifactInternal) makeArtifact();
 			art.setFullyQualifiedName(fqn);
 			art.setProxy(true);
 			setExtendedArtifact(art);
@@ -554,7 +560,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			if (!"".equals(val)) {
 				String[] fqns = val.split(",");
 				for (String fqn : fqns) {
-					AbstractArtifact art = getArtifactManager()
+					IAbstractArtifactInternal art = getArtifactManager()
 							.getArtifactByFullyQualifiedName(fqn, true, monitor);
 					if (art == null) {
 						art = new SessionFacadeArtifact(getArtifactManager());
@@ -576,13 +582,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		}
 	}
 
-	/**
-	 * Performs a validation of the created model's references.
-	 * 
-	 * This corresponds to a semantic pass on the model once all artifacts have
-	 * been extracted into the tigerstripe engine.
-	 * 
-	 * @throws TigerstripeException
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#resolveReferences(org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	public void resolveReferences(IProgressMonitor monitor)
 			throws TigerstripeException {
@@ -611,13 +612,16 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		// createUniqueFieldTypeList(); Lazy-build the list #945
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#resolvePackageContainment(org.eclipse.core.runtime.IProgressMonitor)
+	 */
 	public void resolvePackageContainment(IProgressMonitor monitor)
 			throws TigerstripeException {
 		if (getPackage() != "") {
 			// Any *real* artifacts will be properly loaded.
 			// Any that we need to spoof should be made here - but not saved!
 
-			AbstractArtifact existingArtifact = getArtifactManager()
+			IAbstractArtifactInternal existingArtifact = getArtifactManager()
 					.getArtifactByFullyQualifiedName(getPackage(), true,
 							monitor);
 			if (existingArtifact != null) {
@@ -642,17 +646,15 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		}
 	}
 
-	void removePackageContainment() {
+	public void removePackageContainment() {
 		IModelComponent container = getContainingModelComponent();
-		if (container instanceof PackageArtifact)
-			((PackageArtifact) container).removeContainedModelComponent(this);
+		if (container instanceof IPackageArtifact)
+			((IAbstractArtifactInternal) container)
+					.removeContainedModelComponent(this);
 	}
 
-	/**
-	 * #386 Upon first extraction a dummy copy an artifact is created is the
-	 * corresponding definition has not been read yet.
-	 * 
-	 * This resolves to the correct artifact.
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#resolveExtendedArtifact(org.eclipse.core.runtime.IProgressMonitor)
 	 */
 	public void resolveExtendedArtifact(IProgressMonitor monitor) {
 		if (extendsArtifact != null) {
@@ -664,11 +666,14 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		}
 	}
 
-	public AbstractArtifact resolveIfProxy(IProgressMonitor monitor) {
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#resolveIfProxy(org.eclipse.core.runtime.IProgressMonitor)
+	 */
+	public IAbstractArtifactInternal resolveIfProxy(IProgressMonitor monitor) {
 		if (!isProxy())
 			return this;
 		String fqn = getFullyQualifiedName();
-		AbstractArtifact realArtifact = getArtifactManager()
+		IAbstractArtifactInternal realArtifact = getArtifactManager()
 				.getArtifactByFullyQualifiedName(fqn, true, monitor);
 		if (realArtifact != null)
 			return realArtifact;
@@ -676,10 +681,13 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		return this;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#resolveImplementedArtifacts(org.eclipse.core.runtime.IProgressMonitor)
+	 */
 	public void resolveImplementedArtifacts(IProgressMonitor monitor) {
 		List<IAbstractArtifact> newList = new ArrayList<IAbstractArtifact>();
 		for (IAbstractArtifact art : implementedArtifacts) {
-			IAbstractArtifact realArtifact = ((AbstractArtifact) art)
+			IAbstractArtifact realArtifact = ((IAbstractArtifactInternal) art)
 					.resolveIfProxy(monitor);
 			if (realArtifact != null) {
 				newList.add(realArtifact);
@@ -695,7 +703,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * References FROM the artifact will be destroyed by the delete.
 	 * 
 	 */
-	protected void removeReferences() {
+	public void removeReferences() {
 		// Need to look at the containing Model Component.
 		// May need to sets the containing/contained stuff by package.
 		IWorkbenchProfile profile = TigerstripeCore
@@ -706,8 +714,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 				.isEnabled()) {
 			// Remove the ref to this in my "Container"
 			IModelComponent container = this.getContainingModelComponent();
-			if (container instanceof PackageArtifact) {
-				((PackageArtifact) container)
+			if (container instanceof IPackageArtifact) {
+				((IAbstractArtifactInternal) container)
 						.removeContainedModelComponent(this);
 
 			}
@@ -742,10 +750,16 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#getRefComments()
+	 */
 	public Collection<RefComment> getRefComments() {
 		return refComments.values();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#setRefComment(org.eclipse.tigerstripe.workbench.internal.core.model.RefComment)
+	 */
 	public void setRefComment(RefComment rComment) {
 		String id = rComment.getLabel();
 		if (id != null) {
@@ -753,10 +767,16 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#getRefCommentById(java.lang.String)
+	 */
 	public RefComment getRefCommentById(String refCommentId) {
 		return refComments.get(refCommentId);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#getUniqueRefCommentId()
+	 */
 	public String getUniqueRefCommentId() {
 		int index = 0;
 		while (refComments.containsKey("_r_e_f_" + index)) {
@@ -853,9 +873,9 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 */
 	protected void resolveInheritedFields() throws TigerstripeException {
 
-		List<AbstractArtifact> visited = new ArrayList<AbstractArtifact>();
+		List<IAbstractArtifactInternal> visited = new ArrayList<IAbstractArtifactInternal>();
 		// The inherited fields
-		AbstractArtifact parent = getExtends();
+		IAbstractArtifactInternal parent = getExtends();
 		this.inheritedFields = new ArrayList<IField>();
 		while (parent != null) {
 			this.inheritedFields.addAll(parent.getFields());
@@ -878,8 +898,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 */
 	protected void resolveInheritedLiterals() throws TigerstripeException {
 		// The inherited labels
-		List<AbstractArtifact> visited = new ArrayList<AbstractArtifact>();
-		AbstractArtifact parent = getExtends();
+		List<IAbstractArtifactInternal> visited = new ArrayList<IAbstractArtifactInternal>();
+		IAbstractArtifactInternal parent = getExtends();
 		this.inheritedLiterals = new ArrayList<ILiteral>();
 		while (parent != null) {
 			this.inheritedLiterals.addAll(parent.getLiterals());
@@ -902,8 +922,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 */
 	protected void resolveInheritedMethods() throws TigerstripeException {
 		// The inherited methods
-		List<AbstractArtifact> visited = new ArrayList<AbstractArtifact>();
-		AbstractArtifact parent = getExtends();
+		List<IAbstractArtifactInternal> visited = new ArrayList<IAbstractArtifactInternal>();
+		IAbstractArtifactInternal parent = getExtends();
 		this.inheritedMethods = new ArrayList<IMethod>();
 		while (parent != null) {
 			this.inheritedMethods.addAll(parent.getMethods());
@@ -1028,12 +1048,10 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		return this.inheritedMethods;
 	}
 
-	/**
-	 * Returns the artifact extended by this artifact.
-	 * 
-	 * @return AbstractArtifact - the artifact extended by this artifact.
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#getExtends()
 	 */
-	public AbstractArtifact getExtends() {
+	public IAbstractArtifactInternal getExtends() {
 		if (extendsArtifact != null && extendsArtifact.isProxy()) {
 			// This means it still hasn't been resolved,
 			// Let's try again
@@ -1051,26 +1069,34 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		return extendsArtifact != null;
 	}
 
-	/**
-	 * Returns true if this AbstractArtifact is a model artifact
-	 * 
-	 * @return
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#isModelArtifact()
 	 */
 	public boolean isModelArtifact() {
-		return (this instanceof ManagedEntityArtifact
-				|| this instanceof DatatypeArtifact || this instanceof EnumArtifact);
+		return (this instanceof IManagedEntityArtifact
+				|| this instanceof IDatatypeArtifact || this instanceof IEnumArtifact);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#isCapabilitiesArtifact()
+	 */
 	public boolean isCapabilitiesArtifact() {
-		return (this instanceof QueryArtifact || this instanceof EventArtifact || this instanceof ExceptionArtifact);
+		return (this instanceof IQueryArtifact
+				|| this instanceof IEventArtifact || this instanceof IExceptionArtifact);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#isSessionArtifact()
+	 */
 	public boolean isSessionArtifact() {
-		return (this instanceof SessionFacadeArtifact);
+		return (this instanceof ISessionArtifact);
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#isDatatypeArtifact()
+	 */
 	public boolean isDatatypeArtifact() {
-		return (this instanceof DatatypeArtifact);
+		return (this instanceof IDatatypeArtifact);
 	}
 
 	protected abstract AbstractArtifactPersister getPersister(Writer writer);
@@ -1231,7 +1257,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * @param artifact
 	 * @since 2.2-beta
 	 */
-	private void removeFromExtending(IAbstractArtifact artifact) {
+	public void removeFromExtending(IAbstractArtifact artifact) {
 		if (artifact != null
 				&& extendingArtifacts
 						.contains(new ComparableArtifact(artifact))) {
@@ -1246,7 +1272,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * @param artifact
 	 * @since 2.2-beta
 	 */
-	private void addToExtending(IAbstractArtifact artifact) {
+	public void addToExtending(IAbstractArtifact artifact) {
 		if (artifact != null
 				&& !extendingArtifacts
 						.contains(new ComparableArtifact(artifact))) {
@@ -1298,7 +1324,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * 
 	 * @param newArtifact
 	 */
-	/* package */void updateExtendingArtifacts(IAbstractArtifact newArtifact) {
+	public void updateExtendingArtifacts(IAbstractArtifact newArtifact) {
 		Collection<IAbstractArtifact> arts = getExtendingArtifacts();
 		for (IAbstractArtifact art : arts) {
 			art.setExtendedArtifact(newArtifact);
@@ -1328,10 +1354,10 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 		if (artifact != null) {
 			// need to notify the artifact that we are now extending it
-			((AbstractArtifact) artifact).addToExtending(this);
+			((IAbstractArtifactInternal) artifact).addToExtending(this);
 		}
 
-		this.extendsArtifact = (AbstractArtifact) artifact;
+		this.extendsArtifact = (IAbstractArtifactInternal) artifact;
 	}
 
 	/*
@@ -1626,16 +1652,28 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		this.specifics = specifics;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#getJavaSource()
+	 */
 	public JavaSource getJavaSource() {
 		return javaSource;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#setJavaSource(com.thoughtworks.qdox.model.JavaSource)
+	 */
 	public void setJavaSource(JavaSource javaSource) {
 		this.javaSource = javaSource;
 	}
 
-	public abstract AbstractArtifact getModel();
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#getModel()
+	 */
+	public abstract IAbstractArtifactInternal getModel();
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#getMethodById(java.lang.String)
+	 */
 	public IMethod getMethodById(String methodId) {
 		for (IMethod method : methods) {
 			if (method.getMethodId().equals(methodId))
@@ -1748,7 +1786,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof AbstractArtifact)
+		if (obj instanceof IAbstractArtifactInternal)
 			return obj == this; // default behavior
 		else if (obj instanceof ComparableArtifact) {
 			ComparableArtifact other = (ComparableArtifact) obj;
@@ -1883,6 +1921,9 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		return myUpdater;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#dispose()
+	 */
 	public void dispose() {
 		// NON SUPPORTED.
 	}
@@ -1946,6 +1987,9 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		return containedComponents;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#addContainedModelComponents(java.util.Collection)
+	 */
 	public void addContainedModelComponents(
 			Collection<IModelComponent> components) {
 		for (IModelComponent component : components) {
@@ -1954,6 +1998,9 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#addContainedModelComponent(org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent)
+	 */
 	public void addContainedModelComponent(IModelComponent component) {
 		// Don't add if its already there.
 		if (!containedComponents.contains(component)) {
@@ -1961,10 +2008,16 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#clearContainedModelComponents()
+	 */
 	public void clearContainedModelComponents() {
 		containedComponents.clear();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#removeContainedModelComponent(org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent)
+	 */
 	public void removeContainedModelComponent(IModelComponent component) {
 		if (containedComponents.contains(component)) {
 			containedComponents.remove(component);
@@ -1976,6 +2029,9 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		return this.containingModelComponent;
 	}
 
+	/* (non-Javadoc)
+	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#setContainingModelComponent(org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent)
+	 */
 	public void setContainingModelComponent(IModelComponent containingComponent) {
 		this.containingModelComponent = containingComponent;
 		return;

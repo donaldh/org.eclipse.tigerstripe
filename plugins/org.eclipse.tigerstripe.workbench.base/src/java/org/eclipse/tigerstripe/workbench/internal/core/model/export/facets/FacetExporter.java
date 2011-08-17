@@ -20,7 +20,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.QueryAllArtifacts;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.export.ExportFacetManager;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
@@ -63,7 +63,8 @@ public class FacetExporter {
 			for (IAbstractArtifact artifact : artifacts) {
 
 				if (artifact.isInActiveFacet()) {
-					IAbstractArtifact cloned = ((AbstractArtifact) artifact).makeWorkingCopy(new NullProgressMonitor());
+					IAbstractArtifact cloned = ((IAbstractArtifactInternal) artifact)
+							.makeWorkingCopy(new NullProgressMonitor());
 					monitor.subTask(cloned.getName());
 					inputManager.getDestination().getArtifactManagerSession().addArtifact(cloned);
 					cloned.doSave(new NullProgressMonitor());

@@ -19,9 +19,9 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IMethodElement;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 
@@ -37,8 +37,8 @@ public class StereotypeCapableSaveHelper {
 	 */
 	public static void save(IStereotypeCapable capable) throws CoreException {
 		try {
-			if (capable instanceof AbstractArtifact) {
-				AbstractArtifact artifact = (AbstractArtifact) capable;
+			if (capable instanceof IAbstractArtifactInternal) {
+				IAbstractArtifactInternal artifact = (IAbstractArtifactInternal) capable;
 				IResource resource = (IResource) artifact
 						.getAdapter(IResource.class);
 				if (resource instanceof IFile) {

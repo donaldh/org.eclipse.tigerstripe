@@ -19,9 +19,11 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.tigerstripe.workbench.IModuleElementWrapper;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ContextProjectAwareProxy;
 import org.eclipse.tigerstripe.workbench.internal.core.module.InstalledModule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
@@ -44,14 +46,36 @@ public class TigerstripeJavaAdapterFactory implements IAdapterFactory {
 
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
-		if (adaptableObject instanceof IClassFile) {
+		if (adaptableObject instanceof IModuleElementWrapper) {
+			Object wrappedElement = ((IModuleElementWrapper) adaptableObject)
+					.getElement();
+			Object result;
+			if (wrappedElement instanceof IModelComponent
+					&& IModelComponent.class.equals(adapterType)) {
+				result = wrappedElement;
+			} else {
+				result = getAdapter(
+						((IModuleElementWrapper) adaptableObject).getElement(),
+						adapterType);
+			}
+
+			if (result != null && result instanceof IModelComponent) {
+				ITigerstripeModelProject context = getProjectFor(((IModuleElementWrapper) adaptableObject)
+						.getParent());
+				return ContextProjectAwareProxy.newInstance(result, context);
+			} else {
+				return null;
+			}
+		} else if (adaptableObject instanceof IClassFile) {
 			IClassFile cFile = (IClassFile) adaptableObject;
+
 			try {
 				if (cFile.getCorrespondingResource() == null) {
 					// This means we're looking at a IClassFile inside a module
 					IAbstractArtifact art = getArtifactFor(cFile);
-					if (art != null)
+					if (art != null) {
 						return art.getAdapter(adapterType);
+					}
 					return null;
 				}
 			} catch (JavaModelException e) {
@@ -82,7 +106,8 @@ public class TigerstripeJavaAdapterFactory implements IAdapterFactory {
 
 	public static IDependency getDependencyFor(IClassFile classFile) {
 		IPackageFragmentRoot rootJar = getIPackageFragmentRootFor(classFile);
-		ITigerstripeModelProject tsProject = getProjectFor(rootJar);
+		ITigerstripeModelProject tsProject = getProjectFor(rootJar
+				.getJavaProject());
 		if (tsProject != null) {
 			try {
 				for (IDependency dep : tsProject.getDependencies()) {
@@ -108,7 +133,8 @@ public class TigerstripeJavaAdapterFactory implements IAdapterFactory {
 
 	public static ArtifactManager getArtifactManagerFor(IJavaElement javaElement) {
 		IPackageFragmentRoot rootJar = getIPackageFragmentRootFor(javaElement);
-		ITigerstripeModelProject tsProject = getProjectFor(rootJar);
+		ITigerstripeModelProject tsProject = getProjectFor(rootJar
+				.getJavaProject());
 		if (tsProject != null) {
 			try {
 				for (IDependency dep : tsProject.getDependencies()) {
@@ -137,9 +163,7 @@ public class TigerstripeJavaAdapterFactory implements IAdapterFactory {
 		return null;
 	}
 
-	private static ITigerstripeModelProject getProjectFor(
-			IPackageFragmentRoot rootJar) {
-		IJavaProject jProject = rootJar.getJavaProject();
+	private static ITigerstripeModelProject getProjectFor(IJavaProject jProject) {
 		if (jProject != null) {
 			IProject project = jProject.getProject();
 			IAbstractTigerstripeProject atsProject = (IAbstractTigerstripeProject) project

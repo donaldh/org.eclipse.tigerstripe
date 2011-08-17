@@ -12,14 +12,14 @@ package org.eclipse.tigerstripe.workbench.internal.core.model.persist.artifacts;
 
 import java.io.Writer;
 
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 
 public class UpdateProcedureArtifactPersister extends AbstractArtifactPersister {
 
 	private final static String TEMPLATE = "org/eclipse/tigerstripe/workbench/internal/core/model/persist/resources/artifacts/updateProcedure.vm";
 
-	public UpdateProcedureArtifactPersister(AbstractArtifact artifact,
+	public UpdateProcedureArtifactPersister(IAbstractArtifactInternal artifact,
 			Writer writer) {
 		super(artifact, TEMPLATE, writer);
 	}

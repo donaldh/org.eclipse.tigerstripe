@@ -56,10 +56,10 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IGlobalSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ComponentNameProvider;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Method;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Type;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.GlobalSettingsProperty;
@@ -656,9 +656,9 @@ public class MethodInfoEditComponent {
 				IArgument arg = (IArgument) element;
 
 				String fqn = arg.getType().getFullyQualifiedName();
-				if (((AbstractArtifact) arg.getContainingArtifact())
+				if (((IAbstractArtifactInternal) arg.getContainingArtifact())
 						.getArtifactManager() != null) {
-					ArtifactManager mgr = ((AbstractArtifact) arg
+					ArtifactManager mgr = ((IAbstractArtifactInternal) arg
 							.getContainingArtifact()).getArtifactManager();
 					if (mgr.getArtifactByFullyQualifiedName(fqn, true,
 							new NullProgressMonitor()) instanceof IPrimitiveTypeArtifact) {

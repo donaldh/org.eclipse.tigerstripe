@@ -14,17 +14,17 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IStandardSpecifi
 
 public class StandardSpecifics implements IStandardSpecifics {
 
-	private AbstractArtifact artifact;
+	private IAbstractArtifactInternal artifact;
 
-	public StandardSpecifics(AbstractArtifact artifact) {
+	public StandardSpecifics(IAbstractArtifactInternal artifact) {
 		setArtifact(artifact);
 	}
 
-	private void setArtifact(AbstractArtifact artifact) {
+	private void setArtifact(IAbstractArtifactInternal artifact) {
 		this.artifact = artifact;
 	}
 
-	protected AbstractArtifact getArtifact() {
+	protected IAbstractArtifactInternal getArtifact() {
 		return this.artifact;
 	}
 

@@ -20,14 +20,14 @@ import org.eclipse.tigerstripe.annotation.setif.SomeTestAnnots.TestAnnot3;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.base.test.model.ArtifactTestHelper;
 import org.eclipse.tigerstripe.workbench.internal.api.patterns.PatternFactory;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.WorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.Stereotype;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.StereotypeAttributeFactory;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
@@ -348,20 +348,21 @@ public class PatternTest extends TestCase {
 		assertTrue(created.getLiterals().isEmpty());
 		assertTrue(created.getMethods().isEmpty());
 
-		if (created instanceof AssociationArtifact) {
+		if (created instanceof IAssociationArtifact
+				&& !(created instanceof IAssociationClassArtifact)) {
 			assertEquals("A end type does not match", aEndType,
-					((AssociationArtifact) created).getAEnd().getType()
+					((IAssociationArtifact) created).getAEnd().getType()
 							.getFullyQualifiedName());
 			assertEquals("Z end type does not match", zEndType,
-					((AssociationArtifact) created).getZEnd().getType()
+					((IAssociationArtifact) created).getZEnd().getType()
 							.getFullyQualifiedName());
 		}
-		if (created instanceof DependencyArtifact) {
+		if (created instanceof IDependencyArtifact) {
 			assertEquals("A end type does not match", aEndType,
-					((DependencyArtifact) created).getAEndType()
+					((IDependencyArtifact) created).getAEndType()
 							.getFullyQualifiedName());
 			assertEquals("Z end type does not match", zEndType,
-					((DependencyArtifact) created).getZEndType()
+					((IDependencyArtifact) created).getZEndType()
 							.getFullyQualifiedName());
 		}
 

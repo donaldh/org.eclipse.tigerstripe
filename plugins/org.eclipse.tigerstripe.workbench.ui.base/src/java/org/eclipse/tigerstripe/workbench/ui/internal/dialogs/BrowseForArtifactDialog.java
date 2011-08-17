@@ -21,7 +21,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.NullAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.PrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjectFactory;
@@ -45,17 +45,17 @@ import org.eclipse.ui.dialogs.FilteredList.FilterMatcher;
  */
 public class BrowseForArtifactDialog {
 
-	private ITigerstripeModelProject project;
+	private final ITigerstripeModelProject project;
 
-	private IAbstractArtifact[] artifactModels;
+	private final IAbstractArtifact[] artifactModels;
 
 	private String title;
 
 	private String message;
 
-	private int fWidth = 140;
+	private final int fWidth = 140;
 
-	private int fHeight = 18;
+	private final int fHeight = 18;
 
 	private boolean includePrimitiveTypes = true;
 
@@ -252,12 +252,14 @@ public class BrowseForArtifactDialog {
 		// duplicates
 		for (Iterator iterArtifacts = artifacts.iterator(); iterArtifacts
 				.hasNext();) {
-			AbstractArtifact artifact = (AbstractArtifact) iterArtifacts.next();
+			IAbstractArtifactInternal artifact = (IAbstractArtifactInternal) iterArtifacts
+					.next();
 
 			boolean keepGoing = true;
 			for (Iterator iterSelected = selectedElements.iterator(); iterSelected
 					.hasNext() && keepGoing;) {
-				AbstractArtifact name = (AbstractArtifact) iterSelected.next();
+				IAbstractArtifactInternal name = (IAbstractArtifactInternal) iterSelected
+						.next();
 				if (artifact.getFullyQualifiedName().equals(
 						name.getFullyQualifiedName())) {
 					keepGoing = false;

@@ -18,10 +18,10 @@ import org.eclipse.swt.SWT;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.UnresolvedStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
@@ -305,11 +305,11 @@ public class CommonArtifactAuditor extends AbstractArtifactAuditor implements
 		IAbstractArtifact superArtifact = artifact.getExtendedArtifact();
 
 		if (superArtifact != null
-				&& !((AbstractArtifact) superArtifact).isProxy()) {
+				&& !((IAbstractArtifactInternal) superArtifact).isProxy()) {
 
 			boolean eligableHierarhy = superArtifact.getClass() == artifact
 					.getClass();
-			if (artifact instanceof AssociationClassArtifact) {
+			if (artifact instanceof IAssociationClassArtifact) {
 				eligableHierarhy |= superArtifact instanceof IManagedEntityArtifact;
 			}
 

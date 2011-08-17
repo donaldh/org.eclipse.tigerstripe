@@ -12,12 +12,12 @@ package org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics;
 
 import java.util.Properties;
 
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Tag;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Type;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMultiplicity;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjQuerySpecifics;
 @Deprecated
 public class OssjQuerySpecifics extends OssjArtifactSpecifics implements
@@ -25,7 +25,7 @@ public class OssjQuerySpecifics extends OssjArtifactSpecifics implements
 
 	private IType returnedEntityType;
 
-	public OssjQuerySpecifics(AbstractArtifact artifact) {
+	public OssjQuerySpecifics(IAbstractArtifactInternal artifact) {
 		super(artifact);
 	}
 

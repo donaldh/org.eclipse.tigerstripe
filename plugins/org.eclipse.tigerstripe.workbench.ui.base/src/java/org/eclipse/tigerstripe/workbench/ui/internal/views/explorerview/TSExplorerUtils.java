@@ -22,11 +22,12 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.tigerstripe.workbench.IElementWrapper;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeJavaAdapterFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -38,7 +39,7 @@ public class TSExplorerUtils {
 	public static IAbstractArtifact getArtifactModelFor(Object element) {
 		IAbstractArtifact art = getArtifactFor(element);
 		if (art != null)
-			return ((AbstractArtifact) art).getModel();
+			return ((IAbstractArtifactInternal) art).getModel();
 		return null;
 	}
 
@@ -71,7 +72,10 @@ public class TSExplorerUtils {
 
 	// Util methods
 	public static IAbstractArtifact getArtifactFor(Object element) {
-		if (element instanceof ICompilationUnit) {
+		if (element instanceof IElementWrapper) {
+			return getArtifactFor(((IElementWrapper) element).getElement());
+		} else if (element instanceof ICompilationUnit) {
+
 			ICompilationUnit jElem = (ICompilationUnit) element;
 
 			IAbstractArtifact art = (IAbstractArtifact) jElem.getAdapter(IAbstractArtifact.class);

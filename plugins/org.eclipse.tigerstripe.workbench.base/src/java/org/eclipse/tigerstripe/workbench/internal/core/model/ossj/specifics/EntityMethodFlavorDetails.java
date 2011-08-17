@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.RefComment;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IEntityMethodFlavorDetails;
@@ -39,7 +39,7 @@ public class EntityMethodFlavorDetails implements IEntityMethodFlavorDetails {
 
 	private String refCommentId = null;
 
-	private IAbstractArtifact parentArtifact;
+	private final IAbstractArtifact parentArtifact;
 
 	public String getFlag() {
 		return flag;
@@ -54,7 +54,7 @@ public class EntityMethodFlavorDetails implements IEntityMethodFlavorDetails {
 
 	public String getComment() {
 		if (refCommentId != null) {
-			RefComment rComment = ((AbstractArtifact) parentArtifact)
+			RefComment rComment = ((IAbstractArtifactInternal) parentArtifact)
 					.getRefCommentById(refCommentId);
 			if (rComment != null)
 				return rComment.getContent();
@@ -69,12 +69,14 @@ public class EntityMethodFlavorDetails implements IEntityMethodFlavorDetails {
 			return;
 
 		if (refCommentId == null) {
-			refCommentId = ((AbstractArtifact) parentArtifact).getUniqueRefCommentId();
+			refCommentId = ((IAbstractArtifactInternal) parentArtifact)
+					.getUniqueRefCommentId();
 		}
-		RefComment rComment = new RefComment((AbstractArtifact) parentArtifact);
+		RefComment rComment = new RefComment(
+				(IAbstractArtifactInternal) parentArtifact);
 		rComment.setLabel(refCommentId);
 		rComment.setContent(description);
-		((AbstractArtifact) parentArtifact).setRefComment(rComment);
+		((IAbstractArtifactInternal) parentArtifact).setRefComment(rComment);
 	}
 
 	public Collection<String> getExceptions() {

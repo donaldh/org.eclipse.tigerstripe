@@ -128,8 +128,8 @@ return differences;
 	public static ArrayList<Difference> compareEntityMethodDetails(
 			IManagedEntityArtifact aArtifact, IManagedEntityArtifact bArtifact) {
 		ArrayList<Difference> differences = new ArrayList<Difference>();
-		ManagedEntityArtifact aArt = (ManagedEntityArtifact) aArtifact;
-		ManagedEntityArtifact bArt = (ManagedEntityArtifact) bArtifact;
+		IManagedEntityArtifact aArt = (IManagedEntityArtifact) aArtifact;
+		IManagedEntityArtifact bArt = (IManagedEntityArtifact) bArtifact;
 
 		OssjEntitySpecifics aSpecs = (OssjEntitySpecifics) aArt
 				.getIStandardSpecifics();

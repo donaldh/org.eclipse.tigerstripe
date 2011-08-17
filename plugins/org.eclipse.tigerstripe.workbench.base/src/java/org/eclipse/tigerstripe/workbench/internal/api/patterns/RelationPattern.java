@@ -21,15 +21,15 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.re
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactSetFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IStereotypeAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ComponentNameProvider;
-import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EChangeableEnum;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.patterns.IArtifactPatternResult;
 import org.eclipse.tigerstripe.workbench.patterns.IRelationPattern;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
@@ -188,10 +188,10 @@ public class RelationPattern extends ArtifactPattern implements IRelationPattern
 			}
 			
 		}
-		if ( artifact instanceof DependencyArtifact){
+		if (artifact instanceof IDependencyArtifact) {
 			// This bit ignores nearly everything from the template
 			// as there is nothing of any value there
-			DependencyArtifact dependency = (DependencyArtifact) artifact;
+			IDependencyArtifact dependency = (IDependencyArtifact) artifact;
 			IType type = dependency.getAEndType();
 			if (type == null){
 				type = dependency.makeType();
@@ -209,6 +209,7 @@ public class RelationPattern extends ArtifactPattern implements IRelationPattern
 		 return result;
 	}
 	
+	@Override
 	public Collection<Class<?>> getUsedAnnotations() {
 		Collection<Class<?>> usedAnnotations = super.getUsedAnnotations();
 		if ( xmlParserUtils.elementHasAssociationSpecifics(getElement()) ){

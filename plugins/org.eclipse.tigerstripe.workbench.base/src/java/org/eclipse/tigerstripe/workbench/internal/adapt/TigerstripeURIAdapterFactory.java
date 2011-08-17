@@ -31,10 +31,12 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHan
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ContextProjectAwareProxy;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ProjectDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
+import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
@@ -171,7 +173,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		IAbstractArtifact artifact = null;
 		if (SCHEME_TS_MODULE.equals(uri.scheme())) {
 			String container = null;
-			String[] elements = project
+			String[] elements = path.toString()
 					.split(SCHEME_TS_MODULE_CONTAINER_SEPARATOR);
 			if (elements.length == 2) {
 				container = elements[0];
@@ -212,7 +214,12 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 											.getArtifactByFullyQualifiedName(
 													fqn, false);
 									if (artifact != null) {
-										return artifact;
+										if (container != null) {
+											return (IAbstractArtifact) ContextProjectAwareProxy
+													.newInstance(artifact, proj);
+										} else {
+											return artifact;
+										}
 									}
 								}
 							}
@@ -309,12 +316,12 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	 * @return
 	 */
 	public static IModelComponent uriToComponent(URI uri) {
-
 		try {
-
 			IAbstractArtifact artifact = extractArtifact(uri);
 			if (artifact == null)
 				return null;
+
+			IModelComponent result = artifact;
 
 			String fragment = uri.fragment();
 
@@ -328,23 +335,35 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 						&& artifact instanceof IAssociationArtifact) {
 					IAssociationArtifact assoc = (IAssociationArtifact) artifact;
 					if (fragment.endsWith(";aEnd"))
-						return assoc.getAEnd();
+						result = assoc.getAEnd();
 					else if (fragment.endsWith(";zEnd"))
-						return assoc.getZEnd();
+						result = assoc.getZEnd();
 				} else if (fragment.endsWith(")") && fragment.contains("(")) {
 					for (IMethod m : artifact.getMethods()) {
-						if (m.getMethodId().equals(fragment))
-							return m;
+						if (m.getMethodId().equals(fragment)) {
+							result = m;
+							break;
+						}
 					}
 				} else {
 					for (IField f : artifact.getFields()) {
-						if (f.getName().equals(fragment))
-							return f;
+						if (f.getName().equals(fragment)) {
+							result = f;
+							break;
+						}
 					}
 				}
 
 			}
-			return artifact;
+
+			if (!(result instanceof IAbstractArtifact)
+					&& !(result instanceof IContextProjectAware)
+					&& artifact instanceof IContextProjectAware) {
+				return (IModelComponent) ContextProjectAwareProxy.newInstance(
+						result,
+						((IContextProjectAware) artifact).getContextProject());
+			}
+			return result;
 		} catch (TigerstripeException e) {
 			BasePlugin.log(e);
 			return null;
@@ -467,23 +486,18 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 			fragment = b.toString();
 		}
 
-		/*
-		 * Avoid cycles in dependencies. 
-		 * Getting project if dependencies has cycles caused stack overflow.
-		 * But the project is not needed for getting URI in this case.
-		 */
-		boolean readonly = art.isReadonly();
-		if (readonly) {
-			return toURI(artifactPath, fragment, readonly, null);
-		} else {
-			ITigerstripeModelProject project = null;
+		ITigerstripeModelProject context = null;
+		if (component instanceof IContextProjectAware) {
+			context = ((IContextProjectAware) component).getContextProject();
+		}
+		ITigerstripeModelProject project = null;
 			try {
 				project = art.getProject();
 			} catch (TigerstripeException e) {
 				BasePlugin.log(e);
 			}
-			return toURI(artifactPath, fragment, readonly, project);
-		}
+		return toURI(artifactPath, fragment, art.isReadonly(), project, context);
+
 	}
 
 	private static IPath getArtifactPath(IAbstractArtifact art, String newName) {
@@ -530,11 +544,11 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	}
 
 	private static URI toURI(IPath path, String fragment, boolean isFromModule) {
-		return toURI(path, fragment, isFromModule, null);
+		return toURI(path, fragment, isFromModule, null, null);
 	}
 
 	private static URI toURI(IPath path, String fragment, boolean isFromModule,
-			ITigerstripeModelProject project) {
+			ITigerstripeModelProject project, ITigerstripeModelProject context) {
 		if (path == null)
 			return null;
 
@@ -543,15 +557,19 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		if (isFromModule) {
 			scheme = SCHEME_TS_MODULE;
 			if (project != null && project instanceof ITigerstripeModuleProject) {
-				ITigerstripeModuleProject moduleProject = (ITigerstripeModuleProject) project;
 				String container = null;
-				if (moduleProject.getProjectContainerURI() != null) {
-					IPath containerPath = new Path(moduleProject
-							.getProjectContainerURI().getPath());
-					if (containerPath.segmentCount() > 0) {
-						container = containerPath.lastSegment();
-					}
+				if (context != null) {
+					container = context.getName();
 				}
+				/*
+				 * ITigerstripeModuleProject moduleProject =
+				 * (ITigerstripeModuleProject) project; String container = null;
+				 * if (moduleProject.getProjectContainerURI() != null) { IPath
+				 * containerPath = new Path(moduleProject
+				 * .getProjectContainerURI().getPath()); if
+				 * (containerPath.segmentCount() > 0) { container =
+				 * containerPath.lastSegment(); } }
+				 */
 
 				if (container != null) {
 					StringBuilder res = new StringBuilder();

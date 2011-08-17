@@ -35,7 +35,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.IActiveFacetChangeLi
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -155,7 +155,7 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 
 			try {
 				if (artifact != null) {
-					setIArtifact(((AbstractArtifact) artifact)
+					setIArtifact(((IAbstractArtifactInternal) artifact)
 							.makeWorkingCopy(new NullProgressMonitor()));
 
 					if (artifact.getTigerstripeProject() != null) {
@@ -375,7 +375,7 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 				&& myArtifact.getFullyQualifiedName().equals(
 						artifact.getFullyQualifiedName())) {
 			try {
-				setIArtifact(((AbstractArtifact) artifact)
+				setIArtifact(((IAbstractArtifactInternal) artifact)
 						.makeWorkingCopy(null));
 				refreshModelPages();
 			} catch (TigerstripeException e) {

@@ -35,7 +35,6 @@ import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbe
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
@@ -45,6 +44,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ExecutionContext;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.core.model.PackageArtifact;
@@ -80,7 +80,7 @@ import org.eclipse.tigerstripe.workbench.queries.IQueryRelationshipsByArtifact;
 
 public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 
-	private ArtifactManager artifactManager;
+	private final ArtifactManager artifactManager;
 
 	private IModelUpdater modelUpdater;
 
@@ -239,17 +239,19 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 			throw new IllegalArgumentException("Unknown artifact type: " + type);
 	}
 
-	public AbstractArtifact getArtifactByFullyQualifiedName(String fqn) {
+	public IAbstractArtifactInternal getArtifactByFullyQualifiedName(String fqn) {
 		return getArtifactByFullyQualifiedName(fqn, true);
 	}
 
-	public AbstractArtifact getArtifactByFullyQualifiedName(String fqn,
+	public IAbstractArtifactInternal getArtifactByFullyQualifiedName(
+			String fqn,
 			boolean includeDependencies) {
 		return getArtifactManager().getArtifactByFullyQualifiedName(fqn,
 				includeDependencies, new NullProgressMonitor()); // FIXME
 	}
 
-	public AbstractArtifact getArtifactByFullyQualifiedName(String fqn,
+	public IAbstractArtifactInternal getArtifactByFullyQualifiedName(
+			String fqn,
 			boolean includeDependencies, boolean isOverridePredicate) {
 		return getArtifactManager().getArtifactByFullyQualifiedName(fqn,
 				includeDependencies, isOverridePredicate,
@@ -350,10 +352,10 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 					.mergeInterfaceProperties(origISS.getInterfaceProperties());
 		}
 
-		if (orig instanceof AssociationArtifact
-				&& model instanceof AssociationArtifact) {
-			AssociationArtifact origAssoc = (AssociationArtifact) orig;
-			AssociationArtifact resultAssoc = (AssociationArtifact) result;
+		if (orig instanceof IAssociationArtifact
+				&& model instanceof IAssociationArtifact) {
+			IAssociationArtifact origAssoc = (IAssociationArtifact) orig;
+			IAssociationArtifact resultAssoc = (IAssociationArtifact) result;
 
 			IAssociationEnd resAEnd = resultAssoc.makeAssociationEnd();
 			resAEnd.setAggregation(origAssoc.getAEnd().getAggregation());
@@ -384,10 +386,10 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 					.getFullyQualifiedName());
 			resZEnd.setType(zType);
 			resultAssoc.setZEnd(resZEnd);
-		} else if (orig instanceof DependencyArtifact
-				&& model instanceof DependencyArtifact) {
-			DependencyArtifact origDep = (DependencyArtifact) orig;
-			DependencyArtifact resultDep = (DependencyArtifact) result;
+		} else if (orig instanceof IDependencyArtifact
+				&& model instanceof IDependencyArtifact) {
+			IDependencyArtifact origDep = (IDependencyArtifact) orig;
+			IDependencyArtifact resultDep = (IDependencyArtifact) result;
 			IType aType = resultDep.makeType();
 			aType.setFullyQualifiedName(origDep.getAEndType()
 					.getFullyQualifiedName());

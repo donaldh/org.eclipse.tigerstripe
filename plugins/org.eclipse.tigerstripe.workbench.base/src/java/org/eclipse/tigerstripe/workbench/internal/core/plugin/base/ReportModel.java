@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 
 /**
@@ -31,10 +31,10 @@ public class ReportModel {
 	private String template;
 
 
-	private Collection content = new ArrayList();
+	private final Collection content = new ArrayList();
 
 	// private PluginConfig pluginConfig;
-	private TigerstripeProject project;
+	private final TigerstripeProject project;
 
 	/**
 	 * Default constructor
@@ -90,7 +90,7 @@ public class ReportModel {
 		content.addAll(artifacts);
 	}
 
-	public void addContent(AbstractArtifact artifact) {
+	public void addContent(IAbstractArtifactInternal artifact) {
 		content.add(artifact);
 	}
 

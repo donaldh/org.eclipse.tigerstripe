@@ -49,8 +49,8 @@ public class ManagedEntityDetails implements IManagedEntityDetails {
 
 	boolean includeDescendants;
 
-	public ManagedEntityArtifact getArtifact() {
-		return (ManagedEntityArtifact) artifactManager
+	public IAbstractArtifactInternal getArtifact() {
+		return artifactManager
 				.getArtifactByFullyQualifiedName(this.fullyQualifiedName, true,
 						new NullProgressMonitor());
 	}

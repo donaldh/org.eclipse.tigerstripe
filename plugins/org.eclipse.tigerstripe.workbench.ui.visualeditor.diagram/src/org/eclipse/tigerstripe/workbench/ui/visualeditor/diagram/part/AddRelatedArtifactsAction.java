@@ -348,7 +348,7 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 			// determine which checkboxes are
 			// enabled and which are disabled in the dialog)
 			Set<IAbstractArtifact> artifactsToAdd = new HashSet<IAbstractArtifact>();
-			HashMap<AssociationClassArtifact, IAbstractArtifact[]> associationClassEndsMap = new HashMap<AssociationClassArtifact, IAbstractArtifact[]>();
+			HashMap<IAssociationClassArtifact, IAbstractArtifact[]> associationClassEndsMap = new HashMap<IAssociationClassArtifact, IAbstractArtifact[]>();
 			if (!creationMask.isEmpty()) {
 				AddRelatedArtifactsDialog diag = new AddRelatedArtifactsDialog(
 						shell, map, artifacts, creationMask);
@@ -411,7 +411,7 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 					// of the association classes, add the association class to
 					// the list of artifacts
 					// to create so that it will be added to the diagram)
-					for (AssociationClassArtifact assocClassArt : associationClassEndsMap
+					for (IAssociationClassArtifact assocClassArt : associationClassEndsMap
 							.keySet()) {
 						IAbstractArtifact[] endArray = associationClassEndsMap
 								.get(assocClassArt);
@@ -574,7 +574,7 @@ public class AddRelatedArtifactsAction extends BaseDiagramPartAction implements
 	public void updateArtifactsToAdd(
 			Set<IAbstractArtifact> artifacts,
 			Set<IAbstractArtifact> artifactsToAdd,
-			HashMap<AssociationClassArtifact, IAbstractArtifact[]> associationClassEndsMap) {
+			HashMap<IAssociationClassArtifact, IAbstractArtifact[]> associationClassEndsMap) {
 		for (IAbstractArtifact artifact : artifacts) {
 			if (artifact instanceof AssociationClassArtifact) {
 				AssociationClassArtifact assocClassArt = (AssociationClassArtifact) artifact;

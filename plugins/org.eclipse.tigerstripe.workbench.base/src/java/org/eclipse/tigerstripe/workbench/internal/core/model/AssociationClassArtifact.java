@@ -33,7 +33,7 @@ import org.eclipse.ui.ide.IDE;
 import com.thoughtworks.qdox.model.JavaClass;
 
 public class AssociationClassArtifact extends AssociationArtifact implements
-		IAssociationClassArtifact {
+		IAssociationClassArtifact, IAbstractArtifactInternal {
 
 	/** The marking tag for this Artifact */
 	public final static String MARKING_TAG = AbstractArtifactTag.PREFIX
@@ -60,7 +60,7 @@ public class AssociationClassArtifact extends AssociationArtifact implements
 	}
 
 	@Override
-	public AbstractArtifact extractFromClass(JavaClass javaClass,
+	public IAbstractArtifactInternal extractFromClass(JavaClass javaClass,
 			ArtifactManager artifactMgr, IProgressMonitor monitor) {
 		AssociationClassArtifact result = new AssociationClassArtifact(
 				javaClass, artifactMgr, monitor);
@@ -73,7 +73,7 @@ public class AssociationClassArtifact extends AssociationArtifact implements
 	}
 
 	@Override
-	public AbstractArtifact getModel() {
+	public IAbstractArtifactInternal getModel() {
 		return MODEL;
 	}
 

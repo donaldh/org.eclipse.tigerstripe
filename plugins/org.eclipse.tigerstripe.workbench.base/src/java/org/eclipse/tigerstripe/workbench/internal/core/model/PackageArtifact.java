@@ -42,7 +42,7 @@ import com.thoughtworks.qdox.model.JavaClass;
  * 
  */
 public class PackageArtifact extends AbstractArtifact implements
-		IPackageArtifact {
+		IPackageArtifact, IAbstractArtifactInternal {
 
 	private String _artifactPath = null;
 
@@ -52,7 +52,7 @@ public class PackageArtifact extends AbstractArtifact implements
 	 * 
 	 * @param packageName
 	 */
-	public static PackageArtifact makeArtifactForPackage(
+	public static IPackageArtifact makeArtifactForPackage(
 			IArtifactManagerSession mgr, String packageName)
 			throws TigerstripeException {
 		// Split the "proper" package name up into
@@ -90,7 +90,7 @@ public class PackageArtifact extends AbstractArtifact implements
 
 			updater.handleChangeRequest(createRequest);
 
-			return (PackageArtifact) mgr
+			return (IPackageArtifact) mgr
 					.getArtifactByFullyQualifiedName(packageName);
 
 		} catch (TigerstripeException e) {
@@ -157,7 +157,7 @@ public class PackageArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	public AbstractArtifact getModel() {
+	public IAbstractArtifactInternal getModel() {
 		return MODEL;
 	}
 
@@ -168,7 +168,7 @@ public class PackageArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	public AbstractArtifact extractFromClass(JavaClass javaClass,
+	public IAbstractArtifactInternal extractFromClass(JavaClass javaClass,
 			ArtifactManager artifactMgr, IProgressMonitor monitor) {
 		PackageArtifact result = new PackageArtifact(javaClass, artifactMgr,
 				monitor);
@@ -216,6 +216,7 @@ public class PackageArtifact extends AbstractArtifact implements
 	 * @return
 	 * @throws TigerstripeException
 	 */
+	@Override
 	public String getArtifactPath() throws TigerstripeException {
 		if (_artifactPath == null)
 			updateArtifactPath();
@@ -223,6 +224,7 @@ public class PackageArtifact extends AbstractArtifact implements
 		return _artifactPath;
 	}
 
+	@Override
 	protected void updateArtifactPath() {
 
 		// Determine the path for this artifact
@@ -249,6 +251,7 @@ public class PackageArtifact extends AbstractArtifact implements
 		_artifactPath = artifactPath;
 	}
 
+	@Override
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(Class adapter) {
 		if (adapter == IResource.class) {

@@ -29,17 +29,17 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.metamodel.impl.IAssociationArtifactImpl;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationEnd;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Type;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EChangeableEnum;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.ui.internal.dialogs.BrowseForArtifactDialog;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactEditorBase;
@@ -699,18 +699,18 @@ public class AssociationSpecificsSection extends EndSection {
 				markPageModified();
 			} else if (e.getSource() == aEndTypeText) {
 				IType type = new Type(
-						((AssociationArtifact) getIArtifact())
+						((IAbstractArtifactInternal) getIArtifact())
 								.getArtifactManager());
 				type.setFullyQualifiedName(aEndTypeText.getText().trim());
-				AssociationEnd end = (AssociationEnd) assoc.getAEnd();
+				IAssociationEnd end = (IAssociationEnd) assoc.getAEnd();
 				end.setType(type);
 				markPageModified();
 			} else if (e.getSource() == zEndTypeText) {
 				IType type = new Type(
-						((AssociationArtifact) getIArtifact())
+						((IAbstractArtifactInternal) getIArtifact())
 								.getArtifactManager());
 				type.setFullyQualifiedName(zEndTypeText.getText().trim());
-				AssociationEnd end = (AssociationEnd) assoc.getZEnd();
+				IAssociationEnd end = (IAssociationEnd) assoc.getZEnd();
 				end.setType(type);
 				markPageModified();
 			}
@@ -819,24 +819,24 @@ public class AssociationSpecificsSection extends EndSection {
 				markPageModified();
 			} else if (e.getSource() == aEndTypeBrowseButton) {
 				IType type = new Type(
-						((AssociationArtifact) getIArtifact())
+						((IAbstractArtifactInternal) getIArtifact())
 								.getArtifactManager());
 				String typeStr = browseButtonPressed();
 				if (typeStr != null) {
 					type.setFullyQualifiedName(typeStr);
-					AssociationEnd end = (AssociationEnd) artifact.getAEnd();
+					IAssociationEnd end = (IAssociationEnd) artifact.getAEnd();
 					end.setType(type);
 					aEndTypeText.setText(typeStr);
 					markPageModified();
 				}
 			} else if (e.getSource() == zEndTypeBrowseButton) {
 				IType type = new Type(
-						((AssociationArtifact) getIArtifact())
+						((IAbstractArtifactInternal) getIArtifact())
 								.getArtifactManager());
 				String typeStr = browseButtonPressed();
 				if (typeStr != null) {
 					type.setFullyQualifiedName(typeStr);
-					AssociationEnd end = (AssociationEnd) artifact.getZEnd();
+					IAssociationEnd end = (IAssociationEnd) artifact.getZEnd();
 					end.setType(type);
 					zEndTypeText.setText(typeStr);
 					markPageModified();

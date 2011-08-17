@@ -20,7 +20,7 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IQueryArtifactsByType;
@@ -36,7 +36,7 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
  */
 public class ArtifactSelectionDialog {
 
-	private AbstractArtifact artifactModel;
+	private final IAbstractArtifactInternal artifactModel;
 
 	private String title;
 
@@ -48,7 +48,7 @@ public class ArtifactSelectionDialog {
 	 * @param model
 	 */
 	public ArtifactSelectionDialog(IJavaElement initialElement,
-			AbstractArtifact model) {
+			IAbstractArtifactInternal model) {
 		this.artifactModel = model;
 	}
 
@@ -59,7 +59,8 @@ public class ArtifactSelectionDialog {
 	 * @return EntityOption[] - Returns an array of EntityOption as selected
 	 *         from the dialog
 	 */
-	public AbstractArtifact[] browseAvailableArtifacts(Shell parentShell,
+	public IAbstractArtifactInternal[] browseAvailableArtifacts(
+			Shell parentShell,
 			List selectedElements, TSRuntimeContext context) {
 
 		ElementListSelectionDialog elsd = new ElementListSelectionDialog(
@@ -76,15 +77,15 @@ public class ArtifactSelectionDialog {
 
 			Object[] objects = elsd.getResult();
 			if (objects != null && objects.length != 0) {
-				AbstractArtifact[] result = new AbstractArtifact[objects.length];
+				IAbstractArtifactInternal[] result = new IAbstractArtifactInternal[objects.length];
 				for (int i = 0; i < result.length; i++) {
-					result[i] = (AbstractArtifact) objects[i];
+					result[i] = (IAbstractArtifactInternal) objects[i];
 				}
 
 				return result;
 			}
 		}
-		return new AbstractArtifact[0];
+		return new IAbstractArtifactInternal[0];
 	}
 
 	/**
@@ -116,13 +117,15 @@ public class ArtifactSelectionDialog {
 		List result = new ArrayList();
 		for (Iterator iterArtifacts = artifacts.iterator(); iterArtifacts
 				.hasNext();) {
-			AbstractArtifact artifact = (AbstractArtifact) iterArtifacts.next();
+			IAbstractArtifactInternal artifact = (IAbstractArtifactInternal) iterArtifacts
+					.next();
 
 			boolean keepGoing = true;
 			for (Iterator iterSelected = selectedElements.iterator(); iterSelected
 					.hasNext()
 					&& keepGoing;) {
-				AbstractArtifact name = (AbstractArtifact) iterSelected.next();
+				IAbstractArtifactInternal name = (IAbstractArtifactInternal) iterSelected
+						.next();
 				if (artifact.getFullyQualifiedName().equals(
 						name.getFullyQualifiedName())) {
 					keepGoing = false;

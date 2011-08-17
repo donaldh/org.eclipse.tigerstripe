@@ -27,13 +27,12 @@ import org.eclipse.gmf.runtime.emf.commands.core.command.AbstractTransactionalCo
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.emf.adaptation.etadapter.BaseETAdapter;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationEnd;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.stereotype.Stereotype;
-import org.eclipse.tigerstripe.workbench.model.IMarkDirty;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EAggregationEnum;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -49,8 +48,8 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.MapE
 public class AssociationUpdateCommand extends AbstractTransactionalCommand {
 
 	private IArtifactManagerSession artMgrSession;
-	private Association association;
-	private Map<String, Object> changedValuesMap;
+	private final Association association;
+	private final Map<String, Object> changedValuesMap;
 
 	public AssociationUpdateCommand(TransactionalEditingDomain domain,
 			MapEditPart mapEditPart, Association association,
@@ -90,9 +89,9 @@ public class AssociationUpdateCommand extends AbstractTransactionalCommand {
 				IAssociationArtifact iAssociation = (IAssociationArtifact) artMgrSession
 						.getArtifactByFullyQualifiedName(association
 								.getFullyQualifiedName()).makeWorkingCopy(null);
-				AssociationEnd iAssociationAEnd = (AssociationEnd) iAssociation
+				IAssociationEnd iAssociationAEnd = (IAssociationEnd) iAssociation
 						.getAEnd();
-				AssociationEnd iAssociationZEnd = (AssociationEnd) iAssociation
+				IAssociationEnd iAssociationZEnd = (IAssociationEnd) iAssociation
 						.getZEnd();
 				
 				// check to see if the stereotypes for the association have

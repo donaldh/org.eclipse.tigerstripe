@@ -38,7 +38,7 @@ import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IArtifactFQRenameRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
 import org.eclipse.tigerstripe.workbench.internal.api.project.IPhantomTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
@@ -141,8 +141,8 @@ public class ModelRefactorCommandFactory {
 					.getArtifactManagerSession().queryArtifact(query);
 
 			for (IAbstractArtifact artifact : artifacts) {
-				if (artifact instanceof AbstractArtifact) {
-					((AbstractArtifact) artifact)
+				if (artifact instanceof IAbstractArtifactInternal) {
+					((IAbstractArtifactInternal) artifact)
 							.resolvePackageContainment(monitor);
 				}
 			}

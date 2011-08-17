@@ -37,8 +37,8 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.emf.ecore.xml.type.internal.DataValue.Base64;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ProjectDetails;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
@@ -235,7 +235,7 @@ public class ModuleDescriptorModel {
 			// fashion "safe but slow" way.
 			String path = getTSProject().getLocation().toFile()
 					+ File.separator
-					+ ((AbstractArtifact) artifact).getArtifactPath();
+					+ ((IAbstractArtifactInternal) artifact).getArtifactPath();
 			File artFile = new File(path);
 			
 			try {

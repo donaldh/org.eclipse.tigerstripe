@@ -14,7 +14,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.updater.BaseModelChangeRequest;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -66,7 +66,7 @@ public abstract class BaseArtifactElementRequest extends BaseModelChangeRequest 
 		ModelChangeDelta delta = new ModelChangeDelta(type);
 
 		try {
-			AbstractArtifact comp = (AbstractArtifact) getMgrSession()
+			IAbstractArtifactInternal comp = (IAbstractArtifactInternal) getMgrSession()
 					.getArtifactByFullyQualifiedName(getArtifactFQN());
 			delta
 					.setAffectedModelComponentURI((URI) comp

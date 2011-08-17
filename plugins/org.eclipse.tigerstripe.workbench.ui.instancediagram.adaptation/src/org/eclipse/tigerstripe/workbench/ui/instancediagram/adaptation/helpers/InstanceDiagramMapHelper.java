@@ -13,7 +13,7 @@ package org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.helpers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.AssociationInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.ClassInstance;
 import org.eclipse.tigerstripe.workbench.ui.instancediagram.Instance;
@@ -27,14 +27,14 @@ import org.eclipse.tigerstripe.workbench.ui.instancediagram.InstanceMap;
  */
 public class InstanceDiagramMapHelper {
 
-	private InstanceMap map;
+	private final InstanceMap map;
 
 	public InstanceDiagramMapHelper(InstanceMap map) {
 		this.map = map;
 	}
 
 	public AssociationInstance findAssociationInstanceFor(String name,
-			AbstractArtifact aEnd, AbstractArtifact zEnd) {
+			IAbstractArtifactInternal aEnd, IAbstractArtifactInternal zEnd) {
 		List<AssociationInstance> associations = map.getAssociationInstances();
 		for (AssociationInstance association : associations) {
 			if (association.getName().equals(name)

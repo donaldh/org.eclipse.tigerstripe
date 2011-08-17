@@ -35,20 +35,20 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.DatatypeArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.PackageArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.TSOpenAction;
@@ -104,40 +104,40 @@ public abstract class NewTSElementWizard extends Wizard implements INewWizard {
 						IWorkbenchPage page = PlatformUI.getWorkbench()
 								.getActiveWorkbenchWindow().getActivePage();
 
-						if (artifact instanceof ManagedEntityArtifact) {
+						if (artifact instanceof IManagedEntityArtifact) {
 							page.openEditor(new FileEditorInput(resource),
 									TSOpenAction.ENTITY_EDITOR);
-						} else if (artifact instanceof ExceptionArtifact) {
+						} else if (artifact instanceof IExceptionArtifact) {
 							page.openEditor(new FileEditorInput(resource),
 									TSOpenAction.EXCEPTION_EDITOR);
-						} else if (artifact instanceof QueryArtifact) {
+						} else if (artifact instanceof IQueryArtifact) {
 							page.openEditor(new FileEditorInput(resource),
 									TSOpenAction.QUERY_EDITOR);
-						} else if (artifact instanceof EventArtifact) {
+						} else if (artifact instanceof IEventArtifact) {
 							page.openEditor(new FileEditorInput(resource),
 									TSOpenAction.EVENT_EDITOR);
-						} else if (artifact instanceof DatatypeArtifact) {
+						} else if (artifact instanceof IDatatypeArtifact) {
 							page.openEditor(new FileEditorInput(resource),
 									TSOpenAction.DATATYPE_EDITOR);
-						} else if (artifact instanceof SessionFacadeArtifact) {
+						} else if (artifact instanceof ISessionArtifact) {
 							page.openEditor(new FileEditorInput(resource),
 									TSOpenAction.SESSION_EDITOR);
-						} else if (artifact instanceof EnumArtifact) {
+						} else if (artifact instanceof IEnumArtifact) {
 							page.openEditor(new FileEditorInput(resource),
 									TSOpenAction.ENUM_EDITOR);
-						} else if (artifact instanceof UpdateProcedureArtifact) {
+						} else if (artifact instanceof IUpdateProcedureArtifact) {
 							page.openEditor(new FileEditorInput(resource),
 									TSOpenAction.UPDATEPROC_EDITOR);
-						} else if (artifact instanceof AssociationClassArtifact) {
+						} else if (artifact instanceof IAssociationClassArtifact) {
 							page.openEditor(new FileEditorInput(resource),
 									TSOpenAction.ASSOCIATIONCLASS_EDITOR);
-						} else if (artifact instanceof AssociationArtifact) {
+						} else if (artifact instanceof IAssociationArtifact) {
 							page.openEditor(new FileEditorInput(resource),
 									TSOpenAction.ASSOCIATION_EDITOR);
-						} else if (artifact instanceof DependencyArtifact) {
+						} else if (artifact instanceof IDependencyArtifact) {
 							page.openEditor(new FileEditorInput(resource),
 									TSOpenAction.DEPENDENCY_EDITOR);
-						} else if (artifact instanceof PackageArtifact) {
+						} else if (artifact instanceof IPackageArtifact) {
 							page.openEditor(new FileEditorInput(resource),
 									TSOpenAction.PACKAGE_EDITOR);
 						}

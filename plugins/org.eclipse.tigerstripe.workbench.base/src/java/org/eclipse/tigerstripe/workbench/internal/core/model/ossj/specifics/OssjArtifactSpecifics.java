@@ -14,7 +14,7 @@ import java.util.Properties;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.StandardSpecifics;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Tag;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjArtifactSpecifics;
@@ -27,7 +27,7 @@ public abstract class OssjArtifactSpecifics extends StandardSpecifics implements
 
 	protected final static String OSSJ_JVT_SPEC = "ossj-jvt-spec";
 
-	public OssjArtifactSpecifics(AbstractArtifact artifact) {
+	public OssjArtifactSpecifics(IAbstractArtifactInternal artifact) {
 		super(artifact);
 	}
 

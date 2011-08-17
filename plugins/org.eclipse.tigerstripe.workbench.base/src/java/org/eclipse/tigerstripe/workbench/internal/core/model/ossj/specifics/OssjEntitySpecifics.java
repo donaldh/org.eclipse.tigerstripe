@@ -14,7 +14,7 @@ import java.util.Properties;
 
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Tag;
 import org.eclipse.tigerstripe.workbench.internal.core.model.tags.PropertiesConstants;
@@ -159,7 +159,7 @@ public class OssjEntitySpecifics extends OssjArtifactSpecifics implements
 			return flavorDefault.substring(0, flavorDefault.indexOf(":"));
 	}
 
-	public OssjEntitySpecifics(AbstractArtifact artifact) {
+	public OssjEntitySpecifics(IAbstractArtifactInternal artifact) {
 		super(artifact);
 		crudProperties = new Properties[IOssjEntitySpecifics.DELETE + 1];
 	}

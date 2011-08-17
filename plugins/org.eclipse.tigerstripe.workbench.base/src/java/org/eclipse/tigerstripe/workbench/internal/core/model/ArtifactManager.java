@@ -65,6 +65,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProjec
 import org.eclipse.tigerstripe.workbench.internal.core.util.Predicate;
 import org.eclipse.tigerstripe.workbench.internal.core.util.PredicatedList;
 import org.eclipse.tigerstripe.workbench.internal.core.util.PredicatedMap;
+import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
@@ -476,7 +477,7 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	 * @throws IllegalArgumentException
 	 *             , if artifact is null or already registered.
 	 */
-	public void registerDiscoverableArtifact(AbstractArtifact artifact)
+	public void registerDiscoverableArtifact(IAbstractArtifactInternal artifact)
 			throws IllegalArgumentException {
 		if (wasDisposed) {
 			return;
@@ -512,7 +513,8 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 			Collection artifacts = this.namedArtifactsMap.values();
 
 			for (Iterator iter = artifacts.iterator(); iter.hasNext();) {
-				AbstractArtifact artifact = (AbstractArtifact) iter.next();
+				IAbstractArtifactInternal artifact = (IAbstractArtifactInternal) iter
+						.next();
 				artifact.resolveReferences(monitor);
 			}
 
@@ -526,8 +528,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 		}
 	}
 
-	private void addToExtractedMap(AbstractArtifact model,
-			AbstractArtifact extracted, AbstractArtifact oldArtifact) {
+	private void addToExtractedMap(IAbstractArtifactInternal model,
+			IAbstractArtifactInternal extracted,
+			IAbstractArtifactInternal oldArtifact) {
 		PredicatedList<IAbstractArtifact> bucket = null;
 		if (this.extractedMap.containsKey(model)) {
 			bucket = (PredicatedList<IAbstractArtifact>) extractedMap
@@ -551,16 +554,19 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	}
 
 	private void addToNamedArtifactsMap(String fullyQualifiedName,
-			AbstractArtifact extracted, AbstractArtifact oldArtifact) {
+			IAbstractArtifactInternal extracted,
+			IAbstractArtifactInternal oldArtifact) {
 		this.namedArtifactsMap.put(fullyQualifiedName, extracted);
 	}
 
-	private void addToSourceMap(JavaSource source, AbstractArtifact artifact,
-			AbstractArtifact oldArtifact) {
+	private void addToSourceMap(JavaSource source,
+			IAbstractArtifactInternal artifact,
+			IAbstractArtifactInternal oldArtifact) {
 		this.sourceMap.put(source, artifact);
 	}
 
-	public List<IAbstractArtifact> getArtifactsByModel(AbstractArtifact model,
+	public List<IAbstractArtifact> getArtifactsByModel(
+			IAbstractArtifactInternal model,
 			boolean includeDependencies, IProgressMonitor monitor) {
 		if (wasDisposed) {
 			return Collections.emptyList();
@@ -569,7 +575,8 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 				shouldOverridePredicate(), monitor);
 	}
 
-	public List<IAbstractArtifact> getArtifactsByModel(AbstractArtifact model,
+	public List<IAbstractArtifact> getArtifactsByModel(
+			IAbstractArtifactInternal model,
 			boolean includeDependencies, boolean overridePredicate,
 			IProgressMonitor monitor) {
 		if (wasDisposed) {
@@ -579,7 +586,8 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 				overridePredicate, newContext(monitor));
 	}
 
-	public List<IAbstractArtifact> getArtifactsByModel(AbstractArtifact model,
+	public List<IAbstractArtifact> getArtifactsByModel(
+			IAbstractArtifactInternal model,
 			boolean includeDependencies, ExecutionContext context) {
 		if (wasDisposed) {
 			return Collections.emptyList();
@@ -588,7 +596,8 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 				shouldOverridePredicate(), context);
 	}
 
-	public List<IAbstractArtifact> getArtifactsByModel(AbstractArtifact model,
+	public List<IAbstractArtifact> getArtifactsByModel(
+			IAbstractArtifactInternal model,
 			boolean includeDependencies, boolean overridePredicate,
 			ExecutionContext context) {
 		if (wasDisposed) {
@@ -656,13 +665,13 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	 * @param name
 	 * @return Note: this doesn't go thru the dependencies
 	 */
-	public AbstractArtifact getArtifactByFilename(String filename) {
+	public IAbstractArtifactInternal getArtifactByFilename(String filename) {
 		if (wasDisposed) {
 			return null;
 		}
 		try {
 			readLock.lock();
-			return (AbstractArtifact) this.filenameMap.get(filename);
+			return (IAbstractArtifactInternal) this.filenameMap.get(filename);
 		} finally {
 			readLock.unlock();
 		}
@@ -720,7 +729,8 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 
 							ArtifactManager phantomMgr = ((ArtifactManagerSessionImpl) phantomArtifactMgrSession)
 									.getArtifactManager();
-							if (((AbstractArtifact) art).getArtifactManager() != phantomMgr) {
+							if (((IAbstractArtifactInternal) art)
+									.getArtifactManager() != phantomMgr) {
 								result.add(art);
 							}
 						} else {
@@ -860,7 +870,8 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 		}
 	}
 
-	public AbstractArtifact getArtifactByFullyQualifiedName(String name,
+	public IAbstractArtifactInternal getArtifactByFullyQualifiedName(
+			String name,
 			boolean includeDependencies, IProgressMonitor monitor) {
 		if (monitor == null)
 			monitor = new NullProgressMonitor();
@@ -868,7 +879,8 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 				newContext(monitor));
 	}
 
-	public AbstractArtifact getArtifactByFullyQualifiedName(String name,
+	public IAbstractArtifactInternal getArtifactByFullyQualifiedName(
+			String name,
 			boolean includeDependencies, ExecutionContext context) {
 		if (wasDisposed) {
 			return null;
@@ -878,7 +890,8 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 				shouldOverridePredicate(), context);
 	}
 
-	public AbstractArtifact getArtifactByFullyQualifiedName(String name,
+	public IAbstractArtifactInternal getArtifactByFullyQualifiedName(
+			String name,
 			boolean includeDependencies, boolean isOverridePredicate,
 			IProgressMonitor monitor) {
 		if (monitor == null)
@@ -888,7 +901,8 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 				isOverridePredicate, newContext(monitor));
 	}
 
-	public AbstractArtifact getArtifactByFullyQualifiedName(String name,
+	public IAbstractArtifactInternal getArtifactByFullyQualifiedName(
+			String name,
 			boolean includeDependencies, boolean isOverridePredicate,
 			ExecutionContext context) {
 
@@ -898,12 +912,13 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 
 		try {
 			readLock.lock();
-			AbstractArtifact local = null;
+			IAbstractArtifactInternal local = null;
 			if (isOverridePredicate) {
-				local = (AbstractArtifact) this.namedArtifactsMap
+				local = (IAbstractArtifactInternal) this.namedArtifactsMap
 						.getBackingMap().get(name);
 			} else {
-				local = (AbstractArtifact) this.namedArtifactsMap.get(name);
+				local = (IAbstractArtifactInternal) this.namedArtifactsMap
+						.get(name);
 			}
 			if (local != null)
 				return local;
@@ -922,7 +937,7 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 									"TigerstripeException detected", e);
 						}
 					}
-					return (AbstractArtifact) result;
+					return (IAbstractArtifactInternal) result;
 				} else
 					return null;
 			}
@@ -1406,7 +1421,8 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 
 			if (state.javaSource != null) {
 				monitor.subTask(state.javaSource.getURL().toString());
-				AbstractArtifact artifact = extractArtifact(state.javaSource,
+				IAbstractArtifactInternal artifact = extractArtifact(
+						state.javaSource,
 						monitor);
 
 				if (artifact != null)
@@ -1556,7 +1572,7 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	 */
 	private void pojoState(IAbstractArtifact artifact)
 			throws TigerstripeException {
-		String path = ((AbstractArtifact) artifact).getArtifactPath();
+		String path = ((IAbstractArtifactInternal) artifact).getArtifactPath();
 		if (path != null) {
 			File baseDir = getTSProject().getBaseDir();
 			String fullPath = (new File(baseDir.getAbsolutePath()
@@ -1630,21 +1646,22 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	 * @throws TigerstripeException
 	 * @return
 	 */
-	public AbstractArtifact extractArtifact(JavaSource source,
+	public IAbstractArtifactInternal extractArtifact(JavaSource source,
 			IProgressMonitor monitor) throws TigerstripeException {
 		if (wasDisposed) {
 			return null;
 		}
 
-		AbstractArtifact extracted = null;
+		IAbstractArtifactInternal extracted = null;
 		for (Iterator<IAbstractArtifact> iter = this.discoverableArtifacts
 				.iterator(); iter.hasNext();) {
-			AbstractArtifact model = (AbstractArtifact) iter.next();
+			IAbstractArtifactInternal model = (IAbstractArtifactInternal) iter
+					.next();
 
 			JavaClass[] classes = source.getClasses();
 			for (int j = 0; j < classes.length; j++) {
 				DocletTag[] tags = classes[j].getTags();
-				AbstractArtifact matched = null;
+				IAbstractArtifactInternal matched = null;
 				for (int k = 0; k < tags.length; k++) {
 					if (tags[k].getName().equals(model.getMarkingTag())) {
 						if (matched == null) {
@@ -1672,16 +1689,17 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 
 	}
 
-	private AbstractArtifact extractArtifactModel(JavaSource source)
+	private IAbstractArtifactInternal extractArtifactModel(JavaSource source)
 			throws TigerstripeException {
 		for (Iterator<IAbstractArtifact> iter = this.discoverableArtifacts
 				.iterator(); iter.hasNext();) {
-			AbstractArtifact model = (AbstractArtifact) iter.next();
+			IAbstractArtifactInternal model = (IAbstractArtifactInternal) iter
+					.next();
 
 			JavaClass[] classes = source.getClasses();
 			for (int j = 0; j < classes.length; j++) {
 				DocletTag[] tags = classes[j].getTags();
-				AbstractArtifact matched = null;
+				IAbstractArtifactInternal matched = null;
 				for (int k = 0; k < tags.length; k++) {
 					if (tags[k].getName().equals(model.getMarkingTag())) {
 						if (matched == null)
@@ -1709,7 +1727,7 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	 * @return
 	 * @throws TigerstripeException
 	 */
-	public AbstractArtifact extractArtifact(Reader reader,
+	public IAbstractArtifactInternal extractArtifact(Reader reader,
 			IProgressMonitor monitor) throws TigerstripeException {
 		if (wasDisposed) {
 			return null;
@@ -1724,7 +1742,7 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 		}
 	}
 
-	public AbstractArtifact extractArtifactModel(Reader reader)
+	public IAbstractArtifactInternal extractArtifactModel(Reader reader)
 			throws TigerstripeException {
 		if (wasDisposed) {
 			return null;
@@ -1762,18 +1780,19 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 		if (iartifact == null)
 			return;
 
-		AbstractArtifact oldArtifact = null;
-		AbstractArtifact artifact = null;
+		IAbstractArtifactInternal oldArtifact = null;
+		IAbstractArtifactInternal artifact = null;
 		try {
 			writeLock.lock();
 			// Is there already an entry here for this artifact? If so, we
 			// need
 			// to replace all the occurences in the caches.
 			// Bug #690: make sure we look in the back store.
-			oldArtifact = (AbstractArtifact) namedArtifactsMap.getBackingMap()
+			oldArtifact = (IAbstractArtifactInternal) namedArtifactsMap
+					.getBackingMap()
 					.get(iartifact.getFullyQualifiedName());
 
-			artifact = (AbstractArtifact) iartifact;
+			artifact = (IAbstractArtifactInternal) iartifact;
 
 			if (artifact.getArtifactManager() != this) {
 				artifact.setArtifactManager(this);
@@ -1781,7 +1800,7 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 
 			artifact.resolveReferences(monitor);
 
-			AbstractArtifact model = artifact.getModel();
+			IAbstractArtifactInternal model = artifact.getModel();
 			JavaSource source = artifact.getJavaSource();
 
 			// Add it to the right bucket...
@@ -1853,7 +1872,7 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 		return f.getAbsolutePath();
 	}
 
-	private void removeFromFilenameMap(AbstractArtifact artifact)
+	private void removeFromFilenameMap(IAbstractArtifactInternal artifact)
 			throws TigerstripeException {
 		String artifactPath = artifact.getArtifactPath();
 		if (artifactPath != null) {
@@ -1894,16 +1913,16 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 			removeFromExtractedMap(artifact);
 			removeFromNamedArtifactsMap(artifact);
 			removeFromSourceMap(artifact);
-			removeFromFilenameMap((AbstractArtifact) artifact);
+			removeFromFilenameMap((IAbstractArtifactInternal) artifact);
 
-			((AbstractArtifact) artifact).removeReferences();
+			((IAbstractArtifactInternal) artifact).removeReferences();
 
 			if (artifact instanceof IRelationship) {
 				getRelationshipCache().removeRelationship(
 						(IRelationship) artifact, ignoreProjects);
 			}
 
-			((AbstractArtifact) artifact).dispose();
+			((IAbstractArtifactInternal) artifact).dispose();
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
 					e);
@@ -1915,7 +1934,8 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	}
 
 	private void removeFromExtractedMap(IAbstractArtifact artifact) {
-		IAbstractArtifact model = ((AbstractArtifact) artifact).getModel();
+		IAbstractArtifact model = ((IAbstractArtifactInternal) artifact)
+				.getModel();
 		PredicatedList<IAbstractArtifact> bucket = (PredicatedList<IAbstractArtifact>) extractedMap
 				.get(model);
 		if (bucket != null) {
@@ -1938,7 +1958,7 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	}
 
 	private void removeFromSourceMap(IAbstractArtifact artifact) {
-		Object source = ((AbstractArtifact) artifact).getJavaSource();
+		Object source = ((IAbstractArtifactInternal) artifact).getJavaSource();
 		if (source != null) {
 			sourceMap.remove(source);
 		}
@@ -1947,7 +1967,7 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 	// ==================================================
 	// Logic for Chained ArtifactMgrs
 	protected Collection<IAbstractArtifact> getArtifactsByModelInChained(
-			AbstractArtifact model, ExecutionContext context) {
+			IAbstractArtifactInternal model, ExecutionContext context) {
 		try {
 			readLock.lock();
 			ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
@@ -1975,19 +1995,23 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 		}
 	}
 
-	protected AbstractArtifact getArtifactByFullyQualifiedNameInChained(
+	protected IAbstractArtifactInternal getArtifactByFullyQualifiedNameInChained(
 			String name, ExecutionContext context) {
 		try {
 			readLock.lock();
-			AbstractArtifact result = depContentCache
+			IAbstractArtifactInternal result = depContentCache
 					.getArtifactByFullyQualifiedNameInChained(name, context);
 			if (result != null)
 				return result;
 			result = getArtifactByFullyQualifiedNameInReferences(name, context);
-			if (result != null)
-				return result;
-			result = getArtifactByFullyQualifiedNameInInstalledModules(name,
-					context);
+			if (result == null) {
+				result = getArtifactByFullyQualifiedNameInInstalledModules(
+						name, context);
+			}
+			if (result != null && (result instanceof IContextProjectAware)) {
+				result = (IAbstractArtifactInternal) ContextProjectAwareProxy
+						.newInstance(result, getTSProject().getTSProject());
+			}
 			return result;
 		} finally {
 			readLock.unlock();
@@ -2089,7 +2113,7 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 		}
 	}
 
-	protected AbstractArtifact getArtifactByFullyQualifiedNameInReferences(
+	protected IAbstractArtifactInternal getArtifactByFullyQualifiedNameInReferences(
 			String name, ExecutionContext context) {
 		try {
 			readLock.lock();
@@ -2108,20 +2132,20 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 					result = session.getArtifactByFullyQualifiedName(name,
 							context);
 					if (result != null)
-						return (AbstractArtifact) result;
+						return (IAbstractArtifactInternal) result;
 				} catch (TigerstripeException e) {
 					TigerstripeRuntime.logErrorMessage(
 							"TigerstripeException detected", e);
 				}
 			}
-			return (AbstractArtifact) result;
+			return (IAbstractArtifactInternal) result;
 		} finally {
 			readLock.unlock();
 		}
 	}
 
 	protected Collection<IAbstractArtifact> getArtifactsByModelInReferences(
-			AbstractArtifact model, ExecutionContext context) {
+			IAbstractArtifactInternal model, ExecutionContext context) {
 		try {
 			readLock.lock();
 			addSelfToCycle(context, Cycles.REFERENCES_BY_MODEL);
@@ -2156,7 +2180,7 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 		}
 	}
 
-	protected AbstractArtifact getArtifactByFullyQualifiedNameInInstalledModules(
+	protected IAbstractArtifactInternal getArtifactByFullyQualifiedNameInInstalledModules(
 			String name, ExecutionContext context) {
 		try {
 			readLock.lock();
@@ -2179,20 +2203,20 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 					result = session.getArtifactByFullyQualifiedName(name,
 							context);
 					if (result != null)
-						return (AbstractArtifact) result;
+						return (IAbstractArtifactInternal) result;
 				} catch (TigerstripeException e) {
 					TigerstripeRuntime.logErrorMessage(
 							"TigerstripeException detected", e);
 				}
 			}
-			return (AbstractArtifact) result;
+			return (IAbstractArtifactInternal) result;
 		} finally {
 			readLock.unlock();
 		}
 	}
 
 	protected Collection<IAbstractArtifact> getArtifactsByModelInInstalledModules(
-			AbstractArtifact model, ExecutionContext context) {
+			IAbstractArtifactInternal model, ExecutionContext context) {
 		try {
 			readLock.lock();
 			addSelfToCycle(context, Cycles.INSTALLED_MODULES_BY_MODEL);
@@ -2524,7 +2548,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 			shouldNotify = false; // we don't want to trigger del+add
 			// notifications, only a Ren at the end
 			removeArtifact(artifact);
-			((AbstractArtifact) artifact).setProxy(false); // a side effect of
+			((IAbstractArtifactInternal) artifact).setProxy(false); // a side
+																		// effect
+																		// of
 			// the remove is to
 			// setIsProxy. don't
 			// want that here.
@@ -2719,7 +2745,7 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 		// regular
 		// Map of PredicatedLists
 		for (Object obj : extractedMap.values()) {
-			PredicatedList<AbstractArtifact> bucket = (PredicatedList<AbstractArtifact>) obj;
+			PredicatedList<IAbstractArtifactInternal> bucket = (PredicatedList<IAbstractArtifactInternal>) obj;
 			bucket.setPredicate(predicate);
 		}
 
@@ -2816,7 +2842,8 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 
 					reader = new InputStreamReader(
 							((IFile) changedArtifactResource).getContents());
-					AbstractArtifact aArtifact = extractArtifact(reader, null);
+					IAbstractArtifactInternal aArtifact = extractArtifact(
+							reader, null);
 					// An Add replaces the existing
 					addArtifact(aArtifact, null);
 
@@ -2842,7 +2869,8 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 
 					reader = new InputStreamReader(
 							((IFile) addedArtifactResource).getContents());
-					AbstractArtifact aArtifact = extractArtifact(reader, null);
+					IAbstractArtifactInternal aArtifact = extractArtifact(
+							reader, null);
 					// An Add replaces the existing
 					addArtifact(aArtifact, null);
 

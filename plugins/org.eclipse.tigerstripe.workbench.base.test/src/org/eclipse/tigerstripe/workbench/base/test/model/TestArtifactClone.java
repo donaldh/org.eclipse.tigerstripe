@@ -24,7 +24,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.base.test.utils.ModelProjectHelper;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -75,7 +75,8 @@ public class TestArtifactClone extends TestCase {
 		IAbstractArtifact M1Src = projectSrc.getArtifactManagerSession().getArtifactByFullyQualifiedName(ModelProjectHelper.M1);
 		assertNotNull(M1Src);
 		
-		IAbstractArtifact clonedM1 = ((AbstractArtifact) M1Src).makeWorkingCopy(null);
+		IAbstractArtifact clonedM1 = ((IAbstractArtifactInternal) M1Src)
+				.makeWorkingCopy(null);
 		projectDst.getArtifactManagerSession().addArtifact(clonedM1);
 		clonedM1.doSave(null);
 		

@@ -14,9 +14,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifactTag;
 import org.eclipse.tigerstripe.workbench.internal.core.model.EventDescriptorEntry;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.Tag;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IEventDescriptorEntry;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IOssjEventSpecifics;
@@ -30,11 +30,11 @@ public class OssjEventSpecifics extends OssjArtifactSpecifics implements
 	private final static String CUSTOMEVENT_DESCRIPTOR_TAG = AbstractArtifactTag.PREFIX
 			+ "customEvent-descriptor";
 
-	private Collection eventDescriptorEntries;
+	private final Collection eventDescriptorEntries;
 
-	private Collection customEventDescriptorEntries;
+	private final Collection customEventDescriptorEntries;
 
-	public OssjEventSpecifics(AbstractArtifact artifact) {
+	public OssjEventSpecifics(IAbstractArtifactInternal artifact) {
 		super(artifact);
 		eventDescriptorEntries = new ArrayList();
 		customEventDescriptorEntries = new ArrayList();

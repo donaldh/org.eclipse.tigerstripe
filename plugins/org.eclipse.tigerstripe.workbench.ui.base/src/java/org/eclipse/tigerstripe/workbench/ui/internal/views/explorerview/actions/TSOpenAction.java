@@ -28,26 +28,26 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationClassArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.DatatypeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact.DependencyEnd;
-import org.eclipse.tigerstripe.workbench.internal.core.model.EnumArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.EventArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ExceptionArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.ManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.PackageArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
-import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactAttributesSection;
@@ -110,7 +110,7 @@ public class TSOpenAction extends OpenAction {
 
 	public static IEditorPart openEditor(Object element, IWorkbenchPage page) {
 		try {
-			if (element instanceof ManagedEntityArtifact) {
+			if (element instanceof IManagedEntityArtifact) {
 
 				if (((IAbstractArtifact) element).isReadonly()) {
 					ReadOnlyArtifactEditorInput input = new ReadOnlyArtifactEditorInput(
@@ -122,7 +122,7 @@ public class TSOpenAction extends OpenAction {
 					return page.openEditor(new FileEditorInput(
 							(IFile) iResource), ENTITY_EDITOR);
 				}
-			} else if (element instanceof ExceptionArtifact) {
+			} else if (element instanceof IExceptionArtifact) {
 				if (((IAbstractArtifact) element).isReadonly()) {
 					ReadOnlyArtifactEditorInput input = new ReadOnlyArtifactEditorInput(
 							null, (IAbstractArtifact) element);
@@ -133,7 +133,7 @@ public class TSOpenAction extends OpenAction {
 					return page.openEditor(new FileEditorInput(
 							(IFile) iResource), EXCEPTION_EDITOR);
 				}
-			} else if (element instanceof QueryArtifact) {
+			} else if (element instanceof IQueryArtifact) {
 				if (((IAbstractArtifact) element).isReadonly()) {
 					ReadOnlyArtifactEditorInput input = new ReadOnlyArtifactEditorInput(
 							null, (IAbstractArtifact) element);
@@ -144,7 +144,7 @@ public class TSOpenAction extends OpenAction {
 					return page.openEditor(new FileEditorInput(
 							(IFile) iResource), QUERY_EDITOR);
 				}
-			} else if (element instanceof EventArtifact) {
+			} else if (element instanceof IEventArtifact) {
 				if (((IAbstractArtifact) element).isReadonly()) {
 					ReadOnlyArtifactEditorInput input = new ReadOnlyArtifactEditorInput(
 							null, (IAbstractArtifact) element);
@@ -155,7 +155,7 @@ public class TSOpenAction extends OpenAction {
 					return page.openEditor(new FileEditorInput(
 							(IFile) iResource), EVENT_EDITOR);
 				}
-			} else if (element instanceof DatatypeArtifact) {
+			} else if (element instanceof IDatatypeArtifact) {
 				if (((IAbstractArtifact) element).isReadonly()) {
 					ReadOnlyArtifactEditorInput input = new ReadOnlyArtifactEditorInput(
 							null, (IAbstractArtifact) element);
@@ -166,7 +166,7 @@ public class TSOpenAction extends OpenAction {
 					return page.openEditor(new FileEditorInput(
 							(IFile) iResource), DATATYPE_EDITOR);
 				}
-			} else if (element instanceof SessionFacadeArtifact) {
+			} else if (element instanceof ISessionArtifact) {
 				if (((IAbstractArtifact) element).isReadonly()) {
 					ReadOnlyArtifactEditorInput input = new ReadOnlyArtifactEditorInput(
 							null, (IAbstractArtifact) element);
@@ -177,7 +177,7 @@ public class TSOpenAction extends OpenAction {
 					return page.openEditor(new FileEditorInput(
 							(IFile) iResource), SESSION_EDITOR);
 				}
-			} else if (element instanceof EnumArtifact) {
+			} else if (element instanceof IEnumArtifact) {
 				if (((IAbstractArtifact) element).isReadonly()) {
 					ReadOnlyArtifactEditorInput input = new ReadOnlyArtifactEditorInput(
 							null, (IAbstractArtifact) element);
@@ -188,7 +188,7 @@ public class TSOpenAction extends OpenAction {
 					return page.openEditor(new FileEditorInput(
 							(IFile) iResource), ENUM_EDITOR);
 				}
-			} else if (element instanceof UpdateProcedureArtifact) {
+			} else if (element instanceof IUpdateProcedureArtifact) {
 				if (((IAbstractArtifact) element).isReadonly()) {
 					ReadOnlyArtifactEditorInput input = new ReadOnlyArtifactEditorInput(
 							null, (IAbstractArtifact) element);
@@ -199,7 +199,7 @@ public class TSOpenAction extends OpenAction {
 					return page.openEditor(new FileEditorInput(
 							(IFile) iResource), UPDATEPROC_EDITOR);
 				}
-			} else if (element instanceof AssociationClassArtifact) {
+			} else if (element instanceof IAssociationClassArtifact) {
 				// because AssociationClassArtifact is-a AssociationArtifact
 				// we must check for AssociationClass first... in that order!
 				if (((IAbstractArtifact) element).isReadonly()) {
@@ -212,7 +212,7 @@ public class TSOpenAction extends OpenAction {
 					return page.openEditor(new FileEditorInput(
 							(IFile) iResource), ASSOCIATIONCLASS_EDITOR);
 				}
-			} else if (element instanceof AssociationArtifact) {
+			} else if (element instanceof IAssociationArtifact) {
 				if (((IAbstractArtifact) element).isReadonly()) {
 					ReadOnlyArtifactEditorInput input = new ReadOnlyArtifactEditorInput(
 							null, (IAbstractArtifact) element);

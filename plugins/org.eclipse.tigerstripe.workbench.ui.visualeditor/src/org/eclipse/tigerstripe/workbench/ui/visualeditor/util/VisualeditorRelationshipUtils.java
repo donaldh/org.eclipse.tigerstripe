@@ -295,7 +295,7 @@ public class VisualeditorRelationshipUtils {
 	public static void initializeAssociationClass(AssociationClass assocClass,
 			IAssociationClassArtifact assocClassArtifact,
 			HashMap<String, QualifiedNamedElement> nodesInMap) {
-		ArtifactManager artifactMgr = ((org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact) assocClassArtifact)
+		ArtifactManager artifactMgr = ((org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal) assocClassArtifact)
 				.getArtifactManager();
 		// first initialize the "association part" of this association class
 		initializeAssociation(assocClass, assocClassArtifact, nodesInMap);

@@ -54,7 +54,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceHelper.IResourceFilter;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -659,7 +659,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 
 	public boolean deleteAuditMarkers(IAbstractArtifact artifact) {
 
-		AbstractArtifact aArt = (AbstractArtifact) artifact;
+		IAbstractArtifactInternal aArt = (IAbstractArtifactInternal) artifact;
 		try {
 			String artPath = aArt.getArtifactPath();
 			IResource res = getProject().findMember(artPath);
@@ -809,7 +809,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 
 	public static IResource getIResourceForArtifact(IProject project,
 			IAbstractArtifact artifact) {
-		AbstractArtifact art = (AbstractArtifact) artifact;
+		IAbstractArtifactInternal art = (IAbstractArtifactInternal) artifact;
 		try {
 			String realPath = art.getArtifactPath();
 			return project.findMember(realPath);

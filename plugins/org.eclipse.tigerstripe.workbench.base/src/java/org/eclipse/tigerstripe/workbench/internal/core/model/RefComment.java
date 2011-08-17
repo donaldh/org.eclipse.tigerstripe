@@ -30,7 +30,7 @@ public class RefComment {
 	// The reference id
 	private String label;
 
-	public RefComment(AbstractArtifact artifact) {
+	public RefComment(IAbstractArtifactInternal artifact) {
 	}
 
 	public void setLabel(String label) {

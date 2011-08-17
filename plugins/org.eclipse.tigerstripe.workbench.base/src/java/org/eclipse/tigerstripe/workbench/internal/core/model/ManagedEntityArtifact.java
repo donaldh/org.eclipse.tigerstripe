@@ -36,7 +36,7 @@ import com.thoughtworks.qdox.model.JavaClass;
  * @author Eric Dillon
  */
 public class ManagedEntityArtifact extends AbstractArtifact implements
-		IManagedEntityArtifact {
+		IManagedEntityArtifact, IAbstractArtifactInternal {
 
 	public final static String MARKING_TAG = AbstractArtifactTag.PREFIX
 			+ AbstractArtifactTag.MANAGEDENTITY;
@@ -60,7 +60,7 @@ public class ManagedEntityArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	public AbstractArtifact getModel() {
+	public IAbstractArtifactInternal getModel() {
 		return MODEL;
 	}
 
@@ -79,7 +79,7 @@ public class ManagedEntityArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	public AbstractArtifact extractFromClass(JavaClass javaClass,
+	public IAbstractArtifactInternal extractFromClass(JavaClass javaClass,
 			ArtifactManager artifactMgr, IProgressMonitor monitor) {
 		ManagedEntityArtifact result = new ManagedEntityArtifact(javaClass,
 				artifactMgr, monitor);

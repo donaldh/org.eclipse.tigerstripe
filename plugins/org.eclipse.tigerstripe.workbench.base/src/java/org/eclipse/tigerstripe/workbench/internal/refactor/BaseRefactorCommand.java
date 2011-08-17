@@ -37,7 +37,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.annotation.TigerstripeLazyObject;
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ResourceUtils;
 import org.eclipse.tigerstripe.workbench.internal.refactor.diagrams.DiagramChangeDelta;
@@ -200,7 +200,7 @@ public class BaseRefactorCommand implements IRefactorCommand {
 										.getFullyQualifiedName()),
 								IRefactoringChangesListener.ABOUT_TO_CHANGE);
 
-						IAbstractArtifact dest = ((AbstractArtifact) art)
+						IAbstractArtifact dest = ((IAbstractArtifactInternal) art)
 								.makeWorkingCopy(null);
 						mRReq.getDestinationProject()
 								.getArtifactManagerSession().addArtifact(dest);

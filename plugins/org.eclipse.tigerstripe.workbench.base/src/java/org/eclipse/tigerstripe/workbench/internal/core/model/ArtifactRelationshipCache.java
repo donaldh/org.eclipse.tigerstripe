@@ -26,8 +26,8 @@ import org.eclipse.tigerstripe.workbench.internal.contract.predicate.Relationshi
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
@@ -62,15 +62,15 @@ public class ArtifactRelationshipCache {
 
 	public final static int TERMINATING = 1;
 
-	private ArtifactManager artifactManager;
+	private final ArtifactManager artifactManager;
 
 	// Bug 928: whenever a facet is active, all returns are filtered with the
 	// predicate
 	private RelationshipFilter relationshipFilter = new RelationshipNoFilter();
 
-	private HashMap<String, List<IRelationship>> originatingRelationships = new HashMap<String, List<IRelationship>>();
+	private final HashMap<String, List<IRelationship>> originatingRelationships = new HashMap<String, List<IRelationship>>();
 
-	private HashMap<String, List<IRelationship>> terminatingRelationships = new HashMap<String, List<IRelationship>>();
+	private final HashMap<String, List<IRelationship>> terminatingRelationships = new HashMap<String, List<IRelationship>>();
 
 	public ArtifactRelationshipCache(ArtifactManager artifactManager) {
 		this.artifactManager = artifactManager;
@@ -489,8 +489,8 @@ public class ArtifactRelationshipCache {
 
 		if (foundKey != null) {
 			// A bit tricky here to look it up
-			if (rel instanceof AbstractArtifact) {
-				AbstractArtifact art = (AbstractArtifact) rel;
+			if (rel instanceof IAbstractArtifactInternal) {
+				IAbstractArtifactInternal art = (IAbstractArtifactInternal) rel;
 				return art.getArtifactManager()
 						.getArtifactByFullyQualifiedName(foundKey, true,
 								new NullProgressMonitor());

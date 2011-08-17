@@ -29,8 +29,11 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ossj.specifics.Ossj
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.artifacts.SessionArtifactPersister;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEventArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IUpdateProcedureArtifact;
 import org.eclipse.ui.IEditorDescriptor;
 import org.eclipse.ui.ide.IDE;
 
@@ -41,16 +44,16 @@ import com.thoughtworks.qdox.model.JavaClass;
  * 
  */
 public class SessionFacadeArtifact extends AbstractArtifact implements
-		ISessionArtifact {
+		ISessionArtifact, IAbstractArtifactInternal {
 
 	// ===== populated during artifact extraction
-	private Collection<IManagedEntityDetails> managedEntities;
+	private final Collection<IManagedEntityDetails> managedEntities;
 
-	private Collection namedQueries;
+	private final Collection namedQueries;
 
-	private Collection exposedUpdateProcedures;
+	private final Collection exposedUpdateProcedures;
 
-	private Collection emittedEvents;
+	private final Collection emittedEvents;
 
 	private static final String MANAGED_ENTITY_TAG = "tigerstripe.managed-entity";
 
@@ -80,7 +83,7 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	public AbstractArtifact getModel() {
+	public IAbstractArtifactInternal getModel() {
 		return MODEL;
 	}
 
@@ -90,7 +93,7 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	public AbstractArtifact extractFromClass(JavaClass javaClass,
+	public IAbstractArtifactInternal extractFromClass(JavaClass javaClass,
 			ArtifactManager artifactMgr, IProgressMonitor monitor) {
 		SessionFacadeArtifact result = new SessionFacadeArtifact(javaClass,
 				artifactMgr, monitor);
@@ -214,7 +217,7 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 
 	public class NamedQuery implements INamedQuery {
 
-		private ArtifactManager artifactManager;
+		private final ArtifactManager artifactManager;
 
 		public NamedQuery(ArtifactManager artifactManager) {
 			this.artifactManager = artifactManager;
@@ -230,8 +233,8 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 			return this.fullyQualifiedName;
 		}
 
-		public QueryArtifact getArtifact() {
-			QueryArtifact result = (QueryArtifact) this.artifactManager
+		public IQueryArtifact getArtifact() {
+			IQueryArtifact result = (IQueryArtifact) this.artifactManager
 					.getArtifactByFullyQualifiedName(getFullyQualifiedName(),
 							true, new NullProgressMonitor());
 
@@ -263,7 +266,7 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 
 	public class ExposedUpdateProcedure implements IExposedUpdateProcedure {
 
-		private ArtifactManager artifactManager;
+		private final ArtifactManager artifactManager;
 
 		public ExposedUpdateProcedure(ArtifactManager artifactManager) {
 			this.artifactManager = artifactManager;
@@ -279,8 +282,8 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 			return this.fullyQualifiedName;
 		}
 
-		public UpdateProcedureArtifact getArtifact() {
-			UpdateProcedureArtifact result = (UpdateProcedureArtifact) this.artifactManager
+		public IUpdateProcedureArtifact getArtifact() {
+			IUpdateProcedureArtifact result = (IUpdateProcedureArtifact) this.artifactManager
 					.getArtifactByFullyQualifiedName(getFullyQualifiedName(),
 							true, new NullProgressMonitor());
 
@@ -312,7 +315,7 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 	}
 
 	public class EmittedEvent implements IEmittedEvent {
-		private ArtifactManager artifactManager;
+		private final ArtifactManager artifactManager;
 
 		public EmittedEvent(ArtifactManager artifactManager) {
 			this.artifactManager = artifactManager;
@@ -328,8 +331,8 @@ public class SessionFacadeArtifact extends AbstractArtifact implements
 			return this.fullyQualifiedName;
 		}
 
-		public EventArtifact getArtifact() {
-			EventArtifact result = (EventArtifact) this.artifactManager
+		public IEventArtifact getArtifact() {
+			IEventArtifact result = (IEventArtifact) this.artifactManager
 					.getArtifactByFullyQualifiedName(getFullyQualifiedName(),
 							true, new NullProgressMonitor());
 

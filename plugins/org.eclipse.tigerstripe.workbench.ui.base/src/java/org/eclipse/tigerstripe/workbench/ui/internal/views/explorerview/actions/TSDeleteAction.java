@@ -38,8 +38,8 @@ import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceListener;
-import org.eclipse.tigerstripe.workbench.internal.core.model.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
@@ -222,7 +222,7 @@ public class TSDeleteAction extends DeleteAction {
             Set<IRelationship> relationshipsToCascadeDelete = new HashSet<IRelationship>();
             for (ElementArtifactPair pair : selectedResources) {
                 if (!pair.element.exists()) {
-                    AbstractArtifact art = (AbstractArtifact) pair.artifact;
+					IAbstractArtifactInternal art = (IAbstractArtifactInternal) pair.artifact;
 
                     try {
                         relationshipsToCascadeDelete.addAll(art
@@ -342,7 +342,7 @@ public class TSDeleteAction extends DeleteAction {
                 // per artifact as opposed to one notification per changed
                 // component of each artifact.
                 for (IAbstractArtifact art : changedArtifacts.values()) {
-                    ArtifactManager mgr = ((AbstractArtifact) art)
+					ArtifactManager mgr = ((IAbstractArtifactInternal) art)
                             .getArtifactManager();
                     try {
                         art.doSave(null);

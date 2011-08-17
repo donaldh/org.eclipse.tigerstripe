@@ -39,7 +39,7 @@ import com.thoughtworks.qdox.model.JavaClass;
 import com.thoughtworks.qdox.model.JavaField;
 
 public class AssociationArtifact extends AbstractArtifact implements
-		IAssociationArtifact {
+		IAssociationArtifact, IAbstractArtifactInternal {
 
 	private IAssociationEnd aEnd;
 
@@ -96,9 +96,9 @@ public class AssociationArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	public AbstractArtifact extractFromClass(JavaClass javaClass,
+	public IAbstractArtifactInternal extractFromClass(JavaClass javaClass,
 			ArtifactManager artifactMgr, IProgressMonitor monitor) {
-		AssociationArtifact result = new AssociationArtifact(javaClass,
+		IAbstractArtifactInternal result = new AssociationArtifact(javaClass,
 				artifactMgr, monitor);
 		return result;
 	}
@@ -109,7 +109,7 @@ public class AssociationArtifact extends AbstractArtifact implements
 	}
 
 	@Override
-	public AbstractArtifact getModel() {
+	public IAbstractArtifactInternal getModel() {
 		return MODEL;
 	}
 
