@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" name="AddRemoveAnnotationDiagramEntity" version="3.0" id="_8ROMYMf1EeCbRKPVX6qmIQ" description="Create and remove annotation on the diagram for the Entity from dropdown menu&#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;EntityOnDiagramContextWorkspace&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;1. Open diagram and select Entity&#xD;&#xA;2. Open dropdown menu and add annotation &#xD;&#xA;3. Check that annotation is displayed on diagram and in annotation view&#xD;&#xA;4. Open dropdown menu and remove annotation &#xD;&#xA;5. Check that annotation is not displayed on diagram and in annotation view" tags="Annotation" type="ecl" externalReference="http://docs.xored.com/display/TS/AddRemoveAnnotationDiagramEntity">
+  <contexts>_FGfSUKthEd-v8JwXbnu_tQ</contexts>
+  <contexts>_wrsM4KFXEeCjS6NbCUXM_w</contexts>
+  <contexts>_9D6jAatgEd-v8JwXbnu_tQ</contexts>
+</com.xored.q7.scenario:Scenario>
