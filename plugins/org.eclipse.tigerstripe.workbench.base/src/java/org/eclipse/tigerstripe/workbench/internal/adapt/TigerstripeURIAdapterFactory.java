@@ -173,7 +173,11 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		IAbstractArtifact artifact = null;
 		if (SCHEME_TS_MODULE.equals(uri.scheme())) {
 			String container = null;
-			String[] elements = path.toString()
+			String toSplit = project;
+			if (path.getDevice() != null) {
+				toSplit = path.toString();
+			}
+			String[] elements = toSplit
 					.split(SCHEME_TS_MODULE_CONTAINER_SEPARATOR);
 			if (elements.length == 2) {
 				container = elements[0];
