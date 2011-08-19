@@ -29,7 +29,6 @@ import org.eclipse.tigerstripe.workbench.diagram.IDiagram;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
-import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ContextProjectAwareProxy;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
@@ -54,8 +53,9 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 
 	public static final String SCHEME_TS = "tigerstripe";
 	public static final String SCHEME_TS_MODULE = "tigerstripe_module";
+	public static final String SCHEME_TS_REF_PROJECT = "tigerstripe_ref_project";
 
-	public static final String SCHEME_TS_MODULE_CONTAINER_SEPARATOR = ":";
+	public static final String SCHEME_TS_CONTEXT_PROJECT_SEPARATOR = ":";
 
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
@@ -92,7 +92,8 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	 */
 	public static boolean isRelated(URI uri) {
 		return SCHEME_TS.equals(uri.scheme())
-				|| SCHEME_TS_MODULE.equals(uri.scheme());
+				|| SCHEME_TS_MODULE.equals(uri.scheme())
+				|| SCHEME_TS_REF_PROJECT.equals(uri.scheme());
 	}
 
 	/**
@@ -171,23 +172,20 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		String project = path.segments()[0];
 
 		IAbstractArtifact artifact = null;
-		if (SCHEME_TS_MODULE.equals(uri.scheme())) {
+		if (SCHEME_TS_MODULE.equals(uri.scheme())
+				|| SCHEME_TS_REF_PROJECT.equals(uri.scheme())) {
 			String container = null;
 			String toSplit = project;
 			if (path.getDevice() != null) {
 				toSplit = path.toString();
 			}
 			String[] elements = toSplit
-					.split(SCHEME_TS_MODULE_CONTAINER_SEPARATOR);
+					.split(SCHEME_TS_CONTEXT_PROJECT_SEPARATOR);
 			if (elements.length == 2) {
 				container = elements[0];
 				project = elements[1];
 			}
-			// In this case we don't have a project name, we only have a
-			// ModuleID. Not sure how to proceed.
-			// This logic only works if a module is used ONCE only in the
-			// workspace, or else we'll always return the first occurrence
-			// :-(
+
 			for (IAbstractTigerstripeProject p : TigerstripeCore.projects()) {
 				if (p instanceof ITigerstripeModelProject) {
 					ITigerstripeModelProject proj = (ITigerstripeModelProject) p;
@@ -229,6 +227,23 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 							}
 						}
 					}
+
+					for (ITigerstripeModelProject reference : proj
+							.getReferencedProjects()) {
+						if (project.equals(reference.getName())) {
+							artifact = reference
+									.getArtifactManagerSession()
+									.getArtifactByFullyQualifiedName(fqn, false);
+							if (artifact != null) {
+								if (container != null) {
+									return (IAbstractArtifact) ContextProjectAwareProxy
+											.newInstance(artifact, proj);
+								} else {
+									return artifact;
+								}
+							}
+						}
+					}
 				}
 			}
 			return null;
@@ -242,8 +257,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 					.getArtifactManagerSession();
 			artifact = artifactManagerSession
 					.getArtifactByFullyQualifiedName(fqn);
-			// FIXME hack to get artifact by resource while it is not accessible
-			// by FQN
+
 			if (artifact == null) {
 				// try to find the according resource
 				if (modelProject instanceof TigerstripeProjectHandle) {
@@ -495,11 +509,11 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 			context = ((IContextProjectAware) component).getContextProject();
 		}
 		ITigerstripeModelProject project = null;
-			try {
-				project = art.getProject();
-			} catch (TigerstripeException e) {
-				BasePlugin.log(e);
-			}
+		try {
+			project = art.getProject();
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+		}
 		return toURI(artifactPath, fragment, art.isReadonly(), project, context);
 
 	}
@@ -508,7 +522,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		IPath path = null;
 
 		TigerstripeProject tsProject = art.getTSProject();
-		
+
 		if (tsProject != null) {
 			ProjectDetails details = tsProject.getProjectDetails();
 			if (details != null) {
@@ -558,30 +572,26 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 
 		String scheme = SCHEME_TS;
 		IPath resPath = path;
-		if (isFromModule) {
-			scheme = SCHEME_TS_MODULE;
-			if (project != null && project instanceof ITigerstripeModuleProject) {
+
+		if (context != null) {
+			if (isFromModule) {
+				scheme = SCHEME_TS_MODULE;
+			} else {
+				scheme = SCHEME_TS_REF_PROJECT;
+			}
+
+			if (project != null) {
 				String container = null;
 				if (context != null) {
 					container = context.getName();
 				}
-				/*
-				 * ITigerstripeModuleProject moduleProject =
-				 * (ITigerstripeModuleProject) project; String container = null;
-				 * if (moduleProject.getProjectContainerURI() != null) { IPath
-				 * containerPath = new Path(moduleProject
-				 * .getProjectContainerURI().getPath()); if
-				 * (containerPath.segmentCount() > 0) { container =
-				 * containerPath.lastSegment(); } }
-				 */
-
 				if (container != null) {
 					StringBuilder res = new StringBuilder();
 					for (int i = 0; i < path.segmentCount(); i++) {
 						String segment = path.segment(i);
 						if (i == 0) {
 							res.append(container
-									+ SCHEME_TS_MODULE_CONTAINER_SEPARATOR);
+									+ SCHEME_TS_CONTEXT_PROJECT_SEPARATOR);
 						}
 						res.append(segment);
 						res.append(File.separator);

@@ -13,6 +13,8 @@ package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IAdapterManager;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaModel;
@@ -44,7 +46,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstract
 public class TigerstripeExplorerLabelProvider extends
 		PackageExplorerLabelProvider {
 
-	private AbstractArtifactLabelProvider artifactLabelProvider = new AbstractArtifactLabelProvider();
+	private final AbstractArtifactLabelProvider artifactLabelProvider = new AbstractArtifactLabelProvider();
 	private final IJavaModel javaModel;
 
 	public TigerstripeExplorerLabelProvider(PackageExplorerContentProvider cp) {
@@ -56,7 +58,12 @@ public class TigerstripeExplorerLabelProvider extends
 	public StyledString getStyledText(Object element) {
 		StyledString string = null;
 		if (element instanceof IElementWrapper) {
-			return getStyledText(((IElementWrapper) element).getElement());
+			IAdapterManager manager = Platform.getAdapterManager();
+			Object el = manager.getAdapter(element, IModelComponent.class);
+			if (el == null) {
+				el = ((IElementWrapper) element).getElement();
+			}
+			return getStyledText(el);
 		} else if (element instanceof IProject) {
 			IAbstractTigerstripeProject tsProj = (IAbstractTigerstripeProject) toJavaProject((IProject) element)
 					.getAdapter(IAbstractTigerstripeProject.class);

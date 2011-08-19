@@ -1180,6 +1180,9 @@
                <instanceof
                            value="org.eclipse.jdt.core.IJavaElement">
                </instanceof>
+               <instanceof
+                     value="org.eclipse.jdt.internal.ui.packageview.ClassPathContainer">
+               </instanceof>
             </or>
          </triggerPoints>
          <commonSorter

@@ -19,7 +19,9 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaModelException;
+import org.eclipse.tigerstripe.workbench.IElementWrapper;
 import org.eclipse.tigerstripe.workbench.IModuleElementWrapper;
+import org.eclipse.tigerstripe.workbench.IReferencedProjectElementWrapper;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
@@ -46,26 +48,33 @@ public class TigerstripeJavaAdapterFactory implements IAdapterFactory {
 
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
-		if (adaptableObject instanceof IModuleElementWrapper) {
-			Object wrappedElement = ((IModuleElementWrapper) adaptableObject)
-					.getElement();
+		if (adaptableObject instanceof IElementWrapper) {
+			IElementWrapper wrapper = (IElementWrapper) adaptableObject;
+			Object element = wrapper.getElement();
 			Object result;
-			if (wrappedElement instanceof IModelComponent
+			if (element instanceof IModelComponent
 					&& IModelComponent.class.equals(adapterType)) {
-				result = wrappedElement;
+				result = element;
 			} else {
-				result = getAdapter(
-						((IModuleElementWrapper) adaptableObject).getElement(),
-						adapterType);
+				result = getAdapter(wrapper.getElement(), adapterType);
 			}
 
 			if (result != null && result instanceof IModelComponent) {
-				ITigerstripeModelProject context = getProjectFor(((IModuleElementWrapper) adaptableObject)
-						.getParent());
-				return ContextProjectAwareProxy.newInstance(result, context);
-			} else {
-				return null;
+				ITigerstripeModelProject context = null;
+				if (wrapper instanceof IModuleElementWrapper) {
+					context = getProjectFor(((IModuleElementWrapper) adaptableObject)
+							.getParent());
+				} else if (wrapper instanceof IReferencedProjectElementWrapper) {
+					context = ((IReferencedProjectElementWrapper) wrapper)
+							.getParent();
+				}
+
+				if (context != null) {
+					return ContextProjectAwareProxy
+							.newInstance(result, context);
+				}
 			}
+			return null;
 		} else if (adaptableObject instanceof IClassFile) {
 			IClassFile cFile = (IClassFile) adaptableObject;
 

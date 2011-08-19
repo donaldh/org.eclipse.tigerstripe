@@ -15,10 +15,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IStorage;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.jobs.Job;
@@ -29,8 +31,12 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.internal.core.JarEntryFile;
 import org.eclipse.jdt.internal.core.JarPackageFragmentRoot;
+import org.eclipse.jdt.internal.core.PackageFragmentRoot;
 import org.eclipse.jdt.internal.ui.navigator.JavaNavigatorContentProvider;
+import org.eclipse.jdt.internal.ui.packageview.ClassPathContainer;
+import org.eclipse.jdt.internal.ui.packageview.ClassPathContainer.RequiredProjectWrapper;
 import org.eclipse.tigerstripe.workbench.IModuleElementWrapper;
+import org.eclipse.tigerstripe.workbench.IReferencedProjectElementWrapper;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.ProjectMigrationUtils;
@@ -40,6 +46,7 @@ import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripePro
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -83,10 +90,12 @@ public class NewTigerstripeExplorerContentProvider extends
 						IAbstractArtifactInternal art = (IAbstractArtifactInternal) artifact;
 						HashSet<String> hierarchy = new HashSet<String>();
 						featchHierarhyUp(art, hierarchy);
-						ArtifactManager artifactManager = art.getArtifactManager();
+						ArtifactManager artifactManager = art
+								.getArtifactManager();
 
 						for (String fqn : hierarchy) {
-							boolean isInherited = !art.getFullyQualifiedName().equals(fqn);
+							boolean isInherited = !art.getFullyQualifiedName()
+									.equals(fqn);
 
 							List<IRelationship> origs = artifactManager
 									.getOriginatingRelationshipForFQN(fqn, true);
@@ -139,6 +148,40 @@ public class NewTigerstripeExplorerContentProvider extends
 				result.add(new ModuleElementWrapper(object, wrapper.getParent()));
 			}
 			rawChildren = result.toArray(new Object[result.size()]);
+		} else if (parentElement instanceof ClassPathContainer) {
+			ClassPathContainer classPathContainer = (ClassPathContainer) parentElement;
+			ITigerstripeModelProject context = (ITigerstripeModelProject) classPathContainer
+					.getJavaProject()
+					.getAdapter(ITigerstripeModelProject.class);
+			if (context != null) {
+				IAdaptable[] childs = ((ClassPathContainer) parentElement)
+						.getChildren();
+				List<Object> result = new ArrayList<Object>(childs.length);
+				for (IAdaptable child : childs) {
+					if (child instanceof RequiredProjectWrapper) {
+						result.add(new ReferencedProjectElementWrapper(
+								((RequiredProjectWrapper) child).getProject()
+										.getResource(),
+								(ITigerstripeModelProject) ((ClassPathContainer) parentElement)
+										.getJavaProject().getAdapter(
+												ITigerstripeModelProject.class)));
+					} else {
+						result.add(child);
+					}
+				}
+				return result.toArray(new Object[result.size()]);
+			}
+		} else if (parentElement instanceof IReferencedProjectElementWrapper) {
+			IReferencedProjectElementWrapper wrapper = (IReferencedProjectElementWrapper) parentElement;
+			Object[] childs = getChildren(wrapper.getElement());
+			List<Object> result = new ArrayList<Object>();
+			for (Object child : childs) {
+				if (isValidReferencedElement(child)) {
+					result.add(new ReferencedProjectElementWrapper(child,
+							wrapper.getParent()));
+				}
+			}
+			return result.toArray(new Object[result.size()]);
 		} else {
 			// delegate
 			rawChildren = super.getChildren(parentElement);
@@ -178,6 +221,20 @@ public class NewTigerstripeExplorerContentProvider extends
 			return filteredChildren
 					.toArray(new Object[filteredChildren.size()]);
 		}
+	}
+
+	private boolean isValidReferencedElement(Object element) {
+		if (element instanceof JarPackageFragmentRoot) {
+			return false;
+		} else if (element instanceof IFile
+				&& ((IFile) element).getName().endsWith(".package")) {
+			return false;
+		} else if (element instanceof PackageFragmentRoot
+				|| (element instanceof IAdaptable && ((IAdaptable) element)
+						.getAdapter(IModelComponent.class) != null)) {
+			return true;
+		}
+		return false;
 	}
 
 	private void featchHierarhyUp(IAbstractArtifact artifact, Set<String> set) {

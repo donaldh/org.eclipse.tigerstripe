@@ -13,10 +13,4 @@ public class ElementWrapper implements IElementWrapper {
 	public Object getElement() {
 		return element;
 	}
-
-	/*
-	 * public Object getAdapter(Class adapter) { if (element instanceof
-	 * IAdaptable) { return ((IAdaptable) element).getAdapter(adapter); } else {
-	 * return null; } }
-	 */
 }

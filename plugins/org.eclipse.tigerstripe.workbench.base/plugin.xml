@@ -271,7 +271,7 @@
          </adapter>
       </factory>
       <factory
-            adaptableType="org.eclipse.tigerstripe.workbench.IModuleElementWrapper"
+            adaptableType="org.eclipse.tigerstripe.workbench.IElementWrapper"
             class="org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeJavaAdapterFactory">
          <adapter
                type="org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject">

@@ -74,7 +74,7 @@ public class TSModuleResource extends AnnotationXMIResource {
 				// to being the module ID
 				if (containerName != null) {
 					segments[0] = containerName
-							+ TigerstripeURIAdapterFactory.SCHEME_TS_MODULE_CONTAINER_SEPARATOR
+							+ TigerstripeURIAdapterFactory.SCHEME_TS_CONTEXT_PROJECT_SEPARATOR
 							+ container.getModuleID();
 				} else {
 					segments[0] = container.getModuleID();
