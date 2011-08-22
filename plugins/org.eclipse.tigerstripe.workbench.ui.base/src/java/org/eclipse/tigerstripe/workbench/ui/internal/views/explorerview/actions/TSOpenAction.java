@@ -27,6 +27,7 @@ import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.tigerstripe.workbench.IElementWrapper;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact.DependencyEnd;
 import org.eclipse.tigerstripe.workbench.internal.core.model.PackageArtifact;
@@ -110,7 +111,9 @@ public class TSOpenAction extends OpenAction {
 
 	public static IEditorPart openEditor(Object element, IWorkbenchPage page) {
 		try {
-			if (element instanceof IManagedEntityArtifact) {
+			if (element instanceof IElementWrapper) {
+				return openEditor(((IElementWrapper) element), page);
+			} else if (element instanceof IManagedEntityArtifact) {
 
 				if (((IAbstractArtifact) element).isReadonly()) {
 					ReadOnlyArtifactEditorInput input = new ReadOnlyArtifactEditorInput(
@@ -299,49 +302,52 @@ public class TSOpenAction extends OpenAction {
 				.getActiveWorkbenchWindow().getActivePage();
 		if (page == null)
 			return;
-		for (int i = 0; i < objects.length; i++) {
-			if (objects[i] instanceof IJavaElement) {
-				IJavaElement jElem = (IJavaElement) objects[i];
+		for (Object object : objects) {
+			if (object instanceof IElementWrapper) {
+				object = ((IElementWrapper) object).getElement();
+			}
+
+			if (object instanceof IJavaElement) {
+				IJavaElement jElem = (IJavaElement) object;
 				IAbstractArtifact artifact = null;
 				artifact = TSExplorerUtils.getArtifactFor(jElem);
 				if (artifact != null) {
 					openEditor(artifact, page);
 				} else {
-					super.run(new Object[] { objects[i] });
+					super.run(new Object[] { object });
 				}
-			} else if (objects[i] instanceof IAbstractArtifact) {
-				openEditor(objects[i], page);
-			} else if (objects[i] instanceof IStorage
+			} else if (object instanceof IAbstractArtifact) {
+				openEditor(object, page);
+			} else if (object instanceof IStorage
 					&& ITigerstripeConstants.PROJECT_DESCRIPTOR
-							.equals(((IStorage) objects[i]).getName())) {
-				openEditor(objects[i], page);
-			} else if (objects[i] instanceof AbstractLogicalExplorerNode) {
-				openEditor(objects[i], page);
-			} else if (objects[i] instanceof IField
-					|| objects[i] instanceof IMethod
-					|| objects[i] instanceof ILiteral
-					|| objects[i] instanceof IRelationshipEnd
-					|| objects[i] instanceof RelationshipAnchor) {
+							.equals(((IStorage) object).getName())) {
+				openEditor(object, page);
+			} else if (object instanceof AbstractLogicalExplorerNode) {
+				openEditor(object, page);
+			} else if (object instanceof IField || object instanceof IMethod
+					|| object instanceof ILiteral
+					|| object instanceof IRelationshipEnd
+					|| object instanceof RelationshipAnchor) {
 				// if it's a field, a method, or a Label, then open the
 				// appropriate section of
 				// the appropriate multi-page editor and select the field in
 				// question...first, find
 				// the containing artifact
 				IAbstractArtifact artifact = null;
-				if (objects[i] instanceof IField)
-					artifact = ((IField) objects[i]).getContainingArtifact();
-				else if (objects[i] instanceof IMethod)
-					artifact = ((IMethod) objects[i]).getContainingArtifact();
-				else if (objects[i] instanceof ILiteral)
-					artifact = ((ILiteral) objects[i]).getContainingArtifact();
-				else if (objects[i] instanceof DependencyEnd)
-					artifact = (IAbstractArtifact) ((DependencyEnd) objects[i])
+				if (object instanceof IField)
+					artifact = ((IField) object).getContainingArtifact();
+				else if (object instanceof IMethod)
+					artifact = ((IMethod) object).getContainingArtifact();
+				else if (object instanceof ILiteral)
+					artifact = ((ILiteral) object).getContainingArtifact();
+				else if (object instanceof DependencyEnd)
+					artifact = (IAbstractArtifact) ((DependencyEnd) object)
 							.getContainingRelationship();
-				else if (objects[i] instanceof RelationshipAnchor)
-					artifact = (IAbstractArtifact) (((RelationshipAnchor) objects[i])
+				else if (object instanceof RelationshipAnchor)
+					artifact = (IAbstractArtifact) (((RelationshipAnchor) object)
 							.getEnd()).getContainingRelationship();
-				else if (objects[i] instanceof IRelationshipEnd)
-					artifact = ((IAssociationEnd) objects[i])
+				else if (object instanceof IRelationshipEnd)
+					artifact = ((IAssociationEnd) object)
 							.getContainingArtifact();
 				// then open the editor for that artifact
 				IEditorPart iEditorPart = openEditor(artifact, page);
@@ -357,7 +363,7 @@ public class TSOpenAction extends OpenAction {
 					IFormPart[] formParts = selectedPage.getManagedForm()
 							.getParts();
 					for (int j = 0; j < formParts.length; j++) {
-						if (objects[i] instanceof IField
+						if (object instanceof IField
 								&& formParts[j] instanceof ArtifactAttributesSection) {
 							// if we are working with a field and we've found
 							// the Attributes section, then we are in
@@ -375,7 +381,7 @@ public class TSOpenAction extends OpenAction {
 							TableViewer viewer = attributesSection.getViewer();
 							Table table = viewer.getTable();
 							table.deselectAll();
-							IField thisField = (IField) objects[i];
+							IField thisField = (IField) object;
 							for (int row = 0; row < table.getItemCount(); row++) {
 								TableItem tableItem = table.getItem(row);
 								IField rowField = (IField) tableItem.getData();
@@ -391,7 +397,7 @@ public class TSOpenAction extends OpenAction {
 							table.setFocus();
 							attributesSection.updateMaster();
 							break;
-						} else if (objects[i] instanceof IMethod
+						} else if (object instanceof IMethod
 								&& formParts[j] instanceof ArtifactMethodsSection) {
 							// else if we are working with a method and we've
 							// found the Methods section, then we are in
@@ -409,7 +415,7 @@ public class TSOpenAction extends OpenAction {
 							TableViewer viewer = methodsSection.getViewer();
 							Table table = viewer.getTable();
 							table.deselectAll();
-							IMethod thisMethod = (IMethod) objects[i];
+							IMethod thisMethod = (IMethod) object;
 							for (int row = 0; row < table.getItemCount(); row++) {
 								TableItem tableItem = table.getItem(row);
 								IMethod rowMethod = (IMethod) tableItem
@@ -426,7 +432,7 @@ public class TSOpenAction extends OpenAction {
 							table.setFocus();
 							methodsSection.updateMaster();
 							break;
-						} else if (objects[i] instanceof ILiteral
+						} else if (object instanceof ILiteral
 								&& formParts[j] instanceof ArtifactConstantsSection) {
 							// else if we are working with a label and we've
 							// found the Constants section, then we are in
@@ -444,7 +450,7 @@ public class TSOpenAction extends OpenAction {
 							TableViewer viewer = constantsSection.getViewer();
 							Table table = viewer.getTable();
 							table.deselectAll();
-							ILiteral thisLabel = (ILiteral) objects[i];
+							ILiteral thisLabel = (ILiteral) object;
 							for (int row = 0; row < table.getItemCount(); row++) {
 								TableItem tableItem = table.getItem(row);
 								ILiteral rowLabel = (ILiteral) tableItem
@@ -461,7 +467,7 @@ public class TSOpenAction extends OpenAction {
 							table.setFocus();
 							constantsSection.updateMaster();
 							break;
-						} else if ((objects[i] instanceof IRelationshipEnd || objects[i] instanceof RelationshipAnchor)
+						} else if ((object instanceof IRelationshipEnd || object instanceof RelationshipAnchor)
 								&& formParts[j] instanceof AssociationSpecificsSection) {
 							// else if we are working with a label and we've
 							// found the Constants section, then we are in
@@ -475,16 +481,16 @@ public class TSOpenAction extends OpenAction {
 									.getManagedForm().getForm(),
 									specificsSection.getSection());
 							IRelationshipEnd relationshipEnd = null;
-							if (objects[i] instanceof IRelationshipEnd) {
-								relationshipEnd = (IRelationshipEnd) objects[i];
-							} else if (objects[i] instanceof RelationshipAnchor) {
-								relationshipEnd = ((RelationshipAnchor) objects[i])
+							if (object instanceof IRelationshipEnd) {
+								relationshipEnd = (IRelationshipEnd) object;
+							} else if (object instanceof RelationshipAnchor) {
+								relationshipEnd = ((RelationshipAnchor) object)
 										.getEnd();
 							}
 							specificsSection.selectEndByName(relationshipEnd
 									.getName());
 							break;
-						} else if (objects[i] instanceof IRelationshipEnd
+						} else if (object instanceof IRelationshipEnd
 								&& formParts[j] instanceof DependencySpecificsSection) {
 							// else if we are working with a label and we've
 							// found the Constants section, then we are in
@@ -497,7 +503,7 @@ public class TSOpenAction extends OpenAction {
 							scrollToComponentDeferred(selectedPage
 									.getManagedForm().getForm(),
 									specificsSection.getSection());
-							IRelationshipEnd relationshipEnd = (IRelationshipEnd) objects[i];
+							IRelationshipEnd relationshipEnd = (IRelationshipEnd) object;
 							specificsSection.selectEndName(relationshipEnd
 									.getName());
 							break;
@@ -505,7 +511,7 @@ public class TSOpenAction extends OpenAction {
 					}
 				}
 			} else {
-				super.run(new Object[] { objects[i] });
+				super.run(new Object[] { object });
 			}
 		}
 	}
@@ -549,6 +555,8 @@ public class TSOpenAction extends OpenAction {
 			if (element instanceof RelationshipAnchor)
 				continue;
 			if (element instanceof AbstractLogicalExplorerNode)
+				continue;
+			if (element instanceof IElementWrapper)
 				continue;
 			return false;
 		}

@@ -1278,6 +1278,8 @@
                         value="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent">
                   </instanceof>
                   <instanceof
+                        value="org.eclipse.tigerstripe.workbench.IElementWrapper"/>
+                  <instanceof
                         value="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode">
                   </instanceof>
 				  <and>                  
