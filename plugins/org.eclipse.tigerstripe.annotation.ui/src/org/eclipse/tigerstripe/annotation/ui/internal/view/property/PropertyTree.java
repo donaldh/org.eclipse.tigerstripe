@@ -229,7 +229,11 @@ public class PropertyTree {
 		EProperty entry = (EProperty) treeItem.getData();
 		try {
 			if (cellEditor != null && cellEditor.isDirty()) {
-				entry.setValue(cellEditor.getValue());
+				Object entryValue = entry.getValue();
+				if (!(entryValue != null && entryValue.equals(cellEditor
+								.getValue()))) {
+					entry.setValue(cellEditor.getValue());
+				}
 			}
 		} finally {
 			viewer.refresh();
