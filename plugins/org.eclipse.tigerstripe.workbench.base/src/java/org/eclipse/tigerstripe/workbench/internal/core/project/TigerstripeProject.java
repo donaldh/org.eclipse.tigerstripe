@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -150,7 +151,7 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	 */
 	private List<IFacetReference> facetReferences = new ArrayList<IFacetReference>();
 
-	private List<ModelReference> modelReferences = new ArrayList<ModelReference>();
+	private List<ModelReference> modelReferences = new CopyOnWriteArrayList<ModelReference>();
 
 	// ==========================================
 	// ==========================================

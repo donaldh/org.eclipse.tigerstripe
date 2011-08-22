@@ -107,71 +107,75 @@ public class ModelReference {
 	}
 
 	private ITigerstripeModelProject resolvedModel = null;
+	private boolean wasResolved = false;
 	
 	public ITigerstripeModelProject getResolvedModel() {
-		if (resolvedModel == null){
-			resolveModel();
-		}
+		resolveModel();
 		return resolvedModel;
 	}
 	
 	public void resolveModel() {
-		if (projectContext != null) {
-			// look in the project context first
-			try {
-				IDependency[] dependencies = projectContext.getDependencies();
-				for (IDependency dependency : dependencies) {
-					String modelId = "".equals(dependency.getIProjectDetails()
-							.getModelId()) ? dependency.getIModuleHeader()
-							.getOriginalName() : dependency
-							.getIProjectDetails().getModelId();
-					if (this.toModelId.equals(modelId)) {
-						resolvedModel = dependency.makeModuleProject(projectContext);
-						return;
-					}
-				}
-			} catch (TigerstripeException e) {
-				BasePlugin.log(e);
-			}
+		if (wasResolved) {
+			return;
 		}
-
-		// Then look for projects in the workspace
 		try {
-			ITigerstripeModelProject[] allProjects = TigerstripeCore
-					.allModelProjects();
-			for (ITigerstripeModelProject project : allProjects) {
-				// note that for compatibility reasons, if no modelId is
-				// set, we
-				// compare against mere name.
-				IPath path = project.getFullPath();
-				if (path != null && path.segmentCount() == 1) {
-					IProject iProject = ResourcesPlugin.getWorkspace()
-					.getRoot().getProject(path.segment(0));
-					if (iProject.exists() && iProject.isOpen()) {
-						String modelId = "".equals(project.getModelId()) ? project
-								.getName() : project.getModelId();
-								if (this.toModelId.equals(modelId)) {
-									resolvedModel = project;
-									return;
-								}
+			if (projectContext != null) {
+				// look in the project context first
+				try {
+					IDependency[] dependencies = projectContext.getDependencies();
+					for (IDependency dependency : dependencies) {
+						String modelId = "".equals(dependency.getIProjectDetails()
+								.getModelId()) ? dependency.getIModuleHeader()
+								.getOriginalName() : dependency
+								.getIProjectDetails().getModelId();
+						if (this.toModelId.equals(modelId)) {
+							resolvedModel = dependency.makeModuleProject(projectContext);
+							return;
+						}
 					}
+				} catch (TigerstripeException e) {
+					BasePlugin.log(e);
 				}
 			}
-		} catch (TigerstripeException e) {
-			BasePlugin.log(e);
-		}
-		// finally look for "Installed models"
-		InstalledModule module = getInstalledModule();
-		if (module != null) {
+	
+			// Then look for projects in the workspace
 			try {
-				resolvedModel = module.makeModuleProject();
-				return;
+				ITigerstripeModelProject[] allProjects = TigerstripeCore
+						.allModelProjects();
+				for (ITigerstripeModelProject project : allProjects) {
+					// note that for compatibility reasons, if no modelId is
+					// set, we
+					// compare against mere name.
+					IPath path = project.getFullPath();
+					if (path != null && path.segmentCount() == 1) {
+						IProject iProject = ResourcesPlugin.getWorkspace()
+						.getRoot().getProject(path.segment(0));
+						if (iProject.exists() && iProject.isOpen()) {
+							String modelId = "".equals(project.getModelId()) ? project
+									.getName() : project.getModelId();
+									if (this.toModelId.equals(modelId)) {
+										resolvedModel = project;
+										return;
+									}
+						}
+					}
+				}
 			} catch (TigerstripeException e) {
 				BasePlugin.log(e);
 			}
+			// finally look for "Installed models"
+			InstalledModule module = getInstalledModule();
+			if (module != null) {
+				try {
+					resolvedModel = module.makeModuleProject();
+					return;
+				} catch (TigerstripeException e) {
+					BasePlugin.log(e);
+				}
+			}
+		} finally {
+			wasResolved = true;
 		}
-		resolvedModel = null;
-		return;
 	}
 
 	public InstalledModule getInstalledModule() {

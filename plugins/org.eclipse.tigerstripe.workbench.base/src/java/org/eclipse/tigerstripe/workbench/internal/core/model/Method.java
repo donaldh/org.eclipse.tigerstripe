@@ -481,7 +481,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		String returnTypeName = QDoxUtils.getTypeName(type);
 		this.returnType = new Type(returnTypeName, EMultiplicity.ONE,
 				getArtifactManager());
-		if ("void".equals(type.getValue())) {
+		if ("void".equals(returnTypeName)) {
 			isVoid = true;
 		} else {
 			if (typeMultiplicity != null) {
@@ -556,7 +556,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 				.getExceptions();
 		for (int i = 0; i < exceptionTypes.length; i++) {
 			Method.Exception exception = new Method.Exception(this,
-					exceptionTypes[i].getValue());
+					QDoxUtils.getTypeName(exceptionTypes[i]));
 			this.exceptions.add(exception);
 		}
 

@@ -17,7 +17,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Set;
 
 import org.eclipse.core.resources.ICommand;
@@ -53,7 +52,6 @@ import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeResourceAdapt
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
-import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceHelper.IResourceFilter;
 import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
@@ -537,34 +535,6 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) getProject()
 				.getAdapter(ITigerstripeModelProject.class);
 
-		IArtifactManagerSession session = null;
-		try {
-			session = tsProject.getArtifactManagerSession();
-
-			// this refresh will indirectly trigger an audit of every individual
-			// artifact as they are parsed by the Art. Mgr. This is not
-			// necessary since all artifacts will be audited below.
-			session.setBroadcastMask(IArtifactChangeListener.NOTIFY_NONE);
-
-			// dateStr = format.format(new Date())+ " : ";
-			// System.out.println( dateStr+"refreshAll "+getProject().getName()
-			// );
-			session.refreshAll(monitor);
-
-			// dateStr = format.format(new Date())+ " : ";
-			// System.out.println(
-			// dateStr+"refreshAll done "+getProject().getName() );
-		} catch (TigerstripeException e) {
-			BasePlugin.log(e);
-		} finally {
-			if (session != null) {
-				try {
-					session.setBroadcastMask(IArtifactChangeListener.NOTIFY_ALL);
-				} catch (TigerstripeException e) {
-					// ignore here
-				}
-			}
-		}
 		// dateStr = format.format(new Date())+ " : ";
 		// System.out.println(
 		// dateStr+"runAuditorsByFileExtensions "+getProject().getName() );

@@ -1792,6 +1792,10 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 					.getBackingMap()
 					.get(iartifact.getFullyQualifiedName());
 
+			if (oldArtifact != null) {
+				System.out.println("Replacing "+oldArtifact);
+			}
+			
 			artifact = (IAbstractArtifactInternal) iartifact;
 
 			if (artifact.getArtifactManager() != this) {

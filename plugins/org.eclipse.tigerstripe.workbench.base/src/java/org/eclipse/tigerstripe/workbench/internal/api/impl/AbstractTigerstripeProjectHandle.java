@@ -184,12 +184,17 @@ public abstract class AbstractTigerstripeProjectHandle extends
 				+ " as Eclipse IProject");
 	}
 	
+	private IContainer container;
+	
 	// Introduced as a result of Bugzilla 319896
 	private IContainer getIContainer() {
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
-		File file = new File(this.getLocation().toOSString());
-		IPath path = new Path(file.getAbsolutePath());
-		return root.getContainerForLocation(path);
+		if (container == null) {
+			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+			File file = new File(this.getLocation().toOSString());
+			IPath path = new Path(file.getAbsolutePath());
+			container = root.getContainerForLocation(path);
+		}
+		return container;
 	}
 
 	public void delete(final boolean force, IProgressMonitor monitor)

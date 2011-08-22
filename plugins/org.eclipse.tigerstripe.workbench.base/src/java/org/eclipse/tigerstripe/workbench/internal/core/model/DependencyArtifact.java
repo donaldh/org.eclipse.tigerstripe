@@ -28,6 +28,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.AbstractArtifactPersister;
 import org.eclipse.tigerstripe.workbench.internal.core.model.persist.artifacts.DependencyArtifactPersister;
+import org.eclipse.tigerstripe.workbench.internal.core.util.QDoxUtils;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDatatypeArtifact;
@@ -157,7 +158,7 @@ public class DependencyArtifact extends AbstractArtifact implements
 				if (tag.getNamedParameter("type") != null){
 					typeStr = tag.getNamedParameter("type");
 				} else {
-					typeStr = field.getType().getValue();
+					typeStr = QDoxUtils.getTypeName(field.getType());
 				}
 					IType type = makeType();
 					type.setFullyQualifiedName(typeStr);
@@ -170,7 +171,7 @@ public class DependencyArtifact extends AbstractArtifact implements
 					if (tag.getNamedParameter("type") != null){
 						typeStr = tag.getNamedParameter("type");
 					} else {
-						typeStr = field.getType().getValue();
+						typeStr = QDoxUtils.getTypeName(field.getType());;
 					}
 					IType type = makeType();
 					type.setFullyQualifiedName(typeStr);

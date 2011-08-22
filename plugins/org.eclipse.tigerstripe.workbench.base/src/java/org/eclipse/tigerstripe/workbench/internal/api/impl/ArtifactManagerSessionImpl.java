@@ -144,7 +144,6 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 
 		ArtifactQueryBase base = (ArtifactQueryBase) query;
 
-		refresh(new NullProgressMonitor()); // FIXME
 		return base.run(this);
 	}
 

@@ -54,6 +54,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.profile.PhantomTigerstrip
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.CoreArtifactSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.internal.core.util.ComparableArtifact;
+import org.eclipse.tigerstripe.workbench.internal.core.util.QDoxUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -207,10 +208,6 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 */
 	public boolean isProxy() {
 		return isProxy;
-	}
-
-	protected JavaClass getJavaClass() {
-		return this.javaClass;
 	}
 
 	/* (non-Javadoc)
@@ -490,14 +487,14 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		}
 
 		// The extends clause
-		if (!"java.lang.Object".equals(getJavaClass().getSuperJavaClass()
-				.getFullyQualifiedName())
-				&& !"".equals(getJavaClass().getSuperJavaClass()
-						.getFullyQualifiedName())) {
-			String parentClass = getJavaClass().getSuperJavaClass()
-					.getFullyQualifiedName();
-			setExtendedArtifact(parentClass);
+		com.thoughtworks.qdox.model.Type superClass = clazz.getSuperClass();
+		if (superClass != null) {
+			String typeName = QDoxUtils.getTypeName(superClass);
+			if (!Object.class.getName().equals(typeName)) {
+				setExtendedArtifact(typeName);
+			}
 		}
+		
 		this.containedComponents = new ArrayList<IModelComponent>();
 		containedComponents.addAll(this.getFields());
 		containedComponents.addAll(this.getMethods());
@@ -516,22 +513,11 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			setExtendedArtifact((IAbstractArtifact) null);
 			return;
 		}
-
-		setExtendedArtifact(getArtifactManager()
-				.getArtifactByFullyQualifiedName(fqn, true,
-						new NullProgressMonitor()));
-
-		if (getExtendedArtifact() == null) {
-			// #386 Build a temporary dummy artifact, it will be further
-			// resolved once everything has been parsed in the
-			// resolveReferences()
-			// method below
-			IAbstractArtifactInternal art = (IAbstractArtifactInternal) makeArtifact();
-			art.setFullyQualifiedName(fqn);
-			art.setProxy(true);
-			setExtendedArtifact(art);
-		}
-
+		
+		IAbstractArtifactInternal art = (IAbstractArtifactInternal) makeArtifact();
+		art.setFullyQualifiedName(fqn);
+		art.setProxy(true);
+		setExtendedArtifact(art);
 	}
 
 	/**
@@ -560,13 +546,9 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			if (!"".equals(val)) {
 				String[] fqns = val.split(",");
 				for (String fqn : fqns) {
-					IAbstractArtifactInternal art = getArtifactManager()
-							.getArtifactByFullyQualifiedName(fqn, true, monitor);
-					if (art == null) {
-						art = new SessionFacadeArtifact(getArtifactManager());
-						art.setProxy(true);
-						art.setFullyQualifiedName(fqn);
-					}
+					IAbstractArtifactInternal art = new SessionFacadeArtifact(getArtifactManager());
+					art.setProxy(true);
+					art.setFullyQualifiedName(fqn);
 					implementedArtifacts.add(art);
 				}
 			}

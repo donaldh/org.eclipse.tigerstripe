@@ -68,36 +68,6 @@ public class ProjectSessionImpl {
 			TigerstripeException {
 
 		if (projectMappedByURIs.containsKey(projectURI)) {
-
-			IAbstractTigerstripeProject result = null;
-			// Check that the URI points to an existing resource
-			File uriFile = new File(projectURI);
-			if (!uriFile.exists()) {
-				// The underlying project doesn't exist
-				// we invalidate the project in the cache and create a new
-				// handle.
-				// The handle will be validated and marked as invalid later.
-				projectMappedByURIs.remove(projectURI);
-				result = new TigerstripeOssjProjectHandle(projectURI);
-				projectMappedByURIs.put(projectURI, result);
-			} else {
-				result = (AbstractTigerstripeProjectHandle) projectMappedByURIs
-						.get(projectURI);
-				// Check that the handle is not stale
-				// TODO: backing out this change for now as it caused 530 and
-				// 531
-				// what should be done is tstamp on the tigerstripe.xml not the
-				// project
-				// dir.
-				// long tstamp = uriFile.lastModified();
-				// if ( result instanceof ITigerstripeProject &&
-				// result.handleTStamp() != tstamp) {
-				// // not checking for Plugin project for now.
-				// projectMappedByURIs.remove(projectURI);
-				// result = new TigerstripeOssjProjectHandle(projectURI);
-				// projectMappedByURIs.put(projectURI, result);
-				// }
-			}
 			return projectMappedByURIs.get(projectURI);
 		} else if (projectType == null) {
 			IAbstractTigerstripeProject result = null;

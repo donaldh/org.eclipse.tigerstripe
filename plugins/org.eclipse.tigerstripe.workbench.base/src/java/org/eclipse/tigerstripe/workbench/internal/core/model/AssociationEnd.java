@@ -28,6 +28,7 @@ import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLegacySettigsProperty;
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
+import org.eclipse.tigerstripe.workbench.internal.core.util.QDoxUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
@@ -214,11 +215,8 @@ public class AssociationEnd extends ArtifactComponent implements
 			addTag(tag);
 		}
 
-		com.thoughtworks.qdox.model.Type type = field.getType();
-		// the *type* at the end should have a fixed multiplicity of one.
-		// Note this is different from the multiplicity of the end.
-
-		this.type = new Type(type.getValue(), EMultiplicity.ONE,
+		
+		this.type = new Type(QDoxUtils.getTypeName(field.getType()), EMultiplicity.ONE,
 				getArtifactManager());
 		setName(field.getName());
 

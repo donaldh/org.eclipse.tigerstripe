@@ -52,13 +52,11 @@ public class QDoxUtils {
 	public static String getTypeName(Type type) {
 		 
 		if (TYPE_NAME_FIELD == null) {
-			System.out.println("type field not accessable: ");
 			return type.getValue();
 		}
 		try {
 			String value = (String) TYPE_NAME_FIELD.get(type);
 			if (needResolve(value)) {
-				System.out.println("need resolve: " + value + "to " + type.getValue());
 				return type.getValue();
 			} else {
 				return value;
