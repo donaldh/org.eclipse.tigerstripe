@@ -139,6 +139,10 @@ public class TigerstripeCore {
 		IPath path = new Path(file.getAbsolutePath());
 		return TigerstripeProjectFactory.INSTANCE.findProjectOrCreate(path);
 	}
+	
+	public static IAbstractTigerstripeProject findProject(IProject project) throws TigerstripeException {		
+		return TigerstripeProjectFactory.INSTANCE.findProjectOrCreate(project.getLocation());
+	}
 
 	public static IAbstractTigerstripeProject findProject(String name)
 			throws TigerstripeException {

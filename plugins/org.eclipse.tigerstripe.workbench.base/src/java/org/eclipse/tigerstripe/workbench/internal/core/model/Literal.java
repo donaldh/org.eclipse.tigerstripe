@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
+import org.eclipse.tigerstripe.workbench.internal.core.util.QDoxUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
@@ -74,8 +75,10 @@ public class Literal extends ArtifactComponent implements ILiteral {
 		}
 
 		com.thoughtworks.qdox.model.Type type = field.getType();
+		String typeName = QDoxUtils.getTypeName(type);
+		
 		// Create a type with a basic Multiplicity that can be reset below.
-		this.type = new Type(type.getValue(), EMultiplicity.ONE, getArtifactManager()); 
+		this.type = new Type(typeName, EMultiplicity.ONE, getArtifactManager()); 
 		setName(field.getName());
 
 		// Extract value of Literal

@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.builder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -824,7 +825,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		// look for all relevant builders
 		for (ITigerstripeModelProject mProj : projectsToRebuild) {
 			try {
-				Properties map = new Properties();
+				Map<String, String> map = new HashMap<String, String>();
 				map.put("rebuildIndexes", "True");
 				IProject proj = (IProject) mProj.getAdapter(IProject.class);
 				if (proj != null)

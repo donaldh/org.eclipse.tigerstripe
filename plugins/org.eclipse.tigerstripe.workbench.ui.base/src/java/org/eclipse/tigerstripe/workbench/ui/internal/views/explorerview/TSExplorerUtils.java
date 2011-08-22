@@ -125,7 +125,7 @@ public class TSExplorerUtils {
 
 				IAbstractTigerstripeProject aProject = TigerstripeCore
 						.findProject(res.getCorrespondingResource()
-								.getProject().getLocation().toFile().toURI());
+								.getProject());
 
 				if (aProject instanceof ITigerstripeModelProject) {
 					ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;

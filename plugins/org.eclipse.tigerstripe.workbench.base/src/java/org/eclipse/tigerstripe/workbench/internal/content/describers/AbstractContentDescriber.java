@@ -20,25 +20,20 @@ import org.eclipse.core.runtime.content.ITextContentDescriber;
  */
 public abstract class AbstractContentDescriber implements ITextContentDescriber {
 
-	public int describe(Reader reader, IContentDescription description) throws IOException {
+	
+	private final BoyerMooreMatcher matcher;
 
+	public AbstractContentDescriber() {
+		matcher = new BoyerMooreMatcher(getStringIdentifier());
+	}
+	
+	
+	public int describe(Reader reader, IContentDescription description) throws IOException {
 		try {
-			StringBuffer content = new StringBuffer();
-			char[] buffer = new char[1024 * 1024];
-			int size = 0;
-			if ((size = reader.read(buffer)) >= 0) {
-				content.append(new String(buffer, 0, size));
-				if (content.indexOf(getStringIdentifier()) != -1)
-					return IContentDescriber.VALID;
-					
-			}
-		} catch (Exception e) {
-			// Ignore exception, just return an invalid content type
-		} finally { 
+			return matcher.contains(reader) ? IContentDescriber.VALID : IContentDescriber.INVALID;
+		} finally {
 			reader.close();
 		}
-		
-		return IContentDescriber.INVALID;
 	}
 
 	public int describe(InputStream inputStream, IContentDescription description)
@@ -50,7 +45,6 @@ public abstract class AbstractContentDescriber implements ITextContentDescriber 
 	}
 	
 	public QualifiedName[] getSupportedOptions() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

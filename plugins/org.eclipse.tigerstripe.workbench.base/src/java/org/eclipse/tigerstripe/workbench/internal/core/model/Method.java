@@ -39,6 +39,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.tags.StereotypeTags
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.GlobalSettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
+import org.eclipse.tigerstripe.workbench.internal.core.util.QDoxUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Util;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -476,7 +477,9 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		// the type resolution
 		// TigerstripeRuntime.logInfoMessage("Value= " + type.getValue() + " - "
 		// + type.getJavaClass().getFullyQualifiedName());
-		this.returnType = new Type(type.getValue(), EMultiplicity.ONE,
+		
+		String returnTypeName = QDoxUtils.getTypeName(type);
+		this.returnType = new Type(returnTypeName, EMultiplicity.ONE,
 				getArtifactManager());
 		if ("void".equals(type.getValue())) {
 			isVoid = true;
@@ -498,7 +501,11 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		this.arguments = new ArrayList();
 		JavaParameter[] parameters = method.getParameters();
 		for (int i = 0; i < parameters.length; i++) {
-			Type argType = new Type(parameters[i].getType().getValue(),
+			
+			com.thoughtworks.qdox.model.Type ptype = parameters[i].getType();
+			String paramTypeName = QDoxUtils.getTypeName(ptype);
+
+			Type argType = new Type(paramTypeName,
 					EMultiplicity.ONE, getArtifactManager());
 			Method.Argument arg = new Method.Argument(this, parameters[i]
 					.getName(), argType);

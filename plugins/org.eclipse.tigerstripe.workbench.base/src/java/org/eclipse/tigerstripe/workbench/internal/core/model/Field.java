@@ -27,6 +27,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IOssjLe
 import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.OssjLegacySettingsProperty;
+import org.eclipse.tigerstripe.workbench.internal.core.util.QDoxUtils;
 import org.eclipse.tigerstripe.workbench.internal.core.util.TigerstripeValidationUtils;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
@@ -177,8 +178,10 @@ public class Field extends ArtifactComponent implements IField{
 		}
 
 		com.thoughtworks.qdox.model.Type type = field.getType();
+		String typeName = QDoxUtils.getTypeName(type);
+		
 		// Create a type with a basic Multiplicity that can be reset below.
-		this.type = new Type(type.getValue(), EMultiplicity.ONE, getArtifactManager()); 
+		this.type = new Type(typeName, EMultiplicity.ONE, getArtifactManager()); 
 		setName(field.getName());
 
 		Tag tag = getFirstTagByName(AbstractArtifactTag.PREFIX

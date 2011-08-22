@@ -272,7 +272,7 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 
 				try {
 					IAbstractTigerstripeProject tsProject = TigerstripeCore
-							.findProject(project.getLocation().toFile().toURI());
+							.findProject(project);
 
 					return tsProject;
 

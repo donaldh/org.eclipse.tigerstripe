@@ -165,7 +165,7 @@ public class ModuleGeneration implements IApplication {
 			IProject project = getIProject(moduleProject);
 			URI locationURI = project.getLocationURI();
 			ITigerstripeModelProject tsProject = (ITigerstripeModelProject) TigerstripeCore
-					.findProject(locationURI);
+					.findProject(project);
 
 			IProgressMonitor monitor = new NullProgressMonitor();
 			project.build(IncrementalProjectBuilder.FULL_BUILD, monitor);
