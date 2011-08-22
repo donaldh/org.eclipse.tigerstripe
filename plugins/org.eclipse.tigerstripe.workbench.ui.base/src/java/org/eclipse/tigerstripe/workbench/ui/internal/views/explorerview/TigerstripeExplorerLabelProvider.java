@@ -19,6 +19,7 @@ import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.internal.ui.packageview.PackageExplorerContentProvider;
 import org.eclipse.jdt.internal.ui.packageview.PackageExplorerLabelProvider;
@@ -59,9 +60,13 @@ public class TigerstripeExplorerLabelProvider extends
 		StyledString string = null;
 		if (element instanceof IElementWrapper) {
 			IAdapterManager manager = Platform.getAdapterManager();
-			Object el = manager.getAdapter(element, IModelComponent.class);
-			if (el == null) {
-				el = ((IElementWrapper) element).getElement();
+			Object el = ((IElementWrapper) element).getElement();
+			if (!(el instanceof IPackageFragment)) {
+				Object adapted = manager.getAdapter(element,
+						IModelComponent.class);
+				if (adapted != null) {
+					el = adapted;
+				}
 			}
 			return getStyledText(el);
 		} else if (element instanceof IProject) {
