@@ -2409,8 +2409,7 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 					fqn, ignoreFacets));
 
 			if (includeProjectDependencies) {
-				for (ITigerstripeModelProject project : getTSProject()
-						.getReferencedProjects()) {
+				for (ITigerstripeModelProject project : collectReferencedProjectsAndDependencies()) {
 					/*
 					 * Do not check for cycles. This method can't raise
 					 * stackoverflow, because it is not recursive
@@ -2457,8 +2456,8 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 					fqn, ignoreFacet));
 
 			if (includeProjectDependencies) {
-				for (ITigerstripeModelProject project : getTSProject()
-						.getReferencedProjects()) {
+				
+				for (ITigerstripeModelProject project : collectReferencedProjectsAndDependencies()) {
 					/*
 					 * Do not check for cycles. This method can't raise
 					 * stackoverflow, because it is not recursive
@@ -2475,6 +2474,21 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 		}
 	}
 
+	public List<ITigerstripeModelProject> collectReferencedProjectsAndDependencies()
+			throws TigerstripeException {
+
+		ArrayList<ITigerstripeModelProject> models = new ArrayList<ITigerstripeModelProject>();
+		
+		for (ITigerstripeModelProject project : tsProject
+				.getReferencedProjects()) {
+			models.add(project);
+		}
+		for (IDependency d : tsProject.getDependencies()) {
+			models.add(d.makeModuleProject(tsProject.getTSProject()));
+		}
+		return models;
+	}
+	
 	protected ArtifactRelationshipCache getRelationshipCache() {
 		return relationshipCache;
 	}
