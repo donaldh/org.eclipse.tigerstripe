@@ -19,11 +19,12 @@
 	<extension
 			point="org.eclipse.ui.commands">
 		<command
-        	id="org.eclipse.tigerstripe.annotation.ui.commands.remove"
-        	name="Remove"/>
+        defaultHandler="org.eclipse.tigerstripe.annotation.ui.internal.actions.RemoveAllAnnotationsHandler"
+        id="org.eclipse.tigerstripe.annotation.ui.commands.remove"
+        name="Remove"/>
 	</extension>
 	
-	<extension
+	<!--extension
 			point="org.eclipse.ui.actionSets">
 		<actionSet
 				id="org.eclipse.tigerstripe.annotation.annotationSet"
@@ -38,7 +39,7 @@
 				style="push"
 				tooltip="Remove Annotation"/>
 		</actionSet>
-	</extension>
+	</extension-->
 
      <extension
          point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
