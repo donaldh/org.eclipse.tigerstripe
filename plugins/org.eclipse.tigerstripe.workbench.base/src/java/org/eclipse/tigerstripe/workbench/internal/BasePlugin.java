@@ -203,6 +203,11 @@ public class BasePlugin extends Plugin {
 		log(multi);
 	}
 
+	public static IStatus makeStatus(Throwable th) {
+		return new Status(IStatus.ERROR, getPluginId(), 222,
+				"Internal Error", th); //$NON-NLS-1$
+	}
+
 	public static void log(Throwable e) {
 
 		if (e instanceof TigerstripeException) {
