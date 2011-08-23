@@ -513,11 +513,22 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			setExtendedArtifact((IAbstractArtifact) null);
 			return;
 		}
-		
-		IAbstractArtifactInternal art = (IAbstractArtifactInternal) makeArtifact();
-		art.setFullyQualifiedName(fqn);
-		art.setProxy(true);
-		setExtendedArtifact(art);
+
+		setExtendedArtifact(getArtifactManager()
+				.getArtifactByFullyQualifiedName(fqn, true,
+						new NullProgressMonitor()));
+
+		if (getExtendedArtifact() == null) {
+			// #386 Build a temporary dummy artifact, it will be further
+			// resolved once everything has been parsed in the
+			// resolveReferences()
+			// method below
+			IAbstractArtifactInternal art = (IAbstractArtifactInternal) makeArtifact();
+			art.setFullyQualifiedName(fqn);
+			art.setProxy(true);
+			setExtendedArtifact(art);
+		}
+
 	}
 
 	/**
@@ -546,9 +557,13 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			if (!"".equals(val)) {
 				String[] fqns = val.split(",");
 				for (String fqn : fqns) {
-					IAbstractArtifactInternal art = new SessionFacadeArtifact(getArtifactManager());
-					art.setProxy(true);
-					art.setFullyQualifiedName(fqn);
+					IAbstractArtifactInternal art = getArtifactManager()
+							.getArtifactByFullyQualifiedName(fqn, true, monitor);
+					if (art == null) {
+						art = new SessionFacadeArtifact(getArtifactManager());
+						art.setProxy(true);
+						art.setFullyQualifiedName(fqn);
+					}
 					implementedArtifacts.add(art);
 				}
 			}
