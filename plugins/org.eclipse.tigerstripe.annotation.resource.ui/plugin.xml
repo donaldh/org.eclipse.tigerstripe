@@ -6,4 +6,11 @@
 		<selectionConverter
         	class="org.eclipse.tigerstripe.annotation.resource.ui.ResourceSelectionConverter"/>
 	</extension>
+	
+	<extension
+       point="org.eclipse.tigerstripe.annotation.core.refactoringListeners">
+    	<listener
+          class="org.eclipse.tigerstripe.annotation.resource.ui.refactoring.ResourceRefactoringSupport">
+    	</listener>
+ 	</extension>
 </plugin>

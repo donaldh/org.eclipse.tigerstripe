@@ -9,7 +9,7 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.annotation.java.ui.refactoring;
+package org.eclipse.tigerstripe.annotation.resource.ui.refactoring;
 
 import java.util.HashMap;
 import java.util.Map;
