@@ -87,8 +87,12 @@ public abstract class AbstractTigerstripeProjectHandle extends
 		if (name == null) {
 			return null;
 		}
-		return ResourcesPlugin.getWorkspace().getRoot().findMember(name)
-				.getFullPath();
+		IResource member = ResourcesPlugin.getWorkspace().getRoot()
+				.findMember(name);
+		if (member == null) {
+			return null;
+		}
+		return member.getFullPath();
 	}
 
 	public URI getURI() {

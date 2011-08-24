@@ -107,75 +107,77 @@ public class ModelReference {
 	}
 
 	private ITigerstripeModelProject resolvedModel = null;
-	private boolean wasResolved = false;
+	private boolean wasResolved = false; 
 	
 	public ITigerstripeModelProject getResolvedModel() {
-		resolveModel();
+		if (!wasResolved){
+			try {
+				resolveModel();
+			} finally {
+				wasResolved = true;
+			}
+		}
 		return resolvedModel;
 	}
 	
 	public void resolveModel() {
-		if (wasResolved) {
-			return;
-		}
-		try {
-			if (projectContext != null) {
-				// look in the project context first
-				try {
-					IDependency[] dependencies = projectContext.getDependencies();
-					for (IDependency dependency : dependencies) {
-						String modelId = "".equals(dependency.getIProjectDetails()
-								.getModelId()) ? dependency.getIModuleHeader()
-								.getOriginalName() : dependency
-								.getIProjectDetails().getModelId();
-						if (this.toModelId.equals(modelId)) {
-							resolvedModel = dependency.makeModuleProject(projectContext);
-							return;
-						}
-					}
-				} catch (TigerstripeException e) {
-					BasePlugin.log(e);
-				}
-			}
-	
-			// Then look for projects in the workspace
+		if (projectContext != null) {
+			// look in the project context first
 			try {
-				ITigerstripeModelProject[] allProjects = TigerstripeCore
-						.allModelProjects();
-				for (ITigerstripeModelProject project : allProjects) {
-					// note that for compatibility reasons, if no modelId is
-					// set, we
-					// compare against mere name.
-					IPath path = project.getFullPath();
-					if (path != null && path.segmentCount() == 1) {
-						IProject iProject = ResourcesPlugin.getWorkspace()
-						.getRoot().getProject(path.segment(0));
-						if (iProject.exists() && iProject.isOpen()) {
-							String modelId = "".equals(project.getModelId()) ? project
-									.getName() : project.getModelId();
-									if (this.toModelId.equals(modelId)) {
-										resolvedModel = project;
-										return;
-									}
-						}
+				IDependency[] dependencies = projectContext.getDependencies();
+				for (IDependency dependency : dependencies) {
+					String modelId = "".equals(dependency.getIProjectDetails()
+							.getModelId()) ? dependency.getIModuleHeader()
+							.getOriginalName() : dependency
+							.getIProjectDetails().getModelId();
+					if (this.toModelId.equals(modelId)) {
+						resolvedModel = dependency.makeModuleProject(projectContext);
+						return;
 					}
 				}
 			} catch (TigerstripeException e) {
 				BasePlugin.log(e);
 			}
-			// finally look for "Installed models"
-			InstalledModule module = getInstalledModule();
-			if (module != null) {
-				try {
-					resolvedModel = module.makeModuleProject();
-					return;
-				} catch (TigerstripeException e) {
-					BasePlugin.log(e);
+		}
+
+		// Then look for projects in the workspace
+		try {
+			ITigerstripeModelProject[] allProjects = TigerstripeCore
+					.allModelProjects();
+			for (ITigerstripeModelProject project : allProjects) {
+				// note that for compatibility reasons, if no modelId is
+				// set, we
+				// compare against mere name.
+				IPath path = project.getFullPath();
+				if (path != null && path.segmentCount() == 1) {
+					IProject iProject = ResourcesPlugin.getWorkspace()
+					.getRoot().getProject(path.segment(0));
+					if (iProject.exists() && iProject.isOpen()) {
+						String modelId = "".equals(project.getModelId()) ? project
+								.getName() : project.getModelId();
+								if (this.toModelId.equals(modelId)) {
+									resolvedModel = project;
+									return;
+								}
+					}
 				}
 			}
-		} finally {
-			wasResolved = true;
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
 		}
+		// finally look for "Installed models"
+		InstalledModule module = getInstalledModule();
+		if (module != null) {
+			try {
+				resolvedModel = module.makeModuleProject();
+				return;
+			} catch (TigerstripeException e) {
+				BasePlugin.log(e);
+			}
+		}
+		wasResolved = false;
+		resolvedModel = null;
+		return;
 	}
 
 	public InstalledModule getInstalledModule() {
