@@ -95,10 +95,13 @@ public class PluggablePlugin extends BasePlugin {
 		if (unzippedFile.exists()) {
 			Util.deleteDir(unzippedFile);
 		}
-
 		File zfile = new File(zippedFile);
 		if (zfile.exists()) {
 			zfile.delete();
+		}
+		GeneratorProjectDescriptor pProject = getPProject();
+		if (pProject != null) {
+			pProject.dispose();
 		}
 	}
 

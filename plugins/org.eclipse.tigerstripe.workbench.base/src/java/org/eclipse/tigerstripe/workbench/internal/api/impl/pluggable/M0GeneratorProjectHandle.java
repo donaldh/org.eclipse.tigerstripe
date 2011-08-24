@@ -64,4 +64,12 @@ public class M0GeneratorProjectHandle extends GeneratorProjectHandle implements
 		descriptor.reload(false);
 		return this.descriptor;
 	}
+	
+	@Override
+	public void dispose() {
+		super.dispose();
+		if (descriptor != null) {
+			descriptor.dispose();
+		}
+	}
 }

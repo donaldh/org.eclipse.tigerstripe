@@ -185,4 +185,13 @@ public class TigerstripePluginProjectHandle extends GeneratorProjectHandle
 				getURI());
 		return copy;
 	}
+	
+	@Override
+	public void dispose() {
+		super.dispose();
+		if (descriptor != null) {
+			descriptor.dispose();
+		}
+	}
+	
 }

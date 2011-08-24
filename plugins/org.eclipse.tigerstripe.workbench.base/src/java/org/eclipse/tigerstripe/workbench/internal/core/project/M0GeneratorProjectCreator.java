@@ -128,10 +128,12 @@ public class M0GeneratorProjectCreator extends BaseProjectCreator implements
 				buffer));
 
 		M0ProjectDescriptor projectDescriptor = new M0ProjectDescriptor(null);
-		projectDescriptor.setProjectDetails((ProjectDetails) projectDetails);
-
-		projectDescriptor.write(writer);
-
+		try {
+			projectDescriptor.setProjectDetails((ProjectDetails) projectDetails);
+			projectDescriptor.write(writer);
+		} finally {
+			projectDescriptor.dispose();
+		}
 		bytes = buffer.toByteArray();
 		return new ByteArrayInputStream(bytes);
 	}

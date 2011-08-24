@@ -141,10 +141,12 @@ public class PluginProjectCreator extends BaseProjectCreator implements
 
         File f = new File(projectHandle.getLocationURI());
         PluggablePluginProject projectDescriptor = new PluggablePluginProject(f);
-		projectDescriptor.setProjectDetails((ProjectDetails) projectDetails);
-
-		projectDescriptor.write(writer);
-
+        try {
+        	projectDescriptor.setProjectDetails((ProjectDetails) projectDetails);
+        	projectDescriptor.write(writer);
+        } finally {
+        	projectDescriptor.dispose();
+        }
 		bytes = buffer.toByteArray();
 		return new ByteArrayInputStream(bytes);
 	}
