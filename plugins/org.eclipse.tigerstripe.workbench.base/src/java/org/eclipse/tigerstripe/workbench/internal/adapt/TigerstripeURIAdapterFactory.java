@@ -496,7 +496,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 			IAssociationArtifact assoc = end.getContainingAssociation();
 			StringBuilder b = new StringBuilder(
 					newName == null ? assoc.getName() : newName);
-			if (assoc.getAEnd() == end) {
+			if (end.equals(assoc.getAEnd())) {
 				b.append(";aEnd");
 			} else {
 				b.append(";zEnd");
