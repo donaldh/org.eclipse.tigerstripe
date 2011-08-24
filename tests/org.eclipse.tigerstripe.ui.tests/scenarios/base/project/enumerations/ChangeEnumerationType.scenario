@@ -1,6 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ChangeEnumerationType" version="3.0" id="_omHxAYXZEeC_HYrDuY0PAA" description="Enumerator type can be changed. Constants of new type are created&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;EmptyProject&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;    Create Enumeration of Int type&#xD;&#xA;    Open Enumeration in editor and check base type on details tab.&#xD;&#xA;    Update base type from 'Int' to 'String'. Save changes&#xD;&#xA;    Check empty problems view&#xD;&#xA;    Add constant and check its type 'String' and value. Save changes&#xD;&#xA;    Update base type from 'String' to 'Int'. Save changes&#xD;&#xA;    Check error message in problems view&#xD;&#xA;    Remove 'String' constant&#xD;&#xA;    Add constant and check its type 'Int' and value. Save changes&#xD;&#xA;    Check empty problems view&#xD;&#xA;" tags="TS_Project/Edit/Artifacts/Enumeration" type="ecl" externalReference="http://docs.xored.com/display/TS/ChangeEnumerationType">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="ChangeEnumerationType" version="3.0" id="_omHxAYXZEeC_HYrDuY0PAA" description="Enumerator type can be changed. Constants of new type are created&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;EmptyProject&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;    Create Enumeration of Int type&#xD;&#xA;    Open Enumeration in editor and check base type on details tab.&#xD;&#xA;    Update base type from 'Int' to 'String'. Save changes&#xD;&#xA;    Check empty problems view&#xD;&#xA;    Add constant and check its type 'String' and value. Save changes&#xD;&#xA;    Update base type from 'String' to 'Int'. Save changes&#xD;&#xA;    Check error message in problems view&#xD;&#xA;    Remove 'String' constant&#xD;&#xA;    Add constant and check its type 'Int' and value. Save changes&#xD;&#xA;    Check empty problems view&#xD;&#xA;" tags="TS_Project/Edit/Artifacts/Enumeration" type="ecl" externalReference="http://docs.xored.com/display/TS/ChangeEnumerationType">
   <contexts>_IhHLkKwQEd-DHcdNat_asw</contexts>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "New Project" | get-menu "New/Enumeration" | click
+get-window "Create a new Enumeration" | get-editbox -after [get-label "Name:"] | set-text Enum
+get-window "Create a new Enumeration" | get-combo -after [get-label "Base Type:"] | get-property selection | equals int 
+    | verify-true
+get-window "Create a new Enumeration" | get-button Finish | click
+get-editor Enum | get-tab-folder | get-tab-item Details | click
+with [get-editor Enum | get-section "Implementation Specifics" | get-combo -after [get-label "Base Type:"]] {
+    get-property selection | equals int | verify-true
+    get-property values -index 0 | equals int | verify-true
+    get-property values -index 1 | equals String | verify-true
+}
+get-editor Enum | get-section "Implementation Specifics" | get-combo -after [get-label "Base Type:"] | set-text String
+get-button "Save (Ctrl+S)" | click
+get-view Problems | get-tree | get-property itemCount | equals 0 | verify-true
+with [get-editor Enum] {
+    get-tab-folder | get-tab-item Overview | click
+    get-section Constants | get-section | get-button Add | click
+}
+with [get-editor Enum | get-section Constants | get-section -index 1 | get-combo -after [get-label "Type:"]] {
+    get-property enablement | equals false | verify-true
+    get-property selection | equals String | verify-true
+    get-property readOnly | equals true | verify-true
+}
+get-editor Enum | get-section Constants | get-section -index 1 | get-editbox -after [get-label "Value:"] 
+    | get-property value | equals "\"0\"" | verify-true
+with [get-editor Enum | get-section Constants | get-section | get-table | get-item "literal0=\"0\""] {
+    get-property columns -index 0 | equals "literal0=\"0\"" | verify-true
+    get-property columns -index 1 | equals "\"0\"" | verify-true
+}
+get-button "Save (Ctrl+S)" | click
+with [get-editor Enum] {
+    get-tab-folder | get-tab-item Details | click
+    get-section "Implementation Specifics" | get-combo -after [get-label "Base Type:"] | set-text int
+}
+get-button "Save (Ctrl+S)" | click
+get-view Problems | get-tree | get-item "Errors \\(1 item\\)" | get-property columns -index 0 
+    | equals "Errors (1 item)" | verify-true
+get-view Problems | get-tree 
+    | get-item "Errors \\(1 item\\)/The type of label \'literal0\' in \'org.eclipse.Enum\' is incompatible with the defined base type for this Enumeration Artifact \\( expected=\'int\', found=\'String\'\\)." 
+    | get-property caption 
+    | equals "The type of label \'literal0\' in \'org.eclipse.Enum\' is incompatible with the defined base type for this Enumeration Artifact ( expected=\'int\', found=\'String\')." 
+    | verify-true
+with [get-editor Enum] {
+    get-tab-folder | get-tab-item Overview | click
+    with [get-section Constants | get-section] {
+        get-table | select "literal0=\"0\""
+        get-button Remove | click
+    }
+}
+get-window "Remove Constant" | get-button Yes | click
+get-button "Save (Ctrl+S)" | click
+get-window "Save Enumeration" | get-button Yes | click
+get-editor Enum | get-section Constants | get-section | get-button Add | click
+with [get-editor Enum | get-section Constants | get-section -index 1 | get-combo -after [get-label "Type:"]] {
+    get-property enablement | equals false | verify-true
+    get-property selection | equals int | verify-true
+    get-property readOnly | equals true | verify-true
+}
+get-editor Enum | get-section Constants | get-section -index 1 | get-editbox -after [get-label "Value:"] 
+    | get-property value | equals 0 | verify-true
+with [get-editor Enum | get-section Constants | get-section | get-table | get-item "literal0=0"] {
+    get-property columns -index 0 | equals "literal0=0" | verify-true
+    get-property columns -index 1 | equals 0 | verify-true
+}
+get-view Problems | get-tree | get-property itemCount | equals 0 | verify-true
+get-button "Save (Ctrl+S)" | click]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -844,10 +912,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.19">
       <elements id="Button8" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.20">
@@ -961,9 +1030,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.43">
       <elements id="Button9" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.44">
@@ -1046,10 +1116,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.60">
       <elements id="Button10" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Add">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="259" y="5" width="55" height="25"/>
+        <caption>Add</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.61">
@@ -1218,9 +1289,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.89">
       <elements id="Button16" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.90">
@@ -1425,10 +1497,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.127">
       <elements id="Button17" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Remove">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="259" y="95" width="55" height="25"/>
+        <caption>Remove</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.128">
@@ -1444,10 +1517,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.132">
       <elements id="Button18" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Yes">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption>Yes</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.133">
@@ -1455,9 +1529,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.136">
       <elements id="Button19" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.137">
@@ -1473,10 +1548,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.141">
       <elements id="Button20" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Yes">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption><![CDATA[&Yes]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.142">
@@ -1484,10 +1560,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.145">
       <elements id="Button21" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Add">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="259" y="5" width="55" height="25"/>
+        <caption>Add</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.146">
@@ -1685,9 +1762,10 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.178">
       <elements id="Button23" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.179">

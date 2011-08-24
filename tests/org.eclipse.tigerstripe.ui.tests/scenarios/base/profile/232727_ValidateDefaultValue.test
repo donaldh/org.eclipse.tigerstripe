@@ -83,12 +83,12 @@ with [get-window Clean] {
     get-button OK | click
 } 
 get-view Problems | get-tree 
-    | get-item "Error.* \\(.* item.*\\)/Primitive type \'atype0\' has invalid validation regular expression: Dangling meta character \'\\+\' near index 0\r\n"
-    + "\\+?\\*11\r\n"
-    + "^" | get-property caption 
-    | equals "Primitive type \'atype0\' has invalid validation regular expression: Dangling meta character \'+\' near index 0\r\n"
-    + "+?*11\r\n"
-    + "^" | verify-true
+    | get-item "Error.* \\(.* item.*\\)/Primitive type \'atype0\' has invalid validation regular expression: Dangling meta character \'\\+\' near index 0\r?\n"
+    + "\\+\\?\\*11\r?\n"
+    + "\\^" | get-property caption 
+    | equals "Primitive type \'atype0\' has invalid validation regular expression: Dangling meta character \'\\+\' near index 0\r?\n"
+    + "\\+\\?\\*11\r?\n"
+    + "\\^" | verify-true
 with [get-editor "New Project/default.wbp" | get-section] {
     get-section "Primitive Type Definitions" | get-table | select atype0
     get-section "Primitive Type Details" | get-editbox -after [get-label "Validation (Regular Expression):"] 
