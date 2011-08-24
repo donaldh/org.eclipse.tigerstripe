@@ -432,11 +432,10 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 
 	public String getProjectLabel() {
 
-		if (projectDetails == null) {
-			return null; 
-		}
+		if (getBaseDir() == null)
+			return null; // this is a project desc embedded in a module
 
-		return projectDetails.getModelId();
+		return getBaseDir().getName();
 	}
 
 	public String getAdvancedProperty(String prop) {
