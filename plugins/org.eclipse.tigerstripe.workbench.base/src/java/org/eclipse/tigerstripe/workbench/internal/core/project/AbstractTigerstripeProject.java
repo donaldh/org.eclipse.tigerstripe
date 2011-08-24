@@ -131,11 +131,17 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 		advancedProperties.setContainer(this);
 		this.projectDetails = new ProjectDetails(this);
 		this.projectDetails.setContainer(this);
-		TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(
-				this, ITigerstripeChangeListener.MODEL
-						| ITigerstripeChangeListener.PROJECT);
+		if (baseDir != null) {
+			TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(
+					this, ITigerstripeChangeListener.MODEL
+					| ITigerstripeChangeListener.PROJECT);
+		}
 	}
 
+	public void dispose() {
+		TigerstripeWorkspaceNotifier.INSTANCE.removeTigerstripeChangeListener(this);
+	}
+	
 	protected void setDirty() {
 		this.isLocalDirty = true;
 	}

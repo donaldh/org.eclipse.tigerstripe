@@ -594,6 +594,9 @@ public abstract class TigerstripeProjectHandle extends
 		if (manager != null) {
 			manager.dispose();
 		}
+		if (tsProject != null) {
+			tsProject.dispose();
+		}
 		wasDisposed = true;
 	}
 

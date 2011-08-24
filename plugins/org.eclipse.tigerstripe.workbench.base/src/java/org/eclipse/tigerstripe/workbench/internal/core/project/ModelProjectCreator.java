@@ -128,9 +128,12 @@ public class ModelProjectCreator extends BaseProjectCreator implements
 				buffer));
 
 		TigerstripeProject projectDescriptor = new TigerstripeProject(null);
-		projectDescriptor.setProjectDetails((ProjectDetails) projectDetails);
-
-		projectDescriptor.write(writer);
+		try {
+			projectDescriptor.setProjectDetails((ProjectDetails) projectDetails);
+			projectDescriptor.write(writer);
+		} finally {
+			projectDescriptor.dispose();
+		}
 
 		bytes = buffer.toByteArray();
 		return new ByteArrayInputStream(bytes);

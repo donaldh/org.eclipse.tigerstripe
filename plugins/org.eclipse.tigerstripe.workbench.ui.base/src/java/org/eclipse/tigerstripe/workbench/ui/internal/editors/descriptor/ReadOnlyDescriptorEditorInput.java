@@ -32,6 +32,9 @@ public class ReadOnlyDescriptorEditorInput extends ReadOnlyEditorInput {
 
 	private void extractTSProject() {
 		try {
+			if (tsProject != null) {
+				tsProject.dispose();
+			}
 			TigerstripeProject embeddedProject = parseEmbeddedProjectDescriptor();
 			tsProject = new ReadOnlyTigerstripeProjectHandle(embeddedProject);
 		} catch (TigerstripeException e) {
@@ -66,5 +69,10 @@ public class ReadOnlyDescriptorEditorInput extends ReadOnlyEditorInput {
 
 		return this.tsProject;
 	}
-
+	
+	public void dispose() {
+		if (tsProject != null) {
+			tsProject.dispose();
+		}
+	}
 }

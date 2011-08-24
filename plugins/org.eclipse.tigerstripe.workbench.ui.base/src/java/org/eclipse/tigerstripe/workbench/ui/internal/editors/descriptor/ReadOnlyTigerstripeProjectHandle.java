@@ -68,5 +68,10 @@ public class ReadOnlyTigerstripeProjectHandle extends TigerstripeProjectHandle {
 		return false;
 	}
 	
-	
+	@Override
+	public void dispose() {
+		if (project != null) {
+			project.dispose();
+		}
+	}
 }
