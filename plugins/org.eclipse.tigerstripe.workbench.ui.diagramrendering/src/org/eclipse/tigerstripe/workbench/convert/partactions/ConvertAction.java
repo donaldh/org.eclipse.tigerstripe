@@ -20,4 +20,14 @@ public abstract class ConvertAction extends BaseDiagramPartAction implements
 		Converter.convert(getShell(), abstractArtifacts[0], toClass(),
 				(IEditorPart) getMyTargetWorkbenchPart());
 	}
+
+	@Override
+	protected boolean isEnabled() {
+		for (IAbstractArtifact art : getCorrespondingArtifacts()) {
+			if (art.isReadonly()) {
+				return false;
+			}
+		}
+		return true;
+	}
 }
