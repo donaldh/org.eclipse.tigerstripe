@@ -189,7 +189,8 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 			for (IAbstractTigerstripeProject p : TigerstripeCore.projects()) {
 				if (p instanceof ITigerstripeModelProject) {
 					ITigerstripeModelProject proj = (ITigerstripeModelProject) p;
-					if (container != null && !proj.getName().equals(container)) {
+					if (container != null
+							&& !proj.getModelId().equals(container)) {
 						continue;
 					}
 					for (IDependency dep : proj.getDependencies()) {
@@ -230,7 +231,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 
 					for (ITigerstripeModelProject reference : proj
 							.getReferencedProjects()) {
-						if (project.equals(reference.getName())) {
+						if (project.equals(reference.getModelId())) {
 							artifact = reference
 									.getArtifactManagerSession()
 									.getArtifactByFullyQualifiedName(fqn, false);
@@ -475,7 +476,8 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	 *         allows that target to be looked up in the Tigerstripe workbench
 	 * @throws TigerstripeException
 	 */
-	public static URI toURI(IModelComponent component, String newName) {
+	public static URI toURI(IModelComponent component, String newName)
+			throws TigerstripeException {
 		// System.out.println("toURI: "+component+" / "+newName);
 		IAbstractArtifact art = getArtifact(component);
 		IPath artifactPath = getArtifactPath(art, newName);
@@ -561,12 +563,14 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		return art;
 	}
 
-	private static URI toURI(IPath path, String fragment, boolean isFromModule) {
+	private static URI toURI(IPath path, String fragment, boolean isFromModule)
+			throws TigerstripeException {
 		return toURI(path, fragment, isFromModule, null, null);
 	}
 
 	private static URI toURI(IPath path, String fragment, boolean isFromModule,
-			ITigerstripeModelProject project, ITigerstripeModelProject context) {
+			ITigerstripeModelProject project, ITigerstripeModelProject context)
+			throws TigerstripeException {
 		if (path == null)
 			return null;
 
@@ -583,7 +587,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 			if (project != null) {
 				String container = null;
 				if (context != null) {
-					container = context.getName();
+					container = context.getModelId();
 				}
 				if (container != null) {
 					StringBuilder res = new StringBuilder();
