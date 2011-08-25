@@ -59,6 +59,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.VisualeditorPackage;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.policies.TigerstripeTextSelectionEditPolicy;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part.TigerstripeVisualIDRegistry;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers.TigerstripeElementTypes;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.impl.AssociationClassImpl;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.util.NamedElementPropertiesHelper;
 
 /**
@@ -243,6 +244,14 @@ public class AssociationClassZEndNameEditPart extends LabelEditPart implements
 		}
 
 		return text;
+	}
+
+	@Override
+	public EObject resolveSemanticElement() {
+		AssociationClassImpl assoc = (AssociationClassImpl) super
+				.resolveSemanticElement();
+		assoc.populateEndStereotypeNames();
+		return assoc;
 	}
 
 	/**

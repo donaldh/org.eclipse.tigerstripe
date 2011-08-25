@@ -20,7 +20,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EReferenceImpl;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.gef.EditPart;
-import org.eclipse.gmf.runtime.diagram.ui.editparts.ConnectionNodeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.EditPolicyRoles;
 import org.eclipse.gmf.runtime.diagram.ui.render.editparts.RenderedDiagramRootEditPart;
@@ -45,7 +44,8 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.util.NamedElementProper
 /**
  * @generated NOT
  */
-public class AssociationClassEditPart extends ConnectionNodeEditPart implements
+public class AssociationClassEditPart extends
+		AdaptableTigerstripeConnectionNodeEditPart implements
 		TigerstripeEditableEntityEditPart, PropertyAwarePart,
 		AssociationEnabledActionPart {
 

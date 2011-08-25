@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part;
 
+import org.eclipse.gef.EditPart;
+import org.eclipse.gef.editparts.AbstractEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ConnectionNodeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ITextAwareEditPart;
 import org.eclipse.gmf.runtime.notation.Edge;
@@ -22,7 +24,8 @@ import org.eclipse.tigerstripe.workbench.ui.internal.gmf.TigerstripeShapeNodeEdi
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Association;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.QualifiedNamedElement;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationAEndNameEditPart;
-import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationEditPart;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassAEndNameEditPart;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassZEndNameEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationZEndNameEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.TigerstripeAttributeEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.TigerstripeLiteralEditPart;
@@ -64,9 +67,10 @@ public class PartAdapterFactory extends VisualeditorModelAdapterFactory {
 					|| adaptableObject instanceof TigerstripeMethodEditPart
 					|| adaptableObject instanceof TigerstripeLiteralEditPart) {
 				return super.getAnnotable(model.getElement());
-			} else if (adaptableObject instanceof AssociationAEndNameEditPart) {
-				AssociationAEndNameEditPart aEnd = (AssociationAEndNameEditPart) adaptableObject;
-				Edge edge = (Edge) ((AssociationEditPart) aEnd.getParent())
+			} else if (adaptableObject instanceof AssociationAEndNameEditPart
+					|| adaptableObject instanceof AssociationClassAEndNameEditPart) {
+				EditPart aEnd = (EditPart) adaptableObject;
+				Edge edge = (Edge) ((AbstractEditPart) aEnd.getParent())
 						.getModel();
 
 				Association assoc = (Association) edge.getElement();
@@ -81,9 +85,10 @@ public class PartAdapterFactory extends VisualeditorModelAdapterFactory {
 						return null;
 					}
 				}
-			} else if (adaptableObject instanceof AssociationZEndNameEditPart) {
-				AssociationZEndNameEditPart zEnd = (AssociationZEndNameEditPart) adaptableObject;
-				Edge edge = (Edge) ((AssociationEditPart) zEnd.getParent())
+			} else if (adaptableObject instanceof AssociationZEndNameEditPart
+					|| adaptableObject instanceof AssociationClassZEndNameEditPart) {
+				EditPart zEnd = (EditPart) adaptableObject;
+				Edge edge = (Edge) ((AbstractEditPart) zEnd.getParent())
 						.getModel();
 
 				Association assoc = (Association) edge.getElement();
