@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="ModuleAddRemoveAnnotationContextWorkspace" id="__8ZooMxeEeCTcJc7g1x7bg" tags="Projects, Dependency">
+  <content>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".ModuleAddRemoveAnnotationContextWorkspacectx/content3.classpath"/>
+      <files name=".project" contentURI=".ModuleAddRemoveAnnotationContextWorkspacectx/content3.project"/>
+      <files name=".visualstate" contentURI=".ModuleAddRemoveAnnotationContextWorkspacectx/content3.visualstate"/>
+      <files name="tigerstripe.xml" contentURI=".ModuleAddRemoveAnnotationContextWorkspacectx/content3.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".ModuleAddRemoveAnnotationContextWorkspacectx/content1.prefs"/>
+      </folders>
+      <folders name="src">
+        <files name="default.vwm" contentURI=".ModuleAddRemoveAnnotationContextWorkspacectx/content2.vwm"/>
+        <files name="default.wvd" contentURI=".ModuleAddRemoveAnnotationContextWorkspacectx/content2.wvd"/>
+      </folders>
+    </projects>
+    <projects name="Project2">
+      <files name=".classpath" contentURI=".ModuleAddRemoveAnnotationContextWorkspacectx/content4.classpath"/>
+      <files name=".project" contentURI=".ModuleAddRemoveAnnotationContextWorkspacectx/content4.project"/>
+      <files name=".visualstate" contentURI=".ModuleAddRemoveAnnotationContextWorkspacectx/content4.visualstate"/>
+      <files name="tigerstripe.xml" contentURI=".ModuleAddRemoveAnnotationContextWorkspacectx/content4.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".ModuleAddRemoveAnnotationContextWorkspacectx/content2.prefs"/>
+      </folders>
+      <folders name="src">
+        <files name="default.vwm" contentURI=".ModuleAddRemoveAnnotationContextWorkspacectx/content4.vwm"/>
+        <files name="default.wvd" contentURI=".ModuleAddRemoveAnnotationContextWorkspacectx/content4.wvd"/>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" name="AddRemoveAnnotationDiagramRelationshipEnds" version="3.0" id="_w7AzsM44EeCKuZcH49WE2A" description="Create and remove annotation on the diagram for the relationship (Associations and Association Classes) ends &#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;EntityWithAssociationContextWorkspace &#x9;&#xD;&#xA;&#xD;&#xA;" tags="Annotation/Diagram" type="ecl">
+  <contexts>_qEobgKFmEeCjS6NbCUXM_w</contexts>
+</com.xored.q7.scenario:Scenario>
