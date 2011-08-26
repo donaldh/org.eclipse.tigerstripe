@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -198,28 +199,34 @@ public class NewTigerstripeExplorerContentProvider extends
 		}
 
 		// Filter all children for logical nodes
-		List<Object> filteredChildren = new ArrayList<Object>();
+		Set<Object> filteredChildren = new HashSet<Object>();
 		for (Object object : rawChildren) {
-			if (object instanceof JarEntryFile) {
-				JarEntryFile f = (JarEntryFile) object;
-				if (f.getName().endsWith(".package")) {
-					continue;
-				} else if (f.getName().endsWith(".vwm")
-						|| f.getName().endsWith(".wvd")) {
-					continue;
-				} else {
-					filteredChildren.add(f);
-				}
-			} else {
-				Object node = LogicalExplorerNodeFactory.getInstance().getNode(
-						object);
-				if (node != null) {
-					filteredChildren.add(node);
-				}
-			}
+			filter(object, parentElement, filteredChildren);
 		}
 
 		return filteredChildren.toArray(new Object[filteredChildren.size()]);
+	}
+	
+	protected void filter(Object o, Object parent, Collection<Object> filtered) {
+		if (parent instanceof JarPackageFragmentRoot) {		
+			processPackageFragmentRootObject(o, (IPackageFragmentRoot)parent, filtered);
+		}
+		else if (o instanceof JarEntryFile) {
+			JarEntryFile f = (JarEntryFile) o;
+			if (f.getName().endsWith(".package")) {
+				return;
+			} else if (f.getName().endsWith(".vwm")
+					|| f.getName().endsWith(".wvd")) {
+				return;
+			} else {
+				filtered.add(f);
+			}
+		} else {
+			Object node = LogicalExplorerNodeFactory.getInstance().getNode(o);
+			if (node != null) {
+				filtered.add(node);
+			}
+		}
 	}
 
 	private boolean isValidReferencedElement(Object element) {
@@ -283,36 +290,40 @@ public class NewTigerstripeExplorerContentProvider extends
 		ArrayList<Object> result = new ArrayList<Object>();
 
 		for (Object obj : children) {
-			if (obj instanceof JarEntryFile) {
-				JarEntryFile file = (JarEntryFile) obj;
-				String n = file.getName();
-				if (file.getName().endsWith("ts-module.xml")) {
-					continue; // ts-module shouldn't be displayed
-				} else if (file.getName().endsWith(".ann")) {
-					continue; // hide contained .ann files
-				} else if (file.getName().endsWith(".package")) {
-					continue;
-				} else if (file.getName().endsWith(".vwm")) {
-					continue;
-				} else if (file.getName().endsWith(".wvd")) {
-					continue;
-				}
-			} else if (obj instanceof IPackageFragment) {
-				IPackageFragment fragment = (IPackageFragment) obj;
-				if (fragment.getElementName().startsWith("META-INF")) {
-					continue; // META-INF shouldn't be displayed
-				}
-			} else if (obj instanceof IStorage) {
-				IStorage st = (IStorage) obj;
-				String n = st.getName();
-				if (st.getName().startsWith("META-INF")) {
-					continue; // META-INF shouldn't be displayed
-				}
-			}
-			result.add(obj);
+			processPackageFragmentRootObject(obj, packageRoot, result);
 		}
 
 		return result.toArray();
+	}
+	
+	protected void processPackageFragmentRootObject(Object obj, IPackageFragmentRoot root, Collection<Object> result) {
+		if (obj instanceof JarEntryFile) {
+			JarEntryFile file = (JarEntryFile) obj;
+			String n = file.getName();
+			if (file.getName().endsWith("ts-module.xml")) {
+				return; // ts-module shouldn't be displayed
+			} else if (file.getName().endsWith(".ann")) {
+				return; // hide contained .ann files
+			} else if (file.getName().endsWith(".package")) {
+				return;
+			} else if (file.getName().endsWith(".vwm")) {
+				return;
+			} else if (file.getName().endsWith(".wvd")) {
+				return;
+			}
+		} else if (obj instanceof IPackageFragment) {
+			IPackageFragment fragment = (IPackageFragment) obj;
+			if (fragment.getElementName().startsWith("META-INF")) {
+				return; // META-INF shouldn't be displayed
+			}
+		} else if (obj instanceof IStorage) {
+			IStorage st = (IStorage) obj;
+			String n = st.getName();
+			if (st.getName().startsWith("META-INF")) {
+				return; // META-INF shouldn't be displayed
+			}
+		}
+		result.add(obj);
 	}
 
 	/**

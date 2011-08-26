@@ -126,7 +126,7 @@ public class NewPluginProjectWizard extends Wizard implements INewWizard {
 
 		// run the new project creation operation
 		try {
-			getContainer().run(false, true, op);
+			getContainer().run(true, true, op);
 		} catch (InterruptedException e) {
 			EclipsePlugin.log(e);
 		} catch (InvocationTargetException e) {

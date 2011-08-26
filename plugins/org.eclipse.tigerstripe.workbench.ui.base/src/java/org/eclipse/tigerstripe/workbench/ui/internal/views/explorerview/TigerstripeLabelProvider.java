@@ -31,6 +31,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.LabelProviderChangedEvent;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IActiveFacetChangeListener;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
@@ -67,7 +68,57 @@ public class TigerstripeLabelProvider extends TigerstripeExplorerLabelProvider
 			| JavaElementLabels.F_APP_TYPE_SIGNATURE
 			| JavaElementLabels.T_TYPE_PARAMETERS;
 
-	private final IResourceChangeListener resourceChangeListener;
+	private final IResourceChangeListener resourceChangeListener = new IResourceChangeListener() {
+		public void resourceChanged(IResourceChangeEvent event) {
+			IResourceDelta delta = event.getDelta();
+			if (delta == null) {
+				return;
+			}
+
+			for (final IResourceDelta projectDelta : delta
+					.getAffectedChildren(IResourceDelta.ADDED
+							| IResourceDelta.CHANGED)) {
+
+				final IProject project = (IProject) projectDelta.getResource();
+				if (projectDelta.getKind() == IResourceDelta.ADDED
+						|| projectDelta.getKind() == IResourceDelta.CHANGED) {
+					// project descriptor added
+					for (final IResourceDelta file : delta
+							.getAffectedChildren(IResourceDelta.ADDED)) {
+						if (isProjectDescriptor(file)) {
+							addListenerIfNeed(project);
+						}
+					}
+
+					// project descriptor removed
+					for (final IResourceDelta file : delta
+							.getAffectedChildren(IResourceDelta.REMOVED)) {
+						if (isProjectDescriptor(file)) {
+							removeProjectListener(project);
+						}
+					}
+				}
+			}
+
+			// project removed
+			for (IResourceDelta child : delta
+					.getAffectedChildren(IResourceDelta.REMOVED)) {
+				removeProjectListener((IProject) child.getResource());
+			}
+		}
+
+		private boolean isProjectDescriptor(final IResourceDelta delta) {
+			return ITigerstripeConstants.PROJECT_DESCRIPTOR.equals(delta
+					.getResource().getName());
+		}
+
+		private void removeProjectListener(IResource resource) {
+			synchronized (listenedProjects) {
+				listenedProjects.remove(resource);
+			}
+		}
+	};
+
 	private final Map<IProject, IActiveFacetChangeListener> listenedProjects = new HashMap<IProject, IActiveFacetChangeListener>();
 
 	public TigerstripeLabelProvider() {
@@ -77,30 +128,6 @@ public class TigerstripeLabelProvider extends TigerstripeExplorerLabelProvider
 				.getProjects()) {
 			addListenerIfNeed(project);
 		}
-		resourceChangeListener = new IResourceChangeListener() {
-			public void resourceChanged(IResourceChangeEvent event) {
-				IResourceDelta delta = event.getDelta();
-				if (delta != null) {
-					IResourceDelta[] children = delta
-							.getAffectedChildren(IResourceDelta.ADDED);
-					for (IResourceDelta child : children) {
-						IResource resource = child.getResource();
-						if (resource instanceof IProject) {
-							addListenerIfNeed((IProject) resource);
-						}
-					}
-					for (IResourceDelta child : delta
-							.getAffectedChildren(IResourceDelta.REMOVED)) {
-						IResource resource = child.getResource();
-						if (resource instanceof IProject) {
-							synchronized (listenedProjects) {
-								listenedProjects.remove(resource);
-							}
-						}
-					}
-				}
-			}
-		};
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(
 				resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
 	}

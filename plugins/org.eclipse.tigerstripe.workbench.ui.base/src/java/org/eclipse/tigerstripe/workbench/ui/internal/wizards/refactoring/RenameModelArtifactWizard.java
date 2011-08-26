@@ -19,6 +19,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
@@ -82,82 +83,83 @@ public class RenameModelArtifactWizard extends Wizard implements
 
 	private class RefactorRunnable implements IRunnableWithProgress {
 
-		public void run(IProgressMonitor monitor)
-				throws InvocationTargetException, InterruptedException {
+		public void run(IProgressMonitor pm) throws InvocationTargetException,
+				InterruptedException {
 
-			if (getRefactorCommands().length == 0) {
-				List<IRefactorCommand> cmds = new ArrayList<IRefactorCommand>();
-				List<ModelRefactorRequest> requests = getRequests();
-				for (ModelRefactorRequest request : requests) {
+			try {
+				if (getRefactorCommands().length == 0) {
+					List<IRefactorCommand> cmds = new ArrayList<IRefactorCommand>();
+					List<ModelRefactorRequest> requests = getRequests();
+					for (ModelRefactorRequest request : requests) {
+						try {
+							IRefactorCommand command = request
+									.getCommand(new NullProgressMonitor());
+							cmds.add(command);
+						} catch (Exception e) {
+							BasePlugin.log(e);
+						}
+					}
+					setRefactorCommands(cmds.toArray(new IRefactorCommand[cmds
+							.size()]));
+				}
+
+				final SubMonitor monitor = SubMonitor.convert(pm,
+						"Executing commands", getRefactorCommands().length);
+				for (IRefactorCommand command : getRefactorCommands()) {
 					try {
-						IRefactorCommand command = request
-								.getCommand(new NullProgressMonitor());
-						cmds.add(command);
-					} catch (Exception e) {
-						BasePlugin.log(e);
+						closeEditors(command);
+						command.execute(monitor.newChild(1));
+					} catch (TigerstripeException e) {
+						throw new InvocationTargetException(e);
 					}
 				}
-				setRefactorCommands(cmds.toArray(new IRefactorCommand[cmds
-						.size()]));
+			} finally {
+				pm.done();
 			}
+		}
 
-			for (IRefactorCommand command : getRefactorCommands()) {
+		private void closeEditors(IRefactorCommand command) {
+			for (DiagramChangeDelta delta : command.getDiagramDeltas()) {
 
-				try {
+				IFile iFile = (IFile) delta.getAffDiagramHandle()
+						.getDiagramResource();
 
-					// IRefactorCommand command =
-					// getRefactorCommand();//request.getCommand(monitor);
-					for (DiagramChangeDelta delta : command.getDiagramDeltas()) {
+				IWorkbenchWindow windows[] = PlatformUI.getWorkbench()
+						.getWorkbenchWindows();
+				for (int i = 0; i < windows.length; i++) {
 
-						IFile iFile = (IFile) delta.getAffDiagramHandle()
-								.getDiagramResource();
+					IWorkbenchPage pages[] = windows[i].getPages();
+					for (int j = 0; j < pages.length; j++) {
 
-						IWorkbenchWindow windows[] = PlatformUI.getWorkbench()
-								.getWorkbenchWindows();
-						for (int i = 0; i < windows.length; i++) {
+						IEditorReference[] refs = pages[j]
+								.getEditorReferences();
+						for (IEditorReference ref : refs) {
 
-							IWorkbenchPage pages[] = windows[i].getPages();
-							for (int j = 0; j < pages.length; j++) {
+							IEditorPart part = ref.getEditor(false);
+							if (part != null
+									&& part.getTitle().equals(iFile.getName())) {
 
-								IEditorReference[] refs = pages[j]
-										.getEditorReferences();
-								for (IEditorReference ref : refs) {
-
-									IEditorPart part = ref.getEditor(false);
-									if (part != null
-											&& part.getTitle().equals(
-													iFile.getName())) {
-
-										final IEditorPart fPart = part;
-										Display display = Display.getDefault();
-										display.syncExec(new Runnable() {
-											public void run() {
-												PlatformUI
-														.getWorkbench()
-														.getActiveWorkbenchWindow()
-														.getActivePage()
-														.closeEditor(fPart,
-																true);
-											}
-										});
+								final IEditorPart fPart = part;
+								Display display = Display.getDefault();
+								display.syncExec(new Runnable() {
+									public void run() {
+										PlatformUI.getWorkbench()
+												.getActiveWorkbenchWindow()
+												.getActivePage()
+												.closeEditor(fPart, true);
 									}
-								}
+								});
 							}
 						}
 					}
-
-					command.execute(monitor);
-
-				} catch (TigerstripeException e) {
-					throw new InvocationTargetException(e);
 				}
 			}
 		}
 	}
 
 	public RenameModelArtifactWizard() {
-
 		super();
+
 		setNeedsProgressMonitor(true);
 		requests = new ArrayList<ModelRefactorRequest>();
 	}
@@ -203,7 +205,7 @@ public class RenameModelArtifactWizard extends Wizard implements
 
 	public boolean performFinish() {
 		try {
-			getContainer().run(false, true,
+			getContainer().run(true, true,
 					new DisableAutoBuildingRunnable(new RefactorRunnable()));
 		} catch (InvocationTargetException e) {
 			EclipsePlugin.log(e);

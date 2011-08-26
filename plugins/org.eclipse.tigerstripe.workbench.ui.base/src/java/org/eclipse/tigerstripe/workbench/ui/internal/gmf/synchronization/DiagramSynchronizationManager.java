@@ -200,7 +200,7 @@ public class DiagramSynchronizationManager extends
 				.size());
 
 		for (ProjectDiagramsSynchronizer syncer : projectWatchHash.values()) {
-			monitor.setTaskName(syncer.getProject().getName());
+			monitor.setTaskName("Flushing updates for " + syncer.getProject().getName());
 			try {
 				syncer.flushRequestQueue(true, monitor);
 			} catch (Exception e) {

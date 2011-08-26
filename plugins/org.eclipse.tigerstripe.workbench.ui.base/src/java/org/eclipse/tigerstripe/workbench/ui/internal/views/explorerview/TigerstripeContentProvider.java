@@ -28,6 +28,7 @@ import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJarEntryResource;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaModel;
+import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.internal.ui.navigator.IExtensionStateConstants.Values;
 import org.eclipse.jdt.ui.PreferenceConstants;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -35,7 +36,7 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
 import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
 import org.eclipse.tigerstripe.workbench.TigerstripeChangeAdapter;
@@ -48,11 +49,9 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.preferences.ExplorerPreferencePage;
 import org.eclipse.ui.IMemento;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.navigator.extensions.CommonContentExtensionSite;
 import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 import org.eclipse.ui.navigator.IExtensionStateModel;
-import org.eclipse.ui.navigator.INavigatorContentService;
 import org.eclipse.ui.navigator.IPipelinedTreeContentProvider;
 import org.eclipse.ui.navigator.PipelinedShapeModification;
 import org.eclipse.ui.navigator.PipelinedViewerUpdate;
@@ -83,11 +82,23 @@ public class TigerstripeContentProvider extends
 
 	private IPropertyChangeListener fLayoutPropertyListener;
 
-	private INavigatorContentService contentService;
-
 	private TreeViewer viewer;
 
 	private TigerstripeChangeAdapter tigerstripeChangeListener;
+	
+	private void asyncExec(final Runnable r)  {
+		final Control control = viewer.getControl();
+		if(viewer != null && !control.isDisposed()) {
+			control.getDisplay().asyncExec(new Runnable() {
+				
+				public void run() {
+					if(viewer != null && !control.isDisposed() && !viewer.isBusy()) {
+						r.run();
+					}
+				}
+			});
+		}
+	}
 
 	@Override
 	public void init(ICommonContentExtensionSite commonContentExtensionSite) {
@@ -96,8 +107,6 @@ public class TigerstripeContentProvider extends
 						"org.eclipse.jdt.java.ui.javaContent");
 		IMemento memento = commonContentExtensionSite.getMemento();
 		fStateModel = stateModel;
-
-		contentService = commonContentExtensionSite.getService();
 
 		restoreState(memento);
 		fLayoutPropertyListener = new IPropertyChangeListener() {
@@ -128,16 +137,11 @@ public class TigerstripeContentProvider extends
 
 			@Override
 			public void artifactResourceChanged(final IResource resource) {
-
-				PlatformUI.getWorkbench().getDisplay()
-						.asyncExec(new Runnable() {
-
-							public void run() {
-								if (viewer != null) {
-									viewer.refresh(true);
-								}
-							}
-						});
+				asyncExec(new Runnable() {
+					public void run() {
+						viewer.refresh(resource, true);
+					}
+				});
 			}
 
 			@Override
@@ -164,11 +168,10 @@ public class TigerstripeContentProvider extends
 					}
 				}
 				if (!elementsToRefresh.isEmpty()) {
-					Display.getDefault().asyncExec(new Runnable() {
+					final Object[] toRefresh = elementsToRefresh.toArray();
+					asyncExec(new Runnable() {
 						public void run() {
-							for (Object element : elementsToRefresh) {
-								viewer.refresh(element, true);
-							}
+							viewer.refresh(toRefresh, true);
 						}
 					});
 				}
@@ -213,8 +216,8 @@ public class TigerstripeContentProvider extends
 		boolean isCompilationUnitChildren = true;
 		for (Object object : proposedChildren) {
 			if (!(object instanceof IJavaElement)
-					|| !((((IJavaElement) object).getParent() instanceof ICompilationUnit) || ((IJavaElement) object)
-							.getParent() instanceof IClassFile)) {
+					|| !((((IJavaElement) object).getParent() instanceof ICompilationUnit)
+					|| ((IJavaElement) object).getParent() instanceof IClassFile)) {
 				if (object instanceof IJarEntryResource) {
 					if (((IJarEntryResource) object).getName().endsWith(
 							".package")) {
@@ -236,14 +239,10 @@ public class TigerstripeContentProvider extends
 		}
 		for (int i = 0; i < elements.length; i++) {
 			Object element = elements[i];
-			if (element instanceof IProject) {
-				boolean isRemoved = proposedChildren.remove(element);
-				if (isRemoved) {
-					proposedChildren.add(element);
-				}
-			} else if (element != null) {
+			if (element != null) {
 				proposedChildren.clear();
 				proposedChildren.addAll(Arrays.asList(elements));
+				return;
 			}
 		}
 	}
@@ -283,10 +282,14 @@ public class TigerstripeContentProvider extends
 	}
 
 	@Override
-	public PipelinedShapeModification interceptRemove(
-			PipelinedShapeModification aRemoveModification) {
-		contentService.update();
-		return null;
+	public PipelinedShapeModification interceptRemove(PipelinedShapeModification remove) {
+		final Set<Object> filtered = new HashSet<Object>();
+		for(final Object o : remove.getChildren()) {
+			filter(o, remove.getParent(), filtered);
+		}
+		remove.getChildren().clear();
+		remove.getChildren().addAll(filtered);
+		return remove;
 	}
 
 	@Override
@@ -366,17 +369,15 @@ public class TigerstripeContentProvider extends
 	}
 
 	@Override
-	@SuppressWarnings("rawtypes")
 	protected void postAdd(final Object parent, final Object element,
 			Collection runnables) {
 		if (parent instanceof IJavaModel)
 			super.postAdd(((IJavaModel) parent).getWorkspace().getRoot(),
 					element, runnables);
-		else if (parent instanceof IProject)
-			super.postAdd(parent, element, runnables);
+		else if (parent instanceof IJavaProject)
+			super.postAdd(((IJavaProject)parent).getProject(), element, runnables);
 		else
 			super.postAdd(parent, element, runnables);
-		update();
 	}
 
 	@Override
@@ -420,7 +421,7 @@ public class TigerstripeContentProvider extends
 						ExplorerPreferencePage.P_LABEL_STEREO_LIT)
 				|| event.getProperty().equals(
 						ExplorerPreferencePage.P_LABEL_STEREO_END)) {
-			update();
+			viewer.refresh(true);
 		} else if (event.getProperty().equals(
 				ExplorerPreferencePage.P_LABEL_SHOW_RELATIONSHIP_ANCHORS)) {
 			boolean show = EclipsePlugin
@@ -429,15 +430,9 @@ public class TigerstripeContentProvider extends
 					.getBoolean(
 							ExplorerPreferencePage.P_LABEL_SHOW_RELATIONSHIP_ANCHORS);
 			setShowRelationshipAnchors(show);
-			update();
+			viewer.refresh(true);
 		} else {
 			super.propertyChange(event);
-		}
-	}
-
-	private void update() {
-		if (contentService != null) {
-			contentService.update();
 		}
 	}
 

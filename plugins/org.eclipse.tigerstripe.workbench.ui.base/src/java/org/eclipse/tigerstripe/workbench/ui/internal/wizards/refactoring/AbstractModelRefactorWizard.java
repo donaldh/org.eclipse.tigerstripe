@@ -103,7 +103,7 @@ public abstract class AbstractModelRefactorWizard extends Wizard implements
 	public boolean performFinish() {
 
 		try {
-			getContainer().run(false, true, new IRunnableWithProgress() {
+			getContainer().run(true, true, new IRunnableWithProgress() {
 
 				public void run(IProgressMonitor monitor)
 						throws InvocationTargetException, InterruptedException {
