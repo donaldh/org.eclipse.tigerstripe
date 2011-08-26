@@ -45,7 +45,7 @@ get-view "Tigerstripe Explorer" | get-tree
 return-from-os-dialog "MESSAGE_BOX" 64
 get-view "Annotation Property View" | get-table | get-menu "Remove All" | click
 get-view "Tigerstripe Explorer" | get-tree 
-    | select "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\\programs\\eclipsewithTS7\\workspace7\\org.eclipse.tigerstripe\\releng\\org.eclipse.tigerstripe.rcp\\target\\products\\org.eclipse.tigerstripe.rcp\\win32\\win32\\x86\\plugins/org.eclipse.tigerstripe.test"]]></content>
+    | select "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test"]]></content>
   </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
