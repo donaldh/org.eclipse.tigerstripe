@@ -129,7 +129,7 @@ public class NewTigerstripeExplorerContentProvider extends
 			IAbstractArtifact artifact = TSExplorerUtils
 					.getArtifactFor(parentElement);
 			if (artifact != null) {
-				getChildren(artifact);
+				return getChildren(artifact);
 			}
 		} else if (parentElement instanceof IJavaModel) {
 			rawChildren = getTigerstripeProjects();
@@ -173,19 +173,25 @@ public class NewTigerstripeExplorerContentProvider extends
 			for (Object child : childs) {
 				if (isValidReferencedElement(child)) {
 					Object elementToWrap = child;
-					if (!(elementToWrap instanceof IModelComponent)) {
-						Object adapted = Platform
-								.getAdapterManager().getAdapter(child,
-										IModelComponent.class);
-						if (adapted != null) {
-							elementToWrap = adapted;
+					if (!(child instanceof IPackageFragment)) {
+						if (!(elementToWrap instanceof IModelComponent)) {
+							Object adapted = Platform.getAdapterManager()
+									.getAdapter(child, IModelComponent.class);
+							if (adapted != null) {
+								elementToWrap = adapted;
+							}
+						}
+						if (elementToWrap instanceof IModelComponent
+								&& !(child instanceof IContextProjectAware)) {
+							elementToWrap = ContextProjectAwareProxy
+									.newInstance(elementToWrap,
+											wrapper.getContextProject());
+
 						}
 					}
-					if (elementToWrap instanceof IModelComponent
-							&& !(child instanceof IContextProjectAware)) {
-						elementToWrap = ContextProjectAwareProxy.newInstance(
-								elementToWrap, wrapper.getContextProject());
 
+					if (elementToWrap == null) {
+						elementToWrap = child;
 					}
 					ElementWrapper elementWrapper = new ElementWrapper(
 							elementToWrap, wrapper.getContextProject());

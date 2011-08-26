@@ -215,7 +215,7 @@ public class ArtifactMetadataFactory {
 			return metadataRegistry.get(IAssociationClassArtifact.class.getSimpleName());
 		} else if (elementClassesContains(element, "DependencyArtifact")) {
 			return metadataRegistry.get(IDependencyArtifact.class.getSimpleName());
-		} else if (elementClassesContains(element, "SessionFacadeArtifact")) {
+		} else if (elementClassesContains(element, "SessionArtifact")) {
 			return metadataRegistry.get(ISessionArtifact.class.getSimpleName());
 		} else if (elementClassesContains(element, "QueryArtifact")) {
 			return metadataRegistry.get(IQueryArtifact.class.getSimpleName());
