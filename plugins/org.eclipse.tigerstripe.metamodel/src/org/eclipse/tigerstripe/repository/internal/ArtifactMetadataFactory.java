@@ -201,43 +201,54 @@ public class ArtifactMetadataFactory {
 	 * @return
 	 */
 	public IModelComponentMetadata getMetadata(Object element) {
-		if (element.getClass().getSimpleName().contains("ManagedEntityArtifact")) {
+		if (elementClassesContains(element, "ManagedEntityArtifact")) {
 			return metadataRegistry.get(IManagedEntityArtifact.class.getSimpleName());
-		} else if (element.getClass().getSimpleName().contains("DatatypeArtifact")) {
+		} else if (elementClassesContains(element, "DatatypeArtifact")) {
 			return metadataRegistry.get(IDatatypeArtifact.class.getSimpleName());
-		} else if (element.getClass().getSimpleName().contains("ExceptionArtifact")) {
+		} else if (elementClassesContains(element, "ExceptionArtifact")) {
 			return metadataRegistry.get(IExceptionArtifact.class.getSimpleName());
-		} else if (element.getClass().getSimpleName().contains("EnumArtifact")) {
+		} else if (elementClassesContains(element, "EnumArtifact")) {
 			return metadataRegistry.get(IEnumArtifact.class.getSimpleName());
-		} else if (element.getClass().getSimpleName().contains("AssociationArtifact")) {
+		} else if (elementClassesContains(element, "AssociationArtifact")) {
 			return metadataRegistry.get(IAssociationArtifact.class.getSimpleName());
-		} else if (element.getClass().getSimpleName().contains(
-				"AssociationClassArtifact")) {
+		} else if (elementClassesContains(element, "AssociationClassArtifact")) {
 			return metadataRegistry.get(IAssociationClassArtifact.class.getSimpleName());
-		} else if (element.getClass().getSimpleName().contains("DependencyArtifact")) {
+		} else if (elementClassesContains(element, "DependencyArtifact")) {
 			return metadataRegistry.get(IDependencyArtifact.class.getSimpleName());
-		} else if (element.getClass().getSimpleName().contains("SessionFacadeArtifact")) {
+		} else if (elementClassesContains(element, "SessionFacadeArtifact")) {
 			return metadataRegistry.get(ISessionArtifact.class.getSimpleName());
-		} else if (element.getClass().getSimpleName().contains("QueryArtifact")) {
+		} else if (elementClassesContains(element, "QueryArtifact")) {
 			return metadataRegistry.get(IQueryArtifact.class.getSimpleName());
-		} else if (element.getClass().getSimpleName().contains(
-				"UpdateProcedureArtifact")) {
+		} else if (elementClassesContains(element, "UpdateProcedureArtifact")) {
 			return metadataRegistry.get(IUpdateProcedureArtifact.class.getSimpleName());
-		} else if (element.getClass().getSimpleName().contains("Package")) {
+		} else if (elementClassesContains(element, "Package")) {
 			return metadataRegistry.get(IPackage.class.getSimpleName());
-		} else if (element.getClass().getSimpleName().contains("EventArtifact")) {
+		} else if (elementClassesContains(element, "EventArtifact")) {
 			return metadataRegistry.get(IEventArtifact.class.getSimpleName());
-		} else if (element.getClass().getSimpleName().contains("PrimitiveType")) {
+		} else if (elementClassesContains(element, "PrimitiveType")) {
 			return metadataRegistry.get(IPrimitiveType.class.getSimpleName());
-		} else if (element.getClass().getSimpleName().contains("Field")) {
+		} else if (elementClassesContains(element, "Field")) {
 			return metadataRegistry.get(IField.class.getSimpleName());
-		} else if (element.getClass().getSimpleName().contains("Method")) {
+		} else if (elementClassesContains(element, "Method")) {
 			return metadataRegistry.get(IMethod.class.getSimpleName());
-		} else if (element.getClass().getSimpleName().contains("Literal")) {
+		} else if (elementClassesContains(element, "Literal")) {
 			return metadataRegistry.get(ILiteral.class.getSimpleName());
 		}
 
 		return null;
+	}
+
+	private boolean elementClassesContains(Object element, String marker) {
+		return contains(element.getClass().getInterfaces(), marker);
+	}
+
+	private boolean contains(Class<?>[] classes, String marker) {
+		for (Class<?> aClass : classes) {
+			if (aClass.getSimpleName().contains(marker)) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private void populateRegistry() {

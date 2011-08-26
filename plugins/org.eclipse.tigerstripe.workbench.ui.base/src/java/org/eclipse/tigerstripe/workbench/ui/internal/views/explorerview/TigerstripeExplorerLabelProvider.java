@@ -19,7 +19,6 @@ import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
-import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.internal.ui.packageview.PackageExplorerContentProvider;
 import org.eclipse.jdt.internal.ui.packageview.PackageExplorerLabelProvider;
@@ -59,9 +58,9 @@ public class TigerstripeExplorerLabelProvider extends
 	public StyledString getStyledText(Object element) {
 		StyledString string = null;
 		if (element instanceof IElementWrapper) {
-			IAdapterManager manager = Platform.getAdapterManager();
 			Object el = ((IElementWrapper) element).getElement();
-			if (!(el instanceof IPackageFragment)) {
+			if (!(el instanceof IModelComponent)) {
+				IAdapterManager manager = Platform.getAdapterManager();
 				Object adapted = manager.getAdapter(element,
 						IModelComponent.class);
 				if (adapted != null) {
@@ -70,8 +69,9 @@ public class TigerstripeExplorerLabelProvider extends
 			}
 			return getStyledText(el);
 		} else if (element instanceof IProject) {
-			IAbstractTigerstripeProject tsProj = (IAbstractTigerstripeProject) toJavaProject((IProject) element)
-					.getAdapter(IAbstractTigerstripeProject.class);
+			IAbstractTigerstripeProject tsProj = (IAbstractTigerstripeProject) toJavaProject(
+					(IProject) element).getAdapter(
+					IAbstractTigerstripeProject.class);
 			string = TigerstripeUILabels.getStyledString(tsProj,
 					TigerstripeUILabels.COLORIZE);
 		} else if (element instanceof IJavaElement) {
@@ -102,7 +102,7 @@ public class TigerstripeExplorerLabelProvider extends
 		} else if (element instanceof AbstractLogicalExplorerNode) {
 			string = TigerstripeUILabels.getStyledString(element,
 					TigerstripeUILabels.COLORIZE);
-		} else if (element instanceof RelationshipAnchor ) {
+		} else if (element instanceof RelationshipAnchor) {
 			string = TigerstripeUILabels.getStyledString(element,
 					TigerstripeUILabels.COLORIZE);
 		}
@@ -140,12 +140,12 @@ public class TigerstripeExplorerLabelProvider extends
 							element);
 				else if (TigerstripePluginProjectNature.hasNature(iProject)
 						&& iProject.isOpen())
-					return decorateImage(Images
-							.get(Images.PLUGINPROJECT_FOLDER), element);
+					return decorateImage(
+							Images.get(Images.PLUGINPROJECT_FOLDER), element);
 				else if (TigerstripeM0GeneratorNature.hasNature(iProject)
 						&& iProject.isOpen())
-					return decorateImage(Images
-							.get(Images.PLUGINPROJECT_FOLDER), element);
+					return decorateImage(
+							Images.get(Images.PLUGINPROJECT_FOLDER), element);
 			} catch (CoreException e) {
 				EclipsePlugin.log(e);
 			}
@@ -163,8 +163,9 @@ public class TigerstripeExplorerLabelProvider extends
 						IAbstractArtifact artifact = TSExplorerUtils
 								.getArtifactFor(element);
 						if (artifact != null)
-							return decorateImage(artifactLabelProvider
-									.getImage(artifact), element);
+							return decorateImage(
+									artifactLabelProvider.getImage(artifact),
+									element);
 						else
 							return super.getImage(element);
 					}
@@ -190,6 +191,9 @@ public class TigerstripeExplorerLabelProvider extends
 				return decorateImage(node.getImage(), node.getKeyResource());
 			else
 				return super.getImage(node.getKeyResource());
+		} else if (element instanceof IAbstractArtifact) {
+			return decorateImage(artifactLabelProvider.getImage(element),
+					element);
 		}
 		return super.getImage(element);
 	}

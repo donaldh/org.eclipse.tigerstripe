@@ -42,6 +42,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeChangeAdapter;
 import org.eclipse.tigerstripe.workbench.diagram.IDiagram;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
+import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -146,7 +147,13 @@ public class TigerstripeContentProvider extends
 					URI uri = delta.getAffectedModelComponentURI();
 					IModelComponent component = TigerstripeURIAdapterFactory
 							.uriToComponent(uri);
-					if (component instanceof IAbstractArtifact) {
+					if (component instanceof IContextProjectAware) {
+						ElementWrapper wrapper = new ElementWrapper(
+								component,
+								((IContextProjectAware) component)
+										.getContextProject());
+						elementsToRefresh.add(wrapper);
+					} else if (component instanceof IAbstractArtifact) {
 						IJavaElement element = (IJavaElement) component
 								.getAdapter(IJavaElement.class);
 						if (element != null) {
@@ -206,8 +213,8 @@ public class TigerstripeContentProvider extends
 		boolean isCompilationUnitChildren = true;
 		for (Object object : proposedChildren) {
 			if (!(object instanceof IJavaElement)
-					|| !((((IJavaElement) object).getParent() instanceof ICompilationUnit)
-					|| ((IJavaElement) object).getParent() instanceof IClassFile)) {
+					|| !((((IJavaElement) object).getParent() instanceof ICompilationUnit) || ((IJavaElement) object)
+							.getParent() instanceof IClassFile)) {
 				if (object instanceof IJarEntryResource) {
 					if (((IJarEntryResource) object).getName().endsWith(
 							".package")) {

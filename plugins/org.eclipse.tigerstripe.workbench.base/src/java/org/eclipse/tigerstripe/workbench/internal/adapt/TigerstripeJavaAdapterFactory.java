@@ -20,8 +20,6 @@ import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.tigerstripe.workbench.IElementWrapper;
-import org.eclipse.tigerstripe.workbench.IModuleElementWrapper;
-import org.eclipse.tigerstripe.workbench.IReferencedProjectElementWrapper;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
@@ -29,6 +27,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ContextProjectAware
 import org.eclipse.tigerstripe.workbench.internal.core.module.InstalledModule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
+import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -60,18 +59,11 @@ public class TigerstripeJavaAdapterFactory implements IAdapterFactory {
 			}
 
 			if (result != null && result instanceof IModelComponent) {
-				ITigerstripeModelProject context = null;
-				if (wrapper instanceof IModuleElementWrapper) {
-					context = getProjectFor(((IModuleElementWrapper) adaptableObject)
-							.getParent());
-				} else if (wrapper instanceof IReferencedProjectElementWrapper) {
-					context = ((IReferencedProjectElementWrapper) wrapper)
-							.getParent();
-				}
-
-				if (context != null) {
-					return ContextProjectAwareProxy
-							.newInstance(result, context);
+				if (result instanceof IContextProjectAware) {
+					return result;
+				} else if (wrapper.getContextProject() != null) {
+					return ContextProjectAwareProxy.newInstance(result,
+							wrapper.getContextProject());
 				}
 			}
 			return null;
