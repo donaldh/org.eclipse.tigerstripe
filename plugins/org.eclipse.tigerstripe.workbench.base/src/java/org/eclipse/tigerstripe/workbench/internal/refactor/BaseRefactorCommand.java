@@ -29,6 +29,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringChangesListener;
 import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringNotifier;
@@ -95,9 +96,8 @@ public class BaseRefactorCommand implements IRefactorCommand {
 	 * @param monitor
 	 *            -
 	 */
-	public void execute(IProgressMonitor monitor) throws TigerstripeException {
-		if (monitor == null)
-			monitor = new NullProgressMonitor();
+	public void execute(IProgressMonitor pm) throws TigerstripeException {
+		final SubMonitor monitor = SubMonitor.convert(pm, 6);
 
 		// long time = System.currentTimeMillis();
 		// System.out.println("Starting refactor");
@@ -107,15 +107,15 @@ public class BaseRefactorCommand implements IRefactorCommand {
 
 		// First move all diagrams and resource. After that we can remove all
 		// empty orphaned packages.
-		moveDiagrams(monitor);
-		moveResources(monitor);
+		moveDiagrams(monitor.newChild(1));
+		moveResources(monitor.newChild(1));
 
-		ITigerstripeModelProject[] affectedProjects = applyAllDeltas(monitor,
+		ITigerstripeModelProject[] affectedProjects = applyAllDeltas(monitor.newChild(1),
 				toCleanUp);
 		// long time1 = System.currentTimeMillis();
 		// System.out.println("Done with Deltas: " + (time1 - time));
 
-		updateDiagrams(monitor);
+		updateDiagrams(monitor.newChild(1));
 
 		if (isCrossProjectCmd()) {
 			// At this stage the artifacts have been refactored inside the
@@ -132,11 +132,11 @@ public class BaseRefactorCommand implements IRefactorCommand {
 							.size()]);
 		}
 
-		cleanUp(toCleanUp, monitor);
+		cleanUp(toCleanUp, monitor.newChild(1));
 		// time1 = System.currentTimeMillis();
 		// System.out.println("Done clean up: " + (time1 - time));
 
-		rebuildIndexes(affectedProjects, monitor);
+		rebuildIndexes(affectedProjects, monitor.newChild(1));
 		// time1 = System.currentTimeMillis();
 		// System.out.println("Done index rebuild: " + (time1 - time));
 

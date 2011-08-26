@@ -17,12 +17,55 @@ import java.util.Properties;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
+import org.apache.velocity.runtime.RuntimeConstants;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.util.encode.XmlEscape;
 
 public abstract class AbstractArtifactPersister {
+
+	private static final Object ENGINE_LOCK = new Object(); 
+	private static VelocityEngine engine;
+	
+	private static VelocityEngine getEngine() throws Exception {
+		synchronized(ENGINE_LOCK) {
+			if(engine == null) {
+				engine = createEngine();
+			}
+			return engine;
+		}
+	}
+
+	/**
+	 * Initializes the Velocity framework and sets it up with a classpath
+	 * loader.
+	 * 
+	 * @throws Exception,
+	 *             if the class loader cannot be set up
+	 */
+	private static VelocityEngine createEngine() throws Exception {
+
+		VelocityEngine engine = new VelocityEngine();
+		Properties properties = new Properties();
+		properties.put(RuntimeConstants.RESOURCE_LOADER, "class");
+		properties
+				.put("class.resource.loader.class",
+						"org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+		properties.put("class.resource.loader.cache", "true");
+		properties.put("runtime.log", "tigerstripe/velocity.log");
+		
+		ClassLoader startingLoader = Thread.currentThread().getContextClassLoader();
+		try {
+			if( engine.getClass().getClassLoader() != Thread.currentThread().getContextClassLoader()) {
+				Thread.currentThread().setContextClassLoader(engine.getClass().getClassLoader());
+			}
+			engine.init(properties);
+		} finally {
+			Thread.currentThread().setContextClassLoader(startingLoader);
+		}
+		return engine;
+	}
 
 	private IAbstractArtifactInternal artifact;
 
@@ -83,39 +126,10 @@ public abstract class AbstractArtifactPersister {
 	// ========================================================================
 	// ========================================================================
 
-	/**
-	 * Initializes the Velocity framework and sets it up with a classpath
-	 * loader.
-	 * 
-	 * @throws Exception,
-	 *             if the class loader cannot be set up
-	 */
-	protected VelocityEngine setClasspathLoaderForVelocity() throws Exception {
-
-		VelocityEngine engine = new VelocityEngine();
-		Properties properties = new Properties();
-		properties.put("resource.loader", "class");
-		properties
-				.put("class.resource.loader.class",
-						"org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
-		properties.put("runtime.log", "tigerstripe/velocity.log");
-		
-		ClassLoader startingLoader = Thread.currentThread().getContextClassLoader();
-		try {
-			if( engine.getClass().getClassLoader() != Thread.currentThread().getContextClassLoader()) {
-				Thread.currentThread().setContextClassLoader(engine.getClass().getClassLoader());
-			}
-			engine.init(properties);
-		} finally {
-			Thread.currentThread().setContextClassLoader(startingLoader);
-		}
-		return engine;
-	}
-
+	
 	public void applyTemplate() throws TigerstripeException {
 		try {
-			VelocityEngine engine = setClasspathLoaderForVelocity();
-			Template template = engine.getTemplate(getTemplate());
+			Template template = getEngine().getTemplate(getTemplate());
 
 			VelocityContext context = new VelocityContext();
 			context.put("artifact", getArtifact());
