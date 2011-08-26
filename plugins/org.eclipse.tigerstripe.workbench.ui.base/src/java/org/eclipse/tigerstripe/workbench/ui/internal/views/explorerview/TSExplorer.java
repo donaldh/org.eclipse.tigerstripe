@@ -9,6 +9,29 @@ import org.eclipse.ui.navigator.CommonNavigator;
 import org.eclipse.ui.navigator.ICommonActionConstants;
 
 public class TSExplorer extends CommonNavigator {
+	private static TSExplorer instance;
+	
+	public static TSExplorer getInstance() {
+		return instance;
+	}
+	
+	private TigerstripeContentProvider contentProvider;
+	private TigerstripeLabelProvider labelProvider;
+	
+	public TSExplorer() {
+		super();
+		contentProvider = new TigerstripeContentProvider();
+		labelProvider = new TigerstripeLabelProvider(contentProvider);
+		instance = this;
+	}
+	
+	public TigerstripeContentProvider getContentProvider() {
+		return contentProvider;
+	}
+	
+	public TigerstripeLabelProvider getLabelProvider() {
+		return labelProvider;
+	}
 
 	@Override
 	public String getFrameToolTipText(Object anElement) {

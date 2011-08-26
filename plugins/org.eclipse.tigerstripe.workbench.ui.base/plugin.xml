@@ -1146,10 +1146,10 @@
 	
 		<navigatorContent
 			activeByDefault="true"
-			contentProvider="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TigerstripeContentProvider"
+			contentProvider="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TSExplorerAccess:contentProvider"
 			icon="src/icons/ts_logo.gif.gif"
 			id="org.eclipse.tigerstripe.workbench.ui.explorer.tigerstripeContent"
-			labelProvider="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TigerstripeLabelProvider"
+			labelProvider="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TSExplorerAccess:labelProvider"
 			name="Tigerstripe Content"
 			priority="higher">
          <triggerPoints>

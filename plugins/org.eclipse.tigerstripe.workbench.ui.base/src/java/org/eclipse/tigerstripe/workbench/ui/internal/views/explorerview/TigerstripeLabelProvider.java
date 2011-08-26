@@ -121,8 +121,8 @@ public class TigerstripeLabelProvider extends TigerstripeExplorerLabelProvider
 
 	private final Map<IProject, IActiveFacetChangeListener> listenedProjects = new HashMap<IProject, IActiveFacetChangeListener>();
 
-	public TigerstripeLabelProvider() {
-		super(new TigerstripeContentProvider());
+	public TigerstripeLabelProvider(final TigerstripeContentProvider contentProvider) {
+		super(contentProvider);
 
 		for (IProject project : EclipsePlugin.getWorkspace().getRoot()
 				.getProjects()) {

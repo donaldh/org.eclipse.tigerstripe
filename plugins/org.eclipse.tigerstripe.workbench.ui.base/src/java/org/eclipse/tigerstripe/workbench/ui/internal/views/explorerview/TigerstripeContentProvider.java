@@ -34,7 +34,7 @@ import org.eclipse.jdt.ui.PreferenceConstants;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
-import org.eclipse.jface.viewers.TreeViewer;
+import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
@@ -82,7 +82,7 @@ public class TigerstripeContentProvider extends
 
 	private IPropertyChangeListener fLayoutPropertyListener;
 
-	private TreeViewer viewer;
+	private AbstractTreeViewer viewer;
 
 	private TigerstripeChangeAdapter tigerstripeChangeListener;
 	
@@ -171,7 +171,9 @@ public class TigerstripeContentProvider extends
 					final Object[] toRefresh = elementsToRefresh.toArray();
 					asyncExec(new Runnable() {
 						public void run() {
-							viewer.refresh(toRefresh, true);
+							for(final Object o : toRefresh) {
+								viewer.refresh(o, true);
+							}
 						}
 					});
 				}
@@ -290,17 +292,6 @@ public class TigerstripeContentProvider extends
 		remove.getChildren().clear();
 		remove.getChildren().addAll(filtered);
 		return remove;
-	}
-
-	@Override
-	public boolean interceptRefresh(
-			PipelinedViewerUpdate aRefreshSynchronization) {
-		return false;
-	}
-
-	@Override
-	public boolean interceptUpdate(PipelinedViewerUpdate anUpdateSynchronization) {
-		return false;
 	}
 
 	@Override
@@ -435,12 +426,14 @@ public class TigerstripeContentProvider extends
 			super.propertyChange(event);
 		}
 	}
-
+	
 	@Override
 	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 		super.inputChanged(viewer, oldInput, newInput);
-		if (viewer instanceof TreeViewer) {
-			this.viewer = (TreeViewer) viewer;
+		if (viewer instanceof AbstractTreeViewer) {
+			this.viewer = (AbstractTreeViewer) viewer;
+		} else {
+			this.viewer = null;
 		}
 	}
 

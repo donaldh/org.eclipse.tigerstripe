@@ -36,6 +36,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TSExplorer;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TigerstripeLabelProvider;
 import org.eclipse.ui.part.DrillDownComposite;
 
@@ -300,7 +301,7 @@ public class NewVelocityWizardPage extends WizardPage {
 			drillDown.setChildTree(treeViewer);
 			TemplatesContainerContentProvider cp = new TemplatesContainerContentProvider();
 			treeViewer.setContentProvider(cp);
-			treeViewer.setLabelProvider(new TigerstripeLabelProvider());
+			treeViewer.setLabelProvider(new TigerstripeLabelProvider(TSExplorer.getInstance().getContentProvider()));
 			treeViewer.setComparator(new ViewerComparator());
 			treeViewer.setUseHashlookup(true);
 			treeViewer
