@@ -318,45 +318,21 @@ public class TigerstripeContentProvider extends
 	}
 
 	@SuppressWarnings("unchecked")
-	private boolean convertToTigerstripeElements(
+	private void convertToTigerstripeElements(
 			PipelinedShapeModification modification) {
 		Object[] elements = getElements(modification.getParent());
 		for (Object element : elements) {
 			if (element instanceof IDiagram) {
-				boolean isRemoved = modification.getChildren().remove(
-						((IDiagram) element).getDiagramFile());
-				isRemoved &= modification.getChildren().remove(
-						((IDiagram) element).getModelFile());
-				if (!isRemoved) {
-					modification.getChildren().clear();
-				}
-				modification.getChildren().add(element);
-			}
-			if (element instanceof IProject) {
-				boolean isRemoved = modification.getChildren().remove(element);
-				if (isRemoved) {
+				IDiagram diagram = (IDiagram) element;
+				boolean removed = modification.getChildren().remove(
+						diagram.getDiagramFile())
+						&& modification.getChildren().remove(
+								diagram.getModelFile());
+				if (removed) {
 					modification.getChildren().add(element);
 				}
-			} else if (element instanceof IDiagram) {
-				modification.getChildren().remove(
-						((IDiagram) element).getDiagramFile());
-				modification.getChildren().remove(
-						((IDiagram) element).getModelFile());
-				modification.getChildren().add(element);
 			}
 		}
-		if (modification.getParent() instanceof IProject) {
-			Object[] tsProjects = getElements(((IProject) modification
-					.getParent()).getParent());
-			for (Object prj : tsProjects) {
-				if (prj instanceof IProject) {
-					if (modification.getParent().equals(prj)) {
-						modification.setParent(prj);
-					}
-				}
-			}
-		}
-		return true;
 	}
 
 	@Override
