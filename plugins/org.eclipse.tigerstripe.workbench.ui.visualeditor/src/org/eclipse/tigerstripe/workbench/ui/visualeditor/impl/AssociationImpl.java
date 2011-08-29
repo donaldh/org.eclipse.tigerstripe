@@ -1064,65 +1064,63 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		if (!isReadonly) {
-			switch (featureID) {
-			case VisualeditorPackage.ASSOCIATION__AEND:
-				setAEnd((AbstractArtifact) newValue);
-				return;
-			case VisualeditorPackage.ASSOCIATION__AEND_NAME:
-				setAEndName((String) newValue);
-				return;
-			case VisualeditorPackage.ASSOCIATION__AEND_MULTIPLICITY:
-				setAEndMultiplicity((AssocMultiplicity) newValue);
-				return;
-			case VisualeditorPackage.ASSOCIATION__AEND_IS_NAVIGABLE:
-				setAEndIsNavigable(((Boolean) newValue).booleanValue());
-				return;
-			case VisualeditorPackage.ASSOCIATION__AEND_IS_ORDERED:
-				setAEndIsOrdered(((Boolean) newValue).booleanValue());
-				return;
-			case VisualeditorPackage.ASSOCIATION__AEND_IS_UNIQUE:
-				setAEndIsUnique(((Boolean) newValue).booleanValue());
-				return;
-			case VisualeditorPackage.ASSOCIATION__AEND_IS_CHANGEABLE:
-				setAEndIsChangeable((ChangeableEnum) newValue);
-				return;
-			case VisualeditorPackage.ASSOCIATION__AEND_AGGREGATION:
-				setAEndAggregation((AggregationEnum) newValue);
-				return;
-			case VisualeditorPackage.ASSOCIATION__AEND_VISIBILITY:
-				setAEndVisibility((Visibility) newValue);
-				return;
-			case VisualeditorPackage.ASSOCIATION__ZEND:
-				setZEnd((AbstractArtifact) newValue);
-				return;
-			case VisualeditorPackage.ASSOCIATION__ZEND_NAME:
-				setZEndName((String) newValue);
-				return;
-			case VisualeditorPackage.ASSOCIATION__ZEND_MULTIPLICITY:
-				setZEndMultiplicity((AssocMultiplicity) newValue);
-				return;
-			case VisualeditorPackage.ASSOCIATION__ZEND_IS_NAVIGABLE:
-				setZEndIsNavigable(((Boolean) newValue).booleanValue());
-				return;
-			case VisualeditorPackage.ASSOCIATION__ZEND_IS_ORDERED:
-				setZEndIsOrdered(((Boolean) newValue).booleanValue());
-				return;
-			case VisualeditorPackage.ASSOCIATION__ZEND_IS_UNIQUE:
-				setZEndIsUnique(((Boolean) newValue).booleanValue());
-				return;
-			case VisualeditorPackage.ASSOCIATION__ZEND_IS_CHANGEABLE:
-				setZEndIsChangeable((ChangeableEnum) newValue);
-				return;
-			case VisualeditorPackage.ASSOCIATION__ZEND_AGGREGATION:
-				setZEndAggregation((AggregationEnum) newValue);
-				return;
-			case VisualeditorPackage.ASSOCIATION__ZEND_VISIBILITY:
-				setZEndVisibility((Visibility) newValue);
-				return;
-			}
-			super.eSet(featureID, newValue);
+		switch (featureID) {
+		case VisualeditorPackage.ASSOCIATION__AEND:
+			setAEnd((AbstractArtifact) newValue);
+			return;
+		case VisualeditorPackage.ASSOCIATION__AEND_NAME:
+			setAEndName((String) newValue);
+			return;
+		case VisualeditorPackage.ASSOCIATION__AEND_MULTIPLICITY:
+			setAEndMultiplicity((AssocMultiplicity) newValue);
+			return;
+		case VisualeditorPackage.ASSOCIATION__AEND_IS_NAVIGABLE:
+			setAEndIsNavigable(((Boolean) newValue).booleanValue());
+			return;
+		case VisualeditorPackage.ASSOCIATION__AEND_IS_ORDERED:
+			setAEndIsOrdered(((Boolean) newValue).booleanValue());
+			return;
+		case VisualeditorPackage.ASSOCIATION__AEND_IS_UNIQUE:
+			setAEndIsUnique(((Boolean) newValue).booleanValue());
+			return;
+		case VisualeditorPackage.ASSOCIATION__AEND_IS_CHANGEABLE:
+			setAEndIsChangeable((ChangeableEnum) newValue);
+			return;
+		case VisualeditorPackage.ASSOCIATION__AEND_AGGREGATION:
+			setAEndAggregation((AggregationEnum) newValue);
+			return;
+		case VisualeditorPackage.ASSOCIATION__AEND_VISIBILITY:
+			setAEndVisibility((Visibility) newValue);
+			return;
+		case VisualeditorPackage.ASSOCIATION__ZEND:
+			setZEnd((AbstractArtifact) newValue);
+			return;
+		case VisualeditorPackage.ASSOCIATION__ZEND_NAME:
+			setZEndName((String) newValue);
+			return;
+		case VisualeditorPackage.ASSOCIATION__ZEND_MULTIPLICITY:
+			setZEndMultiplicity((AssocMultiplicity) newValue);
+			return;
+		case VisualeditorPackage.ASSOCIATION__ZEND_IS_NAVIGABLE:
+			setZEndIsNavigable(((Boolean) newValue).booleanValue());
+			return;
+		case VisualeditorPackage.ASSOCIATION__ZEND_IS_ORDERED:
+			setZEndIsOrdered(((Boolean) newValue).booleanValue());
+			return;
+		case VisualeditorPackage.ASSOCIATION__ZEND_IS_UNIQUE:
+			setZEndIsUnique(((Boolean) newValue).booleanValue());
+			return;
+		case VisualeditorPackage.ASSOCIATION__ZEND_IS_CHANGEABLE:
+			setZEndIsChangeable((ChangeableEnum) newValue);
+			return;
+		case VisualeditorPackage.ASSOCIATION__ZEND_AGGREGATION:
+			setZEndAggregation((AggregationEnum) newValue);
+			return;
+		case VisualeditorPackage.ASSOCIATION__ZEND_VISIBILITY:
+			setZEndVisibility((Visibility) newValue);
+			return;
 		}
+		super.eSet(featureID, newValue);
 	}
 
 	/**
