@@ -138,7 +138,9 @@ public class AbstractArtifactAdapter {
 	 * @return
 	 */
 	public static IAbstractArtifact adapt(Object obj) {
-		if (obj instanceof IElementWrapper) {
+		if (obj instanceof IAbstractArtifact) {
+			return (IAbstractArtifact) obj;
+		} else if (obj instanceof IElementWrapper) {
 			return adapt(((IElementWrapper) obj).getElement());
 		} else if (obj instanceof IJavaElement) {
 			IJavaElement jElement = (IJavaElement) obj;

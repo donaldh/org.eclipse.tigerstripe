@@ -17,6 +17,7 @@ import java.io.StringBufferInputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -1783,8 +1784,17 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof IAbstractArtifactInternal)
-			return obj == this; // default behavior
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (obj instanceof IAbstractArtifactInternal) {
+			if (Proxy.isProxyClass(obj.getClass())) {
+				return obj.equals(this);
+			} else {
+				return obj == this; // default behavior
+			}
+		}
 		else if (obj instanceof ComparableArtifact) {
 			ComparableArtifact other = (ComparableArtifact) obj;
 			return other.getArtifact() != null

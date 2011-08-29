@@ -303,14 +303,10 @@ public class TSOpenAction extends OpenAction {
 		if (page == null)
 			return;
 		for (Object object : objects) {
-			if (object instanceof IElementWrapper) {
-				object = ((IElementWrapper) object).getElement();
-			}
-
-			if (object instanceof IJavaElement) {
-				IJavaElement jElem = (IJavaElement) object;
-				IAbstractArtifact artifact = null;
-				artifact = TSExplorerUtils.getArtifactFor(jElem);
+			if (object instanceof IJavaElement
+					|| object instanceof IElementWrapper) {
+				IAbstractArtifact artifact = TSExplorerUtils
+						.getArtifactFor(object);
 				if (artifact != null) {
 					openEditor(artifact, page);
 				} else {

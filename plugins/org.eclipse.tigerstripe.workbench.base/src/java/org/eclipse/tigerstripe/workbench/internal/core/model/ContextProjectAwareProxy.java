@@ -52,6 +52,11 @@ public class ContextProjectAwareProxy implements
 							|| "getMethods".equals(m.getName())) {
 						result = processResult(result);
 					}
+
+					if (result != null
+							&& "getExtendedArtifact".equals(m.getName())) {
+						result = newInstance(result, context);
+					}
 				}
 			}
 		} catch (InvocationTargetException e) {

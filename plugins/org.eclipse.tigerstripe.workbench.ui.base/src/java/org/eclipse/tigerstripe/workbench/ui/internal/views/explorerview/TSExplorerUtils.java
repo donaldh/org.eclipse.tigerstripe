@@ -72,7 +72,9 @@ public class TSExplorerUtils {
 
 	// Util methods
 	public static IAbstractArtifact getArtifactFor(Object element) {
-		if (element instanceof IElementWrapper) {
+		if (element instanceof IAbstractArtifact) {
+			return (IAbstractArtifact) element;
+		} else if (element instanceof IElementWrapper) {
 			return getArtifactFor(((IElementWrapper) element).getElement());
 		} else if (element instanceof ICompilationUnit) {
 
