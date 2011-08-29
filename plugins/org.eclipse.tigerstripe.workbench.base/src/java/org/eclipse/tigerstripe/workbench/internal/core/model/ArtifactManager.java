@@ -25,6 +25,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -1466,10 +1467,7 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 
 	// ==========================================================================
 	// ==========================================================================
-	private Collection<IArtifactChangeListener> listeners = new ArrayList<IArtifactChangeListener>();
-
-	// A readWrite lock to allow for multiple reads on the listeners but 1 write
-	private final ReadWriteLock listenersLock = new ReentrantReadWriteLock();
+	private Collection<IArtifactChangeListener> listeners = new CopyOnWriteArrayList<IArtifactChangeListener>();
 
 	/**
 	 * Add a listener to this Artifact Manager
@@ -1478,14 +1476,8 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 		if (wasDisposed) {
 			return;
 		}
-		Lock lwriteLock = listenersLock.writeLock();
-		try {
-			lwriteLock.lock();
-			if (!listeners.contains(listener))
-				listeners.add(listener);
-		} finally {
-			lwriteLock.unlock();
-		}
+		if (!listeners.contains(listener))
+			listeners.add(listener);
 	}
 
 	/**
@@ -1495,53 +1487,34 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 		if (wasDisposed) {
 			return;
 		}
-		Lock lwriteLock = listenersLock.writeLock();
-		try {
-			lwriteLock.lock();
-			listeners.remove(listener);
-		} finally {
-			lwriteLock.unlock();
-		}
+		listeners.remove(listener);
 	}
 
 	protected void notifyReload() {
-		Lock lreadLock = listenersLock.readLock();
-		try {
-			lreadLock.lock();
-			if (shouldNotify
-					&& (broadcastMask & IArtifactChangeListener.NOTIFY_RELOADED) == IArtifactChangeListener.NOTIFY_RELOADED) {
-				for (IArtifactChangeListener listener : listeners) {
-					try {
-						listener.managerReloaded();
-					} catch (Exception e) {
-						// finish the loop even if exception raised in handler
-						BasePlugin.log(e);
-					}
+		if (shouldNotify
+				&& (broadcastMask & IArtifactChangeListener.NOTIFY_RELOADED) == IArtifactChangeListener.NOTIFY_RELOADED) {
+			for (IArtifactChangeListener listener : listeners) {
+				try {
+					listener.managerReloaded();
+				} catch (Exception e) {
+					// finish the loop even if exception raised in handler
+					BasePlugin.log(e);
 				}
 			}
-		} finally {
-			lreadLock.unlock();
 		}
 	}
 
 	protected void notifyArtifactAdded(IAbstractArtifact artifact) {
-		Lock lreadLock = listenersLock.readLock();
-		try {
-			lreadLock.lock();
-			if (shouldNotify
-					&& (broadcastMask & IArtifactChangeListener.NOTIFY_ADDED) == IArtifactChangeListener.NOTIFY_ADDED) {
-				for (IArtifactChangeListener listener : listeners) {
-					try {
-						listener.artifactAdded(artifact);
-					} catch (Exception e) {
-						// finish the loop even if exception raised in handler
-						BasePlugin.log(e);
-					}
+		if (shouldNotify
+				&& (broadcastMask & IArtifactChangeListener.NOTIFY_ADDED) == IArtifactChangeListener.NOTIFY_ADDED) {
+			for (IArtifactChangeListener listener : listeners) {
+				try {
+					listener.artifactAdded(artifact);
+				} catch (Exception e) {
+					// finish the loop even if exception raised in handler
+					BasePlugin.log(e);
 				}
 			}
-
-		} finally {
-			lreadLock.unlock();
 		}
 	}
 
@@ -1592,46 +1565,31 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 			IAbstractArtifact oldArtifact) {
 		// FIXME: the notification should really be coming from the refresh
 		// based on what was actually reloaded?
-
-		Lock lreadLock = listenersLock.readLock();
-		try {
-			lreadLock.lock();
-			if (shouldNotify
-					&& (broadcastMask & IArtifactChangeListener.NOTIFY_CHANGED) == IArtifactChangeListener.NOTIFY_CHANGED) {
-				for (IArtifactChangeListener listener : listeners) {
-					try {
-						// System.out.println("Notify Artifact Changed "+listener);
-						listener.artifactChanged(artifact, oldArtifact);
-					} catch (Exception e) {
-						// finish the loop even if exception raised in handler
-						BasePlugin.log(e);
-					}
+		if (shouldNotify
+				&& (broadcastMask & IArtifactChangeListener.NOTIFY_CHANGED) == IArtifactChangeListener.NOTIFY_CHANGED) {
+			for (IArtifactChangeListener listener : listeners) {
+				try {
+					// System.out.println("Notify Artifact Changed "+listener);
+					listener.artifactChanged(artifact, oldArtifact);
+				} catch (Exception e) {
+					// finish the loop even if exception raised in handler
+					BasePlugin.log(e);
 				}
 			}
-
-		} finally {
-			lreadLock.unlock();
 		}
 	}
 
 	protected void notifyArtifactRemoved(IAbstractArtifact artifact) {
-		Lock lreadLock = listenersLock.readLock();
-		try {
-			lreadLock.lock();
-			if (shouldNotify
-					&& (broadcastMask & IArtifactChangeListener.NOTIFY_REMOVED) == IArtifactChangeListener.NOTIFY_REMOVED) {
-				for (IArtifactChangeListener listener : listeners) {
-					try {
-						listener.artifactRemoved(artifact);
-					} catch (Exception e) {
-						// finish the loop even if exception raised in handler
-						BasePlugin.log(e);
-					}
+		if (shouldNotify
+				&& (broadcastMask & IArtifactChangeListener.NOTIFY_REMOVED) == IArtifactChangeListener.NOTIFY_REMOVED) {
+			for (IArtifactChangeListener listener : listeners) {
+				try {
+					listener.artifactRemoved(artifact);
+				} catch (Exception e) {
+					// finish the loop even if exception raised in handler
+					BasePlugin.log(e);
 				}
 			}
-
-		} finally {
-			lreadLock.unlock();
 		}
 	}
 
@@ -2528,25 +2486,17 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 		if (wasDisposed) {
 			return;
 		}
-
-		Lock lreadLock = listenersLock.readLock();
-		try {
-			lreadLock.lock();
-			if (shouldNotify
-					&& (broadcastMask & IArtifactChangeListener.NOTIFY_RENAMED) == IArtifactChangeListener.NOTIFY_RENAMED) {
-				for (IArtifactChangeListener listener : listeners) {
-					try {
-						listener.artifactRenamed(artifact, fromFQN);
-					} catch (Exception e) {
-						// We need to make sure that all listeners will be
-						// notified even if one handler fails.
-						BasePlugin.log(e);
-					}
+		if (shouldNotify
+				&& (broadcastMask & IArtifactChangeListener.NOTIFY_RENAMED) == IArtifactChangeListener.NOTIFY_RENAMED) {
+			for (IArtifactChangeListener listener : listeners) {
+				try {
+					listener.artifactRenamed(artifact, fromFQN);
+				} catch (Exception e) {
+					// We need to make sure that all listeners will be
+					// notified even if one handler fails.
+					BasePlugin.log(e);
 				}
 			}
-
-		} finally {
-			lreadLock.unlock();
 		}
 	}
 
