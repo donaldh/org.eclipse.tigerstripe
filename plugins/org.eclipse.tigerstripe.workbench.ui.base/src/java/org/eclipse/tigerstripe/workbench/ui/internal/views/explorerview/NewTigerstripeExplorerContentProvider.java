@@ -50,8 +50,10 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ContextProjectAware
 import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeGeneratorProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -84,6 +86,11 @@ public class NewTigerstripeExplorerContentProvider extends
 			List<Object> raw = new ArrayList<Object>();
 
 			raw.addAll(artifact.getContainedModelComponents());
+			// dependency ends aren't model components
+			if (parentElement instanceof IDependencyArtifact) {
+				raw.addAll(((IDependencyArtifact) parentElement)
+						.getRelationshipEnds());
+			}
 
 			// This code adds the Association Ends below the artifact
 			// in the explorer.
@@ -241,9 +248,13 @@ public class NewTigerstripeExplorerContentProvider extends
 		} else if (element instanceof IFile
 				&& ((IFile) element).getName().endsWith(".package")) {
 			return false;
-		} else if (element instanceof PackageFragmentRoot
-				|| (element instanceof IAdaptable && ((IAdaptable) element)
-						.getAdapter(IModelComponent.class) != null)) {
+		} else if (element instanceof PackageFragmentRoot) {
+			return true;
+		} else if (element instanceof IModelComponent
+				|| element instanceof IRelationshipEnd) {
+			return true;
+		} else if (element instanceof IAdaptable
+				&& ((IAdaptable) element).getAdapter(IModelComponent.class) != null) {
 			return true;
 		}
 		return false;

@@ -303,8 +303,11 @@ public class TSOpenAction extends OpenAction {
 		if (page == null)
 			return;
 		for (Object object : objects) {
-			if (object instanceof IJavaElement
-					|| object instanceof IElementWrapper) {
+			if (object instanceof IElementWrapper) {
+				object = ((IElementWrapper) object).getElement();
+			}
+
+			if (object instanceof IJavaElement) {
 				IAbstractArtifact artifact = TSExplorerUtils
 						.getArtifactFor(object);
 				if (artifact != null) {
