@@ -8,6 +8,9 @@ import java.util.List;
 
 import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class ContextProjectAwareProxy implements
@@ -46,15 +49,22 @@ public class ContextProjectAwareProxy implements
 				}
 			} else {
 				result = m.invoke(obj, args);
-				if (IAbstractArtifact.class.equals(m.getDeclaringClass())) {
-					if ("getLiterals".equals(m.getName())
-							|| "getFields".equals(m.getName())
-							|| "getMethods".equals(m.getName())) {
-						result = processResult(result);
-					}
+				if (result != null) {
+					if (IAbstractArtifact.class.equals(m.getDeclaringClass())) {
+						if ("getLiterals".equals(m.getName())
+								|| "getFields".equals(m.getName())
+								|| "getMethods".equals(m.getName())) {
+							result = processResult(result);
+						}
 
-					if (result != null
-							&& "getExtendedArtifact".equals(m.getName())) {
+						if (result != null
+								&& "getExtendedArtifact".equals(m.getName())) {
+							result = newInstance(result, context);
+						}
+					} else if ((ILiteral.class.equals(m.getDeclaringClass())
+							|| IField.class.equals(m.getDeclaringClass()) || IMethod.class
+							.equals(m.getDeclaringClass()))
+							&& "getContainingArtifact".equals(m.getName())) {
 						result = newInstance(result, context);
 					}
 				}
@@ -69,7 +79,8 @@ public class ContextProjectAwareProxy implements
 	}
 
 	private Object processResult(Object result) {
-		if (result instanceof Collection<?>) {
+		if (result instanceof Collection<?>
+				&& !((Collection<?>) result).isEmpty()) {
 			return processCollection((Collection<?>) result);
 		}
 		return result;
