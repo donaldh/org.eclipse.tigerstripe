@@ -259,8 +259,10 @@ public class DependencyNamePackageEditPart extends
 			IAbstractArtifact iArtifact = qualNamedElem
 					.getCorrespondingIArtifact();
 			StringBuffer stereotypeBuffer = new StringBuffer();
-			if (!Boolean.parseBoolean(helper
-					.getPropertyValue(DiagramPropertiesHelper.HIDESTEREOTYPES))) {
+			if (iArtifact != null
+					&& !Boolean
+							.parseBoolean(helper
+									.getPropertyValue(DiagramPropertiesHelper.HIDESTEREOTYPES))) {
 				stereotypeBuffer.append(ModelElementAnnotationsHelper
 						.getAnnotationsAsString(iArtifact));
 			}
