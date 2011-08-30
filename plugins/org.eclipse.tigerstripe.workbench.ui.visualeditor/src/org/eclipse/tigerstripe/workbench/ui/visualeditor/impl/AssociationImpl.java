@@ -1060,7 +1060,7 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated NOT
+	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
@@ -1126,69 +1126,67 @@ public class AssociationImpl extends QualifiedNamedElementImpl implements
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated NOT
+	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		if (!isReadonly) {
-			switch (featureID) {
-			case VisualeditorPackage.ASSOCIATION__AEND:
-				setAEnd((AbstractArtifact) null);
-				return;
-			case VisualeditorPackage.ASSOCIATION__AEND_NAME:
-				setAEndName(AEND_NAME_EDEFAULT);
-				return;
-			case VisualeditorPackage.ASSOCIATION__AEND_MULTIPLICITY:
-				setAEndMultiplicity(AEND_MULTIPLICITY_EDEFAULT);
-				return;
-			case VisualeditorPackage.ASSOCIATION__AEND_IS_NAVIGABLE:
-				setAEndIsNavigable(AEND_IS_NAVIGABLE_EDEFAULT);
-				return;
-			case VisualeditorPackage.ASSOCIATION__AEND_IS_ORDERED:
-				setAEndIsOrdered(AEND_IS_ORDERED_EDEFAULT);
-				return;
-			case VisualeditorPackage.ASSOCIATION__AEND_IS_UNIQUE:
-				setAEndIsUnique(AEND_IS_UNIQUE_EDEFAULT);
-				return;
-			case VisualeditorPackage.ASSOCIATION__AEND_IS_CHANGEABLE:
-				setAEndIsChangeable(AEND_IS_CHANGEABLE_EDEFAULT);
-				return;
-			case VisualeditorPackage.ASSOCIATION__AEND_AGGREGATION:
-				setAEndAggregation(AEND_AGGREGATION_EDEFAULT);
-				return;
-			case VisualeditorPackage.ASSOCIATION__AEND_VISIBILITY:
-				setAEndVisibility(AEND_VISIBILITY_EDEFAULT);
-				return;
-			case VisualeditorPackage.ASSOCIATION__ZEND:
-				setZEnd((AbstractArtifact) null);
-				return;
-			case VisualeditorPackage.ASSOCIATION__ZEND_NAME:
-				setZEndName(ZEND_NAME_EDEFAULT);
-				return;
-			case VisualeditorPackage.ASSOCIATION__ZEND_MULTIPLICITY:
-				setZEndMultiplicity(ZEND_MULTIPLICITY_EDEFAULT);
-				return;
-			case VisualeditorPackage.ASSOCIATION__ZEND_IS_NAVIGABLE:
-				setZEndIsNavigable(ZEND_IS_NAVIGABLE_EDEFAULT);
-				return;
-			case VisualeditorPackage.ASSOCIATION__ZEND_IS_ORDERED:
-				setZEndIsOrdered(ZEND_IS_ORDERED_EDEFAULT);
-				return;
-			case VisualeditorPackage.ASSOCIATION__ZEND_IS_UNIQUE:
-				setZEndIsUnique(ZEND_IS_UNIQUE_EDEFAULT);
-				return;
-			case VisualeditorPackage.ASSOCIATION__ZEND_IS_CHANGEABLE:
-				setZEndIsChangeable(ZEND_IS_CHANGEABLE_EDEFAULT);
-				return;
-			case VisualeditorPackage.ASSOCIATION__ZEND_AGGREGATION:
-				setZEndAggregation(ZEND_AGGREGATION_EDEFAULT);
-				return;
-			case VisualeditorPackage.ASSOCIATION__ZEND_VISIBILITY:
-				setZEndVisibility(ZEND_VISIBILITY_EDEFAULT);
-				return;
-			}
-			super.eUnset(featureID);
+		switch (featureID) {
+		case VisualeditorPackage.ASSOCIATION__AEND:
+			setAEnd((AbstractArtifact) null);
+			return;
+		case VisualeditorPackage.ASSOCIATION__AEND_NAME:
+			setAEndName(AEND_NAME_EDEFAULT);
+			return;
+		case VisualeditorPackage.ASSOCIATION__AEND_MULTIPLICITY:
+			setAEndMultiplicity(AEND_MULTIPLICITY_EDEFAULT);
+			return;
+		case VisualeditorPackage.ASSOCIATION__AEND_IS_NAVIGABLE:
+			setAEndIsNavigable(AEND_IS_NAVIGABLE_EDEFAULT);
+			return;
+		case VisualeditorPackage.ASSOCIATION__AEND_IS_ORDERED:
+			setAEndIsOrdered(AEND_IS_ORDERED_EDEFAULT);
+			return;
+		case VisualeditorPackage.ASSOCIATION__AEND_IS_UNIQUE:
+			setAEndIsUnique(AEND_IS_UNIQUE_EDEFAULT);
+			return;
+		case VisualeditorPackage.ASSOCIATION__AEND_IS_CHANGEABLE:
+			setAEndIsChangeable(AEND_IS_CHANGEABLE_EDEFAULT);
+			return;
+		case VisualeditorPackage.ASSOCIATION__AEND_AGGREGATION:
+			setAEndAggregation(AEND_AGGREGATION_EDEFAULT);
+			return;
+		case VisualeditorPackage.ASSOCIATION__AEND_VISIBILITY:
+			setAEndVisibility(AEND_VISIBILITY_EDEFAULT);
+			return;
+		case VisualeditorPackage.ASSOCIATION__ZEND:
+			setZEnd((AbstractArtifact) null);
+			return;
+		case VisualeditorPackage.ASSOCIATION__ZEND_NAME:
+			setZEndName(ZEND_NAME_EDEFAULT);
+			return;
+		case VisualeditorPackage.ASSOCIATION__ZEND_MULTIPLICITY:
+			setZEndMultiplicity(ZEND_MULTIPLICITY_EDEFAULT);
+			return;
+		case VisualeditorPackage.ASSOCIATION__ZEND_IS_NAVIGABLE:
+			setZEndIsNavigable(ZEND_IS_NAVIGABLE_EDEFAULT);
+			return;
+		case VisualeditorPackage.ASSOCIATION__ZEND_IS_ORDERED:
+			setZEndIsOrdered(ZEND_IS_ORDERED_EDEFAULT);
+			return;
+		case VisualeditorPackage.ASSOCIATION__ZEND_IS_UNIQUE:
+			setZEndIsUnique(ZEND_IS_UNIQUE_EDEFAULT);
+			return;
+		case VisualeditorPackage.ASSOCIATION__ZEND_IS_CHANGEABLE:
+			setZEndIsChangeable(ZEND_IS_CHANGEABLE_EDEFAULT);
+			return;
+		case VisualeditorPackage.ASSOCIATION__ZEND_AGGREGATION:
+			setZEndAggregation(ZEND_AGGREGATION_EDEFAULT);
+			return;
+		case VisualeditorPackage.ASSOCIATION__ZEND_VISIBILITY:
+			setZEndVisibility(ZEND_VISIBILITY_EDEFAULT);
+			return;
 		}
+		super.eUnset(featureID);
 	}
 
 	/**

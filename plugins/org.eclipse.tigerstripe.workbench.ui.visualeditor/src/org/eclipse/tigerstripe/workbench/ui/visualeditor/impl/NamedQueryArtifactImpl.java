@@ -124,35 +124,31 @@ public class NamedQueryArtifactImpl extends AbstractArtifactImpl implements
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated NOT
+	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		if (!isReadonly) {
-			switch (featureID) {
-			case VisualeditorPackage.NAMED_QUERY_ARTIFACT__RETURNED_TYPE:
-				setReturnedType((AbstractArtifact) newValue);
-				return;
-			}
-			super.eSet(featureID, newValue);
+		switch (featureID) {
+		case VisualeditorPackage.NAMED_QUERY_ARTIFACT__RETURNED_TYPE:
+			setReturnedType((AbstractArtifact) newValue);
+			return;
 		}
+		super.eSet(featureID, newValue);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated NOT
+	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		if (!isReadonly) {
-			switch (featureID) {
-			case VisualeditorPackage.NAMED_QUERY_ARTIFACT__RETURNED_TYPE:
-				setReturnedType((AbstractArtifact) null);
-				return;
-			}
-			super.eUnset(featureID);
+		switch (featureID) {
+		case VisualeditorPackage.NAMED_QUERY_ARTIFACT__RETURNED_TYPE:
+			setReturnedType((AbstractArtifact) null);
+			return;
 		}
+		super.eUnset(featureID);
 	}
 
 	/**

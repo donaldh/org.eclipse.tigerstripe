@@ -362,39 +362,37 @@ public class DependencyImpl extends QualifiedNamedElementImpl implements
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated NOT
+	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		if (!isReadonly) {
-			switch (featureID) {
-			case VisualeditorPackage.DEPENDENCY__AEND:
-				setAEnd((AbstractArtifact) newValue);
-				return;
-			case VisualeditorPackage.DEPENDENCY__AEND_MULTIPLICITY:
-				setAEndMultiplicity((AssocMultiplicity) newValue);
-				return;
-			case VisualeditorPackage.DEPENDENCY__AEND_IS_NAVIGABLE:
-				setAEndIsNavigable(((Boolean) newValue).booleanValue());
-				return;
-			case VisualeditorPackage.DEPENDENCY__ZEND:
-				setZEnd((AbstractArtifact) newValue);
-				return;
-			case VisualeditorPackage.DEPENDENCY__ZEND_MULTIPLICITY:
-				setZEndMultiplicity((AssocMultiplicity) newValue);
-				return;
-			case VisualeditorPackage.DEPENDENCY__ZEND_IS_NAVIGABLE:
-				setZEndIsNavigable(((Boolean) newValue).booleanValue());
-				return;
-			}
-			super.eSet(featureID, newValue);
+		switch (featureID) {
+		case VisualeditorPackage.DEPENDENCY__AEND:
+			setAEnd((AbstractArtifact) newValue);
+			return;
+		case VisualeditorPackage.DEPENDENCY__AEND_MULTIPLICITY:
+			setAEndMultiplicity((AssocMultiplicity) newValue);
+			return;
+		case VisualeditorPackage.DEPENDENCY__AEND_IS_NAVIGABLE:
+			setAEndIsNavigable(((Boolean) newValue).booleanValue());
+			return;
+		case VisualeditorPackage.DEPENDENCY__ZEND:
+			setZEnd((AbstractArtifact) newValue);
+			return;
+		case VisualeditorPackage.DEPENDENCY__ZEND_MULTIPLICITY:
+			setZEndMultiplicity((AssocMultiplicity) newValue);
+			return;
+		case VisualeditorPackage.DEPENDENCY__ZEND_IS_NAVIGABLE:
+			setZEndIsNavigable(((Boolean) newValue).booleanValue());
+			return;
 		}
+		super.eSet(featureID, newValue);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated NOT
+	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {

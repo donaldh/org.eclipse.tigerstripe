@@ -180,57 +180,53 @@ public class SessionFacadeArtifactImpl extends AbstractArtifactImpl implements
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated NOT
+	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		if (!isReadonly) {
-			switch (featureID) {
-			case VisualeditorPackage.SESSION_FACADE_ARTIFACT__MANAGED_ENTITIES:
-				getManagedEntities().clear();
-				getManagedEntities().addAll((Collection) newValue);
-				return;
-			case VisualeditorPackage.SESSION_FACADE_ARTIFACT__EMITTED_NOTIFICATIONS:
-				getEmittedNotifications().clear();
-				getEmittedNotifications().addAll((Collection) newValue);
-				return;
-			case VisualeditorPackage.SESSION_FACADE_ARTIFACT__NAMED_QUERIES:
-				getNamedQueries().clear();
-				getNamedQueries().addAll((Collection) newValue);
-				return;
-			case VisualeditorPackage.SESSION_FACADE_ARTIFACT__EXPOSED_PROCEDURES:
-				getExposedProcedures().clear();
-				getExposedProcedures().addAll((Collection) newValue);
-				return;
-			}
-			super.eSet(featureID, newValue);
+		switch (featureID) {
+		case VisualeditorPackage.SESSION_FACADE_ARTIFACT__MANAGED_ENTITIES:
+			getManagedEntities().clear();
+			getManagedEntities().addAll((Collection) newValue);
+			return;
+		case VisualeditorPackage.SESSION_FACADE_ARTIFACT__EMITTED_NOTIFICATIONS:
+			getEmittedNotifications().clear();
+			getEmittedNotifications().addAll((Collection) newValue);
+			return;
+		case VisualeditorPackage.SESSION_FACADE_ARTIFACT__NAMED_QUERIES:
+			getNamedQueries().clear();
+			getNamedQueries().addAll((Collection) newValue);
+			return;
+		case VisualeditorPackage.SESSION_FACADE_ARTIFACT__EXPOSED_PROCEDURES:
+			getExposedProcedures().clear();
+			getExposedProcedures().addAll((Collection) newValue);
+			return;
 		}
+		super.eSet(featureID, newValue);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated NOT
+	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		if (!isReadonly) {
-			switch (featureID) {
-			case VisualeditorPackage.SESSION_FACADE_ARTIFACT__MANAGED_ENTITIES:
-				getManagedEntities().clear();
-				return;
-			case VisualeditorPackage.SESSION_FACADE_ARTIFACT__EMITTED_NOTIFICATIONS:
-				getEmittedNotifications().clear();
-				return;
-			case VisualeditorPackage.SESSION_FACADE_ARTIFACT__NAMED_QUERIES:
-				getNamedQueries().clear();
-				return;
-			case VisualeditorPackage.SESSION_FACADE_ARTIFACT__EXPOSED_PROCEDURES:
-				getExposedProcedures().clear();
-				return;
-			}
-			super.eUnset(featureID);
+		switch (featureID) {
+		case VisualeditorPackage.SESSION_FACADE_ARTIFACT__MANAGED_ENTITIES:
+			getManagedEntities().clear();
+			return;
+		case VisualeditorPackage.SESSION_FACADE_ARTIFACT__EMITTED_NOTIFICATIONS:
+			getEmittedNotifications().clear();
+			return;
+		case VisualeditorPackage.SESSION_FACADE_ARTIFACT__NAMED_QUERIES:
+			getNamedQueries().clear();
+			return;
+		case VisualeditorPackage.SESSION_FACADE_ARTIFACT__EXPOSED_PROCEDURES:
+			getExposedProcedures().clear();
+			return;
 		}
+		super.eUnset(featureID);
 	}
 
 	/**

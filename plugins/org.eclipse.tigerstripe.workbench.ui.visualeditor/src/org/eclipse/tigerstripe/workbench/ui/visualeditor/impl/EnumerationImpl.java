@@ -118,35 +118,31 @@ public class EnumerationImpl extends AbstractArtifactImpl implements
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated NOT
+	 * @generated
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		if (!isReadonly) {
-			switch (featureID) {
-			case VisualeditorPackage.ENUMERATION__BASE_TYPE:
-				setBaseType((String) newValue);
-				return;
-			}
-			super.eSet(featureID, newValue);
+		switch (featureID) {
+		case VisualeditorPackage.ENUMERATION__BASE_TYPE:
+			setBaseType((String) newValue);
+			return;
 		}
+		super.eSet(featureID, newValue);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated NOT
+	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		if (!isReadonly) {
-			switch (featureID) {
-			case VisualeditorPackage.ENUMERATION__BASE_TYPE:
-				setBaseType(BASE_TYPE_EDEFAULT);
-				return;
-			}
-			super.eUnset(featureID);
+		switch (featureID) {
+		case VisualeditorPackage.ENUMERATION__BASE_TYPE:
+			setBaseType(BASE_TYPE_EDEFAULT);
+			return;
 		}
+		super.eUnset(featureID);
 	}
 
 	/**

@@ -289,72 +289,62 @@ public class AbstractArtifactImpl extends QualifiedNamedElementImpl implements
 	 */
 	@Override
 	public void eSet(int featureID, Object newValue) {
-		// If this is only allowed on read only, then the initial read
-		// can't create anything, and the diagram will ALWAYS be wrong
-		// when opened.
-		//if (!isReadonly) {
-			switch (featureID) {
-			case VisualeditorPackage.ABSTRACT_ARTIFACT__EXTENDS:
-				setExtends((AbstractArtifact) newValue);
-				return;
-			case VisualeditorPackage.ABSTRACT_ARTIFACT__ATTRIBUTES:
-				getAttributes().clear();
-				getAttributes().addAll((Collection) newValue);
-				return;
-			case VisualeditorPackage.ABSTRACT_ARTIFACT__LITERALS:
-				getLiterals().clear();
-				getLiterals().addAll((Collection) newValue);
-				return;
-			case VisualeditorPackage.ABSTRACT_ARTIFACT__METHODS:
-				getMethods().clear();
-				getMethods().addAll((Collection) newValue);
-				return;
-			case VisualeditorPackage.ABSTRACT_ARTIFACT__REFERENCES:
-				getReferences().clear();
-				getReferences().addAll((Collection) newValue);
-				return;
-			case VisualeditorPackage.ABSTRACT_ARTIFACT__IMPLEMENTS:
-				getImplements().clear();
-				getImplements().addAll((Collection) newValue);
-				return;
-			}
-			super.eSet(featureID, newValue);
-		//}
+		switch (featureID) {
+		case VisualeditorPackage.ABSTRACT_ARTIFACT__EXTENDS:
+			setExtends((AbstractArtifact) newValue);
+			return;
+		case VisualeditorPackage.ABSTRACT_ARTIFACT__ATTRIBUTES:
+			getAttributes().clear();
+			getAttributes().addAll((Collection) newValue);
+			return;
+		case VisualeditorPackage.ABSTRACT_ARTIFACT__LITERALS:
+			getLiterals().clear();
+			getLiterals().addAll((Collection) newValue);
+			return;
+		case VisualeditorPackage.ABSTRACT_ARTIFACT__METHODS:
+			getMethods().clear();
+			getMethods().addAll((Collection) newValue);
+			return;
+		case VisualeditorPackage.ABSTRACT_ARTIFACT__REFERENCES:
+			getReferences().clear();
+			getReferences().addAll((Collection) newValue);
+			return;
+		case VisualeditorPackage.ABSTRACT_ARTIFACT__IMPLEMENTS:
+			getImplements().clear();
+			getImplements().addAll((Collection) newValue);
+			return;
+		}
+		super.eSet(featureID, newValue);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @generated NOT
+	 * @generated
 	 */
 	@Override
 	public void eUnset(int featureID) {
-		// If this is only allowed on read only, then the initial read
-		// can't create anything, and the diagram will ALWAYS be wrong
-		// when opened.
-		//if (!isReadonly) {
-			switch (featureID) {
-			case VisualeditorPackage.ABSTRACT_ARTIFACT__EXTENDS:
-				setExtends((AbstractArtifact) null);
-				return;
-			case VisualeditorPackage.ABSTRACT_ARTIFACT__ATTRIBUTES:
-				getAttributes().clear();
-				return;
-			case VisualeditorPackage.ABSTRACT_ARTIFACT__LITERALS:
-				getLiterals().clear();
-				return;
-			case VisualeditorPackage.ABSTRACT_ARTIFACT__METHODS:
-				getMethods().clear();
-				return;
-			case VisualeditorPackage.ABSTRACT_ARTIFACT__REFERENCES:
-				getReferences().clear();
-				return;
-			case VisualeditorPackage.ABSTRACT_ARTIFACT__IMPLEMENTS:
-				getImplements().clear();
-				return;
-			}
-			super.eUnset(featureID);
-		//}
+		switch (featureID) {
+		case VisualeditorPackage.ABSTRACT_ARTIFACT__EXTENDS:
+			setExtends((AbstractArtifact) null);
+			return;
+		case VisualeditorPackage.ABSTRACT_ARTIFACT__ATTRIBUTES:
+			getAttributes().clear();
+			return;
+		case VisualeditorPackage.ABSTRACT_ARTIFACT__LITERALS:
+			getLiterals().clear();
+			return;
+		case VisualeditorPackage.ABSTRACT_ARTIFACT__METHODS:
+			getMethods().clear();
+			return;
+		case VisualeditorPackage.ABSTRACT_ARTIFACT__REFERENCES:
+			getReferences().clear();
+			return;
+		case VisualeditorPackage.ABSTRACT_ARTIFACT__IMPLEMENTS:
+			getImplements().clear();
+			return;
+		}
+		super.eUnset(featureID);
 	}
 
 	/**

@@ -13,14 +13,17 @@ package org.eclipse.tigerstripe.workbench.internal;
 import org.apache.log4j.Level;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.MultiStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderer;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderingSession;
@@ -28,6 +31,8 @@ import org.eclipse.tigerstripe.workbench.internal.builder.ProjectInfo;
 import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceListener;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.startup.PostInstallActions;
+import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.osgi.framework.BundleContext;
 
 public class BasePlugin extends Plugin {
@@ -59,6 +64,32 @@ public class BasePlugin extends Plugin {
 		executePostInstallationActions(context);
 
 		extensionPointRegistered();
+
+		new WorkspaceJob("Tigerstipe content refresh") {
+
+			@Override
+			public IStatus runInWorkspace(IProgressMonitor monitor)
+					throws CoreException {
+				try {
+					monitor.beginTask(getName(), IProgressMonitor.UNKNOWN);
+					for (final IProject project : ResourcesPlugin
+							.getWorkspace().getRoot().getProjects()) {
+						final IAbstractTigerstripeProject tsProject = TigerstripeCore
+								.findProject(project);
+						if (tsProject instanceof ITigerstripeModelProject) {
+							final ITigerstripeModelProject modelProject = (ITigerstripeModelProject) tsProject;
+							modelProject.getArtifactManagerSession().refresh(
+									null);
+						}
+					}
+				} catch (TigerstripeException te) {
+					getLog().log(new Status(IStatus.ERROR, PLUGIN_ID, te.getMessage(), te));
+				} finally {
+					monitor.done();
+				}
+				return Status.OK_STATUS;
+			}
+		}.schedule();
 
 		startWorkspaceListener();
 	}
