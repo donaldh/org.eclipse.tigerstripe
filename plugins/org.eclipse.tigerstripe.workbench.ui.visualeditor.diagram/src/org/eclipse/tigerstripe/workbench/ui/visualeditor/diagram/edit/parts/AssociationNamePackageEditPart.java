@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,7 +24,6 @@ import org.eclipse.emf.transaction.RunnableWithResult;
 import org.eclipse.gef.AccessibleEditPart;
 import org.eclipse.gef.EditPolicy;
 import org.eclipse.gef.Request;
-import org.eclipse.gef.requests.DirectEditRequest;
 import org.eclipse.gef.tools.DirectEditManager;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParser;
 import org.eclipse.gmf.runtime.common.ui.services.parser.IParserEditStatus;
@@ -35,7 +33,6 @@ import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ITextAwareEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editpolicies.LabelDirectEditPolicy;
 import org.eclipse.gmf.runtime.diagram.ui.l10n.DiagramColorRegistry;
-import org.eclipse.gmf.runtime.diagram.ui.requests.RequestConstants;
 import org.eclipse.gmf.runtime.diagram.ui.tools.TextDirectEditManager;
 import org.eclipse.gmf.runtime.draw2d.ui.figures.WrapLabel;
 import org.eclipse.gmf.runtime.emf.core.util.EObjectAdapter;
@@ -57,14 +54,11 @@ import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
-import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
-import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.ModelElementAnnotationsHelper;
 import org.eclipse.tigerstripe.workbench.ui.internal.gmf.InitialDiagramPrefs;
 import org.eclipse.tigerstripe.workbench.ui.internal.wizards.refactoring.RenameModelArtifactWizard;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.Map;
@@ -276,23 +270,8 @@ public class AssociationNamePackageEditPart extends
 			StringBuffer stereotypeBuffer = new StringBuffer();
 			if (!Boolean.parseBoolean(helper
 					.getPropertyValue(DiagramPropertiesHelper.HIDESTEREOTYPES))) {
-				IWorkbenchProfile profile = TigerstripeCore.getWorkbenchProfileSession().getActiveProfile();
-				if (iArtifact != null) {
-					Collection<IStereotypeInstance> stereotypes = iArtifact
-							.getStereotypeInstances();
-					for (IStereotypeInstance stereotype : stereotypes) {
-						IStereotype stereo = profile.getStereotypeByName(stereotype.getName());
-						if (stereo != null){
-							if (stereotypeBuffer.length() == 0)
-								stereotypeBuffer.append("<<");
-							else
-								stereotypeBuffer.append(", ");
-							stereotypeBuffer.append(stereotype.getName());
-						}
-					}
-				}
-				if (stereotypeBuffer.length() != 0)
-					stereotypeBuffer.append(">>\n");
+				stereotypeBuffer.append(ModelElementAnnotationsHelper
+						.getAnnotationsAsString(iArtifact));
 			}
 			// get the length of the first line (the bufferLen); remember the
 			// extra newline character
