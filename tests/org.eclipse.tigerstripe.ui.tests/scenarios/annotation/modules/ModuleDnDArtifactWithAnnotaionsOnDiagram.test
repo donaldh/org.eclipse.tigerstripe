@@ -1,0 +1,1145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="ModuleDnDArtifactWithAnnotationsOnDiagram" version="3.0" id="_M7JqwNN1EeCino64Gq4rnQ" description="Drag and drop artifact with annotation on the class diagram in installed module &#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;ModuleAddRemoveAnnotation&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;    Create new Class Diagram for Project1&#xD;&#xA;    Add annotation for E1 and its attribute and method on diagram&#xD;&#xA;    Drag and Drop E1 on the diagram&#xD;&#xA;    Check that annotations are displayed&#xD;&#xA;" tags="Annotation/module" type="ecl" externalReference="http://docs.xored.com/display/TS/ModuleDnDArtifactWithAnnotaionsOnDiagram">
+  <contexts>_RR91gMiqEeCVYvz9uSPZwA</contexts>
+  <contexts>__8ZooMxeEeCTcJc7g1x7bg</contexts>
+  <contexts>_9D6jAatgEd-v8JwXbnu_tQ</contexts>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1" 
+        | get-menu "Annotations/Create/Primitive/Check Annotation" | click
+    select "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>E1/attribute0:String" 
+        | get-menu "Annotations/Create/Primitive/Check Annotation" | click
+    select "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>E1/method0\\(\\):void" 
+        | get-menu "Annotations/Create/Primitive/Integer Annotation" | click
+    select "Project1/src" | get-menu "New/Class Diagram" | click
+}
+get-window "New Tigerstripe Diagram" | get-button Finish | click
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>E1" 
+    | get-item "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>E1" 
+    | drag-start 77 11 none
+with [get-editor "default2.wvd" | get-diagram | get-edit-part -className MapEditPart] {
+    drag-enter 78 162 none -detail 2 -operation 7
+    drag-over 311 93 none -detail 1 -operation 7
+    drag-exit -button none
+    drag-accept 311 93 none -detail 1 -operation 7
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item Project1 | drag-set-data "-41" -button none
+get-editor "default2.wvd" | get-diagram | get-edit-part -className MapEditPart | drop 311 93 none -detail 1 -operation 7
+get-view "Tigerstripe Explorer" | get-tree | get-item Project1 | drag-end "-41" -button none -detail 1
+get-editor "default2.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name E1 | get-edit-part 
+    -text "<<CheckAnnotation>>" | get-property text | equals "<<CheckAnnotation>>" | verify-true
+get-editor "default2.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name E1 | get-edit-part 
+    -text "<<CheckAnnotation>> +attribute0:String" | get-edit-part -name attribute0 | get-property text 
+    | equals "<<CheckAnnotation>> +attribute0:String" | verify-true
+get-editor "default2.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name E1 | get-edit-part 
+    -text "<<IntegerAnnotation>> +method0():void" | get-edit-part -name method0 | get-property text 
+    | equals "<<IntegerAnnotation>> +method0():void" | verify-true
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>E1"
+return-from-os-dialog "MESSAGE_BOX" 64
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-menu "Annotations/Remove" | click
+    select "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/<<CheckAnnotation>>attribute0:String"
+}
+return-from-os-dialog "MESSAGE_BOX" 64
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    get-menu "Annotations/Remove" | click
+    select "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/<<IntegerAnnotation>>method0\\(\\):void"
+}
+return-from-os-dialog "MESSAGE_BOX" 64
+get-view "Tigerstripe Explorer" | get-tree | get-menu "Annotations/Remove" | click]]></content>
+  </content>
+  <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow81" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View91" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree62" kind="Tree"/>
+      <path>Project1</path>
+      <path>Model Project References</path>
+      <path>org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\programs\eclipsewithTS7\workspace8\org.eclipse.tigerstripe\releng\org.eclipse.tigerstripe.rcp\target\products\org.eclipse.tigerstripe.rcp\win32\win32\x86\plugins</path>
+      <path>org.eclipse.tigerstripe.test</path>
+      <path>E1</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Menu" multiplicity="1">
+        <path>Annotations</path>
+        <path>Create</path>
+        <path>Primitive</path>
+        <path>Check Annotation</path>
+        <parent id="Tree62" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Menu12" kind="Menu"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State16" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree62" kind="Tree"/>
+      <path>Project1</path>
+      <path>Model Project References</path>
+      <path>org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\programs\eclipsewithTS7\workspace8\org.eclipse.tigerstripe\releng\org.eclipse.tigerstripe.rcp\target\products\org.eclipse.tigerstripe.rcp\win32\win32\x86\plugins</path>
+      <path>org.eclipse.tigerstripe.test</path>
+      <path>&lt;&lt;CheckAnnotation>>E1</path>
+      <path>attribute0:String</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Menu" multiplicity="1">
+        <path>Annotations</path>
+        <path>Create</path>
+        <path>Primitive</path>
+        <path>Check Annotation</path>
+        <parent id="Tree62" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Menu13" kind="Menu"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State17" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree62" kind="Tree"/>
+      <path>Project1</path>
+      <path>Model Project References</path>
+      <path>org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\programs\eclipsewithTS7\workspace8\org.eclipse.tigerstripe\releng\org.eclipse.tigerstripe.rcp\target\products\org.eclipse.tigerstripe.rcp\win32\win32\x86\plugins</path>
+      <path>org.eclipse.tigerstripe.test</path>
+      <path>&lt;&lt;CheckAnnotation>>E1</path>
+      <path>method0\(\):void</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Menu" multiplicity="1">
+        <path>Annotations</path>
+        <path>Create</path>
+        <path>Primitive</path>
+        <path>Integer Annotation</path>
+        <parent id="Tree62" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Menu14" kind="Menu"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State18" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree62" kind="Tree"/>
+      <path>Project1</path>
+      <path>src</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Menu" multiplicity="1">
+        <path>New</path>
+        <path>Class Diagram</path>
+        <parent id="Tree62" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Menu15" kind="Menu"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State19" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Window" pattern="New Tigerstripe Diagram" multiplicity="1">
+        <parent id="EclipseWindow81" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Finish" multiplicity="1">
+        <parent id="Window3" kind="Window" description="New Tigerstripe Diagram"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button4" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State20" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree62" kind="Tree"/>
+      <path>Project1</path>
+      <path>Model Project References</path>
+      <path>org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\programs\eclipsewithTS7\workspace8\org.eclipse.tigerstripe\releng\org.eclipse.tigerstripe.rcp\target\products\org.eclipse.tigerstripe.rcp\win32\win32\x86\plugins</path>
+      <path>org.eclipse.tigerstripe.test</path>
+      <path>&lt;&lt;CheckAnnotation>>E1</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>Project1</path>
+        <path>Model Project References</path>
+        <path>org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\programs\eclipsewithTS7\workspace8\org.eclipse.tigerstripe\releng\org.eclipse.tigerstripe.rcp\target\products\org.eclipse.tigerstripe.rcp\win32\win32\x86\plugins</path>
+        <path>org.eclipse.tigerstripe.test</path>
+        <path>&lt;&lt;CheckAnnotation>>E1</path>
+        <parent id="Tree62" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" x="77" y="11" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Item91" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="default2.wvd" multiplicity="1">
+        <parent id="EclipseWindow81" kind="EclipseWindow" description="Tigerstripe - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramViewer" multiplicity="1">
+        <parent id="Editor25" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="MapEditPart" multiplicity="1">
+        <path>editpart</path>
+        <path>classname</path>
+        <parent id="DiagramViewer21" kind="DiagramViewer"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Enter" x="78" y="162" style="detail:2,button:0,mask:0,operations:7">
+      <element id="DiagramFigure135" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Over" x="311" y="93" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure135" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Leave" style="detail:0,button:0,mask:0,operations:0">
+      <element id="DiagramFigure135" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Accept" x="311" y="93" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure135" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>Project1</path>
+        <parent id="Tree62" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="SetData" x="-41" style="detail:0,button:0,mask:0,operations:0">
+      <element id="Item92" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="Drop" x="311" y="93" style="detail:1,button:0,mask:0,operations:7">
+      <element id="DiagramFigure135" kind="DiagramFigure"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:DragCommand" kind="End" x="-41" style="detail:1,button:0,mask:0,operations:0">
+      <element id="Item92" kind="Item"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="default2.wvd" multiplicity="1">
+        <parent id="EclipseWindow82" kind="EclipseWindow" description="Tigerstripe - Project1/src/default2.wvd - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramViewer" multiplicity="1">
+        <parent id="Editor26" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="MapEditPart" multiplicity="1">
+        <path>editpart</path>
+        <path>classname</path>
+        <parent id="DiagramViewer22" kind="DiagramViewer"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="E1" multiplicity="1">
+        <path>editpart</path>
+        <path>name</path>
+        <parent id="DiagramFigure136" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="&lt;&lt;CheckAnnotation>>" multiplicity="1">
+        <path>editpart</path>
+        <path>text</path>
+        <parent id="DiagramFigure137" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="text" value="&lt;&lt;CheckAnnotation>>">
+      <element id="DiagramFigure138" kind="DiagramFigure"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="default2.wvd" multiplicity="1">
+        <parent id="EclipseWindow83" kind="EclipseWindow" description="Tigerstripe - Project1/src/default2.wvd - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramViewer" multiplicity="1">
+        <parent id="Editor27" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="MapEditPart" multiplicity="1">
+        <path>editpart</path>
+        <path>classname</path>
+        <parent id="DiagramViewer23" kind="DiagramViewer"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="E1" multiplicity="1">
+        <path>editpart</path>
+        <path>name</path>
+        <parent id="DiagramFigure139" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="&lt;&lt;CheckAnnotation>> +attribute0:String" multiplicity="1">
+        <path>editpart</path>
+        <path>text</path>
+        <parent id="DiagramFigure140" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="attribute0" multiplicity="1">
+        <path>editpart</path>
+        <path>name</path>
+        <parent id="DiagramFigure143" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="text" value="&lt;&lt;CheckAnnotation>> +attribute0:String">
+      <element id="DiagramFigure144" kind="DiagramFigure"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Editor" pattern="default2.wvd" multiplicity="1">
+        <parent id="EclipseWindow84" kind="EclipseWindow" description="Tigerstripe - Project1/src/default2.wvd - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramViewer" multiplicity="1">
+        <parent id="Editor28" kind="Editor"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="MapEditPart" multiplicity="1">
+        <path>editpart</path>
+        <path>classname</path>
+        <parent id="DiagramViewer24" kind="DiagramViewer"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="E1" multiplicity="1">
+        <path>editpart</path>
+        <path>name</path>
+        <parent id="DiagramFigure145" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="&lt;&lt;IntegerAnnotation>> +method0():void" multiplicity="1">
+        <path>editpart</path>
+        <path>text</path>
+        <parent id="DiagramFigure146" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="DiagramFigure" pattern="method0" multiplicity="1">
+        <path>editpart</path>
+        <path>name</path>
+        <parent id="DiagramFigure147" kind="DiagramFigure"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="text" value="&lt;&lt;IntegerAnnotation>> +method0():void">
+      <element id="DiagramFigure148" kind="DiagramFigure"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow86" kind="EclipseWindow" description="Tigerstripe - Project1/src/default2.wvd - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View95" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Item" multiplicity="1">
+        <path>Project1</path>
+        <path>Model Project References</path>
+        <path>org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\programs\eclipsewithTS7\workspace8\org.eclipse.tigerstripe\releng\org.eclipse.tigerstripe.rcp\target\products\org.eclipse.tigerstripe.rcp\win32\win32\x86\plugins</path>
+        <path>org.eclipse.tigerstripe.test</path>
+        <path>SF1</path>
+        <parent id="Tree66" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Button" pattern="Save (Ctrl+S)" multiplicity="1">
+        <parent id="EclipseWindow86" kind="EclipseWindow" description="Tigerstripe - Project1/src/default2.wvd - Eclipse Platform"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Button5" kind="Button"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State21" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree66" kind="Tree"/>
+      <path>Project1</path>
+      <path>Model Project References</path>
+      <path>org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\programs\eclipsewithTS7\workspace8\org.eclipse.tigerstripe\releng\org.eclipse.tigerstripe.rcp\target\products\org.eclipse.tigerstripe.rcp\win32\win32\x86\plugins</path>
+      <path>org.eclipse.tigerstripe.test</path>
+      <path>&lt;&lt;CheckAnnotation>>E1</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Menu" multiplicity="1">
+        <path>Annotations</path>
+        <path>Remove</path>
+        <parent id="Tree66" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSWTDialogInfo" kind="MessageBox" path="64"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Menu16" kind="Menu"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State22" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree66" kind="Tree"/>
+      <path>Project1</path>
+      <path>Model Project References</path>
+      <path>org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\programs\eclipsewithTS7\workspace8\org.eclipse.tigerstripe\releng\org.eclipse.tigerstripe.rcp\target\products\org.eclipse.tigerstripe.rcp\win32\win32\x86\plugins</path>
+      <path>org.eclipse.tigerstripe.test</path>
+      <path>E1</path>
+      <path>&lt;&lt;CheckAnnotation>>attribute0:String</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Menu" multiplicity="1">
+        <path>Annotations</path>
+        <path>Remove</path>
+        <parent id="Tree66" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSWTDialogInfo" kind="MessageBox" path="64"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Menu17" kind="Menu"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State23" kind="State"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree66" kind="Tree"/>
+      <path>Project1</path>
+      <path>Model Project References</path>
+      <path>org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\programs\eclipsewithTS7\workspace8\org.eclipse.tigerstripe\releng\org.eclipse.tigerstripe.rcp\target\products\org.eclipse.tigerstripe.rcp\win32\win32\x86\plugins</path>
+      <path>org.eclipse.tigerstripe.test</path>
+      <path>E1</path>
+      <path>&lt;&lt;IntegerAnnotation>>method0\(\):void</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Menu" multiplicity="1">
+        <path>Annotations</path>
+        <path>Remove</path>
+        <parent id="Tree66" kind="Tree"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:GetState"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSWTDialogInfo" kind="MessageBox" path="64"/>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click">
+      <element id="Menu18" kind="Menu"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:WaitForState">
+      <state id="State24" kind="State"/>
+    </commands>
+    <elementMapping command="//@teslaContent/@commands.0">
+      <elements id="EclipseWindow81" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="613" y="135" width="1280" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.1">
+      <elements id="View91" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="308" height="618"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.2">
+      <elements id="Tree62" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="2">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="308" height="618"/>
+        <selection>
+          <path>Project1</path>
+          <path>Model Project References</path>
+          <path>org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\programs\eclipsewithTS7\workspace8\org.eclipse.tigerstripe\releng\org.eclipse.tigerstripe.rcp\target\products\org.eclipse.tigerstripe.rcp\win32\win32\x86\plugins</path>
+          <path>org.eclipse.tigerstripe.test</path>
+          <path>E1</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.4">
+      <elements id="Menu12" kind="Menu"/>
+      <controls xsi:type="com.xored.tesla.core.ui:MenuItem" caption="Check Annotation" enablement="true" cascade="true"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.5">
+      <elements id="State16" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.9">
+      <elements id="Menu13" kind="Menu"/>
+      <controls xsi:type="com.xored.tesla.core.ui:MenuItem" caption="Check Annotation" enablement="true" cascade="true"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.10">
+      <elements id="State17" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.14">
+      <elements id="Menu14" kind="Menu"/>
+      <controls xsi:type="com.xored.tesla.core.ui:MenuItem" caption="Integer Annotation" enablement="true" index="1" cascade="true"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.15">
+      <elements id="State18" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.19">
+      <elements id="Menu15" kind="Menu"/>
+      <controls xsi:type="com.xored.tesla.core.ui:MenuItem" caption="Class Diagram" enablement="true" index="18" cascade="true"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.20">
+      <elements id="State19" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.23">
+      <elements id="Window3" kind="Window"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="New Tigerstripe Diagram">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="991" y="117" width="525" height="604"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.24">
+      <elements id="Button4" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.25">
+      <elements id="State20" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.29">
+      <elements id="Item91" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="&lt;&lt;CheckAnnotation>>E1" selected="true" childCount="3">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="117" y="198" width="141" height="18"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.31">
+      <elements id="Editor25" kind="Editor"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="default2.wvd">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="933" height="373"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.32">
+      <elements id="DiagramViewer21" kind="DiagramViewer"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="default2.wvd">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="933" height="373"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.33">
+      <elements id="DiagramFigure135" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="788" height="356" text="">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="Tigerstripe"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[PageStyle:0].pageX" value="0"/>
+        <__properties name="view.styles[PageStyle:0].pageY" value="0"/>
+        <__properties name="view.styles[PageStyle:0].pageWidth" value="100"/>
+        <__properties name="view.styles[PageStyle:0].pageHeight" value="100"/>
+        <__properties name="view.styles[DescriptionStyle:2].description" value=""/>
+        <__properties name="view.name" value="default2.wvd"/>
+        <__properties name="view.measurementUnit" value="Pixel"/>
+        <__properties name="basePackage" value="com.mycompany"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.38">
+      <elements id="Item92" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="Project1" childCount="4">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="41" width="47" height="18"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.42">
+      <elements id="EclipseWindow82" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project1/src/default2.wvd - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="613" y="135" width="1280" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.43">
+      <elements id="Editor26" kind="Editor"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="default2.wvd" dirty="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="933" height="373"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.44">
+      <elements id="DiagramViewer22" kind="DiagramViewer"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="default2.wvd" dirty="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="933" height="373"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.45">
+      <elements id="DiagramFigure136" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="788" height="356" childrenCount="1" text="">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="Tigerstripe"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[PageStyle:0].pageX" value="0"/>
+        <__properties name="view.styles[PageStyle:0].pageY" value="0"/>
+        <__properties name="view.styles[PageStyle:0].pageWidth" value="100"/>
+        <__properties name="view.styles[PageStyle:0].pageHeight" value="100"/>
+        <__properties name="view.styles[DescriptionStyle:2].description" value=""/>
+        <__properties name="view.name" value="default2.wvd"/>
+        <__properties name="view.measurementUnit" value="Pixel"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].name" value="E1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].package" value="org.eclipse.tigerstripe.test"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].isReadonly" value="true"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].isAbstract" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].name" value="attribute0"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].type" value="String"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].multiplicity" value=""/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].visibility" value="PUBLIC"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].isOrdered" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].isUnique" value="true"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].typeMultiplicity" value="1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].name" value="method0"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].type" value="void"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].multiplicity" value=""/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].visibility" value="PUBLIC"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].isOrdered" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].isUnique" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].typeMultiplicity" value="1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].isAbstract" value="false"/>
+        <__properties name="basePackage" value="com.mycompany"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.46">
+      <elements id="DiagramFigure137" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="311" y="93" width="246" height="84" childrenCount="4" text="&lt;&lt;CheckAnnotation>>org.eclipse.tigerstripe.test.E1">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="1003"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[FontStyle:0].fontColor" value="0"/>
+        <__properties name="view.styles[FontStyle:0].fontName" value="Segoe UI"/>
+        <__properties name="view.styles[FontStyle:0].fontHeight" value="9"/>
+        <__properties name="view.styles[FontStyle:0].bold" value="false"/>
+        <__properties name="view.styles[FontStyle:0].italic" value="false"/>
+        <__properties name="view.styles[FontStyle:0].underline" value="false"/>
+        <__properties name="view.styles[FontStyle:0].strikeThrough" value="false"/>
+        <__properties name="view.styles[DescriptionStyle:1].description" value=""/>
+        <__properties name="view.styles[FillStyle:2].fillColor" value="13825530"/>
+        <__properties name="view.styles[FillStyle:2].transparency" value="-1"/>
+        <__properties name="view.styles[LineStyle:3].lineColor" value="11579568"/>
+        <__properties name="view.styles[LineStyle:3].lineWidth" value="-1"/>
+        <__properties name="name" value="E1"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="package" value="org.eclipse.tigerstripe.test"/>
+        <__properties name="isReadonly" value="true"/>
+        <__properties name="isAbstract" value="false"/>
+        <__properties name="attributes[Attribute:0].name" value="attribute0"/>
+        <__properties name="attributes[Attribute:0].stereotypes" value="[]"/>
+        <__properties name="attributes[Attribute:0].type" value="String"/>
+        <__properties name="attributes[Attribute:0].multiplicity" value=""/>
+        <__properties name="attributes[Attribute:0].visibility" value="PUBLIC"/>
+        <__properties name="attributes[Attribute:0].isOrdered" value="false"/>
+        <__properties name="attributes[Attribute:0].isUnique" value="true"/>
+        <__properties name="attributes[Attribute:0].typeMultiplicity" value="1"/>
+        <__properties name="methods[Method:0].name" value="method0"/>
+        <__properties name="methods[Method:0].stereotypes" value="[]"/>
+        <__properties name="methods[Method:0].type" value="void"/>
+        <__properties name="methods[Method:0].multiplicity" value=""/>
+        <__properties name="methods[Method:0].visibility" value="PUBLIC"/>
+        <__properties name="methods[Method:0].isOrdered" value="false"/>
+        <__properties name="methods[Method:0].isUnique" value="false"/>
+        <__properties name="methods[Method:0].typeMultiplicity" value="1"/>
+        <__properties name="methods[Method:0].isAbstract" value="false"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.47">
+      <elements id="DiagramFigure138" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="311" y="93" width="246" height="15" text="&lt;&lt;CheckAnnotation>>">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="4005"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="name" value="E1"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="package" value="org.eclipse.tigerstripe.test"/>
+        <__properties name="isReadonly" value="true"/>
+        <__properties name="isAbstract" value="false"/>
+        <__properties name="attributes[Attribute:0].name" value="attribute0"/>
+        <__properties name="attributes[Attribute:0].stereotypes" value="[]"/>
+        <__properties name="attributes[Attribute:0].type" value="String"/>
+        <__properties name="attributes[Attribute:0].multiplicity" value=""/>
+        <__properties name="attributes[Attribute:0].visibility" value="PUBLIC"/>
+        <__properties name="attributes[Attribute:0].isOrdered" value="false"/>
+        <__properties name="attributes[Attribute:0].isUnique" value="true"/>
+        <__properties name="attributes[Attribute:0].typeMultiplicity" value="1"/>
+        <__properties name="methods[Method:0].name" value="method0"/>
+        <__properties name="methods[Method:0].stereotypes" value="[]"/>
+        <__properties name="methods[Method:0].type" value="void"/>
+        <__properties name="methods[Method:0].multiplicity" value=""/>
+        <__properties name="methods[Method:0].visibility" value="PUBLIC"/>
+        <__properties name="methods[Method:0].isOrdered" value="false"/>
+        <__properties name="methods[Method:0].isUnique" value="false"/>
+        <__properties name="methods[Method:0].typeMultiplicity" value="1"/>
+        <__properties name="methods[Method:0].isAbstract" value="false"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.49">
+      <elements id="EclipseWindow83" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project1/src/default2.wvd - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="613" y="135" width="1280" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.50">
+      <elements id="Editor27" kind="Editor"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="default2.wvd" dirty="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="933" height="373"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.51">
+      <elements id="DiagramViewer23" kind="DiagramViewer"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="default2.wvd" dirty="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="933" height="373"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.52">
+      <elements id="DiagramFigure139" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="788" height="356" childrenCount="1" text="">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="Tigerstripe"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[PageStyle:0].pageX" value="0"/>
+        <__properties name="view.styles[PageStyle:0].pageY" value="0"/>
+        <__properties name="view.styles[PageStyle:0].pageWidth" value="100"/>
+        <__properties name="view.styles[PageStyle:0].pageHeight" value="100"/>
+        <__properties name="view.styles[DescriptionStyle:2].description" value=""/>
+        <__properties name="view.name" value="default2.wvd"/>
+        <__properties name="view.measurementUnit" value="Pixel"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].name" value="E1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].package" value="org.eclipse.tigerstripe.test"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].isReadonly" value="true"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].isAbstract" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].name" value="attribute0"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].type" value="String"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].multiplicity" value=""/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].visibility" value="PUBLIC"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].isOrdered" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].isUnique" value="true"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].typeMultiplicity" value="1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].name" value="method0"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].type" value="void"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].multiplicity" value=""/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].visibility" value="PUBLIC"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].isOrdered" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].isUnique" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].typeMultiplicity" value="1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].isAbstract" value="false"/>
+        <__properties name="basePackage" value="com.mycompany"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.53">
+      <elements id="DiagramFigure140" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="311" y="93" width="246" height="84" childrenCount="4" text="&lt;&lt;CheckAnnotation>>org.eclipse.tigerstripe.test.E1">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="1003"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[FontStyle:0].fontColor" value="0"/>
+        <__properties name="view.styles[FontStyle:0].fontName" value="Segoe UI"/>
+        <__properties name="view.styles[FontStyle:0].fontHeight" value="9"/>
+        <__properties name="view.styles[FontStyle:0].bold" value="false"/>
+        <__properties name="view.styles[FontStyle:0].italic" value="false"/>
+        <__properties name="view.styles[FontStyle:0].underline" value="false"/>
+        <__properties name="view.styles[FontStyle:0].strikeThrough" value="false"/>
+        <__properties name="view.styles[DescriptionStyle:1].description" value=""/>
+        <__properties name="view.styles[FillStyle:2].fillColor" value="13825530"/>
+        <__properties name="view.styles[FillStyle:2].transparency" value="-1"/>
+        <__properties name="view.styles[LineStyle:3].lineColor" value="11579568"/>
+        <__properties name="view.styles[LineStyle:3].lineWidth" value="-1"/>
+        <__properties name="name" value="E1"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="package" value="org.eclipse.tigerstripe.test"/>
+        <__properties name="isReadonly" value="true"/>
+        <__properties name="isAbstract" value="false"/>
+        <__properties name="attributes[Attribute:0].name" value="attribute0"/>
+        <__properties name="attributes[Attribute:0].stereotypes" value="[]"/>
+        <__properties name="attributes[Attribute:0].type" value="String"/>
+        <__properties name="attributes[Attribute:0].multiplicity" value=""/>
+        <__properties name="attributes[Attribute:0].visibility" value="PUBLIC"/>
+        <__properties name="attributes[Attribute:0].isOrdered" value="false"/>
+        <__properties name="attributes[Attribute:0].isUnique" value="true"/>
+        <__properties name="attributes[Attribute:0].typeMultiplicity" value="1"/>
+        <__properties name="methods[Method:0].name" value="method0"/>
+        <__properties name="methods[Method:0].stereotypes" value="[]"/>
+        <__properties name="methods[Method:0].type" value="void"/>
+        <__properties name="methods[Method:0].multiplicity" value=""/>
+        <__properties name="methods[Method:0].visibility" value="PUBLIC"/>
+        <__properties name="methods[Method:0].isOrdered" value="false"/>
+        <__properties name="methods[Method:0].isUnique" value="false"/>
+        <__properties name="methods[Method:0].typeMultiplicity" value="1"/>
+        <__properties name="methods[Method:0].isAbstract" value="false"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.54">
+      <elements id="DiagramFigure143" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="311" y="134" width="246" height="19" childrenCount="1" text="&lt;&lt;CheckAnnotation>> +attribute0:String">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="5003"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[DrawerStyle:0].collapsed" value="false"/>
+        <__properties name="view.styles[SortingStyle:1].sorting" value="None"/>
+        <__properties name="view.styles[SortingStyle:1].sortingKeys" value="{}"/>
+        <__properties name="view.styles[FilteringStyle:2].filtering" value="None"/>
+        <__properties name="view.styles[FilteringStyle:2].filteringKeys" value="[]"/>
+        <__properties name="view.transientChildren[Node:0].visible" value="true"/>
+        <__properties name="view.transientChildren[Node:0].type" value="2003"/>
+        <__properties name="view.transientChildren[Node:0].mutable" value="false"/>
+        <__properties name="name" value="E1"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="package" value="org.eclipse.tigerstripe.test"/>
+        <__properties name="isReadonly" value="true"/>
+        <__properties name="isAbstract" value="false"/>
+        <__properties name="attributes[Attribute:0].name" value="attribute0"/>
+        <__properties name="attributes[Attribute:0].stereotypes" value="[]"/>
+        <__properties name="attributes[Attribute:0].type" value="String"/>
+        <__properties name="attributes[Attribute:0].multiplicity" value=""/>
+        <__properties name="attributes[Attribute:0].visibility" value="PUBLIC"/>
+        <__properties name="attributes[Attribute:0].isOrdered" value="false"/>
+        <__properties name="attributes[Attribute:0].isUnique" value="true"/>
+        <__properties name="attributes[Attribute:0].typeMultiplicity" value="1"/>
+        <__properties name="methods[Method:0].name" value="method0"/>
+        <__properties name="methods[Method:0].stereotypes" value="[]"/>
+        <__properties name="methods[Method:0].type" value="void"/>
+        <__properties name="methods[Method:0].multiplicity" value=""/>
+        <__properties name="methods[Method:0].visibility" value="PUBLIC"/>
+        <__properties name="methods[Method:0].isOrdered" value="false"/>
+        <__properties name="methods[Method:0].isUnique" value="false"/>
+        <__properties name="methods[Method:0].typeMultiplicity" value="1"/>
+        <__properties name="methods[Method:0].isAbstract" value="false"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.55">
+      <elements id="DiagramFigure144" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="316" y="136" width="236" height="16" text="&lt;&lt;CheckAnnotation>> +attribute0:String">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="2003"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="name" value="attribute0"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="type" value="String"/>
+        <__properties name="multiplicity" value=""/>
+        <__properties name="visibility" value="PUBLIC"/>
+        <__properties name="isOrdered" value="false"/>
+        <__properties name="isUnique" value="true"/>
+        <__properties name="typeMultiplicity" value="1"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.57">
+      <elements id="EclipseWindow84" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project1/src/default2.wvd - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="613" y="135" width="1280" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.58">
+      <elements id="Editor28" kind="Editor"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="default2.wvd" dirty="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="933" height="373"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.59">
+      <elements id="DiagramViewer24" kind="DiagramViewer"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Editor" enablement="true" title="default2.wvd" dirty="true">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="933" height="373"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.60">
+      <elements id="DiagramFigure145" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" width="788" height="356" childrenCount="1" text="">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="Tigerstripe"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[PageStyle:0].pageX" value="0"/>
+        <__properties name="view.styles[PageStyle:0].pageY" value="0"/>
+        <__properties name="view.styles[PageStyle:0].pageWidth" value="100"/>
+        <__properties name="view.styles[PageStyle:0].pageHeight" value="100"/>
+        <__properties name="view.styles[DescriptionStyle:2].description" value=""/>
+        <__properties name="view.name" value="default2.wvd"/>
+        <__properties name="view.measurementUnit" value="Pixel"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].name" value="E1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].package" value="org.eclipse.tigerstripe.test"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].isReadonly" value="true"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].isAbstract" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].name" value="attribute0"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].type" value="String"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].multiplicity" value=""/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].visibility" value="PUBLIC"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].isOrdered" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].isUnique" value="true"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].attributes[Attribute:0].typeMultiplicity" value="1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].name" value="method0"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].stereotypes" value="[]"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].type" value="void"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].multiplicity" value=""/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].visibility" value="PUBLIC"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].isOrdered" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].isUnique" value="false"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].typeMultiplicity" value="1"/>
+        <__properties name="artifacts[ManagedEntityArtifact:0].methods[Method:0].isAbstract" value="false"/>
+        <__properties name="basePackage" value="com.mycompany"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.61">
+      <elements id="DiagramFigure146" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="311" y="93" width="246" height="84" childrenCount="4" text="&lt;&lt;CheckAnnotation>>org.eclipse.tigerstripe.test.E1">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="1003"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[FontStyle:0].fontColor" value="0"/>
+        <__properties name="view.styles[FontStyle:0].fontName" value="Segoe UI"/>
+        <__properties name="view.styles[FontStyle:0].fontHeight" value="9"/>
+        <__properties name="view.styles[FontStyle:0].bold" value="false"/>
+        <__properties name="view.styles[FontStyle:0].italic" value="false"/>
+        <__properties name="view.styles[FontStyle:0].underline" value="false"/>
+        <__properties name="view.styles[FontStyle:0].strikeThrough" value="false"/>
+        <__properties name="view.styles[DescriptionStyle:1].description" value=""/>
+        <__properties name="view.styles[FillStyle:2].fillColor" value="13825530"/>
+        <__properties name="view.styles[FillStyle:2].transparency" value="-1"/>
+        <__properties name="view.styles[LineStyle:3].lineColor" value="11579568"/>
+        <__properties name="view.styles[LineStyle:3].lineWidth" value="-1"/>
+        <__properties name="name" value="E1"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="package" value="org.eclipse.tigerstripe.test"/>
+        <__properties name="isReadonly" value="true"/>
+        <__properties name="isAbstract" value="false"/>
+        <__properties name="attributes[Attribute:0].name" value="attribute0"/>
+        <__properties name="attributes[Attribute:0].stereotypes" value="[]"/>
+        <__properties name="attributes[Attribute:0].type" value="String"/>
+        <__properties name="attributes[Attribute:0].multiplicity" value=""/>
+        <__properties name="attributes[Attribute:0].visibility" value="PUBLIC"/>
+        <__properties name="attributes[Attribute:0].isOrdered" value="false"/>
+        <__properties name="attributes[Attribute:0].isUnique" value="true"/>
+        <__properties name="attributes[Attribute:0].typeMultiplicity" value="1"/>
+        <__properties name="methods[Method:0].name" value="method0"/>
+        <__properties name="methods[Method:0].stereotypes" value="[]"/>
+        <__properties name="methods[Method:0].type" value="void"/>
+        <__properties name="methods[Method:0].multiplicity" value=""/>
+        <__properties name="methods[Method:0].visibility" value="PUBLIC"/>
+        <__properties name="methods[Method:0].isOrdered" value="false"/>
+        <__properties name="methods[Method:0].isUnique" value="false"/>
+        <__properties name="methods[Method:0].typeMultiplicity" value="1"/>
+        <__properties name="methods[Method:0].isAbstract" value="false"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.62">
+      <elements id="DiagramFigure147" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="311" y="158" width="246" height="19" childrenCount="1" text="&lt;&lt;IntegerAnnotation>> +method0():void">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="5004"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="view.styles[DrawerStyle:0].collapsed" value="false"/>
+        <__properties name="view.styles[SortingStyle:1].sorting" value="None"/>
+        <__properties name="view.styles[SortingStyle:1].sortingKeys" value="{}"/>
+        <__properties name="view.styles[FilteringStyle:2].filtering" value="None"/>
+        <__properties name="view.styles[FilteringStyle:2].filteringKeys" value="[]"/>
+        <__properties name="view.transientChildren[Node:0].visible" value="true"/>
+        <__properties name="view.transientChildren[Node:0].type" value="2004"/>
+        <__properties name="view.transientChildren[Node:0].mutable" value="false"/>
+        <__properties name="name" value="E1"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="properties[DiagramProperty:0].name" value="artifact.hide.extends"/>
+        <__properties name="properties[DiagramProperty:0].value" value="false"/>
+        <__properties name="package" value="org.eclipse.tigerstripe.test"/>
+        <__properties name="isReadonly" value="true"/>
+        <__properties name="isAbstract" value="false"/>
+        <__properties name="attributes[Attribute:0].name" value="attribute0"/>
+        <__properties name="attributes[Attribute:0].stereotypes" value="[]"/>
+        <__properties name="attributes[Attribute:0].type" value="String"/>
+        <__properties name="attributes[Attribute:0].multiplicity" value=""/>
+        <__properties name="attributes[Attribute:0].visibility" value="PUBLIC"/>
+        <__properties name="attributes[Attribute:0].isOrdered" value="false"/>
+        <__properties name="attributes[Attribute:0].isUnique" value="true"/>
+        <__properties name="attributes[Attribute:0].typeMultiplicity" value="1"/>
+        <__properties name="methods[Method:0].name" value="method0"/>
+        <__properties name="methods[Method:0].stereotypes" value="[]"/>
+        <__properties name="methods[Method:0].type" value="void"/>
+        <__properties name="methods[Method:0].multiplicity" value=""/>
+        <__properties name="methods[Method:0].visibility" value="PUBLIC"/>
+        <__properties name="methods[Method:0].isOrdered" value="false"/>
+        <__properties name="methods[Method:0].isUnique" value="false"/>
+        <__properties name="methods[Method:0].typeMultiplicity" value="1"/>
+        <__properties name="methods[Method:0].isAbstract" value="false"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.63">
+      <elements id="DiagramFigure148" kind="DiagramFigure"/>
+      <controls xsi:type="com.xored.tesla.core.ui:DiagramItem" x="316" y="160" width="236" height="16" text="&lt;&lt;IntegerAnnotation>> +method0():void">
+        <__properties name="view.visible" value="true"/>
+        <__properties name="view.type" value="2004"/>
+        <__properties name="view.mutable" value="false"/>
+        <__properties name="name" value="method0"/>
+        <__properties name="stereotypes" value="[]"/>
+        <__properties name="type" value="void"/>
+        <__properties name="multiplicity" value=""/>
+        <__properties name="visibility" value="PUBLIC"/>
+        <__properties name="isOrdered" value="false"/>
+        <__properties name="isUnique" value="false"/>
+        <__properties name="typeMultiplicity" value="1"/>
+        <__properties name="isAbstract" value="false"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.65">
+      <elements id="EclipseWindow86" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Project1/src/default2.wvd - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="613" y="135" width="1280" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.66">
+      <elements id="View95" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="26" width="308" height="596"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.67">
+      <elements id="Tree66" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="2">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="308" height="596"/>
+        <selection>
+          <path>Project1</path>
+          <path>Model Project References</path>
+          <path>org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\programs\eclipsewithTS7\workspace8\org.eclipse.tigerstripe\releng\org.eclipse.tigerstripe.rcp\target\products\org.eclipse.tigerstripe.rcp\win32\win32\x86\plugins</path>
+          <path>org.eclipse.tigerstripe.test</path>
+          <path>&lt;&lt;CheckAnnotation>>E1</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.68">
+      <elements id="Item96" kind="Item"/>
+      <controls xsi:type="com.xored.tesla.core.ui:TreeItem" caption="SF1" index="10">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds x="117" y="432" width="22" height="18"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.69">
+      <elements id="Button5" kind="Button"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <caption></caption>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.70">
+      <elements id="State21" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.74">
+      <elements id="Menu16" kind="Menu"/>
+      <controls xsi:type="com.xored.tesla.core.ui:MenuItem" caption="Remove" enablement="true" index="1" cascade="true"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.75">
+      <elements id="State22" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.80">
+      <elements id="Menu17" kind="Menu"/>
+      <controls xsi:type="com.xored.tesla.core.ui:MenuItem" caption="Remove" enablement="true" index="1" cascade="true"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.81">
+      <elements id="State23" kind="State"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.86">
+      <elements id="Menu18" kind="Menu"/>
+      <controls xsi:type="com.xored.tesla.core.ui:MenuItem" caption="Remove" enablement="true" index="1" cascade="true"/>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.87">
+      <elements id="State24" kind="State"/>
+    </elementMapping>
+  </teslaContent>
+</com.xored.q7.scenario:Scenario>

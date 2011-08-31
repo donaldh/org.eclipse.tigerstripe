@@ -2,30 +2,34 @@
 <com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="DependantProjectsWithPackagesContextWorkspace" id="_2OSx4fOUEd-s8v7FVtLgHw">
   <content>
     <projects name="One">
-      <files name=".classpath" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content1.classpath"/>
-      <files name=".project" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content1.project"/>
-      <files name=".visualstate" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content1.visualstate"/>
-      <files name="tigerstripe.xml" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content1.xml"/>
+      <files name=".classpath" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content9.classpath"/>
+      <files name=".project" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content9.project"/>
+      <files name=".visualstate" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content5.visualstate"/>
+      <files name="tigerstripe.xml" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content9.xml"/>
       <folders name="src">
         <folders name="com">
-          <files name=".package" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content4.package"/>
+          <files name=".package" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content32.package"/>
           <folders name="mycompany">
-            <files name=".package" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content3.package"/>
-            <files name="Ent1.java" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content1.java"/>
+            <files name=".package" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content31.package"/>
+            <files name="Ent1.java" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content11.java"/>
           </folders>
         </folders>
       </folders>
     </projects>
     <projects name="Two">
-      <files name=".classpath" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content2.classpath"/>
-      <files name=".project" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content2.project"/>
-      <files name="tigerstripe.xml" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content2.xml"/>
+      <files name=".classpath" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content10.classpath"/>
+      <files name=".project" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content10.project"/>
+      <files name="tigerstripe.xml" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content10.xml"/>
       <folders name="src">
         <folders name="com">
-          <files name=".package" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content8.package"/>
+          <files name=".package" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content36.package"/>
           <folders name="mycompany">
-            <files name=".package" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content7.package"/>
-            <files name="Ent2.java" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content2.java"/>
+            <files name=".package" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content35.package"/>
+            <files name="Association.java" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content12.java"/>
+            <files name="Dependency.java" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content13.java"/>
+            <files name="Ent2.java" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content14.java"/>
+            <files name="Ent3.java" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content15.java"/>
+            <files name="Ent4.java" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content16.java"/>
           </folders>
         </folders>
       </folders>

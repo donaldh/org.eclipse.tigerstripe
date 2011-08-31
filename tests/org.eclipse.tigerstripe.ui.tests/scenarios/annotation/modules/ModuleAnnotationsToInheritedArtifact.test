@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="ModuleAnnotationsToInheritedArtifact" version="3.0" id="_ek4s0M17EeCzYcyTPSonzA" description="Create annotations to inherited artifacts in installed module&#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;ModuleAddRemoveAnnotation&#xD;&#xA;&#xD;&#xA;Steps&#xD;&#xA;    Open Entity3 of project1 in editor&#xD;&#xA;    Add annotation to inherited attribute&#xD;&#xA;    Check that annotation is added to inherited attribute&#xD;&#xA;    Open attribute for Entity2 and check that annotation is displayed for the attribute&#xD;&#xA;    Open Entity3 of project2 in editor&#xD;&#xA;    Check that annotation is not displayed for inherited attribute&#xD;&#xA;    Open Entity3 of project1 in editor &#xD;&#xA;    Remove annotation&#xD;&#xA;&#xD;&#xA;    &#xD;&#xA;" tags="Annotation/module" type="ecl" externalReference="http://docs.xored.com/display/TS/ModuleAnnotationsToInheritedArtifact">
-  <contexts>_RR91gMiqEeCVYvz9uSPZwA</contexts>
+  <contexts>_FGfSUKthEd-v8JwXbnu_tQ</contexts>
   <contexts>__8ZooMxeEeCTcJc7g1x7bg</contexts>
   <contexts>_9D6jAatgEd-v8JwXbnu_tQ</contexts>
   <content xsi:type="org.eclipse.ecl.core:Script">
@@ -23,13 +23,12 @@ get-view "Tigerstripe Explorer" | get-tree
     | select "Project2/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E3" 
     | double-click -nowait
 get-editor E3 | get-section Attributes | get-section | get-table | select "attribute0\\(E2\\)"
-get-editor E3 | get-section Attributes | get-section | get-table | select "attribute0\\(E2\\)"
-get-view "Annotation Property View" | get-table | get-property itemCount | equals 1 | verify-true
+get-view "Annotation Property View" | get-table | get-property itemCount | equals 0 | verify-true
 get-editor E3 | close
 with [get-view "Tigerstripe Explorer"] {
     click -nowait
     get-tree 
-        | select "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\\programs\\eclipsewithTS7\\workspace7\\org.eclipse.tigerstripe\\releng\\org.eclipse.tigerstripe.rcp\\target\\products\\org.eclipse.tigerstripe.rcp\\win32\\win32\\x86\\plugins/org.eclipse.tigerstripe.test/E3" 
+        | select "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E3" 
         | double-click -nowait
 }
 get-editor E3 | get-section Attributes | get-section | get-table | select "attribute0\\(E2\\)"
@@ -37,7 +36,7 @@ get-view "Annotation Property View" | get-table | get-property itemCount | equal
 get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get-property caption 
     | equals CheckAnnotation | verify-true
 get-view "Tigerstripe Explorer" | get-tree 
-    | select "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\\programs\\eclipsewithTS7\\workspace7\\org.eclipse.tigerstripe\\releng\\org.eclipse.tigerstripe.rcp\\target\\products\\org.eclipse.tigerstripe.rcp\\win32\\win32\\x86\\plugins/org.eclipse.tigerstripe.test/E2/attribute0:String" 
+    | select "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E2/attribute0:String" 
     | double-click -nowait
 get-view "Annotation Property View" | get-table | get-property itemCount | equals 1 | verify-true
 get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get-property caption 
@@ -45,7 +44,7 @@ get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get
 return-from-os-dialog "MESSAGE_BOX" 64
 get-view "Annotation Property View" | get-table | get-menu "Remove All" | click
 get-view "Tigerstripe Explorer" | get-tree 
-    | select "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - C:\\programs\\eclipsewithTS7\\workspace7\\org.eclipse.tigerstripe\\releng\\org.eclipse.tigerstripe.rcp\\target\\products\\org.eclipse.tigerstripe.rcp\\win32\\win32\\x86\\plugins/org.eclipse.tigerstripe.test"]]></content>
+    | select "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test"]]></content>
   </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">

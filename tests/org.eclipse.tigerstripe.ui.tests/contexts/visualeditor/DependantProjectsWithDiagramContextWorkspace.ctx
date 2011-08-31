@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="DependantProjectsWithDiagramContextWorkspace" id="_AA0hoNIdEeCX-YsirEVo1w">
+  <content>
+    <projects name="One">
+      <files name=".classpath" contentURI=".DependantProjectsWithDiagramContextWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".DependantProjectsWithDiagramContextWorkspacectx/content1.project"/>
+      <files name=".visualstate" contentURI=".DependantProjectsWithDiagramContextWorkspacectx/content1.visualstate"/>
+      <files name="tigerstripe.xml" contentURI=".DependantProjectsWithDiagramContextWorkspacectx/content1.xml"/>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".DependantProjectsWithDiagramContextWorkspacectx/content4.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".DependantProjectsWithDiagramContextWorkspacectx/content3.package"/>
+            <files name="Ent1.java" contentURI=".DependantProjectsWithDiagramContextWorkspacectx/content1.java"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+    <projects name="Two">
+      <files name=".classpath" contentURI=".DependantProjectsWithDiagramContextWorkspacectx/content2.classpath"/>
+      <files name=".project" contentURI=".DependantProjectsWithDiagramContextWorkspacectx/content2.project"/>
+      <files name="tigerstripe.xml" contentURI=".DependantProjectsWithDiagramContextWorkspacectx/content2.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".DependantProjectsWithDiagramContextWorkspacectx/content1.prefs"/>
+      </folders>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".DependantProjectsWithDiagramContextWorkspacectx/content8.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".DependantProjectsWithDiagramContextWorkspacectx/content7.package"/>
+            <files name="AssociationClass.java" contentURI=".DependantProjectsWithDiagramContextWorkspacectx/content2.java"/>
+            <files name="ClassDiagram.vwm" contentURI=".DependantProjectsWithDiagramContextWorkspacectx/content2.vwm"/>
+            <files name="ClassDiagram.wvd" contentURI=".DependantProjectsWithDiagramContextWorkspacectx/content2.wvd"/>
+            <files name="Dependency.java" contentURI=".DependantProjectsWithDiagramContextWorkspacectx/content3.java"/>
+            <files name="Ent2.java" contentURI=".DependantProjectsWithDiagramContextWorkspacectx/content4.java"/>
+            <files name="Ent3.java" contentURI=".DependantProjectsWithDiagramContextWorkspacectx/content5.java"/>
+            <files name="Ent4.java" contentURI=".DependantProjectsWithDiagramContextWorkspacectx/content6.java"/>
+            <files name="Ent6.java" contentURI=".DependantProjectsWithDiagramContextWorkspacectx/content7.java"/>
+            <files name="Enumeration5.java" contentURI=".DependantProjectsWithDiagramContextWorkspacectx/content8.java"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

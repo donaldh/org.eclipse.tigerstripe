@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<null:Map xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:null="null" basePackage="com.mycompany">
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Ent2" package="com.mycompany">
+    <properties name="artifact.hide.extends" value="false"/>
+    <attributes name="attribute0" type="String" isUnique="true"/>
+    <methods name="method0" type="void">
+      <parameters name="arg0" type="String"/>
+    </methods>
+  </artifacts>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Ent3" package="com.mycompany">
+    <properties name="artifact.hide.extends" value="false"/>
+  </artifacts>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Ent4" package="com.mycompany">
+    <properties name="artifact.hide.extends" value="false"/>
+  </artifacts>
+  <artifacts xsi:type="null:Enumeration" name="Enumeration5" package="com.mycompany" baseType="int">
+    <literals name="literal0" type="int" value="0"/>
+  </artifacts>
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="Ent6" package="com.mycompany" extends="//@artifacts.0">
+    <properties name="artifact.hide.extends" value="false"/>
+  </artifacts>
+  <artifacts xsi:type="null:AssociationClassClass" name="AssociationClass" package="com.mycompany"/>
+  <associations xsi:type="null:AssociationClass" name="AssociationClass" package="com.mycompany" aEnd="//@artifacts.0" aEndName="ent2" zEnd="//@artifacts.1" zEndName="ent3" zEndIsNavigable="true" associatedClass="//@artifacts.5"/>
+  <dependencies name="Dependency" package="com.mycompany" aEnd="//@artifacts.0" zEnd="//@artifacts.2"/>
+</null:Map>
