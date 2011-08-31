@@ -85,7 +85,7 @@ public class TSExplorerUtils {
 			// Now this may mean that the artifact hasn't been extracted yet,
 			// but we're trying to display the proper icon in the explorer
 			IResource res = jElem.getResource();
-			if (art == null && res != null) {
+			if (art == null && res != null && res.exists()) {
 				try {
 					ITigerstripeModelProject project = (ITigerstripeModelProject) res
 							.getProject().getAdapter(

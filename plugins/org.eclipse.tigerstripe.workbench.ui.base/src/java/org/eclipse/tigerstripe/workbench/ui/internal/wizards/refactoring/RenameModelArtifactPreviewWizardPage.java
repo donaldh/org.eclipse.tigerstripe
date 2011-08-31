@@ -85,8 +85,8 @@ public class RenameModelArtifactPreviewWizardPage extends WizardPage {
 			for (ModelRefactorRequest request : requests) {
 				IRefactorCommand command = request
 						.getCommand(new NullProgressMonitor());
-				input.addAll(command.getDeltas());
 				input.addAll(command.getDiagramDeltas());
+				input.addAll(command.getDeltas());
 				input.addAll(command.getResourceDeltas());
 				cmds.add(command);
 			}
