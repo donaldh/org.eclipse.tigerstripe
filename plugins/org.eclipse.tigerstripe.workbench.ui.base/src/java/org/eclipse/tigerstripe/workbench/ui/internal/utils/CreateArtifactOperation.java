@@ -1,5 +1,6 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.utils;
 
+import java.util.Collections;
 import java.util.Map;
 
 import org.eclipse.core.commands.ExecutionException;
@@ -7,6 +8,7 @@ import org.eclipse.core.commands.operations.AbstractOperation;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
@@ -17,6 +19,10 @@ import org.eclipse.tigerstripe.workbench.model.ModelUtils;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IArtifactFormContentProvider;
 
 @SuppressWarnings("deprecation")
 public class CreateArtifactOperation extends AbstractOperation implements
@@ -44,6 +50,8 @@ public class CreateArtifactOperation extends AbstractOperation implements
 				: IAbstractArtifact.class;
 		ModelUtils.setProperties(mapClass, artifact, properties);
 
+		cleanUnrelevantProps();
+		
 		IModelUpdater updater = session.getIModelUpdater();
 		try {
 			IArtifactCreateExistingRequest req = updater.getRequestFactory()
@@ -54,6 +62,24 @@ public class CreateArtifactOperation extends AbstractOperation implements
 			throw new ExecutionException("Can't create artifact " + type, e);
 		}
 		return Status.OK_STATUS;
+	}
+
+	private void cleanUnrelevantProps() {
+		IArtifactFormContentProvider contentProvider = (IArtifactFormContentProvider) Platform
+		.getAdapterManager().getAdapter(artifact,
+				IArtifactFormContentProvider.class);
+		
+		if (contentProvider != null) {
+			if (!contentProvider.hasAttributes()) {
+				artifact.setFields(Collections.<IField>emptySet());
+			}
+			if (!contentProvider.hasMethods()) {
+				artifact.setMethods(Collections.<IMethod>emptySet());
+			}
+			if (!contentProvider.hasConstants()) {
+				artifact.setLiterals(Collections.<ILiteral>emptySet());
+			}
+		}
 	}
 
 	@Override
