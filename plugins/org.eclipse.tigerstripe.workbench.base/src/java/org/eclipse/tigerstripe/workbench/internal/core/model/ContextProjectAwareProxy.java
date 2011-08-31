@@ -1,3 +1,14 @@
+/******************************************************************************* 
+ * Copyright (c) 2011 xored software, Inc.  
+ * 
+ * All rights reserved. This program and the accompanying materials 
+ * are made available under the terms of the Eclipse Public License v1.0 
+ * which accompanies this distribution, and is available at 
+ * http://www.eclipse.org/legal/epl-v10.html  
+ * 
+ * Contributors: 
+ *     xored software, Inc. - initial API and Implementation (Anton Salnik) 
+ *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.lang.reflect.InvocationTargetException;
@@ -7,11 +18,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.ProvideModelComponents;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class ContextProjectAwareProxy implements
@@ -51,31 +58,9 @@ public class ContextProjectAwareProxy implements
 			} else {
 				result = m.invoke(obj, args);
 				if (result != null) {
-					if (IAssociationArtifact.class
-							.equals(m.getDeclaringClass())) {
-						if ("getAEnd".equals(m.getName())
-								|| "getZEnd".equals(m.getName())) {
-							result = newInstance(result, context);
-						} else if ("getAssociationEnds".equals(m.getName())) {
-							result = processResult(result);
-						}
-					} else if (IAbstractArtifact.class.equals(m
-							.getDeclaringClass())) {
-						if ("getLiterals".equals(m.getName())
-								|| "getFields".equals(m.getName())
-								|| "getMethods".equals(m.getName())) {
-							result = processResult(result);
-						}
-
-						if (result != null
-								&& "getExtendedArtifact".equals(m.getName())) {
-							result = newInstance(result, context);
-						}
-					} else if ((ILiteral.class.equals(m.getDeclaringClass())
-							|| IField.class.equals(m.getDeclaringClass()) || IMethod.class
-							.equals(m.getDeclaringClass()))
-							&& "getContainingArtifact".equals(m.getName())) {
-						result = newInstance(result, context);
+					if (m
+							.getAnnotation(ProvideModelComponents.class) != null) {
+						result = processResult(result);
 					}
 				}
 			}
@@ -89,18 +74,21 @@ public class ContextProjectAwareProxy implements
 	}
 
 	private Object processResult(Object result) {
-		if (result instanceof Collection<?>
-				&& !((Collection<?>) result).isEmpty()) {
+		if (result instanceof Collection<?>) {
 			return processCollection((Collection<?>) result);
+		} else {
+			return newInstance(result, context);
 		}
-		return result;
 	}
 
 	private <T> Collection<T> processCollection(Collection<T> collection) {
-		List<T> newCollection = new ArrayList<T>(collection.size());
-		for (T element : collection) {
-			newCollection.add((T) newInstance(element, context));
+		if (!collection.isEmpty()) {
+			List<T> newCollection = new ArrayList<T>(collection.size());
+			for (T element : collection) {
+				newCollection.add((T) newInstance(element, context));
+			}
+			return newCollection;
 		}
-		return newCollection;
+		return collection;
 	}
 }

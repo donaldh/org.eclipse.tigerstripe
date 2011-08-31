@@ -11,14 +11,17 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.model;
 
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
- * If a model component object implements the interface than the object is from
- * a referenced module or project.
+ * Annotation for a model component method which return a model component or
+ * collection or collection of model components. The annotation is used
+ * internally to extend the returned model component objects with
+ * <code>IContextProjectAware</code> interface to provide current execution
+ * context in case of referenced modules or projects.
  */
-public interface IContextProjectAware {
-
-	public ITigerstripeModelProject getContextProject();
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ProvideModelComponents {
 
 }

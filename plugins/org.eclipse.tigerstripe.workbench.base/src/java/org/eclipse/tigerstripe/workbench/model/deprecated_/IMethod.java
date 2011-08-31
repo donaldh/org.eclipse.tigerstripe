@@ -17,6 +17,7 @@ import java.util.List;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.model.ProvideModelComponents;
 import org.eclipse.tigerstripe.workbench.model.annotation.IAnnotationCapable;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IEntityMethodFlavorDetails;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
@@ -344,6 +345,7 @@ public interface IMethod extends IModelComponent {
 	 * 
 	 * @return the containing artifact.
 	 */
+	@ProvideModelComponents
 	public IAbstractArtifact getContainingArtifact();
 
 	/**

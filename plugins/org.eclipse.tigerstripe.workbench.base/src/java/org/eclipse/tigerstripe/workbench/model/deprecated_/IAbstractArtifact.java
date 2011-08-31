@@ -18,6 +18,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
+import org.eclipse.tigerstripe.workbench.model.ProvideModelComponents;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ossj.IStandardSpecifics;
 import org.eclipse.tigerstripe.workbench.project.IProjectDescriptor;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -121,6 +122,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * IRelationships
 	 * 
 	 */
+	@ProvideModelComponents
 	public Collection<Object> getChildren();
 
 	/**
@@ -136,6 +138,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * @return Collection<IField> - an unmodifiable collection of all the fields
 	 *         for this artifact
 	 */
+	@ProvideModelComponents
 	public Collection<IField> getFields();
 
 	/**
@@ -235,6 +238,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * @return Collection<ILiteral> - an unmodifiable collection of all the
 	 *         literals for this artifact
 	 */
+	@ProvideModelComponents
 	public Collection<ILiteral> getLiterals();
 
 	/**
@@ -335,6 +339,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * @return Collection<IMethod> - an unmodifiable collection of all the
 	 *         methods for this artifact
 	 */
+	@ProvideModelComponents
 	public Collection<IMethod> getMethods();
 
 	/**
@@ -428,6 +433,7 @@ public interface IAbstractArtifact extends IModelComponent {
 	 * 
 	 * @return IAbstractArtifact - the extended artifact
 	 */
+	@ProvideModelComponents
 	public IAbstractArtifact getExtendedArtifact();
 
 	/**

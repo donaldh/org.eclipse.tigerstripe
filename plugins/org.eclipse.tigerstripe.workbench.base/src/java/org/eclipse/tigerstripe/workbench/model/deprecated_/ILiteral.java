@@ -13,6 +13,8 @@ package org.eclipse.tigerstripe.workbench.model.deprecated_;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.tigerstripe.workbench.model.ProvideModelComponents;
+
 
 public interface ILiteral extends IModelComponent {
 
@@ -26,6 +28,7 @@ public interface ILiteral extends IModelComponent {
 	 * 
 	 * @return the containing artifact.
 	 */
+	@ProvideModelComponents
 	public IAbstractArtifact getContainingArtifact();
 
 	/**
