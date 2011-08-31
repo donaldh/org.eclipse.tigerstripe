@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
@@ -50,7 +51,16 @@ public class ContextProjectAwareProxy implements
 			} else {
 				result = m.invoke(obj, args);
 				if (result != null) {
-					if (IAbstractArtifact.class.equals(m.getDeclaringClass())) {
+					if (IAssociationArtifact.class
+							.equals(m.getDeclaringClass())) {
+						if ("getAEnd".equals(m.getName())
+								|| "getZEnd".equals(m.getName())) {
+							result = newInstance(result, context);
+						} else if ("getAssociationEnds".equals(m.getName())) {
+							result = processResult(result);
+						}
+					} else if (IAbstractArtifact.class.equals(m
+							.getDeclaringClass())) {
 						if ("getLiterals".equals(m.getName())
 								|| "getFields".equals(m.getName())
 								|| "getMethods".equals(m.getName())) {
