@@ -510,13 +510,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		if (component instanceof IContextProjectAware) {
 			context = ((IContextProjectAware) component).getContextProject();
 		}
-		ITigerstripeModelProject project = null;
-		try {
-			project = art.getProject();
-		} catch (TigerstripeException e) {
-			BasePlugin.log(e);
-		}
-		return toURI(artifactPath, fragment, art.isReadonly(), project, context);
+		return toURI(artifactPath, fragment, art.isReadonly(), context);
 
 	}
 
@@ -565,12 +559,11 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 
 	private static URI toURI(IPath path, String fragment, boolean isFromModule)
 			throws TigerstripeException {
-		return toURI(path, fragment, isFromModule, null, null);
+		return toURI(path, fragment, isFromModule, null);
 	}
 
 	private static URI toURI(IPath path, String fragment, boolean isFromModule,
-			ITigerstripeModelProject project, ITigerstripeModelProject context)
-			throws TigerstripeException {
+			ITigerstripeModelProject context) throws TigerstripeException {
 		if (path == null)
 			return null;
 
@@ -584,24 +577,22 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 				scheme = SCHEME_TS_REF_PROJECT;
 			}
 
-			if (project != null) {
-				String container = null;
-				if (context != null) {
-					container = context.getModelId();
-				}
-				if (container != null) {
-					StringBuilder res = new StringBuilder();
-					for (int i = 0; i < path.segmentCount(); i++) {
-						String segment = path.segment(i);
-						if (i == 0) {
-							res.append(container
-									+ SCHEME_TS_CONTEXT_PROJECT_SEPARATOR);
-						}
-						res.append(segment);
-						res.append(File.separator);
+			String container = null;
+			if (context != null) {
+				container = context.getModelId();
+			}
+			if (container != null) {
+				StringBuilder res = new StringBuilder();
+				for (int i = 0; i < path.segmentCount(); i++) {
+					String segment = path.segment(i);
+					if (i == 0) {
+						res.append(container
+								+ SCHEME_TS_CONTEXT_PROJECT_SEPARATOR);
 					}
-					resPath = new Path(path.getDevice(), res.toString());
+					res.append(segment);
+					res.append(File.separator);
 				}
+				resPath = new Path(path.getDevice(), res.toString());
 			}
 		}
 
