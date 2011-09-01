@@ -17,13 +17,14 @@ import org.eclipse.swt.custom.StyleRange;
 import org.eclipse.swt.graphics.TextStyle;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgumentAnnotationsFormatter;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgumentLabelFormatter;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -199,18 +200,26 @@ public class TigerstripeUILabels {
 		if (component instanceof IAbstractArtifact) {
 			stereoPrefsLabel = ExplorerPreferencePage.P_LABEL_STEREO_ARTIFACT;
 		} else if (component instanceof IMethod) {
+			final IMethod method = (IMethod) component;
 			boolean includeArgumentAnnotations = store
 					.getBoolean(ExplorerPreferencePage.P_LABEL_STEREO_METHARGS);
-			IArgumentAnnotationsFormatter aaFormatter = null;
+			IArgumentLabelFormatter aaFormatter = null;
 			if (includeArgumentAnnotations) {
-				aaFormatter = new IArgumentAnnotationsFormatter() {
-					public String getAnnotationsAsString(IArgument argument) {
+				aaFormatter = new IArgumentLabelFormatter() {
+					public String getArgumentLabel(IArgument argument,
+							String defaultLabel) {
+						boolean ignoreAnnotations = false;
+						if (method instanceof IContextProjectAware) {
+							ignoreAnnotations = true;
+						}
 						return ModelElementAnnotationsHelper
-								.getAnnotationsAsString(argument);
+								.getAnnotationsAsString(false,
+										ignoreAnnotations, argument)
+								+ defaultLabel;
 					}
 				};
 			}
-			label = ((IMethod) component).getLabelString(aaFormatter);
+			label = method.getLabelString(aaFormatter);
 			stereoPrefsLabel = ExplorerPreferencePage.P_LABEL_STEREO_METH;
 		} else if (component instanceof ILiteral) {
 			label = ((ILiteral) component).getLabelString();

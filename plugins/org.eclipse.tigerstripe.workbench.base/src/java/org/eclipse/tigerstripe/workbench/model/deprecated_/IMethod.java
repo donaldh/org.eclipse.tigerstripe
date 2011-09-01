@@ -372,11 +372,14 @@ public interface IMethod extends IModelComponent {
 	 */
 	public String getLabelString(boolean includeArgStereotypes);
 
-	public interface IArgumentAnnotationsFormatter {
-		public String getAnnotationsAsString(IArgument argument);
+	/**
+	 * The interface is used to change default argument label representation.
+	 */
+	public interface IArgumentLabelFormatter {
+		public String getArgumentLabel(IArgument argument, String defaultLabel);
 	}
 
-	public String getLabelString(IArgumentAnnotationsFormatter formatter);
+	public String getLabelString(IArgumentLabelFormatter formatter);
 
 	/**
 	 * Returns an identifier that uniquely identifies this method within the

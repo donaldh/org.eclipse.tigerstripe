@@ -1165,7 +1165,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 	}
 
 	public String getLabelString(boolean includeArgStereotypes) {
-		IArgumentAnnotationsFormatter aaFormatter = null;
+		IArgumentLabelFormatter aaFormatter = null;
 		if (includeArgStereotypes) {
 			aaFormatter = new DefaultArgumentStereotypesFormatter();
 		}
@@ -1173,7 +1173,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 	}
 
 	public String getLabelString(
-			IArgumentAnnotationsFormatter annotationsFormatter) {
+			IArgumentLabelFormatter annotationsFormatter) {
 		StringBuilder result = new StringBuilder();
 		result.append(getName()).append("(")
 				.append(getParamsAsString(annotationsFormatter)).append("):");
@@ -1201,7 +1201,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 	}
 
 	private String getParamsAsString(
-			IArgumentAnnotationsFormatter annotationsFormatter) {
+			IArgumentLabelFormatter argumentFormatter) {
 
 		GlobalSettingsProperty propG = (GlobalSettingsProperty) TigerstripeCore
 				.getWorkbenchProfileSession().getActiveProfile().getProperty(
@@ -1219,37 +1219,42 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		StringBuilder result = new StringBuilder();
 		int paramCount = 0;
 		for (IArgument argument : getArguments()) {
-			if (annotationsFormatter != null) {
-				result.append(annotationsFormatter
-						.getAnnotationsAsString(argument));
-			}
-
-			if (displayDirection) {
-				result.append(argument.getDirection().getLabel()).append(" ");
-			}
-
-			String paramString = Util.nameOf(argument.getType()
-					.getFullyQualifiedName());
-			result.append(Misc.removeJavaLangString(paramString));
-
-			if (argument.getType().getTypeMultiplicity() != IModelComponent.EMultiplicity.ONE) {
-				result.append("[")
-						.append(argument.getType().getTypeMultiplicity()
-								.getLabel())
-						.append("]");
-			}
-
-			if (argument.getDefaultValue() != null) {
-				result.append("=");
-				if (argument.getDefaultValue().length() == 0) {
-					result.append("\"\"");
-				} else {
-					result.append(argument.getDefaultValue());
-				}
+			String argumentLabel = getArgumentLabel(argument, displayDirection);
+			if (argumentFormatter != null) {
+				result.append(argumentFormatter.getArgumentLabel(argument,
+						argumentLabel));
 			}
 
 			if (++paramCount < numParams)
 				result.append(", ");
+		}
+		return result.toString();
+	}
+
+	private String getArgumentLabel(IArgument argument, boolean displayDirection) {
+		StringBuilder result = new StringBuilder();
+
+		if (displayDirection) {
+			result.append(argument.getDirection().getLabel()).append(" ");
+		}
+
+		String paramString = Util.nameOf(argument.getType()
+				.getFullyQualifiedName());
+		result.append(Misc.removeJavaLangString(paramString));
+
+		if (argument.getType().getTypeMultiplicity() != IModelComponent.EMultiplicity.ONE) {
+			result.append("[")
+					.append(argument.getType().getTypeMultiplicity().getLabel())
+					.append("]");
+		}
+
+		if (argument.getDefaultValue() != null) {
+			result.append("=");
+			if (argument.getDefaultValue().length() == 0) {
+				result.append("\"\"");
+			} else {
+				result.append(argument.getDefaultValue());
+			}
 		}
 		return result.toString();
 	}
@@ -1620,10 +1625,10 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		return label;
 	}
 	
-	private class DefaultArgumentStereotypesFormatter implements IArgumentAnnotationsFormatter {
+	private class DefaultArgumentStereotypesFormatter implements IArgumentLabelFormatter {
 
-		public String getAnnotationsAsString(IArgument argument) {
-			return argument.getStereotypeString();
+		public String getArgumentLabel(IArgument argument, String defaultLabel) {
+			return argument.getStereotypeString() + defaultLabel;
 		}		
 	}
 }
