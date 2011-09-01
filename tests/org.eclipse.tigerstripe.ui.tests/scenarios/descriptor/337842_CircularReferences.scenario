@@ -19,7 +19,7 @@ get-view "Tigerstripe Explorer" | get-tree | select "Two/src/com.mycompany/Ent2"
 with [get-window "Refactor Model Artifact"] {
     with [get-editbox -after [get-label "New name:"]] {
         key-type "M1+a"
-        set-text Ent3
+        set-text Ent_new
     }
     get-button "Next >" | click
     get-button Finish | click

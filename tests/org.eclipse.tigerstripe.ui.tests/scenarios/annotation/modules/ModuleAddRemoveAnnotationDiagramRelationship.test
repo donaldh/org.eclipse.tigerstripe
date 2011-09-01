@@ -1,8 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ModuleAddRemoveAnnotationDiagramRelationship" version="3.0" id="_ZF824NN5EeCino64Gq4rnQ" description="Add and remove annotations relationship (Associations and Association Classes) in diagram in installed module &#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;ModuleAddRemoveAnnotation&#xD;&#xA;AnnotationsContextPreferences&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;    Add annotation for the relationship on diagram in installed module in project 1&#xD;&#xA;    Check relationship name in project 1 (it should be displayed with annotation) on diagram&#xD;&#xA;    Check relationship name on diagram in another project (project 2)&#xD;&#xA;    Check empty annotation view in project 2&#xD;&#xA;    Remove annotation from project 1&#xD;&#xA;    Check relationship name in project 1 on diagram&#xD;&#xA;    Check empty annotation view in project 1&#xD;&#xA;" tags="Annotation/module" type="ecl" externalReference="http://docs.xored.com/display/TS/ModuleAddRemoveAnnotationDiagramRelationship">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="ModuleAddRemoveAnnotationDiagramRelationship" version="3.0" id="_ZF824NN5EeCino64Gq4rnQ" description="Add and remove annotations relationship (Associations and Association Classes) in diagram in installed module &#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;ModuleAddRemoveAnnotation&#xD;&#xA;AnnotationsContextPreferences&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;    Add annotation for the relationship on diagram in installed module in project 1&#xD;&#xA;    Check relationship name in project 1 (it should be displayed with annotation) on diagram&#xD;&#xA;    Check relationship name on diagram in another project (project 2)&#xD;&#xA;    Check empty annotation view in project 2&#xD;&#xA;    Remove annotation from project 1&#xD;&#xA;    Check relationship name in project 1 on diagram&#xD;&#xA;    Check empty annotation view in project 1&#xD;&#xA;" tags="Annotation/module" type="ecl" externalReference="http://docs.xored.com/display/TS/ModuleAddRemoveAnnotationDiagramRelationship">
   <contexts>_RR91gMiqEeCVYvz9uSPZwA</contexts>
   <contexts>__8ZooMxeEeCTcJc7g1x7bg</contexts>
   <contexts>_9D6jAatgEd-v8JwXbnu_tQ</contexts>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/default" | double-click -nowait
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name E2 
+    | get-target-connection 0] {
+    mouse-move 94 68 button1 -height 102 -width 241
+    mouse-press 94 68 button1 -height 102 -width 241
+    mouse-release 94 68 button1 524288 -height 102 -width 241
+    with [get-edit-part -text "org.eclipse.tigerstripe.test.Dependency"] {
+        mouse-move 106 9 button1 -height 15 -width 215
+        mouse-press 106 9 button1 -height 15 -width 215
+        mouse-release 106 9 button1 524288 -height 15 -width 215
+        mouse-hover 106 9 -height 15 -width 215
+    }
+}
+get-view "Annotation Property View" | click -nowait
+with [get-editor "default.wvd" | get-diagram] {
+    with [get-edit-part -className MapEditPart] {
+        with [get-edit-part -name E2 | get-target-connection 0 | get-edit-part 
+            -text "org.eclipse.tigerstripe.test.Dependency"] {
+            mouse-move 127 8 button1 -height 15 -width 215
+            mouse-press 127 8 button1 -height 15 -width 215
+            mouse-release 127 8 button1 524288 -height 15 -width 215
+            activate-direct-edit
+        }
+        with [get-edit-part -name DT1 | get-target-connection 0] {
+            mouse-hover 141 63 -height 100 -width 242
+            mouse-move 141 63 button1 -height 100 -width 242
+            mouse-press 141 63 button1 -height 100 -width 242
+        }
+    }
+    cancel-direct-edit
+    with [get-edit-part -className MapEditPart | get-edit-part -name DT1 | get-target-connection 0] {
+        mouse-release 141 63 button1 524288 -height 100 -width 242
+        mouse-hover 141 63 -height 100 -width 242
+        mouse-press 141 63 button1 -height 100 -width 242
+        mouse-release 141 63 button1 524288 -height 100 -width 242
+        mouse-hover 141 63 -height 100 -width 242
+        activate-direct-edit
+        get-edit-part -text Association1 | activate-direct-edit
+    }
+    cancel-direct-edit
+}
+get-view "Annotation Property View" | get-table | get-menu "Add Annotation" | click
+with [get-window "Create Annotation Wizard"] {
+    get-tree | select "Primitive/Check Annotation"
+    get-button Finish | click
+}
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | mouse-hover 434 301 -height 555 
+    -width 811
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name DT1 
+    | get-target-connection 0 | get-edit-part -text "<<CheckAnnotation>>org.eclipse.tigerstripe.test.Association1" 
+    | get-property text | equals "<<CheckAnnotation>>org.eclipse.tigerstripe.test.Association1" | verify-true
+get-view "Annotation Property View" | get-table | get-property itemCount | equals 1 | verify-true
+get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get-property caption 
+    | equals CheckAnnotation | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>Association1" 
+    | get-property caption | equals "<<CheckAnnotation>>Association1" | verify-true
+get-editor "default.wvd" | close
+with [get-view "Tigerstripe Explorer"] {
+    click -nowait
+    get-tree | select "Project2/src/default" | double-click -nowait
+}
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name DT1 
+    | get-target-connection 0 | get-edit-part -text "org.eclipse.tigerstripe.test.Association1" | get-property text 
+    | equals "org.eclipse.tigerstripe.test.Association1" | verify-true
+with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name DT1 
+    | get-target-connection 0 | get-edit-part -text "org.eclipse.tigerstripe.test.Association1"] {
+    mouse-move 62 4 button1 -height 15 -width 216
+    mouse-press 62 4 button1 -height 15 -width 216
+    mouse-release 62 4 button1 524288 -height 15 -width 216
+    mouse-hover 62 4 -height 15 -width 216
+}
+get-view "Annotation Property View" | get-table | get-property itemCount | equals 0 | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "Project2/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/Association1" 
+    | get-property caption | equals Association1 | verify-true
+get-editor "default.wvd" | close
+with [get-view "Tigerstripe Explorer"] {
+    click -nowait
+    get-tree | select "Project1/src/default" | double-click -nowait
+}
+with [get-editor "default.wvd" | get-diagram] {
+    with [get-edit-part -className MapEditPart | get-edit-part -name DT1 | get-target-connection 0] {
+        with [get-edit-part -text "<<CheckAnnotation>>org.eclipse.tigerstripe.test.Association1"] {
+            mouse-move 154 10 button1 -height 15 -width 394
+            mouse-press 154 10 button1 -height 15 -width 394
+            mouse-release 154 10 button1 524288 -height 15 -width 394
+            mouse-hover 139 10 -height 15 -width 394
+            mouse-move 215 5 button1 -height 15 -width 394
+            mouse-press 215 5 button1 -height 15 -width 394
+            mouse-release 215 5 button1 524288 -height 15 -width 394
+            activate-direct-edit
+        }
+        mouse-hover 69 72 -height 100 -width 101
+        mouse-move 69 72 button1 -height 100 -width 101
+        mouse-press 69 72 button1 -height 100 -width 101
+    }
+    cancel-direct-edit
+    with [get-edit-part -className MapEditPart | get-edit-part -name DT1 | get-target-connection 0] {
+        mouse-release 231 72 button1 524288 -height 100 -width 420
+        get-edit-part -text "+e1" | mouse-hover 0 0 -height 15 -width 21
+    }
+}
+return-from-os-dialog "MESSAGE_BOX" 64
+get-view "Annotation Property View" | get-table | get-menu "Remove All" | click
+get-view "Annotation Property View" | get-table | get-property itemCount | equals 0 | verify-true
+get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name DT1 
+    | get-target-connection 0 | get-edit-part -text "org.eclipse.tigerstripe.test.Association1" | get-property text 
+    | equals "org.eclipse.tigerstripe.test.Association1" | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/Association1" 
+    | get-property caption | equals Association1 | verify-true]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
