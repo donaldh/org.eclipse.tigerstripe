@@ -1095,6 +1095,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		this.containingModelComponent = artifact;
 	}
 
+	@ProvideModelComponents
 	public IAbstractArtifact getContainingArtifact() {
 		if (this.containingModelComponent instanceof IAbstractArtifact)
 			return (IAbstractArtifact) this.containingModelComponent;

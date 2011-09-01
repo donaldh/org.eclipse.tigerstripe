@@ -18,7 +18,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
-import org.eclipse.tigerstripe.workbench.model.ProvideModelComponents;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class ContextProjectAwareProxy implements

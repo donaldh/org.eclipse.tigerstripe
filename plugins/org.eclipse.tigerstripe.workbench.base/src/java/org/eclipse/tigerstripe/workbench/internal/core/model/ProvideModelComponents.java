@@ -9,7 +9,7 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Anton Salnik) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.model;
+package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

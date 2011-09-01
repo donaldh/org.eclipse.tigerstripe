@@ -151,10 +151,12 @@ public class AssociationArtifact extends AbstractArtifact implements
 		return IMethod.EMPTY_LIST;
 	}
 
+	@ProvideModelComponents
 	public IAssociationEnd getAEnd() {
 		return this.aEnd;
 	}
 
+	@ProvideModelComponents
 	public IAssociationEnd getZEnd() {
 		return this.zEnd;
 	}
@@ -220,7 +222,7 @@ public class AssociationArtifact extends AbstractArtifact implements
 		return objects;
 	}
 
-	
+	@ProvideModelComponents
 	public Collection<IAssociationEnd> getAssociationEnds() {
 		Collection<IAssociationEnd> result = new ArrayList<IAssociationEnd>();
 		// Bug 249290 - not adding "null" ends

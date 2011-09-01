@@ -12,8 +12,6 @@ package org.eclipse.tigerstripe.workbench.model.deprecated_;
 
 import java.util.Collection;
 
-import org.eclipse.tigerstripe.workbench.model.ProvideModelComponents;
-
 
 /**
  * Internal Interface for IAssociationArtifact
@@ -30,7 +28,6 @@ public interface IAssociationArtifact extends IModelComponent,
 	 * 
 	 * @return The 'A' end of this association.
 	 */
-	@ProvideModelComponents
 	public IAssociationEnd getAEnd();
 	
 	/**
@@ -45,7 +42,6 @@ public interface IAssociationArtifact extends IModelComponent,
 	 * 
 	 * @return The 'Z' end of this association.
 	 */
-	@ProvideModelComponents
 	public IAssociationEnd getZEnd();
 	
 	/**
@@ -60,7 +56,6 @@ public interface IAssociationArtifact extends IModelComponent,
 	 * 
 	 * @return - an unmodifiable collection of Association Ends 
 	 */
-	@ProvideModelComponents
 	public Collection<IAssociationEnd> getAssociationEnds();
 
 	/**

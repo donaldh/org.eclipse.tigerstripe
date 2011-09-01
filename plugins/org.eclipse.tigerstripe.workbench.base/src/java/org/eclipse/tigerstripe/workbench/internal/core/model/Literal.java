@@ -116,6 +116,7 @@ public class Literal extends ArtifactComponent implements ILiteral {
 		this.containingModelComponent = artifact;
 	}
 
+	@ProvideModelComponents
 	public IAbstractArtifact getContainingArtifact() {
 		if (this.containingModelComponent instanceof IAbstractArtifact)
 			return (IAbstractArtifact) this.containingModelComponent;

@@ -942,6 +942,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * 
 	 * @return
 	 */
+	@ProvideModelComponents
 	public Collection<IMethod> getMethods() {
 		return Collections.unmodifiableCollection(this.methods);
 	}
@@ -951,6 +952,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * 
 	 * @return Collection of Field - a collection of Fields for this artifact
 	 */
+	@ProvideModelComponents
 	public Collection<IField> getFields() {
 		return Collections.unmodifiableCollection(this.fields);
 	}
@@ -978,6 +980,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * @return Collection of Literals - a collection of Literals for this
 	 *         artifact
 	 */
+	@ProvideModelComponents
 	public Collection<ILiteral> getLiterals() {
 		return Collections.unmodifiableCollection(this.literals);
 	}
@@ -1763,10 +1766,12 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 					.getInheritedMethods());
 	}
 
+	@ProvideModelComponents
 	public IAbstractArtifact getExtendedArtifact() {
 		return getExtends();
 	}
 
+	@ProvideModelComponents
 	public Collection<Object> getChildren() {
 
 		Collection<Object> objects = new ArrayList<Object>();
@@ -1990,6 +1995,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	// Default implementation is for
 	// all Fields, Methods, Literals
+	@ProvideModelComponents
 	public Collection<IModelComponent> getContainedModelComponents() {
 		return containedComponents;
 	}
