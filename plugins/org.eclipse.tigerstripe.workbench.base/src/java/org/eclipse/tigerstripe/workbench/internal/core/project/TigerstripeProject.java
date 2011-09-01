@@ -37,6 +37,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.apache.tools.ant.util.ReaderInputStream;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.espace.core.Mode;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
@@ -46,6 +47,7 @@ import org.eclipse.tigerstripe.workbench.internal.annotation.ModuleAnnotationMan
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
+import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.api.project.ITigerstripeVisitor;
 import org.eclipse.tigerstripe.workbench.internal.contract.segment.FacetReference;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
@@ -664,15 +666,26 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 	}
 
 	public void addDependency(IDependency dependency) {
+		
+		if (!dependency.isValid()) {
+			return;
+		}
+
+		URI uri = dependency.getURI();
+		IModuleHeader header = dependency.getIModuleHeader();
+		
+		if (uri == null || header == null || header.getModuleID() == null) {
+			return;
+		}
+		
 		if (!this.dependencies.contains(dependency)) {
 			setDirty();
 			this.dependencies.add(dependency);
 			((Dependency) dependency).setContainer(this);
 
 			try {
-				ModuleAnnotationManager.INSTANCE.registerAnnotationsFor(
-						dependency.getURI(), dependency.getIModuleHeader()
-								.getModuleID(), Mode.READ_ONLY);
+				ModuleAnnotationManager.INSTANCE.registerAnnotationsFor(uri,
+						header.getModuleID(), Mode.READ_ONLY);
 			} catch (IOException e) {
 				BasePlugin.log(e);
 			}
