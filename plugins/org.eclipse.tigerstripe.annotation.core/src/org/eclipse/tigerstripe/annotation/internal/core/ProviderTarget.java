@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.internal.core;
 
+import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.tigerstripe.annotation.core.IProviderTarget;
 
@@ -20,8 +21,8 @@ import org.eclipse.tigerstripe.annotation.core.IProviderTarget;
  */
 public class ProviderTarget implements IProviderTarget {
 	
-	private String className;
-	private String description;
+	private final String className;
+	private final String description;
 	
 	public ProviderTarget(String className, String description) {
 		this.className = className;
@@ -34,7 +35,11 @@ public class ProviderTarget implements IProviderTarget {
 			return adapted;
 		try {
 			Class<?> clazz = Class.forName(className, true, object.getClass().getClassLoader());
-			return Platform.getAdapterManager().getAdapter(object, clazz);
+			adapted = Platform.getAdapterManager().getAdapter(object, clazz);
+			if (adapted == null && object instanceof IAdaptable) {
+				adapted = ((IAdaptable) object).getAdapter(clazz);
+			}
+			return adapted;
 		} catch (ClassNotFoundException e) {
 		}
 		return null;

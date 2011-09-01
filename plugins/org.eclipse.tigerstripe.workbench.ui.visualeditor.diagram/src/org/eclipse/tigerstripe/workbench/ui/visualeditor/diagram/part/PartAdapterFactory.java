@@ -34,31 +34,16 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.Tige
 public class PartAdapterFactory extends VisualeditorModelAdapterFactory {
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public Object getAdapter(Object adaptableObject, Class adapterType) {
-		if (adapterType == IModelComponent.class) {
-			return getAnnotable(adaptableObject);
-		}
-		return null;
-	}
-
-	@Override
-	@SuppressWarnings("unchecked")
-	public Class[] getAdapterList() {
-		return new Class[] { IModelComponent.class };
-	}
-
-	@Override
-	protected Object getAnnotable(Object adaptableObject) {
+	protected IModelComponent adaptToModelComponent(Object adaptableObject) {
 		if (adaptableObject instanceof TigerstripeShapeNodeEditPart) {
 			TigerstripeShapeNodeEditPart part = (TigerstripeShapeNodeEditPart) adaptableObject;
 			Node node = (Node) part.getModel();
-			return super.getAnnotable(node.getElement());
+			return super.adaptToModelComponent(node.getElement());
 		} else if (adaptableObject instanceof ConnectionNodeEditPart) {
 			ConnectionNodeEditPart part = (ConnectionNodeEditPart) adaptableObject;
 			Edge edge = (Edge) part.getModel();
 			if (edge.getElement() instanceof QualifiedNamedElement) {
-				return super.getAnnotable(edge.getElement());
+				return super.adaptToModelComponent(edge.getElement());
 			}
 		} else if (adaptableObject instanceof ITextAwareEditPart) {
 			ITextAwareEditPart tPart = (ITextAwareEditPart) adaptableObject;
@@ -66,7 +51,7 @@ public class PartAdapterFactory extends VisualeditorModelAdapterFactory {
 			if (adaptableObject instanceof TigerstripeAttributeEditPart
 					|| adaptableObject instanceof TigerstripeMethodEditPart
 					|| adaptableObject instanceof TigerstripeLiteralEditPart) {
-				return super.getAnnotable(model.getElement());
+				return super.adaptToModelComponent(model.getElement());
 			} else if (adaptableObject instanceof AssociationAEndNameEditPart
 					|| adaptableObject instanceof AssociationClassAEndNameEditPart) {
 				EditPart aEnd = (EditPart) adaptableObject;

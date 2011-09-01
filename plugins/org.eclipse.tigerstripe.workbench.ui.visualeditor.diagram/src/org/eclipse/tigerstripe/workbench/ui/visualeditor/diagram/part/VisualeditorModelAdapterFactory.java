@@ -11,6 +11,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -30,17 +31,23 @@ public class VisualeditorModelAdapterFactory implements IAdapterFactory {
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
 		if (adapterType == IModelComponent.class) {
-			return getAnnotable(adaptableObject);
+			return adaptToModelComponent(adaptableObject);
+		} else if (adapterType == IResource.class) {
+			IModelComponent result = adaptToModelComponent(adaptableObject);
+			if (result != null && result instanceof IAbstractArtifact) {
+				return ((IAbstractArtifact) result)
+						.getAdapter(IResource.class);
+			}
 		}
 		return null;
 	}
 
 	@SuppressWarnings("unchecked")
 	public Class[] getAdapterList() {
-		return new Class[] { IModelComponent.class };
+		return new Class[] { IModelComponent.class, IResource.class };
 	}
 
-	protected Object getAnnotable(Object adaptableObject) {
+	protected IModelComponent adaptToModelComponent(Object adaptableObject) {
 		if (adaptableObject instanceof QualifiedNamedElement) {
 			return getCorrespondingIArtifact((QualifiedNamedElement) adaptableObject);
 		} else if (adaptableObject instanceof Attribute) {
