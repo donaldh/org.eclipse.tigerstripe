@@ -15,8 +15,8 @@ public class TSExplorer extends CommonNavigator {
 		return instance;
 	}
 	
-	private TigerstripeContentProvider contentProvider;
-	private TigerstripeLabelProvider labelProvider;
+	private final TigerstripeContentProvider contentProvider;
+	private final TigerstripeLabelProvider labelProvider;
 	
 	public TSExplorer() {
 		super();
@@ -49,7 +49,7 @@ public class TSExplorer extends CommonNavigator {
 		IAction openHandler = getViewSite().getActionBars()
 				.getGlobalActionHandler(ICommonActionConstants.OPEN);
 
-		if (openHandler == null) {
+		if (openHandler == null || !openHandler.isEnabled()) {
 			ITreeSelection selection = (ITreeSelection) anEvent.getSelection();
 
 			TreePath[] paths = selection.getPaths();

@@ -532,6 +532,9 @@ public class TSOpenAction extends OpenAction {
 			return false;
 		for (Iterator<?> iter = selection.iterator(); iter.hasNext();) {
 			Object element = iter.next();
+			if (element instanceof IElementWrapper) {
+				element = ((IElementWrapper) element).getElement();
+			}
 
 			if (element instanceof IProject)
 				return false;
@@ -554,8 +557,6 @@ public class TSOpenAction extends OpenAction {
 			if (element instanceof RelationshipAnchor)
 				continue;
 			if (element instanceof AbstractLogicalExplorerNode)
-				continue;
-			if (element instanceof IElementWrapper)
 				continue;
 			return false;
 		}
