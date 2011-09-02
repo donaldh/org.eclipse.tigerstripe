@@ -1221,9 +1221,10 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		for (IArgument argument : getArguments()) {
 			String argumentLabel = getArgumentLabel(argument, displayDirection);
 			if (argumentFormatter != null) {
-				result.append(argumentFormatter.getArgumentLabel(argument,
-						argumentLabel));
+				argumentLabel = argumentFormatter.getArgumentLabel(argument,
+						argumentLabel);
 			}
+			result.append(argumentLabel);
 
 			if (++paramCount < numParams)
 				result.append(", ");
