@@ -56,11 +56,8 @@ public class ContextProjectAwareProxy implements
 				}
 			} else {
 				result = m.invoke(obj, args);
-				if (result != null) {
-					if (m
-							.getAnnotation(ProvideModelComponents.class) != null) {
-						result = processResult(result);
-					}
+				if (result != null && needToProxyResult(m)) {
+					result = proxyResult(result);
 				}
 			}
 		} catch (InvocationTargetException e) {
@@ -72,7 +69,23 @@ public class ContextProjectAwareProxy implements
 		return result;
 	}
 
-	private Object processResult(Object result) {
+	private boolean needToProxyResult(java.lang.reflect.Method method) {
+		if (method.getAnnotation(ProvideModelComponents.class) != null) {
+			return true;
+		} else {
+			try {
+				java.lang.reflect.Method m = obj.getClass().getMethod(
+						method.getName(), method.getParameterTypes());
+				if (m.getAnnotation(ProvideModelComponents.class) != null) {
+					return true;
+				}
+			} catch (NoSuchMethodException e) {
+			}
+		}
+		return false;
+	}
+
+	private Object proxyResult(Object result) {
 		if (result instanceof Collection<?>) {
 			return processCollection((Collection<?>) result);
 		} else {
