@@ -12,7 +12,8 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.dialogs;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +55,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -72,11 +74,11 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 
 	private IArtifactManagerSession artifactMgrSession;
 
-	private DiagramGraphicalViewer mapViewer;
+	private final DiagramGraphicalViewer mapViewer;
 
-	private AbstractArtifact source;
+	private final AbstractArtifact source;
 
-	private AbstractArtifact target;
+	private final AbstractArtifact target;
 
 	private IAbstractArtifact sourceArtifact;
 
@@ -130,7 +132,7 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 
 	private Button zEndIsOrderedButton;
 
-	private Map<String, Object> changedValuesMap = new HashMap<String, Object>();
+	private final Map<String, Object> changedValuesMap = new HashMap<String, Object>();
 
 	public AssociationPropertiesEditDialog(Shell parent,
 			MapEditPart mapEditPart, Association association) {
@@ -276,27 +278,17 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 					try {
 						IAbstractArtifact iArtifact = association
 								.getCorrespondingIArtifact();
-						Collection<IStereotype> availStereotypes = TigerstripeCore
-								.getWorkbenchProfileSession()
-								.getActiveProfile()
-								.getAvailableStereotypeForCapable(iArtifact);
-						// TODO - Not sure why these were sorted ?
-						/*
-						 * Arrays.sort(availStereotypes, new
-						 * Comparator<IStereotype>() { public int
-						 * compare(IStereotype o1, IStereotype o2) { return
-						 * o1.getName().compareTo( o2.getName()); } });
-						 */
-						Collection<IStereotype> availStereotypeList = availStereotypes;
+						IStereotype[] availableStereotypes = getAvailableStereotypes(iArtifact);
+
 						List<IStereotype> selectedStereotypeList = new ArrayList<IStereotype>();
-						for (IStereotype availStereotype : availStereotypeList) {
+						for (IStereotype availStereotype : availableStereotypes) {
 							if (stereotypeVals.contains(availStereotype
 									.getName())) {
 								selectedStereotypeList.add(availStereotype);
 							}
 						}
 						ListSelectionDialog stereotypeSelDialog = new ListSelectionDialog(
-								getShell(), availStereotypes,
+								getShell(), availableStereotypes,
 								new ArrayContentProvider(),
 								new LabelProvider(), "Select Stereotypes");
 						stereotypeSelDialog
@@ -407,6 +399,7 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		
 		// N.M: Bugzilla 321524: Inconsistent behaviour between association pop-up editor and association form
 		aEndMultiplicityCombo.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Object source = e.getSource();
 				if (source instanceof Combo) {
@@ -584,6 +577,7 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		
 		// N.M: Bugzilla 321524: Inconsistent behaviour between association pop-up editor and association form
 		zEndMultiplicityCombo.addSelectionListener(new SelectionAdapter() {
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				Object source = e.getSource();
 				if (source instanceof Combo) {
@@ -678,6 +672,20 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 			zEndIsUniqueButton.setEnabled(false);
 			zEndIsOrderedButton.setEnabled(false);
 		}
+	}
+
+	private IStereotype[] getAvailableStereotypes(IAbstractArtifact iArtifact) {
+		List<IStereotype> stereotypes = new ArrayList<IStereotype>();
+		IWorkbenchProfile profile = TigerstripeCore
+				.getWorkbenchProfileSession().getActiveProfile();
+		stereotypes.addAll(profile.getAvailableStereotypeForCapable(iArtifact));
+
+		Collections.sort(stereotypes, new Comparator<IStereotype>() {
+			public int compare(IStereotype o1, IStereotype o2) {
+				return o1.getName().compareTo(o2.getName());
+			}
+		});
+		return stereotypes.toArray(new IStereotype[stereotypes.size()]);
 	}
 
 	private String getStereotypeLabel(List stereotypeVals) {

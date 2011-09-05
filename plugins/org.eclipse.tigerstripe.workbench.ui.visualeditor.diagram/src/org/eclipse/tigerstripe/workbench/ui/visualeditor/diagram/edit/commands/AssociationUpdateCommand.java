@@ -34,6 +34,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd.EAggregationEnum;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -108,10 +109,7 @@ public class AssociationUpdateCommand extends AbstractTransactionalCommand {
 					List assocSteoreotypes = association.getStereotypes();
 					String oldStereotypeLabel = getStereotypeLabel(assocSteoreotypes);
 					if (!assocSteoreotypes.equals(newAssocStereotypeLabel)) {
-						Collection<IStereotypeInstance> existingInstances = iAssociation
-								.getStereotypeInstances();
-						iAssociation
-								.removeStereotypeInstances(existingInstances);
+						removeStereotypes(iAssociation);
 						for (Stereotype newAssocStereotypeVal : newAssocStereotypeVals) {
 							iAssociation
 									.addStereotypeInstance(newAssocStereotypeVal
@@ -302,6 +300,19 @@ public class AssociationUpdateCommand extends AbstractTransactionalCommand {
 			}
 		}
 		return CommandResult.newOKCommandResult();
+	}
+
+	private void removeStereotypes(IStereotypeCapable capable) {
+		IStereotypeInstance[] existingInstances = getStereotypes(capable);
+		for (IStereotypeInstance instance : existingInstances) {
+			capable.removeStereotypeInstance(instance);
+		}
+	}
+
+	private IStereotypeInstance[] getStereotypes(IStereotypeCapable capable) {
+		Collection<IStereotypeInstance> instances = capable
+				.getStereotypeInstances();
+		return instances.toArray(new IStereotypeInstance[instances.size()]);
 	}
 
 	private String getStereotypeLabel(List stereotypeVals) {
