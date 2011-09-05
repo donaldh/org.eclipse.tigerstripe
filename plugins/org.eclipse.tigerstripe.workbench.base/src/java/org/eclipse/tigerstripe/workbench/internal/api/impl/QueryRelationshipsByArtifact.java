@@ -31,7 +31,7 @@ public class QueryRelationshipsByArtifact extends ArtifactQueryBase implements
 	private String termFQN;
 
 	@Override
-	public Collection run(IArtifactManagerSession managerSession) {
+	public Collection<IRelationship> run(IArtifactManagerSession managerSession) {
 		ArtifactManagerSessionImpl session = (ArtifactManagerSessionImpl) managerSession;
 		ArtifactManager mgr = session.getArtifactManager();
 

@@ -83,6 +83,9 @@ public class CycleReferencesAuditor extends IncrementalProjectBuilder {
 
 	private void validateDescriptor(IProgressMonitor monitor,
 			IResource descriptorResource) throws CoreException {
+		if (!descriptorResource.exists()) {
+			return;
+		}
 		cleanMarkers(descriptorResource);
 		ITigerstripeModelProject proj = (ITigerstripeModelProject) getProject()
 				.getAdapter(ITigerstripeModelProject.class);

@@ -158,9 +158,15 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 		return list;
 	}
 
-	public List<Annotation> getPostfixAnnotations(URI uri) {
-		EObject[] objects = getDatabase().getPostfixes(
-				AnnotationPackage.eINSTANCE.getAnnotation_Uri(), uri);
+	public List<Annotation> getPostfixAnnotations(URI uri, boolean raw) {
+		EObject[] objects;
+		if (raw) {
+			objects = getDatabase().getPostfixesRaw(
+					AnnotationPackage.eINSTANCE.getAnnotation_Uri(), uri);
+		} else {
+			objects = getDatabase().getPostfixes(
+					AnnotationPackage.eINSTANCE.getAnnotation_Uri(), uri);
+		}
 		List<Annotation> list = new ArrayList<Annotation>();
 		for (EObject object : objects)
 			if (object instanceof Annotation)
@@ -168,6 +174,14 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 		return list;
 	}
 
+	public List<Annotation> getPostfixAnnotations(URI uri) {
+		return getPostfixAnnotations(uri, false);
+	}
+	
+	public List<Annotation> getPostfixAnnotationsRaw(URI uri) {
+		return getPostfixAnnotations(uri, true);
+	}
+	
 	public void uriChanged(URI oldUri, URI newUri) {
 		List<Annotation> oldList = doGetAnnotations(oldUri);
 		if (oldList.size() == 0)

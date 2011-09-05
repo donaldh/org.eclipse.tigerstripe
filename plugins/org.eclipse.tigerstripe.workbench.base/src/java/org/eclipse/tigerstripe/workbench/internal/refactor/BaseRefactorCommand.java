@@ -172,7 +172,6 @@ public class BaseRefactorCommand implements IRefactorCommand {
 		monitor.done();
 	}
 
-	@SuppressWarnings("deprecation")
 	protected ITigerstripeModelProject[] moveAllArtifactsAcross(
 			Set<Object> toCleanUp) {
 		IRefactoringNotifier refactor = AnnotationPlugin
@@ -223,7 +222,6 @@ public class BaseRefactorCommand implements IRefactorCommand {
 				.size()]);
 	}
 
-	@SuppressWarnings("deprecation")
 	protected void cleanUp(Collection<Object> toCleanUp,
 			IProgressMonitor monitor) throws TigerstripeException {
 		monitor.beginTask("Cleaning up", toCleanUp.size());

@@ -35,7 +35,6 @@ public class ConverterLifecycle implements Lifecycle {
 		addUndoContext(editPart, editorPart, undoContext);
 	}
 
-	@SuppressWarnings("deprecation")
 	private void correctClass(DiagramEditPart editPart, final DiagramEditor editorPart) {
 		DiagramEditorHelper helper = new DiagramEditorHelper(editorPart);
 		ITigerstripeModelProject project = helper.getCorrespondingTigerstripeProject();
@@ -58,7 +57,6 @@ public class ConverterLifecycle implements Lifecycle {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	private void correctInstance(DiagramEditPart editPart, final DiagramEditor editorPart) {
 		InstanceDiagramEditorHelper helper = new InstanceDiagramEditorHelper(editorPart);
 		ITigerstripeModelProject project = helper.getCorrespondingTigerstripeProject();

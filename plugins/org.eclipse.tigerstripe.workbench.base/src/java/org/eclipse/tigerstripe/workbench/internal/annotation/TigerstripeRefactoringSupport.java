@@ -100,7 +100,6 @@ public class TigerstripeRefactoringSupport implements
 						try {
 							ITigerstripeModelProject project = destElement
 									.getProject();
-							@SuppressWarnings("deprecation")
 							IAbstractArtifact newElement = project
 									.getArtifactManagerSession()
 									.getArtifactByFullyQualifiedName(newFqn);

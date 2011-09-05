@@ -132,7 +132,6 @@ public class TigerstripeLabelProvider extends TigerstripeExplorerLabelProvider
 				resourceChangeListener, IResourceChangeEvent.POST_CHANGE);
 	}
 
-	@SuppressWarnings("deprecation")
 	protected void addListenerIfNeed(final IProject project) {
 		IActiveFacetChangeListener listener = listenedProjects.get(project);
 		if (listener == null) {
@@ -196,7 +195,6 @@ public class TigerstripeLabelProvider extends TigerstripeExplorerLabelProvider
 	}
 
 	@Override
-	@SuppressWarnings("deprecation")
 	public void dispose() {
 		super.dispose();
 		if (fStateModel != null) {

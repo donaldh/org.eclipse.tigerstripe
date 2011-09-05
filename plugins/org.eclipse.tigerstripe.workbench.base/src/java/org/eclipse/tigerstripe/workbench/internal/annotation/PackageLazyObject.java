@@ -31,7 +31,6 @@ public class PackageLazyObject implements ITigerstripeLazyObject {
 		this.fqn = fqn;
 	}
 
-	@SuppressWarnings("deprecation")
 	public IResource getObject() {
 		IModelComponent c = null;
 		if (element != null) {

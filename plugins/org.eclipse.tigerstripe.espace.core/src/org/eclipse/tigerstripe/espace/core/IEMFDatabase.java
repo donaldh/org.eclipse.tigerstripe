@@ -61,6 +61,16 @@ public interface IEMFDatabase {
 	public EObject[] getPostfixes(EStructuralFeature feature, Object value);
 	
 	/**
+	 * Same as {@link IEMFDatabase.getPostfixes} but does not copy found data
+	 * 
+	 * @param feature
+	 * @param value
+	 * @return
+	 */
+	public EObject[] getPostfixesRaw(EStructuralFeature feature, Object value);
+
+	
+	/**
 	 * Return all stored objects of the passed classifier
 	 * 
 	 * @param classifier classifier of the objects should be found

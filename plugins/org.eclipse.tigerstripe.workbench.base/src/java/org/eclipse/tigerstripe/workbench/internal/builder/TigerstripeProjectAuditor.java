@@ -10,9 +10,12 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.builder;
 
+import static org.eclipse.core.resources.IResourceDelta.REMOVED;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -38,6 +41,7 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.OperationCanceledException;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.emf.common.util.URI;
@@ -46,6 +50,7 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeResourceAdapterFactory;
@@ -62,6 +67,7 @@ import org.eclipse.tigerstripe.workbench.project.IProjectDependencyDelta;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
+import org.eclipse.tigerstripe.workbench.utils.AdaptHelper;
 
 /**
  * This is the incremental auditor for a Tigerstripe Project.
@@ -119,10 +125,6 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	 * @param monitor
 	 */
 	protected void smartModelAudit(int kind, IProgressMonitor monitor) {
-		// DateFormat format = new SimpleDateFormat("yyyy.MM.dd-hh.mm.ss");
-		// String dateStr = format.format(new Date())+ " : ";
-		// System.out.println(
-		// dateStr+"Smart Audit Project "+getProject().getName() );
 		if (modelAuditorHelper == null) {
 			modelAuditorHelper = new ModelAuditorHelper(
 					(ITigerstripeModelProject) getProject().getAdapter(
@@ -132,10 +134,6 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		Set<String> artifactsToAudit = new HashSet<String>();
 
 		if (fullBuildRequired || kind == FULL_BUILD || kind == CLEAN_BUILD) {
-			// dateStr = format.format(new Date())+ " : ";
-			// System.out.println(
-			// dateStr+"Smart Audit FULL "+getProject().getName() +
-			// fullBuildRequired+ " "+kind);
 			fullBuildRequired = false;
 			ITigerstripeModelProject tsProject = (ITigerstripeModelProject) getProject()
 					.getAdapter(ITigerstripeModelProject.class);
@@ -147,17 +145,8 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 				IArtifactQuery query = session
 						.makeQuery(IQueryAllArtifacts.class.getName());
 				query.setIncludeDependencies(false); // check only local
-				// artifacts!
-				// dateStr = format.format(new Date())+ " : ";
-				// System.out.println(
-				// dateStr+"Smart Audit Project getting Artifacts "+getProject().getName()
-				// );
 				Collection<IAbstractArtifact> artifacts = session
 						.queryArtifact(query);
-				// dateStr = format.format(new Date())+ " : ";
-				// System.out.println(
-				// dateStr+"Smart Audit Project got Artifacts "+artifacts.size()
-				// );
 				IResource srcRes = getProject().findMember("src");
 				if (srcRes != null) {
 					deleteAuditMarkers(srcRes, IResource.DEPTH_ZERO);
@@ -167,27 +156,16 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 				for (IAbstractArtifact artifact : artifacts) {
 					deleteAuditMarkers(artifact);
 					monitor.subTask(artifact.getFullyQualifiedName());
-					// System.out.println(
-					// dateStr+"Smart Audit Project starting audit for Artifact "+artifact.getName());
 					IArtifactAuditor auditor = ArtifactAuditorFactory.INSTANCE
 							.newArtifactAuditor(getProject(), artifact);
 					auditor.run(monitor);
-					// System.out.println(
-					// dateStr+"Smart Audit Project starting audit for Artifact done"+artifact.getName());
 					monitor.worked(1);
 				}
 				monitor.done();
 			} catch (TigerstripeException e) {
 				BasePlugin.log(e);
 			}
-
-			// dateStr = format.format(new Date())+ " : ";
-			// System.out.println(
-			// dateStr+"Smart Audit FULL done"+getProject().getName() );
 		} else {
-			// dateStr = format.format(new Date())+ " : ";
-			// System.out.println(
-			// dateStr+"Smart Audit INCREMENTAL "+getProject().getName() );
 			List<String> changedArtifacts = new ArrayList<String>();
 			List<String> addedArtifacts = new ArrayList<String>();
 			List<String> removedArtifacts = new ArrayList<String>();
@@ -237,11 +215,6 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 			for (String fqn : removedArtifacts)
 				modelAuditorHelper.artifactRemoved(fqn);
 		}
-		// dateStr = format.format(new Date())+ " : ";
-		// System.out.println(
-		// dateStr+"Smart Audit Project starting audit done "
-		// +getProject().getName());
-
 	}
 
 	/**
@@ -322,29 +295,16 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 
 	}
 
-	// private void doDelta(IResourceDelta delta){
-	// if (!(delta.getResource() instanceof IContainer)){
-	// System.out.println("TS Audit started due to change of Resource = "+delta.getResource().getFullPath()+
-	// " "+delta.getKind());
-	// }
-	// for (IResourceDelta deltaChild : delta.getAffectedChildren()){
-	// doDelta(deltaChild);
-	// }
-	// }
-
+	@SuppressWarnings("rawtypes")
 	@Override
-	@SuppressWarnings("unchecked")
 	protected IProject[] build(int kind, Map args, IProgressMonitor monitor)
 			throws CoreException {
-		// DateFormat format = new SimpleDateFormat("yyyy.MM.dd-hh.mm.ss");
-		// String dateStr = format.format(new Date())+ " : ";
-		// System.out.println(
-		// dateStr+"Audit Start "+getProject().getName()+" "+kind+
-		// " "+args.get("rebuildIndexes") );
-		// IResourceDelta delta = getDelta(getProject());
-		// doDelta(delta);
 
-		checkUnresolvedAnnotations();
+		try {
+			checkUnresolvedAnnotations(kind);
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+		}
 		checkUnresolvedModelReferences();
 
 		if ("True".equals(args.get("rebuildIndexes"))) {
@@ -352,8 +312,6 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		} else if (shouldAudit(kind)) {
 			auditProject(kind, monitor);
 		}
-		// dateStr = format.format(new Date())+ " : ";
-		// System.out.println( dateStr+"Audit Done "+getProject().getName() );
 		return getRequiredProjects();
 	}
 
@@ -526,43 +484,22 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	}
 
 	private void auditProject(int kind, IProgressMonitor monitor) {
-		// DateFormat format = new SimpleDateFormat("yyyy.MM.dd-hh.mm.ss");
-		// String dateStr = format.format(new Date())+ " : ";
-		// System.out.println( dateStr+"Audit Project "+getProject().getName()
-		// );
 		monitor.beginTask("Audit Tigerstripe Project", 9);
-
-		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) getProject()
-				.getAdapter(ITigerstripeModelProject.class);
-
-		// dateStr = format.format(new Date())+ " : ";
-		// System.out.println(
-		// dateStr+"runAuditorsByFileExtensions "+getProject().getName() );
 		runAuditorsByFileExtensions(kind, monitor);
-
-		if (checkCancel(monitor))
+		if (checkCancel(monitor)) {
 			return;
-
+		}
 		if (shouldCheckDescriptor(kind)) {
 			checkDescriptor(monitor);
 		}
-
 		monitor.worked(1);
-		if (checkCancel(monitor))
+		if (checkCancel(monitor)) {
 			return;
-		// dateStr = format.format(new Date())+ " : ";
-		// System.out.println(
-		// dateStr+"Audit Project Smart Audit "+getProject().getName() );
+		}
 		smartModelAudit(kind, monitor);
-		// dateStr = format.format(new Date())+ " : ";
-		// System.out.println(
-		// dateStr+"Audit Project Smart Audit Returned "+getProject().getName()
-		// );
-		if (checkCancel(monitor))
+		if (checkCancel(monitor)) {
 			return;
-		// dateStr = format.format(new Date())+ " : ";
-		// System.out.println(
-		// dateStr+"Audit Project done "+getProject().getName() );
+		}
 		monitor.done();
 	}
 
@@ -598,34 +535,6 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	private void checkDescriptor(IProgressMonitor monitor) {
 		DescriptorAuditor auditor = new DescriptorAuditor(getProject());
 		auditor.run(monitor);
-	}
-
-	private void checkArtifacts(IProgressMonitor monitor) {
-		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) getProject()
-				.getAdapter(ITigerstripeModelProject.class);
-
-		try {
-			IArtifactManagerSession session = tsProject
-					.getArtifactManagerSession();
-			IArtifactQuery query = session.makeQuery(IQueryAllArtifacts.class
-					.getName());
-			query.setIncludeDependencies(false); // check only local
-			// artifacts!
-			Collection<IAbstractArtifact> artifacts = session
-					.queryArtifact(query);
-
-			monitor.beginTask("Auditing Artifacts", artifacts.size());
-			for (IAbstractArtifact artifact : artifacts) {
-				monitor.subTask(artifact.getFullyQualifiedName());
-				IArtifactAuditor auditor = ArtifactAuditorFactory.INSTANCE
-						.newArtifactAuditor(getProject(), artifact);
-				auditor.run(monitor);
-				monitor.worked(1);
-			}
-			monitor.done();
-		} catch (TigerstripeException e) {
-			BasePlugin.log(e);
-		}
 	}
 
 	public boolean deleteAuditMarkers(IAbstractArtifact artifact) {
@@ -829,49 +738,124 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		}
 	}
 
-	protected void checkUnresolvedAnnotations() {
+	protected void checkUnresolvedAnnotations(int kind) throws TigerstripeException, CoreException {
 		IProject project = getProject();
+		String modelId = getModelId();
+		if (modelId == null) {
+			return;
+		}
+		List<URI> uries = Collections.singletonList(createAnnUri(modelId));
+		if (kind == FULL_BUILD) {
+			uries = Collections.singletonList(createAnnUri(modelId));
+		} else {
+			Set<IResource> deletedResources = findDeleted();
+			if (!deletedResources.isEmpty()) {
+				uries = Collections.singletonList(createAnnUri(modelId));
+			} else {
+				uries = Collections.emptyList();
+			}
+			       
+//			if (!deletedResources.isEmpty()) {
+//				uries = new ArrayList<URI>();
+//				for (IResource dr : deletedResources) {
+//					IAbstractArtifact artifact = AdaptHelper.adapt(dr, IAbstractArtifact.class);
+//					if (artifact == null) {
+//						continue;
+//					}
+//					uries.add(createAnnUri(modelId, artifact.getFullyQualifiedName()));
+//				}
+//			} else {
+//				return;
+//			}
+		}
+		
+		if (uries.isEmpty()) {
+			return;
+		}
+		
 		try {
 			project.deleteMarkers(BuilderConstants.ANNOTATION_MARKER_ID, false,
-					IProject.DEPTH_ZERO);
+					IProject.DEPTH_INFINITE);
 		} catch (CoreException e) {
 			BasePlugin.log(e);
 		}
-		if (isProjectAmbiguous()) {
-			String projectName = getProject().getName();
-			URI uri = URI.createHierarchicalURI(
-					TigerstripeURIAdapterFactory.SCHEME_TS, null, null,
-					new String[] { projectName }, null, null);
-			List<Annotation> annotations = AnnotationPlugin.getManager()
-					.getPostfixAnnotations(uri);
+		
+		for (URI uri : uries) {
+			IAnnotationManager am = AnnotationPlugin.getManager();
+			List<Annotation> annotations = am.getPostfixAnnotationsRaw(uri);
 			for (Annotation annotation : annotations) {
-				Object object = AnnotationPlugin.getManager()
-						.getAnnotatedObject(annotation);
+				Object object = am.getAnnotatedObject(annotation);
 				if (object == null) {
 					addAnnotationMarker(annotation);
 				}
 			}
 		}
+
 	}
 
-	private boolean isProjectAmbiguous() {
-		IProject project = getProject();
-		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) project
-				.getAdapter(ITigerstripeModelProject.class);
-		try {
-			String modelId = tsProject.getModelId();
-			return !project.getName().equals(modelId);
-		} catch (Exception e) {
-			return true;
+	private String getModelId() {
+		ITigerstripeModelProject modelProject = AdaptHelper.adapt(getProject(), ITigerstripeModelProject.class);
+		if (modelProject == null) {
+			return null;
 		}
+		try {
+			return modelProject.getModelId();
+		} catch (TigerstripeException e) {
+			BasePlugin.log(e);
+			return null;
+		}
+	}
+
+	private Set<IResource> findDeleted() throws CoreException {
+		IResourceDelta delta = getDelta(getProject());
+		if (delta == null) {
+			return Collections.emptySet();
+		}
+		final Set<IResource> deleted = new HashSet<IResource>();;
+		
+		delta.accept(new IResourceDeltaVisitor() {
+			
+			public boolean visit(IResourceDelta delta) throws CoreException {
+				IResource resource = delta.getResource();
+				if (!(resource instanceof IFile)) {
+					return true;
+				} else {
+					if (delta.getKind() == REMOVED ){
+						deleted.add(resource);
+					}
+					return false;
+				}
+			}
+		});
+		return deleted;
+	}
+
+	private URI createAnnUri(String... segments) throws TigerstripeException {
+		return URI.createHierarchicalURI(
+				TigerstripeURIAdapterFactory.SCHEME_TS, null, null, segments,
+				null, null);
 	}
 
 	private void addAnnotationMarker(Annotation annotation) {
 		try {
-			IMarker marker = getProject().createMarker(
+			
+//			annotation.getContent().eResource().ge;
+			
+//			annotation.getContent().eContainer().eContainer().eResource()
+			
+			
+			Path path = new Path(annotation.eResource().getURI().toPlatformString(true));
+			
+			IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
+			
+			if (file == null || !file.exists()) {
+				return;
+			}
+			
+			IMarker marker = file.createMarker(
 					BuilderConstants.ANNOTATION_MARKER_ID);
 			marker.setAttribute(IMarker.MESSAGE,
-					"Project contains unresolved annotation");
+					"Annotation file contains unresolved annotation");
 			URI aUri = annotation.getUri();
 			aUri = URI.createHierarchicalURI(aUri.segments(), aUri.query(),
 					aUri.fragment());

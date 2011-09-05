@@ -214,6 +214,15 @@ public interface IAnnotationManager {
 	public List<Annotation> getPostfixAnnotations(URI uri);
 
 	/**
+	 * Same as getPostfixAnnotations, but returns not copied annotations
+	 * 
+	 * @param uri
+	 * @return
+	 */
+	public List<Annotation> getPostfixAnnotationsRaw(URI uri);
+
+	
+	/**
 	 * Add refactoring listener
 	 * 
 	 * @param listener

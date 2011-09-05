@@ -31,7 +31,7 @@ public interface INameProvider {
 	 * @param packageName
 	 * @return
 	 */
-	public String getUniqueName(Class artifactType, String packageName)
+	public String getUniqueName(Class<?> artifactType, String packageName)
 			throws TigerstripeException;
 
 	/**
@@ -43,6 +43,6 @@ public interface INameProvider {
 	 * @param forceIncrement
 	 * @return
 	 */
-	public String getUniqueName(Class artifactType, String packageName,
+	public String getUniqueName(Class<?> artifactType, String packageName,
 			boolean forceIncrement) throws TigerstripeException;
 }

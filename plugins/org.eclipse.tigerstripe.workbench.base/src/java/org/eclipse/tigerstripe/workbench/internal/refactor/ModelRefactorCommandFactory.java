@@ -126,7 +126,6 @@ public class ModelRefactorCommandFactory {
 	 * @return
 	 * @throws TigerstripeException
 	 */
-	@SuppressWarnings("deprecation")
 	public IRefactorCommand getCommand(ModelRefactorRequest request,
 			IProgressMonitor monitor) throws TigerstripeException {
 		if (request.isValid().getSeverity() == IStatus.OK) {

@@ -31,6 +31,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.PrimitiveTypeArtifa
 import org.eclipse.tigerstripe.workbench.internal.core.model.QueryArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.SessionFacadeArtifact;
 import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
@@ -88,14 +89,14 @@ public class QueryArtifactsByType extends ArtifactQueryBase implements
 	}
 
 	@Override
-	public Collection run(IArtifactManagerSession managerSession) {
+	public Collection<IAbstractArtifact> run(IArtifactManagerSession managerSession) {
 
 		ArtifactManagerSessionImpl impl = (ArtifactManagerSessionImpl) managerSession;
 		ArtifactManager mgr = impl.getArtifactManager();
 
-		Collection registered = mgr.getRegisteredArtifacts();
+		Collection<IAbstractArtifact> registered = mgr.getRegisteredArtifacts();
 
-		for (Iterator iter = registered.iterator(); iter.hasNext();) {
+		for (Iterator<IAbstractArtifact> iter = registered.iterator(); iter.hasNext();) {
 			IAbstractArtifactInternal model = (IAbstractArtifactInternal) iter
 					.next();
 			if (model.getClass().getName()
@@ -113,9 +114,7 @@ public class QueryArtifactsByType extends ArtifactQueryBase implements
 
 			}
 		}
-
-		// TODO Auto-generated method stub
-		return new ArrayList();
+		return new ArrayList<IAbstractArtifact>();
 	}
 
 	public void setArtifactType(String type) {
@@ -138,9 +137,9 @@ public class QueryArtifactsByType extends ArtifactQueryBase implements
 	public final static IAbstractArtifactInternal getArtifactClassForType(
 			ArtifactManager mgr, String artifactType)
 			throws TigerstripeException {
-		Collection registered = mgr.getRegisteredArtifacts();
+		Collection<IAbstractArtifact> registered = mgr.getRegisteredArtifacts();
 
-		for (Iterator iter = registered.iterator(); iter.hasNext();) {
+		for (Iterator<IAbstractArtifact> iter = registered.iterator(); iter.hasNext();) {
 			IAbstractArtifactInternal model = (IAbstractArtifactInternal) iter
 					.next();
 			if (model.getClass().getName()

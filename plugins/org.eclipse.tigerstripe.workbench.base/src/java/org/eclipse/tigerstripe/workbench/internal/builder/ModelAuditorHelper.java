@@ -82,7 +82,6 @@ public class ModelAuditorHelper implements IProjectDependencyChangeListener {
 	 * lazily called upon first access to the helper.
 	 * 
 	 */
-	@SuppressWarnings("deprecation")
 	protected void initialize() {
 		if (isInitialized)
 			return;
@@ -188,7 +187,6 @@ public class ModelAuditorHelper implements IProjectDependencyChangeListener {
 		}
 	}
 
-	@SuppressWarnings("deprecation")
 	protected void artifactAudited(IAbstractArtifact artifact) {
 		String fqn = artifact.getFullyQualifiedName();
 		// First if this artifact was an un-resolved FQN, remove that key from

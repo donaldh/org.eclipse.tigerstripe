@@ -91,8 +91,8 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 		this.artifactManager = artifactManager;
 	}
 
-	public Collection<Class> getSupportedArtifactClasses() {
-		Class[] potentials = { IManagedEntityArtifact.class,
+	public Collection<Class<?>> getSupportedArtifactClasses() {
+		Class<?>[] potentials = { IManagedEntityArtifact.class,
 				IDatatypeArtifact.class, IEventArtifact.class,
 				IQueryArtifact.class, IExceptionArtifact.class,
 				ISessionArtifact.class, IEnumArtifact.class,
@@ -100,13 +100,13 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 				IAssociationClassArtifact.class, IPrimitiveTypeArtifact.class,
 				IDependencyArtifact.class, IPackageArtifact.class };
 
-		ArrayList<Class> result = new ArrayList<Class>();
+		ArrayList<Class<?>> result = new ArrayList<Class<?>>();
 
 		CoreArtifactSettingsProperty prop = (CoreArtifactSettingsProperty) TigerstripeCore
 				.getWorkbenchProfileSession().getActiveProfile()
 				.getProperty(IWorkbenchPropertyLabels.CORE_ARTIFACTS_SETTINGS);
 
-		for (Class pot : potentials) {
+		for (Class<?> pot : potentials) {
 			if (prop.getDetailsForType(pot.getName()).isEnabled()) {
 				result.add(pot);
 			}
@@ -116,7 +116,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 	}
 
 	public Collection<String> getSupportedArtifacts() {
-		Collection<Class> classes = getSupportedArtifactClasses();
+		Collection<Class<?>> classes = getSupportedArtifactClasses();
 		Collection<String> classNames = new ArrayList<String>();
 		for (Class<?> clazz : classes) {
 			classNames.add(clazz.getName());
@@ -137,19 +137,19 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 		return this.artifactManager;
 	}
 
-	public Collection queryArtifact(IArtifactQuery query)
+	@SuppressWarnings("unchecked")
+	public Collection<IAbstractArtifact> queryArtifact(IArtifactQuery query)
 			throws IllegalArgumentException, TigerstripeException {
 		if (!(query instanceof ArtifactQueryBase))
 			throw new IllegalArgumentException();
 
 		ArtifactQueryBase base = (ArtifactQueryBase) query;
 
-		return base.run(this);
+		return (Collection<IAbstractArtifact>) base.run(this);
 	}
 
 	public String[] getSupportedQueries() {
 		return new String[] { IQueryAllArtifacts.class.getName(),
-
 		IQueryArtifactsByType.class.getName(),
 				IQueryRelationshipsByArtifact.class.getName() };
 	}
@@ -438,8 +438,9 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 		// so that the caller may decide to cascade delete them or not.
 		Set<IRelationship> relToCascadeDelete = new HashSet<IRelationship>();
 
-		if (packageName == null || packageName.length() == 0)
-			return Collections.EMPTY_SET;
+		if (packageName == null || packageName.length() == 0) {
+			return Collections.emptySet();
+		}
 
 		List<IAbstractArtifact> forRemovalArtifacts = new ArrayList<IAbstractArtifact>();
 		Collection<IAbstractArtifact> artifacts = getArtifactManager()

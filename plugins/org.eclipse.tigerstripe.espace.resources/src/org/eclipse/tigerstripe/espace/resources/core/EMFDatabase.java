@@ -317,6 +317,16 @@ public class EMFDatabase implements IEMFDatabase, IResourceTimestampManager {
 		}
 	}
 
+	public EObject[] getPostfixesRaw(EStructuralFeature feature, Object value) {
+		boolean writeLock = false;
+		try {
+			writeLock = lockAndUpdate(writeLock);
+			return doGet(feature, value, true);
+		} finally {
+			unlockChanges(writeLock);
+		}
+	}
+	
 	public EObject[] read() {
 		boolean writeLock = false;
 		try {

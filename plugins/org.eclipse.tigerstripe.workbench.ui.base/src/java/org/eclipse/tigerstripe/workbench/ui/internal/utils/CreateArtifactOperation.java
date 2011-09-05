@@ -24,7 +24,6 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IArtifactFormContentProvider;
 
-@SuppressWarnings("deprecation")
 public class CreateArtifactOperation extends AbstractOperation implements
 		Provider<IAbstractArtifact> {
 

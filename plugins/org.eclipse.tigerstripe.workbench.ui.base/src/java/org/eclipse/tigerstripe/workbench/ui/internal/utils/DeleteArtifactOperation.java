@@ -31,7 +31,6 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.ide.undo.DeleteResourcesOperation;
 
-@SuppressWarnings("deprecation")
 public class DeleteArtifactOperation extends AbstractOperation {
 
 	private final IArtifactManagerSession session;

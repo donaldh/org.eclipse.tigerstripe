@@ -16,7 +16,6 @@ import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.ide.undo.WorkspaceUndoUtil;
 
-@SuppressWarnings("deprecation")
 public class Converter {
 
 	public static void convert(Shell shell, final IAbstractArtifact artifact,

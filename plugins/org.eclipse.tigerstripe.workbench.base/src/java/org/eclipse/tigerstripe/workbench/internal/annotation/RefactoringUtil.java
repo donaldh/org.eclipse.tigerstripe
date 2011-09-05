@@ -26,7 +26,6 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 public class RefactoringUtil {
 	public static IAbstractArtifact findElementInProjectByFqn(String newFqn,
 			ITigerstripeModelProject project) throws TigerstripeException {
-		@SuppressWarnings("deprecation")
 		IAbstractArtifact artifact = project.getArtifactManagerSession()
 				.getArtifactByFullyQualifiedName(newFqn.toString());
 		return artifact;

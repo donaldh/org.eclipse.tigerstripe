@@ -26,7 +26,7 @@ import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 
 public class NameProviderImpl implements INameProvider {
 
-	private HashMap<Class, Integer> indexMap = null;
+	private HashMap<Class<?>, Integer> indexMap = null;
 
 	private ITigerstripeModelProject project;
 
@@ -35,20 +35,20 @@ public class NameProviderImpl implements INameProvider {
 	}
 
 	private void initialize() throws TigerstripeException {
-		indexMap = new HashMap<Class, Integer>();
-		Collection<Class> supportedArtifacts = project
+		indexMap = new HashMap<Class<?>, Integer>();
+		Collection<Class<?>> supportedArtifacts = project
 				.getArtifactManagerSession().getSupportedArtifactClasses();
-		for (Class supportedArtifact : supportedArtifacts) {
-			indexMap.put(supportedArtifact, new Integer(0));
+		for (Class<?> supportedArtifact : supportedArtifacts) {
+			indexMap.put(supportedArtifact, Integer.valueOf(0));
 		}
 	}
 
-	public String getUniqueName(Class artifactType, String packageName)
+	public String getUniqueName(Class<?> artifactType, String packageName)
 			throws TigerstripeException {
 		return getUniqueName(artifactType, packageName, false);
 	}
 
-	public String getUniqueName(Class artifactType, String packageName,
+	public String getUniqueName(Class<?> artifactType, String packageName,
 			boolean forceIncrement) throws TigerstripeException {
 		IArtifactManagerSession session = project.getArtifactManagerSession();
 

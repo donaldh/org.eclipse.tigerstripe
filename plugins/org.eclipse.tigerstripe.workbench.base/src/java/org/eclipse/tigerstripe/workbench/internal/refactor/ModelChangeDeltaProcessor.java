@@ -65,7 +65,6 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
  * @author erdillon
  * 
  */
-@SuppressWarnings("deprecation")
 public class ModelChangeDeltaProcessor {
 
 	private static IRefactoringNotifier refactor = AnnotationPlugin

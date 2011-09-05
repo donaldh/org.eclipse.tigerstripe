@@ -14,19 +14,15 @@ import java.util.Collection;
 
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ExecutionContext;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
 
 public class QueryAllArtifacts extends ArtifactQueryBase implements
 		IQueryAllArtifacts {
 
-	public QueryAllArtifacts() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
 	@Override
-	public Collection run(IArtifactManagerSession mgrSession) {
+	public Collection<IAbstractArtifact> run(IArtifactManagerSession mgrSession) {
 		ArtifactManagerSessionImpl impl = (ArtifactManagerSessionImpl) mgrSession;
 		ArtifactManager mgr = impl.getArtifactManager();
 

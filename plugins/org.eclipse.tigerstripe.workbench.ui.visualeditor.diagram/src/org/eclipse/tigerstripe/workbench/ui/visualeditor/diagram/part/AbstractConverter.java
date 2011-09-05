@@ -53,10 +53,8 @@ import org.eclipse.ui.IObjectActionDelegate;
  * @author Navid Mehregani
  *
  */
-@SuppressWarnings("deprecation")
 public abstract class AbstractConverter extends BaseDiagramPartAction implements IObjectActionDelegate {
 
-	@SuppressWarnings("unchecked")
 	protected void run(IAction action, boolean associationClassToAssociation) {
 		
 		try {

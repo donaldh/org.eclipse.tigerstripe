@@ -30,7 +30,6 @@ public class TigerstripeLazyObject implements ITigerstripeLazyObject {
 		this.fqn = fqn;
 	}
 
-	@SuppressWarnings("deprecation")
 	public IModelComponent getObject() {
 		if (element != null) {
 			return element;

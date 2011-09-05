@@ -20,7 +20,6 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -116,30 +115,9 @@ public class TSModuleResource extends AnnotationXMIResource {
 			// and do all the same processing we'd do if we actually were able
 			// to create a valid input stream.
 			//
-			InputStream inputStream = null;
-			try {
-				inputStream = uriConverter.createInputStream(uri, new OptionsMap(
-						URIConverter.OPTION_RESPONSE, response, options));
-			} catch (IOException exception) {
-				if (true)
-					throw exception;
-				Notification notification = setLoaded(true);
-				isLoading = true;
-				if (errors != null) {
-					errors.clear();
-				}
-				if (warnings != null) {
-					warnings.clear();
-				}
-				isLoading = false;
-				if (notification != null) {
-					eNotify(notification);
-				}
-				setModified(false);
-
-				throw exception;
-			}
-
+			InputStream inputStream = uriConverter.createInputStream(uri,
+					new OptionsMap(URIConverter.OPTION_RESPONSE, response,
+							options));
 			try {
 				load(inputStream, options);
 			} finally {

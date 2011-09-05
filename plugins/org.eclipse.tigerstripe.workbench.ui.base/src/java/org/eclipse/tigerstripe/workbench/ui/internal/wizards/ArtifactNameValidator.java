@@ -28,7 +28,6 @@ import org.eclipse.tigerstripe.workbench.ui.internal.runtime.messages.NewWizardM
 @SuppressWarnings("restriction")
 public class ArtifactNameValidator {
 
-	@SuppressWarnings("deprecation")
 	public static IStatus validateArtifactName(String artifactName) {
 
 		StatusInfo status = new StatusInfo();
@@ -73,7 +72,6 @@ public class ArtifactNameValidator {
 		return status;
 	}
 
-	@SuppressWarnings("deprecation")
 	public static IStatus validateArtifactDoesNotExist(
 			ITigerstripeModelProject project, String fullyQualifiedName)
 			throws TigerstripeException {

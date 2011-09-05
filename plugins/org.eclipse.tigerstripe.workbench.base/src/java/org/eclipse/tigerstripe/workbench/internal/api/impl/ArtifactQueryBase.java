@@ -15,8 +15,8 @@ import java.util.Collection;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ExecutionContext;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 
 public abstract class ArtifactQueryBase implements IArtifactQuery {
@@ -43,12 +43,7 @@ public abstract class ArtifactQueryBase implements IArtifactQuery {
 		return this.monitor;
 	}
 
-	public ArtifactQueryBase() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	public abstract Collection<IAbstractArtifact> run(
+	public abstract Collection<? extends IModelComponent> run(
 			IArtifactManagerSession managerSession);
 
 	public void setExecutionContext(ExecutionContext executionContext) {

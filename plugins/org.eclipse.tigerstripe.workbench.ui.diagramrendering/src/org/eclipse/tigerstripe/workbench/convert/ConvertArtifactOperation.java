@@ -79,7 +79,6 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 
-@SuppressWarnings("deprecation")
 public class ConvertArtifactOperation extends AbstractOperation {
 
 	private static final String EXTENDED_ARTIFACT_ATTR = "extendedArtifact";

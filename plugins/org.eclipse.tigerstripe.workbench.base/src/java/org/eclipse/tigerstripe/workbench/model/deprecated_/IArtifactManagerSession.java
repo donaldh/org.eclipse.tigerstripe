@@ -33,14 +33,13 @@ import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
  * @author Eric Dillon
  * @since 0.3
  */
-@Deprecated
 public interface IArtifactManagerSession {
 
 	/**
 	 * Returns a list of all supported Artifact Types
 	 * 
 	 */
-	public Collection<Class> getSupportedArtifactClasses();
+	public Collection<Class<?>> getSupportedArtifactClasses();
 
 	/**
 	 * Returns a list of supported QueryArtifacts

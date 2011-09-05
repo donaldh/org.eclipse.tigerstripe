@@ -34,7 +34,6 @@ public class FacetExporter {
 	 * org.eclipse.tigerstripe.workbench.internal.core.model.export.IModelExporter
 	 * #export(boolean)
 	 */
-	@SuppressWarnings("deprecation")
 	public static void export(FacetExporterInput inputManager, IProgressMonitor monitor) throws TigerstripeException, CoreException {
 
 		if (monitor == null) {

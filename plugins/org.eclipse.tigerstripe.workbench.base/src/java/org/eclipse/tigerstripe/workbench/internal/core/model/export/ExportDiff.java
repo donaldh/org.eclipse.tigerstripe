@@ -23,7 +23,6 @@ import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
 
 public class ExportDiff {
 
-	@SuppressWarnings("deprecation")
 	public static List<IAbstractArtifact> getDuplicates(FacetExporterInput inputManager) throws IllegalArgumentException,
 			TigerstripeException, CoreException {
 
