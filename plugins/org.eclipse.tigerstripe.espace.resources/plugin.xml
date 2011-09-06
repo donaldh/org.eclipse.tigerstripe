@@ -5,11 +5,12 @@
  <copyright>
  </copyright>
 
- $Id: plugin.xml,v 1.5 2008/09/08 10:08:20 ystrot Exp $
+ $Id: plugin.xml,v 1.6 2011/09/06 14:53:14 asalnik Exp $
 -->
 
 <plugin>
    <extension-point id="packageFinder" name="packageFinder" schema="schema/packageFinder.exsd"/>
+   <extension-point id="resourceProcessor" name="resourceProcessor" schema="schema/resourceProcessor.exsd"/>
 
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package 

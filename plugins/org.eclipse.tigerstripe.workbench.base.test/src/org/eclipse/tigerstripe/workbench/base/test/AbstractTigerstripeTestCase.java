@@ -9,25 +9,19 @@
  * Contributors: 
  *     xored software, Inc. - initial API and Implementation (Yuri Strot) 
  *******************************************************************************/
-package org.eclipse.tigerstripe.workbench.base.test.annotation;
+package org.eclipse.tigerstripe.workbench.base.test;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
 import junit.framework.TestCase;
 
-//import org.eclipse.core.resources.IProject;
-//import org.eclipse.core.resources.ResourcesPlugin;
-//import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.tigerstripe.annotation.internal.core.AnnotationManager;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.base.test.annotation.ArtifactTestHelper;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -41,9 +35,12 @@ public abstract class AbstractTigerstripeTestCase extends TestCase {
 
 	protected static final String TEST_PACKAGE_NAME = "com.test";
 
-	protected IAbstractTigerstripeProject createModelProject(String projectName)
-			throws TigerstripeException {
+	protected IAbstractTigerstripeProject createEmptyModelProject(
+			String modelId, String projectName) throws TigerstripeException {
 		IProjectDetails details = TigerstripeCore.makeProjectDetails();
+		if (modelId != null) {
+			details.setModelId(modelId);
+		}
 		IAbstractTigerstripeProject aProject = TigerstripeCore.createProject(
 				projectName, details, null, ITigerstripeModelProject.class,
 				null, new NullProgressMonitor());
@@ -57,8 +54,6 @@ public abstract class AbstractTigerstripeTestCase extends TestCase {
 
 	protected boolean createEachArtifactType(
 			IAbstractTigerstripeProject aProject) throws TigerstripeException {
-		// IAbstractTigerstripeProject aProject =
-		// createModelProject("testCreateRemoveEachArtifactType");
 		assertTrue(aProject instanceof ITigerstripeModelProject);
 		ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
 		ArtifactTestHelper artifactHelper = new ArtifactTestHelper(project);
@@ -100,7 +95,6 @@ public abstract class AbstractTigerstripeTestCase extends TestCase {
 	protected Collection<IAbstractArtifact> getArtifacts(
 			IAbstractTigerstripeProject aProject) throws TigerstripeException {
 		ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
-		ArtifactTestHelper artifactHelper = new ArtifactTestHelper(project);
 		IArtifactManagerSession mgrSession = project
 				.getArtifactManagerSession();
 
@@ -121,7 +115,7 @@ public abstract class AbstractTigerstripeTestCase extends TestCase {
 
 	private String getArtifactName(String artifactType) {
 		return "InstanceOf"
-				+ artifactType.substring(artifactType.lastIndexOf(".")+1,
+				+ artifactType.substring(artifactType.lastIndexOf(".") + 1,
 						artifactType.length());
 	}
 
@@ -147,27 +141,5 @@ public abstract class AbstractTigerstripeTestCase extends TestCase {
 				artifacts.addAll(entities);
 		}
 		return artifacts;
-	}
-
-	protected void cleanUpAnnotations(ITigerstripeModelProject aProject)
-			throws TigerstripeException {
-		List<Object> annotationTargets = new LinkedList<Object>();
-		annotationTargets.add(aProject);
-		Collection<IAbstractArtifact> artifacts = getAllArtifacts(aProject);
-		annotationTargets.addAll(artifacts);
-		for (IAbstractArtifact aa : artifacts) {
-			annotationTargets.addAll(removeNulls(aa
-					.getContainedModelComponents()));
-		}
-		for (Object object : annotationTargets) {
-			AnnotationManager.getInstance().removeAnnotations(object);
-		}
-	}
-
-	<T> Collection<T> removeNulls(Collection<T> in) {
-		for (Iterator<T> i = in.iterator(); i.hasNext();)
-			if (i.next() == null)
-				i.remove();
-		return in;
 	}
 }

@@ -645,5 +645,11 @@
           type="org.eclipse.core.resources.problemmarker">
     </super>
  </extension>
+ <extension
+       point="org.eclipse.tigerstripe.espace.resources.resourceProcessor">
+    <resourceProcessor
+          class="org.eclipse.tigerstripe.workbench.internal.annotation.TigerstripeAnnotationResourceProcessor">
+    </resourceProcessor>
+ </extension>
 
 </plugin>

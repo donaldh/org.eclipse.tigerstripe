@@ -13,23 +13,38 @@ package org.eclipse.tigerstripe.espace.resources.format;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+import org.eclipse.tigerstripe.espace.resources.internal.format.AnnotationResourceHandler;
 
 /**
  * @author Yuri Strot
- *
+ * 
  */
 public class AnnotationResourceFactory extends XMIResourceFactoryImpl {
-	
+
 	public AnnotationResourceFactory() {
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl#createResource(org.eclipse.emf.common.util.URI)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.emf.ecore.xmi.impl.XMLResourceFactoryImpl#createResource(
+	 * org.eclipse.emf.common.util.URI)
 	 */
 	@Override
 	public Resource createResource(URI uri) {
-		return new AnnotationXMIResource(uri);
-	}
+		AnnotationXMIResource resource = new AnnotationXMIResource(uri);
 
+		XMLResource.ResourceHandler resourceHandler = AnnotationResourceHandler
+				.getInstance();
+
+		resource.getDefaultLoadOptions().put(
+				XMLResource.OPTION_RESOURCE_HANDLER, resourceHandler);
+		resource.getDefaultSaveOptions().put(
+				XMLResource.OPTION_RESOURCE_HANDLER, resourceHandler);
+
+		return resource;
+	}
 }

@@ -52,10 +52,6 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 
 	public static final String SCHEME_TS = "tigerstripe";
-	public static final String SCHEME_TS_MODULE = "tigerstripe_module";
-	public static final String SCHEME_TS_REF_PROJECT = "tigerstripe_ref_project";
-
-	public static final String SCHEME_TS_CONTEXT_PROJECT_SEPARATOR = ":";
 
 	@SuppressWarnings("unchecked")
 	public Object getAdapter(Object adaptableObject, Class adapterType) {
@@ -91,9 +87,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	 *         scheme as that converted by an instance of this converter
 	 */
 	public static boolean isRelated(URI uri) {
-		return SCHEME_TS.equals(uri.scheme())
-				|| SCHEME_TS_MODULE.equals(uri.scheme())
-				|| SCHEME_TS_REF_PROJECT.equals(uri.scheme());
+		return SCHEME_TS.equals(uri.scheme());
 	}
 
 	/**
@@ -172,19 +166,9 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		String project = path.segments()[0];
 
 		IAbstractArtifact artifact = null;
-		if (SCHEME_TS_MODULE.equals(uri.scheme())
-				|| SCHEME_TS_REF_PROJECT.equals(uri.scheme())) {
-			String container = null;
-			String toSplit = project;
-			if (path.getDevice() != null) {
-				toSplit = path.toString();
-			}
-			String[] elements = toSplit
-					.split(SCHEME_TS_CONTEXT_PROJECT_SEPARATOR);
-			if (elements.length == 2) {
-				container = elements[0];
-				project = elements[1];
-			}
+		if (path.segmentCount() == 3) {
+			String container = path.segments()[0];
+			project = path.segments()[1];
 
 			for (IAbstractTigerstripeProject p : TigerstripeCore.projects()) {
 				if (p instanceof ITigerstripeModelProject) {
@@ -526,7 +510,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 			}
 		}
 
-		if (path == null) {
+		if (path == null || path.isEmpty()) {
 			IModuleHeader header = art.getParentModuleHeader();
 			if (header == null) {
 				throw new IllegalStateException(
@@ -566,38 +550,23 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 			ITigerstripeModelProject context) throws TigerstripeException {
 		if (path == null)
 			return null;
-
-		String scheme = SCHEME_TS;
 		IPath resPath = path;
 
 		if (context != null) {
-			if (isFromModule) {
-				scheme = SCHEME_TS_MODULE;
-			} else {
-				scheme = SCHEME_TS_REF_PROJECT;
-			}
-
-			String container = null;
-			if (context != null) {
-				container = context.getModelId();
-			}
+			String container = context.getModelId();
 			if (container != null) {
 				StringBuilder res = new StringBuilder();
+				res.append(container);
 				for (int i = 0; i < path.segmentCount(); i++) {
-					String segment = path.segment(i);
-					if (i == 0) {
-						res.append(container
-								+ SCHEME_TS_CONTEXT_PROJECT_SEPARATOR);
-					}
-					res.append(segment);
 					res.append(File.separator);
+					res.append(path.segment(i));
 				}
 				resPath = new Path(path.getDevice(), res.toString());
 			}
 		}
 
 		try {
-			URI uri = URI.createHierarchicalURI(scheme, null, null,
+			URI uri = URI.createHierarchicalURI(SCHEME_TS, null, null,
 					resPath.segments(), null, fragment);
 			return uri;
 		} catch (IllegalArgumentException e) {

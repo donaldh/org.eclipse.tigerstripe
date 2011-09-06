@@ -71,15 +71,16 @@ public class TSModuleResource extends AnnotationXMIResource {
 				// The first segment must be changed from being the original
 				// project name
 				// to being the module ID
-				if (containerName != null) {
-					segments[0] = containerName
-							+ TigerstripeURIAdapterFactory.SCHEME_TS_CONTEXT_PROJECT_SEPARATOR
-							+ container.getModuleID();
-				} else {
+				// if (containerName != null) {
+				// segments[0] = containerName
+				// +
+				// TigerstripeURIAdapterFactory.SCHEME_TS_CONTEXT_PROJECT_SEPARATOR
+				// + container.getModuleID();
+				// } else {
 					segments[0] = container.getModuleID();
-				}
+				// }
 				URI newURI = URI.createHierarchicalURI(
-						TigerstripeURIAdapterFactory.SCHEME_TS_MODULE, null,
+						TigerstripeURIAdapterFactory.SCHEME_TS, null,
 						null, segments, null, originalURI.fragment());
 				ann.setUri(newURI);
 			}

@@ -14,7 +14,9 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.tigerstripe.workbench.base.test.adapt.TestAdapters;
+import org.eclipse.tigerstripe.workbench.base.test.adapt.TestTigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.base.test.annotation.TestAnnotationCreationAPI;
+import org.eclipse.tigerstripe.workbench.base.test.annotation.TestTigerstripeAnnotationResourceProcessor;
 import org.eclipse.tigerstripe.workbench.base.test.builders.TestBasicM1ProjectAuditor;
 import org.eclipse.tigerstripe.workbench.base.test.builders.TestBasicModelProjectAuditor;
 import org.eclipse.tigerstripe.workbench.base.test.facet.BasicFacetTest;
@@ -61,7 +63,10 @@ public class AllTests {
 		suite.addTestSuite(TestM1ProjectContents.class);
 		suite.addTestSuite(TestM0ProjectBasics.class);
 		suite.addTestSuite(TestM0ProjectContents.class);
+
+		// Adapters
 		suite.addTestSuite(TestAdapters.class);
+		suite.addTestSuite(TestTigerstripeURIAdapterFactory.class);
 		
 		// Builder tests
 		suite.addTestSuite(TestBasicM1ProjectAuditor.class);
@@ -89,6 +94,7 @@ public class AllTests {
 
 		// Annotations
 		suite.addTestSuite(TestAnnotationCreationAPI.class);
+		suite.addTestSuite(TestTigerstripeAnnotationResourceProcessor.class);
 
 		// Patterns
 		suite.addTestSuite(PatternTest.class);
