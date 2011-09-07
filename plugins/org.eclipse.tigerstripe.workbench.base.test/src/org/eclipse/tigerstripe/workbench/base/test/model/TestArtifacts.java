@@ -25,6 +25,7 @@ public class TestArtifacts extends TestCase {
 	protected IAbstractTigerstripeProject createModelProject(String projectName)
 			throws TigerstripeException {
 		IProjectDetails details = TigerstripeCore.makeProjectDetails();
+		details.setModelId(projectName);
 		IAbstractTigerstripeProject aProject = TigerstripeCore.createProject(
 				projectName, details, null, ITigerstripeModelProject.class,
 				null, new NullProgressMonitor());

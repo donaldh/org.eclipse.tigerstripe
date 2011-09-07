@@ -66,6 +66,7 @@ public class PatternTest extends TestCase {
 		if (project != null && project.exists())
 			project.delete(true, null);
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
+		projectDetails.setModelId(PROJECTNAME);
 		project = (ITigerstripeModelProject) TigerstripeCore.createProject(
 				PROJECTNAME, projectDetails, null,
 				ITigerstripeModelProject.class, null, null);

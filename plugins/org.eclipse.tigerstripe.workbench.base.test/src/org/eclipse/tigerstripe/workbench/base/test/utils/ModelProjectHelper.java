@@ -78,6 +78,7 @@ public class ModelProjectHelper {
 			String projectName, boolean fullContent)
 			throws TigerstripeException {
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
+		projectDetails.setModelId(projectName);
 		ITigerstripeModelProject project = (ITigerstripeModelProject) TigerstripeCore
 				.createProject(projectName, projectDetails, null,
 						ITigerstripeModelProject.class, null, null);
