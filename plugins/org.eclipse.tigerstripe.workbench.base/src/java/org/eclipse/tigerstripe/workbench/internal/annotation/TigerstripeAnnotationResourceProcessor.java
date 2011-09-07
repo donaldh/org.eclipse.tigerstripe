@@ -51,6 +51,10 @@ public class TigerstripeAnnotationResourceProcessor implements
 		}
 	}
 
+	public void postSave(XMLResource resource) {
+		postLoad(resource);
+	}
+
 	protected void processPostLoadAnnotation(Annotation annotation,
 			ITigerstripeModelProject context) {
 		for (IAnnotationProcessor processor : getPostLoadProcessors()) {

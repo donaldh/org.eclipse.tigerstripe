@@ -18,4 +18,6 @@ public interface IAnnotationResourceProcessor {
 	public void postLoad(XMLResource resource);
 
 	public void preSave(XMLResource resource);
+
+	public void postSave(XMLResource resource);
 }

@@ -64,6 +64,15 @@ public class AnnotationResourceHandler extends BasicResourceHandler {
 		super.preSave(resource, outputStream, options);
 	}
 
+	@Override
+	public void postSave(XMLResource resource, OutputStream outputStream,
+			Map<?, ?> options) {
+		for (IAnnotationResourceProcessor processor : processors) {
+			processor.postSave(resource);
+		}
+		super.postSave(resource, outputStream, options);
+	}
+
 	protected void loadProcessors() {
 		processors = new ArrayList<IAnnotationResourceProcessor>();
 		IConfigurationElement[] configs = Platform.getExtensionRegistry()
