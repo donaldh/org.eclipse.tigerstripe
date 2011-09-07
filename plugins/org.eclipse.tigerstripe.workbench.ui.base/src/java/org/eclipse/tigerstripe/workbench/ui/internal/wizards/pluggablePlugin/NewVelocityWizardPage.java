@@ -12,6 +12,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
+import org.eclipse.jdt.internal.ui.packageview.PackageExplorerContentProvider;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
@@ -36,7 +37,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TSExplorer;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TigerstripeLabelProvider;
 import org.eclipse.ui.part.DrillDownComposite;
 
@@ -301,7 +301,10 @@ public class NewVelocityWizardPage extends WizardPage {
 			drillDown.setChildTree(treeViewer);
 			TemplatesContainerContentProvider cp = new TemplatesContainerContentProvider();
 			treeViewer.setContentProvider(cp);
-			treeViewer.setLabelProvider(new TigerstripeLabelProvider(TSExplorer.getInstance().getContentProvider()));
+			TigerstripeLabelProvider labelProvider = new TigerstripeLabelProvider();
+			labelProvider.init(new PackageExplorerContentProvider(true));
+			
+			treeViewer.setLabelProvider(labelProvider);
 			treeViewer.setComparator(new ViewerComparator());
 			treeViewer.setUseHashlookup(true);
 			treeViewer

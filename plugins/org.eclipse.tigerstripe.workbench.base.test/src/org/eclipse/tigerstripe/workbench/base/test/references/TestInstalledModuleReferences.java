@@ -23,7 +23,6 @@ import org.eclipse.tigerstripe.workbench.queries.IQueryArtifactsByType;
  * This test case require "com.cisco.testModule" module with version "2.0.0" and
  * "InstalledEntity" entity to be installed
  */
-@SuppressWarnings("deprecation")
 public class TestInstalledModuleReferences extends TestCase {
 
 	private final static String ID = "com.cisco.sample.project";

@@ -7,40 +7,33 @@ import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.ui.navigator.CommonNavigator;
 import org.eclipse.ui.navigator.ICommonActionConstants;
+import org.eclipse.ui.navigator.INavigatorContentExtension;
 
 public class TSExplorer extends CommonNavigator {
-	private static TSExplorer instance;
-	
-	public static TSExplorer getInstance() {
-		return instance;
-	}
-	
-	private final TigerstripeContentProvider contentProvider;
-	private final TigerstripeLabelProvider labelProvider;
-	
-	public TSExplorer() {
-		super();
-		contentProvider = new TigerstripeContentProvider();
-		labelProvider = new TigerstripeLabelProvider(contentProvider);
-		instance = this;
-	}
-	
-	public TigerstripeContentProvider getContentProvider() {
-		return contentProvider;
-	}
-	
-	public TigerstripeLabelProvider getLabelProvider() {
-		return labelProvider;
-	}
 
 	@Override
 	public String getFrameToolTipText(Object anElement) {
 		return "Tigerstripe Explorer";
 	}
 
+	public TigerstripeContentProvider findContentProvider() {
+		return (TigerstripeContentProvider) getContentExtension().getContentProvider();
+	}
+
+	public TigerstripeLabelProvider findLabelProvider() {
+		return (TigerstripeLabelProvider) getContentExtension().getLabelProvider();
+	}
+	
+	public INavigatorContentExtension getContentExtension() {
+		return getCommonViewer()
+				.getNavigatorContentService()
+				.getContentExtensionById(
+						"org.eclipse.tigerstripe.workbench.ui.explorer.tigerstripeContent");
+	}
+	
 	@Override
 	protected void handleDoubleClick(DoubleClickEvent anEvent) {
-
+		
 		if (!(anEvent.getSelection() instanceof ITreeSelection)) {
 			super.handleDoubleClick(anEvent);
 			return;

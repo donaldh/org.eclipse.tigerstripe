@@ -165,8 +165,7 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 						ExplorerPreferencePage.P_LABEL_SHOW_RELATIONSHIP_ANCHORS);
 		contentProvider.setShowRelationshipAnchors(show);
 
-		this.labelProvider = new TigerstripeExplorerLabelProvider(
-				contentProvider);
+		this.labelProvider = new TigerstripeExplorerLabelProvider();
 
 		facetDecorationDelegate = new ActiveFacetDecorationDelegate(this);
 		facetDecorationDelegate.start();
@@ -318,7 +317,7 @@ public class TigerstripeExplorerPart extends ViewPart implements IMenuListener,
 				| SWT.V_SCROLL);
 		treeViewer.setContentProvider(contentProvider);
 		treeViewer.setLabelProvider(new DecoratingJavaLabelProvider(
-				labelProvider, false));
+				labelProvider.getDelegeteLabelProvider(), false));
 
 		MenuManager menuMgr = new MenuManager("#PopupMenu"); //$NON-NLS-1$
 		menuMgr.setRemoveAllWhenShown(true);

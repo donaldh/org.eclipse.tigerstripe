@@ -71,6 +71,9 @@ public interface BuilderConstants {
 	public static final String ANNOTATION_MARKER_ID = PREFIX
 			+ ".annotationmarker"; //$NON-NLS-1$
 
+	public static final String MISSED_STORAGE_MARKER_ID = PREFIX
+			+ ".missedstorage"; //$NON-NLS-1$
+	
 	public static final String ANNOTATION_ID = PREFIX + ".annotationId"; //$NON-NLS-1$
 
 }

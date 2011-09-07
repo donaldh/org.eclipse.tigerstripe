@@ -121,8 +121,7 @@ public class TigerstripeLabelProvider extends TigerstripeExplorerLabelProvider
 
 	private final Map<IProject, IActiveFacetChangeListener> listenedProjects = new HashMap<IProject, IActiveFacetChangeListener>();
 
-	public TigerstripeLabelProvider(final TigerstripeContentProvider contentProvider) {
-		super(contentProvider);
+	public TigerstripeLabelProvider() {
 
 		for (IProject project : EclipsePlugin.getWorkspace().getRoot()
 				.getProjects()) {
@@ -151,7 +150,7 @@ public class TigerstripeLabelProvider extends TigerstripeExplorerLabelProvider
 									public void run() {
 										LabelProviderChangedEvent event = new LabelProviderChangedEvent(
 												TigerstripeLabelProvider.this);
-										fireLabelProviderChanged(event);
+										getDelegeteLabelProvider().fireLabelProviderChanged(event);
 									}
 								});
 							}
@@ -174,6 +173,7 @@ public class TigerstripeLabelProvider extends TigerstripeExplorerLabelProvider
 	private IPropertyChangeListener fLayoutPropertyListener;
 
 	public void init(ICommonContentExtensionSite commonContentExtensionSite) {
+		super.init(commonContentExtensionSite);
 		fStateModel = ((CommonContentExtensionSite) commonContentExtensionSite)
 				.getContentService().findStateModel(
 						"org.eclipse.jdt.java.ui.javaContent");

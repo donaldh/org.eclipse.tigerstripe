@@ -86,7 +86,10 @@ public class CrossProjectArtifactBrowseDialog extends SelectionStatusDialog {
 		treeViewer = new TreeViewer(composite, SWT.SINGLE | SWT.BORDER);
 		final TigerstripeContentProvider contentProvider = new TigerstripeContentProvider();
 		treeViewer.setContentProvider(contentProvider);
-		treeViewer.setLabelProvider(new TigerstripeLabelProvider(contentProvider));
+		TigerstripeLabelProvider labelProvider = new TigerstripeLabelProvider();
+		treeViewer.setLabelProvider(labelProvider);
+		labelProvider.init(contentProvider);
+		
 		treeViewer.setComparator(new JavaElementComparator());
 		treeViewer.setFilters(filters);
 

@@ -33,5 +33,4 @@ public class AnnotationMarkerRemover extends AnnotationMarkerResolution {
 	public String getDescription() {
 		return getLabel();
 	}
-
 }

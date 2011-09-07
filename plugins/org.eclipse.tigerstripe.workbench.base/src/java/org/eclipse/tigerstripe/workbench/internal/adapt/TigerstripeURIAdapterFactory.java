@@ -415,13 +415,13 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	 * @throws TigerstripeException
 	 */
 	public static URI toURI(IDiagram element) throws TigerstripeException {
-		IFile file = element.getDiagramFile();
-		IPath fullPath = file.getFullPath();
-		// System.out.println("DiagramFile (location): "
-		// + element.getDiagramFile().getLocation() + " (fullpath): "
-		// + fullPath);
+		return toURI(element.getDiagramFile());
+	}
 
-		ITigerstripeModelProject project = (ITigerstripeModelProject) file
+	
+	public static URI toURI(IFile diagramFile) throws TigerstripeException {
+		IPath fullPath = diagramFile.getFullPath();
+		ITigerstripeModelProject project = (ITigerstripeModelProject) diagramFile
 				.getProject().getAdapter(ITigerstripeModelProject.class);
 		if (project == null) {
 			return null;
@@ -440,10 +440,9 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		IPath result = new Path(project.getModelId());
 		result = result.append("diagram").append(fullPath.getFileExtension())
 				.append(sb.toString());
-		// System.out.println("Final path: "+result.toString());
 		return toURI(result, null, false);
 	}
-
+	
 	/**
 	 * Returns a URI that identifies the target of an annotation and which
 	 * allows that target to be looked up in the Tigerstripe workbench, but

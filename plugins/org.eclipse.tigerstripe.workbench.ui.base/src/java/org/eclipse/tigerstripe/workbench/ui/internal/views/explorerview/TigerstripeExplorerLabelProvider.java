@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview;
 
+import java.lang.reflect.Field;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
@@ -20,7 +22,6 @@ import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
-import org.eclipse.jdt.internal.ui.packageview.PackageExplorerContentProvider;
 import org.eclipse.jdt.internal.ui.packageview.PackageExplorerLabelProvider;
 import org.eclipse.jdt.internal.ui.viewsupport.ColoringLabelProvider;
 import org.eclipse.jface.viewers.StyledString;
@@ -41,16 +42,16 @@ import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.TigerstripeUILabels;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode;
+import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 
 @SuppressWarnings("restriction")
 public class TigerstripeExplorerLabelProvider extends
-		PackageExplorerLabelProvider {
+		JavaNavigatorLabelProvider {
 
 	private final AbstractArtifactLabelProvider artifactLabelProvider = new AbstractArtifactLabelProvider();
 	private final IJavaModel javaModel;
 
-	public TigerstripeExplorerLabelProvider(PackageExplorerContentProvider cp) {
-		super(cp);
+	public TigerstripeExplorerLabelProvider() {
 		javaModel = JavaCore.create(ResourcesPlugin.getWorkspace().getRoot());
 	}
 
@@ -198,4 +199,11 @@ public class TigerstripeExplorerLabelProvider extends
 		return super.getImage(element);
 	}
 
+	private Image decorateImage(Image image, Object element) {
+		return getDelegeteLabelProvider().decorateImage(image, element);
+	}
+
+	private String decorateText(String string, Object element) {
+		return getDelegeteLabelProvider().decorateText(string, element);
+	}
 }

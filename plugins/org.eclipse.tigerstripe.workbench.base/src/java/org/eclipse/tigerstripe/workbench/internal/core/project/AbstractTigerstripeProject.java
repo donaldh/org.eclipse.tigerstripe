@@ -430,6 +430,28 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 		advancedProperties.clearDirty();
 	}
 
+	public IProject findProject() {
+		if (baseDir == null) {
+			return ResourcesPlugin.getWorkspace().getRoot()
+					.getProject(getProjectLabel());
+		}
+		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+		for (IProject proj : projects) {
+			if (!proj.isOpen()) {
+				continue;
+			}
+			IPath rawLocation = proj.getRawLocation();
+			if (rawLocation == null) {
+				continue;
+			}
+			if (baseDir.equals(rawLocation.toFile())) {
+				return proj;
+			}
+		}
+		return ResourcesPlugin.getWorkspace().getRoot()
+				.getProject(getProjectLabel());
+	}
+	
 	public String getProjectLabel() {
 
 		if (getBaseDir() == null)
@@ -544,11 +566,9 @@ public abstract class AbstractTigerstripeProject extends BaseContainerObject
 					return null;
 				}
 			} else if (IProject.class == adapter) {
-				return ResourcesPlugin.getWorkspace().getRoot()
-						.getProject(getProjectLabel());
+				return findProject();
 			} else if (IJavaProject.class == adapter) {
-				IProject iProj = ResourcesPlugin.getWorkspace().getRoot()
-						.getProject(getProjectLabel());
+				IProject iProj = findProject();;
 				if (iProj != null)
 					return JavaCore.create(iProj);
 			}
