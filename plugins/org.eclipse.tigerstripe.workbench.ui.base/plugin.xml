@@ -1118,12 +1118,6 @@
            class="org.eclipse.tigerstripe.workbench.ui.internal.views.stereotypes.StereotypeNoteProvider">
      </provider>
   </extension>
-  <extension
-        point="org.eclipse.tigerstripe.annotation.core.refactoringListeners">
-     <listener
-           class="org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor.ChangeIdRefactoringListener">
-     </listener>
-  </extension>
 
 	<!-- Navigator Content -->
 

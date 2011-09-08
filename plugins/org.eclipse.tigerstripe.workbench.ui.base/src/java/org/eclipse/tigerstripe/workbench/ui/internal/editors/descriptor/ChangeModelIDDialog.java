@@ -11,12 +11,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.editors.descriptor;
 
-import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.Status;
-import org.eclipse.core.runtime.SubProgressMonitor;
-import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.swt.SWT;
@@ -31,11 +25,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
-import org.eclipse.tigerstripe.annotation.core.refactoring.ILazyObject;
-import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringChangesListener;
-import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.eclipse.tigerstripe.workbench.refactor.ChangeModelIdJob;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 
 /**
@@ -43,7 +34,7 @@ import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
  */
 public class ChangeModelIDDialog extends Dialog {
 
-	private ITigerstripeModelProject project;
+	private final ITigerstripeModelProject project;
 	private Text modelIdText;
 	private Button updateAnnotationsButton;
 	private String oldModelId;
@@ -130,72 +121,4 @@ public class ChangeModelIDDialog extends Dialog {
 		job.schedule();
 		super.okPressed();
 	}
-
-	private static class ChangeModelIdJob extends Job {
-
-		private ITigerstripeModelProject project;
-		private String newModelId;
-		private boolean updateAnnotations;
-
-		public ChangeModelIdJob(ITigerstripeModelProject project,
-				String newModelId, boolean updateAnnotations) {
-			super("Change Model ID");
-			setRule(ResourcesPlugin.getWorkspace().getRoot());
-			setUser(true);
-			this.project = project;
-			this.newModelId = newModelId;
-			this.updateAnnotations = updateAnnotations;
-		}
-
-		@Override
-		protected IStatus run(IProgressMonitor monitor) {
-			try {
-				int totalWork = updateAnnotations ? 2 : 1;
-				monitor.beginTask("Change model id to '" + newModelId + "'",
-						totalWork);
-				IProjectDetails details = project.getProjectDetails();
-				ChangeIdLazyObject oldObject = new ChangeIdLazyObject(project);
-				if (updateAnnotations) {
-					AnnotationPlugin.getRefactoringNotifier().fireChanged(
-							oldObject, null,
-							IRefactoringChangesListener.ABOUT_TO_CHANGE);
-					monitor.worked(1);
-				}
-				details.setModelId(newModelId);
-				project.commit(new SubProgressMonitor(monitor, 1));
-				ChangeIdLazyObject newObject = new ChangeIdLazyObject(project);
-				if (updateAnnotations) {
-					AnnotationPlugin.getRefactoringNotifier().fireChanged(
-							oldObject, newObject,
-							IRefactoringChangesListener.CHANGED);
-					monitor.worked(1);
-				}
-				monitor.done();
-			} catch (Exception e) {
-				return EclipsePlugin.getStatus(e);
-			}
-			return Status.OK_STATUS;
-		}
-
-	}
-
-	static class ChangeIdLazyObject implements ILazyObject {
-		private ITigerstripeModelProject project;
-
-		public ChangeIdLazyObject(ITigerstripeModelProject project) {
-			this.project = project;
-		}
-
-		/*
-		 * (non-Javadoc)
-		 * 
-		 * @see
-		 * org.eclipse.tigerstripe.annotation.core.refactoring.ILazyObject#getObject
-		 * ()
-		 */
-		public Object getObject() {
-			return project;
-		}
-	}
-
 }

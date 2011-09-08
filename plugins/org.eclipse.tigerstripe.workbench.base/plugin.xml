@@ -483,6 +483,9 @@
     <listener
           class="org.eclipse.tigerstripe.workbench.internal.annotation.TigerstripeRefactoringSupport">
     </listener>
+    <listener
+          class="org.eclipse.tigerstripe.workbench.internal.annotation.ChangeIdRefactoringListener">
+    </listener>
  </extension>
  <extension
        point="org.eclipse.jdt.core.classpathVariableInitializer">
