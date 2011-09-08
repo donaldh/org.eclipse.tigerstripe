@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="CreateNewAnnotation" version="3.0" id="_8U2NEGu8EeC-86eLlbu98w" description="Create New Annotation through Annotation Wizard in Tigerstripe Explorer&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;Create TS project (Empty project)&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;1. Select Tigerstripe project&#xD;&#xA;2. Select Annotation>Create>Open Annotation Wizard&#xD;&#xA;3. In the &quot;Create Annotation Wizard&quot; window choose Personality->Person&#xD;&#xA;4. Press &quot;Finish&quot; button; &#xD;&#xA;5. In the &quot;Annotation Conflict&quot; window choose 'Tigerstripe module' value.&#xD;&#xA;6. Press &quot;Finish&quot; button; &#xD;&#xA;7. Open &quot;Annotation Property View&quot; and select Tigerstripe project&#xD;&#xA;8. Check added annotation name&#xD;&#xA;9. Remove all annotations " tags="Annotation" type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="CreateNewAnnotation" version="3.0" id="_8U2NEGu8EeC-86eLlbu98w" description="Create New Annotation through Annotation Wizard in Tigerstripe Explorer&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;Create TS project (EmptyProject)&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;1. Select Tigerstripe project&#xD;&#xA;2. Select Annotation>Create>Open Annotation Wizard&#xD;&#xA;3. In the &quot;Create Annotation Wizard&quot; window choose Personality->Person&#xD;&#xA;4. Press &quot;Finish&quot; button; &#xD;&#xA;5. In the &quot;Annotation Conflict&quot; window choose 'Tigerstripe module' value.&#xD;&#xA;6. Press &quot;Finish&quot; button; &#xD;&#xA;7. Open &quot;Annotation Property View&quot; and select Tigerstripe project&#xD;&#xA;8. Check added annotation name&#xD;&#xA;9. Remove all annotations " tags="Annotation/functionality" type="ecl" externalReference="http://docs.xored.com/display/TS/CreateNewAnnotation">
   <contexts>_IhHLkKwQEd-DHcdNat_asw</contexts>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "New Project" 
+    | get-menu "Annotations/Create/Open Annotation Wizard..." | click
+with [get-window "Create Annotation Wizard"] {
+    get-tree | select "Personality/Person"
+    get-button Finish | click
+}
+with [get-window "Annotation Conflict"] {
+    get-list | select "Tigerstripe Model Component" 
+    get-button OK | click
+}
+get-view "Annotation Property View" | click -nowait
+get-view "Tigerstripe Explorer" | get-tree | select "New Project"
+get-view "Annotation Property View" | get-table | get-item Person | get-property caption | equals Person | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "New Project"
+return-from-os-dialog "MESSAGE_BOX" 64
+get-view "Tigerstripe Explorer" | get-tree | get-menu "Annotations/Remove" | click]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -203,10 +221,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.11">
       <elements id="Button6" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.12">
@@ -230,10 +249,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.17">
       <elements id="Button7" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.18">
