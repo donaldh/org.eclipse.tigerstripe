@@ -1,8 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="AddRemoveAnnotationDiagramRelationship_view" version="3.0" id="_ho240NOJEeCino64Gq4rnQ" description="Create and remove annotation on the diagram for the relationship (Associations and Association Classes) from Annotation view &#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;EntityWithAssociationContextWorkspace&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;    Select Association on the diagram and add Annotation in annotation view&#xD;&#xA;    Check that annotation is added in annotation view and on the diagram&#xD;&#xA;    Remove annotation and check changes in annotation view and on the diagram&#xD;&#xA;" tags="Annotation/Diagram" type="ecl" externalReference="http://docs.xored.com/display/TS/AddRemoveAnnotationDiagramRelationship_view">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="AddRemoveAnnotationDiagramRelationship_view" version="3.0" id="_ho240NOJEeCino64Gq4rnQ" description="Create and remove annotation on the diagram for the relationship (Associations and Association Classes) from Annotation view &#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;EntityWithAssociationContextWorkspace&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;    Select Association on the diagram and add Annotation in annotation view&#xD;&#xA;    Check that annotation is added in annotation view and on the diagram&#xD;&#xA;    Remove annotation and check changes in annotation view and on the diagram&#xD;&#xA;" tags="Annotation/Diagram" type="ecl" externalReference="http://docs.xored.com/display/TS/AddRemoveAnnotationDiagramRelationship_view">
   <contexts>_FGfSUKthEd-v8JwXbnu_tQ</contexts>
   <contexts>_OHSl4JyPEeCwQoDghmuRmQ</contexts>
   <contexts>_9D6jAatgEd-v8JwXbnu_tQ</contexts>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "Project/src/com.mycompany/ClassDiagram" | double-click -nowait
+with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity2 
+    | get-target-connection 0] {
+    mouse-move 33 42 button1 -height 79 -width 291
+    mouse-press 33 42 button1 -height 79 -width 291
+    mouse-release 33 42 button1 524288 -height 79 -width 291
+}
+get-view "Annotation Property View" | click -nowait
+with [get-editor "ClassDiagram.wvd" | get-diagram] {
+    with [get-edit-part -className MapEditPart | get-edit-part -name Entity2 | get-target-connection 0] {
+        mouse-move 119 43 button1 -height 79 -width 291
+        mouse-press 119 43 button1 -height 79 -width 291
+        mouse-release 119 43 button1 524288 -height 79 -width 291
+        activate-direct-edit
+        get-edit-part -text Association | activate-direct-edit
+    }
+    cancel-direct-edit
+}
+get-view "Annotation Property View" | get-table | get-menu "Add Annotation" | click
+with [get-window "Create Annotation Wizard"] {
+    get-tree | select "Primitive/Integer Annotation"
+    get-button Finish | click
+}
+with [get-window "Annotation Conflict"] {
+    get-list | select "Tigerstripe Model Component" 
+    get-button OK | click
+}
+get-view "Annotation Property View" | get-table | get-property itemCount | equals 1 | verify-true
+get-view "Annotation Property View" | get-table | get-item IntegerAnnotation | get-property caption 
+    | equals IntegerAnnotation | verify-true
+get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity2 
+    | get-target-connection 0 | get-edit-part -text "<<IntegerAnnotation>>Association" | get-property text 
+    | equals "<<IntegerAnnotation>>Association" | verify-true
+return-from-os-dialog "MESSAGE_BOX" 64
+get-view "Annotation Property View" | get-table | get-menu Remove | click
+get-view "Annotation Property View" | get-table | get-property itemCount | equals 0 | verify-true
+get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity2 
+    | get-target-connection 0 | get-edit-part -text Association | get-property text | equals Association | verify-true]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>

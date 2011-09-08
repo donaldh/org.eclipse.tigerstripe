@@ -1,8 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="AddRemoveAnnotationDiagramDependency" version="3.0" id="_oGzFQNOMEeCino64Gq4rnQ" description="Create and remove annotation on the diagram for the Dependency from dropdown menu &#xD;&#xA;&#xD;&#xA;EntityWithDependencyContextWorkspace&#xD;&#xA;&#xD;&#xA;    Select Dependency on the diagram and add Annotation from dropdown menu&#xD;&#xA;    Check that annotation is added in annotation view and on the diagram&#xD;&#xA;    Remove annotation and check changes in annotation view and on the diagram&#xD;&#xA;" tags="Annotation/Diagram" type="ecl" externalReference="http://docs.xored.com/display/TS/AddRemoveAnnotationDiagramDependency">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="AddRemoveAnnotationDiagramDependency" version="3.0" id="_oGzFQNOMEeCino64Gq4rnQ" description="Create and remove annotation on the diagram for the Dependency from dropdown menu &#xD;&#xA;&#xD;&#xA;EntityWithDependencyContextWorkspace&#xD;&#xA;&#xD;&#xA;    Select Dependency on the diagram and add Annotation from dropdown menu&#xD;&#xA;    Check that annotation is added in annotation view and on the diagram&#xD;&#xA;    Remove annotation and check changes in annotation view and on the diagram&#xD;&#xA;" tags="Annotation/Diagram" type="ecl" externalReference="http://docs.xored.com/display/TS/AddRemoveAnnotationDiagramDependency">
   <contexts>_FGfSUKthEd-v8JwXbnu_tQ</contexts>
   <contexts>_3O7l0J2FEeC0FMmSWvz47w</contexts>
   <contexts>_9D6jAatgEd-v8JwXbnu_tQ</contexts>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "Project/src/com.mycompany/ClassDiagram" | double-click -nowait
+get-view "Annotation Property View" | click -nowait
+with [get-editor "ClassDiagram.wvd" | get-diagram] {
+    with [get-edit-part -className MapEditPart | get-edit-part -name Entity2 | get-target-connection 0] {
+        mouse-move 98 45 button1 -height 61 -width 291
+        mouse-press 98 45 button1 -height 61 -width 291
+        mouse-release 98 45 button1 524288 -height 61 -width 291
+        mouse-hover 98 45 -height 61 -width 291
+        mouse-press 98 45 button3 -height 61 -width 291
+        mouse-release 98 45 button3 2097152 -height 61 -width 291
+    }
+    get-menu "Annotations/Create/Styles/Color" | click
+}
+with [get-window "Annotation Conflict"] {
+    get-list | select "Tigerstripe Model Component" 
+    get-button OK | click
+}
+get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity2 
+    | get-target-connection 0 | get-edit-part -text "<<Color>>Dependency2" | get-property text 
+    | equals "<<Color>>Dependency2" | verify-true
+get-view "Annotation Property View" | get-table | get-property itemCount | equals 1 | verify-true
+get-view "Annotation Property View" | get-table | get-item Color | get-property caption | equals Color | verify-true
+with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity2 
+    | get-target-connection 0] {
+    mouse-move 102 45 button3 -height 61 -width 291
+    mouse-press 102 45 button3 -height 61 -width 291
+    mouse-release 102 45 button3 2097152 -height 61 -width 291
+}
+return-from-os-dialog "MESSAGE_BOX" 64
+get-editor "ClassDiagram.wvd" | get-diagram | get-menu "Annotations/Remove" | click
+get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity2 
+    | get-target-connection 0 | get-edit-part -text Dependency2 | get-property text | equals Dependency2 | verify-true
+get-view "Annotation Property View" | get-table | get-property itemCount | equals 0 | verify-true]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>

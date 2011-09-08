@@ -18,6 +18,10 @@ with [get-window "Create Annotation Wizard"] {
     get-tree | select "Primitive/Text Annotation"
     get-button Finish | click
 }
+with [get-window "Annotation Conflict"] {
+    get-list | select "Tigerstripe Model Component" 
+    get-button OK | click
+}
 get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | mouse-hover 417 222 -height 356 
     -width 486
 get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity2 

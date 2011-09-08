@@ -1,8 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="AddRemoveAnnotationDiagramEntity" version="3.0" id="_8ROMYMf1EeCbRKPVX6qmIQ" description="Create and remove annotation on the diagram for the Entity from dropdown menu&#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;EntityOnDiagramContextWorkspace&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;1. Open diagram and select Entity&#xD;&#xA;2. Open dropdown menu and add annotation &#xD;&#xA;3. Check that annotation is displayed on diagram and in annotation view&#xD;&#xA;4. Open dropdown menu and remove annotation &#xD;&#xA;5. Check that annotation is not displayed on diagram and in annotation view" tags="Annotation/Diagram" type="ecl" externalReference="http://docs.xored.com/display/TS/AddRemoveAnnotationDiagramEntity">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.diagram="http:///com/xored/tesla/core/diagram.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="AddRemoveAnnotationDiagramEntity" version="3.0" id="_8ROMYMf1EeCbRKPVX6qmIQ" description="Create and remove annotation on the diagram for the Entity from dropdown menu&#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;EntityOnDiagramContextWorkspace&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;1. Open diagram and select Entity&#xD;&#xA;2. Open dropdown menu and add annotation &#xD;&#xA;3. Check that annotation is displayed on diagram and in annotation view&#xD;&#xA;4. Open dropdown menu and remove annotation &#xD;&#xA;5. Check that annotation is not displayed on diagram and in annotation view" tags="Annotation/Diagram" type="ecl" externalReference="http://docs.xored.com/display/TS/AddRemoveAnnotationDiagramEntity">
   <contexts>_FGfSUKthEd-v8JwXbnu_tQ</contexts>
   <contexts>_wrsM4KFXEeCjS6NbCUXM_w</contexts>
   <contexts>_9D6jAatgEd-v8JwXbnu_tQ</contexts>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/com.mycompany/ClassDiagram" | double-click -nowait
+with [get-editor "ClassDiagram.wvd" | get-diagram] {
+    with [get-edit-part -className MapEditPart | get-edit-part -name Entity2 | get-edit-part -text Entity2] {
+        mouse-move 82 11 button1 -height 16 -width 122
+        mouse-press 82 11 button1 -height 16 -width 122
+        mouse-release 82 11 button1 524288 -height 16 -width 122
+        mouse-hover 82 11 -height 16 -width 122
+        mouse-press 82 11 button3 -height 16 -width 122
+        mouse-release 82 11 button3 2097152 -height 16 -width 122
+    }
+    get-menu "Annotations/Create/Primitive/Check Annotation" | click
+}
+with [get-window "Annotation Conflict"] {
+    get-list | select "Tigerstripe Model Component" 
+    get-button OK | click
+}
+get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity2 
+    | get-edit-part -text "<<CheckAnnotation>>" | get-property text | equals "<<CheckAnnotation>>" | verify-true
+get-view "Annotation Property View" | click -nowait
+with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part 
+    -name Entity2] {
+    with [get-edit-part -text "<<CheckAnnotation>>"] {
+        mouse-move 68 8 button1 -height 15 -width 126
+        mouse-press 68 8 button1 -height 15 -width 126
+        mouse-release 68 8 button1 524288 -height 15 -width 126
+        mouse-hover 68 8 -height 15 -width 126
+    }
+    with [get-edit-part -text Entity2] {
+        mouse-move 103 12 button1 -height 16 -width 126
+        mouse-press 103 12 button1 -height 16 -width 126
+        mouse-release 103 12 button1 524288 -height 16 -width 126
+    }
+    mouse-move 124 63 button1 -height 84 -width 126
+    mouse-press 124 63 button1 -height 84 -width 126
+}
+get-view "Annotation Property View" | get-table | get-property itemCount | equals 1 | verify-true
+get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get-property caption 
+    | equals CheckAnnotation | verify-true
+with [get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity2 
+    | get-edit-part -text "+attribute0:String" | get-edit-part -name attribute0] {
+    mouse-move 67 3 button3 -height 16 -width 116
+    mouse-press 67 3 button3 -height 16 -width 116
+    mouse-release 67 3 button3 2097152 -height 16 -width 116
+}
+return-from-os-dialog "MESSAGE_BOX" 64
+get-editor "ClassDiagram.wvd" | get-diagram | get-menu "Annotations/Remove" | click
+get-editor "ClassDiagram.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name Entity2 
+    | get-edit-part -text Entity2 | get-property text | equals Entity2 | verify-true
+get-view "Annotation Property View" | get-table | get-property itemCount | equals 0 | verify-true]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
