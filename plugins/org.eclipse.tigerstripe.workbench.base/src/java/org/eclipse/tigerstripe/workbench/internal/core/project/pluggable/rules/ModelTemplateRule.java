@@ -113,6 +113,7 @@ public class ModelTemplateRule extends TemplateBasedRule implements
 		super.initializeReport(pluginConfig);
 	}
 
+	@Override
 	public void trigger(PluggablePluginConfig pluginConfig,
 			IPluginRuleExecutor exec) throws TigerstripeException {
 
@@ -138,21 +139,20 @@ public class ModelTemplateRule extends TemplateBasedRule implements
 			// setContext(context);
 
 			IProgressMonitor monitor = exec.getConfig().getMonitor();
-			Collection<ITigerstripeModelProject> resultSet;
+			Collection<ModelProject> resultSet;
 			if(!((IM1RunConfig) runConfig).isAllRulesAsLocal()){
 				resultSet = ModelRuleHelper.getResultSet(pluginConfig, monitor);
 			} else {
-				resultSet = new HashSet<ITigerstripeModelProject>();
+				resultSet = new HashSet<ModelProject>();
 				IAbstractTigerstripeProject aProject = pluginConfig
 					.getProjectHandle();
 				if (aProject != null
 						&& aProject instanceof ITigerstripeModelProject) {
 					ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
 					//Add the base project itself!
-					resultSet.add(project);
+					resultSet.add(new ModelProject(project));
 				}
 			}
-			
 
 			// Velocity specifics......
 			engine = setClasspathLoaderForVelocity(pluginConfig,
@@ -166,23 +166,21 @@ public class ModelTemplateRule extends TemplateBasedRule implements
 					context);
 
 			// LOOP
-			for (ITigerstripeModelProject model : resultSet) {
+			for (ModelProject model : resultSet) {
 
 				VelocityContext localContext = exec.getPlugin()
 						.getLocalVelocityContext(defaultContext, this);
 
-				currentModel = model;
+				currentModel = model.getProject();
 				
 				//TODO - is this the best name?
 				localContext.put(MODULE, currentModel);
 				// add the context entries for this "module"
 				
-				Map<String, Object> moduleContext = getModuleContext(currentModel);
+				Map<String, Object> moduleContext = getModuleContext(model);
 				for ( Entry<String, Object> entry : moduleContext.entrySet()){
 					localContext.put(entry.getKey(), entry.getValue());
 				}
-				
-				
 				
 				localContext.put("templateName", template.getName());
 				// Logging stuff

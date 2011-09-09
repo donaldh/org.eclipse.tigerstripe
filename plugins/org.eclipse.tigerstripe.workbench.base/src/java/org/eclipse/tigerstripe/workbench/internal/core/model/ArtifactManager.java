@@ -1931,8 +1931,10 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 			ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
 			result.addAll(depContentCache.getArtifactsByModelInChained(model,
 					context));
-			result.addAll(getArtifactsByModelInReferences(model, context));
-			result.addAll(getArtifactsByModelInInstalledModules(model, context));
+			result.addAll(toContextProjectAwareArtifacts(getArtifactsByModelInReferences(
+					model, context)));
+			result.addAll(toContextProjectAwareArtifacts(getArtifactsByModelInInstalledModules(
+					model, context)));
 			return result;
 		} finally {
 			readLock.unlock();
@@ -1945,12 +1947,29 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 			readLock.lock();
 			ArrayList<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
 			result.addAll(depContentCache.getAllChainedArtifacts(context));
-			result.addAll(getAllArtifactsFromReferences(context));
-			result.addAll(getAllArtifactsFromInstalledModules(context));
+			result.addAll(toContextProjectAwareArtifacts(getAllArtifactsFromReferences(context)));
+			result.addAll(toContextProjectAwareArtifacts(getAllArtifactsFromInstalledModules(context)));
 			return result;
 		} finally {
 			readLock.unlock();
 		}
+	}
+
+	private Collection<IAbstractArtifact> toContextProjectAwareArtifacts(
+			Collection<IAbstractArtifact> source) {
+		if (source.size() > 0) {
+			Collection<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>(
+					source.size());
+			for (IAbstractArtifact element : source) {
+				if (!(element instanceof IContextProjectAware)) {
+					element = (IAbstractArtifact) ContextProjectAwareProxy
+							.newInstance(element, getTSProject().getTSProject());
+					result.add(element);
+				}
+			}
+			return result;
+		}
+		return source;
 	}
 
 	protected IAbstractArtifactInternal getArtifactByFullyQualifiedNameInChained(

@@ -16,8 +16,6 @@ import java.util.HashSet;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.modules.ITigerstripeModuleProject;
-import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
-import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
@@ -25,36 +23,39 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class ModelRuleHelper {
 
-	public static Collection<ITigerstripeModelProject> getResultSet(
+	public static Collection<ModelProject> getResultSet(
 			IPluginConfig pluginConfig, IProgressMonitor monitor)
 			throws TigerstripeException {
 		// Build the result set
-		Collection<ITigerstripeModelProject> resultSet = new HashSet<ITigerstripeModelProject>();
+		Collection<ModelProject> resultSet = new HashSet<ModelProject>();
 		try {
 			IAbstractTigerstripeProject aProject = pluginConfig
 					.getProjectHandle();
 			if (aProject != null
 					&& aProject instanceof ITigerstripeModelProject) {
-				ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
-				//Add the base project itself!
-				resultSet.add(project);
-				
-				
-				//include dependencies
-				for (IDependency dependecny : project.getDependencies()){
-					
-					ITigerstripeModuleProject modProj = dependecny.makeModuleProject(project);
-					resultSet.add(modProj);
+				ITigerstripeModelProject contextProject = (ITigerstripeModelProject) aProject;
+				// Add the base project itself!
+				resultSet.add(new ModelProject(contextProject));
+
+				int level = 1;
+				// include dependencies
+				for (IDependency dependecny : contextProject.getDependencies()) {
+
+					ITigerstripeModuleProject modProj = dependecny
+							.makeModuleProject(contextProject);
+					resultSet.add(new ModelProject(modProj, contextProject,
+							level));
 				}
-				
-				
-				for (ITigerstripeModelProject ref : project.getReferencedProjects()) {
+
+				for (ITigerstripeModelProject ref : contextProject
+						.getReferencedProjects()) {
 					// Direct references - local projects and installed modules.
-					resultSet.add(ref);
-					resultSet.addAll(getChildModules(ref));
-					
+					resultSet
+							.add(new ModelProject(ref, contextProject, level));
+					resultSet
+							.addAll(getChildModules(ref, contextProject, level));
 				}
-				
+
 			}
 		} catch (TigerstripeException t) {
 			throw new TigerstripeException("Failed to build result Set. ", t);
@@ -62,13 +63,16 @@ public class ModelRuleHelper {
 		return resultSet;
 	}
 
+	private static Collection<ModelProject> getChildModules(
+			ITigerstripeModelProject ref,
+			ITigerstripeModelProject contextProject, int level)
+			throws TigerstripeException {
+		level++;
+		Collection<ModelProject> myResultSet = new HashSet<ModelProject>();
+		for (ITigerstripeModelProject child : ref.getReferencedProjects()) {
 
-	private static Collection<ITigerstripeModelProject> getChildModules(ITigerstripeModelProject ref) throws TigerstripeException{
-		Collection<ITigerstripeModelProject> myResultSet = new HashSet<ITigerstripeModelProject>();
-		for (ITigerstripeModelProject  child : ref.getReferencedProjects()) {
-			
-			myResultSet.add(child);
-			myResultSet.addAll(getChildModules(child));
+			myResultSet.add(new ModelProject(child, contextProject, level));
+			myResultSet.addAll(getChildModules(child, contextProject, level));
 		}
 		return myResultSet;
 	}

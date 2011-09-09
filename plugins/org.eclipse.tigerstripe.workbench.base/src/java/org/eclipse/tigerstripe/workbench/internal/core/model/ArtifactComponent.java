@@ -14,14 +14,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.tigerstripe.annotation.core.Annotation;
-import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
-import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.repository.internal.IModelComponentMetadata;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
@@ -77,6 +73,8 @@ public abstract class ArtifactComponent implements IArtifactComponentInternal {
 	// The manager this artifact belongs to
 	private ArtifactManager artifactMgr;
 
+	private final AnnotationCapable annotationCapableDelegate;
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IArtifactComponentInternal2#getArtifactManager()
 	 */
@@ -95,6 +93,7 @@ public abstract class ArtifactComponent implements IArtifactComponentInternal {
 		this.tags = new ArrayList();
 		this.customProperties = new Properties();
 		setArtifactManager(artifactMgr);
+		this.annotationCapableDelegate = new AnnotationCapable(this);
 	}
 
 	/* (non-Javadoc)
@@ -418,111 +417,38 @@ public abstract class ArtifactComponent implements IArtifactComponentInternal {
 	}
 
 	public List<Object> getAnnotations() {
-		IAnnotationManager mgr = AnnotationPlugin.getManager();
-		List<Object> annotations = new LinkedList<Object>();
-		Annotation[] all = mgr.getAnnotations(this, false);
-		for (Annotation a : all) {
-			if (TigerstripeURIAdapterFactory.isRelated(a.getUri())) {
-				annotations.add(a.getContent());
-			}
-		}
-		return Collections.unmodifiableList(annotations);
+		return annotationCapableDelegate.getAnnotations();
 	}
 
 	public List<Object> getAnnotations(Class<?> type) {
-		IAnnotationManager mgr = AnnotationPlugin.getManager();
-		List<Object> annotations = new LinkedList<Object>();
-		Annotation[] all = mgr.getAnnotations(this, false);
-		for (Annotation a : all) {
-			if (TigerstripeURIAdapterFactory.isRelated(a.getUri())
-					&& type.isInstance(a.getContent())) {
-				annotations.add(a.getContent());
-			}
-		}
-		return Collections.unmodifiableList(annotations);
+		return annotationCapableDelegate.getAnnotations(type);
 	}
 
 	public Object getAnnotation(String annotationSpecificationID) {
-		List<Object> all = getAnnotations();
-		for (Object obj : all) {
-			if (isAnnotationMatch(annotationSpecificationID, obj))
-				return obj;
-		}
-
-		return null;
+		return annotationCapableDelegate
+				.getAnnotation(annotationSpecificationID);
 	}
 
 	public Object getAnnotationByID(String annotationID) {
-		List<Object> all = getAnnotations();
-		for (Object obj : all) {
-			if (isAnnotationMatchWithID(annotationID, obj))
-				return obj;
-		}
-
-		return null;
-	}
-
-	private boolean isAnnotationMatchWithID(String annotationID, Object obj) {
-		if (obj != null) {
-			String className = obj.getClass().getName();
-			if (className != null) {
-				String implementationClass = annotationID + "Impl";
-
-				if (className.equals(annotationID)
-						|| className.endsWith("." + annotationID)
-						|| className.equals(implementationClass)
-						|| className.endsWith("." + implementationClass))
-					return true;
-			}
-		}
-		return false;
-	}
-
-	/**
-	 * @param annotationSpecificationID
-	 * @param obj
-	 * @return
-	 */
-	private boolean isAnnotationMatch(String annotationSpecificationID,
-			Object obj) {
-		Class<?>[] interfaces = obj.getClass().getInterfaces();
-		for (int i = 0; i < interfaces.length; i++) {
-			if (interfaces[i].getName().endsWith(annotationSpecificationID))
-				return true;
-		}
-		return false;
+		return annotationCapableDelegate.getAnnotationByID(annotationID);
 	}
 
 	public List<Object> getAnnotations(String annotationSpecificationID) {
-		List<Object> annotations = new LinkedList<Object>(getAnnotations());
-		for (Iterator<Object> i = annotations.iterator(); i.hasNext();) {
-			if (!isAnnotationMatch(annotationSpecificationID, i.next()))
-				i.remove();
-		}
-
-		return Collections.unmodifiableList(annotations);
+		return annotationCapableDelegate
+				.getAnnotations(annotationSpecificationID);
 	}
 
 	public boolean hasAnnotations() {
-		return !getAnnotations().isEmpty();
+		return annotationCapableDelegate.hasAnnotations();
 	}
 
 	public boolean hasAnnotations(String annotationSpecificationID) {
-		List<Object> annotations = getAnnotations();
-		for (Iterator<Object> i = annotations.iterator(); i.hasNext();) {
-			if (isAnnotationMatch(annotationSpecificationID, i.next()))
-				return true;
-		}
-		return false;
+		return annotationCapableDelegate
+				.hasAnnotations(annotationSpecificationID);
 	}
 
 	public boolean hasAnnotationWithID(String annotationID) {
-		List<Object> annotations = getAnnotations();
-		for (Iterator<Object> i = annotations.iterator(); i.hasNext();) {
-			if (isAnnotationMatchWithID(annotationID, i.next()))
-				return true;
-		}
-		return false;
+		return annotationCapableDelegate.hasAnnotationWithID(annotationID);
 	}
 
 	public boolean hasAnnotations(Class<?> annotationType) {

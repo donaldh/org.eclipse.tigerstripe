@@ -52,7 +52,7 @@ public abstract class AbstractTigerstripeTestCase extends TestCase {
 		project.delete(true, new NullProgressMonitor());
 	}
 
-	protected boolean createEachArtifactType(
+	protected int createEachArtifactType(
 			IAbstractTigerstripeProject aProject) throws TigerstripeException {
 		assertTrue(aProject instanceof ITigerstripeModelProject);
 		ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
@@ -68,7 +68,7 @@ public abstract class AbstractTigerstripeTestCase extends TestCase {
 						getArtifactName(supportedArtifact), TEST_PACKAGE_NAME);
 			}
 		}
-		return true;
+		return supportedArtifacts.size();
 	}
 
 	protected boolean removeEachArtifactType(

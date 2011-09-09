@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
@@ -23,7 +22,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.IPluginRuleExecutor;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginConfig;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.plugins.IModelRule;
 import org.eclipse.tigerstripe.workbench.plugins.IModelRunnableRule;
 import org.eclipse.tigerstripe.workbench.plugins.IRunnableRule;
@@ -41,7 +39,7 @@ public class ModelRunnableRule extends RunnableRule implements IModelRule, IRunn
 
 	public final static String LABEL = "Model Runnable Rule";
 	
-	private boolean includeDependencies = false;
+	private final boolean includeDependencies = false;
 	
 
 	@Override
@@ -121,33 +119,28 @@ public class ModelRunnableRule extends RunnableRule implements IModelRule, IRunn
 			setContext(context);
 
 			IProgressMonitor monitor = exec.getConfig().getMonitor();
-			Collection<ITigerstripeModelProject> resultSet;
+			Collection<ModelProject> resultSet;
 			if(!((IM1RunConfig) runConfig).isAllRulesAsLocal()){
 				resultSet = ModelRuleHelper.getResultSet(pluginConfig, monitor);
 			} else {
-				resultSet = new HashSet<ITigerstripeModelProject>();
+				resultSet = new HashSet<ModelProject>();
 				IAbstractTigerstripeProject aProject = pluginConfig
 					.getProjectHandle();
 				if (aProject != null
 						&& aProject instanceof ITigerstripeModelProject) {
 					ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
 					//Add the base project itself!
-					resultSet.add(project);
+					resultSet.add(new ModelProject(project));
 				}
 			}
-			
 
-			// LOOP 
-
-			for (ITigerstripeModelProject model : resultSet) {
-				currentModel = model;
-				
-
+			for (ModelProject model : resultSet) {
+				currentModel = model.getProject();
 				
 				// Add the "module specific" entries to the context
 				context.put(MODULE, currentModel);
 
-				Map<String, Object> moduleContext = getModuleContext(currentModel);
+				Map<String, Object> moduleContext = getModuleContext(model);
 				for ( Entry<String, Object> entry : moduleContext.entrySet()){
 					context.put(entry.getKey(), entry.getValue());
 				}

@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
+import org.eclipse.tigerstripe.workbench.model.annotation.IAnnotationCapable;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class ContextProjectAwareProxy implements
@@ -54,6 +55,9 @@ public class ContextProjectAwareProxy implements
 				if ("getContextProject".equals(m.getName())) {
 					return context;
 				}
+			} else if (IAnnotationCapable.class.equals(m.getDeclaringClass())) {
+				IAnnotationCapable ac = new AnnotationCapable(proxy);
+				result = m.invoke(ac, args);
 			} else {
 				result = m.invoke(obj, args);
 				if (result != null && needToProxyResult(m)) {
