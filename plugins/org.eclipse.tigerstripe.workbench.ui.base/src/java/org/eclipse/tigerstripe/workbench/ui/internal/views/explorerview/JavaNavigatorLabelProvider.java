@@ -26,10 +26,11 @@ import org.eclipse.ui.navigator.IExtensionStateModel;
  * It provides labels for the packages in hierarchical layout and in all other
  * cases delegates it to its super class.
  * </p>
- *
+ * 
  * @since 3.2
  */
-public class JavaNavigatorLabelProvider implements ICommonLabelProvider, IStyledLabelProvider {
+public class JavaNavigatorLabelProvider implements ICommonLabelProvider,
+		IStyledLabelProvider {
 
 	private final long LABEL_FLAGS = JavaElementLabels.DEFAULT_QUALIFIED
 			| JavaElementLabels.ROOT_POST_QUALIFIED
@@ -52,6 +53,7 @@ public class JavaNavigatorLabelProvider implements ICommonLabelProvider, IStyled
 	public JavaNavigatorLabelProvider() {
 
 	}
+
 	public void init(ICommonContentExtensionSite commonContentExtensionSite) {
 		fStateModel = commonContentExtensionSite.getExtensionStateModel();
 		init((PackageExplorerContentProvider) commonContentExtensionSite
@@ -77,7 +79,7 @@ public class JavaNavigatorLabelProvider implements ICommonLabelProvider, IStyled
 		fContentProvider = contentProvider;
 		delegeteLabelProvider = createLabelProvider();
 	}
-	
+
 	public String getDescription(Object element) {
 		return formatMessage(element);
 	}
@@ -87,63 +89,112 @@ public class JavaNavigatorLabelProvider implements ICommonLabelProvider, IStyled
 	}
 
 	public void dispose() {
-		delegeteLabelProvider.dispose();
-		fStateModel.removePropertyChangeListener(fLayoutPropertyListener);
+		if (delegeteLabelProvider != null) {
+			delegeteLabelProvider.dispose();
+		}
+		if (fStateModel != null) {
+			fStateModel.removePropertyChangeListener(fLayoutPropertyListener);
+		}
 	}
 
 	public void propertyChange(PropertyChangeEvent event) {
+		if (delegeteLabelProvider == null) {
+			return;
+		}
 		delegeteLabelProvider.propertyChange(event);
 	}
 
 	public void addLabelDecorator(ILabelDecorator decorator) {
+		if (delegeteLabelProvider == null) {
+			return;
+		}
 		delegeteLabelProvider.addLabelDecorator(decorator);
 	}
 
 	public void addListener(ILabelProviderListener listener) {
+		if (delegeteLabelProvider == null) {
+			return;
+		}
 		delegeteLabelProvider.addListener(listener);
 	}
 
 	public Color getBackground(Object element) {
+		if (delegeteLabelProvider == null) {
+			return null;
+		}
 		return delegeteLabelProvider.getBackground(element);
 	}
 
 	public Color getForeground(Object element) {
+		if (delegeteLabelProvider == null) {
+			return null;
+		}
 		return delegeteLabelProvider.getForeground(element);
 	}
 
 	public Image getImage(Object element) {
+		if (delegeteLabelProvider == null) {
+			return null;
+		}
 		return delegeteLabelProvider.getImage(element);
 	}
 
 	public boolean isLabelProperty(Object element, String property) {
+		if (delegeteLabelProvider == null) {
+			return false;
+		}
 		return delegeteLabelProvider.isLabelProperty(element, property);
 	}
 
 	public void removeListener(ILabelProviderListener listener) {
+		if (delegeteLabelProvider == null) {
+			return;
+		}
 		delegeteLabelProvider.removeListener(listener);
 	}
 
+	@Override
 	public boolean equals(Object obj) {
+		if (delegeteLabelProvider == null) {
+			return super.equals(obj);
+		}
 		return delegeteLabelProvider.equals(obj);
 	}
 
+	@Override
 	public int hashCode() {
+		if (delegeteLabelProvider == null) {
+			return super.hashCode();
+		}
 		return delegeteLabelProvider.hashCode();
 	}
 
+	@Override
 	public String toString() {
+		if (delegeteLabelProvider == null) {
+			return super.toString();
+		}
 		return delegeteLabelProvider.toString();
 	}
 
 	public String getText(Object element) {
+		if (delegeteLabelProvider == null) {
+			return "";
+		}
 		return delegeteLabelProvider.getText(element);
 	}
 
 	public StyledString getStyledText(Object element) {
+		if (delegeteLabelProvider == null) {
+			return new StyledString("");
+		}
 		return delegeteLabelProvider.getStyledText(element);
 	}
 
 	public void setIsFlatLayout(boolean state) {
+		if (delegeteLabelProvider == null) {
+			return;
+		}
 		delegeteLabelProvider.setIsFlatLayout(state);
 	}
 
@@ -165,8 +216,10 @@ public class JavaNavigatorLabelProvider implements ICommonLabelProvider, IStyled
 	private String formatResourceMessage(IResource element) {
 		IContainer parent = element.getParent();
 		if (parent != null && parent.getType() != IResource.ROOT)
-			return BasicElementLabels.getResourceName(element.getName()) + JavaElementLabels.CONCAT_STRING
-					+ BasicElementLabels.getPathLabel(parent.getFullPath(), false);
+			return BasicElementLabels.getResourceName(element.getName())
+					+ JavaElementLabels.CONCAT_STRING
+					+ BasicElementLabels.getPathLabel(parent.getFullPath(),
+							false);
 		else
 			return BasicElementLabels.getResourceName(element.getName());
 	}

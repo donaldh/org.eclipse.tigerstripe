@@ -20,6 +20,8 @@ import org.eclipse.tigerstripe.workbench.base.test.annotation.TestChangeIdRefact
 import org.eclipse.tigerstripe.workbench.base.test.annotation.TestTigerstripeAnnotationResourceProcessor;
 import org.eclipse.tigerstripe.workbench.base.test.builders.TestBasicM1ProjectAuditor;
 import org.eclipse.tigerstripe.workbench.base.test.builders.TestBasicModelProjectAuditor;
+import org.eclipse.tigerstripe.workbench.base.test.core.model.TestContextProjectAwareArtifact;
+import org.eclipse.tigerstripe.workbench.base.test.core.project.pluggable.rules.TestRule;
 import org.eclipse.tigerstripe.workbench.base.test.facet.BasicFacetTest;
 import org.eclipse.tigerstripe.workbench.base.test.facet.TestFacetResolution;
 import org.eclipse.tigerstripe.workbench.base.test.generation.TestGenerateCompleteFramework;
@@ -82,6 +84,7 @@ public class AllTests {
 		suite.addTestSuite(TestProjectGenerationBasics.class);
 		suite.addTestSuite(TestM1Generation.class);
 		suite.addTestSuite(TestM0DeployUndeploy.class);
+		suite.addTestSuite(TestRule.class);
 
 		// Model operations
 		suite.addTestSuite(TestArtifacts.class);
@@ -89,6 +92,7 @@ public class AllTests {
 		suite.addTestSuite(TestLiterals.class);
 		suite.addTestSuite(TestMethods.class);
 		suite.addTestSuite(TestTigerstripeWorkspaceNotifications.class);
+		suite.addTestSuite(TestContextProjectAwareArtifact.class);
 		
 		// Profiles
 		suite.addTestSuite(TestProfileBasics.class);
