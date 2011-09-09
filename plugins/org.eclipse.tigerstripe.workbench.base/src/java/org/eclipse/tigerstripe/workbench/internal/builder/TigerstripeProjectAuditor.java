@@ -777,7 +777,9 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 					if (pckg == null) {
 						fqn = withoutJavaSuffix;
 					} else {
-					}	fqn = pckg.getFullyQualifiedName() + "." + withoutJavaSuffix;
+						fqn = pckg.getFullyQualifiedName() + "."
+								+ withoutJavaSuffix;
+					}
 					
 					uries.add(createAnnUri(modelId, fqn));
 				}
