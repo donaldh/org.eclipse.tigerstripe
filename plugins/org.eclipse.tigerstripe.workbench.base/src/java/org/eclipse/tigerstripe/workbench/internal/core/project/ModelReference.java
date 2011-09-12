@@ -107,15 +107,10 @@ public class ModelReference {
 	}
 
 	private ITigerstripeModelProject resolvedModel = null;
-	private boolean wasResolved = false; 
 	
 	public ITigerstripeModelProject getResolvedModel() {
-		if (!wasResolved){
-			try {
-				resolveModel();
-			} finally {
-				wasResolved = true;
-			}
+		if (resolvedModel == null) {
+			resolveModel();
 		}
 		return resolvedModel;
 	}
@@ -175,7 +170,6 @@ public class ModelReference {
 				BasePlugin.log(e);
 			}
 		}
-		wasResolved = false;
 		resolvedModel = null;
 		return;
 	}
