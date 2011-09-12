@@ -50,12 +50,25 @@ public class ModelProject {
 
 	@Override
 	public int hashCode() {
-		return project.hashCode();
+		final int prime = 31;
+		int result = prime + ((project == null) ? 0 : project.hashCode());
+		return result;
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		return project.equals(obj);
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ModelProject other = (ModelProject) obj;
+		if (project == null) {
+			if (other.project != null)
+				return false;
+		} else if (!project.equals(other.project))
+			return false;
+		return true;
 	}
-
 }

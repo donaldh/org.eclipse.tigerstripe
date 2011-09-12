@@ -28,7 +28,7 @@ import org.eclipse.tigerstripe.workbench.project.IDependency;
 public class InstalledModuleProjectHandle extends TigerstripeProjectHandle
 		implements ITigerstripeModuleProject {
 
-	private ModuleRef moduleRef;
+	private final ModuleRef moduleRef;
 
 	/**
 	 * 
@@ -111,5 +111,28 @@ public class InstalledModuleProjectHandle extends TigerstripeProjectHandle
 	public IPath getFullPath() {
 		String uri = moduleRef.getJarURI().toString();
 		return new Path(uri);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = prime
+				+ ((moduleRef == null) ? 0 : moduleRef.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (getClass() != obj.getClass())
+			return false;
+		InstalledModuleProjectHandle other = (InstalledModuleProjectHandle) obj;
+		if (moduleRef == null) {
+			if (other.moduleRef != null)
+				return false;
+		} else if (!moduleRef.equals(other.moduleRef))
+			return false;
+		return true;
 	}
 }

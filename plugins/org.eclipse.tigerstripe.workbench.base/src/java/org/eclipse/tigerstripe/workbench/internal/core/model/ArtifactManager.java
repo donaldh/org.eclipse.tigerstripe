@@ -1985,7 +1985,8 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 				result = getArtifactByFullyQualifiedNameInInstalledModules(
 						name, context);
 			}
-			if (result != null && !(result instanceof IContextProjectAware)) {
+			if (result != null && !(result instanceof IContextProjectAware)
+					&& getTSProject().getTSProject() != null) {
 				result = (IAbstractArtifactInternal) ContextProjectAwareProxy
 						.newInstance(result, getTSProject().getTSProject());
 			}

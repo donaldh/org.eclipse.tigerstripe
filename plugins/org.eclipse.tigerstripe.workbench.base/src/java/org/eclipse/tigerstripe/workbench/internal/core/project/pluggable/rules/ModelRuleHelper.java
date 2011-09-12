@@ -47,15 +47,17 @@ public class ModelRuleHelper {
 							level));
 				}
 
-				for (ITigerstripeModelProject ref : contextProject
-						.getReferencedProjects()) {
-					// Direct references - local projects and installed modules.
-					resultSet
-							.add(new ModelProject(ref, contextProject, level));
+				ITigerstripeModelProject[] references = contextProject
+						.getReferencedProjects();
+				// Direct references - local projects and installed modules
+				for (ITigerstripeModelProject ref : references) {
+					resultSet.add(new ModelProject(ref, contextProject, level));
+				}
+				// others child references
+				for (ITigerstripeModelProject ref : references) {
 					resultSet
 							.addAll(getChildModules(ref, contextProject, level));
 				}
-
 			}
 		} catch (TigerstripeException t) {
 			throw new TigerstripeException("Failed to build result Set. ", t);
