@@ -1964,8 +1964,8 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 				if (!(element instanceof IContextProjectAware)) {
 					element = (IAbstractArtifact) ContextProjectAwareProxy
 							.newInstance(element, getTSProject().getTSProject());
-					result.add(element);
 				}
+				result.add(element);
 			}
 			return result;
 		}
