@@ -672,11 +672,13 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 		List<INote> dirties = new ArrayList<INote>();
 		if (currentSelection != null) {
 			for (INote node : currentSelection) {
-				DirtyListener listener = adapters.remove(node);
-				if (listener != null) {
-					if (listener.isDirty())
-						dirties.add(node);
-					listener.dispose();
+				if (node.isValid()) {
+					DirtyListener listener = adapters.remove(node);
+					if (listener != null) {
+						if (listener.isDirty())
+							dirties.add(node);
+						listener.dispose();
+					}
 				}
 			}
 		}
@@ -803,7 +805,7 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 		List<INote> notes = new ArrayList<INote>();
 		Iterator<?> it = selectedElements.iterator();
 		while (it.hasNext()) {
-			Object object = (Object) it.next();
+			Object object = it.next();
 			if (object instanceof INote) {
 				notes.add((INote) object);
 			}

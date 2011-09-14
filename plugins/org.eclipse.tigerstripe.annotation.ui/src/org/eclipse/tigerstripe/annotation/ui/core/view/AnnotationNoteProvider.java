@@ -46,7 +46,7 @@ import org.eclipse.ui.IWorkbenchPart;
 public class AnnotationNoteProvider implements INoteProvider,
 		IRefactoringListener, IAnnotationListener, IResourceChangeListener {
 
-	private ListenerList listeners = new ListenerList();
+	private final ListenerList listeners = new ListenerList();
 
 	public void addListener(INoteListener listener) {
 		assert listener != null;
@@ -92,6 +92,15 @@ public class AnnotationNoteProvider implements INoteProvider,
 	}
 
 	public void annotationsRemoved(Annotation[] annotations) {
+		for (INote note : notes) {
+			AnnotationNote annNote = (AnnotationNote) note;
+			for (Annotation annotation : annotations) {
+				if (annNote.getAnnotation().equals(annotation)) {
+					annNote.setValid(false);
+					break;
+				}
+			}
+		}
 		fireUpdate();
 	}
 

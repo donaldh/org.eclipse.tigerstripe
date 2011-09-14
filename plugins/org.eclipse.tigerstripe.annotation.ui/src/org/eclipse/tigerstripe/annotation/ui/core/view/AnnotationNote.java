@@ -21,7 +21,9 @@ import org.eclipse.tigerstripe.annotation.ui.util.DisplayAnnotationUtil;
 
 public class AnnotationNote extends EObjectBasedNote implements INote {
 
-	private Annotation annotation;
+	private final Annotation annotation;
+
+	private boolean isValid;
 
 	public AnnotationNote(Annotation annotation) {
 		super();
@@ -76,4 +78,14 @@ public class AnnotationNote extends EObjectBasedNote implements INote {
 	public String toString() {
 		return getLabel();
 	}
+
+	@Override
+	public boolean isValid() {
+		return isValid;
+	}
+
+	public void setValid(boolean valid) {
+		isValid = valid;
+	}
+
 }

@@ -21,7 +21,7 @@ import org.eclipse.emf.ecore.util.EContentAdapter;
  */
 public abstract class EObjectBasedNote implements INote {
 	private EContentAdapter adapter;
-	private ListenerList listeners = new ListenerList();
+	private final ListenerList listeners = new ListenerList();
 
 	public EObjectBasedNote() {
 		adapter = new EContentAdapter() {
@@ -63,5 +63,9 @@ public abstract class EObjectBasedNote implements INote {
 		for (INoteChangeListener listener : getListeners()) {
 			listener.changed();
 		}
+	}
+
+	public boolean isValid() {
+		return true;
 	}
 }
