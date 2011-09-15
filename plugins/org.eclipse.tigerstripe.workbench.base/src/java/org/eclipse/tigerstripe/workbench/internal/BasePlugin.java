@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.JavaCore;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.rendering.IDiagramRenderer;
@@ -92,6 +93,9 @@ public class BasePlugin extends Plugin {
 		}.schedule();
 
 		startWorkspaceListener();
+
+		// initialize annotation manager and all participants
+		AnnotationPlugin.getManager();
 	}
 
 	@Override
