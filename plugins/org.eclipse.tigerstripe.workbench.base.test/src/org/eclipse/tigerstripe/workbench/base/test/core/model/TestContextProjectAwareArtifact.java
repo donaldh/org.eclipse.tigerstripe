@@ -12,6 +12,8 @@
 package org.eclipse.tigerstripe.workbench.base.test.core.model;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.base.test.AbstractTigerstripeTestCase;
@@ -53,7 +55,7 @@ public class TestContextProjectAwareArtifact extends
 
 		referencedProject = (ITigerstripeModelProject) createEmptyModelProject(
 				REFERENCED_PROJECT_ID, REFERENCED_PROJECT_ID);
-		createEachArtifactType(referencedProject);
+		createEachArtifactType(referencedProject, true);
 
 		// add reference
 		ITigerstripeModelProject wc = (ITigerstripeModelProject) project
@@ -99,6 +101,30 @@ public class TestContextProjectAwareArtifact extends
 					new NullProgressMonitor());
 			assertTrue(result instanceof IContextProjectAware);
 		}
+	}
+
+	public void testEqualsHasCodeMethods() throws Exception {
+		ArtifactManagerSessionImpl session = (ArtifactManagerSessionImpl) project
+				.getArtifactManagerSession();
+		ArtifactManager manager = session.getArtifactManager();
+
+		Set<Object> result = new HashSet<Object>();
+		Collection<IAbstractArtifact> allArtifacts = manager.getAllArtifacts(
+				true, false, new NullProgressMonitor());
+
+		result.addAll(allArtifacts);
+		for (IAbstractArtifact artifact : allArtifacts) {
+			result.addAll(artifact.getChildren());
+		}
+		int size = result.size();
+
+		allArtifacts = manager.getAllArtifacts(true, false,
+				new NullProgressMonitor());
+		result.addAll(allArtifacts);
+		for (IAbstractArtifact artifact : allArtifacts) {
+			result.addAll(artifact.getChildren());
+		}
+		assertEquals(result.size(), size);
 	}
 
 	private void checkExpectedContextProjectAwareArtifacts(

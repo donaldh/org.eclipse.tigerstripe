@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -498,5 +499,23 @@ public abstract class ArtifactComponent implements IArtifactComponentInternal {
 			}
 			return result.toString();
 		}
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj != null && obj instanceof IModelComponent) {
+			if (Proxy.isProxyClass(obj.getClass())) {
+				return obj.equals(this);
+			}
+		}
+		return super.equals(obj);
 	}
 }

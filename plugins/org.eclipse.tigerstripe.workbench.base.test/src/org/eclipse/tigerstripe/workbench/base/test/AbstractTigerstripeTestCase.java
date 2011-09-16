@@ -22,6 +22,9 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.base.test.annotation.ArtifactTestHelper;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -52,8 +55,12 @@ public abstract class AbstractTigerstripeTestCase extends TestCase {
 		project.delete(true, new NullProgressMonitor());
 	}
 
-	protected int createEachArtifactType(
-			IAbstractTigerstripeProject aProject) throws TigerstripeException {
+	protected int createEachArtifactType(IAbstractTigerstripeProject aProject)
+			throws TigerstripeException {
+		return createEachArtifactType(aProject, false);
+	}
+	protected int createEachArtifactType(IAbstractTigerstripeProject aProject,
+			boolean createSubComponents) throws TigerstripeException {
 		assertTrue(aProject instanceof ITigerstripeModelProject);
 		ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
 		ArtifactTestHelper artifactHelper = new ArtifactTestHelper(project);
@@ -64,8 +71,27 @@ public abstract class AbstractTigerstripeTestCase extends TestCase {
 				.getSupportedArtifacts();
 		for (String supportedArtifact : supportedArtifacts) {
 			if (!supportedArtifact.endsWith("IPackageArtifact")) {
-				artifactHelper.createArtifact(supportedArtifact,
-						getArtifactName(supportedArtifact), TEST_PACKAGE_NAME);
+				IAbstractArtifact artifact = artifactHelper.createArtifact(
+						supportedArtifact, getArtifactName(supportedArtifact),
+						TEST_PACKAGE_NAME);
+				if (createSubComponents) {
+					IField field = artifact.makeField();
+					String fieldName = "field1";
+					field.setName(fieldName);
+					artifact.addField(field);
+
+					ILiteral literal1 = artifact.makeLiteral();
+					String literalName = "literal1";
+					literal1.setName(literalName);
+					artifact.addLiteral(literal1);
+
+					IMethod method1 = artifact.makeMethod();
+					String methodName = "method1";
+					method1.setName(methodName);
+					artifact.addMethod(method1);
+
+					artifact.doSave(new NullProgressMonitor());
+				}
 			}
 		}
 		return supportedArtifacts.size();
