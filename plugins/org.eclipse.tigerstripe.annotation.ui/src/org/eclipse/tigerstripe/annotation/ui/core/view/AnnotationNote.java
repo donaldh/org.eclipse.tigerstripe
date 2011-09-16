@@ -23,7 +23,7 @@ public class AnnotationNote extends EObjectBasedNote implements INote {
 
 	private final Annotation annotation;
 
-	private boolean isValid;
+	private boolean isValid = true;
 
 	public AnnotationNote(Annotation annotation) {
 		super();
