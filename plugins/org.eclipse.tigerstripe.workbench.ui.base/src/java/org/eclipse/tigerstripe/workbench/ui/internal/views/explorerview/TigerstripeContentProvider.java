@@ -54,7 +54,6 @@ import org.eclipse.ui.navigator.ICommonContentExtensionSite;
 import org.eclipse.ui.navigator.IExtensionStateModel;
 import org.eclipse.ui.navigator.IPipelinedTreeContentProvider;
 import org.eclipse.ui.navigator.PipelinedShapeModification;
-import org.eclipse.ui.navigator.PipelinedViewerUpdate;
 
 /**
  * Tigerstripe content provider.
@@ -235,7 +234,10 @@ public class TigerstripeContentProvider extends
 		}
 	}
 
-	private void customize(Object[] elements, Set<Object> proposedChildren) {
+	private void customize(Object parent, Object[] elements, Set<Object> proposedChildren) {
+		if (parent instanceof IWorkspaceRoot) {
+			return;
+		}
 		if (elements.length == 0) {
 			clearCompilationUnit(proposedChildren);
 		}
@@ -252,13 +254,13 @@ public class TigerstripeContentProvider extends
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void getPipelinedChildren(Object aParent, Set theCurrentChildren) {
-		customize(getChildren(aParent), theCurrentChildren);
+		customize(aParent, getChildren(aParent), theCurrentChildren);
 	}
 
 	@Override
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void getPipelinedElements(Object anInput, Set theCurrentElements) {
-		customize(getElements(anInput), theCurrentElements);
+		customize(anInput, getElements(anInput), theCurrentElements);
 	}
 
 	@Override
