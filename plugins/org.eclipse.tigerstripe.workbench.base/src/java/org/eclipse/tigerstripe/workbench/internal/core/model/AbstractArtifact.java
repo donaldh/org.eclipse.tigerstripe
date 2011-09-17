@@ -1230,7 +1230,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	}
 
 	private void removeFromMembers(Collection<? extends IMember> from, Collection<? extends IMember> toRemove) {
-		for (IMember m1 : toRemove) {
+		for (IMember m1 : toRemove.toArray(new IMember[0])) {
 			if (m1 == null) {
 				continue;
 			}
