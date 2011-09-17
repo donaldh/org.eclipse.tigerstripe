@@ -114,24 +114,36 @@ public class TestExportDiff extends AbstractExportTestCase {
 
 	public void testGetArtifactsListRestrictedByFacet() throws Exception {
 
-		// overwrite destination project
-		if (destination != null && destination.exists()) {
-			destination.delete(true, new NullProgressMonitor());
-		}
+		runInWorkspace(new SafeRunnable() {
+			
+			public void run() throws Exception {
+				// overwrite destination project
+				if (destination != null && destination.exists()) {
+					destination.delete(true, new NullProgressMonitor());
+				}
+			}
+		});
 		
-		Thread.sleep(5000);
+		waitForUpdates();
 		
-		destination = ModelProjectHelper.createModelProject("DestinationProject", true);
+		runInWorkspace(new SafeRunnable() {
+			
+			public void run() throws Exception {
+				destination = ModelProjectHelper.createModelProject("DestinationProject", true);
+			}
+		});
 
 		IContractSegment facet = InternalTigerstripeCore.createModelFacet(facetFile, new NullProgressMonitor());
 		addIncludesFacetScopePatterns(Arrays.asList(new String[] { ModelProjectHelper.M1 }), facet);
 		addExcludesFacetScopePatterns(Arrays.asList(new String[] { ModelProjectHelper.AC1 }), facet);
 
+		waitForUpdates();
+		
 		FacetExporterInput inputManager = new FacetExporterInput();
 		inputManager.setSource(source);
 		inputManager.setDestination(destination);
 		inputManager.setFacet(facetFile);
-
+		
 		List<IAbstractArtifact> artifacts = ExportDiff.getDuplicates(inputManager);
 		
 		assertNotNull("Artifacts list is null", artifacts);
@@ -141,10 +153,10 @@ public class TestExportDiff extends AbstractExportTestCase {
 			list = list + art + " ";
 		}
 		
-		assertEquals("Expected 3 - got these " + list, 3, artifacts.size()); 
+		assertEquals("Expected 1 - got these " + list, 1, artifacts.size()); 
 
-		assertTrue(artifactExistsByFqn(artifacts, "com"));
-		assertTrue(artifactExistsByFqn(artifacts, "com.mycompany"));
+		assertFalse(artifactExistsByFqn(artifacts, "com"));
+		assertFalse(artifactExistsByFqn(artifacts, "com.mycompany"));
 		assertTrue(artifactExistsByFqn(artifacts, ModelProjectHelper.M1));
 		
 		assertFalse(artifactExistsByFqn(artifacts, ModelProjectHelper.M2));

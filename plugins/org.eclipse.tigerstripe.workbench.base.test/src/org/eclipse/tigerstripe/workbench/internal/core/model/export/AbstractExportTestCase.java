@@ -18,6 +18,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.base.test.AbstractTigerstripeTestCase;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.ISegmentScope.ScopePattern;
@@ -26,7 +27,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 import junit.framework.TestCase;
 
-public class AbstractExportTestCase extends TestCase {
+public class AbstractExportTestCase extends AbstractTigerstripeTestCase {
 
 	@SuppressWarnings("deprecation")
 	protected void verifyProjectArtifactNotExported(ITigerstripeModelProject project, String fullyQualifiedName) throws Exception {

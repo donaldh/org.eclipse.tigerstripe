@@ -17,3 +17,4 @@ Export-Package: org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation,
  org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.dnd,
  org.eclipse.tigerstripe.workbench.ui.instancediagram.adaptation.helpers
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
+Eclipse-BundleShape: jar

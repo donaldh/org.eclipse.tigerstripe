@@ -10,21 +10,23 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.base.test.builders;
 
-import junit.framework.TestCase;
-
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.base.test.AbstractTigerstripeTestCase;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
-public class TestBasicModelProjectAuditor extends TestCase {
+public class TestBasicModelProjectAuditor extends AbstractTigerstripeTestCase {
 
 	private ITigerstripeModelProject project;
 
 	@Override
 	protected void setUp() throws Exception {
+		cleanup();
+		
 		IProjectDetails projectDetails = TigerstripeCore.makeProjectDetails();
 		project = (ITigerstripeModelProject) TigerstripeCore.createProject(
 				"TestBasicModelProjectAuditor", projectDetails, null,
@@ -33,8 +35,7 @@ public class TestBasicModelProjectAuditor extends TestCase {
 
 	@Override
 	protected void tearDown() throws Exception {
-		if (project != null && project.exists())
-			project.delete(true, null);
+		cleanup();
 	}
 
 	/**
@@ -59,13 +60,29 @@ public class TestBasicModelProjectAuditor extends TestCase {
 		assertTrue(info == 1);
 		assertTrue(warning == 1);
 
-		// Then add a description
-		ITigerstripeModelProject p = (ITigerstripeModelProject) project
-				.makeWorkingCopy(null);
-		p.getProjectDetails().setDescription("A description");
-		p.commit(null);
+		runInWorkspace(new SafeRunnable() {
 
-		AuditorHelper.forceFullBuildNow(project);
+			public void run() throws Exception {
+
+				// Then add a description
+				ITigerstripeModelProject p = (ITigerstripeModelProject) project
+						.makeWorkingCopy(null);
+				p.getProjectDetails().setDescription("A description");
+				p.commit(null);
+			}
+		});
+
+		waitForUpdates();
+		
+		runInWorkspace(new SafeRunnable() {
+			
+			public void run() throws Exception {
+				AuditorHelper.forceFullBuildNow(project);
+			}
+		});
+		
+		waitForUpdates();
+		
 		warning = AuditorHelper.getMarkers(IMarker.SEVERITY_WARNING, project).length;
 		IMarker[] infoMarkers = AuditorHelper.getMarkers(IMarker.SEVERITY_INFO, project);
 		info = infoMarkers.length;

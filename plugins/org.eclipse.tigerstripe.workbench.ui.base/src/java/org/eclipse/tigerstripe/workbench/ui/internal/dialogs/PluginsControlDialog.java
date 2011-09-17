@@ -10,23 +10,29 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.dialogs;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.edit.command.CutToClipboardCommand;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.window.IShellProvider;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginHousing;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginManager;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggableHousing;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.RegisterPluggableHousingAction;
 import org.eclipse.tigerstripe.workbench.ui.internal.actions.UnRegisterPluggableHousingAction;
 
 public class PluginsControlDialog extends AbstractDialog {
+	private static final int BUTTON_UNDEPLOY_ALL = IDialogConstants.CLIENT_ID + 1;
 
 	public PluginsControlDialog(IShellProvider parentShell) {
 		super(parentShell);
@@ -74,9 +80,10 @@ public class PluginsControlDialog extends AbstractDialog {
 		menuMgr.add(new RegisterPluggableHousingAction(this));
 
 		if (!isEmpty) {
+			List<PluggableHousing> housings = PluginManager.getManager().getRegisteredPluggableHousings();
+			final PluggableHousing housing = housings.get(fListTable.getSelectionIndex());
 			
-			menuMgr.add(new UnRegisterPluggableHousingAction(fListTable
-					.getSelectionIndex(), this));
+			menuMgr.add(new UnRegisterPluggableHousingAction(housing, this));
 		}
 	}
 	
@@ -115,5 +122,31 @@ public class PluginsControlDialog extends AbstractDialog {
 		TableColumn natureColumn = new TableColumn(fListTable, SWT.NULL);
 		natureColumn.setText("Nature");
 		natureColumn.setWidth(20);
+	}
+
+	@Override
+	protected void createButtonsForButtonBar(Composite parent) {
+		createButton(parent, BUTTON_UNDEPLOY_ALL, "Undeploy All", false);
+		super.createButtonsForButtonBar(parent);
+	}
+
+	@Override
+	protected void buttonPressed(final int buttonId) {
+		if(buttonId == BUTTON_UNDEPLOY_ALL) {
+			final List<PluggableHousing> housings = new ArrayList<PluggableHousing>();
+			for(final PluggableHousing housing : PluginManager.getManager().getRegisteredPluggableHousings()) {
+				if(housing.isDeployed()) {
+					housings.add(housing);
+				}
+			}
+			
+			final UnRegisterPluggableHousingAction action = new UnRegisterPluggableHousingAction(housings, this);
+			action.setConfirm(false);
+			if(action.isEnabled()) {
+				action.run();
+			}
+		} else {
+			super.buttonPressed(buttonId);
+		}
 	}
 }

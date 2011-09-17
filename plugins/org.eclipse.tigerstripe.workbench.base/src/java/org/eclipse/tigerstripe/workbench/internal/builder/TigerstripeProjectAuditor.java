@@ -48,11 +48,13 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.annotation.core.AnnotationType;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.diagram.IDiagram;
@@ -754,15 +756,15 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 			deleteAnnMarkers();
 			uries = Collections.singleton(createAnnUri(modelId));
 		} else {
-			CollectResult collectChanges = collectChanges();
-			if (collectChanges.descriptorWasChanged) { 
+			CollectResult changes = collectChanges();
+			if (changes.descriptorWasChanged || !changes.annResources.isEmpty()) { 
 				deleteAnnMarkers();
 				uries = Collections.singleton(createAnnUri(modelId));
 			} else {
 				uries = new HashSet<URI>();
-				for (IFile dr : collectChanges.artifacts) {
+				for (IFile dr : changes.artifacts) {
 					/**
-					 * We can't just adapt to artifact beause it may be deleted
+					 * We can't just adapt to artifact because it may be deleted
 					 * We have to calculate the former artifact name manually 
 					 */
 					String name = dr.getName(); // "Entity.java" We have to cut '.java' suffix 
@@ -777,13 +779,12 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 					if (pckg == null) {
 						fqn = withoutJavaSuffix;
 					} else {
-						fqn = pckg.getFullyQualifiedName() + "."
-								+ withoutJavaSuffix;
-					}
+						fqn = pckg.getFullyQualifiedName() + "." + withoutJavaSuffix;
+					}	
 					
 					uries.add(createAnnUri(modelId, fqn));
 				}
-				for (IFile diagramFile : collectChanges.diagrams) {
+				for (IFile diagramFile : changes.diagrams) {
 					URI uri = TigerstripeURIAdapterFactory.toURI(diagramFile);
 					if (uri != null) {
 						uries.add(uri);
@@ -807,19 +808,21 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		for (Annotation annotation : annotations) {
 			removeDanglingAnnotationMarker(annotation);
 			URI uri = annotation.getUri();
-			
-			IDiagram diagram = TigerstripeURIAdapterFactory.uriToDiagram(uri);
-
-			if (diagram == null) {
+			ITigerstripeModelProject proj = TigerstripeURIAdapterFactory.uriToProject(uri);
+			if (proj == null) {
+				IDiagram diagram = TigerstripeURIAdapterFactory.uriToDiagram(uri);
 				
-				IModelComponent comp = TigerstripeURIAdapterFactory
-						.uriToComponent(uri);
-				
-				if (comp == null
-						|| (uri.hasFragment() && comp instanceof IAbstractArtifact)) {
-					addDanglingAnnotationMarker(annotation);
-				}
-			} 
+				if (diagram == null) {
+					
+					IModelComponent comp = TigerstripeURIAdapterFactory
+					.uriToComponent(uri);
+					
+					if (comp == null
+							|| (uri.hasFragment() && comp instanceof IAbstractArtifact)) {
+						addDanglingAnnotationMarker(annotation);
+					}
+				} 
+			}
 		}
 		for (Annotation annotation : annotations) {
 			removeMissedStorageAnnotationMarker(annotation);
@@ -868,6 +871,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	private static class CollectResult {
 		final Set<IFile> artifacts = new HashSet<IFile>();
 		final Set<IFile> diagrams = new HashSet<IFile>();
+		final Set<Resource> annResources = new HashSet<Resource>();
 		boolean descriptorWasChanged;
 	}
 	
@@ -896,10 +900,15 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 						} else if (WorkspaceListener.isArtifact(resource)) {
 							r.artifacts.add((IFile) resource);
 						} else {
-							String ext = resource.getFileExtension();
-							if (CLASS_DIAGRAM_EXTENSION.equals(ext)
-									|| INSTANCE_DIAGRAM_EXTENSION.equals(ext)) {
-								r.diagrams.add((IFile) resource);
+							Resource annres = AnnotationPlugin.getManager().findAnnotationResource(resource);
+							if (annres != null) {
+								r.annResources.add(annres);
+							} else {
+								String ext = resource.getFileExtension();
+								if (CLASS_DIAGRAM_EXTENSION.equals(ext)
+										|| INSTANCE_DIAGRAM_EXTENSION.equals(ext)) {
+									r.diagrams.add((IFile) resource);
+								}
 							}
 						}
 					}
@@ -945,8 +954,9 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		IResource resource = findResourceForAnnotation(annotation);
 		IMarker marker = resource
 				.createMarker(BuilderConstants.ANNOTATION_MARKER_ID);
+		AnnotationType type = AnnotationPlugin.getManager().getType(annotation);
 		marker.setAttribute(IMarker.MESSAGE,
-				"Annotation file contains unresolved annotation");
+				"Unresolved annotation '"+type.getName()+"'");
 		URI aUri = annotation.getUri();
 		aUri = URI.createHierarchicalURI(aUri.segments(), aUri.query(),
 				aUri.fragment());
@@ -958,8 +968,9 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	private void addMissedStorageAnnotationMarker(Annotation annotation) throws CoreException {
 		IMarker marker = getProject().createMarker(
 				BuilderConstants.MISSED_STORAGE_MARKER_ID);
-		marker.setAttribute(IMarker.MESSAGE,
-				"Annotation has been saved in an unknown storage");
+		AnnotationType type = AnnotationPlugin.getManager().getType(annotation);
+		marker.setAttribute(IMarker.MESSAGE, "Annotation '" + type.getName()
+				+ "' has been saved in an unknown storage");
 		URI aUri = annotation.getUri();
 		aUri = URI.createHierarchicalURI(aUri.segments(), aUri.query(),
 				aUri.fragment());

@@ -67,6 +67,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IExceptionArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMember;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
@@ -1116,9 +1117,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	}
 
 	public void removeFields(Collection<IField> fields) {
-		this.fields.removeAll(fields);
+		removeFromMembers(this.fields, fields);
 		for (IField field : fields) {
-			((Field) field).setContainingArtifact(null);
 			this.removeContainedModelComponent(field);
 		}
 
@@ -1166,9 +1166,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	}
 
 	public void removeLiterals(Collection<ILiteral> literals) {
-		this.literals.removeAll(literals);
+		removeFromMembers(this.literals, literals);
 		for (ILiteral literal : literals) {
-			((Literal) literal).setContainingArtifact(null);
 			this.removeContainedModelComponent(literal);
 		}
 		// Bug 1067: need to reset facet fieltered list so it gets re-computed
@@ -1220,9 +1219,8 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	}
 
 	public void removeMethods(Collection<IMethod> methods) {
-		this.methods.removeAll(methods);
+		removeFromMembers(this.methods, methods);
 		for (IMethod method : methods) {
-			((Method) method).setContainingArtifact(null);
 			this.removeContainedModelComponent(method);
 		}
 		// Bug 1067: need to reset facet fieltered list so it gets re-computed
@@ -1231,6 +1229,23 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	}
 
+	private void removeFromMembers(Collection<? extends IMember> from, Collection<? extends IMember> toRemove) {
+		for (IMember m1 : toRemove) {
+			if (m1 == null) {
+				continue;
+			}
+			Iterator<? extends IMember> it = from.iterator();
+			while (it.hasNext()) {
+				IMember m2 = it.next();
+				if (m1.equals(m2)) {
+					it.remove();
+					m2.setContainingArtifact(null);
+				}
+			}
+			m1.setContainingArtifact(null);
+		}
+	}
+	
 	public void setMethods(Collection<IMethod> methods) {
 		this.methods.clear();
 		this.methods.addAll(methods);
@@ -2032,10 +2047,12 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal2#removeContainedModelComponent(org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent)
 	 */
 	public void removeContainedModelComponent(IModelComponent component) {
-		if (containedComponents.contains(component)) {
-			containedComponents.remove(component);
+		Iterator<IModelComponent> it = containedComponents.iterator();
+		while (it.hasNext()) {
+			if (component.equals(it.next())) {
+				it.remove();
+			}
 		}
-
 	}
 
 	public IModelComponent getContainingModelComponent() {

@@ -22,7 +22,7 @@ import java.util.List;
  * 
  * 
  */
-public interface IField extends IModelComponent {
+public interface IField extends IModelComponent, IMember {
 
 	/**
 	 * An empty list this is used as a return for Artifact types that do not support Fields.

@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.annotation.core;
 
 import java.util.List;
 
+import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
@@ -298,4 +299,7 @@ public interface IAnnotationManager {
 	 */
 	public String getPackageLabel(EPackage pckg);
 
+	public Resource findAnnotationResource(IResource resource);
+	
+	public void changed(URI oldUri, URI newUri, boolean affectChildren);
 }

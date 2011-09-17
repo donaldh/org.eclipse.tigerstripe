@@ -13,23 +13,34 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IWorkspaceRunnable;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdapterManager;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.SubProgressMonitor;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
+import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IActiveFacetChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
@@ -38,6 +49,7 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotif
 import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -86,9 +98,21 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 	}
 
 	protected void setIArtifact(IAbstractArtifact artifact) {
-		if (artifact == null)
-			System.out.println("arggg Null");
 		this.artifact = artifact;
+		saveState();
+	}
+
+	private State savedState = new State();
+	
+	private void saveState() {
+		savedState = new State();
+		if (artifact == null) {
+			return;
+		}
+		Collection<IMethod> methods = artifact.getMethods();
+		for (IMethod m : methods) {
+			savedState.methods.put(m, m.getMethodId());
+		}
 	}
 
 //	@Override
@@ -213,6 +237,8 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 	@Override
 	public void doSave(IProgressMonitor monitor) {
 
+		final State state = this.savedState;
+		
 		getUndoManager().editorSaved();
 
 		if (getActivePage() != sourcePageIndex) {
@@ -228,7 +254,7 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 		}
 		monitor
 				.beginTask("Saving " + getIArtifact().getFullyQualifiedName(),
-						1);
+						100);
 		// check for errors, if errors are found they will be displayed
 		IStatus errorList = getIArtifact().validate();
 		if (!errorList.isOK()) {
@@ -255,26 +281,47 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 				return;
 		}
 
-		// We let Eclipse do the save to the file.
-		setIgnoreResourceChange(true); // ignore the resource change notif here
-		getEditor(sourcePageIndex).doSave(monitor);
-		setIgnoreResourceChange(false);
-
-		// Bug 1027: At this stage we need to update the content of the Artifact
-		// Mgr
-		// so that the change in the Artifact is broadcast and the POJO state
-		// is up2date to avoid a re-parse in the next refresh() of the Mgr
-		// This is using a back-door ugly mechanism, but it avoids much trouble
+		monitor.worked(20);
 		
-		// No longer neede as the Artifact MAnager is listening for these changes
-//		AbstractArtifact aArt = (AbstractArtifact) getIArtifact();
-//		ArtifactManager mgr = aArt.getArtifactManager();
-//
-//		mgr.removeArtifactManagerListener(this);
-//		mgr.notifyArtifactSaved(aArt, monitor);
-//		mgr.addArtifactManagerListener(this);
-
+		// We let Eclipse do the save to the file.
+		try {
+			ResourcesPlugin.getWorkspace().run(new IWorkspaceRunnable() {
+				
+				public void run(IProgressMonitor monitor) throws CoreException {
+					setIgnoreResourceChange(true); // ignore the resource change notif here
+					getEditor(sourcePageIndex).doSave(monitor);
+					setIgnoreResourceChange(false);
+					checkChanges(state);
+				}
+			}, new SubProgressMonitor(monitor, 80));
+		} catch (CoreException e) {
+			BasePlugin.log(e);
+		}
 		monitor.done();
+	}
+
+	private void checkChanges(State oldState) {
+		for (IMethod m : artifact.getMethods()) {
+			String oldId = oldState.methods.get(m);
+			if (oldId == null) {
+				continue;
+			}
+			String newId = m.getMethodId();
+			if (!oldId.equals(newId)) {
+				try {
+					methodIdWasChanged(oldId, newId, m);
+				} catch (TigerstripeException e) {
+					BasePlugin.log(e);
+				}
+			}
+		}
+	}
+
+	private void methodIdWasChanged(String oldId, String newId, IMethod m)
+			throws TigerstripeException {
+		URI oldURI = TigerstripeURIAdapterFactory.methodToURI(artifact, oldId);
+		URI newURI = TigerstripeURIAdapterFactory.methodToURI(artifact, newId);
+		AnnotationPlugin.getManager().changed(oldURI, newURI, false);
 	}
 
 	@Override
@@ -504,6 +551,11 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 			return new ArtifactOverviewPage(this);
 		}
 		
+	}
+	
+	
+	public static class State {
+		private final Map<IMethod, String> methods = new IdentityHashMap<IMethod, String>();		
 	}
 	
 }

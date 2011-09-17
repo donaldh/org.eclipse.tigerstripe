@@ -51,5 +51,12 @@
           class="org.eclipse.tigerstripe.annotation.java.ui.refactoring.JavaRefactoringSupport">
     </listener>
  </extension>
+ <extension
+       point="org.eclipse.tigerstripe.espace.resources.listener">
+    <listener
+          class="org.eclipse.tigerstripe.annotation.java.ui.internal.refactoring.ChangeTrackerResourceListenerProvider"
+          order="20">
+    </listener>
+ </extension>
 
 </plugin>

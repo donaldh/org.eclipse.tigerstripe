@@ -40,7 +40,6 @@ public class TestBasicModelRefactorRequest extends TestCase {
 						"model-refactoring");
 	}
 
-	@SuppressWarnings("deprecation")
 	public void testCreateValidModelRefactorRequests() throws Exception {
 		IProject testProject = ResourcesPlugin.getWorkspace().getRoot()
 				.getProject("model-refactoring");
@@ -69,7 +68,6 @@ public class TestBasicModelRefactorRequest extends TestCase {
 		assertEquals(IStatus.ERROR, req.isValid().getSeverity());
 	}
 
-	@SuppressWarnings("deprecation")
 	public void testTargetsForEnt2Rename() throws Exception {
 		// This is expected to touch
 		// Ent2, Ent1 (extends from Ent2)
@@ -89,7 +87,6 @@ public class TestBasicModelRefactorRequest extends TestCase {
 				.getArtifactByFullyQualifiedName("simple.Ent22"));
 	}
 
-	@SuppressWarnings("deprecation")
 	public void testComplexEnt1Rename() throws Exception {
 		// This is expected to touch
 		// Ent2, Ent1 (extends from Ent2)
@@ -109,7 +106,6 @@ public class TestBasicModelRefactorRequest extends TestCase {
 				.getArtifactByFullyQualifiedName("simple.Ent11"));
 	}
 
-	@SuppressWarnings("deprecation")
 	public void testTargetsForSimplePackageRename() throws Exception {
 		// This is expected to touch
 		// Ent2, Ent1 (extends from Ent2)

@@ -31,7 +31,7 @@
 		<version>${tycho-version}</version>
 		<configuration>
 		  <useUIHarness>true</useUIHarness>
-		  <argLine>${junit.args}</argLine>
+		  <argLine>${junit.args} -Dosgi.os=${osgi.os} -Dosgi.ws=${osgi.ws} -Dosgi.arch=${osgi.arch}</argLine>
 		  <testSuite>org.eclipse.tigerstripe.workbench.base.test</testSuite>
 		  <testClass>org.eclipse.tigerstripe.workbench.base.test.AllTests</testClass>
 		</configuration>

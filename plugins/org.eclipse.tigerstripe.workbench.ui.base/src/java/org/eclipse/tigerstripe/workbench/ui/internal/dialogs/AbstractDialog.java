@@ -58,7 +58,7 @@ public abstract class AbstractDialog extends Dialog {
 	protected Control createDialogArea(Composite parent) {
 		Composite area = (Composite) super.createDialogArea(parent);
 
-		fListTable = new Table(area, SWT.FULL_SELECTION | SWT.SINGLE	| SWT.V_SCROLL);
+		fListTable = new Table(area, SWT.FULL_SELECTION | SWT.SINGLE | SWT.V_SCROLL | SWT.BORDER);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL	| GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL);
 		gd.heightHint = 150;
 		gd.widthHint = 350;

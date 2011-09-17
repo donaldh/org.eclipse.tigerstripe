@@ -10,67 +10,111 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.base.test.model;
 
-import junit.framework.TestCase;
-
-import org.eclipse.core.resources.IResource;
-import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.jobs.IJobManager;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
+import org.eclipse.tigerstripe.workbench.TigerstripeChangeAdapter;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
+import org.eclipse.tigerstripe.workbench.base.test.AbstractTigerstripeTestCase;
 import org.eclipse.tigerstripe.workbench.base.test.utils.M1ProjectHelper;
 import org.eclipse.tigerstripe.workbench.base.test.utils.ModelProjectHelper;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
-import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
-public class TestTigerstripeWorkspaceNotifications extends TestCase implements
-		ITigerstripeChangeListener {
-
-	public void descriptorChanged(IResource changedDescriptor) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	private final static int SLEEPTIME = 500;
+public class TestTigerstripeWorkspaceNotifications extends AbstractTigerstripeTestCase {
 
 	private IAbstractTigerstripeProject project = null;
 
-	private IModelChangeDelta[] deltas;
-	private IAbstractTigerstripeProject addedProject;
-	private String removedProject;
+	private volatile IModelChangeDelta[] deltas;
+	private volatile IAbstractTigerstripeProject addedProject;
+	private volatile String removedProject;
+
+	@Override
+	protected void setUp() throws Exception {
+		runInWorkspace(new SafeRunnable() {
+			
+			public void run() throws Exception {
+				for(final IProject project : workspace.getRoot().getProjects()) {
+					project.delete(true, null);
+				}
+			}
+		});
+		waitForUpdates();
+	}
 
 	@Override
 	protected void tearDown() throws Exception {
-		if (project != null && project.exists())
-			project.delete(true, null);
-
+		runInWorkspace(new SafeRunnable() {
+			
+			public void run() throws Exception {
+				if (project != null && project.exists())
+					project.delete(true, null);
+			}
+		});
+		waitForUpdates();
 	}
 
 	public void testProjectNotifications() throws Exception {
 
 		resetNotifications();
-		registerSelf(PROJECT);
+		registerSelf(ITigerstripeChangeListener.PROJECT);
 
-		project = ModelProjectHelper
-				.createModelProject("testProjectCreationNotification");
-		assertFalse(checkDeletedProject());
-		assertTrue(checkAddedProject());
+		runInWorkspace(new SafeRunnable() {
+			
+			public void run() throws Exception {
+				resetNotifications();
+				project = ModelProjectHelper
+						.createModelProject("testProjectCreationNotification");
+			}
+		});
+		
+		waitForUpdates();
+
+		assertFalse("Project deletion must not be broadcasted", checkDeletedProject());
+		assertTrue("Project deletion must be broadcasted", checkAddedProject());
 		assertEquals(addedProject, project);
 		resetNotifications();
 
-		project.delete(true, null);
-		assertFalse(checkAddedProject());
-		assertTrue(checkDeletedProject());
+		runInWorkspace(new SafeRunnable() {
+			
+			public void run() throws Exception {
+				project.delete(true, null);
+			}
+		});
+
+		waitForUpdates();
+		assertFalse("Project addition must not be broadcasted", checkAddedProject());
+		assertTrue("Project deletion must be broadcasted", checkDeletedProject());
 		assertEquals(removedProject, "testProjectCreationNotification");
+		resetNotifications();
 
-		project = M1ProjectHelper.createM1Project(
-				"M1testProjectCreationNotification", false);
-		assertTrue(checkAddedProject());
+		runInWorkspace(new SafeRunnable() {
+			
+			public void run() throws Exception {
+				project = M1ProjectHelper.createM1Project(
+						"M1testProjectCreationNotification", false);
+			}
+		});
+		
+		waitForUpdates();
+
+		assertTrue("Project addition must be broadcasted", checkAddedProject());
 		assertEquals(addedProject, project);
 		resetNotifications();
 
-		project.delete(true, null);
-		assertTrue(checkDeletedProject());
+		runInWorkspace(new SafeRunnable() {
+			
+			public void run() throws Exception {
+				project.delete(true, null);
+			}
+		});
+
+		waitForUpdates();
+		assertTrue("Project deletion must be broadcasted", checkDeletedProject());
 		assertEquals(removedProject, "M1testProjectCreationNotification");
+		resetNotifications();
 
 		unregisterSelf();
 	}
@@ -134,11 +178,11 @@ public class TestTigerstripeWorkspaceNotifications extends TestCase implements
 	// }
 
 	protected void registerSelf(int level) {
-		TigerstripeCore.addTigerstripeChangeListener(this, level);
+		TigerstripeCore.addTigerstripeChangeListener(tigerstripeListener, level);
 	}
 
 	protected void unregisterSelf() {
-		TigerstripeCore.removeTigerstripeChangeListener(this);
+		TigerstripeCore.removeTigerstripeChangeListener(tigerstripeListener);
 	}
 
 	private void resetNotifications() {
@@ -147,56 +191,29 @@ public class TestTigerstripeWorkspaceNotifications extends TestCase implements
 		removedProject = null;
 	}
 
-	public void modelChanged(IModelChangeDelta[] delta) {
-		deltas = delta;
-	}
-
-	public void projectAdded(IAbstractTigerstripeProject project) {
-		addedProject = project;
-	}
-
-	public void projectDeleted(String project) {
-		removedProject = project;
-	}
-
 	protected boolean checkAddedProject() throws Exception {
-		Thread.sleep(SLEEPTIME);
 		return addedProject != null;
 	}
 
 	protected boolean checkDeletedProject() throws Exception {
-		Thread.sleep(SLEEPTIME);
 		return removedProject != null;
 	}
 
 	protected boolean checkDeltas() throws Exception {
-		Thread.sleep(SLEEPTIME);
 		return deltas != null;
 	}
 
-	public void annotationChanged(IModelAnnotationChangeDelta[] delta) {
-		// TODO Auto-generated method stub
+    private final ITigerstripeChangeListener tigerstripeListener = new TigerstripeChangeAdapter() {
+    	public void modelChanged(IModelChangeDelta[] delta) {
+    		deltas = delta;
+    	}
 
-	}
+    	public void projectAdded(IAbstractTigerstripeProject project) {
+    		addedProject = project;
+    	}
 
-	public void artifactResourceAdded(IResource addedArtifactResource) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void artifactResourceChanged(IResource changedArtifactResource) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void artifactResourceRemoved(IResource removedArtifactResource) {
-		// TODO Auto-generated method stub
-		
-	}
-
-    public void activeFacetChanged(ITigerstripeModelProject project) {
-        // TODO Auto-generated method stub
-        
-    }
-
+    	public void projectDeleted(String project) {
+    		removedProject = project;
+    	}
+    };
 }

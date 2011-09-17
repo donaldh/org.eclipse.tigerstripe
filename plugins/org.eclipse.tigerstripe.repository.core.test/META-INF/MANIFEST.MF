@@ -18,3 +18,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.tigerstripe.test_common
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.tigerstripe.repository.core.test.Activator
+Eclipse-BundleShape: jar

@@ -15,8 +15,12 @@ package org.eclipse.tigerstripe.espace.resources;
  * @author Yuri Strot
  *
  */
-public interface IResourceTimestampManager {
+public interface IResourceManager {
 	
 	public void updateTimestamps(IResourceSaver saver);
 
+	public void startWriting();
+	
+	public void endWriting();
+	
 }

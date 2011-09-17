@@ -202,6 +202,7 @@ public class TigerstripeRuntime {
 					outputFileExists = true;
 				appender = new RollingFileAppender(patternLayout, outputPath);
 				appender.setMaxBackupIndex(maxNumBackupLogs);
+				appender.setImmediateFlush(true);
 				tigerstripeLogger = Logger.getLogger(tigerstripeLoggerID);
 				tigerstripeLogger.removeAllAppenders();
 				if (outputFileExists) {
@@ -322,15 +323,24 @@ public class TigerstripeRuntime {
 					+ File.separator + PROPERTIES_FILE);
 			buildProperties = new Properties();
 
+			FileInputStream propInStream = null; 			
 			try {
-				buildProperties.load(new FileInputStream(propertiesFile));
-
+				propInStream = new FileInputStream(propertiesFile);
+				buildProperties.load(propInStream);
 			} catch (FileNotFoundException e) {
 				buildProperties = null;
 				return new Properties();
 			} catch (IOException e) {
 				buildProperties = null;
 				return new Properties();
+			} finally {
+				if(propInStream != null) {
+					try {
+						propInStream.close();
+					} catch(IOException ioe) {
+						TigerstripeRuntime.logErrorMessage("can't close file: " + propertiesFile, ioe);
+					}
+				}
 			}
 		}
 

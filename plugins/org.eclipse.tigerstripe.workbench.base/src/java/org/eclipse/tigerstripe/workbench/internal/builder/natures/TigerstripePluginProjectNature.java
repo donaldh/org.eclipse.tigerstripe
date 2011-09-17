@@ -13,9 +13,12 @@ package org.eclipse.tigerstripe.workbench.internal.builder.natures;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IProjectNature;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.builder.BuilderConstants;
@@ -31,19 +34,24 @@ public class TigerstripePluginProjectNature implements IProjectNature {
 
 	public void configure() throws CoreException {
 		PluggablePluginProjectAuditor.addBuilderToProject(project);
-		new Job("Tigerstripe Project Audit") {
+		final Job auditJob = new WorkspaceJob("Tigerstripe Project Audit") {
 			@Override
-			protected IStatus run(IProgressMonitor monitor) {
-				try {
-					project.build(IncrementalProjectBuilder.FULL_BUILD,
-							PluggablePluginProjectAuditor.BUILDER_ID, null,
-							monitor);
-				} catch (CoreException e) {
-					BasePlugin.log(e);
-				}
-				return org.eclipse.core.runtime.Status.OK_STATUS;
+			public boolean belongsTo(Object family) {
+				return family == ResourcesPlugin.FAMILY_MANUAL_BUILD;
 			}
-		}.schedule();
+
+			@Override
+			public IStatus runInWorkspace(IProgressMonitor monitor)
+					throws CoreException {
+				project.build(IncrementalProjectBuilder.FULL_BUILD,
+						PluggablePluginProjectAuditor.BUILDER_ID, null,
+						monitor);
+				return Status.OK_STATUS;
+			}
+		};
+		auditJob.setPriority(Job.INTERACTIVE);
+		auditJob.setRule(ResourcesPlugin.getWorkspace().getRoot());
+		auditJob.schedule();
 	}
 
 	public void deconfigure() throws CoreException {

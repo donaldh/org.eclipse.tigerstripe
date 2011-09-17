@@ -31,11 +31,7 @@ public class AnnotationPlugin extends Plugin {
 	// The shared instance
 	private static AnnotationPlugin plugin;
 
-	/**
-	 * The constructor
-	 */
-	public AnnotationPlugin() {
-	}
+	public AnnotationManager annotationManager;
 
 	/*
 	 * (non-Javadoc)
@@ -46,6 +42,7 @@ public class AnnotationPlugin extends Plugin {
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
+		annotationManager = new AnnotationManager();
 	}
 
 	/*
@@ -56,6 +53,7 @@ public class AnnotationPlugin extends Plugin {
 	 */
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
+		annotationManager.dispose();
 		super.stop(context);
 	}
 
@@ -77,11 +75,10 @@ public class AnnotationPlugin extends Plugin {
 	}
 
 	public static IRefactoringNotifier getRefactoringNotifier() {
-		return AnnotationManager.getInstance();
+		return plugin.annotationManager;
 	}
 
 	public static IAnnotationManager getManager() {
-		return AnnotationManager.getInstance();
+		return plugin.annotationManager;
 	}
-
 }

@@ -99,8 +99,6 @@ public class AnnotationManager extends AnnotationStorage implements
 
 	private static final String ATTR_NAME = "name";
 
-	private static AnnotationManager instance;
-
 	private Map<String, AnnotationType> types;
 	private List<Adapter> adapters;
 	private ProviderManager providerManager;
@@ -122,6 +120,7 @@ public class AnnotationManager extends AnnotationStorage implements
 	private boolean ignoreDeletion = false;
 
 	public AnnotationManager() {
+		super();
 		loadParticipants();
 	}
 
@@ -409,12 +408,6 @@ public class AnnotationManager extends AnnotationStorage implements
 	 */
 	public String getPackageLabel(EPackage pckg) {
 		return getPackageLables().get(pckg);
-	}
-
-	public static AnnotationManager getInstance() {
-		if (instance == null)
-			instance = new AnnotationManager();
-		return instance;
 	}
 
 	/*

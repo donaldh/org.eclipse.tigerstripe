@@ -31,6 +31,8 @@ public interface ITigerstripeChangeListener {
 	public final static int FACET = 0x16;
 
 	public final static int ALL = PROJECT | MODEL | ANNOTATION| ARTIFACT_RESOURCES | FACET;
+	
+	public final static Object NOTIFY_JOB_FAMILY = new Object();
 
 	/**
 	 * Notification that a Tigerstripe project was added to the workspace
@@ -56,6 +58,8 @@ public interface ITigerstripeChangeListener {
 	
 	/**
 	 * Notification that a Tigerstripe descriptor was changed in the workspace. 
+	 * 
+	 * This method will be executed in the workspace root locking context
 	 * 
 	 * Note: this listener needs to be registered with {@link #PROJECT} level to
 	 * get notified

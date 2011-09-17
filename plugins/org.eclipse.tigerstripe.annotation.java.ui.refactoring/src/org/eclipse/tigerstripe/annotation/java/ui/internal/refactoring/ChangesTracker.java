@@ -20,7 +20,6 @@ import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.IResourceDeltaVisitor;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -49,7 +48,7 @@ import org.eclipse.tigerstripe.annotation.resource.ResourceURIConverter;
  * @author Yuri Strot
  * 
  */
-public class ChangesTracker {
+public class ChangesTracker implements IResourceChangeListener {
 
 	private ILazyObject lazyObject;
 	private Map<ILazyObject, String> newNames;
@@ -62,9 +61,15 @@ public class ChangesTracker {
 
 	private static ChangesTracker tracker;
 
-	public static void initialize() {
-		if (tracker == null)
+	public static ChangesTracker getInstance() {
+		if (tracker == null) {
 			tracker = new ChangesTracker();
+		}
+		return tracker;
+	}
+	
+	public static void initialize() {
+		getInstance();
 	}
 
 	protected void startChangesTracking() {
@@ -97,38 +102,7 @@ public class ChangesTracker {
 					}
 
 				});
-		ResourcesPlugin.getWorkspace().addResourceChangeListener(
-				new IResourceChangeListener() {
 
-					public void resourceChanged(IResourceChangeEvent event) {
-						try {
-							if (event != null && event.getDelta() != null) {
-								event.getDelta().accept(
-										new IResourceDeltaVisitor() {
-
-											public boolean visit(
-													IResourceDelta delta)
-													throws CoreException {
-												switch (delta.getKind()) {
-												case IResourceDelta.ADDED:
-													return false;
-												case IResourceDelta.CHANGED:
-													return true;
-												case IResourceDelta.REMOVED:
-													deleted(delta.getResource());
-													return false;
-												default:
-													return true;
-												}
-											}
-										});
-							}
-						} catch (CoreException e) {
-							e.printStackTrace();
-						}
-					}
-
-				});
 	}
 
 	protected void deleted(IResource resource) {
@@ -347,6 +321,34 @@ public class ChangesTracker {
 			} catch (CoreException e) {
 				e.printStackTrace();
 			}
+		}
+	}
+
+	public void resourceChanged(IResourceChangeEvent event) {
+		try {
+			if (event != null && event.getDelta() != null) {
+				event.getDelta().accept(
+						new IResourceDeltaVisitor() {
+
+							public boolean visit(
+									IResourceDelta delta)
+									throws CoreException {
+								switch (delta.getKind()) {
+								case IResourceDelta.ADDED:
+									return false;
+								case IResourceDelta.CHANGED:
+									return true;
+								case IResourceDelta.REMOVED:
+									deleted(delta.getResource());
+									return false;
+								default:
+									return true;
+								}
+							}
+						});
+			}
+		} catch (CoreException e) {
+			e.printStackTrace();
 		}
 	}
 

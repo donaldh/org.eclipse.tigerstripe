@@ -11,6 +11,8 @@
 package org.eclipse.tigerstripe.workbench.internal.adapt;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -349,14 +351,22 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 						}
 					}
 				} else {
-					for (IField f : artifact.getFields()) {
-						if (f.getName().equals(fragment)) {
-							result = f;
+					
+					Collection<ILiteral> literals = artifact.getLiterals();
+					Collection<IField> fields = artifact.getFields();
+					Collection<IModelComponent> components = new ArrayList<IModelComponent>(
+							literals.size() + fields.size());
+
+					components.addAll(fields);
+					components.addAll(literals);
+
+					for (IModelComponent c : components) {
+						if (c.getName().equals(fragment)) {
+							result = c;
 							break;
 						}
 					}
 				}
-
 			}
 
 			if (!(result instanceof IAbstractArtifact)
@@ -395,13 +405,13 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		IPath artifactPath = getArtifactPath(art, null);
 
 		String fragment = method.getMethodId() + ";;" + argument.getName();
-		return toURI(artifactPath, fragment, art.isReadonly());
+		return toURI(artifactPath, fragment);
 	}
 
 	public static URI toURI(ITigerstripeModelProject project)
 			throws TigerstripeException {
 		IPath path = new Path(project.getModelId());
-		return toURI(path, null, false);
+		return toURI(path, null);
 	}
 
 	/**
@@ -440,7 +450,12 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		IPath result = new Path(project.getModelId());
 		result = result.append("diagram").append(fullPath.getFileExtension())
 				.append(sb.toString());
-		return toURI(result, null, false);
+		return toURI(result, null);
+	}
+	
+	public static URI methodToURI(IAbstractArtifact art, String methodId)
+			throws TigerstripeException {
+		return toURI(getArtifactPath(art, null), methodId);
 	}
 	
 	/**
@@ -493,7 +508,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		if (component instanceof IContextProjectAware) {
 			context = ((IContextProjectAware) component).getContextProject();
 		}
-		return toURI(artifactPath, fragment, art.isReadonly(), context);
+		return toURI(artifactPath, fragment, context);
 
 	}
 
@@ -540,12 +555,12 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		return art;
 	}
 
-	private static URI toURI(IPath path, String fragment, boolean isFromModule)
+	private static URI toURI(IPath path, String fragment)
 			throws TigerstripeException {
-		return toURI(path, fragment, isFromModule, null);
+		return toURI(path, fragment, null);
 	}
 
-	private static URI toURI(IPath path, String fragment, boolean isFromModule,
+	private static URI toURI(IPath path, String fragment,
 			ITigerstripeModelProject context) throws TigerstripeException {
 		if (path == null)
 			return null;

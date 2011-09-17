@@ -33,14 +33,11 @@ import org.eclipse.tigerstripe.espace.resources.core.EObjectRouter;
 /**
  * @author Yuri Strot
  *
+ *
  */
 public class ResourcesMonitor implements IResourceChangeListener {
 	
 	private static ResourcesMonitor INSTANCE;
-	
-	private ResourcesMonitor() {
-		org.eclipse.core.resources.ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
-	}
 	
 	public static ResourcesMonitor getInstance() {
 		if (INSTANCE == null) {
@@ -117,5 +114,4 @@ public class ResourcesMonitor implements IResourceChangeListener {
 		};
 		job.schedule();
 	}
-
 }

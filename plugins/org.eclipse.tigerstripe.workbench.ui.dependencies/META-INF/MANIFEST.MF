@@ -24,3 +24,4 @@ Export-Package: org.eclipse.tigerstripe.workbench.ui.dependencies.api,
  org.eclipse.tigerstripe.workbench.ui.dependencies.utils,
  org.eclipse.tigerstripe.workbench.ui.model.dependencies,
  org.eclipse.tigerstripe.workbench.ui.model.dependencies.util
+Eclipse-BundleShape: jar

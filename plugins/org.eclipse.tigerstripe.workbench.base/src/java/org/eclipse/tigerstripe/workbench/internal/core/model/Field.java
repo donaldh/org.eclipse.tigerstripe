@@ -45,7 +45,7 @@ import com.thoughtworks.qdox.model.JavaField;
  * 
  * @author Eric Dillon
  */
-public class Field extends ArtifactComponent implements IField{
+public class Field extends ArtifactComponent implements IField {
 
 	
 	private static IAbstractArtifact[] suitableTypes;
@@ -231,7 +231,7 @@ public class Field extends ArtifactComponent implements IField{
 		return "keyresult".equalsIgnoreCase(this.refBy);
 	}
 
-	public void setContainingArtifact(IAbstractArtifactInternal artifact) {
+	public void setContainingArtifact(IAbstractArtifact artifact) {
 		this.containingModelComponent = artifact;
 	}
 
@@ -452,4 +452,5 @@ public class Field extends ArtifactComponent implements IField{
 
 		return null;
 	}
+
 }

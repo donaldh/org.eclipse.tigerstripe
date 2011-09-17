@@ -26,11 +26,10 @@ import org.eclipse.ui.navigator.IExtensionStateModel;
  * It provides labels for the packages in hierarchical layout and in all other
  * cases delegates it to its super class.
  * </p>
- * 
+ *
  * @since 3.2
  */
-public class JavaNavigatorLabelProvider implements ICommonLabelProvider,
-		IStyledLabelProvider {
+public class JavaNavigatorLabelProvider implements ICommonLabelProvider, IStyledLabelProvider {
 
 	private final long LABEL_FLAGS = JavaElementLabels.DEFAULT_QUALIFIED
 			| JavaElementLabels.ROOT_POST_QUALIFIED
@@ -53,7 +52,6 @@ public class JavaNavigatorLabelProvider implements ICommonLabelProvider,
 	public JavaNavigatorLabelProvider() {
 
 	}
-
 	public void init(ICommonContentExtensionSite commonContentExtensionSite) {
 		fStateModel = commonContentExtensionSite.getExtensionStateModel();
 		init((PackageExplorerContentProvider) commonContentExtensionSite
@@ -79,7 +77,7 @@ public class JavaNavigatorLabelProvider implements ICommonLabelProvider,
 		fContentProvider = contentProvider;
 		delegeteLabelProvider = createLabelProvider();
 	}
-
+	
 	public String getDescription(Object element) {
 		return formatMessage(element);
 	}
@@ -153,7 +151,6 @@ public class JavaNavigatorLabelProvider implements ICommonLabelProvider,
 		delegeteLabelProvider.removeListener(listener);
 	}
 
-	@Override
 	public boolean equals(Object obj) {
 		if (delegeteLabelProvider == null) {
 			return super.equals(obj);
@@ -161,7 +158,6 @@ public class JavaNavigatorLabelProvider implements ICommonLabelProvider,
 		return delegeteLabelProvider.equals(obj);
 	}
 
-	@Override
 	public int hashCode() {
 		if (delegeteLabelProvider == null) {
 			return super.hashCode();
@@ -169,7 +165,6 @@ public class JavaNavigatorLabelProvider implements ICommonLabelProvider,
 		return delegeteLabelProvider.hashCode();
 	}
 
-	@Override
 	public String toString() {
 		if (delegeteLabelProvider == null) {
 			return super.toString();
@@ -216,10 +211,8 @@ public class JavaNavigatorLabelProvider implements ICommonLabelProvider,
 	private String formatResourceMessage(IResource element) {
 		IContainer parent = element.getParent();
 		if (parent != null && parent.getType() != IResource.ROOT)
-			return BasicElementLabels.getResourceName(element.getName())
-					+ JavaElementLabels.CONCAT_STRING
-					+ BasicElementLabels.getPathLabel(parent.getFullPath(),
-							false);
+			return BasicElementLabels.getResourceName(element.getName()) + JavaElementLabels.CONCAT_STRING
+					+ BasicElementLabels.getPathLabel(parent.getFullPath(), false);
 		else
 			return BasicElementLabels.getResourceName(element.getName());
 	}

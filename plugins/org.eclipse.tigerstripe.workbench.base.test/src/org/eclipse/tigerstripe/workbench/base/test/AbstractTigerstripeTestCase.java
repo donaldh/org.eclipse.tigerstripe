@@ -16,7 +16,18 @@ import java.util.LinkedList;
 
 import junit.framework.TestCase;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRunnable;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.ISafeRunnable;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.SafeRunner;
+import org.eclipse.core.runtime.jobs.IJobManager;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.base.test.annotation.ArtifactTestHelper;
@@ -37,6 +48,7 @@ import org.eclipse.tigerstripe.workbench.queries.IQueryArtifactsByType;
 public abstract class AbstractTigerstripeTestCase extends TestCase {
 
 	protected static final String TEST_PACKAGE_NAME = "com.test";
+	protected final IWorkspace workspace = ResourcesPlugin.getWorkspace();
 
 	protected IAbstractTigerstripeProject createEmptyModelProject(
 			String modelId, String projectName) throws TigerstripeException {
@@ -167,5 +179,50 @@ public abstract class AbstractTigerstripeTestCase extends TestCase {
 				artifacts.addAll(entities);
 		}
 		return artifacts;
+	}
+	
+	protected static abstract class SafeRunnable implements ISafeRunnable {
+
+		public void handleException(Throwable exception) {
+			throw new RuntimeException(exception);
+		}
+	}
+	
+	protected void runInWorkspace(final ISafeRunnable runnable) {
+		try {
+			workspace.run(new IWorkspaceRunnable() {
+				
+				public void run(IProgressMonitor monitor) throws CoreException {
+					SafeRunner.run(runnable);
+				}
+			}, null);
+		} catch (CoreException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected void waitForUpdates() {		
+		IJobManager jobManager = Job.getJobManager();
+		while (jobManager.find(ITigerstripeChangeListener.NOTIFY_JOB_FAMILY).length > 0
+				|| jobManager.find(ResourcesPlugin.FAMILY_MANUAL_BUILD).length > 0) {
+			try {
+				jobManager.join(ITigerstripeChangeListener.NOTIFY_JOB_FAMILY, null);
+				jobManager.join(ResourcesPlugin.FAMILY_MANUAL_BUILD, null);
+			} catch(InterruptedException ie) {
+				return;
+			}
+		}
+	}
+	
+	protected void cleanup() {
+		runInWorkspace(new SafeRunnable() {
+			
+			public void run() throws Exception {
+				for(final IProject project : workspace.getRoot().getProjects()) {
+					project.delete(true, null);
+				}
+			}
+		});
+		waitForUpdates();
 	}
 }

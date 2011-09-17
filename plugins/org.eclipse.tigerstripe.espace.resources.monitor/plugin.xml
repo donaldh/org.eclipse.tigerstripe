@@ -5,4 +5,15 @@
 			point="org.eclipse.tigerstripe.annotation.core.participants">
 		<participant class="org.eclipse.tigerstripe.espace.resources.monitor.MonitorStartupManager"/>
 	</extension>
+	
+	
+  <extension
+       point="org.eclipse.tigerstripe.espace.resources.listener">
+    <listener
+          class="org.eclipse.tigerstripe.espace.resources.monitor.RsourceMonitorListenerProvider"
+          order="10">
+    </listener>
+ </extension>
+	
+	
 </plugin>

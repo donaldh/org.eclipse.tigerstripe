@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public interface ILiteral extends IModelComponent {
+public interface ILiteral extends IModelComponent, IMember {
 
 	/**
 	 * An empty list this is used as a return for Artifact types that do not support Literals.

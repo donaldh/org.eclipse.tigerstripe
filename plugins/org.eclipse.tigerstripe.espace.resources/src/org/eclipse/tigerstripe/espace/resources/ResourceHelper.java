@@ -22,8 +22,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.eclipse.tigerstripe.espace.resources.internal.core.IIndexer;
 import org.eclipse.tigerstripe.espace.resources.internal.core.FileResourceUtils;
+import org.eclipse.tigerstripe.espace.resources.internal.core.IIndexer;
 
 /**
  * @author Yuri Strot
@@ -141,5 +141,4 @@ public class ResourceHelper {
 		}
 		return resource;
 	}
-
 }

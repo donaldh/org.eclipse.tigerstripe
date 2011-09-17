@@ -138,15 +138,15 @@ public class ResourceStorage {
 	}
 	
 	public boolean removeResource(Resource resource, boolean removeFromSavingList) {
-		boolean haveElement = false;
+		boolean hasElement = false;
 		ResourceLocation location = getLocation(resource);
 		if (location != null) {
-			haveElement = getResourceList().getLocations().remove(location);
+			hasElement = getResourceList().getLocations().remove(location);
 			if (removeFromSavingList)
 				DeferredResourceSaver.getInstance().removeResource(resource, false);
 			ResourceHelper.save(helper.getResource(resourcesStorage.getUri()));
 		}
-		return haveElement;
+		return hasElement;
 	}
 	
 	public void removeResourceIfEmpty(Resource resource) {
@@ -160,10 +160,21 @@ public class ResourceStorage {
 	}
 	
 	public Resource getResource(IResource resource) {
-		URI uri = URI.createPlatformResourceURI(
-				resource.getFullPath().toString(), false);
+		URI uri = makeUri(resource);
 		return helper.getResource(uri);
 	}
+
+	private URI makeUri(IResource resource) {
+		URI uri = URI.createPlatformResourceURI(
+				resource.getFullPath().toString(), false);
+		return uri;
+	}
+	
+	public Resource findResource(IResource resource) {
+		URI uri = makeUri(resource);
+		return helper.getResource(uri, false);
+	}
+
 	
 	public ResourceLocation getLocation(Resource resource) {
 		Iterator<ResourceLocation> it = getResourceList().getLocations().iterator();
@@ -200,5 +211,4 @@ public class ResourceStorage {
 		helper.removeAndSave(resource, object);
 		removeResourceIfEmpty(resource);
 	}
-
 }

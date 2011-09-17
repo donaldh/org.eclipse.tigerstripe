@@ -12,12 +12,16 @@
 package org.eclipse.tigerstripe.annotation.internal.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClassifier;
@@ -33,7 +37,8 @@ import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationListener2;
 import org.eclipse.tigerstripe.espace.core.Mode;
 import org.eclipse.tigerstripe.espace.resources.core.EMFDatabase;
-import org.eclipse.tigerstripe.espace.resources.core.IDatabaseConfiguration;
+import org.eclipse.tigerstripe.espace.resources.core.EMFDatabase.Listener;
+import org.eclipse.tigerstripe.espace.resources.internal.core.ResourceChangeListenersLoader;
 
 /**
  * This class provide mechanism for loading, saving and caching
@@ -41,27 +46,52 @@ import org.eclipse.tigerstripe.espace.resources.core.IDatabaseConfiguration;
  * 
  * @author Yuri Strot
  */
-public class AnnotationStorage implements IDatabaseConfiguration {
+public class AnnotationStorage implements Listener, IResourceChangeListener {
 
 	protected static Annotation[] EMPTY_ARRAY = new Annotation[0];
 
 	private EMFDatabase database;
 	private final ReentrantLock databaseLock = new ReentrantLock();
+	private final ReentrantLock listenersLock = new ReentrantLock();
 	protected ListenerList listeners = new ListenerList();
 
 	protected Map<Annotation, ChangeRecorder> changes = new ConcurrentHashMap<Annotation, ChangeRecorder>();
 
+	private List<IResourceChangeListener> workspaceListeners;
+	
 	public AnnotationStorage() {
+		org.eclipse.core.resources.ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
 	}
 
-	protected EMFDatabase getDatabase() {
+	public EMFDatabase getDatabase() {
 		databaseLock.lock();
 		try {
-			if (database == null)
-				database = new EMFDatabase(this);
+			if (database == null) {
+				database = new EMFDatabase();
+				database.addListener(this);
+			}
 			return database;
 		} finally {
 			databaseLock.unlock();
+		}
+	}
+
+	private List<IResourceChangeListener> getWorkspaceListeners() {
+		listenersLock.lock();
+		try {
+			if (workspaceListeners == null) {
+				workspaceListeners = ResourceChangeListenersLoader.load();
+				workspaceListeners.add(0, getDatabase());
+			}
+			return workspaceListeners;
+		} finally {
+			listenersLock.unlock();
+		}
+	}
+
+	public void resourceChanged(IResourceChangeEvent event) {
+		for (IResourceChangeListener listener : getWorkspaceListeners()) {
+			listener.resourceChanged(event);
 		}
 	}
 
@@ -69,33 +99,6 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 		getDatabase().write(annotation);
 		trackChanges(annotation);
 		fireAnnotationAdded(annotation);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.tigerstripe.espace.resources.core.IIdentifyManager#getId(
-	 * org.eclipse.emf.ecore.EObject)
-	 */
-	public String getId(EObject object) {
-		if (object instanceof Annotation) {
-			return ((Annotation) object).getId();
-		}
-		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.tigerstripe.espace.resources.core.IIdentifyManager#setId(
-	 * org.eclipse.emf.ecore.EObject, int)
-	 */
-	public void setId(EObject object, String id) {
-		if (object instanceof Annotation) {
-			((Annotation) object).setId(id);
-		}
 	}
 
 	protected void trackChanges(Annotation annotation) {
@@ -188,7 +191,7 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 			return;
 		Iterator<Annotation> it = oldList.iterator();
 		while (it.hasNext()) {
-			Annotation annotation = (Annotation) it.next();
+			Annotation annotation = it.next();
 			annotation.setUri(newUri);
 			save(annotation);
 		}
@@ -352,4 +355,37 @@ public class AnnotationStorage implements IDatabaseConfiguration {
 		changes.apply();
 	}
 
+	public void dispose() {
+		if (database != null) {
+			database.dispose();
+		}
+		org.eclipse.core.resources.ResourcesPlugin.getWorkspace().removeResourceChangeListener(this);
+	}
+
+	public void added(Collection<EObject> data) {
+		for (EObject ann : data) {
+			fireAnnotationAdded((Annotation) ann);
+		}
+	}
+
+	public void removed(Collection<EObject> data) {
+		fireAnnotationsRemoved(toAnnArray(data));
+	}
+
+	public void updated(Collection<EObject> data) {
+		fireAnnotationsChanged(toAnnArray(data));
+	}
+	
+	private Annotation[] toAnnArray(Collection<EObject> data) {
+		Object[] array = data.toArray();
+		Annotation[] anns = new Annotation[array.length];
+		for (int i = 0; i < array.length; ++i) {
+			anns[i] = (Annotation) array[i];
+		}
+		return anns;
+	}
+	
+	public Resource findAnnotationResource(IResource resource) {
+		return database.findAnnotationResource(resource);
+	}
 }

@@ -22,7 +22,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.ISessionArtifact.IEnt
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 
-public interface IMethod extends IModelComponent {
+public interface IMethod extends IModelComponent, IMember {
 
 	public final static List<IMethod> EMPTY_LIST = new ArrayList<IMethod>();
 

@@ -15,11 +15,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.tigerstripe.espace.core.tree.RBTree;
 import org.eclipse.tigerstripe.espace.core.tree.TreeFactory;
 
@@ -132,13 +132,8 @@ public class FeatureIndexer extends AbstractIndexer {
 	}
 
 	public boolean isFeatureIndexed(EStructuralFeature feature) {
-    	EAnnotation annotation = feature.getEAnnotation(ANNOTATION_MARKER);
-    	if (annotation != null) {
-			String value = annotation.getDetails().get(ANNOTATION_INDEX);
-			if (value != null && Boolean.valueOf(value))
-				return true;
-    	}
-		return false;
+		String isIndexed = EcoreUtil.getAnnotation(feature, ANNOTATION_MARKER, ANNOTATION_INDEX);
+		return Boolean.valueOf(isIndexed);
 	}
 
 }

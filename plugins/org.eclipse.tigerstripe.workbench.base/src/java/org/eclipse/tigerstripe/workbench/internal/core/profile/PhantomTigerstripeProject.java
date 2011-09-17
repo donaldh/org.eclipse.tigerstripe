@@ -83,8 +83,9 @@ public class PhantomTigerstripeProject extends TigerstripeProject {
 		String descriptor = getBaseDir().getAbsolutePath() + File.separator
 				+ ITigerstripeConstants.PROJECT_DESCRIPTOR;
 
+		FileWriter writer = null;
 		try {
-			FileWriter writer = new FileWriter(descriptor);
+			writer = new FileWriter(descriptor);
 			write(writer);
 			reload(true); // not sure this is necessary
 		} catch (IOException e) {
@@ -92,6 +93,14 @@ public class PhantomTigerstripeProject extends TigerstripeProject {
 		} catch (TigerstripeException e) {
 			TigerstripeRuntime.logErrorMessage("TigerstripeException detected",
 					e);
+		} finally {
+			if(writer != null) {
+				try {
+					writer.close();
+				} catch (IOException e) {
+					TigerstripeRuntime.logErrorMessage("Can't close file: " + descriptor, e);
+				}
+			}
 		}
 		return true;
 	}

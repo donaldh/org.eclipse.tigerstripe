@@ -11,22 +11,35 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.espace.resources.core;
 
+import static org.eclipse.core.resources.IResourceChangeEvent.POST_CHANGE;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IResourceChangeEvent;
+import org.eclipse.core.resources.IResourceChangeListener;
+import org.eclipse.core.resources.IResourceDelta;
+import org.eclipse.core.resources.IResourceDeltaVisitor;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EAnnotation;
+import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
@@ -39,8 +52,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.tigerstripe.espace.core.IEMFDatabase;
 import org.eclipse.tigerstripe.espace.core.Mode;
 import org.eclipse.tigerstripe.espace.resources.DeferredResourceSaver;
+import org.eclipse.tigerstripe.espace.resources.IResourceManager;
 import org.eclipse.tigerstripe.espace.resources.IResourceSaver;
-import org.eclipse.tigerstripe.espace.resources.IResourceTimestampManager;
 import org.eclipse.tigerstripe.espace.resources.ResourceHelper;
 import org.eclipse.tigerstripe.espace.resources.ResourceLocation;
 import org.eclipse.tigerstripe.espace.resources.ResourcesPlugin;
@@ -54,7 +67,7 @@ import org.eclipse.tigerstripe.espace.resources.internal.core.ResourceStorage;
  * @author Yuri Strot
  * 
  */
-public class EMFDatabase implements IEMFDatabase, IResourceTimestampManager {
+public class EMFDatabase implements IEMFDatabase, IResourceManager, IResourceChangeListener  {
 
 	private static final String ROUTER_EXTPT = "org.eclipse.tigerstripe.annotation.core.router";
 	private static final String ROUTER_ATTR_CLASS = "class";
@@ -62,6 +75,7 @@ public class EMFDatabase implements IEMFDatabase, IResourceTimestampManager {
 	private static final String ANNOTATION_MARKER = "org.eclipse.tigerstripe.annotation";
 	private static final String ANNOTATION_ID = "id";
 
+	
 	private EObjectRouter[] routers;
 	private ResourceSet resourceSet;
 	private ResourceHelper resourceHelper;
@@ -72,13 +86,11 @@ public class EMFDatabase implements IEMFDatabase, IResourceTimestampManager {
 	private CompositeIndexer indexer;
 
 	private ResourceStorage resourceStorage;
-	private IDatabaseConfiguration idManager;
 
 	private ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
 
-	public EMFDatabase(IDatabaseConfiguration idManager) {
-		this.idManager = idManager;
-		DeferredResourceSaver.getInstance().setTimestampManager(this);
+	public EMFDatabase() {
+		DeferredResourceSaver.getInstance().setManager(this);
 		init();
 	}
 
@@ -88,6 +100,10 @@ public class EMFDatabase implements IEMFDatabase, IResourceTimestampManager {
 		initRouters();
 	}
 
+	public void dispose() {
+		listeners.clear();
+	}
+	
 	protected void initResources() {
 		indexStorage = new IndexStorage(resourceSet);
 		fIndexer = new FeatureIndexer(indexStorage);
@@ -357,20 +373,19 @@ public class EMFDatabase implements IEMFDatabase, IResourceTimestampManager {
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.tigerstripe.espace.core.IEMFDatabase#removeResource(org.eclipse
-	 * .emf.ecore.resource.Resource)
-	 */
 	public void removeResource(Resource resource, boolean removeFromSavingList) {
+		removeResource(resource, removeFromSavingList, true);
+	}
+	
+	public void removeResource(Resource resource, boolean removeFromSavingList, boolean rebuildIndex) {
 		try {
 			lockAndUpdate(true);
 			resource = preProcessResource(resource);
 			if (getResourceStorage().removeResource(resource,
 					removeFromSavingList))
+			if (rebuildIndex) {
 				doRebuildIndex();
+			}
 		} finally {
 			unlockChanges(true);
 		}
@@ -415,12 +430,34 @@ public class EMFDatabase implements IEMFDatabase, IResourceTimestampManager {
 		List<Resource> resources = new ArrayList<Resource>();
 		while (object.eContainer() != null)
 			object = object.eContainer();
-		idManager.setId(object, generateID());
+		setId(object, generateID());
 		if (object.eResource() != null)
 			resources.add(object.eResource());
 		saveAfterIdChanges(resources);
 	}
 
+	private void setId(EObject object, String id) {
+		EAttribute idAttribute = getIdAttr(object);
+		object.eSet(idAttribute, id);
+	}
+
+	private String getId(EObject object) {
+		EAttribute idAttribute = getIdAttr(object);
+		return (String) object.eGet(idAttribute);
+	}
+
+	private EAttribute getIdAttr(EObject object) throws AssertionError {
+		EList<EAttribute> eAllAttributes = object.eClass().getEAllAttributes();
+		for (EAttribute attr : eAllAttributes) {
+			String value = EcoreUtil.getAnnotation(attr, ANNOTATION_MARKER, ANNOTATION_ID);
+			if (Boolean.valueOf(value)) {
+				return attr;
+			}
+		}
+		//TODO return null;
+		throw new IllegalArgumentException("For accessing by id, object has to have ID attribute. " + object); 
+	}
+	
 	protected EObject[] updateIDs(EObject[] objects) {
 		List<Resource> resources = new ArrayList<Resource>();
 		Map<String, EObject> map = new HashMap<String, EObject>();
@@ -428,10 +465,10 @@ public class EMFDatabase implements IEMFDatabase, IResourceTimestampManager {
 			EObject cur = objects[i];
 			while (cur.eContainer() != null)
 				cur = cur.eContainer();
-			String id = idManager.getId(cur);
+			String id = getId(cur);
 			if (id == null) {
 				id = generateID();
-				idManager.setId(cur, id);
+				setId(cur, id);
 				Resource res = cur.eResource();
 				if (res != null && !resources.contains(res))
 					resources.add(res);
@@ -491,7 +528,7 @@ public class EMFDatabase implements IEMFDatabase, IResourceTimestampManager {
 	}
 
 	protected boolean doCheckReadOnly(EObject object) {
-		EStructuralFeature feature = getIDFeature(object);
+		EStructuralFeature feature = getIdAttr(object);
 		if (feature != null) {
 			EObject[] objects = doGet(feature, object.eGet(feature), false);
 			for (int i = 0; i < objects.length; i++) {
@@ -515,7 +552,7 @@ public class EMFDatabase implements IEMFDatabase, IResourceTimestampManager {
 
 	protected boolean doRemove(EObject object, Resource[] oldResource) {
 		boolean readOnly = false;
-		EStructuralFeature feature = getIDFeature(object);
+		EStructuralFeature feature = getIdAttr(object);
 		if (feature != null) {
 			EObject[] objects = doGet(feature, object.eGet(feature), false);
 			for (int i = 0; i < objects.length; i++) {
@@ -554,14 +591,6 @@ public class EMFDatabase implements IEMFDatabase, IResourceTimestampManager {
 		return readOnly;
 	}
 
-	protected EStructuralFeature getIDFeature(EObject object) {
-		for (EStructuralFeature feature : object.eClass()
-				.getEStructuralFeatures())
-			if (isIDFeature(feature) && object.eIsSet(feature))
-				return feature;
-		return null;
-	}
-
 	protected Resource getResource(EObject object) {
 		return getResourceHelper().getResource(getUri(object));
 	}
@@ -579,16 +608,6 @@ public class EMFDatabase implements IEMFDatabase, IResourceTimestampManager {
 			}
 		}
 		return getResourceStorage().defaultRoute(object);
-	}
-
-	public boolean isIDFeature(EStructuralFeature feature) {
-		EAnnotation annotation = feature.getEAnnotation(ANNOTATION_MARKER);
-		if (annotation != null) {
-			String value = annotation.getDetails().get(ANNOTATION_ID);
-			if (value != null && Boolean.valueOf(value))
-				return true;
-		}
-		return false;
 	}
 
 	protected EObject[] doGet(EStructuralFeature feature, Object value,
@@ -638,4 +657,188 @@ public class EMFDatabase implements IEMFDatabase, IResourceTimestampManager {
 		return contents.toArray(new EObject[contents.size()]);
 	}
 
+	public void resourceChanged(IResourceChangeEvent event) {
+		
+		if (resourceListeningDisabled) {
+			return;
+		}
+		
+		if (event == null) {
+			return;
+		}
+
+		if (event.getType() != POST_CHANGE) {
+			return;
+		}
+		
+		if (resourceStorage == null) {
+			return;
+		}
+		
+		IResourceDelta delta = event.getDelta();
+		
+		if (delta == null) {
+			return;
+		}
+		
+		final Set<Resource> removed = new HashSet<Resource>();
+		final Set<Resource> updated = new HashSet<Resource>();
+		
+		try {
+			delta.accept(new IResourceDeltaVisitor() {
+				
+				public boolean visit(IResourceDelta delta) throws CoreException {
+					if (delta == null) {
+						return false;
+					}
+					
+					if (!isSet(delta.getFlags(), IResourceDelta.MARKERS)) {
+						IResource resource = delta.getResource();
+						if (resource != null) {
+							Resource emfResource = findAnnotationResource(resource);
+							if (emfResource != null) {
+								switch (delta.getKind()) {
+								case IResourceDelta.REMOVED:
+									removed.add(emfResource);
+									break;
+								default:
+									updated.add(emfResource);
+									break;
+								}
+							}
+						}
+					}
+					return true;
+				}
+			});
+		} catch (CoreException e) {
+			ResourcesPlugin.log(e);
+		}
+	
+		if (removed.isEmpty() && updated.isEmpty()) {
+			return;
+		}
+
+		Job job = new Job("Synchronization Annotation Resources") {
+			
+			@Override
+			protected IStatus run(IProgressMonitor monitor) {
+				Map<String, EObject> removedFromResources = collectData(removed);
+				for (Resource resource : removed) {
+					removeResource(resource, true, false);
+				}
+				
+				Map<String, EObject> oldState = collectData(updated);
+				
+				for (Resource res : updated) {
+					res.unload();
+				}
+				
+				rebuildIndex();
+
+				Map<String, EObject> newData = collectData(updated);
+				
+				Map<String, EObject> addedData = new HashMap<String, EObject>(newData);
+				Set<String> addedDataSet = addedData.keySet();
+				addedDataSet.removeAll(oldState.keySet());
+				
+				Map<String, EObject> removedData = oldState;
+				Set<String> removedDataSet = removedData.keySet();
+				removedDataSet.removeAll(newData.keySet());
+				removedData.putAll(removedFromResources);
+
+				Map<String, EObject> updatedData = newData;
+				updatedData.keySet().removeAll(addedDataSet);
+				
+				System.out.println("Removed data "+removedDataSet);
+				System.out.println("Add data "+addedDataSet);
+				System.out.println("Updated data "+updatedData.keySet());
+
+				if (!removedData.isEmpty()) {
+					fireRemoved(removedData.values());
+				}
+				if (!addedData.isEmpty()) {
+					fireAdded(addedData.values());
+				}
+				if (!updatedData.isEmpty()) {
+					fireUpdated(updatedData.values());
+				}
+				return Status.OK_STATUS;
+			}
+		};
+		job.setPriority(Job.INTERACTIVE);
+		job.schedule();
+	}
+
+	private ListenerList listeners = new ListenerList();
+	
+	public void addListener(Listener l) {
+		listeners.add(l);
+	}
+
+	public void removeListener(Listener l) {
+		listeners.remove(l);
+	}
+
+	
+	
+	private void fireRemoved(Collection<EObject> removed) {
+		for (Object l : listeners.getListeners()) {
+			((Listener)l).removed(removed);
+		}
+	}
+
+	private void fireAdded(Collection<EObject> added) {
+		for (Object l : listeners.getListeners()) {
+			((Listener)l).added(added);
+		}
+	}
+
+	private void fireUpdated(Collection<EObject> updated) {
+		for (Object l : listeners.getListeners()) {
+			((Listener)l).updated(updated);
+		}
+	}
+
+	
+	private Map<String, EObject> collectData(final Set<Resource> resources) {
+		Map<String, EObject> data = new HashMap<String, EObject>();
+		for (Resource resource : resources) {
+			for (EObject obj : resource.getContents()) {
+				String id = getId(obj);
+				if (id != null) {
+					data.put(id, obj);
+				}
+			}
+		}
+		return data;
+	}
+	
+	public static boolean isSet(int flags, int mask) {
+		return (flags & mask) == mask;
+	}
+	
+	public static interface Listener {
+		
+		void added(Collection<EObject> data);
+
+		void updated(Collection<EObject> updated);
+
+		void removed(Collection<EObject> data);
+	}
+
+	private boolean resourceListeningDisabled = false;
+	
+	public void startWriting() {
+		resourceListeningDisabled = true;
+	}
+
+	public void endWriting() {
+		resourceListeningDisabled = false;
+	}
+	
+	public Resource findAnnotationResource(IResource resource) {
+		Resource emfResource = resourceStorage.findResource(resource);
+		return emfResource;
+	}
 }

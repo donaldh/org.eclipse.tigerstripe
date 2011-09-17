@@ -21,3 +21,4 @@ Export-Package: org.eclipse.tigerstripe.metamodel,
  org.eclipse.tigerstripe.repository.metamodel.pojo.internal,
  org.eclipse.tigerstripe.repository.metamodel.providers
 Bundle-Activator: org.eclipse.tigerstripe.repository.internal.Activator
+Eclipse-BundleShape: jar

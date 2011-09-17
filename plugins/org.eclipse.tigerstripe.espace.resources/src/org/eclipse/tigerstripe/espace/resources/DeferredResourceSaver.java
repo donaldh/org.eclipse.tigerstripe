@@ -43,7 +43,7 @@ public class DeferredResourceSaver extends Thread implements IResourceSaver {
 	private Map<Resource, Boolean> resources;
 	private boolean resourceUpdated;
 	private Object MONITOR = new Object();
-	private IResourceTimestampManager manager;
+	private IResourceManager manager;
 	
 	public static DeferredResourceSaver getInstance() {
 		if (instance == null) {
@@ -53,7 +53,7 @@ public class DeferredResourceSaver extends Thread implements IResourceSaver {
 		return instance;
 	}
 	
-	public void setTimestampManager(IResourceTimestampManager manager) {
+	public void setManager(IResourceManager manager) {
 		this.manager = manager;
 	}
 	
@@ -193,7 +193,12 @@ public class DeferredResourceSaver extends Thread implements IResourceSaver {
 					manager.updateTimestamps(DeferredResourceSaver.this);
 				}
 			};
-			org.eclipse.core.resources.ResourcesPlugin.getWorkspace().run(runnable, null);
+			try {
+				manager.startWriting();	
+				org.eclipse.core.resources.ResourcesPlugin.getWorkspace().run(runnable, null);
+			} finally {
+				manager.endWriting();
+			}
 		} catch (Exception e) {
         	ResourcesPlugin.log(e);
 		}

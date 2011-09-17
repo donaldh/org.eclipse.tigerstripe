@@ -11,6 +11,8 @@
 package org.eclipse.tigerstripe.workbench.base.test.startup;
 
 import java.io.File;
+import java.io.FileReader;
+import java.nio.CharBuffer;
 
 import junit.framework.TestCase;
 
@@ -63,15 +65,20 @@ public class TestStartup extends TestCase {
 		File logFile = new File(tigerstripeDir + File.separator
 				+ "tigerstripe.log");
 		assertTrue(logFile.exists());
-		long tstamp = logFile.lastModified();
 
-		Thread.sleep(1000);
-		BasePlugin.logErrorMessage("Test log");
-		Thread.sleep(2000); // wait to give log4j some time to flush
-		logFile = new File(tigerstripeDir + File.separator
-				+ "tigerstripe.log");
-		long tstamp2 = logFile.lastModified();
-		assertTrue(tstamp < tstamp2);
-	}
+		final String logMessage = "Test log";
+		BasePlugin.logErrorMessage(logMessage);
+
+		final FileReader reader = new FileReader(logFile);
+		final CharBuffer cb = CharBuffer.allocate(8192);
+		final StringBuilder sb = new StringBuilder();
+		int read = 0;
+		while((read = reader.read(cb)) != -1) {
+			sb.append(cb.array(), 0, read);
+			cb.rewind();
+		}
+		
+		assertTrue("Log file was not updated", sb.toString().contains(logMessage));
+	}	
 
 }

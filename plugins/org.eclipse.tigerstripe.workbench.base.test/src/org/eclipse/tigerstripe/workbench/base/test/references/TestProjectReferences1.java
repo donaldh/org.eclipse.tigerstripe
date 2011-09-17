@@ -4,11 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-import junit.framework.TestCase;
-
 import org.eclipse.core.resources.IResource;
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -18,12 +14,13 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.base.test.AbstractTigerstripeTestCase;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHandle;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
-public class TestProjectReferences1 extends TestCase {
+public class TestProjectReferences1 extends AbstractTigerstripeTestCase {
 
 	private final static String APROJECT = "aProject1";
 	private final static String BPROJECT = "bProject1";
@@ -35,7 +32,7 @@ public class TestProjectReferences1 extends TestCase {
 	public final void testProjectReferences1() throws TigerstripeException,
 			CoreException, IOException, InterruptedException {
 		clearErrorLog();
-		ITigerstripeModelProject aProject = createTigerstripeModelProject(APROJECT);
+		final ITigerstripeModelProject aProject = createTigerstripeModelProject(APROJECT);
 		assertTrue(aProject instanceof ITigerstripeModelProject);
 		ITigerstripeModelProject bProject = createTigerstripeModelProject(BPROJECT);
 		assertTrue(bProject instanceof ITigerstripeModelProject);
@@ -46,11 +43,10 @@ public class TestProjectReferences1 extends TestCase {
 		wc.commit(new NullProgressMonitor());
 		assertTrue(aProject.getReferencedProjects().length == 1);
 
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IResource projb = workspace.getRoot().findMember(BPROJECT);
 		assertNotNull(projb);
 
-		ModelReference mRefB = ModelReference.referenceFromProject(bProject);
+		final ModelReference mRefB = ModelReference.referenceFromProject(bProject);
 
 		projb.delete(true, new NullProgressMonitor());
 		projb = workspace.getRoot().findMember(BPROJECT);
@@ -58,15 +54,14 @@ public class TestProjectReferences1 extends TestCase {
 
 		// / PART 2
 		clearErrorLog();
-		workspace = ResourcesPlugin.getWorkspace();
 		IResource proja = workspace.getRoot().findMember(APROJECT);
 		assertNotNull(proja);
 
 		IPath fp = workspace.getRoot().getLocation()
 				.append(proja.getFullPath());
-		aProject = (TigerstripeProjectHandle) TigerstripeCore.findProjectOrCreate(fp);
+		final ITigerstripeModelProject aProject2 = (TigerstripeProjectHandle) TigerstripeCore.findProjectOrCreate(fp);
 
-		ModelReference[] refs = aProject.getModelReferences();
+		ModelReference[] refs = aProject2.getModelReferences();
 		assertTrue(refs.length == 1);
 		assertTrue(refs[0].getToModelId().endsWith(BPROJECT));
 
@@ -82,13 +77,23 @@ public class TestProjectReferences1 extends TestCase {
 			}
 		}
 
-		wc = (ITigerstripeModelProject) aProject
-				.makeWorkingCopy(new NullProgressMonitor());
-		wc.removeModelReference(mRefB);
-		wc.commit(new NullProgressMonitor());
-		assertTrue(aProject.getModelReferences().length == 0);
-		assertTrue(aProject.getReferencedProjects().length == 0);
-		Thread.sleep(10000);
+		runInWorkspace(new SafeRunnable() {
+			
+			public void run() throws Exception {
+				final ITigerstripeModelProject wc = (ITigerstripeModelProject) aProject2
+						.makeWorkingCopy(new NullProgressMonitor());
+				wc.removeModelReference(mRefB);
+				wc.commit(new NullProgressMonitor());
+			}
+		});
+		
+		waitForUpdates();
+		
+		assertTrue(aProject2.getModelReferences().length == 0);
+		assertTrue(aProject2.getReferencedProjects().length == 0);
+		
+		waitForUpdates();
+		
 		boolean found = false;
 		for (IClasspathEntry e : jProject.getRawClasspath()) {
 			if (e.getEntryKind() == IClasspathEntry.CPE_PROJECT) {
@@ -126,4 +131,13 @@ public class TestProjectReferences1 extends TestCase {
 		return aProject;
 	}
 
+	@Override
+	protected void setUp() throws Exception {
+		cleanup();
+	}
+
+	@Override
+	protected void tearDown() throws Exception {
+		cleanup();
+	}
 }

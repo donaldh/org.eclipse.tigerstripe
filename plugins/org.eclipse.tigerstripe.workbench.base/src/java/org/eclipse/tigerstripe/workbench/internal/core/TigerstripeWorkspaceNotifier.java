@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal.core;
 
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
@@ -76,6 +77,27 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 			}
 			return false;
 		}
+	}
+	
+	private abstract static class BroadcastNotificationJob extends Job {
+
+		public BroadcastNotificationJob(String name) {
+			super(name);
+			setPriority(Job.INTERACTIVE);
+		}
+
+		@Override
+		protected IStatus run(IProgressMonitor monitor) {
+			broadcast();
+			return Status.OK_STATUS;
+		}
+		
+		@Override
+		public boolean belongsTo(Object family) {
+			return family == ITigerstripeChangeListener.NOTIFY_JOB_FAMILY;
+		}
+
+		protected abstract void broadcast();
 	}
 
 	private TigerstripeWorkspaceNotifier() {
@@ -153,15 +175,14 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 	}
 	
 	public void signalDescriptorChanged(final IResource changedDescriptor){
-		Job notifyDescriptorChanged = new Job("Handle Tigerstripe Descriptor Change") {
-
+		final Job notifyDescriptorChanged = new BroadcastNotificationJob("Handle Tigerstripe Descriptor Change") {
+			
 			@Override
-			protected IStatus run(IProgressMonitor monitor) {
+			protected void broadcast() {
 				broadcastDescriptorChanged(changedDescriptor);
-				return Status.OK_STATUS;
 			}
 		};
-
+		notifyDescriptorChanged.setRule(ResourcesPlugin.getWorkspace().getRoot());
 		notifyDescriptorChanged.schedule();
 	}
 	
@@ -188,29 +209,23 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 	
 	
 	public void signalProjectAdded(final IAbstractTigerstripeProject newProject) {
-		Job notifyProjectAdded = new Job("Handle Tigerstripe Project Added") {
-
+		new BroadcastNotificationJob("Handle Tigerstripe Project Added") {
+			
 			@Override
-			protected IStatus run(IProgressMonitor monitor) {
+			protected void broadcast() {
 				broadcastProjectAdded(newProject);
-				return Status.OK_STATUS;
 			}
-		};
-
-		notifyProjectAdded.schedule();
+		}.schedule();
 	}
 
 	public void signalProjectDeleted(final String oldProjectName) {
-		Job notifyProjectRemoved = new Job("Handle Tigerstripe Project Removed") {
-
+		new BroadcastNotificationJob("Handle Tigerstripe Project Removed") {
+			
 			@Override
-			protected IStatus run(IProgressMonitor monitor) {
+			protected void broadcast() {
 				broadcastProjectDeleted(oldProjectName);
-				return Status.OK_STATUS;
 			}
-		};
-
-		notifyProjectRemoved.schedule();
+		}.schedule();
 	}
 
 	private void broadcastProjectAdded(

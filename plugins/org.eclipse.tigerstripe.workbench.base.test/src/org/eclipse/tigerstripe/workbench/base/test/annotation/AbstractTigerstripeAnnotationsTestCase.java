@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.internal.core.AnnotationManager;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.base.test.AbstractTigerstripeTestCase;
@@ -36,7 +37,7 @@ public class AbstractTigerstripeAnnotationsTestCase extends
 					.getContainedModelComponents()));
 		}
 		for (Object object : annotationTargets) {
-			AnnotationManager.getInstance().removeAnnotations(object);
+			AnnotationPlugin.getManager().removeAnnotations(object);
 		}
 	}
 
