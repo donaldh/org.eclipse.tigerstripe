@@ -478,6 +478,9 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 			throws TigerstripeException {
 		// System.out.println("toURI: "+component+" / "+newName);
 		IAbstractArtifact art = getArtifact(component);
+		if (art == null) {
+			return null;
+		}
 		IPath artifactPath = getArtifactPath(art, newName);
 
 		String fragment = null;

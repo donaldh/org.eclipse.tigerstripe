@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -99,7 +100,8 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 
 	private void setIMethod(IMethod method) {
 		if (methodInfoEditComponent != null) {
-			boolean inherited = !method.getContainingArtifact().equals(master.getIArtifact());
+			IAbstractArtifact containingArtifact = method.getContainingArtifact();
+			boolean inherited = containingArtifact != null && !containingArtifact.equals(master.getIArtifact());
 			methodInfoEditComponent.setMethod(method, inherited);
 		}
 	}
@@ -189,6 +191,9 @@ public class ArtifactMethodDetailsPage implements IDetailsPage,
 
 			IMethod selected = (IMethod) methodsTable.getSelection()[0]
 					.getData();
+			if (selected == null) {
+				return;
+			}
 			setIMethod(selected);
 
 			if (stereotypeMgr == null) {
