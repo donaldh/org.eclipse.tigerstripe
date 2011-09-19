@@ -21,6 +21,7 @@ import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
+import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.internal.ui.packageview.PackageExplorerLabelProvider;
 import org.eclipse.jdt.internal.ui.viewsupport.ColoringLabelProvider;
@@ -50,17 +51,17 @@ public class TigerstripeExplorerLabelProvider extends
 
 	private final AbstractArtifactLabelProvider artifactLabelProvider = new AbstractArtifactLabelProvider();
 	private final IJavaModel javaModel;
-
+	
 	public TigerstripeExplorerLabelProvider() {
 		javaModel = JavaCore.create(ResourcesPlugin.getWorkspace().getRoot());
 	}
-
+	
 	@Override
 	public StyledString getStyledText(Object element) {
 		StyledString string = null;
 		if (element instanceof IElementWrapper) {
 			Object el = ((IElementWrapper) element).getElement();
-			if (!(el instanceof IModelComponent)) {
+			if (!(el instanceof IModelComponent) && !(el instanceof IPackageFragment)) {
 				IAdapterManager manager = Platform.getAdapterManager();
 				Object adapted = manager.getAdapter(element,
 						IModelComponent.class);

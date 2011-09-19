@@ -38,6 +38,7 @@ import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.workbench.internal.builder.BuilderConstants;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.utils.AdaptHelper;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -134,7 +135,7 @@ public class AttachDanglingAnnotationHandler extends AbstractHandler {
 						if (id == null) {
 							continue;
 						}
-						Annotation annotation = manager.getAnnotationById(id);
+						Annotation annotation = manager.getAnnotationByIdRaw(id);
 						if (annotation == null) {
 							continue;
 						}
@@ -142,9 +143,15 @@ public class AttachDanglingAnnotationHandler extends AbstractHandler {
 						if (type == null) {
 							continue;
 						}
-						if (manager.isPossibleToAdd(resource, type.getClazz())) {
+						
+						Object target = resource.getAdapter(IModelComponent.class);
+						if (target == null) {
+							target = resource;
+						}
+						
+						if (manager.isPossibleToAdd(target, type.getClazz())) {
 							items.add(new AttachDanglingAnnotationAction(m,
-									annotation, resource));
+									annotation, target));
 						}
 					} catch (CoreException e) {
 						EclipsePlugin.log(e);

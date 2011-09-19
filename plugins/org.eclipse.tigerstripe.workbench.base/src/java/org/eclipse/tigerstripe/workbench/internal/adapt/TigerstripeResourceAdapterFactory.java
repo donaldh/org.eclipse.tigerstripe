@@ -125,6 +125,9 @@ public class TigerstripeResourceAdapterFactory implements IAdapterFactory {
 						if (artifact == null && res.exists()) {
 							InputStreamReader reader = null;
 							try {
+								if (!res.isSynchronized(IResource.DEPTH_ONE)) {
+									res.refreshLocal(IResource.DEPTH_ONE, null);
+								}
 								reader = new InputStreamReader(
 										res.getContents());
 								artifact = mgr.extractArtifact(reader,

@@ -132,6 +132,16 @@ public class AnnotationStorage implements Listener, IResourceChangeListener {
 		return list;
 	}
 
+	public Annotation getAnnotationByIdRaw(String id) {
+		EObject[] objects = getDatabase().get(
+				AnnotationPackage.eINSTANCE.getAnnotation_Id(), id);
+		if (objects.length > 0) {
+			return (Annotation) objects[0];
+		} else {
+			return null;
+		}
+	}
+	
 	public Annotation getAnnotationById(String id) {
 		EObject[] objects = getDatabase().get(
 				AnnotationPackage.eINSTANCE.getAnnotation_Id(), id);
@@ -369,20 +379,15 @@ public class AnnotationStorage implements Listener, IResourceChangeListener {
 	}
 
 	public void removed(Collection<EObject> data) {
-		fireAnnotationsRemoved(toAnnArray(data));
+		for (EObject ann : data) {
+			fireAnnotationsRemoved(new Annotation[]{ (Annotation) ann });
+		} 
 	}
 
 	public void updated(Collection<EObject> data) {
-		fireAnnotationsChanged(toAnnArray(data));
-	}
-	
-	private Annotation[] toAnnArray(Collection<EObject> data) {
-		Object[] array = data.toArray();
-		Annotation[] anns = new Annotation[array.length];
-		for (int i = 0; i < array.length; ++i) {
-			anns[i] = (Annotation) array[i];
-		}
-		return anns;
+		for (EObject ann : data) {
+			fireAnnotationsChanged(new Annotation[]{ (Annotation) ann });
+		} 
 	}
 	
 	public Resource findAnnotationResource(IResource resource) {

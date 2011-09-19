@@ -747,12 +747,20 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	}
 
 	protected void checkAnnotations(int kind) throws TigerstripeException, CoreException {
+		if (kind == CLEAN_BUILD) {
+			deleteAnnMarkers();
+			return;
+		}
 		String modelId = getModelId();
 		if (modelId == null) {
 			return;
 		}
 		Set<URI> uries;
-		if (kind == FULL_BUILD) {
+		IResourceDelta delta = getDelta(getProject());
+		
+		boolean projectOfInterestWasChanged = delta != null && delta.getAffectedChildren().length == 0 && kind == AUTO_BUILD;
+		boolean dependenciesWasChanged = projectOfInterestWasChanged; 
+		if (kind == FULL_BUILD || dependenciesWasChanged) {
 			deleteAnnMarkers();
 			uries = Collections.singleton(createAnnUri(modelId));
 		} else {
@@ -800,7 +808,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		IAnnotationManager am = AnnotationPlugin.getManager();
 		Set<Annotation> annotations = new HashSet<Annotation>();
 		for (URI uri : uries) {
-			//TODO Handle all references
+			//TODO Handle all references ??
 			
 			annotations.addAll(am.getPostfixAnnotationsRaw(uri));
 		}

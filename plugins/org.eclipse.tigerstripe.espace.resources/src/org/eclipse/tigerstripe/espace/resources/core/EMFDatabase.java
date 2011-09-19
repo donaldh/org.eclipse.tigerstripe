@@ -98,6 +98,7 @@ public class EMFDatabase implements IEMFDatabase, IResourceManager, IResourceCha
 		resourceSet = new ResourceSetImpl();
 		initResources();
 		initRouters();
+		rebuildIndex();
 	}
 
 	public void dispose() {
@@ -289,19 +290,21 @@ public class EMFDatabase implements IEMFDatabase, IResourceManager, IResourceCha
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.tigerstripe.espace.core.IEMFDatabase#get(org.eclipse.emf.
-	 * ecore.EStructuralFeature, java.lang.Object)
-	 */
 	public EObject[] get(EStructuralFeature feature, Object value) {
+		return get(feature, value, true);
+	}
+
+	public EObject[] getRaw(EStructuralFeature feature, Object value) {
+		return get(feature, value, false);
+	}
+	
+	private EObject[] get(EStructuralFeature feature, Object value, boolean copy) {
 		boolean writeLock = false;
 		try {
 			writeLock = lockAndUpdate(writeLock);
+			EObject[] result;
 			try {
-				return copy(doGet(feature, value, false));
+				result = doGet(feature, value, false);
 			} catch (Exception e) {
 				if (!writeLock) {
 					rwl.readLock().unlock();
@@ -309,8 +312,12 @@ public class EMFDatabase implements IEMFDatabase, IResourceManager, IResourceCha
 					writeLock = true;
 				}
 				doRebuildIndex();
-				return copy(doGet(feature, value, false));
+				result = doGet(feature, value, false);
 			}
+			if (copy) {
+				result = copy(result);
+			}
+			return result;
 		} finally {
 			unlockChanges(writeLock);
 		}
@@ -729,7 +736,9 @@ public class EMFDatabase implements IEMFDatabase, IResourceManager, IResourceCha
 				}
 				
 				Map<String, EObject> oldState = collectData(updated);
-				
+				fireRemoved(oldState.values());
+				fireRemoved(removedFromResources.values());
+
 				for (Resource res : updated) {
 					res.unload();
 				}
@@ -737,32 +746,7 @@ public class EMFDatabase implements IEMFDatabase, IResourceManager, IResourceCha
 				rebuildIndex();
 
 				Map<String, EObject> newData = collectData(updated);
-				
-				Map<String, EObject> addedData = new HashMap<String, EObject>(newData);
-				Set<String> addedDataSet = addedData.keySet();
-				addedDataSet.removeAll(oldState.keySet());
-				
-				Map<String, EObject> removedData = oldState;
-				Set<String> removedDataSet = removedData.keySet();
-				removedDataSet.removeAll(newData.keySet());
-				removedData.putAll(removedFromResources);
-
-				Map<String, EObject> updatedData = newData;
-				updatedData.keySet().removeAll(addedDataSet);
-				
-				System.out.println("Removed data "+removedDataSet);
-				System.out.println("Add data "+addedDataSet);
-				System.out.println("Updated data "+updatedData.keySet());
-
-				if (!removedData.isEmpty()) {
-					fireRemoved(removedData.values());
-				}
-				if (!addedData.isEmpty()) {
-					fireAdded(addedData.values());
-				}
-				if (!updatedData.isEmpty()) {
-					fireUpdated(updatedData.values());
-				}
+				fireAdded(newData.values());
 				return Status.OK_STATUS;
 			}
 		};

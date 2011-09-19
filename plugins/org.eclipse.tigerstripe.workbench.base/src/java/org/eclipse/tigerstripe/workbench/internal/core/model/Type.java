@@ -345,15 +345,37 @@ public class Type implements IType {
 
 		return result;
 	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime
+				* result
+				+ ((fullyQualifiedName == null) ? 0 : fullyQualifiedName
+						.hashCode());
+		result = prime * result
+				+ ((multiplicity == null) ? 0 : multiplicity.hashCode());
+		return result;
+	}
 
 	@Override
-	public boolean equals(Object arg0) {
-		if (arg0 instanceof Type) {
-			Type other = (Type) arg0;
-			return getFullyQualifiedName()
-					.equals(other.getFullyQualifiedName());
-		} else
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
 			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Type other = (Type) obj;
+		if (fullyQualifiedName == null) {
+			if (other.fullyQualifiedName != null)
+				return false;
+		} else if (!fullyQualifiedName.equals(other.fullyQualifiedName))
+			return false;
+		if (multiplicity != other.multiplicity)
+			return false;
+		return true;
 	}
 
 	public IAbstractArtifactInternal getArtifact() {

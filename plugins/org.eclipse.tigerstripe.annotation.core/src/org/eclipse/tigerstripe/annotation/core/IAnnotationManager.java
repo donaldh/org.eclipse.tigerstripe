@@ -206,6 +206,8 @@ public interface IAnnotationManager {
 	 */
 	public Annotation getAnnotationById(String id);
 
+	public Annotation getAnnotationByIdRaw(String id);
+	
 	/**
 	 * Return annotations which start with the specified URI
 	 * 

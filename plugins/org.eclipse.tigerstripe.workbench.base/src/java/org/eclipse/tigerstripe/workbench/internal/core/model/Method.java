@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -1343,14 +1344,51 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 	public OssjEntityMethodFlavor[] getSupportedFlavors() {
 		return this.supportedFlavors;
 	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		String methodId = getMethodId();
+		result = prime * result + ((methodId == null) ? 0 : methodId.hashCode());
+		result = prime * result
+				+ ((returnType == null) ? 0 : returnType.hashCode());
+		result = prime
+		* result
+		+ ((containingModelComponent == null) ? 0
+				: containingModelComponent.hashCode());
+		return result;
+	}
 
 	@Override
 	public boolean equals(Object obj) {
-		if (obj instanceof Method) {
-			Method other = (Method) obj;
-			return other.getMethodId().equals(getMethodId());
+		if (this == obj)
+			return true;
+		if (Proxy.isProxyClass(obj.getClass())) {
+			return obj.equals(this);
 		}
-		return false;
+		if (!(obj instanceof Method)) {
+			return false;
+		}
+		Method other = (Method) obj;
+		if (!other.getMethodId().equals(getMethodId())) {
+			return false;
+		}
+		if (containingModelComponent == null) {
+			if (other.containingModelComponent != null) {
+				return false;
+			}
+		} else if (!containingModelComponent
+				.equals(other.containingModelComponent))
+			return false;
+		if (returnType == null) {
+			if (other.returnType != null) {
+				return false;
+			}
+		} else if (!returnType.equals(other.returnType)) {
+			return false;
+		}
+		return true;
 	}
 
 	/**

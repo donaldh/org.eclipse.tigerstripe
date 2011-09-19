@@ -500,8 +500,10 @@ public class ArtifactMethodsSection extends ModelComponentSectionPart implements
 
 	@Override
 	public void refresh() {
+		int si = selIndex;
 		viewer.setInput(((ArtifactEditorBase) getPage().getEditor())
 				.getIArtifact());
+		selIndex = si;
 		viewer.refresh(true);
 
 		Table table = viewer.getTable();
