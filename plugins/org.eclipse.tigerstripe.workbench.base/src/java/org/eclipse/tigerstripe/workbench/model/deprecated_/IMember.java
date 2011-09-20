@@ -4,4 +4,10 @@ public interface IMember {
 
 	void setContainingArtifact(IAbstractArtifact artifact);
 
+	IAbstractArtifact getContainingArtifact();
+
+	String getUniqueName();
+	
+	String getMemberName();
+
 }

@@ -1806,4 +1806,9 @@
 			</menu>
 		</menuContribution>
 	</extension>
+   <extension
+         point="org.eclipse.tigerstripe.annotation.ui.targetProcessor">
+         <processor
+               class="org.eclipse.tigerstripe.workbench.ui.internal.TigerstripeAnnotationTargetProcessor" />
+   </extension>
 </plugin>

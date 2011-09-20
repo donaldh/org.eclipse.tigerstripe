@@ -13,11 +13,11 @@ package org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRunnable;
@@ -49,7 +49,12 @@ import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotif
 import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMember;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -67,8 +72,8 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.FileEditorInput;
 
 public abstract class ArtifactEditorBase extends TigerstripeFormEditor
-		implements  IActiveFacetChangeListener,
-		ITigerstripeChangeListener, IArtifactChangeListener {
+		implements IActiveFacetChangeListener, ITigerstripeChangeListener,
+		IArtifactChangeListener {
 
 	private final AbstractArtifactLabelProvider prov = new AbstractArtifactLabelProvider();
 
@@ -86,10 +91,13 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 
 	private IArtifactManagerSession session;
 
+	private State savedState;
+
 	public ArtifactEditorBase() {
-		// Performance improvements - only register for the right sort of changes.
+		// Performance improvements - only register for the right sort of
+		// changes.
 		TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(
-				this, ITigerstripeChangeListener.ANNOTATION );
+				this, ITigerstripeChangeListener.ANNOTATION);
 
 	}
 
@@ -99,56 +107,44 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 
 	protected void setIArtifact(IAbstractArtifact artifact) {
 		this.artifact = artifact;
-		saveState();
+		savedState = State.createState(artifact);
 	}
 
-	private State savedState = new State();
-	
-	private void saveState() {
-		savedState = new State();
-		if (artifact == null) {
-			return;
-		}
-		Collection<IMethod> methods = artifact.getMethods();
-		for (IMethod m : methods) {
-			savedState.methods.put(m, m.getMethodId());
-		}
-	}
-
-//	@Override
-//	public void resourceChanged(IResourceChangeEvent event) {
-//		if (ignoreResourceChange)
-//			return;
-//
-//		IResourceDelta selfDelta = lookforSelf(event.getDelta());
-//
-//		if (selfDelta != null && selfDelta.getKind() != IResourceDelta.REMOVED) {
-//
-//			if (event.getType() == IResourceChangeEvent.POST_CHANGE) {
-//
-//				// make sure we're in the UI thread
-//				Display.getDefault().asyncExec(new Runnable() {
-//
-//					public void run() {
-//						try {
-//							System.out.println("Editor u[dating in respnose to a resource change event");
-//							FileEditorInput fileInput = (FileEditorInput) sourcePage.getEditorInput();
-//							IAbstractArtifact artifact = TSExplorerUtils
-//							.getArtifactFor(fileInput.getFile());
-//
-//							setIArtifact(((AbstractArtifact) artifact)
-//									.makeWorkingCopy(null));
-//							updateTextEditorFromArtifact();
-//
-//						} catch (TigerstripeException e) {
-//							EclipsePlugin.log(e);
-//						}
-//					}
-//				});
-//			}
-//		}
-//		super.resourceChanged(event);
-//	}
+	// @Override
+	// public void resourceChanged(IResourceChangeEvent event) {
+	// if (ignoreResourceChange)
+	// return;
+	//
+	// IResourceDelta selfDelta = lookforSelf(event.getDelta());
+	//
+	// if (selfDelta != null && selfDelta.getKind() != IResourceDelta.REMOVED) {
+	//
+	// if (event.getType() == IResourceChangeEvent.POST_CHANGE) {
+	//
+	// // make sure we're in the UI thread
+	// Display.getDefault().asyncExec(new Runnable() {
+	//
+	// public void run() {
+	// try {
+	// System.out.println("Editor u[dating in respnose to a resource change event");
+	// FileEditorInput fileInput = (FileEditorInput)
+	// sourcePage.getEditorInput();
+	// IAbstractArtifact artifact = TSExplorerUtils
+	// .getArtifactFor(fileInput.getFile());
+	//
+	// setIArtifact(((AbstractArtifact) artifact)
+	// .makeWorkingCopy(null));
+	// updateTextEditorFromArtifact();
+	//
+	// } catch (TigerstripeException e) {
+	// EclipsePlugin.log(e);
+	// }
+	// }
+	// });
+	// }
+	// }
+	// super.resourceChanged(event);
+	// }
 
 	@Override
 	protected void closeMyself() {
@@ -175,7 +171,8 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 				return;
 			}
 
-			IAbstractArtifact artifact = TSExplorerUtils.getArtifactFor(fileInput.getFile());
+			IAbstractArtifact artifact = TSExplorerUtils
+					.getArtifactFor(fileInput.getFile());
 
 			try {
 				if (artifact != null) {
@@ -226,7 +223,7 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 
 	protected void addSourcePage() throws PartInitException {
 
-		if ((getIArtifact()!=null) && (!getIArtifact().isReadonly())) {
+		if ((getIArtifact() != null) && (!getIArtifact().isReadonly())) {
 			sourcePage = new ArtifactSourcePage(this, "id", "Source");
 
 			sourcePageIndex = addPage(sourcePage, getEditorInput());
@@ -238,7 +235,7 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 	public void doSave(IProgressMonitor monitor) {
 
 		final State state = this.savedState;
-		
+
 		getUndoManager().editorSaved();
 
 		if (getActivePage() != sourcePageIndex) {
@@ -247,20 +244,20 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 			try {
 				updateArtifactFromTextEditor();
 			} catch (TigerstripeException ee) {
-				Status status = new Status(IStatus.WARNING, EclipsePlugin
-						.getPluginId(), 111, "Unexpected Exception", ee);
+				Status status = new Status(IStatus.WARNING,
+						EclipsePlugin.getPluginId(), 111,
+						"Unexpected Exception", ee);
 				EclipsePlugin.log(status);
 			}
 		}
-		monitor
-				.beginTask("Saving " + getIArtifact().getFullyQualifiedName(),
-						100);
+		monitor.beginTask("Saving " + getIArtifact().getFullyQualifiedName(),
+				100);
 		// check for errors, if errors are found they will be displayed
 		IStatus errorList = getIArtifact().validate();
 		if (!errorList.isOK()) {
-			
+
 			List<IStatus> statuses = StatusUtils.flat(errorList);
-			
+
 			if (StatusUtils.findMaxSeverity(statuses) == IStatus.ERROR) {
 				MessageListDialog dialog = new MessageListDialog(getContainer()
 						.getShell(), statuses, "Save Failed: Invalid Artifact");
@@ -270,7 +267,6 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 				return;
 			}
 
-			
 			// display warning/info list and save when user clicks on "OK"
 			// button
 			MessageListDialog dialog = new MessageListDialog(getContainer()
@@ -282,46 +278,23 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 		}
 
 		monitor.worked(20);
-		
+
 		// We let Eclipse do the save to the file.
 		try {
 			ResourcesPlugin.getWorkspace().run(new IWorkspaceRunnable() {
-				
+
 				public void run(IProgressMonitor monitor) throws CoreException {
-					setIgnoreResourceChange(true); // ignore the resource change notif here
+					setIgnoreResourceChange(true); // ignore the resource change
+													// notif here
 					getEditor(sourcePageIndex).doSave(monitor);
 					setIgnoreResourceChange(false);
-					checkChanges(state);
+					state.processChanges(artifact);
 				}
 			}, new SubProgressMonitor(monitor, 80));
 		} catch (CoreException e) {
 			BasePlugin.log(e);
 		}
 		monitor.done();
-	}
-
-	private void checkChanges(State oldState) {
-		for (IMethod m : artifact.getMethods()) {
-			String oldId = oldState.methods.get(m);
-			if (oldId == null) {
-				continue;
-			}
-			String newId = m.getMethodId();
-			if (!oldId.equals(newId)) {
-				try {
-					methodIdWasChanged(oldId, newId, m);
-				} catch (TigerstripeException e) {
-					BasePlugin.log(e);
-				}
-			}
-		}
-	}
-
-	private void methodIdWasChanged(String oldId, String newId, IMethod m)
-			throws TigerstripeException {
-		URI oldURI = TigerstripeURIAdapterFactory.methodToURI(artifact, oldId);
-		URI newURI = TigerstripeURIAdapterFactory.methodToURI(artifact, newId);
-		AnnotationPlugin.getManager().changed(oldURI, newURI, false);
 	}
 
 	@Override
@@ -335,8 +308,9 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 				try {
 					updateArtifactFromTextEditor();
 				} catch (TigerstripeException ee) {
-					Status status = new Status(IStatus.WARNING, EclipsePlugin
-							.getPluginId(), 111, "Unexpected Exception", ee);
+					Status status = new Status(IStatus.WARNING,
+							EclipsePlugin.getPluginId(), 111,
+							"Unexpected Exception", ee);
 					EclipsePlugin.log(status);
 				}
 			}
@@ -349,8 +323,8 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 		FileEditorInput input = (FileEditorInput) sourcePage.getEditorInput();
 		IAbstractArtifact artifact = getIArtifact();
 		try {
-			sourcePage.getDocumentProvider().getDocument(input).set(
-					artifact.asText());
+			sourcePage.getDocumentProvider().getDocument(input)
+					.set(artifact.asText());
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}
@@ -416,7 +390,8 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 		// Nothing to do here.
 	}
 
-	public void artifactChanged(final IAbstractArtifact artifact, IAbstractArtifact oldArtifact) {
+	public void artifactChanged(final IAbstractArtifact artifact,
+			IAbstractArtifact oldArtifact) {
 		IAbstractArtifact myArtifact = getIArtifact();
 		if (myArtifact != null
 				&& myArtifact.getFullyQualifiedName().equals(
@@ -509,53 +484,171 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 
 	public void artifactResourceChanged(IResource changedArtifactResource) {
 		// NOT USED HERE
-		
+
 	}
 
 	public void artifactResourceAdded(IResource addedArtifactResource) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void artifactResourceRemoved(IResource removedArtifactResource) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-    public void activeFacetChanged(ITigerstripeModelProject project) {
-        // TODO Auto-generated method stub
-        
-    }
+	public void activeFacetChanged(ITigerstripeModelProject project) {
+		// TODO Auto-generated method stub
+
+	}
 
 	protected ArtifactOverviewPage createOverviewPage() {
-		
+
 		IAdapterManager adapterManager = Platform.getAdapterManager();
-		
-		if (artifact!=null) {
-		
+
+		if (artifact != null) {
+
 			IOssjArtifactFormContentProvider contentProvider = (IOssjArtifactFormContentProvider) adapterManager
-					.getAdapter(artifact, IOssjArtifactFormContentProvider.class);
-	
+					.getAdapter(artifact,
+							IOssjArtifactFormContentProvider.class);
+
 			IArtifactFormLabelProvider labelProvider = (IArtifactFormLabelProvider) adapterManager
 					.getAdapter(artifact, IArtifactFormLabelProvider.class);
-			
+
 			if (contentProvider == null || labelProvider == null) {
 				throw new IllegalStateException(String.format(
-						"Not found adapters for artifact type '%s'", artifact.getClass().getName()));
+						"Not found adapters for artifact type '%s'", artifact
+								.getClass().getName()));
 			}
-			
-			return new ArtifactOverviewPage(this, labelProvider, contentProvider);
+
+			return new ArtifactOverviewPage(this, labelProvider,
+					contentProvider);
 		} else {
-			// Navid Mehregani: Inspired by bugzilla 321257.  This can happen when we have a very ugly compile error 
-			// In this case, instruct the user to open the file with Java editor.
+			// Navid Mehregani: Inspired by bugzilla 321257. This can happen
+			// when we have a very ugly compile error
+			// In this case, instruct the user to open the file with Java
+			// editor.
 			return new ArtifactOverviewPage(this);
 		}
-		
+
 	}
-	
-	
+
+	/**
+	 * Helper class to pass all model components updates to annotation
+	 * framework.
+	 */
 	public static class State {
-		private final Map<IMethod, String> methods = new IdentityHashMap<IMethod, String>();		
+		private final Map<IField, String> fields = new IdentityHashMap<IField, String>();
+		private final Map<ILiteral, String> literals = new IdentityHashMap<ILiteral, String>();
+		private final Map<IMethod, String> methods = new IdentityHashMap<IMethod, String>();
+		private final Map<IArgument, String> arguments = new IdentityHashMap<IArgument, String>();
+
+		private State() {
+		}
+
+		public static State createState(IAbstractArtifact artifact) {
+			State newState = new State();
+			if (artifact != null) {
+				newState.initState(artifact);
+			}
+			return newState;
+		}
+
+		private void initState(IAbstractArtifact artifact) {
+			for (IField field : artifact.getFields()) {
+				fields.put(field, field.getName());
+			}
+			for (ILiteral literal : artifact.getLiterals()) {
+				literals.put(literal, literal.getName());
+			}
+			for (IMethod method : artifact.getMethods()) {
+				methods.put(method, method.getMethodId());
+				for (IArgument argument : method.getArguments()) {
+					arguments.put(argument, argument.getName());
+				}
+			}
+		}
+
+		public void processChanges(IAbstractArtifact artifact) {
+			process(artifact, artifact.getFields(), fields);
+			process(artifact, artifact.getLiterals(), literals);
+			process(artifact, artifact.getMethods(), methods);
+			for (IMethod method : artifact.getMethods()) {
+				process(artifact, method.getArguments(), arguments);
+			}
+		}
+
+		private <T> List<T> process(IAbstractArtifact artifact,
+				Collection<T> objects, Map<T, String> oldObjectsMap) {
+			List<T> removed = new ArrayList<T>();
+			Map<T, String> objectsMap = new IdentityHashMap<T, String>();
+			for (T object : objects) {
+				objectsMap.put(object, getKey(object));
+			}
+
+			for (Entry<T, String> oldEntry : oldObjectsMap.entrySet()) {
+				String id = objectsMap.get(oldEntry.getKey());
+				if (id == null) {
+					try {
+						if (oldEntry.getKey() instanceof IMember) {
+							notifyMemberRemoved(artifact, oldEntry.getValue());
+						} else if (oldEntry.getKey() instanceof IArgument) {
+							IArgument arg = (IArgument) oldEntry.getKey();
+							String methodId = methods.get(arg
+									.getContainingMethod());
+							notifyArgumentRemoved(artifact, methodId,
+									oldEntry.getValue());
+						}
+					} catch (TigerstripeException e) {
+						BasePlugin.log(e);
+					}
+				} else if (!id.equals(oldEntry.getValue())) {
+					try {
+						if (oldEntry.getKey() instanceof IMember) {
+							notifyMemberURIChanged(artifact,
+									oldEntry.getValue(), id);
+						}
+					} catch (TigerstripeException e) {
+						BasePlugin.log(e);
+					}
+				}
+			}
+			return removed;
+		}
+
+		private void notifyMemberURIChanged(IAbstractArtifact artifact,
+				String oldId,
+				String id) throws TigerstripeException {
+			URI oldUri = TigerstripeURIAdapterFactory.memberToURI(artifact,
+					oldId);
+			URI uri = TigerstripeURIAdapterFactory.memberToURI(artifact, id);
+			AnnotationPlugin.getManager().changed(oldUri, uri, true);
+		}
+
+		private void notifyMemberRemoved(IAbstractArtifact artifact,
+				String memberId)
+				throws TigerstripeException {
+			URI uri = TigerstripeURIAdapterFactory.memberToURI(artifact,
+					memberId);
+			AnnotationPlugin.getManager().deleted(uri, true);
+		}
+
+		private void notifyArgumentRemoved(IAbstractArtifact artifact,
+				String memberId, String argumentId) throws TigerstripeException {
+			URI uri = TigerstripeURIAdapterFactory.argumentToURI(artifact,
+					memberId, argumentId);
+			AnnotationPlugin.getManager().deleted(uri, true);
+		}
+
+		private String getKey(Object object) {
+			if (object instanceof IMethod) {
+				return ((IMethod) object).getMethodId();
+			} else if (object instanceof IArgument) {
+				return ((IArgument) object).getName();
+			} else if (object instanceof IModelComponent) {
+				return ((IModelComponent) object).getName();
+			}
+			throw new IllegalArgumentException();
+		}
 	}
-	
 }

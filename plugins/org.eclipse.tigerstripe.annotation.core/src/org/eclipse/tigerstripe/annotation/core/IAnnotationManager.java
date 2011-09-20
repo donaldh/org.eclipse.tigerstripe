@@ -304,4 +304,6 @@ public interface IAnnotationManager {
 	public Resource findAnnotationResource(IResource resource);
 	
 	public void changed(URI oldUri, URI newUri, boolean affectChildren);
+	
+	public void deleted(URI uri, boolean affectChildren);
 }

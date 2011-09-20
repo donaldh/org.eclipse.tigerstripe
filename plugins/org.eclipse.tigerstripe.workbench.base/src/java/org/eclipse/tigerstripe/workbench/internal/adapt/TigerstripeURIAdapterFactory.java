@@ -402,6 +402,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 	public static URI toURI(IArgument argument) throws TigerstripeException {
 		IMethod method = argument.getContainingMethod();
 		IAbstractArtifact art = getArtifact(method);
+
 		IPath artifactPath = getArtifactPath(art, null);
 
 		String fragment = method.getMethodId() + ";;" + argument.getName();
@@ -453,11 +454,17 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		return toURI(result, null);
 	}
 	
-	public static URI methodToURI(IAbstractArtifact art, String methodId)
+	public static URI memberToURI(IAbstractArtifact art, String memberId)
 			throws TigerstripeException {
-		return toURI(getArtifactPath(art, null), methodId);
+		return toURI(getArtifactPath(art, null), memberId);
 	}
 	
+	public static URI argumentToURI(IAbstractArtifact art, String methodId,
+			String argumentId) throws TigerstripeException {
+		String fragment = methodId + ";;" + argumentId;
+		return toURI(getArtifactPath(art, null), fragment);
+	}
+
 	/**
 	 * Returns a URI that identifies the target of an annotation and which
 	 * allows that target to be looked up in the Tigerstripe workbench, but
@@ -481,6 +488,12 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		if (art == null) {
 			return null;
 		}
+		
+		return toURI(art, component, newName);
+	}
+	
+	public static URI toURI(IAbstractArtifact art, IModelComponent component,
+			String newName) throws TigerstripeException {
 		IPath artifactPath = getArtifactPath(art, newName);
 
 		String fragment = null;
@@ -512,7 +525,6 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 			context = ((IContextProjectAware) component).getContextProject();
 		}
 		return toURI(artifactPath, fragment, context);
-
 	}
 
 	private static IPath getArtifactPath(IAbstractArtifact art, String newName) {

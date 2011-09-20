@@ -5,6 +5,7 @@
  <extension-point id="annotationLabelProvider" name="annotationLabelProvider" schema="schema/annotationLabelProvider.exsd"/>
  <extension-point id="propertyProvider" name="propertyProvider" schema="schema/propertyProvider.exsd"/>
  <extension-point id="noteProviders" name="noteProviders" schema="schema/noteProviders.exsd"/>
+ <extension-point id="targetProcessor" name="AnnotationTargetProcessor" schema="schema/targetProcessor.exsd"/>
 	
    <extension
          point="org.eclipse.ui.views">

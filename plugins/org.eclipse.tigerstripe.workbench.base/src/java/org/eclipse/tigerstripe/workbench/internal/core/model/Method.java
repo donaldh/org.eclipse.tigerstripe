@@ -1670,4 +1670,12 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			return argument.getStereotypeString() + defaultLabel;
 		}		
 	}
+
+	public String getUniqueName() {
+		return getMethodId();
+	}
+
+	public String getMemberName() {
+		return "method";
+	}
 }

@@ -11,10 +11,15 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.ui.internal.actions;
 
+import java.util.Collection;
+
 import org.eclipse.jface.action.Action;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
+import org.eclipse.tigerstripe.annotation.ui.core.ITargetProcessor;
+import org.eclipse.tigerstripe.annotation.ui.internal.core.TargetProcessorSource;
 import org.eclipse.tigerstripe.annotation.ui.util.WorkbenchUtil;
 import org.eclipse.tigerstripe.annotation.ui.wizard.CreateAnnotationWizard;
 
@@ -40,9 +45,23 @@ public class OpenAnnotationWizardAction extends Action {
 	}
 
 	public void run() {
+
 		Shell shell = WorkbenchUtil.getShell();
-		if (shell == null)
+		if (shell == null) {
 			return;
+		}
+		
+		Collection<ITargetProcessor> processors = TargetProcessorSource.getProcessors();
+		
+		for (ITargetProcessor processor : processors) {
+			if (processor.isDirty(object)) {
+				String name = processor.getName(object);
+				String message = processor.getDirtyViolationMessage(object);
+				MessageDialog.openInformation(shell, name + " is dirty", message);
+				return;
+			}
+		}
+		
 		CreateAnnotationWizard wizard = new CreateAnnotationWizard(object);
 		WizardDialog dialog = new WizardDialog(shell, wizard);
 		dialog.create();

@@ -276,4 +276,12 @@ public class Literal extends ArtifactComponent implements ILiteral {
 		return null;
 	}
 
+	public String getUniqueName() {
+		return getName();
+	}
+
+	public String getMemberName() {
+		return "literal";
+	}
+
 }

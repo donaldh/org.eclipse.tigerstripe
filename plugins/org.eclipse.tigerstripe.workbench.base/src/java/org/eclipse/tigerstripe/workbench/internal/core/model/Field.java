@@ -453,4 +453,12 @@ public class Field extends ArtifactComponent implements IField {
 		return null;
 	}
 
+	public String getUniqueName() {
+		return getName();
+	}
+
+	public String getMemberName() {
+		return "field";
+	}
+
 }
