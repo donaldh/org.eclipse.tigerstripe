@@ -1957,13 +1957,14 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 
 	private Collection<IAbstractArtifact> toContextProjectAwareArtifacts(
 			Collection<IAbstractArtifact> source) {
-		if (source.size() > 0) {
+		ITigerstripeModelProject context = getTSProject().getTSProject();
+		if (source.size() > 0 && context != null) {
 			Collection<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>(
 					source.size());
 			for (IAbstractArtifact element : source) {
 				if (!(element instanceof IContextProjectAware)) {
 					element = (IAbstractArtifact) ContextProjectAwareProxy
-							.newInstance(element, getTSProject().getTSProject());
+							.newInstance(element, context);
 				}
 				result.add(element);
 			}
@@ -1985,10 +1986,12 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 				result = getArtifactByFullyQualifiedNameInInstalledModules(
 						name, context);
 			}
-			if (result != null && !(result instanceof IContextProjectAware)
-					&& getTSProject().getTSProject() != null) {
+			ITigerstripeModelProject contextProject = getTSProject()
+					.getTSProject();
+			if (result != null && contextProject != null
+					&& !(result instanceof IContextProjectAware)) {
 				result = (IAbstractArtifactInternal) ContextProjectAwareProxy
-						.newInstance(result, getTSProject().getTSProject());
+						.newInstance(result, contextProject);
 			}
 			return result;
 		} finally {
