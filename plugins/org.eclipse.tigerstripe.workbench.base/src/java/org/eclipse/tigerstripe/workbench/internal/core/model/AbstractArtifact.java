@@ -660,7 +660,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	public void resolveExtendedArtifact(IProgressMonitor monitor) {
 		if (extendsArtifact != null) {
 			IAbstractArtifact realArtifact = extendsArtifact;
-			if (isProxy()) {
+			if (extendsArtifact.isProxy()) {
 				realArtifact = extendsArtifact.resolveIfProxy(monitor);
 			}
 			if (realArtifact != null) {
