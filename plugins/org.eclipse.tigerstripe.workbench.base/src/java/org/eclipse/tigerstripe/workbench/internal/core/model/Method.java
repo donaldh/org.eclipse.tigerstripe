@@ -802,11 +802,11 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		}
 
 		public IMethod getContainingMethod() {
-			return (IMethod) this.parentMethod;
+			return this.parentMethod;
 		}
 
 		public IAbstractArtifact getContainingArtifact() {
-			return (IAbstractArtifact) this.parentMethod
+			return this.parentMethod
 					.getContainingArtifact();
 		}
 
@@ -1124,9 +1124,10 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		return;
 	}
 
+	@ProvideModelComponents
 	public IModelComponent getContainingModelComponent() {
 		if (this.containingModelComponent instanceof IAbstractArtifact)
-			return (IAbstractArtifact) this.containingModelComponent;
+			return this.containingModelComponent;
 		else
 			return null;
 	}
@@ -1420,7 +1421,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 				flavor.getPojoLabel());
 		if (pojoFlavorDetails != null)
 			return new EntityMethodFlavorDetails(
-					(IAbstractArtifactInternal) getContainingArtifact(),
+					getContainingArtifact(),
 					pojoFlavorDetails);
 		return null;
 	}
@@ -1547,7 +1548,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 				flavor.getPojoLabel());
 		if (pojoFlavorDetails != null)
 			return new EntityMethodFlavorDetails(
-					(IAbstractArtifactInternal) getContainingArtifact(),
+					getContainingArtifact(),
 					pojoFlavorDetails);
 		return null;
 	}

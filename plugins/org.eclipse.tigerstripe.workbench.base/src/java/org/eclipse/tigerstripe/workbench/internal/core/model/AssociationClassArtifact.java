@@ -104,16 +104,19 @@ public class AssociationClassArtifact extends AssociationArtifact implements
 	}
 
 	@Override
+	@ProvideModelComponents
 	public Collection<IMethod> getMethods() {
 		return Collections.unmodifiableCollection(methods);
 	}
 
 	@Override
+	@ProvideModelComponents
 	public Collection<IField> getFields() {
 		return Collections.unmodifiableCollection(fields);
 	}
 
 	@Override
+	@ProvideModelComponents
 	public Collection<Object> getChildren() {
 		ArrayList<Object> result = new ArrayList<Object>();
 

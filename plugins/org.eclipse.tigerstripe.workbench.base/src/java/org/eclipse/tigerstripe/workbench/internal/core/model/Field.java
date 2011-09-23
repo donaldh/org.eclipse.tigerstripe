@@ -263,9 +263,10 @@ public class Field extends ArtifactComponent implements IField {
 		return ;	
 	}
 
+	@ProvideModelComponents
 	public IModelComponent getContainingModelComponent() {
 		if (this.containingModelComponent instanceof IAbstractArtifact)
-			return (IAbstractArtifact) this.containingModelComponent;
+			return this.containingModelComponent;
 		else
 			return null;
 	}

@@ -295,7 +295,7 @@ public class DependencyArtifact extends AbstractArtifact implements
 					"DependendyEnd Validation", null);
 
 			// check the validity of the type for this association end
-			IStatus typeStatus = ((IType) getType()).validate();
+			IStatus typeStatus = (getType()).validate();
 			if (!typeStatus.isOK())
 				result.add(typeStatus);
 
@@ -365,10 +365,10 @@ public class DependencyArtifact extends AbstractArtifact implements
 
 		// in addition to the AbstractArtifact.validate() checks, need to also
 		// check the aEnd and zEnd types to ensure that they are valid
-		IStatus aEndTypeStatus = ((IType) getAEndType()).validate();
+		IStatus aEndTypeStatus = (getAEndType()).validate();
 		if (!aEndTypeStatus.isOK())
 			result.add(aEndTypeStatus);
-		IStatus zEndTypeStatus = ((IType) getZEndType()).validate();
+		IStatus zEndTypeStatus = (getZEndType()).validate();
 		if (!zEndTypeStatus.isOK())
 			result.add(zEndTypeStatus);
 
@@ -393,6 +393,7 @@ public class DependencyArtifact extends AbstractArtifact implements
 	}
 
 	@Override
+	@ProvideModelComponents
 	public Collection<IModelComponent> getContainedModelComponents() {
 		Collection<IModelComponent> ownedComponents = new ArrayList<IModelComponent>();
 		ownedComponents.addAll(super.getContainedModelComponents());

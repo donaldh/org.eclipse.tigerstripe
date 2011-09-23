@@ -738,13 +738,13 @@ public class EMFDatabase implements IEMFDatabase, IResourceManager, IResourceCha
 				Map<String, EObject> oldState = collectData(updated);
 				fireRemoved(oldState.values());
 				fireRemoved(removedFromResources.values());
-
+				
 				for (Resource res : updated) {
 					res.unload();
 				}
 				
 				rebuildIndex();
-
+				
 				Map<String, EObject> newData = collectData(updated);
 				fireAdded(newData.values());
 				return Status.OK_STATUS;
@@ -787,7 +787,7 @@ public class EMFDatabase implements IEMFDatabase, IResourceManager, IResourceCha
 	
 	private Map<String, EObject> collectData(final Set<Resource> resources) {
 		Map<String, EObject> data = new HashMap<String, EObject>();
-		for (Resource resource : resources) {
+		for (Resource resource : resources.toArray(new Resource[0])) {
 			for (EObject obj : resource.getContents()) {
 				String id = getId(obj);
 				if (id != null) {

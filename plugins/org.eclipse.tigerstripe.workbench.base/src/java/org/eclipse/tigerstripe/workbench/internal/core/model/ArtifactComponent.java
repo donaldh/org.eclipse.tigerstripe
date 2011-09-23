@@ -100,6 +100,7 @@ public abstract class ArtifactComponent implements IArtifactComponentInternal {
 	/* (non-Javadoc)
 	 * @see org.eclipse.tigerstripe.workbench.internal.core.model.IArtifactComponentInternal2#getParentArtifact()
 	 */
+	@ProvideModelComponents
 	public IAbstractArtifact getParentArtifact() {
 		return this.parentArtifact;
 	}

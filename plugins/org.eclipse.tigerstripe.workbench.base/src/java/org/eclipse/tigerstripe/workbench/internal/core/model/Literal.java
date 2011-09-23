@@ -143,9 +143,10 @@ public class Literal extends ArtifactComponent implements ILiteral {
 		throw new TigerstripeException("Literals cannot contain any Components");
 	}
 	
+	@ProvideModelComponents
 	public IModelComponent getContainingModelComponent() {
 		if (this.containingModelComponent instanceof IAbstractArtifact)
-			return (IAbstractArtifact) this.containingModelComponent;
+			return this.containingModelComponent;
 		else
 			return null;
 	}

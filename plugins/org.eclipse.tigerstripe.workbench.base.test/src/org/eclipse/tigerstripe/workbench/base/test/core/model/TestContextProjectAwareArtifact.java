@@ -35,6 +35,9 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArti
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class TestContextProjectAwareArtifact extends
@@ -86,20 +89,98 @@ public class TestContextProjectAwareArtifact extends
 				AssociationArtifact.MODEL, DependencyArtifact.MODEL,
 				AssociationClassArtifact.MODEL, PackageArtifact.MODEL };
 		for (IAbstractArtifactInternal model : models) {
-			checkExpectedContextProjectAwareArtifacts(manager
-					.getArtifactsByModel(model, true, false,
-							new NullProgressMonitor()));
+			checkExpectedContextProjectAwareArtifacts(
+					manager.getArtifactsByModel(model, true, false,
+							new NullProgressMonitor()), false, project);
 		}
 
 		Collection<IAbstractArtifact> allArtifacts = manager.getAllArtifacts(
 				true, false, new NullProgressMonitor());
-		checkExpectedContextProjectAwareArtifacts(allArtifacts);
+		checkExpectedContextProjectAwareArtifacts(allArtifacts, false, project);
 
 		for (IAbstractArtifact artifact : allArtifacts) {
 			IAbstractArtifact result = manager.getArtifactByFullyQualifiedName(
 					artifact.getFullyQualifiedName(), true,
 					new NullProgressMonitor());
 			assertTrue(result instanceof IContextProjectAware);
+		}
+	}
+
+	public void testProvideModelComponents() throws Exception {
+		ArtifactManagerSessionImpl session = (ArtifactManagerSessionImpl) project
+				.getArtifactManagerSession();
+		ArtifactManager manager = session.getArtifactManager();
+
+		Collection<IAbstractArtifact> allArtifacts = manager.getAllArtifacts(
+				true, false, new NullProgressMonitor());
+
+		for (IAbstractArtifact artifact : allArtifacts) {
+			boolean canBeEmpty = true;
+			if (artifact instanceof IManagedEntityArtifact) {
+				canBeEmpty = false;
+			}
+
+			checkExpectedContextProjectAwareArtifacts(
+					artifact.getContainedModelComponents(), canBeEmpty, project);
+			checkExpectedContextProjectAwareArtifacts(artifact.getChildren(),
+					canBeEmpty, project);
+			checkExpectedContextProjectAwareArtifacts(
+					artifact.getReferencedArtifacts(), true, project);
+			// Literals
+			checkExpectedContextProjectAwareArtifacts(artifact.getLiterals(),
+					canBeEmpty, project);
+			checkExpectedContextProjectAwareArtifacts(
+					artifact.getLiterals(true), canBeEmpty, project);
+			checkExpectedContextProjectAwareArtifacts(
+					artifact.getLiterals(false), canBeEmpty, project);
+			// Fields
+			checkExpectedContextProjectAwareArtifacts(artifact.getFields(),
+					canBeEmpty, project);
+			checkExpectedContextProjectAwareArtifacts(artifact.getFields(true),
+					canBeEmpty, project);
+			checkExpectedContextProjectAwareArtifacts(
+					artifact.getFields(false), canBeEmpty, project);
+			// Methods
+			checkExpectedContextProjectAwareArtifacts(artifact.getMethods(),
+					canBeEmpty, project);
+			checkExpectedContextProjectAwareArtifacts(
+					artifact.getMethods(true), canBeEmpty, project);
+			checkExpectedContextProjectAwareArtifacts(
+					artifact.getMethods(false), canBeEmpty, project);
+
+			if (artifact instanceof IManagedEntityArtifact) {
+				IAbstractArtifact extending = createArtifact(project,
+						IManagedEntityArtifact.class.getName(), "MyTestEntity",
+						artifact, true);
+				extending = session.getArtifactByFullyQualifiedName(extending
+						.getFullyQualifiedName());
+				assertNotNull(extending);
+
+				assertNotNull(extending.getExtendedArtifact());
+				checkExpectedContextProjectAwareArtifact(
+						extending.getExtendedArtifact(), project);
+				checkExpectedContextProjectAwareArtifacts(
+						extending.getInheritedFields(), false, project);
+				checkExpectedContextProjectAwareArtifacts(
+						extending.getInheritedFields(true), false, project);
+				checkExpectedContextProjectAwareArtifacts(
+						extending.getInheritedFields(false), false, project);
+				checkExpectedContextProjectAwareArtifacts(
+						extending.getInheritedLiterals(), false, project);
+				checkExpectedContextProjectAwareArtifacts(
+						extending.getInheritedLiterals(true), false, project);
+				checkExpectedContextProjectAwareArtifacts(
+						extending.getInheritedLiterals(false), false, project);
+				checkExpectedContextProjectAwareArtifacts(
+						extending.getInheritedMethods(), false, project);
+				checkExpectedContextProjectAwareArtifacts(
+						extending.getInheritedMethods(true), false, project);
+				checkExpectedContextProjectAwareArtifacts(
+						extending.getInheritedMethods(false), false, project);
+
+				checkExpectedContextProjectAwareArtifacts(
+						extending.getAncestors(), false, project);
+			}
 		}
 	}
 
@@ -128,11 +209,37 @@ public class TestContextProjectAwareArtifact extends
 	}
 
 	private void checkExpectedContextProjectAwareArtifacts(
-			Collection<IAbstractArtifact> artifacts) {
-		assertNotNull(artifacts);
-		assertTrue(artifacts.size() > 0);
-		for (IAbstractArtifact artifact : artifacts) {
-			assertTrue(artifact instanceof IContextProjectAware);
+			Collection<?> modelComponents, boolean canBeEmpty,
+			ITigerstripeModelProject context) {
+		assertNotNull(modelComponents);
+		if (!canBeEmpty) {
+			assertTrue(modelComponents.size() > 0);
 		}
+		if (modelComponents.size() > 0) {
+			for (Object modelComponent : modelComponents) {
+				if (!(modelComponent instanceof IRelationshipEnd)) {
+					checkExpectedContextProjectAwareArtifact(modelComponent,
+							context);
+				}
+				if (modelComponent instanceof IModelComponent
+						&& ((IModelComponent) modelComponent)
+								.getContainingModelComponent() != null) {
+					((IModelComponent) modelComponent)
+							.getContainingModelComponent();
+					checkExpectedContextProjectAwareArtifact(
+							((IModelComponent) modelComponent)
+									.getContainingModelComponent(),
+							context);
+				}
+			}
+		}
+	}
+
+	private void checkExpectedContextProjectAwareArtifact(
+			Object modelComponent, ITigerstripeModelProject context) {
+		assertTrue(modelComponent instanceof IContextProjectAware);
+		IContextProjectAware contextAware = (IContextProjectAware) modelComponent;
+		assertNotNull(contextAware.getContextProject());
+		assertEquals(context, contextAware.getContextProject());
 	}
 }

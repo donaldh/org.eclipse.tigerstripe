@@ -204,10 +204,10 @@ public class AssociationArtifact extends AbstractArtifact implements
 
 		// next, check for some Association-specific errors (i.e. that the
 		// aEnd and zEnd are valid
-		IStatus aEndStatus = ((IAssociationEnd) getAEnd()).validate();
+		IStatus aEndStatus = (getAEnd()).validate();
 		if (!aEndStatus.isOK())
 			result.add(aEndStatus);
-		IStatus zEndStatus = ((IAssociationEnd) getZEnd()).validate();
+		IStatus zEndStatus = (getZEnd()).validate();
 		if (!zEndStatus.isOK())
 			result.add(zEndStatus);
 
@@ -236,6 +236,7 @@ public class AssociationArtifact extends AbstractArtifact implements
 	}
 
 	@Override
+	@ProvideModelComponents
 	public Collection<IModelComponent> getContainedModelComponents() {
 		Collection<IModelComponent> ownedComponents = new ArrayList<IModelComponent>();
 		ownedComponents.addAll(super.getContainedModelComponents());

@@ -238,6 +238,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 
 	// ======================================================================
 	// since 2.2: Implemented Artifacts
+	@ProvideModelComponents
 	public Collection<IAbstractArtifact> getImplementedArtifacts() {
 		List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
 
@@ -272,6 +273,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	/**
 	 * coming from IArtifact (External API)
 	 */
+	@ProvideModelComponents
 	public Collection<IAbstractArtifact> getAncestors() {
 		ArrayList<IAbstractArtifact> ancestors = new ArrayList<IAbstractArtifact>();
 		if (getExtendedArtifact() != null) {
@@ -657,8 +659,10 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 */
 	public void resolveExtendedArtifact(IProgressMonitor monitor) {
 		if (extendsArtifact != null) {
-			IAbstractArtifact realArtifact = extendsArtifact
-					.resolveIfProxy(monitor);
+			IAbstractArtifact realArtifact = extendsArtifact;
+			if (isProxy()) {
+				realArtifact = extendsArtifact.resolveIfProxy(monitor);
+			}
 			if (realArtifact != null) {
 				setExtendedArtifact(realArtifact);
 			}
@@ -991,6 +995,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * 
 	 * @return Collection of Field - a collection of Fields for this artifact
 	 */
+	@ProvideModelComponents
 	public Collection<IField> getInheritedFields() {
 		// Bug 249956
 		// Don't cache this stuff as the parent may have changed!
@@ -1013,6 +1018,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * @return Collection of Literals - a collection of Literals for this
 	 *         artifact
 	 */
+	@ProvideModelComponents
 	public Collection<ILiteral> getInheritedLiterals() {
 		// Bug 249956
 		// Don't cache this stuff as the parent may have changed!
@@ -1034,6 +1040,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * 
 	 * @return Collection of Method - a collection of Methods for this artifact
 	 */
+	@ProvideModelComponents
 	public Collection<IMethod> getInheritedMethods() {
 		// Bug 249956
 		// Don't cache this stuff as the parent may have changed!
@@ -1701,6 +1708,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	// =================================================================
 	// Methods to satisfy the IArtifact interface
 
+	@ProvideModelComponents
 	public Collection<IField> getFields(boolean filterFacetExcludedFields) {
 		Collection<IField> fields = getFields();
 		if (filterFacetExcludedFields) {
@@ -1712,6 +1720,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			return Collections.unmodifiableCollection(this.fields);
 	}
 
+	@ProvideModelComponents
 	public Collection<IField> getInheritedFields(
 			boolean filterFacetExcludedFields) {
 		Collection fields = getInheritedFields();
@@ -1727,6 +1736,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 					.unmodifiableCollection(this.getInheritedFields());
 	}
 
+	@ProvideModelComponents
 	public Collection<ILiteral> getLiterals(boolean filterFacetExcludedLiterals) {
 		Collection<ILiteral> literals = getLiterals();
 		if (filterFacetExcludedLiterals) {
@@ -1739,6 +1749,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			return Collections.unmodifiableCollection(this.literals);
 	}
 
+	@ProvideModelComponents
 	public Collection<ILiteral> getInheritedLiterals(
 			boolean filterFacetExcludedLiterals) {
 		Collection<ILiteral> literals = getInheritedLiterals();
@@ -1754,6 +1765,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 					.getInheritedLiterals());
 	}
 
+	@ProvideModelComponents
 	public Collection<IMethod> getMethods(boolean filterFacetExcludedMethods) {
 		Collection methods = getMethods();
 		if (filterFacetExcludedMethods) {
@@ -1766,6 +1778,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 			return Collections.unmodifiableCollection(this.methods);
 	}
 
+	@ProvideModelComponents
 	public Collection<IMethod> getInheritedMethods(
 			boolean filterFacetExcludedMethods) {
 		Collection methods = getInheritedMethods();
@@ -1840,6 +1853,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 				.unmodifiableCollection(new ArrayList<IAbstractArtifact>());
 	}
 
+	@ProvideModelComponents
 	public Collection<IAbstractArtifact> getReferencedArtifacts() {
 		Set<IAbstractArtifact> result = new HashSet<IAbstractArtifact>();
 
@@ -2055,6 +2069,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		}
 	}
 
+	@ProvideModelComponents
 	public IModelComponent getContainingModelComponent() {
 		return this.containingModelComponent;
 	}

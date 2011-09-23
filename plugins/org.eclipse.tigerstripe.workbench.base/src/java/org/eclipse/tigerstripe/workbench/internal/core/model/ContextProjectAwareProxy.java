@@ -29,6 +29,9 @@ public class ContextProjectAwareProxy implements
 
 	public static Object newInstance(Object obj,
 			ITigerstripeModelProject context) {
+		if (obj instanceof IContextProjectAware) {
+			return obj;
+		}
 		return java.lang.reflect.Proxy.newProxyInstance(obj.getClass()
 				.getClassLoader(), collectRequiredInterfaces(obj),
 				new ContextProjectAwareProxy(obj, context));

@@ -4,6 +4,8 @@ import org.eclipse.core.resources.ISaveParticipant;
 import org.eclipse.core.resources.ISavedState;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -31,6 +33,7 @@ public class ResourcesMonitorPlugin extends AbstractUIPlugin {
 	 * org.eclipse.ui.plugin.AbstractUIPlugin#start(org.osgi.framework.BundleContext
 	 * )
 	 */
+	@Override
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
 		plugin = this;
@@ -55,6 +58,7 @@ public class ResourcesMonitorPlugin extends AbstractUIPlugin {
 	 * org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext
 	 * )
 	 */
+	@Override
 	public void stop(BundleContext context) throws Exception {
 		plugin = null;
 		super.stop(context);
@@ -69,4 +73,11 @@ public class ResourcesMonitorPlugin extends AbstractUIPlugin {
 		return plugin;
 	}
 
+	public static void log(Throwable t) {
+		String message = t.getMessage();
+		if (message == null)
+			message = "";
+		plugin.getLog()
+				.log(new Status(IStatus.ERROR, PLUGIN_ID, 0, message, t));
+	}
 }

@@ -71,6 +71,7 @@ public abstract class AbstractTigerstripeTestCase extends TestCase {
 			throws TigerstripeException {
 		return createEachArtifactType(aProject, false);
 	}
+
 	protected int createEachArtifactType(IAbstractTigerstripeProject aProject,
 			boolean createSubComponents) throws TigerstripeException {
 		assertTrue(aProject instanceof ITigerstripeModelProject);
@@ -107,6 +108,47 @@ public abstract class AbstractTigerstripeTestCase extends TestCase {
 			}
 		}
 		return supportedArtifacts.size();
+	}
+
+	protected IAbstractArtifact createArtifact(
+			IAbstractTigerstripeProject aProject, String artifactType,
+			String artifactName, IAbstractArtifact toExtend,
+			boolean createSubComponents) throws TigerstripeException {
+		assertTrue(aProject instanceof ITigerstripeModelProject);
+		ITigerstripeModelProject project = (ITigerstripeModelProject) aProject;
+		ArtifactTestHelper artifactHelper = new ArtifactTestHelper(project);
+
+		IArtifactManagerSession mgrSession = project
+				.getArtifactManagerSession();
+		Collection<String> supportedArtifacts = mgrSession
+				.getSupportedArtifacts();
+		IAbstractArtifact artifact = artifactHelper.createArtifact(
+				artifactType, artifactName != null ? artifactName
+						: getArtifactName(artifactType), TEST_PACKAGE_NAME);
+		if (createSubComponents) {
+			IField field = artifact.makeField();
+			String fieldName = "field1";
+			field.setName(fieldName);
+			artifact.addField(field);
+
+			ILiteral literal1 = artifact.makeLiteral();
+			String literalName = "literal1";
+			literal1.setName(literalName);
+			artifact.addLiteral(literal1);
+
+			IMethod method1 = artifact.makeMethod();
+			String methodName = "method1";
+			method1.setName(methodName);
+			artifact.addMethod(method1);
+
+			if (toExtend != null) {
+				artifact.setExtendedArtifact(toExtend.getFullyQualifiedName());
+			}
+
+			artifact.doSave(new NullProgressMonitor());
+		}
+
+		return artifact;
 	}
 
 	protected boolean removeEachArtifactType(
@@ -180,18 +222,18 @@ public abstract class AbstractTigerstripeTestCase extends TestCase {
 		}
 		return artifacts;
 	}
-	
+
 	protected static abstract class SafeRunnable implements ISafeRunnable {
 
 		public void handleException(Throwable exception) {
 			throw new RuntimeException(exception);
 		}
 	}
-	
+
 	protected void runInWorkspace(final ISafeRunnable runnable) {
 		try {
 			workspace.run(new IWorkspaceRunnable() {
-				
+
 				public void run(IProgressMonitor monitor) throws CoreException {
 					SafeRunner.run(runnable);
 				}
@@ -201,24 +243,25 @@ public abstract class AbstractTigerstripeTestCase extends TestCase {
 		}
 	}
 
-	protected void waitForUpdates() {		
+	protected void waitForUpdates() {
 		IJobManager jobManager = Job.getJobManager();
 		while (jobManager.find(ITigerstripeChangeListener.NOTIFY_JOB_FAMILY).length > 0
 				|| jobManager.find(ResourcesPlugin.FAMILY_MANUAL_BUILD).length > 0) {
 			try {
-				jobManager.join(ITigerstripeChangeListener.NOTIFY_JOB_FAMILY, null);
+				jobManager.join(ITigerstripeChangeListener.NOTIFY_JOB_FAMILY,
+						null);
 				jobManager.join(ResourcesPlugin.FAMILY_MANUAL_BUILD, null);
-			} catch(InterruptedException ie) {
+			} catch (InterruptedException ie) {
 				return;
 			}
 		}
 	}
-	
+
 	protected void cleanup() {
 		runInWorkspace(new SafeRunnable() {
-			
+
 			public void run() throws Exception {
-				for(final IProject project : workspace.getRoot().getProjects()) {
+				for (final IProject project : workspace.getRoot().getProjects()) {
 					project.delete(true, null);
 				}
 			}

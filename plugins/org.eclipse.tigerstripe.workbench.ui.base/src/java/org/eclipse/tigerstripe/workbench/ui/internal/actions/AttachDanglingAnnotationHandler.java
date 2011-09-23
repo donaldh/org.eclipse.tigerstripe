@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.actions;
 
+import static org.eclipse.tigerstripe.workbench.utils.AdaptHelper.adapt;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,9 +40,11 @@ import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.workbench.internal.builder.BuilderConstants;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
-import org.eclipse.tigerstripe.workbench.utils.AdaptHelper;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.dialogs.ListDialog;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -121,9 +125,8 @@ public class AttachDanglingAnnotationHandler extends AbstractHandler {
 
 		IAnnotationManager manager = AnnotationPlugin.getManager();
 		if (selected instanceof IAdaptable) {
-			IResource resource = AdaptHelper.adapt(((IAdaptable) selected),
-					IResource.class);
-			if (resource != null) {
+			Object target = findTarget((IAdaptable) selected);
+			if (target != null) {
 				for (IMarker m : markers) {
 					if (monitor.isCanceled()) {
 						return;
@@ -144,11 +147,6 @@ public class AttachDanglingAnnotationHandler extends AbstractHandler {
 							continue;
 						}
 						
-						Object target = resource.getAdapter(IModelComponent.class);
-						if (target == null) {
-							target = resource;
-						}
-						
 						if (manager.isPossibleToAdd(target, type.getClazz())) {
 							items.add(new AttachDanglingAnnotationAction(m,
 									annotation, target));
@@ -160,8 +158,36 @@ public class AttachDanglingAnnotationHandler extends AbstractHandler {
 				}
 			}
 		}
-
 	}
 
-	
+	private Object findTarget(IAdaptable selected) {
+		
+		if (selected instanceof IModelComponent) {
+			return selected;
+		}
+		
+		IModelComponent mc = adapt(selected, IModelComponent.class);
+		if (mc != null) {
+			return mc;
+		}
+		
+		IResource resource = adapt(selected, IResource.class);
+		if (resource != null) {
+			return resource;
+		}
+
+		IAssociationEnd end = adapt(selected, IAssociationEnd.class);
+		if (end != null) {
+			IType type = end.getType();
+			if (type != null) {
+				IAbstractArtifact artifact = type.getArtifact();
+				if (artifact != null) {
+					return adapt(artifact, IResource.class);
+				}
+			}
+			return null;
+		}
+		
+		return null;
+	}
 }
