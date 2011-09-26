@@ -403,11 +403,17 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 			public void widgetSelected(SelectionEvent e) {
 				Object source = e.getSource();
 				if (source instanceof Combo) {
-					String value = ((Combo)source).getText();
-					
-					if (value.equals(AssocMultiplicity.ONE_LITERAL.getLiteral()) || value.equals(AssocMultiplicity.ZERO_LITERAL.getLiteral()) || value.equals(AssocMultiplicity.ZERO_ONE_LITERAL.getLiteral())) {
+					String value = ((Combo) source).getText();
+
+					if (value.equals(AssocMultiplicity.ONE_LITERAL.getLiteral())
+							|| value.equals(AssocMultiplicity.ZERO_LITERAL
+									.getLiteral())
+							|| value.equals(AssocMultiplicity.ZERO_ONE_LITERAL
+									.getLiteral())) {
 						aEndIsUniqueButton.setEnabled(false);
+						aEndIsUniqueButton.setSelection(true);
 						aEndIsOrderedButton.setEnabled(false);
+						aEndIsOrderedButton.setSelection(false);
 					} else {
 						aEndIsUniqueButton.setEnabled(true);
 						aEndIsOrderedButton.setEnabled(true);
@@ -509,7 +515,9 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		// N.M: Bugzilla 321524: Inconsistent behaviour between association pop-up editor and association form
 		if (aEndMult.equals(AssocMultiplicity.ONE_LITERAL) || aEndMult.equals(AssocMultiplicity.ZERO_LITERAL) || aEndMult.equals(AssocMultiplicity.ZERO_ONE_LITERAL)) {
 			aEndIsUniqueButton.setEnabled(false);
+			aEndIsUniqueButton.setSelection(true);
 			aEndIsOrderedButton.setEnabled(false);
+			aEndIsOrderedButton.setSelection(false);
 		}
 		
 		// now, define the controls for defining the zEnd properties...to do
@@ -585,7 +593,9 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 					
 					if (value.equals(AssocMultiplicity.ONE_LITERAL.getLiteral()) || value.equals(AssocMultiplicity.ZERO_LITERAL.getLiteral()) || value.equals(AssocMultiplicity.ZERO_ONE_LITERAL.getLiteral())) {
 						zEndIsUniqueButton.setEnabled(false);
+						zEndIsUniqueButton.setSelection(true);
 						zEndIsOrderedButton.setEnabled(false);
+						zEndIsOrderedButton.setSelection(false);
 					} else {
 						zEndIsUniqueButton.setEnabled(true);
 						zEndIsOrderedButton.setEnabled(true);
@@ -670,7 +680,9 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 		// N.M: Bugzilla 321524: Inconsistent behaviour between association pop-up editor and association form
 		if (zEndMult.equals(AssocMultiplicity.ONE_LITERAL) || zEndMult.equals(AssocMultiplicity.ZERO_LITERAL) || zEndMult.equals(AssocMultiplicity.ZERO_ONE_LITERAL)) {
 			zEndIsUniqueButton.setEnabled(false);
+			zEndIsUniqueButton.setSelection(true);
 			zEndIsOrderedButton.setEnabled(false);
+			zEndIsOrderedButton.setSelection(false);
 		}
 	}
 
