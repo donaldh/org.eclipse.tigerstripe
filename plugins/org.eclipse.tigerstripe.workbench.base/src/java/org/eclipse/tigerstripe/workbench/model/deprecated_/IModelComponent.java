@@ -140,7 +140,7 @@ public interface IModelComponent extends IStereotypeCapable, IAnnotationCapable,
 
 		public static EVisibility parse(String label) {
 			for (EVisibility val : values()) {
-				if (val.label.equals(label))
+				if (val.label.equalsIgnoreCase(label))
 					return val;
 			}
 			return EVisibility.PUBLIC;
