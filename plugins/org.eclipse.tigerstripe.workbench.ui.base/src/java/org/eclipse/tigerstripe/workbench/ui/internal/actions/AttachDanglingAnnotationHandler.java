@@ -98,7 +98,9 @@ public class AttachDanglingAnnotationHandler extends AbstractHandler {
 			
 		});
 		ld.setTitle("List of Dangling Annotations");
-		ld.setInput(items.toArray());
+		Object[] input = items.toArray();
+		ld.setInput(input);
+		ld.setInitialSelections(new Object[] { input[0] });
 		
 		if (ld.open() == Window.OK) {
 			Object[] result = ld.getResult();
