@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.builder;
 
+import java.lang.reflect.Proxy;
+
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -307,8 +309,18 @@ public class CommonArtifactAuditor extends AbstractArtifactAuditor implements
 		if (superArtifact != null
 				&& !((IAbstractArtifactInternal) superArtifact).isProxy()) {
 
-			boolean eligableHierarhy = superArtifact.getClass() == artifact
+			boolean eligableHierarhy = false;
+			if (Proxy.isProxyClass(superArtifact.getClass())) {
+				eligableHierarhy = compareClasses(artifact.getClass()
+						.getInterfaces(), superArtifact.getClass()
+						.getInterfaces());
+			} else {
+				eligableHierarhy = superArtifact.getClass() == artifact
 					.getClass();
+			}
+
+			
+
 			if (artifact instanceof IAssociationClassArtifact) {
 				eligableHierarhy |= superArtifact instanceof IManagedEntityArtifact;
 			}
@@ -322,5 +334,22 @@ public class CommonArtifactAuditor extends AbstractArtifactAuditor implements
 								getIProject(), artifact), 222);
 			}
 		}
+	}
+
+	private boolean compareClasses(Class<?>[] childClasses,
+			Class<?>[] parentClasses) {
+		for (Class<?> child : childClasses) {
+			boolean found = false;
+			for (Class<?> parent : parentClasses) {
+				if (child.equals(parent)) {
+					found = true;
+					break;
+				}
+			}
+			if (!found) {
+				return false;
+			}
+		}
+		return true;
 	}
 }
