@@ -109,37 +109,41 @@ public class ModuleRef implements IModuleRef {
 			IProgressMonitor monitor) throws InvalidModuleException,
 			IOException {
 		JarFile file = new JarFile(this.jarURI.getPath());
-		JarEntry tsModuleEntry = file
-				.getJarEntry(ModuleDescriptorModel.DESCRIPTOR);
+		try {
+			JarEntry tsModuleEntry = file
+					.getJarEntry(ModuleDescriptorModel.DESCRIPTOR);
 
-		if (tsModuleEntry == null)
-			throw new InvalidModuleException("can't find "
-					+ ModuleDescriptorModel.DESCRIPTOR + " in "
-					+ this.jarURI.getPath());
+			if (tsModuleEntry == null)
+				throw new InvalidModuleException("can't find "
+						+ ModuleDescriptorModel.DESCRIPTOR + " in "
+						+ this.jarURI.getPath());
 
-		InputStream stream = file.getInputStream(tsModuleEntry);
-		Reader reader = new InputStreamReader(stream, "UTF-8");
-		model = new ModuleDescriptorModel(embeddedProject, reader, true,
-				monitor);
-		file.close();
+			InputStream stream = file.getInputStream(tsModuleEntry);
+			Reader reader = new InputStreamReader(stream, "UTF-8");
+			model = new ModuleDescriptorModel(embeddedProject, reader, true,
+					monitor);
+		} finally {
+			file.close();
+		}
 	}
 
 	private TigerstripeProject parseEmbeddedProjectDescriptor()
 			throws InvalidModuleException, IOException {
+		TigerstripeModuleProject embeddedProject = null;
 		JarFile file = new JarFile(this.jarURI.getPath());
-		JarEntry tsDescriptorEntry = file
-				.getJarEntry(TigerstripeProject.DEFAULT_FILENAME);
-
-		if (tsDescriptorEntry == null)
-			throw new InvalidModuleException("can't find "
-					+ TigerstripeProject.DEFAULT_FILENAME + " in "
-					+ this.jarURI.getPath());
-
-		InputStream stream = file.getInputStream(tsDescriptorEntry);
-		Reader reader = new InputStreamReader(stream);
-		TigerstripeModuleProject embeddedProject = new TigerstripeModuleProject(
-				container);
 		try {
+			JarEntry tsDescriptorEntry = file
+					.getJarEntry(TigerstripeProject.DEFAULT_FILENAME);
+
+			if (tsDescriptorEntry == null)
+				throw new InvalidModuleException("can't find "
+						+ TigerstripeProject.DEFAULT_FILENAME + " in "
+						+ this.jarURI.getPath());
+
+			InputStream stream = file.getInputStream(tsDescriptorEntry);
+			Reader reader = new InputStreamReader(stream);
+			embeddedProject = new TigerstripeModuleProject(container);
+
 			embeddedProject.parse(reader);
 			// ((ModuleArtifactManager) getArtifactManager())
 			// .setEmbeddedProject(embeddedProject);
@@ -147,8 +151,9 @@ public class ModuleRef implements IModuleRef {
 			throw new InvalidModuleException(
 					"Can't read embedded Project Descriptor in "
 							+ this.jarURI.getPath());
+		} finally {
+			file.close();
 		}
-		file.close();
 		return embeddedProject;
 	}
 }

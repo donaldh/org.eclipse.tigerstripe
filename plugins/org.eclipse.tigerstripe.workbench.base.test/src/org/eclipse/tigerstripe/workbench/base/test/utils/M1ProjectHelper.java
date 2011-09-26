@@ -20,7 +20,6 @@ import java.util.jar.JarFile;
 
 import junit.framework.Assert;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -69,63 +68,56 @@ public class M1ProjectHelper {
 			String srcDir, String targetDir) throws IOException {
 		IPath projectLocation = project.getLocation();
 		IPath targetTemplatesPath = projectLocation.append(targetDir);
-		
-		
 		String baseBundleRoot = BundleUtils.INSTANCE.getBundleRoot();
-		if (baseBundleRoot.endsWith(".jar")){
-			
+		if (baseBundleRoot.endsWith(".jar")) {
 			JarFile jar = new JarFile(baseBundleRoot);
-			
 			Enumeration<JarEntry> entries = jar.entries();
-			
 			while (entries.hasMoreElements()) {
 				JarEntry file = (JarEntry) entries.nextElement();
-				
-				if ( file.getName().startsWith(srcDir)){
-//				System.out.println("Jar Entry  "+file.getName());
-				
-				String namePart = file.getName().substring(srcDir.length()+1);
-				
-				File f = new File(targetTemplatesPath + File.separator + namePart);
-//				System.out.println("File "+f.getAbsolutePath()+ " "+f.exists());
-				
-				if (file.isDirectory()) { // if its a directory, create it
-					f.mkdir();
-					continue;
-				}
-				
-				f.createNewFile();
 
-				
-				InputStream is = jar.getInputStream(file); // get the input stream
-				FileOutputStream fos = new FileOutputStream(f);
-				
-				while (is.available() > 0) {  // write contents of 'is' to 'fos'
-					fos.write(is.read());
-				}
-				
-				fos.close();
-				is.close();
+				if (file.getName().startsWith(srcDir)) {
+
+					String namePart = file.getName().substring(
+							srcDir.length() + 1);
+
+					File f = new File(targetTemplatesPath + File.separator
+							+ namePart);
+
+					if (file.isDirectory()) { // if its a directory, create it
+						f.mkdir();
+						continue;
+					}
+
+					f.createNewFile();
+
+					InputStream is = jar.getInputStream(file);
+					FileOutputStream fos = new FileOutputStream(f);
+					try {
+						while (is.available() > 0) {
+							fos.write(is.read());
+						}
+					} finally {
+						fos.close();
+						is.close();
+					}
 				}
 			}
-
 		} else {
-		
-
-			File templatesDir = new File(baseBundleRoot + File.separator + srcDir);
+			File templatesDir = new File(baseBundleRoot + File.separator
+					+ srcDir);
 			File[] templates = templatesDir.listFiles();
-			Assert.assertNotNull(templatesDir.toString(),templates);
+			Assert.assertNotNull(templatesDir.toString(), templates);
 			if (templates == null)
 				templates = new File[0];
 			for (File template : templates) {
 				String targetPath = targetTemplatesPath.toOSString();
 
-				if (!(new File(targetPath + File.separator + template.getName())).exists()) {
-					if (template.isFile()){
-						FileUtils
-						.copy(template.getAbsolutePath(), targetPath, true);
-					}
-					else {
+				if (!(new File(targetPath + File.separator + template.getName()))
+						.exists()) {
+					if (template.isFile()) {
+						FileUtils.copy(template.getAbsolutePath(), targetPath,
+								true);
+					} else {
 						FileUtils.copyDir(template.getParentFile()
 								.getAbsolutePath(), targetPath, true);
 					}
@@ -133,8 +125,6 @@ public class M1ProjectHelper {
 			}
 		}
 	}
-
-	
 	
 	private static void copyTemplates(ITigerstripeM1GeneratorProject project)
 			throws IOException {
