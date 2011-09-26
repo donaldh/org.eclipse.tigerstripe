@@ -92,21 +92,25 @@ public class ModuleAnnotationManager {
 		File file = new File(filePath);
 		if (file.exists()) {
 			JarFile jarFile = new JarFile(file);
-			for (Enumeration<JarEntry> entries = jarFile.entries(); entries
-					.hasMoreElements();) {
-				JarEntry entry = entries.nextElement();
-				if (entry.getName().endsWith(
-						EObjectRouter.ANNOTATION_FILE_EXTENSION)) {
-					ResourceSet set = new ResourceSetImpl();
+			try {
+				for (Enumeration<JarEntry> entries = jarFile.entries(); entries
+						.hasMoreElements();) {
+					JarEntry entry = entries.nextElement();
+					if (entry.getName().endsWith(
+							EObjectRouter.ANNOTATION_FILE_EXTENSION)) {
+						ResourceSet set = new ResourceSetImpl();
 
-					// create archive URI
-					String uriString = "tsmodule:/" + moduleID + "/" + filePath
-							+ "!/" + entry.getName();
-					URI rr = URI.createURI(uriString);
+						// create archive URI
+						String uriString = "tsmodule:/" + moduleID + "/"
+								+ filePath + "!/" + entry.getName();
+						URI rr = URI.createURI(uriString);
 
-					Resource res = set.createResource(rr);
-					result.add(res);
+						Resource res = set.createResource(rr);
+						result.add(res);
+					}
 				}
+			} finally {
+				jarFile.close();
 			}
 		}
 		return result.toArray(new Resource[result.size()]);

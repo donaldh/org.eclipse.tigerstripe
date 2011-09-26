@@ -41,19 +41,21 @@ public class UnparsedModuleRef extends ModuleRef implements IModuleRef {
 			IProgressMonitor monitor) throws InvalidModuleException,
 			IOException {
 		JarFile file = new JarFile(this.jarURI.getPath());
-		JarEntry tsModuleEntry = file
-				.getJarEntry(ModuleDescriptorModel.DESCRIPTOR);
+		try {
+			JarEntry tsModuleEntry = file
+					.getJarEntry(ModuleDescriptorModel.DESCRIPTOR);
 
-		if (tsModuleEntry == null)
-			throw new InvalidModuleException("can't find "
-					+ ModuleDescriptorModel.DESCRIPTOR + " in "
-					+ this.jarURI.getPath());
+			if (tsModuleEntry == null)
+				throw new InvalidModuleException("can't find "
+						+ ModuleDescriptorModel.DESCRIPTOR + " in "
+						+ this.jarURI.getPath());
 
-		InputStream stream = file.getInputStream(tsModuleEntry);
-		Reader reader = new InputStreamReader(stream, "UTF-8");
-		model = new ModuleDescriptorModel(embeddedProject, reader, false,
-				monitor);
-		file.close();
+			InputStream stream = file.getInputStream(tsModuleEntry);
+			Reader reader = new InputStreamReader(stream, "UTF-8");
+			model = new ModuleDescriptorModel(embeddedProject, reader,
+						false, monitor);
+		} finally {
+			file.close();
+		}
 	}
-
 }
