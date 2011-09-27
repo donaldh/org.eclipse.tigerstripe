@@ -180,7 +180,7 @@ public class ArtifactStereotypesSection extends ArtifactSectionPart {
 			if (selected != null && selected instanceof IStereotypeInstance) {
 				IStereotype stereotype = ((IStereotypeInstance) selected)
 						.getCharacterizingStereotype();
-				if (stereotype.getDescription() != null) {
+				if (stereotype != null && stereotype.getDescription() != null) {
 					result = stereotype.getDescription();
 				}
 			}

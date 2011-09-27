@@ -59,6 +59,8 @@ import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.ModelElementAnnotationsHelper;
 import org.eclipse.tigerstripe.workbench.ui.internal.elements.NewTSMessageDialog;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.AggregationEnum;
@@ -311,8 +313,13 @@ public class AssociationPropertiesEditDialog extends NewTSMessageDialog {
 			}
 		});
 		associationStereotypesField = new Text(composite, SWT.BORDER | SWT.FLAT);
-		List<String> assocStereotypes = association.getStereotypes();
-		origAssociationStereotypesStringVal = getStereotypeLabel(assocStereotypes);
+		try {
+			origAssociationStereotypesStringVal = ModelElementAnnotationsHelper
+					.getAnnotationsAsString(false, true,
+							association.getCorrespondingIArtifact());
+		} catch (TigerstripeException e) {
+			EclipsePlugin.log(e);
+		}
 		associationStereotypesField
 				.setText(origAssociationStereotypesStringVal);
 		associationStereotypesField
