@@ -60,14 +60,16 @@ public class ResourcesMonitor implements IResourceChangeListener {
 					IProject[] projects = workspace.getRoot().getProjects();
 					monitor.beginTask("Initializing", projects.length);
 					for (IProject project : projects) {
-						project.accept(new IResourceVisitor() {
+						if (project.isAccessible()) {
+							project.accept(new IResourceVisitor() {
 
-							public boolean visit(IResource resource)
-									throws CoreException {
-								INSTANCE.processResource(resource, true);
-								return true;
-							}
-						});
+								public boolean visit(IResource resource)
+										throws CoreException {
+									INSTANCE.processResource(resource, true);
+									return true;
+								}
+							});
+						}
 						if (monitor.isCanceled()) {
 							return Status.CANCEL_STATUS;
 						}
