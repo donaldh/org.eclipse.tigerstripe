@@ -50,7 +50,6 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ComponentNameProvider;
-import org.eclipse.tigerstripe.workbench.internal.core.model.Method;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMultiplicity;
@@ -62,6 +61,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.undo.ModelUndoableEdit;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.DetailsPart;
+import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
@@ -516,12 +516,9 @@ public class ArtifactMethodsSection extends ModelComponentSectionPart implements
 	}
 
 	protected void registerPages(DetailsPart detailsPart) {
-		detailsPart
-				.registerPage(
-						Method.class, // TODO remove the dependency on
-						// Core and use API instead
-						new ArtifactMethodDetailsPage(this, getIArtifact()
-								.isReadonly()));
+		IDetailsPage detailsPage = new ArtifactMethodDetailsPage(this,
+				getIArtifact().isReadonly());
+		registerDetailsPage(detailsPart, detailsPage, IMethod.class);
 	}
 
 	/**

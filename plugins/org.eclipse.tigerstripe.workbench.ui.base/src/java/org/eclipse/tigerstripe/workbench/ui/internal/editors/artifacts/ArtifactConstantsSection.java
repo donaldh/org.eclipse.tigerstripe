@@ -50,7 +50,6 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ComponentNameProvider;
-import org.eclipse.tigerstripe.workbench.internal.core.model.Literal;
 import org.eclipse.tigerstripe.workbench.internal.core.util.Misc;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
@@ -65,6 +64,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.undo.ModelUndoableEdit;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLayoutFactory;
 import org.eclipse.ui.forms.DetailsPart;
+import org.eclipse.ui.forms.IDetailsPage;
 import org.eclipse.ui.forms.IFormPart;
 import org.eclipse.ui.forms.IManagedForm;
 import org.eclipse.ui.forms.widgets.ExpandableComposite;
@@ -609,10 +609,10 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart
 	}
 
 	protected void registerPages(DetailsPart detailsPart) {
-		detailsPart.registerPage(Literal.class, // TODO remove the dependency on
-				// Core and use API instead
-				new ArtifactConstantDetailsPage(this, getIArtifact()
-						.isReadonly()));
+		IDetailsPage detailsPage = new ArtifactConstantDetailsPage(this,
+				getIArtifact().isReadonly());
+		registerDetailsPage(detailsPart, detailsPage,
+				ILiteral.class);
 	}
 
 	/**

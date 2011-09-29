@@ -32,6 +32,9 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
 import org.eclipse.ui.IWorkbenchSite;
+import org.eclipse.ui.forms.DetailsPart;
+import org.eclipse.ui.forms.IDetailsPage;
+import org.eclipse.ui.forms.IDetailsPageProvider;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 public abstract class ModelComponentSectionPart extends ArtifactSectionPart {
@@ -201,5 +204,25 @@ public abstract class ModelComponentSectionPart extends ArtifactSectionPart {
 				fetchHierarchy(impl, hierarchy, fqns, includeImplemented);
 			}
 		}
+	}
+
+	protected void registerDetailsPage(DetailsPart detailsPart,
+			final IDetailsPage detailsPage, final Class<?> clazz) {
+		detailsPart.setPageProvider(new IDetailsPageProvider() {
+			public Object getPageKey(Object object) {
+				if (clazz.isAssignableFrom(object.getClass())) {
+					return clazz;
+				}
+				return null;
+			}
+
+			public IDetailsPage getPage(Object key) {
+				if (clazz.equals(key)) {
+					return detailsPage;
+				}
+				return null;
+			}
+		});
+		detailsPart.registerPage(clazz, detailsPage);
 	}
 }
