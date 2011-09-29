@@ -46,36 +46,36 @@ public class DescriptorAuditor {
 				.getAdapter(ITigerstripeModelProject.class);
 		projectDescriptor = project
 				.getFile(ITigerstripeConstants.PROJECT_DESCRIPTOR);
-		if (projectDescriptor == null) {
+		if (projectDescriptor == null || !projectDescriptor.isAccessible()) {
 			TigerstripeProjectAuditor.reportError(
 					"Project '" + project.getName()
 							+ "' has no Tigerstripe descriptor ("
 							+ ITigerstripeConstants.PROJECT_DESCRIPTOR + ")",
 					project, 222);
-		}
-
-		TigerstripeProjectAuditor.deleteAuditMarkers(projectDescriptor,
-				IResource.DEPTH_ZERO);
-		TigerstripeProjectAuditor.deleteAuditMarkers(project,
-				IResource.DEPTH_ZERO);
-
-		if (tsProject != null) {
-			monitor.beginTask("Checking project descriptor", 70);
-			checkProjectDetails(tsProject);
-			monitor.worked(10);
-			checkProjectDependencies(tsProject, monitor);
-			monitor.worked(10);
-			monitor.worked(20);
-			alignProjectDependenciesWithEclipseClasspath(tsProject, project,
-					monitor);
-			checkPluginProperties(tsProject);
-			monitor.worked(20);
-			checkFacetReferences(tsProject);
-			monitor.done();
 		} else {
-			TigerstripeProjectAuditor.reportError(
-					"Project '" + project.getName() + "' is invalid", project,
-					222);
+			TigerstripeProjectAuditor.deleteAuditMarkers(projectDescriptor,
+					IResource.DEPTH_ZERO);
+			TigerstripeProjectAuditor.deleteAuditMarkers(project,
+					IResource.DEPTH_ZERO);
+
+			if (tsProject != null) {
+				monitor.beginTask("Checking project descriptor", 70);
+				checkProjectDetails(tsProject);
+				monitor.worked(10);
+				checkProjectDependencies(tsProject, monitor);
+				monitor.worked(10);
+				monitor.worked(20);
+				alignProjectDependenciesWithEclipseClasspath(tsProject,
+						project, monitor);
+				checkPluginProperties(tsProject);
+				monitor.worked(20);
+				checkFacetReferences(tsProject);
+				monitor.done();
+			} else {
+				TigerstripeProjectAuditor.reportError(
+						"Project '" + project.getName() + "' is invalid",
+						project, 222);
+			}
 		}
 	}
 

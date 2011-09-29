@@ -307,7 +307,6 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	@Override
 	protected IProject[] build(int kind, Map args, IProgressMonitor monitor)
 			throws CoreException {
-
 		try {
 			checkAnnotations(kind);
 		} catch (TigerstripeException e) {
@@ -336,8 +335,11 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 				modelIds.add(ref.getToModelId());
 			}
 
-			if (!modelIds.isEmpty()) {
+			for (ModelReference ref : model.getReferencingModels(1)) {
+				modelIds.add(ref.getToModelId());
+			}
 
+			if (!modelIds.isEmpty()) {
 				IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 				for (IProject project : root.getProjects()) {
 					if (project.equals(self))
@@ -412,11 +414,17 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 
 	private static void reportProblem(String msg, IResource srcFile,
 			int violation, int severity) {
+		reportProblem(msg, srcFile, violation, severity,
+				BuilderConstants.MARKER_ID);
+	}
+
+	private static void reportProblem(String msg, IResource srcFile,
+			int violation, int severity, String markerType) {
 
 		if (srcFile == null)
 			return;
 		try {
-			IMarker marker = srcFile.createMarker(BuilderConstants.MARKER_ID);
+			IMarker marker = srcFile.createMarker(markerType);
 			marker.setAttribute(IMarker.MESSAGE, msg);
 			marker.setAttribute(IMarker.SEVERITY, severity);
 		} catch (CoreException e) {
@@ -522,7 +530,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 			@Override
 			public boolean isLookedFor(int deltaKind, IResource resource) {
 				if (resource instanceof IFile) {
-					if ((deltaKind == IResourceDelta.CHANGED && ITigerstripeConstants.PROJECT_DESCRIPTOR
+					if (((deltaKind == IResourceDelta.CHANGED || deltaKind == IResourceDelta.ADDED) && ITigerstripeConstants.PROJECT_DESCRIPTOR
 							.equals(resource.getName()))
 							|| IContractSegment.FILE_EXTENSION.equals(resource
 									.getFileExtension())) {
@@ -577,9 +585,14 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	}
 
 	public static boolean deleteAuditMarkers(IResource resource, int depth) {
+		return deleteAuditMarkers(resource, BuilderConstants.MARKER_ID, depth);
+	}
+
+	public static boolean deleteAuditMarkers(IResource resource,
+			String markerType, int depth) {
 		try {
 			if (resource != null)
-				resource.deleteMarkers(BuilderConstants.MARKER_ID, false, depth);
+				resource.deleteMarkers(markerType, false, depth);
 			return true;
 		} catch (CoreException e) {
 			BasePlugin.log(e);
@@ -726,19 +739,29 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 
 	private void checkUnresolvedModelReferences() {
 		IProject project = getProject();
+		IResource markerResource = project;
 		ITigerstripeModelProject tsProject = (ITigerstripeModelProject) project
 				.getAdapter(ITigerstripeModelProject.class);
 		IFile projectDescriptor = project
 				.getFile(ITigerstripeConstants.PROJECT_DESCRIPTOR);
+
+		deleteAuditMarkers(project, BuilderConstants.REFERENCES_MARKER_ID,
+				IResource.DEPTH_ZERO);
+		if (projectDescriptor.isAccessible()) {
+			deleteAuditMarkers(projectDescriptor,
+				BuilderConstants.REFERENCES_MARKER_ID, IResource.DEPTH_ZERO);
+			markerResource = projectDescriptor;
+		}
 		try {
 			ModelReference[] references = tsProject.getModelReferences();
 			for (ModelReference reference : references) {
 				ITigerstripeModelProject model = reference.getResolvedModel();
 				if (model == null) {
-					TigerstripeProjectAuditor.reportError(
+					TigerstripeProjectAuditor.reportProblem(
 							"Unresolved model reference with id '"
 									+ reference.getToModelId() + "'",
-							projectDescriptor, 222);
+							markerResource, 222, IMarker.SEVERITY_ERROR,
+							BuilderConstants.REFERENCES_MARKER_ID);
 				}
 			}
 		} catch (TigerstripeException e) {

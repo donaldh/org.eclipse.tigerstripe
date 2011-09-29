@@ -55,6 +55,8 @@ public interface BuilderConstants {
 	};
 
 	public static final String MARKER_ID = PREFIX + ".auditmarker"; //$NON-NLS-1$
+	public static final String REFERENCES_MARKER_ID = PREFIX
+			+ ".referencesAuditMarker"; //$NON-NLS-1$
 	public static final String CYCLES_MARKER_ID = PREFIX
 			+ ".projectCyclesMarker"; //$NON-NLS-1$
 
