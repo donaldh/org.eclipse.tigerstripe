@@ -221,10 +221,6 @@ public class EMFDatabase implements IEMFDatabase, IResourceManager, IResourceCha
 			}
 			if (needUpdate) {
 				doRebuildIndex();
-				Status status = new Status(IStatus.WARNING,
-						ResourcesPlugin.PLUGIN_ID,
-						"Index corrupted and was rebuild.");
-				ResourcesPlugin.getDefault().getLog().log(status);
 			}
 		}
 		return resultWriteLock;

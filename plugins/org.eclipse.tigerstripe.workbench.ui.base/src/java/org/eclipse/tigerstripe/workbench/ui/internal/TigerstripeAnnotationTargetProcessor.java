@@ -4,7 +4,6 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.tigerstripe.annotation.ui.core.ITargetProcessor;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMember;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.Editors;
 import org.eclipse.tigerstripe.workbench.utils.AdaptHelper;
 import org.eclipse.ui.IEditorPart;
@@ -12,7 +11,7 @@ import org.eclipse.ui.IEditorPart;
 public class TigerstripeAnnotationTargetProcessor implements ITargetProcessor {
 
 	public boolean isDirty(Object object) {
-		if (object instanceof IModelComponent) {
+		if (object instanceof IMember) {
 			IMember m = (IMember) object;
 			IAbstractArtifact art = m.getContainingArtifact();
 			if (art == null) {
