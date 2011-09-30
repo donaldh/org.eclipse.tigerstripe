@@ -130,13 +130,18 @@ public class TigerstripeSubjectsFactory implements CommitListener {
 				IDependency dependency = toDependency(delta);
 				switch (delta.getKind()) {
 				case PROJECT_REFERENCE_ADDED:
-					Utils.addToSetInMap(addedRefs, workingCopy, reference);
-					Utils.removeFromSetInMap(removedRefs, workingCopy,
+					if (reference != null) {
+						Utils.addToSetInMap(addedRefs, workingCopy, reference);
+						Utils.removeFromSetInMap(removedRefs, workingCopy,
 							reference);
+					}
 					break;
 				case PROJECT_REFERENCE_REMOVED:
-					Utils.addToSetInMap(removedRefs, workingCopy, reference);
-					Utils.removeFromSetInMap(addedRefs, workingCopy, reference);
+					if (reference != null) {
+						Utils.addToSetInMap(removedRefs, workingCopy, reference);
+						Utils.removeFromSetInMap(addedRefs, workingCopy,
+								reference);
+					}
 					break;
 				case PROJECT_DEPENDENCY_ADDED:
 					Utils.addToSetInMap(addedDeps, workingCopy, dependency);
