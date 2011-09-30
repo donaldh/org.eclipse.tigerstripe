@@ -18,7 +18,9 @@ public class AnnotationMarkerRemover extends AnnotationMarkerResolution {
 
 	public void run(IMarker marker) {
 		Annotation annotation = getAnnotation(marker);
-		AnnotationPlugin.getManager().removeAnnotation(annotation);
+		if (annotation != null) {
+			AnnotationPlugin.getManager().removeAnnotation(annotation);
+		}
 	}
 
 	public String getLabel() {

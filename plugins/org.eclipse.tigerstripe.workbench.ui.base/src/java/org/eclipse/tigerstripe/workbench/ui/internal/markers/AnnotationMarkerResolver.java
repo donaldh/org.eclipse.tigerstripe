@@ -21,9 +21,11 @@ public class AnnotationMarkerResolver extends AnnotationMarkerResolution {
 
 	public void run(IMarker marker) {
 		Annotation annotation = getAnnotation(marker);
-		URI uri = getNewURI(marker, annotation.getUri());
-		annotation.setUri(uri);
-		AnnotationPlugin.getManager().save(annotation);
+		if (annotation != null) {
+			URI uri = getNewURI(marker, annotation.getUri());
+			annotation.setUri(uri);
+			AnnotationPlugin.getManager().save(annotation);
+		}
 	}
 
 	@Override
