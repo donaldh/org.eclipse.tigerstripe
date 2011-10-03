@@ -12,6 +12,7 @@ package org.eclipse.tigerstripe.workbench.ui.internal.dialogs;
 
 import static java.util.Arrays.asList;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -95,7 +96,7 @@ public class TigerstripeProjectSelectionDialog extends SelectionStatusDialog {
 			InstalledModule[] modules = InstalledModuleManager.getInstance()
 					.getModules();
 
-			Collection<Object> projsAndModules = new HashSet<Object>();
+			Collection<Object> projsAndModules = new ArrayList<Object>();
 			projsAndModules.addAll(asList(javaResult));
 			projsAndModules.addAll(asList(modules));
 
