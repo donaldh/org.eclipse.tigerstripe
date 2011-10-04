@@ -28,12 +28,15 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.ICompilationUnit;
+import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
+import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.core.JarEntryFile;
 import org.eclipse.jdt.internal.core.JarPackageFragmentRoot;
+import org.eclipse.jdt.internal.core.PackageFragment;
 import org.eclipse.jdt.internal.core.PackageFragmentRoot;
 import org.eclipse.jdt.internal.ui.navigator.JavaNavigatorContentProvider;
 import org.eclipse.jdt.internal.ui.packageview.ClassPathContainer;
@@ -248,7 +251,8 @@ public class NewTigerstripeExplorerContentProvider extends
 		} else if (element instanceof IFile
 				&& ((IFile) element).getName().endsWith(".package")) {
 			return false;
-		} else if (element instanceof PackageFragmentRoot) {
+		} else if (element instanceof PackageFragmentRoot
+				|| isJarPackageFragment(element)) {
 			return true;
 		} else if (element instanceof IModelComponent
 				|| element instanceof IRelationshipEnd) {
@@ -256,6 +260,19 @@ public class NewTigerstripeExplorerContentProvider extends
 		} else if (element instanceof IAdaptable
 				&& ((IAdaptable) element).getAdapter(IModelComponent.class) != null) {
 			return true;
+		}
+		return false;
+	}
+
+	private boolean isJarPackageFragment(Object element) {
+		if (element instanceof PackageFragment) {
+			try {
+				if (((IJavaElement) element).getCorrespondingResource() == null) {
+					return true;
+				}
+			} catch (JavaModelException e) {
+				EclipsePlugin.log(e);
+			}
 		}
 		return false;
 	}
