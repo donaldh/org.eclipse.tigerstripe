@@ -14,7 +14,6 @@ import org.eclipse.jdt.internal.core.JarEntryFile;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.ReadOnlyEditorInput;
-import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.AbstractArtifactLabelProvider;
 
 /**
  * THis is passed to an editor when trying to open an artifact from a module
@@ -24,9 +23,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.Abstract
  */
 public class ReadOnlyArtifactEditorInput extends ReadOnlyEditorInput {
 
-	private AbstractArtifactLabelProvider labelProvider = new AbstractArtifactLabelProvider();
-
-	private IAbstractArtifact artifact;
+	private final IAbstractArtifact artifact;
 
 	public ReadOnlyArtifactEditorInput(JarEntryFile jarEntryFile,
 			IAbstractArtifact artifact) {
@@ -53,4 +50,20 @@ public class ReadOnlyArtifactEditorInput extends ReadOnlyEditorInput {
 		return artifact.getName();
 	}
 
+	@Override
+	public int hashCode() {
+		return artifact.hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof ReadOnlyArtifactEditorInput)) {
+			return false;
+		}
+		ReadOnlyArtifactEditorInput other = (ReadOnlyArtifactEditorInput) obj;
+		return artifact.equals(other.getArtifact());
+	}
 }
