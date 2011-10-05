@@ -18,6 +18,7 @@ import java.util.TreeMap;
 
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
+import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.api.IDependencySubject;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.api.IDependencyType;
 import org.eclipse.tigerstripe.workbench.ui.dependencies.utils.IdObject;
@@ -44,7 +45,10 @@ public class TSDependencySubject extends IdObject implements IDependencySubject 
 
 	public SortedMap<String, String> getProperties() {
 		TreeMap<String, String> props = new TreeMap<String, String>();
-		props.put("version", dep.getIProjectDetails().getVersion());
+		IProjectDetails projectDetails = dep.getIProjectDetails();
+		if (projectDetails != null) {
+			props.put("version", projectDetails.getVersion());
+		}
 		return props;
 
 	}

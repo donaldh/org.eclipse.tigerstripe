@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions;
 
 import static java.util.Arrays.asList;
+import static org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory.toURI;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,6 +27,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IPackageFragment;
@@ -33,6 +35,7 @@ import org.eclipse.jdt.internal.ui.refactoring.reorg.DeleteAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContractSegment;
@@ -257,6 +260,7 @@ public class TSDeleteAction extends DeleteAction {
                 //Bug 320140 - placing artifacts in a map instead of a list so if they come up again
                 //we will use the already modified artifact in the map and modify it further
                 //otherwise only the last change will take affect
+            	Set<URI> deletedURI = new HashSet<URI>();
                 Map<String, IAbstractArtifact> changedArtifacts = new HashMap<String, IAbstractArtifact>();
                 for (Iterator iter = selection.iterator(); iter.hasNext();) {
                     Object obj = iter.next();
@@ -280,6 +284,7 @@ public class TSDeleteAction extends DeleteAction {
                                     field = realField;
                             }
 
+                            deletedURI.add(toURI(field));
                             art.removeFields(Collections.singleton(field));
 
                             changedArtifacts.put(FQN, art);
@@ -300,6 +305,7 @@ public class TSDeleteAction extends DeleteAction {
                                         .makeWorkingCopy(null);
                             }
 
+                            deletedURI.add(toURI(method));
                             art.removeMethods(Collections.singleton(method));
 
                             changedArtifacts.put(FQN, art);
@@ -325,6 +331,7 @@ public class TSDeleteAction extends DeleteAction {
                                         literal.getLabelString()))
                                     literal = realLiteral;
                             }
+                            deletedURI.add(toURI(literal));
                             art.removeLiterals(Collections.singleton(literal));
 
                             changedArtifacts.put(FQN, art);
@@ -334,6 +341,10 @@ public class TSDeleteAction extends DeleteAction {
                     }
                 }
 
+    			for (URI uri : deletedURI) {
+    				AnnotationPlugin.getManager().deleted(uri, true);
+				}
+                
                 // Notify of changes on all artifacts
                 // We use doSilentSave() above so we need to notify the parent
                 // artifact mgr

@@ -259,6 +259,9 @@ public class ClasspathUpdater {
 	// Note that the ModuleAnnotationManager will make sure that dependencies
 	// are not double registered
 	private static void registerAnnotationsIfNeeded(IDependency dep) {
+		if (!dep.isValid()) {
+			return;
+		}
 		try {
 			ModuleAnnotationManager.INSTANCE.registerAnnotationsFor(dep
 					.getURI(), dep.getIModuleHeader().getModuleID(),

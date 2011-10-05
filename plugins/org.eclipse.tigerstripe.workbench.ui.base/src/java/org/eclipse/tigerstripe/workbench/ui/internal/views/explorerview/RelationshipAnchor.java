@@ -27,7 +27,7 @@ public class RelationshipAnchor {
 		this.targetTypeFQN = otherEnd.getType().getFullyQualifiedName();
 		this.relationshipFQN = end.getContainingRelationship()
 				.getFullyQualifiedName();
-		this.anchorName = end.getName();
+		this.anchorName = otherEnd.getName();
 		this.end = end;
 	}
 

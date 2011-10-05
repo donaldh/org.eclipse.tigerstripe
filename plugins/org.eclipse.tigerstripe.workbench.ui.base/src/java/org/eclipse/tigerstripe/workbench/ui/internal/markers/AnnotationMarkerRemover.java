@@ -1,9 +1,11 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.markers;
 
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.ui.ISharedImages;
 import org.eclipse.ui.PlatformUI;
 
@@ -20,6 +22,11 @@ public class AnnotationMarkerRemover extends AnnotationMarkerResolution {
 		Annotation annotation = getAnnotation(marker);
 		if (annotation != null) {
 			AnnotationPlugin.getManager().removeAnnotation(annotation);
+		}
+		try {
+			marker.delete();
+		} catch (CoreException e) {
+			BasePlugin.log(e);
 		}
 	}
 

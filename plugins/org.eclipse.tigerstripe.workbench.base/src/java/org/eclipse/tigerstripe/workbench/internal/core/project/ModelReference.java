@@ -23,6 +23,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.project.IPhantomTigerstrip
 import org.eclipse.tigerstripe.workbench.internal.core.module.InstalledModule;
 import org.eclipse.tigerstripe.workbench.internal.core.module.InstalledModuleManager;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
+import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 /**
@@ -121,10 +122,13 @@ public class ModelReference {
 			try {
 				IDependency[] dependencies = projectContext.getDependencies();
 				for (IDependency dependency : dependencies) {
-					String modelId = "".equals(dependency.getIProjectDetails()
+					IProjectDetails projectDetails = dependency.getIProjectDetails();
+					if (projectDetails == null) {
+						continue;
+					}
+					String modelId = "".equals(projectDetails
 							.getModelId()) ? dependency.getIModuleHeader()
-							.getOriginalName() : dependency
-							.getIProjectDetails().getModelId();
+							.getOriginalName() : projectDetails.getModelId();
 					if (this.toModelId.equals(modelId)) {
 						resolvedModel = dependency.makeModuleProject(projectContext);
 						return;

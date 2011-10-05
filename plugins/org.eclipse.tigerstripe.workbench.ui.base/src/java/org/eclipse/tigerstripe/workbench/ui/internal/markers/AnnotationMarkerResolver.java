@@ -1,10 +1,12 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.markers;
 
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.ui.ISharedImages;
@@ -25,6 +27,11 @@ public class AnnotationMarkerResolver extends AnnotationMarkerResolution {
 			URI uri = getNewURI(marker, annotation.getUri());
 			annotation.setUri(uri);
 			AnnotationPlugin.getManager().save(annotation);
+		}
+		try {
+			marker.delete();
+		} catch (CoreException e) {
+			BasePlugin.log(e);
 		}
 	}
 

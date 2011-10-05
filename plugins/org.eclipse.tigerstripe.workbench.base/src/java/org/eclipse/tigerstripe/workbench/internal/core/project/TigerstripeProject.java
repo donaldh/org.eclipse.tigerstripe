@@ -667,16 +667,8 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 
 	public void addDependency(IDependency dependency) {
 		
-		if (!dependency.isValid()) {
-			return;
-		}
-
 		URI uri = dependency.getURI();
 		IModuleHeader header = dependency.getIModuleHeader();
-		
-		if (uri == null || header == null || header.getModuleID() == null) {
-			return;
-		}
 		
 		if (!this.dependencies.contains(dependency)) {
 			setDirty();
@@ -684,8 +676,10 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			((Dependency) dependency).setContainer(this);
 
 			try {
-				ModuleAnnotationManager.INSTANCE.registerAnnotationsFor(uri,
-						header.getModuleID(), Mode.READ_ONLY);
+				if (uri != null && header != null) {
+					ModuleAnnotationManager.INSTANCE.registerAnnotationsFor(uri,
+							header.getModuleID(), Mode.READ_ONLY);
+				}
 			} catch (IOException e) {
 				BasePlugin.log(e);
 			}

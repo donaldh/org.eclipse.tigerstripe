@@ -122,26 +122,25 @@ public class ExternalModules {
 	 */
 	private static String getModuleDetails(String fullPath) {
 		String details = "";
-
 		try {
 			IDependency dep = TigerstripeProjectFactory.INSTANCE
 					.getProjectSession().makeIDependency(fullPath);
 			StringBuffer detBuff = new StringBuffer();
-			detBuff.append(dep.getIModuleHeader().getOriginalName());
-			detBuff.append(":");
-			detBuff.append(dep.getIModuleHeader().getModuleID());
-			detBuff.append(":");
-			detBuff.append(dep.getIProjectDetails().getVersion());
-			detBuff.append(":");
-			detBuff.append(dep.getIProjectDetails().getDescription());
+			if (dep.isValid()) {
+				detBuff.append(dep.getIModuleHeader().getOriginalName());
+				detBuff.append(":");
+				detBuff.append(dep.getIModuleHeader().getModuleID());
+				detBuff.append(":");
+				detBuff.append(dep.getIProjectDetails().getVersion());
+				detBuff.append(":");
+				detBuff.append(dep.getIProjectDetails().getDescription());
+			}
 			details = detBuff.toString();
-
 			return details;
 		} catch (Exception e) {
 			TigerstripeRuntime.logErrorMessage("Exception detected", e);
-		} finally {
-			return details;
-		}
+		} 
+		return details;
 	}
 
 	private static boolean loadContents(File dir) {
