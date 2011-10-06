@@ -386,6 +386,23 @@
    </extension>
   <extension
             point="org.eclipse.ui.popupMenus">
+            
+		<!-- NM US7852 -->     
+        <!-- TODO: Incomplete -->
+      <!--<objectContribution
+            objectClass="org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject" 
+            id="org.eclipse.tigerstripe.workbench.compareActionACTION"
+            adaptable="true">
+
+         <action
+               class="org.eclipse.tigerstripe.workbench.ui.internal.actions.ModelCompareAction"                       
+               id="org.eclipse.tigerstripe.workbench.compareAction"
+               label="Compare Tigerstripe Models..."
+               menubarPath="additions"
+               enablesFor="2"/>
+
+      </objectContribution>-->
+            
          <objectContribution
                adaptable="false"
                id="org.eclipse.tigerstripe.workbench.ui.base.packagedPlugin.popupMenu"
@@ -1201,6 +1218,18 @@
                </and>
             </enablement>
          </actionProvider>
+         
+          <!-- NM US7583: Model compare tool -->
+         <!--<actionProvider
+               class="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.CompareActionGroup"
+               id="org.eclipse.tigerstripe.workbench.ui.explorer.actions.ComparetActions">
+            <enablement>
+               <count value="2"/>
+            </enablement> 
+         </actionProvider> -->
+         
+         
+         
          <actionProvider
                class="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.actions.AuditActionGroup"
                id="org.eclipse.tigerstripe.workbench.ui.explorer.actions.AuditActions">
