@@ -27,5 +27,13 @@ SITE_NAME="Updates (Latest)"
 esac
  
 echo "Uploading build ${PROMOTED_BUILD} to $SITE_NAME"
-cd /auto/common-comps/hudson/conf.sjc-nmtgci-01/jobs/tigerstripe/builds/${PROMOTED_BUILD}/archive/site
-scp -rv * edillon@download1.eclipse.org:"$SITE"
+cd ${WORKSPACE}
+rm -rf promoted_build
+mkdir promoted_build
+cd promoted_build
+wget --no-check-certificate ${PROMOTED_URL}artifact/site/*zip*/site.zip
+unzip site.zip
+rm -f site.zip
+chmod -R 644
+
+scp -rpv * edillon@download1.eclipse.org:"$SITE"
