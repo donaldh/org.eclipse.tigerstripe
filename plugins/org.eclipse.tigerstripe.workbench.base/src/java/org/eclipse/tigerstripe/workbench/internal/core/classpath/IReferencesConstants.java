@@ -14,6 +14,6 @@ public interface IReferencesConstants {
 	public static final IPath REFERENCES_CONTAINER_PATH = new Path(
 			"org.eclipse.tigerstripe.workbench.base.modelReferences"); //$NON-NLS-1$
 
-	public static final String CONTAINER_DESCRIPTION = "Model Project References";
+	public static final String CONTAINER_DESCRIPTION = "Model References";
 
 }

@@ -1119,7 +1119,7 @@
      <classpathContainerPage
            class="org.eclipse.tigerstripe.workbench.ui.internal.wizards.classpath.ReferencesContainerPage"
            id="org.eclipse.tigerstripe.workbench.base.modelReferences"
-           name="Model Project References">
+           name="Model References">
      </classpathContainerPage>
   </extension>
   <extension
