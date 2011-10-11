@@ -181,6 +181,7 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 		saveAction = new Action("Save") {
 			@Override
 			public void run() {
+				cancelEditing();
 				saveAnnotation();
 			}
 		};
@@ -190,6 +191,7 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 		saveAllAction = new Action("Save All") {
 			@Override
 			public void run() {
+				cancelEditing();
 				saveAllAnnotations();
 			}
 		};
@@ -237,6 +239,12 @@ public class PropertiesBrowserPage extends TabbedPropertySheetPage implements
 					}
 				});
 		bars.updateActionBars();
+	}
+
+	private void cancelEditing() {
+		if (viewer != null && !viewer.getTable().isDisposed()) {
+			viewer.getTable().forceFocus();
+		}
 	}
 
 	/*
