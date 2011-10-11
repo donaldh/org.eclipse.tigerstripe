@@ -305,6 +305,12 @@ public class TSDeleteAction extends DeleteAction {
                                         .makeWorkingCopy(null);
                             }
 
+							for (IMethod realMethod : art.getMethods()) {
+								if (realMethod.getLabelString().equals(
+										method.getLabelString()))
+									method = realMethod;
+							}
+
                             deletedURI.add(toURI(method));
                             art.removeMethods(Collections.singleton(method));
 
