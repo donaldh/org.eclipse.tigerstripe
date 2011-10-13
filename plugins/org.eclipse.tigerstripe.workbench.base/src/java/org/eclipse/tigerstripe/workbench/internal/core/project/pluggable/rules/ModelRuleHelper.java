@@ -28,40 +28,38 @@ public class ModelRuleHelper {
 			throws TigerstripeException {
 		// Build the result set
 		Collection<ModelProject> resultSet = new HashSet<ModelProject>();
-		try {
-			IAbstractTigerstripeProject aProject = pluginConfig
-					.getProjectHandle();
-			if (aProject != null
-					&& aProject instanceof ITigerstripeModelProject) {
-				ITigerstripeModelProject contextProject = (ITigerstripeModelProject) aProject;
-				// Add the base project itself!
-				resultSet.add(new ModelProject(contextProject));
+		
+		IAbstractTigerstripeProject aProject = pluginConfig
+				.getProjectHandle();
+		if (aProject != null
+				&& aProject instanceof ITigerstripeModelProject) {
+			ITigerstripeModelProject contextProject = (ITigerstripeModelProject) aProject;
+			// Add the base project itself!
+			resultSet.add(new ModelProject(contextProject));
 
-				int level = 1;
-				// include dependencies
-				for (IDependency dependecny : contextProject.getDependencies()) {
+			int level = 1;
+			// include dependencies
+			for (IDependency dependecny : contextProject.getDependencies()) {
 
-					ITigerstripeModuleProject modProj = dependecny
-							.makeModuleProject(contextProject);
-					resultSet.add(new ModelProject(modProj, contextProject,
-							level));
-				}
-
-				ITigerstripeModelProject[] references = contextProject
-						.getReferencedProjects();
-				// Direct references - local projects and installed modules
-				for (ITigerstripeModelProject ref : references) {
-					resultSet.add(new ModelProject(ref, contextProject, level));
-				}
-				// others child references
-				for (ITigerstripeModelProject ref : references) {
-					resultSet
-							.addAll(getChildModules(ref, contextProject, level));
-				}
+				ITigerstripeModuleProject modProj = dependecny
+						.makeModuleProject(contextProject);
+				resultSet.add(new ModelProject(modProj, contextProject,
+						level));
 			}
-		} catch (TigerstripeException t) {
-			throw new TigerstripeException("Failed to build result Set. ", t);
+
+			ITigerstripeModelProject[] references = contextProject
+					.getReferencedProjects();
+			// Direct references - local projects and installed modules
+			for (ITigerstripeModelProject ref : references) {
+				resultSet.add(new ModelProject(ref, contextProject, level));
+			}
+			// others child references
+			for (ITigerstripeModelProject ref : references) {
+				resultSet
+						.addAll(getChildModules(ref, contextProject, level));
+			}
 		}
+		
 		return resultSet;
 	}
 
