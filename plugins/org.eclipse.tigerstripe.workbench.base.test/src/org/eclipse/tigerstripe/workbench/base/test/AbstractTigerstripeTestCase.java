@@ -36,6 +36,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSessi
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -89,8 +90,14 @@ public abstract class AbstractTigerstripeTestCase extends TestCase {
 						TEST_PACKAGE_NAME);
 				if (createSubComponents) {
 					IField field = artifact.makeField();
-					String fieldName = "field1";
-					field.setName(fieldName);
+					field.setName("field1");
+					artifact.addField(field);
+
+					field = artifact.makeField();
+					field.setName("field2");
+					IType type = field.makeType();
+					type.setFullyQualifiedName(artifact.getFullyQualifiedName());
+					field.setType(type);
 					artifact.addField(field);
 
 					ILiteral literal1 = artifact.makeLiteral();

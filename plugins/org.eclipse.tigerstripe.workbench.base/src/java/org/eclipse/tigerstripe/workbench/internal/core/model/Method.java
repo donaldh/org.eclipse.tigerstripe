@@ -1154,6 +1154,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 
 	}
 
+	@ProvideModelComponents
 	public IType getReturnType() {
 		return this.returnType;
 	}

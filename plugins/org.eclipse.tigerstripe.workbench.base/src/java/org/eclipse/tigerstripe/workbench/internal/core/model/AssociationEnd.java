@@ -248,6 +248,7 @@ public class AssociationEnd extends ArtifactComponent implements
 		extractStereotypes();
 	}
 
+	@ProvideModelComponents
 	public IType getType() {
 		return this.type;
 	}

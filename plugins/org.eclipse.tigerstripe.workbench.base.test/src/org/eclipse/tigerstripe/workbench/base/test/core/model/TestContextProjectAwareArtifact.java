@@ -35,9 +35,11 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.UpdateProcedureArti
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class TestContextProjectAwareArtifact extends
@@ -224,12 +226,19 @@ public class TestContextProjectAwareArtifact extends
 				if (modelComponent instanceof IModelComponent
 						&& ((IModelComponent) modelComponent)
 								.getContainingModelComponent() != null) {
-					((IModelComponent) modelComponent)
-							.getContainingModelComponent();
 					checkExpectedContextProjectAwareArtifact(
 							((IModelComponent) modelComponent)
 									.getContainingModelComponent(),
 							context);
+				}
+
+				if (modelComponent instanceof IField) {
+					IField field = (IField) modelComponent;
+					IType type = field.getType();
+					if (type.isArtifact()) {
+						checkExpectedContextProjectAwareArtifact(
+							type.getArtifact(), context);
+					}
 				}
 			}
 		}

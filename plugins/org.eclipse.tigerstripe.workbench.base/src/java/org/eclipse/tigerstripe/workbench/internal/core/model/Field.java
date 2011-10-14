@@ -283,7 +283,7 @@ public class Field extends ArtifactComponent implements IField {
 	// ==================================================================
 	// Methods to satisfy the IType interface
 
-	
+	@ProvideModelComponents
 	public IType getType() {
 		return this.type;
 	}
