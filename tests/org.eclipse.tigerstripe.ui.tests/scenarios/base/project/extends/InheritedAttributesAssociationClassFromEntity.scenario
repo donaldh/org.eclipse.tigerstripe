@@ -39,6 +39,8 @@ with [get-window "Super Artifact"] {
     get-button OK | click
 }
 get-button "Save (Ctrl+S)" | click
+get-menu "Project/Clean..." | click
+get-window Clean | get-button OK | click
 get-view Problems | get-tree | get-property itemCount | equals 0 | verify-true
 get-editor AC | get-section "General Information" | get-link "Extends:" | click
 get-editor Entity0 | get-section Methods | click -nowait

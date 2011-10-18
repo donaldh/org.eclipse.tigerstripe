@@ -1,34 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="AddRemoveAnnotationForMethod" version="3.0" id="_4XFhcMoLEeC0xcEXnuyT1g" description="Add and remove annotations for methods in Tigerstripe explorer&#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;RemoveAnnotationsContextWorkspace&#xD;&#xA;AnnotationsContextPreferences &#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;1. Select method and add TextAnnotation&#xD;&#xA;2. Check that annotation is added in annotation view and in Explorer&#xD;&#xA;3. Remove annotation&#xD;&#xA;4. Check that annotation is not displayed in annotation view and in Explorer" tags="Annotation" type="ecl" externalReference="http://docs.xored.com/display/TS/AddRemoveAnnotationForMethod">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="AddRemoveAnnotationForMethod" version="3.0" id="_4XFhcMoLEeC0xcEXnuyT1g" description="Add and remove annotations for methods in Tigerstripe explorer&#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;RemoveAnnotationsContextWorkspace&#xD;&#xA;AnnotationsContextPreferences &#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;1. Select method and add TextAnnotation&#xD;&#xA;2. Check that annotation is added in annotation view and in Explorer&#xD;&#xA;3. Remove annotation&#xD;&#xA;4. Check that annotation is not displayed in annotation view and in Explorer&#xD;&#xA;5. Check that annotations for Entity0 are not removed from view" tags="Annotation/functionality" type="ecl" externalReference="http://docs.xored.com/display/TS/AddRemoveAnnotationForMethod">
   <contexts>_RR91gMiqEeCVYvz9uSPZwA</contexts>
-  <contexts>_UlYb4GyFEeC-86eLlbu98w</contexts>
+  <contexts>_Kb5-0NnQEeCrRbabNEcanQ</contexts>
   <contexts>_9D6jAatgEd-v8JwXbnu_tQ</contexts>
   <content xsi:type="org.eclipse.ecl.core:Script">
     <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree 
-    | select "New Project/src/org.eclipse/<<Person,TextAnnotation,Color,IntegerAnnotation,CheckAnnotation,Font>>Entity0/entity0_testMethod0\\(\\):void"
+    | select "New Project/src/org.eclipse/<<Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0/entity0_testMethod0\\(\\):void"
 get-view "Annotation Property View" | click -nowait
 get-view "Tigerstripe Explorer" | get-tree 
-    | select "New Project/src/org.eclipse/<<Person,TextAnnotation,Color,IntegerAnnotation,CheckAnnotation,Font>>Entity0/entity0_testMethod0\\(\\):void"
+    | select "New Project/src/org.eclipse/<<Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0/entity0_testMethod0\\(\\):void"
 get-view "Annotation Property View" | get-table | get-menu "Add Annotation" | click
 with [get-window "Create Annotation Wizard"] {
     get-tree | select "Primitive/Check Annotation"
     get-button Finish | click
 }
 get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "New Project/src/org.eclipse/<<Person,TextAnnotation,Color,IntegerAnnotation,CheckAnnotation,Font>>Entity0/<<CheckAnnotation>>entity0_testMethod0\\(\\):void" 
+    | get-item "New Project/src/org.eclipse/<<Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0/<<CheckAnnotation>>entity0_testMethod0\\(\\):void" 
     | get-property caption | equals "<<CheckAnnotation>>entity0_testMethod0():void" | verify-true
 get-view "Tigerstripe Explorer" | get-tree 
-    | select "New Project/src/org.eclipse/<<Person,TextAnnotation,Color,IntegerAnnotation,CheckAnnotation,Font>>Entity0/<<CheckAnnotation>>entity0_testMethod0\\(\\):void"
+    | select "New Project/src/org.eclipse/<<Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0/<<CheckAnnotation>>entity0_testMethod0\\(\\):void"
 get-view "Annotation Property View" | click -nowait
 get-view "Annotation Property View" | get-table | get-property itemCount | equals 1 | verify-true
 get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get-property caption 
     | equals CheckAnnotation | verify-true
 return-from-os-dialog "MESSAGE_BOX" 64
+get-view "Annotation Property View" | click -nowait
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "New Project/src/org.eclipse/<<Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0/<<CheckAnnotation>>entity0_testMethod0\\(\\):void"
 get-view "Annotation Property View" | get-table | get-menu "Remove All" | click
 get-view "Annotation Property View" | get-table | get-property itemCount | equals 0 | verify-true
 get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "New Project/src/org.eclipse/<<Person,TextAnnotation,Color,IntegerAnnotation,CheckAnnotation,Font>>Entity0/entity0_testMethod0\\(\\):void" 
-    | get-property caption | equals "entity0_testMethod0():void" | verify-true]]></content>
+    | get-item "New Project/src/org.eclipse/<<Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0/entity0_testMethod0\\(\\):void" 
+    | get-property caption | equals "entity0_testMethod0():void" | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "New Project/src/org.eclipse/<<Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0"
+get-view "Annotation Property View" | click -nowait
+get-view "Annotation Property View" | get-table | get-property itemCount | equals 5 | verify-true]]></content>
   </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
@@ -306,6 +313,51 @@ get-view "Tigerstripe Explorer" | get-tree
     <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="caption" value="entity0_testMethod0():void">
       <element id="Item22" kind="Item"/>
       <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Tigerstripe Explorer" multiplicity="1">
+        <parent id="EclipseWindow3_43" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Tree" multiplicity="1">
+        <parent id="View4_43" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SetSelection">
+      <element id="Tree4_43" kind="Tree"/>
+      <path>New Project</path>
+      <path>src</path>
+      <path>org.eclipse</path>
+      <path>&lt;&lt;Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0</path>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Annotation Property View" multiplicity="1">
+        <parent id="EclipseWindow3_43" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Click" withWait="false">
+      <element id="View5_44" kind="View"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="EclipseWindow" multiplicity="1"/>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="View" pattern="Annotation Property View" multiplicity="1">
+        <parent id="EclipseWindow4_44" kind="EclipseWindow"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
+      <data kind="Table" multiplicity="1">
+        <parent id="View7_45" kind="View"/>
+      </data>
+    </commands>
+    <commands xsi:type="com.xored.tesla.core.protocol:Assert" attribute="itemCount" value="2">
+      <element id="Table0_43" kind="Table"/>
+      <valueType xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     </commands>
     <elementMapping command="//@teslaContent/@commands.0">
       <elements id="EclipseWindow0" kind="EclipseWindow"/>
@@ -667,6 +719,71 @@ get-view "Tigerstripe Explorer" | get-tree
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="117" y="108" width="146" height="18"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.61">
+      <elements id="EclipseWindow3_43" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="768" y="146" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.62">
+      <elements id="View4_43" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Tigerstripe Explorer">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="3" y="50" width="244" height="594"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.63">
+      <elements id="Tree4_43" kind="Tree"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Tree" enablement="true" containMenu="true" multiSelection="true" itemCount="1">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds width="244" height="594"/>
+        <selection>
+          <path>New Project</path>
+          <path>src</path>
+          <path>org.eclipse</path>
+          <path>&lt;&lt;Font,Color,CheckAnnotation,IntegerAnnotation,TextAnnotation>>Entity0</path>
+        </selection>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.65">
+      <elements id="View5_44" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Annotation Property View">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="256" y="453" width="741" height="191"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.67">
+      <elements id="EclipseWindow4_44" kind="EclipseWindow"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Window" enablement="true" borderWith="1" title="Tigerstripe - Eclipse Platform">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="768" y="146" width="1024" height="768"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.68">
+      <elements id="View7_45" kind="View"/>
+      <controls xsi:type="com.xored.tesla.core.ui:View" enablement="true" title="Annotation Property View">
+        <backgroundColor red="240" green="240" blue="240"/>
+        <foregroundColor/>
+        <bounds x="256" y="453" width="741" height="191"/>
+      </controls>
+    </elementMapping>
+    <elementMapping command="//@teslaContent/@commands.69">
+      <elements id="Table0_43" kind="Table"/>
+      <controls xsi:type="com.xored.tesla.core.ui:Table" enablement="true" containMenu="true" borderWith="2" itemCount="2">
+        <backgroundColor red="255" green="255" blue="255"/>
+        <foregroundColor/>
+        <bounds y="4" width="196" height="161"/>
+        <selection>
+          <path>Font</path>
+        </selection>
       </controls>
     </elementMapping>
   </teslaContent>

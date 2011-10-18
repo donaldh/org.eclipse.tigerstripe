@@ -19,6 +19,8 @@ get-editor Enumeration1 | get-section Constants | get-section | get-table | sele
 get-editor Enumeration1 | get-section Constants | get-section -index 1 | get-button Protected | get-property selected | equals true | verify-true
 get-editor Enumeration1 | get-section Constants | get-section -index 1 | get-button Private | click
 get-button "Save (Ctrl+S)" | click
+get-menu "Project/Clean..." | click
+get-window Clean | get-button OK | click
 get-view Problems | get-tree | get-item "Warnings \\(1 item\\)" | get-property caption | equals "Warnings (1 item)" | verify-true
 get-view Problems | get-tree | get-item "Warnings \\(1 item\\)/The field Enumeration1.literal0 is never read locally" | get-property caption | equals "The field Enumeration1.literal0 is never read locally" | verify-true
 get-editor Enumeration1 | close
@@ -544,10 +546,11 @@ get-editor Enumeration1 | get-section Constants | get-section -index 1 | get-but
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.8">
       <elements id="Button57" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Add">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="259" y="5" width="55" height="25"/>
+        <caption>Add</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.9">
@@ -587,10 +590,11 @@ get-editor Enumeration1 | get-section Constants | get-section -index 1 | get-but
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.16">
       <elements id="Button58" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Public" selected="true" kind="Radio">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Radio">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds y="5" width="54" height="16"/>
+        <caption>Public</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.18">
@@ -627,10 +631,11 @@ get-editor Enumeration1 | get-section Constants | get-section -index 1 | get-but
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.22">
       <elements id="Button60" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Public" selected="true" kind="Radio">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Radio">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds y="5" width="54" height="16"/>
+        <caption>Public</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.24">
@@ -667,10 +672,11 @@ get-editor Enumeration1 | get-section Constants | get-section -index 1 | get-but
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.28">
       <elements id="Button61" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Protected" kind="Radio">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" kind="Radio">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="59" y="5" width="72" height="16"/>
+        <caption>Protected</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.30">
@@ -707,10 +713,11 @@ get-editor Enumeration1 | get-section Constants | get-section -index 1 | get-but
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.34">
       <elements id="Button62" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Private" kind="Radio">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" kind="Radio">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="136" y="5" width="57" height="16"/>
+        <caption>Private</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.36">
@@ -723,9 +730,10 @@ get-editor Enumeration1 | get-section Constants | get-section -index 1 | get-but
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.37">
       <elements id="Button63" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.38">
@@ -757,10 +765,11 @@ get-editor Enumeration1 | get-section Constants | get-section -index 1 | get-but
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.44">
       <elements id="Button64" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Protected" selected="true" kind="Radio">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Radio">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="59" y="5" width="72" height="16"/>
+        <caption>Protected</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.45">
@@ -862,10 +871,11 @@ get-editor Enumeration1 | get-section Constants | get-section -index 1 | get-but
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.66">
       <elements id="Button65" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Protected" selected="true" kind="Radio">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Radio">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="59" y="5" width="72" height="16"/>
+        <caption>Protected</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.68">
@@ -902,10 +912,11 @@ get-editor Enumeration1 | get-section Constants | get-section -index 1 | get-but
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.72">
       <elements id="Button66" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Private" selected="true" kind="Radio">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Radio">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="136" y="5" width="57" height="16"/>
+        <caption>Private</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.73">
@@ -913,9 +924,10 @@ get-editor Enumeration1 | get-section Constants | get-section -index 1 | get-but
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.76">
       <elements id="Button67" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.77">
@@ -1117,10 +1129,11 @@ get-editor Enumeration1 | get-section Constants | get-section -index 1 | get-but
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.107">
       <elements id="Button68" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Private" selected="true" kind="Radio">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Radio">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="136" y="5" width="57" height="16"/>
+        <caption>Private</caption>
       </controls>
     </elementMapping>
   </teslaContent>

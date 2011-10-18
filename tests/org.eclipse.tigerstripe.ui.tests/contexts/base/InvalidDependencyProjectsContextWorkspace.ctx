@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="InvalidDependencyProjectsContextWorkspace" id="_2dl0YNrOEeC6qsfYFclGSA">
+  <content>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".InvalidDependencyProjectsContextWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".InvalidDependencyProjectsContextWorkspacectx/content1.project"/>
+      <files name=".visualstate" contentURI=".InvalidDependencyProjectsContextWorkspacectx/content1.visualstate"/>
+      <files name="tigerstripe.xml" contentURI=".InvalidDependencyProjectsContextWorkspacectx/content1.xml"/>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".InvalidDependencyProjectsContextWorkspacectx/content6.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".InvalidDependencyProjectsContextWorkspacectx/content5.package"/>
+            <folders name="Package1">
+              <files name=".package" contentURI=".InvalidDependencyProjectsContextWorkspacectx/content4.package"/>
+            </folders>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+    <projects name="Project2">
+      <files name=".classpath" contentURI=".InvalidDependencyProjectsContextWorkspacectx/content2.classpath"/>
+      <files name=".project" contentURI=".InvalidDependencyProjectsContextWorkspacectx/content2.project"/>
+      <files name="tigerstripe.xml" contentURI=".InvalidDependencyProjectsContextWorkspacectx/content2.xml"/>
+      <folders name="src"/>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

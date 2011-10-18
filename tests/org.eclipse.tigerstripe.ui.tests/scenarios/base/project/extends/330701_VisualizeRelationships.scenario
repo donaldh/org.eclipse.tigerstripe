@@ -1,6 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" name="330701_VisualizeRelationships" version="3.0" id="_15joMCLMEeCV8eF_jAg2Fw" description="Inherited associations/assocClass/dependencies are displayed in Tigerstripe Explorer on checked 'Show relationship anchor' checkbox&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;Create Tigerstripe project&#xD;&#xA;Create A and B entites. Create AA entity as extend of A and BB entity as extend of B entity.&#xD;&#xA;Create associationClass from AA to BB&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;Check items in Tigerstripe Explorer for inherited associations.&#xD;&#xA;Check 'Show relationship anchor' checkbox in Preferences and apply changes.&#xD;&#xA;Check items in Tigerstripe Explorer. Inherited associationClass items are displayed.&#xD;&#xA;Remove associationClass. Create association from AA to BB&#xD;&#xA;Check items in Tigerstripe Explorer. Inherited associationClass items are not displayed, inherited Association items are displayed.&#xD;&#xA;Uncheck 'Show relationship anchor' checkbox in Preferences and apply changes&#xD;&#xA;Check items in Tigerstripe Explorer. Inherited Association items are not displayed.&#xD;&#xA;Remove association from AA to BB. Create dependency from AA to BB&#xD;&#xA;Check items in Tigerstripe Explorer. Inherited dependency items are not displayed.&#xD;&#xA;Check 'Show relationship anchor' checkbox in Preferences and apply changes&#xD;&#xA;Check items in Tigerstripe Explorer. Inherited dependency items are displayed.&#xD;&#xA;&#xD;&#xA;" type="ecl">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="330701_VisualizeRelationships" version="3.0" id="_15joMCLMEeCV8eF_jAg2Fw" description="Inherited associations/assocClass/dependencies are displayed in Tigerstripe Explorer on checked 'Show relationship anchor' checkbox&#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;Create Tigerstripe project&#xD;&#xA;Create A and B entites. Create AA entity as extend of A and BB entity as extend of B entity.&#xD;&#xA;Create associationClass from AA to BB&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;Check items in Tigerstripe Explorer for inherited associations.&#xD;&#xA;Check 'Show relationship anchor' checkbox in Preferences and apply changes.&#xD;&#xA;Check items in Tigerstripe Explorer. Inherited associationClass items are displayed.&#xD;&#xA;Remove associationClass. Create association from AA to BB&#xD;&#xA;Check items in Tigerstripe Explorer. Inherited associationClass items are not displayed, inherited Association items are displayed.&#xD;&#xA;Uncheck 'Show relationship anchor' checkbox in Preferences and apply changes&#xD;&#xA;Check items in Tigerstripe Explorer. Inherited Association items are not displayed.&#xD;&#xA;Remove association from AA to BB. Create dependency from AA to BB&#xD;&#xA;Check items in Tigerstripe Explorer. Inherited dependency items are not displayed.&#xD;&#xA;Check 'Show relationship anchor' checkbox in Preferences and apply changes&#xD;&#xA;Check items in Tigerstripe Explorer. Inherited dependency items are displayed.&#xD;&#xA;&#xD;&#xA;" type="ecl">
   <contexts>_wSl_sCLMEeCV8eF_jAg2Fw</contexts>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/A" | get-property childCount 
+    | equals 0 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/B" | get-property childCount 
+    | equals 0 | verify-true
+get-menu "Window/Preferences" | click
+with [get-window Preferences] {
+    get-tree | select "Tigerstripe/Explorer"
+    get-group "Relationship Anchors" | get-button "Show Relationship Anchors" | click
+    get-button Apply | click
+    get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/A/bB:BB \\(AC1\\)" 
+    | get-property caption | equals "bB:BB (AC1)" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "Project/src/com.mycompany/B"
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/B/aA:AA \\(AC1\\)" 
+    | get-property caption | equals "aA:AA (AC1)" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "Project/src/com.mycompany/AC1"
+get-menu "Edit/Delete" | click
+get-window "Confirm Delete" | get-button OK | click
+get-view "Tigerstripe Explorer" | get-tree | select "Project/src/com.mycompany" | get-menu "New/Association" | click
+with [get-window "Create a new Association"] {
+    get-editbox -after [get-label "Name:"] | set-text A1
+    get-button Browse -after [get-label "aEnd Type"] | click
+    with [get-window "Association End Type"] {
+        get-table -after [get-label "Select the type of the Association End."] | select "com.mycompany.AA"
+        get-button OK | click
+    }
+    get-button Browse -after [get-label "zEnd Type"] | click
+    with [get-window "Association End Type"] {
+        get-table -after [get-label "Select the type of the Association End."] | select "com.mycompany.BB"
+        get-button OK | click
+    }
+    get-button Finish | click
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/A" | get-property childCount 
+    | equals 1 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/A/bB:BB \\(A1\\)" 
+    | get-property caption | equals "bB:BB (A1)" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/B" | get-property childCount 
+    | equals 1 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/B/aA:AA \\(A1\\)" 
+    | get-property caption | equals "aA:AA (A1)" | verify-true
+get-menu "Window/Preferences" | click
+with [get-window Preferences] {
+    get-tree | select "Tigerstripe/Explorer"
+    get-group "Relationship Anchors" | get-button "Show Relationship Anchors" | click
+    get-button Apply | click
+    get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/A" | get-property childCount 
+    | equals 0 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/B" | get-property childCount 
+    | equals 0 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "Project/src/com.mycompany/A1"
+get-menu "Edit/Delete" | click
+get-window "Confirm Delete" | get-button OK | click
+get-view "Tigerstripe Explorer" | get-tree | select "Project/src/com.mycompany" | get-menu "New/Dependency" | click
+with [get-window "Create a new Dependency"] {
+    get-editbox -after [get-label "Name:"] | set-text D
+    get-button Browse -after [get-label "aEnd Type"] | click
+    with [get-window "Dependency End Type"] {
+        get-table -after [get-label "Select the type of the Dependency End."] | select "com.mycompany.AA"
+        get-button OK | click
+    }
+    get-button Browse -after [get-label "zEnd Type"] | click
+    with [get-window "Dependency End Type"] {
+        get-table -after [get-label "Select the type of the Dependency End."] | select "com.mycompany.BB"
+        get-button OK | click
+    }
+    get-button Finish | click
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/A" | get-property childCount 
+    | equals 0 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/B" | get-property childCount 
+    | equals 0 | verify-true
+get-menu "Window/Preferences" | click
+with [get-window Preferences] {
+    get-tree | select "Tigerstripe/Explorer"
+    get-group "Relationship Anchors" | get-button "Show Relationship Anchors" | click
+    get-button Apply | click
+    get-button OK | click
+}
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/A" | get-property childCount 
+    | equals 1 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/A/zEnd:BB \\(D\\)" 
+    | get-property caption | equals "zEnd:BB (D)" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/B" | get-property childCount 
+    | equals 1 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "Project/src/com.mycompany/B/aEnd:AA \\(D\\)" 
+    | get-property caption | equals "aEnd:AA (D)" | verify-true]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>
@@ -1154,10 +1246,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.19">
       <elements id="Button6" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Show Relationship Anchors" selected="true" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Check">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="3" y="15" width="165" height="16"/>
+        <caption>Show Relationship Anchors</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.20">
@@ -1165,10 +1258,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.23">
       <elements id="Button7" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Apply">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="102" width="92" height="25"/>
+        <caption><![CDATA[&Apply]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.24">
@@ -1176,10 +1270,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.27">
       <elements id="Button8" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.28">
@@ -1311,10 +1406,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.54">
       <elements id="Button9" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="109" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.55">
@@ -1360,10 +1456,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.68">
       <elements id="Button10" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Browse">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="406" y="201" width="92" height="25"/>
+        <caption>Browse</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.69">
@@ -1398,10 +1495,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.76">
       <elements id="Button11" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.77">
@@ -1417,10 +1515,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.81">
       <elements id="Button12" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Browse">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="406" y="231" width="92" height="25"/>
+        <caption>Browse</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.82">
@@ -1455,10 +1554,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.89">
       <elements id="Button13" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.90">
@@ -1466,10 +1566,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.93">
       <elements id="Button14" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.94">
@@ -1651,10 +1752,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.126">
       <elements id="Button15" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Show Relationship Anchors" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" kind="Check">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="3" y="15" width="165" height="16"/>
+        <caption>Show Relationship Anchors</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.127">
@@ -1662,10 +1764,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.130">
       <elements id="Button16" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Apply">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="102" width="92" height="25"/>
+        <caption><![CDATA[&Apply]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.131">
@@ -1673,10 +1776,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.134">
       <elements id="Button17" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.135">
@@ -1789,10 +1893,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.157">
       <elements id="Button18" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="109" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.158">
@@ -1838,10 +1943,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.171">
       <elements id="Button19" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Browse">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="406" y="201" width="92" height="25"/>
+        <caption>Browse</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.172">
@@ -1876,10 +1982,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.179">
       <elements id="Button20" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.180">
@@ -1895,10 +2002,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.184">
       <elements id="Button21" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Browse">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="406" y="231" width="92" height="25"/>
+        <caption>Browse</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.185">
@@ -1933,10 +2041,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.192">
       <elements id="Button22" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.193">
@@ -1944,10 +2053,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.196">
       <elements id="Button23" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.197">
@@ -2062,10 +2172,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.219">
       <elements id="Button24" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Show Relationship Anchors" selected="true" kind="Check">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" selected="true" kind="Check">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="3" y="15" width="165" height="16"/>
+        <caption>Show Relationship Anchors</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.220">
@@ -2073,10 +2184,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.223">
       <elements id="Button25" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Apply">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="102" width="92" height="25"/>
+        <caption><![CDATA[&Apply]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.224">
@@ -2084,10 +2196,11 @@
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.227">
       <elements id="Button26" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.228">

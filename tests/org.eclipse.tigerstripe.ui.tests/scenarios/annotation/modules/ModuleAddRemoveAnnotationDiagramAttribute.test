@@ -38,7 +38,7 @@ get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get
     | equals CheckAnnotation | verify-true
 get-view "Annotation Property View" | get-table | get-property itemCount | equals 1 | verify-true
 get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/<<CheckAnnotation>>attribute0:String" 
+    | get-item "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/<<CheckAnnotation>>attribute0:String" 
     | get-property caption | equals "<<CheckAnnotation>>attribute0:String" | verify-true
 get-editor "default.wvd" | close
 get-view "Tigerstripe Explorer" | get-tree | select "Project2/src/default" | double-click -nowait
@@ -56,12 +56,12 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
 }
 get-view "Annotation Property View" | get-table | get-property itemCount | equals 0 | verify-true
 get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "Project2/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/attribute0:String" 
+    | get-item "Project2/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/attribute0:String" 
     | get-property caption | equals "attribute0:String" | verify-true
 get-editor "default.wvd" | close
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/default" | double-click -nowait    
 get-view "Tigerstripe Explorer" | get-tree 
-    | select "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/<<CheckAnnotation>>attribute0:String" 
+    | select "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/<<CheckAnnotation>>attribute0:String" 
     | double-click -nowait
 with [get-editor "default.wvd"] {
     click -nowait

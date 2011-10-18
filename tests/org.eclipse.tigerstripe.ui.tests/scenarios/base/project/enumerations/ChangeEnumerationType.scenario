@@ -15,6 +15,8 @@ with [get-editor Enum | get-section "Implementation Specifics" | get-combo -afte
 }
 get-editor Enum | get-section "Implementation Specifics" | get-combo -after [get-label "Base Type:"] | set-text String
 get-button "Save (Ctrl+S)" | click
+get-menu "Project/Clean..." | click
+get-window Clean | get-button OK | click
 get-view Problems | get-tree | get-property itemCount | equals 0 | verify-true
 with [get-editor Enum] {
     get-tab-folder | get-tab-item Overview | click

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.ecl.context:EclContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.ecl.context="http:///com/xored/q7/ecl/context.ecore" name="NoGeneratorsDeployed" id="_TLUSEd7KEeC1arm-KQmhig">
+  <script>
+    <content><![CDATA[get-menu "Tigerstripe/Deployed Generators..." | click
+with [get-window "Deployed Tigerstripe Generators"] {
+    get-button "Undeploy All" | click
+    get-button OK | click
+}]]></content>
+  </script>
+</com.xored.q7.ecl.context:EclContext>

@@ -1,8 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ReferenceAddRemoveAnnotationForAttributes" version="3.0" id="_5lEIgNIDEeCX-YsirEVo1w" description="Add and remove annotations for attribute in referenced module &#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;AnnotationsContextPreferences&#xD;&#xA;DependantProjectsWithPackagesContextGroup&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;    Add annotation for the attribute in referenced module in project 1&#xD;&#xA;    Check attribute name in TS Explorer in project 1 (it should be displayed with annotation)&#xD;&#xA;    Check attribute name in TS Explorer in project 2&#xD;&#xA;    Check empty annotation view in project 2&#xD;&#xA;    Remove annotation from project 1&#xD;&#xA;    Check attribute name in TS Explorer in project 1&#xD;&#xA;    Check empty annotation view in project 1&#xD;&#xA;" tags="Annotation/reference" type="ecl" externalReference="http://docs.xored.com/display/TS/ReferenceAddRemoveAnnotationForAttributes">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="ReferenceAddRemoveAnnotationForAttributes" version="3.0" id="_5lEIgNIDEeCX-YsirEVo1w" description="Add and remove annotations for attribute in referenced module &#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;AnnotationsContextPreferences&#xD;&#xA;DependantProjectsWithPackagesContextGroup&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;    Add annotation for the attribute in referenced module in project 1&#xD;&#xA;    Check attribute name in TS Explorer in project 1 (it should be displayed with annotation)&#xD;&#xA;    Check attribute name in TS Explorer in project 2&#xD;&#xA;    Check empty annotation view in project 2&#xD;&#xA;    Remove annotation from project 1&#xD;&#xA;    Check attribute name in TS Explorer in project 1&#xD;&#xA;    Check empty annotation view in project 1&#xD;&#xA;" tags="Annotation/reference" type="ecl" externalReference="http://docs.xored.com/display/TS/ReferenceAddRemoveAnnotationForAttributes">
   <contexts>_RR91gMiqEeCVYvz9uSPZwA</contexts>
   <contexts>_2OSx4fOUEd-s8v7FVtLgHw</contexts>
   <contexts>_9D6jAatgEd-v8JwXbnu_tQ</contexts>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree 
+    | select "One/Model References/Two/src/com.mycompany/Ent2/attribute0:String" | double-click -nowait
+get-view "Annotation Property View" | click -nowait
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "One/Model References/Two/src/com.mycompany/Ent2/attribute0:String"
+get-view "Annotation Property View" | get-table | get-menu "Add Annotation" | click
+with [get-window "Create Annotation Wizard"] {
+    get-tree | select "Primitive/Integer Annotation"
+    get-button Finish | click
+}
+get-view "Annotation Property View" | get-table | get-property itemCount | equals 1 | verify-true
+get-view "Annotation Property View" | get-table | get-item IntegerAnnotation | get-property caption 
+    | equals IntegerAnnotation | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "One/Model References/Two/src/com.mycompany/Ent2/<<IntegerAnnotation>>attribute0:String" 
+    | get-property caption | equals "<<IntegerAnnotation>>attribute0:String" | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "Two/src/com.mycompany/Ent2/attribute0:String"
+get-view "Annotation Property View" | get-table | get-property itemCount | equals 0 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | get-item "Two/src/com.mycompany/Ent2/attribute0:String" 
+    | get-property caption | equals "attribute0:String" | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "One/Model References/Two/src/com.mycompany/Ent2/<<IntegerAnnotation>>attribute0:String"
+return-from-os-dialog "MESSAGE_BOX" 64
+get-view "Tigerstripe Explorer" | get-tree | get-menu "Annotations/Remove" | click
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "One/Model References/Two/src/com.mycompany/Ent2/attribute0:String" | get-property caption 
+    | equals "attribute0:String" | verify-true
+get-view "Annotation Property View" | get-table | get-property itemCount | equals 0 | verify-true]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>

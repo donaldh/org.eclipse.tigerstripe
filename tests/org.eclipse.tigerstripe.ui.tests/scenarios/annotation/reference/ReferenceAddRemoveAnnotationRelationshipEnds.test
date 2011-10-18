@@ -1,8 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="ReferenceAddRemoveAnnotationRelationshipEnds" version="3.0" id="_p6uxENIYEeCX-YsirEVo1w" description="Add and remove annotations for relationship in referenced module &#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;AnnotationsContextPreferences&#xD;&#xA;DependantProjectsWithPackagesContextGroup&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;    Add annotation for one of Association ends in referenced module in project 1&#xD;&#xA;    Check Association ends in TS Explorer in project 1 (one should be displayed with annotation, other without)&#xD;&#xA;    Check Association ends in TS Explorer in project 2 (should be displayed without annotation)&#xD;&#xA;    Check empty annotation view in project 2&#xD;&#xA;    Remove annotation from project 1&#xD;&#xA;    Check Association ends in TS Explorer in project 1&#xD;&#xA;    Check empty annotation view in project 1&#xD;&#xA;" tags="Annotation/reference" type="ecl" externalReference="http://docs.xored.com/display/TS/ReferenceAddRemoveAnnotationRelationshipEnds">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="ReferenceAddRemoveAnnotationRelationshipEnds" version="3.0" id="_p6uxENIYEeCX-YsirEVo1w" description="Add and remove annotations for relationship in referenced module &#xD;&#xA;&#xD;&#xA;Precondition:&#xD;&#xA;AnnotationsContextPreferences&#xD;&#xA;DependantProjectsWithPackagesContextGroup&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;    Add annotation for one of Association ends in referenced module in project 1&#xD;&#xA;    Check Association ends in TS Explorer in project 1 (one should be displayed with annotation, other without)&#xD;&#xA;    Check Association ends in TS Explorer in project 2 (should be displayed without annotation)&#xD;&#xA;    Check empty annotation view in project 2&#xD;&#xA;    Remove annotation from project 1&#xD;&#xA;    Check Association ends in TS Explorer in project 1&#xD;&#xA;    Check empty annotation view in project 1&#xD;&#xA;" tags="Annotation/reference" type="ecl" externalReference="http://docs.xored.com/display/TS/ReferenceAddRemoveAnnotationRelationshipEnds">
   <contexts>_RR91gMiqEeCVYvz9uSPZwA</contexts>
   <contexts>_2OSx4fOUEd-s8v7FVtLgHw</contexts>
   <contexts>_9D6jAatgEd-v8JwXbnu_tQ</contexts>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree 
+    | select "One/Model References/Two/src/com.mycompany/Association/ent2:Ent2"
+get-view "Annotation Property View" | click -nowait
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "One/Model References/Two/src/com.mycompany/Association/ent2:Ent2"
+get-view "Annotation Property View" | get-table | get-menu "Add Annotation" | click
+with [get-window "Create Annotation Wizard"] {
+    get-tree | select "Primitive/Check Annotation"
+    get-button Finish | click
+}
+get-view "Annotation Property View" | get-table | get-property itemCount | equals 1 | verify-true
+get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get-property caption 
+    | equals CheckAnnotation | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "One/Model References/Two/src/com.mycompany/Association/<<CheckAnnotation>>ent2:Ent2" 
+    | get-property caption | equals "<<CheckAnnotation>>ent2:Ent2" | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "One/Model References/Two/src/com.mycompany/Association/ent3:Ent3" | get-property caption 
+    | equals "ent3:Ent3" | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "One/Model References/Two/src/com.mycompany/Association/ent3:Ent3"
+get-view "Annotation Property View" | get-table | get-property itemCount | equals 0 | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "Two/src/com.mycompany/Association/ent2:Ent2"
+get-view "Tigerstripe Explorer" | get-tree | get-item "Two/src/com.mycompany/Association/ent2:Ent2" 
+    | get-property caption | equals "ent2:Ent2" | verify-true
+get-view "Annotation Property View" | get-table | get-property itemCount | equals 0 | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "One/Model References/Two/src/com.mycompany/Association/<<CheckAnnotation>>ent2:Ent2"
+return-from-os-dialog "MESSAGE_BOX" 64
+get-view "Annotation Property View" | get-table | get-menu "Remove All" | click
+get-view "Tigerstripe Explorer" | get-tree 
+    | get-item "One/Model References/Two/src/com.mycompany/Association/ent2:Ent2" | get-property caption 
+    | equals "ent2:Ent2" | verify-true
+get-view "Annotation Property View" | get-table | get-property itemCount | equals 0 | verify-true]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>

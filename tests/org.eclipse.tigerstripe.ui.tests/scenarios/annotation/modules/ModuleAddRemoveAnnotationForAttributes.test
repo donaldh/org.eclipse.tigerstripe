@@ -5,29 +5,31 @@
   <contexts>_9D6jAatgEd-v8JwXbnu_tQ</contexts>
   <content xsi:type="org.eclipse.ecl.core:Script">
     <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree 
-    | select "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/attribute0:String" 
+    | select "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/attribute0:String" 
     | double-click -nowait
 get-view "Annotation Property View" | click -nowait
 get-view "Tigerstripe Explorer" | get-tree 
-    | select "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/attribute0:String" 
+    | select "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/attribute0:String" 
     | get-menu "Annotations/Create/Primitive/Integer Annotation" | click
 get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/<<IntegerAnnotation>>attribute0:String" 
+    | get-item "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/<<IntegerAnnotation>>attribute0:String" 
     | get-property caption | equals "<<IntegerAnnotation>>attribute0:String" | verify-true
 get-view "Annotation Property View" | get-table | get-property itemCount | equals 1 | verify-true
+get-editor E1 | close
+get-view "Tigerstripe Explorer" | click -nowait
 get-view "Tigerstripe Explorer" | get-tree 
-    | select "Project2/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/attribute0:String" 
+    | select "Project2/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/attribute0:String" 
     | double-click -nowait
 get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "Project2/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/attribute0:String" 
+    | get-item "Project2/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/attribute0:String" 
     | get-property caption | equals "attribute0:String" | verify-true
 get-view "Annotation Property View" | get-table | get-property itemCount | equals 0 | verify-true
 get-view "Tigerstripe Explorer" | get-tree 
-    | select "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/<<IntegerAnnotation>>attribute0:String"
+    | select "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/<<IntegerAnnotation>>attribute0:String"
 return-from-os-dialog "MESSAGE_BOX" 64
 get-view "Tigerstripe Explorer" | get-tree | get-menu "Annotations/Remove" | click
 get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/attribute0:String" 
+    | get-item "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/attribute0:String" 
     | get-property caption | equals "attribute0:String" | verify-true
 get-view "Annotation Property View" | get-table | get-property itemCount | equals 0 | verify-true]]></content>
   </content>

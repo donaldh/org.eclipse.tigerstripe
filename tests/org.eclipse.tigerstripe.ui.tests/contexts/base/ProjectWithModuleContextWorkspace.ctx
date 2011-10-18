@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="ProjectWithModuleContextWorkspace" id="_v39IsO5MEeCeLo_urxYMqg">
+  <content>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".ProjectWithModuleContextWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".ProjectWithModuleContextWorkspacectx/content1.project"/>
+      <files name=".visualstate" contentURI=".ProjectWithModuleContextWorkspacectx/content1.visualstate"/>
+      <files name="tigerstripe.xml" contentURI=".ProjectWithModuleContextWorkspacectx/content1.xml"/>
+      <folders name="bin"/>
+      <folders name="src"/>
+    </projects>
+    <projects name="org.eclipse.tigerstripe.test.module">
+      <files name=".classpath" contentURI=".ProjectWithModuleContextWorkspacectx/content2.classpath"/>
+      <files name=".project" contentURI=".ProjectWithModuleContextWorkspacectx/content2.project"/>
+      <files name="tigerstripe.xml" contentURI=".ProjectWithModuleContextWorkspacectx/content2.xml"/>
+      <folders name="bin">
+        <folders name="com">
+          <files name=".package" contentURI=".ProjectWithModuleContextWorkspacectx/content2.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".ProjectWithModuleContextWorkspacectx/content1.package"/>
+            <files name="Entity.class" contentURI=".ProjectWithModuleContextWorkspacectx/content1.class"/>
+          </folders>
+        </folders>
+      </folders>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".ProjectWithModuleContextWorkspacectx/content4.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".ProjectWithModuleContextWorkspacectx/content3.package"/>
+            <files name="Entity.java" contentURI=".ProjectWithModuleContextWorkspacectx/content1.java"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

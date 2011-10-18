@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="EntityWithAssociationStereotypesContextWorkspace" id="_1vqZYOILEeCOm5a5GamGdA">
+  <content>
+    <projects name="Project">
+      <files name=".classpath" contentURI=".EntityWithAssociationStereotypesContextWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".EntityWithAssociationStereotypesContextWorkspacectx/content1.project"/>
+      <files name=".visualstate" contentURI=".EntityWithAssociationStereotypesContextWorkspacectx/content1.visualstate"/>
+      <files name="profile.wbp" contentURI=".EntityWithAssociationStereotypesContextWorkspacectx/content1.wbp"/>
+      <files name="tigerstripe.xml" contentURI=".EntityWithAssociationStereotypesContextWorkspacectx/content1.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".EntityWithAssociationStereotypesContextWorkspacectx/content1.prefs"/>
+      </folders>
+      <folders name="bin">
+        <folders name="com">
+          <files name=".package" contentURI=".EntityWithAssociationStereotypesContextWorkspacectx/content2.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".EntityWithAssociationStereotypesContextWorkspacectx/content1.package"/>
+            <files name="Association.class" contentURI=".EntityWithAssociationStereotypesContextWorkspacectx/content1.class"/>
+            <files name="ClassDiagram.vwm" contentURI=".EntityWithAssociationStereotypesContextWorkspacectx/content1.vwm"/>
+            <files name="ClassDiagram.wvd" contentURI=".EntityWithAssociationStereotypesContextWorkspacectx/content1.wvd"/>
+            <files name="Entity1.class" contentURI=".EntityWithAssociationStereotypesContextWorkspacectx/content2.class"/>
+            <files name="Entity2.class" contentURI=".EntityWithAssociationStereotypesContextWorkspacectx/content3.class"/>
+          </folders>
+        </folders>
+      </folders>
+      <folders name="src">
+        <folders name="com">
+          <files name=".package" contentURI=".EntityWithAssociationStereotypesContextWorkspacectx/content4.package"/>
+          <folders name="mycompany">
+            <files name=".package" contentURI=".EntityWithAssociationStereotypesContextWorkspacectx/content3.package"/>
+            <files name="Association.java" contentURI=".EntityWithAssociationStereotypesContextWorkspacectx/content1.java"/>
+            <files name="ClassDiagram.vwm" contentURI=".EntityWithAssociationStereotypesContextWorkspacectx/content2.vwm"/>
+            <files name="ClassDiagram.wvd" contentURI=".EntityWithAssociationStereotypesContextWorkspacectx/content2.wvd"/>
+            <files name="Entity1.java" contentURI=".EntityWithAssociationStereotypesContextWorkspacectx/content2.java"/>
+            <files name="Entity2.java" contentURI=".EntityWithAssociationStereotypesContextWorkspacectx/content3.java"/>
+          </folders>
+        </folders>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

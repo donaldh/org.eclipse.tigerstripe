@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<notation:Diagram xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:null="null" xmi:id="_0KqHcO5hEeC8J6EUmv6q1A" type="Tigerstripe" name="ClassDiagram2.wvd" measurementUnit="Pixel">
+  <children xmi:type="notation:Node" xmi:id="_9oCn4O5hEeC8J6EUmv6q1A" type="1003">
+    <children xmi:type="notation:Node" xmi:id="_9oFEIO5hEeC8J6EUmv6q1A" type="4005"/>
+    <children xmi:type="notation:Node" xmi:id="_9oFEIe5hEeC8J6EUmv6q1A" type="4006"/>
+    <children xmi:type="notation:Node" xmi:id="_9oFrMO5hEeC8J6EUmv6q1A" type="5003">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_9oFrMe5hEeC8J6EUmv6q1A"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_9oFrMu5hEeC8J6EUmv6q1A"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_9oFrM-5hEeC8J6EUmv6q1A"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_9oFrNO5hEeC8J6EUmv6q1A" type="5004">
+      <styles xmi:type="notation:DrawerStyle" xmi:id="_9oFrNe5hEeC8J6EUmv6q1A"/>
+      <styles xmi:type="notation:SortingStyle" xmi:id="_9oFrNu5hEeC8J6EUmv6q1A"/>
+      <styles xmi:type="notation:FilteringStyle" xmi:id="_9oFrN-5hEeC8J6EUmv6q1A"/>
+    </children>
+    <styles xmi:type="notation:FontStyle" xmi:id="_9oCn4e5hEeC8J6EUmv6q1A" fontName="Segoe UI"/>
+    <styles xmi:type="notation:DescriptionStyle" xmi:id="_9oCn4u5hEeC8J6EUmv6q1A"/>
+    <styles xmi:type="notation:FillStyle" xmi:id="_9oCn4-5hEeC8J6EUmv6q1A" fillColor="13825530"/>
+    <styles xmi:type="notation:LineStyle" xmi:id="_9oCn5O5hEeC8J6EUmv6q1A"/>
+    <element xmi:type="null:ManagedEntityArtifact" href="ClassDiagram2.vwm#//@artifacts.0"/>
+    <layoutConstraint xmi:type="notation:Bounds" xmi:id="_9oCn5e5hEeC8J6EUmv6q1A" x="153" y="160"/>
+  </children>
+  <styles xmi:type="notation:PageStyle" xmi:id="_0KqHce5hEeC8J6EUmv6q1A"/>
+  <styles xmi:type="notation:GuideStyle" xmi:id="_0KqHcu5hEeC8J6EUmv6q1A"/>
+  <styles xmi:type="notation:DescriptionStyle" xmi:id="_0KqHc-5hEeC8J6EUmv6q1A"/>
+  <element xmi:type="null:Map" href="ClassDiagram2.vwm#/"/>
+</notation:Diagram>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<ts_plugin version="1.2">
+<project modelId="" name="">
+<outputDirectory>target/tigerstripe.gen</outputDirectory>
+<version>0.0.0</version>
+<description/>
+<provider/>
+<property name="defaultArtifactPackage">com.mycompany</property>
+</project>
+<pluginNature type="Generic"/>
+<logger defautLevel="0" isEnabled="false" logPath="SimpleGenerator29.log" maxRoll="9"/>
+<globalProperties/>
+<globalRules/>
+<modelRules>
+<rule description="" enabled="true" name="aRule0" type="org.eclipse.tigerstripe.workbench.plugins.IModelTemplateRule">
+<body outputFile="${modelId}.txt" overwriteFiles="true" suppressFiles="true" template="templates/myTemplateFile.vm"/>
+</rule>
+</modelRules>
+<artifactRules/>
+<classpathEntries/>
+<additionalFiles/>
+<advanced/>
+<annotationPlugins/>
+</ts_plugin>

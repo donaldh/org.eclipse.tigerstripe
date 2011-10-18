@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="RemoveAnnotationsContextWorkspace" id="_UlYb4GyFEeC-86eLlbu98w">
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="RemoveAnnotationsContextWorkspace" id="_Kb5-0NnQEeCrRbabNEcanQ">
   <content>
     <projects name="New Project">
-      <files name=".ann" contentURI=".RemoveAnnotationsContextWorkspacectx/content3.ann"/>
-      <files name=".classpath" contentURI=".RemoveAnnotationsContextWorkspacectx/content1.classpath"/>
-      <files name=".project" contentURI=".RemoveAnnotationsContextWorkspacectx/content1.project"/>
-      <files name="tigerstripe.xml" contentURI=".RemoveAnnotationsContextWorkspacectx/content1.xml"/>
+      <files name=".classpath" contentURI=".RemoveAnnotationsContextWorkspacectx/content2.classpath"/>
+      <files name=".project" contentURI=".RemoveAnnotationsContextWorkspacectx/content2.project"/>
+      <files name=".visualstate" contentURI=".RemoveAnnotationsContextWorkspacectx/content1.visualstate"/>
+      <files name="tigerstripe.xml" contentURI=".RemoveAnnotationsContextWorkspacectx/content2.xml"/>
       <folders name="annotations">
-        <files name="org.eclipse.tigerstripe.annotation.ann" contentURI=".RemoveAnnotationsContextWorkspacectx/content1.ann"/>
-        <files name="org.eclipse.tigerstripe.annotation.ui.example.customview.ann" contentURI=".RemoveAnnotationsContextWorkspacectx/content2.ann"/>
+        <files name="org.eclipse.tigerstripe.annotation.ann" contentURI=".RemoveAnnotationsContextWorkspacectx/content4.ann"/>
+        <files name="org.eclipse.tigerstripe.annotation.ui.example.customview.ann" contentURI=".RemoveAnnotationsContextWorkspacectx/content5.ann"/>
       </folders>
       <folders name="src">
         <folders name="org">
-          <files name=".package" contentURI=".RemoveAnnotationsContextWorkspacectx/content14.package"/>
+          <files name=".package" contentURI=".RemoveAnnotationsContextWorkspacectx/content18.package"/>
           <folders name="eclipse">
-            <files name=".package" contentURI=".RemoveAnnotationsContextWorkspacectx/content13.package"/>
-            <files name="Entity0.java" contentURI=".RemoveAnnotationsContextWorkspacectx/content1.java"/>
-            <files name="Entity1.java" contentURI=".RemoveAnnotationsContextWorkspacectx/content2.java"/>
+            <files name=".package" contentURI=".RemoveAnnotationsContextWorkspacectx/content17.package"/>
+            <files name="Entity0.java" contentURI=".RemoveAnnotationsContextWorkspacectx/content3.java"/>
+            <files name="Entity1.java" contentURI=".RemoveAnnotationsContextWorkspacectx/content4.java"/>
           </folders>
         </folders>
       </folders>

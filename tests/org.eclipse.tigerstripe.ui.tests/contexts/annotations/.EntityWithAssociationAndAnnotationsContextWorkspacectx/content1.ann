@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:org.eclipse.tigerstripe.annotation="http:///org/eclipse/tigerstripe/annotation.ecore" xmlns:org.eclipse.tigerstripe.annotation.example="http:///org/eclipse/tigerstripe/annotation/example.ecore">
+  <org.eclipse.tigerstripe.annotation:Annotation uri="tigerstripe:/Project/com.mycompany.Association" id="_Vha9MO51EeCUdI6SCbrXGw">
+    <content xsi:type="org.eclipse.tigerstripe.annotation.example:CheckAnnotation"/>
+  </org.eclipse.tigerstripe.annotation:Annotation>
+  <org.eclipse.tigerstripe.annotation:Annotation uri="tigerstripe:/Project/com.mycompany.Association#Association;aEnd" id="_WsFZgO51EeCUdI6SCbrXGw">
+    <content xsi:type="org.eclipse.tigerstripe.annotation.example:IntegerAnnotation"/>
+  </org.eclipse.tigerstripe.annotation:Annotation>
+  <org.eclipse.tigerstripe.annotation:Annotation uri="tigerstripe:/Project/com.mycompany.Entity1" id="_aF8RQO51EeCUdI6SCbrXGw">
+    <content xsi:type="org.eclipse.tigerstripe.annotation.example:TextAnnotation"/>
+  </org.eclipse.tigerstripe.annotation:Annotation>
+  <org.eclipse.tigerstripe.annotation:Annotation uri="tigerstripe:/Project/com.mycompany.Entity2#attribute0" id="_bbNbEO51EeCUdI6SCbrXGw">
+    <content xsi:type="org.eclipse.tigerstripe.annotation.example:CheckAnnotation"/>
+  </org.eclipse.tigerstripe.annotation:Annotation>
+</xmi:XMI>

@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="329931_AddRemoveAnnotationForMethodArgument" version="3.0" id="_EmMAEciiEeCVYvz9uSPZwA" description="Add and remove annotations for method arguments &#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;RemoveAnnotationsContextGroup&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;    Create argument for the method&#xD;&#xA;    Select methods argument and add TextAnnotation&#xD;&#xA;    Check that annotation is added and differs from method annotations&#xD;&#xA;    Remove annotation and save changes&#xD;&#xA;" tags="Annotation" type="ecl" externalReference="http://docs.xored.com/display/TS/329931_AddRemoveAnnotationForMethodArgument">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="329931_AddRemoveAnnotationForMethodArgument" version="3.0" id="_EmMAEciiEeCVYvz9uSPZwA" description="Add and remove annotations for method arguments &#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;RemoveAnnotationsContextGroup&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;    Create argument for the method&#xD;&#xA;    Select methods argument and add TextAnnotation&#xD;&#xA;    Check that annotation is added and differs from method annotations&#xD;&#xA;    Remove annotation and save changes&#xD;&#xA;" tags="Annotation/functionality" type="ecl" externalReference="http://docs.xored.com/display/TS/329931_AddRemoveAnnotationForMethodArgument">
   <contexts>_pje2YGyZEeC-86eLlbu98w</contexts>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree 
+    | select "New Project/src/org.eclipse/Entity0/entity0_testMethod0\\(\\):void" | double-click -nowait
+get-editor Entity0 | get-section Methods | get-section -index 1 | get-button Add -after [get-label Arguments] | click
+get-button "Save (Ctrl+S)" | click
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "New Project/src/org.eclipse/Entity0/entity0_testMethod0\\(String\\):void" | double-click -nowait
+get-editor Entity0 | get-section Methods | get-section -index 1 | get-table -after [get-label Arguments] 
+    | select "arg0: String"
+get-view "Annotation Property View" | click -nowait
+get-editor Entity0 | get-section Methods | get-section -index 1 | get-table -after [get-label Arguments] 
+    | select "arg0: String"
+get-view "Annotation Property View" | get-table | get-menu "Add Annotation" | click
+with [get-window "Create Annotation Wizard"] {
+    get-tree | select "Primitive/Check Annotation"
+    get-button Finish | click
+}
+get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get-property caption 
+    | equals CheckAnnotation | verify-true
+get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse/Entity0"
+get-view "Annotation Property View" | click -nowait
+get-view "Annotation Property View" | get-table | get-property itemCount | equals 5 | verify-true
+get-view "Tigerstripe Explorer" | get-tree 
+    | select "New Project/src/org.eclipse/Entity0/entity0_testMethod0\\(String\\):void"
+get-view "Annotation Property View" | get-table | get-property itemCount | equals 0 | verify-true
+get-editor Entity0 | get-section Methods | get-section -index 1 | get-table -after [get-label Arguments] 
+    | select "arg0: String"
+get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get-property caption 
+    | equals CheckAnnotation | verify-true
+return-from-os-dialog "MESSAGE_BOX" 64
+get-view "Annotation Property View" | get-table | get-menu "Remove All" | click
+get-view "Annotation Property View" | get-table | get-property itemCount | equals 0 | verify-true]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>

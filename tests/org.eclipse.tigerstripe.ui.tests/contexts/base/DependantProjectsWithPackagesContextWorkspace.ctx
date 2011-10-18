@@ -2,34 +2,35 @@
 <com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="DependantProjectsWithPackagesContextWorkspace" id="_2OSx4fOUEd-s8v7FVtLgHw">
   <content>
     <projects name="One">
-      <files name=".classpath" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content9.classpath"/>
-      <files name=".project" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content9.project"/>
-      <files name=".visualstate" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content5.visualstate"/>
-      <files name="tigerstripe.xml" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content9.xml"/>
+      <files name=".classpath" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content13.classpath"/>
+      <files name=".project" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content13.project"/>
+      <files name=".visualstate" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content7.visualstate"/>
+      <files name="tigerstripe.xml" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content13.xml"/>
       <folders name="src">
         <folders name="com">
-          <files name=".package" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content32.package"/>
+          <files name=".package" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content48.package"/>
           <folders name="mycompany">
-            <files name=".package" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content31.package"/>
-            <files name="Ent1.java" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content11.java"/>
+            <files name=".package" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content47.package"/>
+            <files name="Ent1.java" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content23.java"/>
           </folders>
         </folders>
       </folders>
     </projects>
     <projects name="Two">
-      <files name=".classpath" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content10.classpath"/>
-      <files name=".project" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content10.project"/>
-      <files name="tigerstripe.xml" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content10.xml"/>
+      <files name=".classpath" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content14.classpath"/>
+      <files name=".project" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content14.project"/>
+      <files name=".visualstate" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content8.visualstate"/>
+      <files name="tigerstripe.xml" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content14.xml"/>
       <folders name="src">
         <folders name="com">
-          <files name=".package" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content36.package"/>
+          <files name=".package" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content52.package"/>
           <folders name="mycompany">
-            <files name=".package" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content35.package"/>
-            <files name="Association.java" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content12.java"/>
-            <files name="Dependency.java" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content13.java"/>
-            <files name="Ent2.java" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content14.java"/>
-            <files name="Ent3.java" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content15.java"/>
-            <files name="Ent4.java" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content16.java"/>
+            <files name=".package" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content51.package"/>
+            <files name="Association.java" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content24.java"/>
+            <files name="Dependency.java" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content25.java"/>
+            <files name="Ent2.java" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content26.java"/>
+            <files name="Ent3.java" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content27.java"/>
+            <files name="Ent4.java" contentURI=".DependantProjectsWithPackagesContextWorkspacectx/content28.java"/>
           </folders>
         </folders>
       </folders>

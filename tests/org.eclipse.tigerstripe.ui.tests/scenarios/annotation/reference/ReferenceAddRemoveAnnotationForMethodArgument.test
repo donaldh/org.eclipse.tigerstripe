@@ -5,7 +5,7 @@
   <contexts>_9D6jAatgEd-v8JwXbnu_tQ</contexts>
   <content xsi:type="org.eclipse.ecl.core:Script">
     <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree 
-    | select "One/Model Project References/Two/src/mycompany/Ent2/method0\\(String\\):void" | double-click -nowait
+    | select "One/Model References/Two/src/com.mycompany/Ent2/method0\\(String\\):void" | double-click -nowait
 get-editor Ent2 | get-section Methods | get-section -index 1 | get-table -after [get-label Arguments] 
     | select "arg0: String"
 get-view "Annotation Property View" | click -nowait
@@ -17,7 +17,7 @@ with [get-window "Create Annotation Wizard"] {
     get-button Finish | click
 }
 get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "One/Model Project References/Two/src/mycompany/Ent2/method0\\(String\\):void" 
+    | get-item "One/Model References/Two/src/com.mycompany/Ent2/method0\\(String\\):void" 
     | get-property caption | equals "method0(String):void" | verify-true
 get-editor Ent2 | get-section Methods | get-section -index 1 | get-table -after [get-label Arguments] 
     | select "arg0: String"
@@ -40,7 +40,7 @@ get-view "Tigerstripe Explorer" | get-tree
 get-editor Ent2 | close
 with [get-view "Tigerstripe Explorer"] {
     click -nowait
-    get-tree | select "One/Model Project References/Two/src/mycompany/Ent2/method0\\(String\\):void" 
+    get-tree | select "One/Model References/Two/src/com.mycompany/Ent2/method0\\(String\\):void" 
         | double-click -nowait
 }
 get-editor Ent2 | get-section Methods | get-section -index 1 | get-table -after [get-label Arguments] 
@@ -51,7 +51,7 @@ get-editor Ent2 | get-section Methods | get-section -index 1 | get-table -after 
     | select "arg0: String"
 get-view "Annotation Property View" | get-table | get-property itemCount | equals 0 | verify-true
 get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "One/Model Project References/Two/src/mycompany/Ent2/method0\\(String\\):void" | get-property caption 
+    | get-item "One/Model References/Two/src/com.mycompany/Ent2/method0\\(String\\):void" | get-property caption 
     | equals "method0(String):void" | verify-true]]></content>
   </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">

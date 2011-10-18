@@ -1198,10 +1198,11 @@ with [get-editor Enumeration1 | get-section Constants | get-section | get-table 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.8">
       <elements id="Button71" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Add">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="259" y="5" width="55" height="25"/>
+        <caption>Add</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.9">
@@ -1265,9 +1266,10 @@ with [get-editor Enumeration1 | get-section Constants | get-section | get-table 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.20">
       <elements id="Button75" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.21">
@@ -1453,9 +1455,10 @@ with [get-editor Enumeration1 | get-section Constants | get-section | get-table 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.51">
       <elements id="Button76" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.52">
@@ -1540,9 +1543,10 @@ with [get-editor Enumeration1 | get-section Constants | get-section | get-table 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.67">
       <elements id="Button77" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.68">
@@ -1685,9 +1689,10 @@ with [get-editor Enumeration1 | get-section Constants | get-section | get-table 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.89">
       <elements id="Button78" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.90">
@@ -1785,9 +1790,10 @@ with [get-editor Enumeration1 | get-section Constants | get-section | get-table 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.105">
       <elements id="Button79" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.106">
@@ -1872,9 +1878,10 @@ with [get-editor Enumeration1 | get-section Constants | get-section | get-table 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.120">
       <elements id="Button80" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.121">
@@ -1969,10 +1976,11 @@ with [get-editor Enumeration1 | get-section Constants | get-section | get-table 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.135">
       <elements id="Button81" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Remove">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="259" y="95" width="55" height="25"/>
+        <caption>Remove</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.136">
@@ -1988,10 +1996,11 @@ with [get-editor Enumeration1 | get-section Constants | get-section | get-table 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.140">
       <elements id="Button82" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Yes">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption>Yes</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.141">
@@ -1999,9 +2008,10 @@ with [get-editor Enumeration1 | get-section Constants | get-section | get-table 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.144">
       <elements id="Button83" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.145">
@@ -2017,10 +2027,11 @@ with [get-editor Enumeration1 | get-section Constants | get-section | get-table 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.149">
       <elements id="Button84" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Yes">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds width="92" height="25"/>
+        <caption><![CDATA[&Yes]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.150">
@@ -2075,10 +2086,11 @@ with [get-editor Enumeration1 | get-section Constants | get-section | get-table 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.169">
       <elements id="Button85" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Add">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="259" y="5" width="55" height="25"/>
+        <caption>Add</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.170">
@@ -2182,9 +2194,10 @@ with [get-editor Enumeration1 | get-section Constants | get-section | get-table 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.187">
       <elements id="Button87" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.188">
@@ -2240,9 +2253,10 @@ with [get-editor Enumeration1 | get-section Constants | get-section | get-table 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.198">
       <elements id="Button88" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.199">
@@ -2348,9 +2362,10 @@ with [get-editor Enumeration1 | get-section Constants | get-section | get-table 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.222">
       <elements id="Button89_153" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.223">
@@ -2536,9 +2551,10 @@ with [get-editor Enumeration1 | get-section Constants | get-section | get-table 
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.253">
       <elements id="Button90_154" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.254">

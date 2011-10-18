@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="ProjectsWithInstalledModuleAndClassDiagramsWorkspace" id="_fDaLcO5iEeCeLo_urxYMqg">
+  <content>
+    <projects name="Project1">
+      <files name=".classpath" contentURI=".ProjectsWithInstalledModuleAndClassDiagramsWorkspacectx/content1.classpath"/>
+      <files name=".project" contentURI=".ProjectsWithInstalledModuleAndClassDiagramsWorkspacectx/content1.project"/>
+      <files name=".visualstate" contentURI=".ProjectsWithInstalledModuleAndClassDiagramsWorkspacectx/content1.visualstate"/>
+      <files name="tigerstripe.xml" contentURI=".ProjectsWithInstalledModuleAndClassDiagramsWorkspacectx/content1.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".ProjectsWithInstalledModuleAndClassDiagramsWorkspacectx/content1.prefs"/>
+      </folders>
+      <folders name="src">
+        <files name="ClassDiagram1.vwm" contentURI=".ProjectsWithInstalledModuleAndClassDiagramsWorkspacectx/content2.vwm"/>
+        <files name="ClassDiagram1.wvd" contentURI=".ProjectsWithInstalledModuleAndClassDiagramsWorkspacectx/content2.wvd"/>
+      </folders>
+    </projects>
+    <projects name="Project2">
+      <files name=".classpath" contentURI=".ProjectsWithInstalledModuleAndClassDiagramsWorkspacectx/content2.classpath"/>
+      <files name=".project" contentURI=".ProjectsWithInstalledModuleAndClassDiagramsWorkspacectx/content2.project"/>
+      <files name=".visualstate" contentURI=".ProjectsWithInstalledModuleAndClassDiagramsWorkspacectx/content2.visualstate"/>
+      <files name="tigerstripe.xml" contentURI=".ProjectsWithInstalledModuleAndClassDiagramsWorkspacectx/content2.xml"/>
+      <folders name=".settings">
+        <files name="org.eclipse.core.resources.prefs" contentURI=".ProjectsWithInstalledModuleAndClassDiagramsWorkspacectx/content2.prefs"/>
+      </folders>
+      <folders name="src">
+        <files name="ClassDiagram2.vwm" contentURI=".ProjectsWithInstalledModuleAndClassDiagramsWorkspacectx/content4.vwm"/>
+        <files name="ClassDiagram2.wvd" contentURI=".ProjectsWithInstalledModuleAndClassDiagramsWorkspacectx/content4.wvd"/>
+      </folders>
+    </projects>
+  </content>
+</com.xored.q7.workspace:WorkspaceContext>

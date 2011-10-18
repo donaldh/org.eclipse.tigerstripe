@@ -5,18 +5,18 @@
   <contexts>_9D6jAatgEd-v8JwXbnu_tQ</contexts>
   <content xsi:type="org.eclipse.ecl.core:Script">
     <content><![CDATA[with [get-view "Tigerstripe Explorer" | get-tree] {
-    select "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1" 
+    select "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1" 
         | get-menu "Annotations/Create/Primitive/Check Annotation" | click
-    select "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>E1/attribute0:String" 
+    select "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>E1/attribute0:String" 
         | get-menu "Annotations/Create/Primitive/Check Annotation" | click
-    select "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>E1/method0\\(\\):void" 
+    select "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>E1/method0\\(\\):void" 
         | get-menu "Annotations/Create/Primitive/Integer Annotation" | click
     select "Project1/src" | get-menu "New/Class Diagram" | click
 }
 get-window "New Tigerstripe Diagram" | get-button Finish | click
 get-view "Tigerstripe Explorer" | get-tree 
-    | select "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>E1" 
-    | get-item "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>E1" 
+    | select "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>E1" 
+    | get-item "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>E1" 
     | drag-start 77 11 none
 with [get-editor "default2.wvd" | get-diagram | get-edit-part -className MapEditPart] {
     drag-enter 78 162 none -detail 2 -operation 7
@@ -37,16 +37,16 @@ get-editor "default2.wvd" | get-diagram | get-edit-part -className MapEditPart |
     | equals "<<IntegerAnnotation>> +method0():void" | verify-true
 get-button "Save (Ctrl+S)" | click
 get-view "Tigerstripe Explorer" | get-tree 
-    | select "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>E1"
+    | select "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>E1"
 return-from-os-dialog "MESSAGE_BOX" 64
 with [get-view "Tigerstripe Explorer" | get-tree] {
     get-menu "Annotations/Remove" | click
-    select "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/<<CheckAnnotation>>attribute0:String"
+    select "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/<<CheckAnnotation>>attribute0:String"
 }
 return-from-os-dialog "MESSAGE_BOX" 64
 with [get-view "Tigerstripe Explorer" | get-tree] {
     get-menu "Annotations/Remove" | click
-    select "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/<<IntegerAnnotation>>method0\\(\\):void"
+    select "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/E1/<<IntegerAnnotation>>method0\\(\\):void"
 }
 return-from-os-dialog "MESSAGE_BOX" 64
 get-view "Tigerstripe Explorer" | get-tree | get-menu "Annotations/Remove" | click]]></content>

@@ -2,25 +2,25 @@
 <com.xored.q7.workspace:WorkspaceContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.workspace="http:///com/xored/q7/workspace.ecore" name="SeveralEnumerationsContextWorkspace" id="_zysnMH-DEeCcSOu_oe8o1g">
   <content>
     <projects name="Project1">
-      <files name=".classpath" contentURI=".SeveralEnumeratorsContextWorkspacectx/content2.classpath"/>
-      <files name=".project" contentURI=".SeveralEnumeratorsContextWorkspacectx/content2.project"/>
-      <files name="tigerstripe.xml" contentURI=".SeveralEnumeratorsContextWorkspacectx/content2.xml"/>
+      <files name=".classpath" contentURI=".SeveralEnumeratorsContextWorkspacectx/content3.classpath"/>
+      <files name=".project" contentURI=".SeveralEnumeratorsContextWorkspacectx/content3.project"/>
+      <files name="tigerstripe.xml" contentURI=".SeveralEnumeratorsContextWorkspacectx/content3.xml"/>
       <folders name=".settings">
-        <files name="org.eclipse.core.resources.prefs" contentURI=".SeveralEnumeratorsContextWorkspacectx/content2.prefs"/>
+        <files name="org.eclipse.core.resources.prefs" contentURI=".SeveralEnumeratorsContextWorkspacectx/content3.prefs"/>
       </folders>
       <folders name="src">
         <folders name="com">
-          <files name=".package" contentURI=".SeveralEnumeratorsContextWorkspacectx/content8.package"/>
+          <files name=".package" contentURI=".SeveralEnumeratorsContextWorkspacectx/content12.package"/>
           <folders name="mycompany">
-            <files name=".package" contentURI=".SeveralEnumeratorsContextWorkspacectx/content7.package"/>
-            <files name="Dependency5.java" contentURI=".SeveralEnumeratorsContextWorkspacectx/content7.java"/>
-            <files name="Entity1.java" contentURI=".SeveralEnumeratorsContextWorkspacectx/content8.java"/>
-            <files name="Entity2.java" contentURI=".SeveralEnumeratorsContextWorkspacectx/content9.java"/>
-            <files name="Enumeration1.java" contentURI=".SeveralEnumeratorsContextWorkspacectx/content10.java"/>
-            <files name="Enumeration2.java" contentURI=".SeveralEnumeratorsContextWorkspacectx/content11.java"/>
-            <files name="Enumeration3.java" contentURI=".SeveralEnumeratorsContextWorkspacectx/content12.java"/>
-            <files name="default.vwm" contentURI=".SeveralEnumeratorsContextWorkspacectx/content4.vwm"/>
-            <files name="default.wvd" contentURI=".SeveralEnumeratorsContextWorkspacectx/content4.wvd"/>
+            <files name=".package" contentURI=".SeveralEnumeratorsContextWorkspacectx/content11.package"/>
+            <files name="Dependency5.java" contentURI=".SeveralEnumeratorsContextWorkspacectx/content13.java"/>
+            <files name="Entity1.java" contentURI=".SeveralEnumeratorsContextWorkspacectx/content14.java"/>
+            <files name="Entity2.java" contentURI=".SeveralEnumeratorsContextWorkspacectx/content15.java"/>
+            <files name="Enumeration1.java" contentURI=".SeveralEnumeratorsContextWorkspacectx/content16.java"/>
+            <files name="Enumeration2.java" contentURI=".SeveralEnumeratorsContextWorkspacectx/content17.java"/>
+            <files name="Enumeration3.java" contentURI=".SeveralEnumeratorsContextWorkspacectx/content18.java"/>
+            <files name="default.vwm" contentURI=".SeveralEnumeratorsContextWorkspacectx/content6.vwm"/>
+            <files name="default.wvd" contentURI=".SeveralEnumeratorsContextWorkspacectx/content6.wvd"/>
           </folders>
         </folders>
       </folders>

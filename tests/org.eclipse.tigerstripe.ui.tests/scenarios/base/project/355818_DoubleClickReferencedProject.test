@@ -1,8 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="355818_DoubleClickReferencedProject" version="3.0" id="_DQ_zMNkTEeCrRbabNEcanQ" description="Double-click on element that can't be opened in TS explorer doesn't lead to error&#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;TigerstripeDependencyDiagramContextWorkspace&#xD;&#xA;&#xD;&#xA;Add project 2 to project 1 as project reference&#xD;&#xA;In Tigerstripe explorer open project 2, open Model Project References&#xD;&#xA;Double-click on referenced project folder and on src folder&#xD;&#xA;" tags="TS_Project/Edit, TS_Project/References" type="ecl" externalReference="http://docs.xored.com/display/TS/355818_DoubleClickReferencedProject">
+<com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="355818_DoubleClickReferencedProject" version="3.0" id="_DQ_zMNkTEeCrRbabNEcanQ" description="Double-click on element that can't be opened in TS explorer doesn't lead to error&#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;TigerstripeDependencyDiagramContextWorkspace&#xD;&#xA;&#xD;&#xA;Add project 2 to project 1 as project reference&#xD;&#xA;In Tigerstripe explorer open project 2, open Model Project References&#xD;&#xA;Double-click on referenced project folder and on src folder&#xD;&#xA;" tags="TS_Project/Edit, TS_Project/References" type="ecl" externalReference="http://docs.xored.com/display/TS/355818_DoubleClickReferencedProject">
   <contexts>_FGfSUKthEd-v8JwXbnu_tQ</contexts>
   <contexts>_HbU74PhGEd-iKuOiJgVXVQ</contexts>
   <contexts>_9D6jAatgEd-v8JwXbnu_tQ</contexts>
+  <content xsi:type="org.eclipse.ecl.core:Script">
+    <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "Project1/tigerstripe.xml" | double-click -nowait
+with [get-editor "Project1/tigerstripe.xml"] {
+    get-tab-folder | get-tab-item Dependencies | click
+    get-section Dependencies | get-button Add | click
+}
+with [get-window "Select Tigerstripe Project"] {
+    get-table | select Project2
+    get-button OK | click
+}
+get-button "Save (Ctrl+S)" | click
+with [get-view "Tigerstripe Explorer" | get-tree] {
+    select "Project1/Model References" | double-click -nowait
+    select "Project1/Model References/Project2" | double-click -nowait
+    select "Project1/Model References/Project2/src" | double-click -nowait
+    select "Project1/tigerstripe.xml"
+}
+get-view Problems | click -nowait
+get-view Problems | get-tree | get-property itemCount | equals 0 | verify-true]]></content>
+  </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">
     <commands xsi:type="com.xored.tesla.core.protocol:SelectCommand">
       <data kind="EclipseWindow" multiplicity="1"/>

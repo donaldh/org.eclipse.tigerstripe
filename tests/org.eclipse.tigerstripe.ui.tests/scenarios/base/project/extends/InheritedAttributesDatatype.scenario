@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.xored.q7.scenario:Scenario xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" xmlns:com.xored.tesla.core.protocol="http:///com/xored/tesla/core/protocol.ecore" xmlns:com.xored.tesla.core.protocol.raw="http:///com/xored/tesla/core/protocol/raw.ecore" xmlns:com.xored.tesla.core.ui="http:///com/xored/tesla/core/ui.ecore" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:org.eclipse.ecl.core="http://www.eclipse.org/ecl/core.ecore" name="InheritedAttributesDatatype" version="3.0" id="_NjQuQHt-EeCihOLHf7Mnlg" description="Add/remove extend and check inherited attributes, methods and constants &#xD;&#xA;&#xD;&#xA;Precondition&#xD;&#xA;ArtifactsContext&#xD;&#xA;&#xD;&#xA;Steps:&#xD;&#xA;1. Create a new datatype&#xD;&#xA;2. Check that there are no attributes, methods and constants for this datatype&#xD;&#xA;3. Add extends to another datatype with attributes, methods and constants and save changes&#xD;&#xA;4. Select 'extends' link to open extended datatype and check  attributes, methods and constants names&#xD;&#xA;5. Check that attributes, methods and constants are added for the new datatype&#xD;&#xA;6. Check inherited attributes, methods and constants names&#xD;&#xA;7. Remove extends link and save changes&#xD;&#xA;8. Check that there are no attributes, methods and constants for the new datatype" tags="TS_Project/Edit/Artifacts/Extends" type="ecl">
+  <contexts>_FGfSUKthEd-v8JwXbnu_tQ</contexts>
   <contexts>_SSBA8Kw8Ed-cSZ2bfD-mDg</contexts>
+  <contexts>_9D6jAatgEd-v8JwXbnu_tQ</contexts>
   <content xsi:type="org.eclipse.ecl.core:Script">
     <content><![CDATA[get-view "Tigerstripe Explorer" | get-tree | select "New Project/src/org.eclipse.Package0" | get-menu "New/Datatype" | click
 with [get-window "Create a new Datatype"] {
@@ -1111,10 +1113,11 @@ get-editor Datatype2 | get-section Methods | get-section | get-table | get-prope
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.12">
       <elements id="Button95" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="&amp;Finish">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption><![CDATA[&Finish]]></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.13">
@@ -1294,10 +1297,11 @@ get-editor Datatype2 | get-section Methods | get-section | get-table | get-prope
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.42">
       <elements id="Button98" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Select">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="430" width="43" height="25"/>
+        <caption>Select</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.43">
@@ -1324,10 +1328,11 @@ get-editor Datatype2 | get-section Methods | get-section | get-table | get-prope
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.49">
       <elements id="Button99" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.50">
@@ -1335,9 +1340,10 @@ get-editor Datatype2 | get-section Methods | get-section | get-table | get-prope
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.53">
       <elements id="Button100" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.54">
@@ -1995,10 +2001,11 @@ get-editor Datatype2 | get-section Methods | get-section | get-table | get-prope
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.154">
       <elements id="Button105" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Select">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="430" width="43" height="25"/>
+        <caption>Select</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.155">
@@ -2025,10 +2032,11 @@ get-editor Datatype2 | get-section Methods | get-section | get-table | get-prope
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.161">
       <elements id="Button106" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.162">
@@ -2036,9 +2044,10 @@ get-editor Datatype2 | get-section Methods | get-section | get-table | get-prope
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.165">
       <elements id="Button107" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.166">
@@ -2279,10 +2288,11 @@ get-editor Datatype2 | get-section Methods | get-section | get-table | get-prope
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.202">
       <elements id="Button18_142" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="Select">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="255" green="255" blue="255"/>
         <foregroundColor/>
         <bounds x="430" width="43" height="25"/>
+        <caption>Select</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.203">
@@ -2309,10 +2319,11 @@ get-editor Datatype2 | get-section Methods | get-section | get-table | get-prope
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.209">
       <elements id="Button19_143" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="OK">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
         <bounds x="11" y="13" width="92" height="25"/>
+        <caption>OK</caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.210">
@@ -2320,9 +2331,10 @@ get-editor Datatype2 | get-section Methods | get-section | get-table | get-prope
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.213">
       <elements id="Button20_144" kind="Button"/>
-      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" caption="" tooltip="Save (Ctrl+S)" kind="Tool">
+      <controls xsi:type="com.xored.tesla.core.ui:Button" enablement="true" tooltip="Save (Ctrl+S)" kind="Tool">
         <backgroundColor red="240" green="240" blue="240"/>
         <foregroundColor/>
+        <caption></caption>
       </controls>
     </elementMapping>
     <elementMapping command="//@teslaContent/@commands.214">

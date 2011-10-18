@@ -59,7 +59,7 @@ get-view "Annotation Property View" | get-table | get-property itemCount | equal
 get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get-property caption 
     | equals CheckAnnotation | verify-true
 get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>Association1" 
+    | get-item "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>Association1" 
     | get-property caption | equals "<<CheckAnnotation>>Association1" | verify-true
 get-editor "default.wvd" | close
 with [get-view "Tigerstripe Explorer"] {
@@ -78,7 +78,7 @@ with [get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditP
 }
 get-view "Annotation Property View" | get-table | get-property itemCount | equals 0 | verify-true
 get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "Project2/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/Association1" 
+    | get-item "Project2/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/Association1" 
     | get-property caption | equals Association1 | verify-true
 get-editor "default.wvd" | close
 with [get-view "Tigerstripe Explorer"] {
@@ -114,7 +114,7 @@ get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | 
     | get-target-connection 0 | get-edit-part -text "org.eclipse.tigerstripe.test.Association1" | get-property text 
     | equals "org.eclipse.tigerstripe.test.Association1" | verify-true
 get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/Association1" 
+    | get-item "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/Association1" 
     | get-property caption | equals Association1 | verify-true]]></content>
   </content>
   <teslaContent xsi:type="com.xored.tesla.core.protocol.raw:TeslaScenario">

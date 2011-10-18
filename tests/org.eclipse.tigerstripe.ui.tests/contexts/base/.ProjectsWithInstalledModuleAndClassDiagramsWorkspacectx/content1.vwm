@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<null:Map xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:null="null" basePackage="com.mycompany">
+  <artifacts xsi:type="null:ManagedEntityArtifact" name="E1" package="org.eclipse.tigerstripe.test" isReadonly="true">
+    <properties name="artifact.hide.extends" value="false"/>
+    <attributes name="attribute0" type="String" isUnique="true"/>
+    <methods name="method0" type="void"/>
+  </artifacts>
+</null:Map>

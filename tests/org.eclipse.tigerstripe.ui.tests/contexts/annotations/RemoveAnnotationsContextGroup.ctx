@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.xored.q7.scenario:GroupContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" name="RemoveAnnotationsContextGroup" id="_pje2YGyZEeC-86eLlbu98w">
   <contextReferences>_rHfkQKthEd-v8JwXbnu_tQ</contextReferences>
-  <contextReferences>_UlYb4GyFEeC-86eLlbu98w</contextReferences>
+  <contextReferences>_Kb5-0NnQEeCrRbabNEcanQ</contextReferences>
 </com.xored.q7.scenario:GroupContext>

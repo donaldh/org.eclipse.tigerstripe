@@ -24,7 +24,7 @@ get-view "Annotation Property View" | get-table | get-property itemCount | equal
 get-view "Annotation Property View" | get-table | get-item CheckAnnotation | get-property caption 
     | equals CheckAnnotation | verify-true
 get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>Dependency" 
+    | get-item "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>Dependency" 
     | get-property caption | equals "<<CheckAnnotation>>Dependency" | verify-true
 get-editor "default.wvd" | close    
 get-view "Tigerstripe Explorer" | get-tree | select "Project2/src/default" | double-click -nowait
@@ -32,14 +32,14 @@ get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | 
     | get-target-connection 0 | get-edit-part -text "org.eclipse.tigerstripe.test.Dependency" | get-property text 
     | equals "org.eclipse.tigerstripe.test.Dependency" | verify-true
 get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "Project2/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/Dependency" 
+    | get-item "Project2/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/Dependency" 
     | get-property caption | equals Dependency | verify-true
 get-view "Tigerstripe Explorer" | get-tree 
-    | select "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>Dependency"
+    | select "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/<<CheckAnnotation>>Dependency"
 return-from-os-dialog "MESSAGE_BOX" 64
 get-view "Annotation Property View" | get-table | get-menu "Remove All" | click
 get-view "Tigerstripe Explorer" | get-tree 
-    | get-item "Project1/Model Project References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/Dependency" 
+    | get-item "Project1/Model References/org.eclipse.tigerstripe.test.module_1.0.0.jar - .*plugins/org.eclipse.tigerstripe.test/Dependency" 
     | get-property caption | equals Dependency | verify-true
 get-view "Tigerstripe Explorer" | get-tree | select "Project1/src/default" | double-click -nowait
 get-editor "default.wvd" | get-diagram | get-edit-part -className MapEditPart | get-edit-part -name E2 

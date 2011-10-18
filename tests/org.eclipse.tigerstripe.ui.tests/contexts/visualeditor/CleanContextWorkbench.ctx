@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.xored.q7.scenario:WorkbenchContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.scenario="http:///com/xored/q7/scenario.ecore" name="CleanContextWorkbench" id="_WLclYOMKEd-nvv6n1ieo6A"/>
+<com.xored.q7.scenario:WorkbenchContext xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:com.xored.q7.scenario="http://com/xored/q7/scenario.ecore" name="CleanContextWorkbench" id="_WLclYOMKEd-nvv6n1ieo6A" perspectiveId="org.eclipse.tigerstripe.community.tigerstripePerspective"/>
