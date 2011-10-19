@@ -16,6 +16,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationException;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.annotation.core.InTransaction;
+import org.eclipse.tigerstripe.annotation.core.InTransaction.Operation;
 import org.eclipse.tigerstripe.annotation.core.test.model.Author;
 import org.eclipse.tigerstripe.annotation.core.test.model.ModelFactory;
 import org.eclipse.tigerstripe.annotation.core.test.model.ModelPackage;
@@ -50,18 +52,19 @@ public class ChangeRecordingTest extends AbstractResourceTestCase {
 			addAnnotation();
 			
 			//read
-			Author author = read();
+			final Author author = read();
 			assertNotNull(author);
 			assertNull(author.getFirstName());
 			assertNull(author.getLastName());
 			
-			//change
-			author.setFirstName("First");
-			author.setLastName("Last");
-			
-			//save
-			save(author);
-			
+			InTransaction.write(new Operation() {
+				
+				public void run() throws Throwable {
+					author.setFirstName("First");
+					author.setLastName("Last");
+				}
+			});
+
 			//read and check
 			Author newAuthor = read();
 			assertNotNull(newAuthor);
@@ -76,20 +79,26 @@ public class ChangeRecordingTest extends AbstractResourceTestCase {
 	public void test2() throws AnnotationException {
 		try {
 			//create author
-			Author author = ModelFactory.eINSTANCE.createAuthor();
+			final Author author = ModelFactory.eINSTANCE.createAuthor();
 			author.setFirstName("name");
 			author.setLastName("name2");
 			
 			//add and change annotation
 			Annotation annotation = AnnotationPlugin.getManager().addAnnotation(project, author);
-			author.setFirstName("name2");
 			
+			InTransaction.write(new Operation() {
+				
+				public void run() throws Throwable {
+					author.setFirstName("name2");
+				}
+			});
+
 			//save annotation
 			AnnotationPlugin.getManager().save(annotation);
 			
 			//read and check
-			author = read();
-			assertEquals(author.getFirstName(), "name2");
+			Author author2 = read();
+			assertEquals(author2.getFirstName(), "name2");
 		}
 		finally {
 			removeAnnotation();
@@ -114,10 +123,4 @@ public class ChangeRecordingTest extends AbstractResourceTestCase {
 		assertEquals(content.eClass(), ModelPackage.eINSTANCE.getAuthor());
 		return (Author)content;
 	}
-	
-	private void save(Author author) {
-		Annotation annotation = (Annotation)author.eContainer();
-		AnnotationPlugin.getManager().save(annotation);
-	}
-
 }

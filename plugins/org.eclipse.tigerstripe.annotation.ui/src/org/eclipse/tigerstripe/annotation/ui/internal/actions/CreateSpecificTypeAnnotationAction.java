@@ -23,15 +23,12 @@ import org.eclipse.tigerstripe.annotation.core.AnnotationType;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationTarget;
 import org.eclipse.tigerstripe.annotation.core.TargetAnnotationType;
 import org.eclipse.tigerstripe.annotation.ui.AnnotationUIPlugin;
-import org.eclipse.ui.PlatformUI;
 
 /**
  * @author Yuri Strot
  * 
  */
 public class CreateSpecificTypeAnnotationAction extends Action {
-
-	public static final String ANNOTATION_PROPERTY_VIEW = "org.eclipse.tigerstripe.annotation.view.property";
 
 	private final TargetAnnotationType targetType;
 	private boolean isCanceled;
@@ -72,13 +69,8 @@ public class CreateSpecificTypeAnnotationAction extends Action {
 		}
 		if (selected != null) {
 			try {
-				Object result = AnnotationPlugin.getManager().addAnnotation(
-						selected,
+				AnnotationPlugin.getManager().addAnnotation(selected,
 						targetType.getType().createInstance());
-				if (result != null) {
-					PlatformUI.getWorkbench().getActiveWorkbenchWindow()
-							.getActivePage().showView(ANNOTATION_PROPERTY_VIEW);
-				}
 			} catch (Exception e) {
 				AnnotationUIPlugin.log(e);
 			}

@@ -11,9 +11,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.core.test;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.List;
 
@@ -27,8 +25,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPackage;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
-import org.eclipse.tigerstripe.espace.core.Mode;
-import org.eclipse.tigerstripe.espace.resources.core.EObjectRouter;
+import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.osgi.framework.Bundle;
 
 /**
@@ -47,15 +44,14 @@ public class ExternalResourceTest extends AbstractResourceTestCase {
 		// create EMF resource from the "annotations/.ann",
 		// which contains annotation for the "project1" resource
 		URL url = baseBundle.getResource(ANNOTATION_FOLDER + "."
-				+ EObjectRouter.ANNOTATION_FILE_EXTENSION);
+				+ IAnnotationManager.ANNOTATION_FILE_EXTENSION);
 		Resource resource = createResource(url);
 
 		// get annotation from the resource
 		Annotation annotation = getAnnotation(resource);
 		try {
 			// register this resource in the TAF
-			AnnotationPlugin.getManager().addAnnotations(resource,
-					Mode.READ_ONLY);
+			AnnotationPlugin.getManager().addAnnotations(resource);
 			// check that resource successfully added
 			Annotation[] annotations = AnnotationPlugin.getManager()
 					.getAnnotations(project1, false);
@@ -73,15 +69,8 @@ public class ExternalResourceTest extends AbstractResourceTestCase {
 		URI uri = URI.createURI(rUrl.toExternalForm());
 		ResourceSetImpl resourceSet = new ResourceSetImpl();
 		Resource resource = resourceSet.createResource(uri);
-		InputStream is = null;
-		try {
-			resource.load(url.openStream(), null);
-			return resource;
-		} finally {
-			if (is != null) {
-				is.close();
-			}
-		}
+		resource.load(null);
+		return resource;
 	}
 
 	private Annotation getAnnotation(Resource resource) {

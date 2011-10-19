@@ -27,12 +27,11 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringChangesListener;
-import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringNotifier;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
@@ -174,9 +173,9 @@ public class BaseRefactorCommand implements IRefactorCommand {
 
 	protected ITigerstripeModelProject[] moveAllArtifactsAcross(
 			Set<Object> toCleanUp) {
-		IRefactoringNotifier refactor = AnnotationPlugin
-				.getRefactoringNotifier();
-
+		
+		IAnnotationManager manager = AnnotationPlugin.getManager();
+		
 		Set<ITigerstripeModelProject> destProjects = new HashSet<ITigerstripeModelProject>();
 		for (RefactorRequest req : requests) {
 			if (req instanceof ModelRefactorRequest) {
@@ -192,7 +191,7 @@ public class BaseRefactorCommand implements IRefactorCommand {
 						// propagate to annotations framework
 						TigerstripeLazyObject oldPath = new TigerstripeLazyObject(
 								art);
-						refactor.fireChanged(
+						manager.fireChanged(
 								oldPath,
 								new TigerstripeLazyObject(mRReq
 										.getDestinationProject(), art
@@ -206,7 +205,7 @@ public class BaseRefactorCommand implements IRefactorCommand {
 						dest.doSave(null);
 
 						// propagate to annotations framework
-						refactor.fireChanged(oldPath,
+						manager.fireChanged(oldPath,
 								new TigerstripeLazyObject(dest),
 								IRefactoringChangesListener.CHANGED);
 

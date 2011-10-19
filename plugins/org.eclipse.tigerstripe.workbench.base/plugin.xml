@@ -674,10 +674,19 @@
     </super>
  </extension>
  <extension
-       point="org.eclipse.tigerstripe.espace.resources.resourceProcessor">
+       point="org.eclipse.tigerstripe.annotation.core.resourceProcessor">
     <resourceProcessor
           class="org.eclipse.tigerstripe.workbench.internal.annotation.TigerstripeAnnotationResourceProcessor">
     </resourceProcessor>
+ </extension>
+ <extension
+       point="org.eclipse.tigerstripe.annotation.core.annotationFiles">
+    <fileFilter
+          value="/annotations/*.ann">
+    </fileFilter>
+    <fileFilter
+          value="/*.ann">
+    </fileFilter>
  </extension>
 
 </plugin>

@@ -19,48 +19,38 @@ import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.espace.resources.core.EObjectRouter;
 
 /**
  * @author Yuri Strot
- *
+ * 
  */
 public class ResourceRouter implements EObjectRouter {
-	
-	protected URI getUri(IResource res) {
-		IPath path = res.getProject().getFullPath();
-		if (path != null) {
-			path = path.append("." + ANNOTATION_FILE_EXTENSION);
-			create(path);
-			return URI.createPlatformResourceURI(path.toString(), false);
-		}
-		return null;
+
+	protected IResource getTaget(IResource res) {
+		return res.getProject().getFile("example.ann");
 	}
-	
+
 	protected void create(IPath path) {
 		IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(path);
 		try {
 			if (!file.exists())
-				file.create(new ByteArrayInputStream(new byte[] {}), false, new NullProgressMonitor());
+				file.create(new ByteArrayInputStream(new byte[] {}), false,
+						new NullProgressMonitor());
 		} catch (CoreException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public URI route(EObject object) {
-		if (object instanceof Annotation) {
-			Annotation annotation = (Annotation)object;
-			Object annotable = AnnotationPlugin.getManager().getAnnotatedObject(annotation);
-			if (annotable instanceof IResource) {
-				IResource resource = (IResource)annotable;
-				return getUri(resource);
-			}
+	public IResource route(Annotation annotation) {
+		Object annotable = AnnotationPlugin.getManager().getAnnotatedObject(
+				annotation);
+		if (annotable instanceof IResource) {
+			IResource resource = (IResource) annotable;
+			return getTaget(resource);
 		}
-	    return null;
-    }
-
+		return null;
+	}
 }

@@ -12,7 +12,9 @@
 package org.eclipse.tigerstripe.annotation.ui.internal.actions;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
@@ -51,8 +53,8 @@ public class RemoveAllAnnotationsHandler extends AbstractHandler {
 	private Annotation[] getAnnotations(ExecutionEvent event) {
 		Object object = getSelection(event);
 		if (object != null) {
-			List<Annotation> annotations = new ArrayList<Annotation>();
-			AnnotationUtils.getAllAnnotations(object, annotations);
+			Set<Annotation> annotations = new LinkedHashSet<Annotation>();
+			AnnotationUtils.collectAllAnnotations(object, annotations);
 			return annotations.toArray(new Annotation[annotations.size()]);
 		}
 		return null;

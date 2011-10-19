@@ -24,8 +24,8 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringChangesListener;
-import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringNotifier;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
@@ -67,8 +67,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
  */
 public class ModelChangeDeltaProcessor {
 
-	private static IRefactoringNotifier refactor = AnnotationPlugin
-			.getRefactoringNotifier();
+	private static IAnnotationManager manager = AnnotationPlugin.getManager();
 
 	public static void processModelChangeDelta(ModelChangeDelta delta,
 			Collection<Object> toCleanUp, Collection<IAbstractArtifact> toSave)
@@ -153,7 +152,7 @@ public class ModelChangeDeltaProcessor {
 					// to.
 
 					// propagate to annotations framework
-					refactor.fireChanged(oldObj, newObj,
+					manager.fireChanged(oldObj, newObj,
 							IRefactoringChangesListener.ABOUT_TO_CHANGE);
 
 					IAbstractArtifact newOne = ((IAbstractArtifactInternal) artifact)
@@ -163,7 +162,7 @@ public class ModelChangeDeltaProcessor {
 					newOne.doSave(null);
 
 					// propagate to annotations framework
-					refactor.fireChanged(oldObj, createLazyObject(newOne),
+					manager.fireChanged(oldObj, createLazyObject(newOne),
 							IRefactoringChangesListener.CHANGED);
 
 					String[] newPath = delta.getNewValue().toString()
@@ -215,7 +214,7 @@ public class ModelChangeDeltaProcessor {
 							.getArtifactManagerSession();
 
 					// propagate to annotations framework
-					refactor.fireChanged(oldObj, newObj,
+					manager.fireChanged(oldObj, newObj,
 							IRefactoringChangesListener.ABOUT_TO_CHANGE);
 
 					session.renameArtifact(rcArtifact,
@@ -235,7 +234,7 @@ public class ModelChangeDeltaProcessor {
 					}
 
 					// propagate to annotations framework
-					refactor.fireChanged(oldObj, createLazyObject(rcArtifact),
+					manager.fireChanged(oldObj, createLazyObject(rcArtifact),
 							IRefactoringChangesListener.CHANGED);
 
 					if (res != null) {
@@ -409,7 +408,7 @@ public class ModelChangeDeltaProcessor {
 			// moved
 
 			// propagate to annotations framework
-			refactor.fireChanged(oldObj, newObj,
+			manager.fireChanged(oldObj, newObj,
 					IRefactoringChangesListener.ABOUT_TO_CHANGE);
 
 			IAbstractArtifact rcArtifact = getRefactoringComponent(artifact,
@@ -435,7 +434,7 @@ public class ModelChangeDeltaProcessor {
 				toSave.add(newOne);
 
 			// propagate to annotations framework
-			refactor.fireChanged(oldObj, newObj,
+			manager.fireChanged(oldObj, newObj,
 					IRefactoringChangesListener.CHANGED);
 
 			if (rcArtifact instanceof IPackageArtifact) {

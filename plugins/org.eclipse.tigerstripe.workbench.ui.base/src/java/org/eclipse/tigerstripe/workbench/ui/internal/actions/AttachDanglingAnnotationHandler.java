@@ -140,7 +140,7 @@ public class AttachDanglingAnnotationHandler extends AbstractHandler {
 						if (id == null) {
 							continue;
 						}
-						Annotation annotation = manager.getAnnotationByIdRaw(id);
+						Annotation annotation = manager.getAnnotationById(id);
 						if (annotation == null) {
 							continue;
 						}

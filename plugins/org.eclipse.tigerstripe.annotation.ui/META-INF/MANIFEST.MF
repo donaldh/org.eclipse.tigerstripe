@@ -14,7 +14,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui.editors,
  org.eclipse.jface.text,
  org.eclipse.emf.ecore.change,
- org.eclipse.core.expressions
+ org.eclipse.core.expressions,
+ org.eclipse.emf.transaction
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.tigerstripe.annotation.ui,
  org.eclipse.tigerstripe.annotation.ui.actions,

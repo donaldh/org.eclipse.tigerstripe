@@ -24,15 +24,15 @@ public interface IRefactoringChangesListener {
 
 	public static final int CHANGED = 2;
 
-	public void deleted(IRefactoringDelegate delegate, ILazyObject object);
+	public void deleted(ILazyObject object);
 
-	public void changed(IRefactoringDelegate delegate, ILazyObject objObject,
+	public void changed(ILazyObject objObject,
 			ILazyObject newObject, int kind);
 
-	public void moved(IRefactoringDelegate delegate, ILazyObject[] objects,
+	public void moved(ILazyObject[] objects,
 			ILazyObject destination, int kind);
 
-	public void copied(IRefactoringDelegate delegate, ILazyObject[] objects,
-			ILazyObject destination, Map<ILazyObject, String> newNames, int kind);
+	public void copied(ILazyObject[] objects, ILazyObject destination,
+			Map<ILazyObject, String> newNames, int kind);
 
 }

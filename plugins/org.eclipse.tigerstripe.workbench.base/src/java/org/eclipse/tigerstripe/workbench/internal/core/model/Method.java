@@ -1653,7 +1653,8 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 
 	@Override
 	public String toString() {
-		String label = this.getLabelString(true);
+		String label = getContainingArtifact()+".";
+		label += this.getLabelString(true);
 		if (hasExceptions()) {
 			label = label + " throws";
 			String comma = "";

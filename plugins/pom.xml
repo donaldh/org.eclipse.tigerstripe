@@ -19,8 +19,6 @@
 	<module>org.eclipse.tigerstripe.annotation.core</module>
 	<module>org.eclipse.tigerstripe.annotation.example</module>
 	<module>org.eclipse.tigerstripe.annotation.example.person</module>
-	<module>org.eclipse.tigerstripe.annotation.example.person.validators</module>
-	<module>org.eclipse.tigerstripe.annotation.example.router</module>
 	<module>org.eclipse.tigerstripe.annotation.java</module>
 	<module>org.eclipse.tigerstripe.annotation.java.ui</module>
 	<module>org.eclipse.tigerstripe.annotation.java.ui.refactoring</module>
@@ -32,9 +30,6 @@
 	<module>org.eclipse.tigerstripe.annotation.ui</module>
 	<module>org.eclipse.tigerstripe.annotation.ui.example.customView</module>
 	<module>org.eclipse.tigerstripe.annotation.validation</module>
-	<module>org.eclipse.tigerstripe.espace.core</module>
-	<module>org.eclipse.tigerstripe.espace.resources</module>
-	<module>org.eclipse.tigerstripe.espace.resources.monitor</module>
 	<module>org.eclipse.tigerstripe.metamodel</module>
 	<module>org.eclipse.tigerstripe.releng</module>
 	<module>org.eclipse.tigerstripe.repository.core</module>

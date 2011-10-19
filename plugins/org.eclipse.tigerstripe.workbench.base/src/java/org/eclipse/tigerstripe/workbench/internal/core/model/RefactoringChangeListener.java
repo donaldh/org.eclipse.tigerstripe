@@ -161,7 +161,7 @@ public class RefactoringChangeListener implements IRefactoringExecutionListener 
 												(IProgressMonitor) null);
 								if (artifact != null) {
 									mgr.notifyArtifactDeleted(artifact);
-									AnnotationPlugin.getRefactoringNotifier()
+									AnnotationPlugin.getManager()
 											.fireDeleted(new ILazyObject() {
 												public Object getObject() {
 													return artifact;
@@ -187,8 +187,9 @@ public class RefactoringChangeListener implements IRefactoringExecutionListener 
 		String packageFragment = null;
 		String type = null;
 		
-		if (handle==null)
+		if (handle==null) {
 			return null;
+		}
 		
 		for (MementoTokenizer memento = new MementoTokenizer(handle); memento
 				.hasMoreTokens();) {

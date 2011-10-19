@@ -12,7 +12,9 @@
 package org.eclipse.tigerstripe.annotation.ui.internal.diagrams.actions;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gef.EditPart;
@@ -42,7 +44,7 @@ public class ChangeAnnotationVisibility extends DelegateAction {
 	private AnnotationStatus status;
 	
 	private Annotation annotation;
-	private boolean show;
+	private final boolean show;
 	
 	public ChangeAnnotationVisibility(boolean show) {
 		this.show = show;
@@ -54,10 +56,11 @@ public class ChangeAnnotationVisibility extends DelegateAction {
 	@Override
 	protected void adaptSelection(ISelection selection) {
 		Object object = getSelected(selection);
-		if (object instanceof Annotation)
+		if (object instanceof Annotation) {
 			annotation = (Annotation)object;
-		else
+		} else {
 			annotation = null;
+		}
 		setEnabled(annotation != null && isEditorEnabled());
 	}
 	
@@ -86,12 +89,13 @@ public class ChangeAnnotationVisibility extends DelegateAction {
 	public void run() {
 		AnnotationStatus[] statuses = 
 			new AnnotationStatus[] { status };
-		if (show)
+		if (show) {
 			DiagramRebuildUtils.showAnnotations(editor, 
 					ref, statuses);
-		else
+		} else {
 			DiagramRebuildUtils.hideAnnotations(editor, 
 					ref, statuses);
+		}
 		DiagramRebuildUtils.addToExclusion(editor, ref, status, show);
 	}
 	
@@ -104,11 +108,12 @@ public class ChangeAnnotationVisibility extends DelegateAction {
 		for (Object object : parts) {
 			if (object instanceof EditPart) {
 				EditPart child = (EditPart)object;
-				List<Annotation> annotations = new ArrayList<Annotation>();
-				AnnotationUtils.getAllAnnotations(object, annotations);
+				Set<Annotation> annotations = new LinkedHashSet<Annotation>();
+				AnnotationUtils.collectAllAnnotations(object, annotations);
 				for (Annotation annotation : annotations) {
-					if (annotation.equals(this.annotation))
+					if (annotation.equals(this.annotation)) {
 						return child;
+					}
 				}
 				if (child instanceof AnnotationEditPart) {
 					AnnotationEditPart part = (AnnotationEditPart)child;
@@ -118,8 +123,9 @@ public class ChangeAnnotationVisibility extends DelegateAction {
 						if (view instanceof ViewLocationNode) {
 							EObject targetView = ((ViewLocationNode)view).getView();
 							Object result = part.getViewer().getEditPartRegistry().get(targetView);
-							if (result instanceof EditPart)
+							if (result instanceof EditPart) {
 								return (EditPart)result;
+							}
 						}
 					}
 				}

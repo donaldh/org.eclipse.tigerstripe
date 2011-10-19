@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.core.test;
 
+import static org.eclipse.tigerstripe.annotation.core.IAnnotationManager.ANNOTATION_FILE_EXTENSION;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -23,10 +25,10 @@ import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationException;
 import org.eclipse.tigerstripe.annotation.core.AnnotationFactory;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.annotation.core.InTransaction;
+import org.eclipse.tigerstripe.annotation.core.InTransaction.Operation;
 import org.eclipse.tigerstripe.annotation.core.test.model.MimeType;
 import org.eclipse.tigerstripe.annotation.core.test.model.ModelFactory;
-import org.eclipse.tigerstripe.espace.core.Mode;
-import org.eclipse.tigerstripe.espace.resources.core.EObjectRouter;
 
 /**
  * @author Yuri Strot
@@ -36,16 +38,12 @@ public class AnnotationResourceTest extends AbstractResourceTestCase {
 	
 	protected IProject project1;
 	private static final String MIME_TYPE_HTML = "text/html";
-	private static final String MIME_TYPE_XML = "text/xml";
 	
 	@Override
 	protected void setUp() throws Exception {
 		project1 = createProject("project1");
 	}
 	
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#tearDown()
-	 */
 	@Override
 	protected void tearDown() throws Exception {
 		deleteProject(project1);
@@ -54,54 +52,18 @@ public class AnnotationResourceTest extends AbstractResourceTestCase {
 	public void testReadWrite() throws AnnotationException {
 		Resource resource = createResourceWithAnnotation(false);
 		try {
-			AnnotationPlugin.getManager().addAnnotations(resource, Mode.READ_WRITE);
+			AnnotationPlugin.getManager().addAnnotations(resource);
+			final MimeType type = getAnnotationContent();
 			
-			MimeType type = getAnnotationContent();
-			type.setMimeType(MIME_TYPE_HTML);
-			AnnotationPlugin.getManager().save((Annotation)type.eContainer());
+			InTransaction.write(new Operation() {
+				
+				public void run() throws Throwable {
+					type.setMimeType(MIME_TYPE_HTML);
+				}
+			});
 			
-			type = getAnnotationContent();
-			assertEquals(type.getMimeType(), MIME_TYPE_HTML);
-		}
-		finally {
-			AnnotationPlugin.getManager().removeAnnotations(resource);
-		}
-	}
-	
-	public void testReadOnly() throws AnnotationException {
-		Resource resource = createResourceWithAnnotation(true);
-		try {
-			AnnotationPlugin.getManager().addAnnotations(resource, Mode.READ_ONLY);
-			
-			MimeType type = getAnnotationContent();
-			type.setMimeType(MIME_TYPE_HTML);
-			AnnotationPlugin.getManager().save((Annotation)type.eContainer());
-			
-			type = getAnnotationContent();
-			assertEquals(type.getMimeType(), null);
-		}
-		finally {
-			AnnotationPlugin.getManager().removeAnnotations(resource);
-		}
-	}
-	
-	public void testReadOnlyOverride() throws AnnotationException {
-		Resource resource = createResourceWithAnnotation(true);
-		try {
-			AnnotationPlugin.getManager().addAnnotations(resource, Mode.READ_ONLY_OVERRIDE);
-			
-			MimeType type = getAnnotationContent();
-			type.setMimeType(MIME_TYPE_HTML);
-			AnnotationPlugin.getManager().save((Annotation)type.eContainer());
-			
-			type = getAnnotationContent();
-			assertEquals(type.getMimeType(), MIME_TYPE_HTML);
-			
-			type.setMimeType(MIME_TYPE_XML);
-			AnnotationPlugin.getManager().save((Annotation)type.eContainer());
-			
-			type = getAnnotationContent();
-			assertEquals(type.getMimeType(), MIME_TYPE_XML);
+			MimeType type2 = getAnnotationContent();
+			assertEquals(type2.getMimeType(), MIME_TYPE_HTML);
 		}
 		finally {
 			AnnotationPlugin.getManager().removeAnnotations(resource);
@@ -119,7 +81,7 @@ public class AnnotationResourceTest extends AbstractResourceTestCase {
 		File file = project1.getLocation().toFile();
 		File parent = file.getParentFile();
 		
-		File newAnnotationFile = new File(parent, "ann." + EObjectRouter.ANNOTATION_FILE_EXTENSION);
+		File newAnnotationFile = new File(parent, "ann." + ANNOTATION_FILE_EXTENSION);
 		if (newAnnotationFile.exists())
 			newAnnotationFile.delete();
 		
@@ -165,5 +127,4 @@ public class AnnotationResourceTest extends AbstractResourceTestCase {
 		}
 		return resource;
 	}
-
 }

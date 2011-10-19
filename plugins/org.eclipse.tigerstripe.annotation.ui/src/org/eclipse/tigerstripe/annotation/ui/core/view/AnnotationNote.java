@@ -12,22 +12,29 @@
 package org.eclipse.tigerstripe.annotation.ui.core.view;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.AnnotationFactory;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
+import org.eclipse.tigerstripe.annotation.core.InTransaction;
+import org.eclipse.tigerstripe.annotation.core.InTransaction.Operation;
 import org.eclipse.tigerstripe.annotation.ui.Images;
 import org.eclipse.tigerstripe.annotation.ui.util.DisplayAnnotationUtil;
 
 public class AnnotationNote extends EObjectBasedNote implements INote {
 
 	private final Annotation annotation;
+	private final Annotation original;
 
 	private boolean isValid = true;
 
+
 	public AnnotationNote(Annotation annotation) {
-		super();
-		this.annotation = annotation;
+		this.original = annotation;
+		this.annotation = AnnotationFactory.eINSTANCE.createAnnotation();
+		revert();
 	}
 
 	public Annotation getAnnotation() {
@@ -35,15 +42,24 @@ public class AnnotationNote extends EObjectBasedNote implements INote {
 	}
 
 	public void remove() {
-		AnnotationPlugin.getManager().removeAnnotation(annotation);
+		AnnotationPlugin.getManager().removeAnnotation(original);
 	}
 
 	public void save() {
-		AnnotationPlugin.getManager().save(annotation);
+		
+		InTransaction.write(new Operation() {
+			
+			public void run() throws Throwable {
+				original.setUri(annotation.getUri());
+				original.setContent(EcoreUtil.copy(annotation.getContent()));
+			}
+		});
+		
 	}
 
 	public void revert() {
-		AnnotationPlugin.getManager().revert(annotation);
+		annotation.setUri(original.getUri());
+		annotation.setContent(EcoreUtil.copy(original.getContent()));
 	}
 
 	public String getDescription() {

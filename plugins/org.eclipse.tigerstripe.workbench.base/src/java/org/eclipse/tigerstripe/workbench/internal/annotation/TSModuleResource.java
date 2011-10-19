@@ -24,8 +24,10 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.URIConverter;
+import org.eclipse.emf.ecore.xmi.impl.XMIResourceImpl;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
-import org.eclipse.tigerstripe.espace.resources.format.AnnotationXMIResource;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.annotation.internal.core.AnnotationManager;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 
@@ -33,7 +35,7 @@ import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
  * @author Yuri Strot
  * 
  */
-public class TSModuleResource extends AnnotationXMIResource {
+public class TSModuleResource extends XMIResourceImpl {
 
 	protected ModuleURIHelper container;
 
@@ -102,7 +104,7 @@ public class TSModuleResource extends AnnotationXMIResource {
 		return null;
 	}
 
-	protected boolean load(URI uri, Map<?, ?> options) throws IOException {
+	protected boolean load(URI uri, Map options) throws IOException {
 		if (!isLoaded) {
 			URIConverter uriConverter = getURIConverter();
 			Map<?, ?> response = options == null ? null : (Map<?, ?>) options
@@ -111,6 +113,15 @@ public class TSModuleResource extends AnnotationXMIResource {
 				response = new HashMap<Object, Object>();
 			}
 
+			if (options == null) {
+				options = new HashMap<Object, Object>();
+			} else {
+				options = new HashMap<Object, Object>(options); 
+			}
+			
+			options.putAll(AnnotationPlugin.getDomain().getResourceSet()
+					.getLoadOptions());
+			
 			// If an input stream can't be created, ensure that the resource is
 			// still considered loaded after the failure,
 			// and do all the same processing we'd do if we actually were able

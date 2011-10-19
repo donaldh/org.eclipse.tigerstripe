@@ -5,10 +5,10 @@
 	<extension-point id="router" name="router" schema="schema/router.exsd"/>
 	<extension-point id="annotationType" name="annotationType" schema="schema/annotationType.exsd"/>
 	<extension-point id="annotationAdapter" name="annotationAdapter" schema="schema/annotationAdapter.exsd"/>
-	<extension-point id="constraints" name="constraints" schema="schema/constraints.exsd"/>
 	<extension-point id="packageLabel" name="packageLabel" schema="schema/packageLabel.exsd"/>
- <extension-point id="participants" name="participants" schema="schema/participants.exsd"/>
- <extension-point id="refactoringListeners" name="Refactoring Changes Listeners" schema="schema/refactoringListeners.exsd"/>
+	<extension-point id="refactoringListeners" name="Refactoring Changes Listeners" schema="schema/refactoringListeners.exsd"/>
+  <extension-point id="resourceProcessor" name="resourceProcessor" schema="schema/resourceProcessor.exsd"/>
+  <extension-point id="annotationFiles" name="annotationFiles" schema="schema/annotationFiles.exsd"/>
 
 	<extension point="org.eclipse.emf.ecore.generated_package">
 		<package 
@@ -17,11 +17,12 @@
 			genModel = "model/annotation.genmodel" /> 
 	</extension>
 	
-	<extension
-			point="org.eclipse.tigerstripe.espace.resources.packageFinder">
-		<packageFinder
-			class="org.eclipse.tigerstripe.annotation.internal.core.PackageFinder"/>
+	<extension point="org.eclipse.emf.transaction.editingDomains">
+		<editingDomain 
+			id="org.eclipse.tigerstripe.AnnotationsDomain" 
+			factory="org.eclipse.emf.workspace.WorkspaceEditingDomainFactory" />
 	</extension>
+	
  <extension
        point="org.eclipse.help.toc">
     <toc
@@ -32,5 +33,9 @@
           primary="true">
     </toc>
  </extension>
+ 
+
+
+ 
 
 </plugin>

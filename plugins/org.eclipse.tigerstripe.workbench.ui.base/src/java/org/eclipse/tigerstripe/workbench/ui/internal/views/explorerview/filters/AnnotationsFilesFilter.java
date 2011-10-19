@@ -14,7 +14,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.jface.viewers.ViewerFilter;
-import org.eclipse.tigerstripe.espace.resources.core.EObjectRouter;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 
 /**
@@ -39,8 +39,7 @@ public class AnnotationsFilesFilter extends ViewerFilter {
 	public boolean select(Viewer viewer, Object parentElement, Object element) {
 		if (element instanceof IFile) {
 			IFile file = (IFile) element;
-			if (EObjectRouter.ANNOTATION_FILE_EXTENSION.equals(file
-					.getFileExtension())) {
+			if (AnnotationPlugin.getManager().isAnnotationFile(file)) {
 				return !hide;
 			}
 			return true;

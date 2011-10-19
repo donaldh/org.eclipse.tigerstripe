@@ -2,7 +2,7 @@
  * Copyright (c) 2008 xored software, Inc.  
  * 
  * All rights reserved. This program and the accompanying materials 
- * are made available under the terms of the Eclipse Public License v1.0 
+ * are made available under the terms of the Eclipse License v1.0 
  * which accompanies this distribution, and is available at 
  * http://www.eclipse.org/legal/epl-v10.html  
  * 
@@ -12,17 +12,19 @@
 package org.eclipse.tigerstripe.annotation.core;
 
 import java.util.List;
+import java.util.Map;
 
-import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.IFile;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.tigerstripe.annotation.core.refactoring.ILazyObject;
+import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringChangesListener;
 import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringListener;
-import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringSupport;
-import org.eclipse.tigerstripe.espace.core.Mode;
+import org.eclipse.tigerstripe.annotation.internal.core.ProviderManager;
 
 /**
  * An annotation manager provide operations for annotation creation, removing,
@@ -32,10 +34,11 @@ import org.eclipse.tigerstripe.espace.core.Mode;
  * 
  * @see AnnotationType
  * @see IAnnotationProvider
- * @see IRefactoringSupport
  * @author Yuri Strot
  */
 public interface IAnnotationManager {
+
+	String ANNOTATION_FILE_EXTENSION = "ann";
 
 	/**
 	 * Add annotation to the annotable object with the following content
@@ -49,7 +52,7 @@ public interface IAnnotationManager {
 	 *             if there is no annotation type for the specified content or
 	 *             if there is illegal content for the specified object
 	 */
-	public Annotation addAnnotation(Object object, EObject content)
+	Annotation addAnnotation(Object object, EObject content)
 			throws AnnotationException;
 
 	/**
@@ -62,7 +65,7 @@ public interface IAnnotationManager {
 	 *            content <code>EClass</code>
 	 * @return true, if it's possible and false if not
 	 */
-	public boolean isPossibleToAdd(Object object, EClass eclass);
+	boolean isPossibleToAdd(Object object, EClass eclass);
 
 	/**
 	 * Check is it annotable object or not. Object annotable if and only if
@@ -73,14 +76,14 @@ public interface IAnnotationManager {
 	 *            candidate for annotable object
 	 * @return true, if it's annotable object and false otherwise
 	 */
-	public boolean isAnnotable(Object object);
+	boolean isAnnotable(Object object);
 
 	/**
 	 * Remove annotation
 	 * 
 	 * @param annotation
 	 */
-	public void removeAnnotation(Annotation annotation);
+	void removeAnnotation(Annotation annotation);
 
 	/**
 	 * Remove all annotations for annotable object
@@ -88,7 +91,7 @@ public interface IAnnotationManager {
 	 * @param object
 	 *            annotable object
 	 */
-	public void removeAnnotations(Object object);
+	void removeAnnotations(Object object);
 
 	/**
 	 * Return all annotations of the annotable object
@@ -108,15 +111,21 @@ public interface IAnnotationManager {
 	 * @return all annotations of the annotable object or empty array, if there
 	 *         are no one annotation
 	 */
-	public Annotation[] getAnnotations(Object object, boolean deepest);
+	Annotation[] getAnnotations(Object object, boolean deepest);
 
+	/**
+	 * Obtain annotations without transaction
+	 */
+	Annotation[] doGetAnnotations(Object object, boolean deepest);
+
+	
 	/**
 	 * Return annotable object annotated with the passed annotation
 	 * 
 	 * @param annotation
 	 * @return annotated object
 	 */
-	public Object getAnnotatedObject(Annotation annotation);
+	Object getAnnotatedObject(Annotation annotation);
 
 	/**
 	 * Return annotable object annotated with the specified uri
@@ -124,16 +133,7 @@ public interface IAnnotationManager {
 	 * @param uri
 	 * @return annotated object
 	 */
-	public Object getAnnotatedObject(URI uri);
-
-	/**
-	 * Return all stored objects of the passed classifier
-	 * 
-	 * @param classifier
-	 *            classifier of the objects should be found
-	 * @return Return all stored objects of the passed classifier
-	 */
-	public EObject[] query(EClassifier classifier);
+	Object getAnnotatedObject(URI uri);
 
 	/**
 	 * Save annotation to the corresponding storage
@@ -141,15 +141,7 @@ public interface IAnnotationManager {
 	 * @param annotation
 	 *            annotation to save
 	 */
-	public void save(Annotation annotation);
-
-	/**
-	 * Revert annotation changes to the last state when it was saved
-	 * 
-	 * @param annotation
-	 *            annotation to revert
-	 */
-	public void revert(Annotation annotation);
+	void save(Annotation annotation);
 
 	/**
 	 * Add annotation listener
@@ -157,21 +149,21 @@ public interface IAnnotationManager {
 	 * @see IAnnotationListener2
 	 * @param listener
 	 */
-	public void addAnnotationListener(IAnnotationListener listener);
+	void addAnnotationListener(IAnnotationListener listener);
 
 	/**
 	 * Remove annotation listener
 	 * 
 	 * @param listener
 	 */
-	public void removeAnnotationListener(IAnnotationListener listener);
+	void removeAnnotationListener(IAnnotationListener listener);
 
 	/**
 	 * Return all annotation type that can be create
 	 * 
 	 * @return
 	 */
-	public AnnotationType[] getTypes();
+	AnnotationType[] getTypes();
 
 	/**
 	 * Return type of the specific annotation
@@ -179,7 +171,7 @@ public interface IAnnotationManager {
 	 * @param annotation
 	 * @return type of the passed annotation
 	 */
-	public AnnotationType getType(Annotation annotation);
+	AnnotationType getType(Annotation annotation);
 
 	/**
 	 * Return type by EMF package name and class name. To get package by
@@ -194,7 +186,7 @@ public interface IAnnotationManager {
 	 *            EClass name
 	 * @return
 	 */
-	public AnnotationType getType(String epackage, String eclazz);
+	AnnotationType getType(String epackage, String eclazz);
 
 	/**
 	 * Return annotation by id
@@ -204,62 +196,35 @@ public interface IAnnotationManager {
 	 * @return annotation by specified id or null, if there is no annotations
 	 *         with this id
 	 */
-	public Annotation getAnnotationById(String id);
+	Annotation getAnnotationById(String id);
 
-	public Annotation getAnnotationByIdRaw(String id);
-	
 	/**
 	 * Return annotations which start with the specified URI
 	 * 
 	 * @param uri
 	 * @return list of the annotations started from the uri
 	 */
-	public List<Annotation> getPostfixAnnotations(URI uri);
+	List<Annotation> getPostfixAnnotations(URI uri);
 
-	/**
-	 * Same as getPostfixAnnotations, but returns not copied annotations
-	 * 
-	 * @param uri
-	 * @return
-	 */
-	public List<Annotation> getPostfixAnnotationsRaw(URI uri);
-
-	
 	/**
 	 * Add refactoring listener
 	 * 
 	 * @param listener
 	 */
-	public void addRefactoringListener(IRefactoringListener listener);
+	void addRefactoringListener(IRefactoringListener listener);
 
 	/**
 	 * Remove refactoring listener
 	 * 
 	 * @param listener
 	 */
-	public void removeRefactoringListener(IRefactoringListener listener);
-
-	/**
-	 * Return list of the provided targets
-	 * 
-	 * @return list of the provided targets
-	 */
-	public IProviderTarget[] getProviderTargets();
+	void removeRefactoringListener(IRefactoringListener listener);
 
 	/**
 	 * @param object
 	 * @return
 	 */
-	public TargetAnnotationType[] getAnnotationTargets(Object object);
-
-	/**
-	 * Return interface for refactoring support
-	 * 
-	 * @return refactoring support
-	 * @deprecated The method {@link AnnotationPlugin.getRefactoringNotifier()}
-	 *             should be used instead
-	 */
-	public IRefactoringSupport getRefactoringSupport();
+	TargetAnnotationType[] getAnnotationTargets(Object object);
 
 	/**
 	 * Add resource to the Annotation Framework storage
@@ -267,7 +232,7 @@ public interface IAnnotationManager {
 	 * @param resource
 	 * @param option
 	 */
-	public void addAnnotations(Resource resource, Mode option);
+	void addAnnotations(Resource resource);
 
 	/**
 	 * Remove resource from the Annotation Framework storage. If this resource
@@ -276,21 +241,12 @@ public interface IAnnotationManager {
 	 * 
 	 * @param resource
 	 */
-	public void removeAnnotations(Resource resource);
-
-	/**
-	 * Unregister resource from the Annotation Framework storage. If this
-	 * resource have some unsaved changes they should be performed when
-	 * possible.
-	 * 
-	 * @param resource
-	 */
-	public void unregisterAnnotations(Resource resource);
+	void removeAnnotations(Resource resource);
 
 	/**
 	 * @return true, if annotation can't be modified and false otherwise
 	 */
-	public boolean isReadOnly(Annotation annotation);
+	boolean isReadOnly(Annotation annotation);
 
 	/**
 	 * Return EMF package label or null if none
@@ -299,11 +255,103 @@ public interface IAnnotationManager {
 	 *            package
 	 * @return package label
 	 */
-	public String getPackageLabel(EPackage pckg);
+	String getPackageLabel(EPackage pckg);
 
-	public Resource findAnnotationResource(IResource resource);
+	/**
+	 * Notify framework about object with specified URI has been deleted
+	 * 
+	 * @param uri
+	 *            URI of the deleted object
+	 */
+	void deleted(URI uri, boolean affectChildren);
+
+	/**
+	 * Notify framework about object's URI change
+	 * 
+	 * @param oldUri
+	 *            old object URI
+	 * @param newUri
+	 *            new object URI
+	 */
+	void changed(URI oldUri, URI newUri, boolean affectChildren);
+
+	/**
+	 * Notify framework about object with fromUri was copied to object with
+	 * toUri
+	 * 
+	 * @param fromUri
+	 * @param toUri
+	 */
+	void copied(URI fromUri, URI toUri, boolean affectChildren);
+
+	/**
+	 * Notify framework about object has been deleted
+	 * 
+	 * @param object
+	 */
+	void fireDeleted(ILazyObject object);
+
+	/**
+	 * Notify framework about object has been changed. Kind of notification can
+	 * take a value of {@link IRefactoringChangesListener.ABOUT_TO_CHANGE}
+	 * before changes and {@link IRefactoringChangesListener.CHANGED} after
+	 * that.
+	 * 
+	 * @param oldObject
+	 *            represents object before changes
+	 * @param newObject
+	 *            represents object after changes
+	 * @param kind
+	 *            kind of notification
+	 */
+	void fireChanged(ILazyObject oldObject, ILazyObject newObject, int kind);
+
+	/**
+	 * Notify framework about objects have been moved. Kind of notification can
+	 * take a value of {@link IRefactoringChangesListener.ABOUT_TO_CHANGE}
+	 * before moving and {@link IRefactoringChangesListener.CHANGED} after that.
+	 * 
+	 * @param objects
+	 *            represent objects before moving
+	 * @param destination
+	 *            destination of objects moved
+	 * @param kind
+	 *            kind of notification
+	 */
+	void fireMoved(ILazyObject[] objects, ILazyObject destination, int kind);
+
+	/**
+	 * Notify framework about objects have been copied. Kind of notification can
+	 * take a value of {@link IRefactoringChangesListener.ABOUT_TO_CHANGE}
+	 * before moving and {@link IRefactoringChangesListener.CHANGED} after that.
+	 * 
+	 * @param objects
+	 *            represent objects before coping
+	 * @param destination
+	 *            destination of objects copied
+	 * @param newNames
+	 *            map from object to its new name
+	 * @param kind
+	 *            kind of notification
+	 */
+	void fireCopy(ILazyObject[] objects, ILazyObject destination,
+			Map<ILazyObject, String> newNames, int kind);
+
+	/**
+	 * @return the {@link ProviderManager} instance
+	 */
+	ProviderManager getProviderManager();
+
+	/**
+	 * @return the single instance of the EMF domain. For all operations with
+	 *         annotation need to use this domain.
+	 */
+	TransactionalEditingDomain getDomain();
+
+	/**
+	 * @return the {@link Searcher} for convinient way for search annotations.
+	 */
+	Searcher getSearcher();
 	
-	public void changed(URI oldUri, URI newUri, boolean affectChildren);
-	
-	public void deleted(URI uri, boolean affectChildren);
+	boolean isAnnotationFile(IFile file);
 }

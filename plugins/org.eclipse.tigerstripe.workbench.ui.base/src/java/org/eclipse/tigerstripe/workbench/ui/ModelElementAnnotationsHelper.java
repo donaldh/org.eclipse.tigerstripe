@@ -13,7 +13,9 @@ package org.eclipse.tigerstripe.workbench.ui;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.util.AnnotationUtils;
@@ -55,8 +57,8 @@ public class ModelElementAnnotationsHelper {
 		}
 
 		if (!ignoreAnnotations) {
-			List<Annotation> annotations = new ArrayList<Annotation>();
-			AnnotationUtils.getAllAnnotations(modelElement, annotations);
+			Set<Annotation> annotations = new LinkedHashSet<Annotation>();
+			AnnotationUtils.collectAllAnnotations(modelElement, annotations);
 			for (Annotation annotation : annotations) {
 				appendElement(DisplayAnnotationUtil.getText(annotation),
 						builder);

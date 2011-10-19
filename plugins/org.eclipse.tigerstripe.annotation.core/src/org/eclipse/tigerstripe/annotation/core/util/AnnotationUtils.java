@@ -11,14 +11,16 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.core.util;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationException;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
-import org.eclipse.tigerstripe.annotation.core.IProviderTarget;
+import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
+import org.eclipse.tigerstripe.annotation.core.ProviderContext;
 
 /**
  * @author Yuri Strot
@@ -37,11 +39,12 @@ public class AnnotationUtils {
 
 	public static ClassName getInstanceClassName(EClass eclass) {
 		String name = eclass.getInstanceClassName();
-		if (name == null)
+		if (name == null) {
 			return new ClassName(eclass.getEPackage().getNsPrefix(), eclass
 					.getName());
-		else
+		} else {
 			return new ClassName(name);
+		}
 	}
 
 	/**
@@ -79,24 +82,22 @@ public class AnnotationUtils {
 	 * @return false if object can't be adapted to defined annotation types (so,
 	 *         it's not annotable object) and true otherwise
 	 */
-	public static boolean getAllAnnotations(Object object,
-			List<Annotation> annotations) {
+	public static boolean collectAllAnnotations(Object object,
+			Set<Annotation> annotations) {
 		boolean haveAdapted = false;
-		IProviderTarget[] targets = AnnotationPlugin.getManager()
-				.getProviderTargets();
-		if (targets.length == 0)
-			return false;
-		for (int i = 0; i < targets.length; i++) {
-			Object adapted = targets[i].adapt(object);
+		IAnnotationManager manager = AnnotationPlugin.getManager();
+		Collection<ProviderContext> pctxs = manager.getProviderManager()
+				.getProviders();
+
+		for (ProviderContext ctx : pctxs) {
+			Object adapted = ctx.getTarget().adapt(object);
 			if (adapted != null) {
-				Annotation[] array = AnnotationPlugin.getManager()
-						.getAnnotations(adapted, false);
-				if (array.length != 0
-						|| AnnotationPlugin.getManager().isAnnotable(adapted))
+				Annotation[] array = manager.doGetAnnotations(adapted, false);
+				if (array.length != 0 || manager.isAnnotable(adapted)) {
 					haveAdapted = true;
+				}
 				for (Annotation annotation : array) {
-					if (!annotations.contains(annotation))
-						annotations.add(annotation);
+					annotations.add(annotation);
 				}
 			}
 		}

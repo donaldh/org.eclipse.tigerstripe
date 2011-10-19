@@ -17,19 +17,19 @@ import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
 public class ModelAnnotationChangeDelta implements IModelAnnotationChangeDelta {
 
 	private int type = UNKNOWN;
-	private Annotation[] annotations;
+	private Annotation annotation;
 
-	public ModelAnnotationChangeDelta(int type, Annotation[] annotations) {
+	public ModelAnnotationChangeDelta(int type, Annotation annotation) {
 		this.type = type;
-		this.annotations = annotations;
+		this.annotation = annotation;
 	}
 
 	public URI getAffectedModelComponentURI() {
-		return annotations[0].getUri();
+		return annotation.getUri();
 	}
 
-	public Annotation[] getAnnotations() {
-		return annotations;
+	public Annotation getAnnotation() {
+		return annotation;
 	}
 
 	public int getType() {
@@ -38,7 +38,7 @@ public class ModelAnnotationChangeDelta implements IModelAnnotationChangeDelta {
 
 	@Override
 	public String toString() {
-		return annotations[0].toString();
+		return annotation.toString();
 	}
 
 }

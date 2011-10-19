@@ -11,11 +11,18 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.base.test.annotation;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
+
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.annotation.core.refactoring.ILazyObject;
 import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringChangesListener;
-import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringDelegate;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.internal.annotation.ChangeIdLazyObject;
 import org.eclipse.tigerstripe.workbench.internal.annotation.ChangeIdRefactoringListener;
@@ -49,40 +56,51 @@ public class TestChangeIdRefactoringListener extends
 	}
 
 	public void testChangeIdRefactoring() throws Exception {
-		IRefactoringChangesListener listener = new ChangeIdRefactoringListener();
+		List<Record> records = new ArrayList<Record>();
+		IAnnotationManager annManager = makeMock(IAnnotationManager.class, records);
+
+		IRefactoringChangesListener listener = new ChangeIdRefactoringListener(annManager);
 		ILazyObject oldObject = new ChangeIdLazyObject(project);
 
-		IRefactoringDelegate nonCalledDelegate = new RefactoringDelegateMock();
-		listener.changed(nonCalledDelegate, oldObject, null,
+		
+		listener.changed(oldObject, null,
 				IRefactoringChangesListener.ABOUT_TO_CHANGE);
 
+		assertEquals(0, records.size());
+		
 		// update module id
 		IProjectDetails details = project.getProjectDetails();
 		details.setModelId(NEW_MODULE_ID);
 
 		ILazyObject newObject = new ChangeIdLazyObject(project);
-		IRefactoringDelegate delegate = new RefactoringDelegateMock() {
-
-			@Override
-			public void changed(URI oldUri, URI newUri, boolean affectChildren) {
-				assertNotNull(oldUri);
-				assertNotNull(newUri);
-				assertTrue(affectChildren);
-				assertEquals(createURI(new String[] { MODULE_ID }), oldUri);
-				assertEquals(createURI(new String[] { NEW_MODULE_ID }), newUri);
-			}
-		};
-		listener.changed(delegate, oldObject, newObject,
+		listener.changed(oldObject, newObject,
 				IRefactoringChangesListener.CHANGED);
 
-		listener.changed(nonCalledDelegate, oldObject, newObject,
+		assertEquals(1, records.size());
+		
+		Record record = records.get(0);
+		URI oldUri = (URI) record.args[0]; 
+		URI newUri = (URI) record.args[1]; 
+		boolean affectChildren = (Boolean) record.args[2];
+
+		assertNotNull(oldUri);
+		assertNotNull(newUri);
+		assertTrue(affectChildren);
+		assertEquals(createURI(new String[] { MODULE_ID }), oldUri);
+		assertEquals(createURI(new String[] { NEW_MODULE_ID }), newUri);
+
+		listener.changed(oldObject, newObject,
 				IRefactoringChangesListener.CHANGED);
+		assertEquals(1, records.size());
 	}
 
 	public void testChangeIdRefactoringWithReferences() throws Exception {
 		ITigerstripeModelProject referencedProject = (ITigerstripeModelProject) createEmptyModelProject(
 				REFERENCED_MODULE_ID, REFERENCED_MODULE_ID);
 
+		List<Record> records = new ArrayList<Record>();
+		IAnnotationManager annManager = makeMock(IAnnotationManager.class, records);
+		
 		// add reference
 		ITigerstripeModelProject wc = (ITigerstripeModelProject) project
 				.makeWorkingCopy(new NullProgressMonitor());
@@ -91,54 +109,61 @@ public class TestChangeIdRefactoringListener extends
 		wc.commit(new NullProgressMonitor());
 		assertTrue(project.getReferencedProjects().length == 1);
 
-		IRefactoringChangesListener listener = new ChangeIdRefactoringListener();
+		IRefactoringChangesListener listener = new ChangeIdRefactoringListener(annManager);
 		ILazyObject oldObject = new ChangeIdLazyObject(referencedProject);
 
-		IRefactoringDelegate nonCalledDelegate = new RefactoringDelegateMock();
-		listener.changed(nonCalledDelegate, oldObject, null,
+		listener.changed(oldObject, null,
 				IRefactoringChangesListener.ABOUT_TO_CHANGE);
 
+		assertTrue(records.isEmpty());
+		
 		// update module id
 		IProjectDetails details = referencedProject.getProjectDetails();
 		details.setModelId(NEW_MODULE_ID);
 
 		ILazyObject newObject = new ChangeIdLazyObject(referencedProject);
-		IRefactoringDelegate delegate = new RefactoringDelegateMock() {
 
-			private int callCount;
+		listener.changed(oldObject, newObject,
+				IRefactoringChangesListener.CHANGED);
 
-			@Override
-			public void changed(URI oldUri, URI newUri, boolean affectChildren) {
-				assertNotNull(oldUri);
-				assertNotNull(newUri);
-				assertTrue(affectChildren);
-				switch (callCount) {
-				case 0:
-					assertEquals(
-							createURI(new String[] { REFERENCED_MODULE_ID }),
-							oldUri);
-					assertEquals(createURI(new String[] { NEW_MODULE_ID }),
-							newUri);
-					break;
-				case 1:
-					assertEquals(createURI(new String[] { MODULE_ID,
-							REFERENCED_MODULE_ID }), oldUri);
-					assertEquals(createURI(new String[] { MODULE_ID,
-							NEW_MODULE_ID }), newUri);
-					break;
-				default:
-					fail("The method call isn't expected");
-					break;
-				}
-				callCount++;
+		assertEquals(2, records.size());
+		ListIterator<Record> it = records.listIterator();
+		
+		while (it.hasNext()) {
+			
+			Record record = it.next();
+			
+			URI oldUri = (URI) record.args[0]; 
+			URI newUri = (URI) record.args[1]; 
+			boolean affectChildren = (Boolean) record.args[2];
+				
+			assertNotNull(oldUri);
+			assertNotNull(newUri);
+			assertTrue(affectChildren);
+			switch (it.nextIndex()) {
+			case 1:
+				assertEquals(
+						createURI(new String[] { REFERENCED_MODULE_ID }),
+						oldUri);
+				assertEquals(createURI(new String[] { NEW_MODULE_ID }),
+						newUri);
+				break;
+			case 2:
+				assertEquals(createURI(new String[] { MODULE_ID,
+						REFERENCED_MODULE_ID }), oldUri);
+				assertEquals(createURI(new String[] { MODULE_ID,
+						NEW_MODULE_ID }), newUri);
+				break;
+			default:
+				fail("The method call isn't expected");
+				break;
 			}
-		};
-		listener.changed(delegate, oldObject, newObject,
+		}
+		
+		listener.changed(oldObject, newObject,
 				IRefactoringChangesListener.CHANGED);
-
-		listener.changed(nonCalledDelegate, oldObject, newObject,
-				IRefactoringChangesListener.CHANGED);
-
+		assertEquals(2, records.size()); //not changed
+		
 		deleteModelProject(referencedProject);
 	}
 
@@ -147,19 +172,29 @@ public class TestChangeIdRefactoringListener extends
 				TigerstripeURIAdapterFactory.SCHEME_TS, null, null, segments,
 				null, null);
 	}
+	
+	public static <T> T makeMock(Class<T> iface, final List<Record> records) {
+		
+		return iface.cast(Proxy.newProxyInstance(Thread.currentThread().getContextClassLoader(),
+				new Class[] { iface }, new InvocationHandler() {
 
-	private class RefactoringDelegateMock implements IRefactoringDelegate {
-
-		public void deleted(URI uri, boolean affectChildren) {
-			fail("The method call isn't expected");
-		}
-
-		public void changed(URI oldUri, URI newUri, boolean affectChildren) {
-			fail("The method call isn't expected");
-		}
-
-		public void copied(URI fromUri, URI toUri, boolean affectChildren) {
-			fail("The method call isn't expected");
+					public Object invoke(Object proxy, Method method,
+							Object[] args) throws Throwable {
+						records.add(new Record(method, args));
+						if (method.getReturnType().isPrimitive()) {
+							return 0;
+						}
+						return null;
+					}
+				}));
+	}
+	
+	public static class Record {
+		private final Method method;
+		private final Object[] args;
+		public Record(Method method, Object[] args) {
+			this.method = method;
+			this.args = args;
 		}
 	}
 }

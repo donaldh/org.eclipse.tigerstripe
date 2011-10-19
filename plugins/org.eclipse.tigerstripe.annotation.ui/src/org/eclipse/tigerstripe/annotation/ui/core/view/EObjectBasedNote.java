@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.annotation.ui.core.view;
 
 import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 
 /**
@@ -46,7 +47,10 @@ public abstract class EObjectBasedNote implements INote {
 	public void removeChangeListener(INoteChangeListener listener) {
 		listeners.remove(listener);
 		if (listeners.size() == 0) {
-			getContent().eAdapters().remove(adapter);
+			EObject content = getContent();
+			if (content != null) {
+				content.eAdapters().remove(adapter);
+			}
 		}
 	}
 

@@ -301,28 +301,23 @@ public class TigerstripeWorkspaceNotifier implements IAnnotationListener {
 
 		ModelAnnotationChangeDelta delta = new ModelAnnotationChangeDelta(
 				IModelAnnotationChangeDelta.ADD,
-				new Annotation[] { annotation });
+				annotation);
 		broadcastModelAnnotationChange(new IModelAnnotationChangeDelta[] { delta });
 	}
 
-	public void annotationsChanged(Annotation[] annotations) {
+	public void annotationChanged(Annotation annotation) {
 
-		Annotation[] filteredAnnotations = AnnotationUtils
-				.extractModelAnnotations(annotations);
-
-		if (filteredAnnotations.length != 0) {
+		if (AnnotationUtils.isModelAnnotation(annotation)) {
 			ModelAnnotationChangeDelta delta = new ModelAnnotationChangeDelta(
-					IModelAnnotationChangeDelta.CHANGED, filteredAnnotations);
+					IModelAnnotationChangeDelta.CHANGED, annotation);
 			broadcastModelAnnotationChange(new IModelAnnotationChangeDelta[] { delta });
 		}
 	}
 
-	public void annotationsRemoved(Annotation[] annotations) {
-		Annotation[] filteredAnnotations = AnnotationUtils
-				.extractModelAnnotations(annotations);
-		if (filteredAnnotations.length != 0) {
+	public void annotationRemoved(Annotation annotation) {
+		if (AnnotationUtils.isModelAnnotation(annotation)) {
 			ModelAnnotationChangeDelta delta = new ModelAnnotationChangeDelta(
-					IModelAnnotationChangeDelta.REMOVE, filteredAnnotations);
+					IModelAnnotationChangeDelta.REMOVE, annotation);
 			broadcastModelAnnotationChange(new IModelAnnotationChangeDelta[] { delta });
 		}
 	}

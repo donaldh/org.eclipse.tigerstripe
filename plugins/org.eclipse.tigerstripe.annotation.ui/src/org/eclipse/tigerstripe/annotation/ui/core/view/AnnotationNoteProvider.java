@@ -12,8 +12,11 @@
 package org.eclipse.tigerstripe.annotation.ui.core.view;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IResourceChangeEvent;
@@ -87,18 +90,16 @@ public class AnnotationNoteProvider implements INoteProvider,
 		fireUpdate();
 	}
 
-	public void annotationsChanged(Annotation[] annotations) {
+	public void annotationChanged(Annotation annotations) {
 		fireUpdate();
 	}
 
-	public void annotationsRemoved(Annotation[] annotations) {
+	public void annotationRemoved(Annotation annotation) {
 		for (INote note : notes) {
 			AnnotationNote annNote = (AnnotationNote) note;
-			for (Annotation annotation : annotations) {
-				if (annNote.getAnnotation().equals(annotation)) {
-					annNote.setValid(false);
-					break;
-				}
+			if (annNote.getAnnotation().equals(annotation)) {
+				annNote.setValid(false);
+				break;
 			}
 		}
 		fireUpdate();
@@ -164,7 +165,7 @@ public class AnnotationNoteProvider implements INoteProvider,
 		if (annotable == null) {
 			setNotes(null, null);
 		} else {
-			List<Annotation> annotations = new ArrayList<Annotation>();
+			Set<Annotation> annotations = new LinkedHashSet<Annotation>();
 			Annotation annotation = AnnotationSelectionUtils
 					.getAnnotation(annotable);
 			if (annotation != null) {
@@ -173,7 +174,7 @@ public class AnnotationNoteProvider implements INoteProvider,
 				annotations.add(annotation);
 				setNotes(annotable, annotations);
 			} else {
-				if (AnnotationUtils.getAllAnnotations(annotable, annotations)) {
+				if (AnnotationUtils.collectAllAnnotations(annotable, annotations)) {
 					setNotes(annotable, annotations);
 				} else {
 					setNotes(null, null);
@@ -198,14 +199,16 @@ public class AnnotationNoteProvider implements INoteProvider,
 		}
 	}
 
-	private void setNotes(Object annotable, List<Annotation> annotations) {
+	private void setNotes(Object annotable, Collection<Annotation> annotations) {
 		this.annotable = annotable;
-		if (annotations == null || annotations.size() == 0) {
+		int size;
+		if (annotations == null || (size = annotations.size()) == 0) {
 			notes = INote.EMPTY;
 		} else {
-			notes = new INote[annotations.size()];
-			for (int i = 0; i < annotations.size(); i++) {
-				notes[i] = new AnnotationNote(annotations.get(i));
+			Annotation[] asArray = annotations.toArray(new Annotation[size]);
+			notes = new INote[size];
+			for (int i = 0; i < size; i++) {
+				notes[i] = new AnnotationNote(asArray[i]);
 			}
 		}
 	}

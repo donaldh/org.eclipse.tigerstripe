@@ -14,8 +14,10 @@ package org.eclipse.tigerstripe.annotation.ui.internal.diagrams;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.IAdaptable;
@@ -79,8 +81,9 @@ public class DiagramRebuildUtils {
 		List<Edge> edges = new ArrayList<Edge>();
 		for (Object child : children) {
 			View view = (View)child;
-			if (ignore(view))
+			if (ignore(view)) {
 				continue;
+			}
 			lookForEdges(view, edges);
 			collectPart(registry, view, parts);
 			collectParts(registry, view, parts);
@@ -95,8 +98,9 @@ public class DiagramRebuildUtils {
 		Object value = registry.get(view);
 		if (value instanceof EditPart) {
 			EditPart part = (EditPart)value;
-			if (!parts.contains(part))
+			if (!parts.contains(part)) {
 				parts.add(part);
+			}
 		}
 	}
 	
@@ -108,8 +112,9 @@ public class DiagramRebuildUtils {
 				ViewLocationNode location = (ViewLocationNode)object;
 				View view = getView(location);
 				if (view != null) {
-					if (!locations.containsKey(view))
+					if (!locations.containsKey(view)) {
 						locations.put(view, location);
+					}
 				}
 			}
 		}
@@ -163,8 +168,9 @@ public class DiagramRebuildUtils {
 			updateAnnotations(editor, locations, part);
 		}
 
-		if (editor.isDirty())
+		if (editor.isDirty()) {
 			editor.doSave(new NullProgressMonitor());
+		}
 	}
 	
 	public static AnnotationStatus[] getPartAnnotations(EditPart part) {
@@ -173,8 +179,8 @@ public class DiagramRebuildUtils {
 	}
 
 	public static AnnotationStatus[] getPartAnnotations(EditPart part, Map<View, ViewLocationNode> locations) {
-		List<Annotation> annotations = new ArrayList<Annotation>();
-		AnnotationUtils.getAllAnnotations(part, annotations);
+		Set<Annotation> annotations = new LinkedHashSet<Annotation>();
+		AnnotationUtils.collectAllAnnotations(part, annotations);
 
 		Map<Annotation, AnnotationNode> parts = new HashMap<Annotation, AnnotationNode>();
 
@@ -190,10 +196,11 @@ public class DiagramRebuildUtils {
 		int i = 0;
 		for (Annotation annotation : annotations) {
 			AnnotationNode node = parts.get(annotation);
-			if (node != null)
+			if (node != null) {
 				statuses[i] = new AnnotationStatus(node);
-			else
+			} else {
 				statuses[i] = new AnnotationStatus(annotation);
+			}
 			i++;
 		}
 		return statuses;
@@ -235,10 +242,12 @@ public class DiagramRebuildUtils {
 					boolean inTypes = partMeta.getTypes().contains(id);
 					boolean addToExclusion = (inTypes && !show) || (!inTypes && show);
 					List<String> exclusion = partMeta.getExclusionAnnotations();
-					if (addToExclusion && !exclusion.contains(annId))
+					if (addToExclusion && !exclusion.contains(annId)) {
 						exclusion.add(annId);
-					if (!addToExclusion)
+					}
+					if (!addToExclusion) {
 						exclusion.remove(annId);
+					}
 				}
 			}
 		
@@ -255,8 +264,9 @@ public class DiagramRebuildUtils {
 					String id = getTypeId(statuses[i]);
 					if (id != null) {
 						if (show) {
-							if (!partMeta.getTypes().contains(id))
+							if (!partMeta.getTypes().contains(id)) {
 								partMeta.getTypes().add(id);
+							}
 						}
 						else {
 							partMeta.getTypes().remove(id);
@@ -304,8 +314,9 @@ public class DiagramRebuildUtils {
 						editor.getDiagramEditPart(), status.getAnnotation());
 				EditPart viewLocation = createViewLocation(
 						editor.getDiagramEditPart(), part);
-				if (annotationPart != null && viewLocation != null)
+				if (annotationPart != null && viewLocation != null) {
 					createConnection(editor, annotationPart, viewLocation);
+				}
 				break;
 			case AnnotationStatus.STATUS_VISIBLE:
 				break;
@@ -400,14 +411,16 @@ public class DiagramRebuildUtils {
 		for (Object object : edges) {
 			if (object instanceof Edge) {
 				Edge edge = (Edge) object;
-				if (source)
+				if (source) {
 					st.add(edge.getSource());
-				else
+				} else {
 					st.add(edge.getTarget());
+				}
 			}
 		}
-		for (View view : st)
+		for (View view : st) {
 			addAnnotation(annotations, view);
+		}
 	}
 
 	protected static void addAnnotation(
@@ -415,9 +428,9 @@ public class DiagramRebuildUtils {
 		if (view instanceof AnnotationNode) {
 			AnnotationNode node = (AnnotationNode) view;
 			Annotation annotation = node.getAnnotation();
-			if (annotation != null)
+			if (annotation != null) {
 				annotations.put(annotation, node);
-			else {
+			} else {
 				deleteAnnotation(view);
 			}
 		}
@@ -456,13 +469,15 @@ public class DiagramRebuildUtils {
 		List<View> views = new ArrayList<View>();
 		for (Object object : view.getSourceEdges()) {
 			Edge edge = (Edge)object;
-			if (clazz.isInstance(edge.getTarget()))
+			if (clazz.isInstance(edge.getTarget())) {
 				views.add(edge.getTarget());
+			}
 		}
 		for (Object object : view.getTargetEdges()) {
 			Edge edge = (Edge)object;
-			if (clazz.isInstance(edge.getSource()))
+			if (clazz.isInstance(edge.getSource())) {
 				views.add(edge.getSource());
+			}
 		}
 		return views;
 	}
@@ -486,8 +501,9 @@ public class DiagramRebuildUtils {
 							if (id != null) {
 								boolean inTypes = types.contains(id);
 								boolean inExlusion = exlusionAnnotations.contains(annId);
-								if ((inTypes && !inExlusion) || (!inTypes && inExlusion))
+								if ((inTypes && !inExlusion) || (!inTypes && inExlusion)) {
 									statuses.add(annotationStatus);
+								}
 							}
 						}
 						if (statuses.size() > 0) {
@@ -504,8 +520,9 @@ public class DiagramRebuildUtils {
 		Annotation annotation = status.getAnnotation();
 		if (annotation != null) {
 			AnnotationType type = AnnotationPlugin.getManager().getType(annotation);
-			if (type != null)
+			if (type != null) {
 				return type.getId();
+			}
 		}
 		return null;
 	}
@@ -581,8 +598,9 @@ public class DiagramRebuildUtils {
 
 	protected static EditPart createViewLocation(EditPart containerPart, EditPart viewPart) {
 		EditPart part = LocationMapper.getLocationPart(viewPart);
-		if (part != null)
+		if (part != null) {
 			return part;
+		}
 		TransactionalEditingDomain domain = getDomain(containerPart);
 		if (domain != null) {
 			View view = (View)viewPart.getModel();

@@ -143,7 +143,7 @@ public class AnnotationHelper
 
 	public List<Annotation> getAnnotations(Object target) {
 		IAnnotationManager mgr = AnnotationPlugin.getManager();
-		List<Annotation> annotations = Arrays.asList(mgr.getAnnotations(target, false));
+		List<Annotation> annotations = Arrays.asList(mgr.doGetAnnotations(target, false));
 		return Collections.unmodifiableList(annotations);
 	}
 

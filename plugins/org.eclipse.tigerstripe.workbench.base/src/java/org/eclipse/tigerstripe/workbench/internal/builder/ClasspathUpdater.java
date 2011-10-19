@@ -26,7 +26,6 @@ import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.core.ClasspathEntry;
 import org.eclipse.jdt.internal.core.JavaProject;
-import org.eclipse.tigerstripe.espace.core.Mode;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
@@ -259,13 +258,9 @@ public class ClasspathUpdater {
 	// Note that the ModuleAnnotationManager will make sure that dependencies
 	// are not double registered
 	private static void registerAnnotationsIfNeeded(IDependency dep) {
-		if (!dep.isValid()) {
-			return;
-		}
 		try {
 			ModuleAnnotationManager.INSTANCE.registerAnnotationsFor(dep
-					.getURI(), dep.getIModuleHeader().getModuleID(),
-					Mode.READ_ONLY);
+					.getURI(), dep.getIModuleHeader().getModuleID());
 		} catch (IOException e) {
 			BasePlugin.log(e);
 		}

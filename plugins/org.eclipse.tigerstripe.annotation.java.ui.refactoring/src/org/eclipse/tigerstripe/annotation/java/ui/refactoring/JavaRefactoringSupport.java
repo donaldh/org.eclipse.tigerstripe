@@ -23,9 +23,9 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.IJavaElement;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.refactoring.ILazyObject;
 import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringChangesListener;
-import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringDelegate;
 import org.eclipse.tigerstripe.annotation.java.JavaURIConverter;
 
 /**
@@ -34,18 +34,9 @@ import org.eclipse.tigerstripe.annotation.java.JavaURIConverter;
  */
 public class JavaRefactoringSupport implements IRefactoringChangesListener {
 
-	private Map<ILazyObject, JavaChanges> changes = new HashMap<ILazyObject, JavaChanges>();
+	private final Map<ILazyObject, JavaChanges> changes = new HashMap<ILazyObject, JavaChanges>();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.eclipse.tigerstripe.annotation.java.ui.refactoring.
-	 * IRefactoringChangesListener
-	 * #changed(org.eclipse.tigerstripe.annotation.java
-	 * .ui.refactoring.ILazyObject,
-	 * org.eclipse.tigerstripe.annotation.java.ui.refactoring.ILazyObject, int)
-	 */
-	public void changed(IRefactoringDelegate delegate, ILazyObject oldPath,
+	public void changed(ILazyObject oldPath,
 			ILazyObject newPath, int kind) {
 		if (kind == ABOUT_TO_CHANGE) {
 			IJavaElement element = getJavaElement(oldPath);
@@ -57,21 +48,12 @@ public class JavaRefactoringSupport implements IRefactoringChangesListener {
 			IJavaElement newElement = getJavaElement(newPath);
 			JavaChanges change = changes.remove(oldPath);
 			if (newElement != null && change != null) {
-				changed(delegate, change.getChanges(newElement));
+				changed(change.getChanges(newElement));
 			}
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.eclipse.tigerstripe.annotation.java.ui.refactoring.
-	 * IRefactoringChangesListener
-	 * #moved(org.eclipse.tigerstripe.annotation.java.
-	 * ui.refactoring.ILazyObject[],
-	 * org.eclipse.tigerstripe.annotation.java.ui.refactoring.ILazyObject, int)
-	 */
-	public void moved(IRefactoringDelegate delegate, ILazyObject[] objects,
+	public void moved(ILazyObject[] objects,
 			ILazyObject destination, int kind) {
 		if (kind == ABOUT_TO_CHANGE) {
 			for (int i = 0; i < objects.length; i++) {
@@ -97,11 +79,11 @@ public class JavaRefactoringSupport implements IRefactoringChangesListener {
 					}
 				}
 			}
-			changed(delegate, allChanges);
+			changed(allChanges);
 		}
 	}
 
-	public void copied(IRefactoringDelegate delegate, ILazyObject[] objects,
+	public void copied(ILazyObject[] objects,
 			ILazyObject destination, Map<ILazyObject, String> newNames, int kind) {
 		if (kind == ABOUT_TO_CHANGE) {
 			for (int i = 0; i < objects.length; i++) {
@@ -134,26 +116,27 @@ public class JavaRefactoringSupport implements IRefactoringChangesListener {
 					}
 				}
 			}
-			copied(delegate, allChanges);
+			copied(allChanges);
 		}
 	}
 
-	private void changed(final IRefactoringDelegate delegate,
-			final Map<URI, URI> uris) {
-		if (uris.size() == 0)
+	private void changed(final Map<URI, URI> uris) {
+		if (uris.size() == 0) {
 			return;
-		for (URI uri : uris.keySet())
-			delegate.changed(uri, uris.get(uri), false);
+		}
+		for (URI uri : uris.keySet()) {
+			AnnotationPlugin.getManager().changed(uri, uris.get(uri), false);
+		}
 	}
 
-	private void copied(final IRefactoringDelegate delegate,
-			final Map<URI, URI> uris) {
-		if (uris.size() == 0)
+	private void copied(final Map<URI, URI> uris) {
+		if (uris.size() == 0) {
 			return;
+		}
 		for (Entry<URI, URI> entry : uris.entrySet()) {
 			URI fromUri = entry.getKey();
 			URI toUri = entry.getValue();
-			delegate.copied(fromUri, toUri, false);
+			AnnotationPlugin.getManager().copied(fromUri, toUri, false);
 		}
 	}
 
@@ -163,20 +146,21 @@ public class JavaRefactoringSupport implements IRefactoringChangesListener {
 	 * @seeorg.eclipse.tigerstripe.annotation.jdt.refactoring.
 	 * IRefactoringChangesListener#deleted(org.eclipse.core.runtime.IPath)
 	 */
-	public void deleted(final IRefactoringDelegate delegate, ILazyObject object) {
+	public void deleted(ILazyObject object) {
 		IJavaElement element = getJavaElement(object);
 		if (element != null) {
 			final URI uri = JavaURIConverter.toURI(element);
 			if (uri != null) {
-				delegate.deleted(uri, true);
+				AnnotationPlugin.getManager().deleted(uri, true);
 			}
 		}
 	}
 
 	protected IJavaElement getJavaElement(ILazyObject object) {
 		Object obj = object.getObject();
-		if (obj == null)
+		if (obj == null) {
 			return null;
+		}
 		IJavaElement element = null;
 		if (obj instanceof IAdaptable) {
 			IAdaptable adaptable = (IAdaptable) obj;
@@ -191,8 +175,9 @@ public class JavaRefactoringSupport implements IRefactoringChangesListener {
 
 	protected IResource getResource(ILazyObject object) {
 		Object obj = object.getObject();
-		if (obj == null)
+		if (obj == null) {
 			return null;
+		}
 		IResource resource = null;
 		if (obj instanceof IAdaptable) {
 			IAdaptable adaptable = (IAdaptable) obj;

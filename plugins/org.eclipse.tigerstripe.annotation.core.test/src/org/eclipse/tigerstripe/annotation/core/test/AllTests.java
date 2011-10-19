@@ -20,22 +20,17 @@ public class AllTests {
 				"Test for org.eclipse.tigerstripe.annotation.core.test");
 		// $JUnit-BEGIN$
 		suite.addTestSuite(NoTest.class);
-		suite.addTestSuite(TreeTest.class);
-		suite.addTestSuite(AddRemoveAnnotationTest.class);
-		suite.addTestSuite(QueryTest.class);
-		suite.addTestSuite(ChangeRecordingTest.class);
+		suite.addTestSuite(ExternalResourceTest.class);
 		suite.addTestSuite(DelegatesTest.class);
+		suite.addTestSuite(AnnotationUtilsTest.class);
+		suite.addTestSuite(AddRemoveAnnotationTest.class);
+		suite.addTestSuite(ChangeRecordingTest.class);
 		suite.addTestSuite(TargetsTest.class);
 		suite.addTestSuite(URIPrefixReplacingTest.class);
-		suite.addTestSuite(IndexRebuildingTest.class);
 		suite.addTestSuite(CreateManyAnnotations.class);
-		suite.addTestSuite(ValidationTest.class);
 		suite.addTestSuite(AnnotationTypeTest.class);
-		suite.addTestSuite(AnnotationConstraintTest.class);
-		suite.addTestSuite(ConcurrencyTest.class);
 		suite.addTestSuite(AnnotationResourceTest.class);
-		suite.addTestSuite(ExternalResourceTest.class);
-		suite.addTestSuite(AnnotationUtilsTest.class);
+		suite.addTestSuite(AnnotationFilesFilterTest.class);
 		// $JUnit-END$
 		return suite;
 	}

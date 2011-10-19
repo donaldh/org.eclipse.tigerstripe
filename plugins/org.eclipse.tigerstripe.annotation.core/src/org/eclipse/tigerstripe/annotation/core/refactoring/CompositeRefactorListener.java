@@ -33,9 +33,6 @@ public class CompositeRefactorListener implements IRefactoringListener {
 		listeners.remove(listener);
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.core.IRefactoringListener#refactoringPerformed(org.eclipse.tigerstripe.annotation.core.RefactoringChange)
-	 */
 	public void refactoringPerformed(RefactoringChange change) {
 		Object[] objects = listeners.getListeners();
 		for (int i = 0; i < objects.length; i++) {

@@ -13,17 +13,17 @@ package org.eclipse.tigerstripe.workbench.internal.annotation;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.refactoring.ILazyObject;
 import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringChangesListener;
-import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringDelegate;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
@@ -40,16 +40,9 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 public class TigerstripeRefactoringSupport implements
 		IRefactoringChangesListener {
 
-	private Map<ILazyObject, TigerstripeChanges> changes = new HashMap<ILazyObject, TigerstripeChanges>();
+	private final Map<ILazyObject, TigerstripeChanges> changes = new HashMap<ILazyObject, TigerstripeChanges>();
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.eclipse.tigerstripe.annotation.jdt.refactoring.
-	 * IRefactoringChangesListener#changed(org.eclipse.core.runtime.IPath,
-	 * org.eclipse.core.runtime.IPath, int)
-	 */
-	public void changed(IRefactoringDelegate delegate, ILazyObject oldObject,
+	public void changed(ILazyObject oldObject,
 			ILazyObject newObject, int kind) {
 		if (kind == ABOUT_TO_CHANGE) {
 			IModelComponent element = getModelComponent(oldObject);
@@ -66,13 +59,13 @@ public class TigerstripeRefactoringSupport implements
 			if (change != null) {
 				IModelComponent newElement = getModelComponent(newObject);
 				if (newElement != null) {
-					changed(delegate, change.getChanges(newElement));
+					changed(change.getChanges(newElement));
 				}
 			}
 		}
 	}
 
-	public void moved(IRefactoringDelegate delegate, ILazyObject[] objects,
+	public void moved(ILazyObject[] objects,
 			ILazyObject destination, int kind) {
 		if (kind == ABOUT_TO_CHANGE) {
 			for (int i = 0; i < objects.length; i++) {
@@ -113,11 +106,11 @@ public class TigerstripeRefactoringSupport implements
 					}
 				}
 			}
-			changed(delegate, allChanges);
+			changed(allChanges);
 		}
 	}
 
-	public void copied(IRefactoringDelegate delegate, ILazyObject[] objects,
+	public void copied(ILazyObject[] objects,
 			ILazyObject destination, Map<ILazyObject, String> newNames, int kind) {
 		if (kind == ABOUT_TO_CHANGE) {
 			for (int i = 0; i < objects.length; i++) {
@@ -153,45 +146,42 @@ public class TigerstripeRefactoringSupport implements
 					}
 				}
 			}
-			copied(delegate, allChanges);
+			copied(allChanges);
 		}
 	}
 
-	private void changed(IRefactoringDelegate delegate, Map<URI, URI> uris) {
+	private void changed(Map<URI, URI> uris) {
 		// inform annotation framework about changes
-		if (uris.size() == 0)
+		if (uris.size() == 0) {
 			return;
-		for (URI uri : uris.keySet())
-			delegate.changed(uri, uris.get(uri), true);
+		}
+		for (URI uri : uris.keySet()) {
+			AnnotationPlugin.getManager().changed(uri, uris.get(uri), true);
+		}
 	}
 
-	private void copied(IRefactoringDelegate delegate, Map<URI, URI> uris) {
-		if (uris.size() == 0)
+	private void copied(Map<URI, URI> uris) {
+		if (uris.size() == 0) {
 			return;
+		}
 		for (Entry<URI, URI> entry : uris.entrySet()) {
 			URI fromUri = entry.getKey();
 			URI toUri = entry.getValue();
-			delegate.copied(fromUri, toUri, true);
+			AnnotationPlugin.getManager().copied(fromUri, toUri, true);
 		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.eclipse.tigerstripe.annotation.jdt.refactoring.
-	 * IRefactoringChangesListener#deleted(org.eclipse.core.runtime.IPath)
-	 */
-	public void deleted(IRefactoringDelegate delegate, ILazyObject object) {
+	public void deleted(ILazyObject object) {
 		IModelComponent element = getModelComponent(object);
 		if (element != null) {
 			IResource resource = getResource(object);
 			if (resource != null
-					&& resource.equals((IResource) element
+					&& resource.equals(element
 							.getAdapter(IResource.class))) {
 				Set<URI> set = new HashSet<URI>();
 				RefactoringUtil.collectAllUris(element, set);
 				for (URI uri : set) {
-					delegate.deleted(uri, true);
+					AnnotationPlugin.getManager().deleted(uri, true);
 				}
 			}
 		}
@@ -199,8 +189,9 @@ public class TigerstripeRefactoringSupport implements
 
 	protected IModelComponent getModelComponent(ILazyObject object) {
 		Object obj = object.getObject();
-		if (obj == null)
+		if (obj == null) {
 			return null;
+		}
 		IModelComponent element = null;
 		if (obj instanceof IAdaptable) {
 			IAdaptable adaptable = (IAdaptable) obj;
@@ -216,8 +207,9 @@ public class TigerstripeRefactoringSupport implements
 
 	protected IResource getResource(ILazyObject object) {
 		Object obj = object.getObject();
-		if (obj == null)
+		if (obj == null) {
 			return null;
+		}
 		IResource resource = null;
 		if (obj instanceof IAdaptable) {
 			IAdaptable adaptable = (IAdaptable) obj;

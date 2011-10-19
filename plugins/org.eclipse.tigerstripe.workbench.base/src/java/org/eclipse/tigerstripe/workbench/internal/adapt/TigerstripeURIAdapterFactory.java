@@ -292,8 +292,12 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 			if (fragment != null) {
 
 				// Let's extract the method, and go from there
-				String methodId = fragment.substring(0, fragment.indexOf(";;"));
-				String argName = fragment.substring(fragment.indexOf(";;") + 2);
+				int indexOfSemicolons = fragment.indexOf(";;");
+				if (indexOfSemicolons == -1) {
+					return null;
+				}
+				String methodId = fragment.substring(0, indexOfSemicolons);
+				String argName = fragment.substring(indexOfSemicolons + 2);
 				for (IMethod m : artifact.getMethods()) {
 					if (m.getMethodId().equals(methodId)) {
 						for (IArgument arg : m.getArguments()) {
@@ -543,7 +547,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 			IModuleHeader header = art.getParentModuleHeader();
 			if (header == null) {
 				throw new IllegalStateException(
-						"Can't determinate module id for artifact "
+						"Can't determine module id for artifact "
 								+ art.getFullyQualifiedName());
 			}
 			path = new Path(header.getModuleID());

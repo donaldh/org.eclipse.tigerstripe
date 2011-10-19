@@ -22,7 +22,7 @@ public class AnnotationCapable implements IAnnotationCapable {
 	public List<Object> getAnnotations() {
 		IAnnotationManager mgr = AnnotationPlugin.getManager();
 		List<Object> annotations = new LinkedList<Object>();
-		Annotation[] all = mgr.getAnnotations(object, false);
+		Annotation[] all = mgr.doGetAnnotations(object, false);
 		for (Annotation a : all) {
 			if (TigerstripeURIAdapterFactory.isRelated(a.getUri())) {
 				annotations.add(a.getContent());
@@ -34,7 +34,7 @@ public class AnnotationCapable implements IAnnotationCapable {
 	public List<Object> getAnnotations(Class<?> type) {
 		IAnnotationManager mgr = AnnotationPlugin.getManager();
 		List<Object> annotations = new LinkedList<Object>();
-		Annotation[] all = mgr.getAnnotations(object, false);
+		Annotation[] all = mgr.doGetAnnotations(object, false);
 		for (Annotation a : all) {
 			if (TigerstripeURIAdapterFactory.isRelated(a.getUri())
 					&& type.isInstance(a.getContent())) {

@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.annotation;
 
+import static org.eclipse.tigerstripe.annotation.core.IAnnotationManager.ANNOTATION_FILE_EXTENSION;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -24,8 +26,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
-import org.eclipse.tigerstripe.espace.core.Mode;
-import org.eclipse.tigerstripe.espace.resources.core.EObjectRouter;
 
 /**
  * This class is a singleton to manage the Annotations files embedded in TS
@@ -48,15 +48,14 @@ public class ModuleAnnotationManager {
 	 * 
 	 * @param tsModuleURI
 	 */
-	public void registerAnnotationsFor(URI tsModuleURI, String moduleID,
-			Mode mode) throws IOException {
+	public void registerAnnotationsFor(URI tsModuleURI, String moduleID)
+			throws IOException {
 		if (!registeredURIs.containsKey(tsModuleURI)) {
 			Resource[] containedResources = extractResourcesFromModule(
 					tsModuleURI, moduleID);
 			if (containedResources.length != 0) {
 				for (Resource res : containedResources) {
-					AnnotationPlugin.getManager().addAnnotations(res,
-							Mode.READ_ONLY);
+					AnnotationPlugin.getManager().addAnnotations(res);
 				}
 				registeredURIs.put(tsModuleURI, containedResources);
 			}
@@ -96,10 +95,8 @@ public class ModuleAnnotationManager {
 				for (Enumeration<JarEntry> entries = jarFile.entries(); entries
 						.hasMoreElements();) {
 					JarEntry entry = entries.nextElement();
-					if (entry.getName().endsWith(
-							EObjectRouter.ANNOTATION_FILE_EXTENSION)) {
+					if (entry.getName().endsWith(ANNOTATION_FILE_EXTENSION)) {
 						ResourceSet set = new ResourceSetImpl();
-
 						// create archive URI
 						String uriString = "tsmodule:/" + moduleID + "/"
 								+ filePath + "!/" + entry.getName();

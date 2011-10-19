@@ -49,9 +49,9 @@ public abstract class AnnotationEditPart extends ShapeNodeEditPart {
 			annotationListener = new AnnotationAdapter() {
 				
 				@Override
-				public void annotationsChanged(Annotation[] annotations) {
+				public void annotationChanged(Annotation annotation) {
 					if (getNotationView().isVisible() && 
-							isAnnotationChanged(annotations)) {
+							isAnnotationChanged(annotation)) {
 						updatePart();
 					}
 				}
@@ -61,12 +61,11 @@ public abstract class AnnotationEditPart extends ShapeNodeEditPart {
 		}
 	}
 	
-	protected boolean isAnnotationChanged(Annotation[] changedAnnotations) {
+	protected boolean isAnnotationChanged(Annotation changedAnnotation) {
 		Annotation ann = getAnnotation();
 		if (ann != null) {
-			for (Annotation annotation : changedAnnotations) {
-				if (ann.equals(annotation))
-					return true;
+			if (ann.equals(changedAnnotation)) {
+				return true;
 			}
 		}
 		return false;

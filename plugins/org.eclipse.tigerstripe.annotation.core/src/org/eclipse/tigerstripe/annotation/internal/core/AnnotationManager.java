@@ -11,66 +11,76 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.internal.core;
 
+import static java.util.Collections.singleton;
+import static org.eclipse.emf.ecore.resource.Resource.RESOURCE__CONTENTS;
+import static org.eclipse.emf.ecore.util.EcoreUtil.generateUUID;
+import static org.eclipse.tigerstripe.annotation.core.AnnotationPackage.Literals.ANNOTATION__ID;
+import static org.eclipse.tigerstripe.annotation.core.AnnotationPackage.Literals.ANNOTATION__URI;
+import static org.eclipse.tigerstripe.annotation.core.AnnotationPlugin.PLUGIN_ID;
+import static org.eclipse.tigerstripe.annotation.core.Filters.eq;
+import static org.eclipse.tigerstripe.annotation.core.Filters.startWith;
+import static org.eclipse.tigerstripe.annotation.core.Helper.firstOrNull;
+import static org.eclipse.tigerstripe.annotation.core.Helper.makeUri;
+
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.locks.ReentrantLock;
 
+import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.ListenerList;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.notify.Adapter;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.impl.DynamicEObjectImpl;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.transaction.ResourceSetChangeEvent;
+import org.eclipse.emf.transaction.ResourceSetListener;
+import org.eclipse.emf.transaction.ResourceSetListenerImpl;
+import org.eclipse.emf.transaction.RunnableWithResult;
+import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
-import org.eclipse.tigerstripe.annotation.core.AnnotationConstraintException;
 import org.eclipse.tigerstripe.annotation.core.AnnotationException;
 import org.eclipse.tigerstripe.annotation.core.AnnotationFactory;
 import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.annotation.core.AnnotationType;
-import org.eclipse.tigerstripe.annotation.core.IAnnotationConstraint;
+import org.eclipse.tigerstripe.annotation.core.Helper;
+import org.eclipse.tigerstripe.annotation.core.IAnnotationListener;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
-import org.eclipse.tigerstripe.annotation.core.IAnnotationParticipant;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationProvider;
 import org.eclipse.tigerstripe.annotation.core.IAnnotationTarget;
-import org.eclipse.tigerstripe.annotation.core.IAnnotationValidationContext;
 import org.eclipse.tigerstripe.annotation.core.ProviderContext;
+import org.eclipse.tigerstripe.annotation.core.Searcher;
 import org.eclipse.tigerstripe.annotation.core.TargetAnnotationType;
 import org.eclipse.tigerstripe.annotation.core.refactoring.CompositeRefactorListener;
 import org.eclipse.tigerstripe.annotation.core.refactoring.ILazyObject;
 import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringChangesListener;
-import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringDelegate;
 import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringListener;
-import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringNotifier;
-import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringSupport;
 import org.eclipse.tigerstripe.annotation.core.refactoring.RefactoringChange;
+import org.eclipse.tigerstripe.annotation.core.storage.internal.Storage;
 import org.eclipse.tigerstripe.annotation.core.util.AnnotationUtils;
+import org.eclipse.tigerstripe.annotation.internal.core.LazyProvider.Loader;
 
-/**
- * This is implementation of the <code>IAnnotationManager</code>. This class
- * should not be extended or accessed directly, use
- * <code>AnnotationPlugin.getManager()</code> instead.
- * 
- * @see IAnnotationManager
- * @author Yuri Strot
- */
-public class AnnotationManager extends AnnotationStorage implements
-		IAnnotationManager, IRefactoringNotifier, IRefactoringSupport,
-		IRefactoringDelegate {
+public class AnnotationManager implements IAnnotationManager {
 
 	public static final String FEATURE_ANNOTATION_URI = "http:///org/eclipse/tigerstripe/annotation/Info";
 	
 	public static final String DESCRIPTION_ANNOTATION = "description";
 
-	private static final String EXTPT_PREFIX = "org.eclipse.tigerstripe.annotation.core.";
+	private static final String EXTPT_PREFIX = PLUGIN_ID + ".";
+
+	public static final String ROUTER_EXTPT = EXTPT_PREFIX + "router";
 
 	private static final String ANNOTATION_TYPE_EXTPT = EXTPT_PREFIX
 			+ "annotationType";
@@ -81,14 +91,8 @@ public class AnnotationManager extends AnnotationStorage implements
 	private static final String ANNOTATION_PROVIDER_EXTPT = EXTPT_PREFIX
 			+ "annotationProvider";
 
-	private static final String ANNOTATION_CONSTRAINT_EXTPT = EXTPT_PREFIX
-			+ "constraints";
-
 	private static final String ANNOTATION_PACKAGE_LABEL_EXTPT = EXTPT_PREFIX
 			+ "packageLabel";
-
-	private static final String ANNOTATION_PARTICIPANT_EXTPT = EXTPT_PREFIX
-			+ "participants";
 
 	private static final String REFACTORING_CHANGES_LISTENER_EXTPT = EXTPT_PREFIX
 			+ "refactoringListeners";
@@ -99,30 +103,122 @@ public class AnnotationManager extends AnnotationStorage implements
 
 	private static final String ATTR_NAME = "name";
 
-	private Map<String, AnnotationType> types;
-	private List<Adapter> adapters;
-	private ProviderManager providerManager;
-	private IAnnotationConstraint[] constraints;
-	private Map<EPackage, String> lables;
+	private static final Annotation[] EMPTY_ARRAY = new Annotation[0];
 
-	private ReentrantLock typesLock = new ReentrantLock();
-	private ReentrantLock adaptersLock = new ReentrantLock();
-	private ReentrantLock providerManagerLock = new ReentrantLock();
-	private ReentrantLock constraintsLock = new ReentrantLock();
-	private ReentrantLock lablesLock = new ReentrantLock();
+	private final MasterRouter masterRouter = new MasterRouter();
+	private final Storage storage;
+	private final TransactionalEditingDomain domain;
+	private final ResourceSetListener resourceSetListener;
+	private final IAnnotationFilesRecognizer annFilesRecognizer;
+	
+	public AnnotationManager() {
+		domain = AnnotationPlugin.getDomain();
+		annFilesRecognizer = new AnnotationFilesRecognizer();
+		storage = new Storage(domain, annFilesRecognizer);
+		resourceSetListener = makeResourceSetListener();
+		domain.addResourceSetListener(resourceSetListener);
+	}
+	
+	private final LazyProvider<Map<String, AnnotationType>> types = new LazyProvider<Map<String, AnnotationType>>(
+			new Loader<Map<String, AnnotationType>>() {
 
-	private CompositeRefactorListener refactorListener = new CompositeRefactorListener();
+				public Map<String, AnnotationType> load() {
+					return createTypes();
+				}
+			});
+	
+	private final LazyProvider<Map<EPackage, String>> lables = new LazyProvider<Map<EPackage, String>>(
+			new Loader<Map<EPackage, String>>() {
 
-	private List<IAnnotationParticipant> participants;
+				public Map<EPackage, String> load() {
+					return createLables();
+				}
+			});
+	
+	private final LazyProvider<List<Adapter>> adapters = new LazyProvider<List<Adapter>>(
+			new Loader<List<Adapter>>() {
+
+				public List<Adapter> load() {
+					return createAdapters();
+				}
+			});
+	private final LazyProvider<ProviderManager> providerManager = new LazyProvider<ProviderManager>(
+			new Loader<ProviderManager>() {
+
+				public ProviderManager load() {
+					return createProviderManager();
+				}
+			});
+	
+	private ResourceSetListener makeResourceSetListener() {
+		return new ResourceSetListenerImpl() {
+			
+			public void resourceSetChanged(ResourceSetChangeEvent event) {
+				for (Notification n : event.getNotifications()) {
+					if (n.isTouch()) {
+						continue;
+					}
+					Object notifier = n.getNotifier();
+					if (notifier instanceof Resource) {
+						if (n.getFeatureID(null) == RESOURCE__CONTENTS) {
+							
+							Object oldValue = n.getOldValue();
+							Object newValue = n.getNewValue();
+							
+							switch (n.getEventType()) {
+							case Notification.ADD:
+								if (newValue instanceof Annotation) {
+									fireAnnotationsAdded(singleton((Annotation) newValue));
+								}
+								break;
+							case Notification.REMOVE:
+								if (oldValue instanceof Annotation) {
+									fireAnnotationsRemoved(singleton((Annotation) oldValue));
+								}
+								break;
+							case Notification.ADD_MANY:
+									fireAnnotationsAdded(toAnnotations(newValue));
+								break;
+							case Notification.REMOVE_MANY:
+								fireAnnotationsRemoved(toAnnotations(oldValue));
+								break;
+							}
+						}
+					} else if (notifier instanceof EObject) {
+						if (notifier instanceof Annotation) {
+							fireAnnotationsChanged(singleton((Annotation) notifier));
+						} else {
+							EObject rootContainer = EcoreUtil.getRootContainer((EObject) notifier);
+							if (rootContainer instanceof Annotation) {
+								fireAnnotationsChanged(singleton((Annotation) rootContainer));
+							}
+						}
+					} 
+				}
+			}
+
+		};
+	}
+
+	private Collection<Annotation> toAnnotations(Object value) {
+		if (!(value instanceof Collection)) {
+			return Collections.emptyList();
+		}
+		       
+		Collection<?> coll = (Collection<?>) value;
+		ArrayList<Annotation> anns = new ArrayList<Annotation>(coll.size());
+		for (Object obj : coll) {
+			if (obj instanceof Annotation) {
+				anns.add((Annotation) obj);
+			}
+		}
+		return anns;
+	}
+
+	
+	private final CompositeRefactorListener refactorListener = new CompositeRefactorListener();
 
 	private IRefactoringChangesListener[] refactoringListeners;
-
-	private boolean ignoreDeletion = false;
-
-	public AnnotationManager() {
-		super();
-		loadParticipants();
-	}
 
 	public void addRefactoringListener(IRefactoringListener listener) {
 		refactorListener.addListener(listener);
@@ -132,57 +228,60 @@ public class AnnotationManager extends AnnotationStorage implements
 		refactorListener.removeListener(listener);
 	}
 
-	public Annotation addAnnotation(Object object, EObject content)
+	public Annotation addAnnotation(final Object object, final EObject content)
+			throws AnnotationException {
+		
+		Object result = Helper.runForWrite(domain, new RunnableWithResult.Impl<Object>() {
+
+			public void run() {
+				try {
+					setResult(doAddAnnotation(object, content));
+				} catch (AnnotationException e) {
+					setResult(e);
+				}
+			}
+		});
+		
+		if (result instanceof AnnotationException) {
+			throw (AnnotationException)result;
+		}
+		return (Annotation) result;
+	}
+
+	public Annotation doAddAnnotation(final Object object, final EObject content)
 			throws AnnotationException {
 		URI uri = getUri(object);
 		if (uri != null) {
-			Annotation annotation = createAnnotation(object, content, uri);
-			add(annotation);
+			final Annotation annotation = createAnnotation(object, content, uri);
+			URI resUri = makeUri(masterRouter.route(annotation)); 
+			Resource resource = storage.getResourceForWrite(resUri);
+			resource.getContents().add(annotation);
 			return annotation;
+		} else {
+			return null;
 		}
-		return null;
 	}
-
+	
 	protected Annotation createAnnotation(Object object, EObject content,
 			URI uri) throws AnnotationException {
 		checkUnique(object, uri, content.eClass());
 		Annotation annotation = AnnotationFactory.eINSTANCE.createAnnotation();
 		annotation.setUri(uri);
 		annotation.setContent(content);
-		validateAnnotation(annotation, object);
+		annotation.setId(generateUUID());
 		return annotation;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.tigerstripe.annotation.core.IAnnotationManager#getProviderTargets
-	 * ()
-	 */
-	public ProviderTarget[] getProviderTargets() {
-		ProviderContext[] contexts = getProviderManager().getProviders();
-		ProviderTarget[] targets = new ProviderTarget[contexts.length];
-		for (int i = 0; i < contexts.length; i++) {
-			targets[i] = contexts[i].getTarget();
-		}
-		return targets;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.eclipse.tigerstripe.annotation.core.IAnnotationManager#
-	 * getAnnotationTargets(java.lang.Object)
-	 */
 	public TargetAnnotationType[] getAnnotationTargets(Object object) {
-		ProviderTarget[] targets = getProviderTargets();
+		
+		Collection<ProviderContext> providers = getProviderManager().getProviders();
+		
 		AnnotationType[] types = getTypes();
 		List<TargetAnnotationType> list = new ArrayList<TargetAnnotationType>();
 		for (int i = 0; i < types.length; i++) {
 			AnnotationType type = types[i];
 			IAnnotationTarget[] annotationTargets = type.getTargets(object,
-					targets);
+					providers);
 			if (annotationTargets.length > 0) {
 				list.add(new TargetAnnotationType(type, annotationTargets));
 			}
@@ -190,59 +289,47 @@ public class AnnotationManager extends AnnotationStorage implements
 		return list.toArray(new TargetAnnotationType[list.size()]);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.tigerstripe.annotation.core.IAnnotationManager#isAnnotable
-	 * (java.lang.Object)
-	 */
 	public boolean isAnnotable(Object object) {
 		return getUri(object) != null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.tigerstripe.annotation.core.IAnnotationManager#isPossibleToAdd
-	 * (java.lang.Object, org.eclipse.emf.ecore.EClass)
-	 */
 	public boolean isPossibleToAdd(Object object, EClass clazz) {
 		URI uri = getUri(object);
-		if (uri == null)
-			return false;
-		EObject content = clazz.getEPackage().getEFactoryInstance().create(
-				clazz);
-		try {
-			createAnnotation(object, content, uri);
-		} catch (AnnotationException e) {
+		if (uri == null) {
 			return false;
 		}
-		return true;
+		return !violatesUnique(object, uri, clazz);
 	}
 
 	protected void checkUnique(Object object, URI uri, EClass clazz)
 			throws AnnotationException {
+		if (violatesUnique(object, uri, clazz)) {
+			throw new AnnotationException(
+					"Can't create more than one annotation for the unique class");
+		}
+	}
+
+	protected boolean violatesUnique(Object object, URI uri, EClass clazz) {
 		if (isUnique(object, clazz)) {
 			List<Annotation> annotations = getAnnotations(uri);
 			for (Annotation annot : annotations) {
 				if (clazz.equals(annot.getContent().eClass())) {
-					throw new AnnotationException(
-							"Can't create more than one annotation for the unique class");
+					return true;
 				}
 			}
 		}
+		return false;
 	}
-
+	
 	protected boolean isUnique(Object object, EClass clazz) {
 		AnnotationType[] types = getTypes();
 		for (AnnotationType annotationType : types) {
 			// find annotation type for the content
 			if (annotationType.getClazz().equals(clazz)) {
 				String[] targets = annotationType.getTargets();
-				if (targets.length == 0)
+				if (targets.length == 0) {
 					return annotationType.isUnique();
+				}
 				for (String target : targets) {
 					// find target object for the content
 					if (isApplicable(object, target)) {
@@ -254,90 +341,103 @@ public class AnnotationManager extends AnnotationStorage implements
 		return true;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.tigerstripe.annotation.core.IRefactoringSupport#changed(org
-	 * .eclipse.emf.common.util.URI, org.eclipse.emf.common.util.URI, boolean)
-	 */
-	public void changed(URI oldUri, URI newUri, boolean affectChildren) {
-		if (affectChildren) {
-			Set<URI> uris = new HashSet<URI>();
-			List<Annotation> annotations = getPostfixAnnotations(oldUri);
-			for (Annotation annotation : annotations) {
-				if (!uris.contains(annotation.getUri()))
-					uris.add(annotation.getUri());
+	public void changed(final URI oldUri, final URI newUri, final boolean affectChildren) {
+		
+		Helper.runForWrite(domain, new Runnable() {
+			
+			public void run() {
+				if (affectChildren) {
+					Set<URI> uris = new HashSet<URI>();
+					List<Annotation> annotations = storage.find(startWith(ANNOTATION__URI, oldUri));
+					for (Annotation annotation : annotations) {
+						uris.add(annotation.getUri());
+					}
+					for (URI uri : uris) {
+						if (!uri.equals(newUri) && URIUtil.isPrefix(uri, oldUri)) {
+							try {
+								URI nUri = uri.equals(oldUri) ? newUri : URIUtil
+										.replacePrefix(uri, oldUri, newUri);
+								setUri(uri, nUri);
+							} catch (Exception e) {
+								AnnotationPlugin.log(e);
+							}
+						}
+					}
+				} else {
+					setUri(oldUri, newUri);
+				}
 			}
-			for (URI uri : uris) {
-				if (!uri.equals(newUri) && URIUtil.isPrefix(uri, oldUri)) {
+		});
+	}
+
+	public void copied(final URI fromUri, final URI toUri,
+			final boolean affectChildren) {
+		
+		Helper.runForWrite(domain, new Runnable() {
+			
+			public void run() {
+				if (affectChildren) {
+					Set<URI> uris = new HashSet<URI>();
+					
+					List<Annotation> annotations = storage.find(startWith(ANNOTATION__URI, fromUri));
+					for (Annotation annotation : annotations) {
+						uris.add(annotation.getUri());
+					}
+					for (URI uri : uris) {
+						if (!uri.equals(toUri) && URIUtil.isPrefix(uri, fromUri)) {
+							try {
+								URI nUri = uri.equals(fromUri) ? toUri : URIUtil
+										.replacePrefix(uri, fromUri, toUri);
+								doCopyAnnotations(uri, nUri);
+							} catch (Exception e) {
+								AnnotationPlugin.log(e);
+							}
+						}
+					}
+				} else {
 					try {
-						URI nUri = uri.equals(oldUri) ? newUri : URIUtil
-								.replacePrefix(uri, oldUri, newUri);
-						setUri(uri, nUri);
+						doCopyAnnotations(fromUri, toUri);
 					} catch (Exception e) {
 						AnnotationPlugin.log(e);
 					}
 				}
 			}
-		} else {
-			setUri(oldUri, newUri);
-		}
+		});
 	}
 
-	public void copied(URI fromUri, URI toUri, boolean affectChildren) {
-		if (affectChildren) {
-			Set<URI> uris = new HashSet<URI>();
-			List<Annotation> annotations = getPostfixAnnotations(fromUri);
-			for (Annotation annotation : annotations) {
-				if (!uris.contains(annotation.getUri()))
-					uris.add(annotation.getUri());
-			}
-			for (URI uri : uris) {
-				if (!uri.equals(toUri) && URIUtil.isPrefix(uri, fromUri)) {
-					try {
-						URI nUri = uri.equals(fromUri) ? toUri : URIUtil
-								.replacePrefix(uri, fromUri, toUri);
-						doCopyAnnotations(uri, nUri);
-					} catch (Exception e) {
-						AnnotationPlugin.log(e);
+	private void doCopyAnnotations(URI fromUri, URI toUri)
+			throws AnnotationException {
+		Object to = getAnnotatedObject(toUri);
+		if (to == null) {
+			return;
+		}
+		List<Annotation> annotations = storage.find(eq(ANNOTATION__URI, fromUri));
+		for (Annotation annotation : annotations) {
+			doAddAnnotation(to, annotation.getContent());
+		}
+	}
+	
+	public void deleted(final URI uri, final boolean affectChildren) {
+		
+		Helper.runForWrite(domain, new Runnable() {
+			
+			public void run() {
+				if (affectChildren) {
+					List<URI> uris = new ArrayList<URI>();
+					List<Annotation> annotations = storage.find(startWith(ANNOTATION__URI, uri));
+					for (Annotation annotation : annotations) {
+						if (!uris.contains(annotation.getUri())) {
+							uris.add(annotation.getUri());
+						}
 					}
+					for (URI childUri : uris) {
+						doRemove(childUri);
+					}
+				} else {
+					doRemove(uri);
 				}
 			}
-		} else {
-			try {
-				doCopyAnnotations(fromUri, toUri);
-			} catch (Exception e) {
-				AnnotationPlugin.log(e);
-			}
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.tigerstripe.annotation.core.IRefactoringSupport#deleted(org
-	 * .eclipse.emf.common.util.URI, boolean)
-	 */
-	public void deleted(URI uri, boolean affectChildren) {
-		if (affectChildren) {
-			List<URI> uris = new ArrayList<URI>();
-			List<Annotation> annotations = getPostfixAnnotations(uri);
-			for (Annotation annotation : annotations) {
-				if (!uris.contains(annotation.getUri()))
-					uris.add(annotation.getUri());
-			}
-			for (URI childUri : uris) {
-				remove(childUri);
-			}
-		} else {
-			remove(uri);
-		}
-	}
-
-	public IRefactoringSupport getRefactoringSupport() {
-		return this;
+		});
 	}
 
 	protected void setUri(URI oldUri, URI newUri) {
@@ -350,28 +450,7 @@ public class AnnotationManager extends AnnotationStorage implements
 		}
 	}
 
-	private void doCopyAnnotations(URI fromUri, URI toUri)
-			throws AnnotationException {
-		Object to = AnnotationPlugin.getManager().getAnnotatedObject(toUri);
-		if (to == null)
-			return;
-		List<Annotation> annotations = doGetAnnotations(fromUri);
-		if (annotations.size() == 0)
-			return;
-		for (Annotation annotation : annotations) {
-			AnnotationPlugin.getManager().addAnnotation(to,
-					annotation.getContent());
-		}
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.tigerstripe.annotation.core.IAnnotationManager#getAnnotations
-	 * (java.lang.Object, boolean)
-	 */
-	public Annotation[] getAnnotations(Object object, boolean deepest) {
+	public Annotation[] doGetAnnotations(final Object object, final boolean deepest) {
 		List<Annotation> annotations = null;
 		if (deepest) {
 			annotations = new ArrayList<Annotation>();
@@ -382,56 +461,61 @@ public class AnnotationManager extends AnnotationStorage implements
 		} else {
 			URI uri = getUri(object);
 			if (uri != null) {
-				annotations = getAnnotations(uri);
+				annotations = storage.find(eq(ANNOTATION__URI, uri));
 			}
 		}
 		return annotations == null ? EMPTY_ARRAY : annotations
 				.toArray(new Annotation[annotations.size()]);
 	}
+	
+	public Annotation[] getAnnotations(final Object object, final boolean deepest) {
+		
+		return Helper.runExclusive(domain, new RunnableWithResult.Impl<Annotation[]>() {
 
-	public void removeAnnotation(Annotation annotation) {
-		remove(annotation);
+			public void run() {
+				setResult(doGetAnnotations(object, deepest));
+			}
+		});
+	}
+
+	public void removeAnnotation(final Annotation annotation) {
+		Helper.runForWrite(domain, new Runnable() {
+			
+			public void run() {
+				if (isReadOnly(annotation)) {
+					return;
+				}
+				EcoreUtil.remove(annotation);
+			}
+		});
 	}
 
 	public void removeAnnotations(Object object) {
-		URI uri = getUri(object);
-		if (uri != null)
-			remove(uri);
+		final URI uri = getUri(object);
+		if (uri != null) {
+			Helper.runForWrite(domain, new Runnable() {
+				
+				public void run() {
+					doRemove(uri);
+				}
+			});
+		}
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.tigerstripe.annotation.core.IAnnotationManager#getPackageLabel
-	 * (org.eclipse.emf.ecore.EPackage)
-	 */
 	public String getPackageLabel(EPackage pckg) {
 		return getPackageLables().get(pckg);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.eclipse.tigerstripe.annotation.internal.core.AnnotationStorage#
-	 * trackChanges(org.eclipse.tigerstripe.annotation.core.Annotation)
-	 */
-	@Override
-	protected void trackChanges(Annotation annotation) {
-		super.trackChanges(annotation);
-		if (annotation.getContent() != null)
-			annotation.getContent().eAdapters().addAll(getAdapters());
-	}
-
 	protected URI getUri(Object object) {
 		ProviderContext providerContext = getProvider(object);
-		if (providerContext != null)
+		if (providerContext != null) {
 			return getUri(providerContext.getProvider(), object);
+		}
 		return null;
 	}
 
 	protected ProviderContext getProvider(Object object) {
-		ProviderContext[] providers = getProviderManager().getProviders();
+		Collection<ProviderContext> providers = getProviderManager().getProviders();
 		for (ProviderContext providerContext : providers) {
 			if (isApplicable(object, providerContext.getTarget().getClassName())) {
 				return providerContext;
@@ -444,8 +528,9 @@ public class AnnotationManager extends AnnotationStorage implements
 			ProviderContext context, Object object) {
 		IAnnotationProvider provider = context.getProvider();
 		URI uri = getUri(provider, object);
-		if (uri != null)
-			annotations.addAll(getAnnotations(uri));
+		if (uri != null) {
+			annotations.addAll(storage.find(eq(ANNOTATION__URI, uri)));
+		}
 
 		String[] delegates = context.getDelegates();
 		for (int i = 0; i < delegates.length; i++) {
@@ -453,8 +538,9 @@ public class AnnotationManager extends AnnotationStorage implements
 					.getProviderByType(delegates[i]);
 			if (newContext != null) {
 				Object adapted = newContext.getTarget().adapt(object);
-				if (adapted != null)
+				if (adapted != null) {
 					collectAllAnnotations(annotations, newContext, adapted);
+				}
 			}
 		}
 	}
@@ -471,8 +557,9 @@ public class AnnotationManager extends AnnotationStorage implements
 	public static Object getAdapted(Object object, String className) {
 		Object adapted = Platform.getAdapterManager().loadAdapter(object,
 				className);
-		if (adapted != null)
+		if (adapted != null) {
 			return adapted;
+		}
 		try {
 			Class<?> clazz = Class.forName(className, true, object.getClass()
 					.getClassLoader());
@@ -492,159 +579,81 @@ public class AnnotationManager extends AnnotationStorage implements
 		return false;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.tigerstripe.annotation.core.IAnnotationManager#getAnnotatedObject
-	 * (org.eclipse.tigerstripe.annotation.core.Annotation)
-	 */
 	public Object getAnnotatedObject(Annotation annotation) {
 		return getAnnotatedObject(annotation.getUri());
 	}
 
-	protected ProviderManager getProviderManager() {
-		try {
-			providerManagerLock.lock();
-			if (providerManager == null) {
-				providerManager = new ProviderManager();
-				IConfigurationElement[] configs = Platform
-						.getExtensionRegistry().getConfigurationElementsFor(
-								ANNOTATION_PROVIDER_EXTPT);
-				for (IConfigurationElement config : configs) {
-					try {
-						ProviderContext context = new ProviderContext(config);
-						providerManager.addProvider(context);
-					} catch (CoreException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-			return providerManager;
-		} finally {
-			providerManagerLock.unlock();
-		}
+	public ProviderManager getProviderManager() {
+		return providerManager.get();
 	}
-
-	public IAnnotationParticipant[] getParticipants() {
-		return participants.toArray(new IAnnotationParticipant[participants
-				.size()]);
-	}
-
-	protected void loadParticipants() {
-		participants = new ArrayList<IAnnotationParticipant>();
-		IConfigurationElement[] configs = Platform.getExtensionRegistry()
-				.getConfigurationElementsFor(ANNOTATION_PARTICIPANT_EXTPT);
+	
+	private ProviderManager createProviderManager() {
+		Map<String, ProviderContext> types = new HashMap<String, ProviderContext>();
+		IConfigurationElement[] configs = Platform
+				.getExtensionRegistry().getConfigurationElementsFor(
+						ANNOTATION_PROVIDER_EXTPT);
 		for (IConfigurationElement config : configs) {
 			try {
-				IAnnotationParticipant participant = (IAnnotationParticipant) config
-						.createExecutableExtension(ANNOTATION_ATTR_CLASS);
-				participant.initialize();
-				participants.add(participant);
+				ProviderContext context = new ProviderContext(config);
+				types.put(context.getTarget().getClassName(), context);
+			} catch (CoreException e) {
+				e.printStackTrace();
+			}
+		}
+		return new ProviderManager(types);
+	}
+
+	protected Map<EPackage, String> createLables() {
+		Map<EPackage, String> lables = new HashMap<EPackage, String>();
+		IConfigurationElement[] configs = Platform
+				.getExtensionRegistry().getConfigurationElementsFor(
+						ANNOTATION_PACKAGE_LABEL_EXTPT);
+		for (IConfigurationElement config : configs) {
+			try {
+				EPackage pckg = AnnotationUtils.getPackage(config
+						.getAttribute(ATTR_URI));
+				String newText = config.getAttribute(ATTR_NAME);
+				String text = lables.get(pckg);
+				if (text != null) {
+					throw new AnnotationException(
+							"Can't define \""
+									+ newText
+									+ "\" label for "
+									+ ATTR_URI
+									+ " package, because it's already defined: "
+									+ text);
+				}
+				lables.put(pckg, newText);
 			} catch (Exception e) {
 				AnnotationPlugin.log(e);
 			}
 		}
+		return Collections.unmodifiableMap(lables);
 	}
-
-	protected void validateAnnotation(Annotation annotation, Object object)
-			throws AnnotationConstraintException {
-		IAnnotationValidationContext context = new AnnotationValidationContext(
-				annotation, object);
-		IAnnotationConstraint[] constraints = getConstraints();
-		for (int i = 0; i < constraints.length; i++) {
-			IStatus status = constraints[i].validate(context);
-			if (status != null && !status.isOK()) {
-				throw new AnnotationConstraintException(status.getMessage(),
-						status.getException());
-			}
-		}
-	}
-
-	protected IAnnotationConstraint[] getConstraints() {
-		try {
-			constraintsLock.lock();
-			if (constraints == null) {
-				ArrayList<IAnnotationConstraint> constraints = new ArrayList<IAnnotationConstraint>();
-				IConfigurationElement[] configs = Platform
-						.getExtensionRegistry().getConfigurationElementsFor(
-								ANNOTATION_CONSTRAINT_EXTPT);
-				for (IConfigurationElement config : configs) {
-					try {
-						IAnnotationConstraint constraint = (IAnnotationConstraint) config
-								.createExecutableExtension(ANNOTATION_ATTR_CLASS);
-						constraints.add(constraint);
-					} catch (Exception e) {
-						AnnotationPlugin.log(e);
-					}
-				}
-				this.constraints = constraints
-						.toArray(new IAnnotationConstraint[constraints.size()]);
-			}
-			return constraints;
-
-		} finally {
-			constraintsLock.unlock();
-		}
-	}
-
+	
 	protected Map<EPackage, String> getPackageLables() {
-		try {
-			lablesLock.lock();
-			if (lables == null) {
-				lables = new ConcurrentHashMap<EPackage, String>();
-				IConfigurationElement[] configs = Platform
-						.getExtensionRegistry().getConfigurationElementsFor(
-								ANNOTATION_PACKAGE_LABEL_EXTPT);
-				for (IConfigurationElement config : configs) {
-					try {
-						EPackage pckg = AnnotationUtils.getPackage(config
-								.getAttribute(ATTR_URI));
-						String newText = config.getAttribute(ATTR_NAME);
-						String text = lables.get(pckg);
-						if (text != null)
-							throw new AnnotationException(
-									"Can't define \""
-											+ newText
-											+ "\" label for "
-											+ ATTR_URI
-											+ " package, because it's already defined: "
-											+ text);
-						lables.put(pckg, newText);
-					} catch (Exception e) {
-						AnnotationPlugin.log(e);
-					}
-				}
-			}
-			return lables;
-
-		} finally {
-			lablesLock.unlock();
-		}
+		return lables.get();
 	}
 
 	public Map<String, AnnotationType> getTypesMap() {
-		try {
-			typesLock.lock();
-			if (this.types == null) {
-				types = new HashMap<String, AnnotationType>();
-				IConfigurationElement[] configs = Platform
-						.getExtensionRegistry().getConfigurationElementsFor(
-								ANNOTATION_TYPE_EXTPT);
-				for (IConfigurationElement config : configs) {
-					try {
-						AnnotationType type = new AnnotationType(config);
-						types.put(AnnotationUtils.getInstanceClassName(
-								type.getClazz()).getFullClassName(), type);
-					} catch (Exception e) {
-						AnnotationPlugin.log(e);
-					}
-				}
+		return types.get();
+	}
+	
+	public Map<String, AnnotationType> createTypes() {
+		Map<String, AnnotationType> types = new HashMap<String, AnnotationType>();
+		IConfigurationElement[] configs = Platform
+				.getExtensionRegistry().getConfigurationElementsFor(
+						ANNOTATION_TYPE_EXTPT);
+		for (IConfigurationElement config : configs) {
+			try {
+				AnnotationType type = new AnnotationType(config);
+				types.put(AnnotationUtils.getInstanceClassName(
+						type.getClazz()).getFullClassName(), type);
+			} catch (Exception e) {
+				AnnotationPlugin.log(e);
 			}
-			return types;
-		} finally {
-			typesLock.unlock();
 		}
+		return Collections.unmodifiableMap(types);
 	}
 
 	public AnnotationType[] getTypes() {
@@ -657,37 +666,35 @@ public class AnnotationManager extends AnnotationStorage implements
 	}
 
 	public List<Adapter> getAdapters() {
-		try {
-			adaptersLock.lock();
-			if (adapters == null) {
-				adapters = new ArrayList<Adapter>();
-				IConfigurationElement[] configs = Platform
-						.getExtensionRegistry().getConfigurationElementsFor(
-								ANNOTATION_ADAPTER_EXTPT);
-				for (IConfigurationElement config : configs) {
-					try {
-						Adapter adapter = (Adapter) config
-								.createExecutableExtension(ANNOTATION_ATTR_CLASS);
-						adapters.add(adapter);
-					} catch (Exception e) {
-						AnnotationPlugin.log(e);
-					}
-				}
+		return adapters.get();
+	}
+	
+	private List<Adapter> createAdapters() {
+		List<Adapter> adapters = new ArrayList<Adapter>();
+		IConfigurationElement[] configs = Platform
+				.getExtensionRegistry().getConfigurationElementsFor(
+						ANNOTATION_ADAPTER_EXTPT);
+		for (IConfigurationElement config : configs) {
+			try {
+				Adapter adapter = (Adapter) config
+						.createExecutableExtension(ANNOTATION_ATTR_CLASS);
+				adapters.add(adapter);
+			} catch (Exception e) {
+				AnnotationPlugin.log(e);
 			}
-			return adapters;
-		} finally {
-			adaptersLock.unlock();
 		}
+		return adapters;
 	}
 
 	public Object getAnnotatedObject(URI uri) {
-		ProviderContext[] providers = getProviderManager().getProviders();
+		Collection<ProviderContext> providers = getProviderManager().getProviders();
 		for (ProviderContext providerContext : providers) {
 			IAnnotationProvider provider = providerContext.getProvider();
 			try {
 				Object object = provider.getObject(uri);
-				if (object != null)
+				if (object != null) {
 					return object;
+				}
 			} catch (Exception e) {
 				AnnotationPlugin.log(e);
 			}
@@ -708,44 +715,52 @@ public class AnnotationManager extends AnnotationStorage implements
 		return null;
 	}
 
+	volatile boolean ignoreDeletion = false;
+	
 	public void fireDeleted(ILazyObject path) {
 		if (!ignoreDeletion) {
 			for (IRefactoringChangesListener listener : getRefactoringListeners()) {
-				listener.deleted(this, path);
+				listener.deleted(path);
 			}
 		}
 	}
 
 	public void fireChanged(ILazyObject oldPath, ILazyObject newPath, int kind) {
-		if (kind == IRefactoringChangesListener.ABOUT_TO_CHANGE)
+		if (kind == IRefactoringChangesListener.ABOUT_TO_CHANGE) {
 			ignoreDeletion = true;
-		for (IRefactoringChangesListener listener : getRefactoringListeners()) {
-			listener.changed(this, oldPath, newPath, kind);
 		}
-		if (kind == IRefactoringChangesListener.CHANGED)
+		for (IRefactoringChangesListener listener : getRefactoringListeners()) {
+			listener.changed(oldPath, newPath, kind);
+		}
+		if (kind == IRefactoringChangesListener.CHANGED) {
 			ignoreDeletion = false;
+		}
 	}
 
 	public void fireMoved(ILazyObject[] objects, ILazyObject destination,
 			int kind) {
-		if (kind == IRefactoringChangesListener.ABOUT_TO_CHANGE)
+		if (kind == IRefactoringChangesListener.ABOUT_TO_CHANGE) {
 			ignoreDeletion = true;
-		for (IRefactoringChangesListener listener : getRefactoringListeners()) {
-			listener.moved(this, objects, destination, kind);
 		}
-		if (kind == IRefactoringChangesListener.CHANGED)
+		for (IRefactoringChangesListener listener : getRefactoringListeners()) {
+			listener.moved(objects, destination, kind);
+		}
+		if (kind == IRefactoringChangesListener.CHANGED) {
 			ignoreDeletion = false;
+		}
 	}
 
 	public void fireCopy(ILazyObject[] objects, ILazyObject destination,
 			Map<ILazyObject, String> newNames, int kind) {
-		if (kind == IRefactoringChangesListener.ABOUT_TO_CHANGE)
+		if (kind == IRefactoringChangesListener.ABOUT_TO_CHANGE) {
 			ignoreDeletion = true;
-		for (IRefactoringChangesListener listener : getRefactoringListeners()) {
-			listener.copied(this, objects, destination, newNames, kind);
 		}
-		if (kind == IRefactoringChangesListener.CHANGED)
+		for (IRefactoringChangesListener listener : getRefactoringListeners()) {
+			listener.copied(objects, destination, newNames, kind);
+		}
+		if (kind == IRefactoringChangesListener.CHANGED) {
 			ignoreDeletion = false;
+		}
 	}
 
 	private IRefactoringChangesListener[] getRefactoringListeners() {
@@ -767,5 +782,181 @@ public class AnnotationManager extends AnnotationStorage implements
 					.toArray(new IRefactoringChangesListener[list.size()]);
 		}
 		return refactoringListeners;
+	}
+
+	public List<Annotation> getAnnotations(URI uri) {
+		if (uri == null) {
+			return Collections.emptyList();
+		}
+		return storage.findTransactional(eq(ANNOTATION__URI, uri));
+	}
+
+	public Annotation getAnnotationById(String id) {
+		if (id == null) {
+			return null;
+		}
+		return firstOrNull(storage.findTransactional(eq(ANNOTATION__ID, id)));
+	}
+
+	public List<Annotation> getPostfixAnnotations(URI uri) {
+		if (uri == null) {
+			return Collections.emptyList();
+		}
+		return storage.findTransactional(startWith(ANNOTATION__URI, uri));
+	}
+
+	public void uriChanged(final URI oldUri, final URI newUri) {
+		
+		if (oldUri == null) {
+			return;
+		}
+		List<Annotation> oldList = storage.find(eq(ANNOTATION__URI, oldUri));				
+		for (Annotation annotation : oldList) {
+			if (isReadOnly(annotation)) {
+				continue;
+			}
+			if (newUri == null) {
+				EcoreUtil.remove(annotation);
+			}
+			annotation.setUri(newUri);
+		}
+	}
+
+	public void doRemove(final URI uri) {
+		List<Annotation> list = storage.find(eq(ANNOTATION__URI, uri));				
+		for (Annotation annotation : list) {
+			if (isReadOnly(annotation)) {
+				continue;
+			}
+			EcoreUtil.remove(annotation);
+		}
+	}
+
+	
+	public boolean isReadOnly(Annotation annotation) {
+		if (isDynamic(annotation)) {
+			return true;
+		}
+		Resource resource = annotation.eResource();
+		if (resource == null) {
+			return false;
+		}
+		URI uri = resource.getURI();
+		if (uri == null) {
+			return false;
+		}
+		return uri.isArchive();
+	}
+
+	public void addAnnotations(final Resource resource) {
+		Helper.runForWrite(domain, new Runnable() {
+			
+			public void run() {
+				domain.getResourceSet().getResources().add(resource);				
+				fireAnnotationsAdded(resource);
+			}
+		});
+	}
+
+	public void removeAnnotations(final Resource resource) {
+		Helper.runForWrite(domain, new Runnable() {
+			
+			public void run() {
+				domain.getResourceSet().getResources().remove(resource);				
+				fireAnnotationsRemoved(resource);
+			}
+		});
+	}
+
+	protected boolean isDynamic(Annotation annotation) {
+		return annotation.getContent() instanceof DynamicEObjectImpl;
+	}
+
+	private final ListenerList listeners = new ListenerList();
+
+	public void addAnnotationListener(IAnnotationListener listener) {
+		listeners.add(listener);
+	}
+
+	public void removeAnnotationListener(IAnnotationListener listener) {
+		listeners.remove(listener);
+	}
+
+	protected void fireAnnotationsAdded(Collection<Annotation> annotations) {
+		Object[] objects = listeners.getListeners();
+		for (int i = 0; i < objects.length; i++) {
+			try {
+				IAnnotationListener listener = (IAnnotationListener) objects[i];
+				for (Annotation annotation : annotations) {
+					listener.annotationAdded(annotation);
+				}
+			} catch (Exception e) {
+				AnnotationPlugin.log(e);
+			}
+		}
+	}
+
+	protected void fireAnnotationsRemoved(Collection<Annotation> annotations) {
+		Object[] objects = listeners.getListeners();
+		for (int i = 0; i < objects.length; i++) {
+			try {
+				IAnnotationListener listener = (IAnnotationListener) objects[i];
+				for (Annotation annotation : annotations) {
+					listener.annotationRemoved(annotation);
+				}
+			} catch (Exception e) {
+				AnnotationPlugin.log(e);
+			}
+		}
+	}
+
+	protected void fireAnnotationsChanged(Collection<Annotation> annotations) {
+		Object[] objects = listeners.getListeners();
+		for (int i = 0; i < objects.length; i++) {
+			try {
+				IAnnotationListener listener = (IAnnotationListener) objects[i];
+				for (Annotation annotation : annotations) {
+					listener.annotationChanged(annotation);
+				}
+			} catch (Exception e) {
+				AnnotationPlugin.log(e);
+			}
+		}
+	}
+
+	protected void fireAnnotationsAdded(Resource resource) {
+		fireAnnotationsAdded(toAnnotations(resource.getContents()));
+	}
+
+	protected void fireAnnotationsRemoved(Resource resource) {
+		for (EObject obj : resource.getContents()) {
+			if (obj instanceof Annotation) {
+				fireAnnotationsRemoved(Collections.singleton((Annotation)obj));
+			}
+		}
+	}
+
+	public void save(Annotation annotation) {
+		if (isReadOnly(annotation)) {
+			return;
+		}
+		storage.save(annotation.eResource());
+	}
+
+	public void dispose() {
+		storage.dispose();
+		domain.removeResourceSetListener(resourceSetListener);
+	}
+
+	public TransactionalEditingDomain getDomain() {
+		return domain;
+	}
+
+	public Searcher getSearcher() {
+		return storage;
+	}
+
+	public boolean isAnnotationFile(IFile file) {
+		return annFilesRecognizer.isAnnotationFile(file);
 	}
 }

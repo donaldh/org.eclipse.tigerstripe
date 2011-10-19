@@ -12,7 +12,9 @@
 package org.eclipse.tigerstripe.annotation.ui.internal.actions;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.swt.SWT;
@@ -38,8 +40,8 @@ public class RemoveURIAnnotationAction extends DelegateAction {
 	}
 	
 	protected Annotation[] getAnnotations(Object object) {
-		List<Annotation> annotations = new ArrayList<Annotation>();
-		AnnotationUtils.getAllAnnotations(object, annotations);
+		Set<Annotation> annotations = new LinkedHashSet<Annotation>();
+		AnnotationUtils.collectAllAnnotations(object, annotations);
 		return annotations.toArray(new Annotation[annotations.size()]);
 	}
 	
@@ -47,6 +49,7 @@ public class RemoveURIAnnotationAction extends DelegateAction {
 		super("Remove All");
 	}
 	
+	@Override
 	public void run() {
 		Shell shell = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getShell();
 		MessageBox message = new MessageBox(shell, SWT.YES | SWT.NO);

@@ -48,24 +48,15 @@ public class DiagramRebuldListener implements IAnnotationListener {
 		});
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationListener#annotationAdded(org.eclipse.tigerstripe.annotation.core.Annotation)
-	 */
 	public void annotationAdded(Annotation annotation) {
 		update();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationListener#annotationsChanged(org.eclipse.tigerstripe.annotation.core.Annotation[])
-	 */
-	public void annotationsChanged(Annotation[] annotations) {
+	public void annotationRemoved(Annotation annotation) {
 		update();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationListener#annotationsRemoved(org.eclipse.tigerstripe.annotation.core.Annotation[])
-	 */
-	public void annotationsRemoved(Annotation[] annotations) {
+	public void annotationChanged(Annotation annotation) {
 		update();
 	}
 

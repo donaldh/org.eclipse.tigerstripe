@@ -49,7 +49,7 @@ public class ChangeModelIdJob extends Job {
 			IProjectDetails details = project.getProjectDetails();
 			ChangeIdLazyObject oldObject = new ChangeIdLazyObject(project);
 			if (updateAnnotations) {
-				AnnotationPlugin.getRefactoringNotifier().fireChanged(
+				AnnotationPlugin.getManager().fireChanged(
 						oldObject, null,
 						IRefactoringChangesListener.ABOUT_TO_CHANGE);
 				monitor.worked(1);
@@ -58,7 +58,7 @@ public class ChangeModelIdJob extends Job {
 			project.commit(new SubProgressMonitor(monitor, 1));
 			ChangeIdLazyObject newObject = new ChangeIdLazyObject(project);
 			if (updateAnnotations) {
-				AnnotationPlugin.getRefactoringNotifier().fireChanged(
+				AnnotationPlugin.getManager().fireChanged(
 						oldObject, newObject,
 						IRefactoringChangesListener.CHANGED);
 				monitor.worked(1);

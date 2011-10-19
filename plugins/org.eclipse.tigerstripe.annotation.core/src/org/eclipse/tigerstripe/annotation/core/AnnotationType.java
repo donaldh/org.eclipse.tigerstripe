@@ -12,6 +12,7 @@
 package org.eclipse.tigerstripe.annotation.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,14 +44,14 @@ public class AnnotationType {
 	private static final String ATTR_TARGET_TYPE = "type";
 	private static final String ATTR_TARGET_UNIQUE = "unique";
 
-	private String name;
-	private String description;
-	private EClass clazz;
-	private boolean unique;
+	private final String name;
+	private final String description;
+	private final EClass clazz;
+	private final boolean unique;
 
 	private String[] targets;
 
-	private Map<String, Boolean> uniques = new HashMap<String, Boolean>();
+	private final Map<String, Boolean> uniques = new HashMap<String, Boolean>();
 
 	public AnnotationType(IConfigurationElement definition) {
 		name = definition.getAttribute(ATTR_NAME);
@@ -71,8 +72,9 @@ public class AnnotationType {
 				Boolean value = unique == null ? Boolean.TRUE : Boolean
 						.valueOf(unique);
 				uniques.put(type, value);
-				if (type != null)
+				if (type != null) {
 					targets.add(type);
+				}
 			}
 		}
 		this.targets = targets.toArray(new String[targets.size()]);
@@ -183,10 +185,10 @@ public class AnnotationType {
 	}
 
 	public IAnnotationTarget[] getTargets(Object object,
-			ProviderTarget[] targets) {
+			Collection<ProviderContext> providers) {
 		Map<ProviderTarget, Object> map = new HashMap<ProviderTarget, Object>();
-		for (int i = 0; i < targets.length; i++) {
-			ProviderTarget target = targets[i];
+		for (ProviderContext ctx : providers) {
+			ProviderTarget target = ctx.getTarget();
 			Object adapted = target.adapt(object);
 			if (adapted != null) {
 				map.put(target, adapted);

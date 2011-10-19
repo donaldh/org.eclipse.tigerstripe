@@ -11,33 +11,30 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.annotation.internal.core;
 
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import org.eclipse.tigerstripe.annotation.core.ProviderContext;
 
 /**
- * @author Yuri Strot
- *
+ * This class store the provider managers
+ * 
+ * @author Valentin Yerastov
  */
 public class ProviderManager {
 	
-	private Map<String, ProviderContext> types;
+	private final Map<String, ProviderContext> types;
 	
-	public ProviderManager() {
-		types = new ConcurrentHashMap<String, ProviderContext>();
+	public ProviderManager(Map<String, ProviderContext> types) {
+		this.types = Collections.unmodifiableMap(types);
 	}
 	
-	public void addProvider(ProviderContext context) {
-		types.put(context.getTarget().getClassName(), context);
-	}
-	
-	public ProviderContext[] getProviders() {
-		return types.values().toArray(new ProviderContext[types.size()]);
+	public Collection<ProviderContext> getProviders() {
+		return types.values();
 	}
 	
 	public ProviderContext getProviderByType(String type) {
 		return types.get(type);
 	}
-
 }

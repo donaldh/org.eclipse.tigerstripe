@@ -12,8 +12,8 @@ package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.providers;
 
 import java.text.MessageFormat;
 import java.text.ParsePosition;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.emf.ecore.EClassifier;
@@ -156,10 +156,11 @@ public abstract class TigerstripeAbstractParser implements IParser {
 			String editString) {
 		ParsePosition pos = new ParsePosition(0);
 		Object[] values = getEditProcessor().parse(editString, pos);
-		if (values == null)
+		if (values == null) {
 			return new ParserEditStatus(TigerstripeDiagramEditorPlugin.ID,
 					IParserEditStatus.UNEDITABLE, "Invalid input at "
 							+ pos.getErrorIndex());
+		}
 		return validateNewValues(values);
 	}
 
@@ -179,8 +180,9 @@ public abstract class TigerstripeAbstractParser implements IParser {
 		Object[] values = getEditProcessor().parse(newString,
 				new ParsePosition(0));
 		if (values == null
-				|| validateNewValues(values).getCode() != IParserEditStatus.EDITABLE)
+				|| validateNewValues(values).getCode() != IParserEditStatus.EDITABLE) {
 			return UnexecutableCommand.INSTANCE;
+		}
 		return getParseCommand(adapter, values);
 	}
 
@@ -203,8 +205,9 @@ public abstract class TigerstripeAbstractParser implements IParser {
 	protected ICommand getModificationCommand(EObject element,
 			EStructuralFeature feature, Object value) {
 		value = getValidNewValue(feature, value);
-		if (value instanceof InvalidValue)
+		if (value instanceof InvalidValue) {
 			return UnexecutableCommand.INSTANCE;
+		}
 		SetRequest request = new SetRequest(element, feature, value);
 		return new SetValueCommand(request);
 	}
@@ -220,8 +223,9 @@ public abstract class TigerstripeAbstractParser implements IParser {
 					&& className.substring(lastDotPos + 1).startsWith(
 							"TigerstripeAbstractParser")
 					&& stackTraceElement.getMethodName()
-							.equals("getEditString"))
+							.equals("getEditString")) {
 				return true;
+			}
 		}
 		return false;
 	}
@@ -490,8 +494,8 @@ public abstract class TigerstripeAbstractParser implements IParser {
 			}
 		}
 
-		List<Annotation> annotations = new ArrayList<Annotation>();
-		AnnotationUtils.getAllAnnotations(namedElement, annotations);
+		Set<Annotation> annotations = new LinkedHashSet<Annotation>();
+		AnnotationUtils.collectAllAnnotations(namedElement, annotations);
 		for (Annotation annotation : annotations) {
 			appendElement(format, DisplayAnnotationUtil.getText(annotation),
 					builder);

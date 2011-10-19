@@ -16,12 +16,13 @@ import java.util.List;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.XMLResource;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
-import org.eclipse.tigerstripe.espace.resources.core.IAnnotationResourceProcessor;
+import org.eclipse.tigerstripe.annotation.core.IAnnotationResourceProcessor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
@@ -74,21 +75,27 @@ public class TigerstripeAnnotationResourceProcessor implements
 						null, null, new String[] { originalSegments[1],
 								originalSegments[2] }, null,
 						originalUri.fragment());
-				annotation.setUri(newUri);
+				setURI(annotation, newUri);
 			}
 		}
 	}
 
 	private ITigerstripeModelProject getContextProject(Resource eResource) {
 		URI resourceUri = eResource.getURI();
+		IResource resource = null;
 		if (resourceUri.isPlatformResource()) {
 			String platformString = resourceUri.toPlatformString(true);
-			IResource resource = ResourcesPlugin.getWorkspace().getRoot()
+			resource = ResourcesPlugin.getWorkspace().getRoot()
 					.findMember(platformString);
-			if (resource != null && resource.getProject() != null) {
-				return (ITigerstripeModelProject) resource.getProject()
-						.getAdapter(ITigerstripeModelProject.class);
-			}
+		} else if (resourceUri.isFile()) {
+			String fileString = resourceUri.toFileString();
+			resource = ResourcesPlugin.getWorkspace().getRoot()
+					.getFileForLocation(new Path(fileString));
+		}
+
+		if (resource != null && resource.getProject() != null) {
+			return (ITigerstripeModelProject) resource.getProject().getAdapter(
+					ITigerstripeModelProject.class);
 		}
 		return null;
 	}
@@ -145,7 +152,7 @@ public class TigerstripeAnnotationResourceProcessor implements
 			} else {
 				segments = uri.segments();
 			}
-			annotation.setUri(createURI(segments, uri.fragment()));
+			setURI(annotation, createURI(segments, uri.fragment()));
 		}
 	}
 
@@ -173,11 +180,21 @@ public class TigerstripeAnnotationResourceProcessor implements
 				URI uri = annotation.getUri();
 				String[] segments = new String[] { context.getModelId(),
 						uri.segment(0), uri.segment(1) };
-				annotation.setUri(createURI(segments, uri.fragment()));
+				setURI(annotation, createURI(segments, uri.fragment()));
 			} catch (TigerstripeException e) {
 				BasePlugin.log(e);
 			}
 		}
+	}
+
+	private void setURI(Annotation annotation, URI uri) {
+		try {
+			annotation.eSetDeliver(false);
+			annotation.setUri(uri);
+		} finally {
+			annotation.eSetDeliver(true);
+		}
+
 	}
 
 	private interface IAnnotationProcessor {

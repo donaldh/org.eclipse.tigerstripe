@@ -19,6 +19,8 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
+import org.eclipse.tigerstripe.annotation.core.InTransaction;
+import org.eclipse.tigerstripe.annotation.core.InTransaction.Operation;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAnnotationAddFeatureRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IAttributeSetRequest;
@@ -34,13 +36,13 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSessi
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument.EDirection;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IException;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.patterns.IArtifactPattern;
 import org.eclipse.tigerstripe.workbench.patterns.IArtifactPatternResult;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
@@ -259,16 +261,22 @@ public abstract class ArtifactPattern extends Pattern implements IArtifactPatter
 		return residuals;
 	}
 
-	protected void addAnnotation(IModelComponent component, EObject content) throws TigerstripeException{
-		try {
-			String annotationClass = content.getClass().getInterfaces()[0].getName();
-			Annotation anno = helper.addAnnotation(component, Util.packageOf(annotationClass), Util.nameOf(annotationClass));
-			anno.setContent(content);
-			AnnotationHelper.getInstance().saveAnnotation(anno);
-		} catch (Exception e){
-			e.printStackTrace();
-			throw new TigerstripeException("Exception adding annotation to component",e);
-		}
+	protected void addAnnotation(final IModelComponent component, final EObject content) throws TigerstripeException{
+		
+		InTransaction.write(new Operation() {
+			
+			public void run() throws Throwable {
+				try {
+					String annotationClass = content.getClass().getInterfaces()[0].getName();
+					Annotation anno = helper.addAnnotation(component, Util.packageOf(annotationClass), Util.nameOf(annotationClass));
+					anno.setContent(content);
+					AnnotationHelper.getInstance().saveAnnotation(anno);
+				} catch (Exception e){
+					e.printStackTrace();
+					throw new TigerstripeException("Exception adding annotation to component", e);
+				}
+			}
+		});
 	}
 	
 	private static ArrayList<String> fieldCreateFeatures = new ArrayList<String>(Arrays.asList(

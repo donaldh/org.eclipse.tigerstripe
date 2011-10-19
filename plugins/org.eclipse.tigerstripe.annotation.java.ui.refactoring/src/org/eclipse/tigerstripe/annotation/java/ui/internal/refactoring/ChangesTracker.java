@@ -106,9 +106,10 @@ public class ChangesTracker implements IResourceChangeListener {
 	}
 
 	protected void deleted(IResource resource) {
-		if (!blockDeletion)
-			AnnotationPlugin.getRefactoringNotifier().fireDeleted(
+		if (!blockDeletion) {
+			AnnotationPlugin.getManager().fireDeleted(
 					new LazyObject(resource));
+		}
 	}
 
 	protected void processRename(RenameJavaElementDescriptor des, int eventType) {
@@ -117,16 +118,17 @@ public class ChangesTracker implements IResourceChangeListener {
 			IJavaElement jElement = (IJavaElement) result.getElement()
 					.getObject();
 			lazyObject = new JavaLazyObject(jElement, result.getName());
-			if (result == null || result.isTypeParameter())
+			if (result == null || result.isTypeParameter()) {
 				return;
+			}
 			blockDeletion = true;
-			AnnotationPlugin.getRefactoringNotifier().fireChanged(
+			AnnotationPlugin.getManager().fireChanged(
 					result.getElement(), lazyObject,
 					IRefactoringChangesListener.ABOUT_TO_CHANGE);
 		} else if ((eventType == RefactoringExecutionEvent.PERFORMED)) {
 			blockDeletion = false;
 			RenameJavaResult result = RefactoringUtil.getElement(des);
-			AnnotationPlugin.getRefactoringNotifier().fireChanged(
+			AnnotationPlugin.getManager().fireChanged(
 					result.getElement(), lazyObject,
 					IRefactoringChangesListener.CHANGED);
 		}
@@ -134,20 +136,22 @@ public class ChangesTracker implements IResourceChangeListener {
 
 	public void processRename(RenameResourceDescriptor rrd, int eventType) {
 		IPath path = RefactoringUtil.getResourcePath(rrd);
-		if (path == null)
+		if (path == null) {
 			return;
+		}
 		IPath newPath = RefactoringUtil.getNewPath(path, rrd);
-		if (newPath == null)
+		if (newPath == null) {
 			return;
+		}
 		if (eventType == RefactoringExecutionEvent.ABOUT_TO_PERFORM) {
 			blockDeletion = true;
-			AnnotationPlugin.getRefactoringNotifier().fireChanged(
+			AnnotationPlugin.getManager().fireChanged(
 					new ResourceLazyObject(path),
 					new ResourceLazyObject(newPath),
 					IRefactoringChangesListener.ABOUT_TO_CHANGE);
 		} else if (eventType == RefactoringExecutionEvent.PERFORMED) {
 			blockDeletion = false;
-			AnnotationPlugin.getRefactoringNotifier().fireChanged(
+			AnnotationPlugin.getManager().fireChanged(
 					new ResourceLazyObject(path),
 					new ResourceLazyObject(newPath),
 					IRefactoringChangesListener.CHANGED);
@@ -159,11 +163,11 @@ public class ChangesTracker implements IResourceChangeListener {
 		ILazyObject destination = RefactoringUtil.getDestination(des);
 		if (eventType == RefactoringExecutionEvent.ABOUT_TO_PERFORM) {
 			blockDeletion = true;
-			AnnotationPlugin.getRefactoringNotifier().fireMoved(objects,
+			AnnotationPlugin.getManager().fireMoved(objects,
 					destination, IRefactoringChangesListener.ABOUT_TO_CHANGE);
 		} else if (eventType == RefactoringExecutionEvent.PERFORMED) {
 			blockDeletion = false;
-			AnnotationPlugin.getRefactoringNotifier().fireMoved(objects,
+			AnnotationPlugin.getManager().fireMoved(objects,
 					destination, IRefactoringChangesListener.CHANGED);
 		}
 	}
@@ -177,20 +181,21 @@ public class ChangesTracker implements IResourceChangeListener {
 			for (ILazyObject iLazyObject : objects) {
 				newNames.put(iLazyObject, "");
 			}
-			AnnotationPlugin.getRefactoringNotifier().fireCopy(objects,
+			AnnotationPlugin.getManager().fireCopy(objects,
 					destination, newNames,
 					IRefactoringChangesListener.ABOUT_TO_CHANGE);
 		} else if (eventType == RefactoringExecutionEvent.PERFORMED) {
 			blockDeletion = false;
-			AnnotationPlugin.getRefactoringNotifier().fireCopy(objects,
+			AnnotationPlugin.getManager().fireCopy(objects,
 					destination, newNames, IRefactoringChangesListener.CHANGED);
 			newNames = null;
 		}
 	}
 
 	static void setNewName(Object element, String newName) {
-		if (tracker == null)
+		if (tracker == null) {
 			return;
+		}
 		ILazyObject object = tracker.getLazyObject(element);
 		if (object != null) {
 			tracker.setLazyObjectName(object, newName);
@@ -219,19 +224,19 @@ public class ChangesTracker implements IResourceChangeListener {
 		ILazyObject destination = RefactoringUtil.getDestination(des);
 		if (eventType == RefactoringExecutionEvent.ABOUT_TO_PERFORM) {
 			blockDeletion = true;
-			AnnotationPlugin.getRefactoringNotifier().fireMoved(objects,
+			AnnotationPlugin.getManager().fireMoved(objects,
 					destination, IRefactoringChangesListener.ABOUT_TO_CHANGE);
 		} else if (eventType == RefactoringExecutionEvent.PERFORMED) {
 			blockDeletion = false;
-			AnnotationPlugin.getRefactoringNotifier().fireMoved(objects,
+			AnnotationPlugin.getManager().fireMoved(objects,
 					destination, IRefactoringChangesListener.CHANGED);
 		}
 	}
 
 	private static class JavaLazyObject implements ILazyObject {
 
-		private IJavaElement element;
-		private String name;
+		private final IJavaElement element;
+		private final String name;
 
 		public JavaLazyObject(IJavaElement element, String name) {
 			this.element = element;
@@ -247,8 +252,9 @@ public class ChangesTracker implements IResourceChangeListener {
 		 */
 		public Object getObject() {
 			URI newUri = JavaURIConverter.toURI(element, name);
-			if (newUri != null)
+			if (newUri != null) {
 				return JavaURIConverter.toJava(newUri);
+			}
 			return null;
 		}
 
@@ -292,8 +298,9 @@ public class ChangesTracker implements IResourceChangeListener {
 				for (int i = 0; i < children.length; i++) {
 					IJavaElement child = children[i];
 					URI childUri = JavaURIConverter.toURI(child);
-					if (childUri == null)
+					if (childUri == null) {
 						continue;
+					}
 					collectChanges(child, elements[i], changes);
 				}
 			} catch (JavaModelException e) {

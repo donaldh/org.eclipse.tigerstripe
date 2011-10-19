@@ -18,22 +18,12 @@ package org.eclipse.tigerstripe.annotation.core;
  */
 public class AnnotationAdapter implements IAnnotationListener {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationListener#annotationAdded(org.eclipse.tigerstripe.annotation.core.Annotation)
-	 */
 	public void annotationAdded(Annotation annotation) {
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationListener#annotationsChanged(org.eclipse.tigerstripe.annotation.core.Annotation[])
-	 */
-	public void annotationsChanged(Annotation[] annotations) {
+	public void annotationRemoved(Annotation annotation) {
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.tigerstripe.annotation.core.IAnnotationListener#annotationsRemoved(org.eclipse.tigerstripe.annotation.core.Annotation[])
-	 */
-	public void annotationsRemoved(Annotation[] annotations) {
+	public void annotationChanged(Annotation annotation) {
 	}
-
 }

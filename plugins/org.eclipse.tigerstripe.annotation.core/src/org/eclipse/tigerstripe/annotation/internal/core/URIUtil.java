@@ -22,8 +22,6 @@ import org.eclipse.emf.common.util.URI;
  */
 public class URIUtil {
 
-	private static final boolean USE_OLD_VERSION = false;
-
 	private static final int SCHEME = 0;
 	private static final int AUTHORITY = 1;
 	private static final int DEVICE = 2;
@@ -33,8 +31,8 @@ public class URIUtil {
 
 	private static class Part {
 
-		private String content;
-		private int kind;
+		private final String content;
+		private final int kind;
 
 		public Part(String content, int kind) {
 			this.content = content;
@@ -68,7 +66,7 @@ public class URIUtil {
 
 	private static class PartedURI {
 
-		private Part[] parts;
+		private final Part[] parts;
 
 		private PartedURI(Part[] parts) {
 			this.parts = parts;
@@ -82,32 +80,41 @@ public class URIUtil {
 		 */
 		public static PartedURI fromURI(URI uri) {
 			List<Part> parts = new ArrayList<Part>();
-			if (!uri.isHierarchical())
+			if (!uri.isHierarchical()) {
 				return null;
-			if (!uri.isRelative())
+			}
+			if (!uri.isRelative()) {
 				parts.add(new Part(uri.scheme(), SCHEME));
-			if (uri.hasAuthority())
+			}
+			if (uri.hasAuthority()) {
 				parts.add(new Part(uri.authority(), AUTHORITY));
-			if (uri.hasDevice())
+			}
+			if (uri.hasDevice()) {
 				parts.add(new Part(uri.device(), DEVICE));
+			}
 			String[] segments = uri.segments();
-			for (int i = 0; i < segments.length; i++)
+			for (int i = 0; i < segments.length; i++) {
 				parts.add(new Part(segments[i], SEGMENT));
-			if (uri.hasQuery())
+			}
+			if (uri.hasQuery()) {
 				parts.add(new Part(uri.query(), QUERY));
-			if (uri.hasFragment())
+			}
+			if (uri.hasFragment()) {
 				parts.add(new Part(uri.fragment(), FRAGMENT));
+			}
 			return new PartedURI(parts.toArray(new Part[parts.size()]));
 		}
 
 		public PartedURI cut(PartedURI prefix) {
 			Part[] prefixParts = prefix.parts;
-			if (parts.length < prefixParts.length)
+			if (parts.length < prefixParts.length) {
 				return null;
+			}
 			int i = 0;
 			for (; i < prefixParts.length; i++) {
-				if (!prefixParts[i].getContent().equals(parts[i].getContent()))
+				if (!prefixParts[i].getContent().equals(parts[i].getContent())) {
 					return null;
+				}
 			}
 			Part[] result = new Part[parts.length - i];
 			if (result.length != 0) {
@@ -118,10 +125,12 @@ public class URIUtil {
 
 		public PartedURI concat(PartedURI postfix) {
 			Part[] postfixParts = postfix.parts;
-			if (postfixParts.length == 0)
+			if (postfixParts.length == 0) {
 				return this;
-			if (parts.length == 0)
+			}
+			if (parts.length == 0) {
 				return postfix;
+			}
 			Part[] result = new Part[parts.length + postfixParts.length];
 			System.arraycopy(parts, 0, result, 0, parts.length);
 			System.arraycopy(postfixParts, 0, result, parts.length,
@@ -134,10 +143,11 @@ public class URIUtil {
 			int waitingFor = SCHEME;
 			for (int i = 0; i < parts.length; i++) {
 				int kind = parts[i].getKind();
-				if (kind >= waitingFor)
+				if (kind >= waitingFor) {
 					waitingFor = kind == SEGMENT ? kind : kind + 1;
-				else
+				} else {
 					return false;
+				}
 			}
 			return true;
 		}
@@ -153,36 +163,41 @@ public class URIUtil {
 				Part part = parts[i];
 				switch (part.getKind()) {
 				case SCHEME:
-					if (scheme != null)
+					if (scheme != null) {
 						throw new InvalidReplaceException(
 								"URI scheme should be only one");
+					}
 					scheme = part.getContent();
 					break;
 				case AUTHORITY:
-					if (authority != null)
+					if (authority != null) {
 						throw new InvalidReplaceException(
 								"URI authority should be only one");
+					}
 					authority = part.getContent();
 					break;
 				case DEVICE:
-					if (device != null)
+					if (device != null) {
 						throw new InvalidReplaceException(
 								"URI device should be only one");
+					}
 					device = part.getContent();
 					break;
 				case SEGMENT:
 					segments.add(part.getContent());
 					break;
 				case QUERY:
-					if (query != null)
+					if (query != null) {
 						throw new InvalidReplaceException(
 								"URI query should be only one");
+					}
 					query = part.getContent();
 					break;
 				case FRAGMENT:
-					if (fragment != null)
+					if (fragment != null) {
 						throw new InvalidReplaceException(
 								"URI fragment should be only one");
+					}
 					fragment = part.getContent();
 					break;
 				default:
@@ -201,26 +216,30 @@ public class URIUtil {
 		 */
 		@Override
 		public String toString() {
-			if (parts == null)
+			if (parts == null) {
 				return "";
+			}
 			StringBuffer buffer = new StringBuffer();
 			for (int i = 0; i < parts.length - 1; i++) {
 				buffer.append(parts[i]);
 				buffer.append("/");
 			}
-			if (parts.length > 0)
+			if (parts.length > 0) {
 				buffer.append(parts[parts.length - 1]);
+			}
 			return buffer.toString();
 		}
 
 	}
 
+	@SuppressWarnings("unused")
 	private static URI oldReplace(URI uri, URI oldPrefix, URI newPrefix) {
 
 		// Get what's left of the segments after trimming the prefix.
 		String[] tailSegments = getTailSegments(uri, oldPrefix);
-		if (tailSegments == null)
+		if (tailSegments == null) {
 			return null;
+		}
 
 		// If the new prefix has segments, it is not the root absolute path,
 		// and we need to drop the trailing empty segment and append the tail
@@ -256,33 +275,37 @@ public class URIUtil {
 	private static URI newReplace(URI uri, URI oldPrefix, URI newPrefix)
 			throws InvalidReplaceException {
 		PartedURI pUri = PartedURI.fromURI(uri);
-		if (pUri == null)
+		if (pUri == null) {
 			throw new InvalidReplaceException(uri.toString()
 					+ " should be hierarchical");
+		}
 		PartedURI pOldPrefix = PartedURI.fromURI(oldPrefix);
-		if (pOldPrefix == null)
+		if (pOldPrefix == null) {
 			throw new InvalidReplaceException(oldPrefix.toString()
 					+ " should be hierarchical");
+		}
 		PartedURI pNewPrefix = PartedURI.fromURI(newPrefix);
-		if (pNewPrefix == null)
+		if (pNewPrefix == null) {
 			throw new InvalidReplaceException(newPrefix.toString()
 					+ " should be hierarchical");
+		}
 		PartedURI postfix = pUri.cut(pOldPrefix);
-		if (postfix == null)
+		if (postfix == null) {
 			throw new InvalidReplaceException(oldPrefix.toString()
 					+ " is not a prefix of the " + uri.toString());
+		}
 		PartedURI result = pNewPrefix.concat(postfix);
-		if (result == null)
+		if (result == null) {
 			throw new InvalidReplaceException("Replacing [" + oldPrefix
 					+ "] to the [" + newPrefix + "] in the [" + uri
 					+ "] is invalid");
+		}
 		return result.toURI();
 	}
 
 	public static URI replacePrefix(URI uri, URI oldPrefix, URI newPrefix)
 			throws InvalidReplaceException {
-		return USE_OLD_VERSION ? oldReplace(uri, oldPrefix, newPrefix)
-				: newReplace(uri, oldPrefix, newPrefix);
+		return newReplace(uri, oldPrefix, newPrefix);
 	}
 
 	private static String[] getTailSegments(URI uri, URI prefix) {
@@ -298,20 +321,23 @@ public class URIUtil {
 
 		// If the prefix has no segments, then it is the root absolute path, and
 		// we know this is an absolute path, too.
-		if (prefix.segmentCount() == 0)
+		if (prefix.segmentCount() == 0) {
 			return uri.segments();
+		}
 
 		// This must have no fewer segments than the prefix. Since the prefix
 		// is not the root absolute path, its last segment is empty; all others
 		// must match.
 		int i = 0;
 		int segmentsToCompare = prefix.segmentCount();
-		if (uri.segments().length < segmentsToCompare)
+		if (uri.segments().length < segmentsToCompare) {
 			return null;
+		}
 
 		for (; i < segmentsToCompare; i++) {
-			if (!uri.segments()[i].equals(prefix.segment(i)))
+			if (!uri.segments()[i].equals(prefix.segment(i))) {
 				return null;
+			}
 		}
 
 		// Otherwise, the path needs only the remaining segments.

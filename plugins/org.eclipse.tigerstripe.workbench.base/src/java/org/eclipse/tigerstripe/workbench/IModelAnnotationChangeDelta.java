@@ -44,5 +44,5 @@ public interface IModelAnnotationChangeDelta {
 	 */
 	public URI getAffectedModelComponentURI();
 
-	public Annotation[] getAnnotations();
+	public Annotation getAnnotation();
 }

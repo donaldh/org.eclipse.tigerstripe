@@ -38,7 +38,6 @@ import org.apache.tools.ant.util.ReaderInputStream;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.tigerstripe.espace.core.Mode;
 import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
@@ -667,8 +666,16 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 
 	public void addDependency(IDependency dependency) {
 		
+		if (!dependency.isValid()) {
+			return;
+		}
+
 		URI uri = dependency.getURI();
 		IModuleHeader header = dependency.getIModuleHeader();
+		
+		if (uri == null || header == null || header.getModuleID() == null) {
+			return;
+		}
 		
 		if (!this.dependencies.contains(dependency)) {
 			setDirty();
@@ -676,10 +683,8 @@ public class TigerstripeProject extends AbstractTigerstripeProject implements
 			((Dependency) dependency).setContainer(this);
 
 			try {
-				if (uri != null && header != null) {
-					ModuleAnnotationManager.INSTANCE.registerAnnotationsFor(uri,
-							header.getModuleID(), Mode.READ_ONLY);
-				}
+				ModuleAnnotationManager.INSTANCE.registerAnnotationsFor(uri,
+						header.getModuleID());
 			} catch (IOException e) {
 				BasePlugin.log(e);
 			}

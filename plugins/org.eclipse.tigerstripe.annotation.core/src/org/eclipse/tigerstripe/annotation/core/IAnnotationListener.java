@@ -37,13 +37,13 @@ public interface IAnnotationListener {
      * 
 	 * @param annotations removed annotations
 	 */
-	public void annotationsRemoved(Annotation[] annotations);
+	public void annotationRemoved(Annotation annotation);
 	
 	/**
      * Notifies this listener that annotations was changed.
      * 
 	 * @param annotations changed annotations
 	 */
-	public void annotationsChanged(Annotation[] annotations);
+	public void annotationChanged(Annotation annotation);
 
 }

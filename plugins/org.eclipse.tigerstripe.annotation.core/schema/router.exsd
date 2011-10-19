@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.tigerstripe.annotation.core">
+<schema targetNamespace="org.eclipse.tigerstripe.annotation.core" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
          <meta.schema plugin="org.eclipse.tigerstripe.annotation.core" id="router" name="router"/>
@@ -13,6 +13,11 @@ Annotation routers map annotation object to corresponding storage. If there is n
    </annotation>
 
    <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+      </annotation>
       <complexType>
          <sequence>
             <element ref="router" minOccurs="1" maxOccurs="unbounded"/>
@@ -52,7 +57,7 @@ Annotation routers map annotation object to corresponding storage. If there is n
                   an annotation router class
                </documentation>
                <appInfo>
-                  <meta.attribute kind="java" basedOn=":org.eclipse.tigerstripe.espace.resources.core.EObjectRouter"/>
+                  <meta.attribute kind="java" basedOn=":org.eclipse.tigerstripe.annotation.internal.core.Router"/>
                </appInfo>
             </annotation>
          </attribute>
@@ -84,23 +89,7 @@ Annotation routers map annotation object to corresponding storage. If there is n
       </documentation>
    </annotation>
 
-   <annotation>
-      <appInfo>
-         <meta.section type="apiInfo"/>
-      </appInfo>
-      <documentation>
-         
-      </documentation>
-   </annotation>
 
-   <annotation>
-      <appInfo>
-         <meta.section type="implementation"/>
-      </appInfo>
-      <documentation>
-         
-      </documentation>
-   </annotation>
 
    <annotation>
       <appInfo>

@@ -19,9 +19,10 @@ import java.util.Map;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
+import org.eclipse.tigerstripe.annotation.core.IAnnotationManager;
 import org.eclipse.tigerstripe.annotation.core.refactoring.ILazyObject;
 import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringChangesListener;
-import org.eclipse.tigerstripe.annotation.core.refactoring.IRefactoringDelegate;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
@@ -33,17 +34,17 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 public class ChangeIdRefactoringListener implements IRefactoringChangesListener {
 
 	private final Map<ILazyObject, URIsToChange> changes = new HashMap<ILazyObject, URIsToChange>();
+	private final IAnnotationManager annotationManager;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.eclipse.tigerstripe.annotation.core.refactoring.
-	 * IRefactoringChangesListener #changed(org.eclipse.tigerstripe.annotation
-	 * .core.refactoring.IRefactoringDelegate,
-	 * org.eclipse.tigerstripe.annotation.core.refactoring.ILazyObject,
-	 * org.eclipse.tigerstripe.annotation.core.refactoring.ILazyObject, int)
-	 */
-	public void changed(IRefactoringDelegate delegate, ILazyObject oldObject,
+	public ChangeIdRefactoringListener() {
+		annotationManager = AnnotationPlugin.getManager();
+	}
+
+	public ChangeIdRefactoringListener(IAnnotationManager annotationManager) {
+		this.annotationManager = annotationManager;
+	}
+	
+	public void changed(ILazyObject oldObject,
 			ILazyObject newObject, int kind) {
 		if (kind == ABOUT_TO_CHANGE) {
 			ITigerstripeModelProject project = getProject(oldObject);
@@ -71,10 +72,10 @@ public class ChangeIdRefactoringListener implements IRefactoringChangesListener 
 				if (project != null && toChange.getOldUri() != null) {
 					URI newUri = getURI(project);
 					if (newUri != null) {
-						delegate.changed(toChange.getOldUri(), newUri, true);
+						annotationManager.changed(toChange.getOldUri(), newUri, true);
 
 						for (URI refUri : toChange.getReferencingUris()) {
-							delegate.changed(
+							annotationManager.changed(
 									createContextURI(refUri,
 											toChange.getOldUri()),
 									createContextURI(refUri, newUri), true);
@@ -118,8 +119,9 @@ public class ChangeIdRefactoringListener implements IRefactoringChangesListener 
 	 */
 	private ITigerstripeModelProject getProject(ILazyObject object) {
 		Object obj = object.getObject();
-		if (obj == null)
+		if (obj == null) {
 			return null;
+		}
 		ITigerstripeModelProject project = null;
 		if (obj instanceof IAdaptable) {
 			IAdaptable adaptable = (IAdaptable) obj;
@@ -154,44 +156,16 @@ public class ChangeIdRefactoringListener implements IRefactoringChangesListener 
 		return result.toArray(new ITigerstripeModelProject[result.size()]);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.eclipse.tigerstripe.annotation.core.refactoring.
-	 * IRefactoringChangesListener #copied(org.eclipse.tigerstripe.annotation.
-	 * core.refactoring.IRefactoringDelegate,
-	 * org.eclipse.tigerstripe.annotation.core.refactoring.ILazyObject[],
-	 * org.eclipse.tigerstripe.annotation.core.refactoring.ILazyObject,
-	 * java.util.Map, int)
-	 */
-	public void copied(IRefactoringDelegate delegate, ILazyObject[] objects,
+	public void copied(ILazyObject[] objects,
 			ILazyObject destination, Map<ILazyObject, String> newNames, int kind) {
 		// Do nothing
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.eclipse.tigerstripe.annotation.core.refactoring.
-	 * IRefactoringChangesListener #deleted(org.eclipse.tigerstripe.annotation
-	 * .core.refactoring.IRefactoringDelegate,
-	 * org.eclipse.tigerstripe.annotation.core.refactoring.ILazyObject)
-	 */
-	public void deleted(IRefactoringDelegate delegate, ILazyObject object) {
+	public void deleted(ILazyObject object) {
 		// Do nothing
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @seeorg.eclipse.tigerstripe.annotation.core.refactoring.
-	 * IRefactoringChangesListener
-	 * #moved(org.eclipse.tigerstripe.annotation.core
-	 * .refactoring.IRefactoringDelegate,
-	 * org.eclipse.tigerstripe.annotation.core.refactoring.ILazyObject[],
-	 * org.eclipse.tigerstripe.annotation.core.refactoring.ILazyObject, int)
-	 */
-	public void moved(IRefactoringDelegate delegate, ILazyObject[] objects,
+	public void moved(ILazyObject[] objects,
 			ILazyObject destination, int kind) {
 		// Do nothing
 	}

@@ -5,7 +5,7 @@
  <copyright>
  </copyright>
 
- $Id: plugin.xml,v 1.12 2008/09/04 04:29:27 ystrot Exp $
+ $Id: plugin.xml,v 1.13 2011/10/19 06:20:02 asalnik Exp $
 -->
 
 <plugin>
@@ -139,12 +139,6 @@
             </constraint>
          </constraints>
       </constraintProvider>
-   </extension>
-   
-   <extension
-         point="org.eclipse.tigerstripe.annotation.core.constraints">
-      <constraint
-            class="org.eclipse.tigerstripe.annotation.core.test.constraint.AnnotationConstraintExample"/>
    </extension>
 
 </plugin>

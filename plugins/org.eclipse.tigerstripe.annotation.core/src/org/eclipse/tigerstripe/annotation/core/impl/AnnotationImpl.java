@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: AnnotationImpl.java,v 1.8 2010/05/17 06:29:32 ystrot Exp $
+ * $Id: AnnotationImpl.java,v 1.9 2011/10/19 06:20:01 asalnik Exp $
  */
 package org.eclipse.tigerstripe.annotation.core.impl;
 
@@ -338,8 +338,6 @@ public class AnnotationImpl extends EObjectImpl implements Annotation {
 	public boolean equals(Object obj) {
 		if (obj instanceof Annotation) {
 			Annotation ann = (Annotation) obj;
-			if (ann == null)
-				return false;
 			return equals(ann.getId(), getId());
 		}
 		return false;
