@@ -337,7 +337,7 @@ public class AttributeInfoEditComponent {
 
 	private void updateButtonsState() {
 		setSilentUpdate(true);
-		Type fieldType = (Type) field.getType();
+		IType fieldType = field.getType();
 		if (fieldType.isEntityType()) {
 			if (refByKeyButton != null)
 				refByKeyButton.setEnabled(!isReadOnly);
