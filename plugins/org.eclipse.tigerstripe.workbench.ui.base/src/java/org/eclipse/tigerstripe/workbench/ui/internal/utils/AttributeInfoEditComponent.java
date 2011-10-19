@@ -535,7 +535,7 @@ public class AttributeInfoEditComponent {
 	private void updateDefaultValueCombo() {
 		// Update the default value control based on the field type
 		if (field.getType() != null) {
-			Type type = (Type) field.getType();
+			IType type = field.getType();
 			IAbstractArtifact art = type.getArtifact();
 			if (art instanceof IEnumArtifact) {
 				IEnumArtifact enumArt = (IEnumArtifact) art;
