@@ -34,8 +34,7 @@
         </os>
         -->
         <property>
-          <name>skip.tests</name>
-          <value>!true</value>
+          <name>!skipTests</name>
         </property>
       </activation>
       <modules>
