@@ -72,6 +72,7 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 	
 	private final ResourceSetListener resourceSetListener = new ResourceSetListenerImpl(){
 		
+		@Override
 		public void resourceSetChanged(ResourceSetChangeEvent event) {
 			InternalTransaction currentTransaction = (InternalTransaction) event.getTransaction();
 			InternalTransaction rootTransaction = currentTransaction.getRoot();
@@ -384,7 +385,7 @@ public class Storage implements IResourceChangeListener, ISchedulingRule,
 				return o2 == null ? 0 : 1;
 			}
 			URI uri1 = o1.getURI();
-			URI uri2 = o1.getURI();
+			URI uri2 = o2.getURI();
 			if (uri1 == null) {
 				return uri2 == null ? 0 : 1;
 			}
