@@ -14,6 +14,7 @@ import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -45,7 +46,8 @@ public abstract class ArtifactSectionPart extends TigerstripeSectionPart {
 	}
 
 	protected boolean isReadonly() {
-		return getIArtifact().isReadonly();
+		return getIArtifact().isReadonly()
+				|| getIArtifact() instanceof IContextProjectAware;
 	}
 
 	protected IAbstractArtifact getIArtifact() {

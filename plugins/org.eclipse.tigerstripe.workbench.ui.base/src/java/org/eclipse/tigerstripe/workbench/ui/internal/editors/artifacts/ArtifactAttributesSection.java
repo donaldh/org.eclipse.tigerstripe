@@ -360,7 +360,7 @@ public class ArtifactAttributesSection extends ModelComponentSectionPart
 				SWT.PUSH);
 		// Support for testing
 		addAttributeButton.setData("name", "Add_Attribute");
-		addAttributeButton.setEnabled(!getIArtifact().isReadonly());
+		addAttributeButton.setEnabled(!isReadonly());
 		addAttributeButton.setLayoutData(new GridData(
 				GridData.HORIZONTAL_ALIGN_FILL
 						| GridData.VERTICAL_ALIGN_BEGINNING));
@@ -375,7 +375,7 @@ public class ArtifactAttributesSection extends ModelComponentSectionPart
 		});
 
 		upAttributeButton = toolkit.createButton(sectionClient, "Up", SWT.PUSH);
-		upAttributeButton.setEnabled(!getIArtifact().isReadonly());
+		upAttributeButton.setEnabled(!isReadonly());
 		upAttributeButton.setLayoutData(new GridData(
 				GridData.HORIZONTAL_ALIGN_FILL
 						| GridData.VERTICAL_ALIGN_BEGINNING));
@@ -391,7 +391,7 @@ public class ArtifactAttributesSection extends ModelComponentSectionPart
 
 		downAttributeButton = toolkit.createButton(sectionClient, "Down",
 				SWT.PUSH);
-		downAttributeButton.setEnabled(!getIArtifact().isReadonly());
+		downAttributeButton.setEnabled(!isReadonly());
 		downAttributeButton.setLayoutData(new GridData(
 				GridData.HORIZONTAL_ALIGN_FILL
 						| GridData.VERTICAL_ALIGN_BEGINNING));
@@ -410,7 +410,7 @@ public class ArtifactAttributesSection extends ModelComponentSectionPart
 		// Support for testing
 		removeAttributeButton.setData("name", "Remove_Attribute");
 
-		removeAttributeButton.setEnabled(!getIArtifact().isReadonly());
+		removeAttributeButton.setEnabled(!isReadonly());
 		removeAttributeButton.setLayoutData(new GridData(
 				GridData.HORIZONTAL_ALIGN_FILL
 						| GridData.VERTICAL_ALIGN_BEGINNING));
@@ -538,7 +538,7 @@ public class ArtifactAttributesSection extends ModelComponentSectionPart
 
 	protected void registerPages(DetailsPart detailsPart) {
 		IDetailsPage detailsPage = new ArtifactAttributeDetailsPage(this,
-				getIArtifact().isReadonly());
+				isReadonly());
 		registerDetailsPage(detailsPart, detailsPage, IField.class);
 	}
 
@@ -661,7 +661,7 @@ public class ArtifactAttributesSection extends ModelComponentSectionPart
 
 		TableItem[] selection = viewer.getTable().getSelection();
 
-		boolean readonly = getIArtifact().isReadonly();
+		boolean readonly = isReadonly();
 		boolean empty = selection.length == 0;
 		boolean onlyNative = onlyNative(selection);
 

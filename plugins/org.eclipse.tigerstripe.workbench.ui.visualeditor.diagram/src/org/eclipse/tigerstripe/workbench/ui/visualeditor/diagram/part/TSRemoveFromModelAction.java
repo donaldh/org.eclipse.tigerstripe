@@ -34,6 +34,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.re
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.ILiteralRemoveRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.request.IMethodRemoveRequest;
 import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceListener;
+import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
@@ -68,7 +69,8 @@ public class TSRemoveFromModelAction extends BaseDiagramPartAction implements
 				// dependency
 				// modules.
 				if (artifact != null) {
-					if (artifact.isReadonly())
+					if (artifact.isReadonly()
+							|| artifact instanceof IContextProjectAware)
 						allReadable = false;
 				}
 			}

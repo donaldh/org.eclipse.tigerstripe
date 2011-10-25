@@ -234,45 +234,43 @@ public class AssociationSpecificsSection extends EndSection {
 		aEndClient.setLayout(layout);
 		aEndClient.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
-		toolkit.createLabel(aEndClient, "Name:").setEnabled(
-				!getIArtifact().isReadonly());
+		toolkit.createLabel(aEndClient, "Name:").setEnabled(!isReadonly());
 		aEndNameText = toolkit.createText(aEndClient, "");
 		aEndNameText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
-		aEndNameText.setEnabled(!getIArtifact().isReadonly());
+		aEndNameText.setEnabled(!isReadonly());
 		aEndNameText.addModifyListener(listener);
 
 		toolkit.createLabel(aEndClient, "Description:").setEnabled(
-				!getIArtifact().isReadonly());
+				!isReadonly());
 		aEndCommentText = toolkit.createText(aEndClient, "", SWT.WRAP
 				| SWT.MULTI | SWT.V_SCROLL);
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		td.heightHint = 70;
 		aEndCommentText.setLayoutData(td);
-		aEndCommentText.setEnabled(!getIArtifact().isReadonly());
+		aEndCommentText.setEnabled(!isReadonly());
 		aEndCommentText.addModifyListener(listener);
 
-		toolkit.createLabel(aEndClient, "Type:").setEnabled(
-				!getIArtifact().isReadonly());
+		toolkit.createLabel(aEndClient, "Type:").setEnabled(!isReadonly());
 		Composite c = toolkit.createComposite(aEndClient);
 		c.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		layout = TigerstripeLayoutFactory.createFormPaneTableWrapLayout(2,
 				false);
 		c.setLayout(layout);
 		aEndTypeText = toolkit.createText(c, "");
-		aEndTypeText.setEnabled(!getIArtifact().isReadonly());
+		aEndTypeText.setEnabled(!isReadonly());
 		aEndTypeText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		aEndTypeText.addModifyListener(listener);
 		aEndTypeText.addKeyListener(listener);
 		aEndTypeBrowseButton = toolkit.createButton(c, "Browse", SWT.PUSH);
-		aEndTypeBrowseButton.setEnabled(!getIArtifact().isReadonly());
+		aEndTypeBrowseButton.setEnabled(!isReadonly());
 		aEndTypeBrowseButton.addSelectionListener(listener);
 
 		toolkit.createLabel(aEndClient, "Multiplicity").setEnabled(
-				!getIArtifact().isReadonly());
+				!isReadonly());
 		aEndMultiplicityCombo = new CCombo(aEndClient, SWT.SINGLE
 				| SWT.READ_ONLY | SWT.FLAT | SWT.BORDER);
 		aEndMultiplicityCombo.setItems(mulStrs);
-		aEndMultiplicityCombo.setEnabled(!getIArtifact().isReadonly());
+		aEndMultiplicityCombo.setEnabled(!isReadonly());
 		aEndMultiplicityCombo.addSelectionListener(listener);
 		aEndMultiplicityCombo.setVisibleItemCount(IModelComponent.EMultiplicity
 				.values().length);
@@ -281,60 +279,60 @@ public class AssociationSpecificsSection extends EndSection {
 		toolkit.adapt(this.aEndMultiplicityCombo, true, true);
 
 		toolkit.createLabel(aEndClient, "Visibility: ").setEnabled(
-				!getIArtifact().isReadonly());
+				!isReadonly());
 		c = toolkit.createComposite(aEndClient);
-		c.setEnabled(!getIArtifact().isReadonly());
+		c.setEnabled(!isReadonly());
 		layout = TigerstripeLayoutFactory.createFormPaneTableWrapLayout(4,
 				false);
 		c.setLayout(layout);
 		c.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		aEndPublicButton = toolkit.createButton(c, "Public", SWT.RADIO);
-		aEndPublicButton.setEnabled(!getIArtifact().isReadonly());
+		aEndPublicButton.setEnabled(!isReadonly());
 		aEndPublicButton.addSelectionListener(listener);
 		aEndProtectedButton = toolkit.createButton(c, "Protected", SWT.RADIO);
-		aEndProtectedButton.setEnabled(!getIArtifact().isReadonly());
+		aEndProtectedButton.setEnabled(!isReadonly());
 		aEndProtectedButton.addSelectionListener(listener);
 		aEndPrivateButton = toolkit.createButton(c, "Private", SWT.RADIO);
-		aEndPrivateButton.setEnabled(!getIArtifact().isReadonly());
+		aEndPrivateButton.setEnabled(!isReadonly());
 		aEndPrivateButton.addSelectionListener(listener);
 		aEndPackageButton = toolkit.createButton(c, "Package", SWT.RADIO);
-		aEndPackageButton.setEnabled(!getIArtifact().isReadonly());
+		aEndPackageButton.setEnabled(!isReadonly());
 		aEndPackageButton.addSelectionListener(listener);
 
-		toolkit.createLabel(aEndClient, "Changeable:").setEnabled(
-				!getIArtifact().isReadonly());
+		toolkit.createLabel(aEndClient, "Changeable:")
+				.setEnabled(!isReadonly());
 		aEndChangeableCombo = new CCombo(aEndClient, SWT.SINGLE | SWT.READ_ONLY
 				| SWT.FLAT | SWT.BORDER);
 		aEndChangeableCombo.addSelectionListener(listener);
 		aEndChangeableCombo.setItems(chanStrs);
-		aEndChangeableCombo.setEnabled(!getIArtifact().isReadonly());
+		aEndChangeableCombo.setEnabled(!isReadonly());
 		aEndChangeableCombo.setLayoutData(new TableWrapData(
 				TableWrapData.FILL_GRAB));
 		toolkit.adapt(this.aEndChangeableCombo, true, true);
 
 		toolkit.createLabel(aEndClient, "Qualifiers:");
 		c = toolkit.createComposite(aEndClient);
-		c.setEnabled(!getIArtifact().isReadonly());
+		c.setEnabled(!isReadonly());
 		layout = TigerstripeLayoutFactory.createFormPaneTableWrapLayout(3,
 				false);
 		c.setLayout(layout);
 		c.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		aEndIsNavigableButton = toolkit.createButton(c, "isNavigable",
 				SWT.CHECK);
-		aEndIsNavigableButton.setEnabled(!getIArtifact().isReadonly());
+		aEndIsNavigableButton.setEnabled(!isReadonly());
 		aEndIsNavigableButton.addSelectionListener(listener);
 		aEndIsOrderedButton = toolkit.createButton(c, "isOrdered", SWT.CHECK);
-		aEndIsOrderedButton.setEnabled(!getIArtifact().isReadonly());
+		aEndIsOrderedButton.setEnabled(!isReadonly());
 		aEndIsOrderedButton.addSelectionListener(listener);
 		aEndIsUniqueButton = toolkit.createButton(c, "isUnique", SWT.CHECK);
-		aEndIsUniqueButton.setEnabled(!getIArtifact().isReadonly());
+		aEndIsUniqueButton.setEnabled(!isReadonly());
 		aEndIsUniqueButton.addSelectionListener(listener);
 
 		toolkit.createLabel(aEndClient, "Aggregation:").setEnabled(
-				!getIArtifact().isReadonly());
+				!isReadonly());
 		aEndAggregationCombo = new CCombo(aEndClient, SWT.SINGLE
 				| SWT.READ_ONLY | SWT.FLAT | SWT.BORDER);
-		aEndAggregationCombo.setEnabled(!getIArtifact().isReadonly());
+		aEndAggregationCombo.setEnabled(!isReadonly());
 		aEndAggregationCombo.addSelectionListener(listener);
 		aEndAggregationCombo.setItems(aggrStrs);
 		aEndAggregationCombo.setLayoutData(new TableWrapData(
@@ -360,19 +358,19 @@ public class AssociationSpecificsSection extends EndSection {
 
 		aAddAnno = toolkit.createButton(c, "Add", SWT.PUSH);
 		aAddAnno.setData("name", "Add_Stereo_Assoc_A");
-		aAddAnno.setEnabled(!getIArtifact().isReadonly());
+		aAddAnno.setEnabled(!isReadonly());
 		aAddAnno.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL
 				| GridData.VERTICAL_ALIGN_BEGINNING));
 
 		aEditAnno = toolkit.createButton(c, "Edit", SWT.PUSH);
 		aEditAnno.setData("name", "Edit_Stereo_Assoc_A");
-		aEditAnno.setEnabled(!getIArtifact().isReadonly());
+		aEditAnno.setEnabled(!isReadonly());
 		aEditAnno.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL
 				| GridData.VERTICAL_ALIGN_BEGINNING));
 
 		aRemoveAnno = toolkit.createButton(c, "Remove", SWT.PUSH);
 		aRemoveAnno.setData("name", "Remove_Stereo_Assoc_A");
-		aRemoveAnno.setEnabled(!getIArtifact().isReadonly());
+		aRemoveAnno.setEnabled(!isReadonly());
 		aRemoveAnno.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL
 				| GridData.VERTICAL_ALIGN_BEGINNING));
 
@@ -403,44 +401,42 @@ public class AssociationSpecificsSection extends EndSection {
 		zEndClient.setLayout(layout);
 		zEndClient.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
-		toolkit.createLabel(zEndClient, "Name:").setEnabled(
-				!getIArtifact().isReadonly());
+		toolkit.createLabel(zEndClient, "Name:").setEnabled(!isReadonly());
 		zEndNameText = toolkit.createText(zEndClient, "");
-		zEndNameText.setEnabled(!getIArtifact().isReadonly());
+		zEndNameText.setEnabled(!isReadonly());
 		zEndNameText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		zEndNameText.addModifyListener(listener);
 
 		toolkit.createLabel(zEndClient, "Description:").setEnabled(
-				!getIArtifact().isReadonly());
+				!isReadonly());
 		zEndCommentText = toolkit.createText(zEndClient, "", SWT.WRAP
 				| SWT.MULTI | SWT.V_SCROLL);
 		td = new TableWrapData(TableWrapData.FILL_GRAB);
 		td.heightHint = 70;
 		zEndCommentText.setLayoutData(td);
-		zEndCommentText.setEnabled(!getIArtifact().isReadonly());
+		zEndCommentText.setEnabled(!isReadonly());
 		zEndCommentText.addModifyListener(listener);
 
-		toolkit.createLabel(zEndClient, "Type").setEnabled(
-				!getIArtifact().isReadonly());
+		toolkit.createLabel(zEndClient, "Type").setEnabled(!isReadonly());
 		Composite c = toolkit.createComposite(zEndClient);
 		c.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		layout = TigerstripeLayoutFactory.createFormPaneTableWrapLayout(2,
 				false);
 		c.setLayout(layout);
 		zEndTypeText = toolkit.createText(c, "");
-		zEndTypeText.setEnabled(!getIArtifact().isReadonly());
+		zEndTypeText.setEnabled(!isReadonly());
 		zEndTypeText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		zEndTypeText.addModifyListener(listener);
 		zEndTypeText.addKeyListener(listener);
 		zEndTypeBrowseButton = toolkit.createButton(c, "Browse", SWT.PUSH);
-		zEndTypeBrowseButton.setEnabled(!getIArtifact().isReadonly());
+		zEndTypeBrowseButton.setEnabled(!isReadonly());
 		zEndTypeBrowseButton.addSelectionListener(listener);
 
 		toolkit.createLabel(zEndClient, "Multiplicity").setEnabled(
-				!getIArtifact().isReadonly());
+				!isReadonly());
 		zEndMultiplicityCombo = new CCombo(zEndClient, SWT.SINGLE
 				| SWT.READ_ONLY | SWT.FLAT | SWT.BORDER);
-		zEndMultiplicityCombo.setEnabled(!getIArtifact().isReadonly());
+		zEndMultiplicityCombo.setEnabled(!isReadonly());
 		zEndMultiplicityCombo.addSelectionListener(listener);
 		zEndMultiplicityCombo.setItems(mulStrs);
 		zEndMultiplicityCombo.setVisibleItemCount(IModelComponent.EMultiplicity
@@ -450,31 +446,30 @@ public class AssociationSpecificsSection extends EndSection {
 		toolkit.adapt(this.zEndMultiplicityCombo, true, true);
 
 		toolkit.createLabel(zEndClient, "Visibility: ").setEnabled(
-				!getIArtifact().isReadonly());
+				!isReadonly());
 		c = toolkit.createComposite(zEndClient);
-		c.setEnabled(!getIArtifact().isReadonly());
+		c.setEnabled(!isReadonly());
 		layout = TigerstripeLayoutFactory.createFormPaneTableWrapLayout(4,
 				false);
 		c.setLayout(layout);
 		c.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		zEndPublicButton = toolkit.createButton(c, "Public", SWT.RADIO);
-		zEndPublicButton.setEnabled(!getIArtifact().isReadonly());
+		zEndPublicButton.setEnabled(!isReadonly());
 		zEndPublicButton.addSelectionListener(listener);
 		zEndProtectedButton = toolkit.createButton(c, "Protected", SWT.RADIO);
-		zEndProtectedButton.setEnabled(!getIArtifact().isReadonly());
+		zEndProtectedButton.setEnabled(!isReadonly());
 		zEndProtectedButton.addSelectionListener(listener);
 		zEndPrivateButton = toolkit.createButton(c, "Private", SWT.RADIO);
-		zEndPrivateButton.setEnabled(!getIArtifact().isReadonly());
+		zEndPrivateButton.setEnabled(!isReadonly());
 		zEndPrivateButton.addSelectionListener(listener);
 		zEndPackageButton = toolkit.createButton(c, "Package", SWT.RADIO);
-		zEndPackageButton.setEnabled(!getIArtifact().isReadonly());
+		zEndPackageButton.setEnabled(!isReadonly());
 		zEndPackageButton.addSelectionListener(listener);
 
-		toolkit.createLabel(zEndClient, "Changeable").setEnabled(
-				!getIArtifact().isReadonly());
+		toolkit.createLabel(zEndClient, "Changeable").setEnabled(!isReadonly());
 		zEndChangeableCombo = new CCombo(zEndClient, SWT.SINGLE | SWT.READ_ONLY
 				| SWT.FLAT | SWT.BORDER);
-		zEndChangeableCombo.setEnabled(!getIArtifact().isReadonly());
+		zEndChangeableCombo.setEnabled(!isReadonly());
 		zEndChangeableCombo.addSelectionListener(listener);
 		zEndChangeableCombo.setItems(chanStrs);
 		zEndChangeableCombo.setLayoutData(new TableWrapData(
@@ -483,27 +478,27 @@ public class AssociationSpecificsSection extends EndSection {
 
 		toolkit.createLabel(zEndClient, "Qualifiers: ");
 		c = toolkit.createComposite(zEndClient);
-		c.setEnabled(!getIArtifact().isReadonly());
+		c.setEnabled(!isReadonly());
 		layout = TigerstripeLayoutFactory.createFormPaneTableWrapLayout(3,
 				false);
 		c.setLayout(layout);
 		c.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		zEndIsNavigableButton = toolkit.createButton(c, "isNavigable",
 				SWT.CHECK);
-		zEndIsNavigableButton.setEnabled(!getIArtifact().isReadonly());
+		zEndIsNavigableButton.setEnabled(!isReadonly());
 		zEndIsNavigableButton.addSelectionListener(listener);
 		zEndIsOrderedButton = toolkit.createButton(c, "isOrdered", SWT.CHECK);
-		zEndIsOrderedButton.setEnabled(!getIArtifact().isReadonly());
+		zEndIsOrderedButton.setEnabled(!isReadonly());
 		zEndIsOrderedButton.addSelectionListener(listener);
 		zEndIsUniqueButton = toolkit.createButton(c, "isUnique", SWT.CHECK);
-		zEndIsUniqueButton.setEnabled(!getIArtifact().isReadonly());
+		zEndIsUniqueButton.setEnabled(!isReadonly());
 		zEndIsUniqueButton.addSelectionListener(listener);
 
-		toolkit.createLabel(zEndClient, "Aggregation").setEnabled(
-				!getIArtifact().isReadonly());
+		toolkit.createLabel(zEndClient, "Aggregation")
+				.setEnabled(!isReadonly());
 		zEndAggregationCombo = new CCombo(zEndClient, SWT.SINGLE
 				| SWT.READ_ONLY | SWT.FLAT | SWT.BORDER);
-		zEndAggregationCombo.setEnabled(!getIArtifact().isReadonly());
+		zEndAggregationCombo.setEnabled(!isReadonly());
 		zEndAggregationCombo.addSelectionListener(listener);
 		zEndAggregationCombo.setItems(aggrStrs);
 		zEndAggregationCombo.setLayoutData(new TableWrapData(
@@ -527,19 +522,19 @@ public class AssociationSpecificsSection extends EndSection {
 
 		zAddAnno = toolkit.createButton(c, "Add", SWT.PUSH);
 		zAddAnno.setData("name", "Add_Stereo_Assoc_A");
-		zAddAnno.setEnabled(!getIArtifact().isReadonly());
+		zAddAnno.setEnabled(!isReadonly());
 		zAddAnno.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL
 				| GridData.VERTICAL_ALIGN_BEGINNING));
 
 		zEditAnno = toolkit.createButton(c, "Edit", SWT.PUSH);
 		zEditAnno.setData("name", "Edit_Stereo_Assoc_A");
-		zEditAnno.setEnabled(!getIArtifact().isReadonly());
+		zEditAnno.setEnabled(!isReadonly());
 		zEditAnno.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL
 				| GridData.VERTICAL_ALIGN_BEGINNING));
 
 		zRemoveAnno = toolkit.createButton(c, "Remove", SWT.PUSH);
 		zRemoveAnno.setData("name", "Remove_Stereo_Assoc_Z");
-		zRemoveAnno.setEnabled(!getIArtifact().isReadonly());
+		zRemoveAnno.setEnabled(!isReadonly());
 		zRemoveAnno.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_FILL
 				| GridData.VERTICAL_ALIGN_BEGINNING));
 

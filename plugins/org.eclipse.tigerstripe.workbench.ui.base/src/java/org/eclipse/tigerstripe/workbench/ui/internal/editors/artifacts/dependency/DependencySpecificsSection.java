@@ -128,16 +128,15 @@ public class DependencySpecificsSection extends EndSection {
 		aEndClient.setLayout(layout);
 		aEndClient.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
-		toolkit.createLabel(aEndClient, "Type:").setEnabled(
-				!getIArtifact().isReadonly());
+		toolkit.createLabel(aEndClient, "Type:").setEnabled(!isReadonly());
 		aEndTypeText = toolkit.createText(aEndClient, "");
-		aEndTypeText.setEnabled(!getIArtifact().isReadonly());
+		aEndTypeText.setEnabled(!isReadonly());
 		aEndTypeText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		aEndTypeText.addModifyListener(listener);
 		aEndTypeText.addKeyListener(listener);
 		aEndTypeBrowseButton = toolkit.createButton(aEndClient, "Browse",
 				SWT.PUSH);
-		aEndTypeBrowseButton.setEnabled(!getIArtifact().isReadonly());
+		aEndTypeBrowseButton.setEnabled(!isReadonly());
 		aEndTypeBrowseButton.addSelectionListener(listener);
 
 		aEndTypeText.setData("name", "aEndTypeText");
@@ -159,16 +158,15 @@ public class DependencySpecificsSection extends EndSection {
 		zEndClient.setLayout(layout);
 		zEndClient.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 
-		toolkit.createLabel(zEndClient, "Type:").setEnabled(
-				!getIArtifact().isReadonly());
+		toolkit.createLabel(zEndClient, "Type:").setEnabled(!isReadonly());
 		zEndTypeText = toolkit.createText(zEndClient, "");
-		zEndTypeText.setEnabled(!getIArtifact().isReadonly());
+		zEndTypeText.setEnabled(!isReadonly());
 		zEndTypeText.setLayoutData(new TableWrapData(TableWrapData.FILL_GRAB));
 		zEndTypeText.addModifyListener(listener);
 		zEndTypeText.addKeyListener(listener);
 		zEndTypeBrowseButton = toolkit.createButton(zEndClient, "Browse",
 				SWT.PUSH);
-		zEndTypeBrowseButton.setEnabled(!getIArtifact().isReadonly());
+		zEndTypeBrowseButton.setEnabled(!isReadonly());
 		zEndTypeBrowseButton.addSelectionListener(listener);
 
 		zEndTypeText.setData("name", "zEndTypeText");
@@ -291,8 +289,8 @@ public class DependencySpecificsSection extends EndSection {
 
 	protected String browseButtonPressed() {
 		BrowseForArtifactDialog dialog = new BrowseForArtifactDialog(
-				getIArtifact().getTigerstripeProject(), DependencyArtifact
-						.getSuitableTypes());
+				getIArtifact().getTigerstripeProject(),
+				DependencyArtifact.getSuitableTypes());
 		dialog.setTitle(ArtifactMetadataFactory.INSTANCE.getMetadata(
 				IDependencyArtifactImpl.class.getName()).getLabel(null)
 				+ " End Type");

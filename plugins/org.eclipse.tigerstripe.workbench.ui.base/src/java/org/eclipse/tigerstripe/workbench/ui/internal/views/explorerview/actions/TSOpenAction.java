@@ -31,6 +31,7 @@ import org.eclipse.tigerstripe.workbench.IElementWrapper;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.core.model.DependencyArtifact.DependencyEnd;
 import org.eclipse.tigerstripe.workbench.internal.core.model.PackageArtifact;
+import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationClassArtifact;
@@ -64,6 +65,7 @@ import org.eclipse.tigerstripe.workbench.ui.internal.utils.TigerstripeLog;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.RelationshipAnchor;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TSExplorerUtils;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode;
+import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.IWorkbenchSite;
@@ -109,167 +111,82 @@ public class TSOpenAction extends OpenAction {
 		super(site);
 	}
 
+	public static String getEditorIdForArtifact(IAbstractArtifact artifact) {
+		if (artifact instanceof IManagedEntityArtifact) {
+			return ENTITY_EDITOR;
+		} else if (artifact instanceof IExceptionArtifact) {
+			return EXCEPTION_EDITOR;
+		} else if (artifact instanceof IQueryArtifact) {
+			return QUERY_EDITOR;
+		} else if (artifact instanceof IEventArtifact) {
+			return EVENT_EDITOR;
+		} else if (artifact instanceof IDatatypeArtifact) {
+			return DATATYPE_EDITOR;
+		} else if (artifact instanceof ISessionArtifact) {
+			return SESSION_EDITOR;
+		} else if (artifact instanceof IEnumArtifact) {
+			return ENUM_EDITOR;
+		} else if (artifact instanceof IUpdateProcedureArtifact) {
+			return UPDATEPROC_EDITOR;
+		} else if (artifact instanceof IAssociationClassArtifact) {
+			return ASSOCIATIONCLASS_EDITOR;
+		} else if (artifact instanceof IAssociationArtifact) {
+			return ASSOCIATION_EDITOR;
+		} else if (artifact instanceof IDependencyArtifact) {
+			return DEPENDENCY_EDITOR;
+		} else if (artifact instanceof IPackageArtifact) {
+			return PACKAGE_EDITOR;
+		}
+		return null;
+	}
+
+	private static boolean isReadOnly(IAbstractArtifact artifact) {
+		if (artifact.isReadonly() || artifact instanceof IContextProjectAware) {
+			return true;
+		}
+		return false;
+	}
+
 	public static IEditorPart openEditor(Object element, IWorkbenchPage page) {
 		try {
-			if (element instanceof IElementWrapper) {
-				return openEditor(((IElementWrapper) element), page);
-			} else if (element instanceof IManagedEntityArtifact) {
-
-				if (((IAbstractArtifact) element).isReadonly()) {
-					ReadOnlyArtifactEditorInput input = new ReadOnlyArtifactEditorInput(
-							null, (IAbstractArtifact) element);
-					return page.openEditor(input, ENTITY_EDITOR);
-				} else {
-					IResource iResource = (IResource) ((IAbstractArtifact) element)
-							.getAdapter(IResource.class);
-					return page.openEditor(new FileEditorInput(
-							(IFile) iResource), ENTITY_EDITOR);
-				}
-			} else if (element instanceof IExceptionArtifact) {
-				if (((IAbstractArtifact) element).isReadonly()) {
-					ReadOnlyArtifactEditorInput input = new ReadOnlyArtifactEditorInput(
-							null, (IAbstractArtifact) element);
-					return page.openEditor(input, EXCEPTION_EDITOR);
-				} else {
-					IResource iResource = (IResource) ((IAbstractArtifact) element)
-							.getAdapter(IResource.class);
-					return page.openEditor(new FileEditorInput(
-							(IFile) iResource), EXCEPTION_EDITOR);
-				}
-			} else if (element instanceof IQueryArtifact) {
-				if (((IAbstractArtifact) element).isReadonly()) {
-					ReadOnlyArtifactEditorInput input = new ReadOnlyArtifactEditorInput(
-							null, (IAbstractArtifact) element);
-					return page.openEditor(input, QUERY_EDITOR);
-				} else {
-					IResource iResource = (IResource) ((IAbstractArtifact) element)
-							.getAdapter(IResource.class);
-					return page.openEditor(new FileEditorInput(
-							(IFile) iResource), QUERY_EDITOR);
-				}
-			} else if (element instanceof IEventArtifact) {
-				if (((IAbstractArtifact) element).isReadonly()) {
-					ReadOnlyArtifactEditorInput input = new ReadOnlyArtifactEditorInput(
-							null, (IAbstractArtifact) element);
-					return page.openEditor(input, EVENT_EDITOR);
-				} else {
-					IResource iResource = (IResource) ((IAbstractArtifact) element)
-							.getAdapter(IResource.class);
-					return page.openEditor(new FileEditorInput(
-							(IFile) iResource), EVENT_EDITOR);
-				}
-			} else if (element instanceof IDatatypeArtifact) {
-				if (((IAbstractArtifact) element).isReadonly()) {
-					ReadOnlyArtifactEditorInput input = new ReadOnlyArtifactEditorInput(
-							null, (IAbstractArtifact) element);
-					return page.openEditor(input, DATATYPE_EDITOR);
-				} else {
-					IResource iResource = (IResource) ((IAbstractArtifact) element)
-							.getAdapter(IResource.class);
-					return page.openEditor(new FileEditorInput(
-							(IFile) iResource), DATATYPE_EDITOR);
-				}
-			} else if (element instanceof ISessionArtifact) {
-				if (((IAbstractArtifact) element).isReadonly()) {
-					ReadOnlyArtifactEditorInput input = new ReadOnlyArtifactEditorInput(
-							null, (IAbstractArtifact) element);
-					return page.openEditor(input, SESSION_EDITOR);
-				} else {
-					IResource iResource = (IResource) ((IAbstractArtifact) element)
-							.getAdapter(IResource.class);
-					return page.openEditor(new FileEditorInput(
-							(IFile) iResource), SESSION_EDITOR);
-				}
-			} else if (element instanceof IEnumArtifact) {
-				if (((IAbstractArtifact) element).isReadonly()) {
-					ReadOnlyArtifactEditorInput input = new ReadOnlyArtifactEditorInput(
-							null, (IAbstractArtifact) element);
-					return page.openEditor(input, ENUM_EDITOR);
-				} else {
-					IResource iResource = (IResource) ((IAbstractArtifact) element)
-							.getAdapter(IResource.class);
-					return page.openEditor(new FileEditorInput(
-							(IFile) iResource), ENUM_EDITOR);
-				}
-			} else if (element instanceof IUpdateProcedureArtifact) {
-				if (((IAbstractArtifact) element).isReadonly()) {
-					ReadOnlyArtifactEditorInput input = new ReadOnlyArtifactEditorInput(
-							null, (IAbstractArtifact) element);
-					return page.openEditor(input, UPDATEPROC_EDITOR);
-				} else {
-					IResource iResource = (IResource) ((IAbstractArtifact) element)
-							.getAdapter(IResource.class);
-					return page.openEditor(new FileEditorInput(
-							(IFile) iResource), UPDATEPROC_EDITOR);
-				}
-			} else if (element instanceof IAssociationClassArtifact) {
-				// because AssociationClassArtifact is-a AssociationArtifact
-				// we must check for AssociationClass first... in that order!
-				if (((IAbstractArtifact) element).isReadonly()) {
-					ReadOnlyArtifactEditorInput input = new ReadOnlyArtifactEditorInput(
-							null, (IAbstractArtifact) element);
-					return page.openEditor(input, ASSOCIATIONCLASS_EDITOR);
-				} else {
-					IResource iResource = (IResource) ((IAbstractArtifact) element)
-							.getAdapter(IResource.class);
-					return page.openEditor(new FileEditorInput(
-							(IFile) iResource), ASSOCIATIONCLASS_EDITOR);
-				}
-			} else if (element instanceof IAssociationArtifact) {
-				if (((IAbstractArtifact) element).isReadonly()) {
-					ReadOnlyArtifactEditorInput input = new ReadOnlyArtifactEditorInput(
-							null, (IAbstractArtifact) element);
-					return page.openEditor(input, ASSOCIATION_EDITOR);
-				} else {
-					IResource iResource = (IResource) ((IAbstractArtifact) element)
-							.getAdapter(IResource.class);
-					return page.openEditor(new FileEditorInput(
-							(IFile) iResource), ASSOCIATION_EDITOR);
-				}
-			} else if (element instanceof IDependencyArtifact) {
-				if (((IAbstractArtifact) element).isReadonly()) {
-					ReadOnlyArtifactEditorInput input = new ReadOnlyArtifactEditorInput(
-							null, (IAbstractArtifact) element);
-					return page.openEditor(input, DEPENDENCY_EDITOR);
-				} else {
-					IResource iResource = (IResource) ((IAbstractArtifact) element)
-							.getAdapter(IResource.class);
-					return page.openEditor(new FileEditorInput(
-							(IFile) iResource), DEPENDENCY_EDITOR);
-				}
-			} else if (element instanceof IPackageArtifact) {
-				if (((IAbstractArtifact) element).isReadonly()) {
-					ReadOnlyArtifactEditorInput input = new ReadOnlyArtifactEditorInput(
-							null, (IAbstractArtifact) element);
-					return page.openEditor(input, PACKAGE_EDITOR);
-				} else {
-					IResource iResource = (IResource) ((IAbstractArtifact) element)
-							.getAdapter(IResource.class);
-					if (iResource == null) {
-						// This was a volatile Package created on the fly!
-						// we need to do a proper create now
-						try {
-							ITigerstripeModelProject project = ((IAbstractArtifact) element)
-									.getProject();
-							IPackageArtifact artifact = PackageArtifact
-									.makeArtifactForPackage(project
-											.getArtifactManagerSession(),
-											((IAbstractArtifact) element)
-													.getFullyQualifiedName());
-							iResource = (IResource) artifact
-									.getAdapter(IResource.class);
-						} catch (Exception e) {
-							TigerstripeLog
-									.logError(
-											"Could not extract or create package artifact",
-											e);
+			if (element instanceof IAbstractArtifact) {
+				IAbstractArtifact artifact = (IAbstractArtifact) element;
+				String editorId = getEditorIdForArtifact(artifact);
+				if (editorId != null) {
+					IEditorInput input = null;
+					if (isReadOnly(artifact)) {
+						input = new ReadOnlyArtifactEditorInput(null, artifact);
+					} else {
+						IResource iResource = (IResource) artifact
+								.getAdapter(IResource.class);
+						if (artifact instanceof IPackageArtifact
+								&& iResource == null) {
+							// This was a volatile Package created on the fly!
+							// we need to do a proper create now
+							try {
+								ITigerstripeModelProject project = ((IAbstractArtifact) element)
+										.getProject();
+								IPackageArtifact packageArtifact = PackageArtifact
+										.makeArtifactForPackage(
+												project.getArtifactManagerSession(),
+												((IAbstractArtifact) element)
+														.getFullyQualifiedName());
+								iResource = (IResource) packageArtifact
+										.getAdapter(IResource.class);
+							} catch (Exception e) {
+								TigerstripeLog
+										.logError(
+												"Could not extract or create package artifact",
+												e);
+							}
 						}
+						input = new FileEditorInput((IFile) iResource);
 					}
-					return page.openEditor(new FileEditorInput(
-							(IFile) iResource), PACKAGE_EDITOR);
+					return page.openEditor(input, editorId);
 				}
+			}
 
-			} else if (element instanceof IStorage
+			if (element instanceof IStorage
 					&& ITigerstripeConstants.PROJECT_DESCRIPTOR
 							.equals(((IStorage) element).getName())) {
 				if (element instanceof JarEntryFile) {

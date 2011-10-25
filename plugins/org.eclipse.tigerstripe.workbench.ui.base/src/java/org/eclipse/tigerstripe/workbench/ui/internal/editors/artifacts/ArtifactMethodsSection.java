@@ -363,7 +363,7 @@ public class ArtifactMethodsSection extends ModelComponentSectionPart implements
 			}
 		});
 		upAttributeButton = toolkit.createButton(sectionClient, "Up", SWT.PUSH);
-		upAttributeButton.setEnabled(!getIArtifact().isReadonly());
+		upAttributeButton.setEnabled(!isReadonly());
 		upAttributeButton.setLayoutData(new GridData(
 				GridData.HORIZONTAL_ALIGN_FILL
 						| GridData.VERTICAL_ALIGN_BEGINNING));
@@ -397,7 +397,7 @@ public class ArtifactMethodsSection extends ModelComponentSectionPart implements
 				SWT.PUSH);
 		// Support for testing
 		removeAttributeButton.setData("name", "Remove_Method");
-		removeAttributeButton.setEnabled(!getIArtifact().isReadonly());
+		removeAttributeButton.setEnabled(!isReadonly());
 		removeAttributeButton.setLayoutData(new GridData(
 				GridData.HORIZONTAL_ALIGN_FILL
 						| GridData.VERTICAL_ALIGN_BEGINNING));
@@ -517,7 +517,7 @@ public class ArtifactMethodsSection extends ModelComponentSectionPart implements
 
 	protected void registerPages(DetailsPart detailsPart) {
 		IDetailsPage detailsPage = new ArtifactMethodDetailsPage(this,
-				getIArtifact().isReadonly());
+				isReadonly());
 		registerDetailsPage(detailsPart, detailsPage, IMethod.class);
 	}
 
@@ -642,7 +642,7 @@ public class ArtifactMethodsSection extends ModelComponentSectionPart implements
 
 		TableItem[] selection = viewer.getTable().getSelection();
 
-		boolean readonly = getIArtifact().isReadonly();
+		boolean readonly = isReadonly();
 		boolean empty = selection.length == 0;
 		boolean onlyNative = onlyNative(selection);
 

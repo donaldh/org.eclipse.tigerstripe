@@ -47,6 +47,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListe
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
+import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
@@ -223,7 +224,8 @@ public abstract class ArtifactEditorBase extends TigerstripeFormEditor
 
 	protected void addSourcePage() throws PartInitException {
 
-		if ((getIArtifact() != null) && (!getIArtifact().isReadonly())) {
+		if ((getIArtifact() != null)
+				&& (!(getIArtifact().isReadonly() || getIArtifact() instanceof IContextProjectAware))) {
 			sourcePage = new ArtifactSourcePage(this, "id", "Source");
 
 			sourcePageIndex = addPage(sourcePage, getEditorInput());
