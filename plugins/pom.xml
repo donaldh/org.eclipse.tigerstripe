@@ -54,7 +54,7 @@
   	<module>org.eclipse.tigerstripe.workbench.ui.visualeditor.edit</module>
   	
   	<!-- Tests -->
-  	<!--<module>org.eclipse.tigerstripe.annotation.core.test</module>-->
+  	<module>org.eclipse.tigerstripe.annotation.core.test</module>
   	<module>org.eclipse.tigerstripe.metamodel.test</module>
   	<module>org.eclipse.tigerstripe.test_common</module>
   	<module>org.eclipse.tigerstripe.repository.core.test</module> 
