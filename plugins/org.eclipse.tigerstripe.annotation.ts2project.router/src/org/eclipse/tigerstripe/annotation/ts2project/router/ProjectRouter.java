@@ -19,6 +19,7 @@ import java.util.Map;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Path;
@@ -30,6 +31,7 @@ import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.espace.resources.core.EObjectRouter;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.diagram.IDiagram;
+import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
@@ -116,6 +118,17 @@ public class ProjectRouter implements EObjectRouter {
 				IDiagram diagram = (IDiagram) annotable;
 				IFile dFile = diagram.getDiagramFile();
 				project = adapt(dFile.getProject(), IProject.class);
+			}
+
+			// if project wasn't found and annotation is tigerstripe relative
+			// try to extract project from uri
+			if (project == null) {
+				URI uri = ann.getUri();
+				if (TigerstripeURIAdapterFactory.isRelated(uri)) {
+					String projectName = uri.segment(0);
+					project = ResourcesPlugin.getWorkspace().getRoot()
+							.getProject(projectName);
+				}
 			}
 
 			if (project == null) {
