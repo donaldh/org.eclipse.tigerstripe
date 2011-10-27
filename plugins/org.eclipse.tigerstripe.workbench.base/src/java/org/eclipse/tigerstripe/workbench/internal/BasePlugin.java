@@ -76,7 +76,7 @@ public class BasePlugin extends Plugin {
 					try {
 						final IAbstractTigerstripeProject tsProject = TigerstripeCore
 								.findProject(project);
-						if (tsProject instanceof ITigerstripeModelProject) {
+						if (tsProject != null && tsProject instanceof ITigerstripeModelProject) {
 							final ITigerstripeModelProject modelProject = (ITigerstripeModelProject) tsProject;
 							modelProject.getArtifactManagerSession().refresh(
 									null);
