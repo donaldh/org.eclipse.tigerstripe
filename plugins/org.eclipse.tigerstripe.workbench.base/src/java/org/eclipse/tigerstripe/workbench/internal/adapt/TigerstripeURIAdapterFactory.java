@@ -163,7 +163,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 			return null;
 
 		String fqn = path.lastSegment();
-		path = path.removeLastSegments(1);
+		//path = path.removeLastSegments(1);
 
 		String project = path.segments()[0];
 

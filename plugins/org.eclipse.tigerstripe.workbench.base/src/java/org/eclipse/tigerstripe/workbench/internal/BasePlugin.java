@@ -70,10 +70,10 @@ public class BasePlugin extends Plugin {
 			@Override
 			public IStatus runInWorkspace(IProgressMonitor monitor)
 					throws CoreException {
-				try {
-					monitor.beginTask(getName(), IProgressMonitor.UNKNOWN);
-					for (final IProject project : ResourcesPlugin
-							.getWorkspace().getRoot().getProjects()) {
+				monitor.beginTask(getName(), IProgressMonitor.UNKNOWN);
+				for (final IProject project : ResourcesPlugin.getWorkspace()
+						.getRoot().getProjects()) {
+					try {
 						final IAbstractTigerstripeProject tsProject = TigerstripeCore
 								.findProject(project);
 						if (tsProject instanceof ITigerstripeModelProject) {
@@ -81,12 +81,14 @@ public class BasePlugin extends Plugin {
 							modelProject.getArtifactManagerSession().refresh(
 									null);
 						}
+					} catch (TigerstripeException te) {
+						getLog().log(
+								new Status(IStatus.ERROR, PLUGIN_ID, te
+										.getMessage(), te));
 					}
-				} catch (TigerstripeException te) {
-					getLog().log(new Status(IStatus.ERROR, PLUGIN_ID, te.getMessage(), te));
-				} finally {
-					monitor.done();
 				}
+
+				monitor.done();
 				return Status.OK_STATUS;
 			}
 		}.schedule();

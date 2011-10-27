@@ -1009,9 +1009,8 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		IResource resource = findResourceForAnnotation(annotation);
 		IMarker marker = resource
 				.createMarker(BuilderConstants.ANNOTATION_MARKER_ID);
-		AnnotationType type = AnnotationPlugin.getManager().getType(annotation);
-		marker.setAttribute(IMarker.MESSAGE,
-				"Unresolved annotation '"+type.getName()+"'");
+		marker.setAttribute(IMarker.MESSAGE, "Unresolved annotation '"
+				+ getAnnotationName(annotation) + "'");
 		URI aUri = annotation.getUri();
 		aUri = URI.createHierarchicalURI(aUri.segments(), aUri.query(),
 				aUri.fragment());
@@ -1023,8 +1022,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	private void addMissedStorageAnnotationMarker(Annotation annotation) throws CoreException {
 		IMarker marker = getProject().createMarker(
 				BuilderConstants.MISSED_STORAGE_MARKER_ID);
-		AnnotationType type = AnnotationPlugin.getManager().getType(annotation);
-		marker.setAttribute(IMarker.MESSAGE, "Annotation '" + type.getName()
+		marker.setAttribute(IMarker.MESSAGE, "Annotation '" + getAnnotationName(annotation)
 				+ "' has been saved in an unknown storage");
 		URI aUri = annotation.getUri();
 		aUri = URI.createHierarchicalURI(aUri.segments(), aUri.query(),
@@ -1032,6 +1030,17 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		marker.setAttribute(IMarker.LOCATION, aUri.toString());
 		marker.setAttribute(IMarker.SEVERITY, IMarker.SEVERITY_WARNING);
 		marker.setAttribute(BuilderConstants.ANNOTATION_ID, annotation.getId());
+	}
+	
+	private String getAnnotationName(Annotation annotation) {
+		String annName = "";
+		AnnotationType type = AnnotationPlugin.getManager().getType(annotation);
+		if (type != null) {
+			annName = type.getName();
+		} else if (annotation.getContent() != null) {
+			annName = annotation.getContent().eClass().getName();
+		}
+		return annName;
 	}
 
 	private abstract class LookForResourceVisitor implements
