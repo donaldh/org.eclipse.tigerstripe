@@ -72,19 +72,18 @@ public class ProjectSessionImpl {
 		} else if (projectType == null) {
 			IAbstractTigerstripeProject result = null;
 			projectType = findProjectType(projectURI);
-			if (projectType != null) {
-				if (projectType.equals(ITigerstripeM1GeneratorProject.class
-						.getName())) {
-					// TODO select the right type
-					result = new TigerstripePluginProjectHandle(projectURI);
-				} else if (projectType
-						.equals(ITigerstripeM0GeneratorProject.class.getName())) {
-					result = new M0GeneratorProjectHandle(projectURI);
-				} else {
-					result = new TigerstripeOssjProjectHandle(projectURI);
-				}
-				projectMappedByURIs.put(projectURI, result);
+			if (projectType.equals(ITigerstripeM1GeneratorProject.class
+					.getName())) {
+				// TODO select the right type
+				result = new TigerstripePluginProjectHandle(projectURI);
+			} else if (projectType.equals(ITigerstripeM0GeneratorProject.class
+					.getName())) {
+				result = new M0GeneratorProjectHandle(projectURI);
+			} else {
+				result = new TigerstripeOssjProjectHandle(projectURI);
 			}
+			projectMappedByURIs.put(projectURI, result);
+			return result;
 		} else {
 			IAbstractTigerstripeProject result = null;
 			if (ITigerstripeM1GeneratorProject.class.getName().equals(
@@ -96,7 +95,6 @@ public class ProjectSessionImpl {
 			projectMappedByURIs.put(projectURI, result);
 			return result;
 		}
-		return null;
 	}
 
 	public IDependency makeIDependency(String absolutePath)
@@ -125,7 +123,7 @@ public class ProjectSessionImpl {
 					return ITigerstripeM0GeneratorProject.class.getName();
 			}
 		}
-		return null;
+		return "";
 	}
 
 	public IPhantomTigerstripeProject getPhantomProject()

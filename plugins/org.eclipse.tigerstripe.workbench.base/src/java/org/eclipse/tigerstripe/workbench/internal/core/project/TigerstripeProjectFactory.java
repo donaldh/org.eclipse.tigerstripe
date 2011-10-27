@@ -131,7 +131,7 @@ public class TigerstripeProjectFactory {
 	 * Note that a caching mechanism is used here to speed the process.
 	 * 
 	 * @param path
-	 * @return returns null if a tigerstripe project descriptor isn't found
+	 * @return
 	 * @throws TigerstripeException
 	 */
 	public IAbstractTigerstripeProject findProjectOrCreate(IPath path)
