@@ -45,6 +45,7 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.ElementWrapper;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.dialogs.ListDialog;
 import org.eclipse.ui.handlers.HandlerUtil;
@@ -126,8 +127,20 @@ public class AttachDanglingAnnotationHandler extends AbstractHandler {
 		}
 
 		IAnnotationManager manager = AnnotationPlugin.getManager();
+
+		IAdaptable adaptable = null;
+
 		if (selected instanceof IAdaptable) {
-			Object target = findTarget((IAdaptable) selected);
+			adaptable = (IAdaptable) selected;
+		} else if (selected instanceof ElementWrapper) {
+			Object element = ((ElementWrapper) selected).getElement();
+			if (element instanceof IAdaptable) {
+				adaptable = (IAdaptable) element;
+			}
+		}
+		
+		if (adaptable != null) {
+			Object target = findTarget(adaptable);
 			if (target != null) {
 				for (IMarker m : markers) {
 					if (monitor.isCanceled()) {

@@ -136,6 +136,10 @@ public class StereotypeConverter {
 	}
 
 	public EObject createObject(IStereotypeInstance instance) {
+		IStereotype proto = instance.getCharacterizingStereotype();
+		if (proto == null) {
+			return null;
+		}
 		EClass eClass = createEClass(instance.getCharacterizingStereotype());
 		DynamicEObjectImpl eObject = new DynamicEObjectImpl(eClass);
 		copyStereotypeAttributes(instance, eObject);
