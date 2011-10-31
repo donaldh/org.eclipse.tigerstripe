@@ -535,6 +535,8 @@
          <page
                canSearchEnclosingProjects="true"
                class="org.eclipse.tigerstripe.workbench.ui.internal.search.TigerstripeSearchPage"
+               extensions="*:10"
+               icon="src/icons/ts_logo.gif.gif"
                id="org.eclipse.tigerstripe.ui.eclipse.search.tigerstripeSearch"
                label="Tigerstripe Search"
                showScopeSection="true">
@@ -576,6 +578,26 @@
          <adapter type="org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IOssjArtifactFormContentProvider" />
          <adapter type="org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IArtifactFormContentProvider" />
          <adapter type="org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.IArtifactFormLabelProvider" />
+      </factory>
+      <factory
+            adaptableType="org.eclipse.jdt.core.IPackageFragment"
+            class="org.eclipse.tigerstripe.workbench.ui.internal.search.TigerstripeSearchPageScoreComputerAdapterFactory">
+         <adapter type="org.eclipse.search.ui.ISearchPageScoreComputer"/>
+      </factory>
+      <factory
+            adaptableType="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent"
+            class="org.eclipse.tigerstripe.workbench.ui.internal.search.TigerstripeSearchPageScoreComputerAdapterFactory">
+         <adapter type="org.eclipse.search.ui.ISearchPageScoreComputer"/>
+      </factory>
+      <factory
+            adaptableType="org.eclipse.jdt.core.ICompilationUnit"
+            class="org.eclipse.tigerstripe.workbench.ui.internal.search.TigerstripeSearchPageScoreComputerAdapterFactory">
+         <adapter type="org.eclipse.search.ui.ISearchPageScoreComputer"/>
+      </factory>
+      <factory
+            adaptableType="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.ElementWrapper"
+            class="org.eclipse.tigerstripe.workbench.ui.internal.search.TigerstripeSearchPageScoreComputerAdapterFactory">
+         <adapter type="org.eclipse.search.ui.ISearchPageScoreComputer"/>
       </factory>
   </extension>
   <extension
@@ -1102,6 +1124,20 @@
      <handler
            class="org.eclipse.tigerstripe.workbench.ui.internal.handlers.RefactoringRenameHandler"
            commandId="org.eclipse.tigerstripe.workbench.ui.base.renameHandler">
+     </handler>
+     <handler
+           class="org.eclipse.tigerstripe.workbench.ui.internal.search.TigerstripeOpenSearchDialogHandler"
+           commandId="org.eclipse.search.ui.openSearchDialog">
+        <enabledWhen>
+        	<with variable="activeWorkbenchWindow.activePerspective">
+               <equals value="org.eclipse.tigerstripe.community.tigerstripePerspective"/>
+            </with>
+        </enabledWhen>   
+        <activeWhen>
+        	<with variable="activeWorkbenchWindow.activePerspective">
+               <equals value="org.eclipse.tigerstripe.community.tigerstripePerspective"/>
+            </with>
+        </activeWhen>
      </handler>
   </extension>
   <extension

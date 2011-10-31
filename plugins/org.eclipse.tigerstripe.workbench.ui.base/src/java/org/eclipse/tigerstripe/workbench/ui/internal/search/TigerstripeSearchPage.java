@@ -76,6 +76,8 @@ public class TigerstripeSearchPage extends DialogPage implements ISearchPage {
 	private final static String STORE_HISTORY = "HISTORY"; //$NON-NLS-1$
 	private final static String STORE_HISTORY_SIZE = "HISTORY_SIZE"; //$NON-NLS-1$
 
+	public static final String EXTENSION_POINT_ID = "org.eclipse.tigerstripe.ui.eclipse.search.tigerstripeSearch";
+
 	private final List<SearchPatternData> fPreviousSearchPatterns;
 
 	public static class SearchPatternData {
