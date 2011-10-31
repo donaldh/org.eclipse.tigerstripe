@@ -17,6 +17,7 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.tigerstripe.workbench.base.test.AbstractTigerstripeTestCase;
+import org.eclipse.tigerstripe.workbench.base.test.utils.ModelProjectHelper;
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.AssociationArtifact;
@@ -41,6 +42,10 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
+import org.eclipse.tigerstripe.workbench.queries.IArtifactQuery;
+import org.eclipse.tigerstripe.workbench.queries.IQueryAllArtifacts;
+import org.eclipse.tigerstripe.workbench.queries.IQueryArtifactsByType;
+import org.eclipse.tigerstripe.workbench.queries.IQueryRelationshipsByArtifact;
 
 public class TestContextProjectAwareArtifact extends
 		AbstractTigerstripeTestCase {
@@ -61,6 +66,7 @@ public class TestContextProjectAwareArtifact extends
 		referencedProject = (ITigerstripeModelProject) createEmptyModelProject(
 				REFERENCED_PROJECT_ID, REFERENCED_PROJECT_ID);
 		createEachArtifactType(referencedProject, true);
+		ModelProjectHelper.createEntitiesWithAssociations(referencedProject, true);
 
 		// add reference
 		ITigerstripeModelProject wc = (ITigerstripeModelProject) project
@@ -107,6 +113,52 @@ public class TestContextProjectAwareArtifact extends
 			assertTrue(result instanceof IContextProjectAware);
 		}
 	}
+	
+	public void testArtifactQueries() throws Exception {
+		ArtifactManagerSessionImpl session = (ArtifactManagerSessionImpl) project
+			.getArtifactManagerSession();
+		
+		Collection<String> supportedArtifacts = session.getSupportedArtifacts();
+		for (String supportedArtifact : supportedArtifacts) {
+			IQueryArtifactsByType query = (IQueryArtifactsByType) session
+					.makeQuery(IQueryArtifactsByType.class.getName());
+			query.setIncludeDependencies(true);
+			query.setArtifactType(supportedArtifact);
+			
+			query.setArtifactType(supportedArtifact);
+
+			Collection<IAbstractArtifact> entities = session
+					.queryArtifact(query);
+			checkExpectedContextProjectAwareArtifacts(entities, true, project);
+		}
+
+		IArtifactQuery allArtifactQuery = session
+				.makeQuery(IQueryAllArtifacts.class.getName());
+		Collection<IAbstractArtifact> allArtifacts = session
+				.queryArtifact(allArtifactQuery);
+		checkExpectedContextProjectAwareArtifacts(allArtifacts, false, project);
+		
+		IQueryRelationshipsByArtifact inQuery = (IQueryRelationshipsByArtifact) session
+				.makeQuery(IQueryRelationshipsByArtifact.class.getName());
+		inQuery.setIncludeDependencies(true);
+		inQuery.setIncludeProjectDependencies(true);
+		inQuery.setTerminatingIn(ModelProjectHelper.M2);
+
+		Collection<IAbstractArtifact> relatedAssociations = session
+				.queryArtifact(inQuery);
+		checkExpectedContextProjectAwareArtifacts(relatedAssociations, false,
+				project);
+
+		inQuery = (IQueryRelationshipsByArtifact) session
+				.makeQuery(IQueryRelationshipsByArtifact.class.getName());
+		inQuery.setIncludeDependencies(true);
+		inQuery.setIncludeProjectDependencies(true);
+		inQuery.setOriginatingFrom(ModelProjectHelper.M1);
+
+		relatedAssociations = session.queryArtifact(inQuery);
+		checkExpectedContextProjectAwareArtifacts(relatedAssociations, false,
+				project);
+	}
 
 	public void testProvideModelComponents() throws Exception {
 		ArtifactManagerSessionImpl session = (ArtifactManagerSessionImpl) project
@@ -118,7 +170,12 @@ public class TestContextProjectAwareArtifact extends
 
 		for (IAbstractArtifact artifact : allArtifacts) {
 			boolean canBeEmpty = true;
-			if (artifact instanceof IManagedEntityArtifact) {
+			boolean specialEntity = false;
+			if (artifact instanceof IManagedEntityArtifact
+					&& artifact.getName().equals(
+							getArtifactName(IManagedEntityArtifact.class
+									.getName()))) {
+				specialEntity = true;
 				canBeEmpty = false;
 			}
 
@@ -150,7 +207,7 @@ public class TestContextProjectAwareArtifact extends
 			checkExpectedContextProjectAwareArtifacts(
 					artifact.getMethods(false), canBeEmpty, project);
 
-			if (artifact instanceof IManagedEntityArtifact) {
+			if (specialEntity) {
 				IAbstractArtifact extending = createArtifact(project,
 						IManagedEntityArtifact.class.getName(), "MyTestEntity",
 						artifact, true);

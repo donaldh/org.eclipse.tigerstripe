@@ -261,6 +261,7 @@ public class AssociationEnd extends ArtifactComponent implements
 		this.containingModelComponent = artifact;
 	}
 
+	@ProvideModelComponents
 	public IAssociationArtifact getContainingAssociation() {
 		return (IAssociationArtifact) this.containingModelComponent;
 	}
@@ -269,6 +270,7 @@ public class AssociationEnd extends ArtifactComponent implements
 		this.containingModelComponent = artifact;
 	}
 
+	@ProvideModelComponents
 	public IAbstractArtifact getContainingArtifact() {
 		if (this.containingModelComponent instanceof IAssociationArtifact)
 			return (IAbstractArtifact) this.containingModelComponent;
@@ -298,6 +300,7 @@ public class AssociationEnd extends ArtifactComponent implements
 		return;
 	}
 
+	@ProvideModelComponents
 	public IModelComponent getContainingModelComponent() {
 		if (this.containingModelComponent instanceof IAssociationArtifact)
 			return (IAbstractArtifact) this.containingModelComponent;
@@ -318,6 +321,7 @@ public class AssociationEnd extends ArtifactComponent implements
 		return new Type(getArtifactManager());
 	}
 
+	@ProvideModelComponents
 	public IRelationship getContainingRelationship() {
 		return getContainingAssociation();
 	}

@@ -1955,15 +1955,15 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 		}
 	}
 
-	private Collection<IAbstractArtifact> toContextProjectAwareArtifacts(
-			Collection<IAbstractArtifact> source) {
+	private <T> Collection<T> toContextProjectAwareArtifacts(
+			Collection<T> source) {
 		ITigerstripeModelProject context = getTSProject().getTSProject();
 		if (source.size() > 0 && context != null) {
-			Collection<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>(
+			Collection<T> result = new ArrayList<T>(
 					source.size());
-			for (IAbstractArtifact element : source) {
+			for (T element : source) {
 				if (!(element instanceof IContextProjectAware)) {
-					element = (IAbstractArtifact) ContextProjectAwareProxy
+					element = (T) ContextProjectAwareProxy
 							.newInstance(element, context);
 				}
 				result.add(element);
@@ -2397,9 +2397,9 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 					 */
 					ArtifactManager mgr = ((ArtifactManagerSessionImpl) project
 							.getArtifactManagerSession()).getArtifactManager();
-					result.addAll(mgr.getRelationshipCache()
+					result.addAll(toContextProjectAwareArtifacts(mgr.getRelationshipCache()
 							.getRelationshipsOriginatingFromFQN(fqn,
-									ignoreFacets));
+									ignoreFacets)));
 				}
 			}
 			return result;
@@ -2445,8 +2445,8 @@ public class ArtifactManager implements ITigerstripeChangeListener {
 					 */
 					ArtifactManager mgr = ((ArtifactManagerSessionImpl) project
 							.getArtifactManagerSession()).getArtifactManager();
-					result.addAll(mgr.getRelationshipCache()
-							.getRelationshipsTerminatingInFQN(fqn, ignoreFacet));
+					result.addAll(toContextProjectAwareArtifacts(mgr.getRelationshipCache()
+							.getRelationshipsTerminatingInFQN(fqn, ignoreFacet)));
 				}
 			}
 			return result;

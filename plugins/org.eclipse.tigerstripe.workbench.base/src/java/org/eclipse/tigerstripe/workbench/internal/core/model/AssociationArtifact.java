@@ -214,6 +214,7 @@ public class AssociationArtifact extends AbstractArtifact implements
 		return result;
 	}
 
+	@ProvideModelComponents
 	@Override
 	public Collection<Object> getChildren() {
 		Collection<Object> objects = new ArrayList<Object>();

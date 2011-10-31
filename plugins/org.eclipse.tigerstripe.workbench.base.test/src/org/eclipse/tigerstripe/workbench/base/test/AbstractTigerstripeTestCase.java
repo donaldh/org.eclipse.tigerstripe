@@ -200,7 +200,7 @@ public abstract class AbstractTigerstripeTestCase extends TestCase {
 		return artifacts;
 	}
 
-	private String getArtifactName(String artifactType) {
+	protected String getArtifactName(String artifactType) {
 		return "InstanceOf"
 				+ artifactType.substring(artifactType.lastIndexOf(".") + 1,
 						artifactType.length());

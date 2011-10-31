@@ -83,7 +83,14 @@ public class ModelProjectHelper {
 				.createProject(projectName, projectDetails, null,
 						ITigerstripeModelProject.class, null, null);
 
-		// Creating 2 Managed entities
+		createEntitiesWithAssociations(project, fullContent);
+
+		return project;
+	}
+	
+	public static void createEntitiesWithAssociations(
+			ITigerstripeModelProject project, boolean createAssociations)
+			throws TigerstripeException {
 		IArtifactManagerSession session = project.getArtifactManagerSession();
 		org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact m1 = session
 				.makeArtifact(org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact.class
@@ -97,7 +104,7 @@ public class ModelProjectHelper {
 		m2.setFullyQualifiedName(M2);
 		m2.doSave(null);
 
-		if (fullContent) {
+		if (createAssociations) {
 			org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact m3 = session
 					.makeArtifact(org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact.class
 							.getName());
@@ -147,7 +154,5 @@ public class ModelProjectHelper {
 			as1.doSave(null);
 		}
 
-		return project;
 	}
-
 }
