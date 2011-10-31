@@ -310,7 +310,6 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 	@Override
 	protected IProject[] build(final int kind, Map args, IProgressMonitor monitor)
 			throws CoreException {
-
 		InTransaction.write(new InTransaction.Operation() {
 			
 			public void run() throws Throwable {
@@ -794,7 +793,9 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 			uries = Collections.singleton(createAnnUri(modelId));
 		} else {
 			CollectResult changes = collectChanges();
-			if (changes.descriptorWasChanged || !changes.annResources.isEmpty()) { 
+			if (changes.affectedResources.isEmpty()
+					|| changes.descriptorWasChanged
+					|| !changes.annResources.isEmpty()) {
 				deleteAnnMarkers();
 				uries = Collections.singleton(createAnnUri(modelId));
 			} else {
@@ -918,6 +919,7 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		final Set<IFile> artifacts = new HashSet<IFile>();
 		final Set<IFile> diagrams = new HashSet<IFile>();
 		final Set<Resource> annResources = new HashSet<Resource>();
+		final Set<IResource> affectedResources = new HashSet<IResource>();
 		boolean descriptorWasChanged;
 	}
 	
@@ -932,11 +934,31 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		delta.accept(new IResourceDeltaVisitor() {
 			
 			public boolean visit(IResourceDelta delta) throws CoreException {
-				
 				IResource resource = delta.getResource();
+
+				if (resource instanceof IContainer) {
+					// ignore output dir
+					if (resource.getParent() instanceof IProject) {
+						IProject project = (IProject) resource.getParent();
+						try {
+							IJavaProject jProject = JavaCore.create(project);
+							if (jProject != null) {
+								if (jProject.getOutputLocation().equals(
+										resource.getFullPath())) {
+									return false;
+								}
+							}
+						} catch (JavaModelException j) {
+							// ignore
+						}
+					}
+				}
+				
 				if (!(resource instanceof IFile)) {
 					return true;
 				} else {
+					r.affectedResources.add(resource);
+
 					if (!BitMask.isSet(delta.getFlags(),
 									IResourceDelta.MARKERS)) {
 						if (WorkspaceListener.PROJECT_DESCRIPTORS

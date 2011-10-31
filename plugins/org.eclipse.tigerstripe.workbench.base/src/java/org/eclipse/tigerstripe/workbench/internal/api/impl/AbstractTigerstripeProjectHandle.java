@@ -118,12 +118,18 @@ public abstract class AbstractTigerstripeProjectHandle extends
 
 	@Override
 	public boolean equals(Object arg0) {
+		if (this == arg0) {
+			return true;
+		}
 		if (arg0 == null)
 			return false;
 
-		if (arg0.getClass() == this.getClass())
-			return ((AbstractTigerstripeProjectHandle) arg0).getURI().equals(
-					this.getURI());
+		if (arg0.getClass() == this.getClass()) {
+			if (getURI() != null) {
+				return getURI().equals(
+						((AbstractTigerstripeProjectHandle) arg0).getURI());
+			}
+		}
 		return false;
 	}
 
