@@ -25,13 +25,13 @@ public interface IntegerAnnotation extends EObject {
 	int getInteger();
 
     /**
-     * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.example.IntegerAnnotation#getInteger <em>Integer</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.example.IntegerAnnotation#getInteger <em>Integer</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Integer</em>' attribute.
-     * @see #getInteger()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Integer</em>' attribute.
+	 * @see #getInteger()
+	 * @generated
+	 */
     void setInteger(int value);
 
 }

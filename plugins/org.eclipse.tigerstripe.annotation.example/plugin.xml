@@ -5,14 +5,14 @@
  <copyright>
  </copyright>
 
- $Id: plugin.xml,v 1.6 2010/05/05 10:15:36 ystrot Exp $
+ $Id: plugin.xml,v 1.7 2011/11/01 11:12:15 asalnik Exp $
 -->
 
 <plugin>
 
   <extension point="org.eclipse.emf.ecore.generated_package">
     <package 
-       uri = "http:///org/eclipse/tigerstripe/annotation/example.ecore" 
+       uri = "http://eclipse.org/tigerstripe/examples/annotation" 
        class = "org.eclipse.tigerstripe.annotation.example.ExamplePackage"
        genModel = "model/example.genmodel" /> 
   </extension>
@@ -20,21 +20,27 @@
   <extension point="org.eclipse.tigerstripe.annotation.core.annotationType">
      <definition
            name="Text Annotation"
-           epackage-uri="http:///org/eclipse/tigerstripe/annotation/example.ecore"
+           epackage-uri="http://eclipse.org/tigerstripe/examples/annotation"
            description="Annotation with one text field"
            eclass="TextAnnotation">
      </definition>
      <definition
            name="Integer Annotation"
-           epackage-uri="http:///org/eclipse/tigerstripe/annotation/example.ecore"
+           epackage-uri="http://eclipse.org/tigerstripe/examples/annotation"
            description="Annotation with one integer field"
            eclass="IntegerAnnotation">
      </definition>
      <definition
            name="Check Annotation"
-           epackage-uri="http:///org/eclipse/tigerstripe/annotation/example.ecore"
+           epackage-uri="http://eclipse.org/tigerstripe/examples/annotation"
            description="Annotation with one boolean field"
            eclass="CheckAnnotation">
+     </definition>
+     <definition
+           name="References Example"
+           epackage-uri="http://eclipse.org/tigerstripe/examples/annotation"
+           description="Annotation to demo entity references"
+           eclass="ReferencesExample">
      </definition>
   </extension>
 
@@ -43,6 +49,60 @@
      <label
            epackage-uri="http:///org/eclipse/tigerstripe/annotation/example.ecore"
            name="Primitive"/>
+  </extension>
+  
+  <extension
+        point="org.eclipse.tigerstripe.workbench.ui.base.modelReferenceEditor">
+        
+     <editor
+           annotationAttribute="entity"
+           annotationClass="ReferencesExample"
+           annotationPackage="http://eclipse.org/tigerstripe/examples/annotation">
+
+         <visible interface="org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact" />
+     </editor>
+     
+     <editor
+           annotationAttribute="attributes"
+           annotationClass="ReferencesExample"
+           annotationPackage="http://eclipse.org/tigerstripe/examples/annotation"
+           title="Select Attribute">
+
+         <visible interface="org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact" />
+         <visible interface="org.eclipse.tigerstripe.workbench.model.deprecated_.IField" />
+         <valid interface="org.eclipse.tigerstripe.workbench.model.deprecated_.IField" />
+           
+         <message>Select entity attribute</message>
+     </editor>
+     
+     <editor
+           annotationAttribute="stringRefToAttribute"
+           annotationClass="ReferencesExample"
+           annotationPackage="http://eclipse.org/tigerstripe/examples/annotation"
+           cellEditor="org.eclipse.tigerstripe.annotation.example.ui.BackwardsCompatibleCellEditor"
+           title="Select Attribute">
+           
+         <visible interface="org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact" />
+         <visible interface="org.eclipse.tigerstripe.workbench.model.deprecated_.IField" />
+         <valid interface="org.eclipse.tigerstripe.workbench.model.deprecated_.IField" />
+
+         <message>Select entity attribute</message>
+     </editor>
+          
+     <editor
+           annotationAttribute="stringRefsToAttributes"
+           annotationClass="ReferencesExample"
+           annotationPackage="http://eclipse.org/tigerstripe/examples/annotation"
+           cellEditor="org.eclipse.tigerstripe.annotation.example.ui.BackwardsCompatibleCellEditor"
+           title="Select Attribute">
+           
+         <visible interface="org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact" />
+         <visible interface="org.eclipse.tigerstripe.workbench.model.deprecated_.IField" />
+         <valid interface="org.eclipse.tigerstripe.workbench.model.deprecated_.IField" />
+
+         <message>Select entity attribute</message>
+     </editor>
+     
   </extension>
 
 </plugin>

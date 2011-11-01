@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: IntegerAnnotationImpl.java,v 1.2 2008/05/11 12:42:21 ystrot Exp $
+ * $Id: IntegerAnnotationImpl.java,v 1.3 2011/11/01 11:12:15 asalnik Exp $
  */
 package org.eclipse.tigerstripe.annotation.example.impl;
 
@@ -42,137 +42,137 @@ import org.eclipse.tigerstripe.annotation.example.IntegerAnnotation;
  */
 public class IntegerAnnotationImpl extends EObjectImpl implements IntegerAnnotation {
     /**
-     * The default value of the '{@link #getInteger() <em>Integer</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * The default value of the '{@link #getInteger() <em>Integer</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getInteger()
-     * @generated
-     * @ordered
-     */
+	 * @see #getInteger()
+	 * @generated
+	 * @ordered
+	 */
     protected static final int INTEGER_EDEFAULT = 0;
 
     /**
-     * The cached value of the '{@link #getInteger() <em>Integer</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #getInteger() <em>Integer</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #getInteger()
-     * @generated
-     * @ordered
-     */
+	 * @see #getInteger()
+	 * @generated
+	 * @ordered
+	 */
     protected int integer = INTEGER_EDEFAULT;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected IntegerAnnotationImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     protected EClass eStaticClass() {
-        return ExamplePackage.Literals.INTEGER_ANNOTATION;
-    }
+		return ExamplePackage.Literals.INTEGER_ANNOTATION;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public int getInteger() {
-        return integer;
-    }
+		return integer;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setInteger(int newInteger) {
-        int oldInteger = integer;
-        integer = newInteger;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ExamplePackage.INTEGER_ANNOTATION__INTEGER, oldInteger, integer));
-    }
+		int oldInteger = integer;
+		integer = newInteger;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ExamplePackage.INTEGER_ANNOTATION__INTEGER, oldInteger, integer));
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case ExamplePackage.INTEGER_ANNOTATION__INTEGER:
-                return new Integer(getInteger());
-        }
-        return super.eGet(featureID, resolve, coreType);
-    }
+		switch (featureID) {
+			case ExamplePackage.INTEGER_ANNOTATION__INTEGER:
+				return getInteger();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case ExamplePackage.INTEGER_ANNOTATION__INTEGER:
-                setInteger(((Integer)newValue).intValue());
-                return;
-        }
-        super.eSet(featureID, newValue);
-    }
+		switch (featureID) {
+			case ExamplePackage.INTEGER_ANNOTATION__INTEGER:
+				setInteger((Integer)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public void eUnset(int featureID) {
-        switch (featureID) {
-            case ExamplePackage.INTEGER_ANNOTATION__INTEGER:
-                setInteger(INTEGER_EDEFAULT);
-                return;
-        }
-        super.eUnset(featureID);
-    }
+		switch (featureID) {
+			case ExamplePackage.INTEGER_ANNOTATION__INTEGER:
+				setInteger(INTEGER_EDEFAULT);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case ExamplePackage.INTEGER_ANNOTATION__INTEGER:
-                return integer != INTEGER_EDEFAULT;
-        }
-        return super.eIsSet(featureID);
-    }
+		switch (featureID) {
+			case ExamplePackage.INTEGER_ANNOTATION__INTEGER:
+				return integer != INTEGER_EDEFAULT;
+		}
+		return super.eIsSet(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public String toString() {
-        if (eIsProxy()) return super.toString();
+		if (eIsProxy()) return super.toString();
 
-        StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (integer: ");
-        result.append(integer);
-        result.append(')');
-        return result.toString();
-    }
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (integer: ");
+		result.append(integer);
+		result.append(')');
+		return result.toString();
+	}
 
 } //IntegerAnnotationImpl

@@ -13,21 +13,22 @@
  *     
  * </copyright>
  *
- * $Id: ExamplePackageImpl.java,v 1.2 2008/05/11 12:42:21 ystrot Exp $
+ * $Id: ExamplePackageImpl.java,v 1.3 2011/11/01 11:12:15 asalnik Exp $
  */
 package org.eclipse.tigerstripe.annotation.example.impl;
 
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
-
 import org.eclipse.tigerstripe.annotation.example.CheckAnnotation;
 import org.eclipse.tigerstripe.annotation.example.ExampleFactory;
 import org.eclipse.tigerstripe.annotation.example.ExamplePackage;
 import org.eclipse.tigerstripe.annotation.example.IntegerAnnotation;
+import org.eclipse.tigerstripe.annotation.example.ReferencesExample;
 import org.eclipse.tigerstripe.annotation.example.TextAnnotation;
+import org.eclipse.tigerstripe.workbench.annotation.modelReference.ModelReferencePackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -37,274 +38,337 @@ import org.eclipse.tigerstripe.annotation.example.TextAnnotation;
  */
 public class ExamplePackageImpl extends EPackageImpl implements ExamplePackage {
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EClass checkAnnotationEClass = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EClass integerAnnotationEClass = null;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private EClass textAnnotationEClass = null;
 
     /**
-     * Creates an instance of the model <b>Package</b>, registered with
-     * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
-     * package URI value.
-     * <p>Note: the correct way to create the package is via the static
-     * factory method {@link #init init()}, which also performs
-     * initialization of the package, or returns the registered package,
-     * if one already exists.
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass referencesExampleEClass = null;
+
+				/**
+	 * Creates an instance of the model <b>Package</b>, registered with
+	 * {@link org.eclipse.emf.ecore.EPackage.Registry EPackage.Registry} by the package
+	 * package URI value.
+	 * <p>Note: the correct way to create the package is via the static
+	 * factory method {@link #init init()}, which also performs
+	 * initialization of the package, or returns the registered package,
+	 * if one already exists.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see org.eclipse.emf.ecore.EPackage.Registry
-     * @see org.eclipse.tigerstripe.annotation.example.ExamplePackage#eNS_URI
-     * @see #init()
-     * @generated
-     */
+	 * @see org.eclipse.emf.ecore.EPackage.Registry
+	 * @see org.eclipse.tigerstripe.annotation.example.ExamplePackage#eNS_URI
+	 * @see #init()
+	 * @generated
+	 */
     private ExamplePackageImpl() {
-        super(eNS_URI, ExampleFactory.eINSTANCE);
-    }
+		super(eNS_URI, ExampleFactory.eINSTANCE);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private static boolean isInited = false;
 
     /**
-     * Creates, registers, and initializes the <b>Package</b> for this
-     * model, and for any others upon which it depends.  Simple
-     * dependencies are satisfied by calling this method on all
-     * dependent packages before doing anything else.  This method drives
-     * initialization for interdependent packages directly, in parallel
-     * with this package, itself.
-     * <p>Of this package and its interdependencies, all packages which
-     * have not yet been registered by their URI values are first created
-     * and registered.  The packages are then initialized in two steps:
-     * meta-model objects for all of the packages are created before any
-     * are initialized, since one package's meta-model objects may refer to
-     * those of another.
-     * <p>Invocation of this method will not affect any packages that have
-     * already been initialized.
-     * <!-- begin-user-doc -->
+	 * Creates, registers, and initializes the <b>Package</b> for this model, and for any others upon which it depends.
+	 * 
+	 * <p>This method is used to initialize {@link ExamplePackage#eINSTANCE} when that field is accessed.
+	 * Clients should not invoke it directly. Instead, they should simply access that field to obtain the package.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #eNS_URI
-     * @see #createPackageContents()
-     * @see #initializePackageContents()
-     * @generated
-     */
+	 * @see #eNS_URI
+	 * @see #createPackageContents()
+	 * @see #initializePackageContents()
+	 * @generated
+	 */
     public static ExamplePackage init() {
-        if (isInited) return (ExamplePackage)EPackage.Registry.INSTANCE.getEPackage(ExamplePackage.eNS_URI);
+		if (isInited) return (ExamplePackage)EPackage.Registry.INSTANCE.getEPackage(ExamplePackage.eNS_URI);
 
-        // Obtain or create and register package
-        ExamplePackageImpl theExamplePackage = (ExamplePackageImpl)(EPackage.Registry.INSTANCE.getEPackage(eNS_URI) instanceof ExamplePackageImpl ? EPackage.Registry.INSTANCE.getEPackage(eNS_URI) : new ExamplePackageImpl());
+		// Obtain or create and register package
+		ExamplePackageImpl theExamplePackage = (ExamplePackageImpl)(EPackage.Registry.INSTANCE.get(eNS_URI) instanceof ExamplePackageImpl ? EPackage.Registry.INSTANCE.get(eNS_URI) : new ExamplePackageImpl());
 
-        isInited = true;
+		isInited = true;
 
-        // Create package meta-data objects
-        theExamplePackage.createPackageContents();
+		// Initialize simple dependencies
+		ModelReferencePackage.eINSTANCE.eClass();
 
-        // Initialize created meta-data
-        theExamplePackage.initializePackageContents();
+		// Create package meta-data objects
+		theExamplePackage.createPackageContents();
 
-        // Mark meta-data to indicate it can't be changed
-        theExamplePackage.freeze();
+		// Initialize created meta-data
+		theExamplePackage.initializePackageContents();
 
-        return theExamplePackage;
-    }
+		// Mark meta-data to indicate it can't be changed
+		theExamplePackage.freeze();
+
+  
+		// Update the registry and return the package
+		EPackage.Registry.INSTANCE.put(ExamplePackage.eNS_URI, theExamplePackage);
+		return theExamplePackage;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EClass getCheckAnnotation() {
-        return checkAnnotationEClass;
-    }
+		return checkAnnotationEClass;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getCheckAnnotation_Checked() {
-        return (EAttribute)checkAnnotationEClass.getEStructuralFeatures().get(0);
-    }
+		return (EAttribute)checkAnnotationEClass.getEStructuralFeatures().get(0);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EClass getIntegerAnnotation() {
-        return integerAnnotationEClass;
-    }
+		return integerAnnotationEClass;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getIntegerAnnotation_Integer() {
-        return (EAttribute)integerAnnotationEClass.getEStructuralFeatures().get(0);
-    }
+		return (EAttribute)integerAnnotationEClass.getEStructuralFeatures().get(0);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EClass getTextAnnotation() {
-        return textAnnotationEClass;
-    }
+		return textAnnotationEClass;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public EAttribute getTextAnnotation_Text() {
-        return (EAttribute)textAnnotationEClass.getEStructuralFeatures().get(0);
-    }
+		return (EAttribute)textAnnotationEClass.getEStructuralFeatures().get(0);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getReferencesExample() {
+		return referencesExampleEClass;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getReferencesExample_Entity() {
+		return (EReference)referencesExampleEClass.getEStructuralFeatures().get(0);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getReferencesExample_Attributes() {
+		return (EReference)referencesExampleEClass.getEStructuralFeatures().get(1);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getReferencesExample_StringRefToAttribute() {
+		return (EAttribute)referencesExampleEClass.getEStructuralFeatures().get(2);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getReferencesExample_StringRefsToAttributes() {
+		return (EAttribute)referencesExampleEClass.getEStructuralFeatures().get(3);
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public ExampleFactory getExampleFactory() {
-        return (ExampleFactory)getEFactoryInstance();
-    }
+		return (ExampleFactory)getEFactoryInstance();
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private boolean isCreated = false;
 
     /**
-     * Creates the meta-model objects for the package.  This method is
-     * guarded to have no affect on any invocation but its first.
-     * <!-- begin-user-doc -->
+	 * Creates the meta-model objects for the package.  This method is
+	 * guarded to have no affect on any invocation but its first.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void createPackageContents() {
-        if (isCreated) return;
-        isCreated = true;
+		if (isCreated) return;
+		isCreated = true;
 
-        // Create classes and their features
-        checkAnnotationEClass = createEClass(CHECK_ANNOTATION);
-        createEAttribute(checkAnnotationEClass, CHECK_ANNOTATION__CHECKED);
+		// Create classes and their features
+		checkAnnotationEClass = createEClass(CHECK_ANNOTATION);
+		createEAttribute(checkAnnotationEClass, CHECK_ANNOTATION__CHECKED);
 
-        integerAnnotationEClass = createEClass(INTEGER_ANNOTATION);
-        createEAttribute(integerAnnotationEClass, INTEGER_ANNOTATION__INTEGER);
+		integerAnnotationEClass = createEClass(INTEGER_ANNOTATION);
+		createEAttribute(integerAnnotationEClass, INTEGER_ANNOTATION__INTEGER);
 
-        textAnnotationEClass = createEClass(TEXT_ANNOTATION);
-        createEAttribute(textAnnotationEClass, TEXT_ANNOTATION__TEXT);
-    }
+		textAnnotationEClass = createEClass(TEXT_ANNOTATION);
+		createEAttribute(textAnnotationEClass, TEXT_ANNOTATION__TEXT);
+
+		referencesExampleEClass = createEClass(REFERENCES_EXAMPLE);
+		createEReference(referencesExampleEClass, REFERENCES_EXAMPLE__ENTITY);
+		createEReference(referencesExampleEClass, REFERENCES_EXAMPLE__ATTRIBUTES);
+		createEAttribute(referencesExampleEClass, REFERENCES_EXAMPLE__STRING_REF_TO_ATTRIBUTE);
+		createEAttribute(referencesExampleEClass, REFERENCES_EXAMPLE__STRING_REFS_TO_ATTRIBUTES);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     private boolean isInitialized = false;
 
     /**
-     * Complete the initialization of the package and its meta-model.  This
-     * method is guarded to have no affect on any invocation but its first.
-     * <!-- begin-user-doc -->
+	 * Complete the initialization of the package and its meta-model.  This
+	 * method is guarded to have no affect on any invocation but its first.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void initializePackageContents() {
-        if (isInitialized) return;
-        isInitialized = true;
+		if (isInitialized) return;
+		isInitialized = true;
 
-        // Initialize package
-        setName(eNAME);
-        setNsPrefix(eNS_PREFIX);
-        setNsURI(eNS_URI);
+		// Initialize package
+		setName(eNAME);
+		setNsPrefix(eNS_PREFIX);
+		setNsURI(eNS_URI);
 
-        // Create type parameters
+		// Obtain other dependent packages
+		ModelReferencePackage theModelReferencePackage = (ModelReferencePackage)EPackage.Registry.INSTANCE.getEPackage(ModelReferencePackage.eNS_URI);
 
-        // Set bounds for type parameters
+		// Create type parameters
 
-        // Add supertypes to classes
+		// Set bounds for type parameters
 
-        // Initialize classes and features; add operations and parameters
-        initEClass(checkAnnotationEClass, CheckAnnotation.class, "CheckAnnotation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getCheckAnnotation_Checked(), ecorePackage.getEBoolean(), "checked", null, 0, 1, CheckAnnotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		// Add supertypes to classes
 
-        initEClass(integerAnnotationEClass, IntegerAnnotation.class, "IntegerAnnotation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getIntegerAnnotation_Integer(), ecorePackage.getEInt(), "integer", null, 0, 1, IntegerAnnotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		// Initialize classes and features; add operations and parameters
+		initEClass(checkAnnotationEClass, CheckAnnotation.class, "CheckAnnotation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getCheckAnnotation_Checked(), ecorePackage.getEBoolean(), "checked", null, 0, 1, CheckAnnotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        initEClass(textAnnotationEClass, TextAnnotation.class, "TextAnnotation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-        initEAttribute(getTextAnnotation_Text(), ecorePackage.getEString(), "text", null, 0, 1, TextAnnotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEClass(integerAnnotationEClass, IntegerAnnotation.class, "IntegerAnnotation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getIntegerAnnotation_Integer(), ecorePackage.getEInt(), "integer", null, 0, 1, IntegerAnnotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        // Create resource
-        createResource(eNS_URI);
+		initEClass(textAnnotationEClass, TextAnnotation.class, "TextAnnotation", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getTextAnnotation_Text(), ecorePackage.getEString(), "text", null, 0, 1, TextAnnotation.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
-        // Create annotations
-        // http:///org/eclipse/emf/ecore/util/ExtendedMetaData
-        createExtendedMetaDataAnnotations();
-        // org.eclipse.tigerstripe.annotation
-        createOrgAnnotations();
-    }
+		initEClass(referencesExampleEClass, ReferencesExample.class, "ReferencesExample", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getReferencesExample_Entity(), theModelReferencePackage.getModelReference(), null, "entity", null, 0, 1, ReferencesExample.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getReferencesExample_Attributes(), theModelReferencePackage.getModelReference(), null, "attributes", null, 0, -1, ReferencesExample.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getReferencesExample_StringRefToAttribute(), ecorePackage.getEString(), "stringRefToAttribute", null, 0, 1, ReferencesExample.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getReferencesExample_StringRefsToAttributes(), ecorePackage.getEString(), "stringRefsToAttributes", null, 0, -1, ReferencesExample.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		// Create resource
+		createResource(eNS_URI);
+
+		// Create annotations
+		// http:///org/eclipse/emf/ecore/util/ExtendedMetaData
+		createExtendedMetaDataAnnotations();
+		// org.eclipse.tigerstripe.annotation
+		createOrgAnnotations();
+	}
 
     /**
-     * Initializes the annotations for <b>http:///org/eclipse/emf/ecore/util/ExtendedMetaData</b>.
-     * <!-- begin-user-doc -->
+	 * Initializes the annotations for <b>http:///org/eclipse/emf/ecore/util/ExtendedMetaData</b>.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected void createExtendedMetaDataAnnotations() {
-        String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
-        addAnnotation
-          (textAnnotationEClass, 
-           source, 
-           new String[] {
-             "name", "text_._annotation",
-             "kind", "elementOnly"
-           });		
-        addAnnotation
-          (getTextAnnotation_Text(), 
-           source, 
-           new String[] {
-             "kind", "element",
-             "name", "text",
-             "namespace", "##targetNamespace"
-           });	
-    }
+		String source = "http:///org/eclipse/emf/ecore/util/ExtendedMetaData";		
+		addAnnotation
+		  (textAnnotationEClass, 
+		   source, 
+		   new String[] {
+			 "name", "text_._annotation",
+			 "kind", "elementOnly"
+		   });		
+		addAnnotation
+		  (getTextAnnotation_Text(), 
+		   source, 
+		   new String[] {
+			 "kind", "element",
+			 "name", "text",
+			 "namespace", "##targetNamespace"
+		   });	
+	}
 
     /**
-     * Initializes the annotations for <b>org.eclipse.tigerstripe.annotation</b>.
-     * <!-- begin-user-doc -->
+	 * Initializes the annotations for <b>org.eclipse.tigerstripe.annotation</b>.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected void createOrgAnnotations() {
-        String source = "org.eclipse.tigerstripe.annotation";				
-        addAnnotation
-          (getTextAnnotation_Text(), 
-           source, 
-           new String[] {
-             "multiline", "true"
-           });
-    }
+		String source = "org.eclipse.tigerstripe.annotation";				
+		addAnnotation
+		  (getTextAnnotation_Text(), 
+		   source, 
+		   new String[] {
+			 "multiline", "true"
+		   });
+	}
 
 } //ExamplePackageImpl

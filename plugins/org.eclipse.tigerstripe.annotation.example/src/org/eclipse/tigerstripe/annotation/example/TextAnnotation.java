@@ -25,13 +25,13 @@ public interface TextAnnotation extends EObject {
 	String getText();
 
     /**
-     * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.example.TextAnnotation#getText <em>Text</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.example.TextAnnotation#getText <em>Text</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Text</em>' attribute.
-     * @see #getText()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Text</em>' attribute.
+	 * @see #getText()
+	 * @generated
+	 */
     void setText(String value);
 
 }

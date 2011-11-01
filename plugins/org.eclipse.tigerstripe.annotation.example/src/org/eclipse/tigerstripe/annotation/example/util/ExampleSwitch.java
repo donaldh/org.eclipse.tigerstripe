@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: ExampleSwitch.java,v 1.2 2008/05/11 12:42:21 ystrot Exp $
+ * $Id: ExampleSwitch.java,v 1.3 2011/11/01 11:12:14 asalnik Exp $
  */
 package org.eclipse.tigerstripe.annotation.example.util;
 
@@ -39,145 +39,166 @@ import org.eclipse.tigerstripe.annotation.example.*;
  */
 public class ExampleSwitch<T> {
     /**
-     * The cached model package
-     * <!-- begin-user-doc -->
+	 * The cached model package
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected static ExamplePackage modelPackage;
 
     /**
-     * Creates an instance of the switch.
-     * <!-- begin-user-doc -->
+	 * Creates an instance of the switch.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public ExampleSwitch() {
-        if (modelPackage == null) {
-            modelPackage = ExamplePackage.eINSTANCE;
-        }
-    }
+		if (modelPackage == null) {
+			modelPackage = ExamplePackage.eINSTANCE;
+		}
+	}
 
     /**
-     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-     * <!-- begin-user-doc -->
+	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the first non-null result returned by a <code>caseXXX</code> call.
-     * @generated
-     */
+	 * @return the first non-null result returned by a <code>caseXXX</code> call.
+	 * @generated
+	 */
     public T doSwitch(EObject theEObject) {
-        return doSwitch(theEObject.eClass(), theEObject);
-    }
+		return doSwitch(theEObject.eClass(), theEObject);
+	}
 
     /**
-     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-     * <!-- begin-user-doc -->
+	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the first non-null result returned by a <code>caseXXX</code> call.
-     * @generated
-     */
+	 * @return the first non-null result returned by a <code>caseXXX</code> call.
+	 * @generated
+	 */
     protected T doSwitch(EClass theEClass, EObject theEObject) {
-        if (theEClass.eContainer() == modelPackage) {
-            return doSwitch(theEClass.getClassifierID(), theEObject);
-        }
-        else {
-            List<EClass> eSuperTypes = theEClass.getESuperTypes();
-            return
-                eSuperTypes.isEmpty() ?
-                    defaultCase(theEObject) :
-                    doSwitch(eSuperTypes.get(0), theEObject);
-        }
-    }
+		if (theEClass.eContainer() == modelPackage) {
+			return doSwitch(theEClass.getClassifierID(), theEObject);
+		}
+		else {
+			List<EClass> eSuperTypes = theEClass.getESuperTypes();
+			return
+				eSuperTypes.isEmpty() ?
+					defaultCase(theEObject) :
+					doSwitch(eSuperTypes.get(0), theEObject);
+		}
+	}
 
     /**
-     * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
-     * <!-- begin-user-doc -->
+	 * Calls <code>caseXXX</code> for each class of the model until one returns a non null result; it yields that result.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @return the first non-null result returned by a <code>caseXXX</code> call.
-     * @generated
-     */
+	 * @return the first non-null result returned by a <code>caseXXX</code> call.
+	 * @generated
+	 */
     protected T doSwitch(int classifierID, EObject theEObject) {
-        switch (classifierID) {
-            case ExamplePackage.CHECK_ANNOTATION: {
-                CheckAnnotation checkAnnotation = (CheckAnnotation)theEObject;
-                T result = caseCheckAnnotation(checkAnnotation);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case ExamplePackage.INTEGER_ANNOTATION: {
-                IntegerAnnotation integerAnnotation = (IntegerAnnotation)theEObject;
-                T result = caseIntegerAnnotation(integerAnnotation);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            case ExamplePackage.TEXT_ANNOTATION: {
-                TextAnnotation textAnnotation = (TextAnnotation)theEObject;
-                T result = caseTextAnnotation(textAnnotation);
-                if (result == null) result = defaultCase(theEObject);
-                return result;
-            }
-            default: return defaultCase(theEObject);
-        }
-    }
+		switch (classifierID) {
+			case ExamplePackage.CHECK_ANNOTATION: {
+				CheckAnnotation checkAnnotation = (CheckAnnotation)theEObject;
+				T result = caseCheckAnnotation(checkAnnotation);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ExamplePackage.INTEGER_ANNOTATION: {
+				IntegerAnnotation integerAnnotation = (IntegerAnnotation)theEObject;
+				T result = caseIntegerAnnotation(integerAnnotation);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ExamplePackage.TEXT_ANNOTATION: {
+				TextAnnotation textAnnotation = (TextAnnotation)theEObject;
+				T result = caseTextAnnotation(textAnnotation);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			case ExamplePackage.REFERENCES_EXAMPLE: {
+				ReferencesExample referencesExample = (ReferencesExample)theEObject;
+				T result = caseReferencesExample(referencesExample);
+				if (result == null) result = defaultCase(theEObject);
+				return result;
+			}
+			default: return defaultCase(theEObject);
+		}
+	}
 
     /**
-     * Returns the result of interpreting the object as an instance of '<em>Check Annotation</em>'.
-     * <!-- begin-user-doc -->
+	 * Returns the result of interpreting the object as an instance of '<em>Check Annotation</em>'.
+	 * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Check Annotation</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Check Annotation</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public T caseCheckAnnotation(CheckAnnotation object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * Returns the result of interpreting the object as an instance of '<em>Integer Annotation</em>'.
-     * <!-- begin-user-doc -->
+	 * Returns the result of interpreting the object as an instance of '<em>Integer Annotation</em>'.
+	 * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Integer Annotation</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Integer Annotation</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public T caseIntegerAnnotation(IntegerAnnotation object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * Returns the result of interpreting the object as an instance of '<em>Text Annotation</em>'.
-     * <!-- begin-user-doc -->
+	 * Returns the result of interpreting the object as an instance of '<em>Text Annotation</em>'.
+	 * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch.
      * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>Text Annotation</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>Text Annotation</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
     public T caseTextAnnotation(TextAnnotation object) {
-        return null;
-    }
+		return null;
+	}
 
     /**
-     * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
-     * <!-- begin-user-doc -->
+	 * Returns the result of interpreting the object as an instance of '<em>References Example</em>'.
+	 * <!-- begin-user-doc -->
+	 * This implementation returns null;
+	 * returning a non-null result will terminate the switch.
+	 * <!-- end-user-doc -->
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>References Example</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
+	 * @generated
+	 */
+	public T caseReferencesExample(ReferencesExample object) {
+		return null;
+	}
+
+				/**
+	 * Returns the result of interpreting the object as an instance of '<em>EObject</em>'.
+	 * <!-- begin-user-doc -->
      * This implementation returns null;
      * returning a non-null result will terminate the switch, but this is the last case anyway.
      * <!-- end-user-doc -->
-     * @param object the target of the switch.
-     * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
-     * @see #doSwitch(org.eclipse.emf.ecore.EObject)
-     * @generated
-     */
+	 * @param object the target of the switch.
+	 * @return the result of interpreting the object as an instance of '<em>EObject</em>'.
+	 * @see #doSwitch(org.eclipse.emf.ecore.EObject)
+	 * @generated
+	 */
     public T defaultCase(EObject object) {
-        return null;
-    }
+		return null;
+	}
 
 } //ExampleSwitch

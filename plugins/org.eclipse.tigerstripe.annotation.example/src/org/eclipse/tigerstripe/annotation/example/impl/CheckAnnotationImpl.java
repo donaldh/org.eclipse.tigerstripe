@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: CheckAnnotationImpl.java,v 1.2 2008/05/11 12:42:21 ystrot Exp $
+ * $Id: CheckAnnotationImpl.java,v 1.3 2011/11/01 11:12:15 asalnik Exp $
  */
 package org.eclipse.tigerstripe.annotation.example.impl;
 
@@ -42,137 +42,137 @@ import org.eclipse.tigerstripe.annotation.example.ExamplePackage;
  */
 public class CheckAnnotationImpl extends EObjectImpl implements CheckAnnotation {
     /**
-     * The default value of the '{@link #isChecked() <em>Checked</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * The default value of the '{@link #isChecked() <em>Checked</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #isChecked()
-     * @generated
-     * @ordered
-     */
+	 * @see #isChecked()
+	 * @generated
+	 * @ordered
+	 */
     protected static final boolean CHECKED_EDEFAULT = false;
 
     /**
-     * The cached value of the '{@link #isChecked() <em>Checked</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * The cached value of the '{@link #isChecked() <em>Checked</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @see #isChecked()
-     * @generated
-     * @ordered
-     */
+	 * @see #isChecked()
+	 * @generated
+	 * @ordered
+	 */
     protected boolean checked = CHECKED_EDEFAULT;
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     protected CheckAnnotationImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     protected EClass eStaticClass() {
-        return ExamplePackage.Literals.CHECK_ANNOTATION;
-    }
+		return ExamplePackage.Literals.CHECK_ANNOTATION;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public boolean isChecked() {
-        return checked;
-    }
+		return checked;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public void setChecked(boolean newChecked) {
-        boolean oldChecked = checked;
-        checked = newChecked;
-        if (eNotificationRequired())
-            eNotify(new ENotificationImpl(this, Notification.SET, ExamplePackage.CHECK_ANNOTATION__CHECKED, oldChecked, checked));
-    }
+		boolean oldChecked = checked;
+		checked = newChecked;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ExamplePackage.CHECK_ANNOTATION__CHECKED, oldChecked, checked));
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public Object eGet(int featureID, boolean resolve, boolean coreType) {
-        switch (featureID) {
-            case ExamplePackage.CHECK_ANNOTATION__CHECKED:
-                return isChecked() ? Boolean.TRUE : Boolean.FALSE;
-        }
-        return super.eGet(featureID, resolve, coreType);
-    }
+		switch (featureID) {
+			case ExamplePackage.CHECK_ANNOTATION__CHECKED:
+				return isChecked();
+		}
+		return super.eGet(featureID, resolve, coreType);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public void eSet(int featureID, Object newValue) {
-        switch (featureID) {
-            case ExamplePackage.CHECK_ANNOTATION__CHECKED:
-                setChecked(((Boolean)newValue).booleanValue());
-                return;
-        }
-        super.eSet(featureID, newValue);
-    }
+		switch (featureID) {
+			case ExamplePackage.CHECK_ANNOTATION__CHECKED:
+				setChecked((Boolean)newValue);
+				return;
+		}
+		super.eSet(featureID, newValue);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public void eUnset(int featureID) {
-        switch (featureID) {
-            case ExamplePackage.CHECK_ANNOTATION__CHECKED:
-                setChecked(CHECKED_EDEFAULT);
-                return;
-        }
-        super.eUnset(featureID);
-    }
+		switch (featureID) {
+			case ExamplePackage.CHECK_ANNOTATION__CHECKED:
+				setChecked(CHECKED_EDEFAULT);
+				return;
+		}
+		super.eUnset(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public boolean eIsSet(int featureID) {
-        switch (featureID) {
-            case ExamplePackage.CHECK_ANNOTATION__CHECKED:
-                return checked != CHECKED_EDEFAULT;
-        }
-        return super.eIsSet(featureID);
-    }
+		switch (featureID) {
+			case ExamplePackage.CHECK_ANNOTATION__CHECKED:
+				return checked != CHECKED_EDEFAULT;
+		}
+		return super.eIsSet(featureID);
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public String toString() {
-        if (eIsProxy()) return super.toString();
+		if (eIsProxy()) return super.toString();
 
-        StringBuffer result = new StringBuffer(super.toString());
-        result.append(" (checked: ");
-        result.append(checked);
-        result.append(')');
-        return result.toString();
-    }
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (checked: ");
+		result.append(checked);
+		result.append(')');
+		return result.toString();
+	}
 
 } //CheckAnnotationImpl

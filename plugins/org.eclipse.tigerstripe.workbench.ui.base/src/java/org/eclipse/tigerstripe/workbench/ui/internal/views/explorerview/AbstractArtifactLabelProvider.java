@@ -23,7 +23,6 @@ import org.eclipse.tigerstripe.repository.internal.ArtifactMetadataFactory;
 import org.eclipse.tigerstripe.repository.internal.IModelComponentMetadata;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
-import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -44,6 +43,11 @@ public class AbstractArtifactLabelProvider implements ILabelProvider,
 	}
 
 	public Image getImage(Object element, boolean transparencySupported) {
+		return getImage(element, transparencySupported, false);
+	}
+
+	public Image getImage(Object element, boolean transparencySupported,
+			boolean ignoreFacets) {
 
 		transparencySupported = true; // transparency support removed because
 		// of problems with SWTHandles. This was introduced for support of
@@ -51,12 +55,14 @@ public class AbstractArtifactLabelProvider implements ILabelProvider,
 		// solution.
 
 		boolean isInActiveFacet = true;
-		if (element instanceof IAbstractArtifact) {
-			IAbstractArtifact artifact = (IAbstractArtifact) element;
-			try {
-				isInActiveFacet = artifact.isInActiveFacet();
-			} catch (TigerstripeException e) {
-				EclipsePlugin.log(e);
+		if (!ignoreFacets) {
+			if (element instanceof IAbstractArtifact) {
+				IAbstractArtifact artifact = (IAbstractArtifact) element;
+				try {
+					isInActiveFacet = artifact.isInActiveFacet();
+				} catch (TigerstripeException e) {
+					EclipsePlugin.log(e);
+				}
 			}
 		}
 
@@ -83,7 +89,7 @@ public class AbstractArtifactLabelProvider implements ILabelProvider,
 	}
 
 	public String getText(Object element) {
-		IAbstractArtifactInternal artifact = (IAbstractArtifactInternal) element;
+		IAbstractArtifact artifact = (IAbstractArtifact) element;
 		return artifact.getFullyQualifiedName();
 	}
 

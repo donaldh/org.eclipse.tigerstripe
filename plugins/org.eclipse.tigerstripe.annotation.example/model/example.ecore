@@ -2,7 +2,7 @@
 <ecore:EPackage xmi:version="2.0"
     xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="example"
-    nsURI="http:///org/eclipse/tigerstripe/annotation/example.ecore" nsPrefix="org.eclipse.tigerstripe.annotation.example">
+    nsURI="http://eclipse.org/tigerstripe/examples/annotation" nsPrefix="org.eclipse.tigerstripe.annotation.example">
   <eClassifiers xsi:type="ecore:EClass" name="CheckAnnotation">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="checked" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
@@ -24,5 +24,15 @@
         <details key="multiline" value="true"/>
       </eAnnotations>
     </eStructuralFeatures>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ReferencesExample">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity" eType="ecore:EClass ../../org.eclipse.tigerstripe.workbench.base/model/annotationModelReference.ecore#//ModelReference"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="ecore:EClass ../../org.eclipse.tigerstripe.workbench.base/model/annotationModelReference.ecore#//ModelReference"
+        containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stringRefToAttribute" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="stringRefsToAttributes"
+        upperBound="-1" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
 </ecore:EPackage>

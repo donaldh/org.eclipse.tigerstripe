@@ -13,7 +13,7 @@
  *     
  * </copyright>
  *
- * $Id: ExampleFactoryImpl.java,v 1.2 2008/05/11 12:42:21 ystrot Exp $
+ * $Id: ExampleFactoryImpl.java,v 1.3 2011/11/01 11:12:15 asalnik Exp $
  */
 package org.eclipse.tigerstripe.annotation.example.impl;
 
@@ -35,98 +35,109 @@ import org.eclipse.tigerstripe.annotation.example.*;
  */
 public class ExampleFactoryImpl extends EFactoryImpl implements ExampleFactory {
     /**
-     * Creates the default factory implementation.
-     * <!-- begin-user-doc -->
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public static ExampleFactory init() {
-        try {
-            ExampleFactory theExampleFactory = (ExampleFactory)EPackage.Registry.INSTANCE.getEFactory("http:///org/eclipse/tigerstripe/annotation/example.ecore"); 
-            if (theExampleFactory != null) {
-                return theExampleFactory;
-            }
-        }
-        catch (Exception exception) {
-            EcorePlugin.INSTANCE.log(exception);
-        }
-        return new ExampleFactoryImpl();
-    }
+		try {
+			ExampleFactory theExampleFactory = (ExampleFactory)EPackage.Registry.INSTANCE.getEFactory("http://eclipse.org/tigerstripe/examples/annotation"); 
+			if (theExampleFactory != null) {
+				return theExampleFactory;
+			}
+		}
+		catch (Exception exception) {
+			EcorePlugin.INSTANCE.log(exception);
+		}
+		return new ExampleFactoryImpl();
+	}
 
     /**
-     * Creates an instance of the factory.
-     * <!-- begin-user-doc -->
+	 * Creates an instance of the factory.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public ExampleFactoryImpl() {
-        super();
-    }
+		super();
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     @Override
     public EObject create(EClass eClass) {
-        switch (eClass.getClassifierID()) {
-            case ExamplePackage.CHECK_ANNOTATION: return createCheckAnnotation();
-            case ExamplePackage.INTEGER_ANNOTATION: return createIntegerAnnotation();
-            case ExamplePackage.TEXT_ANNOTATION: return createTextAnnotation();
-            default:
-                throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
-        }
-    }
+		switch (eClass.getClassifierID()) {
+			case ExamplePackage.CHECK_ANNOTATION: return createCheckAnnotation();
+			case ExamplePackage.INTEGER_ANNOTATION: return createIntegerAnnotation();
+			case ExamplePackage.TEXT_ANNOTATION: return createTextAnnotation();
+			case ExamplePackage.REFERENCES_EXAMPLE: return createReferencesExample();
+			default:
+				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
+		}
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public CheckAnnotation createCheckAnnotation() {
-        CheckAnnotationImpl checkAnnotation = new CheckAnnotationImpl();
-        return checkAnnotation;
-    }
+		CheckAnnotationImpl checkAnnotation = new CheckAnnotationImpl();
+		return checkAnnotation;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public IntegerAnnotation createIntegerAnnotation() {
-        IntegerAnnotationImpl integerAnnotation = new IntegerAnnotationImpl();
-        return integerAnnotation;
-    }
+		IntegerAnnotationImpl integerAnnotation = new IntegerAnnotationImpl();
+		return integerAnnotation;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public TextAnnotation createTextAnnotation() {
-        TextAnnotationImpl textAnnotation = new TextAnnotationImpl();
-        return textAnnotation;
-    }
+		TextAnnotationImpl textAnnotation = new TextAnnotationImpl();
+		return textAnnotation;
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public ReferencesExample createReferencesExample() {
+		ReferencesExampleImpl referencesExample = new ReferencesExampleImpl();
+		return referencesExample;
+	}
+
+				/**
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @generated
-     */
+	 * @generated
+	 */
     public ExamplePackage getExamplePackage() {
-        return (ExamplePackage)getEPackage();
-    }
+		return (ExamplePackage)getEPackage();
+	}
 
     /**
-     * <!-- begin-user-doc -->
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @deprecated
-     * @generated
-     */
+	 * @deprecated
+	 * @generated
+	 */
     @Deprecated
     public static ExamplePackage getPackage() {
-        return ExamplePackage.eINSTANCE;
-    }
+		return ExamplePackage.eINSTANCE;
+	}
 
 } //ExampleFactoryImpl

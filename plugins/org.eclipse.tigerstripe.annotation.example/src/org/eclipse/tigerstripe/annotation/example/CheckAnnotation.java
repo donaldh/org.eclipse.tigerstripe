@@ -25,13 +25,13 @@ public interface CheckAnnotation extends EObject  {
 	boolean isChecked();
 
     /**
-     * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.example.CheckAnnotation#isChecked <em>Checked</em>}' attribute.
-     * <!-- begin-user-doc -->
+	 * Sets the value of the '{@link org.eclipse.tigerstripe.annotation.example.CheckAnnotation#isChecked <em>Checked</em>}' attribute.
+	 * <!-- begin-user-doc -->
      * <!-- end-user-doc -->
-     * @param value the new value of the '<em>Checked</em>' attribute.
-     * @see #isChecked()
-     * @generated
-     */
+	 * @param value the new value of the '<em>Checked</em>' attribute.
+	 * @see #isChecked()
+	 * @generated
+	 */
     void setChecked(boolean value);
 
 }

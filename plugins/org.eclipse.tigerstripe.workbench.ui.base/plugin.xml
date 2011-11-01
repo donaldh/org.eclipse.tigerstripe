@@ -6,6 +6,7 @@
    <extension-point id="diagramAuditor" name="Diagram Auditor" schema="schema/diagramAuditor.exsd"/>
    <extension-point id="labelDecorator" name="Label Decorator" schema="schema/labelDecorator.exsd"/>
    <extension-point id="lifecycle" name="Diagram Lifecycle" schema="schema/lifecycle.exsd"/>
+   <extension-point id="modelReferenceEditor" name="Model reference cell editor for annotations" schema="schema/modelReferenceEditor.exsd"/>
    <extension
          point="org.eclipse.ui.editors">
       <editor
@@ -1876,4 +1877,10 @@
          <processor
                class="org.eclipse.tigerstripe.workbench.ui.internal.TigerstripeAnnotationTargetProcessor" />
    </extension>
+   <extension
+      point="org.eclipse.tigerstripe.annotation.ui.propertyProvider">
+    <provider
+        class="org.eclipse.tigerstripe.workbench.ui.internal.annotation.properties.ModelReferencePropertyProvider"
+        priority="2"/>
+  </extension>
 </plugin>

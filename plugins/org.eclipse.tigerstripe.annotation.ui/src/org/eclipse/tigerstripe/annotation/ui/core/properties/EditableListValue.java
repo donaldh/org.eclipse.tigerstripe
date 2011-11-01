@@ -118,4 +118,7 @@ public class EditableListValue implements IEditableValue {
 		return null;
 	}
 
+	public EditableFeature getParent() {
+		return parent;
+	}
 }

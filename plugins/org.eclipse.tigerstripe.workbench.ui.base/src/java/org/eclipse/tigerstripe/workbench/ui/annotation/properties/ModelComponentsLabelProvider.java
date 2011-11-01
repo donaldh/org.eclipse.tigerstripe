@@ -1,0 +1,49 @@
+package org.eclipse.tigerstripe.workbench.ui.annotation.properties;
+
+import org.eclipse.jface.viewers.LabelProvider;
+import org.eclipse.swt.graphics.Image;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
+import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
+import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.AbstractArtifactLabelProvider;
+import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.RelationshipAnchor;
+
+public class ModelComponentsLabelProvider extends LabelProvider {
+
+	private final AbstractArtifactLabelProvider artifactLabelProvider = new AbstractArtifactLabelProvider();
+
+	@Override
+	public Image getImage(Object element) {
+		if (element instanceof IAbstractArtifact)
+			return artifactLabelProvider.getImage(element, true, true);
+		else if (element instanceof IField)
+			return Images.get(Images.FIELD_ICON);
+		else if (element instanceof IMethod)
+			return Images.get(Images.METHOD_ICON);
+		else if (element instanceof ILiteral)
+			return Images.get(Images.LITERAL_ICON);
+		else if (element instanceof IAssociationEnd)
+			return Images.get(Images.ASSOCIATION_ICON);
+		else if (element instanceof IRelationshipEnd)
+			return Images.get(Images.DEPENDENCY_ICON);
+		else if (element instanceof RelationshipAnchor)
+			return Images.get(Images.ASSOCIATION_ICON);
+		else
+			return super.getImage(element);
+	}
+
+	@Override
+	public String getText(Object element) {
+		if (element instanceof IAbstractArtifact) {
+			return ((IAbstractArtifact) element).getFullyQualifiedName();
+		} else if (element instanceof IModelComponent) {
+			return ((IModelComponent) element).getName();
+		}
+		return super.getText(element);
+	}
+}
