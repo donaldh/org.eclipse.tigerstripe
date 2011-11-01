@@ -326,6 +326,7 @@ public class AssociationEnd extends ArtifactComponent implements
 		return getContainingAssociation();
 	}
 
+	@ProvideModelComponents
 	public IRelationshipEnd getOtherEnd() {
 		if (this == getContainingRelationship().getRelationshipAEnd())
 			return getContainingRelationship().getRelationshipZEnd();
