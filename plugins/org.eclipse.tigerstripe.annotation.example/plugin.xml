@@ -5,7 +5,7 @@
  <copyright>
  </copyright>
 
- $Id: plugin.xml,v 1.7 2011/11/01 11:12:15 asalnik Exp $
+ $Id: plugin.xml,v 1.8 2011/11/01 12:24:38 asalnik Exp $
 -->
 
 <plugin>
@@ -47,7 +47,7 @@
   <extension
         point="org.eclipse.tigerstripe.annotation.core.packageLabel">
      <label
-           epackage-uri="http:///org/eclipse/tigerstripe/annotation/example.ecore"
+           epackage-uri="http://eclipse.org/tigerstripe/examples/annotation"
            name="Primitive"/>
   </extension>
   
