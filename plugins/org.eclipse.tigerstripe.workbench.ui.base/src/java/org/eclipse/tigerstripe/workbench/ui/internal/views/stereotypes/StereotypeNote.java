@@ -13,9 +13,11 @@ package org.eclipse.tigerstripe.workbench.ui.internal.views.stereotypes;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.tigerstripe.annotation.ui.core.view.EObjectBasedNote;
 import org.eclipse.tigerstripe.annotation.ui.core.view.INote;
+import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotype;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeInstance;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -23,6 +25,8 @@ import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 
 public class StereotypeNote extends EObjectBasedNote implements INote {
 
+	private static final EObject NULL_CONTENT = EcoreFactory.eINSTANCE
+			.createEObject();
 	private final IStereotypeInstance stereotype;
 	private final IStereotypeCapable capable;
 	private EObject eObject;
@@ -35,7 +39,12 @@ public class StereotypeNote extends EObjectBasedNote implements INote {
 	}
 
 	public String getDescription() {
-		return stereotype.getCharacterizingStereotype().getDescription();
+		IStereotype characterizingStereotype = stereotype
+				.getCharacterizingStereotype();
+		if (characterizingStereotype == null) {
+			return "";
+		}
+		return characterizingStereotype.getDescription();
 	}
 
 	public Image getImage() {
@@ -79,6 +88,14 @@ public class StereotypeNote extends EObjectBasedNote implements INote {
 	private void initEObject() {
 		StereotypeConverter converter = new StereotypeConverter();
 		eObject = converter.createObject(stereotype);
+		if (eObject == null) {
+			eObject = NULL_CONTENT;
+		}
+	}
+
+	public boolean isLoadable() {
+		getContent();
+		return eObject != NULL_CONTENT;
 	}
 
 }

@@ -1181,9 +1181,10 @@
 	          class="org.eclipse.tigerstripe.workbench.ui.explorer.TigerstripeLinkHelper"
 	          id="org.eclipse.tigerstripe.workbench.ui.explorer.linkHelper">
           <selectionEnablement>
-	       <instanceof
-              value="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode">
-	       </instanceof>
+         	<or>
+         		<instanceof value="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode" />
+         		<instanceof value="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.ElementWrapper" />
+         	</or>
           </selectionEnablement>
 	       <editorInputEnablement>
 	       </editorInputEnablement>

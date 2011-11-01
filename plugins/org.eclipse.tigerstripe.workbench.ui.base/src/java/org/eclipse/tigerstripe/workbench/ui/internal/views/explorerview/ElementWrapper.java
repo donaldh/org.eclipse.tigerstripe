@@ -4,6 +4,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.tigerstripe.workbench.IElementWrapper;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
+import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
@@ -16,6 +17,10 @@ public class ElementWrapper implements IElementWrapper {
 
 	private final ITigerstripeModelProject contextProject;
 
+	public ElementWrapper(IContextProjectAware ctxpa) {
+		this(ctxpa, ctxpa.getContextProject());
+	}
+	
 	public ElementWrapper(Object element,
 			ITigerstripeModelProject contextProject) {
 		this.contextProject = contextProject;
@@ -82,5 +87,9 @@ public class ElementWrapper implements IElementWrapper {
 		}
 
 		return true;
+	}
+
+	public URI getUri() {
+		return uri;
 	}
 }

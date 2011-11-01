@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.startup;
 
+import static org.eclipse.tigerstripe.workbench.internal.BasePlugin.PLUGIN_ID;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -87,8 +89,21 @@ public class PostInstallActions {
 
 				baseBundleRoot = findBaseBundleRoot(context);
 				workbenchFeatureVersion = findWorkbenchFeatureVersion(context);
-				createPropertiesFileForHeadlessRun(context);
-
+				Job job = new Job("Create Properties File For Headless") {
+					
+					@Override
+					protected IStatus run(IProgressMonitor monitor) {
+						try {
+							createPropertiesFileForHeadlessRun(context);
+							return Status.OK_STATUS;
+						} catch (TigerstripeException e) {
+							return new Status(IStatus.ERROR, PLUGIN_ID, e.getMessage(), e);
+						}
+					}
+				};
+				job.setPriority(Job.INTERACTIVE);
+				job.schedule();
+				
 				// checkForUpgrade(workbenchFeatureVersion);
 				
 				// create the phantom project

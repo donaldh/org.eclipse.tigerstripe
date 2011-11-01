@@ -42,5 +42,7 @@ public interface INote {
 	public boolean isReadOnly();
 
 	public boolean isValid();
+	
+	public boolean isLoadable();
 
 }

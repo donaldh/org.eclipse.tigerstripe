@@ -62,7 +62,7 @@ public class ContextProjectAwareProxy implements
 				IAnnotationCapable ac = new AnnotationCapable(proxy);
 				result = m.invoke(ac, args);
 			} else {
-				result = m.invoke(obj, args);
+				result = m.invoke(getObject(), args);
 				if (result != null && needToProxyResult(m)) {
 					result = proxyResult(result);
 				}
@@ -81,7 +81,7 @@ public class ContextProjectAwareProxy implements
 			return true;
 		} else {
 			try {
-				java.lang.reflect.Method m = obj.getClass().getMethod(
+				java.lang.reflect.Method m = getObject().getClass().getMethod(
 						method.getName(), method.getParameterTypes());
 				if (m.getAnnotation(ProvideModelComponents.class) != null) {
 					return true;
@@ -109,5 +109,9 @@ public class ContextProjectAwareProxy implements
 			return newCollection;
 		}
 		return collection;
+	}
+
+	public Object getObject() {
+		return obj;
 	}
 }

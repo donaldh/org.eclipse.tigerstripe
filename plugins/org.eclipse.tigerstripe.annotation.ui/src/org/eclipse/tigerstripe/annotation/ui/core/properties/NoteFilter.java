@@ -31,7 +31,7 @@ public class NoteFilter implements IFilter {
 	 *         and false otherwise
 	 */
 	public boolean select(INote note) {
-		return note.getContent() != null;
+		return note.isLoadable();
 	}
 
 	/*

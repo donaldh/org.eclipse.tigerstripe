@@ -104,4 +104,8 @@ public class AnnotationNote extends EObjectBasedNote implements INote {
 		isValid = valid;
 	}
 
+	public boolean isLoadable() {
+		return getContent() != null;
+	}
+
 }
