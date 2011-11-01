@@ -129,13 +129,18 @@ public class SearchResultLabelProvider extends LabelProvider {
 			// This case happens when the search brings up a result from a
 			// module
 			ModuleArtifactManager mMgr = (ModuleArtifactManager) element;
-			if (mMgr.getEmbeddedProject() != null)
-				return mMgr.getEmbeddedProject().getProjectLabel()
-						+ "-"
-						+ mMgr.getEmbeddedProject().getProjectDetails()
-								.getVersion();
-			else
+			
+			if (mMgr.getEmbeddedProject() == null
+					|| mMgr.getEmbeddedProject().getProjectDetails() == null) {
 				return "unknown";
+			}
+		 
+			return mMgr.getEmbeddedProject().getProjectDetails().getModelId()
+					+ "-"
+					+ mMgr.getEmbeddedProject().getProjectDetails()
+							.getVersion();
+		
+				
 		} else if (element instanceof ArtifactManager) {
 			// This may happen if the result is coming from the PhantomProject
 			// (i.e. from a definition
