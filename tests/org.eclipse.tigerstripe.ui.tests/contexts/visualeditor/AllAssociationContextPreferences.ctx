@@ -1360,7 +1360,6 @@
     <childs name="org.eclipse.jdt.core">
       <data xsi:type="com.xored.q7.preferences:StringPrefData" key="org.eclipse.jdt.core.compiler.source" value="1.6"/>
       <data xsi:type="com.xored.q7.preferences:StringPrefData" key="org.eclipse.jdt.core.compiler.compliance" value="1.6"/>
-      <data xsi:type="com.xored.q7.preferences:StringPrefData" key="org.eclipse.jdt.core.classpathVariable.PROFILE_ARTIFACTS_LIB" value="C:/programs/q7-395/tigerstripe/phantom/lib/phantom.zip"/>
       <data xsi:type="com.xored.q7.preferences:StringPrefData" key="org.eclipse.jdt.core.compiler.problem.assertIdentifier" value="error"/>
       <data xsi:type="com.xored.q7.preferences:StringPrefData" key="org.eclipse.jdt.core.compiler.codegen.targetPlatform" value="1.6"/>
       <data xsi:type="com.xored.q7.preferences:StringPrefData" key="org.eclipse.jdt.core.compiler.codegen.inlineJsrBytecode" value="enabled"/>
