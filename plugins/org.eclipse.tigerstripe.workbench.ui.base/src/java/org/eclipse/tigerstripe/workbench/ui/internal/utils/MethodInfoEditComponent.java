@@ -43,6 +43,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
@@ -229,7 +230,34 @@ public class MethodInfoEditComponent {
 	}
 
 	public void setEnabled(boolean value) {
-		ComponentUtils.setEnabledAll(sectionClient, value);
+		if (argViewer != null) {
+			List<Control> toIgnore = new ArrayList<Control>();
+			collectIntermediateControls(argViewer.getControl(), sectionClient,
+					toIgnore);
+			toIgnore.add(argViewer.getControl());
+			setEnabledAll(sectionClient, toIgnore, value);
+		}
+	}
+
+	private void setEnabledAll(Composite parent,
+			List<Control> childsToIgnore, boolean value) {
+		for (Control child : parent.getChildren()) {
+			if (!childsToIgnore.contains(child)) {
+				child.setEnabled(value);
+				if (child instanceof Composite) {
+					setEnabledAll((Composite) child, childsToIgnore, value);
+				}
+			}
+		}
+	}
+
+	private void collectIntermediateControls(Control from, Control to,
+			List<Control> result) {
+		Control parent = from.getParent();
+		if (parent != null && !parent.equals(to) && result.size() < 10) {
+			result.add(parent);
+			collectIntermediateControls(parent, to, result);
+		}
 	}
 
 	public IMethod getMethod() {
@@ -508,7 +536,6 @@ public class MethodInfoEditComponent {
 		MethodInfoListener adapter = new MethodInfoListener();
 		Table table = toolkit.createTable(composite, SWT.BORDER
 				| SWT.FULL_SELECTION | SWT.H_SCROLL | SWT.V_SCROLL);
-		table.setEnabled(!isReadOnly);
 		table.addSelectionListener(adapter);
 
 		Composite buttonsClient = toolkit.createComposite(composite);
@@ -1423,7 +1450,7 @@ public class MethodInfoEditComponent {
 			SelectionListener, IDoubleClickListener {
 
 		public void doubleClick(DoubleClickEvent event) {
-			if (event.getSource() == argViewer) {
+			if (event.getSource() == argViewer && !isReadOnly) {
 				editArgButtonPressed();
 			}
 		}
@@ -1432,7 +1459,9 @@ public class MethodInfoEditComponent {
 		}
 
 		public void widgetSelected(SelectionEvent e) {
-			handleWidgetSelected(e);
+			if (!isReadOnly) {
+				handleWidgetSelected(e);
+			}
 		}
 
 		public void keyPressed(KeyEvent e) {
