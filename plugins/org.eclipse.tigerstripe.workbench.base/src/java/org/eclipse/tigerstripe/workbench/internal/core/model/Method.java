@@ -410,6 +410,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 		}
 	}
 
+	@ProvideModelComponents
 	public Collection<IArgument> getArguments() {
 		return Collections.unmodifiableCollection(this.arguments);
 	}
@@ -793,6 +794,7 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			this.type = type;
 		}
 
+		@ProvideModelComponents
 		public IType getType() {
 			return this.type;
 		}
@@ -801,10 +803,12 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 			setType((Type) type);
 		}
 
+		@ProvideModelComponents
 		public IMethod getContainingMethod() {
 			return this.parentMethod;
 		}
 
+		@ProvideModelComponents
 		public IAbstractArtifact getContainingArtifact() {
 			return this.parentMethod
 					.getContainingArtifact();

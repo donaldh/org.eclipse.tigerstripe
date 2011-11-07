@@ -26,19 +26,23 @@ import org.eclipse.tigerstripe.workbench.Contextual;
 import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.annotation.IAnnotationCapable;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.project.ContextualModelProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class ContextProjectAwareProxy implements
 		java.lang.reflect.InvocationHandler {
 
-	private static final java.lang.reflect.Method GET_PROJECT = getMethod(IModelComponent.class, Contextual.class);
-	
+	private static final java.lang.reflect.Method GET_PROJECT = getMethod(
+			IModelComponent.class, Contextual.class);
+
+	private static final java.lang.reflect.Method ITYPE_GET_ARTIFACT_MANAGER = getMethod(
+			IType.class, Contextual.class);
+
 	private final Object obj;
 	private volatile ITigerstripeModelProject context;
 
-	public static <T> T newInstance(T obj,
-			ITigerstripeModelProject context) {
+	public static <T> T newInstance(T obj, ITigerstripeModelProject context) {
 		if (obj instanceof IContextProjectAware) {
 			return obj;
 		}
@@ -59,7 +63,8 @@ public class ContextProjectAwareProxy implements
 	public static <T> T newInstanceOrChangeContext(T obj,
 			ITigerstripeModelProject context) {
 		if (obj instanceof IContextProjectAware) {
-			ContextProjectAwareProxy handler = (ContextProjectAwareProxy) Proxy.getInvocationHandler(obj);
+			ContextProjectAwareProxy handler = (ContextProjectAwareProxy) Proxy
+					.getInvocationHandler(obj);
 			handler.context = context;
 			return obj;
 		}
@@ -72,7 +77,7 @@ public class ContextProjectAwareProxy implements
 				.getClassLoader(), collectRequiredInterfaces(obj),
 				new ContextProjectAwareProxy(obj, context));
 	}
-	
+
 	private static Class<?>[] collectRequiredInterfaces(Object obj) {
 		HashSet<Class<?>> ifaces = new HashSet<Class<?>>();
 		collectionIfaces(obj.getClass(), ifaces);
@@ -90,7 +95,7 @@ public class ContextProjectAwareProxy implements
 			collectionIfaces(superclass, ifaces);
 		}
 	}
-	
+
 	private ContextProjectAwareProxy(Object obj,
 			ITigerstripeModelProject context) {
 		this.obj = obj;
@@ -101,16 +106,26 @@ public class ContextProjectAwareProxy implements
 			throws Throwable {
 		Object result = null;
 		try {
-			
+
 			if (sameSignature(GET_PROJECT, m)) {
-				ITigerstripeModelProject proj = (ITigerstripeModelProject) m.invoke(getObject(), args);
+				ITigerstripeModelProject proj = (ITigerstripeModelProject) m
+						.invoke(getObject(), args);
 				if (proj == null) {
 					return null;
 				} else {
 					return new ContextualModelProject(proj, context);
 				}
+			} else if (sameSignature(ITYPE_GET_ARTIFACT_MANAGER, m)) {
+				ArtifactManager artifactManager = (ArtifactManager) m.invoke(
+						getObject(), args);
+				if (artifactManager == null) {
+					return null;
+				} else {
+					return new ContextualArtifactManager(artifactManager,
+							context);
+				}
 			}
-			
+
 			if (IContextProjectAware.class.equals(m.getDeclaringClass())) {
 				if ("getContextProject".equals(m.getName())) {
 					return context;

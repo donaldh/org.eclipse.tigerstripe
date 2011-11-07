@@ -303,7 +303,7 @@ public class AssociationEnd extends ArtifactComponent implements
 	@ProvideModelComponents
 	public IModelComponent getContainingModelComponent() {
 		if (this.containingModelComponent instanceof IAssociationArtifact)
-			return (IAbstractArtifact) this.containingModelComponent;
+			return this.containingModelComponent;
 		else
 			return null;
 	}

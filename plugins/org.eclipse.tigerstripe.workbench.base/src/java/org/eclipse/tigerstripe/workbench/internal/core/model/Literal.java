@@ -170,6 +170,7 @@ public class Literal extends ArtifactComponent implements ILiteral {
 		return new Type(getArtifactManager());
 	}
 
+	@ProvideModelComponents
 	public IType getType() {
 		return this.type;
 	}
