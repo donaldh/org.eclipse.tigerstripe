@@ -22,6 +22,7 @@ import static org.eclipse.tigerstripe.annotation.core.Filters.startWith;
 import static org.eclipse.tigerstripe.annotation.core.Helper.firstOrNull;
 import static org.eclipse.tigerstripe.annotation.core.Helper.makeUri;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -50,6 +51,7 @@ import org.eclipse.emf.transaction.ResourceSetListener;
 import org.eclipse.emf.transaction.ResourceSetListenerImpl;
 import org.eclipse.emf.transaction.RunnableWithResult;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.impl.TransactionalCommandStackImpl;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationException;
 import org.eclipse.tigerstripe.annotation.core.AnnotationFactory;
@@ -117,8 +119,27 @@ public class AnnotationManager implements IAnnotationManager {
 		storage = new Storage(domain, annFilesRecognizer);
 		resourceSetListener = makeResourceSetListener();
 		domain.addResourceSetListener(resourceSetListener);
+		removeUILock();
 	}
 	
+	private void removeUILock() {
+		try {
+			Field transactionLock = TransactionalCommandStackImpl.class.getField("transactionLock");
+			Field writeLock = TransactionalCommandStackImpl.class.getField("writeLock");
+			try {
+				transactionLock.setAccessible(true);
+				writeLock.setAccessible(true);
+				transactionLock.set(domain, new SimpleLock());
+				writeLock.set(domain, new SimpleLock());
+			} finally {
+				transactionLock.setAccessible(false);
+				writeLock.setAccessible(false);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	private final LazyProvider<Map<String, AnnotationType>> types = new LazyProvider<Map<String, AnnotationType>>(
 			new Loader<Map<String, AnnotationType>>() {
 

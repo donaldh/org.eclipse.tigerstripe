@@ -86,7 +86,7 @@ public class ArtifactManagerSessionImpl implements IArtifactManagerSession {
 
 	// =======================================================================
 
-	protected ArtifactManagerSessionImpl(ArtifactManager artifactManager) {
+	public ArtifactManagerSessionImpl(ArtifactManager artifactManager) {
 		super();
 		this.artifactManager = artifactManager;
 	}

@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.part;
 
+import static org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory.toURI;
+
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,6 +26,7 @@ import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.ISelection;
+import org.eclipse.tigerstripe.annotation.core.AnnotationPlugin;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelChangeRequest;
 import org.eclipse.tigerstripe.workbench.internal.api.model.artifacts.updater.IModelUpdater;
@@ -287,6 +290,14 @@ public class TSRemoveFromModelAction extends BaseDiagramPartAction implements
 
 						handleCascadeDelete(relationshipsToCascadeDelete,
 								updater);
+						
+						if (component instanceof IField) {
+							AnnotationPlugin.getManager().deleted(toURI(component), true);
+						} else if (component instanceof IMethod) {
+							AnnotationPlugin.getManager().deleted(toURI(component), true);
+						} else if (component instanceof ILiteral) {
+							AnnotationPlugin.getManager().deleted(toURI(component), true);
+						}
 					}
 				} catch (TigerstripeException e) {
 					EclipsePlugin.log(e);

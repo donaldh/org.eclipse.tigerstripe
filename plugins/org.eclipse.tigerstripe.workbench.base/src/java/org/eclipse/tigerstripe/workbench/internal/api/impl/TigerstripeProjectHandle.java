@@ -38,6 +38,7 @@ import org.eclipse.tigerstripe.workbench.internal.contract.useCase.UseCaseRefere
 import org.eclipse.tigerstripe.workbench.internal.core.generation.M1Generator;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.M1RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManagerImpl;
 import org.eclipse.tigerstripe.workbench.internal.core.model.importing.AbstractImportCheckpointHelper;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
@@ -108,7 +109,7 @@ public abstract class TigerstripeProjectHandle extends
 			throws TigerstripeException {
 		if (artifactMgrSession == null) {
 			if (manager == null) {
-				manager = new ArtifactManager(getTSProject());
+				manager = new ArtifactManagerImpl(getTSProject());
 			}
 			setArtifactManagerSession(new ArtifactManagerSessionImpl(manager));
 

@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManagerImpl;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
 import org.eclipse.tigerstripe.workbench.profile.IWorkbenchProfile;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
@@ -29,7 +30,7 @@ import org.eclipse.tigerstripe.workbench.project.IDependency;
  * @author Eric Dillon
  * 
  */
-public class ModuleArtifactManager extends ArtifactManager {
+public class ModuleArtifactManager extends ArtifactManagerImpl {
 
 	private ModuleDescriptorModel moduleModel;
 	
