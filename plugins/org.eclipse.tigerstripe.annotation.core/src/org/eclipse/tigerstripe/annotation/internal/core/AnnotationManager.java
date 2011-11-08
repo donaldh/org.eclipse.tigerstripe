@@ -51,7 +51,7 @@ import org.eclipse.emf.transaction.ResourceSetListener;
 import org.eclipse.emf.transaction.ResourceSetListenerImpl;
 import org.eclipse.emf.transaction.RunnableWithResult;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.emf.transaction.impl.TransactionalCommandStackImpl;
+import org.eclipse.emf.transaction.impl.TransactionalEditingDomainImpl;
 import org.eclipse.tigerstripe.annotation.core.Annotation;
 import org.eclipse.tigerstripe.annotation.core.AnnotationException;
 import org.eclipse.tigerstripe.annotation.core.AnnotationFactory;
@@ -124,8 +124,10 @@ public class AnnotationManager implements IAnnotationManager {
 	
 	private void removeUILock() {
 		try {
-			Field transactionLock = TransactionalCommandStackImpl.class.getField("transactionLock");
-			Field writeLock = TransactionalCommandStackImpl.class.getField("writeLock");
+			Field transactionLock = TransactionalEditingDomainImpl.class
+					.getDeclaredField("transactionLock");
+			Field writeLock = TransactionalEditingDomainImpl.class
+					.getDeclaredField("writeLock");
 			try {
 				transactionLock.setAccessible(true);
 				writeLock.setAccessible(true);
@@ -136,7 +138,7 @@ public class AnnotationManager implements IAnnotationManager {
 				writeLock.setAccessible(false);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			AnnotationPlugin.log(e);
 		}
 	}
 
