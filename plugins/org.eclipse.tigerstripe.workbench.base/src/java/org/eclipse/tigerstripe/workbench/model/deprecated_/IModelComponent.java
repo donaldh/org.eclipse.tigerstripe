@@ -15,7 +15,6 @@ import java.util.Collection;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.tigerstripe.repository.internal.IModelComponentMetadata;
-import org.eclipse.tigerstripe.workbench.Contextual;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.model.annotation.IAnnotationCapable;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
@@ -239,7 +238,6 @@ public interface IModelComponent extends IStereotypeCapable, IAnnotationCapable,
 	 * @return the project this component belongs to, null if the component has
 	 *         not been stored in a Model Project
 	 */
-	@Contextual
 	public ITigerstripeModelProject getProject() throws TigerstripeException;
 	
 	public IModelComponent getContainingModelComponent();

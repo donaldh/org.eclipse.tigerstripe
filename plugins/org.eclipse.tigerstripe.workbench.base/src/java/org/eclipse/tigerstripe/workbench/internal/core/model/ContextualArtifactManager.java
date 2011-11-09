@@ -12,6 +12,7 @@ import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
 import org.eclipse.tigerstripe.workbench.IModelChangeDelta;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.ContextualModelProject;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IActiveFacetChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IArtifactChangeListener;
 import org.eclipse.tigerstripe.workbench.internal.core.project.TigerstripeProject;
@@ -19,13 +20,16 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IPrimitiveTypeArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
-import org.eclipse.tigerstripe.workbench.project.ContextualModelProject;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IDependency;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 import com.thoughtworks.qdox.model.JavaSource;
 
+/**
+ * The implementation of {@link ArtifactManager} which knows about current context.
+ * Delegates invocation to the real {@link ArtifactManager} and wraps all returned artifacts to proxy.  
+ */
 public class ContextualArtifactManager implements ArtifactManager {
 
 	private final ArtifactManager mgr;

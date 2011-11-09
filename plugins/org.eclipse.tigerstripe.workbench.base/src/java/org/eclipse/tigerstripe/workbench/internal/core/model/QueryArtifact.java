@@ -73,6 +73,7 @@ public class QueryArtifact extends AbstractArtifact implements IQueryArtifact,
 		return result;
 	}
 
+	@ProvideModelComponents
 	public IType getReturnedType() {
 		return getReturnedEntityType();
 	}

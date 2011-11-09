@@ -1,4 +1,4 @@
-package org.eclipse.tigerstripe.workbench.project;
+package org.eclipse.tigerstripe.workbench.internal.api.impl;
 
 import java.net.URI;
 
@@ -12,12 +12,22 @@ import org.eclipse.tigerstripe.workbench.generation.IM1RunConfig;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.useCase.IUseCaseReference;
-import org.eclipse.tigerstripe.workbench.internal.api.impl.ArtifactManagerSessionImpl;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ContextualArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.internal.modelManager.ProjectModelManager;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.project.IDependency;
+import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
+import org.eclipse.tigerstripe.workbench.project.IProjectDependencyChangeListener;
+import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
+import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
+/**
+ * The implementation of {@link ITigerstripeModelProject} which knows about current context.
+ * Delegates invocation to the real {@link ITigerstripeModelProject} except requests to ArtifactManager.
+ * Wraps real {@link ArtifactManager} to the {@link ContextualArtifactManager} and propagate current context  
+ */
 public class ContextualModelProject implements ITigerstripeModelProject {
 
 	private final ITigerstripeModelProject project;

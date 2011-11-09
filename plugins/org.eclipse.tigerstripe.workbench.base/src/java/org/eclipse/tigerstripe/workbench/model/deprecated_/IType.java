@@ -11,7 +11,6 @@
 package org.eclipse.tigerstripe.workbench.model.deprecated_;
 
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.tigerstripe.workbench.Contextual;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 
 /**
@@ -179,6 +178,5 @@ public interface IType {
 	@Deprecated
 	public void setMultiplicity(int multiplicity);
 
-	@Contextual
 	public ArtifactManager getArtifactManager();
 }

@@ -171,10 +171,12 @@ public class AssociationArtifact extends AbstractArtifact implements
 		((AssociationEnd) zEnd).setContainingAssociation(this);
 	}
 
+	@ProvideModelComponents
 	public IRelationshipEnd getRelationshipAEnd() {
 		return getAEnd();
 	}
 
+	@ProvideModelComponents
 	public Collection<IRelationshipEnd> getRelationshipEnds() {
 		Collection<IRelationshipEnd>  relationshipEnds = new ArrayList<IRelationshipEnd>();
 		relationshipEnds.add(getRelationshipAEnd());
@@ -182,6 +184,7 @@ public class AssociationArtifact extends AbstractArtifact implements
 		return relationshipEnds;
 	}
 
+	@ProvideModelComponents
 	public IRelationshipEnd getRelationshipZEnd() {
 		return getZEnd();
 	}

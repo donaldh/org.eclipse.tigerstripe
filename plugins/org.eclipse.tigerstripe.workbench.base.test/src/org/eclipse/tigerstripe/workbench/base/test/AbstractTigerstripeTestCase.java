@@ -33,9 +33,16 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.base.test.annotation.ArtifactTestHelper;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IEnumArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IManagedEntityArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IQueryArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
 import org.eclipse.tigerstripe.workbench.project.IProjectDetails;
@@ -83,19 +90,31 @@ public abstract class AbstractTigerstripeTestCase extends TestCase {
 				.getArtifactManagerSession();
 		Collection<String> supportedArtifacts = mgrSession
 				.getSupportedArtifacts();
+		IAbstractArtifact refArtifact = null;
 		for (String supportedArtifact : supportedArtifacts) {
 			if (!supportedArtifact.endsWith("IPackageArtifact")) {
 				IAbstractArtifact artifact = artifactHelper.createArtifact(
 						supportedArtifact, getArtifactName(supportedArtifact),
 						TEST_PACKAGE_NAME);
 				if (createSubComponents) {
+					if (refArtifact == null) {
+						refArtifact = artifactHelper.createArtifact(
+								IManagedEntityArtifact.class.getName(),
+								"RefEntity", TEST_PACKAGE_NAME);
+						refArtifact.doSave(new NullProgressMonitor());
+					}
+
 					IField field = artifact.makeField();
 					field.setName("field1");
+					IType type = field.makeType();
+					type.setFullyQualifiedName(refArtifact
+							.getFullyQualifiedName());
+					field.setType(type);
 					artifact.addField(field);
 
 					field = artifact.makeField();
 					field.setName("field2");
-					IType type = field.makeType();
+					type = field.makeType();
 					type.setFullyQualifiedName(artifact.getFullyQualifiedName());
 					field.setType(type);
 					artifact.addField(field);
@@ -103,15 +122,57 @@ public abstract class AbstractTigerstripeTestCase extends TestCase {
 					ILiteral literal1 = artifact.makeLiteral();
 					String literalName = "literal1";
 					literal1.setName(literalName);
+					type = literal1.makeType();
+					type.setFullyQualifiedName(refArtifact
+							.getFullyQualifiedName());
+					literal1.setType(type);
 					artifact.addLiteral(literal1);
 
 					IMethod method1 = artifact.makeMethod();
-					String methodName = "method1";
-					method1.setName(methodName);
+					method1.setName("method1");
+					type = method1.makeType();
+					type.setFullyQualifiedName(refArtifact
+							.getFullyQualifiedName());
+					method1.setReturnType(type);
+					IArgument arg = method1.makeArgument();
+					arg.setName("arg1");
+					arg.setType(type);
+					method1.addArgument(arg);
 					artifact.addMethod(method1);
 
-					artifact.doSave(new NullProgressMonitor());
+					if (artifact instanceof IAssociationArtifact) {
+						IAssociationArtifact association = (IAssociationArtifact) artifact;
+						IAssociationEnd aEnd = association.makeAssociationEnd();
+						aEnd.setName(association.getName() + "_aEnd");
+						aEnd.setNavigable(false);
+						type = aEnd.makeType();
+						type.setFullyQualifiedName(refArtifact
+								.getFullyQualifiedName());
+						aEnd.setType(type);
+						association.setAEnd(aEnd);
+
+						IAssociationEnd zEnd = association.makeAssociationEnd();
+						zEnd.setName(association.getName() + "_zEnd");
+						zEnd.setNavigable(true);
+						type = zEnd.makeType();
+						type.setFullyQualifiedName(refArtifact
+								.getFullyQualifiedName());
+						zEnd.setType(type);
+						association.setZEnd(zEnd);
+					} else if (artifact instanceof IDependencyArtifact) {
+						IDependencyArtifact dependency = (IDependencyArtifact) artifact;
+						type = dependency.makeType();
+						type.setFullyQualifiedName(refArtifact
+								.getFullyQualifiedName());
+						dependency.setAEndType(type);
+						dependency.setZEndType(type);
+					} else if (artifact instanceof IEnumArtifact) {
+						((IEnumArtifact) artifact).setBaseType(type);
+					} else if (artifact instanceof IQueryArtifact) {
+						((IQueryArtifact) artifact).setReturnedType(type);
+					}
 				}
+				artifact.doSave(new NullProgressMonitor());
 			}
 		}
 		return supportedArtifacts.size();

@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.io.Writer;
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -202,10 +203,12 @@ public class DependencyArtifact extends AbstractArtifact implements
 		return IDependencyArtifact.class.getName();
 	}
 
+	@ProvideModelComponents
 	public IType getAEndType() {
 		return getRelationshipAEnd().getType();
 	}
 
+	@ProvideModelComponents
 	public IType getZEndType() {
 		return getRelationshipZEnd().getType();
 	}
@@ -270,10 +273,12 @@ public class DependencyArtifact extends AbstractArtifact implements
 			return this.name;
 		}
 
+		@ProvideModelComponents
 		public IRelationship getContainingRelationship() {
 			return containingArtifact;
 		}
 
+		@ProvideModelComponents
 		public IRelationshipEnd getOtherEnd() {
 			if (this == getContainingRelationship().getRelationshipAEnd())
 				return getContainingRelationship().getRelationshipZEnd();
@@ -281,6 +286,7 @@ public class DependencyArtifact extends AbstractArtifact implements
 				return getContainingRelationship().getRelationshipAEnd();
 		}
 
+		@ProvideModelComponents
 		public IType getType() {
 			return type;
 		}
@@ -326,8 +332,18 @@ public class DependencyArtifact extends AbstractArtifact implements
 			return "";
 		}
 
+		@Override
+		public boolean equals(Object obj) {
+			if (obj != null && obj instanceof IRelationshipEnd) {
+				if (Proxy.isProxyClass(obj.getClass())) {
+					return obj.equals(this);
+				}
+			}
+			return super.equals(obj);
+		}
 	}
 
+	@ProvideModelComponents
 	public IRelationshipEnd getRelationshipAEnd() {
 		if (aRelationshipEnd == null) {
 			aRelationshipEnd = new DependencyEnd("aEnd", this);
@@ -335,6 +351,7 @@ public class DependencyArtifact extends AbstractArtifact implements
 		return aRelationshipEnd;
 	}
 
+	@ProvideModelComponents
 	public Collection<IRelationshipEnd> getRelationshipEnds() {
 		Collection<IRelationshipEnd> relationshipEnds = new ArrayList<IRelationshipEnd>();
 		relationshipEnds.add(getRelationshipAEnd());
@@ -342,6 +359,7 @@ public class DependencyArtifact extends AbstractArtifact implements
 		return relationshipEnds;
 	}
 
+	@ProvideModelComponents
 	public IRelationshipEnd getRelationshipZEnd() {
 		if (zRelationshipEnd == null) {
 			zRelationshipEnd = new DependencyEnd("zEnd", this);
@@ -383,6 +401,7 @@ public class DependencyArtifact extends AbstractArtifact implements
 
 	}
 
+	@ProvideModelComponents
 	@Override
 	public Collection<Object> getChildren() {
 		Collection<Object> objects = new ArrayList<Object>();

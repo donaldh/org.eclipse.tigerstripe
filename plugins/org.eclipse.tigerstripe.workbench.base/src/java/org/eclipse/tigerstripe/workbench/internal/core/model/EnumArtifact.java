@@ -91,6 +91,7 @@ public class EnumArtifact extends AbstractArtifact implements IEnumArtifact,
 		setIStandardSpecifics(specifics);
 	}
 
+	@ProvideModelComponents
 	public Type getBaseType() {
 		OssjEnumSpecifics specifics = (OssjEnumSpecifics) getIStandardSpecifics();
 		return specifics.getBaseType();

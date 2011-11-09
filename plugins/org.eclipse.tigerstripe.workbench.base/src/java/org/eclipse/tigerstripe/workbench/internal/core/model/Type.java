@@ -10,6 +10,7 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
+import java.lang.reflect.Proxy;
 import java.util.Collection;
 
 import org.eclipse.core.runtime.IStatus;
@@ -84,6 +85,7 @@ public class Type implements IType {
 		return this.dimensions;
 	}*/
 
+	@Contextual
 	public ArtifactManager getArtifactManager() {
 		return this.artifactManager;
 	}
@@ -365,6 +367,9 @@ public class Type implements IType {
 			return true;
 		if (obj == null)
 			return false;
+		if (obj instanceof IType && Proxy.isProxyClass(obj.getClass())) {
+			return obj.equals(this);
+		}
 		if (getClass() != obj.getClass())
 			return false;
 		Type other = (Type) obj;

@@ -22,22 +22,21 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.tigerstripe.workbench.Contextual;
+import org.eclipse.tigerstripe.workbench.internal.api.impl.ContextualModelProject;
 import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.annotation.IAnnotationCapable;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
-import org.eclipse.tigerstripe.workbench.project.ContextualModelProject;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 
 public class ContextProjectAwareProxy implements
-		java.lang.reflect.InvocationHandler {
+		java.lang.reflect.InvocationHandler, IContextProjectAware {
 
-	private static final java.lang.reflect.Method GET_PROJECT = getMethod(
-			IModelComponent.class, Contextual.class);
+	private static final Signature IMC_GET_PROJECT_SIG = findSignatureByMarker(
+			AbstractArtifact.class, Contextual.class);
 
-	private static final java.lang.reflect.Method ITYPE_GET_ARTIFACT_MANAGER = getMethod(
-			IType.class, Contextual.class);
+	private static final Signature ITYPE_GET_ARTIFACT_MANAGER_SIG = findSignatureByMarker(
+			Type.class, Contextual.class);
 
 	private final Object obj;
 	private volatile ITigerstripeModelProject context;
@@ -49,15 +48,15 @@ public class ContextProjectAwareProxy implements
 		return makeInstance(obj, context);
 	}
 
-	private static java.lang.reflect.Method getMethod(Class<?> clazz,
-			Class<? extends Annotation> ann) {
+	private static Signature findSignatureByMarker(Class<?> clazz,
+			Class<? extends Annotation> marker) {
 		for (java.lang.reflect.Method m : clazz.getMethods()) {
-			if (m.isAnnotationPresent(ann)) {
-				return m;
+			if (m.isAnnotationPresent(marker)) {
+				return new Signature(m);
 			}
 		}
 		throw new RuntimeException("No method found in class "
-				+ clazz.getName() + " for annotation " + ann.getName());
+				+ clazz.getName() + " for annotation " + marker.getName());
 	}
 
 	public static <T> T newInstanceOrChangeContext(T obj,
@@ -106,8 +105,8 @@ public class ContextProjectAwareProxy implements
 			throws Throwable {
 		Object result = null;
 		try {
-
-			if (sameSignature(GET_PROJECT, m)) {
+			if (IMC_GET_PROJECT_SIG.same(m)
+					&& (proxy instanceof IModelComponent)) {
 				ITigerstripeModelProject proj = (ITigerstripeModelProject) m
 						.invoke(getObject(), args);
 				if (proj == null) {
@@ -115,7 +114,8 @@ public class ContextProjectAwareProxy implements
 				} else {
 					return new ContextualModelProject(proj, context);
 				}
-			} else if (sameSignature(ITYPE_GET_ARTIFACT_MANAGER, m)) {
+			} else if (ITYPE_GET_ARTIFACT_MANAGER_SIG.same(m)
+					&& (proxy instanceof IType)) {
 				ArtifactManager artifactManager = (ArtifactManager) m.invoke(
 						getObject(), args);
 				if (artifactManager == null) {
@@ -127,9 +127,7 @@ public class ContextProjectAwareProxy implements
 			}
 
 			if (IContextProjectAware.class.equals(m.getDeclaringClass())) {
-				if ("getContextProject".equals(m.getName())) {
-					return context;
-				}
+				return m.invoke(this, args);
 			} else if (IAnnotationCapable.class.equals(m.getDeclaringClass())) {
 				IAnnotationCapable ac = new AnnotationCapable(proxy);
 				result = m.invoke(ac, args);
@@ -146,12 +144,6 @@ public class ContextProjectAwareProxy implements
 					+ e.getMessage());
 		}
 		return result;
-	}
-
-	private boolean sameSignature(Method m1, Method m2) {
-		return m1.getName().equals(m2.getName())
-				&& Arrays
-						.equals(m1.getParameterTypes(), m2.getParameterTypes());
 	}
 
 	private boolean needToProxyResult(java.lang.reflect.Method method) {
@@ -182,7 +174,11 @@ public class ContextProjectAwareProxy implements
 		if (!collection.isEmpty()) {
 			List<T> newCollection = new ArrayList<T>(collection.size());
 			for (T element : collection) {
-				newCollection.add((T) newInstance(element, context));
+				if (element != null) {
+					newCollection.add(newInstance(element, context));
+				} else {
+					newCollection.add(element);
+				}
 			}
 			return newCollection;
 		}
@@ -191,5 +187,29 @@ public class ContextProjectAwareProxy implements
 
 	public Object getObject() {
 		return obj;
+	}
+
+	public ITigerstripeModelProject getContextProject() {
+		return context;
+	}
+
+	private static final class Signature {
+
+		public final String name;
+		public final Class<?>[] argTypes;
+
+		public Signature(Method m) {
+			this(m.getName(), m.getParameterTypes());
+		}
+
+		public Signature(String name, Class<?>[] argTypes) {
+			this.name = name;
+			this.argTypes = argTypes;
+		}
+
+		public boolean same(Method m) {
+			return name.equals(m.getName())
+					&& Arrays.equals(argTypes, m.getParameterTypes());
+		}
 	}
 }

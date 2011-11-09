@@ -1970,6 +1970,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	}
 
 	@Override
+	@Contextual
 	public ITigerstripeModelProject getProject() throws TigerstripeException {
 		TigerstripeProject tsProject = getTSProject();
 		if (tsProject == null)
