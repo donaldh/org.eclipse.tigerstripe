@@ -688,5 +688,12 @@
           value="/*.ann">
     </fileFilter>
  </extension>
-
+ <extension
+       point="org.eclipse.emf.ecore.generated_package">
+    <package
+          class="org.eclipse.tigerstripe.workbench.annotation.modelReference.ModelReferencePackage"
+		  genModel = "model/annotationModelReference.genmodel" 
+          uri="http:///org/eclipse/tigerstripe/workbench/annotation/modelreference.ecore">
+    </package>
+ </extension>
 </plugin>
