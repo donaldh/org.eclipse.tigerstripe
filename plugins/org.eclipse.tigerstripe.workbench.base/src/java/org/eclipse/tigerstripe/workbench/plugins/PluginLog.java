@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.plugins;
 
 import org.apache.log4j.Level;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.PluginLogger;
 
 /**
@@ -122,5 +123,11 @@ public class PluginLog {
 	public static void logTrace(String message) {
 		PluginLog.logTrace(message, null);
 	}
-
+	
+	/**
+	 * Reported statuses are displayed in generation results dialog. 
+	 */
+	public static void reportStatus(IStatus status) {
+		PluginLogger.reportStatus(status);		
+	}
 }

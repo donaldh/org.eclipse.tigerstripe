@@ -210,7 +210,13 @@ public class Images {
 	public static final String DEPS_DEPENDENCY_ICON = "dependency.gif";
 	public static final String DEPS_INSTALLED_MODULE_ICON = "installed-module.gif";
 	public static final String DEPS_UNKNOWN_ICON = "unknown-dependency.gif";
-
+	
+	public static final String STATUS_ERROR = "status_error.gif";
+	public static final String STATUS_ERROR_STACK = "status_error_stack.gif";
+	public static final String STATUS_INFO = "status_info.gif";
+	public static final String STATUS_OK = "status_ok.gif";
+	public static final String STATUS_WARNING = "status_warning.gif";
+	
 	// Creating the managed version of all of that
 	static {
 
@@ -234,6 +240,12 @@ public class Images {
 		createManaged(DEPS_INSTALLED_MODULE_ICON,
 				localIcon(DEPS_INSTALLED_MODULE_ICON));
 		createManaged(DEPS_UNKNOWN_ICON, localIcon(DEPS_UNKNOWN_ICON));
+		
+		createManaged(STATUS_ERROR, localIcon(STATUS_ERROR));
+		createManaged(STATUS_ERROR_STACK, localIcon(STATUS_ERROR_STACK));
+		createManaged(STATUS_INFO, localIcon(STATUS_INFO));
+		createManaged(STATUS_OK, localIcon(STATUS_OK));
+		createManaged(STATUS_WARNING, localIcon(STATUS_WARNING));
 
 		// Managed Entity
 		createManaged(ENTITY_ICON, ArtifactMetadataFactory.INSTANCE

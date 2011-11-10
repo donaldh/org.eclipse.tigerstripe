@@ -13,13 +13,16 @@ package org.eclipse.tigerstripe.workbench.internal.api.plugins;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.TimeZone;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.RollingFileAppender;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeRuntime;
 import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
@@ -48,6 +51,8 @@ public class PluginLogger {
 	private static final int maxNumBackupLogs = 9;
 
 	private static boolean logInitialized = false;
+	
+	private static List<IStatus> reportedStatuses; 
 
 	/**
 	 * Sets up the logger prior to running a pluggable plugin
@@ -57,12 +62,29 @@ public class PluginLogger {
 	public static void setUpForRun(PluginConfig pluginConfig, RunConfig config)
 			throws TigerstripeException {
 		PluginLogger.pluginConfig = pluginConfig;
-
+		reportedStatuses = new ArrayList<IStatus>();
 		if (pluginConfig.isLogEnabled()) {
 			TigerstripeRuntime.logTraceMessage("Setting up logger for generator: "
 					+ pluginConfig.toString());
 			initLogger(pluginConfig, config);
 		}
+	}
+	
+	/**
+	 * Reported statuses are displayed in generation results dialog. 
+	 */
+	public static void reportStatus(IStatus status) {
+		if (reportedStatuses != null) {
+			reportedStatuses.add(status);
+		}
+	}
+	
+	public static IStatus[] getReportedStatuses() {
+		if (reportedStatuses != null) {
+			return reportedStatuses
+					.toArray(new IStatus[reportedStatuses.size()]);
+		}
+		return new IStatus[] {};
 	}
 
 	private static void initLogger(PluginConfig pluginConfig, RunConfig config)
@@ -161,6 +183,7 @@ public class PluginLogger {
 	 * 
 	 */
 	public static void tearDown() {
+		reportedStatuses = null;
 		if (logInitialized) {
 			TigerstripeRuntime
 					.logTraceMessage("Tearing down logger for generator: "

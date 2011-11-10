@@ -27,8 +27,6 @@ import org.eclipse.tigerstripe.workbench.internal.core.generation.RunConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.PluggablePluginReport;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.pluggable.RuleReport;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.GlobalRunnableRule;
-import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.GlobalTemplateRule;
 import org.eclipse.tigerstripe.workbench.internal.core.project.pluggable.rules.Rule;
 import org.eclipse.tigerstripe.workbench.plugins.IGlobalRule;
 import org.eclipse.tigerstripe.workbench.plugins.IModelRule;
@@ -64,10 +62,17 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 	public PluginRunStatus(IPluginConfig pluginConfig,
 			ITigerstripeModelProject project, RunConfig config,
 			IFacetReference facetRef) {
+		this(pluginConfig, project, config, facetRef, "");
+	}
+	
+	public PluginRunStatus(IPluginConfig pluginConfig,
+			ITigerstripeModelProject project, RunConfig config,
+			IFacetReference facetRef, String message) {
 		super(BasePlugin.getPluginId(), 222, "Plugin Run Status", null);
 		this.pluginConfig = pluginConfig;
 		this.project = project;
 		this.facetRef = facetRef;
+		this.message = message;
 	}
 
 	public PluginRunStatus(String message) {
@@ -100,9 +105,12 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 	public String toString() {
 		return toString(false);
 	}
-
+	
 	public String toString(boolean includeHTML) {
+		return toString(includeHTML, true);
+	}
 
+	public String toString(boolean includeHTML, boolean includeChilds) {
 		final StringBuilder res = new StringBuilder();
 
 		boolean hasError = !isOK();
@@ -170,7 +178,7 @@ public class PluginRunStatus extends MultiStatus implements IStatus {
 				})) {
 					res.append("Generation Successful.").append(newline);
 				}
-			} else {
+			} else if (includeChilds) {
 				for (IStatus status : getChildren()) {
 					if (includeHTML)
 						res.append("<li><span color=\"red\">");

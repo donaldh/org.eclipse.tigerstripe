@@ -26,7 +26,6 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.ResourcesPlugin;
-import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -641,7 +640,7 @@ public class M1Generator {
 
 			PluginLogger.setUpForRun(ref, config);
 
-			PluginRunStatus pluginResult = new PluginRunStatus(ref, project, config, project.getActiveFacet());
+			PluginRunStatus pluginResult = new PluginRunStatus(ref, project, config, project.getActiveFacet(), ref.getLabel());
 			try {
 				monitor.worked(1);
 				monitor.setTaskName("Running: " + ref.getLabel());
@@ -649,10 +648,9 @@ public class M1Generator {
 				// case the underlying body changed.
 				// TODO Capture the list of generated stuff
 				config.setMonitor(monitor);
+				
 				ref.trigger(config);
-				if (!ref.validationFailed()) {
-					result.add(pluginResult);
-				}
+				
 				PluginReport rep = ref.getReport();
 				if (rep != null) {
 					pluginResult.setReport(rep);
@@ -666,10 +664,9 @@ public class M1Generator {
 				if (!"".equals(e.getMessage())) {
 					failureMessage = e.getMessage() + ". Generation may be incomplete.";
 				}
-
 				IStatus error = new Status(IStatus.ERROR, BasePlugin.getPluginId(), failureMessage, e);
-				pluginResult.add(error);
-				result.add(pluginResult);
+				PluginLogger.reportStatus(error);
+				
 				if (e.getException() != null) {
 					PluginLogger.log(LogLevel.ERROR, failureMessage, e.getException());
 				} else {
@@ -679,10 +676,15 @@ public class M1Generator {
 				String failureMessage = "An error was detected while triggering '" + ref.getLabel()
 						+ "' plugin. Generation may be incomplete.";
 				IStatus error = new Status(IStatus.ERROR, BasePlugin.getPluginId(), failureMessage, e);
-				pluginResult.add(error);
-				result.add(pluginResult);
+				PluginLogger.reportStatus(error);
+				
 				PluginLogger.log(LogLevel.ERROR, failureMessage, e);
 			} finally {
+				for (IStatus status : PluginLogger.getReportedStatuses()) {
+					pluginResult.add(status);
+				}
+				result.add(pluginResult);
+				
 				PluginLogger.tearDown();
 			}
 		}

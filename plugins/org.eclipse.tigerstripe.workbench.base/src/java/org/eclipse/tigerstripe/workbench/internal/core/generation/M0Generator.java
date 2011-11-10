@@ -17,17 +17,12 @@ import java.util.List;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
-import org.eclipse.tigerstripe.workbench.TigerstripeCore;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.api.plugins.PluginLogger;
-import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IGlobalSettingsProperty;
-import org.eclipse.tigerstripe.workbench.internal.api.profile.properties.IWorkbenchPropertyLabels;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginConfig;
-import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginManager;
 import org.eclipse.tigerstripe.workbench.internal.core.plugin.PluginReport;
-import org.eclipse.tigerstripe.workbench.internal.core.profile.properties.GlobalSettingsProperty;
 import org.eclipse.tigerstripe.workbench.plugins.PluginLog.LogLevel;
 import org.eclipse.tigerstripe.workbench.project.IPluginConfig;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
@@ -77,7 +72,7 @@ public class M0Generator {
 		PluginLogger.setUpForRun( pRef, config);
 
 		PluginRunStatus pluginResult = new PluginRunStatus( pRef, project,
-				config, project.getActiveFacet());
+				config, project.getActiveFacet(),pRef.getLabel());
 		try {
 			monitor.worked(1);
 			monitor.setTaskName("Running: " + pRef.getLabel());
@@ -86,9 +81,6 @@ public class M0Generator {
 			// TODO Capture the list of generated stuff
 			config.setMonitor(monitor);
 			pRef.trigger(config);
-			if (!ref.validationFailed()) {
-				result.add(pluginResult);
-			}
 			PluginReport rep = pRef.getReport();
 			if (rep != null)
 				reports.add(rep);
@@ -101,11 +93,10 @@ public class M0Generator {
 				failureMessage = e.getMessage()
 						+ ". Generation may be incomplete.";
 			}
-
 			IStatus error = new Status(IStatus.ERROR, BasePlugin.getPluginId(),
 					failureMessage, e);
-			pluginResult.add(error);
-			result.add(pluginResult);
+			PluginLogger.reportStatus(error);
+			
 			if (e.getException() != null) {
 				PluginLogger.log(LogLevel.ERROR, failureMessage, e
 						.getException());
@@ -117,12 +108,16 @@ public class M0Generator {
 					+ pRef.getLabel() + "' generator. Generation may be incomplete.";
 			IStatus error = new Status(IStatus.ERROR, BasePlugin.getPluginId(),
 					failureMessage, e);
-			pluginResult.add(error);
-			result.add(pluginResult);
+			PluginLogger.reportStatus(error);
+			
 			PluginLogger.log(LogLevel.ERROR, failureMessage, e);
 		} finally {
+			for (IStatus status : PluginLogger.getReportedStatuses()) {
+				pluginResult.add(status);
+			}
+			result.add(pluginResult);
+			
 			PluginLogger.tearDown();
 		}
-
 	}
 }
