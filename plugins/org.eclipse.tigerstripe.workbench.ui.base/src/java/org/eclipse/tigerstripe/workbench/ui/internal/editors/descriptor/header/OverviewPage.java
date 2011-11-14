@@ -59,5 +59,6 @@ public class OverviewPage extends TigerstripeFormPage {
 		managedForm.addPart(new GeneralInfoSection(this, body, toolkit));
 		managedForm.addPart(new ProjectContentSection(this, body, toolkit));
 		managedForm.addPart(new ProjectDefaultsSection(this, body, toolkit));
+		toolkit.createComposite(body);
 	}
 }

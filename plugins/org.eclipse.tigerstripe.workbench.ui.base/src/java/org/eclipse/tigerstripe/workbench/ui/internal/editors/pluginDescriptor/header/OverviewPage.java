@@ -55,11 +55,11 @@ public class OverviewPage extends TigerstripeFormPage {
 		body.setLayout(TigerstripeLayoutFactory.createPageTableWrapLayout(2,
 				true));
 
-		
 		managedForm.addPart(new WelcomeSection(this, body, toolkit));
 		managedForm.addPart(new GeneralInfoSection(this, body, toolkit));
 		managedForm.addPart(new ProjectContentSection(this, body, toolkit));
 		managedForm.addPart(new PluginDebugSection(this, body, toolkit));
 		managedForm.addPart(new PluginPackageSection(this, body, toolkit));
+		toolkit.createComposite(body);
 	}
 }
