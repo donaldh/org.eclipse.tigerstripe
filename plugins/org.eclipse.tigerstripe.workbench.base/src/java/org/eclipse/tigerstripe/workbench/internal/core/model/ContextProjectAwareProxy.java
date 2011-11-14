@@ -146,6 +146,12 @@ public class ContextProjectAwareProxy implements
 		return result;
 	}
 
+	private boolean sameSignature(Method m1, Method m2) {
+		return m1.getName().equals(m2.getName())
+				&& Arrays
+						.equals(m1.getParameterTypes(), m2.getParameterTypes());
+	}
+
 	private boolean needToProxyResult(java.lang.reflect.Method method) {
 		if (method.getAnnotation(ProvideModelComponents.class) != null) {
 			return true;
@@ -192,7 +198,7 @@ public class ContextProjectAwareProxy implements
 	public ITigerstripeModelProject getContextProject() {
 		return context;
 	}
-
+	
 	private static final class Signature {
 
 		public final String name;
@@ -201,7 +207,7 @@ public class ContextProjectAwareProxy implements
 		public Signature(Method m) {
 			this(m.getName(), m.getParameterTypes());
 		}
-
+		
 		public Signature(String name, Class<?>[] argTypes) {
 			this.name = name;
 			this.argTypes = argTypes;
@@ -212,4 +218,10 @@ public class ContextProjectAwareProxy implements
 					&& Arrays.equals(argTypes, m.getParameterTypes());
 		}
 	}
+	
+	@Override
+	public String toString() {
+		return "Proxy for '" + obj +"' in context " + context.getName();
+	}
+
 }

@@ -98,7 +98,7 @@ public class ModelReferenceCellEditor extends DialogCellEditor {
 
 		public Object getParent(Object element) {
 			if (element instanceof IModelComponent) {
-				((IModelComponent) element).getContainingModelComponent();
+				return ((IModelComponent) element).getContainingModelComponent();
 			}
 			return null;
 		}
