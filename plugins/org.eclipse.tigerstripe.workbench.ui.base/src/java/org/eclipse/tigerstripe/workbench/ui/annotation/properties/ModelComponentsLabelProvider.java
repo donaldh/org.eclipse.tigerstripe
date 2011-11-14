@@ -2,6 +2,7 @@ package org.eclipse.tigerstripe.workbench.ui.annotation.properties;
 
 import org.eclipse.jface.viewers.LabelProvider;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.tigerstripe.workbench.internal.core.model.NullAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAssociationEnd;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IField;
@@ -12,6 +13,8 @@ import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelati
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.AbstractArtifactLabelProvider;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.RelationshipAnchor;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
 
 public class ModelComponentsLabelProvider extends LabelProvider {
 
@@ -19,7 +22,10 @@ public class ModelComponentsLabelProvider extends LabelProvider {
 
 	@Override
 	public Image getImage(Object element) {
-		if (element instanceof IAbstractArtifact)
+		if (isEmptySelectionElement(element)) {
+			return PlatformUI.getWorkbench().getSharedImages()
+					.getImage(ISharedImages.IMG_ELCL_REMOVE_DISABLED);
+		} else if (element instanceof IAbstractArtifact)
 			return artifactLabelProvider.getImage(element, true, true);
 		else if (element instanceof IField)
 			return Images.get(Images.FIELD_ICON);
@@ -39,11 +45,20 @@ public class ModelComponentsLabelProvider extends LabelProvider {
 
 	@Override
 	public String getText(Object element) {
-		if (element instanceof IAbstractArtifact) {
+		if (isEmptySelectionElement(element)) {
+			return "<empty selection>";
+		} else if (element instanceof IAbstractArtifact) {
 			return ((IAbstractArtifact) element).getFullyQualifiedName();
 		} else if (element instanceof IModelComponent) {
 			return ((IModelComponent) element).getName();
 		}
 		return super.getText(element);
+	}
+
+	private boolean isEmptySelectionElement(Object element) {
+		if (NullAbstractArtifact.INSATNCE.equals(element)) {
+			return true;
+		}
+		return false;
 	}
 }

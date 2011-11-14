@@ -22,6 +22,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.annotation.modelReference.ModelReference;
 import org.eclipse.tigerstripe.workbench.annotation.modelReference.ModelReferenceFactory;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
+import org.eclipse.tigerstripe.workbench.internal.core.model.NullAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
@@ -57,6 +58,9 @@ public class ModelReferenceCellEditor extends DialogCellEditor {
 
 		public Object[] getChildren(Object parentElement) {
 			if (parentElement instanceof ITigerstripeModelProject) {
+				List<Object> result = new ArrayList<Object>();
+				result.add(getEmptySelectionElement());
+				
 				try {
 					final ITigerstripeModelProject project = (ITigerstripeModelProject) parentElement;
 					final IArtifactManagerSession session = project
@@ -64,12 +68,15 @@ public class ModelReferenceCellEditor extends DialogCellEditor {
 
 					final IQueryAllArtifacts query = (IQueryAllArtifacts) session
 							.makeQuery(IQueryAllArtifacts.class.getName());
-					return getVisible(session.queryArtifact(query)).toArray();
+					result.addAll(getVisible(session.queryArtifact(query)));
+					
+					return result.toArray();
 				} catch (TigerstripeException e) {
 					EclipsePlugin.log(e);
 					return NO_CHILDREN;
 				}
-			} else if (parentElement instanceof IAbstractArtifact
+			} else if (!isEmptySelectionElement(parentElement)
+					&& parentElement instanceof IAbstractArtifact
 					&& !(parentElement instanceof IPackageArtifact)) {
 				return getVisible(
 						((IAbstractArtifact) parentElement)
@@ -97,6 +104,9 @@ public class ModelReferenceCellEditor extends DialogCellEditor {
 		}
 
 		public boolean hasChildren(Object element) {
+			if (isEmptySelectionElement(element)) {
+				return false;
+			}
 			return getChildren(element).length > 0;
 		}
 	}
@@ -170,10 +180,13 @@ public class ModelReferenceCellEditor extends DialogCellEditor {
 	 * @return
 	 */
 	protected Object componentToValue(final IModelComponent component) {
+		final ModelReference reference = ModelReferenceFactory.eINSTANCE
+			.createModelReference();
+		if (isEmptySelectionElement(component)) {
+			return reference;
+		}
 		try {
 			final URI uri = TigerstripeURIAdapterFactory.toURI(component);
-			final ModelReference reference = ModelReferenceFactory.eINSTANCE
-					.createModelReference();
 			reference.setUri(uri.toString());
 			return reference;
 		} catch (TigerstripeException e) {
@@ -223,7 +236,7 @@ public class ModelReferenceCellEditor extends DialogCellEditor {
 				}
 
 				for (final Object o : selection) {
-					if (!isElementValid(o)) {
+					if (!isEmptySelectionElement(o) && !isElementValid(o)) {
 						return error("Invalid selection: "
 								+ ((IModelComponent) o).getName());
 					}
@@ -318,7 +331,17 @@ public class ModelReferenceCellEditor extends DialogCellEditor {
 		@Override
 		protected TreeViewer doCreateTreeViewer(Composite parent, int style) {
 			FilteredTree tree = new FilteredTree(parent, style,
-					new PatternFilter(), true);
+					new PatternFilter() {
+						@Override
+						public boolean isElementVisible(Viewer viewer,
+								Object element) {
+							if (isEmptySelectionElement(element)) {
+								return true;
+							}
+							return super.isElementVisible(viewer, element);
+						}
+
+					}, true);
 			tree.setLayoutData(new GridData(GridData.FILL_BOTH));
 			applyDialogFont(tree);
 			configureViewer(tree.getViewer());
@@ -338,6 +361,14 @@ public class ModelReferenceCellEditor extends DialogCellEditor {
 			labelProvider = createLabelProvider();
 		}
 		return labelProvider;
+	}
+
+	protected Object getEmptySelectionElement() {
+		return NullAbstractArtifact.INSATNCE;
+	}
+
+	protected boolean isEmptySelectionElement(Object element) {
+		return NullAbstractArtifact.INSATNCE.equals(element);
 	}
 
 	public void setTitle(final String title) {

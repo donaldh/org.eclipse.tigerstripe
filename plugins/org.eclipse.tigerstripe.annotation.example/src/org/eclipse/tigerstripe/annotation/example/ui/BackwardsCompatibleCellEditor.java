@@ -61,7 +61,12 @@ public class BackwardsCompatibleCellEditor extends ModelReferenceCellEditor {
 
 	@Override
 	protected Object componentToValue(IModelComponent component) {
-		final IField field = (IField)component;
-		return field.getContainingArtifact().getFullyQualifiedName() + ":" + field.getName();
+		String result = "";
+		if (!isEmptySelectionElement(component)) {
+			final IField field = (IField) component;
+			return field.getContainingArtifact().getFullyQualifiedName() + ":"
+					+ field.getName();
+		}
+		return result;
 	}
 }
