@@ -87,8 +87,8 @@ public class TigerstripeLinkHelper implements ILinkHelper {
 			IAbstractArtifact artifact = ((ReadOnlyArtifactEditorInput) input)
 					.getArtifact();
 			if (artifact instanceof IContextProjectAware) {
-				return new StructuredSelection(new ElementWrapper(
-						(IContextProjectAware) artifact));
+				IContextProjectAware ctxArt = (IContextProjectAware) artifact;
+				return new StructuredSelection(new ElementWrapper(ctxArt));
 			}
 		}
 

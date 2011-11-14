@@ -318,4 +318,15 @@ public class ContextualModelProject implements ITigerstripeModelProject {
 	public boolean wasDisposed() {
 		return project.wasDisposed();
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		return project.equals(obj);
+	}
+	
+	@Override
+	public int hashCode() {
+		return project.hashCode();
+	}
+	
 }

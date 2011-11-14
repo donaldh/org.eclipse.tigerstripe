@@ -10,6 +10,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview;
 
+import static org.eclipse.jdt.core.IJavaElement.PACKAGE_FRAGMENT;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -33,6 +35,7 @@ import org.eclipse.jdt.core.IJavaModel;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
 import org.eclipse.jdt.core.IPackageFragmentRoot;
+import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
 import org.eclipse.jdt.internal.core.JarEntryFile;
 import org.eclipse.jdt.internal.core.JarPackageFragmentRoot;
@@ -43,6 +46,7 @@ import org.eclipse.jdt.internal.ui.packageview.ClassPathContainer;
 import org.eclipse.jdt.internal.ui.packageview.ClassPathContainer.RequiredProjectWrapper;
 import org.eclipse.tigerstripe.workbench.IElementWrapper;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.builder.TigerstripeProjectAuditor;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.ProjectMigrationUtils;
 import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripeM0GeneratorNature;
@@ -51,10 +55,12 @@ import org.eclipse.tigerstripe.workbench.internal.builder.natures.TigerstripePro
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ContextProjectAwareProxy;
 import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
+import org.eclipse.tigerstripe.workbench.internal.core.module.InstalledModuleManager;
 import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IDependencyArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd;
 import org.eclipse.tigerstripe.workbench.project.IAbstractTigerstripeProject;
@@ -63,6 +69,7 @@ import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode;
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.LogicalExplorerNodeFactory;
+import org.eclipse.tigerstripe.workbench.utils.AdaptHelper;
 
 public class NewTigerstripeExplorerContentProvider extends
 		JavaNavigatorContentProvider {
@@ -303,11 +310,48 @@ public class NewTigerstripeExplorerContentProvider extends
 	}
 
 	@Override
+	@SuppressWarnings("restriction")
 	public Object getParent(Object element) {
 		if (element instanceof AbstractLogicalExplorerNode) {
 			AbstractLogicalExplorerNode node = (AbstractLogicalExplorerNode) element;
 			element = node.getKeyResource();
-		}
+		} else if (element instanceof IElementWrapper) {
+			IElementWrapper wrapper = (IElementWrapper) element;
+			Object wrapped = wrapper.getElement();
+			
+			
+			if (wrapped instanceof IAbstractArtifact) {
+				String packageName = ((IAbstractArtifact) wrapped).getPackage();
+				ITigerstripeModelProject ctxModelProject = wrapper.getContextProject();
+				
+				IProject ctxProject = AdaptHelper.adapt(ctxModelProject, IProject.class);
+				if (ctxProject != null) {
+					IJavaProject javaProject = JavaCore.create(ctxProject);
+					InstalledModuleManager installedModuleManager = InstalledModuleManager.getInstance();
+					try {
+						for (IPackageFragmentRoot pfr : javaProject.getPackageFragmentRoots()) {
+							if (installedModuleManager.getModule(pfr.getPath()) != null) {
+								for (IJavaElement je : pfr.getChildren()) {
+									if (je.getElementType() == PACKAGE_FRAGMENT) {
+										IPackageFragment pf = (IPackageFragment) je;
+										if (pf.getElementName().equals(
+												packageName)) {
+											
+											return new ElementWrapper(pf, ctxModelProject);
+										}
+									}
+								}
+							}
+						}
+					} catch (JavaModelException e) {
+						BasePlugin.log(e);
+					}
+				}
+				
+			} else if (wrapped instanceof IPackageFragment) {
+				return super.getParent(wrapped);
+			}
+		} 
 		return super.getParent(element);
 	}
 

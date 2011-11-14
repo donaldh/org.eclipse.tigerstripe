@@ -1232,6 +1232,9 @@
                <instanceof
                      value="org.eclipse.jdt.internal.ui.packageview.ClassPathContainer">
                </instanceof>
+               <instanceof
+                     value="org.eclipse.tigerstripe.workbench.IElementWrapper">
+               </instanceof>
             </or>
          </triggerPoints>
          <commonSorter
@@ -1502,6 +1505,9 @@
                </instanceof>
                <instanceof
                      value="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.abstraction.AbstractLogicalExplorerNode">
+               </instanceof>
+               <instanceof
+                     value="org.eclipse.tigerstripe.workbench.IElementWrapper">
                </instanceof>
             </or>
          </possibleChildren>
