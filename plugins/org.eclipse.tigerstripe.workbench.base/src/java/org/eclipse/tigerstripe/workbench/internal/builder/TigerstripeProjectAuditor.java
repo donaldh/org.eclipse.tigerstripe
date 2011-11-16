@@ -929,28 +929,26 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 			return null;
 		}
 		
-		final CollectResult r = new CollectResult();
+		IPath output = null;
+		try {
+			IJavaProject jProject = JavaCore.create(getProject());
+			if (jProject != null) {
+				output = jProject.getOutputLocation();
+			}
+		} catch (JavaModelException e) {
+			// ignore
+		}
 		
+		final IPath outputPath = output; 
+		final CollectResult r = new CollectResult();
 		delta.accept(new IResourceDeltaVisitor() {
-			
 			public boolean visit(IResourceDelta delta) throws CoreException {
 				IResource resource = delta.getResource();
 
 				if (resource instanceof IContainer) {
 					// ignore output dir
-					if (resource.getParent() instanceof IProject) {
-						IProject project = (IProject) resource.getParent();
-						try {
-							IJavaProject jProject = JavaCore.create(project);
-							if (jProject != null) {
-								if (jProject.getOutputLocation().equals(
-										resource.getFullPath())) {
-									return false;
-								}
-							}
-						} catch (JavaModelException j) {
-							// ignore
-						}
+					if (outputPath != null && outputPath.equals(resource.getFullPath())) {
+						return false;
 					}
 				}
 				
