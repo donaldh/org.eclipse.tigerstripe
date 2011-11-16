@@ -273,6 +273,8 @@ public class TSRemoveFromModelAction extends BaseDiagramPartAction implements
 						}
 
 						if (component instanceof IAbstractArtifact) {
+							AnnotationPlugin.getManager().deleted(
+									toURI(component), true);
 							// An uglyness where the Art Mgr doesn't delete the
 							// corresponding
 							// POJO when an artifact is removed from the Art
