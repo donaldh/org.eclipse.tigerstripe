@@ -25,8 +25,8 @@ public class StatusDetailsDialog extends TrayDialog {
 
 	private IStatus status;
 	
-	private ITableLabelProvider labelProvider;
-	private TreeViewer provider;
+	private final ITableLabelProvider labelProvider;
+	private final TreeViewer provider;
 
 	private boolean isOpen;
 	
@@ -48,16 +48,19 @@ public class StatusDetailsDialog extends TrayDialog {
 		return isOpen;
 	}
 
+	@Override
 	public int open() {
 		isOpen = true;
 		return super.open();
 	}
 
+	@Override
 	public boolean close() {
 		isOpen = false;
 		return super.close();
 	}
 
+	@Override
 	public void create() {
 		super.create();
 
@@ -67,6 +70,7 @@ public class StatusDetailsDialog extends TrayDialog {
 		getButton(IDialogConstants.OK_ID).setFocus();
 	}
 
+	@Override
 	protected void buttonPressed(int buttonId) {
 		if (IDialogConstants.OK_ID == buttonId)
 			okPressed();
@@ -146,6 +150,7 @@ public class StatusDetailsDialog extends TrayDialog {
 		return sashForm;
 	}
 
+	@Override
 	protected Control createDialogArea(Composite parent) {
 		Composite container = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout();
@@ -171,6 +176,7 @@ public class StatusDetailsDialog extends TrayDialog {
 		sashForm.setLayoutData(new GridData(GridData.FILL_BOTH));
 	}
 
+	@Override
 	protected void createButtonsForButtonBar(Composite parent) {
 		// create OK button only by default
 		createButton(parent, IDialogConstants.OK_ID, IDialogConstants.OK_LABEL, true);
@@ -195,7 +201,7 @@ public class StatusDetailsDialog extends TrayDialog {
 		textContainer.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
 		Label label = new Label(textContainer, SWT.NONE);
-		label.setText("Severity");
+		label.setText("Severity:");
 		severityImageLabel = new Label(textContainer, SWT.NULL);
 		severityLabel = new Label(textContainer, SWT.NULL);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);

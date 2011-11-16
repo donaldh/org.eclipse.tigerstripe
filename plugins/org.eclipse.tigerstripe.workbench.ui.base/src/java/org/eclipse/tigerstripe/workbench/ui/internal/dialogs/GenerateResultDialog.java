@@ -45,6 +45,8 @@ import org.eclipse.swt.widgets.TreeColumn;
 import org.eclipse.tigerstripe.workbench.generation.PluginRunStatus;
 import org.eclipse.tigerstripe.workbench.ui.internal.resources.Images;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.ColorUtils;
+import org.eclipse.ui.ISharedImages;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.actions.SelectionProviderAction;
 import org.eclipse.ui.dialogs.FilteredTree;
 import org.eclipse.ui.dialogs.PatternFilter;
@@ -59,7 +61,7 @@ public class GenerateResultDialog extends Dialog {
 
 	private Button copyToClipboardButton;
 
-	private PluginRunStatus[] result;
+	private final PluginRunStatus[] result;
 
 	public GenerateResultDialog(IShellProvider parentShell,
 			PluginRunStatus[] result) {
@@ -76,7 +78,7 @@ public class GenerateResultDialog extends Dialog {
 	@Override
 	public void create() {
 		super.create();
-		getShell().setSize(600, 400);
+		getShell().setSize(650, 400);
 	}
 
 	@Override
@@ -121,6 +123,8 @@ public class GenerateResultDialog extends Dialog {
 
 		copyToClipboardButton = new Button(area, SWT.PUSH);
 		copyToClipboardButton.setText("Copy to Clipboard");
+		copyToClipboardButton.setImage(PlatformUI.getWorkbench()
+				.getSharedImages().getImage(ISharedImages.IMG_TOOL_COPY));
 		copyToClipboardButton.setToolTipText("Copy log to clipboard.");
 		copyToClipboardButton.addSelectionListener(new SelectionListener() {
 			public void widgetDefaultSelected(SelectionEvent e) {
@@ -131,7 +135,7 @@ public class GenerateResultDialog extends Dialog {
 			}
 		});
 
-		getShell().setText("Generate Result");
+		getShell().setText("Generation Result");
 		return area;
 	}
 
@@ -186,6 +190,7 @@ public class GenerateResultDialog extends Dialog {
 
 	private void createViewer(Composite parent) {
 		PatternFilter filter = new PatternFilter() {
+			@Override
 			protected boolean isLeafMatch(Viewer viewer, Object element) {
 				if (element instanceof IStatus) {
 					IStatus statusEntry = (IStatus) element;
@@ -197,17 +202,9 @@ public class GenerateResultDialog extends Dialog {
 			}
 		};
 		filter.setIncludeLeadingWildcard(true);
-		fFilteredTree = new FilteredTree(parent, SWT.FULL_SELECTION, filter,
+		fFilteredTree = new FilteredTree(parent, SWT.FULL_SELECTION
+				| SWT.BORDER, filter,
 				true);
-		if (fFilteredTree.getFilterControl() != null) {
-			Composite filterComposite = fFilteredTree.getFilterControl()
-					.getParent();
-			GridData gd = (GridData) filterComposite.getLayoutData();
-			gd.verticalIndent = 2;
-			gd.horizontalIndent = 1;
-		}
-		fFilteredTree.setBackground(parent.getDisplay().getSystemColor(
-				SWT.COLOR_LIST_BACKGROUND));
 		fFilteredTree.setLayoutData(new GridData(GridData.FILL_BOTH));
 		fTree = fFilteredTree.getViewer().getTree();
 		fTree.setLinesVisible(true);
@@ -239,7 +236,7 @@ public class GenerateResultDialog extends Dialog {
 	private void createColumns(Tree tree) {
 		fColumn1 = new TreeColumn(tree, SWT.LEFT);
 		fColumn1.setText("Message");
-		fColumn1.setWidth(400);
+		fColumn1.setWidth(430);
 
 		fColumn2 = new TreeColumn(tree, SWT.LEFT);
 		fColumn2.setText("Plugin");
@@ -248,16 +245,16 @@ public class GenerateResultDialog extends Dialog {
 		tree.setHeaderVisible(true);
 	}
 
-	private static class LogViewLabelProvider extends LabelProvider implements
+	private class LogViewLabelProvider extends LabelProvider implements
 			ITableLabelProvider {
 
-		private static int MAX_LABEL_LENGTH = 200;
+		private final int MAX_LABEL_LENGTH = 200;
 
-		private Image infoImage;
-		private Image okImage;
-		private Image errorImage;
-		private Image errorWithStackImage;
-		private Image warningImage;
+		private final Image infoImage;
+		private final Image okImage;
+		private final Image errorImage;
+		private final Image errorWithStackImage;
+		private final Image warningImage;
 
 		public LogViewLabelProvider() {
 			errorImage = Images.get(Images.STATUS_ERROR);
@@ -339,8 +336,8 @@ public class GenerateResultDialog extends Dialog {
 
 	public class StatusDetailsDialogAction extends SelectionProviderAction {
 
-		private Shell shell;
-		private ISelectionProvider provider;
+		private final Shell shell;
+		private final ISelectionProvider provider;
 		private StatusDetailsDialog propertyDialog;
 
 		public StatusDetailsDialogAction(Shell shell,
@@ -360,6 +357,7 @@ public class GenerateResultDialog extends Dialog {
 				propertyDialog.resetSelection((IStatus) element);
 		}
 
+		@Override
 		public void run() {
 			if (propertyDialog != null && propertyDialog.isOpen()) {
 				resetSelection();
@@ -374,7 +372,7 @@ public class GenerateResultDialog extends Dialog {
 			propertyDialog = new StatusDetailsDialog(shell, (IStatus) element,
 					provider);
 			propertyDialog.create();
-			propertyDialog.getShell().setText("Details");
+			propertyDialog.getShell().setText("Log Entry Details");
 			propertyDialog.open();
 		}
 	}
