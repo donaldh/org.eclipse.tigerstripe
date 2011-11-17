@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.io.Writer;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -82,7 +83,7 @@ public enum NullAbstractArtifact implements IAbstractArtifact {
 	}
 
 	public Collection<IModelComponent> getContainedModelComponents() {
-		return null;
+		return Collections.emptySet();
 	}
 
 	public String getLabel() {
@@ -90,7 +91,7 @@ public enum NullAbstractArtifact implements IAbstractArtifact {
 	}
 
 	public Collection<IStereotypeInstance> getStereotypeInstances() {
-		return null;
+		return Collections.emptySet();
 	}
 
 	public IStereotypeInstance getStereotypeInstanceByName(String name) {
@@ -111,15 +112,12 @@ public enum NullAbstractArtifact implements IAbstractArtifact {
 
 	public void removeStereotypeInstances(
 			Collection<IStereotypeInstance> instances) {
-
 	}
 
 	public void addStereotypeListener(IStereotypeListener listener) {
-
 	}
 
 	public void removeStereotypeListener(IStereotypeListener listener) {
-
 	}
 
 	public String getStereotypeString() {
@@ -127,7 +125,7 @@ public enum NullAbstractArtifact implements IAbstractArtifact {
 	}
 
 	public List<Object> getAnnotations() {
-		return null;
+		return Collections.emptyList();
 	}
 
 	public Object getAnnotation(String annotationType) {
@@ -135,11 +133,11 @@ public enum NullAbstractArtifact implements IAbstractArtifact {
 	}
 
 	public List<Object> getAnnotations(String annotationType) {
-		return null;
+		return Collections.emptyList();
 	}
 
 	public List<Object> getAnnotations(Class<?> annotationType) {
-		return null;
+		return Collections.emptyList();
 	}
 
 	public boolean hasAnnotations() {
@@ -187,24 +185,24 @@ public enum NullAbstractArtifact implements IAbstractArtifact {
 	}
 
 	public Collection<Object> getChildren() {
-		return null;
+		return Collections.emptySet();
 	}
 
 	public Collection<IField> getFields() {
-		return null;
+		return Collections.emptySet();
 	}
 
 	public Collection<IField> getFields(boolean filterFacetExcludedFields) {
-		return null;
+		return Collections.emptySet();
 	}
 
 	public Collection<IField> getInheritedFields() {
-		return null;
+		return Collections.emptySet();
 	}
 
 	public Collection<IField> getInheritedFields(
 			boolean filterFacetExcludedFields) {
-		return null;
+		return Collections.emptySet();
 	}
 
 	public IField makeField() {
@@ -224,20 +222,20 @@ public enum NullAbstractArtifact implements IAbstractArtifact {
 	}
 
 	public Collection<ILiteral> getLiterals() {
-		return null;
+		return Collections.emptySet();
 	}
 
 	public Collection<ILiteral> getLiterals(boolean filterFacetExcludedLiterals) {
-		return null;
+		return Collections.emptySet();
 	}
 
 	public Collection<ILiteral> getInheritedLiterals() {
-		return null;
+		return Collections.emptySet();
 	}
 
 	public Collection<ILiteral> getInheritedLiterals(
 			boolean filterFacetExcludedLiterals) {
-		return null;
+		return Collections.emptySet();
 	}
 
 	public ILiteral makeLiteral() {
@@ -257,20 +255,20 @@ public enum NullAbstractArtifact implements IAbstractArtifact {
 	}
 
 	public Collection<IMethod> getMethods() {
-		return null;
+		return Collections.emptySet();
 	}
 
 	public Collection<IMethod> getMethods(boolean filterFacetExcludedMethods) {
-		return null;
+		return Collections.emptySet();
 	}
 
 	public Collection<IMethod> getInheritedMethods() {
-		return null;
+		return Collections.emptySet();
 	}
 
 	public Collection<IMethod> getInheritedMethods(
 			boolean filterFacetExcludedMethods) {
-		return null;
+		return Collections.emptySet();
 	}
 
 	public IMethod makeMethod() {
@@ -306,15 +304,15 @@ public enum NullAbstractArtifact implements IAbstractArtifact {
 	}
 
 	public Collection<IAbstractArtifact> getAncestors() {
-		return null;
+		return Collections.emptySet();
 	}
 
 	public Collection<IAbstractArtifact> getExtendingArtifacts() {
-		return null;
+		return Collections.emptySet();
 	}
 
 	public Collection<IAbstractArtifact> getImplementedArtifacts() {
-		return null;
+		return Collections.emptySet();
 	}
 
 	public String getImplementedArtifactsAsStr() {
@@ -322,7 +320,7 @@ public enum NullAbstractArtifact implements IAbstractArtifact {
 	}
 
 	public Collection<IAbstractArtifact> getImplementingArtifacts() {
-		return null;
+		return Collections.emptySet();
 	}
 
 	public void setImplementedArtifacts(Collection<IAbstractArtifact> artifacts) {
@@ -330,11 +328,11 @@ public enum NullAbstractArtifact implements IAbstractArtifact {
 	}
 
 	public Collection<IAbstractArtifact> getReferencedArtifacts() {
-		return null;
+		return Collections.emptySet();
 	}
 
 	public Collection<IAbstractArtifact> getReferencingArtifacts() {
-		return null;
+		return Collections.emptySet();
 	}
 
 	public IProjectDescriptor getProjectDescriptor() {
@@ -375,7 +373,7 @@ public enum NullAbstractArtifact implements IAbstractArtifact {
 	}
 
 	public IFieldTypeRef[] getFieldTypes() {
-		return null;
+		return new IFieldTypeRef[0];
 	}
 
 	public IStandardSpecifics getIStandardSpecifics() {
