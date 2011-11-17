@@ -329,4 +329,21 @@ public class ContextualModelProject implements ITigerstripeModelProject {
 		return project.hashCode();
 	}
 	
+	/**
+	 * Returns the actual project this is referencing (i.e. project being referenced) 
+	 * @return
+	 */
+	public ITigerstripeModelProject getActualProject() {
+		return project;
+	}
+	
+	/**
+	 * Returns the context (i.e. project making the reference) 
+	 * @return
+	 */
+	public ITigerstripeModelProject getContextProject() {
+		return context;
+	}
+	
+	
 }
