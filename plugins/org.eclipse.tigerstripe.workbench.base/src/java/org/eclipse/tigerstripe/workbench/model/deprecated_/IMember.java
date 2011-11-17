@@ -10,4 +10,8 @@ public interface IMember {
 	
 	String getMemberName();
 
+	String getName();
+	
+	IType getType();
+	
 }

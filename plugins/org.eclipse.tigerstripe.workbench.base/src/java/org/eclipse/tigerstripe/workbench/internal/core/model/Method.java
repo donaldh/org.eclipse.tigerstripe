@@ -1685,4 +1685,8 @@ public class Method extends ArtifactComponent implements IOssjMethod {
 	public String getMemberName() {
 		return "method";
 	}
+
+	public IType getType() {
+		return getReturnType();
+	}
 }

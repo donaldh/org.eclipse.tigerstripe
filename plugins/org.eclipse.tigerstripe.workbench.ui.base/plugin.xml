@@ -327,6 +327,13 @@
             icon="src/icons/ts_logo.gif.gif"
             id="org.eclipse.tigerstripe.workbench.views.artifactExplorerViewNew"
             name="Tigerstripe Explorer"/>
+      <view
+            category="org.eclipse.tigerstripe.workbench.views.category"
+            class="org.eclipse.tigerstripe.workbench.ui.internal.views.hierarchy.HierarchyView"
+            icon="src/icons/hierarchy_view.gif"
+            id="org.eclipse.tigerstripe.view.hierarchy"
+            name="Artifact Type Hierarchy">
+      </view>
    </extension>
    <extension
          point="org.eclipse.ui.perspectives">
@@ -640,6 +647,12 @@
            name="Generate">
      </command>
      <command
+           categoryId="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
+           description="Show selected artifact in hierarchy view"
+           id="org.eclipse.tigerstripe.workbench.ui.base.showHierarchy"
+           name="Show Type Hierarchy">
+     </command>
+     <command
            category="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
            categoryId="org.eclipse.tigerstripe.workbench.ui.base.tigerstripecategory"
            description="Pattern Based Create"
@@ -688,6 +701,7 @@
            id="org.eclipse.tigerstripe.workbench.ui.base.refactorMove"
            name="Move">
      </command>
+     <command id="org.eclipse.tigerstripe.workbench.ui.commands.ann.attachDangling" name="Attach Dangling Annotation..." />
   </extension>
   <extension
         point="org.eclipse.ui.menus">
@@ -815,6 +829,34 @@
               </with>
            </visibleWhen>
         </menu>
+     </menuContribution>
+     <menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=group.show">
+     	<command
+            commandId="org.eclipse.tigerstripe.workbench.ui.base.showHierarchy"
+            icon="src/icons/hierarchy_view.gif"
+            style="push">
+     		<visibleWhen checkEnabled="false">
+	     		 <with variable="selection">
+	     		 	<count value="1" />
+	                 <iterate ifEmpty="false">
+	                 	<and>
+	                    	<or>
+								<adapt type="org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact" />
+		                    	<adapt type="org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent" />
+		                    	<instanceof value="org.eclipse.tigerstripe.workbench.model.deprecated_.IRelationship.IRelationshipEnd" />
+		                    	<instanceof value="org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.RelationshipAnchor" />
+	                    	</or>
+			                <not>
+	                    		<adapt type="org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact">
+			                       	<instanceof value="org.eclipse.tigerstripe.workbench.model.deprecated_.IPackageArtifact" />
+								</adapt>
+							</not>
+	                    </and>
+	                 </iterate>
+	              </with>
+     		</visibleWhen> 
+		</command>
+     	
      </menuContribution>
   </extension>
   <extension
@@ -1836,13 +1878,12 @@
 			class="org.eclipse.tigerstripe.workbench.ui.internal.utils.ArtifactTester" />
    </extension>
    
-   <extension point="org.eclipse.ui.commands">
-		<command id="org.eclipse.tigerstripe.workbench.ui.commands.ann.attachDangling" name="Attach Dangling Annotation..." />
-   </extension>
    <extension
          point="org.eclipse.ui.handlers">
       <handler class="org.eclipse.tigerstripe.workbench.ui.internal.actions.AttachDanglingAnnotationHandler" 
       	commandId="org.eclipse.tigerstripe.workbench.ui.commands.ann.attachDangling" />
+      <handler class="org.eclipse.tigerstripe.workbench.ui.internal.handlers.ShowHierarchyHandler"
+      	commandId="org.eclipse.tigerstripe.workbench.ui.base.showHierarchy" />
    </extension>
    
    <extension
@@ -1889,5 +1930,11 @@
     <provider
         class="org.eclipse.tigerstripe.workbench.ui.internal.annotation.properties.ModelReferencePropertyProvider"
         priority="2"/>
+  </extension>
+  <extension point="org.eclipse.ui.bindings">
+	  <key sequence="Shift+F4"
+		  commandId="org.eclipse.tigerstripe.workbench.ui.base.showHierarchy"
+		  schemeId="org.eclipse.ui.defaultAcceleratorConfiguration"
+		  contextId="org.eclipse.ui.contexts.window"/>
   </extension>
 </plugin>

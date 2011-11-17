@@ -1317,6 +1317,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 	 * @return
 	 * @since 2.2-beta
 	 */
+	@ProvideModelComponents
 	public Collection<IAbstractArtifact> getExtendingArtifacts() {
 		List<IAbstractArtifact> result = new ArrayList<IAbstractArtifact>();
 

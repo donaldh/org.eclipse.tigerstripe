@@ -11,6 +11,7 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.perspective;
 
 import org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview.TigerstripeExplorerPart;
+import org.eclipse.tigerstripe.workbench.ui.internal.views.hierarchy.HierarchyView;
 import org.eclipse.ui.IFolderLayout;
 import org.eclipse.ui.IPageLayout;
 import org.eclipse.ui.IPerspectiveFactory;
@@ -33,9 +34,12 @@ public class TigerstripePerspectiveFactory implements IPerspectiveFactory {
 	public void createInitialLayout(IPageLayout layout) {
 		String editorArea = layout.getEditorArea();
 
-		layout.addView(TigerstripeExplorerPart.AEXPLORER_ID, IPageLayout.LEFT,
-				0.25f, editorArea);
+		IFolderLayout left = layout.createFolder("left",
+				IPageLayout.LEFT, 0.25f, editorArea);
 
+		left.addView(TigerstripeExplorerPart.AEXPLORER_ID);
+		left.addPlaceholder(HierarchyView.ID);
+		
 		IFolderLayout bottom = layout.createFolder("bottom",
 				IPageLayout.BOTTOM, 0.66f, editorArea);
 		bottom.addView(IPageLayout.ID_PROBLEM_VIEW);

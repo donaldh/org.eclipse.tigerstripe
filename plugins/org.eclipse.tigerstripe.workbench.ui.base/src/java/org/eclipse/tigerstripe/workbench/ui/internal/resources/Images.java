@@ -216,6 +216,12 @@ public class Images {
 	public static final String STATUS_INFO = "status_info.gif";
 	public static final String STATUS_OK = "status_ok.gif";
 	public static final String STATUS_WARNING = "status_warning.gif";
+
+	public static final String HIERARCHY = "hierarchy.gif";
+	public static final String HIERARCHY_UP = "hierarchy_up.gif";
+	public static final String HIERARCHY_DOWN = "hierarchy_down.gif";
+	public static final String HISTORY_LIST = "history_list.gif";
+	public static final String HIERARCHY_VIEW = "history_view.gif";
 	
 	// Creating the managed version of all of that
 	static {
@@ -247,6 +253,13 @@ public class Images {
 		createManaged(STATUS_OK, localIcon(STATUS_OK));
 		createManaged(STATUS_WARNING, localIcon(STATUS_WARNING));
 
+		createManaged(HIERARCHY, localIcon(HIERARCHY));
+		createManaged(HIERARCHY_VIEW, localIcon(HIERARCHY_VIEW));
+		createManaged(HIERARCHY_UP, localIcon(HIERARCHY_UP));
+		createManaged(HIERARCHY_DOWN, localIcon(HIERARCHY_DOWN));
+		createManaged(HISTORY_LIST, localIcon(HISTORY_LIST));
+
+		
 		// Managed Entity
 		createManaged(ENTITY_ICON, ArtifactMetadataFactory.INSTANCE
 				.getMetadata(ENTITY_ICON).getIconURL(null));

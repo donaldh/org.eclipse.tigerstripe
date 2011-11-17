@@ -68,6 +68,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IContract
 import org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceHelper.IResourceFilter;
 import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
+import org.eclipse.tigerstripe.workbench.model.FqnUtils;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod.IArgument;
@@ -805,21 +806,10 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 					 * We can't just adapt to artifact because it may be deleted
 					 * We have to calculate the former artifact name manually 
 					 */
-					String name = dr.getName(); // "Entity.java" We have to cut '.java' suffix 
-					if (name.length() < 6) {
+					String fqn = FqnUtils.getFqnForResource(dr);
+					if (fqn == null) {
 						continue;
 					}
-					String withoutJavaSuffix = name.substring(0, name.length() - 5);
-					
-					IContainer parent = dr.getParent();
-					IAbstractArtifact pckg = AdaptHelper.adapt(parent, IAbstractArtifact.class);
-					String fqn;
-					if (pckg == null) {
-						fqn = withoutJavaSuffix;
-					} else {
-						fqn = pckg.getFullyQualifiedName() + "." + withoutJavaSuffix;
-					}	
-					
 					uries.add(createAnnUri(modelId, fqn));
 				}
 				for (IFile diagramFile : changes.diagrams) {
