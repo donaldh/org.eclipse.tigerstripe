@@ -26,6 +26,7 @@ import org.eclipse.tigerstripe.workbench.ui.visualeditor.QualifiedNamedElement;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationAEndNameEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassAEndNameEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationClassZEndNameEditPart;
+import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationNamePackageEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.AssociationZEndNameEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.TigerstripeAttributeEditPart;
 import org.eclipse.tigerstripe.workbench.ui.visualeditor.diagram.edit.parts.TigerstripeLiteralEditPart;
@@ -83,6 +84,19 @@ public class PartAdapterFactory extends VisualeditorModelAdapterFactory {
 								.getCorrespondingIArtifact();
 						if (artifact != null)
 							return artifact.getZEnd();
+					} catch (TigerstripeException e) {
+						EclipsePlugin.log(e);
+						return null;
+					}
+				}
+			} else if (adaptableObject instanceof AssociationNamePackageEditPart) {
+				EditPart assName = (EditPart) adaptableObject;
+				Association assoc = (Association) ((Node) assName.getModel())
+						.getElement();
+				if (assoc != null) {
+					try {
+						return (IAssociationArtifact) assoc
+								.getCorrespondingIArtifact();
 					} catch (TigerstripeException e) {
 						EclipsePlugin.log(e);
 						return null;
