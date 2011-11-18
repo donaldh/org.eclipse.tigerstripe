@@ -72,5 +72,15 @@ public class QueryRelationshipsByArtifact extends ArtifactQueryBase implements
 	public void setTerminatingIn(String fullyQualifiedName) {
 		this.termFQN = fullyQualifiedName;
 	}
+	
+	@Override
+	public void setIncludeDependencies(boolean includeDependencies) {
+		setIncludeProjectDependencies(includeDependencies);
+	}
+	
+	@Override
+	public boolean includeDependencies() {
+		return this.includeProjectDependencies;
+	}
 
 }
