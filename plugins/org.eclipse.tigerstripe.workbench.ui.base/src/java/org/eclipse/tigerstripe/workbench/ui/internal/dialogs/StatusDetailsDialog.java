@@ -206,18 +206,6 @@ public class StatusDetailsDialog extends TrayDialog {
 		severityLabel = new Label(textContainer, SWT.NULL);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		severityLabel.setLayoutData(gd);
-
-		label = new Label(textContainer, SWT.NONE);
-		label.setText("Message:");
-		gd = new GridData(GridData.VERTICAL_ALIGN_BEGINNING);
-		label.setLayoutData(gd);
-		msgText = new Text(textContainer, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP | SWT.BORDER);
-		msgText.setEditable(false);
-		gd = new GridData(GridData.FILL_BOTH | GridData.VERTICAL_ALIGN_BEGINNING | GridData.GRAB_VERTICAL);
-		gd.horizontalSpan = 2;
-		gd.heightHint = 44;
-		gd.grabExcessVerticalSpace = true;
-		msgText.setLayoutData(gd);
 	}
 
 	private void createDetailsSection(Composite parent) {
@@ -227,10 +215,24 @@ public class StatusDetailsDialog extends TrayDialog {
 		layout.marginWidth = 6;
 		container.setLayout(layout);
 		GridData gd = new GridData(GridData.FILL_BOTH);
-		gd.heightHint = 100;
 		container.setLayoutData(gd);
 
 		Label label = new Label(container, SWT.NONE);
+		label.setText("Message:");
+		gd = new GridData();
+		gd.verticalAlignment = SWT.BOTTOM;
+		label.setLayoutData(gd);
+
+		msgText = new Text(container, SWT.MULTI | SWT.V_SCROLL | SWT.WRAP
+				| SWT.BORDER);
+		gd = new GridData(GridData.FILL_BOTH | GridData.GRAB_HORIZONTAL);
+		gd.grabExcessHorizontalSpace = true;
+		gd.heightHint = 50;
+		gd.horizontalSpan = 2;
+		msgText.setLayoutData(gd);
+		msgText.setEditable(false);
+
+		label = new Label(container, SWT.NONE);
 		label.setText("Details:");
 		gd = new GridData();
 		gd.verticalAlignment = SWT.BOTTOM;
@@ -239,6 +241,7 @@ public class StatusDetailsDialog extends TrayDialog {
 		detailsText = new Text(container, SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER);
 		gd = new GridData(GridData.FILL_BOTH | GridData.GRAB_HORIZONTAL);
 		gd.grabExcessHorizontalSpace = true;
+		gd.heightHint = 50;
 		gd.horizontalSpan = 2;
 		detailsText.setLayoutData(gd);
 		detailsText.setEditable(false);
