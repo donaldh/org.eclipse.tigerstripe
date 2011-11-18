@@ -29,6 +29,7 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.jdt.core.IClassFile;
+import org.eclipse.jdt.core.IClasspathEntry;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaModel;
@@ -89,8 +90,6 @@ public class NewTigerstripeExplorerContentProvider extends
 
 		Object[] rawChildren = NO_CHILDREN;
 
-		boolean isJarPackageFragmentRoot = false;
-
 		if (parentElement instanceof IAbstractArtifact) {
 			IAbstractArtifact artifact = (IAbstractArtifact) parentElement;
 			List<Object> raw = new ArrayList<Object>();
@@ -150,16 +149,6 @@ public class NewTigerstripeExplorerContentProvider extends
 			}
 		} else if (parentElement instanceof IJavaModel) {
 			rawChildren = getTigerstripeProjects();
-		} else if (parentElement instanceof JarPackageFragmentRoot) {
-			IPackageFragmentRoot fragmentRoot = (IPackageFragmentRoot) parentElement;
-			rawChildren = postProcessPackageFragmentRoot(fragmentRoot,
-					super.getChildren(parentElement));
-			Object[] result = new Object[rawChildren.length];
-			for (int i = 0; i < rawChildren.length; i++) {
-				result[i] = new ElementWrapper(rawChildren[i],
-						getProjectFor(fragmentRoot.getJavaProject()));
-			}
-			return result;
 		} else if (parentElement instanceof ClassPathContainer) {
 			ClassPathContainer classPathContainer = (ClassPathContainer) parentElement;
 			ITigerstripeModelProject context = (ITigerstripeModelProject) classPathContainer
@@ -177,14 +166,28 @@ public class NewTigerstripeExplorerContentProvider extends
 								(ITigerstripeModelProject) ((ClassPathContainer) parentElement)
 										.getJavaProject().getAdapter(
 												ITigerstripeModelProject.class)));
-					} else {
-						result.add(child);
+					} else if (child instanceof JarPackageFragmentRoot) {
+						result.add(new ElementWrapper(child, context));
 					}
 				}
 				return result.toArray(new Object[result.size()]);
 			}
 		} else if (parentElement instanceof IElementWrapper) {
 			IElementWrapper wrapper = (IElementWrapper) parentElement;
+			
+			if (wrapper.getElement() instanceof JarPackageFragmentRoot) {
+				IPackageFragmentRoot fragmentRoot = (IPackageFragmentRoot) wrapper
+						.getElement();
+				rawChildren = postProcessPackageFragmentRoot(fragmentRoot,
+						super.getChildren(fragmentRoot));
+				Object[] result = new Object[rawChildren.length];
+				for (int i = 0; i < rawChildren.length; i++) {
+					result[i] = new ElementWrapper(rawChildren[i],
+							getProjectFor(fragmentRoot.getJavaProject()));
+				}
+				return result;
+			}				
+				
 			Object[] childs = getChildren(wrapper.getElement());
 			List<Object> result = new ArrayList<Object>();
 			for (Object child : childs) {
@@ -319,7 +322,6 @@ public class NewTigerstripeExplorerContentProvider extends
 			IElementWrapper wrapper = (IElementWrapper) element;
 			Object wrapped = wrapper.getElement();
 			
-			
 			if (wrapped instanceof IAbstractArtifact) {
 				String packageName = ((IAbstractArtifact) wrapped).getPackage();
 				ITigerstripeModelProject ctxModelProject = wrapper.getContextProject();
@@ -349,7 +351,19 @@ public class NewTigerstripeExplorerContentProvider extends
 				}
 				
 			} else if (wrapped instanceof IPackageFragment) {
-				return super.getParent(wrapped);
+				return new ElementWrapper(super.getParent(wrapped), wrapper.getContextProject());
+			} else if (wrapped instanceof IPackageFragmentRoot) {
+				Object parent = super.getParent(wrapped);
+				if (parent instanceof ClassPathContainer) {
+					IClasspathEntry classpathEntry = ((ClassPathContainer) parent).getClasspathEntry();
+					ITigerstripeModelProject ctxModelProject = wrapper.getContextProject();
+					IProject ctxProject = AdaptHelper.adapt(ctxModelProject, IProject.class);
+					if (ctxProject != null) {
+						IJavaProject ctxJavaProject = JavaCore.create(ctxProject);
+						return new ClassPathContainer(ctxJavaProject, classpathEntry);					
+					}
+				} 
+				return parent;
 			}
 		} 
 		return super.getParent(element);
