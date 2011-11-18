@@ -300,28 +300,50 @@ public class ContextualArtifactManager implements ArtifactManager {
 
 	public List<IRelationship> getOriginatingRelationshipForFQN(String fqn,
 			boolean includeProjectDependencies) throws TigerstripeException {
-		return wrapList(mgr.getOriginatingRelationshipForFQN(fqn,
-				includeProjectDependencies));
+		
+		// NM: If we're including dependencies, use artifact manager from context project (i.e. implementation project) 
+		if (includeProjectDependencies) {
+			return wrapList(context.getArtifactManagerSession().getArtifactManager().getOriginatingRelationshipForFQN(fqn,includeProjectDependencies));
+		} else {
+			return wrapList(mgr.getOriginatingRelationshipForFQN(fqn,includeProjectDependencies));
+		}
+		
 	}
 
 	public List<IRelationship> getOriginatingRelationshipForFQN(String fqn,
 			boolean includeProjectDependencies, boolean ignoreFacets)
 			throws TigerstripeException {
-		return wrapList(mgr.getOriginatingRelationshipForFQN(fqn,
-				includeProjectDependencies, ignoreFacets));
+		
+		// NM: If we're including dependencies, use artifact manager from context project (i.e. implementation project) 
+		if (includeProjectDependencies) {
+			return wrapList(context.getArtifactManagerSession().getArtifactManager().getOriginatingRelationshipForFQN(fqn,includeProjectDependencies, ignoreFacets));
+		} else {
+			return wrapList(mgr.getOriginatingRelationshipForFQN(fqn,includeProjectDependencies, ignoreFacets));
+		}
 	}
 
 	public List<IRelationship> getTerminatingRelationshipForFQN(String fqn,
 			boolean includeProjectDependencies) throws TigerstripeException {
-		return wrapList(mgr.getTerminatingRelationshipForFQN(fqn,
-				includeProjectDependencies));
+		
+		// NM: If we're including dependencies, use artifact manager from context project (i.e. implementation project) 
+		if (includeProjectDependencies) {
+			return wrapList(context.getArtifactManagerSession().getArtifactManager().getTerminatingRelationshipForFQN(fqn, includeProjectDependencies));
+		} else {
+			return wrapList(mgr.getTerminatingRelationshipForFQN(fqn, includeProjectDependencies));
+		}
 	}
 
 	public List<IRelationship> getTerminatingRelationshipForFQN(String fqn,
 			boolean includeProjectDependencies, boolean ignoreFacet)
 			throws TigerstripeException {
-		return wrapList(mgr.getTerminatingRelationshipForFQN(fqn,
-				includeProjectDependencies, ignoreFacet));
+		
+		// NM: If we're including dependencies, use artifact manager from context project (i.e. implementation project) 
+		if (includeProjectDependencies) {
+			return wrapList(context.getArtifactManagerSession().getArtifactManager().getTerminatingRelationshipForFQN(fqn,includeProjectDependencies, ignoreFacet));
+		} else {
+			return wrapList(mgr.getTerminatingRelationshipForFQN(fqn,includeProjectDependencies, ignoreFacet));
+		}
+		
 	}
 
 	public List<ITigerstripeModelProject> collectReferencedProjectsAndDependencies()
@@ -428,4 +450,5 @@ public class ContextualArtifactManager implements ArtifactManager {
 	public void removeDisposeListener(IDisposeListener listener) {
 		mgr.removeDisposeListener(listener);
 	}
+
 }
