@@ -184,11 +184,12 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart
 		IType defaultType = newLiteral.makeType();
 
 		// See bug #77, #90
-		if (getForcedBaseType() != null) {
-			defaultType.setFullyQualifiedName(getForcedBaseType());
-		} else {
-			defaultType.setFullyQualifiedName("String");
+		String baseTypeFQN = getForcedBaseType(((ArtifactEditorBase) getPage().getEditor()).getIArtifact());
+		if (baseTypeFQN == null) {
+			baseTypeFQN = "String";
 		}
+		defaultType.setFullyQualifiedName(baseTypeFQN);
+		
 		defaultType.setTypeMultiplicity(EMultiplicity.ZERO_ONE);
 		newLiteral.setType(defaultType);
 		newLiteral.setVisibility(EVisibility.PUBLIC);
@@ -551,9 +552,7 @@ public class ArtifactConstantsSection extends ModelComponentSectionPart
 
 	// ======
 	// See bug #90, handle Enumerations slightly differently
-	public String getForcedBaseType() {
-		IAbstractArtifact artifact = ((ArtifactEditorBase) getPage()
-				.getEditor()).getIArtifact();
+	public static String getForcedBaseType(IAbstractArtifact artifact) {
 		if (artifact instanceof IEnumArtifact) {
 			IEnumArtifact enumArtifact = (IEnumArtifact) artifact;
 			IOssjEnumSpecifics specs = (IOssjEnumSpecifics) enumArtifact

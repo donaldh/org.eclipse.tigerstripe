@@ -17,16 +17,16 @@ import org.eclipse.tigerstripe.workbench.internal.core.model.ComponentNameProvid
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.ILiteral;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EMultiplicity;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent.EVisibility;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IType;
 import org.eclipse.tigerstripe.workbench.profile.stereotype.IStereotypeCapable;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ArtifactConstantsSection;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.ModelComponentSectionPart;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.artifacts.StereotypeSectionManager;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.ConstantInfoEditComponent;
-import org.eclipse.tigerstripe.workbench.ui.internal.utils.IModifyCallback;
 import org.eclipse.tigerstripe.workbench.ui.internal.utils.ConstantInfoEditComponent.Handler;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.IModifyCallback;
 import org.eclipse.ui.forms.widgets.FormToolkit;
 
 public class NewConstantPage extends NewModelComponentPage {
@@ -54,13 +54,27 @@ public class NewConstantPage extends NewModelComponentPage {
 		String newLabelName = nameFactory.getNewLiteralName(artifact);
 		newLiteral.setName(newLabelName);
 		IType defaultType = newLiteral.makeType();
+		
+		String baseTypeFQN = ArtifactConstantsSection.getForcedBaseType(artifact);
+		if (baseTypeFQN == null) {
+			baseTypeFQN = "String";
+		}
+		defaultType.setFullyQualifiedName(baseTypeFQN);
 
-		defaultType.setFullyQualifiedName("String");
 		defaultType.setTypeMultiplicity(EMultiplicity.ZERO_ONE);
 		newLiteral.setType(defaultType);
 		newLiteral.setVisibility(EVisibility.PUBLIC);
-		newLiteral.setValue(String.format("\"%s__VALUE\"", newLabelName));
+		
+		newLiteral.setValue(getInitialLiteralValue(newLiteral));
 		return newLiteral;
+	}
+	
+	private String getInitialLiteralValue(ILiteral newLiteral) {
+		if ("int".equals(newLiteral.getType().getFullyQualifiedName())) {
+			return "0";
+		} else {
+			return String.format("\"%s__VALUE\"", newLiteral.getName());
+		}
 	}
 
 	@Override
