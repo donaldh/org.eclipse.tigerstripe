@@ -14,6 +14,7 @@ package org.eclipse.tigerstripe.annotation.ui.internal.view.property;
 import java.util.Iterator;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.viewers.CellEditor;
 import org.eclipse.jface.viewers.ICellEditorListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
@@ -231,8 +232,15 @@ public class PropertyTree {
 			if (cellEditor != null && cellEditor.isDirty()) {
 				Object entryValue = entry.getValue();
 				if (!(entryValue != null && entryValue.equals(cellEditor
-								.getValue()))) {
-					entry.setValue(cellEditor.getValue());
+						.getValue()))) {
+					try {
+						entry.setValue(cellEditor.getValue());
+					} catch (IllegalArgumentException e) {
+						deactivateCellEditor();
+						MessageDialog.openWarning(viewer.getControl()
+								.getShell(), "Set property value",
+								"Can't set value. " + e.getMessage());
+					}
 				}
 			}
 		} finally {
