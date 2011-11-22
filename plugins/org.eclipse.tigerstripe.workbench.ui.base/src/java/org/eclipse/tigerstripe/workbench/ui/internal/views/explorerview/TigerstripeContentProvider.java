@@ -20,9 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.ICompilationUnit;
 import org.eclipse.jdt.core.IJarEntryResource;
@@ -36,17 +34,7 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
-import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
-import org.eclipse.tigerstripe.workbench.TigerstripeChangeAdapter;
 import org.eclipse.tigerstripe.workbench.diagram.IDiagram;
-import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
-import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
-import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IMethod;
-import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.preferences.ExplorerPreferencePage;
 import org.eclipse.ui.IMemento;
@@ -84,22 +72,6 @@ public class TigerstripeContentProvider extends
 
 	private AbstractTreeViewer viewer;
 
-	private TigerstripeChangeAdapter tigerstripeChangeListener;
-	
-	private void asyncExec(final Runnable r)  {
-		final Control control = viewer.getControl();
-		if(viewer != null && !control.isDisposed()) {
-			control.getDisplay().asyncExec(new Runnable() {
-				
-				public void run() {
-					if(viewer != null && !control.isDisposed() && !viewer.isBusy()) {
-						r.run();
-					}
-				}
-			});
-		}
-	}
-
 	@Override
 	public void init(ICommonContentExtensionSite commonContentExtensionSite) {
 		IExtensionStateModel stateModel = ((CommonContentExtensionSite) commonContentExtensionSite)
@@ -127,63 +99,6 @@ public class TigerstripeContentProvider extends
 		boolean showCUChildren = store
 				.getBoolean(PreferenceConstants.SHOW_CU_CHILDREN);
 		setProvideMembers(showCUChildren);
-
-		tigerstripeChangeListener = new TigerstripeChangeAdapter() {
-
-			@Override
-			public void artifactResourceAdded(IResource addedArtifactResource) {
-				artifactResourceChanged(addedArtifactResource);
-			}
-
-			@Override
-			public void artifactResourceChanged(final IResource resource) {
-				asyncExec(new Runnable() {
-					public void run() {
-						viewer.refresh(resource, true);
-					}
-				});
-			}
-
-			@Override
-			public void annotationChanged(IModelAnnotationChangeDelta[] deltas) {
-				final Set<Object> elementsToRefresh = new HashSet<Object>();
-				for (IModelAnnotationChangeDelta delta : deltas) {
-					URI uri = delta.getAffectedModelComponentURI();
-					IModelComponent component = TigerstripeURIAdapterFactory
-							.uriToComponent(uri);
-					if (component instanceof IContextProjectAware) {
-						ElementWrapper wrapper = new ElementWrapper(
-								component,
-								((IContextProjectAware) component)
-										.getContextProject());
-						elementsToRefresh.add(wrapper);
-					} else if (component instanceof IAbstractArtifact) {
-						IJavaElement element = (IJavaElement) component
-								.getAdapter(IJavaElement.class);
-						if (element != null) {
-							elementsToRefresh.add(element);
-						}
-					} else {
-						elementsToRefresh.add(component);
-					}
-				}
-				if (!elementsToRefresh.isEmpty()) {
-					final Object[] toRefresh = elementsToRefresh.toArray();
-					asyncExec(new Runnable() {
-						public void run() {
-							for(final Object o : toRefresh) {
-								viewer.refresh(o, true);
-							}
-						}
-					});
-				}
-			}
-		};
-
-		TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(
-				tigerstripeChangeListener,
-				ITigerstripeChangeListener.ARTIFACT_RESOURCES
-						| ITigerstripeChangeListener.ANNOTATION);
 	}
 
 	@Override
@@ -198,11 +113,6 @@ public class TigerstripeContentProvider extends
 		}
 		EclipsePlugin.getDefault().getPreferenceStore()
 				.removePropertyChangeListener(this);
-
-		if (tigerstripeChangeListener != null) {
-			TigerstripeWorkspaceNotifier.INSTANCE
-					.removeTigerstripeChangeListener(tigerstripeChangeListener);
-		}
 	}
 
 	@Override

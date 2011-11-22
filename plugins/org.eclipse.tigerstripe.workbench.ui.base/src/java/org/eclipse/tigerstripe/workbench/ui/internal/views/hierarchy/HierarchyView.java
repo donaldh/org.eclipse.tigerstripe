@@ -14,6 +14,8 @@ import static org.eclipse.tigerstripe.workbench.ui.internal.views.hierarchy.Hier
 import static org.eclipse.tigerstripe.workbench.ui.internal.views.hierarchy.HierarchyView.ViewType.UP;
 import static org.eclipse.tigerstripe.workbench.utils.AdaptHelper.adapt;
 
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.HashSet;
@@ -73,6 +75,7 @@ import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.BasePlugin;
 import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
+import org.eclipse.tigerstripe.workbench.internal.core.model.ContextProjectAwareProxy;
 import org.eclipse.tigerstripe.workbench.internal.core.model.IAbstractArtifactInternal;
 import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
@@ -229,11 +232,22 @@ public class HierarchyView extends ViewPart implements ITigerstripeChangeListene
 							IAbstractArtifact artifact = ((Node) element).artifact;
 							try {
 								if (activePage != null) {
-									IEditorInput input;
+									IEditorInput input = null;
+									
 									if (artifact instanceof IContextProjectAware) {
-										input = new ReadOnlyArtifactEditorInput(
-												null, artifact);
-									} else {
+										ITigerstripeModelProject project = artifact.getProject(); 
+										IContextProjectAware cpa = (IContextProjectAware) artifact;
+										if (project != null
+												&& project.equals(cpa
+														.getContextProject())) {
+											artifact = expose(artifact);
+										} else {
+											input = new ReadOnlyArtifactEditorInput(
+													null, artifact);
+										}
+									}
+									
+									if (input == null) {
 										if (!exitsts(artifact)) {
 											return;
 										}
@@ -282,6 +296,18 @@ public class HierarchyView extends ViewPart implements ITigerstripeChangeListene
 				});
 	}
 
+	@SuppressWarnings("unchecked")
+	public static <T> T expose(T proxy) { 
+		
+		if (Proxy.isProxyClass(proxy.getClass())) {
+			InvocationHandler handler = Proxy.getInvocationHandler(proxy);
+			if (handler instanceof ContextProjectAwareProxy) {
+				return (T) ((ContextProjectAwareProxy) handler).getObject();
+			}
+		}
+		return proxy;
+	}
+	
 	private static boolean exitsts(IAbstractArtifact artifact) {
 		ArtifactManager artifactManager = getArtifactManager(artifact);
 		if (artifactManager == null) {

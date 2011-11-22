@@ -358,7 +358,7 @@ public class NewTigerstripeExplorerContentProvider extends
 					IClasspathEntry classpathEntry = ((ClassPathContainer) parent).getClasspathEntry();
 					ITigerstripeModelProject ctxModelProject = wrapper.getContextProject();
 					IProject ctxProject = AdaptHelper.adapt(ctxModelProject, IProject.class);
-					if (ctxProject != null) {
+					if (ctxProject != null && ctxProject.exists()) {
 						IJavaProject ctxJavaProject = JavaCore.create(ctxProject);
 						return new ClassPathContainer(ctxJavaProject, classpathEntry);					
 					}

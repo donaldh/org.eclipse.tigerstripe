@@ -12,8 +12,10 @@
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IProject;
@@ -22,6 +24,7 @@ import org.eclipse.core.resources.IResourceChangeEvent;
 import org.eclipse.core.resources.IResourceChangeListener;
 import org.eclipse.core.resources.IResourceDelta;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.internal.ui.navigator.IExtensionStateConstants.Values;
 import org.eclipse.jdt.internal.ui.viewsupport.BasicElementLabels;
@@ -30,13 +33,23 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.LabelProviderChangedEvent;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
+import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
+import org.eclipse.tigerstripe.workbench.TigerstripeChangeAdapter;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
+import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
 import org.eclipse.tigerstripe.workbench.internal.api.ITigerstripeConstants;
 import org.eclipse.tigerstripe.workbench.internal.api.contract.segment.IFacetReference;
 import org.eclipse.tigerstripe.workbench.internal.api.model.IActiveFacetChangeListener;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
+import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IModelComponent;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.event.LabelProviderUpdateHandler;
+import org.eclipse.tigerstripe.workbench.ui.internal.utils.event.UIEventGroup;
 import org.eclipse.ui.IMemento;
 import org.eclipse.ui.internal.navigator.extensions.CommonContentExtensionSite;
 import org.eclipse.ui.navigator.ICommonContentExtensionSite;
@@ -52,6 +65,21 @@ import org.eclipse.ui.navigator.IExtensionStateModel;
 public class TigerstripeLabelProvider extends TigerstripeExplorerLabelProvider
 		implements ICommonLabelProvider {
 
+	private TigerstripeChangeAdapter tigerstripeChangeListener;
+    private boolean disposed = false;
+
+	private UIEventGroup<LabelProviderChangedEvent> eventGroup = new UIEventGroup<LabelProviderChangedEvent>(
+			"Update Annotation Lables", new LabelProviderUpdateHandler(this) {
+
+				@Override
+				protected void fireEventImmediately(
+						LabelProviderChangedEvent event) {
+					if (!disposed) {
+						getDelegeteLabelProvider().fireLabelProviderChanged(event);
+					}
+				}
+			});
+	
 	private static final IActiveFacetChangeListener NULL_FACET_LISTENER = new IActiveFacetChangeListener() {
 		public void facetChanged(IFacetReference oldFacet,
 				IFacetReference newFacet) {
@@ -192,10 +220,65 @@ public class TigerstripeLabelProvider extends TigerstripeExplorerLabelProvider
 			}
 		};
 		fStateModel.addPropertyChangeListener(fLayoutPropertyListener);
+		addTigerstripeListener();
+	}
+
+	private void addTigerstripeListener() {
+		tigerstripeChangeListener = new TigerstripeChangeAdapter() {
+
+			@Override
+			public void artifactResourceAdded(IResource addedArtifactResource) {
+				artifactResourceChanged(addedArtifactResource);
+			}
+
+			@Override
+			public void artifactResourceChanged(IResource resource) {
+				eventGroup.post(new LabelProviderChangedEvent(
+						getDelegeteLabelProvider(), resource));
+			}
+
+			@Override
+			public void annotationChanged(IModelAnnotationChangeDelta[] deltas) {
+				final Set<Object> elementsToRefresh = new HashSet<Object>();
+				for (IModelAnnotationChangeDelta delta : deltas) {
+					URI uri = delta.getAffectedModelComponentURI();
+					IModelComponent component = TigerstripeURIAdapterFactory
+							.uriToComponent(uri);
+					if (component instanceof IContextProjectAware) {
+						ElementWrapper wrapper = new ElementWrapper(
+								component,
+								((IContextProjectAware) component)
+										.getContextProject());
+						elementsToRefresh.add(wrapper);
+					} else if (component instanceof IAbstractArtifact) {
+						IJavaElement element = (IJavaElement) component
+								.getAdapter(IJavaElement.class);
+						if (element != null) {
+							elementsToRefresh.add(element);
+						}
+					} else if (component != null) {
+						elementsToRefresh.add(component);
+					}
+				}
+				if (!elementsToRefresh.isEmpty()) {
+					for (Object o : elementsToRefresh) {
+						eventGroup.post(new LabelProviderChangedEvent(
+								getDelegeteLabelProvider(), o));
+					}
+				}
+			}
+		};
+
+		TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(
+				tigerstripeChangeListener,
+				ITigerstripeChangeListener.ARTIFACT_RESOURCES
+						| ITigerstripeChangeListener.ANNOTATION);
+		
 	}
 
 	@Override
 	public void dispose() {
+		disposed = true; 
 		super.dispose();
 		if (fStateModel != null) {
 			fStateModel.removePropertyChangeListener(fLayoutPropertyListener);
@@ -224,6 +307,9 @@ public class TigerstripeLabelProvider extends TigerstripeExplorerLabelProvider
 					}
 				}
 			}
+		}
+		if (tigerstripeChangeListener != null) {
+			TigerstripeWorkspaceNotifier.INSTANCE.removeTigerstripeChangeListener(tigerstripeChangeListener);
 		}
 	}
 
