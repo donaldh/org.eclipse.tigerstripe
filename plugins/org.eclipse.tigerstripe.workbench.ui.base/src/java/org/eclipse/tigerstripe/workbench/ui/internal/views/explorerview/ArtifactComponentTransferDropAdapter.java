@@ -246,7 +246,7 @@ public class ArtifactComponentTransferDropAdapter extends ViewerDropAdapter
             public void run() {
                 IModelComponent[] components = getIModelComponents();
 
-                if (isAllArtifacts())
+                if (isAllArtifacts(components))
                     allArtifactsRun();
 
                 try {
@@ -445,8 +445,7 @@ public class ArtifactComponentTransferDropAdapter extends ViewerDropAdapter
             return DND.DROP_NONE;
     }
 
-    private boolean isAllArtifacts() {
-        IModelComponent[] comps = getIModelComponents();
+    private boolean isAllArtifacts(IModelComponent[] comps) {
         if (comps.length == 0)
             return false;
 
@@ -457,18 +456,34 @@ public class ArtifactComponentTransferDropAdapter extends ViewerDropAdapter
         return true;
     }
 
-    private int handleValidateArtifactMove(Object target) {
-        if (target instanceof IAdaptable) {
-            if (target instanceof IPackageFragment)
-                target = (IResource) ((IPackageFragment) target)
-                        .getAdapter(IResource.class);
-            IPackageArtifact packArt = (IPackageArtifact) ((IAdaptable) target)
-                    .getAdapter(IPackageArtifact.class);
-            if (packArt != null && isAllArtifacts())
-                return DND.DROP_MOVE;
-        }
+	private int handleValidateArtifactMove(Object target) {
+		if (target instanceof IAdaptable) {
+			if (target instanceof IPackageFragment)
+				target = (IResource) ((IPackageFragment) target)
+						.getAdapter(IResource.class);
+			IPackageArtifact packageArtifact = (IPackageArtifact) ((IAdaptable) target)
+					.getAdapter(IPackageArtifact.class);
+			IModelComponent[] components;
+			if (packageArtifact != null
+					&& isAllArtifacts(components = getIModelComponents())) {
+				if (canBeMoved(packageArtifact, components)) {
+					return DND.DROP_MOVE;
+				}
+			}
+		}
 
-        return DND.DROP_NONE;
+		return DND.DROP_NONE;
+	}
+    
+    private boolean canBeMoved(IPackageArtifact packageArtifact, IModelComponent[] artifacts) {
+    	for (IModelComponent artifact : artifacts) {
+    		for (IModelComponent contained : packageArtifact.getContainedModelComponents()) {
+    			if (artifact.getName().equals(contained.getName())) {
+    				return false;    				
+    			}
+    		}
+    	}
+    	return true;
     }
 
     /**
