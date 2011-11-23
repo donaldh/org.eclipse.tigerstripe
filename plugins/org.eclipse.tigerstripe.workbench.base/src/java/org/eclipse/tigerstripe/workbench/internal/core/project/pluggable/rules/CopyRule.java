@@ -101,6 +101,7 @@ public class CopyRule extends Rule implements ICopyRule, IGlobalRule {
 		return ICopyRule.class.getCanonicalName();
 	}
 
+	@Override
 	protected void initializeReport(PluggablePluginConfig pluginConfig) {
 		super.initializeReport(pluginConfig);
 		getReport().setFilesetMatch(filesetMatch);
@@ -108,6 +109,7 @@ public class CopyRule extends Rule implements ICopyRule, IGlobalRule {
 
 	}
 
+	@Override
 	public void trigger(PluggablePluginConfig pluginConfig,
 			IPluginRuleExecutor exec) throws TigerstripeException {
 
@@ -196,10 +198,8 @@ public class CopyRule extends Rule implements ICopyRule, IGlobalRule {
 				}
 			} else if (srcFile.isDirectory()) {
 				getReport().getCopiedFiles().add(srcFile.getAbsolutePath());
-				File newTarget = new File(outputDirectory.getAbsolutePath()
-						+ File.separator + srcFile.getName());
 				try {
-					FileUtils.copyDir(srcFile.getAbsolutePath(), newTarget
+					FileUtils.copyDir(srcFile.getAbsolutePath(), outputDirectory
 							.getAbsolutePath(), true);
 				} catch (IOException e) {
 					throw new TigerstripeException(
