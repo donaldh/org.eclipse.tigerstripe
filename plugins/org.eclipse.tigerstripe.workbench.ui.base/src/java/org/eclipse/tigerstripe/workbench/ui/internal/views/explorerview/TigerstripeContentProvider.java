@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview;
 
+import static org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener.ARTIFACT_RESOURCES;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
@@ -20,6 +22,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.jdt.core.IClassFile;
 import org.eclipse.jdt.core.ICompilationUnit;
@@ -34,7 +37,10 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.tigerstripe.workbench.TigerstripeChangeAdapter;
 import org.eclipse.tigerstripe.workbench.diagram.IDiagram;
+import org.eclipse.tigerstripe.workbench.internal.core.TigerstripeWorkspaceNotifier;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.preferences.ExplorerPreferencePage;
 import org.eclipse.ui.IMemento;
@@ -72,6 +78,22 @@ public class TigerstripeContentProvider extends
 
 	private AbstractTreeViewer viewer;
 
+	private TigerstripeChangeAdapter tigerstripeChangeListener;
+	
+	private void asyncExec(final Runnable r)  {
+		final Control control = viewer.getControl();
+		if(viewer != null && !control.isDisposed()) {
+			control.getDisplay().asyncExec(new Runnable() {
+				
+				public void run() {
+					if(viewer != null && !control.isDisposed() && !viewer.isBusy()) {
+						r.run();
+					}
+				}
+			});
+		}
+	}
+
 	@Override
 	public void init(ICommonContentExtensionSite commonContentExtensionSite) {
 		IExtensionStateModel stateModel = ((CommonContentExtensionSite) commonContentExtensionSite)
@@ -99,6 +121,26 @@ public class TigerstripeContentProvider extends
 		boolean showCUChildren = store
 				.getBoolean(PreferenceConstants.SHOW_CU_CHILDREN);
 		setProvideMembers(showCUChildren);
+
+		tigerstripeChangeListener = new TigerstripeChangeAdapter() {
+
+			@Override
+			public void artifactResourceAdded(IResource addedArtifactResource) {
+				artifactResourceChanged(addedArtifactResource);
+			}
+
+			@Override
+			public void artifactResourceChanged(final IResource resource) {
+				asyncExec(new Runnable() {
+					public void run() {
+						viewer.refresh(resource, true);
+					}
+				});
+			}
+		};
+
+		TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(
+				tigerstripeChangeListener, ARTIFACT_RESOURCES);
 	}
 
 	@Override
@@ -113,6 +155,11 @@ public class TigerstripeContentProvider extends
 		}
 		EclipsePlugin.getDefault().getPreferenceStore()
 				.removePropertyChangeListener(this);
+
+		if (tigerstripeChangeListener != null) {
+			TigerstripeWorkspaceNotifier.INSTANCE
+					.removeTigerstripeChangeListener(tigerstripeChangeListener);
+		}
 	}
 
 	@Override

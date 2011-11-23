@@ -11,6 +11,8 @@
  *******************************************************************************/
 package org.eclipse.tigerstripe.workbench.ui.internal.views.explorerview;
 
+import static org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener.ANNOTATION;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -34,7 +36,6 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.jface.viewers.LabelProviderChangedEvent;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.tigerstripe.workbench.IModelAnnotationChangeDelta;
-import org.eclipse.tigerstripe.workbench.ITigerstripeChangeListener;
 import org.eclipse.tigerstripe.workbench.TigerstripeChangeAdapter;
 import org.eclipse.tigerstripe.workbench.TigerstripeException;
 import org.eclipse.tigerstripe.workbench.internal.adapt.TigerstripeURIAdapterFactory;
@@ -228,13 +229,13 @@ public class TigerstripeLabelProvider extends TigerstripeExplorerLabelProvider
 
 			@Override
 			public void artifactResourceAdded(IResource addedArtifactResource) {
-				artifactResourceChanged(addedArtifactResource);
+//				artifactResourceChanged(addedArtifactResource);
 			}
 
 			@Override
 			public void artifactResourceChanged(IResource resource) {
-				eventGroup.post(new LabelProviderChangedEvent(
-						getDelegeteLabelProvider(), resource));
+//				eventGroup.post(new LabelProviderChangedEvent(
+//						getDelegeteLabelProvider(), resource));
 			}
 
 			@Override
@@ -270,9 +271,7 @@ public class TigerstripeLabelProvider extends TigerstripeExplorerLabelProvider
 		};
 
 		TigerstripeWorkspaceNotifier.INSTANCE.addTigerstripeChangeListener(
-				tigerstripeChangeListener,
-				ITigerstripeChangeListener.ARTIFACT_RESOURCES
-						| ITigerstripeChangeListener.ANNOTATION);
+				tigerstripeChangeListener, ANNOTATION);
 		
 	}
 
