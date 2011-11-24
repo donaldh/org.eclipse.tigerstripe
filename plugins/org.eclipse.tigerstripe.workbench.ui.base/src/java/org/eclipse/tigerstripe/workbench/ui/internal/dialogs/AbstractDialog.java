@@ -59,7 +59,7 @@ public abstract class AbstractDialog extends Dialog {
 		Composite area = (Composite) super.createDialogArea(parent);
 
 		fListTable = new Table(area, SWT.FULL_SELECTION | SWT.SINGLE | SWT.V_SCROLL | SWT.BORDER);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL	| GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL);
+		GridData gd = new GridData(GridData.FILL_BOTH	| GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL);
 		gd.heightHint = 150;
 		gd.widthHint = 350;
 		fListTable.setLayoutData(gd);
@@ -68,6 +68,7 @@ public abstract class AbstractDialog extends Dialog {
 		fListTable.setLinesVisible(true);
 		fListTable.addSelectionListener(new SelectionAdapter() {
 			
+			@Override
 			public void widgetSelected(SelectionEvent e) {
 				int index = fListTable.getSelectionIndex();
 				
