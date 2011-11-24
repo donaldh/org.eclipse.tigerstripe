@@ -20,6 +20,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
+import org.eclipse.jdt.ui.refactoring.RefactoringSaveHelper;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.wizard.Wizard;
@@ -169,6 +170,7 @@ public class RenameModelArtifactWizard extends Wizard implements
 		this.selection = selection;
 	}
 
+	@Override
 	public void addPages() {
 
 		setWindowTitle("Refactor Model Artifact");
@@ -203,10 +205,19 @@ public class RenameModelArtifactWizard extends Wizard implements
 		commands = new IRefactorCommand[0];
 	}
 
+	@Override
 	public boolean performFinish() {
 		try {
-			getContainer().run(true, true,
-					new DisableAutoBuildingRunnable(new RefactorRunnable()));
+			if (new RefactoringSaveHelper(
+					RefactoringSaveHelper.SAVE_ALL_ALWAYS_ASK)
+					.saveEditors(getShell())) {
+
+				getContainer()
+						.run(true,
+								true,
+								new DisableAutoBuildingRunnable(
+										new RefactorRunnable()));
+			}
 		} catch (InvocationTargetException e) {
 			EclipsePlugin.log(e);
 		} catch (InterruptedException e) {
