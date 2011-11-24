@@ -12,6 +12,7 @@
 package org.eclipse.tigerstripe.workbench.internal.core.model;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -20,7 +21,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.WeakHashMap;
 
 import org.eclipse.tigerstripe.workbench.internal.api.impl.ContextualModelProject;
 import org.eclipse.tigerstripe.workbench.model.IContextProjectAware;
@@ -38,9 +41,21 @@ public class ContextProjectAwareProxy implements
 	private static final Signature ITYPE_GET_ARTIFACT_MANAGER_SIG = findSignatureByMarker(
 			Type.class, Contextual.class);
 
-	private final Object obj;
-	private volatile ITigerstripeModelProject context;
+	volatile Object obj;
+	volatile ITigerstripeModelProject context;
 
+	@SuppressWarnings("unchecked")
+	public static <T> T expose(T proxy) { 
+		
+		if (Proxy.isProxyClass(proxy.getClass())) {
+			InvocationHandler handler = Proxy.getInvocationHandler(proxy);
+			if (handler instanceof ContextProjectAwareProxy) {
+				return (T) ((ContextProjectAwareProxy) handler).getObject();
+			}
+		}
+		return proxy;
+	}
+	
 	public static <T> T newInstance(T obj, ITigerstripeModelProject context) {
 		if (obj instanceof IContextProjectAware) {
 			return obj;
@@ -70,11 +85,37 @@ public class ContextProjectAwareProxy implements
 		return makeInstance(obj, context);
 	}
 
+	private final static Map<Object, Map<ITigerstripeModelProject, Object>> proxiesCache = new WeakHashMap<Object, Map<ITigerstripeModelProject, Object>>();
+	
 	@SuppressWarnings("unchecked")
-	private static <T> T makeInstance(T obj, ITigerstripeModelProject context) {
-		return (T) java.lang.reflect.Proxy.newProxyInstance(obj.getClass()
-				.getClassLoader(), collectRequiredInterfaces(obj),
-				new ContextProjectAwareProxy(obj, context));
+	private synchronized static <T> T makeInstance(T obj, ITigerstripeModelProject context) {
+
+		/*
+		 * Disable cache  
+		 */
+		
+//		Map<ITigerstripeModelProject, Object> projectsMap = proxiesCache.get(obj);
+//		if (projectsMap == null) {
+//			projectsMap = new WeakHashMap<ITigerstripeModelProject, Object>();
+//			proxiesCache.put(obj, projectsMap);
+//		}
+//		Object object = projectsMap.get(context);
+//		if (object == null) {
+			Class<? extends Object> clazz = obj.getClass();
+			Object unusedProxy = InstanceManager.findUnusedProxy(clazz);
+			if (unusedProxy == null) {
+				return (T) java.lang.reflect.Proxy.newProxyInstance(clazz
+						.getClassLoader(), collectRequiredInterfaces(obj),
+						new ContextProjectAwareProxy(obj, context));
+			} else {
+				ContextProjectAwareProxy h = (ContextProjectAwareProxy) Proxy.getInvocationHandler(unusedProxy);
+				h.context = context;
+				h.obj = obj;
+				return (T) unusedProxy;
+			}
+//			projectsMap.put(context, object);	
+//		}
+//		return (T) object;
 	}
 
 	private static Class<?>[] collectRequiredInterfaces(Object obj) {
@@ -140,8 +181,7 @@ public class ContextProjectAwareProxy implements
 		} catch (InvocationTargetException e) {
 			throw e.getTargetException();
 		} catch (Exception e) {
-			throw new RuntimeException("unexpected invocation exception: "
-					+ e.getMessage());
+			throw new RuntimeException(e);
 		}
 		return result;
 	}

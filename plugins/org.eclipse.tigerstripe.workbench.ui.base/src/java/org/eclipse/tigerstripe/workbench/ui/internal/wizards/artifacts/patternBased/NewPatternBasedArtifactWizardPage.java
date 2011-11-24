@@ -16,6 +16,7 @@ import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.IPackageFragment;
@@ -690,16 +691,23 @@ public abstract class NewPatternBasedArtifactWizardPage extends
 	 * @return the status of the validation
 	 */
 	protected IStatus artifactNameChanged() {
-	    IStatus status = ArtifactNameValidator.validateArtifactDoesNotExist(getArtifactPackageFragment(), getArtifactName());
+	    String artifactName = getArtifactName();
+		if (artifactName.isEmpty()) {
+			return new StatusInfo(
+					Status.ERROR,
+					NewWizardMessages
+							.getString("NewArtifactWizardPage.error.EnterArtifactName"));
+		}
+		IStatus status = ArtifactNameValidator.validateArtifactDoesNotExist(getArtifactPackageFragment(), artifactName);
 	    if (!status.isOK()) {
 	        return status;
 	    }
 	    
         if (((IArtifactPattern) pattern).getTargetArtifactType().equals(IPackageArtifact.class.getName())) {
-	       status = ArtifactNameValidator.validatePackageArtifactName(getArtifactName());
+	       status = ArtifactNameValidator.validatePackageArtifactName(artifactName);
 	    }
 	    else {
-            status = ArtifactNameValidator.validateArtifactName(getArtifactName());
+            status = ArtifactNameValidator.validateArtifactName(artifactName);
 	    }
         
         return status;

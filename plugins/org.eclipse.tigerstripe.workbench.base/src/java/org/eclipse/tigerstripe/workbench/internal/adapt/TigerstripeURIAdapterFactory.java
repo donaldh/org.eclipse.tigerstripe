@@ -13,6 +13,7 @@ package org.eclipse.tigerstripe.workbench.internal.adapt;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
@@ -33,6 +34,7 @@ import org.eclipse.tigerstripe.workbench.internal.api.impl.TigerstripeProjectHan
 import org.eclipse.tigerstripe.workbench.internal.api.modules.IModuleHeader;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ArtifactManager;
 import org.eclipse.tigerstripe.workbench.internal.core.model.ContextProjectAwareProxy;
+import org.eclipse.tigerstripe.workbench.internal.core.model.InstanceManager;
 import org.eclipse.tigerstripe.workbench.internal.core.project.Dependency;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ModelReference;
 import org.eclipse.tigerstripe.workbench.internal.core.project.ProjectDetails;
@@ -162,7 +164,7 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		if (path.segmentCount() < 2)
 			return null;
 
-		String fqn = path.lastSegment();
+		final String fqn = extractFQN(path);
 		//path = path.removeLastSegments(1);
 
 		String project = path.segments()[0];
@@ -279,6 +281,10 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 		return artifact;
 	}
 
+	public static String extractFQN(IPath path) {
+		return path.lastSegment();
+	}
+
 	public static IArgument uriToArgument(URI uri) {
 
 		try {
@@ -348,10 +354,12 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 					else if (fragment.endsWith(";zEnd"))
 						result = assoc.getZEnd();
 				} else if (fragment.endsWith(")") && fragment.contains("(")) {
-					for (IMethod m : artifact.getMethods()) {
+					Collection<IMethod> methods = artifact.getMethods();
+					for (IMethod m : methods) {
 						if (m.getMethodId().equals(fragment)) {
 							result = m;
-							break;
+						} else {
+							InstanceManager.dispose(m);
 						}
 					}
 				} else {
@@ -363,13 +371,17 @@ public class TigerstripeURIAdapterFactory implements IAdapterFactory {
 
 					components.addAll(fields);
 					components.addAll(literals);
-
-					for (IModelComponent c : components) {
+					
+					Iterator<IModelComponent> it = components.iterator();
+					while (it.hasNext()) {
+						IModelComponent c = it.next(); 
 						if (c.getName().equals(fragment)) {
 							result = c;
+							it.remove();
 							break;
 						}
 					}
+					InstanceManager.dispose(components);
 				}
 			}
 

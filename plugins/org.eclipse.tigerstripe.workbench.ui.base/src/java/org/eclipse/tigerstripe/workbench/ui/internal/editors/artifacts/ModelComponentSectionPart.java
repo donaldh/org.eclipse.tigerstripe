@@ -28,6 +28,7 @@ import org.eclipse.tigerstripe.workbench.model.HierarchyWalker;
 import org.eclipse.tigerstripe.workbench.model.IHierarchyVisitor;
 import org.eclipse.tigerstripe.workbench.model.ModelUtils;
 import org.eclipse.tigerstripe.workbench.model.deprecated_.IAbstractArtifact;
+import org.eclipse.tigerstripe.workbench.model.deprecated_.IArtifactManagerSession;
 import org.eclipse.tigerstripe.workbench.project.ITigerstripeModelProject;
 import org.eclipse.tigerstripe.workbench.ui.EclipsePlugin;
 import org.eclipse.tigerstripe.workbench.ui.internal.editors.TigerstripeFormPage;
@@ -98,8 +99,17 @@ public abstract class ModelComponentSectionPart extends ArtifactSectionPart {
 				}
 
 			};
-			getIArtifact().getProject().getArtifactManagerSession()
-					.addArtifactChangeListener(listener);
+			IAbstractArtifact artifact = getIArtifact();
+			if (artifact != null) {
+				ITigerstripeModelProject project = artifact.getProject();
+				if (project != null) {
+					IArtifactManagerSession session = project
+							.getArtifactManagerSession();
+					if (session != null) {
+						session.addArtifactChangeListener(listener);
+					}
+				}
+			}
 		} catch (TigerstripeException e) {
 			EclipsePlugin.log(e);
 		}

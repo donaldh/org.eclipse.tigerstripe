@@ -110,6 +110,7 @@ public class SearchResultTreeContentProvider implements ITreeContentProvider,
 	}
 
 	public void clear() {
+		initialize(fResult);
 		fTreeViewer.refresh();
 	}
 

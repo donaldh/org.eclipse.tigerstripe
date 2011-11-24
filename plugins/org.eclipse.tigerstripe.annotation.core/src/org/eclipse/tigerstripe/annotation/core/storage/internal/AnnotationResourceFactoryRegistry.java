@@ -1,13 +1,8 @@
 package org.eclipse.tigerstripe.annotation.core.storage.internal;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.Resource.Factory;
 import org.eclipse.emf.ecore.resource.Resource.Factory.Registry;
@@ -59,7 +54,7 @@ public class AnnotationResourceFactoryRegistry implements
 
 						@Override
 						protected XMLSave createXMLSave() {
-							return new AnnotationXMISave(createXMLHelper());
+							return new XMISaveImpl(createXMLHelper());
 						}
 
 						@Override
@@ -105,95 +100,11 @@ public class AnnotationResourceFactoryRegistry implements
 		@Override
 		public void endElement(String uri, String localName, String name) {
 			if (ECORE_DEFINITION_TAG.equals(name)) {
-				for (EObject object : extent) {
-					if (object instanceof EPackage) {
-						EPackage pack = (EPackage) object;
-						String nsURI = pack.getNsURI();
-						if (packageRegistry.getEPackage(nsURI) == null) {
-							packageRegistry.put(nsURI, pack);
-						}
-					}
-				}
 				documentRoot = null;
 				extent.clear();
 			} else {
 				super.endElement(uri, localName, name);
 			}
-		}
-	}
-
-	private static class AnnotationXMISave extends XMISaveImpl {
-
-		public AnnotationXMISave(XMLHelper helper) {
-			super(helper);
-		}
-
-		@Override
-		public Object writeTopObjects(List<? extends EObject> contents) {
-			doc.startElement(XMI_TAG_NS);
-			Object mark = doc.mark();
-
-			saveEcoreDefinition(getPackages(contents));
-
-			for (int i = 0, size = contents.size(); i < size; i++) {
-				EObject top = contents.get(i);
-				EClass eClass = top.eClass();
-				if (extendedMetaData == null
-						|| featureTable.getDocumentRoot(eClass.getEPackage()) != eClass) {
-					String name = helper.getQName(eClass);
-					doc.startElement(name);
-					root = top;
-					saveElementID(top);
-				} else {
-					doc.startElement(null);
-					root = top;
-					saveFeatures(top);
-					doc.addLine();
-				}
-			}
-
-			doc.endElement();
-			return mark;
-		}
-
-		protected List<EPackage> getPackages(List<? extends EObject> contents) {
-			List<EPackage> packages = new ArrayList<EPackage>();
-			for (EObject object : contents) {
-				List<EPackage> newPackages = PackageFinder.getPackages(object);
-				for (EPackage newPackage : newPackages) {
-					if (!packages.contains(newPackage))
-						packages.add(newPackage);
-				}
-			}
-			return packages;
-		}
-
-		protected void saveEcoreDefinition(List<EPackage> packages) {
-			doc.startElement(ECORE_DEFINITION_TAG);
-			for (int i = 0, size = packages.size(); i < size; i++) {
-				EObject top = packages.get(i);
-				EClass eClass = top.eClass();
-				if (extendedMetaData == null
-						|| featureTable.getDocumentRoot(eClass.getEPackage()) != eClass) {
-					String name = helper.getQName(eClass);
-					doc.startElement(name);
-					root = top;
-					saveElementID(top);
-				} else {
-					doc.startElement(null);
-					root = top;
-					saveFeatures(top);
-					doc.addLine();
-				}
-			}
-			doc.endElement();
-		}
-
-		@Override
-		protected Object writeTopObject(EObject top) {
-			List<EObject> objects = new ArrayList<EObject>();
-			objects.add(top);
-			return writeTopObjects(objects);
 		}
 	}
 }

@@ -18,7 +18,6 @@ import static org.eclipse.tigerstripe.workbench.internal.builder.WorkspaceListen
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -48,7 +47,9 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.workspace.util.WorkspaceSynchronizer;
 import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.JavaModelException;
@@ -784,23 +785,25 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 		if (modelId == null) {
 			return;
 		}
-		Set<URI> uries;
-		IResourceDelta delta = getDelta(getProject());
+		IProject project = getProject();
+		IResourceDelta delta = getDelta(project);
 		
 		boolean projectOfInterestWasChanged = delta != null && delta.getAffectedChildren().length == 0 && kind == AUTO_BUILD;
-		boolean dependenciesWasChanged = projectOfInterestWasChanged; 
+		boolean dependenciesWasChanged = projectOfInterestWasChanged;
+		
+		Set<Annotation> annotations = new HashSet<Annotation>();
+		
 		if (kind == FULL_BUILD || dependenciesWasChanged) {
 			deleteAnnMarkers();
-			uries = Collections.singleton(createAnnUri(modelId));
+			findAllAnnotations(project, annotations);
 		} else {
 			CollectResult changes = collectChanges();
 			if (changes.affectedResources.isEmpty()
 					|| changes.descriptorWasChanged
 					|| !changes.annResources.isEmpty()) {
 				deleteAnnMarkers();
-				uries = Collections.singleton(createAnnUri(modelId));
+				findAllAnnotations(project, annotations);
 			} else {
-				uries = new HashSet<URI>();
 				for (IFile dr : changes.artifacts) {
 					/**
 					 * We can't just adapt to artifact because it may be deleted
@@ -810,27 +813,17 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 					if (fqn == null) {
 						continue;
 					}
-					uries.add(createAnnUri(modelId, fqn));
+					findPostfix(project, createAnnUri(modelId, fqn), annotations);
 				}
 				for (IFile diagramFile : changes.diagrams) {
 					URI uri = TigerstripeURIAdapterFactory.toURI(diagramFile);
-					if (uri != null) {
-						uries.add(uri);
-					}
+					findPostfix(project, uri, annotations);
 				}
 			}
 		}
 		
-		if (uries.isEmpty()) {
+		if (annotations.isEmpty()) {
 			return;
-		}
-		
-		IAnnotationManager am = AnnotationPlugin.getManager();
-		Set<Annotation> annotations = new HashSet<Annotation>();
-		for (URI uri : uries) {
-			//TODO Handle all references ??
-			
-			annotations.addAll(am.getPostfixAnnotations(uri));
 		}
 		
 		for (Annotation annotation : annotations) {
@@ -862,6 +855,35 @@ public class TigerstripeProjectAuditor extends IncrementalProjectBuilder
 			removeMissedStorageAnnotationMarker(annotation);
 			if (storedInMetadata(annotation)) {
 				addMissedStorageAnnotationMarker(annotation);
+			}
+		}
+	}
+
+	private void findAllAnnotations(IProject project,
+			Set<Annotation> annotations) {
+		for (Resource r : AnnotationPlugin.getDomain().getResourceSet().getResources()) {
+			IFile file = WorkspaceSynchronizer.getFile(r);
+			if (file != null && project.equals(file.getProject())) {
+				for (EObject obj : r.getContents()) {
+					if (obj instanceof Annotation) {
+						annotations.add((Annotation) obj);
+					}
+				}
+			}
+		}
+	}
+
+	private void findPostfix(IProject project, URI uri,
+			Set<Annotation> annotations) {
+		IAnnotationManager manager = AnnotationPlugin.getManager();
+		List<Annotation> postfix = manager.getPostfixAnnotations(uri);
+		for (Annotation ann : postfix) {
+			Resource eResource = ann.eResource();
+			if (eResource != null) {
+				IFile file = WorkspaceSynchronizer.getFile(eResource);
+				if (file != null && project.equals(file.getProject())) {
+					annotations.add(ann);
+				}
 			}
 		}
 	}
