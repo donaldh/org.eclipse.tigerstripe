@@ -11,13 +11,10 @@
 package org.eclipse.tigerstripe.workbench.project;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -120,6 +117,7 @@ public class GeneratorDeploymentHelper {
 
 		monitor.subTask("Cleaning generator repository");
 		deploymentPath = getDefaultPluginPathAndFileName(project);
+		unDeploy(deploymentPath, monitor);
 
 		return deploymentPath;
 	}
