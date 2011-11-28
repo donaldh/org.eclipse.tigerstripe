@@ -1247,6 +1247,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 				if (m1.equals(m2)) {
 					it.remove();
 					m2.setContainingArtifact(null);
+					break;
 				}
 			}
 			m1.setContainingArtifact(null);
@@ -2067,6 +2068,7 @@ public abstract class AbstractArtifact extends ArtifactComponent implements
 		while (it.hasNext()) {
 			if (component.equals(it.next())) {
 				it.remove();
+				break;
 			}
 		}
 	}
