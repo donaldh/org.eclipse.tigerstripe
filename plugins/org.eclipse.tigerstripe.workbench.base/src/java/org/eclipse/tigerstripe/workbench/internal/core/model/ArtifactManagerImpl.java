@@ -1983,7 +1983,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 					source.size());
 			for (T element : source) {
 				if (!(element instanceof IContextProjectAware)) {
-					element = (T) ContextProjectAwareProxy
+					element = ContextProjectAwareProxy
 							.newInstance(element, context);
 				}
 				result.add(element);
@@ -2010,7 +2010,7 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 					.getTSProject();
 			if (result != null && contextProject != null
 					&& !(result instanceof IContextProjectAware)) {
-				result = (IAbstractArtifactInternal) ContextProjectAwareProxy
+				result = ContextProjectAwareProxy
 						.newInstance(result, contextProject);
 			}
 			return result;
@@ -2376,13 +2376,11 @@ public class ArtifactManagerImpl implements ITigerstripeChangeListener, Artifact
 							project.getModelId())) {
 						continue;
 					}
-					for (IAbstractArtifact art : project
-							.getArtifactManagerSession()
-							.getArtifactManager()
+					ArtifactManager manager = project
+							.getArtifactManagerSession().getArtifactManager();
+					result.addAll(toContextProjectAwareArtifacts(manager
 							.getAllKnownArtifactsByFullyQualifiedName(fqn,
-									context)) {
-						result.add(art);
-					}
+									context)));
 				} catch (TigerstripeException e) {
 					TigerstripeRuntime.logErrorMessage(
 							"TigerstripeException detected", e);
