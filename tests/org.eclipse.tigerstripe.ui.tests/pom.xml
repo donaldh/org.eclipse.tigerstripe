@@ -1,52 +1,122 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.eclipse.tigerstripe</groupId>
-    <artifactId>org.eclipse.tigerstripe.tests.parent</artifactId>
-    <version>0.7.0-SNAPSHOT</version>
-    <relativePath>../pom.xml</relativePath>
-  </parent>
+	<parent>
+		<groupId>org.eclipse.tigerstripe</groupId>
+		<artifactId>org.eclipse.tigerstripe.tests.parent</artifactId>
+		<version>0.7.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
 
-  <artifactId>org.eclipse.tigerstripe.ui.tests</artifactId>
-  <packaging>q7test</packaging>
-  <name>o.e.t.q7.tests</name>
-  <version>0.7.0-SNAPSHOT</version>
-  
-  <build>
-    <plugins>
-    	<plugin>
-        	<groupId>com.xored.q7</groupId>
-        	<artifactId>q7-maven-plugin</artifactId>
-        	<version>${q7version}</version>
-        	<extensions>true</extensions>
-        	<configuration>
-          		<aut>
-    				<explicit>../../releng/org.eclipse.tigerstripe.rcp/target/products/org.eclipse.tigerstripe.rcp-${osgi.os}.${osgi.ws}.${osgi.arch}.zip</explicit>
-    				<injections> 
-        				<injection> 
-            				<site>${tigerstripe.ecl.update.site}</site>            			 
-        				</injection> 
-    				</injections>
-				</aut>
-				<q7>
-					<version>${q7version}</version>
-				</q7>
-          		<testOptions>
-          			<vmArgs>-Xms128m;-Xmx512m;-XX:PermSize=128M;-XX:MaxPermSize=512M</vmArgs>
-          			<execTimeout>120min</execTimeout>
-          			<!-- q7 1.0.0 version's format  
-          			<vmArgs>-Xms128m -Xmx512m -XX:PermSize=128M -XX:MaxPermSize=512M</vmArgs>
-    				<execTimeout>7200</execTimeout>
-          			-->
-          		</testOptions>
-        	</configuration>
-      </plugin>
-    </plugins>
-  </build>
-  <properties>
-    <q7version>1.0.0-RC3</q7version>
-  </properties>
+	<artifactId>org.eclipse.tigerstripe.ui.tests</artifactId>
+	<packaging>q7test</packaging>
+	<name>o.e.t.q7.tests</name>
+	<version>0.7.0-SNAPSHOT</version>
+
+	<profiles>
+		<profile>
+			<id>q7-env-cisco</id>
+
+			<activation>
+				<property>
+					<name>build.env</name>
+					<value>!xored</value>
+				</property>
+			</activation>
+
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.xored.q7</groupId>
+						<artifactId>q7-maven-plugin</artifactId>
+						<version>${q7version}</version>
+						<extensions>true</extensions>
+						<configuration>
+							<aut>
+								<explicit>../../releng/org.eclipse.tigerstripe.rcp/target/products/org.eclipse.tigerstripe.rcp-${osgi.os}.${osgi.ws}.${osgi.arch}.zip</explicit>
+								<injections>
+									<injection>
+										<site>${tigerstripe.ecl.update.site}</site>
+									</injection>
+								</injections>
+							</aut>
+							<q7>
+								<version>${q7version}</version>
+							</q7>
+							<testOptions>
+								<vmArgs>-Xms128m;-Xmx512m;-XX:PermSize=128M;-XX:MaxPermSize=512M</vmArgs>
+								<execTimeout>120min</execTimeout>
+								<!-- q7 1.0.0 version's format <vmArgs>-Xms128m -Xmx512m -XX:PermSize=128M 
+									-XX:MaxPermSize=512M</vmArgs> <execTimeout>7200</execTimeout> -->
+							</testOptions>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+
+		<profile>
+			<id>q7-env-xored</id>
+
+			<activation>
+				<property>
+					<name>build.env</name>
+					<value>xored</value>
+				</property>
+			</activation>
+
+			<properties>
+	        	<q7-client-version>1.1.1-RC1</q7-client-version>
+	        	<q7-maven-version>1.1.1</q7-maven-version>
+			</properties>
+
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.xored.q7</groupId>
+						<artifactId>q7-server-maven-plugin</artifactId>
+						<version>${q7-maven-version}</version>
+						<extensions>true</extensions>
+						<configuration>
+							<aut>
+								<uri>http://maven.xored.com/nexus/content/repositories/snapshots/org/eclipse/tigerstripe/org.eclipse.tigerstripe.rcp/0.7.0-SNAPSHOT/org.eclipse.tigerstripe.rcp-0.7.0-SNAPSHOT.zip</uri>
+							</aut>	
+							<q7server>
+								<host>192.168.2.226</host>
+								<port>7504</port>
+							</q7server>
+							<q7client>
+								<version>${q7-client-version}</version>
+							</q7client>
+							<testOptions>
+								<execTimeout>18000</execTimeout>
+								<q7Profiling>false</q7Profiling>
+							</testOptions>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+
+			<pluginRepositories>
+				<!-- pluginRepository> <id>atlassian-public</id> <name>Atlassian Public 
+					Maven Repo</name> <url>https://maven.atlassian.com/content/groups/public/</url> 
+					</pluginRepository -->
+				<pluginRepository>
+					<id>q7rel</id>
+					<name>Q7 releases</name>
+					<url>http://maven.xored.com/nexus/content/repositories/q7-releases/</url>
+				</pluginRepository>
+				<pluginRepository>
+					<id>q7snap</id>
+					<name>Q7 snapshots</name>
+					<url>http://maven.xored.com/nexus/content/repositories/q7-snapshots/</url>
+				</pluginRepository>
+			</pluginRepositories>
+		</profile>
+	</profiles>
+
+	<properties>
+		<q7version>1.0.0-RC3</q7version>
+	</properties>
 </project>

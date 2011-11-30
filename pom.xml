@@ -16,24 +16,13 @@
 	<osgi.os>linux</osgi.os>
 	<osgi.ws>gtk</osgi.ws>
 	<junit.args>-Xms256m -Xmx1024m -XX:MaxPermSize=512m</junit.args>
-	<!--Update site with Tigerstripe specific extensions for Q7.-->
-	<tigerstripe.ecl.update.site>http://pulse-prd-sj1/update_sites/org.eclipse.tigerstripe.ecl/ts-ecl/1.0.0.201106162003</tigerstripe.ecl.update.site>
   </properties>
 	
   <modules>
 	<module>features</module>
 	<module>plugins</module>
 	<module>releng</module>
-	<module>tests</module>
   </modules>
-	
-  <repositories>
-	<repository>
-	  <id>helios</id>
-	  <layout>p2</layout>
-	  <url>http://download.eclipse.org/releases/helios/</url>
-	</repository>
-  </repositories>
 	
   <build>
 	<resources>
@@ -118,18 +107,89 @@
 	</profile>
 	
 	<profile>
-		<id>external-repositories</id>
-		<properties>
-			<tigerstripe.ecl.update.site>http://build.xored.com/browse/TS-ECL/latest/artifact/JOB1/site</tigerstripe.ecl.update.site>
-  		</properties>
-		<repositories>
-			<repository>
-	  			<id>helios</id>
-	  			<layout>p2</layout>
-	  			<url>http://download.eclipse.org/releases/helios/</url>
-			</repository>
-  		</repositories>
+			<id>env-cisco</id>
+			
+			<activation>
+				<property>
+					<name>build.env</name>
+					<value>!xored</value>
+				</property>
+			</activation>
+
+			<properties>
+				<tigerstripe.ecl.update.site>http://pulse-prd-sj1/update_sites/org.eclipse.tigerstripe.ecl/ts-ecl/1.0.0.201106162003</tigerstripe.ecl.update.site>
+			</properties>
+			
+			<modules>
+				<module>tests</module>
+  			</modules>
+			
+			<repositories>
+				<repository>
+	  				<id>helios</id>
+	  				<layout>p2</layout>
+	  				<url>http://download.eclipse.org/releases/helios/</url>
+				</repository>
+			</repositories>
+	
 	</profile>
-  </profiles>
-   
+	
+	<profile>
+			<id>env-xored</id>
+
+			<activation>
+				<property>
+					<name>build.env</name>
+					<value>xored</value>
+				</property>
+			</activation>
+
+			<properties>
+			    <!--Update site with Tigerstripe specific extensions for Q7.-->
+				<tigerstripe.ecl.update.site>http://build.xored.com/browse/TS-ECL/latest/artifact/JOB1/site</tigerstripe.ecl.update.site>
+  			</properties>
+  				
+			<distributionManagement>
+				<repository>
+					<id>xored</id>
+					<name>Xored Maven Repo</name>
+					<url>http://maven.xored.com/nexus/content/repositories/releases/</url>
+				</repository>
+				<snapshotRepository>
+					<id>xored</id>
+					<name>Xored Maven Repo</name>
+					<url>http://maven.xored.com/nexus/content/repositories/snapshots/</url>
+				</snapshotRepository>
+			</distributionManagement>
+
+			<repositories>
+				<repository>
+	  				<id>helios</id>
+	  				<layout>p2</layout>
+	  				<url>http://updates.xored.com/helios/</url>
+				</repository>
+			</repositories>
+			
+			<build>
+			  <plugins>
+	  			<plugin>
+        			<groupId>org.codehaus.mojo</groupId>
+        			<artifactId>build-helper-maven-plugin</artifactId>
+        			<version>1.5</version>
+        			<executions>
+          				<execution>
+            				<id>remove-old-installations</id>
+            				<goals>
+              					<goal>remove-project-artifact</goal>
+            				</goals>
+            				<configuration>
+              					<removeAll>true</removeAll>
+            				</configuration>
+          				</execution>
+        			</executions>
+      			</plugin>
+			  </plugins>
+  			</build>
+	</profile>
+  </profiles>  
 </project>
